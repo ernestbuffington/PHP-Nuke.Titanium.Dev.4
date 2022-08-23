@@ -19,12 +19,12 @@ if(realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) exit('Access Den
 global $dbhost2, $dbname2, $dbuname2, $db2, $network_prefix; 
 
 # un-comment this to enable network support
-//define('network', 'enabled');
+define('network', 'enabled');
 if ( defined('network') ):
 $dbhost2 = 'localhost';
 $dbname2 = 'hub_db';
-$dbuname2 = ''; # you must ask the 86it webmaster for a network id and password!
-$dbpass2 = ''; # you must ask the 86it webmaster for a network id and password!
+$dbuname2 = 'hub_readonly'; # you must ask the 86it webmaster for a network id and password!
+$dbpass2 = 'xwdNPADv86readonly'; # you must ask the 86it webmaster for a network id and password!
 $network_prefix = 'network';
 endif;
 ?>
