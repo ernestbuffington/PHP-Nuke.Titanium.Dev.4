@@ -116,6 +116,12 @@ RewriteRule ^.*$ http://127.0.0.1 [R,L]
     Satisfy All
 </files>
 
+# Network Titanium SDK v5
+# Disable fbconfig.php viewing from browser
+<files ~ "\nconfig.php$">
+    deny from all
+</files>
+
 # facebook Titanium SDK v5
 # Disable fbconfig.php viewing from browser
 <files ~ "\fbconfig.php$">
@@ -171,8 +177,6 @@ Header append Cache-Control "public"
 # -------------------------------------------
 
 # Banned Bad Bots
-deny from 185.191.171.0/24
-deny from 185.191.171.19
 
 # php -- BEGIN cPanel-generated handler, do not edit
 # Set the “ea-php74” package as the default “PHP” programming language.
