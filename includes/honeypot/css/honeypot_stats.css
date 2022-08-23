@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css?family=Aladin');
+
+.maincontent {
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	margin: auto;
+	width: 700px;
+	text-align: center;
+	font-size:16px;
+	letter-spacing:1px;
+}
+
+.pothead {
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	font-family: "Aladin", cursive;
+	font-size: 26px;
+	font-weight:700;
+}
+
+.potlogo p{
+	font-family: "Aladin", cursive;
+	font-size: 40px;
+	font-weight:700;
+	text-align:center;
+}
+
+.pot {
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	font-size:14px;
+	letter-spacing:1px;
+}
+
+.minipot {
+	font-weight:700;
+}
+
+.disabled {
+	color: #FF0000;
+   	border: 0px solid #000;
+	font-family: 'arial black';
+  	font-weight: bold;
+	font-size: 10px;
+	font-variant: normal;
+	text-align: right;
+	text-decoration: none;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	float: right;
+}
+					 
+#example-dis {
+	color: #FF0000;
+   	border: 0px solid #000;
+  	font-family: 'arial black';
+  	font-weight: bold;
+	font-size: 10px;
+	font-variant: normal;
+	text-decoration: none;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+			
+.text-center{
+	text-align:center;
+}

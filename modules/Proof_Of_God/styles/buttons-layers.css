@@ -1,0 +1,120 @@
+/* this is a sub for input, the period is the name of the input class */
+
+#LProofOfGod {
+	position:absolute;
+	left:1575px;
+	top:260px;  
+	width:250px; 
+	height:250px; 
+	border: 4; 
+	border-top-color: #EE6A12;
+	border-left-color: #959595;
+	border-right-color: #EE6A12;
+	border-bottom-color: #959595; 
+	border-top-style: outset;
+	border-left-style: outset;
+	border-right-style: inset;
+	border-bottom-style: inset; 
+	z-index:5;  
+}
+
+#LmessageBackgrnd {
+	position:absolute;
+	left:300px;
+	top:260px;  
+	width:240px; 
+	height:200px; 
+	border: 0; 
+	border-top-color: #EE6A12;
+	border-left-color: #EE6A12;
+	border-right-color: #959595;
+	border-bottom-color: #959595; 
+	border-top-style: outset;
+	border-left-style: outset;
+	border-right-style: inset;
+	border-bottom-style: inset;
+	z-index:2; 
+}
+
+
+#LmessageBackgrnd2 {
+	position:absolute;
+	left:1625px;  
+	top:260px;  
+	width:240px; 
+	height:200px; 
+	border: 0; 
+	border-top-color: #EE6A12;
+	border-left-color: #EE6A12;
+	border-right-color: #959595;
+	border-bottom-color: #959595; 
+	border-top-style: outset;
+	border-left-style: outset;
+	border-right-style: inset;
+	border-bottom-style: inset;
+	z-index:2; 
+}
+
+<!-- background-image: url(../images/starry-night-blue-sparkle.gif);   -->
+
+#LpinkRose {
+	position:absolute;
+	left:1555px;
+	top:260px;    
+	width:277px; 
+	height:160px;  
+	border: 4; 
+	border-top-color: #EE6A12; 
+	border-left-color: #959595;
+	border-right-color: #EE6A12;
+	border-bottom-color: #959595; 
+	border-top-style: outset;
+	border-left-style: outset; 
+	border-right-style: inset;
+	border-bottom-style: inset; 
+	z-index:5;  
+    background-image: url(../images/pinkRose.png); 
+}
+
+#Ldarwin {
+	position:absolute;
+	left:1650px;
+	top:565px;  
+	width:167px;
+	height:327px;
+    background-color: #FFFF00;  
+	border: 4; 
+	border-top-color: #EE6A12;
+	border-left-color: #333333;
+	border-right-color: #EE6A12;
+	border-bottom-color: #333333;  
+	border-top-style: outset; 
+	border-left-style: outset;
+	border-right-style: inset;
+	border-bottom-style: inset; 
+	z-index:3;
+    background-image: url(../images/darwin.jpg); 
+
+} 
+
+#Ldna {
+	position:absolute;    
+	left:315px;
+	top:565px;    
+	width:167px;
+	height:327px;
+    background-color: #FFFF00;  
+	border: 4; 
+	border-top-color: #EE6A12;
+	border-left-color: #EE6A12;
+	border-right-color: #333333;
+	border-bottom-color: #333333; 
+	border-top-style: outset;
+	border-left-style: outset;
+	border-right-style: inset;
+	border-bottom-style: inset;
+    z-index:4;
+    background-image: url(../images/DNAsmall.jpg);   
+}
+
+

@@ -1,0 +1,132 @@
+#cwraper {
+  width: 100%;
+}
+
+#cbody {
+  max-width: 800px;
+  min-width: 500px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  text-align:center;
+}
+
+.header{
+  width: 100%;
+  height: 50px;
+  background-image: linear-gradient(#444, #222);
+  background-color:#000;
+  color:#FFF;
+  font-weight:900;
+  text-align:center;
+}
+
+.calendar {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
+  background-color:#000;
+}
+
+.calendar caption {
+  margin-bottom: 10px;
+}
+
+.calendar .cheader {
+  background: #555;
+  color: #fff;
+}
+
+.today {
+  background: #777;
+  color: #fff;
+  font-size:18px;
+  font-weight:600;
+  border:1px solid #000;
+  text-align:left;
+  height: 65px;
+  min-width:64px;
+  padding-top: 5px;
+  padding-left:5px;
+}
+
+.day {
+  text-align:left;
+  color:#000;
+  font-size:18px;
+  height: 65px;
+  min-width: 64px;
+  padding-top: 5px;
+  padding-left:5px;
+}
+
+.calendar tr:nth-child(odd) {
+  background: #f0f0f0;
+}
+
+.calendar tr:nth-child(even) {
+  background: #e0e0e0;
+}
+
+.calendar th,
+.calendar td {
+  border: 1px solid #000;
+}
+
+.dayt {
+  height: 80%;
+  width: 100%;
+}
+
+.event {
+  width:28px;
+  height:28px;
+  border-radius:15px;border:1px solid #000;
+  font-size:18px;
+  font-weight:600;
+  color:#000;
+  line-height:28px;
+  text-align:center;
+  background:#92CDDE;
+  -webkit-box-shadow:0 0 6px #000; 
+  -moz-box-shadow: 0 0 6px #000; 
+  box-shadow:0 0 6px #000;
+}
+
+/* Start state */
+.animated-modal {
+  width: 500px;
+  border: 5px solid #000;
+  border-radius: 4px;
+  overflow: hidden;
+  color: #000;
+  background-color:#CCC;
+  display: none;
+  transform: translateY(-50px);
+  transition: all .7s;
+}
+
+.animated-modal h2,
+.animated-modal p {
+  transform: translateY(-50px);
+  opacity: 0;
+  color:#000;
+  transition-property: transform, opacity;
+  transition-duration: .4s;
+}
+
+/* Final state */
+.fancybox-slide--current .animated-modal,
+.fancybox-slide--current .animated-modal h2,
+.fancybox-slide--current .animated-modal p {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Reveal content with different delays */
+.fancybox-slide--current .animated-modal h2 {
+  transition-delay: .1s;
+}
+
+.fancybox-slide--current .animated-modal p {
+  transition-delay: .3s;
+}

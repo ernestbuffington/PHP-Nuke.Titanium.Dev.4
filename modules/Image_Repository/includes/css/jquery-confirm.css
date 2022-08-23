@@ -1,0 +1,436 @@
+/*!
+ * jquery-confirm v1.1.3 (http://craftpip.github.io/jquery-confirm/)
+ * Author: boniface pereira
+ * Website: www.craftpip.com
+ * Contact: hey@craftpip.com
+ *
+ * Copyright 2013-2014 jquery-confirm
+ * Licensed under MIT (https://github.com/craftpip/jquery-confirm/blob/master/LICENSE)
+ */
+body.jconfirm-noscroll {
+	overflow-x: hidden; 
+	overflow-y: auto;
+}
+@-webkit-keyframes jconfirm-rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@keyframes jconfirm-rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 
+{
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.col-md-offset-3 
+{
+	margin-left: 30%;
+	margin-right: 30%;
+}
+
+.pull-right 
+{
+	float: right!important;
+}
+
+.jconfirm {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999999;
+  font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
+  /*font-family: inherit;*/
+  /*overflow-y: auto;*/
+}
+.jconfirm .jconfirm-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.jconfirm .jconfirm-box {
+  background: white;
+  border-radius: 4px;
+  position: relative;
+}
+.jconfirm .jconfirm-box div.closeIcon {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: 20px;
+  right: 15px;
+  cursor: pointer;
+  opacity: .6;
+  text-align: center;
+  display: none;
+}
+.jconfirm .jconfirm-box div.closeIcon:hover {
+  opacity: 1;
+}
+.jconfirm .jconfirm-box div.title {
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: inherit;
+  padding: 10px 15px 5px;
+}
+.jconfirm .jconfirm-box div.content {
+  color:black;
+  padding-top: 10px;
+  padding: 10px 15px 10px;
+  max-height: 350px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+.jconfirm .jconfirm-box div.content:empty {
+  height: 40px;
+  position: relative;
+  opacity: 0.6;
+}
+.jconfirm .jconfirm-box div.content:empty:before {
+  content: '';
+  height: 20px;
+  width: 20px;
+  border: solid 2px #aaa;
+  /*background-color: #ddd;*/
+  position: absolute;
+  left: 50%;
+  margin-left: -45px;
+  border-radius: 20%;
+  -webkit-animation: jconfirm-rotate 1s infinite;
+          animation: jconfirm-rotate 1s infinite;
+}
+.jconfirm .jconfirm-box div.content:empty:after {
+  content: 'loading..';
+  position: absolute;
+  left: 50%;
+  margin-left: -15px;
+}
+.jconfirm .jconfirm-box .buttons {
+  padding: 10px 15px;
+}
+.jconfirm .jconfirm-box .buttons button + button {
+  margin-left: 5px;
+}
+.jconfirm .jquery-clear {
+  clear: both;
+}
+.jconfirm.white .jconfirm-bg {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.jconfirm.white .jconfirm-box {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+.jconfirm.white .jconfirm-box .buttons button {
+  cursor:pointer;
+  border: none;
+  background-image: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: none;
+  -webkit-transition: background .1s;
+          transition: background .1s;
+  color: white;
+}
+.jconfirm.white .jconfirm-box .buttons button.btn-default {
+  box-shadow: none;
+  color: #333;
+}
+.jconfirm.white .jconfirm-box .buttons button.btn-default:hover {
+  background: #ddd;
+}
+.jconfirm.black .jconfirm-bg {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.jconfirm.black .jconfirm-box {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  background: #444;
+  border-radius: 5px;
+  color: white;
+}
+.jconfirm.black .jconfirm-box .buttons button {
+  cursor:pointer;
+  border: none;
+  background-image: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: none;
+  -webkit-transition: background .1s;
+          transition: background .1s;
+  color: white;
+}
+.jconfirm.black .jconfirm-box .buttons button.btn-default {
+  box-shadow: none;
+  color: #fff;
+  background: none;
+}
+.jconfirm.black .jconfirm-box .buttons button.btn-default:hover {
+  background: #666;
+}
+.jconfirm.hololight .jconfirm-bg {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.jconfirm.hololight .jconfirm-box {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.jconfirm.hololight .jconfirm-box div.title {
+  font-weight: inherit;
+  border-bottom: solid 2px #76CFDF;
+  color: #76CFDF;
+}
+.jconfirm.hololight .jconfirm-box .buttons {
+  border-top: solid 2px #E7E7E7;
+  width: 100%;
+  float: none;
+  padding: 0;
+}
+.jconfirm.hololight .jconfirm-box .buttons button {
+  margin: 0;
+  border: none;
+  background: #fff;
+  border-radius: 0px;
+  width: 50%;
+  padding: 13px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
+}
+.jconfirm.hololight .jconfirm-box .buttons button + button {
+  border-left: solid 2px #E7E7E7;
+}
+.jconfirm.holodark .jconfirm-bg {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.jconfirm.holodark .jconfirm-box {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  border-radius: 2px;
+  background: #333;
+  overflow: hidden;
+}
+.jconfirm.holodark .jconfirm-box div.closeIcon {
+  color: white;
+}
+.jconfirm.holodark .jconfirm-box div.title {
+  font-weight: inherit;
+  border-bottom: solid 2px #76CFDF;
+  color: #76CFDF;
+}
+.jconfirm.holodark .jconfirm-box div.content {
+  color: white;
+}
+.jconfirm.holodark .jconfirm-box .buttons {
+  border-top: solid 2px rgba(255, 255, 255, 0.2);
+  width: 100%;
+  float: none;
+  padding: 0;
+}
+.jconfirm.holodark .jconfirm-box .buttons button {
+  margin: 0;
+  border: none;
+  background: #333;
+  border-radius: 0px;
+  width: 50%;
+  padding: 13px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: none;
+}
+.jconfirm.holodark .jconfirm-box .buttons button + button {
+  border-left: solid 2px rgba(255, 255, 255, 0.2);
+}
+.jconfirm .jconfirm-box.hilight {
+  box-shadow: 0 0 20px red;
+}
+/*Transition rules*/
+.jconfirm {
+  -webkit-perspective: 400px;
+          perspective: 400px;
+}
+.jconfirm .jconfirm-box {
+  /*visibility: visible;*/
+  opacity: 1;
+  -webkit-transition-timing-function: ease;
+          transition-timing-function: ease;
+  /*transition-delay: 0s;*/
+  -webkit-transition-property: -webkit-transform, opacity, box-shadow;
+          transition-property: transform, opacity, box-shadow
+  /*transition-property: all;*/
+  /*transition-duration: 2s;*/
+  /*transition: all 2s;*/
+}
+.jconfirm .jconfirm-box.anim-top,
+.jconfirm .jconfirm-box.anim-left,
+.jconfirm .jconfirm-box.anim-right,
+.jconfirm .jconfirm-box.anim-bottom,
+.jconfirm .jconfirm-box.anim-opacity,
+.jconfirm .jconfirm-box.anim-zoom,
+.jconfirm .jconfirm-box.anim-scale,
+.jconfirm .jconfirm-box.anim-none,
+.jconfirm .jconfirm-box.anim-rotate,
+.jconfirm .jconfirm-box.anim-rotatex,
+.jconfirm .jconfirm-box.anim-rotatey,
+.jconfirm .jconfirm-box.anim-scaley,
+.jconfirm .jconfirm-box.anim-scalex {
+  /*visibility: hidden;*/
+  opacity: 0;
+}
+.jconfirm .jconfirm-box.anim-rotate {
+  -webkit-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+.jconfirm .jconfirm-box.anim-rotatex {
+  -webkit-transform: rotateX(90deg);
+          transform: rotateX(90deg);
+  -webkit-transform-origin: top;
+      -ms-transform-origin: top;
+          transform-origin: top;
+}
+.jconfirm .jconfirm-box.anim-rotatey {
+  -webkit-transform: rotatey(90deg);
+      -ms-transform: rotatey(90deg);
+          transform: rotatey(90deg);
+  -webkit-transform-origin: top;
+      -ms-transform-origin: top;
+          transform-origin: top;
+}
+.jconfirm .jconfirm-box.anim-scaley {
+  -webkit-transform: scaley(1.5);
+      -ms-transform: scaley(1.5);
+          transform: scaley(1.5);
+  -webkit-transform-origin: top;
+      -ms-transform-origin: top;
+          transform-origin: top;
+}
+.jconfirm .jconfirm-box.anim-scalex {
+  -webkit-transform: scalex(1.5);
+      -ms-transform: scalex(1.5);
+          transform: scalex(1.5);
+  -webkit-transform-origin: top;
+      -ms-transform-origin: top;
+          transform-origin: top;
+}
+.jconfirm .jconfirm-box.anim-top {
+  -webkit-transform: translate(0px, -100px);
+      -ms-transform: translate(0px, -100px);
+          transform: translate(0px, -100px);
+}
+.jconfirm .jconfirm-box.anim-left {
+  -webkit-transform: translate(-100px, 0px);
+      -ms-transform: translate(-100px, 0px);
+          transform: translate(-100px, 0px);
+}
+.jconfirm .jconfirm-box.anim-right {
+  -webkit-transform: translate(100px, 0px);
+      -ms-transform: translate(100px, 0px);
+          transform: translate(100px, 0px);
+}
+.jconfirm .jconfirm-box.anim-bottom {
+  -webkit-transform: translate(0px, 100px);
+      -ms-transform: translate(0px, 100px);
+          transform: translate(0px, 100px);
+}
+.jconfirm .jconfirm-box.anim-zoom {
+  -webkit-transform: scale(1.2);
+      -ms-transform: scale(1.2);
+          transform: scale(1.2);
+}
+.jconfirm .jconfirm-box.anim-scale {
+  -webkit-transform: scale(0.8);
+      -ms-transform: scale(0.8);
+          transform: scale(0.8);
+}
+.jconfirm .jconfirm-box.anim-none {
+  display: none;
+}
+
+.btn 
+{
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+
+.btn-info 
+{
+	background-image: -webkit-linear-gradient(top,#5bc0de 0,#2aabd2 100%);
+	background-image: -o-linear-gradient(top,#5bc0de 0,#2aabd2 100%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#5bc0de),to(#2aabd2));
+	background-image: linear-gradient(to bottom,#5bc0de 0,#2aabd2 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff2aabd2', GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+	background-repeat: repeat-x;
+	border-color: #28a4c9;
+}
+
+.btn-info 
+{
+	color: #fff;
+	background-color: #5bc0de;
+	border-color: #46b8da;
+}
+
+.btn-danger {
+background-image: -webkit-linear-gradient(top,#d9534f 0,#c12e2a 100%);
+background-image: -o-linear-gradient(top,#d9534f 0,#c12e2a 100%);
+background-image: -webkit-gradient(linear,left top,left bottom,from(#d9534f),to(#c12e2a));
+background-image: linear-gradient(to bottom,#d9534f 0,#c12e2a 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc12e2a', GradientType=0);
+filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+background-repeat: repeat-x;
+border-color: #b92c28;
+}
+
+.btn-danger {
+color: #fff;
+background-color: #d9534f;
+border-color: #d43f3a;
+}
+
+.btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active, .open>.dropdown-toggle.btn-danger 
+{
+	color: #fff;
+	background-color: #c9302c;
+	border-color: #ac2925;
+}

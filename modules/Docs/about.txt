@@ -1,0 +1,9 @@
+This is an example of what you can add in this text file. You can add anything you like, just like a normal HTML document. Put in links, breaking spaces, tables, etc. Don't worry about quotes or semi-colons. Just type what you want, save it, upload it, and you have your custom about us page. Erase all this info, and type in whatever you want.
+
+Use double BR tags like below, for spacing in paragraphs.
+
+<br /><br />
+
+You can find this file located under modules/Docs.
+
+<br /><br />

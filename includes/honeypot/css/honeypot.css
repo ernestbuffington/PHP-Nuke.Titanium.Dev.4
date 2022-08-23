@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css?family=Aladin');
+
+	.button, button.inputbutton, input.inputarea, div.pagination a {
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		text-decoration:none;
+		font-weight:700;
+		padding:2px 5px;
+	}
+
+	.button, button.inputbutton:hover, div.pagination a:hover {
+		color: #000;
+	}
+
+	input[type=text] {
+		width: 100px;
+ 	   -webkit-transition: width .35s ease-in-out;
+ 	   transition: width .35s ease-in-out;
+	}
+
+	input[type=text]:focus {
+	   width: 250px;
+	}
+
+	div.pagination span {
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		text-decoration:none;
+		font-weight:700;
+		padding:2px 5px;
+	}
+
+	.button, button.inputbutton:hover, div.pagination a:hover,div.pagination a:active,div.pagination span.current {
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		text-decoration:none;
+		font-weight:700;
+		padding:2px 5px;
+	}
+
+	.pothead {
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		font-family: "Aladin", cursive;
+		font-size: 26px;
+		font-weight:700;
+	}
+
+	.potlogo p{
+		font-family: "Aladin", cursive;
+		font-size: 40px;
+		font-weight:700;
+		text-align:center;
+	}
+
+	.pot {
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+	}
+
+	.minipot {
+		font-weight:700;
+	}
+
+
+					
+	.hp-bot-box {
+		display:none;
+		position: absolute;
+		left: 15%;
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+		padding: 5px;
+		width:400px;
+		text-align:left;
+		font-size:14px;
+		z-index:9999;
+	}
+
+	.text-center{
+		text-align:center;
+	}

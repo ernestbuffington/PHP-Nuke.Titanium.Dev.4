@@ -1,0 +1,22 @@
+.usercp_nav_item{display:inline-block;padding:1px 0 1px 23px;background-image:url(images/usercp_sprite.png);background-repeat:no-repeat;}
+.usercp_nav_composepm{background-position:0 0;}
+.usercp_nav_pmfolder{background-position:0 -20px;}
+.usercp_nav_sub_pmfolder{padding-left:40px;background-position:0 -40px;}
+.usercp_nav_trash_pmfolder{padding-left:40px;background-position:0 -60px;}
+.usercp_nav_pmtracking{background-position:0 -80px;}
+.usercp_nav_pmfolders{background-position:0 -100px;}
+.usercp_nav_profile{background-position:0 -120px;}
+.usercp_nav_email{padding-left:40px;background-position:0 -140px;}
+.usercp_nav_password{padding-left:40px;background-position:0 -160px;}
+.usercp_nav_username{padding-left:40px;background-position:0 -180px;}
+.usercp_nav_editsig{padding-left:40px;background-position:0 -200px;}
+.usercp_nav_avatar{padding-left:40px;background-position:0 -220px;}
+.usercp_nav_options{background-position:0 -240px;}
+.usercp_nav_usergroups{background-position:0 -260px;}
+.usercp_nav_editlists{background-position:0 -280px;}
+.usercp_nav_attachments{background-position:0 -300px;}
+.usercp_nav_drafts{background-position:0 -320px;}
+.usercp_nav_subscriptions{background-position:0 -340px;}
+.usercp_nav_fsubscriptions{background-position:0 -360px;}
+.usercp_nav_viewprofile{background-position:0 -380px;}
+.usercp_nav_home{background-position:0 -400px;}

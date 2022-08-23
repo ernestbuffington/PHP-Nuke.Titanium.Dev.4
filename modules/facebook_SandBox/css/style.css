@@ -1,0 +1,22 @@
+.ghost
+{
+color:inherit;
+border-right: inherit;
+border-top: inherit;
+border-bottom: inherit;
+border-left: inherit;
+border-style: inherit;
+border-width: 0px;
+
+backgroundRepeat: repeat-xy left top;
+BACKGROUND-IMAGE: url(../../../themes/86it-Z3/images/backgrounds/ghost.jpg); 
+BACKGROUND-REPEAT: repeat-xy left top; 
+backgroundImage: url(../../../themes/86it-Z3/images/backgrounds/ghost.jpg);
+accelerator: false;
+}
+
+a.clickable{
+  cursor: pointer;
+  cursor: hand;
+}
+   

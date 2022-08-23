@@ -1,0 +1,106 @@
+.discord_sprite {
+    background-image: url(../images/discordzones.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.discord_sprite-zone1 {
+    width: 400px;
+    height: 223px;
+    background-position: -5px -5px;
+}
+
+.discord_sprite-zone2 {
+    width: 400px;
+    height: 223px;
+    background-position: -5px -238px;
+}
+
+.discord_sprite-zone3 {
+    width: 400px;
+    height: 223px;
+    background-position: -5px -471px;
+}
+
+.discord_sprite-zone4 {
+    width: 400px;
+    height: 223px;
+    background-position: -415px -5px;
+}
+
+.discord_sprite-zone5 {
+    width: 400px;
+    height: 223px;
+    background-position: -415px -238px;
+}
+
+.discord_sprite-zone6 {
+    width: 400px;
+    height: 223px;
+    background-position: -415px -471px;
+}
+
+.inp{
+  background-color: #000000 !IMPORTANT;
+  border:#444 2px solid !IMPORTANT;
+  padding:1px !IMPORTANT;
+  margin:2px !important;
+  color:#FFF !IMPORTANT;
+  font-size:14px !IMPORTANT;
+}
+
+#dissub{
+	background: linear-gradient(to bottom, #7289da 0%, #000000 125%) !IMPORTANT;
+	color:#FFF !IMPORTANT;
+	text-align: center !IMPORTANT;
+	padding:2px 8px 4px 4px;!IMPORTANT
+	font-size:24px !IMPORTANT;
+	font-family: "Arial Black", Gadget, sans-serif !IMPORTANT;
+	font-weight:900 !IMPORTANT;
+	width:110px !IMPORTANT;
+	height:30px !IMPORTANT;
+	transition: 0.8s !IMPORTANT;
+	letter-spacing:1px;
+}
+
+#dissub:hover {
+    background: linear-gradient(to bottom, #7289da -66%, #000000 100%) !IMPORTANT;
+	cursor:pointer !IMPORTANT;
+}
+
+.discord_color_ex {
+	width:16px;
+	height:16px;
+	border:2px solid;
+	display: inline-block;
+	vertical-align: middle;
+	margin-right:5px;
+}
+
+input[type=range] {
+ vertical-align: middle;
+}
+
+.discordhelp {
+	background-color:#FFF !important;
+	border:8px solid #5379FF !important;
+	border-radius:10px;
+	color:#000 !important;
+	display:none;
+	width:700px !important;
+	overflow:auto !important;
+	outline: 0 !important;
+}
+
+.discordhelp a:visited, a:active, a:link, a:focus{
+	color: #C60 !important;
+	outline: 0 !important;
+}
+.discordhelp a:hover{
+	color: #C96 !important;
+	outline: 0 !important;
+}
+.discordhelp H3 {
+	color:#900;
+	font-weight:900;
+}

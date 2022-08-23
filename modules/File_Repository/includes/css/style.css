@@ -1,0 +1,334 @@
+/*
+|-----------------------------------------------------------------------
+|   COPYRIGHT (c) 2015 by lonestar-modules.com
+|   AUTHOR              :   Lonestar    
+|   COPYRIGHTS          :   lonestar-modules.com
+|   PROJECT             :   Download Manager
+|   VERSION             :   1.0.0
+|----------------------------------------------------------------------
+*/
+
+.copyright-modal-width 
+{
+    max-width: 800px !important;
+}
+
+div.thumbnail_border 
+{
+    padding: 1px;
+    border: 1px solid #000;
+    background-color: white;
+    position: relative;
+    display: inline-block;
+}
+
+.displayNone
+{
+    display: none;
+}
+
+.code_function 
+{
+    display: block;
+    background: #EFEFEF;
+    color: #555;
+    cursor: auto;
+    font-family: monospace;
+    font-size: 120% !important;
+    letter-spacing: 1px;
+    padding: 5px;
+    margin-top: 3px;
+    border: 1px solid black;
+}
+
+.dm-sprite {
+	background-image: url(images/icons.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: inline-block;
+    /*margin-top: 3px;*/
+}
+
+.delete-button { 
+    width: 16px;
+    height: 16px;
+    background-position: -57px -2px;
+}
+
+.delete-button:hover {
+    width: 16px;
+    height: 16px;
+    background-position: -39px -2px;
+}
+
+.edit-button {
+    width: 16px;
+    height: 16px;
+    background-position: -21px -20px;
+}
+
+.edit-button:hover {
+    width: 16px;
+    height: 16px;
+    background-position: -3px -20px;
+}
+
+.info-button {
+    width: 16px;
+    height: 16px;
+    background-position: -56px -20px;
+}
+
+.info-button:hover {
+    width: 16px;
+    height: 16px;
+    background-position: -38px -20px;
+}
+
+.download-button {
+    width: 16px;
+    height: 16px;
+    background-position: -19px -1px;
+}
+
+.download-button:hover {
+    width: 16px;
+    height: 16px;
+    background-position: -1px -1px;
+}
+
+.sprite-nav-left {
+    width: 32px;
+    height: 32px;
+    background-position: -35px -37px;
+}
+
+.sprite-nav-left:hover {
+    width: 32px;
+    height: 32px;
+    background-position: -1px -37px;
+}
+
+.sprite-nav-right {
+    width: 32px;
+    height: 32px;
+    background-position: -73px -35px;
+}
+
+.sprite-nav-right:hover {
+    width: 32px;
+    height: 32px;
+    background-position: -73px -1px;
+}
+
+.www {
+	vertical-align: text-bottom;
+    width: 16px;
+    height: 16px;
+    background-position: -114px -32px;
+}
+
+.www:hover {
+    width: 16px;
+    height: 16px;
+    background-position: -114px -6px;
+}
+
+.rate-button {
+    vertical-align: middle;
+    width: 112px;
+    height: 22px;
+    background-position: -1px -99px;
+}
+
+.rate-button:hover {
+    width: 112px;
+    height: 22px;
+    background-position: -1px -75px;
+}
+
+.attachment {
+    width: 16px;
+    height: 16px;
+    background-position: -136px -16px;
+}
+
+.attachment:hover {
+    width: 16px;
+    height: 16px;
+    background-position: -136px 0;
+}
+
+/*---------------------------------------------------------------------*/
+
+.legend-images-sprite 
+{
+    background-image: url(images/legend.png);
+    display:inline-block;
+    height:5px;
+    margin: 1px;
+}
+.legend_new_today
+{
+    width: 26px;
+    background-position: 0px 0px;
+}
+.legend_new_3_today
+{
+    width: 26px;
+    background-position: 0px -5px;
+}
+.legend_new_this_week
+{
+    width: 26px;
+    background-position: 0px -10px;
+}
+
+.legend_updated_today
+{
+    width: 20px;
+    background-position: -26px 0px;
+}
+.legend_updated_3_days
+{
+    width: 20px;
+    background-position: -26px -5px;
+}
+.legend_updated_this_week
+{
+    width: 20px;
+    background-position: -26px -10px;
+}
+
+.legend_popular
+{
+    width: 22px;
+    background-position: -46px 0px;
+}
+
+/* jcarousel */
+
+.jcarousel-wrapper 
+{
+    margin: auto;
+    position: relative;
+    width: 190px;
+}
+
+.jcarousel 
+{
+    position: relative;
+    overflow: hidden;
+    width: 190px;
+    border: 1px solid #fff;
+}
+
+.jcarousel ul 
+{
+    width: 1920px;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.jcarousel li 
+{
+    float: left;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.jcarousel img 
+{
+    display: block;
+    max-width: 190px;
+}
+
+.jcarousel-control-prev, .jcarousel-control-next 
+{
+    position: absolute;
+    top: 50%;
+    margin-top: 80px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.jcarousel-control-prev 
+{
+    left: -10px;
+}
+
+.jcarousel-control-next 
+{
+    right: -12px;
+}
+
+.jcarousel-pagination 
+{
+    position: absolute;
+    width: 150px;
+    bottom: -26px;
+    left: 54%;
+    -webkit-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+    margin: 0;
+}
+
+.jcarousel-pagination a 
+{
+    text-decoration: none;
+    display: inline-block;
+    font-size: 11px;
+    height: 10px;
+    width: 10px;
+    line-height: 10px;
+    background: #fff;
+    color: #4E443C;
+    border-radius: 10px;
+    text-indent: -9999px;
+    margin-right: 16px;
+    -webkit-box-shadow: 0 0 2px #151515;
+    box-shadow: 0 0 2px #151515;
+}
+
+.jcarousel-pagination a.active 
+{
+    background: #69a566;
+    color: #fff;
+    opacity: 1;
+    -webkit-box-shadow: 0 0 2px #151515;
+    box-shadow: 0 0 2px #151515;
+}
+
+a.mainforum_btn:link, a.mainforum_btn:active, a.mainforum_btn:visited 
+{
+  background: #00698c;
+  border: solid #ffffff 2px;
+  /* border-radius: 8px; */
+  box-shadow: 0px 1px 2px #000000;
+  -webkit-border-radius: 8;
+  -webkit-box-shadow: 0px 1px 2px #000000;
+  -moz-box-shadow: 0px 1px 2px #000000;
+  -moz-border-radius: 8;
+  text-shadow: 1px 1px 2px #000000;
+  text-decoration: none;
+  font-family: arial, helvetica, verdana, sans-serif;
+  font-weight:bold;
+  font-size: 11px;
+  color: #ffffff;
+  padding: 4px;
+}
+
+a.mainforum_btn:hover 
+{
+  background: #00a3d9;
+  background-image: -webkit-linear-gradient(top, #00a3d9, #00698c);
+  background-image: -moz-linear-gradient(top, #00a3d9, #00698c);
+  background-image: -ms-linear-gradient(top, #00a3d9, #00698c);
+  background-image: -o-linear-gradient(top, #00a3d9, #00698c);
+  background-image: linear-gradient(to bottom, #00a3d9, #00698c);
+  text-decoration: none;
+}

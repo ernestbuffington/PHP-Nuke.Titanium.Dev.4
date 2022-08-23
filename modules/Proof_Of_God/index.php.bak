@@ -1,0 +1,178 @@
+<?php
+if (!defined('MODULE_FILE')) {
+   die('You can\'t access this file directly...');
+}
+############################################################################################
+    if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript_body_facebook.php'))  #
+	{                                                                                      #Added by Ernest Buffington
+       require_once(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript_body_facebook.php');   #facebook Mod v4.6
+    }                                                                                      #Oct 10th 2012
+############################################################################################	
+global $domain, $facebook_plugin_width, $facebookappid, $module_name, $ThemeSel, $name; //globals 
+include (TITANIUM_MODULES_DIR.$module_name.'/includes/facebook_connector.php'); //loaded for facebook purposes
+include (TITANIUM_MODULES_DIR.$module_name.'/includes/isNumber.php');
+require_once("mainfile.php");
+$module_name = basename(dirname(__FILE__)); 
+get_lang($module_name); 
+$index = 0;
+
+echo "<link rel=\"StyleSheet\" href=\"modules/ArrangeItems/styles/buttons-layers.css\" type=\"text/css\">";
+
+$pagetitle = 'Arrange Items';
+$title = 'Arrange Items';
+define('ALLOWED_MIN', '3');
+define('ALLOWED_MAX', '999999');
+
+include("header.php"); 
+OpenTableMessage($title);                                                                                                                
+
+$form =& $_POST;
+
+
+   echo "<style type=\"text/css\">"; 
+         echo "input.centerInput{"; #this is a sub for input, the period is the name of the input class
+         echo "text-align:center;"; 
+         echo "font-weight:bold;";
+         echo "color:green;";
+         echo "background-color:#DDDDDD";
+         echo "} ";
+   echo "</style>";
+
+   // OPEN TABLE
+   echo "<center><table bgcolor=\"FA5F19\" width=\"70%\" height=\"500\" border=\"4\" cellpadding=\"4\" cellspacing=\"4\" bordercolor=\"#FF8080\"><tr><td>";
+//Show a login form
+if ($form['nthnumber'] == "" )
+{
+$pagetitle = 'Arrange Items';
+$title = 'Arrange Items';
+   // OPEN TABLE
+   echo "<center><table bgcolor=\"FFFFCC\" width=\"85%\" height=\"250\" border=\"4\" cellpadding=\"4\" cellspacing=\"4\" bordercolor=\"#FF8080\">";
+   // ROW 1
+   echo "<tr><td align=\"center\"><font size =4>This program calculates the possible number of ways to arrange a number of items.</font></td></tr>";
+   // ROW 2
+   echo "<tr><td align=\"center\"><h1>Enter a number between 3 and 999,999:</h1><br>";
+   // OPEN FORM
+   echo "<form name=\"frmMain\" method=\"post\" action=\"$PHP_SELF\">";
+   // ROW 3
+   echo "<input type=\"text\" class=\"centerInput\" name=\"nthnumber\"></td></tr>";
+   // ROW 4
+   echo "<tr><td align=\"center\"><input type=\"submit\" value=\"Calc\"></td></tr>";
+   echo "</form>";
+   // CLOSE FORM
+   echo "</table></center>";
+   // CLOSE TABLE
+
+   // OPEN TABLE
+   echo "<center><table bgcolor=\"FA5F19\" width=\"85%\" height=\"250\" border=\"4\" cellpadding=\"4\" cellspacing=\"4\" bordercolor=\"#FF8080\"><tr><td>";
+   echo "<tr><td align=\"center\">Here is an example for 4 items (the items being 1, 2, 3, and 4).<br><br>";
+   // ROW 1
+   echo "As you can see, there are 24 ways to arrange 4 items.<br>";
+   // ROW 2
+   echo "<tr><td align=\"center\">&nbsp;&nbsp;(1) 1,2,3,4&nbsp; ____ (07) 2,1,3,4&nbsp; ____ (13) 3,1,2,4&nbsp; ____ (19) 4,1,2,3<br>";
+   // ROW 3
+   echo "&nbsp;&nbsp;(2) 1,2,4,3&nbsp; ____ (08) 2,1,4,3&nbsp; ____ (14) 3,1,4,2&nbsp; ____ (20) 4,1,3,2<br>";
+   // ROW 4
+   echo "&nbsp;&nbsp;(3) 1,3,2,4&nbsp; ____ (09) 2,3,1,4&nbsp; ____ (15) 3,2,1,4&nbsp; ____ (21) 4,2,1,3<br>";
+   // ROW 5
+   echo "&nbsp;&nbsp;(4) 1,3,4,2&nbsp; ____ (10) 2,3,4,1&nbsp; ____ (16) 3,2,4,1&nbsp; ____ (22) 4,2,3,1<br>";
+   // ROW 6
+   echo "&nbsp;&nbsp;(5) 1,4,2,3&nbsp; ____ (11) 2,4,1,3&nbsp; ____ (17) 3,4,1,2&nbsp; ____ (23) 4,3,1,2<br>";
+   // ROW 7
+   echo "&nbsp;&nbsp;(6) 1,4,3,2&nbsp; ____ (12) 2,4,3,1&nbsp; ____ (18) 3,4,2,1&nbsp; ____ (24) 4,3,2,1</td></tr>"; 
+   // ROW 8
+   echo "</table></center>";
+   // CLOSE TABLE
+
+   echo "<center><table>"; 
+   // ROW 1
+   echo "<tr><td align=\"center\"><h2>Formula:  n + (n * (n-1)) + (n * (n-2)) ... repeating until (n-x) = 0</h2><br>";
+   echo "There are approximately 250 trillion, trillion, trillion, trillion, trillion ways to arrange the four nitrogen-containing bases";
+   echo "&nbsp;found in the DNA double helix structure.</td></tr><br>";
+   echo "<tr><td>Carbon-dating of substances on earth, imply that the earth hasn't been around long enough for DNA to accidentally get arranged into humans.</td></tr>";
+   echo "</table></center>";
+
+   echo "<a href=\"http://en.wikipedia.org/wiki/Double_helix\" _self><h2>DNA</h2></a>";
+} 
+else
+{
+$pagetitle = 'Arrange Items';
+$title = 'Arrange Items';
+   // is_num() comes from isNumber.php, it returns one if char entered is not 0123456789 or .
+   $itemNum = is_num($form['nthnumber']);
+   if ($itemNum == 0) 
+   { 
+//      echo "Enter a valid number with no commas.&nbsp;&nbsp;Example:";
+      $form['nthnumber'] = 9999;
+
+   }
+   if ( ($form['nthnumber'] > (ALLOWED_MIN-1)) && ($form['nthnumber'] < (ALLOWED_MAX + 1)) )
+   {
+      $numToCalc = $form['nthnumber'];
+      $numTotal = nthNumber($numToCalc);
+      $numToCalc = number_format($numToCalc,0,'.',',');		  
+      $numTotal = number_format($numTotal,0,'.',',');		  
+      // OPEN TABLE
+      echo "<center><table bgcolor=\"FFFFCC\" width=\"50%\" height=\"500\" border=\"4\" cellpadding=\"4\" cellspacing=\"4\" bordercolor=\"#FF8080\">";
+  	  // ROW 1
+      echo"<tr><td>You entered this number: $numToCalc</td></tr>";
+	  // OPEN FORM
+      echo "<form name=\"frmAnswer\" method=\"post\" action=\"$PHP_SELF\">";
+      // ROW 2
+      echo "<tr><td>This is the maximum number of ways to arrange $numToCalc items = $numTotal</td></tr>";
+      // ROW 3
+      echo "<tr><td><input type=\"submit\" name=\"Back\" value=\"Back\"></td></tr>";
+      echo "</form>";
+	  // CLOSE FORM
+      echo "</table></center>";
+      // CLOSE TABLE
+   }  
+   else
+   {
+      // OPEN TABLE
+      echo "<center><table bgcolor=\"FFFFCC\" width=\"70%\" height=\"500\" border=\"4\" cellpadding=\"4\" cellspacing=\"4\" bordercolor=\"#FF8080\">";
+ 	  // ROW 1
+      echo "<tr><td>Enter a number between 3 and 999999:</td></tr>";
+      // ROW 2
+      echo "<tr><td>The number must be between 3 and 999999.  No commas, please.</td></tr>";
+      echo "<form name=\"frmMain\" method=\"post\" action=\"$PHP_SELF\">";
+      // ROW 3
+      echo "<tr><td>Number of Items: <input type=\"text\" class=\"centerInput\" name=\"nthnumber\"></td></tr>";
+      // ROW 4
+      echo "<td><tr><input type=\"submit\" value=\"Send\"></td></tr>";
+      echo "</form>";
+      // CLOSE FORM
+       "</table></center>";
+      // CLOSE TABLE
+   }
+}
+
+/* 
+   PRE:  pass the number to calculate as parameter
+   PST:  return value
+*/
+function nthNumber($intVar)
+{
+ $counter = 1;
+	  while ( $counter < $intVar)
+	     { 
+		    $total += ($intVar * ($intVar-$counter));
+			$counter++;
+		 }
+ return $total;
+}
+
+/* Number formatting
+   For english style formating
+   four args are the number, the num of decimals, the thousands seperator
+   1.  the number
+   2.  the number of decimal places to output
+   3.  the decimal seperator  (.)
+   4.  the thousands seperator (,)
+   $newNum = number_format($newNum,0,'.',',');
+*/
+
+echo "</td></tr></table>";
+
+CloseTable();                                                                                                                    
+include("footer.php");
+?>

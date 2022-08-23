@@ -1,0 +1,781 @@
+<pre>Query:	SELECT COUNT(user_id) AS total
+	FROM nuke_users
+	WHERE user_id &lt;&gt; 1
+
+Time before:  0.07600998878479
+Time after:   0.076311826705933
+Elapsed time: <strong>0.00030183792114258</strong>
+</pre><pre>Query:	SELECT SUM(forum_topics) AS topic_total, SUM(forum_posts) AS post_total
+	FROM nuke_bbforums
+
+Time before:  0.076464891433716
+Time after:   0.076718807220459
+Elapsed time: <strong>0.00025391578674316</strong>
+</pre><pre>Query:	SELECT user_id, user_color_gc, username
+	FROM nuke_users
+	WHERE user_id &lt;&gt; 1
+	ORDER BY user_id DESC
+	LIMIT 1
+
+Time before:  0.076826810836792
+Time after:   0.077073812484741
+Elapsed time: <strong>0.00024700164794922</strong>
+</pre><pre>Query:	SELECT user_regdate
+	FROM nuke_users
+	WHERE user_id = 3
+	LIMIT 1
+
+Time before:  0.077662944793701
+Time after:   0.077842950820923
+Elapsed time: <strong>0.00018000602722168</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbconfig
+	WHERE config_name = 'record_online_users' OR config_name = 'record_online_date'
+
+Time before:  0.077942848205566
+Time after:   0.078146934509277
+Elapsed time: <strong>0.00020408630371094</strong>
+</pre><pre>Query:	SELECT SUM(user_posts) as total_posts FROM nuke_users WHERE user_id &lt;&gt; 1
+
+Time before:  0.088544845581055
+Time after:   0.088765859603882
+Elapsed time: <strong>0.00022101402282715</strong>
+</pre><pre>Query:	SELECT user_id, user_color_gc, username, user_posts
+	FROM nuke_users
+	WHERE (user_id &lt;&gt; 1 ) AND (user_posts &gt; 0)
+	ORDER BY user_posts DESC
+	LIMIT 10
+
+Time before:  0.088881015777588
+Time after:   0.089095830917358
+Elapsed time: <strong>0.00021481513977051</strong>
+</pre><pre>Query:	SELECT COUNT(topic_id) as total_topics FROM nuke_bbtopics WHERE topic_status &lt;&gt; 2
+
+Time before:  0.12050795555115
+Time after:   0.12069988250732
+Elapsed time: <strong>0.00019192695617676</strong>
+</pre><pre>Query:	SELECT u.user_id, u.user_color_gc, u.username, COUNT(t.topic_poster) num_topics
+	FROM nuke_users u, nuke_bbtopics t
+	WHERE (t.topic_poster &lt;&gt; 1) AND (u.user_posts &gt; 0) AND (u.user_id = t.topic_poster)
+	GROUP BY t.topic_poster ORDER BY num_topics DESC
+	LIMIT 10
+
+Time before:  0.12080693244934
+Time after:   0.12103986740112
+Elapsed time: <strong>0.00023293495178223</strong>
+</pre><pre>Query:	SELECT u.user_id, u.user_color_gc, u.username, count(u.user_id) as user_posts
+	FROM nuke_users u, nuke_bbposts p
+	WHERE (u.user_id = p.poster_id) AND (p.post_time &gt; '1535320800') AND (u.user_id &lt;&gt; 1)
+	GROUP BY user_id, username
+	ORDER BY user_posts DESC
+	LIMIT 10
+
+Time before:  0.13228988647461
+Time after:   0.13258695602417
+Elapsed time: <strong>0.00029706954956055</strong>
+</pre><pre>Query:	SELECT u.user_id, u.user_color_gc, u.username, count(u.user_id) as user_posts
+	FROM nuke_users u, nuke_bbposts p
+	WHERE (u.user_id = p.poster_id) AND (p.post_time &gt; '1533078000') AND (u.user_id &lt;&gt; 1)
+	GROUP BY user_id, username
+	ORDER BY user_posts DESC
+	LIMIT 10
+
+Time before:  0.14356088638306
+Time after:   0.14392185211182
+Elapsed time: <strong>0.00036096572875977</strong>
+</pre><pre>Query:	SELECT topic_id, forum_id, topic_title, topic_replies
+	FROM nuke_bbtopics
+	WHERE (topic_status &lt;&gt; 2) AND (topic_replies &gt; 0)
+	ORDER BY topic_replies DESC
+	LIMIT 10
+
+Time before:  0.15332102775574
+Time after:   0.15353083610535
+Elapsed time: <strong>0.00020980834960938</strong>
+</pre><pre>Query:	SELECT forum_id, topic_id, topic_title, topic_views
+	FROM nuke_bbtopics
+	WHERE (topic_status &lt;&gt; 2) AND (topic_views &gt; 0)
+	ORDER BY topic_views DESC
+	LIMIT 10
+
+Time before:  0.18290400505066
+Time after:   0.18311500549316
+Elapsed time: <strong>0.00021100044250488</strong>
+</pre><pre>Query:	SELECT COUNT( word_id ) total_words FROM nuke_bbsearch_wordmatch
+
+Time before:  0.19251680374146
+Time after:   0.19269585609436
+Elapsed time: <strong>0.00017905235290527</strong>
+</pre><pre>Query:	SELECT COUNT( swm.word_id ) word_count, swm.word_id word_id, swl.word_text word_text
+	FROM nuke_bbsearch_wordmatch swm, nuke_bbsearch_wordlist swl
+	WHERE swm.word_id = swl.word_id AND swl.word_text != 'nbsp'
+	GROUP BY swm.word_id ORDER BY word_count DESC
+	LIMIT 10
+
+Time before:  0.19280886650085
+Time after:   0.19324588775635
+Elapsed time: <strong>0.00043702125549316</strong>
+</pre><pre>Query:	SELECT YEAR(FROM_UNIXTIME(topic_time)) as year_topic, MONTH(FROM_UNIXTIME(topic_time)) as month_topic, COUNT(*) AS num_topics
+	FROM nuke_bbtopics
+	GROUP BY YEAR(FROM_UNIXTIME(topic_time)), MONTH(FROM_UNIXTIME(topic_time))
+	ORDER BY topic_time
+
+Time before:  0.20722794532776
+Time after:   0.20748901367188
+Elapsed time: <strong>0.00026106834411621</strong>
+</pre><pre>Query:	SELECT * FROM nuke_bbstats_smilies_info
+
+Time before:  0.22700595855713
+Time after:   0.22728991508484
+Elapsed time: <strong>0.00028395652770996</strong>
+</pre><pre>Query:	DELETE FROM nuke_bbstats_smilies_index
+
+Time before:  0.2274010181427
+Time after:   0.22772192955017
+Elapsed time: <strong>0.0003209114074707</strong>
+</pre><pre>Query:	UPDATE nuke_bbstats_smilies_info SET last_post_id = 0, last_update_time = 1535725971
+
+Time before:  0.22781491279602
+Time after:   0.22805094718933
+Elapsed time: <strong>0.00023603439331055</strong>
+</pre><pre>Query:	SELECT * FROM nuke_bbstats_smilies_index
+
+Time before:  0.22814297676086
+Time after:   0.2282989025116
+Elapsed time: <strong>0.00015592575073242</strong>
+</pre><pre>Query:	SELECT max(post_id) as total FROM nuke_bbposts
+
+Time before:  0.22850298881531
+Time after:   0.228670835495
+Elapsed time: <strong>0.0001678466796875</strong>
+</pre><pre>Query:	SELECT COUNT(post_id) as total FROM nuke_bbposts
+
+Time before:  0.22876691818237
+Time after:   0.22891092300415
+Elapsed time: <strong>0.00014400482177734</strong>
+</pre><pre>Query:	SELECT smile_url FROM nuke_bbsmilies GROUP BY smile_url
+
+Time before:  0.22900700569153
+Time after:   0.2292377948761
+Elapsed time: <strong>0.00023078918457031</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_arrow.gif'
+
+Time before:  0.22942781448364
+Time after:   0.22961592674255
+Elapsed time: <strong>0.00018811225891113</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:arrow:%' AND post_id &gt; 0
+
+Time before:  0.22971487045288
+Time after:   0.22992086410522
+Elapsed time: <strong>0.00020599365234375</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_biggrin.gif'
+
+Time before:  0.23011183738708
+Time after:   0.23029685020447
+Elapsed time: <strong>0.00018501281738281</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:D%' AND post_id &gt; 0
+
+Time before:  0.23039793968201
+Time after:   0.23058795928955
+Elapsed time: <strong>0.00019001960754395</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:-D%' AND post_id &gt; 0
+
+Time before:  0.23068380355835
+Time after:   0.23087096214294
+Elapsed time: <strong>0.00018715858459473</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:grin:%' AND post_id &gt; 0
+
+Time before:  0.23096585273743
+Time after:   0.23115801811218
+Elapsed time: <strong>0.00019216537475586</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_confused.gif'
+
+Time before:  0.23133993148804
+Time after:   0.23154997825623
+Elapsed time: <strong>0.00021004676818848</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:?%' AND post_id &gt; 0
+
+Time before:  0.2316529750824
+Time after:   0.23184180259705
+Elapsed time: <strong>0.00018882751464844</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:-?%' AND post_id &gt; 0
+
+Time before:  0.23193693161011
+Time after:   0.23212885856628
+Elapsed time: <strong>0.00019192695617676</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:???:%' AND post_id &gt; 0
+
+Time before:  0.23222398757935
+Time after:   0.23241090774536
+Elapsed time: <strong>0.00018692016601562</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_cool.gif'
+
+Time before:  0.23259592056274
+Time after:   0.2327778339386
+Elapsed time: <strong>0.00018191337585449</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%8)%' AND post_id &gt; 0
+
+Time before:  0.23288202285767
+Time after:   0.23307180404663
+Elapsed time: <strong>0.00018978118896484</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%8-)%' AND post_id &gt; 0
+
+Time before:  0.23316979408264
+Time after:   0.2333619594574
+Elapsed time: <strong>0.00019216537475586</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:cool:%' AND post_id &gt; 0
+
+Time before:  0.23345685005188
+Time after:   0.23364400863647
+Elapsed time: <strong>0.00018715858459473</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_cry.gif'
+
+Time before:  0.23381900787354
+Time after:   0.23399901390076
+Elapsed time: <strong>0.00018000602722168</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:cry:%' AND post_id &gt; 0
+
+Time before:  0.23409581184387
+Time after:   0.23428988456726
+Elapsed time: <strong>0.00019407272338867</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_eek.gif'
+
+Time before:  0.23446488380432
+Time after:   0.23466491699219
+Elapsed time: <strong>0.00020003318786621</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%8O%' AND post_id &gt; 0
+
+Time before:  0.23476791381836
+Time after:   0.23495697975159
+Elapsed time: <strong>0.00018906593322754</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%8-O%' AND post_id &gt; 0
+
+Time before:  0.23505401611328
+Time after:   0.23524594306946
+Elapsed time: <strong>0.00019192695617676</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:shock:%' AND post_id &gt; 0
+
+Time before:  0.23534297943115
+Time after:   0.23552989959717
+Elapsed time: <strong>0.00018692016601562</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_evil.gif'
+
+Time before:  0.23570585250854
+Time after:   0.23588395118713
+Elapsed time: <strong>0.00017809867858887</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:evil:%' AND post_id &gt; 0
+
+Time before:  0.23598885536194
+Time after:   0.23624396324158
+Elapsed time: <strong>0.00025510787963867</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_exclaim.gif'
+
+Time before:  0.23647689819336
+Time after:   0.23668479919434
+Elapsed time: <strong>0.00020790100097656</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:!:%' AND post_id &gt; 0
+
+Time before:  0.23678684234619
+Time after:   0.23699879646301
+Elapsed time: <strong>0.00021195411682129</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_idea.gif'
+
+Time before:  0.23717880249023
+Time after:   0.23736882209778
+Elapsed time: <strong>0.00019001960754395</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:idea:%' AND post_id &gt; 0
+
+Time before:  0.23746681213379
+Time after:   0.23766303062439
+Elapsed time: <strong>0.00019621849060059</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_lol.gif'
+
+Time before:  0.23783993721008
+Time after:   0.23802900314331
+Elapsed time: <strong>0.00018906593322754</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:lol:%' AND post_id &gt; 0
+
+Time before:  0.23812890052795
+Time after:   0.2383279800415
+Elapsed time: <strong>0.0001990795135498</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_mad.gif'
+
+Time before:  0.23850393295288
+Time after:   0.23870396614075
+Elapsed time: <strong>0.00020003318786621</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:x%' AND post_id &gt; 0
+
+Time before:  0.2388060092926
+Time after:   0.23900294303894
+Elapsed time: <strong>0.00019693374633789</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:-x%' AND post_id &gt; 0
+
+Time before:  0.23910689353943
+Time after:   0.23930501937866
+Elapsed time: <strong>0.0001981258392334</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:mad:%' AND post_id &gt; 0
+
+Time before:  0.23939990997314
+Time after:   0.23958992958069
+Elapsed time: <strong>0.00019001960754395</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_mrgreen.gif'
+
+Time before:  0.23977088928223
+Time after:   0.2399640083313
+Elapsed time: <strong>0.00019311904907227</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:mrgreen:%' AND post_id &gt; 0
+
+Time before:  0.24006390571594
+Time after:   0.24026083946228
+Elapsed time: <strong>0.00019693374633789</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_neutral.gif'
+
+Time before:  0.24043893814087
+Time after:   0.24062180519104
+Elapsed time: <strong>0.0001828670501709</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:|%' AND post_id &gt; 0
+
+Time before:  0.24072194099426
+Time after:   0.24091196060181
+Elapsed time: <strong>0.00019001960754395</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:-|%' AND post_id &gt; 0
+
+Time before:  0.24101400375366
+Time after:   0.2412109375
+Elapsed time: <strong>0.00019693374633789</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:neutral:%' AND post_id &gt; 0
+
+Time before:  0.24130892753601
+Time after:   0.24158096313477
+Elapsed time: <strong>0.00027203559875488</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_question.gif'
+
+Time before:  0.24176001548767
+Time after:   0.24194693565369
+Elapsed time: <strong>0.00018692016601562</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:?:%' AND post_id &gt; 0
+
+Time before:  0.2420608997345
+Time after:   0.2422788143158
+Elapsed time: <strong>0.00021791458129883</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_razz.gif'
+
+Time before:  0.24246382713318
+Time after:   0.24267601966858
+Elapsed time: <strong>0.00021219253540039</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:P%' AND post_id &gt; 0
+
+Time before:  0.24278497695923
+Time after:   0.24301981925964
+Elapsed time: <strong>0.00023484230041504</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:-P%' AND post_id &gt; 0
+
+Time before:  0.24321484565735
+Time after:   0.24348783493042
+Elapsed time: <strong>0.00027298927307129</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:razz:%' AND post_id &gt; 0
+
+Time before:  0.24359583854675
+Time after:   0.24380493164062
+Elapsed time: <strong>0.00020909309387207</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_redface.gif'
+
+Time before:  0.24398994445801
+Time after:   0.24419403076172
+Elapsed time: <strong>0.00020408630371094</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:oops:%' AND post_id &gt; 0
+
+Time before:  0.24429488182068
+Time after:   0.24449300765991
+Elapsed time: <strong>0.0001981258392334</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_rolleyes.gif'
+
+Time before:  0.24466896057129
+Time after:   0.24486184120178
+Elapsed time: <strong>0.00019288063049316</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:roll:%' AND post_id &gt; 0
+
+Time before:  0.24496293067932
+Time after:   0.24515700340271
+Elapsed time: <strong>0.00019407272338867</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_sad.gif'
+
+Time before:  0.24533987045288
+Time after:   0.24552488327026
+Elapsed time: <strong>0.00018501281738281</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:(%' AND post_id &gt; 0
+
+Time before:  0.24562287330627
+Time after:   0.24581384658813
+Elapsed time: <strong>0.00019097328186035</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:-(%' AND post_id &gt; 0
+
+Time before:  0.24590992927551
+Time after:   0.2461040019989
+Elapsed time: <strong>0.00019407272338867</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:sad:%' AND post_id &gt; 0
+
+Time before:  0.2461998462677
+Time after:   0.24639201164246
+Elapsed time: <strong>0.00019216537475586</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_smile.gif'
+
+Time before:  0.24657297134399
+Time after:   0.24675703048706
+Elapsed time: <strong>0.00018405914306641</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:)%' AND post_id &gt; 0
+
+Time before:  0.2468569278717
+Time after:   0.24704694747925
+Elapsed time: <strong>0.00019001960754395</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:-)%' AND post_id &gt; 0
+
+Time before:  0.24714303016663
+Time after:   0.24733185768127
+Elapsed time: <strong>0.00018882751464844</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:smile:%' AND post_id &gt; 0
+
+Time before:  0.24742698669434
+Time after:   0.24761390686035
+Elapsed time: <strong>0.00018692016601562</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_surprised.gif'
+
+Time before:  0.24779081344604
+Time after:   0.24797987937927
+Elapsed time: <strong>0.00018906593322754</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:o%' AND post_id &gt; 0
+
+Time before:  0.24808287620544
+Time after:   0.2482738494873
+Elapsed time: <strong>0.00019097328186035</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:-o%' AND post_id &gt; 0
+
+Time before:  0.24836993217468
+Time after:   0.24855899810791
+Elapsed time: <strong>0.00018906593322754</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:eek:%' AND post_id &gt; 0
+
+Time before:  0.24865293502808
+Time after:   0.24884295463562
+Elapsed time: <strong>0.00019001960754395</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_twisted.gif'
+
+Time before:  0.24903988838196
+Time after:   0.24922585487366
+Elapsed time: <strong>0.00018596649169922</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:twisted:%' AND post_id &gt; 0
+
+Time before:  0.24932289123535
+Time after:   0.24951100349426
+Elapsed time: <strong>0.00018811225891113</strong>
+</pre><pre>Query:	SELECT *
+	FROM nuke_bbsmilies
+	WHERE smile_url = 'icon_wink.gif'
+
+Time before:  0.24968886375427
+Time after:   0.24987196922302
+Elapsed time: <strong>0.00018310546875</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%:wink:%' AND post_id &gt; 0
+
+Time before:  0.24997401237488
+Time after:   0.25019979476929
+Elapsed time: <strong>0.00022578239440918</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%;)%' AND post_id &gt; 0
+
+Time before:  0.25030589103699
+Time after:   0.25052094459534
+Elapsed time: <strong>0.00021505355834961</strong>
+</pre><pre>Query:	SELECT post_id, post_text
+	FROM nuke_bbposts_text
+	WHERE post_text LIKE '%;-)%' AND post_id &gt; 0
+
+Time before:  0.25061988830566
+Time after:   0.25082302093506
+Elapsed time: <strong>0.00020313262939453</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':arrow:', 'icon_arrow.gif', 0)
+
+Time before:  0.25093102455139
+Time after:   0.25120091438293
+Elapsed time: <strong>0.00026988983154297</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':D', 'icon_biggrin.gif', 0)
+
+Time before:  0.25129699707031
+Time after:   0.25148701667786
+Elapsed time: <strong>0.00019001960754395</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':?', 'icon_confused.gif', 0)
+
+Time before:  0.25158095359802
+Time after:   0.25176191329956
+Elapsed time: <strong>0.00018095970153809</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES ('8)', 'icon_cool.gif', 0)
+
+Time before:  0.25185394287109
+Time after:   0.25203394889832
+Elapsed time: <strong>0.00018000602722168</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':cry:', 'icon_cry.gif', 0)
+
+Time before:  0.25212502479553
+Time after:   0.25230288505554
+Elapsed time: <strong>0.00017786026000977</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES ('8O', 'icon_eek.gif', 0)
+
+Time before:  0.25239396095276
+Time after:   0.25256991386414
+Elapsed time: <strong>0.00017595291137695</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':evil:', 'icon_evil.gif', 0)
+
+Time before:  0.25265979766846
+Time after:   0.25283694267273
+Elapsed time: <strong>0.00017714500427246</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':!:', 'icon_exclaim.gif', 0)
+
+Time before:  0.25293183326721
+Time after:   0.25311303138733
+Elapsed time: <strong>0.00018119812011719</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':idea:', 'icon_idea.gif', 0)
+
+Time before:  0.25320482254028
+Time after:   0.25338101387024
+Elapsed time: <strong>0.00017619132995605</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':lol:', 'icon_lol.gif', 0)
+
+Time before:  0.25347185134888
+Time after:   0.25364899635315
+Elapsed time: <strong>0.00017714500427246</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':x', 'icon_mad.gif', 0)
+
+Time before:  0.25373983383179
+Time after:   0.25391387939453
+Elapsed time: <strong>0.00017404556274414</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':mrgreen:', 'icon_mrgreen.gif', 0)
+
+Time before:  0.25401186943054
+Time after:   0.25419497489929
+Elapsed time: <strong>0.00018310546875</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':|', 'icon_neutral.gif', 0)
+
+Time before:  0.25428581237793
+Time after:   0.25446391105652
+Elapsed time: <strong>0.00017809867858887</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':?:', 'icon_question.gif', 0)
+
+Time before:  0.25455594062805
+Time after:   0.25473284721375
+Elapsed time: <strong>0.00017690658569336</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':P', 'icon_razz.gif', 0)
+
+Time before:  0.25482392311096
+Time after:   0.25500082969666
+Elapsed time: <strong>0.00017690658569336</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':oops:', 'icon_redface.gif', 0)
+
+Time before:  0.25509095191956
+Time after:   0.25527191162109
+Elapsed time: <strong>0.00018095970153809</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':roll:', 'icon_rolleyes.gif', 0)
+
+Time before:  0.25536298751831
+Time after:   0.255539894104
+Elapsed time: <strong>0.00017690658569336</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':(', 'icon_sad.gif', 0)
+
+Time before:  0.25563097000122
+Time after:   0.25580501556396
+Elapsed time: <strong>0.00017404556274414</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':)', 'icon_smile.gif', 0)
+
+Time before:  0.25589799880981
+Time after:   0.25607681274414
+Elapsed time: <strong>0.00017881393432617</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':o', 'icon_surprised.gif', 0)
+
+Time before:  0.25616884231567
+Time after:   0.25634479522705
+Elapsed time: <strong>0.00017595291137695</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':twisted:', 'icon_twisted.gif', 0)
+
+Time before:  0.25643491744995
+Time after:   0.25661492347717
+Elapsed time: <strong>0.00018000602722168</strong>
+</pre><pre>Query:	INSERT INTO nuke_bbstats_smilies_index (code, smile_url, smile_count) VALUES (':wink:', 'icon_wink.gif', 0)
+
+Time before:  0.25670599937439
+Time after:   0.25688290596008
+Elapsed time: <strong>0.00017690658569336</strong>
+</pre><pre>Query:	UPDATE nuke_bbstats_smilies_info SET last_post_id = 7
+
+Time before:  0.25697493553162
+Time after:   0.25715279579163
+Elapsed time: <strong>0.00017786026000977</strong>
+</pre><pre>Query:	SELECT topic_id, forum_id, topic_title, topic_replies, topic_views, topic_views/(topic_replies + 1) AS k
+	FROM nuke_bbtopics
+	WHERE (topic_status &lt;&gt; 2) AND (topic_replies &gt; 0)
+	ORDER BY k DESC
+	LIMIT 10
+
+Time before:  0.26772093772888
+Time after:   0.26794981956482
+Elapsed time: <strong>0.0002288818359375</strong>
+</pre><pre>Query:	SELECT topic_id, forum_id, topic_title, topic_replies, topic_views, topic_views/(topic_replies + 1) AS k
+	FROM nuke_bbtopics
+	WHERE (topic_status &lt;&gt; 2) AND (topic_replies &gt; 0)
+	ORDER BY k ASC
+	LIMIT 10
+
+Time before:  0.27816796302795
+Time after:   0.27839398384094
+Elapsed time: <strong>0.00022602081298828</strong>
+</pre><pre>Query:	SELECT SUBSTRING_INDEX(user_regdate,' ',-1) as year_regdate, SUBSTRING_INDEX(user_regdate,' ',1) as month_regdate, COUNT(*) AS num_user
+	FROM nuke_users
+	WHERE (user_id &lt;&gt; 1 )
+	AND SUBSTRING_INDEX(user_regdate, ' ',1) &lt;&gt; 'Non'
+	GROUP BY SUBSTRING_INDEX(user_regdate,' ',-1), SUBSTRING_INDEX(user_regdate,' ',1)
+
+Time before:  0.29366588592529
+Time after:   0.29401683807373
+Elapsed time: <strong>0.0003509521484375</strong>
+</pre><pre>Query:	SELECT YEAR(FROM_UNIXTIME(post_time)) as year_post, MONTH(FROM_UNIXTIME(post_time)) as month_post, COUNT(*) AS num_posts
+	FROM nuke_bbposts
+	GROUP BY YEAR(FROM_UNIXTIME(post_time)), MONTH(FROM_UNIXTIME(post_time))
+	ORDER BY post_time
+
+Time before:  0.3080358505249
+Time after:   0.30838894844055
+Elapsed time: <strong>0.00035309791564941</strong>
+</pre><pre>Query:	SELECT a.post_id, p.forum_id as post_forum_id, t.topic_title, d.*
+	FROM nuke_bbattachments a, nuke_bbattachments_desc d, nuke_bbposts p, nuke_bbtopics t
+	WHERE (a.post_id = p.post_id) AND (p.topic_id = t.topic_id) AND (a.attach_id = d.attach_id) ORDER BY download_count DESC LIMIT 10
+
+Time before:  0.32316279411316
+Time after:   0.32341289520264
+Elapsed time: <strong>0.00025010108947754</strong>
+</pre><pre><strong>The Statistics Mod generated 117 queries,
+spending 0.024208068847656 doing MySQL queries and 0.30121779441833 doing PHP things.</strong></pre>

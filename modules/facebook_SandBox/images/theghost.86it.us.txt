@@ -1,0 +1,31 @@
+	 <hr>
+	 <b>Updates - Bugs - Fixes for 2017</b>
+	    -[ 08/13/2017 ] [  02:18pm to 04:11pm ] Updated - facebook CHANGELOG Module v3.0 to v5.0 NEW This fixes the like and share options! 
+		-[ 08/13/2017 ] [  02:00pm to 02:18pm ] Updated - facebook SandBox Module v4.7 to v5.0 NEW This fixes the header flaw found in all resoultions! 
+		-[ 08/12/2017 ] [  12:18pm to 12:27pm ] Updated - Blogs facebook comments theme plugin NEW
+		-[ 08/12/2017 ] [  12:18pm to 12:27pm ] Updated - Blogs facebook likes theme plugin NEW
+		-[ 08/12/2017 ] [  12:10pm to 12:18pm ] Updated - PHP from v5.4.4.8 to v5.5.6 NEW
+		-[ 08/11/2017 ] [  05:26pm to 05:27pm ] Fixed - class.nbbcode.php - line 166 - preg_replace to str_replace
+		-[ 08/11/2017 ] [  05:20pm to 05:27pm ] Fixed - class.identify.php - line 184 - preg_replace to str_replace
+		-[ 08/11/2017 ] [  05:20pm to 05:27pm ] Fixed - class.inputfilter.php - lines 379, 385,391, 399, 407 - preg_replace /e removed 
+		-[ 08/11/2017 ] [  06:20pm to 06:27pm ] Fixed - Line 40 of Blogs.php under includes\custom_titles - if($topicimage) to if (isset($topicimage))!  
+		-[ 08/10/2017 ] [  05:23am to 05:26am ] Found - File Storage is broken! ( please fix )
+		-[ 08/10/2017 ] [  05:09am to 05:23am ] Found - Network members online link is taking the user to the wrong user number ( please fix )
+		-[ 08/10/2017 ] [  03:53am to 05:09am ] Found - After theme change a redirect is taking the user back to the wrong user number ( please fix )
+	    -[ 08/10/2017 ] [  03:53am to 05:09am ] Found - Message: Table 'admin_bridge.nuke_bbadvanced_username_color' doesn't exist ( please fix )
+		-[ 08/10/2017 ] [  03:53am to 05:09am ] Found - Cookie Bug in Music Vote addon! ( please fix )
+	    -[ 08/10/2017 ] [  03:00am to 03:53am ] Fixed - Music module tables spacing on reply articles.php page!
+		-[ 08/09/2017 ] [  04:27pm to 05:12pm ] Fixed - RSS Feeds have been repaired and Chrome RSS feed support has benn added back!
+        -[ 08/09/2017 ] [  03:51pm to 04:27pm ] Fixed - fixed missing fields in the Blog tables and also the Music Table!
+		-[ 08/09/2017 ] [  03:51pm to 04:27pm ] Fixed - Auto Block Resize Based on resolution gathered by javascript! 1920x1080 [ includes\cookies.php ] NEW
+		-[ 08/09/2017 ] [  03:51pm to 04:27pm ] Fixed - e-mail login on main page was broken! NEW
+		-[ 08/08/2017 ] [  00:00pm to 00:00pm ] Fixed - The server has been down for 4 years it is now back online~! NEW
+		-[ 08/07/2017 ] [  06:00am to 06:00pm ] Fixed - Federated mySQL ENGINE has been put back in place~! NEW
+	 <hr>
+	 <b>Updates 2014</b>
+        -[ 05/24/2014 ] [  10:30pm to 11:00pm ] Fixed "modules.php?name=Music_Search" It was returning an "empty delimiter" message
+        -[ 05/24/2014 ] [  09:30pm to 10:00pm ] Fixed "modules.php?name=Blog_Search" It was returning an "empty delimiter" message
+        -[ 05/14/2014 ] [  09:14am to 09:16am ] Fixed "modules.php?name=Groups" now forwards to "modules.php?name=Network_Groups"
+        -[ 05/14/2014 ] [  09:00am to 09:14am ] Fixed "modules.php?name=Journal&file=edit" PHP-Nuke Titanium does not have a Journal
+        -[ 05/13/2014 ] [  04:00am to 05:00am ] Fixed Archive Index Listing Error
+     <hr>

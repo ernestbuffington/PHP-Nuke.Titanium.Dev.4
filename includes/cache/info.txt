@@ -1,0 +1,1 @@
+CHMOD this directory to 755 (777 if 755 fails) to activate caching

@@ -1,0 +1,129 @@
+#LpinkRose {
+	position:absolute;
+    visibility:hidden;
+	left:1555px;
+	top:260px;    
+	width:277px; 
+	height:160px;  
+	border: 4; 
+	border-top-color: #EE6A12; 
+	border-left-color: #959595; 
+	border-right-color: #EE6A12;
+	border-bottom-color: #959595; 
+	border-top-style: outset;
+	border-left-style: outset; 
+	border-right-style: inset;
+	border-bottom-style: inset; 
+	z-index:2;  
+    background-image: url(../../TestHide/images/pinkRose.png); 
+    }
+
+#Ljackie {
+	position:absolute;
+    visibility:hidden;
+    left:278;
+	top:258;
+	width:640px; 
+	height:360px;   
+	border: 4; 
+	border-top-color: #959595; 
+	border-left-color: #959595; 
+	border-right-color: #959595;
+	border-bottom-color: #959595;   
+	border-top-style: outset; 
+	border-left-style: outset; 
+	border-right-style: inset;
+	border-bottom-style: inset; 
+    background-color: #FF0000; 
+	z-index:1;  
+    }
+
+#LDNAlink {
+	position:absolute;
+	left:367px;
+	top:510px;  
+	width:62px; 
+	height:25px; 
+    padding: 4;
+	border: 4; 
+	border-top-color: #959595; 
+	border-left-color: #959595;
+	border-right-color: #959595;
+	border-bottom-color: #959595;   
+	border-top-style: outset; 
+	border-left-style: outset; 
+	border-right-style: inset;
+	border-bottom-style: inset; 
+    background-color: #FF0000; 
+	z-index:5;  
+}
+
+#LDNAlink2{
+	position:absolute;
+	left:1687px;
+	top:468px;  
+	width:62px; 
+	height:25px; 
+    padding: 4;
+	border: 4; 
+	border-top-color: #959595; 
+	border-left-color: #959595;
+	border-right-color: #959595;
+	border-bottom-color: #959595;   
+	border-top-style: outset; 
+	border-left-style: outset; 
+	border-right-style: inset;
+	border-bottom-style: inset; 
+    background-color: #FF0000; 
+	z-index:5;  
+}
+
+
+
+#LbuttonOne{
+	position:absolute;
+    left:300;
+	top:410;
+	width:187px; 
+	height:27px;   
+	border: 4; 
+	border-top-color: #959595; 
+	border-left-color: #959595;
+	border-right-color: #959595;
+	border-bottom-color: #959595;   
+	border-top-style: outset; 
+	border-left-style: outset; 
+	border-right-style: inset;
+	border-bottom-style: inset; 
+    background-color: #FF0000; 
+	z-index:1;  
+	}
+
+#LbuttonTwo{
+	position:absolute;
+    left:320;
+	top:465;
+	width:152px; 
+	height:27px;   
+    padding: 4;
+	border: 4; 
+	border-top-color: #959595; 
+	border-left-color: #959595;
+	border-right-color: #959595;
+	border-bottom-color: #959595;   
+	border-top-style: outset; 
+	border-left-style: outset; 
+	border-right-style: inset;
+	border-bottom-style: inset; 
+    background-color: #FF0000; 
+	z-index:1;  
+	}
+
+<!--visibility:hidden-->
+
+<style type=\"text/css\">
+   span
+   {
+      display:block;
+   }
+</style>

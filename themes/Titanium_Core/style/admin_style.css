@@ -1,0 +1,594 @@
+FONT {
+	FONT-SIZE: 12px; 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+A:link {
+FONT-SIZE: 12px; 
+COLOR: #4785B8; 
+FONT-FAMILY:  arial, helvetica, verdana, sans-serif; 
+TEXT-DECORATION: none;
+}
+A:visited {
+FONT-SIZE: 12px; 
+COLOR: #4785B8; 
+FONT-FAMILY:  arial, helvetica, verdana, sans-serif; 
+TEXT-DECORATION: none;
+}
+A:active {
+FONT-SIZE: 12px; 
+COLOR: #4785B8; 
+FONT-FAMILY:  arial, helvetica, verdana, sans-serif; 
+TEXT-DECORATION: none;
+}
+A:hover {
+FONT-SIZE: 12px; 
+COLOR: #00CCFF; 
+FONT-FAMILY:  arial, helvetica, verdana, sans-serif; 
+TEXT-DECORATION: none;
+}
+BODY {
+FONT-SIZE: 12px; 
+CURSOR: default; 
+COLOR: #049ad2; 
+BACKGROUND-color: #0E1B25; 
+FONT-FAMILY:  arial, helvetica, verdana, sans-serif; 
+TEXT-DECORATION: none;
+}
+
+TEXTAREA 
+{
+background:#091119;
+color:#049ad2;
+font:12px Arial,Helvetica,sans-serif;
+BORDER-TOP: #000000 1px solid; 
+BORDER-BOTTOM: #1B3244 1px solid; 
+BORDER-LEFT: #000000 1px solid; 
+BORDER-RIGHT: #1B3244 1px solid;
+}
+P {
+FONT-SIZE: 12px; 
+COLOR: #049ad2; 
+LINE-HEIGHT: 1.4; 
+FONT-FAMILY:  arial, helvetica, verdana, sans-serif; 
+TEXT-DECORATION: none;
+}
+TABLE {
+FONT-SIZE: 12px; 
+COLOR: #049ad2; 
+FONT-FAMILY:  arial, helvetica, verdana, sans-serif; 
+TEXT-DECORATION: none;
+}
+
+
+TD.content {
+
+FONT-SIZE: 12px;
+COLOR: #049ad2;
+TEXT-DECORATION: none;
+FONT-FAMILY:  arial, helvetica, verdana, sans-serif;
+}
+
+TD.extra {
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid;
+}
+TD.info1 {
+color : #049ad2;
+font: normal 12px Arial, Helvetica, sans-serif;
+BORDER-TOP: #000000 1px solid; 
+BORDER-BOTTOM: #1B3244 1px solid; 
+BORDER-LEFT: #000000 1px solid; 
+BORDER-RIGHT: #1B3244 1px solid;
+BACKGROUND: #091119;
+}
+
+hr {
+border-top: 1px solid #1B3244;
+border-bottom: 1px solid #000000;
+BORDER-RIGHT: #1B3244 1px solid;
+BORDER-LEFT: #000000 1px solid;
+height: 1px;
+width: 100%;
+}
+
+UL {
+	LIST-STYLE-TYPE: square
+}
+.center {
+	TEXT-ALIGN: center
+}
+.justify {
+	TEXT-ALIGN: justify
+}
+.right {
+	TEXT-ALIGN: right
+}
+H1 {
+FONT-WEIGHT: bold; 
+FONT-SIZE: 12px; 
+COLOR: #049ad2; 
+FONT-FAMILY:  arial, helvetica, verdana, sans-serif; 
+LETTER-SPACING: 0px; 
+TEXT-DECORATION: none;
+}
+.heading {
+FONT-WEIGHT: bold; 
+FONT-SIZE: 12px; 
+COLOR: #049ad2; 
+FONT-FAMILY: Tahoma; 
+LETTER-SPACING: 0px; 
+TEXT-DECORATION: none;
+}
+
+SELECT {
+BORDER-TOP: #000000 1px solid; 
+BORDER-BOTTOM: #1B3244 1px solid; 
+BORDER-LEFT: #000000 1px solid; 
+BORDER-RIGHT: #1B3244 1px solid;
+BACKGROUND: #091119;
+FONT-SIZE: 12px;
+COLOR: #049ad2;
+TEXT-DECORATION: none;
+FONT-FAMILY:  arial, helvetica, verdana, sans-serif;
+}
+
+/*Only IE will show for the scroller style */
+BODY {
+SCROLLBAR-FACE-COLOR: #091119; 
+SCROLLBAR-HIGHLIGHT-COLOR: #35353F; 
+SCROLLBAR-SHADOW-COLOR: #303030; 
+SCROLLBAR-3DLIGHT-COLOR: #4D4E53; 
+SCROLLBAR-ARROW-COLOR: #607CAE; 
+SCROLLBAR-TRACK-COLOR: #1B3244; 
+SCROLLBAR-DARKSHADOW-COLOR: #000000;
+ }
+
+/* This is the border line & background colour round the entire page */
+.bodyline	
+{ 
+BORDER-TOP: #000000 1px solid; 
+BORDER-BOTTOM: #1B3244 1px solid; 
+BORDER-LEFT: #000000 1px solid; 
+BORDER-RIGHT: #1B3244 1px solid;
+BACKGROUND: #091119;
+azimuth:
+}
+.tablein 
+{
+color : #049ad2;
+font: normal 12px Arial, Helvetica, sans-serif;
+BORDER-TOP: #000000 1px solid; 
+BORDER-BOTTOM: #1B3244 1px solid; 
+BORDER-LEFT: #000000 1px solid; 
+BORDER-RIGHT: #1B3244 1px solid;
+BACKGROUND: #091119;
+}
+
+.tableout 
+{
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid;}	
+
+/* This is the outline round the main forum tables */
+.forumline	
+{ 
+BORDER-TOP: #000000 1px solid; 
+BORDER-BOTTOM: #1B3244 1px solid; 
+BORDER-LEFT: #000000 1px solid; 
+BORDER-RIGHT: #1B3244 1px solid;
+BACKGROUND: #091119;
+}
+
+
+
+
+/* Main table cell colours and backgrounds */
+td.row1	
+{
+background: url(../../../themes/MNS-Z3/images/row1.jpg); 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid;}
+
+td.row2	
+{
+background: url(../../../themes/MNS-Z3/images/row1.jpg); 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid;}
+
+td.row3	
+{
+background: url(../../../themes/MNS-Z3/images/row1.jpg); 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid;
+}
+
+
+td.rowpic 
+{
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid;
+}
+
+
+th	
+{
+color: #049ad2; font-size: 12px; font-weight : bold;
+height: 20px;
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid;
+}
+
+td.cat,td.catHead,td.catSides,td.catLeft,td.catRight,td.catBottom 
+{
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid; height: 28px;
+}
+
+
+/*
+  Setting additional nice inner borders for the main table cells.
+  The names indicate which sides the border will be on.
+  Don't worry if you don't understand this, just ignore it :-)
+*/
+td.cat,td.catHead,td.catBottom 
+{
+height: 29px;
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid;
+}
+
+th.thHead,th.thSides,th.thTop,th.thLeft,th.thRight,th.thBottom,th.thCornerL,th.thCornerR 
+{
+font-weight: bold; background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid; height: 28px; }
+
+td.row3Right,td.spaceRow 
+{
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid;
+}
+
+th.thHead,td.catHead 
+{ 
+font-size: 12px; background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid; 
+}
+
+th.thSides,td.catSides,td.spaceRow	 
+{ 
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid; 
+}
+
+th.thRight,td.catRight,td.row3Right	 
+{ 
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid; 
+}
+
+th.thLeft,td.catLeft	  
+{ 
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid; 
+}
+
+th.thBottom,td.catBottom  
+{ 
+background: #091119; 
+BORDER-RIGHT: #0000001px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid; 
+}
+
+th.thTop	 
+{ 
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid; 
+}
+
+th.thCornerL 
+{ 
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid; 
+}
+
+th.thCornerR 
+{ 
+background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid; 
+}
+
+
+/* The largest text used in the index page title and toptic title etc. */
+.maintitle,h1,h2	
+{
+font-weight: bold; font-size: 22px; font-family: "Arial",Verdana, Helvetica, sans-serif;
+text-decoration: none; line-height : 110%; color : #049ad2;
+}
+
+
+/* General text */
+.gen 
+{ 
+font-size : 12px; 
+}
+
+.genmed 
+{ 
+font-size : 12px; 
+}
+
+.gensmall 
+{ 
+font-size : 12px; 
+}
+
+.gen,.genmed,.gensmall 
+{ 
+color : #049ad2; 
+}
+
+a.gen,a.genmed,a.gensmall 
+{ 
+color: #049ad2; text-decoration: none; 
+}
+
+a.gen:hover,a.genmed:hover,a.gensmall:hover	
+{ 
+color: #00CCFF; text-decoration: none; 
+}
+
+
+/* The register, login, search etc links at the top of the page */
+.mainmenu		
+{ 
+font-size : 12px; color : #049ad2;
+}
+
+a.mainmenu		
+{ 
+text-decoration: none; color : #049ad2;
+}
+
+a.mainmenu:hover
+{ 
+text-decoration: none; color : #00CCFF;
+}
+
+
+/* Forum category titles */
+.cattitle		
+{ 
+font-weight: bold; font-size: 12px ; letter-spacing: 0px; color : #049ad2
+}
+
+a.cattitle		
+{ 
+text-decoration: none; color : #049ad2; 
+}
+
+a.cattitle:hover
+{ 
+text-decoration: none; color : #00CCFF;
+}
+
+
+/* Forum title: Text and link to the forums used in: index.php */
+.forumlink		
+{ 
+font-weight: bold; font-size: 12px; color : #049ad2; 
+}
+
+a.forumlink 	
+{ 
+text-decoration: none; color : #049ad2; 
+}
+
+a.forumlink:hover
+{ 
+text-decoration: NONE; color : #00CCFF; 
+}
+
+
+/* Used for the navigation text, (Page 1,2,3 etc) and the navigation bar when in a forum */
+.nav			
+{ 
+font-weight: bold; font-size: 12px; color : #049ad2;
+}
+
+a.nav			
+{ 
+text-decoration: none; color : #049ad2; 
+}
+
+a.nav:hover		
+{ 
+text-decoration: NONE; color : #00CCFF;
+}
+
+
+/* titles for the topics: could specify viewed link colour too */
+.topictitle			
+{ 
+font-weight: bold; font-size: 12px; color : #049ad2; 
+}
+
+a.topictitle:link   
+{ 
+text-decoration: none; color : #049ad2; 
+}
+
+a.topictitle:visited 
+{ 
+text-decoration: none; color : #049ad2; 
+}
+
+a.topictitle:hover	
+{ 
+text-decoration: NONE; color : #00CCFF; 
+}
+
+
+/* Name of poster in viewmsg.php and viewtopic.php and other places */
+.name			
+{ 
+font-size : 12px; color : #049ad2;
+}
+
+/* Location, number of posts, post date etc */
+.postdetails
+{ 
+font-size : 12px; color : #049ad2; 
+}
+
+
+/* The content of the posts (body of text) */
+.postbody { font-size : 12px;}
+a.postlink:link	{ text-decoration: none; color : #049ad2; }
+a.postlink:visited { text-decoration: none; color : #049ad2; }
+a.postlink:hover { text-decoration: NONE; color : #00CCFF}
+
+.navlink { font-size : 12px;}
+a.navlink:link	{ text-decoration: none; color : #049ad2; }
+a.navlink:visited { text-decoration: none; color : #049ad2; }
+a.navlink:hover { text-decoration: NONE; color : #00CCFF;}
+
+
+/* Quote & Code blocks */
+.code {
+	font-family: Courier, 'Courier New', sans-serif; font-size: 12px; color: #A3A4A8;
+	BORDER-TOP: #000000 1px solid; 
+BORDER-BOTTOM: #1B3244 1px solid; 
+BORDER-LEFT: #000000 1px solid; 
+BORDER-RIGHT: #1B3244 1px solid;
+BACKGROUND: #091119;
+}
+
+.quote {
+	font-family: Courier, 'Courier New', sans-serif; font-size: 12px; color: #A3A4A8;
+	BORDER-TOP: #000000 1px solid; 
+BORDER-BOTTOM: #1B3244 1px solid; 
+BORDER-LEFT: #0000001px solid; 
+BORDER-RIGHT: #1B3244 1px solid;
+BACKGROUND: #091119;
+}
+
+
+/* Copyright and bottom info */
+.copyright		{ font-size: 12px; font-family: Verdana, Arial, Helvetica, sans-serif; color: #049ad2; letter-spacing: 0px;}
+a.copyright		{ color: #049ad2; text-decoration: none;}
+a.copyright:hover { color: #00CCFF; text-decoration: NONE;}
+
+
+/* Form elements */
+input {
+	color : #049ad2;
+	font: normal 12px Arial, Helvetica, sans-serif;
+	BORDER-TOP: #000000 1px solid; 
+BORDER-BOTTOM: #1B3244 1px solid; 
+BORDER-LEFT: #000000 1px solid; 
+BORDER-RIGHT: #1B3244 1px solid;
+BACKGROUND: #091119;
+}
+
+/* The text input fields background colour */
+input.post, textarea.post, select {
+	background-color : #091119;
+}
+
+input { text-indent : 2px; }
+
+/* The buttons used for bbCode styling in message post */
+input.button {
+	color : #049ad2;
+	font: normal 12px Verdana, Arial, Helvetica, sans-serif;
+	background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid;
+}
+
+/* The main submit button option */
+input.mainoption {
+	color : #049ad2;
+	font: normal 12px Verdana, Arial, Helvetica, sans-serif;
+	background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid;
+}
+
+/* None-bold submit button */
+input.liteoption {
+	color : #049ad2;
+	font: normal 12px Verdana, Arial, Helvetica, sans-serif;
+	background: #091119; 
+BORDER-RIGHT: #000000 1px solid; 
+BORDER-TOP: #1B3244 1px solid; 
+BORDER-BOTTOM: #000000 1px solid;
+BORDER-LEFT: #1B3244 1px solid;
+}
+
+/* This is the line in the posting page which shows the rollover
+  help line. This is actually a text box, but if set to be the same
+  colour as the background no one will know ;)
+*/
+.helpline { BORDER-TOP: #000000 1px solid; 
+BORDER-BOTTOM: #1B3244 1px solid; 
+BORDER-LEFT: #000000 1px solid; 
+BORDER-RIGHT: #1B3244 1px solid;
+BACKGROUND: #091119; }

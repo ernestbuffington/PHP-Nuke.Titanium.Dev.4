@@ -1,0 +1,125 @@
+/*.btn-primary 
+{
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #006dcc;
+    background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+    background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+    background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+    background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
+    border-color: #0044cc #0044cc #002a80;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+    color: #ffffff;
+    background-color: #0044cc;
+}
+
+.btn:hover, .btn:focus {
+    color: #333333;
+    text-decoration: none;
+    background-position: 0 -15px;
+    -webkit-transition: background-position 0.1s linear;
+    -moz-transition: background-position 0.1s linear;
+    -o-transition: background-position 0.1s linear;
+    transition: background-position 0.1s linear;
+}*/
+
+input[type=submit]
+{
+	/*height:2.0833em;*/
+    border:1px solid #ccc;
+    background:#f6f6f6;
+    background-image:0;
+    filter:progid:DXImageTransform.Microsoft.Gradient(startColorStr=#ffffff,endColorStr=#efefef);
+    -ms-filter:"progid:DXImageTransform.Microsoft.Gradient(startColorStr=#FFFFFF, endColorStr=#EFEFEF)";
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+    white-space:nowrap;
+    vertical-align:middle;
+    cursor:pointer;
+    overflow:visible;
+    /*padding:5px .5em;*/
+	color:black;
+}
+
+input[type=submit]:hover
+{
+	-webkit-box-shadow: #999 0px 0px 3px;
+	box-shadow: #999 0px 0px 3px;
+    background: #F3F3F3 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#EBEBEB));
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#EBEBEB));
+    border-color: #999;
+    outline: 0px;
+	/*color:black;*/
+}
+
+.glowing-border 
+{
+	border: 1px solid #999;	
+	
+	/*box-shadow: 0px 1px #FFF inset, 0px 2px 3px #CCC inset, 0px 1px rgba(255, 255, 255, 0.9);*/
+}
+
+img.thumbnail_border
+{
+	border:1px solid #000;
+	/*display: block;*/
+}
+
+div.thumbnail_border
+{
+	padding:1px; 
+	border:1px solid #000; 
+	background-color:white;
+	/*position: relative;*/
+    display: inline-block;
+}
+
+.select-style
+{
+	box-sizing: border-box;
+    /*border-radius: 2px;*/
+	padding: 3px;
+    margin: 0px 1px 1px;
+}
+
+.progress-bar
+{
+	position: relative; 
+	margin:0 auto; 
+	width: 98%; 
+	height: 25px;
+	padding: 1px; 
+	border: 1px solid black;
+	box-shadow: 0 0 2px #333;
+}
+
+.progress-bar > span 
+{
+	display: block;
+	height: 100%;
+	max-width:100%;
+	background: green;
+	position: relative;
+	overflow: hidden;
+	width: 50%;
+	transition: width 0.8s;
+}
+
+.progress-bar > span.upload 
+{
+	display: block;
+	height: 100%;
+	background: green;
+	position: relative;
+	overflow: hidden;
+	width: 0%;
+	transition: width 0.8s;
+}

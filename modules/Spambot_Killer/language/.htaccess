@@ -1,0 +1,4 @@
+deny from all
+<Files technocrat.php>
+allow from all
+</Files>

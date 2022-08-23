@@ -1,0 +1,42 @@
+.evo-sprite { background: url('images/evo-sprite-1x.png'); background-size: auto; background-repeat: no-repeat; display: inline-block; width: 20px; height: 20px; vertical-align: bottom; }
+.evo-sprite.cancel { background-position: 0px 0px; }
+.evo-sprite.edit { background-position: 0px -22px; }
+.evo-sprite.ok { background-position: 0px -44px; }
+.evo-sprite.delete { background-position: 0px -66px; }
+.evo-sprite.trash { background-position: 0px -88px; }
+.evo-sprite.trash-2 { background-position: 0px -110px; }
+.evo-sprite.facebook { background-position: 0px -132px; }
+.evo-sprite.folder { background-position: 0px -154px; }
+.evo-sprite.folder-live { background-position: 0px -176px; }
+.evo-sprite.home { background-position: 0px -198px;  } 
+.evo-sprite.about { background-position: 0px -221px;  } 
+.evo-sprite.good { background-position: 0px -243px;  } 
+.evo-sprite.bad { background-position: 0px -264px;  } 
+.evo-sprite.print { background-position: 0px -287px;  } 
+.evo-sprite.expand { background-position: 0px -309px;  } 
+.evo-sprite.security { background-position: 0px -331px;  } 
+.evo-sprite.unchecked { background-position: 0px -353px;  } 
+.evo-sprite.checked { background-position: 0px -375px;  } 
+.evo-sprite.search { background-position: 0px -396px;  } 
+.evo-sprite.globe { background-position: 0px -418px;  } 
+.evo-sprite.folder-archive { background-position: 0px -440px;  } 
+.evo-sprite.sort-down { background-position: 0px -462px;  } 
+.evo-sprite.sort-up { background-position: 0px -484px;  } 
+.evo-sprite.collapse-down { background-position: 0px -506px;  } 
+.evo-sprite.collapse-up { background-position: 0px -528px;  } 
+.evo-sprite.gender-neutral { background-position: 0px -550px;  } 
+.evo-sprite.female { background-position: 0px -572px;  } 
+.evo-sprite.male { background-position: 0px -594px;  } 
+.evo-sprite.mail { background-position: 0px -616px;  } 
+.evo-sprite.help { background-position: 0px -638px;  }
+
+.evo-sprite.like { background-position: 0px -659px;  }
+.evo-sprite.dislike { background-position: 0px -681px;  }
+
+.evo-sprite.float-right { float: right; }
+
+@media 
+(-webkit-min-device-pixel-ratio: 2), 
+(min-resolution: 192dpi) { 
+	.evo-sprite { background: url('images/evo-sprite-2x.png'); background-size: 20px 700px; background-repeat: no-repeat; display: inline-block; width: 20px; height: 20px; vertical-align: bottom; }
+}

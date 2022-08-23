@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css?family=Aladin');
+		.pothead {
+			-moz-border-radius: 4px;
+			border-radius: 4px;
+			font-family: "Aladin", cursive;
+			font-size: 22px;
+			color: #000;
+			text-shadow: 0 0 5px #F5C623;
+			font-weight:700;
+		}
+		.potlogo p{
+			font-family: "Aladin", cursive;
+			font-size: 40px;
+			color: #000;
+			font-weight:700;
+			text-align:center;
+		}
+		.pot {
+			-moz-border-radius: 4px;
+			border-radius: 4px;
+			color: #000;
+		}
+	.black_overlay{
+		display: none;
+		position: fixed;
+		top: 0%;
+		left: 0%;
+		width: 100%;
+		height: 100%;
+		background-color: black;
+		z-index:1009;
+		-moz-opacity: 0.8;
+		opacity:.80;
+		filter: alpha(opacity=80);
+	}
+	.white_content {
+		color: #000;
+		display: none;
+		position: fixed;
+		left: 35%;
+		top: 25%;
+		width: 500px;
+		height: 175px;
+		padding: 16px;
+		border: 16px solid orange;
+		background-color: #FFF;
+		z-index:1010;
+		overflow: auto;
+	}
+	.update_content {
+		color: #000;
+		display: none;
+		position: fixed;
+		left: 38%;
+		top: 25%;
+		width: 500px;
+		height: 400px;
+		padding: 5px;
+		border: 2px solid #00FF00;
+		background-color: #FFF;
+		z-index:1010;
+	}
+	#update_con2 {
+		color: #000;
+		position: fixed;
+		width: 498px;
+		height: 380px;
+		padding: 2px;
+		border: 0px solid;
+		background-color: #FFF;
+		z-index:1020;
+		overflow: auto;
+	}
+	#apitest { background-image: url(./images/honeypot/testapiup.png); width: 100px; height: 31px;  }
+	#apitest:hover { background-image: url(./images/honeypot/testapiover.png); width: 100px; height: 31px; }
+	.img-zoom {
+		width:100px;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		-webkit-transition: all .2s ease-in-out;
+		-moz-transition: all .2s ease-in-out;
+		-o-transition: all .2s ease-in-out;
+		-ms-transition: all .2s ease-in-out;
+	}
+	.transition {
+		-webkit-transform: scale(5); 
+		-moz-transform: scale(5);
+		-o-transform: scale(5);
+		transform: scale(5);
+	}
+	
+	#vchecker{
+		text-align:center;
+		font-weight:900;
+	}
+	#vcheckgood{
+		color:#009900;
+		text-align:center;
+	}
+	#vcheckbad{
+		color:#FF0000;
+		text-align:center;
+	}
+	button.apitest{
+		color:#000;
+		font-weight:900;
+		border: 2px solid #a1a1a1;
+		padding: 5px 20px; 
+		background: #f8ce55;
+		width: 120px;
+		border-radius: 15px;
+		text-align: center;
+	}
+	button.apitest:hover{
+		color:#000;
+		font-weight:900;
+		border: 2px solid #a1a1a1;
+		padding: 5px 20px; 
+		background: #ff8c00;
+		width: 120px;
+		border-radius: 15px;
+		text-align: center;
+	}
+	.text-center{
+		text-align:center;
+	}
+	.centered{
+		text-align: left;
+		width: 500px;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+ input[type="color"] {
+	-webkit-appearance: none;
+	border: 1px;
+	width: 65px;
+	height: 30px;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 1px;
+}
+input[type="color"]::-webkit-color-swatch {
+	border: 1px;
+}

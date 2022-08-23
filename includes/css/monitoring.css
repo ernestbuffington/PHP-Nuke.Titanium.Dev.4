@@ -1,0 +1,30 @@
+#graph, #graph2 {
+    height: 250px;
+}
+
+#graph3 {
+    height: 207px;
+}
+
+#loadpage {
+    text-align: center;
+}
+
+#loading {
+    margin-top: 150px !important;
+}
+
+.titlenone {
+    display: none;
+}
+
+.jumbotron {
+    padding: 15px !important;
+    box-shadow: 1px 2px 3px #eee;
+    background: #f8f9fa !important;
+}
+
+#slowq {
+    max-height: 260px;
+    overflow-y: auto;
+}

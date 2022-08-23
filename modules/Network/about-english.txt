@@ -1,0 +1,17 @@
+<p>This <strong>Website/Portal</strong> is provided to you by&nbsp;<strong>The 86it Developers Network</strong><br />
+All web hosting and storage is provided by <strong>Brandon Maintenance Management, LLC</strong></p>
+
+<hr />
+<p><strong>What is <strong>The 86it Developers Network</strong>?</strong><br />
+<br />
+In December 2017, several <strong>Scorpion Network</strong> board members with Facebook accounts saw potential in its developer portal and social networking features. The group decided to mimic the more popular features of the website. Within 10 days, the first version of <strong>The 86it Developers Network</strong> was ready for launch, implemented using <strong>PHP-Nuke Titanium</strong> an open-source fork of <strong>Thatware</strong> that has been around for more than 30 years. A complete modular infrastructure of finance, human resources, technical expertise, bandwidth, and server capacity was available for the network. The project was overseen by Ernest Buffington (<strong>The Scorpion Network&#39;s</strong> founder, chairman, and CEO).<br />
+<br />
+Keeping <strong>The 86it Developers Network</strong> <span style="color:#e74c3c"><strong>FREE</strong></span> was necessary to build a successful developer community, however, at the same time, <strong>The 86it Developers Network</strong> offers any and just about all commercial services available at wholesale rates. i.e. Commercial Web Hosting for large and small businesses, commercial and personal web design. Payment gateways and <span style="color:#e74c3c"><strong>FREE</strong></span> assistance setting up just about any online business or personal blog site. They seem to be appealing to the gaming communities as well due to the fact that mod developers fit under the same umbrella as online developers.<br />
+<br />
+<strong>PHP-Nuke Titanium</strong> is nothing like Facebook and in some ways very similar to the old MySpace. The difference is that <strong>The 86it Developers Network</strong> provides network members with a <strong>website/portal</strong>, where MySpace on the other hand gave you a single page that also was limited to the design concepts that involve only CSS and some minor Flash capabilities. Facebook and MySpace have many limitations when it comes to developing a personalized website or portal. <strong>The 86it Developers Network</strong> gives you access to your own virtual private domains that come with a <span style="color:#e74c3c"><strong>FREE</strong></span> commercial cPanel License (43 dollars a month in value). Their users and network members have full access to PHP, Perl, Python, CGI, MySql, and many other types of web development tools.<br />
+<br />
+<strong>If you would like a PHP-Nuke Titanium Website/Portal please send your request to Ernest Buffington. <a href="modules.php?name=Private_Messages&amp;mode=post&amp;u=2">CLICK HERE</a><br />
+<br />
+The 86it Developers Network</strong> is still under construction due to an unexpected death and losing a very very important friend and board member. This has slowed things down quite a bit. We plan to have everything working and in order by April 2021&nbsp;says&nbsp;&quot;Ernest Buffington&quot;.&nbsp;It was with great sadness that we had to move forward without our <strong>VP </strong>and wonderful friend.</p>
+
+<hr />

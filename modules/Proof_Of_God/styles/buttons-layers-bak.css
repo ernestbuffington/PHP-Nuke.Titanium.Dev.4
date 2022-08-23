@@ -1,0 +1,295 @@
+body,td,th {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: ##D5CB8E;
+	background-color: #D5CB8E;
+	margin-left: 10px;
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+a {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #993300;
+}
+a:hover {
+	color: #FFFF00;
+}
+h1 {
+	font-size: 48px;
+	color: #333333;
+}
+h2 {
+	font-size: 36px;
+	color: #333333;
+}
+h3 {
+	font-size: 24px;
+	color: #333333;
+}
+h4 {
+	font-size: 18px;
+	color: #333333;
+}
+h5 {
+	font-size: 16px;
+	color: #333333;
+}
+h6 {
+	font-size: 12px;
+	color: #333333;
+}
+div {
+	margin: 8px;
+	padding: 8px;
+	height: 8px;
+	width: 8px;
+	border: 2px solid #333333;
+}
+
+#HSR {
+	position:absolute;
+	left:665px;
+	top:2px;
+	width:843px;
+	height:908px;
+	z-index:2;
+    background-image: url(../images/HoneysuckleRose_1980.jpg);
+}
+
+#SB {
+	position:absolute;
+	left:595px;
+	top:673px;
+	width:281px;
+	height:253px;
+	z-index:9;
+    background-image: url(../images/MA-SB.jpg);
+}
+
+
+#Layer1 {
+	position:absolute;
+	left:450px;
+	top:192px;
+	width:577px;
+	height:273px;
+	z-index:3;
+}
+#Layer2 {
+	position:absolute;
+	left:10px;
+	top:2px;
+	width:575px;
+	height:475px;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-left-width: thin;
+	border-top-style: solid;
+	border-right-style: outset;
+	border-bottom-style: outset;
+	border-left-style: solid;
+	border-top-color: #CCCCCC;
+	border-right-color: #333333;
+	border-bottom-color: #000000;
+	border-left-color: #CCCCCC;
+	z-index:2;
+	background-image: url(../images/dots.gif);
+}
+#Layer3 {
+	position:absolute;
+	left:450px;
+	top:470px;
+	width:325px;
+	height:175px;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-left-width: thin;
+	border-top-style: solid;
+	border-right-style: outset;
+	border-bottom-style: outset;
+	border-left-style: solid;
+	border-top-color: #CCCCCC;
+	border-right-color: #333333;
+	border-bottom-color: #000000;
+	border-left-color: #CCCCCC;
+	z-index:3;
+	background-image: url(../images/dots.gif);
+}
+#Layer4 {
+	position:absolute;
+	left:200px;
+	top:100px;
+	width:100px;
+	height:10px;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-left-width: thin;
+	border-top-style: solid;
+	border-right-style: outset;
+	border-bottom-style: outset;
+	border-left-style: solid;
+	border-top-color: #CCCCCC;
+	border-right-color: #333333;
+	border-bottom-color: #000000;
+	border-left-color: #CCCCCC;
+	z-index:4;
+	background-image: url(../images/dots.gif);
+}
+
+#Layer5 {
+	position:absolute;
+	left:10px;
+	top:502px;
+	width:575px;
+	height:400px;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-left-width: thin;
+	border-top-style: solid;
+	border-right-style: outset;
+	border-bottom-style: outset;
+	border-left-style: solid;
+	border-top-color: #CCCCCC;
+	border-right-color: #333333;
+	border-bottom-color: #000000;
+	border-left-color: #CCCCCC;
+	z-index:3;
+	background-image: url(../images/DNAbgrnd.jpg);
+}
+
+#Layer6 {
+	position:absolute;
+	left:675px;
+	top:141px;
+	width:250px;
+	height:300px;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-left-width: thin;
+	border-top-style: solid;
+	border-right-style: outset;
+	border-bottom-style: outset;
+	border-left-style: solid;
+	border-top-color: #CCCCCC;
+	border-right-color: #333333;
+	border-bottom-color: #000000;
+	border-left-color: #CCCCCC;
+	z-index:6;
+	background-image: url(../images/DNAbgrnd.jpg);
+}
+
+#Layer7 {
+	position:absolute;
+	right:25px;
+	z-index:1;
+}
+
+#Layer8 {
+	position:absolute;
+	left:90px;
+	top:430px;
+	width:400px;
+	height:35px;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-left-width: thin;
+	border-top-style: solid;
+	border-right-style: outset;
+	border-bottom-style: outset;
+	border-left-style: solid;
+	border-top-color: #CCCCCC;
+	border-right-color: #333333;
+	border-bottom-color: #000000;
+	border-left-color: #CCCCCC;
+	z-index:8;
+}
+
+
+
+/*	background-color: #00FFFF;*/
+.style3 {
+	font-size: 16px;
+	font-weight: bold;
+	font-style: italic;
+}
+/*ul {
+	list-style-position: inside;
+	list-style-image: url(../images/Red-ball.gif);
+}*/
+
+#listnav {
+	position: absolute;
+	width: 153px;
+	left: 10px;
+	top: 10px;
+	height: 318px;
+	z-index: 9;
+}
+
+#listnav ul {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	margin: 0px;
+	padding: 0px;
+	/*border: 1px solid #666666;*/
+	list-style-type: none;
+}
+#listnav li {
+	margin-bottom: 2px;
+}
+#listnav a {
+	background-image: url(../listnav-bar/listnav-out.jpg);
+	display: block;
+	width: 150px;
+	padding-top: 2px;
+	padding-right: 2px;
+	padding-bottom: 2px;
+	padding-left: 5px;
+	border: 1px solid #999999;
+}
+#listnav a:link,#listnav a:visited {
+	color: #CCCCCC;
+	text-decoration: none;
+}
+#listnav a:hover {
+	color: #FFFFFF;
+	background-image: url(../listnav-bar/listnav-over.jpg);
+	border: 1px solid #666666;
+}
+#sellistnav a:link,#sellistnav a:visited,#sellistnav a:hover {
+	color: #FFFFFF;
+	background-image: url(../listnav-bar/listnav-over.jpg);
+	border: 1px solid #666666;
+}
+
+#songs {
+	position:absolute;
+	left:10px;
+	top:10px;
+	width:350px;
+	height:600px;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-left-width: thin;
+	border-top-style: solid;
+	border-right-style: outset;
+	border-bottom-style: outset;
+	border-left-style: solid;
+	border-top-color: #CCCCCC;
+	border-right-color: #333333;
+	border-bottom-color: #000000;
+	border-left-color: #CCCCCC;
+	z-index:7;
+	background-image: url(../images/DNAbgrnd.jpg);
+}
+

@@ -1,0 +1,39 @@
+<mp3config>
+   <!-- 
+   Set <autostart> to 'true' when you want the player to start automatically, 'false' when you don't
+   Set <shuffle> to 'true' when you have several tracks and want the player to play them randomly  
+   -->    
+   <autostart>true</autostart>
+   <shuffle>false</shuffle>
+   <!-- 
+   Set <repeat> to 'all' to keep the player looping, even when you have only one track
+   Set <repeat> to 'list' when you want it to go through the tracks once and quit playing
+   You can also set it to none when you want no repeat
+   You can also set it to one to keep repeating one song
+   -->   
+   <repeat>all</repeat>
+   <!-- Set the mp3player volume (0 to 100) -->  
+   <volume>80</volume>
+   <!-- 
+   //Set <showdisplay> to 'true' to show the player, 'false' to hide
+   //Set <showplaylist> to 'true' to show the play list, 'false' to hide
+   -->
+   <showdisplay>true</showdisplay>
+   <showplaylist>true</showplaylist>
+   <!--
+   Set <linktarget> in what frame you want links to be opened  (_blank, _self, _top or a
+   framename) if its not in a frame, use _top all the time because when you use a layer it
+   goes inside the div tags anyway
+   --> 
+   <linktarget>_top</linktarget>
+   <!-- Choose the mp3player colors (hexadecimal, from 0x000000 to 0xffffff) -->  
+   <backcolor>0x0099ff</backcolor>
+   <frontcolor>0x0000ff</frontcolor>
+   <lightcolor>0x99ffff</lightcolor>
+   <!-- You can set a JPG as the background here to skin the mp3player (url to the jpg file)--> 
+   <!-- <jpgfile>../images/DNAbgrnd.jpg</jpgfile> -->
+   <!-- (for webmasters) URL of a script, called on start and completion of a song --> 
+   <!-- the following vars are sent with POST: title, file, identifier, action ('start' or
+   'complete') --> 
+   <callback></callback>
+</mp3config>

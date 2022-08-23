@@ -1,0 +1,182 @@
+##########################################################################
+# PHP- Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System             #
+##########################################################################
+
+# ------------------------------------------- 
+# Comment this out if PHP is run as CGI
+# -------------------------------------------
+
+# PHP_FLAG register_globals On
+# PHP_FLAG output_buffering On
+
+Options All -Indexes
+# -------------------------------------------
+# Swap index.html index.php for html start page
+# -------------------------------------------
+DirectoryIndex index.php index.html
+
+Options +FollowSymlinks
+<IfModule mod_rewrite.c> 
+RewriteEngine on
+
+##################################################################################################
+# Force SSL - no insecure data connections!                                                      ##### Added By Ernest Allen Buffington 08/05/2019
+##################################################################################################
+RewriteCond %{HTTPS} off
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule (.*) https://%{HTTP_HOST}:443%{REQUEST_URI}
+
+##################################################################################################
+# Force WWW - this is only needed for root domains...                                            ##### Added By Ernest Allen Buffington 03/16/2021
+##################################################################################################
+RewriteCond %{HTTP_HOST} !=""
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteCond %{HTTPS}s ^on(s)|
+RewriteRule ^ http%1://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+##################################################################################################
+
+# -------------------------------------------
+# Security Rewrites
+# -------------------------------------------
+
+RewriteCond %{THE_REQUEST} (\?act\=) [NC,OR]
+RewriteCond %{THE_REQUEST} (sql_login) [NC,OR]
+RewriteCond %{THE_REQUEST} (basepath) [OR]
+RewriteCond %{THE_REQUEST} (libpath) [OR]
+RewriteCond %{THE_REQUEST} (absolute_path) [OR]
+RewriteCond %{THE_REQUEST} (vwar_root) [OR]
+RewriteCond %{THE_REQUEST} (includedir) [OR]
+RewriteCond %{THE_REQUEST} (file=http:\/\/) [OR]
+RewriteCond %{THE_REQUEST} (name=http:\/\/) [OR]
+RewriteCond %{THE_REQUEST} (phpbb_root_path)
+RewriteRule ^.*$ http://127.0.0.1/ [R=301,L]
+# -------------------------------------------
+# Lazy Google Tap
+# -------------------------------------------
+
+RewriteRule ^86it-(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)\.html$ /modules.php?name=$1&$2=$3&$4=$5&$6=$7&$8=$9 [L]
+
+RewriteRule ^86it-(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)\.html#(.*)$ /modules.php?name=$1&$2=$3&$4=$5&$6=$7#$8 [L]
+RewriteRule ^86it-(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)\.html$ /modules.php?name=$1&$2=$3&$4=$5&$6=$7 [L]
+
+RewriteRule ^86it-(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)\.html#(.*)$ /modules.php?name=$1&$2=$3&$4=$5#$6 [L]
+RewriteRule ^86it-(.*)_-_(.*)_-_(.*)_-_(.*)_-_(.*)\.html$ /modules.php?name=$1&$2=$3&$4=$5 [L]
+
+RewriteRule ^86it-(.*)_-_(.*)_-_(.*)\.html#(.*)$ /modules.php?name=$1&$2=$3#$4 [L]
+RewriteRule ^86it-(.*)_-_(.*)_-_(.*)\.html$ /modules.php?name=$1&$2=$3 [L]
+
+RewriteRule ^86it-index.html#(.*)$ /index.php#$1 [L]
+RewriteRule ^86it-index.html$ /index.php [L]
+
+RewriteRule ^86it-(.*)\.html#(.*)$ /modules.php?name=$1#$2 [L]
+RewriteRule ^86it-(.*)\.html$ /modules.php?name=$1 [L]
+
+RewriteCond %{HTTP_USER_AGENT} ^libwww-perl
+RewriteRule ^.*$ http://127.0.0.1 [R,L]
+
+RewriteCond %{HTTP_USER_AGENT} ^libwww-perl/[0-9].[0-9]*
+RewriteRule ^.*$ http://127.0.0.1 [R,L]
+</IfModule>
+
+# for hosts that don't allow the above, we won't give people anything to look at
+<IfModule mod_autoindex.c>
+ IndexIgnore *
+</IfModule>
+
+
+# -------------------------------------------
+# Start of NukeSentinel(tm) admin.php Auth
+# -------------------------------------------
+<Files .htaccess>
+  deny from all
+</Files>
+
+<Files .staccess>
+  deny from all
+</Files>
+
+# <Files admin.php>
+#    <Limit GET POST PUT>
+#      require valid-user
+#    </Limit>
+#    AuthName "Restricted"
+#    AuthType Basic
+#    AuthUserFile /PATH/TO/YOUR/.staccess
+# </Files>
+# -------------------------------------------
+# Start of NukeSentinel(tm) DENY FROM area
+# -------------------------------------------
+
+# Disable .htaccess viewing from browser
+<files ~ "^\.ht">
+    Order allow,deny
+    Deny from all
+    Satisfy All
+</files>
+
+# facebook Titanium SDK v5
+# Disable fbconfig.php viewing from browser
+<files ~ "\fbconfig.php$">
+    deny from all
+</files>
+
+# Disable config.php viewing from browser
+<files ~ "\config.php$">
+    deny from all
+</files>
+
+# deny most common except .php/.html
+<FilesMatch "\.(inc|tpl|h|ihtml|sql|ini|conf|class|bin|spd|theme|module|exe)$">
+deny from all
+</FilesMatch>
+
+<FilesMatch "versions\feed.php">
+  allow from all
+</FilesMatch>
+<FilesMatch "versions\index.php">
+  allow from all
+</FilesMatch>
+
+# -------------------------------------------
+# Setup caching
+# -------------------------------------------
+
+<IfModule mod_expires.c> 
+ExpiresActive On
+ExpiresDefault A0
+
+# Set up caching on media files for 1 year (forever?)
+<FilesMatch "\.(ico|flv|pdf|mov|mp3|wmv|ppt)$">
+  ExpiresDefault A29030400
+  Header append Cache-Control "public"
+</FilesMatch>
+
+# Set up caching on media files for 1 week
+<FilesMatch "\.(gif|jpg|jpeg|png|swf|bmp)$">
+ExpiresDefault A604800
+Header append Cache-Control "public"
+</FilesMatch>
+
+# Set up 2 Hour caching on commonly updated files
+<FilesMatch "\.(xml|txt|html|js|css)$">
+  ExpiresDefault A7200
+  Header append Cache-Control "private, proxy-revalidate, must-revalidate"
+</FilesMatch>
+</IfModule>
+
+# -------------------------------------------
+# Start of NukeSentinel(tm) DENY FROM area
+# -------------------------------------------
+
+# Banned Bad Bots
+deny from 185.191.171.0/24
+deny from 185.191.171.19
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php74” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php74 .php .php7 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

@@ -1,0 +1,23 @@
+.star-rating{background:url(images/rating-stars.png) no-repeat;background-size:132px 420px;display:inline-block;vertical-align:middle;margin-right:.5rem;}
+.large-single-star-inactive{width:24px;height:24px;background-position:0 0;}
+.large-single-star-active{width:24px;height:24px;background-position:0 -24px;}
+.large-stars-0{width:132px;height:24px;background-position:0 0;}
+.large-stars-1{width:132px;height:24px;background-position:0 -24px;}
+.large-stars-1-5{width:132px;height:24px;background-position:0 -48px;}
+.large-stars-2{width:132px;height:24px;background-position:0 -72px;}
+.large-stars-2-5{width:132px;height:24px;background-position:0 -96px;}
+.large-stars-3{width:132px;height:24px;background-position:0 -120px;}
+.large-stars-3-5{width:132px;height:24px;background-position:0 -144px;}
+.large-stars-4{width:132px;height:24px;background-position:0 -168px;}
+.large-stars-4-5{width:132px;height:24px;background-position:0 -192px;}
+.large-stars-5{width:132px;height:24px;background-position:0 -216px;}
+.small-stars-0{width:100px;height:18px;background-position:0 -240px;}
+.small-stars-1{width:100px;height:18px;background-position:0 -258px;}
+.small-stars-1-5{width:100px;height:18px;background-position:0 -276px;}
+.small-stars-2{width:100px;height:18px;background-position:0 -294px;}
+.small-stars-2-5{width:100px;height:18px;background-position:0 -312px;}
+.small-stars-3{width:100px;height:18px;background-position:0 -330px;}
+.small-stars-3-5{width:100px;height:18px;background-position:0 -348px;}
+.small-stars-4{width:100px;height:18px;background-position:0 -366px;}
+.small-stars-4-5{width:100px;height:18px;background-position:0 -384px;}
+.small-stars-5{width:100px;height:18px;background-position:0 -402px;}
