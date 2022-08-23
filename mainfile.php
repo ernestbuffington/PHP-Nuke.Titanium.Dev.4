@@ -1404,6 +1404,8 @@ function network_ads($position)
 {
     global $network_prefix, $db2, $sitename, $adminmail, $nukeurl, $banners;
 
+    if(defined('network')):
+
     echo "\n\n\n<!-- function network_ads START -->\n";
     echo "<!-- function network_ads LOADING -->\n";
 	
@@ -1494,6 +1496,7 @@ function network_ads($position)
 	endif;
     echo "<!-- function network_ads DONE -->\n\n\n";
   return $ads;
+  endif;
 }
 
 /*

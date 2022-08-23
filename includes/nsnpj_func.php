@@ -38,6 +38,7 @@ else
 
 function pjget_configs()
 {
+  if(defined('network')):
   global $network_prefix, $db2;
   $configresult = $db2->sql_query("SELECT `config_name`, `config_value` FROM `".$network_prefix."_config`");
   
@@ -47,6 +48,7 @@ function pjget_configs()
   }
   
   return $config;
+  endif;
 }
 
 // Load Config data
