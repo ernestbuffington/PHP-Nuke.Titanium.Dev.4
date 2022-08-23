@@ -437,7 +437,7 @@ $admlang['admin']['no_rights'] 	= 'Sorry %s but you have been given no administr
  * Mod: Live feed (Live news directly from Evolution Xtreme project site.)
  * @since 2.0.9e
  */
-$admlang['livefeed']['header'] 				= 'PHP-Nuke Evolution Xtreme Developer Feed';
+$admlang['livefeed']['header'] 				= 'PHP-Nuke Titanium Developer Feed';
 
 /**
  * Mod: reCaptcha (Complete replacement for the GD2 captcha system.)
