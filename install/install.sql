@@ -1785,7 +1785,7 @@ CREATE TABLE `nuke_config` (
   `dateModified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `adminmail` varchar(255) NOT NULL DEFAULT '',
   `anonpost` tinyint(1) NOT NULL DEFAULT 0,
-  `default_Theme` varchar(255) NOT NULL DEFAULT 'Xtreme_Core',
+  `default_Theme` varchar(255) NOT NULL DEFAULT 'Titanium_Core',
   `foot1` text DEFAULT NULL,
   `foot2` text DEFAULT NULL,
   `foot3` text DEFAULT NULL,
@@ -1828,7 +1828,7 @@ CREATE TABLE `nuke_config` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_config` (`sitename`, `nukeurl`, `site_logo`, `slogan`, `startdate`, `datePublished`, `dateModified`, `adminmail`, `anonpost`, `default_Theme`, `foot1`, `foot2`, `foot3`, `commentlimit`, `anonymous`, `minpass`, `pollcomm`, `articlecomm`, `broadcast_msg`, `my_headlines`, `top`, `storyhome`, `user_news`, `oldnum`, `ultramode`, `banners`, `backend_title`, `backend_language`, `language`, `locale`, `multilingual`, `useflags`, `notify`, `notify_email`, `notify_subject`, `notify_message`, `notify_from`, `moderate`, `admingraphic`, `httpref`, `httprefmax`, `CensorMode`, `CensorReplace`, `copyright`, `Version_Num`, `admin_pos`, `admin_log_lines`, `error_log_lines`, `cache_data`) VALUES
-('My Site', 'http://dev.thoseguysgaming.86it.us', 'logo.png', '', '01/01/21', '2021-01-01 06:16:00', '2021-01-01 06:16:00', 'webmaster@dev.thoseguysgaming.86it.us', 0, 'Xtreme_Core', 'FOOTER LINE 1', 'FOOTER LINE 2', 'FOOTER LINE 3', 4096, 'Anonymous', 5, 1, 1, 1, 1, 5, 5, 1, 30, 1, 1, 'Powered by PHP-Nuke Evolution Xtreme 3.0.1b', 'en-us', 'english', 'en_US', 1, 0, 0, 'webmaster@dev.thoseguysgaming.86it.us', 'Blog for dev.thoseguysgaming.86it.us', 'Hey! You\'ve got a new blog submission for dev.thoseguysgaming.86it.us!', 'WebMaster', 0, 1, 1, 1000, 3, '*****', '', '7.6.0', 1, 0, 0, '');
+('My Site', 'http://dev.thoseguysgaming.86it.us', 'logo.png', '', '01/01/21', '2021-01-01 06:16:00', '2021-01-01 06:16:00', 'webmaster@dev.thoseguysgaming.86it.us', 0, 'Titanium_Core', 'FOOTER LINE 1', 'FOOTER LINE 2', 'FOOTER LINE 3', 4096, 'Anonymous', 5, 1, 1, 1, 1, 5, 5, 1, 30, 1, 1, 'Powered by PHP-Nuke Evolution Xtreme 3.0.1b', 'en-us', 'english', 'en_US', 1, 0, 0, 'webmaster@yourdomain.com', 'Blog for yourprefix.86it.us', 'Hey! You\'ve got a new blog submission for yourprefix.86it.us!', 'WebMaster', 0, 1, 1, 1000, 3, '*****', '', '7.6.0', 1, 0, 0, '');
 
 CREATE TABLE `nuke_confirm` (
   `confirm_id` char(32) NOT NULL DEFAULT '',
