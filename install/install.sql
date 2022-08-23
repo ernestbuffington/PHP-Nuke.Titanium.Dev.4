@@ -816,8 +816,8 @@ CREATE TABLE `nuke_bbforums` (
 INSERT INTO `nuke_bbforums` (`forum_id`, `cat_id`, `forum_name`, `forum_desc`, `forum_status`, `forum_order`, `forum_posts`, `forum_topics`, `forum_last_post_id`, `prune_next`, `prune_enable`, `auth_view`, `auth_read`, `auth_post`, `auth_reply`, `auth_edit`, `auth_delete`, `auth_sticky`, `auth_announce`, `auth_globalannounce`, `auth_vote`, `auth_pollcreate`, `auth_attachments`, `forum_display_sort`, `forum_display_order`, `auth_download`, `forum_parent`, `forum_color`, `title_is_link`, `weblink`, `forum_link_icon`, `forum_link_count`, `forum_link_target`, `forum_icon`, `forum_thank`, `forum_password`) VALUES
 (1, 1, 'Announcements', 'Read me first before posting anywhere!', 0, 10, 1, 1, 14, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 0, 1, 0, 'e9ab0', 0, 'http://', '', 0, 0, 'images/forum_icons/folder_big_megaphone5.png', 1, ''),
 (2, 1, 'The 86it Development Board', 'Visit the 86it development board, PHP-Nuke Titanium and PHP-Nuke Evolution Xtreme\'s testing ground of bleeding edge developmental code, to discuss development & code changes, RFCs, future versions of Titanium and Xtreme, and also take a peek at the currently available development version of Titanium and Xtreme, if one is available.', 0, 20, 0, 0, 0, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 0, 1, 0, '', 1, 'https://www.86it.us/modules.php?name=Forums', '', 1, 0, 'images/forum_icons/folder_big_86ita.png', 1, ''),
-(3, 2, '[3.0.x] Support Forum', 'Get help with installation and running PHP-Nuke Evolution Xtreme 3.0.x here. Please do not post bug reports, feature requests, or extension related questions here.', 0, 10, 2, 1, 21, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 0, 1, 0, '', 0, 'http://', '', 0, 0, 'images/forum_icons/folder_big_30help.png', 1, ''),
-(4, 2, '[2.0.x] Support Forum', 'Get help with installation and running PHP-Nuke Evolution Xtreme 2.0.x here. Please do not post bug reports, feature requests, or extension related questions here.', 0, 20, 0, 0, 0, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 0, 1, 0, '', 0, 'http://', '', 0, 0, 'images/forum_icons/folder_big_20help.png', 1, ''),
+(3, 2, '[3.0.x] Support Forum', 'Get help with installation and running PHP-Nuke Titanium 3.0.x here. Please do not post bug reports, feature requests, or extension related questions here.', 0, 10, 2, 1, 21, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 0, 1, 0, '', 0, 'http://', '', 0, 0, 'images/forum_icons/folder_big_30help.png', 1, ''),
+(4, 2, '[2.0.x] Support Forum', 'Get help with installation and running PHP-Nuke Titanium 2.0.x here. Please do not post bug reports, feature requests, or extension related questions here.', 0, 20, 0, 0, 0, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 0, 1, 0, '', 0, 'http://', '', 0, 0, 'images/forum_icons/folder_big_20help.png', 1, ''),
 (5, 2, 'Custom BBCode Development and Requests', 'Get help developing custom BBCodes or request one.', 0, 30, 0, 0, 0, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 0, 1, 0, '', 0, 'http://', '', 0, 0, 'images/forum_icons/folder_big_help_alone.png', 1, ''),
 (6, 3, 'Modules Support', 'All modules releases will be announced in here. All support for released modules needs to take place in the proper Module support sub forum.', 0, 10, 0, 0, 0, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 0, 1, 0, '', 0, 'http://', '', 0, 0, 'images/forum_icons/folder_big_module.png', 1, ''),
 (7, 3, 'Link_us', 'Module Name: Link_Us \nAuthor: DarkForgeGFX \nVersion: v1.0.0 \nCore: PHP-Nuke Evolution Xtreme v3.0.1a <> v3.0.1b', 0, 20, 0, 0, 0, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 0, 1, 6, '', 0, 'http://', '', 0, 0, 'images/forum_icons/general.png', 1, ''),
@@ -2188,9 +2188,8 @@ CREATE TABLE `nuke_file_repository_themes` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_file_repository_themes` (`theme_name`, `cell`, `head`, `per_row`, `show_left`) VALUES
-('XtremeV3', 0, 0, 2, 0),
-('XtremeV4', 0, 0, 2, 1),
-('Xtreme_Core', 0, 0, 2, 1);
+('Inferno', 0, 0, 2, 1),
+('Titanium_Core', 0, 0, 2, 1);
 
 CREATE TABLE `nuke_headlines` (
   `hid` int(11) NOT NULL,
@@ -4589,7 +4588,7 @@ CREATE TABLE `nuke_shoutbox_themes` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_shoutbox_themes` (`id`, `themeName`, `blockColor1`, `blockColor2`, `border`, `menuColor1`, `menuColor2`) VALUES
-(1, 'Xtreme_Core', '', '', '', '', '');
+(1, 'Titanium_Core', '', '', '', '', '');
 
 CREATE TABLE `nuke_shoutbox_theme_images` (
   `id` int(9) NOT NULL,
@@ -4746,7 +4745,7 @@ CREATE TABLE `nuke_themes` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_themes` (`theme_name`, `groups`, `permissions`, `custom_name`, `active`, `theme_info`) VALUES
-('Xtreme_Core', '', 1, 'Xtreme Core v1.0', 1, '1760:::#8d7b4d:::#645838:::#373121:::#151515:::#ccc:::#ccc:::Go to Theme Options to Edit Footer Message Line 1:::Go to Theme Options to Edit Footer Message Line 2:::#D29A2B:::dark'),
+('Titanium_Core', '', 1, 'Titanium Core v1.3', 1, '1760:::#8d7b4d:::#645838:::#373121:::#151515:::#ccc:::#ccc:::Go to Theme Options to Edit Footer Message Line 1:::Go to Theme Options to Edit Footer Message Line 2:::#D29A2B:::dark'),
 ('XtremeV4', '', 3, 'XtremeV4', 1, '93%:::#454545:::#383838:::#383838:::#383838:::#ccc:::#ccc:::Go to Theme Options to Edit Footer Message Line 1:::Go to Theme Options to Edit Footer Message Line 2:::#D29A2B:::dark');
 
 
@@ -4759,13 +4758,13 @@ CREATE TABLE `nuke_topics` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_topics` (`topicid`, `topicname`, `topicimage`, `topictext`, `counter`) VALUES
-(1, 'evolution', 'black_template.png', 'PHP-Nuke Evolution Xtreme News', 5),
-(5, 'modules', 'black_template.png', 'PHP-Nuke Evolution Xtreme Modules', 5),
-(6, 'blocks', 'black_template.png', 'PHP-Nuke Evolution Xtreme Blocks', 7),
-(7, 'mods', 'black_template.png', 'PHP-Nuke Evolution Xtreme Mods', 2),
-(8, 'themes', 'black_template.png', 'PHP-Nuke Evolution Xtreme Themes', 0),
-(9, 'todo', 'black_template.png', 'PHP-Nuke Evolution Xtreme ToDo List', 0),
-(10, 'adminpanels', 'black_template.png', 'PHP-Nuke Evolution Xtreme Admin Panels', 0);
+(1, 'evolution', 'black_template.png', 'PHP-Nuke Titanium News', 5),
+(5, 'modules', 'black_template.png', 'PHP-Nuke Titanium Modules', 5),
+(6, 'blocks', 'black_template.png', 'PHP-Nuke Titanium Blocks', 7),
+(7, 'mods', 'black_template.png', 'PHP-Nuke Titanium Mods', 2),
+(8, 'themes', 'black_template.png', 'PHP-Nuke Titanium Themes', 0),
+(9, 'todo', 'black_template.png', 'PHP-Nuke Titanium ToDo List', 0),
+(10, 'adminpanels', 'black_template.png', 'PHP-Nuke Titanium Admin Panels', 0);
 
 CREATE TABLE `nuke_users` (
   `user_id` int(11) NOT NULL,

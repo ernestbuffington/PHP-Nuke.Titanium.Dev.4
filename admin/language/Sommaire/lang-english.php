@@ -4,7 +4,7 @@
  =======================================================================*/
 
 
-define("_SOM_ADMIN_HEADER","Nuke-Evolution Sommaire Menu :: Admin Panel");
+define("_SOM_ADMIN_HEADER","PHP-Nuke Titanium Sommaire Menu :: Admin Panel");
 define("_SOM_RETURNMAIN","Return to Main Administration");
 define("_SOMMAIRE","Sommaire Menu");
 define("_SOMADMINTITLE","<strong>Administration Menu</strong>");
