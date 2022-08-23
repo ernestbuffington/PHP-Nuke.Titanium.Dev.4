@@ -1,7 +1,7 @@
 <h2>Changes in the US Version of PHP-Nuke Titanium</h2>
 
 <ul>
-    <li><strong>Added</strong> - Google Titanium SDK v5 - This adds all the support you need for Google Developers</li>
+    <li><strong>Removed</strong> - Google Titanium SDK v5 - This adds all the support you need for Google Developers</li>
 	<li><strong>Added</strong> - New Theme Dragon Skull v1.04</li>
 	<li><strong>Added</strong> - New Theme Limo Tint v1.9</li>
 	<li><strong>Added</strong> - New Default Theme Inferno v1.0</li>
