@@ -198,13 +198,12 @@ endif;
     $footmsg .= $total_time."<br />\n</span>\n";
 
     # START Debugger v1.0.0
-    if(is_admin() && $debugger->debug && count($debugger->errors) > 0) 
-	{
+    if(is_admin() && $debugger->debug && count($debugger->errors) > 0): 
        $footmsg .= "<br /><div align=\"center\"><strong>Debugging:</strong></div>";
        $footmsg .= "<table border='0' width='80%' align='center'><tr><td>";
        $footmsg .= $debugger->return_errors();
        $footmsg .= "</td></tr></table>";
-    }
+    endif;
     
 	if (is_admin()) 
 	{
@@ -246,7 +245,7 @@ endif;
 
 
 echo "\n<!-- START facebook connector -->\n";
-if ( defined('facebook') ):
+if(defined('facebook')):
 echo '<div id="status">'."\n";
 echo '</div>'."\n";
 echo '<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>'."\n";
