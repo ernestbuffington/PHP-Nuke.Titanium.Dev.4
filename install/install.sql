@@ -2605,9 +2605,6 @@ CREATE TABLE `nuke_mostonline` (
   `nonmembers` int(10) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `nuke_mostonline` (`total`, `members`, `nonmembers`) VALUES
-(5, 4, 1);
-
 CREATE TABLE `nuke_nsncb_blocks` (
   `rid` tinyint(2) NOT NULL DEFAULT 0,
   `cgid` tinyint(2) NOT NULL DEFAULT 0,
@@ -2805,7 +2802,7 @@ CREATE TABLE `nuke_nsnst_config` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_nsnst_config` (`config_name`, `config_value`) VALUES
-('admin_contact', 'webmaster@dev-php-nuke-evolution-xtreme.86it.us'),
+('admin_contact', 'webmaster@yourdomain.com'),
 ('block_perpage', '50'),
 ('block_sort_column', 'date'),
 ('block_sort_direction', 'desc'),
