@@ -41,11 +41,11 @@ $install_lang['chmod_check'] = "CHMOD File/Folder Check";
 $install_lang['mysql_info'] = "MySQL Connection Info";
 $install_lang['mysql_check'] = "MySQL Connection Check";
 $install_lang['server_check'] = "Server Check";
-$install_lang['sql_install'] = "Importing Evolution Xtreme Database";
-$install_lang['sql2_install'] = "Importing Evolution Xtreme IP to Country Database";
+$install_lang['sql_install'] = "Importing PHP-Nuke Titanium Database";
+$install_lang['sql2_install'] = "Importing PHP-Nuke Titanium IP to Country Database";
 
-$install_lang['sql_install_success'] = "Importing Evolution Xtreme Database Successful";
-$install_lang['sql2_install_success'] = "Importing Evolution Xtreme IP to Country Database Successful";
+$install_lang['sql_install_success'] = "Importing PHP-Nuke Titanium Database Successful";
+$install_lang['sql2_install_success'] = "Importing PHP-Nuke Titanium IP to Country Database Successful";
 
 $install_lang['retry_sql'] = "Retry SQL Installation";
 $install_lang['setup_admin'] = "Setup Your First Admin Account";
@@ -152,11 +152,11 @@ $install_lang['site_email'] = "Site E-Mail:";
 $install_lang['default_lang'] = "Default Language:";
 $install_lang['server_name'] = "Server Name:";
 $install_lang['server_port'] = "Server Port:";
-$install_lang['done'] = "Thank you for choosing Evolution-Xtreme.<br /><br /><a href=index.php>Goto your homepage</a>";
+$install_lang['done'] = "Thank you for choosing PHP-Nuke Titanium.<br /><br /><a href=index.php>Goto your homepage</a>";
 $install_lang['delete'] = "<font color=\"red\">Please delete install.php and the install folder</font>";
 $install_lang['install_complete_header'] = " :: Installation Complete";
 $install_lang['general_message'] = "General Message";
 $install_lang['data_error'] = "Cannot open data.txt";
-$install_lang['safe_mode'] = "Your php is currently in safe mode.<br /><br />This will keep the installer from finishing.<br /><br />You must install Evolution-Xtreme manually.<br /><br />Please see the install help file to manually install.";
+$install_lang['safe_mode'] = "Your php is currently in safe mode.<br /><br />This will keep the installer from finishing.<br /><br />You must install PHP-Nuke Titanium manually.<br /><br />Please see the install help file to manually install.";
 
 ?>

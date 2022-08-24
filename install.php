@@ -25,7 +25,7 @@ session_start();
 include('install/functions.php');
 include('includes/functions_selects.php');
 
-$nuke_name = "PHP-Nuke Evolution Xtreme (US Version) Installer";
+$nuke_name = "PHP-Nuke Titanium Dev 4 (US Version) ";
 $sql_version = @mysqli_get_server_info();
 
 if (!isset($_SESSION['language']) || $_SESSION['language'] == 'english'){
