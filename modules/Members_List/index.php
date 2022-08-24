@@ -340,8 +340,8 @@ if($row = $db->sql_fetchrow($result)):
 		$gender = '<img class="tooltip-html copyright" alt="Male" title="Male" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-person-male-skin-type-5-80.png" />';
 		elseif($row['user_gender'] == 2)
 		$gender = '<img class="tooltip-html copyright" alt="Female" title="Female" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-person-female-80.png" />';
-		else
-		$gender = '<img class="tooltip-html copyright" alt="Gay" title="Gay" width="30" src="themes/'.$theme_name.'/forums/images/status/icons8-rainbow-flag-96.png" />';
+		else // show an invisble picel when the person does not specify sex
+		$gender = '<img class="tooltip-html copyright" alt="Undecided" title="Undecided" width="30" src="themes/'.$theme_name.'/images/invisble_pixel.gif" />';
 		
 		# does the person have a dick END
 		
