@@ -66,17 +66,18 @@ CREATE TABLE `nuke_banner` (
   `alttext` varchar(255) NOT NULL DEFAULT '',
   `date` datetime DEFAULT NULL,
   `dateend` datetime DEFAULT NULL,
-  `position` int(10) NOT NULL DEFAULT 0,
+  `position` int(11) NOT NULL DEFAULT 0,
   `active` tinyint(1) NOT NULL DEFAULT 1,
   `ad_class` varchar(5) NOT NULL DEFAULT '',
   `ad_code` text NOT NULL,
-  `ad_width` int(4) DEFAULT 0,
-  `ad_height` int(4) DEFAULT 0,
+  `ad_width` int(11) DEFAULT 0,
+  `ad_height` int(11) DEFAULT 0,
   `type` varchar(255) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_banner` (`bid`, `cid`, `name`, `imptotal`, `impmade`, `clicks`, `imageurl`, `clickurl`, `alttext`, `date`, `dateend`, `position`, `active`, `ad_class`, `ad_code`, `ad_width`, `ad_height`, `type`) VALUES
-(1, 1, 'Xtreme', 0, 425, 0, 'https://dev-php-nuke-evolution-xtreme.86it.us/themes/Xtreme_Core/images/HEADER/banner_02.png', 'https://dev-php-nuke-evolution-xtreme.86it.us/index.php', 'PHP-Nuke Evolution Xtreme', '2021-05-09 09:26:55', '0000-00-00 00:00:00', 0, 1, 'image', '', 484, 79, '');
+(4, 1, '86it', 0, 515357, 614, 'https://php-nuke-titanium.86it.us/images/banners/10.png', 'index.php', 'PHP-Nuke Titanium Dev 4', '2019-09-17 17:36:30', '0000-00-00 00:00:00', 0, 1, 'image', '', 472, 79, ''),
+(5, 1, 'Xtreme', 0, 4532, 54, 'https://dev-php-nuke-evolution-xtreme.86it.us/themes/Xtreme_Core/images/HEADER/banner_02.png', 'index.php', 'PHP-Nuke Evolution Xtreme', '2021-05-28 02:54:43', '0000-00-00 00:00:00', 0, 0, 'image', '', 484, 79, '');
 
 CREATE TABLE `nuke_banner_clients` (
   `cid` int(11) NOT NULL,
@@ -89,7 +90,7 @@ CREATE TABLE `nuke_banner_clients` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_banner_clients` (`cid`, `name`, `contact`, `email`, `login`, `passwd`, `extrainfo`) VALUES
-(1, 'WebMaster', 'WebMaster', 'ernest.bufffington@gmail.com', 'WebMaster', '28up4meoru', 'Extra Info');
+(1, 'TheGhost', 'Ernest Buffington', 'ernest.buffington@gmail.com', 'TheGhost', '28up4meoru', '');
 
 CREATE TABLE `nuke_banner_plans` (
   `pid` int(10) NOT NULL,
@@ -132,7 +133,8 @@ INSERT INTO `nuke_bbadvanced_username_color` (`group_id`, `group_name`, `group_c
 (1, 'Portal Admins', 'ff632a', 1),
 (2, 'Portal Moderators', 'd38d01', 2),
 (3, 'VIP Members', '00aa00', 3),
-(4, 'Portal Members', '00b3ff', 4);
+(4, 'Portal Members', '00b3ff', 4),
+(5, 'CKEditor 4 Access', 'bf0000', 5);
 
 CREATE TABLE `nuke_bbarcade` (
   `arcade_name` varchar(255) NOT NULL DEFAULT '',
@@ -288,12 +290,6 @@ CREATE TABLE `nuke_bbcategories` (
   `cat_order` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `nuke_bbcategories` (`cat_id`, `cat_title`, `cat_order`) VALUES
-(1, 'General', 10),
-(2, 'Support Forums', 20),
-(3, 'Modules Forums', 30),
-(4, 'Blocks Forums', 40);
-
 CREATE TABLE `nuke_bbconfig` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` varchar(255) NOT NULL DEFAULT ''
@@ -304,11 +300,11 @@ INSERT INTO `nuke_bbconfig` (`config_name`, `config_value`) VALUES
 ('board_disable', '0'),
 ('board_disable_adminview', '1'),
 ('board_disable_msg', 'The board is currently disabled...'),
-('sitename', 'http://dev.thoseguysgaming.86it.us'),
-('site_desc', 'dev.thoseguysgaming.86it.us'),
-('cookie_name', 'thoseguysgaming'),
+('sitename', 'http://yourdomainname.com'),
+('site_desc', 'Your Forum Dezscription'),
+('cookie_name', 'titanium'),
 ('cookie_path', '/'),
-('cookie_domain', 'dev.thoseguysgaming.86it.us'),
+('cookie_domain', 'yourdomainname.com'),
 ('cookie_secure', '0'),
 ('session_length', '3600'),
 ('allow_html', '1'),
@@ -331,8 +327,8 @@ INSERT INTO `nuke_bbconfig` (`config_name`, `config_value`) VALUES
 ('max_inbox_privmsgs', '1000'),
 ('max_sentbox_privmsgs', '1000'),
 ('max_savebox_privmsgs', '1000'),
-('board_email_sig', 'Thanks, webmaster@dev.thoseguysgaming.86it.us'),
-('board_email', 'webmaster@dev.thoseguysgaming.86it.us'),
+('board_email_sig', 'Thanks, webmaster@yourdomain.com'),
+('board_email', 'webmaster@yourdomain.com'),
 ('smtp_delivery', '0'),
 ('smtp_host', ''),
 ('require_activation', '0'),
