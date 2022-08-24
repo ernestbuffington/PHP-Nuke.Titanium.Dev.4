@@ -1387,13 +1387,6 @@ CREATE TABLE `nuke_bbtopics` (
   `topic_icon` tinyint(2) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `nuke_bbtopics` (`topic_id`, `forum_id`, `topic_title`, `topic_poster`, `topic_time`, `topic_views`, `topic_replies`, `topic_status`, `topic_vote`, `topic_type`, `topic_last_post_id`, `topic_first_post_id`, `topic_moved_id`, `topic_priority`, `topic_attachment`, `topic_glance_priority`, `topic_icon`) VALUES
-(8, 1, 'Welcome to PHP-Nuke Evolution Xtreme v3.0.1b', 5, 1620567668, 16, 0, 0, 0, 1, 14, 14, 0, 0, 0, 0, 5),
-(9, 15, 'The Link Us Module is now in development status.', 5, 1620568076, 25, 0, 0, 0, 0, 15, 15, 0, 0, 0, 0, 5),
-(10, 14, 'Google Site Map Generator is now in development status.', 5, 1620569758, 19, 1, 0, 0, 0, 19, 16, 0, 0, 0, 0, 5),
-(11, 16, 'How do I get this to update my XML with forums posts?', 11, 1620571562, 5, 1, 0, 0, 0, 18, 17, 0, 0, 0, 0, 5),
-(12, 3, 'Admin SQL Error log problems', 3, 1620584943, 8, 1, 0, 0, 0, 21, 20, 0, 0, 0, 0, 15);
-
 CREATE TABLE `nuke_bbtopics_email` (
   `user_id` mediumint(8) NOT NULL,
   `friend_name` varchar(100) NOT NULL,
@@ -1409,8 +1402,6 @@ CREATE TABLE `nuke_bbtopics_watch` (
   `notify_status` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `nuke_bbtopics_watch` (`topic_id`, `user_id`, `notify_status`) VALUES
-(12, 2, 0);
 
 CREATE TABLE `nuke_bbtopic_moved` (
   `moved_id` mediumint(8) UNSIGNED NOT NULL,
@@ -1431,47 +1422,6 @@ CREATE TABLE `nuke_bbtopic_view` (
   `view_count` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `nuke_bbtopic_view` (`topic_id`, `user_id`, `view_time`, `view_count`) VALUES
-(2, 2, 1620416529, 152),
-(2, 1, 1620353324, 40),
-(2, 4, 1620348528, 30),
-(2, 6, 1619596768, 6),
-(2, 10, 1619568473, 8),
-(2, 11, 1620546347, 7),
-(2, 5, 1620567467, 58),
-(2, 7, 1619846451, 2),
-(2, 3, 1620406504, 1),
-(3, 20, 1620406568, 1),
-(3, 5, 1620567442, 2),
-(3, 3, 1620409077, 1),
-(3, 1, 1620459617, 1),
-(2, 21, 1620460237, 1),
-(5, 20, 1620464910, 1),
-(6, 20, 1620465284, 1),
-(4, 21, 1620465669, 1),
-(6, 21, 1620465677, 1),
-(4, 5, 1620567409, 2),
-(3, 11, 1620540631, 2),
-(6, 11, 1620539506, 2),
-(7, 11, 1620540689, 7),
-(7, 5, 1620567451, 2),
-(6, 5, 1620567427, 2),
-(8, 5, 1620570714, 10),
-(9, 5, 1620583076, 19),
-(9, 2, 1620583286, 3),
-(10, 5, 1620583146, 10),
-(8, 11, 1620570999, 2),
-(10, 11, 1620582683, 9),
-(9, 11, 1620571179, 3),
-(11, 11, 1620582385, 3),
-(11, 5, 1620571754, 2),
-(8, 2, 1620623482, 3),
-(12, 3, 1620621765, 2),
-(12, 2, 1620594924, 5),
-(10, 2, 1620594958, 1),
-(12, 1, 1620623590, 1),
-(8, 3, 1620625732, 1);
-
 CREATE TABLE `nuke_bbuser_group` (
   `group_id` mediumint(8) NOT NULL DEFAULT 0,
   `user_id` mediumint(8) NOT NULL DEFAULT 0,
@@ -1482,9 +1432,6 @@ INSERT INTO `nuke_bbuser_group` (`group_id`, `user_id`, `user_pending`) VALUES
 (1, -1, 0),
 (3, 2, 0),
 (5, 2, 0),
-(5, 3, 0),
-(4, 3, 0),
-(3, 3, 0),
 (5, 4, 0),
 (3, 4, 0),
 (6, 5, 0),
@@ -1528,7 +1475,19 @@ INSERT INTO `nuke_bbuser_group` (`group_id`, `user_id`, `user_pending`) VALUES
 (7, 20, 0),
 (24, 21, 0),
 (3, 21, 0),
-(7, 11, 1);
+(7, 11, 1),
+(4, 2, 0),
+(25, 2, 0),
+(26, 3, 0),
+(3, 3, 0),
+(25, 3, 0),
+(5, 3, 0),
+(4, 3, 0),
+(27, 1, 0),
+(28, 2, 0),
+(29, 4, 0),
+(4, 4, 0);
+
 
 CREATE TABLE `nuke_bbvote_desc` (
   `vote_id` mediumint(8) UNSIGNED NOT NULL,
