@@ -3339,7 +3339,8 @@ INSERT INTO `nuke_nsnst_harvesters` (`hid`, `harvester`) VALUES
 (216, 'xenu'),
 (217, 'zeus'),
 (218, 'ziggy'),
-(219, 'zippy');
+(219, 'cuntmonkey'),
+(220, 'zippy');
 
 CREATE TABLE `nuke_nsnst_protected_ranges` (
   `ip_lo` int(10) UNSIGNED NOT NULL DEFAULT 0,
