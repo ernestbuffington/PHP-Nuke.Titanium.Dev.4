@@ -500,7 +500,7 @@ $admlang['adminfail']['timeout'] 				= 'Cooldown Time, (min)';
 $admlang['adminfail']['timeout_explain'] 		= 'How long should they be blocked for.';
 
 
-$admlang['versions']['title'] 					= "Nuke Evolution Xtreme Version Checker";
+$admlang['versions']['title'] 					= "PHP-Nuke Titanium Version Checker";
 $admlang['versions']['version'] 				= "The current version is:";
 $admlang['versions']['your_version'] 			= "Your version is:";
 $admlang['versions']['version_checked']			= "The version was last checked on";
