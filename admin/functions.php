@@ -46,7 +46,8 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) exit('Access De
  ******************************************************/
 function need_delete($file, $dir=false) 
 {
-  # will be uncommented for release
+# will be uncommented for release
+if (!is_Admin): 
   if (!$dir): 
 	if(!is_file($file)) 
 	return;
@@ -56,6 +57,7 @@ function need_delete($file, $dir=false)
 	return;
 	DisplayError("<span style='color: red; font-size: 24pt'>"._NEED_DELETE." the folder \"".$file."\"</span>");
   endif;
+endif;
 }
 /*****[END]********************************************
  [ Other:   Need To Delete                     v1.0.0 ]
