@@ -39,7 +39,7 @@
     </div>
     <div class="top_wrap">
       <div id="logo_left"></div>
-      <div id="logo_content_bg">
+      <div id="logo_content_bg"><br />
 <div id="logo"></div>
   </div>
 </div>

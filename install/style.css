@@ -76,7 +76,7 @@ a:hover {
  *--------------------------------------------------
 */
 #logo {
-    background: url('images/logo.png');
+	background: url('images/logo.png');
 	width: 484px;
 	height: 79px;
 	text-align:right;
