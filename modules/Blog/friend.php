@@ -159,9 +159,9 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail) {
     $yname = stripslashes(removecrlf($yname));
     $ymail = stripslashes(removecrlf($ymail));
     $sid = intval($sid);
-    $row = $db->sql_fetchrow($db->sql_query("SELECT title, time, topic FROM ".$prefix."_stories WHERE sid='$sid'"));
+    $row = $db->sql_fetchrow($db->sql_query("SELECT title, datePublished, topic FROM ".$prefix."_stories WHERE sid='$sid'"));
     $title = stripslashes(check_html($row["title"], "nohtml"));
-    $time = $row["time"];
+    $time = $row["datePublished"];
     $topic = intval($row["topic"]);
     $row2 = $db->sql_fetchrow($db->sql_query("SELECT topictext FROM ".$prefix."_topics WHERE topicid='$topic'"));
     $topictext = stripslashes(check_html($row2["topictext"], "nohtml"));
