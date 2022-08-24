@@ -823,19 +823,6 @@ CREATE TABLE `nuke_bbgamehash` (
   `hash_date` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `nuke_bbgamehash` (`gamehash_id`, `game_id`, `user_id`, `hash_date`) VALUES
-('2831531a4b315cface4aa7b4b407737e', 1, 14, 1243799167),
-('af91f2f362cf263b05d87c969560e6ed', 1, 14, 1243798783),
-('bc45ca43ec051ff1c3e81aa0f7853397', 1, 14, 1243798574),
-('aa63eacff0b985227853ebbab58a3d2f', 1, 14, 1243798654),
-('d5daabfb1c1cf7ac3533114a5c26c2f5', 1, 14, 1243798569),
-('c5176e5b8e7f3c711d91ab608885f6f2', 1, 14, 1243799172),
-('04887b4f7591c9d5a755d073e488fd09', 1, 26, 1243869607),
-('e1a8c5aaf0a057af8884d3db957a773b', 1, 26, 1243869608),
-('c93c35ada756d320067e4e81692aed00', 1, 26, 1243869608),
-('5b6258ef67e44bfdf399861be8a511e5', 1, 26, 1243869797),
-('183552c7d3a11a68211e89f6199f3cb2', 1, 26, 1243869797);
-
 CREATE TABLE `nuke_bbgames` (
   `game_id` mediumint(8) NOT NULL,
   `game_pic` varchar(50) NOT NULL DEFAULT '',
@@ -853,9 +840,6 @@ CREATE TABLE `nuke_bbgames` (
   `game_set` mediumint(8) NOT NULL DEFAULT 0,
   `arcade_catid` mediumint(8) NOT NULL DEFAULT 1
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `nuke_bbgames` (`game_id`, `game_pic`, `game_desc`, `game_highscore`, `game_highdate`, `game_highuser`, `game_name`, `game_swf`, `game_scorevar`, `game_type`, `game_width`, `game_height`, `game_order`, `game_set`, `arcade_catid`) VALUES
-(1, 'airport1.gif', '', 0, 0, 0, 'airport', 'airport.swf', 'airport', 3, 550, '380', 10, 0, 1);
 
 CREATE TABLE `nuke_bbgroups` (
   `group_id` mediumint(8) NOT NULL,
@@ -881,9 +865,15 @@ CREATE TABLE `nuke_bbgroups` (
 INSERT INTO `nuke_bbgroups` (`group_id`, `group_type`, `group_name`, `group_description`, `group_moderator`, `group_single_user`, `group_allow_pm`, `group_color`, `group_rank`, `max_inbox`, `max_sentbox`, `max_savebox`, `override_max_inbox`, `override_max_sentbox`, `override_max_savebox`, `group_count`, `group_count_max`, `group_count_enable`) VALUES
 (1, 1, 'Anonymous', 'Personal User', 0, 1, 0, '', '', 0, 0, 0, 0, 0, 0, 99999999, 99999999, 0),
 (2, 2, 'Portal Moderators', 'Portal Moderators', 2, 0, 5, '2', '2', 0, 0, 0, 0, 0, 0, 99999999, 99999999, 0),
-(3, 0, 'Portal Members', 'Default Portal Usergroup', 2, 0, 5, '4', '3', 0, 0, 0, 0, 0, 0, 99999999, 99999999, 0),
-(4, 0, 'VIP Members', 'VIP Portal Members', 2, 0, 5, '3', '0', 100000, 100000, 100000, 0, 0, 0, 99999999, 99999999, 0),
-(5, 0, 'Portal Admins', 'Portal Admins', 2, 0, 5, '1', '1', 100000, 100000, 100000, 0, 0, 0, 99999999, 99999999, 0);
+(3, 0, 'Portal Members', 'Default Portal Usergroup', 2, 0, 5, '4', '6', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(4, 0, 'VIP Members', 'VIP Portal Members', 2, 0, 5, '3', '7', 100000, 100000, 100000, 0, 0, 0, 99999999, 99999999, 0),
+(5, 0, 'Portal Admins', 'Portal Admins', 2, 0, 5, '1', '4', 100000, 100000, 100000, 1, 1, 1, 99999999, 99999999, 0),
+(25, 0, 'CKEditor 4 Access', 'CKEditor 4 Access', 2, 0, 5, '5', '0', 1000, 1000, 1000, 0, 0, 0, 99999999, 99999999, 0),
+(26, 1, '', 'Personal User', 0, 1, 5, '', '0', 100, 100, 100, 0, 0, 0, 99999999, 99999999, 0),
+(27, 1, '', 'Personal User', 0, 1, 5, '', '0', 100, 100, 100, 0, 0, 0, 99999999, 99999999, 0),
+(28, 1, '', 'Personal User', 0, 1, 5, '', '0', 100, 100, 100, 0, 0, 0, 99999999, 99999999, 0),
+(29, 1, '', 'Personal User', 0, 1, 5, '', '0', 100, 100, 100, 0, 0, 0, 99999999, 99999999, 0);
+
 
 CREATE TABLE `nuke_bbhackgame` (
   `user_id` mediumint(8) NOT NULL,
