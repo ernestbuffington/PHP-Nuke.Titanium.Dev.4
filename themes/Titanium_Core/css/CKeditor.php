@@ -37,7 +37,8 @@ textarea.cke_source
 {
 	font-family: 'Courier New', Monospace;
 	font-size: small;
-	background-color: <?=$bgcolor5?>; 
+	color: #000000;
+    background-color: #FFFFFF; 
 	white-space: pre-wrap;
 	border: none;
 	padding: 0;
@@ -47,7 +48,8 @@ textarea.cke_source
 
 .cke_wysiwyg_frame, .cke_wysiwyg_div
 {
-	background-color: <?=$bgcolor5?>;
+	#000000;
+	background-color: #FFFFFF;
 }
 <?
 
