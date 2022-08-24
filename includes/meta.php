@@ -86,6 +86,6 @@ for($i=0,$j=count($metatags);$i<$j;$i++)
 
 // IF YOU REALLY NEED TO REMOVE IT AND HAVE MY WRITTEN AUTHORIZATION CHECK: http://phpnuke.org/modules.php?name=Commercial_License
 // PLAY FAIR AND SUPPORT THE DEVELOPMENT, PLEASE!
-$metastring .= '<meta name="generator" content="The US Version of PHP-Nuke Evolution Xtreme Copyright (c) 2021 by Ernest Buffington and The 86it Developers Network. This is free software, and you may redistribute it under the GPL (https://github.com/ernestbuffington/dev-php-nuke-evolution-xtreme/blob/main/LICENSE). PHP-Nuke Evolution Xtreme comes with absolutely no warranty, for details, see the license (https://github.com/ernestbuffington/dev-php-nuke-evolution-xtreme/blob/main/LICENSE). Powered by the US version of PHP-Nuke Evolution Xtreme (https://github.com/ernestbuffington/dev-php-nuke-evolution-xtreme) This is based on Thatware written by David Norman and the loose framework of PHP-Nuke written by Francisco Burzi." />'."\n";
+$metastring .= '<meta name="generator" content="The US Version of PHP-Nuke Titanium Copyright (c) 2021 by Brandon Maintenance Management, LLC" />'."\n";
 
 echo $metastring;
