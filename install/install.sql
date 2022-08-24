@@ -2095,16 +2095,6 @@ CREATE TABLE `nuke_headlines` (
   `headlinesurl` varchar(200) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `nuke_headlines` (`hid`, `sitename`, `headlinesurl`) VALUES
-(1, 'AbsoluteGames', 'http://files.gameaholic.com/agfa.rdf'),
-(2, 'DailyDaemonNews', 'http://daily.daemonnews.org/ddn.rdf.php3'),
-(3, 'FreeDOS', 'http://sourceforge.net/export/rss2_projnews.php?group_id=5109'),
-(4, 'LinuxWeelyNews', 'http://lwn.net/headlines/rss'),
-(5, 'Listology', 'http://listology.com/recent.rdf'),
-(6, 'PHP-Nuke', 'http://phpnuke.org/backend.php'),
-(7, 'PerlMonks', 'http://www.perlmonks.org/headlines.rdf'),
-(8, 'WebReference', 'http://webreference.com/webreference.rdf');
-
 CREATE TABLE `nuke_hnl_categories` (
   `cid` int(11) NOT NULL,
   `ctitle` varchar(50) NOT NULL DEFAULT '',
@@ -2285,20 +2275,6 @@ CREATE TABLE `nuke_links_categories` (
   `parentid` int(11) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `nuke_links_categories` (`cid`, `title`, `cdescription`, `parentid`) VALUES
-(1, 'PHP-Nuke Evolution Xtreme', 'Anything and everything Evolution Xtreme related.', 0),
-(2, 'PHP-Nuke', 'Anything and everything PHP-Nuke related.', 0),
-(3, 'Exploits', '', 2),
-(4, 'User Websites', '', 1),
-(5, 'Themes', '', 1),
-(6, 'Developer Websites', '', 1),
-(7, 'Themes', '', 2),
-(8, 'User Websites', '', 2),
-(9, 'Developer Websites', '', 2),
-(10, 'Open-Source', 'Open Source links and pages.', 0),
-(11, 'Programming', 'Everything related to online programming.', 0),
-(12, 'Bootstrap', 'Bootstrap, the worldâ€™s most popular framework for building responsive, mobile-first sites, with jsDelivr and a template starter page.', 11);
-
 CREATE TABLE `nuke_links_editorials` (
   `linkid` int(11) NOT NULL DEFAULT 0,
   `adminid` varchar(60) NOT NULL DEFAULT '',
@@ -2306,9 +2282,6 @@ CREATE TABLE `nuke_links_editorials` (
   `editorialtext` text NOT NULL,
   `editorialtitle` varchar(100) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `nuke_links_editorials` (`linkid`, `adminid`, `editorialtimestamp`, `editorialtext`, `editorialtitle`) VALUES
-(2, 'WebMaster', '2021-05-06 05:02:41', 'This is the Test Editorial Text', 'This is a Test Editorial');
 
 CREATE TABLE `nuke_links_links` (
   `lid` int(11) NOT NULL,
@@ -2326,20 +2299,6 @@ CREATE TABLE `nuke_links_links` (
   `totalvotes` int(11) NOT NULL DEFAULT 0,
   `totalcomments` int(11) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `nuke_links_links` (`lid`, `cid`, `sid`, `title`, `url`, `description`, `date`, `name`, `email`, `hits`, `submitter`, `linkratingsummary`, `totalvotes`, `totalcomments`) VALUES
-(1, 3, 0, 'www.exploit-db.com', 'https://www.exploit-db.com/exploits/29733/', 'PHP-Nuke related exploits.<br /><br />\nName : PHP-Nuke 8.2.4 multiple vulnerabilities<br />\nSoftware : PHP-Nuke 8.2.4 and possibly below.<br />\nVendor Homepage : http://www.phpnuke.org/<br />\nVulnerability Type : File Inclusion and Reflected Cross-Site Scripting<br />\nSeverity : High (4/5)<br />\nAdvisory Reference : SOJOBO-ADV-13-04 (http://www.enkomio.com/Advisories)<br />\nCredits: Sojobo dev team<br />\nDescription: A File Inclusion and Reflected Cross Site Scripting vulnerability was discovered during the testing of Sojobo, Static Analysis Tool.<br />', '2021-04-25 20:09:29', 'Sebastian Buffington', 'ernest.bufffington@gmail.com', 3, '', 0.0000, 0, 0),
-(2, 6, 0, 'The 86it Developers Network', 'https://www.86it.us/index.php', 'Programmers Making Connections, Coders Making a Difference.', '2021-04-27 16:59:04', 'Sebastian Buffington', 'ernest.bufffington@gmail.com', 3, '', 10.0000, 6, 5),
-(3, 6, 0, 'Lonestar Modules', 'https://lonestar-modules.com/', 'Coding quality Block & Modules for Nuke Evolution Xtreme & Raven Nuke CMS.', '2021-04-27 17:05:00', 'Sebastian Buffington', 'ernest.bufffington@gmail.com', 3, '', 10.0000, 1, 1),
-(4, 6, 0, 'HEADSHOT DOMAIN', 'https://www.headshotdomain.net/', 'coRpSE is the author of Nuke Honey Pot v2.2\n\nProgrammer and Gamer aka Dreaded coRpSE', '2021-04-27 17:08:46', 'Sebastian Buffington', 'ernest.bufffington@gmail.com', 2, '', 0.0000, 0, 0),
-(5, 1, 0, 'Evolution Xtreme (UK Version)', 'https://evolution-xtreme.co.uk/', 'This is the main developers website for the UK version of Nuke Evolution Xtreme.', '2021-04-28 23:37:09', 'Brandon Maintenance Management, LLC', 'ernest.bufffington@gmail.com', 4, '', 0.0000, 0, 0),
-(6, 1, 0, 'Evolution Xtreme (US Version)', 'https://dev-php-nuke-evolution-xtreme.86it.us', 'This is 1 of 2 developer sites in the US for PHP-Nuke Evolution Xtreme. This is not to be confused with the UK Developer website. The US version is very very different and has many many things updated and changed.\n\nBlocks and Modules are compatible however themes are not. Themes can easily be ported over to the US version but you will have to add in all the features the US version of Xtreme has added.', '2021-04-28 23:43:33', 'Brandon Maintenance Management, LLC', 'ernest.bufffington@gmail.com', 1, '', 10.0000, 1, 1),
-(7, 4, 0, 'Canadian Clan', 'https://www.canadianclan.ca/', 'CnC Gaming Clan', '2021-04-29 07:11:57', 'Brandon Maintenance Management, LLC', 'ernest.bufffington@gmail.com', 4, '', 0.0000, 0, 0),
-(8, 4, 0, 'OUTKASTS [OKT]', 'https://outkasts.eu/index.php', 'A Gameing Community Website', '2021-04-29 23:34:19', 'Ernest Buffington', 'ernest.bufffington@gmail.com', 2, '', 0.0000, 0, 0),
-(9, 4, 0, 'TNO The New World Order', 'http://www.tnogaming.com/', 'A gaming website. This website does not have an SSL certificate so remember when making an account to not use one of your secured passwords. Maybe later he will use the auto SSL feature in his web hosting panel. Until then please remember to use a password that is not your normal secured password that you would use on all your secured websites.', '2021-04-29 23:55:55', 'Ernest Buffington', 'ernest.bufffington@gmail.com', 1, '', 0.0000, 0, 0),
-(10, 4, 0, 'GLOBAL CORE GAMERS', 'https://gcg.megasportal.co.uk/index.php', 'A Small Gaming Community.', '2021-05-02 18:31:23', 'Brandon Maintenance Management, LLC', 'ernest.bufffington@gmail.com', 0, '', 0.0000, 0, 0),
-(11, 6, 0, 'BCU Veterans', 'https://www.bcuveterans.co.uk/index.php', 'An Online Gaming Website', '2021-05-02 18:39:48', 'Brandon Maintenance Management, LLC', 'ernest.bufffington@gmail.com', 1, '', 0.0000, 0, 0),
-(12, 10, 0, 'Freshmeat', 'http://freshmeat.sourceforge.net/', 'Freshmeat currently uses the SourceForge site.', '2021-05-05 21:30:23', 'Brandon Maintenance Management, LLC', 'ernest.bufffington@gmail.com', 1, '', 1.0000, 1, 1);
 
 CREATE TABLE `nuke_links_modrequest` (
   `requestid` int(11) NOT NULL,
@@ -2365,9 +2324,6 @@ CREATE TABLE `nuke_links_newlink` (
   `submitter` varchar(60) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `nuke_links_newlink` (`lid`, `cid`, `sid`, `title`, `url`, `description`, `name`, `email`, `submitter`) VALUES
-(2, 12, 0, 'Bootstrap Introduction Page', 'https://getbootstrap.com/docs/5.0/getting-started/introduction/', 'Get started with Bootstrap, the worldâ€™s most popular framework for building responsive, mobile-first sites, with jsDelivr and a template starter page.', 'TheGhost', 'ernest.bufffington@gmail.com', '');
-
 CREATE TABLE `nuke_links_votedata` (
   `ratingdbid` int(11) NOT NULL,
   `ratinglid` int(11) NOT NULL DEFAULT 0,
@@ -2377,17 +2333,6 @@ CREATE TABLE `nuke_links_votedata` (
   `ratingcomments` text NOT NULL,
   `ratingtimestamp` datetime NOT NULL DEFAULT '2018-12-12 00:00:00'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `nuke_links_votedata` (`ratingdbid`, `ratinglid`, `ratinguser`, `rating`, `ratinghostname`, `ratingcomments`, `ratingtimestamp`) VALUES
-(1, 2, 'WebMaster', 10, '47.206.216.196', 'Awesome peeps, great programmers.', '2021-04-27 16:59:51'),
-(2, 3, 'TheGhost', 10, '47.206.216.196', 'Good Peeps awesome site!', '2021-05-06 02:45:16'),
-(3, 2, 'TheGhost', 10, '47.206.216.196', 'I really think this website is awesome!', '2021-05-06 03:17:24'),
-(4, 2, 'ScottyBcoder', 10, '47.206.216.196', 'Friendly folks, a great bunch of folks!', '2021-05-06 03:18:13'),
-(5, 2, 'TheWolf', 10, '47.206.216.196', 'The best!', '2021-05-06 03:21:18'),
-(6, 2, 'Shakey', 10, '47.206.216.196', 'My Nephew is the best!', '2021-05-06 03:22:08'),
-(7, 2, 'Anonymous', 10, '47.206.216.196', '', '2021-05-06 03:25:10'),
-(8, 12, 'TheGhost', 1, '47.206.216.196', 'They got lazy and stopped maintaining their site. I give them an F!', '2021-05-06 08:28:30'),
-(9, 6, 'cube', 10, '173.168.244.204', 'This is the best CMS software I have seen yet.', '2021-05-07 08:46:35');
 
 CREATE TABLE `nuke_link_us` (
   `id` int(255) NOT NULL,
