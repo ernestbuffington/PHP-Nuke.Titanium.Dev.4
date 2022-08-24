@@ -1,3 +1,23 @@
+CREATE TABLE `network_cemetery` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `name` varchar(256) NOT NULL,
+  `category_id` int(11) NOT NULL DEFAULT 0,
+  `url` varchar(256) NOT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  `mod_date` date NOT NULL DEFAULT '0000-00-00',
+  `popup` tinyint(3) UNSIGNED NOT NULL DEFAULT 1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `network_cemetery_cat` (
+  `category_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `name` varchar(256) NOT NULL,
+  `description` varchar(256) NOT NULL,
+  `mod_date` date NOT NULL DEFAULT '0000-00-00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 CREATE TABLE `network_bookmarks` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
@@ -1599,7 +1619,7 @@ INSERT INTO `nuke_blocks` (`bid`, `bkey`, `title`, `content`, `url`, `bposition`
 (17, '', 'Portal Menu', '', '', 'l', 0, 1, 3600, '0', '', 'block-Portal_Menu.php', '1'),
 (18, '', 'Reviews', '', '', 'r', 9, 0, 3600, '0', '', 'block-Reviews.php', '1'),
 (19, '', 'Server Information', '', '', 'r', 3, 1, 3600, '0', '', 'block-Portal-Information.php', '1'),
-(20, '', 'Visitor Log', '', '', 'c', 1, 1, 3600, '0', '', 'block-Titanium_Visitor_Log_Center.php', '1'),
+(20, '', 'Visitor Log', '', '', 'c', 1, 1, 3600, '0', '', 'block-Titanium_Visitor_Log_Center.php', '1');
 
 CREATE TABLE `nuke_cnbya_config` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
@@ -3794,13 +3814,15 @@ INSERT INTO `nuke_nsnst_referers` (`rid`, `referer`) VALUES
 (436, 'o-o-8-o-o.ru'),
 (437, 'o-o-6-o-o.ru'),
 (438, 'cenoval.ru'),
-(439, 'cenokos.ru'),
+(439, 'cenokos.ru');
+
+INSERT INTO `nuke_nsnst_referers` (`rid`, `referer`) VALUES
 (440, 'seoexperimenty.ru'),
 (441, 'gobongo.info'),
 (442, 'vodkoved.ru'),
 (443, 'adcash.com'),
 (444, 'websocial.me'),
-(445, 'cityadspix.com
+(445, 'cityadspix.com'),
 (446, 'luxup.ru'),
 (447, 'ykecwqlixx.ru'),
 (448, 'superiends.org'),
@@ -6059,3 +6081,18 @@ ALTER TABLE `nuke_users_countries`
 
 ALTER TABLE `nuke_users_temp`
   MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `network_cemetery`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+ALTER TABLE `network_cemetery_cat`
+  ADD PRIMARY KEY (`category_id`),
+  ADD KEY `user_id` (`user_id`);
+
+ALTER TABLE `network_cemetery`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+ALTER TABLE `network_cemetery_cat`
+  MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+COMMIT;
