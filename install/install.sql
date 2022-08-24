@@ -1012,9 +1012,10 @@ CREATE TABLE `nuke_bbranks` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_bbranks` (`rank_id`, `rank_title`, `rank_min`, `rank_special`, `rank_image`) VALUES
-(1, 'Portal Admin', -1, 1, 'images/ranks/administrator.png'),
-(2, 'Portal Moderator', -1, 1, 'images/ranks/moderator.png'),
-(3, 'Portal Member', -1, 1, 'images/ranks/regular-member.png');
+(4, 'Administrator', -1, 1, 'images/ranks/administrator.png'),
+(5, 'Developer', -1, 1, 'images/ranks/developer.png'),
+(6, 'Portal Member', -1, 1, 'images/ranks/regular-member.png'),
+(7, 'VIP Member', -1, 1, 'images/ranks/vip.png');
 
 CREATE TABLE `nuke_bbreputation` (
   `user_id` mediumint(8) NOT NULL DEFAULT 0,
