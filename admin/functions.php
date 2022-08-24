@@ -356,7 +356,7 @@ function track_evo_version()
 	endif;
 
 	$return .= '  <tr>'."\n";
-	$return .= '    <td style="height:15px; font-size: 13px; width:65%;">PHP-Nuke Evoultion Xtreme '.$new_version_number.'&nbsp;&nbsp;<font size="1">'.$version_desc.'</font></td>'."\n";
+	$return .= '    <td style="height:15px; font-size: 13px; width:65%;">PHP-Nuke Titanium '.$new_version_number.'&nbsp;&nbsp;<font size="1">'.$version_desc.'</font></td>'."\n";
 	$return .= '    <td style="height:15px; font-size: 13px; width:25%; text-align:center;"><a href="'.$update_url.'">Check Version</a></td>'."\n";
 	$return .= '  </tr>'."\n";
 
