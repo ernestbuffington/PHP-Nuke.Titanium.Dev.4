@@ -1,12 +1,12 @@
 <?php
 
 /*=======================================================================
- Nuke-Evolution Xtreme: Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium Dev 4: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 /************************************************************************
   Nuke-Evolution: Advanced Installer
   ============================================
-  Copyright (c) 2010 by The Nuke-Evolution Team
+  Copyright (c) 2010 by The PHP-Nuke Titanium Team
 
   Filename           : lang-install.php
   Author             : Technocrat
