@@ -1564,15 +1564,15 @@ INSERT INTO `nuke_bbxdata_fields` (`field_id`, `field_name`, `field_desc`, `fiel
 (9, 'Signature', '', 'special', 9, 'signature', 0, '', '', 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0);
 
 CREATE TABLE `nuke_blocks` (
-  `bid` int(10) NOT NULL,
+  `bid` int(11) NOT NULL,
   `bkey` varchar(15) NOT NULL DEFAULT '',
   `title` varchar(60) NOT NULL DEFAULT '',
   `content` text NOT NULL,
   `url` varchar(200) NOT NULL DEFAULT '',
   `bposition` char(1) NOT NULL DEFAULT '',
-  `weight` int(10) NOT NULL DEFAULT 1,
-  `active` int(1) NOT NULL DEFAULT 1,
-  `refresh` int(10) NOT NULL DEFAULT 0,
+  `weight` int(11) NOT NULL DEFAULT 1,
+  `active` int(11) NOT NULL DEFAULT 1,
+  `refresh` int(11) NOT NULL DEFAULT 0,
   `time` varchar(14) NOT NULL DEFAULT '0',
   `blanguage` varchar(30) NOT NULL DEFAULT '',
   `blockfile` varchar(255) NOT NULL DEFAULT '',
@@ -1580,29 +1580,26 @@ CREATE TABLE `nuke_blocks` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_blocks` (`bid`, `bkey`, `title`, `content`, `url`, `bposition`, `weight`, `active`, `refresh`, `time`, `blanguage`, `blockfile`, `view`) VALUES
-(1, '', 'Main Menu', '', '', 'l', 5, 0, 1800, '0', '', 'block-Modules.php', '1'),
-(2, '', 'Search', '', '', 'r', 0, 1, 3600, '', '', 'block-Search.php', '0'),
-(3, '', 'Survey', '', '', 'r', 4, 0, 3600, '', '', 'block-Survey.php', '0'),
-(4, '', 'Information', '<br /><center><span class=\"content\">\r\n<a href=\"http://phpnuke.org\"><img src=\"images/powered/powered8.jpg\" border=\"0\" alt=\"Powered by PHP-Nuke\" title=\"Powered by PHP-Nuke\" width=\"88\" height=\"31\" /></a>\r\n<br /><br />\r\n<a href=\"http://validator.w3.org/check/referer\"><img src=\"images/html401.gif\" width=\"88\" height=\"31\" alt=\"Valid HTML 4.01!\" title=\"Valid HTML 4.01!\" border=\"0\" /></a>\r\n<br /><br />\r\n<a href=\"http://jigsaw.w3.org/css-validator\"><img src=\"images/css.gif\" width=\"88\" height=\"31\" alt=\"Valid CSS!\" title=\"Valid CSS!\" border=\"0\" /></a></span></center><br />', '', 'r', 5, 0, 0, '', '', '', '0'),
-(5, '', 'User Info', '', '', 'l', 0, 1, 0, '', '', 'block-Evo_User_Info.php', '0'),
-(6, '', 'PHP-Nuke Evolution Xtreme', '', '', 'c', 2, 0, 0, '', '', 'block-Nuke-Evolution.php', '0'),
-(8, '', 'Top 10 Links', '', '', 'r', 6, 1, 3600, '', '', 'block-Top10_Links.php', '0'),
-(9, '', 'Forums', '', '', 'c', 0, 1, 3600, '', '', 'block-Forums.php', '0'),
-(10, '', 'Submissions', '', '', 'l', 6, 0, 0, '', '', 'block-Submissions.php', '4'),
-(11, '', 'Link-us', '', '', 'r', 3, 1, 3600, '0', '', 'block-Link-us.php', '1'),
-(12, '', 'Shout Box', '', '', 'r', 1, 1, 3600, '0', '', 'block-Shout_Box.php', '1'),
-(13, '', 'Todays Big Story', '', '', 'd', 0, 0, 3600, '0', '', 'block-Big_Story_of_Today.php', '1'),
-(14, '', 'Donations', '', '', 'r', 2, 0, 3600, '0', '', 'block-Donations.php', '0'),
-(15, '', 'Arcade Center', '', '', 'd', 1, 0, 3600, '0', '', 'block-Arcade_Center.php', '1'),
-(16, '', 'ECalendar', '', '', 'l', 7, 0, 3600, '0', '', 'block-ECalendar.php', '1'),
-(17, '', 'Portal Security', '', '', 'd', 2, 1, 3600, '0', '', 'block-Sentinel_Center.php', '1'),
-(18, '', 'Visitor Log', '', '', 'c', 1, 1, 3600, '0', '', 'block-Titanium_Visitor_Log_Center.php', '1'),
-(19, '', 'Module Demos', '', '', 'l', 2, 0, 3600, '0', '', 'block-Titanium_Portal_Menu.php', '1'),
-(20, '', 'Select Theme', '', '', 'l', 1, 1, 3600, '0', '', 'block-Titanium_Themes.php', '1'),
-(21, '', 'Portal Information', '', '', 'l', 3, 0, 3600, '0', '', 'block-Portal-Information.php', '1'),
-(22, '', 'Honeypot Security', '', '', 'l', 4, 1, 3600, '0', '', 'block-Honey_Pot.php', '1'),
-(23, '', 'Thank You', '', '', 'c', 3, 0, 3600, '0', '', 'block-Thank_You.php', '1'),
-(24, '', 'Facebook Messenger Plugin', '', '', 'l', 8, 1, 3600, '0', '', 'block-Facebook_Chat_Plugin.php', '1');
+(1, '', 'Evo Main Menu', '', '', 'l', 1, 0, 1800, '0', '', 'block-Modules.php', '1'),
+(2, '', 'Search', '', '', 'l', 7, 1, 3600, '', '', 'block-Search.php', '0'),
+(3, '', 'Survey', '', '', 'r', 7, 0, 3600, '', '', 'block-Survey.php', '0'),
+(4, '', 'Information', '<br /><center><span class=\"content\">\r\n<a href=\"http://phpnuke.org\"><img src=\"images/powered/powered8.jpg\" border=\"0\" alt=\"Powered by PHP-Nuke\" title=\"Powered by PHP-Nuke\" width=\"88\" height=\"31\" /></a>\r\n<br /><br />\r\n<a href=\"http://validator.w3.org/check/referer\"><img src=\"images/html401.gif\" width=\"88\" height=\"31\" alt=\"Valid HTML 4.01!\" title=\"Valid HTML 4.01!\" border=\"0\" /></a>\r\n<br /><br />\r\n<a href=\"http://jigsaw.w3.org/css-validator\"><img src=\"images/css.gif\" width=\"88\" height=\"31\" alt=\"Valid CSS!\" title=\"Valid CSS!\" border=\"0\" /></a></span></center><br />', '', 'r', 8, 0, 0, '', '', '', '0'),
+(5, '', 'User Info', '', '', 'r', 0, 1, 0, '', '', 'block-Evo_User_Info.php', '0'),
+(6, '', 'Top 10 Links', '', '', 'r', 4, 1, 3600, '', '', 'block-Top10_Links.php', '0'),
+(7, '', 'Forums', '', '', 'c', 0, 1, 3600, '', '', 'block-Forums.php', '0'),
+(8, '', 'Submissions', '', '', 'l', 2, 0, 0, '', '', 'block-Submissions.php', '4'),
+(9, '', 'Link-us', '', '', 'l', 5, 1, 3600, '0', '', 'block-Link-us.php', '1'),
+(10, '', 'Shout Box', '', '', 'r', 2, 1, 3600, '0', '', 'block-Shout_Box.php', '1'),
+(11, '', 'Donations', '', '', 'r', 6, 0, 3600, '0', '', 'block-Donations.php', '0'),
+(12, '', 'ECalendar', '', '', 'l', 4, 0, 3600, '0', '', 'block-ECalendar.php', '1'),
+(13, '', 'Sentinel Portal Security', '', '', 'd', 3, 1, 3600, '0', '', 'block-Sentinel_Center.php', '1'),
+(14, '', 'Select Network Theme', '', '', 'l', 3, 1, 3600, '0', '', 'block-Titanium_Themes.php', '1'),
+(15, '', 'Honey Pot Protected', '', '', 'l', 6, 1, 3600, '0', '', 'block-Honey_Pot.php', '1'),
+(16, '', 'This is exactly how I feel!', '', '', 'c', 2, 0, 3600, '0', '', 'block-Thank_You.php', '1'),
+(17, '', 'Portal Menu', '', '', 'l', 0, 1, 3600, '0', '', 'block-Portal_Menu.php', '1'),
+(18, '', 'Reviews', '', '', 'r', 9, 0, 3600, '0', '', 'block-Reviews.php', '1'),
+(19, '', 'Server Information', '', '', 'r', 3, 1, 3600, '0', '', 'block-Portal-Information.php', '1'),
+(20, '', 'Visitor Log', '', '', 'c', 1, 1, 3600, '0', '', 'block-Titanium_Visitor_Log_Center.php', '1'),
 
 CREATE TABLE `nuke_cnbya_config` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
@@ -1610,12 +1607,12 @@ CREATE TABLE `nuke_cnbya_config` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_cnbya_config` (`config_name`, `config_value`) VALUES
-('sendaddmail', '1'),
-('senddeletemail', '1'),
+('sendaddmail', '0'),
+('senddeletemail', '0'),
 ('allowuserdelete', '1'),
 ('allowusertheme', '0'),
 ('allowuserreg', '0'),
-('allowmailchange', '0'),
+('allowmailchange', '1'),
 ('emailvalidate', '1'),
 ('requireadmin', '0'),
 ('servermail', '0'),
@@ -1735,7 +1732,7 @@ CREATE TABLE `nuke_config` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_config` (`sitename`, `nukeurl`, `site_logo`, `slogan`, `startdate`, `datePublished`, `dateModified`, `adminmail`, `anonpost`, `default_Theme`, `foot1`, `foot2`, `foot3`, `commentlimit`, `anonymous`, `minpass`, `pollcomm`, `articlecomm`, `broadcast_msg`, `my_headlines`, `top`, `storyhome`, `user_news`, `oldnum`, `ultramode`, `banners`, `backend_title`, `backend_language`, `language`, `locale`, `multilingual`, `useflags`, `notify`, `notify_email`, `notify_subject`, `notify_message`, `notify_from`, `moderate`, `admingraphic`, `httpref`, `httprefmax`, `CensorMode`, `CensorReplace`, `copyright`, `Version_Num`, `admin_pos`, `admin_log_lines`, `error_log_lines`, `cache_data`) VALUES
-('My Site', 'http://dev.thoseguysgaming.86it.us', 'logo.png', '', '01/01/21', '2021-01-01 06:16:00', '2021-01-01 06:16:00', 'webmaster@dev.thoseguysgaming.86it.us', 0, 'Titanium_Core', 'FOOTER LINE 1', 'FOOTER LINE 2', 'FOOTER LINE 3', 4096, 'Anonymous', 5, 1, 1, 1, 1, 5, 5, 1, 30, 1, 1, 'Powered by PHP-Nuke Evolution Xtreme 3.0.1b', 'en-us', 'english', 'en_US', 1, 0, 0, 'webmaster@yourdomain.com', 'Blog for yourprefix.86it.us', 'Hey! You\'ve got a new blog submission for yourprefix.86it.us!', 'WebMaster', 0, 1, 1, 1000, 3, '*****', '', '7.6.0', 1, 0, 0, '');
+('My Site', 'http://yourdomain.com', 'logo.png', '', '01/01/21', '2021-01-01 06:16:00', '2021-01-01 06:16:00', 'webmaster@yourdomain.com', 0, 'Titanium_Core', '', '', '', 4096, 'Anonymous', 5, 1, 1, 1, 1, 5, 5, 1, 30, 1, 1, 'Powered by PHP-Nuke Titanium 4.0.0 Dev 4', 'en-us', 'english', 'en_US', 1, 0, 0, 'webmaster@yourdomain.com', 'Blog for yourprefix.86it.us', 'Hey! You\'ve got a new blog submission for yourprefix.86it.us!', 'WebMaster', 0, 1, 1, 1000, 3, '*****', '', '7.6.0', 1, 0, 0, '');
 
 CREATE TABLE `nuke_confirm` (
   `confirm_id` char(32) NOT NULL DEFAULT '',
@@ -1865,7 +1862,7 @@ CREATE TABLE `nuke_evolution` (
 INSERT INTO `nuke_evolution` (`evo_field`, `evo_value`) VALUES
 ('sub', 'Xtreme'),
 ('ver_check', '0'),
-('ver_previous', '3.0.1b'),
+('ver_previous', '4.0.0'),
 ('lock_modules', '0'),
 ('queries_count', '1'),
 ('adminssl', '1'),
@@ -1973,17 +1970,11 @@ CREATE TABLE `nuke_faqanswer` (
   `answer` text DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `nuke_faqanswer` (`id`, `id_cat`, `question`, `answer`) VALUES
-(1, 1, 'What are we working on now?', '<p>Right now the development team is working on the core theme for the new release of PHP-Nuke Xtreme that will be coming soon. The name of the theme is <strong>Xtreme Core</strong> as it will be the main template that people will use to build future themes, This theme should have every feature that is available within the CMS release.</p>\n\n<p>You will be able to pick and choose what elements you want to enable on your themes each time you design one.</p>\n\n<p>We are currently working on the menu system at the top of the page, where you see the gold buttons that say Home, Forums, Links, Downloads etc. We are adding the admin code so that when a user is logged in as an admin it will add admin options to each of the menu eares.</p>\n\n<p>&nbsp;</p>');
-
 CREATE TABLE `nuke_faqcategories` (
   `id_cat` tinyint(3) NOT NULL,
   `categories` varchar(255) DEFAULT NULL,
   `flanguage` varchar(30) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `nuke_faqcategories` (`id_cat`, `categories`, `flanguage`) VALUES
-(1, 'General Q&A', 'english');
 
 CREATE TABLE `nuke_file_repository_categories` (
   `cid` int(11) NOT NULL,
