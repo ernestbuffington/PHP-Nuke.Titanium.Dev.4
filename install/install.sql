@@ -4545,7 +4545,7 @@ CREATE TABLE `nuke_shoutbox_shouts` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_shoutbox_shouts` (`id`, `name`, `comment`, `date`, `time`, `ip`, `timestamp`) VALUES
-(1, 'OurScripts.86it.us', 'Thank You for trying this out!', '8-6-05', '24:00', 'noip', '1102320000');
+(1, 'www.86it.us', 'Thank You for trying this out!', '8-6-05', '24:00', 'noip', '1102320000');
 
 CREATE TABLE `nuke_shoutbox_sticky` (
   `id` int(9) NOT NULL,
