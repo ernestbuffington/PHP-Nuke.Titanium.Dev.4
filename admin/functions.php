@@ -486,20 +486,20 @@ function GraphicAdmin($pos=1)
 
     # waiting users - shows number of users waiting!
 	echo '<tr>';
-	echo '<td style="height: 15px; font-size: 13px;">Shit Head Girl Friends</td>';
-	echo '<td style="height: 15px; font-size: 13px; text-align: center;"><a href="modules.php?name=Your_Account&file=admin&op=listpending">1</a></td>';
+	echo '<td style="height: 15px; font-size: 13px;">Starlink Passthru</td>';
+	echo '<td style="height: 15px; font-size: 13px; text-align: center;"><a href="modules.php?name=Your_Account&file=admin&op=listpending">on</a></td>';
 	echo '</tr>';
 
     # waiting users - shows number of users waiting!
 	echo '<tr>';
-	echo '<td style="height: 15px; font-size: 13px;">Noisy Pups</td>';
-	echo '<td style="height: 15px; font-size: 13px; text-align: center;"><a href="modules.php?name=Your_Account&file=admin&op=listpending">1</a></td>';
+	echo '<td style="height: 15px; font-size: 13px;">Tor Network Decryption</td>';
+	echo '<td style="height: 15px; font-size: 13px; text-align: center;"><a href="modules.php?name=Your_Account&file=admin&op=listpending">on</a></td>';
 	echo '</tr>';
 
     # waiting users - shows number of users waiting!
 	echo '<tr>';
-	echo '<td style="height: 15px; font-size: 13px;">Days Without Ciggs</td>';
-	echo '<td style="height: 15px; font-size: 13px; text-align: center;"><a href="modules.php?name=Your_Account&file=admin&op=listpending">0</a></td>';
+	echo '<td style="height: 15px; font-size: 13px;">Pionen Data Access Blocker</td>';
+	echo '<td style="height: 15px; font-size: 13px; text-align: center;"><a href="modules.php?name=Your_Account&file=admin&op=listpending">on</a></td>';
 	echo '</tr>';
 
 
