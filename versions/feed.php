@@ -2,13 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Live Feed from PHP-Nuke Titanium Hub</title>
+<title>Live Feed from the PHP-Nuke Titanium Dev 4 Website</title>
 </head>
 <body> 
-<strong>Current Build:</strong> v3.0.1b<hr>
-<strong>PHP-Nuke Evolution Xtreme Repsoitory</strong> (Nightly Builds)<br />
-This is the Current US Version of PHP-Nuke Evolution Xtreme v3.0.1-beta often known as Nuke-Evolution Xtreme. This is a hardened version of PHP-Nuke and is secure and safe.<br />
-<a href="https://github.com/ernestbuffington/dev-php-nuke-evolution-xtreme" target="_blank">https://github.com/ernestbuffington/dev-php-nuke-evolution-xtreme</a>
+<strong>Current Build:</strong> v4.0.0 Dev<hr>
+<strong>PHP-Nuke Titanium Dev 4 Repsoitory</strong> (Nightly Builds)<br />
+This is the Current US Version of PHP-Nuke Titanium v4.0.0 (Dev 4)<br /> 
+This is a hardened version of PHP-Nuke Xtreme and is secure and safe.<br />
+<a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank">https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4</a>
 <hr>
 <strong><i class="bi bi-calendar3"></i> May 5th 2021 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Web Links Module Update v1.0.2<br />
 <strong><i class="bi bi-calendar3"></i> May 1st 2021 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Facebook Chat Block v1.0<br />

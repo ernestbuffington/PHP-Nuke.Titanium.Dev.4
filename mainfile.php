@@ -58,7 +58,7 @@ if((defined('NUKE_EVO')) || (defined('NUKE_TITANIUM')))return;
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))exit('Access Denied');
 
 # Define File
-define_once('NUKE_EVO', '3.0.1b');
+define_once('NUKE_EVO', '4.0.0');
 # Network Support
 define_once('NUKE_TITANIUM', '4.0.0a');
 # Network Support
