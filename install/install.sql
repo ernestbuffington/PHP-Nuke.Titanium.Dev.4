@@ -4871,8 +4871,6 @@ INSERT INTO `nuke_users` (`user_id`, `name`, `username`, `user_email`, `femail`,
 (3, 'Ernest A Buffington', 'TheGhost', 'ernest.buffington@gmail.com', '', 'https://theghost.86it.us', '210584338363054da37eb30.', 'Aug 23, 2022', 'Data Scientist / Programmer', 'Brandon, Florida', 'usa.png', 'Code', '', 0, NULL, 'ernest.buffington.1', 'a0ed1dc594445e7a51ac198fb2585098', 10, 'nested', 0, 0, 0, '', 0, NULL, '', 4096, 0, 1, -1, 1, 4, 2, 1, 0, 1, 1661299561, 0, 1661297523, '-5.00', NULL, 'english', 'D M d, Y g:i a', 0, 0, 0, NULL, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, '', '', NULL, 0, '47.206.216.196', 70, 0, 1, 0, 0, 1, '00aa00', '----3----4----1--------------------------------------------4----1--------------------------------------------1------3--', 1, 1, 1, 60, '0', 0, '1', 0, 1, 1, NULL, 0, 0, -2, -2, -2, -2, 1, 0, NULL, 0, 0, 0, -0.2, 1661280823, '', 0),
 (4, 'Bob Marion', 'NukeSheriff', 'bob.marion@86it.us', '', 'https://hub.86it.us/index.php?op=ad_network_click&bid=7', '10066464956305665d8aaf0.', 'Aug 23, 2022', 'Programmer', '', 'usa.png', 'PHP-Nuke Titanium', '', 0, NULL, '', 'a0ed1dc594445e7a51ac198fb2585098', 10, 'nested', 0, 0, 0, '', 0, NULL, '', 4096, 0, 1, 0, 1, 6, 2, 1, 0, 1, 1661299843, -10, 1661299360, '-5.00', NULL, 'english', 'D M d, Y g:i a', 0, 0, 1661299691, NULL, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, '', '', NULL, 0, '47.206.216.196', 70, 0, 1, 0, 0, 0, '00b3ff', '--4--', 1, 1, 1, 60, '0', 0, '1', 0, 0, 1, NULL, 0, 0, 5, -2, -2, -2, 1, 0, NULL, 0, 0, 0, 0, NULL, '', 0);
 
-
-
 CREATE TABLE `nuke_users_countries` (
   `id_country` int(11) NOT NULL,
   `name` varchar(64) NOT NULL DEFAULT '',
