@@ -39,4 +39,4 @@ Disallow: /nconfig.php
 Disallow: /ips.php
 Disallow: /trap.php
 
-Sitemap: https://yourdomainhere.com/xmls/sitemap/sitemap-index.xml
+Sitemap: https://php-nuke-titanium.86it.us/xmls/sitemap/sitemap-index.xml

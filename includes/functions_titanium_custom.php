@@ -198,6 +198,7 @@ function title_and_meta_tags()
 			
 			
 			endif; 			
+			   
 			   if (@file_exists(TITANIUM_THEMES_DIR.'/includes/facebook/'.$module_name.'/'.$module_name.'.php')): # Added by Ernest Buffington
 	           include(TITANIUM_THEMES_DIR.'/includes/facebook/'.$module_name.'/'.$module_name.'.php');           # Load extra meta settings from each module
 		       endif;

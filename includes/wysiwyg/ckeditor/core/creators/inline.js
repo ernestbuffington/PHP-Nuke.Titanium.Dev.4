@@ -80,7 +80,7 @@
 
 			// Inline editing defaults to "wysiwyg" mode, so plugins don't
 			// need to make special handling for this "mode-less" environment.
-			editor.mode = 'wysiwyg';
+			editor.mode = 'source';
 			editor.fire( 'mode' );
 
 			// The editor is completely loaded for interaction.
