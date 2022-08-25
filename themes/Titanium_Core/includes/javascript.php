@@ -82,7 +82,7 @@ global $domain;
         <h1 class="modal-title" id="CenterTitle">
         <font size="2" class="display-1" color="#000000"><i class="bi bi-arrow-right-square-fill"></i> Theme Name: <?=THEME?>
                  <br /><i class="bi bi-arrow-right-square-fill"></i> Markup Language: XHTML
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Copyright: <i class="far fa-copyright"></i> 2021 The 86it Developers Network
+                 <br /><i class="bi bi-arrow-right-square-fill"></i> Copyright: <i class="far fa-copyright"></i> Brandon Maintenance Management
                  <br /><i class="bi bi-arrow-right-square-fill"></i> Creation Date: <?=THEME_DATE?> 
                  <br /><i class="bi bi-arrow-right-square-fill"></i> Author: <?=THEME_AUTHOR?>
                  <br /><i class="bi bi-arrow-right-square-fill"></i> License: GNU General Public License
