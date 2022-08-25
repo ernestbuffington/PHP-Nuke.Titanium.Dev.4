@@ -654,7 +654,7 @@ class sql_db
     function mariadb_version()
 	{
 		if($this->db_connect_id):
-			$result  = 'Powered by PHP-Nuke Titanium Dev 4<br>';
+			$result  = 'Powered by PHP-Nuke Titanium Dev 4<br />';
 			$result .= 'MySQL Server Version: ';
 			$result .= @mysqli_get_server_info($this->db_connect_id);
 			return $result;
