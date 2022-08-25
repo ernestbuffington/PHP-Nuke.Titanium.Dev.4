@@ -3,9 +3,9 @@ if(!defined('NUKE_EVO')) exit;
 
 $content = '<hr>';
 $content .= '<div align="center">';
-$content .= '<strong>Computer</strong><br />Intel(R) Xeon(R)<br /> CPU E3-1230 v5 @ 3.40GHz<br />';
+$content .= '<strong>Dedicated Rack 68</strong><br />Intel(R) Xeon(R)<br /> CPU E3-1230 v5 @ 3.40GHz<br />Data Center: Tampa, Florida<br />Hosting: $500.00 Monthly';
 $content .= '<hr>';
-$content .= '<strong>CMS</strong><br />PHP-Nuke Titanium Dev 4<br />v4.0.0b<br />';
+$content .= '<strong>CMS</strong><br />PHP-Nuke Titanium Dev 4<br />v4.0.0 Beta<br />';
 $content .= '<hr>';
 $content .= '<strong>Linux</strong><br />CENTOS 7.9.2009<br />x86_64<br />';
 $content .= '<hr>';
