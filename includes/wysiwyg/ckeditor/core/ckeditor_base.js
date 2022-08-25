@@ -53,7 +53,7 @@ if ( !window.CKEDITOR ) {
 			 *
 			 *		alert( CKEDITOR.version ); // e.g. 'CKEditor 3.4.1'
 			 */
-			version: 'For PHP-Nuke Titanium v3.0.0',
+			version: 'For PHP-Nuke Titanium v4.0.0',
 
 			/**
 			 * Contains the CKEditor revision number.
@@ -62,7 +62,7 @@ if ( !window.CKEDITOR ) {
 			 *
 			 *		alert( CKEDITOR.revision ); // e.g. '3975'
 			 */
-			revision: '0001',
+			revision: '0002',
 
 			/**
 			 * A 3-digit random integer, valid for the entire life of the CKEDITOR object.
