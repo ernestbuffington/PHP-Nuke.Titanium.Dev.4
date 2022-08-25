@@ -62,7 +62,7 @@ define_once('NUKE_EVO', '4.0.0');
 # Network Support
 define_once('NUKE_TITANIUM', '4.0.0a');
 # Network Support
-define_once('TITANIUM_BUILD', '4021');
+define_once('TITANIUM_BUILD', '4022');
 define_once('CUR_EVO', 'NUKE_EVO');
 # Network Support
 define_once('CUR_TITANIUM', 'NUKE_TITANIUM');
