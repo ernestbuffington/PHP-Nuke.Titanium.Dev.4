@@ -46,7 +46,6 @@ function title_and_meta_tags()
 		            $facebookappid = "<meta property=\"fb:app_id\" content=\"".$appID."\" />\n";
 		           $facebook_admin = '<meta property="fb:admins" content="3788797984541781" />'."\n"; # TheGhost's facebook user ID
 	           $facebook_page_type = "<meta property=\"og:type\" content=\"website\" />\n";
-		 $google_site_verification = '<meta name="google-site-verification" content="o99pC0eeVthNETkL6I5knTEX4nTAOeBeJno4ZD-EvzY" />'."\n";
 		  
 		  if(!defined('HOME_FILE')):
 
@@ -56,10 +55,10 @@ function title_and_meta_tags()
 			# each module has a logo image file START
 			if (@file_exists(NUKE_MODULES_DIR.$module_name.'/images/logo.png')): 
 		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
-	             $facebook_ogimage = '<meta property="og:image:secure_url" content=content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
+	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
 			else:
 		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
-	             $facebook_ogimage = '<meta property="og:image:secure_url" content=content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
+	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
 			endif;
             # each module has a logo image file END
 			
@@ -82,10 +81,10 @@ function title_and_meta_tags()
 			# each module has a logo image file START
 			if (@file_exists(NUKE_MODULES_DIR.$module_name.'/images/logo.png')): 
 		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
-	             $facebook_ogimage = '<meta property="og:image:secure_url" content=content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
+	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
 			else:
 		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
-	             $facebook_ogimage = '<meta property="og:image:secure_url" content=content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
+	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
 			endif;
             # each module has a logo image file END
 	        
@@ -106,10 +105,10 @@ function title_and_meta_tags()
 			
 			if (@file_exists(NUKE_MODULES_DIR.$module_name.'/images/logo.png')): 
 		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
-	              $facebook_ogimage = '<meta property="og:image:secure_url" content=content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
+	              $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
 			else:
 		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
-	              $facebook_ogimage = '<meta property="og:image:secure_url" content=content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
+	              $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
 			endif;
 
 			     $facebookimagetype = '<meta property="og:image:type" content="image/png" />'."\n";
@@ -138,7 +137,7 @@ function title_and_meta_tags()
                  endif;
 	             
 		    $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
-	               $facebook_ogimage = '<meta property="og:image:secure_url" content=content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
+	               $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
                  
 				     $facebook_ogurl = "<meta property=\"og:url\" content=\"".HTTPS."modules.php?name=$name&file=article&sid=$sid\" />\n";
              $facebook_ia_markup_url = "<meta property=\"ia:markup_url\" content=\"".HTTPS."modules.php?name=$name&file=article&sid=$sid\" />\n";
@@ -206,7 +205,7 @@ function title_and_meta_tags()
 		  # do all this shit if you are on the index.php page
 		  else:
 			$facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
-	               $facebook_ogimage = '<meta property="og:image:secure_url" content=content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
+	               $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
 			      $facebookimagetype = '<meta property="og:image:type" content="image/png" />'."\n";
              $facebook_ogimage_width = '<meta property="og:image:width" content="1200" />'."\n";
             $facebook_ogimage_height = '<meta property="og:image:height" content="628" />'."\n";
@@ -249,9 +248,16 @@ function title_and_meta_tags()
 						 }	 
                    $structured_data .= '  "dateModified": "'.$dmod.'",'."\n\n";
                  
-			       $structured_data .= '  "author": {'."\n";
+			       
+				   global $prefix, $portaladmin, $webmastername;
+				    
+				   list($webmastername, 
+	               $avatar, 
+				   $email) = $db->sql_ufetchrow("SELECT `name`,`user_avatar`, `user_email` FROM `".$prefix."_users` WHERE `user_id`='$portaladmin'", SQL_NUM);
+
+				   $structured_data .= '  "author": {'."\n";
                    $structured_data .= '  "@type": "Person",'."\n";
-                   $structured_data .= '  "name": "Ernest Allen Buffington"'."\n";
+                   $structured_data .= '  "name": "'.$webmastername.'"'."\n";
                    $structured_data .= '  },'."\n\n";
                  
 			       $structured_data .= ' "publisher": {'."\n";
@@ -275,11 +281,8 @@ function title_and_meta_tags()
 	   $newpagetitle = ($module_name) ? $item_delim .' '.$module_name_str : '';
     endif;
 	
-    echo $google_site_verification;
-	
 	if ($appID > 0):
 	print $facebook_admin;
-	endif;
 	print $facebook_page_type;
     print $facebookappid;
     print $facebook_ogimage_normal;
@@ -295,6 +298,7 @@ function title_and_meta_tags()
     print $facebookimagetype;
 	print $facebook_ogdescription;
 	print $facebook_og_title;
+	endif;
 	
 	print '<title>'.$sitename.' '.$newpagetitle.'</title>'."\n";
 	

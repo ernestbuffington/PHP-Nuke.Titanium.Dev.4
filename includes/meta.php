@@ -61,8 +61,7 @@ if(($metatags = $cache->load('metatags', 'config')) === false)
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-
-$metastring .= '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">'."\n";
+$metastring .= '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />'."\n";
 
 /**
  * Only add the meta tag below if the theme is bootstrap made.

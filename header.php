@@ -2,7 +2,6 @@
 /*======================================================================= 
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
-
 /************************************************************************/
 /* PHP-NUKE: Advanced Content Management System                         */
 /* ============================================                         */
@@ -14,7 +13,6 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
-
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       NukeSentinel                             v2.5.00      07/11/2006
@@ -79,9 +77,9 @@ function head()
     include_once(NUKE_INCLUDE_DIR.'meta.php');
 
     # START function to grab the page title. - 09/07/2019
-    echo "<!-- START title_and_meta_tags(); -->\n";
+ 	echo "\n\n<!-- START title_and_meta_tags(); -->\n";
  	title_and_meta_tags();
-    echo "<!-- END title_and_meta_tags(); -->\n\n";
+    echo "<!-- END title_and_meta_tags(); -->\n\n\n\n\n\n";
     # END function to grab the page title. - 09/07/2019
 
 	################################################################
@@ -156,14 +154,12 @@ function head()
 
     global $browser;
     
-	if(isset($modheader)) 
-	echo $modheader; 
-
     echo "\n\n<!-- START writeHEAD() -->\n\n";
     writeHEAD();
     echo "\n<!-- END writeHEAD() -->\n\n";
 
-    echo "\n\n<!-- START custom_head -->\n\n";
+    /*
+	echo "\n\n<!-- START custom_head -->\n\n";
 	if ((($custom_head = $cache->load('custom_head', 'config')) === false) || empty($custom_head)): 
         $custom_head = array();
 	    if (file_exists(NUKE_INCLUDE_DIR.'custom_files/custom_head.php')) 
@@ -184,8 +180,9 @@ function head()
         endif;
     endif;
     echo "\n<!-- END custom_head -->\n\n";
-
-    /* ----- as you can probably tell this is used for IE compatibility ----- */
+    */
+    
+	/* ----- as you can probably tell this is used for IE compatibility ----- */
     echo '<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]-->'."\n";
     echo "</head>\n";
     echo "\n<!-- END </head> -->\n\n";
@@ -196,6 +193,10 @@ function head()
 
     themeheader();
 
+	// used for class ckeditor
+	if(isset($modheader)) 
+	echo $modheader; 
+
 /*****[BEGIN]******************************************
  [ Base:    NukeSentinel                      v2.5.00 ]
  ******************************************************/
@@ -205,6 +206,8 @@ function head()
  [ Base:    NukeSentinel                      v2.5.00 ]
  ******************************************************/
 }
+
+head();
 
 function online() 
 {
@@ -449,7 +452,6 @@ function online()
 }
 
 online();
-head();
 
 /*****[BEGIN]******************************************
  [ Mod:    NSN Center Blocks                   v2.2.1 ]

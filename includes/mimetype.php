@@ -58,8 +58,6 @@ $charset = defined('_CHARSET') ? _CHARSET : 'UTF-8';
 $mime = defined('_MIME') ? _MIME : 'text/html';
 $is304 = false;
 
-$output = '<?xml version="1.0" encoding="' . $mime . '"?>'."\n";
-
 if (empty($doctype)) 
 {
     $doctype = 'transitional';
@@ -93,6 +91,7 @@ switch ($doctype)
         break;
 }
 
+$output  = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
 $output .= "\n".'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'._LANGCODE.'">'."\n";
 $output .= "".'<html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="https://www.facebook.com/2008/fbml">'."\n"; 
 
