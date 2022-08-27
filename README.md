@@ -1,7 +1,7 @@
 <a href="https://www.php-nuke-titanium.86it.us" rel="nofollow"><img src="/images/github/github_rip_open2.png" alt="PHP-NUke Titanium" style="max-width: 100%;"></a>
 
 <h2>Changes in the US PHP-Nuke Titanium Dev 4</h2>
-Support Website https://www.php-nuke-titanium.86it.us/index.php SIGN UP AND CHECK IT OUT!!!
+Support Website https://www.php-nuke-titanium.86it.us SIGN UP AND CHECK IT OUT!!!
 <br />
 <h2>Server Requirements</h2>
 
