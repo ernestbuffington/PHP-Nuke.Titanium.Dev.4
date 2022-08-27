@@ -3,6 +3,9 @@
 <h2>Changes in PHP-Nuke Titanium Dev 4</h2>
 Support Website https://www.php-nuke-titanium.86it.us SIGN UP AND CHECK IT OUT!!!
 <br />
+<h2>2022 Nightly Build Repo</h2>
+<p>This code is running live at https://www.php-nuke-titanium.86it.us</p>
+
 <h2>Server Requirements</h2>
 
 <ul>
@@ -17,9 +20,6 @@ Support Website https://www.php-nuke-titanium.86it.us SIGN UP AND CHECK IT OUT!!
 	<li>Minimum of 100 MB/s web space</li>
 	<li>Minimum of 5 GB/s bandwidth (5 TB/s or unmetered is recommended)</li>
 </ul>
-
-<h2>2022 Nightly Build Repo</h2>
-<p>This code is running live at https://www.php-nuke-titanium.86it.us</p>
 
 <h2>Local Development</h2>
 
