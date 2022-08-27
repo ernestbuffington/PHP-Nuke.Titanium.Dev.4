@@ -18,6 +18,9 @@ Support Website https://www.php-nuke-titanium.86it.us SIGN UP AND CHECK IT OUT!!
 	<li>Minimum of 5 GB/s bandwidth (5 TB/s or unmetered is recommended)</li>
 </ul>
 
+<h2>2022 Nightly Build Repo</h2>
+<p>This code is running live at https://www.php-nuke-titanium.86it.us</p>
+
 <h2>Local Development</h2>
 
 <p>PHP-Nuke Titanium while advanced can be easily installed using local development servers including MAMP, WAMP, and XAMPP but you can also use IIS or compile your own AMP (Apache, MySQL, PHP) server if you wish to. Please ensure that your local server meets the first 3 server requirements in order to achieve the best possible development results when building your custom add-ons, modules, and mods.</p>
