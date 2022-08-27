@@ -317,8 +317,16 @@ endif;
 # Enable 86it Network Support START
 if (@file_exists(NUKE_BASE_DIR.'nconfig.php')):  
 @require_once(NUKE_BASE_DIR.'nconfig.php');
-  if ( defined('network') ):
-  // if the network is enabled do some shit
+global $dbpass2, $dbhost2, $dbname2, $dbuname2, $db2, $network_prefix;
+  if(defined('network')):
+  if(!isset($dbname2) || empty($$dbname2)) 
+  die('$dbname2 <- your network database name is not configured in your ROOT nbconfig.php file!');
+  if(!isset($dbuname2) || empty($dbuname2)) 
+  die('$$dbuname2 <- your network database user name is not configured in your ROOT nbconfig.php file!');
+  if(!isset($dbpass2) || empty($dbpass2)) 
+  die('$dbpass2 <- your network database password is not configured in your ROOT nbconfig.php file!');
+  if(!isset($network_prefix) || empty($network_prefix)) 
+  die('$network_prefix <- your network prefix is not configured in your ROOT nbconfig.php file!');
   endif;
 endif;
 # Enable 86it Network Support END 
@@ -329,13 +337,13 @@ if (@file_exists(NUKE_BASE_DIR.'fbconfig.php')):
   if ( defined('facebook') ):
   global $fb, $appID, $api_version, $appSecret, $my_url;
   if(!isset($my_url) || empty($my_url)) 
-  die('$my_url <- your domain is not set in your fbconfig.php file!');
+  die('$my_url <- your domain is not set in your ROOT fbconfig.php file!');
   if(!isset($appSecret) || empty($appSecret)) 
-  die('$appSecret <- your facebook appSecret is not defined in your fbconfig.php file!');
+  die('$appSecret <- your facebook appSecret is not defined in your ROOT fbconfig.php file!');
   if(!isset($appID) || empty($appID)) 
-  die('$appID <- your facebook appID is not defined in your fbconfig.php file!');
+  die('$appID <- your facebook appID is not defined in your ROOT fbconfig.php file!');
   if(!isset($api_version) || empty($api_version)) 
-  die('$api_version <- your facebook api_version is not defined in your fbconfig.php file!');
+  die('$api_version <- your facebook api_version is not defined in your ROOT fbconfig.php file!');
   endif;
 endif;
 # facebook SDK Mod END
