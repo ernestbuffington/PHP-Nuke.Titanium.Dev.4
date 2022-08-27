@@ -318,7 +318,7 @@ endif;
 if (@file_exists(NUKE_BASE_DIR.'nconfig.php')):  
 @require_once(NUKE_BASE_DIR.'nconfig.php');
   if ( defined('network') ):
-
+  // if the network is enabled do some shit
   endif;
 endif;
 # Enable 86it Network Support END 
