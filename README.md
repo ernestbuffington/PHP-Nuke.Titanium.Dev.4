@@ -1,4 +1,4 @@
-<<div class="border rounded-2 repository-og-image js-repository-image-container" style="background-image: url(&quot;https://repository-images.githubusercontent.com/356110895/07b1cd00-b905-11eb-8daa-fa23876568cf&quot;);"></div>
+<div class="border rounded-2 repository-og-image js-repository-image-container" style="background-image: url(&quot;https://repository-images.githubusercontent.com/356110895/07b1cd00-b905-11eb-8daa-fa23876568cf&quot;);"></div>
 <img class="border rounded-2 repository-og-image js-repository-image-container" src="https://repository-images.githubusercontent.com/356110895/07b1cd00-b905-11eb-8daa-fa23876568cf" alt="PHP-Nuke Evolution Xtreme (US Version)" width="640" height="320">
 </div>
 
