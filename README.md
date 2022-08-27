@@ -1,3 +1,5 @@
+<div class="border rounded-2 repository-og-image js-repository-image-container" style="background-image: url('https://repository-images.githubusercontent.com/528006813/7430a7b6-8758-423e-a1ca-a19eb38bb35b')"></div>
+
 <h2>Changes in the US Version of PHP-Nuke Titanium</h2>
 Demo Website https://www.php-nuke-titanium.86it.us/index.php SIGN UP AND CHECK IT OUT!!!
 <br /><br />
