@@ -3,48 +3,6 @@
 <h2>Changes in the US Version of PHP-Nuke Titanium</h2>
 Demo Website https://www.php-nuke-titanium.86it.us/index.php SIGN UP AND CHECK IT OUT!!!
 <br /><br />
-<ul>
-        <li><strong>Fixed</strong> - Data Base Errors Fixed in Installer - Added new logo as well</li>
-        <li><strong>Removed</strong> - Google Titanium SDK v5 - This adds all the support you need for Google Developers</li>
-	<li><strong>Added</strong> - New Theme Dragon Skull v1.04</li>
-	<li><strong>Added</strong> - New Theme Limo Tint v1.9</li>
-	<li><strong>Added</strong> - New Default Theme Inferno v1.0</li>
-	<li><strong>Added</strong> - fbconfig.php configuration file for the Titanium Facebook SDK v5</li>
-	<li><strong>Added</strong> - Deactivate Account for Titanium Facebook SDK v5</li>
-	<li><strong>Added</strong> - Google Site Map v1.0 for <strong><span style="color:#3498db">PHP 7.xx&nbsp;</span></strong></li>
-	<li><strong>Added</strong> - Titanium Facebook SDK v5</li>
-	<li><strong>Added</strong> - Facebook Likes for Blogs</li>
-	<li><strong>Added</strong> - Facebook Commenting for Blogs</li>
-	<li><strong>Added</strong> - Portals now come with a preconfigured facebook app (associated with your web portal)</li>
-	<li><strong>Added</strong> - <strong>Blog</strong> This is the main portal Blog module</li>
-	<li><strong>Added</strong> - <strong>Blog_Archive</strong> This is the archives module it keeps a history of your blogs</li>
-	<li><strong>Added</strong> - <strong>Blog_Submit</strong> This allows people to submit Blogs to your portal</li>
-	<li><strong>Added</strong> - <strong>Blog_Top</strong> This is a module that displays the top 10 Blogs on your portal</li>
-	<li><strong>Added</strong> - <strong>Blog_Topics</strong> This is a module thats lists all your Blog topics</li>
-	<li><strong>Added</strong> - <strong>Network_Advertising</strong> Module by <strong>NukeScripts.Net</strong></li>
-	<li><strong>Added</strong> - <strong>Loan</strong> Module by <strong>ScottybCoder</strong> A 30/360 Rule loan caluclator</li>
-	<li><strong>Added</strong> - <strong>Network Bookmarks</strong> (private bookmark vault for users)</li>
-	<li><strong>Added</strong> - <strong>Proof_Of_God</strong> Module by <strong>ScottyBcoder</strong></li>
-	<li><strong>Added</strong> - Resolution Checking for Advanced Themes</li>
-	<li><strong>Added</strong> - Flykit for designing themes on the Fly (used to edit CSS in realtime)</li>
-	<li><strong>Added</strong> - Network Projects for network use, to report errors with themes modules or general code bugs</li>
-	<li><strong>Added</strong> - Each theme will automatically switch to the needed mime-type on the Fly! (awesome for old themes)</li>
-	<li><strong>Update</strong> - nuke_session database table uname and module was set to VARCHAR 255</li>
-	<li><strong>Update</strong> - Admin <strong>Portal Menu v5</strong>&nbsp;updated for <strong><span style="color:#3498db">PHP 7.xx&nbsp;</span></strong></li>
-	<li><strong>Update</strong> - Admin <strong>Authors Panel</strong> updated for <strong><span style="color:#3498db">PHP 7.xx</span></strong></li>
-	<li><strong>Update</strong> - Admin <strong>Blocks Panel</strong> updated for <strong><span style="color:#3498db">PHP 7.xx</span></strong></li>
-	<li><strong>Update</strong> - Admin <strong>Backup Panel</strong> updated for <strong><span style="color:#3498db">PHP 7.xx</span></strong></li>
-	<li><strong>Update</strong> - Admin <strong>Modules Panel</strong> updated for <strong><span style="color:#3498db">PHP 7.xx</span></strong></li>
-	<li><strong>Re-Write</strong> - <strong>of the title_and_meta_tags(); function</strong> for Facebook SDK v5</li>
-	<li><strong>Re-Write</strong> - <strong>Web_Links</strong> Module</li>
-	<li><strong>Removed</strong> - News Module</li>
-    <li><strong>Removed</strong> - Stories_Archive Module</li>
-    <li><strong>Removed</strong> - Top Module</li>
-	<li><strong>Removed</strong> - Topics Module</li>
-	<li><strong>Removed</strong> - Site_Map Module</li>
-</ul>
-
-
 <h2>Server Requirements</h2>
 
 <ul>
