@@ -1,4 +1,4 @@
-<a href="https://www.php-nuke-titanium.86it.us" rel="nofollow"><img src="/images/github/github_rip_open.png" alt="PHP-NUke Titanium" width="400" style="max-width: 100%;"></a>
+<a href="https://www.php-nuke-titanium.86it.us" rel="nofollow"><img src="/images/github/github_rip_open.png" alt="PHP-NUke Titanium" width="640" style="max-width: 100%;"></a>
 
 <h2>Changes in the US Version of PHP-Nuke Titanium</h2>
 Demo Website https://www.php-nuke-titanium.86it.us/index.php SIGN UP AND CHECK IT OUT!!!
