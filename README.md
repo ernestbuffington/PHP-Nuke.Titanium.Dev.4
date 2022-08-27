@@ -2,7 +2,7 @@
 
 <h2>Changes in the US PHP-Nuke Titanium Dev 4</h2>
 Support Website https://www.php-nuke-titanium.86it.us/index.php SIGN UP AND CHECK IT OUT!!!
-<br /><br />
+<br />
 <h2>Server Requirements</h2>
 
 <ul>
