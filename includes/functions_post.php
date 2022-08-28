@@ -1,7 +1,8 @@
 <?php
-/*=======================================================================
- Nuke-Evolution Basic: Enhanced PHP-Nuke Web Portal System
+/*======================================================================= 
+  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
+
 
 /***************************************************************************
  *                            functions_post.php
@@ -849,67 +850,88 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 
                                 if (count($bcc_list_ary))
                                 {
-                                        include("includes/emailer.php");
-                                        $emailer = new emailer($board_config['smtp_delivery']);
+                                    $script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['script_path']));
+                                    $script_name = 'modules.php?name=Forums&file=viewtopic';
+                                    $server_name = trim($board_config['server_name']);
+                                    $server_protocol = ($board_config['cookie_secure']) ? 'https://' : 'http://';
+                                    $server_port = ($board_config['server_port'] <> 80) ? ':' . trim($board_config['server_port']) . '/' : '/';
 
-                                        $script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['script_path']));
-                                        $script_name = 'modules.php?name=Forums&file=viewtopic';
-                                        $server_name = trim($board_config['server_name']);
-                                        $server_protocol = ($board_config['cookie_secure']) ? 'https://' : 'http://';
-                                        $server_port = ($board_config['server_port'] <> 80) ? ':' . trim($board_config['server_port']) . '/' : '/';
+                                    $orig_word = array();
+                                    $replacement_word = array();
+                                    obtain_word_list($orig_word, $replacement_word);
 
-                                        $orig_word = array();
-                                        $replacement_word = array();
-                                        obtain_word_list($orig_word, $replacement_word);
+                                    $topic_title = (count($orig_word)) ? preg_replace($orig_word, $replacement_word, unprepare_message($topic_title)) : unprepare_message($topic_title);
 
-                                        $emailer->from($board_config['board_email']);
-                                        $emailer->replyto($board_config['board_email']);
+                                    @reset($bcc_list_ary);
+                                    @reset($user_name);
 
-                                        $topic_title = (count($orig_word)) ? preg_replace($orig_word, $replacement_word, unprepare_message($topic_title)) : unprepare_message($topic_title);
+                                    $notify_body_pattern    = array(
+                                        '{USERNAME}',
+                                        '{TOPIC_TITLE}',
+                                        '{SITENAME}',
+                                        '{U_TOPIC}',
+                                        '{REPLY_BY}',
+                                        '{CONTENTS}',
+                                        '{ATTACHMENT}',
+                                        '{U_STOP_WATCHING_TOPIC}',
+                                        '{EMAIL_SIG}'
+                                    );
 
-                                        @reset($bcc_list_ary);
-                                        @reset($user_name);
-                                        while (list($user_lang, $bcc_list) = each($bcc_list_ary))
-                                        {
-                                                $name_list = $user_name[$user_lang];
+                                    $notify_body_replace    = array(
+                                        $lang['From'].' '.$board_config['sitename'],
+                                        $topic_title,
+                                        $board_config['sitename'],
+                                        $server_protocol . $server_name . $server_port . $script_name . '&' . POST_POST_URL . "=$post_id#$post_id",
+                                        $poster_name,
+                                        $text,
+                                        $attachment,
+                                        $server_protocol . $server_name . $server_port . $script_name . '&' . POST_TOPIC_URL . "=$topic_id&unwatch=topic",
+                                        (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''
+                                    );
 
-                                                $emailer->use_template('topic_notify', $user_lang);
+                                    $email_data = array(
+                                        'email'         => $row['user_email'],
+                                        'from'          => $board_config['board_email'],
+                                        'reply_to'      => $board_config['board_email'],
+                                        'subject'       => $lang['Topic_reply_notification'],
+                                        'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '',
+                                        'content_type'  => 'text/html',
+                                        'charset'       => 'UTF-8',
 
-                                                for ($i = 0; $i < count($bcc_list); $i++)
-                                                {
-                                                        $emailer->bcc($bcc_list[$i]);
-                                                }
+                                        'username'      => $lang['From'].' '.$board_config['sitename'],
+                                        'topic_title'   => $topic_title,
+                                        'sitename'      => $board_config['sitename'],
+                                        'topic_link'    => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_POST_URL . "=$post_id#$post_id",
+                                        'reply_by'      => $poster_name,
+                                        'contents'      => $text,
+                                        'attachment'    => $attachment,
+                                        'stop_watching' => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_TOPIC_URL . "=$topic_id&unwatch=topic",
+                                        'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''
+                                    );
 
-                                                $email_name = substr($email_name, 0, strlen($email_name)-2);
+                                    $content = str_replace( '{USERNAME}', $email_data['username'], $lang['topic_notify'] );
+                                    $content = str_replace( '{TOPIC_TITLE}', $email_data['topic_title'], $content );
+                                    $content = str_replace( '{SITENAME}', $email_data['sitename'], $content );
+                                    $content = str_replace( '{U_TOPIC}', '<a href="'.$email_data['topic_link'].'">'.$email_data['topic_link'].'</a>', $content );
+                                    $content = str_replace( '{REPLY_BY}', $email_data['reply_by'], $content );
+                                    $content = str_replace( '{CONTENTS}', $email_data['contents'], $content );
+                                    $content = str_replace( '{ATTACHMENT}', $email_data['attachment'], $content );
+                                    $content = str_replace( '{U_STOP_WATCHING_TOPIC}', '<a href="'.$email_data['stop_watching'].'">'.$email_data['stop_watching'].'</a>', $content );
+                                    $content = str_replace( '{EMAIL_SIG}', $email_data['signature'], $content );
 
-                                                // The Topic_reply_notification lang string below will be used
-                                                // if for some reason the mail template subject cannot be read
-                                                // ... note it will not necessarily be in the posters own language!
-                                                $emailer->set_subject($lang['Topic_reply_notification']);
+                                    while (list($user_lang, $bcc_list) = each($bcc_list_ary))
+                                    {
+                                        $name_list = $user_name[$user_lang];
+                                        $headers[] = 'From: '.$email_data['from'];
+                                        for ($i = 0; $i < count($bcc_list); $i++):
+                                            $headers[] = 'Bcc: '.$bcc_list[$i];
+                                            $addbcc[] = $bcc_list[$i];
+                                        endfor;
 
-                                                // This is a nasty kludge to remove the username var ... till (if?)
-                                                // translators update their templates
-                                               // $emailer->msg = preg_replace('#[ ]?{USERNAME}#', '', $emailer->msg);
-/*****[BEGIN]******************************************
- [ Mod:     Topic Text Reply Email             v1.0.0 ]
- ******************************************************/
-                                                $emailer->assign_vars(array(
-                                                        'USERNAME' => "from ".$board_config['sitename'],//$user_name[$n],
-                                                        'EMAIL_SIG' => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '',
-                                                        'SITENAME' => $board_config['sitename'],
-                                                        'TOPIC_TITLE' => $topic_title,
-                                                        'CONTENTS' => $text,
-                                                        'ATTACHMENT' => $attachment,
-                                                        'RELPY_BY' => $poster_name,
-                                                        'U_TOPIC' => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_POST_URL . "=$post_id#$post_id",
-                                                        'U_STOP_WATCHING_TOPIC' => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_TOPIC_URL . "=$topic_id&unwatch=topic")
-                                                );
-/*****[END]********************************************
- [ Mod:     Topic Text Reply Email             v1.0.0 ]
- ******************************************************/
-                                                $emailer->send();
-                                                $emailer->reset();
-                                        }
+                                        $headers[] = 'Reply-To: '.$email_data['reply_to'];
+                                        $headers[] = 'Content-Type: '.$email_data['content_type'].'; charset='.$email_data['charset'];
+                                        evo_phpmailer( $addbcc, $email_data['subject'], $content, $headers );
+                                    }
                                 }
                         }
                         $db->sql_freeresult($result);
