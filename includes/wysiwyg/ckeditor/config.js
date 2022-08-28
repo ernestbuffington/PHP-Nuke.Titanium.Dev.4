@@ -89,7 +89,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'filetools,' + /* Add No Crash */
 		
 		'find,' +
-		'flash,' +
+		/*'flash,' + */
 		'floatingspace,' +
 		
 		'floatpanel,' + /* Add No Crash */
