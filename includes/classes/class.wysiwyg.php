@@ -34,16 +34,17 @@ class Wysiwyg
 		
 		global $name;
 		
+		if($name == Forums)
+		$wysiwyg = 'sceditor';
+
 		if((isset($_COOKIE["CKEditor_4_Access"])) && ($name == Forums))
 		$wysiwyg = 'ckeditor';
-		else
-		$wysiwyg = 'sceditor';
 		
 		if($name == Private_Messages)
 		$wysiwyg = 'sceditor';
 
-		if(empty($name))
-		$dir = 'ckeditor';
+		if(!isset($wysiwyg) || empty($wysiwyg))
+		$wysiwyg = 'ckeditor';
 		
 		if(!empty($wysiwyg) && $wysiwyg != 'bbcode' && $wysiwyg != 'none'): 
 			if (file_exists(NUKE_INCLUDE_DIR."wysiwyg/$wysiwyg/$wysiwyg.php")): 
@@ -84,16 +85,17 @@ class Wysiwyg
 
 		global $name;
         
+		if($name == Forums)
+		$wysiwyg = 'sceditor';
+		
 		if((isset($_COOKIE["CKEditor_4_Access"])) && ($name == Forums))
 		$wysiwyg = 'ckeditor';
-		else
-		$wysiwyg = 'sceditor';
 		
 		if($name == Private_Messages)
 		$wysiwyg = 'sceditor';
 		
-		if(empty($name))
-		$dir = 'ckeditor';
+		if(!isset($wysiwyg) || empty($wysiwyg))
+		$wysiwyg = 'ckeditor';
 
 		return select_box('xtextarea', $wysiwyg, $this->getEditors());
 	}
@@ -106,15 +108,16 @@ class Wysiwyg
 
 		global $name;
 
+		if($name == Forums)
+		$dir = 'sceditor';
+		
 		if((isset($_COOKIE["CKEditor_4_Access"])) && ($name == Forums))
 		$dir = 'ckeditor';
-		else
-		$dir = 'sceditor';
 
 		if($name == Private_Messages)
 		$dir = 'sceditor';
 		
-		if(empty($name))
+		if(!isset($dir) || empty($dir))
 		$dir = 'ckeditor';
 		
 		while ($dir = $wysiwygs->read()): 
