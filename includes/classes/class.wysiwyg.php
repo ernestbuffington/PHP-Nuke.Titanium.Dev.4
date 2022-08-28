@@ -39,6 +39,9 @@ class Wysiwyg
 		else
 		$wysiwyg = 'bbcode';
 		
+		if($name == Private_Messages)
+		$wysiwyg = 'sceditor';
+		
 		if(!empty($wysiwyg) && $wysiwyg != 'bbcode' && $wysiwyg != 'none'): 
 			if (file_exists(NUKE_INCLUDE_DIR."wysiwyg/$wysiwyg/$wysiwyg.php")): 
 				include_once(NUKE_INCLUDE_DIR."wysiwyg/$wysiwyg/$wysiwyg.php");
@@ -91,8 +94,11 @@ class Wysiwyg
 
 		global $name;
 
-        if(($name == Forums) || ($name == Private_Messages))
+        if($name == Forums)
 		$dir = 'bbcode';
+		
+		if($name == Private_Messages)
+		$dir = 'sceditor';
 		
 		while ($dir = $wysiwygs->read()): 
 			if ($dir[0] != '.' && is_dir(NUKE_INCLUDE_DIR."wysiwyg/$dir") && file_exists(NUKE_INCLUDE_DIR."wysiwyg/$dir/$dir.php")) 
