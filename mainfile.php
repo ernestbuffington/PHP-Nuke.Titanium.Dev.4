@@ -444,7 +444,7 @@ redirect(str_replace('.php/', '.php', $_SERVER['REQUEST_URI']));
 
 include_once(NUKE_MODULES_DIR.'Your_Account/includes/mainfileend.php');
 
-if (isset($_POST['clear_cache']))
+if(isset($_POST['clear_cache']))
 $cache->clear();
 
 define('NUKE_FILE', true);
@@ -454,7 +454,7 @@ $sitekey = md5($_SERVER['HTTP_HOST']);
 $gfx_chk = 0;
 $tipath = 'modules/Blog/images/topics/';
 $reasons = array('As Is', 'Offtopic', 'Flamebait', 'Troll', 'Redundant', 'Insighful', 'Interesting', 'Informative', 'Funny', 'Overrated', 'Underrated');
-$AllowableHTML = array('b'=>1, 'i'=>1, 'a'=>2, 'em'=>1, 'br'=>1, 'strong'=>1, 'blockquote'=>1, 'tt'=>1, 'li'=>1, 'ol'=>1, 'ul'=>1, 'pre'=>1);
+$AllowableHTML = array('p'=>1,'b'=>1, 'i'=>1, 'a'=>2, 'em'=>1, 'br'=>1, 'strong'=>1, 'blockquote'=>1, 'tt'=>1, 'li'=>1, 'ol'=>1, 'ul'=>1, 'pre'=>1);
 
 $nukeconfig = load_nukeconfig();
 
@@ -730,7 +730,7 @@ function title($text)
       $icon = img('NetworkAdvertisingFixed.png', $name); 
     else:
 
-       if ($name == ''):
+	   if(!isset($name) || empty($name)):
        # Index Hack as images were not showing up	   
 	   else:
 	   $icon = img($name.'.png', $name); 
@@ -738,7 +738,7 @@ function title($text)
 
 	endif;
 
-    if ($name == ''):
+    if(!isset($name) || empty($name)):
 	# Index Hack as images were not showing up
     else:
     OpenTable();
