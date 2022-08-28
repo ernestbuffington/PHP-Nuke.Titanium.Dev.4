@@ -11,6 +11,9 @@ This is the Current US Version of PHP-Nuke Titanium v4.0.0 (Dev 4)<br />
 This is a hardened version of PHP-Nuke Xtreme and is secure and safe.<br />
 <a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank">https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4</a>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Aug 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Network nconfig.cfg file checking<br />
+<strong><i class="bi bi-calendar3"></i> Aug 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added fbconfig.cfg file checking<br />
+<hr>
 <strong><i class="bi bi-calendar3"></i> Aug 24th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Gender Icon Display<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Aug 23rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Network SQL Errors<br />

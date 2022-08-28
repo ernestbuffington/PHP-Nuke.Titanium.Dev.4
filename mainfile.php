@@ -319,7 +319,7 @@ if (@file_exists(NUKE_BASE_DIR.'nconfig.php')):
 @require_once(NUKE_BASE_DIR.'nconfig.php');
 global $dbpass2, $dbhost2, $dbname2, $dbuname2, $db2, $network_prefix;
   if(defined('network')):
-  if(!isset($dbname2) || empty($$dbname2)) 
+  if(!isset($dbname2) || empty($dbname2)) 
   die('$dbname2 <- your network database name is not configured in your ROOT nbconfig.php file!');
   if(!isset($dbuname2) || empty($dbuname2)) 
   die('$$dbuname2 <- your network database user name is not configured in your ROOT nbconfig.php file!');
