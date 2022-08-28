@@ -43,7 +43,7 @@ class Wysiwyg
 		if($name == Private_Messages)
 		$wysiwyg = 'sceditor';
 
-		if(!isset($wysiwyg) || empty($wysiwyg))
+		if((!isset($wysiwyg) || empty($wysiwyg)) && ($name != Forums))
 		$wysiwyg = 'ckeditor';
 		
 		if(!empty($wysiwyg) && $wysiwyg != 'bbcode' && $wysiwyg != 'none'): 
@@ -94,7 +94,7 @@ class Wysiwyg
 		if($name == Private_Messages)
 		$wysiwyg = 'sceditor';
 		
-		if(!isset($wysiwyg) || empty($wysiwyg))
+		if((!isset($wysiwyg) || empty($wysiwyg)) && ($name != Forums))
 		$wysiwyg = 'ckeditor';
 
 		return select_box('xtextarea', $wysiwyg, $this->getEditors());
@@ -117,7 +117,7 @@ class Wysiwyg
 		if($name == Private_Messages)
 		$dir = 'sceditor';
 		
-		if(!isset($dir) || empty($dir))
+		if((!isset($dir) || empty($dir)) && ($name != Forums))
 		$dir = 'ckeditor';
 		
 		while ($dir = $wysiwygs->read()): 

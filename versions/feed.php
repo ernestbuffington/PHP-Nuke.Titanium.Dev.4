@@ -11,10 +11,18 @@ This is the Current US Version of PHP-Nuke Titanium v4.0.0b (Dev 4)<br />
 This is a hardened version of PHP-Nuke Xtreme and is secure and safe.<br />
 <a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank">https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4</a>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Aug 28th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated www.86it.us<br />
+<strong><i class="bi bi-calendar3"></i> Aug 28th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated nextgen.86it.us<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Aug 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Installer<br />
+<strong><i class="bi bi-calendar3"></i> Aug 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Gooogle Meta Tags for the Index<br />
 <strong><i class="bi bi-calendar3"></i> Aug 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Force SCeditor in Private_Messages<br />
 <strong><i class="bi bi-calendar3"></i> Aug 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Network nconfig.cfg file checking<br />
 <strong><i class="bi bi-calendar3"></i> Aug 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added fbconfig.cfg file checking<br />
 <hr>
+<strong><i class="bi bi-calendar3"></i> Aug 26th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Setup theghost.86it.us Portal<br />
+<strong><i class="bi bi-calendar3"></i> Aug 26th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Setup nexgen.86it.us Portal<br />
+<strong><i class="bi bi-calendar3"></i> Aug 25th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated the Projects list<br />
 <strong><i class="bi bi-calendar3"></i> Aug 24th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Gender Icon Display<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Aug 23rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Network SQL Errors<br />
