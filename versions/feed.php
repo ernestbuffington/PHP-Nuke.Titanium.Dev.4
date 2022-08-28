@@ -7,7 +7,7 @@
 <body> 
 <strong>Current Build:</strong> v4.0.0 Dev 4<hr>
 <strong>PHP-Nuke Titanium Dev 4 Repsoitory</strong> (Nightly Builds)<br />
-This is the Current US Version of PHP-Nuke Titanium v4.0.0 (Dev 4)<br /> 
+This is the Current US Version of PHP-Nuke Titanium v4.0.0b (Dev 4)<br /> 
 This is a hardened version of PHP-Nuke Xtreme and is secure and safe.<br />
 <a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank">https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4</a>
 <hr>
