@@ -23,8 +23,8 @@ define('network', 'enabled');
 if ( defined('network') ):
 $dbhost2 = 'localhost';
 $dbname2 = 'hub_db';
-$dbuname2 = 'hub_readonly'; # you must ask the 86it webmaster for a network id and password!
-$dbpass2 = 'xwdNPADv86readonly'; # you must ask the 86it webmaster for a network id and password!
+$dbuname2 = ''; # you must ask the 86it webmaster for a network id and password!
+$dbpass2 = ''; # you must ask the 86it webmaster for a network id and password!
 $network_prefix = 'network';
 endif;
 ?>
