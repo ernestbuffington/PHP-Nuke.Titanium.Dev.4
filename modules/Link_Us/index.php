@@ -57,19 +57,18 @@ $config = $db->sql_ufetchrow('SELECT * FROM `'.$prefix.'_link_us_config` LIMIT 0
 $op = $_GETVAR->get('op', '_REQUEST', 'string');
 
 switch($op):
-
-  	case 'visit':        include_once(NUKE_MODULES_DIR.$module_name.'/public/visit.php'); 
+  	case 'visit':        
+	include_once(NUKE_MODULES_DIR.$module_name.'/public/visit.php'); 
 	break;  
-  	case 'submitbutton': include_once(NUKE_MODULES_DIR.$module_name.'/public/submit.php'); 
+  	case 'submitbutton': 
+	include_once(NUKE_MODULES_DIR.$module_name.'/public/submit.php'); 
 	break;
-	case 'submit_save':  include_once(NUKE_MODULES_DIR.$module_name.'/public/submitsave.php'); 
+	case 'submit_save':  
+	include_once(NUKE_MODULES_DIR.$module_name.'/public/submitsave.php'); 
 	break;
-	
 	default: include_once(NUKE_MODULES_DIR.$module_name.'/public/index.php'); 
 	break;
-
 endswitch;
 
 include(NUKE_BASE_DIR.'footer.php');
-
 ?>

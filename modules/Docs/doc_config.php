@@ -73,6 +73,7 @@ function ns_doc_questions() {
     }
 }
 
+// 86it: A dEVELOPER Network
 function ns_doc_links() {
     global $aboutus, $disclaimer, $privacy, $terms, $module_name;
     echo "<div align='center'>";
