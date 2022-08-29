@@ -40,8 +40,12 @@ print '<tbody>';
 print '<tr>';
 print '<td align="center">';
 
-//echo '<div align="center"><img src="modules/'.$module_name.'/images/linkus-logo.png"></div>';
-echo '<div align="center"><a href="modules.php?name=Link_Us&op=submitbutton"><font size="5"><i class="bi bi-link-45deg"></i>Link To Us</a></font></div>';
+
+echo '<div align="center" style="padding-top:17px;">';
+echo '</div>';
+
+echo '<div align="center"><img src="modules/'.$module_name.'/images/linkus-logo.png"></div>';
+echo '<div align="center"><a href="modules.php?name=Link_Us&op=submitbutton"><font size="2"><i class="bi bi-link-45deg"></i><u>Submit Backlink</u></a></font></div>';
 echo '<br />';
 
 if ($config['button_standard'] == 1){
@@ -84,6 +88,7 @@ if ($config['button_standard'] == 1){
                 
 				print '<table height="114" border="0">';
                 print '<tr>';
+
                 print "<td rowspan=\"2\" width=\"20%\" align=\"center\" valign=\"top\"><a href='modules.php?name=".$module_name."&amp;op=visit&amp;id=".$id."' target='_blank'><img src='".$site_image."' ".$settings." /></a></a>";
 
                 if (is_mod_admin($module_name)) 
@@ -99,11 +104,18 @@ if ($config['button_standard'] == 1){
                print '</td><td align="left" valign="top" height="3" width="80%"><strong>&nbsp;<i class="bi bi-calendar2-check"></i>&nbsp; '.$lang_new[$module_name]['ADDED'].' '.formatTimestamp($date_added).'</strong></td>';
                print '</tr>';
                print '<tr>';
-               print '<td align="left" valign="top" height="3" width="70%"><strong>&nbsp;<i class="bi bi-eye"></i>&nbsp; '.$lang_new[$module_name]['VISITS'].': '.$site_hits.'</strong></td>';
-               print '</tr>';
+               
+			   print '<td align="left" valign="top" height="3" width="0">';
+			   print '<strong>&nbsp;<i class="bi bi-eye"></i>&nbsp; '.$lang_new[$module_name]['VISITS'].': '.$site_hits.'</strong></td>';
+			   print '</tr>';
+
+			   print '<td align="left" valign="top" height="3" width="0">';
+			   print '<strong>&nbsp;</td>';
+			   print '</tr>';
+
                print '<tr>';
-               print '<td width="100%" colspan="2" align="left" valign="top">
-			   <strong><i class="bi bi-info-square"></i>
+			   print '<td width="100%" colspan="2" align="left" valign="top">';
+			   print '<strong><i class="bi bi-info-square"></i>
 &nbsp;</strong>'.set_smilies(decode_bbcode(stripslashes($site_description),1, true)).'</font></td>';
 
               print '</tr>';
