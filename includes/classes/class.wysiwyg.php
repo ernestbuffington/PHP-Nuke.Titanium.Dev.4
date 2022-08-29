@@ -37,8 +37,8 @@ class Wysiwyg
 		if($name == Forums)
 		$wysiwyg = 'sceditor';
 
-		if((isset($_COOKIE["CKEditor_4_Access"])) && ($name == Forums))
-		$wysiwyg = 'ckeditor';
+		//if((isset($_COOKIE["CKEditor_4_Access"])) && ($name == Forums))
+		//$wysiwyg = 'ckeditor';
 		
 		if($name == Private_Messages)
 		$wysiwyg = 'sceditor';
@@ -88,8 +88,8 @@ class Wysiwyg
 		if($name == Forums)
 		$wysiwyg = 'sceditor';
 		
-		if((isset($_COOKIE["CKEditor_4_Access"])) && ($name == Forums))
-		$wysiwyg = 'ckeditor';
+		//if((isset($_COOKIE["CKEditor_4_Access"])) && ($name == Forums))
+		//$wysiwyg = 'ckeditor';
 		
 		if($name == Private_Messages)
 		$wysiwyg = 'sceditor';
@@ -111,8 +111,8 @@ class Wysiwyg
 		if($name == Forums)
 		$dir = 'sceditor';
 		
-		if((isset($_COOKIE["CKEditor_4_Access"])) && ($name == Forums))
-		$dir = 'ckeditor';
+		//if((isset($_COOKIE["CKEditor_4_Access"])) && ($name == Forums))
+		//$dir = 'ckeditor';
 
 		if($name == Private_Messages)
 		$dir = 'sceditor';
