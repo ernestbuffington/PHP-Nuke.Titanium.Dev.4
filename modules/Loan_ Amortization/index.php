@@ -33,7 +33,7 @@ switch($ins['step'])
    /// here we are loading teh header for the page that this cae is loading
    include("header.php"); 
    // here we are choosing a page title
-   $pagetitle = 'Loan Amortization - The 30/360 US Rule';
+   $pagetitle = 'Loan Aromatization - The 30/360 US Rule';
    // This is additional title information
    $title = 'New Loan';
    
