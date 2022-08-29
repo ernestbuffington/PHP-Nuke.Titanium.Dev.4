@@ -120,7 +120,7 @@ if (is_mod_admin())
     {
         global $db, $prefix, $admin_file, $cache, $admlang;
 
-        echo "<center>";
+        echo "<div align='center'>";
         echo "".$admlang['logs']['cleared']."<br /><br />";
         $filename = NUKE_INCLUDE_DIR."log/" . $file . ".log";
         if(!is_file($filename)) {
@@ -145,7 +145,7 @@ if (is_mod_admin())
             }
         }
         echo "<br /><br /><a href='".$admin_file.".php'>".$admlang['global']['back']."</a>";
-        echo "</center>";
+        echo "</div>";
     }
 
     if ($admdata['radminsuper'] == 1) {
