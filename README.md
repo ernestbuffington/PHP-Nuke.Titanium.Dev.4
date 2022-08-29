@@ -1,7 +1,7 @@
 <a href="https://www.php-nuke-titanium.86it.us" rel="nofollow"><img src="/images/github/github_rip_open2.png" alt="PHP-NUke Titanium" style="max-width: 100%;"></a>
 
 <h2>Changes in PHP-Nuke Titanium Dev 4</h2>
-Support Website https://www.php-nuke-titanium.86it.us SIGN UP AND CHECK IT OUT!!!
+<p>Support Website https://www.php-nuke-titanium.86it.us SIGN UP AND CHECK IT OUT!!!</p>
 
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fernestbuffington%2FPHP-Nuke.Titanium.Dev.4.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fernestbuffington%2FPHP-Nuke.Titanium.Dev.4?ref=badge_shield)
