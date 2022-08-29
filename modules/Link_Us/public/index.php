@@ -89,7 +89,7 @@ if ($config['button_standard'] == 1){
 				print '<table height="114" border="0">';
                 print '<tr>';
 
-                print "<td rowspan=\"2\" width=\"20%\" align=\"center\" valign=\"top\"><a href='modules.php?name=".$module_name."&amp;op=visit&amp;id=".$id."' target='_blank'><img src='".$site_image."' ".$settings." /></a></a>";
+                print "<td rowspan=\"2\" width=\"20%\" align=\"center\" valign=\"top\"><a href='modules.php?name=".$module_name."&amp;op=visit&amp;id=".$id."' target='_blank'><img height=\"31\" src='".$site_image."' ".$settings." /></a></a>";
 
                 if (is_mod_admin($module_name)) 
 				{
@@ -114,7 +114,7 @@ if ($config['button_standard'] == 1){
 			   print '</tr>';
 
                print '<tr>';
-			   print '<td width="100%" colspan="2" align="left" valign="top">';
+			   print '<td height="103" width="100%" colspan="2" align="left" valign="top">';
 			   print '<strong><i class="bi bi-info-square"></i>
 &nbsp;</strong>'.set_smilies(decode_bbcode(stripslashes($site_description),1, true)).'</font></td>';
 
