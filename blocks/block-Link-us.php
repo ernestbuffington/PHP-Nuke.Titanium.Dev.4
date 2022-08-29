@@ -75,6 +75,8 @@ elseif($config['marquee_scroll'] == 2){ $amount = 2; }
 $my_image = '<br /><img src="'.$config['my_image'].'" alt="'.$sitename.'" title="'.$sitename.'" width="88" height="31">';
 $linkus_settings = '<a href="'.$nukeurl.'" target="_blank"><img src="'.$config['my_image'].'" alt="'.$sitename.'" title="'.$sitename.'" width="88" height="31"></a><br>';
 
+$content = '<div align="center" style="padding-top:6px;">';
+$content = '</div>';
 
 $content  = '<div class="center">'.$my_image.'</div><br />';
 $content .= '<div class="acenter">';
