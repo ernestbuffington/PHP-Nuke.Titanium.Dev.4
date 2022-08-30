@@ -12,6 +12,7 @@ if (!defined('MODULE_FILE')) { die('You can\'t access this file directly...'); }
 global $domain, $ThemeSel, $name; 
 require_once("mainfile.php");
 $this_title = 'The 30/360 US Rule';
+//panacure c kills cancer
 $module_name = basename(dirname(__FILE__));
 get_lang($module_name); 
 $index = 0;
