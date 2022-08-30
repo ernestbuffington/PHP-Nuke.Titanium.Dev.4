@@ -1,11 +1,13 @@
 <?php
 global $doctype;
+$output  .= '<?xml version="1.0" encoding="' . $mime . '"?>'."\n";
 $charset = defined('_CHARSET') ? _CHARSET : 'UTF-8';
 $mime = defined('_MIME') ? _MIME : 'text/html';
 $is304 = false;
-/*
+
 if(empty($doctype)) 
 $doctype = 'transitional';
+
 
 switch ($doctype) 
 {
@@ -14,7 +16,9 @@ switch ($doctype)
         define('DOCTYPE', 'strict');
         break;
     case 'transitional':
-        $output .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+         $output  .= '<!DOCTYPE html'."\n";
+         $output  .= 'PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"'."\n";
+         $output  .= '"DTD/xhtml1-transitional.dtd">'."\n";
         define('DOCTYPE', 'transitional');
         break;
     case 'frameset':
@@ -34,10 +38,7 @@ switch ($doctype)
         define('DOCTYPE', 'transitional');
         break;
 }
-*/
 
-$output  .= '<?xml version="1.0" encoding="' . $mime . '"?>'."\n";
-$$output .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n";
 $output  .= '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'._LANGCODE.'" />'."\n";
 $output  .= '<html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="https://www.facebook.com/2008/fbml" />'."\n"; 
 

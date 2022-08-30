@@ -13,6 +13,7 @@ global $domain, $ThemeSel, $name;
 require_once("mainfile.php");
 $this_title = 'The 30/360 US Rule';
 //panacure c kills cancer
+//1366 x 768
 $module_name = basename(dirname(__FILE__));
 get_lang($module_name); 
 $index = 0;
