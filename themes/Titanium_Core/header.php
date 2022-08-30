@@ -230,7 +230,7 @@ $marquee_two = '
 # This is where we set the poster background and full screen video START
 echo '<div class="fullscreen-bg">';
 echo '<video muted loop autoplay poster="themes/'.$theme_name.'/images/BACKGROUNDS/1e1e1e.png" class="fullscreen-bg__video">';
-echo '<source src="themes/'.$theme_name.'/video/aqua_fresh.mp4" type="video/mp4">'; // $$$ Top 10 - 01
+//echo '<source src="themes/'.$theme_name.'/video/aqua_fresh.mp4" type="video/mp4">'; // $$$ Top 10 - 01
 //echo '<source src="themes/'.$theme_name.'/video/spinning_black_wave_lines.mp4" type="video/mp4">';
 //echo '<source src="themes/'.$theme_name.'/video/abstract_liquid.mp4" type="video/mp4">'; // Ypp sloe but pretty
 //echo '<source src="themes/'.$theme_name.'/video/abstract_geometric_grid.mp4" type="video/mp4">';
@@ -243,7 +243,7 @@ echo '<source src="themes/'.$theme_name.'/video/aqua_fresh.mp4" type="video/mp4"
 //echo '<source src="themes/'.$theme_name.'/video/abstract_x_neon.mp4" type="video/mp4">'; ### 1 to 10  This is a 1 ###
 //echo '<source src="themes/'.$theme_name.'/video/abstract_modern_Liquid_U_trend_aurora_gradien.mp4" type="video/mp4">'; ### 1 to 10  This is a 5 ###
 
-//echo '<source src="themes/'.$theme_name.'/video/futuristic_gold_abstract_3D_tunnel_1.49gb.mp4" type="video/mp4">'; ### 1 to 10  This is a 10 ### BEST SO FAR
+echo '<source src="themes/'.$theme_name.'/video/futuristic_gold_abstract_3D_tunnel_1.49gb.mp4" type="video/mp4">'; ### 1 to 10  This is a 10 ### BEST SO FAR
 
 //echo '<source src="themes/'.$theme_name.'/video/abstract_bright_neon_moving_geometric_lines_gradient.mp4" type="video/mp4">'; ### 1 to 10  This is a 6 ### 
 //echo '<source src="themes/'.$theme_name.'/video/abstract_3D_tunnel_motion.mp4" type="video/mp4">'; ### 1 to 10  This is a 5 ### 
@@ -262,7 +262,7 @@ echo '<source src="themes/'.$theme_name.'/video/aqua_fresh.mp4" type="video/mp4"
 //echo '<source src="themes/'.$theme_name.'/video/techno_matrix_numbers.mp4" type="video/mp4">'; ### 1 to 10 This is a 6 ### GEars SPinning - More for a green theme 
 //echo '<source src="themes/'.$theme_name.'/video/birthday.mp4" type="video/mp4">'; ### 1 to 10 This is a 6 ### GEars SPinning - lightning no audio 
 //echo '<source src="themes/'.$theme_name.'/video/USA_Flag.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### FLAG - BAd As Fuck 
-//echo '<source src="themes/'.$theme_name.'/video/Blackway_&_Black Caviar_Whats_Up_Danger.mp4" type="video/mp4">'; ### 1 to 10 This is a 6 ### GEars SPinning - BAd as Fuck 
+//echo '<source src="themes/'.$theme_name.'/video/Blackway_and_Black_Caviar_Whats_Up_Danger.mp4" type="video/mp4">'; ### 1 to 10 This is a 6 ### GEars SPinning - BAd as Fuck 
 //echo '<source src="themes/'.$theme_name.'/video/Arctic_Monkeys_-_Do_I_Wanna_Know.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Bad As Fuck 
 //echo '<source src="themes/'.$theme_name.'/video/money_falling.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Bad As Fuck - Riaing Money
 //echo '<source src="themes/'.$theme_name.'/video/Loading_Screen_001.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Loading Screen Only - Video has to be loop off ### cool as fauck 
