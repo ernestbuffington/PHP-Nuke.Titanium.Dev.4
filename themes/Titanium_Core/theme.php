@@ -66,7 +66,7 @@ exit('Access Denied');
 # Theme Copyright Information #
 #-----------------------------#
 global $locked_width, $theme_business, $theme_title, $theme_author, $theme_date, $theme_name, $theme_download_link;
-
+//$locked_width = "1633px"; is as small as this theme can go without messing things up
 $locked_width = "1840px";
 $theme_business = 'Brandon Maintenance Management, LLC';
 # Theme Name

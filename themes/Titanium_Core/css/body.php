@@ -88,7 +88,7 @@ global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: <?=$screen_width?>;
   height: <?=$screen_height?>;
 }
 
