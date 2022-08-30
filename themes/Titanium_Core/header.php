@@ -261,7 +261,7 @@ echo '<video loop autoplay poster="themes/'.$theme_name.'/images/BACKGROUNDS/1e1
 //echo '<source src="themes/'.$theme_name.'/video/Blackway_&_Black Caviar_Whats_Up_Danger.mp4" type="video/mp4">'; ### 1 to 10 This is a 6 ### GEars SPinning - BAd as Fuck 
 //echo '<source src="themes/'.$theme_name.'/video/Arctic_Monkeys_-_Do_I_Wanna_Know.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Bad As Fuck 
 //echo '<source src="themes/'.$theme_name.'/video/money_falling.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Bad As Fuck - Riaing Money
-echo '<source src="themes/'.$theme_name.'/video/money_falling.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Bad As Fuck 
+echo '<source src="themes/'.$theme_name.'/video/Loading_Screen_001.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Loading Screen Only - Video has to be loop off ### cool as fauck 
 
 
 echo '</video>';
