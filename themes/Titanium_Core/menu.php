@@ -89,7 +89,7 @@ else:
 $headeruserinfo_avatar .= '<img class="rounded-corners-header" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '
 .$board_config['avatar_max_width'].'px;" src="'.$board_config['default_avatar_users_url'].'" alt="" border="0" />';
 endif;
-
+if($_COOKIE["titanium_resolution_width"] > 1366):
 if (!is_user()) 
 {
    # not logged in FORUMS menu START	
@@ -167,6 +167,7 @@ else:
    echo '</div></div>';
 
 endif;
+
 } 
 
 
@@ -942,7 +943,7 @@ echo '</div>';
  echo '</div>';
 endif;
 }
-
+endif;
 echo '<div align="center" style="padding-top:8px;">';
 echo '</div>';
 ?>
