@@ -40,11 +40,16 @@ exit();
 function PrintPage($sid) 
 {
     global $site_logo, $nukeurl, $sitename, $datetime, $prefix, $db, $module_name;
+    
+	// Ernest Buffington 0/31/2022 12:45am Wednesday
+	// I took the image out as this is a print page and wastes ink!!!
+	//<img src=\"images/$site_logo\" alt=\"$sitename\" title=\"$sitename\" /><br /><br />
 
     $sid = intval($sid);
-    $row = $db->sql_fetchrow($db->sql_query("SELECT title, datePublished, dateModified, hometext, bodytext, topic, notes FROM ".$prefix."_stories WHERE sid='$sid'"));
+    $row = $db->sql_fetchrow($db->sql_query("SELECT aid, title, datePublished, dateModified, hometext, bodytext, topic, notes FROM ".$prefix."_stories WHERE sid='$sid'"));
     $title = stripslashes(check_html($row["title"], "nohtml"));
     
+	$aid = $row["aid"];
 	$time = $row["datePublished"];
     $modified = $row["dateModified"];
 	
@@ -68,17 +73,26 @@ function PrintPage($sid)
 
         <table border=\"0\" width=\"640\" cellpadding=\"0\" cellspacing=\"1\" bgcolor=\"#000000\"><tr><td>
         <table border=\"0\" width=\"640\" cellpadding=\"20\" cellspacing=\"1\" bgcolor=\"#ffffff\"><tr><td>
-        <center>
-        <img src=\"images/$site_logo\" alt=\"$sitename\" title=\"$sitename\" /><br /><br />
+        <div align=\"center\">
         <span class=\"content\">
-        <strong>$title</strong></span><br />
+        <strong><font size=\"6\">$sitename</strong></font> <br />
+		<strong>$title</strong></span><br />
         <span class=\"tiny\"><strong>"._PDATE."</strong> $datetime<br /><strong>"._PTOPIC."</strong> $topictext</span><br /><br />
-        </center>
+        </div>
         <span class=\"content\">
-        $hometext<br /><br />
-        $bodytext<br /><br />
-        $notes<br /><br />
-        </span>
+        $hometext";
+		
+		if (!empty($bodytext)) :
+        echo '<br />$bodytext<br />';
+        endif;
+		
+		/*$notes<br />*/
+		
+		//SIGNATTURE GOES HERE
+   print blog_signature($aid);
+
+   
+   echo "</span>
         </td></tr></table></td></tr></table>
         <br /><br /><center>
         <span class=\"content\">
