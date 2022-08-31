@@ -49,7 +49,10 @@ function PrintPage($sid)
     $row = $db->sql_fetchrow($db->sql_query("SELECT aid, title, datePublished, dateModified, hometext, bodytext, topic, notes FROM ".$prefix."_stories WHERE sid='$sid'"));
     $title = stripslashes(check_html($row["title"], "nohtml"));
     
+	// START Ernest Buffington 0/31/2022 12:45am Wednesday
 	$aid = $row["aid"];
+	// END Ernest Buffington 0/31/2022 12:45am Wednesday
+	
 	$time = $row["datePublished"];
     $modified = $row["dateModified"];
 	
@@ -82,14 +85,14 @@ function PrintPage($sid)
         <span class=\"content\">
         $hometext";
 		
+		// START Ernest Buffington 0/31/2022 12:45am Wednesday
 		if (!empty($bodytext)) :
         echo '<br />$bodytext<br />';
         endif;
-		
 		/*$notes<br />*/
-		
 		//SIGNATTURE GOES HERE
    print blog_signature($aid);
+		// END Ernest Buffington 0/31/2022 12:45am Wednesday
 
    
    echo "</span>
@@ -106,6 +109,5 @@ function PrintPage($sid)
         </html>";
     exit;
 }
-
 PrintPage($sid);
 ?>
