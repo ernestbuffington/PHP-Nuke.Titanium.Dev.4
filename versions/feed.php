@@ -11,6 +11,7 @@ This is the Current US Version of PHP-Nuke Titanium v4.0.0b (Dev 4)<br />
 This is a hardened version of PHP-Nuke and is secure and safe.<br />
 <a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank">https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4</a> <- click here
 <hr>
+<strong><i class="bi bi-calendar3"></i> Aug 30th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated www.86it.us<br />
 <strong><i class="bi bi-calendar3"></i> Aug 30th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Blog Printing - Removed logo and added Blog sig<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Aug 29th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Videos in Core Theme<br />
