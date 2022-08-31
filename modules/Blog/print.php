@@ -83,9 +83,9 @@ function PrintPage($sid)
         <br /><br /><center>
         <span class=\"content\">
         "._COMESFROM." $sitename<br />
-        <a href=\"$nukeurl\">$nukeurl</a><br /><br />
+        <a href=\"https://$nukeurl\">https://$nukeurl</a><br /><br />
         "._THEURL."<br />
-        <a href=\"$nukeurl/modules.php?name=$module_name&amp;file=article&amp;sid=$sid\">$nukeurl/modules.php?name=$module_name&amp;file=article&amp;sid=$sid</a>
+        <a href=\"https://$nukeurl/modules.php?name=$module_name&amp;file=article&amp;sid=$sid\">https://$nukeurl/modules.php?name=$module_name&amp;file=article&amp;sid=$sid</a>
         </span></center>
         </td></tr></table>
         </body>
