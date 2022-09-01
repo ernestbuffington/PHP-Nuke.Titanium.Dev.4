@@ -20,7 +20,7 @@ if ( defined('facebook') ):
 global $fb, $appID, $api_version, $appSecret, $my_url;
 require_once __DIR__ . '/includes/Facebook/autoload.php';
 # Your domain name i.e yoursite.com
-$my_url = 'yourdomain.com';
+$my_url = 'www.php-nuke-titanium.86it.us';
 # you facebook app secret
 $appSecret = '';
 # your facebook app ID
