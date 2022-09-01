@@ -26,7 +26,7 @@ $appSecret = '';
 # your facebook app ID
 $appID = '';
 # The api version you have selected on your facebook app
-$api_version = '';
+$api_version = 'v14';
 
 $fb = new Facebook\Facebook([
   'app_id' => $appID,
