@@ -103,6 +103,8 @@ echo "console.log('Successful login for: ' + response.name);\n";
     // this error comes with the following
     // Uncaught TypeError: Cannot set property 'innerHTML' of null
     // echo "document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';\n";
+
+
 echo "});\n";
 echo "}\n";
 ##################################################################################################################
