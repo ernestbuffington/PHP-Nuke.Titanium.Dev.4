@@ -88,9 +88,9 @@ if (isset($ips) && is_array($ips))
  [ Mod:    Admin IP Lock                       v2.1.0 ]
  ******************************************************/
 
-need_delete('install.php');
-need_delete('upgrade.php');
-need_delete('install', true);
+//need_delete('install.php');
+//need_delete('upgrade.php');
+//need_delete('install', true);
 
 if (isset($aid) && (preg_match("/[^a-zA-Z0-9_-]/", trim($aid)))){
     die('Begone');
@@ -263,11 +263,21 @@ if (!isset($admincookie[4]) && $admintest){
 	exit;
 }
 
-if (!isset($op)){
+if(!isset($op)):
     $op = 'adminMain';
-} elseif (($op == 'mod_authors' || $op == 'modifyadmin' || $op == 'UpdateAuthor' || $op == 'AddAuthor' || $op == 'deladmin2' || $op == 'deladmin' || $op == 'assignstories' || $op == 'deladminconf') && $admdata['name'] != 'God'){
-    die('Illegal Operation');
-}
+elseif 
+    (($op == 'mod_authors' || 
+      $op == 'modifyadmin' || 
+	  $op == 'UpdateAuthor' || 
+	  $op == 'AddAuthor' || 
+	  $op == 'deladmin2' || 
+	  $op == 'deladmin' || 
+	  $op == 'assignstories' || 
+	  $op == 'deladminconf') 
+	  && $admdata['name'] != 'God'):
+    
+	die('Illegal Operation');
+endif;
 
 if ($admintest){
     if (!$admin) exit('Illegal Operation');
