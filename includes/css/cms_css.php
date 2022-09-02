@@ -8,6 +8,10 @@ echo "/* When we are done we will move this code to style.css */\n\n";
 ?>
 font.gensmall-visitorlog{
 
+body {
+  margin: 0;
+  padding: 0;
+}
 
 }
 img.rounded-corners-profile {

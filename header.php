@@ -24,12 +24,15 @@
       Collapsing Blocks                        v1.0.0       08/16/2005
 	  NSN Center Blocks                        v2.2.1       05/26/2009
  ************************************************************************/
-if(!defined('HEADER')) 
-define('HEADER', true); 
-else 
-return; 
+if(!defined('HEADER')) {
+    define('HEADER', true);
+} else {
+    return;
+}
 
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
+//if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
+
+if (realpath(__FILE__) == realpath($_SERVER['DOCUMENT_ROOT'].$_SERVER['SCRIPT_NAME']))
 exit('Access Denied'); 
 
 require_once(dirname(__FILE__).'/mainfile.php');
@@ -50,17 +53,17 @@ function head()
 							$browser, 
 							$ThemeSel;
 
-	$ThemeSel = get_theme();
-	
     global $eighty_six_it;
 	$eighty_six_it = '<a class = "small" href="https://www.86it.us" target="_self">Programmers Making Connections. Coders Making a Difference.</a>';
     
 	# Auto MimeType v1.0.0 START
-	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php')):  
-    include(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php');
-	else: 
-      echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" />'."\n";
-      echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'._LANGCODE.'" />'."\n";
+	//if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php')):  
+    //include(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php');
+	//else: 
+      //echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" />'."\n";
+      echo '<!DOCTYPE html>'."\n";
+	  
+	  echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'._LANGCODE.'" />'."\n";
       echo '<html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="https://www.facebook.com/2008/fbml" />'."\n"; 
       echo "<!-- START <head> -->\n";
       echo '<head>'."\n";
@@ -71,7 +74,7 @@ function head()
       echo '<meta http-equiv="Content-Language" content="'._LANGCODE.'" />'."\n";
       echo '<meta http-equiv="Content-Style-Type" content="text/css" />'."\n";
       echo '<meta http-equiv="Content-Script-Type" content="text/javascript" />'."\n";
-    endif;	
+    //endif;	
 	# Auto MimeType v1.0.0 END
 
     include_once(NUKE_INCLUDE_DIR.'meta.php');
@@ -101,25 +104,6 @@ function head()
 	global $titanium_browser;
     $titanium_browser = new Browser();
 	
-    # START uploadcare PLUGIN for CKeditor 4 - 09/07/2019
-    echo "\n\n<!-- START uploadcare -->\n\n";
-    echo "<script type=\"text/javascript\">\n";
-    echo "UPLOADCARE_PUBLIC_KEY = 'df691884c0a749427aa1';\n";
-    echo "UPLOADCARE_TABS = 'file camera url facebook gdrive gphotos dropbox instagram evernote flickr onedrive box vk huddle';\n";
-    echo "UPLOADCARE_EFFECTS = 'crop,rotate,mirror,flip,enhance,sharp,blur,grayscale,invert';\n";
-    echo "UPLOADCARE_PREVIEW_STEP = true;\n";
-    echo "UPLOADCARE_CLEARABLE = true;\n";
-    echo "</script>\n";
-
-    echo "<script src=\"https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js\"></script>\n";
-    echo "<script src=\"https://ucarecdn.com/libs/widget-tab-effects/1.x/uploadcare.tab-effects.js\"></script>\n";
-        
-    echo "<script type=\"text/javascript\">\n";
-    echo "uploadcare.registerTab('preview', uploadcareTabEffects)\n";
-    echo "</script>\n";
-    echo "\n\n<!-- END uploadcare -->\n\n";
-	# START uploadcare PLUGIN for CKeditor 4 - 09/07/2019
-
     # FlyKit Mod v1.0.0 START
 	# used to add rounded corners to user avatars!
 	addPHPCSSToHead(NUKE_BASE_DIR.'includes/css/cms_css.php','file');
@@ -154,10 +138,6 @@ function head()
 
     global $browser;
     
-    echo "\n\n<!-- START writeHEAD() -->\n\n";
-    writeHEAD();
-    echo "\n<!-- END writeHEAD() -->\n\n";
-
     /*
 	echo "\n\n<!-- START custom_head -->\n\n";
 	if ((($custom_head = $cache->load('custom_head', 'config')) === false) || empty($custom_head)): 
@@ -181,6 +161,7 @@ function head()
     endif;
     echo "\n<!-- END custom_head -->\n\n";
     */
+
     
 	/* ----- as you can probably tell this is used for IE compatibility ----- */
     echo '<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]-->'."\n";
@@ -191,11 +172,18 @@ function head()
 	echo "<body>\n";
 	echo "<!-- END Top Primary Body Tags -->\n\n";
 
+	$ThemeSel = get_theme();
+
+    echo "\n\n<!-- START writeHEAD() -->\n\n";
+    writeHEAD();
+    echo "\n<!-- END writeHEAD() -->\n\n";
+
     themeheader();
 
 	// used for class ckeditor
 	if(isset($modheader)) 
 	echo $modheader; 
+
 
 /*****[BEGIN]******************************************
  [ Base:    NukeSentinel                      v2.5.00 ]

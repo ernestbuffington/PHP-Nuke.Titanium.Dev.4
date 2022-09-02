@@ -59,7 +59,7 @@ elseif($config['marquee_direction'] == 4){ $direction = "right"; }
 elseif ($config['button_seperate'] == 2){ $seperation ="<div align=\"center\">-------------------</div>"; }
 elseif ($config['button_seperate'] == 0){ $seperation =""; }
 
-	if($config['show_clicks'] == 1){ $clicks = "<br />(Visits ".$site_hits." )"; }
+	if($config['show_clicks'] == 1){ $clicks = "<br />( Visits ".$site_hits." )"; }
 elseif($config['show_clicks'] == 0){ $clicks = ""; }
 
 	if($config['block_height'] == 1){ $height = "100"; }
@@ -73,7 +73,7 @@ elseif($config['marquee_scroll'] == 2){ $amount = 2; }
 
 
 $my_image = '<br /><img src="'.$config['my_image'].'" alt="'.$sitename.'" title="'.$sitename.'" width="88" height="31">';
-$linkus_settings = '<a href="'.$nukeurl.'" target="_blank"><img src="'.$config['my_image'].'" alt="'.$sitename.'" title="'.$sitename.'" width="88" height="31"></a><br>';
+$linkus_settings = '<a href="'.$nukeurl.'" target="_blank"><img src="'.$config['my_image'].'" alt="'.$sitename.'" title="'.$sitename.'" width="88" height="31">lol</a><br>';
 
 $content = '<div align="center" style="padding-top:6px;">';
 $content = '</div>';
@@ -96,7 +96,7 @@ foreach( $blocksession as $friends ):
 
 	$content .= "<div class='center'><a href='modules.php?name=Link_Us&amp;op=visit&amp;id=".$friends['id']."' target='_blank'><img src='".$friends['site_image']."' ".$settings." title='".$friends['site_name']."' /></a>";
 
-		if($config['show_clicks'] == 1){$clicks = "<br />(Clicks ".$friends['site_hits']." )";}
+		if($config['show_clicks'] == 1){$clicks = "<br /><strong><font size=\"2\">".$friends['site_name']."</font></strong><br /><strong><font size=\"2\">( ".$friends['site_hits']." CLICKS )</font></strong>";}
 	elseif($config['show_clicks'] == 0){$clicks = "";}
 
 	$content .= "".$clicks."";
