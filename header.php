@@ -86,6 +86,11 @@ function head()
     # END function to grab the page title. - 09/07/2019
 
 	################################################################
+	if (@file_exists(TITANIUM_CLASSES_DIR . 'class.autoflash.php'))#      Added by Ernest Buffington
+	include(TITANIUM_CLASSES_DIR . 'class.autoflash.php');         ###### Load Browser class - used for checking your browser types
+    #                                                              #      Start date Jan 1st 2012 till Present - It is a work in progress!
+    ################################################################
+	################################################################
 	if (@file_exists(TITANIUM_CLASSES_DIR . 'class.browsers.php')) #      Added by Ernest Buffington
 	include(TITANIUM_CLASSES_DIR . 'class.browsers.php');          ###### Load Browser class - used for checking your browser types
     #                                                              #      Start date Jan 1st 2012 till Present - It is a work in progress!
