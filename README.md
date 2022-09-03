@@ -22,38 +22,38 @@
 
 <ul>
 	<li>Advertising</li>
-	<li><b>Blog</b><br />This use to be the News system and it was drasticly changed and we renamed it to Blog when we added new features and updated the code for PHP 7/x</li>
-	<li>Blog_Archive</li>
-	<li>Blog_Submit</li>
-	<li>Blog_Top</li>
-	<li>Blog_Topics</li>
-	<li>Docs</li>
-	<li>Donations</li>
-	<li>ECalendar</li>
-	<li>FAQ</li>
-	<li>Feedback</li>
-	<li>File_Repository</li>
-	<li>Forums</li>
-	<li>Google-Site-Map</li>
-	<li>Groups</li>
-	<li>HTML_Newsletter</li>
-	<li>Image_Repository</li>
-	<li>Loan_ Amortization</li>
-	<li>Link_Us</li>
-	<li>Members_List</li>
-	<li>NukeSentinel</li>
-	<li>Private_Messages</li>
-	<li>Profile</li>
-	<li>Recommend_Us</li>
-	<li>Reviews</li>
-	<li>Search</li>
-	<li>Shout_Box</li>
-	<li>Spambot_Killer</li>
-	<li>Statistics</li>
-	<li>Surveys</li>
-	<li>Titanium_SandBox</li>
-	<li>Web_Links</li>
-	<li>Your_Account</li>
+	<li><b>Blog</b><br />This use to be the News system from Nuke Evolution Xtreme (UK Version) and it was drasticly changed and we renamed it to Blog when we added new features and updated the code for PHP 7.X - We added a Blog Signature and a few other bells and whistles!</li>
+	<li>Blog_Archive<br />This use to be the News archive for Nuke Evolution Xtreme (UK Version), it is now the Blog archive and has had some updates and addons implemented. The display layout has been chaged</li>
+	<li>Blog_Submit<br /></li>
+	<li>Blog_Top<br /></li>
+	<li>Blog_Topics<br /></li>
+	<li>Docs<br /></li>
+	<li>Donations<br /></li>
+	<li>ECalendar<br /></li>
+	<li>FAQ<br /></li>
+	<li>Feedback<br /></li>
+	<li>File_Repository<br /></li>
+	<li>Forums<br /></li>
+	<li>Google-Site-Map<br /></li>
+	<li>Groups<br /></li>
+	<li>HTML_Newsletter<br /></li>
+	<li>Image_Repository<br /></li>
+	<li>Loan_ Amortization<br /></li>
+	<li>Link_Us<br /></li>
+	<li>Members_List<br /></li>
+	<li>NukeSentinel<br /></li>
+	<li>Private_Messages<br /></li>
+	<li>Profile<br /></li>
+	<li>Recommend_Us<br /></li>
+	<li>Reviews<br /></li>
+	<li>Search<br /></li>
+	<li>Shout_Box<br /></li>
+	<li>Spambot_Killer<br /></li>
+	<li>Statistics<br /></li>
+	<li>Surveys<br /></li>
+	<li>Titanium_SandBox<br /></li>
+	<li>Web_Links<br /></li>
+	<li>Your_Account<br /></li>
 	
 </ul>
 <h2>PHP-Nuke Titanium Dev 4 Server Requirements</h2>
