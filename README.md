@@ -18,6 +18,13 @@
 	<li>Ha, Suck it Adobe!</li>
 </ul>
 
+<h2>PHP-Nuke Titanium Modules Support</h2>
+
+<ul>
+	<li>1</li><li>2</li>
+	<li>1</li><li>2</li>
+	<li>Ha, Suck it Adobe!</li>
+</ul>
 <h2>PHP-Nuke Titanium Dev 4 Server Requirements</h2>
 
 <ul>
