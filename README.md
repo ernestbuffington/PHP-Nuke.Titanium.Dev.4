@@ -10,6 +10,13 @@
 
 <p>This code is running live at https://www.php-nuke-titanium.86it.us</p>
 
+<h2>PHP-Nuke Titanium Dev 4 Flash </h2>
+
+<ul>
+	<li>AVM 1 is ActionScript 1 and ActionScript 2 - All movies and games made before Flash Player 9 (June 2006) </li>
+	<li>AVM 2 is ActionScript 3, which was introduced with Flash Player 9 (June 2006). After the release of Flash Professional CC (2013), authors are required to use ActionScript 3</li>
+</ul>
+
 <h2>PHP-Nuke Titanium Dev 4 Server Requirements</h2>
 
 <ul>
