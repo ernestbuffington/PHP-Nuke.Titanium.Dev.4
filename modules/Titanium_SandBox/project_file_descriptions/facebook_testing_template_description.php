@@ -6,7 +6,7 @@ if (!defined('MODULE_FILE')) {
 # Project desription file - START
 ############################################################################################################################################################################
 global $description;
-$description = 'Facebook Testing Template :: example created by Ernest Allen Buffington.';
+$description = 'facebook_testing_template.php is NOW LOADED :: Code Template created by Ernest Allen Buffington 07/30/2013';
 ############################################################################################################################################################################			
 # Project desription file - END
 ############################################################################################################################################################################

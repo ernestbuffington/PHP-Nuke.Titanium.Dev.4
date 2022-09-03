@@ -1,28 +1,13 @@
 <?php 
-if (!defined('MODULE_FILE')) { 
+if (!defined('MODULE_FILE')) {   
    die('You can\'t access this file directly...');
 }
 ############################################################################################################################################################################			
-# TEST CODE GOES HERE - START
+# Project desription file - START 
 ############################################################################################################################################################################
-    $get_open_base_dir = ini_get("open_basedir");
-	if(empty($get_open_base_dir)):
-    echo '<div align="center">';
-	print "ini_get 'open_basedir' Failed";
-	else:
-	echo ini_get("open_basedir");    
-	endif;
-	
-    echo $domain;
-	echo " this is \$domain";
-	echo "<br>";
-	echo $nukeurl;
-	echo " this is \$nukeurl";
-
-	echo '</div>';
-	echo '</fieldset>';
-	//CloseTable();
+global $description; 
+$description = ' x-fullscreen_shockwave_example.php is NOW LOADED :: Code Template created by Ernest Allen Buffington 09/15/2017';
 ############################################################################################################################################################################			
-# TEST CODE GOES HERE - END
+# Project desription file - END
 ############################################################################################################################################################################
 ?> 

@@ -7,7 +7,6 @@ if (!defined('MODULE_FILE')) {
 ############################################################################################################################################################################
 $titanium_browser = new Browser();
 
-OpenTable();
 global $cookie;
 $name = (isset($cookie[1]) && !empty($cookie[1])) ? $cookie[1] : _ANONYMOUS;
 log_write('admin', $name.' x-browser_check.php was called from facebook sandbox', 'loaded x-browser_check.php'); 
@@ -39,7 +38,7 @@ echo 'Your Chrome Support is TURNED <font color=red><b>OFF</b></font>';
 echo '<hr>';
 echo '<a href="https://www.google.com/chrome" target="_blank"><img border="0" align=top width=15 src="https://www.chromium.org/_/rsrc/1302286290899/chromium-projects/chrome-32.png?height=32&amp;width=32" width="32"> DOWNLOAD CHROME</a>';
 }
-CloseTable();
+echo "</fieldset>";
 ############################################################################################################################################################################			
 # TEST CODE GOES HERE - END
 ############################################################################################################################################################################

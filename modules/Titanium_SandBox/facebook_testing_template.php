@@ -5,29 +5,10 @@ if (!defined('MODULE_FILE')) {
 ############################################################################################################################################################################			
 # TEST CODE GOES HERE - START
 ############################################################################################################################################################################
-	OpenTable();
 	global $board_config, $domain,$db, $db2, $userdata, $userinfo; 
-	$user_avatar = 'seb.png';
-	$avatar_img = ($board_config['allow_avatar_upload']) ? '<img src="'.$board_config['avatar_path'].'/'.$user_avatar.'" alt="https://'.$domain.'/modules/Forums/images/avatars/'.$user_avatar.'" />' : '';
-    echo $avatar_img;
-	echo '<br>';
-    echo "allow_avatar_upload=".$board_config['allow_avatar_upload']; // allow_avatar_upload = 1
-	echo '<br>';
-	echo "avatar path=",$board_config['avatar_path']; // modules/Forums/images/avatars
-	echo '<br>';
-	echo $user_avatar; // name of file in the database field
-	echo '<br>';
-	echo "->".$userdata['user_avatar_type']."<- User Avatar Type"; 
-	echo '<br>';
-	echo $profiledata['user_avatar'];
-	echo $board_config['default_avatar_set']."<- default_avatar_set";
-	echo '<br>';
-	echo $board_config['default_avatar_users_url']."<- default_avatar_users_url";
-	
-	CloseTable();
     global $facebook_plugin_width, $facebookappid, $facebookappsecret; //used to set the deafult width of iframes and tables
-	OpenTable();
-	echo "<center>\n";
+
+	echo "<center>Facebook Login Code Example Coming Soon\n";
 	echo"<div id=\"fb-root\"></div>\n";
     echo "<script type=\"text/javascript\">\n";
     echo "<!--\n";
@@ -105,8 +86,8 @@ if (!defined('MODULE_FILE')) {
  
    echo "</center>";
    echo "<br><br>";
-	
-	CloseTable3();
+   
+   echo "</fieldset>";	
 ############################################################################################################################################################################			
 # TEST CODE GOES HERE - END
 ############################################################################################################################################################################

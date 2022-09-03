@@ -6,7 +6,7 @@ if (!defined('MODULE_FILE')) {
 ###############################			
 # TEST CODE GOES HERE - START #
 ###############################
-OpenTable();
+//OpenTable();
 global $testfile, $description, $facebook_font_color;
 
 //SPAN OPEN facebook light grey (not active font and color)
@@ -368,7 +368,8 @@ echo '<hr>';
     echo "<strong>Total File Count : <font color=\"#C00000\">" . $fileCount."</font></strong>";
 //echo '<hr>'; 
 echo $sc;
-CloseTable();      
+
+//CloseTable();      
 ########################################
 # TEST CODE GOES HERE - END            #
 ########################################
