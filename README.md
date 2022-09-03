@@ -26,8 +26,8 @@
 	<li><b>Blog Archive</b><br />This use to be the News archive for Nuke Evolution Xtreme (UK Version), it is now the Blog archive and has had some updates and addons implemented. The display layout has been changed</li>
 	<li><b>Blog Submit</b><br />Portal members can submit Blogs</li>
 	<li><b>Blog Top</b><br />Top 10 Blogs information will be listed - 10 Most Read, 10 Most Voted, 10 Best Rated, 10 Most Commented, 10 Most Active, and 10 Most Active Blog Post Submitters</li>
-	<li><b>Blog Topics</b><br />Lists the Top 10 Blogs and various stats and information about each Blog posted</li>
-	<li>Docs<br /></li>
+	<li><b>Blog Topics</b><br />Lists the Topics and various stats and information about each topic</li>
+	<li>Docs<br />Local portal disclaimers - About Us, Disclaimer, Privacy Statement, and Terms of Use </li>
 	<li>Donations<br /></li>
 	<li>ECalendar<br /></li>
 	<li>FAQ<br /></li>
