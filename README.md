@@ -32,28 +32,28 @@
 	<li>ECalendar<br /></li>
 	<li>FAQ<br /></li>
 	<li>Feedback<br /></li>
-	<li>File_Repository<br /></li>
+	<li>File Repository<br /></li>
 	<li>Forums<br /></li>
-	<li>Google-Site-Map<br /></li>
+	<li>Google Site Map<br /></li>
 	<li>Groups<br /></li>
-	<li>HTML_Newsletter<br /></li>
-	<li>Image_Repository<br /></li>
-	<li>Loan_ Amortization<br /></li>
-	<li>Link_Us<br /></li>
-	<li>Members_List<br /></li>
+	<li>HTML Newsletter<br /></li>
+	<li>Image Repository<br /></li>
+	<li>Loan Amortization<br /></li>
+	<li>Link Us<br /></li>
+	<li>Members List<br /></li>
 	<li>NukeSentinel<br /></li>
-	<li>Private_Messages<br /></li>
+	<li>Private Messages<br /></li>
 	<li>Profile<br /></li>
-	<li>Recommend_Us<br /></li>
+	<li>Recommend Us<br /></li>
 	<li>Reviews<br /></li>
 	<li>Search<br /></li>
-	<li>Shout_Box<br /></li>
-	<li>Spambot_Killer<br /></li>
+	<li>Shout Box<br /></li>
+	<li>Spambot Killer<br /></li>
 	<li>Statistics<br /></li>
 	<li>Surveys<br /></li>
-	<li>Titanium_SandBox<br /></li>
-	<li>Web_Links<br /></li>
-	<li>Your_Account<br /></li>
+	<li>Titanium SandBox<br /></li>
+	<li>Web Links<br /></li>
+	<li>Your Account<br /></li>
 	
 </ul>
 <h2>PHP-Nuke Titanium Dev 4 Server Requirements</h2>
