@@ -61,12 +61,16 @@
 <ul>
 	<li>EasyApache 4</li>
 	<li>10.2.37-MariaDB (MariaDB Server)</li>
-	<li>PHP 7.4.16 (we are working on a version for PHP 8)</li>
-	<li>cURL&nbsp;7.75.0</li>
-	<li>GD Support</li>
-	<li>Client API library version (mysqlnd 7.4.16)</li>
-	<li>OpenSSL support</li>
-	<li>ZLib Support</li>
+	<li>PHP 7.4.30 (we are working on a version for PHP 8)</li>
+	<li>cURL&nbsp;7.84.0</li>
+	<li>GD Support bundled (2.1.0 compatible)</li>
+	<li>Client API library version (mysqlnd/mysqli 7.4.30)</li>
+	<li>OpenSSL 1.1.1q 5 Jul 2022</li>
+	<li>libxml Version 2.9.7</li>
+	<li>json support</li>
+	<li>Phar API version v1.1.1</li>
+	<li>ZLib 1.9.2</li>
+	<li>Mime Type .wasm for Flash Gaming and Movie Support (This is what we do in 2022) this is so that ruffle can process .swf files</li>
 	<li>Minimum of 100 MB/s web space</li>
 	<li>Minimum of 5 GB/s bandwidth (5 TB/s or unmetered is recommended)</li>
 </ul>
