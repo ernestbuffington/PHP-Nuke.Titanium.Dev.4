@@ -28,7 +28,7 @@
 	<li><b>Blog Top</b><br />Top 10 Blogs information will be listed - 10 Most Read, 10 Most Voted, 10 Best Rated, 10 Most Commented, 10 Most Active, and 10 Most Active Blog Post Submitters</li>
 	<li><b>Blog Topics</b><br />Lists the Topics and various stats and information about each topic</li>
 	<li><b>Docs</b><br />Local portal disclaimers - About Us, Disclaimer, Privacy Statement, and Terms of Use </li>
-	<li>Donations<br /></li>
+	<li><b>Donations</b><br />Make donations to the local Webmaster or Admin with PayPal</li>
 	<li>ECalendar<br /></li>
 	<li>FAQ<br /></li>
 	<li>Feedback<br /></li>
