@@ -2,9 +2,19 @@
 if (!defined('MODULE_FILE')) {  
    die('You can\'t access this file directly...');
 }
-############################################################################################################################################################################			
+############################################################################################################################################################################
+print "<a href=\"#\" onClick = \"tag=this.nextElementSibling; tag.style.display=tag.style.display == 'none' ? 'block':'none'\"><strong>Click here to show | hide source code</strong></a>";
+print "<div id=\"php_source\" style=\"display:none\">";
+OpenTableCode();
+highlight_file("modules/Titanium_SandBox/x-facebook_testing_template.php");
+CloseTableCode();
+print "</div><hr />";
+###########################################################################################################################################################################
 # TEST CODE GOES HERE - START
 ############################################################################################################################################################################
+	
+	if ( defined('facebook') ):
+	
 	global $board_config, $domain,$db, $db2, $userdata, $userinfo; 
     global $facebook_plugin_width, $facebookappid, $facebookappsecret; //used to set the deafult width of iframes and tables
 
@@ -86,9 +96,14 @@ if (!defined('MODULE_FILE')) {
  
    echo "</center>";
    echo "<br><br>";
+   else:
    
-   echo "</fieldset>";	
+   echo "FACEBOOK IS CURRENTLY DISABLED IN THE fbconfig.cfg file!";
+   
+   endif;
 ############################################################################################################################################################################			
 # TEST CODE GOES HERE - END
+############################################################################################################################################################################
+echo "<hr /></fieldset>"; # This stays at is part of the SandBox
 ############################################################################################################################################################################
 ?> 

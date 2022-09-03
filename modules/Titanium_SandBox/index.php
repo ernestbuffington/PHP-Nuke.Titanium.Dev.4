@@ -1,4 +1,22 @@
 <?php
+/*=======================================================================
+ PHP-Nuke Titanium: Enhanced PHP-Nuke Web Portal System
+ =======================================================================*/
+/**
+*
+* This file is part of the Titanium SandBox package.
+*
+* @copyright (c) PHP-Nuke Titanium 2022 
+* <https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+* For full copyright and license information, please see
+* the docs/CREDITS.txt file.
+*
+*/
+
+/**
+*/
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
@@ -24,8 +42,8 @@ global $domain, $facebookappid, $module_name, $ThemeSel, $name; //these globals 
 
 include (MODULES.'Titanium_SandBox/includes/functions.php'); //this must be loaded for facebook purposes
 #########################################################################
-# Table Header Module     Fix Start - by TheGhost   v1.0.0     01/30/2012
-#########################################################################
+# Table Header Module     Fix Start - by TheGhost   v1.0.0              # 01/30/2012 Checks for OpenTableModule
+######################################################################### 
 if(!function_exists('OpenTableModule'))
 {
   OpenTable();
@@ -36,11 +54,10 @@ OpenTable();
 #########################################################################	
 	
 $titanium_browser = new Browser();
-//echo "<br />";
 OpenTable2();
 
 #-------------------------#
-# Theme Colors Definition #
+# Theme Colors Definition ## Just here for reference
 #-------------------------#
 $digits_txt_color ='yellow';  # Reads
 $digits_color ='#FF0000';     # How many reads
@@ -59,6 +76,9 @@ $bgcolor3   = $ThemeInfo['bgcolor3'];
 $bgcolor4   = $ThemeInfo['bgcolor4'];
 $textcolor1 = $ThemeInfo['textcolor1'];
 $textcolor2 = $ThemeInfo['textcolor2'];
+
+$fpr = img('finger-pointing-right-icon.png', 'Titanium_SandBox');
+$fpr_img = "<img align=\"absbottom\" width=\"25\" src=\"$fpr\" border=\"0\">";                                      
 
 ?>
 <table class="tabletwo" width="100%" cellspacing="2" cellpadding="2" >
@@ -102,32 +122,39 @@ define('DEV_ENVIRONMENT', 'development');                #
 ##########################################################
 
 #############################################################
+# This is where you add your files STEP 1                   #
+#############################################################
 # Test Code Example File Names                              #              ###################################################################################################
 # 0. $testfile = 'x-clean_slate_template.php';              ##9/15/2017    #
-# 1. $testfile = '';                                        #              # You would load you proect file here (somefilename.php) model it oafter the template.php file
-# 2. $testfile = 'php5_audiotag_example.php';               ################ SET THE NAME OF THE FILE YOU ARE WORKING IN (this file resides in the root of Titanium_SandBox)
-# 3. $testfile = 'host_information.php';                    #              ###################################################################################################
+# 1. $testfile = 'x-fullscreen_shockwave_example.php';      #              # You would load your project file here (somefilename.php) model it oafter the template file
+# 2. $testfile = 'x-php5_audiotag_example.php';             ################ SET THE NAME OF THE FILE YOU ARE WORKING IN (this file resides in the root of Titanium_SandBox)
+# 3. $testfile = 'x-host_information.php';                  #              ###################################################################################################
 # 4. $testfile = 'x-browser_check.php';                     # 
-# 5. $testfile = 'project_template.php';              <---- ##### Added 1/8/2012 by Ernest Buffington 
-# 6. $testfile = 'facebook_testing_template.php';     <---- ##### Added 4/5/2012 by Ernest Buffington 
+# 5. $testfile = 'x-project_template.php';            <---- ##### Added 1/8/2012 by Ernest Buffington 
+# 6. $testfile = 'x-facebook_testing_template.php';   <---- ##### Added 4/5/2012 by Ernest Buffington 
 # 7. $testfile = 'x-file_get_contents_example.php';   <---- ##### Added 9/5/2017 by Ernest Buffington 
 #############################################################
 global $testfile;
+
+#############################################################
+# This is where you add your files STEP 2                   #
+#############################################################
+$testfile = '';
 
 if ($mode == 0)
 $testfile = 'x-clean_slate_template.php';
 if ($mode == 1)
 $testfile = 'x-fullscreen_shockwave_example.php';
 if ($mode == 2)
-$testfile = 'facebook_testing_template.php';
+$testfile = 'x-facebook_testing_template.php';
 if ($mode == 3)
-$testfile = 'host_information.php';     
+$testfile = 'x-host_information.php';     
 if ($mode == 4)
 $testfile = 'x-browser_check.php';        
 if ($mode == 5) 
-$testfile ='project_template.php';
+$testfile ='x-project_template.php';
 if ($mode == 6)
-$testfile ='php5_audiotag_example.php';
+$testfile ='x-php5_audiotag_example.php';
 if ($mode == 7)
 $testfile ='x-file_get_contents_example.php';
 
@@ -144,25 +171,86 @@ if (defined('DEV_ENVIRONMENT'))
 		echo '<div align="center"><h2>CURRENT SELECTED TEMPLATE<br /><font color="green"> modules<font color ="white">/</font>'
 		.$module_name.'<font color ="white">/</font>'.$testfile.'</font></h2></div><br />'; 
         include (MODULES.'Titanium_SandBox/'.$testfile);
+
+        echo "<br />";
+		
+        echo '<span class=\"supersmall\">';
+
+        echo '<div align="center"><strong>[ SANDBOX TEST LINKS ]</strong></div><br>';
+
+############################################
+# This is where you add you files STEP 3   #
+######################################################################################################################################################################################
+## 0 (x-clean_slate_template.php)
+echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
+echo  "This files can be found in the folder: <strong>$domain/modules/$module_name/x-clean_slate_template.php<strong></br>";
+echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=0"> [ CLEAN SLATE TEMPLATE ]</a> <font color="orange">Written by Ernest Allen Buffington</font> 9/15/2017</br>';
+echo "</fieldset><br />";
+######################################################################################################################################################################################
+## 1 (does not exist)
+echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
+echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-fullscreen_shockwave_example_description</br>";
+echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=1">[ FULLS SCREEN SWF DISPLAY ]</a> <font 
+color="orange">Written by Ernest Allen Buffington</font> 7/30/2013</br>';
+echo "</fieldset><br />";
+######################################################################################################################################################################################
+## 2 (x-facebook_testing_template.php)
+echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
+echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-facebook_testing_template.php<strong></br>";
+echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=2">[ FACEBOOK LOGIN CODE EXAMPLE ]</a> <font 
+color="orange">Written by Ernest Allen Buffington</font> 6/20/2012</br>';
+echo "</fieldset><br />";
+######################################################################################################################################################################################
+## 3 (x-host_information.php)
+echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
+echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-host_information.php<strong></br>";
+echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=3">[ GUIDE TO ABSOLUTE PATHS ]</a> <font 
+color="orange">Written by Ernest Allen Buffington</font> 1/1/2010</br>';
+echo "</fieldset><br />";
+######################################################################################################################################################################################
+## 4 (x-browser_check.php)
+echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
+echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-browser_check.php<strong></br>";
+echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=4">[ BROWSER AND OS CHECK EXAMPLE CODE ]</a> <font 
+color="orange">Written by Ernest Allen Buffington</font> 3/1/2012</br>';
+echo "</fieldset><br />";
+######################################################################################################################################################################################
+## 5 (x-project_template.php)
+echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
+echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-project_template.php<strong></br>";
+echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=5">[ FLASH LAYOUT CODE EXAMPLES ]</a> <font 
+color="orange">Written by Ernest Allen Buffington</font> 9/5/2017</br>';
+echo "</fieldset><br />";
+######################################################################################################################################################################################
+## 6 (x-php5_audiotag_example.php)
+echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
+echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-php5_audiotag_example.php<strong></br>";
+echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=6"> Click Here -> [ HTML 5 AUDIO TAG EXAMPLE ]</a> <font 
+color="orange">Written by Ernest Allen Buffington</font> 7/30/2013</br>';
+echo "</fieldset><br />";
+######################################################################################################################################################################################
+## 7 (x-file_get_contents_example.php)
+echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
+echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-file_get_contents_example.php<strong></br>";
+echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=7"> Click Here -> [ cURL CODE FETCH EXAMPLE ]</a> <font 
+color="orange">Written by Ernest Allen Buffington</font> 7/30/2013</br>';
+echo "</fieldset><br />"; 
+######################################################################################################################################################################################
+# 8 would go here !!!
+
+echo "</span>";
 		
 		echo "<br />";
 		echo '';
         include (MODULES.'Titanium_SandBox/includes/file_information_loader.php');
+		echo "<br /><br />";
 		break;
-
-
-
 
 		case 'testing':
 		echo '<b>SandBox mode : TESTING</b><br />';
         include (MODULES.'Titanium_SandBox/'.$testfile);
 		echo "<br /><hr>";
         include (MODULES.'Titanium_SandBox/includes/file_information_loader.php');
-
-
-
-
-
 
 		case 'production':
 		echo '<b>SandBox mode : PRODUCTION</b><br />';
@@ -175,81 +263,10 @@ if (defined('DEV_ENVIRONMENT'))
 	}
 }
 
-
-$fpr = img('finger-pointing-right-icon.png', 'Titanium_SandBox');
-$fpr_img = "<img align=\"absbottom\" width=\"25\" src=\"$fpr\" border=\"0\">";                                      
-
-global $domain;
-
-echo '<span class=\"supersmall\">';
-//OpenTable();
-
-echo '<br /><br /><div align="center"><strong>[ SANDBOX TEST LINKS ]</strong></div><br>';
-
-## 0 (x-clean_slate_template.php)
-echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
-echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-clean_slate_template.php<strong></br>";
-echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=0"> Click Here -> [ CLEAN SLATE TEMPLATE ]</a> <font 
-color="orange">Written by Ernest Allen Buffington</font> 9/15/2017</br>';
-echo "</fieldset>";
-
-## 1 (does not exist)
-echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
-echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-fullscreen_shockwave_example_description</br>";
-echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=1"> Click Here -> [ FULLS SCREEN SWF DISPLAY ]</a> <font 
-color="orange">Written by Ernest Allen Buffington</font> 7/30/2013</br>';
-echo "</fieldset>";
-
-
-## 2 (php5_audiotag_example.php)
-echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
-echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/facebook_testing_template.php<strong></br>";
-echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=2"> Click Here -> [ FACEBOOK LOGIN CODE EXAMPLE ]</a> <font 
-color="orange">Written by Ernest Allen Buffington</font> 6/20/2012</br>';
-echo "</fieldset>";
-
-## 3 (host_information.php)
-echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
-echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/host_information.php<strong></br>";
-echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=3"> Click Here -> [ GUIDE TO ABSOLUTE PATHS ]</a> <font 
-color="orange">Written by Ernest Allen Buffington</font> 1/1/2010</br>';
-echo "</fieldset>";
-
-## 4 (x-browser_check.php)
-echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
-echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-browser_check.php<strong></br>";
-echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=4"> Click Here -> [ BROWAER AND OS CHECK EXAMPLE CODE ]</a> <font 
-color="orange">Written by Ernest Allen Buffington</font> 3/1/2012</br>';
-echo "</fieldset>";
-
-## 5 (project_template.php)
-echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
-echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/project_template.php<strong></br>";
-echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=5"> Click Here -> [ FLASH LAYOUT CODE EXAMPLES ]</a> <font 
-color="orange">Written by Ernest Allen Buffington</font> 9/5/2017</br>';
-echo "</fieldset>";
-
-
-## 6 (facebook_testing_template.php)
-echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
-echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/php5_audiotag_example.php<strong></br>";
-echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=6"> Click Here -> [ HTML 5 AUDIO TAG EXAMPLE ]</a> <font 
-color="orange">Written by Ernest Allen Buffington</font> 7/30/2013</br>';
-echo "</fieldset>";
-
-
-## 7 (x-file_get_contents_example.php)
-echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
-echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-file_get_contents_example.php<strong></br>";
-echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=7"> Click Here -> [ cURL CODE FETCH EXAMPLE ]</a> <font 
-color="orange">Written by Ernest Allen Buffington</font> 7/30/2013</br>';
-echo "</fieldset>";
-
-//CloseTable();
-echo "</span>";
-
-//include (MODULES.'Titanium_SandBox/facebook/custom_share_axample_01.php'); //this must be loaded for facebook purposes
-//include (MODULES.'Titanium_SandBox/facebook/standard_comments.php'); //this must be loaded for facebook purposes 	
+if ( defined('facebook') ):
+include (MODULES.'Titanium_SandBox/facebook/custom_share_axample_01.php'); //this will autp load if facebook is enabled
+include (MODULES.'Titanium_SandBox/facebook/standard_comments.php');       //this will autp load if facebook is enabled 	
+endif;
 CloseTable();
 include("footer.php");	
 ?> 

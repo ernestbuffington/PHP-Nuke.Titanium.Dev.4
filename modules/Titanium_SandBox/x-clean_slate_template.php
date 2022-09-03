@@ -2,25 +2,25 @@
 if (!defined('MODULE_FILE')) { 
    die('You can\'t access this file directly...');
 }
-############################################################################################################################################################################			
+############################################################################################################################################################################
+print "<a href=\"#\" onClick = \"tag=this.nextElementSibling; tag.style.display=tag.style.display == 'none' ? 'block':'none'\"><strong>Click here to show | hide source code</strong></a>";
+print "<div id=\"php_source\" style=\"display:none\">";
+OpenTableCode();
+highlight_file("modules/Titanium_SandBox/x-clean_slate_template.php");
+CloseTableCode();
+print "</div><hr />";
+###########################################################################################################################################################################
 # TEST CODE GOES HERE - START
 ############################################################################################################################################################################
-    $get_open_base_dir = ini_get("open_basedir");
-	if(empty($get_open_base_dir)):
-    echo '<div align="center">';
-	print "<div align=\"center\">ini_get 'open_basedir' Failed (Testing open_basedir access)<br /><br /></div>";
-	else:
-	echo ini_get("open_basedir");    
-	endif;
-	
-	echo "$domain"." = <code>\$domain</code>";
-	echo "<br><br>";
-	echo "$nukeurl"."= <code>\$nukeurl</code>";
 
-	echo '</div>';
-	echo '</fieldset>';
-	//CloseTable();
+    # start SIMPLE CODE TEST
+	print '<div align="center"><h1>Hello World</h1></div>';
+    # end SIMPLE CODE TEST
+
+
 ############################################################################################################################################################################			
 # TEST CODE GOES HERE - END
+############################################################################################################################################################################
+echo "<hr /></fieldset>"; # This stays at is part of the SandBox
 ############################################################################################################################################################################
 ?> 

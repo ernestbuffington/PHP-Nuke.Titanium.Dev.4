@@ -2,9 +2,18 @@
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
-############################################################################################################################################################################			
+############################################################################################################################################################################
+print "<a href=\"#\" onClick = \"tag=this.nextElementSibling; tag.style.display=tag.style.display == 'none' ? 'block':'none'\"><strong>Click here to show | hide source code</strong></a>";
+print "<div id=\"php_source\" style=\"display:none\">";
+OpenTableCode();
+highlight_file("modules/Titanium_SandBox/x-browser_check.php");
+CloseTableCode();
+print "</div><hr />";
+###########################################################################################################################################################################
 # TEST CODE GOES HERE - START
 ############################################################################################################################################################################
+
+
 $titanium_browser = new Browser();
 
 global $cookie;
@@ -38,8 +47,8 @@ echo 'Your Chrome Support is TURNED <font color=red><b>OFF</b></font>';
 echo '<hr>';
 echo '<a href="https://www.google.com/chrome" target="_blank"><img border="0" align=top width=15 src="https://www.chromium.org/_/rsrc/1302286290899/chromium-projects/chrome-32.png?height=32&amp;width=32" width="32"> DOWNLOAD CHROME</a>';
 }
-echo "</fieldset>";
 ############################################################################################################################################################################			
 # TEST CODE GOES HERE - END
 ############################################################################################################################################################################
-?> 
+echo "<hr /></fieldset>"; # This stays at is part of the SandBox
+############################################################################################################################################################################?> 

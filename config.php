@@ -1,9 +1,13 @@
 <?php
-/*===================================================================== */
-/* PHP-Nuke Titanium | Nuke-Evolution Xtreme : A PHP-Nuke Fork          */
-/* ==================================================================== */
+
+/*=======================================================================
+ Nuke-Evolution Xtreme: Enhanced PHP-Nuke Web Portal System
+ =======================================================================*/
+
+/************************************************************************/
 /* PHP-NUKE: Advanced Content Management System                         */
 /* ============================================                         */
+/*                                                                      */
 /* Copyright (c) 2002 by Francisco Burzi                                */
 /* http://phpnuke.org                                                   */
 /*                                                                      */
@@ -11,52 +15,45 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
-exit('Access Denied');
 
-/*----[ Welcome! ] ---------------------------------------\
-| Welcome to PHP-Nuke Titanium                            |
-| A CMS based on PHP-Nuke                                 |
-\--------------------------------------------------------*/
-global $portaladmin;
+if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
+    exit('Access Denied');
+}
 
-/*----[ $api_version ] -----------------------------------\
-| Your user number on your web portal                     |
-|                                                         |
-| Default: 0                                              |
-\--------------------------------------------------------*/
-$portaladmin = '2';
+/*----[ Welcome! ] ---------------------------------------
+| Welcome to Nuke-Evolution, an advanced content          |
+| management system based on PHP-Nuke                     |
+---------------------------------------------------------*/
 
-/*----[ $dbhost ] ----------------------------------------\
+/*----[ $dbhost ] ----------------------------------------
 | Your database host, normally 'localhost'                |
 |                                                         |
 | Default: localhost                                      |
-\--------------------------------------------------------*/
+---------------------------------------------------------*/
 $dbhost = 'localhost';
-
-/*----[ $dbname ] ----------------------------------------\
+/*----[ $dbname ] ----------------------------------------
 | The name of your database that will hold Evo's tables   |
 |                                                         |
 | Default: xxx_evo                                        |
-\--------------------------------------------------------*/
-$dbname = '';
+---------------------------------------------------------*/
+$dbname = 'dev4_main';
 
-/*----[ $dbuname ] ---------------------------------------\
+/*----[ $dbuname ] ---------------------------------------
 | The username linked to your database, must have correct |
 | permissions                                             |
 |                                                         |
 | Default: xxx_evo                                        |
-\--------------------------------------------------------*/
-$dbuname = '';
+---------------------------------------------------------*/
+$dbuname = 'dev4_user';
 
-/*----[ $dbpass ] ----------------------------------------\
+/*----[ $dbpass ] ----------------------------------------
 | The password associated with your db usersname          |
 |                                                         |
 | Default: null                                           |
-\--------------------------------------------------------*/
-$dbpass = '';
+---------------------------------------------------------*/
+$dbpass = 'xwdNPADv86dev4';
 
-/*----[ $dbtype ] ----------------------------------------\
+/*----[ $dbtype ] ----------------------------------------
 | The type of SQL server you prefer to use                |
 |                                                         |
 | Choose from the following (case-sensitive):             |
@@ -64,25 +61,25 @@ $dbpass = '';
 |    - mysqli (PHP must be compiled with "System Mysql")  |
 |                                                         |
 | Default: mysql                                          |
-\--------------------------------------------------------*/
+---------------------------------------------------------*/
 $dbtype = 'mysqli';
 
-/*----[ $prefix ] ----------------------------------------\
+/*----[ $prefix ] ----------------------------------------
 | The prefix for your Nuke-Evolution tables               |
 |                                                         |
 | Default: nuke                                           |
-\--------------------------------------------------------*/
+---------------------------------------------------------*/
 $prefix = 'nuke';
 
-/*----[ $user_prefix ] -----------------------------------\
+/*----[ $user_prefix ] -----------------------------------
 | The prefix for your Nuke-Evolution user-related tables  |
 | Do not change this unless it is really needed           |
 |                                                         |
 | Default: nuke                                           |
-\--------------------------------------------------------*/
+---------------------------------------------------------*/
 $user_prefix = 'nuke';
 
-/*----[ $admin_file ] ------------------------------------\
+/*----[ $admin_file ] ------------------------------------
 | The filename of your Admin File                         |
 |                                                         |
 | If you change this to something other than it's default |
@@ -90,10 +87,10 @@ $user_prefix = 'nuke';
 | to the new value you assigned to this variable          |
 |                                                         |
 | Default: admin                                          |
-\--------------------------------------------------------*/
+---------------------------------------------------------*/
 $admin_file = 'admin';
 
-/*----[ $directory_mode ] ------------------------------------------\
+/*----[ $directory_mode ] ------------------------------------------
 | permissions - by default, Evo will create new folders with the    |
 | permissions set with the following settings.  NOTE: do NOT use    |
 | quotes around this value or it will not work.                     |
@@ -103,17 +100,17 @@ $admin_file = 'admin';
 -------------------------------------------------------------------*/
 $directory_mode = 0777;
 
-/*----[ $file_mode ] --------------------------------------------------\ 
+/*----[ $file_mode ] -------------------------------------------------- 
 | file permissions mode - by default, Evo will create all new files    |
 | with the permissions that are provided here.  NOTE: do NOT use any   |
 | quotes (single or double) around this value or it will not work.     |
 | Examples:                                                            |
 | Server API = Apache = 0666                                           |
 | Server API = CGI = 0644                                              |
-\---------------------------------------------------------------------*/
+----------------------------------------------------------------------*/
 $file_mode = 0666;
 
-/*----[ $debug ] -----------------------------------------\
+/*----[ $debug ] -----------------------------------------
 | Debugging Status of your website                        |
 |                                                         |
 | If you want errors being shown, set this to true.       |
@@ -123,10 +120,10 @@ $file_mode = 0666;
 | set this to false.                                      |
 |                                                         |
 | Default: true                                           |
-\--------------------------------------------------------*/
+---------------------------------------------------------*/
 $debug = true;
 
-/*----[ $use_cache ] -----=-------------------------------\
+/*----[ $use_cache ] -----=-------------------------------
 | Use caching of database fetched data                    |
 |                                                         |
 | You can choose between these options:                   |
@@ -139,14 +136,14 @@ $debug = true;
 |       - One more query per page, less server usage      |
 |                                                         |
 | Default: 1 (File Cache)                                 |
-\--------------------------------------------------------*/
+---------------------------------------------------------*/
 $use_cache = 1;
 
-/*----[ $persistency ] -----------------------------------\
+/*----[ $persistency ] -----------------------------------
 | Allow persistent database connections                   |
 | true = On                                               |
 | false = Off                                             |
-\--------------------------------------------------------*/
+---------------------------------------------------------*/
 $persistency = false;
 
 /*********************************************************************/
@@ -159,5 +156,7 @@ $persistency = false;
 /* your new site.                                                    */
 /*                                                                   */
 /* Congratulations! Now you have the webs best portal installed!     */
-/* Thanks for choosing PHP-Nuke Titanium : Nuke Evolution Xtreme!    */
+/* Thanks for choosing Nuke- Evolution: The Future of the Web!       */
 /*********************************************************************/
+
+?>
