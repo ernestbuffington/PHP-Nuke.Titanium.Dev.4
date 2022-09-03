@@ -37,7 +37,7 @@
 	<li><b>Google Site Map</b><br />Added a NEW fast and lightweight class for generating Google sitemap XML files and index of sitemap files. Written on PHP and uses XMLWriter extension (wrapper for libxml xmlWriter API) for creating XML files. XMLWriter extension is enabled by default in PHP 5 >= 5.1.2. If you have more than 50000 urls, it will split items into seperated files. (In benchmarks, 1 million urls were generated in 8 seconds)</li>
 	<li><b>Groups</b><br />List of various groups that members of a portal can subscribe to and become a member of</li>
 	<li><b>HTML Newsletter</b><br />Currently needs to be re-written as it does have some security issues</li>
-	<li><b>Image Repository</b><br />A Most excellent private image hosting system for each user that is a member of your portal</li>
+	<li><b>Image Repository</b><br />A Most excellent private image hosting system for each of your portal members</li>
 	<li><b>Loan Amortization</b><br />This is great and was written by Truman Scott Buffington</li>
 	<li><b>Link Us</b><br />A Backlink system so that members of your portal can Backlink their websites to yours.</li>
 	<li><b>Members List</b><br />Enhanced list of Portal Members - Has a built in Ghost Mode, when users are set to Ghost Mode (Enabled) theiris no way to see when their last visit was or if they are online at the same time others are</li>
