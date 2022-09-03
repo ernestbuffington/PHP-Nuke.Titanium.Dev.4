@@ -105,7 +105,7 @@ function head()
 	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php')) # CHECK FOR THEME JAVASCRIPT Added by Ernest Buffington 3/16/2021 10:58am
     include_once(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php');
     echo "<!-- CHECKING FOR pre 2019 themes -> javascript.php in Theme Dir END -->\n\n";
-
+    echo '<script src="includes/ruffle-core/ruffle.js"></script>';
 	global $titanium_browser;
     $titanium_browser = new Browser();
 	

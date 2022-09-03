@@ -250,7 +250,7 @@ class swfheader {
 			echo 'quality="' . $qlty . '" bgcolor="' . $bgcolor . '" width="' . $this->width . '" height="' . $this->height . '" name="' . $name . '" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />' . $endl ;
 			echo '</object>' . $endl ;
 		
-		    echo '<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>' . $endl ;
+		   
 
 		
 		} else {
