@@ -18,7 +18,7 @@
 	<li>Ha, Suck it Adobe!</li>
 </ul>
 
-<h2>PHP-Nuke Titanium Modules</h2>
+<h2>PHP-Nuke Titanium Dev 4 Modules</h2>
 
 <ul>
 	<li><b>Advertising</b><br />Programmable local Portal Advertisng</li>
