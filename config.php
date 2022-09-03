@@ -51,7 +51,7 @@ $dbuname = 'dev4_user';
 |                                                         |
 | Default: null                                           |
 ---------------------------------------------------------*/
-$dbpass = 'xwdNPADv86dev4';
+$dbpass = '';
 
 /*----[ $dbtype ] ----------------------------------------
 | The type of SQL server you prefer to use                |
