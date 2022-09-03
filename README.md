@@ -31,7 +31,7 @@
 	<li><b>Donations</b><br />Make donations to the local Webmaster or Admin with PayPal</li>
 	<li><b>ECalendar</b><br />Just another eCalendar</li>
 	<li><b>FAQ<br />Portal Frequently Asked Questions</li>
-	<li><b>Feedback<br />USers can leave detailed Feedback anytime they want</li>
+	<li><b>Feedback<br />Users can leave detailed Feedback anytime they want</li>
 	<li><b>File Repository</b><br />A Most excellent Downloads Manager by Lonestar</li>
 	<li><b>Forums</b><br />phpBB Forums Area</li>
 	<li><b>Google Site Map</b><br />Added a NEW fast and lightweight class for generating Google sitemap XML files and index of sitemap files. Written on PHP and uses XMLWriter extension (wrapper for libxml xmlWriter API) for creating XML files. XMLWriter extension is enabled by default in PHP 5 >= 5.1.2. If you have more than 50000 urls, it will split items to seperated files. (In benchmarks, 1 million urls were generated in 8 seconds)</li>
