@@ -18,12 +18,43 @@
 	<li>Ha, Suck it Adobe!</li>
 </ul>
 
-<h2>PHP-Nuke Titanium Modules Support</h2>
+<h2>PHP-Nuke Titanium Modules</h2>
 
 <ul>
-	<li>1</li><li>2</li>
-	<li>1</li><li>2</li>
-	<li>Ha, Suck it Adobe!</li>
+	<li>Advertising</li>
+	<li>Blog<br />This use to be the News system and it was drasticly changed and we renamed it to Blog when we added new features and updated the code for PHP 7/x</li>
+	<li>Blog_Archive</li>
+	<li>Blog_Submit</li>
+	<li>Blog_Top</li>
+	<li>Blog_Topics</li>
+	<li>Docs</li>
+	<li>Donations</li>
+	<li>ECalendar</li>
+	<li>FAQ</li>
+	<li>Feedback</li>
+	<li>File_Repository</li>
+	<li>Forums</li>
+	<li>Google-Site-Map</li>
+	<li>Groups</li>
+	<li>HTML_Newsletter</li>
+	<li>Image_Repository</li>
+	<li>Loan_ Amortization</li>
+	<li>Link_Us</li>
+	<li>Members_List</li>
+	<li>NukeSentinel</li>
+	<li>Private_Messages</li>
+	<li>Profile</li>
+	<li>Recommend_Us</li>
+	<li>Reviews</li>
+	<li>Search</li>
+	<li>Shout_Box</li>
+	<li>Spambot_Killer</li>
+	<li>Statistics</li>
+	<li>Surveys</li>
+	<li>Titanium_SandBox</li>
+	<li>Web_Links</li>
+	<li>Your_Account</li>
+	
 </ul>
 <h2>PHP-Nuke Titanium Dev 4 Server Requirements</h2>
 
