@@ -1,0 +1,320 @@
+/**
+ * Stylesheet for the Xtreme Installer
+ *
+ * @filename:  style.css
+ * @author  :  Evolution-Xtreme
+ * @version :  1.0.2
+ * @date    :  05/01/2019 (DD/MM/YYY)
+ * @license :  Copyright (c) 2019 Evolution-Xtreme.com under the MIT license
+ * @notes   :  n/a
+ *
+ * -- -------------------------------------------------------------------
+ * \/ STYLESHEET NAVIGATION
+ * -- -------------------------------------------------------------------
+ *
+ * 1.  Primary page styles
+ * 2.  Page Wraps
+ * 3.  Logo Elements
+ * 4.  Content Elements
+ * 5.  Step Box Elements
+ * 6.  Button, Fieldset, Input Elements
+ *
+ * -- -------------------------------------------------------------------
+*/
+
+
+/*
+ * 1. Primary Page Styles
+ *----------------------------------------
+*/
+body {
+	background-color: #262626;
+	color: #F1F1F1;
+	font-family: Verdana, Arial;
+	font-size: 11px;
+	margin: 20px 0px 0px 0px;
+	padding: 0px;
+}
+
+a {
+    color: #ccc;
+    /*text-decoration: none;*/
+}
+
+a:hover {
+    color: #f5a405;
+}
+
+/*
+ * 2. Page Wraps
+ *--------------------------------------------------
+*/
+#install_wrap {
+	width: 1014px;
+	height: 700px;
+	margin: 0 auto;
+}
+#left_wrap {
+	width: 770px;
+	height: auto;
+	float: left;
+}
+#right_wrap {
+	width: 244px;
+	height: auto;
+	right: 0px;
+	float: right;
+}
+.top_wrap {
+	width: inherit;
+	float: none;
+}
+
+
+/*
+ * 3. Logo Elements
+ *--------------------------------------------------
+*/
+#logo {
+    background: url('images/logo.png');
+	width: 400px;
+	height: 110px;
+	text-align:right;
+	margin:auto;
+}
+#logo_left {
+	background: url('images/Logo-Content-Left.png') no-repeat;
+	width: 45px;
+	height: 110px;
+	float: left;
+}
+#logo_content_bg {
+	background: url('images/Logo-Content-Bg.png') repeat-x;
+	height: 110px;
+	margin: 0px 0px 0px 33px;
+}
+
+/*
+ * 4. Content Elements
+ *--------------------------------------------------
+*/
+#top_left_corner {
+	background: url('images/Top-Left-Corner.png') no-repeat;
+	width: 45px;
+	height: 36px;
+	float: left;
+}
+#top_mid {
+	background: url('images/Top-Mid.png') repeat-x;
+	height: 36px;
+	margin: 0px 0px 0px 33px;
+}
+
+#main_content {
+	background: url('images/Main-Content.png') no-repeat;
+	width: 770px;
+	height: 481px;
+}
+#main_content div.mcontent {
+	width: 706px;
+	height: inherit;
+	margin-left: 43px;
+	margin-right: 43px;
+	overflow: auto;
+}
+.wrappermcontent {
+   position: absolute;
+   overflow-y: auto;
+   top: 182px;
+}
+
+#btm_left_corner {
+	background: url('images/Bottom-Left-Corner.png') no-repeat;
+	width: 55px;
+	height: 73px;
+	float: left;
+}
+#btm_mid {
+	background: url('images/Bottom-Mid.png') repeat-x;
+	height: 73px;
+	margin: 0px 0px 0px 55px;
+}
+#btm_right_corner {
+	background: url('images/Bottom-Right-Corner.png') no-repeat;
+	width: inherit;
+	height: 73px;
+}
+#main_content_right {
+	background: url('images/Main-Content-Right.png') no-repeat;
+	width: inherit;
+	height: 304px;
+}
+
+/*
+ * 5. Step Box Elements
+ *--------------------------------------------------
+*/
+#step_box_top {
+	background: url('images/Step-Box-Top.png') no-repeat;
+	width: 244px;
+	height: 36px;
+}
+#step_box_title {
+	background: url('images/Step-Box-Title.png') no-repeat;
+	width: 244px;
+	height: 28px;
+}
+#step_box {
+	background: url('images/Step-Box.png') no-repeat;
+	width: 244px;
+	height: 259px;
+}
+#step_wrap {
+	width: 179px;
+	padding: 12px 0px 0px 19px;
+}
+.step_box {
+	background: #363636;
+	border-bottom: #cecfcf 1px solid;
+	color: #ccc;
+	font-size: 10px;
+	padding-left: 5px;
+	line-height: 2em;
+	width: inherit;
+	height: 21px;
+	margin-bottom: 1px;
+}
+
+
+/*
+ * 6. Button, Fieldset, Input Elements
+ *--------------------------------------------------
+*/
+.strike { text-decoration: line-through; }
+
+input.button {
+	background: transparent url('images/Button.png');
+	width: 154px;
+	height: 30px;
+	border: #666666 0px solid;
+	color: #AAA;
+	font-size: 12px;
+	padding: 2px 4px 2px 3px;
+}
+input.button:hover { 
+	color: #D29A2B; 
+	cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+select {
+	background: transparent;
+	border: #666666 1px solid;
+	color: #AAA;
+	font-size: 12px;
+	padding: 2px 4px 2px 4px;
+	outline: 0px;
+}
+select:hover { color: #D29A2B; cursor: pointer; }
+
+input.input {
+	background: #202020;
+	border: #666666 1px solid;
+	color: #AAA;
+	font-size: 11px;
+	height: 18px;
+	outline: 0px;
+	padding-left: 2px;
+	cursor: pointer;
+}
+input.input:hover { color: #D29A2B;	}
+
+textarea {
+	background: #202020;
+	border: #666666 1px solid;
+	color: yellow;
+	font-size: 11px;
+	outline: 0px;
+}
+
+fieldset {
+	margin: 20px 10px;
+	padding: 10px;
+	border: 1px solid #787878;
+	background-color: #262626;
+	/*position: relative;*/
+	outline: 0px;
+}
+
+* html fieldset { padding: 0 10px 5px 10px; }
+
+legend {
+	padding: 1px 0;
+	font-family: Tahoma,arial,Verdana,Sans-serif;
+	font-size: .9em;
+	font-weight: bold;
+	color: #ccc;
+	margin-top: .4em;
+	position: relative;
+	text-transform: none;
+	line-height: 2.2em;
+	top: 0;
+	vertical-align: middle;
+}
+
+/* Hide from macIE */
+/*legend { top: -1.2em; }*/
+
+* html legend {
+	margin: 0 0 -10px -7px;
+	line-height: 1em;
+	font-size: .85em;
+}
+
+dl { font-size: 1.00em; font-family: Verdana, Helvetica, Arial, sans-serif; }
+dt { float: left; width: auto; }
+
+dd { color: #666666; }
+dd + dd { padding-top: 5px; }
+dt span { padding: 0 5px 0 0; }
+
+dt label {
+	font-size: 11px;
+	text-align: left;
+	font-weight: bold;
+	color: #CCC;
+}
+dd label {
+	font-size: 1.00em;
+	white-space: nowrap;
+	margin: 0 10px 0 0;
+	color: #CCC;
+}
+
+/* Tweak for Moz to Align Checkboxes/Radio Buttons Nicely */
+html>body dd label input { vertical-align: text-bottom; }
+
+fieldset dl { margin-bottom: 10px; font-size: 0.85em; }
+fieldset dt {
+	width: 45%;
+	text-align: left;
+	border: none;
+	border-right: 1px solid #CCC;
+	padding-top: 3px;
+	outline: 0px;
+}
+fieldset dd {
+	margin: 0 0 0 45%;
+	padding: 0 0 0 5px;
+	border: none;
+	border-left: 1px solid #CCC;
+	vertical-align: top;
+	font-size: 1.00em;
+	outline: 0px;
+}
+
+/* Hover Highlights for Form Rows */
+fieldset dl:hover dt, fieldset dl:hover dd { border-color: #666666; }
+fieldset dl:hover dt label { color: #D29A2B; }
+fieldset dl dd label:hover { color: #D29A2B; }
