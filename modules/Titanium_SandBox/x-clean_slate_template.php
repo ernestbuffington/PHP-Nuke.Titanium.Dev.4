@@ -8,16 +8,14 @@ if (!defined('MODULE_FILE')) {
     $get_open_base_dir = ini_get("open_basedir");
 	if(empty($get_open_base_dir)):
     echo '<div align="center">';
-	print "ini_get 'open_basedir' Failed";
+	print "<div align=\"center\">ini_get 'open_basedir' Failed (Testing open_basedir access)<br /><br /></div>";
 	else:
 	echo ini_get("open_basedir");    
 	endif;
 	
-    echo $domain;
-	echo " this is \$domain";
-	echo "<br>";
-	echo $nukeurl;
-	echo " this is \$nukeurl";
+	echo "$domain"." = <code>\$domain</code>";
+	echo "<br><br>";
+	echo "$nukeurl"."= <code>\$nukeurl</code>";
 
 	echo '</div>';
 	echo '</fieldset>';
