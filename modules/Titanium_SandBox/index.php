@@ -225,14 +225,14 @@ echo "</fieldset><br />";
 ## 6 (x-php5_audiotag_example.php)
 echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
 echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-php5_audiotag_example.php<strong></br>";
-echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=6"> Click Here -> [ HTML 5 AUDIO TAG EXAMPLE ]</a> <font 
+echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=6">[ HTML 5 AUDIO TAG EXAMPLE ]</a> <font 
 color="orange">Written by Ernest Allen Buffington</font> 7/30/2013</br>';
 echo "</fieldset><br />";
 ######################################################################################################################################################################################
 ## 7 (x-file_get_contents_example.php)
 echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
 echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-file_get_contents_example.php<strong></br>";
-echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=7"> Click Here -> [ cURL CODE FETCH EXAMPLE ]</a> <font 
+echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=7">[ cURL CODE FETCH EXAMPLE ]</a> <font 
 color="orange">Written by Ernest Allen Buffington</font> 7/30/2013</br>';
 echo "</fieldset><br />"; 
 ######################################################################################################################################################################################
