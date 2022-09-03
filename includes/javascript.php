@@ -262,6 +262,7 @@ if (!$arcade_on) {
 /*****[END]********************************************
  [ Mod:     IE PNG Fix                         v1.0.0 ]
  ******************************************************/
+echo '<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>';
  
 /*****[BEGIN]******************************************
  [ Mod:     Password Strength Meter            v1.0.0 ]
