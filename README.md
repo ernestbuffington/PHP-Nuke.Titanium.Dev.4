@@ -22,7 +22,7 @@
 
 <ul>
 	<li>Advertising</li>
-	<li>Blog<br />This use to be the News system and it was drasticly changed and we renamed it to Blog when we added new features and updated the code for PHP 7/x</li>
+	<li><b>Blog</b><br />This use to be the News system and it was drasticly changed and we renamed it to Blog when we added new features and updated the code for PHP 7/x</li>
 	<li>Blog_Archive</li>
 	<li>Blog_Submit</li>
 	<li>Blog_Top</li>
