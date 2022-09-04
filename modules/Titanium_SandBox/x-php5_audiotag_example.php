@@ -14,16 +14,20 @@ print "</div><hr />";
 ############################################################################################################################################################################
 
 OpenTableFancy();
-echo "<b><font color=white>Honeymoon Suite -Take My Hand</font></b><br /><br />";
+echo "<b><font color=\"red\">The Egyptian Lover - I Cry</font></b><br /><br />";
+echo "<audio width=\"$facebook_plugin_width\" controls=\"true\" src=\"modules/Titanium_SandBox/songs/i_cry_egyption_lover_on_the_nile.mp3\"><b>Your browser does not support the audio tag.</b></audio>";
+echo "<br /><br />";
+
+echo "<b><font color=\"red\">Honeymoon Suite - Take My Hand</font></b><br /><br />";
 echo "<audio width=\"$facebook_plugin_width\" controls=\"true\" src=\"modules/Titanium_SandBox/songs/take-my-hand.ogg\"><b>Your browser does not support the audio tag.</b></audio>";
 echo "<br /><br />";
 	
-echo "<b><font color=white>Ozzy Osbourne -Tomorrow</font></b><br /><br />";
+echo "<b><font color=\"red\">Ozzy Osbourne - Tomorrow</font></b><br /><br />";
 echo "<audio width=\"$facebook_plugin_width\" controls=\"true\" src=\"modules/Titanium_SandBox/songs/tomorrow.ogg\"><b>Your browser does not support the audio tag.</b></audio>";
 echo "<br /><br />";
 
 
-echo "<b><font color=white>Meat Loaf - Life Is A Lemon And I Want My Money Back (Remix)</font></b><br /><br />";
+echo "<b><font color=\"red\">Meat Loaf - Life Is A Lemon And I Want My Money Back (Remix)</font></b><br /><br />";
 echo "<audio width=\"$facebook_plugin_width\" controls=\"true\" src=\"modules/Titanium_SandBox/songs/lemon.ogg\"><b>Your browser does not support the audio tag.</b></audio>";
 echo "<br /><br /><br /><br />";
 CloseTableFancy();
