@@ -1,0 +1,63 @@
+h2 {
+  color: green;
+}
+
+.ghost 
+{
+color:inherit;
+border-right: inherit;
+border-top: inherit;
+border-bottom: inherit;
+border-left: inherit;
+border-style: inherit;
+border-width: 0px;
+
+backgroundRepeat: repeat-xy left top;
+BACKGROUND-IMAGE: url(../../../themes/86it-Z3/images/backgrounds/ghost.jpg); 
+BACKGROUND-REPEAT: repeat-xy left top; 
+backgroundImage: url(../../../themes/86it-Z3/images/backgrounds/ghost.jpg);
+accelerator: false;
+}
+
+a.clickable{
+  cursor: pointer;
+  cursor: hand;
+}
+
+a.sourceview:link{
+  cursor: pointer;
+  cursor: hand;
+  color: e48e00;
+  font-size: 1.2em;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+a.sourceview:visted{
+  cursor: pointer;
+  cursor: hand;
+  color: e48e00;
+  font-size: 1.2em;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+a.sourceview:hover{
+  cursor: pointer;
+  cursor: hand;
+  color: FF9900;
+  text-decoration: underline;
+  font-size: 1.2em;
+  font-weight: 500;
+  font-weight:bolder;
+}
+
+a.sourceview:active{
+  cursor: pointer;
+  cursor: hand;
+  color: FF9900;
+  font-size: 1.2em;
+  font-weight: 500;
+  text-decoration: underline;
+}
+   

@@ -132,7 +132,8 @@ define('DEV_ENVIRONMENT', 'development');                #
 # 4. $testfile = 'x-browser_check.php';                     # 
 # 5. $testfile = 'x-project_template.php';            <---- ##### Added 1/8/2012 by Ernest Buffington 
 # 6. $testfile = 'x-facebook_testing_template.php';   <---- ##### Added 4/5/2012 by Ernest Buffington 
-# 7. $testfile = 'x-file_get_contents_example.php';   <---- ##### Added 9/5/2017 by Ernest Buffington 
+# 7. $testfile = 'x-file_get_contents_example.php';   <---- ##### Added 9/5/2017 by Ernest Buffington
+# 7. $testfile = 'x-bootstrap_4_modal.php'; 
 #############################################################
 global $testfile;
 
@@ -157,6 +158,8 @@ if ($mode == 6)
 $testfile ='x-php5_audiotag_example.php';
 if ($mode == 7)
 $testfile ='x-file_get_contents_example.php';
+if ($mode == 8)
+$testfile ='x-bootstrap_4_modal.php';
 
 
 
@@ -168,8 +171,8 @@ if (defined('DEV_ENVIRONMENT'))
 		echo "<br />";
         echo '<fieldset style="border-color: green; border-width: '.$fieldset_border_width.'; border-style: solid;">';
 
-		echo '<div align="center"><h2>CURRENT SELECTED TEMPLATE<br /><font color="green"> modules<font color ="white">/</font>'
-		.$module_name.'<font color ="white">/</font>'.$testfile.'</font></h2></div><br />'; 
+		//echo '<div align="center"><h2>CURRENT SELECTED TEMPLATE<br /><font color="green"> modules<font color ="white">/</font>'
+		//.$module_name.'<font color ="white">/</font>'.$testfile.'</font></h2></div><br />'; 
         include (MODULES.'Titanium_SandBox/'.$testfile);
 
         echo "<br />";
@@ -236,6 +239,14 @@ echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=7">[ cURL CODE 
 color="orange">Written by Ernest Allen Buffington</font> 7/30/2013</br>';
 echo "</fieldset><br />"; 
 ######################################################################################################################################################################################
+## 7 (x-file_get_contents_example.php)
+echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
+echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-bootstrap_4_modal.php<strong></br>";
+echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=8">[ Bootstrap Modal Examples ]</a> <font 
+color="orange">Written by Ernest Allen Buffington</font> 08/05/2022</br>';
+echo "</fieldset><br />"; 
+######################################################################################################################################################################################
+
 # 8 would go here !!!
 
 echo "</span>";
