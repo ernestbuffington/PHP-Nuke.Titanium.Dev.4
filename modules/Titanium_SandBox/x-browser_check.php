@@ -12,6 +12,7 @@ print "</div><hr />";
 #################################################[ SandBox Example Source Code ]###########################################################################################
 # TEST CODE GOES HERE - START
 ###########################################################################################################################################################################			
+print "<!-- Your Test Code START x-browser_check.php -->";
 
 $titanium_browser = new Browser();
 
@@ -46,7 +47,7 @@ echo 'Your Chrome Support is TURNED <font color=red><b>OFF</b></font>';
 echo '<hr>';
 echo '<a href="https://www.google.com/chrome" target="_blank"><img border="0" align=top width=15 src="https://www.chromium.org/_/rsrc/1302286290899/chromium-projects/chrome-32.png?height=32&amp;width=32" width="32"> DOWNLOAD CHROME</a>';
 }
-
+print "<!-- Your Test Code END x-browser_check.php -->";
 ###########################################################################################################################################################################			
 # TEST CODE GOES HERE - END
 #################################################[ SandBox Example Source Code ]###########################################################################################
