@@ -17,9 +17,10 @@
 
 /**
 */
-if (!defined('MODULE_FILE')) {
-   die('You can\'t access this file directly...');
-}
+if (!defined('MODULE_FILE')) { 
+    Header("Location: /index.php");
+	exit();
+}         
 $pagetitle = 'facebook SandBox v6.0';
 $title = 'facebook SandBox odule v6.0';
 require_once("mainfile.php");
@@ -242,7 +243,7 @@ echo "</fieldset><br />";
 ## 7 (x-file_get_contents_example.php)
 echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
 echo  "This files can be found in the folder: <strong>$domain/modules/Titanium_SandBox/x-bootstrap_4_modal.php<strong></br>";
-echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=8">[ Bootstrap Modal Examples ]</a> <font 
+echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=8">[ Loading JQuery and Bootstrap with a few Modal Examples ]</a> <font 
 color="orange">Written by Ernest Allen Buffington</font> 08/05/2022</br>';
 echo "</fieldset><br />"; 
 ######################################################################################################################################################################################
