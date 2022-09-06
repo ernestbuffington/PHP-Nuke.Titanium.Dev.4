@@ -17,7 +17,7 @@
 if(realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) exit('Access Denied');
 
 global $dbhost2, $dbname2, $dbuname2, $db2, $network_prefix; 
-define('network', 'enabled');
+//define('network', 'enabled');
 if ( defined('network') ):
 $dbhost2 = 'localhost';
 $dbname2 = 'hub_db';
