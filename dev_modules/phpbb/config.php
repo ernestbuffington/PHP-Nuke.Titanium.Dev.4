@@ -4,8 +4,8 @@
 $dbms = 'phpbb\\db\\driver\\mysqli';
 $dbhost = 'localhost';
 $dbport = '';
-$dbname = 'dev4_phpbb';
-$dbuser = 'dev4_phpbb';
+$dbname = '';
+$dbuser = '';
 $dbpasswd = '';
 $table_prefix = 'phpbbNuke_';
 $phpbb_adm_relative_path = 'adm/';

@@ -1,7 +1,7 @@
 <?php 
 if (!defined('MODULE_FILE')) { 
-    Header("Location: /index.php");
-	exit();
+$back = "<script>history.go(-1);</script>";
+print_r($back);	
 }           
 #################################################[ SandBox Example Source Code ]###########################################################################################
 

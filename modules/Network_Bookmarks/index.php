@@ -17,7 +17,7 @@
 #########################################################################
 if (!defined('MODULE_FILE')) 
 {
-   die ("You can't access this file directly...");
+   //die ("You can't access this file directly...");
 }
 
 global $network_prefix, $db, $cookie, $user, $theme_name;
