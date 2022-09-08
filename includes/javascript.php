@@ -40,7 +40,7 @@
       Theme Management                         v1.0.2       12/14/2005
 -=[Mod]=-
       Anti-Spam                                v1.1.0       06/18/2005
-      IE PNG Fix                               v1.0.0       06/24/2005
+      Arcade                                   v1.0.0       09/07/2022
       Password Strength Meter                  v1.0.0       07/12/2005
       ToolManDHTML                             v0.0.2       03/20/2005
       Switch Content Script                    v2.0.0       03/29/2006
@@ -252,17 +252,16 @@ if(get_evo_option('recap_site_key') && get_evo_option('recap_priv_key'))
  ******************************************************/
 
 /*****[BEGIN]******************************************
- [ Mod:     IE PNG Fix                         v1.0.0 ]
+ [ Mod:     Arcade                             v1.0.0 ]
  ******************************************************/
-$arcade_on = (isset($_GET['file']) && $_GET['file'] == 'arcade_games') ? true : (isset($_POST['file']) && $_POST['file'] == 'arcade_games') ? true : false;
+$arcade_on = ((isset($_GET['file']) && $_GET['file'] == 'arcade_games') ? true : ((isset($_POST['file']) && $_POST['file'] == 'arcade_games') ?  true : false)); //Fixed
 
 if (!$arcade_on) {
-    $arcade_on = (isset($_GET['do']) && $_GET['do'] == 'newscore') ? true : (isset($_POST['do']) && $_POST['do'] == 'newscore') ? true : false;
+    $arcade_on = ((isset($_GET['do']) && $_GET['do'] == 'newscore') ? true : ((isset($_POST['do']) && $_POST['do'] == 'newscore') ? true : false)); //Fixed
 }
 /*****[END]********************************************
- [ Mod:     IE PNG Fix                         v1.0.0 ]
+ [ Mod:     Arcade                             v1.0.0 ]
  ******************************************************/
-
  
 /*****[BEGIN]******************************************
  [ Mod:     Password Strength Meter            v1.0.0 ]
