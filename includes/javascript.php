@@ -2,7 +2,6 @@
 /*======================================================================= 
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
-
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
@@ -14,7 +13,6 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
-
 /***************************************************************************
  *   This file is part of the phpBB2 port to Nuke 6.0 (c) copyright 2002
  *   by Tom Nitzschner (tom@toms-home.com)
@@ -32,7 +30,6 @@
  *   under the GNU GENERAL PUBLIC LICENSE. Please see the README for more information.
  *
  ***************************************************************************/
-
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
@@ -48,8 +45,6 @@
       IE Embed Fix                             v1.0.0       04/24/2006
 	  jQuery Lightbox Resize Images            v0.5
  ************************************************************************/
-
-
 //Note due to all the windows.onload use womAdd('function_name()'); instead
 
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
@@ -76,14 +71,6 @@ if(!defined('FORUM_ADMIN'))
 }
 /*****[END]********************************************
  [ Base:    NukeSentinel                       v2.4.1 ]
- ******************************************************/
-
-/*****[BEGIN]******************************************
- [ Mod:     IE Embed Fix                       v1.0.0 ]
- ******************************************************/
-/*echo "<!--[if IE]><script defer=\"defer\" type=\"text/javascript\" src=\"includes/embed_fix.js\"></script>\n<![endif]-->";*/
-/*****[END]********************************************
- [ Mod:     IE Embed Fix                       v1.0.0 ]
  ******************************************************/
 
 /*****[BEGIN]******************************************
@@ -180,10 +167,6 @@ echo "var js, fjs = d.getElementsByTagName(s)[0];\n";
 echo "if (d.getElementById(id)) {return;}\n";
 echo "js = d.createElement(s); js.id = id;\n";
 echo "js.src = 'https://connect.facebook.net/en_US/sdk.js';\n";
-
-//Just one of the many ways facebook fucks us all, this would not load or even show up!
-//Failed to load resource: the server responded with a status of 500 ()
-//echo "js.src = 'https://connect.facebook.net/en_US/debug.js';\n"; This
 
 echo "fjs.parentNode.insertBefore(js, fjs);\n";
 echo "}(document, 'script', 'facebook-jssdk'));\n";
@@ -541,9 +524,6 @@ echo "\n\n<!--
    ::    ::   :::   :: ::::   ::: ::::  ::   :::  ::::: ::  :::: ::      ::    
    :      :   : :  : :: ::    :: :: :    :   : :   : :  :   :: : :       :     
                                                                                 -->\n";
-# Easter Egg Hunt added by who I'm not sure but it's cute
-# addJSToBody(NUKE_JQUERY_SCRIPTS_DIR.'Evo.EE.js','file');
-# addJSToBody(NUKE_JQUERY_SCRIPTS_DIR.'Evo.EE.CMD.js','file');
 echo "\n<!-- Ernest Allen Buffington aka TheGhost -->\n\n\n";
 
 global $analytics;
