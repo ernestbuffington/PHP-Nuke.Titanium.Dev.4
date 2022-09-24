@@ -689,15 +689,17 @@ function cookiedecode($trash=0)
     global $cookie;
     static $rcookie;
 
-    if(isset($rcookie)) 
-	return $rcookie; 
+    if(isset($rcookie)): 
+	return $rcookie;
+	endif; 
 
     $titanium_usercookie = $_COOKIE['user'];
     $rcookie = (!is_array($titanium_usercookie)) ? explode(':', base64_decode($titanium_usercookie)) : $titanium_usercookie;
     $pass = get_user_field('user_password', $rcookie[1], true);
 
-    if ($rcookie[2] == $pass && !empty($pass))
+    if ($rcookie[2] == $pass && !empty($pass)):
     return $cookie = $rcookie;
+	endif;
     
     return false;
 }
