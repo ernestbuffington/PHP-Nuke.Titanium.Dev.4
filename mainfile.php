@@ -1064,8 +1064,27 @@ function ultramode()
 
     $querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
 
-    $sql = "SELECT s.sid, s.catid, s.aid, s.title, s.datePublished, s.dateModified, s.hometext, s.comments, s.topic, s.ticon, t.topictext, t.topicimage FROM `".$titanium_prefix."_stories` s LEFT JOIN `".$titanium_prefix."_topics` t ON t.topicid = s.topic WHERE s.ihome = '0' ".$querylang." ORDER BY s.datePublished DESC LIMIT 0,10";
-    $result = $titanium_db->sql_query($sql);
+    $sql = "SELECT s.sid, 
+	             s.catid, 
+				   s.aid, 
+				 s.title, 
+		 s.datePublished, 
+		  s.dateModified, 
+		      s.hometext, 
+			  s.comments, 
+			     s.topic, 
+				 s.ticon, 
+			 t.topictext, 
+			t.topicimage 
+			
+	FROM `".$titanium_prefix."_stories` s 
+	
+	LEFT JOIN `".$titanium_prefix."_topics` t 
+	ON t.topicid = s.topic 
+	WHERE s.ihome = '0' ".$querylang." 
+	ORDER BY s.datePublished DESC LIMIT 0,10";
+    
+	$result = $titanium_db->sql_query($sql);
 
     while ($row = $titanium_db->sql_fetchrow($result, SQL_ASSOC)):
         $rsid = $row['sid'];
@@ -1094,9 +1113,9 @@ function ultramode()
     endif;
 }
 
-// Adds slashes to string and strips PHP+HTML for SQL insertion and hack prevention
-// $str: the string to modify
-// $nohtml: strip PHP+HTML tags, false=no, true=yes, default=false
+# Adds slashes to string and strips PHP+HTML for SQL insertion and hack prevention
+# $str: the string to modify
+# $nohtml: strip PHP+HTML tags, false=no, true=yes, default=false
 function Fix_Quotes($str, $nohtml=false) 
 {
     //If there is not supposed to be HTML
