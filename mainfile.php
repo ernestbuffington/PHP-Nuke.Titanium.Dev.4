@@ -760,26 +760,25 @@ function render_blocks($side, $block)
 {
 	global $plus_minus_images, $currentlang, $collapse, $collapsetype;
 	define_once('BLOCK_FILE', true);
-    //Include the block lang files
-    if (file_exists(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php')) 
+    
+	# Include the block lang files
+	if(file_exists(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php')): 
         include_once(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php');
-    else
+    else:
         include_once(NUKE_LANGUAGE_DIR.'blocks/lang-english.php');
- /*****[BEGIN]******************************************
- [ Mod:     Switch Content Script              v2.0.0 ]
- ******************************************************/
+	endif;
+    
+	# Mod: Switch Content Script v2.0.0 START
     if($collapse): 
         if (!$collapsetype):
             $block['title'] = $block['title'] . "&nbsp;&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']."\" class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'block".$block['bid']."')\" alt=\"\" style=\"cursor: pointer;\" />";
-            // $block['title'] = $block['title'].'&nbsp;&nbsp;&nbsp;'.get_evo_icon('evo-sprite minus showstate', false, 'expandcontent(this, \'block'.$block['bid'].'\')');
         else: 
             $block['title'] = "<a href=\"javascript:expandcontent(this, 'block".$block['bid']."')\">".$block['title']."</a>";
         endif;
         $block['content'] = "<div id=\"block".$block['bid']."\" class=\"switchcontent\">".$block['content']."</div>";
     endif;
-/*****[END]********************************************
- [ Mod:     Switch Content Script              v2.0.0 ]
- ******************************************************/
+	# Mod: Switch Content Script v2.0.0 END
+
     if (empty($block['url'])): 
         if (empty($block['blockfile'])): 
             if ($side == 'c' || $side == 'd'): 
