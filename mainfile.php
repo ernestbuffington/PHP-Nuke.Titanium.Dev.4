@@ -945,7 +945,7 @@ function blockfileinc($blockfiletitle, $blockfile, $side=1, $bid)
 
 function rss_content($url) 
 {
-    if (!evo_site_up($url)) 
+    if (!titanium_site_up($url)) 
 	return false;
     
 	require_once(NUKE_CLASSES_DIR.'class.rss.php');

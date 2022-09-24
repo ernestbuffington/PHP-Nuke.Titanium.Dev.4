@@ -1291,7 +1291,7 @@ function amp_replace($string)
     return $string;
 }
 
-function evo_site_up($url) 
+function titanium_site_up_evo($url) 
 {
     //Set the address
     $address = parse_url($url);
