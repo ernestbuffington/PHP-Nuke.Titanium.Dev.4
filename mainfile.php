@@ -1315,18 +1315,16 @@ function get_author($aid)
     $result = $titanium_db->sql_query('SELECT `user_id` from `'.$titanium_user_prefix.'_users` WHERE `username`="'.$aid.'"');
     $titanium_userid = $titanium_db->sql_fetchrow($result);
     $titanium_db->sql_freeresult($result);
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
+    
+	# Mod: Advanced Username Color v1.0.5 START
     if (isset($titanium_userid[0])) 
      $aid = "<a href=\"modules.php?name=Profile&amp;mode=viewprofile&amp;u=".$titanium_userid[0]."\">".UsernameColor($aid)."</a>";
 	elseif (isset($row['url']) && $row['url'] != 'http://') 
      $aid = "<a href=\"".$row['url']."\">".UsernameColor($aid)."</a>";
 	else 
      $aid = UsernameColor($aid);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
+	# Mod: Advanced Username Color v1.0.5 END
+
     return $aid;
 }
 
