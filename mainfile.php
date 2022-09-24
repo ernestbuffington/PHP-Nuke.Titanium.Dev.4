@@ -369,14 +369,17 @@ else:
 $file_mode = 0644;
 endif;
 
-// Core exceptions handler
+# Core exceptions handler
 include_once(NUKE_INCLUDE_DIR . 'exception.php');
 include_once(NUKE_INCLUDE_DIR . 'abstract/abstract.exception.php');
 
-// Include the required files
+# Include the required files
 @require_once(NUKE_DB_DIR.'db.php');
+
+# TUen Titanium debug on and off!
 //$titanium_db->debug = true;
-// Include Error Logger and identify class
+
+# Include Error Logger and identify class
 @require_once(NUKE_CLASSES_DIR.'class.identify.php');
 global $phpbb2_agent;
 
@@ -385,7 +388,7 @@ $phpbb2_agent = $identify->identify_agent();
 
 @require_once(NUKE_INCLUDE_DIR.'log.php');
 
-if (ini_get('output_buffering') && !isset($phpbb2_agent['bot'])):
+if(ini_get('output_buffering') && !isset($phpbb2_agent['bot'])):
     ob_end_clean();
     header('Content-Encoding: none');
 endif;
@@ -427,10 +430,10 @@ require_once(NUKE_INCLUDE_DIR.'functions_evo.php');
 require_once(NUKE_INCLUDE_DIR.'functions_evo_custom.php');
 include_once(NUKE_INCLUDE_DIR.'validation.php');
 
-// We globalize the $cookie and $userinfo variables,
-// so that they dont have to be called each time
-// And as you can see, getusrinfo() is now deprecated.
-// Because you dont have to call it anymore, just call $userinfo
+# We globalize the $cookie and $userinfo variables,
+# so that they dont have to be called each time
+# And as you can see, getusrinfo() is now deprecated.
+# Because you dont have to call it anymore, just call $userinfo
 if(is_user()):
     $cookie = cookiedecode();
     $userinfo = get_user_field('*', $cookie[1], true);
@@ -439,7 +442,7 @@ else:
     $userinfo = get_user_field('*', 'Anonymous', true);
 endif;
 
-//If they have been deactivated send them to logout to kill their cookie and sessions
+# If they have been deactivated send them to logout to kill their cookie and sessions
 if (is_array($userinfo) && isset($userinfo['user_active']) 
 && $userinfo['user_id'] != 1 && $userinfo['user_id'] != 0 
 && $userinfo['user_active'] == 0 && $_GET['name'] != 'Your_Account'):
@@ -470,13 +473,9 @@ foreach($nuke_titanium_config as $var => $value):
     $$var = $value;
 endforeach;
 
-/*****[BEGIN]******************************************
- [ Base:    Language Selector                  v3.0.0 ]
- ******************************************************/
+# Base: Language Selector v3.0.0 START
 @require_once(NUKE_INCLUDE_DIR.'language.php');
-/*****[END]********************************************
- [ Base:    Language Selector                  v3.0.0 ]
- ******************************************************/
+# Base: Language Selector v3.0.0 END
  
 $adminmail = stripslashes($adminmail);
 $foot1 = stripslashes($foot1);
