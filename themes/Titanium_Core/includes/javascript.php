@@ -3,7 +3,7 @@
 # THEME SYSTEM FILE                                                                     #
 #---------------------------------------------------------------------------------------#
 # THEME INFO                                                                            #
-# Titanium_Core Theme v1.0 (Fixed & Full Width)                                         #
+# Titanium_Core Theme v2.0 (Fixed & Full Width)                                         #
 #                                                                                       #
 # Final Build Date 03/16/2021 Tuesday 12:54am                                           #
 #                                                                                       #
