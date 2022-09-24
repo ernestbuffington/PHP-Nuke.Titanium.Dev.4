@@ -1131,16 +1131,18 @@ function Remove_Slashes($str)
     return $_GETVAR->stripSlashes($str);
 }
 
-// check_words function by ReOrGaNiSaTiOn
+# check_words function by ReOrGaNiSaTiOn
 function check_words($message) 
 {
     global $titanium_censor_words;
 
-    if(empty($message)) 
-    return '';
+    if(empty($message)): 
+     return '';
+	endif;
     
-	if(empty($titanium_censor_words)) 
-    return $message;
+	if(empty($titanium_censor_words)): 
+     return $message;
+	endif;
     
 	$orig_word = array();
     $replacement_word = array();
