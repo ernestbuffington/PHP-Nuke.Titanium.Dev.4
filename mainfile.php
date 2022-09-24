@@ -124,7 +124,7 @@ if (preg_match('/IIS/', $_SERVER['SERVER_SOFTWARE']) && isset($_SERVER['SCRIPT_N
     $_SERVER['REQUEST_URI'] = $requesturi;
 endif;
 
-# PHP5 with register_long_arrays off?? Who gives a fuck we dont support PHP 5 anymore!
+# PHP5 with register_long_arrays off?? Who gives a fuck we don't support PHP 5 anymore!
 if (PHP_5 && (!@ini_get('register_long_arrays') || @ini_get('register_long_arrays') == '0' || strtolower(@ini_get('register_long_arrays')) == 'off')):
     $HTTP_POST_VARS =& $_POST;
     $HTTP_GET_VARS =& $_GET;
