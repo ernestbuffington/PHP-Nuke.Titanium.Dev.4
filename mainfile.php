@@ -57,18 +57,20 @@
 if((defined('NUKE_EVO')) || (defined('NUKE_TITANIUM')))return;
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))exit('Access Denied');
 
-# Define Versiom
-define_once('NUKE_EVO', '2.0.9');
 # Define Version
 define_once('NUKE_TITANIUM', '4.0.2');
+# Define Versiom
+define_once('NUKE_EVO', '2.0.9');
 # Build Version
 define_once('TITANIUM_BUILD', '209402');
+# Build Version of Evo Base Engine
 define_once('CUR_EVO', 'NUKE_EVO');
-# Network Support
+# Version Info Titanium
 define_once('CUR_TITANIUM', 'NUKE_TITANIUM');
+# Version Info Evo Base Engine
 define_once('EVO_EDITION', 'xtreme');
-# Network Support
-define_once('TITANIUM_EDITION', 'Network');
+# Version Info Titanium NEW Engine
+define_once('TITANIUM_EDITION', 'AN602');
 
 define('PHPVERS', @phpversion());
 define_once('EVO_VERSION', NUKE_EVO . ' ' . EVO_EDITION);
