@@ -1840,27 +1840,41 @@ function GroupColor($group_name, $short=0)
 
     static $titanium_cached_groups;
 
-    if(!$use_colors) 
-	return $group_name;
-    
+    if(!$use_colors): 
+	 return $group_name;
+    endif;
+	
 	$plaingroupname = ( $short !=0 ) ? $group_name.'_short' : $group_name;
     
-	if (!empty($titanium_cached_groups[$plaingroupname])) 
-    return $titanium_cached_groups[$plaingroupname];
+	if(!empty($titanium_cached_groups[$plaingroupname])): 
+     return $titanium_cached_groups[$plaingroupname];
+	endif;
     
-    if ((($titanium_cached_groups = $titanium_cache->load('GroupColors', 'config')) === false) || empty($titanium_cached_groups)) :
+    if((($titanium_cached_groups = $titanium_cache->load('GroupColors', 'config')) === false) || empty($titanium_cached_groups)):
         
 		$titanium_cached_groups = array();
         
-		$sql = 'SELECT `auc`.`group_color` as `group_color`, `gr`.`group_name` as`group_name` FROM ( `'.GROUPS_TABLE.'` `gr` LEFT JOIN  `' . AUC_TABLE . '` `auc` ON `gr`.`group_color` =  `auc`.`group_id`) WHERE `gr`.`group_description` <> "Personal User" ORDER BY `gr`.`group_name` ASC';
+		$sql = 'SELECT `auc`.`group_color` as `group_color`, `gr`.`group_name` as`group_name` 
+		
+		FROM ( `'.GROUPS_TABLE.'` `gr` 
+		
+		LEFT JOIN  `' . AUC_TABLE . '` `auc` 
+		
+		ON `gr`.`group_color` =  `auc`.`group_id`) 
+		
+		WHERE `gr`.`group_description` <> "Personal User" 
+		
+		ORDER BY `gr`.`group_name` ASC';
         
 		$result = $titanium_db->sql_query($sql);
     
 	     while (list($group_color, $groupcolor_name) = $titanium_db->sql_fetchrow($result)): 
             $phpbb2_colorgroup_short = (strlen($groupcolor_name) > 13) ? substr($groupcolor_name,0,10).'...' : $groupcolor_name;
             $phpbb2_colorgroup_name  = $groupcolor_name;
-            $titanium_cached_groups[$groupcolor_name.'_short'] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $phpbb2_colorgroup_short .'</strong></span>' : $phpbb2_colorgroup_short;
-            $titanium_cached_groups[$groupcolor_name] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $phpbb2_colorgroup_name .'</strong></span>' : $phpbb2_colorgroup_name;
+            $titanium_cached_groups[$groupcolor_name.'_short'] = (strlen($group_color) == 6) ? '<span style="color: 
+			#'. $group_color .'"><strong>'. $phpbb2_colorgroup_short .'</strong></span>' : $phpbb2_colorgroup_short;
+			$titanium_cached_groups[$groupcolor_name] = (strlen($group_color) == 6) ? '<span style="color: 
+			#'. $group_color .'"><strong>'. $phpbb2_colorgroup_name .'</strong></span>' : $phpbb2_colorgroup_name;
          endwhile;
     
 	    $titanium_db->sql_freeresult($result);
@@ -1868,10 +1882,11 @@ function GroupColor($group_name, $short=0)
     
 	endif;
     
-	if (!empty($titanium_cached_groups[$plaingroupname])) 
+	if (!empty($titanium_cached_groups[$plaingroupname])): 
     return $titanium_cached_groups[$plaingroupname];
-    else 
+    else :
     return $plaingroupname;
+	endif;
 }
 
 function check_priv_mess($titanium_user_id) 
