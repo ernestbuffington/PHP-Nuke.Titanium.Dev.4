@@ -799,33 +799,32 @@ function blocks_visible($side)
     global $showblocks;
 
     $showblocks = ($showblocks == null) ? 3 : $showblocks;
-
     $side = strtolower($side[0]);
 
-    //If there are no blocks for this module && not admin file
-    if (!$showblocks && !defined('ADMIN_FILE')) 
+    # If there are no blocks for this module && not admin file
+    if(!$showblocks && !defined('ADMIN_FILE')): 
 	return false;
-
-    //If in the admin show l blocks
-    if (defined('ADMIN_FILE')) 
+	endif;
+    # If in the admin show l blocks
+    if(defined('ADMIN_FILE')): 
     return true;
-
-    //If set to 3 its all blocks
-    if ($showblocks == 3) 
+	endif;
+    # If set to 3 its all blocks
+    if($showblocks == 3): 
 	return true;
-
-    //Count the blocks on the side
+	endif;
+    # Count the blocks on the side
     $blocks = blocks($side, true);
-
-    //If there are no blocks
-    if (!$blocks)
+    # If there are no blocks
+    if(!$blocks):
     return false;
-
-    //Check for blocks to show
-    if (($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r')) 
+	endif;
+    # Check for blocks to show
+    if(($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r')): 
     return true;
+	endif;
 
-    return false;
+  return false;
 }
 
 function blocks($side, $count=false) {
