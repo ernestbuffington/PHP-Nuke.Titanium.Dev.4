@@ -1924,14 +1924,17 @@ function get_plus_minus_image ()
     static $theme;
     static $image;
 
-    if(isset($image) && is_array($image)) 
-	return $image;
+    if(isset($image) && is_array($image)): 
+	 return $image;
+	endif;
 
-    if(empty($theme)) 
-        if(function_exists('get_theme')) 
-            $theme = get_theme();
-
-    $theme_folder = (!empty($theme)) ? ((defined(NUKE_THEMES_DIR)) ? NUKE_THEMES_DIR.$theme.'/images/' : dirname(__FILE__) . '/themes/'.$theme.'/images/') : '';
+    if(empty($theme)): 
+     if(function_exists('get_theme')): 
+       $theme = get_theme();
+	 endif;
+    endif;
+    
+	$theme_folder = (!empty($theme)) ? ((defined(NUKE_THEMES_DIR)) ? NUKE_THEMES_DIR.$theme.'/images/' : dirname(__FILE__) . '/themes/'.$theme.'/images/') : '';
     $image['plus'] = (file_exists($theme_folder.'plus.gif')) ? 'themes/'.$theme.'/images/plus.gif' : 'images/plus.gif';
     $image['minus'] = (file_exists($theme_folder.'minus.gif')) ? 'themes/'.$theme.'/images/minus.gif' : 'images/minus.gif';
 
