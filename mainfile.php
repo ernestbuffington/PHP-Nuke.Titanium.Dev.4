@@ -1893,11 +1893,19 @@ function check_priv_mess($titanium_user_id)
 {
     global $titanium_db;
 
-    if (empty($titanium_user_id) || !is_numeric($titanium_user_id)) 
-    return false;
+    if (empty($titanium_user_id) || !is_numeric($titanium_user_id)): 
+     return false;
+	endif;
     
- 	$pms = $titanium_db->sql_ufetchrow("SELECT COUNT(privmsgs_id) as no FROM ".PRIVMSGS_TABLE." WHERE privmsgs_to_userid='".$titanium_user_id."' AND (privmsgs_type='5' OR privmsgs_type='1')");
-    return $pms['no'];
+ 	$pms = $titanium_db->sql_ufetchrow("SELECT COUNT(privmsgs_id) as no 
+	
+	FROM ".PRIVMSGS_TABLE." 
+	
+	WHERE privmsgs_to_userid='".$titanium_user_id."' 
+	
+	AND (privmsgs_type='5' OR privmsgs_type='1')");
+    
+	return $pms['no'];
 }
 
 /*****[BEGIN]******************************************
