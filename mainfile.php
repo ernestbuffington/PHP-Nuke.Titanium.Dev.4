@@ -1050,7 +1050,7 @@ function blog_ultramode()
     
 	if (file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")): 
         $file = fopen(NUKE_BASE_DIR."ultramode.txt", "w");
-        fwrite($file, "General purpose self-explanatory file with news headlines\n".$content);
+        fwrite($file, "General purpose self-explanatory file with headlines\n".$content);
         fclose($file);
 	else: 
         global $debugger;
@@ -1105,7 +1105,7 @@ function ultramode()
 
     if (file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")):
         $file = fopen(NUKE_BASE_DIR."ultramode.txt", "w");
-        fwrite($file, "General purpose self-explanatory file with news headlines\n".$content);
+        fwrite($file, "General purpose self-explanatory file with headlines\n".$content);
         fclose($file);
     else:
         global $debugger;
@@ -1118,14 +1118,11 @@ function ultramode()
 # $nohtml: strip PHP+HTML tags, false=no, true=yes, default=false
 function Fix_Quotes($str, $nohtml=false) 
 {
-    //If there is not supposed to be HTML
-    if ($nohtml) $str = strip_tags($str);
-    // Quote if not integer
-    /*if (!is_numeric($str)) {
-        $str = str_replace('%27', "'", $str);
-        $str = $titanium_db->sql_addq($str);
-    }*/
-    return $str;
+    # If there is not supposed to be HTML
+    if ($nohtml): 
+	  $str = strip_tags($str);
+      return $str;
+	endif;
 }
 
 function Remove_Slashes($str) 
