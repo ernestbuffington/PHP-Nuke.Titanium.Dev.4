@@ -1223,7 +1223,6 @@ function formatTimestamp($time, $format='', $dateonly='')
     endif;
     
 	if (!empty($dateonly)): 
-	
         $replaces = array('a', 'A', 'B', 'c', 'D', 'g', 'G', 'h', 'H', 'i', 'I', 'O', 'r', 's', 'U', 'Z', ':');
         $format = str_replace($replaces, '', $format);
     endif;
