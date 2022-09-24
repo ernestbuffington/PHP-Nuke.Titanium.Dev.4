@@ -34,7 +34,7 @@ if (!defined('ADMIN_FILE')) {
 switch($op) {
 
     case "mod_users":
-        redirect("modules.php?name=Your_Account&file=admin");
+        redirect_titanium("modules.php?name=Your_Account&file=admin");
     break;
 
 }

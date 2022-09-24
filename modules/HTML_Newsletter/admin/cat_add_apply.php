@@ -116,7 +116,7 @@ if ( msnl_fShowValErr() ) { //Had validation errors, so display return msg
 
 } else { //Passed all validation edits, so write to DB
 
-	$sql	= "INSERT INTO `".$prefix."_hnl_categories` ("
+	$sql	= "INSERT INTO `".$titanium_prefix."_hnl_categories` ("
 						."`cid`, "
 						."`ctitle`, "
 						."`cdescription`, "

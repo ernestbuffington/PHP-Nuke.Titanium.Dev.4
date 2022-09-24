@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
     $pagetitle = ": "._COOKIECONFIG;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -54,7 +54,7 @@ if(is_mod_admin($module_name)) {
     echo "<br />\n";
     OpenTable();
     echo "<center><table style='margin:auto' width=\"100%\" border='0' cellpadding='2' cellspacing='2'>\n";
-    echo "<tr><form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+    echo "<tr><form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
     echo "<td align='center' bgcolor='$bgcolor3' colspan='2'><strong>"._YA_COOKIECONFIG."</strong></td></tr>\n";
     echo "<tr><td align='center' colspan='2'>&nbsp;</td></tr>\n";
     

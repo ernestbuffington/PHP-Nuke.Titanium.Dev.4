@@ -126,7 +126,7 @@ if ( msnl_fShowValErr() ) { //Had validation errors, so display return msg
 
 } else { //Passed all validation edits, so write to DB
 
-	$sql	= "UPDATE `".$prefix."_hnl_categories` SET "
+	$sql	= "UPDATE `".$titanium_prefix."_hnl_categories` SET "
 					."`ctitle` = '"					.$msnl_asRec['ctitle']."', "
 					."`cdescription` = '"		.$msnl_asRec['cdescription']."', "
 					."`cblocklimit` = '"		.$msnl_asRec['cblocklimit']."' "

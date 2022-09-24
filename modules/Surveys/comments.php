@@ -33,8 +33,8 @@ if (!defined('MODULE_FILE')) {
 
 define('NUKE_BASE_MODULES', preg_replace('/modules/i', '', dirname(dirname(__FILE__))));
 
-$module_name = basename(dirname(__FILE__));
-get_lang($module_name);
+$titanium_module_name = basename(dirname(__FILE__));
+get_lang($titanium_module_name);
 $pagetitle = '- '._SURVEYS;
 
 function format_url($comment) {
@@ -47,8 +47,8 @@ function format_url($comment) {
     $pos = 0;
     while (!(($pos = strpos($comment,"<",$pos)) === false)) {
     $pos++;
-    $endpos = strpos($comment,">",$pos);
-    $tag = substr($comment,$pos,$endpos-$pos);
+    $phpbb2_endpos = strpos($comment,">",$pos);
+    $tag = substr($comment,$pos,$phpbb2_endpos-$pos);
     $tag = trim($tag);
     if (isset($location)) {
             if (!strcasecmp(strtok($tag," "),"/A")) {
@@ -57,7 +57,7 @@ function format_url($comment) {
             $hrefs[] = $location;
             unset($location);
             }
-        $pos = $endpos+1;
+        $pos = $phpbb2_endpos+1;
     } else {
         if (!strcasecmp(strtok($tag," "),"A")) {
         if (preg_match("/HREF[ \t\n\r\v]*=[ \t\n\r\v]*\"([^\"]*)\"/i",$tag,$regs));
@@ -66,10 +66,10 @@ function format_url($comment) {
         if ($regs[1]) {
                 $location = $regs[1];
         }
-        $pos = $endpos+1;
+        $pos = $phpbb2_endpos+1;
         $linkpos = $pos;
         } else {
-        $pos = $endpos+1;
+        $pos = $phpbb2_endpos+1;
         }
     }
     }
@@ -86,13 +86,13 @@ function format_url($comment) {
 }
 
 function modone() {
-    global $admin, $moderate, $module_name;
-    if((is_admin() && $moderate == 1) || ($moderate==2)) echo "<form action=\"modules.php?name=$module_name&amp;file=comments\" method=\"post\">";
+    global $admin, $titanium_moderate, $titanium_module_name;
+    if((is_admin() && $titanium_moderate == 1) || ($titanium_moderate==2)) echo "<form action=\"modules.php?name=$titanium_module_name&amp;file=comments\" method=\"post\">";
 }
 
 function modtwo($tid, $score, $reason) {
-    global $admin, $user, $moderate, $reasons;
-    if(((is_admin() && $moderate == 1) || ($moderate == 2)) && ($user)) {
+    global $admin, $titanium_user, $titanium_moderate, $reasons;
+    if(((is_admin() && $titanium_moderate == 1) || ($titanium_moderate == 2)) && ($titanium_user)) {
         echo " | <select name=dkn$tid>";
         for($i=0, $maxi=sizeof($reasons); $i<$maxi; $i++) {
             echo "<option value=\"$score:$i\">$reasons[$i]</option>\n";
@@ -102,19 +102,19 @@ function modtwo($tid, $score, $reason) {
 }
 
 function modthree($pollID, $mode, $order, $thold=0) {
-    global $admin, $user, $moderate;
-    if(((is_admin() && ($moderate == 1)) || ($moderate==2)) && ($user)) echo "<center><input type=hidden name=pollID value=$pollID><input type=hidden name=mode value=$mode><input type=hidden name=order value=$order><input type=hidden name=thold value=$thold>
+    global $admin, $titanium_user, $titanium_moderate;
+    if(((is_admin() && ($titanium_moderate == 1)) || ($titanium_moderate==2)) && ($titanium_user)) echo "<center><input type=hidden name=pollID value=$pollID><input type=hidden name=mode value=$mode><input type=hidden name=order value=$order><input type=hidden name=thold value=$thold>
     <input type=hidden name=op value=moderate>
     <input type=image src=images/menu/moderate.gif border=0></form></center>";
 }
 
 function navbar($pollID, $title, $thold, $mode, $order) {
-    global $user, $bgcolor1, $bgcolor2, $textcolor1, $textcolor2, $anonpost, $pollcomm, $prefix, $db, $module_name, $userinfo, $cookie;
+    global $titanium_user, $bgcolor1, $bgcolor2, $textcolor1, $textcolor2, $anonpost, $pollcomm, $titanium_prefix, $titanium_db, $titanium_module_name, $userinfo, $cookie;
     OpenTable();
     $pollID = intval($pollID);
-    $query = $db->sql_query("SELECT pollID FROM ".$prefix."_pollcomments WHERE pollID='$pollID'");
-    if(!$query) $count = 0; else $count = $db->sql_numrows($query);
-    $row = $db->sql_fetchrow($db->sql_query("SELECT pollTitle FROM ".$prefix."_poll_desc WHERE pollID='$pollID'"));
+    $query = $titanium_db->sql_query("SELECT pollID FROM ".$titanium_prefix."_pollcomments WHERE pollID='$pollID'");
+    if(!$query) $count = 0; else $count = $titanium_db->sql_numrows($query);
+    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT pollTitle FROM ".$titanium_prefix."_poll_desc WHERE pollID='$pollID'"));
     $title = stripslashes(check_html($row['pollTitle'], "nohtml"));
     if (!isset($mode) OR empty($mode)) {
         if(isset($userinfo['umode'])) {
@@ -154,9 +154,9 @@ function navbar($pollID, $title, $thold, $mode, $order) {
     }
     echo "<tr><td bgcolor=\"$bgcolor1\" align=\"center\" width=\"100%\">\n";
     if (($pollcomm) AND ($mode != "nocomments")) {
-        if ($anonpost==1 OR (isset($admin) AND is_mod_admin($module_name)) OR is_user()) {
+        if ($anonpost==1 OR (isset($admin) AND is_mod_admin($titanium_module_name)) OR is_user()) {
             if (!isset($pid)) { $pid = 0; }
-            echo "<form action=\"modules.php?name=$module_name&amp;file=comments\" method=\"post\">"
+            echo "<form action=\"modules.php?name=$titanium_module_name&amp;file=comments\" method=\"post\">"
             ."<input type=\"hidden\" name=\"pid\" value=\"$pid\">"
             ."<input type=\"hidden\" name=\"pollID\" value=\"$pollID\">"
             ."<input type=\"hidden\" name=\"op\" value=\"Reply\">"
@@ -176,7 +176,7 @@ function navbar($pollID, $title, $thold, $mode, $order) {
 }
 
 function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblwidth=99) {
-    global $datetime, $user, $cookie, $bgcolor1, $reasons, $anonymous, $anonpost, $commentlimit, $prefix, $module_name, $db, $userinfo, $user_prefix;
+    global $datetime, $titanium_user, $cookie, $bgcolor1, $reasons, $anonymous, $anonpost, $commentlimit, $titanium_prefix, $titanium_module_name, $titanium_db, $userinfo, $titanium_user_prefix;
 
     $comments = 0;
     if (!isset($mode) OR empty($mode)) {
@@ -201,11 +201,11 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
         }
     }
     $tid = intval($tid);
-    $result = $db->sql_query("SELECT tid, pid, pollID, date, name, email, host_name, subject, comment, score, reason FROM ".$prefix."_pollcomments WHERE pid = '$tid' order by date, tid");
+    $result = $titanium_db->sql_query("SELECT tid, pid, pollID, date, name, email, host_name, subject, comment, score, reason FROM ".$titanium_prefix."_pollcomments WHERE pid = '$tid' order by date, tid");
     if ($mode == 'nested') {
         /* without the tblwidth variable, the tables run off the screen with netscape
            in nested mode in long threads so the text can't be read. */
-    while($row = $db->sql_fetchrow($result)) {
+    while($row = $titanium_db->sql_fetchrow($result)) {
             $r_tid = intval($row['tid']);
             $r_pid = intval($row['pid']);
             $r_pollID = intval($row['pollID']);
@@ -270,20 +270,20 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
  ******************************************************/
                 }
                 if ($r_name != $anonymous) {
-                    $row2 = $db->sql_fetchrow($db->sql_query("SELECT user_id FROM ".$user_prefix."_users WHERE username='$r_name'"));
+                    $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_id FROM ".$titanium_user_prefix."_users WHERE username='$r_name'"));
                     $r_uid = intval($row2['user_id']);
                     echo "<br />(<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$r_name\">"._USERINFO."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$r_uid\">"._SENDAMSG."</a>) ";
                 }
-                $row_url = $db->sql_fetchrow($db->sql_query("SELECT user_website FROM ".$user_prefix."_users WHERE username='$r_name'"));
+                $row_url = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_website FROM ".$titanium_user_prefix."_users WHERE username='$r_name'"));
                 $url = stripslashes($row_url['user_website']);
                 if ($url != "http://" AND !empty($url) AND stristr($url, "http://")) { echo "<a href=\"$url\" target=\"new\">$url</a> "; }
                 echo "</span></td></tr><tr><td>";
-                if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) echo substr($r_comment, 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$module_name&amp;file=comments&amp;pollID=$r_pollID&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
-                elseif(strlen($r_comment) > $commentlimit) echo substr("$r_comment", 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$module_name&amp;file=comments&amp;pollID=$r_pollID&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+                if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) echo substr($r_comment, 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;pollID=$r_pollID&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+                elseif(strlen($r_comment) > $commentlimit) echo substr("$r_comment", 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;pollID=$r_pollID&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
                 else echo $r_comment;
                 echo "</td></tr></table><br /><p>";
-                if ($anonpost==1 OR is_mod_admin($module_name) OR is_user()) {
-                    echo "<span class=content color=\"$bgcolor2\"> [ <a href=\"modules.php?name=$module_name&amp;file=comments&amp;op=Reply&amp;pid=$r_tid&amp;pollID=$r_pollID&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
+                if ($anonpost==1 OR is_mod_admin($titanium_module_name) OR is_user()) {
+                    echo "<span class=content color=\"$bgcolor2\"> [ <a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;op=Reply&amp;pid=$r_tid&amp;pollID=$r_pollID&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
                 }
                 modtwo($r_tid, $r_score, $r_reason);
                 echo " ]</span><p>";
@@ -291,7 +291,7 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
             }
         }
     } elseif ($mode == 'flat') {
-        while($row = $db->sql_fetchrow($result)) {
+        while($row = $titanium_db->sql_fetchrow($result)) {
             $r_tid = intval($row['tid']);
             $r_pid = intval($row['pid']);
             $r_pollID = intval($row['pollID']);
@@ -346,25 +346,25 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
  ******************************************************/
                 }
                 if ($r_name != $anonymous) {
-                    $row3 = $db->sql_fetchrow($db->sql_query("SELECT user_id FROM ".$user_prefix."_users WHERE username='$r_name'"));
+                    $row3 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_id FROM ".$titanium_user_prefix."_users WHERE username='$r_name'"));
                     $ruid = intval($row3['user_id']);
                     echo "<br />(<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$r_name\">"._USERINFO."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$ruid\">"._SENDAMSG."</a>) ";
                 }
-                $row_url2 = $db->sql_fetchrow($db->sql_query("SELECT user_website FROM ".$user_prefix."_users WHERE username='$r_name'"));
+                $row_url2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_website FROM ".$titanium_user_prefix."_users WHERE username='$r_name'"));
                 $url = $row_url2['user_website'];
                 if ($url != "http://" AND !empty($url) AND preg_match("#http://#i", $url)) { echo "<a href=\"$url\" target=\"new\">$url</a> "; }
                 echo "</span></td></tr><tr><td>";
-                if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) echo substr($r_comment, 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$module_name&amp;file=comments&amp;pollID=$r_pollID&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
-                elseif(strlen($r_comment) > $commentlimit) echo substr("$r_comment", 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$module_name&amp;file=comments&amp;pollID=$r_pollID&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+                if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) echo substr($r_comment, 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;pollID=$r_pollID&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+                elseif(strlen($r_comment) > $commentlimit) echo substr("$r_comment", 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;pollID=$r_pollID&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
                 else echo $r_comment;
-                echo "</td></tr></table><br /><p><span class=content color=\"$bgcolor2\"> [ <a href=\"modules.php?name=$module_name&amp;file=comments&amp;op=Reply&amp;pid=$r_tid&amp;pollID=$r_pollID&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
+                echo "</td></tr></table><br /><p><span class=content color=\"$bgcolor2\"> [ <a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;op=Reply&amp;pid=$r_tid&amp;pollID=$r_pollID&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
                 modtwo($r_tid, $r_score, $r_reason);
                 echo " ]</span><p>";
                 DisplayKids($r_tid, $mode, $order, $thold);
             }
         }
     } else {
-        while($row = $db->sql_fetchrow($result)) {
+        while($row = $titanium_db->sql_fetchrow($result)) {
             $r_tid = intval($row['tid']);
             $r_pid = intval($row['pid']);
             $r_pollID = intval($row['pollID']);
@@ -394,7 +394,7 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                echo "<li><span class=\"content\"><a href=\"modules.php?name=$module_name&amp;file=comments&amp;op=showreply&amp;tid=$r_tid&amp;pollID=$r_pollID&amp;pid=$r_pid&amp;mode=$mode&amp;order=$order&amp;thold=$thold#$r_tid\">$r_subject</a> "._BY." $r_name_color "._ON." $datetime</span><br />";
+                echo "<li><span class=\"content\"><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;op=showreply&amp;tid=$r_tid&amp;pollID=$r_pollID&amp;pid=$r_pid&amp;mode=$mode&amp;order=$order&amp;thold=$thold#$r_tid\">$r_subject</a> "._BY." $r_name_color "._ON." $datetime</span><br />";
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -409,12 +409,12 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 }
 
 function DisplayBabies ($tid, $level=0, $dummy=0) {
-    global $userinfo, $datetime, $anonymous, $prefix, $db, $module_name;
+    global $userinfo, $datetime, $anonymous, $titanium_prefix, $titanium_db, $titanium_module_name;
 
     $comments = 0;
     $tid = intval($tid);
-    $result = $db->sql_query("SELECT tid, pid, pollID, date, name, email, host_name, subject, comment, score, reason FROM ".$prefix."_pollcomments WHERE pid = '$tid' order by date, tid");
-    while($row = $db->sql_fetchrow($result)) {
+    $result = $titanium_db->sql_query("SELECT tid, pid, pollID, date, name, email, host_name, subject, comment, score, reason FROM ".$titanium_prefix."_pollcomments WHERE pid = '$tid' order by date, tid");
+    while($row = $titanium_db->sql_fetchrow($result)) {
         $r_tid = intval($row['tid']);
         $r_pid = intval($row['pid']);
         $r_pollID = intval($row['pollID']);
@@ -436,7 +436,7 @@ function DisplayBabies ($tid, $level=0, $dummy=0) {
         if (!preg_match("/[a-z0-9]/i",$r_name)) { $r_name = $anonymous; }
         if (!preg_match("/[a-z0-9]/i",$r_subject)) { $r_subject = "["._NOSUBJECT."]"; }
         formatTimestamp($r_date);
-        echo "<a href=\"modules.php?name=$module_name&amp;file=comments&amp;op=showreply&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">$r_subject</a><span class=\"content\"> "._BY." $r_name "._ON." $datetime<br />";
+        echo "<a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;op=showreply&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">$r_subject</a><span class=\"content\"> "._BY." $r_name "._ON." $datetime<br />";
         DisplayBabies($r_tid, $level+1, $dummy+1);
     }
     if ($level && $comments) {
@@ -445,7 +445,7 @@ function DisplayBabies ($tid, $level=0, $dummy=0) {
 }
 
 function DisplayTopic ($pollID, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0, $level=0, $nokids=0) {
-    global $title, $bgcolor1, $bgcolor2, $bgcolor3, $hr, $user, $datetime, $cookie, $admin, $commentlimit, $anonymous, $reasons, $anonpost, $foot1, $foot2, $foot3, $foot4, $prefix, $module_name, $db, $admin_file, $userinfo, $user_prefix;
+    global $title, $bgcolor1, $bgcolor2, $bgcolor3, $hr, $titanium_user, $datetime, $cookie, $admin, $commentlimit, $anonymous, $reasons, $anonpost, $foot1, $foot2, $foot3, $foot4, $titanium_prefix, $titanium_module_name, $titanium_db, $admin_file, $userinfo, $titanium_user_prefix;
 
     include_once(NUKE_BASE_DIR.'header.php');
     $count_times = 0;
@@ -472,7 +472,7 @@ function DisplayTopic ($pollID, $pid=0, $tid=0, $mode="thread", $order=0, $thold
         }
     }
 
-    $q = "select tid, pid, pollID, date, name, email, host_name, subject, comment, score, reason FROM ".$prefix."_pollcomments WHERE pollID='$pollID' and pid='$pid'";
+    $q = "select tid, pid, pollID, date, name, email, host_name, subject, comment, score, reason FROM ".$titanium_prefix."_pollcomments WHERE pollID='$pollID' and pid='$pid'";
     if(!empty($thold)) {
         $q .= " and score>='$thold'";
     } else {
@@ -480,14 +480,14 @@ function DisplayTopic ($pollID, $pid=0, $tid=0, $mode="thread", $order=0, $thold
     }
     if ($order==1) $q .= " order by date desc";
     if ($order==2) $q .= " order by score desc";
-    $something = $db->sql_query($q);
-    $num_tid = $db->sql_numrows($something);
+    $something = $titanium_db->sql_query($q);
+    $num_tid = $titanium_db->sql_numrows($something);
     navbar($pollID, $title, $thold, $mode, $order);
     modone();
     while ($count_times < $num_tid) {
         echo "<br />";
         OpenTable();
-        $row_q = $db->sql_fetchrow($something);
+        $row_q = $titanium_db->sql_fetchrow($something);
         $tid = intval($row_q['tid']);
         $pid = intval($row_q['pid']);
         $pollID = intval($row_q['pollID']);
@@ -546,7 +546,7 @@ function DisplayTopic ($pollID, $pid=0, $tid=0, $mode="thread", $order=0, $thold
 
         $journal = '';
         if (is_active("Journal")) {
-            $row = $db->sql_fetchrow($db->sql_query("SELECT jid FROM ".$prefix."_journal WHERE aid='$c_name' AND status='yes' order by pdate,jid DESC limit 0,1"));
+            $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT jid FROM ".$titanium_prefix."_journal WHERE aid='$c_name' AND status='yes' order by pdate,jid DESC limit 0,1"));
             $jid = intval($row['jid']);
             if (!empty($jid) AND isset($jid)) {
                 $journal = " | <a href=\"modules.php?name=Journal&amp;file=display&amp;jid=$jid\">"._JOURNAL."</a>";
@@ -555,38 +555,38 @@ function DisplayTopic ($pollID, $pid=0, $tid=0, $mode="thread", $order=0, $thold
             }
         }
         if ($c_name != $anonymous) {
-            $row2 = $db->sql_fetchrow($db->sql_query("SELECT user_id FROM ".$user_prefix."_users WHERE username='$c_name'"));
+            $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_id FROM ".$titanium_user_prefix."_users WHERE username='$c_name'"));
             $r_uid = intval($row2['user_id']);
             echo "<br />(<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$c_name\">"._USERINFO."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$r_uid\">"._SENDAMSG."</a>$journal) ";
         }
-        $row_url = $db->sql_fetchrow($db->sql_query("SELECT user_website FROM ".$user_prefix."_users WHERE username='$c_name'"));
+        $row_url = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_website FROM ".$titanium_user_prefix."_users WHERE username='$c_name'"));
         $url = stripslashes($row_url['user_website']);
         if ($url != "http://" AND !empty($url) AND stristr($url, "http://")) { echo "<a href=\"$url\" target=\"new\">$url</a> "; }
 
-        if(is_mod_admin($module_name)) {
-            $row3 = $db->sql_fetchrow($db->sql_query("SELECT host_name FROM ".$prefix."_pollcomments WHERE tid='$tid'"));
+        if(is_mod_admin($titanium_module_name)) {
+            $row3 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT host_name FROM ".$titanium_prefix."_pollcomments WHERE tid='$tid'"));
             $host_name = $row3['host_name'];
             echo "<br /><strong>(IP: $host_name)</strong>";
         }
 
         echo "</span></td></tr><tr><td>";
-        if((isset($userinfo['commentmax'])) && (strlen($comment) > $userinfo['commentmax'])) echo substr("$comment", 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$module_name&amp;file=comments&amp;pollID=$r_pollID&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
-        elseif(strlen($comment) > $commentlimit) echo substr($comment, 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$module_name&amp;file=comments&amp;pollID=$pollID&amp;tid=$tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+        if((isset($userinfo['commentmax'])) && (strlen($comment) > $userinfo['commentmax'])) echo substr("$comment", 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;pollID=$r_pollID&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+        elseif(strlen($comment) > $commentlimit) echo substr($comment, 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;pollID=$pollID&amp;tid=$tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
         else echo $comment;
         echo "</td></tr></table><br /><p>";
-        if ($anonpost==1 OR is_mod_admin($module_name) OR is_user()) {
-            echo "<span class=\"content\"> [ <a href=\"modules.php?name=$module_name&amp;file=comments&amp;op=Reply&amp;pid=$tid&amp;pollID=$pollID&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
+        if ($anonpost==1 OR is_mod_admin($titanium_module_name) OR is_user()) {
+            echo "<span class=\"content\"> [ <a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;op=Reply&amp;pid=$tid&amp;pollID=$pollID&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
         }
         if ($pid != 0) {
-            $row4 = $db->sql_fetchrow($db->sql_query("SELECT pid FROM ".$prefix."_pollcomments WHERE tid='$pid'"));
+            $row4 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT pid FROM ".$titanium_prefix."_pollcomments WHERE tid='$pid'"));
             $erin = intval($row4['pid']);
-            echo "| <a href=\"modules.php?name=$module_name&amp;file=comments&amp;pollID=$pollID&amp;pid=$erin&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._PARENT."</a>";
+            echo "| <a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;pollID=$pollID&amp;pid=$erin&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._PARENT."</a>";
         }
         modtwo($tid, $score, $reason);
 
-        if(is_mod_admin($module_name)) {
+        if(is_mod_admin($titanium_module_name)) {
             echo " | <a href=\"".$admin_file.".php?op=RemovePollComment&amp;tid=$tid&amp;pollID=$pollID\">"._DELETE."</a> ]</span><p>";
-        } elseif ($anonpost != 0 OR is_mod_admin($module_name) OR is_user()) {
+        } elseif ($anonpost != 0 OR is_mod_admin($titanium_module_name) OR is_user()) {
             echo " ]</span><p>";
         }
 
@@ -604,7 +604,7 @@ function DisplayTopic ($pollID, $pid=0, $tid=0, $mode="thread", $order=0, $thold
 
 function singlecomment($tid, $pollID, $mode, $order, $thold) {
     include_once(NUKE_BASE_DIR.'header.php');
-    global $userinfo, $user, $cookie, $datetime, $bgcolor1, $bgcolor2, $bgcolor3, $anonpost, $admin, $anonymous, $prefix, $db, $module_name;
+    global $userinfo, $titanium_user, $cookie, $datetime, $bgcolor1, $bgcolor2, $bgcolor3, $anonpost, $admin, $anonymous, $titanium_prefix, $titanium_db, $titanium_module_name;
 
     if (!isset($mode) OR empty($mode)) {
         if(isset($userinfo['umode'])) {
@@ -630,7 +630,7 @@ function singlecomment($tid, $pollID, $mode, $order, $thold) {
 
     $tid = intval($tid);
     $pollID = intval($pollID);
-    $row = $db->sql_fetchrow($db->sql_query("SELECT date, name, email, subject, comment, score, reason FROM ".$prefix."_pollcomments WHERE tid='$tid' and pollID='$pollID'"));
+    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT date, name, email, subject, comment, score, reason FROM ".$titanium_prefix."_pollcomments WHERE tid='$tid' and pollID='$pollID'"));
     $date = $row['date'];
     $name = stripslashes($row['name']);
     $email = stripslashes($row['email']);
@@ -646,7 +646,7 @@ function singlecomment($tid, $pollID, $mode, $order, $thold) {
     formatTimestamp($date);
     if($email) echo "<p><strong>$subject</strong> <span class=content>("._SCORE." $score)<br />"._BY." <a href=\"mailto:$email\"><font color=\"$bgcolor2\">$name</font></a> <span class=content><strong>($email)</strong></span> "._ON." $datetime";
     else echo "<p><strong>$subject</strong> <span class=content>("._SCORE." $score)<br />"._BY." $name "._ON." $datetime";
-    echo "</td></tr><tr><td>$comment</td></tr></table><br /><p><span class=content color=\"$bgcolor2\"> [ <a href=\"modules.php?name=$module_name&amp;file=comments&amp;op=Reply&amp;pid=$tid&amp;pollID=$pollID&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a> | <a href=\"modules.php?name=$module_name&amp;pollID=$pollID\">"._ROOT."</a>";
+    echo "</td></tr><tr><td>$comment</td></tr></table><br /><p><span class=content color=\"$bgcolor2\"> [ <a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;op=Reply&amp;pid=$tid&amp;pollID=$pollID&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a> | <a href=\"modules.php?name=$titanium_module_name&amp;pollID=$pollID\">"._ROOT."</a>";
     modtwo($tid, $score, $reason);
     echo " ]";
     modthree($pollID, $mode, $order, $thold);
@@ -655,7 +655,7 @@ function singlecomment($tid, $pollID, $mode, $order, $thold) {
 
 function reply ($pid, $pollID, $mode, $order, $thold) {
     include_once(NUKE_BASE_DIR.'header.php');
-    global $userinfo, $user, $cookie, $datetime, $bgcolor1, $bgcolor2, $bgcolor3, $AllowableHTML, $anonymous, $prefix, $anonpost, $module_name, $db;
+    global $userinfo, $titanium_user, $cookie, $datetime, $bgcolor1, $bgcolor2, $bgcolor3, $AllowableHTML, $anonymous, $titanium_prefix, $anonpost, $titanium_module_name, $titanium_db;
 
     if (!isset($mode) OR empty($mode)) {
         if(isset($userinfo['umode'])) {
@@ -694,10 +694,10 @@ function reply ($pid, $pollID, $mode, $order, $thold) {
     CloseTable();
     } else {
     if($pid!=0) {
-        list($date, $name, $email, $subject, $comment, $score) = $db->sql_fetchrow($db->sql_query("SELECT date, name, email, subject, comment, score FROM ".$prefix."_pollcomments WHERE tid='$pid'"));
+        list($date, $name, $email, $subject, $comment, $score) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT date, name, email, subject, comment, score FROM ".$titanium_prefix."_pollcomments WHERE tid='$pid'"));
                 $score = intval($score);
     } else {
-        list($subject) = $db->sql_fetchrow($db->sql_query("SELECT pollTitle FROM ".$prefix."_poll_desc WHERE pollID='$pollID'"));
+        list($subject) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT pollTitle FROM ".$titanium_prefix."_poll_desc WHERE pollID='$pollID'"));
     }
     if(empty($comment)) {
         $comment = $temp_comment;
@@ -720,20 +720,20 @@ function reply ($pid, $pollID, $mode, $order, $thold) {
     CloseTable();
     if(!isset($pid) || !isset($pollID)) { echo "Something is not right. This message is just to keep things FROM messing up down the road"; exit(); }
     if($pid == 0) {
-        list($subject) = $db->sql_fetchrow($db->sql_query("SELECT pollTitle FROM ".$prefix."_poll_desc WHERE pollID='$pollID'"));
+        list($subject) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT pollTitle FROM ".$titanium_prefix."_poll_desc WHERE pollID='$pollID'"));
     } else {
-        list($subject) = $db->sql_fetchrow($db->sql_query("SELECT subject FROM ".$prefix."_pollcomments WHERE tid='$pid'"));
+        list($subject) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT subject FROM ".$titanium_prefix."_pollcomments WHERE tid='$pid'"));
     }
     echo "<br />";
     OpenTable();
-    echo "<form action=\"modules.php?name=$module_name&amp;file=comments\" method=\"post\">";
+    echo "<form action=\"modules.php?name=$titanium_module_name&amp;file=comments\" method=\"post\">";
     echo "<span class=\"content\"><strong>"._YOURNAME.":</strong></span> ";
     if (is_user()) {
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-        $username_color = UsernameColor($cookie[1]);
-        echo "<span class=\"content\"><a href=\"modules.php?name=Your_Account\">$username_color</a> [ <a href=\"modules.php?name=Your_Account&amp;op=logout\">"._LOGOUT."</a> ]</span>";
+        $titanium_username_color = UsernameColor($cookie[1]);
+        echo "<span class=\"content\"><a href=\"modules.php?name=Your_Account\">$titanium_username_color</a> [ <a href=\"modules.php?name=Your_Account&amp;op=logout\">"._LOGOUT."</a> ]</span>";
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -764,7 +764,7 @@ function reply ($pid, $pollID, $mode, $order, $thold) {
 
 function replyPreview ($pid, $pollID, $subject, $comment, $xanonpost, $mode, $order, $thold, $posttype) {
     include_once(NUKE_BASE_DIR.'header.php');
-    global $userinfo, $user, $cookie, $AllowableHTML, $anonymous, $module_name;
+    global $userinfo, $titanium_user, $cookie, $AllowableHTML, $anonymous, $titanium_module_name;
 
     if (!isset($mode) OR empty($mode)) {
                     if(isset($userinfo['umode'])) {
@@ -818,7 +818,7 @@ function replyPreview ($pid, $pollID, $subject, $comment, $xanonpost, $mode, $or
     CloseTable();
     echo "<br />";
     OpenTable();
-    echo "<form action=\"modules.php?name=$module_name&amp;file=comments\" method=\"post\">"
+    echo "<form action=\"modules.php?name=$titanium_module_name&amp;file=comments\" method=\"post\">"
         ."<span class=\"content\"><strong>"._YOURNAME.":</strong></span> ";
     if (is_user()) {
         echo "<span class=\"content\"><a href=\"modules.php?name=Your_Account\">$cookie[1]</a> <span class=\"content\">[ <a href=\"modules.php?name=Your_Account&amp;op=logout\">"._LOGOUT."</a> ]</span>";
@@ -845,7 +845,7 @@ function replyPreview ($pid, $pollID, $subject, $comment, $xanonpost, $mode, $or
 }
 
 function CreateTopic ($xanonpost, $subject, $comment, $pid, $pollID, $host_name, $mode, $order, $thold, $posttype) {
-    global $userinfo, $user, $userinfo, $EditedMessage, $cookie, $prefix, $pollcomm, $anonpost, $db, $module_name;
+    global $userinfo, $titanium_user, $userinfo, $EditedMessage, $cookie, $titanium_prefix, $pollcomm, $anonpost, $titanium_db, $titanium_module_name;
 
                   if (!isset($mode) OR empty($mode)) {
                     if(isset($userinfo['umode'])) {
@@ -892,11 +892,11 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $pollID, $host_name,
     }
     $ip = identify::get_ip();
     $pollID = intval($pollID);
-    $result = $db->sql_query("SELECT count(*) FROM ".$prefix."_poll_desc WHERE pollID='$pollID'");
-    $fake = $db->sql_numrows($result);
+    $result = $titanium_db->sql_query("SELECT count(*) FROM ".$titanium_prefix."_poll_desc WHERE pollID='$pollID'");
+    $fake = $titanium_db->sql_numrows($result);
     if ($fake == 1) {
     if ((($anonpost == 0) AND (is_user())) OR ($anonpost == 1)) {
-        $db->sql_query("insert into ".$prefix."_pollcomments values (NULL, '$pid', '$pollID', now(), '$name', '$email', '$url', '$ip', '$subject', '$comment', '$score', '0')");
+        $titanium_db->sql_query("insert into ".$titanium_prefix."_pollcomments values (NULL, '$pid', '$pollID', now(), '$name', '$email', '$url', '$ip', '$subject', '$comment', '$score', '0')");
     } else {
         echo "Nice try...";
         exit;
@@ -916,7 +916,7 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $pollID, $host_name,
     } else {
     $options = "";
     }
-    redirect("modules.php?name=$module_name&op=results&pollID=$pollID$options");
+    redirect_titanium("modules.php?name=$titanium_module_name&op=results&pollID=$pollID$options");
 }
 
 // Quake - start
@@ -964,9 +964,9 @@ switch($op) {
         break;
 
     case "moderate":
-        global $module_name;
+        global $titanium_module_name;
         include_once(NUKE_BASE_MODULES.'mainfile.php');
-        if((is_mod_admin($module_name)) || ($moderate==2)) {
+        if((is_mod_admin($titanium_module_name)) || ($titanium_moderate==2)) {
             while(list($tdw, $emp) = each($_POST)) {
                 $tdw = intval($tdw);
                 if (stristr($tdw,"dkn")) {
@@ -976,7 +976,7 @@ switch($op) {
                         $emp[0] = intval($emp[0]);
                         $emp[1] = intval($emp[1]);
                         $tdw = intval($tdw);
-                        $q = "UPDATE ".$prefix."_pollcomments SET";
+                        $q = "UPDATE ".$titanium_prefix."_pollcomments SET";
                         if(($emp[1] == 9) && ($emp[0]>=0)) { # Overrated
                             $q .= " score=score-1 WHERE tid='$tdw'";
                         } elseif (($emp[1] == 10) && ($emp[0]<=4)) { # Underrated
@@ -988,12 +988,12 @@ switch($op) {
                         } elseif (($emp[0] == -1) || ($emp[0] == 5)) {
                             $q .= " reason='$emp[1]' WHERE tid='$tdw'";
                         }
-                        if(strlen($q) > 20) $db->sql_query($q);
+                        if(strlen($q) > 20) $titanium_db->sql_query($q);
                     }
                 }
             }
         }
-        redirect("modules.php?name=$module_name&op=results&pollID=$pollID");
+        redirect_titanium("modules.php?name=$titanium_module_name&op=results&pollID=$pollID");
         break;
 
     case "showreply":
@@ -1001,11 +1001,11 @@ switch($op) {
         break;
 
     default:
-        global $module_name, $mode, $userinfo, $order, $thold;
+        global $titanium_module_name, $mode, $userinfo, $order, $thold;
         if ((isset($tid)) && (!isset($pid))) {
             singlecomment($tid, $pollID, $mode, $order, $thold);
         } elseif (!isset($pid)) {
-            redirect("modules.php?name=$module_name&op=results&pollID=$pollID&mode=$mode&order=$order&thold=$thold");
+            redirect_titanium("modules.php?name=$titanium_module_name&op=results&pollID=$pollID&mode=$mode&order=$order&thold=$thold");
         } else {
             if(!isset($pid)) $pid=0;
             if(!isset($tid)) $tid=0;

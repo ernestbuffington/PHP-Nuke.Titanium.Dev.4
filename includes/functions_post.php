@@ -40,9 +40,9 @@
 	  Post Icons                               v1.0.1
  ************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 $html_entities_match = array('#&(?!(\#[0-9]+;))#', '#<#', '#>#', '#"#');
@@ -60,7 +60,7 @@ function prepare_message($message, $html_on, $bbcode_on, $smile_on, $bbcode_uid 
 /*****[BEGIN]******************************************
  [ Mod:     adminHtml                          v1.0.3 ]
  ******************************************************/
-        global $board_config, $html_entities_match, $html_entities_replace, $userdata;
+        global $phpbb2_board_config, $html_entities_match, $html_entities_replace, $userdata;
 /*****[END]********************************************
  [ Mod:     adminHtml                          v1.0.3 ]
  ******************************************************/
@@ -145,23 +145,23 @@ function unprepare_message($message)
 /*****[BEGIN]******************************************
  [ Mod:    Must first vote to see results      v1.0.0 ]
  ******************************************************/
-function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on, &$error_msg, &$username, &$bbcode_uid, &$subject, &$message, &$poll_title, &$poll_options, &$poll_length, &$poll_view_toggle)
+function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on, &$error_msg, &$titanium_username, &$bbcode_uid, &$subject, &$message, &$poll_title, &$poll_options, &$poll_length, &$poll_view_toggle)
 /*****[END]********************************************
  [ Mod:    Must first vote to see results      v1.0.0 ]
  ******************************************************/
 {
-        global $board_config, $userdata, $lang, $phpEx, $phpbb_root_path;
+        global $phpbb2_board_config, $userdata, $titanium_lang, $phpEx, $phpbb2_root_path;
 
         // Check username
-        if (!empty($username))
+        if (!empty($titanium_username))
         {
-        $username = phpbb_clean_username($username);
+        $titanium_username = phpbb_clean_username($titanium_username);
 
-                if (!$userdata['session_logged_in'] || ($userdata['session_logged_in'] && $username != $userdata['username']))
+                if (!$userdata['session_logged_in'] || ($userdata['session_logged_in'] && $titanium_username != $userdata['username']))
                 {
                         include("includes/functions_validate.php");
 
-                        $result = validate_username($username);
+                        $result = validate_username($titanium_username);
                         if ($result['error'])
                         {
                                 $error_msg .= (!empty($error_msg)) ? '<br />' . $result['error_msg'] : $result['error_msg'];
@@ -169,7 +169,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
                 }
                 else
                 {
-                        $username = '';
+                        $titanium_username = '';
                 }
         }
 
@@ -177,10 +177,10 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
 /*****[BEGIN]******************************************
  [ Mod:    Limit smilies per post              v1.0.2 ]
  ******************************************************/
-        if (substr_count(smilies_pass($message), '<img src="'. $board_config['smilies_path']) > $board_config['max_smilies'] )
+        if (substr_count(smilies_pass($message), '<img src="'. $phpbb2_board_config['smilies_path']) > $phpbb2_board_config['max_smilies'] )
         {
-            $to_much_smilies = substr_count(smilies_pass($message), '<img src="'. $board_config['smilies_path']) - $board_config['max_smilies'];
-            $to_many_smilies = sprintf($lang['Max_smilies_per_post'], $board_config['max_smilies'], $to_much_smilies);
+            $to_much_smilies = substr_count(smilies_pass($message), '<img src="'. $phpbb2_board_config['smilies_path']) - $phpbb2_board_config['max_smilies'];
+            $to_many_smilies = sprintf($titanium_lang['Max_smilies_per_post'], $phpbb2_board_config['max_smilies'], $to_much_smilies);
             $error_msg .= ( !empty($error_msg) ) ? '<br />' . $to_many_smilies : $to_many_smilies;
         }
 /*****[END]********************************************
@@ -192,7 +192,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
         }
         else if ($mode == 'newtopic' || ($mode == 'editpost' && $post_data['first_post']))
         {
-                $error_msg .= (!empty($error_msg)) ? '<br />' . $lang['Empty_subject'] : $lang['Empty_subject'];
+                $error_msg .= (!empty($error_msg)) ? '<br />' . $titanium_lang['Empty_subject'] : $titanium_lang['Empty_subject'];
         }
 
         // Check message
@@ -203,7 +203,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
         }
         else if ($mode != 'delete' && $mode != 'poll_delete')
         {
-                $error_msg .= (!empty($error_msg)) ? '<br />' . $lang['Empty_message'] : $lang['Empty_message'];
+                $error_msg .= (!empty($error_msg)) ? '<br />' . $titanium_lang['Empty_message'] : $titanium_lang['Empty_message'];
         }
 
         //
@@ -233,15 +233,15 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
 
                         if (count($poll_options) < 2)
                         {
-                                $error_msg .= (!empty($error_msg)) ? '<br />' . $lang['To_few_poll_options'] : $lang['To_few_poll_options'];
+                                $error_msg .= (!empty($error_msg)) ? '<br />' . $titanium_lang['To_few_poll_options'] : $titanium_lang['To_few_poll_options'];
                         }
-                        else if (count($poll_options) > $board_config['max_poll_options'])
+                        else if (count($poll_options) > $phpbb2_board_config['max_poll_options'])
                         {
-                                $error_msg .= (!empty($error_msg)) ? '<br />' . $lang['To_many_poll_options'] : $lang['To_many_poll_options'];
+                                $error_msg .= (!empty($error_msg)) ? '<br />' . $titanium_lang['To_many_poll_options'] : $titanium_lang['To_many_poll_options'];
                         }
                         else if ($poll_title == '')
                         {
-                                $error_msg .= (!empty($error_msg)) ? '<br />' . $lang['Empty_poll_title'] : $lang['Empty_poll_title'];
+                                $error_msg .= (!empty($error_msg)) ? '<br />' . $titanium_lang['Empty_poll_title'] : $titanium_lang['Empty_poll_title'];
                         }
                 }
         }
@@ -256,7 +256,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
  [ Mod:    Must first vote to see results      v1.0.0 ]
  [ Mod:    Post Icons                          v1.0.1 ]
  ******************************************************/
-function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_id, &$post_id, &$poll_id, &$topic_type, &$bbcode_on, &$html_on, &$smilies_on, &$attach_sig, &$bbcode_uid, $post_username, $post_subject, $post_message, $poll_title, &$poll_options, &$poll_length, &$poll_view_toggle, $post_icon = 0)
+function submit_post($mode, &$post_data, &$message, &$meta, &$phpbb2_forum_id, &$topic_id, &$post_id, &$poll_id, &$topic_type, &$bbcode_on, &$html_on, &$smilies_on, &$attach_sig, &$bbcode_uid, $post_username, $post_subject, $post_message, $poll_title, &$poll_options, &$poll_length, &$poll_view_toggle, $post_icon = 0)
 /*****[END]********************************************
  [ Mod:    Post Icons                          v1.0.1 ]
  [ Mod:    Must first vote to see results      v1.0.0 ]
@@ -265,13 +265,13 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    global $cache;
-    $cache->delete('TopicData', 'home');
-    $cache->delete('AnnounceData', 'home');
+    global $titanium_cache;
+    $titanium_cache->delete('TopicData', 'home');
+    $titanium_cache->delete('AnnounceData', 'home');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        global $board_config, $lang, $db, $phpbb_root_path, $phpEx, $userdata, $user_ip;
+        global $phpbb2_board_config, $titanium_lang, $titanium_db, $phpbb2_root_path, $phpEx, $userdata, $titanium_user_ip;
 
             /*--FNA--*/
 
@@ -285,8 +285,8 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
         //
         // Retreive authentication info to determine if this user has moderator status
         //
-        $is_auth = auth(AUTH_ALL, $forum_id, $userdata);
-        $is_mod = $is_auth['auth_mod'];
+        $phpbb2_is_auth = auth(AUTH_ALL, $phpbb2_forum_id, $userdata);
+        $is_mod = $phpbb2_is_auth['auth_mod'];
 
         if (($mode == 'newtopic' || $mode == 'reply' || $mode == 'editpost') && !$is_mod)
 /*****[END]********************************************
@@ -296,17 +296,17 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
                 //
                 // Flood control
                 //
-                $where_sql = ($userdata['user_id'] == ANONYMOUS) ? "poster_ip = '$user_ip'" : 'poster_id = ' . $userdata['user_id'];
+                $where_sql = ($userdata['user_id'] == ANONYMOUS) ? "poster_ip = '$titanium_user_ip'" : 'poster_id = ' . $userdata['user_id'];
                 $sql = "SELECT MAX(post_time) AS last_post_time
                         FROM " . POSTS_TABLE . "
                         WHERE $where_sql";
-                if ($result = $db->sql_query($sql))
+                if ($result = $titanium_db->sql_query($sql))
                 {
-                        if ($row = $db->sql_fetchrow($result))
+                        if ($row = $titanium_db->sql_fetchrow($result))
                         {
-                                if (intval($row['last_post_time']) > 0 && ($current_time - intval($row['last_post_time'])) < intval($board_config['flood_interval']))
+                                if (intval($row['last_post_time']) > 0 && ($current_time - intval($row['last_post_time'])) < intval($phpbb2_board_config['flood_interval']))
                                 {
-                                        message_die(GENERAL_MESSAGE, $lang['Flood_Error']);
+                                        message_die(GENERAL_MESSAGE, $titanium_lang['Flood_Error']);
                                 }
                         }
                 }
@@ -323,18 +323,18 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 /*****[BEGIN]******************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
-                $sql  = ($mode != "editpost") ? "INSERT INTO " . TOPICS_TABLE . " (topic_title, topic_poster, topic_time, forum_id, topic_status, topic_type, topic_icon, topic_vote) VALUES ('$post_subject', " . $userdata['user_id'] . ", '$current_time', '$forum_id', " . TOPIC_UNLOCKED . ", '$topic_type', $post_icon, '$topic_vote')" : "UPDATE " . TOPICS_TABLE . " SET topic_title = '$post_subject', topic_icon=$post_icon, topic_type = $topic_type " . (($post_data['edit_vote'] || !empty($poll_title)) ? ", topic_vote = " . $topic_vote : "") . " WHERE topic_id = '$topic_id'";
+                $sql  = ($mode != "editpost") ? "INSERT INTO " . TOPICS_TABLE . " (topic_title, topic_poster, topic_time, forum_id, topic_status, topic_type, topic_icon, topic_vote) VALUES ('$post_subject', " . $userdata['user_id'] . ", '$current_time', '$phpbb2_forum_id', " . TOPIC_UNLOCKED . ", '$topic_type', $post_icon, '$topic_vote')" : "UPDATE " . TOPICS_TABLE . " SET topic_title = '$post_subject', topic_icon=$post_icon, topic_type = $topic_type " . (($post_data['edit_vote'] || !empty($poll_title)) ? ", topic_vote = " . $topic_vote : "") . " WHERE topic_id = '$topic_id'";
 /*****[END]********************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
-                if (!$db->sql_query($sql))
+                if (!$titanium_db->sql_query($sql))
                 {
                         message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
                 }
 
                 if ($mode == 'newtopic')
                 {
-                        $topic_id = $db->sql_nextid();
+                        $topic_id = $titanium_db->sql_nextid();
                 }
         }
 
@@ -356,22 +356,22 @@ if ($mode == 'newtopic')
 /*****[BEGIN]******************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
-        $sql = ($mode != "editpost") ? "INSERT INTO " . POSTS_TABLE . " (topic_id, forum_id, poster_id, post_username, post_time, poster_ip, enable_bbcode, enable_html, enable_smilies, enable_sig, post_icon) VALUES ('$topic_id', '$forum_id', " . $userdata['user_id'] . ", '$post_username', '$current_time', '$user_ip', '$bbcode_on', '$html_on', '$smilies_on', '$attach_sig', $post_icon)" : "UPDATE " . POSTS_TABLE . " SET post_username = '$post_username', enable_bbcode = '$bbcode_on', enable_html = '$html_on', enable_smilies = '$smilies_on', enable_sig = '$attach_sig', post_icon = $post_icon" . $edited_sql . " WHERE post_id = '$post_id'";
+        $sql = ($mode != "editpost") ? "INSERT INTO " . POSTS_TABLE . " (topic_id, forum_id, poster_id, post_username, post_time, poster_ip, enable_bbcode, enable_html, enable_smilies, enable_sig, post_icon) VALUES ('$topic_id', '$phpbb2_forum_id', " . $userdata['user_id'] . ", '$post_username', '$current_time', '$titanium_user_ip', '$bbcode_on', '$html_on', '$smilies_on', '$attach_sig', $post_icon)" : "UPDATE " . POSTS_TABLE . " SET post_username = '$post_username', enable_bbcode = '$bbcode_on', enable_html = '$html_on', enable_smilies = '$smilies_on', enable_sig = '$attach_sig', post_icon = $post_icon" . $edited_sql . " WHERE post_id = '$post_id'";
 /*****[END]********************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
-        if (!$db->sql_query($sql))
+        if (!$titanium_db->sql_query($sql))
         {
                 message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
         }
 
         if ($mode != 'editpost')
         {
-                $post_id = $db->sql_nextid();
+                $post_id = $titanium_db->sql_nextid();
         }
 
         $sql = ($mode != 'editpost') ? "INSERT INTO " . POSTS_TEXT_TABLE . " (post_id, post_subject, bbcode_uid, post_text) VALUES ('$post_id', '$post_subject', '$bbcode_uid', '$post_message')" : "UPDATE " . POSTS_TEXT_TABLE . " SET post_text = '$post_message',  bbcode_uid = '$bbcode_uid', post_subject = '$post_subject' WHERE post_id = '$post_id'";
-        if (!$db->sql_query($sql))
+        if (!$titanium_db->sql_query($sql))
         {
                 message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
         }
@@ -390,7 +390,7 @@ if ($mode == 'newtopic')
 /*****[END]********************************************
  [ Mod:    Must first vote to see results      v1.0.0 ]
  ******************************************************/
-                if (!$db->sql_query($sql))
+                if (!$titanium_db->sql_query($sql))
                 {
                         message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
                 }
@@ -403,12 +403,12 @@ if ($mode == 'newtopic')
                                 FROM " . VOTE_RESULTS_TABLE . "
                                 WHERE vote_id = '$poll_id'
                                 ORDER BY vote_option_id ASC";
-                        if (!($result = $db->sql_query($sql)))
+                        if (!($result = $titanium_db->sql_query($sql)))
                         {
                                 message_die(GENERAL_ERROR, 'Could not obtain vote data results for this topic', '', __LINE__, __FILE__, $sql);
                         }
 
-                        while ($row = $db->sql_fetchrow($result))
+                        while ($row = $titanium_db->sql_fetchrow($result))
                         {
                                 $old_poll_result[$row['vote_option_id']] = $row['vote_result'];
 
@@ -420,7 +420,7 @@ if ($mode == 'newtopic')
                 }
                 else
                 {
-                        $poll_id = $db->sql_nextid();
+                        $poll_id = $titanium_db->sql_nextid();
                 }
 
                 @reset($poll_options);
@@ -434,7 +434,7 @@ if ($mode == 'newtopic')
                                 $poll_result = ($mode == "editpost" && isset($old_poll_result[$option_id])) ? $old_poll_result[$option_id] : 0;
 
                                 $sql = ($mode != "editpost" || !isset($old_poll_result[$option_id])) ? "INSERT INTO " . VOTE_RESULTS_TABLE . " (vote_id, vote_option_id, vote_option_text, vote_result) VALUES ('$poll_id', '$poll_option_id', '$option_text', '$poll_result')" : "UPDATE " . VOTE_RESULTS_TABLE . " SET vote_option_text = '$option_text', vote_result = '$poll_result' WHERE vote_option_id = '$option_id' AND vote_id = '$poll_id'";
-                                if (!$db->sql_query($sql))
+                                if (!$titanium_db->sql_query($sql))
                                 {
                                         message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
                                 }
@@ -447,15 +447,15 @@ if ($mode == 'newtopic')
                         $sql = "DELETE FROM " . VOTE_RESULTS_TABLE . "
                                 WHERE vote_option_id IN ($delete_option_sql)
                                         AND vote_id = '$poll_id'";
-                        if (!$db->sql_query($sql))
+                        if (!$titanium_db->sql_query($sql))
                         {
                                 message_die(GENERAL_ERROR, 'Error deleting pruned poll options', '', __LINE__, __FILE__, $sql);
                         }
                 }
         }
 
-        $meta = '<meta http-equiv="refresh" content="3;url=' . append_sid("viewtopic.$phpEx?" . POST_POST_URL . "=" . $post_id) . '#' . $post_id . '">';
-        $message = $lang['Stored'] . '<br /><br />' . sprintf($lang['Click_view_message'], '<a href="' . append_sid("viewtopic.$phpEx?" . POST_POST_URL . "=" . $post_id) . '#' . $post_id . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id") . '">', '</a>');
+        $meta = '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("viewtopic.$phpEx?" . POST_POST_URL . "=" . $post_id) . '#' . $post_id . '">';
+        $message = $titanium_lang['Stored'] . '<br /><br />' . sprintf($titanium_lang['Click_view_message'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_POST_URL . "=" . $post_id) . '#' . $post_id . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
 
         return false;
 }
@@ -463,9 +463,9 @@ if ($mode == 'newtopic')
 //
 // Update post stats and details
 //
-function update_post_stats(&$mode, &$post_data, &$forum_id, &$topic_id, &$post_id, &$user_id)
+function update_post_stats(&$mode, &$post_data, &$phpbb2_forum_id, &$topic_id, &$post_id, &$titanium_user_id)
 {
-        global $db, $userdata;
+        global $titanium_db, $userdata;
 
         $sign = ($mode == 'delete') ? '- 1' : '+ 1';
         $forum_update_sql = "forum_posts = forum_posts $sign";
@@ -487,12 +487,12 @@ function update_post_stats(&$mode, &$post_data, &$forum_id, &$topic_id, &$post_i
                                 $sql = "SELECT MAX(post_id) AS last_post_id
                                         FROM " . POSTS_TABLE . "
                                         WHERE topic_id = '$topic_id'";
-                                if (!($result = $db->sql_query($sql)))
+                                if (!($result = $titanium_db->sql_query($sql)))
                                 {
                                         message_die(GENERAL_ERROR, 'Error in deleting post', '', __LINE__, __FILE__, $sql);
                                 }
 
-                                if ($row = $db->sql_fetchrow($result))
+                                if ($row = $titanium_db->sql_fetchrow($result))
                                 {
                                         $topic_update_sql .= ', topic_last_post_id = ' . $row['last_post_id'];
                                 }
@@ -502,13 +502,13 @@ function update_post_stats(&$mode, &$post_data, &$forum_id, &$topic_id, &$post_i
                         {
                                 $sql = "SELECT MAX(post_id) AS last_post_id
                                         FROM " . POSTS_TABLE . "
-                                        WHERE forum_id = '$forum_id'";
-                                if (!($result = $db->sql_query($sql)))
+                                        WHERE forum_id = '$phpbb2_forum_id'";
+                                if (!($result = $titanium_db->sql_query($sql)))
                                 {
                                         message_die(GENERAL_ERROR, 'Error in deleting post', '', __LINE__, __FILE__, $sql);
                                 }
 
-                                if ($row = $db->sql_fetchrow($result))
+                                if ($row = $titanium_db->sql_fetchrow($result))
                                 {
                                         $forum_update_sql .= ($row['last_post_id']) ? ', forum_last_post_id = ' . $row['last_post_id'] : ', forum_last_post_id = 0';
                                 }
@@ -519,12 +519,12 @@ function update_post_stats(&$mode, &$post_data, &$forum_id, &$topic_id, &$post_i
                         $sql = "SELECT MIN(post_id) AS first_post_id
                                 FROM " . POSTS_TABLE . "
                                 WHERE topic_id = '$topic_id'";
-                        if (!($result = $db->sql_query($sql)))
+                        if (!($result = $titanium_db->sql_query($sql)))
                         {
                                 message_die(GENERAL_ERROR, 'Error in deleting post', '', __LINE__, __FILE__, $sql);
                         }
 
-                        if ($row = $db->sql_fetchrow($result))
+                        if ($row = $titanium_db->sql_fetchrow($result))
                         {
                                 $topic_update_sql .= 'topic_replies = topic_replies - 1, topic_first_post_id = ' . $row['first_post_id'];
                         }
@@ -548,8 +548,8 @@ function update_post_stats(&$mode, &$post_data, &$forum_id, &$topic_id, &$post_i
     	{
     		$sql = "UPDATE " . FORUMS_TABLE . " SET
     			$forum_update_sql
-    			WHERE forum_id = $forum_id";
-    		if (!$db->sql_query($sql))
+    			WHERE forum_id = $phpbb2_forum_id";
+    		if (!$titanium_db->sql_query($sql))
     		{
     			message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
     		}
@@ -560,7 +560,7 @@ function update_post_stats(&$mode, &$post_data, &$forum_id, &$topic_id, &$post_i
                 $sql = "UPDATE " . TOPICS_TABLE . " SET
                         $topic_update_sql
                         WHERE topic_id = '$topic_id'";
-                if (!$db->sql_query($sql))
+                if (!$titanium_db->sql_query($sql))
                 {
                         message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
                 }
@@ -570,8 +570,8 @@ function update_post_stats(&$mode, &$post_data, &$forum_id, &$topic_id, &$post_i
         {
                 $sql = "UPDATE " . USERS_TABLE . "
                         SET user_posts = user_posts $sign
-                        WHERE user_id = '$user_id'";
-                if (!$db->sql_query($sql))
+                        WHERE user_id = '$titanium_user_id'";
+                if (!$titanium_db->sql_query($sql))
                 {
                         message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
                 }
@@ -582,39 +582,39 @@ function update_post_stats(&$mode, &$post_data, &$forum_id, &$topic_id, &$post_i
  ******************************************************/
     if ($userdata['user_level'] == USER) {
     	$sql = "SELECT ug.user_id, g.group_id as g_id, u.user_posts, g.group_count, g.group_count_max FROM ".USERS_TABLE." u, " . GROUPS_TABLE . " g
-    		LEFT JOIN ". USER_GROUP_TABLE." ug ON g.group_id=ug.group_id AND ug.user_id=$user_id
-    		WHERE u.user_id=$user_id
+    		LEFT JOIN ". USER_GROUP_TABLE." ug ON g.group_id=ug.group_id AND ug.user_id=$titanium_user_id
+    		WHERE u.user_id=$titanium_user_id
     		AND g.group_single_user=0
     		AND g.group_count_enable=1
-    		AND g.group_moderator<>$user_id
+    		AND g.group_moderator<>$titanium_user_id
     		ORDER BY g.group_count_max ASC";
-    	if ( !($result = $db->sql_query($sql)) )
+    	if ( !($result = $titanium_db->sql_query($sql)) )
     	{
     		message_die(GENERAL_ERROR, 'Error geting users post stat', '', __LINE__, __FILE__, $sql);
     	}
-    	while ($group_data = $db->sql_fetchrow($result))
+    	while ($group_data = $titanium_db->sql_fetchrow($result))
     	{
-            $user_already_added = (empty($group_data['user_id'])) ? FALSE : TRUE;
-            $user_add = ($group_data['group_count'] == $group_data['user_posts'] && $user_id!=ANONYMOUS) ? TRUE : FALSE;
-            $user_remove = ($group_data['group_count'] > $group_data['user_posts'] || $group_data['group_count_max'] < $group_data['user_posts']) ? TRUE : FALSE;
-    		if ($user_add && !$user_already_added)
+            $titanium_user_already_added = (empty($group_data['user_id'])) ? FALSE : TRUE;
+            $titanium_user_add = ($group_data['group_count'] == $group_data['user_posts'] && $titanium_user_id!=ANONYMOUS) ? TRUE : FALSE;
+            $titanium_user_remove = ($group_data['group_count'] > $group_data['user_posts'] || $group_data['group_count_max'] < $group_data['user_posts']) ? TRUE : FALSE;
+    		if ($titanium_user_add && !$titanium_user_already_added)
     		{
     			//user join a autogroup
     			$sql = "INSERT INTO " . USER_GROUP_TABLE . " (group_id, user_id, user_pending)
-    				VALUES (".$group_data['g_id'].", $user_id, '0')";
-    			if ( !($db->sql_query($sql)) )
+    				VALUES (".$group_data['g_id'].", $titanium_user_id, '0')";
+    			if ( !($titanium_db->sql_query($sql)) )
     			{
     				message_die(GENERAL_ERROR, 'Error insert users, group count', '', __LINE__, __FILE__, $sql);
     			}
-    			add_group_attributes($user_id, $group_data['g_id']);
+    			add_group_attributes($titanium_user_id, $group_data['g_id']);
     		} else
-    		if ( $user_already_added && $user_remove)
+    		if ( $titanium_user_already_added && $titanium_user_remove)
     		{
     			//remove user from auto group
     			$sql = "DELETE FROM " . USER_GROUP_TABLE . "
     				WHERE group_id=".$group_data['g_id']."
-    				AND user_id=$user_id";
-    			if ( !($db->sql_query($sql)) )
+    				AND user_id=$titanium_user_id";
+    			if ( !($titanium_db->sql_query($sql)) )
     			{
     				message_die(GENERAL_ERROR, 'Could not remove users, group count', '', __LINE__, __FILE__, $sql);
     			}
@@ -631,18 +631,18 @@ function update_post_stats(&$mode, &$post_data, &$forum_id, &$topic_id, &$post_i
 //
 // Delete a post/poll
 //
-function delete_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_id, &$post_id, &$poll_id)
+function delete_post($mode, &$post_data, &$message, &$meta, &$phpbb2_forum_id, &$topic_id, &$post_id, &$poll_id)
 {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    global $cache;
-    $cache->delete('TopicData', 'home');
-    $cache->delete('AnnounceData', 'home');
+    global $titanium_cache;
+    $titanium_cache->delete('TopicData', 'home');
+    $titanium_cache->delete('AnnounceData', 'home');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        global $board_config, $lang, $db, $phpbb_root_path, $phpEx, $userdata, $user_ip;
+        global $phpbb2_board_config, $titanium_lang, $titanium_db, $phpbb2_root_path, $phpEx, $userdata, $titanium_user_ip;
 
         if ($mode != 'poll_delete')
         {
@@ -650,14 +650,14 @@ function delete_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 
                 $sql = "DELETE FROM " . POSTS_TABLE . "
                         WHERE post_id = '$post_id'";
-                if (!$db->sql_query($sql))
+                if (!$titanium_db->sql_query($sql))
                 {
                         message_die(GENERAL_ERROR, 'Error in deleting post', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "DELETE FROM " . POSTS_TEXT_TABLE . "
                         WHERE post_id = '$post_id'";
-                if (!$db->sql_query($sql))
+                if (!$titanium_db->sql_query($sql))
                 {
                         message_die(GENERAL_ERROR, 'Error in deleting post', '', __LINE__, __FILE__, $sql);
                 }
@@ -670,7 +670,7 @@ function delete_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
                                 $sql = "DELETE FROM " . TOPICS_TABLE . "
                                         WHERE topic_id = '$topic_id'
                                                 OR topic_moved_id = '$topic_id'";
-                                if (!$db->sql_query($sql))
+                                if (!$titanium_db->sql_query($sql))
                                 {
                                         message_die(GENERAL_ERROR, 'Error in deleting post', '', __LINE__, __FILE__, $sql);
                                 }
@@ -680,7 +680,7 @@ function delete_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
  ******************************************************/
 								$sql = "DELETE FROM " . THANKS_TABLE . "
 									WHERE topic_id = $topic_id";
-								if (!$db->sql_query($sql))
+								if (!$titanium_db->sql_query($sql))
 								{
 									message_die(GENERAL_ERROR, 'Error in deleting Thanks post Information', '', __LINE__, __FILE__, $sql);
 								}
@@ -690,7 +690,7 @@ function delete_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 
                                 $sql = "DELETE FROM " . TOPICS_WATCH_TABLE . "
                                         WHERE topic_id = '$topic_id'";
-                                if (!$db->sql_query($sql))
+                                if (!$titanium_db->sql_query($sql))
                                 {
                                         message_die(GENERAL_ERROR, 'Error in deleting post', '', __LINE__, __FILE__, $sql);
                                 }
@@ -704,21 +704,21 @@ function delete_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
         {
                 $sql = "DELETE FROM " . VOTE_DESC_TABLE . "
                         WHERE topic_id = '$topic_id'";
-                if (!$db->sql_query($sql))
+                if (!$titanium_db->sql_query($sql))
                 {
                         message_die(GENERAL_ERROR, 'Error in deleting poll', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "DELETE FROM " . VOTE_RESULTS_TABLE . "
                         WHERE vote_id = '$poll_id'";
-                if (!$db->sql_query($sql))
+                if (!$titanium_db->sql_query($sql))
                 {
                         message_die(GENERAL_ERROR, 'Error in deleting poll', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "DELETE FROM " . VOTE_USERS_TABLE . "
                         WHERE vote_id = '$poll_id'";
-                if (!$db->sql_query($sql))
+                if (!$titanium_db->sql_query($sql))
                 {
                         message_die(GENERAL_ERROR, 'Error in deleting poll', '', __LINE__, __FILE__, $sql);
                 }
@@ -726,16 +726,16 @@ function delete_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 
         if ($mode == 'delete' && $post_data['first_post'] && $post_data['last_post'])
         {
-                $meta = '<meta http-equiv="refresh" content="3;url=' . append_sid("viewforum.$phpEx?" . POST_FORUM_URL . '=' . $forum_id) . '">';
-                $message = $lang['Deleted'];
+                $meta = '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . '=' . $phpbb2_forum_id) . '">';
+                $message = $titanium_lang['Deleted'];
         }
         else
         {
-                $meta = '<meta http-equiv="refresh" content="3;url=' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . '=' . $topic_id) . '">';
-                $message = (($mode == 'poll_delete') ? $lang['Poll_delete'] : $lang['Deleted']) . '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
+                $meta = '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . '=' . $topic_id) . '">';
+                $message = (($mode == 'poll_delete') ? $titanium_lang['Poll_delete'] : $titanium_lang['Deleted']) . '<br /><br />' . sprintf($titanium_lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
         }
 
-        $message .=  '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id") . '">', '</a>');
+        $message .=  '<br /><br />' . sprintf($titanium_lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
 
         return;
 }
@@ -743,9 +743,9 @@ function delete_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 //
 // Handle user notification on new post
 //
-function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topic_id, &$post_id, &$notify_user)
+function user_notification($mode, &$post_data, &$topic_title, &$phpbb2_forum_id, &$topic_id, &$post_id, &$notify_user)
 {
-        global $board_config, $lang, $db, $phpbb_root_path, $phpEx, $userdata, $user_ip;
+        global $phpbb2_board_config, $titanium_lang, $titanium_db, $phpbb2_root_path, $phpEx, $userdata, $titanium_user_ip;
 
         $current_time = time();
 
@@ -755,17 +755,17 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                 {
                         $sql = "SELECT ban_userid
                                 FROM " . BANLIST_TABLE;
-                        if (!($result = $db->sql_query($sql)))
+                        if (!($result = $titanium_db->sql_query($sql)))
                         {
                                 message_die(GENERAL_ERROR, 'Could not obtain banlist', '', __LINE__, __FILE__, $sql);
                         }
 
-                        $user_id_sql = '';
-                        while ($row = $db->sql_fetchrow($result))
+                        $titanium_user_id_sql = '';
+                        while ($row = $titanium_db->sql_fetchrow($result))
                         {
                                 if (isset($row['ban_userid']) && !empty($row['ban_userid']))
                                 {
-                                        $user_id_sql .= ', ' . $row['ban_userid'];
+                                        $titanium_user_id_sql .= ', ' . $row['ban_userid'];
                                 }
                         }
 /*****[BEGIN]******************************************
@@ -774,7 +774,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                         $sql = "SELECT u.user_id, u.user_email, u.user_lang, pt.post_text, u.username
                                 FROM " . TOPICS_WATCH_TABLE . " tw, " . USERS_TABLE . " u, " . POSTS_TEXT_TABLE . " pt
                                 WHERE tw.topic_id = '$topic_id'
-                                        AND tw.user_id NOT IN (" . $userdata['user_id'] . ", " . ANONYMOUS . $user_id_sql . ")
+                                        AND tw.user_id NOT IN (" . $userdata['user_id'] . ", " . ANONYMOUS . $titanium_user_id_sql . ")
                                         AND tw.notify_status = " . TOPIC_WATCH_UN_NOTIFIED . "
                                         AND u.user_id = tw.user_id
                                         AND pt.post_id = '$post_id'";
@@ -783,27 +783,27 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                                       FROM " . USERS_TABLE . " u, " . POSTS_TABLE . " p
                                       WHERE p.post_id = '$post_id'
                                          AND u.user_id = poster_id";
-                        if (!($result_topic = $db->sql_query($sql_topic)))
+                        if (!($result_topic = $titanium_db->sql_query($sql_topic)))
                         {
                                 message_die(GENERAL_ERROR, 'Could not get user name', '', __LINE__, __FILE__, $sql_topic);
                         }
-                        $row_topic = $db->sql_fetchrow($result_topic);
+                        $row_topic = $titanium_db->sql_fetchrow($result_topic);
                         if(!empty($row_topic["post_attachment"]))
                         {
                                 $sql_attach = "SELECT ad.physical_filename
                                                FROM ".ATTACHMENTS_TABLE." a, ".ATTACHMENTS_DESC_TABLE." ad
                                                WHERE a.post_id = '$post_id'
                                                   AND a.attach_id = ad.attach_id";
-                                if (!($result_attach = $db->sql_query($sql_attach)))
+                                if (!($result_attach = $titanium_db->sql_query($sql_attach)))
                                 {
                                        message_die(GENERAL_ERROR, 'Could not get attachment', '', __LINE__, __FILE__, $sql_attach);
                                 }
-                                $row_attach = $db->sql_fetchrow($result_attach);
+                                $row_attach = $titanium_db->sql_fetchrow($result_attach);
                         }
 /*****[END]********************************************
  [ Mod:     Topic Text Reply Email             v1.0.0 ]
  ******************************************************/
-                        if (!($result = $db->sql_query($sql)))
+                        if (!($result = $titanium_db->sql_query($sql)))
                         {
                                 message_die(GENERAL_ERROR, 'Could not obtain list of topic watchers', '', __LINE__, __FILE__, $sql);
                         }
@@ -811,9 +811,9 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                         $update_watched_sql = '';
                         $bcc_list_ary = array();
 
-                        if ($row = $db->sql_fetchrow($result))
+                        if ($row = $titanium_db->sql_fetchrow($result))
                         {
-                                //$user_name = $row["username"];
+                                //$titanium_user_name = $row["username"];
                                 $text = $row["post_text"];
                                 $poster_name = $row_topic["username"];
                                 if(!empty($row_attach[0])) {
@@ -832,29 +832,29 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                                         }
                                         $update_watched_sql .= ($update_watched_sql != '') ? ', ' . $row['user_id'] : $row['user_id'];
                                 }
-                                while ($row = $db->sql_fetchrow($result));
+                                while ($row = $titanium_db->sql_fetchrow($result));
 
                                 //
                                 // Let's do some checking to make sure that mass mail functions
                                 // are working in win32 versions of php.
                                 //
-                                if (preg_match('/[c-z]:\\\.*/i', getenv('PATH')) && !$board_config['smtp_delivery'])
+                                if (preg_match('/[c-z]:\\\.*/i', getenv('PATH')) && !$phpbb2_board_config['smtp_delivery'])
                                 {
                                         $ini_val = (@phpversion() >= '4.0.0') ? 'ini_get' : 'get_cfg_var';
 
                                         // We are running on windows, force delivery to use our smtp functions
                                         // since php's are broken by default
-                                        $board_config['smtp_delivery'] = 1;
-                                        $board_config['smtp_host'] = @$ini_val('SMTP');
+                                        $phpbb2_board_config['smtp_delivery'] = 1;
+                                        $phpbb2_board_config['smtp_host'] = @$ini_val('SMTP');
                                 }
 
                                 if (count($bcc_list_ary))
                                 {
-                                    $script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['script_path']));
+                                    $script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($phpbb2_board_config['script_path']));
                                     $script_name = 'modules.php?name=Forums&file=viewtopic';
-                                    $server_name = trim($board_config['server_name']);
-                                    $server_protocol = ($board_config['cookie_secure']) ? 'https://' : 'http://';
-                                    $server_port = ($board_config['server_port'] <> 80) ? ':' . trim($board_config['server_port']) . '/' : '/';
+                                    $server_name = trim($phpbb2_board_config['server_name']);
+                                    $server_protocol = ($phpbb2_board_config['cookie_secure']) ? 'https://' : 'http://';
+                                    $server_port = ($phpbb2_board_config['server_port'] <> 80) ? ':' . trim($phpbb2_board_config['server_port']) . '/' : '/';
 
                                     $orig_word = array();
                                     $replacement_word = array();
@@ -863,7 +863,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                                     $topic_title = (count($orig_word)) ? preg_replace($orig_word, $replacement_word, unprepare_message($topic_title)) : unprepare_message($topic_title);
 
                                     @reset($bcc_list_ary);
-                                    @reset($user_name);
+                                    @reset($titanium_user_name);
 
                                     $notify_body_pattern    = array(
                                         '{USERNAME}',
@@ -878,38 +878,38 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                                     );
 
                                     $notify_body_replace    = array(
-                                        $lang['From'].' '.$board_config['sitename'],
+                                        $titanium_lang['From'].' '.$phpbb2_board_config['sitename'],
                                         $topic_title,
-                                        $board_config['sitename'],
+                                        $phpbb2_board_config['sitename'],
                                         $server_protocol . $server_name . $server_port . $script_name . '&' . POST_POST_URL . "=$post_id#$post_id",
                                         $poster_name,
                                         $text,
                                         $attachment,
                                         $server_protocol . $server_name . $server_port . $script_name . '&' . POST_TOPIC_URL . "=$topic_id&unwatch=topic",
-                                        (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''
+                                        (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : ''
                                     );
 
                                     $email_data = array(
                                         'email'         => $row['user_email'],
-                                        'from'          => $board_config['board_email'],
-                                        'reply_to'      => $board_config['board_email'],
-                                        'subject'       => $lang['Topic_reply_notification'],
-                                        'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '',
+                                        'from'          => $phpbb2_board_config['board_email'],
+                                        'reply_to'      => $phpbb2_board_config['board_email'],
+                                        'subject'       => $titanium_lang['Topic_reply_notification'],
+                                        'signature'     => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : '',
                                         'content_type'  => 'text/html',
                                         'charset'       => 'UTF-8',
 
-                                        'username'      => $lang['From'].' '.$board_config['sitename'],
+                                        'username'      => $titanium_lang['From'].' '.$phpbb2_board_config['sitename'],
                                         'topic_title'   => $topic_title,
-                                        'sitename'      => $board_config['sitename'],
+                                        'sitename'      => $phpbb2_board_config['sitename'],
                                         'topic_link'    => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_POST_URL . "=$post_id#$post_id",
                                         'reply_by'      => $poster_name,
                                         'contents'      => $text,
                                         'attachment'    => $attachment,
                                         'stop_watching' => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_TOPIC_URL . "=$topic_id&unwatch=topic",
-                                        'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''
+                                        'signature'     => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : ''
                                     );
 
-                                    $content = str_replace( '{USERNAME}', $email_data['username'], $lang['topic_notify'] );
+                                    $content = str_replace( '{USERNAME}', $email_data['username'], $titanium_lang['topic_notify'] );
                                     $content = str_replace( '{TOPIC_TITLE}', $email_data['topic_title'], $content );
                                     $content = str_replace( '{SITENAME}', $email_data['sitename'], $content );
                                     $content = str_replace( '{U_TOPIC}', '<a href="'.$email_data['topic_link'].'">'.$email_data['topic_link'].'</a>', $content );
@@ -919,9 +919,9 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                                     $content = str_replace( '{U_STOP_WATCHING_TOPIC}', '<a href="'.$email_data['stop_watching'].'">'.$email_data['stop_watching'].'</a>', $content );
                                     $content = str_replace( '{EMAIL_SIG}', $email_data['signature'], $content );
 
-                                    while (list($user_lang, $bcc_list) = each($bcc_list_ary))
+                                    while (list($titanium_user_lang, $bcc_list) = each($bcc_list_ary))
                                     {
-                                        $name_list = $user_name[$user_lang];
+                                        $name_list = $titanium_user_name[$titanium_user_lang];
                                         $headers[] = 'From: '.$email_data['from'];
                                         for ($i = 0; $i < count($bcc_list); $i++):
                                             $headers[] = 'Bcc: '.$bcc_list[$i];
@@ -934,7 +934,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                                     }
                                 }
                         }
-                        $db->sql_freeresult($result);
+                        $titanium_db->sql_freeresult($result);
 
                         if ($update_watched_sql != '')
                         {
@@ -942,7 +942,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                                         SET notify_status = " . TOPIC_WATCH_NOTIFIED . "
                                         WHERE topic_id = '$topic_id'
                                                 AND user_id IN ($update_watched_sql)";
-                                $db->sql_query($sql);
+                                $titanium_db->sql_query($sql);
                         }
                 }
 
@@ -950,19 +950,19 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                         FROM " . TOPICS_WATCH_TABLE . "
                         WHERE topic_id = '$topic_id'
                                 AND user_id = " . $userdata['user_id'];
-                if (!($result = $db->sql_query($sql)))
+                if (!($result = $titanium_db->sql_query($sql)))
                 {
                         message_die(GENERAL_ERROR, 'Could not obtain topic watch information', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $db->sql_fetchrow($result);
+                $row = $titanium_db->sql_fetchrow($result);
 
                 if (!$notify_user && !empty($row['topic_id']))
                 {
                         $sql = "DELETE FROM " . TOPICS_WATCH_TABLE . "
                                 WHERE topic_id = '$topic_id'
                                         AND user_id = " . $userdata['user_id'];
-                        if (!$db->sql_query($sql))
+                        if (!$titanium_db->sql_query($sql))
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete topic watch information', '', __LINE__, __FILE__, $sql);
                         }
@@ -971,7 +971,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                 {
                         $sql = "INSERT INTO " . TOPICS_WATCH_TABLE . " (user_id, topic_id, notify_status)
                                 VALUES (" . $userdata['user_id'] . ", '$topic_id', '0')";
-                        if (!$db->sql_query($sql))
+                        if (!$titanium_db->sql_query($sql))
                         {
                                 message_die(GENERAL_ERROR, 'Could not insert topic watch information', '', __LINE__, __FILE__, $sql);
                         }
@@ -985,7 +985,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 //
 function generate_smilies($mode, $page_id)
 {
-        global $db, $board_config, $template, $lang, $images, $theme, $phpEx, $phpbb_root_path, $user_ip, $session_length, $starttime, $userdata;
+        global $titanium_db, $phpbb2_board_config, $phpbb2_template, $titanium_lang, $images, $theme, $phpEx, $phpbb2_root_path, $titanium_user_ip, $session_length, $phpbb2_starttime, $userdata;
 
         $inline_columns = 4;
         $inline_rows = 5;
@@ -993,12 +993,12 @@ function generate_smilies($mode, $page_id)
 
         if ($mode == 'window')
         {
-                $userdata = session_pagestart($user_ip, $page_id);
-                init_userprefs($userdata);
+                $userdata = titanium_session_pagestart($titanium_user_ip, $page_id);
+                titanium_init_userprefs($userdata);
 
                 $gen_simple_header = TRUE;
 
-                $page_title = $lang['Emoticons'];
+                $phpbb2_page_title = $titanium_lang['Emoticons'];
         if ( defined('IN_ADMIN') )
         {
             include("./page_header_admin.php");
@@ -1008,7 +1008,7 @@ function generate_smilies($mode, $page_id)
                 include("includes/page_header_review.php");
         }
 
-                $template->set_filenames(array(
+                $phpbb2_template->set_filenames(array(
                         'smiliesbody' => 'posting_smilies.tpl')
                 );
         }
@@ -1016,11 +1016,11 @@ function generate_smilies($mode, $page_id)
         $sql = "SELECT emoticon, code, smile_url
                 FROM " . SMILIES_TABLE . "
                 ORDER BY smilies_id";
-        if ($result = $db->sql_query($sql))
+        if ($result = $titanium_db->sql_query($sql))
         {
                 $num_smilies = 0;
                 $rowset = array();
-                while ($row = $db->sql_fetchrow($result))
+                while ($row = $titanium_db->sql_fetchrow($result))
                 {
                         if (empty($rowset[$row['smile_url']]))
                         {
@@ -1029,7 +1029,7 @@ function generate_smilies($mode, $page_id)
                                 $num_smilies++;
                         }
                 }
-                $db->sql_freeresult($result);
+                $titanium_db->sql_freeresult($result);
 
                 if ($num_smilies)
                 {
@@ -1044,12 +1044,12 @@ function generate_smilies($mode, $page_id)
                         {
                                 if (!$col)
                                 {
-                                        $template->assign_block_vars('smilies_row', array());
+                                        $phpbb2_template->assign_block_vars('smilies_row', array());
                                 }
 
-                                $template->assign_block_vars('smilies_row.smilies_col', array(
+                                $phpbb2_template->assign_block_vars('smilies_row.smilies_col', array(
                                         'SMILEY_CODE' => $data['code'],
-                                        'SMILEY_IMG' => $board_config['smilies_path'] . '/' . $smile_url,
+                                        'SMILEY_IMG' => $phpbb2_board_config['smilies_path'] . '/' . $smile_url,
                                         'SMILEY_DESC' => $data['emoticon'])
                                 );
 
@@ -1072,17 +1072,17 @@ function generate_smilies($mode, $page_id)
 
                         if ($mode == 'inline' && $num_smilies > $inline_rows * $inline_columns)
                         {
-                                $template->assign_block_vars('switch_smilies_extra', array());
+                                $phpbb2_template->assign_block_vars('switch_smilies_extra', array());
 
-                                $template->assign_vars(array(
-                                        'L_MORE_SMILIES' => $lang['More_emoticons'],
-                                        'U_MORE_SMILIES' => append_sid("posting.$phpEx?mode=smilies&popup=1"))
+                                $phpbb2_template->assign_vars(array(
+                                        'L_MORE_SMILIES' => $titanium_lang['More_emoticons'],
+                                        'U_MORE_SMILIES' => append_titanium_sid("posting.$phpEx?mode=smilies&popup=1"))
                                 );
                         }
 
-                        $template->assign_vars(array(
-                                'L_EMOTICONS' => $lang['Emoticons'],
-                                'L_CLOSE_WINDOW' => $lang['Close_window'],
+                        $phpbb2_template->assign_vars(array(
+                                'L_EMOTICONS' => $titanium_lang['Emoticons'],
+                                'L_CLOSE_WINDOW' => $titanium_lang['Close_window'],
                                 'S_SMILIES_COLSPAN' => $s_colspan)
                         );
                 }
@@ -1090,7 +1090,7 @@ function generate_smilies($mode, $page_id)
 
         if ($mode == 'window')
         {
-                $template->pparse('smiliesbody');
+                $phpbb2_template->pparse('smiliesbody');
 
                 include("includes/page_tail_review.php");
         }
@@ -1121,14 +1121,14 @@ function replace_double_spaces($message)
 */
 function clean_html($tag)
 {
-	global $board_config;
+	global $phpbb2_board_config;
 
 	if (empty($tag[0]))
 	{
 		return '';
 	}
 
-	$allowed_html_tags = preg_split('/, */', strtolower($board_config['allow_html_tags']));
+	$allowed_html_tags = preg_split('/, */', strtolower($phpbb2_board_config['allow_html_tags']));
 	$disallowed_attributes = '/^(?:style|on)/i';
 
 	// Check if this is an end tag

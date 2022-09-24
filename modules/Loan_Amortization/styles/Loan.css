@@ -1,0 +1,159 @@
+<!-- Bottom layer, bottom frame, LoanFooter.html -->
+#Layer1Bot {
+	position:absolute;
+	left:1px;
+	top:1px;
+    width:1013px;
+    height:50px;
+	z-index:1;
+	background-image: url(../images/Foot-ESO-Loan.jpg);
+	background-color: #CCCCCC;
+}
+
+<!-- Top Layer, bottom frame, indx-bottom2.html -->
+#Layer2Bot {
+	position:absolute;
+	left:1px;
+	top:12px;
+	width:1013px;
+	height:25px;
+	z-index:2;
+}
+#LPrinciple {
+	position:absolute;
+	left:80px;
+	top:98px;
+	width:224px;
+	height:52px;
+	z-index:2;
+}
+#LInterest {
+	position:absolute;
+	left:88px;
+	top:148px;
+	width:250px;
+	height:49px;
+	z-index:2;
+}
+#LTerm {
+	position:absolute;
+	left:104px;
+	top:201px;
+	width:254px;
+	height:50px;
+	z-index:2;
+}
+#LButton1 {
+	position:absolute;
+	left:145px;
+	top:280px;
+	width:100px;
+	height:48px;
+	z-index:3;
+}
+
+#LButton2 {
+	position:absolute;
+	left:45px;
+	top:280px;
+	width:100px;
+	height:48px;
+	z-index:3;
+}
+#LButton3 {
+	position:absolute;
+	left:425px;
+	top:350px;
+	padding-top: 25px;
+	padding-left: 25px;
+	width:295px;
+	height:45px;
+	z-index:3;
+	background-image: url(../images/goButton.jpg);
+}
+
+#LBackgrnd {
+	position:absolute;
+	left:75px;
+	top:55px;
+	width:382px;
+	height:326px;
+	z-index:1;
+	background-image: url(../images/needLoan.png);
+}
+#LMarqueFix {
+	position:absolute;
+	margin: 4px;
+	left:384px;
+	top:364px;
+	width:197px;
+	height:100px;
+	z-index:2;
+    color:white;
+	background-color: #CCCCCC;
+}
+#LMarqueBgndFix {
+	position:absolute;
+	margin: 4px;
+	left:292px;
+	top:261px;
+	width:377px; 
+	height:392px;
+	z-index:1;
+	background-image: url(../images/frame2.jpg);
+}
+
+#LMarquePicFix { 
+	position:absolute;
+	margin: 4px;
+	left:392px;
+	top:451px;
+	width:190px; 
+	height:130px;
+	z-index:3;
+	background-image: url(../images/needLoan.png);
+}
+
+
+#LCalculate {
+	position:absolute;
+	left:23px;
+	top:65px;
+	width:187px;
+	height:325px;
+	z-index:2;
+}
+#LCalculate2 {
+	position:absolute;
+	left:217px;
+	top:102px;
+	width:187px;
+	height:325px;
+	z-index:2;
+}
+#LLinkBack {
+	position:absolute;
+	left:160px;
+	top:395px;
+	width:90px;
+	height:23px;
+	z-index:3001;
+	filter: DropShadow(Color=#3399FF, OffX=20, OffY=20,Positive=0);
+}
+<!-- background-image: url(../images/LinkBack.jpg); -->
+#LLinkFore {
+	position:absolute;
+	left:880px;
+	top:410px;
+	width:90px;
+	height:23px;
+	z-index:3002;
+}
+#LError {
+	position:absolute;
+	left:92px;
+	top:70px;
+	width:374px;
+	height:218px;
+	z-index:4;
+}

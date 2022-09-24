@@ -1,0 +1,45 @@
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [24 Sep 2022 - 15:00:56] - 
+User: <span style="color: #ff632a">TheGhost</span>
+IP: 47.206.216.196
+URL: <a href="http://www.php-nuke-titanium.86it.us/admin.php?op=menu&go=send">/admin.php?op=menu&go=send</a>
+
+File: /home/dev4/public_html/admin/modules/menu.php
+Line: 1640
+Message: Incorrect integer value: '' for column `dev4_engine`.`titanium_menu`.`invisible` at row 1
+Code: 1366
+Query: INSERT INTO titanium_menu (groupmenu, 
+                                         name, 
+										image, 
+										 lien, 
+										   hr, 
+									   center, 
+									  bgcolor, 
+									invisible, 
+									    class, 
+										 bold, 
+										  new, 
+									  listbox, 
+									  dynamic, 
+								   date_debut, 
+								     date_fin, 
+									     days) 
+
+VALUES (99, 
+        'menunoadmindisplay', 
+		NULL, 
+		NULL, 
+		NULL, 
+		NULL, 
+		NULL, 
+		'', 
+		NULL, 
+		NULL, 
+		NULL, 
+		NULL,
+		'', 
+		0, 
+		0, 
+		NULL)
+---------------------------------------------------------------------------------------------------------------------------------
+

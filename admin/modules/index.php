@@ -40,7 +40,7 @@
 /*********************************************************/
 
 function adminMain() {
-    global $language, $admin, $aid, $prefix, $file, $db, $sitename, $user_prefix, $admin_file, $bgcolor1, $evoconfig, $admdata, $dbtype, $cache, $json, $admincookie, $radminsuper;
+    global $titanium_language, $admin, $aid, $titanium_prefix, $file, $titanium_db, $sitename, $titanium_user_prefix, $admin_file, $bgcolor1, $titanium_config, $admdata, $titanium_dbtype, $titanium_cache, $json, $admincookie, $radminsuper;
 /*****[BEGIN]******************************************
  [ Mod:     Admin Icon/Link Pos                 v1.0.0 ]
  ******************************************************/

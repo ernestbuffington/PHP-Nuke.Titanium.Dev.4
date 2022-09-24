@@ -433,7 +433,7 @@ class SimplePie
 	 * @see SimplePie::set_useragent()
 	 * @access private
 	 */
-	var $useragent = SIMPLEPIE_USERAGENT;
+	var $titanium_useragent = SIMPLEPIE_USERAGENT;
 
 	/**
 	 * @var string Feed URL
@@ -491,14 +491,14 @@ class SimplePie
 	 * @see SimplePie::enable_cache()
 	 * @access private
 	 */
-	var $cache = false;
+	var $titanium_cache = false;
 
 	/**
 	 * @var int Cache duration (in seconds)
 	 * @see SimplePie::set_cache_duration()
 	 * @access private
 	 */
-	var $cache_duration = 3600;
+	var $titanium_cache_duration = 3600;
 
 	/**
 	 * @var int Auto-discovery cache duration (in seconds)
@@ -512,14 +512,14 @@ class SimplePie
 	 * @see SimplePie::set_cache_location()
 	 * @access private
 	 */
-	var $cache_location = './cache';
+	var $titanium_cache_location = './cache';
 
 	/**
 	 * @var string Function that creates the cache filename
 	 * @see SimplePie::set_cache_name_function()
 	 * @access private
 	 */
-	var $cache_name_function = 'md5';
+	var $titanium_cache_name_function = 'md5';
 
 	/**
 	 * @var bool Reorder feed by date descending
@@ -548,7 +548,7 @@ class SimplePie
 	 * @see SimplePie::set_cache_class()
 	 * @access private
 	 */
-	var $cache_class = 'SimplePie_Cache';
+	var $titanium_cache_class = 'SimplePie_Cache';
 
 	/**
 	 * @var string Class used for locating feeds
@@ -736,23 +736,23 @@ class SimplePie
 	 * @access public
 	 * @since 1.0 Preview Release
 	 * @param string $feed_url This is the URL you want to parse.
-	 * @param string $cache_location This is where you want the cache to be stored.
-	 * @param int $cache_duration This is the number of seconds that you want to store the cache file for.
+	 * @param string $titanium_cache_location This is where you want the cache to be stored.
+	 * @param int $titanium_cache_duration This is the number of seconds that you want to store the cache file for.
 	 */
-	function SimplePie($feed_url = null, $cache_location = null, $cache_duration = null)
+	function SimplePie($feed_url = null, $titanium_cache_location = null, $titanium_cache_duration = null)
 	{
 		// Other objects, instances created here so we can set options on them
 		$this->sanitize = new SimplePie_Sanitize;
 
 		// Set options if they're passed to the constructor
-		if ($cache_location !== null)
+		if ($titanium_cache_location !== null)
 		{
-			$this->set_cache_location($cache_location);
+			$this->set_cache_location($titanium_cache_location);
 		}
 
-		if ($cache_duration !== null)
+		if ($titanium_cache_duration !== null)
 		{
-			$this->set_cache_duration($cache_duration);
+			$this->set_cache_duration($titanium_cache_duration);
 		}
 
 		// Only init the script if we're passed a feed URL
@@ -1554,7 +1554,7 @@ function embed_wmedia(width, height, link) {
 		{
 			$this->data = array();
 			$this->multifeed_objects = array();
-			$cache = false;
+			$titanium_cache = false;
 
 			if ($this->feed_url !== null)
 			{
@@ -1562,37 +1562,37 @@ function embed_wmedia(width, height, link) {
 				// Decide whether to enable caching
 				if ($this->cache && $parsed_feed_url['scheme'] !== '')
 				{
-					$cache = call_user_func(array($this->cache_class, 'create'), $this->cache_location, call_user_func($this->cache_name_function, $this->feed_url), 'spc');
+					$titanium_cache = call_user_func(array($this->cache_class, 'create'), $this->cache_location, call_user_func($this->cache_name_function, $this->feed_url), 'spc');
 				}
 				// If it's enabled and we don't want an XML dump, use the cache
-				if ($cache && !$this->xml_dump)
+				if ($titanium_cache && !$this->xml_dump)
 				{
 					// Load the Cache
-					$this->data = $cache->load();
+					$this->data = $titanium_cache->load();
 					if (!empty($this->data))
 					{
 						// If the cache is for an outdated build of SimplePie
 						if (!isset($this->data['build']) || $this->data['build'] != SIMPLEPIE_BUILD)
 						{
-							$cache->unlink();
+							$titanium_cache->unlink();
 							$this->data = array();
 						}
 						// If we've hit a collision just rerun it with caching disabled
 						elseif (isset($this->data['url']) && $this->data['url'] != $this->feed_url)
 						{
-							$cache = false;
+							$titanium_cache = false;
 							$this->data = array();
 						}
 						// If we've got a non feed_url stored (if the page isn't actually a feed, or is a redirect) use that URL.
 						elseif (isset($this->data['feed_url']))
 						{
 							// If the autodiscovery cache is still valid use it.
-							if ($cache->mtime() + $this->autodiscovery_cache_duration > time())
+							if ($titanium_cache->mtime() + $this->autodiscovery_cache_duration > time())
 							{
 								// Do not need to do feed autodiscovery yet.
 								if ($this->data['feed_url'] == $this->data['url'])
 								{
-									$cache->unlink();
+									$titanium_cache->unlink();
 									$this->data = array();
 								}
 								else
@@ -1603,7 +1603,7 @@ function embed_wmedia(width, height, link) {
 							}
 						}
 						// Check if the cache has been updated
-						elseif ($cache->mtime() + $this->cache_duration < time())
+						elseif ($titanium_cache->mtime() + $this->cache_duration < time())
 						{
 							// If we have last-modified and/or etag set
 							if (isset($this->data['headers']['last-modified']) || isset($this->data['headers']['etag']))
@@ -1622,7 +1622,7 @@ function embed_wmedia(width, height, link) {
 								{
 									if ($file->status_code == 304)
 									{
-										$cache->touch();
+										$titanium_cache->touch();
 										return true;
 									}
 									else
@@ -1645,7 +1645,7 @@ function embed_wmedia(width, height, link) {
 					// If the cache is empty, delete it
 					else
 					{
-						$cache->unlink();
+						$titanium_cache->unlink();
 						$this->data = array();
 					}
 				}
@@ -1685,14 +1685,14 @@ function embed_wmedia(width, height, link) {
 						unset($file);
 						if ($file = $locate->find($this->autodiscovery))
 						{
-							if ($cache)
+							if ($titanium_cache)
 							{
 								$this->data = array('url' => $this->feed_url, 'feed_url' => $file->url, 'build' => SIMPLEPIE_BUILD);
-								if (!$cache->save($this))
+								if (!$titanium_cache->save($this))
 								{
-									trigger_error("$cache->name is not writeable", E_USER_WARNING);
+									trigger_error("$titanium_cache->name is not writeable", E_USER_WARNING);
 								}
-								$cache = call_user_func(array($this->cache_class, 'create'), $this->cache_location, call_user_func($this->cache_name_function, $file->url), 'spc');
+								$titanium_cache = call_user_func(array($this->cache_class, 'create'), $this->cache_location, call_user_func($this->cache_name_function, $file->url), 'spc');
 							}
 							$this->feed_url = $file->url;
 						}
@@ -1793,9 +1793,9 @@ function embed_wmedia(width, height, link) {
 						$this->data['build'] = SIMPLEPIE_BUILD;
 	
 						// Cache the file if caching is enabled
-						if ($cache && !$cache->save($this))
+						if ($titanium_cache && !$titanium_cache->save($this))
 						{
-							trigger_error("$cache->name is not writeable", E_USER_WARNING);
+							trigger_error("$titanium_cache->name is not writeable", E_USER_WARNING);
 						}
 						return true;
 					}
@@ -1973,9 +1973,9 @@ function embed_wmedia(width, height, link) {
 			if ($this->cache && $this->favicon_handler)
 			{
 				$favicon_filename = call_user_func($this->cache_name_function, $favicon);
-				$cache = call_user_func(array($this->cache_class, 'create'), $this->cache_location, $favicon_filename, 'spi');
+				$titanium_cache = call_user_func(array($this->cache_class, 'create'), $this->cache_location, $favicon_filename, 'spi');
 
-				if ($cache->load())
+				if ($titanium_cache->load())
 				{
 					return $this->sanitize($this->favicon_handler . $favicon_filename, SIMPLEPIE_CONSTRUCT_IRI);
 				}
@@ -1988,13 +1988,13 @@ function embed_wmedia(width, height, link) {
 						$sniffer = new $this->content_type_sniffer_class($file);
 						if (substr($sniffer->get_type(), 0, 6) === 'image/')
 						{
-							if ($cache->save(array('headers' => $file->headers, 'body' => $file->body)))
+							if ($titanium_cache->save(array('headers' => $file->headers, 'body' => $file->body)))
 							{
 								return $this->sanitize($this->favicon_handler . $favicon_filename, SIMPLEPIE_CONSTRUCT_IRI);
 							}
 							else
 							{
-								trigger_error("$cache->name is not writeable", E_USER_WARNING);
+								trigger_error("$titanium_cache->name is not writeable", E_USER_WARNING);
 								return $this->sanitize($favicon, SIMPLEPIE_CONSTRUCT_IRI);
 							}
 						}
@@ -2935,11 +2935,11 @@ function embed_wmedia(width, height, link) {
 		}
 	}
 
-	function get_items($start = 0, $end = 0)
+	function get_items($phpbb2_start = 0, $phpbb2_end = 0)
 	{
 		if (!empty($this->multifeed_objects))
 		{
-			return SimplePie::merge_items($this->multifeed_objects, $start, $end, $this->item_limit);
+			return SimplePie::merge_items($this->multifeed_objects, $phpbb2_start, $phpbb2_end, $this->item_limit);
 		}
 		elseif (!isset($this->data['items']))
 		{
@@ -3016,13 +3016,13 @@ function embed_wmedia(width, height, link) {
 			}
 
 			// Slice the data as desired
-			if ($end == 0)
+			if ($phpbb2_end == 0)
 			{
-				return array_slice($items, $start);
+				return array_slice($items, $phpbb2_start);
 			}
 			else
 			{
-				return array_slice($items, $start, $end);
+				return array_slice($items, $phpbb2_start, $phpbb2_end);
 			}
 		}
 		else
@@ -3036,7 +3036,7 @@ function embed_wmedia(width, height, link) {
 		return $a->get_date('U') <= $b->get_date('U');
 	}
 
-	function merge_items($urls, $start = 0, $end = 0, $limit = 0)
+	function merge_items($urls, $phpbb2_start = 0, $phpbb2_end = 0, $limit = 0)
 	{
 		if (is_array($urls) && sizeof($urls) > 0)
 		{
@@ -3068,13 +3068,13 @@ function embed_wmedia(width, height, link) {
 				usort($items, array('SimplePie', 'sort_items'));
 			}
 
-			if ($end == 0)
+			if ($phpbb2_end == 0)
 			{
-				return array_slice($items, $start);
+				return array_slice($items, $phpbb2_start);
 			}
 			else
 			{
-				return array_slice($items, $start, $end);
+				return array_slice($items, $phpbb2_start, $phpbb2_end);
 			}
 		}
 		else
@@ -4370,7 +4370,7 @@ class SimplePie_Item
 			$framerate = null;
 			$height = null;
 			$javascript = null;
-			$lang = null;
+			$titanium_lang = null;
 			$length = null;
 			$medium = null;
 			$samplingrate = null;
@@ -4408,7 +4408,7 @@ class SimplePie_Item
 						$framerate = null;
 						$height = null;
 						$javascript = null;
-						$lang = null;
+						$titanium_lang = null;
 						$length = null;
 						$medium = null;
 						$samplingrate = null;
@@ -4461,7 +4461,7 @@ class SimplePie_Item
 						}
 						if (isset($content['attribs']['']['lang']))
 						{
-							$lang = $this->sanitize($content['attribs']['']['lang'], SIMPLEPIE_CONSTRUCT_TEXT);
+							$titanium_lang = $this->sanitize($content['attribs']['']['lang'], SIMPLEPIE_CONSTRUCT_TEXT);
 						}
 						if (isset($content['attribs']['']['fileSize']))
 						{
@@ -5009,7 +5009,7 @@ class SimplePie_Item
 							$title = $title_parent;
 						}
 
-						$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions, $categories, $channels, $copyrights, $credits, $description, $duration, $expression, $framerate, $hashes, $height, $keywords, $lang, $medium, $player, $ratings, $restrictions, $samplingrate, $thumbnails, $title, $width);
+						$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions, $categories, $channels, $copyrights, $credits, $description, $duration, $expression, $framerate, $hashes, $height, $keywords, $titanium_lang, $medium, $player, $ratings, $restrictions, $samplingrate, $thumbnails, $title, $width);
 					}
 				}
 			}
@@ -5029,7 +5029,7 @@ class SimplePie_Item
 						$framerate = null;
 						$height = null;
 						$javascript = null;
-						$lang = null;
+						$titanium_lang = null;
 						$length = null;
 						$medium = null;
 						$samplingrate = null;
@@ -5082,7 +5082,7 @@ class SimplePie_Item
 						}
 						if (isset($content['attribs']['']['lang']))
 						{
-							$lang = $this->sanitize($content['attribs']['']['lang'], SIMPLEPIE_CONSTRUCT_TEXT);
+							$titanium_lang = $this->sanitize($content['attribs']['']['lang'], SIMPLEPIE_CONSTRUCT_TEXT);
 						}
 						if (isset($content['attribs']['']['fileSize']))
 						{
@@ -5413,7 +5413,7 @@ class SimplePie_Item
 							$title = $title_parent;
 						}
 
-						$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions, $categories, $channels, $copyrights, $credits, $description, $duration, $expression, $framerate, $hashes, $height, $keywords, $lang, $medium, $player, $ratings, $restrictions, $samplingrate, $thumbnails, $title, $width);
+						$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions, $categories, $channels, $copyrights, $credits, $description, $duration, $expression, $framerate, $hashes, $height, $keywords, $titanium_lang, $medium, $player, $ratings, $restrictions, $samplingrate, $thumbnails, $title, $width);
 					}
 				}
 			}
@@ -5430,7 +5430,7 @@ class SimplePie_Item
 					$framerate = null;
 					$height = null;
 					$javascript = null;
-					$lang = null;
+					$titanium_lang = null;
 					$length = null;
 					$medium = null;
 					$samplingrate = null;
@@ -5449,7 +5449,7 @@ class SimplePie_Item
 					}
 
 					// Since we don't have group or content for these, we'll just pass the '*_parent' variables directly to the constructor
-					$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
+					$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $titanium_lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
 				}
 			}
 
@@ -5465,7 +5465,7 @@ class SimplePie_Item
 					$framerate = null;
 					$height = null;
 					$javascript = null;
-					$lang = null;
+					$titanium_lang = null;
 					$length = null;
 					$medium = null;
 					$samplingrate = null;
@@ -5484,7 +5484,7 @@ class SimplePie_Item
 					}
 
 					// Since we don't have group or content for these, we'll just pass the '*_parent' variables directly to the constructor
-					$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
+					$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $titanium_lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
 				}
 			}
 
@@ -5500,7 +5500,7 @@ class SimplePie_Item
 					$framerate = null;
 					$height = null;
 					$javascript = null;
-					$lang = null;
+					$titanium_lang = null;
 					$length = null;
 					$medium = null;
 					$samplingrate = null;
@@ -5519,14 +5519,14 @@ class SimplePie_Item
 					}
 
 					// Since we don't have group or content for these, we'll just pass the '*_parent' variables directly to the constructor
-					$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
+					$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $titanium_lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
 				}
 			}
 
-			if (sizeof($this->data['enclosures']) == 0 && ($url || $type || $length || $bitrate || $captions_parent || $categories_parent || $channels || $copyrights_parent || $credits_parent || $description_parent || $duration_parent || $expression || $framerate || $hashes_parent || $height || $keywords_parent || $lang || $medium || $player_parent || $ratings_parent || $restrictions_parent || $samplingrate || $thumbnails_parent || $title_parent || $width))
+			if (sizeof($this->data['enclosures']) == 0 && ($url || $type || $length || $bitrate || $captions_parent || $categories_parent || $channels || $copyrights_parent || $credits_parent || $description_parent || $duration_parent || $expression || $framerate || $hashes_parent || $height || $keywords_parent || $titanium_lang || $medium || $player_parent || $ratings_parent || $restrictions_parent || $samplingrate || $thumbnails_parent || $title_parent || $width))
 			{
 				// Since we don't have group or content for these, we'll just pass the '*_parent' variables directly to the constructor
-				$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
+				$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $titanium_lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
 			}
 
 			$this->data['enclosures'] = array_values(SimplePie_Misc::array_unique($this->data['enclosures']));
@@ -6369,7 +6369,7 @@ class SimplePie_Enclosure
 	var $height;
 	var $javascript;
 	var $keywords;
-	var $lang;
+	var $titanium_lang;
 	var $length;
 	var $link;
 	var $medium;
@@ -6383,7 +6383,7 @@ class SimplePie_Enclosure
 	var $width;
 
 	// Constructor, used to input the data
-	function SimplePie_Enclosure($link = null, $type = null, $length = null, $javascript = null, $bitrate = null, $captions = null, $categories = null, $channels = null, $copyright = null, $credits = null, $description = null, $duration = null, $expression = null, $framerate = null, $hashes = null, $height = null, $keywords = null, $lang = null, $medium = null, $player = null, $ratings = null, $restrictions = null, $samplingrate = null, $thumbnails = null, $title = null, $width = null)
+	function SimplePie_Enclosure($link = null, $type = null, $length = null, $javascript = null, $bitrate = null, $captions = null, $categories = null, $channels = null, $copyright = null, $credits = null, $description = null, $duration = null, $expression = null, $framerate = null, $hashes = null, $height = null, $keywords = null, $titanium_lang = null, $medium = null, $player = null, $ratings = null, $restrictions = null, $samplingrate = null, $thumbnails = null, $title = null, $width = null)
 	{
 		$this->bitrate = $bitrate;
 		$this->captions = $captions;
@@ -6399,7 +6399,7 @@ class SimplePie_Enclosure
 		$this->height = $height;
 		$this->javascript = $javascript;
 		$this->keywords = $keywords;
-		$this->lang = $lang;
+		$this->lang = $titanium_lang;
 		$this->length = $length;
 		$this->link = $link;
 		$this->medium = $medium;
@@ -7308,18 +7308,18 @@ class SimplePie_Enclosure
 class SimplePie_Caption
 {
 	var $type;
-	var $lang;
-	var $startTime;
-	var $endTime;
+	var $titanium_lang;
+	var $phpbb2_startTime;
+	var $phpbb2_endTime;
 	var $text;
 
 	// Constructor, used to input the data
-	function SimplePie_Caption($type = null, $lang = null, $startTime = null, $endTime = null, $text = null)
+	function SimplePie_Caption($type = null, $titanium_lang = null, $phpbb2_startTime = null, $phpbb2_endTime = null, $text = null)
 	{
 		$this->type = $type;
-		$this->lang = $lang;
-		$this->startTime = $startTime;
-		$this->endTime = $endTime;
+		$this->lang = $titanium_lang;
+		$this->startTime = $phpbb2_startTime;
+		$this->endTime = $phpbb2_endTime;
 		$this->text = $text;
 	}
 
@@ -7596,7 +7596,7 @@ class SimplePie_Restriction
 class SimplePie_File
 {
 	var $url;
-	var $useragent;
+	var $titanium_useragent;
 	var $success = true;
 	var $headers = array();
 	var $body;
@@ -7605,7 +7605,7 @@ class SimplePie_File
 	var $error;
 	var $method = SIMPLEPIE_FILE_SOURCE_NONE;
 
-	function SimplePie_File($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false)
+	function SimplePie_File($url, $timeout = 10, $redirects = 5, $headers = null, $titanium_useragent = null, $force_fsockopen = false)
 	{
 		if (class_exists('idna_convert'))
 		{
@@ -7614,13 +7614,13 @@ class SimplePie_File
 			$url = SimplePie_Misc::compress_parse_url($parsed['scheme'], $idn->encode($parsed['authority']), $parsed['path'], $parsed['query'], $parsed['fragment']);
 		}
 		$this->url = $url;
-		$this->useragent = $useragent;
+		$this->useragent = $titanium_useragent;
 		if (preg_match('/^http(s)?:\/\//i', $url))
 		{
-			if ($useragent === null)
+			if ($titanium_useragent === null)
 			{
-				$useragent = ini_get('user_agent');
-				$this->useragent = $useragent;
+				$titanium_useragent = ini_get('user_agent');
+				$this->useragent = $titanium_useragent;
 			}
 			if (!is_array($headers))
 			{
@@ -7645,7 +7645,7 @@ class SimplePie_File
 				curl_setopt($fp, CURLOPT_TIMEOUT, $timeout);
 				curl_setopt($fp, CURLOPT_CONNECTTIMEOUT, $timeout);
 				curl_setopt($fp, CURLOPT_REFERER, $url);
-				curl_setopt($fp, CURLOPT_USERAGENT, $useragent);
+				curl_setopt($fp, CURLOPT_USERAGENT, $titanium_useragent);
 				curl_setopt($fp, CURLOPT_HTTPHEADER, $headers2);
 				if (!ini_get('open_basedir') && !ini_get('safe_mode') && version_compare(SimplePie_Misc::get_curl_version(), '7.15.2', '>='))
 				{
@@ -7680,7 +7680,7 @@ class SimplePie_File
 						{
 							$this->redirects++;
 							$location = SimplePie_Misc::absolutize_url($this->headers['location'], $url);
-							return $this->SimplePie_File($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen);
+							return $this->SimplePie_File($location, $timeout, $redirects, $headers, $titanium_useragent, $force_fsockopen);
 						}
 					}
 				}
@@ -7724,7 +7724,7 @@ class SimplePie_File
 					}
 					$out = "GET $get HTTP/1.0\r\n";
 					$out .= "Host: $url_parts[host]\r\n";
-					$out .= "User-Agent: $useragent\r\n";
+					$out .= "User-Agent: $titanium_useragent\r\n";
 					if (function_exists('gzinflate'))
 					{
 						$out .= "Accept-Encoding: gzip,deflate\r\n";
@@ -7761,7 +7761,7 @@ class SimplePie_File
 							{
 								$this->redirects++;
 								$location = SimplePie_Misc::absolutize_url($this->headers['location'], $url);
-								return $this->SimplePie_File($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen);
+								return $this->SimplePie_File($location, $timeout, $redirects, $headers, $titanium_useragent, $force_fsockopen);
 							}
 							if (isset($this->headers['content-encoding']) && ($this->headers['content-encoding'] == 'gzip' || $this->headers['content-encoding'] == 'deflate'))
 							{
@@ -8491,7 +8491,7 @@ class SimplePie_Misc
 		$name = preg_quote($realname, '/');
 		if (preg_match_all("/<($name)" . SIMPLEPIE_PCRE_HTML_ATTRIBUTE . "(>(.*)<\/$name>|(\/)?>)/siU", $string, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE))
 		{
-			for ($i = 0, $total_matches = count($matches); $i < $total_matches; $i++)
+			for ($i = 0, $total_phpbb2_matches = count($matches); $i < $total_phpbb2_matches; $i++)
 			{
 				$return[$i]['tag'] = $realname;
 				$return[$i]['full'] = $matches[$i][0][0];
@@ -8508,7 +8508,7 @@ class SimplePie_Misc
 				$return[$i]['attribs'] = array();
 				if (isset($matches[$i][2][0]) && preg_match_all('/[\x09\x0A\x0B\x0C\x0D\x20]+([^\x09\x0A\x0B\x0C\x0D\x20\x2F\x3E][^\x09\x0A\x0B\x0C\x0D\x20\x2F\x3D\x3E]*)(?:[\x09\x0A\x0B\x0C\x0D\x20]*=[\x09\x0A\x0B\x0C\x0D\x20]*(?:"([^"]*)"|\'([^\']*)\'|([^\x09\x0A\x0B\x0C\x0D\x20\x22\x27\x3E][^\x09\x0A\x0B\x0C\x0D\x20\x3E]*)?))?/', ' ' . $matches[$i][2][0] . ' ', $attribs, PREG_SET_ORDER))
 				{
-					for ($j = 0, $total_attribs = count($attribs); $j < $total_attribs; $j++)
+					for ($j = 0, $total_phpbb2_attribs = count($attribs); $j < $total_phpbb2_attribs; $j++)
 					{
 						if (count($attribs[$j]) == 2)
 						{
@@ -8574,21 +8574,21 @@ class SimplePie_Misc
 	 * @see SimplePie::get_favicon()
 	 * @param str $identifier_url URL that is used to identify the content.
 	 * This may or may not be the actual URL of the live content.
-	 * @param str $cache_location Location of SimplePie's cache.  Defaults
+	 * @param str $titanium_cache_location Location of SimplePie's cache.  Defaults
 	 * to './cache'.
-	 * @param str $cache_extension The file extension that the file was
+	 * @param str $titanium_cache_extension The file extension that the file was
 	 * cached with.  Defaults to 'spc'.
-	 * @param str $cache_class Name of the cache-handling class being used
+	 * @param str $titanium_cache_class Name of the cache-handling class being used
 	 * in SimplePie.  Defaults to 'SimplePie_Cache', and should be left
 	 * as-is unless you've overloaded the class.
-	 * @param str $cache_name_function Obsolete. Exists for backwards
+	 * @param str $titanium_cache_name_function Obsolete. Exists for backwards
 	 * compatibility reasons only.
 	 */
-	function display_cached_file($identifier_url, $cache_location = './cache', $cache_extension = 'spc', $cache_class = 'SimplePie_Cache', $cache_name_function = 'md5')
+	function display_cached_file($identifier_url, $titanium_cache_location = './cache', $titanium_cache_extension = 'spc', $titanium_cache_class = 'SimplePie_Cache', $titanium_cache_name_function = 'md5')
 	{
-		$cache = call_user_func(array($cache_class, 'create'), $cache_location, $identifier_url, $cache_extension);
+		$titanium_cache = call_user_func(array($titanium_cache_class, 'create'), $titanium_cache_location, $identifier_url, $titanium_cache_extension);
 
-		if ($file = $cache->load())
+		if ($file = $titanium_cache->load())
 		{
 			if (isset($file['headers']['content-type']))
 			{
@@ -8640,10 +8640,10 @@ class SimplePie_Misc
 
 	function parse_url($url)
 	{
-		static $cache = array();
-		if (isset($cache[$url]))
+		static $titanium_cache = array();
+		if (isset($titanium_cache[$url]))
 		{
-			return $cache[$url];
+			return $titanium_cache[$url];
 		}
 		elseif (preg_match('/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/', $url, $match))
 		{
@@ -8651,11 +8651,11 @@ class SimplePie_Misc
 			{
 				$match[$i] = '';
 			}
-			return $cache[$url] = array('scheme' => $match[2], 'authority' => $match[4], 'path' => $match[5], 'query' => $match[7], 'fragment' => $match[9]);
+			return $titanium_cache[$url] = array('scheme' => $match[2], 'authority' => $match[4], 'path' => $match[5], 'query' => $match[7], 'fragment' => $match[9]);
 		}
 		else
 		{
-			return $cache[$url] = array('scheme' => '', 'authority' => '', 'path' => '', 'query' => '', 'fragment' => '');
+			return $titanium_cache[$url] = array('scheme' => '', 'authority' => '', 'path' => '', 'query' => '', 'fragment' => '');
 		}
 	}
 
@@ -8794,7 +8794,7 @@ class SimplePie_Misc
 		}
 		elseif ($input == 'UTF-8' && $output == 'windows-1252')
 		{
-			return utf8_decode($data);
+			return utf8_decode_titanium($data);
 		}
 		return $data;
 	}
@@ -10204,12 +10204,12 @@ class SimplePie_Misc
 	function strip_comments($data)
 	{
 		$output = '';
-		while (($start = strpos($data, '<!--')) !== false)
+		while (($phpbb2_start = strpos($data, '<!--')) !== false)
 		{
-			$output .= substr($data, 0, $start);
-			if (($end = strpos($data, '-->', $start)) !== false)
+			$output .= substr($data, 0, $phpbb2_start);
+			if (($phpbb2_end = strpos($data, '-->', $phpbb2_start)) !== false)
 			{
-				$data = substr_replace($data, '', 0, $end + 3);
+				$data = substr_replace($data, '', 0, $phpbb2_end + 3);
 			}
 			else
 			{
@@ -10489,36 +10489,36 @@ class SimplePie_Misc
 	 */
 	function codepoint_to_utf8($codepoint)
 	{
-		static $cache = array();
+		static $titanium_cache = array();
 		$codepoint = (int) $codepoint;
-		if (isset($cache[$codepoint]))
+		if (isset($titanium_cache[$codepoint]))
 		{
-			return $cache[$codepoint];
+			return $titanium_cache[$codepoint];
 		}
 		elseif ($codepoint < 0)
 		{
-			return $cache[$codepoint] = false;
+			return $titanium_cache[$codepoint] = false;
 		}
 		else if ($codepoint <= 0x7f)
 		{
-			return $cache[$codepoint] = chr($codepoint);
+			return $titanium_cache[$codepoint] = chr($codepoint);
 		}
 		else if ($codepoint <= 0x7ff)
 		{
-			return $cache[$codepoint] = chr(0xc0 | ($codepoint >> 6)) . chr(0x80 | ($codepoint & 0x3f));
+			return $titanium_cache[$codepoint] = chr(0xc0 | ($codepoint >> 6)) . chr(0x80 | ($codepoint & 0x3f));
 		}
 		else if ($codepoint <= 0xffff)
 		{
-			return $cache[$codepoint] = chr(0xe0 | ($codepoint >> 12)) . chr(0x80 | (($codepoint >> 6) & 0x3f)) . chr(0x80 | ($codepoint & 0x3f));
+			return $titanium_cache[$codepoint] = chr(0xe0 | ($codepoint >> 12)) . chr(0x80 | (($codepoint >> 6) & 0x3f)) . chr(0x80 | ($codepoint & 0x3f));
 		}
 		else if ($codepoint <= 0x10ffff)
 		{
-			return $cache[$codepoint] = chr(0xf0 | ($codepoint >> 18)) . chr(0x80 | (($codepoint >> 12) & 0x3f)) . chr(0x80 | (($codepoint >> 6) & 0x3f)) . chr(0x80 | ($codepoint & 0x3f));
+			return $titanium_cache[$codepoint] = chr(0xf0 | ($codepoint >> 18)) . chr(0x80 | (($codepoint >> 12) & 0x3f)) . chr(0x80 | (($codepoint >> 6) & 0x3f)) . chr(0x80 | ($codepoint & 0x3f));
 		}
 		else
 		{
 			// U+FFFD REPLACEMENT CHARACTER
-			return $cache[$codepoint] = "\xEF\xBF\xBD";
+			return $titanium_cache[$codepoint] = "\xEF\xBF\xBD";
 		}
 	}
 
@@ -11398,7 +11398,7 @@ class SimplePie_Parse_Date
 	 * @access private
 	 * @var array
 	 */
-	var $user = array();
+	var $titanium_user = array();
 
 	/**
 	 * Create new SimplePie_Parse_Date object, and set self::day_pcre,
@@ -11411,8 +11411,8 @@ class SimplePie_Parse_Date
 		$this->day_pcre = '(' . implode(array_keys($this->day), '|') . ')';
 		$this->month_pcre = '(' . implode(array_keys($this->month), '|') . ')';
 		
-		static $cache;
-		if (!isset($cache[get_class($this)]))
+		static $titanium_cache;
+		if (!isset($titanium_cache[get_class($this)]))
 		{
 			if (extension_loaded('Reflection'))
 			{
@@ -11433,12 +11433,12 @@ class SimplePie_Parse_Date
 			{
 				if (strtolower(substr($method, 0, 5)) === 'date_')
 				{
-					$cache[get_class($this)][] = $method;
+					$titanium_cache[get_class($this)][] = $method;
 				}
 			}
 		}
 		
-		foreach ($cache[get_class($this)] as $method)
+		foreach ($titanium_cache[get_class($this)] as $method)
 		{
 			$this->built_in[] = $method;
 		}
@@ -12456,13 +12456,13 @@ class SimplePie_XML_Declaration_Parser
 
 class SimplePie_Locator
 {
-	var $useragent;
+	var $titanium_useragent;
 	var $timeout;
 	var $file;
 	var $local = array();
 	var $elsewhere = array();
 	var $file_class = 'SimplePie_File';
-	var $cached_entities = array();
+	var $titanium_cached_entities = array();
 	var $http_base;
 	var $base;
 	var $base_location = 0;
@@ -12470,11 +12470,11 @@ class SimplePie_Locator
 	var $max_checked_feeds = 10;
 	var $content_type_sniffer_class = 'SimplePie_Content_Type_Sniffer';
 
-	function SimplePie_Locator(&$file, $timeout = 10, $useragent = null, $file_class = 'SimplePie_File', $max_checked_feeds = 10, $content_type_sniffer_class = 'SimplePie_Content_Type_Sniffer')
+	function SimplePie_Locator(&$file, $timeout = 10, $titanium_useragent = null, $file_class = 'SimplePie_File', $max_checked_feeds = 10, $content_type_sniffer_class = 'SimplePie_Content_Type_Sniffer')
 	{
 		$this->file =& $file;
 		$this->file_class = $file_class;
-		$this->useragent = $useragent;
+		$this->useragent = $titanium_useragent;
 		$this->timeout = $timeout;
 		$this->max_checked_feeds = $max_checked_feeds;
 		$this->content_type_sniffer_class = $content_type_sniffer_class;
@@ -12954,8 +12954,8 @@ class SimplePie_Parser
 
 	function split_ns($string)
 	{
-		static $cache = array();
-		if (!isset($cache[$string]))
+		static $titanium_cache = array();
+		if (!isset($titanium_cache[$string]))
 		{
 			if ($pos = strpos($string, $this->separator))
 			{
@@ -12976,14 +12976,14 @@ class SimplePie_Parser
 				{
 					$namespace = SIMPLEPIE_NAMESPACE_MEDIARSS;
 				}
-				$cache[$string] = array($namespace, $local_name);
+				$titanium_cache[$string] = array($namespace, $local_name);
 			}
 			else
 			{
-				$cache[$string] = array('', $string);
+				$titanium_cache[$string] = array('', $string);
 			}
 		}
-		return $cache[$string];
+		return $titanium_cache[$string];
 	}
 }
 
@@ -13004,12 +13004,12 @@ class SimplePie_Sanitize
 	var $strip_comments = false;
 	var $output_encoding = 'UTF-8';
 	var $enable_cache = true;
-	var $cache_location = './cache';
-	var $cache_name_function = 'md5';
-	var $cache_class = 'SimplePie_Cache';
+	var $titanium_cache_location = './cache';
+	var $titanium_cache_name_function = 'md5';
+	var $titanium_cache_class = 'SimplePie_Cache';
 	var $file_class = 'SimplePie_File';
 	var $timeout = 10;
-	var $useragent = '';
+	var $titanium_useragent = '';
 	var $force_fsockopen = false;
 
 	var $replace_url_attributes = array(
@@ -13041,30 +13041,30 @@ class SimplePie_Sanitize
 		}
 	}
 
-	function pass_cache_data($enable_cache = true, $cache_location = './cache', $cache_name_function = 'md5', $cache_class = 'SimplePie_Cache')
+	function pass_cache_data($enable_cache = true, $titanium_cache_location = './cache', $titanium_cache_name_function = 'md5', $titanium_cache_class = 'SimplePie_Cache')
 	{
 		if (isset($enable_cache))
 		{
 			$this->enable_cache = (bool) $enable_cache;
 		}
 
-		if ($cache_location)
+		if ($titanium_cache_location)
 		{
-			$this->cache_location = (string) $cache_location;
+			$this->cache_location = (string) $titanium_cache_location;
 		}
 
-		if ($cache_name_function)
+		if ($titanium_cache_name_function)
 		{
-			$this->cache_name_function = (string) $cache_name_function;
+			$this->cache_name_function = (string) $titanium_cache_name_function;
 		}
 
-		if ($cache_class)
+		if ($titanium_cache_class)
 		{
-			$this->cache_class = (string) $cache_class;
+			$this->cache_class = (string) $titanium_cache_class;
 		}
 	}
 
-	function pass_file_data($file_class = 'SimplePie_File', $timeout = 10, $useragent = '', $force_fsockopen = false)
+	function pass_file_data($file_class = 'SimplePie_File', $timeout = 10, $titanium_useragent = '', $force_fsockopen = false)
 	{
 		if ($file_class)
 		{
@@ -13076,9 +13076,9 @@ class SimplePie_Sanitize
 			$this->timeout = (string) $timeout;
 		}
 
-		if ($useragent)
+		if ($titanium_useragent)
 		{
-			$this->useragent = (string) $useragent;
+			$this->useragent = (string) $titanium_useragent;
 		}
 
 		if ($force_fsockopen)
@@ -13235,9 +13235,9 @@ class SimplePie_Sanitize
 						if (isset($img['attribs']['src']['data']))
 						{
 							$image_url = call_user_func($this->cache_name_function, $img['attribs']['src']['data']);
-							$cache = call_user_func(array($this->cache_class, 'create'), $this->cache_location, $image_url, 'spi');
+							$titanium_cache = call_user_func(array($this->cache_class, 'create'), $this->cache_location, $image_url, 'spi');
 
-							if ($cache->load())
+							if ($titanium_cache->load())
 							{
 								$img['attribs']['src']['data'] = $this->image_handler . $image_url;
 								$data = str_replace($img['full'], SimplePie_Misc::element_implode($img), $data);
@@ -13249,14 +13249,14 @@ class SimplePie_Sanitize
 
 								if ($file->success && ($file->status_code == 200 || ($file->status_code > 206 && $file->status_code < 300)))
 								{
-									if ($cache->save(array('headers' => $file->headers, 'body' => $file->body)))
+									if ($titanium_cache->save(array('headers' => $file->headers, 'body' => $file->body)))
 									{
 										$img['attribs']['src']['data'] = $this->image_handler . $image_url;
 										$data = str_replace($img['full'], SimplePie_Misc::element_implode($img), $data);
 									}
 									else
 									{
-										trigger_error("$cache->name is not writeable", E_USER_WARNING);
+										trigger_error("$titanium_cache->name is not writeable", E_USER_WARNING);
 									}
 								}
 							}

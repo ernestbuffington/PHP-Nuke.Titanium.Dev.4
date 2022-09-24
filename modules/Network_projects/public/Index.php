@@ -13,7 +13,7 @@ if(!defined('SUPPORT_NETWORK'))
    die("Illegal Access Detected!!!"); 
 }
 
-global $network_prefix, $db2;
+global $network_prefix, $titanium_db2;
 
 $pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']." ::: "._NETWORK_PROJECTLIST." ::: ";
 
@@ -42,9 +42,9 @@ echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PRIORITY."
 echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_MEMBERS."</strong></nobr></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PROGRESSBAR."</strong></nobr></td>\n";
 echo "</tr>\n";
-$projectresult = $db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
+$projectresult = $titanium_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
 
-while(list($project_id) = $db2->sql_fetchrow($projectresult)) 
+while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) 
 {
   $project = pjprojectpercent_info($project_id);
   
@@ -52,38 +52,38 @@ while(list($project_id) = $db2->sql_fetchrow($projectresult))
   
   $projectpriority = pjprojectpriority_info($project['priority_id']);
   
-  $memberresult = $db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id' ORDER BY `member_id`");
+  $memberresult = $titanium_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id' ORDER BY `member_id`");
   
-  $member_total = $db2->sql_numrows($memberresult);
+  $member_total = $titanium_db2->sql_numrows($memberresult);
   
-  $taskresult = $db2->sql_query("SELECT `task_id`, `status_id` FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id' ORDER BY `task_name`");
+  $taskresult = $titanium_db2->sql_query("SELECT `task_id`, `status_id` FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id' ORDER BY `task_name`");
   
-  $taskrows = $db2->sql_numrows($taskresult);
+  $taskrows = $titanium_db2->sql_numrows($taskresult);
   
-  $reportresult = $db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports` WHERE `project_id`='$project_id'");
+  $reportresult = $titanium_db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports` WHERE `project_id`='$project_id'");
   
-  $report_total = $db2->sql_numrows($reportresult);
+  $report_total = $titanium_db2->sql_numrows($reportresult);
   
-  $requestresult = $db2->sql_query("SELECT `request_id` FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id'");
+  $requestresult = $titanium_db2->sql_query("SELECT `request_id` FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id'");
   
-  $request_total = $db2->sql_numrows($requestresult);
+  $request_total = $titanium_db2->sql_numrows($requestresult);
   
   echo "<tr>\n";
 
   if($project['featured'] > 0) 
   {
-    $pjimage = pjimage("project_featured.png", $module_name);
+    $pjimage = pjimage("project_featured.png", $titanium_module_name);
   } 
   else 
   {
-    $pjimage = pjimage("project.png", $module_name);
+    $pjimage = pjimage("project.png", $titanium_module_name);
   }
   
-  echo "<td align='center'><img src='$pjimage'></td><td width='100%'><a href='modules.php?name=$module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  echo "<td align='center'><img src='$pjimage'></td><td width='100%'><a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
   if($project['project_site'] > "") 
   {
-    $pjimage = pjimage("demo.png", $module_name);
+    $pjimage = pjimage("demo.png", $titanium_module_name);
     $demo = " <a href='".$project['project_site']."' target='_blank'><img src='$pjimage' border='0' alt='".$project['project_name']." "._NETWORK_SITE."' title='".$project['project_name']." "._NETWORK_SITE."'></a>";
   } 
   else 
@@ -133,9 +133,9 @@ while(list($project_id) = $db2->sql_fetchrow($projectresult))
 
 echo "<tr><td bgcolor='$bgcolor2' colspan='10' align='right'>\n";
 echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'><tr>\n";
-echo "<td align='center' width='33%'><a href='modules.php?name=$module_name&amp;op=TaskMap'><strong>"._NETWORK_TASKMAP."</strong></a></td>\n";
-echo "<td align='center' width='33%'><a href='modules.php?name=$module_name&amp;op=ReportMap'><strong>"._NETWORK_REPORTMAP."</strong></a></td>\n";
-echo "<td align='center' width='33%'><a href='modules.php?name=$module_name&amp;op=RequestMap'><strong>"._NETWORK_REQUESTMAP."</strong></a></td>\n";
+echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;op=TaskMap'><strong>"._NETWORK_TASKMAP."</strong></a></td>\n";
+echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;op=ReportMap'><strong>"._NETWORK_REPORTMAP."</strong></a></td>\n";
+echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;op=RequestMap'><strong>"._NETWORK_REQUESTMAP."</strong></a></td>\n";
 echo "</tr></table>\n";
 echo "</td></tr>\n";
 echo "</table>\n";

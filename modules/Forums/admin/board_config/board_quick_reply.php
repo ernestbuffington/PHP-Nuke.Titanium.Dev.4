@@ -26,7 +26,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
     "quick_reply" => "admin/board_config/board_quick_reply.tpl")
 );
 
@@ -42,27 +42,27 @@ $ropm_quick_reply_bbc_no = ( !$new['ropm_quick_reply_bbc'] ) ? "checked=\"checke
  ******************************************************/
 
 //General Template variables
-$template->assign_vars(array(
+$phpbb2_template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
     
 //Language Template variables
-$template->assign_vars(array(
+$phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    PM Quick Reply                      v1.3.5 ]
  ******************************************************/
-    "L_ENABLE_ROPM_QUICK_REPLY" => $lang['enable_ropm_quick_reply'],
-    "L_ROPM_QUICK_REPLY" => $lang['ropm_quick_reply'],
-    "L_ROPM_QUICK_REPLY_BBC" => $lang['ropm_quick_reply_bbc'],
-    "L_ROPM_QUICK_REPLY_SMILIES" => $lang['ropm_quick_reply_smilies'],
-    "L_ROPM_QUICK_REPLY_SMILIES_INFO" => $lang['ropm_quick_reply_smilies_info'],
+    "L_ENABLE_ROPM_QUICK_REPLY" => $titanium_lang['enable_ropm_quick_reply'],
+    "L_ROPM_QUICK_REPLY" => $titanium_lang['ropm_quick_reply'],
+    "L_ROPM_QUICK_REPLY_BBC" => $titanium_lang['ropm_quick_reply_bbc'],
+    "L_ROPM_QUICK_REPLY_SMILIES" => $titanium_lang['ropm_quick_reply_smilies'],
+    "L_ROPM_QUICK_REPLY_SMILIES_INFO" => $titanium_lang['ropm_quick_reply_smilies_info'],
 /*****[END]********************************************
  [ Mod:    PM Quick Reply                      v1.3.5 ]
  ******************************************************/
 ));
 
 //Data Template Variables
-$template->assign_vars(array(
+$phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    PM Quick Reply                      v1.3.5 ]
  ******************************************************/
@@ -75,6 +75,6 @@ $template->assign_vars(array(
  [ Mod:    PM Quick Reply                      v1.3.5 ]
  ******************************************************/
  ));
-$template->pparse("quick_reply");
+$phpbb2_template->pparse("quick_reply");
 
 ?>

@@ -30,21 +30,21 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $db, $evoconfig, $startdate;
+global $titanium_db, $titanium_config, $startdate;
 
 function block_Hits_cache($block_cachetime) {
-    global $db, $cache;
-    if ((($blockcache = $cache->load('hits', 'blocks')) === false) || empty($blockcache) || intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) {
-        $result = $db->sql_ufetchrow('SELECT `count` FROM `'._COUNTER_TABLE.'` WHERE `type`="total" AND `var`="hits" LIMIT 1');
+    global $titanium_db, $titanium_cache;
+    if ((($blockcache = $titanium_cache->load('hits', 'blocks')) === false) || empty($blockcache) || intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) {
+        $result = $titanium_db->sql_ufetchrow('SELECT `count` FROM `'._COUNTER_TABLE.'` WHERE `type`="total" AND `var`="hits" LIMIT 1');
         $blockcache[1]['count'] = $result['count'];
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         $blockcache[0]['stat_created'] = time();
-        $cache->save('hits', 'blocks', $blockcache);
+        $titanium_cache->save('hits', 'blocks', $blockcache);
     }
     return $blockcache;
 }
 
-$blocksession = block_Hits_cache($evoconfig['block_cachetime']);
+$blocksession = block_Hits_cache($titanium_config['block_cachetime']);
 
 $content = "<div style='text-align: center; width: 100%;'>\n";
 if (empty($blocksession[1]['count'])) {

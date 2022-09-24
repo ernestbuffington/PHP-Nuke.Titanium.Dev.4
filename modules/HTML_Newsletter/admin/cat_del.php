@@ -59,7 +59,7 @@ $msnl_iCID	= intval( $_POST['msnl_cid'] );
 * Check impact of deletes.
 ************************************************************************/
 
-$sql	= "SELECT count(`nid`) as msnl_cnt FROM `".$prefix."_hnl_newsletters` "
+$sql	= "SELECT count(`nid`) as msnl_cnt FROM `".$titanium_prefix."_hnl_newsletters` "
 				."WHERE `cid` = '$msnl_iCID'";
 
 $result 		= msnl_fSQLCall( $sql );
@@ -76,7 +76,7 @@ if ( !$result ) {
 	echo "<input type='hidden' name='msnl_cid' value='0'>\n";
 	echo "</div>\n";
 
-	$row = $db->sql_fetchrow( $result );
+	$row = $titanium_db->sql_fetchrow( $result );
 	
 	if ( $row['msnl_cnt'] > 0 ) { //This delete will affect current newsletters, get confirmation
 

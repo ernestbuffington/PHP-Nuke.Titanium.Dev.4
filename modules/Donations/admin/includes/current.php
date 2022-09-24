@@ -24,21 +24,21 @@ OpenTable();
     Notes:       Displays the donations
 ================================================================================================*/
 function view_display ($page=0) {
-    global $gen_configs, $page_configs, $donations, $lang_donate, $dis, $admin_file;
+    global $gen_configs, $page_configs, $donations, $titanium_lang_donate, $dis, $admin_file;
     $currency_code = get_currency_code();
     OpenTable();
     $page_configs['num_donations'] = 25;
     echo "<table width=\"55%\" border=\"0\" style=\"margin: auto\">\n";
     echo "<tr>\n";
     $width = '70';
-    echo "<td width=\"17%\"><div align=\"center\"><strong>".$lang_donate['DATE']."</strong></div></td>\n";
+    echo "<td width=\"17%\"><div align=\"center\"><strong>".$titanium_lang_donate['DATE']."</strong></div></td>\n";
     //Display username and amount title
-    echo "<td width=\"".$width."%\"><div align=\"center\"><strong>".$lang_donate['USERNAME']."</strong></div></td>";
-    echo "<td width=\"13%\"><div align=\"center\"><strong>".$lang_donate['AMOUNT']."</strong></div></td>";
+    echo "<td width=\"".$width."%\"><div align=\"center\"><strong>".$titanium_lang_donate['USERNAME']."</strong></div></td>";
+    echo "<td width=\"13%\"><div align=\"center\"><strong>".$titanium_lang_donate['AMOUNT']."</strong></div></td>";
     echo "</tr>\n";
     $total = 0;
     //Setup the for start and stop points
-    $start = $page * $page_configs['num_donations'];
+    $phpbb2_start = $page * $page_configs['num_donations'];
     $stop = ($page+1) * $page_configs['num_donations'];
 
 
@@ -54,17 +54,17 @@ function view_display ($page=0) {
             }
         }
         //Loop through the donation array
-        for ($i=$start; $i < $stop; $i++) {
+        for ($i=$phpbb2_start; $i < $stop; $i++) {
             //Set donator = to the current donation in the array
             $donator = $donations[$i];
             $pop = '';
             if (!empty($donator['msg'])) {
-                $pop = make_help_popup($donator['msg'], $lang_donate['MESSAGE']);
+                $pop = make_help_popup($donator['msg'], $titanium_lang_donate['MESSAGE']);
             }
             echo "<tr ".$pop.">\n";
             echo "<td><div align=\"center\">".date($gen_configs['date_format'],$donator['dondate'])."</div></td>\n";
                 if (empty($donator['uname']) || $donator['donshow'] == 0) {
-                    echo "<td><div align=\"center\">".$lang_donate['TYPE_ANON']."</div></td>\n";
+                    echo "<td><div align=\"center\">".$titanium_lang_donate['TYPE_ANON']."</div></td>\n";
                 } else {
                     echo "<td><div align=\"center\">".UsernameColor(trim($donator['uname']))."</div></td>\n";
                 }
@@ -77,20 +77,20 @@ function view_display ($page=0) {
         if ($stop == sizeof($donations)) {
             echo "<tr>\n";
                  echo $date_spacer;
-                 echo "<td><div align=\"right\"><strong>".$lang_donate['TOTAL'].$lang_donate['BREAK']."</strong></div></td>";
+                 echo "<td><div align=\"right\"><strong>".$titanium_lang_donate['TOTAL'].$titanium_lang_donate['BREAK']."</strong></div></td>";
                  echo "<td><div align=\"center\">".$currency_code.sprintf('%.2f',$total)."</div></td>";
             echo "</tr>\n";
             if ($dis == 'goal') {
                 echo "<tr>\n";
                      echo $date_spacer;
-                     echo "<td><div align=\"right\"><strong>".$lang_donate['GOAL'].$lang_donate['BREAK']."</strong></div></td>";
+                     echo "<td><div align=\"right\"><strong>".$titanium_lang_donate['GOAL'].$titanium_lang_donate['BREAK']."</strong></div></td>";
                      echo "<td><div align=\"center\">".$currency_code.sprintf('%.2f',$gen_configs['monthly_goal'])."</div></td>";
                 echo "</tr>\n";
                 $diff = floatval($gen_configs['monthly_goal']) - $total;
                 $diff = sprintf('%.2f',$diff);
                 echo "<tr>\n";
                      echo $date_spacer;
-                     echo "<td><div align=\"right\"><strong>".$lang_donate['DIFF'].$lang_donate['BREAK']."</strong></div></td>";
+                     echo "<td><div align=\"right\"><strong>".$titanium_lang_donate['DIFF'].$titanium_lang_donate['BREAK']."</strong></div></td>";
                      echo "<td><div align=\"center\">".$currency_code.$diff."</div></td>";
                 echo "</tr>\n";
             }
@@ -98,21 +98,21 @@ function view_display ($page=0) {
         //Setup previous link and text
         if ($page != '0') {
             $prev_page = $page - 1;
-            $prev = '<strong><a href="'.$admin_file.'.php?op=Donations&amp;file=current&amp;page='.$prev_page.'">'.$lang_donate['PREV_DIRECTION'].$lang_donate['PREV'].'</a></strong>';
+            $prev = '<strong><a href="'.$admin_file.'.php?op=Donations&amp;file=current&amp;page='.$prev_page.'">'.$titanium_lang_donate['PREV_DIRECTION'].$titanium_lang_donate['PREV'].'</a></strong>';
         } else {
-            $prev = $lang_donate['PREV_DIRECTION'].$lang_donate['PREV'];
+            $prev = $titanium_lang_donate['PREV_DIRECTION'].$titanium_lang_donate['PREV'];
         }
         //Setup the next link and text
         if ($stop != sizeof($donations)) {
             $next_page = $page + 1;
-            $next = '<strong><a href="'.$admin_file.'.php?op=Donations&amp;file=current&amp;page='.$next_page.'">'.$lang_donate['NEXT'].$lang_donate['NEXT_DIRECTION'].'</a></strong>';
+            $next = '<strong><a href="'.$admin_file.'.php?op=Donations&amp;file=current&amp;page='.$next_page.'">'.$titanium_lang_donate['NEXT'].$titanium_lang_donate['NEXT_DIRECTION'].'</a></strong>';
         } else {
-            $next = $lang_donate['NEXT'].$lang_donate['NEXT_DIRECTION'];
+            $next = $titanium_lang_donate['NEXT'].$titanium_lang_donate['NEXT_DIRECTION'];
         }
         //Show the next and previous if needed
         if (!isset($no_next_prev)) {
             echo "<tr><td colspan=\"3\">\n<div align=\"center\">\n";
-            echo $prev.'&nbsp;'.$lang_donate['BREAK'].'&nbsp;'.$next;
+            echo $prev.'&nbsp;'.$titanium_lang_donate['BREAK'].'&nbsp;'.$next;
             echo "</div>\n</td></tr>\n";
         }
 
@@ -130,11 +130,11 @@ function view_display ($page=0) {
 ================================================================================================*/
 
 function view_display_links () {
-    global $lang_donate,$admin_file;
+    global $titanium_lang_donate,$admin_file;
     OpenTable();
     echo "<table width=\"55%\" border=\"1\" align=\"center\">\n";
-    echo "<tr>\n<td align=\"center\">\n<a href=\"".$admin_file.".php?op=Donations&amp;file=current&amp;dis=total\">".$lang_donate['TOTAL']."</a>\n</td>\n";
-    echo "<td align=\"center\">\n<a href=\"".$admin_file.".php?op=Donations&amp;file=current&amp;dis=goal\">".$lang_donate['GOAL']."</a>\n</td>\n</tr>\n";
+    echo "<tr>\n<td align=\"center\">\n<a href=\"".$admin_file.".php?op=Donations&amp;file=current&amp;dis=total\">".$titanium_lang_donate['TOTAL']."</a>\n</td>\n";
+    echo "<td align=\"center\">\n<a href=\"".$admin_file.".php?op=Donations&amp;file=current&amp;dis=goal\">".$titanium_lang_donate['GOAL']."</a>\n</td>\n</tr>\n";
     echo "</table>\n";
     CloseTable();
 }

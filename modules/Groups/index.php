@@ -37,9 +37,9 @@ Auto Group                               v1.2.2       11/06/2006
 ************************************************************************/
 if(!defined('NUKE_EVO')) exit;
 
-$module_name = basename(dirname(__FILE__));
+$titanium_module_name = basename(dirname(__FILE__));
 require(NUKE_FORUMS_DIR . 'nukebb.php');
-define('IN_PHPBB', true);
+define('IN_PHPBB2', true);
 include(NUKE_FORUMS_DIR . 'extension.inc');
 include(NUKE_FORUMS_DIR . 'common.php');
 
@@ -50,9 +50,9 @@ function generate_user_info(&$row,
                      $date_format, 
 					   $group_mod, 
 					       &$from, 
-						  &$posts, 
+						  &$phpbb2_posts, 
 						 &$joined, 
-				  &$poster_avatar, 
+				  &$phpbb2_poster_avatar, 
 				    &$profile_img, 
 					    &$profile, 
 					 &$search_img, 
@@ -67,62 +67,62 @@ function generate_user_info(&$row,
 			  &$online_status_img, 
 			      &$online_status)
 {
-    global $lang, $theme_name, $images, $board_config, $online_color, $offline_color, $hidden_color;
+    global $titanium_lang, $theme_name, $images, $phpbb2_board_config, $online_color, $offline_color, $hidden_color;
     
-    $username = $row['username'];
+    $titanium_username = $row['username'];
 	$from = $row['user_from'].'&nbsp;';
-    $joined = create_date($date_format, $row['user_regdate'], $board_config['board_timezone']);
-    $posts = ($row['user_posts']) ? $row['user_posts'] : 0;
+    $joined = create_date($date_format, $row['user_regdate'], $phpbb2_board_config['board_timezone']);
+    $phpbb2_posts = ($row['user_posts']) ? $row['user_posts'] : 0;
     
         # Mod: Forum Index Avatar Mod v3.0.0 START
         switch($row['user_avatar_type'])
         {
            case USER_AVATAR_UPLOAD:
-           $poster_avatar = $board_config['avatar_path'] . '/' . $row['user_avatar'];
+           $phpbb2_poster_avatar = $phpbb2_board_config['avatar_path'] . '/' . $row['user_avatar'];
            break;
            case USER_AVATAR_REMOTE:
-           $poster_avatar = resize_avatar($row['user_avatar']);
+           $phpbb2_poster_avatar = resize_avatar($row['user_avatar']);
            break;
            case USER_AVATAR_GALLERY:
-           $poster_avatar = $board_config['avatar_gallery_path'] . '/' . (($row['user_avatar'] 
+           $phpbb2_poster_avatar = $phpbb2_board_config['avatar_gallery_path'] . '/' . (($row['user_avatar'] 
 			== 'blank.gif' || $row['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $row['user_avatar']);
            break;
 		}
         # Mod: Forum Index Avatar Mod v3.0.0 END
 
 	if(!empty($row['user_viewemail']) || $group_mod): 
-        $email_uri = ($board_config['board_email_form']) ? append_sid("profile.$phpEx?mode=email&amp;".POST_USERS_URL.'='.$row['user_id']) : 'mailto:'.$row['user_email'];
+        $email_uri = ($phpbb2_board_config['board_email_form']) ? append_titanium_sid("profile.$phpEx?mode=email&amp;".POST_USERS_URL.'='.$row['user_id']) : 'mailto:'.$row['user_email'];
 		$email_img = '<a href="'.$email_uri.'"><img 
-		class="tooltip-html copyright" title="Send an e-mail message to '.$username.'" src="'.$images['icon_email'].'" alt="'.sprintf($lang['Send_email'],$row['username']).'" 
-		title="'.sprintf($lang['Send_email'],$row['username']).'" border="0" /></a>';
-		$email = '<a href="'.$email_uri.'">'.$lang['Send_email'].'</a>';
+		class="tooltip-html copyright" title="Send an e-mail message to '.$titanium_username.'" src="'.$images['icon_email'].'" alt="'.sprintf($titanium_lang['Send_email'],$row['username']).'" 
+		title="'.sprintf($titanium_lang['Send_email'],$row['username']).'" border="0" /></a>';
+		$email = '<a href="'.$email_uri.'">'.$titanium_lang['Send_email'].'</a>';
 	else: 
         $email_img = '&nbsp;';
         $email     = '&nbsp;';
     endif;
     
     $temp_url = "modules.php?name=Profile&amp;mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id'];
-    $profile_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_profile'].'" alt="'.$lang['Read_profile'].'" title="'.$lang['Read_profile'].'" border="0" /></a>';
-    $profile = '<a href="'.$temp_url.'">'.$lang['Read_profile'].'</a>';
+    $profile_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_profile'].'" alt="'.$titanium_lang['Read_profile'].'" title="'.$titanium_lang['Read_profile'].'" border="0" /></a>';
+    $profile = '<a href="'.$temp_url.'">'.$titanium_lang['Read_profile'].'</a>';
     
     $temp_url = "modules.php?name=Private_Messages&amp;mode=post&amp;".POST_USERS_URL."=".$row['user_id'];
-    $pm_img = '<a href="'.$temp_url.'"><img class="tooltip-html copyright" title="Send a Private Message to '.$username.'" 
-	src="'.$images['icon_pm'].'" alt="'.sprintf($lang['Send_private_message'],$row['username']).'" 
-	title="'.sprintf($lang['Send_private_message'],$row['username']).'" border="0" /></a>';
-	$pm = '<a href="'.$temp_url.'">'.$lang['Send_private_message'].'</a>';
+    $pm_img = '<a href="'.$temp_url.'"><img class="tooltip-html copyright" title="Send a Private Message to '.$titanium_username.'" 
+	src="'.$images['icon_pm'].'" alt="'.sprintf($titanium_lang['Send_private_message'],$row['username']).'" 
+	title="'.sprintf($titanium_lang['Send_private_message'],$row['username']).'" border="0" /></a>';
+	$pm = '<a href="'.$temp_url.'">'.$titanium_lang['Send_private_message'].'</a>';
     
 	$www_img = ($row['user_website']) ? '<a href="'.$row['user_website'].'" target="_userwww"><img 
-	class="tooltip-html copyright" title="Visit '.$username.'\'s Personal Portal or Website" src="'.$images['icon_www'].'" alt="'.$lang['Visit_website'].'" 
-	title="'.$lang['Visit_website'].'" border="0" /></a>' : '';
-    $www = ($row['user_website']) ? '<a href="'.$row['user_website'].'" target="_userwww">'.$lang['Visit_website'].'</a>' : '';
+	class="tooltip-html copyright" title="Visit '.$titanium_username.'\'s Personal Portal or Website" src="'.$images['icon_www'].'" alt="'.$titanium_lang['Visit_website'].'" 
+	title="'.$titanium_lang['Visit_website'].'" border="0" /></a>' : '';
+    $www = ($row['user_website']) ? '<a href="'.$row['user_website'].'" target="_userwww">'.$titanium_lang['Visit_website'].'</a>' : '';
     
-    $temp_url = append_sid("search.$phpEx?search_author=".urlencode($row['username'])."&amp;showresults=posts");
-    $search_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_search'].'" alt="'.sprintf($lang['Search_user_posts'], $row['username']).'" 
-	title="'.sprintf($lang['Search_user_posts'], $row['username']).'" border="0" /></a>';
-    $search = '<a href="'.$temp_url.'">'.sprintf($lang['Search_user_posts'], $row['username']).'</a>';
+    $temp_url = append_titanium_sid("search.$phpEx?search_author=".urlencode($row['username'])."&amp;showresults=posts");
+    $search_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_search'].'" alt="'.sprintf($titanium_lang['Search_user_posts'], $row['username']).'" 
+	title="'.sprintf($titanium_lang['Search_user_posts'], $row['username']).'" border="0" /></a>';
+    $search = '<a href="'.$temp_url.'">'.sprintf($titanium_lang['Search_user_posts'], $row['username']).'</a>';
  
        # Mod: Online/Offline/Hidden v3.0.0 START
-       if($row['user_session_time'] >= (time()-$board_config['online_time'])):
+       if($row['user_session_time'] >= (time()-$phpbb2_board_config['online_time'])):
          $theme_name = get_theme();
 		 
 	     if(!$row['user_allow_viewonline']):
@@ -130,7 +130,7 @@ function generate_user_info(&$row,
 		 width="30" height="30" src="themes/'.$theme_name.'/forums/images/status/icons8-invisible-512.png" />';
 	     $online_status_img = $online_status; 
 		 else:
-		 $online_status = '<a href="'.append_sid("viewonline.php").'" '
+		 $online_status = '<a href="'.append_titanium_sid("viewonline.php").'" '
 		 .$online_color.'><img class="tooltip-html copyright" title="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$row['username']
 		 .' is Currently Online<br /> CLICK TO VIEW ONLINE USER LIST!" alt="online" src="themes/'.$theme_name.'/forums/images/status/online_bgcolor_one.gif" /></a>';
 		 $online_status_img = $online_status;
@@ -154,17 +154,17 @@ function generate_user_info(&$row,
 	return;
 }
 
-global $cache;
+global $titanium_cache;
 
 # Start session management
-$userdata = session_pagestart($user_ip, PAGE_GROUPCP);
-init_userprefs($userdata);
+$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_GROUPCP);
+titanium_init_userprefs($userdata);
 # End session management
 
-$script_name = 'modules.php?name=' . $module_name;
-$server_name = trim($board_config['server_name']);
-$server_protocol = ($board_config['cookie_secure']) ? 'https://' : 'http://';
-$server_port = ($board_config['server_port'] <> 80) ? ':' . trim($board_config['server_port']) . '/' : '/';
+$script_name = 'modules.php?name=' . $titanium_module_name;
+$server_name = trim($phpbb2_board_config['server_name']);
+$server_protocol = ($phpbb2_board_config['cookie_secure']) ? 'https://' : 'http://';
+$server_port = ($phpbb2_board_config['server_port'] <> 80) ? ':' . trim($phpbb2_board_config['server_port']) . '/' : '/';
 $server_url = $server_protocol . $server_name . $server_port . $script_name;
 
 if(isset($_GET[POST_GROUPS_URL]) || isset($_POST[POST_GROUPS_URL])) 
@@ -184,41 +184,41 @@ endif;
 $confirm = (isset($_POST['confirm'])) ? TRUE : 0;
 $cancel = (isset($_POST['cancel'])) ? TRUE : 0;
 $sid = (isset($HTTP_POST_VARS['sid'])) ? $HTTP_POST_VARS['sid'] : '';
-$start = (isset($_GET['start'])) ? intval($_GET['start']) : 0;
-$start = ($start < 0) ? 0 : $start;
+$phpbb2_start = (isset($_GET['start'])) ? intval($_GET['start']) : 0;
+$phpbb2_start = ($phpbb2_start < 0) ? 0 : $phpbb2_start;
 $is_moderator = FALSE;
 
 if(isset($_POST['groupstatus']) && $group_id) 
 {
     if(!is_user()) 
-    redirect(append_sid("login.$phpEx?redirect=groupcp.$phpEx&" . POST_GROUPS_URL . "=$group_id", true));
+    redirect_titanium(append_titanium_sid("login.$phpEx?redirect=groupcp.$phpEx&" . POST_GROUPS_URL . "=$group_id", true));
     
     $sql = "SELECT group_moderator FROM ".GROUPS_TABLE." WHERE group_id = '$group_id'";
     
-	if(!($result = $db->sql_query($sql))) 
+	if(!($result = $titanium_db->sql_query($sql))) 
     message_die(GENERAL_ERROR, 'Could not obtain user and group information', '', __LINE__, __FILE__, $sql);
     
-    $row = $db->sql_fetchrow($result);
+    $row = $titanium_db->sql_fetchrow($result);
     
 	if($row['group_moderator'] != $userdata['user_id'] && $userdata['user_level'] != ADMIN): 
-        $template->assign_vars(array(
-            'META' => '<meta http-equiv="refresh" content="3;url='.append_sid("index.$phpEx").'">'
+        $phpbb2_template->assign_vars(array(
+            'META' => '<meta http-equiv="refresh" content="3;url='.append_titanium_sid("index.$phpEx").'">'
         ));
-    $message = $lang['Not_group_moderator'].'<br /><br />'.sprintf($lang['Click_return_group'], '<a href="'.append_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id")
-	.'">', '</a>').'<br /><br />'.sprintf($lang['Click_return_index'], '<a href="'.append_sid("index.$phpEx").'">', '</a>');
+    $message = $titanium_lang['Not_group_moderator'].'<br /><br />'.sprintf($titanium_lang['Click_return_group'], '<a href="'.append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id")
+	.'">', '</a>').'<br /><br />'.sprintf($titanium_lang['Click_return_index'], '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
     message_die(GENERAL_MESSAGE, $message);
     endif;
     
     $sql = "UPDATE ".GROUPS_TABLE." SET group_type = ".intval($_POST['group_type'])." WHERE group_id = '$group_id'";
-	if(!($result = $db->sql_query($sql))) 
+	if(!($result = $titanium_db->sql_query($sql))) 
     message_die(GENERAL_ERROR, 'Could not obtain user and group information', '', __LINE__, __FILE__, $sql);
     
-    $template->assign_vars(array(
-        'META' => '<meta http-equiv="refresh" content="3;url='.append_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id").'">'
+    $phpbb2_template->assign_vars(array(
+        'META' => '<meta http-equiv="refresh" content="3;url='.append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id").'">'
     ));
     
-    $message = $lang['Group_type_updated'].'<br /><br />'.sprintf($lang['Click_return_group'], '<a href="'.append_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id").'">', '</a>')
-	.'<br /><br />'.sprintf($lang['Click_return_index'], '<a href="'.append_sid("index.$phpEx").'">', '</a>');
+    $message = $titanium_lang['Group_type_updated'].'<br /><br />'.sprintf($titanium_lang['Click_return_group'], '<a href="'.append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id").'">', '</a>')
+	.'<br /><br />'.sprintf($titanium_lang['Click_return_index'], '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
     message_die(GENERAL_MESSAGE, $message);
 } 
 elseif(isset($_POST['joingroup']) && $group_id) 
@@ -227,9 +227,9 @@ elseif(isset($_POST['joingroup']) && $group_id)
   # First, joining a group
   # If the user isn't logged in redirect them to login
   if (!is_user() || !$userdata['session_logged_in']) 
-  redirect(append_sid("login.$phpEx?redirect=groupcp.$phpEx&" . POST_GROUPS_URL . "=$group_id", true));
+  redirect_titanium(append_titanium_sid("login.$phpEx?redirect=groupcp.$phpEx&" . POST_GROUPS_URL . "=$group_id", true));
   elseif($sid !== $userdata['session_id']) 
-  message_die(GENERAL_ERROR, $lang['Session_invalid']);
+  message_die(GENERAL_ERROR, $titanium_lang['Session_invalid']);
     
   $sql = "SELECT ug.user_id, 
                g.group_type, 
@@ -242,80 +242,80 @@ elseif(isset($_POST['joingroup']) && $group_id)
   AND g.group_count_max > '".$userdata['user_posts']."')) 
   AND ug.group_id = g.group_id";
     
-  if (!($result = $db->sql_query($sql))) 
+  if (!($result = $titanium_db->sql_query($sql))) 
   message_die(GENERAL_ERROR, 'Could not obtain user and group information', '', __LINE__, __FILE__, $sql);
 
     # Mod: Auto Group v1.2.2 START
-    if($row = $db->sql_fetchrow($result)): 
+    if($row = $titanium_db->sql_fetchrow($result)): 
       $is_autogroup_enable = ($row['group_count'] <= $userdata['user_posts'] && $row['group_count_max'] > $userdata['user_posts']) ? true : false;
       if ($row['group_type'] == GROUP_OPEN || $is_autogroup_enable): 
     # Mod: Auto Group v1.2.2 END
             do 
 			{
                 if ($userdata['user_id'] == $row['user_id']): 
-                    $template->assign_vars(array(
-                        'META' => '<meta http-equiv="refresh" content="3;url=' . append_sid("index.$phpEx") . '">'
+                    $phpbb2_template->assign_vars(array(
+                        'META' => '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("index.$phpEx") . '">'
                     ));
                     
-					$message = $lang['Already_member_group'].'<br /><br />'.sprintf($lang['Click_return_group'], '<a href="'.append_sid("groupcp.$phpEx?"
-					.POST_GROUPS_URL."=$group_id").'">', '</a>').'<br /><br />'.sprintf($lang['Click_return_index'], '<a href="'.append_sid("index.$phpEx").'">', '</a>');
+					$message = $titanium_lang['Already_member_group'].'<br /><br />'.sprintf($titanium_lang['Click_return_group'], '<a href="'.append_titanium_sid("groupcp.$phpEx?"
+					.POST_GROUPS_URL."=$group_id").'">', '</a>').'<br /><br />'.sprintf($titanium_lang['Click_return_index'], '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
                     
 					message_die(GENERAL_MESSAGE, $message);
                 endif;
             } 
-			while ($row = $db->sql_fetchrow($result));
+			while ($row = $titanium_db->sql_fetchrow($result));
         
 	   else: 
-            $template->assign_vars(array(
-                'META' => '<meta http-equiv="refresh" content="3;url='.append_sid("index.$phpEx").'">'
+            $phpbb2_template->assign_vars(array(
+                'META' => '<meta http-equiv="refresh" content="3;url='.append_titanium_sid("index.$phpEx").'">'
             ));
             
-            $message = $lang['This_closed_group'].'<br /><br />'.sprintf($lang['Click_return_group'], '<a href="'.append_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id").'">', '</a>')
-			.'<br /><br />'.sprintf($lang['Click_return_index'], '<a href="'.append_sid("index.$phpEx").'">', '</a>');
+            $message = $titanium_lang['This_closed_group'].'<br /><br />'.sprintf($titanium_lang['Click_return_group'], '<a href="'.append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id").'">', '</a>')
+			.'<br /><br />'.sprintf($titanium_lang['Click_return_index'], '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
             message_die(GENERAL_MESSAGE, $message);
        endif;
      
 	else: 
-        message_die(GENERAL_MESSAGE, $lang['No_groups_exist']);
+        message_die(GENERAL_MESSAGE, $titanium_lang['No_groups_exist']);
     endif;
     
     $sql = "INSERT INTO ".USER_GROUP_TABLE." (group_id, user_id, user_pending) VALUES ('$group_id', ".$userdata['user_id'].",'".(($is_autogroup_enable) ? 0 : 1)."')";
     
-	if (!($result = $db->sql_query($sql))) 
+	if (!($result = $titanium_db->sql_query($sql))) 
     message_die(GENERAL_ERROR, "Error inserting user group subscription", "", __LINE__, __FILE__, $sql);
     
     $sql = "SELECT u.user_email, u.username, u.user_lang, g.group_name FROM (".USERS_TABLE." u, ".GROUPS_TABLE." g) WHERE u.user_id = g.group_moderator AND g.group_id = '$group_id'";
     
-	if (!($result = $db->sql_query($sql))) 
+	if (!($result = $titanium_db->sql_query($sql))) 
     message_die(GENERAL_ERROR, "Error getting group moderator data", "", __LINE__, __FILE__, $sql);
 
-    $moderator = $db->sql_fetchrow($result);
+    $moderator = $titanium_db->sql_fetchrow($result);
 
     # Mod: Auto Group v1.2.2 START
     if (!$is_autogroup_enable): 
 	
     # Mod: Auto Group v1.2.2 END
-      $content = str_replace('{SITENAME}', $board_config['sitename'], $lang['group_request_template'] );
+      $content = str_replace('{SITENAME}', $phpbb2_board_config['sitename'], $titanium_lang['group_request_template'] );
       $content = str_replace('{GROUP_MODERATOR}', $moderator['username'], $content );
-      $content = str_replace('{EMAIL_SIG}', ((!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''), $content );
+      $content = str_replace('{EMAIL_SIG}', ((!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : ''), $content );
       
 	  $content = str_replace('{U_GROUPCP}', '<a href="'.$server_url.'&'.POST_GROUPS_URL.'='.$group_id.'&validate=true">'.$server_url.'&'.POST_GROUPS_URL.'='
 	  .$group_id.'&validate=true</a>', $content );
       
-	  $subject = $lang['Group_request'];
+	  $subject = $titanium_lang['Group_request'];
       
-	  $headers = array('Content-Type: text/html; charset=UTF-8', 'From: '.$board_config['board_email'], 'Reply-To: '.$board_config['board_email'], 'Return-Path: '.
-	  $board_config['board_email']);
+	  $headers = array('Content-Type: text/html; charset=UTF-8', 'From: '.$phpbb2_board_config['board_email'], 'Reply-To: '.$phpbb2_board_config['board_email'], 'Return-Path: '.
+	  $phpbb2_board_config['board_email']);
       
 	  evo_phpmailer( $moderator['user_email'], $subject, $content, $headers );
     endif;
     
-    $template->assign_vars(array(
-        'META' => '<meta http-equiv="refresh" content="3;url='.append_sid("index.$phpEx").'">'
+    $phpbb2_template->assign_vars(array(
+        'META' => '<meta http-equiv="refresh" content="3;url='.append_titanium_sid("index.$phpEx").'">'
     ));
     
-    $message = ($is_autogroup_enable) ? $lang['Group_added'] : $lang['Group_joined'].'<br /><br />'.sprintf($lang['Click_return_group'], '<a href="'.append_sid("groupcp.$phpEx?". 
-	POST_GROUPS_URL."=$group_id").'">', '</a>').'<br /><br />'.sprintf($lang['Click_return_index'], '<a href="'.append_sid("index.$phpEx").'">', '</a>');
+    $message = ($is_autogroup_enable) ? $titanium_lang['Group_added'] : $titanium_lang['Group_joined'].'<br /><br />'.sprintf($titanium_lang['Click_return_group'], '<a href="'.append_titanium_sid("groupcp.$phpEx?". 
+	POST_GROUPS_URL."=$group_id").'">', '</a>').'<br /><br />'.sprintf($titanium_lang['Click_return_index'], '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
     message_die(GENERAL_MESSAGE, $message);
 } 
 elseif(isset($_POST['unsub']) || isset($_POST['unsubpending']) && $group_id) 
@@ -323,29 +323,29 @@ elseif(isset($_POST['unsub']) || isset($_POST['unsubpending']) && $group_id)
     # Second, unsubscribing from a group
     # Check for confirmation of unsub.
     if($cancel) 
-    redirect(append_sid("groupcp.$phpEx", true));
+    redirect_titanium(append_titanium_sid("groupcp.$phpEx", true));
 	elseif(!is_user() || !$userdata['session_logged_in']) 
-    redirect('modules.php?name=Your_Account&amp;redirect=groupcp.php&amp;'.POST_GROUPS_URL.'='.$group_id);
+    redirect_titanium('modules.php?name=Your_Account&amp;redirect=groupcp.php&amp;'.POST_GROUPS_URL.'='.$group_id);
 	elseif ($sid !== $userdata['session_id']) 
-    message_die(GENERAL_ERROR, $lang['Session_invalid']);
+    message_die(GENERAL_ERROR, $titanium_lang['Session_invalid']);
     
     if($confirm): 
 	
         # Mod: Group Colors and Ranks v1.0.0 START
         $sql = "UPDATE ".USERS_TABLE." SET user_color_gc = '', user_color_gi  = '', user_rank = 0 WHERE user_id = ".$userdata['user_id'];
     
-	    if(!$db->sql_query($sql)) 
+	    if(!$titanium_db->sql_query($sql)) 
         message_die(GENERAL_ERROR, 'Could not remove color from user', '', __LINE__, __FILE__, $sql);
 
         # Base: Caching System v3.0.0 START
-        $cache->delete('UserColors', 'config');
+        $titanium_cache->delete('UserColors', 'config');
         # Base: Caching System v3.0.0 END
 		
         # Mod: Group Colors and Ranks v1.0.0 END
         
         $sql = "DELETE FROM ".USER_GROUP_TABLE." WHERE user_id = ".$userdata['user_id']." AND group_id = '$group_id'";
         
-		if(!($result = $db->sql_query($sql))) 
+		if(!($result = $titanium_db->sql_query($sql))) 
         message_die(GENERAL_ERROR, 'Could not delete group memebership data', '', __LINE__, __FILE__, $sql);
         
         if($userdata['user_level'] != ADMIN && $userdata['user_level'] == MOD): 
@@ -353,48 +353,48 @@ elseif(isset($_POST['unsub']) || isset($_POST['unsubpending']) && $group_id)
 		    WHERE ug.user_id = ".$userdata['user_id']." 
 		    AND aa.group_id = ug.group_id AND aa.auth_mod = '1'";
         
-		    if(!($result = $db->sql_query($sql))) 
+		    if(!($result = $titanium_db->sql_query($sql))) 
             message_die(GENERAL_ERROR, 'Could not obtain moderator status', '', __LINE__, __FILE__, $sql);
             
-            if(!($row = $db->sql_fetchrow($result)) || $row['is_auth_mod'] == 0): 
+            if(!($row = $titanium_db->sql_fetchrow($result)) || $row['is_auth_mod'] == 0): 
                 $sql = "UPDATE ".USERS_TABLE." SET user_level = ".USER." WHERE user_id = ".$userdata['user_id'];
-                if (!($result = $db->sql_query($sql))) 
+                if (!($result = $titanium_db->sql_query($sql))) 
                 message_die(GENERAL_ERROR, 'Could not update user level', '', __LINE__, __FILE__, $sql);
             endif;
         endif;
         
-        $template->assign_vars(array(
-            'META' => '<meta http-equiv="refresh" content="3;url='.append_sid("index.$phpEx").'">'
+        $phpbb2_template->assign_vars(array(
+            'META' => '<meta http-equiv="refresh" content="3;url='.append_titanium_sid("index.$phpEx").'">'
         ));
         
-        $message = $lang['Unsub_success'].'<br /><br />'.sprintf($lang['Click_return_group'], '<a href="'.append_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id") 
-		.'">', '</a>').'<br /><br />'.sprintf($lang['Click_return_index'], '<a href="'.append_sid("index.$phpEx").'">', '</a>');
+        $message = $titanium_lang['Unsub_success'].'<br /><br />'.sprintf($titanium_lang['Click_return_group'], '<a href="'.append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id") 
+		.'">', '</a>').'<br /><br />'.sprintf($titanium_lang['Click_return_index'], '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
         message_die(GENERAL_MESSAGE, $message);
      
 	else: 
 	
-        $unsub_msg = (isset($_POST['unsub'])) ? $lang['Confirm_unsub'] : $lang['Confirm_unsub_pending'];
+        $unsub_msg = (isset($_POST['unsub'])) ? $titanium_lang['Confirm_unsub'] : $titanium_lang['Confirm_unsub_pending'];
         
         $s_hidden_fields = '<input type="hidden" name="'.POST_GROUPS_URL.'" value="'.$group_id.'" /><input type="hidden" name="unsub" value="1" />';
         $s_hidden_fields .= '<input type="hidden" name="sid" value="'.$userdata['session_id'].'" />';
         
-        $page_title = $lang['Group_Control_Panel'];
+        $phpbb2_page_title = $titanium_lang['Group_Control_Panel'];
         include(NUKE_INCLUDE_DIR.'page_header.'.$phpEx);
         
-        $template->set_filenames(array(
+        $phpbb2_template->set_filenames(array(
             'confirm' => 'confirm_body.tpl'
         ));
         
-        $template->assign_vars(array(
-            'MESSAGE_TITLE' => $lang['Confirm'],
+        $phpbb2_template->assign_vars(array(
+            'MESSAGE_TITLE' => $titanium_lang['Confirm'],
             'MESSAGE_TEXT' => $unsub_msg,
-            'L_YES' => $lang['Yes'],
-            'L_NO' => $lang['No'],
-            'S_CONFIRM_ACTION' => append_sid("groupcp.$phpEx"),
+            'L_YES' => $titanium_lang['Yes'],
+            'L_NO' => $titanium_lang['No'],
+            'S_CONFIRM_ACTION' => append_titanium_sid("groupcp.$phpEx"),
             'S_HIDDEN_FIELDS' => $s_hidden_fields
         ));
         
-        $template->pparse('confirm');
+        $phpbb2_template->pparse('confirm');
         include(NUKE_INCLUDE_DIR . 'page_tail.' . $phpEx);
     endif;
     
@@ -405,7 +405,7 @@ elseif($group_id)
     # If so, check to see if they are logged in.
     if(isset($_GET['validate'])): 
         if(!is_user()): 
-          redirect(append_sid("login.$phpEx?redirect=groupcp.$phpEx&".POST_GROUPS_URL."=$group_id", true));
+          redirect_titanium(append_titanium_sid("login.$phpEx?redirect=groupcp.$phpEx&".POST_GROUPS_URL."=$group_id", true));
           exit;
         endif;
     endif;
@@ -420,10 +420,10 @@ elseif($group_id)
 			ON aa.group_id = g.group_id) 
 			WHERE g.group_id = '$group_id'";
     
-	if(!($result = $db->sql_query($sql))) 
+	if(!($result = $titanium_db->sql_query($sql))) 
     message_die(GENERAL_ERROR, 'Could not get moderator information', '', __LINE__, __FILE__, $sql);
     
-    if($group_info = $db->sql_fetchrow($result)): 
+    if($group_info = $titanium_db->sql_fetchrow($result)): 
         $group_moderator = $group_info['group_moderator'];
         
         if($group_moderator == $userdata['user_id'] || $userdata['user_level'] == ADMIN) 
@@ -433,51 +433,51 @@ elseif($group_id)
         if(!empty($_POST['add']) || !empty($_POST['remove']) || isset($_POST['approve']) || isset($_POST['deny'])): 
         
             if(!is_user()) 
-            redirect(append_sid("login.$phpEx?redirect=groupcp.$phpEx&" . POST_GROUPS_URL . "=$group_id", true));
+            redirect_titanium(append_titanium_sid("login.$phpEx?redirect=groupcp.$phpEx&" . POST_GROUPS_URL . "=$group_id", true));
             elseif ($sid !== $userdata['session_id']) 
-            message_die(GENERAL_ERROR, $lang['Session_invalid']);
+            message_die(GENERAL_ERROR, $titanium_lang['Session_invalid']);
             
             if(!$is_moderator): 
-                $template->assign_vars(array(
-                    'META' => '<meta http-equiv="refresh" content="3;url=' . append_sid("index.$phpEx") . '">'
+                $phpbb2_template->assign_vars(array(
+                    'META' => '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("index.$phpEx") . '">'
                 ));
                 
-                $message = $lang['Not_group_moderator'] . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
+                $message = $titanium_lang['Not_group_moderator'] . '<br /><br />' . sprintf($titanium_lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
                 message_die(GENERAL_MESSAGE, $message);
             endif;
             
             if(isset($_POST['add'])): 
             
-                $username = (isset($_POST['username'])) ? phpbb_clean_username($_POST['username']) : '';
+                $titanium_username = (isset($_POST['username'])) ? phpbb_clean_username($_POST['username']) : '';
                 $sql = "SELECT user_id, 
 				            user_email, 
 							user_lang, 
 						   user_level 
 						
 						FROM ".USERS_TABLE." 
-						WHERE username = '".str_replace("\'", "''", $username) . "'";
+						WHERE username = '".str_replace("\'", "''", $titanium_username) . "'";
                 
-				if(!($result = $db->sql_query($sql))) 
-                message_die(GENERAL_ERROR, "Could not get user information", $lang['Error'], __LINE__, __FILE__, $sql);
+				if(!($result = $titanium_db->sql_query($sql))) 
+                message_die(GENERAL_ERROR, "Could not get user information", $titanium_lang['Error'], __LINE__, __FILE__, $sql);
                 
-                if(!($row = $db->sql_fetchrow($result))): 
-                  $template->assign_vars(array(
-                        'META' => '<meta http-equiv="refresh" content="3;url='.append_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id").'">'
+                if(!($row = $titanium_db->sql_fetchrow($result))): 
+                  $phpbb2_template->assign_vars(array(
+                        'META' => '<meta http-equiv="refresh" content="3;url='.append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id").'">'
                     ));
                     
-                  $message = $lang['Could_not_add_user']."<br /><br />".sprintf($lang['Click_return_group'], "<a href=\"".append_sid("groupcp.$phpEx?".POST_GROUPS_URL 
-				  ."=$group_id")."\">", "</a>")."<br /><br />".sprintf($lang['Click_return_index'], "<a href=\"".append_sid("index.$phpEx")."\">", "</a>");
+                  $message = $titanium_lang['Could_not_add_user']."<br /><br />".sprintf($titanium_lang['Click_return_group'], "<a href=\"".append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL 
+				  ."=$group_id")."\">", "</a>")."<br /><br />".sprintf($titanium_lang['Click_return_index'], "<a href=\"".append_titanium_sid("index.$phpEx")."\">", "</a>");
                   
 				  message_die(GENERAL_MESSAGE, $message);
                 endif;
                 
                 if($row['user_id'] == ANONYMOUS): 
-                    $template->assign_vars(array(
-                        'META' => '<meta http-equiv="refresh" content="3;url='.append_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id").'">'
+                    $phpbb2_template->assign_vars(array(
+                        'META' => '<meta http-equiv="refresh" content="3;url='.append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id").'">'
                     ));
                     
-                    $message = $lang['Could_not_anon_user'].'<br /><br />'.sprintf($lang['Click_return_group'], '<a href="'.append_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id") 
-					.'">', '</a>').'<br /><br />'.sprintf($lang['Click_return_index'], '<a href="'.append_sid("index.$phpEx").'">', '</a>');                    
+                    $message = $titanium_lang['Could_not_anon_user'].'<br /><br />'.sprintf($titanium_lang['Click_return_group'], '<a href="'.append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id") 
+					.'">', '</a>').'<br /><br />'.sprintf($titanium_lang['Click_return_index'], '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');                    
                     message_die(GENERAL_MESSAGE, $message);
                 endif;
                 
@@ -489,54 +489,54 @@ elseif($group_id)
 						AND ug.user_id = u.user_id 
 						AND ug.group_id = '$group_id'";
 						
-                if(!($result = $db->sql_query($sql))) 
+                if(!($result = $titanium_db->sql_query($sql))) 
                 message_die(GENERAL_ERROR, 'Could not get user information', '', __LINE__, __FILE__, $sql);
                 
-                if(!($db->sql_fetchrow($result))): 
+                if(!($titanium_db->sql_fetchrow($result))): 
                     $sql = "INSERT INTO ".USER_GROUP_TABLE." (user_id, group_id, user_pending) VALUES (".$row['user_id'].", '$group_id', '0')";
-                    if(!$db->sql_query($sql)) 
+                    if(!$titanium_db->sql_query($sql)) 
                     message_die(GENERAL_ERROR, 'Could not add user to group', '', __LINE__, __FILE__, $sql);
 
                     if($row['user_level'] != ADMIN && $row['user_level'] != MOD && $group_info['auth_mod']): 
                       $sql = "UPDATE ".USERS_TABLE." SET user_level = ".MOD." WHERE user_id = ".$row['user_id'];
-                      if(!$db->sql_query($sql)) 
+                      if(!$titanium_db->sql_query($sql)) 
                       message_die(GENERAL_ERROR, 'Could not update user level', '', __LINE__, __FILE__, $sql);
                     endif;
                     
                     # Get the group name
                     # Email the user and tell them they're in the group
                     $group_sql = "SELECT group_name FROM ".GROUPS_TABLE." WHERE group_id = '$group_id'";
-                    if(!($result = $db->sql_query($group_sql))) 
+                    if(!($result = $titanium_db->sql_query($group_sql))) 
                     message_die(GENERAL_ERROR, 'Could not get group information', '', __LINE__, __FILE__, $group_sql);
                     
-                    $group_name_row = $db->sql_fetchrow($result);                    
+                    $group_name_row = $titanium_db->sql_fetchrow($result);                    
                     $group_name = $group_name_row['group_name'];
                     
                     # Mod: Group Colors and Ranks v1.0.0 START
                     add_group_attributes($row['user_id'], $group_id);
                     # Mod: Group Colors and Ranks v1.0.0 END
 
-                    $subject = $lang['Group_added'];
-                    $content = str_replace('{SITENAME}', $board_config['sitename'], $lang['group_added_template'] );
+                    $subject = $titanium_lang['Group_added'];
+                    $content = str_replace('{SITENAME}', $phpbb2_board_config['sitename'], $titanium_lang['group_added_template'] );
                     $content = str_replace('{GROUP_NAME}', $group_name, $content );
                     
-					$content = str_replace('{EMAIL_SIG}', ((!empty($board_config['board_email_sig'])) 
-					? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''), $content );
+					$content = str_replace('{EMAIL_SIG}', ((!empty($phpbb2_board_config['board_email_sig'])) 
+					? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : ''), $content );
                     
 					$content = str_replace('{U_GROUPCP}', '<a href="'.$server_url.'&'.POST_GROUPS_URL.'='.$group_id.'">'.$server_url.'&'.POST_GROUPS_URL.'='.
 					$group_id.'</a>', $content );
                     
-					$headers = array('Content-Type: text/html; charset=UTF-8', 'From: '.$board_config['board_email'], 'Reply-To: '.$board_config['board_email'], 'Return-Path: '
-					.$board_config['board_email']);
+					$headers = array('Content-Type: text/html; charset=UTF-8', 'From: '.$phpbb2_board_config['board_email'], 'Reply-To: '.$phpbb2_board_config['board_email'], 'Return-Path: '
+					.$phpbb2_board_config['board_email']);
                     evo_phpmailer($row['user_email'],$subject,$content,$headers);
                  
                 else: 
-                    $template->assign_vars(array(
-                        'META' => '<meta http-equiv="refresh" content="3;url='.append_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id").'">'
+                    $phpbb2_template->assign_vars(array(
+                        'META' => '<meta http-equiv="refresh" content="3;url='.append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id").'">'
                     ));
                     
-                    $message = $lang['User_is_member_group'].'<br /><br />'.sprintf($lang['Click_return_group'], '<a href="'.append_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id") 
-					.'">', '</a>'). '<br /><br />'.sprintf($lang['Click_return_index'], '<a href="'.append_sid("index.$phpEx").'">', '</a>');
+                    $message = $titanium_lang['User_is_member_group'].'<br /><br />'.sprintf($titanium_lang['Click_return_group'], '<a href="'.append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id") 
+					.'">', '</a>'). '<br /><br />'.sprintf($titanium_lang['Click_return_index'], '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
                     
                     message_die(GENERAL_MESSAGE, $message);
                 endif;
@@ -556,34 +556,34 @@ elseif($group_id)
                     
                         if($group_info['auth_mod']): 
                             $sql = "UPDATE ".USERS_TABLE." SET user_level = ".MOD." WHERE user_id IN ($sql_in) AND user_level NOT IN (".MOD.", ".ADMIN.")";                            
-                            if (!$db->sql_query($sql)) 
+                            if (!$titanium_db->sql_query($sql)) 
                                 message_die(GENERAL_ERROR, 'Could not update user level', '', __LINE__, __FILE__, $sql);
                         endif;
 
                         # Mod: Group Colors and Ranks v1.0.0 START
-                        global $prefix;
+                        global $titanium_prefix;
                         $sql_color = "SELECT group_color FROM " . GROUPS_TABLE . " WHERE group_id = '$group_id'";
-                        if (!$result_color = $db->sql_query($sql_color)) 
+                        if (!$result_color = $titanium_db->sql_query($sql_color)) 
                         message_die(GENERAL_ERROR, 'Could not gather group color', '', __LINE__, __FILE__, $sql);
 
-                        $row_color = $db->sql_fetchrow($result_color);
-                        $db->sql_freeresult($result_color);
-                        $color = $row_color['group_color'];
+                        $row_color = $titanium_db->sql_fetchrow($result_color);
+                        $titanium_db->sql_freeresult($result_color);
+                        $phpbb2_color = $row_color['group_color'];
                         
-						if($color): 
-                            $sql_color = "SELECT group_color, group_id FROM ".$prefix."_bbadvanced_username_color WHERE group_id = '$color'";
-                            if (!$result_color = $db->sql_query($sql_color)) 
+						if($phpbb2_color): 
+                            $sql_color = "SELECT group_color, group_id FROM ".$titanium_prefix."_bbadvanced_username_color WHERE group_id = '$phpbb2_color'";
+                            if (!$result_color = $titanium_db->sql_query($sql_color)) 
                                 message_die(GENERAL_ERROR, 'Could not gather group color', '', __LINE__, __FILE__, $sql);
-                            $row_color = $db->sql_fetchrow($result_color);
-                            $db->sql_freeresult($result_color);
+                            $row_color = $titanium_db->sql_fetchrow($result_color);
+                            $titanium_db->sql_freeresult($result_color);
                         endif;
 
                         $sql_rank = "SELECT group_rank FROM ".GROUPS_TABLE." WHERE group_id = '$group_id'";
-                        if (!$result_rank = $db->sql_query($sql_rank)) 
+                        if (!$result_rank = $titanium_db->sql_query($sql_rank)) 
                         message_die(GENERAL_ERROR, 'Could not gather group rank', '', __LINE__, __FILE__, $sql);
 
-                        $row_rank = $db->sql_fetchrow($result_rank);
-                        $db->sql_freeresult($result_rank);
+                        $row_rank = $titanium_db->sql_fetchrow($result_rank);
+                        $titanium_db->sql_freeresult($result_rank);
                         if ($row_rank['group_rank'] && !$row_color['group_color']) 
                         $sql = "user_rank = '".$row_rank['group_rank']."'";
                         elseif ($row_color["group_color"] && !$row_rank['group_rank']) 
@@ -599,10 +599,10 @@ elseif($group_id)
 									WHERE user_id 
 									IN ($sql_in)";
 									
-                            if (!$db->sql_query($sql)) 
+                            if (!$titanium_db->sql_query($sql)) 
                             message_die(GENERAL_ERROR, 'Could not add color to user', '', __LINE__, __FILE__, $sql);
                             # Base: Caching System v3.0.0 START
-                            $cache->delete('UserColors', 'config');
+                            $titanium_cache->delete('UserColors', 'config');
                             # Base: Caching System v3.0.0 END
                         endif;
 						
@@ -623,10 +623,10 @@ elseif($group_id)
                                     GROUP BY ug.user_id, ug.group_id
                                     ORDER BY ug.user_id, ug.group_id";
                             
-							if (!($result = $db->sql_query($sql))) 
+							if (!($result = $titanium_db->sql_query($sql))) 
                             message_die(GENERAL_ERROR, 'Could not obtain moderator status', '', __LINE__, __FILE__, $sql);
                             
-                            if ($row = $db->sql_fetchrow($result)): 
+                            if ($row = $titanium_db->sql_fetchrow($result)): 
                                 $group_check = array();
                                 $remove_mod_sql = '';
                                 
@@ -634,11 +634,11 @@ elseif($group_id)
                                 {
                                   $group_check[$row['user_id']][] = $row['group_id'];
                                 } 
-								while($row = $db->sql_fetchrow($result));
+								while($row = $titanium_db->sql_fetchrow($result));
                                 
-                                while(list($user_id, $group_list) = @each($group_check)): 
+                                while(list($titanium_user_id, $group_list) = @each($group_check)): 
                                     if (count($group_list) == 1) 
-                                    $remove_mod_sql .= (($remove_mod_sql != '') ? ', ' : '') . $user_id;
+                                    $remove_mod_sql .= (($remove_mod_sql != '') ? ', ' : '') . $titanium_user_id;
                                 endwhile;
                                 
                                 if($remove_mod_sql != ''): 
@@ -649,7 +649,7 @@ elseif($group_id)
 											AND user_level 
 											NOT IN (".ADMIN.")";
 											
-                                    if (!$db->sql_query($sql)) 
+                                    if (!$titanium_db->sql_query($sql)) 
                                     message_die(GENERAL_ERROR, 'Could not update user level', '', __LINE__, __FILE__, $sql);
                                 endif;
                             endif;
@@ -657,10 +657,10 @@ elseif($group_id)
 
                         # Mod: Group Colors and Ranks v1.0.0 START
                         $sql = "UPDATE ".USERS_TABLE." SET user_color_gc = '', user_color_gi  = '', user_rank = 0 WHERE user_id IN ($sql_in)";
-                        if (!$db->sql_query($sql)) 
+                        if (!$titanium_db->sql_query($sql)) 
                         message_die(GENERAL_ERROR, 'Could not remove color from user', '', __LINE__, __FILE__, $sql);
                         # Base: Caching System v3.0.0 START
-                        $cache->delete('UserColors', 'config');
+                        $titanium_cache->delete('UserColors', 'config');
                         # Base: Caching System v3.0.0 END
                         # Mod: Group Colors and Ranks v1.0.0 END
                         
@@ -670,17 +670,17 @@ elseif($group_id)
 								AND group_id = '$group_id'";
                     endif;
                     
-                    if (!$db->sql_query($sql)) 
+                    if (!$titanium_db->sql_query($sql)) 
                     message_die(GENERAL_ERROR, 'Could not update user group table', '', __LINE__, __FILE__, $sql);
                     
                     # Email users when they are approved
                     if(isset($_POST['approve'])): 
-                        if(!($result = $db->sql_query($sql_select))) 
+                        if(!($result = $titanium_db->sql_query($sql_select))) 
                         message_die(GENERAL_ERROR, 'Could not get user email information', '', __LINE__, __FILE__, $sql);
                         
                         $bcc_list = array();
                         
-						while($row = $db->sql_fetchrow($result)): 
+						while($row = $titanium_db->sql_fetchrow($result)): 
                             $bcc_list[] = $row['user_email'];
                         endwhile;
                         
@@ -689,31 +689,31 @@ elseif($group_id)
 						              FROM ".GROUPS_TABLE." 
 									  WHERE group_id = '$group_id'";
 									  
-                        if(!($result = $db->sql_query($group_sql))) 
+                        if(!($result = $titanium_db->sql_query($group_sql))) 
                         message_die(GENERAL_ERROR, 'Could not get group information', '', __LINE__, __FILE__, $group_sql);
                                                 
-                        $group_name_row = $db->sql_fetchrow($result);
+                        $group_name_row = $titanium_db->sql_fetchrow($result);
                         $group_name = $group_name_row['group_name'];
-                        $content = str_replace('{SITENAME}', $board_config['sitename'], $lang['group_approved_template'] );
+                        $content = str_replace('{SITENAME}', $phpbb2_board_config['sitename'], $titanium_lang['group_approved_template'] );
                         $content = str_replace('{GROUP_NAME}', $group_name, $content );
                         
-						$content = str_replace('{EMAIL_SIG}', ((!empty($board_config['board_email_sig'])) 
-						? str_replace('<br />', "\n", "-- \n".$board_config['board_email_sig']) : ''), $content );
+						$content = str_replace('{EMAIL_SIG}', ((!empty($phpbb2_board_config['board_email_sig'])) 
+						? str_replace('<br />', "\n", "-- \n".$phpbb2_board_config['board_email_sig']) : ''), $content );
                         
 						$content = str_replace('{U_GROUPCP}', '<a href="'.$server_url.'&'.POST_GROUPS_URL.'='.$group_id.'">'.$server_url.'&'.
 						POST_GROUPS_URL.'='.$group_id.'</a>', $content );
                         
-						$subject = $lang['Group_approved'];
+						$subject = $titanium_lang['Group_approved'];
 						
                         for($i = 0; $i < count($bcc_list); $i++):
-                            $headers[] = 'From: '.$board_config['board_email'];
+                            $headers[] = 'From: '.$phpbb2_board_config['board_email'];
                             for ($i = 0; $i < count($bcc_list); $i++):
                                 $headers[] = 'Bcc: '.$bcc_list[$i];
                                 $addbcc[] = $bcc_list[$i];
                             endfor;
                             $headers[] = 'Content-Type: text/html; charset=UTF-8';
-                            $headers[] = 'Reply-To: '.$board_config['board_email'];
-                            $headers[] = 'Return-Path: '.$board_config['board_email'];
+                            $headers[] = 'Reply-To: '.$phpbb2_board_config['board_email'];
+                            $headers[] = 'Return-Path: '.$phpbb2_board_config['board_email'];
                             evo_phpmailer( $addbcc, $subject, $content, $headers );
                         endfor;
                     endif;
@@ -723,16 +723,16 @@ elseif($group_id)
         # END approve or deny
         
 	else: 
-        message_die(GENERAL_MESSAGE, $lang['No_groups_exist']);
+        message_die(GENERAL_MESSAGE, $titanium_lang['No_groups_exist']);
     endif;
     
     # Get group details
     $sql = "SELECT * FROM ".GROUPS_TABLE." WHERE group_id = '$group_id' AND group_single_user = '0'";
-    if(!($result = $db->sql_query($sql))) 
+    if(!($result = $titanium_db->sql_query($sql))) 
     message_die(GENERAL_ERROR, 'Error getting group information', '', __LINE__, __FILE__, $sql);
     
-    if(!($group_info = $db->sql_fetchrow($result))) 
-    message_die(GENERAL_MESSAGE, $lang['Group_not_exist']);
+    if(!($group_info = $titanium_db->sql_fetchrow($result))) 
+    message_die(GENERAL_MESSAGE, $titanium_lang['Group_not_exist']);
     
     # Get moderator details for this group
     # Mod: Online/Offline/Hidden v3.0.0 START
@@ -754,10 +754,10 @@ elseif($group_id)
            WHERE user_id = ".$group_info['group_moderator'];
     # Mod: Online/Offline/Hidden v3.0.0 END
 	
-    if(!($result = $db->sql_query($sql))) 
+    if(!($result = $titanium_db->sql_query($sql))) 
     message_die(GENERAL_ERROR, 'Error getting user list for group', '', __LINE__, __FILE__, $sql);
 
-    $group_moderator = $db->sql_fetchrow($result);
+    $group_moderator = $titanium_db->sql_fetchrow($result);
     
     if(!$group_moderator) 
     message_die(GENERAL_ERROR, 'Error getting moderator for group');
@@ -788,16 +788,16 @@ elseif($group_id)
            ORDER BY u.username";
     # Mod: Online/Offline/Hidden v2.2.7 END
 
-    if(!($result = $db->sql_query($sql))) 
+    if(!($result = $titanium_db->sql_query($sql))) 
     message_die(GENERAL_ERROR, 'Error getting user list for group', '', __LINE__, __FILE__, $sql);
         
-    $group_members = $db->sql_fetchrowset($result);
+    $group_members = $titanium_db->sql_fetchrowset($result);
 
     if(is_array($group_members))
     $members_count = count($group_members);
     else
    	$members_count = 0;
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
 
     # get the information for the users that are pending for a group
     # Mod: Online/Offline/Hidden v3.0.0 START
@@ -824,17 +824,17 @@ elseif($group_id)
            ORDER BY u.username";
     # Mod: Online/Offline/Hidden v3.0.0 END
     
-	if(!($result = $db->sql_query($sql))) 
+	if(!($result = $titanium_db->sql_query($sql))) 
     message_die(GENERAL_ERROR, 'Error getting user pending information', '', __LINE__, __FILE__, $sql);
     
-    $modgroup_pending_list  = $db->sql_fetchrowset($result);
+    $modgroup_pending_list  = $titanium_db->sql_fetchrowset($result);
 
     if(is_array($modgroup_pending_list))
   	$modgroup_pending_count = count($modgroup_pending_list);
     else
   	$modgroup_pending_count = 0;
     
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     
     $is_group_member = 0;
 
@@ -863,60 +863,60 @@ elseif($group_id)
     
     if($userdata['user_id'] == $group_info['group_moderator']): 
         $is_moderator = TRUE;
-        $group_details = $lang['Are_group_moderator'];
+        $group_details = $titanium_lang['Are_group_moderator'];
         $s_hidden_fields = '<input type="hidden" name="' . POST_GROUPS_URL . '" value="' . $group_id . '" />';
 	elseif($is_group_member || $is_group_pending_member): 
-        $template->assign_block_vars('switch_unsubscribe_group_input', array());
-        $group_details = ($is_group_pending_member) ? $lang['Pending_this_group'] : $lang['Member_this_group'];
+        $phpbb2_template->assign_block_vars('switch_unsubscribe_group_input', array());
+        $group_details = ($is_group_pending_member) ? $titanium_lang['Pending_this_group'] : $titanium_lang['Member_this_group'];
         $s_hidden_fields = '<input type="hidden" name="' . POST_GROUPS_URL . '" value="' . $group_id . '" />';
 	elseif($userdata['user_id'] == ANONYMOUS): 
-        $group_details   = $lang['Login_to_join'];
+        $group_details   = $titanium_lang['Login_to_join'];
         $s_hidden_fields = '';
 	else: 
 	
         if($group_info['group_type'] == GROUP_OPEN): 
-            $template->assign_block_vars('switch_subscribe_group_input', array());
-            $group_details   = $lang['This_open_group'];
+            $phpbb2_template->assign_block_vars('switch_subscribe_group_input', array());
+            $group_details   = $titanium_lang['This_open_group'];
             $s_hidden_fields = '<input type="hidden" name="'.POST_GROUPS_URL.'" value="'.$group_id.'"/>';
         
         # Mod: Auto Group v1.2.2 START
         elseif($group_info['group_type'] == GROUP_CLOSED): 
             if($is_autogroup_enable): 
-                $template->assign_block_vars('switch_subscribe_group_input', array());
-                $group_details   = sprintf($lang['This_closed_group'], $lang['Join_auto']);
+                $phpbb2_template->assign_block_vars('switch_subscribe_group_input', array());
+                $group_details   = sprintf($titanium_lang['This_closed_group'], $titanium_lang['Join_auto']);
                 $s_hidden_fields = '<input type="hidden" name="' . POST_GROUPS_URL . '" value="' . $group_id . '" />';
 			else: 
-                $group_details   = sprintf($lang['This_closed_group'], $lang['No_more']);
+                $group_details   = sprintf($titanium_lang['This_closed_group'], $titanium_lang['No_more']);
                 $s_hidden_fields = '';
             endif;
 		elseif($group_info['group_type'] == GROUP_HIDDEN): 
 		
             if ($is_autogroup_enable): 
-                $template->assign_block_vars('switch_subscribe_group_input', array());
-                $group_details   = sprintf($lang['This_hidden_group'], $lang['Join_auto']);
+                $phpbb2_template->assign_block_vars('switch_subscribe_group_input', array());
+                $group_details   = sprintf($titanium_lang['This_hidden_group'], $titanium_lang['Join_auto']);
                 $s_hidden_fields = '<input type="hidden" name="' . POST_GROUPS_URL . '" value="' . $group_id . '" />';
 			else: 
-                $group_details   = sprintf($lang['This_closed_group'], $lang['No_add_allowed']);
+                $group_details   = sprintf($titanium_lang['This_closed_group'], $titanium_lang['No_add_allowed']);
                 $s_hidden_fields = '';
             endif;
         endif;
         # Mod: Auto Group v1.2.2 END
     endif;
     
-    $page_title = $lang['Group_Control_Panel'];
+    $phpbb2_page_title = $titanium_lang['Group_Control_Panel'];
     include(NUKE_INCLUDE_DIR . 'page_header.' . $phpEx);
     
 	# template array added by TheGhost
-    list($the_group_name) = $db->sql_ufetchrow("SELECT `group_name` FROM ".GROUPS_TABLE." WHERE `group_id`=$group_id", SQL_NUM);
+    list($the_group_name) = $titanium_db->sql_ufetchrow("SELECT `group_name` FROM ".GROUPS_TABLE." WHERE `group_id`=$group_id", SQL_NUM);
 
-    $template->assign_vars(array(
+    $phpbb2_template->assign_vars(array(
 	'GROUPS_LINK' => '<a href="modules.php?name=Groups">Member Groups</a> <i class="fas fa-arrow-right"></i> ',
 	'GROUPS_LIST_INFO_LINK' => '<a href="modules.php?name=Groups&amp;g='.$group_id.'">'.$the_group_name.'</a>',
-    'GROUPS_LIST_INFO' => '<div align="center"><h1>'.$the_group_name.' '.$lang['Group_List_Info'].'</h1></div>'
+    'GROUPS_LIST_INFO' => '<div align="center"><h1>'.$the_group_name.' '.$titanium_lang['Group_List_Info'].'</h1></div>'
     ));
     
     # Load templates
-    $template->set_filenames(array(
+    $phpbb2_template->set_filenames(array(
         'info' => 'groupcp_info_body.tpl',
         'pendinginfo' => 'groupcp_pending_info.tpl'
     ));
@@ -924,29 +924,29 @@ elseif($group_id)
     
     # Add the moderator
     # Mod: Advanced Username Color v1.0.5 START
-    $username = UsernameColor($group_moderator['username']);
+    $titanium_username = UsernameColor($group_moderator['username']);
     # Mod: Advanced Username Color v1.0.5 END
 	
-    $user_id  = $group_moderator['user_id'];
+    $titanium_user_id  = $group_moderator['user_id'];
     
 	# user flag hack
 	if((!empty($userdata['user_from_flag']) && ($userdata['user_from_flag'] != 'blank'))):
-	$user_flag = '<span class="countries '.substr($userdata['user_from_flag'], 0, -4).'"></span> ';
+	$titanium_user_flag = '<span class="countries '.substr($userdata['user_from_flag'], 0, -4).'"></span> ';
 	else:
-	$user_flag = '<span class="countries unknown"></span> ';
+	$titanium_user_flag = '<span class="countries unknown"></span> ';
 	endif;
 	
 	# set the moderators avatar START	
     switch($group_moderator['user_avatar_type'])
     {
       case USER_AVATAR_UPLOAD:
-      $modavatar = $board_config['avatar_path'].'/'.$group_moderator['user_avatar'];
+      $modavatar = $phpbb2_board_config['avatar_path'].'/'.$group_moderator['user_avatar'];
       break;
       case USER_AVATAR_REMOTE:
       $modavatar = resize_avatar($group_moderator['user_avatar']);
       break;
       case USER_AVATAR_GALLERY:
-      $modavatar = $board_config['avatar_gallery_path'].'/'.(($group_moderator['user_avatar'] 
+      $modavatar = $phpbb2_board_config['avatar_gallery_path'].'/'.(($group_moderator['user_avatar'] 
 	  == 'blank.gif' || $row['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $group_moderator['user_avatar']);
       break;
 	}
@@ -956,12 +956,12 @@ elseif($group_id)
 	# get the moderators information
 	# Mod: Online/Offline/Hidden v3.0.0 START
     generate_user_info($group_moderator, 
-	$board_config['default_dateformat'], 
+	$phpbb2_board_config['default_dateformat'], 
 	                      $is_moderator, 
 						          $from, 
-								 $posts, 
+								 $phpbb2_posts, 
 								$joined, 
-						 $poster_avatar, 
+						 $phpbb2_poster_avatar, 
 						   $profile_img, 
 						       $profile, 
 							$search_img, 
@@ -979,46 +979,46 @@ elseif($group_id)
 	
  	$s_hidden_fields .= '<input type="hidden" name="sid" value="'.$userdata['session_id'].'" />';
 	
-    $template->assign_vars(array(
-		'L_GROUP_INFORMATION' => $lang['Group_Information'],
-        'L_GROUP_NAME' => $lang['Group_name'],
-        'L_GROUP_DESC' => $lang['Group_description'],
-        'L_GROUP_TYPE' => $lang['Group_type'],
-        'L_GROUP_MEMBERSHIP' => $lang['Group_membership'],
-        'L_SUBSCRIBE' => $lang['Subscribe'],
-        'L_UNSUBSCRIBE' => $lang['Unsubscribe'],
-        'L_JOIN_GROUP' => $lang['Join_group'],
-        'L_UNSUBSCRIBE_GROUP' => $lang['Unsubscribe'],
-        'L_GROUP_OPEN' => $lang['Group_open'],
-        'L_GROUP_CLOSED' => $lang['Group_closed'],
-        'L_GROUP_HIDDEN' => $lang['Group_hidden'],
-        'L_UPDATE' => $lang['Update'],
-        'L_GROUP_MODERATOR' => $lang['Group_Moderator'],
-        'L_GROUP_MEMBERS' => $lang['Group_Members'],
-        'L_PENDING_MEMBERS' => $lang['Pending_members'],
-        'L_SELECT_SORT_METHOD' => $lang['Select_sort_method'],
-        'L_PM' => $lang['PM'],
-        'L_EMAIL' => $lang['Email'],
-        'L_POSTS' => $lang['Posts'],
-        'L_WEBSITE' => $lang['Website'],
-        'L_FROM' => $lang['Location'],
-        'L_ORDER' => $lang['Order'],
-        'L_SORT' => $lang['Sort'],
-        'L_SUBMIT' => $lang['Sort'],
-        'L_SELECT' => $lang['Select'],
-        'L_REMOVE_SELECTED' => $lang['Remove_selected'],
-        'L_ADD_MEMBER' => $lang['Add_member'],
-        'L_FIND_USERNAME' => $lang['Find_username'],
+    $phpbb2_template->assign_vars(array(
+		'L_GROUP_INFORMATION' => $titanium_lang['Group_Information'],
+        'L_GROUP_NAME' => $titanium_lang['Group_name'],
+        'L_GROUP_DESC' => $titanium_lang['Group_description'],
+        'L_GROUP_TYPE' => $titanium_lang['Group_type'],
+        'L_GROUP_MEMBERSHIP' => $titanium_lang['Group_membership'],
+        'L_SUBSCRIBE' => $titanium_lang['Subscribe'],
+        'L_UNSUBSCRIBE' => $titanium_lang['Unsubscribe'],
+        'L_JOIN_GROUP' => $titanium_lang['Join_group'],
+        'L_UNSUBSCRIBE_GROUP' => $titanium_lang['Unsubscribe'],
+        'L_GROUP_OPEN' => $titanium_lang['Group_open'],
+        'L_GROUP_CLOSED' => $titanium_lang['Group_closed'],
+        'L_GROUP_HIDDEN' => $titanium_lang['Group_hidden'],
+        'L_UPDATE' => $titanium_lang['Update'],
+        'L_GROUP_MODERATOR' => $titanium_lang['Group_Moderator'],
+        'L_GROUP_MEMBERS' => $titanium_lang['Group_Members'],
+        'L_PENDING_MEMBERS' => $titanium_lang['Pending_members'],
+        'L_SELECT_SORT_METHOD' => $titanium_lang['Select_sort_method'],
+        'L_PM' => $titanium_lang['PM'],
+        'L_EMAIL' => $titanium_lang['Email'],
+        'L_POSTS' => $titanium_lang['Posts'],
+        'L_WEBSITE' => $titanium_lang['Website'],
+        'L_FROM' => $titanium_lang['Location'],
+        'L_ORDER' => $titanium_lang['Order'],
+        'L_SORT' => $titanium_lang['Sort'],
+        'L_SUBMIT' => $titanium_lang['Sort'],
+        'L_SELECT' => $titanium_lang['Select'],
+        'L_REMOVE_SELECTED' => $titanium_lang['Remove_selected'],
+        'L_ADD_MEMBER' => $titanium_lang['Add_member'],
+        'L_FIND_USERNAME' => $titanium_lang['Find_username'],
         'GROUP_NAME' => GroupColor($group_info['group_name']),
         'GROUP_DESC' => $group_info['group_description'] . "&nbsp;",
         'GROUP_DETAILS' => $group_details,
         'MOD_ROW_COLOR' => '#' . $theme['td_color1'],
         'MOD_ROW_CLASS' => $theme['td_class1'],
-        'MOD_USERNAME' => $username,
-        'MOD_FLAG' => $user_flag,
+        'MOD_USERNAME' => $titanium_username,
+        'MOD_FLAG' => $titanium_user_flag,
         'MOD_FROM' => $from,
         'MOD_JOINED' => $joined,
-        'MOD_POSTS' => $posts,
+        'MOD_POSTS' => $phpbb2_posts,
         'MOD_AVATAR_IMG' => $mod_avatar,
         'MOD_PROFILE_IMG' => $mod_avatar,
         'MOD_PROFILE' => $profile,
@@ -1036,11 +1036,11 @@ elseif($group_id)
         'MOD_ONLINE_STATUS' => $online_status,
 		'MOD_CURRENT_AVATAR' => $mod_avatar,
 		
-        'L_ONLINE_STATUS' => $lang['Online_status'],
+        'L_ONLINE_STATUS' => $titanium_lang['Online_status'],
         # Mod: Online/Offline/Hidden v3.0.0 END
         
-        'U_MOD_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$user_id"),
-        'U_SEARCH_USER' => append_sid("search.$phpEx?mode=searchuser&popup=1"),
+        'U_MOD_VIEWPROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$titanium_user_id"),
+        'U_SEARCH_USER' => append_titanium_sid("search.$phpEx?mode=searchuser&popup=1"),
         
         'S_GROUP_OPEN_TYPE' => GROUP_OPEN,
         'S_GROUP_CLOSED_TYPE' => GROUP_CLOSED,
@@ -1051,11 +1051,11 @@ elseif($group_id)
         'S_HIDDEN_FIELDS' => $s_hidden_fields,
         'S_MODE_SELECT' => $select_sort_mode,
         'S_ORDER_SELECT' => $select_sort_order,
-        'S_GROUPCP_ACTION' => append_sid("groupcp.$phpEx?" . POST_GROUPS_URL . "=$group_id")
+        'S_GROUPCP_ACTION' => append_titanium_sid("groupcp.$phpEx?" . POST_GROUPS_URL . "=$group_id")
     ));
     
     # Dump out the remaining users - THIS EXCLUDES THE MODERATOR
-    for ($i = $start; $i < min($board_config['topics_per_page'] + $start, $members_count); $i++): 
+    for ($i = $phpbb2_start; $i < min($phpbb2_board_config['topics_per_page'] + $phpbb2_start, $members_count); $i++): 
 	
     # remove this user from public viewing, only admins can see the person exist
 	if (!is_admin())
@@ -1063,50 +1063,50 @@ elseif($group_id)
 	continue;
 		
 	# Mod: Advanced Username Color v1.0.5 START
-    $username = UsernameColor($group_members[$i]['username']);
+    $titanium_username = UsernameColor($group_members[$i]['username']);
     # Mod: Advanced Username Color v1.0.5 END
 		
-    $user_id  = $group_members[$i]['user_id'];
+    $titanium_user_id  = $group_members[$i]['user_id'];
     
 	# the Location to The InterWebs if the user has not listed a location
 	if(empty($group_members[$i]['user_from']))
-	$user_from = 'The InterWebs';
+	$titanium_user_from = 'The InterWebs';
 	else
-	$user_from = $group_members[$i]['user_from'];
+	$titanium_user_from = $group_members[$i]['user_from'];
 	
 	# set the flag for the moderator
 	# user flag hack
 	if((!empty($group_members[$i]['user_from_flag']) && ($group_members[$i]['user_from_flag'] != 'blank'))):
-	$user_flag = '<span class="countries '.substr($group_members[$i]['user_from_flag'], 0, -4).'"></span> ';
+	$titanium_user_flag = '<span class="countries '.substr($group_members[$i]['user_from_flag'], 0, -4).'"></span> ';
 	else:
-	$user_flag = '<span class="countries unknown"></span> ';
+	$titanium_user_flag = '<span class="countries unknown"></span> ';
 	endif;
 	
     # Mod: Forum Index Avatar Mod v3.0.0 START
     switch($group_members[$i]['user_avatar_type'])
     {
       case USER_AVATAR_UPLOAD:
-      $current_avatar = $board_config['avatar_path'] . '/' . $group_members[$i]['user_avatar'];
+      $current_avatar = $phpbb2_board_config['avatar_path'] . '/' . $group_members[$i]['user_avatar'];
       break;
       case USER_AVATAR_REMOTE:
       $current_avatar = resize_avatar($group_members[$i]['user_avatar']);
       break;
       case USER_AVATAR_GALLERY:
-      $current_avatar = $board_config['avatar_gallery_path'] . '/' . (($group_members[$i]['user_avatar'] 
+      $current_avatar = $phpbb2_board_config['avatar_gallery_path'] . '/' . (($group_members[$i]['user_avatar'] 
 	  == 'blank.gif' || $row['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $group_members[$i]['user_avatar']);
       break;
 	}
-	$user_avatar = '<img class="rounded-corners-header" height="auto" width="30" src="'.$current_avatar.'">&nbsp;';
+	$titanium_user_avatar = '<img class="rounded-corners-header" height="auto" width="30" src="'.$current_avatar.'">&nbsp;';
     # Mod: Forum Index Avatar Mod v3.0.0 END
         
         # Mod: Online/Offline/Hidden v3.0.0 START
         generate_user_info($group_members[$i], 
-		  $board_config['default_dateformat'], 
+		  $phpbb2_board_config['default_dateformat'], 
 		                        $is_moderator, 
 								        $from, 
-									   $posts, 
+									   $phpbb2_posts, 
 									  $joined, 
-							   $poster_avatar, 
+							   $phpbb2_poster_avatar, 
 							     $profile_img, 
 								     $profile, 
 								  $search_img, 
@@ -1122,7 +1122,7 @@ elseif($group_id)
 						       $online_status);
        # Mod: Online/Offline/Hidden v3.0.0 END
 
-       if($group_members[$i]['user_session_time'] >= (time()-$board_config['online_time'])):
+       if($group_members[$i]['user_session_time'] >= (time()-$phpbb2_board_config['online_time'])):
          $theme_name = get_theme();
 		 
 	     if(!$group_members[$i]['user_allow_viewonline']):
@@ -1130,7 +1130,7 @@ elseif($group_id)
 		 width="30" height="30" src="themes/'.$theme_name.'/forums/images/status/icons8-invisible-512.png" />';
 	     $online_status_img = $online_status; 
 		 else:
-		 $online_status = '<a href="'.append_sid("viewonline.php").'" '
+		 $online_status = '<a href="'.append_titanium_sid("viewonline.php").'" '
 		 .$online_color.'><img class="tooltip-html copyright" title="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$group_members[$i]['username']
 		 .' is Currently Online<br /> CLICK TO VIEW ONLINE USER LIST!" alt="online" src="themes/'.$theme_name.'/forums/images/status/online_bgcolor_one.gif" /></a>';
 		 $online_status_img = $online_status;
@@ -1156,14 +1156,14 @@ elseif($group_id)
             $row_color = (!($i % 2)) ? $theme['td_color1'] : $theme['td_color2'];
             $row_class = (!($i % 2)) ? $theme['td_class1'] : $theme['td_class2'];
             
-            $template->assign_block_vars('member_row', array(
+            $phpbb2_template->assign_block_vars('member_row', array(
                 'ROW_COLOR' => '#'.$row_color,
                 'ROW_CLASS' => $row_class,
-                'USERNAME' => $username,
-                'FROM' => $user_flag.$user_from,
-                'POSTS' => $posts,
-                'USER_ID' => $user_id,
-				'CURRENT_AVATAR' => $user_avatar,
+                'USERNAME' => $titanium_username,
+                'FROM' => $titanium_user_flag.$titanium_user_from,
+                'POSTS' => $phpbb2_posts,
+                'USER_ID' => $titanium_user_id,
+				'CURRENT_AVATAR' => $titanium_user_avatar,
                 'PM_IMG' => $pm_img,
                 'PM' => $pm,
                 'EMAIL_IMG' => $email_img,
@@ -1173,36 +1173,36 @@ elseif($group_id)
                 # Mod: Online/Offline/Hidden v3.0.0 START
                 'ONLINE_STATUS' => $online_status,
                 # Mod: Online/Offline/Hidden v3.0.0 END
-                'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$user_id")
+                'U_VIEWPROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$titanium_user_id")
             ));
             
            if($is_moderator) 
-          $template->assign_block_vars('member_row.switch_mod_option', array());
+          $phpbb2_template->assign_block_vars('member_row.switch_mod_option', array());
        endif;
     endfor;
 	
 	if(!$members_count): 
         # No group members
-        $template->assign_block_vars('switch_no_members', array());
-        $template->assign_vars(array(
-            'L_NO_MEMBERS' => $lang['No_group_members']
+        $phpbb2_template->assign_block_vars('switch_no_members', array());
+        $phpbb2_template->assign_vars(array(
+            'L_NO_MEMBERS' => $titanium_lang['No_group_members']
         ));
     endif;
     
-	$current_page = (!$members_count) ? 1 : ceil($members_count / $board_config['topics_per_page']);
+	$current_page = (!$members_count) ? 1 : ceil($members_count / $phpbb2_board_config['topics_per_page']);
     
-    $template->assign_vars(array(
-        'PAGINATION' => generate_pagination("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id", $members_count, $board_config['topics_per_page'], $start),
-        'PAGE_NUMBER' => sprintf($lang['Page_of'], (floor($start / $board_config['topics_per_page']) + 1), $current_page),
+    $phpbb2_template->assign_vars(array(
+        'PAGINATION' => generate_pagination("groupcp.$phpEx?".POST_GROUPS_URL."=$group_id", $members_count, $phpbb2_board_config['topics_per_page'], $phpbb2_start),
+        'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], (floor($phpbb2_start / $phpbb2_board_config['topics_per_page']) + 1), $current_page),
         
-        'L_GOTO_PAGE' => $lang['Goto_page']
+        'L_GOTO_PAGE' => $titanium_lang['Goto_page']
     ));
     
     if($group_info['group_type'] == GROUP_HIDDEN && !$is_group_member && !$is_moderator): 
         # No group members
-        $template->assign_block_vars('switch_hidden_group', array());
-        $template->assign_vars(array(
-            'L_HIDDEN_MEMBERS' => $lang['Group_hidden_members']
+        $phpbb2_template->assign_block_vars('switch_hidden_group', array());
+        $phpbb2_template->assign_vars(array(
+            'L_HIDDEN_MEMBERS' => $titanium_lang['Group_hidden_members']
         ));
     endif;
     
@@ -1215,32 +1215,32 @@ elseif($group_id)
 		{
             for($i = 0; $i < $modgroup_pending_count; $i++) 
 			{
-                $username = UsernameColor($modgroup_pending_list[$i]['username']);
-                $user_id  = $modgroup_pending_list[$i]['user_id'];
+                $titanium_username = UsernameColor($modgroup_pending_list[$i]['username']);
+                $titanium_user_id  = $modgroup_pending_list[$i]['user_id'];
      
 	            if(empty($modgroup_pending_list[$i]['user_from']))
-	            $user_from = 'The InterWebs';
+	            $titanium_user_from = 'The InterWebs';
 	            else
-	            $user_from = $modgroup_pending_list[$i]['user_from'];
+	            $titanium_user_from = $modgroup_pending_list[$i]['user_from'];
 	
 	            # user flag hack
 				if((!empty($modgroup_pending_list[$i]['user_from_flag']) && ($modgroup_pending_list[$i]['user_from_flag'] != 'blank'))):
-	            $user_flag = '<span class="countries '.substr($modgroup_pending_list[$i]['user_from_flag'], 0, -4).'"></span> ';
+	            $titanium_user_flag = '<span class="countries '.substr($modgroup_pending_list[$i]['user_from_flag'], 0, -4).'"></span> ';
 	            else:
-	            $user_flag = '<span class="countries unknown"></span> ';
+	            $titanium_user_flag = '<span class="countries unknown"></span> ';
 	            endif;
 
               # Mod: Forum Index Avatar Mod v3.0.0 START
               switch($modgroup_pending_list[$i]['user_avatar_type'])
               {
                   case USER_AVATAR_UPLOAD:
-                  $current_avatar = $board_config['avatar_path'].'/'.$modgroup_pending_list[$i]['user_avatar'];
+                  $current_avatar = $phpbb2_board_config['avatar_path'].'/'.$modgroup_pending_list[$i]['user_avatar'];
                   break;
                   case USER_AVATAR_REMOTE:
                   $current_avatar = resize_avatar($modgroup_pending_list[$i]['user_avatar']);
                   break;
                   case USER_AVATAR_GALLERY:
-                  $current_avatar = $board_config['avatar_gallery_path'].'/'.(($modgroup_pending_list[$i]['user_avatar'] 
+                  $current_avatar = $phpbb2_board_config['avatar_gallery_path'].'/'.(($modgroup_pending_list[$i]['user_avatar'] 
 	              == 'blank.gif' || $row['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $modgroup_pending_list[$i]['user_avatar']);
                   break;
 	          }
@@ -1250,12 +1250,12 @@ elseif($group_id)
 	            
                 # Mod: Online/Offline/Hidden v2.2.7 START
                 generate_user_info($modgroup_pending_list[$i], 
-				          $board_config['default_dateformat'], 
+				          $phpbb2_board_config['default_dateformat'], 
 						                        $is_moderator, 
 												        $from, 
-													   $posts, 
+													   $phpbb2_posts, 
 													  $joined, 
-											   $poster_avatar, 
+											   $phpbb2_poster_avatar, 
 											     $profile_img, 
 												     $profile, 
 												  $search_img, 
@@ -1274,17 +1274,17 @@ elseif($group_id)
                 $row_color = (!($i % 2)) ? $theme['td_color1'] : $theme['td_color2'];
                 $row_class = (!($i % 2)) ? $theme['td_class1'] : $theme['td_class2'];
                 
-                $user_select = '<input type="checkbox" name="member[]" value="' . $user_id . '">';
+                $titanium_user_select = '<input type="checkbox" name="member[]" value="' . $titanium_user_id . '">';
                 
-                $template->assign_block_vars('pending_members_row', array(
+                $phpbb2_template->assign_block_vars('pending_members_row', array(
                     'ROW_CLASS' => $row_class,
                     'ROW_COLOR' => '#' .$row_color,
-                    'USERNAME' => $username,
-                    'FROM' => $user_flag.$from,
+                    'USERNAME' => $titanium_username,
+                    'FROM' => $titanium_user_flag.$from,
                     'JOINED' => $joined,
-                    'POSTS' => $posts,
-                    'USER_ID' => $user_id,
-                    'AVATAR_IMG' => $poster_avatar,
+                    'POSTS' => $phpbb2_posts,
+                    'USER_ID' => $titanium_user_id,
+                    'AVATAR_IMG' => $phpbb2_poster_avatar,
 					'CURRENT_AVATAR' => $pending_user_avatar,
                     'PROFILE_IMG' => $profile_img,
                     'PROFILE' => $profile,
@@ -1298,29 +1298,29 @@ elseif($group_id)
                     'WWW' => $www,
                     'ONLINE_STATUS_IMG' => $online_status_img,
                     'ONLINE_STATUS' => $online_status,
-                    'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id")
+                    'U_VIEWPROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$titanium_user_id")
                 ));
             }
             
-            $template->assign_block_vars('switch_pending_members', array());
+            $phpbb2_template->assign_block_vars('switch_pending_members', array());
             
-            $template->assign_vars(array(
-                'L_SELECT' => $lang['Select'],
-                'L_APPROVE_SELECTED' => $lang['Approve_selected'],
-                'L_DENY_SELECTED' => $lang['Deny_selected']
+            $phpbb2_template->assign_vars(array(
+                'L_SELECT' => $titanium_lang['Select'],
+                'L_APPROVE_SELECTED' => $titanium_lang['Approve_selected'],
+                'L_DENY_SELECTED' => $titanium_lang['Deny_selected']
             ));
             
-            $template->assign_var_from_handle('PENDING_USER_BOX', 'pendinginfo');
+            $phpbb2_template->assign_var_from_handle('PENDING_USER_BOX', 'pendinginfo');
             
         }
     }
     
     if ($is_moderator):
-        $template->assign_block_vars('switch_mod_option', array());
-        $template->assign_block_vars('switch_add_member', array());
+        $phpbb2_template->assign_block_vars('switch_mod_option', array());
+        $phpbb2_template->assign_block_vars('switch_add_member', array());
     endif;
     
-    $template->pparse('info');
+    $phpbb2_template->pparse('info');
 } 
 else 
 {
@@ -1342,11 +1342,11 @@ else
                 AND g.group_single_user <> ".TRUE."
                 ORDER BY g.group_name, ug.user_id";
         
-		if(!($result = $db->sql_query($sql))) 
+		if(!($result = $titanium_db->sql_query($sql))) 
         message_die(GENERAL_ERROR, 'Error getting group information', '', __LINE__, __FILE__, $sql);
         
         
-        if($row = $db->sql_fetchrow($result)):
+        if($row = $titanium_db->sql_fetchrow($result)):
             $in_group             = array();
             $s_member_groups_opt  = '';
             $s_pending_groups_opt = '';
@@ -1359,7 +1359,7 @@ else
                 else 
                 $s_member_groups_opt .= '<option value="' . $row['group_id'] . '">' . $row['group_name'] . '</option>';
             } 
-			while($row = $db->sql_fetchrow($result));
+			while($row = $titanium_db->sql_fetchrow($result));
             
             $s_pending_groups = '<select name="' . POST_GROUPS_URL . '">' . $s_pending_groups_opt . "</select>";
             $s_member_groups  = '<select name="' . POST_GROUPS_URL . '">' . $s_member_groups_opt . "</select>";
@@ -1378,12 +1378,12 @@ else
             WHERE group_single_user <> ".TRUE." $ignore_group_sql
             ORDER BY g.group_name";
     
-	if(!($result = $db->sql_query($sql))) 
+	if(!($result = $titanium_db->sql_query($sql))) 
     message_die(GENERAL_ERROR, 'Error getting group information', '', __LINE__, __FILE__, $sql);
     
     $s_group_list_opt = '';
  
-    while($row = $db->sql_fetchrow($result)): 
+    while($row = $titanium_db->sql_fetchrow($result)): 
         # Mod: Auto Group v1.2.2 START
         $is_autogroup_enable = ($row['group_count'] <= $userdata['user_posts'] && $row['group_count_max'] > $userdata['user_posts']) ? true : false;
         # Mod: Auto Group v1.2.2 END
@@ -1396,52 +1396,52 @@ else
     
     if($s_group_list_opt != '' || $s_pending_groups_opt != '' || $s_member_groups_opt != ''): 
 		# Load and process templates
-        $page_title = $lang['Group_Control_Panel'];
+        $phpbb2_page_title = $titanium_lang['Group_Control_Panel'];
         include(NUKE_INCLUDE_DIR . 'page_header.' . $phpEx);
         
 		# template array added by TheGhost
-        $template->assign_vars(array(
-            'GROUPS_TITLE' => '<div align="center">'.$lang['Group_List_Title'].'</div>'
+        $phpbb2_template->assign_vars(array(
+            'GROUPS_TITLE' => '<div align="center">'.$titanium_lang['Group_List_Title'].'</div>'
         ));
 
-        $template->set_filenames(array(
+        $phpbb2_template->set_filenames(array(
             'user' => 'groupcp_user_body.tpl'
         ));
         //make_jumpbox('viewforum.' . $phpEx);
         
         if($s_pending_groups_opt != '' || $s_member_groups_opt != '') 
-        $template->assign_block_vars('switch_groups_joined', array());
+        $phpbb2_template->assign_block_vars('switch_groups_joined', array());
         
         if($s_member_groups_opt != '') 
-        $template->assign_block_vars('switch_groups_joined.switch_groups_member', array());
+        $phpbb2_template->assign_block_vars('switch_groups_joined.switch_groups_member', array());
                 
         if($s_pending_groups_opt != '') 
-        $template->assign_block_vars('switch_groups_joined.switch_groups_pending', array());
+        $phpbb2_template->assign_block_vars('switch_groups_joined.switch_groups_pending', array());
                 
         if($s_group_list_opt != '') 
-        $template->assign_block_vars('switch_groups_remaining', array());
+        $phpbb2_template->assign_block_vars('switch_groups_remaining', array());
                 
         $s_hidden_fields = '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" />';
         
-        $template->assign_vars(array(
-            'L_GROUP_MEMBERSHIP_DETAILS' => $lang['Group_member_details'],
-            'L_JOIN_A_GROUP' => $lang['Group_member_join'],
-            'L_YOU_BELONG_GROUPS' => $lang['Current_memberships'],
-            'L_SELECT_A_GROUP' => $lang['Non_member_groups'],
-            'L_PENDING_GROUPS' => $lang['Memberships_pending'],
-            'L_SUBSCRIBE' => $lang['Subscribe'],
-            'L_UNSUBSCRIBE' => $lang['Unsubscribe'],
-            'L_VIEW_INFORMATION' => $lang['View_Information'],
-            'S_USERGROUP_ACTION' => append_sid("groupcp.$phpEx"),
+        $phpbb2_template->assign_vars(array(
+            'L_GROUP_MEMBERSHIP_DETAILS' => $titanium_lang['Group_member_details'],
+            'L_JOIN_A_GROUP' => $titanium_lang['Group_member_join'],
+            'L_YOU_BELONG_GROUPS' => $titanium_lang['Current_memberships'],
+            'L_SELECT_A_GROUP' => $titanium_lang['Non_member_groups'],
+            'L_PENDING_GROUPS' => $titanium_lang['Memberships_pending'],
+            'L_SUBSCRIBE' => $titanium_lang['Subscribe'],
+            'L_UNSUBSCRIBE' => $titanium_lang['Unsubscribe'],
+            'L_VIEW_INFORMATION' => $titanium_lang['View_Information'],
+            'S_USERGROUP_ACTION' => append_titanium_sid("groupcp.$phpEx"),
             'S_HIDDEN_FIELDS' => $s_hidden_fields,
             'GROUP_LIST_SELECT' => $s_group_list,
             'GROUP_PENDING_SELECT' => $s_pending_groups,
             'GROUP_MEMBER_SELECT' => $s_member_groups
         ));
         
-        $template->pparse('user');
+        $phpbb2_template->pparse('user');
 	else: 
-        message_die(GENERAL_MESSAGE, $lang['No_groups_exist']);
+        message_die(GENERAL_MESSAGE, $titanium_lang['No_groups_exist']);
     endif;
 }
 include(NUKE_INCLUDE_DIR . 'page_tail.' . $phpEx);

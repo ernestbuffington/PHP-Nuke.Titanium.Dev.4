@@ -25,21 +25,21 @@
 if (!defined('MODULE_FILE')) 
 	die("You can't access this file directly...");
 
-$module_name = basename(dirname(__FILE__));
+$titanium_module_name = basename(dirname(__FILE__));
 require_once('mainfile.php');
 
 define('IN_FILE_REPOSITORY', TRUE);
 
-if(file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php'))
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php');
+if(file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$currentlang.'.php'))
+	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$currentlang.'.php');
 else
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php');
+	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-english.php');
 
-include_once(NUKE_MODULES_DIR.$module_name.'/includes/functions.php');
+include_once(NUKE_MODULES_DIR.$titanium_module_name.'/includes/functions.php');
 
 get_header();
 
-include_once(NUKE_MODULES_DIR.$module_name.'/public/index.php');
+include_once(NUKE_MODULES_DIR.$titanium_module_name.'/public/index.php');
 
 _copyright_popup_display();
 get_footer();

@@ -36,8 +36,8 @@ $author_email = "Shawn@NukeStyles.com";
 $author_homepage = "http://www.NukeStyles.com";
 $license = "GNU/GPL";
 $download_location = "http://www.NukeStyles.com/modules.php?name=Downloads";
-$module_version = "1.0";
-$module_description = "Module to have your Website documents in one place. You have a custom About Us page, a site Privacy Statement, and a site Disclaimer statement. The only configuration is typing in what you want the About Us statement to say.<br />";
+$titanium_module_version = "1.0";
+$titanium_module_description = "Module to have your Website documents in one place. You have a custom About Us page, a site Privacy Statement, and a site Disclaimer statement. The only configuration is typing in what you want the About Us statement to say.<br />";
 
 // DO NOT TOUCH THE FOLLOWING COPYRIGHT CODE. YOU'RE JUST ALLOWED TO CHANGE YOUR "OWN"
 // MODULE'S DATA (SEE ABOVE) SO THE SYSTEM CAN BE ABLE TO SHOW THE COPYRIGHT NOTICE
@@ -46,6 +46,6 @@ $module_description = "Module to have your Website documents in one place. You h
 // AND YOU ARE NOT ALLOWED TO DELETE THIS FILE NOR TO CHANGE ANYTHING FROM THIS FILE IF
 // YOU'RE NOT THIS MODULE'S AUTHOR.
 
-show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $module_version, $module_description);
+show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $titanium_module_version, $titanium_module_description);
 
 ?>

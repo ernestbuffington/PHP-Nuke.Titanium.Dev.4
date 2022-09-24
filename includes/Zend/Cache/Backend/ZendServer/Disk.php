@@ -87,7 +87,7 @@ class Zend_Cache_Backend_ZendServer_Disk extends Zend_Cache_Backend_ZendServer i
      */
     protected function _unset($id)
     {
-        return zend_disk_cache_delete($this->_options['namespace'] . '::' . $id);
+        return zend_disk_titanium_cache_delete($this->_options['namespace'] . '::' . $id);
     }
 
     /**
@@ -95,6 +95,6 @@ class Zend_Cache_Backend_ZendServer_Disk extends Zend_Cache_Backend_ZendServer i
      */
     protected function _clear()
     {
-        zend_disk_cache_clear($this->_options['namespace']);
+        zend_disk_titanium_cache_clear($this->_options['namespace']);
     }
 }

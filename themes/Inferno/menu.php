@@ -60,7 +60,7 @@
 #------------------------------------#
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])){ exit('Access Denied');}
 
-global $user, $cookie, $prefix, $sitekey, $db, $name, $banners, $user_prefix, $userinfo, $admin, $admin_file, $ThemeInfo;
+global $user, $cookie, $titanium_prefix, $sitekey, $titanium_db, $name, $banners, $titanium_user_prefix, $userinfo, $admin, $admin_file, $ThemeInfo;
 
 ########################
 # DO NOT EDIT THIS LINE
@@ -136,7 +136,7 @@ echo '<ul>';
 echo '<li><a href="modules.php?name=Private_Messages"><i class="fas fa-envelope"></i> My Inbox</a></li>';
 echo '<li><a href="modules.php?name=Groups"><i class="fas fa-user-secret"></i> My Groups</a></li>';
 echo '<li><a href="modules.php?name=Image_Repository"><i class="fa fa-fw fa-image"></i> My Images</a></li>';
-echo '<li><a href="modules.php?name=Network_Bookmarks"><i class="fas fa-bookmark"></i> My Bookmarks</a></li>';
+echo '<li><a href="modules.php?name=Bookmarks"><i class="fas fa-bookmark"></i> My Bookmarks</a></li>';
 echo '<li><a href="modules.php?name=Profile&mode=editprofile"><i class="fas fa-id-card"></i> Edit My Profile</a></li>';
 echo '<li><a href="modules.php?name=Your_Account&op=chgtheme"><i class="fas fa-laptop"></i> Change Theme</a></li>';
 echo '<li><a href="modules.php?name=Advertising"><i class="fas fa-ad"></i> Advertise</a></li>';

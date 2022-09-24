@@ -64,7 +64,7 @@ $msnl_asHTML['SELECT'] = msnl_fGetCategories( $msnl_iCID, MSNL_SHOW_ALL_ON );
 ************************************************************************/
 
 $sql = "SELECT a.`nid`, a.`cid`, b.`ctitle`, a.`topic`, a.`sender`, a.`datesent` "
-			."FROM `".$prefix."_hnl_newsletters` a, `".$prefix."_hnl_categories` b ";
+			."FROM `".$titanium_prefix."_hnl_newsletters` a, `".$titanium_prefix."_hnl_categories` b ";
 
 if ( $msnl_iCID == 0 ) {  //Pull all newsletters regardless of category
 
@@ -79,7 +79,7 @@ if ( $msnl_iCID == 0 ) {  //Pull all newsletters regardless of category
 $sql	.= "ORDER BY `datesent` DESC";
 
 $result 				= msnl_fSQLCall( $sql );
-$resultcount		= $db->sql_numrows( $result );
+$resultcount		= $titanium_db->sql_numrows( $result );
 
 /************************************************************************
 * Check if there was an error getting the newsletters, and if not, write them
@@ -132,7 +132,7 @@ if ( !$result ) { //Bad SQL call
 	* Cycle through the result set.
 	************************************************************************/
 
-	while (	$row = $db->sql_fetchrow( $result ) ) { 
+	while (	$row = $titanium_db->sql_fetchrow( $result ) ) { 
 
 			$msnl_asRec['nid']						= intval( $row['nid'] );
 			$msnl_asRec['cid']						= intval( $row['cid'] );

@@ -33,15 +33,15 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$module_name = basename(dirname(__FILE__));
-require(NUKE_MODULES_DIR.$module_name.'/l_config.php');
+$titanium_module_name = basename(dirname(__FILE__));
+require(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
 $outsidevotes = 0;
 $anonvotes = 0;
 $outsidevoteval = 0;
 $anonvoteval = 0;
 $regvoteval = 0;
 $truecomments = $totalvotesDB;
-while($vrow = $db->sql_fetchrow($voteresult)) {
+while($vrow = $titanium_db->sql_fetchrow($voteresult)) {
     $ratingDB = intval($vrow['rating']);
     $ratinguserDB = $vrow['ratinguser'];
     $ratingcommentsDB = stripslashes($vrow['ratingcomments']);

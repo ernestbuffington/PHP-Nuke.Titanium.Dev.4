@@ -16,8 +16,8 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 $expiretime = time();
-$clearresult = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ranges` WHERE (`expires`<'$expiretime' AND `expires`!='0')");
-while($clearblock = $db->sql_fetchrow($clearresult)) {
+$clearresult = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges` WHERE (`expires`<'$expiretime' AND `expires`!='0')");
+while($clearblock = $titanium_db->sql_fetchrow($clearresult)) {
   $old_masscidr = ABGetCIDRs($clearblock['ip_lo'], $clearblock['ip_hi']);
   if($ab_config['htaccess_path'] != "") {
     $old_masscidr = explode("||", $old_masscidr);
@@ -34,8 +34,8 @@ while($clearblock = $db->sql_fetchrow($clearresult)) {
     fwrite($doit, $ipfile);
     fclose($doit);
   }
-  $db->sql_query("DELETE FROM `".$prefix."_nsnst_blocked_ranges` WHERE `ip_lo`='".$clearblock['ip_lo']."' AND `ip_hi`='".$clearblock['ip_hi']."'");
-  $db->sql_query("OPTIMIZE TABLE `".$prefix."_nsnst_blocked_ranges`");
+  $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_blocked_ranges` WHERE `ip_lo`='".$clearblock['ip_lo']."' AND `ip_hi`='".$clearblock['ip_hi']."'");
+  $titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_blocked_ranges`");
 }
 header("Location: ".$admin_file.".php?op=ABBlockedRangeList");
 

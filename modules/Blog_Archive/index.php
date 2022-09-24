@@ -28,12 +28,12 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$module_name = basename(dirname(__FILE__));
-get_lang($module_name);
+$titanium_module_name = basename(dirname(__FILE__));
+get_lang($titanium_module_name);
 
 function select_month() 
 {
-    global $prefix, $user_prefix, $db, $module_name;
+    global $titanium_prefix, $titanium_user_prefix, $titanium_db, $titanium_module_name;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.' '._STORIESARCHIVE);
@@ -42,13 +42,13 @@ function select_month()
 	echo '<div align="center"><span class="title"><strong>'._STORIESARCHIVE.'</strong></span><br /><br /></div>';
 	echo '<div align="center"><span class="content">'._SELECTMONTH2VIEW.'</span><br /><br /></div><br /><br />';
     
-	$result = $db->sql_query("SELECT datePublished FROM ".$prefix."_stories ORDER BY datePublished DESC");
+	$result = $titanium_db->sql_query("SELECT datePublished FROM ".$titanium_prefix."_stories ORDER BY datePublished DESC");
     
 	echo "<ul>";
 
     $thismonth = '';
     
-	while(list($time) = $db->sql_fetchrow($result)) 
+	while(list($time) = $titanium_db->sql_fetchrow($result)) 
 	{
         preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/i", $time, $getdate);
 
@@ -105,12 +105,12 @@ function select_month()
 		{
             $year = $getdate[1];
         
-		    echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
+		    echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
         
 		    $thismonth = $month;
         }
     }
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     
 	echo "</ul>"
     ."<br /><br /><br /><div align=\"center\">"
@@ -118,7 +118,7 @@ function select_month()
     ."<input type=\"text\" name=\"query\" size=\"30\"> "
     ."<input type=\"submit\" value=\""._SEARCH."\">"
     ."</form><br /><br />"
-    ."[ <a href=\"modules.php?name=$module_name&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
+    ."[ <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
     
 	CloseTable();
     
@@ -127,7 +127,7 @@ function select_month()
 
 function show_month($year, $month, $month_l) 
 {
-    global $userinfo, $prefix, $user_prefix, $db, $bgcolor1, $bgcolor2, $user, $cookie, $sitename, $multilingual, $language, $module_name, $articlecomm;
+    global $userinfo, $titanium_prefix, $titanium_user_prefix, $titanium_db, $bgcolor1, $bgcolor2, $titanium_user, $cookie, $sitename, $multilingual, $titanium_language, $titanium_module_name, $articlecomm;
     
 	$year = intval($year);
     $month = htmlentities($month);
@@ -172,7 +172,7 @@ function show_month($year, $month, $month_l)
         ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._DATE."</strong></td>"
         ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._ACTIONS."</strong></td></tr>";
     
-	$result = $db->sql_query("SELECT sid, 
+	$result = $titanium_db->sql_query("SELECT sid, 
 	                               catid, 
 								   title, 
 						   datePublished, 
@@ -183,10 +183,10 @@ function show_month($year, $month, $month_l)
 							   alanguage, 
 							       score, 
 								 ratings 
-	FROM ".$prefix."_stories 
+	FROM ".$titanium_prefix."_stories 
 	WHERE datePublished >= '$year-$month-01 00:00:00' AND datePublished <= '$year-$month-31 23:59:59' ORDER BY sid DESC");
     
-	while ($row = $db->sql_fetchrow($result)) 
+	while ($row = $titanium_db->sql_fetchrow($result)) 
 	{
         $sid = intval($row['sid']);
         $catid = intval($row['catid']);
@@ -220,7 +220,7 @@ function show_month($year, $month, $month_l)
         } 
 		elseif ($catid != 0) 
 		{
-            $row_res = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='$catid'"));
+            $row_res = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories_cat WHERE catid='$catid'"));
             $cat_title = $row_res['title'];
             $title = "<a href=\"modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a href=\"modules.php?name=Blog&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
         }
@@ -229,16 +229,16 @@ function show_month($year, $month, $month_l)
 		 {
             if (empty($alanguage)) 
 			{
-			  $alanguage = $language;
+			  $alanguage = $titanium_language;
             }
 
             $alt_language = ucfirst($alanguage);
-            //$lang_img = "<img src=\"images/language/flag-$alanguage.png\" border=\"0\" hspace=\"2\" alt=\"$alt_language\" title=\"$alt_language\">";
-            $lang_img = 'Language: '.$alanguage.' -';
+            //$titanium_lang_img = "<img src=\"images/language/flag-$alanguage.png\" border=\"0\" hspace=\"2\" alt=\"$alt_language\" title=\"$alt_language\">";
+            $titanium_lang_img = 'Language: '.$alanguage.' -';
         } 
 		else 
 		{
-            $lang_img = "<strong><big><strong>&middot;</strong></big></strong>";
+            $titanium_lang_img = "<strong><big><strong>&middot;</strong></big></strong>";
         }
         
 		if ($articlecomm == 0) 
@@ -247,26 +247,26 @@ function show_month($year, $month, $month_l)
         }
         
 		echo "<tr>"
-            ."<td bgcolor=\"$bgcolor1\" align=\"left\">$lang_img $title</td>"
+            ."<td bgcolor=\"$bgcolor1\" align=\"left\">$titanium_lang_img $title</td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$comments</td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$counter</td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$rated</td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$time[0]</td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$actions</td></tr>";
     }
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     
 	echo "</table>"
     ."<br /><br /><br /><hr size=\"1\" noshade>"
     ."<span class=\"content\">"._SELECTMONTH2VIEW."</span><br /><br />";
     
-	$result2 = $db->sql_query("SELECT datePublished FROM ".$prefix."_stories ORDER BY datePublished DESC");
+	$result2 = $titanium_db->sql_query("SELECT datePublished FROM ".$titanium_prefix."_stories ORDER BY datePublished DESC");
     
 	echo "<ul>";
     
 	$thismonth = '';
     
-	while($row2 = $db->sql_fetchrow($result2)) 
+	while($row2 = $titanium_db->sql_fetchrow($result2)) 
 	{
         $time = $row2['datePublished'];
         
@@ -324,18 +324,18 @@ function show_month($year, $month, $month_l)
 	    if ($month != $thismonth) 
 		{
             $year = $getdate[1];
-            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
+            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
             $thismonth = $month;
         }
     }
-    $db->sql_freeresult($result2);
+    $titanium_db->sql_freeresult($result2);
     
 	echo "</ul><br /><br /><div align=\"center\">"
     ."<form action=\"modules.php?name=Search\" method=\"post\">"
     ."<input type=\"text\" name=\"query\" size=\"30\"> "
     ."<input type=\"submit\" value=\""._SEARCH."\">"
     ."</form><br />"
-    ."[ <a href=\"modules.php?name=$module_name\">"._ARCHIVESINDEX."</a> | <a href=\"modules.php?name=$module_name&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
+    ."[ <a href=\"modules.php?name=$titanium_module_name\">"._ARCHIVESINDEX."</a> | <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
     
 	CloseTable();
     
@@ -344,7 +344,7 @@ function show_month($year, $month, $month_l)
 
 function show_all($min) 
 {
-    global $prefix, $user_prefix, $db, $bgcolor1, $bgcolor2, $user, $cookie, $sitename, $multilingual, $language, $module_name, $userinfo;
+    global $titanium_prefix, $titanium_user_prefix, $titanium_db, $bgcolor1, $bgcolor2, $titanium_user, $cookie, $sitename, $multilingual, $titanium_language, $titanium_module_name, $userinfo;
 
     if (!isset($min) || (!is_numeric($min) || ((int)$min) != $min)) 
 	{
@@ -395,11 +395,11 @@ function show_all($min)
     ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._DATE."</strong></td>"
     ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._ACTIONS."</strong></td></tr>";
     
-	$result = $db->sql_query("SELECT sid, catid, title, datePublished, dateModified, comments, counter, topic, alanguage, score, ratings FROM ".$prefix."_stories ORDER BY sid DESC LIMIT $min,$max");
+	$result = $titanium_db->sql_query("SELECT sid, catid, title, datePublished, dateModified, comments, counter, topic, alanguage, score, ratings FROM ".$titanium_prefix."_stories ORDER BY sid DESC LIMIT $min,$max");
     
-	$numrows = $db->sql_numrows($db->sql_query("select * FROM ".$prefix."_stories"));
+	$numrows = $titanium_db->sql_numrows($titanium_db->sql_query("select * FROM ".$titanium_prefix."_stories"));
     
-	while($row = $db->sql_fetchrow($result)) 
+	while($row = $titanium_db->sql_fetchrow($result)) 
 	{
         $sid = intval($row['sid']);
         $catid = intval($row['catid']);
@@ -432,7 +432,7 @@ function show_all($min)
         } 
 		elseif ($catid != 0) 
 		{
-            $row_res = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='$catid'"));
+            $row_res = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories_cat WHERE catid='$catid'"));
             $cat_title = stripslashes($row_res['title']);
             $title = "<a href=\"modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a href=\"modules.php?name=Blog&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
         }
@@ -441,28 +441,28 @@ function show_all($min)
 		{
             if (empty($alanguage)) 
 			{
-                $alanguage = $language;
+                $alanguage = $titanium_language;
             }
             
             $alt_language = ucfirst($alanguage);
-            //$lang_img = "<img src=\"images/language/flag-$alanguage.png\" border=\"0\" hspace=\"2\" alt=\"$alt_language\" title=\"$alt_language\">";
-            $lang_img = 'Language: '.$alanguage.' -';
+            //$titanium_lang_img = "<img src=\"images/language/flag-$alanguage.png\" border=\"0\" hspace=\"2\" alt=\"$alt_language\" title=\"$alt_language\">";
+            $titanium_lang_img = 'Language: '.$alanguage.' -';
             
         } 
 		else 
 		{
-            $lang_img = "<strong><big><strong>&middot;</strong></big></strong>";
+            $titanium_lang_img = "<strong><big><strong>&middot;</strong></big></strong>";
         }
         
 		echo "<tr>"
-        ."<td bgcolor=\"$bgcolor1\" align=\"left\">$lang_img $title</td>"
+        ."<td bgcolor=\"$bgcolor1\" align=\"left\">$titanium_lang_img $title</td>"
         ."<td bgcolor=\"$bgcolor1\" align=\"center\">$comments</td>"
         ."<td bgcolor=\"$bgcolor1\" align=\"center\">$counter</td>"
         ."<td bgcolor=\"$bgcolor1\" align=\"center\">$rated</td>"
         ."<td bgcolor=\"$bgcolor1\" align=\"center\">$time[0]</td>"
         ."<td bgcolor=\"$bgcolor1\" align=\"center\">$actions</td></tr>";
     }
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     
 	echo "</table>"
     ."<br /><br /><br />";
@@ -471,7 +471,7 @@ function show_all($min)
 	{
         $min = $min+250;
         $a++;
-        echo "<div align=\"center\">[ <a href=\"modules.php?name=$module_name&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
+        echo "<div align=\"center\">[ <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
     }
     
 	if (($numrows > 250) && ($min >= 250) && ($a != 1)) 
@@ -479,25 +479,25 @@ function show_all($min)
         $pmin = $min-250;
         $min = $min+250;
         $a++;
-        echo "<div align=\"center\">[ <a href=\"modules.php?name=$module_name&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> | <a href=\"modules.php?name=$module_name&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
+        echo "<div align=\"center\">[ <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> | <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
     }
     
 	if (($numrows <= 250) && ($a != 1) && ($min != 0)) 
 	{
         $pmin = $min-250;
-        echo "<div align=\"center\">[ <a href=\"modules.php?name=$module_name&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> ]</div><br />";
+        echo "<div align=\"center\">[ <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> ]</div><br />";
     }
     
 	echo "<hr size=\"1\" noshade>"
     ."<span class=\"content\">"._SELECTMONTH2VIEW."</span><br /><br />";
    
-    $result2 = $db->sql_query("SELECT datePublished FROM ".$prefix."_stories ORDER BY datePublished DESC");
+    $result2 = $titanium_db->sql_query("SELECT datePublished FROM ".$titanium_prefix."_stories ORDER BY datePublished DESC");
    
     echo "<ul>";
    
     $thismonth = "";
    
-    while(list($time) = $db->sql_fetchrow($result)) 
+    while(list($time) = $titanium_db->sql_fetchrow($result)) 
 	{
         preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/i", $time, $getdate);
     
@@ -553,18 +553,18 @@ function show_all($min)
 		if ($month != $thismonth) 
 		{
             $year = $getdate[1];
-            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
+            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
             $thismonth = $month;
         }
     }
-    $db->sql_freeresult($result2);
+    $titanium_db->sql_freeresult($result2);
     
 	echo "</ul><br /><br /><div align=\"center\">"
     ."<form action=\"modules.php?name=Search\" method=\"post\">"
     ."<input type=\"text\" name=\"query\" size=\"30\"> "
     ."<input type=\"submit\" value=\""._SEARCH."\">"
     ."</form><br />"
-    ."[ <a href=\"modules.php?name=$module_name\">"._ARCHIVESINDEX."</a> ]</div><br />";
+    ."[ <a href=\"modules.php?name=$titanium_module_name\">"._ARCHIVESINDEX."</a> ]</div><br />";
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 }

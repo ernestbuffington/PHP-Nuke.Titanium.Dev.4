@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
     $pagetitle = ": "._USERADMIN." - "._DETUSER;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -52,9 +52,9 @@ if(is_mod_admin($module_name)) {
     title(""._USERADMIN." - "._DETUSER.": <i>$chng_uid</i>");
     amain();
     echo "<br />\n";
-    $result = $db->sql_query("SELECT * FROM ".$user_prefix."_users_temp WHERE user_id='$chng_uid'");
-    if($db->sql_numrows($result) > 0) {
-    $chnginfo = $db->sql_fetchrow($result);
+    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$chng_uid'");
+    if($titanium_db->sql_numrows($result) > 0) {
+    $chnginfo = $titanium_db->sql_fetchrow($result);
     OpenTable();
     echo "<center><table border='0'>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._USERID.":</td><td><strong><input type='text' value='$chnginfo[user_id]' size='40' disabled=disabled style='color=#000000;background-color: #FFFFFF'></strong></td></tr>\n";
@@ -62,11 +62,11 @@ if(is_mod_admin($module_name)) {
     echo "<tr><td bgcolor='$bgcolor2'>"._UREALNAME.":</td><td><strong><input type='text' value='$chnginfo[realname]' size='40' disabled=disabled style='color=#000000;background-color: #FFFFFF'></strong></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._EMAIL.":</td><td><strong><a href='mailto:".$chnginfo['user_email']."'><input type='text' value='$chnginfo[user_email]' size='40' disabled=disabled style='color=#000000;background-color: #FFFFFF'></a></strong></td></tr>\n";
 
-    $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
-    while ($sqlvalue = $db->sql_fetchrow($result)) {
+    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
+    while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
     $t = $sqlvalue[fid];
-    $result1 = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_value_temp WHERE uid='$chng_uid' AND fid='$t'");
-        while ($tmpsqlvalue = $db->sql_fetchrow($result1)) {
+    $result1 = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE uid='$chng_uid' AND fid='$t'");
+        while ($tmpsqlvalue = $titanium_db->sql_fetchrow($result1)) {
             $tmp_value=$tmpsqlvalue[value];
             if (substr($sqlvalue[name],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue[name];
             echo "<tr><td bgcolor='$bgcolor2'>$name_exit</td><td bgcolor='$bgcolor3'><strong><input type='text' value='$tmp_value' size='40' disabled=disabled style='color=#000000;background-color: #FFFFFF'></strong>";
@@ -81,19 +81,19 @@ if(is_mod_admin($module_name)) {
     echo "<tr><td colspan=\"2\" align=\"left\"><br />\n";
 
         echo "<table cellspacing=\"0\" cellpadding=\"0\" border='0'><tr>\n";
-        echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'><td>\n";
+        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td>\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
         echo "<input type='submit' value='"._RETURN."'></td></form>\n";
         echo "<td width=\"3\"></td>\n";
-        echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'><td>\n";
+        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td>\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
         echo "<input type='hidden' name='op' value='modifyTemp'>\n";
         echo "<input type='hidden' name='chng_uid' value='".$chnginfo['user_id']."'>\n";
         echo "<input type='submit' value='"._MODIFY."'></td></form>\n";
         echo "<td width=\"3\"></td>\n";
-        echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'><td>\n";
+        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td>\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
         echo "<input type='hidden' name='op' value='denyUser'>\n";
@@ -101,14 +101,14 @@ if(is_mod_admin($module_name)) {
         echo "<input type='submit' value='"._DENY."'></td></form>\n";
         echo "<td width=\"3\"></td>\n";
             if ($ya_config['useactivate'] == 0) {
-                echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'><td valign=\"top\">\n";
+                echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td valign=\"top\">\n";
                 if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
                 if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
                 echo "<input type='hidden' name='op' value='approveUserConf'>\n";
                 echo "<input type='hidden' name='apr_uid' value='".$chnginfo['user_id']."'>\n";
                 echo "<input type='submit' value='"._YA_APPROVE."'></td></form>\n";
             } else {
-                echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'><td>\n";
+                echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td>\n";
                 if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
                 if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
                 echo "<input type='hidden' name='op' value='activateUser'>\n";

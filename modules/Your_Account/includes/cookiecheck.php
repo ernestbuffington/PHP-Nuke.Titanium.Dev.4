@@ -44,23 +44,23 @@ if (!defined('CNBYA'))
     die('CNBYA protection');
 }
 
-$module_name = basename (dirname(dirname (__FILE__)) );
+$titanium_module_name = basename (dirname(dirname (__FILE__)) );
 
-global $currentlang, $language;
+global $currentlang, $titanium_language;
 
-if (file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php')) {
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php');
-	//echo NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php';
+if (file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$currentlang.'.php')) {
+	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$currentlang.'.php');
+	//echo NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$currentlang.'.php';
 } 
 else
-if (file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$language.'.php')) {
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$language.'.php');
-	//echo NUKE_MODULES_DIR.$module_name.'/language/lang-'.$language.'.php';
+if (file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$titanium_language.'.php')) {
+	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$titanium_language.'.php');
+	//echo NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$titanium_language.'.php';
 } 
 else
-if (file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php')) {
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php');
-	//echo NUKE_MODULES_DIR.$module_name.'/language/lang-english.php';
+if (file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-english.php')) {
+	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-english.php');
+	//echo NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-english.php';
 } 
 
 /*************************************************************************************/
@@ -79,7 +79,7 @@ function yacookiecheck()
 /*************************************************************************************/
 function yacookiecheckresults()
 {
-  global $ya_config,$module_name;
+  global $ya_config,$titanium_module_name;
   $cookiedebug = "0";        // cookiedebug: set this to '1' if you want additional debug info
 
   if (($_COOKIE ['CNB_test3'] != "value3") OR ($cookiedebug == "1"))
@@ -114,7 +114,7 @@ function yacookiecheckresults()
     if ($_COOKIE ['CNB_test3'] != "value3") 
 	{
         echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\"><tr>";
-        echo "<td colspan=\"2\"><img src=\"modules/$module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\">";
+        echo "<td colspan=\"2\"><img src=\"modules/$titanium_module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\">";
         echo "<font color=\"#FF3333\"><strong>"._YA_COOKIENO."</strong></font>";
         echo "</td></tr><tr><td valign=\"top\">";
         if ($cookiedebug == "1") {OpenTable();echo $debugcookie;CloseTable();}
@@ -129,11 +129,11 @@ function yacookiecheckresults()
     else 
 	if ($cookiedebug == "1")
     {    echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\"><tr>";
-        echo "<td colspan=\"2\"><img src=\"modules/$module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\">";
+        echo "<td colspan=\"2\"><img src=\"modules/$titanium_module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\">";
         echo "<font color=\"#009933\"><strong>"._YA_COOKIEYES."</strong></font>";
         echo "</td></tr><tr><td valign=\"top\">";
         if ($cookiedebug == "1") {OpenTable();echo $debugcookie;CloseTable();}
-        echo "</td><tr><form action=\"modules.php?name=$module_name\" method=\"post\">";
+        echo "</td><tr><form action=\"modules.php?name=$titanium_module_name\" method=\"post\">";
         echo "<td align=\"right\"><input type=\"submit\" name=\"submit\" value='"._YA_CONTINUE."'></td></form></tr></table>";
     }
      
@@ -154,14 +154,14 @@ function yacookiecheckresults()
 /*************************************************************************************/
 function ShowCookiesRedirect() 
 {
-  global $ya_config,$module_name;
+  global $ya_config,$titanium_module_name;
 
   setcookie("CNB_test1","1",time()-604800,"");
   setcookie("CNB_test2","2",time()-604800,"");
   setcookie("CNB_test3","3",time()-604800,"/");
   setcookie("CNB_test4","4",time()-604800,"$ya_config[cookiepath]");
 
-  redirect("modules.php?name=$module_name&op=ShowCookies");
+  redirect_titanium("modules.php?name=$titanium_module_name&op=ShowCookies");
 }
 
 /*************************************************************************************/
@@ -169,7 +169,7 @@ function ShowCookiesRedirect()
 /*************************************************************************************/
 function ShowCookies() 
 {
-  global $ya_config,$module_name;
+  global $ya_config,$titanium_module_name;
 
   include_once(NUKE_BASE_DIR.'header.php');
   //Show_CNBYA_menu();
@@ -182,12 +182,12 @@ function ShowCookies()
     $CookieArray = $_COOKIE;
   }
     echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\"><tr>";
-    echo "<form action=\"modules.php?name=$module_name&amp;op=DeleteCookies\" method=\"post\">";
+    echo "<form action=\"modules.php?name=$titanium_module_name&amp;op=DeleteCookies\" method=\"post\">";
     echo "<td colspan=\"2\">";
     global $fieldset_color, $fieldset_border_width;
 
 	echo '<fieldset style="border-color: gold; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-    echo '<legend align="left" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;">'.$top.' <img src="modules/'.$module_name.'/images/warning.png" align="left" width="40" height="40"></strong></legend>';
+    echo '<legend align="left" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;">'.$top.' <img src="modules/'.$titanium_module_name.'/images/warning.png" align="left" width="40" height="40"></strong></legend>';
 	echo "<span class=\"content\">"._YA_DELCOOKIEINFO1."</span></td></tr><tr><td width=\"100%\"></fieldset>";
 
     echo "<br /><table cellspacing=\"0\" cellpadding=\"5\" border=\"1\" align=\"left\"><tr><td colspan=\"2\">";
@@ -226,7 +226,7 @@ function ShowCookies()
 // function DeleteCookies()
 /*************************************************************************************/
 function DeleteCookies() {
-global $ya_config,$module_name,$prefix,$user,$username,$CookieArray,$cookie;
+global $ya_config,$titanium_module_name,$titanium_prefix,$titanium_user,$titanium_username,$CookieArray,$cookie;
 include_once(NUKE_BASE_DIR.'header.php');
 //Show_CNBYA_menu();
 OpenTable();
@@ -235,17 +235,17 @@ OpenTable();
     $r_username    = $cookie[1];
     echo $r_username;
     echo $r_uid;
-    echo $username;
+    echo $titanium_username;
 
     $CookieArray = $_COOKIE;
-    $db->sql_query("DELETE FROM ".$prefix."_session WHERE uname='$r_username'");
-    $db->sql_query("OPTIMIZE TABLE ".$prefix."_session");
-//    $db->sql_query("DELETE FROM     ".$prefix."_bbsessions WHERE session_user_id='$r_uid'");
-//    $db->sql_query("OPTIMIZE TABLE ".$prefix."_bbsessions");
+    $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_session WHERE uname='$r_username'");
+    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_session");
+//    $titanium_db->sql_query("DELETE FROM     ".$titanium_prefix."_bbsessions WHERE session_user_id='$r_uid'");
+//    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_bbsessions");
 
     echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\"><tr>";
-    echo "<form action=\"modules.php?name=$module_name&amp;op=ShowCookies\" method=\"post\">";
-    echo "<td colspan=\"2\"><img src=\"modules/$module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\">";
+    echo "<form action=\"modules.php?name=$titanium_module_name&amp;op=ShowCookies\" method=\"post\">";
+    echo "<td colspan=\"2\"><img src=\"modules/$titanium_module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\">";
   
     echo "<span class=\"content\">"._YA_COOKIEDEL1."</td></tr><tr><td  width=\"100%\">";
 
@@ -270,9 +270,9 @@ OpenTable();
     }
 
 // menelaos: these lines need some more study: which are usefull, which are not
-unset($user);
+unset($titanium_user);
 unset($cookie);
-$user="";
+$titanium_user="";
 if(isset($_SESSION)){@session_unset();}
 if(isset($_SESSION)){@session_destroy();} 
 if( isset($_COOKIE[session_name()]))

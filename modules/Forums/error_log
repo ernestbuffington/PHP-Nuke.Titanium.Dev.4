@@ -1,0 +1,8 @@
+[23-Aug-2022 22:11:40 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function is_admin() in /home/dev4/public_html/modules/Forums/fixgroup.php:22
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/modules/Forums/fixgroup.php on line 22
+[23-Aug-2022 22:11:43 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function is_admin() in /home/dev4/public_html/modules/Forums/fixgroup.php:22
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/modules/Forums/fixgroup.php on line 22

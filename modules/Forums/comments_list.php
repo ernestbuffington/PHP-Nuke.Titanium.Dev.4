@@ -25,24 +25,24 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $module_name = basename(dirname(__FILE__));
-    require("modules/".$module_name."/nukebb.php");
+    $titanium_module_name = basename(dirname(__FILE__));
+    require("modules/".$titanium_module_name."/nukebb.php");
 }
 else
 {
-    $phpbb_root_path = NUKE_FORUMS_DIR;
+    $phpbb2_root_path = NUKE_FORUMS_DIR;
 }
 
-define('IN_PHPBB', true);
-include($phpbb_root_path .'extension.inc');
-include($phpbb_root_path . 'common.'.$phpEx);
+define('IN_PHPBB2', true);
+include($phpbb2_root_path .'extension.inc');
+include($phpbb2_root_path . 'common.'.$phpEx);
 require_once('includes/bbcode.' . $phpEx);
 
 //
 // Start session management
 //
-$userdata = session_pagestart($user_ip, PAGE_INDEX, $nukeuser);
-init_userprefs($userdata);
+$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX, $nukeuser);
+titanium_init_userprefs($userdata);
 //
 // End session management
 //
@@ -63,35 +63,35 @@ include("includes/page_header.php");
 
     $comments_sql = "SELECT * FROM " . COMMENTS_TABLE . " WHERE comments_value <> '' ";
 
-    if ( !($result_count = $db->sql_query($comments_sql)) )
+    if ( !($result_count = $titanium_db->sql_query($comments_sql)) )
       {
          // Error if it fails...
          message_die(GENERAL_ERROR, "Couldn't obtain comment count.", "", __LINE__, __FILE__, $sql);
       }
 
-    $count_rows = $db->sql_fetchrowset($result_count);
+    $count_rows = $titanium_db->sql_fetchrowset($result_count);
     $comments_total= count($count_rows);
 
-    $start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+    $phpbb2_start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
     $comments_perpage = 15;
 
 
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
    'body' => 'comments_list_body.tpl'));
 
-            $template->assign_vars(array(
-                        'L_ARCADE_COMMENTS_FULL' => $lang['arcade_comments_full'],
-                        'L_ARCADE_COMMENTS' => $lang['arcade_comments'],
-                        'L_GAME' => $lang['game'],
-                        'L_COMMENTS' => $lang['comments'],
-                        'L_ARCADE_USER' => $lang['arcade_user'],
-                        'L_SCORE' => $lang['boardscore'],
-                        'NAV_DESC' => '<a class="nav" href="' . append_sid("arcade.$phpEx") . '">' . $lang['arcade'] . '</a> ' ,
+            $phpbb2_template->assign_vars(array(
+                        'L_ARCADE_COMMENTS_FULL' => $titanium_lang['arcade_comments_full'],
+                        'L_ARCADE_COMMENTS' => $titanium_lang['arcade_comments'],
+                        'L_GAME' => $titanium_lang['game'],
+                        'L_COMMENTS' => $titanium_lang['comments'],
+                        'L_ARCADE_USER' => $titanium_lang['arcade_user'],
+                        'L_SCORE' => $titanium_lang['boardscore'],
+                        'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $titanium_lang['arcade'] . '</a> ' ,
             ));
 
 
-$sql = "SELECT g.*, c.*, u.* FROM " . GAMES_TABLE. " g LEFT JOIN " . COMMENTS_TABLE . " c ON g.game_id = c.game_id LEFT JOIN " . USERS_TABLE ." u  ON g.game_highuser=u.user_id WHERE comments_value <> '' ORDER BY game_name ASC LIMIT $start, $comments_perpage";
-            if( !($result = $db->sql_query($sql)) )
+$sql = "SELECT g.*, c.*, u.* FROM " . GAMES_TABLE. " g LEFT JOIN " . COMMENTS_TABLE . " c ON g.game_id = c.game_id LEFT JOIN " . USERS_TABLE ." u  ON g.game_highuser=u.user_id WHERE comments_value <> '' ORDER BY game_name ASC LIMIT $phpbb2_start, $comments_perpage";
+            if( !($result = $titanium_db->sql_query($sql)) )
             {
             message_die(GENERAL_ERROR, "Error retrieving high score list", '', __LINE__, __FILE__, $sql);
             }
@@ -103,7 +103,7 @@ $orig_word = array();
 $replacement_word = array();
 obtain_word_list($orig_word, $replacement_word);
 
-while ( $row = $db->sql_fetchrow($result))
+while ( $row = $titanium_db->sql_fetchrow($result))
             {
 
             if ( count($orig_word) )
@@ -117,27 +117,27 @@ while ( $row = $db->sql_fetchrow($result))
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-            $template->assign_block_vars('commentrow', array(
-                        'GAME_NAME' => '<a href="' . append_sid("games.$phpEx?gid=" . $row['game_id']) . '">' . $row['game_name'] . '</a>',
+            $phpbb2_template->assign_block_vars('commentrow', array(
+                        'GAME_NAME' => '<a href="' . append_titanium_sid("games.$phpEx?gid=" . $row['game_id']) . '">' . $row['game_name'] . '</a>',
                         'COMMENTS_VALUE' =>  smilies_pass($row['comments_value']),
-                        'USERNAME' => '<a href="' . append_sid("statarcade.$phpEx?uid=" . $row['user_id'] ) . '" class="genmed">' . $row['username'] . '</a> ',
+                        'USERNAME' => '<a href="' . append_titanium_sid("statarcade.$phpEx?uid=" . $row['user_id'] ) . '" class="genmed">' . $row['username'] . '</a> ',
                         'HIGHSCORE' =>  number_format($row['game_highscore']),
                  ));
 
             }
 
-$template->assign_vars(array(
-                'MANAGE_COMMENTS' => '<nobr><a class="cattitle" href="' . append_sid("comments.$phpEx") . '">' . $lang['manage_comments'] . '</a></nobr> ',
-                'PAGINATION' => generate_pagination("comments_list.$phpEx?", $comments_total, $comments_perpage, $start),
-                'PAGE_NUMBER' => sprintf($lang['Page_of'], ( floor( $start / $comments_perpage) + 1 ), ceil( $comments_total / $comments_perpage )),
-                'L_GOTO_PAGE' => $lang['Goto_page'])
+$phpbb2_template->assign_vars(array(
+                'MANAGE_COMMENTS' => '<nobr><a class="cattitle" href="' . append_titanium_sid("comments.$phpEx") . '">' . $titanium_lang['manage_comments'] . '</a></nobr> ',
+                'PAGINATION' => generate_pagination("comments_list.$phpEx?", $comments_total, $comments_perpage, $phpbb2_start),
+                'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], ( floor( $phpbb2_start / $comments_perpage) + 1 ), ceil( $comments_total / $comments_perpage )),
+                'L_GOTO_PAGE' => $titanium_lang['Goto_page'])
         );
 
 //
 // Generate the page end
 //
 
-$template->pparse('body');
+$phpbb2_template->pparse('body');
 include("includes/page_tail.php");
 
 ?>

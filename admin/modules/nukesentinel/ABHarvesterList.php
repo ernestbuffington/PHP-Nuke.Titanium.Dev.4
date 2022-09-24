@@ -30,15 +30,15 @@ if($perpage == 0) { $perpage = 25; }
 if(!isset($min) or !$min or $min=="") $min=0;
 if(!isset($max)) $max=$min+$perpage;
 if(!isset($direction) or !$direction or $direction=="") $direction = "asc";
-$totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_harvesters`"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_harvesters`"));
 if($totalselected > 0) {
   echo '<table summary="" align="center" border="0" cellpadding="2" cellspacing="2" bgcolor="'.$bgcolor2.'" width="100%">'."\n";
   echo '<tr bgcolor="'.$bgcolor2.'">'."\n";
   echo '<td width="90%"><strong>'._AB_HARVESTER.'</strong></td>'."\n";
   echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_harvesters` ORDER BY `harvester` $direction LIMIT $min,$perpage");
-  while($getIPs = $db->sql_fetchrow($result)) {
+  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_harvesters` ORDER BY `harvester` $direction LIMIT $min,$perpage");
+  while($getIPs = $titanium_db->sql_fetchrow($result)) {
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
     echo '<td>'.$getIPs['harvester'].'</a></td>'."\n";
     echo '<td align="center" nowrap="nowrap"><a href="'.$admin_file.'.php?op=ABHarvesterEdit&amp;hid='.$getIPs['hid'].'&amp;direction='.$direction.'&amp;xop='.$op.'&amp;min='.$min.'"><img src="images/nukesentinel/edit.png" border="0" alt="'._AB_EDIT.'" title="'._AB_EDIT.'" height="16" width="16" /></a>'."\n";

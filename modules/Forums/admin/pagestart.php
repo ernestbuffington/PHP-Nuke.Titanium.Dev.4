@@ -32,15 +32,15 @@
       Admin IP Lock                            v2.1.0       06/24/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 define('IN_ADMIN', true);
 define('FORUM_ADMIN', true);
 include(dirname(dirname(dirname(dirname(__FILE__)))) .  "/mainfile.php");
-$phpbb_root_path = './../';
+$phpbb2_root_path = './../';
 include(NUKE_FORUMS_DIR.'common.php');
 
 /*****[BEGIN]******************************************
@@ -87,14 +87,14 @@ $admin = base64_decode($admin);
 $admin = explode(":", $admin);
 
 $admin_info = get_admin_field(array('name', 'pwd', 'radminsuper'), $admin[0]);
-$user_info = get_user_field(array('user_id', 'user_password', 'user_level'), $cookie[1], true);
+$titanium_user_info = get_user_field(array('user_id', 'user_password', 'user_level'), $cookie[1], true);
 
 if(!(
 	#Check to see if they are a site administrator with Forum Module access
 	($admin[1] == $admin_info['pwd'] && !empty($admin_info['pwd']) && is_mod_admin('Forums'))
 	OR
 	#Checks to see if they are a standard forum admin
-	(is_user() && ($cookie[2] == $user_info['user_password']) && !empty($user_info['user_password']) && ($user_info['user_level'] == ADMIN))
+	(is_user() && ($cookie[2] == $titanium_user_info['user_password']) && !empty($titanium_user_info['user_password']) && ($titanium_user_info['user_level'] == ADMIN))
 ))
 {
     unset($cookie);
@@ -104,8 +104,8 @@ if(!(
 //
 // Start session management
 //
-$userdata = session_pagestart($user_ip, PAGE_INDEX);
-init_userprefs($userdata);
+$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+titanium_init_userprefs($userdata);
 //
 // End session management
 //

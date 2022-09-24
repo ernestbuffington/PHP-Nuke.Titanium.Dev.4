@@ -1,3 +1,10 @@
+<div align="center">
+<table width="98%" style="background-color:none; height:100%;" class="viewforum" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="viewforum">
+<tbody>
+<tr>
+<td align="center">
+
+
 <!-- BEGIN privmsg_extensions -->
 <table border="0" cellspacing="0" cellpadding="0" align="center" width="100%">
   <tr> 
@@ -166,3 +173,7 @@
 </table>
 
 {TOPIC_REVIEW_BOX}
+</tr>
+</tbody>
+</table>
+</div>

@@ -1,3 +1,9 @@
+<div align="center">
+<table width="98%" style="background-color:none; height:100%;" class="viewforum" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="viewforum">
+<tbody>
+<tr>
+<td align="center">
+
 <script language="javascript" type="text/javascript">
 <!--
 function refresh_username(selected_username)
@@ -36,3 +42,8 @@ function refresh_username(selected_username)
     </tr>
 </table>
 </form>
+
+</tr>
+</tbody>
+</table>
+</div>

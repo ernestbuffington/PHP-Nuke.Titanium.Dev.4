@@ -35,8 +35,8 @@ exit('CNBYA protection');
         title(_HOMECONFIG);
         if(empty($userinfo['theme'])) { $userinfo['theme'] = "$Default_Theme"; }
         OpenTable();
-        echo "<form action=\"modules.php?name=$module_name\" method=\"post\">";
-        if ($user_news == 1):
+        echo "<form action=\"modules.php?name=$titanium_module_name\" method=\"post\">";
+        if ($titanium_user_news == 1):
             echo "<strong>"._BLOGPOSTSINHOME."</strong> "._MAX127." ";
             echo "<input type=\"text\" name=\"storynum\" size=\"4\" maxlength=\"3\" value=\"$userinfo[storynum]\">";
             echo "<br /><br />";
@@ -51,6 +51,6 @@ exit('CNBYA protection');
         CloseTable();
         include_once(NUKE_BASE_DIR.'footer.php');
     else: 
-        mmain($user);
+        mmain($titanium_user);
     endif;
 ?>

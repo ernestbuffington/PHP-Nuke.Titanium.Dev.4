@@ -24,9 +24,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 class Content_statistical
@@ -97,7 +97,7 @@ class Content_statistical
 
     function set_rows($data, $auth_data)
     {
-        global $core, $stats_template, $phpbb_root_path, $phpEx, $stat_functions, $lang;
+        global $core, $stats_template, $phpbb2_root_path, $phpEx, $stat_functions, $titanium_lang;
 
         $core->calculation_data = array();
 
@@ -174,7 +174,7 @@ class Content_statistical
                         {
                             eval('$result = ' . $auth_array['auth_replacement'][$j] . ';');
                             $auth_replace[$j]['replace'] = TRUE;
-                            if ( (is_string($auth_array['auth_replacement'][$j])) && (strstr($auth_array['auth_replacement'][$j], '$lang')) )
+                            if ( (is_string($auth_array['auth_replacement'][$j])) && (strstr($auth_array['auth_replacement'][$j], '$titanium_lang')) )
                             {
                                 $auth_replace[$j]['lang'] = TRUE;
                             }

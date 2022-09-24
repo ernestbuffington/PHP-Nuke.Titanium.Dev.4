@@ -13,23 +13,23 @@
 *
 */
 
-define('IN_PHPBB', true);
+define('IN_PHPBB2', true);
 
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $module['Extensions']['Extension_control'] = $filename . '?mode=extensions';
-    $module['Extensions']['Extension_group_manage'] = $filename . '?mode=groups';
-    $module['Extensions']['Forbidden_extensions'] = $filename . '?mode=forbidden';
+    $titanium_module['Extensions']['Extension_control'] = $filename . '?mode=extensions';
+    $titanium_module['Extensions']['Extension_group_manage'] = $filename . '?mode=groups';
+    $titanium_module['Extensions']['Forbidden_extensions'] = $filename . '?mode=forbidden';
     return;
 }
 
 // Let's set the root dir for phpBB
-$phpbb_root_path = '../';
-require($phpbb_root_path . 'extension.inc');
+$phpbb2_root_path = '../';
+require($phpbb2_root_path . 'extension.inc');
 require('pagestart.' . $phpEx);
 
-@include_once($phpbb_root_path . 'attach_mod/includes/constants.'.$phpEx);
+@include_once($phpbb2_root_path . 'attach_mod/includes/constants.'.$phpEx);
 
 if (!intval($attach_config['allow_ftp_upload']))
 {
@@ -39,7 +39,7 @@ if (!intval($attach_config['allow_ftp_upload']))
     }
     else
     {
-        $upload_dir = $phpbb_root_path . $attach_config['upload_dir'];
+        $upload_dir = $phpbb2_root_path . $attach_config['upload_dir'];
     }
 }
 else
@@ -47,11 +47,11 @@ else
     $upload_dir = $attach_config['download_path'];
 }
 
-include($phpbb_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
-include($phpbb_root_path . 'attach_mod/includes/functions_admin.' . $phpEx);
+include($phpbb2_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
+include($phpbb2_root_path . 'attach_mod/includes/functions_admin.' . $phpEx);
 
 // Check if the language got included
-if (!isset($lang['Test_settings_successful']))
+if (!isset($titanium_lang['Test_settings_successful']))
 {
     // include_once is used within the function
     include_attach_lang();
@@ -62,7 +62,7 @@ $types_download = array(INLINE_LINK, PHYSICAL_LINK);
 $modes_download = array('inline', 'physical');
 
 $types_category = array(IMAGE_CAT, STREAM_CAT, SWF_CAT);
-$modes_category = array($lang['Category_images'], $lang['Category_stream_files'], $lang['Category_swf_files']);
+$modes_category = array($titanium_lang['Category_images'], $titanium_lang['Category_stream_files'], $titanium_lang['Category_swf_files']);
 
 $size = get_var('size', '');
 $mode = get_var('mode', '');
@@ -76,16 +76,16 @@ $attach_config = array();
 $sql = 'SELECT *
     FROM ' . ATTACH_CONFIG_TABLE;
 
-if (!($result = $db->sql_query($sql)))
+if (!($result = $titanium_db->sql_query($sql)))
 {
     message_die(GENERAL_ERROR, 'Could not query attachment information', '', __LINE__, __FILE__, $sql);
 }
 
-while ($row = $db->sql_fetchrow($result))
+while ($row = $titanium_db->sql_fetchrow($result))
 {
     $attach_config[$row['config_name']] = trim($row['config_value']);
 }
-$db->sql_freeresult($result);
+$titanium_db->sql_freeresult($result);
 
 // Extension Management
 if ($submit && $mode == 'extensions')
@@ -108,14 +108,14 @@ if ($submit && $mode == 'extensions')
         FROM ' . EXTENSIONS_TABLE . '
         ORDER BY ext_id';
 
-    if (!($result = $db->sql_query($sql)))
+    if (!($result = $titanium_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t get Extension Informations.', '', __LINE__, __FILE__, $sql);
     }
 
-    $num_rows = $db->sql_numrows($result);
-    $extension_row = $db->sql_fetchrowset($result);
-    $db->sql_freeresult($result);
+    $num_rows = $titanium_db->sql_numrows($result);
+    $extension_row = $titanium_db->sql_fetchrowset($result);
+    $titanium_db->sql_freeresult($result);
 
     if ($num_rows > 0)
     {
@@ -131,7 +131,7 @@ if ($submit && $mode == 'extensions')
                 $sql = 'UPDATE ' . EXTENSIONS_TABLE . ' SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
                     WHERE ext_id = ' . (int) $extension_row[$i]['ext_id'];
 
-                if (!$db->sql_query($sql))
+                if (!$titanium_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t update Extension Informations', '', __LINE__, __FILE__, $sql);
                 }
@@ -150,7 +150,7 @@ if ($submit && $mode == 'extensions')
             FROM ' . EXTENSIONS_TABLE . '
             WHERE ext_id IN (' . $extension_id_sql . ')';
 
-        if (!$result = $db->sql_query($sql))
+        if (!$result = $titanium_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Could not delete Extensions', '', __LINE__, __FILE__, $sql);
         }
@@ -164,7 +164,7 @@ if ($submit && $mode == 'extensions')
 
     if ($extension != '' && $add)
     {
-        $template->assign_vars(array(
+        $phpbb2_template->assign_vars(array(
             'ADD_EXTENSION'            => $extension,
             'ADD_EXTENSION_EXPLAIN'    => $extension_explain)
         );
@@ -175,14 +175,14 @@ if ($submit && $mode == 'extensions')
             $sql = 'SELECT extension
                 FROM ' . EXTENSIONS_TABLE;
 
-            if (!($result = $db->sql_query($sql)))
+            if (!($result = $titanium_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not query Extensions', '', __LINE__, __FILE__, $sql);
             }
 
-            $row = $db->sql_fetchrowset($result);
-            $num_rows = $db->sql_numrows($result);
-            $db->sql_freeresult($result);
+            $row = $titanium_db->sql_fetchrowset($result);
+            $num_rows = $titanium_db->sql_numrows($result);
+            $titanium_db->sql_freeresult($result);
 
             if ($num_rows > 0)
             {
@@ -195,7 +195,7 @@ if ($submit && $mode == 'extensions')
                         {
                             $error_msg .= '<br />';
                         }
-                        $error_msg .= sprintf($lang['Extension_exist'], strtolower(trim($extension)));
+                        $error_msg .= sprintf($titanium_lang['Extension_exist'], strtolower(trim($extension)));
                     }
                 }
             }
@@ -206,14 +206,14 @@ if ($submit && $mode == 'extensions')
                 $sql = 'SELECT extension
                     FROM ' . FORBIDDEN_EXTENSIONS_TABLE;
 
-                if (!($result = $db->sql_query($sql)))
+                if (!($result = $titanium_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Could not query Extensions', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $db->sql_fetchrowset($result);
-                $num_rows = $db->sql_numrows($result);
-                $db->sql_freeresult($result);
+                $row = $titanium_db->sql_fetchrowset($result);
+                $num_rows = $titanium_db->sql_numrows($result);
+                $titanium_db->sql_freeresult($result);
 
                 if ($num_rows > 0)
                 {
@@ -226,7 +226,7 @@ if ($submit && $mode == 'extensions')
                             {
                                 $error_msg .= '<br />';
                             }
-                            $error_msg .= sprintf($lang['Unable_add_forbidden_extension'], strtolower(trim($extension)));
+                            $error_msg .= sprintf($titanium_lang['Unable_add_forbidden_extension'], strtolower(trim($extension)));
                         }
                     }
                 }
@@ -243,7 +243,7 @@ if ($submit && $mode == 'extensions')
 
                 $sql = 'INSERT INTO ' . EXTENSIONS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-                if (!$db->sql_query($sql))
+                if (!$titanium_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, 'Could not add Extension', '', __LINE__, __FILE__, $sql);
                 }
@@ -254,7 +254,7 @@ if ($submit && $mode == 'extensions')
 
     if (!$error)
     {
-        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=extensions") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $titanium_lang['Attach_config_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_extensions.$phpEx?mode=extensions") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -263,35 +263,35 @@ if ($submit && $mode == 'extensions')
 if ($mode == 'extensions')
 {
     // Extensions
-    $template->set_filenames(array(
+    $phpbb2_template->set_filenames(array(
         'body' => 'admin/attach_extensions.tpl')
     );
 
-    $template->assign_vars(array(
-        'L_EXTENSIONS_TITLE'        => $lang['Manage_extensions'],
-        'L_EXTENSIONS_EXPLAIN'        => $lang['Manage_extensions_explain'],
-        'L_SELECT'                    => $lang['Select'],
-        'L_EXPLANATION'                => $lang['Explanation'],
-        'L_EXTENSION'                => $lang['Extension'],
-        'L_EXTENSION_GROUP'            => $lang['Extension_group'],
-        'L_ADD_NEW'                    => $lang['Add_new'],
-        'L_DELETE'                    => $lang['Delete'],
-        'L_CANCEL'                    => $lang['Cancel'],
-        'L_SUBMIT'                    => $lang['Submit'],
+    $phpbb2_template->assign_vars(array(
+        'L_EXTENSIONS_TITLE'        => $titanium_lang['Manage_extensions'],
+        'L_EXTENSIONS_EXPLAIN'        => $titanium_lang['Manage_extensions_explain'],
+        'L_SELECT'                    => $titanium_lang['Select'],
+        'L_EXPLANATION'                => $titanium_lang['Explanation'],
+        'L_EXTENSION'                => $titanium_lang['Extension'],
+        'L_EXTENSION_GROUP'            => $titanium_lang['Extension_group'],
+        'L_ADD_NEW'                    => $titanium_lang['Add_new'],
+        'L_DELETE'                    => $titanium_lang['Delete'],
+        'L_CANCEL'                    => $titanium_lang['Cancel'],
+        'L_SUBMIT'                    => $titanium_lang['Submit'],
 
-        'S_CANCEL_ACTION'            => append_sid("admin_extensions.$phpEx?mode=extensions"),
-        'S_ATTACH_ACTION'            => append_sid("admin_extensions.$phpEx?mode=extensions"))
+        'S_CANCEL_ACTION'            => append_titanium_sid("admin_extensions.$phpEx?mode=extensions"),
+        'S_ATTACH_ACTION'            => append_titanium_sid("admin_extensions.$phpEx?mode=extensions"))
     );
 
     if ($submit)
     {
-        $template->assign_vars(array(
+        $phpbb2_template->assign_vars(array(
             'S_ADD_GROUP_SELECT' => group_select('add_group_select', $extension_group))
         );
     }
     else
     {
-        $template->assign_vars(array(
+        $phpbb2_template->assign_vars(array(
             'S_ADD_GROUP_SELECT' => group_select('add_group_select'))
         );
     }
@@ -300,14 +300,14 @@ if ($mode == 'extensions')
         FROM ' . EXTENSIONS_TABLE . '
         ORDER BY group_id';
 
-    if (!($result = $db->sql_query($sql)))
+    if (!($result = $titanium_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t get Extension informations', '', __LINE__, __FILE__, $sql);
     }
 
-    $extension_row = $db->sql_fetchrowset($result);
-    $num_extension_row = $db->sql_numrows($result);
-    $db->sql_freeresult($result);
+    $extension_row = $titanium_db->sql_fetchrowset($result);
+    $num_extension_row = $titanium_db->sql_numrows($result);
+    $titanium_db->sql_freeresult($result);
 
     if ($num_extension_row > 0)
     {
@@ -317,7 +317,7 @@ if ($mode == 'extensions')
         {
             if ($submit)
             {
-                $template->assign_block_vars('extension_row', array(
+                $phpbb2_template->assign_block_vars('extension_row', array(
                     'EXT_ID'            => $extension_row[$i]['ext_id'],
                     'EXTENSION'            => $extension_row[$i]['extension'],
                     'EXTENSION_EXPLAIN'    => $extension_explain_list[$i],
@@ -326,7 +326,7 @@ if ($mode == 'extensions')
             }
             else
             {
-                $template->assign_block_vars('extension_row', array(
+                $phpbb2_template->assign_block_vars('extension_row', array(
                     'EXT_ID'            => $extension_row[$i]['ext_id'],
                     'EXTENSION'            => $extension_row[$i]['extension'],
                     'EXTENSION_EXPLAIN'    => $extension_row[$i]['comment'],
@@ -382,7 +382,7 @@ if ($submit && $mode == 'groups')
         $sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . ' SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
             WHERE group_id = ' . (int) $group_change_list[$i];
 
-        if (!($db->sql_query($sql)))
+        if (!($titanium_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Couldn\'t update Extension Groups Informations', '', __LINE__, __FILE__, $sql);
         }
@@ -399,7 +399,7 @@ if ($submit && $mode == 'groups')
             FROM ' . EXTENSION_GROUPS_TABLE . '
             WHERE group_id IN (' . $group_id_sql . ')';
 
-        if (!($result = $db->sql_query($sql)))
+        if (!($result = $titanium_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not delete Extension Groups', '', __LINE__, __FILE__, $sql);
         }
@@ -409,7 +409,7 @@ if ($submit && $mode == 'groups')
             SET group_id = 0
             WHERE group_id IN (' . $group_id_sql . ')';
 
-        if (!$result = $db->sql_query($sql))
+        if (!$result = $titanium_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Could not assign Extensions to Pending Group.', '', __LINE__, __FILE__, $sql);
         }
@@ -432,14 +432,14 @@ if ($submit && $mode == 'groups')
         $sql = 'SELECT group_name
             FROM ' . EXTENSION_GROUPS_TABLE;
 
-        if (!($result = $db->sql_query($sql)))
+        if (!($result = $titanium_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not query Extension Groups Table', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $db->sql_fetchrowset($result);
-        $num_rows = $db->sql_numrows($result);
-        $db->sql_freeresult($result);
+        $row = $titanium_db->sql_fetchrowset($result);
+        $num_rows = $titanium_db->sql_numrows($result);
+        $titanium_db->sql_freeresult($result);
 
         if ($num_rows > 0)
         {
@@ -452,7 +452,7 @@ if ($submit && $mode == 'groups')
                     {
                         $error_msg .= '<br />';
                     }
-                    $error_msg .= sprintf($lang['Extension_group_exist'], $extension_group);
+                    $error_msg .= sprintf($titanium_lang['Extension_group_exist'], $extension_group);
                 }
             }
         }
@@ -473,7 +473,7 @@ if ($submit && $mode == 'groups')
 
             $sql = 'INSERT INTO ' . EXTENSION_GROUPS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-            if (!($db->sql_query($sql)))
+            if (!($titanium_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not add Extension Group', '', __LINE__, __FILE__, $sql);
             }
@@ -482,7 +482,7 @@ if ($submit && $mode == 'groups')
 
     if (!$error)
     {
-        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=groups") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $titanium_lang['Attach_config_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_extensions.$phpEx?mode=groups") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -491,7 +491,7 @@ if ($submit && $mode == 'groups')
 if ($mode == 'groups')
 {
     // Extension Groups
-    $template->set_filenames(array(
+    $phpbb2_template->set_filenames(array(
         'body' => 'admin/attach_extension_groups.tpl')
     );
 
@@ -513,21 +513,21 @@ if ($mode == 'groups')
 
     $viewgroup = get_var(POST_GROUPS_URL, 0);
 
-    $template->assign_vars(array(
-        'L_EXTENSION_GROUPS_TITLE'        => $lang['Manage_extension_groups'],
-        'L_EXTENSION_GROUPS_EXPLAIN'    => $lang['Manage_extension_groups_explain'],
-        'L_EXTENSION_GROUP'                => $lang['Extension_group'],
-        'L_ADD_NEW'                        => $lang['Add_new'],
-        'L_ALLOWED'                        => $lang['Allowed'],
-        'L_DELETE'                        => $lang['Delete'],
-        'L_CANCEL'                        => $lang['Cancel'],
-        'L_SUBMIT'                        => $lang['Submit'],
-        'L_SPECIAL_CATEGORY'            => $lang['Special_category'],
-        'L_DOWNLOAD_MODE'                => $lang['Download_mode'],
-        'L_UPLOAD_ICON'                    => $lang['Upload_icon'],
-        'L_MAX_FILESIZE'                => $lang['Max_groups_filesize'],
-        'L_ALLOWED_FORUMS'                => $lang['Allowed_forums'],
-        'L_FORUM_PERMISSIONS'            => $lang['Ext_group_permissions'],
+    $phpbb2_template->assign_vars(array(
+        'L_EXTENSION_GROUPS_TITLE'        => $titanium_lang['Manage_extension_groups'],
+        'L_EXTENSION_GROUPS_EXPLAIN'    => $titanium_lang['Manage_extension_groups_explain'],
+        'L_EXTENSION_GROUP'                => $titanium_lang['Extension_group'],
+        'L_ADD_NEW'                        => $titanium_lang['Add_new'],
+        'L_ALLOWED'                        => $titanium_lang['Allowed'],
+        'L_DELETE'                        => $titanium_lang['Delete'],
+        'L_CANCEL'                        => $titanium_lang['Cancel'],
+        'L_SUBMIT'                        => $titanium_lang['Submit'],
+        'L_SPECIAL_CATEGORY'            => $titanium_lang['Special_category'],
+        'L_DOWNLOAD_MODE'                => $titanium_lang['Download_mode'],
+        'L_UPLOAD_ICON'                    => $titanium_lang['Upload_icon'],
+        'L_MAX_FILESIZE'                => $titanium_lang['Max_groups_filesize'],
+        'L_ALLOWED_FORUMS'                => $titanium_lang['Allowed_forums'],
+        'L_FORUM_PERMISSIONS'            => $titanium_lang['Ext_group_permissions'],
 
         'ADD_GROUP_NAME'                => (isset($submit)) ? $extension_group : '',
         'MAX_FILESIZE'                    => $max_add_filesize,
@@ -535,21 +535,21 @@ if ($mode == 'groups')
         'S_FILESIZE'                    => size_select('add_size_select', $size),
         'S_ADD_DOWNLOAD_MODE'            => download_select('add_download_mode'),
         'S_SELECT_CAT'                    => category_select('add_category'),
-        'S_CANCEL_ACTION'                => append_sid("admin_extensions.$phpEx?mode=groups"),
-        'S_ATTACH_ACTION'                => append_sid("admin_extensions.$phpEx?mode=groups"))
+        'S_CANCEL_ACTION'                => append_titanium_sid("admin_extensions.$phpEx?mode=groups"),
+        'S_ATTACH_ACTION'                => append_titanium_sid("admin_extensions.$phpEx?mode=groups"))
     );
 
     $sql = 'SELECT *
         FROM ' . EXTENSION_GROUPS_TABLE;
 
-    if (!($result = $db->sql_query($sql)))
+    if (!($result = $titanium_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t get Extension Group informations', '', __LINE__, __FILE__, $sql);
     }
 
-    $extension_group = $db->sql_fetchrowset($result);
-    $num_extension_group = $db->sql_numrows($result);
-    $db->sql_freeresult($result);
+    $extension_group = $titanium_db->sql_fetchrowset($result);
+    $num_extension_group = $titanium_db->sql_numrows($result);
+    $titanium_db->sql_freeresult($result);
 
     for ($i = 0; $i < $num_extension_group; $i++)
     {
@@ -572,7 +572,7 @@ if ($mode == 'groups')
 
         $s_allowed = ($extension_group[$i]['allow_group'] == 1) ? 'checked="checked"' : '';
 
-        $template->assign_block_vars('grouprow', array(
+        $phpbb2_template->assign_block_vars('grouprow', array(
             'GROUP_ID'            => $extension_group[$i]['group_id'],
             'EXTENSION_GROUP'    => $extension_group[$i]['group_name'],
             'UPLOAD_ICON'        => $extension_group[$i]['upload_icon'],
@@ -583,9 +583,9 @@ if ($mode == 'groups')
             'S_FILESIZE'        => size_select('size_select_list[]', $size_format),
 
             'MAX_FILESIZE'        => $extension_group[$i]['max_filesize'],
-            'CAT_BOX'            => ($viewgroup == $extension_group[$i]['group_id']) ? $lang['Decollapse'] : $lang['Collapse'],
-            'U_VIEWGROUP'        => ($viewgroup == $extension_group[$i]['group_id']) ? append_sid("admin_extensions.$phpEx?mode=groups") : append_sid("admin_extensions.$phpEx?mode=groups&amp;" . POST_GROUPS_URL . "=" . $extension_group[$i]['group_id']),
-            'U_FORUM_PERMISSIONS'    => append_sid("admin_extensions.$phpEx?mode=$mode&amp;e_mode=perm&amp;e_group=" . $extension_group[$i]['group_id']))
+            'CAT_BOX'            => ($viewgroup == $extension_group[$i]['group_id']) ? $titanium_lang['Decollapse'] : $titanium_lang['Collapse'],
+            'U_VIEWGROUP'        => ($viewgroup == $extension_group[$i]['group_id']) ? append_titanium_sid("admin_extensions.$phpEx?mode=groups") : append_titanium_sid("admin_extensions.$phpEx?mode=groups&amp;" . POST_GROUPS_URL . "=" . $extension_group[$i]['group_id']),
+            'U_FORUM_PERMISSIONS'    => append_titanium_sid("admin_extensions.$phpEx?mode=$mode&amp;e_mode=perm&amp;e_group=" . $extension_group[$i]['group_id']))
         );
 
         if ($viewgroup && $viewgroup == $extension_group[$i]['group_id'])
@@ -594,18 +594,18 @@ if ($mode == 'groups')
                 FROM ' . EXTENSIONS_TABLE . '
                 WHERE group_id = ' . (int) $viewgroup;
 
-            if (!$result = $db->sql_query($sql))
+            if (!$result = $titanium_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, 'Couldn\'t get Extension informations', '', __LINE__, __FILE__, $sql);
             }
 
-            $extension = $db->sql_fetchrowset($result);
-            $num_extension = $db->sql_numrows($result);
-            $db->sql_freeresult($result);
+            $extension = $titanium_db->sql_fetchrowset($result);
+            $num_extension = $titanium_db->sql_numrows($result);
+            $titanium_db->sql_freeresult($result);
 
             for ($j = 0; $j < $num_extension; $j++)
             {
-                $template->assign_block_vars('grouprow.extensionrow', array(
+                $phpbb2_template->assign_block_vars('grouprow.extensionrow', array(
                     'EXPLANATION'    => $extension[$j]['comment'],
                     'EXTENSION'        => $extension[$j]['extension'])
                 );
@@ -628,7 +628,7 @@ if ($submit && $mode == 'forbidden')
             FROM ' . FORBIDDEN_EXTENSIONS_TABLE . '
             WHERE ext_id IN (' . $extension_id_sql . ')';
 
-        if (!$result = $db->sql_query($sql))
+        if (!$result = $titanium_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Could not delete forbidden extensions', '', __LINE__, __FILE__, $sql);
         }
@@ -643,14 +643,14 @@ if ($submit && $mode == 'forbidden')
         $sql = 'SELECT extension
             FROM ' . FORBIDDEN_EXTENSIONS_TABLE;
 
-        if (!($result = $db->sql_query($sql)))
+        if (!($result = $titanium_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not query forbidden extensions', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $db->sql_fetchrowset($result);
-        $num_rows = $db->sql_numrows($result);
-        $db->sql_freeresult($result);
+        $row = $titanium_db->sql_fetchrowset($result);
+        $num_rows = $titanium_db->sql_numrows($result);
+        $titanium_db->sql_freeresult($result);
 
         if ($num_rows > 0)
         {
@@ -663,7 +663,7 @@ if ($submit && $mode == 'forbidden')
                     {
                         $error_msg .= '<br />';
                     }
-                    $error_msg .= sprintf($lang['Forbidden_extension_exist'], $extension);
+                    $error_msg .= sprintf($titanium_lang['Forbidden_extension_exist'], $extension);
                 }
             }
         }
@@ -674,14 +674,14 @@ if ($submit && $mode == 'forbidden')
             $sql = 'SELECT extension
                 FROM ' . EXTENSIONS_TABLE;
 
-            if (!($result = $db->sql_query($sql)))
+            if (!($result = $titanium_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not query extensions', '', __LINE__, __FILE__, $sql);
             }
 
-            $row = $db->sql_fetchrowset($result);
-            $num_rows = $db->sql_numrows($result);
-            $db->sql_freeresult($result);
+            $row = $titanium_db->sql_fetchrowset($result);
+            $num_rows = $titanium_db->sql_numrows($result);
+            $titanium_db->sql_freeresult($result);
 
             if ($num_rows > 0)
             {
@@ -694,7 +694,7 @@ if ($submit && $mode == 'forbidden')
                         {
                             $error_msg .= '<br />';
                         }
-                        $error_msg .= sprintf($lang['Extension_exist_forbidden'], $extension);
+                        $error_msg .= sprintf($titanium_lang['Extension_exist_forbidden'], $extension);
                     }
                 }
             }
@@ -705,7 +705,7 @@ if ($submit && $mode == 'forbidden')
             $sql = 'INSERT INTO ' . FORBIDDEN_EXTENSIONS_TABLE . " (extension)
                 VALUES ('" . attach_mod_sql_escape(strtolower($extension)) . "')";
 
-            if (!($db->sql_query($sql)))
+            if (!($titanium_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not add forbidden extension', '', __LINE__, __FILE__, $sql);
             }
@@ -715,7 +715,7 @@ if ($submit && $mode == 'forbidden')
 
     if (!$error)
     {
-        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=forbidden") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $titanium_lang['Attach_config_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_extensions.$phpEx?mode=forbidden") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -724,39 +724,39 @@ if ($submit && $mode == 'forbidden')
 
 if ($mode == 'forbidden')
 {
-    $template->set_filenames(array(
+    $phpbb2_template->set_filenames(array(
         'body' => 'admin/attach_forbidden_extensions.tpl')
     );
 
-    $template->assign_vars(array(
-        'S_ATTACH_ACTION'        => append_sid('admin_extensions.' . $phpEx . '?mode=forbidden'),
+    $phpbb2_template->assign_vars(array(
+        'S_ATTACH_ACTION'        => append_titanium_sid('admin_extensions.' . $phpEx . '?mode=forbidden'),
 
-        'L_EXTENSIONS_TITLE'    => $lang['Manage_forbidden_extensions'],
-        'L_EXTENSIONS_EXPLAIN'    => $lang['Manage_forbidden_extensions_explain'],
-        'L_EXTENSION'            => $lang['Extension'],
-        'L_ADD_NEW'                => $lang['Add_new'],
-        'L_SUBMIT'                => $lang['Submit'],
-        'L_DELETE'                => $lang['Delete'])
+        'L_EXTENSIONS_TITLE'    => $titanium_lang['Manage_forbidden_extensions'],
+        'L_EXTENSIONS_EXPLAIN'    => $titanium_lang['Manage_forbidden_extensions_explain'],
+        'L_EXTENSION'            => $titanium_lang['Extension'],
+        'L_ADD_NEW'                => $titanium_lang['Add_new'],
+        'L_SUBMIT'                => $titanium_lang['Submit'],
+        'L_DELETE'                => $titanium_lang['Delete'])
     );
 
     $sql = 'SELECT *
         FROM ' . FORBIDDEN_EXTENSIONS_TABLE . '
         ORDER BY extension';
 
-    if (!($result = $db->sql_query($sql)))
+    if (!($result = $titanium_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get forbidden extension informations', '', __LINE__, __FILE__, $sql);
     }
 
-    $extensionrow = $db->sql_fetchrowset($result);
-    $num_extensionrow = $db->sql_numrows($result);
-    $db->sql_freeresult($result);
+    $extensionrow = $titanium_db->sql_fetchrowset($result);
+    $num_extensionrow = $titanium_db->sql_numrows($result);
+    $titanium_db->sql_freeresult($result);
 
     if ($num_extensionrow > 0)
     {
         for ($i = 0; $i < $num_extensionrow; $i++)
         {
-                $template->assign_block_vars('extensionrow', array(
+                $phpbb2_template->assign_block_vars('extensionrow', array(
                     'EXTENSION_ID'        => $extensionrow[$i]['ext_id'],
                     'EXTENSION_NAME'    => $extensionrow[$i]['extension'])
                 );
@@ -795,7 +795,7 @@ if ($add_forum && $e_mode == 'perm' && $group)
     if ($add_all_forums)
     {
         $sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . " SET forum_permissions = '' WHERE group_id = " . (int) $group;
-        if (!($result = $db->sql_query($sql)))
+        if (!($result = $titanium_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not update Permissions', '', __LINE__, __FILE__, $sql);
         }
@@ -809,13 +809,13 @@ if ($add_forum && $e_mode == 'perm' && $group)
             WHERE group_id = ' . intval($group) . '
             LIMIT 1';
 
-        if (!($result = $db->sql_query($sql)))
+        if (!($result = $titanium_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not get Group Permissions from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $db->sql_fetchrow($result);
-        $db->sql_freeresult($result);
+        $row = $titanium_db->sql_fetchrow($result);
+        $titanium_db->sql_freeresult($result);
 
         if (trim($row['forum_permissions']) == '')
         {
@@ -839,7 +839,7 @@ if ($add_forum && $e_mode == 'perm' && $group)
 
         $sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . " SET forum_permissions = '" . attach_mod_sql_escape($auth_bitstream) . "' WHERE group_id = " . (int) $group;
 
-        if (!($result = $db->sql_query($sql)))
+        if (!($result = $titanium_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not update Permissions', '', __LINE__, __FILE__, $sql);
         }
@@ -858,13 +858,13 @@ if ($delete_forum && $e_mode == 'perm' && $group)
         WHERE group_id = ' . intval($group) . '
         LIMIT 1';
 
-    if (!($result = $db->sql_query($sql)))
+    if (!($result = $titanium_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Group Permissions from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
     }
 
-    $row = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
+    $row = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
 
     $auth_p2 = auth_unpack(trim($row['forum_permissions']));
     $auth_p = array();
@@ -882,7 +882,7 @@ if ($delete_forum && $e_mode == 'perm' && $group)
 
     $sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . " SET forum_permissions = '" . attach_mod_sql_escape($auth_bitstream) . "' WHERE group_id = " . (int) $group;
 
-    if (!($result = $db->sql_query($sql)))
+    if (!($result = $titanium_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not update Permissions', '', __LINE__, __FILE__, $sql);
     }
@@ -891,7 +891,7 @@ if ($delete_forum && $e_mode == 'perm' && $group)
 // Display the Group Permissions Box for configuring it
 if ($e_mode == 'perm' && $group)
 {
-    $template->set_filenames(array(
+    $phpbb2_template->set_filenames(array(
         'perm_box' => 'admin/extension_groups_permissions.tpl')
     );
 
@@ -900,13 +900,13 @@ if ($e_mode == 'perm' && $group)
         WHERE group_id = ' . intval($group) . '
         LIMIT 1';
 
-    if (!($result = $db->sql_query($sql)))
+    if (!($result = $titanium_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Group Name from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
     }
 
-    $row = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
+    $row = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
 
     $group_name = $row['group_name'];
     $allowed_forums = trim($row['forum_permissions']);
@@ -916,7 +916,7 @@ if ($e_mode == 'perm' && $group)
     if ($allowed_forums == '')
     {
         $forum_perm[0]['forum_id'] = 0;
-        $forum_perm[0]['forum_name'] = $lang['Perm_all_forums'];
+        $forum_perm[0]['forum_name'] = $titanium_lang['Perm_all_forums'];
     }
     else
     {
@@ -925,12 +925,12 @@ if ($e_mode == 'perm' && $group)
         $forum_p = auth_unpack($allowed_forums);
 
         $sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE . " WHERE forum_id IN (" . implode(', ', $forum_p) . ")";
-        if (!($result = $db->sql_query($sql)))
+        if (!($result = $titanium_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not get Forum Names', '', __LINE__, __FILE__, $sql);
         }
 
-        while ($row = $db->sql_fetchrow($result))
+        while ($row = $titanium_db->sql_fetchrow($result))
         {
             $forum_perm[$act_id]['forum_id'] = $row['forum_id'];
             $forum_perm[$act_id]['forum_name'] = $row['forum_name'];
@@ -940,80 +940,80 @@ if ($e_mode == 'perm' && $group)
 
     for ($i = 0; $i < sizeof($forum_perm); $i++)
     {
-        $template->assign_block_vars('allow_option_values', array(
+        $phpbb2_template->assign_block_vars('allow_option_values', array(
             'VALUE'        => $forum_perm[$i]['forum_id'],
             'OPTION'    => $forum_perm[$i]['forum_name'])
         );
     }
 
-    $template->assign_vars(array(
-        'L_GROUP_PERMISSIONS_TITLE'        => sprintf($lang['Group_permissions_title'], trim($group_name)),
-        'L_GROUP_PERMISSIONS_EXPLAIN'    => $lang['Group_permissions_explain'],
-        'L_REMOVE_SELECTED'                => $lang['Remove_selected'],
-        'L_CLOSE_WINDOW'                => $lang['Close_window'],
-        'L_ADD_FORUMS'                    => $lang['Add_forums'],
-        'L_ADD_SELECTED'                => $lang['Add_selected'],
-        'L_RESET'                        => $lang['Reset'],
-        'A_PERM_ACTION'                    => append_sid("admin_extensions.$phpEx?mode=groups&amp;e_mode=perm&amp;e_group=$group"))
+    $phpbb2_template->assign_vars(array(
+        'L_GROUP_PERMISSIONS_TITLE'        => sprintf($titanium_lang['Group_permissions_title'], trim($group_name)),
+        'L_GROUP_PERMISSIONS_EXPLAIN'    => $titanium_lang['Group_permissions_explain'],
+        'L_REMOVE_SELECTED'                => $titanium_lang['Remove_selected'],
+        'L_CLOSE_WINDOW'                => $titanium_lang['Close_window'],
+        'L_ADD_FORUMS'                    => $titanium_lang['Add_forums'],
+        'L_ADD_SELECTED'                => $titanium_lang['Add_selected'],
+        'L_RESET'                        => $titanium_lang['Reset'],
+        'A_PERM_ACTION'                    => append_titanium_sid("admin_extensions.$phpEx?mode=groups&amp;e_mode=perm&amp;e_group=$group"))
     );
 
-    $forum_option_values = array(GPERM_ALL => $lang['Perm_all_forums']);
+    $forum_option_values = array(GPERM_ALL => $titanium_lang['Perm_all_forums']);
 
     $sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE;
 
-    if (!($result = $db->sql_query($sql)))
+    if (!($result = $titanium_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Forums', '', __LINE__, __FILE__, $sql);
     }
 
-    while ($row = $db->sql_fetchrow($result))
+    while ($row = $titanium_db->sql_fetchrow($result))
     {
         $forum_option_values[intval($row['forum_id'])] = $row['forum_name'];
     }
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
 
     foreach ($forum_option_values as $value => $option)
     {
-        $template->assign_block_vars('forum_option_values', array(
+        $phpbb2_template->assign_block_vars('forum_option_values', array(
             'VALUE'        => $value,
             'OPTION'    => $option)
         );
     }
 
-    $template->assign_var_from_handle('GROUP_PERMISSIONS_BOX', 'perm_box');
+    $phpbb2_template->assign_var_from_handle('GROUP_PERMISSIONS_BOX', 'perm_box');
 
     $empty_perm_forums = array();
     $sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE . " WHERE auth_attachments < " . AUTH_ADMIN;
 
-    if (!($f_result = $db->sql_query($sql)))
+    if (!($f_result = $titanium_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Forums.', '', __LINE__, __FILE__, $sql);
     }
 
-    while ($row = $db->sql_fetchrow($f_result))
+    while ($row = $titanium_db->sql_fetchrow($f_result))
     {
-        $forum_id = $row['forum_id'];
+        $phpbb2_forum_id = $row['forum_id'];
 
         $sql = "SELECT forum_permissions
             FROM " . EXTENSION_GROUPS_TABLE . "
             WHERE allow_group = 1
             ORDER BY group_name ASC";
 
-        if ( !($result = $db->sql_query($sql)) )
+        if ( !($result = $titanium_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not query Extension Groups.', '', __LINE__, __FILE__, $sql);
         }
 
-        $rows = $db->sql_fetchrowset($result);
-        $num_rows = $db->sql_numrows($result);
-        $db->sql_freeresult($result);
+        $rows = $titanium_db->sql_fetchrowset($result);
+        $num_rows = $titanium_db->sql_numrows($result);
+        $titanium_db->sql_freeresult($result);
 
         $found_forum = FALSE;
 
         for ($i = 0; $i < $num_rows; $i++)
         {
             $allowed_forums = auth_unpack(trim($rows[$i]['forum_permissions']));
-            if (in_array($forum_id, $allowed_forums) || trim($rows[$i]['forum_permissions']) == '')
+            if (in_array($phpbb2_forum_id, $allowed_forums) || trim($rows[$i]['forum_permissions']) == '')
             {
                 $found_forum = TRUE;
                 break;
@@ -1022,50 +1022,50 @@ if ($e_mode == 'perm' && $group)
 
         if (!$found_forum)
         {
-            $empty_perm_forums[$forum_id] = $row['forum_name'];
+            $empty_perm_forums[$phpbb2_forum_id] = $row['forum_name'];
         }
     }
-    $db->sql_freeresult($f_result);
+    $titanium_db->sql_freeresult($f_result);
 
     $message = '';
 
-    foreach ($empty_perm_forums as $forum_id => $forum_name)
+    foreach ($empty_perm_forums as $phpbb2_forum_id => $forum_name)
     {
         $message .= ( $message == '' ) ? $forum_name : '<br />' . $forum_name;
     }
 
     if (sizeof($empty_perm_forums) > 0)
     {
-        $template->set_filenames(array(
+        $phpbb2_template->set_filenames(array(
             'perm_reg_header' => 'error_body.tpl')
         );
 
-        $template->assign_vars(array(
-            'ERROR_MESSAGE' => $lang['Note_admin_empty_group_permissions'] . $message)
+        $phpbb2_template->assign_vars(array(
+            'ERROR_MESSAGE' => $titanium_lang['Note_admin_empty_group_permissions'] . $message)
         );
 
-        $template->assign_var_from_handle('PERM_ERROR_BOX', 'perm_reg_header');
+        $phpbb2_template->assign_var_from_handle('PERM_ERROR_BOX', 'perm_reg_header');
     }
 }
 
 if ($error)
 {
-    $template->set_filenames(array(
+    $phpbb2_template->set_filenames(array(
         'reg_header' => 'error_body.tpl')
     );
 
-    $template->assign_vars(array(
+    $phpbb2_template->assign_vars(array(
         'ERROR_MESSAGE' => $error_msg)
     );
 
-    $template->assign_var_from_handle('ERROR_BOX', 'reg_header');
+    $phpbb2_template->assign_var_from_handle('ERROR_BOX', 'reg_header');
 }
 
-$template->assign_vars(array(
-    'ATTACH_VERSION' => sprintf($lang['Attachment_version'], $attach_config['attach_version']))
+$phpbb2_template->assign_vars(array(
+    'ATTACH_VERSION' => sprintf($titanium_lang['Attachment_version'], $attach_config['attach_version']))
 );
 
-$template->pparse('body');
+$phpbb2_template->pparse('body');
 
 include('page_footer_admin.'.$phpEx);
 

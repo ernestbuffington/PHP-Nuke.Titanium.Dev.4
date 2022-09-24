@@ -54,7 +54,7 @@ msnl_fDebugMsg( "Start of Build Banner HTML" );
 $msnl_asHTML['BANNERS']	= "";
 
 $sql			= "SELECT `bid`, `imageurl`, `clickurl`, `alttext` FROM `"
-					.$prefix."_banner`";
+					.$titanium_prefix."_banner`";
 
 $result		= msnl_fSQLCall( $sql );
 
@@ -64,7 +64,7 @@ if ( !$result ) { //Bad SQL call
 
 } else { //Successful SQL call
 
-		while (	$row = $db->sql_fetchrow( $result ) ) { 
+		while (	$row = $titanium_db->sql_fetchrow( $result ) ) { 
 
 			$msnl_asRec['bid']				= intval( $row['bid'] );
 			$msnl_asRec['imageurl']		= stripslashes( $row['imageurl'] );

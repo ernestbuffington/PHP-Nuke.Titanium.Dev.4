@@ -41,12 +41,12 @@ class Swift_CharacterReader_GenericFixedWidthReader
    * Returns the complete charactermap
    *
    * @param string $string
-   * @param int $startOffset
+   * @param int $phpbb2_startOffset
    * @param array $currentMap
    * @param mixed $ignoredChars
    * @return $int
    */
-  public function getCharPositions($string, $startOffset, &$currentMap, &$ignoredChars)
+  public function getCharPositions($string, $phpbb2_startOffset, &$currentMap, &$ignoredChars)
   {
   	$strlen = strlen($string);
   	// % and / are CPU intensive, so, maybe find a better way

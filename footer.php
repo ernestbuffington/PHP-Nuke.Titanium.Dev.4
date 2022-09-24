@@ -42,30 +42,30 @@ function footmsg()
 		   $foot3,
 		   $foot4, 
 	   $copyright, 
-	  $total_time, 
-	  $start_time, 
+	  $total_phpbb2_time, 
+	  $phpbb2_start_time, 
 	     $footmsg, 
-		      $db,
-			 $db2, 
-   $queries_count, 
+		      $titanium_db,
+			 $titanium_db2, 
+   $titanium_queries_count, 
    $usrclearcache, 
         $debugger, 
 		   $debug, 
-		   $cache, 
+		   $titanium_cache, 
 	   $use_cache,
 	       $index,
-	      $prefix,
-		    $user, 
-	 $user_prefix,
+	      $titanium_prefix,
+		    $titanium_user, 
+	 $titanium_user_prefix,
 	      $cookie,
-	    $storynum,
+	    $blognum,
    $Default_Theme,
             $home,
 			$name,
 		   $admin,
      $persistency, 
 $do_gzip_compress, 
-	   $start_mem;
+	   $phpbb2_start_mem;
 
 static $has_echoed;
 
@@ -117,7 +117,7 @@ endif;
 global $theme_business, $theme_title, $theme_author, $theme_date, $theme_name, $theme_download_link, $name; 
 if(($name) && $name === 'Forums'):
 $footmsg .= '<br />';
-$footmsg .= 'Forums Powered by <a href="http://dev-phpbb2.86it.us/" target="_tab">phpBB Titanium v2.0.23n</a> | Core &copy; 2001, 2019 phpBB Group<br />';
+$footmsg .= 'Forums Powered by <a href="https://www.groom.lake.86it.us/" target="_tab">phpBB Titanium v4.0.1</a> | Core &copy; 2001, 2019 phpBB Group<br />';
 endif;
 $footmsg .= '<a class="tooltip-html copyright" href="'.$theme_download_link.'" data-toggle="modal" data-target="'.$theme_download_link.'" title="'.$theme_title; 
 $footmsg .= '<br/>Designed By '.$theme_author.'<br />Created '.$theme_date.'<br />'.$theme_business.'<br/>All Rights Reserved">'.$theme_title.'</a><br/><br/>';
@@ -143,36 +143,36 @@ $footmsg .= $foot3."<br/><br/>";
 # footer message 3 from the database END
 
 global $digits_color;
-$total_time = (get_microtime() - $start_time);                                              # I'm lying right here can you figure out how?
-$total_time = '<span class="copyright"> '._PAGEGENERATION."<strong><font color='".$digits_color."'> ".(substr($total_time,0,4)-0.04)."</font></strong> "._SECONDS."";
+$total_phpbb2_time = (get_microtime() - $phpbb2_start_time);                                              # I'm lying right here can you figure out how?
+$total_phpbb2_time = '<span class="copyright"> '._PAGEGENERATION."<strong><font color='".$digits_color."'> ".(substr($total_phpbb2_time,0,4)-0.04)."</font></strong> "._SECONDS."";
         
-if ($start_mem > 0): 
-$total_mem = memory_get_usage()-$start_mem;
-$total_time .= ' | Memory Usage: <strong><font color="'.$digits_color.'">'.(($total_mem >= 1048576) 
-? round((round($total_mem / 1048576 * 100) / 100), 2).'</font></strong> MB<strong><font color="'.$digits_color.'">' : (($total_mem >= 1024) 
-? round((round($total_mem / 1024 * 100) / 100), 2).'</font></strong> KB<strong><font 
-color="'.$digits_color.'">' : $total_mem.'</font></strong> Bytes<strong><font color="'.$digits_color.'">')); 
-$total_time .= '</font></strong>';
+if ($phpbb2_start_mem > 0): 
+$total_phpbb2_mem = memory_get_usage()-$phpbb2_start_mem;
+$total_phpbb2_time .= ' | Memory Usage: <strong><font color="'.$digits_color.'">'.(($total_phpbb2_mem >= 1048576) 
+? round((round($total_phpbb2_mem / 1048576 * 100) / 100), 2).'</font></strong> MB<strong><font color="'.$digits_color.'">' : (($total_phpbb2_mem >= 1024) 
+? round((round($total_phpbb2_mem / 1024 * 100) / 100), 2).'</font></strong> KB<strong><font 
+color="'.$digits_color.'">' : $total_phpbb2_mem.'</font></strong> Bytes<strong><font color="'.$digits_color.'">')); 
+$total_phpbb2_time .= '</font></strong>';
 endif;
 
 # MariaDB version at bottom of footer START
-$footmsg .= $db->mariadb_version().'<br/>';
+$footmsg .= $titanium_db->mariadb_version().'<br/>';
 # MariaDB version at bottom of footer END
 
 # START Queries Count v2.0.1
-if($queries_count):
-$total_time .= ' | DB Queries: <strong><font color="'.$digits_color.'">' . $db->num_queries;
-$total_time .= '</font></strong>';
+if($titanium_queries_count):
+$total_phpbb2_time .= ' | DB Queries: <strong><font color="'.$digits_color.'">' . $titanium_db->num_queries;
+$total_phpbb2_time .= '</font></strong>';
 endif;
 # END Queries Count v2.0.1
 
-$total_time .= ' ';
-$total_time .= '</span>';
+$total_phpbb2_time .= ' ';
+$total_phpbb2_time .= '</span>';
 
 # Auto Optimize v1.0.0 START
 if(is_admin()): 
  $first_time = false;
-  if (($last_optimize = $cache->load('last_optimize', 'config')) === false): 
+  if (($last_optimize = $titanium_cache->load('last_optimize', 'config')) === false): 
    $last_optimize = time();
     $first_time = true;
   endif;			
@@ -181,10 +181,10 @@ if(is_admin()):
      //Default: -1 day
      //$interval = strtotime('-1 day');
 	 $interval = strtotime('-1 day');
-       if (($last_optimize <= $interval) || ($first_time && $cache->valid && $use_cache)):
-         if ($db->sql_optimize()):
-           $cache->save('last_optimize', 'config', time());
-             $total_time .= "<br />Database Optimized";
+       if (($last_optimize <= $interval) || ($first_time && $titanium_cache->valid && $use_cache)):
+         if ($titanium_db->sql_optimize()):
+           $titanium_cache->save('last_optimize', 'config', time());
+             $total_phpbb2_time .= "<br />Database Optimized";
          endif;
        endif;
            
@@ -195,7 +195,7 @@ update_modules();
 endif;
 # Auto Optimize v1.0.0 END
 	
-    $footmsg .= $total_time."<br />\n</span>\n";
+    $footmsg .= $total_phpbb2_time."<br />\n</span>\n";
 
     # START Debugger v1.0.0
     if(is_admin() && $debugger->debug && count($debugger->errors) > 0): 
@@ -207,7 +207,7 @@ endif;
     
 	if (is_admin()) 
 	{
-      echo $db->print_debug();
+      echo $titanium_db->print_debug();
     }
     # END Debugger v1.0.0
 	
@@ -218,7 +218,7 @@ endif;
 		    $strstart = strlen(NUKE_BASE_DIR);
 			$debug_sql = '<span class="genmed" style="font-weight: bold;">SQL Debug:</span><br /><br />';
 			
-			foreach ($db->querylist as $file => $queries) 
+			foreach ($titanium_db->querylist as $file => $queries) 
 			{
 				$file = substr($file, $strstart);
 				if (empty($file)) $file = 'unknown file';
@@ -283,9 +283,9 @@ if (defined('HOME_FILE'))
 # END NSN Center Blocks v2.2.1
 
 # look to see if a copyright file exist for the currently displayed module START
-$pageURL = "".HTTPS."modules/".$module_name."/copyright.php";
+$pageURL = "".HTTPS."modules/".$titanium_module_name."/copyright.php";
 
-if (defined('MODULE_FILE') && !defined("HOME_FILE") AND file_exists("modules/".$module_name."/copyright.php")) 
+if (defined('MODULE_FILE') && !defined("HOME_FILE") AND file_exists("modules/".$titanium_module_name."/copyright.php")) 
 {
     echo "<script type=\"text/javascript\">\n";
     echo "<!--\n";
@@ -328,7 +328,7 @@ echo "</script>\n\n";
 }
 
 # just a  normal module load without it being displayed by default when index.php loads, look to see if a copyright file exist for the currently displayed module START
-//     $cpname = preg_replace("/_/", " ", $module_name);
+//     $cpname = preg_replace("/_/", " ", $titanium_module_name);
 //     echo "<div align=\"right\"><a href=\"javascript:openwindow(420,200)\">$cpname &copy;</a></div>";
 # just a  normal module load without it being displayed by default when index.php loads, look to see if a copyright file exist for the currently displayed module END
 
@@ -344,7 +344,7 @@ if (!defined('HOME_FILE') AND defined('MODULE_FILE') AND (file_exists(NUKE_MODUL
 themefooter();
 
 # needed for the forum admin area START
-if (!defined('IN_PHPBB')) 
+if (!defined('IN_PHPBB2')) 
 echo "<div style=\"display:none\" id=\"resizemod\"></div>";
 # needed for the forum admin area END
 
@@ -364,19 +364,19 @@ echo "<!-- END Bottom Primary Body Tags -->\n\n";
 
 # ReSync the website cache!
 # Set up the cache class reference
-$cache = new cache($use_cache);
-$cache->resync();
+$titanium_cache = new cache($use_cache);
+$titanium_cache->resync();
 
 /*****[BEGIN]******************************************
  [ Other:   DB Connectors                      v2.0.0 ]
  [ Other:   Persistent DB Connection           v2.0.0 ]
  ******************************************************/
-if(is_object($db))
-$db->sql_close(); //close local database
-if(is_object($db2))
-$db2->sql_close(); //close network user database
-//if(is_object($db3))
-//$db3->sql_close(); //close music database
+if(is_object($titanium_db))
+$titanium_db->sql_close(); //close local database
+if(is_object($titanium_db2))
+$titanium_db2->sql_close(); //close network user database
+//if(is_object($titanium_db3))
+//$titanium_db3->sql_close(); //close music database
 /*****[END]********************************************
  [ Other:   DB Connectors                      v2.0.0 ]
  [ Other:   Persistent DB Connection           v2.0.0 ]

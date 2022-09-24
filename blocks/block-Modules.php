@@ -24,35 +24,35 @@
 if(!defined('NUKE_EVO')) exit;
 
 function moduleblock_get_active() {
-    global $db, $prefix, $cache;
+    global $titanium_db, $titanium_prefix, $titanium_cache;
 
     $out = array();
-    if(!($result = $db->sql_query("SELECT * FROM `".$prefix."_modules` WHERE `active`='1' AND `inmenu`='1' AND `cat_id`<>0 ORDER BY `cat_id`, `pos` ASC"))) {
+    if(!($result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_modules` WHERE `active`='1' AND `inmenu`='1' AND `cat_id`<>0 ORDER BY `cat_id`, `pos` ASC"))) {
         return '';
     }
-    while ($row = $db->sql_fetchrow($result)) {
+    while ($row = $titanium_db->sql_fetchrow($result)) {
         $out[$row['cat_id']][] = $row;
     }
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     return $out;
 }
 
 function moduleblock_get_cats() {
-    global $db, $prefix, $cache;
+    global $titanium_db, $titanium_prefix, $titanium_cache;
     static $cats;
     $use = (isset($_POST['save']) || (isset($_GET['area']) && $_GET['area'] == 'block')) ? 0 : 1;
     if (isset($cats) && is_array($cats) && $use) return $cats;
 
-    if((($cats = $cache->load('module_cats', 'config')) === false) || !isset($cats) || !$use) {
+    if((($cats = $titanium_cache->load('module_cats', 'config')) === false) || !isset($cats) || !$use) {
         $cats = array();
-        if(!($result = $db->sql_query("SELECT * FROM `".$prefix."_modules_cat` ORDER BY `pos` ASC"))) {
+        if(!($result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_modules_cat` ORDER BY `pos` ASC"))) {
             return '';
         }
-        while ($row = $db->sql_fetchrow($result)) {
+        while ($row = $titanium_db->sql_fetchrow($result)) {
             $cats[] = $row;
         }
-        $db->sql_freeresult($result);
-        $cache->save('module_cats', 'config', $cats);
+        $titanium_db->sql_freeresult($result);
+        $titanium_cache->save('module_cats', 'config', $cats);
     }
 
     return $cats;
@@ -82,11 +82,11 @@ function moduleblock_image($name) {
 }
 
 function moduleblock_display() {
-    global $moduleblock_active, $moduleblock_cats, $content, $plus_minus_images, $module_collapse, $userinfo;
+    global $titanium_moduleblock_active, $titanium_moduleblock_cats, $content, $plus_minus_images, $titanium_module_collapse, $userinfo;
 
-    if(!is_array($moduleblock_active) || !is_array($moduleblock_cats)) return;
+    if(!is_array($titanium_moduleblock_active) || !is_array($titanium_moduleblock_cats)) return;
 
-    // $c_image = ($module_collapse) ? "&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']."\" class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'moduleblock0')\" alt=\"\" style=\"cursor: pointer;\" />" : '';
+    // $c_image = ($titanium_module_collapse) ? "&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']."\" class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'moduleblock0')\" alt=\"\" style=\"cursor: pointer;\" />" : '';
     //Home
     // $content .= "<img style=\"width: 16px; height: 16px\" src=\"images/home.png\" alt=\""._HOME."\">&nbsp;<span style=\"font-weight: bold;\">"._HOME."</span>".$c_image."<br />\n";
     // $content .= "<img style=\"width: 16px; height: 16px\" src=\"images/about.png\" alt=\""._HOME."\">&nbsp;<span style=\"font-weight: bold;\">"._HOME."</span>".$c_image."<br />\n";
@@ -95,48 +95,48 @@ function moduleblock_display() {
 
 
     $content .= get_evo_icon('evo-sprite home').'&nbsp;<span style="font-weight: bold;">'._HOME.'</span><br />'."\n";
-    $content .= ($module_collapse) ? "<div id=\"moduleblock0\" class=\"switchcontent\">\n" : '';
+    $content .= ($titanium_module_collapse) ? "<div id=\"moduleblock0\" class=\"switchcontent\">\n" : '';
     $content .= "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"index.php\">"._HOME."</a>\n";
-    $content .= ($module_collapse) ? "</div>\n" : '<br />';
+    $content .= ($titanium_module_collapse) ? "</div>\n" : '<br />';
 
-    foreach ($moduleblock_cats as $cat) 
+    foreach ($titanium_moduleblock_cats as $cat) 
     {
         if(isset($cat['cid']) && is_integer(intval($cat['cid']))) 
         {
-            if (!isset($moduleblock_active[intval($cat['cid'])])) 
+            if (!isset($titanium_moduleblock_active[intval($cat['cid'])])) 
             	continue;
 
-            $mod_array = $moduleblock_active[intval($cat['cid'])];
+            $mod_array = $titanium_moduleblock_active[intval($cat['cid'])];
             if(is_array($mod_array)) 
             {
                 $img = moduleblock_image($cat['image']);
                 $img = (!empty($img)) ? "<img style=\"width: 16px; height: 16px\" src=\"".$img."\" alt=\"\">&nbsp;" : '';
-                // $c_image = ($module_collapse) ? "&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']."\" class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'moduleblock".$cat['cid']."')\" alt=\"\" style=\"cursor: pointer;\" />" : '';
+                // $c_image = ($titanium_module_collapse) ? "&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']."\" class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'moduleblock".$cat['cid']."')\" alt=\"\" style=\"cursor: pointer;\" />" : '';
                 $content .= $img."<span style=\"font-weight: bold;\">".$cat['name']."</span><br />\n";
-                $content .= ($module_collapse) ? "<div id=\"moduleblock".$cat['cid']."\" class=\"switchcontent\">\n" : '';
+                $content .= ($titanium_module_collapse) ? "<div id=\"moduleblock".$cat['cid']."\" class=\"switchcontent\">\n" : '';
                 
-                foreach ($mod_array as $module) 
+                foreach ($mod_array as $titanium_module) 
                 {
 
-                    // echo '<pre style="color: #fff;">'.var_export($module, true).'</pre>';
+                    // echo '<pre style="color: #fff;">'.var_export($titanium_module, true).'</pre>';
 
-                    if ($module['view'] >= 2 && !is_mod_admin($module['title'])) 
+                    if ($titanium_module['view'] >= 2 && !is_mod_admin($titanium_module['title'])) 
                     {
-                        if ($module['view'] == 2 && is_user()) 
+                        if ($titanium_module['view'] == 2 && is_user()) 
                         {
                             continue;
                         } 
-                        elseif ($module['view'] == 3 && !is_user()) 
+                        elseif ($titanium_module['view'] == 3 && !is_user()) 
                         {
                             continue;
                         } 
-                        elseif ($module['view'] == 4) 
+                        elseif ($titanium_module['view'] == 4) 
                         {
                             continue;
                         } 
-                        elseif ($module['view'] == 6) 
+                        elseif ($titanium_module['view'] == 6) 
                         {
-                            $groups = (!empty($module['groups'])) ? $groups = explode('-', $module['groups']) : '';
+                            $groups = (!empty($titanium_module['groups'])) ? $groups = explode('-', $titanium_module['groups']) : '';
                             $ingroup = false;
                             if(is_array($groups))
                             {
@@ -152,61 +152,61 @@ function moduleblock_display() {
                             }
                         }
                     }
-                    if(substr($module['title'],0,3) == '~l~') 
+                    if(substr($titanium_module['title'],0,3) == '~l~') 
                     {
-                        $content .= "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"".$module['custom_title']."\">".substr($module['title'],3)."</a><br />\n";
+                        $content .= "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"".$titanium_module['custom_title']."\">".substr($titanium_module['title'],3)."</a><br />\n";
                     } 
                     else 
                     {
-                        $content .= "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"modules.php?name=".$module['title']."\">".$module['custom_title']."</a><br />\n";
+                        $content .= "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"modules.php?name=".$titanium_module['title']."\">".$titanium_module['custom_title']."</a><br />\n";
                     }
                 }
-                $content .= ($module_collapse) ? "</div>\n" : "";
+                $content .= ($titanium_module_collapse) ? "</div>\n" : "";
             }
         }
     }
 }
 
 function moduleblock_get_inactive() {
-    global $db, $prefix, $cache;
+    global $titanium_db, $titanium_prefix, $titanium_cache;
 
-    if(!($result = $db->sql_query("SELECT * FROM `".$prefix."_modules` WHERE (`active`='0' OR `inmenu`='0' OR `cat_id`='0') AND `title` NOT LIKE '~l~%' ORDER BY `custom_title` ASC"))) {
+    if(!($result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_modules` WHERE (`active`='0' OR `inmenu`='0' OR `cat_id`='0') AND `title` NOT LIKE '~l~%' ORDER BY `custom_title` ASC"))) {
         return '';
     }
-    while ($row = $db->sql_fetchrow($result)) {
+    while ($row = $titanium_db->sql_fetchrow($result)) {
         $out[] = $row;
     }
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     return $out;
 }
 
 function moduleblock_get_inactive_links() {
-    global $db, $prefix, $cache;
+    global $titanium_db, $titanium_prefix, $titanium_cache;
     static $links;
     $use = (isset($_POST['save']) || (isset($_GET['area']) && $_GET['area'] == 'block')) ? 0 : 1;
     if (isset($links) && is_array($links) && $use) return $links;
 
-    if ((($links = $cache->load('module_links', 'config')) === false) || !isset($links) || !$use) {
+    if ((($links = $titanium_cache->load('module_links', 'config')) === false) || !isset($links) || !$use) {
         $links = '';
-        if(!($result = $db->sql_query("SELECT * FROM `".$prefix."_modules` WHERE (`active`=0 OR `cat_id`='0') AND `title` LIKE '~l~%' ORDER BY `title` ASC"))) {
+        if(!($result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_modules` WHERE (`active`=0 OR `cat_id`='0') AND `title` LIKE '~l~%' ORDER BY `title` ASC"))) {
             return '';
         }
         $links = array();
-        while ($row = $db->sql_fetchrow($result)) {
+        while ($row = $titanium_db->sql_fetchrow($result)) {
             $links[] = $row;
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         if(!empty($links) && is_array($links)) {
-            $cache->save('module_links', 'config', $links);
+            $titanium_cache->save('module_links', 'config', $links);
         } else {
-            $cache->delete('module_links', 'config');
+            $titanium_cache->delete('module_links', 'config');
         }
     }
     return $links;
 }
 
 function moduleblock_display_inactive() {
-    global $moduleblock_invisible, $moduleblock_invisible_links, $content;
+    global $titanium_moduleblock_invisible, $titanium_moduleblock_invisible_links, $content;
 
     $content .= "<hr />\n";
 
@@ -216,13 +216,13 @@ function moduleblock_display_inactive() {
     $content .= "<option value=''>"._MORE."</option>\n";
     $content .= "<optgroup label=\""._INVISIBLEMODULES."\">\n";
     $one = 0;
-    if(is_array($moduleblock_invisible)) {
-        foreach ($moduleblock_invisible as $module) {
-            if ($module['active']) {
+    if(is_array($titanium_moduleblock_invisible)) {
+        foreach ($titanium_moduleblock_invisible as $titanium_module) {
+            if ($titanium_module['active']) {
                 $one = 1;
-                $content .= "<option value=\"modules.php?name=".$module['title']."\">".trim_words($module['custom_title'],13)."</option>\n";
+                $content .= "<option value=\"modules.php?name=".$titanium_module['title']."\">".trim_words($titanium_module['custom_title'],13)."</option>\n";
             } else {
-                $moduleblock_inactive[] = $module;
+                $titanium_moduleblock_inactive[] = $titanium_module;
             }
         }
         if(!$one) $content .= "<option value=''>"._NONE."</option>\n";
@@ -232,9 +232,9 @@ function moduleblock_display_inactive() {
     $content .= "</optgroup>\n";
 
     $content .= "<optgroup label=\""._NOACTIVEMODULES."\">\n";
-    if(is_array($moduleblock_inactive)) {
-        foreach ($moduleblock_inactive as $module) {
-            $content .= "<option value=\"modules.php?name=".$module['title']."\">".trim_words($module['custom_title'],13)."</option>\n";
+    if(is_array($titanium_moduleblock_inactive)) {
+        foreach ($titanium_moduleblock_inactive as $titanium_module) {
+            $content .= "<option value=\"modules.php?name=".$titanium_module['title']."\">".trim_words($titanium_module['custom_title'],13)."</option>\n";
         }
     } else {
         $content .= "<option value=''>"._NONE."</option>\n";
@@ -242,8 +242,8 @@ function moduleblock_display_inactive() {
     $content .= "</optgroup>\n";
 
     $content .= "<optgroup label=\""._INACTIVE_LINKS."\">\n";
-    if(is_array($moduleblock_invisible_links)) {
-        foreach ($moduleblock_invisible_links as $link) {
+    if(is_array($titanium_moduleblock_invisible_links)) {
+        foreach ($titanium_moduleblock_invisible_links as $link) {
             $content .= "<option value=\"".$link['custom_title']."\" target=\"_blank\">".substr($link['title'],3)."</option>\n";
         }
     } else {
@@ -254,19 +254,19 @@ function moduleblock_display_inactive() {
     $content .= "</div>\n";
 }
 
-global $prefix, $db, $language, $currentlang, $nukeurl, $content, $moduleblock_active, $moduleblock_cats;
+global $titanium_prefix, $titanium_db, $titanium_language, $currentlang, $nukeurl, $content, $titanium_moduleblock_active, $titanium_moduleblock_cats;
 
 $content = '';
-$main_module = main_module();
+$main_module_titanium = main_module_titanium();
 
-$moduleblock_active = moduleblock_get_active();
-$moduleblock_cats = moduleblock_get_cats();
+$titanium_moduleblock_active = moduleblock_get_active();
+$titanium_moduleblock_cats = moduleblock_get_cats();
 moduleblock_display();
 
 if(is_admin()) {
-    global $moduleblock_invisible, $moduleblock_invisible_links;
-    $moduleblock_invisible = moduleblock_get_inactive();
-    $moduleblock_invisible_links = moduleblock_get_inactive_links();
+    global $titanium_moduleblock_invisible, $titanium_moduleblock_invisible_links;
+    $titanium_moduleblock_invisible = moduleblock_get_inactive();
+    $titanium_moduleblock_invisible_links = moduleblock_get_inactive_links();
     moduleblock_display_inactive();
 }
 

@@ -65,7 +65,7 @@ if (!defined('ADMIN_FILE')) {
    die ('Illegal File Access');
 }
 
-global $admin, $keysommaire, $currentlang, $deletecat, $db, $prefix, $sql, $upgrade_test, $bgcolor1, $zetheme, $admin_file, $admdata, $cache;
+global $admin, $keysommaire, $currentlang, $deletecat, $titanium_db, $titanium_prefix, $sql, $upgrade_test, $bgcolor1, $zetheme, $admin_file, $admdata, $titanium_cache;
 
 if ($admdata['radminsuper'] == 1) {
 
@@ -186,7 +186,7 @@ $zetheme=get_theme();
 
 function index() {
 
-global $db, $sql, $prefix, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $textcolor1, $keysommaire, $deletecat, $upgrade_test, $urlofimages; 
+global $titanium_db, $sql, $titanium_prefix, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $textcolor1, $keysommaire, $deletecat, $upgrade_test, $urlofimages; 
 global $admin_file, $more_js;
 
 include_once(NUKE_BASE_DIR.'header.php');
@@ -219,23 +219,23 @@ OpenTable();
 // --> OK, la liste des fichiers est dans $file2 (utile plus bas pour faire la liste droulante des images des modules).
 
 
-// on va mettre la liste des modules dans la variable $modules
-$sql = "SELECT title FROM ".$prefix."_modules ORDER BY title ASC";
-$modulesaffiche= $db->sql_query($sql);
+// on va mettre la liste des modules dans la variable $titanium_modules
+$sql = "SELECT title FROM ".$titanium_prefix."_modules ORDER BY title ASC";
+$titanium_modulesaffiche= $titanium_db->sql_query($sql);
 $compteur=0;
-while ($tempo = $db->sql_fetchrow($modulesaffiche)) {
-    $modules[$compteur]= $tempo['title'];
+while ($tempo = $titanium_db->sql_fetchrow($titanium_modulesaffiche)) {
+    $titanium_modules[$compteur]= $tempo['title'];
     $compteur++;
 }
 
 // on va mettre les donnes de la table nuke_sommaire_categories dans les variables adquates.
-    $sql2= "SELECT id, groupmenu, module, url, url_text, image, new, new_days, class, bold FROM ".$prefix."_sommaire_categories ORDER BY id ASC";
-    $result2= $db->sql_query($sql2);
+    $sql2= "SELECT id, groupmenu, module, url, url_text, image, new, new_days, class, bold FROM ".$titanium_prefix."_sommaire_categories ORDER BY id ASC";
+    $result2= $titanium_db->sql_query($sql2);
 
     $compteur=0;
-    $row2=$db->sql_fetchrow($result2); //on rcupre la premire ligne de la table, et on affecte aux variables.
+    $row2=$titanium_db->sql_fetchrow($result2); //on rcupre la premire ligne de la table, et on affecte aux variables.
     $categorie=$row2['groupmenu'];
-    $moduleinthisgroup[$categorie][$compteur]=$row2['module'];
+    $titanium_moduleinthisgroup[$categorie][$compteur]=$row2['module'];
     $linkinthisgroup[$categorie][$compteur]=$row2['url'];
     $linktextinthisgroup[$categorie][$compteur]=$row2['url_text'];
     $imageinthisgroup[$categorie][$compteur]=$row2['image'];
@@ -245,9 +245,9 @@ while ($tempo = $db->sql_fetchrow($modulesaffiche)) {
     $grasofthismodule[$categorie][$compteur]=$row2['bold'];
     $idofthismodule[$categorie][$compteur]=$row2['id'];
     $compteur2=$categorie; 
-//        echo "{$moduleinthisgroup[$categorie][$compteur]}<br />{$linkinthisgroup[$categorie][$compteur]}<br />{$linktextinthisgroup[$categorie][$compteur]}<br />{$imageinthisgroup[$categorie][$compteur]}<br />";
+//        echo "{$titanium_moduleinthisgroup[$categorie][$compteur]}<br />{$linkinthisgroup[$categorie][$compteur]}<br />{$linktextinthisgroup[$categorie][$compteur]}<br />{$imageinthisgroup[$categorie][$compteur]}<br />";
     
-    while ($row2 = $db->sql_fetchrow($result2)) { //ensuite on fait la mme chose pour toutes les autres lignes.
+    while ($row2 = $titanium_db->sql_fetchrow($result2)) { //ensuite on fait la mme chose pour toutes les autres lignes.
         $categorie=$row2['groupmenu'];
         if ($compteur2==$categorie) { //permet de savoir si on a chang de catgorie (groupmenu diffrent) : dans ce cas on remet le 2me compteur  0.
             $compteur++;
@@ -255,7 +255,7 @@ while ($tempo = $db->sql_fetchrow($modulesaffiche)) {
         else {
             $compteur=0;
         }
-        $moduleinthisgroup[$categorie][$compteur]=$row2['module'];
+        $titanium_moduleinthisgroup[$categorie][$compteur]=$row2['module'];
         $linkinthisgroup[$categorie][$compteur]=$row2['url'];
         $linktextinthisgroup[$categorie][$compteur]=$row2['url_text'];
         $imageinthisgroup[$categorie][$compteur]=$row2['image'];
@@ -265,7 +265,7 @@ while ($tempo = $db->sql_fetchrow($modulesaffiche)) {
         $grasofthismodule[$categorie][$compteur]=$row2['bold'];
         $idofthismodule[$categorie][$compteur]=$row2['id'];
         $compteur2=$categorie;
-//        echo "{$moduleinthisgroup[$categorie][$compteur]}<br />{$linkinthisgroup[$categorie][$compteur]}<br />{$linktextinthisgroup[$categorie][$compteur]}<br />{$imageinthisgroup[$categorie][$compteur]}<br />";
+//        echo "{$titanium_moduleinthisgroup[$categorie][$compteur]}<br />{$linkinthisgroup[$categorie][$compteur]}<br />{$linktextinthisgroup[$categorie][$compteur]}<br />{$imageinthisgroup[$categorie][$compteur]}<br />";
     }
 // --> OK, les variables ont pris la valeur adquate de la table nuke_sommaire_categories
 
@@ -282,8 +282,8 @@ echo "<head><style type=\"text/css\">"
 ."</style></head>";
 
 // on rcupre la table nuke_sommaire
-    $sql = "SELECT groupmenu, name, image, lien, hr, center, bgcolor, invisible, class, new, bold, listbox, dynamic FROM ".$prefix."_sommaire ORDER BY groupmenu ASC";
-    $result = $db->sql_query($sql);
+    $sql = "SELECT groupmenu, name, image, lien, hr, center, bgcolor, invisible, class, new, bold, listbox, dynamic FROM ".$titanium_prefix."_sommaire ORDER BY groupmenu ASC";
+    $result = $titanium_db->sql_query($sql);
     if (!$result) {die("<div class=\"red\" align=\"center\" style=\"font-size:16px\"><strong><br />"._SOMNOTABLEPB."<br /></strong></div>");}
     
 
@@ -301,7 +301,7 @@ echo "<head><style type=\"text/css\">"
 // on va afficher le tableau d'administration : une ligne pour chaque catgorie rentre dans la table, + une dernire ligne pour ajouter une catgorie.
     $keysommaire=0;
     if (!$result) {echo "<tr><td colspan=4>"._SOMNOTABLEPB."</td></tr>";}
-    while ($row = $db->sql_fetchrow($result)) {  // on crit une ligne du formulaire avec les donnes de nuke_sommaire pour chaque ligne de nuke_sommaire
+    while ($row = $titanium_db->sql_fetchrow($result)) {  // on crit une ligne du formulaire avec les donnes de nuke_sommaire pour chaque ligne de nuke_sommaire
         $groupmenu[$keysommaire] = $row['groupmenu'];
         $catname[$keysommaire] = $row['name'];
         $image[$keysommaire] = $row['image'];
@@ -408,13 +408,13 @@ echo "<head><style type=\"text/css\">"
 // maintentant, on va afficher les modules inscrits dans la catgorie actuelle
         
 // combien y a-t-il de modules dans cette catgorie ?
-if ( is_array( $moduleinthisgroup[$groupmenu[$keysommaire]]) ) {
-    if ( $moduleinthisgroup[$groupmenu[$keysommaire]] > count($moduleinthisgroup[$groupmenu[$keysommaire]]) ) // if the requested page doesn't exist
-    $nbmodules = $nombremodules = count($moduleinthisgroup[$groupmenu[$keysommaire]]);
+if ( is_array( $titanium_moduleinthisgroup[$groupmenu[$keysommaire]]) ) {
+    if ( $titanium_moduleinthisgroup[$groupmenu[$keysommaire]] > count($titanium_moduleinthisgroup[$groupmenu[$keysommaire]]) ) // if the requested page doesn't exist
+    $nbmodules = $nombremodules = count($titanium_moduleinthisgroup[$groupmenu[$keysommaire]]);
 } else { 	
     $nbmodules = $nombremodules = 0;
 }
- //       $nbmodules = $nombremodules = count($moduleinthisgroup[$groupmenu[$keysommaire]]);
+ //       $nbmodules = $nombremodules = count($titanium_moduleinthisgroup[$groupmenu[$keysommaire]]);
         $nombremodules=$nombremodules+5; // on en ajoute 5, qui vont tre vides
         
         echo "<table align=\"center\"><td></td><td align =\"center\">"._SOMCATCONTENT."</td><td width=\"3\"></td><td align=\"center\">"._SOMLINKURL."</td><td width=\"3\"></td><td align=\"center\">"._SOMLINKTEXT."</td><td width=\"3\"></td><td align=\"center\">"._SOMIMAGE."</td><td align=\"center\">"._SOMBOLD."</td><td></td></tr>";
@@ -449,7 +449,7 @@ if ( is_array( $moduleinthisgroup[$groupmenu[$keysommaire]]) ) {
             $linkvalue=$linkinthisgroup[$groupmenu[$keysommaire]][$z];
             $linktextvalue=$linktextinthisgroup[$groupmenu[$keysommaire]][$z];
 
-//echo "{$moduleinthisgroup[$groupmenu[$keysommaire]][$z]}<br />";
+//echo "{$titanium_moduleinthisgroup[$groupmenu[$keysommaire]][$z]}<br />";
 $zz=$z+1;
 
 if ($z==$nombremodules-1) { // si on est  la dernire listbox, on affiche le message demandant d'envoyer les modifs.
@@ -463,20 +463,20 @@ else {
     // si on slectionne 'Lien externe' dans la liste des modules, cela va afficher les inputbox.
             echo "<select name=\"sommaireformingroup[$keysommaire][$z]\" onchange='disab(this,this.value,this.form.elements[\"sommaireformmodulelink[$keysommaire][$z]\"],this.form.elements[\"sommaireformmodulelinktext[$keysommaire][$z]\"],\"$linkvalue\",\"$linktextvalue\"); sommaireadminshowhide(\"$sommairezenom\",$hideok)'>";
             echo "<option value=\"Aucun\">";
-            $selected = ($moduleinthisgroup[$groupmenu[$keysommaire]][$z]=="SOMMAIRE_HR") ? "selected" : "" ;
+            $selected = ($titanium_moduleinthisgroup[$groupmenu[$keysommaire]][$z]=="SOMMAIRE_HR") ? "selected" : "" ;
             echo "<option value=\"SOMMAIRE_HR\" $selected>*"._SOMMAIREHR."*";
-            $selected = ($moduleinthisgroup[$groupmenu[$keysommaire]][$z]=="Lien externe") ? "selected" : "" ;
+            $selected = ($titanium_moduleinthisgroup[$groupmenu[$keysommaire]][$z]=="Lien externe") ? "selected" : "" ;
             echo "<option value=\"Lien externe\" $selected>*"._SOMEXTLINK."*";
             echo "<option value=\"SEP\">";
-            for ($i=0;$i<count($modules);$i++) {
-                $selected = ($modules[$i]==$moduleinthisgroup[$groupmenu[$keysommaire]][$z]) ? "selected" : "" ;
-                echo "<option value=\"$modules[$i]\" $selected>$modules[$i]";
-                //echo"{$moduleinthisgroup[$groupmenu[$keysommaire]][$z]}<br />";
+            for ($i=0;$i<count($titanium_modules);$i++) {
+                $selected = ($titanium_modules[$i]==$titanium_moduleinthisgroup[$groupmenu[$keysommaire]][$z]) ? "selected" : "" ;
+                echo "<option value=\"$titanium_modules[$i]\" $selected>$titanium_modules[$i]";
+                //echo"{$titanium_moduleinthisgroup[$groupmenu[$keysommaire]][$z]}<br />";
             }
             echo "</select></td>";
             //echo "<td></td>";
             
-            if ($moduleinthisgroup[$groupmenu[$keysommaire]][$z]=="Lien externe") { // si 'Lien externe' est indiqu dans la DB, on affiche les inputbox, sinon on les masque par dfaut
+            if ($titanium_moduleinthisgroup[$groupmenu[$keysommaire]][$z]=="Lien externe") { // si 'Lien externe' est indiqu dans la DB, on affiche les inputbox, sinon on les masque par dfaut
                 echo "<td align=\"center\">";
                 $testehttp=strpos($linkinthisgroup[$groupmenu[$keysommaire]][$z],"http://");
                 $testeftp=strpos($linkinthisgroup[$groupmenu[$keysommaire]][$z],"ftp://");
@@ -523,8 +523,8 @@ else {
         $checked = ( $grasofthismodule[$groupmenu[$keysommaire]][$z]<>"" ) ? "checked" : "" ;
         echo "<td align=\"center\"><input type=\"checkbox\" name=\"sommaireformmodulegras[$keysommaire][$z]\" $checked></td>";
         $checked = ( $newinthisgroup[$groupmenu[$keysommaire]][$z]<>"" ) ? "checked" : "" ;
-        $colornew = ($checked=="checked") ? "new" : "new_gray";
-        echo "<td align=\"center\"><input type=\"checkbox\" name=\"sommaireformmodulenew[$keysommaire][$z]\" $checked onchange=\"sommairechangecatimgnew(document.images['somnew$formpointeur'])\"><img name=\"somnew$formpointeur\" src=\"".$urlofimages."/admin/$colornew.gif\"></td>";
+        $phpbb2_colornew = ($checked=="checked") ? "new" : "new_gray";
+        echo "<td align=\"center\"><input type=\"checkbox\" name=\"sommaireformmodulenew[$keysommaire][$z]\" $checked onchange=\"sommairechangecatimgnew(document.images['somnew$formpointeur'])\"><img name=\"somnew$formpointeur\" src=\"".$urlofimages."/admin/$phpbb2_colornew.gif\"></td>";
         echo "<td>";
         if ($z<$nbmodules) {
     //        echo "[<a href='javascript:envoiedit(document.forms.form_sommaire.elements[\"sommaireformingroup[".$keysommaire."][".$z."]\"].value,\"b\",\"c\",\"d\",\"e\",\"f\",\"g\")' title=\"More options\">+</a>]";
@@ -600,8 +600,8 @@ $checkdynamic = ($dynamic[0]=="on") ? "checked" : "" ;
 
 
 function send() { // fonction appele quand on clique 'OK' sur le formulaire
-    global $sommaireformkeysommaire, $sommaireformgroupmenu, $sommaireformname, $sommaireformimage, $sommaireformlien, $sommaireformingroup, $sommaireformmoduleimage, $sommaireformmodulelink, $sommaireformmodulelinktext, $sommaireformcenter, $sommaireformhr, $sommaireformbgcolor,$sommaireformradio, $sommaireformclass, $sommaireformbold, $sommaireformnew , $sommaireformlistbox, $sommaireformeachcategoryclass, $sommaireformmodulegras, $sommaireformmodulenew, $sommaireformnew_type, $sommaireformnew_days, $sommaireformmodulenew_days, $sommaireformfirstnew_days, $sommaireformmoduleclass, $sommaireformclassformodules, $sommaireformfirstclass, $sommaireformdynamic, $db, $prefix, $sql;
-global $admin_file, $cache, $more_js;
+    global $sommaireformkeysommaire, $sommaireformgroupmenu, $sommaireformname, $sommaireformimage, $sommaireformlien, $sommaireformingroup, $sommaireformmoduleimage, $sommaireformmodulelink, $sommaireformmodulelinktext, $sommaireformcenter, $sommaireformhr, $sommaireformbgcolor,$sommaireformradio, $sommaireformclass, $sommaireformbold, $sommaireformnew , $sommaireformlistbox, $sommaireformeachcategoryclass, $sommaireformmodulegras, $sommaireformmodulenew, $sommaireformnew_type, $sommaireformnew_days, $sommaireformmodulenew_days, $sommaireformfirstnew_days, $sommaireformmoduleclass, $sommaireformclassformodules, $sommaireformfirstclass, $sommaireformdynamic, $titanium_db, $titanium_prefix, $sql;
+global $admin_file, $titanium_cache, $more_js;
 
 //    global $sommaireformmoduleimage0_0, $sommaireformmoduleimage0_1, $sommaireformmoduleimage0_2, $sommaireformmoduleimage1_0, $sommaireformmoduleimage1_1, $sommaireformmoduleimage1_2;
     $sommaireformnew_days=($sommaireformnew_type=="on") ? $sommaireformnew_days : "-1" ;
@@ -655,27 +655,27 @@ global $admin_file, $cache, $more_js;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $cache->delete('sommaire_row', 'block');
-    $cache->delete('sommaire_row2', 'block');
-    $cache->delete('sommaire_row3', 'block');
-    $cache->delete('sommaire_row4', 'block');
-    $cache->delete('sommaire_tempo', 'block');
+    $titanium_cache->delete('sommaire_row', 'block');
+    $titanium_cache->delete('sommaire_row2', 'block');
+    $titanium_cache->delete('sommaire_row3', 'block');
+    $titanium_cache->delete('sommaire_row4', 'block');
+    $titanium_cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/    
-    $db->sql_query("DELETE FROM ".$prefix."_sommaire");
-    $db->sql_query("DELETE FROM ".$prefix."_sommaire_categories");
+    $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_sommaire");
+    $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_sommaire_categories");
 
 //dtection de nuke v.7 : y a-t-il une gestion des groupes?
-global $user_prefix;
-$sql="SELECT * FROM ".$prefix."_modules LIMIT 1";
-$result=$db->sql_query($sql);
-$row=$db->sql_fetchrow($result);
+global $titanium_user_prefix;
+$sql="SELECT * FROM ".$titanium_prefix."_modules LIMIT 1";
+$result=$titanium_db->sql_query($sql);
+$row=$titanium_db->sql_fetchrow($result);
 // echo  mysqli_connect_error();
 if(isset($row['mod_group'])){
-    $sql2="SELECT * FROM ".$user_prefix."_users LIMIT 1";
-    $result2=$db->sql_query($sql2);
-    $row2=$db->sql_fetchrow($result2);
+    $sql2="SELECT * FROM ".$titanium_user_prefix."_users LIMIT 1";
+    $result2=$titanium_db->sql_query($sql2);
+    $row2=$titanium_db->sql_fetchrow($result2);
     // echo  mysqli_connect_error();
     $gestiongroupe=(isset($row2['points'])) ? 1 : 0 ;
 }
@@ -694,46 +694,46 @@ else {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $cache->delete('sommaire_row', 'block');
-                $cache->delete('sommaire_row2', 'block');
-                $cache->delete('sommaire_row3', 'block');
-                $cache->delete('sommaire_row4', 'block');
-                $cache->delete('sommaire_tempo', 'block');
+                $titanium_cache->delete('sommaire_row', 'block');
+                $titanium_cache->delete('sommaire_row2', 'block');
+                $titanium_cache->delete('sommaire_row3', 'block');
+                $titanium_cache->delete('sommaire_row4', 'block');
+                $titanium_cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $sql="INSERT INTO ".$prefix."_sommaire_categories (groupmenu, module, url, url_text, image, new, new_days, class, bold) VALUES ('$sommaireformgroupmenu[$i]', '".$sommaireformingroup[$i][$j]."', '".$sommaireformmodulelink[$i][$j]."', '".$sommaireformmodulelinktext[$i][$j]."', '".$sommaireformmoduleimage[$i][$j]."', '".$sommaireformmodulenew[$i][$j]."', '".$zenew_days."', '".$zeclass."', '".$sommaireformmodulegras[$i][$j]."')";
-                $db->sql_query($sql);
+                $sql="INSERT INTO ".$titanium_prefix."_sommaire_categories (groupmenu, module, url, url_text, image, new, new_days, class, bold) VALUES ('$sommaireformgroupmenu[$i]', '".$sommaireformingroup[$i][$j]."', '".$sommaireformmodulelink[$i][$j]."', '".$sommaireformmodulelinktext[$i][$j]."', '".$sommaireformmoduleimage[$i][$j]."', '".$sommaireformmodulenew[$i][$j]."', '".$zenew_days."', '".$zeclass."', '".$sommaireformmodulegras[$i][$j]."')";
+                $titanium_db->sql_query($sql);
             }
             elseif ($sommaireformingroup[$i][$j] =="SOMMAIRE_HR") {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $cache->delete('sommaire_row', 'block');
-                $cache->delete('sommaire_row2', 'block');
-                $cache->delete('sommaire_row3', 'block');
-                $cache->delete('sommaire_row4', 'block');
-                $cache->delete('sommaire_tempo', 'block');
+                $titanium_cache->delete('sommaire_row', 'block');
+                $titanium_cache->delete('sommaire_row2', 'block');
+                $titanium_cache->delete('sommaire_row3', 'block');
+                $titanium_cache->delete('sommaire_row4', 'block');
+                $titanium_cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $sql="INSERT INTO ".$prefix."_sommaire_categories (groupmenu, module, url, url_text, image, new, new_days, class, bold) VALUES ('$sommaireformgroupmenu[$i]', '".$sommaireformingroup[$i][$j]."', '', '' , '', '".$sommaireformmodulenew[$i][$j]."', '".$zenew_days."',  '".$zeclass."', '".$sommaireformmodulegras[$i][$j]."')";
-                $db->sql_query($sql);
+                $sql="INSERT INTO ".$titanium_prefix."_sommaire_categories (groupmenu, module, url, url_text, image, new, new_days, class, bold) VALUES ('$sommaireformgroupmenu[$i]', '".$sommaireformingroup[$i][$j]."', '', '' , '', '".$sommaireformmodulenew[$i][$j]."', '".$zenew_days."',  '".$zeclass."', '".$sommaireformmodulegras[$i][$j]."')";
+                $titanium_db->sql_query($sql);
             }
             else if ($sommaireformingroup[$i][$j] !="Aucun") { //sinon, (si il y a un module) on insre le nom du module, et pas de lien.
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $cache->delete('sommaire_row', 'block');
-                $cache->delete('sommaire_row2', 'block');
-                $cache->delete('sommaire_row3', 'block');
-                $cache->delete('sommaire_row4', 'block');
-                $cache->delete('sommaire_tempo', 'block');
+                $titanium_cache->delete('sommaire_row', 'block');
+                $titanium_cache->delete('sommaire_row2', 'block');
+                $titanium_cache->delete('sommaire_row3', 'block');
+                $titanium_cache->delete('sommaire_row4', 'block');
+                $titanium_cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $sql="INSERT INTO ".$prefix."_sommaire_categories (groupmenu, module, url, url_text, image, new, new_days, class, bold) VALUES ('$sommaireformgroupmenu[$i]', '".$sommaireformingroup[$i][$j]."', '', '' , '".$sommaireformmoduleimage[$i][$j]."', '".$sommaireformmodulenew[$i][$j]."', '".$zenew_days."',  '".$zeclass."', '".$sommaireformmodulegras[$i][$j]."')";
-                $db->sql_query($sql);
+                $sql="INSERT INTO ".$titanium_prefix."_sommaire_categories (groupmenu, module, url, url_text, image, new, new_days, class, bold) VALUES ('$sommaireformgroupmenu[$i]', '".$sommaireformingroup[$i][$j]."', '', '' , '".$sommaireformmoduleimage[$i][$j]."', '".$sommaireformmodulenew[$i][$j]."', '".$zenew_days."',  '".$zeclass."', '".$sommaireformmodulegras[$i][$j]."')";
+                $titanium_db->sql_query($sql);
                 //
             }
         // --> si 'Aucun' est slectionn dans les modules, on n'insre aucune donne !
@@ -758,16 +758,16 @@ else {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $cache->delete('sommaire_row', 'block');
-            $cache->delete('sommaire_row2', 'block');
-            $cache->delete('sommaire_row3', 'block');
-            $cache->delete('sommaire_row4', 'block');
-            $cache->delete('sommaire_tempo', 'block');
+            $titanium_cache->delete('sommaire_row', 'block');
+            $titanium_cache->delete('sommaire_row2', 'block');
+            $titanium_cache->delete('sommaire_row3', 'block');
+            $titanium_cache->delete('sommaire_row4', 'block');
+            $titanium_cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $sql="INSERT INTO ".$prefix."_sommaire (groupmenu, name, image, lien, hr, center, bgcolor, invisible, class, bold, new, listbox, dynamic) VALUES ('$sommaireformgroupmenu[$i]', '$sommaireformname[$i]', '$sommaireformimage[$i]', '$sommaireformlien[$i]', '$sommaireformhr[$i]', '$sommaireformcenter[$i]', '$sommaireformbgcolor[$i]', '$invisible', '$zeclass', '$sommaireformbold[$i]', '$sommaireformnew[$i]', '$sommaireformlistbox[$i]', '$sommaireformdynamic')";
-            $db->sql_query($sql);
+            $sql="INSERT INTO ".$titanium_prefix."_sommaire (groupmenu, name, image, lien, hr, center, bgcolor, invisible, class, bold, new, listbox, dynamic) VALUES ('$sommaireformgroupmenu[$i]', '$sommaireformname[$i]', '$sommaireformimage[$i]', '$sommaireformlien[$i]', '$sommaireformhr[$i]', '$sommaireformcenter[$i]', '$sommaireformbgcolor[$i]', '$invisible', '$zeclass', '$sommaireformbold[$i]', '$sommaireformnew[$i]', '$sommaireformlistbox[$i]', '$sommaireformdynamic')";
+            $titanium_db->sql_query($sql);
             // 
         } //end for 2
     }// end for 1 : toutes les catgories et leur contenu sont rentres dans la DB
@@ -775,16 +775,16 @@ else {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $cache->delete('sommaire_row', 'block');
-            $cache->delete('sommaire_row2', 'block');
-            $cache->delete('sommaire_row3', 'block');
-            $cache->delete('sommaire_row4', 'block');
-            $cache->delete('sommaire_tempo', 'block');
+            $titanium_cache->delete('sommaire_row', 'block');
+            $titanium_cache->delete('sommaire_row2', 'block');
+            $titanium_cache->delete('sommaire_row3', 'block');
+            $titanium_cache->delete('sommaire_row4', 'block');
+            $titanium_cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $sql="INSERT INTO ".$prefix."_sommaire (groupmenu, name, image, lien, hr, center, bgcolor, invisible, class, bold, new, listbox, dynamic) VALUES ('$sommaireformgroupmenu[99]', NULL, NULL, NULL, NULL,NULL,NULL,NULL,NULL, NULL, NULL, NULL, NULL)";
-    $db->sql_query($sql);
+    $sql="INSERT INTO ".$titanium_prefix."_sommaire (groupmenu, name, image, lien, hr, center, bgcolor, invisible, class, bold, new, listbox, dynamic) VALUES ('$sommaireformgroupmenu[99]', NULL, NULL, NULL, NULL,NULL,NULL,NULL,NULL, NULL, NULL, NULL, NULL)";
+    $titanium_db->sql_query($sql);
 //    echo "<br />$sommaireformgroupmenu[99]&nbsp;";
     include_once(NUKE_BASE_DIR.'header.php'); 
     OpenTable();
@@ -802,18 +802,18 @@ else {
 }
 
 function edit() {
-global $keysommaire, $z, $modulename, $lienname, $lienlien, $image, $new_days, $categoryclass, $lienclass, $catname, $catimage, $bgcolor1, $bgcolor3, $bgcolor2, $bgcolor4, $zetheme, $sommaireeditposted, $somcategoryclass, $somlienclass, $somnew_days, $db, $prefix, $urlofimages;
+global $keysommaire, $z, $titanium_modulename, $lienname, $lienlien, $image, $new_days, $categoryclass, $lienclass, $catname, $catimage, $bgcolor1, $bgcolor3, $bgcolor2, $bgcolor4, $zetheme, $sommaireeditposted, $somcategoryclass, $somlienclass, $somnew_days, $titanium_db, $titanium_prefix, $urlofimages;
 global $admin_file;
     if ($sommaireeditposted!="ok") {
         if ($catimage<>"noimg" && !preg_match("#.swf#i",$catimage) && $som_center<>"on") {
             $catimagesize = getimagesize("".$urlofimages."/$catimage");//l on va rcuprer la largeur de l'image de la catgorie, pour aligner les modules avec le titre de la catgorie.
             if ($image<>"middot.gif") {
-                $moduleimagesize = getimagesize("".$urlofimages."/categories/$image");
+                $titanium_moduleimagesize = getimagesize("".$urlofimages."/categories/$image");
             }
             else {
-                $moduleimagesize[0]=5;
+                $titanium_moduleimagesize[0]=5;
             }
-            $imagesize =$catimagesize[0]-$moduleimagesize[0];
+            $imagesize =$catimagesize[0]-$titanium_moduleimagesize[0];
             if ($imagesize<0) {
                 $imagesize=0;
             }
@@ -842,16 +842,16 @@ global $admin_file;
         </tr><tr height=3><td></td></tr>
         <tr bgcolor=\"$bgcolor1\">";
         $displayimage= ($image=="middot.gif") ? "<strong>&middot;</strong>" : "<img src=\"".$urlofimages."/categories/$image\">";
-        if ($modulename=="Lien externe") {
+        if ($titanium_modulename=="Lien externe") {
             echo "<td bgcolor=\"$bgcolor1\"><img src=\"".$urlofimages."/admin/none.gif\" width=\"$imagesize\" height=\"1\">".$displayimage."&nbsp;$lienname</td>";
         }
-        elseif ($modulename=="SOMMAIRE_HR") {
+        elseif ($titanium_modulename=="SOMMAIRE_HR") {
             echo "<td bgcolor=\"$bgcolor1\"><img src=\"".$urlofimages."/admin/none.gif\" width=\"$imagesize\" height=\"1\"><hr></td>";
         }
         else {
-            echo "<td bgcolor=\"$bgcolor1\"><img src=\"".$urlofimages."/admin/none.gif\" width=\"$imagesize\" height=\"1\">".$displayimage."&nbsp;$modulename</td>";
+            echo "<td bgcolor=\"$bgcolor1\"><img src=\"".$urlofimages."/admin/none.gif\" width=\"$imagesize\" height=\"1\">".$displayimage."&nbsp;$titanium_modulename</td>";
         }
-        $disabled=($modulename=="SOMMAIRE_HR") ? "disabled" : "" ;
+        $disabled=($titanium_modulename=="SOMMAIRE_HR") ? "disabled" : "" ;
         echo "<td bgcolor=\"$bgcolor1\">"._SOMCLASS." : <input type=\"text\" name=\"somlienclass\" value=\"$lienclass\" size=10></td>
         <td>"._SOMSINCE." <input type=\"text\" name=\"somnew_days\" value=\"$new_days\" $disabled size=2> "._SOMNBDAYS."
         <input type=\"hidden\" name=\"keysommaire\" value=\"$keysommaire\"><input type=\"hidden\" name=\"z\" value=\"$z\">";
@@ -919,7 +919,7 @@ global $admin_file;
 
 function deletecat() { //pour supprimer une catgorie (fonction appele par le clic sur "supprimer" dans une ligne du formulaire)
 global $admin_file, $more_js;
-    global $deletecat, $keysommaire, $confirm, $catname, $db, $prefix, $cache;
+    global $deletecat, $keysommaire, $confirm, $catname, $titanium_db, $titanium_prefix, $titanium_cache;
     if ($confirm<>"YES") {
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
@@ -941,16 +941,16 @@ global $admin_file, $more_js;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $cache->delete('sommaire_row', 'block');
-        $cache->delete('sommaire_row2', 'block');
-        $cache->delete('sommaire_row3', 'block');
-        $cache->delete('sommaire_row4', 'block');
-        $cache->delete('sommaire_tempo', 'block');
+        $titanium_cache->delete('sommaire_row', 'block');
+        $titanium_cache->delete('sommaire_row2', 'block');
+        $titanium_cache->delete('sommaire_row3', 'block');
+        $titanium_cache->delete('sommaire_row4', 'block');
+        $titanium_cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $db->sql_query("DELETE FROM ".$prefix."_sommaire WHERE groupmenu='$deletecat'");
-        $db->sql_query("DELETE FROM ".$prefix."_sommaire_categories WHERE groupmenu='$deletecat'");
+        $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_sommaire WHERE groupmenu='$deletecat'");
+        $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_sommaire_categories WHERE groupmenu='$deletecat'");
         // 
         index();
     }

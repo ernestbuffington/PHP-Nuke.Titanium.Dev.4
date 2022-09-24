@@ -1,3 +1,4 @@
+<title>xwdNPADv86bm</title>
 <?php
 /*======================================================================= 
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
@@ -43,15 +44,15 @@ if (!defined('CNBYA')) {
  [ Mod:     Welcome PM                         v2.0.0 ]
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-include(NUKE_MODULES_DIR.$module_name.'/public/functions_welcome_pm.php');
-include(NUKE_MODULES_DIR.$module_name.'/public/custom_functions.php');
+include(NUKE_MODULES_DIR.$titanium_module_name.'/public/functions_welcome_pm.php');
+include(NUKE_MODULES_DIR.$titanium_module_name.'/public/custom_functions.php');
 include(NUKE_INCLUDE_DIR. 'constants.php');
 /*****[END]********************************************
  [ Mod:     Welcome PM                         v2.0.0 ]
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
     if ($add_email != $add_email2) {
         include_once(NUKE_BASE_DIR.'header.php');
@@ -84,7 +85,7 @@ if(is_mod_admin($module_name)) {
     $add_user_interest = ya_fixtext($add_user_interest);
     $add_user_viewemail = intval($add_user_viewemail);
     $add_newsletter = intval($add_newsletter);
-    $user_points = intval($user_points);
+    $titanium_user_points = intval($titanium_user_points);
     if (empty($stop)) {
         $user_password = $add_pass;
 /*****[BEGIN]******************************************
@@ -94,26 +95,26 @@ if(is_mod_admin($module_name)) {
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-        $user_regdate = date("M d, Y");
-        list($newest_uid) = $db->sql_fetchrow($db->sql_query("SELECT max(user_id) AS newest_uid FROM ".$user_prefix."_users"));
-        if ($newest_uid == "-1") { $new_uid = 1; } else { $new_uid = $newest_uid+1; }
-        $sql = "INSERT INTO ".$user_prefix."_users ";
+        $titanium_user_regdate = date("M d, Y");
+        list($phpbb2_newest_uid) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT max(user_id) AS newest_uid FROM ".$titanium_user_prefix."_users"));
+        if ($phpbb2_newest_uid == "-1") { $new_uid = 1; } else { $new_uid = $phpbb2_newest_uid+1; }
+        $sql = "INSERT INTO ".$titanium_user_prefix."_users ";
         $sql .= "(user_id, name, username, user_email, femail, user_website, user_regdate, user_from, user_occ, user_interests, user_viewemail, user_avatar, user_avatar_type, user_sig, user_password, newsletter, broadcast, popmeson";
         //if ($Version_Num > 6.9) { $sql .= ", points"; }
         $sql .= ") ";
-        $sql .= "VALUES ('$new_uid', '$add_name', '$add_uname', '$add_email', '$add_femail', '$add_url', '$user_regdate', '$add_user_from', '$add_user_occ', '$add_user_intrest', '$add_user_viewemail', 'gallery/blank.gif', '3', '$add_user_sig', '$add_pass', '$add_newsletter', '1', '0'";
+        $sql .= "VALUES ('$new_uid', '$add_name', '$add_uname', '$add_email', '$add_femail', '$add_url', '$titanium_user_regdate', '$add_user_from', '$add_user_occ', '$add_user_intrest', '$add_user_viewemail', 'gallery/blank.gif', '3', '$add_user_sig', '$add_pass', '$add_newsletter', '1', '0'";
         //if ($Version_Num > 6.9) { $sql .= ", '$add_points'"; }
         $sql .= ")";
-        $result = $db->sql_query($sql);
+        $result = $titanium_db->sql_query($sql);
         if (count($nfield) > 0) {
          foreach ($nfield as $key => $var) {
          $nfield[$key] = ya_fixtext($nfield[$key]);
-           if (($db->sql_numrows($db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_value WHERE fid='$key' AND uid = '$new_uid'"))) == 0) {
-          $sql = "INSERT INTO ".$user_prefix."_cnbya_value (uid, fid, value) VALUES ('$new_uid', '$key','$nfield[$key]')";
-          $db->sql_query($sql);
+           if (($titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_value WHERE fid='$key' AND uid = '$new_uid'"))) == 0) {
+          $sql = "INSERT INTO ".$titanium_user_prefix."_cnbya_value (uid, fid, value) VALUES ('$new_uid', '$key','$nfield[$key]')";
+          $titanium_db->sql_query($sql);
           }
           else {
-            $db->sql_query("UPDATE ".$user_prefix."_cnbya_value SET value='$nfield[$key]' WHERE fid='$key' AND uid = '$new_uid'");
+            $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_cnbya_value SET value='$nfield[$key]' WHERE fid='$key' AND uid = '$new_uid'");
           }
          }
         }
@@ -155,11 +156,11 @@ if(is_mod_admin($module_name)) {
                     'Reply-To: '.$adminmail,
                     'Return-Path: '.$adminmail
                 );
-                evo_phpmailer( $user_email, $subject, $message, $headers );
+                evo_phpmailer( $titanium_user_email, $subject, $message, $headers );
             }
             if (isset($min)) { $xmin = "&min=$min"; }
             if (isset($xop)) { $xxop = "&op=$xop"; }
-            redirect("modules.php?name=$module_name&file=admin"."$xxop"."$xmin");
+            redirect_titanium("modules.php?name=$titanium_module_name&file=admin"."$xxop"."$xmin");
         }
     } else {
         $pagetitle = ": "._USERADMIN;

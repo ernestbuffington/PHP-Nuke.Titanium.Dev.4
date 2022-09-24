@@ -14,43 +14,43 @@ if (!defined('MODULE_FILE'))
 
 function _file_repository_comments()
 {
-	global $db, $admin_file, $lang_new, $module_name, $settings, $themes, $userinfo, $admin, $user;
+	global $titanium_db, $admin_file, $titanium_lang_new, $titanium_module_name, $settings, $themes, $userinfo, $admin, $titanium_user;
 	OpenTable();
 	_index_navigation_header();
 	$did 		= _escape_string($_GET['did']);
 	$iteminfo 	= _collect_iteminfo($did);
 
 	$sql 	= "SELECT * FROM `"._FILE_REPOSITORY_COMMENTS."` WHERE `did` = '".$did."' AND `uid` = '".$userinfo['user_id']."'";
-	$result = $db->sql_query($sql);
-	$count 	= $db->sql_numrows($result);
+	$result = $titanium_db->sql_query($sql);
+	$count 	= $titanium_db->sql_numrows($result);
 
-	if (_check_users_permissions($iteminfo['groups']) == true && is_user($user))
+	if (_check_users_permissions($iteminfo['groups']) == true && is_user($titanium_user))
 	{
 		echo '<br />';
-		echo '<form action="modules.php?name='.$module_name.'&amp;action=savecomment" method="post">'."\n";
+		echo '<form action="modules.php?name='.$titanium_module_name.'&amp;action=savecomment" method="post">'."\n";
 		echo _input('hidden','did',FALSE,$did);
 		echo '<table style="width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '    <td'._tdcss(false,'center',_sh(),2).'>'._suh(sprintf($lang_new[$module_name]['COMMENT_ON'],$iteminfo['title_colored'])).'</td>'."\n";
+		echo '    <td'._tdcss(false,'center',_sh(),2).'>'._suh(sprintf($titanium_lang_new[$titanium_module_name]['COMMENT_ON'],$iteminfo['title_colored'])).'</td>'."\n";
 		echo '  </tr>'."\n";
 		if($count <> 1)
 		{
 			echo '  <tr'._bgColor(1).'>'."\n";
 			echo '    <td'._tdcss('50%','right',_sc()).'>'._sut('Rate this Download').'</td>'."\n";
-			echo '    <td'._tdcss('50%',false,_sc()).'>'._selectbox('rating',array(''=>$lang_new[$module_name]['RATE'],'1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10'),'',true).'</td>'."\n";
+			echo '    <td'._tdcss('50%',false,_sc()).'>'._selectbox('rating',array(''=>$titanium_lang_new[$titanium_module_name]['RATE'],'1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10'),'',true).'</td>'."\n";
 			echo '  </tr>'."\n";
 			echo '  <tr'._bgColor(1).'>'."\n";
 			echo '    <td'._tdcss(false,'center',_sc(),2).'>'._textarea('comment','',true).'</td>'."\n";
 			echo '  </tr>'."\n";
 			echo '  <tr'._bgColor(1).'>'."\n";	
-			echo '    <td'._tdcss('50%','right',_sc()).'>'._sut($lang_new[$module_name]['SECURITY_CODE']).'</td>'."\n";
+			echo '    <td'._tdcss('50%','right',_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['SECURITY_CODE']).'</td>'."\n";
 			echo '    <td'._tdcss('50%',false,_sc(),(($screenshots['count'] == 0) ? 1 : 2)).'>'."\n";
 		 	echo (!defined('NUKE_EVO')) ? '<img style="border: 1px solid black;" src="images/captcha.php?size=small&file='.$settings['captcha'].'" border="0" alt="" />' : security_code(array(2,4,5,7), 'normal', '0.95')."\n";
 			echo '</td>'."\n";
 			echo '  </tr>'."\n";
 			if (!defined('NUKE_EVO')) {
 				echo '  <tr'._bgColor(1).'>'."\n";	
-				echo '    <td'._tdcss('50%','right',_sc()).'>'._sut($lang_new[$module_name]['SECURITY_TYPE']).'</td>'."\n";
+				echo '    <td'._tdcss('50%','right',_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['SECURITY_TYPE']).'</td>'."\n";
 				echo '    <td'._tdcss('50%',false,_sc(),(($screenshots['count'] == 0) ? 1 : 2)).'>'._input('text','gfx_check','100px','',false,false,true).'</td>'."\n";
 				echo '  </tr>'."\n";
 			}
@@ -58,11 +58,11 @@ function _file_repository_comments()
 		else
 		{
 			echo '  <tr'._bgColor(1).'>'."\n";	
-			echo '    <td'._tdcss(false,'center',_sc(),2).'>'._sut($lang_new[$module_name]['RATING_ONCE']).'</td>'."\n";
+			echo '    <td'._tdcss(false,'center',_sc(),2).'>'._sut($titanium_lang_new[$titanium_module_name]['RATING_ONCE']).'</td>'."\n";
 			echo '  </tr>'."\n";
 		}
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '    <td'._tdcss(false,'center',_sf(),2).'>'.(($count == 1) ? '[ <a'._ls().' href="modules.php?name='.$module_name.'&amp;action=view&amp;did='.$did.'">'._sut($lang_new[$module_name]['GOBACK']).'</a> ]' : _submit($lang_new[$module_name]['SAVE'])).'</td>'."\n";
+		echo '    <td'._tdcss(false,'center',_sf(),2).'>'.(($count == 1) ? '[ <a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=view&amp;did='.$did.'">'._sut($titanium_lang_new[$titanium_module_name]['GOBACK']).'</a> ]' : _submit($titanium_lang_new[$titanium_module_name]['SAVE'])).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '</table>'."\n";
 		echo '</form>'."\n";
@@ -72,22 +72,22 @@ function _file_repository_comments()
 		echo '<br />';
 		echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline" style="table-layout: fixed;">'."\n";
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '    <td'._tdcss(false,'center',_sh(),3).'>'._suh($lang_new[$module_name]['ERROR']).'</td>'."\n";
+		echo '    <td'._tdcss(false,'center',_sh(),3).'>'._suh($titanium_lang_new[$titanium_module_name]['ERROR']).'</td>'."\n";
 		echo '  </tr>'."\n";
-		if(is_user($user))
+		if(is_user($titanium_user))
 		{
 			echo '  <tr'._bgColor(1).'>'."\n";
-			echo '    <td'._tdcss(false,'center',_sc(),3).'>'._sut(sprintf($lang_new[$module_name]['RESTRICTED'],$iteminfo['whocan'])).'</td>'."\n";
+			echo '    <td'._tdcss(false,'center',_sc(),3).'>'._sut(sprintf($titanium_lang_new[$titanium_module_name]['RESTRICTED'],$iteminfo['whocan'])).'</td>'."\n";
 			echo '  </tr>'."\n";
 		}
 		else
 		{	
 			echo '  <tr'._bgColor(1).'>'."\n";
-			echo '    <td'._tdcss(false,'center',_sc(),3).'>'._sut($lang_new[$module_name]['RESTRICTED_REGISTERED']).'</td>'."\n";
+			echo '    <td'._tdcss(false,'center',_sc(),3).'>'._sut($titanium_lang_new[$titanium_module_name]['RESTRICTED_REGISTERED']).'</td>'."\n";
 			echo '  </tr>'."\n";			
 		}
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '    <td'._tdcss(false,'center',_sf(),3).'>[ <a'._ls().' href="modules.php?name='.$module_name.'&amp;action=view&amp;did='.$did.'">'._sut($lang_new[$module_name]['GOBACK']).'</a> ]</td>'."\n";
+		echo '    <td'._tdcss(false,'center',_sf(),3).'>[ <a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=view&amp;did='.$did.'">'._sut($titanium_lang_new[$titanium_module_name]['GOBACK']).'</a> ]</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '</table>'."\n";
 	}
@@ -96,7 +96,7 @@ function _file_repository_comments()
 
 function _file_repository_save_my_comment()
 {
-	global $db, $admin_file, $lang_new, $module_name, $settings, $themes, $userinfo, $admin, $user, $tnsl_bUseShortLinks;
+	global $titanium_db, $admin_file, $titanium_lang_new, $titanium_module_name, $settings, $themes, $userinfo, $admin, $titanium_user, $tnsl_bUseShortLinks;
 	$comment  	= (!empty($_POST['comment'])) ? _escape_string($_POST['comment']) : '';
 	$did      	= (!empty($_POST['did'])) ? intval($_POST['did']) : '';
 	$iteminfo 	= _collect_iteminfo($did);
@@ -109,13 +109,13 @@ function _file_repository_save_my_comment()
 		echo '<br />';
 		echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline" style="table-layout: fixed;">'."\n"; //  style="table-layout: fixed;"
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '    <td'._tdcss(false,'center',_sh(),3).'>'._suh($lang_new[$module_name]['ERROR']).'</td>'."\n";
+		echo '    <td'._tdcss(false,'center',_sh(),3).'>'._suh($titanium_lang_new[$titanium_module_name]['ERROR']).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";	
-		echo '    <td'._tdcss(false,'center',_sc(),3).'>'.$lang_new[$module_name]['NOMATCH'].'</td>'."\n";
+		echo '    <td'._tdcss(false,'center',_sc(),3).'>'.$titanium_lang_new[$titanium_module_name]['NOMATCH'].'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '    <td'._tdcss(false,'center',_sf(),3).'>[ <a href="modules.php?name='.$module_name.'&amp;action=comments&amp;did='.$did.'">'.$lang_new[$module_name]['GOBACK'].'</a> ]</td>'."\n"; // '._submit($lang_new[$module_name]['DOWNLOAD']).'
+		echo '    <td'._tdcss(false,'center',_sf(),3).'>[ <a href="modules.php?name='.$titanium_module_name.'&amp;action=comments&amp;did='.$did.'">'.$titanium_lang_new[$titanium_module_name]['GOBACK'].'</a> ]</td>'."\n"; // '._submit($titanium_lang_new[$titanium_module_name]['DOWNLOAD']).'
 		echo '  </tr>'."\n";
 		echo '</table>'."\n";
 		CloseTable();
@@ -123,14 +123,14 @@ function _file_repository_save_my_comment()
 	else
 	{
 		$sql = "INSERT INTO `"._FILE_REPOSITORY_COMMENTS."` (`cid`, `did`, `comment`, `date`, `rating`, `uid`, `user`) VALUES (NULL, '".$did."', '".$comment."', now(), '".$rating."', '".$userinfo['user_id']."', '".$userinfo['username']."')";
-		$db->sql_query($sql);
+		$titanium_db->sql_query($sql);
 		if($tnsl_bUseShortLinks == true)
 		{
-			_redirect('file-repository-item-'.$did.'.html');
+			_redirect_titanium('file-repository-item-'.$did.'.html');
 		}
 		else
 		{
-			_redirect('modules.php?name='.$module_name.'&action=view&did='.$did);
+			_redirect_titanium('modules.php?name='.$titanium_module_name.'&action=view&did='.$did);
 		}
 	}
 }

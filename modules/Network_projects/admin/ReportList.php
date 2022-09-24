@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $db2;
+global $titanium_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']."::: "._NETWORK_REPORTS.": "._NETWORK_REPORTLIST;
 if(!$page) $page = 1;
@@ -27,17 +27,17 @@ pjadmin_menu(_NETWORK_REPORTS.": "._NETWORK_REPORTLIST);
 OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr><td colspan='3' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_REPORTOPTIONS."</strong></nobr></td></tr>\n";
-$reportrows = $db2->sql_numrows($db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports`"));
-$pjimage = pjimage("stats.png", $module_name);
+$reportrows = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports`"));
+$pjimage = pjimage("stats.png", $titanium_module_name);
 echo "<tr><td><img src='$pjimage'></td><td colspan='2' width='100%'><nobr>"._NETWORK_TOTALREPORTS.": <strong>$reportrows</strong></nobr></td></tr>\n";
 echo "</table>\n";
 //CloseTable();
 //echo "<br />\n";
-$total_pages = ($reportrows / $per_page);
-$total_pages_quotient = ($reportrows % $per_page);
-if($total_pages_quotient != 0){ $total_pages = ceil($total_pages); }
-$start_list = ($per_page * ($page-1));
-$end_list = $per_page;
+$total_phpbb2_pages = ($reportrows / $per_page);
+$total_phpbb2_pages_quotient = ($reportrows % $per_page);
+if($total_phpbb2_pages_quotient != 0){ $total_phpbb2_pages = ceil($total_phpbb2_pages); }
+$phpbb2_start_list = ($per_page * ($page-1));
+$phpbb2_end_list = $per_page;
 //OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr><td bgcolor='$bgcolor2' width='100%' colspan='2'><nobr><strong>"._NETWORK_REPORTLIST."</strong></nobr></td>\n";
@@ -46,13 +46,13 @@ echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_STATUS."</strong
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_TYPE."</strong></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</strong></td></tr>\n";
 if($reportrows > 0){
-    $reviewresult = $db2->sql_query("SELECT `report_id`, `report_name`, `project_id`, `type_id`, `status_id` FROM `".$network_prefix."_reports` ORDER BY `$column` $direction LIMIT $start_list, $end_list");
-    while(list($report_id, $report_name, $project_id, $type_id, $status_id) = $db2->sql_fetchrow($reviewresult)){
+    $reviewresult = $titanium_db2->sql_query("SELECT `report_id`, `report_name`, `project_id`, `type_id`, `status_id` FROM `".$network_prefix."_reports` ORDER BY `$column` $direction LIMIT $phpbb2_start_list, $phpbb2_end_list");
+    while(list($report_id, $report_name, $project_id, $type_id, $status_id) = $titanium_db2->sql_fetchrow($reviewresult)){
     $status = pjreportstatus_info($status_id);
     $project = pjproject_info($project_id);
     $type = pjreporttype_info($type_id);
-    $members = $db2->sql_numrows($db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_reports_members` WHERE `report_id`='$report_id'"));
-    $pjimage = pjimage("report.png", $module_name);
+    $members = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_reports_members` WHERE `report_id`='$report_id'"));
+    $pjimage = pjimage("report.png", $titanium_module_name);
     if($report_name == "") { $report_name = "----------"; }
     echo "<tr><td><img src='$pjimage'></td><td width='100%'>$report_name</td>\n";
         echo "<td align='center'><nobr><a href='".$admin_file.".php?op=ProjectList'>".$project['project_name']."</a></nobr></td>\n";
@@ -71,11 +71,11 @@ if($reportrows > 0){
     echo "<tr><td colspan='6' width='100%' bgcolor='$bgcolor2'>\n";
 
     echo "<table width='100%'><tr><td bgcolor='$bgcolor2'><strong>"._NETWORK_PAGE."</strong> <select name='page' onChange='submit()'>\n";
-    for($i=1; $i<=$total_pages; $i++){
+    for($i=1; $i<=$total_phpbb2_pages; $i++){
     if($i==$page){ $sel = "selected"; } else { $sel = ""; }
     echo "<option value='$i' $sel>$i</option>\n";
     }
-    echo "</select> <strong>"._NETWORK_OF." $total_pages</strong></td>\n";
+    echo "</select> <strong>"._NETWORK_OF." $total_phpbb2_pages</strong></td>\n";
     echo "</form>\n";
 
     echo "<form method='post' action='".$admin_file.".php'>\n";

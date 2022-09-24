@@ -47,7 +47,7 @@ if (isset($_POST['coppa_yes']) AND $ya_config['coppa'] == intval(1)) {
         include_once(NUKE_BASE_DIR.'header.php');
         title(_USERAPPLOGIN);
         OpenTable();
-        echo "<img src=\"modules/$module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\" alt=\"\"><center>"._YACOPPA2."</center></td>\n";
+        echo "<img src=\"modules/$titanium_module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\" alt=\"\"><center>"._YACOPPA2."</center></td>\n";
         CloseTable();
         echo "<br />";
         OpenTable();
@@ -64,12 +64,12 @@ if (isset($_POST['coppa_yes']) AND $ya_config['coppa'] == intval(1)) {
   include_once(NUKE_BASE_DIR.'header.php');
   title(_USERAPPLOGIN);
   OpenTable();
-  echo "<img src=\"modules/$module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\" alt=\"\"><center>"._YACOPPA2."</center></td>\n";
+  echo "<img src=\"modules/$titanium_module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\" alt=\"\"><center>"._YACOPPA2."</center></td>\n";
   CloseTable();
   echo "<br />";
 OpenTable();
   OpenTable();
-  echo "<form name=\"coppa1\" action=\"modules.php?name=$module_name&amp;op=new_user\" method=\"POST\">\n";
+  echo "<form name=\"coppa1\" action=\"modules.php?name=$titanium_module_name&amp;op=new_user\" method=\"POST\">\n";
   echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" align=\"center\"><tr>\n";
   echo "<td align=\"center\" colspan=\"2\" class=\"title\">"._YACOPPA1."<P></td></tr>\n";
   echo "<tr><td align=\"center\" colspan=\"2\" ><p class=\"content\">"._YACOPPA3."<P></td></tr>\n";

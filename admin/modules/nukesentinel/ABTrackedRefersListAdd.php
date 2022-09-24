@@ -16,7 +16,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 $tid = intval($tid);
-$deleterow = $db->sql_fetchrow($db->sql_query("SELECT `refered_from` FROM `".$prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
+$deleterow = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `refered_from` FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
 include_once(NUKE_BASE_DIR.'header.php');
 OpenTable();
 OpenMenu(_AB_ADDREFERER);

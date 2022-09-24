@@ -32,45 +32,45 @@
  ************************************************************************/
 if (!defined('MODULE_FILE')) die('You can\'t access this file directly...');
 
-global $storyhome, $topicname, $topicimage, $topictext, $datetime, $user, $cookie, $prefix, $multilingual, $currentlang, $db, $articlecomm, $module_name, $userinfo;
+global $storyhome, $topicname, $topicimage, $topictext, $datetime, $titanium_user, $cookie, $titanium_prefix, $multilingual, $currentlang, $titanium_db, $articlecomm, $titanium_module_name, $userinfo;
 
-$module_name = basename(dirname(__FILE__));
+$titanium_module_name = basename(dirname(__FILE__));
 
-get_lang($module_name);
+get_lang($titanium_module_name);
 
 @include_once(NUKE_INCLUDE_DIR."nsnne_func.php");
 
-$neconfig = ne_get_configs();
+$blog_config = blog_get_configs();
 
 define('INDEX_FILE', true);
 
 $categories = 1;
 
-automated_news();
+automated_blogs();
 
 if ($catid == 0 OR empty($catid)) 
-redirect("modules.php?name=$module_name"); 
+redirect_titanium("modules.php?name=$titanium_module_name"); 
 
 switch ($op) 
 {
 
     default:
     case "newindex":
-        if($neconfig["homenumber"] == 0) 
+        if($blog_config["homenumber"] == 0) 
 		{
             if (isset($userinfo['setstorynum'])) 
-			$storynum = $userinfo['setstorynum']; 
+			$blognum = $userinfo['setstorynum']; 
 			else 
-			$storynum = $storyhome; 
+			$blognum = $storyhome; 
         } 
 		else 
-            $storynum = $neconfig["homenumber"];
+            $blognum = $blog_config["homenumber"];
         
 		if (!isset($min)) 
 		$min = 0; 
         
 		if (!isset($max)) 
-		$max = $min + $storynum; 
+		$max = $min + $blognum; 
         
 		if ($multilingual == 1) 
 		$querylang = "AND (alanguage='$currentlang' OR alanguage='')"; 
@@ -79,7 +79,7 @@ switch ($op)
 
         include_once(NUKE_BASE_DIR."header.php");
         
-		if($neconfig["readmore"] == 1) 
+		if($blog_config["readmore"] == 1) 
 		{
             echo "<script language='JavaScript'>\n";
             echo "<!-- Begin\n";
@@ -94,18 +94,18 @@ switch ($op)
             echo "</script>\n";
         }
 
-        $db->sql_query("update ".$prefix."_stories_cat set counter=counter+1 where catid='$catid'");
-        $result = $db->sql_query("SELECT * FROM ".$prefix."_stories WHERE catid='$catid' $querylang");
-        $totalarticles = $db->sql_numrows($result);
-        $db->sql_freeresult($result);
-        $result = $db->sql_query("SELECT * FROM ".$prefix."_stories WHERE catid='$catid' $querylang ORDER BY sid DESC LIMIT $min,$storynum");
+        $titanium_db->sql_query("update ".$titanium_prefix."_stories_cat set counter=counter+1 where catid='$catid'");
+        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_stories WHERE catid='$catid' $querylang");
+        $totalarticles = $titanium_db->sql_numrows($result);
+        $titanium_db->sql_freeresult($result);
+        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_stories WHERE catid='$catid' $querylang ORDER BY sid DESC LIMIT $min,$blognum");
         
-		if($neconfig["columns"] == 1) // DUAL
+		if($blog_config["columns"] == 1) // DUAL
         echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
         
 		$a = 0;
 
-        while ($artinfo = $db->sql_fetchrow($result)) 
+        while ($artinfo = $titanium_db->sql_fetchrow($result)) 
 		{
             formatTimestamp($artinfo["time"]);
             $subject = stripslashes(check_html($subject, "nohtml"));
@@ -131,7 +131,7 @@ switch ($op)
             $artinfo["ratings"] = intval($artinfo["ratings"]);
             getTopics($artinfo["sid"]);
 
-            if($neconfig["texttype"] == 0) 
+            if($blog_config["texttype"] == 0) 
 			{
                 $introcount = strlen($hometext);
                 $fullcount = strlen($bodytext);
@@ -164,25 +164,25 @@ switch ($op)
             
 	        if (is_user()) 
             {
-              $the_icons .= ' | <a href="modules.php?name='.$module_name.'&amp;file=print&amp;sid='.$artinfo["sid"].'"><i class="fa fa-print"></i></a>'.PHP_EOL;
-              $the_icons .= '&nbsp;<a href="modules.php?name='.$module_name.'&amp;file=friend&amp;op=FriendSend&amp;sid='.$artinfo["sid"].'"><i class="fa fa-envelope"></i></a>';
+              $the_icons .= ' | <a href="modules.php?name='.$titanium_module_name.'&amp;file=print&amp;sid='.$artinfo["sid"].'"><i class="fa fa-print"></i></a>'.PHP_EOL;
+              $the_icons .= '&nbsp;<a href="modules.php?name='.$titanium_module_name.'&amp;file=friend&amp;op=FriendSend&amp;sid='.$artinfo["sid"].'"><i class="fa fa-envelope"></i></a>';
             }
             
-		    if (is_mod_admin($module_name)) 
+		    if (is_mod_admin($titanium_module_name)) 
             {
               $the_icons .= ' | <a href="'.$admin_file.'.php?op=EditStory&amp;sid='.$artinfo["sid"].'"><i class="fa fa-pen"></i></a>'.PHP_EOL;
               $the_icons .= '&nbsp;<a href="'.$admin_file.'.php?op=RemoveStory&amp;sid='.$artinfo["sid"].'"><i class="fa fa-times-circle"></i></a>';
             }
 			
-			$read_link = "<a href='modules.php?name=$module_name&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
-            $story_link = "<a href='modules.php?name=$module_name&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
+			$read_link = "<a href='modules.php?name=$titanium_module_name&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
+            $story_link = "<a href='modules.php?name=$titanium_module_name&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
             $morelink = "( ";
 
-            if($neconfig["texttype"] == 0) 
+            if($blog_config["texttype"] == 0) 
 			{
                 if ($fullcount > 0 OR $artinfo["comments"] > 0 OR $articlecomm == 0 OR $artinfo["acomm"] == 1) 
 				{
-                    if($neconfig["readmore"] == 1) 
+                    if($blog_config["readmore"] == 1) 
                         $morelink .= "$read_link<strong>"._READMORE."</strong></a> | ";
 					else 
                         $morelink .= "$story_link<strong>"._READMORE."</strong></a> | ";
@@ -194,7 +194,7 @@ switch ($op)
 			{
                 if ($introcount > 255 OR $fullcount > 0 OR $artinfo["comments"] > 0 OR $articlecomm == 0 OR $artinfo["acomm"] == 1) 
 				{
-                    if($neconfig["readmore"] == 1) 
+                    if($blog_config["readmore"] == 1) 
                         $morelink .= "$read_link<strong>"._READMORE."</strong></a> | ";
 					else 
                         $morelink .= "$story_link<strong>"._READMORE."</strong></a> | ";
@@ -229,9 +229,9 @@ switch ($op)
 
             if ($artinfo["catid"] != 0) 
 			{
-                $result3 = $db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
-                $catinfo = $db->sql_fetchrow($result3);
-                $morelink .= " | <a href='modules.php?name=$module_name&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
+                $result3 = $titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
+                $catinfo = $titanium_db->sql_fetchrow($result3);
+                $morelink .= " | <a href='modules.php?name=$titanium_module_name&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
             }
             
 			if ($artinfo["score"] != 0) 
@@ -244,7 +244,7 @@ switch ($op)
             $morelink = str_replace(" |  | ", " | ", $morelink);
             $informant = $artinfo["informant"];
 
-            if($neconfig["columns"] == 1) // DUAL
+            if($blog_config["columns"] == 1) // DUAL
 			{ 
                 if ($a == 0) 
 				echo "<tr>"; 
@@ -268,9 +268,9 @@ switch ($op)
 			else // SINGLE 
             themeindex($artinfo["aid"], $informant, $datetime, $modified, $artinfo["title"], $artinfo["counter"], $artinfo["topic"], $artinfo["hometext"], $artinfo["notes"], $morelink, $topicname, $topicimage, $topictext);
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         
-		if($neconfig["columns"] == 1) // DUAL
+		if($blog_config["columns"] == 1) // DUAL
 		{ 
             if ($a ==1) 
 			echo "<td width='50%'>&nbsp;</td></tr>\n"; 
@@ -282,14 +282,14 @@ switch ($op)
         
 		echo "\n<!-- PAGING -->\n";
         
-		$articlepagesint = ($totalarticles / $storynum);
-        $articlepageremain = ($totalarticles % $storynum);
+		$articlepagesint = ($totalarticles / $blognum);
+        $articlepageremain = ($totalarticles % $blognum);
         
 		if ($articlepageremain != 0) 
 		{
             $articlepages = ceil($articlepagesint);
         
-		    if ($totalarticles < $storynum) 
+		    if ($totalarticles < $blognum) 
 			$articlepageremain = 0; 
         } 
 		else 
@@ -303,21 +303,21 @@ switch ($op)
             
 			$counter = 1;
             
-			$currentpage = ($max / $storynum);
+			$currentpage = ($max / $blognum);
             
-			echo "<form action='modules.php?name=$module_name' method='post'>\n";
+			echo "<form action='modules.php?name=$titanium_module_name' method='post'>\n";
             echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
             echo "<tr>\n<td><strong>"._NE_SELECT." </strong><select name='min' onChange='top.location.href=this.options[this.selectedIndex].value'>\n";
             
 			while ($counter <= $articlepages ) 
 			{
                 $cpage = $counter;
-                $mintemp = ($storynum * $counter) - $storynum;
+                $mintemp = ($blognum * $counter) - $blognum;
             
 			    if ($counter == $currentpage) 
                 echo "<option selected>$counter</option>\n";
 				else 
-                echo "<option value='modules.php?name=$module_name&amp;min=$mintemp&amp;file=categories&amp;catid=$catid'>$counter</option>\n";
+                echo "<option value='modules.php?name=$titanium_module_name&amp;min=$mintemp&amp;file=categories&amp;catid=$catid'>$counter</option>\n";
                 
 				$counter++;
             }

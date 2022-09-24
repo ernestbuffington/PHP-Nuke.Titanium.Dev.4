@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $db2;
+global $titanium_db2;
 get_lang('Network_Projects');
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $new_project_position = intval($new_project_position);

@@ -116,10 +116,4 @@ bottom left;                 /* this positions the second image - TheGhost add 8
 background-repeat:
 no-repeat;                   /* this applies to both images - TheGhost add 8/2/2019 */ 
 }
-
-body7 {
-background: url(<?php echo BODY_BACKGROUND; ?>);
-<?php echo BODY_CONTAIN; ?>
-}
 <?
-

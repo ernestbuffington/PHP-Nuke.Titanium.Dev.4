@@ -33,14 +33,14 @@ if (!defined('MODULE_FILE')) die ("You can't access this file directly...");
 
 if (!defined('CNBYA')) die('CNBYA protection');
 
-$result  = $db->sql_query("SELECT * FROM ".$user_prefix."_users WHERE username='$username'");
-$num     = $db->sql_numrows($result);
-$usrinfo = $db->sql_fetchrow($result);
+$result  = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users WHERE username='$titanium_username'");
+$num     = $titanium_db->sql_numrows($result);
+$usrinfo = $titanium_db->sql_fetchrow($result);
 
-$result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field");
+$result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field");
 
-while ($sqlvalue = $db->sql_fetchrow($result)):
-  list($value) = $db->sql_fetchrow( $db->sql_query("SELECT value FROM ".$user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$usrinfo[user_id]'"));
+while ($sqlvalue = $titanium_db->sql_fetchrow($result)):
+  list($value) = $titanium_db->sql_fetchrow( $titanium_db->sql_query("SELECT value FROM ".$titanium_user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$usrinfo[user_id]'"));
   $usrinfo[$sqlvalue[name]] = $value;
 endwhile;
 
@@ -56,7 +56,7 @@ if ($num > 0):
 	    echo "<div align=\"center\">";
     
 	    if ((strtolower($usrinfo['username']) == strtolower($cookie[1])) AND ($usrinfo['user_password'] == $cookie[2])):
-            echo "<span class=\"option\">$username, "._WELCOMETO." $sitename!</span><br /><br />";
+            echo "<span class=\"option\">$titanium_username, "._WELCOMETO." $sitename!</span><br /><br />";
             echo "<span class=\"content\">"._THISISYOURPAGE."</span></div><br />";
             nav(1);
             echo "<br />";
@@ -74,17 +74,17 @@ if ($num > 0):
         
 		    # AVATAR TYPES START
 			if ($usrinfo['user_avatar_type'] == 1):     # Type 1
-            $user_avatar = $board_config['avatar_path']."/".$usrinfo['user_avatar'];
+            $titanium_user_avatar = $phpbb2_board_config['avatar_path']."/".$usrinfo['user_avatar'];
             
 			elseif($usrinfo['user_avatar_type'] == 2):  # Type 2
             echo "<img src='$usrinfo[user_avatar]'>";
             
 			elseif(empty($usrinfo['user_avatar'])):     # Type 3
-            echo "<img src='".$board_config['avatar_gallery_path']."/gallery/blank.gif'>";
+            echo "<img src='".$phpbb2_board_config['avatar_gallery_path']."/gallery/blank.gif'>";
             
 			
 			else:
-            echo "<img src='".$board_config['avatar_gallery_path']."/".$usrinfo[user_avatar]."'>";
+            echo "<img src='".$phpbb2_board_config['avatar_gallery_path']."/".$usrinfo[user_avatar]."'>";
             endif;
             # AVATAR TYPES END
 			
@@ -94,14 +94,14 @@ if ($num > 0):
             $usrinfo['user_website'] = str_replace("https://", "", $usrinfo['user_website']);
         
 		    if (empty($usrinfo['user_website'])) 
-            $userwebsite = _YA_NA;
+            $titanium_userwebsite = _YA_NA;
 			else 
-            $userwebsite = "<a href=\"https://$usrinfo[user_website]\" target=\"new\">$usrinfo[user_website]</a>";
+            $titanium_userwebsite = "<a href=\"https://$usrinfo[user_website]\" target=\"new\">$usrinfo[user_website]</a>";
             
-			if (is_mod_admin($module_name) || $usrinfo['user_viewemail'] == 1) 
-            $user_email = "<a href='mailto:$usrinfo[user_email]'>$usrinfo[user_email]</a>";
+			if (is_mod_admin($titanium_module_name) || $usrinfo['user_viewemail'] == 1) 
+            $titanium_user_email = "<a href='mailto:$usrinfo[user_email]'>$usrinfo[user_email]</a>";
 			else 
-            $user_email = _YA_NA;
+            $titanium_user_email = _YA_NA;
             
 			$usrinfo['user_sig'] = nl2br($usrinfo['user_sig']);
             $usrinfo['user_bio'] = nl2br($usrinfo['user_bio']);
@@ -112,15 +112,15 @@ if ($num > 0):
             # Mod: Advanced Username Color v1.0.5 END
 			 
             echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._REALNAME."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$usrinfo[name]</strong></td>\n</tr>\n";
-            echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._EMAIL."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$user_email</strong></td>\n</tr>\n";
-            echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._WEBSITE."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$userwebsite</strong></td>\n</tr>\n";
+            echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._EMAIL."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$titanium_user_email</strong></td>\n</tr>\n";
+            echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._WEBSITE."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$titanium_userwebsite</strong></td>\n</tr>\n";
 
-            if(is_mod_admin($module_name) OR is_user() AND $usrinfo['username'] == $username) 
-            $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
+            if(is_mod_admin($titanium_module_name) OR is_user() AND $usrinfo['username'] == $titanium_username) 
+            $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
 			else 
-			$result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field WHERE need <> '0' AND public='1' ORDER BY pos");
+			$result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need <> '0' AND public='1' ORDER BY pos");
 
-            while ($sqlvalue = $db->sql_fetchrow($result)): 
+            while ($sqlvalue = $titanium_db->sql_fetchrow($result)): 
      
 	         if (substr($sqlvalue['name'],0,1)=='_') 
 			 eval( "\$name_exit = $sqlvalue[name];"); 
@@ -137,11 +137,11 @@ if ($num > 0):
             echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._EXTRAINFO."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$usrinfo[bio]</strong></td>\n</tr>\n";
             echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._YA_LASTVISIT."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$usrinfo[user_lastvisit]</strong></td>\n</tr>\n";
             
-			$sql2 = "SELECT uname FROM ".$prefix."_session WHERE uname='$username'";
-            $result2 = $db->sql_query($sql2);
-            $row2 = $db->sql_fetchrow($result2);
-            $username_pm = $username;
-            $active_username = $row2[uname]; // Edited PSL 12-9-04 was killing $username
+			$sql2 = "SELECT uname FROM ".$titanium_prefix."_session WHERE uname='$titanium_username'";
+            $result2 = $titanium_db->sql_query($sql2);
+            $row2 = $titanium_db->sql_fetchrow($result2);
+            $titanium_username_pm = $titanium_username;
+            $active_username = $row2[uname]; // Edited PSL 12-9-04 was killing $titanium_username
             
 			if (empty($active_username)) 
 		    $online = _OFFLINE; 
@@ -151,22 +151,22 @@ if ($num > 0):
 			echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._USERSTATUS."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$online</strong></td>\n</tr>\n";
             
 			if ($Version_Num > 6.9): 
-                if (is_user() AND $cookie[1] == "$username" OR is_mod_admin($module_name)) 
+                if (is_user() AND $cookie[1] == "$titanium_username" OR is_mod_admin($titanium_module_name)) 
                     echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._YA_POINTS."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$usrinfo[points]</strong></td>\n</tr>\n";
             endif;
             
 			if (($usrinfo['newsletter'] == 1) 
-			AND ($username == $cookie[1]) 
+			AND ($titanium_username == $cookie[1]) 
 			AND ($usrinfo['user_password'] == $cookie[2]) 
-			OR (is_mod_admin($module_name) 
+			OR (is_mod_admin($titanium_module_name) 
 			AND ($usrinfo['newsletter'] == 1))): 
 			
                 echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._NEWSLETTER."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>"._SUBSCRIBED."</strong></td>\n</tr>\n";
              
 			elseif (($usrinfo['newsletter'] == 0) 
-			AND ($username == $cookie[1]) 
+			AND ($titanium_username == $cookie[1]) 
 			AND ($usrinfo['user_password'] == $cookie[2]) 
-			OR (is_mod_admin($module_name) 
+			OR (is_mod_admin($titanium_module_name) 
 			AND ($usrinfo['newsletter'] == 0))): 
 			
                 echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._NEWSLETTER."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>"._NOTSUBSCRIBED."</strong></td>\n</tr>\n";
@@ -176,19 +176,19 @@ if ($num > 0):
 			echo "</table>\n";
             echo "</div><br />\n<div align=\"center\">\n";
             
-			if (is_active("Journal") AND $cookie[1] != $username):  
+			if (is_active("Journal") AND $cookie[1] != $titanium_username):  
 			
-                $sql3 = "SELECT jid FROM ".$prefix."_journal WHERE aid='$username' AND status='yes' ORDER BY pdate,jid DESC LIMIT 0,1";
-                $result3 = $db->sql_query($sq3);
-                $row3 = $db->sql_fetchrow($result3);
+                $sql3 = "SELECT jid FROM ".$titanium_prefix."_journal WHERE aid='$titanium_username' AND status='yes' ORDER BY pdate,jid DESC LIMIT 0,1";
+                $result3 = $titanium_db->sql_query($sq3);
+                $row3 = $titanium_db->sql_fetchrow($result3);
                 $jid = $row3[jid];
             
 			    if (!empty($jid) AND isset($jid)) 
-                echo "[ <a href=\"modules.php?name=Journal&amp;file=search&amp;bywhat=aid&amp;forwhat=$username\">"._READMYJOURNAL."</a> ]<br />";
+                echo "[ <a href=\"modules.php?name=Journal&amp;file=search&amp;bywhat=aid&amp;forwhat=$titanium_username\">"._READMYJOURNAL."</a> ]<br />";
             
 			endif;
             
-			if (is_mod_admin($module_name)): 
+			if (is_mod_admin($titanium_module_name)): 
             
                 if ($usrinfo['last_ip'] != 0): 
 				
@@ -197,31 +197,31 @@ if ($num > 0):
                 # Mod: CNBYA Modifications v1.0.0 START
                 echo "[ <a href='".$admin_file.".php?
 				op=ABBlockedIPAdd&amp;tip=".$usrinfo['last_ip']."'>"._BANTHIS."</a> | <a 
-				href=\"modules.php?name=$module_name&amp;file=admin&amp;op=modifyUser&amp;chng_uid=".$usrinfo['username']."\">"._EDITUSER."</a> ]</div>";
+				href=\"modules.php?name=$titanium_module_name&amp;file=admin&amp;op=modifyUser&amp;chng_uid=".$usrinfo['username']."\">"._EDITUSER."</a> ]</div>";
                 # Base: NukeSentinel v2.5.00      END
                 # Mod: CNBYA Modifications v1.0.0 END
                 endif;
 				
-                echo "[ <a href=\"modules.php?name=$module_name&amp;file=admin&amp;op=modifyUser&amp;chng_uid=$usrinfo[user_id]\">"._EDITUSER."</a> ] ";
-                echo "[ <a href=\"modules.php?name=$module_name&amp;file=admin&amp;op=suspendUser&amp;chng_uid=$usrinfo[user_id]\">"._SUSPENDUSER."</a> ] ";
-                echo "[ <a href=\"modules.php?name=$module_name&amp;file=admin&amp;op=deleteUser&amp;chng_uid=$usrinfo[user_id]\">"._DELETEUSER."</a> ]<br />";
+                echo "[ <a href=\"modules.php?name=$titanium_module_name&amp;file=admin&amp;op=modifyUser&amp;chng_uid=$usrinfo[user_id]\">"._EDITUSER."</a> ] ";
+                echo "[ <a href=\"modules.php?name=$titanium_module_name&amp;file=admin&amp;op=suspendUser&amp;chng_uid=$usrinfo[user_id]\">"._SUSPENDUSER."</a> ] ";
+                echo "[ <a href=\"modules.php?name=$titanium_module_name&amp;file=admin&amp;op=deleteUser&amp;chng_uid=$usrinfo[user_id]\">"._DELETEUSER."</a> ]<br />";
             
 			endif;
             
-			if (((is_user() AND $cookie[1] != $username) 
-			OR is_mod_admin($module_name)) 
+			if (((is_user() AND $cookie[1] != $titanium_username) 
+			OR is_mod_admin($titanium_module_name)) 
 			AND is_active("Private_Messages")): 
 			  echo "<br />[ <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$usrinfo[user_id]\">"._USENDPRIVATEMSG." $usrinfo[username]</a> ]<br />\n"; 
 			endif;
 			echo "</div></span>";
          
 		else: 
-            echo "<div align=\"center\">"._NOINFOFOR." $username</div>";
+            echo "<div align=\"center\">"._NOINFOFOR." $titanium_username</div>";
         endif; # end if num = 1
         
 		CloseTable();
 
-        $incsdir = dir("modules/$module_name/includes");
+        $incsdir = dir("modules/$titanium_module_name/includes");
         
 		while($func=$incsdir->read()):
 

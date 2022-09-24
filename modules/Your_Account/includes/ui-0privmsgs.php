@@ -35,7 +35,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-    if (is_active("Private_Messages") AND ($username == $cookie[1]) AND ($usrinfo['user_password'] == $cookie[2])) {
+    if (is_active("Private_Messages") AND ($titanium_username == $cookie[1]) AND ($usrinfo['user_password'] == $cookie[2])) {
         echo "<br />";
         OpenTable();
       
@@ -55,25 +55,25 @@ if (!defined('CNBYA')) {
         } elseif (empty($mem_list) AND empty($mod_search)) {
             $links = "";
         }
-        $ya_memname = htmlspecialchars($username);
-        list($uid) = $db->sql_fetchrow($db->sql_query("SELECT user_id FROM ".$user_prefix."_users WHERE username='$ya_memname'"));
+        $ya_memname = htmlspecialchars($titanium_username);
+        list($uid) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_id FROM ".$titanium_user_prefix."_users WHERE username='$ya_memname'"));
         $uid = intval($uid);
-        $ya_newpms = $db->sql_numrows($db->sql_query("SELECT privmsgs_to_userid FROM ".$prefix."_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND (privmsgs_type='1' OR privmsgs_type='5')"));
-        $ya_savpms = $db->sql_numrows($db->sql_query("SELECT privmsgs_to_userid FROM ".$prefix."_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND privmsgs_type='3'"));
-        $ya_oldpms = $db->sql_numrows($db->sql_query("SELECT privmsgs_to_userid FROM ".$prefix."_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND privmsgs_type='0'"));
-        $ya_outpms = $db->sql_numrows($db->sql_query("SELECT privmsgs_from_userid FROM ".$prefix."_bbprivmsgs WHERE privmsgs_from_userid='$uid' AND privmsgs_type='1'"));
+        $ya_newpms = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT privmsgs_to_userid FROM ".$titanium_prefix."_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND (privmsgs_type='1' OR privmsgs_type='5')"));
+        $ya_savpms = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT privmsgs_to_userid FROM ".$titanium_prefix."_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND privmsgs_type='3'"));
+        $ya_oldpms = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT privmsgs_to_userid FROM ".$titanium_prefix."_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND privmsgs_type='0'"));
+        $ya_outpms = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT privmsgs_from_userid FROM ".$titanium_prefix."_bbprivmsgs WHERE privmsgs_from_userid='$uid' AND privmsgs_type='1'"));
         $ya_newpms = intval($ya_newpms);
         $ya_oldpms = intval($ya_oldpms);
         $ya_savpms = intval($ya_savpms);
         $ya_totpms = $ya_newpms + $ya_oldpms + $ya_savpms;
 
     // menelaos: function changed to reflect the default phpbb2 style icons (in a future version they will show the users phpnuke forum theme icons)
-    $bbconfig = $board_config;
+    $bbconfig = $phpbb2_board_config;
     $bbstyle    = $bbconfig['default_style'];
 
-    $sql        = "SELECT template_name FROM ".$prefix."_bbthemes WHERE themes_id='$bbstyle'";
-    $result  = $db->sql_query($sql);
-    $row     = $db->sql_fetchrow($result);
+    $sql        = "SELECT template_name FROM ".$titanium_prefix."_bbthemes WHERE themes_id='$bbstyle'";
+    $result  = $titanium_db->sql_query($sql);
+    $row     = $titanium_db->sql_fetchrow($result);
     $bbtheme = $row['template_name'];
     
     //escudero: modification to get the theme FROM nukemods

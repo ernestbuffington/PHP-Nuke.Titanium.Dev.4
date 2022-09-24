@@ -31,7 +31,7 @@ if (!defined('NUKE_EVO')) {
     die("You can't access this file directly...");
 }
 
-global $language, $multilingual;
+global $titanium_language, $multilingual;
 
 // This data was taken from Dragonfly CMS 
 // http://www.dragonflycms.org
@@ -170,9 +170,9 @@ $browserlang = array(
 );
 
 //To resolve getting the random capital letters ie (English)
-$language = strtolower($language);
+$titanium_language = strtolower($titanium_language);
 $multilingual = intval($multilingual);
-$currentlang = $language;
+$currentlang = $titanium_language;
 
 if ($multilingual) {
     if (isset($_GET['newlang']) && is_lang($_GET['newlang'])) {
@@ -185,7 +185,7 @@ if ($multilingual) {
         $currentlang = detect_lang($browserlang);
     }
     if (!is_lang($currentlang)) {
-        $currentlang = $language;
+        $currentlang = $titanium_language;
     }
     setcookie('lang', $currentlang, time()+31536000);
 }
@@ -200,22 +200,22 @@ unset($browserlang);
 
 include_lang($currentlang);
 
-function is_lang($language) {
-    $maincheck = file_exists(NUKE_LANGUAGE_DIR.'lang-'.$language.'.php');
-    $admncheck = file_exists(NUKE_ADMIN_DIR.'language/lang-'.$language.'.php');
+function is_lang($titanium_language) {
+    $maincheck = file_exists(NUKE_LANGUAGE_DIR.'lang-'.$titanium_language.'.php');
+    $admncheck = file_exists(NUKE_ADMIN_DIR.'language/lang-'.$titanium_language.'.php');
     if($maincheck && $admncheck) {
         return true;
     }
     return false;
 }
 
-function include_lang($language) {
-    include_once(NUKE_LANGUAGE_DIR.'lang-'.$language.'.php');
-    include_once(NUKE_LANGUAGE_DIR.'custom/lang-'.$language.'.php');
-	include_once(NUKE_LANGUAGE_DIR.'blocks/lang-'.$language.'.php');
+function include_lang($titanium_language) {
+    include_once(NUKE_LANGUAGE_DIR.'lang-'.$titanium_language.'.php');
+    include_once(NUKE_LANGUAGE_DIR.'custom/lang-'.$titanium_language.'.php');
+	include_once(NUKE_LANGUAGE_DIR.'blocks/lang-'.$titanium_language.'.php');
     if(defined('ADMIN_FILE')) {
-        include_once(NUKE_ADMIN_DIR.'language/lang-'.$language.'.php');
-        include_once(NUKE_ADMIN_DIR.'language/custom/lang-'.$language.'.php');
+        include_once(NUKE_ADMIN_DIR.'language/lang-'.$titanium_language.'.php');
+        include_once(NUKE_ADMIN_DIR.'language/custom/lang-'.$titanium_language.'.php');
     }
 }
 
@@ -223,8 +223,8 @@ function detect_lang($browserlang) {
     $http_accept_language = (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : getenv('HTTP_ACCEPT_LANGUAGE');
     $accepted_languages = explode(',', strtolower($http_accept_language));
     foreach ($accepted_languages as $browser_lang) {
-        $langcode = ($browser_lang[2] == '-') ? substr($browser_lang, 0, 5) : substr($browser_lang, 0, 2);
-        $tmplang = $browserlang[$langcode];
+        $titanium_langcode = ($browser_lang[2] == '-') ? substr($browser_lang, 0, 5) : substr($browser_lang, 0, 2);
+        $tmplang = $browserlang[$titanium_langcode];
         if (is_lang($tmplang)) {
             return $tmplang;
         }
@@ -232,40 +232,40 @@ function detect_lang($browserlang) {
     return false;
 }
 
-function get_lang($module) {
-    global $currentlang, $language;
+function get_lang($titanium_module) {
+    global $currentlang, $titanium_language;
     static $included;
     if(!isset($included)) {
         $included = array();
-    } elseif(isset($included[$module])) {
-        return $included[$module];
+    } elseif(isset($included[$titanium_module])) {
+        return $included[$titanium_module];
     }
-    if (file_exists(NUKE_MODULES_DIR.$module.'/language/lang-'.$currentlang.'.php')) {
-        $path = NUKE_MODULES_DIR.$module.'/language/lang-'.$currentlang.'.php';
-    } elseif (file_exists(NUKE_MODULES_DIR.$module.'/language/lang-'.$language.'.php')) {
-        $path = NUKE_MODULES_DIR.$module.'/language/lang-'.$language.'.php';
-    } elseif (file_exists(NUKE_MODULES_DIR.$module.'/language/lang-english.php')) {
-        $path = NUKE_MODULES_DIR.$module.'/language/lang-english.php';
+    if (file_exists(NUKE_MODULES_DIR.$titanium_module.'/language/lang-'.$currentlang.'.php')) {
+        $path = NUKE_MODULES_DIR.$titanium_module.'/language/lang-'.$currentlang.'.php';
+    } elseif (file_exists(NUKE_MODULES_DIR.$titanium_module.'/language/lang-'.$titanium_language.'.php')) {
+        $path = NUKE_MODULES_DIR.$titanium_module.'/language/lang-'.$titanium_language.'.php';
+    } elseif (file_exists(NUKE_MODULES_DIR.$titanium_module.'/language/lang-english.php')) {
+        $path = NUKE_MODULES_DIR.$titanium_module.'/language/lang-english.php';
     } else {
-        return $included[$module] = false;
+        return $included[$titanium_module] = false;
     }
     require_once($path);
-    return $included[$module] = true;
+    return $included[$titanium_module] = true;
 }
 
 function lang_list() {
-    static $languages;
-    if (!isset($languages)) {
+    static $titanium_languages;
+    if (!isset($titanium_languages)) {
         $handle = opendir(NUKE_LANGUAGE_DIR);
         while (false !== ($file = readdir($handle))) {
-            if (preg_match('/lang-(.*?)\.php/i', $file, $lang)) {
-                $languages[] = $lang[1];
+            if (preg_match('/lang-(.*?)\.php/i', $file, $titanium_lang)) {
+                $titanium_languages[] = $titanium_lang[1];
             }
         }
         closedir($handle);
-        sort($languages);
+        sort($titanium_languages);
     }
-    return $languages;
+    return $titanium_languages;
 }
 
 ?>

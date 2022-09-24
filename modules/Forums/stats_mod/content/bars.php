@@ -24,9 +24,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 class Content_bars
@@ -55,7 +55,7 @@ class Content_bars
 
     function init_bars($bars = '')
     {
-        global $board_config, $userdata, $theme, $db, $stats_template, $phpbb_root_path;
+        global $phpbb2_board_config, $userdata, $theme, $titanium_db, $stats_template, $phpbb2_root_path;
         
         if (is_array($bars))
         {
@@ -67,9 +67,9 @@ class Content_bars
         if ($this->bar_loaded)
         {
             $stats_template->assign_vars(array(
-                'LEFT_GRAPH_IMAGE' => $phpbb_root_path . $this->current_template_path . $this->loaded_bar_images['left'],
-                'RIGHT_GRAPH_IMAGE' => $phpbb_root_path . $this->current_template_path . $this->loaded_bar_images['right'],
-                'GRAPH_IMAGE' => $phpbb_root_path . $this->current_template_path . $this->loaded_bar_images['bar'])
+                'LEFT_GRAPH_IMAGE' => $phpbb2_root_path . $this->current_template_path . $this->loaded_bar_images['left'],
+                'RIGHT_GRAPH_IMAGE' => $phpbb2_root_path . $this->current_template_path . $this->loaded_bar_images['right'],
+                'GRAPH_IMAGE' => $phpbb2_root_path . $this->current_template_path . $this->loaded_bar_images['bar'])
             );
 
             return;
@@ -78,31 +78,31 @@ class Content_bars
         //
         // Getting voting bar info
         //
-        if( !$board_config['override_user_style'] )
+        if( !$phpbb2_board_config['override_user_style'] )
         {
             if( ($userdata['user_id'] != ANONYMOUS) && (isset($userdata['user_style'])) )
             {
                 $style = $userdata['user_style'];
                 if( !$theme )
                 {
-                    $style =  $board_config['default_style'];
+                    $style =  $phpbb2_board_config['default_style'];
                 }
             }
             else
             {
-                $style =  $board_config['default_style'];
+                $style =  $phpbb2_board_config['default_style'];
             }
         }
         else
         {
-            $style =  $board_config['default_style'];
+            $style =  $phpbb2_board_config['default_style'];
         }
 
         $sql = 'SELECT * 
         FROM ' . THEMES_TABLE . ' 
         WHERE themes_id = ' . $style;
 
-        if ( !($result = $db->sql_query($sql)) )
+        if ( !($result = $titanium_db->sql_query($sql)) )
         {
             message_die(CRITICAL_ERROR, 'Couldn\'t query database for theme info.');
         }
@@ -117,9 +117,9 @@ class Content_bars
                 }
 
         $stats_template->assign_vars(array(
-            'LEFT_GRAPH_IMAGE' => $phpbb_root_path . $this->current_template_path . $this->loaded_bar_images['left'],
-            'RIGHT_GRAPH_IMAGE' => $phpbb_root_path . $this->current_template_path . $this->loaded_bar_images['right'],
-            'GRAPH_IMAGE' => $phpbb_root_path . $this->current_template_path . $this->loaded_bar_images['bar'])
+            'LEFT_GRAPH_IMAGE' => $phpbb2_root_path . $this->current_template_path . $this->loaded_bar_images['left'],
+            'RIGHT_GRAPH_IMAGE' => $phpbb2_root_path . $this->current_template_path . $this->loaded_bar_images['right'],
+            'GRAPH_IMAGE' => $phpbb2_root_path . $this->current_template_path . $this->loaded_bar_images['bar'])
         );
 
         $this->bar_loaded = TRUE;
@@ -195,7 +195,7 @@ class Content_bars
 
     function set_rows($data)
     {
-        global $core, $stats_template, $phpbb_root_path, $phpEx, $stat_functions, $lang;
+        global $core, $stats_template, $phpbb2_root_path, $phpEx, $stat_functions, $titanium_lang;
 
         $core->calculation_data = array();
 
@@ -276,7 +276,7 @@ class Content_bars
                         {
                             eval('$result = ' . $auth_array['auth_replacement'][$j] . ';');
                             $auth_replace[$j]['replace'] = TRUE;
-                            if ( (is_string($auth_array['auth_replacement'][$j])) && (strstr($auth_array['auth_replacement'][$j], '$lang')) )
+                            if ( (is_string($auth_array['auth_replacement'][$j])) && (strstr($auth_array['auth_replacement'][$j], '$titanium_lang')) )
                             {
                                 $auth_replace[$j]['lang'] = TRUE;
                             }

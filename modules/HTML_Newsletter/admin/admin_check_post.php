@@ -188,7 +188,7 @@ if ( !defined( 'MSNL_SENDTESTED') ) {  //Extra checks for untested newsletters
 	
 	foreach( $msnl_asHadChg as $msnl_sKey => $msnl_sValue ) {
 
-		$sql = "UPDATE `".$prefix."_hnl_cfg` SET `cfg_val` = '$msnl_sValue' "
+		$sql = "UPDATE `".$titanium_prefix."_hnl_cfg` SET `cfg_val` = '$msnl_sValue' "
 					."WHERE `cfg_nm` = '$msnl_sKey'";
 
 		if ( !msnl_fSQLCall( $sql ) ) { //Had an error in the UPDATE

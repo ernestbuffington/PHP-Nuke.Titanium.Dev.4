@@ -12,11 +12,11 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-global $module_name;
+global $titanium_module_name;
 
-if(!isset($module_name) || empty($module_name))
+if(!isset($titanium_module_name) || empty($titanium_module_name))
 {
-  $module_name = basename(dirname(__FILE__));
+  $titanium_module_name = basename(dirname(__FILE__));
 }
 
 error_reporting(E_ALL ^ E_NOTICE);

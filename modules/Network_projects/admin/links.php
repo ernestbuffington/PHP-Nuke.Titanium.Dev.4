@@ -12,7 +12,7 @@
 -=[Base]=-
       Nuke Patched                             v3.1.0       10/25/2005
  ************************************************************************/
-global $db2;
+global $titanium_db2;
 if (!defined('ADMIN_FILE')) {
    die('Access Denied');
 }

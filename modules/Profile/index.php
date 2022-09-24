@@ -31,21 +31,21 @@ if (!defined('MODULE_FILE'))
 exit('You can\'t access this file directly...');
 
 if ($popup != "1"){
-    $module_name = basename(dirname(__FILE__));
+    $titanium_module_name = basename(dirname(__FILE__));
     require(NUKE_FORUMS_DIR.'nukebb.php');
 }
 else
 {
-    $phpbb_root_path = NUKE_FORUMS_DIR;
+    $phpbb2_root_path = NUKE_FORUMS_DIR;
 }
 
-define('IN_PHPBB', true);
-include($phpbb_root_path . 'extension.inc');
-include($phpbb_root_path . 'common.'.$phpEx);
+define('IN_PHPBB2', true);
+include($phpbb2_root_path . 'extension.inc');
+include($phpbb2_root_path . 'common.'.$phpEx);
 /*****[BEGIN]******************************************
  [ Mod:     Users Reputations Systems          v1.0.0 ]
  ******************************************************/
-include($phpbb_root_path . 'reputation_common.'.$phpEx);
+include($phpbb2_root_path . 'reputation_common.'.$phpEx);
 include('includes/functions_reputation.'.$phpEx);
 /*****[END]********************************************
  [ Mod:     Users Reputations System           v1.0.0 ]
@@ -53,8 +53,8 @@ include('includes/functions_reputation.'.$phpEx);
 //
 // Start session management
 //
-$userdata = session_pagestart($user_ip, PAGE_PROFILE);
-init_userprefs($userdata);
+$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_PROFILE);
+titanium_init_userprefs($userdata);
 //
 // End session management
 //
@@ -63,7 +63,7 @@ init_userprefs($userdata);
  ******************************************************/
 if( $userdata['session_logged_in']  &&  $userdata['user_level'] == ADMIN )
 {
-	include($phpbb_root_path.'language/lang_' . $userdata['user_lang'] . '/lang_user_delete.'.$phpEx);
+	include($phpbb2_root_path.'language/lang_' . $userdata['user_lang'] . '/lang_user_delete.'.$phpEx);
 }
 /*****[END]********************************************
  [ Mod:   Admin delete user with all postings v.1.0.5 ]
@@ -81,12 +81,12 @@ else
 //
 // Set default email variables
 //
-//$script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['script_path']));
+//$script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($phpbb2_board_config['script_path']));
 //$script_name = ( $script_name != '' ) ? $script_name . '/profile.'.$phpEx : 'profile.'.$phpEx;
 $script_name = 'modules.php?name=Profile';
-$server_name = trim($board_config['server_name']);
-$server_protocol = ( $board_config['cookie_secure'] ) ? 'https://' : 'http://';
-$server_port = ( $board_config['server_port'] <> 80 ) ? ':' . trim($board_config['server_port']) . '/' : '/';
+$server_name = trim($phpbb2_board_config['server_name']);
+$server_protocol = ( $phpbb2_board_config['cookie_secure'] ) ? 'https://' : 'http://';
+$server_port = ( $phpbb2_board_config['server_port'] <> 80 ) ? ':' . trim($phpbb2_board_config['server_port']) . '/' : '/';
 
 $server_url = $server_protocol . $server_name . $server_port . $script_name;
 
@@ -116,7 +116,7 @@ function gen_rand_string($hash)
                 if ( !is_user() )
                 {
                     $mode = "register";
-                    redirect('modules.php?name=Your_Account&op=new_user');
+                    redirect_titanium('modules.php?name=Your_Account&op=new_user');
                     exit;
                 } else {
                     $mode = "editprofile";
@@ -136,13 +136,13 @@ function gen_rand_string($hash)
         } 
 		elseif($mode == 'register' && !$check_num) 
 		{
-                redirect('modules.php?name=Your_Account&op=new_user');
+                redirect_titanium('modules.php?name=Your_Account&op=new_user');
         } 
 		else if($mode == 'editprofile')
         {
            if(!is_user() && $mode == 'editprofile'):
               $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/",$_SERVER["SERVER_SOFTWARE"])) ? "Refresh: 0; URL=" : "Location: ";
-              redirect(append_sid("login.$phpEx?redirect=profile.$phpEx&mode=editprofile", true));
+              redirect_titanium(append_titanium_sid("login.$phpEx?redirect=profile.$phpEx&mode=editprofile", true));
               exit;
            endif;
          include("includes/usercp_register.php");
@@ -156,7 +156,7 @@ function gen_rand_string($hash)
             if ( !is_user() && $mode == 'signature' )
             {
                 $header_location = ( @preg_match("/Microsoft|WebSTAR|Xitami/", $_SERVER("SERVER_SOFTWARE")) ) ? "Refresh: 0; URL=" : "Location: ";
-                redirect(append_sid("login.$phpEx?redirect=profile.$phpEx&mode=signature", true));
+                redirect_titanium(append_titanium_sid("login.$phpEx?redirect=profile.$phpEx&mode=signature", true));
                 exit;
             }
 
@@ -199,20 +199,20 @@ function gen_rand_string($hash)
 		{
 			$gen_simple_header = TRUE;
 
-			$page_title = $lang['View_Birthdays'];
+			$phpbb2_page_title = $titanium_lang['View_Birthdays'];
 			include('includes/page_header.'.$phpEx);
 
 			// reuse the pm popup box template
-			$template->set_filenames(array(
+			$phpbb2_template->set_filenames(array(
 				'body' => 'privmsgs_popup.tpl')
 			);
 
-			$template->assign_vars(array(
-				'L_CLOSE_WINDOW' => $lang['Close_window'],
-				'L_MESSAGE' => sprintf($lang['Birthday_popup'],$board_config['sitename']))
+			$phpbb2_template->assign_vars(array(
+				'L_CLOSE_WINDOW' => $titanium_lang['Close_window'],
+				'L_MESSAGE' => sprintf($titanium_lang['Birthday_popup'],$phpbb2_board_config['sitename']))
 			);
 
-			$template->pparse('body');
+			$phpbb2_template->pparse('body');
 
 			include('includes/page_tail.'.$phpEx);
 			exit;
@@ -222,7 +222,7 @@ function gen_rand_string($hash)
  ******************************************************/
         include('includes/usercp_register.'.$phpEx);
        // $header_location = ( @preg_match("/Microsoft|WebSTAR|Xitami/", $_SERVER["SERVER_SOFTWARE"]) ) ? "Refresh: 0; URL=" : "Location: ";
-       // redirect(append_sid("index.$phpEx", true));
+       // redirect_titanium(append_titanium_sid("index.$phpEx", true));
        // exit;
 
 ?>

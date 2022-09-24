@@ -210,10 +210,10 @@
 		
 		const OPERATING_SYSTEM_UNKNOWN = 'unknown';
 
-		public function __construct($useragent="") {
+		public function __construct($titanium_useragent="") {
 			$this->reset();
-			if( $useragent != "" ) {
-				$this->setUserAgent($useragent);
+			if( $titanium_useragent != "" ) {
+				$this->setUserAgent($titanium_useragent);
 			}
 			else {
 				$this->determine();
@@ -319,11 +319,11 @@
 		public function getUserAgent() { return $this->_agent; }
 		/**
 		* Set the user agent value (the construction will use the HTTP header value - this will overwrite it)
-		* @param $agent_string The value for the User Agent
+		* @param $phpbb2_agent_string The value for the User Agent
 		*/
-		public function setUserAgent($agent_string) {
+		public function setUserAgent($phpbb2_agent_string) {
 			$this->reset();
-			$this->_agent = $agent_string;
+			$this->_agent = $phpbb2_agent_string;
 			$this->determine();
 		}
 		/**

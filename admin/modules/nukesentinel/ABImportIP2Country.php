@@ -43,18 +43,18 @@ if(isset($importer) AND $importer > '') {
       $import_data[$i] = trim($import_data[$i]);
       if($import_data[$i] > '') {
         $grabline = explode('||', $import_data[$i]);
-        //list($grabline[4]) = $db->sql_fetchrow($db->sql_query('SELECT `country` FROM `'.$prefix.'_nsnst_countries` WHERE `c2c`=\''.$grabline[3].'\' LIMIT 0,1'));
+        //list($grabline[4]) = $titanium_db->sql_fetchrow($titanium_db->sql_query('SELECT `country` FROM `'.$titanium_prefix.'_nsnst_countries` WHERE `c2c`=\''.$grabline[3].'\' LIMIT 0,1'));
         if($grabline[0] == '--') {
-          $db->sql_query('DELETE FROM `'.$prefix.'_nsnst_ip2country` WHERE `c2c`=\''.$grabline[3].'\'');
-          $db->sql_query('OPTIMIZE TABLE `'.$prefix.'_nsnst_ip2country`');
+          $titanium_db->sql_query('DELETE FROM `'.$titanium_prefix.'_nsnst_ip2country` WHERE `c2c`=\''.$grabline[3].'\'');
+          $titanium_db->sql_query('OPTIMIZE TABLE `'.$titanium_prefix.'_nsnst_ip2country`');
         } else {
           if(!get_magic_quotes_runtime()) { $grabline[4] = addslashes($grabline[4]); }
           $grabline['ip_lo'] = long2ip($grabline[0]);
           $grabline['ip_hi'] = long2ip($grabline[1]);
           $datainserted = False;
-          $datainserted = $db->sql_query('INSERT INTO `'.$prefix.'_nsnst_ip2country` '."VALUES('$grabline[0]', '$grabline[1]', '$grabline[2]', '$grabline[3]')");
+          $datainserted = $titanium_db->sql_query('INSERT INTO `'.$titanium_prefix.'_nsnst_ip2country` '."VALUES('$grabline[0]', '$grabline[1]', '$grabline[2]', '$grabline[3]')");
           if(!$datainserted) {
-            echo '<strong>'.$grabline['ip_lo'] - $grabline['ip_hi'].' '._AB_NOTINSERTED.' '.$prefix.'_nsnst_ip2country</strong><br />'."\n";
+            echo '<strong>'.$grabline['ip_lo'] - $grabline['ip_hi'].' '._AB_NOTINSERTED.' '.$titanium_prefix.'_nsnst_ip2country</strong><br />'."\n";
             $importmess = '';
           }
         }

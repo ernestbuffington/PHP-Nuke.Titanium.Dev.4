@@ -415,7 +415,7 @@ class SMTP
      *
      * @see    hello()
      *
-     * @param string $username The user name
+     * @param string $titanium_username The user name
      * @param string $password The password
      * @param string $authtype The auth type (CRAM-MD5, PLAIN, LOGIN, XOAUTH2)
      * @param OAuth  $OAuth    An optional OAuth instance for XOAUTH2 authentication
@@ -423,7 +423,7 @@ class SMTP
      * @return bool True if successfully authenticated
      */
     public function authenticate(
-        $username,
+        $titanium_username,
         $password,
         $authtype = null,
         $OAuth = null
@@ -490,7 +490,7 @@ class SMTP
                 // Send encoded username and password
                 if (!$this->sendCommand(
                     'User & Password',
-                    base64_encode("\0" . $username . "\0" . $password),
+                    base64_encode("\0" . $titanium_username . "\0" . $password),
                     235
                 )
                 ) {
@@ -502,7 +502,7 @@ class SMTP
                 if (!$this->sendCommand('AUTH', 'AUTH LOGIN', 334)) {
                     return false;
                 }
-                if (!$this->sendCommand('Username', base64_encode($username), 334)) {
+                if (!$this->sendCommand('Username', base64_encode($titanium_username), 334)) {
                     return false;
                 }
                 if (!$this->sendCommand('Password', base64_encode($password), 235)) {
@@ -518,7 +518,7 @@ class SMTP
                 $challenge = base64_decode(substr($this->last_reply, 4));
 
                 // Build the response
-                $response = $username . ' ' . $this->hmac($challenge, $password);
+                $response = $titanium_username . ' ' . $this->hmac($challenge, $password);
 
                 // send encoded credentials
                 return $this->sendCommand('Username', base64_encode($response), 235);
@@ -1113,10 +1113,10 @@ class SMTP
             return '';
         }
         $data = '';
-        $endtime = 0;
+        $phpbb2_endtime = 0;
         stream_set_timeout($this->smtp_conn, $this->Timeout);
         if ($this->Timelimit > 0) {
-            $endtime = time() + $this->Timelimit;
+            $phpbb2_endtime = time() + $this->Timelimit;
         }
         $selR = [$this->smtp_conn];
         $selW = null;
@@ -1149,7 +1149,7 @@ class SMTP
                 break;
             }
             // Now check if reads took too long
-            if ($endtime and time() > $endtime) {
+            if ($phpbb2_endtime and time() > $phpbb2_endtime) {
                 $this->edebug(
                     'SMTP -> get_lines(): timelimit reached (' .
                     $this->Timelimit . ' sec)',

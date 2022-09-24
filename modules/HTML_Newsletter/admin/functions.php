@@ -69,7 +69,7 @@ if ( !defined( 'MSNL_LOADED' ) ) { die( "Illegal File Access" ); }
 
 $msnl_asPHPBBCfg = array();
 
-$sql = "SELECT `config_name`, `config_value` FROM `".$prefix."_bbconfig`";
+$sql = "SELECT `config_name`, `config_value` FROM `".$titanium_prefix."_bbconfig`";
 
 $result		= msnl_fSQLCall( $sql );
 
@@ -79,7 +79,7 @@ if ( !$result ) { //Bad SQL call
 
 } else { //Successful SQL call
 
-	while ( $row = $db->sql_fetchrow( $result ) )	{
+	while ( $row = $titanium_db->sql_fetchrow( $result ) )	{
 
 		$msnl_asPHPBBCfg[ $row['config_name'] ] = $row['config_value'];
 
@@ -99,16 +99,16 @@ if ( !$result ) { //Bad SQL call
 
 function msnl_fFormatDate( $format, $gmepoch, $tz ) {
 
-	global $msnl_asPHPBBCfg, $lang;
+	global $msnl_asPHPBBCfg, $titanium_lang;
 
 	static $translate;
 
 /* MSNL_010301_06
 	if ( empty( $translate ) && $msnl_asPHPBBCfg['default_lang'] != 'english' ) {
 
-		@reset( $lang['datetime'] );
+		@reset( $titanium_lang['datetime'] );
 
-		while ( list( $match, $replace ) = @each( $lang['datetime'] ) ) {
+		while ( list( $match, $replace ) = @each( $titanium_lang['datetime'] ) ) {
 
 			$translate[$match] = $replace;
 
@@ -175,26 +175,26 @@ function msnl_fMenuAdm() {
 
 function msnl_fGetNbrRecipients( $msnl_op, $gid ) {
 
-	global $prefix, $db;
+	global $titanium_prefix, $titanium_db;
 
 	$gid = intval( $gid );
 
 	switch( $msnl_op ) {
 
 		case "newsletter": //Newsletter subscribers
-			$sql = "SELECT count(`newsletter`) AS r_cnt FROM `".$prefix."_users` WHERE `newsletter` = '1'";
+			$sql = "SELECT count(`newsletter`) AS r_cnt FROM `".$titanium_prefix."_users` WHERE `newsletter` = '1'";
 			break;
 
 		case "massmail":  //All registered users
-			$sql = "SELECT count(`user_email`) AS r_cnt FROM `".$prefix."_users` WHERE `user_email` > ''";
+			$sql = "SELECT count(`user_email`) AS r_cnt FROM `".$titanium_prefix."_users` WHERE `user_email` > ''";
 			break;
 
 		case "paidsubscribers":  //Only paid subscribers to the web site
-			$sql = "SELECT count(`userid`) AS r_cnt FROM `".$prefix."_subscriptions`";
+			$sql = "SELECT count(`userid`) AS r_cnt FROM `".$titanium_prefix."_subscriptions`";
 			break;
 
 		case "nsngroups":  //For a particular NSN Group
-			$sql = "SELECT count(`uid`) AS r_cnt FROM `".$prefix."_nsngr_users` WHERE `gid` = '$gid'";
+			$sql = "SELECT count(`uid`) AS r_cnt FROM `".$titanium_prefix."_nsngr_users` WHERE `gid` = '$gid'";
 			break;
 
 		default:
@@ -211,7 +211,7 @@ function msnl_fGetNbrRecipients( $msnl_op, $gid ) {
 
 	} else { //Successful SQL call
 
-		$row = $db->sql_fetchrow( $result );
+		$row = $titanium_db->sql_fetchrow( $result );
 
 		$nbrusers = intval( $row['r_cnt'] );
 
@@ -230,7 +230,7 @@ function msnl_fGetNbrRecipients( $msnl_op, $gid ) {
 
 function msnl_fGetSendTo() {
 
-	global $prefix, $db, $msnl_gasModCfg, $msnl_asCSS, $msnl_asHTML;
+	global $titanium_prefix, $titanium_db, $msnl_gasModCfg, $msnl_asCSS, $msnl_asHTML;
 
 	$sHTML	= "<div id='msnl_div_sendto'>\n"
 							."<br />"
@@ -353,7 +353,7 @@ function msnl_fGetSendTo() {
 
 function msnl_fGetNSNGroups() {
 
-	global $prefix, $db, $msnl_gasModCfg, $msnl_nsngroupid, $msnl_asHTML, $msnl_asCSS;
+	global $titanium_prefix, $titanium_db, $msnl_gasModCfg, $msnl_nsngroupid, $msnl_asHTML, $msnl_asCSS;
 
 	$asNSNGroups	= array();
 
@@ -386,7 +386,7 @@ function msnl_fGetNSNGroups() {
 
 		$i = 0;
 
-		$sql = "SELECT `gid`, `gname` FROM `".$prefix."_nsngr_groups` ORDER BY `gname`";
+		$sql = "SELECT `gid`, `gname` FROM `".$titanium_prefix."_nsngr_groups` ORDER BY `gname`";
 
 		$result	= msnl_fSQLCall( $sql );
 
@@ -396,7 +396,7 @@ function msnl_fGetNSNGroups() {
 
 		} else { //Successful SQL call
 
-			while ( $row = $db->sql_fetchrow( $result ) ) {
+			while ( $row = $titanium_db->sql_fetchrow( $result ) ) {
 
 				$gid 			= intval( $row['gid'] );
 
@@ -441,11 +441,11 @@ function msnl_fGetNSNGroups() {
 function msnl_fAddNls( $msnl_iCID, $msnl_sTopic, $msnl_sSender, $msnl_sFilename, 
 											$msnl_sDatesent, $msnl_iView, $msnl_sGroups ) {
 
-	global $prefix, $db;
+	global $titanium_prefix, $titanium_db;
 
 	$nid = 0;
 
-	$sql = "INSERT INTO `". $prefix ."_hnl_newsletters` "
+	$sql = "INSERT INTO `". $titanium_prefix ."_hnl_newsletters` "
 				."VALUES ("
 					."NULL, "
 					."'$msnl_iCID', "
@@ -468,7 +468,7 @@ function msnl_fAddNls( $msnl_iCID, $msnl_sTopic, $msnl_sSender, $msnl_sFilename,
 
 		//Now get the nid of the newsletter that was just inserted (for batch send purposes)
 
-		$sql = "SELECT MAX(`nid`) AS nid FROM `". $prefix ."_hnl_newsletters`";
+		$sql = "SELECT MAX(`nid`) AS nid FROM `". $titanium_prefix ."_hnl_newsletters`";
 
 		$result1 = msnl_fSQLCall( $sql );
 
@@ -478,7 +478,7 @@ function msnl_fAddNls( $msnl_iCID, $msnl_sTopic, $msnl_sSender, $msnl_sFilename,
 
 		} else { //Successful SQL call
 
-			$row = $db->sql_fetchrow( $result1 );
+			$row = $titanium_db->sql_fetchrow( $result1 );
 
 			$nid = intval( $row['nid'] );
 			
@@ -502,7 +502,7 @@ function msnl_fAddNls( $msnl_iCID, $msnl_sTopic, $msnl_sSender, $msnl_sFilename,
 
 function msnl_fSendNls( $emailfile, $msnl_sSender, $sql, $msnl_sEmailaddresses ) {
 
-	global $sitename, $adminmail, $REMOTE_ADDR, $prefix, $db, $admin_file, $msnl_gasModCfg;
+	global $sitename, $adminmail, $REMOTE_ADDR, $titanium_prefix, $titanium_db, $admin_file, $msnl_gasModCfg;
 
 	//Define the email headers once since they are the same for each send option.
 
@@ -542,15 +542,15 @@ function msnl_fSendNls( $emailfile, $msnl_sSender, $sql, $msnl_sEmailaddresses )
 
 		$msnl_asEmailaddresses	= explode( ",", $msnl_sEmailaddresses );
 		
-		foreach ( $msnl_asEmailaddresses as $user_email ) { //Cycle through each ad-hoc email address
+		foreach ( $msnl_asEmailaddresses as $titanium_user_email ) { //Cycle through each ad-hoc email address
 
-			msnl_fDebugMsg( $user_email );
+			msnl_fDebugMsg( $titanium_user_email );
 
 			if ( $msnl_gasModCfg['debug_mode'] != MSNL_VERBOSE ) {  //Do not mail if in verbose debug mode
 
-				if ( !@mail( $user_email, $emailtitle, $emailfile, $headers ) ) { //Mail and test if successful
+				if ( !@mail( $titanium_user_email, $emailtitle, $emailfile, $headers ) ) { //Mail and test if successful
 
-					msnl_fRaiseAppError( _MSNL_ADM_SEND_ERR_MAIL." ".$user_email );	//MSNL_010301_02
+					msnl_fRaiseAppError( _MSNL_ADM_SEND_ERR_MAIL." ".$titanium_user_email );	//MSNL_010301_02
 
 				}
 
@@ -563,7 +563,7 @@ function msnl_fSendNls( $emailfile, $msnl_sSender, $sql, $msnl_sEmailaddresses )
 	} else { //Actually sending to a selected list of recipients
 
 		$result				= msnl_fSQLCall( $sql );
-		$numofusers		= $db->sql_numrows( $result );
+		$numofusers		= $titanium_db->sql_numrows( $result );
 		$numofusers		= intval( $numofusers );
 
 		if ( $numofusers > MSNL_MAX_BATCH_SIZE ) {
@@ -581,21 +581,21 @@ function msnl_fSendNls( $emailfile, $msnl_sSender, $sql, $msnl_sEmailaddresses )
 
 		$prev_user_id = 1;
 
-		while( $row = $db->sql_fetchrow( $result ) ) { //Cycle through the recipients and send
+		while( $row = $titanium_db->sql_fetchrow( $result ) ) { //Cycle through the recipients and send
 
-			$user_id			= intval( $row['user_id'] );
+			$titanium_user_id			= intval( $row['user_id'] );
 
-			$user_email		= stripslashes( $row['user_email'] );
+			$titanium_user_email		= stripslashes( $row['user_email'] );
 
-			$prev_user_id = $user_id;
+			$prev_user_id = $titanium_user_id;
 
-			msnl_fDebugMsg( $user_email );
+			msnl_fDebugMsg( $titanium_user_email );
 
 			if ( $msnl_gasModCfg['debug_mode'] != MSNL_VERBOSE ) {  //Do not mail if in verbose debug mode
 
-				if ( !@mail( $user_email, $emailtitle, $emailfile, $headers ) ) { //Mail and test if successful
+				if ( !@mail( $titanium_user_email, $emailtitle, $emailfile, $headers ) ) { //Mail and test if successful
 
-					msnl_fRaiseAppError( _MSNL_ADM_SEND_ERR_MAIL." ".$user_email );	//MSNL_010301_02
+					msnl_fRaiseAppError( _MSNL_ADM_SEND_ERR_MAIL." ".$titanium_user_email );	//MSNL_010301_02
 
 				}
 
@@ -621,9 +621,9 @@ function msnl_fSendNls( $emailfile, $msnl_sSender, $sql, $msnl_sEmailaddresses )
 
 function msnl_fGetCategories( $iCatID=0, $iInclAll=MSNL_SHOW_ALL_OFF ) {
 
-	global $prefix, $db;
+	global $titanium_prefix, $titanium_db;
 
-	$sql		= "SELECT `cid`, `ctitle` FROM `".$prefix."_hnl_categories` ORDER BY `ctitle`";
+	$sql		= "SELECT `cid`, `ctitle` FROM `".$titanium_prefix."_hnl_categories` ORDER BY `ctitle`";
 
 	$result	= msnl_fSQLCall( $sql );
 
@@ -653,7 +653,7 @@ function msnl_fGetCategories( $iCatID=0, $iInclAll=MSNL_SHOW_ALL_OFF ) {
 
 		//Now build the options
 
-		while (	$row = $db->sql_fetchrow( $result ) ) { 
+		while (	$row = $titanium_db->sql_fetchrow( $result ) ) { 
 
 			$iLstCID		= intval( $row['cid'] );
 			$sLstTitle	= stripslashes( $row['ctitle'] );

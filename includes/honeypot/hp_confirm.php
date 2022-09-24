@@ -13,7 +13,7 @@
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 exit('Access Denied');
 }
-global $prefix, $db, $admin_file, $currentlang;
+global $titanium_prefix, $titanium_db, $admin_file, $currentlang;
 if (file_exists(NUKE_ADMIN_DIR.'language/Honeypot/lang-'.$currentlang.'.php')) {
 include_once(NUKE_ADMIN_DIR.'language/Honeypot/lang-'.$currentlang.'.php');
 }else{
@@ -23,8 +23,8 @@ $date = date("F j, Y, g:i A");
 $ip = $_SERVER['REMOTE_ADDR'];
 $XMAIL = urlencode($ya_user_email);
 
-$result = $db->sql_query("SELECT usehp, check1, check2, check3, check4, check5, check6, c7opt1, c7opt2, c7amount, c8opt1, c8opt2, usebsapi, c8apikey, fs9opt1, fs9opt2, fs9apikey, check3time, check4question, check4answer, usefeedback, email FROM ".$prefix."_honeypot_config");
-list($usehp, $check1, $check2, $check3, $check4, $check5, $check6, $c7opt1, $c7opt2, $c7amount, $c8opt1, $c8opt2, $usebsapi, $c8apikey, $fs9opt1, $fs9opt2, $fs9apikey, $check3time, $check4question, $check4answer, $usefeedback, $email) = $db->sql_fetchrow($result);
+$result = $titanium_db->sql_query("SELECT usehp, check1, check2, check3, check4, check5, check6, c7opt1, c7opt2, c7amount, c8opt1, c8opt2, usebsapi, c8apikey, fs9opt1, fs9opt2, fs9apikey, check3time, check4question, check4answer, usefeedback, email FROM ".$titanium_prefix."_honeypot_config");
+list($usehp, $check1, $check2, $check3, $check4, $check5, $check6, $c7opt1, $c7opt2, $c7amount, $c8opt1, $c8opt2, $usebsapi, $c8apikey, $fs9opt1, $fs9opt2, $fs9apikey, $check3time, $check4question, $check4answer, $usefeedback, $email) = $titanium_db->sql_fetchrow($result);
 
 echo '<style type="text/css">
     .center{
@@ -35,13 +35,13 @@ echo '<style type="text/css">
 /************************************************************************/
 // [ Begin ] HoneyPot Blacklist Check
 /************************************************************************/
-$result1 = $db->sql_query("SELECT COUNT(ip) FROM `". $prefix ."_honeypot` WHERE ip = '$ip'");
-list($resip) = $db->sql_fetchrow($result1);
-$db->sql_freeresult($result1);
+$result1 = $titanium_db->sql_query("SELECT COUNT(ip) FROM `". $titanium_prefix ."_honeypot` WHERE ip = '$ip'");
+list($resip) = $titanium_db->sql_fetchrow($result1);
+$titanium_db->sql_freeresult($result1);
 
-$result2 = $db->sql_query("SELECT COUNT(email) FROM `". $prefix ."_honeypot` WHERE email ='$ya_user_email'");
-list($resemail) = $db->sql_fetchrow($result2);
-$db->sql_freeresult($result2);
+$result2 = $titanium_db->sql_query("SELECT COUNT(email) FROM `". $titanium_prefix ."_honeypot` WHERE email ='$ya_user_email'");
+list($resemail) = $titanium_db->sql_fetchrow($result2);
+$titanium_db->sql_freeresult($result2);
 
 if ($c7opt2 == 1){
  if (($resip >= $c7amount) && ($resemail < $c7amount || $c7opt1 == 0)){
@@ -118,7 +118,7 @@ $ourtime = $check3time + 1;
 if($totaltime < $ourtime){
 $potnum = "0";
 $reason = _HONEYPOT_SUBMITTEDIN." $totaltime "._HONEYPOT_SEC;
-$db->sql_query("INSERT INTO `" . $prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
+$titanium_db->sql_query("INSERT INTO `" . $titanium_prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
 OpenTable();
 echo "<p class='center'>"._HONEYPOT_YOUAREABOT."$check3time"._HONEYPOT_YOUAREABOT2."</p>" , PHP_EOL
  , '<br /><br /><br />' , PHP_EOL
@@ -144,7 +144,7 @@ $botblock2 = $_POST["company"];
 if (!empty($botblock2)) {
 $reason = $botblock2;
 $potnum = "1";
-$db->sql_query("INSERT INTO `" . $prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
+$titanium_db->sql_query("INSERT INTO `" . $titanium_prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
 
 OpenTable();
 if (file_exists('./includes/honeypot/flash.js')) {
@@ -189,7 +189,7 @@ if (!empty($botblock)) {
 $reason = _HONEYPOT_ANSWEREDWITH." $botblock";
 $potnum = "2";
 
-$db->sql_query("INSERT INTO `" . $prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
+$titanium_db->sql_query("INSERT INTO `" . $titanium_prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
 
 OpenTable();
 echo "<p class='center'>"._HONEYPOT_YOUHAVEFAILED." <br /> "._HONEYPOT_HOEYPOT."</p>" , PHP_EOL
@@ -219,7 +219,7 @@ if ($givenanswer != $answercheck) {
 $reason = _HONEYPOT_ANSWEREDWITH." \" $givenanswer \"";
 $potnum = "3";
 
-$db->sql_query("INSERT INTO `" . $prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
+$titanium_db->sql_query("INSERT INTO `" . $titanium_prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
 
 OpenTable();
 echo "<p class='center'>"._HONEYPOT_QUESTIONCHECK_FAILED."</p>" , PHP_EOL
@@ -264,7 +264,7 @@ if (preg_match($pattern, $sfsresponse)) {
 $potnum = "4";
 $reason = _HONEYPOT_SFS_API_CHECK;
 
-$db->sql_query("INSERT INTO `" . $prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
+$titanium_db->sql_query("INSERT INTO `" . $titanium_prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
 
 OpenTable();
 echo '<div style="text-align:center;">' , _HONEYPOT_SFS_API_BLOCKED , '</div>' , PHP_EOL
@@ -310,7 +310,7 @@ if (preg_match($pattern, $fsresponse)) {
 $potnum = "7";
 $reason = _HONEYPOT_BSREASON;
 
-$db->sql_query("INSERT INTO `" . $prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
+$titanium_db->sql_query("INSERT INTO `" . $titanium_prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
 
 OpenTable();
 echo '<div style="text-align:center;">' , _HONEYPOT_FS_BLOCKED , '</div>' , PHP_EOL
@@ -362,7 +362,7 @@ if($botdatattype){
 $potnum = "6";
 $reason = _HONEYPOT_BSREASON;
 
-$db->sql_query("INSERT INTO `" . $prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
+$titanium_db->sql_query("INSERT INTO `" . $titanium_prefix . "_honeypot` VALUES (NULL, '$ya_username', '$ya_realname', '$ya_user_email', '$ip', '$date', '$potnum', '$reason')");
 
 OpenTable();
 echo '<div style="text-align:center;">' , _HONEYPOT_BS_BLOCKED , '</div>' , PHP_EOL

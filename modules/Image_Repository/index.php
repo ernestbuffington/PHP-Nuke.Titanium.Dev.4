@@ -35,10 +35,10 @@ define('_IMAGE_REPOSITORY_INDEX', TRUE);
 //-------------------------------------------------------------------------
 //	INCLUDE THE LANGUAGE FILES FOR THIS MODULE.
 //-------------------------------------------------------------------------
-if(file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$userinfo['user_lang'].'.php'))
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$userinfo['user_lang'].'.php');
+if(file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$userinfo['user_lang'].'.php'))
+	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$userinfo['user_lang'].'.php');
 else
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php');
+	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-english.php');
 //-------------------------------------------------------------------------
 //	INCLUDE THE LANGUAGE FILES FOR THIS MODULE.
 //-------------------------------------------------------------------------
@@ -46,7 +46,7 @@ else
 //-------------------------------------------------------------------------
 //	INCLUDE ALL THE FUNCTION WE NEED THROUGHOUT THE MODULE.
 //-------------------------------------------------------------------------
-include_once(NUKE_MODULES_DIR.$module_name.'/includes/functions.php');
+include_once(NUKE_MODULES_DIR.$titanium_module_name.'/includes/functions.php');
 
 $settings = image_repo_settings_variables();
 
@@ -65,7 +65,7 @@ addJSToHead(_IREPOSITORY_JS.'jquery.lonestar.js','file');
 switch($op)
 {
 	default:
-		include_once(NUKE_MODULES_DIR.$module_name.'/public/index.php');
+		include_once(NUKE_MODULES_DIR.$titanium_module_name.'/public/index.php');
 		break;
 }
 

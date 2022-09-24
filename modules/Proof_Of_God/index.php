@@ -5,14 +5,14 @@ if (!defined('MODULE_FILE')) {
 $pagetitle = 'Proof Of God';
 $title = 'Proof Of God';
 require_once("mainfile.php");
-$module_name = basename(dirname(__FILE__));
-get_lang($module_name);
+$titanium_module_name = basename(dirname(__FILE__));
+get_lang($titanium_module_name);
 include("header.php");
 $index = 0;
 
-global $domain, $facebook_plugin_width, $facebookappid, $module_name, $ThemeSel, $name; //globals 
+global $domain, $facebook_plugin_width, $facebookappid, $titanium_module_name, $ThemeSel, $name; //globals 
 
-include (TITANIUM_MODULES_DIR.$module_name.'/includes/isNumber.php');
+include (TITANIUM_MODULES_DIR.$titanium_module_name.'/includes/isNumber.php');
 
 echo "<link rel=\"StyleSheet\" href=\"modules/Proof Of God/styles/buttons-layers.css\" type=\"text/css\">";
 echo "<link rel=\"StyleSheet\" href=\"modules/Proof Of God/styles/Jackies.css\" type=\"text/css\">";

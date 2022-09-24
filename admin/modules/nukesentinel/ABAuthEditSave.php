@@ -28,13 +28,13 @@ if(is_god($admin)) {
     $xlogin = addslashes($xlogin);
     $xpassword = addslashes($xpassword);
   }
-  $db->sql_query("UPDATE `".$prefix."_nsnst_admins` SET `login`='$xlogin', `password`='$xpassword', `password_md5`='$xpassword_md5', `password_crypt`='$xpassword_crypt', `protected`='$xprotected' WHERE `aid`='$a_aid'");
-  list($amail) = $db->sql_fetchrow($db->sql_query("SELECT `email` FROM `".$prefix."_authors` WHERE `aid`='$a_aid' LIMIT 0,1"));
+  $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_admins` SET `login`='$xlogin', `password`='$xpassword', `password_md5`='$xpassword_md5', `password_crypt`='$xpassword_crypt', `protected`='$xprotected' WHERE `aid`='$a_aid'");
+  list($amail) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `email` FROM `".$titanium_prefix."_authors` WHERE `aid`='$a_aid' LIMIT 0,1"));
   @evo_mail($amail, $subject, $message,"From: ".$nuke_config['adminmail']."\r\nX-Mailer: "._AB_NUKESENTINEL."\r\n");
   if($ab_config['staccess_path'] > "" AND is_writable($ab_config['staccess_path'])) {
     $stwrite = "";
-    $adminresult = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_admins` WHERE `password_crypt`>'' ORDER BY `aid`");
-    while($adminrow = $db->sql_fetchrow($adminresult)) {
+    $adminresult = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_admins` WHERE `password_crypt`>'' ORDER BY `aid`");
+    while($adminrow = $titanium_db->sql_fetchrow($adminresult)) {
       $stwrite .= $adminrow['login'].":".$adminrow['password_crypt']."\n";
       $doit = fopen($ab_config['staccess_path'], "w");
       fwrite($doit, $stwrite);

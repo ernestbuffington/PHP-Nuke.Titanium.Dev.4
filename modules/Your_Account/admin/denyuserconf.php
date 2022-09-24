@@ -39,9 +39,9 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
-    list($email) = $db->sql_fetchrow($db->sql_query("SELECT user_email FROM ".$user_prefix."_users_temp WHERE user_id='$dny_uid'"));
+    list($email) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_email FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$dny_uid'"));
     if ($ya_config['servermail'] == 0) {
         $message = _SORRYTO." $sitename "._HASDENY;
         if ($denyreason > "") {
@@ -58,10 +58,10 @@ if(is_mod_admin($module_name)) {
         );
         evo_phpmailer( $email, $subject, $message, $headers );
     }
-    $db->sql_query("DELETE FROM ".$user_prefix."_users_temp WHERE user_id='$dny_uid'");
-    $db->sql_query("DELETE FROM ".$user_prefix."_cnbya_value_temp WHERE uid='$dny_uid'");
-    $db->sql_query("OPTIMIZE TABLE ".$user_prefix."_users_temp");
-    $db->sql_query("OPTIMIZE TABLE ".$user_prefix."_cnbya_value_temp");
+    $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$dny_uid'");
+    $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE uid='$dny_uid'");
+    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_users_temp");
+    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_cnbya_value_temp");
     $pagetitle = ": "._USERADMIN." - "._ACCTDENY;
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();
@@ -74,7 +74,7 @@ if(is_mod_admin($module_name)) {
     echo "<br />\n";
     OpenTable();
     echo "<center><table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }

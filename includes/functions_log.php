@@ -24,15 +24,15 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
-function log_action($action, $new_topic_id, $topic_id, $user_id, $forum_id, $new_forum_id)
+function log_action($action, $new_topic_id, $topic_id, $titanium_user_id, $phpbb2_forum_id, $new_forum_id)
 {
-    global $db;
-    if (!isset($user_id) || empty($user_id)) {
+    global $titanium_db;
+    if (!isset($titanium_user_id) || empty($titanium_user_id)) {
         return;
     }
 
@@ -49,10 +49,10 @@ function log_action($action, $new_topic_id, $topic_id, $user_id, $forum_id, $new
         $new_topic_id = 0;
     endif;
 
-    if ( $forum_id ):
-        $forum_id = $forum_id;
+    if ( $phpbb2_forum_id ):
+        $phpbb2_forum_id = $phpbb2_forum_id;
     else:
-        $forum_id = 0;
+        $phpbb2_forum_id = 0;
     endif;
 
     if ( $new_forum_id ):
@@ -73,63 +73,63 @@ function log_action($action, $new_topic_id, $topic_id, $user_id, $forum_id, $new
     }
 
     // if ( $topic_id || $new_topic_id ):
-    $last_post_id = 0;
+    $phpbb2_last_post_id = 0;
 
     $sql = "SELECT topic_last_post_id FROM ". TOPICS_TABLE ." $where";
-    if ( !($result = $db->sql_query($sql)) )
+    if ( !($result = $titanium_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not get topic_last_post_id', '', __LINE__, __FILE__, $sql);
     }
-    $row = $db->sql_fetchrow($result);
+    $row = $titanium_db->sql_fetchrow($result);
     if ( $row['topic_last_post_id'] )
-    	$last_post_id = $row['topic_last_post_id'];
-    $db->sql_freeresult($result);
+    	$phpbb2_last_post_id = $row['topic_last_post_id'];
+    $titanium_db->sql_freeresult($result);
 
     // else:
-    //     $last_post_id = 0;
+    //     $phpbb2_last_post_id = 0;
     // endif;
 
 
     $sql = "SELECT session_ip
         FROM " . SESSIONS_TABLE . "
-        WHERE session_user_id = $user_id ";
+        WHERE session_user_id = $titanium_user_id ";
 
-    if ( !($result = $db->sql_query($sql)) )
+    if ( !($result = $titanium_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not select session_ip', '', __LINE__, __FILE__, $sql);
     }
-    $row = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
-    $user_ip = $row['session_ip'];
+    $row = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
+    $titanium_user_ip = $row['session_ip'];
 
     $sql = "SELECT username
         FROM " . USERS_TABLE . "
-        WHERE user_id = $user_id ";
+        WHERE user_id = $titanium_user_id ";
 
-    if ( !($result = $db->sql_query($sql)) )
+    if ( !($result = $titanium_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not select username', '', __LINE__, __FILE__, $sql);
     }
-    $row2 = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
-    $username = $row2['username'];
-    $username = addslashes($username);
+    $row2 = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
+    $titanium_username = $row2['username'];
+    $titanium_username = addslashes($titanium_username);
 
     $time = time();
 
     $sql = "INSERT INTO " . LOGS_TABLE . " (mode, topic_id, user_id, username, user_ip, time, new_topic_id, forum_id, new_forum_id, last_post_id)
-        VALUES ('$action', '$topic_id', '$user_id', '$username', '$user_ip', '$time', '$new_topic_id', '$forum_id', '$new_forum_id', '$last_post_id')";
+        VALUES ('$action', '$topic_id', '$titanium_user_id', '$titanium_username', '$titanium_user_ip', '$time', '$new_topic_id', '$phpbb2_forum_id', '$new_forum_id', '$phpbb2_last_post_id')";
 
-    if ( !($result = $db->sql_query($sql)) )
+    if ( !($result = $titanium_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not insert data into logs table', '', __LINE__, __FILE__, $sql);
     }
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
 }
 
 function prune_logs($prune_days)
 {
-    global $db;
+    global $titanium_db;
 
     $prune = time() - ( $prune_days * 86400 );
 
@@ -137,24 +137,24 @@ function prune_logs($prune_days)
         FROM " . LOGS_TABLE . "
         WHERE time < $prune ";
 
-    if ( !($result = $db->sql_query($sql)) )
+    if ( !($result = $titanium_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not obtain list of logs to prune', '', __LINE__, __FILE__, $sql);
     }
 
     $logs = '';
-    while ( $row = $db->sql_fetchrow($result) )
+    while ( $row = $titanium_db->sql_fetchrow($result) )
     {
         $logs .= ( ( $logs != '' ) ? ', ' : '' ) . $row['log_id'];
     }
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
 
     if ( $logs != '' )
     {
         $sql = "DELETE FROM " . LOGS_TABLE . "
             WHERE log_id IN ($logs)";
 
-        if ( !$db->sql_query($sql) )
+        if ( !$titanium_db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, 'Could not delete logs', '', __LINE__, __FILE__, $sql);
         }
@@ -165,7 +165,7 @@ function prune_logs($prune_days)
 
 function auto_prune_logs()
 {
-    global $db;
+    global $titanium_db;
 
     // To do
 }

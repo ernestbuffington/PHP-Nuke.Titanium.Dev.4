@@ -34,7 +34,7 @@ if (!defined('NUKE_EVO')) {
     die("You can't access this file directly...");
 }
 
-global $db, $prefix, $smilies_path, $bbbttns_path, $bb_codes, $smilies_close, $bbcode_common, $currentlang, $nukeurl;
+global $titanium_db, $titanium_prefix, $smilies_path, $bbbttns_path, $bb_codes, $smilies_close, $bbcode_common, $currentlang, $nukeurl;
 
 if(file_exists(NUKE_LANGUAGE_DIR.'bbcode/lang-'.$currentlang.'.php')) {
     include_once(NUKE_LANGUAGE_DIR.'bbcode/lang-'.$currentlang.'.php');
@@ -56,7 +56,7 @@ function get_codelang($var, $array) {
 
 function smilies_table($mode, $field='message', $form='post')
 {
-    global $board_config;
+    global $phpbb2_board_config;
     $smilies = '';
     $smilies = get_smilies();
 
@@ -84,7 +84,7 @@ function smilies_table($mode, $field='message', $form='post')
         if ($num_smilies):
 
             foreach( $rowset as $smile_url => $data ):
-                $smilies_row .= '<img class="forum-emoticon" data-id="'.$data['code'].'" data-field="'.$field.'" src="'.$board_config['smilies_path'].'/'.$smile_url.'" border="0" alt="'.$data['emoticon'].'" title="'.$data['emoticon'].'" />&nbsp;';
+                $smilies_row .= '<img class="forum-emoticon" data-id="'.$data['code'].'" data-field="'.$field.'" src="'.$phpbb2_board_config['smilies_path'].'/'.$smile_url.'" border="0" alt="'.$data['emoticon'].'" title="'.$data['emoticon'].'" />&nbsp;';
             endforeach;
 
         endif;
@@ -174,23 +174,23 @@ if(!function_exists('bbcode_table'))
 }
 
 function get_smilies() {
-   global $db, $prefix, $cache;
+   global $titanium_db, $titanium_prefix, $titanium_cache;
    static $smilies;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    if(($smilies = $cache->load('smilies', 'config')) === false) {
+    if(($smilies = $titanium_cache->load('smilies', 'config')) === false) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $smilies = $db->sql_ufetchrowset('SELECT * FROM '.$prefix.'_bbsmilies');
+        $smilies = $titanium_db->sql_ufetchrowset('SELECT * FROM '.$titanium_prefix.'_bbsmilies');
         if(count($smilies))
         {
             usort($smilies, 'sort_smiley');
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $cache->save('smilies', 'config', $smilies);
+            $titanium_cache->save('smilies', 'config', $smilies);
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -312,23 +312,23 @@ function html2bb($text)
 # prepare_message(
 function message_prepare($message, $html_on, $bbcode_on)
 {
-    global $board_config;
+    global $phpbb2_board_config;
     #
     # Clean up the message
     #
     $message = trim($message);
     if ($html_on) 
     {
-        $allowed_html_tags = split(',', $board_config['allow_html_tags']);
-        $end_html = 0;
-        $start_html = 1;
+        $allowed_html_tags = split(',', $phpbb2_board_config['allow_html_tags']);
+        $phpbb2_end_html = 0;
+        $phpbb2_start_html = 1;
         $tmp_message = '';
         $message = ' ' . $message . ' ';
-        while ($start_html = strpos($message, '<', $start_html)) {
-            $tmp_message .= BBCode::encode_html(substr($message, $end_html + 1, ($start_html - $end_html - 1)));
-            if ($end_html = strpos($message, '>', $start_html)) {
-                $length = $end_html - $start_html + 1;
-                $hold_string = substr($message, $start_html, $length);
+        while ($phpbb2_start_html = strpos($message, '<', $phpbb2_start_html)) {
+            $tmp_message .= BBCode::encode_html(substr($message, $phpbb2_end_html + 1, ($phpbb2_start_html - $phpbb2_end_html - 1)));
+            if ($phpbb2_end_html = strpos($message, '>', $phpbb2_start_html)) {
+                $length = $phpbb2_end_html - $phpbb2_start_html + 1;
+                $hold_string = substr($message, $phpbb2_start_html, $length);
                 if (($unclosed_open = strrpos(' ' . $hold_string, '<')) != 1) {
                     $tmp_message .= BBCode::encode_html(substr($hold_string, 0, $unclosed_open - 1));
                     $hold_string = substr($hold_string, $unclosed_open - 1);
@@ -341,15 +341,15 @@ function message_prepare($message, $html_on, $bbcode_on)
                     }
                 }
                 $tmp_message .= ($length && !$tagallowed) ? BBCode::encode_html($hold_string) : $hold_string;
-                $start_html += $length;
+                $phpbb2_start_html += $length;
             } else {
-                $tmp_message .= BBCode::encode_html(substr($message, $start_html));
-                $start_html = strlen($message);
-                $end_html = $start_html;
+                $tmp_message .= BBCode::encode_html(substr($message, $phpbb2_start_html));
+                $phpbb2_start_html = strlen($message);
+                $phpbb2_end_html = $phpbb2_start_html;
             }
         }
-        if ($end_html != strlen($message) && $tmp_message != '') {
-            $tmp_message .= BBCode::encode_html(substr($message, $end_html + 1));
+        if ($phpbb2_end_html != strlen($message) && $tmp_message != '') {
+            $tmp_message .= BBCode::encode_html(substr($message, $phpbb2_end_html + 1));
         }
         $message = ($tmp_message != '') ? trim($tmp_message) : trim($message);
     } else {

@@ -42,7 +42,7 @@ require_once(NUKE_INCLUDE_DIR.'utf/utf_tools.php');
  * @return Data with slashes
  */
 function slashFunction($function, $data) {
-    global $db;
+    global $titanium_db;
 
     //Error check
     if (empty($data)) return $data;
@@ -53,9 +53,9 @@ function slashFunction($function, $data) {
         case 'mysql_escape_string':
             return mysql_escape_string($data);
         case 'mysqli_real_escape_string':
-            return mysqli_real_escape_string($db->db_connect_id, $data);
+            return mysqli_real_escape_string($titanium_db->db_connect_id, $data);
         case 'mysqli_escape_string':
-            return mysqli_escape_string($db->db_connect_id, $data);
+            return mysqli_escape_string($titanium_db->db_connect_id, $data);
         case 'addslashes':
         default:
             return addslashes($data);
@@ -69,7 +69,7 @@ function slashFunction($function, $data) {
  * @return Data with slashes
  */
 function deepSlash($data) {
-    global $db, $dbtype;
+    global $titanium_db, $titanium_dbtype;
     //If there is no data get out
     if (empty($data)) return $data;
 
@@ -77,12 +77,12 @@ function deepSlash($data) {
     static $function;
     if (empty($function)) {
         //If for some reason there is no DB connector
-        if (!isset($db) || !is_object($db)) {
+        if (!isset($titanium_db) || !is_object($titanium_db)) {
             //Use addslashes
             $function = 'addslashes';
-        } else if ($dbtype == 'mysqli' && function_exists('mysqli_real_escape_string')) {
+        } else if ($titanium_dbtype == 'mysqli' && function_exists('mysqli_real_escape_string')) {
             $function = 'mysqli_real_escape_string';
-        } else if ($dbtype == 'mysqli_escape_string') {
+        } else if ($titanium_dbtype == 'mysqli_escape_string') {
             $function = 'mysqli_escape_string';
         } else if (function_exists('mysql_real_escape_string')) {
             $function = 'mysql_real_escape_string';
@@ -162,7 +162,7 @@ function deepStrip($data) {
 }
 
 function deepPurifier($data) {
-	global $html_auth, $admin;
+	global $titanium_html_auth, $admin;
     static $config, $purifier;
 
     //Error check
@@ -176,12 +176,14 @@ function deepPurifier($data) {
     }
 	
 	if (!isset($config) || empty($config)) {
-        require_once(NUKE_INCLUDE_DIR.'HTMLPurifier/HTMLPurifier.auto.php');
+		# This was changed because we added the repo and loaded it accordingly!
+        # Guy like me gets it done! TheGhost 9/20/2022 2:42pm
+        require_once(NUKE_INCLUDE_DIR.'purifier/library/HTMLPurifier.auto.php');
     	$config = HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', 'UTF-8');
 		$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 		
-        if (!is_god($admin) || (is_god($admin) && !$html_auth)) {
+        if (!is_god($admin) || (is_god($admin) && !$titanium_html_auth)) {
 			$config->set('HTML.Trusted', true);
 			$config->set('HTML.SafeObject', true);
 			$config->set('HTML.SafeEmbed', true);
@@ -229,7 +231,7 @@ function deepPurifier($data) {
                     }
                 }
                 //If its a strip lets purify it
-                if (!is_god($admin) || (is_god($admin) && !$html_auth)) {
+                if (!is_god($admin) || (is_god($admin) && !$titanium_html_auth)) {
 					$data[$k] = $purifier->purify($v);
 				}
 				

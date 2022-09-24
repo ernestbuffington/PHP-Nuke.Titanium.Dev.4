@@ -75,7 +75,7 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	//Total Members
 
-	$sql									= "SELECT `user_id` FROM `".$prefix."_users` WHERE `username` <> 'Anonymous'";
+	$sql									= "SELECT `user_id` FROM `".$titanium_prefix."_users` WHERE `username` <> 'Anonymous'";
 	$result 							= msnl_fSQLCall( $sql );
 
 	if ( !$result ) { //Bad SQL call
@@ -84,13 +84,13 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		$msnl_iStatsTotUsr		= intval( $db->sql_numrows( $result ) );
+		$msnl_iStatsTotUsr		= intval( $titanium_db->sql_numrows( $result ) );
 	
 	}
 
 	//Total Hits
 	
-	$sql										= "SELECT `count` FROM `".$prefix."_counter` WHERE `type` = 'total' "
+	$sql										= "SELECT `count` FROM `".$titanium_prefix."_counter` WHERE `type` = 'total' "
 													.	"AND `var` = 'hits' LIMIT 1";
 	$result1 								= msnl_fSQLCall( $sql );
 
@@ -100,14 +100,14 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		$row										= $db->sql_fetchrow( $result1 );
+		$row										= $titanium_db->sql_fetchrow( $result1 );
 		$msnl_iStatsTotHits			= intval( $row['count'] );
 		
 	}
 
 	//Total Blogs
 	
-	$sql										= "SELECT * FROM `".$prefix."_stories`";
+	$sql										= "SELECT * FROM `".$titanium_prefix."_stories`";
 	$result2 								= msnl_fSQLCall( $sql );
 
 	if ( !$result2 ) { //Bad SQL call
@@ -116,13 +116,13 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		$msnl_iStatsTotNews			= intval( $db->sql_numrows( $result2 ) );
+		$msnl_iStatsTotNews			= intval( $titanium_db->sql_numrows( $result2 ) );
 
 	}
 
 	//Total News categories
 	
-	$sql										= "SELECT * FROM `".$prefix."_stories_cat`";
+	$sql										= "SELECT * FROM `".$titanium_prefix."_stories_cat`";
 	$result3 								= msnl_fSQLCall( $sql );
 
 	if ( !$result3 ) { //Bad SQL call
@@ -131,13 +131,13 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		$msnl_iStatsTotNewsCat	= intval( $db->sql_numrows( $result3 ) );
+		$msnl_iStatsTotNewsCat	= intval( $titanium_db->sql_numrows( $result3 ) );
 
 	}
 
 	//Total Downloads Files
 
-	$sql										= "SELECT * FROM `".$prefix."_".$msnl_gasModCfg['dl_module']."_downloads`";
+	$sql										= "SELECT * FROM `".$titanium_prefix."_".$msnl_gasModCfg['dl_module']."_downloads`";
 	$result4 								= msnl_fSQLCall( $sql );
 
 	if ( !$result4 ) { //Bad SQL call
@@ -146,13 +146,13 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		$msnl_iStatsTotDls			= intval( $db->sql_numrows( $result4 ) );
+		$msnl_iStatsTotDls			= intval( $titanium_db->sql_numrows( $result4 ) );
 
 	}
 	
 	//Total Downloads Categories
 
-	$sql										= "SELECT * FROM `".$prefix."_".$msnl_gasModCfg['dl_module']."_categories`";
+	$sql										= "SELECT * FROM `".$titanium_prefix."_".$msnl_gasModCfg['dl_module']."_categories`";
 	$result5 								= msnl_fSQLCall( $sql );
 
 	if ( !$result5 ) { //Bad SQL call
@@ -161,13 +161,13 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		$msnl_iStatsTotDlsCat		= intval( $db->sql_numrows( $result5 ) );
+		$msnl_iStatsTotDlsCat		= intval( $titanium_db->sql_numrows( $result5 ) );
 
 	}
 	
 	//Total Web Links
 
-	$sql										= "SELECT * FROM `".$prefix."_links_links`";
+	$sql										= "SELECT * FROM `".$titanium_prefix."_links_links`";
 	$result6 								= msnl_fSQLCall( $sql );
 
 	if ( !$result6 ) { //Bad SQL call
@@ -176,13 +176,13 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		$msnl_iStatsTotLnks			= intval( $db->sql_numrows( $result6 ) );
+		$msnl_iStatsTotLnks			= intval( $titanium_db->sql_numrows( $result6 ) );
 	
 	}
 	
 	//Total Web Links Categories
 
-	$sql										= "SELECT * FROM `".$prefix."_links_categories`";
+	$sql										= "SELECT * FROM `".$titanium_prefix."_links_categories`";
 	$result7 								= msnl_fSQLCall( $sql );
 
 	if ( !$result7 ) { //Bad SQL call
@@ -191,13 +191,13 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		$msnl_iStatsTotLnksCat	= intval( $db->sql_numrows( $result7 ) );
+		$msnl_iStatsTotLnksCat	= intval( $titanium_db->sql_numrows( $result7 ) );
 
 	}
 	
 	//Total Amount of Forum Topics
 
-	$sql										= "SELECT * FROM `".$prefix."_bbtopics`";
+	$sql										= "SELECT * FROM `".$titanium_prefix."_bbtopics`";
 	$result8 								= msnl_fSQLCall( $sql );
 
 	if ( !$result8 ) { //Bad SQL call
@@ -206,13 +206,13 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		$msnl_iStatsTotForums		= intval( $db->sql_numrows( $result8 ) );
+		$msnl_iStatsTotForums		= intval( $titanium_db->sql_numrows( $result8 ) );
 	
 	}
 	
 	//Total Amount of forum Posts
 
-	$sql										= "SELECT * FROM `".$prefix."_bbposts`";
+	$sql										= "SELECT * FROM `".$titanium_prefix."_bbposts`";
 	$result9 								= msnl_fSQLCall( $sql );
 
 	if ( !$result9 ) { //Bad SQL call
@@ -221,13 +221,13 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		$msnl_iStatsTotPosts		= intval( $db->sql_numrows( $result9 ) );
+		$msnl_iStatsTotPosts		= intval( $titanium_db->sql_numrows( $result9 ) );
 	
 	}
 	
 	//Total Amount of Reviews
 
-	$sql										= "SELECT * FROM `".$prefix."_reviews`";
+	$sql										= "SELECT * FROM `".$titanium_prefix."_reviews`";
 	$result10 							= msnl_fSQLCall( $sql );
 
 	if ( !$result10 ) { //Bad SQL call
@@ -236,7 +236,7 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		$msnl_iStatsTotReviews	= intval( $db->sql_numrows( $result10 ) );
+		$msnl_iStatsTotReviews	= intval( $titanium_db->sql_numrows( $result10 ) );
 
 	}
 	
@@ -272,8 +272,8 @@ if ( $_POST['msnl_news'] > 0 && $msnl_sTemplateNm != "notemplate" ) {
 	$msnl_sRows	= "";
 
 	$sql				= "SELECT `sid`, `informant`, `title`, `topic`, `topictext`, a.`counter` AS counter FROM `"
-							. $prefix."_stories` a, `"
-							. $prefix."_topics` b "
+							. $titanium_prefix."_stories` a, `"
+							. $titanium_prefix."_topics` b "
 							. "WHERE a.`topic` = b.`topicid` "
 							. "ORDER BY `time` DESC LIMIT 0, ". $_POST['msnl_news'];
 
@@ -285,7 +285,7 @@ if ( $_POST['msnl_news'] > 0 && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		while ( $row = $db->sql_fetchrow( $result11 ) ) {
+		while ( $row = $titanium_db->sql_fetchrow( $result11 ) ) {
 
 			$msnl_iSID					= intval( $row['sid'] );
 			$msnl_sNewsAuthor		= stripslashes ( $row['informant'] );
@@ -332,8 +332,8 @@ if ( $_POST['msnl_downloads'] > 0 && $msnl_sTemplateNm != "notemplate" ) {
 	$msnl_sRows	= "";
 
 	$sql				= "SELECT `lid`, a.`cid` as cid, a.`title` as dtitle, `hits`, b.`title` as ctitle FROM `"
-							. $prefix."_".$msnl_gasModCfg['dl_module']."_downloads` a, `"
-							. $prefix."_".$msnl_gasModCfg['dl_module']."_categories` b "
+							. $titanium_prefix."_".$msnl_gasModCfg['dl_module']."_downloads` a, `"
+							. $titanium_prefix."_".$msnl_gasModCfg['dl_module']."_categories` b "
 							. "WHERE a.`cid` = b.`cid` "
 							. "ORDER BY `lid` DESC LIMIT 0, ".$_POST['msnl_downloads'];
 
@@ -345,7 +345,7 @@ if ( $_POST['msnl_downloads'] > 0 && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		while ( $row = $db->sql_fetchrow( $result12 ) ) {
+		while ( $row = $titanium_db->sql_fetchrow( $result12 ) ) {
 
 			$msnl_iLID					= intval( $row['lid'] );
 			$msnl_iTopicCID			= intval( $row['cid'] );
@@ -390,8 +390,8 @@ if ( $_POST['msnl_weblinks'] > 0 && $msnl_sTemplateNm != "notemplate" ) {
 	$msnl_sRows	= "";
 
 	$sql				= "SELECT `lid`, a.`cid` as cid, a.`title` as ltitle, b.`title` as ctitle, `hits` FROM `"
-							. $prefix."_links_links` a, `"
-							. $prefix."_links_categories` b "
+							. $titanium_prefix."_links_links` a, `"
+							. $titanium_prefix."_links_categories` b "
 							. "WHERE a.`cid` = b.`cid` "
 							. "ORDER BY `lid` DESC LIMIT 0, ". $_POST['msnl_weblinks'];
 
@@ -403,7 +403,7 @@ if ( $_POST['msnl_weblinks'] > 0 && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		while ( $row = $db->sql_fetchrow( $result13 ) ) {
+		while ( $row = $titanium_db->sql_fetchrow( $result13 ) ) {
 
 			$msnl_iLID					= intval( $row['lid'] );
 			$msnl_iWlCID				= intval( $row['cid'] );
@@ -462,11 +462,11 @@ if ($_POST['msnl_forums'] > 0 && $msnl_sTemplateNm != "notemplate") {
 								."up.`username` AS up_username, "
 								."up.`user_id` AS up_user_id "
 							."FROM `"
-								.$prefix."_bbtopics` t, `"
-								.$prefix."_bbforums` f, `"
-								.$prefix."_bbposts` p, `"
-								.$prefix."_users` ut, `"
-								.$prefix."_users` up "
+								.$titanium_prefix."_bbtopics` t, `"
+								.$titanium_prefix."_bbforums` f, `"
+								.$titanium_prefix."_bbposts` p, `"
+								.$titanium_prefix."_users` ut, `"
+								.$titanium_prefix."_users` up "
 							."WHERE "
 								."f.`forum_id` = t.`forum_id` "
 							."AND "
@@ -493,7 +493,7 @@ if ($_POST['msnl_forums'] > 0 && $msnl_sTemplateNm != "notemplate") {
 
 	} else { //Successful SQL call
 
-		while ( $row = $db->sql_fetchrow( $result14 ) ) {
+		while ( $row = $titanium_db->sql_fetchrow( $result14 ) ) {
 
 			$msnl_iTopicID							= intval( $row['topic_id'] );
 			$msnl_iForumID							= intval( $row['forum_id'] );
@@ -550,7 +550,7 @@ if ( $_POST['msnl_reviews'] > 0 && $msnl_sTemplateNm != "notemplate" ) {
 	$msnl_sRows	= "";
 
 	$sql				= "SELECT `id`, `reviewer`, `title`, `hits`, `date` FROM `"
-							. $prefix."_reviews` "
+							. $titanium_prefix."_reviews` "
 							. "ORDER BY `id` DESC LIMIT 0, ". $_POST['msnl_reviews'];
 
 	$result15	= msnl_fSQLCall( $sql );
@@ -561,7 +561,7 @@ if ( $_POST['msnl_reviews'] > 0 && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 
-		while ( $row = $db->sql_fetchrow( $result15 ) ) {
+		while ( $row = $titanium_db->sql_fetchrow( $result15 ) ) {
 
 			$msnl_iReviewID				= intval( $row['id'] );
 			$msnl_sReviewAuthor		= stripslashes( $row['reviewer'] );
@@ -608,7 +608,7 @@ if ( $_POST['msnl_reviews'] > 0 && $msnl_sTemplateNm != "notemplate" ) {
 if ( $_POST['msnl_banner'] != "" && $msnl_sTemplateNm != "notemplate" ) {
 
 	$sql	= "SELECT `imageurl`, `clickurl`, `alttext` FROM `"
-				. $prefix."_banner` WHERE `bid` = '". $_POST['msnl_banner'] ."'";
+				. $titanium_prefix."_banner` WHERE `bid` = '". $_POST['msnl_banner'] ."'";
 
 	$result16	= msnl_fSQLCall( $sql );
 
@@ -618,7 +618,7 @@ if ( $_POST['msnl_banner'] != "" && $msnl_sTemplateNm != "notemplate" ) {
 
 	} else { //Successful SQL call
 	
-		$row = $db->sql_fetchrow( $result16 );
+		$row = $titanium_db->sql_fetchrow( $result16 );
 		
 		$msnl_sImageURL		= stripslashes( $row['imageurl'] );
 		$msnl_sClickURL		= stripslashes( $row['clickurl'] );

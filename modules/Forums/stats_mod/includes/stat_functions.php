@@ -24,9 +24,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 function sql_quote($data)
@@ -37,15 +37,15 @@ function sql_quote($data)
 
 function clear_directory($file = 'modules/cache') 
 {
-    global $directory_mode, $phpbb_root_path;
+    global $directory_mode, $phpbb2_root_path;
 
-    if (file_exists($phpbb_root_path . $file)) 
+    if (file_exists($phpbb2_root_path . $file)) 
     {
-        @chmod($phpbb_root_path . $file, $directory_mode);
+        @chmod($phpbb2_root_path . $file, $directory_mode);
             
-        if (is_dir($phpbb_root_path . $file))
+        if (is_dir($phpbb2_root_path . $file))
         {
-            $dir = opendir($phpbb_root_path . $file); 
+            $dir = opendir($phpbb2_root_path . $file); 
             while ($filename = readdir($dir)) 
             {
                 if ($filename != '.' && $filename != '..' && $filename != '.htaccess' && $filename != 'CVS' && $filename != 'pakfiles') 
@@ -56,12 +56,12 @@ function clear_directory($file = 'modules/cache')
             closedir($dir);
             if ($file != 'modules')
             {
-                @rmdir($phpbb_root_path . $file);
+                @rmdir($phpbb2_root_path . $file);
             }
         } 
         else 
         {
-            @unlink($phpbb_root_path . $file);
+            @unlink($phpbb2_root_path . $file);
         }
     }
 }
@@ -69,25 +69,25 @@ function clear_directory($file = 'modules/cache')
 // 
 // Check if a user is within Group
 //
-function user_is_within_group($user_id, $group_id)
+function user_is_within_group($titanium_user_id, $group_id)
 {
-    global $db;
+    global $titanium_db;
 
-    if ((empty($user_id)) || (empty($group_id)))
+    if ((empty($titanium_user_id)) || (empty($group_id)))
     {
         return (FALSE);
     }
     
     $sql = "SELECT u.group_id FROM " . USER_GROUP_TABLE . " u, " . GROUPS_TABLE . " g 
-    WHERE (g.group_single_user = 0) AND (u.group_id = g.group_id) AND (u.user_id = " . $user_id . ") AND (g.group_id = " . $group_id . ")
+    WHERE (g.group_single_user = 0) AND (u.group_id = g.group_id) AND (u.user_id = " . $titanium_user_id . ") AND (g.group_id = " . $group_id . ")
     LIMIT 1";
             
-    if ( !($result = $db->sql_query($sql)) )
+    if ( !($result = $titanium_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not get User Group', '', __LINE__, __FILE__, $sql);
     }
 
-    if ($db->sql_numrows($result) == 0)
+    if ($titanium_db->sql_numrows($result) == 0)
     {
         return (FALSE);
     }
@@ -98,38 +98,38 @@ function user_is_within_group($user_id, $group_id)
 }
 
 // Get module informations
-function get_modules($activated = true, $module_id = -1)
+function get_modules($activated = true, $titanium_module_id = -1)
 {
-    global $db, $stats_config, $userdata;
+    global $titanium_db, $stats_config, $userdata;
 
     $where_statement = ($activated) ? 'WHERE active = 1 ' : '';
-    if ($module_id != -1)
+    if ($titanium_module_id != -1)
     {
-        $where_statement .= (($where_statement == '') ? 'WHERE module_id = ' . intval($module_id) . ' ' : 'AND module_id = ' . intval($module_id) . ' ');
+        $where_statement .= (($where_statement == '') ? 'WHERE module_id = ' . intval($titanium_module_id) . ' ' : 'AND module_id = ' . intval($titanium_module_id) . ' ');
     }
 
     // Now let us get them in correct order
     $sql = "SELECT * FROM " . MODULES_TABLE . " " . $where_statement . "
     ORDER BY module_order ASC";
 
-    if (!($result = $db->sql_query($sql)) )
+    if (!($result = $titanium_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get module informations', "", __LINE__, __FILE__, $sql);
     }
 
-    $rows = $db->sql_fetchrowset($result);
-    $num_rows = $db->sql_numrows($result);
+    $rows = $titanium_db->sql_fetchrowset($result);
+    $num_rows = $titanium_db->sql_numrows($result);
 
     // Check Group
     $sql = "SELECT * FROM " . MODULE_GROUP_AUTH_TABLE;
 
-    if (!($result = $db->sql_query($sql)) )
+    if (!($result = $titanium_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get Permission informations', '', __LINE__, __FILE__, $sql);
     }
             
-    $g_rows = $db->sql_fetchrowset($result);
-    $g_num_rows = $db->sql_numrows($result);
+    $g_rows = $titanium_db->sql_fetchrowset($result);
+    $g_num_rows = $titanium_db->sql_numrows($result);
     $authed_groups = array();
 
     for ($i = 0; $i < $g_num_rows; $i++)
@@ -137,7 +137,7 @@ function get_modules($activated = true, $module_id = -1)
         $authed_groups[$g_rows[$i]['module_id']][] = $g_rows[$i]['group_id'];
     }
 
-    $modules = array();
+    $titanium_modules = array();
 
     // Check Authentication
     for ($i = 0; $i < $num_rows; $i++)
@@ -186,52 +186,52 @@ function get_modules($activated = true, $module_id = -1)
 
         if ($authed)
         {
-            $modules[] = $rows[$i];
+            $titanium_modules[] = $rows[$i];
         }
     }
 
-    return ($modules);
+    return ($titanium_modules);
 }
 
 function get_num_modules($activated = true)
 {
-    global $db, $stats_config;
+    global $titanium_db, $stats_config;
 
     $where_statement = ($activated) ? 'WHERE active = 1 ' : '';
 
     $sql = "SELECT COUNT(*) as total FROM " . MODULES_TABLE . " " . $where_statement;
 
-    if (!($result = $db->sql_query($sql)) )
+    if (!($result = $titanium_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get module informations', "", __LINE__, __FILE__, $sql);
     }
 
-    $row = $db->sql_fetchrow($result);
+    $row = $titanium_db->sql_fetchrow($result);
 
     return(intval($row['total']));
 }
 
 // Determine if we have to use the db cache
-function module_use_db_cache($module_id, &$cache)
+function module_use_db_cache($titanium_module_id, &$titanium_cache)
 {
-    global $db, $core;
+    global $titanium_db, $core;
 
     $core->module_info['last_update_time'] = 0;
     $core->module_info['next_update_time'] = 0;
     
-    $sql = "SELECT c.*, m.update_time FROM " . CACHE_TABLE . " c, " . MODULES_TABLE . " m WHERE c.module_id = " . $module_id . " AND m.module_id = c.module_id";
+    $sql = "SELECT c.*, m.update_time FROM " . CACHE_TABLE . " c, " . MODULES_TABLE . " m WHERE c.module_id = " . $titanium_module_id . " AND m.module_id = c.module_id";
 
-    if (!($result = $db->sql_query($sql)) )
+    if (!($result = $titanium_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get cache informations', "", __LINE__, __FILE__, $sql);
     }
     
-    if ($db->sql_numrows($result) == 0)
+    if ($titanium_db->sql_numrows($result) == 0)
     {
         return (false);
     }
     
-    $row = $db->sql_fetchrow($result);
+    $row = $titanium_db->sql_fetchrow($result);
     $core->module_info['last_update_time'] = intval($row['module_cache_time']);
     $core->module_info['next_update_time'] = intval($row['module_cache_time']) + (intval($row['update_time']) * 60);
     
@@ -240,7 +240,7 @@ function module_use_db_cache($module_id, &$cache)
         return (false);
     }
 
-    $cache = trim($row['db_cache']);
+    $titanium_cache = trim($row['db_cache']);
 
     // Determine last update time to use the cache -- determine dependencies/cache priority too
     if ((intval($row['module_cache_time']) + (intval($row['update_time']) * 60)) > time())
@@ -257,25 +257,25 @@ function module_use_db_cache($module_id, &$cache)
     // If another Module got re-loaded, we have to use the cache
     if ($core->module_reloaded)
     {
-        set_module_cache_priority($module_id, 1);
+        set_module_cache_priority($titanium_module_id, 1);
         return (true);
     }
 
-    $cache_priority = module_cache_priority($module_id, intval($row['priority']));
+    $titanium_cache_priority = module_cache_priority($titanium_module_id, intval($row['priority']));
     
-    if ($cache_priority == HIGHEST_PRIORITY)
+    if ($titanium_cache_priority == HIGHEST_PRIORITY)
     {
         $core->module_reloaded = true;
-        set_module_cache_priority($module_id, (-1));
+        set_module_cache_priority($titanium_module_id, (-1));
         return (false);
     }
 
     return (true);
 }
 
-function set_module_cache_priority($module_id, $add_value)
+function set_module_cache_priority($titanium_module_id, $add_value)
 {
-    global $db;
+    global $titanium_db;
 
     if ($add_value < 0)
     {
@@ -290,9 +290,9 @@ function set_module_cache_priority($module_id, $add_value)
         return;
     }
 
-    $sql = "UPDATE " . CACHE_TABLE . " SET " . $set . " WHERE module_id = " . intval($module_id);
+    $sql = "UPDATE " . CACHE_TABLE . " SET " . $set . " WHERE module_id = " . intval($titanium_module_id);
 
-    if (!$db->sql_query($sql))
+    if (!$titanium_db->sql_query($sql))
     {
         message_die(GENERAL_ERROR, 'Unable to update cache priority', '', __LINE__, __FILE__, $sql);
     }
@@ -300,13 +300,13 @@ function set_module_cache_priority($module_id, $add_value)
     return;
 }
 
-function reset_module_cache_priority($module_id)
+function reset_module_cache_priority($titanium_module_id)
 {
-    global $db;
+    global $titanium_db;
     
-    $sql = "UPDATE " . CACHE_TABLE . " SET priority = 0 WHERE module_id = " . intval($module_id);
+    $sql = "UPDATE " . CACHE_TABLE . " SET priority = 0 WHERE module_id = " . intval($titanium_module_id);
 
-    if (!$db->sql_query($sql))
+    if (!$titanium_db->sql_query($sql))
     {
         message_die(GENERAL_ERROR, 'Unable to update cache priority', '', __LINE__, __FILE__, $sql);
     }
@@ -314,19 +314,19 @@ function reset_module_cache_priority($module_id)
     return;
 }
 
-function module_cache_priority($module_id, $current_priority)
+function module_cache_priority($titanium_module_id, $current_priority)
 {
-    global $db, $core, $stat_functions;
+    global $titanium_db, $core, $stat_functions;
 
-    $sql = "SELECT priority FROM " . CACHE_TABLE . " WHERE module_id <> " . $module_id . " AND priority > 0 ORDER BY priority ASC";
+    $sql = "SELECT priority FROM " . CACHE_TABLE . " WHERE module_id <> " . $titanium_module_id . " AND priority > 0 ORDER BY priority ASC";
 
-    if (!($result = $db->sql_query($sql)))
+    if (!($result = $titanium_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Unable to get cache priority', '', __LINE__, __FILE__, $sql);
     }
     
-    $num_rows = $db->sql_numrows($result);
-    $rows = $db->sql_fetchrowset($result);
+    $num_rows = $titanium_db->sql_numrows($result);
+    $rows = $titanium_db->sql_fetchrowset($result);
 
     if ($num_rows == 0)
     {
@@ -335,7 +335,7 @@ function module_cache_priority($module_id, $current_priority)
 
     if ($current_priority == 0)
     {
-        set_module_cache_priority($module_id, 1);
+        set_module_cache_priority($titanium_module_id, 1);
         return (LOWEST_PRIORITY);
     }
     
@@ -346,11 +346,11 @@ function module_cache_priority($module_id, $current_priority)
 
     if ($current_priority >= $rows[$num_rows-1]['priority'])
     {
-        set_module_cache_priority($module_id, (-1));
+        set_module_cache_priority($titanium_module_id, (-1));
         return (HIGHEST_PRIORITY);
     }
 
-    set_module_cache_priority($module_id, 1);
+    set_module_cache_priority($titanium_module_id, 1);
     return (EQUAL_PRIORITY);
 }
 

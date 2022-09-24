@@ -35,12 +35,12 @@
 
 if ( !defined('ADMIN_FILE') ) { die("Illegal File Access"); }
 
-global $currentlang, $language, $admin_file;
+global $currentlang, $titanium_language, $admin_file;
 
-if ( @file_exists( "modules/$module_name/admin/language/lang-".$currentlang.".php" ) ) {
-   @include_once( "modules/$module_name/admin/language/lang-".$currentlang.".php" );
+if ( @file_exists( "modules/$titanium_module_name/admin/language/lang-".$currentlang.".php" ) ) {
+   @include_once( "modules/$titanium_module_name/admin/language/lang-".$currentlang.".php" );
 } else {
-   @include_once( "modules/$module_name/admin/language/lang-".$language.".php" );
+   @include_once( "modules/$titanium_module_name/admin/language/lang-".$titanium_language.".php" );
 }
 
 adminmenu( $admin_file.".php?op=msnl_admin", 'HTML Newsletter', "HTMLnl.png" );

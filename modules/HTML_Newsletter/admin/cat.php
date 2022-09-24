@@ -47,10 +47,10 @@ msnl_fShowSubTitle( _MSNL_CAT_LAB_CATCFG );
 * Build the SQL for the categories to display.
 ************************************************************************/
 
-$sql = "SELECT * FROM ".$prefix."_hnl_categories";
+$sql = "SELECT * FROM ".$titanium_prefix."_hnl_categories";
 
 $result 				= msnl_fSQLCall( $sql );
-$resultcount		= $db->sql_numrows( $result );
+$resultcount		= $titanium_db->sql_numrows( $result );
 
 /************************************************************************
 * Check if there was an error getting the categories, and if not, write them
@@ -100,7 +100,7 @@ if ( !$result ) { //Bad SQL call
 		* Cycle through the result set.
 		************************************************************************/
 
-		while (	$row = $db->sql_fetchrow( $result ) ) { 
+		while (	$row = $titanium_db->sql_fetchrow( $result ) ) { 
 
 				$msnl_asRec['cid']						= intval($row['cid']);
 				$msnl_asRec['ctitle']					= stripslashes(check_html($row['ctitle'], "nohtml"));

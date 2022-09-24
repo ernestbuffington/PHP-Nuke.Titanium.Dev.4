@@ -29,10 +29,10 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$module_name = basename(dirname(__FILE__));
-get_lang($module_name);
+$titanium_module_name = basename(dirname(__FILE__));
+get_lang($titanium_module_name);
 
-require_once(NUKE_MODULES_DIR.$module_name.'/functions.php');
+require_once(NUKE_MODULES_DIR.$titanium_module_name.'/functions.php');
 
 include_once(NUKE_BASE_DIR.'header.php');
 

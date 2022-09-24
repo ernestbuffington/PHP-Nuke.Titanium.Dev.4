@@ -25,9 +25,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 //
@@ -35,24 +35,24 @@ if (!defined('IN_PHPBB'))
 $debug = False;
 //
 
-if ( $debug || $board_config['ropm_quick_reply'])
-//if ( $board_config['ropm_quick_reply'])
+if ( $debug || $phpbb2_board_config['ropm_quick_reply'])
+//if ( $phpbb2_board_config['ropm_quick_reply'])
 {
-$language = $board_config['default_lang'];
-if ( !file_exists($phpbb_root_path . 'language/lang_' . $language . '/lang_main_pmqr.'.$phpEx) )
-$language = 'english';
-include($phpbb_root_path . 'language/lang_' . $language . '/lang_main_pmqr.' . $phpEx);
+$titanium_language = $phpbb2_board_config['default_lang'];
+if ( !file_exists($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_main_pmqr.'.$phpEx) )
+$titanium_language = 'english';
+include($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_main_pmqr.' . $phpEx);
 
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
    'ropm_quick_reply_output' => 'ropm_quick_reply.tpl')
 );
 
    $bbcode_uid = $privmsg['privmsgs_bbcode_uid'];
-   $last_poster = $privmsg['username_1'];
+   $phpbb2_last_poster = $privmsg['username_1'];
    $last_msg = $privmsg['privmsgs_text'];
    $last_msg = str_replace(":1:$bbcode_uid", '', $last_msg);
    $last_msg = str_replace(":$bbcode_uid", '', $last_msg);
-   $last_msg = '[quote="' . $last_poster . '"]' . $last_msg . '[/quote]';
+   $last_msg = '[quote="' . $phpbb2_last_poster . '"]' . $last_msg . '[/quote]';
    $last_msg = str_replace("\\", "\\\\", $last_msg);$last_msg = str_replace("'", "\'", $last_msg);$last_msg = str_replace(chr(13), '', $last_msg);$last_msg = str_replace("\n", "\\n", $last_msg);
 
    $s_hidden_fields = '
@@ -61,8 +61,8 @@ $template->set_filenames(array(
 <input type="hidden" name="username" value="' . $privmsg['username_1'] . '" />
 <input type="hidden" name="sid" value="' . $userdata['session_id'] . '" />';
 
-   $template->assign_block_vars('ROPM_QUICK_REPLY', array(
-      'POST_ACTION' => append_sid("privmsg.$phpEx"),
+   $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY', array(
+      'POST_ACTION' => append_titanium_sid("privmsg.$phpEx"),
       'S_HIDDEN_FIELDS' => $s_hidden_fields,
       'SUBJECT' => ( ( !preg_match('/^Re:/', $privmsg['privmsgs_subject']) ) ? 'Re: ' : '' ) . str_replace('"', "&quot;", $privmsg['privmsgs_subject']),
       'BB_BOX' => Make_TextArea_Ret('message', '', 'post', '100%', '200px', true),
@@ -73,61 +73,61 @@ $template->set_filenames(array(
       'S_SIG_CHECKED' => ( $userdata['user_attachsig'] ) ? ' checked="checked"' : ''
       ));
 
-if ( $board_config['allow_html'] )
-   $template->assign_block_vars('ROPM_QUICK_REPLY.HTMLCB', array());
-if ( $board_config['allow_bbcode'] )
+if ( $phpbb2_board_config['allow_html'] )
+   $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.HTMLCB', array());
+if ( $phpbb2_board_config['allow_bbcode'] )
 {
-   $template->assign_block_vars('ROPM_QUICK_REPLY.BBCODECB', array());
-   if ( $board_config['ropm_quick_reply_bbc'] )
-     $template->assign_block_vars('ROPM_QUICK_REPLY.BBCODEBUTT', array());
+   $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.BBCODECB', array());
+   if ( $phpbb2_board_config['ropm_quick_reply_bbc'] )
+     $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.BBCODEBUTT', array());
 }
-if ( $board_config['allow_smilies'] )
+if ( $phpbb2_board_config['allow_smilies'] )
 {
-   $template->assign_block_vars('ROPM_QUICK_REPLY.SMILIESCB', array());
+   $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.SMILIESCB', array());
    generate_smilies_row();
 }
-   $template->assign_vars(array(
-      'U_MORE_SMILIES' => append_sid("posting.$phpEx?mode=smilies"),
-      'L_EMPTY_MESSAGE' => $lang['Empty_message'],
-      'L_PREVIEW' => $lang['Preview'],
-      'L_SUBMIT' => $lang['Submit'],
-      'L_CANCEL' => $lang['Cancel'],
-      'L_SUBJECT' => $lang['PMQR_Subject'],
-      'L_MESSAGE' => $lang['Message'],
-      'L_OPTIONS' => $lang['Options'],
-      'L_ATTACH_SIGNATURE' => $lang['Attach_signature'],
-      'L_DISABLE_HTML' => $lang['Disable_HTML_post'],
-      'L_DISABLE_BBCODE' => $lang['Disable_BBCode_post'],
-      'L_DISABLE_SMILIES' => $lang['Disable_Smilies_post'],
-      'L_ALL_SMILIES' => $lang['PMQR_smilies'],
-      'L_QUOTE_SELECTED' => $lang['PMQR_QuoteSelelected'],
-      'L_NO_TEXT_SELECTED' => $lang['PMQR_QuoteSelelectedEmpty'],
-      'L_EMPTY_MESSAGE' => $lang['Empty_message'],
-      'L_EMPTY_SUBJECT' => $lang['Empty_subject'],
-      'L_ENTER_URL' => $lang['PMQR_enter_url'],
-      'L_ENTER_TITLE' => $lang['PMQR_enter_title'],
-      'L_TITLE' => $lang['PMQR_title'],
-      'L_EMPTY_URL' => $lang['PMQR_empty_url'],
-      'L_EMPTY_TITLE' => $lang['PMQR_empty_title'],
-      'L_ENTER_IMG_URL' => $lang['PMQR_enter_img_url'],
-      'L_EMPTY_IMG_URL' => $lang['PMQR_empty_img_url'],
-      'L_ERROR' => $lang['Error'],
-      'L_QUOTE_LAST_MESSAGE' => $lang['PMQR_Quick_quote'],
-      'L_QUICK_REPLY' => $lang['PMQR_Quick_Reply'],
-      'L_CUT' => $lang['PMQR_cut'],
-      'L_COPY' => $lang['PMQR_copy'],
-      'L_PASTE' => $lang['PMQR_paste'],
-      'L_MARKALL' => $lang['PMQR_markall'],
-      'L_BOLD' => $lang['PMQR_bold'],
-      'L_ITALIC' => $lang['PMQR_italic'],
-      'L_UNDERLINE' => $lang['PMQR_underline'],
-      'L_QUOTE' => $lang['PMQR_quote'],
-      'L_CODE' => $lang['PMQR_code'],
-      'L_IMAGE' => $lang['PMQR_image'],
-      'L_URL' => $lang['PMQR_url'],
-      'L_B' => $lang['PMQR_b'],
-      'L_I' => $lang['PMQR_i'],
-      'L_U' => $lang['PMQR_u'],
+   $phpbb2_template->assign_vars(array(
+      'U_MORE_SMILIES' => append_titanium_sid("posting.$phpEx?mode=smilies"),
+      'L_EMPTY_MESSAGE' => $titanium_lang['Empty_message'],
+      'L_PREVIEW' => $titanium_lang['Preview'],
+      'L_SUBMIT' => $titanium_lang['Submit'],
+      'L_CANCEL' => $titanium_lang['Cancel'],
+      'L_SUBJECT' => $titanium_lang['PMQR_Subject'],
+      'L_MESSAGE' => $titanium_lang['Message'],
+      'L_OPTIONS' => $titanium_lang['Options'],
+      'L_ATTACH_SIGNATURE' => $titanium_lang['Attach_signature'],
+      'L_DISABLE_HTML' => $titanium_lang['Disable_HTML_post'],
+      'L_DISABLE_BBCODE' => $titanium_lang['Disable_BBCode_post'],
+      'L_DISABLE_SMILIES' => $titanium_lang['Disable_Smilies_post'],
+      'L_ALL_SMILIES' => $titanium_lang['PMQR_smilies'],
+      'L_QUOTE_SELECTED' => $titanium_lang['PMQR_QuoteSelelected'],
+      'L_NO_TEXT_SELECTED' => $titanium_lang['PMQR_QuoteSelelectedEmpty'],
+      'L_EMPTY_MESSAGE' => $titanium_lang['Empty_message'],
+      'L_EMPTY_SUBJECT' => $titanium_lang['Empty_subject'],
+      'L_ENTER_URL' => $titanium_lang['PMQR_enter_url'],
+      'L_ENTER_TITLE' => $titanium_lang['PMQR_enter_title'],
+      'L_TITLE' => $titanium_lang['PMQR_title'],
+      'L_EMPTY_URL' => $titanium_lang['PMQR_empty_url'],
+      'L_EMPTY_TITLE' => $titanium_lang['PMQR_empty_title'],
+      'L_ENTER_IMG_URL' => $titanium_lang['PMQR_enter_img_url'],
+      'L_EMPTY_IMG_URL' => $titanium_lang['PMQR_empty_img_url'],
+      'L_ERROR' => $titanium_lang['Error'],
+      'L_QUOTE_LAST_MESSAGE' => $titanium_lang['PMQR_Quick_quote'],
+      'L_QUICK_REPLY' => $titanium_lang['PMQR_Quick_Reply'],
+      'L_CUT' => $titanium_lang['PMQR_cut'],
+      'L_COPY' => $titanium_lang['PMQR_copy'],
+      'L_PASTE' => $titanium_lang['PMQR_paste'],
+      'L_MARKALL' => $titanium_lang['PMQR_markall'],
+      'L_BOLD' => $titanium_lang['PMQR_bold'],
+      'L_ITALIC' => $titanium_lang['PMQR_italic'],
+      'L_UNDERLINE' => $titanium_lang['PMQR_underline'],
+      'L_QUOTE' => $titanium_lang['PMQR_quote'],
+      'L_CODE' => $titanium_lang['PMQR_code'],
+      'L_IMAGE' => $titanium_lang['PMQR_image'],
+      'L_URL' => $titanium_lang['PMQR_url'],
+      'L_B' => $titanium_lang['PMQR_b'],
+      'L_I' => $titanium_lang['PMQR_i'],
+      'L_U' => $titanium_lang['PMQR_u'],
       'IMG_CUT' => $images['bbc_cut'],
       'IMG_COPY' => $images['bbc_copy'],
       'IMG_PASTE' => $images['bbc_paste'],
@@ -141,15 +141,15 @@ if ( $board_config['allow_smilies'] )
       'IMG_IMAGE' => $images['bbc_image'],
       'IMG_URL' => $images['bbc_url']
 ));
-$lang['TRANSLATION_INFO'] .= '<br />PM Quick Reply &copy; by <a href="http://www.rondom.gu2.info" target="rondom">Rondom</a> 2003-2004' . (( $lang['PMQR_TRANSLATION'] )?' :: '.$lang['PMQR_TRANSLATION'] : '') . (($debug)?'&nbsp;&nbsp;<span style="font-weight:bolder;font-size:20px;">Rondom\'s Debug Mode enabled!</span>':'');
-$template->assign_var_from_handle('ROPM_QUICKREPLY_OUTPUT', 'ropm_quick_reply_output');
+$titanium_lang['TRANSLATION_INFO'] .= '<br />PM Quick Reply &copy; by <a href="http://www.rondom.gu2.info" target="rondom">Rondom</a> 2003-2004' . (( $titanium_lang['PMQR_TRANSLATION'] )?' :: '.$titanium_lang['PMQR_TRANSLATION'] : '') . (($debug)?'&nbsp;&nbsp;<span style="font-weight:bolder;font-size:20px;">Rondom\'s Debug Mode enabled!</span>':'');
+$phpbb2_template->assign_var_from_handle('ROPM_QUICKREPLY_OUTPUT', 'ropm_quick_reply_output');
 }
 
 function generate_smilies_row()
 {
-   global $db, $board_config, $template;
+   global $titanium_db, $phpbb2_board_config, $phpbb2_template;
 
-   $max_smilies = $board_config['ropm_quick_reply_smilies'];
+   $max_smilies = $phpbb2_board_config['ropm_quick_reply_smilies'];
 
    switch ( SQL_LAYER )
    {
@@ -168,30 +168,30 @@ function generate_smilies_row()
          ORDER BY smilies_id LIMIT ' . $max_smilies;
       break;
    }
-   if (!$result = $db->sql_query($sql))
+   if (!$result = $titanium_db->sql_query($sql))
    {
       message_die(GENERAL_ERROR, "Couldn't retrieve smilies list", '', __LINE__, __FILE__, $sql);
    }
-   $smilies_count = $db->sql_numrows($result);
-   $smilies_data = $db->sql_fetchrowset($result);
+   $smilies_count = $titanium_db->sql_numrows($result);
+   $smilies_data = $titanium_db->sql_fetchrowset($result);
    for ($i = 0; $i < $smilies_count; $i++)
    {
-         $template->assign_block_vars('ROPM_QUICK_REPLY.SMILIES', array(
+         $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.SMILIES', array(
             'CODE' => $smilies_data[$i]['code'],
-            'URL' => $board_config['smilies_path'] . '/' . $smilies_data[$i]['smile_url'],
+            'URL' => $phpbb2_board_config['smilies_path'] . '/' . $smilies_data[$i]['smile_url'],
             'DESC' => $smilies_data[$i]['emoticon'])
          );
 }
    $sql = 'SELECT COUNT(*) FROM ' . SMILIES_TABLE . '
            GROUP BY smile_url;';
 
-   if (!$result = $db->sql_query($sql))
+   if (!$result = $titanium_db->sql_query($sql))
    {
       message_die(GENERAL_ERROR, "Couldn't count smilies", '', __LINE__, __FILE__, $sql);
    }
-   $real_smilies_count = $db->sql_numrows($result);
+   $real_smilies_count = $titanium_db->sql_numrows($result);
    if ($real_smilies_count > $max_smilies || !$max_smilies)
-   $template->assign_block_vars('ROPM_QUICK_REPLY.MORESMILIES', array());
+   $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.MORESMILIES', array());
 }
 
 ?>

@@ -26,7 +26,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
     "signature" => "admin/board_config/board_signature.tpl")
 );
 
@@ -39,27 +39,27 @@ $new['sig_line'] = str_replace('"', '&quot;', $new['sig_line']);
  ******************************************************/
  
 //General Template variables
-$template->assign_vars(array(
+$phpbb2_template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
     
 //Language Template variables
-$template->assign_vars(array(
+$phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
  ******************************************************/
-    "L_SIG_TITLE" => $lang['sig_title'],
-    "L_SIG_EXPLAIN" => $lang['sig_explain'],
-    "L_SIG_INPUT" => $lang['sig_divider'],
+    "L_SIG_TITLE" => $titanium_lang['sig_title'],
+    "L_SIG_EXPLAIN" => $titanium_lang['sig_explain'],
+    "L_SIG_INPUT" => $titanium_lang['sig_divider'],
 /*****[END]********************************************
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
  ******************************************************/
-    "L_MAX_SIG_LENGTH" => $lang['Max_sig_length'],
-    "L_MAX_SIG_LENGTH_EXPLAIN" => $lang['Max_sig_length_explain'],
+    "L_MAX_SIG_LENGTH" => $titanium_lang['Max_sig_length'],
+    "L_MAX_SIG_LENGTH_EXPLAIN" => $titanium_lang['Max_sig_length_explain'],
 ));
 
 //Data Template Variables
-$template->assign_vars(array(
+$phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
  ******************************************************/
@@ -69,6 +69,6 @@ $template->assign_vars(array(
  ******************************************************/
     "SIG_SIZE" => $new['max_sig_chars'],
  ));
-$template->pparse("signature");
+$phpbb2_template->pparse("signature");
 
 ?>

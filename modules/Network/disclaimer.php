@@ -36,21 +36,21 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$module_name = basename(dirname(__FILE__));
-get_lang($module_name);
-include(NUKE_MODULES_DIR.$module_name.'/doc_config.php');
+$titanium_module_name = basename(dirname(__FILE__));
+get_lang($titanium_module_name);
+include(NUKE_MODULES_DIR.$titanium_module_name.'/doc_config.php');
 
 define('INDEX_FILE', true);
 
 function disclaimer() 
 {
-    global $sitename, $adminmail, $module_name;
+    global $sitename, $adminmail, $titanium_module_name;
 
     include_once(NUKE_BASE_DIR.'header.php');
 
     title($sitename.': '._NSDISCLAIMER);
 
-    if (file_exists(NUKE_MODULES_DIR.$module_name.'/copyright.php')) 
+    if (file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/copyright.php')) 
 	{
         OpenTable();
  	    # space at the top of header inside graphics area!

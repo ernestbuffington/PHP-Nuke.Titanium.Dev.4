@@ -103,12 +103,12 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
    * Set the language used in this Header.
    * For example, for US English, 'en-us'.
    * This can be unspecified.
-   * @param string $lang
+   * @param string $titanium_lang
    */
-  public function setLanguage($lang)
+  public function setLanguage($titanium_lang)
   {
-    $this->clearCachedValueIf($this->_lang != $lang);
-    $this->_lang = $lang;
+    $this->clearCachedValueIf($this->_lang != $titanium_lang);
+    $this->_lang = $titanium_lang;
   }
   
   /**

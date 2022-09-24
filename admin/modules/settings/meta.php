@@ -13,22 +13,22 @@ if(!defined('IN_SETTINGS')) {
   exit('Access Denied');
 }
 
-global $prefix, $db, $admdata, $admLang;
+global $titanium_prefix, $titanium_db, $admdata, $admLang;
 
 function Get_Meta_Array() 
 {
-    global $prefix, $db;
+    global $titanium_prefix, $titanium_db;
     
-    $sql = 'SELECT meta_name, meta_content FROM '.$prefix.'_meta';
-    $result = $db->sql_query($sql);
+    $sql = 'SELECT meta_name, meta_content FROM '.$titanium_prefix.'_meta';
+    $result = $titanium_db->sql_query($sql);
     $i=0;
-    while(list($meta_name, $meta_content) = $db->sql_fetchrow($result)) {
+    while(list($meta_name, $meta_content) = $titanium_db->sql_fetchrow($result)) {
         $metatags[$i] = array();
         $metatags[$i]['meta_name'] = $meta_name;
         $metatags[$i]['meta_content'] = $meta_content;
         $i++;
     }
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     
     return $metatags;
 }

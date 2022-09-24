@@ -45,7 +45,7 @@ if (!defined('CNBYA')) {
     block_vpn_proxy_user();
     title(_USERREGLOGIN);
     OpenTable();
-    echo "<form action='modules.php?name=$module_name' method='post' name='newuser'>\n";
+    echo "<form action='modules.php?name=$titanium_module_name' method='post' name='newuser'>\n";
     echo "<table style='margin:auto' cellpadding='3' cellspacing='3' border='0'>\n";
     echo "<tr><td align='center' bgcolor='$bgcolor1' colspan='2'><div class=\"textbold\">"._REGNEWUSER."</div></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._NICKNAME.":</div><span class='tiny'>"._REQUIRED."</span></td><td bgcolor='$bgcolor1'><input type='text' name='ya_username' size='15' id='username_input' maxlength='".$ya_config['nick_max']."'>&nbsp;<span id=\"username_check_result\"></span><br /><span class='tiny'>("._YA_NICKLENGTH.")</span></td></tr>\n";
@@ -66,8 +66,8 @@ if (!defined('CNBYA')) {
 	}
     # end Nuke Honeypot
 
-    $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field WHERE (need = '2') OR (need = '3') ORDER BY pos");
-        while ($sqlvalue = $db->sql_fetchrow($result)) {
+    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE (need = '2') OR (need = '3') ORDER BY pos");
+        while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
           $t = $sqlvalue[fid];
           $value2 = explode("::", $sqlvalue[value]);
           if (substr($sqlvalue[name],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue[name];
@@ -133,15 +133,15 @@ if (!defined('CNBYA')) {
     }
     closedir($handle);
     if ($thmcount > 1) { echo "<li>"._ASREG6."\n"; }
-    $sql = "SELECT custom_title FROM ".$prefix."_modules WHERE active='1' AND view='1' AND inmenu='1'";
-    $result = $db->sql_query($sql);
-    while ($row = $db->sql_fetchrow($result)) {
+    $sql = "SELECT custom_title FROM ".$titanium_prefix."_modules WHERE active='1' AND view='1' AND inmenu='1'";
+    $result = $titanium_db->sql_query($sql);
+    while ($row = $titanium_db->sql_fetchrow($result)) {
         $custom_title = $row['custom_title'];
         if (!empty($custom_title)) { echo "<li>"._ACCESSTO." $custom_title\n"; }
     }
-    $sql = "SELECT title FROM ".$prefix."_blocks WHERE active='1' AND view='1'";
-    $result = $db->sql_query($sql);
-    while ($row = $db->sql_fetchrow($result)) {
+    $sql = "SELECT title FROM ".$titanium_prefix."_blocks WHERE active='1' AND view='1'";
+    $result = $titanium_db->sql_query($sql);
+    while ($row = $titanium_db->sql_fetchrow($result)) {
         $b_title = $row['title'];
         if (!empty($b_title)) { echo "<li>"._ACCESSTO." $b_title\n"; }
     }
@@ -151,7 +151,7 @@ if (!defined('CNBYA')) {
     echo "</ul>\n";
     echo _REGISTERNOW."<br />\n";
     echo _WEDONTGIVE."<br /><br />\n";
-    echo "<center><span class='content'>[ <a href='modules.php?name=$module_name'>"._USERLOGIN."</a> | <a href='modules.php?name=$module_name&amp;op=pass_lost'>"._PASSWORDLOST."</a> ]</span></center>\n";
+    echo "<center><span class='content'>[ <a href='modules.php?name=$titanium_module_name'>"._USERLOGIN."</a> | <a href='modules.php?name=$titanium_module_name&amp;op=pass_lost'>"._PASSWORDLOST."</a> ]</span></center>\n";
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 

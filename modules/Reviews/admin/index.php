@@ -25,24 +25,24 @@ if (!defined('ADMIN_FILE')) {
    die('Access Denied');
 }
 
-global $prefix, $db, $admdata;
-$module_name = basename(dirname(dirname(__FILE__)));
-if(is_mod_admin($module_name)) {
+global $titanium_prefix, $titanium_db, $admdata;
+$titanium_module_name = basename(dirname(dirname(__FILE__)));
+if(is_mod_admin($titanium_module_name)) {
 
 /*********************************************************/
 /* REVIEWS Block Functions                               */
 /*********************************************************/
 
 function mod_main($title, $description) {
-    global $prefix, $db, $admin_file;
+    global $titanium_prefix, $titanium_db, $admin_file;
     $title = Fix_Quotes($title);
     $description = Fix_Quotes($description);
-    $db->sql_query("UPDATE ".$prefix."_reviews_main SET title='$title', description='$description'");
-    redirect($admin_file.".php?op=reviews");
+    $titanium_db->sql_query("UPDATE ".$titanium_prefix."_reviews_main SET title='$title', description='$description'");
+    redirect_titanium($admin_file.".php?op=reviews");
 }
 
 function reviews() {
-    global $prefix, $db, $multilingual, $admin_file;
+    global $titanium_prefix, $titanium_db, $multilingual, $admin_file;
     include_once(NUKE_BASE_DIR.'header.php');
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=reviews\">" . _REV_ADMIN_HEADER . "</a></div>\n";
@@ -54,9 +54,9 @@ function reviews() {
     echo "<center><span class=\"title\"><strong>"._REVADMIN."</strong></span></center>";
     CloseTable();
     echo "<br />";
-    $resultrm = $db->sql_query("SELECT title, description FROM ".$prefix."_reviews_main");
-    list($title, $description) = $db->sql_fetchrow($resultrm);
-    $db->sql_freeresult($resultrm);
+    $resultrm = $titanium_db->sql_query("SELECT title, description FROM ".$titanium_prefix."_reviews_main");
+    list($title, $description) = $titanium_db->sql_fetchrow($resultrm);
+    $titanium_db->sql_freeresult($resultrm);
     OpenTable();
     echo "<form action=\"".$admin_file.".php\" method=\"post\">"
     ."<center>"._REVTITLE."<br />"
@@ -70,10 +70,10 @@ function reviews() {
     echo "<br />";
     OpenTable();
     echo "<center><span class=\"option\"><strong>"._REVWAITING."</strong></span><br />";
-    $result = $db->sql_query("SELECT * FROM ".$prefix."_reviews_add order by id");
-    $numrows = $db->sql_numrows($result);
+    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_reviews_add order by id");
+    $numrows = $titanium_db->sql_numrows($result);
     if ($numrows>0) {
-        while(list($id, $date, $title, $text, $reviewer, $email, $score, $url, $url_title, $rlanguage) = $db->sql_fetchrow($result)) {
+        while(list($id, $date, $title, $text, $reviewer, $email, $score, $url, $url_title, $rlanguage) = $titanium_db->sql_fetchrow($result)) {
             $id = intval($id);
             $score = intval($score);
             $title = stripslashes($title);
@@ -87,16 +87,16 @@ function reviews() {
             if ($multilingual == 1) {
                 echo "<tr><td>"._LANGUAGE.":</td><td>"
                     ."<select name=\"rlanguage\">";
-                $languages = lang_list();
+                $titanium_languages = lang_list();
                 echo '<option value=""'.(($rlanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-                for ($i=0, $j = count($languages); $i < $j; $i++) {
-                    if ($languages[$i] != '') {
-                        echo '<option value="'.$languages[$i].'"'.(($rlanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                for ($i=0, $j = count($titanium_languages); $i < $j; $i++) {
+                    if ($titanium_languages[$i] != '') {
+                        echo '<option value="'.$titanium_languages[$i].'"'.(($rlanguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
                     }
                 }
                 echo '</select></td></tr>';
             } else {
-                echo "<input type=\"hidden\" name=\"rlanguage\" value=\"$language\">";
+                echo "<input type=\"hidden\" name=\"rlanguage\" value=\"$titanium_language\">";
             }
             echo "<tr><td>"._TEXT.":</td><td><textarea name=\"text\" rows=\"6\" wrap=\"virtual\" cols=\"40\">$text</textarea></td></tr>"
             ."<tr><td>"._REVIEWER."</td><td><input type=\"text\" name=\"reviewer\" value=\"$reviewer\" size=\"41\" maxlength=\"40\"></td></tr>"
@@ -107,9 +107,9 @@ function reviews() {
                 ."<tr><td>"._LINKTITLE.":</td><td><input type=\"text\" name=\"url_title\" value=\"$url_title\" size=\"25\" maxlength=\"50\"></td></tr>";
             }
             echo "<tr><td>"._IMAGE.":</td><td><input type=\"text\" name=\"cover\" size=\"25\" maxlength=\"100\"><br /><i>"._REVIMGINFO."</i></td></tr></table>";
-            echo "<input type=\"hidden\" name=\"op\" value=\"add_review\"><input type=\"submit\" value=\""._ADDREVIEW."\"> - [ <a href=\"".$admin_file.".php?op=deleteNotice&amp;id=$id&amp;table=".$prefix."_reviews_add&amp;op_back=reviews\">"._DELETE."</a> ]</form>";
+            echo "<input type=\"hidden\" name=\"op\" value=\"add_review\"><input type=\"submit\" value=\""._ADDREVIEW."\"> - [ <a href=\"".$admin_file.".php?op=deleteNotice&amp;id=$id&amp;table=".$titanium_prefix."_reviews_add&amp;op_back=reviews\">"._DELETE."</a> ]</form>";
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
     } else {
         echo "<br /><br /><i>"._NOREVIEW2ADD."</i><br /><br />";
     }
@@ -124,7 +124,7 @@ function reviews() {
 }
 
 function add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $rlanguage) {
-    global $prefix, $db, $admin_file, $cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
 
     $id = intval($id);
     $title = Fix_Quotes($title);
@@ -132,16 +132,16 @@ function add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover
     $reviewer = Fix_Quotes($reviewer);
     $email = Fix_Quotes($email);
     $score = intval($score);
-    $db->sql_query("insert into ".$prefix."_reviews values (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1', '$rlanguage')");
-    $db->sql_query("delete FROM ".$prefix."_reviews_add WHERE id = '$id'");
+    $titanium_db->sql_query("insert into ".$titanium_prefix."_reviews values (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1', '$rlanguage')");
+    $titanium_db->sql_query("delete FROM ".$titanium_prefix."_reviews_add WHERE id = '$id'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $cache->delete('numwaitreviews', 'submissions');
+    $titanium_cache->delete('numwaitreviews', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    redirect($admin_file.".php?op=reviews");
+    redirect_titanium($admin_file.".php?op=reviews");
 }
 
 switch ($op){
@@ -161,7 +161,7 @@ switch ($op){
 }
 
 } else {
-    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$module_name\"");
+    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$titanium_module_name\"");
 }
 
 ?>

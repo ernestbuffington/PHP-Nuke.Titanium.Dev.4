@@ -34,12 +34,8 @@ nuke_jq( document ).ready(function($)
 <form method="post" name="privmsg_list" action="{S_PRIVMSGS_ACTION}">
 <table width="100%" cellspacing="2" cellpadding="2" border="0" align="center">
   <tr> 
-    <td align="left" valign="middle">{POST_PM_IMG}</td>
-    <!-- Start add - Custom mass PM MOD -->
-    <td align="left" valign="middle">{MASS_PM_IMG}</td>
-    <!-- End add - Custom mass PM MOD -->
-    <td align="left" width="100%"><a href="{U_INDEX}">{L_INDEX}</a></td>
-    <td align="right" nowrap="nowrap">
+    <td width="77%" align="left" valign="middle">{POST_PM_IMG} {MASS_PM_IMG}<strong>&nbsp;<a href="{U_HINDEX}">{L_INDEXHOME}</a></strong> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i><strong> Private Messages</strong> {PAGE_NUMBER}</td>
+    <td width="23%" align="right" nowrap="nowrap">
       {L_DISPLAY_MESSAGES}: <select name="msgdays">{S_SELECT_MSG_DAYS}</select><input type="submit" value="{L_GO}" name="submit_msgdays" class="liteoption" />
     </td>
   </tr>
@@ -137,12 +133,10 @@ nuke_jq( document ).ready(function($)
 
 <table width="100%" cellspacing="2" border="0" align="center" cellpadding="2">
   <tr> 
-    <td align="left" valign="middle"><span class="nav">{POST_PM_IMG}</span></td>
+    <td width="73%" align="left" valign="middle">{POST_PM_IMG} {MASS_PM_IMG}<strong>&nbsp;<a href="{U_HINDEX}">{L_INDEXHOME}</a></strong> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i><strong> Private Messages</strong> {PAGE_NUMBER}</td>
     <!-- Start add - Custom mass PM MOD -->
-    <td align="left" valign="middle"><span class="nav">{MASS_PM_IMG}</span></td>
     <!-- End add - Custom mass PM MOD -->
-    <td align="left" valign="middle" width="100%">{PAGE_NUMBER}</td>
-    <td align="right" valign="top" nowrap="nowrap">
+    <td width="27%" align="right" valign="top" nowrap="nowrap">
       <a href="javascript:select_switch(true);">{L_MARK_ALL}</a> :: <a href="javascript:select_switch(false);">{L_UNMARK_ALL}</a>
       <!-- IF PAGINATION -->
       <br />{PAGINATION}

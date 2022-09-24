@@ -13,9 +13,9 @@
 *
 */
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 /**
@@ -63,7 +63,7 @@ class attach_pm extends attach_parent
     */
     function insert_attachment_pm($a_privmsgs_id)
     {
-        global $db, $mode, $attach_config, $privmsg_sent_id, $userdata, $to_userdata, $HTTP_POST_VARS;
+        global $titanium_db, $mode, $attach_config, $privmsg_sent_id, $userdata, $to_userdata, $HTTP_POST_VARS;
 
         $a_privmsgs_id = (int) $a_privmsgs_id;
 
@@ -84,7 +84,7 @@ class attach_pm extends attach_parent
                     SET privmsgs_attachment = 1
                     WHERE privmsgs_id = ' . (int) $a_privmsgs_id;
 
-                if (!$db->sql_query($sql))
+                if (!$titanium_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, 'Unable to update Private Message Table.', '', __LINE__, __FILE__, $sql);
                 }
@@ -97,7 +97,7 @@ class attach_pm extends attach_parent
     */
     function duplicate_attachment_pm($switch_attachment, $original_privmsg_id, $new_privmsg_id)
     {
-        global $db, $privmsg, $folder;
+        global $titanium_db, $privmsg, $folder;
 
         if (($privmsg['privmsgs_type'] == PRIVMSGS_NEW_MAIL || $privmsg['privmsgs_type'] == PRIVMSGS_UNREAD_MAIL) && $folder == 'inbox' && intval($switch_attachment) == 1)
         {
@@ -105,13 +105,13 @@ class attach_pm extends attach_parent
                 FROM ' . ATTACHMENTS_TABLE . '
                 WHERE privmsgs_id = ' . (int) $original_privmsg_id;
 
-            if (!($result = $db->sql_query($sql)))
+            if (!($result = $titanium_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Couldn\'t query Attachment Table', '', __LINE__, __FILE__, $sql);
             }
-            $rows = $db->sql_fetchrowset($result);
-            $num_rows = $db->sql_numrows($result);
-            $db->sql_freeresult($result);
+            $rows = $titanium_db->sql_fetchrowset($result);
+            $num_rows = $titanium_db->sql_numrows($result);
+            $titanium_db->sql_freeresult($result);
 
             if ($num_rows > 0)
             {
@@ -127,7 +127,7 @@ class attach_pm extends attach_parent
 
                     $sql = 'INSERT INTO ' . ATTACHMENTS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-                    if (!($result = $db->sql_query($sql)))
+                    if (!($result = $titanium_db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Couldn\'t store Attachment for sent Private Message', '', __LINE__, __FILE__, $sql);
                     }
@@ -137,7 +137,7 @@ class attach_pm extends attach_parent
                     SET privmsgs_attachment = 1
                     WHERE privmsgs_id = ' . (int) $new_privmsg_id;
 
-                if (!($db->sql_query($sql)))
+                if (!($titanium_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Unable to update Private Message Table.', '', __LINE__, __FILE__, $sql);
                 }
@@ -172,7 +172,7 @@ class attach_pm extends attach_parent
     */
     function display_attach_box_limits()
     {
-        global $folder, $attach_config, $board_config, $template, $lang, $userdata, $db;
+        global $folder, $attach_config, $phpbb2_board_config, $phpbb2_template, $titanium_lang, $userdata, $titanium_db;
 
         if (!$attach_config['allow_pm_attach'] && $userdata['user_level'] != ADMIN)
         {
@@ -186,16 +186,16 @@ class attach_pm extends attach_parent
         $pm_filesize_total = get_total_attach_pm_filesize('to_user', (int) $userdata['user_id']);
 
         $attach_limit_pct = ( $pm_filesize_limit > 0 ) ? round(( $pm_filesize_total / $pm_filesize_limit ) * 100) : 0;
-        $attach_limit_img_length = ( $pm_filesize_limit > 0 ) ? round(( $pm_filesize_total / $pm_filesize_limit ) * $board_config['privmsg_graphic_length']) : 0;
+        $attach_limit_img_length = ( $pm_filesize_limit > 0 ) ? round(( $pm_filesize_total / $pm_filesize_limit ) * $phpbb2_board_config['privmsg_graphic_length']) : 0;
         if ($attach_limit_pct > 100)
         {
-            $attach_limit_img_length = $board_config['privmsg_graphic_length'];
+            $attach_limit_img_length = $phpbb2_board_config['privmsg_graphic_length'];
         }
         $attach_limit_remain = ( $pm_filesize_limit > 0 ) ? $pm_filesize_limit - $pm_filesize_total : 100;
 
-        $l_box_size_status = sprintf($lang['Attachbox_limit'], $attach_limit_pct);
+        $l_box_size_status = sprintf($titanium_lang['Attachbox_limit'], $attach_limit_pct);
 
-        $template->assign_vars(array(
+        $phpbb2_template->assign_vars(array(
             'ATTACHBOX_LIMIT_IMG_WIDTH'    => $attach_limit_img_length,
             'ATTACHBOX_LIMIT_PERCENT'    => $attach_limit_pct,
             'ATTACH_BOX_SIZE_STATUS'    => $l_box_size_status)
@@ -207,7 +207,7 @@ class attach_pm extends attach_parent
     */
     function privmsgs_attachment_mod($mode)
     {
-        global $attach_config, $template, $lang, $userdata, $HTTP_POST_VARS, $phpbb_root_path, $phpEx, $db;
+        global $attach_config, $phpbb2_template, $titanium_lang, $userdata, $HTTP_POST_VARS, $phpbb2_root_path, $phpEx, $titanium_db;
         global $confirm, $delete, $delete_all, $post_id, $privmsgs_id, $privmsg_id, $submit, $refresh, $mark_list, $folder;
 
         if ($folder != 'outbox')
@@ -244,7 +244,7 @@ class attach_pm extends attach_parent
             if (!$userdata['session_logged_in'])
             {
                 $header_location = ( @preg_match('/Microsoft|WebSTAR|Xitami/', getenv('SERVER_SOFTWARE')) ) ? 'Refresh: 0; URL=' : 'Location: ';
-                redirect(append_sid("login.$phpEx?redirect=privmsg&amp;folder=inbox", true));
+                redirect_titanium(append_titanium_sid("login.$phpEx?redirect=privmsg&amp;folder=inbox", true));
                 exit;
             }
 

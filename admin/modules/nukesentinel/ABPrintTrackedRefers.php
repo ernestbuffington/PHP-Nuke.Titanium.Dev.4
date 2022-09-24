@@ -21,7 +21,7 @@ include_once("themes/$theme_Sel/theme.php");
 echo "<LINK REL='StyleSheet' HREF='themes/$theme_Sel/style/style.css' TYPE='text/css' MEDIA='screen'>\n";
 echo "</head><body>\n";
 echo "<h1 align='center'>$pagetitle</h1>\n";
-$totalselected = $db->sql_numrows($db->sql_query("SELECT DISTINCT(`refered_from`) FROM `".$prefix."_nsnst_tracked_ips` GROUP BY 1"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`refered_from`) FROM `".$titanium_prefix."_nsnst_tracked_ips` GROUP BY 1"));
 if($totalselected > 0) {
   echo "<table summary='' align='center' border='2' cellpadding='2' cellspacing='2'>\n";
   echo "<tr>\n";
@@ -29,8 +29,8 @@ if($totalselected > 0) {
   echo "<td align='center'><strong>"._AB_IPSTRACKED."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_LASTVIEWED."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_HITS."</strong></td>\n";
-  $result = $db->sql_query("SELECT DISTINCT(`refered_from`), tid, MAX(`date`), COUNT(*) FROM `".$prefix."_nsnst_tracked_ips` GROUP BY 1 ORDER BY `refered_from`");
-  while(list($refered_from, $tid, $lastview, $hits) = $db->sql_fetchrow($result)){
+  $result = $titanium_db->sql_query("SELECT DISTINCT(`refered_from`), tid, MAX(`date`), COUNT(*) FROM `".$titanium_prefix."_nsnst_tracked_ips` GROUP BY 1 ORDER BY `refered_from`");
+  while(list($refered_from, $tid, $lastview, $hits) = $titanium_db->sql_fetchrow($result)){
     echo "<tr>";
     if(strlen($refered_from) > 50) {
       $rfrom = substr($refered_from, 0, 50)."...";
@@ -38,13 +38,13 @@ if($totalselected > 0) {
       $rfrom = $refered_from;
     }
     echo "<td>$rfrom</td>";
-    $trackedips = $db->sql_numrows($db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$prefix."_nsnst_tracked_ips` WHERE `refered_from`='$refered_from'"));
+    $trackedips = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `refered_from`='$refered_from'"));
     echo "<td align='center'>$trackedips</td>\n";
     echo "<td align='center'>".date("Y-m-d \@ H:i:s",$lastview)."</td>";
     echo "<td align='center'>$hits</td>";
     echo "</tr>";
   }
-  $db->sql_freeresult($result);
+  $titanium_db->sql_freeresult($result);
   // End IP Stats
   echo "</table>";
 } else {

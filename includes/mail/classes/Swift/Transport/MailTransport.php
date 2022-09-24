@@ -145,10 +145,10 @@ class Swift_Transport_MailTransport implements Swift_Transport
     $message->getHeaders()->set($subjectHeader);
     
     //Separate headers from body
-    if (false !== $endHeaders = strpos($messageStr, "\r\n\r\n"))
+    if (false !== $phpbb2_endHeaders = strpos($messageStr, "\r\n\r\n"))
     {
-      $headers = substr($messageStr, 0, $endHeaders) . "\r\n"; //Keep last EOL
-      $body = substr($messageStr, $endHeaders + 4);
+      $headers = substr($messageStr, 0, $phpbb2_endHeaders) . "\r\n"; //Keep last EOL
+      $body = substr($messageStr, $phpbb2_endHeaders + 4);
     }
     else
     {

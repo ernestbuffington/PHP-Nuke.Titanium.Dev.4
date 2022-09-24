@@ -37,15 +37,15 @@ function log_write($file, $output, $title = 'General Error') {
     global $cookie, $identify;
 
     if(isset($cookie) && is_array($cookie)) {
-        $username = $cookie[1];
+        $titanium_username = $cookie[1];
     } else {
         if(isset($_COOKIE['user']) && !empty($_COOKIE['user'])) {
             $ucookie = explode(':', base64_decode($_COOKIE['user']));
         }
         if(isset($ucookie) && is_array($ucookie) && !empty($ucookie[1])) {
-            $username = $ucookie[1];
+            $titanium_username = $ucookie[1];
         } else {
-            $username = _ANONYMOUS;
+            $titanium_username = _ANONYMOUS;
         }
     }
     $ip = GetHostByName($identify->get_ip());
@@ -61,7 +61,7 @@ function log_write($file, $output, $title = 'General Error') {
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-    $wdata .= "User: ".UsernameColor($username)."\n";
+    $wdata .= "User: ".UsernameColor($titanium_username)."\n";
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -85,7 +85,7 @@ function log_write($file, $output, $title = 'General Error') {
 }
 
 function log_size($file) {
-    global $db, $prefix;
+    global $titanium_db, $titanium_prefix;
 
     $filename = NUKE_INCLUDE_DIR.'log/' . $file . '.log';
     if(!is_file($filename)) {
@@ -105,7 +105,7 @@ function log_size($file) {
         return -1;
     }
     $file_num = substr_count($content, "\n");
-    $row_log = $db->sql_ufetchrow('SELECT ' . $file . '_log_lines FROM '.$prefix.'_config');
+    $row_log = $titanium_db->sql_ufetchrow('SELECT ' . $file . '_log_lines FROM '.$titanium_prefix.'_config');
     if($row_log[0] != $file_num) {
         return 1;
     }

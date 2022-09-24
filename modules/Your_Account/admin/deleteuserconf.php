@@ -39,9 +39,9 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
-    list($email) = $db->sql_fetchrow($db->sql_query("SELECT user_email FROM ".$user_prefix."_users WHERE user_id='$del_uid'"));
+    list($email) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_email FROM ".$titanium_user_prefix."_users WHERE user_id='$del_uid'"));
     if ($ya_config['servermail'] == 0) {
         $message = _SORRYTO." $sitename "._HASDELETE;
         if ($deletereason > "") {
@@ -57,7 +57,7 @@ if(is_mod_admin($module_name)) {
         );
         evo_phpmailer( $email, $subject, $message, $headers );
     }
-    $db->sql_query("UPDATE ".$user_prefix."_users SET name='"._MEMDEL."', username='"._NAMEDEL."', user_password='', user_website='', user_sig='', user_level='-1', user_active='0', user_allow_pm='0', points='0' WHERE user_id='$del_uid'");
+    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET name='"._MEMDEL."', username='"._NAMEDEL."', user_password='', user_website='', user_sig='', user_level='-1', user_active='0', user_allow_pm='0', points='0' WHERE user_id='$del_uid'");
     $pagetitle = ": "._USERADMIN." - "._ACCTDELETE;
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();
@@ -70,7 +70,7 @@ if(is_mod_admin($module_name)) {
     echo "<br />\n";
     OpenTable();
     echo "<center><table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }

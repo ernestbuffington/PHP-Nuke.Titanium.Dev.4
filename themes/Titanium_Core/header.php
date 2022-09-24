@@ -2,13 +2,15 @@
 #---------------------------------------------------------------------------------------#
 # HEADER                                                                                #
 #---------------------------------------------------------------------------------------#
+# THEME SYSTEM FILE                                                                     #
+#---------------------------------------------------------------------------------------#
 # THEME INFO                                                                            #
-# Universal Theme v1.0 (Fixed & Full Width)                                             #
+# Titanium_Core Theme v1.0 (Fixed & Full Width)                                         #
 #                                                                                       #
 # Final Build Date 03/16/2021 Tuesday 12:54am                                           #
 #                                                                                       #
-# A Very Nice Fire and Brimstone Theme Design.                                          #
-# Copyright © 2021 By: TheGhost AKA EABuffington                                        #
+# A Very Nice Gold Theme Design.                                                        #
+# Copyright © 2021 By: TheGhost AKA EA Buffington                                       #
 # e-Mail : ernest.buffington@gmail.com                                                  #
 #---------------------------------------------------------------------------------------#
 # CREATION INFO                                                                         #
@@ -23,8 +25,8 @@
 # Read CHANGELOG File for Updates & Upgrades Info                                       #
 #                                                                                       #
 # Designed By: TheGhost & Sebastian                                                     #
-# Web Site: https://nukescripts.86it.us                                                 #
-# Purpose: PHP-Nuke Titanium | Nuke Evolution Xtreme                                    #
+# Web Site: https://www.86it.us                                                         #
+# Purpose: PHP-Nuke Titanium                                                            #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
 # PHP-Nuke Copyright (c) 2006 by Francisco Burzi phpnuke.org                            #
@@ -54,10 +56,8 @@
 # Wolfstar                                                                              # 
 # -[04/17/2010] Updated Nuke Evolution to XHTML 1.0 Transitional                        #
 #---------------------------------------------------------------------------------------#
-
-#-----------------------------#
-# Inferno Header Section      #
-#-----------------------------#
+# Titanium Core Header Section      #
+#-----------------------------------#
 # Fixed & Full Width Style    #
 #-----------------------------#
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
@@ -76,22 +76,22 @@ global $locked_width,
 		     $slogan, 
 		       $name, 
 		    $banners, 
-		         $db, 
-	    $user_prefix, 
-	         $prefix, 
-	     $admin_file, 
-	       $userinfo, 
-		  $ThemeInfo,
-   $titanium_browser, 
-	     $theme_name;
+		 $titanium_db, 
+$titanium_user_prefix, 
+	 $titanium_prefix, 
+	      $admin_file, 
+   $userinfo, 
+		   $ThemeInfo,
+    $titanium_browser, 
+	      $theme_name;
 
 echo "\n\n<!-- THEME HEADER START -->\n"; # set background here in themes/Inferno/css/maintable.php
 
 # Check if a Registered User is Logged-In
-$username = is_user() ? $userinfo['username'] : _ANONYMOUS;
+$titanium_username = is_user() ? $userinfo['username'] : _ANONYMOUS;
 
 # Setup the Welcome Information for the User
-if ($username === _ANONYMOUS)
+if ($titanium_username === _ANONYMOUS)
 {
    $theuser  = '<div align="center">Please <a href="modules.php?name=Your_Account"><u>Login</u></a> or <a href="modules.php?name=Your_Account&amp;op=new_user"><u>Register</u></a>&nbsp;&nbsp;</div>';
    # start 4th line of header
@@ -199,13 +199,13 @@ endif;
 
 $date .= '::: QUOTE OF THE DAY "Stop Fixing Shit That Is Not Broken! by ErnStoy" ::: Todays date <font color="'.$textcolor2.'">'.date('m-d-Y').'</font>';
 
-if ($username === _ANONYMOUS)
+if ($titanium_username === _ANONYMOUS)
 $moreuser_info .= '::: There is so much more here to see, it takes 30 seconds to register an account and we don\'t even verify with e-mail! Just register we promise you won\'t be sorry...';
 
-if ($username === _ANONYMOUS)
+if ($titanium_username === _ANONYMOUS)
 $marquee_one = $moreuser_info.' ::: Your Monitor Resolution is <font color="'.$textcolor2.'">'.$screen_res.'</font> ::: '.$newmessages.'';
 else
-$marquee_one = $date.' '.$connected.' Welcome back <strong><font color='.$textcolor2.'><span class="blink-one">'.$username.'</span></font></strong> It\'s quite awesome to see you my friend! We are so glad you could make it back over to visit... We know with your super tight busy schedule and all, it most certainly must have been quite a task! ::: '.$newmessages.' ::: Your current Monitor Resolution is <font color='.$textcolor2.'>'.$screen_res.'</font> '.$moreuser_info.' ::: Your current browser version is <font color="'.$textcolor2.'">'.$titanium_browser->getVersion().'</font> ::: '.$scrollmsg.'</div>';
+$marquee_one = $date.' '.$connected.' Welcome back <strong><font color='.$textcolor2.'><span class="blink-one">'.$titanium_username.'</span></font></strong> It\'s quite awesome to see you my friend! We are so glad you could make it back over to visit... We know with your super tight busy schedule and all, it most certainly must have been quite a task! ::: '.$newmessages.' ::: Your current Monitor Resolution is <font color='.$textcolor2.'>'.$screen_res.'</font> '.$moreuser_info.' ::: Your current browser version is <font color="'.$textcolor2.'">'.$titanium_browser->getVersion().'</font> ::: '.$scrollmsg.'</div>';
 
 //$bullshit2 = 'Sept 28th 2019, Oct 4th 2019, Oct 5th 2019, Oct 11th 2019, Oct 13th 2019, Oct 14th 2019 Oct 20th 2019, Oct 22nd 2019, Oct 24th 2019';
 # right finger
@@ -230,6 +230,10 @@ $marquee_two = '
 # This is where we set the poster background and full screen video START
 echo '<div class="fullscreen-bg">';
 echo '<video muted loop autoplay class="fullscreen-bg__video">';
+//echo '<video loop autoplay class="fullscreen-bg__video">';
+//echo '<source src="themes/'.$theme_name.'/video/ready_for_it.mp4" type="video/mp4">';
+
+
 //echo '<source src="themes/'.$theme_name.'/video/spinning_black_wave_lines.mp4" type="video/mp4">';
 //echo '<source src="themes/'.$theme_name.'/video/abstract_liquid.mp4" type="video/mp4">'; // Ypp slow but pretty
 //echo '<source src="themes/'.$theme_name.'/video/abstract_geometric_grid.mp4" type="video/mp4">';

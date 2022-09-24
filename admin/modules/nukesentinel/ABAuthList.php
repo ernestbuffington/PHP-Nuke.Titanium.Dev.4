@@ -37,8 +37,8 @@ if(is_god($admin)) {
   echo '<td width="10%" align="center"><strong>'._AB_PROTECTED.'</strong></td>'."\n";
   echo '<td width="10%" align="center"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $adminresult = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_admins` ORDER BY `aid`");
-  while($adminrow = $db->sql_fetchrow($adminresult)) {
+  $adminresult = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_admins` ORDER BY `aid`");
+  while($adminrow = $titanium_db->sql_fetchrow($adminresult)) {
     if($adminrow['password'] > "") { $adminrow['password'] = _AB_SET; } else { $adminrow['password'] = _AB_UNSET; }
     if($adminrow['protected']==0) { $adminrow['protected'] = "<i>"._AB_NO."</i>"; } else { $adminrow['protected'] = _AB_YES; }
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";

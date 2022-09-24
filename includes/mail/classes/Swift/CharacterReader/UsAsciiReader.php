@@ -23,10 +23,10 @@ class Swift_CharacterReader_UsAsciiReader
    * Returns the complete charactermap
    *
    * @param string $string
-   * @param int $startOffset
+   * @param int $phpbb2_startOffset
    * @param string $ignoredChars
    */
-  public function getCharPositions($string, $startOffset, &$currentMap, &$ignoredChars)
+  public function getCharPositions($string, $phpbb2_startOffset, &$currentMap, &$ignoredChars)
   {
   	$strlen=strlen($string);
   	$ignoredChars='';
@@ -34,7 +34,7 @@ class Swift_CharacterReader_UsAsciiReader
   	{
   	  if ($string[$i]>"\x07F")
   	  { // Invalid char
-  	  	$currentMap[$i+$startOffset]=$string[$i];
+  	  	$currentMap[$i+$phpbb2_startOffset]=$string[$i];
   	  }
   	}
   	return $strlen;

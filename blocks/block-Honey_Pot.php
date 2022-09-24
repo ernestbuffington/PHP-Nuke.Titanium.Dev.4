@@ -13,21 +13,21 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $db, $prefix, $admin_file, $blockslang;
+global $titanium_db, $titanium_prefix, $admin_file, $blockslang;
 
 function block_Honeypot_cache($block_cachetime) {
-    global $db, $cache;
-    if ((($blockcache = $cache->load('honeypot', 'blocks')) === false) || empty($blockcache) || intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) {
-        $result = $db->sql_ufetchrow('SELECT COUNT(id) AS `count` FROM `'._HONEYPOT_TABLE.'`');
+    global $titanium_db, $titanium_cache;
+    if ((($blockcache = $titanium_cache->load('honeypot', 'blocks')) === false) || empty($blockcache) || intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) {
+        $result = $titanium_db->sql_ufetchrow('SELECT COUNT(id) AS `count` FROM `'._HONEYPOT_TABLE.'`');
         $blockcache[1]['count'] = $result['count'];
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         $blockcache[0]['stat_created'] = time();
-        $cache->save('honeypot', 'blocks', $blockcache);
+        $titanium_cache->save('honeypot', 'blocks', $blockcache);
     }
     return $blockcache;
 }
 
-$blocksession = block_Honeypot_cache($evoconfig['block_cachetime']);
+$blocksession = block_Honeypot_cache($titanium_config['block_cachetime']);
 
 $content .= '<div class="center">';
 

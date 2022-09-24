@@ -39,9 +39,9 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
-redirect("modules/Forums/admin/admin_xdata_fields.php?mode=add");
+redirect_titanium("modules/Forums/admin/admin_xdata_fields.php?mode=add");
 
    /* $pagetitle = ": "._USERADMIN." - "._ADDFILED;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -57,10 +57,10 @@ redirect("modules/Forums/admin/admin_xdata_fields.php?mode=add");
     OpenTable();
 
     echo "<center><table border='0'>\n";
-    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
     echo "<tr><td bgcolor='$bgcolor2'>ID</td><td bgcolor='$bgcolor2'>"._FIELDNAME."*</td><td bgcolor='$bgcolor2'>"._FIELDVALUE."**</td><td bgcolor='$bgcolor2'>"._FIELDSIZE."</td><td bgcolor='$bgcolor2'>"._FIELDNEED."</td><td bgcolor='$bgcolor2'>"._FIELDVPOS."</td><td bgcolor='$bgcolor2'>"._YA_PUBLIC."</td><td bgcolor='$bgcolor2'>"._FIELDDEL."</td></tr>\n";
-    $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field ORDER BY pos");
-    while ($sqlvalue = $db->sql_fetchrow($result)) {
+    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field ORDER BY pos");
+    while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
     $t = $sqlvalue[fid];
     echo "<tr><td bgcolor='$bgcolor2'>$sqlvalue[fid]</td><td bgcolor='$bgcolor2'><input type='text' name='field_name[$t]' value='$sqlvalue[name]' size='20' maxlength='20'></td><td bgcolor='$bgcolor2'><input type='text' name='field_value[$t]' value='$sqlvalue[value]' size='20' maxlength=$sqlvalue[size]></td><td bgcolor='$bgcolor2'><input type='text' name='field_size[$t]' value='$sqlvalue[size]' size='4' maxlength='4'></td><td bgcolor='$bgcolor2'>";
     echo "<select name='field_need[$t]'>\n";
@@ -80,7 +80,7 @@ redirect("modules/Forums/admin/admin_xdata_fields.php?mode=add");
         if ($sqlvalue['public'] == '0') $sel = "selected"; else $sel = "";
     echo "<option value=0 $sel>"._YA_PRIVATE."</option>\n";
     echo "</select></td>\n";
-    echo "<td bgcolor='$bgcolor2'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=delField&amp;fid=$t'>"._FIELDDEL."</a></td></tr>\n";
+    echo "<td bgcolor='$bgcolor2'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=delField&amp;fid=$t'>"._FIELDDEL."</a></td></tr>\n";
     }
     echo "<tr><td bgcolor='$bgcolor2'>&nbsp;</td><td bgcolor='$bgcolor2'><input type='text' name='mfield_name' size='20' maxlength='20'></td><td bgcolor='$bgcolor2'><input type='text' name='mfield_value' size='20' maxlength='255'></td><td bgcolor='$bgcolor2'><input type='text' name='mfield_size' size='4' maxlength='4'></td><td bgcolor='$bgcolor2'>";
     echo "<select name='mfield_need'>\n";
@@ -104,7 +104,7 @@ redirect("modules/Forums/admin/admin_xdata_fields.php?mode=add");
     echo "<input type='submit' value='"._ADDFIELD."'>\n";
     echo "<input type='hidden' name='op' value='saveaddField'>\n";
     echo "</td></tr></form>\n";
-//    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+//    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
     echo "<tr><td align='center' colspan='8'><input type='submit' value='"._CANCEL."'></td></tr>\n";
     echo "</form>\n";
     echo "</table>\n";

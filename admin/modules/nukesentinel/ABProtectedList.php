@@ -31,7 +31,7 @@ if(!isset($min)) $min=0;
 if(!isset($max)) $max=$min+$perpage;
 if(!$column or $column=="") $column = "ip_lo";
 if(!isset($direction) or !$direction or $direction=="") $direction = "asc";
-$totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_protected_ranges`"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_protected_ranges`"));
 if($totalselected > 0) {
   $selcolumn1 = $selcolumn2 = $selcolumn3 = $seldirection1 = $seldirection2 = "";
   if($column == "c2c") { $selcolumn2 = ' selected="selected"'; }
@@ -65,8 +65,8 @@ if($totalselected > 0) {
   echo '<td align="center" width="25%"><strong>'._AB_CIDRS.'</strong></td>'."\n";
   echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_protected_ranges` ORDER BY $column $direction LIMIT $min,$perpage");
-  while($getIPs = $db->sql_fetchrow($result)) {
+  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_protected_ranges` ORDER BY $column $direction LIMIT $min,$perpage");
+  while($getIPs = $titanium_db->sql_fetchrow($result)) {
     $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
     $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
     $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);

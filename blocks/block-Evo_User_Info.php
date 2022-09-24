@@ -23,27 +23,27 @@ if(!defined('NUKE_EVO')) exit;
 
 include_once(NUKE_MODULES_DIR .'Evo_UserBlock/addons/core.php');
 
-global $lang_evo_userblock;
+global $titanium_lang_evo_userblock;
 
 function evouserinfo_block_getactive() 
 {
-    global $prefix, $db, $lang_evo_userblock, $cache;
+    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock, $titanium_cache;
 
     if(isset($active) && is_array($active)) return $active;
     
-    if ((($active = $cache->load('active', 'evouserinfo')) === false) || !isset($active)) 
+    if ((($active = $titanium_cache->load('active', 'evouserinfo')) === false) || !isset($active)) 
 	{
-        $sql = 'SELECT * FROM '.$prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
-        $result = $db->sql_query($sql);
+        $sql = 'SELECT * FROM '.$titanium_prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
+        $result = $titanium_db->sql_query($sql);
 
-        while($row = $db->sql_fetchrow($result)) 
+        while($row = $titanium_db->sql_fetchrow($result)) 
 		{
             $active[] = $row;
         }
         
-		$db->sql_freeresult($result);
+		$titanium_db->sql_freeresult($result);
         
-		$cache->save('active', 'evouserinfo', $active);
+		$titanium_cache->save('active', 'evouserinfo', $active);
     }
     
 	return $active;
@@ -53,7 +53,7 @@ function evouserinfo_block_display()
 {
     define('EVO_BLOCK', true);
 
-    global $lang_evo_userblock;
+    global $titanium_lang_evo_userblock;
 
     $active = evouserinfo_block_getactive();
     $content = "";

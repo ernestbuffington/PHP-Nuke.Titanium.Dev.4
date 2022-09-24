@@ -197,10 +197,10 @@ Class Swift_CharacterStream_NgCharacterStream
         break;
       
       case Swift_CharacterReader::MAP_TYPE_INVALID:
-        $end = $this->_currentPos + $length;
-        $end = $end > $this->_charCount
+        $phpbb2_end = $this->_currentPos + $length;
+        $phpbb2_end = $phpbb2_end > $this->_charCount
           ?$this->_charCount
-          :$end;
+          :$phpbb2_end;
         $ret = '';
         for (; $this->_currentPos < $length; ++$this->_currentPos)
         {
@@ -216,27 +216,27 @@ Class Swift_CharacterStream_NgCharacterStream
         break;
       
       case Swift_CharacterReader::MAP_TYPE_POSITIONS:
-        $end = $this->_currentPos + $length;
-        $end = $end > $this->_charCount
+        $phpbb2_end = $this->_currentPos + $length;
+        $phpbb2_end = $phpbb2_end > $this->_charCount
           ?$this->_charCount
-          :$end;
+          :$phpbb2_end;
         $ret = '';
-        $start = 0;
+        $phpbb2_start = 0;
         if ($this->_currentPos>0)
         {
-          $start = $this->_map['p'][$this->_currentPos-1];
+          $phpbb2_start = $this->_map['p'][$this->_currentPos-1];
         }
-        $to = $start;
-        for (; $this->_currentPos < $end; ++$this->_currentPos)
+        $to = $phpbb2_start;
+        for (; $this->_currentPos < $phpbb2_end; ++$this->_currentPos)
         {
           if (isset($this->_map['i'][$this->_currentPos])) {
-          	$ret .= substr($this->_datas, $start, $to - $start).'?';
-          	$start = $this->_map['p'][$this->_currentPos];
+          	$ret .= substr($this->_datas, $phpbb2_start, $to - $phpbb2_start).'?';
+          	$phpbb2_start = $this->_map['p'][$this->_currentPos];
           } else {
           	$to = $this->_map['p'][$this->_currentPos];
           }
         }
-        $ret .= substr($this->_datas, $start, $to - $start);
+        $ret .= substr($this->_datas, $phpbb2_start, $to - $phpbb2_start);
         break;
   	}
   	return $ret;

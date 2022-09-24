@@ -33,12 +33,12 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$module_name = basename(dirname(__FILE__));
-get_lang($module_name);
+$titanium_module_name = basename(dirname(__FILE__));
+get_lang($titanium_module_name);
 
 function defaultDisplay() 
 {
-    global $prefix, $cookie, $anonymous, $currentlang, $multilingual, $db, $module_name;
+    global $titanium_prefix, $cookie, $anonymous, $currentlang, $multilingual, $titanium_db, $titanium_module_name;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename. '._SUBMITNEWS.');
@@ -52,7 +52,7 @@ function defaultDisplay()
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
-    echo "<p><form name=\"postnews\" action=\"modules.php?name=$module_name\" method=\"post\">\n";
+    echo "<p><form name=\"postnews\" action=\"modules.php?name=$titanium_module_name\" method=\"post\">\n";
 /*****[END]********************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
@@ -69,23 +69,23 @@ function defaultDisplay()
         .'<br /><br />'
         .'<span class="textbold">'._TOPIC.":</span>\n";
     echo "<select name=\"topic\">\n";
-    $result = $db->sql_query("SELECT `topicid`, `topictext` FROM `".$prefix."_topics` ORDER BY `topictext`");
+    $result = $titanium_db->sql_query("SELECT `topicid`, `topictext` FROM `".$titanium_prefix."_topics` ORDER BY `topictext`");
     echo "<option value=\"\">"._SELECTTOPIC."</option>\n";
-    while ($row = $db->sql_fetchrow($result)) {
+    while ($row = $titanium_db->sql_fetchrow($result)) {
         $topicid = (int)$row['topicid'];
-        $topics = stripslashes(check_html($row['topictext'], "nohtml"));
-        echo "<option value=\"$topicid\">$topics</option>\n";
+        $phpbb2_topics = stripslashes(check_html($row['topictext'], "nohtml"));
+        echo "<option value=\"$topicid\">$phpbb2_topics</option>\n";
     }
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     echo "</select>\n";
     if ($multilingual) {
         echo '<br /><br /><strong>'._LANGUAGE.": </strong>\n";
         echo "<select name=\"alanguage\">\n";
-        $languages = lang_list();
+        $titanium_languages = lang_list();
         echo '<option value=""'.(($currentlang == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
-            if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($currentlang == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+        for ($i=0, $j = count($titanium_languages); $i < $j; $i++) {
+            if ($titanium_languages[$i] != '') {
+                echo '<option value="'.$titanium_languages[$i].'"'.(($currentlang == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
             }
         }
         echo '</select>';
@@ -117,7 +117,7 @@ function defaultDisplay()
 
 function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype) 
 {
-    global $user, $cookie, $bgcolor1, $bgcolor2, $anonymous, $prefix, $multilingual, $AllowableHTML, $db, $module_name, $tipath, $userinfo;
+    global $titanium_user, $cookie, $bgcolor1, $bgcolor2, $anonymous, $titanium_prefix, $multilingual, $AllowableHTML, $titanium_db, $titanium_module_name, $tipath, $userinfo;
 
     include_once(NUKE_BASE_DIR.'header.php');
 
@@ -135,7 +135,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
         DisplayError(_ERROR_SUBJECT);
     }
     $story2 = $story.'<br /><br />'.$storyext;
-    Validate($topic, 'int', $module_name, 0, 0, 0, 0, 'topic');
+    Validate($topic, 'int', $titanium_module_name, 0, 0, 0, 0, 'topic');
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                    v1.0.0 ]
  ******************************************************/
@@ -158,7 +158,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
 	else 
 	{
         $warning = '';
-        $row = $db->sql_fetchrow($db->sql_query("SELECT `topicimage`, `topictext` FROM `".$prefix."_topics` WHERE `topicid`='$topic'"));
+        $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `topicimage`, `topictext` FROM `".$titanium_prefix."_topics` WHERE `topicid`='$topic'"));
         $topicimage = stripslashes($row['topicimage']);
         $topictext = stripslashes($row['topictext']);
     }
@@ -171,7 +171,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
-    echo "<p><form name=\"postnews\" action=\"modules.php?name=$module_name\" method=\"post\">\n";
+    echo "<p><form name=\"postnews\" action=\"modules.php?name=$titanium_module_name\" method=\"post\">\n";
     echo '<strong>'._YOURNAME.':</strong> ';
 /*****[END]********************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
@@ -184,27 +184,27 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
     echo "<br /><br /><div class=\"textbold\">"._SUBTITLE.":</div><br />\n";
     echo "<input type=\"text\" name=\"subject\" size=\"50\" maxlength=\"80\" value=\"$subject\">\n";
     echo '<br /><br /><div class="textbold">'._TOPIC.": </div><select name=\"topic\">\n";
-    $result2 = $db->sql_query("SELECT `topicid`, `topictext` FROM `".$prefix."_topics` ORDER BY `topictext`");
+    $result2 = $titanium_db->sql_query("SELECT `topicid`, `topictext` FROM `".$titanium_prefix."_topics` ORDER BY `topictext`");
     echo '<option VALUE="">'._SELECTTOPIC."</option>\n";
-    while ($row2 = $db->sql_fetchrow($result2)) {
+    while ($row2 = $titanium_db->sql_fetchrow($result2)) {
         $topicid = (int)$row2['topicid'];
-        $topics = stripslashes(check_html($row2['topictext'], "nohtml"));
+        $phpbb2_topics = stripslashes(check_html($row2['topictext'], "nohtml"));
         if ($topicid == $topic) {
             $sel = 'selected ';
         }
-        echo "<option $sel value=\"$topicid\">$topics</option>\n";
+        echo "<option $sel value=\"$topicid\">$phpbb2_topics</option>\n";
         $sel = '';
     }
-    $db->sql_freeresult($result2);
+    $titanium_db->sql_freeresult($result2);
     echo '</select>';
     if ($multilingual) {
         echo '<br /><br /><strong>'._LANGUAGE.": </strong>\n";
         echo "<select name=\"alanguage\">\n";
-        $languages = lang_list();
+        $titanium_languages = lang_list();
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
-            if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+        for ($i=0, $j = count($titanium_languages); $i < $j; $i++) {
+            if ($titanium_languages[$i] != '') {
+                echo '<option value="'.$titanium_languages[$i].'"'.(($alanguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
             }
         }
         echo '</select>';
@@ -234,7 +234,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
 
 function submitStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype) 
 {
-    global $user, $EditedMessage, $cookie, $anonymous, $notify, $notify_email, $notify_subject, $notify_message, $notify_from, $prefix, $db, $cache;
+    global $titanium_user, $EditedMessage, $cookie, $anonymous, $notify, $notify_email, $notify_subject, $notify_message, $notify_from, $titanium_prefix, $titanium_db, $titanium_cache;
 
     if (is_user()) 
 	{
@@ -250,7 +250,7 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
 	$subject = Fix_Quotes(filter_text($subject, "nohtml"));
     $story = Fix_Quotes(nl2br(check_words($story)));
     $storyext = Fix_Quotes(nl2br(check_words($storyext)));
-    $result = $db->sql_query("INSERT INTO ".$prefix."_queue VALUES (NULL, '$uid', '$name', '$subject', '$story', '$storyext', now(), '$topic', '$alanguage')");
+    $result = $titanium_db->sql_query("INSERT INTO ".$titanium_prefix."_queue VALUES (NULL, '$uid', '$name', '$subject', '$story', '$storyext', now(), '$topic', '$alanguage')");
     
 	if(!$result) 
 	{
@@ -260,11 +260,11 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $cache->delete('numwaits', 'submissions');
+    $titanium_cache->delete('numwaits', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     if($notify) {
         $notify_message = "$notify_message\n\n\n========================================================\n$subject\n\n\n$story\n\n$storyext\n\n$name";
         evo_mail($notify_email, $notify_subject, $notify_message, "From: $notify_from\nX-Mailer: PHP/" . phpversion());
@@ -274,18 +274,18 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    if(($numwaits = $cache->load('numwaits', 'submissions')) === false) 
+    if(($numwaits = $titanium_cache->load('numwaits', 'submissions')) === false) 
 	{
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $result = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".$prefix."_queue");
-        $numwaits = $db->sql_fetchrow($result);
-        $db->sql_freeresult($result);
+        $result = $titanium_db->sql_query("SELECT COUNT(*) AS numrows FROM ".$titanium_prefix."_queue");
+        $numwaits = $titanium_db->sql_fetchrow($result);
+        $titanium_db->sql_freeresult($result);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $cache->save('numwaits', 'submissions', $numwaits);
+        $titanium_cache->save('numwaits', 'submissions', $numwaits);
     }
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]

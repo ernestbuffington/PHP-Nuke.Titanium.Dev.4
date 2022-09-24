@@ -23,7 +23,7 @@
 *
 ***************************************************************************/
 
-define('IN_PHPBB', true);
+define('IN_PHPBB2', true);
 /* If for some reason preference cookie saving needs to be disabled, you
 can do so by setting this to true */
 
@@ -33,12 +33,12 @@ change the blow to TRUE instead of FALSE.  No other hacks will be affected
 by this change.
 */
 
-$phpbb_root_path = "./../";
+$phpbb2_root_path = "./../";
 if( !empty($setmodules) )
 {
-    include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_topic_shadow.' . $phpEx);
+    include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_topic_shadow.' . $phpEx);
     $filename = basename(__FILE__);
-    $module['Forums']['Topic_Shadow'] = $filename;
+    $titanium_module['Forums']['Topic_Shadow'] = $filename;
     
     return;
 }
@@ -71,39 +71,39 @@ foreach($params as $var => $default)
 /***************************************************************************/
 /* Make a new output buffer for this page in order to not screw up cookie
 setting.  If this is disabled, settings will NEVER be saved */
-if(!DISABLE_PREFERENCE_SAVING && !$board_config['gzip_compress']) ob_start();
+if(!DISABLE_PREFERENCE_SAVING && !$phpbb2_board_config['gzip_compress']) ob_start();
 
-require($phpbb_root_path . 'extension.inc');
+require($phpbb2_root_path . 'extension.inc');
 (file_exists('pagestart.' . $phpEx)) ? require('pagestart.' . $phpEx) : require('pagestart.inc');
 require("../../../includes/functions_admin.php");
-include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_topic_shadow.' . $phpEx);
-@setcookie(MOD_COOKIE_PREF_NAME, serialize($preference_cookie), time() + 31536000, $board_config['cookie_path'], $board_config['cookie_domain'], $board_config['cookie_secure']);
+include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_topic_shadow.' . $phpEx);
+@setcookie(MOD_COOKIE_PREF_NAME, serialize($preference_cookie), time() + 31536000, $phpbb2_board_config['cookie_path'], $phpbb2_board_config['cookie_domain'], $phpbb2_board_config['cookie_secure']);
 
 /****************************************************************************
 /** Constants and Main Vars.
 /***************************************************************************/
 $mode_types = array('topic_time', 'topic_title');
 $order_types = array('DESC', 'ASC');
-$page_title = $lang['Topic_Shadow'];
+$phpbb2_page_title = $titanium_lang['Topic_Shadow'];
 $status_message = '';
 
 /****************************************************************************
 /** Functions
 /***************************************************************************/
-function topic_shadow_make_drop_box($prefix = 'mode')
+function topic_shadow_make_drop_box($titanium_prefix = 'mode')
 {
-    global $mode_types, $lang, $mode, $order_types, $order;
+    global $mode_types, $titanium_lang, $mode, $order_types, $order;
     
-    $rval = '<select name="'.$prefix.'">';
+    $rval = '<select name="'.$titanium_prefix.'">';
     
-    switch($prefix)
+    switch($titanium_prefix)
     {
         case 'mode':
         {
             foreach($mode_types as $val)
             {
                 $selected = ($mode == $val) ? 'selected="selected"' : '';
-                $rval .= "<option value=\"$val\" $selected>" . $lang[$val] . '</option>';
+                $rval .= "<option value=\"$val\" $selected>" . $titanium_lang[$val] . '</option>';
             }
             break;
         }
@@ -112,7 +112,7 @@ function topic_shadow_make_drop_box($prefix = 'mode')
             foreach($order_types as $val)
             {
                 $selected = ($order == $val) ? 'selected="selected"' : '';
-                $rval .= "<option value=\"$val\" $selected>" . $lang[$val] . '</option>';
+                $rval .= "<option value=\"$val\" $selected>" . $titanium_lang[$val] . '</option>';
             }
             break;
         }
@@ -123,7 +123,7 @@ function topic_shadow_make_drop_box($prefix = 'mode')
 }
 function ts_id_2_name($id, $mode = 'user')
 {
-    global $db;
+    global $titanium_db;
     
     if ($id == '')
     {
@@ -137,11 +137,11 @@ function ts_id_2_name($id, $mode = 'user')
             $sql = 'SELECT username FROM ' . USERS_TABLE . "
                    WHERE user_id = $id";
             
-            if(!$result = $db->sql_query($sql))
+            if(!$result = $titanium_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, 'Err', '', __LINE__, __FILE__, $sql);
             }
-            $row = $db->sql_fetchrow($result);
+            $row = $titanium_db->sql_fetchrow($result);
             return $row['username'];
             break;
         }
@@ -151,11 +151,11 @@ function ts_id_2_name($id, $mode = 'user')
                   WHERE t.topic_id = $id
                AND t.forum_id = f.forum_id";
             
-            if(!$result = $db->sql_query($sql))
+            if(!$result = $titanium_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, 'Err', '', __LINE__, __FILE__, $sql);
             }
-            $row = $db->sql_fetchrow($result);
+            $row = $titanium_db->sql_fetchrow($result);
             return $row['forum_name'];
             break;
         }
@@ -182,15 +182,15 @@ if ($delete_all_before_date)
     $error_message = '';
     if ($del_month < 1 || $del_month > 12)
     {
-        $error_message .= $lang['Error_Month'];
+        $error_message .= $titanium_lang['Error_Month'];
     }
     if ($del_day < 1 || $del_day > 31)
     {
-        $error_message .= $lang['Error_Day'];
+        $error_message .= $titanium_lang['Error_Day'];
     }
     if ($del_year < 1970 || $del_year > 2038)
     {
-        $error_message .= $lang['Error_Year'];
+        $error_message .= $titanium_lang['Error_Year'];
     }
     if ($error_message != '')
     {
@@ -203,16 +203,16 @@ if ($delete_all_before_date)
        WHERE topic_status = ' . TOPIC_MOVED . "
        AND topic_time < $set_time";
     
-    if(!$db->sql_query($sql))
+    if(!$titanium_db->sql_query($sql))
     {
-        message_die(GENERAL_ERROR, $lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
+        message_die(GENERAL_ERROR, $titanium_lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
     }
     else
     {
-        $status_message .= sprintf($lang['Del_Before_Date'], date("M-d-Y", $set_time));
-        $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($lang['Affected_Rows'], $db->sql_affectedrows()) : '';
+        $status_message .= sprintf($titanium_lang['Del_Before_Date'], date("M-d-Y", $set_time));
+        $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($titanium_lang['Affected_Rows'], $titanium_db->sql_affectedrows()) : '';
         sync('all_forums');
-        $status_message .= sprintf($lang['Resync_Ran_On'], $lang['All_Forums']);
+        $status_message .= sprintf($titanium_lang['Resync_Ran_On'], $titanium_lang['All_Forums']);
     }
 }
 else
@@ -229,24 +229,24 @@ else
                 $sql = 'SELECT f.forum_id, f.forum_name, t.topic_title FROM ' . TOPICS_TABLE . ' t, ' . FORUMS_TABLE . " f
                           WHERE t.topic_id = $topic_id
                           AND t.forum_id = f.forum_id";
-                if (!$result = $db->sql_query($sql))
+                if (!$result = $titanium_db->sql_query($sql))
                 {
-                    message_die(GENERAL_ERROR, $lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
+                    message_die(GENERAL_ERROR, $titanium_lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
                 }
-                $forum_data_row = $db->sql_fetchrow($result);
+                $phpbb2_forum_data_row = $titanium_db->sql_fetchrow($result);
                 
                 $sql = 'DELETE FROM ' . TOPICS_TABLE . '
                           WHERE topic_status = ' . TOPIC_MOVED . "
                        AND topic_id = $topic_id";
-                if(!$db->sql_query($sql))
+                if(!$titanium_db->sql_query($sql))
                 {
-                    message_die(GENERAL_ERROR, $lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
+                    message_die(GENERAL_ERROR, $titanium_lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
                 }
                 else
                 {
-                    $status_message .= sprintf($lang['Deleted_Topic'], $forum_data_row['topic_title']);
-                    sync('forum', $forum_data_row['forum_id']);
-                    $status_message .= sprintf($lang['Resync_Ran_On'], $forum_data_row['forum_name']);
+                    $status_message .= sprintf($titanium_lang['Deleted_Topic'], $phpbb2_forum_data_row['topic_title']);
+                    sync('forum', $phpbb2_forum_data_row['forum_id']);
+                    $status_message .= sprintf($titanium_lang['Resync_Ran_On'], $phpbb2_forum_data_row['forum_name']);
                 }
             }
         }
@@ -256,36 +256,36 @@ else
 /** Main Page
 /******************************************************************************************/
 
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
 'body' => 'admin/admin_topic_shadow.tpl')
 );
 
 if ($status_message != '')
 {
-    $template->assign_block_vars('statusrow', array());
+    $phpbb2_template->assign_block_vars('statusrow', array());
 }
 
-$template->assign_vars(array(
-'L_DELETE_FROM_EXPLAN' => $lang['Delete_From_Date'],
-'L_DELETE_BEFORE' => $lang['Delete_Before_Date_Button'],
-'L_MONTH' => $lang['Month'],
-'L_DAY' => $lang['Day'],
-'L_YEAR' => $lang['Year'],
-'L_SELECT_SORT_METHOD' => $lang['Select_sort_method'],
-'L_TITLE' => $lang['Title'],
-'L_TIME' => $lang['Time'],
-'L_POSTER' => $lang['Poster'],
-'L_MOVED_TO' => $lang['Moved_To'],
-'L_PAGE_NAME' => $page_title,
-'L_ORDER' => $lang['Order'],
-'L_SORT' => $lang['Sort'],
-'L_DELETE' => $lang['Delete'],
-'L_NO_TOPICS_FOUND' => $lang['No_Shadow_Topics'],
-'L_STATUS' => $lang['Status'],
-'L_PAGE_DESC' => $lang['TS_Desc'],
-'L_CLEAR' => $lang['Clear'],
-'L_MOVED_FROM' => $lang['Moved_From'],
-'L_VERSION' => $lang['Version'],
+$phpbb2_template->assign_vars(array(
+'L_DELETE_FROM_EXPLAN' => $titanium_lang['Delete_From_Date'],
+'L_DELETE_BEFORE' => $titanium_lang['Delete_Before_Date_Button'],
+'L_MONTH' => $titanium_lang['Month'],
+'L_DAY' => $titanium_lang['Day'],
+'L_YEAR' => $titanium_lang['Year'],
+'L_SELECT_SORT_METHOD' => $titanium_lang['Select_sort_method'],
+'L_TITLE' => $titanium_lang['Title'],
+'L_TIME' => $titanium_lang['Time'],
+'L_POSTER' => $titanium_lang['Poster'],
+'L_MOVED_TO' => $titanium_lang['Moved_To'],
+'L_PAGE_NAME' => $phpbb2_page_title,
+'L_ORDER' => $titanium_lang['Order'],
+'L_SORT' => $titanium_lang['Sort'],
+'L_DELETE' => $titanium_lang['Delete'],
+'L_NO_TOPICS_FOUND' => $titanium_lang['No_Shadow_Topics'],
+'L_STATUS' => $titanium_lang['Status'],
+'L_PAGE_DESC' => $titanium_lang['TS_Desc'],
+'L_CLEAR' => $titanium_lang['Clear'],
+'L_MOVED_FROM' => $titanium_lang['Moved_From'],
+'L_VERSION' => $titanium_lang['Version'],
 'VERSION' => MOD_VERSION,
 
 'I_STATUS_MESSAGE' => $status_message,
@@ -297,21 +297,21 @@ $template->assign_vars(array(
 'S_ORDER' => $order,
 'S_MODE_SELECT' => topic_shadow_make_drop_box('mode'),
 'S_ORDER_SELECT' => topic_shadow_make_drop_box('order'),
-'S_MODE_ACTION' => append_sid($HTTP_SERVER_VARS['PHP_SELF']))
+'S_MODE_ACTION' => append_titanium_sid($HTTP_SERVER_VARS['PHP_SELF']))
 );
 
 /* See if we actually have any shadow topics */
 $sql = 'SELECT COUNT(topic_status) as count FROM ' . TOPICS_TABLE . '
    WHERE topic_status = ' . TOPIC_MOVED;
 
-if(!$result = $db->sql_query($sql))
+if(!$result = $titanium_db->sql_query($sql))
 {
-    message_die(GENERAL_ERROR, $lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
+    message_die(GENERAL_ERROR, $titanium_lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
 }
-$row = $db->sql_fetchrow($result);
+$row = $titanium_db->sql_fetchrow($result);
 if ($row['count'] <= 0)
 {
-    $template->assign_block_vars('emptyrow', array());
+    $phpbb2_template->assign_block_vars('emptyrow', array());
 }
 else
 {
@@ -320,29 +320,29 @@ else
    WHERE topic_status = ' . TOPIC_MOVED . "
    ORDER BY $mode $order";
     
-    if(!$result = $db->sql_query($sql))
+    if(!$result = $titanium_db->sql_query($sql))
     {
-        message_die(GENERAL_ERROR, $lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
+        message_die(GENERAL_ERROR, $titanium_lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
     }
     
     $i = 0;
-    while ($messages = $db->sql_fetchrow($result))
+    while ($messages = $titanium_db->sql_fetchrow($result))
     {
-        $template->assign_block_vars('topicrow', array(
+        $phpbb2_template->assign_block_vars('topicrow', array(
         'ROW_CLASS' => (!($i % 2)) ? $theme['td_class1'] : $theme['td_class2'],
         'TITLE' => $messages['topic_title'],
         'MOVED_TO' => ts_id_2_name($messages['topic_moved_id'], 'forum'),
         'MOVED_FROM' => ts_id_2_name($messages['topic_id'], 'forum'),
         'POSTER' => ts_id_2_name($messages['topic_poster']),
-        'TIME' => create_date($lang['DATE_FORMAT'], $messages['topic_time'], $board_config['board_timezone']),
+        'TIME' => create_date($titanium_lang['DATE_FORMAT'], $messages['topic_time'], $phpbb2_board_config['board_timezone']),
         'TOPIC_ID' => $messages['topic_id'])
         );
         $i++;
     }
 }
 
-$template->pparse('body');
-copyright_nivisec($page_title, '2001-2003');
+$phpbb2_template->pparse('body');
+copyright_nivisec($phpbb2_page_title, '2001-2003');
 include('page_footer_admin.'.$phpEx);
 
 ?>

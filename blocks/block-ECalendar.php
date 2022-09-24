@@ -11,7 +11,7 @@
 if ( !defined('BLOCK_FILE') ) {
     Header("Location: ../index.php");
 }
-global $prefix, $db;
+global $titanium_prefix, $titanium_db;
 
 get_lang("ECalendar");
 $cal_center = ($side == 'c' || $side == 'd') ? "0" : "1";
@@ -52,20 +52,20 @@ $content = '<link rel="stylesheet" type="text/css" href="'.$style_path.$bstyle.'
       }
 
 		$sql = 'WHERE `day`= '.$current_day.' AND `month` = '.$month.' AND `year` = '.$year.' AND  `reoccur` = \'0\' OR (`day` = '.$current_day.' AND `reoccur` = \'1\') OR (`day` = '.$current_day.' AND `month` = '.$month.' AND `reoccur` = \'2\')';
-	  	$result = $db->sql_query("SELECT eid FROM ".$prefix."_ecalendar ".$sql);
-	    if ($db->sql_numrows($result) > 0) {
+	  	$result = $titanium_db->sql_query("SELECT eid FROM ".$titanium_prefix."_ecalendar ".$sql);
+	    if ($titanium_db->sql_numrows($result) > 0) {
 			$et ='<a data-fancybox data-animation-duration="700" data-src="#animatedModal'.$current_day.'" href="" class="btn btn-primary">' . PHP_EOL;
 			$et .='<div class="event">' . PHP_EOL;
 			$et .='<div id="animatedModal'.$current_day.'" class="animated-modal">' . PHP_EOL;
 			$et .='<h2>'._TODEVENTS.'</h2><br>' . PHP_EOL;
 			$et .='<div style="overflow-y: auto; overflow-x: hidden; max-height: 300px;">' . PHP_EOL;
-			$result = $db->sql_query("SELECT `eid`, `month`, `day`, `year`, `reoccur`, `time`, `ampm`, `title` FROM ".$prefix."_ecalendar ".$sql." ORDER by `eid` DESC");
-			while (list($eid, $emonth, $eday, $eyear, $reoccur, $time, $ampm, $title) = $db->sql_fetchrow($result)) {
+			$result = $titanium_db->sql_query("SELECT `eid`, `month`, `day`, `year`, `reoccur`, `time`, `ampm`, `title` FROM ".$titanium_prefix."_ecalendar ".$sql." ORDER by `eid` DESC");
+			while (list($eid, $emonth, $eday, $eyear, $reoccur, $time, $ampm, $title) = $titanium_db->sql_fetchrow($result)) {
 			$date = $eyear.$emonth.$eday;
 			// Remove past events
 				$tdate = date("Ymd") - 1;
 				if (($tdate > $date) && ($reoccur == 0)){
-					$result = $db->sql_query("DELETE FROM `".$prefix."_ecalendar` WHERE eid = '$eid'");
+					$result = $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_ecalendar` WHERE eid = '$eid'");
 				}
 			// End
 				$ampm = ($ampm == 0) ? 'AM' : 'PM';

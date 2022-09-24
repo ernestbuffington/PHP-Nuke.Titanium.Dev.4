@@ -115,11 +115,6 @@ background-repeat:
 no-repeat;                   /* this applies to both images - TheGhost add 8/2/2019 */ 
 }
 
-body7 {
-background: url(<?php echo BODY_BACKGROUND; ?>);
-<?php echo BODY_CONTAIN; ?>
-}
-
 blink{
 animation: blinker 0.6s linear infinite;
 color: #1c87c9;

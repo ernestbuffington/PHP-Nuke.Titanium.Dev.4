@@ -644,7 +644,7 @@ class PHPMailer
      *
      * @var array
      */
-    protected $language = [];
+    protected $titanium_language = [];
 
     /**
      * The number of errors encountered.
@@ -1900,11 +1900,11 @@ class PHPMailer
                 static::edebug($this->lang('connect_host') . ' ' . $hostentry);
                 continue;
             }
-            $prefix = '';
+            $titanium_prefix = '';
             $secure = $this->SMTPSecure;
             $tls = ('tls' == $this->SMTPSecure);
             if ('ssl' == $hostinfo[2] or ('' == $hostinfo[2] and 'ssl' == $this->SMTPSecure)) {
-                $prefix = 'ssl://';
+                $titanium_prefix = 'ssl://';
                 $tls = false; // Can't have SSL and TLS at the same time
                 $secure = 'ssl';
             } elseif ('tls' == $hostinfo[2]) {
@@ -1926,7 +1926,7 @@ class PHPMailer
             if ($tport > 0 and $tport < 65536) {
                 $port = $tport;
             }
-            if ($this->smtp->connect($prefix . $host, $port, $this->Timeout, $options)) {
+            if ($this->smtp->connect($titanium_prefix . $host, $port, $this->Timeout, $options)) {
                 try {
                     if ($this->Helo) {
                         $hello = $this->Helo;
@@ -1998,12 +1998,12 @@ class PHPMailer
      * Returns false if it cannot load the language file.
      * The default language is English.
      *
-     * @param string $langcode  ISO 639-1 2-character language code (e.g. French is "fr")
-     * @param string $lang_path Path to the language file directory, with trailing separator (slash)
+     * @param string $titanium_langcode  ISO 639-1 2-character language code (e.g. French is "fr")
+     * @param string $titanium_lang_path Path to the language file directory, with trailing separator (slash)
      *
      * @return bool
      */
-    public function setLanguage($langcode = 'en', $lang_path = '')
+    public function setLanguage($titanium_langcode = 'en', $titanium_lang_path = '')
     {
         // Backwards compatibility for renamed language codes
         $renamed_langcodes = [
@@ -2016,8 +2016,8 @@ class PHPMailer
             'tg' => 'tl',
         ];
 
-        if (isset($renamed_langcodes[$langcode])) {
-            $langcode = $renamed_langcodes[$langcode];
+        if (isset($renamed_langcodes[$titanium_langcode])) {
+            $titanium_langcode = $renamed_langcodes[$titanium_langcode];
         }
 
         // Define full set of translatable strings in English
@@ -2042,25 +2042,25 @@ class PHPMailer
             'variable_set' => 'Cannot set or reset variable: ',
             'extension_missing' => 'Extension missing: ',
         ];
-        if (empty($lang_path)) {
+        if (empty($titanium_lang_path)) {
             // Calculate an absolute path so it can work if CWD is not here
-            $lang_path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR;
+            $titanium_lang_path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR;
         }
-        //Validate $langcode
-        if (!preg_match('/^[a-z]{2}(?:_[a-zA-Z]{2})?$/', $langcode)) {
-            $langcode = 'en';
+        //Validate $titanium_langcode
+        if (!preg_match('/^[a-z]{2}(?:_[a-zA-Z]{2})?$/', $titanium_langcode)) {
+            $titanium_langcode = 'en';
         }
         $foundlang = true;
-        $lang_file = $lang_path . 'phpmailer.lang-' . $langcode . '.php';
+        $titanium_lang_file = $titanium_lang_path . 'phpmailer.lang-' . $titanium_langcode . '.php';
         // There is no English translation file
-        if ('en' != $langcode) {
+        if ('en' != $titanium_langcode) {
             // Make sure language file path is readable
-            if (!static::isPermittedPath($lang_file) || !file_exists($lang_file)) {
+            if (!static::isPermittedPath($titanium_lang_file) || !file_exists($titanium_lang_file)) {
                 $foundlang = false;
             } else {
                 // Overwrite language-specific strings.
                 // This way we'll never have missing translation keys.
-                $foundlang = include $lang_file;
+                $foundlang = include $titanium_lang_file;
             }
         }
         $this->language = $PHPMAILER_LANG;
@@ -3179,16 +3179,16 @@ class PHPMailer
      */
     public function base64EncodeWrapMB($str, $linebreak = null)
     {
-        $start = '=?' . $this->CharSet . '?B?';
-        $end = '?=';
+        $phpbb2_start = '=?' . $this->CharSet . '?B?';
+        $phpbb2_end = '?=';
         $encoded = '';
         if (null === $linebreak) {
             $linebreak = static::$LE;
         }
 
         $mb_length = mb_strlen($str, $this->CharSet);
-        // Each line must have length <= 75, including $start and $end
-        $length = 75 - strlen($start) - strlen($end);
+        // Each line must have length <= 75, including $phpbb2_start and $phpbb2_end
+        $length = 75 - strlen($phpbb2_start) - strlen($phpbb2_end);
         // Average multi-byte ratio
         $ratio = $mb_length / strlen($str);
         // Base64 has a 4:3 ratio

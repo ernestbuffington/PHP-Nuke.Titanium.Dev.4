@@ -30,23 +30,23 @@
  ************************************************************************/
 if (!defined('MODULE_FILE')) { die('You can\'t access this file directly...'); }
 
-$module_name = basename(dirname(__FILE__));
+$titanium_module_name = basename(dirname(__FILE__));
 
-get_lang($module_name);
+get_lang($titanium_module_name);
 
 if(!isset($sid)) 
 exit();
 
 function PrintPage($sid) 
 {
-    global $site_logo, $nukeurl, $sitename, $datetime, $prefix, $db, $module_name;
+    global $site_logo, $nukeurl, $sitename, $datetime, $titanium_prefix, $titanium_db, $titanium_module_name;
     
 	// Ernest Buffington 0/31/2022 12:45am Wednesday
 	// I took the image out as this is a print page and wastes ink!!!
 	//<img src=\"images/$site_logo\" alt=\"$sitename\" title=\"$sitename\" /><br /><br />
 
     $sid = intval($sid);
-    $row = $db->sql_fetchrow($db->sql_query("SELECT aid, title, datePublished, dateModified, hometext, bodytext, topic, notes FROM ".$prefix."_stories WHERE sid='$sid'"));
+    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT aid, title, datePublished, dateModified, hometext, bodytext, topic, notes FROM ".$titanium_prefix."_stories WHERE sid='$sid'"));
     $title = stripslashes(check_html($row["title"], "nohtml"));
     
 	// START Ernest Buffington 0/31/2022 12:45am Wednesday
@@ -60,7 +60,7 @@ function PrintPage($sid)
     $bodytext = decode_bbcode(set_smilies(stripslashes($row["bodytext"])), 1, true);
     $topic = intval($row["topic"]);
     $notes = stripslashes($row["notes"]);
-    $row2 = $db->sql_fetchrow($db->sql_query("SELECT topictext FROM ".$prefix."_topics WHERE topicid='$topic'"));
+    $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT topictext FROM ".$titanium_prefix."_topics WHERE topicid='$topic'"));
     $topictext = stripslashes($row2["topictext"]);
 
     formatTimestamp($time);
@@ -102,7 +102,7 @@ function PrintPage($sid)
         "._COMESFROM." $sitename<br />
         <a href=\"https://$nukeurl\">https://$nukeurl</a><br /><br />
         "._THEURL."<br />
-        <a href=\"https://$nukeurl/modules.php?name=$module_name&amp;file=article&amp;sid=$sid\">https://$nukeurl/modules.php?name=$module_name&amp;file=article&amp;sid=$sid</a>
+        <a href=\"https://$nukeurl/modules.php?name=$titanium_module_name&amp;file=article&amp;sid=$sid\">https://$nukeurl/modules.php?name=$titanium_module_name&amp;file=article&amp;sid=$sid</a>
         </span></center>
         </td></tr></table>
         </body>

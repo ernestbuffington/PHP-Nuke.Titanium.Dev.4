@@ -24,12 +24,12 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 
 class DB {
 
-    function output($str, $compress, $end=false)
+    function output($str, $compress, $phpbb2_end=false)
     {
         static $buffer;
         if ($compress) {
             $buffer .= $str;
-            if ($end || strlen($buffer) > 20480) {
+            if ($phpbb2_end || strlen($buffer) > 20480) {
                 echo gzencode($buffer);
                 $buffer = '';
             }
@@ -91,13 +91,13 @@ class DB {
     // Returns a string containing the CREATE statement on success
     function get_table_struct($database, $table, $crlf, $drop)
     {
-        global $db;
+        global $titanium_db;
         $schema_create = '';
         if ($drop) { $schema_create .= "DROP TABLE IF EXISTS $table;$crlf"; }
         $schema_create .= "CREATE TABLE $table ($crlf";
 
-        $result = $db->sql_query("SHOW FIELDS FROM $database.$table");
-        while ($row = $db->sql_fetchrow($result)) {
+        $result = $titanium_db->sql_query("SHOW FIELDS FROM $database.$table");
+        while ($row = $titanium_db->sql_fetchrow($result)) {
             $schema_create .= "   $row[Field] $row[Type]";
             if (isset($row['Default']) && (!empty($row['Default']) || $row['Default'] == '0'))
                 $schema_create .= " DEFAULT '$row[Default]'";
@@ -105,12 +105,12 @@ class DB {
             if ($row['Extra'] != '') $schema_create .= " $row[Extra]";
             $schema_create .= ",$crlf";
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         $schema_create = preg_replace("/,$crlf/".'$', '', $schema_create);
         
-        $result = $db->sql_query("SHOW KEYS FROM $table");
+        $result = $titanium_db->sql_query("SHOW KEYS FROM $table");
         $index = array();
-        while ($row = $db->sql_fetchrow($result)) {
+        while ($row = $titanium_db->sql_fetchrow($result)) {
             $kname=$row['Key_name'];
 			if (($kname != "PRIMARY") && ($row['Non_unique'] == 0))
 			$kname="UNIQUE|$kname";
@@ -120,7 +120,7 @@ class DB {
                      $index[$kname] = array();
                  $index[$kname][] = $row['Column_name'];
             }
-            $db->sql_freeresult($result);
+            $titanium_db->sql_freeresult($result);
         while(list($x, $columns) = @each($index)) {
                  $schema_create .= ",$crlf";
                  if($x == "PRIMARY")
@@ -140,18 +140,18 @@ class DB {
     // Get the content of $table as a series of INSERT statements.
     function get_table_content($database, $table, $crlf, $complete=false, $echo=false, $compress=false)
     {
-        global $db;
+        global $titanium_db;
         $str = $fields = '';
-        $result = $db->sql_query("SELECT * FROM $database.$table");
-        $fieldcount = $db->sql_numfields($result);
+        $result = $titanium_db->sql_query("SELECT * FROM $database.$table");
+        $fieldcount = $titanium_db->sql_numfields($result);
         if ($complete) {
             $fields = array();
             for ($j=0; $j<$fieldcount;$j++) {
-                $fields[] = $db->sql_fieldname($j, $result);
+                $fields[] = $titanium_db->sql_fieldname($j, $result);
             }
             $fields = '('.implode(', ', $fields).') ';
         }
-        while ($row = $db->sql_fetchrow($result)) {
+        while ($row = $titanium_db->sql_fetchrow($result)) {
             $str .= "INSERT INTO $table $fields VALUES (";
             for ($j=0; $j<$fieldcount;$j++) {
                 if ($j>0) $str .= ', ';
@@ -166,7 +166,7 @@ class DB {
                 $str = '';
             }
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         return $str;
     }
 
@@ -214,11 +214,11 @@ class DB {
             $error = 'There are no queries in '.$file['name'];
             return false;
         }
-        global $db, $prefix;
+        global $titanium_db, $titanium_prefix;
         set_time_limit(0);
         foreach($queries AS $query) {
             if (!$replace_prefix) {
-                $query = preg_replace('#(TABLE|INTO|EXISTS|ON) ([a-zA-Z]*?(_))#i', "\\1 $prefix".'_', $query);
+                $query = preg_replace('#(TABLE|INTO|EXISTS|ON) ([a-zA-Z]*?(_))#i', "\\1 $titanium_prefix".'_', $query);
             } else {
                 foreach($replace_prefix AS $oldprefix => $newprefix) {
                     if ($oldprefix != $newprefix) {
@@ -230,7 +230,7 @@ class DB {
             {
                 $query .= ' ENGINE=MyISAM';
             }
-            $db->sql_query($query);
+            $titanium_db->sql_query($query);
         }
         return true;
     }
@@ -270,12 +270,12 @@ class DB {
             // Don't wanna add an empty string as the last thing in the array.
             if (($i != ($token_count - 1)) || (strlen($tokens[$i] > 0))) {
                 // This is the total number of single quotes in the token.
-                $total_quotes = preg_match_all("/'/", $tokens[$i], $matches);
+                $total_phpbb2_quotes = preg_match_all("/'/", $tokens[$i], $matches);
                 // Counts single quotes that are preceded by an odd number of backslashes,
                 // which means they're escaped quotes.
                 $escaped_quotes = preg_match_all("/(?<!\\\\)(\\\\\\\\)*\\\\'/", $tokens[$i], $matches);
 
-                $unescaped_quotes = $total_quotes - $escaped_quotes;
+                $unescaped_quotes = $total_phpbb2_quotes - $escaped_quotes;
 
                 // If the number of unescaped quotes is even, then the delimiter did NOT occur inside a string literal.
                 if (($unescaped_quotes % 2) == 0) {
@@ -295,12 +295,12 @@ class DB {
 
                     for ($j = $i + 1; (!$complete_stmt && ($j < $token_count)); $j++) {
                         // This is the total number of single quotes in the token.
-                        $total_quotes = preg_match_all("/'/", $tokens[$j], $matches);
+                        $total_phpbb2_quotes = preg_match_all("/'/", $tokens[$j], $matches);
                         // Counts single quotes that are preceded by an odd number of backslashes,
                         // which means they're escaped quotes.
                         $escaped_quotes = preg_match_all("/(?<!\\\\)(\\\\\\\\)*\\\\'/", $tokens[$j], $matches);
 
-                        $unescaped_quotes = $total_quotes - $escaped_quotes;
+                        $unescaped_quotes = $total_phpbb2_quotes - $escaped_quotes;
 
                         if (($unescaped_quotes % 2) == 1) {
                             // odd number of unescaped quotes. In combination with the previous incomplete

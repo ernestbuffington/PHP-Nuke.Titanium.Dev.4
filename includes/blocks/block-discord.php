@@ -12,22 +12,22 @@
 /************************************************************************/
 
 require_once('../../mainfile.php');
-global $admin_file, $currentlang, $prefix;
-	$result3 = $db->sql_query("SHOW TABLES LIKE '".$prefix."_discord_config'");
-	$tableExists = $db->sql_numrows($result3);
+global $admin_file, $currentlang, $titanium_prefix;
+	$result3 = $titanium_db->sql_query("SHOW TABLES LIKE '".$titanium_prefix."_discord_config'");
+	$tableExists = $titanium_db->sql_numrows($result3);
 	if ($tableExists != 0){
 function dis_config()
 {
-	global $db;
+	global $titanium_db;
 	static $disconfig;
 
 	if(isset($disconfig) && is_array($disconfig))
 		return $disconfig;
 
-	$result = $db->sql_query("SELECT `config_value`, `config_name` FROM `nuke_discord_config`");
-	while ($row = $db->sql_fetchrow($result))
+	$result = $titanium_db->sql_query("SELECT `config_value`, `config_name` FROM `nuke_discord_config`");
+	while ($row = $titanium_db->sql_fetchrow($result))
 		$disconfig[$row['config_name']] = $row['config_value'];
-	$db->sql_freeresult($result);
+	$titanium_db->sql_freeresult($result);
 	return $disconfig;
 }
 $disconfig 	= dis_config();
@@ -102,7 +102,7 @@ $discord = json_decode(file_get_contents($disconfig['jsonurl']));
 // Let determin if we should use the small images or the larger images pending if its the side or center.
 $size = ($side == 0) ? "large" : "small";
 $logo = $disconfig['discordlogo'];
-$icons = ($disconfig['discordicons'] == 1) ? 'dark' : 'light';
+$phpbb2_icons = ($disconfig['discordicons'] == 1) ? 'dark' : 'light';
 
 echo '<div class="heading">' , PHP_EOL;
 if ($side == 0) { echo '<div class="h-left">' , PHP_EOL; }
@@ -199,11 +199,11 @@ if ($discord->channels) {
 								if ($side == 0){
 									switch ($m->self_mute) {
 										case "true":
-										echo '&nbsp;<img class="mutedeaf" src="./discord/images/mute-'.$icons.'.png" alt="Muted" title="Muted">' , PHP_EOL;
+										echo '&nbsp;<img class="mutedeaf" src="./discord/images/mute-'.$phpbb2_icons.'.png" alt="Muted" title="Muted">' , PHP_EOL;
 									}
 								switch ($m->self_deaf) {
 										case "true":
-											echo '&nbsp;<img class="mutedeaf" src="./discord/images/deaf-'.$icons.'.png" alt="Deafen" title="Deafen">' , PHP_EOL;
+											echo '&nbsp;<img class="mutedeaf" src="./discord/images/deaf-'.$phpbb2_icons.'.png" alt="Deafen" title="Deafen">' , PHP_EOL;
 									}
 								}
 								if(isset($m->bot)) {

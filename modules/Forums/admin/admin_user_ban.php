@@ -24,12 +24,12 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB', 1);
+define('IN_PHPBB2', 1);
 
 if ( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $module['Users']['Ban_Management'] = $filename;
+        $titanium_module['Users']['Ban_Management'] = $filename;
 
         return;
 }
@@ -37,8 +37,8 @@ if ( !empty($setmodules) )
 //
 // Load default header
 //
-$phpbb_root_path = './../';
-require($phpbb_root_path . 'extension.inc');
+$phpbb2_root_path = './../';
+require($phpbb2_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 
 //
@@ -46,20 +46,20 @@ require('./pagestart.' . $phpEx);
 //
 if ( isset($HTTP_POST_VARS['submit']) )
 {
-        $user_bansql = '';
+        $titanium_user_bansql = '';
         $email_bansql = '';
         $ip_bansql = '';
 
-        $user_list = array();
+        $titanium_user_list = array();
         if ( !empty($HTTP_POST_VARS['username']) )
         {
                 $this_userdata = get_userdata($HTTP_POST_VARS['username'], true);
                 if( !$this_userdata )
                 {
-                        message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
+                        message_die(GENERAL_MESSAGE, $titanium_lang['No_user_id_specified'] );
                 }
 
-                $user_list[] = $this_userdata['user_id'];
+                $titanium_user_list[] = $this_userdata['user_id'];
         }
 
         $ip_list = array();
@@ -168,21 +168,21 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
         $sql = "SELECT *
                 FROM " . BANLIST_TABLE;
-        if ( !($result = $db->sql_query($sql)) )
+        if ( !($result = $titanium_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, "Couldn't obtain banlist information", "", __LINE__, __FILE__, $sql);
         }
 
-        $current_banlist = $db->sql_fetchrowset($result);
-        $db->sql_freeresult($result);
+        $current_banlist = $titanium_db->sql_fetchrowset($result);
+        $titanium_db->sql_freeresult($result);
 
         $kill_session_sql = '';
-        for($i = 0; $i < count($user_list); $i++)
+        for($i = 0; $i < count($titanium_user_list); $i++)
         {
                 $in_banlist = false;
                 for($j = 0; $j < count($current_banlist); $j++)
                 {
-                        if ( $user_list[$i] == $current_banlist[$j]['ban_userid'] )
+                        if ( $titanium_user_list[$i] == $current_banlist[$j]['ban_userid'] )
                         {
                                 $in_banlist = true;
                         }
@@ -190,11 +190,11 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
                 if ( !$in_banlist )
                 {
-                        $kill_session_sql .= ( ( $kill_session_sql != '' ) ? ' OR ' : '' ) . "session_user_id = " . $user_list[$i];
+                        $kill_session_sql .= ( ( $kill_session_sql != '' ) ? ' OR ' : '' ) . "session_user_id = " . $titanium_user_list[$i];
 
                         $sql = "INSERT INTO " . BANLIST_TABLE . " (ban_userid)
-                                VALUES (" . $user_list[$i] . ")";
-                        if ( !$db->sql_query($sql) )
+                                VALUES (" . $titanium_user_list[$i] . ")";
+                        if ( !$titanium_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't insert ban_userid info into database", "", __LINE__, __FILE__, $sql);
                         }
@@ -227,7 +227,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
                         $sql = "INSERT INTO " . BANLIST_TABLE . " (ban_ip)
                                 VALUES ('" . $ip_list[$i] . "')";
-                        if ( !$db->sql_query($sql) )
+                        if ( !$titanium_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't insert ban_ip info into database", "", __LINE__, __FILE__, $sql);
                         }
@@ -243,7 +243,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
         {
                 $sql = "DELETE FROM " . SESSIONS_TABLE . "
                         WHERE $kill_session_sql";
-                if ( !$db->sql_query($sql) )
+                if ( !$titanium_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, "Couldn't delete banned sessions from database", "", __LINE__, __FILE__, $sql);
                 }
@@ -264,7 +264,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                 {
                         $sql = "INSERT INTO " . BANLIST_TABLE . " (ban_email)
                                 VALUES ('" . str_replace("\'", "''", $email_list[$i]) . "')";
-                        if ( !$db->sql_query($sql) )
+                        if ( !$titanium_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't insert ban_email info into database", "", __LINE__, __FILE__, $sql);
                         }
@@ -275,13 +275,13 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
         if ( isset($HTTP_POST_VARS['unban_user']) )
         {
-                $user_list = $HTTP_POST_VARS['unban_user'];
+                $titanium_user_list = $HTTP_POST_VARS['unban_user'];
 
-                for($i = 0; $i < count($user_list); $i++)
+                for($i = 0; $i < count($titanium_user_list); $i++)
                 {
-                        if ( $user_list[$i] != -1 )
+                        if ( $titanium_user_list[$i] != -1 )
                         {
-                                $where_sql .= ( ( $where_sql != '' ) ? ', ' : '' ) . intval($user_list[$i]);
+                                $where_sql .= ( ( $where_sql != '' ) ? ', ' : '' ) . intval($titanium_user_list[$i]);
                         }
                 }
         }
@@ -316,45 +316,45 @@ if ( isset($HTTP_POST_VARS['submit']) )
         {
                 $sql = "DELETE FROM " . BANLIST_TABLE . "
                         WHERE ban_id IN ($where_sql)";
-                if ( !$db->sql_query($sql) )
+                if ( !$titanium_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, "Couldn't delete ban info from database", "", __LINE__, __FILE__, $sql);
                 }
         }
 
-        $message = $lang['Ban_update_sucessful'] . '<br /><br />' . sprintf($lang['Click_return_banadmin'], '<a href="' . append_sid("admin_user_ban.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $titanium_lang['Ban_update_sucessful'] . '<br /><br />' . sprintf($titanium_lang['Click_return_banadmin'], '<a href="' . append_titanium_sid("admin_user_ban.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
 
 }
 else
 {
-        $template->set_filenames(array(
+        $phpbb2_template->set_filenames(array(
                 'body' => 'admin/user_ban_body.tpl')
         );
 
-        $template->assign_vars(array(
-                'L_BAN_TITLE' => $lang['Ban_control'],
-                'L_BAN_EXPLAIN' => $lang['Ban_explain'],
-                'L_BAN_EXPLAIN_WARN' => $lang['Ban_explain_warn'],
-                'L_IP_OR_HOSTNAME' => $lang['IP_hostname'],
-                'L_EMAIL_ADDRESS' => $lang['Email_address'],
-                'L_SUBMIT' => $lang['Submit'],
-                'L_RESET' => $lang['Reset'],
+        $phpbb2_template->assign_vars(array(
+                'L_BAN_TITLE' => $titanium_lang['Ban_control'],
+                'L_BAN_EXPLAIN' => $titanium_lang['Ban_explain'],
+                'L_BAN_EXPLAIN_WARN' => $titanium_lang['Ban_explain_warn'],
+                'L_IP_OR_HOSTNAME' => $titanium_lang['IP_hostname'],
+                'L_EMAIL_ADDRESS' => $titanium_lang['Email_address'],
+                'L_SUBMIT' => $titanium_lang['Submit'],
+                'L_RESET' => $titanium_lang['Reset'],
 
-                'S_BANLIST_ACTION' => append_sid("admin_user_ban.$phpEx"))
+                'S_BANLIST_ACTION' => append_titanium_sid("admin_user_ban.$phpEx"))
         );
 
-        $template->assign_vars(array(
-                'L_BAN_USER' => $lang['Ban_username'],
-                'L_BAN_USER_EXPLAIN' => $lang['Ban_username_explain'],
-                'L_BAN_IP' => $lang['Ban_IP'],
-                'L_BAN_IP_EXPLAIN' => $lang['Ban_IP_explain'],
-                'L_BAN_EMAIL' => $lang['Ban_email'],
-                'L_BAN_EMAIL_EXPLAIN' => $lang['Ban_email_explain'])
+        $phpbb2_template->assign_vars(array(
+                'L_BAN_USER' => $titanium_lang['Ban_username'],
+                'L_BAN_USER_EXPLAIN' => $titanium_lang['Ban_username_explain'],
+                'L_BAN_IP' => $titanium_lang['Ban_IP'],
+                'L_BAN_IP_EXPLAIN' => $titanium_lang['Ban_IP_explain'],
+                'L_BAN_EMAIL' => $titanium_lang['Ban_email'],
+                'L_BAN_EMAIL_EXPLAIN' => $titanium_lang['Ban_email_explain'])
         );
 
-        $userban_count = 0;
+        $titanium_userban_count = 0;
         $ipban_count = 0;
         $emailban_count = 0;
 
@@ -364,37 +364,37 @@ else
                         AND b.ban_userid <> 0
                         AND u.user_id <> " . ANONYMOUS . "
                 ORDER BY u.user_id ASC";
-        if ( !($result = $db->sql_query($sql)) )
+        if ( !($result = $titanium_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not select current user_id ban list', '', __LINE__, __FILE__, $sql);
         }
 
-        $user_list = $db->sql_fetchrowset($result);
-        $db->sql_freeresult($result);
+        $titanium_user_list = $titanium_db->sql_fetchrowset($result);
+        $titanium_db->sql_freeresult($result);
 
         $select_userlist = '';
-        for($i = 0; $i < count($user_list); $i++)
+        for($i = 0; $i < count($titanium_user_list); $i++)
         {
-                $select_userlist .= '<option value="' . $user_list[$i]['ban_id'] . '">' . $user_list[$i]['username'] . '</option>';
-                $userban_count++;
+                $select_userlist .= '<option value="' . $titanium_user_list[$i]['ban_id'] . '">' . $titanium_user_list[$i]['username'] . '</option>';
+                $titanium_userban_count++;
         }
 
         if( $select_userlist == '' )
         {
-                $select_userlist = '<option value="-1">' . $lang['No_banned_users'] . '</option>';
+                $select_userlist = '<option value="-1">' . $titanium_lang['No_banned_users'] . '</option>';
         }
 
         $select_userlist = '<select name="unban_user[]" multiple="multiple" size="5">' . $select_userlist . '</select>';
 
         $sql = "SELECT ban_id, ban_ip, ban_email
                 FROM " . BANLIST_TABLE;
-        if ( !($result = $db->sql_query($sql)) )
+        if ( !($result = $titanium_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not select current ip ban list', '', __LINE__, __FILE__, $sql);
         }
 
-        $banlist = $db->sql_fetchrowset($result);
-        $db->sql_freeresult($result);
+        $banlist = $titanium_db->sql_fetchrowset($result);
+        $titanium_db->sql_freeresult($result);
 
         $select_iplist = '';
         $select_emaillist = '';
@@ -419,37 +419,37 @@ else
 
         if ( $select_iplist == '' )
         {
-                $select_iplist = '<option value="-1">' . $lang['No_banned_ip'] . '</option>';
+                $select_iplist = '<option value="-1">' . $titanium_lang['No_banned_ip'] . '</option>';
         }
 
         if ( $select_emaillist == '' )
         {
-                $select_emaillist = '<option value="-1">' . $lang['No_banned_email'] . '</option>';
+                $select_emaillist = '<option value="-1">' . $titanium_lang['No_banned_email'] . '</option>';
         }
 
         $select_iplist = '<select name="unban_ip[]" multiple="multiple" size="5">' . $select_iplist . '</select>';
         $select_emaillist = '<select name="unban_email[]" multiple="multiple" size="5">' . $select_emaillist . '</select>';
 
-        $template->assign_vars(array(
-                'L_UNBAN_USER' => $lang['Unban_username'],
-                'L_UNBAN_USER_EXPLAIN' => $lang['Unban_username_explain'],
-                'L_UNBAN_IP' => $lang['Unban_IP'],
-                'L_UNBAN_IP_EXPLAIN' => $lang['Unban_IP_explain'],
-                'L_UNBAN_EMAIL' => $lang['Unban_email'],
-                'L_UNBAN_EMAIL_EXPLAIN' => $lang['Unban_email_explain'],
-                'L_USERNAME' => $lang['Username'],
-                'L_LOOK_UP' => $lang['Look_up_User'],
-                'L_FIND_USERNAME' => $lang['Find_username'],
+        $phpbb2_template->assign_vars(array(
+                'L_UNBAN_USER' => $titanium_lang['Unban_username'],
+                'L_UNBAN_USER_EXPLAIN' => $titanium_lang['Unban_username_explain'],
+                'L_UNBAN_IP' => $titanium_lang['Unban_IP'],
+                'L_UNBAN_IP_EXPLAIN' => $titanium_lang['Unban_IP_explain'],
+                'L_UNBAN_EMAIL' => $titanium_lang['Unban_email'],
+                'L_UNBAN_EMAIL_EXPLAIN' => $titanium_lang['Unban_email_explain'],
+                'L_USERNAME' => $titanium_lang['Username'],
+                'L_LOOK_UP' => $titanium_lang['Look_up_User'],
+                'L_FIND_USERNAME' => $titanium_lang['Find_username'],
 
-                'U_SEARCH_USER' => append_sid("search.$phpEx?mode=searchuser&popup=1&menu=1"),
+                'U_SEARCH_USER' => append_titanium_sid("search.$phpEx?mode=searchuser&popup=1&menu=1"),
                 'S_UNBAN_USERLIST_SELECT' => $select_userlist,
                 'S_UNBAN_IPLIST_SELECT' => $select_iplist,
                 'S_UNBAN_EMAILLIST_SELECT' => $select_emaillist,
-                'S_BAN_ACTION' => append_sid("admin_user_ban.$phpEx"))
+                'S_BAN_ACTION' => append_titanium_sid("admin_user_ban.$phpEx"))
         );
 }
 
-$template->pparse('body');
+$phpbb2_template->pparse('body');
 
 include('./page_footer_admin.'.$phpEx);
 

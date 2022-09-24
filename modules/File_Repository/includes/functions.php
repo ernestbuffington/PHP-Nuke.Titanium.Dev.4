@@ -15,33 +15,33 @@ if (!defined('IN_FILE_REPOSITORY'))
 //---------------------------------------------------------------------
 //	DEFINE THE STANDARD SQL TABLES
 //---------------------------------------------------------------------
-define('_GROUPS_TABLE', 				$prefix.'_bbgroups');
-define('_USER_TABLE', 					$user_prefix.'_users');
-define('_USER_GROUP_TABLE', 			$prefix.'_bbuser_group');
+define('_GROUPS_TABLE', 				$titanium_prefix.'_bbgroups');
+define('_USER_TABLE', 					$titanium_user_prefix.'_users');
+define('_USER_GROUP_TABLE', 			$titanium_prefix.'_bbuser_group');
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //	DEFINE THE SQL TABLES, MAKES THINGS EASIER IN THE FUTURE IF TABLES,
 //	NEED TO BE RENAMED :)
 //---------------------------------------------------------------------
-define('_FILE_REPOSITORY_CATEGORIES',	$prefix.'_file_repository_categories');
-define('_FILE_REPOSITORY_COMMENTS',		$prefix.'_file_repository_comments');
-define('_FILE_REPOSITORY_EXTENSIONS',	$prefix.'_file_repository_extensions');
-define('_FILE_REPOSITORY_FILES',		$prefix.'_file_repository_files');
-define('_FILE_REPOSITORY_ITEMS',		$prefix.'_file_repository_items');
-define('_FILE_REPOSITORY_SCREENSHOTS',	$prefix.'_file_repository_screenshots');
-define('_FILE_REPOSITORY_SETTINGS',		$prefix.'_file_repository_settings');
-define('_FILE_REPOSITORY_THEMES',		$prefix.'_file_repository_themes');
+define('_FILE_REPOSITORY_CATEGORIES',	$titanium_prefix.'_file_repository_categories');
+define('_FILE_REPOSITORY_COMMENTS',		$titanium_prefix.'_file_repository_comments');
+define('_FILE_REPOSITORY_EXTENSIONS',	$titanium_prefix.'_file_repository_extensions');
+define('_FILE_REPOSITORY_FILES',		$titanium_prefix.'_file_repository_files');
+define('_FILE_REPOSITORY_ITEMS',		$titanium_prefix.'_file_repository_items');
+define('_FILE_REPOSITORY_SCREENSHOTS',	$titanium_prefix.'_file_repository_screenshots');
+define('_FILE_REPOSITORY_SETTINGS',		$titanium_prefix.'_file_repository_settings');
+define('_FILE_REPOSITORY_THEMES',		$titanium_prefix.'_file_repository_themes');
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //	DEFINE THE FOLDER PATHS, AGAIN MAKES THINGS ALOT EASIER.
 //---------------------------------------------------------------------
-define('_FILE_REPOSITORY_ADMIN', 		'modules/'.$module_name.'/admin/includes/');
-define('_FILE_REPOSITORY_CSS', 			'modules/'.$module_name.'/includes/css/');
-define('_FILE_REPOSITORY_DIR', 			'modules/'.$module_name.'/files/');
-define('_FILE_REPOSITORY_JS',			'modules/'.$module_name.'/includes/js/');
-define('_FILE_REPOSITORY_PLUGINS', 		'modules/'.$module_name.'/includes/plugins/');
-define('_FILE_REPOSITORY_PUBLIC',		'modules/'.$module_name.'/public/');
-define('_FILE_REPOSITORY_SCREENS', 		'modules/'.$module_name.'/files/screenshots/');
+define('_FILE_REPOSITORY_ADMIN', 		'modules/'.$titanium_module_name.'/admin/includes/');
+define('_FILE_REPOSITORY_CSS', 			'modules/'.$titanium_module_name.'/includes/css/');
+define('_FILE_REPOSITORY_DIR', 			'modules/'.$titanium_module_name.'/files/');
+define('_FILE_REPOSITORY_JS',			'modules/'.$titanium_module_name.'/includes/js/');
+define('_FILE_REPOSITORY_PLUGINS', 		'modules/'.$titanium_module_name.'/includes/plugins/');
+define('_FILE_REPOSITORY_PUBLIC',		'modules/'.$titanium_module_name.'/public/');
+define('_FILE_REPOSITORY_SCREENS', 		'modules/'.$titanium_module_name.'/files/screenshots/');
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //	I MAY CHANGE THE NAME OF THIS MODULE IN THE FUTURE,
@@ -68,23 +68,23 @@ $more_js .= '	var admin_file				= "'.$admin_file.'"'."\n";
 $more_js .= '	var css_folder				= "'._FILE_REPOSITORY_CSS.'";'."\n";
 $more_js .= '	var img_folder				= "'._FILE_REPOSITORY_SCREENS.'";'."\n";
 $more_js .= '	var js_folder				= "'._FILE_REPOSITORY_JS.'";'."\n";
-$more_js .= '	var lang_no					= "'.$lang_new[$module_name]['NGO'].'";'."\n";
-$more_js .= '	var lang_yes				= "'.$lang_new[$module_name]['YGO'].'";'."\n";
+$more_js .= '	var lang_no					= "'.$titanium_lang_new[$titanium_module_name]['NGO'].'";'."\n";
+$more_js .= '	var lang_yes				= "'.$titanium_lang_new[$titanium_module_name]['YGO'].'";'."\n";
 
 $more_js .= '	var post_max_size			= "'._convert2bytes(ini_get('post_max_size')).'";'."\n";
 
 $more_js .= '	var mid						= "'.$_GET['mid'].'";'."\n";
 $more_js .= '	var modname					= "'._MODNAME.'";'."\n";
-$more_js .= '	var module_name				= "'.$module_name.'";'."\n";
+$more_js .= '	var module_name				= "'.$titanium_module_name.'";'."\n";
 $more_js .= '	var module_page				= "'.$_GET['action'].'";'."\n";
-$more_js .= '	var lang_confirmation       = "'.$lang_new[$module_name]['CONFIRMATION'].'";'."\n";
-$more_js .= '	var lang_delete_file      	= "'.$lang_new[$module_name]['DELETE_FILE'].'";'."\n";
-$more_js .= '	var lang_version_new		= "'.$lang_new[$module_name]['VERSION_NEW'].'";'."\n";
-$more_js .= '	var lang_version_upto_date	= "'.$lang_new[$module_name]['VERSION_UPTO_DATE'].'";'."\n";
-$more_js .= '	var lang_xml_process		= "'.$lang_new[$module_name]['XML_NOT_PROCESSED'].'";'."\n";
+$more_js .= '	var lang_confirmation       = "'.$titanium_lang_new[$titanium_module_name]['CONFIRMATION'].'";'."\n";
+$more_js .= '	var lang_delete_file      	= "'.$titanium_lang_new[$titanium_module_name]['DELETE_FILE'].'";'."\n";
+$more_js .= '	var lang_version_new		= "'.$titanium_lang_new[$titanium_module_name]['VERSION_NEW'].'";'."\n";
+$more_js .= '	var lang_version_upto_date	= "'.$titanium_lang_new[$titanium_module_name]['VERSION_UPTO_DATE'].'";'."\n";
+$more_js .= '	var lang_xml_process		= "'.$titanium_lang_new[$titanium_module_name]['XML_NOT_PROCESSED'].'";'."\n";
 
-$more_js .= '	var lang_hide_local			= "'.$lang_new[$module_name]['SHOW_HIDE'].'";'."\n";
-$more_js .= '	var lang_show_local			= "'.$lang_new[$module_name]['SHOW_LOCAL'].'";'."\n";
+$more_js .= '	var lang_hide_local			= "'.$titanium_lang_new[$titanium_module_name]['SHOW_HIDE'].'";'."\n";
+$more_js .= '	var lang_show_local			= "'.$titanium_lang_new[$titanium_module_name]['SHOW_LOCAL'].'";'."\n";
 
 $more_js .= '	var uppercase_text			= "'.$settings['utext'].'";'."\n";
 $more_js .= '	var uploaddir				= "'._FILE_REPOSITORY_DIR.'";'."\n";
@@ -96,7 +96,7 @@ $more_js .= '	var image_viewer 			= "'.addslashes(get_image_viewer('screens')).'
 # added in 1.0.1
 $more_js .= '	var file_upload_amount		= "'.$settings['users_file_upload_amount'].'";'."\n";
 $more_js .= '	var screens_upload_amount	= "'.$settings['users_screens_upload_amount'].'";'."\n";
-$more_js .= '	var confirm_leave_page		= "'.$lang_new[$module_name]['CONFIRM_LEAVE_PAGE'].'";';
+$more_js .= '	var confirm_leave_page		= "'.$titanium_lang_new[$titanium_module_name]['CONFIRM_LEAVE_PAGE'].'";';
 
 $more_js .= '	var allowed_file_extensions = "'.$settings['allowed_file_extensions'].'";';
 $more_js .= '	var allowed_image_extensions = "'.$settings['allowed_image_extensions'].'";';
@@ -157,7 +157,7 @@ else:
 endif;
 
 if(!file_exists('includes/classes/class.paginator.php'))
-	require_once('modules/'.$module_name.'/includes/classes/class.paginator.php');
+	require_once('modules/'.$titanium_module_name.'/includes/classes/class.paginator.php');
 
 //---------------------------------------------------------------------
 //	OK, LETS ADD ALL THE ABOVE FILE AND VARIABLES - RAVEN ONLY
@@ -172,20 +172,20 @@ if(!file_exists('includes/classes/class.paginator.php'))
 
 if($themes[get_theme()]['show_left'] == false) 
 {
-    $hide_blocks_left = array($module_name);
+    $hide_blocks_left = array($titanium_module_name);
 }
 
 function _average_rating($did,$decimal=FALSE)
 {
-	global $db, $lang_new, $module_name;
+	global $titanium_db, $titanium_lang_new, $titanium_module_name;
 	
 	$ratingSum   = 0;
 	$ratingCount = 0;
 	
-	$result = $db->sql_query("SELECT `rating` FROM `"._FILE_REPOSITORY_COMMENTS."` WHERE `did`='$did'");
-	if($db->sql_numrows($result) > 0)
+	$result = $titanium_db->sql_query("SELECT `rating` FROM `"._FILE_REPOSITORY_COMMENTS."` WHERE `did`='$did'");
+	if($titanium_db->sql_numrows($result) > 0)
 	{
-		while(list($rating) = $db->sql_fetchrow($result))
+		while(list($rating) = $titanium_db->sql_fetchrow($result))
 		{
 			if($rating <> 0)
 			{
@@ -231,42 +231,42 @@ function _float_left_right($leftFloatLink=false, $leftFloat, $rightFloatLink=fal
 //---------------------------------------------------------------------
 function _admin_navigation_menu()
 {
-	global $db, $admin_file, $lang_new, $module_name, $settings;
-	// $row = $db->sql_ufetchrow("SELECT count(isbroken) as isbroken FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isbroken`=1");
+	global $titanium_db, $admin_file, $titanium_lang_new, $titanium_module_name, $settings;
+	// $row = $titanium_db->sql_ufetchrow("SELECT count(isbroken) as isbroken FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isbroken`=1");
 
 	// count the broken downloads in the database.
 	$sql = "SELECT count(isbroken) as isbroken FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isbroken` = 1";
-	$result = $db->sql_query($sql);
-	list($isbroken) = $db->sql_fetchrow($result);
-	$db->sql_freeresult($result);
+	$result = $titanium_db->sql_query($sql);
+	list($isbroken) = $titanium_db->sql_fetchrow($result);
+	$titanium_db->sql_freeresult($result);
 
 	// count the client uploaded files in the database.
 	$sql = "SELECT count(isapproved) as isapproved FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isapproved` = 0";
-	$result = $db->sql_query($sql);
-	list($isapproved) = $db->sql_fetchrow($result);
-	$db->sql_freeresult($result);
+	$result = $titanium_db->sql_query($sql);
+	list($isapproved) = $titanium_db->sql_fetchrow($result);
+	$titanium_db->sql_freeresult($result);
 
 	echo '<table style="width: 100%;" border="0" cellpadding="3" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
-	echo '    <td'._tdcss(false,'center',_sh(),4).'>'._suh($lang_new[$module_name]['ADMINISTRATION_MODULE']).'</td>'."\n";
+	echo '    <td'._tdcss(false,'center',_sh(),4).'>'._suh($titanium_lang_new[$titanium_module_name]['ADMINISTRATION_MODULE']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '  <tr'._bgColor(1).'>'."\n";
-	echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php?op='._MODNAME.'&amp;action=settings">'._sut($lang_new[$module_name]['MODULE_SETTINGS']).'</a></td>'."\n";
+	echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php?op='._MODNAME.'&amp;action=settings">'._sut($titanium_lang_new[$titanium_module_name]['MODULE_SETTINGS']).'</a></td>'."\n";
 	echo '    <td'._tdcss('50%','center',_sc(),2).'><span id="versionchecker"></span></td>'."\n";
-	echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php">'._sut($lang_new[$module_name]['ADMINISTRATION']).'</a></td>'."\n";
+	echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php">'._sut($titanium_lang_new[$titanium_module_name]['ADMINISTRATION']).'</a></td>'."\n";
 	echo '  </tr>'."\n";
 	echo '  <tr'._bgColor(1).'>'."\n";
-	echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php?op='._MODNAME.'&amp;action=addfile">'._sut($lang_new[$module_name]['FILE_ADD']).'</a></td>'."\n";
-	echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php?op='._MODNAME.'&amp;action=newcat">'._sut($lang_new[$module_name]['CATEGORY_ADD']).'</a></td>'."\n";
+	echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php?op='._MODNAME.'&amp;action=addfile">'._sut($titanium_lang_new[$titanium_module_name]['FILE_ADD']).'</a></td>'."\n";
+	echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php?op='._MODNAME.'&amp;action=newcat">'._sut($titanium_lang_new[$titanium_module_name]['CATEGORY_ADD']).'</a></td>'."\n";
 	echo '    <td'._tdcss('25%',false,_sc()).'>&nbsp;</td>'."\n";
-	echo '    <td'._tdcss('25%',false,_sc()).'>'._float_left_right($admin_file.'.php?op='._MODNAME.'&amp;action=clientuploads',$lang_new[$module_name]['CLIENT_UPLOADED_FILES'],false,'('.$isapproved.')').'</td>'."\n";
+	echo '    <td'._tdcss('25%',false,_sc()).'>'._float_left_right($admin_file.'.php?op='._MODNAME.'&amp;action=clientuploads',$titanium_lang_new[$titanium_module_name]['CLIENT_UPLOADED_FILES'],false,'('.$isapproved.')').'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '  <tr'._bgColor(1).'>'."\n";
-	echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php?op='._MODNAME.'&amp;action=files">'._sut($lang_new[$module_name]['FILE_LIST']).'</a.</td>'."\n";
-	echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php?op='._MODNAME.'&amp;action=categories">'._sut($lang_new[$module_name]['CATEGORY_LIST']).'</a></td>'."\n";
+	echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php?op='._MODNAME.'&amp;action=files">'._sut($titanium_lang_new[$titanium_module_name]['FILE_LIST']).'</a.</td>'."\n";
+	echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php?op='._MODNAME.'&amp;action=categories">'._sut($titanium_lang_new[$titanium_module_name]['CATEGORY_LIST']).'</a></td>'."\n";
 	// echo '    <td'._tdcss('25%',false,_sc()).'><a'._ls().' href="'.$admin_file.'.php?op='._MODNAME.'&amp;action=cleanfiles">'._sut('Clean Downloads').'</a></td>'."\n";
 	echo '    <td'._tdcss('25%',false,_sc()).'><span style="text-decoration: line-through">'._sut('Clean Downloads').'</span></td>'."\n";
-	echo '    <td'._tdcss('25%',false,_sc()).'>'._float_left_right($admin_file.'.php?op='._MODNAME.'&amp;action=brokenfiles',$lang_new[$module_name]['BROKEN_ITEMS'],false,'('.$isbroken.')').'</td>'."\n";
+	echo '    <td'._tdcss('25%',false,_sc()).'>'._float_left_right($admin_file.'.php?op='._MODNAME.'&amp;action=brokenfiles',$titanium_lang_new[$titanium_module_name]['BROKEN_ITEMS'],false,'('.$isbroken.')').'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
 	echo '    <td'._tdcss(false,'center',_sf(),4).'>&nbsp;</td>'."\n";
@@ -317,7 +317,7 @@ function _bgColor($bgColor)
 
 function _category_deletion($cid)
 {
-	global $db;	
+	global $titanium_db;	
 	$catarray  = array();
 	$sql_ary   = '';
 	$physical  = array();
@@ -330,12 +330,12 @@ function _category_deletion($cid)
 		$sql_ary .= $cat . ',';
 	}
 	$sql_ary .= '-1';
-	$result = $db->sql_query("SELECT `did` FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `cid` IN ($sql_ary)");
-	while(list($did) = $db->sql_fetchrow($result)) 
+	$result = $titanium_db->sql_query("SELECT `did` FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `cid` IN ($sql_ary)");
+	while(list($did) = $titanium_db->sql_fetchrow($result)) 
 	{
 		$physical[$did]['did'] = $did;
 	}
-	$db->sql_freeresult($result);
+	$titanium_db->sql_freeresult($result);
 	
 	# FIRST DELETE THE LINKS
 	if ( count($physical) > 0 ) 
@@ -345,74 +345,74 @@ function _category_deletion($cid)
 //---------------------------------------------------------------------
 //	HERE WE CHECK THE DATABASE FOR THE FILES ATTACHED
 //---------------------------------------------------------------------
-			$result = $db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$delete_did['did']."'");
-			if( $db->sql_numrows($result) > 0 )
+			$result = $titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$delete_did['did']."'");
+			if( $titanium_db->sql_numrows($result) > 0 )
 			{
-				while($row = $db->sql_fetchrow($result))
+				while($row = $titanium_db->sql_fetchrow($result))
 				{
 					@unlink(_FILE_REPOSITORY_DIR.$row['filename']);
-					$db->sql_query("DELETE FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$delete_did['did']."'");
+					$titanium_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$delete_did['did']."'");
 				}
 			}
-			$db->sql_freeresult($result);
+			$titanium_db->sql_freeresult($result);
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //	HERE WE CHECK THE DATABASE FOR THE SCREENSHOTS ATTACHED
 //---------------------------------------------------------------------
-			$result = $db->sql_query('SELECT * FROM `'._FILE_REPOSITORY_SCREENSHOTS.'` WHERE `did`="'.$delete_did['did'].'"');
-			if( $db->sql_numrows($result) > 0 )
+			$result = $titanium_db->sql_query('SELECT * FROM `'._FILE_REPOSITORY_SCREENSHOTS.'` WHERE `did`="'.$delete_did['did'].'"');
+			if( $titanium_db->sql_numrows($result) > 0 )
 			{
-				while($row = $db->sql_fetchrow($result))
+				while($row = $titanium_db->sql_fetchrow($result))
 				{
 					@unlink(_FILE_REPOSITORY_SCREENS.'thumbs/thumb_100x100_'.$row['filename']);
 					@unlink(_FILE_REPOSITORY_SCREENS.'thumbs/thumb_190x120_'.$row['filename']);
 					@unlink(_FILE_REPOSITORY_SCREENS.$row['filename']);
-					$db->sql_query("DELETE FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$delete_did['did']."'");
+					$titanium_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$delete_did['did']."'");
 				}
 			}
-			$db->sql_freeresult($result);
+			$titanium_db->sql_freeresult($result);
 //---------------------------------------------------------------------
-			$db->sql_query("DELETE FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `did`='".$delete_did['did']."'");
+			$titanium_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `did`='".$delete_did['did']."'");
 		}
 	}
 	@arsort($childcats);	
 	foreach ( $childcats as $number => $cat ) 
 	{		
-		$db->sql_query("DELETE FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `cid`='".$cat."'");
+		$titanium_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `cid`='".$cat."'");
 	}
-	$db->sql_optimize(_FILE_REPOSITORY_CATEGORIES);
-	$db->sql_optimize(_FILE_REPOSITORY_FILES);
-	$db->sql_optimize(_FILE_REPOSITORY_ITEMS);
-	$db->sql_optimize(_FILE_REPOSITORY_SCREENSHOTS);
+	$titanium_db->sql_optimize(_FILE_REPOSITORY_CATEGORIES);
+	$titanium_db->sql_optimize(_FILE_REPOSITORY_FILES);
+	$titanium_db->sql_optimize(_FILE_REPOSITORY_ITEMS);
+	$titanium_db->sql_optimize(_FILE_REPOSITORY_SCREENSHOTS);
 }
 
 function _category_deletion_scan($catid, $catary) 
 {
-	global $db;
+	global $titanium_db;
 	static $catary, $counter;
-	$allcats = $db->sql_query("SELECT `cid`, `parentid` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid` =".$catid);
-	while ( list($catid, $parentid) = $db->sql_fetchrow($allcats) ) 
+	$allcats = $titanium_db->sql_query("SELECT `cid`, `parentid` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid` =".$catid);
+	while ( list($catid, $parentid) = $titanium_db->sql_fetchrow($allcats) ) 
 	{
 		$counter++;
 		$catary[$counter] = $catid;
 		_category_deletion_scan($catid, $catary);
 	}
-	$db->sql_freeresult($allcats);
+	$titanium_db->sql_freeresult($allcats);
 	return $catary;
 }
 
 function _categories_from_database($cpID) 
 {
-	global $db, $admin_file, $lang_new, $module_name;
-    $res = $db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='".$cpID."' ORDER BY `parentid`, `cname` ASC");
-    if (!$db->sql_numrows($res)) 
+	global $titanium_db, $admin_file, $titanium_lang_new, $titanium_module_name;
+    $res = $titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='".$cpID."' ORDER BY `parentid`, `cname` ASC");
+    if (!$titanium_db->sql_numrows($res)) 
     	return false;
     
-    while($r = $db->sql_fetchrow($res)) 
+    while($r = $titanium_db->sql_fetchrow($res)) 
     {
         $sub_category 			= _categories_from_database($r['cid']);
-        list($totalSubs) 		= $db->sql_fetchrow($db->sql_query("SELECT COUNT(cid) FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='".$r['cid']."'"));
-		list($totalDownloads) 	= $db->sql_fetchrow($db->sql_query("SELECT COUNT(did) FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `cid`='".$r['cid']."'"));
+        list($totalSubs) 		= $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT COUNT(cid) FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='".$r['cid']."'"));
+		list($totalDownloads) 	= $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT COUNT(did) FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `cid`='".$r['cid']."'"));
         if($r['parentid'] == 0)
         {
         	$return .= '  <tr'._bgColor(1).'>';
@@ -428,7 +428,7 @@ function _categories_from_database($cpID)
 			$return .= '      </table>'."\n";
 			$return .= '	</td>'."\n";
 			$return .= '    <td'._tdcss('10%','center',_sc()).'>'.$totalDownloads.'</td>';
-			$return .= '    <td'._tdcss('10%','center',_sc()).'>'._sut((($r['isallowed'] == 1) ? $lang_new[$module_name]['Y'] : $lang_new[$module_name]['N'])).'</td>';
+			$return .= '    <td'._tdcss('10%','center',_sc()).'>'._sut((($r['isallowed'] == 1) ? $titanium_lang_new[$titanium_module_name]['Y'] : $titanium_lang_new[$titanium_module_name]['N'])).'</td>';
 			$return .= '    <td'._tdcss('20%','center',_sc()).'>'._user_is_within_group_name($r['permissions'],$r['isallowed']).'</td>';
 			$return .= '  </tr>';
 			$return .= $sub_category;			
@@ -449,7 +449,7 @@ function _categories_from_database($cpID)
 			$return .= '      </table>'."\n";
 			$return .= '	</td>'."\n";
 			$return .= '    <td'._tdcss('10%','center',_sc()).'>'.$totalDownloads.'</td>';
-			$return .= '    <td'._tdcss('10%','center',_sc()).'>'._sut((($r['isallowed'] == 1) ? $lang_new[$module_name]['Y'] : $lang_new[$module_name]['N'])).'</td>';
+			$return .= '    <td'._tdcss('10%','center',_sc()).'>'._sut((($r['isallowed'] == 1) ? $titanium_lang_new[$titanium_module_name]['Y'] : $titanium_lang_new[$titanium_module_name]['N'])).'</td>';
 			$return .= '    <td'._tdcss('20%','center',_sc()).'>'._user_is_within_group_name($r['permissions'],$r['isallowed']).'</td>';
 			$return .= '  </tr>';      	
         }
@@ -459,8 +459,8 @@ function _categories_from_database($cpID)
 
 function _category_parents($name,$value=0)
 {
-	global $db, $lang_new, $module_name, $settings;		
-	$result = $db->sql_query("SELECT `cid`, `cname`, `parentid`, `color` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' ORDER BY `cname`");
+	global $titanium_db, $titanium_lang_new, $titanium_module_name, $settings;		
+	$result = $titanium_db->sql_query("SELECT `cid`, `cname`, `parentid`, `color` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' ORDER BY `cname`");
 	$category_list = '<select class="glowing-border"';
 	$category_list .= ' style="';
 	$category_list .= 'border: 1px solid; ';
@@ -471,14 +471,14 @@ function _category_parents($name,$value=0)
 	$category_list .= 'margin: 0px 1px 1px; ';
 	$category_list .= ((!defined('NUKE_EVO')) ? 'padding: 4px; ' : 'padding: 5px; ');
 	$category_list .= 'text-transform: '.(($settings['utext'] == 1) ? 'uppercase' : 'none').';" name="'.$name.'">';
-	$category_list .= '  <option value="'.intval($row['cid']).'">'.$lang_new[$module_name]['CATEGORY_PARENT_NEW'].'</option>';
-	if($db->sql_numrows($result))
+	$category_list .= '  <option value="'.intval($row['cid']).'">'.$titanium_lang_new[$titanium_module_name]['CATEGORY_PARENT_NEW'].'</option>';
+	if($titanium_db->sql_numrows($result))
 	{
-		while($row = $db->sql_fetchrow($result))
+		while($row = $titanium_db->sql_fetchrow($result))
 		{
 			$category_list .= '  <option'.(($row['color']) ? ' style="color:'.$row['color'].';"' : '').' value="'.intval($row['cid']).'" '.(($value == $row['cid']) ? 'selected="selected"' : '').'>'.stripslashes($row['cname']).'</option>';
 		}
-		$db->sql_freeresult($result);
+		$titanium_db->sql_freeresult($result);
 	}
 	$category_list .= '</select>';		
 	return $category_list;
@@ -486,8 +486,8 @@ function _category_parents($name,$value=0)
 
 function _category_parents_and_children($name,$value,$search=false,$onlyShowAllowed=false)
 {
-	global $db, $settings;
-	$result = $db->sql_query("SELECT `cid`, `cname`, `color`, `isallowed`, `permissions` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' ORDER BY `cname`");
+	global $titanium_db, $settings;
+	$result = $titanium_db->sql_query("SELECT `cid`, `cname`, `color`, `isallowed`, `permissions` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' ORDER BY `cname`");
 	$category_list = '<select class="glowing-border"';
 	$category_list .= ' style="';
 	$category_list .= 'border: 1px solid; ';
@@ -499,16 +499,16 @@ function _category_parents_and_children($name,$value,$search=false,$onlyShowAllo
 	$category_list .= ((!defined('NUKE_EVO')) ? 'padding: 4px; ' : 'padding: 5px; ');
 	$category_list .= 'text-transform: '.(($settings['utext'] == 1) ? 'uppercase' : 'none').';" name="'.$name.'">';
 	if($search == true)
-		$category_list .= '  <option value="0">'.$lang_new[$module_name]['CATEGORY_ALL'].'</option>'."\n";
-	while( $row = $db->sql_fetchrow($result) ) 
+		$category_list .= '  <option value="0">'.$titanium_lang_new[$titanium_module_name]['CATEGORY_ALL'].'</option>'."\n";
+	while( $row = $titanium_db->sql_fetchrow($result) ) 
 	{
 		// _check_users_permissions($row['permissions']) == true
 
 		// $category_list .= '  <option style="color:'.$row['color'].';" value="'.$row['cid'].'" '.(($row['cid'] == $value) ? 'selected="selected"' : '').'>'.$row['cname'].'</option>'."\n";
 		$category_list .= '  <option style="color:'.$row['color'].';" value="'.$row['cid'].'" '.(($row['cid'] == $value) ? 'selected="selected"' : '').(($onlyShowAllowed == true) ? (($row['isallowed'] == 1 && _check_users_permissions($row['permissions']) == true) ? '' : 'disabled') : '').'>'.$row['cname'].'</option>'."\n";
 
-		$result2 = $db->sql_query("SELECT `cid`, `cname`, `color`, `parentid`, `permissions`, `isallowed` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='".$row['cid']."' ORDER BY `cname`");
-		while( $row2 = $db->sql_fetchrow($result2) ) 
+		$result2 = $titanium_db->sql_query("SELECT `cid`, `cname`, `color`, `parentid`, `permissions`, `isallowed` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='".$row['cid']."' ORDER BY `cname`");
+		while( $row2 = $titanium_db->sql_fetchrow($result2) ) 
 		{
 			if($search == true):
 				$category_list .= '<option style="color:'.$row2['color'].';" value="'.$row2['cid'].'" '.(($row2['cid'] == $value) ? 'selected="selected"' : '').'>&nbsp;&nbsp;'._category_parents_name($row2['parentid'], $row2['cname']).'</option>'."\n";
@@ -521,23 +521,23 @@ function _category_parents_and_children($name,$value,$search=false,$onlyShowAllo
 
 			endif;
 		}
-		$db->sql_freeresult($result2);
+		$titanium_db->sql_freeresult($result2);
 	}
-	$db->sql_freeresult($result);
+	$titanium_db->sql_freeresult($result);
 	$category_list .= '</select>'."\n";		
 	return $category_list;
 }
 
-function _category_parents_name($parentid,$title='',$did='',$version='',$color=false) 
+function _category_parents_name($parentid,$title='',$did='',$version='',$phpbb2_color=false) 
 {
-	global $db, $lang_new, $module_name;		
+	global $titanium_db, $titanium_lang_new, $titanium_module_name;		
 	$parentid  = intval($parentid);
-	$row       = $db->sql_fetchrow($db->sql_query("SELECT `cid`, `color`, `cname`, `parentid` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `cid`=".$parentid));
+	$row       = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `cid`, `color`, `cname`, `parentid` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `cid`=".$parentid));
 	$ptitle    = $row['cname'];
 	$pparentid = intval($row['parentid']);
 	
 	if (!empty($ptitle))
-		$title = '<a'._ls().' href="modules.php?name='.$module_name.'&amp;cid='.$row['cid'].'">'._colorization($ptitle,$row['color'],true).'</a> '.(($title != '') ? ' &#10152; '._colorization($title,$color,true) : '');
+		$title = '<a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;cid='.$row['cid'].'">'._colorization($ptitle,$row['color'],true).'</a> '.(($title != '') ? ' &#10152; '._colorization($title,$phpbb2_color,true) : '');
 		
 	if ($pparentid != 0)
 		$title = _category_parents_name($pparentid,$title);
@@ -550,9 +550,9 @@ function _category_parents_name($parentid,$title='',$did='',$version='',$color=f
 
 function _check_users_permissions($section)
 {
-	global $settings, $admin, $user;
+	global $settings, $admin, $titanium_user;
 	$priv = $section - 2;
-	if (($section == 0) || ($section == 1 AND is_user($user)) || ($section == 2 && is_admin($admin)) || ($section > 2 && _check_users_group($priv)) || is_admin($admin)):
+	if (($section == 0) || ($section == 1 AND is_user($titanium_user)) || ($section == 2 && is_admin($admin)) || ($section > 2 && _check_users_group($priv)) || is_admin($admin)):
 		$permission = true;
 	else:
 		$permission = false;
@@ -562,14 +562,14 @@ function _check_users_permissions($section)
 
 function _check_users_group($gid) 
 {
-	global $prefix, $db, $userinfo, $module_name, $user;
-	if (is_mod_admin($module_name)) 
+	global $titanium_prefix, $titanium_db, $userinfo, $titanium_module_name, $titanium_user;
+	if (is_mod_admin($titanium_module_name)) 
 		return true;
-	elseif (is_user($user)) 
+	elseif (is_user($titanium_user)) 
 	{
 		$guid = $userinfo['user_id'];
-		$result = $db->sql_query("SELECT COUNT(*) FROM `"._USER_GROUP_TABLE."` WHERE group_id='".$gid."' AND user_id='".$guid."' AND user_pending != '1'");
-		list($ingroup) = $db->sql_fetchrow($result);
+		$result = $titanium_db->sql_query("SELECT COUNT(*) FROM `"._USER_GROUP_TABLE."` WHERE group_id='".$gid."' AND user_id='".$guid."' AND user_pending != '1'");
+		list($ingroup) = $titanium_db->sql_fetchrow($result);
 		if ($ingroup > 0) 
 			return true; 
 	}
@@ -578,8 +578,8 @@ function _check_users_group($gid)
 
 // function _copyright_popup()
 // {
-// 	global $lang_new, $module_name, $settings;
-// 	echo '<a class="copyright-popup" style="cursor: pointer; float: right; font-size: 12px; letter-spacing: 1px;">'.$lang_new[$module_name]['MODULE'].'&nbsp;'.$settings['version'].' &copy;</a>';
+// 	global $titanium_lang_new, $titanium_module_name, $settings;
+// 	echo '<a class="copyright-popup" style="cursor: pointer; float: right; font-size: 12px; letter-spacing: 1px;">'.$titanium_lang_new[$titanium_module_name]['MODULE'].'&nbsp;'.$settings['version'].' &copy;</a>';
 // }
 
 function _grab_copyright_data()
@@ -596,71 +596,71 @@ function _grab_copyright_data()
 
 function _copyright_popup_display()
 {
-	global $lang_new, $module_name, $settings;
+	global $titanium_lang_new, $titanium_module_name, $settings;
 	// echo '<div id="copyright_popup" class="modal" style="display: none">';
 	// echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	// echo '	<tr'._bgColor(2).'>'."\n";
-	// echo '    <td'._tdcss(false,'center',_sh(),2).'>'._suh($lang_new[$module_name]['COPYRIGHT_INFORMATION']).'</td>'."\n";
+	// echo '    <td'._tdcss(false,'center',_sh(),2).'>'._suh($titanium_lang_new[$titanium_module_name]['COPYRIGHT_INFORMATION']).'</td>'."\n";
 	// echo '  </tr>'."\n".'<tr'._bgColor(1).'>'."\n";
-	// echo '	  <td'._tdcss(false,'center',_sc(),2).'>'.$lang_new[$module_name]['MODULE'].' '.$lang_new[$module_name]['COPYRIGHT_FOR'].' '.((function_exists('redirect')) ? $lang_new[$module_name]['COPYRIGHT_EVOLUTION_XTREME'] : $lang_new[$module_name]['COPYRIGHT_RAVEN_CMS']).'</td>'."\n";
+	// echo '	  <td'._tdcss(false,'center',_sc(),2).'>'.$titanium_lang_new[$titanium_module_name]['MODULE'].' '.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_FOR'].' '.((function_exists('redirect')) ? $titanium_lang_new[$titanium_module_name]['COPYRIGHT_EVOLUTION_XTREME'] : $titanium_lang_new[$titanium_module_name]['COPYRIGHT_RAVEN_CMS']).'</td>'."\n";
 	// echo '  </tr>'."\n".'<tr'._bgColor(2).'>'."\n";
 	// echo '    <td'._tdcss(false,'center',_sh(),2).'>&nbsp;</td>'."\n";
 	// echo '  </tr>'."\n".'<tr'._bgColor(1).'>'."\n";
-	// echo '    <td'._tdcss('30%','right',_sc()).'>'.$lang_new[$module_name]['COPYRIGHT_MODULE'].'</td>'."\n";
-	// echo '    <td'._tdcss('70%',false,_sc()).'>'.$lang_new[$module_name]['MODULE'].'</td>'."\n";
+	// echo '    <td'._tdcss('30%','right',_sc()).'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE'].'</td>'."\n";
+	// echo '    <td'._tdcss('70%',false,_sc()).'>'.$titanium_lang_new[$titanium_module_name]['MODULE'].'</td>'."\n";
 	// echo '  </tr>'."\n".'<tr'._bgColor(1).'>'."\n";
-	// echo '    <td'._tdcss('30%','right',_sc()).'>'.$lang_new[$module_name]['COPYRIGHT_MODULE_VERSION'].'</td>'."\n";
+	// echo '    <td'._tdcss('30%','right',_sc()).'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_VERSION'].'</td>'."\n";
 	// echo '    <td'._tdcss('70%',false,_sc()).'>'.$settings['version'].'</td>'."\n";
 	// echo '  </tr>'."\n".'<tr'._bgColor(1).'>'."\n";
-	// echo '    <td'._tdcss('30%','right',_sc()).'>'.$lang_new[$module_name]['COPYRIGHT_MODULE_DESCRIPTION'].'</td>'."\n";
-	// echo '    <td'._tdcss('70%',false,_sc()).'>'.$lang_new[$module_name]['COPYRIGHT_MODULE_TEXT'].'</td>'."\n";
+	// echo '    <td'._tdcss('30%','right',_sc()).'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_DESCRIPTION'].'</td>'."\n";
+	// echo '    <td'._tdcss('70%',false,_sc()).'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_TEXT'].'</td>'."\n";
 	// echo '  </tr>'."\n".'<tr'._bgColor(1).'>'."\n";
-	// echo '    <td'._tdcss('30%','right',_sc()).'>'.$lang_new[$module_name]['COPYRIGHT_LICENSE'].'</td>'."\n";
+	// echo '    <td'._tdcss('30%','right',_sc()).'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_LICENSE'].'</td>'."\n";
 	// echo '    <td'._tdcss('70%',false,_sc()).'>GNU/GPL</td>'."\n";
 	// echo '  </tr>'."\n".'<tr'._bgColor(1).'>'."\n";
-	// echo '    <td'._tdcss('30%','right',_sc()).'>'.$lang_new[$module_name]['COPYRIGHT_MODULE_AUTHOR'].'</td>'."\n";
+	// echo '    <td'._tdcss('30%','right',_sc()).'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_AUTHOR'].'</td>'."\n";
 	// echo '    <td'._tdcss('70%',false,_sc()).'>Lonestar</td>'."\n";
 	// echo '  </tr>'."\n".'<tr'._bgColor(1).'>'."\n";
-	// echo '    <td'._tdcss('30%','right',_sc()).'><strong>'.$lang_new[$module_name]['COPYRIGHT_MODULE_EMAIL'].'</strong></td>'."\n";
+	// echo '    <td'._tdcss('30%','right',_sc()).'><strong>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_EMAIL'].'</strong></td>'."\n";
 	// echo '    <td'._tdcss('70%',false,_sc()).'>crazycoder@live.co.uk</td>'."\n";
 	// echo '  </tr>'."\n".'<tr'._bgColor(1).'>'."\n";
 	// echo '    <td'._tdcss('30%','right',_sc()).'><strong>Author Homepage</strong></td>'."\n";
 	// echo '    <td'._tdcss('70%',false,_sc()).'><a'._ls().' href="http://lonestar-modules.com">lonestar-modules</a></td>'."\n";
 	// echo '  </tr>'."\n".'<tr'._bgColor(2).'>'."\n";
-	// echo '	  <td'._tdcss(false,'center',_sf(),2).'>[ <a'._ls().' href="http://lonestar-modules.com" target="_blank">'.$lang_new[$module_name]['COPYRIGHT_MODULE_HOME'].'</a> | <a'._ls().' href="http://lonestar-modules.com/modules.php?name=File_Repository&action=view&did=33" target="_blank">'.$lang_new[$module_name]['COPYRIGHT_MODULE_DOWNLOAD'].'</a> ]</td>'."\n";
+	// echo '	  <td'._tdcss(false,'center',_sf(),2).'>[ <a'._ls().' href="http://lonestar-modules.com" target="_blank">'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_HOME'].'</a> | <a'._ls().' href="http://lonestar-modules.com/modules.php?name=File_Repository&action=view&did=33" target="_blank">'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_DOWNLOAD'].'</a> ]</td>'."\n";
 	// echo '  </tr>'."\n";
 	// echo '</table>'."\n";
 	// echo '</div>';
-	echo '<a data-modal href="#ex1" style="cursor: pointer; float: right; letter-spacing: 1px;">'.$lang_new[$module_name]['MODULE'].'&nbsp;'.$settings['version'].' &copy;</a>';
+	echo '<a data-modal href="#ex1" style="cursor: pointer; float: right; letter-spacing: 1px;">'.$titanium_lang_new[$titanium_module_name]['MODULE'].'&nbsp;'.$settings['version'].' &copy;</a>';
 }
 //---------------------------------------------------------------------
 
 function _collect_iteminfo($id,$isfile=false)
 {
-	global $db, $lang_new, $module_name, $settings;
+	global $titanium_db, $titanium_lang_new, $titanium_module_name, $settings;
 	$where = ($isfile == false) ? ' WHERE dn.`did`="'.$id.'"' : 'WHERE fl.`fid`="'.$id.'"';
-	$result = $db->sql_query("
+	$result = $titanium_db->sql_query("
 			SELECT dn.*, fl.*, COUNT(cm.cid) as comments, SUM(filesize) as filesize, COUNT(fl.did) as filecount
 				FROM (`"._FILE_REPOSITORY_ITEMS."` AS dn)
 					LEFT JOIN `"._FILE_REPOSITORY_COMMENTS."` as cm ON (cm.did = dn.did)
 					LEFT JOIN `"._FILE_REPOSITORY_FILES."` as fl ON (fl.did = dn.did)".$where.' GROUP BY dn.cid, dn.did, fl.fid');
-	$row = $db->sql_fetchrow($result);
+	$row = $titanium_db->sql_fetchrow($result);
 
-	list( $total_attach_files ) = $db->sql_ufetchrow( "select count(*) from `"._FILE_REPOSITORY_FILES."` where `did`='".$id."'" );
+	list( $total_phpbb2_attach_files ) = $titanium_db->sql_ufetchrow( "select count(*) from `"._FILE_REPOSITORY_FILES."` where `did`='".$id."'" );
 
 	if($row['author'])
 		$iteminfo['author']			= (!defined('NUKE_EVO')) ? $row['author'] : UsernameColor($row['author']);
 	else
-		$iteminfo['author']			= $lang_new[$module_name]['NA'];
+		$iteminfo['author']			= $titanium_lang_new[$titanium_module_name]['NA'];
 	$iteminfo['author_email'] 	= $row['author_email'];
-	$iteminfo['author_www'] 	= ($row['author_website']) ? '<a href="http://'.str_replace('http://','',$row['author_website']).'" target="_blank" alt="'.$lang_new[$module_name]['AUTHOR_WEBSITE'].'" title="'.$lang_new[$module_name]['AUTHOR_WEBSITE'].'"><span class="dm-sprite www"></span></a><span style="margin-left: 5px;">'.$iteminfo['author'].'</span>' : $iteminfo['author'];	
+	$iteminfo['author_www'] 	= ($row['author_website']) ? '<a href="http://'.str_replace('http://','',$row['author_website']).'" target="_blank" alt="'.$titanium_lang_new[$titanium_module_name]['AUTHOR_WEBSITE'].'" title="'.$titanium_lang_new[$titanium_module_name]['AUTHOR_WEBSITE'].'"><span class="dm-sprite www"></span></a><span style="margin-left: 5px;">'.$iteminfo['author'].'</span>' : $iteminfo['author'];	
 	$iteminfo['cid'] 			= $row['cid'];
 	$iteminfo['color'] 			= $row['color'];
 	$iteminfo['comments']		= $row['comments'];
 	$iteminfo['date'] 			= _timestamp($row['date'],$settings['date_format']);
 	$iteminfo['description'] 	= stripslashes($row['description']);
 	$iteminfo['did'] 			= $row['did'];
-	$iteminfo['filecount']		= $total_attach_files;
+	$iteminfo['filecount']		= $total_phpbb2_attach_files;
 	$iteminfo['fid']			= $row['fid'];
 	$iteminfo['filename']		= $row['filename'];
 	$iteminfo['fixes']			= $row['fixes'];
@@ -683,10 +683,10 @@ function _collect_iteminfo($id,$isfile=false)
 	return $iteminfo;
 }
 
-function _colorization($title,$color,$bold=false)
+function _colorization($title,$phpbb2_color,$bold=false)
 {
 	global $settings;
-	return '<span class="color_title" style="'.(($bold == true) ? 'font-weight:bold;' : '').'color:'.$color.';">'._sut($title).'</span>';
+	return '<span class="color_title" style="'.(($bold == true) ? 'font-weight:bold;' : '').'color:'.$phpbb2_color.';">'._sut($title).'</span>';
 }
 
 //----------------------------------------------------------------------------------
@@ -834,7 +834,7 @@ function _convert2bytes($value)
 //---------------------------------------------------------------------
 function _decode_bbcode_text($text,$parse_smilies=false)
 {
-	global $lang_new, $module_name;
+	global $titanium_lang_new, $titanium_module_name;
 	$text = trim($text);
 	# [ul] and [/ul]
 	$text = preg_replace_callback("(\[ul\](.*?)\[/ul\])is", function($m) { return '<ul style="display: block; list-style-type: disc;">'.$m[1].'</ul>'; }, $text);
@@ -919,39 +919,39 @@ function _decode_bbcode_text($text,$parse_smilies=false)
 //---------------------------------------------------------------------
 	if($parse_smilies == 1)
 	{
-		$text = str_replace(':)',			'<img src="modules/'.$module_name.'/images/emoticons/smile.png" border="0" />',$text);
-		$text = str_replace(':angel:',		'<img src="modules/'.$module_name.'/images/emoticons/angel.png" border="0" />',$text);
-		$text = str_replace(':angry:',		'<img src="modules/'.$module_name.'/images/emoticons/angry.png" border="0" />',$text);
-		$text = str_replace('8-)',			'<img src="modules/'.$module_name.'/images/emoticons/cool.png" border="0" />',$text);
-		$text = str_replace(':\'(',			'<img src="modules/'.$module_name.'/images/emoticons/cwy.png" border="0" />',$text);
-		$text = str_replace(':ermm:',		'<img src="modules/'.$module_name.'/images/emoticons/ermm.png" border="0" />',$text);
-		$text = str_replace(':D',			'<img src="modules/'.$module_name.'/images/emoticons/grin.png" border="0" />',$text);
-		$text = str_replace('<3',			'<img src="modules/'.$module_name.'/images/emoticons/heart.png" border="0" />',$text);
-		$text = str_replace(':(',			'<img src="modules/'.$module_name.'/images/emoticons/sad.png" border="0" />',$text);
-		$text = str_replace(':O',			'<img src="modules/'.$module_name.'/images/emoticons/shocked.png" border="0" />',$text);
-		$text = str_replace(':P',			'<img src="modules/'.$module_name.'/images/emoticons/tongue.png" border="0" />',$text);
-		$text = str_replace(';)',			'<img src="modules/'.$module_name.'/images/emoticons/wink.png" border="0" />',$text);
-		$text = str_replace(':alien:',		'<img src="modules/'.$module_name.'/images/emoticons/alien.png" border="0" />',$text);
-		$text = str_replace(':blink:',		'<img src="modules/'.$module_name.'/images/emoticons/blink.png" border="0" />',$text);
-		$text = str_replace(':blush:',		'<img src="modules/'.$module_name.'/images/emoticons/blush.png" border="0" />',$text);
-		$text = str_replace(':cheerful:',	'<img src="modules/'.$module_name.'/images/emoticons/cheerful.png" border="0" />',$text);
-		$text = str_replace(':devil:',		'<img src="modules/'.$module_name.'/images/emoticons/devil.png" border="0" />',$text);
-		$text = str_replace(':dizzy:',		'<img src="modules/'.$module_name.'/images/emoticons/dizzy.png" border="0" />',$text);
-		$text = str_replace(':getlost:',	'<img src="modules/'.$module_name.'/images/emoticons/getlost.png" border="0" />',$text);
-		$text = str_replace(':happy:',		'<img src="modules/'.$module_name.'/images/emoticons/happy.png" border="0" />',$text);
-		$text = str_replace(':kissing:',	'<img src="modules/'.$module_name.'/images/emoticons/kissing.png" border="0" />',$text);
-		$text = str_replace(':ninja:',		'<img src="modules/'.$module_name.'/images/emoticons/ninja.png" border="0" />',$text);
-		$text = str_replace(':pinch:',		'<img src="modules/'.$module_name.'/images/emoticons/pinch.png" border="0" />',$text);
-		$text = str_replace(':pouty:',		'<img src="modules/'.$module_name.'/images/emoticons/pouty.png" border="0" />',$text);
-		$text = str_replace(':sick:',		'<img src="modules/'.$module_name.'/images/emoticons/sick.png" border="0" />',$text);
-		$text = str_replace(':sideways:',	'<img src="modules/'.$module_name.'/images/emoticons/sideways.png" border="0" />',$text);
-		$text = str_replace(':silly:',		'<img src="modules/'.$module_name.'/images/emoticons/silly.png" border="0" />',$text);
-		$text = str_replace(':sleeping:',	'<img src="modules/'.$module_name.'/images/emoticons/sleeping.png" border="0" />',$text);
-		$text = str_replace(':unsure:',		'<img src="modules/'.$module_name.'/images/emoticons/unsure.png" border="0" />',$text);
-		$text = str_replace(':woot:',		'<img src="modules/'.$module_name.'/images/emoticons/w00t.png" border="0" />',$text);
-		$text = str_replace(':wassat:',		'<img src="modules/'.$module_name.'/images/emoticons/wassat.png" border="0" />',$text);
-		$text = str_replace(':whistling:',	'<img src="modules/'.$module_name.'/images/emoticons/whistling.png" border="0" />',$text);
-		$text = str_replace(':love:',		'<img src="modules/'.$module_name.'/images/emoticons/wub.png" border="0" />',$text);
+		$text = str_replace(':)',			'<img src="modules/'.$titanium_module_name.'/images/emoticons/smile.png" border="0" />',$text);
+		$text = str_replace(':angel:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/angel.png" border="0" />',$text);
+		$text = str_replace(':angry:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/angry.png" border="0" />',$text);
+		$text = str_replace('8-)',			'<img src="modules/'.$titanium_module_name.'/images/emoticons/cool.png" border="0" />',$text);
+		$text = str_replace(':\'(',			'<img src="modules/'.$titanium_module_name.'/images/emoticons/cwy.png" border="0" />',$text);
+		$text = str_replace(':ermm:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/ermm.png" border="0" />',$text);
+		$text = str_replace(':D',			'<img src="modules/'.$titanium_module_name.'/images/emoticons/grin.png" border="0" />',$text);
+		$text = str_replace('<3',			'<img src="modules/'.$titanium_module_name.'/images/emoticons/heart.png" border="0" />',$text);
+		$text = str_replace(':(',			'<img src="modules/'.$titanium_module_name.'/images/emoticons/sad.png" border="0" />',$text);
+		$text = str_replace(':O',			'<img src="modules/'.$titanium_module_name.'/images/emoticons/shocked.png" border="0" />',$text);
+		$text = str_replace(':P',			'<img src="modules/'.$titanium_module_name.'/images/emoticons/tongue.png" border="0" />',$text);
+		$text = str_replace(';)',			'<img src="modules/'.$titanium_module_name.'/images/emoticons/wink.png" border="0" />',$text);
+		$text = str_replace(':alien:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/alien.png" border="0" />',$text);
+		$text = str_replace(':blink:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/blink.png" border="0" />',$text);
+		$text = str_replace(':blush:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/blush.png" border="0" />',$text);
+		$text = str_replace(':cheerful:',	'<img src="modules/'.$titanium_module_name.'/images/emoticons/cheerful.png" border="0" />',$text);
+		$text = str_replace(':devil:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/devil.png" border="0" />',$text);
+		$text = str_replace(':dizzy:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/dizzy.png" border="0" />',$text);
+		$text = str_replace(':getlost:',	'<img src="modules/'.$titanium_module_name.'/images/emoticons/getlost.png" border="0" />',$text);
+		$text = str_replace(':happy:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/happy.png" border="0" />',$text);
+		$text = str_replace(':kissing:',	'<img src="modules/'.$titanium_module_name.'/images/emoticons/kissing.png" border="0" />',$text);
+		$text = str_replace(':ninja:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/ninja.png" border="0" />',$text);
+		$text = str_replace(':pinch:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/pinch.png" border="0" />',$text);
+		$text = str_replace(':pouty:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/pouty.png" border="0" />',$text);
+		$text = str_replace(':sick:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/sick.png" border="0" />',$text);
+		$text = str_replace(':sideways:',	'<img src="modules/'.$titanium_module_name.'/images/emoticons/sideways.png" border="0" />',$text);
+		$text = str_replace(':silly:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/silly.png" border="0" />',$text);
+		$text = str_replace(':sleeping:',	'<img src="modules/'.$titanium_module_name.'/images/emoticons/sleeping.png" border="0" />',$text);
+		$text = str_replace(':unsure:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/unsure.png" border="0" />',$text);
+		$text = str_replace(':woot:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/w00t.png" border="0" />',$text);
+		$text = str_replace(':wassat:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/wassat.png" border="0" />',$text);
+		$text = str_replace(':whistling:',	'<img src="modules/'.$titanium_module_name.'/images/emoticons/whistling.png" border="0" />',$text);
+		$text = str_replace(':love:',		'<img src="modules/'.$titanium_module_name.'/images/emoticons/wub.png" border="0" />',$text);
 	}
 //---------------------------------------------------------------------
 	$text = nl2br($text);
@@ -963,21 +963,21 @@ function _decode_bbcode_text($text,$parse_smilies=false)
 //---------------------------------------------------------------------
 function _escape_string($query)
 {
-	global $db;
+	global $titanium_db;
 	return (!defined('NUKE_EVO')) ? FixQuotes($query) : Fix_Quotes($query);
 }
 //---------------------------------------------------------------------
 
 function _grab_the_items_screenshots($did)
 {
-	global $db, $module_name, $settings;
+	global $titanium_db, $titanium_module_name, $settings;
 	$sql 	= "SELECT * FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$did."'";
-	$result = $db->sql_query($sql);
-	$count 	= $db->sql_numrows($result);
+	$result = $titanium_db->sql_query($sql);
+	$count 	= $titanium_db->sql_numrows($result);
 	$jcarousel .= '  <div class="jcarousel-wrapper">'."\n";
 	$jcarousel .= '    <div class="jcarousel thumbnail_border">'."\n";
 	$jcarousel .= '      <ul>'."\n";
-	while($screen = $db->sql_fetchrow($result))
+	while($screen = $titanium_db->sql_fetchrow($result))
 	{
 		if(file_exists(_FILE_REPOSITORY_SCREENS.$screen['filename']))
 		{
@@ -988,7 +988,7 @@ function _grab_the_items_screenshots($did)
 			$jcarousel .= '</li>'."\n";
 		}
 	}
-	$db->sql_freeresult($result);
+	$titanium_db->sql_freeresult($result);
 	$jcarousel .= '      </ul>'."\n";
 	$jcarousel .= '    </div>'."\n";
 	if($count > 1)
@@ -1046,22 +1046,22 @@ function _image_viewer($slideshow)
 
 function _index_navigation_header()
 {
-	global $db, $admin_file, $lang_new, $module_name, $admin, $settings, $bgcolor, $userinfo;		
+	global $titanium_db, $admin_file, $titanium_lang_new, $titanium_module_name, $admin, $settings, $bgcolor, $userinfo;		
 	echo '<table style="width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '	<tr'._bgColor(2).'>'."\n";
-	echo '	  <td'._tdcss(false,'center',_sh(),6).'>'._suh($lang_new[$module_name]['MODULE']).'</td>'."\n";
+	echo '	  <td'._tdcss(false,'center',_sh(),6).'>'._suh($titanium_lang_new[$titanium_module_name]['MODULE']).'</td>'."\n";
 	echo '  </tr>'."\n";		
 	echo '  <tr'._bgColor(1).'>'."\n";
-	echo '    <td'._tdcss('16.6%','center',_sc()).'><a'._ls().' href="modules.php?name='.$module_name.'">'._sut($lang_new[$module_name]['MAIN']).'</a></td>'."\n";
-	echo '    <td'._tdcss('16.6%','center',_sc()).'><a'._ls().' href="modules.php?name='.$module_name.'&amp;action=newdownloads">'._sut($lang_new[$module_name]['NEW']).'</a></td>'."\n";
-	echo '    <td'._tdcss('16.6%','center',_sc()).'><a'._ls().' href="modules.php?name='.$module_name.'&amp;action=mostpopular">'._sut($lang_new[$module_name]['POPULAR']).'</a></td>'."\n";
-	echo '    <td'._tdcss('16.6%','center',_sc()).'><a'._ls().' href="modules.php?name='.$module_name.'&amp;action=statistics">'._sut($lang_new[$module_name]['STATISTICS']).'</a></td>'."\n";
-	echo '    <td'._tdcss('16.6%','center',_sc()).'><a'._ls().' href="modules.php?name='.$module_name.'&amp;action=search">'._sut($lang_new[$module_name]['SEARCH']).'</a></td>'."\n";
+	echo '    <td'._tdcss('16.6%','center',_sc()).'><a'._ls().' href="modules.php?name='.$titanium_module_name.'">'._sut($titanium_lang_new[$titanium_module_name]['MAIN']).'</a></td>'."\n";
+	echo '    <td'._tdcss('16.6%','center',_sc()).'><a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=newdownloads">'._sut($titanium_lang_new[$titanium_module_name]['NEW']).'</a></td>'."\n";
+	echo '    <td'._tdcss('16.6%','center',_sc()).'><a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=mostpopular">'._sut($titanium_lang_new[$titanium_module_name]['POPULAR']).'</a></td>'."\n";
+	echo '    <td'._tdcss('16.6%','center',_sc()).'><a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=statistics">'._sut($titanium_lang_new[$titanium_module_name]['STATISTICS']).'</a></td>'."\n";
+	echo '    <td'._tdcss('16.6%','center',_sc()).'><a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=search">'._sut($titanium_lang_new[$titanium_module_name]['SEARCH']).'</a></td>'."\n";
 	echo '    <td'._tdcss('16.6%','center',_sc()).'>';
 	if($settings['users_can_upload'] == true):
-		echo '      <a'._ls().' href="modules.php?name='.$module_name.'&amp;action=submitdownload">'._sut($lang_new[$module_name]['SUBMITDOWNLOAD']).'</a>';
+		echo '      <a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=submitdownload">'._sut($titanium_lang_new[$titanium_module_name]['SUBMITDOWNLOAD']).'</a>';
 	else:
-		echo '      <span style="text-decoration: line-through;">'._sut($lang_new[$module_name]['SUBMITDOWNLOAD']).'</span>';
+		echo '      <span style="text-decoration: line-through;">'._sut($titanium_lang_new[$titanium_module_name]['SUBMITDOWNLOAD']).'</span>';
 	endif;
 	echo '    </td>'."\n";
 	echo '  </tr>'."\n";
@@ -1069,20 +1069,20 @@ function _index_navigation_header()
 	if($settings['show_legend'] == true):
 
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '    <td'._tdcss(false,'center',_sh(),6).'>'._suh($lang_new[$module_name]['LEGEND']).'</td>'."\n";
+		echo '    <td'._tdcss(false,'center',_sh(),6).'>'._suh($titanium_lang_new[$titanium_module_name]['LEGEND']).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '	<tr'._bgColor(1).'>'."\n";
 		echo '	  <td'._tdcss(false,'center',_sc(),6).'>'."\n";		
 		echo '      <table width="100%" border="0" cellpadding="0" cellspacing="0">'."\n";
 		echo '        <tr>'."\n";
-		echo '	        <td'._tdcss('33%','center').'>'._sut($lang_new[$module_name]['NEW_TODAY']).' (<span class="legend-images-sprite legend_new_today"></span>)</td>'."\n";
-		echo '	        <td'._tdcss('34%','center').'>'._sut($lang_new[$module_name]['NEW_LAST_3DAY']).' (<span class="legend-images-sprite legend_new_3_today"></span>)</td>'."\n";
-		echo '	        <td'._tdcss('33%','center').'>'._sut($lang_new[$module_name]['NEW_THIS_WEEK']).' (<span class="legend-images-sprite legend_new_this_week"></span>)</td>'."\n";
+		echo '	        <td'._tdcss('33%','center').'>'._sut($titanium_lang_new[$titanium_module_name]['NEW_TODAY']).' (<span class="legend-images-sprite legend_new_today"></span>)</td>'."\n";
+		echo '	        <td'._tdcss('34%','center').'>'._sut($titanium_lang_new[$titanium_module_name]['NEW_LAST_3DAY']).' (<span class="legend-images-sprite legend_new_3_today"></span>)</td>'."\n";
+		echo '	        <td'._tdcss('33%','center').'>'._sut($titanium_lang_new[$titanium_module_name]['NEW_THIS_WEEK']).' (<span class="legend-images-sprite legend_new_this_week"></span>)</td>'."\n";
 		echo '        </tr>'."\n";	
 		echo '        <tr>'."\n";
-		echo '	        <td'._tdcss('33%','center').'>'._sut($lang_new[$module_name]['UPDATED_TODAY']).' (<span class="legend-images-sprite legend_updated_today"></span>)</td>'."\n";
-		echo '	        <td'._tdcss('34%','center').'>'._sut($lang_new[$module_name]['UPDATED_LAST_3DAY']).' (<span class="legend-images-sprite legend_updated_3_days"></span>)</td>'."\n";
-		echo '	        <td'._tdcss('33%','center').'>'._sut($lang_new[$module_name]['UPDATED_THIS_WEEK']).' (<span class="legend-images-sprite legend_updated_this_week"></span>)</td>'."\n";
+		echo '	        <td'._tdcss('33%','center').'>'._sut($titanium_lang_new[$titanium_module_name]['UPDATED_TODAY']).' (<span class="legend-images-sprite legend_updated_today"></span>)</td>'."\n";
+		echo '	        <td'._tdcss('34%','center').'>'._sut($titanium_lang_new[$titanium_module_name]['UPDATED_LAST_3DAY']).' (<span class="legend-images-sprite legend_updated_3_days"></span>)</td>'."\n";
+		echo '	        <td'._tdcss('33%','center').'>'._sut($titanium_lang_new[$titanium_module_name]['UPDATED_THIS_WEEK']).' (<span class="legend-images-sprite legend_updated_this_week"></span>)</td>'."\n";
 		echo '        </tr>'."\n";
 		echo '      </table>'."\n";		
 		echo '    </td>'."\n";
@@ -1093,7 +1093,7 @@ function _index_navigation_header()
 	if($settings['overview_display'] == true && in_array($_GET['action'],explode(',',$settings['overview_display_areas'])) || $_GET['action'] == ''):
 
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '    <td'._tdcss(false,'center',_sh(),6).'>'._suh($lang_new[$module_name]['OVERVIEW']).'</td>'."\n";
+		echo '    <td'._tdcss(false,'center',_sh(),6).'>'._suh($titanium_lang_new[$titanium_module_name]['OVERVIEW']).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
 		echo '    <td'._tdcss(false,false,_sc(),6).'>';
@@ -1103,36 +1103,36 @@ function _index_navigation_header()
 		echo '	        <td'._tdcss('50%',false,_sc()).' valign="top">';
 		echo '            <table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 		echo '              <tr'._bgColor(2).'>'."\n";
-		echo '	              <td'._tdcss(false,'center',_sh(),3).'>'._suh($lang_new[$module_name]['LATEST_FILES']).'</td>';
+		echo '	              <td'._tdcss(false,'center',_sh(),3).'>'._suh($titanium_lang_new[$titanium_module_name]['LATEST_FILES']).'</td>';
 		echo '              </tr>'."\n";
 		$sql 	 = "SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isactive` = 1 && `isapproved` = 1 && `isbroken` = 0 ORDER BY `date` DESC LIMIT 0,".$settings['overview_count'];
-		$result  = $db->sql_query($sql);
-		$numrows = $db->sql_numrows($result);
+		$result  = $titanium_db->sql_query($sql);
+		$numrows = $titanium_db->sql_numrows($result);
 		if($numrows > 0):
 		
 			echo '              <tr'._bgColor(2).'>'."\n";
 			echo '	              <td'._tdcss(false,'center',_sh()).'>#</td>';
-			echo '	              <td'._tdcss(false,false,_sh()).'>'._suh($lang_new[$module_name]['DOWNLOAD']).'</td>';
-			echo '	              <td'._tdcss(false,'center',_sh()).'>'._suh($lang_new[$module_name]['HITS']).'</td>';
+			echo '	              <td'._tdcss(false,false,_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['DOWNLOAD']).'</td>';
+			echo '	              <td'._tdcss(false,'center',_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['HITS']).'</td>';
 			echo '              </tr>'."\n";
 			$x = 1;
-			while($lf = $db->sql_fetchrow($result)):
+			while($lf = $titanium_db->sql_fetchrow($result)):
 			
 				$iteminfo['isnew'] = (($lf['isupdated'] == '0000-00-00 00:00:00') ? $lf['date'] : $lf['isupdated']);
 				echo '              <tr'._bgColor(1).'>'."\n";
 				echo '	              <td'._tdcss('7%','center',_sc()).'>'.$x.'</td>';
-				echo '	              <td'._tdcss('78%',false,_sc()).'><a'._ls().' href="modules.php?name='.$module_name.'&amp;action=view&amp;did='.$lf['did'].'#'.$lf['did'].'">'._colorization($lf['title'],$lf['color']).'</a>'._item_is_new($iteminfo['isnew'],$lf['isupdated'])._mostpopular($lf['hits']).'</td>';
+				echo '	              <td'._tdcss('78%',false,_sc()).'><a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=view&amp;did='.$lf['did'].'#'.$lf['did'].'">'._colorization($lf['title'],$lf['color']).'</a>'._item_is_new($iteminfo['isnew'],$lf['isupdated'])._mostpopular($lf['hits']).'</td>';
 				echo '	              <td'._tdcss('15%','center',_sc()).'>'.$lf['hits'].'</td>';
 				echo '              </tr>'."\n";
 				$x++;
 			
 			endwhile;
-			$db->sql_freeresult($result);
+			$titanium_db->sql_freeresult($result);
 
 		else:
 
 			echo '              <tr'._bgColor(2).'>'."\n";
-			echo '	              <td'._tdcss(false,'center',_sc(),3).'>'._sut($lang_new[$module_name]['NOINFO']).'</td>';
+			echo '	              <td'._tdcss(false,'center',_sc(),3).'>'._sut($titanium_lang_new[$titanium_module_name]['NOINFO']).'</td>';
 			echo '              </tr>'."\n";
 
 		endif;
@@ -1142,36 +1142,36 @@ function _index_navigation_header()
 		echo '	        <td'._tdcss('50%',false,_sc()).' valign="top">';
 		echo '            <table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 		echo '              <tr'._bgColor(2).'>'."\n";
-		echo '	              <td'._tdcss(false,'center',_sh(),3).'>'._suh($lang_new[$module_name]['MOST_DOWNLOADS']).'</td>';
+		echo '	              <td'._tdcss(false,'center',_sh(),3).'>'._suh($titanium_lang_new[$titanium_module_name]['MOST_DOWNLOADS']).'</td>';
 		echo '              </tr>'."\n";
 		$sql 	 = "SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `hits` <> 0 && `isactive` = 1 && `isapproved` = 1 && `isbroken` = 0 ORDER BY `hits` DESC LIMIT 0,".$settings['overview_count'];
-		$result  = $db->sql_query($sql);
-		$numrows = $db->sql_numrows($result);
+		$result  = $titanium_db->sql_query($sql);
+		$numrows = $titanium_db->sql_numrows($result);
 		if($numrows > 0):
 
 			echo '              <tr'._bgColor(2).'>'."\n";
 			echo '	              <td'._tdcss(false,'center',_sh()).'>#</td>';
-			echo '	              <td'._tdcss(false,false,_sh()).'>'._suh($lang_new[$module_name]['DOWNLOAD']).'</td>';
-			echo '	              <td'._tdcss(false,'center',_sh()).'>'._suh($lang_new[$module_name]['HITS']).'</td>';
+			echo '	              <td'._tdcss(false,false,_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['DOWNLOAD']).'</td>';
+			echo '	              <td'._tdcss(false,'center',_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['HITS']).'</td>';
 			echo '              </tr>'."\n";
 			$s = 1;
-			while($md = $db->sql_fetchrow($result)):
+			while($md = $titanium_db->sql_fetchrow($result)):
 
 				$iteminfo['isnew'] = (($md['isupdated'] == '0000-00-00 00:00:00') ? $md['date'] : $md['isupdated']);
 				echo '              <tr'._bgColor(1).'>'."\n";
 				echo '	              <td'._tdcss('7%','center',_sc()).'>'.$s.'</td>';
-				echo '	              <td'._tdcss('78%',false,_sc()).'><a'._ls().' href="modules.php?name='.$module_name.'&amp;action=view&amp;did='.$md['did'].'">'._colorization($md['title'],$md['color']).'</a>'._item_is_new($iteminfo['isnew'],$md['isupdated'])._mostpopular($md['hits']).'</td>';
+				echo '	              <td'._tdcss('78%',false,_sc()).'><a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=view&amp;did='.$md['did'].'">'._colorization($md['title'],$md['color']).'</a>'._item_is_new($iteminfo['isnew'],$md['isupdated'])._mostpopular($md['hits']).'</td>';
 				echo '	              <td'._tdcss('15%','center',_sc()).'>'.$md['hits'].'</td>';
 				echo '              </tr>'."\n";
 				$s++;
 
 			endwhile;
-			$db->sql_freeresult($result);
+			$titanium_db->sql_freeresult($result);
 
 		else:
 
 			echo '              <tr'._bgColor(2).'>'."\n";
-			echo '	              <td'._tdcss(false,'center',_sc(),3).'>'._sut($lang_new[$module_name]['NOINFO']).'</td>';
+			echo '	              <td'._tdcss(false,'center',_sc(),3).'>'._sut($titanium_lang_new[$titanium_module_name]['NOINFO']).'</td>';
 			echo '              </tr>'."\n";
 		
 		endif;
@@ -1184,13 +1184,13 @@ function _index_navigation_header()
 	
 	endif;
 	echo '  <tr'._bgColor(2).'>'."\n";
-	echo '    <td'._tdcss(false,'center',_sf(),6).'>'.((is_admin($admin)) ? '[&#8618;] <a'._ls().' href="'.$admin_file.'.php?op=file_repository">'._suh($lang_new[$module_name]['ADMINISTRATION_MODULE']).'</a> [&#8617;]' : '&nbsp;').'</td>'."\n";
+	echo '    <td'._tdcss(false,'center',_sf(),6).'>'.((is_admin($admin)) ? '[&#8618;] <a'._ls().' href="'.$admin_file.'.php?op=file_repository">'._suh($titanium_lang_new[$titanium_module_name]['ADMINISTRATION_MODULE']).'</a> [&#8617;]' : '&nbsp;').'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '</table>'."\n";
 
 	$sql 	 = "SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isapproved` = 0 && `isbroken` = 0 && `suid` = '".$userinfo['user_id']."' ORDER BY `date`";
-	$result  = $db->sql_query($sql);
-	$waiting = $db->sql_numrows($result);
+	$result  = $titanium_db->sql_query($sql);
+	$waiting = $titanium_db->sql_numrows($result);
 
 	$settings['show_user_awaiting_approval_message'] = true;
 	if($settings['show_user_awaiting_approval_message'] && $waiting > 0):
@@ -1198,11 +1198,11 @@ function _index_navigation_header()
 		echo '<br />';
 		echo '<table style="width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 		echo '	<tr'._bgColor(2).'>'."\n";
-		echo '	  <td'._tdcss(false,'center',_sh(),2).'>'._suh($lang_new[$module_name]['SUBMITTED_HEADER']).'</td>'."\n";
+		echo '	  <td'._tdcss(false,'center',_sh(),2).'>'._suh($titanium_lang_new[$titanium_module_name]['SUBMITTED_HEADER']).'</td>'."\n";
 		echo '  </tr>'."\n";
 
 		$x = 1;
-		while($awaiting = $db->sql_fetchrow($result)):
+		while($awaiting = $titanium_db->sql_fetchrow($result)):
 
 			echo '  <tr'._bgColor(1).'>'."\n";
 			echo '	  <td'._tdcss('5%','center',_sc()).'>'.$x.'</td>'."\n";
@@ -1222,7 +1222,7 @@ function _index_navigation_header()
 
 function _item_is_new($time,$update)
 {
-	global $lang_new, $module_name;
+	global $titanium_lang_new, $titanium_module_name;
 	$startdate = time();
     $count = 0;
     $checktime = time() - strtotime($time);
@@ -1230,21 +1230,21 @@ function _item_is_new($time,$update)
 	if ($update == '0000-00-00 00:00:00'):
 
         if ($checktime <= 86400 ):
-			return ('&nbsp;<span class="legend-images-sprite legend_new_today" alt="'.$lang_new[$module_name]['NEW_TODAY'].'" title="'.$lang_new[$module_name]['NEW_TODAY'].'"></span>'); 
+			return ('&nbsp;<span class="legend-images-sprite legend_new_today" alt="'.$titanium_lang_new[$titanium_module_name]['NEW_TODAY'].'" title="'.$titanium_lang_new[$titanium_module_name]['NEW_TODAY'].'"></span>'); 
 		elseif ($checktime <= 259200):
-			return ('&nbsp;<span class="legend-images-sprite legend_new_3_today" alt="'.$lang_new[$module_name]['NEW_LAST_3DAY'].'" title="'.$lang_new[$module_name]['NEW_LAST_3DAY'].'"></span>'); 
+			return ('&nbsp;<span class="legend-images-sprite legend_new_3_today" alt="'.$titanium_lang_new[$titanium_module_name]['NEW_LAST_3DAY'].'" title="'.$titanium_lang_new[$titanium_module_name]['NEW_LAST_3DAY'].'"></span>'); 
 		elseif ($checktime <= 604800):
-			return ('&nbsp;<span class="legend-images-sprite legend_new_this_week" alt="'.$lang_new[$module_name]['NEW_THIS_WEEK'].'" title="'.$lang_new[$module_name]['NEW_THIS_WEEK'].'"></span>');
+			return ('&nbsp;<span class="legend-images-sprite legend_new_this_week" alt="'.$titanium_lang_new[$titanium_module_name]['NEW_THIS_WEEK'].'" title="'.$titanium_lang_new[$titanium_module_name]['NEW_THIS_WEEK'].'"></span>');
 		endif;
 
 	else:
 
 		if ($check_upd <= 86400):
-			return ('&nbsp;<span class="legend-images-sprite legend_updated_today" alt="'.$lang_new[$module_name]['UPDATED_TODAY'].'" title="'.$lang_new[$module_name]['UPDATED_TODAY'].'"></span>');
+			return ('&nbsp;<span class="legend-images-sprite legend_updated_today" alt="'.$titanium_lang_new[$titanium_module_name]['UPDATED_TODAY'].'" title="'.$titanium_lang_new[$titanium_module_name]['UPDATED_TODAY'].'"></span>');
 		elseif ($check_upd <= 259200):
-			return ('&nbsp;<span class="legend-images-sprite legend_updated_3_days" alt="'.$lang_new[$module_name]['UPDATED_LAST_3DAY'].'" title="'.$lang_new[$module_name]['UPDATED_LAST_3DAY'].'"></span>');
+			return ('&nbsp;<span class="legend-images-sprite legend_updated_3_days" alt="'.$titanium_lang_new[$titanium_module_name]['UPDATED_LAST_3DAY'].'" title="'.$titanium_lang_new[$titanium_module_name]['UPDATED_LAST_3DAY'].'"></span>');
 		elseif ($check_upd <= 604800):
-			return ('&nbsp;<span class="legend-images-sprite legend_updated_this_week" alt="'.$lang_new[$module_name]['UPDATED_THIS_WEEK'].'" title="'.$lang_new[$module_name]['UPDATED_THIS_WEEK'].'"></span>');
+			return ('&nbsp;<span class="legend-images-sprite legend_updated_this_week" alt="'.$titanium_lang_new[$titanium_module_name]['UPDATED_THIS_WEEK'].'" title="'.$titanium_lang_new[$titanium_module_name]['UPDATED_THIS_WEEK'].'"></span>');
 		endif;
 
 	endif;
@@ -1270,8 +1270,8 @@ function _sh($view=true)
 
 function _list_available_permission_groups($name, $value)
 {
-	global $db, $lang_new, $module_name, $settings;		
-	$result = $db->sql_query("SELECT * FROM `"._GROUPS_TABLE."` WHERE `group_single_user` != '1' ORDER BY `group_name`");
+	global $titanium_db, $titanium_lang_new, $titanium_module_name, $settings;		
+	$result = $titanium_db->sql_query("SELECT * FROM `"._GROUPS_TABLE."` WHERE `group_single_user` != '1' ORDER BY `group_name`");
 	$groups  = '<select class="glowing-border"';
 	$groups .= ' style="';
 	$groups .= 'border: 1px solid; ';
@@ -1282,20 +1282,20 @@ function _list_available_permission_groups($name, $value)
 	$groups .= 'margin: 0px 1px 1px; ';
 	$groups .= ((!defined('NUKE_EVO')) ? 'padding: 4px; ' : 'padding: 5px; ');
 	$groups .= 'text-transform: '.(($settings['utext'] == 1) ? 'uppercase' : 'none').';" name="'.$name.'">';
-	$groups .= '        <optgroup label="'.$lang_new[$module_name]['GROUPS_GENERAL'].'">'."\n";
-	$groups .= '          <option value="0" '.(($value == '' || $value == 0) ? 'selected="selected"' : '').'>'.$lang_new[$module_name]['ALL_VISITORS'].'</option>'."\n";
-	$groups .= '          <option value="1" '.(($value == 1) ? 'selected="selected"' : '').'>'.$lang_new[$module_name]['REGISTERED'].'</option>'."\n";
-	$groups .= '          <option value="2" '.(($value == 2) ? 'selected="selected"' : '').'>'.$lang_new[$module_name]['ADMINISTRATORS'].'</option>'."\n";
+	$groups .= '        <optgroup label="'.$titanium_lang_new[$titanium_module_name]['GROUPS_GENERAL'].'">'."\n";
+	$groups .= '          <option value="0" '.(($value == '' || $value == 0) ? 'selected="selected"' : '').'>'.$titanium_lang_new[$titanium_module_name]['ALL_VISITORS'].'</option>'."\n";
+	$groups .= '          <option value="1" '.(($value == 1) ? 'selected="selected"' : '').'>'.$titanium_lang_new[$titanium_module_name]['REGISTERED'].'</option>'."\n";
+	$groups .= '          <option value="2" '.(($value == 2) ? 'selected="selected"' : '').'>'.$titanium_lang_new[$titanium_module_name]['ADMINISTRATORS'].'</option>'."\n";
 	$groups .= '        </optgroup>'."\n";
-	if( $db->sql_numrows($result) > 0 )
+	if( $titanium_db->sql_numrows($result) > 0 )
 	{
-		$groups .= '    <optgroup label="'.$lang_new[$module_name]['FORUM_GROUPS'].'">'."\n";			
-		while($ginfo = $db->sql_fetchrow($result)) 
+		$groups .= '    <optgroup label="'.$titanium_lang_new[$titanium_module_name]['FORUM_GROUPS'].'">'."\n";			
+		while($ginfo = $titanium_db->sql_fetchrow($result)) 
 		{
 			$ginfo['group_id'] = $ginfo['group_id'] + 2;
 			$groups .= '  <option value="'.$ginfo['group_id'].'" '.(($value == $ginfo['group_id']) ? 'selected="selected"' : '').'>'._sut($ginfo['group_name']).'</option>'."\n";
 		}
-		$db->sql_freeresult($result);
+		$titanium_db->sql_freeresult($result);
 	}
 	$groups .= '      </select>'."\n";
 	return $groups;
@@ -1370,9 +1370,9 @@ function _input_numbers($n,$m=1,$t=100,$s=1,$v)
 
 function _kill_the_function()
 {
-    global $lang_new, $module_name;
+    global $titanium_lang_new, $titanium_module_name;
     CloseTable();
-    echo '<span style="float: right;"><a'._ls().' class="copyright-popup" href="javascript:void(0);">'.$lang_new[$module_name]['COPYRIGHT'].'</a></span>';
+    echo '<span style="float: right;"><a'._ls().' class="copyright-popup" href="javascript:void(0);">'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT'].'</a></span>';
     include_once(NUKE_BASE_DIR.'footer.php');
     die();
 }
@@ -1384,43 +1384,43 @@ function _ls()
 
 function _module_themes()
 {
-	global $db, $module_name, $lang_new;
+	global $titanium_db, $titanium_module_name, $titanium_lang_new;
 	static $themes;
     
 	if(isset($themes) && is_array($themes))
 		return $themes;
       
 	$sql 	= "SELECT `cell`, `head`, `per_row`, `show_left`, `theme_name` FROM `"._FILE_REPOSITORY_THEMES."`";    
-	$result = $db->sql_query($sql);
-	while ($row = $db->sql_fetchrow($result)) 
+	$result = $titanium_db->sql_query($sql);
+	while ($row = $titanium_db->sql_fetchrow($result)) 
 	{
 		$themes[$row['theme_name']]['per_row']   	= $row['per_row'];
 		$themes[$row['theme_name']]['show_left'] 	= $row['show_left'];
 		$themes[$row['theme_name']]['cell'] 		= $row['cell'];
 		$themes[$row['theme_name']]['head'] 		= $row['head'];
 	}
- 	$db->sql_freeresult($result);   
+ 	$titanium_db->sql_freeresult($result);   
 	return $themes;
 }
 
 function _mostpopular($hits) 
 {
-	global $lang_new, $module_name, $settings;
+	global $titanium_lang_new, $titanium_module_name, $settings;
 	if($hits >= $settings['pophits'])
-		return '&nbsp;<span class="legend-images-sprite legend_popular" alt="'.$lang_new[$module_name]['HOT'].'" title="'.$lang_new[$module_name]['HOT'].'"></span>';	
+		return '&nbsp;<span class="legend-images-sprite legend_popular" alt="'.$titanium_lang_new[$titanium_module_name]['HOT'].'" title="'.$titanium_lang_new[$titanium_module_name]['HOT'].'"></span>';	
 }
 
-function _redirect($redirect)
+function _redirect_titanium($redirect)
 {
 	if(function_exists('redirect'))
-		redirect($redirect);
+		redirect_titanium($redirect);
 	else
 		Header('Location:'.$redirect);
 }
 
 function _selectbox($n,$ops,$v,$r=false)
 {
-	global $lang_new, $module_name, $settings;
+	global $titanium_lang_new, $titanium_module_name, $settings;
 	$select  = '<select class="uppertext-style" id="'.$n.'" name="'.$n.'"';
 	$select .= ' style="';
 	$select .= 'border: 1px solid; ';
@@ -1441,16 +1441,16 @@ function _selectbox($n,$ops,$v,$r=false)
 
 function _settings_variables()
 {
-	global $db, $module_name, $lang_new;
+	global $titanium_db, $titanium_module_name, $titanium_lang_new;
 	static $settings;
 	
    	if(isset($settings) && is_array($settings))
 		return $settings;
 	
-	$result = $db->sql_query("SELECT `config_value`, `config_name` FROM `"._FILE_REPOSITORY_SETTINGS."`");
-	while ($row = $db->sql_fetchrow($result))
+	$result = $titanium_db->sql_query("SELECT `config_value`, `config_name` FROM `"._FILE_REPOSITORY_SETTINGS."`");
+	while ($row = $titanium_db->sql_fetchrow($result))
 		$settings[$row['config_name']] = $row['config_value'];
-	$db->sql_freeresult($result);
+	$titanium_db->sql_freeresult($result);
    	return $settings;
 }
 
@@ -1541,24 +1541,24 @@ function _timestamp($date,$format='M d, Y g:i a')
 
 function _user_is_within_group_name($gid,$isallowed=true) 
 {
-    global $db, $lang_new, $module_name;
+    global $titanium_db, $titanium_lang_new, $titanium_module_name;
 	
     if($isallowed == 0)
     {
-    	$groupname = '<span style="color: red;">'._sut($lang_new[$module_name]['UPLOAD_DISABLED']).'</span>';
+    	$groupname = '<span style="color: red;">'._sut($titanium_lang_new[$titanium_module_name]['UPLOAD_DISABLED']).'</span>';
     }
     else
     {
 	    if ($gid == 0)
-			$groupname = _sut($lang_new[$module_name]['ALL_VISITORS']);
+			$groupname = _sut($titanium_lang_new[$titanium_module_name]['ALL_VISITORS']);
 		elseif ($gid == 1)
-			$groupname = _sut($lang_new[$module_name]['REGISTERED']);
+			$groupname = _sut($titanium_lang_new[$titanium_module_name]['REGISTERED']);
 		elseif ($gid == 2)
-			$groupname = _sut($lang_new[$module_name]['ADMINISTRATORS']);
+			$groupname = _sut($titanium_lang_new[$titanium_module_name]['ADMINISTRATORS']);
 		elseif ($gid > 2) 
 		{
 			$group_id = ($gid - 2);
-			list($group_name) = $db->sql_fetchrow($db->sql_query("SELECT `group_name` FROM `"._GROUPS_TABLE."` WHERE `group_id`='$group_id'"));
+			list($group_name) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `group_name` FROM `"._GROUPS_TABLE."` WHERE `group_id`='$group_id'"));
 			$groupname = ((!defined('NUKE_EVO')) ? _sut($group_name) : _sut(GroupColor($group_name)));
 		}
 	}
@@ -1567,8 +1567,8 @@ function _user_is_within_group_name($gid,$isallowed=true)
 
 function _yesno($n,$v,$r=false)
 {
-	global $lang_new, $module_name;
-	return _selectbox($n,array(1 => $lang_new[$module_name]['Y'], 0 => $lang_new[$module_name]['N']),$v,$r);
+	global $titanium_lang_new, $titanium_module_name;
+	return _selectbox($n,array(1 => $titanium_lang_new[$titanium_module_name]['Y'], 0 => $titanium_lang_new[$titanium_module_name]['N']),$v,$r);
 }
 
 function _generate_rand_string()
@@ -1579,7 +1579,7 @@ function _generate_rand_string()
 
 function _client_side_file_upload($type,$upload,$uploaddir,$index)
 {
-	global $db, $lang_new, $module_name, $settings;
+	global $titanium_db, $titanium_lang_new, $titanium_module_name, $settings;
 	if (!empty($upload))
 	{
 		$file_extensions = $settings['allowed_file_extensions'];
@@ -1665,7 +1665,7 @@ function _client_side_file_upload($type,$upload,$uploaddir,$index)
 				} 
 				// else {
 				// 	$error     = 5;
-				// 	$error_msg = $lang_new[$module_name]['ERROR_IMAGEUPLOAD'];				
+				// 	$error_msg = $titanium_lang_new[$titanium_module_name]['ERROR_IMAGEUPLOAD'];				
 				// }
 			}
 		}

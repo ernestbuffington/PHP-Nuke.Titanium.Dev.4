@@ -25,21 +25,21 @@ global $useflags, $currentlang, $admin_file, $multilingual, $evouserinfo_addons,
 $evouserinfo_language = '';
 
 if ($multilingual) {
-    $langlist = lang_list();
+    $titanium_langlist = lang_list();
     
     $menulist = '';
-    $evouserinfo_language = '<div align="center">'.$lang_evo_userblock['BLOCK']['LANG']['SELECT'].'<br /><br />';
+    $evouserinfo_language = '<div align="center">'.$titanium_lang_evo_userblock['BLOCK']['LANG']['SELECT'].'<br /><br />';
     if ($useflags) {
-        for ($i = 0, $maxi = count($langlist); $i < $maxi; $i++) {
-            if ($langlist[$i]!='') {
-                $imge = 'images/language/flag-'.$langlist[$i].'.png';
-                $altlang = ucwords($langlist[$i]);
+        for ($i = 0, $maxi = count($titanium_langlist); $i < $maxi; $i++) {
+            if ($titanium_langlist[$i]!='') {
+                $imge = 'images/language/flag-'.$titanium_langlist[$i].'.png';
+                $altlang = ucwords($titanium_langlist[$i]);
                 if (defined('ADMIN_FILE')) {
-                    $evouserinfo_language .= '<a href="'.$qs.$langlist[$i].'">';
+                    $evouserinfo_language .= '<a href="'.$qs.$titanium_langlist[$i].'">';
                 } elseif (!$name) {
-                    $evouserinfo_language .= '<a href="index.php?newlang='.$langlist[$i]."\">";
+                    $evouserinfo_language .= '<a href="index.php?newlang='.$titanium_langlist[$i]."\">";
                 } else {
-                    $evouserinfo_language .= '<a href="modules.php?name='.$qs.$langlist[$i].'">';
+                    $evouserinfo_language .= '<a href="modules.php?name='.$qs.$titanium_langlist[$i].'">';
                 }
                 $evouserinfo_language .= (file_exists($imge)) ? "<img src=\"$imge\" align=\"middle\" border=\"0\" alt=\"$altlang\" title=\"$altlang\" hspace=\"3\" vspace=\"3\" />" : $altlang;
                 $evouserinfo_language .= '</a> ';
@@ -48,17 +48,17 @@ if ($multilingual) {
     } else {
         $evouserinfo_language .= '<form action="" method="get">
         <select name="newlanguage" onchange="top.location.href=this.options[this.selectedIndex].value">';
-        for ($i=0, $maxi=count($langlist); $i < $maxi; $i++) {
-            if ($langlist[$i]!='') {
+        for ($i=0, $maxi=count($titanium_langlist); $i < $maxi; $i++) {
+            if ($titanium_langlist[$i]!='') {
                 if (defined('ADMIN_FILE')) {
-                    $evouserinfo_language .= '<option value="'.$qs.$langlist[$i].'"';
+                    $evouserinfo_language .= '<option value="'.$qs.$titanium_langlist[$i].'"';
                 } elseif (!$name) {
-                    $evouserinfo_language .= '<option value="index.php?newlang='.$langlist[$i]."\"";
+                    $evouserinfo_language .= '<option value="index.php?newlang='.$titanium_langlist[$i]."\"";
                 } else {
-                    $evouserinfo_language .= '<option value="modules.php?name='.$qs.$langlist[$i].'"';
+                    $evouserinfo_language .= '<option value="modules.php?name='.$qs.$titanium_langlist[$i].'"';
                 }
-                if ($langlist[$i]==$currentlang) $evouserinfo_language .= ' selected="selected"';
-                $evouserinfo_language .= '>'.ucwords($langlist[$i])."</option>\n";
+                if ($titanium_langlist[$i]==$currentlang) $evouserinfo_language .= ' selected="selected"';
+                $evouserinfo_language .= '>'.ucwords($titanium_langlist[$i])."</option>\n";
             }
         }
         $evouserinfo_language .= '</select></form>';

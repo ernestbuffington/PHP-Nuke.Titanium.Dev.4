@@ -42,7 +42,7 @@ if(!get_magic_quotes_runtime()) {
   $xnotes = addslashes($xnotes);
   $xusername = addslashes($xusername);
 }
-$result = $db->sql_query("UPDATE `".$prefix."_nsnst_blocked_ips` SET `ip_addr`='$xIPs', `ip_long`='$xIPl', `user_id`='$xuser_id', `username`='$xusername', `user_agent`='$xuser_agent', `date`='$xdate', `notes`='$xnotes', `reason`='$xreason', `expires`='$xexpires', `c2c`='$xc2c' WHERE `ip_addr`='$old_xIPs'");
+$result = $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_blocked_ips` SET `ip_addr`='$xIPs', `ip_long`='$xIPl', `user_id`='$xuser_id', `username`='$xusername', `user_agent`='$xuser_agent', `date`='$xdate', `notes`='$xnotes', `reason`='$xreason', `expires`='$xexpires', `c2c`='$xc2c' WHERE `ip_addr`='$old_xIPs'");
 if(!$result) { die("DB Error"); }
 $i = 1;
 while($i <= 3) {

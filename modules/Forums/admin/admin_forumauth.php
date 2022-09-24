@@ -30,12 +30,12 @@
       Global Announcements                     v1.2.8       06/13/2005
  ************************************************************************/
 
-define('IN_PHPBB', 1);
+define('IN_PHPBB2', 1);
 
 if( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $module['Forums']['Permissions']   = $filename;
+        $titanium_module['Forums']['Permissions']   = $filename;
 
         return;
 }
@@ -44,8 +44,8 @@ if( !empty($setmodules) )
 // Load default header
 //
 $no_page_header = TRUE;
-$phpbb_root_path = './../';
-require($phpbb_root_path . 'extension.inc');
+$phpbb2_root_path = './../';
+require($phpbb2_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 
 //
@@ -68,7 +68,7 @@ $simple_auth_ary = array(
  ******************************************************/
 );
 
-$simple_auth_types = array($lang['Public'], $lang['Registered'], $lang['Registered'] . ' [' . $lang['Hidden'] . ']', $lang['Private'], $lang['Private'] . ' [' . $lang['Hidden'] . ']', $lang['Moderators'], $lang['Moderators'] . ' [' . $lang['Hidden'] . ']');
+$simple_auth_types = array($titanium_lang['Public'], $titanium_lang['Registered'], $titanium_lang['Registered'] . ' [' . $titanium_lang['Hidden'] . ']', $titanium_lang['Private'], $titanium_lang['Private'] . ' [' . $titanium_lang['Hidden'] . ']', $titanium_lang['Moderators'], $titanium_lang['Moderators'] . ' [' . $titanium_lang['Hidden'] . ']');
 
 /*****[BEGIN]******************************************
  [ Mod:     Global Announcements               v1.2.8 ]
@@ -79,21 +79,21 @@ $forum_auth_fields = array('auth_view', 'auth_read', 'auth_post', 'auth_reply', 
  ******************************************************/
 
 $field_names = array(
-        'auth_view' => $lang['View'],
-        'auth_read' => $lang['Read'],
-        'auth_post' => $lang['Post'],
+        'auth_view' => $titanium_lang['View'],
+        'auth_read' => $titanium_lang['Read'],
+        'auth_post' => $titanium_lang['Post'],
         /*--FNA--*/
-        'auth_reply' => $lang['Reply'],
-        'auth_edit' => $lang['Edit'],
-        'auth_delete' => $lang['Delete'],
-        'auth_sticky' => $lang['Sticky'],
-        'auth_announce' => $lang['Announce'],
-        'auth_vote' => $lang['Vote'],
-        'auth_pollcreate' => $lang['Pollcreate'],
+        'auth_reply' => $titanium_lang['Reply'],
+        'auth_edit' => $titanium_lang['Edit'],
+        'auth_delete' => $titanium_lang['Delete'],
+        'auth_sticky' => $titanium_lang['Sticky'],
+        'auth_announce' => $titanium_lang['Announce'],
+        'auth_vote' => $titanium_lang['Vote'],
+        'auth_pollcreate' => $titanium_lang['Pollcreate'],
 /*****[BEGIN]******************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
-        'auth_globalannounce' => $lang['Globalannounce']);
+        'auth_globalannounce' => $titanium_lang['Globalannounce']);
 /*****[END]********************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
@@ -111,12 +111,12 @@ attach_setup_forum_auth($simple_auth_ary, $forum_auth_fields, $field_names);
 
 if(isset($HTTP_GET_VARS[POST_FORUM_URL]) || isset($HTTP_POST_VARS[POST_FORUM_URL]))
 {
-        $forum_id = (isset($HTTP_POST_VARS[POST_FORUM_URL])) ? intval($HTTP_POST_VARS[POST_FORUM_URL]) : intval($HTTP_GET_VARS[POST_FORUM_URL]);
-        $forum_sql = "AND forum_id = $forum_id";
+        $phpbb2_forum_id = (isset($HTTP_POST_VARS[POST_FORUM_URL])) ? intval($HTTP_POST_VARS[POST_FORUM_URL]) : intval($HTTP_GET_VARS[POST_FORUM_URL]);
+        $forum_sql = "AND forum_id = $phpbb2_forum_id";
 }
 else
 {
-        unset($forum_id);
+        unset($phpbb2_forum_id);
         $forum_sql = '';
 }
 
@@ -136,7 +136,7 @@ if( isset($HTTP_POST_VARS['submit']) )
 {
         $sql = '';
 
-        if(!empty($forum_id))
+        if(!empty($phpbb2_forum_id))
         {
                 if(isset($HTTP_POST_VARS['simpleauth']))
                 {
@@ -149,7 +149,7 @@ if( isset($HTTP_POST_VARS['submit']) )
 
          if (is_array($simple_ary))
          {
-            $sql = "UPDATE " . FORUMS_TABLE . " SET $sql WHERE forum_id = $forum_id";
+            $sql = "UPDATE " . FORUMS_TABLE . " SET $sql WHERE forum_id = $phpbb2_forum_id";
          }
       }
       else
@@ -169,12 +169,12 @@ if( isset($HTTP_POST_VARS['submit']) )
                                 $sql .= ( ( $sql != '' ) ? ', ' : '' ) .$forum_auth_fields[$i] . ' = ' . $value;
                         }
 
-                        $sql = "UPDATE " . FORUMS_TABLE . " SET $sql WHERE forum_id = $forum_id";
+                        $sql = "UPDATE " . FORUMS_TABLE . " SET $sql WHERE forum_id = $phpbb2_forum_id";
                 }
 
                 if ( $sql != '' )
                 {
-                        if ( !$db->sql_query($sql) )
+                        if ( !$titanium_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update auth table', '', __LINE__, __FILE__, $sql);
                         }
@@ -184,10 +184,10 @@ if( isset($HTTP_POST_VARS['submit']) )
                 $adv = 0;
         }
 
-        $template->assign_vars(array(
-                'META' => '<meta http-equiv="refresh" content="3;url=' . append_sid("admin_forumauth.$phpEx?" . POST_FORUM_URL . "=$forum_id") . '">')
+        $phpbb2_template->assign_vars(array(
+                'META' => '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("admin_forumauth.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">')
         );
-        $message = $lang['Forum_auth_updated'] . '<br /><br />' . sprintf($lang['Click_return_forumauth'],  '<a href="' . append_sid("admin_forumauth.$phpEx") . '">', "</a>");
+        $message = $titanium_lang['Forum_auth_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_forumauth'],  '<a href="' . append_titanium_sid("admin_forumauth.$phpEx") . '">', "</a>");
         message_die(GENERAL_MESSAGE, $message);
 
 } // End of submit
@@ -202,21 +202,21 @@ $sql = "SELECT f.*
         WHERE c.cat_id = f.cat_id
         $forum_sql
         ORDER BY c.cat_order ASC, f.forum_order ASC";
-if ( !($result = $db->sql_query($sql)) )
+if ( !($result = $titanium_db->sql_query($sql)) )
 {
         message_die(GENERAL_ERROR, "Couldn't obtain forum list", "", __LINE__, __FILE__, $sql);
 }
 
-$forum_rows = $db->sql_fetchrowset($result);
-$db->sql_freeresult($result);
+$forum_rows = $titanium_db->sql_fetchrowset($result);
+$titanium_db->sql_freeresult($result);
 
-if( empty($forum_id) )
+if( empty($phpbb2_forum_id) )
 {
         //
         // Output the selection table if no forum id was
         // specified
         //
-        $template->set_filenames(array(
+        $phpbb2_template->set_filenames(array(
                 'body' => 'admin/auth_select_body.tpl')
         );
 
@@ -235,10 +235,10 @@ if( empty($forum_id) )
 /*****[BEGIN]******************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
-			$parent_id = $forum_rows[$i]['forum_id'];
+			$phpbb2_parent_id = $forum_rows[$i]['forum_id'];
 			for( $j = 0; $j < count($forum_rows); $j++ )
 			{
-				if( $forum_rows[$j]['forum_parent'] == $parent_id )
+				if( $forum_rows[$j]['forum_parent'] == $phpbb2_parent_id )
 				{
 					$select_list .= '<option value="' . $forum_rows[$j]['forum_id'] . '">-- ' . $forum_rows[$j]['forum_name'] . '</option>';
 				}
@@ -250,13 +250,13 @@ if( empty($forum_id) )
         }
         $select_list .= '</select>';
 
-        $template->assign_vars(array(
-                'L_AUTH_TITLE' => $lang['Auth_Control_Forum'],
-                'L_AUTH_EXPLAIN' => $lang['Forum_auth_explain'],
-                'L_AUTH_SELECT' => $lang['Select_a_Forum'],
-                'L_LOOK_UP' => $lang['Look_up_Forum'],
+        $phpbb2_template->assign_vars(array(
+                'L_AUTH_TITLE' => $titanium_lang['Auth_Control_Forum'],
+                'L_AUTH_EXPLAIN' => $titanium_lang['Forum_auth_explain'],
+                'L_AUTH_SELECT' => $titanium_lang['Select_a_Forum'],
+                'L_LOOK_UP' => $titanium_lang['Look_up_Forum'],
 
-                'S_AUTH_ACTION' => append_sid("admin_forumauth.$phpEx"),
+                'S_AUTH_ACTION' => append_titanium_sid("admin_forumauth.$phpEx"),
                 'S_AUTH_SELECT' => $select_list)
         );
 
@@ -267,7 +267,7 @@ else
         // Output the authorisation details if an id was
         // specified
         //
-        $template->set_filenames(array(
+        $phpbb2_template->set_filenames(array(
                 'body' => 'admin/auth_forum_body.tpl')
         );
 
@@ -316,10 +316,10 @@ else
 
                 $simple_auth .= '</select>';
 
-                $template->assign_block_vars('forum_auth_titles', array(
-                        'CELL_TITLE' => $lang['Simple_mode'])
+                $phpbb2_template->assign_block_vars('forum_auth_titles', array(
+                        'CELL_TITLE' => $titanium_lang['Simple_mode'])
                 );
-                $template->assign_block_vars('forum_auth_data', array(
+                $phpbb2_template->assign_block_vars('forum_auth_data', array(
                         'S_AUTH_LEVELS_SELECT' => $simple_auth)
                 );
 
@@ -338,16 +338,16 @@ else
                         for($k = 0; $k < count($forum_auth_levels); $k++)
                         {
                                 $selected = ( $forum_rows[0][$forum_auth_fields[$j]] == $forum_auth_const[$k] ) ? ' selected="selected"' : '';
-                                $custom_auth[$j] .= '<option value="' . $forum_auth_const[$k] . '"' . $selected . '>' . $lang['Forum_' . $forum_auth_levels[$k]] . '</option>';
+                                $custom_auth[$j] .= '<option value="' . $forum_auth_const[$k] . '"' . $selected . '>' . $titanium_lang['Forum_' . $forum_auth_levels[$k]] . '</option>';
                         }
                         $custom_auth[$j] .= '</select>&nbsp;';
 
                         $cell_title = $field_names[$forum_auth_fields[$j]];
 
-                        $template->assign_block_vars('forum_auth_titles', array(
+                        $phpbb2_template->assign_block_vars('forum_auth_titles', array(
                                 'CELL_TITLE' => $cell_title)
                         );
-                        $template->assign_block_vars('forum_auth_data', array(
+                        $phpbb2_template->assign_block_vars('forum_auth_data', array(
                                 'S_AUTH_LEVELS_SELECT' => $custom_auth[$j])
                         );
 
@@ -356,24 +356,24 @@ else
         }
 
         $adv_mode = ( empty($adv) ) ? '1' : '0';
-        $switch_mode = append_sid("admin_forumauth.$phpEx?" . POST_FORUM_URL . "=" . $forum_id . "&adv=". $adv_mode);
-        $switch_mode_text = ( empty($adv) ) ? $lang['Advanced_mode'] : $lang['Simple_mode'];
+        $switch_mode = append_titanium_sid("admin_forumauth.$phpEx?" . POST_FORUM_URL . "=" . $phpbb2_forum_id . "&adv=". $adv_mode);
+        $switch_mode_text = ( empty($adv) ) ? $titanium_lang['Advanced_mode'] : $titanium_lang['Simple_mode'];
         $u_switch_mode = '<a href="' . $switch_mode . '">' . $switch_mode_text . '</a>';
 
-        $s_hidden_fields = '<input type="hidden" name="' . POST_FORUM_URL . '" value="' . $forum_id . '">';
+        $s_hidden_fields = '<input type="hidden" name="' . POST_FORUM_URL . '" value="' . $phpbb2_forum_id . '">';
 
-        $template->assign_vars(array(
+        $phpbb2_template->assign_vars(array(
                 'FORUM_NAME' => $forum_name,
 
-                'L_FORUM' => $lang['Forum'],
-                'L_AUTH_TITLE' => $lang['Auth_Control_Forum'],
-                'L_AUTH_EXPLAIN' => $lang['Forum_auth_explain'],
-                'L_SUBMIT' => $lang['Submit'],
-                'L_RESET' => $lang['Reset'],
+                'L_FORUM' => $titanium_lang['Forum'],
+                'L_AUTH_TITLE' => $titanium_lang['Auth_Control_Forum'],
+                'L_AUTH_EXPLAIN' => $titanium_lang['Forum_auth_explain'],
+                'L_SUBMIT' => $titanium_lang['Submit'],
+                'L_RESET' => $titanium_lang['Reset'],
 
                 'U_SWITCH_MODE' => $u_switch_mode,
 
-                'S_FORUMAUTH_ACTION' => append_sid("admin_forumauth.$phpEx"),
+                'S_FORUMAUTH_ACTION' => append_titanium_sid("admin_forumauth.$phpEx"),
                 'S_COLUMN_SPAN' => $s_column_span,
                 'S_HIDDEN_FIELDS' => $s_hidden_fields)
         );
@@ -382,7 +382,7 @@ else
 
 include('./page_header_admin.'.$phpEx);
 
-$template->pparse('body');
+$phpbb2_template->pparse('body');
 
 include('./page_footer_admin.'.$phpEx);
 

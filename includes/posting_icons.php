@@ -18,12 +18,12 @@
  *
  ***************************************************************************/
 
-if ( !defined('IN_PHPBB') )
+if ( !defined('IN_PHPBB2') )
 {
-	die("Hacking attempt");
+	die("ACCESS DENIED");
 }
 
-$icones = array(
+$phpbb2_icones = array(
 	array('ind'	=> 1, 'img'	=> 'modules/Forums/images/icon/icon1.png', 'alt' => 'icon_note', 'auth'	=> AUTH_ALL),
 	array('ind'	=> 2, 'img'	=> 'modules/Forums/images/icon/icon2.png', 'alt' => 'icon_important', 'auth' => AUTH_ALL),
 	array('ind'	=> 3, 'img'	=> 'modules/Forums/images/icon/icon3.png', 'alt' => 'icon_idea', 'auth'	=> AUTH_ALL),
@@ -50,7 +50,7 @@ $icones = array(
 );
 
 // definition of special topic
-$icon_defined_special = array(
+$phpbb2_icon_defined_special = array(
 		'POST_ATTACHMENT' => array(
 		'lang_key'	=> 'Sort_Attachments',
 		'icon'		=> 0),

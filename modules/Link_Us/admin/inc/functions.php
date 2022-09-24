@@ -64,9 +64,9 @@ function check_image_type($type) {
 
 function LinkusAdminMain(){
 	
-		global $prefix, $db, $lang_new, $module_name, $admin_file;	
-		$config = $db->sql_ufetchrow("SELECT * FROM `".$prefix."_link_us_config` LIMIT 0,1");
-		list($pending) = $db->sql_fetchrow($db->sql_query("SELECT COUNT(*) FROM `".$prefix."_link_us` WHERE `site_status` = '3'"));
+		global $titanium_prefix, $titanium_db, $titanium_lang_new, $titanium_module_name, $admin_file;	
+		$config = $titanium_db->sql_ufetchrow("SELECT * FROM `".$titanium_prefix."_link_us_config` LIMIT 0,1");
+		list($pending) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT COUNT(*) FROM `".$titanium_prefix."_link_us` WHERE `site_status` = '3'"));
 		
 		if (!empty($config) || is_array($config)) {
 		
@@ -74,16 +74,16 @@ function LinkusAdminMain(){
 
 	OpenTable();
 
-		echo "<div align='center'><a href='".$admin_file.".php?op=link_us'>" .$lang_new[$module_name]['ADMINISTRATION']. "</a></div>";
+		echo "<div align='center'><a href='".$admin_file.".php?op=link_us'>" .$titanium_lang_new[$titanium_module_name]['ADMINISTRATION']. "</a></div>";
 		echo "<br /><br />";
-        echo "<div align='center'>[ <a href='".$admin_file.".php'>" .$lang_new[$module_name]['MAIN_ADMINISTRATION']. "</a> ]</div>\n";
+        echo "<div align='center'>[ <a href='".$admin_file.".php'>" .$titanium_lang_new[$titanium_module_name]['MAIN_ADMINISTRATION']. "</a> ]</div>\n";
 	
 	CloseTable();
 	OpenTable();
 
 		echo "<br />";
 		
-		echo "<div align=\"center\"><img src=\"modules/".$module_name."/images/linkus-logo.png\"></div>";
+		echo "<div align=\"center\"><img src=\"modules/".$titanium_module_name."/images/linkus-logo.png\"></div>";
 		
 		echo "<br />";
 		
@@ -93,14 +93,14 @@ function LinkusAdminMain(){
 		
 		echo "<table width='60%' border='1' cellpadding='4' cellspacing='4' style='margin: auto;'>
 		  <tr align='center'>
-			<td width='30%' align='center'><a href='".$admin_file.".php?op=add_button'><img src='modules/".$module_name."/images/button-add.png' border='0'><br />".$lang_new[$module_name]['ADD_LINK_BUTTON']."</a></td>
-			<td width='30%'><a href='".$admin_file.".php?op=lu_block_config'><img src='modules/".$module_name."/images/block-config.png' border='0'><br />".$lang_new[$module_name]['BLOCK_CONFIG']."</a></td>
-		    <td width='30%'><a href='".$admin_file.".php?op=module_config'><img src='modules/".$module_name."/images/module-config.png' border='0'><br />".$lang_new[$module_name]['MODULE_CONFIG']."</a></td>
+			<td width='30%' align='center'><a href='".$admin_file.".php?op=add_button'><img src='modules/".$titanium_module_name."/images/button-add.png' border='0'><br />".$titanium_lang_new[$titanium_module_name]['ADD_LINK_BUTTON']."</a></td>
+			<td width='30%'><a href='".$admin_file.".php?op=lu_block_config'><img src='modules/".$titanium_module_name."/images/block-config.png' border='0'><br />".$titanium_lang_new[$titanium_module_name]['BLOCK_CONFIG']."</a></td>
+		    <td width='30%'><a href='".$admin_file.".php?op=module_config'><img src='modules/".$titanium_module_name."/images/module-config.png' border='0'><br />".$titanium_lang_new[$titanium_module_name]['MODULE_CONFIG']."</a></td>
 		  </tr>
 		  <tr align='center'>
-		    <td width='30%'><a href='".$admin_file.".php?op=admin_config'><img src='modules/".$module_name."/images/admin-config.png' border='0'><br />".$lang_new[$module_name]['ADMIN_CONFIG']."</a></td>
-		    <td width='30%'><a href='".$admin_file.".php?op=active_sites'><img src='modules/".$module_name."/images/active-sites.png' border='0'><br />".$lang_new[$module_name]['VIEW_ACTIVE_SITES']."</a></td>
-		    <td width='30%'><a href='".$admin_file.".php?op=inactive_sites'><img src='modules/".$module_name."/images/inactive-sites.png' border='0'><br />".$lang_new[$module_name]['VIEW_INACTIVE_SITES']."</a></td>
+		    <td width='30%'><a href='".$admin_file.".php?op=admin_config'><img src='modules/".$titanium_module_name."/images/admin-config.png' border='0'><br />".$titanium_lang_new[$titanium_module_name]['ADMIN_CONFIG']."</a></td>
+		    <td width='30%'><a href='".$admin_file.".php?op=active_sites'><img src='modules/".$titanium_module_name."/images/active-sites.png' border='0'><br />".$titanium_lang_new[$titanium_module_name]['VIEW_ACTIVE_SITES']."</a></td>
+		    <td width='30%'><a href='".$admin_file.".php?op=inactive_sites'><img src='modules/".$titanium_module_name."/images/inactive-sites.png' border='0'><br />".$titanium_lang_new[$titanium_module_name]['VIEW_INACTIVE_SITES']."</a></td>
 		  </tr>
 		</table>";
 
@@ -108,7 +108,7 @@ function LinkusAdminMain(){
 	
 	} else {
 	
-        DisplayError('<strong>'._ERROR.'</strong><br /><br />' . $lang_new[$module_name]['CONFIG_ERROR'] . $module_name);
+        DisplayError('<strong>'._ERROR.'</strong><br /><br />' . $titanium_lang_new[$titanium_module_name]['CONFIG_ERROR'] . $titanium_module_name);
 		
     }
 	

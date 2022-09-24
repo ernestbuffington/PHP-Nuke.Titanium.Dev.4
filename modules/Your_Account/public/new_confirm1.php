@@ -38,7 +38,7 @@ if (!defined('CNBYA')) {
 
     include_once(NUKE_BASE_DIR.'header.php');
 
-    $user_viewemail = "0";
+    $titanium_user_viewemail = "0";
     $ya_user_email = strtolower($ya_user_email);
     ya_userCheck($ya_username);
     ya_mailCheck($ya_user_email);
@@ -72,9 +72,9 @@ if (!defined('CNBYA')) {
     if (!$stop) {
         $datekey = date("F j");
         //$rcode = hexdec(md5($_SERVER['HTTP_USER_AGENT'] . $sitekey . $_POST['random_num'] . $datekey));
-        global $sitekey, $evoconfig;
+        global $sitekey, $titanium_config;
         $rcode = hexdec(md5($_SERVER['HTTP_USER_AGENT'] . $sitekey . $_POST['random_num'] . $datekey));
-        $code = substr($rcode, 2, $evoconfig['codesize']);
+        $code = substr($rcode, 2, $titanium_config['codesize']);
         $gfxchk = array(3,4,6,7);
         if (!security_code_check($_POST['g-recaptcha-response'], $gfxchk)) {
             OpenTable();
@@ -107,8 +107,8 @@ if (!defined('CNBYA')) {
             exit;
         }
 
-        $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field WHERE need = '3' ORDER BY pos");
-        while ($sqlvalue = $db->sql_fetchrow($result)) {
+        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need = '3' ORDER BY pos");
+        while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
           $t = trim($sqlvalue[fid]);
           if (empty($nfield[$t])) {
             OpenTable();
@@ -132,7 +132,7 @@ if (!defined('CNBYA')) {
 //      echo "<tr><td align=\"right\"><strong>"._YA_PASSWORD.":</strong></td><td>$user_password<br /></td></tr>";
         echo "</table><br />";
         echo "<center><strong>"._NOTE."</strong> "._WAITAPPROVAL."";
-        echo "<form action='modules.php?name=$module_name' method='post'>";
+        echo "<form action='modules.php?name=$titanium_module_name' method='post'>";
 
         if ( is_array($nfield) ):
 

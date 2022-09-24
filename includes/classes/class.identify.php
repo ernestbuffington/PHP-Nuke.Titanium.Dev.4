@@ -34,7 +34,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 }
 
 class identify {
-    private $agent = 'none';
+    private $phpbb2_agent = 'none';
 
     function __construct() {
         if (isset($_SERVER['HTTP_USER_AGENT']) && !empty($_SERVER['HTTP_USER_AGENT'])) {
@@ -250,15 +250,15 @@ class identify {
     }
 
     function detect_bot($where = false) {
-        global $db, $prefix;
+        global $titanium_db, $titanium_prefix;
 
         $bot        = false;
         $where      = ($where ? "WHERE agent_name LIKE '$where%'" : '');
-        $result     = $db->sql_query('SELECT agent_name, agent_fullname FROM '.$prefix.'_security_agents'.$where.' ORDER BY agent_name', true);
+        $result     = $titanium_db->sql_query('SELECT agent_name, agent_fullname FROM '.$titanium_prefix.'_security_agents'.$where.' ORDER BY agent_name', true);
         $find       = array('\\', '(', ')', '{', '}', '.', '$', '*');
         $replace    = array('\\\\', '\(', '\)', '\{', '\}', '\.', '\$', '\*');
 
-        while ($row = $db->sql_fetchrow($result)) 
+        while ($row = $titanium_db->sql_fetchrow($result)) 
         {
             $row[1] = str_replace($find, $replace, $row[1]);
 
@@ -275,7 +275,7 @@ class identify {
             }
         }
         
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         return ($bot === false) ? false : array('ua' => 'bot', 'bot' => $bot, 'engine' => 'bot');
     }
 }

@@ -25,7 +25,7 @@ CloseMenu();
 CloseTable();
 echo '<br />'."\n";
 OpenTable();
-$getIPs = $db->sql_fetchrow($db->sql_query("SELECT * FROM `".$prefix."_nsnst_strings` WHERE `sid`='".$sid."' LIMIT 0,1"));
+$getIPs = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_strings` WHERE `sid`='".$sid."' LIMIT 0,1"));
 echo '<form action="'.$admin_file.'.php" method="post">'."\n";
 echo '<input type="hidden" name="op" value="ABStringEditSave" />'."\n";
 echo '<input type="hidden" name="xop" value="'.$xop.'" />'."\n";

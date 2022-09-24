@@ -16,17 +16,17 @@
 
 global $file_mode;
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
-include($phpbb_root_path . 'attach_mod/includes/constants.' . $phpEx);
-include($phpbb_root_path . 'attach_mod/includes/functions_includes.' . $phpEx);
-include($phpbb_root_path . 'attach_mod/includes/functions_attach.' . $phpEx);
-include($phpbb_root_path . 'attach_mod/includes/functions_delete.' . $phpEx);
-include($phpbb_root_path . 'attach_mod/includes/functions_thumbs.' . $phpEx);
-include($phpbb_root_path . 'attach_mod/includes/functions_filetypes.' . $phpEx);
+include($phpbb2_root_path . 'attach_mod/includes/constants.' . $phpEx);
+include($phpbb2_root_path . 'attach_mod/includes/functions_includes.' . $phpEx);
+include($phpbb2_root_path . 'attach_mod/includes/functions_attach.' . $phpEx);
+include($phpbb2_root_path . 'attach_mod/includes/functions_delete.' . $phpEx);
+include($phpbb2_root_path . 'attach_mod/includes/functions_thumbs.' . $phpEx);
+include($phpbb2_root_path . 'attach_mod/includes/functions_filetypes.' . $phpEx);
 
 if (defined('ATTACH_INSTALL'))
 {
@@ -36,28 +36,28 @@ if (defined('ATTACH_INSTALL'))
 /**
 * wrapper function for determining the correct language directory
 */
-function attach_mod_get_lang($language_file)
+function attach_mod_get_lang($titanium_language_file)
 {
-    global $phpbb_root_path, $phpEx, $attach_config, $board_config;
+    global $phpbb2_root_path, $phpEx, $attach_config, $phpbb2_board_config;
 
-    $language = $board_config['default_lang'];
+    $titanium_language = $phpbb2_board_config['default_lang'];
 
-    if (!file_exists($phpbb_root_path . 'language/lang_' . $language . '/' . $language_file . '.' . $phpEx))
+    if (!file_exists($phpbb2_root_path . 'language/lang_' . $titanium_language . '/' . $titanium_language_file . '.' . $phpEx))
     {
-        $language = $attach_config['board_lang'];
+        $titanium_language = $attach_config['board_lang'];
         
-        if (!file_exists($phpbb_root_path . 'language/lang_' . $language . '/' . $language_file . '.' . $phpEx))
+        if (!file_exists($phpbb2_root_path . 'language/lang_' . $titanium_language . '/' . $titanium_language_file . '.' . $phpEx))
         {
-            message_die(GENERAL_MESSAGE, 'Attachment Mod language file does not exist: language/lang_' . $language . '/' . $language_file . '.' . $phpEx);
+            message_die(GENERAL_MESSAGE, 'Attachment Mod language file does not exist: language/lang_' . $titanium_language . '/' . $titanium_language_file . '.' . $phpEx);
         }
         else
         {
-            return $language;
+            return $titanium_language;
         }
     }
     else
     {
-        return $language;
+        return $titanium_language;
     }
 }
 
@@ -66,16 +66,16 @@ function attach_mod_get_lang($language_file)
 */
 function include_attach_lang()
 {
-    global $phpbb_root_path, $phpEx, $lang, $board_config, $attach_config;
+    global $phpbb2_root_path, $phpEx, $titanium_lang, $phpbb2_board_config, $attach_config;
     
     // Include Language
-    $language = attach_mod_get_lang('lang_main_attach');
-    include_once($phpbb_root_path . 'language/lang_' . $language . '/lang_main_attach.' . $phpEx);
+    $titanium_language = attach_mod_get_lang('lang_main_attach');
+    include_once($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_main_attach.' . $phpEx);
 
     if (defined('IN_ADMIN'))
     {
-        $language = attach_mod_get_lang('lang_admin_attach');
-        include_once($phpbb_root_path . 'language/lang_' . $language . '/lang_admin_attach.' . $phpEx);
+        $titanium_language = attach_mod_get_lang('lang_admin_attach');
+        include_once($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_admin_attach.' . $phpEx);
     }
 }
 
@@ -84,43 +84,43 @@ function include_attach_lang()
 */
 function get_config()
 {
-    global $db, $board_config;
+    global $titanium_db, $phpbb2_board_config;
 
     $attach_config = array();
 
     $sql = 'SELECT *
         FROM ' . ATTACH_CONFIG_TABLE;
-    if (!($result = $db->sql_query($sql)))
+    if (!($result = $titanium_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not query attachment information', '', __LINE__, __FILE__, $sql);
     }
 
-    while ($row = $db->sql_fetchrow($result))
+    while ($row = $titanium_db->sql_fetchrow($result))
     {
         $attach_config[$row['config_name']] = trim($row['config_value']);
     }
 
     // We assign the original default board language here, because it gets overwritten later with the users default language
-    $attach_config['board_lang'] = trim($board_config['default_lang']);
+    $attach_config['board_lang'] = trim($phpbb2_board_config['default_lang']);
 
     return $attach_config;
 }
 
 // Get Attachment Config
-$cache_dir = $phpbb_root_path . '/cache';
-$cache_file = $cache_dir . '/attach_config.php';
+$titanium_cache_dir = $phpbb2_root_path . '/cache';
+$titanium_cache_file = $titanium_cache_dir . '/attach_config.php';
 $attach_config = array();
 
-if (file_exists($cache_dir) && is_dir($cache_dir) && is_writable($cache_dir))
+if (file_exists($titanium_cache_dir) && is_dir($titanium_cache_dir) && is_writable($titanium_cache_dir))
 {
-    if (file_exists($cache_file))
+    if (file_exists($titanium_cache_file))
     {
-        include($cache_file);
+        include($titanium_cache_file);
     }
     else
     {
         $attach_config = get_config();
-        $fp = @fopen($cache_file, 'wt+');
+        $fp = @fopen($titanium_cache_file, 'wt+');
         if ($fp)
         {
             $lines = array();
@@ -142,7 +142,7 @@ if (file_exists($cache_dir) && is_dir($cache_dir) && is_writable($cache_dir))
             fwrite($fp, '<?php $attach_config = array(' . implode(',', $lines) . '); ?>');
             fclose($fp);
 
-            @chmod($cache_file, $file_mode);
+            @chmod($titanium_cache_file, $file_mode);
         }
     }
 }
@@ -153,13 +153,13 @@ else
 
 // Please do not change the include-order, it is valuable for proper execution.
 // Functions for displaying Attachment Things
-include($phpbb_root_path . 'attach_mod/displaying.' . $phpEx);
+include($phpbb2_root_path . 'attach_mod/displaying.' . $phpEx);
 
 // Posting Attachments Class (HAVE TO BE BEFORE PM)
-include($phpbb_root_path . 'attach_mod/posting_attachments.' . $phpEx);
+include($phpbb2_root_path . 'attach_mod/posting_attachments.' . $phpEx);
 
 // PM Attachments Class
-include($phpbb_root_path . 'attach_mod/pm_attachments.' . $phpEx);
+include($phpbb2_root_path . 'attach_mod/pm_attachments.' . $phpEx);
 
 if (!intval($attach_config['allow_ftp_upload']))
 {

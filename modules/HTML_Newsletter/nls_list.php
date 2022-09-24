@@ -77,8 +77,8 @@ opentable();
 
 $sql = "SELECT `nid`, nl.`cid`, `topic`, `sender`, `datesent`, `view`, `groups`, "
 			."`hits`, `ctitle`, `cblocklimit`  FROM `"
-			.$prefix."_hnl_newsletters` nl, `"
-			.$prefix."_hnl_categories` nc "
+			.$titanium_prefix."_hnl_newsletters` nl, `"
+			.$titanium_prefix."_hnl_categories` nc "
 			."WHERE nl.`cid` = nc.`cid` ORDER BY `ctitle` ASC, `datesent` DESC";
 
 $result = msnl_fSQLCall( $sql );
@@ -100,7 +100,7 @@ if ( !$result ) { //Bad SQL call
 	$idx_nl_nbr			= 1;	//Index for number of newsletters displayed within a category
 	$prev_category	= "";	//For determining category breaks
 
-	while ( $row = $db->sql_fetchrow( $result ) ) {
+	while ( $row = $titanium_db->sql_fetchrow( $result ) ) {
 
 		$nid 					= intval($row['nid']);
 		$cid 					= intval($row['cid']);

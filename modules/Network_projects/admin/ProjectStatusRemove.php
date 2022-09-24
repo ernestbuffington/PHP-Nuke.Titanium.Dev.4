@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $db2;
+global $titanium_db2;
 get_lang('Network_Projects');
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']."::: "._NETWORK_PROJECTS.": "._NETWORK_DELETESTATUS;
@@ -32,8 +32,8 @@ echo "<input type='hidden' name='status_id' value='$status_id'>\n";
 echo "<tr><td align='center'><strong>"._NETWORK_SWAPPROJECTSTATUS."</strong></td></tr>\n";
 echo "<tr><td align='center'>".$status['status_name']." -> <select name='swap_status_id'>\n";
 echo "<option value='-1'>"._NETWORK_NA."</option>\n";
-$statuslist = $db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_projects_status` WHERE `status_id` != '$status_id' AND `status_id` > 0 ORDER BY `status_weight`");
-while(list($s_status_id, $s_status_name) = $db2->sql_fetchrow($statuslist)){
+$statuslist = $titanium_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_projects_status` WHERE `status_id` != '$status_id' AND `status_id` > 0 ORDER BY `status_weight`");
+while(list($s_status_id, $s_status_name) = $titanium_db2->sql_fetchrow($statuslist)){
     echo "<option value='$s_status_id'>$s_status_name</option>\n";
 }
 echo "</select></td></tr>\n";

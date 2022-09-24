@@ -28,20 +28,20 @@
  ************************************************************************/
  if(!defined('NUKE_EVO')) exit;
 
-       global $db, 
+       global $titanium_db, 
 		   $admin, 
-		    $user, 
-	      $prefix, 
+		    $titanium_user, 
+	      $titanium_prefix, 
           $cookie, 
 	  $def_module, 
 	    $bgcolor1, 
 		$bgcolor2, 
 		$bgcolor3, 
 		$bgcolor4,
-      $userpoints, 
+      $titanium_userpoints, 
              $uid;
 			 
-      global $user_prefix, $def_module, $currentlang, $cache;			 
+      global $titanium_user_prefix, $def_module, $currentlang, $titanium_cache;			 
 
 
 if(file_exists(NUKE_LANGUAGE_DIR.'Menu/lang-'.$currentlang.'.php')) 
@@ -49,7 +49,7 @@ include_once(NUKE_LANGUAGE_DIR.'Menu/lang-'.$currentlang.'.php');
 else 
 include_once(NUKE_LANGUAGE_DIR.'Menu/lang-english.php');
 
-$userpoints=intval($userpoints); 
+$titanium_userpoints=intval($titanium_userpoints); 
 
 $gestiongroupe = 1; 
 $managment_group = 1; 
@@ -64,12 +64,12 @@ $div=0;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-if(!($row = $cache->load('menu_row', 'block'))) 
+if(!($row = $titanium_cache->load('menu_row', 'block'))) 
 {
-  $sql="SELECT t1.invisible, t2.main_module FROM ".$prefix."_menu AS t1, ".$prefix."_main AS t2 LIMIT 1";
-  $result = $db->sql_query($sql);
-  $row = $db->sql_fetchrow($result);
-  $cache->save('menu_row', 'block', $row);
+  $sql="SELECT t1.invisible, t2.main_module FROM ".$titanium_prefix."_menu AS t1, ".$titanium_prefix."_main AS t2 LIMIT 1";
+  $result = $titanium_db->sql_query($sql);
+  $row = $titanium_db->sql_fetchrow($result);
+  $titanium_cache->save('menu_row', 'block', $row);
 }
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -97,19 +97,19 @@ $imgnew="new.gif";
 if(($is_user == 1) && ($detectPM == 1))
 {
   $uid=intval($uid); 
-  $newpms = $db->sql_fetchrow($db->sql_query("SELECT COUNT(*) FROM " . $prefix . "_bbprivmsgs 
+  $newpms = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT COUNT(*) FROM " . $titanium_prefix . "_bbprivmsgs 
   WHERE privmsgs_to_userid='$uid' AND (privmsgs_type='5' OR privmsgs_type='1')")); 
 }
 
 # START Caching System
    if ($managment_group==1)
-     $sql = "SELECT * FROM ".$prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";
+     $sql = "SELECT * FROM ".$titanium_prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";
    else
-     $sql = "SELECT * FROM ".$prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";   
+     $sql = "SELECT * FROM ".$titanium_prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";   
    
-   $modulesaffiche = $db->sql_query($sql);
+   $titanium_modulesaffiche = $titanium_db->sql_query($sql);
 
-   while($tempo = $db->sql_fetchrow($modulesaffiche)) 
+   while($tempo = $titanium_db->sql_fetchrow($titanium_modulesaffiche)) 
    {
         $tempoA[] = $tempo;
     }
@@ -122,7 +122,7 @@ if (is_array($tempoA))
 {
    foreach($tempoA as $tempo) 
    {
-      $module[$compteur] = $tempo['title'];
+      $titanium_module[$compteur] = $tempo['title'];
       $customtitle[$compteur] = $tempo['custom_title'];
       $view[$compteur] = $tempo['view'];
       $active[$row['title']] = $tempo['active'];
@@ -143,16 +143,16 @@ if (file_exists("themes/$ThemeSel/module.php"))
     
 	if ($is_active==1 AND file_exists("modules/$default_module/index.php")) 
 	{
-        $main_module = $default_module;
+        $main_module_titanium = $default_module;
     }
 }
 
-$total_actions = "";
+$total_phpbb2_actions = "";
 
 $flagmenu = 0;  
 
 # START Caching System
-if (!($row2A = $cache->load('menu_row2', 'block'))) 
+if (!($row2A = $titanium_cache->load('menu_row2', 'block'))) 
 {
     $sql2= "SELECT groupmenu, 
 	                  module, 
@@ -161,23 +161,23 @@ if (!($row2A = $cache->load('menu_row2', 'block')))
 					   image, 
 					     new, 
 					new_days, 
-					   class, bold FROM ".$prefix."_menu_categories ORDER BY id ASC";
+					   class, bold FROM ".$titanium_prefix."_menu_categories ORDER BY id ASC";
 
-    $result2 = $db->sql_query($sql2);
+    $result2 = $titanium_db->sql_query($sql2);
 
-    while($row2 = $db->sql_fetchrow($result2)) 
+    while($row2 = $titanium_db->sql_fetchrow($result2)) 
 	{
         $row2A[] = $row2;
     } 
 
-   $cache->save('menu_row2', 'block', $row2A);
+   $titanium_cache->save('menu_row2', 'block', $row2A);
 }
 # END Caching System
  
                                    $compteur = 0;
                               $totalcompteur = 0;
                                   $categorie = $row2A[0]['groupmenu'];
-   $moduleinthisgroup[$categorie][$compteur] = $row2A[0]['module'];
+   $titanium_moduleinthisgroup[$categorie][$compteur] = $row2A[0]['module'];
      $linkinthisgroup[$categorie][$compteur] = $row2A[0]['url'];
  $linktextinthisgroup[$categorie][$compteur] = $row2A[0]['url_text'];
  
@@ -189,7 +189,7 @@ if (!($row2A = $cache->load('menu_row2', 'block')))
      $grasinthisgroup[$categorie][$compteur] = $row2A[0]['bold'];
        $totalcategorymodules[$totalcompteur] = $row2A[0]['module']; 
                                   $compteur2 = $categorie;
-                              $total_actions = "menu_showhide('menu-".$row2A[0]['groupmenu']."','nok','menuupdown-".$row2A[0]['groupmenu']."');";
+                              $total_phpbb2_actions = "menu_showhide('menu-".$row2A[0]['groupmenu']."','nok','menuupdown-".$row2A[0]['groupmenu']."');";
                               $totalcompteur = 1;
 
 unset($row2A[0]);
@@ -206,11 +206,11 @@ unset($row2A[0]);
         $compteur++;
         else 
 		{
-            $total_actions = $total_actions."menu_showhide('menu-".$row2['groupmenu']."','nok','menuupdown-".$row2['groupmenu']."');";
+            $total_phpbb2_actions = $total_phpbb2_actions."menu_showhide('menu-".$row2['groupmenu']."','nok','menuupdown-".$row2['groupmenu']."');";
             $compteur = 0;
         }
         
-		  $moduleinthisgroup[$categorie][$compteur] = $row2['module'];
+		  $titanium_moduleinthisgroup[$categorie][$compteur] = $row2['module'];
             $linkinthisgroup[$categorie][$compteur] = $row2['url'];
         $linktextinthisgroup[$categorie][$compteur] = $row2['url_text'];
 		
@@ -228,11 +228,11 @@ $content ="\n\n\n\n\n<!-- Titanium Menu v5.01 -->\n\n\n\n\n";
  
 $sql="SELECT t1.invisible, 
                t1.dynamic, 
-		   t2.main_module FROM ".$prefix."_menu AS t1, ".$prefix."_main AS t2 WHERE t1.groupmenu=99 limit 1";
+		   t2.main_module FROM ".$titanium_prefix."_menu AS t1, ".$titanium_prefix."_main AS t2 WHERE t1.groupmenu=99 limit 1";
 
-         $result = $db->sql_query($sql);
-            $row = $db->sql_fetchrow($result);
-    $main_module = $row['main_module'];
+         $result = $titanium_db->sql_query($sql);
+            $row = $titanium_db->sql_fetchrow($result);
+    $main_module_titanium = $row['main_module'];
 $general_dynamic = ($row['dynamic'] == 'on') ? 1 : 0 ;
  $type_invisible = $row['invisible'];
 
@@ -242,14 +242,14 @@ else
 $managment_group = 0;
 
 # this is the start of the Portal menu
-$sql = "SELECT * FROM ".$prefix."_modules WHERE active='1' AND inmenu='1' ORDER BY custom_title ASC";
+$sql = "SELECT * FROM ".$titanium_prefix."_modules WHERE active='1' AND inmenu='1' ORDER BY custom_title ASC";
 	
-$modulesaffiche = $db->sql_query($sql);
+$titanium_modulesaffiche = $titanium_db->sql_query($sql);
   $menu_counter = 0;
 	
-	while ($tempo = $db->sql_fetchrow($modulesaffiche)) 
+	while ($tempo = $titanium_db->sql_fetchrow($titanium_modulesaffiche)) 
 	{
-		   $module[$menu_counter] = $tempo['title'];
+		   $titanium_module[$menu_counter] = $tempo['title'];
 	  $customtitle[$menu_counter] = (stripslashes($tempo['custom_title'])); //strip the fucking slashes
 		     $view[$menu_counter] = $tempo['view'];
 		   $active[$row['title']] = $tempo['active'];
@@ -264,7 +264,7 @@ $modulesaffiche = $db->sql_query($sql);
 	}
 
     $ferme_sublevels = "";
-      $total_actions = "";
+      $total_phpbb2_actions = "";
            $flagmenu = 0;  
 				
 	
@@ -282,9 +282,9 @@ $modulesaffiche = $db->sql_query($sql);
 				    date_fin, 
 					    days 
 						
-						FROM ".$prefix."_menu_categories ORDER BY id ASC";
+						FROM ".$titanium_prefix."_menu_categories ORDER BY id ASC";
 						
-	$result2 = $db->sql_query($sql2);
+	$result2 = $titanium_db->sql_query($sql2);
 	
 	 $menu_counter = 0;
 	$totalcompteur = 0;
@@ -294,7 +294,7 @@ $modulesaffiche = $db->sql_query($sql);
 	
 	$now=time(); 
 	
-	while ($row2 = $db->sql_fetchrow($result2)) 
+	while ($row2 = $titanium_db->sql_fetchrow($result2)) 
 	{
 	   if(strpos($row2['days'],'8')!== false || $now<$row2['date_debut'] || ($row2['date_fin'] > 0 && $now>$row2['date_fin'])) 
 	   {
@@ -326,7 +326,7 @@ $modulesaffiche = $db->sql_query($sql);
 			$poster_module = 0;
 			$restricted_reason = "";
 		
-			foreach ($module as $key => $this_module) 
+			foreach ($titanium_module as $key => $this_module) 
 			{
 				if($row2['module'] == "External Link") 
 				{
@@ -459,7 +459,7 @@ $modulesaffiche = $db->sql_query($sql);
 			if($premier == 0) 
 			{
 				$premier++;
-				$total_actions = "menu_showhide('menu-".$row2['groupmenu']."','nok','menuupdown-".$row2['groupmenu']."');";
+				$total_phpbb2_actions = "menu_showhide('menu-".$row2['groupmenu']."','nok','menuupdown-".$row2['groupmenu']."');";
 			}
 			else
 			if($menu_counter2 == $categorie) 
@@ -468,7 +468,7 @@ $modulesaffiche = $db->sql_query($sql);
 			}
 			else 
 			{
-				$total_actions = $total_actions."menu_showhide('menu-".$row2['groupmenu']."','nok','menuupdown-".$row2['groupmenu']."');";
+				$total_phpbb2_actions = $total_phpbb2_actions."menu_showhide('menu-".$row2['groupmenu']."','nok','menuupdown-".$row2['groupmenu']."');";
 				$menu_counter = 0;
 				$hidden_sublevel = 0;
 				$hidden = 0;
@@ -496,7 +496,7 @@ $modulesaffiche = $db->sql_query($sql);
 				$hidden = 0;
 			}
 
-			       $moduleinthisgroup[$categorie][$menu_counter] = $row2['module'];
+			       $titanium_moduleinthisgroup[$categorie][$menu_counter] = $row2['module'];
 			         $linkinthisgroup[$categorie][$menu_counter] = $row2['url'];
 			     $linktextinthisgroup[$categorie][$menu_counter] = $row2['url_text'];
 				 
@@ -560,7 +560,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 # MAIN MENU 
 	$dynamictest=0;
 	
-	global $prefix, $db;
+	global $titanium_prefix, $titanium_db;
 
     $sql = "SELECT groupmenu, 
 	                    name, 
@@ -579,9 +579,9 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				    date_fin, 
 					    days 
 	
-	FROM ".$prefix."_menu ORDER BY groupmenu ASC";
+	FROM ".$titanium_prefix."_menu ORDER BY groupmenu ASC";
     
-	$result = $db->sql_query($sql);
+	$result = $titanium_db->sql_query($sql);
 	
 	global $textcolor1,
 	       $textcolor2,
@@ -589,9 +589,6 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
              $bgcolor2,
              $bgcolor3,
              $bgcolor4,
-		  $portaladmin, 
-	           $prefix, 
-	  $portaladminname,    
 			   $domain, 
 			      $uid, 
 			 $ThemeSel;
@@ -599,28 +596,8 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 	   $align = 'absmiddle'; # added by Ernest Buffingtn to align the new.gif image
 	$aligncat = 'style="text-align:left"'; # added by Ernest Buffingtn to align the link text left
 	
-    list($portaladminname, 
-	              $avatar, 
-				   $email) = $db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `".$prefix."_users` WHERE `user_id`='$portaladmin'", SQL_NUM);
 
     $content .= "\n\n\n";
-	
-	if (strcmp($_SERVER['SERVER_NAME'], 'cvs.86it.us') == 0)
-	{
-      $content .= "<div class=\"supersmall\" align=\"center\"><font size=\"1\" color=\"$textcolor1\"><strong>86it CVS</strong></font></div>\n";
-      $content .= "<div class=\"supersmall\" align=\"center\"><font size=\"1\" color=\"$textcolor2\"><strong>https://".$_SERVER['SERVER_NAME']."</strong></font></div>\n";
-	}
-    else
-	if (strcmp($_SERVER['SERVER_NAME'], 'www.86it.us') == 0)
-	{
-      $content .= "<div class=\"supersmall\" align=\"center\"><font size=\"1\" color=\"$textcolor1\"><strong>Welcome Home</strong></font></div>\n";
-      $content .= "<div class=\"supersmall\" align=\"center\"><font size=\"1\" color=\"$textcolor2\"><strong>The 86it HQ</strong></font></div>\n";
-	}
-    else
-	{
-      $content.= "<div class=\"supersmall\" align=\"center\"><font size=\"1\" color=\"$textcolor1\"><strong>$portaladminname</strong></font></div>\n";
-      $content.= "<div class=\"supersmall\" align=\"center\"><font size=\"1\" color=\"$textcolor2\"><strong>Owns This 86it Portal</strong></font></div>\n";
-	}
 
     $content .= "<br />";
 	$content .= "<img align=\"$align\" src=\"images/menu/home.gif\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
@@ -643,7 +620,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 	
 	$classpointeur = 0;
     
-	while ($row = $db->sql_fetchrow($result)) 
+	while ($row = $titanium_db->sql_fetchrow($result)) 
 	{  
 		                $som_groupmenu = $row['groupmenu'];
 		                     $som_name = str_replace("&amp;nbsp;","&nbsp;",$row['name']);
@@ -669,14 +646,14 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 		{
 			
 			     $aenlever = "menu_showhide\('menu-".$som_groupmenu."','nok','menuupdown-".$som_groupmenu."'\);";
-			$total_actions = str_replace("$aenlever", "" , $total_actions);
+			$total_phpbb2_actions = str_replace("$aenlever", "" , $total_phpbb2_actions);
 			continue;
 		}
 		
 		if($som_dynamic != 'on') 
 		{
 			     $aenlever = "menu_showhide\('menu-".$som_groupmenu."','nok','menuupdown-".$som_groupmenu."'\);";
-			$total_actions = str_replace("$aenlever", "" , $total_actions);
+			$total_phpbb2_actions = str_replace("$aenlever", "" , $total_phpbb2_actions);
 		}
 		
 		if(($general_dynamic == 1) && ($dynamictest != 1)) 
@@ -722,10 +699,10 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 		if($som_groupmenu <> 99) 
 		{
 			
-		  //if($som_dynamic=='on' && $detectMozilla!=1 && isset($moduleinthisgroup[$som_groupmenu]['0']) && $som_listbox!="on") 
-		  if($som_dynamic == 'on' && isset($moduleinthisgroup[$som_groupmenu]['0']) && $som_listbox != "on") 
+		  //if($som_dynamic=='on' && $detectMozilla!=1 && isset($titanium_moduleinthisgroup[$som_groupmenu]['0']) && $som_listbox!="on") 
+		  if($som_dynamic == 'on' && isset($titanium_moduleinthisgroup[$som_groupmenu]['0']) && $som_listbox != "on") 
 		  { 
-				      $reenrouletout = str_replace("menu_showhide\(\'menu-$som_groupmenu\',\'nok\',\'menuupdown-$som_groupmenu\'\);","",$total_actions);
+				      $reenrouletout = str_replace("menu_showhide\(\'menu-$som_groupmenu\',\'nok\',\'menuupdown-$som_groupmenu\'\);","",$total_phpbb2_actions);
 				$action_somgroupmenu = "onclick=\"keymenu=".$key.";".$reenrouletout." menu_showhide('menu-$som_groupmenu','ok','menuupdown-$som_groupmenu')\" style=\"cursor:pointer\"";            // menu dynamic
 			}
 			else 
@@ -857,7 +834,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				$content .= "</a>";
 			}
 			
-			if($som_dynamic == 'on' && isset($moduleinthisgroup[$som_groupmenu]['0'])) 
+			if($som_dynamic == 'on' && isset($titanium_moduleinthisgroup[$som_groupmenu]['0'])) 
 			{
 				$zeimage = ($som_listbox == "on") ? "null.gif" : "down.gif" ;
 				$content .= "<img align=\"bottom\" id=\"menuupdown-$som_groupmenu\" src=\"$path_icon/admin/$zeimage\" border=0 alt=\"Show/Hide content\">";
@@ -886,7 +863,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 		
 		$keyinthisgroup = 0;
 		
-		if($som_groupmenu != 99 && !isset($moduleinthisgroup[$som_groupmenu]['0'])) 
+		if($som_groupmenu != 99 && !isset($titanium_moduleinthisgroup[$som_groupmenu]['0'])) 
 		{ 
 			if($horizontal == 1) 
 			{
@@ -897,13 +874,13 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				$content .= "<tr bgcolor=\"$som_bgcolor\"><td height=\"4\"></td></tr>";
 			}
 		}
-		elseif($som_groupmenu != 99 && isset($moduleinthisgroup[$som_groupmenu]['0'])) 
+		elseif($som_groupmenu != 99 && isset($titanium_moduleinthisgroup[$som_groupmenu]['0'])) 
 		{
 		     if($som_listbox == "on") 
 		     {
 			   $content .= "<tr><td bgcolor=\"$som_bgcolor\"><span id=\"menu-$som_groupmenu\"></span>";
 			   $aenlever = "menu_showhide\('menu-".$som_groupmenu."','nok','menuupdown-".$som_groupmenu."'\);";
-			   $total_actions = str_replace("$aenlever", "" , $total_actions);
+			   $total_phpbb2_actions = str_replace("$aenlever", "" , $total_phpbb2_actions);
 			
 			   $content .= "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"menunowrap\"><tr><td width=\"100%\">";
 			
@@ -943,7 +920,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			$catimagesize[0] = 1; 
 		}
 		
-		while ($moduleinthisgroup[$som_groupmenu][$keyinthisgroup]) 
+		while ($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 		{ 
 			if(strpos($daysinthisgroup[$som_groupmenu][$keyinthisgroup],'8')!== false || $now<$date_debutinthisgroup[$som_groupmenu][$keyinthisgroup] 
 			                                                                          || ($date_fininthisgroup[$som_groupmenu][$keyinthisgroup] > 0 
@@ -965,7 +942,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			
 			if($som_listbox == "on") 
 			{ 
-				if($moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == "External Link") 
+				if($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == "External Link") 
 				{
 					if(strpos($linkinthisgroup[$som_groupmenu][$keyinthisgroup],"LANG:_") === 0) 
 					{
@@ -1012,7 +989,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 					$content .= "<option value=\"".$linkinthisgroup[$som_groupmenu][$keyinthisgroup]."".$zelink."\">".$linktextinthisgroup[$som_groupmenu][$keyinthisgroup]."";
 				}
 				else
-				if($moduleinthisgroup[$som_groupmenu][$keyinthisgroup] != "Horizonatal Rule" && $moduleinthisgroup[$som_groupmenu][$keyinthisgroup] != "MENUTEXTONLY" ) 
+				if($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup] != "Horizonatal Rule" && $titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup] != "MENUTEXTONLY" ) 
 				{
 					if($poster_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]!= 2 || $is_admin == 1) 
 					{
@@ -1021,8 +998,8 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				}
 			}
 			else
-			if($moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == "MENUTEXTONLY" 
-			|| ($moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == "External Link" 
+			if($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == "MENUTEXTONLY" 
+			|| ($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == "External Link" 
 			&& !preg_match("^modules.php\?name=^", $linkinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 			&& !preg_match("^((http(s)?)|(ftp(s)?))://".$_SERVER['SERVER_NAME']."/modules.php\?name=^",$linkinthisgroup[$som_groupmenu][$keyinthisgroup]))) 
 			{ 
@@ -1110,7 +1087,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				}
 				
 				//sublevels - showhide
-				if($keyinthisgroup<count($moduleinthisgroup[$som_groupmenu])-1 && $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]<$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1]) 
+				if($keyinthisgroup<count($titanium_moduleinthisgroup[$som_groupmenu])-1 && $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]<$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1]) 
 				{
 					$ligne=($som_dynamic == 'on') ? "<tr style=\"cursor: pointer;\" 
 					onclick=\"menu_showhide('menusublevel-$som_groupmenu-".($keyinthisgroup+1)."','ok','menuupdown-sublevel-$som_groupmenu-".($keyinthisgroup+1)."');\">" : "<tr>"; 
@@ -1186,7 +1163,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			
 				
 				# sublevels
-				if($keyinthisgroup == count($moduleinthisgroup[$som_groupmenu]) -1) 
+				if($keyinthisgroup == count($titanium_moduleinthisgroup[$som_groupmenu]) -1) 
 				{
 					for($sub = 0; $sub < $current_sublevel; $sub++) 
 					{
@@ -1204,7 +1181,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				}
 			
 			}
-			elseif($moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == "Horizonatal Rule") 
+			elseif($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == "Horizonatal Rule") 
 			{
 				$content .= "<tr><td colspan=\"2\">";
 				$content .= "<hr>";
@@ -1212,7 +1189,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			}
 			else 
 			{
-				if($moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == "External Link") 
+				if($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == "External Link") 
 				{ 
 					#1# Old Code
 					#1# $temponomdumodule=split("&", $linkinthisgroup[$som_groupmenu][$keyinthisgroup]);
@@ -1323,9 +1300,9 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				if($nomdumodule == "Downloads" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup] != "-1") 
 				{
 				    $where = (preg_match("/^cid=[0-9]*$/",$temponomdumodule[2])) ? " WHERE $temponomdumodule[2]" : "";
-					$sqlimgnew = "SELECT date FROM ".$prefix."_nsngd_downloads".$where." order by date desc limit 1";
-					$resultimgnew = $db->sql_query($sqlimgnew);
-					$rowimgnew = $db->sql_fetchrow($resultimgnew);
+					$sqlimgnew = "SELECT date FROM ".$titanium_prefix."_nsngd_downloads".$where." order by date desc limit 1";
+					$resultimgnew = $titanium_db->sql_query($sqlimgnew);
+					$rowimgnew = $titanium_db->sql_fetchrow($resultimgnew);
 				
 					if($rowimgnew['date']) 
 					{
@@ -1343,9 +1320,9 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				if ($nomdumodule == "Web_Links" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup] != "-1") 
 				{
                     $where = (preg_match("/^cid=[0-9]*$/",$temponomdumodule[2])) ? " WHERE $temponomdumodule[2]" : "";
-                    $sqlimgnew = "SELECT date FROM ".$prefix."_links_links".$where." ORDER BY date DESC LIMIT 1";
-                    $resultimgnew = $db->sql_query($sqlimgnew);
-                    $rowimgnew = $db->sql_fetchrow($resultimgnew);
+                    $sqlimgnew = "SELECT date FROM ".$titanium_prefix."_links_links".$where." ORDER BY date DESC LIMIT 1";
+                    $resultimgnew = $titanium_db->sql_query($sqlimgnew);
+                    $rowimgnew = $titanium_db->sql_fetchrow($resultimgnew);
                 
 				    if ($rowimgnew['date']) 
 					{
@@ -1363,9 +1340,9 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				if($nomdumodule == "Content" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") 
 				{
 				    $where = (preg_match("/^cid=[0-9]*$/",$temponomdumodule[2])) ? " WHERE $temponomdumodule[2]" : "";
-					$sqlimgnew="SELECT date FROM ".$prefix."_pages".$where." order by date desc limit 1";
-					$resultimgnew=$db->sql_query($sqlimgnew);
-					$rowimgnew = $db->sql_fetchrow($resultimgnew);
+					$sqlimgnew="SELECT date FROM ".$titanium_prefix."_pages".$where." order by date desc limit 1";
+					$resultimgnew=$titanium_db->sql_query($sqlimgnew);
+					$rowimgnew = $titanium_db->sql_fetchrow($resultimgnew);
 				
 					if($rowimgnew['date']) 
 					{
@@ -1383,9 +1360,9 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				if($nomdumodule == "Reviews" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") 
 				{
 					$where = "";
-					$sqlimgnew="SELECT date FROM ".$prefix."_reviews".$where." order by date desc limit 1";
-					$resultimgnew=$db->sql_query($sqlimgnew);
-					$rowimgnew = $db->sql_fetchrow($resultimgnew);
+					$sqlimgnew="SELECT date FROM ".$titanium_prefix."_reviews".$where." order by date desc limit 1";
+					$resultimgnew=$titanium_db->sql_query($sqlimgnew);
+					$rowimgnew = $titanium_db->sql_fetchrow($resultimgnew);
 				
 					if($rowimgnew['date']) 
 					{
@@ -1402,15 +1379,15 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				else # Blog module
 				if($nomdumodule == "Blog" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup] != "-1") 
 				{
-				    global $db, $prefix;
+				    global $titanium_db, $titanium_prefix;
 					
 				    $where = (preg_match("/^cid=[0-9]*$/",$temponomdumodule[2])) ? " WHERE ".str_replace("new_","",$temponomdumodule[1])."" : "";
 				
-					$sqlimgnew="SELECT datePublished FROM ".$prefix."_stories".$where." order by datePublished desc limit 1";
+					$sqlimgnew="SELECT datePublished FROM ".$titanium_prefix."_stories".$where." order by datePublished desc limit 1";
 				
-					$resultimgnew=$db->sql_query($sqlimgnew);
+					$resultimgnew=$titanium_db->sql_query($sqlimgnew);
 				
-					$rowimgnew = $db->sql_fetchrow($resultimgnew);
+					$rowimgnew = $titanium_db->sql_fetchrow($resultimgnew);
 				
 					if($rowimgnew['datePublished']) 
 					{
@@ -1462,7 +1439,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				}
 				
 				# sublevels - showhide
-				if($keyinthisgroup<count($moduleinthisgroup[$som_groupmenu])-1 && $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]<$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1]) 
+				if($keyinthisgroup<count($titanium_moduleinthisgroup[$som_groupmenu])-1 && $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]<$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1]) 
 				{
 					$ligne=($som_dynamic=='on') ? "<tr style=\"cursor: pointer;\" 
 					onclick=\"menu_showhide('menusublevel-$som_groupmenu-".($keyinthisgroup+1)."','ok','menuupdown-sublevel-$som_groupmenu-".($keyinthisgroup+1)."');\">" : "<tr>"; 
@@ -1494,7 +1471,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 					
 					$content.=$sublevel_updownimg."</td>";
 					
-					if(($div==1) && ($keyinthisgroup<count($moduleinthisgroup[$som_groupmenu])-1 
+					if(($div==1) && ($keyinthisgroup<count($titanium_moduleinthisgroup[$som_groupmenu])-1 
 					&& $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]<$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1])) 
 					{
 						
@@ -1522,7 +1499,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 					
 					$content.=$sublevel_updownimg."</td>";
 					
-					if(($div==1) && ($keyinthisgroup<count($moduleinthisgroup[$som_groupmenu])-1 
+					if(($div==1) && ($keyinthisgroup<count($titanium_moduleinthisgroup[$som_groupmenu])-1 
 					&& $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]<$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1])) 
 					{
 						
@@ -1534,7 +1511,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				}
 
 				# sublevels - ferme
-				if($keyinthisgroup == count($moduleinthisgroup[$som_groupmenu])-1) 
+				if($keyinthisgroup == count($titanium_moduleinthisgroup[$som_groupmenu])-1) 
 				{
 					for($sub=0;$sub<$current_sublevel;$sub++) 
 					{
@@ -1591,16 +1568,16 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				$showadmin=1;
 				$content.="<tr><td>";
 				
-				for ($z=0;$z<count($module);$z++) 
+				for ($z=0;$z<count($titanium_module);$z++) 
 				{
-					$customtitle2 = str_replace ("_"," ", $module[$z]);
+					$customtitle2 = str_replace ("_"," ", $titanium_module[$z]);
 				
 					if($customtitle[$z] != "") 
 					{
 						$customtitle2 = $customtitle[$z];
 					}
 					
-					if($module[$z] != $main_module) 
+					if($titanium_module[$z] != $main_module_titanium) 
 					{
 						if(($is_admin===1 AND $view[$z] == 2) OR $view[$z] != 2) 
 						{
@@ -1608,7 +1585,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						
 							for ($i=0;$i<count($totalcategorymodules);$i++) 
 							{
-								if($module[$z]==$totalcategorymodules[$i]) 
+								if($titanium_module[$z]==$totalcategorymodules[$i]) 
 								{
 									$incategories=1;
 								}
@@ -1623,9 +1600,9 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 									$content .="<hr><div align=\"center\">"._MENU_ADMINVIEWALLMODULES."</div><br />";   
 								}
 								
-								$urldumodule99 = ($gt_url[$z]!="") ? $gt_url[$z] : "modules.php?name=".$module[$z] ; 
+								$urldumodule99 = ($gt_url[$z]!="") ? $gt_url[$z] : "modules.php?name=".$titanium_module[$z] ; 
 								
-								if(($newpms[0]) AND ($module[$z]=="Private_Messages"))  
+								if(($newpms[0]) AND ($titanium_module[$z]=="Private_Messages"))  
 								{ 
 									$content .= "<strong><big>&middot;</big></strong><img src=\"images/blocks/email-y.gif\"  
 									height=\"10\" width=\"14\" alt=\""._MENU_NEWPM."\" title=\""._MENU_NEWPM."\"><a href=\"".$urldumodule99."\">$customtitle2</a><br>\n";
@@ -1657,7 +1634,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 		if(isset($categorieouverte)) 
 		{
 			$aenlever="menu_showhide\('menu-".$categorieouverte."','nok','menuupdown-".$categorieouverte."'\);";
-			$total_actions = str_replace("$aenlever", "" , $total_actions);
+			$total_phpbb2_actions = str_replace("$aenlever", "" , $total_phpbb2_actions);
 		}
 		
 		if(isset($keyouvert)) 
@@ -1677,7 +1654,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			}
 		}
 		
-		$content.="<script type=\"text/javascript\" language=\"JavaScript\">$total_actions;\n";
+		$content.="<script type=\"text/javascript\" language=\"JavaScript\">$total_phpbb2_actions;\n";
 		$content.=$ferme_sublevels;
 		$content.="</script>";
 	}
@@ -1687,18 +1664,18 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 /* If you copied a new module is the /modules/ directory, it will be added to the database */
 if( $showadmin==1 && $is_admin===1 && $horizontal!=1) 
 {
-	$key=count($module); 
+	$key=count($titanium_module); 
 	$content .= "<br><div align=\"center\"><strong>"._INVISIBLEMODULES."</strong></div>";
 	$content .= "<div align=\"center\"><font class=\"tiny\">"._ACTIVEBUTNOTSEE."</font></div>";
 	$content.="<div align=\"center\"><form action=\"modules.php\" method=\"get\" name=\"menuformlistboxinvisibles\">"
 	."<select name=\"somlistboxinvisibles\" onchange=\"menu_listbox(this.options[this.selectedIndex].value)\">"
 	."<option value=\"select\">"._MENU_SELECTALINK."";
-	$sql = "SELECT * FROM ".$prefix."_modules WHERE active='1' AND inmenu='0' ORDER BY title ASC";
-	$result = $db->sql_query($sql);
+	$sql = "SELECT * FROM ".$titanium_prefix."_modules WHERE active='1' AND inmenu='0' ORDER BY title ASC";
+	$result = $titanium_db->sql_query($sql);
 	
-	while ($row = $db->sql_fetchrow($result)) 
+	while ($row = $titanium_db->sql_fetchrow($result)) 
 	{
-		$module[$key]=$row['title'];
+		$titanium_module[$key]=$row['title'];
 		$mn_title = $row['title'];
 		$custom_title = $row['custom_title'];
 		$mn_title2 = (!$custom_title) ? str_replace("_", " ", $mn_title) : $custom_title;
@@ -1715,12 +1692,12 @@ if( $showadmin==1 && $is_admin===1 && $horizontal!=1)
 				."<select name=\"somlistboxinactifs\" onchange=\"menu_listbox(this.options[this.selectedIndex].value)\">"
 				."<option value=\"select\">"._MENU_SELECTALINK."";
 	
-	$sql = "SELECT title, custom_title FROM ".$prefix."_modules WHERE active='0' ORDER BY title ASC";
-	$result = $db->sql_query($sql);
+	$sql = "SELECT title, custom_title FROM ".$titanium_prefix."_modules WHERE active='0' ORDER BY title ASC";
+	$result = $titanium_db->sql_query($sql);
 
-	while ($row = $db->sql_fetchrow($result)) 
+	while ($row = $titanium_db->sql_fetchrow($result)) 
 	{
-		$module[$key]=$row['title'];
+		$titanium_module[$key]=$row['title'];
 		$key++;
 		$mn_title = $row['title'];
 		$custom_title = $row['custom_title'];
@@ -1746,9 +1723,9 @@ if( $showadmin==1 && $is_admin===1 && $horizontal!=1)
 		{
 			$trouve=0;  
 			
-			for ($i=0;$i<count($module);$i++) 
+			for ($i=0;$i<count($titanium_module);$i++) 
 			{
-				if($module[$i]==$file) 
+				if($titanium_module[$i]==$file) 
 				{
 				  $trouve=1;
 				}
@@ -1769,36 +1746,36 @@ if( $showadmin==1 && $is_admin===1 && $horizontal!=1)
 	{
 	    if($modlist[$i] != "") 
 		{
-			$sql = "SELECT mid FROM ".$prefix."_modules WHERE title='$modlist[$i]'";
-			$result = $db->sql_query($sql);
-			$row = $db->sql_fetchrow($result);
+			$sql = "SELECT mid FROM ".$titanium_prefix."_modules WHERE title='$modlist[$i]'";
+			$result = $titanium_db->sql_query($sql);
+			$row = $titanium_db->sql_fetchrow($result);
 			$mid = $row['mid'];
 		
 			if($mid == "") 
 			{
-			    $db->sql_query("INSERT INTO ".$prefix."_modules (mid, title, custom_title, active, view, inmenu) VALUES (NULL, '$modlist[$i]', '$modlist[$i]', '0', '0', '1')");
+			    $titanium_db->sql_query("INSERT INTO ".$titanium_prefix."_modules (mid, title, custom_title, active, view, inmenu) VALUES (NULL, '$modlist[$i]', '$modlist[$i]', '0', '0', '1')");
 			}
 	    }
 	}
 }
 
-function menu_is_user($user, $managment_group) 
+function menu_is_user($titanium_user, $managment_group) 
 {
-    global $prefix, $db, $uid, $userpoints;
+    global $titanium_prefix, $titanium_db, $uid, $titanium_userpoints;
 
-    if(!is_array($user)) 
+    if(!is_array($titanium_user)) 
 	{
-		$user = addslashes($user); 
-        $user = base64_decode($user);
-		$user = addslashes($user); 
-        $user = explode(":", $user);
-        $uid = "$user[0]";
-        $pwd = "$user[2]";
+		$titanium_user = addslashes($titanium_user); 
+        $titanium_user = base64_decode($titanium_user);
+		$titanium_user = addslashes($titanium_user); 
+        $titanium_user = explode(":", $titanium_user);
+        $uid = "$titanium_user[0]";
+        $pwd = "$titanium_user[2]";
     } 
 	else 
 	{
-        $uid = "$user[0]";
-        $pwd = "$user[2]";
+        $uid = "$titanium_user[0]";
+        $pwd = "$titanium_user[2]";
     }
 	
 	$uid = addslashes($uid); 
@@ -1808,27 +1785,27 @@ function menu_is_user($user, $managment_group)
 	{
 		if($managment_group==0) 
 		{
-        	$sql = "SELECT user_password FROM ".$prefix."_users WHERE user_id='$uid'";
+        	$sql = "SELECT user_password FROM ".$titanium_prefix."_users WHERE user_id='$uid'";
 		}
 		else 
 		if($managment_group==1) 
 		{
-			$sql = "SELECT user_password, points FROM ".$prefix."_users WHERE user_id='$uid'";
+			$sql = "SELECT user_password, points FROM ".$titanium_prefix."_users WHERE user_id='$uid'";
 		}
 		else 
 		{
 		  die("There Seems To Be A problem!!");
 		}
         
-		$result = $db->sql_query($sql);
+		$result = $titanium_db->sql_query($sql);
         
-		$row = $db->sql_fetchrow($result);
+		$row = $titanium_db->sql_fetchrow($result);
         
 		$pass = $row['user_password'];
         
 		if($pass == $pwd && $pass != "") 
 		{
-			$userpoints = ($managment_group==1) ? $row['points'] : "";
+			$titanium_userpoints = ($managment_group==1) ? $row['points'] : "";
             return 1;
         }
     }
@@ -1838,13 +1815,13 @@ function menu_is_user($user, $managment_group)
 
 function menu_get_theme($is_user) 
 {
-    global $user, $cookie, $Default_Theme;
+    global $titanium_user, $cookie, $Default_Theme;
 
     if($is_user==1) 
 	{
-        $user2 = base64_decode($user);
+        $titanium_user2 = base64_decode($titanium_user);
     
-	    $t_cookie = explode(":", $user2);
+	    $t_cookie = explode(":", $titanium_user2);
     
 	    if($t_cookie[9]=="") $t_cookie[9]=$Default_Theme;
     

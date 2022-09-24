@@ -1,0 +1,64 @@
+<style type="text/css">
+<!--
+}
+BODY {
+FONT-SIZE: 12px; 
+CURSOR: default; 
+COLOR: #9699BA; 
+BACKGROUND-color: #9FA1B2; 
+FONT-FAMILY:  verdana, arial, helvetica, sans-serif; 
+TEXT-DECORATION: none;
+}
+TABLE {
+FONT-SIZE: 12px; 
+COLOR: #9699BA;
+BACKGROUND-color: #F2F3FF; 
+FONT-FAMILY:  verdana, arial, helvetica, sans-serif; 
+TEXT-DECORATION: none
+}
+-->
+</style>
+</HEAD>
+<BODY leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="color: #FF0000; background-color: #000000">
+<br><br><br><ol>
+  <div align="center">
+    <center>
+    <TABLE bgcolor=#A1A3B1 borderColorDark=#0000FF borderColorLight=#FFFF00 border=1 CELLPADDING=3 style="border-collapse: collapse" bordercolor="#000000">
+  <tr>
+    <th scope="col" bgcolor="#FF0000" bordercolor="#000000">
+    <font face="Verdana" color="#FFFF00" size="3">Restricted Access</font></th>
+  </tr>
+  <tr>
+    <td bgcolor="#FF0000" align="center" bordercolor="#000000"><center>
+    <font face="Verdana" color="#FFFF00">You are not authorized to view this page.<br>
+                Please redirect to an unrestricted page.</font></center>
+     </td>
+  </tr>
+  </tr></center>
+  </div>
+  <table>
+</table></ol>
+<script language=JavaScript>
+var message="";
+function clickIE() {if (document.all) {(message);return false;}}
+function clickNS(e) {if 
+(document.layers||(document.getElementById&&!document.all)) {
+if (e.which==2||e.which==3) {(message);return false;}}}
+if (document.layers) 
+{document.captureEvents(Event.MOUSEDOWN);document.onmousedown=clickNS;}
+else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
+document.oncontextmenu=new Function("return false")
+</script>
+<script language="JavaScript1.2">
+function disableselect(e){
+return false
+}
+function reEnable(){
+return true
+}
+document.onselectstart=new Function ("return false")
+if (window.sidebar){
+document.onmousedown=disableselect
+document.onclick=reEnable
+}
+</script>

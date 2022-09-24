@@ -28,8 +28,8 @@
 -=[Mod]=-
  ************************************************************************/
 
-		$db->sql_uquery("DELETE FROM `".$prefix."_link_us` WHERE `id`='$id'");
-        $db->sql_uquery("OPTIMIZE TABLE `".$prefix."_link_us`");
-        redirect($admin_file.'.php?op=link_us');
+		$titanium_db->sql_uquery("DELETE FROM `".$titanium_prefix."_link_us` WHERE `id`='$id'");
+        $titanium_db->sql_uquery("OPTIMIZE TABLE `".$titanium_prefix."_link_us`");
+        redirect_titanium($admin_file.'.php?op=link_us');
 
 ?>

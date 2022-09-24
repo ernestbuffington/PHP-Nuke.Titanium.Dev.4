@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
     $pagetitle = ": "._EDITTOS;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -54,14 +54,14 @@ if(is_mod_admin($module_name)) {
     echo "<br />\n";
     if ($_POST['submit']) {
     $tos = Fix_Quotes($_POST['tos_text']);
-    $db->sql_query("UPDATE " . $prefix . "_cnbya_config SET config_value = '" . $tos . "' WHERE config_name = 'tos_text'");
-    $cache->delete('ya_config');
+    $titanium_db->sql_query("UPDATE " . $titanium_prefix . "_cnbya_config SET config_value = '" . $tos . "' WHERE config_name = 'tos_text'");
+    $titanium_cache->delete('ya_config');
     OpenTable();
     echo "<center>Your Terms of Service have been updated.</center>\n";
     CloseTable();
     } else {
     OpenTable();
-    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post' name=\"tos\">\n";
+    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post' name=\"tos\">\n";
     echo "<table border=\"0\" width=\"100%\" height=\"195\">";
     echo "<tr>";
     echo "<td width=\"50%\" height=\"195\"><p align=\"center\">" . _EDITTOS2 . "</p></td>\n";

@@ -1,3 +1,9 @@
+<div align="center">
+<table width="98%" style="background-color:none; height:100%;" class="viewforum" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="viewforum">
+<tbody>
+<tr>
+<td align="center">
+
 <form action="{S_SEARCH_ACTION}" method="post"><table width="100%" cellspacing="2" cellpadding="2" border="0" align="center">
     <tr> 
         <td align="left"><span class="nav"><a href="{U_INDEX}">{L_INDEX}</a></span></td>
@@ -54,3 +60,7 @@
         <td align="right" valign="top">{JUMPBOX}</td>
     </tr>
 </table>
+</tr>
+</tbody>
+</table>
+</div>

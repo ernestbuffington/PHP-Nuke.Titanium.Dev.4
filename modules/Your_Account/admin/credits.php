@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
     $pagetitle = ": "._USERADMIN." - "._ADDUSER;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -53,7 +53,7 @@ if(is_mod_admin($module_name)) {
     amain();
     echo "<br />\n";
     OpenTable();
-    readfile("modules/$module_name/credits.html");
+    readfile("modules/$titanium_module_name/credits.html");
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 

@@ -43,7 +43,7 @@ if(!isset($_SESSION)) { session_start(); }
 if (!isset($_SESSION['YA1']) || isset($_SESSION['YA2'])) {
     global $debugger;
     $debugger->handle_error('Session not valid for user: Name - '.Fix_Quotes($ya_username).' Email - '.Fix_Quotes($femail), 'Error');
-    redirect('modules.php?name='.$module_name.'&op=new_user');
+    redirect_titanium('modules.php?name='.$titanium_module_name.'&op=new_user');
 }
 
 $_SESSION['YA2'] = true;
@@ -85,15 +85,15 @@ $_SESSION['YA2'] = true;
     }
     }
 
-    $user_viewemail    = "0";
+    $titanium_user_viewemail    = "0";
     $ya_user_email    = strtolower($ya_user_email);
     ya_userCheck($ya_username);
     ya_mailCheck($ya_user_email);
     if (!$stop) {
         $datekey = date("F j");
-        global $sitekey, $evoconfig;
+        global $sitekey, $titanium_config;
         $rcode = hexdec(md5($_SERVER['HTTP_USER_AGENT'] . $sitekey . $_POST['random_num'] . $datekey));
-        $code = substr($rcode, 2, $evoconfig['codesize']);
+        $code = substr($rcode, 2, $titanium_config['codesize']);
        $gfxchk = array(3,4,6,7);
         if (!security_code_check($_POST['g-recaptcha-response'], $gfxchk)) {
             OpenTable();
@@ -126,8 +126,8 @@ $_SESSION['YA2'] = true;
             exit;
         }
 
-        $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field WHERE need = '3' ORDER BY pos");
-        while ($sqlvalue = $db->sql_fetchrow($result)) {
+        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need = '3' ORDER BY pos");
+        while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
           $t = trim($sqlvalue[fid]);
           if (empty($nfield[$t])) {
             OpenTable();
@@ -149,7 +149,7 @@ $_SESSION['YA2'] = true;
 // menelaos: removed display of the user password here. It is mailed to the user
 //      echo "<tr><td><strong>"._YA_PASSWORD.":</strong> $user_password<br /></td></tr>";
         echo "</table>";
-        echo "<center><form action='modules.php?name=$module_name' method='post'>";
+        echo "<center><form action='modules.php?name=$titanium_module_name' method='post'>";
 
         if (is_array($nfield))
         {
@@ -170,16 +170,16 @@ $_SESSION['YA2'] = true;
         // MrFluffy $realname to $ya_realname
         echo "<input type='hidden' name='realname' value=\"$ya_realname\">\n";
         echo "<input type='hidden' name='femail' value=\"$femail\">\n";
-        echo "<input type='hidden' name='user_website' value=\"$user_website\">\n";
-        echo "<input type='hidden' name='user_from' value=\"$user_from\">\n";
-        echo "<input type='hidden' name='user_occ' value=\"$user_occ\">\n";
-        echo "<input type='hidden' name='user_interests' value=\"$user_interests\">\n";
+        echo "<input type='hidden' name='user_website' value=\"$titanium_user_website\">\n";
+        echo "<input type='hidden' name='user_from' value=\"$titanium_user_from\">\n";
+        echo "<input type='hidden' name='user_occ' value=\"$titanium_user_occ\">\n";
+        echo "<input type='hidden' name='user_interests' value=\"$titanium_user_interests\">\n";
         echo "<input type='hidden' name='newsletter' value=\"$newsletter\">\n";
-        echo "<input type='hidden' name='user_viewemail' value=\"$user_viewemail\">\n";
-        echo "<input type='hidden' name='user_allow_viewonline' value=\"$user_allow_viewonline\">\n";
-        echo "<input type='hidden' name='user_timezone' value=\"$user_timezone\">\n";
-        echo "<input type='hidden' name='user_dateformat' value=\"$user_dateformat\">\n";
-        echo "<input type='hidden' name='user_sig' value=\"$user_sig\">\n";
+        echo "<input type='hidden' name='user_viewemail' value=\"$titanium_user_viewemail\">\n";
+        echo "<input type='hidden' name='user_allow_viewonline' value=\"$titanium_user_allow_viewonline\">\n";
+        echo "<input type='hidden' name='user_timezone' value=\"$titanium_user_timezone\">\n";
+        echo "<input type='hidden' name='user_dateformat' value=\"$titanium_user_dateformat\">\n";
+        echo "<input type='hidden' name='user_sig' value=\"$titanium_user_sig\">\n";
         echo "<input type='hidden' name='bio' value=\"$bio\">\n";
 /*****[BEGIN]******************************************
  [ Mod:     XData                              v0.1.1 ]

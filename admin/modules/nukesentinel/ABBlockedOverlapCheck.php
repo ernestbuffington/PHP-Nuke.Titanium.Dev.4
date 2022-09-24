@@ -15,7 +15,7 @@
 @set_time_limit(600);
 if(!$ab_config['page_delay'] OR $ab_config['page_delay'] < 1) { $pagedelay = 5; } else { $pagedelay = $ab_config['page_delay']; }
 $perpage = 100;
-$totalselected = $db->sql_numrows($db->sql_query("SELECT `ip_lo` FROM `".$prefix."_nsnst_blocked_ranges`"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT `ip_lo` FROM `".$titanium_prefix."_nsnst_blocked_ranges`"));
 if(!isset($min)) {
   $min=0;
   $pagesint = ($totalselected / $perpage);
@@ -53,16 +53,16 @@ if(!isset($min)) {
   title($pagetitle);
   OpenTable();
   $testmessage = "";
-  $result = $db->sql_query("SELECT `ip_lo`, `ip_hi` FROM `".$prefix."_nsnst_blocked_ranges` ORDER BY ip_lo LIMIT $min, $perpage");
-  while(list($xip_lo, $xip_hi) = $db->sql_fetchrow($result)) {
-    $test1 = $db->sql_query("SELECT * FROM ".$prefix."_nsnst_blocked_ranges WHERE (ip_lo<='$xip_lo' AND ip_hi>='$xip_lo') AND (`ip_lo`!='$xip_lo' AND `ip_hi`!='$xip_hi') ORDER BY `ip_lo`");
-    $test2 = $db->sql_query("SELECT * FROM ".$prefix."_nsnst_blocked_ranges WHERE (ip_lo<='$xip_hi' AND ip_hi>='$xip_hi') AND (`ip_lo`!='$xip_lo' AND `ip_hi`!='$xip_hi') ORDER BY `ip_lo`");
-    $test3 = $db->sql_query("SELECT * FROM ".$prefix."_nsnst_blocked_ranges WHERE (ip_lo>='$xip_lo' AND ip_hi<='$xip_hi') AND (`ip_lo`!='$xip_lo' AND `ip_hi`!='$xip_hi') ORDER BY `ip_lo`");
-    $test4 = $db->sql_query("SELECT * FROM ".$prefix."_nsnst_blocked_ranges WHERE (ip_lo<='$xip_lo' AND ip_hi>='$xip_hi') AND (`ip_lo`!='$xip_lo' AND `ip_hi`!='$xip_hi') ORDER BY `ip_lo`");
-    $testnum1 = $db->sql_numrows($test1);
-    $testnum2 = $db->sql_numrows($test2);
-    $testnum3 = $db->sql_numrows($test3);
-    $testnum4 = $db->sql_numrows($test4);
+  $result = $titanium_db->sql_query("SELECT `ip_lo`, `ip_hi` FROM `".$titanium_prefix."_nsnst_blocked_ranges` ORDER BY ip_lo LIMIT $min, $perpage");
+  while(list($xip_lo, $xip_hi) = $titanium_db->sql_fetchrow($result)) {
+    $test1 = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_nsnst_blocked_ranges WHERE (ip_lo<='$xip_lo' AND ip_hi>='$xip_lo') AND (`ip_lo`!='$xip_lo' AND `ip_hi`!='$xip_hi') ORDER BY `ip_lo`");
+    $test2 = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_nsnst_blocked_ranges WHERE (ip_lo<='$xip_hi' AND ip_hi>='$xip_hi') AND (`ip_lo`!='$xip_lo' AND `ip_hi`!='$xip_hi') ORDER BY `ip_lo`");
+    $test3 = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_nsnst_blocked_ranges WHERE (ip_lo>='$xip_lo' AND ip_hi<='$xip_hi') AND (`ip_lo`!='$xip_lo' AND `ip_hi`!='$xip_hi') ORDER BY `ip_lo`");
+    $test4 = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_nsnst_blocked_ranges WHERE (ip_lo<='$xip_lo' AND ip_hi>='$xip_hi') AND (`ip_lo`!='$xip_lo' AND `ip_hi`!='$xip_hi') ORDER BY `ip_lo`");
+    $testnum1 = $titanium_db->sql_numrows($test1);
+    $testnum2 = $titanium_db->sql_numrows($test2);
+    $testnum3 = $titanium_db->sql_numrows($test3);
+    $testnum4 = $titanium_db->sql_numrows($test4);
     if($testnum1 > 0) {
       $testmessage .= "<table summary='' align='center' border='0' cellpadding='2' cellspacing='2' bgcolor='$bgcolor2' width='100%'>\n";
       $testmessage .= "<tr bgcolor='$bgcolor1'><td align='center' colspan='6'><strong>".long2ip($xip_lo)." "._AB_IN.":</strong></td></tr>\n";
@@ -73,7 +73,7 @@ if(!isset($min)) {
       $testmessage .= "<td align='center' width='15%'><strong>"._AB_CODE."</strong></td>\n";
       $testmessage .= "<td align='center' width='20%'><strong>"._AB_FUNCTIONS."</strong></td>\n";
       $testmessage .= "</tr>\n";
-      while($testrow1 = $db->sql_fetchrow($test1)) {
+      while($testrow1 = $titanium_db->sql_fetchrow($test1)) {
         $testrow1['ip_lo_ip'] = long2ip($testrow1['ip_lo']);
         $testrow1['ip_hi_ip'] = long2ip($testrow1['ip_hi']);
         $testrow1['c2c'] = strtoupper($testrow1['c2c']);
@@ -100,7 +100,7 @@ if(!isset($min)) {
       $testmessage .= "<td align='center' width='15%'><strong>"._AB_CODE."</strong></td>\n";
       $testmessage .= "<td align='center' width='20%'><strong>"._AB_FUNCTIONS."</strong></td>\n";
       $testmessage .= "</tr>\n";
-      while($testrow2 = $db->sql_fetchrow($test2)) {
+      while($testrow2 = $titanium_db->sql_fetchrow($test2)) {
         $testrow2['ip_lo_ip'] = long2ip($testrow2['ip_lo']);
         $testrow2['ip_hi_ip'] = long2ip($testrow2['ip_hi']);
         $testrow2['c2c'] = strtoupper($testrow2['c2c']);
@@ -127,7 +127,7 @@ if(!isset($min)) {
       $testmessage .= "<td align='center' width='15%'><strong>"._AB_CODE."</strong></td>\n";
       $testmessage .= "<td align='center' width='20%'><strong>"._AB_FUNCTIONS."</strong></td>\n";
       $testmessage .= "</tr>\n";
-      while($testrow3 = $db->sql_fetchrow($test3)) {
+      while($testrow3 = $titanium_db->sql_fetchrow($test3)) {
         $testrow3['ip_lo_ip'] = long2ip($testrow3['ip_lo']);
         $testrow3['ip_hi_ip'] = long2ip($testrow3['ip_hi']);
         $testrow3['c2c'] = strtoupper($testrow3['c2c']);
@@ -154,7 +154,7 @@ if(!isset($min)) {
       $testmessage .= "<td align='center' width='15%'><strong>"._AB_CODE."</strong></td>\n";
       $testmessage .= "<td align='center' width='20%'><strong>"._AB_FUNCTIONS."</strong></td>\n";
       $testmessage .= "</tr>\n";
-      while($testrow4 = $db->sql_fetchrow($test4)) {
+      while($testrow4 = $titanium_db->sql_fetchrow($test4)) {
         $testrow4['ip_lo_ip'] = long2ip($testrow4['ip_lo']);
         $testrow4['ip_hi_ip'] = long2ip($testrow4['ip_hi']);
         $testrow4['c2c'] = strtoupper($testrow4['c2c']);

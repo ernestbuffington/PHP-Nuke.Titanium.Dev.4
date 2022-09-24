@@ -80,11 +80,11 @@ class Swift_CharacterReader_Utf8Reader
    * Returns the complete charactermap
    *
    * @param string $string
-   * @param int $startOffset
+   * @param int $phpbb2_startOffset
    * @param array $currentMap
    * @param mixed $ignoredChars
    */
-  public function getCharPositions($string, $startOffset, &$currentMap, &$ignoredChars)
+  public function getCharPositions($string, $phpbb2_startOffset, &$currentMap, &$ignoredChars)
   {
   	if (!isset($currentMap['i']) || !isset($currentMap['p']))
   	{
@@ -109,7 +109,7 @@ class Swift_CharacterReader_Utf8Reader
    	  	if ($invalid==true)
    	  	{
    	  	  /* We mark the chars as invalid and start a new char */
-   	  	  $currentMap['p'][$charPos+$foundChars]=$startOffset+$i;
+   	  	  $currentMap['p'][$charPos+$foundChars]=$phpbb2_startOffset+$i;
    	      $currentMap['i'][$charPos+$foundChars]=true;
    	      ++$foundChars;
    	      $invalid=false;
@@ -133,7 +133,7 @@ class Swift_CharacterReader_Utf8Reader
           }
    	  	}
    	  	/* Ok we got a complete char here */
-   	  	$lastChar=$currentMap['p'][$charPos+$foundChars]=$startOffset+$i+$size;
+   	  	$lastChar=$currentMap['p'][$charPos+$foundChars]=$phpbb2_startOffset+$i+$size;
    	  	$i+=$j-1;
    	    ++$foundChars;
    	  }

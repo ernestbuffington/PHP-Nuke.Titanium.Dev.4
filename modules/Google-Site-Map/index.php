@@ -8,32 +8,32 @@
 if (!defined('MODULE_FILE')) 
 die ("You can't access this file directly...");
 
-$module_name = basename(dirname(__FILE__));
+$titanium_module_name = basename(dirname(__FILE__));
 
-global $domain, $prefix, $db, $sitename, $currentlang, $admin, $multilingual, $module_name, $admin_file, $user_prefix;
+global $domain, $nukeurl, $titanium_prefix, $titanium_db, $sitename, $currentlang, $admin, $multilingual, $titanium_module_name, $admin_file, $titanium_user_prefix;
 
 @require_once(NUKE_CLASSES_DIR.'class.sitemap.php');
 use SitemapPHP\Sitemap;
-$sitemap = new Sitemap('https://'.$domain);
+$sitemap = new Sitemap($nukeurl);
 $sitemap->setPath(NUKE_BASE_DIR.'xmls/sitemap/');
 $sitemap->setFilename('sitemap');
 $sitemap->addItem('/', '1.0', 'daily',  'Today');
-$sitemap->createSitemapIndex('https://'.$domain.'/xmls/sitemap/', 'Today');
+$sitemap->createSitemapIndex($nukeurl.'/xmls/sitemap/', 'Today');
 
 # Examples
 # $sitemap->addItem('/contact', '0.6', 'yearly', '14-12-2009');
 # $sitemap->addItem('/otherpage');
 
 # Using the old Jmap admin panel
-$result = $db->sql_query('SELECT * FROM `'.$prefix.'_jmap`');
+$result = $titanium_db->sql_query('SELECT * FROM `'.$titanium_prefix.'_jmap`');
 
-while ($row=$db->sql_fetchrow($result)):
+while ($row=$titanium_db->sql_fetchrow($result)):
     $nametask = $row['name'];
     $value = $row['value'];
     $conf[$nametask]=$value;
 endwhile;
 
-$db->sql_freeresult($result);
+$titanium_db->sql_freeresult($result);
 $xml = $conf['xml'];
 $ndown = $conf['ndown'];
 $nnews = $conf['nnews'];
@@ -49,15 +49,15 @@ else:
 endif;
 //---------------------- Do some XML Shit  XML END -----------------
 
-if (file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php')):
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php');
+if (file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$currentlang.'.php')):
+	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$currentlang.'.php');
 else:
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php');
+	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-english.php');
 endif;
 
 function downloads_subs($cid, $spaces, $xml) 
 {
-    $result4 = $db->sql_query("SELECT cid, title FROM " . $prefix . "_downloads_categories WHERE active=1 AND parentid=$cid1 ORDER BY title");
+    $result4 = $titanium_db->sql_query("SELECT cid, title FROM " . $titanium_prefix . "_downloads_categories WHERE active=1 AND parentid=$cid1 ORDER BY title");
 }
 
 include_once(NUKE_BASE_DIR.'header.php');
@@ -87,9 +87,9 @@ print '<table align="center" border="0">';
 
 print '<tr><td></td><td align="center"></td></tr>'."\n";
 
-$result2 = $db->sql_query("SELECT `title`, `custom_title`, `view`, `groups` FROM `" . $prefix . "_modules` WHERE `active` =1 ORDER BY `custom_title`");
+$result2 = $titanium_db->sql_query("SELECT `title`, `custom_title`, `view`, `groups` FROM `" . $titanium_prefix . "_modules` WHERE `active` =1 ORDER BY `custom_title`");
 
-while ($row2 = $db->sql_fetchrow($result2)): 
+while ($row2 = $titanium_db->sql_fetchrow($result2)): 
 
 
 	$the_module_title = $row2['custom_title'];
@@ -216,9 +216,9 @@ while ($row2 = $db->sql_fetchrow($result2)):
 	 elseif($link === 'Groups'):
      print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; A list of the available user groups on the '.$sitename.' web portal</a>&nbsp;&nbsp;&nbsp;</td></tr>';
      # Select all groups
-	 global $prefix;
-     $sql = $db->sql_query("select group_id, group_name from ".$prefix."_bbgroups where group_description <> 'Personal User'");
-     while(list($group_id, $group_name) = $db->sql_fetchrow($sql)): 
+	 global $titanium_prefix;
+     $sql = $titanium_db->sql_query("select group_id, group_name from ".$titanium_prefix."_bbgroups where group_description <> 'Personal User'");
+     while(list($group_id, $group_name) = $titanium_db->sql_fetchrow($sql)): 
        if (is_user())
        print '<td></td><td><font color="green"><i style="vertical-align: middle;" 
 	   class="fa fa-lock"></i></font>&nbsp;<a href="modules.php?name=Groups&amp;g='.$group_id.'">Users Group &#187; '.$group_name.' &#187; Join Today</a></td></tr>'; 
@@ -298,7 +298,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
      # xml is written below in the switch statement
      print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; Our download section is now called a File Repository</a>&nbsp;&nbsp;&nbsp;</td></tr>'."\n";
  
-	 elseif($link === 'Network_Bookmarks'):
+	 elseif($link === 'Bookmarks'):
      # xml is written below in the switch statement
      print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; Save all your important online links here</a>&nbsp;&nbsp;&nbsp;</td></tr>'."\n";
      $sitemap->addItem('/modules.php?name='.$link.'', '0.8', 'yearly', 'Jun 5');
@@ -404,9 +404,9 @@ while ($row2 = $db->sql_fetchrow($result2)):
 	switch($link): 
 		# Network Advertising #################################################################################################################################################
 		case 'Network_Projects':
-		global $network_prefix, $db2; 
-        $projectresult = $db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
-        while(list($project_id) = $db2->sql_fetchrow($projectresult)): 
+		global $network_prefix, $titanium_db2; 
+        $projectresult = $titanium_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
+        while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)): 
           $project = pjprojectpercent_info($project_id);
 		  print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
 		  class="fa fa-unlock-alt"></i>&nbsp;</font><a href="modules.php?name=Network_Projects&amp;op=Project&amp;project_id='.$project_id.'">'.$project['project_name'].'</a>
@@ -479,8 +479,8 @@ while ($row2 = $db->sql_fetchrow($result2)):
 		break;
 		# Downloads #################################################################################################################################################
 		case 'Downloads':
-			$result3 = $db->sql_query("SELECT `cid`, `title` FROM `".$prefix."_downloads_categories` WHERE `active`=1 AND `parentid`=0 ORDER BY `title`");
-			while ($row3 = $db->sql_fetchrow($result3)): 
+			$result3 = $titanium_db->sql_query("SELECT `cid`, `title` FROM `".$titanium_prefix."_downloads_categories` WHERE `active`=1 AND `parentid`=0 ORDER BY `title`");
+			while ($row3 = $titanium_db->sql_fetchrow($result3)): 
 				$titolodown = $row3['title'];
 				$cid1 = $row3['cid'];
 				print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
@@ -488,8 +488,8 @@ while ($row2 = $db->sql_fetchrow($result2)):
 				if($xml):
                 //@fwrite($var, '<url><loc>'.$nukeurl.'/modules.php?name=Downloads&amp;cid='.$cid1.'</loc></url>'."\n");
                 endif;
-			    $result4 = $db->sql_query('SELECT `cid`, `title` FROM `'.$prefix.'_downloads_categories` WHERE `active`=1 AND `parentid`="'.$cid1.'" ORDER BY `title`');
-				while ($row4 = $db->sql_fetchrow($result4)): 
+			    $result4 = $titanium_db->sql_query('SELECT `cid`, `title` FROM `'.$titanium_prefix.'_downloads_categories` WHERE `active`=1 AND `parentid`="'.$cid1.'" ORDER BY `title`');
+				while ($row4 = $titanium_db->sql_fetchrow($result4)): 
 					$titolodown2 = $row4['title'];
 					$cid2 = $row4['cid'];
 					print '<tr><td></td><td><font color="green"><i style="vertical-align: middle;" 
@@ -497,14 +497,14 @@ while ($row2 = $db->sql_fetchrow($result2)):
 					if($xml):
                     //@fwrite($var, '<url><loc>'.$nukeurl.'/modules.php?name=Downloads&amp;cid='.$cid2.'</loc></url>'."\n");
                     endif;
-				   $result4b = $db->sql_query('SELECT `cid`, 
+				   $result4b = $titanium_db->sql_query('SELECT `cid`, 
 				                                      `lid`, 
 													`title` 
-											   FROM `'.$prefix.'_downloads_downloads` 
+											   FROM `'.$titanium_prefix.'_downloads_downloads` 
 											   WHERE `active`= 1 
 											   AND `cid`="'.$cid2.'" 
 											   ORDER BY `hits` LIMIT 0,'.$ndown);
-				    while ($row4b = $db->sql_fetchrow($result4b)): 
+				    while ($row4b = $titanium_db->sql_fetchrow($result4b)): 
         				$titolodown3=$row4b['title'];
 						$cid3=$row4b['lid'];
 						print '<tr><td></td><td><img src="modules/Google-Site-Map/images/catt.gif" alt="cat"> <a 
@@ -513,16 +513,16 @@ while ($row2 = $db->sql_fetchrow($result2)):
                         //@fwrite($var, '<url><loc>'.$nukeurl.'/modules.php?name=Downloads&amp;op=getit&amp;lid='.$cid3.'</loc></url>'."\n");
 						endif;
                     endwhile;
-                    $db->sql_freeresult($result4b);
+                    $titanium_db->sql_freeresult($result4b);
                 endwhile;
-                $db->sql_freeresult($result4);
+                $titanium_db->sql_freeresult($result4);
 			endwhile;
-            $db->sql_freeresult($result3);
+            $titanium_db->sql_freeresult($result3);
 		break;
 		# File Repository  #################################################################################################################################################
 		case 'File_Repository':
-			$result3 = $db->sql_query('SELECT `cid`, `cname` FROM `'.$prefix.'_file_repository_categories` WHERE `parentid`= 0 ORDER BY `cname`');
-			while ($row3 = $db->sql_fetchrow($result3)):
+			$result3 = $titanium_db->sql_query('SELECT `cid`, `cname` FROM `'.$titanium_prefix.'_file_repository_categories` WHERE `parentid`= 0 ORDER BY `cname`');
+			while ($row3 = $titanium_db->sql_fetchrow($result3)):
 				$titolodown = $row3['cname'];
 				$cid1 = $row3['cid'];
 				print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
@@ -530,8 +530,8 @@ while ($row2 = $db->sql_fetchrow($result2)):
 				if($xml):
                 $sitemap->addItem('/modules.php?name=File_Repository&cid='.$cid1.'', '0.8', 'daily', 'Jun 25');
                 endif;
-				$result3b = $db->sql_query('SELECT `cid`, `did`, `title` FROM `'.$prefix.'_file_repository_items` WHERE `cid`="'.$cid1.'" ORDER BY `hits` LIMIT 0,'.$ndown);
-				while ($row3b = $db->sql_fetchrow($result3b)):
+				$result3b = $titanium_db->sql_query('SELECT `cid`, `did`, `title` FROM `'.$titanium_prefix.'_file_repository_items` WHERE `cid`="'.$cid1.'" ORDER BY `hits` LIMIT 0,'.$ndown);
+				while ($row3b = $titanium_db->sql_fetchrow($result3b)):
 					$titolodown3 = $row3b['title'];
 					$cid3 = $row3b['did'];
 					print '<tr><td></td><td><font color="green"><i style="vertical-align: middle;" class="fa 
@@ -541,9 +541,9 @@ while ($row2 = $db->sql_fetchrow($result2)):
                     $sitemap->addItem('/modules.php?name=File_Repository&action=view&did='.$cid3.'', '0.8', 'daily', 'Jun 25');
                     endif;
                 endwhile;
-                $db->sql_freeresult($result3b);	
-                $result4 = $db->sql_query('SELECT `cid`, `cname` FROM `'.$prefix.'_file_repository_categories` WHERE `parentid`="'.$cid1.'" ORDER BY `cname`');
-				while ($row4 = $db->sql_fetchrow($result4)):
+                $titanium_db->sql_freeresult($result3b);	
+                $result4 = $titanium_db->sql_query('SELECT `cid`, `cname` FROM `'.$titanium_prefix.'_file_repository_categories` WHERE `parentid`="'.$cid1.'" ORDER BY `cname`');
+				while ($row4 = $titanium_db->sql_fetchrow($result4)):
 					$titolodown2 = $row4['cname'];
 					$cid2 = $row4['cid'];
 					print '<tr><td></td><td><font color="green"><i style="vertical-align: middle;" class="fa 
@@ -551,8 +551,8 @@ while ($row2 = $db->sql_fetchrow($result2)):
 					if($xml):
                     $sitemap->addItem('/modules.php?name=File_Repository&cid='.$cid2.'', '0.8', 'daily', 'Jun 25');
                     endif;
-					$result4b = $db->sql_query('SELECT `cid`, `did`, `title` FROM `'.$prefix.'_file_repository_items` WHERE `cid`="'.$cid2.'" ORDER BY `hits` LIMIT 0,'.$ndown);
-					while ($row4b = $db->sql_fetchrow($result4b)):
+					$result4b = $titanium_db->sql_query('SELECT `cid`, `did`, `title` FROM `'.$titanium_prefix.'_file_repository_items` WHERE `cid`="'.$cid2.'" ORDER BY `hits` LIMIT 0,'.$ndown);
+					while ($row4b = $titanium_db->sql_fetchrow($result4b)):
 						$titolodown4 = $row4b['title'];
 						$cid4 = $row4b['did'];
 						print '<tr><td></td><td><font color="green"><i style="vertical-align: middle;" 
@@ -561,23 +561,23 @@ while ($row2 = $db->sql_fetchrow($result2)):
                         $sitemap->addItem('/modules.php?name=File_Repository&action=view&did='.$cid4.'', '0.8', 'daily', 'Jun 25');
 						endif;
 					endwhile;
-					$db->sql_freeresult($result4b);
+					$titanium_db->sql_freeresult($result4b);
 				endwhile;
-				$db->sql_freeresult($result4);
+				$titanium_db->sql_freeresult($result4);
 			endwhile;
-            $db->sql_freeresult($result3);
+            $titanium_db->sql_freeresult($result3);
 		break;
 		# Forums  #################################################################################################################################################		
 		case 'Forums':
-			$result5 = $db->sql_query('SELECT `cat_id`, 
+			$result5 = $titanium_db->sql_query('SELECT `cat_id`, 
 			                               `cat_title` 
-									   FROM `'.$prefix.'_bbcategories` 
+									   FROM `'.$titanium_prefix.'_bbcategories` 
 									   ORDER BY `cat_order`');
-			while ($row5 = $db->sql_fetchrow($result5)): 
+			while ($row5 = $titanium_db->sql_fetchrow($result5)): 
 				$titolocatf = $row5['cat_title'];
 				$cat_id = $row5['cat_id'];
 				# Check to make sure its not a blank category
-				$number_of_forums = $db->sql_numrows($db->sql_query('SELECT * FROM '.$prefix.'_bbforums 
+				$number_of_forums = $titanium_db->sql_numrows($titanium_db->sql_query('SELECT * FROM '.$titanium_prefix.'_bbforums 
 				                                                     WHERE `cat_id`="'.$cat_id.'" 
 																	 AND auth_view < 2 
 																	 AND auth_read < 2 ORDER BY forum_order'));
@@ -588,16 +588,16 @@ while ($row2 = $db->sql_fetchrow($result2)):
 				if($xml):
                 $sitemap->addItem('/modules.php?name=Forums&file=index&c='.$cat_id.'', '0.8', 'daily', 'Jun 25');
 				endif;
-				$result6 = $db->sql_query('SELECT `forum_name`,
+				$result6 = $titanium_db->sql_query('SELECT `forum_name`,
 				                                    `forum_id`,
 												   `auth_view`,
 												   `auth_read` 
-										   FROM `'.$prefix.'_bbforums` 
+										   FROM `'.$titanium_prefix.'_bbforums` 
 										   WHERE `cat_id`="'.$cat_id.'" 
 										   AND `auth_view`< 2 
 										   AND `auth_read` < 2 
 										   ORDER BY `forum_order`');
-				while ($row6 = $db->sql_fetchrow($result6)): 
+				while ($row6 = $titanium_db->sql_fetchrow($result6)): 
 					$titoloforum = $row6['forum_name'];
 					$fid = $row6['forum_id'];
 					$auth_view = $row6['auth_view'];
@@ -612,8 +612,8 @@ while ($row2 = $db->sql_fetchrow($result2)):
 						if($xml):
                         $sitemap->addItem('/modules.php?name=Forums&file=viewforum&f='.$fid.'', '0.8', 'daily', 'Jun 25');
                         endif;
-						$resultT = $db->sql_query('SELECT topic_title, topic_id FROM '.$prefix.'_bbtopics WHERE `forum_id`="'.$fid.'" ORDER BY topic_id DESC LIMIT 0,'.$ntopics);
-						while($rowT = $db->sql_fetchrow($resultT)): 
+						$resultT = $titanium_db->sql_query('SELECT topic_title, topic_id FROM '.$titanium_prefix.'_bbtopics WHERE `forum_id`="'.$fid.'" ORDER BY topic_id DESC LIMIT 0,'.$ntopics);
+						while($rowT = $titanium_db->sql_fetchrow($resultT)): 
 						print '<tr><td></td><td>';
 						print '&nbsp;&nbsp;&nbsp;&nbsp;<font color="darkgreen"><i style="vertical-align: middle;" 
 						class="fa fa-unlock-alt"></i></font>&nbsp;';
@@ -622,17 +622,17 @@ while ($row2 = $db->sql_fetchrow($result2)):
                         $sitemap->addItem('/modules.php?name=Forums&file=viewtopic&t='.$rowT[topic_id].'', '0.8', 'daily', 'Jun 25');
                         endif;
 						endwhile;
-                       $db->sql_freeresult($resultT);
+                       $titanium_db->sql_freeresult($resultT);
 					endif;
 				endwhile;
-				$db->sql_freeresult($result6);
+				$titanium_db->sql_freeresult($result6);
 			endwhile;
-			$db->sql_freeresult($result5);
+			$titanium_db->sql_freeresult($result5);
 		break;
 		# Sections  #################################################################################################################################################
 		case 'Sections':
-			$result7 = $db->sql_query('select `secid`, `secname`, `image` from `'.$prefix.'_sections` order by `secname`');
-			while ($row7 = $db->sql_fetchrow($result7)): 
+			$result7 = $titanium_db->sql_query('select `secid`, `secname`, `image` from `'.$titanium_prefix.'_sections` order by `secname`');
+			while ($row7 = $titanium_db->sql_fetchrow($result7)): 
 				$secid = $row7['secid'];
 				$secname = $row7['secname'];
 				$view = $row7['view'];
@@ -647,12 +647,12 @@ while ($row2 = $db->sql_fetchrow($result2)):
 				$sitemap->addItem('/modules.php?name=Sections&op=listarticles&secid='.$secid.'', '0.8', 'monthly', 'Jun 25');
 				endif;
 			endwhile;
-			$db->sql_freeresult($result7);
+			$titanium_db->sql_freeresult($result7);
 		break;
 		# Web Links  #################################################################################################################################################
 		case 'Web_Links':
-			$result8 = $db->sql_query('SELECT `cid`, `title` from `'.$prefix.'_links_categories` where `parentid`="'.$cid.'" order by `title`');
-			while ($row8 = $db->sql_fetchrow($result8)): 
+			$result8 = $titanium_db->sql_query('SELECT `cid`, `title` from `'.$titanium_prefix.'_links_categories` where `parentid`="'.$cid.'" order by `title`');
+			while ($row8 = $titanium_db->sql_fetchrow($result8)): 
 				$titololink = $row8['title'];
 				$cid1 = $row8['cid'];
 				print '<tr><td></td><td><font color="green"><i style="vertical-align: absmiddle;" 
@@ -661,12 +661,12 @@ while ($row2 = $db->sql_fetchrow($result2)):
 			    $sitemap->addItem('/modules.php?name=Web_Links&l_op=viewlink&cid='.$cid1.'', '0.8', 'monthly', 'Jun 25');
 				endif;
 			endwhile;
-            $db->sql_freeresult($result8);
+            $titanium_db->sql_freeresult($result8);
 		break;
 		# Blog Topics  #################################################################################################################################################
 		case 'Blog_Topics':
-			$result9 = $db->sql_query("SELECT topictext,topicid FROM ".$prefix."_topics ORDER BY topictext");
-			while ($row9 = $db->sql_fetchrow($result9)):
+			$result9 = $titanium_db->sql_query("SELECT topictext,topicid FROM ".$titanium_prefix."_topics ORDER BY topictext");
+			while ($row9 = $titanium_db->sql_fetchrow($result9)):
 				$topiclink=$row9['topictext'];
 				$cidtopic=$row9['topicid'];
 				print '<tr><td></td><td><font color="green"><i 
@@ -676,12 +676,12 @@ while ($row2 = $db->sql_fetchrow($result2)):
 		        $sitemap->addItem('/modules.php?name=Blog_Topics&cid='.$cidtopic.'', '0.8', 'monthly', 'Jun 25');
 				endif;
             endwhile;
-            $db->sql_freeresult($result9);
+            $titanium_db->sql_freeresult($result9);
 		break;
 		# Blog  #################################################################################################################################################
 		case 'Blog':
-			$result10 = $db->sql_query('SELECT `title`, `sid` FROM `'.$prefix.'_stories` ORDER BY `sid` DESC LIMIT 0,'.$nnews);
-			while ($row10 = $db->sql_fetchrow($result8)): 
+			$result10 = $titanium_db->sql_query('SELECT `title`, `sid` FROM `'.$titanium_prefix.'_stories` ORDER BY `sid` DESC LIMIT 0,'.$nnews);
+			while ($row10 = $titanium_db->sql_fetchrow($result8)): 
 				$newslink = $row10['title'];
 				$cidnews = $row10['sid'];
 				print '<tr><td></td><td><font color="green"><i 
@@ -691,36 +691,36 @@ while ($row2 = $db->sql_fetchrow($result2)):
 		        $sitemap->addItem('/modules.php?name=Blog&file=article&sid='.$cidnews.'', '0.8', 'monthly', 'Jun 25');
 				endif;
             endwhile;
-            $db->sql_freeresult($result10);
+            $titanium_db->sql_freeresult($result10);
 		break;
 		# Members List  #################################################################################################################################################
 		case 'Members_List':
-			$result11 = $db->sql_query('SELECT `username`, 
+			$result11 = $titanium_db->sql_query('SELECT `username`, 
 			                                    `user_id`, 
 								   user_allow_viewonline 
 								        
-										FROM `'.$user_prefix.'_users` 
+										FROM `'.$titanium_user_prefix.'_users` 
 										ORDER BY `user_id` DESC LIMIT 0,'.$nuser);
 		if ($show): 
-			   while ($row11 = $db->sql_fetchrow($result11)): 
+			   while ($row11 = $titanium_db->sql_fetchrow($result11)): 
 				if(($row11['user_allow_viewonline'] == 0) OR ($row11['username'] == 'Anonymous'))
 			    continue;
-				$user=$row11['username'];
+				$titanium_user=$row11['username'];
 				$ciduser=$row11['user_id'];
 				print '<tr><td></td><td><font color="green"><i style="vertical-align: absmiddle;" 
 				class="fa fa-unlock-alt"></i></font> <a 
-				href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$ciduser.'">PHP-Nuke Titanium &#187; User Profile &#187; '.$user.'</a></td>';
+				href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$ciduser.'">PHP-Nuke Titanium &#187; User Profile &#187; '.$titanium_user.'</a></td>';
 				if($xml):
                 $sitemap->addItem('/modules.php?name=Profile&mode=viewprofile&u='.$ciduser.'', '0.8', 'daily', 'Today');
                 endif;
 			   endwhile;
-            $db->sql_freeresult($result11);
+            $titanium_db->sql_freeresult($result11);
 		endif;
 		break;
 		# Reviews  #################################################################################################################################################
 		case 'Reviews':
-			$result12 = $db->sql_query('SELECT `title`, `id` FROM `'.$prefix.'_reviews` ORDER BY `id` DESC LIMIT 0,'.$nrev);
-			while ($row12 = $db->sql_fetchrow($result12)): 
+			$result12 = $titanium_db->sql_query('SELECT `title`, `id` FROM `'.$titanium_prefix.'_reviews` ORDER BY `id` DESC LIMIT 0,'.$nrev);
+			while ($row12 = $titanium_db->sql_fetchrow($result12)): 
 				$titrev=$row12['title'];
 				$cidrev=$row12['id'];
 				print '<tr><td></td><td><font color="green"><i style="vertical-align: absmiddle;" 
@@ -729,12 +729,12 @@ while ($row2 = $db->sql_fetchrow($result2)):
 				$sitemap->addItem('/modules.php?name=Reviews&rop=showcontent&id='.$cidrev.'', '0.8', 'daily', 'Today');
                 endif;
             endwhile;
-            $db->sql_freeresult($result12);
+            $titanium_db->sql_freeresult($result12);
 		break;
    endswitch;
 endwhile;
 
-$db->sql_freeresult($result2);
+$titanium_db->sql_freeresult($result2);
 print '</table>';
 print '<hr>';
 if(defined('facebook')):	

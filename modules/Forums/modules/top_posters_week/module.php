@@ -18,9 +18,9 @@
        Advanced Username Color                  v1.0.5       08/08/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 //
@@ -35,15 +35,15 @@ $core->set_view('columns', 5);
 
 $core->define_view('set_columns', array(
     $core->pre_defined('rank'),
-    'username' => $lang['Username'],
-    'posts' => $lang['Posts'],
+    'username' => $titanium_lang['Username'],
+    'posts' => $titanium_lang['Posts'],
     $core->pre_defined('percent'),
     $core->pre_defined('graph'))
 );
 
 $content->percentage_sign = TRUE;
 
-// $board_config['board_timezone']
+// $phpbb2_board_config['board_timezone']
 // Use local time offset
 
 $current_time = 0;
@@ -60,12 +60,12 @@ $dato = date('H', $current_time);
 $time_today = $hour_now - (3600 * intval($dato));
 $time_thisweek = $time_today - ((date('w', $time_today)-1) * 86400);
 
-//$l_this_day = create_date('D', $time_today, $board_config['board_timezone']);
-//$l_this_week = create_date('D', $time_thisweek, $board_config['board_timezone']);
+//$l_this_day = create_date('D', $time_today, $phpbb2_board_config['board_timezone']);
+//$l_this_week = create_date('D', $time_thisweek, $phpbb2_board_config['board_timezone']);
 $l_this_day = date('D', $time_today);
 $l_this_week = date('D', $time_thisweek);
 
-$core->set_header($lang['module_name'] . ' [' . $l_this_week . ' - ' . $l_this_day . ']');
+$core->set_header($titanium_lang['module_name'] . ' [' . $l_this_week . ' - ' . $l_this_day . ']');
 
 $core->assign_defined_view('align_rows', array(
     'left',
@@ -95,22 +95,22 @@ LIMIT " . $core->return_limit;
 
 $result = $core->sql_query($sql, 'Couldn\'t retrieve topposters data');
 
-$user_count = $core->sql_numrows($result);
-$user_data = $core->sql_fetchrowset($result);
+$titanium_user_count = $core->sql_numrows($result);
+$titanium_user_data = $core->sql_fetchrowset($result);
 
-$total_posts_thisweek = 0;
+$phpbb2_total_posts_thisweek = 0;
 
-for ($i = 0; $i < $user_count; $i++)
+for ($i = 0; $i < $titanium_user_count; $i++)
 {
-    $total_posts_thisweek += intval($user_data[$i]['user_posts']);
+    $phpbb2_total_posts_thisweek += intval($titanium_user_data[$i]['user_posts']);
 }
 
-$content->init_math('user_posts', $user_data[0]['user_posts'], $total_posts_thisweek);
-$core->set_data($user_data);
+$content->init_math('user_posts', $titanium_user_data[0]['user_posts'], $phpbb2_total_posts_thisweek);
+$core->set_data($titanium_user_data);
 
 $core->define_view('set_rows', array(
     '$core->pre_defined()',
-    '$core->generate_link(append_sid(\'profile.php?mode=viewprofile&amp;u=\' . $core->data(\'user_id\')), $core->data(\'username\'), \'target="_blank"\')',
+    '$core->generate_link(append_titanium_sid(\'profile.php?mode=viewprofile&amp;u=\' . $core->data(\'user_id\')), $core->data(\'username\'), \'target="_blank"\')',
     '$core->data(\'user_posts\')',
     '$core->pre_defined()',
     '$core->pre_defined()')

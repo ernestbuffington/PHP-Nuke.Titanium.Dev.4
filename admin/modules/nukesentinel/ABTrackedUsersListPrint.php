@@ -24,7 +24,7 @@ echo '</head>'."\n";
 echo '<body bgcolor="#FFFFFF" text="#000000" link="#000000" alink="#000000" vlink="#000000">'."\n";
 echo '<h1 align="center">'.$pagetitle.'</h1>'."\n";
 if(!isset($modfilter)) $modfilter='';
-$totalselected = $db->sql_numrows($db->sql_query("SELECT DISTINCT(`username`) FROM `".$prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`username`) FROM `".$titanium_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1"));
 if($totalselected > 0) {
   echo '<table summary="" align="center" border="0" bgcolor="#000000" cellpadding="2" cellspacing="2">'."\n";
   echo '<tr bgcolor="#ffffff">'."\n";
@@ -33,11 +33,11 @@ if($totalselected > 0) {
   echo '<td align="center"><strong>'._AB_LASTVIEWED.'</strong></td>'."\n";
   echo '<td align="center"><strong>'._AB_HITS.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $db->sql_query("SELECT `user_id`, `username`, MAX(`date`), COUNT(*) FROM `".$prefix."_nsnst_tracked_ips` GROUP BY 2");
-  while(list($userid,$username,$lastview,$hits) = $db->sql_fetchrow($result)){
-    $trackedips = $db->sql_numrows($db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$prefix."_nsnst_tracked_ips` WHERE `user_id`='$userid'"));
+  $result = $titanium_db->sql_query("SELECT `user_id`, `username`, MAX(`date`), COUNT(*) FROM `".$titanium_prefix."_nsnst_tracked_ips` GROUP BY 2");
+  while(list($titanium_userid,$titanium_username,$lastview,$hits) = $titanium_db->sql_fetchrow($result)){
+    $trackedips = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `user_id`='$titanium_userid'"));
     echo '<tr bgcolor="#ffffff">'."\n";
-    if($userid != 1) { echo '<td>'.UsernameColor($username).'</td>'."\n"; } else { echo '<td>'.$anonymous.'</td>'."\n"; }
+    if($titanium_userid != 1) { echo '<td>'.UsernameColor($titanium_username).'</td>'."\n"; } else { echo '<td>'.$anonymous.'</td>'."\n"; }
     echo '<td align="center">'.$trackedips.'</td>'."\n";
     echo '<td align="center">'.date("Y-m-d \@ H:i:s",$lastview).'</td>'."\n";
     echo '<td align="center">'.$hits.'</td>'."\n";

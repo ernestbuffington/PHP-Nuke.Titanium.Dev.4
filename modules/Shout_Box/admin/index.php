@@ -29,18 +29,18 @@ if (!defined('ADMIN_FILE')) {
    die ("Illegal File Access");
 }
 
-global $prefix, $db, $cache;
-$module_name = basename(dirname(dirname(__FILE__)));
-if (!is_mod_admin($module_name)) {
+global $titanium_prefix, $titanium_db, $titanium_cache;
+$titanium_module_name = basename(dirname(dirname(__FILE__)));
+if (!is_mod_admin($titanium_module_name)) {
     die("Access Denied");
 }
 
 global $currentlang, $sbURL;
 
 if ($currentlang) {
-    include_once(NUKE_MODULES_DIR.$module_name.'/lang-admin/lang-'.$currentlang.'.php');
+    include_once(NUKE_MODULES_DIR.$titanium_module_name.'/lang-admin/lang-'.$currentlang.'.php');
 } else {
-    include_once(NUKE_MODULES_DIR.$module_name.'/lang-admin/lang-english.php');
+    include_once(NUKE_MODULES_DIR.$titanium_module_name.'/lang-admin/lang-english.php');
 }
 
 include_once(NUKE_MODULES_DIR.'Shout_Box/shout.php');
@@ -49,21 +49,21 @@ $ThemeSel = get_theme();
 
 global $rowColor;
 
-if ((($rowColor = $cache->load('theme_'.$ThemeSel, 'shoutbox')) == false) || empty($rowColor)) {
-    $sql = "SELECT * FROM `".$prefix."_shoutbox_themes` WHERE themeName='$ThemeSel'";
-    $result = $db->sql_query($sql);
-    $rowColor = $db->sql_fetchrow($result);
-    $cache->save('theme_'.$ThemeSel, 'shoutbox', $rowColor);
-    $db->sql_freeresult($result);
+if ((($rowColor = $titanium_cache->load('theme_'.$ThemeSel, 'shoutbox')) == false) || empty($rowColor)) {
+    $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_themes` WHERE themeName='$ThemeSel'";
+    $result = $titanium_db->sql_query($sql);
+    $rowColor = $titanium_db->sql_fetchrow($result);
+    $titanium_cache->save('theme_'.$ThemeSel, 'shoutbox', $rowColor);
+    $titanium_db->sql_freeresult($result);
 }
 
 global $shout_conf;
 
-if ((($shout_conf = $cache->load('conf', 'shoutbox')) == false) || empty($shout_conf)) {
-    $sql = "SELECT * FROM `".$prefix."_shoutbox_conf`";
-    $result = $db->sql_query($sql);
-    $shout_conf = $db->sql_fetchrow($result);
-    $cache->save('conf', 'shoutbox', $shout_conf);
+if ((($shout_conf = $titanium_cache->load('conf', 'shoutbox')) == false) || empty($shout_conf)) {
+    $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_conf`";
+    $result = $titanium_db->sql_query($sql);
+    $shout_conf = $titanium_db->sql_fetchrow($result);
+    $titanium_cache->save('conf', 'shoutbox', $shout_conf);
 }
 
 
@@ -158,7 +158,7 @@ function ShoutBoxAdminMenu($ShoutMenuOptionActive) {
 // Start 'Manage Shouts' code (Default page)
 
 function manageShouts($page, $pruned) {
-    global $prefix, $db, $admin, $admin_file, $sbURL, $module_name, $shout_conf, $rowColor, $userinfo, $board_config;
+    global $titanium_prefix, $titanium_db, $admin, $admin_file, $sbURL, $titanium_module_name, $shout_conf, $rowColor, $userinfo, $board_config;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $ShoutMenuOptionActive = 1;
@@ -167,12 +167,12 @@ function manageShouts($page, $pruned) {
 
     $conf = $shout_conf;
 
-    $sql = "SELECT aCount FROM ".$prefix."_shoutbox_manage_count WHERE admin='$admin[0]'";
-    $resultA = $db->sql_query($sql);
-    $aCount = $db->sql_fetchrow($resultA);
+    $sql = "SELECT aCount FROM ".$titanium_prefix."_shoutbox_manage_count WHERE admin='$admin[0]'";
+    $resultA = $titanium_db->sql_query($sql);
+    $aCount = $titanium_db->sql_fetchrow($resultA);
     if (empty($aCount['aCount'])) {
-        $sql = "INSERT INTO ".$prefix."_shoutbox_manage_count (admin, aCount) VALUES ('$admin[0]','10')";
-        $db->sql_query($sql);
+        $sql = "INSERT INTO ".$titanium_prefix."_shoutbox_manage_count (admin, aCount) VALUES ('$admin[0]','10')";
+        $titanium_db->sql_query($sql);
         $aCount['aCount'] = 10;
     }
 
@@ -187,10 +187,10 @@ function manageShouts($page, $pruned) {
     echo "<td width=\"5%\"><strong>"._BAN."</strong></td>";
     echo "</tr>";
 
-    $sql = "SELECT `id` FROM `".$prefix."_shoutbox_shouts`";
-    $result = $db->sql_query($sql);
-    $numrows = $db->sql_numrows($result);
-    $db->sql_freeresult($result);
+    $sql = "SELECT `id` FROM `".$titanium_prefix."_shoutbox_shouts`";
+    $result = $titanium_db->sql_query($sql);
+    $numrows = $titanium_db->sql_numrows($result);
+    $titanium_db->sql_freeresult($result);
     $numrows2 = $numrows;
     $shout_pages = 1;
     $shoutsViewed = $aCount['aCount'];
@@ -213,10 +213,10 @@ function manageShouts($page, $pruned) {
     if ($shgroup1 < 1) { $shgroup1 = 1; }
     $shgroup2 = ($shgroup1-1);
 
-    $sql = "SELECT * FROM `".$prefix."_shoutbox_shouts` ORDER BY `id` DESC LIMIT ".$offset1.",".$aCount['aCount'];
-    $nameresult = $db->sql_query($sql);
+    $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_shouts` ORDER BY `id` DESC LIMIT ".$offset1.",".$aCount['aCount'];
+    $nameresult = $titanium_db->sql_query($sql);
     $x = 1;
-    while ($shout = $db->sql_fetchrow($nameresult)) {
+    while ($shout = $titanium_db->sql_fetchrow($nameresult)) {
         $comment = str_replace('src=', 'src="', $shout['comment']);
         $comment = str_replace('.gif>', '.gif" alt="" />', $comment);
         $comment = str_replace('.jpg>', '.jpg" alt="" />', $comment);
@@ -240,9 +240,9 @@ function manageShouts($page, $pruned) {
         }
 
         // check to see if nickname is a user in the DB
-        $sql = "SELECT * FROM `".$prefix."_users` WHERE `username`='".$shout['name']."'";
-        $nameresult2 = $db->sql_query($sql);
-        $row = $db->sql_fetchrow($nameresult2);
+        $sql = "SELECT * FROM `".$titanium_prefix."_users` WHERE `username`='".$shout['name']."'";
+        $nameresult2 = $titanium_db->sql_query($sql);
+        $row = $titanium_db->sql_fetchrow($nameresult2);
         if ($row && $shout['name'] != "Anonymous" && $shout['comment'] != "Anonymous") {
 /*****[BEGIN]******************************************
  [ Mod:     Advanced Username Color            v1.0.5 ]
@@ -273,10 +273,10 @@ function manageShouts($page, $pruned) {
         echo "<td align=\"center\"><input type=\"hidden\" name=\"sr$x\" value=\"".$shout['id']."\" /><input type=\"checkbox\" name=\"shr$x\" /></td><td align=\"center\"><a title=\"Edit\" href=\"".$admin_file.".php?op=shout&amp;Submit=ShoutEdit&amp;shoutID=".$shout['id']."&amp;page=$page\">"._EDIT."</a></td>";
 
         if ($shout['ip'] != 'noip') {
-            $sql = "SELECT * FROM `".$prefix."_shoutbox_ipblock` WHERE `name`='".$shout['ip']."' ";
-            $nameIPresult = $db->sql_query($sql);
-            $nameIProw = $db->sql_fetchrow($nameIPresult);
-            $db->sql_freeresult($nameIPresult);
+            $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_ipblock` WHERE `name`='".$shout['ip']."' ";
+            $nameIPresult = $titanium_db->sql_query($sql);
+            $nameIProw = $titanium_db->sql_fetchrow($nameIPresult);
+            $titanium_db->sql_freeresult($nameIPresult);
             if ($nameIProw) {
                 echo "<td><strong>"._SB_BANNED."</strong></td></tr>";
             } else {
@@ -288,7 +288,7 @@ function manageShouts($page, $pruned) {
         $x++;
         $shgroup2++;
     }
-    $db->sql_freeresult($nameresult);
+    $titanium_db->sql_freeresult($nameresult);
     echo "</table></td></tr></table><br />";
 
     echo "<table cellpadding=\"3\" cellspacing=\"0\" border=\"0\" width=\"100%\"><tr>";
@@ -353,25 +353,25 @@ function manageShouts($page, $pruned) {
     }
     echo "<center><form name=\"shoutPrune1\" action=\"\" method=\"post\" style=\"margin-bottom: 0px;\">"._SB_PRUNESHOUTSOLDERTHAN."&nbsp;&nbsp;<input type=\"hidden\" name=\"page\" value=\"$page\" /><input type=\"text\" name=\"pruneDays\" value=\"\" maxlength=\"3\" size=\"5\" />&nbsp;&nbsp;"._SB_DAYS."&nbsp;&nbsp;<input type=\"hidden\" name=\"Submit\" value=\"pruneSubmit\" /><input type=\"submit\" name=\"button\" value=\""._SB_DOPRUNE."\" /></form></center>";
 
-    $sql = "SELECT `id` FROM `".$prefix."_shoutbox_shouts` WHERE `timestamp`=''";
-    $resultTS = $db->sql_query($sql);
-    $TSrows = $db->sql_numrows($resultTS);
-    $db->sql_freeresult($resultTS);
+    $sql = "SELECT `id` FROM `".$titanium_prefix."_shoutbox_shouts` WHERE `timestamp`=''";
+    $resultTS = $titanium_db->sql_query($sql);
+    $TSrows = $titanium_db->sql_numrows($resultTS);
+    $titanium_db->sql_freeresult($resultTS);
     if ($TSrows > 0) {
         echo "<br /><br /><strong>NOTE:</strong> The prune feature only works on shouts that use the new unix timestamp format. You currently have <strong>$TSrows</strong> shouts that are using the old format. Please run the conversion tool that came in the Shout_Box.zip to update your shouts.";
     }
     CloseTable();
     
     OpenTable();
-    $sql = "SELECT `name`, `comment` FROM `".$prefix."_shoutbox_sticky` WHERE `stickySlot`=0";
-    $stickyResult = $db->sql_query($sql);
-    $stickyRow0 = $db->sql_fetchrow($stickyResult);
-    $db->sql_freeresult($stickyResult);
+    $sql = "SELECT `name`, `comment` FROM `".$titanium_prefix."_shoutbox_sticky` WHERE `stickySlot`=0";
+    $stickyResult = $titanium_db->sql_query($sql);
+    $stickyRow0 = $titanium_db->sql_fetchrow($stickyResult);
+    $titanium_db->sql_freeresult($stickyResult);
     
-	$sql = "SELECT `name`, `comment` FROM `".$prefix."_shoutbox_sticky` WHERE `stickySlot`=1";
-    $stickyResult = $db->sql_query($sql);
-    $stickyRow1 = $db->sql_fetchrow($stickyResult);
-    $db->sql_freeresult($stickyResult);
+	$sql = "SELECT `name`, `comment` FROM `".$titanium_prefix."_shoutbox_sticky` WHERE `stickySlot`=1";
+    $stickyResult = $titanium_db->sql_query($sql);
+    $stickyRow1 = $titanium_db->sql_fetchrow($stickyResult);
+    $titanium_db->sql_freeresult($stickyResult);
 
     echo "<br /><div align=\"center\" class=\"title\">"._SB_STICKYSHOUTS."</div><br />";
     echo "<center><table align=\"center\" cellpadding=\"5\" cellspacing=\"0\" border=\"0\"><tr><td>".$stickyRow0['name']." </td><td nowrap=\"nowrap\"><form name=\"shoutAdmin20\" action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><input type=\"hidden\" name=\"page\" value=\"$page\" /><input type=\"text\" name=\"stickyShout\" value=\"".$stickyRow0['comment']."\" maxlength=\"150\" size=\"75\" />&nbsp;&nbsp;<input type=\"hidden\" name=\"stickyUsername\" value=\"".$admin[0]."\" /><input type=\"hidden\" name=\"Submit\" value=\"stickySubmit\" /><input type=\"hidden\" name=\"stickySlot\" value=\"0\" /><input type=\"submit\" name=\"button\" value=\""._SB_SUBMIT."\" /></form></td></tr><tr><td>".$stickyRow1['name']." </td><td nowrap=\"nowrap\"><form name=\"shoutAdmin21\" action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><input type=\"hidden\" name=\"page\" value=\"$page\" /><input type=\"text\" name=\"stickyShout\" value=\"".$stickyRow1['comment']."\" maxlength=\"150\" size=\"75\" />&nbsp;&nbsp;<input type=\"hidden\" name=\"stickyUsername\" value=\"".$admin[0]."\" /><input type=\"hidden\" name=\"Submit\" value=\"stickySubmit\" /><input type=\"hidden\" name=\"stickySlot\" value=\"1\" /><input type=\"submit\" name=\"button\" value=\""._SB_SUBMIT."\" /></form></td></tr></table></center>";
@@ -387,7 +387,7 @@ function manageShouts($page, $pruned) {
     <input type=\"hidden\" name=\"item_name\" value=\"Donation to ourscripts.86it.us\" />
     <input type=\"hidden\" name=\"no_shipping\" value=\"1\" />
     <input type=\"hidden\" name=\"cn\" value=\"Comments\" /><p align=\"center\">
-    <input type=\"image\" src=\"modules/$module_name/images/paypal.gif\" alt=\"Please donate. Thank you!\" name=\"submit\" title=\"Please donate. Thank you!\" /></p></form><p align=\"center\" class=\"content\">Our community appreciates your monitary support!</p><p align=\"center\" class=\"content\">Released under the <a target=\"_blank\" href=\"".$sbURL."http://www.gnu.org\">GNU/GPL license</a> and distributed by <a target=\"_blank\" href=\"".$sbURL."https://ourscripts.86it.us\">OurScripts.net</a>.<br />Copyright &copy; 2002-2005 by SuiteSoft Solutions. All rights reserved.</p>";
+    <input type=\"image\" src=\"modules/$titanium_module_name/images/paypal.gif\" alt=\"Please donate. Thank you!\" name=\"submit\" title=\"Please donate. Thank you!\" /></p></form><p align=\"center\" class=\"content\">Our community appreciates your monitary support!</p><p align=\"center\" class=\"content\">Released under the <a target=\"_blank\" href=\"".$sbURL."http://www.gnu.org\">GNU/GPL license</a> and distributed by <a target=\"_blank\" href=\"".$sbURL."https://ourscripts.86it.us\">OurScripts.net</a>.<br />Copyright &copy; 2002-2005 by SuiteSoft Solutions. All rights reserved.</p>";
     CloseTable();
     // END OF COPYRIGHT.
     include_once(NUKE_BASE_DIR.'footer.php');
@@ -395,7 +395,7 @@ function manageShouts($page, $pruned) {
 }
 
 function pruneSubmit($pruneDays, $page) {
-    global $prefix, $db, $admin_file;
+    global $titanium_prefix, $titanium_db, $admin_file;
     if ($pruneDays > 0 AND is_numeric($pruneDays)) {
         $pruneDays = round($pruneDays);
         if ($pruneDays > 0) {
@@ -403,17 +403,17 @@ function pruneSubmit($pruneDays, $page) {
             $pruneDays = $pruneDays * 86400;
             $newTimestamp = $timestamp - $pruneDays;
 
-            $sql = "SELECT `id` FROM `".$prefix."_shoutbox_shouts`";
-            $result = $db->sql_query($sql);
-            $shoutsBefore = $db->sql_numrows($result);
-            $db->sql_freeresult($result);
+            $sql = "SELECT `id` FROM `".$titanium_prefix."_shoutbox_shouts`";
+            $result = $titanium_db->sql_query($sql);
+            $shoutsBefore = $titanium_db->sql_numrows($result);
+            $titanium_db->sql_freeresult($result);
 
-            $sql = "DELETE FROM `".$prefix."_shoutbox_shouts` WHERE `timestamp` <> '' AND `timestamp` < $newTimestamp";
-            $db->sql_query($sql);
+            $sql = "DELETE FROM `".$titanium_prefix."_shoutbox_shouts` WHERE `timestamp` <> '' AND `timestamp` < $newTimestamp";
+            $titanium_db->sql_query($sql);
 
-            $sql = "SELECT `id` FROM `".$prefix."_shoutbox_shouts`";
-            $result = $db->sql_query($sql);
-            $shoutsAfter = $db->sql_numrows($result);
+            $sql = "SELECT `id` FROM `".$titanium_prefix."_shoutbox_shouts`";
+            $result = $titanium_db->sql_query($sql);
+            $shoutsAfter = $titanium_db->sql_numrows($result);
 
             $pruned = ($shoutsBefore-$shoutsAfter);
         }
@@ -424,7 +424,7 @@ function pruneSubmit($pruneDays, $page) {
 }
 
 function stickySubmit($stickyShout, $stickyUsername, $stickySlot, $page) {
-    global $prefix, $db, $admin_file, $shout_conf;
+    global $titanium_prefix, $titanium_db, $admin_file, $shout_conf;
     if ($stickyShout) {
         $conf = $shout_conf;
 
@@ -445,34 +445,34 @@ function stickySubmit($stickyShout, $stickyUsername, $stickySlot, $page) {
         $stickyShout = htmlspecialchars($stickyShout, ENT_QUOTES);
         $stickyShout = str_replace("&amp;amp;", "&amp;",$stickyShout);
 
-        $sql = "SELECT * FROM `".$prefix."_shoutbox_sticky` WHERE `stickySlot`='$stickySlot'";
-        $stickyResult = $db->sql_query($sql);
-        $stickyRow = $db->sql_fetchrow($stickyResult);
-        $db->sql_freeresult($stickyResult);
+        $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_sticky` WHERE `stickySlot`='$stickySlot'";
+        $stickyResult = $titanium_db->sql_query($sql);
+        $stickyRow = $titanium_db->sql_fetchrow($stickyResult);
+        $titanium_db->sql_freeresult($stickyResult);
         if ($stickyRow) {
-            $sql = "UPDATE `".$prefix."_shoutbox_sticky set` `name`='$stickyUsername', `comment`='$stickyShout', `timestamp`='$timestamp' WHERE `stickySlot`='$stickySlot'";
+            $sql = "UPDATE `".$titanium_prefix."_shoutbox_sticky set` `name`='$stickyUsername', `comment`='$stickyShout', `timestamp`='$timestamp' WHERE `stickySlot`='$stickySlot'";
         } else {
-            $sql = "INSERT INTO `".$prefix."_shoutbox_sticky` (name, comment, timestamp, stickySlot) VALUES ('$stickyUsername','$stickyShout','$timestamp','$stickySlot')";
+            $sql = "INSERT INTO `".$titanium_prefix."_shoutbox_sticky` (name, comment, timestamp, stickySlot) VALUES ('$stickyUsername','$stickyShout','$timestamp','$stickySlot')";
         }
     } else {
-        $sql = "DELETE FROM `".$prefix."_shoutbox_sticky` WHERE `stickySlot`='$stickySlot'";
+        $sql = "DELETE FROM `".$titanium_prefix."_shoutbox_sticky` WHERE `stickySlot`='$stickySlot'";
     }
-    $db->sql_query($sql);
+    $titanium_db->sql_query($sql);
     header("Location: ".$admin_file.".php?op=shout&Submit=manageShouts&page=$page");
     exit;
 }
 
 function ShoutEdit($shoutID, $page, $ShoutError) {
-    global $prefix, $db, $admin_file;
+    global $titanium_prefix, $titanium_db, $admin_file;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $ShoutMenuOptionActive = 1;
     ShoutBoxAdminMenu($ShoutMenuOptionActive);
     OpenTable();
-    $sql = "SELECT `comment` FROM `".$prefix."_shoutbox_shouts` WHERE `id`='$shoutID'";
-    $nameresult = $db->sql_query($sql);
-    $row = $db->sql_fetchrow($nameresult);
-    $db->sql_freeresult($nameresult);
+    $sql = "SELECT `comment` FROM `".$titanium_prefix."_shoutbox_shouts` WHERE `id`='$shoutID'";
+    $nameresult = $titanium_db->sql_query($sql);
+    $row = $titanium_db->sql_fetchrow($nameresult);
+    $titanium_db->sql_freeresult($nameresult);
 
     // strip out link code here (added back in later if saved)
     $ShoutComment = $row['comment'];
@@ -515,12 +515,12 @@ function ShoutEdit($shoutID, $page, $ShoutError) {
     $ShoutComment = implode(" ",$ShoutNew);
 
     // strip smilies code here (added back in later if saved)
-    $sql = "SELECT * FROM `".$prefix."_shoutbox_emoticons`";
-    $eresult = $db->sql_query($sql);
-    while ($emoticons = $db->sql_fetchrow($eresult)) {
+    $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_emoticons`";
+    $eresult = $titanium_db->sql_query($sql);
+    while ($emoticons = $titanium_db->sql_fetchrow($eresult)) {
         $ShoutComment = str_replace($emoticons['image'],$emoticons['text'],$ShoutComment);
     }
-    $db->sql_freeresult($eresult);
+    $titanium_db->sql_freeresult($eresult);
 
     echo "<form name=\"adminshoutedit\" method=\"post\" action=\"\" style=\"margin-bottom: 0px;\">\n";
     echo "<table cellpadding=\"3\" cellspacing=\"0\" width=\"90%\" border=\"0\" align=\"center\">\n";
@@ -536,7 +536,7 @@ function ShoutEdit($shoutID, $page, $ShoutError) {
 }
 
 function ShoutSave($shoutID, $ShoutComment, $page) {
-    global $prefix, $db, $admin_file, $shout_conf;
+    global $titanium_prefix, $titanium_db, $admin_file, $shout_conf;
     $conf = $shout_conf;
 
     $ShoutComment = trim($ShoutComment); // remove whitespace off ends of shout
@@ -657,25 +657,25 @@ function ShoutSave($shoutID, $ShoutComment, $page) {
     //Smilies from database
     $ShoutArrayReplace = explode(" ",$ShoutComment);
     $ShoutArrayScan = $ShoutArrayReplace;
-    $sql = "SELECT * FROM `".$prefix."_shoutbox_emoticons`";
-    $eresult = $db->sql_query($sql);
-    while ($emoticons = $db->sql_fetchrow($eresult)) {
+    $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_emoticons`";
+    $eresult = $titanium_db->sql_query($sql);
+    while ($emoticons = $titanium_db->sql_fetchrow($eresult)) {
         $i = 0;
         foreach($ShoutArrayScan as $ShoutPart) {
             if ($ShoutPart == $emoticons['text']) { $ShoutArrayReplace[$i] = $emoticons['image']; }
             $i++;
         }
     }
-    $db->sql_freeresult($eresult);
+    $titanium_db->sql_freeresult($eresult);
     $ShoutComment = implode(" ",$ShoutArrayReplace);
 
     //look for bad words, then censor them.
     if($conf['censor'] == "yes") {
         $ShoutArrayReplace = explode(" ",$ShoutComment);
         $ShoutArrayScan = $ShoutArrayReplace;
-        $sql = "SELECT * FROM `".$prefix."_shoutbox_censor`";
-        $cresult = $db->sql_query($sql);
-        while ($censor = $db->sql_fetchrow($cresult)) {
+        $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_censor`";
+        $cresult = $titanium_db->sql_query($sql);
+        while ($censor = $titanium_db->sql_fetchrow($cresult)) {
             $i = 0;
             if (is_array($ShoutArray)) {
                 foreach($ShoutArrayScan as $ShoutPart) {
@@ -686,22 +686,22 @@ function ShoutSave($shoutID, $ShoutComment, $page) {
                 }
             }
         }
-        $db->sql_freeresult($cresult);
+        $titanium_db->sql_freeresult($cresult);
         $ShoutComment = implode(" ",$ShoutArrayReplace);
 
         /*
         // Phrase censor - Needs work before implementing
-        $sql = "SELECT * FROM ".$prefix."_shoutbox_emoticons";
-        $eresult = $db->sql_query($sql);
-        while ($emoticons = $db->sql_fetchrow($eresult)) {
+        $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_emoticons";
+        $eresult = $titanium_db->sql_query($sql);
+        while ($emoticons = $titanium_db->sql_fetchrow($eresult)) {
             $ShoutComment = str_replace($emoticons[1],$emoticons[2],$ShoutComment);
         }
         */
     }
 
     if (!$ShoutError) {
-        $sql = "UPDATE `".$prefix."_shoutbox_shouts` SET `comment`='$ShoutComment' WHERE `id`='$shoutID'";
-        $db->sql_query($sql);
+        $sql = "UPDATE `".$titanium_prefix."_shoutbox_shouts` SET `comment`='$ShoutComment' WHERE `id`='$shoutID'";
+        $titanium_db->sql_query($sql);
     } else {
         header("Location: ".$admin_file.".php?op=shout&Submit=ShoutEdit&shoutID=$shoutID&page=$page&ShoutError=$ShoutError");
         exit;
@@ -711,11 +711,11 @@ function ShoutSave($shoutID, $ShoutComment, $page) {
 }
 
 function shremove($page, $sr, $shr,$listnum) {
-    global $prefix, $db, $admin_file;
+    global $titanium_prefix, $titanium_db, $admin_file;
     for ($x = 1; $x <= $listnum; $x++) {
         if ($shr[$x] == 'on') {
-            $sql = "DELETE FROM `".$prefix."_shoutbox_shouts` WHERE `id`='$sr[$x]'";
-            $db->sql_query($sql);
+            $sql = "DELETE FROM `".$titanium_prefix."_shoutbox_shouts` WHERE `id`='$sr[$x]'";
+            $titanium_db->sql_query($sql);
         }
     }
     header("Location: ".$admin_file.".php?op=shout&Submit=manageShouts&page=$page");
@@ -723,9 +723,9 @@ function shremove($page, $sr, $shr,$listnum) {
 }
 
 function adminDropCount($aCount, $page) {
-    global $prefix, $db, $admin_file, $admin;
-    $sql = "UPDATE `".$prefix."_shoutbox_manage_count` SET `aCount`='$aCount' WHERE `admin`='$admin[0]'";
-    $db->sql_query($sql);
+    global $titanium_prefix, $titanium_db, $admin_file, $admin;
+    $sql = "UPDATE `".$titanium_prefix."_shoutbox_manage_count` SET `aCount`='$aCount' WHERE `admin`='$admin[0]'";
+    $titanium_db->sql_query($sql);
     header("Location: ".$admin_file.".php?op=shout&Submit=manageShouts&page=$page");
     exit;
 }
@@ -735,7 +735,7 @@ function adminDropCount($aCount, $page) {
 // Start 'Layout' code
 
 function ShoutBoxLayout() {
-    global $prefix, $db, $admin_file, $sbURL, $shout_conf, $rowColor;
+    global $titanium_prefix, $titanium_db, $admin_file, $sbURL, $shout_conf, $rowColor;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $conf = $shout_conf;
@@ -777,30 +777,30 @@ function ShoutBoxLayout() {
 }
 
 function ShoutBoxLayoutSet($daten, $numbern, $heightn, $textboxwidth, $smiliesperrow, $reverseshouts, $pointspershout, $shoutsperpagehistory, $serverTimezone) {
-    global $prefix, $db, $admin_file, $cache;
-    $sql = "UPDATE `".$prefix."_shoutbox_conf` SET date='$daten', `number`='$numbern', `height`='$heightn', `textWidth`='$textboxwidth', `smiliesPerRow`='$smiliesperrow', `reversePosts`='$reverseshouts', `pointspershout`='$pointspershout', `shoutsperpage`='$shoutsperpagehistory', `serverTimezone`='$serverTimezone' WHERE `id`=1";
-    $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
-    $cache->resync();
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET date='$daten', `number`='$numbern', `height`='$heightn', `textWidth`='$textboxwidth', `smiliesPerRow`='$smiliesperrow', `reversePosts`='$reverseshouts', `pointspershout`='$pointspershout', `shoutsperpage`='$shoutsperpagehistory', `serverTimezone`='$serverTimezone' WHERE `id`=1";
+    $titanium_db->sql_query($sql);
+    $titanium_cache->delete('conf', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxLayout");
     exit;
 }
 
 function ShoutBoxAdminMonitor() {
-    global $prefix, $db, $admin_file, $module_name, $cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_module_name, $titanium_cache;
     OpenTable();
     // Warnings to admins if something isn't set right.
     echo "<p align=\"center\" class=\"content\"><strong>"._SETUPANDSECURITY."</strong></p>";
     $SBhealthCount = 0;
 
     // Level 1 checks (Marginal)
-    $filename = "modules/$module_name/language/index.html";
+    $filename = "modules/$titanium_module_name/language/index.html";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
-    $filename = "modules/$module_name/images/down/Black.gif";
+    $filename = "modules/$titanium_module_name/images/down/Black.gif";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
-    $filename = "modules/$module_name/images/up/Black.gif";
+    $filename = "modules/$titanium_module_name/images/up/Black.gif";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
-    $filename = "modules/$module_name/images/pause/Black.gif";
+    $filename = "modules/$titanium_module_name/images/pause/Black.gif";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
     $filename = "images/blocks/shout_box/index.html";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
@@ -810,40 +810,40 @@ function ShoutBoxAdminMonitor() {
     // $_SERVER["SERVER_SOFTWARE"]
 
     // Level 2 checks (Critical)
-    $filename = "modules/$module_name";
+    $filename = "modules/$titanium_module_name";
     if (is_dir($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "modules/$module_name/copyright.php";
+    $filename = "modules/$titanium_module_name/copyright.php";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
     $filename = "includes/shoutbox.js";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "modules/$module_name/index.php";
+    $filename = "modules/$titanium_module_name/index.php";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "modules/$module_name/language/lang-english.php";
+    $filename = "modules/$titanium_module_name/language/lang-english.php";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "blocks/block-$module_name.php";
+    $filename = "blocks/block-$titanium_module_name.php";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "modules/$module_name/images/paypal.gif";
+    $filename = "modules/$titanium_module_name/images/paypal.gif";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_shouts";
-    $result = $db->sql_query($sql);
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_shouts";
+    $result = $titanium_db->sql_query($sql);
     if ($result == NULL) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_censor";
-    $result = $db->sql_query($sql);
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_censor";
+    $result = $titanium_db->sql_query($sql);
     if ($result == NULL) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_conf";
-    $result = $db->sql_query($sql);
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_conf";
+    $result = $titanium_db->sql_query($sql);
     if ($result == NULL) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_emoticons";
-    $result = $db->sql_query($sql);
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_emoticons";
+    $result = $titanium_db->sql_query($sql);
     if ($result == NULL) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_ipblock";
-    $result = $db->sql_query($sql);
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_ipblock";
+    $result = $titanium_db->sql_query($sql);
     if ($result == NULL) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_nameblock";
-    $result = $db->sql_query($sql);
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_nameblock";
+    $result = $titanium_db->sql_query($sql);
     if ($result == NULL) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_version";
-    $result = $db->sql_query($sql);
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_version";
+    $result = $titanium_db->sql_query($sql);
     if ($result == NULL) { $SBhealthCount = 2; }
     $filename = "SB_SQL_installer.php";
     if (file_exists($filename) == TRUE) { $SBhealthCount = 2; }
@@ -857,18 +857,18 @@ function ShoutBoxAdminMonitor() {
     if (file_exists($filename) == TRUE) { $SBhealthCount = 2; }
     $filename = "shout3.01to3.5.php";
     if (file_exists($filename) == TRUE) { $SBhealthCount = 2; }
-    $sqlCheck = "SELECT * FROM ".$prefix."_blocks WHERE blockfile='block-$module_name.php'";
-    $resultCheck = $db->sql_query($sqlCheck);
-    $numrowsCheck = $db->sql_numrows($resultCheck);
+    $sqlCheck = "SELECT * FROM ".$titanium_prefix."_blocks WHERE blockfile='block-$titanium_module_name.php'";
+    $resultCheck = $titanium_db->sql_query($sqlCheck);
+    $numrowsCheck = $titanium_db->sql_numrows($resultCheck);
     if ($numrowsCheck != 1) { $SBhealthCount = 2; }
-    $rowCheck = $db->sql_fetchrow($resultCheck);
+    $rowCheck = $titanium_db->sql_fetchrow($resultCheck);
     if ($rowCheck['active'] != 1) { $SBhealthCount = 2; }
     if (($rowCheck['view'] != 0) AND ($rowCheck['view'] != 1)) { $SBhealthCount = 2; }
-    $sqlCheck = "SELECT * FROM ".$prefix."_modules WHERE title='$module_name'";
-    $resultCheck = $db->sql_query($sqlCheck);
-    $numrowsCheck = $db->sql_numrows($resultCheck);
+    $sqlCheck = "SELECT * FROM ".$titanium_prefix."_modules WHERE title='$titanium_module_name'";
+    $resultCheck = $titanium_db->sql_query($sqlCheck);
+    $numrowsCheck = $titanium_db->sql_numrows($resultCheck);
     if ($numrowsCheck != 1) { $SBhealthCount = 2; }
-    $rowCheck = $db->sql_fetchrow($resultCheck);
+    $rowCheck = $titanium_db->sql_fetchrow($resultCheck);
     if ($rowCheck['active'] != 1) { $SBhealthCount = 2; }
     if (($rowCheck['view'] != 0) AND ($rowCheck['view'] != 1)) { $SBhealthCount = 2; }
     echo "<p align=\"center\" class=\"content\">"._CURRENTCOND.": ";
@@ -883,7 +883,7 @@ function ShoutBoxAdminMonitor() {
 }
 
 function shoutHealth($SBhealthCount) {
-    global $prefix, $db, $admin_file, $module_name;
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_module_name;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $ShoutMenuOptionActive = 2;
@@ -897,13 +897,13 @@ function shoutHealth($SBhealthCount) {
     elseif ($SBhealthCount == 2) { echo _SBEXCELLENT."/"._SBMARGINAL."/<strong>"._SBCRITICAL."</strong></p>"; }
 
     // Level 1 checks (Marginal)
-    $filename = "modules/$module_name/language/index.html";
+    $filename = "modules/$titanium_module_name/language/index.html";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing security file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This security file is used to keep individuals from browsing the backend of your website. Its a 0 byte size file, which gives them a blank screen if they try to browse the directory it is in. You can usually find this file within another directory of your installation of PHP-Nuke and just copy it into this directory.</p>"; }
-    $filename = "modules/$module_name/images/down/Black.gif";
+    $filename = "modules/$titanium_module_name/images/down/Black.gif";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing image file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image file is used in the Shout Box block in case you don't have the themed image installed in all your themes. It is a good idea to have this uploaded, even if you are only using the themed images, because you may install another theme in the future and forget to upload the themed images. You can obtain this image from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$module_name/images/up/Black.gif";
+    $filename = "modules/$titanium_module_name/images/up/Black.gif";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing image file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image file is used in the Shout Box block in case you don't have the themed image installed in all your themes. It is a good idea to have this uploaded, even if you are only using the themed images, because you may install another theme in the future and forget to upload the themed images. You can obtain this image from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$module_name/images/pause/Black.gif";
+    $filename = "modules/$titanium_module_name/images/pause/Black.gif";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing image file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image file is used in the Shout Box block in case you don't have the themed image installed in all your themes. It is a good idea to have this uploaded, even if you are only using the themed images, because you may install another theme in the future and forget to upload the themed images. You can obtain this image from the Shout Box installation zip file.</p>"; }
     $filename = "images/blocks/shout_box/index.html";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing security file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This security file is used to keep individuals from browsing the backend of your website. Its a 0 byte size file, which gives them a blank screen if they try to browse the directory it is in. You can usually find this file within another directory of your installation of PHP-Nuke and just copy it into this directory.</p>"; }
@@ -911,42 +911,42 @@ function shoutHealth($SBhealthCount) {
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing image file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image file is used in the PHP-Nuke admin area. It is a good idea to have this uploaded, even if you are using the admin area without images, because you may change your mind later and use admin images. You can obtain this image from the Shout Box installation zip file.</p>"; }
 
     // Level 2 checks (Critical)
-    $filename = "modules/$module_name";
+    $filename = "modules/$titanium_module_name";
     if (is_dir($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical directory:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This directory contains the Shout Box module files. Without it, half of the Shout Box is unavailable for use by the people on your website. Create this directory using cpanel, FTP, or other method.</p>"; }
     $filename = "includes/shoutbox.js";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file contains the Shout Box JavaScript code. It is critical to the operation of this Shout Box. You can obtain this file from the Shout Box installation zip file. Then install it into your PHP-Nuke root folder where mainfile.php is.</p>"; }
-    $filename = "modules/$module_name/copyright.php";
+    $filename = "modules/$titanium_module_name/copyright.php";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file contains the Shout Box copyright information. It is both legally required and critical to the success of this Shout Box and OurScripts.net. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$module_name/index.php";
+    $filename = "modules/$titanium_module_name/index.php";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file contains the Shout Box shout history. Without it, half of the Shout Box features are unavailable for use by the people on your website. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$module_name/language/lang-english.php";
+    $filename = "modules/$titanium_module_name/language/lang-english.php";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file contains the Shout Box shout history english language definitions. Even if you are not using them at this time, in the future, you may go multi-lingual. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $filename = "blocks/block-$module_name.php";
+    $filename = "blocks/block-$titanium_module_name.php";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file is the core of the Shout Box. Without it, the users on your site will not be able to shout. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$module_name/images/paypal.gif";
+    $filename = "modules/$titanium_module_name/images/paypal.gif";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical image:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image is part of the Shout Box copyright. It is both legally required and critical to the success of this Shout Box and OurScripts.net. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_shouts";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_shouts&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_censor";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_censor&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_conf";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_conf&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_emoticons";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_emoticons&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_ipblock";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_ipblock&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_nameblock";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_nameblock&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_shouts";
+    $result = $titanium_db->sql_query($sql);
+    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$titanium_prefix."_shoutbox_shouts&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_censor";
+    $result = $titanium_db->sql_query($sql);
+    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$titanium_prefix."_shoutbox_censor&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_conf";
+    $result = $titanium_db->sql_query($sql);
+    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$titanium_prefix."_shoutbox_conf&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_emoticons";
+    $result = $titanium_db->sql_query($sql);
+    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$titanium_prefix."_shoutbox_emoticons&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_ipblock";
+    $result = $titanium_db->sql_query($sql);
+    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$titanium_prefix."_shoutbox_ipblock&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_nameblock";
+    $result = $titanium_db->sql_query($sql);
+    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$titanium_prefix."_shoutbox_nameblock&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
     $filename = 'SB_SQL_installer.php';
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_version";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_version&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_version";
+    $result = $titanium_db->sql_query($sql);
+    if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$titanium_prefix."_shoutbox_version&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
     if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, once you have finished installing, upgrading, or repairing the Shout Box SQL tables, delete the SQL installer from your server.</p>"; }
     $filename = 'shout_box_sql_install.php';
     if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, delete this SQL installer from your server. It is no longer used.</p>"; }
@@ -958,31 +958,31 @@ function shoutHealth($SBhealthCount) {
     if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, delete this SQL installer from your server. It is no longer used.</p>"; }
     $filename = 'shout3.01to3.5.php';
     if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, delete this SQL installer from your server. It is no longer used.</p>"; }
-    $sqlCheck = "SELECT * FROM ".$prefix."_blocks WHERE blockfile='block-$module_name.php'";
-    $resultCheck = $db->sql_query($sqlCheck);
-    $numrowsCheck = $db->sql_numrows($resultCheck);
+    $sqlCheck = "SELECT * FROM ".$titanium_prefix."_blocks WHERE blockfile='block-$titanium_module_name.php'";
+    $resultCheck = $titanium_db->sql_query($sqlCheck);
+    $numrowsCheck = $titanium_db->sql_numrows($resultCheck);
     if ($numrowsCheck != 1) {
-        echo "<p class=\"content\"><strong>Shout Box block not added:</strong> block-$module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> You have not added the Shout Box block into PHP-Nuke. Click the Blocks icon in the admin area, scroll down the 'Add a new block' area. In the filename drop down, choose block-$module_name.php. Set 'Who can view this' as 'All Visitors', and click the 'Create Block' button.</p>";
+        echo "<p class=\"content\"><strong>Shout Box block not added:</strong> block-$titanium_module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> You have not added the Shout Box block into PHP-Nuke. Click the Blocks icon in the admin area, scroll down the 'Add a new block' area. In the filename drop down, choose block-$titanium_module_name.php. Set 'Who can view this' as 'All Visitors', and click the 'Create Block' button.</p>";
     }
-    $rowCheck = $db->sql_fetchrow($resultCheck);
+    $rowCheck = $titanium_db->sql_fetchrow($resultCheck);
     if ($rowCheck['active'] != '1') {
-        echo "<p class=\"content\"><strong>Shout Box block not active:</strong> block-$module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Blocks icon in the admin area, scroll down to the 'Blocks Administration' area. In the Functions column and Shout Box row, choose 'Activate'. In the following page, choose 'Yes' to activate the block.</p>";
+        echo "<p class=\"content\"><strong>Shout Box block not active:</strong> block-$titanium_module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Blocks icon in the admin area, scroll down to the 'Blocks Administration' area. In the Functions column and Shout Box row, choose 'Activate'. In the following page, choose 'Yes' to activate the block.</p>";
     }
     if (($rowCheck['view'] != 0) && ($rowCheck['view'] != 1)) {
-        echo "<p class=\"content\"><strong>Shout Box block not publicly viewable:</strong> block-$module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Blocks icon in the admin area, scroll down to the 'Blocks Administration' area. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Block' button.</p>";
+        echo "<p class=\"content\"><strong>Shout Box block not publicly viewable:</strong> block-$titanium_module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Blocks icon in the admin area, scroll down to the 'Blocks Administration' area. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Block' button.</p>";
     }
-    $sqlCheck = "SELECT * FROM ".$prefix."_modules WHERE title='$module_name'";
-    $resultCheck = $db->sql_query($sqlCheck);
-    $numrowsCheck = $db->sql_numrows($resultCheck);
+    $sqlCheck = "SELECT * FROM ".$titanium_prefix."_modules WHERE title='$titanium_module_name'";
+    $resultCheck = $titanium_db->sql_query($sqlCheck);
+    $numrowsCheck = $titanium_db->sql_numrows($resultCheck);
     if ($numrowsCheck != 1) {
-        echo "<p class=\"content\"><strong>Shout Box module not added:</strong> $module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> You have not added the Shout Box module into PHP-Nuke. Upload the files into the modules directory. You can obtain the files from the Shout Box installation zip file. Once they are uploaded, Click the Modules icon in PHP-Nuke administration. In the Functions column and Shout Box row, choose 'Activate'. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Changes' button.</p>";
+        echo "<p class=\"content\"><strong>Shout Box module not added:</strong> $titanium_module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> You have not added the Shout Box module into PHP-Nuke. Upload the files into the modules directory. You can obtain the files from the Shout Box installation zip file. Once they are uploaded, Click the Modules icon in PHP-Nuke administration. In the Functions column and Shout Box row, choose 'Activate'. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Changes' button.</p>";
     }
-    $rowCheck = $db->sql_fetchrow($resultCheck);
+    $rowCheck = $titanium_db->sql_fetchrow($resultCheck);
     if ($rowCheck['active'] != 1) {
-        echo "<p class=\"content\"><strong>Shout Box module not active:</strong> $module_name&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Modules icon in PHP-Nuke administration. In the Functions column and Shout Box row, choose 'Activate'.</p>";
+        echo "<p class=\"content\"><strong>Shout Box module not active:</strong> $titanium_module_name&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Modules icon in PHP-Nuke administration. In the Functions column and Shout Box row, choose 'Activate'.</p>";
     }
     if (($rowCheck['view'] != 0) AND ($rowCheck['view'] != 1)) {
-        echo "<p class=\"content\"><strong>Shout Box module not publicly viewable:</strong> block-$module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Modules icon in PHP-Nuke administration. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Changes' button.</p>";
+        echo "<p class=\"content\"><strong>Shout Box module not publicly viewable:</strong> block-$titanium_module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Modules icon in PHP-Nuke administration. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Changes' button.</p>";
     }
 
     CloseTable();
@@ -995,7 +995,7 @@ function shoutHealth($SBhealthCount) {
 // Start Themeing code
 
 function ShoutBoxThemeing() {
-    global $prefix, $db, $admin_file, $sbURL, $module_name, $rowColor;
+    global $titanium_prefix, $titanium_db, $admin_file, $sbURL, $titanium_module_name, $rowColor;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $ShoutMenuOptionActive = 3;
@@ -1024,19 +1024,19 @@ function ShoutBoxThemeing() {
         if(!empty($themelist[$i])) {
             // End of code from PHP-Nuke 'Your Account' module.
             // Insert default colors to SQL when a new theme is found
-            $sql = "SELECT * FROM `".$prefix."_shoutbox_themes` WHERE `themeName`='$themelist[$i]'";
-            $result = $db->sql_query($sql);
-            $themeRow = $db->sql_fetchrow($result);
-            $db->sql_freeresult($result);
+            $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_themes` WHERE `themeName`='$themelist[$i]'";
+            $result = $titanium_db->sql_query($sql);
+            $themeRow = $titanium_db->sql_fetchrow($result);
+            $titanium_db->sql_freeresult($result);
             if (empty($themeRow)) {
-                $sql = "INSERT INTO `".$prefix."_shoutbox_themes` (themeName, blockColor1, blockColor2, border, menuColor1, menuColor2) VALUES ('$themelist[$i]','#EBEBEB','#FFFFFF','#BBBBBB','#EBEBEB','#FFFFFF')";
-                $db->sql_query($sql);
+                $sql = "INSERT INTO `".$titanium_prefix."_shoutbox_themes` (themeName, blockColor1, blockColor2, border, menuColor1, menuColor2) VALUES ('$themelist[$i]','#EBEBEB','#FFFFFF','#BBBBBB','#EBEBEB','#FFFFFF')";
+                $titanium_db->sql_query($sql);
             }
             // End default colors
-            $sql = "SELECT * FROM `".$prefix."_shoutbox_themes` WHERE `themeName`='$themelist[$i]'";
-            $result = $db->sql_query($sql);
-            $themeRow = $db->sql_fetchrow($result);
-            $db->sql_freeresult($result);
+            $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_themes` WHERE `themeName`='$themelist[$i]'";
+            $result = $titanium_db->sql_query($sql);
+            $themeRow = $titanium_db->sql_fetchrow($result);
+            $titanium_db->sql_freeresult($result);
             echo "<tr style=\"background-color: ".$rowColor['menuColor2'].";\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1'].";\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\"><td align=\"center\" nowrap=\"nowrap\">$themelist[$i]<input type=\"hidden\" name=\"themeName$i\" value=\"$themelist[$i]\" /></td><td align=\"center\"><input type=\"text\" name=\"blockColor1Theme$i\" size=\"11\" value=\"".$themeRow['blockColor1']."\" maxlength=\"15\" /></td><td align=\"center\"><input type=\"text\" name=\"blockColor2Theme$i\" size=\"11\" value=\"".$themeRow['blockColor2']."\" maxlength=\"15\" /></td><td align=\"center\"><input type=\"text\" name=\"borderTheme$i\" size=\"11\" value=\"".$themeRow['border']."\" maxlength=\"15\" /></td><td align=\"center\"><input type=\"text\" name=\"menuColor1Theme$i\" size=\"11\" value=\"".$themeRow['menuColor1']."\" maxlength=\"15\" /></td><td align=\"center\"><input type=\"text\" name=\"menuColor2Theme$i\" size=\"11\" value=\"".$themeRow['menuColor2']."\" maxlength=\"15\" /></td></tr>";
             $totalThemes++;
         }
@@ -1055,10 +1055,10 @@ function ShoutBoxThemeing() {
 
     echo "<tr style=\"background-color: ".$rowColor['menuColor1'].";\"><td align=\"center\" width=\"15%\" nowrap=\"nowrap\"><strong>"._SB_THEME."</strong></td><td align=\"center\" nowrap=\"nowrap\" width=\"17%\"><strong>"._SB_BOXARROWS."</strong></td><td align=\"center\" nowrap=\"nowrap\" width=\"17%\"><strong>"._SB_BOXBACKGROUND."</strong></td><td>&nbsp;</td></tr>";
 
-    $imagesDir = dir(NUKE_MODULES_DIR.$module_name."/images/up");
+    $imagesDir = dir(NUKE_MODULES_DIR.$titanium_module_name."/images/up");
     $imageList = '';
     while ($image=$imagesDir->read()) {
-        if (!empty($image) && $image != '.' && $image != '..' && $image != 'index.html' && file_exists(NUKE_MODULES_DIR.$module_name."/images/down/$image") && file_exists(NUKE_MODULES_DIR.$module_name."/images/pause/$image")) {
+        if (!empty($image) && $image != '.' && $image != '..' && $image != 'index.html' && file_exists(NUKE_MODULES_DIR.$titanium_module_name."/images/down/$image") && file_exists(NUKE_MODULES_DIR.$titanium_module_name."/images/pause/$image")) {
             $imageList .= "$image ";
         }
     }
@@ -1066,7 +1066,7 @@ function ShoutBoxThemeing() {
     $imageList = explode(" ", $imageList);
     sort($imageList);
 
-    $backgroundDir = dir(NUKE_MODULES_DIR.$module_name."/images/background");
+    $backgroundDir = dir(NUKE_MODULES_DIR.$titanium_module_name."/images/background");
     $backImageList = '';
     while ($backImage=$backgroundDir->read()) {
         if (!empty($backImage) && $backImage != '.' && $backImage != '..' && $backImage != 'index.html') {
@@ -1081,19 +1081,19 @@ function ShoutBoxThemeing() {
         if(!empty($themelist[$i])) {
             // End of code from PHP-Nuke 'Your Account' module.
             // Insert default image colors to SQL when a new theme is found
-            $sql = "SELECT * FROM `".$prefix."_shoutbox_theme_images` WHERE `themeName`='$themelist[$i]'";
-            $result = $db->sql_query($sql);
-            $themeRow = $db->sql_fetchrow($result);
-            $db->sql_freeresult($result);
+            $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_theme_images` WHERE `themeName`='$themelist[$i]'";
+            $result = $titanium_db->sql_query($sql);
+            $themeRow = $titanium_db->sql_fetchrow($result);
+            $titanium_db->sql_freeresult($result);
             if (empty($themeRow)) {
-                $sql = "INSERT INTO `".$prefix."_shoutbox_theme_images` (themeName, blockArrowColor) VALUES ('$themelist[$i]','Black.gif')";
-                $db->sql_query($sql);
+                $sql = "INSERT INTO `".$titanium_prefix."_shoutbox_theme_images` (themeName, blockArrowColor) VALUES ('$themelist[$i]','Black.gif')";
+                $titanium_db->sql_query($sql);
             }
             // End default colors
-            $sql = "SELECT * FROM `".$prefix."_shoutbox_theme_images` WHERE `themeName`='$themelist[$i]'";
-            $result = $db->sql_query($sql);
-            $themeRow = $db->sql_fetchrow($result);
-            $db->sql_freeresult($result);
+            $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_theme_images` WHERE `themeName`='$themelist[$i]'";
+            $result = $titanium_db->sql_query($sql);
+            $themeRow = $titanium_db->sql_fetchrow($result);
+            $titanium_db->sql_freeresult($result);
             echo "<tr style=\"background-color: ".$rowColor['menuColor2'].";\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\"><td align=\"center\" nowrap=\"nowrap\">$themelist[$i]<input type=\"hidden\" name=\"themeName$i\" value=\"$themelist[$i]\" /></td><td align=\"center\"><select name=\"blockArrowColorTheme$i\">";
             for ($k=0, $maxk = sizeof($imageList); $k < $maxk; $k++) {
                 if (!empty($imageList[$k])) {
@@ -1131,7 +1131,7 @@ function ShoutBoxThemeing() {
 }
 
 function themeSubmit($themeColorValues, $totalThemes) {
-    global $prefix, $db, $admin_file, $cache, $ThemeSel;
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache, $ThemeSel;
     for ($x = 0; $x <= $totalThemes; $x++) {
         $themeCurrent = $themeColorValues["themeName"][$x];
         $blockColor1 = $themeColorValues[$themeCurrent]["block1"];
@@ -1139,23 +1139,23 @@ function themeSubmit($themeColorValues, $totalThemes) {
         $border = $themeColorValues[$themeCurrent]["border"];
         $menuColor1 = $themeColorValues[$themeCurrent]["menu1"];
         $menuColor2 = $themeColorValues[$themeCurrent]["menu2"];
-        $sql = "UPDATE `".$prefix."_shoutbox_themes` SET `blockColor1`='$blockColor1', `blockColor2`='$blockColor2', `border`='$border', `menuColor1`='$menuColor1', `menuColor2`='$menuColor2' WHERE `themeName`='$themeCurrent'";
-        $db->sql_query($sql);
-        $cache->delete('theme_'.$ThemeSel, 'shoutbox');
-        $cache->resync();
+        $sql = "UPDATE `".$titanium_prefix."_shoutbox_themes` SET `blockColor1`='$blockColor1', `blockColor2`='$blockColor2', `border`='$border', `menuColor1`='$menuColor1', `menuColor2`='$menuColor2' WHERE `themeName`='$themeCurrent'";
+        $titanium_db->sql_query($sql);
+        $titanium_cache->delete('theme_'.$ThemeSel, 'shoutbox');
+        $titanium_cache->resync();
     }
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxThemeing");
     exit;
 }
 
 function themeImageSubmit($themeImageValues, $totalThemes) {
-    global $prefix, $db, $admin_file;
+    global $titanium_prefix, $titanium_db, $admin_file;
     for ($x = 0; $x <= $totalThemes; $x++) {
         $themeCurrent = $themeImageValues["themeName"][$x];
         $blockArrowColor = $themeImageValues[$themeCurrent]["blockArrowColor"];
         $blockBackgroundImage = $themeImageValues[$themeCurrent]["blockBackgroundImage"];
-        $sql = "UPDATE `".$prefix."_shoutbox_theme_images` SET `blockArrowColor`='$blockArrowColor', `blockBackgroundImage`='$blockBackgroundImage' WHERE `themeName`='$themeCurrent'";
-        $db->sql_query($sql);
+        $sql = "UPDATE `".$titanium_prefix."_shoutbox_theme_images` SET `blockArrowColor`='$blockArrowColor', `blockBackgroundImage`='$blockBackgroundImage' WHERE `themeName`='$themeCurrent'";
+        $titanium_db->sql_query($sql);
     }
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxThemeing");
     exit;
@@ -1165,7 +1165,7 @@ function themeImageSubmit($themeImageValues, $totalThemes) {
 // Start 'Permissions' code
 
 function ShoutBoxPermissions() {
-    global $prefix, $db, $admin_file, $shout_conf, $rowColor;
+    global $titanium_prefix, $titanium_db, $admin_file, $shout_conf, $rowColor;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $conf = $shout_conf;
@@ -1211,51 +1211,51 @@ function ShoutBoxPermissions() {
 }
 
 function allowurloption($urloption) {
-    global $prefix, $db, $admin_file, $cache;
-    $sql = "UPDATE `".$prefix."_shoutbox_conf` SET `urlonoff`='$urloption' WHERE `id`=1";
-    $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
-    $cache->resync();
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET `urlonoff`='$urloption' WHERE `id`=1";
+    $titanium_db->sql_query($sql);
+    $titanium_cache->delete('conf', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
 
 function blockxxxoption($blockxxx) {
-    global $prefix, $db, $admin_file, $cache;
-    $sql = "UPDATE `".$prefix."_shoutbox_conf` set `blockxxx`='$blockxxx' WHERE `id`=1";
-    $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
-    $cache->resync();
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` set `blockxxx`='$blockxxx' WHERE `id`=1";
+    $titanium_db->sql_query($sql);
+    $titanium_cache->delete('conf', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
 
 function allowanonurloption($urloption) {
-    global $prefix, $db, $admin_file, $cache;
-    $sql = "UPDATE `".$prefix."_shoutbox_conf` SET `urlanononoff`='$urloption' WHERE `id`=1";
-    $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
-    $cache->resync();
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET `urlanononoff`='$urloption' WHERE `id`=1";
+    $titanium_db->sql_query($sql);
+    $titanium_cache->delete('conf', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
 
 function allowdeloption($deloption) {
-    global $prefix, $db, $admin_file, $cache;
-    $sql = "UPDATE `".$prefix."_shoutbox_conf` SET `delyourlastpost`='$deloption' WHERE `id`=1";
-    $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
-    $cache->resync();
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET `delyourlastpost`='$deloption' WHERE `id`=1";
+    $titanium_db->sql_query($sql);
+    $titanium_cache->delete('conf', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
 
 function allowanonoption($anonoption) {
-    global $prefix, $db, $admin_file, $cache;
-    $sql = "UPDATE `".$prefix."_shoutbox_conf` set `anonymouspost`='$anonoption' WHERE `id`=1";
-    $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
-    $cache->resync();
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` set `anonymouspost`='$anonoption' WHERE `id`=1";
+    $titanium_db->sql_query($sql);
+    $titanium_cache->delete('conf', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
@@ -1265,19 +1265,19 @@ function allowanonoption($anonoption) {
 // Start 'Emoticons' code
 
 function manageemoticons() {
-    global $prefix, $db, $admin_file;
+    global $titanium_prefix, $titanium_db, $admin_file;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $ShoutMenuOptionActive = 5;
     ShoutBoxAdminMenu($ShoutMenuOptionActive);
     //Emoticons Here
-    $sql = "SELECT * FROM `".$prefix."_shoutbox_emoticons`";
-    $nameresult = $db->sql_query($sql);
-    $numrows = $db->sql_numrows($nameresult);
+    $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_emoticons`";
+    $nameresult = $titanium_db->sql_query($sql);
+    $numrows = $titanium_db->sql_numrows($nameresult);
     if ($numrows > 0) {
         OpenTable();
         echo "<form action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><table width=\"100%\" cellpadding=\"3\" cellspacing=\"0\" border=\"0\">";
-        for ($shx = 1; $emoticons = $db->sql_fetchrow($nameresult); $shx++) {
+        for ($shx = 1; $emoticons = $titanium_db->sql_fetchrow($nameresult); $shx++) {
             $comment = str_replace('src=', 'src="', $emoticons['image']);
             $comment = str_replace('.gif>', '.gif" alt="" />', $comment);
             $comment = str_replace('.jpg>', '.jpg" alt="" />', $comment);
@@ -1292,7 +1292,7 @@ function manageemoticons() {
         CloseTable();
         
     }
-    $db->sql_freeresult($nameresult);
+    $titanium_db->sql_freeresult($nameresult);
     OpenTable();
     echo "<form action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><table width=\"100%\" cellpadding=\"3\" cellspacing=\"0\" border=\"0\">";
     echo "<tr><td valign=\"middle\">"._ADDEMOTICON."</td><td><input type=\"text\" name=\"addemoticontext\" value=\"\" /></td>
@@ -1309,28 +1309,28 @@ function manageemoticons() {
 }
 
 function addemoticon($addemoticonimage, $addemoticontext) {
-    global $prefix, $db, $admin_file;
+    global $titanium_prefix, $titanium_db, $admin_file;
     $addemoticonimage = "<img src=images/blocks/shout_box/$addemoticonimage>";
-    $sql = "INSERT INTO `".$prefix."_shoutbox_emoticons` (text, image) VALUES ('$addemoticontext','$addemoticonimage')";
-    $db->sql_query($sql);
+    $sql = "INSERT INTO `".$titanium_prefix."_shoutbox_emoticons` (text, image) VALUES ('$addemoticontext','$addemoticonimage')";
+    $titanium_db->sql_query($sql);
     header("Location: ".$admin_file.".php?op=shout&Submit=manageemoticons");
     exit;
 }
 
 function updateemoticon($idn, $textn, $idnn, $listnum) {
-    global $prefix, $db, $admin_file;
+    global $titanium_prefix, $titanium_db, $admin_file;
     for ($x = 1; $x <= $listnum; $x++) {
-        $sql = "UPDATE `".$prefix."_shoutbox_emoticons` SET `id`='$idn[$x]', `text`='$textn[$x]', `image`='$idnn[$x]' WHERE `id`='$idn[$x]'";
-        $db->sql_query($sql);
+        $sql = "UPDATE `".$titanium_prefix."_shoutbox_emoticons` SET `id`='$idn[$x]', `text`='$textn[$x]', `image`='$idnn[$x]' WHERE `id`='$idn[$x]'";
+        $titanium_db->sql_query($sql);
     }
     header("Location: ".$admin_file.".php?op=shout&Submit=manageemoticons");
     exit;
 }
 
 function emoticonremove($emoticonremove) {
-    global $prefix, $db, $admin_file;
-    $sql = "DELETE FROM `".$prefix."_shoutbox_emoticons` WHERE `id`='$emoticonremove'";
-    $db->sql_query($sql);
+    global $titanium_prefix, $titanium_db, $admin_file;
+    $sql = "DELETE FROM `".$titanium_prefix."_shoutbox_emoticons` WHERE `id`='$emoticonremove'";
+    $titanium_db->sql_query($sql);
     header("Location: ".$admin_file.".php?op=shout&Submit=manageemoticons");
     exit;
 }
@@ -1340,7 +1340,7 @@ function emoticonremove($emoticonremove) {
 // Start 'Censor' code
 
 function managecensor() {
-    global $prefix, $db, $admin_file, $shout_conf, $rowColor;
+    global $titanium_prefix, $titanium_db, $admin_file, $shout_conf, $rowColor;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $conf = $shout_conf;
@@ -1355,15 +1355,15 @@ function managecensor() {
     echo "</select></form></td></tr></table>";
     CloseTable();
     
-    $sql = "SELECT * FROM `".$prefix."_shoutbox_censor`";
-    $nameresult = $db->sql_query($sql);
-    $numrows = $db->sql_numrows($nameresult);
+    $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_censor`";
+    $nameresult = $titanium_db->sql_query($sql);
+    $numrows = $titanium_db->sql_numrows($nameresult);
     if ($numrows > 0) {
         //Bad Words Here
         OpenTable();
         echo "<form action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><table width=\"100%\" cellpadding=\"3\" cellspacing=\"0\" border=\"0\">";
         echo "<tr><td valign=\"top\">"._CENSOR."</td><td>"._EDITCENSOR."</td></tr>";
-        for ($shx = 1; $censor = $db->sql_fetchrow($nameresult); $shx++) {
+        for ($shx = 1; $censor = $titanium_db->sql_fetchrow($nameresult); $shx++) {
             echo "<tr><td valign=\"top\">"._REPLACEMENT.":</td><td>
             <input type=\"text\" name=\"censornw$shx\" value=\"".$censor['text']."\" /> -
             <input type=\"text\" name=\"censornr$shx\" value=\"".$censor['replacement']."\" />
@@ -1375,7 +1375,7 @@ function managecensor() {
         CloseTable();
         
     }
-    $db->sql_freeresult($nameresult);
+    $titanium_db->sql_freeresult($nameresult);
     OpenTable();
     echo "<form action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><table width=\"100%\" cellpadding=\"3\" cellspacing=\"0\" border=\"0\">";
     echo "<tr><td valign=\"top\">"._WORDTOCENSOR."</td><td><input type=\"text\" name=\"addcensor\" value=\"\" /></td>
@@ -1387,41 +1387,41 @@ function managecensor() {
 }
 
 function censoractive($censoroption) {
-    global $prefix, $db, $admin_file;
-    $sql = "UPDATE `".$prefix."_shoutbox_conf` SET `censor`='$censoroption' WHERE `id`=1";
-    $db->sql_query($sql);
+    global $titanium_prefix, $titanium_db, $admin_file;
+    $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET `censor`='$censoroption' WHERE `id`=1";
+    $titanium_db->sql_query($sql);
     header("Location: ".$admin_file.".php?op=shout&Submit=managecensor");
     exit;
 }
 
 function addcensor($addcensor, $addcensorr) {
-    global $prefix, $db, $admin_file, $cache;
-    $sql = "INSERT INTO `".$prefix."_shoutbox_censor` (text, replacement) VALUES ('$addcensor','$addcensorr')";
-    $db->sql_query($sql);
-    $cache->delete('censor', 'shoutbox');
-    $cache->resync();
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    $sql = "INSERT INTO `".$titanium_prefix."_shoutbox_censor` (text, replacement) VALUES ('$addcensor','$addcensorr')";
+    $titanium_db->sql_query($sql);
+    $titanium_cache->delete('censor', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=managecensor");
     exit;
 }
 
 function updatecensor($censornr, $idn, $censornw, $listnum) {
-    global $prefix, $db, $admin_file, $cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
     for ($x = 1; $x <= $listnum; $x++) {
-        $sql = "UPDATE `".$prefix."_shoutbox_censor` SET `id`='$idn[$x]', `text`='$censornw[$x]', `replacement`='$censornr[$x]' WHERE `id`='$idn[$x]'";
-        $db->sql_query($sql);
+        $sql = "UPDATE `".$titanium_prefix."_shoutbox_censor` SET `id`='$idn[$x]', `text`='$censornw[$x]', `replacement`='$censornr[$x]' WHERE `id`='$idn[$x]'";
+        $titanium_db->sql_query($sql);
     }
-    $cache->delete('censor', 'shoutbox');
-    $cache->resync();
+    $titanium_cache->delete('censor', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=managecensor");
     exit;
 }
 
 function censorremove($censorremove) {
-    global $prefix, $db, $admin_file, $cache;
-    $sql = "DELETE FROM `".$prefix."_shoutbox_censor` WHERE `id`='$censorremove'";
-    $db->sql_query($sql);
-    $cache->delete('censor', 'shoutbox');
-    $cache->resync();
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    $sql = "DELETE FROM `".$titanium_prefix."_shoutbox_censor` WHERE `id`='$censorremove'";
+    $titanium_db->sql_query($sql);
+    $titanium_cache->delete('censor', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=managecensor");
     exit;
 }
@@ -1431,7 +1431,7 @@ function censorremove($censorremove) {
 // Start 'Bans' code
 
 function ShoutBoxBans() {
-    global $prefix, $db, $admin_file, $shout_conf, $rowColor;
+    global $titanium_prefix, $titanium_db, $admin_file, $shout_conf, $rowColor;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $conf = $shout_conf;
@@ -1464,12 +1464,12 @@ function ShoutBoxBans() {
     echo "<tr style=\"background-color: ".$rowColor['menuColor1'].";\"><td width=\"70%\" valign=\"middle\">"._ADDIPTOBAN."</td>
         <td width=\"30%\"  valign=\"middle\" nowrap=\"nowrap\"><form action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><input type=\"text\" name=\"banip\" value=\"\" />&nbsp;<input type=\"hidden\" name=\"Submit\" value=\"banip\" /><input type=\"submit\" name=\"button\" value=\""._ADD."\" /></form></td></tr>\n";
 
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_ipblock";
-    $ipresult = $db->sql_query($sql);
-    $numrows = $db->sql_numrows($ipresult);
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_ipblock";
+    $ipresult = $titanium_db->sql_query($sql);
+    $numrows = $titanium_db->sql_numrows($ipresult);
     if ($numrows > 0) {
         echo "<tr><td colspan=\"2\"><form action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><table width=\"100%\" cellpadding=\"3\" cellspacing=\"0\" border=\"0\"><tr style=\"background: ".$rowColor['menuColor2'].";\"><td width=\"70%\" valign=\"middle\">"._BANNEDIP."</td><td width=\"30%\" valign=\"middle\" nowrap=\"nowrap\">"._EDITADDRESS."</td></tr>\n";
-        for ($shx = 1; $badips = $db->sql_fetchrow($ipresult); $shx++) {
+        for ($shx = 1; $badips = $titanium_db->sql_fetchrow($ipresult); $shx++) {
             echo "<tr style=\"background: ".$rowColor['menuColor2'].";\"><td valign=\"middle\">"._IPBANNED.":</td><td valign=\"middle\" nowrap=\"nowrap\"><input type=\"text\" name=\"ipn$shx\" value=\"$badips[name]\" />
             <input type=\"hidden\" name=\"idn$shx\" value=\"$badips[0]\" />- <a href=\"".$admin_file.".php?op=shout&amp;Submit=ipremove&amp;ipremove=".$badips['id']."\">"._BBAREMOVE."</a>
             </td></tr>\n";
@@ -1477,7 +1477,7 @@ function ShoutBoxBans() {
         $shx = $shx - 1;
         echo "<tr style=\"background-color: ".$rowColor['menuColor2'].";\"><td valign=\"middle\">"._UPDATE.":</td><td valign=\"middle\"><input type=\"hidden\" name=\"listnum\" value=\"$shx\" /><input type=\"hidden\" name=\"Submit\" value=\"updateip\" /><input type=\"submit\" name=\"button\" value=\""._UPDATEIP."\" /></td></tr></table></form></td></tr>\n";
     }
-    $db->sql_freeresult($ipresult);
+    $titanium_db->sql_freeresult($ipresult);
 
     //Banned names
     if ($numrows > 0) {
@@ -1488,12 +1488,12 @@ function ShoutBoxBans() {
     echo "<td valign=\"middle\">"._ADDNAMETOBAN."</td>
         <td valign=\"middle\" nowrap=\"nowrap\"><form action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><input type=\"text\" name=\"addname\" value=\"\" />&nbsp;<input type=\"hidden\" name=\"Submit\" value=\"addname\" /><input type=\"submit\" name=\"button\" value=\""._ADD."\" /></form></td></tr>\n";
 
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_nameblock";
-    $nameresult = $db->sql_query($sql);
-    $numrows = $db->sql_numrows($nameresult);
+    $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_nameblock";
+    $nameresult = $titanium_db->sql_query($sql);
+    $numrows = $titanium_db->sql_numrows($nameresult);
     if ($numrows > 0) {
         echo "<tr><td colspan=\"2\"><form action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><table width=\"100%\" cellpadding=\"3\" cellspacing=\"0\" border=\"0\"><tr style=\"background: ".$rowColor['menuColor2'].";\"><td width=\"70%\" valign=\"middle\">"._BANNEDNAMES."</td><td width=\"30%\" valign=\"middle\">"._EDITNAME."</td></tr>\n";
-        for ($shx = 1; $badnames = $db->sql_fetchrow($nameresult); $shx++) {
+        for ($shx = 1; $badnames = $titanium_db->sql_fetchrow($nameresult); $shx++) {
             echo "<tr style=\"background: ".$rowColor['menuColor2'].";\"><td valign=\"middle\">"._NAMEBANNED.":</td><td valign=\"middle\" nowrap=\"nowrap\"><input type=\"text\" name=\"namen$shx\" value=\"$badnames[name]\" />
                 <input type=\"hidden\" name=\"idn$shx\" value=\"".$badnames['id']."\" />
                 - <a href=\"".$admin_file.".php?op=shout&amp;Submit=nameremove&amp;nameremove=".$badnames['id']."\" class=\"content\">"._BBAREMOVE."</a></td></tr>\n";
@@ -1501,7 +1501,7 @@ function ShoutBoxBans() {
         $shx = $shx - 1;
         echo "<tr style=\"background: ".$rowColor['menuColor2'].";\"><td valign=\"middle\">"._UPDATE.":</td><td valign=\"middle\"><input type=\"hidden\" name=\"listnum\" value=\"$shx\" /><input type=\"hidden\" name=\"Submit\" value=\"updatename\" /><input type=\"submit\" name=\"button\" value=\""._UPDATENAME."\" /></td></tr></table></form></td></tr>\n";
     }
-    $db->sql_freeresult($nameresult);
+    $titanium_db->sql_freeresult($nameresult);
     echo "</table>";
 
     CloseTable();
@@ -1510,87 +1510,87 @@ function ShoutBoxBans() {
 }
 
 function namebanactive($banoption) {
-    global $prefix, $db, $admin_file, $cache;
-    $sql = "UPDATE `".$prefix."_shoutbox_conf` SET `nameblock`='$banoption' WHERE id=1";
-    $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
-    $cache->resync();
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET `nameblock`='$banoption' WHERE id=1";
+    $titanium_db->sql_query($sql);
+    $titanium_cache->delete('conf', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }
 
 function ipbanactive($banoption) {
-    global $prefix, $db, $admin_file, $cache;
-    $sql = "UPDATE `".$prefix."_shoutbox_conf` SET `ipblock`='$banoption' WHERE id=1";
-    $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
-    $cache->resync();
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET `ipblock`='$banoption' WHERE id=1";
+    $titanium_db->sql_query($sql);
+    $titanium_cache->delete('conf', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }
 
 function addname($addname) {
-    global $prefix, $db, $admin_file, $cache;
-    $sql = "INSERT INTO `".$prefix."_shoutbox_nameblock` (name) VALUES ('$addname')";
-    $db->sql_query($sql);
-    $cache->delete('nameblock', 'shoutbox');
-    $cache->resync();
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    $sql = "INSERT INTO `".$titanium_prefix."_shoutbox_nameblock` (name) VALUES ('$addname')";
+    $titanium_db->sql_query($sql);
+    $titanium_cache->delete('nameblock', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }
 
 function updatename($idn, $namen, $listnum) {
-    global $prefix, $db, $admin_file, $cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
     for ($x = 1; $x <= $listnum; $x++) {
-        $sql = "UPDATE `".$prefix."_shoutbox_nameblock` SET `id`='$idn[$x]', `name`='$namen[$x]' WHERE `id`='$idn[$x]'";
-        $db->sql_query($sql);
+        $sql = "UPDATE `".$titanium_prefix."_shoutbox_nameblock` SET `id`='$idn[$x]', `name`='$namen[$x]' WHERE `id`='$idn[$x]'";
+        $titanium_db->sql_query($sql);
     }
-    $cache->delete('nameblock', 'shoutbox');
-    $cache->resync();
+    $titanium_cache->delete('nameblock', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }
 
 function nameremove($nameremove) {
-    global $prefix, $db, $admin_file, $cache;
-    $sql = "DELETE FROM `".$prefix."_shoutbox_nameblock` WHERE `id`='$nameremove'";
-    $db->sql_query($sql);
-    $cache->delete('nameblock', 'shoutbox');
-    $cache->resync();
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    $sql = "DELETE FROM `".$titanium_prefix."_shoutbox_nameblock` WHERE `id`='$nameremove'";
+    $titanium_db->sql_query($sql);
+    $titanium_cache->delete('nameblock', 'shoutbox');
+    $titanium_cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }
 
 function banip($banip) { // From Bans tab
-    global $prefix, $db, $admin_file;
-    $sql = "INSERT INTO `".$prefix."_shoutbox_ipblock` (name) VALUES ('$banip')";
-    $db->sql_query($sql);
+    global $titanium_prefix, $titanium_db, $admin_file;
+    $sql = "INSERT INTO `".$titanium_prefix."_shoutbox_ipblock` (name) VALUES ('$banip')";
+    $titanium_db->sql_query($sql);
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }
 
 function addip($addip, $page) { // From Manage shouts tab
-    global $prefix, $db, $admin_file;
-    $sql = "INSERT INTO `".$prefix."_shoutbox_ipblock` (name) VALUES ('$addip')";
-    $db->sql_query($sql);
+    global $titanium_prefix, $titanium_db, $admin_file;
+    $sql = "INSERT INTO `".$titanium_prefix."_shoutbox_ipblock` (name) VALUES ('$addip')";
+    $titanium_db->sql_query($sql);
     header("Location: ".$admin_file.".php?op=shout&Submit=manageShouts&page=$page");
     exit;
 }
 
 function updateip($ipn, $idn, $listnum) {
-    global $prefix, $db, $admin_file;
+    global $titanium_prefix, $titanium_db, $admin_file;
     for ($x = 1; $x <= $listnum; $x++) {
-        $sql = "UPDATE `".$prefix."_shoutbox_ipblock` set `id`='$idn[$x]', `name`='$ipn[$x]' WHERE `id`='$idn[$x]'";
-        $db->sql_query($sql);
+        $sql = "UPDATE `".$titanium_prefix."_shoutbox_ipblock` set `id`='$idn[$x]', `name`='$ipn[$x]' WHERE `id`='$idn[$x]'";
+        $titanium_db->sql_query($sql);
     }
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }
 
 function ipremove($ipremove) {
-    global $prefix, $db, $admin_file;
-    $sql = "DELETE FROM `".$prefix."_shoutbox_ipblock` WHERE `id`='$ipremove'";
-    $db->sql_query($sql);
+    global $titanium_prefix, $titanium_db, $admin_file;
+    $sql = "DELETE FROM `".$titanium_prefix."_shoutbox_ipblock` WHERE `id`='$ipremove'";
+    $titanium_db->sql_query($sql);
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }
@@ -1758,9 +1758,9 @@ switch($Submit) {
     break;
 
     case "ban":
-    $sql = "SELECT ip FROM ".$prefix."_shoutbox_shouts WHERE id='$bid'";
-    $idresult = $db->sql_query($sql);
-    $banip = $db->sql_fetchrow($idresult);
+    $sql = "SELECT ip FROM ".$titanium_prefix."_shoutbox_shouts WHERE id='$bid'";
+    $idresult = $titanium_db->sql_query($sql);
+    $banip = $titanium_db->sql_fetchrow($idresult);
     $addip = $banip['ip'];
     addip($addip, $page);
     break;

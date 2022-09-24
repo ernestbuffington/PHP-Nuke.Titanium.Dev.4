@@ -23,9 +23,9 @@
        Smilies in Topic Titles Toggle           v1.0.0       09/10/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 /*****[BEGIN]******************************************
@@ -37,17 +37,17 @@ include('includes/posting_icons.'. $phpEx);
  ******************************************************/
 
     $glance_forum_dir = 'modules.php?name=Forums&amp;file=';
-    $glance_news_forum_id = $board_config['glance_news_id'];
-    $glance_num_news = intval($board_config['glance_num_news']);
-    $glance_num_recent = intval($board_config['glance_num']);
-    $glance_recent_ignore = $board_config['glance_ignore_forums'];
-    $glance_news_heading = $lang['glance_news_heading'];
-    $glance_recent_heading = $lang['glance_recent_heading'];
-    $glance_table_width = $board_config['glance_table_width'];
+    $glance_news_forum_id = $phpbb2_board_config['glance_news_id'];
+    $glance_num_news = intval($phpbb2_board_config['glance_num_news']);
+    $glance_num_recent = intval($phpbb2_board_config['glance_num']);
+    $glance_recent_ignore = $phpbb2_board_config['glance_ignore_forums'];
+    $glance_news_heading = $titanium_lang['glance_news_heading'];
+    $glance_recent_heading = $titanium_lang['glance_recent_heading'];
+    $glance_table_width = $phpbb2_board_config['glance_table_width'];
     $glance_show_new_bullets = true;
     $glance_track = true;
-    $glance_auth_read = intval($board_config['glance_auth_read']);
-    $glance_topic_length = intval($board_config['glance_topic_length']);
+    $glance_auth_read = intval($phpbb2_board_config['glance_auth_read']);
+    $glance_topic_length = intval($phpbb2_board_config['glance_topic_length']);
     //
     // GET USER LAST VISIT
     //
@@ -58,7 +58,7 @@ include('includes/posting_icons.'. $phpEx);
     //
     // MESSAGE TRACKING
     //
-    if ( !isset($tracking_topics) && $glance_track ) $tracking_topics = ( isset($HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_t']) ) ? unserialize($HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_t']) : '';
+    if ( !isset($phpbb2_tracking_topics) && $glance_track ) $phpbb2_tracking_topics = ( isset($HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'] . '_t']) ) ? unserialize($HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'] . '_t']) : '';
 
     // CHECK FOR BAD WORDS
     //
@@ -76,7 +76,7 @@ include('includes/posting_icons.'. $phpEx);
     //
     if ( $glance_num_news )
     {
-        $news_data = $db->sql_fetchrow($result);
+        $news_data = $titanium_db->sql_fetchrow($result);
          $sql = "
             SELECT
                 f.forum_id, f.forum_name, f.forum_color" . $sql_title . ", t.topic_id, t.topic_last_post_id, t.topic_poster, t.topic_views, t.topic_replies, t.topic_type, t.topic_status, t.topic_icon,
@@ -103,28 +103,28 @@ include('includes/posting_icons.'. $phpEx);
 
         $sql .= ($glance_news_offset) ? " LIMIT " . $glance_news_offset . ", " . $glance_num_news : " LIMIT " . $glance_num_news;
 
-        if( !($result = $db->sql_query($sql)) )
+        if( !($result = $titanium_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, "Could not query new news information", "", __LINE__, __FILE__, $sql);
         }
         $latest_news = array();
-        while ( $topic_row = $db->sql_fetchrow($result) )
+        while ( $topic_row = $titanium_db->sql_fetchrow($result) )
         {
             $topic_row['topic_title'] = ( count($orig_word) ) ? preg_replace($orig_word, $replacement_word, $topic_row['topic_title']) : $topic_row['topic_title'];
             $latest_news[] = $topic_row;
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
 
         // MOD NAV BEGIN
         // obtain the total number of topic for our news topic navigation bit
         $sql = "SELECT SUM(forum_topics) as topic_total FROM " . FORUMS_TABLE . " f WHERE f.forum_id IN (" . $glance_news_forum_id . ")";
-        if ( !($result = $db->sql_query($sql)) )
+        if ( !($result = $titanium_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, "Could not query total topics information", "", __LINE__, __FILE__, $sql);
         }
-        $row = $db->sql_fetchrow($result);
+        $row = $titanium_db->sql_fetchrow($result);
         $overall_news_topics = $row['topic_total'];
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         // MOD NAV END
     }
 
@@ -134,12 +134,12 @@ include('includes/posting_icons.'. $phpEx);
     if ( $glance_num_recent )
     {
         $glance_auth_level = ( $glance_auth_read ) ? AUTH_VIEW : AUTH_ALL;
-        $is_auth_ary = auth($glance_auth_level, AUTH_LIST_ALL, $userdata);
+        $phpbb2_is_auth_ary = auth($glance_auth_level, AUTH_LIST_ALL, $userdata);
 
         $forumsignore = $glance_news_forum_id;
-        if ( $num_forums = count($is_auth_ary) )
+        if ( $num_forums = count($phpbb2_is_auth_ary) )
         {
-            while ( list($forum_id, $auth_mod) = each($is_auth_ary) )
+            while ( list($phpbb2_forum_id, $auth_mod) = each($phpbb2_is_auth_ary) )
             {
                 $unauthed = false;
                 if ( !$auth_mod['auth_view'] )
@@ -152,7 +152,7 @@ include('includes/posting_icons.'. $phpEx);
                 }
                 if ( $unauthed )
                 {
-                    $forumsignore .= ($forumsignore) ? ',' . $forum_id : $forum_id;
+                    $forumsignore .= ($forumsignore) ? ',' . $phpbb2_forum_id : $phpbb2_forum_id;
                 }
             }
         }
@@ -186,14 +186,14 @@ include('includes/posting_icons.'. $phpEx);
 
         $sql .= ($glance_recent_offset) ? " LIMIT " . $glance_recent_offset . ", " . $glance_num_recent : " LIMIT " . $glance_num_recent;
 
-        if( !($result = $db->sql_query($sql)) )
+        if( !($result = $titanium_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, "Could not query latest topic information", "", __LINE__, __FILE__, $sql);
         }
         $latest_topics = array();
         $latest_anns = array();
         $latest_stickys = array();
-        while ( $topic_row = $db->sql_fetchrow($result) )
+        while ( $topic_row = $titanium_db->sql_fetchrow($result) )
         {
             $topic_row['topic_title'] = ( count($orig_word) ) ? preg_replace($orig_word, $replacement_word, $topic_row['topic_title']) : $topic_row['topic_title'];
             switch ($topic_row['topic_type'])
@@ -211,25 +211,25 @@ include('includes/posting_icons.'. $phpEx);
                 }
         }
         $latest_topics = array_merge($latest_anns, $latest_stickys, $latest_topics);
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
 
         // MOD NAV BEGIN
         // obtain the total number of topic for our recent topic navigation bit
         $sql = "SELECT SUM(forum_topics) as topic_total FROM " . FORUMS_TABLE . " f WHERE f.forum_id NOT IN (" . $forumsignore . $glance_recent_ignore . $glance_news_forum_id . ")";
-        if ( !($result = $db->sql_query($sql)) )
+        if ( !($result = $titanium_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, "Could not query total topics information", "", __LINE__, __FILE__, $sql);
         }
-        $row = $db->sql_fetchrow($result);
+        $row = $titanium_db->sql_fetchrow($result);
         $overall_total_topics = $row['topic_total'];
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         // MOD NAV END
     }
 
     //
     // BEGIN OUTPUT
     //
-    $template->set_filenames(array(
+    $phpbb2_template->set_filenames(array(
         'glance_output' => 'glance_body.tpl')
     );
 
@@ -243,34 +243,34 @@ include('includes/posting_icons.'. $phpEx);
             {
                 if ( $userdata['session_logged_in'] )
                 {
-                    $unread_topics = false;
+                    $phpbb2_unread_topics = false;
                     $glance_topic_id = $latest_news[$i]['topic_id'];
                     if ( $latest_news[$i]['post_time'] > $glance_last_visit )
                     {
-                        $unread_topics = true;
-                        if( !empty($tracking_topics[$glance_topic_id]) && $glance_track )
+                        $phpbb2_unread_topics = true;
+                        if( !empty($phpbb2_tracking_topics[$glance_topic_id]) && $glance_track )
                         {
-                            if( $tracking_topics[$glance_topic_id] >= $latest_news[$i]['post_time'] )
+                            if( $phpbb2_tracking_topics[$glance_topic_id] >= $latest_news[$i]['post_time'] )
                             {
-                                $unread_topics = false;
+                                $phpbb2_unread_topics = false;
                             }
                         }
                     }
-                    $shownew = $unread_topics;
+                    $shownew = $phpbb2_unread_topics;
                 }
                 else
                 {
-                    $unread_topics = false;
-                    $shownew = ($board_config['time_today'] < $latest_news[$i]['post_time']);
+                    $phpbb2_unread_topics = false;
+                    $shownew = ($phpbb2_board_config['time_today'] < $latest_news[$i]['post_time']);
                 }
 
                 $bullet_full = $bullet_pre . ( ( $shownew && $glance_show_new_bullets ) ?  $images['folder_announce_new'] :  $images['folder_announce'] ) . '" border="0" alt="" />';
 
-                $newest_code = ( $unread_topics && $glance_show_new_bullets ) ? '&amp;view=newest' : '';
+                $newest_code = ( $phpbb2_unread_topics && $glance_show_new_bullets ) ? '&amp;view=newest' : '';
 
                 $topic_link = $glance_forum_dir . 'viewtopic&amp;t=' . $latest_news[$i]['topic_id'] . $newest_code;
 
-                if ($board_config['glance_rowclass'] == 1):
+                if ($phpbb2_board_config['glance_rowclass'] == 1):
                     $row_class = ($count_topics % 2) ? "row3" : "row1";
                     $count_topics += 1;
                 else:
@@ -280,13 +280,13 @@ include('includes/posting_icons.'. $phpEx);
                 //
                 // MOD TODAY AT BEGIN
                 //
-                //if ( $board_config['time_today'] < $latest_news[$i]['post_time'])
+                //if ( $phpbb2_board_config['time_today'] < $latest_news[$i]['post_time'])
                 //{
-                //    $last_post_time = sprintf($lang['Today_at'], create_date($board_config['default_timeformat'], $latest_news[$i]['post_time'], $board_config['board_timezone']));
+                //    $phpbb2_last_post_time = sprintf($titanium_lang['Today_at'], create_date($phpbb2_board_config['default_timeformat'], $latest_news[$i]['post_time'], $phpbb2_board_config['board_timezone']));
                 //}
-                //else if ( $board_config['time_yesterday'] < $latest_topics[$i]['post_time'])
+                //else if ( $phpbb2_board_config['time_yesterday'] < $latest_topics[$i]['post_time'])
                 //{
-                //    $last_post_time = sprintf($lang['Yesterday_at'], create_date($board_config['default_timeformat'], $latest_news[$i]['post_time'], $board_config['board_timezone']));
+                //    $phpbb2_last_post_time = sprintf($titanium_lang['Yesterday_at'], create_date($phpbb2_board_config['default_timeformat'], $latest_news[$i]['post_time'], $phpbb2_board_config['board_timezone']));
                 //}
                 // MOD TODAY AT END
 
@@ -294,13 +294,13 @@ include('includes/posting_icons.'. $phpEx);
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
                  $guest = (!empty($latest_topics[$i]['post_username'])) ? $latest_topics[$i]['post_username'] : $latest_topics[$i]['last_username'] . ' ';
-                $last_poster = ($latest_news[$i]['poster_id'] == ANONYMOUS ) ? ( ($latest_news[$i]['last_username'] != '' ) ? $guest : $lang['Guest'] . ' ' ) : '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_news[$i]['poster_id']) . '">' . UsernameColor($latest_news[$i]['last_username']) . '</a> ';
+                $phpbb2_last_poster = ($latest_news[$i]['poster_id'] == ANONYMOUS ) ? ( ($latest_news[$i]['last_username'] != '' ) ? $guest : $titanium_lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_news[$i]['poster_id']) . '">' . UsernameColor($latest_news[$i]['last_username']) . '</a> ';
 
-                $last_post_img = '<a href="' . append_sid("viewtopic.$phpEx?"  . POST_POST_URL . '=' . $latest_news[$i]['topic_last_post_id']) . '#' . $latest_news[$i]['topic_last_post_id'] . '"><i class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$lang['View_latest_post'].'"></i></a>';
+                $phpbb2_last_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?"  . POST_POST_URL . '=' . $latest_news[$i]['topic_last_post_id']) . '#' . $latest_news[$i]['topic_last_post_id'] . '"><i class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$titanium_lang['View_latest_post'].'"></i></a>';
 
-                $topic_poster = ($latest_news[$i]['topic_poster'] == ANONYMOUS ) ? ( ($latest_news[$i]['author_username'] != '' ) ? $guest : $lang['Guest'] . ' ' ) : '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_news[$i]['topic_poster']) . '">' . UsernameColor($latest_news[$i]['author_username']) . '</a> ';
+                $topic_poster = ($latest_news[$i]['topic_poster'] == ANONYMOUS ) ? ( ($latest_news[$i]['author_username'] != '' ) ? $guest : $titanium_lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_news[$i]['topic_poster']) . '">' . UsernameColor($latest_news[$i]['author_username']) . '</a> ';
 
-                $last_post_time = create_date($board_config['default_dateformat'], $latest_news[$i]['post_time'], $board_config['board_timezone']);
+                $phpbb2_last_post_time = create_date($phpbb2_board_config['default_dateformat'], $latest_news[$i]['post_time'], $phpbb2_board_config['board_timezone']);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -314,14 +314,14 @@ include('includes/posting_icons.'. $phpEx);
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
 
-                $template->assign_block_vars('news', array(
+                $phpbb2_template->assign_block_vars('news', array(
 
                     'ROW_CLASS' => $row_class,
 
                     'BULLET' => $bullet_full,
                     'TOPIC_TITLE' => $latest_news[$i]['topic_title'],
                     'TOPIC_LINK' => $topic_link,
-                    'TOPIC_TIME' => $last_post_time,
+                    'TOPIC_TIME' => $phpbb2_last_post_time,
 /*****[BEGIN]******************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
@@ -330,11 +330,11 @@ include('includes/posting_icons.'. $phpEx);
 /*****[END]********************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
-                    'TOPIC_POSTER' => sprintf($lang['Recent_started_by'],$topic_poster),
+                    'TOPIC_POSTER' => sprintf($titanium_lang['Recent_started_by'],$topic_poster),
                     'TOPIC_VIEWS' => $latest_news[$i]['topic_views'],
                     'TOPIC_REPLIES' => $latest_news[$i]['topic_replies'],
-                    'LAST_POSTER' => sprintf(trim($lang['Recent_first_poster']),$last_poster),
-                    'LAST_POST_IMG' => $last_post_img,
+                    'LAST_POSTER' => sprintf(trim($titanium_lang['Recent_first_poster']),$phpbb2_last_poster),
+                    'LAST_POST_IMG' => $phpbb2_last_post_img,
                     'FORUM_TITLE' => $latest_news[$i]['forum_name'],
                     'FORUM_COLOR' => ' style="color: #'.$latest_news[$i]['forum_color'].';"',
                     'FORUM_LINK' => $glance_forum_dir . 'viewforum&amp;f=' . $latest_news[$i]['forum_id'])
@@ -363,7 +363,7 @@ include('includes/posting_icons.'. $phpEx);
         }
         else
         {
-            $template->assign_block_vars('news', array(
+            $phpbb2_template->assign_block_vars('news', array(
             'BULLET' => '<img src="' . $images['folder'] . '" border="0" alt="" />', $glance_recent_bullet_old,
 
             'TOPIC_TITLE' => 'None')
@@ -381,25 +381,25 @@ include('includes/posting_icons.'. $phpEx);
             {
                 if ( $userdata['session_logged_in'] )
                 {
-                    $unread_topics = false;
+                    $phpbb2_unread_topics = false;
                     $glance_topic_id = $latest_topics[$i]['topic_id'];
                     if ( $latest_topics[$i]['post_time'] > $glance_last_visit )
                     {
-                        $unread_topics = true;
-                        if( !empty($tracking_topics[$glance_topic_id]) && $glance_track )
+                        $phpbb2_unread_topics = true;
+                        if( !empty($phpbb2_tracking_topics[$glance_topic_id]) && $glance_track )
                         {
-                            if( $tracking_topics[$glance_topic_id] >= $latest_topics[$i]['post_time'] )
+                            if( $phpbb2_tracking_topics[$glance_topic_id] >= $latest_topics[$i]['post_time'] )
                             {
-                                $unread_topics = false;
+                                $phpbb2_unread_topics = false;
                             }
                         }
                     }
-                    $shownew = $unread_topics;
+                    $shownew = $phpbb2_unread_topics;
                 }
                 else
                 {
-                    $unread_topics = false;
-                    $shownew = ($board_config['time_today'] < $latest_topics[$i]['post_time']);
+                    $phpbb2_unread_topics = false;
+                    $shownew = ($phpbb2_board_config['time_today'] < $latest_topics[$i]['post_time']);
                 }
                 switch ($latest_topics[$i]['topic_type'])
                 {
@@ -418,7 +418,7 @@ include('includes/posting_icons.'. $phpEx);
                             $folder = $images['folder_locked'];
                             $folder_new = $images['folder_locked_new'];
                         }
-                        else if ($latest_topics[$i]['topic_replies'] >= $board_config['hot_threshold'])
+                        else if ($latest_topics[$i]['topic_replies'] >= $phpbb2_board_config['hot_threshold'])
                         {
                             $folder = $images['folder_hot'];
                             $folder_new = $images['folder_hot_new'];
@@ -432,11 +432,11 @@ include('includes/posting_icons.'. $phpEx);
                         $bullet_full = $bullet_pre . ( ( $shownew && $glance_show_new_bullets ) ? $folder_new :  $folder ) . '" border="0" alt="" />';
                         break;
                 }
-                $newest_code = ( $unread_topics && $glance_show_new_bullets ) ? '&amp;view=newest' : '';
+                $newest_code = ( $phpbb2_unread_topics && $glance_show_new_bullets ) ? '&amp;view=newest' : '';
 
                 $topic_link = $glance_forum_dir . 'viewtopic&amp;t=' . $latest_topics[$i]['topic_id'] . $newest_code;
 
-                if ($board_config['glance_rowclass'] == 1):
+                if ($phpbb2_board_config['glance_rowclass'] == 1):
                     $row_class = ($count_topics % 2) ? "row3" : "row1";
                     $count_topics += 1;
                 else:
@@ -448,26 +448,26 @@ include('includes/posting_icons.'. $phpEx);
  ******************************************************/
                 $guest = (!empty($latest_topics[$i]['post_username'])) ? $latest_topics[$i]['post_username'] : $latest_topics[$i]['last_username'] . ' ';
 
-                $topic_poster = ($latest_topics[$i]['topic_poster'] == ANONYMOUS ) ? ( ($latest_topics[$i]['author_username'] != '' ) ? $guest : $lang['Guest'] . ' ' ) : '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_topics[$i]['topic_poster']) . '">' . UsernameColor($latest_topics[$i]['author_username']) . '</a> ';
+                $topic_poster = ($latest_topics[$i]['topic_poster'] == ANONYMOUS ) ? ( ($latest_topics[$i]['author_username'] != '' ) ? $guest : $titanium_lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_topics[$i]['topic_poster']) . '">' . UsernameColor($latest_topics[$i]['author_username']) . '</a> ';
 
-                $last_post_time = create_date($board_config['default_dateformat'], $latest_topics[$i]['post_time'], $board_config['board_timezone']);
-                $last_poster = ($latest_topics[$i]['poster_id'] == ANONYMOUS ) ? ( ($latest_topics[$i]['last_username'] != '' ) ? $guest : $lang['Guest'] . ' ' ) : '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_topics[$i]['poster_id']) . '">' . UsernameColor($latest_topics[$i]['last_username']) . '</a> ';
+                $phpbb2_last_post_time = create_date($phpbb2_board_config['default_dateformat'], $latest_topics[$i]['post_time'], $phpbb2_board_config['board_timezone']);
+                $phpbb2_last_poster = ($latest_topics[$i]['poster_id'] == ANONYMOUS ) ? ( ($latest_topics[$i]['last_username'] != '' ) ? $guest : $titanium_lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_topics[$i]['poster_id']) . '">' . UsernameColor($latest_topics[$i]['last_username']) . '</a> ';
 
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                $last_post_img = '<a href="' . append_sid("viewtopic.$phpEx?"  . POST_POST_URL . '=' . $latest_topics[$i]['topic_last_post_id']) . '#' . $latest_topics[$i]['topic_last_post_id'] . '"><i class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$lang['View_latest_post'].'"></i></a>';
+                $phpbb2_last_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?"  . POST_POST_URL . '=' . $latest_topics[$i]['topic_last_post_id']) . '#' . $latest_topics[$i]['topic_last_post_id'] . '"><i class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$titanium_lang['View_latest_post'].'"></i></a>';
 
                 //
                 // MOD TODAY AT BEGIN
                 //
-                //if ( $board_config['time_today'] < $latest_topics[$i]['post_time'])
+                //if ( $phpbb2_board_config['time_today'] < $latest_topics[$i]['post_time'])
                 //{
-                //    $last_post_time = sprintf($lang['Today_at'], create_date($board_config['default_timeformat'], $latest_topics[$i]['post_time'], $board_config['board_timezone']));
+                //    $phpbb2_last_post_time = sprintf($titanium_lang['Today_at'], create_date($phpbb2_board_config['default_timeformat'], $latest_topics[$i]['post_time'], $phpbb2_board_config['board_timezone']));
                 //}
-                //else if ( $board_config['time_yesterday'] < $latest_topics[$i]['post_time'])
+                //else if ( $phpbb2_board_config['time_yesterday'] < $latest_topics[$i]['post_time'])
                 //{
-                //    $last_post_time = sprintf($lang['Yesterday_at'], create_date($board_config['default_timeformat'], $latest_topics[$i]['post_time'], $board_config['board_timezone']));
+                //    $phpbb2_last_post_time = sprintf($titanium_lang['Yesterday_at'], create_date($phpbb2_board_config['default_timeformat'], $latest_topics[$i]['post_time'], $phpbb2_board_config['board_timezone']));
                 //}
                 // MOD TODAY AT END
 
@@ -480,7 +480,7 @@ include('includes/posting_icons.'. $phpEx);
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
 
-                $template->assign_block_vars('recent', array(
+                $phpbb2_template->assign_block_vars('recent', array(
 
                     'ROW_CLASS' => $row_class,
 
@@ -490,7 +490,7 @@ include('includes/posting_icons.'. $phpEx);
  [ Mod:     Smilies in Topic Titles            v1.0.0 ]
  [ Mod:     Smilies in Topic Titles Toggle     v1.0.0 ]
  ******************************************************/
-                    'TOPIC_TITLE' => ($board_config['smilies_in_titles']) ? smilies_pass($latest_topics[$i]['topic_title']) : $latest_topics[$i]['topic_title'],
+                    'TOPIC_TITLE' => ($phpbb2_board_config['smilies_in_titles']) ? smilies_pass($latest_topics[$i]['topic_title']) : $latest_topics[$i]['topic_title'],
 /*****[END]********************************************
  [ Mod:     Smilies in Topic Titles            v1.0.0 ]
  [ Mod:     Smilies in Topic Titles Toggle     v1.0.0 ]
@@ -504,12 +504,12 @@ include('includes/posting_icons.'. $phpEx);
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
                     // 'TOPIC_POSTER' => $topic_poster,
-                    'TOPIC_POSTER' => sprintf($lang['Recent_started_by'],$topic_poster),
+                    'TOPIC_POSTER' => sprintf($titanium_lang['Recent_started_by'],$topic_poster),
                     'TOPIC_VIEWS' => $latest_topics[$i]['topic_views'],
                     'TOPIC_REPLIES' => $latest_topics[$i]['topic_replies'],
-                    'LAST_POST_TIME' => $last_post_time,
-                    'LAST_POSTER' => sprintf(trim($lang['Recent_first_poster']),$last_poster),
-                    'LAST_POST_IMG' => $last_post_img,
+                    'LAST_POST_TIME' => $phpbb2_last_post_time,
+                    'LAST_POSTER' => sprintf(trim($titanium_lang['Recent_first_poster']),$phpbb2_last_poster),
+                    'LAST_POST_IMG' => $phpbb2_last_post_img,
                     'FORUM_TITLE' => $latest_topics[$i]['forum_name'],
                     'FORUM_COLOR' => ' style="color: #'.$latest_topics[$i]['forum_color'].';"',
                     'FORUM_LINK' => $glance_forum_dir . 'viewforum&amp;f=' . $latest_topics[$i]['forum_id'])
@@ -538,7 +538,7 @@ include('includes/posting_icons.'. $phpEx);
         }
         else
         {
-            $template->assign_block_vars('recent', array(
+            $phpbb2_template->assign_block_vars('recent', array(
             'BULLET' => '<img src="' . $images['forum'] . '" border="0" alt="" />', $glance_recent_bullet_old,
 
             'TOPIC_TITLE' => 'None')
@@ -548,7 +548,7 @@ include('includes/posting_icons.'. $phpEx);
 
     if ( $glance_num_news )
     {
-        $template->assign_block_vars('switch_glance_news', array(
+        $phpbb2_template->assign_block_vars('switch_glance_news', array(
             'NEXT_URL' => $next_news_url,
             'PREV_URL' => $prev_news_url)
         );
@@ -557,11 +557,11 @@ include('includes/posting_icons.'. $phpEx);
         //$news_on = !isset($HTTP_COOKIE_VARS['phpbbGlance_news']) || !empty($HTTP_COOKIE_VARS['phpbbGlance_news']) ? true : false;
         //if( $news_on )
         //{
-        //   $template->assign_block_vars('switch_glance_news.switch_news_on', array());
+        //   $phpbb2_template->assign_block_vars('switch_glance_news.switch_news_on', array());
         //}
         //else
         //{
-        //    $template->assign_block_vars('switch_glance_news.switch_news_off', array());
+        //    $phpbb2_template->assign_block_vars('switch_glance_news.switch_news_off', array());
         //}
         // MOD CAT ROLLOUT END
     }
@@ -570,7 +570,7 @@ include('includes/posting_icons.'. $phpEx);
         $next_recent_url = (isset($next_recent_url)) ? $next_recent_url : '';
         $prev_recent_url = (isset($prev_recent_url)) ? $prev_recent_url : '';
 
-        $template->assign_block_vars('switch_glance_recent', array(
+        $phpbb2_template->assign_block_vars('switch_glance_recent', array(
             'NEXT_URL' => $next_recent_url,
             'PREV_URL' => $prev_recent_url)
         );
@@ -579,29 +579,29 @@ include('includes/posting_icons.'. $phpEx);
         //$recent_on = !isset($HTTP_COOKIE_VARS['phpbbGlance_recent']) || !empty($HTTP_COOKIE_VARS['phpbbGlance_recent']) ? true : false;
         //if( $recent_on )
         //{
-        //    $template->assign_block_vars('switch_glance_recent.switch_recent_on', array());
+        //    $phpbb2_template->assign_block_vars('switch_glance_recent.switch_recent_on', array());
         //}
         //else
         //{
-        //   $template->assign_block_vars('switch_glance_recent.switch_recent_off', array());
+        //   $phpbb2_template->assign_block_vars('switch_glance_recent.switch_recent_off', array());
         //}
         // MOD CAT ROLLOUT END
     }
 
-    $template->assign_vars(array(
+    $phpbb2_template->assign_vars(array(
         'GLANCE_TABLE_WIDTH' =>    $glance_table_width,
         'RECENT_HEADING' => $glance_recent_heading,
         'NEWS_HEADING' => $glance_news_heading,
 
-        'L_TOPICS' => $lang['Topics'],
-        'L_REPLIES' => $lang['Replies'],
-        'L_VIEWS' => $lang['Views'],
-        'L_LASTPOST' => $lang['Last_Post'],
-        'L_FORUM' => $lang['Forum'],
-        'L_AUTHOR' => $lang['Author'])
+        'L_TOPICS' => $titanium_lang['Topics'],
+        'L_REPLIES' => $titanium_lang['Replies'],
+        'L_VIEWS' => $titanium_lang['Views'],
+        'L_LASTPOST' => $titanium_lang['Last_Post'],
+        'L_FORUM' => $titanium_lang['Forum'],
+        'L_AUTHOR' => $titanium_lang['Author'])
         );
 
-    $template->assign_var_from_handle('GLANCE_OUTPUT', 'glance_output');
+    $phpbb2_template->assign_var_from_handle('GLANCE_OUTPUT', 'glance_output');
 
 // THE END
 

@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $db2;
+global $titanium_db2;
 if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 $project_id = intval($project_id);
 $project = pjproject_info($project_id);
@@ -27,18 +27,18 @@ if($project['allowreports'] > 0) {
     $submitter_name = htmlentities($submitter_name, ENT_QUOTES);
     $report_name = htmlentities($report_name, ENT_QUOTES);
     $report_description = htmlentities($report_description, ENT_QUOTES);
-    $db2->sql_query("INSERT INTO `".$network_prefix."_reports` VALUES (NULL, '$project_id', '$type_id', '$status_id', '$report_name', '$report_description', '$submitter_name', '$submitter_email', '$submitter_ip', '$date', '0', '0')");
-    list($report_id) = $db2->sql_fetchrow($db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports` WHERE `date_submitted`='$date' AND `project_id`='$project_id' AND `type_id`='$type_id' AND `status_id`='$status_id' AND `report_name`='$report_name'"));
+    $titanium_db2->sql_query("INSERT INTO `".$network_prefix."_reports` VALUES (NULL, '$project_id', '$type_id', '$status_id', '$report_name', '$report_description', '$submitter_name', '$submitter_email', '$submitter_ip', '$date', '0', '0')");
+    list($report_id) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports` WHERE `date_submitted`='$date' AND `project_id`='$project_id' AND `type_id`='$type_id' AND `status_id`='$status_id' AND `report_name`='$report_name'"));
     if($pj_config['notify_report_admin'] == 1){
       $admin_email = $adminmail;
       $subject = _NETWORK_NEWREPORTMESSAGES;
-      $message = _NETWORK_NEWREPORTMESSAGE.":\r\n$nukeurl/modules.php?name=$module_name&op=Report&report_id=$report_id";
+      $message = _NETWORK_NEWREPORTMESSAGE.":\r\n$nukeurl/modules.php?name=$titanium_module_name&op=Report&report_id=$report_id";
       $from  = "From: $admin_email\r\n";
       $from .= "Reply-To: $admin_email\r\n";
       $from .= "Return-Path: $admin_email\r\n";
       evo_mail($admin_email, $subject, $message, $from);
     }
-    header("Location: modules.php?name=$module_name&op=Report&report_id=$report_id");
+    header("Location: modules.php?name=$titanium_module_name&op=Report&report_id=$report_id");
   } else {
     $pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']." ::: "._NETWORK_REPORTADD." ::: ";
     include_once(NUKE_BASE_DIR.'header.php');
@@ -57,7 +57,7 @@ if($project['allowreports'] > 0) {
     include_once(NUKE_BASE_DIR.'footer.php');
   }
 } else {
-  header("Location: modules.php?name=$module_name");
+  header("Location: modules.php?name=$titanium_module_name");
 }
 
 ?>

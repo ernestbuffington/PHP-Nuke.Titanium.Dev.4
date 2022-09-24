@@ -507,9 +507,9 @@ class Zend_Cache_Backend_Sqlite extends Zend_Cache_Backend implements Zend_Cache
      */
     private function _query($query)
     {
-        $db = $this->_getConnection();
-        if (is_resource($db)) {
-            $res = @sqlite_query($db, $query);
+        $titanium_db = $this->_getConnection();
+        if (is_resource($titanium_db)) {
+            $res = @sqlite_query($titanium_db, $query);
             if ($res === false) {
                 return false;
             } else {

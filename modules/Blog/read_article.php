@@ -34,38 +34,38 @@ global $cookie, $userinfo;
 
 @include_once(NUKE_INCLUDE_DIR.'counter.php');
 
-$module_name = basename(dirname(__FILE__));
+$titanium_module_name = basename(dirname(__FILE__));
 
-get_lang($module_name);
+get_lang($titanium_module_name);
 
 $sid = (int) $sid;
 
 if (stristr($REQUEST_URI,"mainfile")) 
-redirect("modules.php?name=$module_name&file=read_article&sid=$sid");
+redirect_titanium("modules.php?name=$titanium_module_name&file=read_article&sid=$sid");
 else
 if (!isset($sid) && !isset($tid)) 
-redirect("index.php");
+redirect_titanium("index.php");
 
 if ($save AND is_user()) 
 {
-    $db->sql_query("UPDATE ".$user_prefix."_users SET umode='$mode', uorder='$order', thold='$thold' where uid='$cookie[0]'");
+    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET umode='$mode', uorder='$order', thold='$thold' where uid='$cookie[0]'");
     $info = base64_encode("$userinfo[user_id]:$userinfo[username]:$userinfo[user_password]:$userinfo[storynum]:$userinfo[umode]:$userinfo[uorder]:$userinfo[thold]:$userinfo[noscore]");
     setcookie("user","$info",time()+$cookieusrtime);
 }
 
 if ($op == "Reply") 
-redirect("modules.php?name=$module_name&file=comments&op=Reply&pid=0&sid=$sid&mode=$mode&order=$order&thold=$thold");
+redirect_titanium("modules.php?name=$titanium_module_name&file=comments&op=Reply&pid=0&sid=$sid&mode=$mode&order=$order&thold=$thold");
 
-$sql = "select catid, aid, datePublished, dateModified, title, counter, hometext, bodytext, topic, informant, notes, acomm, haspoll, pollID, score, ratings FROM ".$prefix."_stories where sid='$sid'";
-$result = $db->sql_query($sql);
+$sql = "select catid, aid, datePublished, dateModified, title, counter, hometext, bodytext, topic, informant, notes, acomm, haspoll, pollID, score, ratings FROM ".$titanium_prefix."_stories where sid='$sid'";
+$result = $titanium_db->sql_query($sql);
 
-if ($numrows = $db->sql_numrows($result) != 1) 
+if ($numrows = $titanium_db->sql_numrows($result) != 1) 
 {
-    redirect("index.php");
+    redirect_titanium("index.php");
     exit;
 }
 
-$row = $db->sql_fetchrow($result);
+$row = $titanium_db->sql_fetchrow($result);
 
 $catid = $row["catid"];
 
@@ -104,9 +104,9 @@ $score = $row["score"];
 $ratings = $row["ratings"];
 
 if (empty($aid['name'])) 
-redirect("modules.php?name=$module_name"); 
+redirect_titanium("modules.php?name=$titanium_module_name"); 
 
-$db->sql_query("UPDATE ".$prefix."_stories SET counter=counter+1 where sid=$sid");
+$titanium_db->sql_query("UPDATE ".$titanium_prefix."_stories SET counter=counter+1 where sid=$sid");
 
 $artpage = 1;
 
@@ -153,11 +153,11 @@ getTopics($sid);
 
 if($catid != 0) 
 {
-    $sql = "select title from ".$prefix."_stories_cat where catid='$catid'";
-    $result = $db->sql_query($sql);
-    $row = $db->sql_fetchrow($result);
+    $sql = "select title from ".$titanium_prefix."_stories_cat where catid='$catid'";
+    $result = $titanium_db->sql_query($sql);
+    $row = $titanium_db->sql_fetchrow($result);
     $title1 = $row["title"];
-    $title = "<a href=\"modules.php?name=$module_name&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><font class=\"storycat\">$title1</font></a>: $title";
+    $title = "<a href=\"modules.php?name=$titanium_module_name&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><font class=\"storycat\">$title1</font></a>: $title";
 }
 
 echo "<table width=\"100%\" border=\"0\"><tr><td valign=\"top\" width=\"100%\">\n";

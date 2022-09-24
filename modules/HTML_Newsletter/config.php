@@ -42,7 +42,7 @@ if ( !defined('MSNL_LOADED') and !defined('BLOCK_FILE') and !defined('NUKE_FILE'
 	die("Illegal File Access");
 }
 
-global $admin_file, $aid, $prefix, $db, $admin;
+global $admin_file, $aid, $titanium_prefix, $titanium_db, $admin;
 
 get_lang( $msnl_sModuleNm );
 
@@ -68,7 +68,7 @@ $msnl_asWARN										= array();	//Used for an warning message "stack" in valida
 $msnl_gasModCfg									= array();	//Used to store module configuration data
 
 $msnl_giHeadersSent							= 0;
-$msnl_gasUserInfo								= getusrinfo($user);
+$msnl_gasUserInfo								= getusrinfo($titanium_user);
 $msnl_giUid											= $msnl_gasUserInfo['user_id'];
 $msnl_gsUserName								= $msnl_gasUserInfo['username'];
 

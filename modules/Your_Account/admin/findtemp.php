@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
     $pagetitle = ": "._USERADMIN." - "._FINDTEMP;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -53,14 +53,14 @@ if(is_mod_admin($module_name)) {
     amain();
     echo "<br />\n";
     if (isset($xusername) AND $xusername != "") {
-        $sql = "SELECT * FROM ".$user_prefix."_users_temp WHERE username='$xusername'";
+        $sql = "SELECT * FROM ".$titanium_user_prefix."_users_temp WHERE username='$xusername'";
     } elseif (isset($xuser_id) AND $xuser_id != "") {
-        $sql = "SELECT * FROM ".$user_prefix."_users_temp WHERE user_id='$xuser_id'";
+        $sql = "SELECT * FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$xuser_id'";
     } elseif (isset($xuser_email) AND $xuser_email != "") {
-        $sql = "SELECT * FROM ".$user_prefix."_users_temp WHERE user_email='$xuser_email'";
+        $sql = "SELECT * FROM ".$titanium_user_prefix."_users_temp WHERE user_email='$xuser_email'";
     }
-    if($db->sql_numrows($db->sql_query($sql)) > 0) {
-        $chnginfo = $db->sql_fetchrow($db->sql_query($sql));
+    if($titanium_db->sql_numrows($titanium_db->sql_query($sql)) > 0) {
+        $chnginfo = $titanium_db->sql_fetchrow($titanium_db->sql_query($sql));
         OpenTable();
         echo "<center><table border='0'>\n";
         echo "<tr><td bgcolor='$bgcolor2'>"._USERID.":</td><td><strong>".$chnginfo['user_id']."</strong></td></tr>\n";
@@ -68,12 +68,12 @@ if(is_mod_admin($module_name)) {
         echo "<tr><td bgcolor='$bgcolor2'>"._EMAIL.":</td><td><strong><a href='mailto:".$chnginfo['user_email']."'>".$chnginfo['user_email']."</a></strong></td></tr>\n";
         echo "<tr><td bgcolor='$bgcolor2'>"._REGDATE.":</td><td><strong>".$chnginfo['user_regdate']."</strong></td></tr>\n";
         echo "<tr><td bgcolor='$bgcolor2'>"._CHECKNUM.":</td><td><strong>".$chnginfo['check_num']."</strong></td></tr>\n";
-        echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
         echo "<input type='hidden' name='op' value='modifyTemp'>\n";
         echo "<input type='hidden' name='chng_uid' value='".$chnginfo['user_id']."'>\n";
         echo "<tr><td align='center' colspan='2'><input type='submit' value='"._MODIFY."'></td></tr>\n";
         echo "</form>\n";
-        echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
         echo "<tr><td align='center' colspan='2'><input type='submit' value='"._RETURN."'></td></tr>\n";
         echo "</form>\n";
         echo "</table></center>\n";

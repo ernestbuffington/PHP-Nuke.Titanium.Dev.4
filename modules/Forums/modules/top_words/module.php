@@ -13,9 +13,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 // true == use db cache
@@ -28,15 +28,15 @@ $core->set_view('columns', 5);
 
 $core->define_view('set_columns', array(
     $core->pre_defined('rank'),
-    'word' => $lang['Word'],
-    'count' => $lang['Count'],
+    'word' => $titanium_lang['Word'],
+    'count' => $titanium_lang['Count'],
     $core->pre_defined('percent'),
     $core->pre_defined('graph'))
 );
 
 $content->percentage_sign = TRUE;
 
-$core->set_header($lang['module_name']);
+$core->set_header($titanium_lang['module_name']);
 
 $core->assign_defined_view('align_rows', array(
     'left',
@@ -51,7 +51,7 @@ $sql = "SELECT COUNT( word_id ) total_words FROM ".SEARCH_MATCH_TABLE;
 $result = $core->sql_query($sql, 'Unable to retrieve total words');
 $row = $core->sql_fetchrow($result);
 
-$total_words = $row['total_words'];
+$total_phpbb2_words = $row['total_words'];
 
 $sql = "SELECT COUNT( swm.word_id ) word_count, swm.word_id word_id, swl.word_text word_text 
 FROM " . SEARCH_MATCH_TABLE . " swm, " . SEARCH_WORD_TABLE . " swl 
@@ -62,7 +62,7 @@ LIMIT " . $core->return_limit;
 $result = $core->sql_query($sql, 'Unable to retrieve word count data');
 $data = $core->sql_fetchrowset($result);
 
-$content->init_math('word_count', $data[0]['word_count'], $total_words);
+$content->init_math('word_count', $data[0]['word_count'], $total_phpbb2_words);
 $core->set_data($data);
 
 $core->define_view('set_rows', array(

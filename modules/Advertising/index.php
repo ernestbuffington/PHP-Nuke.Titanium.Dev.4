@@ -33,11 +33,11 @@ if (!defined('MODULE_FILE')) {
     die('You can\'t access this file directly...');
 }
 
-$module_name = basename(dirname(__FILE__));
-get_lang($module_name);
+$titanium_module_name = basename(dirname(__FILE__));
+get_lang($titanium_module_name);
 
 function is_client($client) {
-    global $prefix, $db;
+    global $titanium_prefix, $titanium_db;
     static $ClientSave;
     if(isset($ClientSave)) return $ClientSave;
     if(!is_array($client)) {
@@ -51,7 +51,7 @@ function is_client($client) {
         if (isset($client[2])) { $pwd = $client[2]; }
     }
     if (!empty($cid) AND !empty($pwd)) {
-        list($pass) = $db->sql_ufetchrow("SELECT passwd FROM ".$prefix."_banner_clients WHERE cid='$cid'");
+        list($pass) = $titanium_db->sql_ufetchrow("SELECT passwd FROM ".$titanium_prefix."_banner_clients WHERE cid='$cid'");
         if(!empty($pass) AND $pass == $pwd) {
             return $ClientSave = 1;
         }
@@ -60,25 +60,25 @@ function is_client($client) {
 }
 
 function themenu() {
-    global $module_name, $prefix, $db, $client, $op;
+    global $titanium_module_name, $titanium_prefix, $titanium_db, $client, $op;
 
     echo "<br />";
     if (is_client($client)) {
         if ($op == "client_home") {
             $client_opt = "My Ads";
         } else {
-            $client_opt = "<a href=\"modules.php?name=$module_name&amp;op=client_home\">"._MYADS."</a>";
+            $client_opt = "<a href=\"modules.php?name=$titanium_module_name&amp;op=client_home\">"._MYADS."</a>";
         }
     } else {
-        $client_opt = "<a href=\"modules.php?name=$module_name&amp;op=client\">"._CLIENTLOGIN."</a>";
+        $client_opt = "<a href=\"modules.php?name=$titanium_module_name&amp;op=client\">"._CLIENTLOGIN."</a>";
     }
     OpenTable();
-    echo "<center><strong>"._ADSMENU."</strong><br /><br />[ <a href=\"modules.php?name=$module_name\">"._MAINPAGE."</a> | " . (is_active('Statistics') ? "<a href=\"modules.php?name=Statistics\">"._SITESTATS."</a> |" : "") . "  <a href=\"modules.php?name=$module_name&amp;op=terms\">"._TERMS."</a> | <a href=\"modules.php?name=$module_name&amp;op=plans\">"._PLANSPRICES."</a> | $client_opt ]</center>";
+    echo "<center><strong>"._ADSMENU."</strong><br /><br />[ <a href=\"modules.php?name=$titanium_module_name\">"._MAINPAGE."</a> | " . (is_active('Statistics') ? "<a href=\"modules.php?name=Statistics\">"._SITESTATS."</a> |" : "") . "  <a href=\"modules.php?name=$titanium_module_name&amp;op=terms\">"._TERMS."</a> | <a href=\"modules.php?name=$titanium_module_name&amp;op=plans\">"._PLANSPRICES."</a> | $client_opt ]</center>";
     CloseTable();
 }
 
 function theindex() {
-    global $prefix, $db, $sitename;
+    global $titanium_prefix, $titanium_db, $sitename;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.' '._ADVERTISING);
@@ -90,17 +90,17 @@ function theindex() {
 }
 
 function plans() {
-    global $module_name, $prefix, $db, $bgcolor2, $sitename;
+    global $titanium_module_name, $titanium_prefix, $titanium_db, $bgcolor2, $sitename;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.': '._PLANSPRICES);
     OpenTable();
-    $result = $db->sql_query("SELECT * FROM ".$prefix."_banner_plans WHERE active='1'");
-    if ($db->sql_numrows($result) > 0) {
+    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_banner_plans WHERE active='1'");
+    if ($titanium_db->sql_numrows($result) > 0) {
         echo ""._LISTPLANS."<br /><br />";
         echo "<table border=\"1\" width=\"100%\" cellpadding=\"3\">";
         echo "<tr><td align=\"center\" nowrap bgcolor=\"$bgcolor2\"><strong>"._PLANNAME."</strong></td><td bgcolor=\"$bgcolor2\">&nbsp;<strong>"._DESCRIPTION."</strong></td><td align=\"center\" bgcolor=\"$bgcolor2\"><strong>"._QUANTITY."</strong></td><td align=\"center\" bgcolor=\"$bgcolor2\"><strong>"._PRICE."</strong></td><td align=\"center\" bgcolor=\"$bgcolor2\" nowrap><strong>"._BUYLINKS."</strong></td></tr>";
-        while ($row = $db->sql_fetchrow($result)) {
+        while ($row = $titanium_db->sql_fetchrow($result)) {
             if ($row['delivery_type'] == "0") {
                 $delivery = _IMPRESSIONS;
             } elseif ($row['delivery_type'] == "1") {
@@ -114,7 +114,7 @@ function plans() {
             }
             echo "<tr><td valign=\"top\"><strong>".$row['name']."</strong></td><td>".$row['description']."</td><td valign=\"bottom\"><center>".$row['delivery']."<br />$delivery</center></td><td valign=\"bottom\">".$row['price']."</td><td valign=\"bottom\" nowrap><center>".$row['buy_links']."</center></td></tr>";
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         echo "</table>";
     } else {
         echo "<center>"._ADSNOCONTENT."<br /><br />"._GOBACK."</center>";
@@ -125,7 +125,7 @@ function plans() {
 }
 
 function terms() {
-    global $module_name, $prefix, $db, $sitename;
+    global $titanium_module_name, $titanium_prefix, $titanium_db, $sitename;
 
     $today = getdate();
     $month = $today['mon'];
@@ -133,7 +133,7 @@ function terms() {
     $year = $today['year'];
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.': '._TERMSCONDITIONS);
-    $row = $db->sql_fetchrow($db->sql_query("SELECT * FROM ".$prefix."_banner_terms"));
+    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_banner_terms"));
     $terms = str_replace("[sitename]", $sitename, $row['terms_body']);
     $terms = str_replace("[country]", $row['country'], $terms);
     $terms = decode_bb_all($terms, 1, true);
@@ -147,16 +147,16 @@ function terms() {
 }
 
 function client() {
-    global $module_name, $prefix, $db, $sitename, $client;
+    global $titanium_module_name, $titanium_prefix, $titanium_db, $sitename, $client;
 
     if (is_client($client)) {
-        redirect("modules.php?name=$module_name&op=client_home");
+        redirect_titanium("modules.php?name=$titanium_module_name&op=client_home");
     } else {
         include_once(NUKE_BASE_DIR.'header.php');
         title($sitename.': '._ADSYSTEM);
         OpenTable();
         echo "<center><span class=\"title\"><strong>"._CLIENTLOGIN."</strong></span></center><br />";
-        echo "<form method=\"post\" onsubmit=\"this.submit.disabled = true\" action=\"modules.php?name=$module_name\"><table border=\"0\" align=\"center\" cellpadding=\"3\"><tr>";
+        echo "<form method=\"post\" onsubmit=\"this.submit.disabled = true\" action=\"modules.php?name=$titanium_module_name\"><table border=\"0\" align=\"center\" cellpadding=\"3\"><tr>";
         echo "<td align=\"right\">"._LOGIN.":</td><td><input type=\"text\" name=\"login\" size=\"15\"></td></tr>";
         echo "<td align=\"right\">"._PASSWORD.":</td><td><input type=\"password\" name=\"pass\" size=\"15\"></td></tr>";
         echo "<td>&nbsp;</td><td><input type=\"hidden\" name=\"op\" value=\"client_valid\"><input name=\"submit\" type=\"submit\" value=\""._ENTER."\"></tr></td></table></form>";
@@ -180,16 +180,16 @@ function zeroFill($a, $b) {
 }
 
 function client_logout() {
-    global $module_name;
+    global $titanium_module_name;
     $client = "";
     setcookie("client");
-    redirect("modules.php?name=$module_name&op=client");
+    redirect_titanium("modules.php?name=$titanium_module_name&op=client");
 }
 
 function client_valid($login, $pass) {
-    global $prefix, $db, $module_name, $sitename;
-    $result = $db->sql_query("SELECT cid FROM ".$prefix."_banner_clients WHERE login='$login' AND passwd='$pass'");
-    if ($db->sql_numrows($result) != 1) {
+    global $titanium_prefix, $titanium_db, $titanium_module_name, $sitename;
+    $result = $titanium_db->sql_query("SELECT cid FROM ".$titanium_prefix."_banner_clients WHERE login='$login' AND passwd='$pass'");
+    if ($titanium_db->sql_numrows($result) != 1) {
         include_once(NUKE_BASE_DIR.'header.php');
         title($sitename.': '._ADSYSTEM);
         OpenTable();
@@ -199,19 +199,19 @@ function client_valid($login, $pass) {
         include_once(NUKE_BASE_DIR.'footer.php');
         exit;
     } else {
-        $row = $db->sql_fetchrow($result);
+        $row = $titanium_db->sql_fetchrow($result);
         $cid = $row['cid'];
         $info = base64_encode("$cid:$login:$pass");
         setcookie("client",$info,time()+3600);
-        redirect("modules.php?name=$module_name&op=client_home");
+        redirect_titanium("modules.php?name=$titanium_module_name&op=client_home");
     }
 }
 
 function client_home() {
-    global $prefix, $db, $sitename, $bgcolor2, $module_name, $client;
+    global $titanium_prefix, $titanium_db, $sitename, $bgcolor2, $titanium_module_name, $client;
 
     if (!is_client($client)) {
-        redirect("modules.php?name=$module_name&op=client");
+        redirect_titanium("modules.php?name=$titanium_module_name&op=client");
     } else {
         include_once(NUKE_BASE_DIR.'header.php');
         title($sitename.' '._ADSYSTEM);
@@ -220,7 +220,7 @@ function client_home() {
         $client = addslashes($client);
         $client = explode(":", $client);
         $cid = $client[0];
-        $row = $db->sql_ufetchrow("SELECT * FROM ".$prefix."_banner_clients WHERE cid='$cid'");
+        $row = $titanium_db->sql_ufetchrow("SELECT * FROM ".$titanium_prefix."_banner_clients WHERE cid='$cid'");
         echo "<center>"._ACTIVEADSFOR." ".$row['name']."</center><br />"
                ."<table width=\"100%\" border=\"1\"><tr>"
                ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._NAME."</strong></td>"
@@ -231,9 +231,9 @@ function client_home() {
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>% "._CLICKS."</strong></td>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._TYPE."</strong></td>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._FUNCTIONS."</strong></td><tr>";
-        $sql = "SELECT * FROM ".$prefix."_banner WHERE cid='".$row['cid']."' AND active='1'";
-        $result = $db->sql_query($sql, true);
-        while ($row = $db->sql_fetchrow($result)) {
+        $sql = "SELECT * FROM ".$titanium_prefix."_banner WHERE cid='".$row['cid']."' AND active='1'";
+        $result = $titanium_db->sql_query($sql, true);
+        while ($row = $titanium_db->sql_fetchrow($result)) {
             $bid = $row['bid'];
             $bid = intval($bid);
             $imptotal = $row['imptotal'];
@@ -269,11 +269,11 @@ function client_home() {
                 ."<td align=\"center\">$clicks</td>"
                 ."<td align=\"center\">$percent</td>"
                 ."<td align=\"center\">".ucfirst($row['ad_class'])."</td>"
-                ."<td align=\"center\"><a href=\"modules.php?name=$module_name&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EMAILSTATS."\" title=\""._EMAILSTATS."\"></a>  <a href=\"modules.php?name=$module_name&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/view.gif\" border=\"0\" alt=\""._VIEWBANNER."\" title=\""._VIEWBANNER."\"></a></td><tr>";
+                ."<td align=\"center\"><a href=\"modules.php?name=$titanium_module_name&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EMAILSTATS."\" title=\""._EMAILSTATS."\"></a>  <a href=\"modules.php?name=$titanium_module_name&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/view.gif\" border=\"0\" alt=\""._VIEWBANNER."\" title=\""._VIEWBANNER."\"></a></td><tr>";
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         echo "</table>";
-        $row = $db->sql_ufetchrow("SELECT * FROM ".$prefix."_banner_clients WHERE cid='$cid'");
+        $row = $titanium_db->sql_ufetchrow("SELECT * FROM ".$titanium_prefix."_banner_clients WHERE cid='$cid'");
         echo "<br /><br /><center>"._INACTIVEADS." ".$row['name']."</center><br />"
             ."<table width=\"100%\" border=\"1\"><tr>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._NAME."</strong></td>"
@@ -284,9 +284,9 @@ function client_home() {
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>% "._CLICKS."</strong></td>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._TYPE."</strong></td>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._FUNCTIONS."</strong></td><tr>";
-        $sql = "SELECT * FROM ".$prefix."_banner WHERE cid='".$row['cid']."' AND active='0'";
-        $result = $db->sql_query($sql, true);
-        while ($row = $db->sql_fetchrow($result)) {
+        $sql = "SELECT * FROM ".$titanium_prefix."_banner WHERE cid='".$row['cid']."' AND active='0'";
+        $result = $titanium_db->sql_query($sql, true);
+        while ($row = $titanium_db->sql_fetchrow($result)) {
             $bid = $row['bid'];
             $bid = intval($bid);
             $imptotal = $row['imptotal'];
@@ -322,14 +322,14 @@ function client_home() {
                 ."<td align=\"center\">$clicks</td>"
                 ."<td align=\"center\">$percent</td>"
                 ."<td align=\"center\">".ucfirst($row['ad_class'])."</td>"
-                ."<td align=\"center\"><a href=\"modules.php?name=$module_name&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EMAILSTATS."\" title=\""._EMAILSTATS."\"></a>  <a href=\"modules.php?name=$module_name&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/view.gif\" border=\"0\" alt=\""._VIEWBANNER."\" title=\""._VIEWBANNER."\"></a></td><tr>";
+                ."<td align=\"center\"><a href=\"modules.php?name=$titanium_module_name&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EMAILSTATS."\" title=\""._EMAILSTATS."\"></a>  <a href=\"modules.php?name=$titanium_module_name&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/view.gif\" border=\"0\" alt=\""._VIEWBANNER."\" title=\""._VIEWBANNER."\"></a></td><tr>";
             $a = 1;
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         if ($a != 1) {
             echo "<td align=\"center\" colspan=\"8\"><i>"._NOCONTENT."</i></td></tr>";
         }
-        echo "</table><br /><br /><center>[ <a href=\"modules.php?name=$module_name&amp;op=client_logout\">"._LOGOUT."</a> ]</center>";
+        echo "</table><br /><br /><center>[ <a href=\"modules.php?name=$titanium_module_name&amp;op=client_logout\">"._LOGOUT."</a> ]</center>";
         CloseTable();
         themenu();
         include_once(NUKE_BASE_DIR.'footer.php');
@@ -337,10 +337,10 @@ function client_home() {
 }
 
 function view_banner($cid, $bid) {
-    global $prefix, $db, $module_name, $client, $bgcolor2, $sitename;
+    global $titanium_prefix, $titanium_db, $titanium_module_name, $client, $bgcolor2, $sitename;
 
     if (!is_client($client)) {
-        redirect("modules.php?name=$module_name&amp;op=client");
+        redirect_titanium("modules.php?name=$titanium_module_name&amp;op=client");
     } else {
         $client = base64_decode($client);
         $client = addslashes($client);
@@ -359,7 +359,7 @@ function view_banner($cid, $bid) {
             include_once(NUKE_BASE_DIR.'header.php');
             title($sitename.' '._ADSYSTEM);
             OpenTable();
-            $row = $db->sql_ufetchrow("SELECT * FROM ".$prefix."_banner WHERE bid='$bid'");
+            $row = $titanium_db->sql_ufetchrow("SELECT * FROM ".$titanium_prefix."_banner WHERE bid='$bid'");
             $cid = intval($row['cid']);
             $imptotal = intval($row['imptotal']);
             $impmade = intval($row['impmade']);
@@ -442,7 +442,7 @@ function view_banner($cid, $bid) {
                 ."<td align=\"center\">".ucFirst($row['ad_class'])."</td></tr><tr>"
                 ."<td align=\"center\" colspan=\"7\">"._CURRENTSTATUS." $status</td></tr>"
                 ."</table><br /><br />"
-                ."[ <a href=\"modules.php?name=$module_name&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\">"._EMAILSTATS."</a> | <a href=\"modules.php?name=$module_name&amp;op=logout\">"._LOGOUT."</a> ]";
+                ."[ <a href=\"modules.php?name=$titanium_module_name&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\">"._EMAILSTATS."</a> | <a href=\"modules.php?name=$titanium_module_name&amp;op=logout\">"._LOGOUT."</a> ]";
             CloseTable();
             themenu();
             include_once(NUKE_BASE_DIR.'footer.php');
@@ -451,10 +451,10 @@ function view_banner($cid, $bid) {
 }
 
 function client_report($cid, $bid) {
-    global $prefix, $db, $module_name, $client, $sitename;
+    global $titanium_prefix, $titanium_db, $titanium_module_name, $client, $sitename;
 
     if (!is_client($client)) {
-        redirect("modules.php?name=$module_name&op=client");
+        redirect_titanium("modules.php?name=$titanium_module_name&op=client");
     } else {
         $client = base64_decode($client);
         $client = addslashes($client);
@@ -475,7 +475,7 @@ function client_report($cid, $bid) {
             OpenTable();
             $bid = intval($bid);
             $cid = intval($cid);
-            list($name, $email) = $db->sql_ufetchrow("SELECT name, email FROM ".$prefix."_banner_clients WHERE cid='$cid'");
+            list($name, $email) = $titanium_db->sql_ufetchrow("SELECT name, email FROM ".$titanium_prefix."_banner_clients WHERE cid='$cid'");
             $name = htmlentities($name);
             if (empty($email)) {
                 echo "<center><br /><br />"
@@ -485,7 +485,7 @@ function client_report($cid, $bid) {
                 themenu();
                 include_once(NUKE_BASE_DIR.'footer.php');
             } else {
-                list($bid, $imptotal, $impmade, $clicks, $imageurl, $clickurl, $date, $ad_class) = $db->sql_ufetchrow("SELECT bid, name, imptotal, impmade, clicks, imageurl, clickurl, date, ad_class FROM ".$prefix."_banner WHERE bid='$bid' AND cid='$cid'");
+                list($bid, $imptotal, $impmade, $clicks, $imageurl, $clickurl, $date, $ad_class) = $titanium_db->sql_ufetchrow("SELECT bid, name, imptotal, impmade, clicks, imageurl, clickurl, date, ad_class FROM ".$titanium_prefix."_banner WHERE bid='$bid' AND cid='$cid'");
                 $bid = intval($bid);
                 $imptotal = intval($imptotal);
                 $impmade = intval($impmade);

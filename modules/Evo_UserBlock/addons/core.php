@@ -20,27 +20,27 @@ if(!defined('NUKE_EVO')) {
    die ("Illegal File Access");
 }
 
-$module_name = basename(dirname(dirname(__FILE__)));
+$titanium_module_name = basename(dirname(dirname(__FILE__)));
 
-get_lang($module_name);
+get_lang($titanium_module_name);
 
 function evouserinfo_get_addon_all() 
 {
-    global $prefix, $db, $lang_evo_userblock;
+    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock;
 
-    $sql = 'SELECT value, name from `'.$prefix.'_evo_userinfo_addons`';
+    $sql = 'SELECT value, name from `'.$titanium_prefix.'_evo_userinfo_addons`';
 
-    if(!$result = $db->sql_query($sql)) 
+    if(!$result = $titanium_db->sql_query($sql)) 
 	{
-        DisplayError($lang_evo_userblock['BLOCK']['ERR_NF']);
+        DisplayError($titanium_lang_evo_userblock['BLOCK']['ERR_NF']);
     }
     
-	while ($row = $db->sql_fetchrow($result)) 
+	while ($row = $titanium_db->sql_fetchrow($result)) 
 	{
         $values[$row['name']] = $row['value'];
     }
     
-	$db->sql_freeresult($result);
+	$titanium_db->sql_freeresult($result);
     
 	return $values;
 }

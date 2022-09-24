@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
     $pagetitle = ": "._USERADMIN." - "._YA_USERS;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -60,16 +60,16 @@ if(is_mod_admin($module_name)) {
     if ($query == "-1") { $where = "WHERE user_level = '-1' AND user_id > '1'"; }
     if ($query == "0") { $where = "WHERE user_level = '0' AND user_id > '1'"; }
     if ($query == "1") { $where = "WHERE user_level > '0' AND user_id > '1'"; }
-    $totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM ".$user_prefix."_users $where"));
+    $totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users $where"));
     echo "<table style='margin:auto' cellpadding='2' cellspacing='2' bgcolor='$textcolor1' border='0'>\n";
     echo "<tr bgcolor='$bgcolor2'>\n<td><strong>"._USERNAME." ("._USERID.")</strong></td>\n";
     echo "<td align='center'><strong>"._UREALNAME."</strong></td>\n";
     echo "<td align='center'><strong>"._EMAIL."</strong></td>\n";
     echo "<td align='center'><strong>"._REGDATE."</strong></td>\n";
     echo "<td align='center'><strong>"._FUNCTIONS."</strong></td>\n</tr>\n";
-    $result = $db->sql_query("SELECT * FROM ".$user_prefix."_users $where ORDER BY username LIMIT $min,".$ya_config['perpage']."");
-    while($chnginfo = $db->sql_fetchrow($result)) {
-        echo "<tr bgcolor='$bgcolor1'><form method='post' action='modules.php?name=$module_name&amp;file=admin'>\n";
+    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users $where ORDER BY username LIMIT $min,".$ya_config['perpage']."");
+    while($chnginfo = $titanium_db->sql_fetchrow($result)) {
+        echo "<tr bgcolor='$bgcolor1'><form method='post' action='modules.php?name=$titanium_module_name&amp;file=admin'>\n";
         echo "<input type='hidden' name='query' value='$query'>\n";
         echo "<input type='hidden' name='min' value='$min'>\n";
         echo "<input type='hidden' name='xop' value='$op'>\n";

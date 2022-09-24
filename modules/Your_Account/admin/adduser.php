@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
     $pagetitle = ": "._USERADMIN." - "._ADDUSER;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -54,7 +54,7 @@ if(is_mod_admin($module_name)) {
     echo "<br />\n";
     OpenTable();
     echo "<center><table border='0'>\n";
-    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._NICKNAME.":</td><td bgcolor='$bgcolor1'><input type='text' name='add_uname' size='30' maxlength='".$ya_config['nick_max']."'>&nbsp;<span class='tiny'>"._REQUIRED."</span></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._UREALNAME.":</td><td bgcolor='$bgcolor1'><input type='text' name='add_name' size='30' maxlength='50'></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._EMAIL.":</td><td bgcolor='$bgcolor1'><input type='text' name='add_email' size='30' maxlength='60'>&nbsp;<span class='tiny'>"._REQUIRED."</span></td></tr>\n";
@@ -62,8 +62,8 @@ if(is_mod_admin($module_name)) {
     echo "<tr><td bgcolor='$bgcolor2'>"._FAKEEMAIL.":</td><td bgcolor='$bgcolor1'><input type='text' name='add_femail' size='30' maxlength='60'></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._URL.":</td><td bgcolor='$bgcolor1'><input type='text' name='add_url' size='30' maxlength='60'></td></tr>\n";
 
-    $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
-        while ($sqlvalue = $db->sql_fetchrow($result)) {
+    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
+        while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
           $t = $sqlvalue[fid];
           $value2 = explode("::", $sqlvalue[value]);
           if (substr($sqlvalue[name],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue[name];
@@ -100,7 +100,7 @@ if(is_mod_admin($module_name)) {
     if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
     echo "<tr><td align='center' colspan='2'><input type='submit' value='"._ADDUSERBUT."'></td></tr>\n";
     echo "</form>\n";
-    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
     echo "<tr><td align='center' colspan='2'><input type='submit' value='"._CANCEL."'></td></tr>\n";

@@ -71,11 +71,11 @@ if ($lazy_tap && !defined('ADMIN_FILE') && !defined('FORUM_ADMIN') && !defined('
         return $buffer;
     }
 
-    $user_agent = $identify->identify_agent();
+    $titanium_user_agent = $identify->identify_agent();
     
     $tap_fire = 0;
     if(($lazy_tap == 1 || $lazy_tap == 3) && !defined('ADMIN_FILE')) {
-        if($user_agent['engine'] == 'bot') {
+        if($titanium_user_agent['engine'] == 'bot') {
             $tap_fire = 1;
         } else if(is_admin() && $lazy_tap == 3) {
             $tap_fire = 1;

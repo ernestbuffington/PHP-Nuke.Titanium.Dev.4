@@ -21,16 +21,16 @@ OpenTable();
     Notes:       N/A
 ================================================================================================*/
 function username() {
-    global $db, $user_prefix;
+    global $titanium_db, $titanium_user_prefix;
     $in[] = array('value' => 'N/A', 'text' => _NONE);
-    $sql = 'SELECT username FROM `'.$user_prefix.'_users` WHERE user_id > 1 ORDER BY username ASC';
-    if(!$result = $db->sql_query($sql)) {
-        DonateError($lang_donate['UNAMES_NF']);
+    $sql = 'SELECT username FROM `'.$titanium_user_prefix.'_users` WHERE user_id > 1 ORDER BY username ASC';
+    if(!$result = $titanium_db->sql_query($sql)) {
+        DonateError($titanium_lang_donate['UNAMES_NF']);
     }
-    while($row = $db->sql_fetchrow($result)) {
+    while($row = $titanium_db->sql_fetchrow($result)) {
         $in[] = array('value' => $row[0], 'text' => $row[0]);
     }
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     return  donate_combo('uname', $in, 'None');
 }
 
@@ -41,19 +41,19 @@ function username() {
     Notes:       N/A
 ================================================================================================*/
 function types() {
-    global $db, $prefix, $lang_donate;
-    $sql = 'SELECT config_value, config_name FROM `'.$prefix.'_donators_config` WHERE config_name="gen_type_private"';
-    if(!$result = $db->sql_query($sql)) {
-        DonateError($lang_donate['TYPES_NF']);
+    global $titanium_db, $titanium_prefix, $titanium_lang_donate;
+    $sql = 'SELECT config_value, config_name FROM `'.$titanium_prefix.'_donators_config` WHERE config_name="gen_type_private"';
+    if(!$result = $titanium_db->sql_query($sql)) {
+        DonateError($titanium_lang_donate['TYPES_NF']);
     }
-    $row = $db->sql_fetchrow($result);
+    $row = $titanium_db->sql_fetchrow($result);
     $type[$row['config_name']] = $row[0];
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     if ($type['gen_type_private'] == 'yes') {
-        $in[] = array('value' => 'type_private', 'text' => $lang_donate['TYPE_PRIVATE']);
-        $in[] = array('value' => 'type_regular', 'text' => $lang_donate['TYPE_REGULAR']);
+        $in[] = array('value' => 'type_private', 'text' => $titanium_lang_donate['TYPE_PRIVATE']);
+        $in[] = array('value' => 'type_regular', 'text' => $titanium_lang_donate['TYPE_REGULAR']);
         $ret = "<tr>\n
-            <td align=\"right\">".$lang_donate['ADD_TYPE'].$lang_donate['BREAK']."</td>\n
+            <td align=\"right\">".$titanium_lang_donate['ADD_TYPE'].$titanium_lang_donate['BREAK']."</td>\n
             <td>".donate_combo('donshow', $in, 'type_regular')."</td>\n
           </tr>\n";
         return $ret;
@@ -68,15 +68,15 @@ function types() {
     Notes:       N/A
 ================================================================================================*/
 function make_codes () {
-    global $db, $prefix, $lang_donate;
-    $sql = 'SELECT config_value, config_name FROM `'.$prefix.'_donators_config`';
-    if(!$result = $db->sql_query($sql)) {
-        DonateError($lang_donate['TYPES_NF']);
+    global $titanium_db, $titanium_prefix, $titanium_lang_donate;
+    $sql = 'SELECT config_value, config_name FROM `'.$titanium_prefix.'_donators_config`';
+    if(!$result = $titanium_db->sql_query($sql)) {
+        DonateError($titanium_lang_donate['TYPES_NF']);
     }
-    while ($row = $db->sql_fetchrow($result)) {
+    while ($row = $titanium_db->sql_fetchrow($result)) {
         $gen_configs[$row['config_name']] = $row[0];
     }
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     if (empty($gen_configs['gen_codes'])) {
        return "<input type=\"hidden\" name=\"item_name\" value=\"".$gen_configs['gen_donation_code']."\">\n";
     }
@@ -98,37 +98,37 @@ function make_codes () {
     Notes:       Displays the on screen the add a donation
 ================================================================================================*/
 function add_donation() {
-    global $lang_donate, $admin_file;
+    global $titanium_lang_donate, $admin_file;
     echo "<form id=\"values\" method=\"post\" action=\"".$admin_file.".php?op=Donations&amp;file=add\">\n";
     echo "<table width=\"43%\" border=\"0\" align=\"center\">\n";
-    echo "<caption><span style=\"font-weight: bold; font-size: 20px;\">".$lang_donate['ADD_DONATION']."</span></caption>";
+    echo "<caption><span style=\"font-weight: bold; font-size: 20px;\">".$titanium_lang_donate['ADD_DONATION']."</span></caption>";
     echo "<tr>\n
-            <td width=\"55%\" align=\"right\">".$lang_donate['UNAME'].$lang_donate['BREAK']."</td>\n
+            <td width=\"55%\" align=\"right\">".$titanium_lang_donate['UNAME'].$titanium_lang_donate['BREAK']."</td>\n
             <td width=\"45%\">".username()."</td>\n
           </tr>\n";
     echo "<tr>\n
-            <td align=\"right\">".$lang_donate['FIRST_NAME'].$lang_donate['BREAK']."</td>\n
+            <td align=\"right\">".$titanium_lang_donate['FIRST_NAME'].$titanium_lang_donate['BREAK']."</td>\n
             <td>".donate_text('fname', '')."</td>\n
           </tr>\n";
     echo "<tr>\n
-            <td align=\"right\">".$lang_donate['LAST_NAME'].$lang_donate['BREAK']."</td>\n
+            <td align=\"right\">".$titanium_lang_donate['LAST_NAME'].$titanium_lang_donate['BREAK']."</td>\n
             <td>".donate_text('lname', '')."</td>\n
           </tr>\n";
     echo "<tr>\n
-            <td align=\"right\">".$lang_donate['EMAIL_ADD'].$lang_donate['BREAK']."</td>\n
+            <td align=\"right\">".$titanium_lang_donate['EMAIL_ADD'].$titanium_lang_donate['BREAK']."</td>\n
             <td>".donate_text('email', '')."</td>\n
           </tr>\n";
     echo "<tr>\n
-            <td align=\"right\">".$lang_donate['DONATION'].$lang_donate['BREAK']."</td>\n
+            <td align=\"right\">".$titanium_lang_donate['DONATION'].$titanium_lang_donate['BREAK']."</td>\n
             <td>".donate_text('donated', '',5,5)."</td>\n
           </tr>\n";
     echo types();
     echo "<tr><td align=\"right\">\n";
-    echo $lang_donate['DONATE_TO'].$lang_donate['BREAK'];
+    echo $titanium_lang_donate['DONATE_TO'].$titanium_lang_donate['BREAK'];
     echo "</td><td>\n";
     echo make_codes();
     echo "</td></tr>\n";
-    echo '<tr><td colspan="2"><div align="center"><input type="submit" value="'.$lang_donate['submit'].'"></div></td></tr>';
+    echo '<tr><td colspan="2"><div align="center"><input type="submit" value="'.$titanium_lang_donate['submit'].'"></div></td></tr>';
     echo "</table></form>\n";
 }
 
@@ -139,17 +139,17 @@ function add_donation() {
     Notes:       Validates the donation
 ================================================================================================*/
 function check_donation() {
-    global $lang_donate;
+    global $titanium_lang_donate;
     if ($_POST['uname'] == 'N/A') {
         if (empty($_POST['fname'])) {
-            DonateError($lang_donate['MISSING_FNAME']);
+            DonateError($titanium_lang_donate['MISSING_FNAME']);
         }
         if (empty($_POST['lname'])) {
-            DonateError($lang_donate['MISSING_LNAME']);
+            DonateError($titanium_lang_donate['MISSING_LNAME']);
         }
     }
     if(!preg_match('/[\d\.]/',$_POST['donated'])) {
-        DonateError($lang_donate['INVALID_DONATION']);
+        DonateError($titanium_lang_donate['INVALID_DONATION']);
     }
 }
 
@@ -160,33 +160,33 @@ function check_donation() {
     Notes:       Writes the donation to the DB
 ================================================================================================*/
 function write_donation() {
-    global $lang_donate, $db, $user_prefix, $prefix, $cache;
+    global $titanium_lang_donate, $titanium_db, $titanium_user_prefix, $titanium_prefix, $titanium_cache;
     if ($_POST['uname'] != 'N/A') {
         $_POST['uname'] = Fix_Quotes(check_html($_POST['uname'], 'nohtml'));
-        $sql = 'SELECT * FROM `'.$user_prefix.'_users` WHERE username="'.$_POST['uname'].'"';
-        if(!$result = $db->sql_query($sql)) {
-            DonateError($lang_donate['UINFO_NF']);
+        $sql = 'SELECT * FROM `'.$titanium_user_prefix.'_users` WHERE username="'.$_POST['uname'].'"';
+        if(!$result = $titanium_db->sql_query($sql)) {
+            DonateError($titanium_lang_donate['UINFO_NF']);
         }
-        $user = $db->sql_fetchrow($result);
-        if(!is_array($user)) {
-            DonateError($lang_donate['UINFO_NF']);
+        $titanium_user = $titanium_db->sql_fetchrow($result);
+        if(!is_array($titanium_user)) {
+            DonateError($titanium_lang_donate['UINFO_NF']);
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         $uname = $_POST['uname'];
-        $uid = $user['user_id'];
+        $uid = $titanium_user['user_id'];
         if (!empty($_POST['fname'])) {
             $fname = Fix_Quotes(check_html($_POST['fname'], 'nohtml'));
             $lname = Fix_Quotes(check_html($_POST['lname'], 'nohtml'));
         } else {
-            if (substr_count($user['name'], ' ') == 1) {
-                list($fname, $lname) = split(' ',$user['name']);
+            if (substr_count($titanium_user['name'], ' ') == 1) {
+                list($fname, $lname) = split(' ',$titanium_user['name']);
             } else {
-                $fname = $user['name'];
+                $fname = $titanium_user['name'];
                 $lname = '';
             }
         }
         if (empty($_POST['email'])) {
-            $email = $user['user_email'];
+            $email = $titanium_user['user_email'];
         } else {
             $email = Fix_Quotes(check_html($_POST['email'], 'nohtml'));
         }
@@ -201,22 +201,22 @@ function write_donation() {
     }
     $donated = Fix_Quotes(check_html($_POST['donated'], 'nohtml'));
     $donshow = ($_POST['donshow'] == 'type_regular') ? '1' : '2';
-    $sql = 'INSERT INTO `'.$prefix.'_donators` VALUES("","'.$uid.'","'.$uname.'","'.$fname.'","'.$lname.'","'.$email.'","'.$donated.'",'.time().',"'.$donshow.'","","","","'.$donto.'")';
-    $db->sql_query($sql);
+    $sql = 'INSERT INTO `'.$titanium_prefix.'_donators` VALUES("","'.$uid.'","'.$uname.'","'.$fname.'","'.$lname.'","'.$email.'","'.$donated.'",'.time().',"'.$donshow.'","","","","'.$donto.'")';
+    $titanium_db->sql_query($sql);
     //Clear the cache
-    $cache->delete('donations', 'donations');
-    $cache->delete('donations_goal', 'donations');
+    $titanium_cache->delete('donations', 'donations');
+    $titanium_cache->delete('donations_goal', 'donations');
 }
 
 /*~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-*/
 
 //If new values were posted
 if (!empty($_POST)) {
-    global $lang_donate;
+    global $titanium_lang_donate;
     check_donation();
     write_donation();
     echo '<div align="center">';
-    echo $lang_donate['ADDED'];
+    echo $titanium_lang_donate['ADDED'];
     echo '</div>';
 } else {
     add_donation();

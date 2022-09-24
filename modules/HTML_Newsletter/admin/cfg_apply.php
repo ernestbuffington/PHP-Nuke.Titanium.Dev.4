@@ -220,7 +220,7 @@ if ( msnl_fShowValErr() ) { //Had validation errors, so display return msg
 
 		if ( $msnl_gasModCfg['$key'] <> $value ) { //Update only if change really occurred
 
-			$sql = "UPDATE `".$prefix."_hnl_cfg` "
+			$sql = "UPDATE `".$titanium_prefix."_hnl_cfg` "
 						."SET `cfg_val` = '$value' "
 						."WHERE `cfg_nm` = '$key'";
 

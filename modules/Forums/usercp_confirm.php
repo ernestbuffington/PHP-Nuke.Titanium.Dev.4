@@ -33,18 +33,18 @@ if (!defined('MODULE_FILE')) {
    die ("You can't access this file directly...");
 }
 
-define('IN_PHPBB', true);
-$phpbb_root_path = NUKE_FORUMS_DIR;
+define('IN_PHPBB2', true);
+$phpbb2_root_path = NUKE_FORUMS_DIR;
 
-include_once($phpbb_root_path . 'extension.inc');
-include_once($phpbb_root_path . 'common.'.$phpEx);
+include_once($phpbb2_root_path . 'extension.inc');
+include_once($phpbb2_root_path . 'common.'.$phpEx);
 include_once('includes/bbcode.'.$phpEx);
 
 //
 // Start session management
 //
-$userdata = session_pagestart($user_ip, PAGE_INDEX);
-init_userprefs($userdata);
+$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+titanium_init_userprefs($userdata);
 //
 // End session management
 //
@@ -77,12 +77,12 @@ $sql = 'SELECT code
     FROM ' . CONFIRM_TABLE . "
     WHERE session_id = '" . $userdata['session_id'] . "'
         AND confirm_id = '$confirm_id'";
-$result = $db->sql_query($sql);
+$result = $titanium_db->sql_query($sql);
 
 // If we have a row then grab data else create a new id
-if ($row = $db->sql_fetchrow($result))
+if ($row = $titanium_db->sql_fetchrow($result))
 {
-    $db->sql_freeresult($result);
+    $titanium_db->sql_freeresult($result);
     $code = $row['code'];
 }
 else
@@ -96,8 +96,8 @@ if (GZIPSUPPORT)
 {
     $_png = define_filtered_pngs();
 
-    $total_width = 320;
-    $total_height = 50;
+    $total_phpbb2_width = 320;
+    $total_phpbb2_height = 50;
     $img_height = 40;
     $img_width = 0;
     $l = 0;
@@ -115,12 +115,12 @@ if (GZIPSUPPORT)
         $img_width += $_png[$char]['width'] - $width;
     }
 
-    $offset_x = mt_rand(0, $total_width - $img_width);
-    $offset_y = mt_rand(0, $total_height - $img_height);
+    $offset_x = mt_rand(0, $total_phpbb2_width - $img_width);
+    $offset_y = mt_rand(0, $total_phpbb2_height - $img_height);
 
     $image = '';
     $hold_chars = array();
-    for ($i = 0; $i < $total_height; $i++)
+    for ($i = 0; $i < $total_phpbb2_height; $i++)
     {
         $image .= chr(0);
 
@@ -145,7 +145,7 @@ if (GZIPSUPPORT)
                 $j++;
             }
 
-            for ($k = $offset_x + $img_width; $k < $total_width; $k++)
+            for ($k = $offset_x + $img_width; $k < $total_phpbb2_width; $k++)
             {
                 $image .= chr(mt_rand(140, 255));
             }
@@ -154,7 +154,7 @@ if (GZIPSUPPORT)
         }
         else
         {
-            for ($k = 0; $k < $total_width; $k++)
+            for ($k = 0; $k < $total_phpbb2_width; $k++)
             {
                 $image .= chr(mt_rand(140, 255));
             }
@@ -163,7 +163,7 @@ if (GZIPSUPPORT)
     }
     unset($hold);
 
-    $image = create_png(gzcompress($image), $total_width, $total_height);
+    $image = create_png(gzcompress($image), $total_phpbb2_width, $total_phpbb2_height);
 
     // Output image
     header('Content-Type: image/png');
@@ -197,10 +197,10 @@ exit;
 function randomise($scanline, $width)
 {
     $new_line = '';
-    $start = floor($width/2);
-    $end = strlen($scanline) - ceil($width/2);
+    $phpbb2_start = floor($width/2);
+    $phpbb2_end = strlen($scanline) - ceil($width/2);
 
-    for ($i = $start; $i < $end; $i++)
+    for ($i = $phpbb2_start; $i < $phpbb2_end; $i++)
     {
         $pixel = ord($scanline{$i});
 

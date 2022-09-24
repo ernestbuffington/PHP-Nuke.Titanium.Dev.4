@@ -24,24 +24,24 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB', 1);
+define('IN_PHPBB2', 1);
 
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $module['Logs']['Logs Config'] = "$file";
+    $titanium_module['Logs']['Logs Config'] = "$file";
     return;
 }
 
 //
 // Load default header
 //
-$module_name = basename(dirname(dirname(__FILE__)));
-$phpbb_root_path = './../';
-require_once($phpbb_root_path . 'extension.inc');
+$titanium_module_name = basename(dirname(dirname(__FILE__)));
+$phpbb2_root_path = './../';
+require_once($phpbb2_root_path . 'extension.inc');
 require_once('./pagestart.' . $phpEx);
 include_once("../../../includes/functions_log.php");
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
     "body" => "admin/logs_config_body.tpl")
 );
 
@@ -49,28 +49,28 @@ $sql = "SELECT config_value AS all_admin
 FROM " . LOGS_CONFIG_TABLE . "
 WHERE config_name = 'all_admin' ";
 
-if(!$result = $db->sql_query($sql))
+if(!$result = $titanium_db->sql_query($sql))
 {
    message_die(CRITICAL_ERROR, "Could not query log config informations", "", __LINE__, __FILE__, $sql);
 }
-$row = $db->sql_fetchrow($result);
+$row = $titanium_db->sql_fetchrow($result);
 $all_admin_authorized = $row['all_admin'];
 
-if ( $all_admin_authorized == '0' && $userdata['user_id'] <> '2' && !is_mod_admin($module_name) && $userdata['user_view_log'] <> '1' )
+if ( $all_admin_authorized == '0' && $userdata['user_id'] <> '2' && !is_mod_admin($titanium_module_name) && $userdata['user_view_log'] <> '1' )
 {
-    message_die(GENERAL_MESSAGE, $lang['Admin_not_authorized']);
+    message_die(GENERAL_MESSAGE, $titanium_lang['Admin_not_authorized']);
 }
 
 $sql = "SELECT *
 FROM " . LOGS_CONFIG_TABLE ;
 
-if(!$result = $db->sql_query($sql))
+if(!$result = $titanium_db->sql_query($sql))
 {
    message_die(CRITICAL_ERROR, "Could not query log config informations", "", __LINE__, __FILE__, $sql);
 }
 else
 {
-    while ( $row = $db->sql_fetchrow($result) )
+    while ( $row = $titanium_db->sql_fetchrow($result) )
     {
         $config_name = $row['config_name'];
         $config_value = $row['config_value'];
@@ -82,7 +82,7 @@ else
             $sql = "UPDATE " . LOGS_CONFIG_TABLE . " SET
                 config_value = '" . str_replace("\'", "''", $new[$config_name]) . "'
                 WHERE config_name = '$config_name'";
-            if( !$db->sql_query($sql) )
+            if( !$titanium_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Failed to update configuration for $config_name", "", __LINE__, __FILE__, $sql);
             }
@@ -91,7 +91,7 @@ else
 
     if( isset($HTTP_POST_VARS['submit']) )
     {
-        $message = $lang['Log_Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_sid("admin_logs_conf.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message = $titanium_lang['Log_Config_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_log_config'], "<a href=\"" . append_titanium_sid("admin_logs_conf.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -109,22 +109,22 @@ $sql = "SELECT user_id, username
     WHERE user_level = '2'
     AND user_id <> '2'
     AND user_view_log = '0' ";
-$result = $db->sql_query($sql);
+$result = $titanium_db->sql_query($sql);
 if( !$result )
 {
     message_die(GENERAL_ERROR, "Couldn't selected informations about user.", "",__LINE__, __FILE__, $sql);
 }
 
-$choose = $db->sql_fetchrowset($result);
+$choose = $titanium_db->sql_fetchrowset($result);
 $add_admin_select = '<select name="add_admin_select">';
 
 if( empty($choose) )
 {
-    $add_admin_select .= '<option value="">' . $lang['No_other_admins'] . '</option>';
+    $add_admin_select .= '<option value="">' . $titanium_lang['No_other_admins'] . '</option>';
 }
 else
 {
-    $user = array();
+    $titanium_user = array();
     for( $i = 0; $i < count($choose); $i++ )
     {
         $add_admin_select .= '<option value="' . $choose[$i]['user_id'] . '">' . $choose[$i]['username'] . '</option>';
@@ -143,19 +143,19 @@ if ( $add_admin_username )
         $sql = "UPDATE " . USERS_TABLE . "
             SET user_view_log = '1'
             WHERE user_id = '$choose_username_add' ";
-            $result = $db->sql_query($sql);
+            $result = $titanium_db->sql_query($sql);
             if( !$result )
             {
                 message_die(GENERAL_ERROR, "Couldn't allow this admin to see the logs.", "",__LINE__, __FILE__, $sql);
             }
             else
             {
-                message_die(GENERAL_MESSAGE, $lang['Admins_add_success'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_sid("admin_logs_conf.$phpEx") . "\">", "</a>"));
+                message_die(GENERAL_MESSAGE, $titanium_lang['Admins_add_success'] . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_log_config'], "<a href=\"" . append_titanium_sid("admin_logs_conf.$phpEx") . "\">", "</a>"));
             }
     }
     else
     {
-        message_die(GENERAL_MESSAGE, $lang['No_admins_allow'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_sid("admin_logs_conf.$phpEx") . "\">", "</a>"));
+        message_die(GENERAL_MESSAGE, $titanium_lang['No_admins_allow'] . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_log_config'], "<a href=\"" . append_titanium_sid("admin_logs_conf.$phpEx") . "\">", "</a>"));
     }
 }
 
@@ -168,21 +168,21 @@ $sql = "SELECT user_id, username
     WHERE user_level = '1'
     AND user_id <> '2'
     AND user_view_log = '1' ";
-$result = $db->sql_query($sql);
+$result = $titanium_db->sql_query($sql);
 if( !$result )
 {
     message_die(GENERAL_ERROR, "Couldn't selected informations about user.", "",__LINE__, __FILE__, $sql);
 }
-$choose_delete = trim($db->sql_fetchrowset($result));
+$choose_delete = trim($titanium_db->sql_fetchrowset($result));
 $delete_admin_select = '<select name="delete_admin_select[]" multiple="multiple" size="4">';
 
 if( empty($choose_delete) )
 {
-    $delete_admin_select .= '<option value=""> ' . $lang['No_admins_authorized'] . '</option>';
+    $delete_admin_select .= '<option value=""> ' . $titanium_lang['No_admins_authorized'] . '</option>';
 }
 else
 {
-    $user = array();
+    $titanium_user = array();
     for( $i = 0; $i < count($choose_delete); $i++ )
     {
         $delete_admin_select .= '<option value="' . $choose_delete[$i]['user_id'] . '">' . $choose_delete[$i]['username'] . '</option>';
@@ -212,19 +212,19 @@ if ( $delete_admin_username )
             {
                 $sql .= " = $choose_username_del_sql ";
             }
-            $result = $db->sql_query($sql);
+            $result = $titanium_db->sql_query($sql);
             if( !$result )
             {
                 message_die(GENERAL_ERROR, "Couldn't disallow this admin to see the logs.", "",__LINE__, __FILE__, $sql);
             }
             else
             {
-                message_die(GENERAL_MESSAGE, $lang['Admins_del_success'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_sid("admin_logs_config.$phpEx") . "\">", "</a>"));
+                message_die(GENERAL_MESSAGE, $titanium_lang['Admins_del_success'] . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_log_config'], "<a href=\"" . append_titanium_sid("admin_logs_config.$phpEx") . "\">", "</a>"));
             }
     }
     else
     {
-        message_die(GENERAL_MESSAGE, $lang['No_admins_disallow'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_sid("admin_logs_config.$phpEx") . "\">", "</a>"));
+        message_die(GENERAL_MESSAGE, $titanium_lang['No_admins_disallow'] . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_log_config'], "<a href=\"" . append_titanium_sid("admin_logs_config.$phpEx") . "\">", "</a>"));
     }
 }
 
@@ -238,35 +238,35 @@ if ( $do_prune )
 
     if ( $prune )
     {
-        message_die(GENERAL_MESSAGE, $lang['Prune_success'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_sid("admin_logs_conf.$phpEx") . "\">", "</a>"));
+        message_die(GENERAL_MESSAGE, $titanium_lang['Prune_success'] . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_log_config'], "<a href=\"" . append_titanium_sid("admin_logs_conf.$phpEx") . "\">", "</a>"));
     }
 }
 $all_admin_yes = ( $new['all_admin'] ) ? "checked=\"checked\"" : "";
 $all_admin_no = ( !$new['all_admin'] ) ? "checked=\"checked\"" : "";
-$template->assign_vars(array(
-    "S_CONFIG_ACTION" => append_sid("admin_logs_conf.$phpEx"),
+$phpbb2_template->assign_vars(array(
+    "S_CONFIG_ACTION" => append_titanium_sid("admin_logs_conf.$phpEx"),
 
-    "L_YES" => $lang['Yes'],
-    "L_NO" => $lang['No'],
-    "L_SUBMIT" => $lang['Submit'],
-    "L_RESET" => $lang['Reset'],
-    "L_ENABLED" => $lang['Enabled'],
-    "L_DISABLED" => $lang['Disabled'],
-    "L_ADD" => $lang['Add_disallow'],
-    "L_DELETE" => $lang['Delete_disallow'],
-    "L_LOG_CONFIG_TITLE" => $lang['Log_Config'],
-    "L_LOG_CONFIG_TITLE_EXPLAIN" => $lang['Log_Config_explain'],
-    "L_GENERAL_LOG_CONFIG" => $lang['General_Config_Log'],
-    "L_ALLOW_OTHER_ADMIN" => $lang['Allow_all_admin'],
-    "L_ALLOW_OTHER_ADMIN_EXPLAIN" => $lang['Allow_all_admin_explain'],
-    "L_ADD_ADMIN_USERNAME" => $lang['Add_Admin_Username'],
-    "L_DELETE_ADMIN_USERNAME" => $lang['Delete_Admin_Username'],
-    "L_USERNAME_ADD_ADMIN_EXPLAIN" => $lang['Add_username_admin_explain'],
-    "L_USERNAME_DELETE_ADMIN_EXPLAIN" => $lang['Delete_username_admin_explain'],
-    "L_PRUNE_LOG" => $lang['Prune_of_logs'],
-    "L_PRUNE" => $lang['Prune'],
-    "L_PRUNE_EXPLAIN" => $lang['Prune_explain'],
-    "L_DO_PRUNE" => $lang['Prune_!'],
+    "L_YES" => $titanium_lang['Yes'],
+    "L_NO" => $titanium_lang['No'],
+    "L_SUBMIT" => $titanium_lang['Submit'],
+    "L_RESET" => $titanium_lang['Reset'],
+    "L_ENABLED" => $titanium_lang['Enabled'],
+    "L_DISABLED" => $titanium_lang['Disabled'],
+    "L_ADD" => $titanium_lang['Add_disallow'],
+    "L_DELETE" => $titanium_lang['Delete_disallow'],
+    "L_LOG_CONFIG_TITLE" => $titanium_lang['Log_Config'],
+    "L_LOG_CONFIG_TITLE_EXPLAIN" => $titanium_lang['Log_Config_explain'],
+    "L_GENERAL_LOG_CONFIG" => $titanium_lang['General_Config_Log'],
+    "L_ALLOW_OTHER_ADMIN" => $titanium_lang['Allow_all_admin'],
+    "L_ALLOW_OTHER_ADMIN_EXPLAIN" => $titanium_lang['Allow_all_admin_explain'],
+    "L_ADD_ADMIN_USERNAME" => $titanium_lang['Add_Admin_Username'],
+    "L_DELETE_ADMIN_USERNAME" => $titanium_lang['Delete_Admin_Username'],
+    "L_USERNAME_ADD_ADMIN_EXPLAIN" => $titanium_lang['Add_username_admin_explain'],
+    "L_USERNAME_DELETE_ADMIN_EXPLAIN" => $titanium_lang['Delete_username_admin_explain'],
+    "L_PRUNE_LOG" => $titanium_lang['Prune_of_logs'],
+    "L_PRUNE" => $titanium_lang['Prune'],
+    "L_PRUNE_EXPLAIN" => $titanium_lang['Prune_explain'],
+    "L_DO_PRUNE" => $titanium_lang['Prune_!'],
 
     "S_ALLOW_ALL_ADMIN" => $all_admin_yes,
     "S_DISALLOW_ALL_ADMIN" => $all_admin_no,
@@ -274,7 +274,7 @@ $template->assign_vars(array(
     "S_DELETE_ADMIN" => $delete_admin_select)
 );
 
-$template->pparse("body");
+$phpbb2_template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

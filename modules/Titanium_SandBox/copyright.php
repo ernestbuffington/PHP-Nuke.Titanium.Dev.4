@@ -11,7 +11,7 @@
 define('CP_INCLUDE_DIR', dirname(dirname(dirname(__FILE__))));
 require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 
-$module_name = basename(dirname(__FILE__));
+$titanium_module_name = basename(dirname(__FILE__));
 $mod_name = "facebook SandBox";
 $author_email = "";
 $author_homepage = "";
@@ -19,9 +19,9 @@ $author_name = "";
 $license = "";
 $based_on = "Built From Scratch";
 $download_location = "";
-$module_version = "v4.3";
+$titanium_module_version = "v4.3";
 $release_date = "02/09/2012";
-$module_description = "facebook SandBox";
+$titanium_module_description = "facebook SandBox";
 $mod_cost = "";
-show_copyright($author_name, $author_email, $author_homepage, $based_on, $license, $download_location, $module_version, $module_description, $release_date, $mod_cost);
+show_copyright($author_name, $author_email, $author_homepage, $based_on, $license, $download_location, $titanium_module_version, $titanium_module_description, $release_date, $mod_cost);
 ?>

@@ -1,0 +1,157 @@
+.something {
+  background: url(images/tab.jpg) no-repeat;
+  height: 50px;
+  width: 200px;
+}
+
+.waldo
+{
+color:inherit;
+border-right: inherit;
+border-top: inherit;
+border-bottom: inherit;
+border-left: inherit;
+border-style: inherit;
+border-width: 0px;
+
+backgroundRepeat: repeat-xy left top;
+BACKGROUND-IMAGE: url(../../../modules/CHANGELOG/images/waldo.png); 
+BACKGROUND-REPEAT: repeat-xy left top; 
+backgroundImage: url(../../../modules/CHANGELOG/images/waldo.png);
+accelerator: false;
+}
+
+.jimmy
+{
+color:inherit;
+border-right: inherit;
+border-top: inherit;
+border-bottom: inherit;
+border-left: inherit;
+border-style: inherit;
+border-width: 0px;
+
+/* backgroundRepeat: repeat-xy left top; */
+/* BACKGROUND-IMAGE: url(../../../modules/CHANGELOG/images/paper.png);  */
+/* BACKGROUND-REPEAT: repeat-xy left top;  */
+/* backgroundImage: url(../../../modules/CHANGELOG/images/paper.png); */
+accelerator: false;
+}
+
+.jason
+{
+color:inherit;
+border-right: inherit;
+border-top: inherit;
+border-bottom: inherit;
+border-left: inherit;
+border-style: inherit;
+border-width: 0px;
+
+backgroundRepeat: repeat-xy left top;
+BACKGROUND-IMAGE: url(../../../themes/86it-Titanium/images/backgrounds/greycrackedstone.png); 
+BACKGROUND-REPEAT: repeat-xy left top; 
+backgroundImage: url(../../../themes/86it-Titanium/images/backgrounds/greycrackedstone.png);
+accelerator: false;
+}
+
+.outset 
+{
+backgroundRepeat: repeat-xy center;
+BACKGROUND-IMAGE: url(../../../themes/86it-Titanium/images/backgrounds/greycrackedstone.png); 
+BACKGROUND-REPEAT: repeat-xy center; 
+backgroundImage: url(../../../themes/86it-Titanium/images/backgrounds/greycrackedstone.png);
+accelerator: false;
+
+color:inherit;
+border-right: #707070 2px outset;
+border-top: #c0c0c0 2px outset;
+border-bottom: #707070 2px outset;
+border-left: #c0c0c0 2px outset;
+
+border-style: outset;
+border-width: 2px;
+}
+
+.inset 
+{
+backgroundRepeat: repeat-xy center;
+BACKGROUND-IMAGE: url(../../../themes/86it-Titanium/images/backgrounds/greycrackedstone.png); 
+BACKGROUND-REPEAT: repeat-xy center; 
+backgroundImage: url(../../../themes/86it-Titanium/images/backgrounds/greycrackedstone.png);
+accelerator: false;
+
+color:inherit;
+border-right: #707070 1px inset;
+border-top: #c0c0c0 1px inset;
+border-bottom: #707070 1px inset;
+border-left: #c0c0c0 1px inset;
+
+border-style: inset;
+border-width: 1px;
+}
+
+A:link {
+FONT-SIZE: 12px;
+FONT-WEIGHT: normal; 
+COLOR: #000000;
+font-family: Tahoma, Verdana, "Myriad Web", Syntax, sans-serif;
+TEXT-DECORATION: none;
+}
+
+A:visited {
+FONT-SIZE: 12px;
+FONT-WEIGHT: normal; 
+COLOR: #000000;
+font-family: Tahoma, Verdana, "Myriad Web", Syntax, sans-serif; 
+TEXT-DECORATION: none;
+}
+
+A:active {
+FONT-SIZE: 12px;
+FONT-WEIGHT: normal; 
+COLOR: #000000;
+font-family: Tahoma, Verdana, "Myriad Web", Syntax, sans-serif; 
+TEXT-DECORATION: overline underline;
+}
+
+A:hover {
+FONT-SIZE: 12px;
+FONT-WEIGHT: bold; 
+COLOR: #cc0000; 
+font-family: Tahoma, Verdana, "Myriad Web", Syntax, sans-serif; 
+TEXT-DECORATION: none;
+}
+
+
+.button {
+   border-top: 1px solid #000000;
+   background: #383438;
+   background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#383438));
+   background: -webkit-linear-gradient(top, #cccccc, #383438);
+   background: -moz-linear-gradient(top, #cccccc, #383438);
+   background: -ms-linear-gradient(top, #cccccc, #383438);
+   background: -o-linear-gradient(top, #cccccc, #383438);
+   padding: 2px 4px;
+   -webkit-border-radius: 28px;
+   -moz-border-radius: 28px;
+   border-radius: 28px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: #050505;
+   font-size: 17px;
+   font-family: Georgia, Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.button:hover {
+   border-top-color: #cecec0;
+   background: #cecec0;
+   color: #cc0000;
+   }
+.button:active {
+   border-top-color: #cccccc;
+   background: #cccccc;
+   }

@@ -39,8 +39,8 @@ if (!defined('CNBYA')) {
 
     // Last 10 Comments
     if ($articlecomm == 1) {
-        $result6 = $db->sql_query("SELECT tid, sid, subject FROM ".$prefix."_comments WHERE name='$usrinfo[username]' ORDER BY tid DESC LIMIT 0,10");
-        if (($db->sql_numrows($result6) > 0)) {
+        $result6 = $titanium_db->sql_query("SELECT tid, sid, subject FROM ".$titanium_prefix."_comments WHERE name='$usrinfo[username]' ORDER BY tid DESC LIMIT 0,10");
+        if (($titanium_db->sql_numrows($result6) > 0)) {
             echo "<br />";
             OpenTable();
 /*****[BEGIN]******************************************
@@ -51,7 +51,7 @@ if (!defined('CNBYA')) {
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-            while($row6 = $db->sql_fetchrow($result6)) {
+            while($row6 = $titanium_db->sql_fetchrow($result6)) {
                 $tid = $row6['tid'];
                 $sid = $row6['sid'];
                 $subject = $row6['subject'];
@@ -61,8 +61,8 @@ if (!defined('CNBYA')) {
         }
     }
     // Last 10 Submissions
-    $result7 = $db->sql_query("SELECT sid, title FROM ".$prefix."_stories WHERE informant='$usrinfo[username]' ORDER BY sid DESC LIMIT 0,10");
-    if (($db->sql_numrows($result7) > 0)) {
+    $result7 = $titanium_db->sql_query("SELECT sid, title FROM ".$titanium_prefix."_stories WHERE informant='$usrinfo[username]' ORDER BY sid DESC LIMIT 0,10");
+    if (($titanium_db->sql_numrows($result7) > 0)) {
         echo "<br />";
         OpenTable();
 /*****[BEGIN]******************************************
@@ -73,7 +73,7 @@ if (!defined('CNBYA')) {
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-        while($row7 = $db->sql_fetchrow($result7)) {
+        while($row7 = $titanium_db->sql_fetchrow($result7)) {
             $sid = $row7['sid'];
             $title = $row7['title'];
             echo "<li><a href=\"modules.php?name=News&amp;file=article&amp;sid=$sid\">$title</a><br />";

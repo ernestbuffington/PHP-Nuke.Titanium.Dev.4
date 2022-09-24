@@ -34,9 +34,9 @@
 if (!defined('MODULE_FILE'))
 	die('You can not access this file directly...');
 
-global $lang_new;
+global $titanium_lang_new;
 
-// $module_name = basename(dirname(__FILE__));
+// $titanium_module_name = basename(dirname(__FILE__));
 get_header();
 
 # Let include the language file.
@@ -50,25 +50,25 @@ $error_message = array();
 
 OpenTable();
 
-echo '<div class="nuketitle acenter">'.sprintf($lang_new[the_module()]['title'], $sitename).'</div><br /><br />';
+echo '<div class="nuketitle acenter">'.sprintf($titanium_lang_new[the_module()]['title'], $sitename).'</div><br /><br />';
 
 if ( $_POST['action'] == 'submit' ):
 
 	# Throw an error, If the user fails the reCaptcha.
 	if (!security_code_check($_POST['g-recaptcha-response'], array(0,1,2,3,4,5,6,7))):
-		$error_message[] = $lang_new[$module_name]['reCaptcha'];
+		$error_message[] = $titanium_lang_new[$titanium_module_name]['reCaptcha'];
 	endif;
 
 	if ( empty($_POST['sender_name']) ):
-		$error_message[] = $lang_new[$module_name]['name_error'];
+		$error_message[] = $titanium_lang_new[$titanium_module_name]['name_error'];
 	endif;
 
 	if ( empty($_POST['sender_email']) ):
-		$error_message[] = $lang_new[$module_name]['email_error'];
+		$error_message[] = $titanium_lang_new[$titanium_module_name]['email_error'];
 	endif;
 
 	if ( empty($_POST['message']) ):
-		$error_message[] = $lang_new[$module_name]['message_error'];
+		$error_message[] = $titanium_lang_new[$titanium_module_name]['message_error'];
 	endif;
 
 	# Display all errors found during submission.
@@ -78,7 +78,7 @@ if ( $_POST['action'] == 'submit' ):
 		foreach($error_message as $error_string):
 			echo '  <div>'.$error_string.'</div>';
 		endforeach;
-		echo '  <br /><div>'.sprintf($lang_new[$module_name]['back'],'<a href="javascript:history.go(-1)">','</a>').'</div>';
+		echo '  <br /><div>'.sprintf($titanium_lang_new[$titanium_module_name]['back'],'<a href="javascript:history.go(-1)">','</a>').'</div>';
 		echo '</div>';
 
 	else:
@@ -91,13 +91,13 @@ if ( $_POST['action'] == 'submit' ):
         $message 		= get_query_var('message', 'post');
 
         $msg  = $sitename."\n\n";
-        $msg .= $lang_new[$module_name]['sender'].": $sender_name\n";
-        $msg .= $lang_new[$module_name]['sender_email'].": $sender_email\n";
-        $msg .= $lang_new[$module_name]['message'].": $message\n\n";
-        $msg .= $lang_new[$module_name]['ip'].": ".$nsnst_const['remote_ip']."\n\n";
+        $msg .= $titanium_lang_new[$titanium_module_name]['sender'].": $sender_name\n";
+        $msg .= $titanium_lang_new[$titanium_module_name]['sender_email'].": $sender_email\n";
+        $msg .= $titanium_lang_new[$titanium_module_name]['message'].": $message\n\n";
+        $msg .= $titanium_lang_new[$titanium_module_name]['ip'].": ".$nsnst_const['remote_ip']."\n\n";
         $msg = nl2br($msg);
 
-        $subject = sprintf($lang_new[$module_name]['title'], $sitename);
+        $subject = sprintf($titanium_lang_new[$titanium_module_name]['title'], $sitename);
   //       $to = $adminmail;
   //       $mailheaders = "From: $sender_name <$sender_email>\r\n";
   //       $mailheaders .= "Reply-To: $sender_email\r\nX-Mailer: PHP/" . phpversion();
@@ -114,8 +114,8 @@ if ( $_POST['action'] == 'submit' ):
     	 */
       	evo_phpmailer($adminmail, $subject, $msg, $headers);
 
-        echo '<div class="acenter"><p>'.$lang_new[$module_name]['email_sent'].'</p></div>';
-        echo '<div class="acenter"><p>'.$lang_new[$module_name]['thanks'].'</p></div>';
+        echo '<div class="acenter"><p>'.$titanium_lang_new[$titanium_module_name]['email_sent'].'</p></div>';
+        echo '<div class="acenter"><p>'.$titanium_lang_new[$titanium_module_name]['thanks'].'</p></div>';
 
 	endif;
 	CloseTable();
@@ -124,15 +124,15 @@ if ( $_POST['action'] == 'submit' ):
 
 endif;
 
-echo '<div>'.$lang_new[$module_name]['note'].'</div><br />';
+echo '<div>'.$titanium_lang_new[$titanium_module_name]['note'].'</div><br />';
 
-echo '<form action="modules.php?name='.$module_name.'" method="post" name="feedback">';
+echo '<form action="modules.php?name='.$titanium_module_name.'" method="post" name="feedback">';
 echo '<input type="hidden" name="action" value="submit">';
-echo '<div class="textbold" style="margin-left:1px;">'.$lang_new[$module_name]['name'].'</div><input type="text" name="sender_name" value="'.$userinfo['username'].'" size="30" required><br /><br />';
-echo '<div class="textbold" style="margin-left:1px;">'.$lang_new[$module_name]['email'].'</div><input type="email" name="sender_email" value="'.$userinfo['user_email'].'" size="30" required><br /><br />';
-echo '<div class="textbold" style="margin-left:1px;">'.$lang_new[$module_name]['message'].'</div><textarea data-autoresize name="message" style="resize: none; width: 99.8%; height: 190px; min-height: 190px;" required>'.$_POST['message'].'</textarea><br /><br />';
+echo '<div class="textbold" style="margin-left:1px;">'.$titanium_lang_new[$titanium_module_name]['name'].'</div><input type="text" name="sender_name" value="'.$userinfo['username'].'" size="30" required><br /><br />';
+echo '<div class="textbold" style="margin-left:1px;">'.$titanium_lang_new[$titanium_module_name]['email'].'</div><input type="email" name="sender_email" value="'.$userinfo['user_email'].'" size="30" required><br /><br />';
+echo '<div class="textbold" style="margin-left:1px;">'.$titanium_lang_new[$titanium_module_name]['message'].'</div><textarea data-autoresize name="message" style="resize: none; width: 99.8%; height: 190px; min-height: 190px;" required>'.$_POST['message'].'</textarea><br /><br />';
 echo security_code(array(0,1,2,3,4,5,6,7), 'normal').'<br />';
-echo '<input type="submit" name="submit" value="'.$lang_new[$module_name]['send'].'">';
+echo '<input type="submit" name="submit" value="'.$titanium_lang_new[$titanium_module_name]['send'].'">';
 echo '<form>';
 
 CloseTable();

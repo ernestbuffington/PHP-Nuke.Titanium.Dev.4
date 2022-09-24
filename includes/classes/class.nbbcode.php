@@ -169,7 +169,7 @@ class BBCode
 
 	public static function evo_spoil( $hidden_content )
 	{
-		$template  = '
+		$phpbb2_template  = '
 		<style type="text/css">
 		.spoiler-container {
 			display: block;
@@ -217,12 +217,12 @@ class BBCode
 		</style>
 		';
 
-		// $template  = addCSStoHead( 'includes/css/bbcode.css' );
-		$template .= '<div class="spoiler-container">';
-		$template .= '	Spoiler: <button class="btn btn-mod btn-border" type="button" id="reveal-spoiler" name="spoiler">Show</button>';
-		$template .= '	<div id="spoiler-contents">Phones Broken</div>';
-		$template .= '</div>';
-		$template .= '<script type="text/javascript">
+		// $phpbb2_template  = addCSStoHead( 'includes/css/bbcode.css' );
+		$phpbb2_template .= '<div class="spoiler-container">';
+		$phpbb2_template .= '	Spoiler: <button class="btn btn-mod btn-border" type="button" id="reveal-spoiler" name="spoiler">Show</button>';
+		$phpbb2_template .= '	<div id="spoiler-contents">Phones Broken</div>';
+		$phpbb2_template .= '</div>';
+		$phpbb2_template .= '<script type="text/javascript">
 			var hidden_content = document.getElementById("spoiler-contents");
 			document.getElementById("reveal-spoiler").addEventListener("click", function (event) 
 			{
@@ -236,7 +236,7 @@ class BBCode
 				}
 			});
 		</script>';
-		return $template;
+		return $phpbb2_template;
 	}
 
 
@@ -249,7 +249,7 @@ class BBCode
 
 	public static function evo_parse_video( $video, $url )
 	{
-		global $bbcode_tpl, $board_config, $nukeurl;
+		global $bbcode_tpl, $phpbb2_board_config, $nukeurl;
 
 		$stripped_url = preg_replace("(^https?://)", "", $nukeurl );
 
@@ -297,7 +297,7 @@ class BBCode
 					# http://www.youtu.be/fds123
 					$id = $path[1];
 
-				$video_replace = '<iframe style="max-width: 100%" id="ytplayer-'.$id.'" width="'.$board_config['youtube_width'].'" height="'.$board_config['youtube_height'].'" src="//www.youtube.com/embed/'.$id.'?rel=0&amp;vq=hd1080" frameborder="0" allowfullscreen=""></iframe><br />[<a href="https://www.youtube.com/watch?v='.$id.'" target="_blank">'._WATCH_YOUTUBE.'</a>]';
+				$video_replace = '<iframe style="max-width: 100%" id="ytplayer-'.$id.'" width="'.$phpbb2_board_config['youtube_width'].'" height="'.$phpbb2_board_config['youtube_height'].'" src="//www.youtube.com/embed/'.$id.'?rel=0&amp;vq=hd1080" frameborder="0" allowfullscreen=""></iframe><br />[<a href="https://www.youtube.com/watch?v='.$id.'" target="_blank">'._WATCH_YOUTUBE.'</a>]';
 				break;
 
 			/* ----- twitch video embed ----- */
@@ -338,7 +338,7 @@ class BBCode
 					$player = 'player';
 				
 				endif;
-				$video_replace = '<iframe style="max-width: 100%" src="https://'.$player.'.twitch.tv/'.$id.'&amp;autoplay=false" frameborder="0" scrolling="no" height="'.$board_config['twitch_height'].'" width="'.$board_config['twitch_width'].'" allowfullscreen=""></iframe>';                
+				$video_replace = '<iframe style="max-width: 100%" src="https://'.$player.'.twitch.tv/'.$id.'&amp;autoplay=false" frameborder="0" scrolling="no" height="'.$phpbb2_board_config['twitch_height'].'" width="'.$phpbb2_board_config['twitch_width'].'" allowfullscreen=""></iframe>';                
 				// $video_replace = '<pre>'.var_export( $clips, true ).'</pre>'; 
 				break;
 
@@ -359,13 +359,13 @@ class BBCode
 		return BBCode::evo_mention( $matches[1] );
 	}
 
-	public static function evo_mention( $user )
+	public static function evo_mention( $titanium_user )
 	{
-		global $db, $customlang;
+		global $titanium_db, $customlang;
 		
 		// modules.php?name=Private_Messages&mode=post&pm_uname=Lonestar
-		// $row = $db->sql_ufetchrow("SELECT `user_id`, `username` FROM `".USERS_TABLE."` WHERE `username` = '".$user."'");
-		return '<a href="modules.php?name=Private_Messages&mode=post&pm_uname='.$user.'" target="_blank" alt="'.$customlang['global']['send_pm'].'" title="'.$customlang['global']['send_pm'].'">'.$user.'</a>';
+		// $row = $titanium_db->sql_ufetchrow("SELECT `user_id`, `username` FROM `".USERS_TABLE."` WHERE `username` = '".$titanium_user."'");
+		return '<a href="modules.php?name=Private_Messages&mode=post&pm_uname='.$titanium_user.'" target="_blank" alt="'.$customlang['global']['send_pm'].'" title="'.$customlang['global']['send_pm'].'">'.$titanium_user.'</a>';
 	}
 
 	public static function split_bbcodes($text)
@@ -377,44 +377,44 @@ class BBCode
 			# Find bbcode start tag, if not found end the loop.
 			$curr_pos = strpos($text, '[', $curr_pos);
 			if ($curr_pos === false) { break; }
-			$end = strpos($text, ']', $curr_pos);
-			if ($end === false) { break; }
+			$phpbb2_end = strpos($text, ']', $curr_pos);
+			if ($phpbb2_end === false) { break; }
 
-			$code_start = substr($text, $curr_pos, $end-$curr_pos+1);
+			$code_start = substr($text, $curr_pos, $phpbb2_end-$curr_pos+1);
 			$code = strtolower(preg_replace('/\[([a-z]+).*]/i', '\\1', $code_start));
 			$code_len = strlen($code);
 
-			$end_pos = empty($code) ? false : $end;
+			$phpbb2_end_pos = empty($code) ? false : $phpbb2_end;
 			$depth = 0;
 			$sub = false;
-			while ($end_pos) {
+			while ($phpbb2_end_pos) {
 				# Find bbcode end tag, if not found end the loop.
-				$end_pos = strpos($text, '[', $end_pos);
-				if ($end_pos === false) { break; }
-				$end = strpos($text, ']', $end_pos);
-				if ($end === false) { break; }
-				$code_end = strtolower(substr($text, $end_pos, $code_len+2));
+				$phpbb2_end_pos = strpos($text, '[', $phpbb2_end_pos);
+				if ($phpbb2_end_pos === false) { break; }
+				$phpbb2_end = strpos($text, ']', $phpbb2_end_pos);
+				if ($phpbb2_end === false) { break; }
+				$code_end = strtolower(substr($text, $phpbb2_end_pos, $code_len+2));
 				if ($code_end == "[/$code") {
 					if ($depth > 0) {
 						$depth--;
-						$end_pos++;
+						$phpbb2_end_pos++;
 						$sub = true;
 					} else {
 						if ($curr_pos > 0) {
 							$text_parts[] = array('text' => substr($text, 0, $curr_pos), 'code' => false, 'subc' => false);
 						}
 						$text_parts[] = array(
-							'text' => substr($text, $curr_pos, $end-$curr_pos+1),
+							'text' => substr($text, $curr_pos, $phpbb2_end-$curr_pos+1),
 							'code' => $code,
 							'subc' => $sub);
-						$text = substr($text, $end+1);
+						$text = substr($text, $phpbb2_end+1);
 						$str_len = strlen($text);
 						$curr_pos = 0;
 						break;
 					}
 				} else {
 					if (substr($code_end, 0, -1) == "[$code") { $depth++; }
-					$end_pos++;
+					$phpbb2_end_pos++;
 				}
 			}
 			$curr_pos++;

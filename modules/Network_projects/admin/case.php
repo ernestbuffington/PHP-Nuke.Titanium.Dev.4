@@ -18,15 +18,18 @@
 if (!defined('ADMIN_FILE')) {
    die('Access Denied');
 }
-global $prefix, $db2;
-$module_name = basename(dirname(dirname(__FILE__)));
+global $titanium_prefix, $network_prefix, $titanium_db2, $titanium_db;
+$titanium_module_name = basename(dirname(dirname(__FILE__)));
 $aid = substr($aid, 0,125);
-$query = $db2->sql_query("SELECT `title`, `admins` FROM `".$prefix."_modules` WHERE `title`='$module_name'");
-list($mod_title, $admins) = $db2->sql_fetchrow($query);
-$db2->sql_freeresult($query);
-$query2 = $db2->sql_query("SELECT `name`, `radminsuper` FROM `".$prefix."_authors` WHERE `aid`='$aid'");
-list($rname, $radminsuper) = $db2->sql_fetchrow($query2);
-$db2->sql_freeresult($query2);
+
+$query = $titanium_db->sql_query("SELECT `title`, `admins` FROM `".$titanium_prefix."_modules` WHERE `title`='$titanium_module_name'");
+list($mod_title, $admins) = $titanium_db->sql_fetchrow($query);
+$titanium_db->sql_freeresult($query);
+
+$query2 = $titanium_db->sql_query("SELECT `name`, `radminsuper` FROM `".$titanium_prefix."_authors` WHERE `aid`='$aid'");
+list($rname, $radminsuper) = $titanium_db->sql_fetchrow($query2);
+$titanium_db->sql_freeresult($query2);
+
 $admins = explode(",", $admins);
 $auth_user = 0;
 for($i=0; $i < sizeof($admins); $i++) { if($rname == $admins[$i] AND !empty($admins)) { $auth_user = 1; } }
@@ -180,7 +183,7 @@ if($radminsuper == 1 || $auth_user == 1) {
     case "TaskStatusUpdate":
     case "TaskUpdate":
     	$title = $mod_title;
-        include(NUKE_MODULES_DIR.$module_name.'/admin/index.php');
+        include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
     break;
   }
 }

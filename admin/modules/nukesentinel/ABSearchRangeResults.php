@@ -92,7 +92,7 @@ $sip_hi = implode(".", $sip_hi);
 $longip_hi = sprintf("%u", ip2long($sip_hi)); // 4294967295
 if($torun > 0) {
 //BLOCKED IP SEARCH RESULTS
-$totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ips` WHERE `ip_long` >='$longip_lo' AND `ip_long`<='$longip_hi'"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_long` >='$longip_lo' AND `ip_long`<='$longip_hi'"));
 if($totalselected > 0) {
   echo '<br />'."\n";
   OpenTable();
@@ -106,14 +106,14 @@ if($totalselected > 0) {
   echo '<td align="center" width="15%"><strong>'._AB_REASON.'</strong></td>'."\n";
   echo '<td align="center" width="15%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ips` WHERE `ip_long` >='$longip_lo' AND `ip_long`<='$longip_hi'");
-  while($getIPs = $db->sql_fetchrow($result)) {
-    list($getIPs['reason']) = $db->sql_fetchrow($db->sql_query("SELECT `reason` FROM `".$prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1"));
+  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_long` >='$longip_lo' AND `ip_long`<='$longip_hi'");
+  while($getIPs = $titanium_db->sql_fetchrow($result)) {
+    list($getIPs['reason']) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `reason` FROM `".$titanium_prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1"));
     $getIPs['reason'] = str_replace("Abuse-", "", $getIPs['reason']);
     $bdate = date("Y-m-d @ H:i:s", $getIPs['date']);
     $lookupip = str_replace("*", "0", $getIPs['ip_addr']);
     if($getIPs['expires']==0) { $bexpire = _AB_PERMENANT; } else { $bexpire = date("Y-m-d @ H:i:s", $getIPs['expires']); }
-    list($bname) = $db->sql_fetchrow($db->sql_query("SELECT `username` FROM `".$user_prefix."_users` WHERE `user_id`='".$getIPs['user_id']."' LIMIT 0,1"));
+    list($bname) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `username` FROM `".$titanium_user_prefix."_users` WHERE `user_id`='".$getIPs['user_id']."' LIMIT 0,1"));
     $qs = htmlentities(base64_decode($getIPs['query_string']));
     $qs = str_replace("%20", " ", $qs);
     $qs = str_replace("/**/", "/* */", $qs);
@@ -139,7 +139,7 @@ if($totalselected > 0) {
 }
 
 //BLOCKED RANGES SEARCH RESULTS
-  $totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
+  $totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
   if($totalselected > 0) {
     echo '<br />'."\n";
     OpenTable();
@@ -154,8 +154,8 @@ if($totalselected > 0) {
     echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     echo '</tr>'."\n";
     $x = 0;
-    $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
-    while($getIPs = $db->sql_fetchrow($result)) {
+    $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
+    while($getIPs = $titanium_db->sql_fetchrow($result)) {
       $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
       $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
       $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);
@@ -181,7 +181,7 @@ if($totalselected > 0) {
   }
 
 //EXCLUDED RANGES SEARCH RESULTS
-$totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_excluded_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_excluded_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
 if($totalselected > 0) {
   echo '<br />'."\n";
   OpenTable();
@@ -196,8 +196,8 @@ if($totalselected > 0) {
   echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
   $x = 0;
-  $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_excluded_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
-  while($getIPs = $db->sql_fetchrow($result)) {
+  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_excluded_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
+  while($getIPs = $titanium_db->sql_fetchrow($result)) {
     $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
     $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
     $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);
@@ -223,7 +223,7 @@ if($totalselected > 0) {
 }
 
 //PROTECTED RANGES SEARCH RESULTS
-$totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_protected_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_protected_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
 if($totalselected > 0) {
   echo '<br />'."\n";
   OpenTable();
@@ -238,8 +238,8 @@ if($totalselected > 0) {
   echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
   $x = 0;
-  $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_protected_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
-  while($getIPs = $db->sql_fetchrow($result)) {
+  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_protected_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
+  while($getIPs = $titanium_db->sql_fetchrow($result)) {
     $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
     $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
     $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);
@@ -265,7 +265,7 @@ if($totalselected > 0) {
 }
 
 //IP 2 COUNTRY SEARCH
-$totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_ip2country` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_ip2country` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
 if($totalselected > 0) {
   echo '<br />'."\n";
   OpenTable();
@@ -280,8 +280,8 @@ if($totalselected > 0) {
   echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
   $x = 0;
-  $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_ip2country` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
-  while($getIPs = $db->sql_fetchrow($result)) {
+  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_ip2country` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
+  while($getIPs = $titanium_db->sql_fetchrow($result)) {
     $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
     $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
     $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);

@@ -11,12 +11,12 @@
     The phpBB Group : 2019
 // -->
 <br />
-Powered by <a href="http://dev-phpbb2.86it.us/" target="_tab">phpBB Titanium v2.0.23n</a> | Core &copy; 2001, 2019 phpBB Group
+Powered by <a href="https://www.groom.lake.86it.us/" target="_tab">phpBB Titanium v4.0.1</a> | Core &copy; 2001, 2019 phpBB Group
 <br />
 {TRANSLATION_INFO}
 <!-- IF TRANSLATION_INFO -->
 <br />
 <!-- ENDIF -->
-Z3b v1.0 Theme Designed By: Ernest Buffington AKA TheGhost &copy; 2021 <a class="tooltip-html copyright" href="https://www.86it.us/" target="_tab" title="Inferno v1.0 Theme Designed By: Ernest Buffington AKA TheGhost &copy; 2021 <br />Copyright &copy 2021 Ernest Buffington<br />All Rights Reserved">The 86it Developers Network</a>
+Titanium Core Theme v2.0 Designed By: Ernest Buffington AKA TheGhost &copy; 2022 <a class="tooltip-html copyright" href="https://www.86it.us/" target="_tab" title="Titanium Core Theme v2.0 Designed By: Ernest Buffington AKA TheGhost &copy; 2022 <br />Copyright &copy 2022 Ernest Buffington<br />All Rights Reserved">The 86it Developers Network</a>
 
 </div>

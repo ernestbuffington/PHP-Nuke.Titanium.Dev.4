@@ -26,29 +26,29 @@ define('COUNTER', 1);
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))
     exit('Access Denied');
 
-global $prefix, $db, $browser, $agent;
+global $titanium_prefix, $titanium_db, $browser, $phpbb2_agent;
 
-if($agent['engine'] == 'bot'):
+if($phpbb2_agent['engine'] == 'bot'):
     $browser = 'Bot';
-elseif(!empty($agent['ua'])):
-    $browser = $agent['ua'];
+elseif(!empty($phpbb2_agent['ua'])):
+    $browser = $phpbb2_agent['ua'];
 else:
     $browser = 'Other';
 endif;
 
-if (!empty($agent['os'])):
-    $os = $agent['os'];
+if (!empty($phpbb2_agent['os'])):
+    $os = $phpbb2_agent['os'];
 else:
     $os = 'Other';
 endif;
 
 $now = explode('-',date('d-m-Y-H'));
-$result = $db->sql_query('UPDATE '.$prefix."_counter SET count=count+1 WHERE (var='$browser' AND type='browser') OR (var='$os' AND type='os') OR (type='total' AND var='hits')");
-$db->sql_freeresult($result);
+$result = $titanium_db->sql_query('UPDATE '.$titanium_prefix."_counter SET count=count+1 WHERE (var='$browser' AND type='browser') OR (var='$os' AND type='os') OR (type='total' AND var='hits')");
+$titanium_db->sql_freeresult($result);
 
-if (!$db->sql_query('UPDATE '.$prefix."_stats_hour SET hits=hits+1 WHERE (year='$now[2]') AND (month='$now[1]') AND (date='$now[0]') AND (hour='$now[3]')") || !$db->sql_affectedrows()) {
-    $db->sql_query('INSERT INTO '.$prefix."_stats_hour VALUES ('$now[2]','$now[1]','$now[0]','$now[3]','1')");
+if (!$titanium_db->sql_query('UPDATE '.$titanium_prefix."_stats_hour SET hits=hits+1 WHERE (year='$now[2]') AND (month='$now[1]') AND (date='$now[0]') AND (hour='$now[3]')") || !$titanium_db->sql_affectedrows()) {
+    $titanium_db->sql_query('INSERT INTO '.$titanium_prefix."_stats_hour VALUES ('$now[2]','$now[1]','$now[0]','$now[3]','1')");
 }
-$db->sql_freeresult($result);
+$titanium_db->sql_freeresult($result);
 
 ?>

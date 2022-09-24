@@ -20,68 +20,68 @@
  *
  ***************************************************************************/
 
-if ( !defined('IN_PHPBB') )
+if ( !defined('IN_PHPBB2') )
 {
-	die("Hacking attempt");
+	die("ACCESS DENIED");
 }
 
 // admin part
-if ( $lang_extend_admin )
+if ( $titanium_lang_extend_admin )
 {
-	$lang['Lang_extend_post_icons']		= 'Post Icons';
+	$titanium_lang['Lang_extend_post_icons']		= 'Post Icons';
 
-	$lang['Icons_settings_explain']		= 'Here you can add, edit or delete posts icons';
-	$lang['Icons_auth']					= 'Auth level';
-	$lang['Icons_auth_explain']			= 'The icon will be available only to the users suiting this requirement';
-	$lang['Icons_defaults']				= 'Default assignement';
-	$lang['Icons_defaults_explain']		= 'Those assignments will be used on the topics lists when no icon is defined for a topic';
-	$lang['Icons_delete']				= 'Delete an icon';
-	$lang['Icons_delete_explain']		= 'Please choose an icon in order to replace this one :';
-	$lang['Icons_confirm_delete']		= 'Are you sure you want to delete this one ?';
+	$titanium_lang['Icons_settings_explain']		= 'Here you can add, edit or delete posts icons';
+	$titanium_lang['Icons_auth']					= 'Auth level';
+	$titanium_lang['Icons_auth_explain']			= 'The icon will be available only to the users suiting this requirement';
+	$titanium_lang['Icons_defaults']				= 'Default assignement';
+	$titanium_lang['Icons_defaults_explain']		= 'Those assignments will be used on the topics lists when no icon is defined for a topic';
+	$titanium_lang['Icons_delete']				= 'Delete an icon';
+	$titanium_lang['Icons_delete_explain']		= 'Please choose an icon in order to replace this one :';
+	$titanium_lang['Icons_confirm_delete']		= 'Are you sure you want to delete this one ?';
 
-	$lang['Icons_lang_key']				= 'Icon title';
-	$lang['Icons_lang_key_explain']		= 'The icon title will be displayed when the user set his mouse on the icon (title or alt HTML statement). You can use text, or a key of the language array. <br />(check language/lang_<i>your_language</i>/lang_main.php).';
-	$lang['Icons_icon_key']				= 'Icon';
-	$lang['Icons_icon_key_explain']		= 'Icon url or key to the images array. <br />(check templates/<i>your_template</i>/<i>your_template</i>.cfg)';
+	$titanium_lang['Icons_lang_key']				= 'Icon title';
+	$titanium_lang['Icons_lang_key_explain']		= 'The icon title will be displayed when the user set his mouse on the icon (title or alt HTML statement). You can use text, or a key of the language array. <br />(check language/lang_<i>your_language</i>/lang_main.php).';
+	$titanium_lang['Icons_icon_key']				= 'Icon';
+	$titanium_lang['Icons_icon_key_explain']		= 'Icon url or key to the images array. <br />(check templates/<i>your_template</i>/<i>your_template</i>.cfg)';
 
-	$lang['Icons_error_title']			= 'The icon title is empty';
-	$lang['Icons_error_del_0']			= 'You can\'t remove the default empty icon';
+	$titanium_lang['Icons_error_title']			= 'The icon title is empty';
+	$titanium_lang['Icons_error_del_0']			= 'You can\'t remove the default empty icon';
 
-	$lang['Refresh']					= 'Refresh';
-	$lang['Usage']						= 'Usage';
+	$titanium_lang['Refresh']					= 'Refresh';
+	$titanium_lang['Usage']						= 'Usage';
 
-	$lang['Image_key_pick_up']			= 'Pick up an image key';
-	$lang['Lang_key_pick_up']			= 'Pick up a lang key';
+	$titanium_lang['Image_key_pick_up']			= 'Pick up an image key';
+	$titanium_lang['Lang_key_pick_up']			= 'Pick up a lang key';
 }
 
-$lang['Icon']					= 'Icon';
-$lang['Icon_key']				= 'Key';
-$lang['Icons_per_row']			= 'Icons per row';
-$lang['Icons_per_row_explain']	= 'Set here the number of icons displayed per row in the posting display';
-$lang['post_icon_title']		= 'Message Icon';
+$titanium_lang['Icon']					= 'Icon';
+$titanium_lang['Icon_key']				= 'Key';
+$titanium_lang['Icons_per_row']			= 'Icons per row';
+$titanium_lang['Icons_per_row_explain']	= 'Set here the number of icons displayed per row in the posting display';
+$titanium_lang['post_icon_title']		= 'Message Icon';
 // icons
-$lang['icon_none']				= 'No icon';
-$lang['icon_note']				= 'Note';
-$lang['icon_important']			= 'Important';
-$lang['icon_idea']				= 'Idea';
-$lang['icon_warning']			= 'Warning !';
-$lang['icon_question']			= 'Question';
-$lang['icon_cool']				= 'Cool';
-$lang['icon_funny']				= 'Funny';
-$lang['icon_angry']				= 'Grrrr !';
-$lang['icon_sad']				= 'Snif !';
-$lang['icon_mocker']			= 'Hehehe !';
-$lang['icon_shocked']			= 'Oooh !';
-$lang['icon_complicity']		= 'Complicity';
-$lang['icon_bad']				= 'Bad !';
-$lang['icon_great']				= 'Great !';
-$lang['icon_disgusting']		= 'Beark !';
-$lang['icon_winner']			= 'Gniark !';
-$lang['icon_impressed']			= 'Oh yes !';
-$lang['icon_roleplay']			= 'Roleplay';
-$lang['icon_fight']				= 'Fight';
-$lang['icon_loot']				= 'Loot';
-$lang['icon_picture']			= 'Picture';
-$lang['icon_calendar']			= 'Calendar event';
+$titanium_lang['icon_none']				= 'No icon';
+$titanium_lang['icon_note']				= 'Note';
+$titanium_lang['icon_important']			= 'Important';
+$titanium_lang['icon_idea']				= 'Idea';
+$titanium_lang['icon_warning']			= 'Warning !';
+$titanium_lang['icon_question']			= 'Question';
+$titanium_lang['icon_cool']				= 'Cool';
+$titanium_lang['icon_funny']				= 'Funny';
+$titanium_lang['icon_angry']				= 'Grrrr !';
+$titanium_lang['icon_sad']				= 'Snif !';
+$titanium_lang['icon_mocker']			= 'Hehehe !';
+$titanium_lang['icon_shocked']			= 'Oooh !';
+$titanium_lang['icon_complicity']		= 'Complicity';
+$titanium_lang['icon_bad']				= 'Bad !';
+$titanium_lang['icon_great']				= 'Great !';
+$titanium_lang['icon_disgusting']		= 'Beark !';
+$titanium_lang['icon_winner']			= 'Gniark !';
+$titanium_lang['icon_impressed']			= 'Oh yes !';
+$titanium_lang['icon_roleplay']			= 'Roleplay';
+$titanium_lang['icon_fight']				= 'Fight';
+$titanium_lang['icon_loot']				= 'Loot';
+$titanium_lang['icon_picture']			= 'Picture';
+$titanium_lang['icon_calendar']			= 'Calendar event';
 
 ?>

@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $db2;
+global $titanium_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']."::: "._NETWORK_MEMBERS.": "._NETWORK_DELETEPOSITION;
 $position_id = intval($position_id);
@@ -31,8 +31,8 @@ echo "<input type='hidden' name='position_id' value='$position_id'>";
 echo "<tr><td align='center'><strong>"._NETWORK_SWAPPOSITION."</strong></td></tr>\n";
 echo "<tr><td align='center'>".$position['position_name']." -> <select name='swap_position_id'>\n";
 echo "<option value='-1'>"._NETWORK_NA."</option>\n";
-$positionlist = $db2->sql_query("SELECT `position_id`, `position_name` FROM `".$network_prefix."_members_positions` WHERE `position_id` != '$position_id' AND `position_id` > 0 ORDER BY `position_weight`");
-while(list($s_position_id, $s_position_name) = $db2->sql_fetchrow($positionlist)){
+$positionlist = $titanium_db2->sql_query("SELECT `position_id`, `position_name` FROM `".$network_prefix."_members_positions` WHERE `position_id` != '$position_id' AND `position_id` > 0 ORDER BY `position_weight`");
+while(list($s_position_id, $s_position_name) = $titanium_db2->sql_fetchrow($positionlist)){
   echo "<option value='$s_position_id'>$s_position_name</option>\n";
 }
 echo "</select></td></tr>\n";

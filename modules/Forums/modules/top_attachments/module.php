@@ -13,9 +13,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 //
@@ -27,23 +27,23 @@ $core->set_content('statistical');
 //
 // Get the user-definable variables
 // -- exclude_images (TRUE/FALSE)
-$user_variables = $core->get_user_defines();
-$exclude_images = intval($user_variables['exclude_images']);
+$titanium_user_variables = $core->get_user_defines();
+$exclude_images = intval($titanium_user_variables['exclude_images']);
 
 $core->set_view('rows', $core->return_limit);
 $core->set_view('columns', 7);
 
 $core->define_view('set_columns', array(
     $core->pre_defined('rank'),
-    'filename' => $lang['Filename'],
-    'filecomment' => $lang['Filecomment'],
-    'size' => $lang['Size'],
-    'downloads' => $lang['Downloads'],
-    'posttime' => $lang['Posttime'],
-    'posttopic' => $lang['Posted_in_topic'])
+    'filename' => $titanium_lang['Filename'],
+    'filecomment' => $titanium_lang['Filecomment'],
+    'size' => $titanium_lang['Size'],
+    'downloads' => $titanium_lang['Downloads'],
+    'posttime' => $titanium_lang['Posttime'],
+    'posttopic' => $titanium_lang['Posted_in_topic'])
 );
 
-$core->set_header($lang['module_name']);
+$core->set_header($titanium_lang['module_name']);
 
 $core->assign_defined_view('width_rows', array(
     '10%',
@@ -72,14 +72,14 @@ if ( (!strstr($attachment_version, '2.4.')) )
     message_die(GENERAL_MESSAGE, 'Wrong Attachment Mod Version detected.<br />Please update your Attachment Mod (V' . $attachment_version . ') to at least Version 2.3.0.');
 }
 
-$language = $board_config['default_lang'];
+$titanium_language = $phpbb2_board_config['default_lang'];
 
-if( !file_exists($phpbb_root_path . 'language/lang_' . $language . '/lang_admin_attach.'.$phpEx) )
+if( !file_exists($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_admin_attach.'.$phpEx) )
 {
-    $language = $attach_config['board_lang'];
+    $titanium_language = $attach_config['board_lang'];
 }
 
-include($phpbb_root_path . 'language/lang_' . $language . '/lang_admin_attach.' . $phpEx);
+include($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_admin_attach.' . $phpEx);
 
 $order_by = 'download_count DESC LIMIT ' . $core->return_limit;
 
@@ -114,7 +114,7 @@ for ($i = 0; $i < $num_attachments; $i++)
         $filename_2 = substr($filename, 0, 20) . '...';
     }
 
-    $view_attachment = append_sid('download.' . $phpEx . '?id=' . $attachments[$i]['attach_id']);
+    $view_attachment = append_titanium_sid('download.' . $phpEx . '?id=' . $attachments[$i]['attach_id']);
     $data[$i]['filename_link'] = ($filename_2 != '') ? '<a href="' . $view_attachment . '" class="gen" title="' . $filename . '" target="_blank">' . $filename_2 . '</a>' : '<a href="' . $view_attachment . '" class="gen" target="_blank">' . $filename . '</a>';
 
     // comment_field
@@ -135,22 +135,22 @@ for ($i = 0; $i < $num_attachments; $i++)
 
     if ($data[$i]['size'] >= 1048576)
     {
-        $data[$i]['size'] = round($data[$i]['size'] / 1048576 * 100) / 100 . ' ' . $lang['MB'];
+        $data[$i]['size'] = round($data[$i]['size'] / 1048576 * 100) / 100 . ' ' . $titanium_lang['MB'];
     }
     else if ($data[$i]['size'] >= 1024)
     {
-        $data[$i]['size'] = round($data[$i]['size'] / 1024 * 100) / 100 . ' ' . $lang['KB'];
+        $data[$i]['size'] = round($data[$i]['size'] / 1024 * 100) / 100 . ' ' . $titanium_lang['KB'];
     }
     else
     {
-        $data[$i]['size'] = $data[$i]['size'] . ' ' . $lang['Bytes'];
+        $data[$i]['size'] = $data[$i]['size'] . ' ' . $titanium_lang['Bytes'];
     }
 
     // Download Count
     $data[$i]['download_count'] = intval($attachments[$i]['download_count']);
 
     // Post Time
-    $data[$i]['post_time'] = create_date($board_config['default_dateformat'], intval($attachments[$i]['filetime']), $board_config['board_timezone']);
+    $data[$i]['post_time'] = create_date($phpbb2_board_config['default_dateformat'], intval($attachments[$i]['filetime']), $phpbb2_board_config['board_timezone']);
 
     // Topic Title
     $data[$i]['topic_title'] = '';
@@ -163,7 +163,7 @@ for ($i = 0; $i < $num_attachments; $i++)
         $topic_title_2 = substr($topic_title, 0, 20) . '...';
     }
 
-    $view_topic = append_sid('viewtopic.' . $phpEx . '?' . POST_POST_URL . '=' . intval($attachments[$i]['post_id']) . '#' . intval($attachments[$i]['post_id']));
+    $view_topic = append_titanium_sid('viewtopic.' . $phpEx . '?' . POST_POST_URL . '=' . intval($attachments[$i]['post_id']) . '#' . intval($attachments[$i]['post_id']));
 
     $data[$i]['topic_title'] = ($topic_title_2 != '') ? '<a href="' . $view_topic . '" class="gen" title="' . $topic_title . '" target="_blank">' . $topic_title_2 . '</a>' : '<a href="' . $view_topic . '" class="gen" target="_blank">' . $topic_title . '</a>';
 
@@ -184,12 +184,12 @@ $core->define_view('set_rows', array(
     array(
         '$core->data(\'forum_id\')', 'auth_read AND auth_download', 'forum', array(
             '',
-            '$lang[\'Not_available\']',
-            '$lang[\'Not_available\']',
+            '$titanium_lang[\'Not_available\']',
+            '$titanium_lang[\'Not_available\']',
             '$core->data(\'size\')',
             '$core->data(\'download_count\')',
             '$core->data(\'post_time\')',
-            '$lang[\'Hidden_from_public_view\']'
+            '$titanium_lang[\'Hidden_from_public_view\']'
         )
     )
 );

@@ -8,16 +8,16 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $db2;
+global $titanium_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $request_id = intval($request_id);
 $request = pjrequest_info($request_id);
-$db2->sql_query("DELETE FROM `".$network_prefix."_requests` WHERE `request_id`='$request_id'");
-$db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_requests`");
-$db2->sql_query("DELETE FROM `".$network_prefix."_requests_comments` WHERE `request_id`='$request_id'");
-$db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_requests_comments`");
-$db2->sql_query("DELETE FROM `".$network_prefix."_requests_members` WHERE `request_id`='$request_id'");
-$db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_requests_members`");
-header("Location: modules.php?name=$module_name&op=Project&project_id=".$request['project_id']);
+$titanium_db2->sql_query("DELETE FROM `".$network_prefix."_requests` WHERE `request_id`='$request_id'");
+$titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_requests`");
+$titanium_db2->sql_query("DELETE FROM `".$network_prefix."_requests_comments` WHERE `request_id`='$request_id'");
+$titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_requests_comments`");
+$titanium_db2->sql_query("DELETE FROM `".$network_prefix."_requests_members` WHERE `request_id`='$request_id'");
+$titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_requests_members`");
+header("Location: modules.php?name=$titanium_module_name&op=Project&project_id=".$request['project_id']);
 
 ?>

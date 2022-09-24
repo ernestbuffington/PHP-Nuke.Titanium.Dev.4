@@ -27,7 +27,7 @@
 -=[Mod]=-
       Forum Admin Style Selection              v1.0.0       10/01/2005
  ************************************************************************/
-if (!defined('IN_PHPBB')) die('Hacking attempt');
+if (!defined('IN_PHPBB2')) die('ACCESS DENIED');
 
 define('HEADER_INC', true);
 
@@ -35,41 +35,41 @@ define('HEADER_INC', true);
  [ Mod:     Forum Admin Style Selection        v1.0.0 ]
  ******************************************************/
 $ThemeSel = get_theme();
-$style = ($board_config['use_theme_style']) ? "./../../../themes/$ThemeSel/style/admin.css" : "./../templates/subSilver/subSilver.css";
+$style = ($phpbb2_board_config['use_theme_style']) ? "./../../../themes/$ThemeSel/style/admin.css" : "./../templates/subSilver/subSilver.css";
 /*****[END]********************************************
  [ Mod:     Forum Admin Style Selection        v1.0.0 ]
  ******************************************************/
 
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
         'header' => 'admin/page_header.tpl')
 );
 
 // Format Timezone. We are unable to use array_pop here, because of PHP3 compatibility
-$l_timezone = explode('.', $board_config['board_timezone']);
-$l_timezone = (count($l_timezone) > 1 && $l_timezone[count($l_timezone)-1] != 0) ? $lang[sprintf('%.1f', $board_config['board_timezone'])] : $lang[number_format($board_config['board_timezone'])];
+$l_timezone = explode('.', $phpbb2_board_config['board_timezone']);
+$l_timezone = (count($l_timezone) > 1 && $l_timezone[count($l_timezone)-1] != 0) ? $titanium_lang[sprintf('%.1f', $phpbb2_board_config['board_timezone'])] : $titanium_lang[number_format($phpbb2_board_config['board_timezone'])];
 //
 // The following assigns all _common_ variables that may be used at any point
-// in a template. Note that all URL's should be wrapped in append_sid, as
+// in a template. Note that all URL's should be wrapped in append_titanium_sid, as
 // should all S_x_ACTIONS for forms.
 //
-$template->assign_vars(array(
-        'SITENAME' => $board_config['sitename'],
-        'PAGE_TITLE' => $page_title,
+$phpbb2_template->assign_vars(array(
+        'SITENAME' => $phpbb2_board_config['sitename'],
+        'PAGE_TITLE' => $phpbb2_page_title,
 
-        'L_ADMIN' => $lang['Admin'],
-        'L_INDEX' => sprintf($lang['Forum_Index'], $board_config['sitename']),
-        'L_FAQ' => $lang['FAQ'],
+        'L_ADMIN' => $titanium_lang['Admin'],
+        'L_INDEX' => sprintf($titanium_lang['Forum_Index'], $phpbb2_board_config['sitename']),
+        'L_FAQ' => $titanium_lang['FAQ'],
 
-        'U_INDEX' => append_sid('../index.'.$phpEx),
+        'U_INDEX' => append_titanium_sid('../index.'.$phpEx),
 
-        'S_TIMEZONE' => sprintf($lang['All_times'], $l_timezone),
-        'S_LOGIN_ACTION' => append_sid('../login.'.$phpEx),
-        'S_JUMPBOX_ACTION' => append_sid('../viewforum.'.$phpEx),
-        'S_CURRENT_TIME' => sprintf($lang['Current_time'], create_date($board_config['default_dateformat'], time(), $board_config['board_timezone'])),
-        'S_CONTENT_DIRECTION' => $lang['DIRECTION'],
-        'S_CONTENT_ENCODING' => $lang['ENCODING'],
-        'S_CONTENT_DIR_LEFT' => $lang['LEFT'],
-        'S_CONTENT_DIR_RIGHT' => $lang['RIGHT'],
+        'S_TIMEZONE' => sprintf($titanium_lang['All_times'], $l_timezone),
+        'S_LOGIN_ACTION' => append_titanium_sid('../login.'.$phpEx),
+        'S_JUMPBOX_ACTION' => append_titanium_sid('../viewforum.'.$phpEx),
+        'S_CURRENT_TIME' => sprintf($titanium_lang['Current_time'], create_date($phpbb2_board_config['default_dateformat'], time(), $phpbb2_board_config['board_timezone'])),
+        'S_CONTENT_DIRECTION' => $titanium_lang['DIRECTION'],
+        'S_CONTENT_ENCODING' => $titanium_lang['ENCODING'],
+        'S_CONTENT_DIR_LEFT' => $titanium_lang['LEFT'],
+        'S_CONTENT_DIR_RIGHT' => $titanium_lang['RIGHT'],
 /*****[BEGIN]******************************************
  [ Mod:     Forum Admin Style Selection        v1.0.0 ]
  ******************************************************/
@@ -128,5 +128,5 @@ else
 }
 header ('Expires: 0');
 header ('Pragma: no-cache');
-$template->pparse('header');
+$phpbb2_template->pparse('header');
 ?>

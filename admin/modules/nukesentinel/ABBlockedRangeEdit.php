@@ -25,7 +25,7 @@ CloseMenu();
 CloseTable();
 echo '<br />'."\n";
 OpenTable();
-$getIPs = $db->sql_fetchrow($db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ranges` WHERE `ip_lo`='$ip_lo' AND `ip_hi`='$ip_hi' LIMIT 0,1"));
+$getIPs = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges` WHERE `ip_lo`='$ip_lo' AND `ip_hi`='$ip_hi' LIMIT 0,1"));
 //$getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
 //$getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
 $ip_lo = explode(".", long2ip($getIPs['ip_lo']));
@@ -67,8 +67,8 @@ echo '</select><br />'."\n";
 echo _AB_EXPIRESINS.'</td></tr>'."\n";
 echo '<tr><td bgcolor="'.$bgcolor2.'" valign="top"><strong>'._AB_NOTES.':</strong></td><td><textarea name="xnotes" rows="10" cols="60">'.$getIPs['notes'].'</textarea></td></tr>'."\n";
 echo '<tr><td bgcolor="'.$bgcolor2.'"><strong>'._AB_REASON.':</strong></td><td><select name="xreason">'."\n";
-$result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blockers` ORDER BY `block_name`");
-while($blockerrow = $db->sql_fetchrow($result)) {
+$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blockers` ORDER BY `block_name`");
+while($blockerrow = $titanium_db->sql_fetchrow($result)) {
   echo '<option value="'.$blockerrow['blocker'].'"';
   if($getIPs['reason']==$blockerrow['blocker']) { echo ' selected="selected"'; }
   echo '>'.$blockerrow['reason'].'</option>'."\n";
@@ -76,8 +76,8 @@ while($blockerrow = $db->sql_fetchrow($result)) {
 echo '</select></td></tr>'."\n";
 echo '<tr><td bgcolor="'.$bgcolor2.'"><strong>'._AB_COUNTRY.':</strong></td>'."\n";
 echo '<td><select name="xc2c">'."\n";
-$result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_countries` ORDER BY `c2c`");
-while($countryrow = $db->sql_fetchrow($result)) {
+$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_countries` ORDER BY `c2c`");
+while($countryrow = $titanium_db->sql_fetchrow($result)) {
   echo '<option value="'.$countryrow['c2c'].'"';
   if($countryrow['c2c'] == $getIPs['c2c']) { echo ' selected="selected"'; }
   echo '>'.strtoupper($countryrow['c2c']).' - '.$countryrow['country'].'</option>'."\n";

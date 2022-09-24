@@ -83,12 +83,12 @@ class Swift_ByteStream_ArrayByteStream
     }
 
     // Don't use array slice
-    $end = $length + $this->_offset;
-    $end = $this->_arraySize<$end
+    $phpbb2_end = $length + $this->_offset;
+    $phpbb2_end = $this->_arraySize<$phpbb2_end
       ?$this->_arraySize
-      :$end;
+      :$phpbb2_end;
     $ret = '';
-    for (; $this->_offset < $end; ++$this->_offset)
+    for (; $this->_offset < $phpbb2_end; ++$this->_offset)
     {
       $ret .= $this->_array[$this->_offset];
     }

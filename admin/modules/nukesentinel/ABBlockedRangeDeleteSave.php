@@ -31,8 +31,8 @@ if($ab_config['htaccess_path'] != "") {
   fwrite($doit, $ipfile);
   fclose($doit);
 }
-$db->sql_query("DELETE FROM `".$prefix."_nsnst_blocked_ranges` WHERE `ip_lo`='$ip_lo' AND `ip_hi`='$ip_hi'");
-$db->sql_query("OPTIMIZE TABLE `".$prefix."_nsnst_blocked_ranges`");
+$titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_blocked_ranges` WHERE `ip_lo`='$ip_lo' AND `ip_hi`='$ip_hi'");
+$titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_blocked_ranges`");
 header("Location: ".$admin_file.".php?op=$xop&min=$min&column=$column&direction=$direction&sip=$sip");
 
 ?>

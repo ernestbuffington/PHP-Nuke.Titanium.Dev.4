@@ -1,7 +1,7 @@
 <?php
 
 /*=======================================================================
- Nuke-Evolution Xtreme: Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -21,63 +21,57 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 }
 
 /*----[ Welcome! ] ---------------------------------------
-| Welcome to Nuke-Evolution, an advanced content          |
+| Welcome to PHP-Nuke Titanium, an advanced content       |
 | management system based on PHP-Nuke                     |
 ---------------------------------------------------------*/
 
-/*----[ $dbhost ] ----------------------------------------
+/*----[ $titanium_dbhost ] -------------------------------
 | Your database host, normally 'localhost'                |
 |                                                         |
 | Default: localhost                                      |
 ---------------------------------------------------------*/
-$dbhost = '%dbhost%';
-/*----[ $dbname ] ----------------------------------------
+$titanium_dbhost = '%dbhost%';
+/*----[ $titanium_dbname ] -------------------------------
 | The name of your database that will hold Evo's tables   |
-|                                                         |
-| Default: xxx_evo                                        |
 ---------------------------------------------------------*/
-$dbname = '%dbname%';
+$titanium_dbname = '%dbname%';
 
-/*----[ $dbuname ] ---------------------------------------
+/*----[ $titanium_dbuname ] ------------------------------
 | The username linked to your database, must have correct |
 | permissions                                             |
-|                                                         |
-| Default: xxx_evo                                        |
 ---------------------------------------------------------*/
-$dbuname = '%dbuname%';
+$titanium_dbuname = '%dbuname%';
 
-/*----[ $dbpass ] ----------------------------------------
+/*----[ $titanium_dbpass ] -------------------------------
 | The password associated with your db usersname          |
-|                                                         |
-| Default: null                                           |
 ---------------------------------------------------------*/
-$dbpass = '%dbpass%';
+$titanium_dbpass = '%dbpass%';
 
-/*----[ $dbtype ] ----------------------------------------
+/*----[ $titanium_dbtype ] -------------------------------
 | The type of SQL server you prefer to use                |
 |                                                         |
 | Choose from the following (case-sensitive):             |
 |    - mysql (4.x or later)                               |
 |    - mysqli (PHP must be compiled with "System Mysql")  |
 |                                                         |
-| Default: mysql                                          |
+| Default: mysqli                                         |
 ---------------------------------------------------------*/
-$dbtype = '%dbtype%';
+$titanium_dbtype = '%dbtype%';
 
-/*----[ $prefix ] ----------------------------------------
-| The prefix for your Nuke-Evolution tables               |
+/*----[ $titanium_prefix ] -------------------------------
+| The prefix for your PHP-Nuke Titanium tables            |
 |                                                         |
-| Default: nuke                                           |
+| Default: titanium                                       |
 ---------------------------------------------------------*/
-$prefix = '%prefix%';
+$titanium_prefix = '%prefix%';
 
-/*----[ $user_prefix ] -----------------------------------
-| The prefix for your Nuke-Evolution user-related tables  |
-| Do not change this unless it is really needed           |
+/*----[ $titanium_user_prefix ] --------------------------
+| The prefix for your PHP-Nuke Titanium user-related      |
+| tables Do not change this unless it is really needed    |
 |                                                         |
-| Default: nuke                                           |
+| Default: titanium                                       |
 ---------------------------------------------------------*/
-$user_prefix = '%user_prefix%';
+$titanium_user_prefix = '%user_prefix%';
 
 /*----[ $admin_file ] ------------------------------------
 | The filename of your Admin File                         |
@@ -91,7 +85,7 @@ $user_prefix = '%user_prefix%';
 $admin_file = 'admin';
 
 /*----[ $directory_mode ] ------------------------------------------
-| permissions - by default, Evo will create new folders with the    |
+| permissions - by default, we will create new folders with the     |
 | permissions set with the following settings.  NOTE: do NOT use    |
 | quotes around this value or it will not work.                     |
 | Examples:                                                         |
@@ -101,7 +95,7 @@ $admin_file = 'admin';
 $directory_mode = 0777;
 
 /*----[ $file_mode ] -------------------------------------------------- 
-| file permissions mode - by default, Evo will create all new files    |
+| file permissions mode - by default, we will create all new files     |
 | with the permissions that are provided here.  NOTE: do NOT use any   |
 | quotes (single or double) around this value or it will not work.     |
 | Examples:                                                            |
@@ -156,7 +150,6 @@ $persistency = false;
 /* your new site.                                                    */
 /*                                                                   */
 /* Congratulations! Now you have the webs best portal installed!     */
-/* Thanks for choosing Nuke- Evolution: The Future of the Web!       */
+/* Thanks for choosing PHP-Nuke Titanium: The Future of the Web!     */
 /*********************************************************************/
-
 ?>

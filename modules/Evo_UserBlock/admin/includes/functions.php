@@ -29,44 +29,44 @@ function evouserinfo_parse_data($data) {
 }
 
 function evouserinfo_getactive () {
-    global $prefix, $db, $lang_evo_userblock, $cache;
+    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock, $titanium_cache;
     static $active;
     if(isset($active) && is_array($active)) return $active;
     
-    if ((($active = $cache->load('active', 'evouserinfo')) === false) || !isset($active)) {
-        $sql = 'SELECT * FROM '.$prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
-        $result = $db->sql_query($sql);
-        while($row = $db->sql_fetchrow($result)) {
+    if ((($active = $titanium_cache->load('active', 'evouserinfo')) === false) || !isset($active)) {
+        $sql = 'SELECT * FROM '.$titanium_prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
+        $result = $titanium_db->sql_query($sql);
+        while($row = $titanium_db->sql_fetchrow($result)) {
             $active[] = $row;
         }
-        $db->sql_freeresult($result);
-        $cache->save('active', 'evouserinfo', $active);
+        $titanium_db->sql_freeresult($result);
+        $titanium_cache->save('active', 'evouserinfo', $active);
     }
     return $active;
 }
 
 function evouserinfo_getinactive () {
-    global $prefix, $db, $lang_evo_userblock, $cache;
+    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock, $titanium_cache;
     static $inactive;
     if(isset($inactive) && is_array($inactive)) return $inactive;
     
-    if ((($inactive = $cache->load('inactive', 'evouserinfo')) === false) || !isset($inactive)) {
-        $sql = 'SELECT * FROM `'.$prefix.'_evo_userinfo` WHERE `active`=0 ORDER BY `position` ASC';
-        $result = $db->sql_query($sql);
-        while($row = $db->sql_fetchrow($result)) {
+    if ((($inactive = $titanium_cache->load('inactive', 'evouserinfo')) === false) || !isset($inactive)) {
+        $sql = 'SELECT * FROM `'.$titanium_prefix.'_evo_userinfo` WHERE `active`=0 ORDER BY `position` ASC';
+        $result = $titanium_db->sql_query($sql);
+        while($row = $titanium_db->sql_fetchrow($result)) {
             $inactive[] = $row;
         }
-        $db->sql_freeresult($result);
-        $cache->save('inactive', 'evouserinfo', $inactive);
+        $titanium_db->sql_freeresult($result);
+        $titanium_cache->save('inactive', 'evouserinfo', $inactive);
     }
     return $inactive;
 }
 
 function evouserinfo_write_addon ($ext, $values) {
-    global $prefix, $db, $lang_evo_userblock;
+    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock;
     foreach ($values as $key => $value) {
-        $sql = 'UPDATE `'.$prefix.'_evo_userinfo_addons` SET `value` = "'.$value.'" WHERE `name` = "'.$ext.'_'.$key.'"';
-        $db->sql_query($sql);
+        $sql = 'UPDATE `'.$titanium_prefix.'_evo_userinfo_addons` SET `value` = "'.$value.'" WHERE `name` = "'.$ext.'_'.$key.'"';
+        $titanium_db->sql_query($sql);
     }
 }
 

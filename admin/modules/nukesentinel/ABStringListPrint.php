@@ -23,14 +23,14 @@ echo '<title>'.$pagetitle.'</title>'."\n";
 echo '</head>'."\n";
 echo '<body bgcolor="#FFFFFF" text="#000000" link="#000000" alink="#000000" vlink="#000000">'."\n";
 echo '<h1 align="center">'.$pagetitle.'</h1>'."\n";
-$totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_strings`"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_strings`"));
 if($totalselected > 0) {
   echo '<table summary="" align="center" border="0" bgcolor="#000000" cellpadding="2" cellspacing="2">'."\n";
   echo '<tr bgcolor="#ffffff">'."\n";
   echo '<td><strong>'._AB_STRING.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_strings` ORDER BY `string`");
-  while($getIPs = $db->sql_fetchrow($result)) {
+  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_strings` ORDER BY `string`");
+  while($getIPs = $titanium_db->sql_fetchrow($result)) {
     echo '<tr bgcolor="#ffffff">'."\n";
     echo '<td>'.$getIPs['string'].'</td>'."\n";
     echo '</tr>'."\n";

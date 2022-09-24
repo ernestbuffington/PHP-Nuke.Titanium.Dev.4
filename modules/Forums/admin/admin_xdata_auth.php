@@ -16,19 +16,19 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB', 1);
+define('IN_PHPBB2', 1);
 
 if( !empty($setmodules) )
 {
 	$filename = basename(__FILE__);
-	$module['XData']['User_Permissions'] = $filename . '?type=user';
-    	$module['XData']['Group_Permissions'] = $filename . '?type=group';
+	$titanium_module['XData']['User_Permissions'] = $filename . '?type=user';
+    	$titanium_module['XData']['Group_Permissions'] = $filename . '?type=group';
 
 	return;
 }
 
-$phpbb_root_path = './../';
-require($phpbb_root_path . 'extension.inc');
+$phpbb2_root_path = './../';
+require($phpbb2_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 
 //
@@ -36,10 +36,10 @@ require('./pagestart.' . $phpEx);
 //
 if(!defined('XD_LANG_INCLUDED'))
 {
-	$xs_lang_file = $phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_xd.'.$phpEx;
+	$xs_lang_file = $phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_xd.'.$phpEx;
 	if( !@file_exists($xs_lang_file) )
 	{	// load english version if there is no translation to current language
-		$xs_lang_file = $phpbb_root_path . 'language/lang_english/lang_xd.'.$phpEx;
+		$xs_lang_file = $phpbb2_root_path . 'language/lang_english/lang_xd.'.$phpEx;
 	}
 	@include($xs_lang_file);
 	define('XD_LANG_INCLUDED', true);
@@ -80,13 +80,13 @@ if ($type == 'user')
 			$this_userdata = get_userdata($HTTP_POST_VARS['username'], true);
 			if ( !is_array($this_userdata) )
 			{
-				message_die(GENERAL_MESSAGE, $lang['No_such_user']);
+				message_die(GENERAL_MESSAGE, $titanium_lang['No_such_user']);
 			}
-			$user_id = $this_userdata['user_id'];
+			$titanium_user_id = $this_userdata['user_id'];
 		}
 		else
 		{
-			$user_id = ( isset($HTTP_POST_VARS[POST_USERS_URL]) ) ? intval($HTTP_POST_VARS[POST_USERS_URL]) : intval($HTTP_GET_VARS[POST_USERS_URL]);
+			$titanium_user_id = ( isset($HTTP_POST_VARS[POST_USERS_URL]) ) ? intval($HTTP_POST_VARS[POST_USERS_URL]) : intval($HTTP_GET_VARS[POST_USERS_URL]);
 		}
 
 		if ( ! isset($HTTP_POST_VARS['submit']) )
@@ -95,30 +95,30 @@ if ($type == 'user')
 			 Show the edit form
 			*/
 
-			$template->set_filenames( array(
+			$phpbb2_template->set_filenames( array(
 				'body' => 'admin/xd_auth_body.tpl'
 				)
 			);
 
-			$template->assign_vars( array(
-				'L_AUTH_TITLE' => $lang['xd_permissions'],
-				'L_USERNAME' => $lang['Username'],
-				'L_PERMISSIONS' => $lang['Permissions'],
-				'L_AUTH_EXPLAIN' => $lang['xd_permissions_describe'],
-				'L_FIELD_NAME' => $lang['field_name'],
-				'L_ALLOW' => $lang['Allow'],
-				'L_DEFAULT' => $lang['Default'],
-				'L_DENY' => $lang['Deny'],
-				'L_SUBMIT' => $lang['Submit'],
-				'L_RESET' => $lang['Reset'],
+			$phpbb2_template->assign_vars( array(
+				'L_AUTH_TITLE' => $titanium_lang['xd_permissions'],
+				'L_USERNAME' => $titanium_lang['Username'],
+				'L_PERMISSIONS' => $titanium_lang['Permissions'],
+				'L_AUTH_EXPLAIN' => $titanium_lang['xd_permissions_describe'],
+				'L_FIELD_NAME' => $titanium_lang['field_name'],
+				'L_ALLOW' => $titanium_lang['Allow'],
+				'L_DEFAULT' => $titanium_lang['Default'],
+				'L_DENY' => $titanium_lang['Deny'],
+				'L_SUBMIT' => $titanium_lang['Submit'],
+				'L_RESET' => $titanium_lang['Reset'],
 
 				'AUTH_ALLOW' => XD_AUTH_ALLOW,
 				'AUTH_DENY' => XD_AUTH_DENY,
 				'AUTH_DEFAULT' => XD_AUTH_DEFAULT,
 
-				'USERNAME' => $username,
-				'S_HIDDEN_FIELDS' => '<input type="hidden" name="'.POST_USERS_URL.'" value="'.$user_id.'" /><input type="hidden" name="mode" value="save" /><input type="hidden" name="type" value="user" />',
-				'S_AUTH_ACTION' => append_sid('admin_xdata_auth.'.$phpEx)
+				'USERNAME' => $titanium_username,
+				'S_HIDDEN_FIELDS' => '<input type="hidden" name="'.POST_USERS_URL.'" value="'.$titanium_user_id.'" /><input type="hidden" name="mode" value="save" /><input type="hidden" name="type" value="user" />',
+				'S_AUTH_ACTION' => append_titanium_sid('admin_xdata_auth.'.$phpEx)
 				)
 			);
 
@@ -128,18 +128,18 @@ if ($type == 'user')
 						FROM " . XDATA_AUTH_TABLE . " xa, " . USER_GROUP_TABLE . " ug
 						WHERE xa.field_id = {$meta['field_id']}
 							AND xa.group_id = ug.group_id
-							AND ug.user_id = {$user_id}";
+							AND ug.user_id = {$titanium_user_id}";
 
-				if ( ! ( $result = $db->sql_query($sql) ) )
+				if ( ! ( $result = $titanium_db->sql_query($sql) ) )
 				{
-	            	message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_user_auth'], "", __LINE__, __FILE__, $sql);
+	            	message_die(GENERAL_ERROR, $titanium_lang['XData_failure_obtaining_user_auth'], "", __LINE__, __FILE__, $sql);
 				}
 
-				$row = $db->sql_fetchrow($result);
+				$row = $titanium_db->sql_fetchrow($result);
 
 				$auth = isset($row['auth_value']) ? $row['auth_value'] : XD_AUTH_DEFAULT;
 
-				$template->assign_block_vars( 'xdata', array(
+				$phpbb2_template->assign_block_vars( 'xdata', array(
 					'CODE_NAME' => $code_name,
 					'NAME' => $meta['field_name'],
 
@@ -151,7 +151,7 @@ if ($type == 'user')
 
 			}
 
-			$template->pparse('body');
+			$phpbb2_template->pparse('body');
 		}
 		else
 		{
@@ -161,13 +161,13 @@ if ($type == 'user')
 
 			$sql = "SELECT g.group_id
 					FROM " . GROUPS_TABLE . " g, " . USER_GROUP_TABLE . " ug
-			        WHERE g.group_id = ug.group_id AND ug.user_id = $user_id";
+			        WHERE g.group_id = ug.group_id AND ug.user_id = $titanium_user_id";
 
-			if (!($result = $db->sql_query($sql)))
+			if (!($result = $titanium_db->sql_query($sql)))
 			{
-				message_die(GENERAL_ERROR, $lang['XData_error_obtaining_usergroup'], "", __LINE__, __FILE__, $sql);
+				message_die(GENERAL_ERROR, $titanium_lang['XData_error_obtaining_usergroup'], "", __LINE__, __FILE__, $sql);
 			}
-			$personal_group = $db->sql_fetchrow($result);
+			$personal_group = $titanium_db->sql_fetchrow($result);
 			$personal_group = $personal_group['group_id'];
 
 			while ( list($code_name, $meta) = each($xd_meta) )
@@ -178,9 +178,9 @@ if ($type == 'user')
 					WHERE group_id = $personal_group
 					AND field_id = {$meta['field_id']}";
 
-	            if (! $db->sql_query($sql) )
+	            if (! $titanium_db->sql_query($sql) )
 				{
-					message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
+					message_die(GENERAL_ERROR, $titanium_lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
 				}
 
 				if ( $auth != XD_AUTH_DEFAULT )
@@ -190,15 +190,15 @@ if ($type == 'user')
 						(group_id, field_id, auth_value)
 						VALUES ({$personal_group}, {$meta['field_id']}, {$auth})";
 
-					if (! $db->sql_query($sql) )
+					if (! $titanium_db->sql_query($sql) )
 					{
-						message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
+						message_die(GENERAL_ERROR, $titanium_lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
 					}
 				}
 			}
 
-		    $message = sprintf($lang['XData_success_updating_permissions'],"<a href=\"" . append_sid("admin_xdata_auth.$phpEx?type=user") . "\">","</a>");
-			$message .= sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+		    $message = sprintf($titanium_lang['XData_success_updating_permissions'],"<a href=\"" . append_titanium_sid("admin_xdata_auth.$phpEx?type=user") . "\">","</a>");
+			$message .= sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 		}
 	}
@@ -207,25 +207,25 @@ if ($type == 'user')
 		/*
 		 Default user selection box
 		*/
-		$template->set_filenames(array(
+		$phpbb2_template->set_filenames(array(
 			'body' => 'admin/user_select_body.tpl')
 		);
 
-		$template->assign_vars(array(
-			'L_USER_TITLE' => $lang['xd_permissions'],
-			'L_USER_EXPLAIN' => $lang['xd_permissions_describe'],
-			'L_USER_SELECT' => $lang['Select_a_User'],
-			'L_LOOK_UP' => $lang['Look_up_user'],
-			'L_FIND_USERNAME' => $lang['Find_username'],
+		$phpbb2_template->assign_vars(array(
+			'L_USER_TITLE' => $titanium_lang['xd_permissions'],
+			'L_USER_EXPLAIN' => $titanium_lang['xd_permissions_describe'],
+			'L_USER_SELECT' => $titanium_lang['Select_a_User'],
+			'L_LOOK_UP' => $titanium_lang['Look_up_user'],
+			'L_FIND_USERNAME' => $titanium_lang['Find_username'],
 
-			'U_SEARCH_USER' => append_sid($phpbb_root_path . "search.$phpEx?mode=searchuser"),
+			'U_SEARCH_USER' => append_titanium_sid($phpbb2_root_path . "search.$phpEx?mode=searchuser"),
 
-			'S_USER_ACTION' => append_sid($phpbb_root_path . "admin/admin_xdata_auth.$phpEx?type=user"),
+			'S_USER_ACTION' => append_titanium_sid($phpbb2_root_path . "admin/admin_xdata_auth.$phpEx?type=user"),
 			'S_USER_SELECT' => $select_list
 			)
 		);
 
-		$template->pparse('body');
+		$phpbb2_template->pparse('body');
 	}
 }
 elseif ($type == 'group')
@@ -250,7 +250,7 @@ elseif ($type == 'group')
 			 Show the edit form
 			*/
 
-			$template->set_filenames( array(
+			$phpbb2_template->set_filenames( array(
 				'body' => 'admin/xd_auth_body.tpl'
 				)
 			);
@@ -258,24 +258,24 @@ elseif ($type == 'group')
 			$sql = "SELECT group_name FROM " . GROUPS_TABLE . "
 			        WHERE group_id = {$group_id}";
 
-			if (!($result = $db->sql_query($sql)))
+			if (!($result = $titanium_db->sql_query($sql)))
 			{
-				message_die(GENERAL_ERROR, $lang['XData_error_obtaining_group_data'], "", __LINE__, __FILE__, $sql);
+				message_die(GENERAL_ERROR, $titanium_lang['XData_error_obtaining_group_data'], "", __LINE__, __FILE__, $sql);
 			}
-			$group_name = $db->sql_fetchrow($result);
+			$group_name = $titanium_db->sql_fetchrow($result);
 			$group_name = $group_name['group_name'];
 
-			$template->assign_vars( array(
-				'L_AUTH_TITLE' => $lang['xd_group_permissions'],
-				'L_USERNAME' => $lang['group_name'],
-				'L_PERMISSIONS' => $lang['Permissions'],
-				'L_AUTH_EXPLAIN' => $lang['xd_group_permissions_describe'],
-				'L_FIELD_NAME' => $lang['field_name'],
-				'L_ALLOW' => $lang['Allow'],
-				'L_DEFAULT' => $lang['Default'],
-				'L_DENY' => $lang['Deny'],
-				'L_SUBMIT' => $lang['Submit'],
-				'L_RESET' => $lang['Reset'],
+			$phpbb2_template->assign_vars( array(
+				'L_AUTH_TITLE' => $titanium_lang['xd_group_permissions'],
+				'L_USERNAME' => $titanium_lang['group_name'],
+				'L_PERMISSIONS' => $titanium_lang['Permissions'],
+				'L_AUTH_EXPLAIN' => $titanium_lang['xd_group_permissions_describe'],
+				'L_FIELD_NAME' => $titanium_lang['field_name'],
+				'L_ALLOW' => $titanium_lang['Allow'],
+				'L_DEFAULT' => $titanium_lang['Default'],
+				'L_DENY' => $titanium_lang['Deny'],
+				'L_SUBMIT' => $titanium_lang['Submit'],
+				'L_RESET' => $titanium_lang['Reset'],
 
 				'AUTH_ALLOW' => XD_AUTH_ALLOW,
 				'AUTH_DENY' => XD_AUTH_DENY,
@@ -283,7 +283,7 @@ elseif ($type == 'group')
 
 				'USERNAME' => $group_name,
 				'S_HIDDEN_FIELDS' => '<input type="hidden" name="'.POST_GROUPS_URL.'" value="'.$group_id.'" /><input type="hidden" name="mode" value="save" /><input type="hidden" name="type" value="group" />',
-				'S_AUTH_ACTION' => append_sid('admin_xdata_auth.'.$phpEx)
+				'S_AUTH_ACTION' => append_titanium_sid('admin_xdata_auth.'.$phpEx)
 				)
 			);
 
@@ -293,16 +293,16 @@ elseif ($type == 'group')
 					WHERE xa.field_id = {$meta['field_id']}
 					AND xa.group_id = {$group_id}";
 
-				if ( ! ( $result = $db->sql_query($sql) ) )
+				if ( ! ( $result = $titanium_db->sql_query($sql) ) )
 				{
-	            	message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_user_auth'], "", __LINE__, __FILE__, $sql);
+	            	message_die(GENERAL_ERROR, $titanium_lang['XData_failure_obtaining_user_auth'], "", __LINE__, __FILE__, $sql);
 				}
 
-				$row = $db->sql_fetchrow($result);
+				$row = $titanium_db->sql_fetchrow($result);
 
 				$auth = isset($row['auth_value']) ? $row['auth_value'] : XD_AUTH_DEFAULT;
 
-				$template->assign_block_vars( 'xdata', array(
+				$phpbb2_template->assign_block_vars( 'xdata', array(
 					'CODE_NAME' => $code_name,
 					'NAME' => $meta['field_name'],
 
@@ -314,7 +314,7 @@ elseif ($type == 'group')
 
 			}
 
-			$template->pparse('body');
+			$phpbb2_template->pparse('body');
 		}
 		else
 		{
@@ -330,9 +330,9 @@ elseif ($type == 'group')
 					WHERE group_id = $group_id
 					AND field_id = {$meta['field_id']}";
 
-	            if (! $db->sql_query($sql) )
+	            if (! $titanium_db->sql_query($sql) )
 				{
-					message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
+					message_die(GENERAL_ERROR, $titanium_lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
 				}
 
 				if ( $auth != XD_AUTH_DEFAULT )
@@ -342,15 +342,15 @@ elseif ($type == 'group')
 						(group_id, field_id, auth_value)
 						VALUES ({$group_id}, {$meta['field_id']}, {$auth})";
 
-					if (! $db->sql_query($sql) )
+					if (! $titanium_db->sql_query($sql) )
 					{
-						message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
+						message_die(GENERAL_ERROR, $titanium_lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
 					}
 				}
 			}
 
-		    $message = sprintf($lang['XData_success_updating_permissions'],"<a href=\"" . append_sid("admin_xdata_auth.$phpEx?type=user") . "\">","</a>");
-			$message .= sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+		    $message = sprintf($titanium_lang['XData_success_updating_permissions'],"<a href=\"" . append_titanium_sid("admin_xdata_auth.$phpEx?type=user") . "\">","</a>");
+			$message .= sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 		}
 	}
@@ -361,44 +361,44 @@ elseif ($type == 'group')
 
 		include('./page_header_admin.'.$phpEx);
 		*/
-		$template->set_filenames( array('body' => 'admin/auth_select_body.tpl') );
+		$phpbb2_template->set_filenames( array('body' => 'admin/auth_select_body.tpl') );
 
 		$sql = "SELECT group_id, group_name
 			FROM " . GROUPS_TABLE . "
 			WHERE group_single_user <> " . TRUE;
-		if ( !($result = $db->sql_query($sql)) )
+		if ( !($result = $titanium_db->sql_query($sql)) )
 		{
-			message_die(GENERAL_ERROR, $lang['XData_error_obtaining_group_data'], "", __LINE__, __FILE__, $sql);
+			message_die(GENERAL_ERROR, $titanium_lang['XData_error_obtaining_group_data'], "", __LINE__, __FILE__, $sql);
 		}
 
-		if ( $row = $db->sql_fetchrow($result) )
+		if ( $row = $titanium_db->sql_fetchrow($result) )
 		{
 			$select_list = '<select name="' . POST_GROUPS_URL . '">';
 			do
 			{
 				$select_list .= '<option value="' . $row['group_id'] . '">' . $row['group_name'] . '</option>';
 			}
-			while ( $row = $db->sql_fetchrow($result) );
+			while ( $row = $titanium_db->sql_fetchrow($result) );
 			$select_list .= '</select>';
 		}
 
-		$template->assign_vars(array(
+		$phpbb2_template->assign_vars(array(
 			'S_AUTH_SELECT' => $select_list)
 		);
 
 		$s_hidden_fields = '<input type="hidden" name="mode" value="edit" /><input type="hidden" name="type" value="group" />';
 
-		$template->assign_vars(array(
-			'L_AUTH_TITLE' => $lang['XD_auth_Control_Group'],
-			'L_AUTH_EXPLAIN' => $lang['XD_roup_auth_explain'],
-			'L_AUTH_SELECT' => $lang['Select_a_Group'],
-			'L_LOOK_UP' => $lang['Look_up_Group'],
+		$phpbb2_template->assign_vars(array(
+			'L_AUTH_TITLE' => $titanium_lang['XD_auth_Control_Group'],
+			'L_AUTH_EXPLAIN' => $titanium_lang['XD_roup_auth_explain'],
+			'L_AUTH_SELECT' => $titanium_lang['Select_a_Group'],
+			'L_LOOK_UP' => $titanium_lang['Look_up_Group'],
 
 			'S_HIDDEN_FIELDS' => $s_hidden_fields,
-			'S_AUTH_ACTION' => append_sid("admin_xdata_auth.$phpEx"))
+			'S_AUTH_ACTION' => append_titanium_sid("admin_xdata_auth.$phpEx"))
 		);
 
-        $template->pparse('body');
+        $phpbb2_template->pparse('body');
 	}
 }
 

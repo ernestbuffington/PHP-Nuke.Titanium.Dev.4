@@ -115,8 +115,8 @@ class Swift_StreamFilters_ByteArrayReplacementFilter
    */
   public function shouldBuffer($buffer)
   {
-    $endOfBuffer = end($buffer);
-    return isset ($this->_index[$endOfBuffer]);
+    $phpbb2_endOfBuffer = end($buffer);
+    return isset ($this->_index[$phpbb2_endOfBuffer]);
   }
 
   /**

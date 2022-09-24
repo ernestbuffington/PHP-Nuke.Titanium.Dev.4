@@ -24,83 +24,83 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 if ( isset($HTTP_POST_VARS['submit']) )
 {
-    $username = ( !empty($HTTP_POST_VARS['username']) ) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
+    $titanium_username = ( !empty($HTTP_POST_VARS['username']) ) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
     $email = ( !empty($HTTP_POST_VARS['email']) ) ? trim(strip_tags(htmlspecialchars($HTTP_POST_VARS['email']))) : '';
 
         $sql = "SELECT user_id, username, user_email, user_active, user_lang
                 FROM " . USERS_TABLE . "
                 WHERE user_email = '" . str_replace("\'", "''", $email) . "'
-            AND username = '" . str_replace("\'", "''", $username) . "'";
-    if ( $result = $db->sql_query($sql) )
+            AND username = '" . str_replace("\'", "''", $titanium_username) . "'";
+    if ( $result = $titanium_db->sql_query($sql) )
     {
-        if ( $row = $db->sql_fetchrow($result) )
+        if ( $row = $titanium_db->sql_fetchrow($result) )
         {
             if ( !$row['user_active'] )
             {
-                message_die(GENERAL_MESSAGE, $lang['No_send_account_inactive']);
+                message_die(GENERAL_MESSAGE, $titanium_lang['No_send_account_inactive']);
             }
 
-            $username = $row['username'];
-            $user_id = $row['user_id'];
+            $titanium_username = $row['username'];
+            $titanium_user_id = $row['user_id'];
 
-            $user_actkey = gen_rand_string(true);
+            $titanium_user_actkey = gen_rand_string(true);
             $key_len = 54 - strlen($server_url);
             $key_len = ($key_len > 6) ? $key_len : 6;
-            $user_actkey = substr($user_actkey, 0, $key_len);
+            $titanium_user_actkey = substr($titanium_user_actkey, 0, $key_len);
             $user_password = gen_rand_string(false);
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
                         $sql = "UPDATE " . USERS_TABLE . "
-                SET user_newpasswd = '" . md5($user_password) . "', user_actkey = '$user_actkey'  
+                SET user_newpasswd = '" . md5($user_password) . "', user_actkey = '$titanium_user_actkey'  
                 WHERE user_id = " . $row['user_id'];
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-            if ( !$db->sql_query($sql) )
+            if ( !$titanium_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not update new password information', '', __LINE__, __FILE__, $sql);
             }
 
             include("includes/emailer.php");
-            $emailer = new emailer($board_config['smtp_delivery']);
+            $emailer = new emailer($phpbb2_board_config['smtp_delivery']);
 
-            $emailer->from($board_config['board_email']);
-            $emailer->replyto($board_config['board_email']);
+            $emailer->from($phpbb2_board_config['board_email']);
+            $emailer->replyto($phpbb2_board_config['board_email']);
 
             $emailer->use_template('user_activate_passwd', $row['user_lang']);
             $emailer->email_address($row['user_email']);
-            $emailer->set_subject($lang['New_password_activation']);
+            $emailer->set_subject($titanium_lang['New_password_activation']);
 
             $emailer->assign_vars(array(
-                'SITENAME' => $board_config['sitename'], 
-                'USERNAME' => $username,
+                'SITENAME' => $phpbb2_board_config['sitename'], 
+                'USERNAME' => $titanium_username,
                 'PASSWORD' => $user_password,
-                'EMAIL_SIG' => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '', 
+                'EMAIL_SIG' => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : '', 
 
-                'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $user_id . '&act_key=' . $user_actkey)
+                'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $titanium_user_id . '&act_key=' . $titanium_user_actkey)
             );
             $emailer->send();
             $emailer->reset();
 
-            $template->assign_vars(array(
-                'META' => '<meta http-equiv="refresh" content="15;url=' . append_sid("index.$phpEx") . '">')
+            $phpbb2_template->assign_vars(array(
+                'META' => '<meta http-equiv="refresh" content="15;url=' . append_titanium_sid("index.$phpEx") . '">')
             );
 
-            $message = $lang['Password_updated'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
+            $message = $titanium_lang['Password_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_index'],  '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
 
             message_die(GENERAL_MESSAGE, $message);
         }
         else
         {
-            message_die(GENERAL_MESSAGE, $lang['No_email_match']);
+            message_die(GENERAL_MESSAGE, $titanium_lang['No_email_match']);
         }
     }
     else
@@ -110,7 +110,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 }
 else
 {
-    $username = '';
+    $titanium_username = '';
     $email = '';
 }
 
@@ -119,26 +119,26 @@ else
 //
 include("includes/page_header.php");
 
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
     'body' => 'profile_send_pass.tpl')
 );
 make_jumpbox('viewforum.'.$phpEx);
 
-$template->assign_vars(array(
-    'USERNAME' => $username,
+$phpbb2_template->assign_vars(array(
+    'USERNAME' => $titanium_username,
     'EMAIL' => $email,
 
-        'L_SEND_PASSWORD' => $lang['Send_password'],
-    'L_ITEMS_REQUIRED' => $lang['Items_required'],
-    'L_EMAIL_ADDRESS' => $lang['Email_address'],
-    'L_SUBMIT' => $lang['Submit'],
-    'L_RESET' => $lang['Reset'],
+        'L_SEND_PASSWORD' => $titanium_lang['Send_password'],
+    'L_ITEMS_REQUIRED' => $titanium_lang['Items_required'],
+    'L_EMAIL_ADDRESS' => $titanium_lang['Email_address'],
+    'L_SUBMIT' => $titanium_lang['Submit'],
+    'L_RESET' => $titanium_lang['Reset'],
 
         'S_HIDDEN_FIELDS' => '',
-    'S_PROFILE_ACTION' => append_sid("profile.$phpEx?mode=sendpassword"))
+    'S_PROFILE_ACTION' => append_titanium_sid("profile.$phpEx?mode=sendpassword"))
 );
 
-$template->pparse('body');
+$phpbb2_template->pparse('body');
 
 include("includes/page_tail.php");
 

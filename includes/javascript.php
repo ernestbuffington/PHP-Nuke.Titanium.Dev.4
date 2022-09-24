@@ -188,7 +188,7 @@ echo "</script>\n\n";
  [ Mod:     Facebook Mod                       v1.0.0 ]
  ******************************************************/
 
-if (isset($userpage)) {
+if (isset($titanium_userpage)) {
     echo "<script type=\"text/javascript\">\n";
     echo "<!--\n";
     echo "function showimage() {\n";
@@ -233,6 +233,8 @@ if(get_evo_option('recap_site_key') && get_evo_option('recap_priv_key'))
  /*****[END]*******************************************
  [ Mod:     Advanced Security Code Control     v1.0.0 ]
  ******************************************************/
+
+echo "<script src=\"https://kit.fontawesome.com/5a71e91c84.js\" crossorigin=\"anonymous\"></script>";
 
 /*****[BEGIN]******************************************
  [ Mod:     Arcade                             v1.0.0 ]

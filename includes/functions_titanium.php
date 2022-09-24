@@ -66,10 +66,10 @@ function _ig($image)
                 }
 
                 // put netscape string after 13 + colours table length
-                $start = substr($data, 0, 13 + $colours_length);
-                $end = substr($data, 13 + $colours_length);
+                $phpbb2_start = substr($data, 0, 13 + $colours_length);
+                $phpbb2_end = substr($data, 13 + $colours_length);
 
-                file_put_contents($new_filename, $start . chr(0x21) . chr(0xFF) . chr(0x0B) . 'NETSCAPE2.0' . chr(0x03) . chr(0x01) . chr(0x00) . chr(0x00) . chr(0x00) . $end);
+                file_put_contents($new_filename, $phpbb2_start . chr(0x21) . chr(0xFF) . chr(0x0B) . 'NETSCAPE2.0' . chr(0x03) . chr(0x01) . chr(0x00) . chr(0x00) . chr(0x00) . $phpbb2_end);
 
             } else {
 

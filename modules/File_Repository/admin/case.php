@@ -10,18 +10,18 @@
 |----------------------------------------------------------------------
 */
 
-$module_name = basename(dirname(dirname(__FILE__)));
+$titanium_module_name = basename(dirname(dirname(__FILE__)));
 //-------------------------------------------------------------------------
 //  INCLUDE THE LANGUAGE FILE FOR THE MODULE.
 //-------------------------------------------------------------------------
-include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php');
+include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-english.php');
 //-------------------------------------------------------------------------
 //  INCLUDE THE LANGUAGE FILE FOR THE MODULE.
 //-------------------------------------------------------------------------
 switch($op) 
 {
     case 'file_repository':
-    	include(NUKE_MODULES_DIR.$module_name.'/admin/index.php');
+    	include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
     	break;
 
 }

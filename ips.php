@@ -20,7 +20,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
     exit('Access Denied');
 }
 
-global $ips, $users_ips;
+global $ips, $titanium_users_ips;
 
 /*****[BEGIN]******************************************
  [ Mod:    Admin IP Lock                       v2.1.0 ]
@@ -46,13 +46,13 @@ global $ips, $users_ips;
 
 // IPs that are allowed to login to the specified user accounts
 // Seperate all IPs by a comma inside the second ''.
-// ex: $users_ips = array('Technocrat', '127.0.0.1,192.168.1.1');
+// ex: $titanium_users_ips = array('Technocrat', '127.0.0.1,192.168.1.1');
 
 /*=====
   For more information on how to use this please see the help file in the help/features folder
   =====*/
 
-//$users_ips = array('name', 'xxx.xxx.xxx.xxx');
+//$titanium_users_ips = array('name', 'xxx.xxx.xxx.xxx');
 
 /*****[END]********************************************
  [ Mod:     User IP Lock                       v1.0.0 ]

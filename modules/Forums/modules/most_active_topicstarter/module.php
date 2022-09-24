@@ -18,9 +18,9 @@
        Advanced Username Color                  v1.0.5       08/08/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 // true == use db cache
@@ -33,15 +33,15 @@ $core->set_view('columns', 5);
 
 $core->define_view('set_columns', array(
     $core->pre_defined('rank'),
-    'username' => $lang['Username'],
-    'posts' => $lang['Topics'],
+    'username' => $titanium_lang['Username'],
+    'posts' => $titanium_lang['Topics'],
     $core->pre_defined('percent'),
     $core->pre_defined('graph'))
 );
 
 $content->percentage_sign = TRUE;
 
-$core->set_header($lang['module_name']);
+$core->set_header($titanium_lang['module_name']);
 
 $core->assign_defined_view('align_rows', array(
     'left',
@@ -56,7 +56,7 @@ $sql = "SELECT COUNT(topic_id) as total_topics FROM " . TOPICS_TABLE . " WHERE t
 $result = $core->sql_query($sql, 'Unable to retrieve total topics');
 $row = $core->sql_fetchrow($result);
 
-$total_topics = $row['total_topics'];
+$total_phpbb2_topics = $row['total_topics'];
 
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -73,12 +73,12 @@ LIMIT " . $core->return_limit;
 $result = $core->sql_query($sql, 'Unable to retrieve user and topic data');
 $data = $core->sql_fetchrowset($result);
 
-$content->init_math('num_topics', $data[0]['num_topics'], $total_topics);
+$content->init_math('num_topics', $data[0]['num_topics'], $total_phpbb2_topics);
 $core->set_data($data);
 
 $core->define_view('set_rows', array(
     '$core->pre_defined()',
-    '$core->generate_link(append_sid(\'profile.php?mode=viewprofile&amp;u=\' . $core->data(\'user_id\')), $core->data(\'username\'), \'target="_blank"\')',
+    '$core->generate_link(append_titanium_sid(\'profile.php?mode=viewprofile&amp;u=\' . $core->data(\'user_id\')), $core->data(\'username\'), \'target="_blank"\')',
     '$core->data(\'num_topics\')',
     '$core->pre_defined()',
     '$core->pre_defined()')

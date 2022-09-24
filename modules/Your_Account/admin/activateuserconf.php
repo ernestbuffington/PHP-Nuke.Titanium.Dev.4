@@ -46,17 +46,17 @@ if (!defined('CNBYA')) {
  [ Mod:     Welcome PM                         v2.0.0 ]
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-include_once(NUKE_MODULES_DIR.$module_name.'/public/functions_welcome_pm.php');
-include_once(NUKE_MODULES_DIR.$module_name.'/public/custom_functions.php');
+include_once(NUKE_MODULES_DIR.$titanium_module_name.'/public/functions_welcome_pm.php');
+include_once(NUKE_MODULES_DIR.$titanium_module_name.'/public/custom_functions.php');
 include_once(NUKE_INCLUDE_DIR. 'constants.php');
 /*****[END]********************************************
  [ Mod:     Welcome PM                         v2.0.0 ]
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
-list($uname, $realname, $email, $upass, $ureg) = $db->sql_fetchrow($db->sql_query("SELECT username, realname, user_email, user_password, user_regdate FROM ".$user_prefix."_users_temp WHERE user_id='$act_uid'"));
+list($uname, $realname, $email, $upass, $ureg) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT username, realname, user_email, user_password, user_regdate FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$act_uid'"));
 
     if ($ya_config['servermail'] == 0) {
         $message = _SORRYTO." $sitename "._HASAPPROVE;
@@ -70,32 +70,32 @@ list($uname, $realname, $email, $upass, $ureg) = $db->sql_fetchrow($db->sql_quer
         );
         evo_phpmailer( $email, $subject, $message, $headers );
     }
-    $db->sql_query("DELETE FROM ".$user_prefix."_users_temp WHERE user_id='$act_uid'");
+    $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$act_uid'");
 
-    $db->sql_query("OPTIMIZE TABLE ".$user_prefix."_users_temp");
-    list($newest_uid) = $db->sql_fetchrow($db->sql_query("SELECT max(user_id) AS newest_uid FROM ".$user_prefix."_users"));
-    if ($newest_uid == "-1") { $new_uid = 1; } else { $new_uid = $newest_uid+1; }
-    $db->sql_query("INSERT INTO ".$user_prefix."_users (user_id, name, username, user_email, user_regdate, user_password, user_level, user_active, user_avatar, user_avatar_type, user_from) VALUES ('$new_uid', '$realname', '$uname', '$email', '$ureg', '$upass', 1, 1, 'gallery/blank.gif', 3, '')");
+    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_users_temp");
+    list($phpbb2_newest_uid) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT max(user_id) AS newest_uid FROM ".$titanium_user_prefix."_users"));
+    if ($phpbb2_newest_uid == "-1") { $new_uid = 1; } else { $new_uid = $phpbb2_newest_uid+1; }
+    $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_users (user_id, name, username, user_email, user_regdate, user_password, user_level, user_active, user_avatar, user_avatar_type, user_from) VALUES ('$new_uid', '$realname', '$uname', '$email', '$ureg', '$upass', 1, 1, 'gallery/blank.gif', 3, '')");
 
-    $res = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_value_temp WHERE uid = '$act_uid'");
-    while ($sqlvalue = $db->sql_fetchrow($res)) {
-        $db->sql_query("INSERT INTO ".$user_prefix."_cnbya_value (uid, fid, value) VALUES ('$new_uid', '$sqlvalue[fid]','$sqlvalue[value]')");
+    $res = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE uid = '$act_uid'");
+    while ($sqlvalue = $titanium_db->sql_fetchrow($res)) {
+        $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_cnbya_value (uid, fid, value) VALUES ('$new_uid', '$sqlvalue[fid]','$sqlvalue[value]')");
     }
-    $db->sql_query("DELETE FROM ".$user_prefix."_cnbya_value_temp WHERE uid='$act_uid'");
-    $db->sql_query("OPTIMIZE TABLE ".$user_prefix."_cnbya_value_temp");
+    $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE uid='$act_uid'");
+    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_cnbya_value_temp");
 
     $sql = "INSERT INTO " . GROUPS_TABLE . " (group_name, group_description, group_single_user, group_moderator)
             VALUES ('', 'Personal User', '1', '0')";
-    if ( !($result = $db->sql_query($sql)) )
+    if ( !($result = $titanium_db->sql_query($sql)) )
     {
         DisplayError('Could not insert data into groups table<br />'.$sql);
     }
 
-    $group_id = $db->sql_nextid();
+    $group_id = $titanium_db->sql_nextid();
 
     $sql = "INSERT INTO " . USER_GROUP_TABLE . " (user_id, group_id, user_pending)
         VALUES ('$new_uid', '$group_id', '0')";
-    if( !($result = $db->sql_query($sql)) )
+    if( !($result = $titanium_db->sql_query($sql)) )
     {
         DisplayError('Could not insert data into user_group table<br />'.$sql);
     }
@@ -121,7 +121,7 @@ list($uname, $realname, $email, $upass, $ureg) = $db->sql_fetchrow($db->sql_quer
     echo "<br />\n";
     OpenTable();
     echo "<center><table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }

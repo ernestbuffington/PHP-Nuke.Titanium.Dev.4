@@ -27,17 +27,17 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $prefix, $db;
+global $titanium_prefix, $titanium_db;
 
 $a = 1;
-$result = $db->sql_query("SELECT lid, title FROM ".$prefix."_links_links ORDER BY hits DESC LIMIT 0,10");
-while (list($lid, $title) = $db->sql_fetchrow($result)) {
+$result = $titanium_db->sql_query("SELECT lid, title FROM ".$titanium_prefix."_links_links ORDER BY hits DESC LIMIT 0,10");
+while (list($lid, $title) = $titanium_db->sql_fetchrow($result)) {
     $lid = intval($lid);
     $title = stripslashes($title);
     $title2 = str_replace("_", " ", $title);
     $content .= "<strong><i class=\"bi bi-link-45deg\"></i></strong>&nbsp;<font size=\"-2\">$a: <a href=\"modules.php?name=Web_Links&amp;l_op=viewlinkdetails&amp;lid=$lid&amp;ttitle=$title\">$title2</a></font><br />";
     $a++;
 }
-$db->sql_freeresult($result);
+$titanium_db->sql_freeresult($result);
 
 ?>

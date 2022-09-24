@@ -43,9 +43,9 @@
     to this source
 */
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 class Stats_template {
@@ -61,7 +61,7 @@ class Stats_template {
 
     // Root dir and hash of filenames for each template handle.
     var $root = '';
-    var $cachedir = '';
+    var $titanium_cachedir = '';
     var $files = array();
     var $compiled_data = '';
 
@@ -77,23 +77,23 @@ class Stats_template {
 
     function set_template($stats_template = '')
     {
-        global $directory_mode, $phpbb_root_path;
-        $this->root = $phpbb_root_path . 'templates/' . $stats_template . '/stats_mod';
-        $this->cachedir = $phpbb_root_path . 'modules/cache/templates/' . $stats_template . '/';
-        $module_cache_dir = $phpbb_root_path . 'modules/cache';
+        global $directory_mode, $phpbb2_root_path;
+        $this->root = $phpbb2_root_path . 'templates/' . $stats_template . '/stats_mod';
+        $this->cachedir = $phpbb2_root_path . 'modules/cache/templates/' . $stats_template . '/';
+        $titanium_module_cache_dir = $phpbb2_root_path . 'modules/cache';
         
-        if (!file_exists($module_cache_dir))
+        if (!file_exists($titanium_module_cache_dir))
         {
             @umask(0);
-            mkdir($module_cache_dir, $directory_mode);
+            mkdir($titanium_module_cache_dir, $directory_mode);
         }
 
-        $template_cache_dir = $phpbb_root_path . 'modules/cache/templates';
+        $phpbb2_template_cache_dir = $phpbb2_root_path . 'modules/cache/templates';
         
-        if (!file_exists($template_cache_dir))
+        if (!file_exists($phpbb2_template_cache_dir))
         {
             @umask(0);
-            mkdir($template_cache_dir, $directory_mode);
+            mkdir($phpbb2_template_cache_dir, $directory_mode);
         }
 
         if (!file_exists($this->cachedir))
@@ -116,7 +116,7 @@ class Stats_template {
             return false;
         }
 
-        $template_names = '';
+        $phpbb2_template_names = '';
         foreach ($filename_array as $handle => $filename)
         {
             if (empty($filename))
@@ -396,15 +396,15 @@ class Stats_template {
             }
         }
 
-        $template_php = '';
+        $phpbb2_template_php = '';
         for ($i = 0; $i < count($text_blocks); $i++)
         {
             $trim_check_text = trim($text_blocks[$i]);
             $trim_check_block = trim($compile_blocks[$i]);
-            $template_php .= (!$do_not_echo) ? ((!empty($trim_check_text)) ? 'echo \'' . $text_blocks[$i] . '\';' : '') . ((!empty($compile_blocks[$i])) ? $compile_blocks[$i] : '') : ((!empty($trim_check_text)) ? $text_blocks[$i] . "\n" : '') . ((!empty($compile_blocks[$i])) ? $compile_blocks[$i] . "\n" : '');
+            $phpbb2_template_php .= (!$do_not_echo) ? ((!empty($trim_check_text)) ? 'echo \'' . $text_blocks[$i] . '\';' : '') . ((!empty($compile_blocks[$i])) ? $compile_blocks[$i] : '') : ((!empty($trim_check_text)) ? $text_blocks[$i] . "\n" : '') . ((!empty($compile_blocks[$i])) ? $compile_blocks[$i] . "\n" : '');
         }
 
-        return  (!$do_not_echo) ? $template_php : '$' . $retvar . '.= \'' . str_replace("'", "\\'", $template_php) . '\';';
+        return  (!$do_not_echo) ? $phpbb2_template_php : '$' . $retvar . '.= \'' . str_replace("'", "\\'", $phpbb2_template_php) . '\';';
     }
 
     function compile_var_tags(&$text_blocks)
@@ -428,7 +428,7 @@ class Stats_template {
         }
 
         // This will handle the remaining root-level varrefs
-        $text_blocks = preg_replace('#\{L_([a-z0-9\-_]*?)\}#is', "' . ((isset(\$this->_tpldata['.'][0]['L_\\1'])) ? \$this->_tpldata['.'][0]['L_\\1'] : ((isset(\$lang['\\1'])) ? \$lang['\\1'] : '{ ' . ucfirst(strtolower(str_replace('_', ' ', '\\1'))) . '     }')) . '", $text_blocks);
+        $text_blocks = preg_replace('#\{L_([a-z0-9\-_]*?)\}#is', "' . ((isset(\$this->_tpldata['.'][0]['L_\\1'])) ? \$this->_tpldata['.'][0]['L_\\1'] : ((isset(\$titanium_lang['\\1'])) ? \$titanium_lang['\\1'] : '{ ' . ucfirst(strtolower(str_replace('_', ' ', '\\1'))) . '     }')) . '", $text_blocks);
         $text_blocks = preg_replace('#\{([a-z0-9\-_]*?)\}#is', "' . ((isset(\$this->_tpldata['.'][0]['\\1'])) ? \$this->_tpldata['.'][0]['\\1'] : '') . '", $text_blocks);
 
         return;
@@ -774,55 +774,55 @@ class Stats_template {
         return;
     }
 
-    function compile_cache_clear($file = 'modules/cache') 
+    function compile_titanium_cache_clear($file = 'modules/cache') 
     {
-        global $directory_mode, $phpbb_root_path;
+        global $directory_mode, $phpbb2_root_path;
 
-        if (file_exists($phpbb_root_path . $file)) 
+        if (file_exists($phpbb2_root_path . $file)) 
         {
-            chmod($phpbb_root_path . $file, $directory_mode);
+            chmod($phpbb2_root_path . $file, $directory_mode);
             
-            if (is_dir($phpbb_root_path . $file))
+            if (is_dir($phpbb2_root_path . $file))
             {
-                $dir = opendir($phpbb_root_path . $file); 
+                $dir = opendir($phpbb2_root_path . $file); 
                 while ($filename = readdir($dir)) 
                 {
                     if ($filename != '.' && $filename != '..') 
                     {
-                        $this->compile_cache_clear($file . '/' . $filename);
+                        $this->compile_titanium_cache_clear($file . '/' . $filename);
                     }
                 }
                 closedir($dir);
-                rmdir($phpbb_root_path . $file);
+                rmdir($phpbb2_root_path . $file);
             } 
             else 
             {
-                unlink($phpbb_root_path . $file);
+                unlink($phpbb2_root_path . $file);
             }
         }
     }
 
-    function compile_cache_show(&$template, $decompile = false)
+    function compile_cache_show(&$phpbb2_template, $decompile = false)
     {
-        global $phpbb_root_path;
+        global $phpbb2_root_path;
 
-        $template_cache = array();
+        $phpbb2_template_cache = array();
 
         $dp = opendir($this->cachedir);
         while ($file = readdir($dp))
         {
             if (strstr($file, '.tpl') && is_file($this->cachedir . '/' . $file))
             {
-                array_push($template_cache, $file);
+                array_push($phpbb2_template_cache, $file);
             }
         }
         closedir($dp);
         
-        for ($i = 0; $i < count($template_cache); $i++)
+        for ($i = 0; $i < count($phpbb2_template_cache); $i++)
         {
             if ($decompile)
             {
-                $contents = file($this->cachedir . '/' . $template_cache[$i]);
+                $contents = file($this->cachedir . '/' . $phpbb2_template_cache[$i]);
                 $str = '';
                 for ($j = 0; $j < count($contents); $j++)
                 {
@@ -833,7 +833,7 @@ class Stats_template {
             }
             else
             {
-                echo $template_cache[$i].'<br />';
+                echo $phpbb2_template_cache[$i].'<br />';
             }
         }
 

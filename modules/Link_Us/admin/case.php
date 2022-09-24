@@ -29,20 +29,20 @@
 -=[Mod]=-
  ************************************************************************/
  
-$module_name = basename(dirname(dirname(__FILE__)));
+$titanium_module_name = basename(dirname(dirname(__FILE__)));
 
-$lang_path = NUKE_MODULES_DIR . $module_name . '/language/';
-if (@file_exists($lang_path . 'lang-' . $currentlang . '.php'))
+$titanium_lang_path = NUKE_MODULES_DIR . $titanium_module_name . '/language/';
+if (@file_exists($titanium_lang_path . 'lang-' . $currentlang . '.php'))
 {
-    @include_once($lang_path . 'lang-' . $currentlang . '.php');
+    @include_once($titanium_lang_path . 'lang-' . $currentlang . '.php');
 }
-elseif (@file_exists($lang_path . 'lang-' . $board_config['default_lang'] . '.php'))
+elseif (@file_exists($titanium_lang_path . 'lang-' . $phpbb2_board_config['default_lang'] . '.php'))
 {
-    @include_once($lang_path . 'lang-' . $board_config['default_lang'] . '.php');
+    @include_once($titanium_lang_path . 'lang-' . $phpbb2_board_config['default_lang'] . '.php');
 }
 else
 {
-    DisplayError(_NO_ADMIN_MODULE_LANGUAGE_FOUND . $module_name);
+    DisplayError(_NO_ADMIN_MODULE_LANGUAGE_FOUND . $titanium_module_name);
 }
 
 switch($op) {
@@ -63,7 +63,7 @@ switch($op) {
 	case 'module_config':
 	case 'update_module_settings':
 	case 'button_pending':
-    include(NUKE_MODULES_DIR.$module_name.'/admin/index.php');
+    include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
     break;
 
 }

@@ -32,28 +32,28 @@ class Swift_Transport_Esmtp_Auth_CramMd5Authenticator
   }
   
   /**
-   * Try to authenticate the user with $username and $password.
-   * @param Swift_Transport_SmtpAgent $agent
-   * @param string $username
+   * Try to authenticate the user with $titanium_username and $password.
+   * @param Swift_Transport_SmtpAgent $phpbb2_agent
+   * @param string $titanium_username
    * @param string $password
    * @return boolean
    */
-  public function authenticate(Swift_Transport_SmtpAgent $agent,
-    $username, $password)
+  public function authenticate(Swift_Transport_SmtpAgent $phpbb2_agent,
+    $titanium_username, $password)
   {
     try
     {
-      $challenge = $agent->executeCommand("AUTH CRAM-MD5\r\n", array(334));
+      $challenge = $phpbb2_agent->executeCommand("AUTH CRAM-MD5\r\n", array(334));
       $challenge = base64_decode(substr($challenge, 4));
       $message = base64_encode(
-        $username . ' ' . $this->_getResponse($password, $challenge)
+        $titanium_username . ' ' . $this->_getResponse($password, $challenge)
         );
-      $agent->executeCommand(sprintf("%s\r\n", $message), array(235));
+      $phpbb2_agent->executeCommand(sprintf("%s\r\n", $message), array(235));
       return true;
     }
     catch (Swift_TransportException $e)
     {
-      $agent->executeCommand("RSET\r\n", array(250));
+      $phpbb2_agent->executeCommand("RSET\r\n", array(250));
       return false;
     }
   }

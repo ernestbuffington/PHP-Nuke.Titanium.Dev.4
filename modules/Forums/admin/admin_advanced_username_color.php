@@ -14,20 +14,20 @@
  *
  ***************************************************************************/
  
-define('IN_PHPBB', 1);
+define('IN_PHPBB2', 1);
 
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $module['AUC']['Configuration']     = $file;
+    $titanium_module['AUC']['Configuration']     = $file;
     return;
 }
 
-$phpbb_root_path = "./../";
-require($phpbb_root_path . 'extension.inc');
+$phpbb2_root_path = "./../";
+require($phpbb2_root_path . 'extension.inc');
 
 require('./pagestart.' . $phpEx);
-include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_auc.' . $phpEx);
+include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_auc.' . $phpEx);
 
     if(isset($HTTP_POST_VARS['mode']) || isset($HTTP_GET_VARS['mode']))
         {    
@@ -38,22 +38,22 @@ include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/
     $mode = '';
         }
 
-    global $prefix;
-    define('COLORS', $prefix .'_bbadvanced_username_color');    
-    $link = append_sid("admin_advanced_username_color.". $phpEx);
+    global $titanium_prefix;
+    define('COLORS', $titanium_prefix .'_bbadvanced_username_color');    
+    $link = append_titanium_sid("admin_advanced_username_color.". $phpEx);
     
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_weight = '0'";
-    $r = $db->sql_query($q);
-    while ($rows = $db->sql_fetchrow($r))
+    $r = $titanium_db->sql_query($q);
+    while ($rows = $titanium_db->sql_fetchrow($r))
         {
         if ($rows['group_id'])
             {
         $q1 = "UPDATE ". COLORS ."
                SET group_weight = '". $rows['group_id'] ."'
                WHERE group_id = '". $rows['group_id'] ."'";
-        $db->sql_query($q1);
+        $titanium_db->sql_query($q1);
             }
         }
         
@@ -65,16 +65,16 @@ include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id = '". intval($group) ."'";
-    $r = $db->sql_query($q);
-    $group_one = $db->sql_fetchrow($r);
+    $r = $titanium_db->sql_query($q);
+    $group_one = $titanium_db->sql_fetchrow($r);
     
     $above_it = $group_one['group_weight'] - 1;
     
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_weight = '". intval($above_it) ."'";
-    $r = $db->sql_query($q);
-    $group_two = $db->sql_fetchrow($r);
+    $r = $titanium_db->sql_query($q);
+    $group_two = $titanium_db->sql_fetchrow($r);
     
     $group_one_id         = $group_one['group_id'];    
     $group_one_weight     = $group_one['group_weight'];
@@ -85,12 +85,12 @@ include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/
     $q = "UPDATE ". COLORS ."
           SET group_weight = '". $group_two_weight ."'
           WHERE group_id = '". $group_one_id ."'";
-    $db->sql_query($q);
+    $titanium_db->sql_query($q);
     
     $q = "UPDATE ". COLORS ."
           SET group_weight = '". $group_one_weight ."'
           WHERE group_id = '". $group_two_id ."'";
-    $db->sql_query($q);
+    $titanium_db->sql_query($q);
     
     message_die(GENERAL_MESSAGE, 'Saved');
         }
@@ -103,16 +103,16 @@ include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id = '". intval($group) ."'";
-    $r = $db->sql_query($q);
-    $group_one = $db->sql_fetchrow($r);
+    $r = $titanium_db->sql_query($q);
+    $group_one = $titanium_db->sql_fetchrow($r);
     
     $below_it = $group_one['group_weight'] + 1;
     
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_weight = '". intval($below_it) ."'";
-    $r = $db->sql_query($q);
-    $group_two = $db->sql_fetchrow($r);
+    $r = $titanium_db->sql_query($q);
+    $group_two = $titanium_db->sql_fetchrow($r);
     
     $group_one_id         = $group_one['group_id'];    
     $group_one_weight     = $group_one['group_weight'];
@@ -123,12 +123,12 @@ include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/
     $q = "UPDATE ". COLORS ."
           SET group_weight = '". $group_two_weight ."'
           WHERE group_id = '". $group_one_id ."'";
-    $db->sql_query($q);
+    $titanium_db->sql_query($q);
     
     $q = "UPDATE ". COLORS ."
           SET group_weight = '". $group_one_weight ."'
           WHERE group_id = '". $group_two_id ."'";
-    $db->sql_query($q);
+    $titanium_db->sql_query($q);
     
     message_die(GENERAL_MESSAGE, 'Saved');
         }
@@ -138,7 +138,7 @@ if($mode == "main" || !$mode)
     echo "<table width='100%' border='0' class='forumline' cellspacing='2' align='center' valign='middle'>";
     echo "    <tr>";
     echo "        <th class='thHead'>";
-    echo "            ". $lang['admin_main_header_c'];
+    echo "            ". $titanium_lang['admin_main_header_c'];
     echo "        </th>";
     echo "    </tr>";
     echo "</table>";
@@ -147,29 +147,29 @@ if($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <th class='thHead' align='center' width='25%'>&nbsp;</th>";
     echo "        <th class='thHead' align='center' width='25%'>";    
-    echo "            ". $lang['view_group_names'];
+    echo "            ". $titanium_lang['view_group_names'];
     echo "        </th>";
     echo "        <th class='thHead' align='center' width='25%'>";    
-    echo "            ". $lang['view_group_colors'];    
+    echo "            ". $titanium_lang['view_group_colors'];    
     echo "        </th>";
     echo "        <th class='thHead' align='center' width='25%'>";    
-    echo "            ". $lang['view_group_colors_2'];    
+    echo "            ". $titanium_lang['view_group_colors_2'];    
     echo "        </th>";        
     echo "    </tr>";
 
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id > '0'";
-    $r        = $db -> sql_query($q);
-    $total    = $db->sql_numrows($r);    
+    $r        = $titanium_db -> sql_query($q);
+    $total    = $titanium_db->sql_numrows($r);    
     
     $w = 1;
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id > '0'
           ORDER BY group_weight ASC";
-    $r            = $db -> sql_query($q);
-    while($row     = $db -> sql_fetchrow($r))
+    $r            = $titanium_db -> sql_query($q);
+    while($row     = $titanium_db -> sql_fetchrow($r))
         {    
         if ($w != 1)
             $links = '&nbsp;&nbsp;<a href="admin_advanced_username_color.'. $phpEx .'?mode=move_up&amp;id='. $row['group_id'] .'&amp;sid='. $userdata['session_id'] .'">Up</a>';
@@ -194,7 +194,7 @@ if($mode == "main" || !$mode)
     echo "        </td>";
     echo "        <td align='left' width='25%' class='row2'>";
     echo "            <span class='genmed'>";            
-    echo "                <font color='#". $row['group_color'] ."'>". $lang['view_group_colors_3'] ."</font>";    
+    echo "                <font color='#". $row['group_color'] ."'>". $titanium_lang['view_group_colors_3'] ."</font>";    
     echo "            </span>";    
     echo "        </td>";                
     echo "    </tr>";
@@ -206,7 +206,7 @@ if($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='center' valign='top' width='100%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $lang['add_new_color'];
+    echo "                ". $titanium_lang['add_new_color'];
     echo "            </span>";
     echo "        </td>";
     echo "    </tr>";        
@@ -216,7 +216,7 @@ if($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='left' valign='top' width='50%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $lang['add_new_color_1'];
+    echo "                ". $titanium_lang['add_new_color_1'];
     echo "            </span>";
     echo "        </td>";
     echo "        <td align='center' valign='top' width='50%' class='row2'>";            
@@ -226,7 +226,7 @@ if($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='left' valign='top' width='50%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $lang['add_new_color_2'];
+    echo "                ". $titanium_lang['add_new_color_2'];
     echo "            </span>";
     echo "        </td>";
     echo "        <td align='center' valign='top' width='50%' class='row2'>";            
@@ -239,7 +239,7 @@ if($mode == "main" || !$mode)
     echo "    <tr>";    
     echo "        <td align='center' valign='middle' width='100%' class='row2'>";    
     echo "            <input type='hidden' name='mode' value='add_new_color'>";            
-    echo "            <input type='submit' class='mainoption' value='". $lang['add_new_color_3'] ."' onchange='document.add_color.submit()'>";       
+    echo "            <input type='submit' class='mainoption' value='". $titanium_lang['add_new_color_3'] ."' onchange='document.add_color.submit()'>";       
     echo "        </td>";
     echo "    </tr>";                    
     echo "</table>";    
@@ -250,7 +250,7 @@ if($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='center' valign='top' width='100%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $lang['edit_color'];
+    echo "                ". $titanium_lang['edit_color'];
     echo "            </span>";
     echo "        </td>";
     echo "    </tr>";        
@@ -260,19 +260,19 @@ if($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='left' valign='top' width='50%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $lang['edit_color_1'];
+    echo "                ". $titanium_lang['edit_color_1'];
     echo "            </span>";
     echo "        </td>";
     echo "        <td align='center' valign='top' width='50%' class='row2'>";            
     echo "            <select name='group'>";
-    echo "                <option selected value=''>". $lang['edit_color_2'] ."</option>";
+    echo "                <option selected value=''>". $titanium_lang['edit_color_2'] ."</option>";
     
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id > '0'
           ORDER BY group_name ASC";
-    $r            = $db -> sql_query($q);
-    while($row     = $db -> sql_fetchrow($r))
+    $r            = $titanium_db -> sql_query($q);
+    while($row     = $titanium_db -> sql_fetchrow($r))
         {    
     $name     = $row['group_name'];
     $id     = $row['group_id'];    
@@ -288,7 +288,7 @@ if($mode == "main" || !$mode)
     echo "    <tr>";    
     echo "        <td align='center' valign='middle' width='100%' class='row2'>";    
     echo "            <input type='hidden' name='mode' value='edit_exis_group'>";            
-    echo "            <input type='submit' class='mainoption' value='". $lang['edit_color_3'] ."' onchange='document.edit_group.submit()'>";       
+    echo "            <input type='submit' class='mainoption' value='". $titanium_lang['edit_color_3'] ."' onchange='document.edit_group.submit()'>";       
     echo "        </td>";
     echo "    </tr>";                    
     echo "</table>";    
@@ -299,7 +299,7 @@ if($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='center' valign='top' width='100%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $lang['delete_color'];
+    echo "                ". $titanium_lang['delete_color'];
     echo "            </span>";
     echo "        </td>";
     echo "    </tr>";        
@@ -309,19 +309,19 @@ if($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='left' valign='top' width='50%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $lang['delete_color_1'];
+    echo "                ". $titanium_lang['delete_color_1'];
     echo "            </span>";
     echo "        </td>";
     echo "        <td align='center' valign='top' width='50%' class='row2'>";            
     echo "            <select name='group'>";
-    echo "                <option selected value=''>". $lang['delete_color_2'] ."</option>";
+    echo "                <option selected value=''>". $titanium_lang['delete_color_2'] ."</option>";
     
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id > '0'
           ORDER BY group_name ASC";
-    $r            = $db -> sql_query($q);
-    while($row     = $db -> sql_fetchrow($r))
+    $r            = $titanium_db -> sql_query($q);
+    while($row     = $titanium_db -> sql_fetchrow($r))
         {    
     $name     = $row['group_name'];
     $id     = $row['group_id'];    
@@ -337,7 +337,7 @@ if($mode == "main" || !$mode)
     echo "    <tr>";    
     echo "        <td align='center' valign='middle' width='100%' class='row2'>";    
     echo "            <input type='hidden' name='mode' value='del_exis_group'>";            
-    echo "            <input type='submit' class='mainoption' value='". $lang['delete_color_3'] ."' onchange='document.del_group.submit()'>";       
+    echo "            <input type='submit' class='mainoption' value='". $titanium_lang['delete_color_3'] ."' onchange='document.del_group.submit()'>";       
     echo "        </td>";
     echo "    </tr>";                    
     echo "</table>";    
@@ -442,18 +442,18 @@ if($mode == "main" || !$mode)
         {
     $to_delete = $_POST['group'];
     if(!$to_delete) 
-        message_die(GENERAL_ERROR, $lang['delete_error'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
+        message_die(GENERAL_ERROR, $titanium_lang['delete_error'] . "<br /><br />" . sprintf($titanium_lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $titanium_lang['error']);
     
     $q = "DELETE FROM ". COLORS ."
           WHERE group_id = '". $to_delete ."'";
-    $r = $db -> sql_query($q);
+    $r = $titanium_db -> sql_query($q);
     
     #==== Update all users for this group
     $q = "SELECT user_color_gi, user_id
           FROM ". USERS_TABLE ."
           WHERE user_color_gi <> '0'";
-    $r         = $db->sql_query($q);
-    $row     = $db->sql_fetchrowset($r);
+    $r         = $titanium_db->sql_query($q);
+    $row     = $titanium_db->sql_fetchrowset($r);
     
         for ($a = 0; $a < count($row); $a++)
             {
@@ -470,8 +470,8 @@ if($mode == "main" || !$mode)
                     {
                 $q = "SELECT group_color, group_id
                       FROM ". COLORS ."";
-                $r = $db->sql_query($q);
-                $groups_info = $db->sql_fetchrowset($r);
+                $r = $titanium_db->sql_query($q);
+                $groups_info = $titanium_db->sql_fetchrowset($r);
                 
                     for ($b = 0; $b < count($groups_info); $b++)
                         {
@@ -491,33 +491,33 @@ if($mode == "main" || !$mode)
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                 $cache->delete('UserColors', 'config');
+                 $titanium_cache->delete('UserColors', 'config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $db->sql_query($q1);                        
+                $titanium_db->sql_query($q1);                        
             break;
                 }
             }
             
-    message_die(GENERAL_MESSAGE, $lang['delete_success'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['success']);
+    message_die(GENERAL_MESSAGE, $titanium_lang['delete_success'] . "<br /><br />" . sprintf($titanium_lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $titanium_lang['success']);
         }
         
     if($mode == "edit_exis_group")
         {
-    $color = $_POST['group'];    
-    if(!$color) message_die(GENERAL_ERROR, $lang['edit_error'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
+    $phpbb2_color = $_POST['group'];    
+    if(!$phpbb2_color) message_die(GENERAL_ERROR, $titanium_lang['edit_error'] . "<br /><br />" . sprintf($titanium_lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $titanium_lang['error']);
     
     $q = "SELECT *
           FROM ". COLORS ."
-          WHERE group_id = '". $color ."'";
-    $r            = $db -> sql_query($q);
-    $row         = $db -> sql_fetchrow($r);
+          WHERE group_id = '". $phpbb2_color ."'";
+    $r            = $titanium_db -> sql_query($q);
+    $row         = $titanium_db -> sql_fetchrow($r);
     
     echo "<table width='100%' border='0' class='forumline' cellspacing='2' align='center' valign='middle'>";
     echo "    <tr>";
     echo "        <th class='thHead' colspan='2'>";
-    echo "            ". $lang['admin_main_header_c'];
+    echo "            ". $titanium_lang['admin_main_header_c'];
     echo "        </th>";
     echo "    </tr>";
     echo "</table>";
@@ -526,7 +526,7 @@ if($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='center' valign='top' width='100%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $lang['editing_color'];
+    echo "                ". $titanium_lang['editing_color'];
     echo "            </span>";
     echo "        </td>";
     echo "    </tr>";        
@@ -536,7 +536,7 @@ if($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='left' valign='top' width='50%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $lang['editing_color_1'];
+    echo "                ". $titanium_lang['editing_color_1'];
     echo "            </span>";
     echo "        </td>";
     echo "        <td align='center' valign='top' width='50%' class='row2'>";            
@@ -546,7 +546,7 @@ if($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='left' valign='top' width='50%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $lang['editing_color_2'];
+    echo "                ". $titanium_lang['editing_color_2'];
     echo "            </span>";
     echo "        </td>";
     echo "        <td align='center' valign='top' width='50%' class='row2'>";            
@@ -561,7 +561,7 @@ if($mode == "main" || !$mode)
     echo "            <input type='hidden' name='mode' value='save_new_color'>"; 
     echo "            <input type='hidden' name='old_name' value='". $row['group_name'] ."'>";
     echo "            <input type='hidden' name='id' value='". $row['group_id'] ."'>";                    
-    echo "            <input type='submit' class='mainoption' value='". $lang['editing_color_3'] ."' onchange='document.save_color.submit()'>";       
+    echo "            <input type='submit' class='mainoption' value='". $titanium_lang['editing_color_3'] ."' onchange='document.save_color.submit()'>";       
     echo "        </td>";
     echo "    </tr>";                    
     echo "</table>";    
@@ -576,76 +576,76 @@ if($mode == "main" || !$mode)
     $old_name     = $_POST['old_name'];
     $id            = $_POST['id'];
     
-    if(!$new_name || !$new_color) message_die(GENERAL_ERROR, $lang['save_error'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
-    if(strlen($new_color) <> 6) message_die(GENERAL_ERROR, $lang['add_error_3'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
+    if(!$new_name || !$new_color) message_die(GENERAL_ERROR, $titanium_lang['save_error'] . "<br /><br />" . sprintf($titanium_lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $titanium_lang['error']);
+    if(strlen($new_color) <> 6) message_die(GENERAL_ERROR, $titanium_lang['add_error_3'] . "<br /><br />" . sprintf($titanium_lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $titanium_lang['error']);
 
     $q = "SELECT group_name
           FROM ". COLORS ."
           WHERE group_name = '". $new_name ."'";
-    $r            = $db -> sql_query($q);
-    $row         = $db -> sql_fetchrow($r);
+    $r            = $titanium_db -> sql_query($q);
+    $row         = $titanium_db -> sql_fetchrow($r);
     $exists = $row['group_name'];
     
         if($new_name != $old_name)
             {
-        if($exists == $new_name) message_die(GENERAL_ERROR, $lang['save_error_1'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
+        if($exists == $new_name) message_die(GENERAL_ERROR, $titanium_lang['save_error_1'] . "<br /><br />" . sprintf($titanium_lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $titanium_lang['error']);
             }    
     
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id = '". $id ."'";
-    $r            = $db -> sql_query($q);
-    $row         = $db -> sql_fetchrow($r);
+    $r            = $titanium_db -> sql_query($q);
+    $row         = $titanium_db -> sql_fetchrow($r);
     $current_c     = $row['group_color'];
                     
     $q = "UPDATE ". COLORS ."
           SET group_name = '". $new_name ."', group_color = '". $new_color ."'
           WHERE group_id = '". $id ."'";
-    $r = $db -> sql_query($q);
+    $r = $titanium_db -> sql_query($q);
     
     $q = "UPDATE ". USERS_TABLE ."
           SET user_color_gc = '". $new_color ."'
           WHERE user_color_gc = '". $current_c ."'";
-    $r = $db -> sql_query($q);    
+    $r = $titanium_db -> sql_query($q);    
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-     $cache->delete('UserColors', 'config');
+     $titanium_cache->delete('UserColors', 'config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    message_die(GENERAL_MESSAGE, $lang['add_success'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['success']);                    
+    message_die(GENERAL_MESSAGE, $titanium_lang['add_success'] . "<br /><br />" . sprintf($titanium_lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $titanium_lang['success']);                    
         }
         
     if($mode == "add_new_color")
         {
-    $color_name        = $_POST['new_name'];
-    $color_color    = $_POST['new_color'];
+    $phpbb2_color_name        = $_POST['new_name'];
+    $phpbb2_color_color    = $_POST['new_color'];
     
-    if(!$color_name || !$color_color) message_die(GENERAL_ERROR, $lang['add_error'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
-    if(strlen($color_color) <> 6) message_die(GENERAL_ERROR, $lang['add_error_3'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
+    if(!$phpbb2_color_name || !$phpbb2_color_color) message_die(GENERAL_ERROR, $titanium_lang['add_error'] . "<br /><br />" . sprintf($titanium_lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $titanium_lang['error']);
+    if(strlen($phpbb2_color_color) <> 6) message_die(GENERAL_ERROR, $titanium_lang['add_error_3'] . "<br /><br />" . sprintf($titanium_lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $titanium_lang['error']);
         
     $q = "SELECT group_name
           FROM ". COLORS ."
-          WHERE group_name = '". $color_name ."'";
-    $r            = $db -> sql_query($q);
-    $row         = $db -> sql_fetchrow($r);
+          WHERE group_name = '". $phpbb2_color_name ."'";
+    $r            = $titanium_db -> sql_query($q);
+    $row         = $titanium_db -> sql_fetchrow($r);
     
     if($row['group_name']) 
-        message_die(GENERAL_ERROR, $lang['add_error_2'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
+        message_die(GENERAL_ERROR, $titanium_lang['add_error_2'] . "<br /><br />" . sprintf($titanium_lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $titanium_lang['error']);
 
     $q = "SELECT MAX(group_weight) AS max_weight
           FROM ". COLORS ."";
-    $r        = $db -> sql_query($q);
-    $next    = $db -> sql_fetchrow($r);
+    $r        = $titanium_db -> sql_query($q);
+    $next    = $titanium_db -> sql_fetchrow($r);
         
     $weight = $next['max_weight'] + 1;
     
     $q = "INSERT INTO ". COLORS ."
-          VALUES (NULL, '". $color_name ."', '". $color_color ."', '". $weight ."')";
-    $r = $db -> sql_query($q);
+          VALUES (NULL, '". $phpbb2_color_name ."', '". $phpbb2_color_color ."', '". $weight ."')";
+    $r = $titanium_db -> sql_query($q);
                 
-    message_die(GENERAL_MESSAGE, $lang['add_success'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['success']);        
+    message_die(GENERAL_MESSAGE, $titanium_lang['add_success'] . "<br /><br />" . sprintf($titanium_lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $titanium_lang['success']);        
         }
 
 include('page_footer_admin.' . $phpEx);

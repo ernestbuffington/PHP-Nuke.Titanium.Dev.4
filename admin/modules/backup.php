@@ -26,7 +26,7 @@ if (!defined('ADMIN_FILE')) {
    die ("Illegal File Access");
 }
 
-global $prefix, $db, $admdata, $dbname, $cache;
+global $titanium_prefix, $titanium_db, $admdata, $titanium_dbname, $titanium_cache;
 
 function ABCoolSize($size) {
   $kb = 1024;
@@ -48,15 +48,15 @@ if (is_mod_admin())
 {
   
 $crlf = "\n";
-$filename = $dbname.'_'.date('d-m-Y').'.sql';
-$tablelist = (isset($_POST['tablelist'])) ? $_POST['tablelist'] : $db->sql_fetchtables($dbname);
+$filename = $titanium_dbname.'_'.date('d-m-Y').'.sql';
+$tablelist = (isset($_POST['tablelist'])) ? $_POST['tablelist'] : $titanium_db->sql_fetchtables($titanium_dbname);
 @set_time_limit(0);
 
 switch ($op) {
     case 'BackupDB':
         if (empty($tablelist)) { echo('No tables found'); }
         require_once(NUKE_CLASSES_DIR.'class.database.php');
-        DB::backup($dbname, $tablelist, $filename, isset($_POST['dbstruct']), isset($_POST['dbdata']), isset($_POST['drop']), isset($_POST['gzip']));
+        DB::backup($titanium_dbname, $tablelist, $filename, isset($_POST['dbstruct']), isset($_POST['dbdata']), isset($_POST['drop']), isset($_POST['gzip']));
         break;
     
 	case 'OptimizeDB':
@@ -79,24 +79,24 @@ switch ($op) {
       echo '<td align="right" width="15%"><strong>'._AB_GAINED.'</strong></td>'."\n";
       echo '</tr>'."\n";
      $tot_data = $tot_idx = $tot_all = $tot_records = 0;
-     $result = $db->sql_query("SHOW TABLE STATUS FROM `".$dbname."`");
-     $tables = $db ->sql_numrows($result);
+     $result = $titanium_db->sql_query("SHOW TABLE STATUS FROM `".$titanium_dbname."`");
+     $tables = $titanium_db ->sql_numrows($result);
      if($tables > 0) {
-       $total_total = $total_gain = 0;
-       while($row = $db->sql_fetchrow($result)) {
-         $checkrow = $db->sql_fetchrow($db->sql_query("CHECK TABLE $row[0]"));
+       $total_phpbb2_total = $total_phpbb2_gain = 0;
+       while($row = $titanium_db->sql_fetchrow($result)) {
+         $checkrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("CHECK TABLE $row[0]"));
          $records = $row['Rows'];
          $tot_records += $records;
          $total = ($row['Data_length'] + $row['Index_length']) - $row['Data_free'];
-         $total_total += $total;
+         $total_phpbb2_total += $total;
          $gain = $row['Data_free'];
          if($gain>0) {
-           $optimizerow = $db->sql_fetchrow($db->sql_query("OPTIMIZE TABLE $row[0]"));
+           $optimizerow = $titanium_db->sql_fetchrow($titanium_db->sql_query("OPTIMIZE TABLE $row[0]"));
            $status = _AB_OPTIMIZED;
          } else {
            $status = $checkrow['Msg_text'];
          }
-         $total_gain += $gain;
+         $total_phpbb2_gain += $gain;
          $total = ABCoolSize($total);
          if($gain < 1) { $gain = "--"; } else { $gain = ABCoolSize($gain); }
          if(!$row['Engine']) { $etype = $row['Type']; } else { $etype = $row['Engine']; }
@@ -109,15 +109,15 @@ switch ($op) {
          echo '<td align="right">'.$gain.'</td>'."\n";
          echo '</tr>'."\n";
        }
-       $total_total = ABCoolSize($total_total);
-       $total_gain = ABCoolSize($total_gain);
+       $total_phpbb2_total = ABCoolSize($total_phpbb2_total);
+       $total_phpbb2_gain = ABCoolSize($total_phpbb2_gain);
        echo '<tr>'."\n";
        echo '<td><strong>'.$tables.' '._AB_TABLES.'</strong></td>'."\n";
        echo '<td align="center"><strong>&nbsp;</strong></td>'."\n";
        echo '<td align="right"><strong>&nbsp;</strong></td>'."\n";
        echo '<td align="right"><strong>'.number_format($tot_records).'</strong></td>'."\n";
-       echo '<td align="right"><strong>'.$total_total.'</strong></td>'."\n";
-       echo '<td align="right"><strong>'.$total_gain.'</strong></td>'."\n";
+       echo '<td align="right"><strong>'.$total_phpbb2_total.'</strong></td>'."\n";
+       echo '<td align="right"><strong>'.$total_phpbb2_gain.'</strong></td>'."\n";
        echo '</tr>'."\n";
      }
      echo '</table>'."\n";
@@ -150,14 +150,14 @@ switch ($op) {
     echo '<td align="right" width="15%"><strong>'._AB_SIZE.'</strong></td>'."\n";
     echo '</tr>'."\n";
     $tot_data = $tot_idx = $tot_all = $tot_records = 0;
-    $result = $db->sql_query("SHOW TABLE STATUS FROM `".$dbname."`");
-    $tables = $db ->sql_numrows($result);
+    $result = $titanium_db->sql_query("SHOW TABLE STATUS FROM `".$titanium_dbname."`");
+    $tables = $titanium_db ->sql_numrows($result);
     if($tables > 0) {
-      $total_total = 0;
-      while($row = $db->sql_fetchrow($result)) {
-        $checkrow = $db->sql_fetchrow($db->sql_query("CHECK TABLE $row[0]"));
+      $total_phpbb2_total = 0;
+      while($row = $titanium_db->sql_fetchrow($result)) {
+        $checkrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("CHECK TABLE $row[0]"));
         if($checkrow['Msg_text'] != "OK") {
-          $repairrow = $db->sql_fetchrow($db->sql_query("REPAIR TABLE $row[Table] EXTENDED"));
+          $repairrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("REPAIR TABLE $row[Table] EXTENDED"));
           $status = $repairrow['Msg_text'];
         } else {
           $status = $checkrow['Msg_text'];
@@ -165,7 +165,7 @@ switch ($op) {
         $records = $row['Rows'];
         $tot_records += $records;
         $total = $row['Data_length'] + $row['Index_length'];
-        $total_total += $total;
+        $total_phpbb2_total += $total;
         $total = ABCoolSize($total);
         if(!$row['Engine']) { $etype = $row['Type']; } else { $etype = $row['Engine']; }
         echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
@@ -176,13 +176,13 @@ switch ($op) {
         echo '<td align="right">'.$total.'</td>'."\n";
         echo '</tr>'."\n";
       }
-      $total_total = ABCoolSize($total_total);
+      $total_phpbb2_total = ABCoolSize($total_phpbb2_total);
       echo '<tr>'."\n";
       echo '<td><strong>'.$tables.' '._AB_TABLES.'</strong></td>'."\n";
       echo '<td align="center"><strong>&nbsp;</strong></td>'."\n";
       echo '<td align="right"><strong>&nbsp;</strong></td>'."\n";
       echo '<td align="right"><strong>'.number_format($tot_records).'</strong></td>'."\n";
-      echo '<td align="right"><strong>'.$total_total.'</strong></td>'."\n";
+      echo '<td align="right"><strong>'.$total_phpbb2_total.'</strong></td>'."\n";
       echo '</tr>'."\n";
     }
     echo '</table>'."\n";
@@ -214,19 +214,19 @@ switch ($op) {
         echo '<td align="right" width="15%"><strong>'._AB_OVERHEAD.'</strong></td>'."\n";
         echo '</tr>'."\n";
         $tot_data = $tot_idx = $tot_all = $tot_records = 0;
-        $result = $db->sql_query("SHOW TABLE STATUS FROM `".$dbname."`");
-        $tables = $db ->sql_numrows($result);
+        $result = $titanium_db->sql_query("SHOW TABLE STATUS FROM `".$titanium_dbname."`");
+        $tables = $titanium_db ->sql_numrows($result);
         if($tables > 0) {
-          $total_total = $total_gain = 0;
-          while($row = $db->sql_fetchrow($result)) {
-            $checkrow = $db->sql_fetchrow($db->sql_query("CHECK TABLE $row[0]"));
+          $total_phpbb2_total = $total_phpbb2_gain = 0;
+          while($row = $titanium_db->sql_fetchrow($result)) {
+            $checkrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("CHECK TABLE $row[0]"));
             $status = $checkrow['Msg_text'];
             $records = $row['Rows'];
             $tot_records += $records;
             $total = $row['Data_length'] + $row['Index_length'];
-            $total_total += $total;
+            $total_phpbb2_total += $total;
             $gain= $row['Data_free'];
-            $total_gain += $gain;
+            $total_phpbb2_gain += $gain;
             $total = ABCoolSize($total);
             if($gain < 1) { $gain = '--'; } else { $gain = ABCoolSize($gain); }
             if(!$row['Engine']) { $etype = $row['Type']; } else { $etype = $row['Engine']; }
@@ -239,15 +239,15 @@ switch ($op) {
             echo '<td align="right">'.$gain.'</td>'."\n";
             echo '</tr>'."\n";
           }
-          $total_total = ABCoolSize($total_total);
-          $total_gain = ABCoolSize($total_gain);
+          $total_phpbb2_total = ABCoolSize($total_phpbb2_total);
+          $total_phpbb2_gain = ABCoolSize($total_phpbb2_gain);
           echo '<tr>'."\n";
           echo '<td><strong>'.$tables.' '._AB_TABLES.'</strong></td>'."\n";
           echo '<td align="center"><strong>&nbsp;</strong></td>'."\n";
           echo '<td align="center"><strong>&nbsp;</strong></td>'."\n";
           echo '<td align="right"><strong>'.number_format($tot_records).'</strong></td>'."\n";
-          echo '<td align="right"><strong>'.$total_total.'</strong></td>'."\n";
-          echo '<td align="right"><strong>'.$total_gain.'</strong></td>'."\n";
+          echo '<td align="right"><strong>'.$total_phpbb2_total.'</strong></td>'."\n";
+          echo '<td align="right"><strong>'.$total_phpbb2_gain.'</strong></td>'."\n";
           echo '</tr>'."\n";
         }
     echo '</table>'."\n";
@@ -271,9 +271,9 @@ switch ($op) {
         require_once(NUKE_CLASSES_DIR.'class.database.php');
 
         if (!DB::query_file($_FILES['sqlfile'], $error)) { echo($error); }
-        $cache->clear();
+        $titanium_cache->clear();
         OpenTable();
-        echo '<span><strong>'._DATABASE.': '.$dbname.'</strong></span><br /><br />'.sprintf(_IMPORTSUCCESS, $_FILES['sqlfile']['name']);
+        echo '<span><strong>'._DATABASE.': '.$titanium_dbname.'</strong></span><br /><br />'.sprintf(_IMPORTSUCCESS, $_FILES['sqlfile']['name']);
         CloseTable();
         
         OpenTable();

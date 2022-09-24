@@ -13,7 +13,7 @@
 if (!defined('ADMIN_FILE')) 
    exit('THIS FILE WAS NOT CALLED WITHIN ADMINISTRATION');
 
-global $admin_file, $module_title;
+global $admin_file, $titanium_module_title;
 adminmenu($admin_file.'.php?op=file_repository', 'File Repository', 'file_repository.png');
 
 ?>

@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $db2;
+global $titanium_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']." ::: "._NETWORK_GENCONFIG." ::: ";
 include_once(NUKE_BASE_DIR.'header.php');
@@ -32,17 +32,17 @@ while($file = readdir($handle))
 {
   if( (!preg_match("/[.]/",$file) AND file_exists("modules/$file/index.php")) ) 
   { 
-    $modulelist .= "$file "; 
+    $titanium_modulelist .= "$file "; 
   }
 }
 closedir($handle);
-$modulelist = explode(" ", $modulelist);
-sort($modulelist);
-for($i=0; $i < sizeof($modulelist); $i++) {
-  if($modulelist[$i]!="") {
-    echo "<option value=\"$modulelist[$i]\" ";
-    if($modulelist[$i] == $pj_config['location']) echo "selected";
-    echo ">$modulelist[$i]\n";
+$titanium_modulelist = explode(" ", $titanium_modulelist);
+sort($titanium_modulelist);
+for($i=0; $i < sizeof($titanium_modulelist); $i++) {
+  if($titanium_modulelist[$i]!="") {
+    echo "<option value=\"$titanium_modulelist[$i]\" ";
+    if($titanium_modulelist[$i] == $pj_config['location']) echo "selected";
+    echo ">$titanium_modulelist[$i]\n";
   }
 }
 echo "</select><br />"._NETWORK_MODLOCATIONNOTE." $modlocation<br />"._NETWORK_MODLOCATIONNOTE2."</td></tr>\n";

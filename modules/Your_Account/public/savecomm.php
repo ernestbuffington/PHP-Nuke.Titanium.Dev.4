@@ -38,15 +38,15 @@ if (!defined('CNBYA')) {
     global $cookie, $userinfo;
     $check = $cookie[1];
     $check2 = $cookie[2];
-    $result = $db->sql_query("SELECT user_id, user_password FROM ".$user_prefix."_users WHERE username='$check'");
-    $row = $db->sql_fetchrow($result);
+    $result = $titanium_db->sql_query("SELECT user_id, user_password FROM ".$titanium_user_prefix."_users WHERE username='$check'");
+    $row = $titanium_db->sql_fetchrow($result);
     $vuid = $row['user_id'];
     $ccpass = $row['user_password'];
-    if (($user_id == $vuid) AND ($check2 == $ccpass)) {
+    if (($titanium_user_id == $vuid) AND ($check2 == $ccpass)) {
         if(isset($noscore)) $noscore=1; else $noscore=0;
-        $db->sql_query("UPDATE ".$user_prefix."_users SET umode='$umode', uorder='$uorder', thold='$thold', noscore='$noscore', commentmax='$commentmax' WHERE user_id='$user_id'");
+        $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET umode='$umode', uorder='$uorder', thold='$thold', noscore='$noscore', commentmax='$commentmax' WHERE user_id='$titanium_user_id'");
         yacookie($userinfo[user_id],$userinfo[username],$userinfo[user_password],$userinfo[storynum],$userinfo[umode],$userinfo[uorder],$userinfo[thold],$userinfo[noscore],$userinfo[ublockon],$userinfo[theme],$userinfo[commentmax]);
-        redirect("modules.php?name=$module_name");
+        redirect_titanium("modules.php?name=$titanium_module_name");
     }
 
 ?>

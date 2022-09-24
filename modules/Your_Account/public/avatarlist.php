@@ -49,7 +49,7 @@ if (!defined('CNBYA')) {
     echo "<center>";
     
     //avatarfix by menelaos dot hetnet dot nl
-    $direktori = $board_config['avatar_gallery_path'];
+    $direktori = $phpbb2_board_config['avatar_gallery_path'];
     $d = dir("$direktori/$avatarcategory");
     
     $temcount = 1;
@@ -74,7 +74,7 @@ if (!defined('CNBYA')) {
                 $a=1;
                 
                 //avatarfix by menelaos dot hetnet dot nl
-                echo "<a href=\"modules.php?name=$module_name&amp;op=avatarsave&amp;category=$avatarcategory&amp;avatar=$entry\"><img src=\"$direktori/$avatarcategory/$entry\" border=\"0\" alt=\"$entryname\" title=\"$entryname\" hspace=\"10\" vspace=\"10\"></a>";
+                echo "<a href=\"modules.php?name=$titanium_module_name&amp;op=avatarsave&amp;category=$avatarcategory&amp;avatar=$entry\"><img src=\"$direktori/$avatarcategory/$entry\" border=\"0\" alt=\"$entryname\" title=\"$entryname\" hspace=\"10\" vspace=\"10\"></a>";
             }
             if ($temcount == 10) {
                 echo "<br />";

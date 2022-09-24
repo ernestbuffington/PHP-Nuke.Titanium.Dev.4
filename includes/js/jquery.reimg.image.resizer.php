@@ -17,13 +17,13 @@
 global $ThemeSel, $img_resize, $ThemeSel;
 if ($img_resize) 
 {
-	global $img_width, $img_height, $board_config;
+	global $img_width, $img_height, $phpbb2_board_config;
 	$JStoBody  = '<script type="text/javascript">'.PHP_EOL;
 
-	if (!defined('IN_PHPBB'))
+	if (!defined('IN_PHPBB2'))
 		$JStoBody .= '  var reimg_maxWidth          = '.$img_width.', reimg_maxHeight = '.$img_height.', reimg_relWidth = 0;'.PHP_EOL;
 	else
-		$JStoBody .= '  var reimg_maxWidth          = '.$board_config['image_resize_width'].', reimg_maxHeight = '.$board_config['image_resize_height'].', reimg_relWidth = 0;'.PHP_EOL;
+		$JStoBody .= '  var reimg_maxWidth          = '.$phpbb2_board_config['image_resize_width'].', reimg_maxHeight = '.$phpbb2_board_config['image_resize_height'].', reimg_relWidth = 0;'.PHP_EOL;
 	$JStoBody .= '  var reimg_swapPortrait      = true;'.PHP_EOL;
 	$JStoBody .= '  var reimg_loadingImg        = "images/spacer.gif";'.PHP_EOL;
 	$JStoBody .= '  var reimg_loadingStyle      = "width: 126px; height: 22px; background: url(./includes/css/images/reimg-image-resizer/loading.gif) top left no-repeat;";'.PHP_EOL;

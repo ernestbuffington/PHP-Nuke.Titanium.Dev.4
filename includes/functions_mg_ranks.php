@@ -18,62 +18,62 @@
  ***************************************************************************/
 function query_ranks()
 {
-	global $db;
+	global $titanium_db;
 
 	$sql = "SELECT ban_userid FROM ".BANLIST_TABLE." ORDER BY ban_userid ASC";
-	if(!($result = $db->sql_query($sql)))
+	if(!($result = $titanium_db->sql_query($sql)))
 	message_die(GENERAL_ERROR, "Could not obtain banned users information.", '', __LINE__, __FILE__, $sql);
 	
 	$ranks_sql = array();
-	$ranks_sql['bannedrow'][] = $db->sql_fetchrowset($result);
-	$db->sql_freeresult($result);
+	$ranks_sql['bannedrow'][] = $titanium_db->sql_fetchrowset($result);
+	$titanium_db->sql_freeresult($result);
 
 	$sql = "SELECT * FROM ".RANKS_TABLE." ORDER BY rank_special ASC, rank_min ASC";
 
-	if(!($result = $db->sql_query($sql)))
+	if(!($result = $titanium_db->sql_query($sql)))
 	message_die(GENERAL_ERROR, "Could not obtain ranks information.", '', __LINE__, __FILE__, $sql);
 
-	while($row = $db->sql_fetchrow($result)):
+	while($row = $titanium_db->sql_fetchrow($result)):
 	$ranks_sql['ranksrow'][] = $row;
 	endwhile;
-	$db->sql_freeresult($result);
+	$titanium_db->sql_freeresult($result);
 
 	return $ranks_sql;
 }
 
 
-function generate_ranks($user_row, $ranks_sql)
+function generate_ranks($titanium_user_row, $ranks_sql)
 {
-	$user_fields_array = array(
+	$titanium_user_fields_array = array(
 		'user_rank',
 		'user_rank2',
 		'user_rank3',
 		'user_rank4',
 		'user_rank5'
 	);
-	$user_ranks_array = array(
+	$titanium_user_ranks_array = array(
 		'rank_01', 'rank_01_img',
 		'rank_02', 'rank_02_img',
 		'rank_03', 'rank_03_img',
 		'rank_04', 'rank_04_img',
 		'rank_05', 'rank_05_img',
 	);
-	$user_ranks = array();
+	$titanium_user_ranks = array();
 	
 	$is_banned = false;
 	$is_guest = false;
 	$rank_sw = false;
 
-	for($j = 0; $j < count($user_ranks_array); $j++):
-		$user_ranks[$user_ranks_array[$j]] = '';
+	for($j = 0; $j < count($titanium_user_ranks_array); $j++):
+		$titanium_user_ranks[$titanium_user_ranks_array[$j]] = '';
 	endfor;
 
-	if($user_row['user_id'] == '-1')
+	if($titanium_user_row['user_id'] == '-1')
 	$is_guest = true;
 
 	if($is_guest == false):
 		for($j = 0; $j < count($ranks_sql['bannedrow']); $j++):
-			if($ranks_sql['bannedrow'][$j]['ban_userid'] == $user_row['user_id'] )
+			if($ranks_sql['bannedrow'][$j]['ban_userid'] == $titanium_user_row['user_id'] )
 		    $is_banned = true;
 		endfor;
 	endif;
@@ -86,31 +86,31 @@ function generate_ranks($user_row, $ranks_sql)
 		
 		if($is_guest == true):
 			if ($ranks_sql['ranksrow'][$j]['rank_special'] == '2'):
-				$user_ranks['rank_01'] = $rank_tmp;
-				$user_ranks['rank_01_img'] = $rank_img_tmp;
+				$titanium_user_ranks['rank_01'] = $rank_tmp;
+				$titanium_user_ranks['rank_01_img'] = $rank_img_tmp;
 			endif;
 		elseif($is_banned == true):
 			if($ranks_sql['ranksrow'][$j]['rank_special'] == '3'):
-				$user_ranks['rank_01'] = $rank_tmp;
-				$user_ranks['rank_01_img'] = $rank_img_tmp;
+				$titanium_user_ranks['rank_01'] = $rank_tmp;
+				$titanium_user_ranks['rank_01_img'] = $rank_img_tmp;
 			endif;
 		else:
 		
-			$day_diff = intval( (time() - (int) $user_row['user_regdate']) / 86400 );
+			$day_diff = intval( (time() - (int) $titanium_user_row['user_regdate']) / 86400 );
 
-			for($k = 0; $k < count($user_fields_array); $k++):
+			for($k = 0; $k < count($titanium_user_fields_array); $k++):
 			
 				switch($ranks_sql['ranksrow'][$j]['rank_special']):
 					case '1':
-						if($user_row[$user_fields_array[$k]] == $ranks_sql['ranksrow'][$j]['rank_id'])
+						if($titanium_user_row[$titanium_user_fields_array[$k]] == $ranks_sql['ranksrow'][$j]['rank_id'])
 						$rank_sw = true;
 						break;
 					case '0':
-						if(($user_row[$user_fields_array[$k]] == '0') && ($user_row['user_posts'] >= $ranks_sql['ranksrow'][$j]['rank_min']))
+						if(($titanium_user_row[$titanium_user_fields_array[$k]] == '0') && ($titanium_user_row['user_posts'] >= $ranks_sql['ranksrow'][$j]['rank_min']))
 						$rank_sw = true;
 						break;
 					case '-1':
-						if(($user_row[$user_fields_array[$k]] == '-1') && ($day_diff >= $ranks_sql['ranksrow'][$j]['rank_min']))
+						if(($titanium_user_row[$titanium_user_fields_array[$k]] == '-1') && ($day_diff >= $ranks_sql['ranksrow'][$j]['rank_min']))
 						$rank_sw = true;
 						break;
 					default:
@@ -118,8 +118,8 @@ function generate_ranks($user_row, $ranks_sql)
 				endswitch;
 
 				if ($rank_sw == true):
-					$user_ranks[$user_ranks_array[(($k + 1) * 2) - 2]] = $rank_tmp;
-					$user_ranks[$user_ranks_array[(($k + 1) * 2) - 1]] = $rank_img_tmp;
+					$titanium_user_ranks[$titanium_user_ranks_array[(($k + 1) * 2) - 2]] = $rank_tmp;
+					$titanium_user_ranks[$titanium_user_ranks_array[(($k + 1) * 2) - 1]] = $rank_img_tmp;
 					$rank_sw = false;
 				endif;
 			endfor;
@@ -127,6 +127,6 @@ function generate_ranks($user_row, $ranks_sql)
 		endif;
 	endfor;
 
-	return $user_ranks;
+	return $titanium_user_ranks;
 }
 ?>

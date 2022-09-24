@@ -55,9 +55,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 //
@@ -65,6 +65,6 @@ if (!defined('IN_PHPBB'))
 //
 $phpEx = "php";
 
-$starttime = 0;
+$phpbb2_starttime = 0;
 
 ?>

@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();
 	echo "<div align=\"center\">\n<a href=\"modules.php?name=Your_Account&file=admin\">" . _USER_ADMIN_HEADER . "</a></div>\n";
@@ -47,7 +47,7 @@ if(is_mod_admin($module_name)) {
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _USER_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
 	echo "<br />";
-    list($username, $realname, $email, $check_num) = $db->sql_fetchrow($db->sql_query("SELECT username, realname, user_email, check_num FROM ".$user_prefix."_users_temp WHERE user_id='$act_uid'"));
+    list($titanium_username, $realname, $email, $check_num) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT username, realname, user_email, check_num FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$act_uid'"));
 
     $pagetitle = ": "._USERADMIN." - "._YA_APPROVEUSER;
     
@@ -61,21 +61,21 @@ if(is_mod_admin($module_name)) {
 
     OpenTable();
         echo "<table align='center' border='0' align=\"center\">";
-        echo "<tr><td width=\"50%\"><strong>"._USERNAME.":</strong></td><td align=\"left\">$username<br /></td></tr>";
+        echo "<tr><td width=\"50%\"><strong>"._USERNAME.":</strong></td><td align=\"left\">$titanium_username<br /></td></tr>";
         echo "<tr><td width=\"50%\"><strong>"._UREALNAME.":</strong></td><td align=\"left\">$realname<br /></td></tr>";
         echo "<tr><td width=\"50%\"><strong>"._EMAIL.":</strong></td><td align=\"left\">$email</td></tr>";
         echo "</table>";
     CloseTable();
 
     echo "<center><table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
     echo "<input type='hidden' name='op' value='approveUserConf'>\n";
     echo "<input type='hidden' name='apr_uid' value='$apr_uid'>\n";
     echo "<tr><td align=center><input type='submit' value='"._YA_APPROVEUSER."'></td><tr>\n";
     echo "</form>\n";
-    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }

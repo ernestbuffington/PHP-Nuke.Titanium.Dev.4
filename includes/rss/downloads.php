@@ -45,20 +45,20 @@ $num = 'LIMIT 20';
 $cat = intval($cat);
 if (!empty($cat)) 
 {
-    $catid = $db->sql_ufetchrow("SELECT cid FROM `".$prefix."_file_repository_categories` WHERE `cname` LIKE '%$cat%' LIMIT 1");
+    $catid = $titanium_db->sql_ufetchrow("SELECT cid FROM `".$titanium_prefix."_file_repository_categories` WHERE `cname` LIKE '%$cat%' LIMIT 1");
     if (empty($catid))
     {
-        $result = $db->sql_query("SELECT `did`, `title`, `description`, `date`, `sname` FROM `".$prefix."_file_repository_items` WHERE `isactive` = 1 ORDER BY `did` DESC ".$num);
+        $result = $titanium_db->sql_query("SELECT `did`, `title`, `description`, `date`, `sname` FROM `".$titanium_prefix."_file_repository_items` WHERE `isactive` = 1 ORDER BY `did` DESC ".$num);
     } 
     else 
     {
         $catid = intval($catid);
-        $result = $db->sql_query("SELECT `did`, `title`, `description`, `date`, `sname` FROM `".$prefix."_file_repository_items` WHERE `cid`='$catid' && `isactive` = 1 ORDER BY `did` DESC ".$num);
+        $result = $titanium_db->sql_query("SELECT `did`, `title`, `description`, `date`, `sname` FROM `".$titanium_prefix."_file_repository_items` WHERE `cid`='$catid' && `isactive` = 1 ORDER BY `did` DESC ".$num);
     }
 } 
 else 
 {
-    $result = $db->sql_query("SELECT `did`, `title`, `description`, `date`, `sname` FROM `".$prefix."_file_repository_items` WHERE `isactive` = 1 ORDER BY `did` DESC ".$num);
+    $result = $titanium_db->sql_query("SELECT `did`, `title`, `description`, `date`, `sname` FROM `".$titanium_prefix."_file_repository_items` WHERE `isactive` = 1 ORDER BY `did` DESC ".$num);
 }
 
 header("Content-Type: text/xml");
@@ -74,7 +74,7 @@ echo '<description>'.$slogan.'</description>';
 echo '<copyright>'.$sitename.'</copyright>';
 echo '<generator>'.$sitename.' Evo RSS Parser</generator>';
 
-while(list($did, $title, $description, $date, $submitter) = $db->sql_fetchrow($result)):
+while(list($did, $title, $description, $date, $submitter) = $titanium_db->sql_fetchrow($result)):
 
     $title = stripslashes($title);
     $title = entity_to_hex_value($title);

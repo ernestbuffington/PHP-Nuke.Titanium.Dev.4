@@ -32,17 +32,17 @@
  ************************************************************************/
 if (!defined('MODULE_FILE')) die('You can\'t access this file directly...');
 
-$module_name = basename(dirname(__FILE__));
+$titanium_module_name = basename(dirname(__FILE__));
 
-get_lang($module_name);
+get_lang($titanium_module_name);
 
 $sid = intval($sid);
 
-$query = $db->sql_query("SELECT associated FROM ".$prefix."_stories WHERE sid='$sid'");
+$query = $titanium_db->sql_query("SELECT associated FROM ".$titanium_prefix."_stories WHERE sid='$sid'");
 
-list($associated) = $db->sql_fetchrow($query);
+list($associated) = $titanium_db->sql_fetchrow($query);
 
-$db->sql_freeresult($query);
+$titanium_db->sql_freeresult($query);
 
 if (!empty($associated)) 
 {
@@ -55,10 +55,10 @@ if (!empty($associated))
 	{
       if (!empty($asso_t[$i])) 
 	  {
-        $query = $db->sql_query("SELECT topicimage, topictext from ".$prefix."_topics WHERE topicid='".$asso_t[$i]."'");
-	    list($topicimage, $topictext) = $db->sql_fetchrow($query);
-	    $db->sql_freeresult($query);
-	    echo "<a href=\"modules.php?name=$module_name&new_topic=$asso_t[$i]\"><img src=\"".$tipath.$topicimage."\" border=\"0\" hspace=\"10\" alt=\"".$topictext."\" title=\"".$topictext."\"></a>";
+        $query = $titanium_db->sql_query("SELECT topicimage, topictext from ".$titanium_prefix."_topics WHERE topicid='".$asso_t[$i]."'");
+	    list($topicimage, $topictext) = $titanium_db->sql_fetchrow($query);
+	    $titanium_db->sql_freeresult($query);
+	    echo "<a href=\"modules.php?name=$titanium_module_name&new_topic=$asso_t[$i]\"><img src=\"".$tipath.$topicimage."\" border=\"0\" hspace=\"10\" alt=\"".$topictext."\" title=\"".$topictext."\"></a>";
       }
     }
     echo "</div>";

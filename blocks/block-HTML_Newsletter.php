@@ -42,7 +42,7 @@ if ( !defined( 'BLOCK_FILE' ) and !defined( 'NUKE_FILE' ) ) {
 * Initialize and assign key block variables.
 ************************************************************************/
 
-global $db, $prefix, $msnl_gasModCfg, $msnl_sModuleNm;
+global $titanium_db, $titanium_prefix, $msnl_gasModCfg, $msnl_sModuleNm;
 
 $msnl_sModuleNm	= "HTML_Newsletter";	//If you change the module directory, change every instance of this definition
 
@@ -73,16 +73,16 @@ if ( $msnl_gasModCfg['show_categories'] == 1 ) {  //Build SQL for displaying cat
 
 	$sql = "SELECT `nid`, nl.`cid`, `topic`, `sender`, `datesent`, `view`, `groups`, `hits`, "
 				."`ctitle`, `cblocklimit`  FROM `"
-				.$prefix."_hnl_newsletters` as nl, `"
-				.$prefix."_hnl_categories` nc WHERE nl.`cid` = nc.`cid` "
+				.$titanium_prefix."_hnl_newsletters` as nl, `"
+				.$titanium_prefix."_hnl_categories` nc WHERE nl.`cid` = nc.`cid` "
 				."ORDER BY `ctitle` ASC, `datesent` DESC";
 
 } else {  //Build SQL for displaying just date sorted list of newsletters
 
 	$sql = "SELECT `nid`, nl.`cid`, `topic`, `sender`, `datesent`, `view`, `groups`, `hits`, "
 				."`ctitle`, `cblocklimit`  FROM `"
-				.$prefix."_hnl_newsletters` as nl, `"
-				.$prefix."_hnl_categories` nc WHERE nl.`cid` = nc.`cid` ORDER BY `datesent` DESC";
+				.$titanium_prefix."_hnl_newsletters` as nl, `"
+				.$titanium_prefix."_hnl_categories` nc WHERE nl.`cid` = nc.`cid` ORDER BY `datesent` DESC";
 
 }
 
@@ -93,7 +93,7 @@ $msnl_iNbrNls		= 1;	//Index for number of newsletters displayed within a categor
 $msnl_sPrevCat	= "";	//For determining category breaks
 $msnl_iMoreNls	= 0;	//Flag for when to display the "More Newsletters..." link
 
-while ( $row = $db->sql_fetchrow( $msnl_result2 ) ) {
+while ( $row = $titanium_db->sql_fetchrow( $msnl_result2 ) ) {
 
 	$msnl_iNID					= intval( $row['nid'] );
 	$msnl_iCID					= intval( $row['cid'] );

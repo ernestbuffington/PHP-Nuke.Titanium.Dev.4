@@ -23,7 +23,7 @@ echo '<title>'.$pagetitle.'</title>'."\n";
 echo '</head>'."\n";
 echo '<body bgcolor="#FFFFFF" text="#000000" link="#000000" alink="#000000" vlink="#000000">'."\n";
 echo '<h1 align="center">'.$pagetitle.'</h1>'."\n";
-$totalselected = $db->sql_numrows($db->sql_query("SELECT DISTINCT(`refered_from`) FROM `".$prefix."_nsnst_tracked_ips` GROUP BY 1"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`refered_from`) FROM `".$titanium_prefix."_nsnst_tracked_ips` GROUP BY 1"));
 if($totalselected > 0) {
   echo '<table summary="" align="center" border="0" bgcolor="#000000" cellpadding="2" cellspacing="2">'."\n";
   echo '<tr bgcolor="#ffffff">'."\n";
@@ -32,9 +32,9 @@ if($totalselected > 0) {
   echo '<td align="center"><strong>'._AB_LASTVIEWED.'</strong></td>'."\n";
   echo '<td align="center"><strong>'._AB_HITS.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $db->sql_query("SELECT DISTINCT(`refered_from`), tid, MAX(`date`), COUNT(*) FROM `".$prefix."_nsnst_tracked_ips` GROUP BY 1 ORDER BY `refered_from`");
-  while(list($refered_from, $tid, $lastview, $hits) = $db->sql_fetchrow($result)){
-    $trackedips = $db->sql_numrows($db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$prefix."_nsnst_tracked_ips` WHERE `refered_from`='$refered_from'"));
+  $result = $titanium_db->sql_query("SELECT DISTINCT(`refered_from`), tid, MAX(`date`), COUNT(*) FROM `".$titanium_prefix."_nsnst_tracked_ips` GROUP BY 1 ORDER BY `refered_from`");
+  while(list($refered_from, $tid, $lastview, $hits) = $titanium_db->sql_fetchrow($result)){
+    $trackedips = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `refered_from`='$refered_from'"));
     $refered_from = wordwrap($refered_from, 50, "\n", true);
     $refered_from = str_replace("&amp;amp;", "&amp;", htmlentities($refered_from, ENT_QUOTES));
     $refered_from = str_replace("\n", "<br />\n", $refered_from);

@@ -8,14 +8,14 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $db2;
+global $titanium_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
-$result = $db2->sql_query("SELECT * FROM `".$network_prefix."_reports_status` WHERE `status_weight`>'0' ORDER BY `status_id` ASC");
+$result = $titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_status` WHERE `status_weight`>'0' ORDER BY `status_id` ASC");
 $weight = 0;
-while($row = $db2->sql_fetchrow($result)) {
+while($row = $titanium_db2->sql_fetchrow($result)) {
   $xid = intval($row['status_id']);
   $weight++;
-  $db2->sql_query("UPDATE `".$network_prefix."_reports_status` SET `status_weight`='$weight' WHERE `status_id`='$xid'");
+  $titanium_db2->sql_query("UPDATE `".$network_prefix."_reports_status` SET `status_weight`='$weight' WHERE `status_id`='$xid'");
 }
 header("Location: ".$admin_file.".php?op=ReportStatusList");
 

@@ -30,12 +30,12 @@ endif;
  */
 function title_and_meta_tags()
 {
-	global $sitename, $appID, $name, $sid, $file, $db, $prefix;
+	global $sitename, $appID, $name, $sid, $file, $titanium_db, $titanium_prefix;
 	
 	$ThemeSel           = get_theme();
 	$item_delim         = "&raquo;";
-	$module_name 		= get_query_var( 'name', 'get', 'string', '' );
-	$module_name_str    = str_replace(array('-','_'),' ',$module_name);
+	$titanium_module_name 		= get_query_var( 'name', 'get', 'string', '' );
+	$titanium_module_name_str    = str_replace(array('-','_'),' ',$titanium_module_name);
 
 	# if the user is in the administration panel, simply change the page title to administration.
 	if (defined('ADMIN_FILE')):
@@ -50,12 +50,12 @@ function title_and_meta_tags()
 		  if(!defined('HOME_FILE')):
 
 	        # PHP-Nuke Titanium Shout Box Module v1.0 -------------------------------------------------------------------------------------------------
-			if($module_name == "Shout_Box"):
+			if($titanium_module_name == "Shout_Box"):
 			
 			# each module has a logo image file START
-			if (@file_exists(NUKE_MODULES_DIR.$module_name.'/images/logo.png')): 
-		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
-	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
+			if (@file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/images/logo.png')): 
+		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
+	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
 			else:
 		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
 	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
@@ -76,12 +76,12 @@ function title_and_meta_tags()
 			
 			
 			# PHP-Nuke Titanium Google Site Map Module v1.0 --------------------------------------------------------------------------------------------
-			elseif($module_name == "Google-Site-Map"):
+			elseif($titanium_module_name == "Google-Site-Map"):
 			
 			# each module has a logo image file START
-			if (@file_exists(NUKE_MODULES_DIR.$module_name.'/images/logo.png')): 
-		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
-	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
+			if (@file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/images/logo.png')): 
+		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
+	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
 			else:
 		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
 	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
@@ -103,9 +103,9 @@ function title_and_meta_tags()
 
 		else:
 			
-			if (@file_exists(NUKE_MODULES_DIR.$module_name.'/images/logo.png')): 
-		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
-	              $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
+			if (@file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/images/logo.png')): 
+		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
+	              $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
 			else:
 		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
 	              $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
@@ -122,11 +122,11 @@ function title_and_meta_tags()
 			
             if ($file == 'article' && isset($sid) && is_numeric($sid)):
 	        
-                    list($art, $top) = $db->sql_ufetchrow("SELECT `title`, `topic` FROM `".$prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
+                    list($art, $top) = $titanium_db->sql_ufetchrow("SELECT `title`, `topic` FROM `".$titanium_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
     
 	          if ($top) 
 		      {
-                 list($top, $topicimage) = $db->sql_ufetchrow("SELECT `topictext`,`topicimage` FROM `".$prefix."_topics` WHERE `topicid`='".$top."'", SQL_NUM);
+                 list($top, $topicimage) = $titanium_db->sql_ufetchrow("SELECT `topictext`,`topicimage` FROM `".$titanium_prefix."_topics` WHERE `topicid`='".$top."'", SQL_NUM);
 
                  if ($sitename == $top):
 			           $newpagetitle = "$sitename $item_delim $art";
@@ -136,8 +136,8 @@ function title_and_meta_tags()
 				  $facebook_og_title = '<meta property="og:title" content="'.$newpagetitle.'" />'."\n";
                  endif;
 	             
-		    $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
-	               $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
+		    $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
+	               $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
                  
 				     $facebook_ogurl = "<meta property=\"og:url\" content=\"".HTTPS."modules.php?name=$name&file=article&sid=$sid\" />\n";
              $facebook_ia_markup_url = "<meta property=\"ia:markup_url\" content=\"".HTTPS."modules.php?name=$name&file=article&sid=$sid\" />\n";
@@ -145,7 +145,7 @@ function title_and_meta_tags()
               $facebook_ia_rules_url = "<meta property=\"ia:rules_url\" content=\"".HTTPS."modules.php?name=$name&file=article&sid=$sid\" />\n";
 	      $facebook_ia_rules_url_dev = "<meta property=\"ia:rules_url_dev\" content=\"".HTTPS."modules.php?name=$name&file=article&sid=$sid\" />\n";
 			     
-				     list($hometext) = $db->sql_ufetchrow("SELECT `hometext` FROM `".$prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
+				     list($hometext) = $titanium_db->sql_ufetchrow("SELECT `hometext` FROM `".$titanium_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
 
 			               $hometext = stripslashes(check_html($hometext, "nohtml")); 	 	 
 
@@ -159,7 +159,7 @@ function title_and_meta_tags()
 				 
 				   $structured_data .= '  "mainEntityOfPage": {'."\n";
                    $structured_data .= '  "@type": "WebPage",'."\n";
-                   $structured_data .= '  "@id": "'.HTTPS.'modules.php?name='.$module_name.'&file=article&sid='.$sid.'"'."\n";
+                   $structured_data .= '  "@id": "'.HTTPS.'modules.php?name='.$titanium_module_name.'&file=article&sid='.$sid.'"'."\n";
                    $structured_data .= '  },'."\n\n";
 				 
 				   $structured_data .= '  "headline": "'.$art.'",'."\n\n";
@@ -169,16 +169,16 @@ function title_and_meta_tags()
                    $structured_data .= '  "'.HTTPS.'images/google/16x9.png"'."\n";
                    $structured_data .= '  ],'."\n\n";
 				 
-                         list($time) = $db->sql_ufetchrow("SELECT `datePublished` FROM `".$prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
+                         list($time) = $titanium_db->sql_ufetchrow("SELECT `datePublished` FROM `".$titanium_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
 				   $structured_data .= '  "datePublished": "'.$time.'",'."\n";
-				          list($dtm) = $db->sql_ufetchrow("SELECT `dateModified` FROM `".$prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
+				          list($dtm) = $titanium_db->sql_ufetchrow("SELECT `dateModified` FROM `".$titanium_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
                    $structured_data .= '  "dateModified": "'.$dtm.'",'."\n\n";
                  
-				         list($name) = $db->sql_ufetchrow("SELECT `informant` FROM `".$prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
-				     list($username) = $db->sql_ufetchrow("SELECT `name` FROM `".$prefix."_users` WHERE `username`='".$name."'", SQL_NUM);
+				         list($name) = $titanium_db->sql_ufetchrow("SELECT `informant` FROM `".$titanium_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
+				     list($titanium_username) = $titanium_db->sql_ufetchrow("SELECT `name` FROM `".$titanium_prefix."_users` WHERE `username`='".$name."'", SQL_NUM);
 				   $structured_data .= '  "author": {'."\n";
                    $structured_data .= '  "@type": "Person",'."\n";
-                   $structured_data .= '  "name": "'.$username.'"'."\n";
+                   $structured_data .= '  "name": "'.$titanium_username.'"'."\n";
                    $structured_data .= '  },'."\n\n";
                  
 				   $structured_data .= ' "publisher": {'."\n";
@@ -199,8 +199,8 @@ function title_and_meta_tags()
 			
 			endif; 			
 			   
-			   if (@file_exists(TITANIUM_THEMES_DIR.'/includes/facebook/'.$module_name.'/'.$module_name.'.php')): # Added by Ernest Buffington
-	           include(TITANIUM_THEMES_DIR.'/includes/facebook/'.$module_name.'/'.$module_name.'.php');           # Load extra meta settings from each module
+			   if (@file_exists(TITANIUM_THEMES_DIR.'/includes/facebook/'.$titanium_module_name.'/'.$titanium_module_name.'.php')): # Added by Ernest Buffington
+	           include(TITANIUM_THEMES_DIR.'/includes/facebook/'.$titanium_module_name.'/'.$titanium_module_name.'.php');           # Load extra meta settings from each module
 		       endif;
 	      
 		  # do all this shit if you are on the index.php page
@@ -240,21 +240,21 @@ function title_and_meta_tags()
                    $structured_data .= '  "'.HTTPS.'images/google/4x3.png",'."\n";
                    $structured_data .= '  "'.HTTPS.'images/google/16x9.png"'."\n";
                    $structured_data .= '  ],'."\n\n";
-			               list($dp) = $db->sql_ufetchrow("SELECT `datePublished` FROM `".$prefix."_config`", SQL_NUM);	 
+			               list($dp) = $titanium_db->sql_ufetchrow("SELECT `datePublished` FROM `".$titanium_prefix."_config`", SQL_NUM);	 
 			       $structured_data .= '  "datePublished": "'.$dp.'",'."\n";
-			             list($dmod) = $db->sql_ufetchrow("SELECT `dateModified` FROM `".$prefix."_config`", SQL_NUM);
+			             list($dmod) = $titanium_db->sql_ufetchrow("SELECT `dateModified` FROM `".$titanium_prefix."_config`", SQL_NUM);
 						 if(empty($dmod)) # u need to add this to save edit General Site Settings
 						 {
-							$db->sql_query("INSERT INTO `".$prefix."_config`(dateModified) VALUES (null)"); 
+							$titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_config`(dateModified) VALUES (null)"); 
 						 }	 
                    $structured_data .= '  "dateModified": "'.$dmod.'",'."\n\n";
                  
 			       
-				   global $prefix, $portaladmin, $webmastername;
+				   global $titanium_prefix, $portaladmin, $webmastername;
 				    
 				   list($webmastername, 
 	               $avatar, 
-				   $email) = $db->sql_ufetchrow("SELECT `name`,`user_avatar`, `user_email` FROM `".$prefix."_users` WHERE `user_id`='$portaladmin'", SQL_NUM);
+				   $email) = $titanium_db->sql_ufetchrow("SELECT `name`,`user_avatar`, `user_email` FROM `".$titanium_prefix."_users` WHERE `user_id`='$portaladmin'", SQL_NUM);
 
 				   $structured_data .= '  "author": {'."\n";
                    $structured_data .= '  "@type": "Person",'."\n";
@@ -279,7 +279,7 @@ function title_and_meta_tags()
 		    endif;
 		  endif;
 	   
-	   $newpagetitle = ($module_name) ? $item_delim .' '.$module_name_str : '';
+	   $newpagetitle = ($titanium_module_name) ? $item_delim .' '.$titanium_module_name_str : '';
     endif;
 	
 	if ($appID > 0):
@@ -314,10 +314,10 @@ function title_and_meta_tags()
 function get_titanium_version_information($version_check_url, $local_cache_location, $force_refresh=false) 
 {
 	$url = $version_check_url;
-	$cache = $local_cache_location.'json.cache';
+	$titanium_cache = $local_cache_location.'json.cache';
 	$refresh = 24 * 60 * 60; # check for a new version once a day. // 24 * 60 * 60
 
-	if ($force_refresh || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))):
+	if ($force_refresh || ((time() - filectime($titanium_cache)) > ($refresh) || 0 == filesize($titanium_cache))):
 
 		# create a new cURL resource
 		$ch = curl_init();
@@ -338,13 +338,13 @@ function get_titanium_version_information($version_check_url, $local_cache_locat
 		$jsoncache 	= $response;
 
 		# Insert json information into a locally stored file, This will prevent slow page load time from slow hosts.
-		$handle = fopen($cache,'wb') or die('no fopen');	
+		$handle = fopen($titanium_cache,'wb') or die('no fopen');	
 		fwrite($handle,$jsoncache);
 		fclose($handle);
 
 	else:
 		# Retrieve the json cache from the locally stored file
-		$jsoncache = file_get_contents($cache);
+		$jsoncache = file_get_contents($titanium_cache);
 	endif;
 
 	$jsonobject = json_decode($jsoncache,true);
@@ -370,19 +370,19 @@ function get_titanium_timeago($ptime)
      if($d >= 1):
        $r = round($d);                                                                             
          # default calendar icon       
-         $icon_string = '<font color="orange"><div align="center"><strong><font color="lightgreen">'.$r.'</font></strong><br />'.' '.$str.($r > 1 ? 's' : '').' </font><br /><font 
+         $phpbb2_icon_string = '<font color="orange"><div align="center"><strong><font color="lightgreen">'.$r.'</font></strong><br />'.' '.$str.($r > 1 ? 's' : '').' </font><br /><font 
 	     color="gold"><i class="bi bi-calendar3"></i></font> </div>';
         # change the icon into a clock if less than or equal to 24 hours
 	    if($estimate_time <= 86400):
-         $icon_string = '<font color="orange"><div align="center"><strong><font color="lightgreen">'.$r.'</font></strong><br />'.' '.$str.($r > 1 ? 's' : '').' </font><br /><font 
+         $phpbb2_icon_string = '<font color="orange"><div align="center"><strong><font color="lightgreen">'.$r.'</font></strong><br />'.' '.$str.($r > 1 ? 's' : '').' </font><br /><font 
 	     color="gold"><i class="bi bi-alarm"></i></font> </div>';
 	    endif;
 	    # change the icon into a stopwatch if less than 60 seconds
         if($estimate_time <= 60):
-         $icon_string = '<font color="orange"><div align="center"><strong><font color="lightgreen">'.$r.'</font></strong><br />'.' '.$str.($r > 1 ? 's' : '').' </font><br /><font 
+         $phpbb2_icon_string = '<font color="orange"><div align="center"><strong><font color="lightgreen">'.$r.'</font></strong><br />'.' '.$str.($r > 1 ? 's' : '').' </font><br /><font 
 	     color="gold"><i class="bi bi-smartwatch"></i></font> </div>';
 	    endif;
-	  return $icon_string;
+	  return $phpbb2_icon_string;
 	 endif;
    endforeach;
 }

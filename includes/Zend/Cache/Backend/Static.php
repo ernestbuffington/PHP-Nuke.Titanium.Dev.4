@@ -460,10 +460,10 @@ class Zend_Cache_Backend_Static
      * @param  Zend_Cache_Core
      * @return void
      */
-    public function setInnerCache(Zend_Cache_Core $cache)
+    public function setInnerCache(Zend_Cache_Core $titanium_cache)
     {
-        $this->_tagCache = $cache;
-        $this->_options['tag_cache'] = $cache;
+        $this->_tagCache = $titanium_cache;
+        $this->_options['tag_cache'] = $titanium_cache;
     }
 
     /**

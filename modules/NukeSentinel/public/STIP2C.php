@@ -24,13 +24,13 @@ if (!isset($min)) { $min=0; } else { $min = intval($min); }
 if (!isset($max)) { $max = $min + $perpage; } else { $max = intval($max); }
 if ($column != "ip_lo" and $column != "c2c" and $column != "date") { $column = "ip_lo"; }
 if ($direction != "asc" and $direction != "desc") { $direction = "asc"; }
-$totalselected = $db->sql_numrows($db->sql_query("SELECT `ip_lo` FROM `".$prefix."_nsnst_ip2country`"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT `ip_lo` FROM `".$titanium_prefix."_nsnst_ip2country`"));
 if ($totalselected > 0) {
   // Page Sorting
   echo '<table summary="" align="center" border="0" cellpadding="2" cellspacing="2" width="100%">'."\n";
   echo '<tr>'."\n";
   echo '<td align="right" colspan="5">'."\n";
-  echo '<form action="modules.php?name='.$module_name.'" method="post" style="padding: 0px; margin: 0px;">'."\n";
+  echo '<form action="modules.php?name='.$titanium_module_name.'" method="post" style="padding: 0px; margin: 0px;">'."\n";
   echo '<input type="hidden" name="op" value="STIP2C" />'."\n";
   echo '<input type="hidden" name="min" value="'.$min.'" />'."\n";
   echo '<strong>'._AB_SORT.':</strong> ';
@@ -62,11 +62,11 @@ if ($totalselected > 0) {
   echo '<td align="center" width="35%"><strong>'._AB_COUNTRY.'</strong></td>'."\n";
   echo '<td align="center" width="15%"><strong>'._AB_DATE.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_ip2country` ORDER BY $column $direction LIMIT $min,$perpage");
-  while ($getIPs = $db->sql_fetchrow($result)) {
+  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_ip2country` ORDER BY $column $direction LIMIT $min,$perpage");
+  while ($getIPs = $titanium_db->sql_fetchrow($result)) {
     $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
     $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
-    list($getIPs['country']) = $db->sql_fetchrow($db->sql_query("SELECT `country` FROM `".$prefix."_nsnst_countries` WHERE `c2c`='".$getIPs['c2c']."' LIMIT 0,1"));
+    list($getIPs['country']) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `country` FROM `".$titanium_prefix."_nsnst_countries` WHERE `c2c`='".$getIPs['c2c']."' LIMIT 0,1"));
     $getIPs['c2c'] = strtoupper($getIPs['c2c']);
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
     echo '<td align="center">'.$getIPs['ip_lo_ip'].'</td>'."\n";

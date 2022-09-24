@@ -68,7 +68,7 @@ $msnl_iCID	= intval( $_POST['msnl_cid'] );
 ************************************************************************/
 
 $sql	= "SELECT `filename` "
-			. "FROM `".$prefix."_hnl_newsletters` "
+			. "FROM `".$titanium_prefix."_hnl_newsletters` "
 			. "WHERE `nid` = '$msnl_iNID'";
 
 $result	= msnl_fSQLCall( $sql );
@@ -79,7 +79,7 @@ if ( !$result ) { //Bad SQL call
 
 } else { //Successful SQL call
 
-	$row = $db->sql_fetchrow( $result ); 
+	$row = $titanium_db->sql_fetchrow( $result ); 
 
 	$msnl_asRec['filename']		= stripslashes( $row['filename'] );
 
@@ -109,7 +109,7 @@ if ( !@file_exists( $msnl_sFilePath ) ) {
 * Perform the delete.
 ************************************************************************/
 
-$sql	= "DELETE FROM `".$prefix."_hnl_newsletters` "
+$sql	= "DELETE FROM `".$titanium_prefix."_hnl_newsletters` "
 				."WHERE `nid` = '$msnl_iNID'";
 
 if ( !msnl_fSQLCall($sql) ) { //Had an error in the DELETE

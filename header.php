@@ -43,11 +43,11 @@ function head()
 						  $ab_config, 
 						  $modheader, 
 						       $name, 
-							  $cache, 
-						   $userinfo, 
+				     $titanium_cache, 
+			      $userinfo, 
 						     $cookie, 
-							$sitekey, 
-							     $db, 
+					  	    $sitekey, 
+						$titanium_db, 
 							$banners, 
 						        $ads, 
 							$browser, 
@@ -121,7 +121,7 @@ function head()
 	# START Load current theme. - 09/07/2019
 
     echo "\n\n<!-- START Load favicon. -->\n\n";
-    if ((($favicon = $cache->load('favicon', 'config')) === false) || empty($favicon)): 
+    if ((($favicon = $titanium_cache->load('favicon', 'config')) === false) || empty($favicon)): 
         if (file_exists(NUKE_BASE_DIR.'favicon.ico')) 
 		$favicon = "favicon.ico";
 		else 
@@ -134,7 +134,7 @@ function head()
         $favicon = 'none';
 		if ($favicon != 'none') 
         echo "<link rel=\"shortcut icon\" href=\"$favicon\" type=\"image/x-icon\" />\n";
-        $cache->save('favicon', 'config', $favicon);
+        $titanium_cache->save('favicon', 'config', $favicon);
 	else: 
         if ($favicon != 'none') 
         echo "<link rel=\"shortcut icon\" href=\"$favicon\" type=\"image/x-icon\" />\n";
@@ -145,7 +145,7 @@ function head()
     
     /*
 	echo "\n\n<!-- START custom_head -->\n\n";
-	if ((($custom_head = $cache->load('custom_head', 'config')) === false) || empty($custom_head)): 
+	if ((($custom_head = $titanium_cache->load('custom_head', 'config')) === false) || empty($custom_head)): 
         $custom_head = array();
 	    if (file_exists(NUKE_INCLUDE_DIR.'custom_files/custom_head.php')) 
         $custom_head[] = 'custom_head';
@@ -156,7 +156,7 @@ function head()
                 include_once(NUKE_INCLUDE_DIR.'custom_files/'.$file.'.php');
             endforeach;
         endif;
-		$cache->save('custom_head', 'config', $custom_head);
+		$titanium_cache->save('custom_head', 'config', $custom_head);
 	else: 
         if (!empty($custom_head)): 
             foreach ($custom_head as $file): 
@@ -204,24 +204,24 @@ head();
 
 function online() 
 {
-    global $prefix, $db, $name, $board_config, $userinfo, $identify;
+    global $titanium_prefix, $titanium_db, $name, $phpbb2_board_config, $userinfo, $identify;
     $ip = $identify->get_ip();
     $url = (defined('ADMIN_FILE')) ? 'index.php' : Fix_Quotes($_SERVER['REQUEST_URI']);
     $uname = $ip;
     $guest = 1;
-    $user_agent = $identify->identify_agent();
+    $titanium_user_agent = $identify->identify_agent();
 	
 	if(is_user()):
 	$uname = $userinfo['username'];
     $guest = 0;
 	else:
 
-    //if(($user_agent['engine'] == 'bot')):
-    //$uname = $user_agent['bot'];
+    //if(($titanium_user_agent['engine'] == 'bot')):
+    //$uname = $titanium_user_agent['bot'];
 	//$guest = 3;
     //endif;
     
-	//if(($user_agent['engine'] == '')):
+	//if(($titanium_user_agent['engine'] == '')):
 	//endif;
     # Facebook IP Range
 
@@ -406,22 +406,25 @@ function online()
     $custom_title = $name;
     $url = str_replace("&amp;", "&", $url);
 	$url = addslashes($url);
-    $past = time() - $board_config['online_time'];
-    $db->sql_query('DELETE FROM '.$prefix.'_session WHERE time < "'.$past.'"');
+    $past = time() - $phpbb2_board_config['online_time'];
+	
+	# This was changed to prevent Deadlock found when trying to get lock;
+    # Guy like me gets it done! TheGhost 9/20/2022 2:42pm
+	$titanium_db->sql_query('DELETE FROM `'.$titanium_prefix.'_session` WHERE `time` < "'.$past.'" - INTERVAL 900 SECOND ORDER BY `time` ASC');
     $ctime = time();
 
     /**
      * A replace into sql command was added, to prevent the duplication of users, This also saves on several lines of code.
      *
-     * @since 2.0.9E
+     * @since 2.0.9f
      */
-    $db->sql_query("REPLACE INTO `".$prefix."_session` (uname, 
-	                                                     time, 
-													starttime, 
-													host_addr, 
-													    guest, 
-													   module, 
-													      url) 
+    $titanium_db->sql_query("REPLACE INTO `".$titanium_prefix."_session` (uname, 
+	                                                                       time, 
+													                  starttime, 
+													                  host_addr, 
+													                      guest, 
+													                     module, 
+													                        url) 
 	values ('".$uname."', 
 	        '".$ctime."', 
 			'".$ctime."', 
@@ -433,15 +436,16 @@ function online()
     /**
      * This sql replace command is to track who has been to the site and records their last visit.
      *
-     * @since 2.0.9E
+     * @since 2.0.9f
      */
-    if ( $guest == 0 )
-        $db->sql_query("REPLACE INTO `".$prefix."_users_who_been` (`user_ID`, 
-		                                                           `username`, 
-																   `last_visit`) 
+    if ( $guest == 0 ):
+        $titanium_db->sql_query("REPLACE INTO `".$titanium_prefix."_users_who_been` (`user_ID`, 
+		                                                                            `username`, 
+																                  `last_visit`) 
    values ('".$userinfo['user_id']."', 
            '".$userinfo['username']."', 
 		    ".time().");");
+	endif;
 }
 
 online();

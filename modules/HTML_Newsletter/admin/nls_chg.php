@@ -76,7 +76,7 @@ msnl_fShowSubTitle( _MSNL_NLS_CHG_LAB_NLSCHG );
 ************************************************************************/
 
 $sql = "SELECT `cid`, `topic`, `sender`, `datesent`, `view`, `groups`, `hits`, `filename` FROM `"
-			.$prefix."_hnl_newsletters` WHERE `nid` = '$msnl_iNID'";
+			.$titanium_prefix."_hnl_newsletters` WHERE `nid` = '$msnl_iNID'";
 
 $result	= msnl_fSQLCall( $sql );
 
@@ -98,7 +98,7 @@ if ( !$result ) { //Bad SQL call
 	echo "<input type='hidden' name='msnl_prev_cid' value='$msnl_iPrevCID'>\n";
 	echo "</div>\n";
 
-	$row = $db->sql_fetchrow( $result ); 
+	$row = $titanium_db->sql_fetchrow( $result ); 
 
 	$msnl_asRec['cid']							= intval( $row['cid'] );
 	$msnl_asRec['topic']						= stripslashes( $row['topic'] );

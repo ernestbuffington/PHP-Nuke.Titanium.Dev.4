@@ -40,11 +40,11 @@ if(!defined('IN_SETTINGS'))exit('Access Denied');
        $articlecomm, 
            $minpass, 
       $my_headlines, 
-         $user_news, 
+         $titanium_user_news, 
           $adminssl, 
-     $queries_count, 
+     $titanium_queries_count, 
         $use_colors, 
-      $lock_modules, 
+      $lock_titanium_modules, 
            $banners, 
 	      $lazy_tap, 
 	       $wysiwyg, 
@@ -55,7 +55,7 @@ if(!defined('IN_SETTINGS'))exit('Access Denied');
       $collapsetype, 
          $analytics, 
         $use_stream, 
-         $html_auth, 
+         $titanium_html_auth, 
 $use_floating_admin, 
        $arrow_color, 
 	    $img_viewer, 
@@ -93,7 +93,7 @@ echo '          <td class="row1" style="width: 50%;">'.yesno_option('xadminssl',
 echo '        </tr>'.PHP_EOL;
 echo '        <tr>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.$admlang['misc']['queries'].'</td>'.PHP_EOL;
-echo '          <td class="row1" style="width: 50%;">'.yesno_option('xqueries_count', $queries_count).'</td>'.PHP_EOL;
+echo '          <td class="row1" style="width: 50%;">'.yesno_option('xqueries_count', $titanium_queries_count).'</td>'.PHP_EOL;
 echo '        </tr>'.PHP_EOL;
 echo '        <tr>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.$admlang['misc']['colors'].'</td>'.PHP_EOL;
@@ -101,7 +101,7 @@ echo '          <td class="row1" style="width: 50%;">'.yesno_option('xuse_colors
 echo '        </tr>'.PHP_EOL;
 echo '        <tr>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.$admlang['misc']['lock_modules'].'</td>'.PHP_EOL;
-echo '          <td class="row1" style="width: 50%;">'.yesno_option('xlock_modules', $lock_modules).'</td>'.PHP_EOL;
+echo '          <td class="row1" style="width: 50%;">'.yesno_option('xlock_modules', $lock_titanium_modules).'</td>'.PHP_EOL;
 echo '        </tr>'.PHP_EOL;
 echo '        <tr>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.$admlang['misc']['banners'].'</td>'.PHP_EOL;
@@ -120,7 +120,7 @@ if (is_god($admin))
 {
   echo '        <tr>'.PHP_EOL;
   echo '          <td class="row1" style="width: 50%;">'.$admlang['misc']['html_bypass'].'</td>'.PHP_EOL;
-  echo '          <td class="row1" style="width: 50%;">'.yesno_option('xhtml_auth', $html_auth).'</td>'.PHP_EOL;
+  echo '          <td class="row1" style="width: 50%;">'.yesno_option('xhtml_auth', $titanium_html_auth).'</td>'.PHP_EOL;
   echo '        </tr>'.PHP_EOL;
 }
 # Mod:     Lazy Google Tap

@@ -19,14 +19,14 @@
 if(!defined('NUKE_TITANIUM')) 
 exit;
 
-global $module_name;
+global $titanium_module_name;
 
 if(is_user()):
-	if(empty($module_name)):
-	$module_name = main_module();
+	if(empty($titanium_module_name)):
+	$titanium_module_name = main_module_titanium();
 	endif;
     $content  = "<div align=\"center\"><br />\n"; 
-    $content .= "<form action=\"modules.php?name=$module_name\" method=\"post\">";
+    $content .= "<form action=\"modules.php?name=$titanium_module_name\" method=\"post\">";
     $content .= "<input type=\"hidden\" name=\"chngtheme\" value=\"1\"/>\n";
 	$content .= "<input type=\"hidden\" name=\"user_id\" value=\"$userinfo[user_id]\">";
 	$content .= "<input type=\"hidden\" name=\"op\" value=\"savetheme\">";
@@ -34,11 +34,11 @@ if(is_user()):
     $content .= "</form>\n"; 
     $content .= "</div><br />\n";
 else:
-	if(empty($module_name)):
-	$module_name = main_module();
+	if(empty($titanium_module_name)):
+	$titanium_module_name = main_module_titanium();
 	endif;
     $content  = "<div align=\"center\"><br />\n"; 
-    $content .= "<form action=\"modules.php?name=$module_name\" method=\"post\">";
+    $content .= "<form action=\"modules.php?name=$titanium_module_name\" method=\"post\">";
     $content .= GetThemeSelect('tpreview', 'user_themes', false, 'onChange=submit();', get_theme(), 0);
     $content .= "</form>\n"; 
     $content .= "</div><br />\n";

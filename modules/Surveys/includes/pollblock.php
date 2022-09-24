@@ -29,13 +29,13 @@ if (!defined('NUKE_EVO')) {
     die('You can\'t access this file directly...');
 }
 
-global $prefix, $db, $content, $pollcomm, $user, $userinfo, $cookie, $multilingual, $currentlang, $evoconfig, $cache, $identify;
+global $titanium_prefix, $titanium_db, $content, $pollcomm, $titanium_user, $userinfo, $cookie, $multilingual, $currentlang, $titanium_config, $titanium_cache, $identify;
 
 // Fetch random poll
-$make_random = intval($evoconfig['poll_random']);
+$make_random = intval($titanium_config['poll_random']);
 
 // Fetch number of days in between voting per user
-$number_of_days = intval($evoconfig['poll_days']);
+$number_of_days = intval($titanium_config['poll_days']);
 
 $querylang = ($multilingual == 1) ? "WHERE (planguage='$currentlang' OR planguage='') AND artid='0'" : "WHERE artid='0'";
 $queryorder = ($make_random) ? 'RAND()' : 'pollID DESC';
@@ -43,16 +43,16 @@ $queryorder = ($make_random) ? 'RAND()' : 'pollID DESC';
 $pollID = (isset($_REQUEST['pollID'])) ? (int)$_REQUEST['pollID'] : '';
 
 if(isset($pollID) && is_numeric($pollID)) {
-    $result = $db->sql_query("SELECT pollID, pollTitle, voters FROM ".$prefix."_poll_desc WHERE `pollID`=".intval($pollID));
+    $result = $titanium_db->sql_query("SELECT pollID, pollTitle, voters FROM ".$titanium_prefix."_poll_desc WHERE `pollID`=".intval($pollID));
 } else {
-    $result = $db->sql_query("SELECT pollID, pollTitle, voters FROM ".$prefix."_poll_desc $querylang ORDER BY $queryorder LIMIT 1");
+    $result = $titanium_db->sql_query("SELECT pollID, pollTitle, voters FROM ".$titanium_prefix."_poll_desc $querylang ORDER BY $queryorder LIMIT 1");
 }
 
-if ($db->sql_numrows($result) < 1) {
+if ($titanium_db->sql_numrows($result) < 1) {
     $content = "<br />"._NOSURVEYS."<br /><br />";
 } else {
-    list($pollID, $pollTitle, $voters) = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
+    list($pollID, $pollTitle, $voters) = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
     $pollTitle = stripslashes($pollTitle);
     $url = "modules.php?name=Surveys&amp;op=results&amp;pollID=$pollID";
     $sum = "";
@@ -63,10 +63,10 @@ if ($db->sql_numrows($result) < 1) {
 
     $ip = $identify->get_ip();
     $past = time()-86400*$number_of_days;
-    $result = $db->sql_query("SELECT ip FROM ".$prefix."_poll_check WHERE ip='$ip' AND pollID='$pollID'");
-    $result2 = $db->sql_query("SELECT optionText, voteID, optionCount FROM ".$prefix."_poll_data WHERE pollID='$pollID' AND optionText!='' ORDER BY voteID");
-    if ($db->sql_numrows($result) > 0) {
-        while ($row = $db->sql_fetchrow($result2)) {
+    $result = $titanium_db->sql_query("SELECT ip FROM ".$titanium_prefix."_poll_check WHERE ip='$ip' AND pollID='$pollID'");
+    $result2 = $titanium_db->sql_query("SELECT optionText, voteID, optionCount FROM ".$titanium_prefix."_poll_data WHERE pollID='$pollID' AND optionText!='' ORDER BY voteID");
+    if ($titanium_db->sql_numrows($result) > 0) {
+        while ($row = $titanium_db->sql_fetchrow($result2)) {
             $options[] = $row;
             $sum += (int)$row['optionCount'];
         }
@@ -99,7 +99,7 @@ if ($db->sql_numrows($result) < 1) {
         $button = '';
     }
     else {
-        while ($row = $db->sql_fetchrow($result2)) {
+        while ($row = $titanium_db->sql_fetchrow($result2)) {
             $content .= "<tr><td valign=\"top\"><input type=\"radio\" name=\"voteID\" value=\"".$row['voteID']."\"></td><td width=\"100%\"><span class=\"content\">".$row['optionText']."</span></td></tr>\n";
             $sum += (int) $row['optionCount'];
         }
@@ -107,16 +107,16 @@ if ($db->sql_numrows($result) < 1) {
         $button .= '<input type="hidden" name="forwarder" value="'.$url.'">';
         $button .= '<input type="submit" value="'._VOTE.'"><br /><br />';
     }
-    $db->sql_freeresult($result2);
+    $titanium_db->sql_freeresult($result2);
 
     $content .= "</table><br /><center>$button
     <span class=\"content\"><a href=\"modules.php?name=Surveys&amp;op=results&amp;pollID=$pollID&amp;mode=$cookie[4]&amp;order=$cookie[5]&amp;thold=$cookie[6]\"><strong>"._RESULTS."</strong></a><br />
     <a href=\"modules.php?name=Surveys\"><strong>"._POLLS."</strong></a><br />
     <br />"._VOTES." <strong>$sum</strong>\n";
     if ($pollcomm) {
-        $result = $db->sql_query("SELECT COUNT(*) FROM ".$prefix."_pollcomments WHERE pollID='$pollID'");
-        list($numcom) = $db->sql_fetchrow($result);
-        $db->sql_freeresult($result);
+        $result = $titanium_db->sql_query("SELECT COUNT(*) FROM ".$titanium_prefix."_pollcomments WHERE pollID='$pollID'");
+        list($numcom) = $titanium_db->sql_fetchrow($result);
+        $titanium_db->sql_freeresult($result);
         $content .= "<br /> "._PCOMMENTS." <strong>$numcom</strong>\n";
     }
     $content .= "</span></center></form>\n";

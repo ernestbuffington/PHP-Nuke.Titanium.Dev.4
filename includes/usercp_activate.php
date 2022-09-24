@@ -64,40 +64,40 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 $sql = "SELECT user_active, user_id, username, user_email, user_newpasswd, user_lang, user_actkey
         FROM " . USERS_TABLE . "
         WHERE user_id = " . intval($HTTP_GET_VARS[POST_USERS_URL]);
-if ( !($result = $db->sql_query($sql)) )
+if ( !($result = $titanium_db->sql_query($sql)) )
 {
         message_die(GENERAL_ERROR, 'Could not obtain user information', '', __LINE__, __FILE__, $sql);
 }
 
-if ( $row = $db->sql_fetchrow($result) )
+if ( $row = $titanium_db->sql_fetchrow($result) )
 {
         if ( $row['user_active'] && empty($row['user_actkey']) )
         {
-                $template->assign_vars(array(
-                        'META' => '<meta http-equiv="refresh" content="10;url=' . append_sid("index.$phpEx") . '">')
+                $phpbb2_template->assign_vars(array(
+                        'META' => '<meta http-equiv="refresh" content="10;url=' . append_titanium_sid("index.$phpEx") . '">')
                 );
 
-                message_die(GENERAL_MESSAGE, $lang['Already_activated']);
+                message_die(GENERAL_MESSAGE, $titanium_lang['Already_activated']);
         }
         else if ((trim($row['user_actkey']) == trim($HTTP_GET_VARS['act_key'])) && (!empty($row['user_actkey'])))
         {
-            if (intval($board_config['require_activation']) == USER_ACTIVATION_ADMIN && $row['user_newpasswd'] == '')
+            if (intval($phpbb2_board_config['require_activation']) == USER_ACTIVATION_ADMIN && $row['user_newpasswd'] == '')
             {
                 if (!$userdata['session_logged_in'])
                 {
-                    redirect(append_sid('login.' . $phpEx . '?redirect=profile.' . $phpEx . '&mode=activate&' . POST_USERS_URL . '=' . $row['user_id'] . '&act_key=' . trim($HTTP_GET_VARS['act_key'])));
+                    redirect_titanium(append_titanium_sid('login.' . $phpEx . '?redirect=profile.' . $phpEx . '&mode=activate&' . POST_USERS_URL . '=' . $row['user_id'] . '&act_key=' . trim($HTTP_GET_VARS['act_key'])));
                 }
                 else if ($userdata['user_level'] != ADMIN)
                 {
-                    message_die(GENERAL_MESSAGE, $lang['Not_Authorised']);
+                    message_die(GENERAL_MESSAGE, $titanium_lang['Not_Authorised']);
                 }
             }
                 $sql_update_pass = ( !empty($row['user_newpasswd']) ) ? ", user_password = '" . str_replace("\'", "''", $row['user_newpasswd']) . "', user_newpasswd = ''" : '';
@@ -105,56 +105,56 @@ if ( $row = $db->sql_fetchrow($result) )
                 $sql = "UPDATE " . USERS_TABLE . "
                         SET user_active = 1, user_actkey = ''" . $sql_update_pass . "
                         WHERE user_id = " . $row['user_id'];
-                if ( !($result = $db->sql_query($sql)) )
+                if ( !($result = $titanium_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not update users table', '', __LINE__, __FILE__, $sql_update);
                 }
 
-                if ( intval($board_config['require_activation']) == USER_ACTIVATION_ADMIN && empty($sql_update_pass) )
+                if ( intval($phpbb2_board_config['require_activation']) == USER_ACTIVATION_ADMIN && empty($sql_update_pass) )
                 {
                         include("includes/emailer.php");
-                        $emailer = new emailer($board_config['smtp_delivery']);
+                        $emailer = new emailer($phpbb2_board_config['smtp_delivery']);
 
-                        $emailer->from($board_config['board_email']);
-                        $emailer->replyto($board_config['board_email']);
+                        $emailer->from($phpbb2_board_config['board_email']);
+                        $emailer->replyto($phpbb2_board_config['board_email']);
 
                         $emailer->use_template('admin_welcome_activated', $row['user_lang']);
                         $emailer->email_address($row['user_email']);
-                        $emailer->set_subject($lang['Account_activated_subject']);
+                        $emailer->set_subject($titanium_lang['Account_activated_subject']);
 
                         $emailer->assign_vars(array(
-                                'SITENAME' => $board_config['sitename'],
+                                'SITENAME' => $phpbb2_board_config['sitename'],
                                 'USERNAME' => $row['username'],
                                 'PASSWORD' => $password_confirm,
-                                'EMAIL_SIG' => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '')
+                                'EMAIL_SIG' => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : '')
                         );
                         $emailer->send();
                         $emailer->reset();
 
-                        $template->assign_vars(array(
-                                'META' => '<meta http-equiv="refresh" content="10;url=' . append_sid("index.$phpEx") . '">')
+                        $phpbb2_template->assign_vars(array(
+                                'META' => '<meta http-equiv="refresh" content="10;url=' . append_titanium_sid("index.$phpEx") . '">')
                         );
 
-                        message_die(GENERAL_MESSAGE, $lang['Account_active_admin']);
+                        message_die(GENERAL_MESSAGE, $titanium_lang['Account_active_admin']);
                 }
                 else
                 {
-                        $template->assign_vars(array(
-                                'META' => '<meta http-equiv="refresh" content="10;url=' . append_sid("index.$phpEx") . '">')
+                        $phpbb2_template->assign_vars(array(
+                                'META' => '<meta http-equiv="refresh" content="10;url=' . append_titanium_sid("index.$phpEx") . '">')
                         );
 
-                        $message = ( $sql_update_pass == '' ) ? $lang['Account_active'] : $lang['Password_activated'];
+                        $message = ( $sql_update_pass == '' ) ? $titanium_lang['Account_active'] : $titanium_lang['Password_activated'];
                         message_die(GENERAL_MESSAGE, $message);
                 }
         }
         else
         {
-                message_die(GENERAL_MESSAGE, $lang['Wrong_activation']);
+                message_die(GENERAL_MESSAGE, $titanium_lang['Wrong_activation']);
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
 }
 else
 {
-        message_die(GENERAL_MESSAGE, $lang['No_such_user']);
+        message_die(GENERAL_MESSAGE, $titanium_lang['No_such_user']);
 }
 ?>

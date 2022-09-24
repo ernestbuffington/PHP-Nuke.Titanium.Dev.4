@@ -43,9 +43,9 @@ if(!get_magic_quotes_runtime()) {
 }
 $tidinfo['query_string'] = str_replace("http://", "", $nukeurl).$tidinfo['query_string'];
 $tidinfo['query_string'] = base64_encode($tidinfo['query_string']);
-$ip = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ips` WHERE `ip_addr`='".$tidinfo['ip_addr']."' LIMIT 0,1"));
+$ip = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='".$tidinfo['ip_addr']."' LIMIT 0,1"));
 if($ip < 1) {
-  $db->sql_query("INSERT INTO `".$prefix."_nsnst_blocked_ips` VALUES ('".$tidinfo['ip_addr']."', '".$tidinfo['ip_long']."', '".$tidinfo['user_id']."', '".$tidinfo['username']."', '".$tidinfo['user_agent']."', '".$tidinfo['date']."', '".$tidinfo['notes']."', '".$tidinfo['reason']."', '".$tidinfo['query_string']."', '".$tidinfo['query_string']."', '".$tidinfo['query_string']."', '".$tidinfo['x_forward_for']."', '".$tidinfo['client_ip']."', '".$tidinfo['remote_addr']."', '".$tidinfo['remote_port']."', '".$tidinfo['request_method']."', '".$tidinfo['expires']."', '".$tidinfo['c2c']."')");
+  $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_nsnst_blocked_ips` VALUES ('".$tidinfo['ip_addr']."', '".$tidinfo['ip_long']."', '".$tidinfo['user_id']."', '".$tidinfo['username']."', '".$tidinfo['user_agent']."', '".$tidinfo['date']."', '".$tidinfo['notes']."', '".$tidinfo['reason']."', '".$tidinfo['query_string']."', '".$tidinfo['query_string']."', '".$tidinfo['query_string']."', '".$tidinfo['x_forward_for']."', '".$tidinfo['client_ip']."', '".$tidinfo['remote_addr']."', '".$tidinfo['remote_port']."', '".$tidinfo['request_method']."', '".$tidinfo['expires']."', '".$tidinfo['c2c']."')");
   if($ab_config['htaccess_path'] != "") {
     $i = 1;
     while($i <= 3) {

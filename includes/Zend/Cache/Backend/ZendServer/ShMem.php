@@ -87,7 +87,7 @@ class Zend_Cache_Backend_ZendServer_ShMem extends Zend_Cache_Backend_ZendServer 
      */
     protected function _unset($id)
     {
-        return zend_shm_cache_delete($this->_options['namespace'] . '::' . $id);
+        return zend_shm_titanium_cache_delete($this->_options['namespace'] . '::' . $id);
     }
 
     /**
@@ -95,6 +95,6 @@ class Zend_Cache_Backend_ZendServer_ShMem extends Zend_Cache_Backend_ZendServer 
      */
     protected function _clear()
     {
-        zend_shm_cache_clear($this->_options['namespace']);
+        zend_shm_titanium_cache_clear($this->_options['namespace']);
     }
 }

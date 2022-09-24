@@ -14,14 +14,14 @@
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 exit('Access Denied');
 }
-global $prefix, $db, $admin_file, $currentlang;
+global $titanium_prefix, $titanium_db, $admin_file, $currentlang;
 if (file_exists(NUKE_ADMIN_DIR.'language/Honeypot/lang-'.$currentlang.'.php')) {
 include_once(NUKE_ADMIN_DIR.'language/Honeypot/lang-'.$currentlang.'.php');
 } else {
 include_once(NUKE_ADMIN_DIR.'language/Honeypot/lang-english.php');
 }
-$result1 = $db->sql_query("SELECT usehp, check1, check2, check3, check4, check3time, check4question, check4answer FROM ".$prefix."_honeypot_config");
-list($usehp, $check1, $check2, $check3, $check4, $check3time, $check4question, $check4answer) = $db->sql_fetchrow($result1);
+$result1 = $titanium_db->sql_query("SELECT usehp, check1, check2, check3, check4, check3time, check4question, check4answer FROM ".$titanium_prefix."_honeypot_config");
+list($usehp, $check1, $check2, $check3, $check4, $check3time, $check4question, $check4answer) = $titanium_db->sql_fetchrow($result1);
 
 if ($usehp == 1){
 if ($check3 == 1){

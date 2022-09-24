@@ -63,27 +63,27 @@
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
 exit('Access Denied');
 
-global $locked_width,
-         $screen_res, 
-         $textcolor1, 
-	     $textcolor2, 
-	       $bgcolor1,
-		   $bgcolor2,
-		   $bgcolor3,
-		   $bgcolor4,
-		   $bgcolor5,  
-		   $sitename, 
-		     $slogan, 
-		       $name, 
-		    $banners, 
-		         $db, 
-	    $user_prefix, 
-	         $prefix, 
-	     $admin_file, 
-	       $userinfo, 
-		  $ThemeInfo,
-   $titanium_browser, 
-	     $theme_name;
+ global $locked_width,
+          $screen_res, 
+          $textcolor1, 
+	      $textcolor2, 
+	        $bgcolor1,
+		    $bgcolor2,
+		    $bgcolor3,
+		    $bgcolor4,
+		    $bgcolor5,  
+		    $sitename, 
+		      $slogan, 
+		        $name, 
+		     $banners, 
+		 $titanium_db, 
+$titanium_user_prefix, 
+     $titanium_prefix, 
+	      $admin_file, 
+	        $userinfo, 
+		   $ThemeInfo,
+    $titanium_browser, 
+	      $theme_name;
 		 
 echo "\n\n<!-- THEME HEADER START -->\n"; # set background here in themes/Inferno/css/maintable.php
 

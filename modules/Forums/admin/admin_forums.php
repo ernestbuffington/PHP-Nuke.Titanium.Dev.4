@@ -73,7 +73,7 @@
 
 
 
-define('IN_PHPBB', 1);
+define('IN_PHPBB2', 1);
 
 
 
@@ -83,7 +83,7 @@ if( !empty($setmodules) )
 
         $file = basename(__FILE__);
 
-        $module['Forums']['Manage'] = $file;
+        $titanium_module['Forums']['Manage'] = $file;
 
         return;
 
@@ -97,9 +97,9 @@ if( !empty($setmodules) )
 
 //
 
-$phpbb_root_path = "./../";
+$phpbb2_root_path = "./../";
 
-require($phpbb_root_path . 'extension.inc');
+require($phpbb2_root_path . 'extension.inc');
 
 require('./pagestart.' . $phpEx);
 
@@ -187,7 +187,7 @@ function get_info($mode, $id)
 
 {
 
-        global $db;
+        global $titanium_db;
 
 
 
@@ -231,7 +231,7 @@ function get_info($mode, $id)
 
                 FROM $table";
 
-        if( !$result = $db->sql_query($sql) )
+        if( !$result = $titanium_db->sql_query($sql) )
 
         {
 
@@ -239,7 +239,7 @@ function get_info($mode, $id)
 
         }
 
-        $count = $db->sql_fetchrow($result);
+        $count = $titanium_db->sql_fetchrow($result);
 
         $count = $count['total'];
 
@@ -253,7 +253,7 @@ function get_info($mode, $id)
 
 
 
-        if( !$result = $db->sql_query($sql) )
+        if( !$result = $titanium_db->sql_query($sql) )
 
         {
 
@@ -263,7 +263,7 @@ function get_info($mode, $id)
 
 
 
-        if( $db->sql_numrows($result) != 1 )
+        if( $titanium_db->sql_numrows($result) != 1 )
 
         {
 
@@ -273,7 +273,7 @@ function get_info($mode, $id)
 
 
 
-        $return = $db->sql_fetchrow($result);
+        $return = $titanium_db->sql_fetchrow($result);
 
         $return['number'] = $count;
 
@@ -287,7 +287,7 @@ function get_list($mode, $id, $select)
 
 {
 
-        global $db;
+        global $titanium_db;
 
 
 
@@ -343,7 +343,7 @@ function get_list($mode, $id, $select)
 
 
 
-        if( !$result = $db->sql_query($sql) )
+        if( !$result = $titanium_db->sql_query($sql) )
 
         {
 
@@ -357,7 +357,7 @@ function get_list($mode, $id, $select)
 
 
 
-        while( $row = $db->sql_fetchrow($result) )
+        while( $row = $titanium_db->sql_fetchrow($result) )
 
         {
 
@@ -389,11 +389,11 @@ function get_list($mode, $id, $select)
 
  ******************************************************/
 
-function get_list_cat($id, $parent, $forum_id)
+function get_list_cat($id, $parent, $phpbb2_forum_id)
 
 {
 
-	global $db;
+	global $titanium_db;
 
 
 
@@ -403,7 +403,7 @@ function get_list_cat($id, $parent, $forum_id)
 
 	
 
-	if( !($result = $db->sql_query($sql)) )
+	if( !($result = $titanium_db->sql_query($sql)) )
 
 	{
 
@@ -417,7 +417,7 @@ function get_list_cat($id, $parent, $forum_id)
 
 	
 
-	while( $row = $db->sql_fetchrow($result) )
+	while( $row = $titanium_db->sql_fetchrow($result) )
 
 	{
 
@@ -427,7 +427,7 @@ function get_list_cat($id, $parent, $forum_id)
 
 
 
-	$db->sql_freeresult($result);
+	$titanium_db->sql_freeresult($result);
 
 
 
@@ -439,7 +439,7 @@ function get_list_cat($id, $parent, $forum_id)
 
 	
 
-	if( !($result = $db->sql_query($sql)) )
+	if( !($result = $titanium_db->sql_query($sql)) )
 
 	{
 
@@ -453,11 +453,11 @@ function get_list_cat($id, $parent, $forum_id)
 
 	
 
-	while( $row = $db->sql_fetchrow($result) )
+	while( $row = $titanium_db->sql_fetchrow($result) )
 
 	{
 
-		if( $row['forum_parent'] > 0 && $row['forum_parent'] == $forum_id )
+		if( $row['forum_parent'] > 0 && $row['forum_parent'] == $phpbb2_forum_id )
 
 		{
 
@@ -477,7 +477,7 @@ function get_list_cat($id, $parent, $forum_id)
 
 	}
 
-	$db->sql_freeresult($result);
+	$titanium_db->sql_freeresult($result);
 
 
 
@@ -503,15 +503,15 @@ function get_list_cat($id, $parent, $forum_id)
 
 			{
 
-				if( $forums_list[$j]['cat_id'] == $cat_id && $forums_list[$j]['forum_id'] != $forum_id )
+				if( $forums_list[$j]['cat_id'] == $cat_id && $forums_list[$j]['forum_id'] != $phpbb2_forum_id )
 
 				{
 
-					$forum_id2 = $forums_list[$j]['forum_id'];
+					$phpbb2_forum_id2 = $forums_list[$j]['forum_id'];
 
-					$selected = ( $id == $cat_id && $parent == $forum_id2 ) ? ' selected="selected"' : '';
+					$selected = ( $id == $cat_id && $parent == $phpbb2_forum_id2 ) ? ' selected="selected"' : '';
 
-					$str .= '<option value="' . $cat_id . ',' . $forum_id2 . '"' . $selected . '>- ' . $forums_list[$j]['forum_name'] . '</option>';
+					$str .= '<option value="' . $cat_id . ',' . $phpbb2_forum_id2 . '"' . $selected . '>- ' . $forums_list[$j]['forum_name'] . '</option>';
 
 				}
 
@@ -537,7 +537,7 @@ function renumber_order($mode, $cat = 0)
 
 {
 
-        global $db;
+        global $titanium_db;
 
 
 
@@ -561,9 +561,9 @@ function renumber_order($mode, $cat = 0)
 
  ******************************************************/
 
-                        global $cache;
+                        global $titanium_cache;
 
-                        $cache->delete('category_rows', 'config');
+                        $titanium_cache->delete('category_rows', 'config');
 
 /*****[END]********************************************
 
@@ -611,7 +611,7 @@ function renumber_order($mode, $cat = 0)
 
         $sql .= " ORDER BY $orderfield ASC";
 
-        if( !$result = $db->sql_query($sql) )
+        if( !$result = $titanium_db->sql_query($sql) )
 
         {
 
@@ -627,7 +627,7 @@ function renumber_order($mode, $cat = 0)
 
 
 
-        while( $row = $db->sql_fetchrow($result) )
+        while( $row = $titanium_db->sql_fetchrow($result) )
 
         {
 
@@ -637,7 +637,7 @@ function renumber_order($mode, $cat = 0)
 
                         WHERE $idfield = " . $row[$idfield];
 
-                if( !$db->sql_query($sql) )
+                if( !$titanium_db->sql_query($sql) )
 
                 {
 
@@ -699,7 +699,7 @@ if( !empty($HTTP_POST_VARS['password']) )
 {
 	if( !preg_match("#^[A-Za-z0-9]{3,20}$#si", $HTTP_POST_VARS['password']) )
 	{
-		message_die(GENERAL_MESSAGE, $lang['Only_alpha_num_chars']);
+		message_die(GENERAL_MESSAGE, $titanium_lang['Only_alpha_num_chars']);
 	}
 }
 
@@ -729,19 +729,19 @@ if( !empty($mode) )
 
 
 
-                                $l_title = $lang['Edit_forum'];
+                                $l_title = $titanium_lang['Edit_forum'];
 
                                 $newmode = 'modforum';
 
-                                $buttonvalue = $lang['Update'];
+                                $buttonvalue = $titanium_lang['Update'];
 
 
 
-                                $forum_id = intval($HTTP_GET_VARS[POST_FORUM_URL]);
+                                $phpbb2_forum_id = intval($HTTP_GET_VARS[POST_FORUM_URL]);
 
 
 
-                                $row = get_info('forum', $forum_id);
+                                $row = get_info('forum', $phpbb2_forum_id);
 
 
 
@@ -753,7 +753,7 @@ if( !empty($mode) )
 
  ******************************************************/
 
-								$parent_id = $row['forum_parent'];
+								$phpbb2_parent_id = $row['forum_parent'];
 
 /*****[END]********************************************
 
@@ -804,11 +804,11 @@ if( !empty($mode) )
 
 								$forum_is_link = $row['title_is_link'];
 
-								$forum_weblink = $row['weblink'];
+								$phpbb2_forum_weblink = $row['weblink'];
 
-								$forum_link_icon = $row['forum_link_icon'];
+								$phpbb2_forum_link_icon = $row['forum_link_icon'];
 
-								$forum_link_target = $row['forum_link_target'];
+								$phpbb2_forum_link_target = $row['forum_link_target'];
 
 /*****[END]********************************************
 
@@ -868,9 +868,9 @@ if( !empty($mode) )
 
                                        FROM " . PRUNE_TABLE . "
 
-                                       WHERE forum_id = $forum_id";
+                                       WHERE forum_id = $phpbb2_forum_id";
 
-                                        if(!$pr_result = $db->sql_query($sql))
+                                        if(!$pr_result = $titanium_db->sql_query($sql))
 
                                         {
 
@@ -880,7 +880,7 @@ if( !empty($mode) )
 
 
 
-                                        $pr_row = $db->sql_fetchrow($pr_result);
+                                        $pr_row = $titanium_db->sql_fetchrow($pr_result);
 
                                 }
 
@@ -898,11 +898,11 @@ if( !empty($mode) )
 
                         {
 
-                                $l_title = $lang['Create_forum'];
+                                $l_title = $titanium_lang['Create_forum'];
 
                                 $newmode = 'createforum';
 
-                                $buttonvalue = $lang['Create_forum'];
+                                $buttonvalue = $titanium_lang['Create_forum'];
 
 
 
@@ -969,7 +969,7 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                                $forum_id = '';
+                                $phpbb2_forum_id = '';
 
                                 $prune_enabled = '';
 
@@ -979,7 +979,7 @@ if( !empty($mode) )
 
  ******************************************************/
 
-								$parent_id = 0;
+								$phpbb2_parent_id = 0;
 
 /*****[END]********************************************
 
@@ -999,7 +999,7 @@ if( !empty($mode) )
 
 						//$catlist = get_list('category', $cat_id, TRUE);
 
-						$catlist = get_list_cat($cat_id, $parent_id, $forum_id);
+						$catlist = get_list_cat($cat_id, $phpbb2_parent_id, $phpbb2_forum_id);
 
 /*****[END]********************************************
 
@@ -1027,19 +1027,19 @@ if( !empty($mode) )
 
 
 
-                        // These two options ($lang['Status_unlocked'] and $lang['Status_locked']) seem to be missing from
+                        // These two options ($titanium_lang['Status_unlocked'] and $titanium_lang['Status_locked']) seem to be missing from
 
                         // the language files.
 
-                        $lang['Status_unlocked'] = isset($lang['Status_unlocked']) ? $lang['Status_unlocked'] : 'Unlocked';
+                        $titanium_lang['Status_unlocked'] = isset($titanium_lang['Status_unlocked']) ? $titanium_lang['Status_unlocked'] : 'Unlocked';
 
-                        $lang['Status_locked'] = isset($lang['Status_locked']) ? $lang['Status_locked'] : 'Locked';
+                        $titanium_lang['Status_locked'] = isset($titanium_lang['Status_locked']) ? $titanium_lang['Status_locked'] : 'Locked';
 
 
 
-                        $statuslist = "<option value=\"" . FORUM_UNLOCKED . "\" $forumunlocked>" . $lang['Status_unlocked'] . "</option>\n";
+                        $statuslist = "<option value=\"" . FORUM_UNLOCKED . "\" $forumunlocked>" . $titanium_lang['Status_unlocked'] . "</option>\n";
 
-                        $statuslist .= "<option value=\"" . FORUM_LOCKED . "\" $forumlocked>" . $lang['Status_locked'] . "</option>\n";
+                        $statuslist .= "<option value=\"" . FORUM_LOCKED . "\" $forumlocked>" . $titanium_lang['Status_locked'] . "</option>\n";
 
 						
 
@@ -1061,7 +1061,7 @@ if( !empty($mode) )
 
 
 
-                        $template->set_filenames(array(
+                        $phpbb2_template->set_filenames(array(
 
                                 "body" => "admin/forum_edit_body.tpl")
 
@@ -1087,7 +1087,7 @@ if( !empty($mode) )
 
 
 
-                        $s_hidden_fields = '<input type="hidden" name="mode" value="' . $newmode .'" /><input type="hidden" name="' . POST_FORUM_URL . '" value="' . $forum_id . '" />';
+                        $s_hidden_fields = '<input type="hidden" name="mode" value="' . $newmode .'" /><input type="hidden" name="' . POST_FORUM_URL . '" value="' . $phpbb2_forum_id . '" />';
 
 
 
@@ -1095,7 +1095,7 @@ if( !empty($mode) )
 
 
 
-                        $template->assign_vars(array(
+                        $phpbb2_template->assign_vars(array(
 
 /*****[BEGIN]******************************************
 
@@ -1103,7 +1103,7 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                                'L_FORUM_DISPLAY_SORT'        => $lang['Sort_by'],
+                                'L_FORUM_DISPLAY_SORT'        => $titanium_lang['Sort_by'],
 
                                 'S_FORUM_DISPLAY_SORT_LIST'        => $forum_display_sort_list,
 
@@ -1115,7 +1115,7 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                                'S_FORUM_ACTION' => append_sid("admin_forums.$phpEx"),
+                                'S_FORUM_ACTION' => append_titanium_sid("admin_forums.$phpEx"),
 
                                 'S_HIDDEN_FIELDS' => $s_hidden_fields,
 
@@ -1153,11 +1153,11 @@ if( !empty($mode) )
 
  ******************************************************/ 
 
-								'L_FORUM_IS_LINK' => $lang['Forum_is_link'],
+								'L_FORUM_IS_LINK' => $titanium_lang['Forum_is_link'],
 
-								'L_FORUM_WEBLINK' => $lang['Forum_weblink'],
+								'L_FORUM_WEBLINK' => $titanium_lang['Forum_weblink'],
 
-								'L_FORUM_LINK_ICON' => $lang['Forum_link_icon'],
+								'L_FORUM_LINK_ICON' => $titanium_lang['Forum_link_icon'],
 
 /*****[END]********************************************
 
@@ -1171,9 +1171,9 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                                'L_FORUM_COLOR' => $lang['Forum_color'],
+                                'L_FORUM_COLOR' => $titanium_lang['Forum_color'],
 
-                                'L_FORUM_COLOR_EXPLAIN' => $lang['Forum_color_explain'],
+                                'L_FORUM_COLOR_EXPLAIN' => $titanium_lang['Forum_color_explain'],
 
 /*****[END]********************************************
 
@@ -1181,11 +1181,11 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                                'L_FORUM_EXPLAIN' => $lang['Forum_edit_delete_explain'],
+                                'L_FORUM_EXPLAIN' => $titanium_lang['Forum_edit_delete_explain'],
 
-                                'L_FORUM_SETTINGS' => $lang['Forum_settings'],
+                                'L_FORUM_SETTINGS' => $titanium_lang['Forum_settings'],
 
-                                'L_FORUM_NAME' => $lang['Forum_name'],
+                                'L_FORUM_NAME' => $titanium_lang['Forum_name'],
 
 /*****[BEGIN]******************************************
 
@@ -1193,9 +1193,9 @@ if( !empty($mode) )
 
  ******************************************************/
 
-								//'L_CATEGORY' => $lang['Category'],
+								//'L_CATEGORY' => $titanium_lang['Category'],
 
-								'L_CATEGORY' => $lang['Category'] . ' / ' . $lang['Forum'],
+								'L_CATEGORY' => $titanium_lang['Category'] . ' / ' . $titanium_lang['Forum'],
 
 /*****[END]********************************************
 
@@ -1203,10 +1203,10 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                                'L_FORUM_DESCRIPTION' => $lang['Forum_desc'],
+                                'L_FORUM_DESCRIPTION' => $titanium_lang['Forum_desc'],
 
-                                'L_FORUM_STATUS' => $lang['Forum_status'],
-								'L_PASSWORD' => $lang['Forum_password'],
+                                'L_FORUM_STATUS' => $titanium_lang['Forum_status'],
+								'L_PASSWORD' => $titanium_lang['Forum_password'],
 
 /*****[BEGIN]******************************************
 
@@ -1214,11 +1214,11 @@ if( !empty($mode) )
 
  ******************************************************/
 
-								'L_FORUM_THANK' => $lang['use_thank'],
+								'L_FORUM_THANK' => $titanium_lang['use_thank'],
 
-								'L_YES' => $lang['Yes'],
+								'L_YES' => $titanium_lang['Yes'],
 
-								'L_NO' => $lang['No'],
+								'L_NO' => $titanium_lang['No'],
 
 /*****[END]********************************************
 
@@ -1232,7 +1232,7 @@ if( !empty($mode) )
 
  ******************************************************/
 
-								'L_FORUM_ICON' => $lang['Forum_icon'],
+								'L_FORUM_ICON' => $titanium_lang['Forum_icon'],
 
 /*****[END]********************************************
 
@@ -1240,15 +1240,15 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                                'L_AUTO_PRUNE' => $lang['Forum_pruning'],
+                                'L_AUTO_PRUNE' => $titanium_lang['Forum_pruning'],
 
-                                'L_ENABLED' => $lang['Enabled'],
+                                'L_ENABLED' => $titanium_lang['Enabled'],
 
-                                'L_PRUNE_DAYS' => $lang['prune_days'],
+                                'L_PRUNE_DAYS' => $titanium_lang['prune_days'],
 
-                                'L_PRUNE_FREQ' => $lang['prune_freq'],
+                                'L_PRUNE_FREQ' => $titanium_lang['prune_freq'],
 
-                                'L_DAYS' => $lang['Days'],
+                                'L_DAYS' => $titanium_lang['Days'],
 
 
 
@@ -1283,9 +1283,9 @@ if( !empty($mode) )
 
 								'FORUM_IS_LINK' => ($forum_is_link) ? 'checked="checked"' : '',
 
-								'FORUM_WEBLINK' => ($forum_weblink) ? $forum_weblink : 'http://',
+								'FORUM_WEBLINK' => ($phpbb2_forum_weblink) ? $phpbb2_forum_weblink : 'http://',
 
-								'FORUM_LINK_ICON' => $forum_link_icon,
+								'FORUM_LINK_ICON' => $phpbb2_forum_link_icon,
 
 /*****[END]********************************************
 
@@ -1301,7 +1301,7 @@ if( !empty($mode) )
 
 								'ICON' => ( $forumicon ) ? $forumicon : '', 
 
-								'ICON_DISPLAY' => ( $forumicon ) ? '<img src="' . $phpbb_root_path . $forumicon . '" />' : '')
+								'ICON_DISPLAY' => ( $forumicon ) ? '<img src="' . $phpbb2_root_path . $forumicon . '" />' : '')
 
 /*****[END]********************************************
 
@@ -1313,7 +1313,7 @@ if( !empty($mode) )
 
                         );
 
-                        $template->pparse("body");
+                        $phpbb2_template->pparse("body");
 
                         break;
 
@@ -1343,7 +1343,7 @@ if( !empty($mode) )
 
                                 WHERE cat_id = " . intval($HTTP_POST_VARS[POST_CAT_URL]);
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -1351,7 +1351,7 @@ if( !empty($mode) )
 
                         }
 
-                        $row = $db->sql_fetchrow($result);
+                        $row = $titanium_db->sql_fetchrow($result);
 
 
 
@@ -1365,7 +1365,7 @@ if( !empty($mode) )
 
                                 FROM " . FORUMS_TABLE;
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -1373,7 +1373,7 @@ if( !empty($mode) )
 
                         }
 
-                        $row = $db->sql_fetchrow($result);
+                        $row = $titanium_db->sql_fetchrow($result);
 
 
 
@@ -1485,7 +1485,7 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -1505,7 +1505,7 @@ if( !empty($mode) )
 
                                 {
 
-                                        message_die(GENERAL_MESSAGE, $lang['Set_prune_data']);
+                                        message_die(GENERAL_MESSAGE, $titanium_lang['Set_prune_data']);
 
                                 }
 
@@ -1515,7 +1515,7 @@ if( !empty($mode) )
 
                                         VALUES('" . $next_id . "', " . intval($HTTP_POST_VARS['prune_days']) . ", " . intval($HTTP_POST_VARS['prune_freq']) . ")";
 
-                                if( !$result = $db->sql_query($sql) )
+                                if( !$result = $titanium_db->sql_query($sql) )
 
                                 {
 
@@ -1527,7 +1527,7 @@ if( !empty($mode) )
 
 
 
-                        $message = $lang['Forums_updated'] . "<br /><br />" . sprintf($lang['Click_return_forumadmin'], "<a href=\"" . append_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $titanium_lang['Forums_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
 
 
@@ -1547,9 +1547,9 @@ if( !empty($mode) )
 
  ******************************************************/
 
-						$forum_id = intval($HTTP_POST_VARS[POST_FORUM_URL]);
+						$phpbb2_forum_id = intval($HTTP_POST_VARS[POST_FORUM_URL]);
 
-						$row = get_info('forum', $forum_id);
+						$row = get_info('forum', $phpbb2_forum_id);
 
 						$list = explode(',', $HTTP_POST_VARS[POST_CAT_URL]);
 
@@ -1565,9 +1565,9 @@ if( !empty($mode) )
 
 							// Move subforums to new category
 
-							$sql = "UPDATE " . FORUMS_TABLE . " SET cat_id='$new_cat' WHERE forum_parent='$forum_id'";
+							$sql = "UPDATE " . FORUMS_TABLE . " SET cat_id='$new_cat' WHERE forum_parent='$phpbb2_forum_id'";
 
-							$db->sql_query($sql);
+							$titanium_db->sql_query($sql);
 
 						}
 
@@ -1631,7 +1631,7 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -1649,7 +1649,7 @@ if( !empty($mode) )
 
                                 {
 
-                                        message_die(GENERAL_MESSAGE, $lang['Set_prune_data']);
+                                        message_die(GENERAL_MESSAGE, $titanium_lang['Set_prune_data']);
 
                                 }
 
@@ -1661,7 +1661,7 @@ if( !empty($mode) )
 
                                         WHERE forum_id = " . intval($HTTP_POST_VARS[POST_FORUM_URL]);
 
-                                if( !$result = $db->sql_query($sql) )
+                                if( !$result = $titanium_db->sql_query($sql) )
 
                                 {
 
@@ -1671,7 +1671,7 @@ if( !empty($mode) )
 
 
 
-                                if( $db->sql_numrows($result) > 0 )
+                                if( $titanium_db->sql_numrows($result) > 0 )
 
                                 {
 
@@ -1695,7 +1695,7 @@ if( !empty($mode) )
 
 
 
-                                if( !$result = $db->sql_query($sql) )
+                                if( !$result = $titanium_db->sql_query($sql) )
 
                                 {
 
@@ -1707,7 +1707,7 @@ if( !empty($mode) )
 
 
 
-                        $message = $lang['Forums_updated'] . "<br /><br />" . sprintf($lang['Click_return_forumadmin'], "<a href=\"" . append_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $titanium_lang['Forums_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
 
 
@@ -1737,7 +1737,7 @@ if( !empty($mode) )
 
                                 FROM " . CATEGORIES_TABLE;
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -1745,7 +1745,7 @@ if( !empty($mode) )
 
                         }
 
-                        $row = $db->sql_fetchrow($result);
+                        $row = $titanium_db->sql_fetchrow($result);
 
 
 
@@ -1765,7 +1765,7 @@ if( !empty($mode) )
 
                                 VALUES ('" . str_replace("\'", "''", $HTTP_POST_VARS['categoryname']) . "', $next_order)";
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -1779,9 +1779,9 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        global $cache;
+                        global $titanium_cache;
 
-                        $cache->delete('category_rows', 'config');
+                        $titanium_cache->delete('category_rows', 'config');
 
 /*****[END]********************************************
 
@@ -1789,7 +1789,7 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        $message = $lang['Forums_updated'] . "<br /><br />" . sprintf($lang['Click_return_forumadmin'], "<a href=\"" . append_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $titanium_lang['Forums_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
 
 
@@ -1811,7 +1811,7 @@ if( !empty($mode) )
 
                         $newmode = 'modcat';
 
-                        $buttonvalue = $lang['Update'];
+                        $buttonvalue = $titanium_lang['Update'];
 
 
 
@@ -1825,7 +1825,7 @@ if( !empty($mode) )
 
 
 
-                        $template->set_filenames(array(
+                        $phpbb2_template->set_filenames(array(
 
                                 "body" => "admin/category_edit_body.tpl")
 
@@ -1837,17 +1837,17 @@ if( !empty($mode) )
 
 
 
-                        $template->assign_vars(array(
+                        $phpbb2_template->assign_vars(array(
 
                                 'CAT_TITLE' => $cat_title,
 
 
 
-                                'L_EDIT_CATEGORY' => $lang['Edit_Category'],
+                                'L_EDIT_CATEGORY' => $titanium_lang['Edit_Category'],
 
-                                'L_EDIT_CATEGORY_EXPLAIN' => $lang['Edit_Category_explain'],
+                                'L_EDIT_CATEGORY_EXPLAIN' => $titanium_lang['Edit_Category_explain'],
 
-                                'L_CATEGORY' => $lang['Category'],
+                                'L_CATEGORY' => $titanium_lang['Category'],
 
 
 
@@ -1855,13 +1855,13 @@ if( !empty($mode) )
 
                                 'S_SUBMIT_VALUE' => $buttonvalue,
 
-                                'S_FORUM_ACTION' => append_sid("admin_forums.$phpEx"))
+                                'S_FORUM_ACTION' => append_titanium_sid("admin_forums.$phpEx"))
 
                         );
 
 
 
-                        $template->pparse("body");
+                        $phpbb2_template->pparse("body");
 
                         break;
 
@@ -1877,7 +1877,7 @@ if( !empty($mode) )
 
                                 WHERE cat_id = " . intval($HTTP_POST_VARS[POST_CAT_URL]);
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -1891,9 +1891,9 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        global $cache;
+                        global $titanium_cache;
 
-                        $cache->delete('category_rows', 'config');
+                        $titanium_cache->delete('category_rows', 'config');
 
 /*****[END]********************************************
 
@@ -1901,7 +1901,7 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        $message = $lang['Forums_updated'] . "<br /><br />" . sprintf($lang['Click_return_forumadmin'], "<a href=\"" . append_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $titanium_lang['Forums_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
 
 
@@ -1917,21 +1917,21 @@ if( !empty($mode) )
 
                         // Show form to delete a forum
 
-                        $forum_id = intval($HTTP_GET_VARS[POST_FORUM_URL]);
+                        $phpbb2_forum_id = intval($HTTP_GET_VARS[POST_FORUM_URL]);
 
 
 
                         $select_to = '<select name="to_id">';
 
-                        $select_to .= "<option value=\"-1\"$s>" . $lang['Delete_all_posts'] . "</option>\n";
+                        $select_to .= "<option value=\"-1\"$s>" . $titanium_lang['Delete_all_posts'] . "</option>\n";
 
-                        $select_to .= get_list('forum', $forum_id, 0);
+                        $select_to .= get_list('forum', $phpbb2_forum_id, 0);
 
                         $select_to .= '</select>';
 
 
 
-                        $buttonvalue = $lang['Move_and_Delete'];
+                        $buttonvalue = $titanium_lang['Move_and_Delete'];
 
 
 
@@ -1939,13 +1939,13 @@ if( !empty($mode) )
 
 
 
-                        $foruminfo = get_info('forum', $forum_id);
+                        $foruminfo = get_info('forum', $phpbb2_forum_id);
 
                         $name = $foruminfo['forum_name'];
 
 
 
-                        $template->set_filenames(array(
+                        $phpbb2_template->set_filenames(array(
 
                                 "body" => "admin/forum_delete_body.tpl")
 
@@ -1953,29 +1953,29 @@ if( !empty($mode) )
 
 
 
-                        $s_hidden_fields = '<input type="hidden" name="mode" value="' . $newmode . '" /><input type="hidden" name="from_id" value="' . $forum_id . '" />';
+                        $s_hidden_fields = '<input type="hidden" name="mode" value="' . $newmode . '" /><input type="hidden" name="from_id" value="' . $phpbb2_forum_id . '" />';
 
 
 
-                        $template->assign_vars(array(
+                        $phpbb2_template->assign_vars(array(
 
                                 'NAME' => $name,
 
 
 
-                                'L_FORUM_DELETE' => $lang['Forum_delete'],
+                                'L_FORUM_DELETE' => $titanium_lang['Forum_delete'],
 
-                                'L_FORUM_DELETE_EXPLAIN' => $lang['Forum_delete_explain'],
+                                'L_FORUM_DELETE_EXPLAIN' => $titanium_lang['Forum_delete_explain'],
 
-                                'L_MOVE_CONTENTS' => $lang['Move_contents'],
+                                'L_MOVE_CONTENTS' => $titanium_lang['Move_contents'],
 
-                                'L_FORUM_NAME' => $lang['Forum_name'],
+                                'L_FORUM_NAME' => $titanium_lang['Forum_name'],
 
 
 
                                 "S_HIDDEN_FIELDS" => $s_hidden_fields,
 
-                                'S_FORUM_ACTION' => append_sid("admin_forums.$phpEx"),
+                                'S_FORUM_ACTION' => append_titanium_sid("admin_forums.$phpEx"),
 
                                 'S_SELECT_TO' => $select_to,
 
@@ -1985,7 +1985,7 @@ if( !empty($mode) )
 
 
 
-                        $template->pparse("body");
+                        $phpbb2_template->pparse("body");
 
                         break;
 
@@ -2023,7 +2023,7 @@ if( !empty($mode) )
 
                                                 AND v.topic_id = t.topic_id";
 
-                                if (!($result = $db->sql_query($sql)))
+                                if (!($result = $titanium_db->sql_query($sql)))
 
                                 {
 
@@ -2033,7 +2033,7 @@ if( !empty($mode) )
 
 
 
-                                if ($row = $db->sql_fetchrow($result))
+                                if ($row = $titanium_db->sql_fetchrow($result))
 
                                 {
 
@@ -2047,7 +2047,7 @@ if( !empty($mode) )
 
                                         }
 
-                                        while ($row = $db->sql_fetchrow($result));
+                                        while ($row = $titanium_db->sql_fetchrow($result));
 
 
 
@@ -2055,7 +2055,7 @@ if( !empty($mode) )
 
                                                 WHERE vote_id IN ($vote_ids)";
 
-                                        $db->sql_query($sql);
+                                        $titanium_db->sql_query($sql);
 
 
 
@@ -2063,7 +2063,7 @@ if( !empty($mode) )
 
                                                 WHERE vote_id IN ($vote_ids)";
 
-                                        $db->sql_query($sql);
+                                        $titanium_db->sql_query($sql);
 
 
 
@@ -2071,11 +2071,11 @@ if( !empty($mode) )
 
                                                 WHERE vote_id IN ($vote_ids)";
 
-                                        $db->sql_query($sql);
+                                        $titanium_db->sql_query($sql);
 
                                 }
 
-                                $db->sql_freeresult($result);
+                                $titanium_db->sql_freeresult($result);
 
 
 
@@ -2095,7 +2095,7 @@ if( !empty($mode) )
 
                                         WHERE forum_id IN ($from_id, $to_id)";
 
-                                if( !$result = $db->sql_query($sql) )
+                                if( !$result = $titanium_db->sql_query($sql) )
 
                                 {
 
@@ -2105,7 +2105,7 @@ if( !empty($mode) )
 
 
 
-                                if($db->sql_numrows($result) != 2)
+                                if($titanium_db->sql_numrows($result) != 2)
 
                                 {
 
@@ -2119,7 +2119,7 @@ if( !empty($mode) )
 
                                         WHERE forum_id = $from_id";
 
-                                if( !$result = $db->sql_query($sql) )
+                                if( !$result = $titanium_db->sql_query($sql) )
 
                                 {
 
@@ -2133,7 +2133,7 @@ if( !empty($mode) )
 
                                         WHERE forum_id = $from_id";
 
-                                if( !$result = $db->sql_query($sql) )
+                                if( !$result = $titanium_db->sql_query($sql) )
 
                                 {
 
@@ -2159,7 +2159,7 @@ if( !empty($mode) )
 
                                         AND ug.group_id = a.group_id";
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -2169,21 +2169,21 @@ if( !empty($mode) )
 
 
 
-                        if ($row = $db->sql_fetchrow($result))
+                        if ($row = $titanium_db->sql_fetchrow($result))
 
                         {
 
-                                $user_ids = '';
+                                $titanium_user_ids = '';
 
                                 do
 
                                 {
 
-                                        $user_ids .= (($user_ids != '') ? ', ' : '' ) . $row['user_id'];
+                                        $titanium_user_ids .= (($titanium_user_ids != '') ? ', ' : '' ) . $row['user_id'];
 
                                 }
 
-                                while ($row = $db->sql_fetchrow($result));
+                                while ($row = $titanium_db->sql_fetchrow($result));
 
 
 
@@ -2197,9 +2197,9 @@ if( !empty($mode) )
 
                                                 AND ug.group_id = a.group_id
 
-                                                AND ug.user_id NOT IN ($user_ids)";
+                                                AND ug.user_id NOT IN ($titanium_user_ids)";
 
-                                if( !$result2 = $db->sql_query($sql) )
+                                if( !$result2 = $titanium_db->sql_query($sql) )
 
                                 {
 
@@ -2209,21 +2209,21 @@ if( !empty($mode) )
 
 
 
-                                if ($row = $db->sql_fetchrow($result2))
+                                if ($row = $titanium_db->sql_fetchrow($result2))
 
                                 {
 
-                                        $user_ids = '';
+                                        $titanium_user_ids = '';
 
                                         do
 
                                         {
 
-                                                $user_ids .= (($user_ids != '') ? ', ' : '' ) . $row['user_id'];
+                                                $titanium_user_ids .= (($titanium_user_ids != '') ? ', ' : '' ) . $row['user_id'];
 
                                         }
 
-                                        while ($row = $db->sql_fetchrow($result2));
+                                        while ($row = $titanium_db->sql_fetchrow($result2));
 
 
 
@@ -2231,21 +2231,21 @@ if( !empty($mode) )
 
                                                 SET user_level = " . USER . "
 
-                                                WHERE user_id IN ($user_ids)
+                                                WHERE user_id IN ($titanium_user_ids)
 
                                                         AND user_level <> " . ADMIN;
 
-                                        $db->sql_query($sql);
+                                        $titanium_db->sql_query($sql);
 
                                 }
 
-                                $db->sql_freeresult($result);
+                                $titanium_db->sql_freeresult($result);
 
 
 
                         }
 
-                        $db->sql_freeresult($result2);
+                        $titanium_db->sql_freeresult($result2);
 
 
 
@@ -2253,7 +2253,7 @@ if( !empty($mode) )
 
                                 WHERE forum_id = $from_id";
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -2273,7 +2273,7 @@ if( !empty($mode) )
 
 						$sql = "UPDATE " . FORUMS_TABLE . " SET forum_parent = '0' WHERE forum_parent = '$from_id'";
 
-						$db->sql_query($sql);
+						$titanium_db->sql_query($sql);
 
 /*****[END]********************************************
 
@@ -2287,7 +2287,7 @@ if( !empty($mode) )
 
                                 WHERE forum_id = $from_id";
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -2301,7 +2301,7 @@ if( !empty($mode) )
 
                                 WHERE forum_id = $from_id";
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -2311,7 +2311,7 @@ if( !empty($mode) )
 
 
 
-                        $message = $lang['Forums_updated'] . "<br /><br />" . sprintf($lang['Click_return_forumadmin'], "<a href=\"" . append_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $titanium_lang['Forums_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
 
 
@@ -2335,7 +2335,7 @@ if( !empty($mode) )
 
 
 
-                        $buttonvalue = $lang['Move_and_Delete'];
+                        $buttonvalue = $titanium_lang['Move_and_Delete'];
 
                         $newmode = 'movedelcat';
 
@@ -2353,7 +2353,7 @@ if( !empty($mode) )
 
                                         FROM ". FORUMS_TABLE;
 
-                                if( !$result = $db->sql_query($sql) )
+                                if( !$result = $titanium_db->sql_query($sql) )
 
                                 {
 
@@ -2361,7 +2361,7 @@ if( !empty($mode) )
 
                                 }
 
-                                $count = $db->sql_fetchrow($result);
+                                $count = $titanium_db->sql_fetchrow($result);
 
                                 $count = $count['total'];
 
@@ -2371,7 +2371,7 @@ if( !empty($mode) )
 
                                 {
 
-                                        message_die(GENERAL_ERROR, $lang['Must_delete_forums']);
+                                        message_die(GENERAL_ERROR, $titanium_lang['Must_delete_forums']);
 
                                 }
 
@@ -2379,7 +2379,7 @@ if( !empty($mode) )
 
                                 {
 
-                                        $select_to = $lang['Nowhere_to_move'];
+                                        $select_to = $titanium_lang['Nowhere_to_move'];
 
                                 }
 
@@ -2399,7 +2399,7 @@ if( !empty($mode) )
 
 
 
-                        $template->set_filenames(array(
+                        $phpbb2_template->set_filenames(array(
 
                                 "body" => "admin/forum_delete_body.tpl")
 
@@ -2411,25 +2411,25 @@ if( !empty($mode) )
 
 
 
-                        $template->assign_vars(array(
+                        $phpbb2_template->assign_vars(array(
 
                                 'NAME' => $name,
 
 
 
-                                'L_FORUM_DELETE' => $lang['Forum_delete'],
+                                'L_FORUM_DELETE' => $titanium_lang['Forum_delete'],
 
-                                'L_FORUM_DELETE_EXPLAIN' => $lang['Forum_delete_explain'],
+                                'L_FORUM_DELETE_EXPLAIN' => $titanium_lang['Forum_delete_explain'],
 
-                                'L_MOVE_CONTENTS' => $lang['Move_contents'],
+                                'L_MOVE_CONTENTS' => $titanium_lang['Move_contents'],
 
-                                'L_FORUM_NAME' => $lang['Forum_name'],
+                                'L_FORUM_NAME' => $titanium_lang['Forum_name'],
 
 
 
                                 'S_HIDDEN_FIELDS' => $s_hidden_fields,
 
-                                'S_FORUM_ACTION' => append_sid("admin_forums.$phpEx"),
+                                'S_FORUM_ACTION' => append_titanium_sid("admin_forums.$phpEx"),
 
                                 'S_SELECT_TO' => $select_to,
 
@@ -2439,7 +2439,7 @@ if( !empty($mode) )
 
 
 
-                        $template->pparse("body");
+                        $phpbb2_template->pparse("body");
 
                         break;
 
@@ -2469,7 +2469,7 @@ if( !empty($mode) )
 
                                         WHERE cat_id IN ($from_id, $to_id)";
 
-                                if( !$result = $db->sql_query($sql) )
+                                if( !$result = $titanium_db->sql_query($sql) )
 
                                 {
 
@@ -2477,7 +2477,7 @@ if( !empty($mode) )
 
                                 }
 
-                                if($db->sql_numrows($result) != 2)
+                                if($titanium_db->sql_numrows($result) != 2)
 
                                 {
 
@@ -2493,7 +2493,7 @@ if( !empty($mode) )
 
                                         WHERE cat_id = $from_id";
 
-                                if( !$result = $db->sql_query($sql) )
+                                if( !$result = $titanium_db->sql_query($sql) )
 
                                 {
 
@@ -2511,7 +2511,7 @@ if( !empty($mode) )
 
 
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -2525,9 +2525,9 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        global $cache;
+                        global $titanium_cache;
 
-                        $cache->delete('category_rows', 'config');
+                        $titanium_cache->delete('category_rows', 'config');
 
 /*****[END]********************************************
 
@@ -2535,7 +2535,7 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        $message = $lang['Forums_updated'] . "<br /><br />" . sprintf($lang['Click_return_forumadmin'], "<a href=\"" . append_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $titanium_lang['Forums_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
 
 
@@ -2557,11 +2557,11 @@ if( !empty($mode) )
 
                         $move = intval($HTTP_GET_VARS['move']);
 
-                        $forum_id = intval($HTTP_GET_VARS[POST_FORUM_URL]);
+                        $phpbb2_forum_id = intval($HTTP_GET_VARS[POST_FORUM_URL]);
 
 
 
-                        $forum_info = get_info('forum', $forum_id);
+                        $forum_info = get_info('forum', $phpbb2_forum_id);
 
 
 
@@ -2601,7 +2601,7 @@ if( !empty($mode) )
 
 							
 
-							if( !($result = $db->sql_query($sql)) )
+							if( !($result = $titanium_db->sql_query($sql)) )
 
 							{
 
@@ -2611,9 +2611,9 @@ if( !empty($mode) )
 
 							
 
-							$row = $db->sql_fetchrow($result);
+							$row = $titanium_db->sql_fetchrow($result);
 
-							$db->sql_freeresult($result);
+							$titanium_db->sql_freeresult($result);
 
 							if($row !== false)
 
@@ -2621,15 +2621,15 @@ if( !empty($mode) )
 
 								// Swap forum orders
 
-								$sql = "UPDATE " . FORUMS_TABLE . " SET forum_order = '" . $row['forum_order'] . "' WHERE forum_id = '$forum_id'";
+								$sql = "UPDATE " . FORUMS_TABLE . " SET forum_order = '" . $row['forum_order'] . "' WHERE forum_id = '$phpbb2_forum_id'";
 
-								$db->sql_query($sql);
+								$titanium_db->sql_query($sql);
 
 								
 
 								$sql = "UPDATE " . FORUMS_TABLE . " SET forum_order = '" . $forum_info['forum_order'] . "' WHERE forum_id = '" . $row['forum_id'] . "'";
 
-								$db->sql_query($sql);
+								$titanium_db->sql_query($sql);
 
 							}
 
@@ -2653,9 +2653,9 @@ if( !empty($mode) )
 
                                 SET forum_order = forum_order + $move
 
-                                WHERE forum_id = $forum_id";
+                                WHERE forum_id = $phpbb2_forum_id";
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -2709,7 +2709,7 @@ if( !empty($mode) )
 
                                 WHERE cat_id = $cat_id";
 
-                        if( !$result = $db->sql_query($sql) )
+                        if( !$result = $titanium_db->sql_query($sql) )
 
                         {
 
@@ -2723,9 +2723,9 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        global $cache;
+                        global $titanium_cache;
 
-                        $cache->delete('category_rows', 'config');
+                        $titanium_cache->delete('category_rows', 'config');
 
 /*****[END]********************************************
 
@@ -2757,7 +2757,7 @@ if( !empty($mode) )
 
                 default:
 
-                        message_die(GENERAL_MESSAGE, $lang['No_mode']);
+                        message_die(GENERAL_MESSAGE, $titanium_lang['No_mode']);
 
                         break;
 
@@ -2785,7 +2785,7 @@ if( !empty($mode) )
 
 //
 
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
 
         "body" => "admin/forum_admin_body.tpl")
 
@@ -2793,27 +2793,27 @@ $template->set_filenames(array(
 
 
 
-$template->assign_vars(array(
+$phpbb2_template->assign_vars(array(
 
-        'S_FORUM_ACTION' => append_sid("admin_forums.$phpEx"),
+        'S_FORUM_ACTION' => append_titanium_sid("admin_forums.$phpEx"),
 
-        'L_FORUM_TITLE' => $lang['Forum_admin'],
+        'L_FORUM_TITLE' => $titanium_lang['Forum_admin'],
 
-        'L_FORUM_EXPLAIN' => $lang['Forum_admin_explain'],
+        'L_FORUM_EXPLAIN' => $titanium_lang['Forum_admin_explain'],
 
-        'L_CREATE_FORUM' => $lang['Create_forum'],
+        'L_CREATE_FORUM' => $titanium_lang['Create_forum'],
 
-        'L_CREATE_CATEGORY' => $lang['Create_category'],
+        'L_CREATE_CATEGORY' => $titanium_lang['Create_category'],
 
-        'L_EDIT' => $lang['Edit'],
+        'L_EDIT' => $titanium_lang['Edit'],
 
-        'L_DELETE' => $lang['Delete'],
+        'L_DELETE' => $titanium_lang['Delete'],
 
-        'L_MOVE_UP' => $lang['Move_up'],
+        'L_MOVE_UP' => $titanium_lang['Move_up'],
 
-        'L_MOVE_DOWN' => $lang['Move_down'],
+        'L_MOVE_DOWN' => $titanium_lang['Move_down'],
 
-        'L_RESYNC' => $lang['Resync'])
+        'L_RESYNC' => $titanium_lang['Resync'])
 
 );
 
@@ -2825,7 +2825,7 @@ $sql = "SELECT cat_id, cat_title, cat_order
 
         ORDER BY cat_order";
 
-if( !$q_categories = $db->sql_query($sql) )
+if( !$q_categories = $titanium_db->sql_query($sql) )
 
 {
 
@@ -2835,11 +2835,11 @@ if( !$q_categories = $db->sql_query($sql) )
 
 
 
-if( $total_categories = $db->sql_numrows($q_categories) )
+if( $total_phpbb2_categories = $titanium_db->sql_numrows($q_categories) )
 
 {
 
-        $category_rows = $db->sql_fetchrowset($q_categories);
+        $category_rows = $titanium_db->sql_fetchrowset($q_categories);
 
 
 
@@ -2849,7 +2849,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
                 ORDER BY cat_id, forum_order";
 
-        if(!$q_forums = $db->sql_query($sql))
+        if(!$q_forums = $titanium_db->sql_query($sql))
 
         {
 
@@ -2859,11 +2859,11 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 
 
-        if( $total_forums = $db->sql_numrows($q_forums) )
+        if( $total_phpbb2_forums = $titanium_db->sql_numrows($q_forums) )
 
         {
 
-                $forum_rows = $db->sql_fetchrowset($q_forums);
+                $forum_rows = $titanium_db->sql_fetchrowset($q_forums);
 
         }
 
@@ -2879,7 +2879,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 
 
-        for($i = 0; $i < $total_categories; $i++)
+        for($i = 0; $i < $total_phpbb2_categories; $i++)
 
         {
 
@@ -2887,7 +2887,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 
 
-                $template->assign_block_vars("catrow", array(
+                $phpbb2_template->assign_block_vars("catrow", array(
 
                         'S_ADD_FORUM_SUBMIT' => "addforum[$cat_id]",
 
@@ -2901,13 +2901,13 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 
 
-                        'U_CAT_EDIT' => append_sid("admin_forums.$phpEx?mode=editcat&amp;" . POST_CAT_URL . "=$cat_id"),
+                        'U_CAT_EDIT' => append_titanium_sid("admin_forums.$phpEx?mode=editcat&amp;" . POST_CAT_URL . "=$cat_id"),
 
-                        'U_CAT_DELETE' => append_sid("admin_forums.$phpEx?mode=deletecat&amp;" . POST_CAT_URL . "=$cat_id"),
+                        'U_CAT_DELETE' => append_titanium_sid("admin_forums.$phpEx?mode=deletecat&amp;" . POST_CAT_URL . "=$cat_id"),
 
-                        'U_CAT_MOVE_UP' => append_sid("admin_forums.$phpEx?mode=cat_order&amp;move=-15&amp;" . POST_CAT_URL . "=$cat_id"),
+                        'U_CAT_MOVE_UP' => append_titanium_sid("admin_forums.$phpEx?mode=cat_order&amp;move=-15&amp;" . POST_CAT_URL . "=$cat_id"),
 
-                        'U_CAT_MOVE_DOWN' => append_sid("admin_forums.$phpEx?mode=cat_order&amp;move=15&amp;" . POST_CAT_URL . "=$cat_id"),
+                        'U_CAT_MOVE_DOWN' => append_titanium_sid("admin_forums.$phpEx?mode=cat_order&amp;move=15&amp;" . POST_CAT_URL . "=$cat_id"),
 
                         'U_VIEWCAT' => ("../../../modules.php?name=Forums&file=index&c=$cat_id"))
 
@@ -2915,11 +2915,11 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 
 
-                for($j = 0; $j < $total_forums; $j++)
+                for($j = 0; $j < $total_phpbb2_forums; $j++)
 
                 {
 
-                        $forum_id = $forum_rows[$j]['forum_id'];
+                        $phpbb2_forum_id = $forum_rows[$j]['forum_id'];
 
 
 
@@ -2929,7 +2929,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 
 
-                                $template->assign_block_vars("catrow.forumrow",        array(
+                                $phpbb2_template->assign_block_vars("catrow.forumrow",        array(
 
                                         'FORUM_NAME' => $forum_rows[$j]['forum_name'],
 
@@ -2955,7 +2955,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
  ******************************************************/
 
-										'FORUM_ICON_IMG' => ( $forum_rows[$j]['forum_icon'] ) ? '<img src="' . $phpbb_root_path . $forum_rows[$j]['forum_icon'] . '" alt="'.$forum_data[$j]['forum_name'].'" title="'.$forum_data[$j]['forum_name'].'" />' : '',
+										'FORUM_ICON_IMG' => ( $forum_rows[$j]['forum_icon'] ) ? '<img src="' . $phpbb2_root_path . $forum_rows[$j]['forum_icon'] . '" alt="'.$phpbb2_forum_data[$j]['forum_name'].'" title="'.$phpbb2_forum_data[$j]['forum_name'].'" />' : '',
 
 /*****[END]********************************************
 
@@ -2977,7 +2977,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 					
 
-										'U_VIEWFORUM' => ($forum_rows[$j]['title_is_link']) ? $forum_rows[$j]['weblink'] : ("../../../modules.php?name=Forums&file=viewforum&amp;" . POST_FORUM_URL . "=$forum_id"),
+										'U_VIEWFORUM' => ($forum_rows[$j]['title_is_link']) ? $forum_rows[$j]['weblink'] : ("../../../modules.php?name=Forums&file=viewforum&amp;" . POST_FORUM_URL . "=$phpbb2_forum_id"),
 
 /*****[END]********************************************
 
@@ -2985,15 +2985,15 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
  ******************************************************/ 
 
-                                        'U_FORUM_EDIT' => append_sid("admin_forums.$phpEx?mode=editforum&amp;" . POST_FORUM_URL . "=$forum_id"),
+                                        'U_FORUM_EDIT' => append_titanium_sid("admin_forums.$phpEx?mode=editforum&amp;" . POST_FORUM_URL . "=$phpbb2_forum_id"),
 
-                                        'U_FORUM_DELETE' => append_sid("admin_forums.$phpEx?mode=deleteforum&amp;" . POST_FORUM_URL . "=$forum_id"),
+                                        'U_FORUM_DELETE' => append_titanium_sid("admin_forums.$phpEx?mode=deleteforum&amp;" . POST_FORUM_URL . "=$phpbb2_forum_id"),
 
-                                        'U_FORUM_MOVE_UP' => append_sid("admin_forums.$phpEx?mode=forum_order&amp;move=-15&amp;" . POST_FORUM_URL . "=$forum_id"),
+                                        'U_FORUM_MOVE_UP' => append_titanium_sid("admin_forums.$phpEx?mode=forum_order&amp;move=-15&amp;" . POST_FORUM_URL . "=$phpbb2_forum_id"),
 
-                                        'U_FORUM_MOVE_DOWN' => append_sid("admin_forums.$phpEx?mode=forum_order&amp;move=15&amp;" . POST_FORUM_URL . "=$forum_id"),
+                                        'U_FORUM_MOVE_DOWN' => append_titanium_sid("admin_forums.$phpEx?mode=forum_order&amp;move=15&amp;" . POST_FORUM_URL . "=$phpbb2_forum_id"),
 
-                                        'U_FORUM_RESYNC' => append_sid("admin_forums.$phpEx?mode=forum_sync&amp;" . POST_FORUM_URL . "=$forum_id"))
+                                        'U_FORUM_RESYNC' => append_titanium_sid("admin_forums.$phpEx?mode=forum_sync&amp;" . POST_FORUM_URL . "=$phpbb2_forum_id"))
 
                                 );
 
@@ -3003,17 +3003,17 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
  ******************************************************/
 
-								for( $k = 0; $k < $total_forums; $k++ )
+								for( $k = 0; $k < $total_phpbb2_forums; $k++ )
 
 								{
 
-									$forum_id2 = $forum_rows[$k]['forum_id'];
+									$phpbb2_forum_id2 = $forum_rows[$k]['forum_id'];
 
-									if ( $forum_rows[$k]['forum_parent'] == $forum_id )
+									if ( $forum_rows[$k]['forum_parent'] == $phpbb2_forum_id )
 
 									{
 
-										$template->assign_block_vars("catrow.forumrow",	array(
+										$phpbb2_template->assign_block_vars("catrow.forumrow",	array(
 
 											'FORUM_NAME' => $forum_rows[$k]['forum_name'],
 
@@ -3043,17 +3043,17 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 					
 
-											'U_VIEWFORUM' => ("../../../modules.php?name=Forums&file=viewforum&amp;" . POST_FORUM_URL . "=$forum_id2"),
+											'U_VIEWFORUM' => ("../../../modules.php?name=Forums&file=viewforum&amp;" . POST_FORUM_URL . "=$phpbb2_forum_id2"),
 
-											'U_FORUM_EDIT' => append_sid("admin_forums.$phpEx?mode=editforum&amp;" . POST_FORUM_URL . "=$forum_id2"),
+											'U_FORUM_EDIT' => append_titanium_sid("admin_forums.$phpEx?mode=editforum&amp;" . POST_FORUM_URL . "=$phpbb2_forum_id2"),
 
-											'U_FORUM_DELETE' => append_sid("admin_forums.$phpEx?mode=deleteforum&amp;" . POST_FORUM_URL . "=$forum_id2"),
+											'U_FORUM_DELETE' => append_titanium_sid("admin_forums.$phpEx?mode=deleteforum&amp;" . POST_FORUM_URL . "=$phpbb2_forum_id2"),
 
-											'U_FORUM_MOVE_UP' => append_sid("admin_forums.$phpEx?mode=forum_order&amp;move=-15&amp;" . POST_FORUM_URL . "=$forum_id2"),
+											'U_FORUM_MOVE_UP' => append_titanium_sid("admin_forums.$phpEx?mode=forum_order&amp;move=-15&amp;" . POST_FORUM_URL . "=$phpbb2_forum_id2"),
 
-											'U_FORUM_MOVE_DOWN' => append_sid("admin_forums.$phpEx?mode=forum_order&amp;move=15&amp;" . POST_FORUM_URL . "=$forum_id2"),
+											'U_FORUM_MOVE_DOWN' => append_titanium_sid("admin_forums.$phpEx?mode=forum_order&amp;move=15&amp;" . POST_FORUM_URL . "=$phpbb2_forum_id2"),
 
-											'U_FORUM_RESYNC' => append_sid("admin_forums.$phpEx?mode=forum_sync&amp;" . POST_FORUM_URL . "=$forum_id2"))
+											'U_FORUM_RESYNC' => append_titanium_sid("admin_forums.$phpEx?mode=forum_sync&amp;" . POST_FORUM_URL . "=$phpbb2_forum_id2"))
 
 										);
 
@@ -3089,7 +3089,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 
 
-$template->pparse("body");
+$phpbb2_template->pparse("body");
 
 
 

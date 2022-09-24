@@ -15,6 +15,5 @@
 
     The phpBB Group : 2019
 // -->
-{TRANSLATION_INFO}
-<!-- IF TRANSLATION_INFO -->
-<!-- ENDIF -->
+</div>
+<br />

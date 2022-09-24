@@ -30,7 +30,7 @@ function evouserinfo_personal_message () {
         global $userinfo;
         $uname = UsernameColor($userinfo['username']);
     } else {
-        $uname = $lang_evo_userblock['BLOCK']['GOOD_AFTERNOON']['ANON'];
+        $uname = $titanium_lang_evo_userblock['BLOCK']['GOOD_AFTERNOON']['ANON'];
     }
     global $sitename;
     $evouserinfo_personal_message = str_replace('%site%', $sitename, $evouserinfo_personal_message );

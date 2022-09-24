@@ -20,13 +20,13 @@ if(!defined('NUKE_EVO')) {
    die ("Illegal File Access");
 }
 
-global $evouserinfo_addons, $evouserinfo_pms, $lang_evo_userblock;
+global $evouserinfo_addons, $evouserinfo_pms, $titanium_lang_evo_userblock;
 
 if (is_user()):
 
     global $userinfo;    
     $evouserinfo_pms  = '<div style="padding-left: 10px;">';
-    $evouserinfo_pms .= '  <i class="fas fa-envelope" aria-hidden="true"></i>&nbsp;'.$lang_evo_userblock['BLOCK']['PMS']['INBOX'].'<span style="float:right"><a title="'.$lang_evo_userblock['BLOCK']['PMS']['OPEN_INBOX'].'" href="modules.php?name=Private_Messages">'.has_new_or_unread_private_messages().'</a></span>';
+    $evouserinfo_pms .= '  <i class="fas fa-envelope" aria-hidden="true"></i>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['PMS']['INBOX'].'<span style="float:right"><a title="'.$titanium_lang_evo_userblock['BLOCK']['PMS']['OPEN_INBOX'].'" href="modules.php?name=Private_Messages">'.has_new_or_unread_private_messages().'</a></span>';
     $evouserinfo_pms .= '</div>';
 
 endif;

@@ -13,37 +13,37 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB', 1);
+define('IN_PHPBB2', 1);
 
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $module['Arcade_Admin']['Configuration'] = $file;
+    $titanium_module['Arcade_Admin']['Configuration'] = $file;
     return;
 }
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb_root_path = "./../";
-require($phpbb_root_path . 'extension.inc');
+$phpbb2_root_path = "./../";
+require($phpbb2_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
-require( $phpbb_root_path . 'gf_funcs/gen_funcs.' . $phpEx);
-require($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_main_arcade.' . $phpEx);
-require($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_arcade.' . $phpEx);
+require( $phpbb2_root_path . 'gf_funcs/gen_funcs.' . $phpEx);
+require($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_main_arcade.' . $phpEx);
+require($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_arcade.' . $phpEx);
 
 //
 // Pull all config data
 //
 $sql = "SELECT *
     FROM " . ARCADE_TABLE;
-if(!$result = $db->sql_query($sql))
+if(!$result = $titanium_db->sql_query($sql))
 {
     message_die(CRITICAL_ERROR, "Could not query config information in admin_arcade", "", __LINE__, __FILE__, $sql);
 }
 else
 {
-    while( $row = $db->sql_fetchrow($result) )
+    while( $row = $titanium_db->sql_fetchrow($result) )
     {
         $arcade_name = $row['arcade_name'];
         $arcade_value = $row['arcade_value'];
@@ -56,7 +56,7 @@ else
             $sql = "UPDATE " . ARCADE_TABLE . "
                 SET arcade_value = '" . str_replace("\'", "''", $new[$arcade_name]) . "'
                 WHERE arcade_name = '$arcade_name'";
-            if( !$db->sql_query($sql) )
+            if( !$titanium_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Failed to update arcade configuration for $arcade_name", "", __LINE__, __FILE__, $sql);
             }
@@ -65,7 +65,7 @@ else
 
     if( isset($HTTP_POST_VARS['submit']) )
     {
-        $message = $lang['Arcade_config_updated'] . "<br /><br />" . sprintf($lang['Click_return_arcade_config'], "<a href=\"" . append_sid("admin_arcade.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message = $titanium_lang['Arcade_config_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_arcade_config'], "<a href=\"" . append_titanium_sid("admin_arcade.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -87,11 +87,11 @@ $s_fixed = ( $new['game_order'] == 'Fixed') ? "selected" : "";
 $s_random = ( $new['game_order'] == 'Random') ? "selected" : "";
 $s_news = ( $new['game_order'] == 'News') ? "selected" : "";
 
-$s_order  = "<option value='Alpha' $s_alpha >" . $lang['game_order_alpha'] . "</option>\n";
-$s_order .= "<option value='Popular' $s_popular >" . $lang['game_order_popular'] . "</option>\n";
-$s_order .= "<option value='Fixed' $s_fixed >" . $lang['game_order_fixed'] . "</option>\n";
-$s_order .= "<option value='Random' $s_random >" . $lang['game_order_random'] . "</option>\n";
-$s_order .= "<option value='News' $s_news >" . $lang['game_order_news'] . "</option>\n";
+$s_order  = "<option value='Alpha' $s_alpha >" . $titanium_lang['game_order_alpha'] . "</option>\n";
+$s_order .= "<option value='Popular' $s_popular >" . $titanium_lang['game_order_popular'] . "</option>\n";
+$s_order .= "<option value='Fixed' $s_fixed >" . $titanium_lang['game_order_fixed'] . "</option>\n";
+$s_order .= "<option value='Random' $s_random >" . $titanium_lang['game_order_random'] . "</option>\n";
+$s_order .= "<option value='News' $s_news >" . $titanium_lang['game_order_news'] . "</option>\n";
 
 $use_category_mod_yes = ( $new['use_category_mod'] ) ? "checked=\"checked\"" : "";
 $use_category_mod_no = ( !$new['use_category_mod'] ) ? "checked=\"checked\"" : "";
@@ -109,9 +109,9 @@ $s_linkcat_align_left = ( $new['linkcat_align'] == '0' ) ? "selected" : "";
 $s_linkcat_align_center = ( $new['linkcat_align'] == '1' ) ? "selected" : "";
 $s_linkcat_align_right = ( $new['linkcat_align'] == '2') ? "selected" : "";
 
-$s_linkcat_align  = "<option value='0' $s_linkcat_align_left >" . $lang['linkcat_left'] . "</option>\n";
-$s_linkcat_align .= "<option value='1' $s_linkcat_align_center >" . $lang['linkcat_center'] . "</option>\n";
-$s_linkcat_align .= "<option value='2' $s_linkcat_align_right >" . $lang['linkcat_right'] . "</option>\n";
+$s_linkcat_align  = "<option value='0' $s_linkcat_align_left >" . $titanium_lang['linkcat_left'] . "</option>\n";
+$s_linkcat_align .= "<option value='1' $s_linkcat_align_center >" . $titanium_lang['linkcat_center'] . "</option>\n";
+$s_linkcat_align .= "<option value='2' $s_linkcat_align_right >" . $titanium_lang['linkcat_right'] . "</option>\n";
 
 $limit_by_posts_yes = ( $new['limit_by_posts'] ) ? "checked=\"checked\"" : "";
 $limit_by_posts_no = ( !$new['limit_by_posts'] ) ? "checked=\"checked\"" : "";
@@ -119,58 +119,58 @@ $limit_by_posts_no = ( !$new['limit_by_posts'] ) ? "checked=\"checked\"" : "";
 $limit_type_posts = ( $new['limit_type']=='posts' ) ? "checked=\"checked\"" : "";
 $limit_type_date = ( $new['limit_type']=='date' ) ? "checked=\"checked\"" : "";
 
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
     "body" => "admin/arcade_config_body.tpl")
 );
 
 
-$template->assign_vars(array(
-    "S_CONFIG_ACTION" => append_sid("admin_arcade.$phpEx"),
+$phpbb2_template->assign_vars(array(
+    "S_CONFIG_ACTION" => append_titanium_sid("admin_arcade.$phpEx"),
 
-    "L_YES" => $lang['Yes'],
-    "L_NO" => $lang['No'],
-    "L_CONFIGURATION_TITLE" => $lang['Arcade_Config'],
-    "L_CONFIGURATION_EXPLAIN" => $lang['Arcade_config_explain'],
-    "L_GENERAL_SETTINGS" => $lang['General_arcade_settings'],
-    "L_STATARCADE_SETTINGS" => $lang['statarcade_settings'],
-    "L_GAMES_AREA_SETTINGS" => $lang['games_area_settings'],
-    "L_USE_CATEGORY_MOD" => $lang['use_category_mod'],
-    "L_USE_CATEGORY_MOD_EXPLAIN" => $lang['use_category_mod_explain'],
-    "L_USE_FAV_CATEGORY" => $lang['use_fav_category'],
-    "L_USE_FAV_CATEGORY_EXPLAIN" => $lang['use_fav_category_explain'],
-    "L_ARCADE_ANNOUNCEMENT" => $lang['arcade_announcement'],
-    "L_ARCADE_ANNOUNCEMENT_EXPLAIN" => $lang['arcade_announcement_explain'],
-    "L_CATEGORY_PREVIEW_GAMES" => $lang['category_preview_games'],
-    "L_CATEGORY_PREVIEW_GAMES_EXPLAIN" => $lang['category_preview_games_explain'],
-    "L_GAMES_PAR_PAGE" => $lang['games_par_page'],
-    "L_GAMES_PAR_PAGE_EXPLAIN" => $lang['games_par_page_explain'],
-    "L_GAME_ORDER" => $lang['games_order'],
-    "L_GAME_ORDER_EXPLAIN" => $lang['games_order_explain'],
-    "L_DISPLAY_WINNER_AVATAR" => $lang['display_winner_avatar'],
-    "L_DISPLAY_WINNER_AVATAR_EXPLAIN" => $lang['display_winner_avatar_explain'],
-    "L_WINNER_AVATAR_POSITION" => $lang['winner_avatar_position'],
-    "L_WINNER_AVATAR_POSITION_EXPLAIN" => $lang['winner_avatar_position_explain'],
-    "L_RIGHT" => $lang['Right_avatar'],
-    "L_LEFT" => $lang['Left_avatar'],
-    "L_MAXSIZE_AVATAR" => $lang['maxsize_avatar'],
-    "L_MAXSIZE_AVATAR_EXPLAIN" => $lang['maxsize_avatar_explain'],
-    "L_STAT_PAR_PAGE" => $lang['stat_par_page'],
-    "L_STAT_PAR_PAGE_EXPLAIN" => $lang['stat_par_page_explain'],
-    "L_LINKCAT_ALIGN" => $lang['linkcat_align'],
-    "L_LINKCAT_ALIGN_EXPLAIN" => $lang['linkcat_align_explain'],
-    "L_POSTS_ONLY" => $lang['posts_only'],
-    "L_POSTS_DATE" => $lang['posts_date'],
-    "L_LIMIT_TYPE" => $lang['limit_type'],
-    "L_LIMIT_TYPE_EXPLAIN" => $lang['limit_type_explain'],
-    "L_GAME_ACCESS_SETTINGS" => $lang['game_access_settings'],
-    "L_LIMIT_BY_POSTS" => $lang['limit_by_posts'],
-    "L_POSTS_NEEDED" => $lang['posts_needed'],
-    "L_DAYS_LIMIT" => $lang['days_limit'],
-    "L_LIMIT_BY_POSTS_EXPLAIN" => $lang['limit_by_posts_explain'],
-    "L_POSTS_NEEDED_EXPLAIN" => $lang['posts_needed_explain'],
-    "L_DAYS_LIMIT_EXPLAIN" => $lang['days_limit_explain'],
-    "L_ARCADE_ANNOUNCEMENT" => $lang['arcade_announcement'],
-    "L_ARCADE_ANNOUNCEMENT_EXPLAIN" => $lang['arcade_announcement_explain'],
+    "L_YES" => $titanium_lang['Yes'],
+    "L_NO" => $titanium_lang['No'],
+    "L_CONFIGURATION_TITLE" => $titanium_lang['Arcade_Config'],
+    "L_CONFIGURATION_EXPLAIN" => $titanium_lang['Arcade_config_explain'],
+    "L_GENERAL_SETTINGS" => $titanium_lang['General_arcade_settings'],
+    "L_STATARCADE_SETTINGS" => $titanium_lang['statarcade_settings'],
+    "L_GAMES_AREA_SETTINGS" => $titanium_lang['games_area_settings'],
+    "L_USE_CATEGORY_MOD" => $titanium_lang['use_category_mod'],
+    "L_USE_CATEGORY_MOD_EXPLAIN" => $titanium_lang['use_category_mod_explain'],
+    "L_USE_FAV_CATEGORY" => $titanium_lang['use_fav_category'],
+    "L_USE_FAV_CATEGORY_EXPLAIN" => $titanium_lang['use_fav_category_explain'],
+    "L_ARCADE_ANNOUNCEMENT" => $titanium_lang['arcade_announcement'],
+    "L_ARCADE_ANNOUNCEMENT_EXPLAIN" => $titanium_lang['arcade_announcement_explain'],
+    "L_CATEGORY_PREVIEW_GAMES" => $titanium_lang['category_preview_games'],
+    "L_CATEGORY_PREVIEW_GAMES_EXPLAIN" => $titanium_lang['category_preview_games_explain'],
+    "L_GAMES_PAR_PAGE" => $titanium_lang['games_par_page'],
+    "L_GAMES_PAR_PAGE_EXPLAIN" => $titanium_lang['games_par_page_explain'],
+    "L_GAME_ORDER" => $titanium_lang['games_order'],
+    "L_GAME_ORDER_EXPLAIN" => $titanium_lang['games_order_explain'],
+    "L_DISPLAY_WINNER_AVATAR" => $titanium_lang['display_winner_avatar'],
+    "L_DISPLAY_WINNER_AVATAR_EXPLAIN" => $titanium_lang['display_winner_avatar_explain'],
+    "L_WINNER_AVATAR_POSITION" => $titanium_lang['winner_avatar_position'],
+    "L_WINNER_AVATAR_POSITION_EXPLAIN" => $titanium_lang['winner_avatar_position_explain'],
+    "L_RIGHT" => $titanium_lang['Right_avatar'],
+    "L_LEFT" => $titanium_lang['Left_avatar'],
+    "L_MAXSIZE_AVATAR" => $titanium_lang['maxsize_avatar'],
+    "L_MAXSIZE_AVATAR_EXPLAIN" => $titanium_lang['maxsize_avatar_explain'],
+    "L_STAT_PAR_PAGE" => $titanium_lang['stat_par_page'],
+    "L_STAT_PAR_PAGE_EXPLAIN" => $titanium_lang['stat_par_page_explain'],
+    "L_LINKCAT_ALIGN" => $titanium_lang['linkcat_align'],
+    "L_LINKCAT_ALIGN_EXPLAIN" => $titanium_lang['linkcat_align_explain'],
+    "L_POSTS_ONLY" => $titanium_lang['posts_only'],
+    "L_POSTS_DATE" => $titanium_lang['posts_date'],
+    "L_LIMIT_TYPE" => $titanium_lang['limit_type'],
+    "L_LIMIT_TYPE_EXPLAIN" => $titanium_lang['limit_type_explain'],
+    "L_GAME_ACCESS_SETTINGS" => $titanium_lang['game_access_settings'],
+    "L_LIMIT_BY_POSTS" => $titanium_lang['limit_by_posts'],
+    "L_POSTS_NEEDED" => $titanium_lang['posts_needed'],
+    "L_DAYS_LIMIT" => $titanium_lang['days_limit'],
+    "L_LIMIT_BY_POSTS_EXPLAIN" => $titanium_lang['limit_by_posts_explain'],
+    "L_POSTS_NEEDED_EXPLAIN" => $titanium_lang['posts_needed_explain'],
+    "L_DAYS_LIMIT_EXPLAIN" => $titanium_lang['days_limit_explain'],
+    "L_ARCADE_ANNOUNCEMENT" => $titanium_lang['arcade_announcement'],
+    "L_ARCADE_ANNOUNCEMENT_EXPLAIN" => $titanium_lang['arcade_announcement_explain'],
 
     "S_CATEGORY_PREVIEW_GAMES" => intval($new['category_preview_games']),
     "S_GAMES_PAR_PAGE" => intval($new['games_par_page']),
@@ -194,13 +194,13 @@ $template->assign_vars(array(
     "S_DAYS_LIMIT" => intval($new['days_limit']),
     "S_ARCADE_ANNOUNCEMENT" => $new['arcade_announcement'],
 
-    "L_SUBMIT" => $lang['Submit'], 
-    "L_RESET" => $lang['Reset'])
+    "L_SUBMIT" => $titanium_lang['Submit'], 
+    "L_RESET" => $titanium_lang['Reset'])
 );
 
 // Generate the page footer
 
-$template->pparse("body");
+$phpbb2_template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

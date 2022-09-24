@@ -47,8 +47,8 @@ echo '. <input type="text" name="xip_hi[2]" size="4" value="255" maxlength="3" s
 echo '. <input type="text" name="xip_hi[3]" size="4" value="255" maxlength="3" style="text-align: center;" /></td></tr>'."\n";
 echo '<tr><td bgcolor="'.$bgcolor2.'"><strong>'._AB_COUNTRY.':</strong></td>'."\n";
 echo '<td><select name="xc2c">'."\n";
-$result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_countries` ORDER BY `c2c`");
-while($countryrow = $db->sql_fetchrow($result)) {
+$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_countries` ORDER BY `c2c`");
+while($countryrow = $titanium_db->sql_fetchrow($result)) {
   echo '<option value="'.$countryrow['c2c'].'">'.strtoupper($countryrow['c2c']).' - '.$countryrow['country'].'</option>'."\n";
 }
 echo '</select></td></tr>'."\n";

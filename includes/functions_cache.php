@@ -4,34 +4,34 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 	exit('Access Denied');
 }
 
-function cache_delete( $name, $cat='config' ) 
+function titanium_cache_delete( $name, $cat='config' ) 
 {
-	global $cache;
-	return $cache->delete($name, $cat);
+	global $titanium_cache;
+	return $titanium_cache->delete($name, $cat);
 }
 
-function cache_set( $name, $cat='config', $fileData )
+function titanium_cache_set( $name, $cat='config', $fileData )
 {
-	global $cache;
-	return $cache->save($name, $cat, $fileData);
+	global $titanium_cache;
+	return $titanium_cache->save($name, $cat, $fileData);
 }
 
-function cache_load($name, $cat='config')
+function titanium_cache_load($name, $cat='config')
 {
-	global $cache;
-	return $cache->load($name, $cat);
+	global $titanium_cache;
+	return $titanium_cache->load($name, $cat);
 }
 
-function cache_clear()
+function titanium_cache_clear()
 {
-	global $cache;
-	$cache->clear();
+	global $titanium_cache;
+	$titanium_cache->clear();
 }
 
-function cache_resync()
+function titanium_cache_resync()
 {
-	global $cache;
-	$cache->resync();
+	global $titanium_cache;
+	$titanium_cache->resync();
 }
 
 ?>

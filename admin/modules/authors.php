@@ -28,7 +28,7 @@
 if (!defined('ADMIN_FILE')) 
 die ('Illegal File Access');
 
-global $prefix, $db;
+global $titanium_prefix, $titanium_db;
 
 if (is_mod_admin()) 
 {
@@ -37,7 +37,7 @@ if (is_mod_admin())
 /*********************************************************/
 function displayadmins() 
 {
-    global $admin, $prefix, $db, $language, $multilingual, $admin_file, $admlang;
+    global $admin, $titanium_prefix, $titanium_db, $titanium_language, $multilingual, $admin_file, $admlang;
     if (is_admin()) {
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
@@ -59,9 +59,9 @@ function displayadmins()
         echo '    <td class="catHead" style="text-align: center; text-transform: uppercase; width: 15%;">'.$admlang['authors']['option1'].'</td>'."\n";
         echo '    <td class="catHead" style="text-align: center; text-transform: uppercase; width: 15%;">'.$admlang['global']['delete'].'</td>'."\n";
         echo '  </tr>'."\n";
-        $result = $db->sql_query("SELECT `aid`, `email`, `name`, `admlanguage`, `url` FROM `".$prefix."_authors`");
+        $result = $titanium_db->sql_query("SELECT `aid`, `email`, `name`, `admlanguage`, `url` FROM `".$titanium_prefix."_authors`");
         $countAuthor = 1;
-        while ($row = $db->sql_fetchrow($result)) 
+        while ($row = $titanium_db->sql_fetchrow($result)) 
         {
             $admlanguage    = $row['admlanguage'];
             $authorID       = substr($row['aid'], 0,25);
@@ -125,16 +125,16 @@ function displayadmins()
         # Author Language selection
         if ($multilingual == 1) 
         {
-            $languageslist = lang_list();
+            $titanium_languageslist = lang_list();
             echo '  <tr>'."\n";
             echo '    <td class="row1" style="width: 50%;">'.$admlang['global']['language'].'</td>'."\n";
             echo '    <td class="row1" style="width: 50%;">';
             echo '      <select name="add_admlanguage">';
-            for ($i = 0, $maxi = count($languageslist); $i < $maxi; $i++) 
+            for ($i = 0, $maxi = count($titanium_languageslist); $i < $maxi; $i++) 
             {
-                if(!empty($languageslist[$i])) 
+                if(!empty($titanium_languageslist[$i])) 
                 {
-                    echo '        <option name="xlanguage" value="'.$languageslist[$i].'"'.(($languageslist[$i]==$language) ? ' selected="selected"' : '').'>'.ucwords($languageslist[$i]).'</option>';     
+                    echo '        <option name="xlanguage" value="'.$titanium_languageslist[$i].'"'.(($titanium_languageslist[$i]==$titanium_language) ? ' selected="selected"' : '').'>'.ucwords($titanium_languageslist[$i]).'</option>';     
                 }
             }            
             echo '      </select>';
@@ -146,7 +146,7 @@ function displayadmins()
             echo '<input type="hidden" name="add_admlanguage" value="">';
         }
         # Setup the author permissions.
-        $result = $db->sql_query("SELECT `mid`, `title` FROM `".$prefix."_modules` ORDER BY `title` ASC");
+        $result = $titanium_db->sql_query("SELECT `mid`, `title` FROM `".$titanium_prefix."_modules` ORDER BY `title` ASC");
         $a = 0;
         echo '  <tr>'."\n";
         echo '    <td class="row1" style="width: 50%; vertical-align: text-top;">';
@@ -156,7 +156,7 @@ function displayadmins()
         echo '    <td class="row1" style="width: 50%;">';
         echo '      <table style="width: 100%;" border="0" cellpadding="3" cellspacing="1" class="forumline">'."\n";
         echo '        <tr>';
-        while ($row = $db->sql_fetchrow($result)) 
+        while ($row = $titanium_db->sql_fetchrow($result)) 
         {
             $title = str_replace("_", " ", $row['title']);
             if (file_exists('modules/'.$row['title'].'/admin/index.php') AND file_exists('modules/'.$row['title'].'/admin/links.php') AND file_exists('modules/'.$row['title'].'/admin/case.php')) 
@@ -173,7 +173,7 @@ function displayadmins()
                 }
             }
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         echo '        </tr>';
         echo '        <tr>';
         echo '          <td class="row1" colspan="3"><input type="checkbox" name="add_radminsuper" value="1"> <strong>'.$admlang['authors']['superadmin'].'</strong></td>';
@@ -202,14 +202,14 @@ function displayadmins()
 
 function modifyadmin($chng_aid) 
 {
-    global $admin, $prefix, $db, $multilingual, $admin_file, $admlang;
+    global $admin, $titanium_prefix, $titanium_db, $multilingual, $admin_file, $admlang;
     if (is_admin()) 
     {
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
         $adm_aid = $chng_aid;
         $adm_aid = trim($adm_aid);
-        $row = $db->sql_fetchrow($db->sql_query("SELECT aid, name, url, email, pwd, radminsuper, admlanguage from " . $prefix . "_authors where aid='$chng_aid'"));
+        $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT aid, name, url, email, pwd, radminsuper, admlanguage from " . $titanium_prefix . "_authors where aid='$chng_aid'"));
         $chng_aid = $row['aid'];
         $chng_name = $row['name'];
         $chng_url = stripslashes($row['url']);
@@ -252,12 +252,12 @@ function modifyadmin($chng_aid)
             echo '    <td class="row1" style="width:50%">'.$admlang['global']['language'].'</td>';
             echo '    <td class="row1" style="width:50%">';
             echo "<select name=\"chng_admlanguage\">";
-            $languageslist = lang_list();
-            for ($i=0, $maxi = count($languageslist); $i < $maxi; $i++) {
-                if(!empty($languageslist[$i])) {
-                    echo "<option name='xlanguage' value='".$languageslist[$i]."' ";
-                    if($languageslist[$i]==$language) echo "selected";
-                    echo ">".ucwords($languageslist[$i])."\n";
+            $titanium_languageslist = lang_list();
+            for ($i=0, $maxi = count($titanium_languageslist); $i < $maxi; $i++) {
+                if(!empty($titanium_languageslist[$i])) {
+                    echo "<option name='xlanguage' value='".$titanium_languageslist[$i]."' ";
+                    if($titanium_languageslist[$i]==$titanium_language) echo "selected";
+                    echo ">".ucwords($titanium_languageslist[$i])."\n";
                 }
             }
             if (empty($chng_admlanguage)) {
@@ -279,8 +279,8 @@ function modifyadmin($chng_aid)
         	echo '    <td class="row1" style="width: 50%;">';
         	echo '      <table style="width: 100%;" border="0" cellpadding="3" cellspacing="1" class="forumline">'."\n";
         	echo '        <tr>';
-            $result = $db->sql_query("SELECT mid, title, admins FROM ".$prefix."_modules ORDER BY title ASC");
-            while ($row = $db->sql_fetchrow($result)):
+            $result = $titanium_db->sql_query("SELECT mid, title, admins FROM ".$titanium_prefix."_modules ORDER BY title ASC");
+            while ($row = $titanium_db->sql_fetchrow($result)):
 
                 $title = str_replace("_", " ", $row['title']);
                 if (file_exists(NUKE_MODULES_DIR.$row['title'].'/admin/index.php') AND file_exists(NUKE_MODULES_DIR.$row['title'].'/admin/links.php') AND file_exists(NUKE_MODULES_DIR.$row['title'].'/admin/case.php')):
@@ -310,7 +310,7 @@ function modifyadmin($chng_aid)
                 endif;
 
             endwhile;
-            $db->sql_freeresult($result);
+            $titanium_db->sql_freeresult($result);
             if ($chng_radminsuper == 1) {
                 $sel1 = 'checked';
             }
@@ -354,7 +354,7 @@ function modifyadmin($chng_aid)
 }
 
 function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radminsuper, $chng_pwd, $chng_pwd2, $chng_admlanguage, $adm_aid, $auth_modules) {
-    global $admin, $prefix, $db, $admin_file;
+    global $admin, $titanium_prefix, $titanium_db, $admin_file;
     if (is_admin()) {
         Validate($chng_aid, 'username', 'Modify Authors', 0, 1, 0, 2, 'Nickname:', '<br /><center>'. _GOBACK .'</center>');
         Validate($chng_url, 'url', 'Modify Authors', 0, 0, 0, 0, '', '<br /><center>'. _GOBACK .'</center>');
@@ -373,8 +373,8 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
  ******************************************************/
             $chng_aid = substr($chng_aid, 0,25);
             if ($chng_radminsuper == 1) {
-                $result = $db->sql_query("SELECT mid, admins FROM ".$prefix."_modules");
-                while ($row = $db->sql_fetchrow($result)) {
+                $result = $titanium_db->sql_query("SELECT mid, admins FROM ".$titanium_prefix."_modules");
+                while ($row = $titanium_db->sql_fetchrow($result)) {
                     $admins = explode(",", $row['admins']);
                     $adm = '';
                     for ($a=0, $maxi=count($admins); $a < $maxi; $a++) {
@@ -382,21 +382,21 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
                             $adm .= $admins[$a].',';
                         }
                     }
-                    $db->sql_query("UPDATE ".$prefix."_modules SET admins='$adm' WHERE mid='".intval($row['mid'])."'");
+                    $titanium_db->sql_query("UPDATE ".$titanium_prefix."_modules SET admins='$adm' WHERE mid='".intval($row['mid'])."'");
                 }
-                $db->sql_query("update " . $prefix . "_authors set aid='$chng_aid', email='$chng_email', url='$chng_url', radminsuper='$chng_radminsuper', pwd='$chng_pwd', admlanguage='$chng_admlanguage' where name='$chng_name' AND aid='$adm_aid'");
+                $titanium_db->sql_query("update " . $titanium_prefix . "_authors set aid='$chng_aid', email='$chng_email', url='$chng_url', radminsuper='$chng_radminsuper', pwd='$chng_pwd', admlanguage='$chng_admlanguage' where name='$chng_name' AND aid='$adm_aid'");
                 if ($adm_aid == $chng_aid) {
-                    redirect($admin_file.".php?op=logout");
+                    redirect_titanium($admin_file.".php?op=logout");
                 } else {
-                    // redirect($admin_file.".php?op=mod_authors");
-                    redirect($admin_file.'.php?op=modifyadmin&chng_aid='.$chng_aid);
+                    // redirect_titanium($admin_file.".php?op=mod_authors");
+                    redirect_titanium($admin_file.'.php?op=modifyadmin&chng_aid='.$chng_aid);
                 }
             } else {
                 if ($chng_name != 'God') {
-                      $db->sql_query("update " . $prefix . "_authors set aid='$chng_aid', email='$chng_email', url='$chng_url', radminsuper='0', pwd='$chng_pwd', admlanguage='$chng_admlanguage' where name='$chng_name' AND aid='$adm_aid'");
+                      $titanium_db->sql_query("update " . $titanium_prefix . "_authors set aid='$chng_aid', email='$chng_email', url='$chng_url', radminsuper='0', pwd='$chng_pwd', admlanguage='$chng_admlanguage' where name='$chng_name' AND aid='$adm_aid'");
                 }
-                $result = $db->sql_query("SELECT mid, admins FROM ".$prefix."_modules");
-                while ($row = $db->sql_fetchrow($result)) {
+                $result = $titanium_db->sql_query("SELECT mid, admins FROM ".$titanium_prefix."_modules");
+                while ($row = $titanium_db->sql_fetchrow($result)) {
                     $admins = explode(",", $row['admins']);
                     $adm = '';
                     for ($a=0, $maxa = count($admins); $a < $maxa; $a++) {
@@ -404,11 +404,11 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
                             $adm .= $admins[$a].',';
                         }
                     }
-                    $db->sql_query("UPDATE ".$prefix."_authors SET radminsuper='$chng_radminsuper' WHERE name='$chng_name' AND aid='$adm_aid'");
-                    $db->sql_query("UPDATE ".$prefix."_modules SET admins='$adm' WHERE mid='".intval($row['mid'])."'");
+                    $titanium_db->sql_query("UPDATE ".$titanium_prefix."_authors SET radminsuper='$chng_radminsuper' WHERE name='$chng_name' AND aid='$adm_aid'");
+                    $titanium_db->sql_query("UPDATE ".$titanium_prefix."_modules SET admins='$adm' WHERE mid='".intval($row['mid'])."'");
                 }
                 for ($i=0, $maxi=count($auth_modules); $i < $maxi; $i++) {
-                    $row = $db->sql_fetchrow($db->sql_query("SELECT admins FROM ".$prefix."_modules WHERE mid='".intval($auth_modules[$i])."'"));
+                    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT admins FROM ".$titanium_prefix."_modules WHERE mid='".intval($auth_modules[$i])."'"));
                     if(!empty($row['admins'])) {
                         $admins = explode(",", $row['admins']);
                         for ($a=0, $maxa = count($admins); $a < $maxa; $a++) {
@@ -419,17 +419,17 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
                     }
                     if ($dummy != 1) {
                         $adm = $row['admins'].$chng_name;
-                        $db->sql_query("UPDATE ".$prefix."_modules SET admins='$adm,' WHERE mid='".intval($auth_modules[$i])."'");
+                        $titanium_db->sql_query("UPDATE ".$titanium_prefix."_modules SET admins='$adm,' WHERE mid='".intval($auth_modules[$i])."'");
                     }
                     $dummy = '';
                 }
-                // redirect($admin_file.".php?op=mod_authors");
-                redirect($admin_file.'.php?op=modifyadmin&chng_aid='.$chng_aid);
+                // redirect_titanium($admin_file.".php?op=mod_authors");
+                redirect_titanium($admin_file.'.php?op=modifyadmin&chng_aid='.$chng_aid);
             }
         } else {
             if ($chng_radminsuper == 1) {
-                $result = $db->sql_query("SELECT mid, admins FROM ".$prefix."_modules");
-                while ($row = $db->sql_fetchrow($result)) {
+                $result = $titanium_db->sql_query("SELECT mid, admins FROM ".$titanium_prefix."_modules");
+                while ($row = $titanium_db->sql_fetchrow($result)) {
                     $admins = explode(",", $row['admins']);
                     $adm = '';
                     for ($a=0, $maxa = count($admins); $a < $maxa; $a++) {
@@ -437,17 +437,17 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
                             $adm .= $admins[$a].',';
                         }
                     }
-                    $db->sql_query("UPDATE ".$prefix."_modules SET admins='$adm' WHERE mid='".intval($row['mid'])."'");
+                    $titanium_db->sql_query("UPDATE ".$titanium_prefix."_modules SET admins='$adm' WHERE mid='".intval($row['mid'])."'");
                 }
-                $db->sql_query("update " . $prefix . "_authors set aid='$chng_aid', email='$chng_email', url='$chng_url', radminsuper='$chng_radminsuper', admlanguage='$chng_admlanguage' where name='$chng_name' AND aid='$adm_aid'");
-                // redirect($admin_file.".php?op=mod_authors");
-                redirect($admin_file.'.php?op=modifyadmin&chng_aid='.$chng_aid);
+                $titanium_db->sql_query("update " . $titanium_prefix . "_authors set aid='$chng_aid', email='$chng_email', url='$chng_url', radminsuper='$chng_radminsuper', admlanguage='$chng_admlanguage' where name='$chng_name' AND aid='$adm_aid'");
+                // redirect_titanium($admin_file.".php?op=mod_authors");
+                redirect_titanium($admin_file.'.php?op=modifyadmin&chng_aid='.$chng_aid);
             } else {
                 if ($chng_name != 'God') {
-                        $db->sql_query("update " . $prefix . "_authors set aid='$chng_aid', email='$chng_email', url='$chng_url', radminsuper='0', admlanguage='$chng_admlanguage' where name='$chng_name' AND aid='$adm_aid'");
+                        $titanium_db->sql_query("update " . $titanium_prefix . "_authors set aid='$chng_aid', email='$chng_email', url='$chng_url', radminsuper='0', admlanguage='$chng_admlanguage' where name='$chng_name' AND aid='$adm_aid'");
                 }
-                $result = $db->sql_query("SELECT mid, admins FROM ".$prefix."_modules");
-                while ($row = $db->sql_fetchrow($result)) {
+                $result = $titanium_db->sql_query("SELECT mid, admins FROM ".$titanium_prefix."_modules");
+                while ($row = $titanium_db->sql_fetchrow($result)) {
                     $admins = explode(",", $row['admins']);
                     $adm = '';
                     for ($a=0, $maxa = count($admins); $a < $maxa; $a++) {
@@ -455,11 +455,11 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
                             $adm .= $admins[$a].',';
                         }
                     }
-                    $db->sql_query("UPDATE ".$prefix."_authors SET radminsuper='$chng_radminsuper' WHERE name='$chng_name' AND aid='$adm_aid'");
-                    $db->sql_query("UPDATE ".$prefix."_modules SET admins='$adm' WHERE mid='".intval($row['mid'])."'");
+                    $titanium_db->sql_query("UPDATE ".$titanium_prefix."_authors SET radminsuper='$chng_radminsuper' WHERE name='$chng_name' AND aid='$adm_aid'");
+                    $titanium_db->sql_query("UPDATE ".$titanium_prefix."_modules SET admins='$adm' WHERE mid='".intval($row['mid'])."'");
                 }
                 for ($i=0, $maxi=count($auth_modules); $i < $maxi; $i++) {
-                    $row = $db->sql_fetchrow($db->sql_query("SELECT admins FROM ".$prefix."_modules WHERE mid='".intval($auth_modules[$i])."'"));
+                    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT admins FROM ".$titanium_prefix."_modules WHERE mid='".intval($auth_modules[$i])."'"));
                     if(!empty($row['admins'])) {
                         $admins = explode(",", $row['admins']);
                         for ($a=0, $maxa=count($admins); $a < $maxa; $a++) {
@@ -470,25 +470,25 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
                     }
                     if ($dummy != 1) {
                         $adm = $row['admins'].$chng_name;
-                        $db->sql_query("UPDATE ".$prefix."_modules SET admins='$adm,' WHERE mid='".intval($auth_modules[$i])."'");
+                        $titanium_db->sql_query("UPDATE ".$titanium_prefix."_modules SET admins='$adm,' WHERE mid='".intval($auth_modules[$i])."'");
                     }
                     $dummy = '';
                 }
-                redirect($admin_file.'.php?op=modifyadmin&chng_aid='.$chng_aid);
+                redirect_titanium($admin_file.'.php?op=modifyadmin&chng_aid='.$chng_aid);
             }
         }
         if ($adm_aid != $chng_aid) {
-            $result2 = $db->sql_query("SELECT sid, aid, informant from " . $prefix . "_stories where aid='$adm_aid'");
-            while ($row2 = $db->sql_fetchrow($result2)) {
+            $result2 = $titanium_db->sql_query("SELECT sid, aid, informant from " . $titanium_prefix . "_stories where aid='$adm_aid'");
+            while ($row2 = $titanium_db->sql_fetchrow($result2)) {
                 $sid = intval($row2['sid']);
                 $old_aid = $row2['aid'];
                 $old_aid = substr($old_aid, 0,25);
                 $informant = $row2['informant'];
                 $informant = substr($informant, 0,25);
                 if ($old_aid == $informant) {
-                    $db->sql_query("update " . $prefix . "_stories set informant='$chng_aid' where sid='$sid'");
+                    $titanium_db->sql_query("update " . $titanium_prefix . "_stories set informant='$chng_aid' where sid='$sid'");
                 }
-                $db->sql_query("update " . $prefix . "_stories set aid='$chng_aid' WHERE sid='$sid'");
+                $titanium_db->sql_query("update " . $titanium_prefix . "_stories set aid='$chng_aid' WHERE sid='$sid'");
             }
         }
     } else {
@@ -497,12 +497,12 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
 }
 
 function deladmin2($del_aid) {
-    global $admin, $prefix, $db, $admin_file;
+    global $admin, $titanium_prefix, $titanium_db, $admin_file;
     if (is_admin()) {
         $del_aid = substr($del_aid, 0,25);
-        $result = $db->sql_query("SELECT admins FROM ".$prefix."_modules WHERE title='News'");
-        $row2 = $db->sql_fetchrow($db->sql_query("SELECT name FROM ".$prefix."_authors WHERE aid='$del_aid'"));
-        while ($row = $db->sql_fetchrow($result)) {
+        $result = $titanium_db->sql_query("SELECT admins FROM ".$titanium_prefix."_modules WHERE title='News'");
+        $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT name FROM ".$titanium_prefix."_authors WHERE aid='$del_aid'"));
+        while ($row = $titanium_db->sql_fetchrow($result)) {
             $admins = explode(",", $row['admins']);
             $auth_user = 0;
             for ($i=0, $maxi=count($admins); $i < $maxi; $i++) {
@@ -514,9 +514,9 @@ function deladmin2($del_aid) {
                 $radminarticle = 1;
             }
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         if ($radminarticle == 1) {
-            $row2 = $db->sql_fetchrow($db->sql_query("SELECT sid from " . $prefix . "_stories where aid='$del_aid'"));
+            $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT sid from " . $titanium_prefix . "_stories where aid='$del_aid'"));
             $sid = intval($row2['sid']);
             if (!empty($sid)) {
                 include_once(NUKE_BASE_DIR.'header.php');
@@ -533,14 +533,14 @@ function deladmin2($del_aid) {
                 OpenTable();
                 echo "<center><span class=\"option\"><strong>" . _PUBLISHEDSTORIES . "</strong></span><br /><br />"
                     ."" . _SELECTNEWADMIN . ":<br /><br />";
-                $result3 = $db->sql_query("SELECT aid from " . $prefix . "_authors where aid!='$del_aid'");
+                $result3 = $titanium_db->sql_query("SELECT aid from " . $titanium_prefix . "_authors where aid!='$del_aid'");
                 echo "<form action=\"".$admin_file.".php\" method=\"post\"><select name=\"newaid\">";
-                while ($row3 = $db->sql_fetchrow($result3)) {
+                while ($row3 = $titanium_db->sql_fetchrow($result3)) {
                     $oaid = $row3['aid'];
                     $oaid = substr($oaid, 0,25);
                     echo "<option name=\"newaid\" value=\"$oaid\">$oaid</option>";
                 }
-                $db->sql_freeresult($result3);
+                $titanium_db->sql_freeresult($result3);
                 echo "</select><input type=\"hidden\" name=\"del_aid\" value=\"$del_aid\">"
                     ."<input type=\"hidden\" name=\"op\" value=\"assignstories\">"
                     ."<input type=\"submit\" value=\"" . _OK . "\">"
@@ -550,7 +550,7 @@ function deladmin2($del_aid) {
                 return;
             }
         }
-        redirect($admin_file.".php?op=deladminconf&del_aid=$del_aid");
+        redirect_titanium($admin_file.".php?op=deladminconf&del_aid=$del_aid");
     } else {
         DisplayError("Unauthorized editing of authors detected<br /><br />"._GOBACK);
     }
@@ -596,16 +596,16 @@ switch ($op) {
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
         for ($i=0,$maxi=count($auth_modules); $i < $maxi; $i++) {
-            $row = $db->sql_fetchrow($db->sql_query("SELECT admins FROM ".$prefix."_modules WHERE mid='".intval($auth_modules[$i])."'"));
+            $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT admins FROM ".$titanium_prefix."_modules WHERE mid='".intval($auth_modules[$i])."'"));
             $adm = $row['admins'] . $add_name;
-            $db->sql_query("UPDATE ".$prefix."_modules SET admins='$adm,' WHERE mid='".intval($auth_modules[$i])."'");
+            $titanium_db->sql_query("UPDATE ".$titanium_prefix."_modules SET admins='$adm,' WHERE mid='".intval($auth_modules[$i])."'");
         }
-        $result = $db->sql_query("insert into " . $prefix . "_authors values ('$add_aid', '$add_name', '$add_url', '$add_email', '$add_pwd', '0', '$add_radminsuper', '$add_admlanguage')");
+        $result = $titanium_db->sql_query("insert into " . $titanium_prefix . "_authors values ('$add_aid', '$add_name', '$add_url', '$add_email', '$add_pwd', '0', '$add_radminsuper', '$add_admlanguage')");
         if (!$result) {
-            redirect($admin_file.".php");
+            redirect_titanium($admin_file.".php");
         }
-        $db->sql_freeresult($result);
-        redirect($admin_file.".php?op=mod_authors");
+        $titanium_db->sql_freeresult($result);
+        redirect_titanium($admin_file.".php?op=mod_authors");
     break;
 
     case "deladmin":
@@ -631,21 +631,21 @@ switch ($op) {
 
     case "assignstories":
         $del_aid = trim($del_aid);
-        $result = $db->sql_query("SELECT sid from " . $prefix . "_stories where aid='$del_aid'");
-        while ($row = $db->sql_fetchrow($result)) {
+        $result = $titanium_db->sql_query("SELECT sid from " . $titanium_prefix . "_stories where aid='$del_aid'");
+        while ($row = $titanium_db->sql_fetchrow($result)) {
             $sid = intval($row['sid']);
-            $db->sql_query("update " . $prefix . "_stories set aid='$newaid', informant='$newaid' where aid='$del_aid'");
-            $db->sql_query("update " . $prefix . "_authors set counter=counter+1 where aid='$newaid'");
+            $titanium_db->sql_query("update " . $titanium_prefix . "_stories set aid='$newaid', informant='$newaid' where aid='$del_aid'");
+            $titanium_db->sql_query("update " . $titanium_prefix . "_authors set counter=counter+1 where aid='$newaid'");
         }
-        $db->sql_freeresult($result);
-        redirect($admin_file.".php?op=deladminconf&del_aid=$del_aid");
+        $titanium_db->sql_freeresult($result);
+        redirect_titanium($admin_file.".php?op=deladminconf&del_aid=$del_aid");
     break;
 
     case "deladminconf":
         $del_aid = trim($del_aid);
-        $db->sql_query("delete from " . $prefix . "_authors where aid='$del_aid' AND name!='God'");
-        $result = $db->sql_query("SELECT mid, admins FROM ".$prefix."_modules");
-        while ($row = $db->sql_fetchrow($result)) {
+        $titanium_db->sql_query("delete from " . $titanium_prefix . "_authors where aid='$del_aid' AND name!='God'");
+        $result = $titanium_db->sql_query("SELECT mid, admins FROM ".$titanium_prefix."_modules");
+        while ($row = $titanium_db->sql_fetchrow($result)) {
             $admins = explode(",", $row['admins']);
                $adm = "";
                for ($a=0, $maxa=count($admins); $a < $maxa; $a++) {
@@ -653,10 +653,10 @@ switch ($op) {
                     $adm .= $admins[$a].',';
                    }
                }
-            $db->sql_query("UPDATE ".$prefix."_modules SET admins='$adm' WHERE mid='".intval($row['mid'])."'");
+            $titanium_db->sql_query("UPDATE ".$titanium_prefix."_modules SET admins='$adm' WHERE mid='".intval($row['mid'])."'");
         }
-        $db->sql_freeresult($result);
-        redirect($admin_file.".php?op=mod_authors");
+        $titanium_db->sql_freeresult($result);
+        redirect_titanium($admin_file.".php?op=mod_authors");
     break;
 
 }

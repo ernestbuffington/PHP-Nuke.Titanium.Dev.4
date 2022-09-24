@@ -24,30 +24,30 @@ if (!defined('MODULE_FILE')) {
 
 if ($popup != "1")
 {
-    $module_name = basename(dirname(__FILE__));
-    require("modules/".$module_name."/nukebb.php");
+    $titanium_module_name = basename(dirname(__FILE__));
+    require("modules/".$titanium_module_name."/nukebb.php");
 }
 else
 {
-    $phpbb_root_path = NUKE_FORUMS_DIR;
+    $phpbb2_root_path = NUKE_FORUMS_DIR;
 }
 
-if (defined('IN_PHPBB'))
+if (defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
     exit;
 }
 
-if (defined('IN_PHPBB'))
+if (defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
     exit;
 }
 
-define('IN_PHPBB', true);
+define('IN_PHPBB2', true);
 
-include($phpbb_root_path . 'extension.inc');
-include($phpbb_root_path . 'common.' . $phpEx);
+include($phpbb2_root_path . 'extension.inc');
+include($phpbb2_root_path . 'common.' . $phpEx);
 
 //
 // Delete the / * to uncomment the block, and edit the values (read the comments) to
@@ -72,7 +72,7 @@ $allow_deny_order = ALLOWED_DENIED;
 // Partial Domain Names -> opentools.de
 //
 $sites = array(
-    $board_config['server_name'],    // This is your domain
+    $phpbb2_board_config['server_name'],    // This is your domain
     'opentools.de',
     'phpbb.com',
     'phpbbhacks.com',
@@ -80,7 +80,7 @@ $sites = array(
 );
 
 // This is the message displayed, if someone links to this site...
-$lang['Denied_Message'] = 'You are not authorized to view, download or link to this Site.';
+$titanium_lang['Denied_Message'] = 'You are not authorized to view, download or link to this Site.';
 
 // End of editable area
 
@@ -112,7 +112,7 @@ else
 
 if ($allowed == FALSE)
 {
-    message_die(GENERAL_MESSAGE, $lang['Denied_Message']);
+    message_die(GENERAL_MESSAGE, $titanium_lang['Denied_Message']);
 }
 
 // Delete the following line, to uncomment this block
@@ -124,7 +124,7 @@ $thumbnail = get_var('thumb', 0);
 // Send file to browser
 function send_file_to_browser($attachment, $upload_dir)
 {
-    global $_SERVER, $HTTP_USER_AGENT, $HTTP_SERVER_VARS, $lang, $db, $attach_config;
+    global $_SERVER, $HTTP_USER_AGENT, $HTTP_SERVER_VARS, $titanium_lang, $titanium_db, $attach_config;
 
     $filename = ($upload_dir == '') ? $attachment['physical_filename'] : $upload_dir . '/' . $attachment['physical_filename'];
 
@@ -134,7 +134,7 @@ function send_file_to_browser($attachment, $upload_dir)
     {
         if (@!file_exists(@amod_realpath($filename)))
         {
-            message_die(GENERAL_ERROR, $lang['Error_no_attachment'] . "<br /><br /><strong>404 File Not Found:</strong> The File <i>" . $filename . "</i> does not exist.");
+            message_die(GENERAL_ERROR, $titanium_lang['Error_no_attachment'] . "<br /><br /><strong>404 File Not Found:</strong> The File <i>" . $filename . "</i> does not exist.");
         }
         else
         {
@@ -255,7 +255,7 @@ function send_file_to_browser($attachment, $upload_dir)
 
         if (!$result)
         {
-            message_die(GENERAL_ERROR, $lang['Error_no_attachment'] . "<br /><br /><strong>404 File Not Found:</strong> The File <i>" . $filename . "</i> does not exist.");
+            message_die(GENERAL_ERROR, $titanium_lang['Error_no_attachment'] . "<br /><br /><strong>404 File Not Found:</strong> The File <i>" . $filename . "</i> does not exist.");
         }
 
         @ftp_quit($conn_id);
@@ -270,7 +270,7 @@ function send_file_to_browser($attachment, $upload_dir)
     }
     else
     {
-        message_die(GENERAL_ERROR, $lang['Error_no_attachment'] . "<br /><br /><strong>404 File Not Found:</strong> The File <i>" . $filename . "</i> does not exist.");
+        message_die(GENERAL_ERROR, $titanium_lang['Error_no_attachment'] . "<br /><br /><strong>404 File Not Found:</strong> The File <i>" . $filename . "</i> does not exist.");
     }
 
     exit;
@@ -282,36 +282,36 @@ function send_file_to_browser($attachment, $upload_dir)
 //
 // Start Session Management
 //
-$userdata = session_pagestart($user_ip, PAGE_INDEX);
-init_userprefs($userdata);
+$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+titanium_init_userprefs($userdata);
 
 if (!$download_id)
 {
-    message_die(GENERAL_ERROR, $lang['No_attachment_selected']);
+    message_die(GENERAL_ERROR, $titanium_lang['No_attachment_selected']);
 }
 
 if ($attach_config['disable_mod'] && $userdata['user_level'] != ADMIN)
 {
-    message_die(GENERAL_MESSAGE, $lang['Attachment_feature_disabled']);
+    message_die(GENERAL_MESSAGE, $titanium_lang['Attachment_feature_disabled']);
 }
 
 $sql = 'SELECT *
     FROM ' . ATTACHMENTS_DESC_TABLE . '
     WHERE attach_id = ' . (int) $download_id;
 
-if (!($result = $db->sql_query($sql)))
+if (!($result = $titanium_db->sql_query($sql)))
 {
     message_die(GENERAL_ERROR, 'Could not query attachment informations', '', __LINE__, __FILE__, $sql);
 }
 
-if (!($attachment = $db->sql_fetchrow($result)))
+if (!($attachment = $titanium_db->sql_fetchrow($result)))
 {
-    message_die(GENERAL_MESSAGE, $lang['Error_no_attachment']);
+    message_die(GENERAL_MESSAGE, $titanium_lang['Error_no_attachment']);
 }
 
 $attachment['physical_filename'] = basename($attachment['physical_filename']);
 
-$db->sql_freeresult($result);
+$titanium_db->sql_freeresult($result);
 
 // get forum_id for attachment authorization or private message authorization
 $authorised = false;
@@ -320,13 +320,13 @@ $sql = 'SELECT *
     FROM ' . ATTACHMENTS_TABLE . '
     WHERE attach_id = ' . (int) $attachment['attach_id'];
 
-if (!($result = $db->sql_query($sql)))
+if (!($result = $titanium_db->sql_query($sql)))
 {
     message_die(GENERAL_ERROR, 'Could not query attachment informations', '', __LINE__, __FILE__, $sql);
 }
 
-$auth_pages = $db->sql_fetchrowset($result);
-$num_auth_pages = $db->sql_numrows($result);
+$auth_pages = $titanium_db->sql_fetchrowset($result);
+$num_auth_pages = $titanium_db->sql_numrows($result);
 
 for ($i = 0; $i < $num_auth_pages && $authorised == false; $i++)
 {
@@ -338,19 +338,19 @@ for ($i = 0; $i < $num_auth_pages && $authorised == false; $i++)
             FROM ' . POSTS_TABLE . '
             WHERE post_id = ' . (int) $auth_pages[$i]['post_id'];
 
-        if ( !($result = $db->sql_query($sql)) )
+        if ( !($result = $titanium_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not query post information', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $db->sql_fetchrow($result);
+        $row = $titanium_db->sql_fetchrow($result);
 
-        $forum_id = $row['forum_id'];
+        $phpbb2_forum_id = $row['forum_id'];
 
-        $is_auth = array();
-        $is_auth = auth(AUTH_ALL, $forum_id, $userdata);
+        $phpbb2_is_auth = array();
+        $phpbb2_is_auth = auth(AUTH_ALL, $phpbb2_forum_id, $userdata);
 
-        if ($is_auth['auth_download'])
+        if ($phpbb2_is_auth['auth_download'])
         {
             $authorised = TRUE;
         }
@@ -365,7 +365,7 @@ for ($i = 0; $i < $num_auth_pages && $authorised == false; $i++)
 }
 if (!$authorised)
 {
-    message_die(GENERAL_MESSAGE, $lang['Sorry_auth_view_attach']);
+    message_die(GENERAL_MESSAGE, $titanium_lang['Sorry_auth_view_attach']);
 }
 
 //
@@ -375,13 +375,13 @@ $sql = "SELECT e.extension, g.download_mode
 	FROM " . EXTENSION_GROUPS_TABLE . " g, " . EXTENSIONS_TABLE . " e
     WHERE (g.allow_group = 1) AND (g.group_id = e.group_id)";
 
-if ( !($result = $db->sql_query($sql)) )
+if ( !($result = $titanium_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query Allowed Extensions.', '', __LINE__, __FILE__, $sql);
 }
 
-$rows = $db->sql_ufetchrowset($sql);
-$num_rows = $db->sql_numrows($result);
+$rows = $titanium_db->sql_ufetchrowset($sql);
+$num_rows = $titanium_db->sql_numrows($result);
 
 for ($i = 0; $i < $num_rows; $i++)
 {
@@ -393,7 +393,7 @@ for ($i = 0; $i < $num_rows; $i++)
 // disallowed ?
 if (!in_array($attachment['extension'], $allowed_extensions) && $userdata['user_level'] != ADMIN)
 {
-    message_die(GENERAL_MESSAGE, sprintf($lang['Extension_disabled_after_posting'], $attachment['extension']));
+    message_die(GENERAL_MESSAGE, sprintf($titanium_lang['Extension_disabled_after_posting'], $attachment['extension']));
 }
 
 $download_mode = intval($download_mode[$attachment['extension']]);
@@ -410,7 +410,7 @@ if (!$thumbnail)
     SET download_count = download_count + 1
     WHERE attach_id = ' . (int) $attachment['attach_id'];
 
-    if (!$db->sql_query($sql))
+    if (!$titanium_db->sql_query($sql))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t update attachment download count', '', __LINE__, __FILE__, $sql);
     }
@@ -419,10 +419,10 @@ if (!$thumbnail)
 // Determine the 'presenting'-method
 if ($download_mode == PHYSICAL_LINK)
 {
-    $server_protocol = ($board_config['cookie_secure']) ? 'https://' : 'http://';
-    $server_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['server_name']));
-    $server_port = ($board_config['server_port'] <> 80) ? ':' . trim($board_config['server_port']) : '';
-    //$script_name = preg_replace('/^\/?(.*?)\/?$/', '/\1', trim($board_config['script_path']));
+    $server_protocol = ($phpbb2_board_config['cookie_secure']) ? 'https://' : 'http://';
+    $server_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($phpbb2_board_config['server_name']));
+    $server_port = ($phpbb2_board_config['server_port'] <> 80) ? ':' . trim($phpbb2_board_config['server_port']) : '';
+    //$script_name = preg_replace('/^\/?(.*?)\/?$/', '/\1', trim($phpbb2_board_config['script_path']));
 
     //if ($script_name[strlen($script_name)] != '/')
     //{
@@ -455,7 +455,7 @@ if ($download_mode == PHYSICAL_LINK)
     }
 
     // Behave as per HTTP/1.1 spec for others
-    redirect($redirect_path);
+    redirect_titanium($redirect_path);
     exit;
 }
 else

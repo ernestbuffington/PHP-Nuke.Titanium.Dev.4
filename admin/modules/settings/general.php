@@ -32,7 +32,7 @@ if(!defined('IN_SETTINGS')) {
   exit('Access Denied');
 }
 
-global $sitename, $nukeurl, $site_logo, $slogan, $startdate, $adminmail, $top, $storyhome, $oldnum, $ultramode, $anonpost, $language, $locale, $admlang;
+global $sitename, $nukeurl, $site_logo, $slogan, $startdate, $adminmail, $top, $storyhome, $oldnum, $ultramode, $anonpost, $titanium_language, $locale, $admlang;
 echo '  <tr>'.PHP_EOL;
 echo '    <td class="catHead" colspan="3" style="font-weight: bold; text-align: center; text-transform: uppercase;">'.$admlang['preferences']['general'].'</td>'.PHP_EOL;
 echo '  </tr>'.PHP_EOL;

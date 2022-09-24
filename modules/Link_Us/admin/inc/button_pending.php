@@ -32,24 +32,24 @@
 	
 	OpenTable();
 $a = 0;
-$result = $db->sql_query("SELECT * FROM `".$prefix."_link_us` WHERE `site_status`='3' ORDER BY `site_name`");
-$numrows = $db->sql_numrows($result);
+$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_link_us` WHERE `site_status`='3' ORDER BY `site_name`");
+$numrows = $titanium_db->sql_numrows($result);
 if($numrows > 0) {
   echo "<table border='0' cellpadding='2' cellspacing='5' width='100%'>";
-  while($row = $db->sql_fetchrow($result)) {
+  while($row = $titanium_db->sql_fetchrow($result)) {
     if($a == 0) { echo "<tr>"; }
     echo "<td width='50%' valign='top'>";
 	
     OpenTable();
     echo "<table border='0' width='100%'>";
     echo "<tr><td width='25%' align='center' valign='top' rowspan='3'>";
-    echo "<a href='modules.php?name=".$module_name."&amp;op=visit&amp;id=".$row['id']."' target='_blank'><img src='".$row['site_image']."' border='0' alt='".$row['site_name']."' title='".$row['site_name']."' height='$height' width='$width'></a><br /><br />";
-    echo " <a href='".$admin_file.".php?op=approve_button&amp;id=".$row['id']."'><img src='modules/".$module_name."/images/approve.png' border='0' alt='".$lang_new[$module_name]['APPROVE']."' title='".$lang_new[$module_name]['APPROVE']."'></a>";
-    echo " <a href='".$admin_file.".php?op=edit_button&amp;id=".$row['id']."'><img src='modules/".$module_name."/images/edit.png' border='0' alt='".$lang_new[$module_name]['EDIT']."' title='".$lang_new[$module_name]['EDIT']."'></a>";
-    echo " <a href='".$admin_file.".php?op=delete_button&amp;id=".$row['id']."'><img src='modules/".$module_name."/images/delete.png' border='0' alt='".$lang_new[$module_name]['DELETE']."' title='".$lang_new[$module_name]['DELETE']."'></a>";
-    echo "</td>\n<td width='75%' valign='top'><strong>".$lang_new[$module_name]['ADDED'].":</strong> ".formatTimestamp($row['date_added'])."</td></tr>";
-	echo "<tr><td valign='top'><strong>".$lang_new[$module_name]['SUB_USERNAME']."</strong>: ".UsernameColor($row['user_name'])."</td></tr>";
-	echo "<tr><td valign='top'><strong>".$lang_new[$module_name]['DESCRIPTION']."</strong>: ".set_smilies(decode_bbcode(stripslashes($row['site_description']), 1, true))."</td></tr>";
+    echo "<a href='modules.php?name=".$titanium_module_name."&amp;op=visit&amp;id=".$row['id']."' target='_blank'><img src='".$row['site_image']."' border='0' alt='".$row['site_name']."' title='".$row['site_name']."' height='$height' width='$width'></a><br /><br />";
+    echo " <a href='".$admin_file.".php?op=approve_button&amp;id=".$row['id']."'><img src='modules/".$titanium_module_name."/images/approve.png' border='0' alt='".$titanium_lang_new[$titanium_module_name]['APPROVE']."' title='".$titanium_lang_new[$titanium_module_name]['APPROVE']."'></a>";
+    echo " <a href='".$admin_file.".php?op=edit_button&amp;id=".$row['id']."'><img src='modules/".$titanium_module_name."/images/edit.png' border='0' alt='".$titanium_lang_new[$titanium_module_name]['EDIT']."' title='".$titanium_lang_new[$titanium_module_name]['EDIT']."'></a>";
+    echo " <a href='".$admin_file.".php?op=delete_button&amp;id=".$row['id']."'><img src='modules/".$titanium_module_name."/images/delete.png' border='0' alt='".$titanium_lang_new[$titanium_module_name]['DELETE']."' title='".$titanium_lang_new[$titanium_module_name]['DELETE']."'></a>";
+    echo "</td>\n<td width='75%' valign='top'><strong>".$titanium_lang_new[$titanium_module_name]['ADDED'].":</strong> ".formatTimestamp($row['date_added'])."</td></tr>";
+	echo "<tr><td valign='top'><strong>".$titanium_lang_new[$titanium_module_name]['SUB_USERNAME']."</strong>: ".UsernameColor($row['user_name'])."</td></tr>";
+	echo "<tr><td valign='top'><strong>".$titanium_lang_new[$titanium_module_name]['DESCRIPTION']."</strong>: ".set_smilies(decode_bbcode(stripslashes($row['site_description']), 1, true))."</td></tr>";
     echo "</table>";
     CloseTable();
     echo "</td>";
@@ -60,7 +60,7 @@ if($numrows > 0) {
   
 } else {
 
-  echo "<center class='title'>".$lang_new[$module_name]['SUB_NONE']."</center>\n";
+  echo "<center class='title'>".$titanium_lang_new[$titanium_module_name]['SUB_NONE']."</center>\n";
   
 }
 	CloseTable();

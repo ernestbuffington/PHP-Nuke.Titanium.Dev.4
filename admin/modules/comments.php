@@ -25,7 +25,7 @@
 if (!defined('ADMIN_FILE')) 
 die ("Illegal File Access");
 
-global $prefix, $db;
+global $titanium_prefix, $titanium_db;
 
 if (is_mod_admin()) 
 {
@@ -37,48 +37,48 @@ if (is_mod_admin())
 /* to code the comments childs deletion function!                    */
 function removeSubComments($tid) 
 {
-    global $prefix, $db;
+    global $titanium_prefix, $titanium_db;
 
     $tid = intval($tid);
-    $result = $db->sql_query("SELECT tid from ".$prefix."_comments where pid='$tid'");
-    $numrows = $db->sql_numrows($result);
+    $result = $titanium_db->sql_query("SELECT tid from ".$titanium_prefix."_comments where pid='$tid'");
+    $numrows = $titanium_db->sql_numrows($result);
 
     if($numrows>0) 
 	{
-	    while ($row = $db->sql_fetchrow($result)) 
+	    while ($row = $titanium_db->sql_fetchrow($result)) 
 	    {
             $stid = intval($row['tid']);
             removeSubComments($stid);
             $stid = intval($stid);
-            $db->sql_query("delete from ".$prefix."_comments where tid='$stid'");
+            $titanium_db->sql_query("delete from ".$titanium_prefix."_comments where tid='$stid'");
         }
     }
     
-	$db->sql_query("delete from ".$prefix."_comments where tid='$tid'");
+	$titanium_db->sql_query("delete from ".$titanium_prefix."_comments where tid='$tid'");
 }
 
 function removeComment ($tid, $sid, $ok=0) 
 {
-    global $ultramode, $prefix, $db, $admin_file;
+    global $ultramode, $titanium_prefix, $titanium_db, $admin_file;
 
     if($ok) 
 	{
         $tid = intval($tid);
 		
-        $result = $db->sql_query("SELECT datePublished from ".$prefix."_comments WHERE pid='$tid'");
+        $result = $titanium_db->sql_query("SELECT datePublished from ".$titanium_prefix."_comments WHERE pid='$tid'");
         
-		$numresults = $db->sql_numrows($result);
+		$numresults = $titanium_db->sql_numrows($result);
         
 		$sid = intval($sid);
         
-		$db->sql_query("UPDATE ".$prefix."_stories SET comments=comments-1-'$numresults' where sid='$sid'");
+		$titanium_db->sql_query("UPDATE ".$titanium_prefix."_stories SET comments=comments-1-'$numresults' where sid='$sid'");
         
 		removeSubComments($tid);
     
 	    if ($ultramode) 
         blog_ultramode();
         
-		redirect("modules.php?name=Blog&file=article&sid=$sid");
+		redirect_titanium("modules.php?name=Blog&file=article&sid=$sid");
     } 
 	else 
 	{
@@ -98,23 +98,23 @@ function removeComment ($tid, $sid, $ok=0)
 
 function removePollSubComments($tid) 
 {
-    global $prefix, $db;
+    global $titanium_prefix, $titanium_db;
 
     $tid = intval($tid);
-    $result = $db->sql_query("SELECT tid from ".$prefix."_pollcomments where pid='$tid'");
-    $numrows = $db->sql_numrows($result);
+    $result = $titanium_db->sql_query("SELECT tid from ".$titanium_prefix."_pollcomments where pid='$tid'");
+    $numrows = $titanium_db->sql_numrows($result);
 
     if($numrows>0) 
 	{
-        while ($row = $db->sql_fetchrow($result)) 
+        while ($row = $titanium_db->sql_fetchrow($result)) 
 		{
             $stid = intval($row['tid']);
             removePollSubComments($stid);
-            $db->sql_query("delete from ".$prefix."_pollcomments where tid='$stid'");
+            $titanium_db->sql_query("delete from ".$titanium_prefix."_pollcomments where tid='$stid'");
         }
     }
     
-	$db->sql_query("delete from ".$prefix."_pollcomments where tid='$tid'");
+	$titanium_db->sql_query("delete from ".$titanium_prefix."_pollcomments where tid='$tid'");
 }
 
 function RemovePollComment ($tid, $pollID, $ok=0) 
@@ -124,7 +124,7 @@ function RemovePollComment ($tid, $pollID, $ok=0)
     if($ok) 
 	{
         removePollSubComments($tid);
-        redirect("modules.php?name=Surveys&op=results&pollID=$pollID");
+        redirect_titanium("modules.php?name=Surveys&op=results&pollID=$pollID");
     } 
 	else 
 	{

@@ -43,10 +43,10 @@ $row = get_user_field(array('user_id', 'user_password'), $check);
 $vuid = $row['user_id'];
 $ccpass = $row['user_password'];
 
-if (($user_id == $vuid) AND ($check2 == $ccpass)) {
+if (($titanium_user_id == $vuid) AND ($check2 == $ccpass)) {
     if (empty($theme)) $theme = $Default_Theme;
 	if(ThemeAllowed($theme)) {
-		ChangeTheme($theme, $user_id);
+		ChangeTheme($theme, $titanium_user_id);
 	}
 }
 

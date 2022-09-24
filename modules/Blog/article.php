@@ -36,9 +36,9 @@ global $cookie, $userinfo, $theme_name;
 
 $optionbox = "";
 
-$module_name = basename(dirname(__FILE__));
+$titanium_module_name = basename(dirname(__FILE__));
 
-get_lang($module_name);
+get_lang($titanium_module_name);
 
 // we only show the left blocks, else the page gets messed up
 $showblocks = 1;
@@ -49,10 +49,10 @@ else
 $sid = ""; 
 
 if (stristr($_SERVER['REQUEST_URI'],"mainfile")) 
-redirect("modules.php?name=$module_name&file=article&sid=$sid");
+redirect_titanium("modules.php?name=$titanium_module_name&file=article&sid=$sid");
 else
 if (empty($sid) && !isset($tid)) 
-redirect("index.php");
+redirect_titanium("index.php");
 
 if(is_user()) 
 {
@@ -65,7 +65,7 @@ if(is_user())
 	if(!isset($thold)) 
 	$thold = $userinfo['thold']; 
     
-	$db->sql_query("UPDATE ".$user_prefix."_users SET umode='$mode', uorder='$order', thold='$thold' where user_id=".intval($cookie[0]));
+	$titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET umode='$mode', uorder='$order', thold='$thold' where user_id=".intval($cookie[0]));
 }
 
 if ($op == "Reply") 
@@ -81,18 +81,18 @@ if ($op == "Reply")
 	if(isset($thold)) 
 	$display .= "&thold=".$thold; 
     
-	redirect("modules.php?name=$module_name&file=comments&op=Reply&pid=0&sid=".$sid.$display);
+	redirect_titanium("modules.php?name=$titanium_module_name&file=comments&op=Reply&pid=0&sid=".$sid.$display);
 }
 
-$result = $db->sql_query("select catid, aid, datePublished, dateModified, title, counter, hometext, bodytext, topic, informant, notes, acomm, haspoll, pollID, score, ratings, ticon FROM ".$prefix."_stories where sid='$sid'");
+$result = $titanium_db->sql_query("select catid, aid, datePublished, dateModified, title, counter, hometext, bodytext, topic, informant, notes, acomm, haspoll, pollID, score, ratings, ticon FROM ".$titanium_prefix."_stories where sid='$sid'");
 
-$numrows = $db->sql_numrows($result);
+$numrows = $titanium_db->sql_numrows($result);
 
 if (!empty($sid) && $numrows != 1) 
-redirect("index.php");
+redirect_titanium("index.php");
 
-$row = $db->sql_fetchrow($result);
-$db->sql_freeresult($result);
+$row = $titanium_db->sql_fetchrow($result);
+$titanium_db->sql_freeresult($result);
 $aaid = stripslashes($row['aid']);
 $catid = intval($row["catid"]);
 
@@ -124,9 +124,9 @@ $ratings = intval($row["ratings"]);
 $topic_icon = intval($row["ticon"]);
 
 if (empty($aaid)) 
-redirect("modules.php?name=".$module_name);
+redirect_titanium("modules.php?name=".$titanium_module_name);
 
-$db->sql_query("UPDATE ".$prefix."_stories SET counter=counter+1 where sid='$sid'");
+$titanium_db->sql_query("UPDATE ".$titanium_prefix."_stories SET counter=counter+1 where sid='$sid'");
 
 $artpage = 1;
 
@@ -160,9 +160,9 @@ $informant = $anonymous;
 getTopics($sid);
 
 if ($catid != 0) {
-    $row2 = $db->sql_fetchrow($db->sql_query("select title from ".$prefix."_stories_cat where catid='$catid'"));
+    $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("select title from ".$titanium_prefix."_stories_cat where catid='$catid'"));
     $title1 = stripslashes(check_html($row2["title"], "nohtml"));
-    $title = "<a href=\"modules.php?name=$module_name&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><font class=\"storycat\">$title1</font></a>: $title";
+    $title = "<a href=\"modules.php?name=$titanium_module_name&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><font class=\"storycat\">$title1</font></a>: $title";
 }
 
 if($topic_icon == 1)
@@ -172,10 +172,10 @@ echo "<table width=\"100%\" ><tr><td valign=\"top\" width=\"100%\">\n";
 
 themearticle($aaid, $informant, $datetime, $modified, $title, $counter, $bodytext, $topic, $topicname, $topicimage, $topictext);
 
-include_once("modules/$module_name/associates.php");
+include_once("modules/$titanium_module_name/associates.php");
 
 if (((empty($mode) OR ($mode != "nocomments")) OR ($acomm == 0)) OR ($articlecomm == 1)) 
-@include_once("modules/$module_name/comments.php");
+@include_once("modules/$titanium_module_name/comments.php");
 
 echo "</td><td>&nbsp;</td><td valign=\"top\">\n";
 
@@ -191,7 +191,7 @@ if ($haspoll == 1)
     $boxContent = "<form action=\"modules.php?name=Surveys\" method=\"post\">";
     $boxContent .= "<input type=\"hidden\" name=\"pollID\" value=\"".$pollID."\">";
     $boxContent .= "<input type=\"hidden\" name=\"forwarder\" value=\"".$url."\">";
-    $row3 = $db->sql_fetchrow($db->sql_query("SELECT pollTitle, voters FROM ".$prefix."_poll_desc WHERE pollID='$pollID'"));
+    $row3 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT pollTitle, voters FROM ".$titanium_prefix."_poll_desc WHERE pollID='$pollID'"));
     $pollTitle = stripslashes(check_html($row3["pollTitle"], "nohtml"));
     $voters = $row3["voters"];
     $boxTitle = _ARTICLEPOLL;
@@ -200,10 +200,10 @@ if ($haspoll == 1)
 
     for($i = 1; $i <= 12; $i++) 
 	{
-      $result4 = $db->sql_query("SELECT pollID, optionText, optionCount, voteID FROM ".$prefix."_poll_data WHERE (pollID='$pollID') AND (voteID='$i')");
-      $row4 = $db->sql_fetchrow($result4);
-      $numrows = $db->sql_numrows($result4);
-      $db->sql_freeresult($result4);
+      $result4 = $titanium_db->sql_query("SELECT pollID, optionText, optionCount, voteID FROM ".$titanium_prefix."_poll_data WHERE (pollID='$pollID') AND (voteID='$i')");
+      $row4 = $titanium_db->sql_fetchrow($result4);
+      $numrows = $titanium_db->sql_numrows($result4);
+      $titanium_db->sql_freeresult($result4);
       
 	  if($numrows != 0) 
 	  {
@@ -217,7 +217,7 @@ if ($haspoll == 1)
     
 	for($i = 0; $i < 12; $i++) 
 	{
-      $row5 = $db->sql_fetchrow($db->sql_query("SELECT optionCount FROM ".$prefix."_poll_data WHERE (pollID='$pollID') AND (voteID='$i')"));
+      $row5 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT optionCount FROM ".$titanium_prefix."_poll_data WHERE (pollID='$pollID') AND (voteID='$i')"));
       $optionCount = $row5["optionCount"];
       $sum = (int)$sum+$optionCount;
     }
@@ -225,9 +225,9 @@ if ($haspoll == 1)
 
     if ($pollcomm) 
 	{
-      $result6 = $db->sql_query("select * from ".$prefix."_pollcomments where pollID='$pollID'");
-      $numcom = $db->sql_numrows($result6);
-      $db->sql_freeresult($result6);
+      $result6 = $titanium_db->sql_query("select * from ".$titanium_prefix."_pollcomments where pollID='$pollID'");
+      $numcom = $titanium_db->sql_numrows($result6);
+      $titanium_db->sql_freeresult($result6);
       $boxContent .= "<br />"._VOTES.": <strong>$sum</strong><br />"._PCOMMENTS." <strong>$numcom</strong>\n\n";
     } 
 	else 
@@ -241,16 +241,16 @@ if ($haspoll == 1)
 $boxtitle = ""._RELATED."";
 $boxstuff = "<span class=\"content\"><br />";
 
-$url_result = $db->sql_query("select name, url from ".$prefix."_related where tid='$topic'");
+$url_result = $titanium_db->sql_query("select name, url from ".$titanium_prefix."_related where tid='$topic'");
 
-while ($row_eight = $db->sql_fetchrow($url_result)) 
+while ($row_eight = $titanium_db->sql_fetchrow($url_result)) 
 {
     $name = stripslashes($row_eight["name"]);
     $url = stripslashes($row_eight["url"]);
     $boxstuff .= "<strong><big>&middot;</big></strong>&nbsp;<a href=\"".$url."\" target=\"new\">".$name."</a><br />\n";
 }
 
-$db->sql_freeresult($url_result);
+$titanium_db->sql_freeresult($url_result);
 
 $boxstuff .= "<hr noshade width=\"95%\" size=\"1\"><div align=\"center\"><strong>"._MOREABOUT."<strong><br /><a href=\"modules.php?name=Search&amp;topic=$topic\">[ $topictext ]</a><br />\n";
 $boxstuff .= "<hr noshade width=\"95%\" size=\"1\">"._NEWSBY."<br /><a href=\"modules.php?name=Search&amp;author=$aaid\">[ $aaid ]</a></div>\n";
@@ -264,11 +264,11 @@ $querylang = "AND (alanguage='$currentlang' OR alanguage='')"; /* the OR is need
 else 
 $querylang = "";
 
-$row9 = $db->sql_fetchrow($db->sql_query("select sid, title from ".$prefix."_stories where topic='$topic' $querylang order by counter desc limit 0,1"));
+$row9 = $titanium_db->sql_fetchrow($titanium_db->sql_query("select sid, title from ".$titanium_prefix."_stories where topic='$topic' $querylang order by counter desc limit 0,1"));
 $topstory = intval($row9["sid"]);
 $ttitle = stripslashes(check_html($row9["title"], "nohtml")); 
 
-$boxstuff .= "<hr noshade width=\"95%\" size=\"1\">Blog Subject<br /><a href=\"modules.php?name=$module_name&amp;file=article&amp;sid=$topstory\">$ttitle</a></span></div><br />\n";
+$boxstuff .= "<hr noshade width=\"95%\" size=\"1\">Blog Subject<br /><a href=\"modules.php?name=$titanium_module_name&amp;file=article&amp;sid=$topstory\">$ttitle</a></span></div><br />\n";
 
 themesidebox($boxtitle, $boxstuff, "newstopic");
 
@@ -373,7 +373,7 @@ if ($use_xtreme_voting == true)
 {
 $ratetitle = ""._RATEARTICLE."";
 $ratecontent = "<div align=\"center\">"._AVERAGESCORE.": <strong>$rate</strong><br />"._VOTES.": <strong>$ratings</strong>$the_image";
-$ratecontent .= "<form action=\"modules.php?name=$module_name\" method=\"post\"><center>"._RATETHISARTICLE."</div><br />";
+$ratecontent .= "<form action=\"modules.php?name=$titanium_module_name\" method=\"post\"><center>"._RATETHISARTICLE."</div><br />";
 $ratecontent .= "<input type=\"hidden\" name=\"sid\" value=\"$sid\">";
 $ratecontent .= "<input type=\"hidden\" name=\"op\" value=\"rate_article\">";	
 }
@@ -385,7 +385,7 @@ else
   else
   $ratecontent = "<div align=\"center\"><strong>This Blog has a<br/>$rate Star Rating</strong><br/><img src=\"modules/Blog/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" ><br/><strong>$ratings people have<br/>voted for this Blog</strong><br/><img src=\"modules/Blog/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" >";
   
-  $ratecontent .= "<form action=\"modules.php?name=$module_name\" method=\"post\"><img src=\"modules/Blog/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"10\" ><br /><div align=center>"._RATETHISARTICLE."</div><br />";
+  $ratecontent .= "<form action=\"modules.php?name=$titanium_module_name\" method=\"post\"><img src=\"modules/Blog/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"10\" ><br /><div align=center>"._RATETHISARTICLE."</div><br />";
   $ratecontent .= "<img src=\"modules/Blog/images/blockspacer.png\" alt=\"stars\" width=\"20\" height=\"20\" ><br />$the_image<br/><img src=\"modules/Blog/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" ><br />";
   $ratecontent .= "<input type=\"hidden\" name=\"sid\" value=\"$sid\">";
   $ratecontent .= "<input type=\"hidden\" name=\"op\" value=\"rate_article\">";
@@ -459,7 +459,7 @@ $optionbox = "<br />";
 $optionbox .= '&nbsp;<a href="modules.php?name='.the_module().'&amp;file=print&amp;sid='.$sid.'"><i class="fa fa-print"></i></a>&nbsp;<a href="modules.php?name='.the_module().'&amp;file=print&amp;sid='.$sid.'">'._PRINTER.'</a><br />'."\n";
 $optionbox .= '&nbsp;<a href="modules.php?name='.the_module().'&amp;file=friend&amp;op=FriendSend&amp;sid='.$sid.'"><i class="fa fa-envelope"></i></a> <a href="modules.php?name='.the_module().'&amp;file=friend&amp;op=FriendSend&amp;sid='.$sid.'">'._FRIEND.'</a><br /><br />'."\n";
 
-if (is_mod_admin($module_name)) 
+if (is_mod_admin($titanium_module_name)) 
 {
     $optionbox .= '<div class="acenter">'.$customlang['global']['admin'].'<br />[ <a href="'.$admin_file.'.php?op=adminStory">'.$customlang['global']['add'].'</a> | <a href="'.$admin_file.'.php?op=EditStory&amp;sid='.$sid.'">'.$customlang['global']['edit'].'</a> | <a href="'.$admin_file.'.php?op=RemoveStory&amp;sid='.$sid.'">'.$customlang['global']['delete'].'</a> ]</div>';
 }

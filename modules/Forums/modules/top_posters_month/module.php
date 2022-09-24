@@ -18,9 +18,9 @@
       Advanced Username Color                  v1.0.5       08/08/2005
 ************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 //
@@ -35,8 +35,8 @@ $core->set_view('columns', 5);
 
 $core->define_view('set_columns', array(
     $core->pre_defined('rank'),
-    'username' => $lang['Username'],
-    'posts' => $lang['Posts'],
+    'username' => $titanium_lang['Username'],
+    'posts' => $titanium_lang['Posts'],
     $core->pre_defined('percent'),
     $core->pre_defined('graph'))
 );
@@ -66,7 +66,7 @@ $time_thismonth = $month[$arr_num];
 
 $l_this_month = date('F', $time_thismonth);
 
-$core->set_header($lang['module_name'] . ' [' . $l_this_month . ' ' . date('Y', $time_thismonth) . ']');
+$core->set_header($titanium_lang['module_name'] . ' [' . $l_this_month . ' ' . date('Y', $time_thismonth) . ']');
 
 $core->assign_defined_view('align_rows', array(
     'left',
@@ -91,21 +91,21 @@ LIMIT " . $core->return_limit;
 
 $result = $core->sql_query($sql, 'Unable to retrieve users data');
 
-$total_posts_thismonth = 0;
-$user_count = $core->sql_numrows($result);
-$user_data = $core->sql_fetchrowset($result);
+$phpbb2_total_posts_thismonth = 0;
+$titanium_user_count = $core->sql_numrows($result);
+$titanium_user_data = $core->sql_fetchrowset($result);
 
-for ($i = 0; $i < $user_count; $i++)
+for ($i = 0; $i < $titanium_user_count; $i++)
 {
-    $total_posts_thismonth += $user_data[$i]['user_posts'];
+    $phpbb2_total_posts_thismonth += $titanium_user_data[$i]['user_posts'];
 }
 
-$content->init_math('user_posts', $user_data[0]['user_posts'], $total_posts_thismonth);
-$core->set_data($user_data);
+$content->init_math('user_posts', $titanium_user_data[0]['user_posts'], $phpbb2_total_posts_thismonth);
+$core->set_data($titanium_user_data);
 
 $core->define_view('set_rows', array(
     '$core->pre_defined()',
-    '$core->generate_link(append_sid(\'profile.php?mode=viewprofile&amp;u=\' . $core->data(\'user_id\')), $core->data(\'username\'), \'target="_blank"\')',
+    '$core->generate_link(append_titanium_sid(\'profile.php?mode=viewprofile&amp;u=\' . $core->data(\'user_id\')), $core->data(\'username\'), \'target="_blank"\')',
     '$core->data(\'user_posts\')',
     '$core->pre_defined()',
     '$core->pre_defined()')

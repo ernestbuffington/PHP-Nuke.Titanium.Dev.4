@@ -29,7 +29,7 @@ if (!defined('ADMIN_FILE')) {
 }
 
 global $admin_file;
-$module_name = basename(dirname(dirname(__FILE__)));
-get_lang($module_name);
+$titanium_module_name = basename(dirname(dirname(__FILE__)));
+get_lang($titanium_module_name);
 adminmenu($admin_file.".php?op=topicsmanager", _TOPICS, "topics.png");
 ?>

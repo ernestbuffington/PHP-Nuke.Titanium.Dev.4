@@ -1,0 +1,56 @@
+body,td,th {
+	font-family: Courier;
+	font-size: 10px;
+	color: #000000;
+}
+body {
+	background-color: #FFFFFF;
+	margin-left: 15px;
+	margin-top: 15px;
+}
+a {
+	font-size: 14px;
+	color: #3300FF;
+}
+a:visited {
+	color: #FF99FF;
+}
+a:hover {
+	color: #33CCFF;
+}
+a:active {
+	color: #3300FF;
+}
+h1 {
+	font-size: 10px;
+	color: #000000;
+}
+h2 {
+	font-size: 12px;
+	color: #000000;
+}
+h3 {
+	font-size: 20px;
+	color: #0000FF;
+}
+h4 {
+	font-size: 16px;
+	color: #000000;
+}
+h5 {
+	font-size: 18px;
+	color: #000000;
+}
+h6 {
+	font-size: 20px;
+	color: #000000;
+}
+#LLinkBack2 {
+	position:absolute;
+	left:470px;
+	top:15px;
+	width:90px;
+	height:23px;
+	z-index:3001;
+	filter: DropShadow(Color=#000000, OffX=22, OffY=22,Positive=0);
+}

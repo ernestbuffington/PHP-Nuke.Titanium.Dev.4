@@ -18,9 +18,9 @@
        Advanced Username Color                  v1.0.5       08/08/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 // true == use db cache
@@ -33,15 +33,15 @@ $core->set_view('columns', 5);
 
 $core->define_view('set_columns', array(
     $core->pre_defined('rank'),
-    'username' => $lang['Username'],
-    'posts' => $lang['Posts'],
+    'username' => $titanium_lang['Username'],
+    'posts' => $titanium_lang['Posts'],
     $core->pre_defined('percent'),
     $core->pre_defined('graph'))
 );
 
 $content->percentage_sign = TRUE;
 
-$core->set_header($lang['module_name']);
+$core->set_header($titanium_lang['module_name']);
 
 $core->assign_defined_view('align_rows', array(
     'left',
@@ -56,7 +56,7 @@ $sql = "SELECT SUM(user_posts) as total_posts FROM " . USERS_TABLE . " WHERE use
 $result = $core->sql_query($sql, 'Unable to retrieve users data');
 $row = $core->sql_fetchrow($result);
 
-$total_posts = $row['total_posts'];
+$phpbb2_total_posts = $row['total_posts'];
 
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -72,12 +72,12 @@ LIMIT " . $core->return_limit;
 
 $result = $core->sql_query($sql, 'Unable to retrieve users data');
 $data = $core->sql_fetchrowset($result);
-$content->init_math('user_posts', $data[0]['user_posts'], $total_posts);
+$content->init_math('user_posts', $data[0]['user_posts'], $phpbb2_total_posts);
 $core->set_data($data);
 
 $core->define_view('set_rows', array(
     '$core->pre_defined()',
-    '$core->generate_link(append_sid(\'profile.php?mode=viewprofile&amp;u=\' . $core->data(\'user_id\')), $core->data(\'username\'), \'target="_blank"\')',
+    '$core->generate_link(append_titanium_sid(\'profile.php?mode=viewprofile&amp;u=\' . $core->data(\'user_id\')), $core->data(\'username\'), \'target="_blank"\')',
     '$core->data(\'user_posts\')',
     '$core->pre_defined()',
     '$core->pre_defined()')

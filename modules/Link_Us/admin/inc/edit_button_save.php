@@ -31,14 +31,14 @@
 
 LinkusAdminMain();
 
-		$result = $db->sql_uquery("UPDATE `".$prefix."_link_us` SET `site_name` = '$site_name', `site_url` = '$site_url', `site_image` = '$site_image', `site_description` = '$site_description', `site_status` = '$site_status' WHERE `site_name` = '$site_name'");
+		$result = $titanium_db->sql_uquery("UPDATE `".$titanium_prefix."_link_us` SET `site_name` = '$site_name', `site_url` = '$site_url', `site_image` = '$site_image', `site_description` = '$site_description', `site_status` = '$site_status' WHERE `site_name` = '$site_name'");
 		
 		OpenTable();
 		
 		if($result){
-			echo "<center><span color='green' size='3'>".$lang_new[$module_name]['EDIT_SUCCESSFUL']."</span></center>";
+			echo "<center><span color='green' size='3'>".$titanium_lang_new[$titanium_module_name]['EDIT_SUCCESSFUL']."</span></center>";
 		} else {
-			echo "<center><font color='red' size='3'>".$lang_new[$module_name]['EDIT_UNSUCCESSFUL']."</font></center>";
+			echo "<center><font color='red' size='3'>".$titanium_lang_new[$titanium_module_name]['EDIT_UNSUCCESSFUL']."</font></center>";
 		}
 		
 		CloseTable();

@@ -33,9 +33,9 @@ interface Swift_Transport_EsmtpHandler
   
   /**
    * Runs immediately after a EHLO has been issued.
-   * @param Swift_Transport_SmtpAgent $agent to read/write
+   * @param Swift_Transport_SmtpAgent $phpbb2_agent to read/write
    */
-  public function afterEhlo(Swift_Transport_SmtpAgent $agent);
+  public function afterEhlo(Swift_Transport_SmtpAgent $phpbb2_agent);
   
   /**
    * Get params which are appended to MAIL FROM:<>.
@@ -51,13 +51,13 @@ interface Swift_Transport_EsmtpHandler
   
   /**
    * Runs when a command is due to be sent.
-   * @param Swift_Transport_SmtpAgent $agent to read/write
+   * @param Swift_Transport_SmtpAgent $phpbb2_agent to read/write
    * @param string $command to send
    * @param int[] $codes expected in response
    * @param string[] &$failedRecipients
    * @param boolean &$stop to be set true if the command is now sent
    */
-  public function onCommand(Swift_Transport_SmtpAgent $agent,
+  public function onCommand(Swift_Transport_SmtpAgent $phpbb2_agent,
     $command, $codes = array(), &$failedRecipients = null, &$stop = false);
     
   /**

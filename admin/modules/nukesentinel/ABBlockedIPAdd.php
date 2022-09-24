@@ -60,15 +60,15 @@ echo _AB_EXPIRESINS.'</td></tr>'."\n";
 echo '<tr><td bgcolor="'.$bgcolor2.'"><strong>'._AB_COUNTRY.':</strong></td>'."\n";
 echo '<td><select name="xc2c">'."\n";
 echo '<option value="00" selected="selected">'._AB_SELECTCOUNTRY.'</option>'."\n";
-$result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_countries` ORDER BY `c2c`");
-while($countryrow = $db->sql_fetchrow($result)) {
+$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_countries` ORDER BY `c2c`");
+while($countryrow = $titanium_db->sql_fetchrow($result)) {
   echo '<option value="'.$countryrow['c2c'].'">'.strtoupper($countryrow['c2c']).' - '.$countryrow['country'].'</option>'."\n";
 }
 echo '</select></td></tr>'."\n";
 echo '<tr><td bgcolor="'.$bgcolor2.'" valign="top"><strong>'._AB_NOTES.':</strong></td><td><textarea name="xnotes" rows="10" cols="60">'._AB_ADDBY.' '.$aid.'</textarea></td></tr>'."\n";
 echo '<tr><td bgcolor="'.$bgcolor2.'"><strong>'._AB_REASON.':</strong></td><td><select name="xreason">';
-$result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blockers` ORDER BY `block_name`");
-while($blockerrow = $db->sql_fetchrow($result)) {
+$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blockers` ORDER BY `block_name`");
+while($blockerrow = $titanium_db->sql_fetchrow($result)) {
   echo '<option value="'.$blockerrow['blocker'].'">'.$blockerrow['reason'].'</option>'."\n";
 }
 echo '</select></td></tr>'."\n";

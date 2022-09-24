@@ -22,21 +22,21 @@ echo "<LINK REL='StyleSheet' HREF='themes/$theme_Sel/style/style.css' TYPE='text
 echo "</head><body>\n";
 echo "<h1 align='center'>$pagetitle</h1>\n";
 $tid=intval($tid);
-list($uname) = $db->sql_fetchrow($db->sql_query("SELECT `refered_from` FROM `".$prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
+list($uname) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `refered_from` FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
 # default values if none set
 echo "<center><strong>$uname</strong></center><br />";
 echo "<table summary='' align='center' cellpadding='2' cellspacing='2' border='2'>\n";
 echo "<tr>";
 echo "<td nowrap><strong>"._AB_PAGEVIEWED."</strong></td>";
 echo "<td nowrap><strong>"._AB_HITDATE."</strong></td>";
-$result = $db->sql_query("SELECT `page`, `date` FROM `".$prefix."_nsnst_tracked_ips` WHERE `refered_from`='$uname' ORDER BY `date` DESC");
-while(list($page, $date_time) = $db->sql_fetchrow($result)){
+$result = $titanium_db->sql_query("SELECT `page`, `date` FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `refered_from`='$uname' ORDER BY `date` DESC");
+while(list($page, $date_time) = $titanium_db->sql_fetchrow($result)){
   echo "<tr>\n";
   echo "<td>$page</td>\n";
   echo "<td>".date("Y-m-d \@ H:i:s",$date_time)."</td>\n";
   echo "</tr>\n";
 }
-  $db->sql_freeresult($result);
+  $titanium_db->sql_freeresult($result);
 echo "</table>";
 echo "</body></html>\n";
 

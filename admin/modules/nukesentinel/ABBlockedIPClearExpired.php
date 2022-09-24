@@ -16,10 +16,10 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 $expiretime = time();
-$clearresult = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ips` WHERE (`expires`<'$expiretime' AND `expires`!='0')");
-while($clearblock = $db->sql_fetchrow($clearresult)) {
-  $db->sql_query("DELETE FROM `".$prefix."_nsnst_blocked_ips` WHERE `ip_addr`='".$clearblock['ip_addr']."'");
-  $db->sql_query("OPTIMIZE TABLE `".$prefix."_nsnst_blocked_ips`");
+$clearresult = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE (`expires`<'$expiretime' AND `expires`!='0')");
+while($clearblock = $titanium_db->sql_fetchrow($clearresult)) {
+  $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='".$clearblock['ip_addr']."'");
+  $titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_blocked_ips`");
   if($ab_config['htaccess_path'] != "") {
     if($ab_config['htaccess_path'] != "") { $ipfile = file($ab_config['htaccess_path']); }
     $ipfile = implode("", $ipfile);

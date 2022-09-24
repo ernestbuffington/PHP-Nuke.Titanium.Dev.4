@@ -42,7 +42,7 @@ if(preg_match("#All(.*)Modules#", $showmodule) || !$showmodule ) {
 } else {
   $modfilter="WHERE page LIKE '%name=$showmodule%'";
 }
-$totalselected = $db->sql_numrows($db->sql_query("SELECT `username`, MAX(`date`), COUNT(*) FROM `".$prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1"));
+$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT `username`, MAX(`date`), COUNT(*) FROM `".$titanium_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1"));
 if($totalselected > 0) {
   $selcolumn3 = $selcolumn4 = $selcolumn5 = $seldirection1 = $seldirection2='';
   echo "<table summary='' width='100%' cellpadding='2' cellspacing='2' bgcolor='$bgcolor2' border='0'>\n";
@@ -75,28 +75,28 @@ if($totalselected > 0) {
   // Page Sorting
   // START Modules
   $handle=opendir('modules');
-  $moduleslist = '';
+  $titanium_moduleslist = '';
   while($file = readdir($handle)) {
     if( (!preg_match("/^[\.]/",$file)) && !preg_match("/(html)$/", $file) ) {
-      $moduleslist .= "$file ";
+      $titanium_moduleslist .= "$file ";
     }
   }
   closedir($handle);
-  $moduleslist .= "&nbsp;All&nbsp;Modules &nbsp;Index &nbsp;Admin &nbsp;Backend";
-  $moduleslist = explode(" ", $moduleslist);
-  sort($moduleslist);
+  $titanium_moduleslist .= "&nbsp;All&nbsp;Modules &nbsp;Index &nbsp;Admin &nbsp;Backend";
+  $titanium_moduleslist = explode(" ", $titanium_moduleslist);
+  sort($titanium_moduleslist);
 
   echo "<td align='right' bgcolor='$bgcolor2' width='60%'>\n";
   echo "<form action=\"".$admin_file.".php?op=ABTrackedUsers\" method=\"post\">\n";
   echo "<input type='hidden' name='column' value='$column' />\n";
   echo "<input type='hidden' name='direction' value='$direction' />\n";
   echo "<strong>"._AB_MODULE.":</strong> <select name=\"showmodule\">\n";
-  for($i=0; $i < sizeof($moduleslist); $i++) {
-    if($moduleslist[$i]!="") {
-      $moduleslist[$i] = str_replace("&nbsp;", " ", $moduleslist[$i]);
-      echo "<option value=\"$moduleslist[$i]\" ";
-      if($showmodule==$moduleslist[$i] OR ((!$showmodule OR $showmodule=="") AND $moduleslist[$i]==" All Modules")) { echo " selected='selected'"; }
-      echo ">".$moduleslist[$i]."</option>\n";
+  for($i=0; $i < sizeof($titanium_moduleslist); $i++) {
+    if($titanium_moduleslist[$i]!="") {
+      $titanium_moduleslist[$i] = str_replace("&nbsp;", " ", $titanium_moduleslist[$i]);
+      echo "<option value=\"$titanium_moduleslist[$i]\" ";
+      if($showmodule==$titanium_moduleslist[$i] OR ((!$showmodule OR $showmodule=="") AND $titanium_moduleslist[$i]==" All Modules")) { echo " selected='selected'"; }
+      echo ">".$titanium_moduleslist[$i]."</option>\n";
     }
   }
   echo "</select><input type='submit' value='"._AB_GO."' /></form></td>\n";
@@ -110,24 +110,24 @@ if($totalselected > 0) {
   echo "<td align='center'><strong>"._AB_LASTVIEWED."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_HITS."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_FUNCTIONS."</strong></td>\n</tr>\n";
-  $result = $db->sql_query("SELECT `user_id`, `username`, MAX(`date`), COUNT(*) FROM `".$prefix."_nsnst_tracked_ips` $modfilter GROUP BY 2 ORDER BY $column $direction LIMIT $min, $perpage");
-  while(list($userid,$username,$lastview,$hits) = $db->sql_fetchrow($result)){
+  $result = $titanium_db->sql_query("SELECT `user_id`, `username`, MAX(`date`), COUNT(*) FROM `".$titanium_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 2 ORDER BY $column $direction LIMIT $min, $perpage");
+  while(list($titanium_userid,$titanium_username,$lastview,$hits) = $titanium_db->sql_fetchrow($result)){
     echo "<tr onmouseover=\"this.style.backgroundColor='$bgcolor2'\" onmouseout=\"this.style.backgroundColor='$bgcolor1'\" bgcolor='$bgcolor1'>";
     echo "<td>";
-    if($userid != 1) {
-    	$user_color = UsernameColor($username);
-      echo "<a href='modules.php?name=Your_Account&amp;op=userinfo&amp;username=$username' target='_blank'>$user_color</a>";
+    if($titanium_userid != 1) {
+    	$titanium_user_color = UsernameColor($titanium_username);
+      echo "<a href='modules.php?name=Your_Account&amp;op=userinfo&amp;username=$titanium_username' target='_blank'>$titanium_user_color</a>";
     } else {
       echo "$anonymous";
     }
     echo "</td>";
-    $trackedips = $db->sql_numrows($db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$prefix."_nsnst_tracked_ips` WHERE `user_id`='$userid'"));
-    echo "<td align='center'><a href='".$admin_file.".php?op=ABTrackedUsersIPs&amp;user_id=$userid' target='_blank'>$trackedips</a></td>\n";
+    $trackedips = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `user_id`='$titanium_userid'"));
+    echo "<td align='center'><a href='".$admin_file.".php?op=ABTrackedUsersIPs&amp;user_id=$titanium_userid' target='_blank'>$trackedips</a></td>\n";
     echo "<td align='center'>".date("Y-m-d \@ H:i:s",$lastview)."</td>";
     echo "<td align='center'>$hits</td>";
-    echo "<td align='center'>&nbsp;<a href='".$admin_file.".php?op=ABPrintTrackedUsersPages&amp;user_id=$userid' target='_blank'><img src='images/nukesentinel/print.png' height='16' width='16' alt='"._AB_PRINT."' title='"._AB_PRINT."' border='0' /></a>&nbsp;<a ";
-    echo "href='".$admin_file.".php?op=ABTrackedUsersPages&amp;user_id=$userid' target='_blank'><img src='images/nukesentinel/view.png' height='16' width='16' alt='"._AB_VIEW."' title='"._AB_VIEW."' border='0' /></a>&nbsp;<a ";
-    echo "href='".$admin_file.".php?op=ABTrackedDeleteUser&amp;user_id=$userid&amp;min=$min&amp;column=$column&amp;direction=$direction&amp;showmodule=$showmodule&amp;xop=$op'><img src='images/nukesentinel/delete.png' height='16' width='16' alt='"._AB_DELETE."' title='"._AB_DELETE."' border='0' /></a>&nbsp;</td>";
+    echo "<td align='center'>&nbsp;<a href='".$admin_file.".php?op=ABPrintTrackedUsersPages&amp;user_id=$titanium_userid' target='_blank'><img src='images/nukesentinel/print.png' height='16' width='16' alt='"._AB_PRINT."' title='"._AB_PRINT."' border='0' /></a>&nbsp;<a ";
+    echo "href='".$admin_file.".php?op=ABTrackedUsersPages&amp;user_id=$titanium_userid' target='_blank'><img src='images/nukesentinel/view.png' height='16' width='16' alt='"._AB_VIEW."' title='"._AB_VIEW."' border='0' /></a>&nbsp;<a ";
+    echo "href='".$admin_file.".php?op=ABTrackedDeleteUser&amp;user_id=$titanium_userid&amp;min=$min&amp;column=$column&amp;direction=$direction&amp;showmodule=$showmodule&amp;xop=$op'><img src='images/nukesentinel/delete.png' height='16' width='16' alt='"._AB_DELETE."' title='"._AB_DELETE."' border='0' /></a>&nbsp;</td>";
     echo "</tr>";
   }
   // End IP Stats

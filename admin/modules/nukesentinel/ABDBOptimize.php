@@ -18,7 +18,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 if(is_god($admin)) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
-  OpenMenu(_AB_DBOPTIMIZE." - ".$dbname);
+  OpenMenu(_AB_DBOPTIMIZE." - ".$titanium_dbname);
   mastermenu();
   CarryMenu();
   databasemenu();
@@ -36,24 +36,24 @@ if(is_god($admin)) {
   echo '<td align="right" width="15%"><strong>'._AB_GAINED.'</strong></td>'."\n";
   echo '</tr>'."\n";
   $tot_data = $tot_idx = $tot_all = $tot_records = 0;
-  $result = $db->sql_query("SHOW TABLE STATUS FROM `".$dbname."`");
-  $tables = $db ->sql_numrows($result);
+  $result = $titanium_db->sql_query("SHOW TABLE STATUS FROM `".$titanium_dbname."`");
+  $tables = $titanium_db ->sql_numrows($result);
   if($tables > 0) {
-    $total_total = $total_gain = 0;
-    while($row = $db->sql_fetchrow($result)) {
-      $checkrow = $db->sql_fetchrow($db->sql_query("CHECK TABLE $row[0]"));
+    $total_phpbb2_total = $total_phpbb2_gain = 0;
+    while($row = $titanium_db->sql_fetchrow($result)) {
+      $checkrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("CHECK TABLE $row[0]"));
       $records = $row['Rows'];
       $tot_records += $records;
       $total = ($row['Data_length'] + $row['Index_length']) - $row['Data_free'];
-      $total_total += $total;
+      $total_phpbb2_total += $total;
       $gain = $row['Data_free'];
       if($gain>0) {
-        $optimizerow = $db->sql_fetchrow($db->sql_query("OPTIMIZE TABLE $row[0]"));
+        $optimizerow = $titanium_db->sql_fetchrow($titanium_db->sql_query("OPTIMIZE TABLE $row[0]"));
         $status = _AB_OPTIMIZED;
       } else {
         $status = $checkrow['Msg_text'];
       }
-      $total_gain += $gain;
+      $total_phpbb2_gain += $gain;
       $total = ABCoolSize($total);
       if($gain < 1) { $gain = "--"; } else { $gain = ABCoolSize($gain); }
       if(!$row['Engine']) { $etype = $row['Type']; } else { $etype = $row['Engine']; }
@@ -66,15 +66,15 @@ if(is_god($admin)) {
       echo '<td align="right">'.$gain.'</td>'."\n";
       echo '</tr>'."\n";
     }
-    $total_total = ABCoolSize($total_total);
-    $total_gain = ABCoolSize($total_gain);
+    $total_phpbb2_total = ABCoolSize($total_phpbb2_total);
+    $total_phpbb2_gain = ABCoolSize($total_phpbb2_gain);
     echo '<tr>'."\n";
     echo '<td><strong>'.$tables.' '._AB_TABLES.'</strong></td>'."\n";
     echo '<td align="center"><strong>&nbsp;</strong></td>'."\n";
     echo '<td align="right"><strong>&nbsp;</strong></td>'."\n";
     echo '<td align="right"><strong>'.number_format($tot_records).'</strong></td>'."\n";
-    echo '<td align="right"><strong>'.$total_total.'</strong></td>'."\n";
-    echo '<td align="right"><strong>'.$total_gain.'</strong></td>'."\n";
+    echo '<td align="right"><strong>'.$total_phpbb2_total.'</strong></td>'."\n";
+    echo '<td align="right"><strong>'.$total_phpbb2_gain.'</strong></td>'."\n";
     echo '</tr>'."\n";
   }
   echo '</table>'."\n";

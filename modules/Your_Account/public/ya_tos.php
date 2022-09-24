@@ -44,9 +44,9 @@ if (!defined('CNBYA')) die('CNBYA protection');
   # menelaos: shows top table (differently for new users and current members)
   OpenTable();
   if ($setinfo['agreedtos'] == '0') 
-  echo "<img src=\"modules/$module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\"><div align=\"center\">"._YATOSINTRO1."</div></td>\n";
+  echo "<img src=\"modules/$titanium_module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\"><div align=\"center\">"._YATOSINTRO1."</div></td>\n";
   else 
-  echo "<img src=\"modules/$module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\"><div align=\"center\">"._YATOSINTRO2."</div></td>\n";
+  echo "<img src=\"modules/$titanium_module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\"><div align=\"center\">"._YATOSINTRO2."</div></td>\n";
   CloseTable();
   
   # menelaos: shows bottom table (differently for new users and current members)
@@ -55,8 +55,8 @@ if (!defined('CNBYA')) die('CNBYA protection');
   echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\"><tr align=\"center\">";
   
   if ($setinfo['agreedtos'] == '0'):
-    echo "<form name=\"tos1\" action=\"modules.php?name=$module_name\" method=\"POST\"><td colspan=\"2\">\n";
-    echo "<input type=\"hidden\" name=\"username\" value=$username>\n";
+    echo "<form name=\"tos1\" action=\"modules.php?name=$titanium_module_name\" method=\"POST\"><td colspan=\"2\">\n";
+    echo "<input type=\"hidden\" name=\"username\" value=$titanium_username>\n";
     echo "<input type=\"hidden\" name=\"user_password\" value=$user_password>\n";
     echo "<input type=\"hidden\" name=\"random_num\" value=$random_num>\n";
     echo "<input type=\"hidden\" name=\"gfx_check\" value=$gfx_check>\n";
@@ -66,7 +66,7 @@ if (!defined('CNBYA')) die('CNBYA protection');
     echo "<input type=\"hidden\" name=\"t\" value=$t>\n";
     echo "<input type=\"hidden\" name=\"op\" value=\"login\">\n";
   else:
-    echo "<form name=\"tos1\" action=\"modules.php?name=$module_name&amp;op=new_user\" method=\"POST\"><td colspan=\"2\">\n";
+    echo "<form name=\"tos1\" action=\"modules.php?name=$titanium_module_name&amp;op=new_user\" method=\"POST\"><td colspan=\"2\">\n";
   endif;
 
   if($_POST['coppa_yes']== intval(1)) 

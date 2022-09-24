@@ -26,7 +26,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
     "sqr" => "admin/board_config/board_sqr.tpl")
 );
 
@@ -47,29 +47,29 @@ $anonymous_open_sqr_no = ( !$new['anonymous_open_sqr'] ) ? "checked=\"checked\""
  ******************************************************/
  
 //General Template variables
-$template->assign_vars(array(
+$phpbb2_template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
     
 //Language Template variables
-$template->assign_vars(array(
+$phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-    "L_SQR_SETTINGS" => $lang['SQR_settings'],
-    "L_ALLOW_QUICK_REPLY" => $lang['Allow_quick_reply'],
-    "L_ANONYMOUS_SHOW_SQR" => $lang['Anonymous_show_SQR'],
-    "L_ANONYMOUS_SQR_MODE" => $lang['Anonymous_SQR_mode'],
-    "L_ANONYMOUS_SQR_MODE_BASIC" => $lang['Quick_reply_mode_basic'],
-    "L_ANONYMOUS_OPEN_SQR" => $lang['Anonymous_open_SQR'],
-    "L_ANONYMOUS_SQR_MODE_ADVANCED" => $lang['Quick_reply_mode_advanced'],
+    "L_SQR_SETTINGS" => $titanium_lang['SQR_settings'],
+    "L_ALLOW_QUICK_REPLY" => $titanium_lang['Allow_quick_reply'],
+    "L_ANONYMOUS_SHOW_SQR" => $titanium_lang['Anonymous_show_SQR'],
+    "L_ANONYMOUS_SQR_MODE" => $titanium_lang['Anonymous_SQR_mode'],
+    "L_ANONYMOUS_SQR_MODE_BASIC" => $titanium_lang['Quick_reply_mode_basic'],
+    "L_ANONYMOUS_OPEN_SQR" => $titanium_lang['Anonymous_open_SQR'],
+    "L_ANONYMOUS_SQR_MODE_ADVANCED" => $titanium_lang['Quick_reply_mode_advanced'],
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
 ));
 
 //Data Template Variables
-$template->assign_vars(array(
+$phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
@@ -84,6 +84,6 @@ $template->assign_vars(array(
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
  ));
-$template->pparse("sqr");
+$phpbb2_template->pparse("sqr");
 
 ?>

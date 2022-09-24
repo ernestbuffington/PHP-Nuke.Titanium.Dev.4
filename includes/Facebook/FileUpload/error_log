@@ -1,0 +1,20 @@
+[23-Aug-2022 16:01:08 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\FileUpload\FacebookFile' not found in /home/dev4/public_html/includes/Facebook/FileUpload/FacebookVideo.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/FileUpload/FacebookVideo.php on line 31
+[23-Aug-2022 16:01:09 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\FileUpload\FacebookFile' not found in /home/dev4/public_html/includes/Facebook/FileUpload/FacebookVideo.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/FileUpload/FacebookVideo.php on line 31
+[23-Aug-2022 16:01:11 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\FileUpload\FacebookFile' not found in /home/dev4/public_html/includes/Facebook/FileUpload/FacebookVideo.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/FileUpload/FacebookVideo.php on line 31
+[23-Aug-2022 16:01:12 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\FileUpload\FacebookFile' not found in /home/dev4/public_html/includes/Facebook/FileUpload/FacebookVideo.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/FileUpload/FacebookVideo.php on line 31
+[23-Aug-2022 16:01:12 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\FileUpload\FacebookFile' not found in /home/dev4/public_html/includes/Facebook/FileUpload/FacebookVideo.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/FileUpload/FacebookVideo.php on line 31

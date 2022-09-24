@@ -13,21 +13,21 @@
 define('IN_FILE_REPOSITORY',TRUE);
 // define('INDEX_FILE',TRUE);
 
-$module_name = basename(dirname(dirname(__FILE__)));
+$titanium_module_name = basename(dirname(dirname(__FILE__)));
 require_once('mainfile.php');
 
-if(is_mod_admin($module_name)) 
+if(is_mod_admin($titanium_module_name)) 
 {
-	global $db, $admin_file, $currentlang, $userinfo;
+	global $titanium_db, $admin_file, $currentlang, $userinfo;
 //-------------------------------------------------------------------------
 //  INCLUDE THE LANGUAGE FILE FOR THE MODULE.
 //-------------------------------------------------------------------------
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php');
+	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-english.php');
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //	INCLUDE ALL THE FUNCTION WE NEED FOR THIS MODULE.
 //-------------------------------------------------------------------------
-	include_once(NUKE_MODULES_DIR.$module_name.'/includes/functions.php');
+	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/includes/functions.php');
 //-------------------------------------------------------------------------
 	if(!$_SERVER['HTTP_X_REQUESTED_WITH']):
 		include_once(NUKE_BASE_DIR.'header.php');
@@ -87,7 +87,7 @@ else
 //	IF THE PERSON TRYING TO ACCESS THIS FILE IS NOT AN ADMIN,
 //	REDIRECT THEM BACK THE MAIN INDEX, JUST GET RID OF THEM LOL.
 //---------------------------------------------------------------------
-	_redirect('modules.php?name='.$module_name);
+	_redirect_titanium('modules.php?name='.$titanium_module_name);
 //---------------------------------------------------------------------
 }
 

@@ -26,12 +26,12 @@ if (!defined('ADMIN_FILE')) {
    die('Access Denied');
 }
 
-$module_name = basename(dirname(dirname(__FILE__)));
+$titanium_module_name = basename(dirname(dirname(__FILE__)));
 
 switch($op) {
 
     case "Groups":
-        include(NUKE_MODULES_DIR.$module_name.'/admin/index.php');
+        include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
     break;
 
 }

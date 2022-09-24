@@ -28,7 +28,7 @@ if (!defined('ADMIN_FILE')) {
 
 switch($op) {
 
-    case "cache_delete":
+    case "titanium_cache_delete":
     case "cache_view":
     case "cache_clear":
     case "usrclearcache":

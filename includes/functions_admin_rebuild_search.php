@@ -20,7 +20,7 @@
  ***************************************************************************/
 function get_db_sizes()
 {
-  global $db, $table_prefix, $dbname;
+  global $titanium_db, $table_prefix, $titanium_dbname;
 
   // some code taken from admin/index.php
   //
@@ -32,23 +32,23 @@ function get_db_sizes()
   if( preg_match("/^mysql/", SQL_LAYER) )
   {
     $sql = "SELECT VERSION() AS mysql_version";
-    if($result = $db->sql_query($sql))
+    if($result = $titanium_db->sql_query($sql))
     {
-      $row = $db->sql_fetchrow($result);
+      $row = $titanium_db->sql_fetchrow($result);
       $version = $row['mysql_version'];
 
       if( preg_match("/^(3\.23|4\.|5\.)/", $version) )
       {
-        $db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)|(5\.)/", $version) ) ? "`$dbname`" : $dbname;
+        $titanium_db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)|(5\.)/", $version) ) ? "`$titanium_dbname`" : $titanium_dbname;
 
         $sql = "SHOW TABLE STATUS
-          FROM " . $db_name;
+          FROM " . $titanium_db_name;
 
-        if($result = $db->sql_query($sql))
+        if($result = $titanium_db->sql_query($sql))
         {
-          $tabledata_ary = $db->sql_fetchrowset($result);
+          $tabledata_ary = $titanium_db->sql_fetchrowset($result);
 
-          $db_size = 0;
+          $titanium_db_size = 0;
           $search_size = 0; // added
 
           for($i = 0; $i < count($tabledata_ary); $i++)
@@ -59,12 +59,12 @@ function get_db_sizes()
               {
                 if( strstr($tabledata_ary[$i]['Name'], $table_prefix) )
                 {
-                  $db_size += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
+                  $titanium_db_size += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
                 }
               }
               else
               {
-                $db_size += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
+                $titanium_db_size += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
               }
 
               // calculate the size of the search tables only
@@ -78,13 +78,13 @@ function get_db_sizes()
       }
       else
       {
-        $db_size = '';      // changed
+        $titanium_db_size = '';      // changed
         $search_size = '';  // changed
       }
     }
     else
     {
-      $db_size = '';      // changed
+      $titanium_db_size = '';      // changed
       $search_size = '';  // changed
     }
   }
@@ -93,58 +93,58 @@ function get_db_sizes()
     $sql = "SELECT ((SUM(size) * 8.0) * 1024.0) as dbsize
       FROM sysfiles";
 
-    if( $result = $db->sql_query($sql) )
+    if( $result = $titanium_db->sql_query($sql) )
     {
-      $db_size = ( $row = $db->sql_fetchrow($result) ) ? intval($row['dbsize']) : ''; // changed
+      $titanium_db_size = ( $row = $titanium_db->sql_fetchrow($result) ) ? intval($row['dbsize']) : ''; // changed
       $search_size = '';  // added
     }
     else
     {
-      $db_size = '';      // changed
+      $titanium_db_size = '';      // changed
       $search_size = '';  // added
     }
   }
   else
   {
-    $db_size = '';        // changed
+    $titanium_db_size = '';        // changed
     $search_size = '';    // added
   }
 
-  return array($db_size, $search_size);
+  return array($titanium_db_size, $search_size);
 }
 
 // convert numeric value to x Bytes string
-function create_db_size($db_size)
+function create_db_size($titanium_db_size)
 {
-  global $lang;
+  global $titanium_lang;
 
-  if ( $db_size != '' && is_numeric($db_size) )
+  if ( $titanium_db_size != '' && is_numeric($titanium_db_size) )
   {
-    if( $db_size >= 1048576 )
+    if( $titanium_db_size >= 1048576 )
     {
-      $db_size = sprintf("%.2f MB", ( $db_size / 1048576 ));
+      $titanium_db_size = sprintf("%.2f MB", ( $titanium_db_size / 1048576 ));
     }
-    else if( $db_size >= 1024 )
+    else if( $titanium_db_size >= 1024 )
     {
-      $db_size = sprintf("%.2f KB", ( $db_size / 1024 ));
+      $titanium_db_size = sprintf("%.2f KB", ( $titanium_db_size / 1024 ));
     }
     else
     {
-      $db_size = sprintf("%.2f ".$lang['Bytes'], $db_size);
+      $titanium_db_size = sprintf("%.2f ".$titanium_lang['Bytes'], $titanium_db_size);
     }
   }
   else
   {
-    $db_size = $lang['Not_available'];
+    $titanium_db_size = $titanium_lang['Not_available'];
   }
 
-  return $db_size;
+  return $titanium_db_size;
 }
 
 // convert time values (seconds) to "number of days, hours, minutes and seconds"
 function create_time($seconds)
 {
-  global $lang;
+  global $titanium_lang;
 
   $days = 0;
   $hours = 0;
@@ -171,24 +171,24 @@ function create_time($seconds)
     }
   }
 
-  return sprintf("%02d", $days).' '.$lang['days'].', '.sprintf("%02d", $hours).' '.$lang['hours'].', '.sprintf("%02d", $minutes).' '.$lang['minutes'].', '.sprintf("%02d", $seconds).' '.$lang['seconds'];
+  return sprintf("%02d", $days).' '.$titanium_lang['days'].', '.sprintf("%02d", $hours).' '.$titanium_lang['hours'].', '.sprintf("%02d", $minutes).' '.$titanium_lang['minutes'].', '.sprintf("%02d", $seconds).' '.$titanium_lang['seconds'];
 }
 
 // get the latest post_id in the forum
 function get_latest_post_id()
 {
-  global $db;
+  global $titanium_db;
 
   $sql = "SELECT post_id FROM " . POSTS_TEXT_TABLE . "
     ORDER BY post_id DESC
     LIMIT 1";
 
-  if ( !($result = $db->sql_query($sql)) )
+  if ( !($result = $titanium_db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not obtain latest post', '', __LINE__, __FILE__, $sql);
   }
 
-  $row = $db->sql_fetchrow($result);
+  $row = $titanium_db->sql_fetchrow($result);
 
   return ( $row['post_id'] ) ? $row['post_id'] : 0;
 }
@@ -196,18 +196,18 @@ function get_latest_post_id()
 // get the last rebuild_session_id
 function get_last_rebuild_session_id()
 {
-  global $db;
+  global $titanium_db;
 
   $sql = "SELECT rebuild_session_id FROM " . SEARCH_REBUILD_TABLE . "
     ORDER BY rebuild_session_id DESC
     LIMIT 1";
 
-  if ( !($result = $db->sql_query($sql)) )
+  if ( !($result = $titanium_db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not obtain rebuild session id', '', __LINE__, __FILE__, $sql);
   }
 
-  $row = $db->sql_fetchrow($result);
+  $row = $titanium_db->sql_fetchrow($result);
 
   return ( $row['rebuild_session_id'] ) ? $row['rebuild_session_id'] : 0;
 }
@@ -218,7 +218,7 @@ function get_last_rebuild_session_id()
 // $details is one of the fields or 'all' of them
 function get_rebuild_session_details($id, $details = 'all')
 {
-  global $db;
+  global $titanium_db;
 
   if ( $id != 'last' )
   {
@@ -232,12 +232,12 @@ function get_rebuild_session_details($id, $details = 'all')
       LIMIT 1";
   }
 
-  if ( !($result = $db->sql_query($sql)) )
+  if ( !($result = $titanium_db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not obtain rebuild details', '', __LINE__, __FILE__, $sql);
   }
 
-  $row = $db->sql_fetchrow($result);
+  $row = $titanium_db->sql_fetchrow($result);
 
   if ( !empty($row) )
   {
@@ -257,7 +257,7 @@ function get_rebuild_session_details($id, $details = 'all')
 // 'session' to get the posts of the last session
 function get_processed_posts($mode = 'total')
 {
-  global $db;
+  global $titanium_db;
 
   if ( $mode == 'total' )
   {
@@ -269,12 +269,12 @@ function get_processed_posts($mode = 'total')
     WHERE rebuild_session_id = " . get_last_rebuild_session_id();
   }
 
-  if ( !($result = $db->sql_query($sql)) )
+  if ( !($result = $titanium_db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not obtain number of posts', '', __LINE__, __FILE__, $sql);
   }
 
-  $row = $db->sql_fetchrow($result);
+  $row = $titanium_db->sql_fetchrow($result);
 
   return ( $row['posts'] ) ? $row['posts'] : 0;
 }
@@ -283,17 +283,17 @@ function get_processed_posts($mode = 'total')
 // after/before include the post_id too
 function get_total_posts($mode = 'after', $post_id = 0)
 {
-  global $db;
+  global $titanium_db;
 
   $sql = "SELECT COUNT(post_id) as total_posts FROM " . POSTS_TABLE . "
     WHERE post_id " . (($mode == 'after') ? '>= ' : '<= ' ) . $post_id;
 
-  if ( !($result = $db->sql_query($sql)) )
+  if ( !($result = $titanium_db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not obtain number of posts', '', __LINE__, __FILE__, $sql);
   }
 
-  $row = $db->sql_fetchrow($result);
+  $row = $titanium_db->sql_fetchrow($result);
 
   return ( $row['total_posts'] ) ? $row['total_posts'] : 0;
 }
@@ -301,12 +301,12 @@ function get_total_posts($mode = 'after', $post_id = 0)
 // clear the search tables
 function clear_search_tables($clear_search)
 {
-  global $db;
+  global $titanium_db;
 
   // initialize our own table
   $sql = "DELETE FROM " . SEARCH_REBUILD_TABLE;
 
-  if( !$db->sql_query($sql) )
+  if( !$titanium_db->sql_query($sql) )
   {
     message_die(GENERAL_ERROR, 'Could not delete search rebuild table', '', __LINE__, __FILE__, $sql);
   }
@@ -320,7 +320,7 @@ function clear_search_tables($clear_search)
     {
       $sql = (( $clear_search == 1 ) ? "DELETE FROM " : "TRUNCATE TABLE " ) . $table;
 
-      if( !$db->sql_query($sql) )
+      if( !$titanium_db->sql_query($sql) )
       {
         message_die(GENERAL_ERROR, 'Could not delete search table', '', __LINE__, __FILE__, $sql);
       }
@@ -361,13 +361,13 @@ function create_color($mode, $code)
 // create the percent bar & box
 function create_percent_box($box, $percent_color, $percent_width)
 {
-  global $template;
+  global $phpbb2_template;
 
-  $template->set_filenames(array(
+  $phpbb2_template->set_filenames(array(
     'percent_box' => 'admin/rebuild_search_percent.tpl')
   );
 
-  $template->assign_vars(array(
+  $phpbb2_template->assign_vars(array(
     'PERCENT_COLOR' => $percent_color,
     'PERCENT_WIDTH' => round($percent_width)
     )
@@ -375,11 +375,11 @@ function create_percent_box($box, $percent_color, $percent_width)
 
   if ( $box == 'session' )
   {
-    $template->assign_var_from_handle('SESSION_PERCENT_BOX', 'percent_box');
+    $phpbb2_template->assign_var_from_handle('SESSION_PERCENT_BOX', 'percent_box');
   }
   else
   {
-    $template->assign_var_from_handle('TOTAL_PERCENT_BOX', 'percent_box');
+    $phpbb2_template->assign_var_from_handle('TOTAL_PERCENT_BOX', 'percent_box');
   }
 
   return;
@@ -388,13 +388,13 @@ function create_percent_box($box, $percent_color, $percent_width)
 // enable/disable the board
 function change_board_status($state = 'enable')
 {
-  global $db;
+  global $titanium_db;
 
   $sql = "UPDATE " . CONFIG_TABLE . "
     SET config_value = " . ( ( $state == 'enable' ) ? 0 : 1 ) . "
     WHERE config_name = 'board_disable'";
 
-  if ( !$db->sql_query($sql) )
+  if ( !$titanium_db->sql_query($sql) )
   {
     message_die(GENERAL_ERROR, 'Could not disable/enable board', '', __LINE__, __FILE__, $sql);
   }

@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($module_name)) {
+if(is_mod_admin($titanium_module_name)) {
 
     $pagetitle = ": "._USERADMIN." - "._DETUSER;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -52,13 +52,13 @@ if(is_mod_admin($module_name)) {
     title(""._USERADMIN." - "._DETUSER.": <i>$chng_uid</i>");
     amain();
     echo "<br />\n";
-    $sql = "SELECT * FROM ".$user_prefix."_users WHERE user_id='$chng_uid'";
-    if($db->sql_numrows($db->sql_query($sql)) > 0) {
-        $chnginfo = $db->sql_fetchrow($db->sql_query($sql));
+    $sql = "SELECT * FROM ".$titanium_user_prefix."_users WHERE user_id='$chng_uid'";
+    if($titanium_db->sql_numrows($titanium_db->sql_query($sql)) > 0) {
+        $chnginfo = $titanium_db->sql_fetchrow($titanium_db->sql_query($sql));
         
-    $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field");
-    while ($sqlvalue = $db->sql_fetchrow($result)) {
-    list($value) = $db->sql_fetchrow( $db->sql_query("SELECT value FROM ".$user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$chnginfo[user_id]'"));
+    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field");
+    while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
+    list($value) = $titanium_db->sql_fetchrow( $titanium_db->sql_query("SELECT value FROM ".$titanium_user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$chnginfo[user_id]'"));
     $chnginfo[$sqlvalue[name]] = $value;
     }
         
@@ -72,8 +72,8 @@ if(is_mod_admin($module_name)) {
     echo "<tr><td bgcolor='$bgcolor2'>"._REGDATE.":</td><td><strong>".$chnginfo['user_regdate']."</strong></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._FAKEEMAIL.":</td><td><strong>".$chnginfo['femail']."</strong></td></tr>\n";
         
-        $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field ORDER BY pos");
-            while ($sqlvalue = $db->sql_fetchrow($result)) {
+        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field ORDER BY pos");
+            while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
               if (substr($sqlvalue[name],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue[name];
               echo "<tr><td bgcolor='$bgcolor2'>$name_exit</td><td><strong>".$chnginfo[$sqlvalue[name]]."</strong></td></tr>\n";
             }
@@ -91,14 +91,14 @@ if(is_mod_admin($module_name)) {
         echo "<tr><td bgcolor='$bgcolor2'>"._NEWSLETTER.":</td><td><strong>$cnl</strong></td></tr>\n";
         $chnginfo['user_sig'] = str_replace("\r\n", "<br />", $chnginfo['user_sig']);
         echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._SIGNATURE.":</td><td><strong><xmp>".$chnginfo['user_sig']."</xmp></strong></td></tr>\n";
-        echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
         echo "<input type='hidden' name='op' value='modifyUser'>\n";
         echo "<input type='hidden' name='chng_uid' value='".$chnginfo['user_id']."'>\n";
         echo "<tr><td align='center' colspan='2'><input type='submit' value='"._MODIFY."'></td></tr>\n";
         echo "</form>\n";
-        echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
+        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
         echo "<tr><td align='center' colspan='2'><input type='submit' value='"._RETURN."'></td></tr>\n";

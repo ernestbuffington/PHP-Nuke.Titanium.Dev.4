@@ -36,7 +36,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
     'general' => 'admin/board_config/board_general.tpl')
 );
 /*****[BEGIN]******************************************
@@ -103,7 +103,7 @@ $quick_search_enable_no = ( !$new['quick_search_enable'] ) ? 'checked="checked"'
  [ Mod:     Quick Search                       v3.0.1 ]
  ******************************************************/
 
-$lang_select = language_select($new['default_lang'], 'default_lang', NUKE_MODULES_DIR.'Forums/language');
+$titanium_lang_select = language_select($new['default_lang'], 'default_lang', NUKE_MODULES_DIR.'Forums/language');
 
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
@@ -161,144 +161,144 @@ $namechange_yes = ( $new['allow_namechange'] ) ? 'checked="checked"' : '';
 $namechange_no = ( !$new['allow_namechange'] ) ? 'checked="checked"' : '';
 
 //General Template variables
-$template->assign_vars(array(
+$phpbb2_template->assign_vars(array(
     'DHTML_ID' => 'c' . $dhtml_id)
 );
 
 //Language Template variables
-$template->assign_vars(array(
-    'L_GENERAL_SETTINGS' => $lang['General_settings'],
-    'L_SERVER_NAME' => $lang['Server_name'],
-    'L_SERVER_PORT' => $lang['Server_port'],
-    'L_SERVER_PORT_EXPLAIN' => $lang['Server_port_explain'],
-    'L_SCRIPT_PATH' => $lang['Script_path'],
-    'L_SCRIPT_PATH_EXPLAIN' => $lang['Script_path_explain'],
-    'L_SITE_NAME' => $lang['Site_name'],
-    'L_SITE_DESCRIPTION' => $lang['Site_desc'],
+$phpbb2_template->assign_vars(array(
+    'L_GENERAL_SETTINGS' => $titanium_lang['General_settings'],
+    'L_SERVER_NAME' => $titanium_lang['Server_name'],
+    'L_SERVER_PORT' => $titanium_lang['Server_port'],
+    'L_SERVER_PORT_EXPLAIN' => $titanium_lang['Server_port_explain'],
+    'L_SCRIPT_PATH' => $titanium_lang['Script_path'],
+    'L_SCRIPT_PATH_EXPLAIN' => $titanium_lang['Script_path_explain'],
+    'L_SITE_NAME' => $titanium_lang['Site_name'],
+    'L_SITE_DESCRIPTION' => $titanium_lang['Site_desc'],
 /*****[BEGIN]******************************************
  [ Mod:    Scrolling Global Announcement        v1.0.1]
  ******************************************************/ 
-   'L_GLOBAL_TITLE' => $lang['Global_title'], 
-   'L_GLOBAL_TITLE_EXPLAIN' => $lang['Global_title_explain'], 
-   'L_GLOBAL' => $lang['Global'], 
-   'L_GLOBAL_EXPLAIN' => $lang['Global_explain'], 
-   'L_ENABLE_GLOBAL' => $lang['Enable_global'], 
-   'L_ENABLE_GLOBAL_EXPLAI' => $lang['Enable_global_explain'], 
-   'L_DISABLE_MARQUEE' => $lang['Global_marquee_effect'], 
-   'L_DISABLE_MARQUEE_EXPLAIN' => $lang['Global_marquee_effect_explain'], 
+   'L_GLOBAL_TITLE' => $titanium_lang['Global_title'], 
+   'L_GLOBAL_TITLE_EXPLAIN' => $titanium_lang['Global_title_explain'], 
+   'L_GLOBAL' => $titanium_lang['Global'], 
+   'L_GLOBAL_EXPLAIN' => $titanium_lang['Global_explain'], 
+   'L_ENABLE_GLOBAL' => $titanium_lang['Enable_global'], 
+   'L_ENABLE_GLOBAL_EXPLAI' => $titanium_lang['Enable_global_explain'], 
+   'L_DISABLE_MARQUEE' => $titanium_lang['Global_marquee_effect'], 
+   'L_DISABLE_MARQUEE_EXPLAIN' => $titanium_lang['Global_marquee_effect_explain'], 
 /*****[END]********************************************
  [ Mod:    Scrolling Global Announcement        v1.0.1]
  ******************************************************/
-    'L_DHTML' => $lang['dhtml_menu'],
-    'L_DHTML_EXPLAIN' => $lang['dhtml_menu_explain'],
+    'L_DHTML' => $titanium_lang['dhtml_menu'],
+    'L_DHTML_EXPLAIN' => $titanium_lang['dhtml_menu_explain'],
 /*****[BEGIN]******************************************
  [ Mod:     Forum Admin Style Selection        v1.0.0 ]
  ******************************************************/
-    'L_ADMIN_STYLE' => $lang['admin_style'],
+    'L_ADMIN_STYLE' => $titanium_lang['admin_style'],
 /*****[END]********************************************
  [ Mod:     Forum Admin Style Selection        v1.0.0 ]
  ******************************************************/
-    'L_DISABLE_BOARD' => $lang['Board_disable'],
-    'L_DISABLE_BOARD_EXPLAIN' => $lang['Board_disable_explain'],
+    'L_DISABLE_BOARD' => $titanium_lang['Board_disable'],
+    'L_DISABLE_BOARD_EXPLAIN' => $titanium_lang['Board_disable_explain'],
 /*****[BEGIN]******************************************
  [ Mod:     Disable Board Admin Override       v0.1.1 ]
  ******************************************************/
-    'L_DISABLE_BOARD_ADMINVIEW' => $lang['Board_disable_adminview'],
-    'L_DISABLE_BOARD_ADMINVIEW_EXPLAIN' => $lang['Board_disable_adminview_explain'],
+    'L_DISABLE_BOARD_ADMINVIEW' => $titanium_lang['Board_disable_adminview'],
+    'L_DISABLE_BOARD_ADMINVIEW_EXPLAIN' => $titanium_lang['Board_disable_adminview_explain'],
 /*****[END]********************************************
  [ Mod:     Disable Board Admin Override       v0.1.1 ]
  ******************************************************/
 /*****[BEGIN]******************************************
  [ Mod:     Disable Board Message              v1.0.0 ]
  ******************************************************/
-    'L_DISABLE_BOARD_MSG' => $lang['Board_disable_msg'],
-    'L_DISABLE_BOARD_MSG_EXPLAIN' => $lang['Board_disable_msg_explain'],
+    'L_DISABLE_BOARD_MSG' => $titanium_lang['Board_disable_msg'],
+    'L_DISABLE_BOARD_MSG_EXPLAIN' => $titanium_lang['Board_disable_msg_explain'],
 /*****[END]********************************************
  [ Mod:     Disable Board Message              v1.0.0 ]
  ******************************************************/
-    'L_ACCT_ACTIVATION' => $lang['Acct_activation'],
-    'L_NONE' => $lang['Acc_None'],
-    'L_USER' => $lang['Acc_User'],
-    'L_ADMIN' => $lang['Acc_Admin'],
-    'L_VISUAL_CONFIRM' => $lang['Visual_confirm'],
-    'L_VISUAL_CONFIRM_EXPLAIN' => $lang['Visual_confirm_explain'],
-    'L_BOARD_EMAIL_FORM' => $lang['Board_email_form'],
-    'L_BOARD_EMAIL_FORM_EXPLAIN' => $lang['Board_email_form_explain'],
-    'L_ENABLED' => $lang['Enabled'],
-    'L_DISABLED' => $lang['Disabled'],
-    'L_FLOOD_INTERVAL' => $lang['Flood_Interval'],
-    'L_MAX_LOGIN_ATTEMPTS'         => $lang['Max_login_attempts'],
-		'L_MAX_LOGIN_ATTEMPTS_EXPLAIN'   => $lang['Max_login_attempts_explain'],
-		'L_LOGIN_RESET_TIME'         => $lang['Login_reset_time'],
-		'L_LOGIN_RESET_TIME_EXPLAIN'   => $lang['Login_reset_time_explain'],
-    'L_SEARCH_FLOOD_INTERVAL' => $lang['Search_Flood_Interval'],
-    'L_SEARCH_FLOOD_INTERVAL_EXPLAIN' => $lang['Search_Flood_Interval_explain'],
+    'L_ACCT_ACTIVATION' => $titanium_lang['Acct_activation'],
+    'L_NONE' => $titanium_lang['Acc_None'],
+    'L_USER' => $titanium_lang['Acc_User'],
+    'L_ADMIN' => $titanium_lang['Acc_Admin'],
+    'L_VISUAL_CONFIRM' => $titanium_lang['Visual_confirm'],
+    'L_VISUAL_CONFIRM_EXPLAIN' => $titanium_lang['Visual_confirm_explain'],
+    'L_BOARD_EMAIL_FORM' => $titanium_lang['Board_email_form'],
+    'L_BOARD_EMAIL_FORM_EXPLAIN' => $titanium_lang['Board_email_form_explain'],
+    'L_ENABLED' => $titanium_lang['Enabled'],
+    'L_DISABLED' => $titanium_lang['Disabled'],
+    'L_FLOOD_INTERVAL' => $titanium_lang['Flood_Interval'],
+    'L_MAX_LOGIN_ATTEMPTS'         => $titanium_lang['Max_login_attempts'],
+		'L_MAX_LOGIN_ATTEMPTS_EXPLAIN'   => $titanium_lang['Max_login_attempts_explain'],
+		'L_LOGIN_RESET_TIME'         => $titanium_lang['Login_reset_time'],
+		'L_LOGIN_RESET_TIME_EXPLAIN'   => $titanium_lang['Login_reset_time_explain'],
+    'L_SEARCH_FLOOD_INTERVAL' => $titanium_lang['Search_Flood_Interval'],
+    'L_SEARCH_FLOOD_INTERVAL_EXPLAIN' => $titanium_lang['Search_Flood_Interval_explain'],
 		'MAX_LOGIN_ATTEMPTS'         => $new['max_login_attempts'],
     'LOGIN_RESET_TIME'            => $new['login_reset_time'],
-    'L_FLOOD_INTERVAL_EXPLAIN' => $lang['Flood_Interval_explain'],
+    'L_FLOOD_INTERVAL_EXPLAIN' => $titanium_lang['Flood_Interval_explain'],
 /*****[BEGIN]******************************************
  [ Mod:    Limit smilies per post              v1.0.2 ]
  ******************************************************/
-    'L_MAX_SMILIES' => $lang['Max_smilies'],
+    'L_MAX_SMILIES' => $titanium_lang['Max_smilies'],
 /*****[END]********************************************
  [ Mod:    Limit smilies per post              v1.0.2 ]
  ******************************************************/
-    'L_TOPICS_PER_PAGE' => $lang['Topics_per_page'],
-    'L_POSTS_PER_PAGE' => $lang['Posts_per_page'],
-    'L_HOT_THRESHOLD' => $lang['Hot_threshold'],
-    'L_DEFAULT_STYLE' => $lang['Default_style'],
-    'L_OVERRIDE_STYLE' => $lang['Override_style'],
-    'L_OVERRIDE_STYLE_EXPLAIN' => $lang['Override_style_explain'],
+    'L_TOPICS_PER_PAGE' => $titanium_lang['Topics_per_page'],
+    'L_POSTS_PER_PAGE' => $titanium_lang['Posts_per_page'],
+    'L_HOT_THRESHOLD' => $titanium_lang['Hot_threshold'],
+    'L_DEFAULT_STYLE' => $titanium_lang['Default_style'],
+    'L_OVERRIDE_STYLE' => $titanium_lang['Override_style'],
+    'L_OVERRIDE_STYLE_EXPLAIN' => $titanium_lang['Override_style_explain'],
 /*****[BEGIN]******************************************
  [ Mod:     Quick Search                       v3.0.1 ]
  ******************************************************/
-    'L_QUICK_SEARCH_ENABLE' => $lang['Quick_search_enable'],
-    'L_QUICK_SEARCH_ENABLE_EXPLAIN' => $lang['Quick_search_enable_explain'],
+    'L_QUICK_SEARCH_ENABLE' => $titanium_lang['Quick_search_enable'],
+    'L_QUICK_SEARCH_ENABLE_EXPLAIN' => $titanium_lang['Quick_search_enable_explain'],
 /*****[END]********************************************
  [ Mod:     Quick Search                       v3.0.1 ]
  ******************************************************/
-    'L_DEFAULT_LANGUAGE' => $lang['Default_language'],
-    'L_DATE_FORMAT' => $lang['Date_format'],
-    'L_DATE_FORMAT_EXPLAIN' => $lang['Date_format_explain'],
+    'L_DEFAULT_LANGUAGE' => $titanium_lang['Default_language'],
+    'L_DATE_FORMAT' => $titanium_lang['Date_format'],
+    'L_DATE_FORMAT_EXPLAIN' => $titanium_lang['Date_format_explain'],
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-    'L_TIME_MODE' => $lang['time_mode'],
-    'L_TIME_MODE_TEXT' => $lang['time_mode_text'],
-    'L_TIME_MODE_MANUAL' => $lang['time_mode_manual'],
-    'L_TIME_MODE_DST' => $lang['time_mode_dst'],
-    'L_TIME_MODE_DST_SERVER' => $lang['time_mode_dst_server'],
-    'L_TIME_MODE_DST_TIME_LAG' => $lang['time_mode_dst_time_lag'],
-    'L_TIME_MODE_DST_MN' => $lang['time_mode_dst_mn'],
-    'L_TIME_MODE_TIMEZONE' => $lang['time_mode_timezone'],
-    'L_TIME_MODE_AUTO' => $lang['time_mode_auto'],
-    'L_TIME_MODE_FULL_SERVER' => $lang['time_mode_full_server'],
-    'L_TIME_MODE_SERVER_PC' => $lang['time_mode_server_pc'],
-    'L_TIME_MODE_FULL_PC' => $lang['time_mode_full_pc'],
+    'L_TIME_MODE' => $titanium_lang['time_mode'],
+    'L_TIME_MODE_TEXT' => $titanium_lang['time_mode_text'],
+    'L_TIME_MODE_MANUAL' => $titanium_lang['time_mode_manual'],
+    'L_TIME_MODE_DST' => $titanium_lang['time_mode_dst'],
+    'L_TIME_MODE_DST_SERVER' => $titanium_lang['time_mode_dst_server'],
+    'L_TIME_MODE_DST_TIME_LAG' => $titanium_lang['time_mode_dst_time_lag'],
+    'L_TIME_MODE_DST_MN' => $titanium_lang['time_mode_dst_mn'],
+    'L_TIME_MODE_TIMEZONE' => $titanium_lang['time_mode_timezone'],
+    'L_TIME_MODE_AUTO' => $titanium_lang['time_mode_auto'],
+    'L_TIME_MODE_FULL_SERVER' => $titanium_lang['time_mode_full_server'],
+    'L_TIME_MODE_SERVER_PC' => $titanium_lang['time_mode_server_pc'],
+    'L_TIME_MODE_FULL_PC' => $titanium_lang['time_mode_full_pc'],
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
 /*****[BEGIN]******************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
-    'L_ONLINE_TIME' => $lang['Online_time'],
-    'L_ONLINE_TIME_EXPLAIN' => $lang['Online_time_explain'],
+    'L_ONLINE_TIME' => $titanium_lang['Online_time'],
+    'L_ONLINE_TIME_EXPLAIN' => $titanium_lang['Online_time_explain'],
 /*****[END]********************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
-    'L_ENABLE_PRUNE' => $lang['Enable_prune'],
+    'L_ENABLE_PRUNE' => $titanium_lang['Enable_prune'],
 /*****[BEGIN]******************************************
  [ Mod:     Report Posts                       v1.2.3 ]
  ******************************************************/
-    'L_REPORT_EMAIL' => $lang['Report_email'],
+    'L_REPORT_EMAIL' => $titanium_lang['Report_email'],
 /*****[END]********************************************
  [ Mod:     Report Posts                       v1.2.3 ]
  ******************************************************/
-    'L_ALLOW_NAME_CHANGE' => $lang['Allow_name_change'])
+    'L_ALLOW_NAME_CHANGE' => $titanium_lang['Allow_name_change'])
 );
 
 //Data Template Variables
-$template->assign_vars(array(
+$phpbb2_template->assign_vars(array(
     'SERVER_NAME' => $new['server_name'],
     'SERVER_PORT' => $new['server_port'],
     'SCRIPT_PATH' => $new['script_path'],
@@ -380,7 +380,7 @@ $template->assign_vars(array(
 /*****[END]********************************************
  [ Mod:     Quick Search                       v3.0.1 ]
  ******************************************************/
-    'LANG_SELECT' => $lang_select,
+    'LANG_SELECT' => $titanium_lang_select,
     'DEFAULT_DATEFORMAT' => $new['default_dateformat'],
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
@@ -416,6 +416,6 @@ $template->assign_vars(array(
     'NAMECHANGE_YES' => $namechange_yes,
     'NAMECHANGE_NO' => $namechange_no
 ));
-$template->pparse('general');
+$phpbb2_template->pparse('general');
 
 ?>

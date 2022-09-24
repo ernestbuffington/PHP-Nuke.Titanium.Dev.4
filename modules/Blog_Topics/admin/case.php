@@ -29,8 +29,8 @@ if (!defined('ADMIN_FILE')) {
    die ("Access Denied");
 }
 
-$module_name = 'Blog_Topics';
-include_once(NUKE_MODULES_DIR.$module_name.'/admin/language/lang-'.$currentlang.'.php');
+$titanium_module_name = 'Blog_Topics';
+include_once(NUKE_MODULES_DIR.$titanium_module_name.'/admin/language/lang-'.$currentlang.'.php');
 
 switch($op) {
 
@@ -42,7 +42,7 @@ switch($op) {
     case "topicmake":
     case "topicdelete":
     case "topicchange":
-        include(NUKE_MODULES_DIR.$module_name.'/admin/index.php');
+        include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
     break;
 
 }

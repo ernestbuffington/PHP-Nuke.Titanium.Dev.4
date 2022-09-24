@@ -37,22 +37,22 @@ if (!defined('CNBYA')) {
 
     if ($ya_config['expiring']!=0) {
         $past = time()-$ya_config['expiring'];
-        $res = $db->sql_query("SELECT user_id FROM ".$user_prefix."_users_temp WHERE time < '$past'");
-        while (list($uid) = $db->sql_fetchrow($res)) {
+        $res = $titanium_db->sql_query("SELECT user_id FROM ".$titanium_user_prefix."_users_temp WHERE time < '$past'");
+        while (list($uid) = $titanium_db->sql_fetchrow($res)) {
                   $uid = intval($uid);
-          $db->sql_query("DELETE FROM ".$user_prefix."_users_temp WHERE user_id = $uid");
-          $db->sql_query("DELETE FROM ".$user_prefix."_cnbya_value_temp WHERE uid = '$uid'");
+          $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_users_temp WHERE user_id = $uid");
+          $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE uid = '$uid'");
         }
         
-        $db->sql_query("OPTIMIZE TABLE ".$user_prefix."_cnbya_value_temp");
-        $db->sql_query("OPTIMIZE TABLE ".$user_prefix."_users_temp");
+        $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_cnbya_value_temp");
+        $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_users_temp");
     }
 
-    $username  = trim(check_html($username, 'nohtml'));
+    $titanium_username  = trim(check_html($titanium_username, 'nohtml'));
     $check_num = trim(check_html($check_num, 'nohtml'));
-    $result    = $db->sql_query("SELECT * FROM ".$user_prefix."_users_temp WHERE username='$username' AND check_num='$check_num'");
-    if ($db->sql_numrows($result) == 1) {
-        $row_act = $db->sql_fetchrow($result);
+    $result    = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users_temp WHERE username='$titanium_username' AND check_num='$check_num'");
+    if ($titanium_db->sql_numrows($result) == 1) {
+        $row_act = $titanium_db->sql_fetchrow($result);
     $ya_username = $row_act['username'];
     $ya_realname = $row_act['realname'];
     $ya_useremail = $row_act['user_email'];
@@ -63,7 +63,7 @@ if (!defined('CNBYA')) {
         OpenTable();
         echo "<table class='forumline' cellpadding=\"3\" cellspacing=\"3\" border=\"0\" width='100%'>\n";
         echo "<tr><td align=\"center\" bgcolor='$bgcolor2' colspan=\"2\"><strong>"._FORACTIVATION."</strong>:</td></tr>\n";
-        echo "<form name=\"Register\" action=\"modules.php?name=$module_name\" method=\"post\">\n";
+        echo "<form name=\"Register\" action=\"modules.php?name=$titanium_module_name\" method=\"post\">\n";
         echo "<tr><td bgcolor='$bgcolor2'>"._USRNICKNAME.":</td><td bgcolor='$bgcolor1'>$ya_username</td></tr>\n";
         echo "<tr><td bgcolor='$bgcolor2'>"._UREALNAME.":<br />"._REQUIRED."</td><td bgcolor='$bgcolor1'>";
         echo "<input type=\"text\" name=\"realname\" value=\"$ya_realname\" size=\"50\" maxlength=\"60\"></td></tr>\n";

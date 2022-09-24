@@ -1,3 +1,9 @@
+<div align="center">
+<table width="98%" style="background-color:none; height:100%;" class="viewforum" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="viewforum">
+<tbody>
+<tr>
+<td align="center">
+
 <table border="0" cellpadding="4" cellspacing="1" style="width: 100%">
   <tr> 
     <td>{L_SEARCH_MATCHES}</td>
@@ -49,3 +55,8 @@
     <td valign="top" align="right">{JUMPBOX}</td>
   </tr>
 </table>
+
+</tr>
+</tbody>
+</table>
+</div>

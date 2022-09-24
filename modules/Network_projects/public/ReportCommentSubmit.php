@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $db2;
+global $titanium_db2;
 if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 $report_id = intval($report_id);
 $report = pjreport_info($report_id);
@@ -19,14 +19,14 @@ if($project['allowreports'] > 0) {
   OpenTable();
   echo '<div align="center"><strong>'._NETWORK_TITLE." v".$pj_config['version_number']." ::: "._NETWORK_COMMENTADD." ::: ".'</strong></div><br />';
   echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-  echo "<form action='modules.php?name=$module_name' method='post'>\n";
+  echo "<form action='modules.php?name=$titanium_module_name' method='post'>\n";
   echo "<input type='hidden' name='op' value='ReportCommentInsert'>\n";
   echo "<input type='hidden' name='report_id' value='$report_id'>\n";
   echo "<tr><td align='center' colspan='2' class='title'>"._NETWORK_INPUTNOTE."</td></tr>\n";
   echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_USERNAME.":</td>\n";
-  echo "<td><input type='text' name='commenter_name' size='30' value='".$userinfo['username']."'></td></tr>\n";
+  echo "<td><input type='text' name='commenter_name' size='30' value='".$titanium_userinfo['username']."'></td></tr>\n";
   echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_EMAILADDRESS.":</td>\n";
-  echo "<td><input type='text' name='commenter_email' size='30' value='".$userinfo['user_email']."'></td></tr>\n";
+  echo "<td><input type='text' name='commenter_email' size='30' value='".$titanium_userinfo['user_email']."'></td></tr>\n";
   echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._NETWORK_COMMENT.":</td>\n";
   echo "<td><textarea name='comment_description' cols='60' rows='10' wrap='virtual'></textarea></td></tr>\n";
   echo "<tr><td align='center' colspan='2'><input type='submit' value='"._NETWORK_COMMENTADD."'></td></tr>\n";
@@ -35,7 +35,7 @@ if($project['allowreports'] > 0) {
   CloseTable();
   include_once(NUKE_BASE_DIR.'footer.php');
 } else {
-  header("Location: modules.php?name=$module_name");
+  header("Location: modules.php?name=$titanium_module_name");
 }
 
 ?>

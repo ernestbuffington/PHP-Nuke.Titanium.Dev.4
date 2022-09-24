@@ -258,7 +258,7 @@ $admlang['preferences']['meta'] 		= 'Meta Tags';
 $admlang['meta']['title'] 				= 'Meta Tags Administration';
 
 $admlang['messages']['link'] 			= 'Messages';
-$admlang['messages']['header'] 			= 'PHP-Nuke Titanium Messages :: Admin Panel';
+$admlang['messages']['header'] 			= '<strong><h1>Admin Panel</h1></strong>';
 $admlang['messages']['change_date']		= 'Change start date to today';
 $admlang['messages']['active']			= '(If you Active this Message now, the start date will be today)';
 $admlang['messages']['edit'] 			= 'Edit message';
@@ -268,7 +268,7 @@ $admlang['messages']['view'] 			= 'Visible to';
 $admlang['messages']['remove'] 			= 'Are you sure you want to remove this message?';
 
 
-$admlang['newsletter']['header'] 		= 'PHP-Nuke Titanium Newsletter :: Admin Panel';
+$admlang['newsletter']['header'] 		= 'Newsletter :: Admin Panel';
 $admlang['newsletter']['regards'] 		= 'Best Regards';
 $admlang['newsletter']['subscribed'] 	= 'Subscribed Users';
 $admlang['newsletter']['nousers'] 		= 'The group selected to receive this newsletter has zero users<br />Please go back and select a different group';
@@ -475,7 +475,7 @@ $admlang['iphub']['key'] 					= 'IpHub API Key';
 $admlang['iphub']['key_explain'] 			= '<strong>INFO:</strong> <a href=\'https://iphub.info\' target=\'_blank\'>CLICK HERE</a> to signup and get your key.';
 $admlang['iphub']['api_warn'] 				= 'The API must be submitted before you can configure the options for '.$admlang['iphub']['title'].'';
 
-// $lang['Date_format_explain'] = 'The syntax used is identical to the PHP <a href=\'http://www.php.net/date\' target=\'_other\'>date()</a> function.';
+// $titanium_lang['Date_format_explain'] = 'The syntax used is identical to the PHP <a href=\'http://www.php.net/date\' target=\'_other\'>date()</a> function.';
 
 // $admlang['iphub']['add_explain'] 			= '<strong>Additional Note:</strong> There are paid and a free plan available.<br />If your site is high traffic, you may need ot look into a paid plan.';
 $admlang['iphub']['add_explain'] 			= '<strong>Additional Note:</strong> There are paid and a free plan available.<br />If you use the free API key, You will be restricted to 1000 queries a day.<br />If your site is high traffic, you may need to look into a paid plan.';

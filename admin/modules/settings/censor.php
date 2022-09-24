@@ -30,8 +30,8 @@
 if(!defined('IN_SETTINGS'))
 	exit('Access Denied');
 
-global $censor_words, $censor, $admLang;
-$censor_words = str_replace(" ", "\n", $censor_words);
+global $titanium_censor_words, $titanium_censor, $admLang;
+$titanium_censor_words = str_replace(" ", "\n", $titanium_censor_words);
 echo '  <tr>'.PHP_EOL;
 echo '    <td class="catHead acenter" colspan="3">'.$admlang['censor']['title'].'</td>'.PHP_EOL;
 echo '  </tr>'.PHP_EOL;
@@ -40,11 +40,11 @@ echo '    <td class="row1" colspan="3">'.PHP_EOL;
 echo '      <table border="0" cellpadding="4" cellspacing="1" class="forumline" style="width: 100%;">'.PHP_EOL;
 echo '        <tr>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.$admlang['censor']['words'].'</td>'.PHP_EOL;
-echo '          <td class="row1" style="width: 50%;"><textarea name="xcensor_words" cols="40" rows="8" style="min-height:100px;">'.$censor_words.'</textarea></td>'.PHP_EOL;
+echo '          <td class="row1" style="width: 50%;"><textarea name="xcensor_words" cols="40" rows="8" style="min-height:100px;">'.$titanium_censor_words.'</textarea></td>'.PHP_EOL;
 echo '        </tr>'.PHP_EOL;
 echo '        <tr>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.$admlang['censor']['settings'].'</td>'.PHP_EOL;
-echo '          <td class="row1" style="width: 50%;">'.select_box('xcensor',$censor,array(0 => $admlang['censor']['off'], 1 => $admlang['censor']['whole'], 2 => $admlang['censor']['partial'])).'</td>'.PHP_EOL;
+echo '          <td class="row1" style="width: 50%;">'.select_box('xcensor',$titanium_censor,array(0 => $admlang['censor']['off'], 1 => $admlang['censor']['whole'], 2 => $admlang['censor']['partial'])).'</td>'.PHP_EOL;
 echo '        </tr>'.PHP_EOL;
 echo '      </table>'.PHP_EOL;
 

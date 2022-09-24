@@ -20,14 +20,14 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB', true);
+define('IN_PHPBB2', true);
 
-//$forum_id = 2; // You could change this value unless forum ID 3 did not exist in your board
+//$phpbb2_forum_id = 2; // You could change this value unless forum ID 3 did not exist in your board
 
 if( !empty($setmodules) )
 {
 	$filename = basename(__FILE__);
-	$module['Forums']['Overall Permissions']   = $filename . '?' . POST_FORUM_URL . "=$forum_id";
+	$titanium_module['Forums']['Overall Permissions']   = $filename . '?' . POST_FORUM_URL . "=$phpbb2_forum_id";
 
 	return;
 }
@@ -35,8 +35,8 @@ if( !empty($setmodules) )
 //
 // Load default header
 //
-$phpbb_root_path = './../';
-require($phpbb_root_path . 'extension.inc');
+$phpbb2_root_path = './../';
+require($phpbb2_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 
 //
@@ -53,24 +53,24 @@ $simple_auth_ary = array(
 	6  => array(AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD),
 );
 
-$simple_auth_types = array($lang['Public'], $lang['Registered'], $lang['Registered'] . ' [' . $lang['Hidden'] . ']', $lang['Private'], $lang['Private'] . ' [' . $lang['Hidden'] . ']', $lang['Moderators'], $lang['Moderators'] . ' [' . $lang['Hidden'] . ']');
+$simple_auth_types = array($titanium_lang['Public'], $titanium_lang['Registered'], $titanium_lang['Registered'] . ' [' . $titanium_lang['Hidden'] . ']', $titanium_lang['Private'], $titanium_lang['Private'] . ' [' . $titanium_lang['Hidden'] . ']', $titanium_lang['Moderators'], $titanium_lang['Moderators'] . ' [' . $titanium_lang['Hidden'] . ']');
 
 $forum_auth_fields = array('auth_view', 'auth_read', 'auth_post', 'auth_reply', 'auth_edit', 'auth_delete', 'auth_sticky', 'auth_announce', 'auth_vote', 'auth_pollcreate', 'auth_globalannounce', 'auth_attachments', 'auth_download');
 
 $field_names = array(
-	'auth_view' => $lang['View'],
-	'auth_read' => $lang['Read'],
-	'auth_post' => $lang['Post'],
-	'auth_reply' => $lang['Reply'],
-	'auth_edit' => $lang['Edit'],
-	'auth_delete' => $lang['Delete'],
-	'auth_sticky' => $lang['Sticky'],
-	'auth_announce' => $lang['Announce'], 
-	'auth_vote' => $lang['Vote'], 
-	'auth_pollcreate' => $lang['Pollcreate'],
-	'auth_globalannounce' => $lang['Globalannounce'],
-	'auth_attachments' => $lang['Auth_attach'],
-	'auth_download' => $lang['Auth_download']
+	'auth_view' => $titanium_lang['View'],
+	'auth_read' => $titanium_lang['Read'],
+	'auth_post' => $titanium_lang['Post'],
+	'auth_reply' => $titanium_lang['Reply'],
+	'auth_edit' => $titanium_lang['Edit'],
+	'auth_delete' => $titanium_lang['Delete'],
+	'auth_sticky' => $titanium_lang['Sticky'],
+	'auth_announce' => $titanium_lang['Announce'], 
+	'auth_vote' => $titanium_lang['Vote'], 
+	'auth_pollcreate' => $titanium_lang['Pollcreate'],
+	'auth_globalannounce' => $titanium_lang['Globalannounce'],
+	'auth_attachments' => $titanium_lang['Auth_attach'],
+	'auth_download' => $titanium_lang['Auth_download']
 	);
 
 $forum_auth_levels = array('ALL', 'REG', 'PRIVATE', 'MOD', 'ADMIN');
@@ -100,7 +100,7 @@ $forum_auth_cats = array(
 
 for($i=0; $i<count($forum_auth_const); $i++) {
 	$auth_key .= '<img src="../../../images/spacer.gif" width=10 height=10 class="' . $forum_auth_classes[$forum_auth_const[$i]] . '">&nbsp;' . $forum_auth_levels[$i] . '&nbsp;&nbsp;';		
-	$template->assign_block_vars("authedit",	array(
+	$phpbb2_template->assign_block_vars("authedit",	array(
 		'CLASS' => $forum_auth_classes[$forum_auth_const[$i]],
 		'NAME' => $forum_auth_levels[$i],
 		'VALUE' => $forum_auth_const[$i],
@@ -116,7 +116,7 @@ else
 	unset($adv);
 }
 
-$template->set_filenames(array(
+$phpbb2_template->set_filenames(array(
 	"body" => "admin/auth_overall_forum_body.tpl")
 );
 //
@@ -124,8 +124,8 @@ $template->set_filenames(array(
 //
 if( isset($HTTP_POST_VARS['submit']) ) 
 {
-	foreach($_POST['auth'] as $forum_id => $forum) {
-		$forum_id = intval($forum_id);
+	foreach($_POST['auth'] as $phpbb2_forum_id => $forum) {
+		$phpbb2_forum_id = intval($phpbb2_forum_id);
 		$sql = '';
 		foreach($forum as $a => $newval) {
 			if ($newval && in_array($newval, $forum_auth_levels) && array_key_exists($a, $forum_auth_cats)) { // Changed and is valid
@@ -133,8 +133,8 @@ if( isset($HTTP_POST_VARS['submit']) )
 			}
 		}
 		if ($sql != '') {
-			$sql = "UPDATE " . FORUMS_TABLE . " SET $sql WHERE forum_id = $forum_id;";
-			if ( !$db->sql_query($sql) )
+			$sql = "UPDATE " . FORUMS_TABLE . " SET $sql WHERE forum_id = $phpbb2_forum_id;";
+			if ( !$titanium_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, 'Could not update auth table', '', __LINE__, __FILE__, $sql);
 			}
@@ -146,26 +146,26 @@ if( isset($HTTP_POST_VARS['submit']) )
 $sql = "SELECT cat_id, cat_title, cat_order
 	FROM " . CATEGORIES_TABLE . "
 	ORDER BY cat_order";
-if( !$q_categories = $db->sql_query($sql) )
+if( !$q_categories = $titanium_db->sql_query($sql) )
 {
 	message_die(GENERAL_ERROR, "Could not query categories list", "", __LINE__, __FILE__, $sql);
 }
 
-if( $total_categories = $db->sql_numrows($q_categories) ) 
+if( $total_phpbb2_categories = $titanium_db->sql_numrows($q_categories) ) 
 {
-	$category_rows = $db->sql_fetchrowset($q_categories);
+	$category_rows = $titanium_db->sql_fetchrowset($q_categories);
 
 	$sql = "SELECT *
 		FROM " . FORUMS_TABLE . "
 		ORDER BY cat_id, forum_order";
-	if(!$q_forums = $db->sql_query($sql))
+	if(!$q_forums = $titanium_db->sql_query($sql))
 	{
 		message_die(GENERAL_ERROR, "Could not query forums information", "", __LINE__, __FILE__, $sql);
 	}
 
-	if( $total_forums = $db->sql_numrows($q_forums) )
+	if( $total_phpbb2_forums = $titanium_db->sql_numrows($q_forums) )
 	{
-		$forum_rows = $db->sql_fetchrowset($q_forums);
+		$forum_rows = $titanium_db->sql_fetchrowset($q_forums);
 	}
 
 	//
@@ -173,23 +173,23 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 	//
 	$gen_cat = array();
 
-	for($i = 0; $i < $total_categories; $i++)
+	for($i = 0; $i < $total_phpbb2_categories; $i++)
 	{
 		$cat_id = $category_rows[$i]['cat_id'];
 
-		$template->assign_block_vars("catrow", array( 
+		$phpbb2_template->assign_block_vars("catrow", array( 
 			'CAT_ID' => $cat_id,
 			'CAT_DESC' => $category_rows[$i]['cat_title'],
 		));
 
-		for($j = 0; $j < $total_forums; $j++)
+		for($j = 0; $j < $total_phpbb2_forums; $j++)
 		{
-			$forum_id = $forum_rows[$j]['forum_id'];
+			$phpbb2_forum_id = $forum_rows[$j]['forum_id'];
 			
 			if ($forum_rows[$j]['cat_id'] == $cat_id)
 			{
 
-				$template->assign_block_vars("catrow.forumrow",	array(
+				$phpbb2_template->assign_block_vars("catrow.forumrow",	array(
 					'FORUM_NAME' => $forum_rows[$j]['forum_name'],
 					'FORUM_ID' => $forum_rows[$j]['forum_id'],
 					'ROW_COLOR' => $row_color,
@@ -215,17 +215,17 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 }// if ... total_categories
 
-$template->assign_vars(array(
-	'L_FORUM_TITLE' => $lang['Auth_Control_Forum'],
-	'L_FORUM_EXPLAIN' => $lang['Forum_auth_explain_overall'],
-	'L_FORUM_EXPLAIN_EDIT' => $lang['Forum_auth_explain_overall_edit'],
-	'L_FORUM_OVERALL_RESTORE' => $lang['Forum_auth_overall_restore'],
-	'L_FORUM_OVERALL_STOP' => $lang['Forum_auth_overall_stop'],
-	'L_SUBMIT' => $lang['Submit'],
+$phpbb2_template->assign_vars(array(
+	'L_FORUM_TITLE' => $titanium_lang['Auth_Control_Forum'],
+	'L_FORUM_EXPLAIN' => $titanium_lang['Forum_auth_explain_overall'],
+	'L_FORUM_EXPLAIN_EDIT' => $titanium_lang['Forum_auth_explain_overall_edit'],
+	'L_FORUM_OVERALL_RESTORE' => $titanium_lang['Forum_auth_overall_restore'],
+	'L_FORUM_OVERALL_STOP' => $titanium_lang['Forum_auth_overall_stop'],
+	'L_SUBMIT' => $titanium_lang['Submit'],
 	'AUTH_KEY' => $auth_key,
 ));
 
-$template->pparse("body");
+$phpbb2_template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

@@ -42,18 +42,18 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$module_name = basename(dirname(__FILE__));
-get_lang($module_name);
+$titanium_module_name = basename(dirname(__FILE__));
+get_lang($titanium_module_name);
 
 function alpha() {
-    global $module_name;
+    global $titanium_module_name;
     $alphabet = array ("A","B","C","D","E","F","G","H","I","J","K","L","M",
                        "N","O","P","Q","R","S","T","U","V","W","X","Y","Z","1","2","3","4","5","6","7","8","9","0");
     $num = count($alphabet) - 1;
     echo "<center>[ ";
     $counter = 0;
     while (list(, $ltr) = each($alphabet)) {
-        echo "<a href=\"modules.php?name=$module_name&amp;rop=$ltr\">$ltr</a>";
+        echo "<a href=\"modules.php?name=$titanium_module_name&amp;rop=$ltr\">$ltr</a>";
         if ( $counter == round($num/2) ) {
             echo " ]\n<br />\n[ ";
         } elseif ( $counter != $num ) {
@@ -62,7 +62,7 @@ function alpha() {
         $counter++;
     }
     echo " ]</center><br /><br />\n\n\n";
-    echo "<center>[ <a href=\"modules.php?name=$module_name&amp;rop=write_review\">"._WRITEREVIEW."</a> ]</center><br /><br />\n\n";
+    echo "<center>[ <a href=\"modules.php?name=$titanium_module_name&amp;rop=write_review\">"._WRITEREVIEW."</a> ]</center><br /><br />\n\n";
 }
 
 function display_score($score) {
@@ -87,10 +87,10 @@ function display_score($score) {
 }
 
 function write_review() {
-    global $admin, $sitename, $user, $cookie, $prefix, $user_prefix, $currentlang, $multilingual, $db, $module_name, $anonpost;
+    global $admin, $sitename, $titanium_user, $cookie, $titanium_prefix, $titanium_user_prefix, $currentlang, $multilingual, $titanium_db, $titanium_module_name, $anonpost;
     
     //Prevent Anonymous
-    if(!is_user($user) && !$anonpost){
+    if(!is_user($titanium_user) && !$anonpost){
         Header("Location: modules.php?name=Your_Account&op=login&redirect=Reviews");
         die();
     }
@@ -102,7 +102,7 @@ function write_review() {
 /*****[BEGIN]******************************************
  [ Mod:     Reviews BBCodes                    v1.0.0 ]
  ******************************************************/
-    ."<form name=\"postreviews\" method=\"post\" action=\"modules.php?name=$module_name\">"
+    ."<form name=\"postreviews\" method=\"post\" action=\"modules.php?name=$titanium_module_name\">"
 /*****[END]********************************************
  [ Mod:     Reviews BBCodes                    v1.0.0 ]
  ******************************************************/
@@ -112,11 +112,11 @@ function write_review() {
     if ($multilingual == 1) {
         echo "<br /><strong>"._LANGUAGE.": </strong>"
             ."<select name=\"rlanguage\">";
-        $languages = lang_list();
+        $titanium_languages = lang_list();
         echo '<option value=""'.((strtolower($currentlang) == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
-            if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.((strtolower($currentlang) == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+        for ($i=0, $j = count($titanium_languages); $i < $j; $i++) {
+            if ($titanium_languages[$i] != '') {
+                echo '<option value="'.$titanium_languages[$i].'"'.((strtolower($currentlang) == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
             }
         }
         echo '</select><br /><br />';
@@ -130,16 +130,16 @@ function write_review() {
 /*****[END]********************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
  ******************************************************/
-    if (is_mod_admin($module_name)) {
+    if (is_mod_admin($titanium_module_name)) {
         echo "<span class=\"content\">"._PAGEBREAK."</span><br />";
     }
     echo "
     <i>"._CHECKREVIEW."</i><br /><br />
     <strong>"._YOURNAME.":</strong><br />";
     if (is_user()) {
-        $result = $db->sql_query("SELECT username, user_email FROM ".$user_prefix."_users WHERE user_id = '".intval($cookie[0])."'");
-        list($rname, $email) = $db->sql_fetchrow($result);
-        $db->sql_freeresult($result);
+        $result = $titanium_db->sql_query("SELECT username, user_email FROM ".$titanium_user_prefix."_users WHERE user_id = '".intval($cookie[0])."'");
+        list($rname, $email) = $titanium_db->sql_fetchrow($result);
+        $titanium_db->sql_freeresult($result);
         $rname = stripslashes(check_html($rname, "nohtml"));
         $email = stripslashes(check_html($email, "nohtml"));
     }
@@ -173,7 +173,7 @@ function write_review() {
         <input type=\"text\" name=\"url_title\" size=\"40\" maxlength=\"50\"><br />
         <i>"._LINKTITLEREQ."</i><br /><br />
     ";
-    if(is_mod_admin($module_name)) {
+    if(is_mod_admin($titanium_module_name)) {
         echo "<strong>"._RIMAGEFILE.":</strong><br />
             <input type=\"text\" name=\"cover\" size=\"40\" maxlength=\"100\"><br />
             <i>"._RIMAGEFILEREQ."</i><br /><br />
@@ -188,11 +188,11 @@ function write_review() {
 }
 
 function preview_review($date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $hits, $id, $rlanguage) {
-    global $admin, $multilingual, $module_name, $anonpost, $board_config;
+    global $admin, $multilingual, $titanium_module_name, $anonpost, $phpbb2_board_config;
 
     include_once(NUKE_BASE_DIR.'header.php');
     OpenTable();
-    echo "<form method=\"post\" action=\"modules.php?name=$module_name\">";
+    echo "<form method=\"post\" action=\"modules.php?name=$titanium_module_name\">";
 
     if (empty($title)) {
         $error = 1;
@@ -263,7 +263,7 @@ function preview_review($date, $title, $text, $reviewer, $email, $score, $cover,
         $year2 = substr($date,0,4);
         $month = substr($date,5,2);
         $day = substr($date,8,2);
-				$fdate = EvoDate($board_config['default_dateformat'], mktime (0,0,0,$month,$day,$year), $board_config['board_timezone']);
+				$fdate = EvoDate($phpbb2_board_config['default_dateformat'], mktime (0,0,0,$month,$day,$year), $phpbb2_board_config['board_timezone']);
         echo "<table border=\"0\" width=\"100%\"><tr><td colspan=\"2\">";
         echo "<p><span class=\"title\"><i><strong>".stripslashes($title)."</strong></i></span><br />";
         echo "<blockquote><p>";
@@ -277,8 +277,8 @@ function preview_review($date, $title, $text, $reviewer, $email, $score, $cover,
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.6 ]
  ******************************************************/
-        $color_review = ($anonpost) ? $reviewer : UsernameColor($reviewer);
-        echo "<strong>"._REVIEWER."</strong> <a href=\"mailto:$email\">".$color_review."</a><br />";
+        $phpbb2_color_review = ($anonpost) ? $reviewer : UsernameColor($reviewer);
+        echo "<strong>"._REVIEWER."</strong> <a href=\"mailto:$email\">".$phpbb2_color_review."</a><br />";
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.6 ]
  ******************************************************/
@@ -313,7 +313,7 @@ function preview_review($date, $title, $text, $reviewer, $email, $score, $cover,
             $word = _RMODIFIED;
         else
             $word = _RADDED;
-        if(is_mod_admin($module_name))
+        if(is_mod_admin($titanium_module_name))
             echo "<br /><br /><strong>"._NOTE."</strong> "._ADMINLOGGED." $word.";
     }
     CloseTable();
@@ -321,7 +321,7 @@ function preview_review($date, $title, $text, $reviewer, $email, $score, $cover,
 }
 
 function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $hits, $id, $rlanguage) {
-    global $admin, $EditedMessage, $prefix, $db, $module_name, $cache;
+    global $admin, $EditedMessage, $titanium_prefix, $titanium_db, $titanium_module_name, $titanium_cache;
 
     session_start();
     if(isset($_SESSION['title'])) {
@@ -362,30 +362,30 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
     if ($score < 0 OR $score > 10) {
         $score = 0;
     }
-    if ((is_mod_admin($module_name)) && ($id == 0)) {
-        $db->sql_query("INSERT INTO ".$prefix."_reviews VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1', '$rlanguage')");
+    if ((is_mod_admin($titanium_module_name)) && ($id == 0)) {
+        $titanium_db->sql_query("INSERT INTO ".$titanium_prefix."_reviews VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1', '$rlanguage')");
         echo ""._ISAVAILABLE."";
-    } else if ((is_mod_admin($module_name)) && ($id != 0)) {
-        $db->sql_query("UPDATE ".$prefix."_reviews SET date='$date', title='$title', text='$text', reviewer='$reviewer', email='$email', score='$score', cover='$cover', url='$url', url_title='$url_title', hits='$hits', rlanguage='$rlanguage' WHERE id = '$id'");
+    } else if ((is_mod_admin($titanium_module_name)) && ($id != 0)) {
+        $titanium_db->sql_query("UPDATE ".$titanium_prefix."_reviews SET date='$date', title='$title', text='$text', reviewer='$reviewer', email='$email', score='$score', cover='$cover', url='$url', url_title='$url_title', hits='$hits', rlanguage='$rlanguage' WHERE id = '$id'");
         echo ""._ISAVAILABLE."";
     } else {
-        $db->sql_query("INSERT INTO ".$prefix."_reviews_add VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$url', '$url_title', '$rlanguage')");
+        $titanium_db->sql_query("INSERT INTO ".$titanium_prefix."_reviews_add VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$url', '$url_title', '$rlanguage')");
         echo ""._EDITORWILLLOOK."";
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $cache->delete('numwaitreviews', 'submissions');
+        $titanium_cache->delete('numwaitreviews', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
     }
-    echo "<br /><br />[ <a href=\"modules.php?name=$module_name\">"._RBACK."</a> ]<br /></center>";
+    echo "<br /><br />[ <a href=\"modules.php?name=$titanium_module_name\">"._RBACK."</a> ]<br /></center>";
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 }
 
 function reviews_index() {
-    global $bgcolor3, $bgcolor2, $prefix, $multilingual, $currentlang, $db, $module_name;
+    global $bgcolor3, $bgcolor2, $titanium_prefix, $multilingual, $currentlang, $titanium_db, $titanium_module_name;
 
     include_once(NUKE_BASE_DIR.'header.php');
     if ($multilingual == 1) {
@@ -396,9 +396,9 @@ function reviews_index() {
     OpenTable();
     echo "<table border=\"0\" width=\"95%\" cellpadding=\"2\" cellspacing=\"4\" align=\"center\">
     <tr><td colspan=\"2\"><center><span class=\"title\">"._RWELCOME."</span></center><br /><br /><br />";
-    $result = $db->sql_query("SELECT title, description FROM ".$prefix."_reviews_main");
-    list($title, $description) = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
+    $result = $titanium_db->sql_query("SELECT title, description FROM ".$titanium_prefix."_reviews_main");
+    list($title, $description) = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
     $title = stripslashes(check_html($title, "nohtml"));
     $description = stripslashes($description);
     echo "<center><strong>$title</strong><br /><br />$description</center>";
@@ -407,32 +407,32 @@ function reviews_index() {
     echo "</td></tr>";
     echo "<tr><td width=\"50%\" bgcolor=\"$bgcolor2\"><strong>"._10MOSTPOP."</strong></td>";
     echo "<td width=\"50%\" bgcolor=\"$bgcolor2\"><strong>"._10MOSTREC."</strong></td></tr>";
-    $result_pop = $db->sql_query("SELECT id, title, hits FROM ".$prefix."_reviews $querylang ORDER BY hits DESC limit 10");
-    $result_rec = $db->sql_query("SELECT id, title, date, hits FROM ".$prefix."_reviews $querylang ORDER BY date DESC limit 10");
+    $result_pop = $titanium_db->sql_query("SELECT id, title, hits FROM ".$titanium_prefix."_reviews $querylang ORDER BY hits DESC limit 10");
+    $result_rec = $titanium_db->sql_query("SELECT id, title, date, hits FROM ".$titanium_prefix."_reviews $querylang ORDER BY date DESC limit 10");
     $y = 1;
     for ($x = 0; $x < 10; $x++)    {
-        $myrow = $db->sql_fetchrow($result_pop);
+        $myrow = $titanium_db->sql_fetchrow($result_pop);
         $id = intval($myrow['id']);
         $title = stripslashes(check_html($myrow['title'], "nohtml"));
         $hits = intval($myrow['hits']);
-        echo "<tr><td width=\"50%\" bgcolor=\"$bgcolor3\">$y) <a href=\"modules.php?name=$module_name&amp;rop=showcontent&amp;id=$id\">$title</a></td>";
-        $myrow2 = $db->sql_fetchrow($result_rec);
+        echo "<tr><td width=\"50%\" bgcolor=\"$bgcolor3\">$y) <a href=\"modules.php?name=$titanium_module_name&amp;rop=showcontent&amp;id=$id\">$title</a></td>";
+        $myrow2 = $titanium_db->sql_fetchrow($result_rec);
         $id = intval($myrow2['id']);
         $title = stripslashes(check_html($myrow2['title'], "nohtml"));
         $hits = intval($myrow2['hits']);
-        echo "<td width=\"50%\" bgcolor=\"$bgcolor3\">$y) <a href=\"modules.php?name=$module_name&amp;rop=showcontent&amp;id=$id\">$title</a></td></tr>";
+        echo "<td width=\"50%\" bgcolor=\"$bgcolor3\">$y) <a href=\"modules.php?name=$titanium_module_name&amp;rop=showcontent&amp;id=$id\">$title</a></td></tr>";
         $y++;
     }
     echo "<tr><td colspan=\"2\"><br /></td></tr>";
-    $result2 = $db->sql_query("SELECT * FROM ".$prefix."_reviews $querylang");
-    $numresults = $db->sql_numrows($result2);
+    $result2 = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_reviews $querylang");
+    $numresults = $titanium_db->sql_numrows($result2);
     echo "<tr><td colspan=\"2\"><br /><center>"._THEREARE." $numresults "._REVIEWSINDB."</center></td></tr></table>";
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 }
 
 function reviews($letter, $field, $order) {
-    global $bgcolor4, $sitename, $prefix, $multilingual, $currentlang, $db, $module_name, $anonpost;
+    global $bgcolor4, $sitename, $titanium_prefix, $multilingual, $currentlang, $titanium_db, $titanium_module_name, $anonpost;
 
     include_once(NUKE_BASE_DIR.'header.php');
     $letter = substr($letter, 0,1);
@@ -447,42 +447,42 @@ function reviews($letter, $field, $order) {
     switch ($field) {
 
         case "reviewer":
-            $result = $db->sql_query("SELECT id, title, hits, reviewer, score, email FROM ".$prefix."_reviews WHERE UPPER(title) LIKE '$letter%' $querylang ORDER BY reviewer $order");
+            $result = $titanium_db->sql_query("SELECT id, title, hits, reviewer, score, email FROM ".$titanium_prefix."_reviews WHERE UPPER(title) LIKE '$letter%' $querylang ORDER BY reviewer $order");
         break;
 
         case "score":
-            $result = $db->sql_query("SELECT id, title, hits, reviewer, score, email FROM ".$prefix."_reviews WHERE UPPER(title) LIKE '$letter%' $querylang ORDER BY score $order");
+            $result = $titanium_db->sql_query("SELECT id, title, hits, reviewer, score, email FROM ".$titanium_prefix."_reviews WHERE UPPER(title) LIKE '$letter%' $querylang ORDER BY score $order");
         break;
 
         case "hits":
-            $result = $db->sql_query("SELECT id, title, hits, reviewer, score, email FROM ".$prefix."_reviews WHERE UPPER(title) LIKE '$letter%' $querylang ORDER BY hits $order");
+            $result = $titanium_db->sql_query("SELECT id, title, hits, reviewer, score, email FROM ".$titanium_prefix."_reviews WHERE UPPER(title) LIKE '$letter%' $querylang ORDER BY hits $order");
         break;
 
         default:
-            $result = $db->sql_query("SELECT id, title, hits, reviewer, score, email FROM ".$prefix."_reviews WHERE UPPER(title) LIKE '$letter%' $querylang ORDER BY title $order");
+            $result = $titanium_db->sql_query("SELECT id, title, hits, reviewer, score, email FROM ".$titanium_prefix."_reviews WHERE UPPER(title) LIKE '$letter%' $querylang ORDER BY title $order");
         break;
 
     }
-    $numresults = $db->sql_numrows($result);
+    $numresults = $titanium_db->sql_numrows($result);
     if ($numresults == 0) {
         echo "<i><strong>"._NOREVIEWS." \"$letter\"</strong></i><br /><br />";
     } elseif ($numresults > 0) {
         echo "<TABLE border=\"0\" width=\"100%\" cellpadding=\"2\" cellspacing=\"4\">
             <tr>
             <td width=\"50%\" bgcolor=\"$bgcolor4\">
-            <p align=\"left\"><a href=\"modules.php?name=$module_name&amp;rop=$letter&amp;field=title&amp;order=ASC\"><img src=\"images/up.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTASC."\"></a><strong> "._PRODUCTTITLE." </strong><a href=\"modules.php?name=$module_name&amp;rop=$letter&amp;field=title&amp;order=DESC\"><img src=\"images/down.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTDESC."\"></a>
+            <p align=\"left\"><a href=\"modules.php?name=$titanium_module_name&amp;rop=$letter&amp;field=title&amp;order=ASC\"><img src=\"images/up.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTASC."\"></a><strong> "._PRODUCTTITLE." </strong><a href=\"modules.php?name=$titanium_module_name&amp;rop=$letter&amp;field=title&amp;order=DESC\"><img src=\"images/down.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTDESC."\"></a>
             </td>
             <td width=\"18%\" bgcolor=\"$bgcolor4\">
-            <p align=\"center\"><a href=\"modules.php?name=$module_name&amp;rop=$letter&amp;field=reviewer&amp;order=ASC\"><img src=\"images/up.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTASC."\"></a><strong> "._REVIEWER." </strong><a href=\"modules.php?name=$module_name&amp;rop=$letter&amp;field=reviewer&amp;order=desc\"><img src=\"images/down.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTDESC."\"></a>
+            <p align=\"center\"><a href=\"modules.php?name=$titanium_module_name&amp;rop=$letter&amp;field=reviewer&amp;order=ASC\"><img src=\"images/up.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTASC."\"></a><strong> "._REVIEWER." </strong><a href=\"modules.php?name=$titanium_module_name&amp;rop=$letter&amp;field=reviewer&amp;order=desc\"><img src=\"images/down.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTDESC."\"></a>
             </td>
             <td width=\"18%\" bgcolor=\"$bgcolor4\">
-            <p align=\"center\"><a href=\"modules.php?name=$module_name&amp;rop=$letter&amp;field=score&amp;order=ASC\"><img src=\"images/up.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTASC."\"></a><strong> "._SCORE." </strong><a href=\"modules.php?name=$module_name&amp;rop=$letter&amp;field=score&amp;order=DESC\"><img src=\"images/down.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTDESC."\"></a>
+            <p align=\"center\"><a href=\"modules.php?name=$titanium_module_name&amp;rop=$letter&amp;field=score&amp;order=ASC\"><img src=\"images/up.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTASC."\"></a><strong> "._SCORE." </strong><a href=\"modules.php?name=$titanium_module_name&amp;rop=$letter&amp;field=score&amp;order=DESC\"><img src=\"images/down.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTDESC."\"></a>
             </td>
             <td width=\"14%\" bgcolor=\"$bgcolor4\">
-            <p align=\"center\"><a href=\"modules.php?name=$module_name&amp;rop=$letter&amp;field=hits&amp;order=ASC\"><img src=\"images/up.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTASC."\"></a><strong> "._HITS." </strong><a href=\"modules.php?name=$module_name&amp;rop=$letter&amp;field=hits&amp;order=DESC\"><img src=\"images/down.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTDESC."\"></a>
+            <p align=\"center\"><a href=\"modules.php?name=$titanium_module_name&amp;rop=$letter&amp;field=hits&amp;order=ASC\"><img src=\"images/up.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTASC."\"></a><strong> "._HITS." </strong><a href=\"modules.php?name=$titanium_module_name&amp;rop=$letter&amp;field=hits&amp;order=DESC\"><img src=\"images/down.gif\" border=\"0\" width=\"15\" height=\"9\" alt=\""._SORTDESC."\"></a>
             </td>
             </tr>";
-        while($myrow = $db->sql_fetchrow($result)) {
+        while($myrow = $titanium_db->sql_fetchrow($result)) {
             $title = stripslashes(check_html($myrow['title'], "nohtml"));
             $id = intval($myrow['id']);
             $reviewer = stripslashes($myrow['reviewer']);
@@ -493,14 +493,14 @@ function reviews($letter, $field, $order) {
 [ Other:    Review Background Color Fix       v1.0.0 ]
 ******************************************************/
             echo "<tr>
-                <td width=\"50%\" bgcolor=\"$bgcolor4\"><a href=\"modules.php?name=$module_name&amp;rop=showcontent&amp;id=$id\">$title</a></td>
+                <td width=\"50%\" bgcolor=\"$bgcolor4\"><a href=\"modules.php?name=$titanium_module_name&amp;rop=showcontent&amp;id=$id\">$title</a></td>
                 <td width=\"18%\" bgcolor=\"$bgcolor4\">";
             if (!empty($reviewer))
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.6 ]
  ******************************************************/
-            $color_reviewer = ($anonpost) ? $reviewer : UsernameColor($reviewer);
-            echo "<center>".$color_reviewer."</center>";
+            $phpbb2_color_reviewer = ($anonpost) ? $reviewer : UsernameColor($reviewer);
+            echo "<center>".$phpbb2_color_reviewer."</center>";
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.6 ]
  ******************************************************/
@@ -512,20 +512,20 @@ function reviews($letter, $field, $order) {
             echo "</center></td><td width=\"14%\" bgcolor=\"$bgcolor4\"><center>$hits</center></td>
               </tr>";
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         echo "</TABLE>";
         echo "<br />$numresults "._TOTALREVIEWS."<br /><br />";
     }
-    echo "[ <a href=\"modules.php?name=$module_name\">"._RETURN2MAIN."</a> ]";
+    echo "[ <a href=\"modules.php?name=$titanium_module_name\">"._RETURN2MAIN."</a> ]";
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 }
 
 function postcomment($id, $title) {
-    global $user, $cookie, $AllowableHTML, $anonymous, $module_name, $anonpost;
+    global $titanium_user, $cookie, $AllowableHTML, $anonymous, $titanium_module_name, $anonpost;
 
     //Prevent Anonymous Comments
-    if(!is_user($user) && !$anonpost){
+    if(!is_user($titanium_user) && !$anonpost){
         Header("Location: modules.php?name=Your_Account&op=login&redirect=Reviews");
         die();
     }
@@ -535,7 +535,7 @@ function postcomment($id, $title) {
     OpenTable();
     //End Prevent Anonymous Comments
     echo "<center><span class=\"option\"><strong>"._REVIEWCOMMENT." $title</strong><br /><br /></span></center>"
-    ."<form action=modules.php?name=$module_name method=post>";
+    ."<form action=modules.php?name=$titanium_module_name method=post>";
     if (!is_user()) {
         echo "<strong>"._YOURNICK."</strong> $anonymous [ "._RCREATEACCOUNT." ]<br /><br />";
         $uname = $anonymous;
@@ -577,13 +577,13 @@ function postcomment($id, $title) {
 }
 
 function savecomment($xanonpost, $uname, $id, $score, $comments) {
-    global $anonymous, $user, $cookie, $prefix, $db, $module_name, $anonpost;
+    global $anonymous, $titanium_user, $cookie, $titanium_prefix, $titanium_db, $titanium_module_name, $anonpost;
 
     if(!isset($_POST) || empty($_POST)) {
-        header("location: modules.php?name=$module_name&rop=showcontent&id=$id");
+        header("location: modules.php?name=$titanium_module_name&rop=showcontent&id=$id");
         die();
     }
-    if(!is_user($user) && $cookie[1] != $uname && !$anonpost){
+    if(!is_user($titanium_user) && $cookie[1] != $uname && !$anonpost){
         Header("Location: modules.php?name=Your_Account&op=login&redirect=Reviews");
         die();
     }
@@ -601,24 +601,24 @@ function savecomment($xanonpost, $uname, $id, $score, $comments) {
         $uname = $anonymous;
     }
     if (!is_int(intval($id)) || !is_int(intval($score))){
-        header("location: modules.php?name=$module_name&rop=showcontent&;id=$id");
+        header("location: modules.php?name=$titanium_module_name&rop=showcontent&;id=$id");
         die();
     }
     $comments = Fix_Quotes(check_html($comments,'nohtml'));
     $id = intval($id);
     $score = intval($score);
     $name = Fix_Quotes(check_html($name));
-    $db->sql_query("INSERT INTO ".$prefix."_reviews_comments VALUES (NULL, '$id', '$uname', now(), '$comments', '$score')");
-    header("location: modules.php?name=$module_name&rop=showcontent&id=$id");
+    $titanium_db->sql_query("INSERT INTO ".$titanium_prefix."_reviews_comments VALUES (NULL, '$id', '$uname', now(), '$comments', '$score')");
+    header("location: modules.php?name=$titanium_module_name&rop=showcontent&id=$id");
     die();
 }
 
 function r_comments($id, $title) {
-    global $admin, $prefix, $db, $module_name, $anonymous, $anonpost;
+    global $admin, $titanium_prefix, $titanium_db, $titanium_module_name, $anonymous, $anonpost;
 
     $id = intval($id);
-    $result = $db->sql_query("SELECT cid, userid, date, comments, score FROM ".$prefix."_reviews_comments WHERE rid='$id' ORDER BY date DESC");
-    while ($row = $db->sql_fetchrow($result)) {
+    $result = $titanium_db->sql_query("SELECT cid, userid, date, comments, score FROM ".$titanium_prefix."_reviews_comments WHERE rid='$id' ORDER BY date DESC");
+    while ($row = $titanium_db->sql_fetchrow($result)) {
         $cid = intval($row['cid']);
         $uname = stripslashes($row['userid']);
         $date = $row['date'];
@@ -634,16 +634,16 @@ function r_comments($id, $title) {
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.6 ]
  ******************************************************/
-            $color_reviewer = ($anonpost) ? $reviewer : UsernameColor($uname);
-            echo _POSTEDBY." <a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$uname\">".$color_reviewer."</a> "._ON." $date<br />";
+            $phpbb2_color_reviewer = ($anonpost) ? $reviewer : UsernameColor($uname);
+            echo _POSTEDBY." <a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$uname\">".$phpbb2_color_reviewer."</a> "._ON." $date<br />";
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.6 ]
  ******************************************************/
         }
         echo _MYSCORE." ";
         display_score($score);
-        if (is_mod_admin($module_name)) {
-            echo "<br /><strong>"._ADMIN."</strong> [ <a href=\"modules.php?name=$module_name&amp;rop=del_comment&amp;cid=$cid&amp;id=$id\">"._DELETE."</a> ]</span><hr noshade size=1><br /><br />";
+        if (is_mod_admin($titanium_module_name)) {
+            echo "<br /><strong>"._ADMIN."</strong> [ <a href=\"modules.php?name=$titanium_module_name&amp;rop=del_comment&amp;cid=$cid&amp;id=$id\">"._DELETE."</a> ]</span><hr noshade size=1><br /><br />";
         } else {
             echo "</span><hr noshade size=1><br /><br />";
         }
@@ -657,24 +657,24 @@ function r_comments($id, $title) {
 }
 
 function showcontent($id, $page) {
-    global $admin, $uimages, $prefix, $db, $module_name, $anonpost, $board_config;
+    global $admin, $uimages, $titanium_prefix, $titanium_db, $titanium_module_name, $anonpost, $phpbb2_board_config;
 
     $id = intval($id);
     $page = intval($page);
     include_once(NUKE_BASE_DIR.'header.php');
     OpenTable();
     if (($page == 1) || (empty($page))) {
-        $db->sql_query("UPDATE ".$prefix."_reviews SET hits=hits+1 WHERE id='$id'");
+        $titanium_db->sql_query("UPDATE ".$titanium_prefix."_reviews SET hits=hits+1 WHERE id='$id'");
     }
-    $result = $db->sql_query("SELECT * FROM ".$prefix."_reviews WHERE id='$id'");
-    $myrow = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
+    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_reviews WHERE id='$id'");
+    $myrow = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
     $id = intval($myrow['id']);
     $date = $myrow['date'];
     $year = substr($date,0,4);
     $month = substr($date,5,2);
     $day = substr($date,8,2);
-		$fdate = EvoDate($board_config['default_dateformat'], mktime (0,0,0,$month,$day,$year), $board_config['board_timezone']);
+		$fdate = EvoDate($phpbb2_board_config['default_dateformat'], mktime (0,0,0,$month,$day,$year), $phpbb2_board_config['board_timezone']);
     $title = $myrow['title'];
     $title = Fix_Quotes(check_html($title, nohtml));
 /*****[BEGIN]******************************************
@@ -706,15 +706,15 @@ function showcontent($id, $page) {
         echo "<img src=\"images/reviews/$cover\" align=right border=1 vspace=2 alt=\"\">";
     echo "$contentpages[$arrayelement]
     </blockquote><p>";
-    if (is_mod_admin($module_name))
-        echo "<strong>"._ADMIN."</strong> [ <a href=\"modules.php?name=$module_name&amp;rop=mod_review&amp;id=$id\">"._EDIT."</a> | <a href=modules.php?name=$module_name&amp;rop=del_review&amp;id_del=$id>"._DELETE."</a> ]<br />";
+    if (is_mod_admin($titanium_module_name))
+        echo "<strong>"._ADMIN."</strong> [ <a href=\"modules.php?name=$titanium_module_name&amp;rop=mod_review&amp;id=$id\">"._EDIT."</a> | <a href=modules.php?name=$titanium_module_name&amp;rop=del_review&amp;id_del=$id>"._DELETE."</a> ]<br />";
     echo "<strong>"._ADDED."</strong> $fdate<br />";
     if (!empty($reviewer))
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.6 ]
  ******************************************************/
-        $color_reviewer = ($anonpost) ? $reviewer : UsernameColor($reviewer);
-        echo "<strong>"._REVIEWER."</strong> <a href=mailto:$email>".$color_reviewer."</a><br />";
+        $phpbb2_color_reviewer = ($anonpost) ? $reviewer : UsernameColor($reviewer);
+        echo "<strong>"._REVIEWER."</strong> <a href=mailto:$email>".$phpbb2_color_reviewer."</a><br />";
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.6 ]
  ******************************************************/
@@ -737,18 +737,18 @@ function showcontent($id, $page) {
     if ($page != 1) {
         $next_page .= "<img src=\"images/blackpixel.gif\" width=\"10\" height=\"2\" border=\"0\" alt=\"\"> &nbsp;&nbsp; ";
     }
-    $next_page .= "<a href=\"modules.php?name=$module_name&amp;rop=showcontent&amp;id=$id&amp;page=$next_pagenumber\">"._NEXT." ($next_pagenumber/$pageno)</a> <a href=\"modules.php?name=$module_name&amp;rop=showcontent&amp;id=$id&amp;page=$next_pagenumber\"><img src=\"images/right.gif\" border=\"0\" alt=\""._NEXT."\"></a>";
+    $next_page .= "<a href=\"modules.php?name=$titanium_module_name&amp;rop=showcontent&amp;id=$id&amp;page=$next_pagenumber\">"._NEXT." ($next_pagenumber/$pageno)</a> <a href=\"modules.php?name=$titanium_module_name&amp;rop=showcontent&amp;id=$id&amp;page=$next_pagenumber\"><img src=\"images/right.gif\" border=\"0\" alt=\""._NEXT."\"></a>";
     }
     if($page <= 1) {
         $previous_page = '';
     } else {
         $previous_pagenumber = $page - 1;
-        $previous_page = "<a href=\"modules.php?name=$module_name&amp;rop=showcontent&amp;id=$id&amp;page=$previous_pagenumber\"><img src=\"images/left.gif\" border=\"0\" alt=\""._PREVIOUS."\"></a> <a href=\"modules.php?name=$module_name&amp;rop=showcontent&amp;id=$id&amp;page=$previous_pagenumber\">"._PREVIOUS." ($previous_pagenumber/$pageno)</a>";
+        $previous_page = "<a href=\"modules.php?name=$titanium_module_name&amp;rop=showcontent&amp;id=$id&amp;page=$previous_pagenumber\"><img src=\"images/left.gif\" border=\"0\" alt=\""._PREVIOUS."\"></a> <a href=\"modules.php?name=$titanium_module_name&amp;rop=showcontent&amp;id=$id&amp;page=$previous_pagenumber\">"._PREVIOUS." ($previous_pagenumber/$pageno)</a>";
     }
     echo "<center>"
     ."$previous_page &nbsp;&nbsp; $next_page<br /><br />"
-    ."[ <a href=\"modules.php?name=$module_name\">"._RBACK."</a> | "
-    ."<a href=\"modules.php?name=$module_name&amp;rop=postcomment&amp;id=$id&amp;title=$title\">"._REPLYMAIN."</a> ]";
+    ."[ <a href=\"modules.php?name=$titanium_module_name\">"._RBACK."</a> | "
+    ."<a href=\"modules.php?name=$titanium_module_name&amp;rop=postcomment&amp;id=$id&amp;title=$title\">"._REPLYMAIN."</a> ]";
     CloseTable();
     if (($page == 1) OR (empty($page))) {
         echo "<br />";
@@ -758,17 +758,17 @@ function showcontent($id, $page) {
 }
 
 function mod_review($id) {
-    global $admin, $prefix, $db, $module_name, $rlanguage;
+    global $admin, $titanium_prefix, $titanium_db, $titanium_module_name, $rlanguage;
 
     $id = intval($id);
     include_once(NUKE_BASE_DIR.'header.php');
     OpenTable();
-    if (($id == 0) || (!is_mod_admin($module_name)))
+    if (($id == 0) || (!is_mod_admin($titanium_module_name)))
         echo "This function must be passed argument id, or you are not admin.";
-    else if (($id != 0) && (is_mod_admin($module_name)))
+    else if (($id != 0) && (is_mod_admin($titanium_module_name)))
     {
-        $result = $db->sql_query("SELECT * FROM ".$prefix."_reviews WHERE id = '$id'");
-        while ($myrow = $db->sql_fetchrow($result)) {
+        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_reviews WHERE id = '$id'");
+        while ($myrow = $titanium_db->sql_fetchrow($result)) {
             $id = intval($myrow['id']);
             $date = $myrow['date'];
             $title = $myrow['title'];
@@ -783,12 +783,12 @@ function mod_review($id) {
             $score = intval($myrow['score']);
             $rlanguage = $myrow['rlanguage'];
         }
-        $db->sql_freeresult($result);
+        $titanium_db->sql_freeresult($result);
         echo "<center><strong>"._REVIEWMOD."</strong></center><br /><br />";
 /*****[BEGIN]******************************************
  [ Mod:     Reviews BBCodes                    v1.0.0 ]
  ******************************************************/
-        echo "<form name=\"postreviews\" method=\"post\" action=\"modules.php?name=$module_name&amp;rop=preview_review\"><input type=\"hidden\" name=\"id\" value=\"$id\">";
+        echo "<form name=\"postreviews\" method=\"post\" action=\"modules.php?name=$titanium_module_name&amp;rop=preview_review\"><input type=\"hidden\" name=\"id\" value=\"$id\">";
         echo "<strong>"._RTITLE."</strong><br />"
         ."<input type=\"text\" name=\"title\" size=\"50\" maxlength=\"150\" value=\"$title\"><br /><br />"
         ."<strong>"._RDATE."</strong><br />"
@@ -796,11 +796,11 @@ function mod_review($id) {
     if ($multilingual == 1) {
         echo "<br /><strong>"._LANGUAGE.": </strong>"
             ."<select name=\"rlanguage\">";
-        $languages = lang_list();
+        $titanium_languages = lang_list();
         echo '<option value=""'.(($rlanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
-            if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($rlanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+        for ($i=0, $j = count($titanium_languages); $i < $j; $i++) {
+            if ($titanium_languages[$i] != '') {
+                echo '<option value="'.$titanium_languages[$i].'"'.(($rlanguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
             }
         }
         echo '</select><br /><br />';
@@ -840,25 +840,25 @@ function mod_review($id) {
 }
 
 function del_review($id_del) {
-    global $admin, $prefix, $db, $module_name;
+    global $admin, $titanium_prefix, $titanium_db, $titanium_module_name;
 
     $id_del = intval($id_del);
-    if (is_mod_admin($module_name)) {
-        $db->sql_query("DELETE FROM ".$prefix."_reviews WHERE id = '$id_del'");
-    $db->sql_query("DELETE FROM ".$prefix."_reviews_comments WHERE rid='$id_del'");
-    redirect("modules.php?name=$module_name");
+    if (is_mod_admin($titanium_module_name)) {
+        $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_reviews WHERE id = '$id_del'");
+    $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_reviews_comments WHERE rid='$id_del'");
+    redirect_titanium("modules.php?name=$titanium_module_name");
     } else {
         echo "ACCESS DENIED";
     }
 }
 
 function del_comment($cid, $id) {
-    global $admin, $prefix, $db, $module_name;
+    global $admin, $titanium_prefix, $titanium_db, $titanium_module_name;
 
     $cid = intval($cid);
-    if (is_mod_admin($module_name)) {
-        $db->sql_query("DELETE FROM ".$prefix."_reviews_comments WHERE cid='$cid'");
-        redirect("modules.php?name=$module_name&rop=showcontent&id=$id");
+    if (is_mod_admin($titanium_module_name)) {
+        $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_reviews_comments WHERE cid='$cid'");
+        redirect_titanium("modules.php?name=$titanium_module_name&rop=showcontent&id=$id");
     } else {
         echo "ACCESS DENIED";
     }

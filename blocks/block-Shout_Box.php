@@ -28,7 +28,7 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $prefix, $ShoutSubmit, $ShoutComment, $db, $user, $cookie, $shoutuid, $top_content, $mid_content, $bottom_content, $ShoutMarqueewidth, $ShoutMarqueeheight, $currentlang;
+global $titanium_prefix, $ShoutSubmit, $ShoutComment, $titanium_db, $titanium_user, $cookie, $shoutuid, $top_content, $mid_content, $bottom_content, $ShoutMarqueewidth, $ShoutMarqueeheight, $currentlang;
 
 switch($ShoutSubmit) {
     default:

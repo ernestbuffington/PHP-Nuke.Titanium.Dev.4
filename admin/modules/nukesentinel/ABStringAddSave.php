@@ -16,7 +16,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 if(!get_magic_quotes_runtime()) { $string = addslashes($string); }
-$testnum1 = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_strings` WHERE `string`='$string'"));
+$testnum1 = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_strings` WHERE `string`='$string'"));
 if($testnum1 > 0) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
@@ -48,14 +48,14 @@ if($testnum1 > 0) {
   CloseTable();
   include_once(NUKE_BASE_DIR.'footer.php');
 } else {
-  $db->sql_query("INSERT INTO `".$prefix."_nsnst_strings` (`string`) VALUES ('$string')");
-  $db->sql_query("ALTER TABLE `".$prefix."_nsnst_strings` ORDER BY `string`");
-  $db->sql_query("OPTIMIZE TABLE `".$prefix."_nsnst_strings`");
+  $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_nsnst_strings` (`string`) VALUES ('$string')");
+  $titanium_db->sql_query("ALTER TABLE `".$titanium_prefix."_nsnst_strings` ORDER BY `string`");
+  $titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_strings`");
   $list_string = $ab_config['list_string']."\r\n".$string;
   $list_string = explode("\r\n", $list_string);
   rsort($list_string);
-  $endlist = count($list_string)-1;
-  if(empty($list_string[$endlist])) { array_pop($list_string); }
+  $phpbb2_endlist = count($list_string)-1;
+  if(empty($list_string[$phpbb2_endlist])) { array_pop($list_string); }
   sort($list_string);
   $list_string = implode("\r\n", $list_string);
   absave_config("list_string", $list_string);

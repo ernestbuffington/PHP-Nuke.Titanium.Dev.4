@@ -15,8 +15,8 @@ if (!defined('NUKESENTINEL_ADMIN')) {
    die ('You can\'t access this file directly...');
 }
 
-$result = $db->sql_query("DELETE FROM `".$prefix."_nsnst_protected_ranges`");
-$db->sql_query("OPTIMIZE TABLE `".$prefix."_nsnst_protected_ranges`");
+$result = $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_protected_ranges`");
+$titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_protected_ranges`");
 header("Location: ".$admin_file.".php?op=ABProtectedMenu");
 
 ?>

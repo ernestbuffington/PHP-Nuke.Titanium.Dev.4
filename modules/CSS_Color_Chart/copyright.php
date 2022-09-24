@@ -11,7 +11,7 @@
 define('CP_INCLUDE_DIR', dirname(dirname(dirname(__FILE__))));
 require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 
-$module_name = basename(dirname(__FILE__));
+$titanium_module_name = basename(dirname(__FILE__));
 $mod_name = "CSS Color Chart";
 $author_email = "";
 $author_homepage = "";
@@ -19,9 +19,9 @@ $author_name = "";
 $license = "";
 $based_on = "Scratch";
 $download_location = "";
-$module_version = "v5.4";
+$titanium_module_version = "v5.4";
 $release_date = "02/09/2012";
-$module_description = "CSS Color Chart Module";
+$titanium_module_description = "CSS Color Chart Module";
 $mod_cost = "";
-show_copyright($author_name, $author_email, $author_homepage, $based_on, $license, $download_location, $module_version, $module_description, $release_date, $mod_cost);
+show_copyright($author_name, $author_email, $author_homepage, $based_on, $license, $download_location, $titanium_module_version, $titanium_module_description, $release_date, $mod_cost);
 ?>

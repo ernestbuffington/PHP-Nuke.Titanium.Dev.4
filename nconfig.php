@@ -16,13 +16,17 @@
 /************************************************************************/
 if(realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) exit('Access Denied');
 
-global $dbhost2, $dbname2, $dbuname2, $db2, $network_prefix; 
-//define('network', 'enabled');
+global $portaladmin, $titanium_dbhost2, $titanium_dbname2, $titanium_dbuname2, $titanium_db2, $network_prefix;
+
+# Your ADMIN user id number goes here!
+$portaladmin = "2";
+ 
+define('network', 'enabled');
 if ( defined('network') ):
-$dbhost2 = 'localhost';
-$dbname2 = 'hub_db';
-$dbuname2 = 'hub_user';
-$dbpass2 = '';
+$titanium_dbhost2 = 'localhost';
+$titanium_dbname2 = 'hub_db';
+$titanium_dbuname2 = 'hub_user';
+$titanium_dbpass2 = '';
 $network_prefix = 'network';
 endif;
 ?>

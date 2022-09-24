@@ -37,10 +37,10 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-    if (!empty($username) AND empty($user_email)) {
-        $sql = "SELECT username, user_email, user_password, user_level FROM ".$user_prefix."_users WHERE username='$username' LIMIT 1";
-    } elseif (empty($username) AND !empty($user_email)) {
-        $sql = "SELECT username, user_email, user_password, user_level FROM ".$user_prefix."_users WHERE user_email='$user_email' LIMIT 1";
+    if (!empty($titanium_username) AND empty($titanium_user_email)) {
+        $sql = "SELECT username, user_email, user_password, user_level FROM ".$titanium_user_prefix."_users WHERE username='$titanium_username' LIMIT 1";
+    } elseif (empty($titanium_username) AND !empty($titanium_user_email)) {
+        $sql = "SELECT username, user_email, user_password, user_level FROM ".$titanium_user_prefix."_users WHERE user_email='$titanium_user_email' LIMIT 1";
     } else {
         include_once(NUKE_BASE_DIR.'header.php');
 // removed by menelaos dot hetnet dot nl
@@ -52,8 +52,8 @@ if (!defined('CNBYA')) {
         include_once(NUKE_BASE_DIR.'footer.php');
         exit;
     }
-    $result = $db->sql_query($sql);
-    if($db->sql_numrows($result) == 0) {
+    $result = $titanium_db->sql_query($sql);
+    if($titanium_db->sql_numrows($result) == 0) {
         include_once(NUKE_BASE_DIR.'header.php');
 
 // removed by menelaos dot hetnet dot nl
@@ -73,35 +73,35 @@ if (!defined('CNBYA')) {
 /*****[END]********************************************
  [ Base:    NukeSentinel                      v2.5.00 ]
  ******************************************************/
-            $row = $db->sql_fetchrow($result);
-            $user_name = $row['username'];
-            $user_email = $row['user_email'];
+            $row = $titanium_db->sql_fetchrow($result);
+            $titanium_user_name = $row['username'];
+            $titanium_user_email = $row['user_email'];
             $user_password = $row['user_password'];
-            $user_level = $row['user_level'];
-            if ($user_level > 0) 
+            $titanium_user_level = $row['user_level'];
+            if ($titanium_user_level > 0) 
             {
                 $areyou = substr($user_password, 0, 10);
                 if ($areyou == $code) 
                 {
                     $newpass = YA_MakePass();
-                    $language_define_for_user_pass_subject = "User Password for for %s";
-                    $language_define_for_user_pass = "The user account {USERNAME} at {SITENAME} has this email associated with it.<br /><br />A Web user from {IP_ADDRESS} has just requested that password be sent.<br /><br />Your new Password is {NEW_PASSWORD}<br /><br />You can change it after you login at<br />{MODULE_URL}<br /><br />If you didn't ask for this, don't worry. You are seeing this message, not 'them'. If this was an error just login with your new password.<br /><br />{EMAIL_SIG}";
+                    $titanium_language_define_for_user_pass_subject = "User Password for for %s";
+                    $titanium_language_define_for_user_pass = "The user account {USERNAME} at {SITENAME} has this email associated with it.<br /><br />A Web user from {IP_ADDRESS} has just requested that password be sent.<br /><br />Your new Password is {NEW_PASSWORD}<br /><br />You can change it after you login at<br />{MODULE_URL}<br /><br />If you didn't ask for this, don't worry. You are seeing this message, not 'them'. If this was an error just login with your new password.<br /><br />{EMAIL_SIG}";
 
                     $email_data = array(
                         'sitename'      => $sitename,
-                        'username'      => $user_name,
+                        'username'      => $titanium_user_name,
                         'ip_address'    => $identify->get_ip(),
                         'password'      => $newpass,
 
-                        'email'         => $user_email,
-                        'subject'       => sprintf($language_define_for_user_pass_subject, ((!empty($username)) ? $user_name : $user_email)),
+                        'email'         => $titanium_user_email,
+                        'subject'       => sprintf($titanium_language_define_for_user_pass_subject, ((!empty($titanium_username)) ? $titanium_user_name : $titanium_user_email)),
                         'reply_to'      => $adminmail,
                         'from'          => $adminmail,
-                        'module_url'    => $nukeurl.'/modules.php?name='.$module_name,
-                        'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''
+                        'module_url'    => $nukeurl.'/modules.php?name='.$titanium_module_name,
+                        'signature'     => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : ''
                     );
 
-                    $content = str_replace( '{USERNAME}', $email_data['username'], $language_define_for_user_pass );
+                    $content = str_replace( '{USERNAME}', $email_data['username'], $titanium_language_define_for_user_pass );
                     $content = str_replace( '{SITENAME}', $email_data['sitename'], $content );                    
                     $content = str_replace( '{IP_ADDRESS}', $email_data['ip_address'], $content );
                     $content = str_replace( '{NEW_PASSWORD}', $email_data['password'], $content );
@@ -122,38 +122,38 @@ if (!defined('CNBYA')) {
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-                    if (!empty($username)) {
-                        $query = "UPDATE ".$user_prefix."_users SET user_password='$cryptpass' WHERE username='$username'";
-                    } else if (!empty($user_email)) {
-                        $query = "UPDATE ".$user_prefix."_users SET user_password='$cryptpass' WHERE user_email='$user_email'";
+                    if (!empty($titanium_username)) {
+                        $query = "UPDATE ".$titanium_user_prefix."_users SET user_password='$cryptpass' WHERE username='$titanium_username'";
+                    } else if (!empty($titanium_user_email)) {
+                        $query = "UPDATE ".$titanium_user_prefix."_users SET user_password='$cryptpass' WHERE user_email='$titanium_user_email'";
                     }
                     include_once(NUKE_BASE_DIR.'header.php');
                     OpenTable();
-                    if (!$db->sql_query($query)) { echo "<center>"._UPDATEFAILED."</center><br />"; }
+                    if (!$titanium_db->sql_query($query)) { echo "<center>"._UPDATEFAILED."</center><br />"; }
                     echo "<center><strong>"._PASSWORD4." ";
-                    if (!empty($username)) { echo "'$user_name'"; } else if (!empty($user_email)) { echo "'$user_email'"; }
+                    if (!empty($titanium_username)) { echo "'$titanium_user_name'"; } else if (!empty($titanium_user_email)) { echo "'$titanium_user_email'"; }
                     echo " "._MAILED."</strong><br /><br />"._GOBACK."</center>";
                     CloseTable();
                     include_once(NUKE_BASE_DIR.'footer.php');
                 } else {
-                    $language_define_for_pass_lost_subject = "Confirmation Code for %s";
-                    $language_define_for_pass_lost = "The user account {USERNAME} at {SITENAME} has this email associated with it.<br /><br />A Web user from {IP_ADDRESS} has just requested a Confirmation Code to change the password.<br /><br />Your Confirmation Code is: {CODE}<br /><br />With this code you can now assign a new password at<br />{PASSWORD_LOST_URL}<br /><br />If you didn't ask for this, don't worry. Just delete this Email.<br /><br />{EMAIL_SIG}";
+                    $titanium_language_define_for_pass_lost_subject = "Confirmation Code for %s";
+                    $titanium_language_define_for_pass_lost = "The user account {USERNAME} at {SITENAME} has this email associated with it.<br /><br />A Web user from {IP_ADDRESS} has just requested a Confirmation Code to change the password.<br /><br />Your Confirmation Code is: {CODE}<br /><br />With this code you can now assign a new password at<br />{PASSWORD_LOST_URL}<br /><br />If you didn't ask for this, don't worry. Just delete this Email.<br /><br />{EMAIL_SIG}";
 
                     $email_data = array(
                         'sitename'      => $sitename,
-                        'username'      => $user_name,
+                        'username'      => $titanium_user_name,
                         'ip_address'    => $identify->get_ip(),
                         'code'          => substr($user_password, 0, 10),
 
-                        'email'         => $user_email,
-                        'subject'       => sprintf($language_define_for_pass_lost_subject, ((!empty($username)) ? $user_name : $user_email)),
+                        'email'         => $titanium_user_email,
+                        'subject'       => sprintf($titanium_language_define_for_pass_lost_subject, ((!empty($titanium_username)) ? $titanium_user_name : $titanium_user_email)),
                         'reply_to'      => $adminmail,
                         'from'          => $adminmail,
-                        'password_url'  => $nukeurl."/modules.php?name=$module_name&op=pass_lost",
-                        'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''
+                        'password_url'  => $nukeurl."/modules.php?name=$titanium_module_name&op=pass_lost",
+                        'signature'     => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : ''
                     );
 
-                    $content = str_replace( '{USERNAME}', $email_data['username'], $language_define_for_pass_lost );
+                    $content = str_replace( '{USERNAME}', $email_data['username'], $titanium_language_define_for_pass_lost );
                     $content = str_replace( '{SITENAME}', $email_data['sitename'], $content );                    
                     $content = str_replace( '{IP_ADDRESS}', $email_data['ip_address'], $content );
                     $content = str_replace( '{CODE}', $email_data['code'], $content );
@@ -170,19 +170,19 @@ if (!defined('CNBYA')) {
                     include_once(NUKE_BASE_DIR.'header.php');
                     OpenTable();
                     echo "<center><strong>"._CODEFOR." ";
-                    if (!empty($username)) { echo "'$user_name'"; } else if (!empty($user_email)) { echo "'$user_email'"; }
+                    if (!empty($titanium_username)) { echo "'$titanium_user_name'"; } else if (!empty($titanium_user_email)) { echo "'$titanium_user_email'"; }
                     echo " "._MAILED."</strong><br /><br />"._GOBACK."</center>";
                     CloseTable();
                     include_once(NUKE_BASE_DIR.'footer.php');
                 }
-            } elseif ($user_level == 0) {
+            } elseif ($titanium_user_level == 0) {
                 include_once(NUKE_BASE_DIR.'header.php');
                 title(_USERREGLOGIN);
                 OpenTable();
                 echo "<center><span class='title'>"._ACCSUSPENDED."</span></center>\n";
                 CloseTable();
                 include_once(NUKE_BASE_DIR.'footer.php');
-            } elseif ($user_level == -1) {
+            } elseif ($titanium_user_level == -1) {
                 include_once(NUKE_BASE_DIR.'header.php');
                 title(_USERREGLOGIN);
                 OpenTable();

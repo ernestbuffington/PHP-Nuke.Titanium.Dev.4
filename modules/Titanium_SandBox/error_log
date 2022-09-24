@@ -1,0 +1,46 @@
+[06-Sep-2022 02:11:31 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function OpenTableCode() in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php:15
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php on line 15
+[06-Sep-2022 02:13:06 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function OpenTableCode() in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php on line 18
+[06-Sep-2022 02:13:08 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function OpenTableCode() in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php on line 18
+[06-Sep-2022 02:22:40 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function OpenTableCode() in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php on line 18
+[06-Sep-2022 02:23:13 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function OpenTableCode() in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php on line 18
+[06-Sep-2022 02:45:39 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function OpenTableCode() in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php on line 18
+[06-Sep-2022 02:51:16 UTC] PHP Warning:  require_once(mainfile.php): failed to open stream: No such file or directory in /home/dev4/public_html/modules/Titanium_SandBox/index.php on line 25
+[06-Sep-2022 02:51:16 UTC] PHP Fatal error:  require_once(): Failed opening required 'mainfile.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/dev4/public_html/modules/Titanium_SandBox/index.php on line 25
+[06-Sep-2022 03:00:23 UTC] PHP Warning:  require_once(mainfile.php): failed to open stream: No such file or directory in /home/dev4/public_html/modules/Titanium_SandBox/index.php on line 25
+[06-Sep-2022 03:00:23 UTC] PHP Fatal error:  require_once(): Failed opening required 'mainfile.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/dev4/public_html/modules/Titanium_SandBox/index.php on line 25
+[06-Sep-2022 03:00:53 UTC] PHP Warning:  require_once(mainfile.php): failed to open stream: No such file or directory in /home/dev4/public_html/modules/Titanium_SandBox/index.php on line 25
+[06-Sep-2022 03:00:53 UTC] PHP Fatal error:  require_once(): Failed opening required 'mainfile.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/dev4/public_html/modules/Titanium_SandBox/index.php on line 25
+[06-Sep-2022 03:03:10 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function OpenTableCode() in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php on line 18
+[06-Sep-2022 04:56:17 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function OpenTableCode() in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php:22
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php on line 22
+[06-Sep-2022 05:07:14 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function OpenTableCode() in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php:22
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php on line 22
+[06-Sep-2022 05:07:53 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function OpenTableCode() in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php:22
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/modules/Titanium_SandBox/x-bootstrap_4_modal.php on line 22

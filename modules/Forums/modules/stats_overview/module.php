@@ -13,9 +13,9 @@
 * 
 ***************************************************************************/ 
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 // 
@@ -25,8 +25,8 @@ $core->start_module(true);
 $core->set_content('values');
  
 // configuration of module: number of columns to use for displaying the links, may be 1..n
-$user_variables = $core->get_user_defines();
-$use_num_columns = intval($user_variables['num_columns']);
+$titanium_user_variables = $core->get_user_defines();
+$use_num_columns = intval($titanium_user_variables['num_columns']);
 
 $core->set_view('columns', 1);
 $core->set_view('num_blocks', $use_num_columns);
@@ -36,7 +36,7 @@ $core->define_view('set_columns', array(
     'stats' => '')
 );
 
-$core->set_header($lang['module_name']);
+$core->set_header($titanium_lang['module_name']);
 
 //
 // Use internal Functions to get an array of installed and activated Modules (and their Names)
@@ -47,18 +47,18 @@ $link_array = array();
 
 for ($i = 0; $i < count($current_modules); $i++)
 {
-    $module_id = intval($current_modules[$i]['module_id']);
-    $module_short_name = trim($current_modules[$i]['short_name']);
+    $titanium_module_id = intval($current_modules[$i]['module_id']);
+    $titanium_module_short_name = trim($current_modules[$i]['short_name']);
 
-    if ($module_short_name != $core->current_module_name)
+    if ($titanium_module_short_name != $core->current_module_name)
     {
-        eval('$current_module_name = $' . $module_short_name . '[\'module_name\'];');
+        eval('$current_module_name = $' . $titanium_module_short_name . '[\'module_name\'];');
         if (empty($current_module_name))
         {
-            $current_module_name = $module_short_name;
+            $current_module_name = $titanium_module_short_name;
         }
 
-        $link_array[] = '<a href="#' . $module_id . '">' . $current_module_name . '</a>';
+        $link_array[] = '<a href="#' . $titanium_module_id . '">' . $current_module_name . '</a>';
     }
 }
 

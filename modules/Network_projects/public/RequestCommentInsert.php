@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $db2;
+global $titanium_db2;
 if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 $request_id = intval($request_id);
 $request = pjrequest_info($request_id);
@@ -24,18 +24,18 @@ if($project['allowrequests'] > 0) {
   if(empty($stop)) {
     $commenter_name = htmlentities($commenter_name, ENT_QUOTES);
     $comment_description = htmlentities($comment_description, ENT_QUOTES);
-    $db2->sql_query("INSERT INTO `".$network_prefix."_requests_comments` VALUES (NULL, '$request_id', '$commenter_name', '$commenter_email', '$commenter_ip', '$comment_description', '$date')");
-    $db2->sql_query("UPDATE `".$network_prefix."_requests` SET `date_commented`='$date' WHERE `request_id`='$request_id'");
-    list($submitter_email) = $db2->sql_fetchrow($db2->sql_query("SELECT `submitter_email` FROM `".$network_prefix."_requests` WHERE `request_id`='$request_id'"));
+    $titanium_db2->sql_query("INSERT INTO `".$network_prefix."_requests_comments` VALUES (NULL, '$request_id', '$commenter_name', '$commenter_email', '$commenter_ip', '$comment_description', '$date')");
+    $titanium_db2->sql_query("UPDATE `".$network_prefix."_requests` SET `date_commented`='$date' WHERE `request_id`='$request_id'");
+    list($submitter_email) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `submitter_email` FROM `".$network_prefix."_requests` WHERE `request_id`='$request_id'"));
     $admin_email = $adminmail;
     $subject = _NETWORK_NEWREQUESTCOMMENTS;
-    $message = _NETWORK_NEWREQUESTCOMMENT.":\r\n$nukeurl/modules.php?name=$module_name&amp;op=Request&amp;request_id=$request_id";
+    $message = _NETWORK_NEWREQUESTCOMMENT.":\r\n$nukeurl/modules.php?name=$titanium_module_name&amp;op=Request&amp;request_id=$request_id";
     $from  = "From: $admin_email\r\n";
     $from .= "Reply-To: $admin_email\r\n";
     $from .= "Return-Path: $admin_email\r\n";
     if($pj_config['notify_request_admin'] == 1) { evo_mail($admin_email, $subject, $message, $from); }
     if($pj_config['notify_request_submitter'] == 1) { evo_mail($submitter_email, $subject, $message, $from); }
-    header("Location: modules.php?name=$module_name&op=Request&request_id=$request_id");
+    header("Location: modules.php?name=$titanium_module_name&op=Request&request_id=$request_id");
   } else {
     $pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']." ::: "._NETWORK_COMMENTADD." ::: ";
     include_once(NUKE_BASE_DIR.'header.php');
@@ -55,7 +55,7 @@ if($project['allowrequests'] > 0) {
     include_once(NUKE_BASE_DIR.'footer.php');
   }
 } else {
-  header("Location: modules.php?name=$module_name");
+  header("Location: modules.php?name=$titanium_module_name");
 }
 
 ?>

@@ -49,7 +49,7 @@ $msnl_sModuleNm	= "HTML_Newsletter";	//If you change the module directory, chang
 * Initialize and assign key module variables.
 ************************************************************************/
 
-global $db, $prefix;
+global $titanium_db, $titanium_prefix;
 
 @require_once( "./modules/$msnl_sModuleNm/functions.php" );
 @require_once( "./modules/$msnl_sModuleNm/config.php" );
@@ -65,9 +65,9 @@ $aid = substr( "$aid", 0, 25 );
 
 $msnl_iAuthUser	= 0;
 
-$sql 						= "SELECT `name`, `radminsuper` FROM `".$prefix."_authors` WHERE `aid`='$aid'";
+$sql 						= "SELECT `name`, `radminsuper` FROM `".$titanium_prefix."_authors` WHERE `aid`='$aid'";
 $result 				= msnl_fSQLCall( $sql );
-$row						= $db->sql_fetchrow( $result );
+$row						= $titanium_db->sql_fetchrow( $result );
 
 if ( $row['radminsuper'] == 1 ) {  //No need to go any further - we have a super admin
 
@@ -77,9 +77,9 @@ if ( $row['radminsuper'] == 1 ) {  //No need to go any further - we have a super
 
 	if ( defined( 'MSNL_PRE75_LOADED' ) ) { //Need to do this the "old" way
 
-		$sql 						= "SELECT `name`, `radminsuper`, `radminnewsletter` FROM `".$prefix."_authors` WHERE `aid`='$aid'";
+		$sql 						= "SELECT `name`, `radminsuper`, `radminnewsletter` FROM `".$titanium_prefix."_authors` WHERE `aid`='$aid'";
 		$result1 				= msnl_fSQLCall( $sql );
-		$row1						= $db->sql_fetchrow( $result1 );
+		$row1						= $titanium_db->sql_fetchrow( $result1 );
 
 		if ( $row1['radminsuper'] == 1 || $row1['radminnewsletter'] == 1 ) {
 		
@@ -89,9 +89,9 @@ if ( $row['radminsuper'] == 1 ) {  //No need to go any further - we have a super
 
 	} else { //Do it the 75 and greater method
 
-		$sql						= "SELECT `title`, `admins` FROM `".$prefix."_modules` WHERE `title`='$msnl_sModuleNm'";
+		$sql						= "SELECT `title`, `admins` FROM `".$titanium_prefix."_modules` WHERE `title`='$msnl_sModuleNm'";
 		$result1 				= msnl_fSQLCall( $sql );
-		$row1						= $db->sql_fetchrow( $result1 );
+		$row1						= $titanium_db->sql_fetchrow( $result1 );
 
 		$msnl_asAdmins	= explode( ",", $row1['admins'] );
 

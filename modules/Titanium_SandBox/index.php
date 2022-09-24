@@ -24,8 +24,8 @@ if (!defined('MODULE_FILE')) {
 $pagetitle = 'facebook SandBox v6.0';
 $title = 'facebook SandBox odule v6.0';
 require_once("mainfile.php");
-$module_name = basename(dirname(__FILE__));
-get_lang($module_name);
+$titanium_module_name = basename(dirname(__FILE__));
+get_lang($titanium_module_name);
 include("header.php");
 $index = 0;
 
@@ -39,7 +39,7 @@ $mode = ( isset($HTTP_POST_VARS['mode']) ) ? htmlspecialchars($HTTP_POST_VARS['m
 else
 $mode = '0';
 
-global $domain, $facebookappid, $module_name, $ThemeSel, $name; //these globals are almost always needed 
+global $domain, $facebookappid, $titanium_module_name, $ThemeSel, $name; //these globals are almost always needed 
 
 include (MODULES.'Titanium_SandBox/includes/functions.php'); //this must be loaded for facebook purposes
 #########################################################################
@@ -173,7 +173,7 @@ if (defined('DEV_ENVIRONMENT'))
         echo '<fieldset style="border-color: green; border-width: '.$fieldset_border_width.'; border-style: solid;">';
 
 		//echo '<div align="center"><h2>CURRENT SELECTED TEMPLATE<br /><font color="green"> modules<font color ="white">/</font>'
-		//.$module_name.'<font color ="white">/</font>'.$testfile.'</font></h2></div><br />'; 
+		//.$titanium_module_name.'<font color ="white">/</font>'.$testfile.'</font></h2></div><br />'; 
         include (MODULES.'Titanium_SandBox/'.$testfile);
 
         echo "<br />";
@@ -187,7 +187,7 @@ if (defined('DEV_ENVIRONMENT'))
 ######################################################################################################################################################################################
 ## 0 (x-clean_slate_template.php)
 echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
-echo  "This files can be found in the folder: <strong>$domain/modules/$module_name/x-clean_slate_template.php<strong></br>";
+echo  "This files can be found in the folder: <strong>$domain/modules/$titanium_module_name/x-clean_slate_template.php<strong></br>";
 echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=0"> [ CLEAN SLATE TEMPLATE ]</a> <font color="orange">Written by Ernest Allen Buffington</font> 9/15/2017</br>';
 echo "</fieldset><br />";
 ######################################################################################################################################################################################

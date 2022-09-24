@@ -31,9 +31,9 @@
        Smilies in Topic Titles Toggle           v1.0.0       09/10/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB'))
+if (!defined('IN_PHPBB2'))
 {
-    die('Hacking attempt');
+    die('ACCESS DENIED');
 }
 
 /*
@@ -42,13 +42,13 @@ if (!defined('IN_PHPBB'))
     This is the heart of the Statistics Mod, here are all root classes defined.
 */
 
-include($phpbb_root_path . 'stats_mod/content/bars.' . $phpEx);
-include($phpbb_root_path . 'stats_mod/content/statistical.' . $phpEx);
-include($phpbb_root_path . 'stats_mod/content/values.' . $phpEx);
+include($phpbb2_root_path . 'stats_mod/content/bars.' . $phpEx);
+include($phpbb2_root_path . 'stats_mod/content/statistical.' . $phpEx);
+include($phpbb2_root_path . 'stats_mod/content/values.' . $phpEx);
 
 // db cache
-include($phpbb_root_path . 'stats_mod/db_cache.' . $phpEx);
-include($phpbb_root_path . 'stats_mod/functions.' . $phpEx);
+include($phpbb2_root_path . 'stats_mod/db_cache.' . $phpEx);
+include($phpbb2_root_path . 'stats_mod/functions.' . $phpEx);
 
 /*****[BEGIN]******************************************
  [ Mod:     Smilies in Topic Titles            v1.0.0 ]
@@ -63,20 +63,20 @@ include_once('includes/bbcode.' .$phpEx);
 //
 class StatisticsCORE
 {
-    var $template_file = ''; // content template file
+    var $phpbb2_template_file = ''; // content template file
     var $return_limit = 10;
     var $global_array = array();
     var $use_db_cache = false;
     var $do_not_use_cache = false; // force to not use caches at all if set to true
-    var $module_reloaded = false;
-    var $module_variables = array();
+    var $titanium_module_reloaded = false;
+    var $titanium_module_variables = array();
     var $used_language = '';
 
     // Informations about the currently parsed module
     var $current_module_path = '';
     var $current_module_name = '';
     var $current_module_id = 0;
-    var $module_info = array(); // Additional Module Informations gathered within other positions through the process
+    var $titanium_module_info = array(); // Additional Module Informations gathered within other positions through the process
 
     // Data
     var $calculation_data = array();
@@ -115,13 +115,13 @@ class StatisticsCORE
  [ Mod:     Smilies in Topic Titles Toggle     v1.0.0 ]
  ******************************************************/
     function topic_smiles() {
-    global $board_config;
+    global $phpbb2_board_config;
         $i = 0;
         if(!isset($this->calculation_data) || !is_array($this->calculation_data)){
             return;
         }
         foreach ($this->calculation_data as $key) {
-            if (!empty($key["topic_title"]) && $board_config['smilies_in_titles']) {
+            if (!empty($key["topic_title"]) && $phpbb2_board_config['smilies_in_titles']) {
                 $this->calculation_data[$i]['topic_title'] = smilies_pass($key["topic_title"]);
             }
             $i++;
@@ -133,7 +133,7 @@ class StatisticsCORE
  ******************************************************/
 
     // Init Module
-    function start_module($db_cache_on = false)
+    function start_module($titanium_db_cache_on = false)
     {
         global $stats_template, $theme, $stat_db;
 
@@ -146,25 +146,25 @@ class StatisticsCORE
 
         $stat_db->begin_cached_query();
 
-        if ((!$db_cache_on) || ($this->do_not_use_cache))
+        if ((!$titanium_db_cache_on) || ($this->do_not_use_cache))
         {
             return;
         }
 
         // Now init our database cache. ;)
-        $cache = '';
+        $titanium_cache = '';
         $this->use_db_cache = true;
 
-        if (module_use_db_cache($this->current_module_id, $cache))
+        if (module_use_db_cache($this->current_module_id, $titanium_cache))
         {
-            $stat_db->begin_cached_query(true, $cache);
+            $stat_db->begin_cached_query(true, $titanium_cache);
         }
     }
 
     // Run Module
     function run_module()
     {
-        global $stats_template, $template, $stat_db, $board_config;
+        global $stats_template, $phpbb2_template, $stat_db, $phpbb2_board_config;
 
         if ($this->use_db_cache)
         {
@@ -175,8 +175,8 @@ class StatisticsCORE
 
         if ( ($this->module_info['last_update_time'] != 0) && ($this->module_info['next_update_time'] != 0) )
         {
-            $last_update_time = create_date($board_config['default_dateformat'], $this->module_info['last_update_time'], $board_config['board_timezone']);
-            $next_update_time = create_date($board_config['default_dateformat'], $this->module_info['next_update_time'], $board_config['board_timezone']);
+            $last_update_time = create_date($phpbb2_board_config['default_dateformat'], $this->module_info['last_update_time'], $phpbb2_board_config['board_timezone']);
+            $next_update_time = create_date($phpbb2_board_config['default_dateformat'], $this->module_info['next_update_time'], $phpbb2_board_config['board_timezone']);
         }
         else
         {
@@ -185,7 +185,7 @@ class StatisticsCORE
         }
 
         // Eat this template class. :)
-        $template->assign_block_vars('modules', array(
+        $phpbb2_template->assign_block_vars('modules', array(
             'CURRENT_MODULE' => $compiled_output,
             'CACHED' => ($stat_db->use_cache) ? 'true' : 'false',
             'RELOADED' => (!$stat_db->use_cache && $this->use_db_cache) ? 'true' : 'false',
@@ -197,7 +197,7 @@ class StatisticsCORE
 
         if ( ($this->module_info['last_update_time'] != 0) && ($this->module_info['next_update_time'] != 0) )
         {
-            $template->assign_block_vars('modules.switch_display_timestats', array());
+            $phpbb2_template->assign_block_vars('modules.switch_display_timestats', array());
         }
 
         $stats_template->destroy();
@@ -353,19 +353,19 @@ class StatisticsCORE
     // Those pre-defined variables are for special conditions and content related output
     function pre_defined($variable = '')
     {
-        global $lang;
+        global $titanium_lang;
 
         if ($variable == 'rank')
         {
-            return (array('__PRE_DEFINE_RANK__' => $lang['Rank']));
+            return (array('__PRE_DEFINE_RANK__' => $titanium_lang['Rank']));
         }
         else if ($variable == 'percent')
         {
-            return (array('__PRE_DEFINE_PERCENT__' => $lang['Percent']));
+            return (array('__PRE_DEFINE_PERCENT__' => $titanium_lang['Percent']));
         }
         else if ($variable == 'graph')
         {
-            return (array('__PRE_DEFINE_GRAPH__' => $lang['Graph']));
+            return (array('__PRE_DEFINE_GRAPH__' => $titanium_lang['Graph']));
         }
         else
         {
@@ -481,13 +481,13 @@ class StatisticsCORE
     // $stat_db->sql_query()
     function sql_query($sql_statement, $error_message, $transaction = FALSE)
     {
-        global $stat_db, $db;
+        global $stat_db, $titanium_db;
 
         $result = $stat_db->sql_query($sql_statement, $transaction);
 
         if (!$result)
         {
-            $error = $db->sql_error();
+            $error = $titanium_db->sql_error();
             $this->error_handler($error_message, $error['message'] . '<br />SQL Statement: ' . $sql_statement);
         }
         return $result;
@@ -529,7 +529,7 @@ $content_values = '';
 
 function init_core()
 {
-    global $stats_config, $core, $stat_db, $stat_functions, $db, $userdata;
+    global $stats_config, $core, $stat_db, $stat_functions, $titanium_db, $userdata;
 
     $core = new StatisticsCORE;
 
@@ -541,22 +541,22 @@ function init_core()
     // Get Module Variables
     $sql = "SELECT module_id, config_name, config_value, config_type FROM " . MODULE_ADMIN_TABLE;
 
-    if (!$result = $db->sql_query($sql))
+    if (!$result = $titanium_db->sql_query($sql))
     {
         message_die(GENERAL_ERROR, 'Could not find Module Admin Table', '', __LINE__, __FILE__, $sql);
     }
 
-    $rows = $db->sql_fetchrowset($result);
-    $num_rows = $db->sql_numrows($result);
+    $rows = $titanium_db->sql_fetchrowset($result);
+    $num_rows = $titanium_db->sql_numrows($result);
 
     for ($i = 0; $i < $num_rows; $i++)
     {
-        $module_id = intval($rows[$i]['module_id']);
+        $titanium_module_id = intval($rows[$i]['module_id']);
 
         switch (trim($rows[$i]['config_type']))
         {
             case 'number':
-                $core->module_variables[$module_id][trim($rows[$i]['config_name'])] = intval($rows[$i]['config_value']);
+                $core->module_variables[$titanium_module_id][trim($rows[$i]['config_name'])] = intval($rows[$i]['config_value']);
                 break;
         }
     }

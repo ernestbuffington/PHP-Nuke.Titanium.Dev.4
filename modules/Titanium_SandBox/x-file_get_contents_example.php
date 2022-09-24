@@ -18,20 +18,20 @@ print "</div><hr />";
     $page = file_get_contents('http://www.zytrax.com/tech/web/mobile_ids.html');
     preg_match_all('/<(p) class="g-c-[ns]"[^>]*>(.*?)<\/p>/s', $page, $m); 
 
-    $agents = array();
-    foreach($m[2] as $agent) 
+    $phpbb2_agents = array();
+    foreach($m[2] as $phpbb2_agent) 
 	{
-      $split = explode("<br>\n", trim($agent));
+      $split = explode("<br>\n", trim($phpbb2_agent));
     
 	   foreach($split as $item) 
 	   {
-         $agents[] = trim($item);
+         $phpbb2_agents[] = trim($item);
        }
     }
-    // $agents now holds every user agent string, one per array index, trimmed
-    foreach($agents as $agent) 
+    // $phpbb2_agents now holds every user agent string, one per array index, trimmed
+    foreach($phpbb2_agents as $phpbb2_agent) 
 	{
-      echo($agent."<br>\n");
+      echo($phpbb2_agent."<br>\n");
     }
 
 ###########################################################################################################################################################################			

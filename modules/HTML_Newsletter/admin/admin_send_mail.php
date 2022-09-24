@@ -255,18 +255,18 @@ if ( sizeof( $msnl_asERR ) != 0 ) { //Had validation errors so display them
 
 	if ( $msnl_iView == 1 ) {  //All registered users
 
-			$sql = "SELECT `user_id`, `user_email` FROM `".$prefix."_users` WHERE `user_email` > ''";
+			$sql = "SELECT `user_id`, `user_email` FROM `".$titanium_prefix."_users` WHERE `user_email` > ''";
 
 	} elseif ( $msnl_iView == 2 ) {  //Newsletter subscribers
 
-			$sql = "SELECT `user_id`, `user_email` FROM `".$prefix."_users` "
+			$sql = "SELECT `user_id`, `user_email` FROM `".$titanium_prefix."_users` "
 						."WHERE `user_email` > '' AND `newsletter` = '1'";
 
 	} elseif ( $msnl_iView == 3 ) {  //Paid subscribers
 
 			$sql = "SELECT `user_id`, `user_email` FROM `"
-						.$prefix."_users` a, `"
-						.$prefix."_subscriptions` b "
+						.$titanium_prefix."_users` a, `"
+						.$titanium_prefix."_subscriptions` b "
 						."WHERE `user_email` > '' AND a.`user_id` = b.`userid`";
 
 	} elseif ( $msnl_iView == 4 ) {  //NSN Groups users
@@ -274,8 +274,8 @@ if ( sizeof( $msnl_asERR ) != 0 ) { //Had validation errors so display them
 		$nsngrpstr = "'". str_replace("-", "','", $msnl_sGroups) ."'";
 
 		$sql = "SELECT DISTINCT `user_id`, `user_email` FROM `"
-					.$prefix."_users` a, `"
-					.$prefix."_nsngr_users` b "
+					.$titanium_prefix."_users` a, `"
+					.$titanium_prefix."_nsngr_users` b "
 					."WHERE b.`uid` = a.`user_id` AND `gid` IN (". $nsngrpstr .") "
 					."ORDER BY a.`user_id`";
 

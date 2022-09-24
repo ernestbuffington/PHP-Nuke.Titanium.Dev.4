@@ -91,8 +91,8 @@ class Swift_CharacterStream_ArrayCharacterStream
         ->getReaderFor($this->_charset);
     }
 
-    $startLength = $this->_charReader->getInitialByteSize();
-    while (false !== $bytes = $os->read($startLength))
+    $phpbb2_startLength = $this->_charReader->getInitialByteSize();
+    while (false !== $bytes = $os->read($phpbb2_startLength))
     {
       $c = array();
       for ($i = 0, $len = strlen($bytes); $i < $len; ++$i)
@@ -141,8 +141,8 @@ class Swift_CharacterStream_ArrayCharacterStream
 
     // Don't use array slice
     $arrays = array();
-    $end = $length + $this->_offset;
-    for ($i = $this->_offset; $i < $end; ++$i)
+    $phpbb2_end = $length + $this->_offset;
+    for ($i = $this->_offset; $i < $phpbb2_end; ++$i)
     {
       if (!isset($this->_array[$i]))
       {
@@ -172,8 +172,8 @@ class Swift_CharacterStream_ArrayCharacterStream
       return false;
     }
     $arrays = array();
-    $end = $length + $this->_offset;
-    for ($i = $this->_offset; $i < $end; ++$i)
+    $phpbb2_end = $length + $this->_offset;
+    for ($i = $this->_offset; $i < $phpbb2_end; ++$i)
     {
       if (!isset($this->_array[$i]))
       {
@@ -197,7 +197,7 @@ class Swift_CharacterStream_ArrayCharacterStream
         $this->_charset);
     }
 
-    $startLength = $this->_charReader->getInitialByteSize();
+    $phpbb2_startLength = $this->_charReader->getInitialByteSize();
 
     $fp = fopen('php://memory', 'w+b');
     fwrite($fp, $chars);
@@ -212,7 +212,7 @@ class Swift_CharacterStream_ArrayCharacterStream
     {
       $bytes = array();
       // Buffer Filing
-      if ($buf_len - $buf_pos < $startLength)
+      if ($buf_len - $buf_pos < $phpbb2_startLength)
       {
         $buf = array_splice($buffer, $buf_pos);
         $new = $this->_reloadBuffer($fp, 100);
@@ -230,7 +230,7 @@ class Swift_CharacterStream_ArrayCharacterStream
       if ($buf_len - $buf_pos > 0)
       {
         $size = 0;
-        for ($i = 0; $i < $startLength && isset($buffer[$buf_pos]); ++$i)
+        for ($i = 0; $i < $phpbb2_startLength && isset($buffer[$buf_pos]); ++$i)
         {
           ++$size;
           $bytes[] = $buffer[$buf_pos++];

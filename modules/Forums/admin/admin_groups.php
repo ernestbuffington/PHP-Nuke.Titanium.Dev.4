@@ -35,20 +35,20 @@
       Auto Group                               v1.2.2       11/06/2006
  ************************************************************************/
 
-define('IN_PHPBB', 1);
+define('IN_PHPBB2', 1);
 
 if ( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $module['Groups']['Manage'] = $filename;
+    $titanium_module['Groups']['Manage'] = $filename;
     return;
 }
 
 //
 // Load default header
 //
-$phpbb_root_path = './../';
-require($phpbb_root_path . 'extension.inc');
+$phpbb2_root_path = './../';
+require($phpbb2_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 /*****[BEGIN]******************************************
  [ Mod:     Group Colors                       v1.0.0 ]
@@ -61,7 +61,7 @@ include('../../../includes/functions_selects.php');
 /*****[BEGIN]******************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
-include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_mass_pm.' . $phpEx);
+include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_mass_pm.' . $phpEx);
 /*****[END]********************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
@@ -97,7 +97,7 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
         //
         // Ok they are editing a group or creating a new group
         //
-        $template->set_filenames(array(
+        $phpbb2_template->set_filenames(array(
                 'body' => 'admin/group_edit_body.tpl')
         );
 
@@ -110,14 +110,14 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
                         FROM " . GROUPS_TABLE . "
                         WHERE group_single_user <> " . TRUE . "
                         AND group_id = $group_id";
-                if ( !($result = $db->sql_query($sql)) )
+                if ( !($result = $titanium_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Error getting group information', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ( !($group_info = $db->sql_fetchrow($result)) )
+                if ( !($group_info = $titanium_db->sql_fetchrow($result)) )
                 {
-                        message_die(GENERAL_MESSAGE, $lang['Group_not_exist']);
+                        message_die(GENERAL_MESSAGE, $titanium_lang['Group_not_exist']);
                 }
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                 v1.0.1  ]
@@ -125,7 +125,7 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-                $initialgroup = $board_config['initial_group_id'];
+                $initialgroup = $phpbb2_board_config['initial_group_id'];
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
@@ -144,7 +144,7 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
  ******************************************************/
 
                 $mode = 'editgroup';
-                $template->assign_block_vars('group_edit', array());
+                $phpbb2_template->assign_block_vars('group_edit', array());
 
         }
         else if ( isset($HTTP_POST_VARS['new']) )
@@ -172,9 +172,9 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
 /*****[BEGIN]******************************************
  [ Mod:     Enhanced BBGroups                  v1.0.0 ]
  ******************************************************/
-                          'max_inbox' => $board_config['max_inbox_privmsgs'],
-                          'max_sentbox' => $board_config['max_sentbox_privmsgs'],
-                          'max_savebox' => $board_config['max_savebox_privmsgs'],
+                          'max_inbox' => $phpbb2_board_config['max_inbox_privmsgs'],
+                          'max_sentbox' => $phpbb2_board_config['max_sentbox_privmsgs'],
+                          'max_savebox' => $phpbb2_board_config['max_savebox_privmsgs'],
                           'override_max_inbox' => '',
                           'override_max_sentbox' => '',
                           'override_max_savebox' => '',
@@ -202,12 +202,12 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
      	if ($group_info['group_moderator'] != '')
       	{
      		$sql = "SELECT `user_id`, `username` FROM `".USERS_TABLE."` WHERE `user_id` = '".$group_info['group_moderator']."'";
-     		if ( !($result = $db->sql_query($sql)) )
+     		if ( !($result = $titanium_db->sql_query($sql)) )
      		{
      			message_die(GENERAL_ERROR, 'Could not obtain user info for moderator list', '', __LINE__, __FILE__, $sql);
      		}
      
-     		if ( !($row = $db->sql_fetchrow($result)) )
+     		if ( !($row = $titanium_db->sql_fetchrow($result)) )
      		{
      			message_die(GENERAL_ERROR, $group_info['group_moderator'], '', __LINE__, __FILE__, $sql);
      		}
@@ -274,7 +274,7 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
 
         $s_hidden_fields = '<input type="hidden" name="mode" value="' . $mode . '" /><input type="hidden" name="' . POST_GROUPS_URL . '" value="' . $group_id . '" />';
 
-        $template->assign_vars(array(
+        $phpbb2_template->assign_vars(array(
                 'GROUP_NAME' => $group_info['group_name'],
                 'GROUP_DESCRIPTION' => $group_info['group_description'],
                 'GROUP_MODERATOR' => $group_moderator,
@@ -289,12 +289,12 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
                 'GROUP_COUNT_MAX' => $group_info['group_count_max'], 
                 'GROUP_COUNT_ENABLE_CHECKED' => $group_count_enable_checked,
 
-                'L_GROUP_COUNT' => $lang['group_count'],
-                'L_GROUP_COUNT_MAX' => $lang['group_count_max'],
-                'L_GROUP_COUNT_EXPLAIN' => $lang['group_count_explain'],
-                'L_GROUP_COUNT_ENABLE' => $lang['Group_count_enable'],
-                'L_GROUP_COUNT_UPDATE' => $lang['Group_count_update'],
-                'L_GROUP_COUNT_DELETE' => $lang['Group_count_delete'],
+                'L_GROUP_COUNT' => $titanium_lang['group_count'],
+                'L_GROUP_COUNT_MAX' => $titanium_lang['group_count_max'],
+                'L_GROUP_COUNT_EXPLAIN' => $titanium_lang['group_count_explain'],
+                'L_GROUP_COUNT_ENABLE' => $titanium_lang['Group_count_enable'],
+                'L_GROUP_COUNT_UPDATE' => $titanium_lang['Group_count_update'],
+                'L_GROUP_COUNT_DELETE' => $titanium_lang['Group_count_delete'],
 /*****[END]********************************************
  [ Mod:    Auto Group                          v1.2.2 ]
  ******************************************************/
@@ -304,22 +304,22 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
  [ Mod:     Group Ranks                        v1.0.0 ]
  ******************************************************/
                 'GROUP_COLOR' => $group_color,
-                'L_GROUP_COLOR' => $lang['group_color'],
+                'L_GROUP_COLOR' => $titanium_lang['group_color'],
                 'GROUP_RANK' => $group_rank,
-                'L_GROUP_RANK' => $lang['group_rank'],
+                'L_GROUP_RANK' => $titanium_lang['group_rank'],
 /*****[END]********************************************
  [ Mod:     Group Colors                       v1.0.0 ]
  [ Mod:     Group Ranks                        v1.0.0 ]
  ******************************************************/
                 'GROUP_ALLOW_PM' => $group_info['group_allow_pm'],
 
-                'L_GROUP_ALLOW_PM' => $lang['group_allow_pm'],
-                'L_GROUP_ALLOW_PM_EXPLAIN' => $lang['group_allow_pm_explain'],
-                'L_GROUP_ALL_ALLOW_PM' => ucfirst(strtolower($lang['Forum_ALL'])),
-                'L_GROUP_REG_ALLOW_PM' => ucfirst(strtolower($lang['Forum_REG'])),
-                'L_GROUP_PRIVATE_ALLOW_PM' => ucfirst(strtolower($lang['Forum_PRIVATE'])),
-                'L_GROUP_MOD_ALLOW_PM' => ucfirst(strtolower($lang['Forum_MOD'])),
-                'L_GROUP_ADMIN_ALLOW_PM' => ucfirst(strtolower($lang['Forum_ADMIN'])),
+                'L_GROUP_ALLOW_PM' => $titanium_lang['group_allow_pm'],
+                'L_GROUP_ALLOW_PM_EXPLAIN' => $titanium_lang['group_allow_pm_explain'],
+                'L_GROUP_ALL_ALLOW_PM' => ucfirst(strtolower($titanium_lang['Forum_ALL'])),
+                'L_GROUP_REG_ALLOW_PM' => ucfirst(strtolower($titanium_lang['Forum_REG'])),
+                'L_GROUP_PRIVATE_ALLOW_PM' => ucfirst(strtolower($titanium_lang['Forum_PRIVATE'])),
+                'L_GROUP_MOD_ALLOW_PM' => ucfirst(strtolower($titanium_lang['Forum_MOD'])),
+                'L_GROUP_ADMIN_ALLOW_PM' => ucfirst(strtolower($titanium_lang['Forum_ADMIN'])),
 
                 'S_GROUP_ALL_ALLOW_PM_CHECKED' => $group_allow_pm_all,
                 'S_GROUP_REG_ALLOW_PM_CHECKED' => $group_allow_pm_reg,
@@ -335,56 +335,56 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
 
-                'L_GROUP_TITLE' => $lang['Group_administration'],
-                'L_GROUP_EDIT_DELETE' => ( isset($HTTP_POST_VARS['new']) ) ? $lang['New_group'] : $lang['Edit_group'],
-                'L_GROUP_NAME' => $lang['group_name'],
-                'L_GROUP_DESCRIPTION' => $lang['group_description'],
-                'L_GROUP_MODERATOR' => $lang['group_moderator'],
-                'L_FIND_USERNAME' => $lang['Find_username'],
-                'L_GROUP_STATUS' => $lang['group_status'],
+                'L_GROUP_TITLE' => $titanium_lang['Group_administration'],
+                'L_GROUP_EDIT_DELETE' => ( isset($HTTP_POST_VARS['new']) ) ? $titanium_lang['New_group'] : $titanium_lang['Edit_group'],
+                'L_GROUP_NAME' => $titanium_lang['group_name'],
+                'L_GROUP_DESCRIPTION' => $titanium_lang['group_description'],
+                'L_GROUP_MODERATOR' => $titanium_lang['group_moderator'],
+                'L_FIND_USERNAME' => $titanium_lang['Find_username'],
+                'L_GROUP_STATUS' => $titanium_lang['group_status'],
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-                'L_GROUP_INITIAL' => $lang['Initial_user_group'],
-                'L_GROUP_INITIAL_EXPLAIN' => $lang['Initial_user_group_explain'],
+                'L_GROUP_INITIAL' => $titanium_lang['Initial_user_group'],
+                'L_GROUP_INITIAL_EXPLAIN' => $titanium_lang['Initial_user_group_explain'],
 /*****[END]********************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-                'L_GROUP_OPEN' => $lang['group_open'],
-                'L_GROUP_CLOSED' => $lang['group_closed'],
-                'L_GROUP_HIDDEN' => $lang['group_hidden'],
-                'L_GROUP_DELETE' => $lang['group_delete'],
-                'L_GROUP_DELETE_CHECK' => $lang['group_delete_check'],
-                'L_SUBMIT' => $lang['Submit'],
-                'L_RESET' => $lang['Reset'],
-                'L_DELETE_MODERATOR' => $lang['delete_group_moderator'],
-                'L_DELETE_MODERATOR_EXPLAIN' => $lang['delete_moderator_explain'],
+                'L_GROUP_OPEN' => $titanium_lang['group_open'],
+                'L_GROUP_CLOSED' => $titanium_lang['group_closed'],
+                'L_GROUP_HIDDEN' => $titanium_lang['group_hidden'],
+                'L_GROUP_DELETE' => $titanium_lang['group_delete'],
+                'L_GROUP_DELETE_CHECK' => $titanium_lang['group_delete_check'],
+                'L_SUBMIT' => $titanium_lang['Submit'],
+                'L_RESET' => $titanium_lang['Reset'],
+                'L_DELETE_MODERATOR' => $titanium_lang['delete_group_moderator'],
+                'L_DELETE_MODERATOR_EXPLAIN' => $titanium_lang['delete_moderator_explain'],
 /*****[BEGIN]******************************************
  [ Mod:     Enhanced BBGroups                  v1.0.0 ]
  ******************************************************/
-                'L_MAX_INBOX' => $lang['max_inbox'],
-                'L_MAX_SENTBOX' => $lang['max_sentbox'],
-                'L_MAX_SAVEBOX' => $lang['max_savebox'],
+                'L_MAX_INBOX' => $titanium_lang['max_inbox'],
+                'L_MAX_SENTBOX' => $titanium_lang['max_sentbox'],
+                'L_MAX_SAVEBOX' => $titanium_lang['max_savebox'],
                 'MAX_INBOX' => $max_inbox,
                 'MAX_SENTBOX' => $max_sentbox,
                 'MAX_SAVEBOX' => $max_savebox,
-                'L_OVERRIDE_MAX' => $lang['override_max'],
+                'L_OVERRIDE_MAX' => $titanium_lang['override_max'],
                 'OVERRIDE_MAX_INBOX' => $override_max_inbox,
                 'OVERRIDE_MAX_SENTBOX' => $override_max_sentbox,
                 'OVERRIDE_MAX_SAVEBOX' => $override_max_savebox,
 /*****[END]********************************************
  [ Mod:     Enhanced BBGroups                  v1.0.0 ]
  ******************************************************/
-                'L_YES' => $lang['Yes'],
+                'L_YES' => $titanium_lang['Yes'],
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-                'L_NO' => $lang['No'],
+                'L_NO' => $titanium_lang['No'],
 /*****[END]********************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
 
-                'U_SEARCH_USER' => append_sid("search.$phpEx?mode=searchuser&popup=1&menu=1"),
+                'U_SEARCH_USER' => append_titanium_sid("search.$phpEx?mode=searchuser&popup=1&menu=1"),
 
                 'S_GROUP_OPEN_TYPE' => GROUP_OPEN,
                 'S_GROUP_CLOSED_TYPE' => GROUP_CLOSED,
@@ -408,11 +408,11 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
 /*****[END]********************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-                'S_GROUP_ACTION' => append_sid("admin_groups.$phpEx"),
+                'S_GROUP_ACTION' => append_titanium_sid("admin_groups.$phpEx"),
                 'S_HIDDEN_FIELDS' => $s_hidden_fields)
         );
 
-        $template->pparse('body');
+        $phpbb2_template->pparse('body');
 
 }
 else if ( isset($HTTP_POST_VARS['group_update']) )
@@ -429,39 +429,39 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                 // Is Group moderating a forum ?
                 $sql = "SELECT auth_mod FROM " . AUTH_ACCESS_TABLE . "
                         WHERE group_id = " . $group_id;
-                if ( !($result = $db->sql_query($sql)) )
+                if ( !($result = $titanium_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not select auth_access', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $db->sql_fetchrow($result);
+                $row = $titanium_db->sql_fetchrow($result);
                 if (intval($row['auth_mod']) == 1)
                 {
                         // Yes, get the assigned users and update their Permission if they are no longer moderator of one of the forums
                         $sql = "SELECT user_id FROM " . USER_GROUP_TABLE . "
                                 WHERE group_id = " . $group_id;
-                        if ( !($result = $db->sql_query($sql)) )
+                        if ( !($result = $titanium_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not select user_group', '', __LINE__, __FILE__, $sql);
                         }
 
-                        $rows = $db->sql_fetchrowset($result);
+                        $rows = $titanium_db->sql_fetchrowset($result);
                         for ($i = 0; $i < count($rows); $i++)
                         {
                                 $sql = "SELECT g.group_id FROM " . AUTH_ACCESS_TABLE . " a, " . GROUPS_TABLE . " g, " . USER_GROUP_TABLE . " ug
                                 WHERE (a.auth_mod = 1) AND (g.group_id = a.group_id) AND (a.group_id = ug.group_id) AND (g.group_id = ug.group_id)
                                         AND (ug.user_id = " . intval($rows[$i]['user_id']) . ") AND (ug.group_id <> " . $group_id . ")";
-                                if ( !($result = $db->sql_query($sql)) )
+                                if ( !($result = $titanium_db->sql_query($sql)) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not obtain moderator permissions', '', __LINE__, __FILE__, $sql);
                                 }
 
-                                if ($db->sql_numrows($result) == 0)
+                                if ($titanium_db->sql_numrows($result) == 0)
                                 {
                                         $sql = "UPDATE " . USERS_TABLE . " SET user_level = " . USER . "
                                         WHERE user_level = " . MOD . " AND user_id = " . intval($rows[$i]['user_id']);
 
-                                        if ( !$db->sql_query($sql) )
+                                        if ( !$titanium_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not update moderator permissions', '', __LINE__, __FILE__, $sql);
                                         }
@@ -478,8 +478,8 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                 $sql = "SELECT config_value
                         FROM " . CONFIG_TABLE . "
                         WHERE config_name='initial_group_id'";
-                $result = $db->sql_query($sql);
-                $row = $db->sql_fetchrow($result);
+                $result = $titanium_db->sql_query($sql);
+                $row = $titanium_db->sql_fetchrow($result);
                 $initialgroup = $row[0];
 
                 if ($initialgroup == $group_id) {
@@ -488,9 +488,9 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                         " . CONFIG_TABLE . "
                         SET config_value = '0'
                         WHERE config_name ='initial_group_id'";
-                        $result = $db->sql_query($sql);
+                        $result = $titanium_db->sql_query($sql);
 
-                    if ( !$db->sql_query($sql) )
+                    if ( !$titanium_db->sql_query($sql) )
                     {
                             message_die(GENERAL_ERROR, 'Could not update group', '', __LINE__, __FILE__, $sql);
                     }
@@ -501,26 +501,26 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
 
                 $sql = "DELETE FROM " . GROUPS_TABLE . "
                         WHERE group_id = " . $group_id;
-                if ( !$db->sql_query($sql) )
+                if ( !$titanium_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, 'Could not update group', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "DELETE FROM " . USER_GROUP_TABLE . "
                         WHERE group_id = " . $group_id;
-                if ( !$db->sql_query($sql) )
+                if ( !$titanium_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, 'Could not update user_group', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "DELETE FROM " . AUTH_ACCESS_TABLE . "
                         WHERE group_id = " . $group_id;
-                if ( !$db->sql_query($sql) )
+                if ( !$titanium_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, 'Could not update auth_access', '', __LINE__, __FILE__, $sql);
                 }
 
-                $message = $lang['Deleted_group'] . '<br /><br />' . sprintf($lang['Click_return_groupsadmin'], '<a href="' . append_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
+                $message = $titanium_lang['Deleted_group'] . '<br /><br />' . sprintf($titanium_lang['Click_return_groupsadmin'], '<a href="' . append_titanium_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
 
                 message_die(GENERAL_MESSAGE, $message);
         }
@@ -574,11 +574,11 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
 
                 if ( $group_name == '' )
                 {
-                        message_die(GENERAL_MESSAGE, $lang['No_group_name']);
+                        message_die(GENERAL_MESSAGE, $titanium_lang['No_group_name']);
                 }
                 else if ( $group_moderator == '' )
                 {
-                        message_die(GENERAL_MESSAGE, $lang['No_group_moderator']);
+                        message_die(GENERAL_MESSAGE, $titanium_lang['No_group_moderator']);
                 }
 
                 $this_userdata = get_userdata($group_moderator, true);
@@ -586,7 +586,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
 
                 if ( !$group_moderator )
                 {
-                        message_die(GENERAL_MESSAGE, $lang['No_group_moderator']);
+                        message_die(GENERAL_MESSAGE, $titanium_lang['No_group_moderator']);
                 }
 
                 if( $mode == "editgroup" )
@@ -595,14 +595,14 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                                 FROM " . GROUPS_TABLE . "
                                 WHERE group_single_user <> " . TRUE . "
                                 AND group_id = " . $group_id;
-                        if ( !($result = $db->sql_query($sql)) )
+                        if ( !($result = $titanium_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Error getting group information', '', __LINE__, __FILE__, $sql);
                         }
 
-                        if( !($group_info = $db->sql_fetchrow($result)) )
+                        if( !($group_info = $titanium_db->sql_fetchrow($result)) )
                         {
-                                message_die(GENERAL_MESSAGE, $lang['Group_not_exist']);
+                                message_die(GENERAL_MESSAGE, $titanium_lang['Group_not_exist']);
                         }
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                 v1.0.1 ]
@@ -613,9 +613,9 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                                 " . CONFIG_TABLE . "
                                  SET config_value = '".$group_id."'
                                 WHERE config_name ='initial_group_id'";
-                                $result = $db->sql_query($sql);
+                                $result = $titanium_db->sql_query($sql);
 
-                                if ( !($result = $db->sql_query($sql)) )
+                                if ( !($result = $titanium_db->sql_query($sql)) )
                                 {
                                     message_die(GENERAL_ERROR, 'Error getting initial group id information', '', __LINE__, __FILE__, $sql);
                                 }
@@ -623,8 +623,8 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                                 $sql = "SELECT config_value
                                         FROM " . CONFIG_TABLE . "
                                         WHERE config_name='initial_group_id'";
-                                $result = $db->sql_query($sql);
-                                $row = $db->sql_fetchrow($result);
+                                $result = $titanium_db->sql_query($sql);
+                                $row = $titanium_db->sql_fetchrow($result);
                                 $initialgroup = $row[0];
 
                                 if ($initialgroup == NULL)
@@ -637,9 +637,9 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                                     " . CONFIG_TABLE . "
                                      SET config_value = '0'
                                     WHERE config_name ='initial_group_id'";
-                                    $result = $db->sql_query($sql);
+                                    $result = $titanium_db->sql_query($sql);
 
-                                    if ( !($result = $db->sql_query($sql)) )
+                                    if ( !($result = $titanium_db->sql_query($sql)) )
                                     {
                                         message_die(GENERAL_ERROR, 'Error getting initial group id information', '', __LINE__, __FILE__, $sql);
                                     }
@@ -657,7 +657,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                                         $sql = "DELETE FROM " . USER_GROUP_TABLE . "
                                                 WHERE user_id = " . $group_info['group_moderator'] . "
                                                         AND group_id = " . $group_id;
-                                        if ( !$db->sql_query($sql) )
+                                        if ( !$titanium_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not update group moderator', '', __LINE__, __FILE__, $sql);
                                         }
@@ -667,16 +667,16 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                                         FROM " . USER_GROUP_TABLE . "
                                         WHERE user_id = $group_moderator
                                                 AND group_id = $group_id";
-                                if ( !($result = $db->sql_query($sql)) )
+                                if ( !($result = $titanium_db->sql_query($sql)) )
                                 {
                                         message_die(GENERAL_ERROR, 'Failed to obtain current group moderator info', '', __LINE__, __FILE__, $sql);
                                 }
 
-                                if ( !($row = $db->sql_fetchrow($result)) )
+                                if ( !($row = $titanium_db->sql_fetchrow($result)) )
                                 {
                                         $sql = "INSERT INTO " . USER_GROUP_TABLE . " (group_id, user_id, user_pending)
                                                 VALUES (" . $group_id . ", " . $group_moderator . ", 0)";
-                                        if ( !$db->sql_query($sql) )
+                                        if ( !$titanium_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not update group moderator', '', __LINE__, __FILE__, $sql);
                                         }
@@ -695,7 +695,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
  [ Mod:     Group Ranks                        v1.0.0 ]
  [ Mod:     Enhanced BBGroups                  v1.0.0 ]
  ******************************************************/
-                        if ( !$db->sql_query($sql) )
+                        if ( !$titanium_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update group', '', __LINE__, __FILE__, $sql);
                         }
@@ -710,11 +710,11 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
         				$sql = "DELETE FROM " . USER_GROUP_TABLE . "
         					WHERE group_id=$group_id 
         					AND user_id NOT IN ('$group_moderator','".ANONYMOUS."')";
-        				if ( !$db->sql_query($sql) )
+        				if ( !$titanium_db->sql_query($sql) )
         				{
         					message_die(GENERAL_ERROR, 'Could not remove users, group count', '', __LINE__, __FILE__, $sql);
         				}
-        				$group_count_remove=$db->sql_affectedrows();
+        				$group_count_remove=$titanium_db->sql_affectedrows();
         			}
         			if ( $group_count_update)
         			{
@@ -724,17 +724,17 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
         					WHERE u.user_posts>='$group_count' AND u.user_posts<'$group_count_max'
         					AND ug.group_id is NULL
         					AND u.user_id NOT IN ('$group_moderator','".ANONYMOUS."')";
-        				if ( !($result = $db->sql_query($sql)) )
+        				if ( !($result = $titanium_db->sql_query($sql)) )
         				{
         					message_die(GENERAL_ERROR, $sql.'Could not select new users, group count', '', __LINE__, __FILE__, $sql);
         				}
         				//inserting new users
         				$group_count_added=0;
-        				while ( ($new_members = $db->sql_fetchrow($result)) )
+        				while ( ($new_members = $titanium_db->sql_fetchrow($result)) )
         				{
         					$sql = "INSERT INTO " . USER_GROUP_TABLE . " (group_id, user_id, user_pending) 
         						VALUES ($group_id, " . $new_members['user_id'] . ", 0)";
-        					if ( !($result2 = $db->sql_query($sql)) )
+        					if ( !($result2 = $titanium_db->sql_query($sql)) )
         					{
         						message_die(GENERAL_ERROR, 'Error inserting user group, group count', '', __LINE__, __FILE__, $sql);
         					}
@@ -746,7 +746,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
  [ Mod:    Auto Group                          v1.2.2 ]
  ******************************************************/
                         
-                        $message = $lang['Updated_group'] .'<br />'.sprintf($lang['group_count_updated'],$group_count_remove,$group_count_added). '<br /><br />' . sprintf($lang['Click_return_groupsadmin'], '<a href="' . append_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');;
+                        $message = $titanium_lang['Updated_group'] .'<br />'.sprintf($titanium_lang['group_count_updated'],$group_count_remove,$group_count_added). '<br /><br />' . sprintf($titanium_lang['Click_return_groupsadmin'], '<a href="' . append_titanium_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');;
 
                         message_die(GENERAL_MESSAGE, $message);
                 }
@@ -766,15 +766,15 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
  [ Mod:     Group Ranks                        v1.0.0 ]
  [ Mod:     Enhanced BBGroups                  v1.0.0 ]
  ******************************************************/
-                        if ( !$db->sql_query($sql) )
+                        if ( !$titanium_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not insert new group', '', __LINE__, __FILE__, $sql);
                         }
-                        $new_group_id = $db->sql_nextid();
+                        $new_group_id = $titanium_db->sql_nextid();
 
                         $sql = "INSERT INTO " . USER_GROUP_TABLE . " (group_id, user_id, user_pending)
                                 VALUES ($new_group_id, $group_moderator, 0)";
-                        if ( !$db->sql_query($sql) )
+                        if ( !$titanium_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not insert new user-group info', '', __LINE__, __FILE__, $sql);
                         }
@@ -787,11 +787,11 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                 				$sql = "DELETE FROM " . USER_GROUP_TABLE . "
                 					WHERE group_id=$new_group_id 
                 					AND user_id NOT IN ('$group_moderator','".ANONYMOUS."')";
-                				if ( !$db->sql_query($sql) )
+                				if ( !$titanium_db->sql_query($sql) )
                 				{
                 					message_die(GENERAL_ERROR, 'Could not remove users, group count', '', __LINE__, __FILE__, $sql);
                 				}
-                				$group_count_remove=$db->sql_affectedrows();
+                				$group_count_remove=$titanium_db->sql_affectedrows();
                 			}
                 			if ( $group_count_update)
                 			{
@@ -801,17 +801,17 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                 					WHERE u.user_posts>='$group_count' AND u.user_posts<'$group_count_max'
                 					AND ug.group_id is NULL
                 					AND u.user_id NOT IN ('$group_moderator','".ANONYMOUS."')";
-                				if ( !($result = $db->sql_query($sql)) )
+                				if ( !($result = $titanium_db->sql_query($sql)) )
                 				{
                 					message_die(GENERAL_ERROR, $sql.'Could not select new users, group count', '', __LINE__, __FILE__, $sql);
                 				}
                 				//inserting new users
                 				$group_count_added=0;
-                				while ( ($new_members = $db->sql_fetchrow($result)) )
+                				while ( ($new_members = $titanium_db->sql_fetchrow($result)) )
                 				{
                 					$sql = "INSERT INTO " . USER_GROUP_TABLE . " (group_id, user_id, user_pending) 
                 						VALUES ($new_group_id, " . $new_members['user_id'] . ", 0)";
-                					if ( !($result2 = $db->sql_query($sql)) )
+                					if ( !($result2 = $titanium_db->sql_query($sql)) )
                 					{
                 						message_die(GENERAL_ERROR, 'Error inserting user group, group count', '', __LINE__, __FILE__, $sql);
                 					}
@@ -831,9 +831,9 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                             " . CONFIG_TABLE . "
                             SET config_value = '$new_group_id'
                             WHERE config_name ='initial_group_id'";
-                            $result = $db->sql_query($sql);
+                            $result = $titanium_db->sql_query($sql);
 
-                            if ( !$db->sql_query($sql) )
+                            if ( !$titanium_db->sql_query($sql) )
                             {
                                     message_die(GENERAL_ERROR, 'Could not insert new user-group info', '', __LINE__, __FILE__, $sql);
                             }
@@ -843,14 +843,14 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
 
-                        $message = $lang['Added_new_group'] .'<br />'.sprintf($lang['group_count_updated'],$group_count_remove,$group_count_added). '<br /><br />' . sprintf($lang['Click_return_groupsadmin'], '<a href="' . append_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');;
+                        $message = $titanium_lang['Added_new_group'] .'<br />'.sprintf($titanium_lang['group_count_updated'],$group_count_remove,$group_count_added). '<br /><br />' . sprintf($titanium_lang['Click_return_groupsadmin'], '<a href="' . append_titanium_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');;
 
                         message_die(GENERAL_MESSAGE, $message);
 
                 }
                 else
                 {
-                        message_die(GENERAL_MESSAGE, $lang['No_group_action']);
+                        message_die(GENERAL_MESSAGE, $titanium_lang['No_group_action']);
                 }
         }
 }
@@ -860,44 +860,44 @@ else
                 FROM " . GROUPS_TABLE . "
                 WHERE group_single_user <> " . TRUE . "
                 ORDER BY group_name";
-        if ( !($result = $db->sql_query($sql)) )
+        if ( !($result = $titanium_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not obtain group list', '', __LINE__, __FILE__, $sql);
         }
 
         $select_list = '';
-        if ( $row = $db->sql_fetchrow($result) )
+        if ( $row = $titanium_db->sql_fetchrow($result) )
         {
                 $select_list .= '<select name="' . POST_GROUPS_URL . '">';
                 do
                 {
                         $select_list .= '<option value="' . $row['group_id'] . '">' . $row['group_name'] . '</option>';
                 }
-                while ( $row = $db->sql_fetchrow($result) );
+                while ( $row = $titanium_db->sql_fetchrow($result) );
                 $select_list .= '</select>';
         }
 
-        $template->set_filenames(array(
+        $phpbb2_template->set_filenames(array(
                 'body' => 'admin/group_select_body.tpl')
         );
 
-        $template->assign_vars(array(
-                'L_GROUP_TITLE' => $lang['Group_administration'],
-                'L_GROUP_EXPLAIN' => $lang['Group_admin_explain'],
-                'L_GROUP_SELECT' => $lang['Select_group'],
-                'L_LOOK_UP' => $lang['Look_up_group'],
-                'L_CREATE_NEW_GROUP' => $lang['New_group'],
+        $phpbb2_template->assign_vars(array(
+                'L_GROUP_TITLE' => $titanium_lang['Group_administration'],
+                'L_GROUP_EXPLAIN' => $titanium_lang['Group_admin_explain'],
+                'L_GROUP_SELECT' => $titanium_lang['Select_group'],
+                'L_LOOK_UP' => $titanium_lang['Look_up_group'],
+                'L_CREATE_NEW_GROUP' => $titanium_lang['New_group'],
 
-                'S_GROUP_ACTION' => append_sid("admin_groups.$phpEx"),
+                'S_GROUP_ACTION' => append_titanium_sid("admin_groups.$phpEx"),
                 'S_GROUP_SELECT' => $select_list)
         );
 
         if ( $select_list != '' )
         {
-                $template->assign_block_vars('select_box', array());
+                $phpbb2_template->assign_block_vars('select_box', array());
         }
 
-        $template->pparse('body');
+        $phpbb2_template->pparse('body');
 }
 
 include('./page_footer_admin.'.$phpEx);

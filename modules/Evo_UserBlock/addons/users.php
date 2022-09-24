@@ -25,79 +25,79 @@ global $evouserinfo_addons, $evouserinfo_users;
 
 function evouserinfo_newest_user() 
 {
-    global $db, $user_prefix;
+    global $titanium_db, $titanium_user_prefix;
     # do not list the latest user if they are in ghost mode!
-    $sql = "SELECT `user_id`, `username` FROM ".$user_prefix."_users WHERE user_active = 1 AND user_level > 0 AND user_allow_viewonline = 1 ORDER BY user_id DESC LIMIT 1";
-    $result = $db->sql_query($sql);
-    $row = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
+    $sql = "SELECT `user_id`, `username` FROM ".$titanium_user_prefix."_users WHERE user_active = 1 AND user_level > 0 AND user_allow_viewonline = 1 ORDER BY user_id DESC LIMIT 1";
+    $result = $titanium_db->sql_query($sql);
+    $row = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
 
     return (isset($row)) ? $row : '?';
 }
 
 function evouserinfo_new_today() 
 {
-    global $user_prefix, $db;
+    global $titanium_user_prefix, $titanium_db;
 
-    $sql = "SELECT COUNT(*) FROM ".$user_prefix."_users WHERE user_regdate='".date("M d, Y")."'";
-    $result = $db->sql_query($sql);
-    $row = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$titanium_user_prefix."_users WHERE user_regdate='".date("M d, Y")."'";
+    $result = $titanium_db->sql_query($sql);
+    $row = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_new_yesterday() 
 {
-    global $user_prefix, $db;
+    global $titanium_user_prefix, $titanium_db;
 
-    $sql = "SELECT COUNT(*) FROM ".$user_prefix."_users WHERE user_regdate='".date("M d, Y", time()-86400)."'";
-    $result = $db->sql_query($sql);
-    $row = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$titanium_user_prefix."_users WHERE user_regdate='".date("M d, Y", time()-86400)."'";
+    $result = $titanium_db->sql_query($sql);
+    $row = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_waiting() 
 {
-    global $user_prefix, $db;
+    global $titanium_user_prefix, $titanium_db;
 
-    $sql = "SELECT COUNT(*) FROM ".$user_prefix."_users_temp";
-    $result = $db->sql_query($sql);
-    $row = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$titanium_user_prefix."_users_temp";
+    $result = $titanium_db->sql_query($sql);
+    $row = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_total_hidden() 
 {
-    global $user_prefix, $db;
+    global $titanium_user_prefix, $titanium_db;
 
-    $sql = "SELECT COUNT(*) FROM ".$user_prefix."_users WHERE user_id > 1 AND user_allow_viewonline != 1";
-    $result = $db->sql_query($sql);
-    $row = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$titanium_user_prefix."_users WHERE user_id > 1 AND user_allow_viewonline != 1";
+    $result = $titanium_db->sql_query($sql);
+    $row = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_total() 
 {
-    global $user_prefix, $db;
+    global $titanium_user_prefix, $titanium_db;
 
-    $sql = "SELECT COUNT(*) FROM ".$user_prefix."_users WHERE user_id > 1";
-    $result = $db->sql_query($sql);
-    $row = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$titanium_user_prefix."_users WHERE user_id > 1";
+    $result = $titanium_db->sql_query($sql);
+    $row = $titanium_db->sql_fetchrow($result);
+    $titanium_db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_users() 
 {
-    global $evouserinfo_users, $lang_evo_userblock;
+    global $evouserinfo_users, $titanium_lang_evo_userblock;
 
     $today = evouserinfo_new_today();
     $yesterday = evouserinfo_new_yesterday();
@@ -107,36 +107,36 @@ function evouserinfo_users()
     $total = evouserinfo_total();
 	$hidden = evouserinfo_total_hidden();
 
-    $evouserinfo_users = '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['USERS']['MEMBERSHIPS'].'</div>';
+    $evouserinfo_users = '<div style="font-weight: bold">'.$titanium_lang_evo_userblock['BLOCK']['USERS']['MEMBERSHIPS'].'</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="gold"><i class="fas fa-radiation-alt" 
-	aria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['NEW_TODAY'].'<span style="float:right">'.number_format($today).'&nbsp;&nbsp;</span>';
+    $evouserinfo_users .= '<font color="gold"><i class="fa fa-pie-chart" aria-hidden="true"></i>
+</font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['USERS']['NEW_TODAY'].'<span style="float:right">'.number_format($today).'&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="gold"><i class="fas fa-radiation-alt" 
-	aria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['NEW_YESTERDAY'].'<span style="float:right">'.number_format($yesterday).'&nbsp;&nbsp;</span>';
+    $evouserinfo_users .= '<font color="#FF3300"><i class="fa fa-pie-chart" aria-hidden="true"></i>
+</font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['USERS']['NEW_YESTERDAY'].'<span style="float:right">'.number_format($yesterday).'&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="gold"><i class="fas fa-radiation-alt" a
-	ria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['WAITING'].'<span style="float:right">'.number_format($waiting).'&nbsp;&nbsp;</span>';
+    $evouserinfo_users .= '<font color="#79CDCD"><i class="fa fa-pie-chart" aria-hidden="true"></i>
+</font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['USERS']['WAITING'].'<span style="float:right">'.number_format($waiting).'&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="gold"><i class="fas fa-radiation-alt" a
-	ria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['HIDDEN'].'<span style="float:right">'.number_format($hidden).'&nbsp;&nbsp;</span>';
+    $evouserinfo_users .= '<font color="white"><i class="fa fa-snapchat-ghost" aria-hidden="true"></i>
+</font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['USERS']['HIDDEN'].'<span style="float:right">'.number_format($hidden).'&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="gold"><i class="fas fa-radiation-alt" 
-	aria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['TOTAL'].'<span style="float:right">'.number_format($total).'&nbsp;&nbsp;</span>';
+    $evouserinfo_users .= '<font color="pink"><i class="fa fa-pie-chart" aria-hidden="true"></i>
+</font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['USERS']['TOTAL'].'<span style="float:right">'.number_format($total).'&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="gold"><i class="fas fa-radiation-alt" 
-	aria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['LATEST']
+    $evouserinfo_users .= '<font color="#33CC00"><i class="fa fa-id-card-o" aria-hidden="true"></i>
+</font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['USERS']['LATEST']
 	.'<span style="float:right"><a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$new_user_id.'">'.$new_user.'</a>&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 }
