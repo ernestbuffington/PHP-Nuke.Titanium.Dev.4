@@ -298,8 +298,8 @@ define('GZIPSUPPORT', extension_loaded('zlib'));
 define('GDSUPPORT', extension_loaded('gd'));
 define('CAN_MOD_INI', !stristr(ini_get('disable_functions'), 'ini_set'));
 
-// If a class hasn't been loaded yet find the required file on the server and load
-// it in using the special autoloader detection built into PHP5+
+# If a class hasn't been loaded yet find the required file on the server and load
+# it in using the special autoloader detection built into PHP5+
 if (!function_exists('classAutoloader')): 
     function classAutoloader($class) 
     {
@@ -354,18 +354,20 @@ if (@file_exists(NUKE_BASE_DIR.'fbconfig.php')):
 endif;
 # facebook SDK Mod END
 
-// Include config file
+# Include config file
 @require_once(NUKE_BASE_DIR.'config.php');
 
-if(!$directory_mode)
+if(!$directory_mode):
 $directory_mode = 0777;
-else
+else:
 $directory_mode = 0755;
+endif;
 
-if (!$file_mode)
+if(!$file_mode):
 $file_mode = 0666;
-else
+else:
 $file_mode = 0644;
+endif;
 
 // Core exceptions handler
 include_once(NUKE_INCLUDE_DIR . 'exception.php');
