@@ -506,24 +506,19 @@ $Default_Theme = $default_Theme;
 
 if (CAN_MOD_INI) ini_set('sendmail_from', $adminmail);
 
-/*****[BEGIN]******************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
+# Base: Titanium Functions START
 $titanium_config = load_titanium_config();
 $phpbb2_board_config = load_phpbb2_board_config();
-/*****[END]********************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
-/*****[BEGIN]******************************************
- [ Mod:     Lock Modules                       v1.0.0 ]
- [ Mod:     Queries Count                      v2.0.0 ]
- [ Other:   SSL Administration                 v1.0.0 ]
- [ Base:    Censor                             v1.0.0 ]
- [ Base:    Caching System                     v3.0.0 ]
- [ Mod:     Color Toggle                       v1.0.0 ]
- [ Mod:     Lazy Google Tap                    v1.0.0 ]
- [ Base:    Switch Content Script              v2.0.0 ]
- ******************************************************/
+# Base: Evolution Functions END
+
+# Mod: Lock Modules v1.0.0 
+# Mod: Queries Count v2.0.0 
+# Other: SSL Administration v1.0.0 
+# Base: Censor v1.0.0 
+# Base: Caching System v3.0.0 
+# Mod: Color Toggle v1.0.0 
+# Mod: Lazy Google Tap v1.0.0 
+# Base: Switch Content Script v2.0.0 
 $lock_titanium_modules = intval($titanium_config['lock_modules']);
 $titanium_queries_count = intval($titanium_config['queries_count']);
 $adminssl = intval($titanium_config['adminssl']);
@@ -546,48 +541,24 @@ $titanium_html_auth = $titanium_config['html_auth'];
 
 $more_js = '';
 $more_styles = '';
-/*****[END]********************************************
- [ Mod:     Lock Modules                       v1.0.0 ]
- [ Mod:     Queries Count                      v2.0.0 ]
- [ Other:   SSL Administration                 v1.0.0 ]
- [ Base:    Censor                             v1.0.0 ]
- [ Base:    Caching System                     v3.0.0 ]
- [ Mod:     Color Toggle                       v1.0.0 ]
- [ Mod:     Lazy Google Tap                    v1.0.0 ]
- [ Base:    Switch Content Script              v2.0.0 ]
- ******************************************************/
 
-/*****[BEGIN]******************************************
- [ Mod:     Lazy Google Tap                    v1.0.0 ]
- [ Base:    Theme Management                   v1.0.2 ]
- [ Base:    NukeSentinel                      v2.5.08 ]
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
+# Mod: Lazy Google Tap v1.0.0
+# Base: Theme Management v1.0.2
+# Base: NukeSentinel v2.5.08
+# Mod: Custom Text Area v1.0.0
 require_once(NUKE_INCLUDE_DIR.'functions_browser.php');
 require_once(NUKE_INCLUDE_DIR.'themes.php');
 include_once(NUKE_INCLUDE_DIR.'functions_tap.php');
-
 if(!defined('NO_SENTINEL')) 
 require_once(NUKE_INCLUDE_DIR.'nukesentinel.php');
-
 require_once(NUKE_CLASSES_DIR.'class.variables.php');
 include_once(NUKE_CLASSES_DIR.'class.wysiwyg.php');
-/*****[END]********************************************
- [ Mod:     Lazy Google Tap                    v1.0.0 ]
- [ Base:    Theme Management                   v1.0.2 ]
- [ Base:    NukeSentinel                      v2.5.08 ]
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
 include_once(NUKE_INCLUDE_DIR.'json.php');
 $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
 
-/*****[BEGIN]******************************************
- [ Mod:    Shoutbox                            v8.5.2 ]
- ******************************************************/
+# Mod: Shoutbox v8.5.2 START
 include_once(NUKE_MODULES_DIR.'Shout_Box/shout.php');
-/*****[END]********************************************
- [ Mod:    Shoutbox                            v8.5.2 ]
- ******************************************************/
+# Mod: Shoutbox v8.5.2 END
 
 if (file_exists(NUKE_INCLUDE_DIR.'custom_files/custom_mainfile.php'))
 require_once(NUKE_INCLUDE_DIR.'custom_files/custom_mainfile.php');
@@ -597,9 +568,7 @@ if(!defined('FORUM_ADMIN') && !isset($ThemeSel) && !defined('RSS_FEED')):
     include_once(NUKE_THEMES_DIR . $ThemeSel . '/theme.php');
 endif;
 
-/*****[BEGIN]******************************************
- [ Base:    Admin File Check                   v3.0.0 ]
- ******************************************************/
+# Base: Admin File Check v3.0.0 START
 if(!defined('FORUM_ADMIN')):
     global $admin_file;
     if(!isset($admin_file) || empty($admin_file)) 
@@ -607,10 +576,8 @@ if(!defined('FORUM_ADMIN')):
     elseif(!empty($admin_file) && !file_exists(NUKE_BASE_DIR.$admin_file.'.php'))
         die('The $admin_file you defined in config.php does not exist');
 endif;
+# Base: Admin File Check v3.0.0 END
 
-/*****[END]********************************************
- [ Base:    Admin File Check                   v3.0.0 ]
- ******************************************************/
 function define_once($constant, $value) 
 {
     if(!defined($constant)) 
