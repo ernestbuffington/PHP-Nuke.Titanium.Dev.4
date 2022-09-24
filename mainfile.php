@@ -58,9 +58,9 @@ if((defined('NUKE_EVO')) || (defined('NUKE_TITANIUM')))return;
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))exit('Access Denied');
 
 # Define File
-define_once('NUKE_EVO', '4.0.0');
+define_once('NUKE_EVO', '2.0.9');
 # Network Support
-define_once('NUKE_TITANIUM', '4.0.0b');
+define_once('NUKE_TITANIUM', '4.0.2');
 # Network Support
 define_once('TITANIUM_BUILD', '4022');
 define_once('CUR_EVO', 'NUKE_EVO');
