@@ -1799,27 +1799,35 @@ function UsernameColor($titanium_username, $old_name=false)
 
     static $titanium_cached_names;
 
-    if($old_name) 
+    if($old_name): 
 	$titanium_username = $old_name; 
-
-    if(!$use_colors) 
+    endif;
+    
+	if(!$use_colors): 
 	return $titanium_username;
+	endif;
 
     $plain_username = strtolower($titanium_username);
 
-    if(isset($titanium_cached_names[$plain_username])) 
+    if(isset($titanium_cached_names[$plain_username])): 
     return $titanium_cached_names[$plain_username];
+	endif;
     
-    if(!is_array($titanium_cached_names)) 
+    if(!is_array($titanium_cached_names)): 
     $titanium_cached_names = $titanium_cache->load('UserColors', 'config');
-    
+    endif;
+	
     if (!isset($titanium_cached_names[$plain_username])):
-          
-		    list($titanium_user_color, $uname) = $titanium_db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $titanium_user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", $titanium_username) . "'", SQL_NUM);
-            $uname = (!empty($uname)) ? $uname : $titanium_username;
-            $titanium_username = (strlen($titanium_user_color) == 6) ? '<span style="color: #'. $titanium_user_color .'">'. $uname .'</span>' : $uname;
-            $titanium_cached_names[$plain_username] = $titanium_username;
-            $titanium_cache->save('UserColors', 'config', $titanium_cached_names);
+      list($titanium_user_color, $uname) = $titanium_db->sql_ufetchrow("SELECT `user_color_gc`, `username` 
+	  
+	  FROM `" . $titanium_user_prefix . "_users` 
+	  
+	  WHERE `username` = '" . str_replace("'", "\'", $titanium_username) . "'", SQL_NUM);
+            
+	  $uname = (!empty($uname)) ? $uname : $titanium_username;
+      $titanium_username = (strlen($titanium_user_color) == 6) ? '<span style="color: #'. $titanium_user_color .'">'. $uname .'</span>' : $uname;
+      $titanium_cached_names[$plain_username] = $titanium_username;
+      $titanium_cache->save('UserColors', 'config', $titanium_cached_names);
 	endif;
 
     return $titanium_cached_names[$plain_username];
