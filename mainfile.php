@@ -974,14 +974,16 @@ function headlines($bid, $side=0, $row='')
 {
     global $titanium_prefix, $titanium_db, $my_headlines, $titanium_cache;
 
-    if(!$my_headlines) 
+    if(!$my_headlines): 
 	return;
+	endif;
     
 	$bid = intval($bid);
     
-	if (!is_array($row)) 
+	if (!is_array($row)): 
     $row = $titanium_db->sql_ufetchrow('SELECT `title`, `content`, `url`, `refresh`, `time` FROM `'.$titanium_prefix.'_blocks` WHERE `bid`='.$bid, SQL_ASSOC);
-    
+    endif;
+	
 	$content =& trim($row['content']);
 
     if ($row['time'] < (time()-$row['refresh']) || empty($content)):
@@ -991,15 +993,17 @@ function headlines($bid, $side=0, $row='')
         $titanium_cache->delete('blocks', 'config');
     endif;
 
-    if (empty($content)) 
+    if (empty($content)): 
     $content = _RSSPROBLEM.' ('.$row['title'].')';
-    
+    endif;
+	
     $content = '<span class="content">'.$content.'</span>';
     
-	if ($side == 'c' || $side == 'd') 
+	if($side == 'c' || $side == 'd'): 
         themecenterbox($row['title'], $content);
-     else 
+    else: 
         themesidebox($row['title'], $content, $bid);
+	endif;
 }
 
 function blog_ultramode() 
