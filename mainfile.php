@@ -1159,14 +1159,13 @@ function check_words($message)
 
 function check_html($str, $strip='') 
 {
-        # do not filter strings for the admins! (Test This Later)        
-		if (is_mod_admin('super')):
-          $str = Fix_Quotes($str, !empty($strip));
-          return $str;
-		endif;
-/*****[BEGIN]******************************************
- [ Base:    PHP Input Filter                   v1.2.2 ]
- ******************************************************/
+    # do not filter strings for the admins! (Test This Later)        
+	if (is_mod_admin('super')):
+     $str = Fix_Quotes($str, !empty($strip));
+       return $str;
+	endif;
+    
+	# Base: PHP Input Filter v1.2.2 START
     if(defined('INPUT_FILTER')): 
 		if ($strip == 'nohtml')
         global $AllowableHTML;
@@ -1182,34 +1181,33 @@ function check_html($str, $strip='')
         $html_filter = new InputFilter($html, "", 0, 0, 1);
         $str = $html_filter->process($str);
 	else: 
-/*****[END]********************************************
- [ Base:    PHP Input Filter                   v1.2.2 ]
- ******************************************************/
-        $str = Fix_Quotes($str, !empty($strip));
-/*****[BEGIN]******************************************
- [ Base:    PHP Input Filter                   v1.2.2 ]
- ******************************************************/
+	# Base: PHP Input Filter v1.2.2 END
+    
+	$str = Fix_Quotes($str, !empty($strip));
+
+	# Base: PHP Input Filter v1.2.2 START
     endif;
-/*****[END]********************************************
- [ Base:    PHP Input Filter                   v1.2.2 ]
- ******************************************************/
+	# Base: PHP Input Filter v1.2.2 END
+	
     return $str;
 }
 
-function filter_text($Message, $strip='') {
+function filter_text($Message, $strip='') 
+{
     $Message = check_words($Message);
     $Message = check_html($Message, $strip);
     return $Message;
 }
 
-// actualTime function by ReOrGaNiSaTiOn
-function actualTime() {
+# actualTime function by ReOrGaNiSaTiOn
+function actualTime() 
+{
   $date = date('Y-m-d H:i:s');
   $actualTime_tempdate = formatTimestamp($date, $format='Y-m-d H:i:s');
   return $actualTime_tempdate;
 }
 
-// formatTimestamp function by ReOrGaNiSaTiOn
+# formatTimestamp function by ReOrGaNiSaTiOn
 function formatTimestamp($time, $format='', $dateonly='') 
 {
     global $datetime, $locale, $userinfo, $phpbb2_board_config;
