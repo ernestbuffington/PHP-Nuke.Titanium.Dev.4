@@ -739,10 +739,11 @@ function is_active($titanium_module)
     global $titanium_prefix, $titanium_db, $titanium_cache;
     static $active_titanium_modules;
     
-	if (is_array($active_titanium_modules)) 
+	if (is_array($active_titanium_modules)): 
     return(isset($active_titanium_modules[$titanium_module]) ? 1 : 0);
+	endif;
     
-	if ((($active_titanium_modules = $titanium_cache->load('active_modules', 'config')) === false) || empty($active_titanium_modules)):
+	if((($active_titanium_modules = $titanium_cache->load('active_modules', 'config')) === false) || empty($active_titanium_modules)):
 		$active_titanium_modules = array();
         $result = $titanium_db->sql_query('SELECT `title` FROM `'.$titanium_prefix.'_modules` WHERE `active`="1"');
 		while(list($title) = $titanium_db->sql_fetchrow($result, SQL_NUM)):
@@ -751,6 +752,7 @@ function is_active($titanium_module)
 		$titanium_db->sql_freeresult($result);
         $titanium_cache->save('active_modules', 'config', $active_titanium_modules);
     endif;
+	
 	return (isset($active_titanium_modules[$titanium_module]) ? 1 : 0);
 }
 
