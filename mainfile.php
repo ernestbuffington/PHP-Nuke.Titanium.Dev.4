@@ -79,6 +79,7 @@ define_once('TITANIUM_VERSION', NUKE_TITANIUM . ' ' . TITANIUM_EDITION);
 # Evo Base Engine Framework
 define_once('EVO_VERSION', NUKE_EVO . ' ' . EVO_EDITION);
 
+# PHP-Nuke Titanium will no longer run on PHP 5
 define('PHP_5', version_compare(PHPVERS, '5.0.0', '>='));
 
 if (!ini_get('register_globals')): 
