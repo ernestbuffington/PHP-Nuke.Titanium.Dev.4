@@ -73,7 +73,12 @@ define_once('EVO_EDITION', 'xtreme');
 define_once('TITANIUM_EDITION', 'AN602');
 
 define('PHPVERS', @phpversion());
+
+# Titanium New Main Engine
+define_once('TITANIUM_VERSION', NUKE_TITANIUM . ' ' . TITANIUM_EDITION);
+# Evo Base Engine Framework
 define_once('EVO_VERSION', NUKE_EVO . ' ' . EVO_EDITION);
+
 define('PHP_5', version_compare(PHPVERS, '5.0.0', '>='));
 
 if (!ini_get('register_globals')): 
