@@ -1472,15 +1472,17 @@ function network_ads($position)
     echo "\n\n\n<!-- function network_ads START -->\n";
     echo "<!-- function network_ads LOADING -->\n";
 	
-	if(!$banners) 
-    return ''; 
+	if(!$banners): 
+     return ''; 
+	endif;
     
 	$position = intval($position);
     $result = $titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_banner` WHERE `position`='$position' AND `active`='1' ORDER BY RAND() LIMIT 0,1");
     $numrows = $titanium_db2->sql_numrows($result);
     
-	if ($numrows < 1) 
-	return '';
+	if($numrows < 1): 
+	 return '';
+	endif;
     
 	$row = $titanium_db2->sql_fetchrow($result, SQL_ASSOC);
     $titanium_db2->sql_freeresult($result);
@@ -1493,8 +1495,9 @@ function network_ads($position)
     
 	$bid = intval($bid);
     
-	if(!is_admin()) 
+	if(!is_admin()): 
     $titanium_db2->sql_query("UPDATE `".$network_prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
+	endif;
 
     $sql2 = "SELECT `cid`, 
 	           `imptotal`, 
@@ -1506,7 +1509,9 @@ function network_ads($position)
 			   `ad_width`, 
 			  `ad_height` 
 			  
-			  FROM `".$network_prefix."_banner` WHERE `bid`='$bid'";
+	FROM `".$network_prefix."_banner` 
+	
+	WHERE `bid`='$bid'";
     
 	$result2 = $titanium_db2->sql_query($sql2);
 
@@ -1518,7 +1523,7 @@ function network_ads($position)
     $impmade = intval($impmade);
     $clicks = intval($clicks);
     
-	/* Check if this impression is the last one and print the banner */
+	# Check if this impression is the last one and print the banner 
     if (($imptotal <= $impmade) && ($imptotal != 0)): 
 	
         $titanium_db2->sql_query("UPDATE `".$network_prefix."_banner` SET `active`='0' WHERE `bid`='$bid'");
@@ -1572,14 +1577,17 @@ function network_ads($position)
 function addPHPCSSToHead($content, $type='file')
 {
     global $headPHPCSS;
-    if (($type == 'file') 
+    
+	if(($type == 'file') 
 	&& (is_array($headPHPCSS) 
 	&& count($headPHPCSS) > 0) 
-	&& (in_array(array($type, $content), $headPHPCSS))) 
+	&& (in_array(array($type, $content), $headPHPCSS))): 
 	return;
-    
+	endif;
+	
 	$headPHPCSS[] = array($type, $content);
-    return;
+    
+	return;
 }
 # END for Theme Fly Kit by Ernest Buffington - 09/02/2019
 
@@ -1590,8 +1598,9 @@ function addCSSToHead($content, $type='file')
     if (($type == 'file') 
 	&& (is_array($headCSS) 
 	&& count($headCSS) > 0) 
-	&& (in_array(array($type, $content), $headCSS))) 
+	&& (in_array(array($type, $content), $headCSS))): 
 	return;
+	endif;
     
 	$headCSS[] = array($type, $content);
     return;
@@ -1603,8 +1612,9 @@ function addJSToHead($content, $type='file')
     if (($type == 'file') 
 	&& (is_array($headJS) 
 	&& count($headJS) > 0) 
-	&& (in_array(array($type, $content), $headJS))) 
+	&& (in_array(array($type, $content), $headJS))): 
 	return;
+	endif;
     
 	$headJS[] = array($type, $content);
     return;
@@ -1617,8 +1627,9 @@ function addJSToBody($content, $type='file')
 	if (($type == 'file') 
 	&& (is_array($bodyJS) 
 	&& count($bodyJS) > 0) 
-	&& (in_array(array($type, $content), $bodyJS))) 
+	&& (in_array(array($type, $content), $bodyJS))): 
 	return;
+	endif;
     
 	$bodyJS[] = array($type, $content);
     return;
@@ -1697,9 +1708,6 @@ function makePass()
 
     return $makepass;
 }
-/*****[END]********************************************
- [ Module:    Advertising                    v7.8.3.1 ]
- ******************************************************/
 
 /*****[BEGIN]******************************************
  [ Base:    Theme Management                   v1.0.2 ]
@@ -1714,11 +1722,11 @@ function get_theme()
 
     global $Default_Theme, $cookie;
 
-    #Quick Theme Change - Theme Management (JeFFb68CAM)
+    # Quick Theme Change - Theme Management (JeFFb68CAM)
     if(isset($_REQUEST['chngtheme']) && is_user())
     ChangeTheme($_REQUEST['theme'], $cookie[0]);
 
-    #Theme Preview Mod - Theme Management (JeFFb68CAM)
+    # Theme Preview Mod - Theme Management (JeFFb68CAM)
     if(isset($_REQUEST['tpreview']) && ThemeAllowed($_REQUEST['tpreview'])): 
 	
         $ThemeSel = $_REQUEST['tpreview'];
@@ -1730,11 +1738,11 @@ function get_theme()
 
     endif;
 
-    #Theme Preview for guests Mod - Theme Management (JeFFb68CAM)
+    # Theme Preview for guests Mod - Theme Management (JeFFb68CAM)
     if (isset($_COOKIE['guest_theme']) && !is_user()) 
     return (ThemeAllowed($_COOKIE['guest_theme']) ? $_COOKIE['guest_theme'] : $Default_Theme);
 
-    #New feature to grab a backup theme if the one we are trying to use does not exist, no more missing theme errors :)
+    # New feature to grab a backup theme if the one we are trying to use does not exist, no more missing theme errors :)
     $ThemeSel = (ThemeAllowed($nTheme = (isset($cookie[9]) ? $cookie[9] : $Default_Theme))) ? $nTheme : ThemeBackup($nTheme);
 
     return $ThemeSel;
@@ -1744,7 +1752,7 @@ function get_theme()
  [ Base:    Evolution Functions                v1.5.0 ]
  ******************************************************/
 
-// Function to translate Datestrings
+# Function to translate Datestrings
 function translate($phrase) 
 {
 	switch($phrase) :
