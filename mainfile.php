@@ -1251,9 +1251,7 @@ function get_microtime()
     return ($usec + $sec);
 }
 
-/*****[BEGIN]******************************************
- [ Mod:    Blog Signature                      v1.0.0 ]
- ******************************************************/
+# Mod: Blog Signature v1.0.0 START
 function blog_signature($aid) 
 {
     global $titanium_user_prefix, $titanium_db;
@@ -1300,10 +1298,7 @@ function blog_signature($aid)
     
 	return $aid;
 }
-/*****[END]********************************************
- [ Mod:    Blog Signature                      v1.0.0 ]
- ******************************************************/
-
+# Mod: Blog Signature v1.0.0 END
 
 function get_author($aid) 
 {
