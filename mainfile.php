@@ -609,9 +609,12 @@ function is_admin($trash=0)
         else:
             $pass = get_admin_field('pwd', $aid);
         endif;
-        if ($pass == $pwd && !empty($pass)) 
+        
+		if ($pass == $pwd && !empty($pass)): 
         return $adminstatus = 1;
-    endif;
+        endif;
+		
+	endif;
     return $adminstatus = 0;
 }
 
@@ -619,13 +622,15 @@ function is_god_admin($trash=0)
 {
     static $godadminstatus;
 
-    if(isset($godadminstatus)) 
+    if(isset($godadminstatus)): 
 	return $godadminstatus;
+	endif;
 
     $godadmincookie = isset($_COOKIE['admin']) ? $_COOKIE['admin'] : false;
     
-	if (!$godadmincookie) 
-	return $godadminstatus = 0; 
+	if (!$godadmincookie): 
+	return $godadminstatus = 0;
+	endif; 
     
 	$godadmincookie = (!is_array($godadmincookie)) ? explode(':', base64_decode($godadmincookie)) : $godadmincookie;
     $aid = $godadmincookie[0];
@@ -643,8 +648,9 @@ function is_god_admin($trash=0)
             $pass    = get_admin_field('pwd', $godaid);
             $godname = get_admin_field('name', $godaid);
         endif;
-        if ( ($pass == $pwd && !empty($pass)) && ( $godname == 'God') )  
-        return $godadminstatus = 1;
+          if(($pass == $pwd && !empty($pass)) && ( $godname == 'God')):  
+          return $godadminstatus = 1;
+		  endif;
     endif;
     return $godadminstatus = 0;
 }
