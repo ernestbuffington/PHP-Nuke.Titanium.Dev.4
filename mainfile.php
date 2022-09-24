@@ -658,13 +658,16 @@ function is_god_admin($trash=0)
 function is_user($trash=0) 
 {
     static $titanium_userstatus;
-    if(isset($titanium_userstatus)) 
+	
+    if(isset($titanium_userstatus)): 
 	return $titanium_userstatus;
+	endif;
     
 	$titanium_usercookie = isset($_COOKIE['user']) ? $_COOKIE['user'] : false;
     
-	if (!$titanium_usercookie) 
+	if(!$titanium_usercookie): 
 	return $titanium_userstatus = 0; 
+	endif;
     
 	$titanium_usercookie = (!is_array($titanium_usercookie)) ? explode(':', base64_decode($titanium_usercookie)) : $titanium_usercookie;
     $uid = $titanium_usercookie[0];
@@ -673,9 +676,11 @@ function is_user($trash=0)
 
     if (!empty($uid) AND !empty($pwd)):
         $user_password = get_user_field('user_password', $uid);
-        if ($user_password == $pwd && !empty($user_password))
+        if ($user_password == $pwd && !empty($user_password)):
         return $titanium_userstatus = 1;
+		endif;
     endif;
+	
     return $titanium_userstatus = 0;
 }
 
