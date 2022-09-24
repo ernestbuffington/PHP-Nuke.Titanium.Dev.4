@@ -1950,8 +1950,9 @@ referer();
 
 function block_vpn_proxy_user()
 {
-    if (get_evo_option('iphub_status', 'int') == 1)
-    include_once(NUKE_INCLUDE_DIR.'iphub.novpn.php');
+    if (get_evo_option('iphub_status', 'int') == 1):
+     include_once(NUKE_INCLUDE_DIR.'iphub.novpn.php');
+	endif;
 }
 
 /*****[BEGIN]******************************************
