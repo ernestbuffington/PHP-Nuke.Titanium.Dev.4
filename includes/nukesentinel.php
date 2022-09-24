@@ -1123,7 +1123,7 @@ function abget_blocked($remoteip)
   global $titanium_prefix, $titanium_db;
   static $blocked_row;
   if(isset($blocked_row)) { return $blocked_row; }
-  $ip = explode(".", $remoteip);
+  $ip = explode(".", '$remoteip');
   $ip[0] = (isset($ip[0])) ? intval($ip[0]) : '';
   $ip[1] = (isset($ip[1])) ? intval($ip[1]) : '';
   $ip[2] = (isset($ip[2])) ? intval($ip[2]) : '';

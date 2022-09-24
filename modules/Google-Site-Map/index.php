@@ -617,9 +617,9 @@ while ($row2 = $titanium_db->sql_fetchrow($result2)):
 						print '<tr><td></td><td>';
 						print '&nbsp;&nbsp;&nbsp;&nbsp;<font color="darkgreen"><i style="vertical-align: middle;" 
 						class="fa fa-unlock-alt"></i></font>&nbsp;';
-						print '<a href="modules.php?name=Forums&amp;file=viewtopic&amp;t='.$rowT[topic_id].'">'.$rowT[topic_title].'</a></td>';
+						print '<a href="modules.php?name=Forums&amp;file=viewtopic&amp;t='.$rowT['topic_id'].'">'.$rowT['topic_title'].'</a></td>';
 						if($xml):
-                        $sitemap->addItem('/modules.php?name=Forums&file=viewtopic&t='.$rowT[topic_id].'', '0.8', 'daily', 'Jun 25');
+                        $sitemap->addItem('/modules.php?name=Forums&file=viewtopic&t='.$rowT['topic_id'].'', '0.8', 'daily', 'Jun 25');
                         endif;
 						endwhile;
                        $titanium_db->sql_freeresult($resultT);

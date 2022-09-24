@@ -1,6 +1,6 @@
 <?php
 /*======================================================================= 
-  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
+  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System 
  =======================================================================*/
 
 /************************************************************************/
@@ -57,42 +57,34 @@
 if((defined('NUKE_EVO')) || (defined('NUKE_TITANIUM')))return;
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))exit('Access Denied');
 
-# Define Version
-define_once('NUKE_TITANIUM', '4.0.2');
-# Define Versiom
+# Define File
 define_once('NUKE_EVO', '2.0.9');
-# Build Version
+# Network Support
+define_once('NUKE_TITANIUM', '4.0.2');
+# Network Support
 define_once('TITANIUM_BUILD', '209402');
-# Build Version of Evo Base Engine
 define_once('CUR_EVO', 'NUKE_EVO');
-# Version Info Titanium
+# Network Support
 define_once('CUR_TITANIUM', 'NUKE_TITANIUM');
-# Version Info Evo Base Engine
 define_once('EVO_EDITION', 'xtreme');
-# Version Info Titanium NEW Engine
-define_once('TITANIUM_EDITION', 'AN602');
+# Network Support
+define_once('TITANIUM_EDITION', 'Network');
 
 define('PHPVERS', @phpversion());
-
-# Titanium New Main Engine
-define_once('TITANIUM_VERSION', NUKE_TITANIUM . ' ' . TITANIUM_EDITION);
-# Evo Base Engine Framework
 define_once('EVO_VERSION', NUKE_EVO . ' ' . EVO_EDITION);
-
-# PHP-Nuke Titanium will no longer run on PHP 5
 define('PHP_5', version_compare(PHPVERS, '5.0.0', '>='));
 
 if (!ini_get('register_globals')): 
 	$import = true;
-	# We need register_globals so try the built in import function
+	//Need register_globals so try the built in import function
 	if (function_exists('import_request_variables')):
 		@import_request_variables('GPC');
 	else: 
 		function evo_import_globals($array)
 		{
 			foreach ($array as $k => $v):
-			global $$k;
-			$$k = $v;
+				global $$k;
+				$$k = $v;
 			endforeach;
 		}
 		if (!empty($_GET))
@@ -107,16 +99,15 @@ endif;
 $admin = (isset($_COOKIE['admin'])) ? $_COOKIE['admin'] : false;
 $titanium_user = (isset($_COOKIE['user'])) ? $_COOKIE['user'] : false;
 
-if ((isset($_POST['name']) && !empty($_POST['name'])) && (isset($_GET['name']) && !empty($_GET['name']))): 
+if ((isset($_POST['name']) && !empty($_POST['name'])) && (isset($_GET['name']) && !empty($_GET['name']))) 
     $name = (isset($_GET['name']) && !stristr($_GET['name'],'..') && !stristr($_GET['name'],'://')) ? addslashes(trim($_GET['name'])) : false;
-else: 
+else 
     $name = (isset($_REQUEST['name']) && !stristr($_REQUEST['name'],'..') && !stristr($_REQUEST['name'],'://')) ? addslashes(trim($_REQUEST['name'])) : false;
-endif;
 
 $phpbb2_start_mem = function_exists('memory_get_usage') ? memory_get_usage() : 0;
 $phpbb2_start_time = get_microtime();
 
-# Stupid handle to create REQUEST_URI for IIS 5 servers
+// Stupid handle to create REQUEST_URI for IIS 5 servers
 if (preg_match('/IIS/', $_SERVER['SERVER_SOFTWARE']) && isset($_SERVER['SCRIPT_NAME'])):
     $requesturi = $_SERVER['SCRIPT_NAME'];
     if (isset($_SERVER['QUERY_STRING']))
@@ -124,7 +115,7 @@ if (preg_match('/IIS/', $_SERVER['SERVER_SOFTWARE']) && isset($_SERVER['SCRIPT_N
     $_SERVER['REQUEST_URI'] = $requesturi;
 endif;
 
-# PHP5 with register_long_arrays off?? Who gives a fuck we don't support PHP 5 anymore!
+// PHP5 with register_long_arrays off?
 if (PHP_5 && (!@ini_get('register_long_arrays') || @ini_get('register_long_arrays') == '0' || strtolower(@ini_get('register_long_arrays')) == 'off')):
     $HTTP_POST_VARS =& $_POST;
     $HTTP_GET_VARS =& $_GET;
@@ -142,7 +133,7 @@ if (isset($_COOKIE['DONATION'])):
     header($type . 'modules.php?name=Donations&op=thankyou');
 endif;
 
-# Absolute path Mod - Start  01/01/2012 by Ernest Allen Buffington #
+# absolute path Mod - Start  01/01/2012 by Ernest Allen Buffington #
 $rel_path=array();
 $rel_path['file']   = str_replace('\\', "/", realpath(dirname(__FILE__)));
 $server_ary         = pathinfo(realpath(basename($_SERVER['PHP_SELF'])));
@@ -151,24 +142,28 @@ $rel_path['uri']    = realpath(basename(substr($_SERVER['REQUEST_URI'], 0, strpo
 $script_abs_path    = pathinfo(realpath($_SERVER['SCRIPT_FILENAME']));
 $rel_path['script'] = str_replace('\\', "/",$script_abs_path['dirname']);
 
-if(($rel_path['file'] == $rel_path['script']) && (strlen($_SERVER['DOCUMENT_ROOT']) < strlen($script_abs_path['dirname']))): 
+if ( ($rel_path['file'] == $rel_path['script']) && (strlen($_SERVER['DOCUMENT_ROOT']) < strlen($script_abs_path['dirname'])) ) 
+{
     $href_path = '/'.str_replace($_SERVER['DOCUMENT_ROOT'], '', $rel_path['script'] );
-    if ( substr($href_path, 0, 2) == '//'): 
+
+    if ( substr($href_path, 0, 2) == '//') 
     $href_path = substr($href_path, 1);
-	endif;
-elseif(strlen($rel_path['file']) == (strlen($_SERVER['DOCUMENT_ROOT']) - 1) ): 
+} 
+elseif (strlen($rel_path['file']) == (strlen($_SERVER['DOCUMENT_ROOT']) - 1) ) 
     $href_path = '';
-elseif( strlen($rel_path['script']) > strlen($_SERVER['DOCUMENT_ROOT']) && (strlen($_SERVER['DOCUMENT_ROOT']) > strlen($rel_path['file'])) ): 
+elseif ( strlen($rel_path['script']) > strlen($_SERVER['DOCUMENT_ROOT']) && (strlen($_SERVER['DOCUMENT_ROOT']) > strlen($rel_path['file'])) ) 
     $href_path = '';
-elseif (strlen($rel_path['file']) > strlen($_SERVER['DOCUMENT_ROOT'])): 
+elseif (strlen($rel_path['file']) > strlen($_SERVER['DOCUMENT_ROOT'])) 
+{
 	$href_path = '/'.str_replace($_SERVER['DOCUMENT_ROOT'], '', $rel_path['file']);
-	if ( substr($href_path, 0, 2) == '//'): 
+    if ( substr($href_path, 0, 2) == '//') 
         $href_path = substr($href_path, 1);
-	endif;
-else: 
+} 
+else 
+{
     $href_path = 'https://'.$_SERVER['SERVER_NAME'];
 	$href_path_http = 'http://'.$_SERVER['SERVER_NAME'];
-endif;
+}
 
 unset ($rel_path);
 unset ($server_ary);
@@ -298,8 +293,8 @@ define('GZIPSUPPORT', extension_loaded('zlib'));
 define('GDSUPPORT', extension_loaded('gd'));
 define('CAN_MOD_INI', !stristr(ini_get('disable_functions'), 'ini_set'));
 
-# If a class hasn't been loaded yet find the required file on the server and load
-# it in using the special autoloader detection built into PHP5+
+// If a class hasn't been loaded yet find the required file on the server and load
+// it in using the special autoloader detection built into PHP5+
 if (!function_exists('classAutoloader')): 
     function classAutoloader($class) 
     {
@@ -354,32 +349,27 @@ if (@file_exists(NUKE_BASE_DIR.'fbconfig.php')):
 endif;
 # facebook SDK Mod END
 
-# Include config file
+// Include config file
 @require_once(NUKE_BASE_DIR.'config.php');
 
-if(!$directory_mode):
+if(!$directory_mode)
 $directory_mode = 0777;
-else:
+else
 $directory_mode = 0755;
-endif;
 
-if(!$file_mode):
+if (!$file_mode)
 $file_mode = 0666;
-else:
+else
 $file_mode = 0644;
-endif;
 
-# Core exceptions handler
+// Core exceptions handler
 include_once(NUKE_INCLUDE_DIR . 'exception.php');
 include_once(NUKE_INCLUDE_DIR . 'abstract/abstract.exception.php');
 
-# Include the required files
+// Include the required files
 @require_once(NUKE_DB_DIR.'db.php');
-
-# TUen Titanium debug on and off!
 //$titanium_db->debug = true;
-
-# Include Error Logger and identify class
+// Include Error Logger and identify class
 @require_once(NUKE_CLASSES_DIR.'class.identify.php');
 global $phpbb2_agent;
 
@@ -388,7 +378,7 @@ $phpbb2_agent = $identify->identify_agent();
 
 @require_once(NUKE_INCLUDE_DIR.'log.php');
 
-if(ini_get('output_buffering') && !isset($phpbb2_agent['bot'])):
+if (ini_get('output_buffering') && !isset($phpbb2_agent['bot'])):
     ob_end_clean();
     header('Content-Encoding: none');
 endif;
@@ -430,10 +420,10 @@ require_once(NUKE_INCLUDE_DIR.'functions_evo.php');
 require_once(NUKE_INCLUDE_DIR.'functions_evo_custom.php');
 include_once(NUKE_INCLUDE_DIR.'validation.php');
 
-# We globalize the $cookie and $userinfo variables,
-# so that they dont have to be called each time
-# And as you can see, getusrinfo() is now deprecated.
-# Because you dont have to call it anymore, just call $userinfo
+// We globalize the $cookie and $userinfo variables,
+// so that they dont have to be called each time
+// And as you can see, getusrinfo() is now deprecated.
+// Because you dont have to call it anymore, just call $userinfo
 if(is_user()):
     $cookie = cookiedecode();
     $userinfo = get_user_field('*', $cookie[1], true);
@@ -442,7 +432,7 @@ else:
     $userinfo = get_user_field('*', 'Anonymous', true);
 endif;
 
-# If they have been deactivated send them to logout to kill their cookie and sessions
+//If they have been deactivated send them to logout to kill their cookie and sessions
 if (is_array($userinfo) && isset($userinfo['user_active']) 
 && $userinfo['user_id'] != 1 && $userinfo['user_id'] != 0 
 && $userinfo['user_active'] == 0 && $_GET['name'] != 'Your_Account'):
@@ -473,9 +463,13 @@ foreach($nuke_titanium_config as $var => $value):
     $$var = $value;
 endforeach;
 
-# Base: Language Selector v3.0.0 START
+/*****[BEGIN]******************************************
+ [ Base:    Language Selector                  v3.0.0 ]
+ ******************************************************/
 @require_once(NUKE_INCLUDE_DIR.'language.php');
-# Base: Language Selector v3.0.0 END
+/*****[END]********************************************
+ [ Base:    Language Selector                  v3.0.0 ]
+ ******************************************************/
  
 $adminmail = stripslashes($adminmail);
 $foot1 = stripslashes($foot1);
@@ -506,19 +500,24 @@ $Default_Theme = $default_Theme;
 
 if (CAN_MOD_INI) ini_set('sendmail_from', $adminmail);
 
-# Base: Titanium Functions START
+/*****[BEGIN]******************************************
+ [ Base:     Evolution Functions               v1.5.0 ]
+ ******************************************************/
 $titanium_config = load_titanium_config();
 $phpbb2_board_config = load_phpbb2_board_config();
-# Base: Evolution Functions END
-
-# Mod: Lock Modules v1.0.0 
-# Mod: Queries Count v2.0.0 
-# Other: SSL Administration v1.0.0 
-# Base: Censor v1.0.0 
-# Base: Caching System v3.0.0 
-# Mod: Color Toggle v1.0.0 
-# Mod: Lazy Google Tap v1.0.0 
-# Base: Switch Content Script v2.0.0 
+/*****[END]********************************************
+ [ Base:     Evolution Functions               v1.5.0 ]
+ ******************************************************/
+/*****[BEGIN]******************************************
+ [ Mod:     Lock Modules                       v1.0.0 ]
+ [ Mod:     Queries Count                      v2.0.0 ]
+ [ Other:   SSL Administration                 v1.0.0 ]
+ [ Base:    Censor                             v1.0.0 ]
+ [ Base:    Caching System                     v3.0.0 ]
+ [ Mod:     Color Toggle                       v1.0.0 ]
+ [ Mod:     Lazy Google Tap                    v1.0.0 ]
+ [ Base:    Switch Content Script              v2.0.0 ]
+ ******************************************************/
 $lock_titanium_modules = intval($titanium_config['lock_modules']);
 $titanium_queries_count = intval($titanium_config['queries_count']);
 $adminssl = intval($titanium_config['adminssl']);
@@ -541,24 +540,48 @@ $titanium_html_auth = $titanium_config['html_auth'];
 
 $more_js = '';
 $more_styles = '';
+/*****[END]********************************************
+ [ Mod:     Lock Modules                       v1.0.0 ]
+ [ Mod:     Queries Count                      v2.0.0 ]
+ [ Other:   SSL Administration                 v1.0.0 ]
+ [ Base:    Censor                             v1.0.0 ]
+ [ Base:    Caching System                     v3.0.0 ]
+ [ Mod:     Color Toggle                       v1.0.0 ]
+ [ Mod:     Lazy Google Tap                    v1.0.0 ]
+ [ Base:    Switch Content Script              v2.0.0 ]
+ ******************************************************/
 
-# Mod: Lazy Google Tap v1.0.0
-# Base: Theme Management v1.0.2
-# Base: NukeSentinel v2.5.08
-# Mod: Custom Text Area v1.0.0
+/*****[BEGIN]******************************************
+ [ Mod:     Lazy Google Tap                    v1.0.0 ]
+ [ Base:    Theme Management                   v1.0.2 ]
+ [ Base:    NukeSentinel                      v2.5.08 ]
+ [ Mod:     Custom Text Area                   v1.0.0 ]
+ ******************************************************/
 require_once(NUKE_INCLUDE_DIR.'functions_browser.php');
 require_once(NUKE_INCLUDE_DIR.'themes.php');
 include_once(NUKE_INCLUDE_DIR.'functions_tap.php');
+
 if(!defined('NO_SENTINEL')) 
 require_once(NUKE_INCLUDE_DIR.'nukesentinel.php');
+
 require_once(NUKE_CLASSES_DIR.'class.variables.php');
 include_once(NUKE_CLASSES_DIR.'class.wysiwyg.php');
+/*****[END]********************************************
+ [ Mod:     Lazy Google Tap                    v1.0.0 ]
+ [ Base:    Theme Management                   v1.0.2 ]
+ [ Base:    NukeSentinel                      v2.5.08 ]
+ [ Mod:     Custom Text Area                   v1.0.0 ]
+ ******************************************************/
 include_once(NUKE_INCLUDE_DIR.'json.php');
 $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
 
-# Mod: Shoutbox v8.5.2 START
+/*****[BEGIN]******************************************
+ [ Mod:    Shoutbox                            v8.5.2 ]
+ ******************************************************/
 include_once(NUKE_MODULES_DIR.'Shout_Box/shout.php');
-# Mod: Shoutbox v8.5.2 END
+/*****[END]********************************************
+ [ Mod:    Shoutbox                            v8.5.2 ]
+ ******************************************************/
 
 if (file_exists(NUKE_INCLUDE_DIR.'custom_files/custom_mainfile.php'))
 require_once(NUKE_INCLUDE_DIR.'custom_files/custom_mainfile.php');
@@ -568,7 +591,9 @@ if(!defined('FORUM_ADMIN') && !isset($ThemeSel) && !defined('RSS_FEED')):
     include_once(NUKE_THEMES_DIR . $ThemeSel . '/theme.php');
 endif;
 
-# Base: Admin File Check v3.0.0 START
+/*****[BEGIN]******************************************
+ [ Base:    Admin File Check                   v3.0.0 ]
+ ******************************************************/
 if(!defined('FORUM_ADMIN')):
     global $admin_file;
     if(!isset($admin_file) || empty($admin_file)) 
@@ -576,8 +601,10 @@ if(!defined('FORUM_ADMIN')):
     elseif(!empty($admin_file) && !file_exists(NUKE_BASE_DIR.$admin_file.'.php'))
         die('The $admin_file you defined in config.php does not exist');
 endif;
-# Base: Admin File Check v3.0.0 END
 
+/*****[END]********************************************
+ [ Base:    Admin File Check                   v3.0.0 ]
+ ******************************************************/
 function define_once($constant, $value) 
 {
     if(!defined($constant)) 
@@ -609,12 +636,9 @@ function is_admin($trash=0)
         else:
             $pass = get_admin_field('pwd', $aid);
         endif;
-        
-		if ($pass == $pwd && !empty($pass)): 
+        if ($pass == $pwd && !empty($pass)) 
         return $adminstatus = 1;
-        endif;
-		
-	endif;
+    endif;
     return $adminstatus = 0;
 }
 
@@ -622,15 +646,13 @@ function is_god_admin($trash=0)
 {
     static $godadminstatus;
 
-    if(isset($godadminstatus)): 
+    if(isset($godadminstatus)) 
 	return $godadminstatus;
-	endif;
 
     $godadmincookie = isset($_COOKIE['admin']) ? $_COOKIE['admin'] : false;
     
-	if (!$godadmincookie): 
-	return $godadminstatus = 0;
-	endif; 
+	if (!$godadmincookie) 
+	return $godadminstatus = 0; 
     
 	$godadmincookie = (!is_array($godadmincookie)) ? explode(':', base64_decode($godadmincookie)) : $godadmincookie;
     $aid = $godadmincookie[0];
@@ -648,9 +670,8 @@ function is_god_admin($trash=0)
             $pass    = get_admin_field('pwd', $godaid);
             $godname = get_admin_field('name', $godaid);
         endif;
-          if(($pass == $pwd && !empty($pass)) && ( $godname == 'God')):  
-          return $godadminstatus = 1;
-		  endif;
+        if ( ($pass == $pwd && !empty($pass)) && ( $godname == 'God') )  
+        return $godadminstatus = 1;
     endif;
     return $godadminstatus = 0;
 }
@@ -658,16 +679,13 @@ function is_god_admin($trash=0)
 function is_user($trash=0) 
 {
     static $titanium_userstatus;
-	
-    if(isset($titanium_userstatus)): 
+    if(isset($titanium_userstatus)) 
 	return $titanium_userstatus;
-	endif;
     
 	$titanium_usercookie = isset($_COOKIE['user']) ? $_COOKIE['user'] : false;
     
-	if(!$titanium_usercookie): 
+	if (!$titanium_usercookie) 
 	return $titanium_userstatus = 0; 
-	endif;
     
 	$titanium_usercookie = (!is_array($titanium_usercookie)) ? explode(':', base64_decode($titanium_usercookie)) : $titanium_usercookie;
     $uid = $titanium_usercookie[0];
@@ -676,11 +694,9 @@ function is_user($trash=0)
 
     if (!empty($uid) AND !empty($pwd)):
         $user_password = get_user_field('user_password', $uid);
-        if ($user_password == $pwd && !empty($user_password)):
+        if ($user_password == $pwd && !empty($user_password))
         return $titanium_userstatus = 1;
-		endif;
     endif;
-	
     return $titanium_userstatus = 0;
 }
 
@@ -689,17 +705,15 @@ function cookiedecode($trash=0)
     global $cookie;
     static $rcookie;
 
-    if(isset($rcookie)): 
-	return $rcookie;
-	endif; 
+    if(isset($rcookie)) 
+	return $rcookie; 
 
     $titanium_usercookie = $_COOKIE['user'];
     $rcookie = (!is_array($titanium_usercookie)) ? explode(':', base64_decode($titanium_usercookie)) : $titanium_usercookie;
     $pass = get_user_field('user_password', $rcookie[1], true);
 
-    if ($rcookie[2] == $pass && !empty($pass)):
+    if ($rcookie[2] == $pass && !empty($pass))
     return $cookie = $rcookie;
-	endif;
     
     return false;
 }
@@ -739,11 +753,10 @@ function is_active($titanium_module)
     global $titanium_prefix, $titanium_db, $titanium_cache;
     static $active_titanium_modules;
     
-	if (is_array($active_titanium_modules)): 
+	if (is_array($active_titanium_modules)) 
     return(isset($active_titanium_modules[$titanium_module]) ? 1 : 0);
-	endif;
     
-	if((($active_titanium_modules = $titanium_cache->load('active_modules', 'config')) === false) || empty($active_titanium_modules)):
+	if ((($active_titanium_modules = $titanium_cache->load('active_modules', 'config')) === false) || empty($active_titanium_modules)):
 		$active_titanium_modules = array();
         $result = $titanium_db->sql_query('SELECT `title` FROM `'.$titanium_prefix.'_modules` WHERE `active`="1"');
 		while(list($title) = $titanium_db->sql_fetchrow($result, SQL_NUM)):
@@ -752,7 +765,6 @@ function is_active($titanium_module)
 		$titanium_db->sql_freeresult($result);
         $titanium_cache->save('active_modules', 'config', $active_titanium_modules);
     endif;
-	
 	return (isset($active_titanium_modules[$titanium_module]) ? 1 : 0);
 }
 
@@ -760,26 +772,26 @@ function render_blocks($side, $block)
 {
 	global $plus_minus_images, $currentlang, $collapse, $collapsetype;
 	define_once('BLOCK_FILE', true);
-    
-	# Include the block lang files
-	if(file_exists(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php')): 
+    //Include the block lang files
+    if (file_exists(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php')) 
         include_once(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php');
-    else:
+    else
         include_once(NUKE_LANGUAGE_DIR.'blocks/lang-english.php');
-	endif;
-    
-	# Mod: Switch Content Script v2.0.0 START
+ /*****[BEGIN]******************************************
+ [ Mod:     Switch Content Script              v2.0.0 ]
+ ******************************************************/
     if($collapse): 
         if (!$collapsetype):
-            $block['title'] = $block['title'] . "&nbsp;&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']."\" 
-			class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'block".$block['bid']."')\" alt=\"\" style=\"cursor: pointer;\" />";
+            $block['title'] = $block['title'] . "&nbsp;&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']."\" class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'block".$block['bid']."')\" alt=\"\" style=\"cursor: pointer;\" />";
+            // $block['title'] = $block['title'].'&nbsp;&nbsp;&nbsp;'.get_evo_icon('evo-sprite minus showstate', false, 'expandcontent(this, \'block'.$block['bid'].'\')');
         else: 
             $block['title'] = "<a href=\"javascript:expandcontent(this, 'block".$block['bid']."')\">".$block['title']."</a>";
         endif;
         $block['content'] = "<div id=\"block".$block['bid']."\" class=\"switchcontent\">".$block['content']."</div>";
     endif;
-	# Mod: Switch Content Script v2.0.0 END
-
+/*****[END]********************************************
+ [ Mod:     Switch Content Script              v2.0.0 ]
+ ******************************************************/
     if (empty($block['url'])): 
         if (empty($block['blockfile'])): 
             if ($side == 'c' || $side == 'd'): 
@@ -800,155 +812,150 @@ function blocks_visible($side)
     global $showblocks;
 
     $showblocks = ($showblocks == null) ? 3 : $showblocks;
+
     $side = strtolower($side[0]);
 
-    # If there are no blocks for this module && not admin file
-    if(!$showblocks && !defined('ADMIN_FILE')): 
+    //If there are no blocks for this module && not admin file
+    if (!$showblocks && !defined('ADMIN_FILE')) 
 	return false;
-	endif;
-    # If in the admin show l blocks
-    if(defined('ADMIN_FILE')): 
-    return true;
-	endif;
-    # If set to 3 its all blocks
-    if($showblocks == 3): 
-	return true;
-	endif;
-    # Count the blocks on the side
-    $blocks = blocks($side, true);
-    # If there are no blocks
-    if(!$blocks):
-    return false;
-	endif;
-    # Check for blocks to show
-    if(($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r')): 
-    return true;
-	endif;
 
-  return false;
+    //If in the admin show l blocks
+    if (defined('ADMIN_FILE')) 
+    return true;
+
+    //If set to 3 its all blocks
+    if ($showblocks == 3) 
+	return true;
+
+    //Count the blocks on the side
+    $blocks = blocks($side, true);
+
+    //If there are no blocks
+    if (!$blocks)
+    return false;
+
+    //Check for blocks to show
+    if (($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r')) 
+    return true;
+
+    return false;
 }
 
-function blocks($side, $count=false) 
-{
+function blocks($side, $count=false) {
     global $titanium_prefix, $multilingual, $currentlang, $titanium_db, $userinfo, $titanium_cache;
     static $blocks;
 
     $querylang = ($multilingual) ? 'AND (`blanguage`="'.$currentlang.'" OR `blanguage`="")' : '';
     $side = strtolower($side[0]);
-
-    if((($blocks = $titanium_cache->load('blocks', 'config')) === false) || !isset($blocks)): 
-	
+    if((($blocks = $titanium_cache->load('blocks', 'config')) === false) || !isset($blocks)) {
         $sql = 'SELECT * FROM `'.$titanium_prefix.'_blocks` WHERE `active`="1" '.$querylang.' ORDER BY `weight` ASC';
         $result = $titanium_db->sql_query($sql);
-    
-	    while($row = $titanium_db->sql_fetchrow($result, SQL_ASSOC)): 
+        while($row = $titanium_db->sql_fetchrow($result, SQL_ASSOC)) {
             $blocks[$row['bposition']][] = $row;
-        endwhile;
-        
-		$titanium_db->sql_freeresult($result);
+        }
+        $titanium_db->sql_freeresult($result);
         $titanium_cache->save('blocks', 'config', $blocks);
-    endif;
-
-    if($count): 
-    return (isset($blocks[$side]) ? count($blocks[$side]) : 0);
-    endif;
-    
-	$blockrow = (isset($blocks[$side])) ? $blocks[$side] : array();
-
-    for($i=0,$j = count($blockrow); $i < $j; $i++): 
-	
+    }
+    if ($count) {
+        return (isset($blocks[$side]) ? count($blocks[$side]) : 0);
+    }
+    $blockrow = (isset($blocks[$side])) ? $blocks[$side] : array();
+    for($i=0,$j = count($blockrow); $i < $j; $i++) {
         $bid = intval($blockrow[$i]['bid']);
         $view = $blockrow[$i]['view'];
-
-        if(isset($blockrow[$i]['expire'])): 
+        if(isset($blockrow[$i]['expire'])) {
             $expire = intval($blockrow[$i]['expire']);
-		else: 
+        } else {
             $expire = '';
-        endif;
-
-        if(isset($blockrow[$i]['action'])): 
+        }
+        if(isset($blockrow[$i]['action'])) {
             $action = $blockrow[$i]['action'];
             $action = substr($action, 0,1);
-		else: 
+        } else {
             $action = '';
-        endif;
-
+        }
         $now = time();
-
-        if($expire != 0 AND $expire <= $now): 
-            if($action == 'd'): 
+        if ($expire != 0 AND $expire <= $now) {
+            if ($action == 'd') {
                 $titanium_db->sql_query('UPDATE `'.$titanium_prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
                 $titanium_cache->delete('blocks', 'config');
                 return;
-			elseif($action == 'r'): 
+            } elseif ($action == 'r') {
                 $titanium_db->sql_query('DELETE FROM `'.$titanium_prefix.'_blocks` WHERE `bid`="'.$bid.'"');
                 $titanium_cache->delete('blocks', 'config');
                 return;
-            endif;
-        endif;
-		
-		if(empty($blockrow[$i]['bkey'])): 
+            }
+        }if (empty($blockrow[$i]['bkey'])) {
             if ( ($view == '0' || $view == '1') ||
                ( ($view == '3' AND is_user()) ) ||
                ( $view == '4' AND is_admin()) ||
-               ( ($view == '2' AND !is_user()))): 
-			
+               ( ($view == '2' AND !is_user())) ) {
                 render_blocks($side, $blockrow[$i]);
-			else: 
-                if(substr($view, strlen($view)-1) == '-'): 
+            } else {
+                if (substr($view, strlen($view)-1) == '-') {
                     $ingroups = explode('-', $view);
-					if (is_array($ingroups)): 
+                    if (is_array($ingroups)) {
                         $cnt = 0;
-					    foreach($ingroups as $group): 
-                            if(isset($userinfo['groups'][($group)])): 
+                        foreach ($ingroups as $group) {
+                            if (isset($userinfo['groups'][($group)])) {
                                 $cnt++;
-                            endif;
-                        endforeach;
-                    
-					  if($cnt != 0):
-                        render_blocks($side, $blockrow[$i]);
-                      endif;
-                    endif;
-                endif;
-            endif;
-        endif;
-    endfor;
-  return;
+                              }
+                          }
+                    if ($cnt != 0){
+                    render_blocks($side, $blockrow[$i]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return;
 } 
 
 function blockfileinc($blockfiletitle, $blockfile, $side=1, $bid) 
 {
     global $debug, $collapse;
+
     //if ($debug == 0)
 	//echo '<div align="center">'.$blockfile.'</div>';
-    if(!file_exists(NUKE_BLOCKS_DIR.$blockfile)): 
-        $content = _BLOCKPROBLEM;
-	else: 
-        include(NUKE_BLOCKS_DIR.$blockfile);
-    endif;
-    
-	if(empty($content)): 
-        $content = _BLOCKPROBLEM2;
-    endif;
-    
-	# Mod: Switch Content Script v2.0.0 START
-    if($collapse): 
-        $content = "&nbsp;<div id=\"block".$bid."\" class=\"switchcontent\">".$content."</div>";
-    endif;
-	# Mod: Switch Content Script v2.0.0 END
 
-    if($side == 'r' || $side == 'l'): 
+    if (!file_exists(NUKE_BLOCKS_DIR.$blockfile)) 
+	{
+        $content = _BLOCKPROBLEM;
+    } 
+	else 
+	{
+        include(NUKE_BLOCKS_DIR.$blockfile);
+    }
+    
+	if (empty($content)) 
+	{
+        $content = _BLOCKPROBLEM2;
+    }
+/*****[BEGIN]******************************************
+ [ Mod:     Switch Content Script              v2.0.0 ]
+ ******************************************************/
+    if($collapse) 
+	{
+        $content = "&nbsp;<div id=\"block".$bid."\" class=\"switchcontent\">".$content."</div>";
+    }
+/*****[END]********************************************
+ [ Mod:     Switch Content Script              v2.0.0 ]
+ ******************************************************/
+    if ($side == 'r' || $side == 'l') 
+	{
 		themesidebox($blockfiletitle, $content, $bid);
-	else: 
+    } 
+	else 
+	{
         themecenterbox($blockfiletitle, $content);
-    endif;
+    }
 }
 
 function rss_content($url) 
 {
-    if (!titanium_site_up($url)): 
+    if (!evo_site_up($url)) 
 	return false;
-	endif;
     
 	require_once(NUKE_CLASSES_DIR.'class.rss.php');
     
@@ -975,16 +982,14 @@ function headlines($bid, $side=0, $row='')
 {
     global $titanium_prefix, $titanium_db, $my_headlines, $titanium_cache;
 
-    if(!$my_headlines): 
+    if(!$my_headlines) 
 	return;
-	endif;
     
 	$bid = intval($bid);
     
-	if (!is_array($row)): 
+	if (!is_array($row)) 
     $row = $titanium_db->sql_ufetchrow('SELECT `title`, `content`, `url`, `refresh`, `time` FROM `'.$titanium_prefix.'_blocks` WHERE `bid`='.$bid, SQL_ASSOC);
-    endif;
-	
+    
 	$content =& trim($row['content']);
 
     if ($row['time'] < (time()-$row['refresh']) || empty($content)):
@@ -994,43 +999,23 @@ function headlines($bid, $side=0, $row='')
         $titanium_cache->delete('blocks', 'config');
     endif;
 
-    if (empty($content)): 
+    if (empty($content)) 
     $content = _RSSPROBLEM.' ('.$row['title'].')';
-    endif;
-	
+    
     $content = '<span class="content">'.$content.'</span>';
     
-	if($side == 'c' || $side == 'd'): 
+	if ($side == 'c' || $side == 'd') 
         themecenterbox($row['title'], $content);
-    else: 
+     else 
         themesidebox($row['title'], $content, $bid);
-	endif;
 }
 
 function blog_ultramode() 
 {
     global $titanium_db, $titanium_prefix, $multilingual, $currentlang;
     $querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
-    $sql = "SELECT s.sid, 
-	             s.catid, 
-				   s.aid, 
-				 s.title, 
-		 s.datePublished, 
-		  s.dateModified, 
-		      s.hometext, 
-			  s.comments, 
-			     s.topic, 
-				 s.ticon, 
-			 t.topictext, 
-			t.topicimage 
-	FROM `".$titanium_prefix."_stories` s 
-	
-	LEFT JOIN `".$titanium_prefix."_topics` t 
-	ON t.topicid = s.topic 
-	WHERE s.ihome = '0' ".$querylang." 
-	ORDER BY s.datePublished DESC LIMIT 0,10";
-    
-	$result = $titanium_db->sql_query($sql);
+    $sql = "SELECT s.sid, s.catid, s.aid, s.title, s.datePublished, s.dateModified, s.hometext, s.comments, s.topic, s.ticon, t.topictext, t.topicimage FROM `".$titanium_prefix."_stories` s LEFT JOIN `".$titanium_prefix."_topics` t ON t.topicid = s.topic WHERE s.ihome = '0' ".$querylang." ORDER BY s.datePublished DESC LIMIT 0,10";
+    $result = $titanium_db->sql_query($sql);
     
 	while ($row = $titanium_db->sql_fetchrow($result, SQL_ASSOC)): 
         $rsid = $row['sid'];
@@ -1051,7 +1036,7 @@ function blog_ultramode()
     
 	if (file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")): 
         $file = fopen(NUKE_BASE_DIR."ultramode.txt", "w");
-        fwrite($file, "General purpose self-explanatory file with headlines\n".$content);
+        fwrite($file, "General purpose self-explanatory file with news headlines\n".$content);
         fclose($file);
 	else: 
         global $debugger;
@@ -1065,27 +1050,8 @@ function ultramode()
 
     $querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
 
-    $sql = "SELECT s.sid, 
-	             s.catid, 
-				   s.aid, 
-				 s.title, 
-		 s.datePublished, 
-		  s.dateModified, 
-		      s.hometext, 
-			  s.comments, 
-			     s.topic, 
-				 s.ticon, 
-			 t.topictext, 
-			t.topicimage 
-			
-	FROM `".$titanium_prefix."_stories` s 
-	
-	LEFT JOIN `".$titanium_prefix."_topics` t 
-	ON t.topicid = s.topic 
-	WHERE s.ihome = '0' ".$querylang." 
-	ORDER BY s.datePublished DESC LIMIT 0,10";
-    
-	$result = $titanium_db->sql_query($sql);
+    $sql = "SELECT s.sid, s.catid, s.aid, s.title, s.datePublished, s.dateModified, s.hometext, s.comments, s.topic, s.ticon, t.topictext, t.topicimage FROM `".$titanium_prefix."_stories` s LEFT JOIN `".$titanium_prefix."_topics` t ON t.topicid = s.topic WHERE s.ihome = '0' ".$querylang." ORDER BY s.datePublished DESC LIMIT 0,10";
+    $result = $titanium_db->sql_query($sql);
 
     while ($row = $titanium_db->sql_fetchrow($result, SQL_ASSOC)):
         $rsid = $row['sid'];
@@ -1106,7 +1072,7 @@ function ultramode()
 
     if (file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")):
         $file = fopen(NUKE_BASE_DIR."ultramode.txt", "w");
-        fwrite($file, "General purpose self-explanatory file with headlines\n".$content);
+        fwrite($file, "General purpose self-explanatory file with news headlines\n".$content);
         fclose($file);
     else:
         global $debugger;
@@ -1114,16 +1080,19 @@ function ultramode()
     endif;
 }
 
-# Adds slashes to string and strips PHP+HTML for SQL insertion and hack prevention
-# $str: the string to modify
-# $nohtml: strip PHP+HTML tags, false=no, true=yes, default=false
+// Adds slashes to string and strips PHP+HTML for SQL insertion and hack prevention
+// $str: the string to modify
+// $nohtml: strip PHP+HTML tags, false=no, true=yes, default=false
 function Fix_Quotes($str, $nohtml=false) 
 {
-    # If there is not supposed to be HTML
-    if ($nohtml): 
-	  $str = strip_tags($str);
-      return $str;
-	endif;
+    //If there is not supposed to be HTML
+    if ($nohtml) $str = strip_tags($str);
+    // Quote if not integer
+    /*if (!is_numeric($str)) {
+        $str = str_replace('%27', "'", $str);
+        $str = $titanium_db->sql_addq($str);
+    }*/
+    return $str;
 }
 
 function Remove_Slashes($str) 
@@ -1132,18 +1101,16 @@ function Remove_Slashes($str)
     return $_GETVAR->stripSlashes($str);
 }
 
-# check_words function by ReOrGaNiSaTiOn
+// check_words function by ReOrGaNiSaTiOn
 function check_words($message) 
 {
     global $titanium_censor_words;
 
-    if(empty($message)): 
-     return '';
-	endif;
+    if(empty($message)) 
+    return '';
     
-	if(empty($titanium_censor_words)): 
-     return $message;
-	endif;
+	if(empty($titanium_censor_words)) 
+    return $message;
     
 	$orig_word = array();
     $replacement_word = array();
@@ -1160,13 +1127,14 @@ function check_words($message)
 
 function check_html($str, $strip='') 
 {
-    # do not filter strings for the admins! (Test This Later)        
-	if (is_mod_admin('super')):
-     $str = Fix_Quotes($str, !empty($strip));
-       return $str;
-	endif;
-    
-	# Base: PHP Input Filter v1.2.2 START
+        # do not filter strings for the admins! (Test This Later)        
+		if (is_mod_admin('super')):
+          $str = Fix_Quotes($str, !empty($strip));
+          return $str;
+		endif;
+/*****[BEGIN]******************************************
+ [ Base:    PHP Input Filter                   v1.2.2 ]
+ ******************************************************/
     if(defined('INPUT_FILTER')): 
 		if ($strip == 'nohtml')
         global $AllowableHTML;
@@ -1182,33 +1150,34 @@ function check_html($str, $strip='')
         $html_filter = new InputFilter($html, "", 0, 0, 1);
         $str = $html_filter->process($str);
 	else: 
-	# Base: PHP Input Filter v1.2.2 END
-    
-	$str = Fix_Quotes($str, !empty($strip));
-
-	# Base: PHP Input Filter v1.2.2 START
+/*****[END]********************************************
+ [ Base:    PHP Input Filter                   v1.2.2 ]
+ ******************************************************/
+        $str = Fix_Quotes($str, !empty($strip));
+/*****[BEGIN]******************************************
+ [ Base:    PHP Input Filter                   v1.2.2 ]
+ ******************************************************/
     endif;
-	# Base: PHP Input Filter v1.2.2 END
-	
+/*****[END]********************************************
+ [ Base:    PHP Input Filter                   v1.2.2 ]
+ ******************************************************/
     return $str;
 }
 
-function filter_text($Message, $strip='') 
-{
+function filter_text($Message, $strip='') {
     $Message = check_words($Message);
     $Message = check_html($Message, $strip);
     return $Message;
 }
 
-# actualTime function by ReOrGaNiSaTiOn
-function actualTime() 
-{
+// actualTime function by ReOrGaNiSaTiOn
+function actualTime() {
   $date = date('Y-m-d H:i:s');
   $actualTime_tempdate = formatTimestamp($date, $format='Y-m-d H:i:s');
   return $actualTime_tempdate;
 }
 
-# formatTimestamp function by ReOrGaNiSaTiOn
+// formatTimestamp function by ReOrGaNiSaTiOn
 function formatTimestamp($time, $format='', $dateonly='') 
 {
     global $datetime, $locale, $userinfo, $phpbb2_board_config;
@@ -1224,6 +1193,7 @@ function formatTimestamp($time, $format='', $dateonly='')
     endif;
     
 	if (!empty($dateonly)): 
+	
         $replaces = array('a', 'A', 'B', 'c', 'D', 'g', 'G', 'h', 'H', 'i', 'I', 'O', 'r', 's', 'U', 'Z', ':');
         $format = str_replace($replaces, '', $format);
     endif;
@@ -1252,7 +1222,9 @@ function get_microtime()
     return ($usec + $sec);
 }
 
-# Mod: Blog Signature v1.0.0 START
+/*****[BEGIN]******************************************
+ [ Mod:    Blog Signature                      v1.0.0 ]
+ ******************************************************/
 function blog_signature($aid) 
 {
     global $titanium_user_prefix, $titanium_db;
@@ -1299,7 +1271,10 @@ function blog_signature($aid)
     
 	return $aid;
 }
-# Mod: Blog Signature v1.0.0 END
+/*****[END]********************************************
+ [ Mod:    Blog Signature                      v1.0.0 ]
+ ******************************************************/
+
 
 function get_author($aid) 
 {
@@ -1316,16 +1291,18 @@ function get_author($aid)
     $result = $titanium_db->sql_query('SELECT `user_id` from `'.$titanium_user_prefix.'_users` WHERE `username`="'.$aid.'"');
     $titanium_userid = $titanium_db->sql_fetchrow($result);
     $titanium_db->sql_freeresult($result);
-    
-	# Mod: Advanced Username Color v1.0.5 START
+/*****[BEGIN]******************************************
+ [ Mod:    Advanced Username Color             v1.0.5 ]
+ ******************************************************/
     if (isset($titanium_userid[0])) 
      $aid = "<a href=\"modules.php?name=Profile&amp;mode=viewprofile&amp;u=".$titanium_userid[0]."\">".UsernameColor($aid)."</a>";
 	elseif (isset($row['url']) && $row['url'] != 'http://') 
      $aid = "<a href=\"".$row['url']."\">".UsernameColor($aid)."</a>";
 	else 
      $aid = UsernameColor($aid);
-	# Mod: Advanced Username Color v1.0.5 END
-
+/*****[END]********************************************
+ [ Mod:    Advanced Username Color             v1.0.5 ]
+ ******************************************************/
     return $aid;
 }
 
@@ -1348,66 +1325,42 @@ function getTopics($s_sid)
     $topictext = stripslashes($row['topictext']);
 }
 
-# Module: Advertising v7.8.3.1 START
+/*****[BEGIN]******************************************
+ [ Module:    Advertising                    v7.8.3.1 ]
+ ******************************************************/
 function ads($position) 
 {
     global $titanium_prefix, $titanium_db, $sitename, $adminmail, $nukeurl, $banners;
 
-    if(!$banners): 
-	  return ''; 
-	endif;
+    if(!$banners) { return ''; }
     
 	$position = intval($position);
    
-	$result = $titanium_db->sql_query("SELECT * 
-	
-	FROM `".$titanium_prefix."_banner` 
-	
-	WHERE `position`='$position' 
-	
-	AND `active`='1' 
-	
-	ORDER BY RAND() LIMIT 0,1");
+	$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_banner` WHERE `position`='$position' AND `active`='1' ORDER BY RAND() LIMIT 0,1");
     
 	$numrows = $titanium_db->sql_numrows($result);
     
-	if($numrows < 1):
-	 return '';
-	endif;
+	if ($numrows < 1) return '';
     
 	$row = $titanium_db->sql_fetchrow($result, SQL_ASSOC);
     
 	$titanium_db->sql_freeresult($result);
     
-	foreach($row as $var => $value): 
-      if (isset($$var)): 
+	foreach($row as $var => $value) 
+	{
+        if (isset($$var)) 
 		unset($$var);
-	  endif;
         $$var = $value;
-    endforeach;
-	
+    }
     $bid = intval($bid);
     
-	if(!is_admin()): 
+	if(!is_admin()) 
+	{
         $titanium_db->sql_query("UPDATE `".$titanium_prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
-    endif;
+    }
     
-	$sql2 = "SELECT `cid`, 
-	           `imptotal`, 
-			    `impmade`, 
-				 `clicks`, 
-				   `date`, 
-			   `ad_class`, 
-			    `ad_code`, 
-			   `ad_width`, 
-			  `ad_height`, 
-			   `clickurl` 
-			   
-	FROM `".$titanium_prefix."_banner` 
-	
-	WHERE `bid`='$bid'";
-    
-	$result2 = $titanium_db->sql_query($sql2);
+	$sql2 = "SELECT `cid`, `imptotal`, `impmade`, `clicks`, `date`, `ad_class`, `ad_code`, `ad_width`, `ad_height`, `clickurl` FROM `".$titanium_prefix."_banner` WHERE `bid`='$bid'";
+    $result2 = $titanium_db->sql_query($sql2);
     list($cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height, $clickurl) = $titanium_db->sql_fetchrow($result2, SQL_NUM);
     $titanium_db->sql_freeresult($result2);
     $cid = intval($cid);
@@ -1415,17 +1368,14 @@ function ads($position)
     $impmade = intval($impmade);
     $clicks = intval($clicks);
     
-	# Check if this impression is the last one and print the banner 
-    if (($imptotal <= $impmade) && ($imptotal != 0)): 
-	
+	/* Check if this impression is the last one and print the banner */
+    if (($imptotal <= $impmade) && ($imptotal != 0)) {
         $titanium_db->sql_query("UPDATE `".$titanium_prefix."_banner` SET `active`='0' WHERE `bid`='$bid'");
         $sql3 = "SELECT `name`, `contact`, `email` FROM `".$titanium_prefix."_banner_clients` WHERE `cid`='$cid'";
         $result3 = $titanium_db->sql_query($sql3);
-    
-	    list($c_name, $c_contact, $c_email) = $titanium_db->sql_fetchrow($result3, SQL_NUM);
+        list($c_name, $c_contact, $c_email) = $titanium_db->sql_fetchrow($result3, SQL_NUM);
         $titanium_db->sql_freeresult($result3);
-    
-	    if(!empty($c_email)): 
+        if (!empty($c_email)) {
             $from = $sitename.' <'.$adminmail.'>';
             $to = $c_contact.' <'.$c_email.'>';
             $message = _HELLO." $c_contact:\n\n";
@@ -1443,27 +1393,22 @@ function ads($position)
             $subject = $sitename.': '._BANNERSFINNISHED;
             $mailcommand = evo_mail($to, $subject, $message, "From: $from\nX-Mailer: PHP/" . PHPVERS);
             $mailcommand = removecrlf($mailcommand);
-        endif;
-
-    endif;
+        }
+    }
     
 	if ($ad_class == "code"): 
         $ad_code = stripslashes($ad_code);
         $ads = "<div align=\"center\">$ad_code</div>";
 	else: 
 	   if ($clickurl == 'index.php'):
-       $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_self"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'.$ad_height.'" 
-	   border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
+       $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_self"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'.$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
 	   else:
-       $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_blank"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'.$ad_height.'" 
-	   border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
+       $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_blank"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'.$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
 	   endif;
     endif;
     return $ads;
 }
-# Module: Advertising v7.8.3.1 END
 
-# Module: Network Advertising v7.8.3.1 START
 function network_ads($position) 
 {
     global $network_prefix, $titanium_db2, $sitename, $adminmail, $nukeurl, $banners;
@@ -1473,17 +1418,15 @@ function network_ads($position)
     echo "\n\n\n<!-- function network_ads START -->\n";
     echo "<!-- function network_ads LOADING -->\n";
 	
-	if(!$banners): 
-     return ''; 
-	endif;
+	if(!$banners) 
+    return ''; 
     
 	$position = intval($position);
     $result = $titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_banner` WHERE `position`='$position' AND `active`='1' ORDER BY RAND() LIMIT 0,1");
     $numrows = $titanium_db2->sql_numrows($result);
     
-	if($numrows < 1): 
-	 return '';
-	endif;
+	if ($numrows < 1) 
+	return '';
     
 	$row = $titanium_db2->sql_fetchrow($result, SQL_ASSOC);
     $titanium_db2->sql_freeresult($result);
@@ -1496,9 +1439,8 @@ function network_ads($position)
     
 	$bid = intval($bid);
     
-	if(!is_admin()): 
+	if(!is_admin()) 
     $titanium_db2->sql_query("UPDATE `".$network_prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
-	endif;
 
     $sql2 = "SELECT `cid`, 
 	           `imptotal`, 
@@ -1510,9 +1452,7 @@ function network_ads($position)
 			   `ad_width`, 
 			  `ad_height` 
 			  
-	FROM `".$network_prefix."_banner` 
-	
-	WHERE `bid`='$bid'";
+			  FROM `".$network_prefix."_banner` WHERE `bid`='$bid'";
     
 	$result2 = $titanium_db2->sql_query($sql2);
 
@@ -1524,7 +1464,7 @@ function network_ads($position)
     $impmade = intval($impmade);
     $clicks = intval($clicks);
     
-	# Check if this impression is the last one and print the banner 
+	/* Check if this impression is the last one and print the banner */
     if (($imptotal <= $impmade) && ($imptotal != 0)): 
 	
         $titanium_db2->sql_query("UPDATE `".$network_prefix."_banner` SET `active`='0' WHERE `bid`='$bid'");
@@ -1567,7 +1507,6 @@ function network_ads($position)
   return $ads;
   endif;
 }
-# Module: Network Advertising v7.8.3.1 END
 
 /*
  * functions added to support dynamic and ordered loading of CSS, PHPCSS, and JS in <HEAD> and before </BODY>
@@ -1578,17 +1517,14 @@ function network_ads($position)
 function addPHPCSSToHead($content, $type='file')
 {
     global $headPHPCSS;
-    
-	if(($type == 'file') 
+    if (($type == 'file') 
 	&& (is_array($headPHPCSS) 
 	&& count($headPHPCSS) > 0) 
-	&& (in_array(array($type, $content), $headPHPCSS))): 
+	&& (in_array(array($type, $content), $headPHPCSS))) 
 	return;
-	endif;
-	
-	$headPHPCSS[] = array($type, $content);
     
-	return;
+	$headPHPCSS[] = array($type, $content);
+    return;
 }
 # END for Theme Fly Kit by Ernest Buffington - 09/02/2019
 
@@ -1599,9 +1535,8 @@ function addCSSToHead($content, $type='file')
     if (($type == 'file') 
 	&& (is_array($headCSS) 
 	&& count($headCSS) > 0) 
-	&& (in_array(array($type, $content), $headCSS))): 
+	&& (in_array(array($type, $content), $headCSS))) 
 	return;
-	endif;
     
 	$headCSS[] = array($type, $content);
     return;
@@ -1613,9 +1548,8 @@ function addJSToHead($content, $type='file')
     if (($type == 'file') 
 	&& (is_array($headJS) 
 	&& count($headJS) > 0) 
-	&& (in_array(array($type, $content), $headJS))): 
+	&& (in_array(array($type, $content), $headJS))) 
 	return;
-	endif;
     
 	$headJS[] = array($type, $content);
     return;
@@ -1628,9 +1562,8 @@ function addJSToBody($content, $type='file')
 	if (($type == 'file') 
 	&& (is_array($bodyJS) 
 	&& count($bodyJS) > 0) 
-	&& (in_array(array($type, $content), $bodyJS))): 
+	&& (in_array(array($type, $content), $bodyJS))) 
 	return;
-	endif;
     
 	$bodyJS[] = array($type, $content);
     return;
@@ -1709,6 +1642,9 @@ function makePass()
 
     return $makepass;
 }
+/*****[END]********************************************
+ [ Module:    Advertising                    v7.8.3.1 ]
+ ******************************************************/
 
 /*****[BEGIN]******************************************
  [ Base:    Theme Management                   v1.0.2 ]
@@ -1723,11 +1659,11 @@ function get_theme()
 
     global $Default_Theme, $cookie;
 
-    # Quick Theme Change - Theme Management (JeFFb68CAM)
+    #Quick Theme Change - Theme Management (JeFFb68CAM)
     if(isset($_REQUEST['chngtheme']) && is_user())
     ChangeTheme($_REQUEST['theme'], $cookie[0]);
 
-    # Theme Preview Mod - Theme Management (JeFFb68CAM)
+    #Theme Preview Mod - Theme Management (JeFFb68CAM)
     if(isset($_REQUEST['tpreview']) && ThemeAllowed($_REQUEST['tpreview'])): 
 	
         $ThemeSel = $_REQUEST['tpreview'];
@@ -1739,11 +1675,11 @@ function get_theme()
 
     endif;
 
-    # Theme Preview for guests Mod - Theme Management (JeFFb68CAM)
+    #Theme Preview for guests Mod - Theme Management (JeFFb68CAM)
     if (isset($_COOKIE['guest_theme']) && !is_user()) 
     return (ThemeAllowed($_COOKIE['guest_theme']) ? $_COOKIE['guest_theme'] : $Default_Theme);
 
-    # New feature to grab a backup theme if the one we are trying to use does not exist, no more missing theme errors :)
+    #New feature to grab a backup theme if the one we are trying to use does not exist, no more missing theme errors :)
     $ThemeSel = (ThemeAllowed($nTheme = (isset($cookie[9]) ? $cookie[9] : $Default_Theme))) ? $nTheme : ThemeBackup($nTheme);
 
     return $ThemeSel;
@@ -1753,7 +1689,7 @@ function get_theme()
  [ Base:    Evolution Functions                v1.5.0 ]
  ******************************************************/
 
-# Function to translate Datestrings
+// Function to translate Datestrings
 function translate($phrase) 
 {
 	switch($phrase) :
@@ -1774,8 +1710,10 @@ function removecrlf($str)
 function validate_mail($email) 
 {
     if(strlen($email) < 7 || !preg_match('/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', $email)): 
+	
         DisplayError(_ERRORINVEMAIL);
         return false;
+     
 	else: 
         return $email;
 	endif;
@@ -1800,35 +1738,27 @@ function UsernameColor($titanium_username, $old_name=false)
 
     static $titanium_cached_names;
 
-    if($old_name): 
+    if($old_name) 
 	$titanium_username = $old_name; 
-    endif;
-    
-	if(!$use_colors): 
+
+    if(!$use_colors) 
 	return $titanium_username;
-	endif;
 
     $plain_username = strtolower($titanium_username);
 
-    if(isset($titanium_cached_names[$plain_username])): 
+    if(isset($titanium_cached_names[$plain_username])) 
     return $titanium_cached_names[$plain_username];
-	endif;
     
-    if(!is_array($titanium_cached_names)): 
+    if(!is_array($titanium_cached_names)) 
     $titanium_cached_names = $titanium_cache->load('UserColors', 'config');
-    endif;
-	
+    
     if (!isset($titanium_cached_names[$plain_username])):
-      list($titanium_user_color, $uname) = $titanium_db->sql_ufetchrow("SELECT `user_color_gc`, `username` 
-	  
-	  FROM `" . $titanium_user_prefix . "_users` 
-	  
-	  WHERE `username` = '" . str_replace("'", "\'", $titanium_username) . "'", SQL_NUM);
-            
-	  $uname = (!empty($uname)) ? $uname : $titanium_username;
-      $titanium_username = (strlen($titanium_user_color) == 6) ? '<span style="color: #'. $titanium_user_color .'">'. $uname .'</span>' : $uname;
-      $titanium_cached_names[$plain_username] = $titanium_username;
-      $titanium_cache->save('UserColors', 'config', $titanium_cached_names);
+          
+		    list($titanium_user_color, $uname) = $titanium_db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $titanium_user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", $titanium_username) . "'", SQL_NUM);
+            $uname = (!empty($uname)) ? $uname : $titanium_username;
+            $titanium_username = (strlen($titanium_user_color) == 6) ? '<span style="color: #'. $titanium_user_color .'">'. $uname .'</span>' : $uname;
+            $titanium_cached_names[$plain_username] = $titanium_username;
+            $titanium_cache->save('UserColors', 'config', $titanium_cached_names);
 	endif;
 
     return $titanium_cached_names[$plain_username];
@@ -1841,41 +1771,27 @@ function GroupColor($group_name, $short=0)
 
     static $titanium_cached_groups;
 
-    if(!$use_colors): 
-	 return $group_name;
-    endif;
-	
+    if(!$use_colors) 
+	return $group_name;
+    
 	$plaingroupname = ( $short !=0 ) ? $group_name.'_short' : $group_name;
     
-	if(!empty($titanium_cached_groups[$plaingroupname])): 
-     return $titanium_cached_groups[$plaingroupname];
-	endif;
+	if (!empty($titanium_cached_groups[$plaingroupname])) 
+    return $titanium_cached_groups[$plaingroupname];
     
-    if((($titanium_cached_groups = $titanium_cache->load('GroupColors', 'config')) === false) || empty($titanium_cached_groups)):
+    if ((($titanium_cached_groups = $titanium_cache->load('GroupColors', 'config')) === false) || empty($titanium_cached_groups)) :
         
 		$titanium_cached_groups = array();
         
-		$sql = 'SELECT `auc`.`group_color` as `group_color`, `gr`.`group_name` as`group_name` 
-		
-		FROM ( `'.GROUPS_TABLE.'` `gr` 
-		
-		LEFT JOIN  `' . AUC_TABLE . '` `auc` 
-		
-		ON `gr`.`group_color` =  `auc`.`group_id`) 
-		
-		WHERE `gr`.`group_description` <> "Personal User" 
-		
-		ORDER BY `gr`.`group_name` ASC';
+		$sql = 'SELECT `auc`.`group_color` as `group_color`, `gr`.`group_name` as`group_name` FROM ( `'.GROUPS_TABLE.'` `gr` LEFT JOIN  `' . AUC_TABLE . '` `auc` ON `gr`.`group_color` =  `auc`.`group_id`) WHERE `gr`.`group_description` <> "Personal User" ORDER BY `gr`.`group_name` ASC';
         
 		$result = $titanium_db->sql_query($sql);
     
 	     while (list($group_color, $groupcolor_name) = $titanium_db->sql_fetchrow($result)): 
             $phpbb2_colorgroup_short = (strlen($groupcolor_name) > 13) ? substr($groupcolor_name,0,10).'...' : $groupcolor_name;
             $phpbb2_colorgroup_name  = $groupcolor_name;
-            $titanium_cached_groups[$groupcolor_name.'_short'] = (strlen($group_color) == 6) ? '<span style="color: 
-			#'. $group_color .'"><strong>'. $phpbb2_colorgroup_short .'</strong></span>' : $phpbb2_colorgroup_short;
-			$titanium_cached_groups[$groupcolor_name] = (strlen($group_color) == 6) ? '<span style="color: 
-			#'. $group_color .'"><strong>'. $phpbb2_colorgroup_name .'</strong></span>' : $phpbb2_colorgroup_name;
+            $titanium_cached_groups[$groupcolor_name.'_short'] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $phpbb2_colorgroup_short .'</strong></span>' : $phpbb2_colorgroup_short;
+            $titanium_cached_groups[$groupcolor_name] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $phpbb2_colorgroup_name .'</strong></span>' : $phpbb2_colorgroup_name;
          endwhile;
     
 	    $titanium_db->sql_freeresult($result);
@@ -1883,30 +1799,21 @@ function GroupColor($group_name, $short=0)
     
 	endif;
     
-	if (!empty($titanium_cached_groups[$plaingroupname])): 
+	if (!empty($titanium_cached_groups[$plaingroupname])) 
     return $titanium_cached_groups[$plaingroupname];
-    else :
+    else 
     return $plaingroupname;
-	endif;
 }
 
 function check_priv_mess($titanium_user_id) 
 {
     global $titanium_db;
 
-    if (empty($titanium_user_id) || !is_numeric($titanium_user_id)): 
-     return false;
-	endif;
+    if (empty($titanium_user_id) || !is_numeric($titanium_user_id)) 
+    return false;
     
- 	$pms = $titanium_db->sql_ufetchrow("SELECT COUNT(privmsgs_id) as no 
-	
-	FROM ".PRIVMSGS_TABLE." 
-	
-	WHERE privmsgs_to_userid='".$titanium_user_id."' 
-	
-	AND (privmsgs_type='5' OR privmsgs_type='1')");
-    
-	return $pms['no'];
+ 	$pms = $titanium_db->sql_ufetchrow("SELECT COUNT(privmsgs_id) as no FROM ".PRIVMSGS_TABLE." WHERE privmsgs_to_userid='".$titanium_user_id."' AND (privmsgs_type='5' OR privmsgs_type='1')");
+    return $pms['no'];
 }
 
 /*****[BEGIN]******************************************
@@ -1925,17 +1832,14 @@ function get_plus_minus_image ()
     static $theme;
     static $image;
 
-    if(isset($image) && is_array($image)): 
-	 return $image;
-	endif;
+    if(isset($image) && is_array($image)) 
+	return $image;
 
-    if(empty($theme)): 
-     if(function_exists('get_theme')): 
-       $theme = get_theme();
-	 endif;
-    endif;
-    
-	$theme_folder = (!empty($theme)) ? ((defined(NUKE_THEMES_DIR)) ? NUKE_THEMES_DIR.$theme.'/images/' : dirname(__FILE__) . '/themes/'.$theme.'/images/') : '';
+    if(empty($theme)) 
+        if(function_exists('get_theme')) 
+            $theme = get_theme();
+
+    $theme_folder = (!empty($theme)) ? ((defined(NUKE_THEMES_DIR)) ? NUKE_THEMES_DIR.$theme.'/images/' : dirname(__FILE__) . '/themes/'.$theme.'/images/') : '';
     $image['plus'] = (file_exists($theme_folder.'plus.gif')) ? 'themes/'.$theme.'/images/plus.gif' : 'images/plus.gif';
     $image['minus'] = (file_exists($theme_folder.'minus.gif')) ? 'themes/'.$theme.'/images/minus.gif' : 'images/minus.gif';
 
@@ -1951,9 +1855,8 @@ referer();
 
 function block_vpn_proxy_user()
 {
-    if (get_evo_option('iphub_status', 'int') == 1):
-     include_once(NUKE_INCLUDE_DIR.'iphub.novpn.php');
-	endif;
+    if (get_evo_option('iphub_status', 'int') == 1)
+    include_once(NUKE_INCLUDE_DIR.'iphub.novpn.php');
 }
 
 /*****[BEGIN]******************************************

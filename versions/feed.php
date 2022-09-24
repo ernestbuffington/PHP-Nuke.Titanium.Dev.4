@@ -5,12 +5,38 @@
 <title>Live Feed from the PHP-Nuke Titanium Dev 4 Website</title>
 </head>
 <body> 
-<strong>Current Build:</strong> v4.0.0b Dev 4<hr>
+<strong>Current Build:</strong> v4.0.2 Dev 4 Beta<hr>
 <strong>PHP-Nuke Titanium Dev 4 Repsoitory</strong> (Nightly Builds)<br />
-This is the Current US Version of PHP-Nuke Titanium v4.0.0b (Dev 4)<br /> 
+This is the Current US Version of PHP-Nuke Titanium<br /> 
 This is a hardened version of PHP-Nuke and is secure and safe.<br />
 <a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank">https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4</a> <- click here
 <hr>
+<strong><i class="bi bi-calendar3"></i> Sep 24th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Theme change white screen<br />
+<strong><i class="bi bi-calendar3"></i> Sep 24th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated php-nuke-titanium.86it.us<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 23th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated HTML Purifier<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 22nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Network_Projects<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 21st 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Google Site Map<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 12th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated joker.86it.us<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 11th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated theghost.86it.us<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 10th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Switched back to MyISAM Engine<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 9th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Evo User Block Icons<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 8th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Changed database vars to stop collisions<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 7th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Core Theme<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 6th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Shout Box<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 5th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Setup joker.86it.us<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 4th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Switched to InnoDB Engine<br />
 <strong><i class="bi bi-calendar3"></i> Sep 4th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated nukescripts.86it.us<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Sep 3rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Released Titanium SandBox v4.0.0<br />
