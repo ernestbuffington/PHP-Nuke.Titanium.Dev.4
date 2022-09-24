@@ -1773,10 +1773,8 @@ function removecrlf($str)
 function validate_mail($email) 
 {
     if(strlen($email) < 7 || !preg_match('/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', $email)): 
-	
         DisplayError(_ERRORINVEMAIL);
         return false;
-     
 	else: 
         return $email;
 	endif;
