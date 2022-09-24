@@ -1347,42 +1347,66 @@ function getTopics($s_sid)
     $topictext = stripslashes($row['topictext']);
 }
 
-/*****[BEGIN]******************************************
- [ Module:    Advertising                    v7.8.3.1 ]
- ******************************************************/
+# Module: Advertising v7.8.3.1 START
 function ads($position) 
 {
     global $titanium_prefix, $titanium_db, $sitename, $adminmail, $nukeurl, $banners;
 
-    if(!$banners) { return ''; }
+    if(!$banners): 
+	  return ''; 
+	endif;
     
 	$position = intval($position);
    
-	$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_banner` WHERE `position`='$position' AND `active`='1' ORDER BY RAND() LIMIT 0,1");
+	$result = $titanium_db->sql_query("SELECT * 
+	
+	FROM `".$titanium_prefix."_banner` 
+	
+	WHERE `position`='$position' 
+	
+	AND `active`='1' 
+	
+	ORDER BY RAND() LIMIT 0,1");
     
 	$numrows = $titanium_db->sql_numrows($result);
     
-	if ($numrows < 1) return '';
+	if($numrows < 1):
+	 return '';
+	endif;
     
 	$row = $titanium_db->sql_fetchrow($result, SQL_ASSOC);
     
 	$titanium_db->sql_freeresult($result);
     
-	foreach($row as $var => $value) 
-	{
-        if (isset($$var)) 
+	foreach($row as $var => $value): 
+      if (isset($$var)): 
 		unset($$var);
+	  endif;
         $$var = $value;
-    }
+    endforeach;
+	
     $bid = intval($bid);
     
-	if(!is_admin()) 
-	{
+	if(!is_admin()): 
         $titanium_db->sql_query("UPDATE `".$titanium_prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
-    }
+    endif;
     
-	$sql2 = "SELECT `cid`, `imptotal`, `impmade`, `clicks`, `date`, `ad_class`, `ad_code`, `ad_width`, `ad_height`, `clickurl` FROM `".$titanium_prefix."_banner` WHERE `bid`='$bid'";
-    $result2 = $titanium_db->sql_query($sql2);
+	$sql2 = "SELECT `cid`, 
+	           `imptotal`, 
+			    `impmade`, 
+				 `clicks`, 
+				   `date`, 
+			   `ad_class`, 
+			    `ad_code`, 
+			   `ad_width`, 
+			  `ad_height`, 
+			   `clickurl` 
+			   
+	FROM `".$titanium_prefix."_banner` 
+	
+	WHERE `bid`='$bid'";
+    
+	$result2 = $titanium_db->sql_query($sql2);
     list($cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height, $clickurl) = $titanium_db->sql_fetchrow($result2, SQL_NUM);
     $titanium_db->sql_freeresult($result2);
     $cid = intval($cid);
@@ -1390,14 +1414,17 @@ function ads($position)
     $impmade = intval($impmade);
     $clicks = intval($clicks);
     
-	/* Check if this impression is the last one and print the banner */
-    if (($imptotal <= $impmade) && ($imptotal != 0)) {
+	# Check if this impression is the last one and print the banner 
+    if (($imptotal <= $impmade) && ($imptotal != 0)): 
+	
         $titanium_db->sql_query("UPDATE `".$titanium_prefix."_banner` SET `active`='0' WHERE `bid`='$bid'");
         $sql3 = "SELECT `name`, `contact`, `email` FROM `".$titanium_prefix."_banner_clients` WHERE `cid`='$cid'";
         $result3 = $titanium_db->sql_query($sql3);
-        list($c_name, $c_contact, $c_email) = $titanium_db->sql_fetchrow($result3, SQL_NUM);
+    
+	    list($c_name, $c_contact, $c_email) = $titanium_db->sql_fetchrow($result3, SQL_NUM);
         $titanium_db->sql_freeresult($result3);
-        if (!empty($c_email)) {
+    
+	    if(!empty($c_email)): 
             $from = $sitename.' <'.$adminmail.'>';
             $to = $c_contact.' <'.$c_email.'>';
             $message = _HELLO." $c_contact:\n\n";
@@ -1415,22 +1442,27 @@ function ads($position)
             $subject = $sitename.': '._BANNERSFINNISHED;
             $mailcommand = evo_mail($to, $subject, $message, "From: $from\nX-Mailer: PHP/" . PHPVERS);
             $mailcommand = removecrlf($mailcommand);
-        }
-    }
+        endif;
+
+    endif;
     
 	if ($ad_class == "code"): 
         $ad_code = stripslashes($ad_code);
         $ads = "<div align=\"center\">$ad_code</div>";
 	else: 
 	   if ($clickurl == 'index.php'):
-       $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_self"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'.$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
+       $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_self"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'.$ad_height.'" 
+	   border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
 	   else:
-       $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_blank"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'.$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
+       $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_blank"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'.$ad_height.'" 
+	   border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
 	   endif;
     endif;
     return $ads;
 }
+# Module: Advertising v7.8.3.1 END
 
+# Module: Network Advertising v7.8.3.1 START
 function network_ads($position) 
 {
     global $network_prefix, $titanium_db2, $sitename, $adminmail, $nukeurl, $banners;
@@ -1529,6 +1561,7 @@ function network_ads($position)
   return $ads;
   endif;
 }
+# Module: Network Advertising v7.8.3.1 END
 
 /*
  * functions added to support dynamic and ordered loading of CSS, PHPCSS, and JS in <HEAD> and before </BODY>
