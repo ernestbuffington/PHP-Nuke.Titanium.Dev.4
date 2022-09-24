@@ -827,115 +827,120 @@ function blocks_visible($side)
   return false;
 }
 
-function blocks($side, $count=false) {
+function blocks($side, $count=false) 
+{
     global $titanium_prefix, $multilingual, $currentlang, $titanium_db, $userinfo, $titanium_cache;
     static $blocks;
 
     $querylang = ($multilingual) ? 'AND (`blanguage`="'.$currentlang.'" OR `blanguage`="")' : '';
     $side = strtolower($side[0]);
-    if((($blocks = $titanium_cache->load('blocks', 'config')) === false) || !isset($blocks)) {
+
+    if((($blocks = $titanium_cache->load('blocks', 'config')) === false) || !isset($blocks)): 
+	
         $sql = 'SELECT * FROM `'.$titanium_prefix.'_blocks` WHERE `active`="1" '.$querylang.' ORDER BY `weight` ASC';
         $result = $titanium_db->sql_query($sql);
-        while($row = $titanium_db->sql_fetchrow($result, SQL_ASSOC)) {
+    
+	    while($row = $titanium_db->sql_fetchrow($result, SQL_ASSOC)): 
             $blocks[$row['bposition']][] = $row;
-        }
-        $titanium_db->sql_freeresult($result);
+        endwhile;
+        
+		$titanium_db->sql_freeresult($result);
         $titanium_cache->save('blocks', 'config', $blocks);
-    }
-    if ($count) {
-        return (isset($blocks[$side]) ? count($blocks[$side]) : 0);
-    }
-    $blockrow = (isset($blocks[$side])) ? $blocks[$side] : array();
-    for($i=0,$j = count($blockrow); $i < $j; $i++) {
+    endif;
+
+    if($count): 
+    return (isset($blocks[$side]) ? count($blocks[$side]) : 0);
+    endif;
+    
+	$blockrow = (isset($blocks[$side])) ? $blocks[$side] : array();
+
+    for($i=0,$j = count($blockrow); $i < $j; $i++): 
+	
         $bid = intval($blockrow[$i]['bid']);
         $view = $blockrow[$i]['view'];
-        if(isset($blockrow[$i]['expire'])) {
+
+        if(isset($blockrow[$i]['expire'])): 
             $expire = intval($blockrow[$i]['expire']);
-        } else {
+		else: 
             $expire = '';
-        }
-        if(isset($blockrow[$i]['action'])) {
+        endif;
+
+        if(isset($blockrow[$i]['action'])): 
             $action = $blockrow[$i]['action'];
             $action = substr($action, 0,1);
-        } else {
+		else: 
             $action = '';
-        }
+        endif;
+
         $now = time();
-        if ($expire != 0 AND $expire <= $now) {
-            if ($action == 'd') {
+
+        if($expire != 0 AND $expire <= $now): 
+            if($action == 'd'): 
                 $titanium_db->sql_query('UPDATE `'.$titanium_prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
                 $titanium_cache->delete('blocks', 'config');
                 return;
-            } elseif ($action == 'r') {
+			elseif($action == 'r'): 
                 $titanium_db->sql_query('DELETE FROM `'.$titanium_prefix.'_blocks` WHERE `bid`="'.$bid.'"');
                 $titanium_cache->delete('blocks', 'config');
                 return;
-            }
-        }if (empty($blockrow[$i]['bkey'])) {
+            endif;
+        endif;
+		
+		if(empty($blockrow[$i]['bkey'])): 
             if ( ($view == '0' || $view == '1') ||
                ( ($view == '3' AND is_user()) ) ||
                ( $view == '4' AND is_admin()) ||
-               ( ($view == '2' AND !is_user())) ) {
+               ( ($view == '2' AND !is_user()))): 
+			
                 render_blocks($side, $blockrow[$i]);
-            } else {
-                if (substr($view, strlen($view)-1) == '-') {
+			else: 
+                if(substr($view, strlen($view)-1) == '-'): 
                     $ingroups = explode('-', $view);
-                    if (is_array($ingroups)) {
+					if (is_array($ingroups)): 
                         $cnt = 0;
-                        foreach ($ingroups as $group) {
-                            if (isset($userinfo['groups'][($group)])) {
+					    foreach($ingroups as $group): 
+                            if(isset($userinfo['groups'][($group)])): 
                                 $cnt++;
-                              }
-                          }
-                    if ($cnt != 0){
-                    render_blocks($side, $blockrow[$i]);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return;
+                            endif;
+                        endforeach;
+                    
+					  if($cnt != 0):
+                        render_blocks($side, $blockrow[$i]);
+                      endif;
+                    endif;
+                endif;
+            endif;
+        endif;
+    endfor;
+  return;
 } 
 
 function blockfileinc($blockfiletitle, $blockfile, $side=1, $bid) 
 {
     global $debug, $collapse;
-
     //if ($debug == 0)
 	//echo '<div align="center">'.$blockfile.'</div>';
-
-    if (!file_exists(NUKE_BLOCKS_DIR.$blockfile)) 
-	{
+    if(!file_exists(NUKE_BLOCKS_DIR.$blockfile)): 
         $content = _BLOCKPROBLEM;
-    } 
-	else 
-	{
+	else: 
         include(NUKE_BLOCKS_DIR.$blockfile);
-    }
+    endif;
     
-	if (empty($content)) 
-	{
+	if(empty($content)): 
         $content = _BLOCKPROBLEM2;
-    }
-/*****[BEGIN]******************************************
- [ Mod:     Switch Content Script              v2.0.0 ]
- ******************************************************/
-    if($collapse) 
-	{
+    endif;
+    
+	# Mod: Switch Content Script v2.0.0 START
+    if($collapse): 
         $content = "&nbsp;<div id=\"block".$bid."\" class=\"switchcontent\">".$content."</div>";
-    }
-/*****[END]********************************************
- [ Mod:     Switch Content Script              v2.0.0 ]
- ******************************************************/
-    if ($side == 'r' || $side == 'l') 
-	{
+    endif;
+	# Mod: Switch Content Script v2.0.0 END
+
+    if($side == 'r' || $side == 'l'): 
 		themesidebox($blockfiletitle, $content, $bid);
-    } 
-	else 
-	{
+	else: 
         themecenterbox($blockfiletitle, $content);
-    }
+    endif;
 }
 
 function rss_content($url) 
