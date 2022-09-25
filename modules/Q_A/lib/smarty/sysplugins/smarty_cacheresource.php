@@ -32,11 +32,11 @@ abstract class Smarty_CacheResource
     /**
     * populate Cached Object with meta data from Resource
     *
-    * @param Smarty_Template_Cached $titanium_cached cached object
+    * @param Smarty_Template_Cached $cached cached object
     * @param Smarty_Internal_Template $_template template object
     * @return void
     */
-    abstract public function populate(Smarty_Template_Cached $titanium_cached, Smarty_Internal_Template $_template);
+    abstract public function populate(Smarty_Template_Cached $cached, Smarty_Internal_Template $_template);
 
     /**
     * populate Cached Object with timestamp and exists from Resource
@@ -44,16 +44,16 @@ abstract class Smarty_CacheResource
     * @param Smarty_Template_Cached $source cached object
     * @return void
     */
-    abstract public function populateTimestamp(Smarty_Template_Cached $titanium_cached);
+    abstract public function populateTimestamp(Smarty_Template_Cached $cached);
 
     /**
     * Read the cached template and process header
     *
     * @param Smarty_Internal_Template $_template template object
-    * @param Smarty_Template_Cached $titanium_cached cached object
+    * @param Smarty_Template_Cached $cached cached object
     * @return booelan true or false if the cached content does not exist
     */
-    abstract public function process(Smarty_Internal_Template $_template, Smarty_Template_Cached $titanium_cached=null);
+    abstract public function process(Smarty_Internal_Template $_template, Smarty_Template_Cached $cached=null);
 
     /**
     * Write the rendered template output to cache
@@ -96,19 +96,19 @@ abstract class Smarty_CacheResource
     *
     * @param Smarty $smarty Smarty object
     * @param string $resource_name template name
-    * @param string $titanium_cache_id cache id
+    * @param string $cache_id cache id
     * @param string $compile_id compile id
     * @param integer $exp_time expiration time (number of seconds, not timestamp)
     * @return integer number of cache files deleted
     */
-    abstract public function clear(Smarty $smarty, $resource_name, $titanium_cache_id, $compile_id, $exp_time);
+    abstract public function clear(Smarty $smarty, $resource_name, $cache_id, $compile_id, $exp_time);
 
-    public function locked(Smarty $smarty, Smarty_Template_Cached $titanium_cached)
+    public function locked(Smarty $smarty, Smarty_Template_Cached $cached)
     {
         // theoretically locking_timeout should be checked against time_limit (max_execution_time)
         $phpbb2_start = microtime(true);
         $hadLock = null;
-        while ($this->hasLock($smarty, $titanium_cached)) {
+        while ($this->hasLock($smarty, $cached)) {
             $hadLock = true;
             if (microtime(true) - $phpbb2_start > $smarty->locking_timeout) {
                 // abort waiting for lock release
@@ -120,19 +120,19 @@ abstract class Smarty_CacheResource
         return $hadLock;
     }
 
-    public function hasLock(Smarty $smarty, Smarty_Template_Cached $titanium_cached)
+    public function hasLock(Smarty $smarty, Smarty_Template_Cached $cached)
     {
         // check if lock exists
         return false;
     }
 
-    public function acquireLock(Smarty $smarty, Smarty_Template_Cached $titanium_cached)
+    public function acquireLock(Smarty $smarty, Smarty_Template_Cached $cached)
     {
         // create lock
         return true;
     }
 
-    public function releaseLock(Smarty $smarty, Smarty_Template_Cached $titanium_cached)
+    public function releaseLock(Smarty $smarty, Smarty_Template_Cached $cached)
     {
         // release lock
         return true;
@@ -164,17 +164,17 @@ abstract class Smarty_CacheResource
         // try sysplugins dir
         if (isset(self::$sysplugins[$type])) {
             if (!isset(self::$resources[$type])) {
-                $titanium_cache_resource_class = 'Smarty_Internal_CacheResource_' . ucfirst($type);
-                self::$resources[$type] = new $titanium_cache_resource_class();
+                $cache_resource_class = 'Smarty_Internal_CacheResource_' . ucfirst($type);
+                self::$resources[$type] = new $cache_resource_class();
             }
 
             return $smarty->_cacheresource_handlers[$type] = self::$resources[$type];
         }
         // try plugins dir
-        $titanium_cache_resource_class = 'Smarty_CacheResource_' . ucfirst($type);
-        if ($smarty->loadPlugin($titanium_cache_resource_class)) {
+        $cache_resource_class = 'Smarty_CacheResource_' . ucfirst($type);
+        if ($smarty->loadPlugin($cache_resource_class)) {
             if (!isset(self::$resources[$type])) {
-                self::$resources[$type] = new $titanium_cache_resource_class();
+                self::$resources[$type] = new $cache_resource_class();
             }
 
             return $smarty->_cacheresource_handlers[$type] = self::$resources[$type];
@@ -259,10 +259,10 @@ class Smarty_Template_Cached
     public $compile_id = null;
 
     /**
-    * Template Cache Id (Smarty_Internal_Template::$titanium_cache_id)
+    * Template Cache Id (Smarty_Internal_Template::$cache_id)
     * @var string
     */
-    public $titanium_cache_id = null;
+    public $cache_id = null;
 
     /**
     * Id for cache locking

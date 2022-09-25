@@ -22,25 +22,25 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 }
 
 function spsave_config($config_name, $config_value){
-  global $titanium_prefix, $titanium_db, $titanium_cache;
+  global $titanium_prefix, $titanium_db, $cache;
   $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnsp_config` SET `config_value`='$config_value' WHERE `config_name`='$config_name'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-  $titanium_cache->delete('supporters', 'config');
+  $cache->delete('supporters', 'config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 }
 
 function spget_configs(){
-  global $titanium_prefix, $titanium_db, $titanium_cache;
+  global $titanium_prefix, $titanium_db, $cache;
   static $config;
   if(isset($config)) return $config;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-  if(($config = $titanium_cache->load('supporters', 'config')) === false) {
+  if(($config = $cache->load('supporters', 'config')) === false) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -52,7 +52,7 @@ function spget_configs(){
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-      $titanium_cache->save('supporters', 'config', $config);
+      $cache->save('supporters', 'config', $config);
   }
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]

@@ -81,11 +81,11 @@ class Zend_Cache_Frontend_Function extends Zend_Cache_Core
      */
     public function call($name, $parameters = array(), $tags = array(), $specificLifetime = false, $priority = 8)
     {
-        $titanium_cacheBool1 = $this->_specificOptions['cache_by_default'];
-        $titanium_cacheBool2 = in_array($name, $this->_specificOptions['cached_functions']);
-        $titanium_cacheBool3 = in_array($name, $this->_specificOptions['non_cached_functions']);
-        $titanium_cache = (($titanium_cacheBool1 || $titanium_cacheBool2) && (!$titanium_cacheBool3));
-        if (!$titanium_cache) {
+        $cacheBool1 = $this->_specificOptions['cache_by_default'];
+        $cacheBool2 = in_array($name, $this->_specificOptions['cached_functions']);
+        $cacheBool3 = in_array($name, $this->_specificOptions['non_cached_functions']);
+        $cache = (($cacheBool1 || $cacheBool2) && (!$cacheBool3));
+        if (!$cache) {
             // We do not have not cache
             return call_user_func_array($name, $parameters);
         }

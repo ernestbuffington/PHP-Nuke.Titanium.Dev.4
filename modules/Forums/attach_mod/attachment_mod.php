@@ -107,20 +107,20 @@ function get_config()
 }
 
 // Get Attachment Config
-$titanium_cache_dir = $phpbb2_root_path . '/cache';
-$titanium_cache_file = $titanium_cache_dir . '/attach_config.php';
+$cache_dir = $phpbb2_root_path . '/cache';
+$cache_file = $cache_dir . '/attach_config.php';
 $attach_config = array();
 
-if (file_exists($titanium_cache_dir) && is_dir($titanium_cache_dir) && is_writable($titanium_cache_dir))
+if (file_exists($cache_dir) && is_dir($cache_dir) && is_writable($cache_dir))
 {
-    if (file_exists($titanium_cache_file))
+    if (file_exists($cache_file))
     {
-        include($titanium_cache_file);
+        include($cache_file);
     }
     else
     {
         $attach_config = get_config();
-        $fp = @fopen($titanium_cache_file, 'wt+');
+        $fp = @fopen($cache_file, 'wt+');
         if ($fp)
         {
             $lines = array();
@@ -142,7 +142,7 @@ if (file_exists($titanium_cache_dir) && is_dir($titanium_cache_dir) && is_writab
             fwrite($fp, '<?php $attach_config = array(' . implode(',', $lines) . '); ?>');
             fclose($fp);
 
-            @chmod($titanium_cache_file, $file_mode);
+            @chmod($cache_file, $file_mode);
         }
     }
 }

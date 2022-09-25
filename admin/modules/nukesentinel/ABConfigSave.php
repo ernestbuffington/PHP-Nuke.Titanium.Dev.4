@@ -38,9 +38,9 @@ $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_blockers` SET `activ
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-global $titanium_cache;
-$titanium_cache->delete('blockers', 'sentinel');
-$titanium_cache->resync();
+global $cache;
+$cache->delete('blockers', 'sentinel');
+$cache->resync();
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

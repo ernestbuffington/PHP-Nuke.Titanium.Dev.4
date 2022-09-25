@@ -265,12 +265,12 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
    */
   private function _prepareCache($nsKey)
   {
-    $titanium_cacheDir = $this->_path . '/' . $nsKey;
-    if (!is_dir($titanium_cacheDir))
+    $cacheDir = $this->_path . '/' . $nsKey;
+    if (!is_dir($cacheDir))
     {
-      if (!mkdir($titanium_cacheDir))
+      if (!mkdir($cacheDir))
       {
-        throw new Swift_IoException('Failed to create cache directory ' . $titanium_cacheDir);
+        throw new Swift_IoException('Failed to create cache directory ' . $cacheDir);
       }
       $this->_keys[$nsKey] = array();
     }

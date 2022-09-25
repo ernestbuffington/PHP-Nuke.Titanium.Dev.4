@@ -224,12 +224,12 @@ function get_mod_admins($titanium_module_name='super', $all='')
  */
 function load_nuke_titanium_config() 
 {
-    global $titanium_db, $titanium_cache, $debugger;
+    global $titanium_db, $cache, $debugger;
     // $nuke_titanium_config is only called once -> mainfile.php
     // mainfile.php is only loaded once. So static makes no sense
     // static $nuke_titanium_config;
     // if(isset($nuke_titanium_config) && is_array($nuke_titanium_config)) { return $nuke_titanium_config; }
-    if ((($nuke_titanium_config = $titanium_cache->load('php_nuke_titanium_config', 'config')) === false) || empty($nuke_titanium_config)) {
+    if ((($nuke_titanium_config = $cache->load('php_nuke_titanium_config', 'config')) === false) || empty($nuke_titanium_config)) {
         $nuke_titanium_config = $titanium_db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE, SQL_ASSOC);
         if (!$nuke_titanium_config) {
             if ($titanium_prefix != 'nuke') {
@@ -240,13 +240,13 @@ function load_nuke_titanium_config()
             }
         }
         $nuke_titanium_config = str_replace('\\"', '"', $nuke_titanium_config);
-        $titanium_cache->save('php_nuke_titanium_config', 'config', $nuke_titanium_config);
+        $cache->save('php_nuke_titanium_config', 'config', $nuke_titanium_config);
         $titanium_db->sql_freeresult($nuke_titanium_config);
     }
     if(is_array($nuke_titanium_config)) {
         return $nuke_titanium_config;
     } else {
-        $titanium_cache->delete('php_nuke_titanium_config', 'config');
+        $cache->delete('php_nuke_titanium_config', 'config');
         $debugger->handle_error('There is an error in your  nuke_config data', 'Error');
         return array();
     }
@@ -261,12 +261,12 @@ function load_nuke_titanium_config()
  */
 function load_phpbb2_board_config() 
 {
-    global $titanium_db, $debugger, $currentlang, $titanium_cache;
+    global $titanium_db, $debugger, $currentlang, $cache;
     // load_phpbb2_board_config is only called once -> mainfile.php
     // mainfile.php is only loaded once. So static makes no sense
     //static $phpbb2_board_config;
     //if(isset($phpbb2_board_config) && is_array($phpbb2_board_config)) { return $phpbb2_board_config; }
-    if ((($phpbb2_board_config = $titanium_cache->load('board_config', 'config')) === false) || empty($phpbb2_board_config)) {
+    if ((($phpbb2_board_config = $cache->load('board_config', 'config')) === false) || empty($phpbb2_board_config)) {
         $phpbb2_board_config = array();
 
         $sql = "SELECT * FROM " . CONFIG_TABLE;
@@ -277,12 +277,12 @@ function load_phpbb2_board_config()
             $phpbb2_board_config[$row['config_name']] = $row['config_value'];
         }
         $titanium_db->sql_freeresult($result);
-        $titanium_cache->save('board_config', 'config', $phpbb2_board_config);
+        $cache->save('board_config', 'config', $phpbb2_board_config);
     }
     if(is_array($phpbb2_board_config)) {
         return $phpbb2_board_config;
     } else {
-        $titanium_cache->delete('board_config', 'config');
+        $cache->delete('board_config', 'config');
         $debugger->handle_error('There is an error in your board_config data', 'Error');
         return array();
     }
@@ -297,12 +297,12 @@ function load_phpbb2_board_config()
  */
 function load_titanium_config() 
 {
-    global $titanium_db, $titanium_cache, $debugger;
+    global $titanium_db, $cache, $debugger;
     // load_titanium_config is only called once -> mainfile.php
     // mainfile.php is only loaded once. So static makes no sense
     //static $titanium_config;
     //if(isset($titanium_config) && is_array($titanium_config)) { return $titanium_config; }
-    if ((($titanium_config = $titanium_cache->load('titanum_config', 'config')) === false) || empty($titanium_config)) {
+    if ((($titanium_config = $cache->load('titanum_config', 'config')) === false) || empty($titanium_config)) {
         $titanium_config = array();
         $result = $titanium_db->sql_query('SELECT `evo_field`, `evo_value` FROM '._EVOCONFIG_TABLE.' WHERE `evo_field` != "cache_data"');
         while(list($evo_field, $evo_value) = $titanium_db->sql_fetchrow($result)) {
@@ -325,13 +325,13 @@ function load_titanium_config()
         }
         $titanium_config['censor_words'] = $wordrow;
 
-        $titanium_cache->save('titanium_config', 'config', $titanium_config);
+        $cache->save('titanium_config', 'config', $titanium_config);
         $titanium_db->sql_freeresult($result);
     }
     if(is_array($titanium_config)) {
         return $titanium_config;
     } else {
-        $titanium_cache->delete('titanium_config', 'config');
+        $cache->delete('titanium_config', 'config');
         $debugger->handle_error('There is an error in your titanium_config data', 'Error');
         return array();
     }
@@ -340,12 +340,12 @@ function load_titanium_config()
 // main_module function by Quake
 function main_module_titanium() 
 {
-  global $titanium_db, $titanium_cache;
+  global $titanium_db, $cache;
   static $main_module_titanium;
   if (isset($main_module_titanium)) { return $main_module_titanium; }
-    if((($main_module_titanium = $titanium_cache->load('main_module', 'config')) === false) || empty($main_module_titanium)) {
+    if((($main_module_titanium = $cache->load('main_module', 'config')) === false) || empty($main_module_titanium)) {
         list($main_module_titanium) = $titanium_db->sql_ufetchrow('SELECT main_module FROM '._MAIN_TABLE, SQL_NUM);
-      $titanium_cache->save('main_module', 'config', $main_module_titanium);
+      $cache->save('main_module', 'config', $main_module_titanium);
   }
   return $main_module_titanium;
 }
@@ -354,7 +354,7 @@ function main_module_titanium()
 function update_modules() 
 {
     // New function to add new modules and delete old ones
-    global $titanium_db, $titanium_cache;
+    global $titanium_db, $cache;
     static $updated;
     if(isset($updated)) { return $updated; }
     //Here we will pull all currently installed modules from the database
@@ -406,7 +406,7 @@ function update_modules()
             $titanium_db->sql_uquery("DELETE FROM `"._MODULES_TABLE."` WHERE `title`= '$titanium_module'");
             $result = $titanium_db->sql_uquery("OPTIMIZE TABLE `"._MODULES_TABLE."`");
             $titanium_db->sql_freeresult($result);
-            $titanium_cache->delete('active_modules');
+            $cache->delete('active_modules');
         }
     }
 
@@ -416,7 +416,7 @@ function update_modules()
 
 function UpdateCookie() 
 {
-    global $titanium_db, $titanium_prefix, $userinfo, $titanium_cache, $cookie, $identify;
+    global $titanium_db, $titanium_prefix, $userinfo, $cache, $cookie, $identify;
 
     $ip = $identify->get_ip();
     $uid = $userinfo['user_id'];
@@ -438,7 +438,7 @@ function UpdateCookie()
     /*****[BEGIN]******************************************
     [ Base:    Caching System                     v3.0.0 ]
     ******************************************************/
-    if(($ya_config = $titanium_cache->load('ya_config', 'config')) === false) 
+    if(($ya_config = $cache->load('ya_config', 'config')) === false) 
     {
         /*****[END]********************************************
         [ Base:    Caching System                     v3.0.0 ]
@@ -453,7 +453,7 @@ function UpdateCookie()
         /*****[BEGIN]******************************************
         [ Base:    Caching System                     v3.0.0 ]
         ******************************************************/
-        $titanium_cache->save('ya_config', 'config', $ya_config);
+        $cache->save('ya_config', 'config', $ya_config);
         /*****[END]********************************************
         [ Base:    Caching System                     v3.0.0 ]
         ******************************************************/
@@ -487,10 +487,10 @@ function UpdateCookie()
 // called by several files - so it makes sense to cache it (ReOrGaNiSaTiOn)
 function GetColorGroups($in_admin = false) 
 {
-    global $titanium_db, $titanium_cache;
+    global $titanium_db, $cache;
     static $ColorGroupsCache;
 
-    if((($ColorGroupsCache = $titanium_cache->load('ColorGroups', 'config')) === false) || empty($ColorGroupsCache)) 
+    if((($ColorGroupsCache = $cache->load('ColorGroups', 'config')) === false) || empty($ColorGroupsCache)) 
 	{
         $ColorGroupsCache = '';
         $result = $titanium_db->sql_query("SELECT `group_id`, `group_name`, `group_color`, `group_weight` FROM `".AUC_TABLE."` WHERE `group_id`>'0' ORDER BY `group_weight` ASC");
@@ -501,7 +501,7 @@ function GetColorGroups($in_admin = false)
             $ColorGroupsCache .= '&nbsp;[&nbsp;<strong><a href="'. append_titanium_sid('auc_listing.php?id='. $group_id.$back) .'"><span class="genmed" style="color:#'. $group_color .';">'. $group_name .'</span></a></strong>&nbsp;]&nbsp;';
         }
         $titanium_db->sql_freeresult($result);
-        $titanium_cache->save('ColorGroups', 'config', $ColorGroupsCache);
+        $cache->save('ColorGroups', 'config', $ColorGroupsCache);
     }
     return $ColorGroupsCache;
 }
@@ -1129,8 +1129,8 @@ function GetRank($titanium_user_id)
 // redirect function by Quake
 function redirect_titanium($url, $refresh = 0) 
 {
-    global $titanium_db, $titanium_cache;
-    if(is_object($titanium_cache)) $titanium_cache->resync();
+    global $titanium_db, $cache;
+    if(is_object($cache)) $cache->resync();
     if(is_object($titanium_db)) $titanium_db->sql_close();
     $type = preg_match('/IIS|Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ? 'Refresh: '.$refresh.'; URL=' : 'Location: ';
 	$url = str_replace('&amp;', "&", $url);
@@ -1212,7 +1212,7 @@ function ord_crypt_decode($data)
 
 function add_group_attributes($titanium_user_id, $group_id) 
 {
-    global $titanium_prefix, $titanium_db, $phpbb2_board_config, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $phpbb2_board_config, $cache;
 
     if ($titanium_user_id <= 2) return true;
 
@@ -1255,7 +1255,7 @@ function add_group_attributes($titanium_user_id, $group_id)
 /*****[BEGIN]******************************************
 [ Base:    Caching System                     v3.0.0 ]
 ******************************************************/
-         $titanium_cache->delete('UserColors', 'config');
+         $cache->delete('UserColors', 'config');
 /*****[END]********************************************
 [ Base:    Caching System                     v3.0.0 ]
 ******************************************************/
@@ -1265,14 +1265,14 @@ function add_group_attributes($titanium_user_id, $group_id)
 
 function remove_group_attributes($titanium_user_id, $group_id) 
 {
-    global $titanium_prefix, $titanium_db, $phpbb2_board_config, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $phpbb2_board_config, $cache;
     if (empty($titanium_user_id) && !empty($group_id) && $group_id != 0) {
         $sql = "SELECT `user_id` FROM `".$titanium_prefix."_bbuser_group` WHERE `group_id`=".$group_id;
         $result = $titanium_db->sql_query($sql);
         while ($row = $titanium_db->sql_fetchrow($result)) {
             remove_group_attributes($row['user_id'], '');
         }
-        $titanium_cache->delete('UserColors', 'config');
+        $cache->delete('UserColors', 'config');
     } else if (!empty($titanium_user_id) && $titanium_user_id >= 3) {
         $sql = "UPDATE `" . $titanium_prefix . "_users`
                 SET `user_color_gc` = '',
@@ -1303,7 +1303,7 @@ function titanium_site_up_evo($url)
 
 function evo_mail($to, $subject, $content, $header='', $params='', $batch=false) 
 {
-    global $phpbb2_board_config, $nuke_titanium_config, $titanium_cache;
+    global $phpbb2_board_config, $nuke_titanium_config, $cache;
 	
 	// Include the swift class
     require_once(NUKE_INCLUDE_DIR.'mail/swift_required.php');
@@ -1393,43 +1393,43 @@ function evo_mail_batch($array_recipients)
 // evo_image function by ReOrGaNiSaTiOn
 function evo_image($imgfile='', $mymodule='') 
 {
-    global $currentlang, $ThemeSel, $Default_Theme, $titanium_cache;
+    global $currentlang, $ThemeSel, $Default_Theme, $cache;
     $tmp_imgfile = explode('.', $imgfile);
-    $titanium_cache_imgfile = $tmp_imgfile[0];
-    $evoimage = $titanium_cache->load($mymodule, 'EvoImage');
-    if(!empty($evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile])) {
-        return($evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile]);
+    $cache_imgfile = $tmp_imgfile[0];
+    $evoimage = $cache->load($mymodule, 'EvoImage');
+    if(!empty($evoimage[$ThemeSel][$currentlang][$cache_imgfile])) {
+        return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
     }
 
     if (@file_exists('themes/'. $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = 'themes/'.$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
     } elseif (@file_exists('themes/'. $ThemeSel . '/images/lang_' . $currentlang . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = 'themes/'.$ThemeSel."/images/lang_".$currentlang."/$imgfile";
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/lang_".$currentlang."/$imgfile";
     } elseif (@file_exists('themes/'. $ThemeSel . '/images/' . $mymodule . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = 'themes/'.$ThemeSel."/images/$mymodule/$imgfile";
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/$mymodule/$imgfile";
     } elseif (@file_exists('themes/'. $ThemeSel . '/images/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = 'themes/'.$ThemeSel."/images/$imgfile";
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/$imgfile";
     } elseif (@file_exists('themes/'. $Default_Theme . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = 'themes/'.$Default_Theme."/images/$mymodule/lang_".$currentlang."/$imgfile";
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$Default_Theme."/images/$mymodule/lang_".$currentlang."/$imgfile";
     } elseif (@file_exists('themes/'. $Default_Theme . '/images/lang_' . $currentlang . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = 'themes/'.$Default_Theme."/images/lang_".$currentlang."/$imgfile";
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$Default_Theme."/images/lang_".$currentlang."/$imgfile";
     } elseif (@file_exists('themes/'. $Default_Theme . '/images/' . $mymodule . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = 'themes/'.$Default_Theme."/images/$mymodule/$imgfile";
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$Default_Theme."/images/$mymodule/$imgfile";
     } elseif (@file_exists('themes/'. $Default_Theme . '/images/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = 'themes/'.$Default_Theme."/images/$imgfile";
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$Default_Theme."/images/$imgfile";
     } elseif (@file_exists('modules/'.  $mymodule . '/images/lang_' . $currentlang . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = 'modules/'.  $mymodule ."/images/lang_".$currentlang."/$imgfile";
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'modules/'.  $mymodule ."/images/lang_".$currentlang."/$imgfile";
     } elseif (@file_exists('modules/'.  $mymodule . '/images/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] =  'modules/'. $mymodule ."/images/$imgfile";
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] =  'modules/'. $mymodule ."/images/$imgfile";
     } elseif (@file_exists(NUKE_IMAGES_DIR . $mymodule . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = NUKE_IMAGES_BASE_DIR . $mymodule ."/$imgfile";
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = NUKE_IMAGES_BASE_DIR . $mymodule ."/$imgfile";
     } elseif (@file_exists(NUKE_IMAGES_DIR . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = NUKE_IMAGES_BASE_DIR . $imgfile;
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = NUKE_IMAGES_BASE_DIR . $imgfile;
     } else {
-        $evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = '';
+        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = '';
     }
-    $titanium_cache->save($mymodule, 'EvoImage', $evoimage);
-    return($evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile]);
+    $cache->save($mymodule, 'EvoImage', $evoimage);
+    return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
 
 }
 

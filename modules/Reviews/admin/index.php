@@ -124,7 +124,7 @@ function reviews() {
 }
 
 function add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $rlanguage) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
 
     $id = intval($id);
     $title = Fix_Quotes($title);
@@ -137,7 +137,7 @@ function add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('numwaitreviews', 'submissions');
+    $cache->delete('numwaitreviews', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

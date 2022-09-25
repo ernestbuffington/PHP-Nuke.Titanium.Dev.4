@@ -212,7 +212,7 @@ function get_num_modules($activated = true)
 }
 
 // Determine if we have to use the db cache
-function module_use_db_cache($titanium_module_id, &$titanium_cache)
+function module_use_db_cache($titanium_module_id, &$cache)
 {
     global $titanium_db, $core;
 
@@ -240,7 +240,7 @@ function module_use_db_cache($titanium_module_id, &$titanium_cache)
         return (false);
     }
 
-    $titanium_cache = trim($row['db_cache']);
+    $cache = trim($row['db_cache']);
 
     // Determine last update time to use the cache -- determine dependencies/cache priority too
     if ((intval($row['module_cache_time']) + (intval($row['update_time']) * 60)) > time())
@@ -261,9 +261,9 @@ function module_use_db_cache($titanium_module_id, &$titanium_cache)
         return (true);
     }
 
-    $titanium_cache_priority = module_cache_priority($titanium_module_id, intval($row['priority']));
+    $cache_priority = module_cache_priority($titanium_module_id, intval($row['priority']));
     
-    if ($titanium_cache_priority == HIGHEST_PRIORITY)
+    if ($cache_priority == HIGHEST_PRIORITY)
     {
         $core->module_reloaded = true;
         set_module_cache_priority($titanium_module_id, (-1));

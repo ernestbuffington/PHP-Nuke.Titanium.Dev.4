@@ -191,8 +191,8 @@ else
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $titanium_cache->delete('php_nuke_titanium_config');
-                $titanium_cache->delete('board_config');
+                $cache->delete('php_nuke_titanium_config');
+                $cache->delete('board_config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

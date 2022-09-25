@@ -314,9 +314,9 @@ function GetThemeSelect($name, $mode='user_themes', $other_user=false, $extra=''
 }
 
 function ThemeBackup($theme) {
-    global $titanium_db, $titanium_prefix, $Default_Theme, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $Default_Theme, $cache;
         if(!is_default($theme) && theme_exists($Default_Theme)) { return $Default_Theme; }
-        $titanium_cache->delete('php_nuke_titanium_config', 'config');
+        $cache->delete('php_nuke_titanium_config', 'config');
         log_write('error', 'Your default theme is missing! ' . $Default_Theme . ' was NOT found!', 'Criticial Error');
         $themes = opendir(NUKE_THEMES_DIR);
         while(false !== ($theme_name = readdir($themes))) {
@@ -352,19 +352,19 @@ function AllowThemeChange() {
 
 function LoadThemeInfo($theme) 
 {
-    global $titanium_db, $titanium_prefix, $params, $default, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $params, $default, $cache;
     static $theme_info;
     if(isset($theme_info)) 
         return $theme_info; 
 
-    if(!$theme_info = $titanium_cache->load($theme, 'themes')) 
+    if(!$theme_info = $cache->load($theme, 'themes')) 
     {
         $result = $titanium_db->sql_query("SELECT theme_info FROM " . $titanium_prefix . "_themes WHERE theme_name = '" . $theme . "'");
         $row = $titanium_db->sql_fetchrow($result);
         $titanium_db->sql_freeresult($result);
         $loaded_info = (!empty($row['theme_info'])) ? explode(':::', $row['theme_info']) : $default;
         $theme_info = array_combine($params, $loaded_info);
-        $titanium_cache->save($theme, 'themes', $theme_info);
+        $cache->save($theme, 'themes', $theme_info);
     }
     return $theme_info;
 }

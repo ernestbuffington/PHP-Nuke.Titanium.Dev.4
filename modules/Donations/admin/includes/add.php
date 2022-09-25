@@ -160,7 +160,7 @@ function check_donation() {
     Notes:       Writes the donation to the DB
 ================================================================================================*/
 function write_donation() {
-    global $titanium_lang_donate, $titanium_db, $titanium_user_prefix, $titanium_prefix, $titanium_cache;
+    global $titanium_lang_donate, $titanium_db, $titanium_user_prefix, $titanium_prefix, $cache;
     if ($_POST['uname'] != 'N/A') {
         $_POST['uname'] = Fix_Quotes(check_html($_POST['uname'], 'nohtml'));
         $sql = 'SELECT * FROM `'.$titanium_user_prefix.'_users` WHERE username="'.$_POST['uname'].'"';
@@ -204,8 +204,8 @@ function write_donation() {
     $sql = 'INSERT INTO `'.$titanium_prefix.'_donators` VALUES("","'.$uid.'","'.$uname.'","'.$fname.'","'.$lname.'","'.$email.'","'.$donated.'",'.time().',"'.$donshow.'","","","","'.$donto.'")';
     $titanium_db->sql_query($sql);
     //Clear the cache
-    $titanium_cache->delete('donations', 'donations');
-    $titanium_cache->delete('donations_goal', 'donations');
+    $cache->delete('donations', 'donations');
+    $cache->delete('donations_goal', 'donations');
 }
 
 /*~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-*/

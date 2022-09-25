@@ -35,7 +35,7 @@ get_lang($titanium_module_name);
 
 $pagetitle = "- "._SHOUTHISTORY;
 
-global $titanium_db, $user, $titanium_prefix, $titanium_username, $nsnst_const, $userinfo, $titanium_cache;
+global $titanium_db, $user, $titanium_prefix, $titanium_username, $nsnst_const, $userinfo, $cache;
 
 global $titanium_username;
 
@@ -47,11 +47,11 @@ include_once(NUKE_MODULES_DIR.'Shout_Box/shout.php');
 
 global $conf;
 
-if ((($conf = $titanium_cache->load('conf', 'shoutbox')) == false) || empty($conf)) {
+if ((($conf = $cache->load('conf', 'shoutbox')) == false) || empty($conf)) {
     $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_conf`";
     $result = $titanium_db->sql_query($sql);
     $conf = $titanium_db->sql_fetchrow($result);
-    $titanium_cache->save('conf', 'shoutbox', $conf);
+    $cache->save('conf', 'shoutbox', $conf);
     $titanium_db->sql_freeresult($result);
 }
 

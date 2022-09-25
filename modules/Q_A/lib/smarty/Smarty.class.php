@@ -263,7 +263,7 @@ class Smarty extends Smarty_Internal_TemplateBase
      * cache directory
      * @var string
      */
-    private $titanium_cache_dir = null;
+    private $cache_dir = null;
     /**
      * config directory
      * @var array
@@ -303,7 +303,7 @@ class Smarty extends Smarty_Internal_TemplateBase
      * cache lifetime in seconds
      * @var integer
      */
-    public $titanium_cache_lifetime = 3600;
+    public $cache_lifetime = 3600;
     /**
      * force cache file creation
      * @var boolean
@@ -315,7 +315,7 @@ class Smarty extends Smarty_Internal_TemplateBase
      *
      * @var string
      */
-    public $titanium_cache_id = null;
+    public $cache_id = null;
     /**
      * Set this if you want different sets of compiled files for the same
      * templates.
@@ -451,7 +451,7 @@ class Smarty extends Smarty_Internal_TemplateBase
      * Controls whether cache resources should emply locking mechanism
      * @var boolean
      */
-    public $titanium_cache_locking = false;
+    public $cache_locking = false;
     /**
      * seconds to wait for acquiring a lock before ignoring the write lock
      * @var float
@@ -475,7 +475,7 @@ class Smarty extends Smarty_Internal_TemplateBase
     /**
      * caching type
      *
-     * Must be an element of $titanium_cache_resource_types.
+     * Must be an element of $cache_resource_types.
      *
      * @var string
      */
@@ -499,7 +499,7 @@ class Smarty extends Smarty_Internal_TemplateBase
      * check If-Modified-Since headers
      * @var boolean
      */
-    public $titanium_cache_modified_check = false;
+    public $cache_modified_check = false;
     /**
      * registered plugins
      * @var array
@@ -764,19 +764,19 @@ class Smarty extends Smarty_Internal_TemplateBase
      * Empty cache for a specific template
      *
      * @param  string  $phpbb2_template_name template name
-     * @param  string  $titanium_cache_id      cache id
+     * @param  string  $cache_id      cache id
      * @param  string  $compile_id    compile id
      * @param  integer $exp_time      expiration time
      * @param  string  $type          resource type
      * @return integer number of cache files deleted
      */
-    public function clearCache($phpbb2_template_name, $titanium_cache_id = null, $compile_id = null, $exp_time = null, $type = null)
+    public function clearCache($phpbb2_template_name, $cache_id = null, $compile_id = null, $exp_time = null, $type = null)
     {
         // load cache resource and call clear
         $_cache_resource = Smarty_CacheResource::load($this, $type);
         Smarty_CacheResource::invalidLoadedCache($this);
 
-        return $_cache_resource->clear($this, $phpbb2_template_name, $titanium_cache_id, $compile_id, $exp_time);
+        return $_cache_resource->clear($this, $phpbb2_template_name, $cache_id, $compile_id, $exp_time);
     }
 
     /**
@@ -1043,12 +1043,12 @@ class Smarty extends Smarty_Internal_TemplateBase
     /**
      * Set cache directory
      *
-     * @param  string $titanium_cache_dir directory to store cached templates in
+     * @param  string $cache_dir directory to store cached templates in
      * @return Smarty current Smarty instance for chaining
      */
-    public function setCacheDir($titanium_cache_dir)
+    public function setCacheDir($cache_dir)
     {
-        $this->cache_dir = rtrim($titanium_cache_dir, '/\\') . DS;
+        $this->cache_dir = rtrim($cache_dir, '/\\') . DS;
         if (!isset(Smarty::$_muted_directories[$this->cache_dir])) {
             Smarty::$_muted_directories[$this->cache_dir] = null;
         }
@@ -1199,17 +1199,17 @@ class Smarty extends Smarty_Internal_TemplateBase
      * creates a template object
      *
      * @param  string  $phpbb2_template   the resource handle of the template file
-     * @param  mixed   $titanium_cache_id   cache id to be used with this template
+     * @param  mixed   $cache_id   cache id to be used with this template
      * @param  mixed   $compile_id compile id to be used with this template
      * @param  object  $parent     next higher level of Smarty variables
      * @param  boolean $do_clone   flag is Smarty object shall be cloned
      * @return object  template object
      */
-    public function createTemplate($phpbb2_template, $titanium_cache_id = null, $compile_id = null, $parent = null, $do_clone = true)
+    public function createTemplate($phpbb2_template, $cache_id = null, $compile_id = null, $parent = null, $do_clone = true)
     {
-        if (!empty($titanium_cache_id) && (is_object($titanium_cache_id) || is_array($titanium_cache_id))) {
-            $parent = $titanium_cache_id;
-            $titanium_cache_id = null;
+        if (!empty($cache_id) && (is_object($cache_id) || is_array($cache_id))) {
+            $parent = $cache_id;
+            $cache_id = null;
         }
         if (!empty($parent) && is_array($parent)) {
             $data = $parent;
@@ -1218,13 +1218,13 @@ class Smarty extends Smarty_Internal_TemplateBase
             $data = null;
         }
         // default to cache_id and compile_id of Smarty object
-        $titanium_cache_id = $titanium_cache_id === null ? $this->cache_id : $titanium_cache_id;
+        $cache_id = $cache_id === null ? $this->cache_id : $cache_id;
         $compile_id = $compile_id === null ? $this->compile_id : $compile_id;
         // already in template cache?
         if ($this->allow_ambiguous_resources) {
-            $_templateId = Smarty_Resource::getUniqueTemplateName($this, $phpbb2_template) . $titanium_cache_id . $compile_id;
+            $_templateId = Smarty_Resource::getUniqueTemplateName($this, $phpbb2_template) . $cache_id . $compile_id;
         } else {
-            $_templateId = $this->joined_template_dir . '#' . $phpbb2_template . $titanium_cache_id . $compile_id;
+            $_templateId = $this->joined_template_dir . '#' . $phpbb2_template . $cache_id . $compile_id;
         }
         if (isset($_templateId[150])) {
             $_templateId = sha1($_templateId);
@@ -1238,7 +1238,7 @@ class Smarty extends Smarty_Internal_TemplateBase
                 $tpl->tpl_vars = array();
                 $tpl->config_vars = array();
             } else {
-                $tpl = new $this->template_class($phpbb2_template, clone $this, $parent, $titanium_cache_id, $compile_id);
+                $tpl = new $this->template_class($phpbb2_template, clone $this, $parent, $cache_id, $compile_id);
             }
         } else {
             if (isset($this->template_objects[$_templateId])) {
@@ -1248,7 +1248,7 @@ class Smarty extends Smarty_Internal_TemplateBase
                 $tpl->tpl_vars = array();
                 $tpl->config_vars = array();
             } else {
-                $tpl = new $this->template_class($phpbb2_template, $this, $parent, $titanium_cache_id, $compile_id);
+                $tpl = new $this->template_class($phpbb2_template, $this, $parent, $cache_id, $compile_id);
             }
         }
         // fill data if present

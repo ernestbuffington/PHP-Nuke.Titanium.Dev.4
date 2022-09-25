@@ -89,7 +89,7 @@ if (is_mod_admin())
 
     function log_clear($file) 
     {
-        global $titanium_db, $titanium_prefix, $admin_file, $titanium_cache, $admlang;
+        global $titanium_db, $titanium_prefix, $admin_file, $cache, $admlang;
 
         echo "<div align='center'>";
         echo "".$admlang['logs']['cleared']."<br /><br />";
@@ -109,7 +109,7 @@ if (is_mod_admin())
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $titanium_cache->delete('php_nuke_titanium_config');
+                $cache->delete('php_nuke_titanium_config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

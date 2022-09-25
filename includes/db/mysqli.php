@@ -191,7 +191,7 @@ class sql_db
 	}
 
     function check_query($query) {
-        global $titanium_prefix, $titanium_cache;
+        global $titanium_prefix, $cache;
         if (!stristr($query, "UPDATE") && !stristr($query, "INSERT") && !stristr($query, "DELETE")) { return; }
         $tables = array(
                       'php_nuke_titanium_config' => $titanium_prefix . '_config',
@@ -204,7 +204,7 @@ class sql_db
         foreach( $tables as $file => $table )
         {
             if (stristr($query, $table)) {
-				$titanium_cache->delete($file, 'config');
+				$cache->delete($file, 'config');
             }
         }
         return;

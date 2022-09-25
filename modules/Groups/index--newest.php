@@ -147,7 +147,7 @@ function generate_user_info(&$row, $date_format, $group_mod, &$from, &$flag, &$p
 //
 // --------------------------
 
-global $titanium_cache;
+global $cache;
 
 //
 // Start session management
@@ -329,7 +329,7 @@ if ( isset($_POST['groupstatus']) && $group_id ) {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-             $titanium_cache->delete('UserColors', 'config');
+             $cache->delete('UserColors', 'config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -665,7 +665,7 @@ else if ( $group_id )
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                                            $titanium_cache->delete('UserColors', 'config');
+                                            $cache->delete('UserColors', 'config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -745,7 +745,7 @@ else if ( $group_id )
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                                                $titanium_cache->delete('UserColors', 'config');
+                                                $cache->delete('UserColors', 'config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

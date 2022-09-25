@@ -705,14 +705,14 @@ function LinksListBrokenLinks() {
 }
 
 function LinksDelBrokenLinks($lid) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $lid = intval($lid);
     $titanium_db->sql_query("delete FROM " . $titanium_prefix . "_links_modrequest WHERE lid='$lid'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('numbrokenl', 'submissions');
-    $titanium_cache->delete('nummodreql', 'submissions');
+    $cache->delete('numbrokenl', 'submissions');
+    $cache->delete('nummodreql', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -721,13 +721,13 @@ function LinksDelBrokenLinks($lid) {
 }
 
 function LinksIgnoreBrokenLinks($lid) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $titanium_db->sql_query("delete FROM " . $titanium_prefix . "_links_modrequest WHERE lid='$lid' and brokenlink='1'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('numbrokenl', 'submissions');
-    $titanium_cache->delete('nummodreql', 'submissions');
+    $cache->delete('numbrokenl', 'submissions');
+    $cache->delete('nummodreql', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -844,7 +844,7 @@ function LinksListModRequests() {
 }
 
 function LinksChangeModRequests($requestid) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $requestid = intval($requestid);
     $result = $titanium_db->sql_query("SELECT requestid, lid, cid, sid, title, url, description FROM " . $titanium_prefix . "_links_modrequest WHERE requestid='$requestid'");
     while ($row = $titanium_db->sql_fetchrow($result)) {
@@ -861,8 +861,8 @@ function LinksChangeModRequests($requestid) {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('numbrokenl', 'submissions');
-    $titanium_cache->delete('nummodreql', 'submissions');
+    $cache->delete('numbrokenl', 'submissions');
+    $cache->delete('nummodreql', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -870,14 +870,14 @@ function LinksChangeModRequests($requestid) {
 }
 
 function LinksChangeIgnoreRequests($requestid) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $requestid = intval($requestid);
     $titanium_db->sql_query("delete FROM " . $titanium_prefix . "_links_modrequest WHERE requestid=$requestid");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('numbrokenl', 'submissions');
-    $titanium_cache->delete('nummodreql', 'submissions');
+    $cache->delete('numbrokenl', 'submissions');
+    $cache->delete('nummodreql', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -898,7 +898,7 @@ function LinksCleanVotes() {
 }
 
 function LinksModLinkS($lid, $xtitle, $url, $description, $name, $email, $hits, $cat) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $cat = explode("-", $cat);
     if (empty($cat[1])) {
         $cat[1] = 0;
@@ -918,8 +918,8 @@ function LinksModLinkS($lid, $xtitle, $url, $description, $name, $email, $hits, 
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('numbrokenl', 'submissions');
-    $titanium_cache->delete('nummodreql', 'submissions');
+    $cache->delete('numbrokenl', 'submissions');
+    $cache->delete('nummodreql', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -928,7 +928,7 @@ function LinksModLinkS($lid, $xtitle, $url, $description, $name, $email, $hits, 
 }
 
 function LinksDelLink($lid) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $lid = intval($lid);
     $titanium_db->sql_query("delete FROM " . $titanium_prefix . "_links_links WHERE lid='$lid'");
     // Has the link been submitted for modification? we deleted it so let's remove it FROM the modrequest table
@@ -940,8 +940,8 @@ function LinksDelLink($lid) {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('numbrokenl', 'submissions');
-    $titanium_cache->delete('nummodreql', 'submissions');
+    $cache->delete('numbrokenl', 'submissions');
+    $cache->delete('nummodreql', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -1068,13 +1068,13 @@ function LinksDelCat($cid, $sid, $sub, $ok=0) {
 }
 
 function LinksDelNew($lid) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $lid = intval($lid);
     $titanium_db->sql_query("delete FROM " . $titanium_prefix . "_links_newlink WHERE lid='$lid'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('numwaitl', 'submissions');
+    $cache->delete('numwaitl', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -1280,7 +1280,7 @@ function LinksValidate($cid, $sid, $ttitle) {
 }
 
 function LinksAddLink($new, $lid, $xtitle, $url, $cat, $description, $name, $email, $submitter) {
-    global $titanium_prefix, $titanium_db, $sitename, $nukeurl, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $sitename, $nukeurl, $admin_file, $cache;
     $result = $titanium_db->sql_query("SELECT url FROM " . $titanium_prefix . "_links_links WHERE url='$url'");
     $numrows = $titanium_db->sql_numrows($result);
     if ($numrows>0) {
@@ -1395,7 +1395,7 @@ function LinksAddLink($new, $lid, $xtitle, $url, $cat, $description, $name, $ema
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('numwaitl', 'submissions');
+    $cache->delete('numwaitl', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

@@ -344,7 +344,7 @@ function AddLink()
 }
 
 function Add($title, $url, $auth_name, $cat, $description, $email) {
-    global $titanium_prefix, $titanium_db, $titanium_user, $cookie, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $titanium_user, $cookie, $cache;
     $result = $titanium_db->sql_query("SELECT `url` FROM ".$titanium_prefix."_links_links WHERE url='$url'");
     $numrows = $titanium_db->sql_numrows($result);
 /*****[BEGIN]******************************************
@@ -431,7 +431,7 @@ function Add($title, $url, $auth_name, $cat, $description, $email) {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $titanium_cache->delete('numwaitl', 'submissions');
+        $cache->delete('numwaitl', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -2340,7 +2340,7 @@ function brokenlink($lid)
 function brokenlinkS($lid,$cid, $title, $url, $description, $modifysubmitter) 
 {
 
-    global $titanium_prefix, $titanium_db, $titanium_user, $anonymous, $cookie, $titanium_module_name, $titanium_user, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $titanium_user, $anonymous, $cookie, $titanium_module_name, $titanium_user, $cache;
 
     if (is_user()): 
 	
@@ -2361,8 +2361,8 @@ function brokenlinkS($lid,$cid, $title, $url, $description, $modifysubmitter)
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $titanium_cache->delete('numbrokenl', 'submissions');
-        $titanium_cache->delete('nummodreql', 'submissions');
+        $cache->delete('numbrokenl', 'submissions');
+        $cache->delete('nummodreql', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -2471,7 +2471,7 @@ function modifylinkrequest($lid)
 
 function modifylinkrequestS($lid, $cat, $title, $url, $description, $modifysubmitter) 
 {
-    global $titanium_prefix, $titanium_db, $titanium_user, $titanium_module_name, $cookie, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $titanium_user, $titanium_module_name, $cookie, $cache;
     include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
 
     if(is_user()) 
@@ -2530,8 +2530,8 @@ function modifylinkrequestS($lid, $cat, $title, $url, $description, $modifysubmi
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $titanium_cache->delete('numbrokenl', 'submissions');
-        $titanium_cache->delete('nummodreql', 'submissions');
+        $cache->delete('numbrokenl', 'submissions');
+        $cache->delete('nummodreql', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

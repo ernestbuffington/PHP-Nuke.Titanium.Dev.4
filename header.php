@@ -43,7 +43,7 @@ function head()
 						  $ab_config, 
 						  $modheader, 
 						       $name, 
-				     $titanium_cache, 
+				     $cache, 
 			      $userinfo, 
 						     $cookie, 
 					  	    $sitekey, 
@@ -121,7 +121,7 @@ function head()
 	# START Load current theme. - 09/07/2019
 
     echo "\n\n<!-- START Load favicon. -->\n\n";
-    if ((($favicon = $titanium_cache->load('favicon', 'config')) === false) || empty($favicon)): 
+    if ((($favicon = $cache->load('favicon', 'config')) === false) || empty($favicon)): 
         if (file_exists(NUKE_BASE_DIR.'favicon.ico')) 
 		$favicon = "favicon.ico";
 		else 
@@ -134,7 +134,7 @@ function head()
         $favicon = 'none';
 		if ($favicon != 'none') 
         echo "<link rel=\"shortcut icon\" href=\"$favicon\" type=\"image/x-icon\" />\n";
-        $titanium_cache->save('favicon', 'config', $favicon);
+        $cache->save('favicon', 'config', $favicon);
 	else: 
         if ($favicon != 'none') 
         echo "<link rel=\"shortcut icon\" href=\"$favicon\" type=\"image/x-icon\" />\n";
@@ -145,7 +145,7 @@ function head()
     
     /*
 	echo "\n\n<!-- START custom_head -->\n\n";
-	if ((($custom_head = $titanium_cache->load('custom_head', 'config')) === false) || empty($custom_head)): 
+	if ((($custom_head = $cache->load('custom_head', 'config')) === false) || empty($custom_head)): 
         $custom_head = array();
 	    if (file_exists(NUKE_INCLUDE_DIR.'custom_files/custom_head.php')) 
         $custom_head[] = 'custom_head';
@@ -156,7 +156,7 @@ function head()
                 include_once(NUKE_INCLUDE_DIR.'custom_files/'.$file.'.php');
             endforeach;
         endif;
-		$titanium_cache->save('custom_head', 'config', $custom_head);
+		$cache->save('custom_head', 'config', $custom_head);
 	else: 
         if (!empty($custom_head)): 
             foreach ($custom_head as $file): 

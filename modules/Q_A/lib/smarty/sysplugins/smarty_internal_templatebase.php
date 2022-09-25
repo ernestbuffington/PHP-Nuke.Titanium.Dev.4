@@ -21,7 +21,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
      * fetches a rendered Smarty template
      *
      * @param  string $phpbb2_template         the resource handle of the template file or template object
-     * @param  mixed  $titanium_cache_id         cache id to be used with this template
+     * @param  mixed  $cache_id         cache id to be used with this template
      * @param  mixed  $compile_id       compile id to be used with this template
      * @param  object $parent           next higher level of Smarty variables
      * @param  bool   $display          true: display, false: fetch
@@ -29,14 +29,14 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
      * @param  bool   $no_output_filter if true do not run output filter
      * @return string rendered template output
      */
-    public function fetch($phpbb2_template = null, $titanium_cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false)
+    public function fetch($phpbb2_template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false)
     {
         if ($phpbb2_template === null && $this instanceof $this->template_class) {
             $phpbb2_template = $this;
         }
-        if (!empty($titanium_cache_id) && is_object($titanium_cache_id)) {
-            $parent = $titanium_cache_id;
-            $titanium_cache_id = null;
+        if (!empty($cache_id) && is_object($cache_id)) {
+            $parent = $cache_id;
+            $cache_id = null;
         }
         if ($parent === null && ($this instanceof Smarty || is_string($phpbb2_template))) {
             $parent = $this;
@@ -44,7 +44,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
         // create template object if necessary
         $_template = ($phpbb2_template instanceof $this->template_class)
         ? $phpbb2_template
-        : $this->smarty->createTemplate($phpbb2_template, $titanium_cache_id, $compile_id, $parent, false);
+        : $this->smarty->createTemplate($phpbb2_template, $cache_id, $compile_id, $parent, false);
         // if called by Smarty object make sure we use current caching status
         if ($this instanceof Smarty) {
             $_template->caching = $this->caching;
@@ -230,18 +230,18 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
                 }
                 $_template->properties['has_nocache_code'] = false;
                 // get text between non-cached items
-                $titanium_cache_split = preg_split("!/\*%%SmartyNocache:{$_template->properties['nocache_hash']}%%\*\/(.+?)/\*/%%SmartyNocache:{$_template->properties['nocache_hash']}%%\*/!s", $_output);
+                $cache_split = preg_split("!/\*%%SmartyNocache:{$_template->properties['nocache_hash']}%%\*\/(.+?)/\*/%%SmartyNocache:{$_template->properties['nocache_hash']}%%\*/!s", $_output);
                 // get non-cached items
-                preg_match_all("!/\*%%SmartyNocache:{$_template->properties['nocache_hash']}%%\*\/(.+?)/\*/%%SmartyNocache:{$_template->properties['nocache_hash']}%%\*/!s", $_output, $titanium_cache_parts);
+                preg_match_all("!/\*%%SmartyNocache:{$_template->properties['nocache_hash']}%%\*\/(.+?)/\*/%%SmartyNocache:{$_template->properties['nocache_hash']}%%\*/!s", $_output, $cache_parts);
                 $output = '';
                 // loop over items, stitch back together
-                foreach ($titanium_cache_split as $curr_idx => $curr_split) {
+                foreach ($cache_split as $curr_idx => $curr_split) {
                     // escape PHP tags in template content
                     $output .= preg_replace('/(<%|%>|<\?php|<\?|\?>)/', "<?php echo '\$1'; ?>\n", $curr_split);
-                    if (isset($titanium_cache_parts[0][$curr_idx])) {
+                    if (isset($cache_parts[0][$curr_idx])) {
                         $_template->properties['has_nocache_code'] = true;
                         // remove nocache tags from cache output
-                        $output .= preg_replace("!/\*/?%%SmartyNocache:{$_template->properties['nocache_hash']}%%\*/!", '', $titanium_cache_parts[0][$curr_idx]);
+                        $output .= preg_replace("!/\*/?%%SmartyNocache:{$_template->properties['nocache_hash']}%%\*/!", '', $cache_parts[0][$curr_idx]);
                     }
                 }
                 if (!$no_output_filter && !$_template->has_nocache_code && (isset($this->smarty->autoload_filters['output']) || isset($this->smarty->registered_filters['output']))) {
@@ -367,26 +367,26 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
      * displays a Smarty template
      *
      * @param string $phpbb2_template   the resource handle of the template file or template object
-     * @param mixed  $titanium_cache_id   cache id to be used with this template
+     * @param mixed  $cache_id   cache id to be used with this template
      * @param mixed  $compile_id compile id to be used with this template
      * @param object $parent     next higher level of Smarty variables
      */
-    public function display($phpbb2_template = null, $titanium_cache_id = null, $compile_id = null, $parent = null)
+    public function display($phpbb2_template = null, $cache_id = null, $compile_id = null, $parent = null)
     {
         // display template
-        $this->fetch($phpbb2_template, $titanium_cache_id, $compile_id, $parent, true);
+        $this->fetch($phpbb2_template, $cache_id, $compile_id, $parent, true);
     }
 
     /**
      * test if cache is valid
      *
      * @param  string|object $phpbb2_template   the resource handle of the template file or template object
-     * @param  mixed         $titanium_cache_id   cache id to be used with this template
+     * @param  mixed         $cache_id   cache id to be used with this template
      * @param  mixed         $compile_id compile id to be used with this template
      * @param  object        $parent     next higher level of Smarty variables
      * @return boolean       cache status
      */
-    public function isCached($phpbb2_template = null, $titanium_cache_id = null, $compile_id = null, $parent = null)
+    public function isCached($phpbb2_template = null, $cache_id = null, $compile_id = null, $parent = null)
     {
         if ($phpbb2_template === null && $this instanceof $this->template_class) {
             return $this->cached->valid;
@@ -395,7 +395,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
             if ($parent === null) {
                 $parent = $this;
             }
-            $phpbb2_template = $this->smarty->createTemplate($phpbb2_template, $titanium_cache_id, $compile_id, $parent, false);
+            $phpbb2_template = $this->smarty->createTemplate($phpbb2_template, $cache_id, $compile_id, $parent, false);
         }
         // return cache status of template
         return $phpbb2_template->cached->valid;
@@ -418,19 +418,19 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
      * @param  string                       $type       plugin type
      * @param  string                       $tag        name of template tag
      * @param  callback                     $callback   PHP callback to register
-     * @param  boolean                      $titanium_cacheable  if true (default) this fuction is cachable
-     * @param  array                        $titanium_cache_attr caching attributes if any
+     * @param  boolean                      $cacheable  if true (default) this fuction is cachable
+     * @param  array                        $cache_attr caching attributes if any
      * @return Smarty_Internal_Templatebase current Smarty_Internal_Templatebase (or Smarty or Smarty_Internal_Template) instance for chaining
      * @throws SmartyException              when the plugin tag is invalid
      */
-    public function registerPlugin($type, $tag, $callback, $titanium_cacheable = true, $titanium_cache_attr = null)
+    public function registerPlugin($type, $tag, $callback, $cacheable = true, $cache_attr = null)
     {
         if (isset($this->smarty->registered_plugins[$type][$tag])) {
             throw new SmartyException("Plugin tag \"{$tag}\" already registered");
         } elseif (!is_callable($callback)) {
             throw new SmartyException("Plugin \"{$tag}\" not callable");
         } else {
-            $this->smarty->registered_plugins[$type][$tag] = array($callback, (bool) $titanium_cacheable, (array) $titanium_cache_attr);
+            $this->smarty->registered_plugins[$type][$tag] = array($callback, (bool) $cacheable, (array) $cache_attr);
         }
 
         return $this;

@@ -495,7 +495,7 @@ class aprvmUtils
     
     function setupConfig()
     {
-        global $phpbb2_board_config, $titanium_db, $HTTP_GET_VARS, $status_message, $titanium_lang, $titanium_cache;
+        global $phpbb2_board_config, $titanium_db, $HTTP_GET_VARS, $status_message, $titanium_lang, $cache;
 
         $configList = array('aprvmArchive', 'aprvmVersion', 'aprvmView', 'aprvmRows', 'aprvmIP');
         $configLangs = array('aprvmArchive' => $titanium_lang['Archive_Feature'],
@@ -518,7 +518,7 @@ class aprvmUtils
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $titanium_cache->delete('board_config');
+            $cache->delete('board_config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -539,7 +539,7 @@ class aprvmUtils
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $titanium_cache->delete('board_config');
+                $cache->delete('board_config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -574,7 +574,7 @@ class aprvmUtils
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $titanium_cache->delete('board_config');
+            $cache->delete('board_config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

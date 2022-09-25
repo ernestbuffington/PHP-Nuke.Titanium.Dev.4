@@ -39,7 +39,7 @@ include_once(NUKE_INCLUDE_DIR.'functions.php');
  [ Mod:     Group Ranks                        v1.0.0 ]
  ******************************************************/
 function init_group($uid) {
-    global $titanium_prefix, $titanium_db, $phpbb2_board_config, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $phpbb2_board_config, $cache;
     if($phpbb2_board_config['initial_group_id'] != "0" && $phpbb2_board_config['initial_group_id'] != NULL) {
         $initialusergroup = intval($phpbb2_board_config['initial_group_id']);
         if($initialusergroup == 0) {

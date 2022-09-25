@@ -48,7 +48,7 @@ function abget_countrytitle($c2c){
 }
 
 function absave_config($config_name, $config_value){
-  global $titanium_prefix, $titanium_db, $titanium_cache;
+  global $titanium_prefix, $titanium_db, $cache;
   if(!get_magic_quotes_runtime()) {
     $config_name = addslashes($config_name);
     $config_value = addslashes($config_value);
@@ -62,8 +62,8 @@ function absave_config($config_name, $config_value){
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-  $titanium_cache->delete('sentinel', 'config');
-  $titanium_cache->resync();
+  $cache->delete('sentinel', 'config');
+  $cache->resync();
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

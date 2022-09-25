@@ -102,7 +102,7 @@ class cache
         return $count;
     }
 
-    // This function passes the variable $titanium_cache_changed, and then the function resync will handle it
+    // This function passes the variable $cache_changed, and then the function resync will handle it
     function save($name, $cat='config', $fileData) {
         if(!$this->valid) return false;
         if(!isset($fileData)) return false;
@@ -124,7 +124,7 @@ class cache
         return $this->zend->load(CACHE_PREFIX.$cat.'_'.$name);
     }
 
-    // This function passes the variable $titanium_cache_changed, and then the function resync will handle it
+    // This function passes the variable $cache_changed, and then the function resync will handle it
     function delete($name, $cat='config') {
 		if(!$this->valid) return false;
 		$name = str_replace(array(' ', '.', '-'), '_', $name);
@@ -161,6 +161,6 @@ class cache
 
 global $use_cache;
 // Set up the cache class reference
-$titanium_cache = new cache($use_cache);
+$cache = new cache($use_cache);
 
 ?>

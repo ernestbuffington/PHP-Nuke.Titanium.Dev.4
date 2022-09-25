@@ -3,7 +3,7 @@
 if(!defined('NUKE_EVO')) 
 	exit;
 
-global $titanium_db, $block_title, $titanium_user_prefix, $titanium_prefix, $titanium_cache, $blockslang, $images, $phpbb2_board_config, $phpbb2_board_config, $userinfo;
+global $titanium_db, $block_title, $titanium_user_prefix, $titanium_prefix, $cache, $blockslang, $images, $phpbb2_board_config, $phpbb2_board_config, $userinfo;
 
 define('forum_board_icon_path','themes/'.get_theme().'/forums');
 
@@ -27,7 +27,7 @@ $count_topics = 0;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-// if (!$phpbb2_topic_data = $titanium_cache->load('topic_data', 'home')):
+// if (!$phpbb2_topic_data = $cache->load('topic_data', 'home')):
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -59,7 +59,7 @@ $count_topics = 0;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-	// $titanium_cache->save('topic_data', 'home', $phpbb2_topic_data);	
+	// $cache->save('topic_data', 'home', $phpbb2_topic_data);	
 // endif;
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]

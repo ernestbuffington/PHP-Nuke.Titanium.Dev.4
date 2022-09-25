@@ -603,8 +603,8 @@ if(is_mod_admin($titanium_module_name)) {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            global $titanium_cache;
-            $titanium_cache->delete('titanium_config');
+            global $cache;
+            $cache->delete('titanium_config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

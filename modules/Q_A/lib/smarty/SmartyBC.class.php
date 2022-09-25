@@ -97,12 +97,12 @@ class SmartyBC extends Smarty
      *
      * @param string $function      the name of the template function
      * @param string $function_impl the name of the PHP function to register
-     * @param bool   $titanium_cacheable
-     * @param mixed  $titanium_cache_attrs
+     * @param bool   $cacheable
+     * @param mixed  $cache_attrs
      */
-    public function register_function($function, $function_impl, $titanium_cacheable=true, $titanium_cache_attrs=null)
+    public function register_function($function, $function_impl, $cacheable=true, $cache_attrs=null)
     {
-        $this->registerPlugin('function', $function, $function_impl, $titanium_cacheable, $titanium_cache_attrs);
+        $this->registerPlugin('function', $function, $function_impl, $cacheable, $cache_attrs);
     }
 
     /**
@@ -146,12 +146,12 @@ class SmartyBC extends Smarty
      *
      * @param string $block       name of template block
      * @param string $block_impl  PHP function to register
-     * @param bool   $titanium_cacheable
-     * @param mixed  $titanium_cache_attrs
+     * @param bool   $cacheable
+     * @param mixed  $cache_attrs
      */
-    public function register_block($block, $block_impl, $titanium_cacheable=true, $titanium_cache_attrs=null)
+    public function register_block($block, $block_impl, $cacheable=true, $cache_attrs=null)
     {
-        $this->registerPlugin('block', $block, $block_impl, $titanium_cacheable, $titanium_cache_attrs);
+        $this->registerPlugin('block', $block, $block_impl, $cacheable, $cache_attrs);
     }
 
     /**
@@ -169,11 +169,11 @@ class SmartyBC extends Smarty
      *
      * @param string $function      name of template function
      * @param string $function_impl name of PHP function to register
-     * @param bool   $titanium_cacheable
+     * @param bool   $cacheable
      */
-    public function register_compiler_function($function, $function_impl, $titanium_cacheable=true)
+    public function register_compiler_function($function, $function_impl, $cacheable=true)
     {
-        $this->registerPlugin('compiler', $function, $function_impl, $titanium_cacheable);
+        $this->registerPlugin('compiler', $function, $function_impl, $cacheable);
     }
 
     /**
@@ -306,14 +306,14 @@ class SmartyBC extends Smarty
      * clear cached content for the given template and cache id
      *
      * @param  string  $tpl_file   name of template file
-     * @param  string  $titanium_cache_id   name of cache_id
+     * @param  string  $cache_id   name of cache_id
      * @param  string  $compile_id name of compile_id
      * @param  string  $exp_time   expiration time
      * @return boolean
      */
-    public function clear_cache($tpl_file = null, $titanium_cache_id = null, $compile_id = null, $exp_time = null)
+    public function clear_cache($tpl_file = null, $cache_id = null, $compile_id = null, $exp_time = null)
     {
-        return $this->clearCache($tpl_file, $titanium_cache_id, $compile_id, $exp_time);
+        return $this->clearCache($tpl_file, $cache_id, $compile_id, $exp_time);
     }
 
     /**
@@ -331,13 +331,13 @@ class SmartyBC extends Smarty
      * test to see if valid cache exists for this template
      *
      * @param  string  $tpl_file   name of template file
-     * @param  string  $titanium_cache_id
+     * @param  string  $cache_id
      * @param  string  $compile_id
      * @return boolean
      */
-    public function is_cached($tpl_file, $titanium_cache_id = null, $compile_id = null)
+    public function is_cached($tpl_file, $cache_id = null, $compile_id = null)
     {
-        return $this->isCached($tpl_file, $titanium_cache_id, $compile_id);
+        return $this->isCached($tpl_file, $cache_id, $compile_id);
     }
 
     /**

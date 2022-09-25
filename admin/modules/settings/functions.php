@@ -153,7 +153,7 @@ function show_settings($sub) {
 
 function save_settings($sub) 
 {
-    global $titanium_db, $titanium_prefix, $admin_file, $titanium_cache, $admLang;
+    global $titanium_db, $titanium_prefix, $admin_file, $cache, $admLang;
 
     switch($sub) {
 
@@ -332,7 +332,7 @@ function save_settings($sub)
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $titanium_cache->delete('metatags', 'config');
+                $cache->delete('metatags', 'config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -358,7 +358,7 @@ function save_settings($sub)
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $titanium_cache->delete('metatags', 'config');
+                $cache->delete('metatags', 'config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -394,8 +394,8 @@ function save_settings($sub)
 	# Reference : https://stackoverflow.com/questions/267658/having-both-a-created-and-last-updated-timestamp-columns-in-mysql-4-0												  
     //$titanium_db->sql_query("UPDATE ".$titanium_prefix."_config(datePublished, dateModified) values(null, null)");
 	
-	$titanium_cache->delete('php_nuke_titanium_config', 'config');
-    $titanium_cache->delete('titanium_config', 'config');
+	$cache->delete('php_nuke_titanium_config', 'config');
+    $cache->delete('titanium_config', 'config');
     redirect_titanium($admin_file.'.php?op=Configure&sub='.$sub);
 }
 

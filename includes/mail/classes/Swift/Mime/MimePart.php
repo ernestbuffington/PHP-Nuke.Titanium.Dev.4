@@ -36,17 +36,17 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
   private $_nestingLevel = self::LEVEL_ALTERNATIVE;
   
   /**
-   * Create a new MimePart with $headers, $encoder and $titanium_cache.
+   * Create a new MimePart with $headers, $encoder and $cache.
    * 
    * @param Swift_Mime_HeaderSet $headers
    * @param Swift_Mime_ContentEncoder $encoder
-   * @param Swift_KeyCache $titanium_cache
+   * @param Swift_KeyCache $cache
    * @param string $charset
    */
   public function __construct(Swift_Mime_HeaderSet $headers,
-    Swift_Mime_ContentEncoder $encoder, Swift_KeyCache $titanium_cache, $charset = null)
+    Swift_Mime_ContentEncoder $encoder, Swift_KeyCache $cache, $charset = null)
   {
-    parent::__construct($headers, $encoder, $titanium_cache);
+    parent::__construct($headers, $encoder, $cache);
     $this->setContentType('text/plain');
     if (!is_null($charset))
     {

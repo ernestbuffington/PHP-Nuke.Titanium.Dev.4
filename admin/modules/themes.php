@@ -536,7 +536,7 @@ function theme_install($theme_name){
 }
 
 function update_theme($post){
-    global $titanium_db, $titanium_prefix, $titanium_user_prefix, $admin_file, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $titanium_user_prefix, $admin_file, $cache;
 	
     $error = false;
 	
@@ -577,7 +577,7 @@ function update_theme($post){
         }
     }
 	
-    $titanium_cache->delete($post['theme_name'], 'themes');
+    $cache->delete($post['theme_name'], 'themes');
 	
     if (!$error){
         OpenTable();
@@ -710,7 +710,7 @@ function uninstall_theme($theme){
 }
 
 function theme_makedefault($theme){
-    global $titanium_db, $titanium_prefix, $admin_file, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $admin_file, $cache;
 	
     if (!theme_installed($theme)){
         $sql = "INSERT INTO " . $titanium_prefix . "_themes VALUES('$theme', '', '1', '$theme', '1', '')";
@@ -726,7 +726,7 @@ function theme_makedefault($theme){
         $titanium_db->sql_query($query);
     }
 	
-    $titanium_cache->delete('php_nuke_titanium_config', 'config');
+    $cache->delete('php_nuke_titanium_config', 'config');
     redirect_titanium($admin_file . '.php?op=themes');
 }
 

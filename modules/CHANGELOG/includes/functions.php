@@ -117,7 +117,7 @@ function titanium_get_version() {
 }
 
 function titanium_compare() {
-    global $titanium_db, $titanium_prefix, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $cache;
 
     $check = titanium_check_version();
     
@@ -125,7 +125,7 @@ function titanium_compare() {
 	{
         $sql_ver = "UPDATE ".$titanium_prefix."_titanium SET titanium_value = '0' WHERE titanium_field='ver_previous'";
         $titanium_db->sql_query($sql_ver);
-        $titanium_cache->delete('titaniumconfig');
+        $cache->delete('titaniumconfig');
         return "<strong><span style='color:green'>"._ADMIN_VER_CUR."</span></strong>";
     }
     

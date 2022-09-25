@@ -1,7 +1,7 @@
 <?php
 function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid) 
 {
-    global $currentlang, $titanium_cache, $top_content, $mid_content, $bottom_content, $ShoutMarqueeheight, $nsnst_const, $userinfo, $titanium_prefix, $titanium_db, $top_out, $board_config;
+    global $currentlang, $cache, $top_content, $mid_content, $bottom_content, $ShoutMarqueeheight, $nsnst_const, $userinfo, $titanium_prefix, $titanium_db, $top_out, $board_config;
 	
     if (!empty($currentlang)) 
     include_once(NUKE_MODULES_DIR.'Shout_Box/lang-block/lang-'.$currentlang.'.php');
@@ -14,34 +14,34 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
     $is_user = is_user();
     $titanium_username = $userinfo['username'];
 
-    if ((($conf = $titanium_cache->load('conf', 'shoutbox')) == false) || empty($conf)) 
+    if ((($conf = $cache->load('conf', 'shoutbox')) == false) || empty($conf)) 
 	{
         $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_conf`";
         $result = $titanium_db->sql_query($sql);
         $conf = $titanium_db->sql_fetchrow($result);
-        $titanium_cache->save('conf', 'shoutbox', $conf);
+        $cache->save('conf', 'shoutbox', $conf);
         $titanium_db->sql_freeresult($result);
     }
 
-    if ((($nameblock = $titanium_cache->load('nameblock', 'shoutbox')) == false) || empty($nameblock)) 
+    if ((($nameblock = $cache->load('nameblock', 'shoutbox')) == false) || empty($nameblock)) 
 	{
         $sql = "SELECT `name` FROM ".$titanium_prefix."_shoutbox_nameblock";
         $nameresult = $titanium_db->sql_query($sql);
         while ($row = $titanium_db->sql_fetchrow($nameresult)) {
             $nameblock[] = $row;
         }
-        $titanium_cache->save('nameblock', 'shoutbox', $nameblock);
+        $cache->save('nameblock', 'shoutbox', $nameblock);
         $titanium_db->sql_freeresult($nameresult);
     }
 
-    if ((($censor = $titanium_cache->load('censor', 'shoutbox')) == false) || empty($censor)) 
+    if ((($censor = $cache->load('censor', 'shoutbox')) == false) || empty($censor)) 
 	{
         $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_censor";
         $result = $titanium_db->sql_query($sql);
         while ($row = $titanium_db->sql_fetchrow($result)) {
             $censor[] = $row;
         }
-        $titanium_cache->save('censor', 'shoutbox', $censor);
+        $cache->save('censor', 'shoutbox', $censor);
         $titanium_db->sql_freeresult($result);
     }
 

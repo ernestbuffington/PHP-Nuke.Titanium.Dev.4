@@ -10,7 +10,7 @@ $nowmonth = $now[1];
 $nowyear = $now[2];
 
 function Stats_Main() {
-    global $titanium_prefix, $titanium_db, $startdate, $sitename, $ThemeSel, $titanium_user_prefix, $titanium_module_name, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $startdate, $sitename, $ThemeSel, $titanium_user_prefix, $titanium_module_name, $cache;
     $result  = $titanium_db->sql_query('SELECT `type`, `var`, `count` FROM `'.$titanium_prefix.'_counter` ORDER BY `count` DESC, var');
     $browser = $os = array();
     $totalos = $totalbr = 0;
@@ -25,9 +25,9 @@ function Stats_Main() {
     }
     list($totalbr) = $titanium_db->sql_fetchrow($titanium_db->sql_query('SELECT SUM(hits) FROM `'.$titanium_prefix.'_stats_hour`'));
     $titanium_db->sql_freeresult($result);
-    if ((($m_size = $titanium_cache->load('m_size', 'config')) === false) || empty($m_size)) {
+    if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
-        $titanium_cache->save('m_size', 'config', $m_size);
+        $cache->save('m_size', 'config', $m_size);
     }
     OpenTable();
     echo '<table class="forumline" cellspacing="1" width="100%">
@@ -174,18 +174,18 @@ function DailyStats($year, $month, $date) {
 }
 
 function showYearStats($nowyear) {
-    global $titanium_prefix, $titanium_db, $ThemeSel, $titanium_module_name, $titanium_cache;
-    if ((($m_size = $titanium_cache->load('m_size', 'config')) === false) || empty($m_size)) {
+    global $titanium_prefix, $titanium_db, $ThemeSel, $titanium_module_name, $cache;
+    if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
-        $titanium_cache->save('m_size', 'config', $m_size);
+        $cache->save('m_size', 'config', $m_size);
     }
-    if ((($l_size = $titanium_cache->load('l_size', 'config')) === false) || empty($l_size)) {
+    if ((($l_size = $cache->load('l_size', 'config')) === false) || empty($l_size)) {
         $l_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/leftbar.gif');
-        $titanium_cache->save('l_size', 'config', $l_size);
+        $cache->save('l_size', 'config', $l_size);
     }
-    if ((($r_size = $titanium_cache->load('r_size', 'config')) === false) || empty($r_size)) {
+    if ((($r_size = $cache->load('r_size', 'config')) === false) || empty($r_size)) {
         $r_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/rightbar.gif');
-        $titanium_cache->save('r_size', 'config', $r_size);
+        $cache->save('r_size', 'config', $r_size);
     }
     list($TotalHitsYear) = $titanium_db->sql_ufetchrow("SELECT SUM(hits) AS TotalHitsYear FROM `".$titanium_prefix."_stats_hour`");
     $result = $titanium_db->sql_query("SELECT `year`, SUM(hits) FROM `".$titanium_prefix."_stats_hour` GROUP BY `year` ORDER BY year");
@@ -215,18 +215,18 @@ function showYearStats($nowyear) {
 }
 
 function showMonthStats($nowyear, $nowmonth) {
-    global $titanium_prefix, $titanium_db, $ThemeSel, $titanium_module_name, $titanium_cache;
-    if ((($m_size = $titanium_cache->load('m_size', 'config')) === false) || empty($m_size)) {
+    global $titanium_prefix, $titanium_db, $ThemeSel, $titanium_module_name, $cache;
+    if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
-        $titanium_cache->save('m_size', 'config', $m_size);
+        $cache->save('m_size', 'config', $m_size);
     }
-    if ((($l_size = $titanium_cache->load('l_size', 'config')) === false) || empty($l_size)) {
+    if ((($l_size = $cache->load('l_size', 'config')) === false) || empty($l_size)) {
         $l_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/leftbar.gif');
-        $titanium_cache->save('l_size', 'config', $l_size);
+        $cache->save('l_size', 'config', $l_size);
     }
-    if ((($r_size = $titanium_cache->load('r_size', 'config')) === false) || empty($r_size)) {
+    if ((($r_size = $cache->load('r_size', 'config')) === false) || empty($r_size)) {
         $r_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/rightbar.gif');
-        $titanium_cache->save('r_size', 'config', $r_size);
+        $cache->save('r_size', 'config', $r_size);
     }
     list($TotalHitsMonth) = $titanium_db->sql_ufetchrow("SELECT sum(hits) AS TotalHitsMonth FROM `".$titanium_prefix."_stats_hour` WHERE `year`='$nowyear'");
     echo '<table class="forumline" cellspacing="1" width="100%">
@@ -256,18 +256,18 @@ function showMonthStats($nowyear, $nowmonth) {
 }
 
 function showDailyStats($year, $month, $nowdate) {
-    global $titanium_prefix, $titanium_db, $ThemeSel, $titanium_module_name, $titanium_cache;
-    if ((($m_size = $titanium_cache->load('m_size', 'config')) === false) || empty($m_size)) {
+    global $titanium_prefix, $titanium_db, $ThemeSel, $titanium_module_name, $cache;
+    if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
-        $titanium_cache->save('m_size', 'config', $m_size);
+        $cache->save('m_size', 'config', $m_size);
     }
-    if ((($l_size = $titanium_cache->load('l_size', 'config')) === false) || empty($l_size)) {
+    if ((($l_size = $cache->load('l_size', 'config')) === false) || empty($l_size)) {
         $l_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/leftbar.gif');
-        $titanium_cache->save('l_size', 'config', $l_size);
+        $cache->save('l_size', 'config', $l_size);
     }
-    if ((($r_size = $titanium_cache->load('r_size', 'config')) === false) || empty($r_size)) {
+    if ((($r_size = $cache->load('r_size', 'config')) === false) || empty($r_size)) {
         $r_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/rightbar.gif');
-        $titanium_cache->save('r_size', 'config', $r_size);
+        $cache->save('r_size', 'config', $r_size);
     }
 
     $result = $titanium_db->sql_query("SELECT `date`, SUM(hits) as `hits` FROM `".$titanium_prefix."_stats_hour` WHERE `year`='$year' AND `month`='$month' GROUP BY `date` ORDER BY `date`");
@@ -316,18 +316,18 @@ function showDailyStats($year, $month, $nowdate) {
 }
 
 function showHourlyStats($year, $month, $date) {
-    global $titanium_prefix, $titanium_db, $ThemeSel, $titanium_module_name, $titanium_cache;
-    if ((($m_size = $titanium_cache->load('m_size', 'config')) === false) || empty($m_size)) {
+    global $titanium_prefix, $titanium_db, $ThemeSel, $titanium_module_name, $cache;
+    if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
-        $titanium_cache->save('m_size', 'config', $m_size);
+        $cache->save('m_size', 'config', $m_size);
     }
-    if ((($l_size = $titanium_cache->load('l_size', 'config')) === false) || empty($l_size)) {
+    if ((($l_size = $cache->load('l_size', 'config')) === false) || empty($l_size)) {
         $l_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/leftbar.gif');
-        $titanium_cache->save('l_size', 'config', $l_size);
+        $cache->save('l_size', 'config', $l_size);
     }
-    if ((($r_size = $titanium_cache->load('r_size', 'config')) === false) || empty($r_size)) {
+    if ((($r_size = $cache->load('r_size', 'config')) === false) || empty($r_size)) {
         $r_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/rightbar.gif');
-        $titanium_cache->save('r_size', 'config', $r_size);
+        $cache->save('r_size', 'config', $r_size);
     }
     list($TotalHitsHour) = $titanium_db->sql_ufetchrow('SELECT SUM(hits) AS TotalHitsHour FROM `'.$titanium_prefix."_stats_hour` WHERE `year`='$year' AND `month`='$month' AND `date`='$date'");
     $nowdate = date('d-m-Y');

@@ -446,7 +446,7 @@ redirect_titanium(str_replace('.php/', '.php', $_SERVER['REQUEST_URI']));
 include_once(NUKE_MODULES_DIR.'Your_Account/includes/mainfileend.php');
 
 if(isset($_POST['clear_cache']))
-$titanium_cache->clear();
+$cache->clear();
 
 define('NUKE_FILE', true);
 $titanium_dbi = $titanium_db->db_connect_id;
@@ -750,20 +750,20 @@ function title($text)
 
 function is_active($titanium_module) 
 {
-    global $titanium_prefix, $titanium_db, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $cache;
     static $active_titanium_modules;
     
 	if (is_array($active_titanium_modules)) 
     return(isset($active_titanium_modules[$titanium_module]) ? 1 : 0);
     
-	if ((($active_titanium_modules = $titanium_cache->load('active_modules', 'config')) === false) || empty($active_titanium_modules)):
+	if ((($active_titanium_modules = $cache->load('active_modules', 'config')) === false) || empty($active_titanium_modules)):
 		$active_titanium_modules = array();
         $result = $titanium_db->sql_query('SELECT `title` FROM `'.$titanium_prefix.'_modules` WHERE `active`="1"');
 		while(list($title) = $titanium_db->sql_fetchrow($result, SQL_NUM)):
             $active_titanium_modules[$title] = 1;
         endwhile;
 		$titanium_db->sql_freeresult($result);
-        $titanium_cache->save('active_modules', 'config', $active_titanium_modules);
+        $cache->save('active_modules', 'config', $active_titanium_modules);
     endif;
 	return (isset($active_titanium_modules[$titanium_module]) ? 1 : 0);
 }
@@ -842,19 +842,19 @@ function blocks_visible($side)
 }
 
 function blocks($side, $count=false) {
-    global $titanium_prefix, $multilingual, $currentlang, $titanium_db, $userinfo, $titanium_cache;
+    global $titanium_prefix, $multilingual, $currentlang, $titanium_db, $userinfo, $cache;
     static $blocks;
 
     $querylang = ($multilingual) ? 'AND (`blanguage`="'.$currentlang.'" OR `blanguage`="")' : '';
     $side = strtolower($side[0]);
-    if((($blocks = $titanium_cache->load('blocks', 'config')) === false) || !isset($blocks)) {
+    if((($blocks = $cache->load('blocks', 'config')) === false) || !isset($blocks)) {
         $sql = 'SELECT * FROM `'.$titanium_prefix.'_blocks` WHERE `active`="1" '.$querylang.' ORDER BY `weight` ASC';
         $result = $titanium_db->sql_query($sql);
         while($row = $titanium_db->sql_fetchrow($result, SQL_ASSOC)) {
             $blocks[$row['bposition']][] = $row;
         }
         $titanium_db->sql_freeresult($result);
-        $titanium_cache->save('blocks', 'config', $blocks);
+        $cache->save('blocks', 'config', $blocks);
     }
     if ($count) {
         return (isset($blocks[$side]) ? count($blocks[$side]) : 0);
@@ -878,11 +878,11 @@ function blocks($side, $count=false) {
         if ($expire != 0 AND $expire <= $now) {
             if ($action == 'd') {
                 $titanium_db->sql_query('UPDATE `'.$titanium_prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
-                $titanium_cache->delete('blocks', 'config');
+                $cache->delete('blocks', 'config');
                 return;
             } elseif ($action == 'r') {
                 $titanium_db->sql_query('DELETE FROM `'.$titanium_prefix.'_blocks` WHERE `bid`="'.$bid.'"');
-                $titanium_cache->delete('blocks', 'config');
+                $cache->delete('blocks', 'config');
                 return;
             }
         }if (empty($blockrow[$i]['bkey'])) {
@@ -980,7 +980,7 @@ function rss_content($url)
 
 function headlines($bid, $side=0, $row='') 
 {
-    global $titanium_prefix, $titanium_db, $my_headlines, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $my_headlines, $cache;
 
     if(!$my_headlines) 
 	return;
@@ -996,7 +996,7 @@ function headlines($bid, $side=0, $row='')
         $content = rss_content($row['url']);
         $btime = time();
         $titanium_db->sql_query("UPDATE `".$titanium_prefix."_blocks` SET `content`='".Fix_Quotes($content)."', `time`='$btime' WHERE `bid`='$bid'");
-        $titanium_cache->delete('blocks', 'config');
+        $cache->delete('blocks', 'config');
     endif;
 
     if (empty($content)) 
@@ -1734,9 +1734,9 @@ function encode_mail($email)
 # get username color
 function UsernameColor($titanium_username, $old_name=false) 
 {
-    global $titanium_db, $titanium_user_prefix, $use_colors, $titanium_cache;
+    global $titanium_db, $titanium_user_prefix, $use_colors, $cache;
 
-    static $titanium_cached_names;
+    static $cached_names;
 
     if($old_name) 
 	$titanium_username = $old_name; 
@@ -1746,42 +1746,42 @@ function UsernameColor($titanium_username, $old_name=false)
 
     $plain_username = strtolower($titanium_username);
 
-    if(isset($titanium_cached_names[$plain_username])) 
-    return $titanium_cached_names[$plain_username];
+    if(isset($cached_names[$plain_username])) 
+    return $cached_names[$plain_username];
     
-    if(!is_array($titanium_cached_names)) 
-    $titanium_cached_names = $titanium_cache->load('UserColors', 'config');
+    if(!is_array($cached_names)) 
+    $cached_names = $cache->load('UserColors', 'config');
     
-    if (!isset($titanium_cached_names[$plain_username])):
+    if (!isset($cached_names[$plain_username])):
           
 		    list($titanium_user_color, $uname) = $titanium_db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $titanium_user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", $titanium_username) . "'", SQL_NUM);
             $uname = (!empty($uname)) ? $uname : $titanium_username;
             $titanium_username = (strlen($titanium_user_color) == 6) ? '<span style="color: #'. $titanium_user_color .'">'. $uname .'</span>' : $uname;
-            $titanium_cached_names[$plain_username] = $titanium_username;
-            $titanium_cache->save('UserColors', 'config', $titanium_cached_names);
+            $cached_names[$plain_username] = $titanium_username;
+            $cache->save('UserColors', 'config', $cached_names);
 	endif;
 
-    return $titanium_cached_names[$plain_username];
+    return $cached_names[$plain_username];
 }
 
 # get group color
 function GroupColor($group_name, $short=0) 
 {
-    global $titanium_db, $use_colors, $titanium_cache;
+    global $titanium_db, $use_colors, $cache;
 
-    static $titanium_cached_groups;
+    static $cached_groups;
 
     if(!$use_colors) 
 	return $group_name;
     
 	$plaingroupname = ( $short !=0 ) ? $group_name.'_short' : $group_name;
     
-	if (!empty($titanium_cached_groups[$plaingroupname])) 
-    return $titanium_cached_groups[$plaingroupname];
+	if (!empty($cached_groups[$plaingroupname])) 
+    return $cached_groups[$plaingroupname];
     
-    if ((($titanium_cached_groups = $titanium_cache->load('GroupColors', 'config')) === false) || empty($titanium_cached_groups)) :
+    if ((($cached_groups = $cache->load('GroupColors', 'config')) === false) || empty($cached_groups)) :
         
-		$titanium_cached_groups = array();
+		$cached_groups = array();
         
 		$sql = 'SELECT `auc`.`group_color` as `group_color`, `gr`.`group_name` as`group_name` FROM ( `'.GROUPS_TABLE.'` `gr` LEFT JOIN  `' . AUC_TABLE . '` `auc` ON `gr`.`group_color` =  `auc`.`group_id`) WHERE `gr`.`group_description` <> "Personal User" ORDER BY `gr`.`group_name` ASC';
         
@@ -1790,17 +1790,17 @@ function GroupColor($group_name, $short=0)
 	     while (list($group_color, $groupcolor_name) = $titanium_db->sql_fetchrow($result)): 
             $phpbb2_colorgroup_short = (strlen($groupcolor_name) > 13) ? substr($groupcolor_name,0,10).'...' : $groupcolor_name;
             $phpbb2_colorgroup_name  = $groupcolor_name;
-            $titanium_cached_groups[$groupcolor_name.'_short'] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $phpbb2_colorgroup_short .'</strong></span>' : $phpbb2_colorgroup_short;
-            $titanium_cached_groups[$groupcolor_name] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $phpbb2_colorgroup_name .'</strong></span>' : $phpbb2_colorgroup_name;
+            $cached_groups[$groupcolor_name.'_short'] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $phpbb2_colorgroup_short .'</strong></span>' : $phpbb2_colorgroup_short;
+            $cached_groups[$groupcolor_name] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $phpbb2_colorgroup_name .'</strong></span>' : $phpbb2_colorgroup_name;
          endwhile;
     
 	    $titanium_db->sql_freeresult($result);
-        $titanium_cache->save('GroupColors', 'config', $titanium_cached_groups);
+        $cache->save('GroupColors', 'config', $cached_groups);
     
 	endif;
     
-	if (!empty($titanium_cached_groups[$plaingroupname])) 
-    return $titanium_cached_groups[$plaingroupname];
+	if (!empty($cached_groups[$plaingroupname])) 
+    return $cached_groups[$plaingroupname];
     else 
     return $plaingroupname;
 }

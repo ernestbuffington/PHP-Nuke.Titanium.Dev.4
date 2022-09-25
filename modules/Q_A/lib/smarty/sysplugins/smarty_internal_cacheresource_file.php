@@ -21,11 +21,11 @@
         /**
         * populate Cached Object with meta data from Resource
         *
-        * @param Smarty_Template_Cached   $titanium_cached    cached object
+        * @param Smarty_Template_Cached   $cached    cached object
         * @param Smarty_Internal_Template $_template template object
         * @return void
         */
-        public function populate(Smarty_Template_Cached $titanium_cached, Smarty_Internal_Template $_template)
+        public function populate(Smarty_Template_Cached $cached, Smarty_Internal_Template $_template)
         {
             $_source_file_path = str_replace(':', '.', $_template->source->filepath);
             $_cache_id = isset($_template->cache_id) ? preg_replace('![^\w\|]+!', '_', $_template->cache_id) : null;
@@ -58,33 +58,33 @@
                 } else {
                     $_lock_dir = $_cache_dir;
                 }
-                $titanium_cached->lock_id = $_lock_dir.sha1($_cache_id.$_compile_id.$_template->source->uid).'.lock';
+                $cached->lock_id = $_lock_dir.sha1($_cache_id.$_compile_id.$_template->source->uid).'.lock';
             }
-            $titanium_cached->filepath = $_cache_dir . $_cache_id . $_compile_id . $_filepath . '.' . basename($_source_file_path) . '.php';
-            $titanium_cached->timestamp = @filemtime($titanium_cached->filepath);
-            $titanium_cached->exists = !!$titanium_cached->timestamp;
+            $cached->filepath = $_cache_dir . $_cache_id . $_compile_id . $_filepath . '.' . basename($_source_file_path) . '.php';
+            $cached->timestamp = @filemtime($cached->filepath);
+            $cached->exists = !!$cached->timestamp;
         }
 
         /**
         * populate Cached Object with timestamp and exists from Resource
         *
-        * @param Smarty_Template_Cached $titanium_cached cached object
+        * @param Smarty_Template_Cached $cached cached object
         * @return void
         */
-        public function populateTimestamp(Smarty_Template_Cached $titanium_cached)
+        public function populateTimestamp(Smarty_Template_Cached $cached)
         {
-            $titanium_cached->timestamp = @filemtime($titanium_cached->filepath);
-            $titanium_cached->exists = !!$titanium_cached->timestamp;
+            $cached->timestamp = @filemtime($cached->filepath);
+            $cached->exists = !!$cached->timestamp;
         }
 
         /**
         * Read the cached template and process its header
         *
         * @param Smarty_Internal_Template $_template template object
-        * @param Smarty_Template_Cached $titanium_cached cached object
+        * @param Smarty_Template_Cached $cached cached object
         * @return booelan true or false if the cached content does not exist
         */
-        public function process(Smarty_Internal_Template $_template, Smarty_Template_Cached $titanium_cached=null)
+        public function process(Smarty_Internal_Template $_template, Smarty_Template_Cached $cached=null)
         {
             $_smarty_tpl = $_template;
 
@@ -128,14 +128,14 @@
         *
         * @param Smarty  $_template     template object
         * @param string  $resource_name template name
-        * @param string  $titanium_cache_id      cache id
+        * @param string  $cache_id      cache id
         * @param string  $compile_id    compile id
         * @param integer $exp_time      expiration time (number of seconds, not timestamp)
         * @return integer number of cache files deleted
         */
-        public function clear(Smarty $smarty, $resource_name, $titanium_cache_id, $compile_id, $exp_time)
+        public function clear(Smarty $smarty, $resource_name, $cache_id, $compile_id, $exp_time)
         {
-            $_cache_id = isset($titanium_cache_id) ? preg_replace('![^\w\|]+!', '_', $titanium_cache_id) : null;
+            $_cache_id = isset($cache_id) ? preg_replace('![^\w\|]+!', '_', $cache_id) : null;
             $_compile_id = isset($compile_id) ? preg_replace('![^\w\|]+!', '_', $compile_id) : null;
             $_dir_sep = $smarty->use_sub_dirs ? '/' : '^';
             $_compile_id_offset = $smarty->use_sub_dirs ? 3 : 0;
@@ -236,17 +236,17 @@
         * Check is cache is locked for this template
         *
         * @param Smarty $smarty Smarty object
-        * @param Smarty_Template_Cached $titanium_cached cached object
+        * @param Smarty_Template_Cached $cached cached object
         * @return booelan true or false if cache is locked
         */
-        public function hasLock(Smarty $smarty, Smarty_Template_Cached $titanium_cached)
+        public function hasLock(Smarty $smarty, Smarty_Template_Cached $cached)
         {
             if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-                clearstatcache(true, $titanium_cached->lock_id);
+                clearstatcache(true, $cached->lock_id);
             } else {
                 clearstatcache();
             }
-            $t = @filemtime($titanium_cached->lock_id);
+            $t = @filemtime($cached->lock_id);
 
             return $t && (time() - $t < $smarty->locking_timeout);
         }
@@ -255,23 +255,23 @@
         * Lock cache for this template
         *
         * @param Smarty $smarty Smarty object
-        * @param Smarty_Template_Cached $titanium_cached cached object
+        * @param Smarty_Template_Cached $cached cached object
         */
-        public function acquireLock(Smarty $smarty, Smarty_Template_Cached $titanium_cached)
+        public function acquireLock(Smarty $smarty, Smarty_Template_Cached $cached)
         {
-            $titanium_cached->is_locked = true;
-            touch($titanium_cached->lock_id);
+            $cached->is_locked = true;
+            touch($cached->lock_id);
         }
 
         /**
         * Unlock cache for this template
         *
         * @param Smarty $smarty Smarty object
-        * @param Smarty_Template_Cached $titanium_cached cached object
+        * @param Smarty_Template_Cached $cached cached object
         */
-        public function releaseLock(Smarty $smarty, Smarty_Template_Cached $titanium_cached)
+        public function releaseLock(Smarty $smarty, Smarty_Template_Cached $cached)
         {
-            $titanium_cached->is_locked = false;
-            @unlink($titanium_cached->lock_id);
+            $cached->is_locked = false;
+            @unlink($cached->lock_id);
         }
     }

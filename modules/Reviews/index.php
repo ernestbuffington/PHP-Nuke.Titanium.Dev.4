@@ -321,7 +321,7 @@ function preview_review($date, $title, $text, $reviewer, $email, $score, $cover,
 }
 
 function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $hits, $id, $rlanguage) {
-    global $admin, $EditedMessage, $titanium_prefix, $titanium_db, $titanium_module_name, $titanium_cache;
+    global $admin, $EditedMessage, $titanium_prefix, $titanium_db, $titanium_module_name, $cache;
 
     session_start();
     if(isset($_SESSION['title'])) {
@@ -374,7 +374,7 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $titanium_cache->delete('numwaitreviews', 'submissions');
+        $cache->delete('numwaitreviews', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

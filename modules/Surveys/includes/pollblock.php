@@ -29,7 +29,7 @@ if (!defined('NUKE_EVO')) {
     die('You can\'t access this file directly...');
 }
 
-global $titanium_prefix, $titanium_db, $content, $pollcomm, $titanium_user, $userinfo, $cookie, $multilingual, $currentlang, $titanium_config, $titanium_cache, $identify;
+global $titanium_prefix, $titanium_db, $content, $pollcomm, $titanium_user, $userinfo, $cookie, $multilingual, $currentlang, $titanium_config, $cache, $identify;
 
 // Fetch random poll
 $make_random = intval($titanium_config['poll_random']);

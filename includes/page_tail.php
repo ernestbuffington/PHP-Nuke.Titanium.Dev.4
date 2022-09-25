@@ -37,7 +37,7 @@ if (!defined('IN_PHPBB2'))
 //
 // Show the overall footer.
 //
-global $popup, $admin_file, $titanium_cache;
+global $popup, $admin_file, $cache;
 $admin_link = ( $userdata['user_level'] == ADMIN ) ? '<a href="modules/Forums/admin/index.php">' . $titanium_lang['Admin_panel'] . '</a><br /><br />' : '';
 
 /*****[BEGIN]******************************************
@@ -92,7 +92,7 @@ CloseTable();
 if ($popup != 1) {
     include_once("footer.php");
 } else {
-     $titanium_cache->resync();
+     $cache->resync();
      $titanium_db->sql_close();
 }
 

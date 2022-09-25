@@ -75,16 +75,16 @@ class Swift_Mime_SimpleMimeEntity implements Swift_Mime_MimeEntity
   protected $_userContentType;
   
   /**
-   * Create a new SimpleMimeEntity with $headers, $encoder and $titanium_cache.
+   * Create a new SimpleMimeEntity with $headers, $encoder and $cache.
    * @param Swift_Mime_HeaderSet $headers
    * @param Swift_Mime_ContentEncoder $encoder
-   * @param Swift_KeyCache $titanium_cache
+   * @param Swift_KeyCache $cache
    */
   public function __construct(Swift_Mime_HeaderSet $headers,
-    Swift_Mime_ContentEncoder $encoder, Swift_KeyCache $titanium_cache)
+    Swift_Mime_ContentEncoder $encoder, Swift_KeyCache $cache)
   {
     $this->_cacheKey = uniqid();
-    $this->_cache = $titanium_cache;
+    $this->_cache = $cache;
     $this->_headers = $headers;
     $this->setEncoder($encoder);
     $this->_headers->defineOrdering(
@@ -499,10 +499,10 @@ class Swift_Mime_SimpleMimeEntity implements Swift_Mime_MimeEntity
         }
         else
         {
-          $titanium_cacheIs = $this->_cache->getInputByteStream($this->_cacheKey, 'body');
-          if ($titanium_cacheIs)
+          $cacheIs = $this->_cache->getInputByteStream($this->_cacheKey, 'body');
+          if ($cacheIs)
           {
-            $is->bind($titanium_cacheIs);
+            $is->bind($cacheIs);
           }
           
           $is->write("\r\n");
@@ -522,9 +522,9 @@ class Swift_Mime_SimpleMimeEntity implements Swift_Mime_MimeEntity
               ));
           }
           
-          if ($titanium_cacheIs)
+          if ($cacheIs)
           {
-            $is->unbind($titanium_cacheIs);
+            $is->unbind($cacheIs);
           }
         }
       }

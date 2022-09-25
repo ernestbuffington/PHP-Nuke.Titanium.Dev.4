@@ -148,7 +148,7 @@ function ya_fixtext($ya_fixtext) {
 
 // function improved by Peter
 function ya_save_config($config_name, $config_value, $config_param=""){
-    global $titanium_prefix, $titanium_db, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $cache;
     Fix_Quotes($config_value);
     if($config_param == 'html') {
         $config_name = check_html($config_name, 'nohtml');
@@ -167,13 +167,13 @@ function ya_save_config($config_name, $config_value, $config_param=""){
 }
 
 function ya_get_configs(){
-    global $titanium_prefix, $titanium_db, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $cache;
     static $ya_config;
     if(isset($ya_config)) return $ya_config;
 /*****['BEGIN']****************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    if(($ya_config = $titanium_cache->load('ya_config', 'config')) === false) {
+    if(($ya_config = $cache->load('ya_config', 'config')) === false) {
 /*****['END']******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -185,7 +185,7 @@ function ya_get_configs(){
 /*****['BEGIN']****************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-      $titanium_cache->save('ya_config', 'config', $ya_config);
+      $cache->save('ya_config', 'config', $ya_config);
     }
 /*****['END']******************************************
  [ Base:    Caching System                     v3.0.0 ]

@@ -651,7 +651,7 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
         }
 
                 message_die(GENERAL_MESSAGE, $message);
-                $titanium_cache->delete('forum_moderators', 'config');
+                $cache->delete('forum_moderators', 'config');
         }
 }
 else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id ) ) || ( $mode == 'group' && $group_id ) )

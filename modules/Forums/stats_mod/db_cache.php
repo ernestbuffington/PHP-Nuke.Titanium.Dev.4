@@ -67,7 +67,7 @@ class StatisticsDB
     {
     }
 
-    function begin_cached_query($titanium_cache_enabled = FALSE, $titanium_cached_data = '')
+    function begin_cached_query($cache_enabled = FALSE, $cached_data = '')
     {
         $this->db_result = array();
         $this->numrows_data = array();
@@ -76,10 +76,10 @@ class StatisticsDB
         $this->index = -1;
         $this->use_cache = FALSE;
     
-        if ($titanium_cache_enabled)
+        if ($cache_enabled)
         {
             $this->use_cache = TRUE;
-            $data = unserialize(stripslashes($titanium_cached_data));
+            $data = unserialize(stripslashes($cached_data));
             $this->numrows_data = $data->n;
             $this->fetchrowset_data = $data->fs;
             $this->fetchrow_data = $data->f;

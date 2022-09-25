@@ -40,20 +40,20 @@ function mods_settings_get_lang($key)
 //---------------------------------------------------------------
 function init_board_config_key($key, $value, $force=false)
 {
-	global $titanium_db, $phpbb2_board_config, $titanium_cache;
+	global $titanium_db, $phpbb2_board_config, $cache;
 	if (!isset($phpbb2_board_config[$key]))
 	{
 		$phpbb2_board_config[$key] = $value;
 		$sql = "INSERT INTO " . CONFIG_TABLE . " (config_name,config_value) VALUES('$key','$value')";
 		if ( !$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not add key ' . $key . ' in config table', '', __LINE__, __FILE__, $sql);
-		$titanium_cache->delete('board_config', 'config');
+		$cache->delete('board_config', 'config');
 	}
 	else if ($force)
 	{
 		$phpbb2_board_config[$key] = $value;
 		$sql = "UPDATE " . CONFIG_TABLE . " SET config_value='$value' WHERE config_name='$key'";
 		if ( !$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not add key ' . $key . ' in config table', '', __LINE__, __FILE__, $sql);
-		$titanium_cache->delete('board_config', 'config');
+		$cache->delete('board_config', 'config');
 	}
 }
 

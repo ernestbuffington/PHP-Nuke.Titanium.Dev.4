@@ -33,7 +33,7 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $titanium_db, $admin, $titanium_user, $titanium_prefix, $titanium_user_prefix, $cookie, $def_module, $currentlang, $cookie, $titanium_cache;
+global $titanium_db, $admin, $titanium_user, $titanium_prefix, $titanium_user_prefix, $cookie, $def_module, $currentlang, $cookie, $cache;
 
 if (file_exists(NUKE_LANGUAGE_DIR.'Sommaire/lang-'.$currentlang.'.php')) {
     include_once(NUKE_LANGUAGE_DIR.'Sommaire/lang-'.$currentlang.'.php');
@@ -51,7 +51,7 @@ $detectMozilla = 0;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-if(!($row = $titanium_cache->load('sommaire_row', 'block'))) {
+if(!($row = $cache->load('sommaire_row', 'block'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -61,7 +61,7 @@ $row = $titanium_db->sql_fetchrow($result);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-$titanium_cache->save('sommaire_row', 'block', $row);
+$cache->save('sommaire_row', 'block', $row);
 }
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -96,7 +96,7 @@ if ($is_user==1 && $detectPM==1) {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-if(!($tempoA = $titanium_cache->load('sommaire_tempo', 'block'))) {
+if(!($tempoA = $cache->load('sommaire_tempo', 'block'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -113,7 +113,7 @@ else {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-$titanium_cache->save('sommaire_tempo', 'block', $tempoA);
+$cache->save('sommaire_tempo', 'block', $tempoA);
 }
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -149,7 +149,7 @@ $flagmenu = 0;  // flag qui est mis automatiquement à "1" quand il y a un modul
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-if (!($row2A = $titanium_cache->load('sommaire_row2', 'block'))) {
+if (!($row2A = $cache->load('sommaire_row2', 'block'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -161,7 +161,7 @@ if (!($row2A = $titanium_cache->load('sommaire_row2', 'block'))) {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-$titanium_cache->save('sommaire_row2', 'block', $row2A);
+$cache->save('sommaire_row2', 'block', $row2A);
 }
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -235,7 +235,7 @@ function sommaire_ouvre_popup(page,nom,option) {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-if (!($row3 = $titanium_cache->load('sommaire_row3', 'block'))) {
+if (!($row3 = $cache->load('sommaire_row3', 'block'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -247,7 +247,7 @@ if (!($row3 = $titanium_cache->load('sommaire_row3', 'block'))) {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-$titanium_cache->save('sommaire_row3', 'block', $row3);
+$cache->save('sommaire_row3', 'block', $row3);
 }
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -882,7 +882,7 @@ if ($is_admin===1) {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-if (!($row4 = $titanium_cache->load('sommaire_row4', 'block'))) {
+if (!($row4 = $cache->load('sommaire_row4', 'block'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -894,7 +894,7 @@ if (!($row4 = $titanium_cache->load('sommaire_row4', 'block'))) {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-$titanium_cache->save('sommaire_row4', 'block', $row4);
+$cache->save('sommaire_row4', 'block', $row4);
 }
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]

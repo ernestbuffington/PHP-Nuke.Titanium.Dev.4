@@ -51,7 +51,7 @@ exit('ACCESS DENIED');
 
 define('HEADER_INC', TRUE);
 
-global $name, $sitename, $is_inline_review, $titanium_prefix, $titanium_db, $titanium_cache, $ThemeSel;
+global $name, $sitename, $is_inline_review, $titanium_prefix, $titanium_db, $cache, $ThemeSel;
 
 OpenTable();
 
@@ -181,7 +181,7 @@ if(defined('SHOW_ONLINE'))
            if(!$titanium_db->sql_query($sql))
            message_die(GENERAL_ERROR, 'Could not update online user record (date)', '', __LINE__, __FILE__, $sql);
            # Base: Caching System v3.0.0 START
-           $titanium_cache->delete('board_config', 'config');
+           $cache->delete('board_config', 'config');
            # Base: Caching System v3.0.0 END
         endif;
 

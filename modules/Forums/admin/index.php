@@ -1006,7 +1006,7 @@ $sql = "SELECT VERSION() AS mysql_version";
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $titanium_cache->delete('board_config');
+        $cache->delete('board_config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

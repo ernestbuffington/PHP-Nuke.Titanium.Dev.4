@@ -29,7 +29,7 @@ if (!defined('IN_PHPBB2'))
     die('ACCESS DENIED');
 }
 
-global $do_gzip_compress, $phpbb2_template, $titanium_cache, $userdata, $titanium_db, $titanium_lang, $phpbb2_board_config;
+global $do_gzip_compress, $phpbb2_template, $cache, $userdata, $titanium_db, $titanium_lang, $phpbb2_board_config;
 //
 // Show the overall footer.
 //
@@ -47,7 +47,7 @@ $phpbb2_template->pparse('page_footer');
 //
 // Resync changed chache
 //
-$titanium_cache->resync();
+$cache->resync();
 
 //
 // Close our DB connection.

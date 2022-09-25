@@ -152,7 +152,7 @@ function formatTimestamp_to_date($format, $gmepoch, $tz)
 
 function image_repo_settings_variables()
 {
-	global $titanium_db, $titanium_module_name, $titanium_cache;
+	global $titanium_db, $titanium_module_name, $cache;
 	static $settings;
 	
    	if(isset($settings) && is_array($settings)) 

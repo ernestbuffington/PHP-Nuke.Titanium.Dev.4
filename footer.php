@@ -51,7 +51,7 @@ function footmsg()
    $usrclearcache, 
         $debugger, 
 		   $debug, 
-		   $titanium_cache, 
+		   $cache, 
 	   $use_cache,
 	       $index,
 	      $titanium_prefix,
@@ -172,7 +172,7 @@ $total_phpbb2_time .= '</span>';
 # Auto Optimize v1.0.0 START
 if(is_admin()): 
  $first_time = false;
-  if (($last_optimize = $titanium_cache->load('last_optimize', 'config')) === false): 
+  if (($last_optimize = $cache->load('last_optimize', 'config')) === false): 
    $last_optimize = time();
     $first_time = true;
   endif;			
@@ -181,9 +181,9 @@ if(is_admin()):
      //Default: -1 day
      //$interval = strtotime('-1 day');
 	 $interval = strtotime('-1 day');
-       if (($last_optimize <= $interval) || ($first_time && $titanium_cache->valid && $use_cache)):
+       if (($last_optimize <= $interval) || ($first_time && $cache->valid && $use_cache)):
          if ($titanium_db->sql_optimize()):
-           $titanium_cache->save('last_optimize', 'config', time());
+           $cache->save('last_optimize', 'config', time());
              $total_phpbb2_time .= "<br />Database Optimized";
          endif;
        endif;
@@ -364,8 +364,8 @@ echo "<!-- END Bottom Primary Body Tags -->\n\n";
 
 # ReSync the website cache!
 # Set up the cache class reference
-$titanium_cache = new cache($use_cache);
-$titanium_cache->resync();
+$cache = new cache($use_cache);
+$cache->resync();
 
 /*****[BEGIN]******************************************
  [ Other:   DB Connectors                      v2.0.0 ]

@@ -163,15 +163,15 @@ class Zend_Cache_Frontend_Class extends Zend_Cache_Core
      * if set to a class name, we will cache an abstract class and will use only static calls
      * if set to an object, we will cache this object methods
      *
-     * @param mixed $titanium_cachedEntity
+     * @param mixed $cachedEntity
      */
-    public function setCachedEntity($titanium_cachedEntity)
+    public function setCachedEntity($cachedEntity)
     {
-        if (!is_string($titanium_cachedEntity) && !is_object($titanium_cachedEntity)) {
+        if (!is_string($cachedEntity) && !is_object($cachedEntity)) {
             Zend_Cache::throwException('cached_entity must be an object or a class name');
         }
-        $this->_cachedEntity = $titanium_cachedEntity;
-        $this->_specificOptions['cached_entity'] = $titanium_cachedEntity;
+        $this->_cachedEntity = $cachedEntity;
+        $this->_specificOptions['cached_entity'] = $cachedEntity;
         if (is_string($this->_cachedEntity)){
             $this->_cachedEntityLabel = $this->_cachedEntity;
         } else {
@@ -200,11 +200,11 @@ class Zend_Cache_Frontend_Class extends Zend_Cache_Core
      */
     public function __call($name, $parameters)
     {
-        $titanium_cacheBool1 = $this->_specificOptions['cache_by_default'];
-        $titanium_cacheBool2 = in_array($name, $this->_specificOptions['cached_methods']);
-        $titanium_cacheBool3 = in_array($name, $this->_specificOptions['non_cached_methods']);
-        $titanium_cache = (($titanium_cacheBool1 || $titanium_cacheBool2) && (!$titanium_cacheBool3));
-        if (!$titanium_cache) {
+        $cacheBool1 = $this->_specificOptions['cache_by_default'];
+        $cacheBool2 = in_array($name, $this->_specificOptions['cached_methods']);
+        $cacheBool3 = in_array($name, $this->_specificOptions['non_cached_methods']);
+        $cache = (($cacheBool1 || $cacheBool2) && (!$cacheBool3));
+        if (!$cache) {
             // We do not have not cache
             return call_user_func_array(array($this->_cachedEntity, $name), $parameters);
         }

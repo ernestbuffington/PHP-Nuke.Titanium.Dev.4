@@ -561,9 +561,9 @@ function renumber_order($mode, $cat = 0)
 
  ******************************************************/
 
-                        global $titanium_cache;
+                        global $cache;
 
-                        $titanium_cache->delete('category_rows', 'config');
+                        $cache->delete('category_rows', 'config');
 
 /*****[END]********************************************
 
@@ -1779,9 +1779,9 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        global $titanium_cache;
+                        global $cache;
 
-                        $titanium_cache->delete('category_rows', 'config');
+                        $cache->delete('category_rows', 'config');
 
 /*****[END]********************************************
 
@@ -1891,9 +1891,9 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        global $titanium_cache;
+                        global $cache;
 
-                        $titanium_cache->delete('category_rows', 'config');
+                        $cache->delete('category_rows', 'config');
 
 /*****[END]********************************************
 
@@ -2525,9 +2525,9 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        global $titanium_cache;
+                        global $cache;
 
-                        $titanium_cache->delete('category_rows', 'config');
+                        $cache->delete('category_rows', 'config');
 
 /*****[END]********************************************
 
@@ -2723,9 +2723,9 @@ if( !empty($mode) )
 
  ******************************************************/
 
-                        global $titanium_cache;
+                        global $cache;
 
-                        $titanium_cache->delete('category_rows', 'config');
+                        $cache->delete('category_rows', 'config');
 
 /*****[END]********************************************
 

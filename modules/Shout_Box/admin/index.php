@@ -29,7 +29,7 @@ if (!defined('ADMIN_FILE')) {
    die ("Illegal File Access");
 }
 
-global $titanium_prefix, $titanium_db, $titanium_cache;
+global $titanium_prefix, $titanium_db, $cache;
 $titanium_module_name = basename(dirname(dirname(__FILE__)));
 if (!is_mod_admin($titanium_module_name)) {
     die("Access Denied");
@@ -49,21 +49,21 @@ $ThemeSel = get_theme();
 
 global $rowColor;
 
-if ((($rowColor = $titanium_cache->load('theme_'.$ThemeSel, 'shoutbox')) == false) || empty($rowColor)) {
+if ((($rowColor = $cache->load('theme_'.$ThemeSel, 'shoutbox')) == false) || empty($rowColor)) {
     $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_themes` WHERE themeName='$ThemeSel'";
     $result = $titanium_db->sql_query($sql);
     $rowColor = $titanium_db->sql_fetchrow($result);
-    $titanium_cache->save('theme_'.$ThemeSel, 'shoutbox', $rowColor);
+    $cache->save('theme_'.$ThemeSel, 'shoutbox', $rowColor);
     $titanium_db->sql_freeresult($result);
 }
 
 global $shout_conf;
 
-if ((($shout_conf = $titanium_cache->load('conf', 'shoutbox')) == false) || empty($shout_conf)) {
+if ((($shout_conf = $cache->load('conf', 'shoutbox')) == false) || empty($shout_conf)) {
     $sql = "SELECT * FROM `".$titanium_prefix."_shoutbox_conf`";
     $result = $titanium_db->sql_query($sql);
     $shout_conf = $titanium_db->sql_fetchrow($result);
-    $titanium_cache->save('conf', 'shoutbox', $shout_conf);
+    $cache->save('conf', 'shoutbox', $shout_conf);
 }
 
 
@@ -777,17 +777,17 @@ function ShoutBoxLayout() {
 }
 
 function ShoutBoxLayoutSet($daten, $numbern, $heightn, $textboxwidth, $smiliesperrow, $reverseshouts, $pointspershout, $shoutsperpagehistory, $serverTimezone) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET date='$daten', `number`='$numbern', `height`='$heightn', `textWidth`='$textboxwidth', `smiliesPerRow`='$smiliesperrow', `reversePosts`='$reverseshouts', `pointspershout`='$pointspershout', `shoutsperpage`='$shoutsperpagehistory', `serverTimezone`='$serverTimezone' WHERE `id`=1";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('conf', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('conf', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxLayout");
     exit;
 }
 
 function ShoutBoxAdminMonitor() {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_module_name, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $titanium_module_name, $cache;
     OpenTable();
     // Warnings to admins if something isn't set right.
     echo "<p align=\"center\" class=\"content\"><strong>"._SETUPANDSECURITY."</strong></p>";
@@ -1131,7 +1131,7 @@ function ShoutBoxThemeing() {
 }
 
 function themeSubmit($themeColorValues, $totalThemes) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache, $ThemeSel;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache, $ThemeSel;
     for ($x = 0; $x <= $totalThemes; $x++) {
         $themeCurrent = $themeColorValues["themeName"][$x];
         $blockColor1 = $themeColorValues[$themeCurrent]["block1"];
@@ -1141,8 +1141,8 @@ function themeSubmit($themeColorValues, $totalThemes) {
         $menuColor2 = $themeColorValues[$themeCurrent]["menu2"];
         $sql = "UPDATE `".$titanium_prefix."_shoutbox_themes` SET `blockColor1`='$blockColor1', `blockColor2`='$blockColor2', `border`='$border', `menuColor1`='$menuColor1', `menuColor2`='$menuColor2' WHERE `themeName`='$themeCurrent'";
         $titanium_db->sql_query($sql);
-        $titanium_cache->delete('theme_'.$ThemeSel, 'shoutbox');
-        $titanium_cache->resync();
+        $cache->delete('theme_'.$ThemeSel, 'shoutbox');
+        $cache->resync();
     }
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxThemeing");
     exit;
@@ -1211,51 +1211,51 @@ function ShoutBoxPermissions() {
 }
 
 function allowurloption($urloption) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET `urlonoff`='$urloption' WHERE `id`=1";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('conf', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('conf', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
 
 function blockxxxoption($blockxxx) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` set `blockxxx`='$blockxxx' WHERE `id`=1";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('conf', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('conf', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
 
 function allowanonurloption($urloption) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET `urlanononoff`='$urloption' WHERE `id`=1";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('conf', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('conf', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
 
 function allowdeloption($deloption) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET `delyourlastpost`='$deloption' WHERE `id`=1";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('conf', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('conf', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
 
 function allowanonoption($anonoption) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` set `anonymouspost`='$anonoption' WHERE `id`=1";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('conf', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('conf', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
@@ -1395,33 +1395,33 @@ function censoractive($censoroption) {
 }
 
 function addcensor($addcensor, $addcensorr) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $sql = "INSERT INTO `".$titanium_prefix."_shoutbox_censor` (text, replacement) VALUES ('$addcensor','$addcensorr')";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('censor', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('censor', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=managecensor");
     exit;
 }
 
 function updatecensor($censornr, $idn, $censornw, $listnum) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     for ($x = 1; $x <= $listnum; $x++) {
         $sql = "UPDATE `".$titanium_prefix."_shoutbox_censor` SET `id`='$idn[$x]', `text`='$censornw[$x]', `replacement`='$censornr[$x]' WHERE `id`='$idn[$x]'";
         $titanium_db->sql_query($sql);
     }
-    $titanium_cache->delete('censor', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('censor', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=managecensor");
     exit;
 }
 
 function censorremove($censorremove) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $sql = "DELETE FROM `".$titanium_prefix."_shoutbox_censor` WHERE `id`='$censorremove'";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('censor', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('censor', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=managecensor");
     exit;
 }
@@ -1510,53 +1510,53 @@ function ShoutBoxBans() {
 }
 
 function namebanactive($banoption) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET `nameblock`='$banoption' WHERE id=1";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('conf', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('conf', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }
 
 function ipbanactive($banoption) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $sql = "UPDATE `".$titanium_prefix."_shoutbox_conf` SET `ipblock`='$banoption' WHERE id=1";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('conf', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('conf', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }
 
 function addname($addname) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $sql = "INSERT INTO `".$titanium_prefix."_shoutbox_nameblock` (name) VALUES ('$addname')";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('nameblock', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('nameblock', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }
 
 function updatename($idn, $namen, $listnum) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     for ($x = 1; $x <= $listnum; $x++) {
         $sql = "UPDATE `".$titanium_prefix."_shoutbox_nameblock` SET `id`='$idn[$x]', `name`='$namen[$x]' WHERE `id`='$idn[$x]'";
         $titanium_db->sql_query($sql);
     }
-    $titanium_cache->delete('nameblock', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('nameblock', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }
 
 function nameremove($nameremove) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $sql = "DELETE FROM `".$titanium_prefix."_shoutbox_nameblock` WHERE `id`='$nameremove'";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('nameblock', 'shoutbox');
-    $titanium_cache->resync();
+    $cache->delete('nameblock', 'shoutbox');
+    $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
 }

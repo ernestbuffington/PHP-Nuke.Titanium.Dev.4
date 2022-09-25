@@ -31,7 +31,7 @@ define('REGEX_UNION','#\w?\s?union\s\w*?\s?(select|all|distinct|insert|update|dr
 @require_once(NUKE_DB_DIR.'db.php');
 
 // Load required configs
-global $remote, $nsnst_const, $admin_file, $userinfo, $currentlang, $titanium_cache, $nukeurl, $name;
+global $remote, $nsnst_const, $admin_file, $userinfo, $currentlang, $cache, $nukeurl, $name;
 
 $identify = new identify();
 
@@ -130,7 +130,7 @@ else:
 endif;
 
 // Load Blocker Arrays
-if(($blocker_array = $titanium_cache->load('blockers', 'sentinel')) === false):
+if(($blocker_array = $cache->load('blockers', 'sentinel')) === false):
 	$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blockers` ORDER BY `blocker`");
 	$num_rows = $titanium_db->sql_numrows($result);
 	for ($i = 0; $i < $num_rows; $i++):
@@ -139,7 +139,7 @@ if(($blocker_array = $titanium_cache->load('blockers', 'sentinel')) === false):
 		$blocker_array[$blockernametemp] = $row;
 	endfor;
 	$titanium_db->sql_freeresult($result);
-	$titanium_cache->save('blockers', 'sentinel', $blocker_array);
+	$cache->save('blockers', 'sentinel', $blocker_array);
 endif;
 
 function string_bypass ($str) 
@@ -1153,8 +1153,8 @@ function abget_blockedrange($remoteip)
 
 function abget_blocker($blocker_name)
 {
-	global $titanium_prefix, $titanium_db, $titanium_cache;
-	if(($blocker_array = $titanium_cache->load('blockers', 'sentinel')) === false):
+	global $titanium_prefix, $titanium_db, $cache;
+	if(($blocker_array = $cache->load('blockers', 'sentinel')) === false):
 		$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blockers` ORDER BY `blocker`");
 		$num_rows = $titanium_db->sql_numrows($result);
 		for ($i = 0; $i < $num_rows; $i++):
@@ -1163,18 +1163,18 @@ function abget_blocker($blocker_name)
 			$blocker_array[$blockernametemp] = $row;
 		endfor;
 		$titanium_db->sql_freeresult($result);
-		$titanium_cache->save('blockers', 'sentinel', $blocker_array);
+		$cache->save('blockers', 'sentinel', $blocker_array);
 	endif;
 	return $blocker_array[$blocker_name];
 }
 
 function abget_blockerrow($reason)
 {
-  global $titanium_prefix, $titanium_db, $titanium_cache;
-  if(($blocker_row = $titanium_cache->load($reason, 'sentinel')) === false):
+  global $titanium_prefix, $titanium_db, $cache;
+  if(($blocker_row = $cache->load($reason, 'sentinel')) === false):
 	  $blockerresult = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blockers` WHERE `blocker`='$reason'");
 	  $blocker_row = $titanium_db->sql_fetchrow($blockerresult);
-	  $titanium_cache->save($reason, 'sentinel', $blocker_row);
+	  $cache->save($reason, 'sentinel', $blocker_row);
 	  $titanium_db->sql_freeresult($blockerresult);
   endif;
   return $blocker_row;
@@ -1207,13 +1207,13 @@ function abget_config($config_name)
 
 function abget_configs()
 {
-  global $titanium_prefix, $titanium_db, $titanium_cache;
+  global $titanium_prefix, $titanium_db, $cache;
   static $sentinel;
   if(isset($sentinel)) return $sentinel;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-  if(($sentinel = $titanium_cache->load('sentinel', 'config')) === false):
+  if(($sentinel = $cache->load('sentinel', 'config')) === false):
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -1225,7 +1225,7 @@ function abget_configs()
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-	  $titanium_cache->save('sentinel', 'config', $sentinel);
+	  $cache->save('sentinel', 'config', $sentinel);
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

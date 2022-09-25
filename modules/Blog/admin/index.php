@@ -133,7 +133,7 @@ function puthome($ihome, $acomm)
 
 function deleteStory($qid) 
 {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $qid = intval($qid);
     $result = $titanium_db->sql_query("delete from ".$titanium_prefix."_queue where qid='$qid'");
 
@@ -143,7 +143,7 @@ function deleteStory($qid)
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('numwaits', 'submissions');
+    $cache->delete('numwaits', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -1537,7 +1537,7 @@ function postStory($automated,
 				  $optionText, 
 				     $assotop) 
 {
-    global $aid, $admin_file, $ultramode, $titanium_prefix, $titanium_db, $titanium_user_prefix, $Version_Num, $blog_config, $adminmail, $sitename, $nukeurl, $titanium_cache;
+    global $aid, $admin_file, $ultramode, $titanium_prefix, $titanium_db, $titanium_user_prefix, $Version_Num, $blog_config, $adminmail, $sitename, $nukeurl, $cache;
 
     // Copyright (c) 2000-2005 by NukeScripts Network
     if($Version_Num >= 6.6) 
@@ -1640,7 +1640,7 @@ function postStory($automated,
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $titanium_cache->delete('numwaits', 'submissions');
+        $cache->delete('numwaits', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -3087,13 +3087,13 @@ function submissions()
 
 function subdelete() 
 {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache;
     $titanium_db->sql_query("delete from ".$titanium_prefix."_queue");
 
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('numwaits', 'submissions');
+    $cache->delete('numwaits', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -3379,8 +3379,8 @@ switch($op)
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        global $titanium_cache;
-        $titanium_cache->delete('news', 'config');
+        global $cache;
+        $cache->delete('news', 'config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

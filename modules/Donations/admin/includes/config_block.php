@@ -112,7 +112,7 @@ function display_config() {
     Notes:       Writes values to the DB
 ================================================================================================*/
 function write_values($values) {
-    global $titanium_db, $titanium_prefix, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $cache;
     //Loop through values
     foreach ($values as $key => $value) {
         //Remove crap
@@ -125,8 +125,8 @@ function write_values($values) {
         $titanium_db->sql_query($sql);
     }
     //Clear the cache
-    $titanium_cache->delete('block', 'donations');
-    $titanium_cache->resync();
+    $cache->delete('block', 'donations');
+    $cache->resync();
 }
 
 /*==============================================================================================
@@ -157,10 +157,10 @@ function set_values() {
     Notes:       Will toss a DonateError if the values are not found
 ================================================================================================*/
 function get_values() {
-    global $titanium_db, $titanium_prefix, $titanium_lang_donate, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $titanium_lang_donate, $cache;
     static $block;
     if(isset($block) && is_array($block)) { return $block; }
-    if (!$block = $titanium_cache->load('block', 'donations')) {
+    if (!$block = $cache->load('block', 'donations')) {
         $sql = 'SELECT config_value, config_name from '.$titanium_prefix.'_donators_config WHERE config_name LIKE "block_%"';
         if(!$result = $titanium_db->sql_query($sql)) {
             DonateError($titanium_lang_donate['VALUES_NF']);
@@ -168,7 +168,7 @@ function get_values() {
         while ($row = $titanium_db->sql_fetchrow($result)) {
             $block[str_replace('block_', '', $row['config_name'])] = $row['config_value'];
         }
-        $titanium_cache->save('block', 'donations', $block);
+        $cache->save('block', 'donations', $block);
         $titanium_db->sql_freeresult($result);
     }
     return $block;

@@ -154,7 +154,7 @@ function generate_user_info(&$row,
 	return;
 }
 
-global $titanium_cache;
+global $cache;
 
 # Start session management
 $userdata = titanium_session_pagestart($titanium_user_ip, PAGE_GROUPCP);
@@ -338,7 +338,7 @@ elseif(isset($_POST['unsub']) || isset($_POST['unsubpending']) && $group_id)
         message_die(GENERAL_ERROR, 'Could not remove color from user', '', __LINE__, __FILE__, $sql);
 
         # Base: Caching System v3.0.0 START
-        $titanium_cache->delete('UserColors', 'config');
+        $cache->delete('UserColors', 'config');
         # Base: Caching System v3.0.0 END
 		
         # Mod: Group Colors and Ranks v1.0.0 END
@@ -602,7 +602,7 @@ elseif($group_id)
                             if (!$titanium_db->sql_query($sql)) 
                             message_die(GENERAL_ERROR, 'Could not add color to user', '', __LINE__, __FILE__, $sql);
                             # Base: Caching System v3.0.0 START
-                            $titanium_cache->delete('UserColors', 'config');
+                            $cache->delete('UserColors', 'config');
                             # Base: Caching System v3.0.0 END
                         endif;
 						
@@ -660,7 +660,7 @@ elseif($group_id)
                         if (!$titanium_db->sql_query($sql)) 
                         message_die(GENERAL_ERROR, 'Could not remove color from user', '', __LINE__, __FILE__, $sql);
                         # Base: Caching System v3.0.0 START
-                        $titanium_cache->delete('UserColors', 'config');
+                        $cache->delete('UserColors', 'config');
                         # Base: Caching System v3.0.0 END
                         # Mod: Group Colors and Ranks v1.0.0 END
                         

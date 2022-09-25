@@ -17,7 +17,7 @@
  *
  * @property Smarty_Template_Source   $source
  * @property Smarty_Template_Compiled $compiled
- * @property Smarty_Template_Cached   $titanium_cached
+ * @property Smarty_Template_Cached   $cached
  */
 class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
 {
@@ -25,7 +25,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
      * cache_id
      * @var string
      */
-    public $titanium_cache_id = null;
+    public $cache_id = null;
     /**
      * $compile_id
      * @var string
@@ -40,7 +40,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
      * cache lifetime in seconds
      * @var integer
      */
-    public $titanium_cache_lifetime = null;
+    public $cache_lifetime = null;
     /**
      * Template resource
      * @var string
@@ -231,21 +231,21 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
      * Template code runtime function to get subtemplate content
      *
      * @param string  $phpbb2_template       the resource handle of the template file
-     * @param mixed   $titanium_cache_id       cache id to be used with this template
+     * @param mixed   $cache_id       cache id to be used with this template
      * @param mixed   $compile_id     compile id to be used with this template
      * @param integer $caching        cache mode
-     * @param integer $titanium_cache_lifetime life time of cache data
+     * @param integer $cache_lifetime life time of cache data
      * @param array   $vars           optional  variables to assign
      * @param int     $parent_scope   scope in which {include} should execute
      * @returns string template content
      */
-    public function getSubTemplate($phpbb2_template, $titanium_cache_id, $compile_id, $caching, $titanium_cache_lifetime, $data, $parent_scope)
+    public function getSubTemplate($phpbb2_template, $cache_id, $compile_id, $caching, $cache_lifetime, $data, $parent_scope)
     {
         // already in template cache?
         if ($this->smarty->allow_ambiguous_resources) {
-            $_templateId = Smarty_Resource::getUniqueTemplateName($this->smarty, $phpbb2_template) . $titanium_cache_id . $compile_id;
+            $_templateId = Smarty_Resource::getUniqueTemplateName($this->smarty, $phpbb2_template) . $cache_id . $compile_id;
         } else {
-            $_templateId = $this->smarty->joined_template_dir . '#' . $phpbb2_template . $titanium_cache_id . $compile_id;
+            $_templateId = $this->smarty->joined_template_dir . '#' . $phpbb2_template . $cache_id . $compile_id;
         }
 
         if (isset($_templateId[150])) {
@@ -256,9 +256,9 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
             $tpl = clone $this->smarty->template_objects[$_templateId];
             $tpl->parent = $this;
             $tpl->caching = $caching;
-            $tpl->cache_lifetime = $titanium_cache_lifetime;
+            $tpl->cache_lifetime = $cache_lifetime;
         } else {
-            $tpl = new $this->smarty->template_class($phpbb2_template, $this->smarty, $this, $titanium_cache_id, $compile_id, $caching, $titanium_cache_lifetime);
+            $tpl = new $this->smarty->template_class($phpbb2_template, $this->smarty, $this, $cache_id, $compile_id, $caching, $cache_lifetime);
         }
         // get variables from calling scope
         if ($parent_scope == Smarty::SCOPE_LOCAL) {
@@ -288,18 +288,18 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
      * Template code runtime function to set up an inline subtemplate
      *
      * @param string  $phpbb2_template       the resource handle of the template file
-     * @param mixed   $titanium_cache_id       cache id to be used with this template
+     * @param mixed   $cache_id       cache id to be used with this template
      * @param mixed   $compile_id     compile id to be used with this template
      * @param integer $caching        cache mode
-     * @param integer $titanium_cache_lifetime life time of cache data
+     * @param integer $cache_lifetime life time of cache data
      * @param array   $vars           optional  variables to assign
      * @param int     $parent_scope   scope in which {include} should execute
      * @param string  $hash           nocache hash code
      * @returns string template content
      */
-    public function setupInlineSubTemplate($phpbb2_template, $titanium_cache_id, $compile_id, $caching, $titanium_cache_lifetime, $data, $parent_scope, $hash)
+    public function setupInlineSubTemplate($phpbb2_template, $cache_id, $compile_id, $caching, $cache_lifetime, $data, $parent_scope, $hash)
     {
-        $tpl = new $this->smarty->template_class($phpbb2_template, $this->smarty, $this, $titanium_cache_id, $compile_id, $caching, $titanium_cache_lifetime);
+        $tpl = new $this->smarty->template_class($phpbb2_template, $this->smarty, $this, $cache_id, $compile_id, $caching, $cache_lifetime);
         $tpl->properties['nocache_hash']  = $hash;
         // get variables from calling scope
         if ($parent_scope == Smarty::SCOPE_LOCAL) {
@@ -330,14 +330,14 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
      * Create code frame for compiled and cached templates
      *
      * @param  string $content optional template content
-     * @param  bool   $titanium_cache   flag for cache file
+     * @param  bool   $cache   flag for cache file
      * @return string
      */
-    public function createTemplateCodeFrame($content = '', $titanium_cache = false)
+    public function createTemplateCodeFrame($content = '', $cache = false)
     {
         $plugins_string = '';
         // include code for plugins
-        if (!$titanium_cache) {
+        if (!$cache) {
             if (!empty($this->required_plugins['compiled'])) {
                 $plugins_string = '<?php ';
                 foreach ($this->required_plugins['compiled'] as $tmp) {
@@ -377,7 +377,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
                 $output .= "if(!defined('SMARTY_DIR')) exit('no direct access allowed');\n";
             }
         }
-        if ($titanium_cache) {
+        if ($cache) {
             // remove compiled code of{function} definition
             unset($this->properties['function']);
             if (!empty($this->smarty->template_functions)) {
@@ -402,7 +402,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
             $this->properties['unifunc'] = 'content_' . str_replace('.', '_', uniqid('', true));
         }
         if (!$this->source->recompiled) {
-            $output .= "\$_valid = \$_smarty_tpl->decodeProperties(" . var_export($this->properties, true) . ',' . ($titanium_cache ? 'true' : 'false') . "); /*/%%SmartyHeaderCode%%*/?>\n";
+            $output .= "\$_valid = \$_smarty_tpl->decodeProperties(" . var_export($this->properties, true) . ',' . ($cache ? 'true' : 'false') . "); /*/%%SmartyHeaderCode%%*/?>\n";
             $output .= '<?php if ($_valid && !is_callable(\'' . $this->properties['unifunc'] . '\')) {function ' . $this->properties['unifunc'] . '($_smarty_tpl) {?>';
         }
         $output .= $plugins_string;
@@ -421,10 +421,10 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
      * - Check if compiled or cache file is valid
      *
      * @param  array $properties special template properties
-     * @param  bool  $titanium_cache      flag if called from cache file
+     * @param  bool  $cache      flag if called from cache file
      * @return bool  flag if compiled or cache file is valid
      */
-    public function decodeProperties($properties, $titanium_cache = false)
+    public function decodeProperties($properties, $cache = false)
     {
         $this->has_nocache_code = $properties['has_nocache_code'];
         $this->properties['nocache_hash'] = $properties['nocache_hash'];
@@ -444,7 +444,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
         $is_valid = true;
         if ($this->properties['version'] != Smarty::SMARTY_VERSION) {
             $is_valid = false;
-        } elseif (((!$titanium_cache && $this->smarty->compile_check && empty($this->compiled->_properties) && !$this->compiled->isCompiled) || $titanium_cache && ($this->smarty->compile_check === true || $this->smarty->compile_check === Smarty::COMPILECHECK_ON)) && !empty($this->properties['file_dependency'])) {
+        } elseif (((!$cache && $this->smarty->compile_check && empty($this->compiled->_properties) && !$this->compiled->isCompiled) || $cache && ($this->smarty->compile_check === true || $this->smarty->compile_check === Smarty::COMPILECHECK_ON)) && !empty($this->properties['file_dependency'])) {
             foreach ($this->properties['file_dependency'] as $_file_to_check) {
                 if ($_file_to_check[2] == 'file' || $_file_to_check[2] == 'php') {
                     if ($this->source->filepath == $_file_to_check[0] && isset($this->source->timestamp)) {
@@ -466,7 +466,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
                 }
             }
         }
-        if ($titanium_cache) {
+        if ($cache) {
             // CACHING_LIFETIME_SAVED cache expiry has to be validated here since otherwise we'd define the unifunc
             if ($this->caching === Smarty::CACHING_LIFETIME_SAVED &&
                 $this->properties['cache_lifetime'] >= 0 &&
@@ -477,7 +477,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
         } else {
             $this->mustCompile = !$is_valid;        }
         // store data in reusable Smarty_Template_Compiled
-        if (!$titanium_cache) {
+        if (!$cache) {
             $this->compiled->_properties = $properties;
         }
 

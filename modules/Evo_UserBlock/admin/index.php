@@ -186,7 +186,7 @@ function evouserinfo_drawlists () {
 }
 
 function evouserinfo_write ($data){
-    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock, $cache;
     
     //Clear All Previous Breaks
     $titanium_db->sql_query('DELETE FROM `'.$titanium_prefix.'_evo_userinfo` WHERE `name`="Break"');
@@ -219,9 +219,9 @@ function evouserinfo_write ($data){
                 }
             }
         }
-        $titanium_cache->delete('inactive', 'evouserinfo');
-        $titanium_cache->delete('active', 'evouserinfo');
-        $titanium_cache->resync();
+        $cache->delete('inactive', 'evouserinfo');
+        $cache->delete('active', 'evouserinfo');
+        $cache->resync();
     }
 }
 
@@ -263,10 +263,10 @@ if (isset($_POST['order']))
   redirect_titanium($admin_file.".php?op=evo-userinfo");
 }
 if (isset($_POST['evouserinfo_ec']) && is_int(intval($_POST['evouserinfo_ec']))) {
-    global $titanium_db, $titanium_prefix, $titanium_cache, $evouserinfo_ec;
+    global $titanium_db, $titanium_prefix, $cache, $evouserinfo_ec;
     $titanium_db->sql_query("UPDATE ".$titanium_prefix."_evolution SET evo_value='".$_POST['evouserinfo_ec']."' WHERE evo_field='evouserinfo_ec'");
-    $titanium_cache->delete('titanium_config', 'config');
-    $titanium_cache->resync();
+    $cache->delete('titanium_config', 'config');
+    $cache->resync();
     $evouserinfo_ec = intval($_POST['evouserinfo_ec']);
 }
 

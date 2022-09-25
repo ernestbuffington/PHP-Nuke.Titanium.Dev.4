@@ -27,7 +27,7 @@
 if(!defined('ADMIN_FILE'))
 die ("Illegal File Access");
 
-global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache, $userinfo;
+global $titanium_prefix, $titanium_db, $admin_file, $cache, $userinfo;
 
 if (!is_admin()) 
 {
@@ -61,7 +61,7 @@ function parse_data($data)
 
 function update_db($data_array, $col_check)
 {
-    global $titanium_cache, $titanium_prefix, $titanium_db;
+    global $cache, $titanium_prefix, $titanium_db;
     if (is_array($data_array)) {
         foreach($data_array AS $set => $items)
         {
@@ -74,8 +74,8 @@ function update_db($data_array, $col_check)
             }
         }
     }
-    $titanium_cache->delete('blocks', 'config');
-    $titanium_cache->resync();
+    $cache->delete('blocks', 'config');
+    $cache->resync();
 }
 function blocks_update($data)
 {
@@ -86,21 +86,21 @@ function blocks_update($data)
 
 function status_update($data) 
 {
-    global $titanium_prefix, $titanium_db, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $cache;
     $data = explode(':', $data);
     $bid = $data[0];
     $status = $data[1];
     $status = ($status == 1) ? 0 : 1;
     $sql = "UPDATE " . $titanium_prefix . "_blocks SET `active` = '$status' WHERE `bid` = '$bid'";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('blocks', 'config');
-    $titanium_cache->resync();
+    $cache->delete('blocks', 'config');
+    $cache->resync();
     return 1;
 }
 
 function AddBlock($data) 
 {
-    global $titanium_cache, $titanium_db, $titanium_prefix, $admin_file;
+    global $cache, $titanium_db, $titanium_prefix, $admin_file;
 
     $data['title'] = Fix_Quotes($data['title']);
     $data['headline'] = intval($data['headline']);
@@ -151,8 +151,8 @@ function AddBlock($data)
         $sql = "UPDATE ".$titanium_prefix."_blocks SET bkey='', title='" . $data['title'] . "', content='".Fix_Quotes($data['content'])."', url='" . $data['url'] . "', bposition='" . $data['bposition'] . "', weight='" . $weight . "', active='" . $data['active'] . "', refresh='" . $data['refresh'] . "', time='" . $data['btime'] . "', blanguage='" . $data['blanguage'] . "', blockfile='" . $data['blockfile'] . "', view='" . $data['view'] . "' WHERE bid=".$data['bid'];
     }
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('blocks', 'config');
-    $titanium_cache->resync();
+    $cache->delete('blocks', 'config');
+    $cache->resync();
     redirect_titanium("$admin_file.php?op=blocks");
 }
 

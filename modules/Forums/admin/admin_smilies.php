@@ -590,7 +590,7 @@ else
         $phpbb2_template->pparse("body");
 }
 
-$titanium_cache->delete('smilies', 'config');
+$cache->delete('smilies', 'config');
 
 //
 // Page Footer

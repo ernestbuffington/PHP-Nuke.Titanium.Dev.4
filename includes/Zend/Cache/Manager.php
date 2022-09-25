@@ -119,12 +119,12 @@ class Zend_Cache_Manager
      * Set a new cache for the Cache Manager to contain
      *
      * @param  string $name
-     * @param  Zend_Cache_Core $titanium_cache
+     * @param  Zend_Cache_Core $cache
      * @return Zend_Cache_Manager
      */
-    public function setCache($name, Zend_Cache_Core $titanium_cache)
+    public function setCache($name, Zend_Cache_Core $cache)
     {
-        $this->_caches[$name] = $titanium_cache;
+        $this->_caches[$name] = $cache;
         return $this;
     }
 

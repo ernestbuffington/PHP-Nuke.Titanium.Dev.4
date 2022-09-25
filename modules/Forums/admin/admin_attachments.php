@@ -191,14 +191,14 @@ while ($row = $titanium_db->sql_fetchrow($result))
 }
 $titanium_db->sql_freeresult($result);
 
-$titanium_cache_dir = $phpbb2_root_path . '/cache';
-$titanium_cache_file = $titanium_cache_dir . '/attach_config.php';
+$cache_dir = $phpbb2_root_path . '/cache';
+$cache_file = $cache_dir . '/attach_config.php';
 
-if ((file_exists($titanium_cache_dir)) && (is_dir($titanium_cache_dir)))
+if ((file_exists($cache_dir)) && (is_dir($cache_dir)))
 {
-    if (file_exists($titanium_cache_file))
+    if (file_exists($cache_file))
     {
-        @unlink($titanium_cache_file);
+        @unlink($cache_file);
     }
 }
 

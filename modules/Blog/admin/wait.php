@@ -32,16 +32,16 @@
  ************************************************************************/
 if(!defined('NUKE_EVO')) exit;
 
-global $admin_file, $titanium_db, $titanium_prefix, $titanium_cache;
+global $admin_file, $titanium_db, $titanium_prefix, $cache;
 
 if(is_active('Submit_Blog')) 
 {
     $content .= "<div align=\"left\"><strong><u><span class=\"content\">"._STORIES."</span>:</u></strong></div>";
 
-    if(($numwaits = $titanium_cache->load('numwaits', 'submissions')) === false) 
+    if(($numwaits = $cache->load('numwaits', 'submissions')) === false) 
 	{
         list($numwaits) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT COUNT(*) FROM ".$titanium_prefix."_queue"), SQL_NUM);
-        $titanium_cache->save('numwaits', 'submissions', $numwaits);
+        $cache->save('numwaits', 'submissions', $numwaits);
     }
     
 	if (is_array($numwaits)) 

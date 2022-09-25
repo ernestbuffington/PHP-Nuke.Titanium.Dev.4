@@ -234,7 +234,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
 
 function submitStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype) 
 {
-    global $titanium_user, $EditedMessage, $cookie, $anonymous, $notify, $notify_email, $notify_subject, $notify_message, $notify_from, $titanium_prefix, $titanium_db, $titanium_cache;
+    global $titanium_user, $EditedMessage, $cookie, $anonymous, $notify, $notify_email, $notify_subject, $notify_message, $notify_from, $titanium_prefix, $titanium_db, $cache;
 
     if (is_user()) 
 	{
@@ -260,7 +260,7 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('numwaits', 'submissions');
+    $cache->delete('numwaits', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -274,7 +274,7 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    if(($numwaits = $titanium_cache->load('numwaits', 'submissions')) === false) 
+    if(($numwaits = $cache->load('numwaits', 'submissions')) === false) 
 	{
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -285,7 +285,7 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $titanium_cache->save('numwaits', 'submissions', $numwaits);
+        $cache->save('numwaits', 'submissions', $numwaits);
     }
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]

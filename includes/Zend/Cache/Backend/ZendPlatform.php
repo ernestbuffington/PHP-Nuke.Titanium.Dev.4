@@ -187,12 +187,12 @@ class Zend_Cache_Backend_ZendPlatform extends Zend_Cache_Backend implements Zend
         switch ($mode) {
             case Zend_Cache::CLEANING_MODE_ALL:
             case Zend_Cache::CLEANING_MODE_OLD:
-                $titanium_cache_dir = ini_get('zend_accelerator.output_cache_dir');
-                if (!$titanium_cache_dir) {
+                $cache_dir = ini_get('zend_accelerator.output_cache_dir');
+                if (!$cache_dir) {
                     return false;
                 }
-                $titanium_cache_dir .= '/.php_cache_api/';
-                return $this->_clean($titanium_cache_dir, $mode);
+                $cache_dir .= '/.php_cache_api/';
+                return $this->_clean($cache_dir, $mode);
                 break;
             case Zend_Cache::CLEANING_MODE_MATCHING_TAG:
                 $idlist = null;

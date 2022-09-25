@@ -27,11 +27,11 @@ global $titanium_lang_evo_userblock;
 
 function evouserinfo_block_getactive() 
 {
-    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock, $cache;
 
     if(isset($active) && is_array($active)) return $active;
     
-    if ((($active = $titanium_cache->load('active', 'evouserinfo')) === false) || !isset($active)) 
+    if ((($active = $cache->load('active', 'evouserinfo')) === false) || !isset($active)) 
 	{
         $sql = 'SELECT * FROM '.$titanium_prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
         $result = $titanium_db->sql_query($sql);
@@ -43,7 +43,7 @@ function evouserinfo_block_getactive()
         
 		$titanium_db->sql_freeresult($result);
         
-		$titanium_cache->save('active', 'evouserinfo', $active);
+		$cache->save('active', 'evouserinfo', $active);
     }
     
 	return $active;

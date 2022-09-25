@@ -314,7 +314,7 @@ function modadmin_edit_module($titanium_module)
 
 function modadmin_activate($titanium_module) 
 {
-   global $titanium_prefix, $titanium_db, $titanium_cache, $debugger;
+   global $titanium_prefix, $titanium_db, $cache, $debugger;
    
    $result = $titanium_db->sql_query('SELECT active FROM '.$titanium_prefix."_modules WHERE mid=$titanium_module");
    
@@ -329,24 +329,24 @@ function modadmin_activate($titanium_module)
       }
    }
    
-   $titanium_cache->delete('active_modules');
-   $titanium_cache->resync();
+   $cache->delete('active_modules');
+   $cache->resync();
 }
 
 function modadmin_activate_all($type) 
 {
-   global $titanium_prefix, $titanium_db, $titanium_cache;
+   global $titanium_prefix, $titanium_db, $cache;
    
    $active = ($type == 'all') ? '1;' : "0 WHERE `title` <> 'Your_Account' AND `title` <> 'Profile';";
    $sql = "UPDATE `".$titanium_prefix."_modules` SET `active`=".$active;
    $titanium_db->sql_query($sql);
-   $titanium_cache->delete('active_modules');
-   $titanium_cache->resync();
+   $cache->delete('active_modules');
+   $cache->resync();
 }
 
 function modadmin_home($mid) 
 {
-   global $titanium_prefix, $titanium_db, $titanium_cache;
+   global $titanium_prefix, $titanium_db, $cache;
    
    list($title) = $titanium_db->sql_ufetchrow("SELECT title FROM ".$titanium_prefix."_modules WHERE mid='$mid'",SQL_NUM);
    
@@ -357,14 +357,14 @@ function modadmin_home($mid)
    
    $titanium_db->sql_query("UPDATE ".$titanium_prefix."_main SET main_module='$title'");
    $titanium_db->sql_query("UPDATE ".$titanium_prefix."_modules SET active=1, view=0 WHERE mid='$mid'");
-   $titanium_cache->delete('main_module');
-   $titanium_cache->delete('active_modules');
-   $titanium_cache->resync();
+   $cache->delete('main_module');
+   $cache->delete('active_modules');
+   $cache->resync();
 }
 
 function modadmin_edit_save($mid) 
 {
-   global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+   global $titanium_prefix, $titanium_db, $admin_file, $cache;
    
    $ingroups = array();
    
@@ -401,7 +401,7 @@ function modadmin_edit_save($mid)
 //---------------------
 function modadmin_get_inactive () 
 {
-    global $titanium_prefix, $titanium_db, $titanium_cache, $admlang;
+    global $titanium_prefix, $titanium_db, $cache, $admlang;
 
     if(!$result = $titanium_db->sql_query("SELECT `mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `blocks` FROM `".$titanium_prefix."_modules` WHERE `cat_id`=0 AND `inmenu`<>0 ORDER BY `pos` ASC"))     {
         DisplayError($admlang['modblock']['no_values']);
@@ -625,13 +625,13 @@ function modadmin_block ()
 
 function modadmin_get_module_cats () 
 {
-    global $modadmin_module_cats, $titanium_prefix, $titanium_db, $titanium_cache;
+    global $modadmin_module_cats, $titanium_prefix, $titanium_db, $cache;
 
     static $cats;
 
     if (isset($cats) && is_array($cats)) $modadmin_module_cats = $cats;
 
-    if((($cats = $titanium_cache->load('module_cats', 'config')) === false) || !isset($cats)) 
+    if((($cats = $cache->load('module_cats', 'config')) === false) || !isset($cats)) 
 	{
         if(!$result = $titanium_db->sql_query("SELECT `cid`, `name`, `image`, `pos`, `link_type`, `link` FROM `".$titanium_prefix."_modules_cat` WHERE `name`<>'Home' ORDER BY `pos` ASC")) 
 		{
@@ -644,7 +644,7 @@ function modadmin_get_module_cats ()
         }
         
 		$titanium_db->sql_freeresult($result);
-        $titanium_cache->save('module_cats', 'config', $cats);
+        $cache->save('module_cats', 'config', $cats);
     }
     
 	$modadmin_module_cats = $cats;
@@ -678,7 +678,7 @@ function modadmin_parse_data($data)
 
 function modadmin_write_cats ($data) 
 {
-    global $titanium_db, $titanium_prefix, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $cache;
 
     if(is_array($data)) 
 	{
@@ -696,13 +696,13 @@ function modadmin_write_cats ($data)
         }
     }
     
-	$titanium_cache->delete('module_cats');
-    $titanium_cache->resync();
+	$cache->delete('module_cats');
+    $cache->resync();
 }
 
 function modadmin_new_cat ($name, $image) 
 {
-    global $titanium_db, $titanium_prefix, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $cache;
 
     $result = $titanium_db->sql_query('SELECT COUNT(*) FROM `'.$titanium_prefix.'_modules_cat`');
     $num = $titanium_db->sql_fetchrow($result);
@@ -711,25 +711,25 @@ function modadmin_new_cat ($name, $image)
     $image = Fix_Quotes($image);
     $sql = 'INSERT INTO `'.$titanium_prefix.'_modules_cat` VALUES ("","'.$name.'","'.$image.'",'.($num[0]+1).', 0, "")';
     $result = $titanium_db->sql_query($sql);
-    $titanium_cache->delete('module_cats');
-    $titanium_cache->resync();
+    $cache->delete('module_cats');
+    $cache->resync();
 }
 
 function modadmin_delete_cat ($cid) 
 {
-    global $titanium_db, $titanium_prefix, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $cache;
 
     $sql = 'DELETE FROM `'.$titanium_prefix.'_modules_cat` WHERE `cid`='.$cid;
     $titanium_db->sql_query($sql);
     $sql = 'UPDATE `'.$titanium_prefix.'_modules` SET `cat_id`=0 WHERE `cat_id`='.$cid;
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('module_cats');
-    $titanium_cache->resync();
+    $cache->delete('module_cats');
+    $cache->resync();
 }
 
 function modadmin_move_cat ($pos, $up) 
 {
-    global $titanium_db, $titanium_prefix, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $cache;
 
     $where = ($up) ? ($pos - 1) : ($pos + 1);
     $sql = "UPDATE `".$titanium_prefix."_modules_cat` SET `pos`=127 WHERE `pos`=".$where;
@@ -738,13 +738,13 @@ function modadmin_move_cat ($pos, $up)
     $titanium_db->sql_query($sql);
     $sql = "UPDATE `".$titanium_prefix."_modules_cat` SET `pos`=".$pos." WHERE `pos`=127";
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('module_cats');
-    $titanium_cache->resync();
+    $cache->delete('module_cats');
+    $cache->resync();
 }
 
 function modadmin_edit_cat($cat) 
 {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache, $admlang;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache, $admlang;
 
     $cat = Fix_Quotes($cat);
 
@@ -779,7 +779,7 @@ function modadmin_edit_cat($cat)
 
 function modadmin_edit_cat_save($cat, $name, $image) 
 {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache, $admlang;
+    global $titanium_prefix, $titanium_db, $admin_file, $cache, $admlang;
 
     $name = Fix_Quotes($name);
     $image = Fix_Quotes($image);
@@ -792,12 +792,12 @@ function modadmin_edit_cat_save($cat, $name, $image)
 
     $sql = "UPDATE `".$titanium_prefix."_modules_cat` SET `name`=\"".$name."\", `image`=\"".$image."\" WHERE `cid`=".$cat;
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('module_cats');
+    $cache->delete('module_cats');
 }
 
 function modadmin_new_link ($title, $link) 
 {
-    global $titanium_db, $titanium_prefix, $titanium_cache, $admlang;
+    global $titanium_db, $titanium_prefix, $cache, $admlang;
 
     if(empty($title) || empty($link)) DisplayError($admlang['modblock']['link_title_error']);
 
@@ -806,18 +806,18 @@ function modadmin_new_link ($title, $link)
     Validate($link, 'url', 'modules');
     $sql = 'INSERT INTO `'.$titanium_prefix.'_modules` VALUES (NULL,"~l~'.$title.'","'.$link.'",0,0,1,0,0,1,"","")';
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('module_links');
-    $titanium_cache->resync();
+    $cache->delete('module_links');
+    $cache->resync();
 }
 
 function modadmin_delete_link ($mid) 
 {
-    global $titanium_db, $titanium_prefix, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $cache;
 
     $sql = 'DELETE FROM `'.$titanium_prefix.'_modules` WHERE `mid`='.$mid.' AND `title` LIKE "~l~%"';
     $titanium_db->sql_query($sql);
-    $titanium_cache->delete('module_links');
-    $titanium_cache->resync();
+    $cache->delete('module_links');
+    $cache->resync();
 }
 
 function modadmin_add_scripts() 
@@ -921,11 +921,11 @@ if(isset($_GET['upcat']) || isset($_GET['downcat']))
 
 if(isset($_POST['collapse']) && is_int(intval($_POST['collapse']))) 
 {
-   global $titanium_db, $titanium_prefix, $titanium_module_collapse, $titanium_cache;
+   global $titanium_db, $titanium_prefix, $titanium_module_collapse, $cache;
    $titanium_db->sql_query('UPDATE `'.$titanium_prefix.'_evolution` SET `evo_value`="'.intval($_POST['collapse']).'" WHERE `evo_field`= "module_collapse"');
    $titanium_module_collapse = intval($_POST['collapse']);
-   $titanium_cache->delete('titanium_config');
-   $titanium_cache->resync();
+   $cache->delete('titanium_config');
+   $cache->resync();
 }
 
 if(isset($_GET['editcat'])) 

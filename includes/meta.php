@@ -23,7 +23,7 @@
 if (!defined('NUKE_EVO')) 
 die("You can't access this file directly...");
 
-global $titanium_db, $titanium_prefix, $titanium_cache;
+global $titanium_db, $titanium_prefix, $cache;
 
 ##################################################
 # Load dynamic meta tags from database           #
@@ -32,7 +32,7 @@ global $titanium_db, $titanium_prefix, $titanium_cache;
   /*****[BEGIN]******************************************
    [ Base:    Caching System                     v3.0.0 ]
    ******************************************************/
-if(($metatags = $titanium_cache->load('metatags', 'config')) === false) 
+if(($metatags = $cache->load('metatags', 'config')) === false) 
 {
   /*****[END]********************************************
    [ Base:    Caching System                     v3.0.0 ]
@@ -56,7 +56,7 @@ if(($metatags = $titanium_cache->load('metatags', 'config')) === false)
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-  $titanium_cache->save('metatags', 'config', $metatags);
+  $cache->save('metatags', 'config', $metatags);
 }
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]

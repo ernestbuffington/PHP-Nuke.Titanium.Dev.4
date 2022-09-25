@@ -39,13 +39,13 @@ if(!preg_match("/\./","$titanium_lang") AND file_exists(NUKE_LANGUAGE_DIR.'cbloc
 }
 
 function cb_blocks($rid) {
-    global $titanium_prefix, $titanium_db, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $cache;
     static $cb_blocks;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v1.0.0 ]
  ******************************************************/
     if(!isset($cb_blocks)) {
-        if(!($cb_blocks = $titanium_cache->load('cb_blocks', 'config'))) {
+        if(!($cb_blocks = $cache->load('cb_blocks', 'config'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v1.0.0 ]
  ******************************************************/
@@ -57,7 +57,7 @@ function cb_blocks($rid) {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v1.0.0 ]
  ******************************************************/
-            $titanium_cache->save('cb_blocks', 'config', $cb_blocks);
+            $cache->save('cb_blocks', 'config', $cb_blocks);
         }
 /*****[END]********************************************
  [ Base:    Caching System                     v1.0.0 ]

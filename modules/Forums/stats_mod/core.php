@@ -152,12 +152,12 @@ class StatisticsCORE
         }
 
         // Now init our database cache. ;)
-        $titanium_cache = '';
+        $cache = '';
         $this->use_db_cache = true;
 
-        if (module_use_db_cache($this->current_module_id, $titanium_cache))
+        if (module_use_db_cache($this->current_module_id, $cache))
         {
-            $stat_db->begin_cached_query(true, $titanium_cache);
+            $stat_db->begin_cached_query(true, $cache);
         }
     }
 

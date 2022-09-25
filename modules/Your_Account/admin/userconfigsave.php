@@ -89,8 +89,8 @@ if(is_mod_admin($titanium_module_name)) {
 /*****['BEGIN']****************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    global $titanium_cache;
-    $titanium_cache->delete('ya_config', 'config');
+    global $cache;
+    $cache->delete('ya_config', 'config');
 /*****['END']******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

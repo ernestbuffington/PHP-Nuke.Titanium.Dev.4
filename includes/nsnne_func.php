@@ -22,25 +22,25 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 }
 
 function blogs_save_config($config_name, $config_value){
-    global $titanium_prefix, $titanium_db, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $cache;
     $titanium_db->sql_query("UPDATE ".$titanium_prefix."_nsnne_config SET config_value='$config_value' WHERE config_name='$config_name'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('blogs', 'config');
+    $cache->delete('blogs', 'config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 }
 
 function blog_get_configs(){
-    global $titanium_prefix, $titanium_db, $titanium_cache;
+    global $titanium_prefix, $titanium_db, $cache;
     static $config;
     if(isset($config)) return $config;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    if(($config = $titanium_cache->load('blogs', 'config')) === false) {
+    if(($config = $cache->load('blogs', 'config')) === false) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -52,7 +52,7 @@ function blog_get_configs(){
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $titanium_cache->save('blogs', 'config', $config);
+        $cache->save('blogs', 'config', $config);
     }
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]

@@ -65,7 +65,7 @@ if (!defined('ADMIN_FILE')) {
    die ('Illegal File Access');
 }
 
-global $admin, $keysommaire, $currentlang, $deletecat, $titanium_db, $titanium_prefix, $sql, $upgrade_test, $bgcolor1, $zetheme, $admin_file, $admdata, $titanium_cache;
+global $admin, $keysommaire, $currentlang, $deletecat, $titanium_db, $titanium_prefix, $sql, $upgrade_test, $bgcolor1, $zetheme, $admin_file, $admdata, $cache;
 
 if ($admdata['radminsuper'] == 1) {
 
@@ -601,7 +601,7 @@ $checkdynamic = ($dynamic[0]=="on") ? "checked" : "" ;
 
 function send() { // fonction appele quand on clique 'OK' sur le formulaire
     global $sommaireformkeysommaire, $sommaireformgroupmenu, $sommaireformname, $sommaireformimage, $sommaireformlien, $sommaireformingroup, $sommaireformmoduleimage, $sommaireformmodulelink, $sommaireformmodulelinktext, $sommaireformcenter, $sommaireformhr, $sommaireformbgcolor,$sommaireformradio, $sommaireformclass, $sommaireformbold, $sommaireformnew , $sommaireformlistbox, $sommaireformeachcategoryclass, $sommaireformmodulegras, $sommaireformmodulenew, $sommaireformnew_type, $sommaireformnew_days, $sommaireformmodulenew_days, $sommaireformfirstnew_days, $sommaireformmoduleclass, $sommaireformclassformodules, $sommaireformfirstclass, $sommaireformdynamic, $titanium_db, $titanium_prefix, $sql;
-global $admin_file, $titanium_cache, $more_js;
+global $admin_file, $cache, $more_js;
 
 //    global $sommaireformmoduleimage0_0, $sommaireformmoduleimage0_1, $sommaireformmoduleimage0_2, $sommaireformmoduleimage1_0, $sommaireformmoduleimage1_1, $sommaireformmoduleimage1_2;
     $sommaireformnew_days=($sommaireformnew_type=="on") ? $sommaireformnew_days : "-1" ;
@@ -655,11 +655,11 @@ global $admin_file, $titanium_cache, $more_js;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $titanium_cache->delete('sommaire_row', 'block');
-    $titanium_cache->delete('sommaire_row2', 'block');
-    $titanium_cache->delete('sommaire_row3', 'block');
-    $titanium_cache->delete('sommaire_row4', 'block');
-    $titanium_cache->delete('sommaire_tempo', 'block');
+    $cache->delete('sommaire_row', 'block');
+    $cache->delete('sommaire_row2', 'block');
+    $cache->delete('sommaire_row3', 'block');
+    $cache->delete('sommaire_row4', 'block');
+    $cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/    
@@ -694,11 +694,11 @@ else {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $titanium_cache->delete('sommaire_row', 'block');
-                $titanium_cache->delete('sommaire_row2', 'block');
-                $titanium_cache->delete('sommaire_row3', 'block');
-                $titanium_cache->delete('sommaire_row4', 'block');
-                $titanium_cache->delete('sommaire_tempo', 'block');
+                $cache->delete('sommaire_row', 'block');
+                $cache->delete('sommaire_row2', 'block');
+                $cache->delete('sommaire_row3', 'block');
+                $cache->delete('sommaire_row4', 'block');
+                $cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -709,11 +709,11 @@ else {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $titanium_cache->delete('sommaire_row', 'block');
-                $titanium_cache->delete('sommaire_row2', 'block');
-                $titanium_cache->delete('sommaire_row3', 'block');
-                $titanium_cache->delete('sommaire_row4', 'block');
-                $titanium_cache->delete('sommaire_tempo', 'block');
+                $cache->delete('sommaire_row', 'block');
+                $cache->delete('sommaire_row2', 'block');
+                $cache->delete('sommaire_row3', 'block');
+                $cache->delete('sommaire_row4', 'block');
+                $cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -724,11 +724,11 @@ else {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $titanium_cache->delete('sommaire_row', 'block');
-                $titanium_cache->delete('sommaire_row2', 'block');
-                $titanium_cache->delete('sommaire_row3', 'block');
-                $titanium_cache->delete('sommaire_row4', 'block');
-                $titanium_cache->delete('sommaire_tempo', 'block');
+                $cache->delete('sommaire_row', 'block');
+                $cache->delete('sommaire_row2', 'block');
+                $cache->delete('sommaire_row3', 'block');
+                $cache->delete('sommaire_row4', 'block');
+                $cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -758,11 +758,11 @@ else {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $titanium_cache->delete('sommaire_row', 'block');
-            $titanium_cache->delete('sommaire_row2', 'block');
-            $titanium_cache->delete('sommaire_row3', 'block');
-            $titanium_cache->delete('sommaire_row4', 'block');
-            $titanium_cache->delete('sommaire_tempo', 'block');
+            $cache->delete('sommaire_row', 'block');
+            $cache->delete('sommaire_row2', 'block');
+            $cache->delete('sommaire_row3', 'block');
+            $cache->delete('sommaire_row4', 'block');
+            $cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -775,11 +775,11 @@ else {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $titanium_cache->delete('sommaire_row', 'block');
-            $titanium_cache->delete('sommaire_row2', 'block');
-            $titanium_cache->delete('sommaire_row3', 'block');
-            $titanium_cache->delete('sommaire_row4', 'block');
-            $titanium_cache->delete('sommaire_tempo', 'block');
+            $cache->delete('sommaire_row', 'block');
+            $cache->delete('sommaire_row2', 'block');
+            $cache->delete('sommaire_row3', 'block');
+            $cache->delete('sommaire_row4', 'block');
+            $cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -919,7 +919,7 @@ global $admin_file;
 
 function deletecat() { //pour supprimer une catgorie (fonction appele par le clic sur "supprimer" dans une ligne du formulaire)
 global $admin_file, $more_js;
-    global $deletecat, $keysommaire, $confirm, $catname, $titanium_db, $titanium_prefix, $titanium_cache;
+    global $deletecat, $keysommaire, $confirm, $catname, $titanium_db, $titanium_prefix, $cache;
     if ($confirm<>"YES") {
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
@@ -941,11 +941,11 @@ global $admin_file, $more_js;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $titanium_cache->delete('sommaire_row', 'block');
-        $titanium_cache->delete('sommaire_row2', 'block');
-        $titanium_cache->delete('sommaire_row3', 'block');
-        $titanium_cache->delete('sommaire_row4', 'block');
-        $titanium_cache->delete('sommaire_tempo', 'block');
+        $cache->delete('sommaire_row', 'block');
+        $cache->delete('sommaire_row2', 'block');
+        $cache->delete('sommaire_row3', 'block');
+        $cache->delete('sommaire_row4', 'block');
+        $cache->delete('sommaire_tempo', 'block');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

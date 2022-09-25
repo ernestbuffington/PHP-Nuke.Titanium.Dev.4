@@ -265,9 +265,9 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$phpbb2_forum_id, &
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    global $titanium_cache;
-    $titanium_cache->delete('TopicData', 'home');
-    $titanium_cache->delete('AnnounceData', 'home');
+    global $cache;
+    $cache->delete('TopicData', 'home');
+    $cache->delete('AnnounceData', 'home');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -636,9 +636,9 @@ function delete_post($mode, &$post_data, &$message, &$meta, &$phpbb2_forum_id, &
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    global $titanium_cache;
-    $titanium_cache->delete('TopicData', 'home');
-    $titanium_cache->delete('AnnounceData', 'home');
+    global $cache;
+    $cache->delete('TopicData', 'home');
+    $cache->delete('AnnounceData', 'home');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

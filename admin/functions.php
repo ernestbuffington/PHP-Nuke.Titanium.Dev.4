@@ -218,13 +218,13 @@ function login()
 
 function deleteNotice($id) 
 {
-	global $titanium_prefix, $titanium_db, $admin_file, $titanium_cache;
+	global $titanium_prefix, $titanium_db, $admin_file, $cache;
 	$id = intval($id);
 	$titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_reviews_add` WHERE `id` = '$id'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-	$titanium_cache->delete('numwaitreviews', 'submissions');
+	$cache->delete('numwaitreviews', 'submissions');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -370,7 +370,7 @@ function track_CMS_version()
  ******************************************************/
 function GraphicAdmin($pos=1)
 {
-	global $aid, $admingraphic, $titanium_cache, $titanium_language, $admin, $titanium_prefix, $titanium_user_prefix, $titanium_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
+	global $aid, $admingraphic, $cache, $titanium_language, $admin, $titanium_prefix, $titanium_user_prefix, $titanium_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
 	
 	if ($pos != $admin_pos)
 	return;
@@ -729,7 +729,7 @@ function track_CMS_version_bs()
 
 function administration_panel( $pos = 1 )
 {
-	global $aid, $admingraphic, $titanium_cache, $titanium_language, $admin, $titanium_prefix, $titanium_user_prefix, $titanium_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
+	global $aid, $admingraphic, $cache, $titanium_language, $admin, $titanium_prefix, $titanium_user_prefix, $titanium_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
 
 	$radminsuper = is_mod_admin();
 

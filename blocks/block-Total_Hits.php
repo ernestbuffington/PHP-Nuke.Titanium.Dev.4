@@ -33,13 +33,13 @@ if(!defined('NUKE_EVO')) exit;
 global $titanium_db, $titanium_config, $startdate;
 
 function block_Hits_cache($block_cachetime) {
-    global $titanium_db, $titanium_cache;
-    if ((($blockcache = $titanium_cache->load('hits', 'blocks')) === false) || empty($blockcache) || intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) {
+    global $titanium_db, $cache;
+    if ((($blockcache = $cache->load('hits', 'blocks')) === false) || empty($blockcache) || intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) {
         $result = $titanium_db->sql_ufetchrow('SELECT `count` FROM `'._COUNTER_TABLE.'` WHERE `type`="total" AND `var`="hits" LIMIT 1');
         $blockcache[1]['count'] = $result['count'];
         $titanium_db->sql_freeresult($result);
         $blockcache[0]['stat_created'] = time();
-        $titanium_cache->save('hits', 'blocks', $blockcache);
+        $cache->save('hits', 'blocks', $blockcache);
     }
     return $blockcache;
 }

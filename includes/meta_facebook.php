@@ -17,10 +17,10 @@
 /************************************************************************/
 if (!defined('NUKE_EVO')) { die("You can't access this file directly..."); }
 
-  global $titanium_db, $titanium_prefix, $titanium_cache;
+  global $titanium_db, $titanium_prefix, $cache;
 
 //Load dynamic meta tags from database           
-if(($facebookmetatags = $titanium_cache->load('metatagsfacebook', 'config')) === false) 
+if(($facebookmetatags = $cache->load('metatagsfacebook', 'config')) === false) 
 {
   //Caching System v3.0.0
   $facebookmetatags = array();
@@ -39,7 +39,7 @@ if(($facebookmetatags = $titanium_cache->load('metatagsfacebook', 'config')) ===
   $titanium_db->sql_freeresult($result);
 
  //Caching System v3.0.0
-  $titanium_cache->save('metatagsfacebook', 'config', $facebookmetatags);
+  $cache->save('metatagsfacebook', 'config', $facebookmetatags);
 }
 
 //Finally output the meta tags

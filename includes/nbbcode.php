@@ -174,12 +174,12 @@ if(!function_exists('bbcode_table'))
 }
 
 function get_smilies() {
-   global $titanium_db, $titanium_prefix, $titanium_cache;
+   global $titanium_db, $titanium_prefix, $cache;
    static $smilies;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    if(($smilies = $titanium_cache->load('smilies', 'config')) === false) {
+    if(($smilies = $cache->load('smilies', 'config')) === false) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -190,7 +190,7 @@ function get_smilies() {
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $titanium_cache->save('smilies', 'config', $smilies);
+            $cache->save('smilies', 'config', $smilies);
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

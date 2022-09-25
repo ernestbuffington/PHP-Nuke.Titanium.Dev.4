@@ -46,7 +46,7 @@ $version_info = evo_get_version_curl($postdata);
  ******************************************************/
 function version_check()
 {
-	global $titanium_db, $titanium_prefix, $titanium_cache, $json, $titanium_config, $version_info, $admlang;
+	global $titanium_db, $titanium_prefix, $cache, $json, $titanium_config, $version_info, $admlang;
 	
 	if (is_array($version_info)):
 	
@@ -67,7 +67,7 @@ function version_check()
 			$ret_ver = $version_info['current_version'];
 			$titanium_db->sql_query("UPDATE ".$titanium_prefix."_evolution SET evo_value='".time()."' WHERE evo_field='ver_check'");
 			$titanium_db->sql_query("UPDATE ".$titanium_prefix."_evolution SET evo_value='".$ret_ver."' WHERE evo_field='ver_previous'");
-			$titanium_cache->delete('titanium_config');
+			$cache->delete('titanium_config');
 
 		else:
 			title($admlang['versions']['version_checked'].' '.date('Y-m-d', $Version_Check).' @'.date('H:i', $Version_Check));
@@ -107,7 +107,7 @@ function evo_get_version_curl($postdata)
 }
 
 function evo_compare(){
-    global $titanium_db, $titanium_prefix, $titanium_cache;
+    global $titanium_db, $titanium_prefix, $cache;
 
     $check = evo_check_version();
     if ($check == 0){
@@ -116,7 +116,7 @@ function evo_compare(){
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $titanium_cache->delete('titanium_config');
+        $cache->delete('titanium_config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

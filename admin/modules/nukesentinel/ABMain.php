@@ -273,8 +273,8 @@ echo '<td>';
   echo '<input type="text" name="xdump_directory" size="50" value="'.$ip_sets['dump_directory'].'" />';
   echo '<br />'._AB_NORMALLY.': includes/cache/ - '._AB_RELATIVEONLY;
   if($ip_sets['dump_directory'] > "") {
-    $titanium_cachetest = is_writable($ip_sets['dump_directory']);
-    if(!$titanium_cachetest) { echo '<br /><strong>'._AB_DUMPWARNING.'</strong>'; }
+    $cachetest = is_writable($ip_sets['dump_directory']);
+    if(!$cachetest) { echo '<br /><strong>'._AB_DUMPWARNING.'</strong>'; }
   }
 echo '</td></tr>'."\n";
 echo '<tr><td>'.help_img(_AB_HELP_067).' '._AB_CRYPTSALT.':</td>'."\n";

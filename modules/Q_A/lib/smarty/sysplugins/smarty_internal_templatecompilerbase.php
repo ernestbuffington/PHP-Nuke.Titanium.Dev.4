@@ -639,12 +639,12 @@ abstract class Smarty_Internal_TemplateCompilerBase
     {
         $callback = null;
         $script = null;
-        $titanium_cacheable = true;
+        $cacheable = true;
         $result = call_user_func_array(
-            $this->smarty->default_plugin_handler_func, array($tag, $plugin_type, $this->template, &$callback, &$script, &$titanium_cacheable)
+            $this->smarty->default_plugin_handler_func, array($tag, $plugin_type, $this->template, &$callback, &$script, &$cacheable)
         );
         if ($result) {
-            $this->tag_nocache = $this->tag_nocache || !$titanium_cacheable;
+            $this->tag_nocache = $this->tag_nocache || !$cacheable;
             if ($script !== null) {
                 if (is_file($script)) {
                     if ($this->template->caching && ($this->nocache || $this->tag_nocache)) {

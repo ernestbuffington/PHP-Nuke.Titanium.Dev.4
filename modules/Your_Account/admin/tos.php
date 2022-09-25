@@ -55,7 +55,7 @@ if(is_mod_admin($titanium_module_name)) {
     if ($_POST['submit']) {
     $tos = Fix_Quotes($_POST['tos_text']);
     $titanium_db->sql_query("UPDATE " . $titanium_prefix . "_cnbya_config SET config_value = '" . $tos . "' WHERE config_name = 'tos_text'");
-    $titanium_cache->delete('ya_config');
+    $cache->delete('ya_config');
     OpenTable();
     echo "<center>Your Terms of Service have been updated.</center>\n";
     CloseTable();

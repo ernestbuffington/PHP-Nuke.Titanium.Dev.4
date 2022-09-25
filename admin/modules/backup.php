@@ -26,7 +26,7 @@ if (!defined('ADMIN_FILE')) {
    die ("Illegal File Access");
 }
 
-global $titanium_prefix, $titanium_db, $admdata, $titanium_dbname, $titanium_cache;
+global $titanium_prefix, $titanium_db, $admdata, $titanium_dbname, $cache;
 
 function ABCoolSize($size) {
   $kb = 1024;
@@ -271,7 +271,7 @@ switch ($op) {
         require_once(NUKE_CLASSES_DIR.'class.database.php');
 
         if (!DB::query_file($_FILES['sqlfile'], $error)) { echo($error); }
-        $titanium_cache->clear();
+        $cache->clear();
         OpenTable();
         echo '<span><strong>'._DATABASE.': '.$titanium_dbname.'</strong></span><br /><br />'.sprintf(_IMPORTSUCCESS, $_FILES['sqlfile']['name']);
         CloseTable();

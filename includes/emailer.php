@@ -196,7 +196,7 @@ class emailer
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
         {
-                global $phpbb2_board_config, $titanium_lang, $phpEx, $phpbb2_root_path, $titanium_db, $titanium_cache;
+                global $phpbb2_board_config, $titanium_lang, $phpEx, $phpbb2_root_path, $titanium_db, $cache;
 
             // Escape all quotes, else the eval will fail.
                 $this->msg = str_replace ("'", "\'", $this->msg);
@@ -292,7 +292,7 @@ class emailer
 /*****['BEGIN']******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                                $titanium_cache->delete('board_config', 'config');
+                                $cache->delete('board_config', 'config');
 /*****['END']********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

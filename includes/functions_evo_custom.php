@@ -655,18 +655,18 @@ function get_theme_option($name, $type='string')
  * @param bool    $force_refresh         Choose whether to force an update, Default: false.
  * @return array  Return a json object with all the version information.
  */
-function cache_json_data($version_check_url,$local_cache_location,$force_refresh = false,$headers = [],$titanium_cache_time = 86400) 
+function cache_json_data($version_check_url,$local_cache_location,$force_refresh = false,$headers = [],$cache_time = 86400) 
 {
 	$url = $version_check_url;
-	$titanium_cache = $local_cache_location;
+	$cache = $local_cache_location;
 
-	if(file_exists($titanium_cache)):
-		if ((time() - filemtime($titanium_cache) ) > ($titanium_cache_time) || 0 == filesize($titanium_cache)):
+	if(file_exists($cache)):
+		if ((time() - filemtime($cache) ) > ($cache_time) || 0 == filesize($cache)):
 			$force_refresh = true;
 		endif;
 	endif;
 
-	if ( $force_refresh || !file_exists( $titanium_cache ) ):
+	if ( $force_refresh || !file_exists( $cache ) ):
 
 		# create a new cURL resource
 		$ch = curl_init();
@@ -696,13 +696,13 @@ function cache_json_data($version_check_url,$local_cache_location,$force_refresh
 		endif;
 
 		# Insert json information into a locally stored file, This will prevent slow page load time from slow hosts.
-		$handle = fopen( $titanium_cache, 'wb' ) or die( 'no fopen' );   
+		$handle = fopen( $cache, 'wb' ) or die( 'no fopen' );   
 		fwrite( $handle, $jsoncache );
 		fclose( $handle );
 
 	else:
 		# Retrieve the json cache from the locally stored file
-		$jsoncache = file_get_contents( $titanium_cache );
+		$jsoncache = file_get_contents( $cache );
 	endif;
 
 	$jsonobject = json_decode( $jsoncache, true );
@@ -875,43 +875,43 @@ function get_user_avatar($titanium_user_id) {
 
 // evo_image function by ReOrGaNiSaTiOn
 function get_evo_image($imgfile='', $mymodule='') {
-	global $currentlang, $ThemeSel, $Default_Theme, $titanium_cache;
+	global $currentlang, $ThemeSel, $Default_Theme, $cache;
 	$tmp_imgfile = explode('.', $imgfile);
-	$titanium_cache_imgfile = $tmp_imgfile[0];
-	$evoimage = $titanium_cache->load($mymodule, 'EvoImage');
-	if(!empty($evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile])) {
-		return($evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile]);
+	$cache_imgfile = $tmp_imgfile[0];
+	$evoimage = $cache->load($mymodule, 'EvoImage');
+	if(!empty($evoimage[$ThemeSel][$currentlang][$cache_imgfile])) {
+		return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
 	}
 
 	if (@file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = "themes/".$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
 	} elseif (@file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/lang_' . $currentlang . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = "themes/".$ThemeSel."/images/lang_".$currentlang."/$imgfile";
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/lang_".$currentlang."/$imgfile";
 	} elseif (@file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = "themes/".$ThemeSel."/images/$mymodule/$imgfile";
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/$mymodule/$imgfile";
 	} elseif (@file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = "themes/".$ThemeSel."/images/$imgfile";
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/$imgfile";
 	} elseif (@file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = "themes/".$Default_Theme."/images/$mymodule/lang_".$currentlang."/$imgfile";
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$Default_Theme."/images/$mymodule/lang_".$currentlang."/$imgfile";
 	} elseif (@file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/lang_' . $currentlang . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = "themes/".$Default_Theme."/images/lang_".$currentlang."/$imgfile";
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$Default_Theme."/images/lang_".$currentlang."/$imgfile";
 	} elseif (@file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/' . $mymodule . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = "themes/".$Default_Theme."/images/$mymodule/$imgfile";
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$Default_Theme."/images/$mymodule/$imgfile";
 	} elseif (@file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = "themes/".$Default_Theme."/images/$imgfile";
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$Default_Theme."/images/$imgfile";
 	} elseif (@file_exists(NUKE_MODULES_DIR . $mymodule . '/images/lang_' . $currentlang . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = "modules/".$mymodule."/images/lang_".$currentlang."/$imgfile";
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "modules/".$mymodule."/images/lang_".$currentlang."/$imgfile";
 	} elseif (@file_exists(NUKE_MODULES_DIR . $mymodule . '/images/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] =  "modules/".$mymodule."/images/$imgfile";
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] =  "modules/".$mymodule."/images/$imgfile";
 	} elseif (@file_exists(NUKE_IMAGES_DIR . $mymodule . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = "images/".$mymodule."/$imgfile";
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "images/".$mymodule."/$imgfile";
 	} elseif (@file_exists(NUKE_IMAGES_DIR . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = "images/$imgfile";
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "images/$imgfile";
 	} else {
-		$evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile] = '';
+		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = '';
 	}
-	$titanium_cache->save($mymodule, 'EvoImage', $evoimage);
-	return($evoimage[$ThemeSel][$currentlang][$titanium_cache_imgfile]);
+	$cache->save($mymodule, 'EvoImage', $evoimage);
+	return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
 }
 
 /**
