@@ -14,10 +14,10 @@ $alternate_row_class = true;
 
 $table  = '<br /><table border="0" cellpadding="4" cellspacing="1" class="forumline" style="width:100%">'.PHP_EOL;
 $table .= '  <tr>'.PHP_EOL;
-$table .= '    <td class="catHead" style="width: 4%"></td>'.PHP_EOL;
-$table .= '    <td class="catHead" style="width: 46%">'.$blockslang['forums']['topic'].'</td>'.PHP_EOL;
-$table .= '    <td class="catHead" colspan="2" style="width: 25%">'.$blockslang['forums']['forum'].'</td>'.PHP_EOL;
-$table .= '    <td class="catHead" style="width: 25%">'.$blockslang['forums']['last_post'].'</td>'.PHP_EOL;
+$table .= '    <td style="width: 4%"></td>'.PHP_EOL;
+$table .= '    <td style="width: 46%">'.$blockslang['forums']['topic'].'</td>'.PHP_EOL;
+$table .= '    <td colspan="2" style="width: 25%">'.$blockslang['forums']['forum'].'</td>'.PHP_EOL;
+$table .= '    <td style="width: 25%">'.$blockslang['forums']['last_post'].'</td>'.PHP_EOL;
 $table .= '  </tr>'.PHP_EOL;
 
 $count_topics = 0;

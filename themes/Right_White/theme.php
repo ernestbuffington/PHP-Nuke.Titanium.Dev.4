@@ -57,6 +57,7 @@
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
 exit('Access Denied');
 
+define('bootstrap', 'enabled'); 
 #000000
 #11111
 #222222

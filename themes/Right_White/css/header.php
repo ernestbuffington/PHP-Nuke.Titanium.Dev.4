@@ -65,6 +65,7 @@ global $font_colorH, $font_colorV, $font_colorA, $font_colorL, $body_color;
 
 
 ?>
+
 input[type="radio"]{
     vertical-align: bottom;
 }
@@ -321,7 +322,7 @@ q:before, q:after {
 }
 
 mark {
-	background-color: #ff9;
+	background-color: #000000;
 	color: #000;
 	font-style: italic;
 	font-weight: bold;
@@ -721,8 +722,8 @@ td.extra {
 
 /* The Outline Round the Main Forum Tables */
 .forumline {
-	background: <?=$bgcolor5?>;
-	border: #222 0px solid;
+  background: <?=$bgcolor3?>;
+  border: #222 0px solid;
 }
 
 /* Main table cell colours and backgrounds */
@@ -1098,4 +1099,95 @@ font-style:italic;color:<?=$textcolor1?>;
 
 .forum-ranks {margin-bottom: 2px;}
 .forum-avatar {padding-bottom: 5px;}
+
+/* Progress Bar Rules START */
+progress {
+  /* style rules */
+  border: 0;
+  height: 5px;
+  border-radius: 5px;  
+}
+progress::-webkit-progress-bar {
+  /* style rules */
+  border: 0;
+  height: 5px;
+  border-radius: 5px;
+}
+progress::-webkit-progress-value {
+  /* style rules */
+  border: 0;
+  height: 5px;
+  border-radius: 5px;
+}
+progress::-moz-progress-bar {
+  /* style rules */
+  border: 0;
+  height: 5px;
+  border-radius: 5px;
+}
+/* Progress Bar Rules END */
+.menuwrap {
+
+
+}
+
+.blocks {
+ display:inline-block;
+ text-decoration:none;
+ font-family:'Roboto',sans-serif;
+ font-weight:bold;
+ 
+ /* Start Link Color - Regular Appearance */
+ color: #1367a4;
+ 
+ text-align:center;
+ transition: all 0.2s;
+}
+
+a.titaniumbutton,input.titaniumbutton
+{
+ display:inline-block;
+ padding:0.35em 1.2em;
+ border:0.1em solid #212f47;
+ margin:0 0.3em 0.3em 0;
+ border-radius:0.12em;
+ box-sizing: border-box;
+ text-decoration:none;
+ font-family:'Roboto',sans-serif;
+ font-weight:bold;
+ 
+ /* Start Link Color - Regular Appearance */
+ color: #1367a4;
+ 
+ text-align:center;
+ transition: all 0.2s;
+}
+a.titaniumbutton:hover,input.titaniumbutton:hover
+{
+  /* Main Font Color */
+  color:green;
+ /* Highlight Color On Hover */
+  background-color: ;
+}
+
+@media all and (max-width:30em)
+{
+  a.titaniumbutton, input.titaniumbutton
+  {
+    display:block;
+    margin:0.4em auto;
+  }
+}
+
+.forumline th, .forumline td {
+  -moz-border-radius: 5px !important;
+}
+
+.forumline {
+  border-spacing: 0;
+  border-collapse: separate;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
 <?

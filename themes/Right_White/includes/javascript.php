@@ -65,10 +65,15 @@ global $domain;
 ?>
 <!-- 80sPXL W00 Thin V1 Font Info CSS -->
 <link href="//db.onlinewebfonts.com/c/783dd6c2d08bdc67012a0eec73fc1702?family=80sPXLW00-Thin" rel="stylesheet" type="text/css"//>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- bootstrap icons v1.9.1 -->
+<link rel="stylesheet" href="dev_includes/bootstrap-icons-1.9.1/bootstrap-icons.css"/>
+<!-- bootstrap icons v3.4.1 -->
+<link rel="stylesheet" href="dev_includes/bootstrap-3.4.1/css/bootstrap.min.css"/>
+<!-- jquery v3.6.1 -->
+<script src="dev_includes/jquery/jquery.js"></script>
+<!-- bootstrap JS v3.4.1 -->
+<script src="dev_includes/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 <!-- Modal -->
 <div class="modal fade" id="myCopyRight" tabindex="-1" role="dialog" aria-labelledby="CenterTitle" aria-hidden="true">

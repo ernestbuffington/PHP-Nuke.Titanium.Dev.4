@@ -200,7 +200,7 @@ if(!$userdata['session_logged_in']) {
 //
 if ( $cancel )
 {
-    // not needed anymore due to function redirect_titanium()
+// not needed anymore due to function redirect_titanium()
 //$header_location = ( @preg_match('/Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ) ? 'Refresh: 0; URL=' : 'Location: ';
     redirect_titanium(append_titanium_sid("privmsg.$phpEx?folder=$folder", true));
     exit;
@@ -766,7 +766,8 @@ else if ( $mode == 'read' )
                 'SAVEBOX_IMG' => $savebox_img,
                 'INBOX' => $inbox_url,
 
-                'POST_PM_IMG' => $post_img,
+                //'POST_PM_IMG' => $post_img,
+				'POST_PM_IMG' => 'BUTTON REPLACE',
                 'REPLY_PM_IMG' => $reply_img,
                 'EDIT_PM_IMG' => $edit_img,
                 'QUOTE_PM_IMG' => $quote_img,
@@ -2488,7 +2489,7 @@ obtain_word_list($orig_word, $replacement_word);
 //
 // New message
 //
-$post_new_mesg_url = '<a href="' . append_titanium_sid("privmsg.$phpEx?mode=post") . '"><img src="' . $images['post_new'] . '" alt="' . $titanium_lang['Send_a_new_message'] . '" border="0" /></a>';
+$send_new_private_message = '<a href="' . append_titanium_sid("privmsg.$phpEx?mode=post") . '"><img src="' . $images['post_new'] . '" alt="' . $titanium_lang['Send_a_new_message'] . '" border="0" /></a>';
 
 //
 // General SQL to obtain messages
@@ -2768,6 +2769,110 @@ else
    $inbox_limit_img_length = $inbox_limit_pct = $l_box_size_status = '';
 }
 
+# We use this for themes that use HTML buttons instead of images!
+if ( defined('bootstrap') ):
+$phpbb2_template->assign_vars(array(
+        'BOX_NAME' => $l_box_name,
+        'INBOX_IMG' => $inbox_img,
+        'SENTBOX_IMG' => $sentbox_img,
+        'OUTBOX_IMG' => $outbox_img,
+        'SAVEBOX_IMG' => $savebox_img,
+        'INBOX' => $inbox_url,
+        'SENTBOX' => $sentbox_url,
+        'OUTBOX' => $outbox_url,
+        'SAVEBOX' => $savebox_url,
+
+        /**
+         *  Modded for use with bootstrap template
+         *
+         *  @since 2.0.9e.001
+         */
+        'INBOX_URI' => $inbox_uri,
+        'INBOX_TITLE' => $inbox_title,
+
+        'OUTBOX_URI' => $outbox_uri,
+        'OUTBOX_TITLE' => $outbox_title,
+
+        'SENTBOX_URI' => $sentbox_uri,
+        'SENTBOX_TITLE' => $sentbox_title,
+
+        'SAVEBOX_URI' => $savebox_uri,
+        'SAVEBOX_TITLE' => $savebox_title,
+
+        // $post_pm_img = '<a href="' . $post_pm . '"><img src="' . $images['pm_postmsg'] . '" alt="' . $titanium_lang['Post_new_pm'] . '" border="0"></a>';
+        'POST_PM_URL' => $post_pm_url,
+        'L_POST_PM' => $titanium_lang['Post_new_pm'],
+
+        'MASS_PM_PERMS' => $mass_pm_allowed,
+        'MASS_PM_URL' => $mass_pm_url,
+        'L_MASS_PM' => $titanium_lang['Mass_pm'],
+
+/*****[BEGIN]******************************************
+ [ Mod:     Count PM                           v1.0.1 ]
+ ******************************************************/
+        'TOTAL_INBOX' => $total_phpbb2_inbox,
+        'TOTAL_SENTBOX' => $total_phpbb2_sentbox,
+        'TOTAL_OUTBOX' => $total_phpbb2_outbox,
+        'TOTAL_SAVEBOX' => $total_phpbb2_savebox,
+/*****[END]********************************************
+ [ Mod:     Count PM                           v1.0.1 ]
+ ******************************************************/
+
+ 		'MODULE_NAME' => $mod_name,
+        'MODULE_URI' => append_titanium_sid("privmsg.$phpEx"),
+
+        //'POST_PM_IMG' => $post_pm_img,
+		'POST_PM_IMG' => '<a href="modules.php?name=Private_Messages&mode=post" class="titaniumbutton">Send Private Message</a>',
+/*****[BEGIN]******************************************
+ [ Mod:     Custom mass PM                     v1.4.7 ]
+ ******************************************************/
+        'MASS_PM_IMG' => $mass_pm_img,
+
+/*****[END]********************************************
+ [ Mod:     Custom mass PM                     v1.4.7 ]
+ ******************************************************/
+        'POST_PM' => $post_pm,
+        'L_GO' => $titanium_lang['Go'],
+
+        'INBOX_LIMIT_IMG_WIDTH' => $inbox_limit_img_length,
+        'INBOX_LIMIT_PERCENT' => $inbox_limit_pct,
+ /*****[Begin]******************************************
+ [ Mod:         PM Switchbox Repair              v1.0.0 ]
+ *******************************************************/
+        // 'LCAP_IMG' => $images['voting_lcap'],
+        // 'MAINBAR_IMG' => $images['voting_graphic'][0],
+        // 'RCAP_IMG' => $images['voting_rcap'],
+/*****[END]********************************************
+ [ Mod:         PM Switchbox Repair              v1.0.0 ]
+ *******************************************************/
+
+
+        'BOX_SIZE_STATUS' => $l_box_size_status,
+
+        'L_INBOX' => $titanium_lang['Inbox'],
+        'L_OUTBOX' => $titanium_lang['Outbox'],
+        'L_SENTBOX' => $titanium_lang['Sent'],
+        'L_SAVEBOX' => $titanium_lang['Saved'],
+        'L_MARK' => $titanium_lang['Mark'],
+        'L_FLAG' => $titanium_lang['Flag'],
+        'L_SUBJECT' => $titanium_lang['Subject'],
+        'L_DATE' => $titanium_lang['Date'],
+        'L_DISPLAY_MESSAGES' => $titanium_lang['Display_messages'],
+        'L_FROM_OR_TO' => ( $folder == 'inbox' || $folder == 'savebox' ) ? $titanium_lang['From'] : $titanium_lang['To'],
+        'L_MARK_ALL' => $titanium_lang['Mark_all'],
+        'L_UNMARK_ALL' => $titanium_lang['Unmark_all'],
+        'L_DELETE_MARKED' => $titanium_lang['Delete_marked'],
+        'L_DELETE_ALL' => $titanium_lang['Delete_all'],
+        'L_SAVE_MARKED' => $titanium_lang['Save_marked'],
+
+        'S_PRIVMSGS_ACTION' => append_titanium_sid("privmsg.$phpEx?folder=$folder"),
+        'S_HIDDEN_FIELDS' => '',
+        'S_POST_NEW_MSG' => $send_new_private_message,
+        'S_SELECT_MSG_DAYS' => $select_msg_days,
+
+        'U_POST_NEW_TOPIC' => append_titanium_sid("privmsg.$phpEx?mode=post"))
+);
+else:
 //
 // Dump vars to template
 //
@@ -2866,11 +2971,12 @@ $phpbb2_template->assign_vars(array(
 
         'S_PRIVMSGS_ACTION' => append_titanium_sid("privmsg.$phpEx?folder=$folder"),
         'S_HIDDEN_FIELDS' => '',
-        'S_POST_NEW_MSG' => $post_new_mesg_url,
+        'S_POST_NEW_MSG' => $send_new_private_message,
         'S_SELECT_MSG_DAYS' => $select_msg_days,
 
         'U_POST_NEW_TOPIC' => append_titanium_sid("privmsg.$phpEx?mode=post"))
 );
+endif;
 
 //
 // Okay, let's build the correct folder

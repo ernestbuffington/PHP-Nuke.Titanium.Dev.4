@@ -55,7 +55,7 @@ nuke_jq( document ).ready(function($)
         </tr>
         <tr> 
           <td colspan="2">
-            <progress alt="{BOX_SIZE_STATUS}" title={BOX_SIZE_STATUS}" style="-webkit-appearance: progress-bar; box-sizing: border-box; display: inline-block; height: 15px; width: 100%;" value="{INBOX_LIMIT_PERCENT}" max="100"></progress>
+            <progress alt="{BOX_SIZE_STATUS}" title={BOX_SIZE_STATUS}" style="-webkit-appearance: progress-bar; box-sizing: border-box; display: inline-block; height: 5px; width: 100%; background-color: #f3f3f3;" value="{INBOX_LIMIT_PERCENT}" max="100"></progress>
           </td>
         </tr>
       </table>
@@ -68,7 +68,7 @@ nuke_jq( document ).ready(function($)
           <td colspan="2">{ATTACH_BOX_SIZE_STATUS}</td>
         </tr>
         <tr>
-          <td colspan="2"><progress alt="{ATTACH_BOX_SIZE_STATUS}" title="{ATTACH_BOX_SIZE_STATUS}" style="-webkit-appearance: progress-bar; box-sizing: border-box; display: inline-block; height: 15px; width: 100%;" value="{ATTACHBOX_LIMIT_PERCENT}" max="100"></progress></td>
+          <td colspan="2"><progress alt="{ATTACH_BOX_SIZE_STATUS}" title="{ATTACH_BOX_SIZE_STATUS}" style="-webkit-appearance: progress-bar; box-sizing: border-box; display: inline-block; height: 5px; width: 100%;" value="{ATTACHBOX_LIMIT_PERCENT}" max="100"></progress></td>
         </tr>
       </table>
     </td>
@@ -117,9 +117,9 @@ nuke_jq( document ).ready(function($)
         <tr>
           <td class="catBottom" colspan="4" style="text-align: right;">
             {S_HIDDEN_FIELDS}
-            <input type="submit" name="save" value="{L_SAVE_MARKED}" class="mainoption" />
-            <input type="submit" name="delete" value="{L_DELETE_MARKED}" class="liteoption" />
-            <input type="submit" name="deleteall" value="{L_DELETE_ALL}" class="liteoption" />
+            <input type="submit" name="save" value="{L_SAVE_MARKED}" class="titaniumbutton" />
+            <input type="submit" name="delete" value="{L_DELETE_MARKED}" class="titaniumbutton" />
+            <input type="submit" name="deleteall" value="{L_DELETE_ALL}" class="titaniumbutton" />
           </td>
           <td class="catBottom"><i><input type="checkbox" id="select_all" style="cursor: pointer;"/> Select All</i></td>
         </tr>
