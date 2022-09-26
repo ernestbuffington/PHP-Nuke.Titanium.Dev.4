@@ -126,63 +126,48 @@ else:
   $folder = 'inbox';
 endif;
 
-//
-// Start session management
-//
+# Start session management
 $userdata = titanium_session_pagestart($titanium_user_ip, PAGE_PRIVMSGS);
 titanium_init_userprefs($userdata);
-//
-// End session management
-//
+# End session management
 
-/*****[BEGIN]******************************************
- [ Mod:     Welcome PM                         v2.0.0 ]
- ******************************************************/
+# Mod: Welcome PM v2.0.0 START
 $welcome_pm = ( isset($_POST['w_pm']) ) ? TRUE : 0;
-if(!empty($welcome_pm) && !empty($submit)) {
-    if(empty($_POST['subject'])) {
-        message_die(GENERAL_ERROR,$titanium_lang['Welcome_PM_Subject']);
-    }
-    if($titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_welcome_pm")) != 0) {
-        $sql_w_pm = "UPDATE ".$titanium_prefix."_welcome_pm SET subject='".$_POST['subject']."', msg='".$_POST['message']."'";
-    } else {
-        $sql_w_pm = "INSERT INTO ".$titanium_prefix."_welcome_pm VALUES('".$_POST['subject']."', '".$_POST['message']."')";
-    }
-    $titanium_db->sql_query($sql_w_pm);
+if(!empty($welcome_pm) && !empty($submit)) 
+{
+    if(empty($_POST['subject'])) 
+    message_die(GENERAL_ERROR,$titanium_lang['Welcome_PM_Subject']);
+    
+	if($titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_welcome_pm")) != 0) 
+    $sql_w_pm = "UPDATE ".$titanium_prefix."_welcome_pm SET subject='".$_POST['subject']."', msg='".$_POST['message']."'";
+	else 
+    $sql_w_pm = "INSERT INTO ".$titanium_prefix."_welcome_pm VALUES('".$_POST['subject']."', '".$_POST['message']."')";
+    
+	$titanium_db->sql_query($sql_w_pm);
     $msg = $titanium_lang['Welcome_PM_Set'] . '<br /><br />' . sprintf($titanium_lang['Click_return_inbox'], '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '">', '</a> ') . '<br /><br />' . sprintf($titanium_lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
 
     message_die(GENERAL_MESSAGE, $msg);
 }
-/*****[END]********************************************
- [ Mod:     Welcome PM                         v2.0.0 ]
- ******************************************************/
+# Mod: Welcome PM v2.0.0 END
 
-/*****[BEGIN]******************************************
- [ Mod:     PM threshold                       v1.0.0 ]
- ******************************************************/
+# Mod: PM threshold v1.0.0 START
 $pm_allow_threshold = isset($phpbb2_board_config['pm_allow_threshold']) ? $phpbb2_board_config['pm_allow_threshold'] : 1;
-if ( ($userdata['user_posts'] < $pm_allow_threshold) && $userdata['user_level'] != ADMIN)
-{
-    message_die(GENERAL_MESSAGE, 'Not_Authorised');
-}
-if(!$userdata['session_logged_in']) {
-    redirect_titanium('modules.php?name=Your_Account&redirect=privmsg&folder=inbox');
-    exit;
-}
-/*****[END]********************************************
- [ Mod:     PM threshold                       v1.0.0 ]
- ******************************************************/
 
-//
-// Cancel
-//
-if ( $cancel )
-{
-// not needed anymore due to function redirect_titanium()
-//$header_location = ( @preg_match('/Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ) ? 'Refresh: 0; URL=' : 'Location: ';
+if(($userdata['user_posts'] < $pm_allow_threshold) && $userdata['user_level'] != ADMIN)
+message_die(GENERAL_MESSAGE, 'Not_Authorised');
+
+if(!$userdata['session_logged_in']):
+  redirect_titanium('modules.php?name=Your_Account&redirect=privmsg&folder=inbox');
+  exit;
+endif;
+# Mod: PM threshold v1.0.0 START
+
+
+# Cancel
+if($cancel):
     redirect_titanium(append_titanium_sid("privmsg.$phpEx?folder=$folder", true));
     exit;
-}
+endif;
 
 //
 // Var definitions
