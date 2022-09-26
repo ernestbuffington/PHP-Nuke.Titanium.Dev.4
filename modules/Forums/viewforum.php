@@ -493,7 +493,7 @@ define('SHOW_ONLINE', true);
 $phpbb2_page_title = $titanium_lang['View_forum'].' - '.$forum_row['forum_name'];
 include("includes/page_header.$phpEx");
 $phpbb2_template->set_filenames(array(
-    'body' => 'viewforum_body.tpl')
+    'body' => 'viewforum_body.tpl') 
 );
 
 # Mod: Simple Subforums v1.0.1 START
@@ -501,7 +501,7 @@ $all_forums = array();
 make_jumpbox_ref('viewforum.'.$phpEx, $phpbb2_forum_id, $all_forums);
 # Mod: Simple Subforums v1.0.1 END
 
-$look_in_themes_dir_for_forum_icons = img(''.$forum_row['forum_icon'].'', 'Forums');  
+$look_in_themes_dir_for_forum_icons = img(''.$forum_row['forum_icon'].'', 'Forums');   
 
 $phpbb2_template->assign_vars(array(
         'FORUM_ID' => $phpbb2_forum_id,
