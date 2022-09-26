@@ -466,10 +466,7 @@ if( !empty($mode) )
                                            message_die(GENERAL_ERROR, "Auto-Prune: Couldn't read auto_prune table.", __LINE__, __FILE__);
                                         }
 
-
-
                                         $pr_row = $titanium_db->sql_fetchrow($pr_result);
-
                                 }
                                 else
                                 {
@@ -577,15 +574,17 @@ if( !empty($mode) )
  [ Mod:    Topic display order                 v1.0.2 ]
  ******************************************************/
                         $s_hidden_fields = '<input type="hidden" name="mode" value="' . $newmode .'" /><input type="hidden" name="' . POST_FORUM_URL . '" value="' . $phpbb2_forum_id . '" />';
-                        $phpbb2_template->assign_vars(array(
+                        
+						
+						$phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    Topic display order                 v1.0.2 ]
  ******************************************************/
-                                'L_FORUM_DISPLAY_SORT'        => $titanium_lang['Sort_by'],
+                                'L_FORUM_DISPLAY_SORT' => $titanium_lang['Sort_by'],
 
-                                'S_FORUM_DISPLAY_SORT_LIST'        => $forum_display_sort_list,
+                                'S_FORUM_DISPLAY_SORT_LIST' => $forum_display_sort_list,
 
-                                'S_FORUM_DISPLAY_ORDER_LIST'    => $forum_display_order_list,
+                                'S_FORUM_DISPLAY_ORDER_LIST' => $forum_display_order_list,
 /*****[END]********************************************
  [ Mod:    Topic display order                 v1.0.2 ]
  ******************************************************/

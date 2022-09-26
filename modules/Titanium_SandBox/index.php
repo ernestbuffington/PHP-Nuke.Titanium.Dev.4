@@ -21,27 +21,35 @@ if (!defined('MODULE_FILE')) {
     Header("Location: /index.php");
 	exit();
 }         
-$pagetitle = 'facebook SandBox v6.0';
-$title = 'facebook SandBox odule v6.0';
+$pagetitle = 'Titanium SandBox v4.0.2';
+$title = 'Titanium SandBox odule v4.0.2';
+
 require_once("mainfile.php");
+
 $titanium_module_name = basename(dirname(__FILE__));
+
 get_lang($titanium_module_name);
+
 include("header.php");
+
 $index = 0;
 
-//load the style sheet for your module
-//only needed if you tables require special colors or code
+# load the style sheet for your module
+# only needed if you tables require special colors or code
 echo "<link rel=\"StyleSheet\" href=\"modules/Titanium_SandBox/css/style.css\" type=\"text/css\">\n\n\n";
 
-//this should always be loaded for use in switch statements - start
+# this should always be loaded for use in switch statements - start
 if ( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
 $mode = ( isset($HTTP_POST_VARS['mode']) ) ? htmlspecialchars($HTTP_POST_VARS['mode']) : htmlspecialchars($HTTP_GET_VARS['mode']);
 else
 $mode = '0';
 
-global $domain, $facebookappid, $titanium_module_name, $ThemeSel, $name; //these globals are almost always needed 
+# these globals are almost always needed 
+global $domain, $facebookappid, $titanium_module_name, $ThemeSel, $name; 
 
-include (MODULES.'Titanium_SandBox/includes/functions.php'); //this must be loaded for facebook purposes
+# this must be loaded for facebook purposes
+include (MODULES.'Titanium_SandBox/includes/functions.php'); 
+
 #########################################################################
 # Table Header Module     Fix Start - by TheGhost   v1.0.0              # 01/30/2012 Checks for OpenTableModule
 ######################################################################### 
@@ -55,6 +63,7 @@ OpenTable();
 #########################################################################	
 	
 $titanium_browser = new Browser();
+
 OpenTable2();
 
 #-------------------------#
@@ -89,7 +98,7 @@ $fpr_img = "<img align=\"absbottom\" width=\"25\" src=\"$fpr\" border=\"0\">";
 <td align="left" width="100%" valign="top" >
         <?
         echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-        echo '<br /><font size="3" color="'.$bgcolor1.'">The <strong>Titanium </strong> Sandbox Module '
+        echo '<br /><font size="3" color="'.$textcolor1.'">The <strong>Titanium </strong> Sandbox Module '
 		. ' v'.NUKE_TITANIUM.' : This module is only for <strong>PHP-Nuke Titanium</strong> '
 		. 'application builders. A sandbox is a testing environment that isolates '
 		. 'untested code changes. This module was designed for the developers over at The 86it Developers Network, it gives the user a place to test random PHP code and is a good way '

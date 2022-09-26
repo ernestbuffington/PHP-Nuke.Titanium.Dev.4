@@ -153,7 +153,6 @@ function img($imgfile='', $mymodule='', $empty=true)
 	{
 		echo "( ".TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/$imgfile"." ) not found!";
 	    log_write('error', "( ".TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/$imgfile"." ) not found!", 'Image Not Found Error');
-		//echo "( ".TITANIUM_THEMES_IMAGE_DIR . $ThemeSel . "/images/$mymodule/$imgfile"." ) not found!";
     }
 	
 	return($titanium_image);

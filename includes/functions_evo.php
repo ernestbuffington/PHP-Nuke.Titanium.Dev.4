@@ -779,16 +779,6 @@ function group_selectbox($fieldname, $current=0, $mvanon=false, $all=true)
     return select_box($fieldname, $current, $tmpgroups);
 }
 
-// function select_box($name, $default, $options, $multiple=false, $conditions=array()) 
-// {
-//     $select = '<select class="set" name="'.$name.'" id="'.$name.'"'.(($multiple == true) ? ' multiple="multiple" size="5"' : '').'>';
-//     foreach($options as $value => $title):
-//         $select .= '<option value="'.$value.'"'.(($value == $default) ? ' selected="selected"':'').(($conditions['disabled'] == $title) ? ' disabled' : '').'>'.$title.'</option>'."\n";
-//     endforeach;
-//     return $select.'</select>';
-//     // return var_dump($conditions['disabled']);
-// }
-
 function select_box_forum($name, $default, $options, $multiple=false, $conditions=array()) 
 {
     $selectboxforum  = '<select name="'.$name.'" id="'.$name.'"'.(($multiple <> false) ? ' multiple="multiple" size="'.$multiple.'"' : '').'>';
@@ -917,18 +907,6 @@ function ValidateURL($url, $type, $where)
     } else {
         include_once(NUKE_BASE_DIR.'language/custom/lang-english.php');
     }
-    //if(substr($url, strlen($url)-1,1) == '/') {
-     //   DisplayError(_URL_SLASH_ERR . $where);
-    //}
-    //if($type == 0) {
-    //    if(!substr($url, 0,7) == 'http://') {
-    //        DisplayError(_URL_HTTP_ERR . $where);
-    //    }
-    //} else if($type == 1) {
-    //    if(substr($url, 0,7) == 'http://') {
-    //        DisplayError(_URL_NHTTP_ERR . $where);
-     //   }
-    //}
     if(substr($url, strlen($url)-4,4) == '.php') {
         DisplayError(_URL_PHP_ERR . $where);
     }
@@ -1105,20 +1083,29 @@ function GetRank($titanium_user_id)
     static $rankData = array();
     if(is_array($rankData[$titanium_user_id])) { return $rankData[$titanium_user_id]; }
 
-    list($titanium_user_rank, $titanium_user_posts) = $titanium_db->sql_ufetchrow("SELECT user_rank, user_posts FROM " . $titanium_user_prefix . "_users WHERE user_id = '" . $titanium_user_id . "'", SQL_NUM);
-    $ranks = $titanium_db->sql_ufetchrowset("SELECT * FROM " . $titanium_prefix . "_bbranks ORDER BY rank_special, rank_min", SQL_ASSOC);
+    list($titanium_user_rank, $titanium_user_posts) = $titanium_db->sql_ufetchrow("SELECT user_rank, user_posts FROM " 
+	. $titanium_user_prefix . "_users WHERE user_id = '" . $titanium_user_id . "'", SQL_NUM);
+    
+	$ranks = $titanium_db->sql_ufetchrowset("SELECT * FROM " . $titanium_prefix . "_bbranks ORDER BY rank_special, rank_min", SQL_ASSOC);
 
     $rankData[$titanium_user_id] = array();
     for($i=0, $maxi=count($ranks);$i<$maxi;$i++) {
         if ($titanium_user_rank == $ranks[$i]['rank_id'] && $ranks[$i]['rank_special']) {
             echo $ranks[$i]['rank_title'];
-            $rankData[$titanium_user_id]['image'] = ($ranks[$i]['rank_image']) ? '<img src="'.$ranks[$i]['rank_image'].'" alt="'.$ranks[$i]['rank_title'].'" title="'.$ranks[$i]['rank_title'].'" border="0" />' : '';
-            $rankData[$titanium_user_id]['title'] = $ranks[$i]['rank_title'];
+            
+			$rankData[$titanium_user_id]['image'] = ($ranks[$i]['rank_image']) ? '<img src="'.$ranks[$i]['rank_image'].'" alt="'.$ranks[$i]['rank_title']
+			.'" title="'.$ranks[$i]['rank_title'].'" border="0" />' : '';
+            
+			$rankData[$titanium_user_id]['title'] = $ranks[$i]['rank_title'];
             $rankData[$titanium_user_id]['id'] = $ranks[$i]['rank_id'];
             return $rankData[$titanium_user_id];
-        } elseif ($titanium_user_posts >= $ranks[$i]['rank_min'] && !$ranks[$i]['rank_special']) {
-            $rankData[$titanium_user_id]['image'] = ($ranks[$i]['rank_image']) ? '<img src="'.$ranks[$i]['rank_image'].'" alt="'.$ranks[$i]['rank_title'].'" title="'.$ranks[$i]['rank_title'].'" border="0" />' : '';
-            $rankData[$titanium_user_id]['title'] = $ranks[$i]['rank_title'];
+        } 
+		elseif ($titanium_user_posts >= $ranks[$i]['rank_min'] && !$ranks[$i]['rank_special']) 
+		{
+            $rankData[$titanium_user_id]['image'] = ($ranks[$i]['rank_image']) ? '<img src="'.$ranks[$i]['rank_image'].'" alt="'.$ranks[$i]['rank_title']
+			.'" title="'.$ranks[$i]['rank_title'].'" border="0" />' : '';
+            
+			$rankData[$titanium_user_id]['title'] = $ranks[$i]['rank_title'];
             $rankData[$titanium_user_id]['id'] = $ranks[$i]['rank_id'];
             return $rankData[$titanium_user_id];
         }
@@ -1181,7 +1168,8 @@ function referer()
 		if (stristr('$referer', '://') && !stristr('$referer', $nukeurl) && !stristr('$referer', '$no_www')) 
 		{
 
-            if (!$titanium_db->sql_query('UPDATE IGNORE '.$titanium_prefix."_referer SET lasttime=".time().", link='".$referer_request."' WHERE url='".$referer."'") || !$titanium_db->sql_affectedrows()) 
+            if (!$titanium_db->sql_query('UPDATE IGNORE '.$titanium_prefix."_referer SET lasttime=".time()
+			.", link='".$referer_request."' WHERE url='".$referer."'") || !$titanium_db->sql_affectedrows()) 
 			{
                 $titanium_db->sql_query('INSERT IGNORE INTO '.$titanium_prefix."_referer VALUES ('".$referer."', ".time().",'".$referer_request."')");
             }
