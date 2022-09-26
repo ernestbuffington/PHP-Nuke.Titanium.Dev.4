@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                               privmsgs.php
  *                            -------------------
@@ -47,20 +46,15 @@
       Birthdays                                v3.0.0       04/25/2009
       PM Switchbox Repair                      v1.0.0       05/24/2009
 	  XtraColors                               v1.0.0       05/26/2009
+	  Added New Buttons w/HTML5                v1.0.0       09/25/2022
  ************************************************************************/
 
-if (!defined('MODULE_FILE')) 
-{
-   die('You can\'t access this file directly...');
-}
+if(!defined('MODULE_FILE')){die('You can\'t access this file directly...');}
 
-if (isset($privmsg_id)) 
-{
-    $privmsg_id = intval($privmsg_id);
-}
+if(isset($privmsg_id)) 
+$privmsg_id = intval($privmsg_id);
 
-if (!empty($pm_uname)) 
-{
+if (!empty($pm_uname)): 
     $sql = "SELECT user_id from ".$titanium_user_prefix."_users WHERE username='$pm_uname'";
     $result = $titanium_db->sql_query($sql);
     $row = $titanium_db->sql_fetchrow($result);
@@ -68,52 +62,41 @@ if (!empty($pm_uname))
     $mode = 'post';
     redirect_titanium("modules.php?name=Private_Messages&mode=$mode&u=$u");
     exit;
-}
+endif;
 
 $sql_title = "SELECT custom_title from ".$titanium_prefix."_modules where title='$name'";
 $result_title = $titanium_db->sql_query($sql_title);
 $row_title = $titanium_db->sql_fetchrow($result_title);
 
-if (empty($row_title['custom_title'])) 
-    $mod_name = str_replace("_", " ", $name);
-else 
-    $mod_name = $row_title['custom_title'];
+if(empty($row_title['custom_title'])): 
+ $mod_name = str_replace("_", " ", $name);
+else: 
+ $mod_name = $row_title['custom_title'];
+endif;
 
-if (!(isset($popup)) || ($popup != "1")) {
+if(!(isset($popup)) || ($popup != "1")): 
     $titanium_module_name = basename(dirname(__FILE__));
     require(NUKE_FORUMS_DIR.'nukebb.php');
-     title($sitename.': '.$mod_name);
-    // if (is_user()) {
-    //     include(NUKE_MODULES_DIR.'Your_Account/navbar.php');
-    //     OpenTable();
-    //     nav();
-    //     CloseTable();
-    //     echo "<br />";
-    // }
-} else {
+    title($sitename.': '.$mod_name);
+else: 
     $phpbb2_root_path = NUKE_FORUMS_DIR;
     $nuke_file_path = 'modules.php?name=Forums&file=';
-}
+endif;
+
 define('IN_PHPBB2', true);
 include($phpbb2_root_path . 'extension.inc');
 include($phpbb2_root_path . 'common.'.$phpEx);
 include(NUKE_INCLUDE_DIR.'bbcode.php');
 include(NUKE_INCLUDE_DIR.'functions_post.php');
 
-//
-// Is PM disabled?
-//
-if ( !empty($phpbb2_board_config['privmsg_disable']) )
-{
-    message_die(GENERAL_MESSAGE, 'PM_disabled');
-}
+# Is PM disabled?
+if(!empty($phpbb2_board_config['privmsg_disable']))
+message_die(GENERAL_MESSAGE, 'PM_disabled');
 
 $html_entities_match = array('#&(?!(\#[0-9]+;))#', '#<#', '#>#', '#"#');
 $html_entities_replace = array('&amp;', '&lt;', '&gt;', '&quot;');
 
-//
-// Parameters
-//
+# Parameters
 $submit = ( isset($_POST['post']) ) ? TRUE : 0;
 $submit_search = ( isset($_POST['usersubmit']) ) ? TRUE : 0;
 $submit_msgdays = ( isset($_POST['submit_msgdays']) ) ? TRUE : 0;
@@ -129,24 +112,19 @@ $refresh = $preview || $submit_search;
 
 $mark_list = ( !empty($_POST['mark']) ) ? $_POST['mark'] : 0;
 
-if ( isset($_POST['folder']) || isset($_GET['folder']) )
-{
-        $folder = ( isset($_POST['folder']) ) ? $_POST['folder'] : $_GET['folder'];
-        if (is_string($folder)) {
-            $folder = htmlspecialchars($folder);
-        } else {
-            $folder = '';
-        }
-
-        if ( $folder != 'inbox' && $folder != 'outbox' && $folder != 'sentbox' && $folder != 'savebox' )
-        {
-            $folder = 'inbox';
-        }
-}
-else
-{
-        $folder = 'inbox';
-}
+if(isset($_POST['folder']) || isset($_GET['folder'])):
+$folder = ( isset($_POST['folder']) ) ? $_POST['folder'] : $_GET['folder'];
+  if (is_string($folder)): 
+     $folder = htmlspecialchars($folder);
+  else:
+     $folder = '';
+  endif;
+   if($folder != 'inbox' && $folder != 'outbox' && $folder != 'sentbox' && $folder != 'savebox' ):
+     $folder = 'inbox';
+   endif;
+else:
+  $folder = 'inbox';
+endif;
 
 //
 // Start session management
