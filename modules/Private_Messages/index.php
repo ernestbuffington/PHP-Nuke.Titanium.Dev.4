@@ -464,93 +464,97 @@ u.user_allow_viewonline
 
         $privmsg_id = $privmsg['privmsgs_id'];
 
-        //
-        // Is this a new message in the inbox? If it is then save
-        // a copy in the posters sent box
-        //
-        if (($privmsg['privmsgs_type'] == PRIVMSGS_NEW_MAIL || $privmsg['privmsgs_type'] == PRIVMSGS_UNREAD_MAIL) && $folder == 'inbox')
+        # Is this a new message in the inbox? If it is then save
+        # a copy in the posters sent box
+        if(($privmsg['privmsgs_type'] == PRIVMSGS_NEW_MAIL || $privmsg['privmsgs_type'] == PRIVMSGS_UNREAD_MAIL) && $folder == 'inbox')
         {
-                // Update appropriate counter
-                switch ($privmsg['privmsgs_type'])
-                {
-                        case PRIVMSGS_NEW_MAIL:
-                                $sql = "user_new_privmsg = user_new_privmsg - 1";
-                                break;
+                # Update appropriate counter
+                switch($privmsg['privmsgs_type']):
+                   case PRIVMSGS_NEW_MAIL:
+                       $sql = "user_new_privmsg = user_new_privmsg - 1";
+                          break;
                         case PRIVMSGS_UNREAD_MAIL:
-                                $sql = "user_unread_privmsg = user_unread_privmsg - 1";
-                                break;
-                }
+                          $sql = "user_unread_privmsg = user_unread_privmsg - 1";
+                             break;
+                endswitch;
 
                 $sql = "UPDATE " . USERS_TABLE . "
                         SET $sql
                         WHERE user_id = " . $userdata['user_id'];
-                if ( !$titanium_db->sql_query($sql) )
-                {
-                        message_die(GENERAL_ERROR, 'Could not update private message read status for user', '', __LINE__, __FILE__, $sql);
-                }
+               
+			    if(!$titanium_db->sql_query($sql))
+                message_die(GENERAL_ERROR, 'Could not update private message read status for user', '', __LINE__, __FILE__, $sql);
 
                 $sql = "UPDATE " . PRIVMSGS_TABLE . "
                         SET privmsgs_type = " . PRIVMSGS_READ_MAIL . "
                         WHERE privmsgs_id = " . $privmsg['privmsgs_id'];
-                if ( !$titanium_db->sql_query($sql) )
-                {
-                        message_die(GENERAL_ERROR, 'Could not update private message read status', '', __LINE__, __FILE__, $sql);
-                }
 
-                // Check to see if the poster has a 'full' sent box
+                if(!$titanium_db->sql_query($sql))
+                message_die(GENERAL_ERROR, 'Could not update private message read status', '', __LINE__, __FILE__, $sql);
+
+                # Check to see if the poster has a 'full' sent box
                 $sql = "SELECT COUNT(privmsgs_id) AS sent_items, MIN(privmsgs_date) AS oldest_post_time
                         FROM " . PRIVMSGS_TABLE . "
                         WHERE privmsgs_type = " . PRIVMSGS_SENT_MAIL . "
                                 AND privmsgs_from_userid = " . $privmsg['privmsgs_from_userid'];
-                if ( !($result = $titanium_db->sql_query($sql)) )
-                {
-                        message_die(GENERAL_ERROR, 'Could not obtain sent message info for sendee', '', __LINE__, __FILE__, $sql);
-                }
+                
+				if(!($result = $titanium_db->sql_query($sql)))
+                message_die(GENERAL_ERROR, 'Could not obtain sent message info for sendee', '', __LINE__, __FILE__, $sql);
 
                 $sql_priority = ( SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli') ? 'LOW_PRIORITY' : '';
 
-                if ( $sent_info = $titanium_db->sql_fetchrow($result) )
+                if($sent_info = $titanium_db->sql_fetchrow($result))
                 {
-                        if ($phpbb2_board_config['max_sentbox_privmsgs'] && $sent_info['sent_items'] >= $phpbb2_board_config['max_sentbox_privmsgs'])
-                        {
+                        if ($phpbb2_board_config['max_sentbox_privmsgs'] && $sent_info['sent_items'] >= $phpbb2_board_config['max_sentbox_privmsgs']):
+                        
                                 $sql = "SELECT privmsgs_id FROM " . PRIVMSGS_TABLE . "
                                         WHERE privmsgs_type = " . PRIVMSGS_SENT_MAIL . "
                                                 AND privmsgs_date = " . $sent_info['oldest_post_time'] . "
                                                 AND privmsgs_from_userid = " . $privmsg['privmsgs_from_userid'];
-                                if ( !$result = $titanium_db->sql_query($sql) )
-                                {
-                                        message_die(GENERAL_ERROR, 'Could not find oldest privmsgs', '', __LINE__, __FILE__, $sql);
-                                }
-                                $old_privmsgs_id = $titanium_db->sql_fetchrow($result);
+                                
+								if ( !$result = $titanium_db->sql_query($sql) )
+                                message_die(GENERAL_ERROR, 'Could not find oldest privmsgs', '', __LINE__, __FILE__, $sql);
+                                
+								$old_privmsgs_id = $titanium_db->sql_fetchrow($result);
                                 $old_privmsgs_id = $old_privmsgs_id['privmsgs_id'];
 
                                 $sql = "DELETE $sql_priority FROM " . PRIVMSGS_TABLE . "
                                         WHERE privmsgs_id = '$old_privmsgs_id'";
                                 if ( !$titanium_db->sql_query($sql) )
-                                {
-                                        message_die(GENERAL_ERROR, 'Could not delete oldest privmsgs (sent)', '', __LINE__, __FILE__, $sql);
-                                }
+                                message_die(GENERAL_ERROR, 'Could not delete oldest privmsgs (sent)', '', __LINE__, __FILE__, $sql);
 
                                 $sql = "DELETE $sql_priority FROM " . PRIVMSGS_TEXT_TABLE . "
                                         WHERE privmsgs_text_id = '$old_privmsgs_id'";
                                 if ( !$titanium_db->sql_query($sql) )
-                                {
-                                        message_die(GENERAL_ERROR, 'Could not delete oldest privmsgs text (sent)', '', __LINE__, __FILE__, $sql);
-                                }
-                        }
+                                message_die(GENERAL_ERROR, 'Could not delete oldest privmsgs text (sent)', '', __LINE__, __FILE__, $sql);
+                        endif;
                 }
 
-                //
-                // This makes a copy of the post and stores it as a SENT message from the sendee. Perhaps
-                // not the most DB friendly way but a lot easier to manage, besides the admin will be able to
-                // set limits on numbers of storable posts for users ... hopefully!
-                //
-                $sql = "INSERT $sql_priority INTO " . PRIVMSGS_TABLE . " (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date, privmsgs_ip, privmsgs_enable_html, privmsgs_enable_bbcode, privmsgs_enable_smilies, privmsgs_attach_sig)
-                        VALUES (" . PRIVMSGS_SENT_MAIL . ", '" . str_replace("\'", "''", addslashes($privmsg['privmsgs_subject'])) . "', " . $privmsg['privmsgs_from_userid'] . ", " . $privmsg['privmsgs_to_userid'] . ", " . $privmsg['privmsgs_date'] . ", '" . $privmsg['privmsgs_ip'] . "', " . $privmsg['privmsgs_enable_html'] . ", " . $privmsg['privmsgs_enable_bbcode'] . ", " . $privmsg['privmsgs_enable_smilies'] . ", " .  $privmsg['privmsgs_attach_sig'] . ")";
+                # This makes a copy of the post and stores it as a SENT message from the sendee. Perhaps
+                # not the most DB friendly way but a lot easier to manage, besides the admin will be able to
+                # set limits on numbers of storable posts for users ... hopefully!
+                $sql = "INSERT $sql_priority INTO " . PRIVMSGS_TABLE . " (privmsgs_type, 
+				                                                       privmsgs_subject, 
+																   privmsgs_from_userid, 
+																     privmsgs_to_userid, 
+																	      privmsgs_date, 
+																		    privmsgs_ip, 
+																   privmsgs_enable_html, 
+																 privmsgs_enable_bbcode, 
+																privmsgs_enable_smilies, 
+																    privmsgs_attach_sig)
+                        
+				VALUES (" . PRIVMSGS_SENT_MAIL . ", '" . str_replace("\'", "''", addslashes($privmsg['privmsgs_subject'])) . "', " 
+				                                                                          . $privmsg['privmsgs_from_userid'] . ", " 
+																						  . $privmsg['privmsgs_to_userid'] . ", " 
+																						  . $privmsg['privmsgs_date'] . ", '" 
+																						  . $privmsg['privmsgs_ip'] . "', " 
+																						  . $privmsg['privmsgs_enable_html'] . ", " 
+																						  . $privmsg['privmsgs_enable_bbcode'] . ", " 
+																						  . $privmsg['privmsgs_enable_smilies'] . ", " 
+																						  . $privmsg['privmsgs_attach_sig'] . ")";
                 if ( !$titanium_db->sql_query($sql) )
-                {
-                        message_die(GENERAL_ERROR, 'Could not insert private message sent info', '', __LINE__, __FILE__, $sql);
-                }
+                message_die(GENERAL_ERROR, 'Could not insert private message sent info', '', __LINE__, __FILE__, $sql);
 
                 $privmsg_sent_id = $titanium_db->sql_nextid();
 
