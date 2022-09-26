@@ -2826,7 +2826,7 @@ $phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
-        'MASS_PM_IMG' => $mass_pm_img,
+        'MASS_PM_IMG' => '<a href="modules.php?name=Forums&file=groupmsg" class="titaniumbutton">Message Everyone</a>',
 
 /*****[END]********************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]
