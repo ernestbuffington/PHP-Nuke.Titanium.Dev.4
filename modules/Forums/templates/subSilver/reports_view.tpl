@@ -11,7 +11,7 @@
                 <option value="2"{S_CLOSED}>{L_CLOSED}</option>
                 <option value="all"{S_ALL}>{L_ALL}</option>
             </select>&nbsp; 
-            <input type="submit" name="submit" value="{L_DISPLAY}" class="liteoption" />
+            <input type="submit" name="submit" value="{L_DISPLAY}" class="titaniumbutton" />
             </span>
         </td>
     </tr>

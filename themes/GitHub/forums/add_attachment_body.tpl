@@ -15,8 +15,8 @@
 <tr> 
   <td class="row1">{L_FILE_COMMENT}</td> 
   <td class="row2">
-  	<textarea name="filecomment" wrap="virtual" class="post liteoption" style="height: 100px; min-height: 100px; padding: 5px; resize: vertical; width: 85%;">{FILE_COMMENT}</textarea>
+  	<textarea name="filecomment" wrap="virtual" class="post titaniumbutton" style="height: 100px; min-height: 100px; padding: 5px; resize: vertical; width: 85%;">{FILE_COMMENT}</textarea>
   	<br />
-  	<input type="submit" name="add_attachment" value="{L_ADD_ATTACHMENT}" class="liteoption" />
+  	<input type="submit" name="add_attachment" value="{L_ADD_ATTACHMENT}" class="titaniumbutton" />
   </td> 
 </tr>

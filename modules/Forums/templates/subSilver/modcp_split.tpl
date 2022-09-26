@@ -27,10 +27,10 @@
         <table width="60%" cellspacing="0" cellpadding="0" border="0" align="center">
           <tr> 
             <td width="50%" align="center"> 
-              <input class="liteoption" type="submit" name="split_type_all" value="{L_SPLIT_POSTS}" />
+              <input class="titaniumbutton" type="submit" name="split_type_all" value="{L_SPLIT_POSTS}" />
             </td>
             <td width="50%" align="center"> 
-              <input class="liteoption" type="submit" name="split_type_beyond" value="{L_SPLIT_AFTER}" />
+              <input class="titaniumbutton" type="submit" name="split_type_beyond" value="{L_SPLIT_AFTER}" />
             </td>
           </tr>
         </table>
@@ -68,10 +68,10 @@
         <table width="60%" cellspacing="0" cellpadding="0" border="0" align="center">
           <tr> 
             <td width="50%" align="center"> 
-              <input class="liteoption" type="submit" name="split_type_all" value="{L_SPLIT_POSTS}" />
+              <input class="titaniumbutton" type="submit" name="split_type_all" value="{L_SPLIT_POSTS}" />
             </td>
             <td width="50%" align="center"> 
-              <input class="liteoption" type="submit" name="split_type_beyond" value="{L_SPLIT_AFTER}" />
+              <input class="titaniumbutton" type="submit" name="split_type_beyond" value="{L_SPLIT_AFTER}" />
               {S_HIDDEN_FIELDS} </td>
           </tr>
         </table>

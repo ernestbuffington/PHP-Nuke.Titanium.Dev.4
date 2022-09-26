@@ -64,7 +64,7 @@
 <tr>
 	<td class="catBottom" colspan="2" align="center">{S_HIDDEN_FIELDS}
 		<input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;
-		<input type="reset" value="{L_RESET}" class="liteoption" />
+		<input type="reset" value="{L_RESET}" class="titaniumbutton" />
 	</td>
 </tr>
 </table></form>

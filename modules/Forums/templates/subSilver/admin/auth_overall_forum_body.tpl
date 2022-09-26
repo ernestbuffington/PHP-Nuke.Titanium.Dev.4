@@ -65,6 +65,6 @@
 	<!-- END forumrow -->
 	<!-- END catrow -->
 	<tr>
-		<td colspan="14" class="catBottom" align="center"><input type="submit" class="liteoption" name="submit" value="{L_SUBMIT}" /></td>
+		<td colspan="14" class="catBottom" align="center"><input type="submit" class="titaniumbutton" name="submit" value="{L_SUBMIT}" /></td>
 	</tr>
 </table></form>

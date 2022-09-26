@@ -20,7 +20,7 @@
       <table width="90%" cellspacing="0" cellpadding="0" border="0">
             <td width="40%">{GROUP_MEMBER_SELECT}</td>
             <td align="center" width="30%"> 
-              <input type="submit" value="{L_VIEW_INFORMATION}" class="liteoption" />
+              <input type="submit" value="{L_VIEW_INFORMATION}" class="titaniumbutton" />
               {S_HIDDEN_FIELDS}
             </td>
         </tr>
@@ -38,7 +38,7 @@
         <tr>
             <td width="40%">{GROUP_PENDING_SELECT}</td>
             <td align="center" width="30%"> 
-              <input type="submit" value="{L_VIEW_INFORMATION}" class="liteoption" />
+              <input type="submit" value="{L_VIEW_INFORMATION}" class="titaniumbutton" />
               {S_HIDDEN_FIELDS}
             </td>
         </tr>
@@ -60,7 +60,7 @@
         <tr>
             <td width="40%">{GROUP_LIST_SELECT}</td>
             <td align="center" width="30%"> 
-              <input type="submit" value="{L_VIEW_INFORMATION}" class="liteoption" />
+              <input type="submit" value="{L_VIEW_INFORMATION}" class="titaniumbutton" />
               {S_HIDDEN_FIELDS}
             </td>
         </tr>

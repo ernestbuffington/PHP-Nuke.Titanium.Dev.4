@@ -10,7 +10,7 @@
 				<option value="{grouprow.GROUP_ID}">{grouprow.GROUP_NAME}</option>
 				<!-- END grouprow -->
 			</select>
-		<input type="submit" name="confirm" value="{L_GO}" class="mainoption" /><input type="submit" name="cancel" value="{L_CANCEL}" class="liteoption" /></span></form></td>
+		<input type="submit" name="confirm" value="{L_GO}" class="mainoption" /><input type="submit" name="cancel" value="{L_CANCEL}" class="titaniumbutton" /></span></form></td>
 	</tr>
 </table>
 

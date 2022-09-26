@@ -30,7 +30,7 @@ function setCheckboxes(do_check)
         <td colspan="7" class="row2" valign="top" align="center">
             <input type=texte value="" size="40" name="game_name" class="post">
             <input type="hidden" name="mode" value="create">
-            <input type=submit name="ajout" value="{ADD_GAME}" class="liteoption">
+            <input type=submit name="ajout" value="{ADD_GAME}" class="titaniumbutton">
         </td>
     </tr>
 </form>
@@ -73,7 +73,7 @@ function setCheckboxes(do_check)
             <option value='S'>{DELETE_GAME}</option>
             <option value='Y'>{SYNCHRO_GAME_SET}</option>
             </select>
-            <input type=submit name="valid" value="Ok" class="liteoption">
+            <input type=submit name="valid" value="Ok" class="titaniumbutton">
         </td>
     </tr>
 <!-- END switch_liste_non_vide -->

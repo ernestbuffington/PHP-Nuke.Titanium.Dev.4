@@ -21,7 +21,7 @@
     <form method="post" action="{S_MODE_ACTION}">
     <tr>
         <td align="right" nowrap="nowrap" colspan="2"><span class="genmed">{L_CHOOSE_SORT} :&nbsp;{S_MODE_SELECT}&nbsp;&nbsp;{L_ORDER}&nbsp;{S_ORDER_SELECT}&nbsp;&nbsp;</span>
-        <input type="submit" name="submit" value="{L_GO}" class="liteoption" />
+        <input type="submit" name="submit" value="{L_GO}" class="titaniumbutton" />
         </td>
     </tr>
     </form>
@@ -51,8 +51,8 @@
 <!-- END record_row -->
 <tr>
  <td class="catHead" colspan="9" height="28" align="right"> 
-        <input type="submit" name="delete" class="liteoption" value="{L_DELETE}" />
-        <input type="submit" name="{L_CANCEL}" class="liteoption" value="{L_CANCEL}" onClick="self.location.href='{S_CANCEL_ACTION}'" />
+        <input type="submit" name="delete" class="titaniumbutton" value="{L_DELETE}" />
+        <input type="submit" name="{L_CANCEL}" class="titaniumbutton" value="{L_CANCEL}" onClick="self.location.href='{S_CANCEL_ACTION}'" />
       </td>
 </tr>
 <tr> 

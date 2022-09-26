@@ -12,5 +12,5 @@
     <tr> 
         <td class="row1"><span class="gen"><strong>{L_FILE_COMMENT}</strong></span></td> 
         <td class="row2"><span class="genmed"><textarea name="filecomment" rows="3" cols="35" wrap="virtual" size="40" class="post">{FILE_COMMENT}</textarea></span>
-        <input type="submit" name="add_attachment" value="{L_ADD_ATTACHMENT}" class="liteoption" /> </span></td> 
+        <input type="submit" name="add_attachment" value="{L_ADD_ATTACHMENT}" class="titaniumbutton" /> </span></td> 
     </tr>

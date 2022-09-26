@@ -52,7 +52,7 @@
     <!-- END switch_no_topics -->
     <tr> 
       <td class="catBottom" align="center" valign="middle" colspan="6" height="28"><span class="genmed">{L_DISPLAY_TOPICS}:&nbsp;{S_SELECT_TOPIC_DAYS}&nbsp; {S_DISPLAY_ORDER}
-        <input type="submit" class="liteoption" value="{L_GO}" name="submit" />
+        <input type="submit" class="titaniumbutton" value="{L_GO}" name="submit" />
         </span></td>
     </tr>
   </table>

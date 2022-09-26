@@ -17,7 +17,7 @@
     <form method="post" action="{S_MODE_ACTION}">
     <tr>
         <td align="center" nowrap="nowrap"><span class="genmed">{L_MMO_CHOOSE}:&nbsp;{S_MODE_SELECT}&nbsp;&nbsp;{L_MMO_ORDER}&nbsp;{S_ORDER_SELECT}&nbsp;&nbsp;</span>
-        <input type="submit" name="submit" value="{L_MMO_GO}" class="liteoption" />
+        <input type="submit" name="submit" value="{L_MMO_GO}" class="titaniumbutton" />
         </td>
     </tr>
     </form>
@@ -57,7 +57,7 @@
   <tr>
  <td class="catHead" colspan="8" height="28" align="right"> 
  <strong><span class="gensmall"><a href="javascript:select(true);" class="gensmall">{L_MMO_MARK}</a> &nbsp; <a href="javascript:select(false);" class="gensmall">{L_MMO_UNMARK}</a></span></strong>&nbsp;&nbsp;
-        <input type="submit" name="delete" class="liteoption" value="{L_MMO_DELETE}" />
+        <input type="submit" name="delete" class="titaniumbutton" value="{L_MMO_DELETE}" />
         </td>
   </tr>
   

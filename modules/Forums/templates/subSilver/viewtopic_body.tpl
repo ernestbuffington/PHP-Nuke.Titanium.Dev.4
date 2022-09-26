@@ -99,7 +99,7 @@
 <!-- END postrow -->
     <tr align="center"> 
         <td class="catBottom" colspan="2" height="28"><table cellspacing="0" cellpadding="0" border="0">
-            <tr><td align="center"><form method="post" action="{S_POST_DAYS_ACTION}"><span class="gensmall">{L_DISPLAY_POSTS}: {S_SELECT_POST_DAYS}{S_SELECT_POST_ORDER}<input type="submit" value="{L_GO}" class="liteoption" name="submit" /></span></form></td></tr>
+            <tr><td align="center"><form method="post" action="{S_POST_DAYS_ACTION}"><span class="gensmall">{L_DISPLAY_POSTS}: {S_SELECT_POST_DAYS}{S_SELECT_POST_ORDER}<input type="submit" value="{L_GO}" class="titaniumbutton" name="submit" /></span></form></td></tr>
         </table></td>
     </tr>
 </table>

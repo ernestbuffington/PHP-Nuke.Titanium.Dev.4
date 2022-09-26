@@ -92,7 +92,7 @@
       <td align="right" nowrap="nowrap"><span class="gensmall">{L_DISPLAY_MESSAGES}:
         <select name="msgdays">{S_SELECT_MSG_DAYS}
         </select>
-        <input type="submit" value="{L_GO}" name="submit_msgdays" class="liteoption" />
+        <input type="submit" value="{L_GO}" name="submit_msgdays" class="titaniumbutton" />
         </span></td>
     </tr>
   </table>
@@ -125,9 +125,9 @@
       <td class="catBottom" colspan="5" height="28" align="right"> {S_HIDDEN_FIELDS}
         <input type="submit" name="save" value="{L_SAVE_MARKED}" class="mainoption" />
 
-        <input type="submit" name="delete" value="{L_DELETE_MARKED}" class="liteoption" />
+        <input type="submit" name="delete" value="{L_DELETE_MARKED}" class="titaniumbutton" />
 
-        <input type="submit" name="deleteall" value="{L_DELETE_ALL}" class="liteoption" />
+        <input type="submit" name="deleteall" value="{L_DELETE_ALL}" class="titaniumbutton" />
       </td>
     </tr>
   </table>

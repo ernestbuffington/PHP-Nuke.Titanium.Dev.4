@@ -77,7 +77,7 @@ function quoteSelection()
 <!-- END SMILIES -->
 <INPUT TYPE=button CLASS=BUTTON NAME="SmilesButt" VALUE="{L_ALL_SMILIES}" ONCLICK="openAllSmiles();">
                 <br />
-                <input type='button' name='quoteselected' class='liteoption' value='{L_QUOTE_SELECTED}' onclick='javascript:quoteSelection()'></td>
+                <input type='button' name='quoteselected' class='titaniumbutton' value='{L_QUOTE_SELECTED}' onclick='javascript:quoteSelection()'></td>
 </td></tr>
 <tr><td align="right" class="row1" valign="top"><span class="gen"><strong>{L_OPTIONS}:</strong></span></td>
 <td class="row2" colspan="2" valign="top"><span class="gensmall">

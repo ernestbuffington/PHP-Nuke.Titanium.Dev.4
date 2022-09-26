@@ -48,7 +48,7 @@ function toggle_check_all()
         <td align="right" nowrap="nowrap"><span class="genmed">{L_FILTER_BY}:&nbsp;{S_PMTYPE_SELECT}</span><br /><br /><span class="genmed">{L_SELECT_SORT_METHOD}:&nbsp;{S_MODE_SELECT}&nbsp;&nbsp;{L_ORDER}&nbsp;{S_ORDER_SELECT}</span>
         <br /><br /><span class="genmed">{L_TO}:&nbsp;<input type="text" class="post" size="10" maxlength="32" name="filter_to" value="{S_FILTER_TO}">&nbsp;&nbsp;{L_FROM}:&nbsp;<input type="text" class="post" size="10" maxlength="32" name="filter_from" value="{S_FILTER_FROM}"></span>
         </td>
-        <td align="center" valign="middle" rowspan="2"><input type="submit" name="submit" value="{L_SORT}" class="liteoption"></td>
+        <td align="center" valign="middle" rowspan="2"><input type="submit" name="submit" value="{L_SORT}" class="titaniumbutton"></td>
     </tr><tr>      <input type="hidden" name="mode" value="{S_MODE}"><td>&nbsp;</td>
     <td align="right" valign="top" nowrap="nowrap">
         </span></td>
@@ -96,7 +96,7 @@ function toggle_check_all()
       <input type="hidden" name="mode" value="{S_MODE}">
       <input type="submit" value="{L_SUBMIT}" class="mainoption">
       &nbsp;&nbsp;
-      <input type="reset" value="{L_RESET}" class="liteoption"></td>
+      <input type="reset" value="{L_RESET}" class="titaniumbutton"></td>
     </tr>
   </table>
 

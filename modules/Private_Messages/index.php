@@ -144,7 +144,9 @@ if(!empty($welcome_pm) && !empty($submit))
     $sql_w_pm = "INSERT INTO ".$titanium_prefix."_welcome_pm VALUES('".$_POST['subject']."', '".$_POST['message']."')";
     
 	$titanium_db->sql_query($sql_w_pm);
-    $msg = $titanium_lang['Welcome_PM_Set'] . '<br /><br />' . sprintf($titanium_lang['Click_return_inbox'], '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '">', '</a> ') . '<br /><br />' . sprintf($titanium_lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
+    $msg = $titanium_lang['Welcome_PM_Set'] . '<br /><br />' . sprintf($titanium_lang['Click_return_inbox'], '<a 
+	href="' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '">', '</a> ') . '<br /><br />' . sprintf($titanium_lang['Click_return_index'], '<a href="' 
+	. append_titanium_sid("index.$phpEx") . '">', '</a>');
 
     message_die(GENERAL_MESSAGE, $msg);
 }
@@ -197,7 +199,8 @@ endif;
 $error = FALSE;
 
 # Define the box image links
-$inbox_img = ( $folder != 'inbox' || !empty($mode) ) ? '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '"><img src="' . $images['pm_inbox'] . '" border="0" alt="' . $titanium_lang['Inbox'] . '" /></a>' : '<img src="' . $images['pm_inbox'] . '" border="0" alt="' . $titanium_lang['Inbox'] . '" />';
+$inbox_img = ( $folder != 'inbox' || !empty($mode) ) ? '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=inbox") 
+. '"><img src="' . $images['pm_inbox'] . '" border="0" alt="' . $titanium_lang['Inbox'] . '" /></a>' : '<img src="' . $images['pm_inbox'] . '" border="0" alt="' . $titanium_lang['Inbox'] . '" />';
 $inbox_url = ( $folder != 'inbox' || !empty($mode) ) ? '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '">' . $titanium_lang['Inbox'] . '</a>' : $titanium_lang['Inbox'];
 
 $inbox_uri = append_titanium_sid("privmsg.$phpEx?folder=inbox");
@@ -561,28 +564,50 @@ u.user_allow_viewonline
                 $sql = "INSERT $sql_priority INTO " . PRIVMSGS_TEXT_TABLE . " (privmsgs_text_id, privmsgs_bbcode_uid, privmsgs_text)
                         VALUES ('$privmsg_sent_id', '" . $privmsg['privmsgs_bbcode_uid'] . "', '" . str_replace("\'", "''", addslashes($privmsg['privmsgs_text'])) . "')";
                 if ( !$titanium_db->sql_query($sql) )
-                {
-                        message_die(GENERAL_ERROR, 'Could not insert private message sent text', '', __LINE__, __FILE__, $sql);
-                }
+                message_die(GENERAL_ERROR, 'Could not insert private message sent text', '', __LINE__, __FILE__, $sql);
         }
 
-/*****[BEGIN]******************************************
- [ Mod:    Attachment Mod                      v2.4.1 ]
- ******************************************************/
+       # Mod: Attachment Mod v2.4.1 START
        $attachment_mod['pm']->duplicate_attachment_pm($privmsg['privmsgs_attachment'], $privmsg['privmsgs_id'], $privmsg_sent_id);
-/*****[END]********************************************
- [ Mod:    Attachment Mod                      v2.4.1 ]
- ******************************************************/
+       # Mod: Attachment Mod v2.4.1 END
 
-        //
-        // Pick a folder, any folder, so long as it's one below ...
-        //
-        $post_urls = array(
+        # Pick a folder, any folder, so long as it's one below ...
+################################################ BOOTSTRAP ##################################################################################################################
+        if ( defined('bootstrap') ):
+		$post_urls = array(
+		
+		# <a href="modules.php?name=Private_Messages&mode=post" class="titaniumbutton">Send Private Message</a>
+                'post' => append_titanium_sid("privmsg.$phpEx?mode=post"),
+				'reply' => append_titanium_sid("privmsg.$phpEx?mode=reply&amp;" . POST_POST_URL . "=$privmsg_id"),
+				'quote' => append_titanium_sid("privmsg.$phpEx?mode=quote&amp;" . POST_POST_URL . "=$privmsg_id"),
+                'edit' => append_titanium_sid("privmsg.$phpEx?mode=edit&amp;" . POST_POST_URL . "=$privmsg_id")
+        );
+
+        $post_icons = array(
+                'post_img' => '<a href="' . $post_urls['post'] . '"><img src="' . $images['pm_postmsg'] . '" alt="' . $titanium_lang['Post_new_pm'] . '" border="0"></a>',
+                'post' => '<a href="' . $post_urls['post'] . '">' . $titanium_lang['Post_new_pm'] . '</a>',
+                
+				'reply_img' => '<a class="titaniumbutton" href="' . $post_urls['reply'] . '">Reply</a>',
+				
+                'reply' => '<a class="titaniumbutton" href="' . $post_urls['reply'] . '">' . $titanium_lang['Post_reply_pm'] . '</a>',
+                
+				'quote_img' => '<a class="titaniumbutton" href="' . $post_urls['quote'] . '">Quote Message</a>',
+                
+				'quote' => '<a class="titaniumbutton" href="' . $post_urls['quote'] . '">Quote Message</a>',
+                
+				'edit_img' => '<a class="titaniumbutton" href="' . $post_urls['edit'] . '">Edit Message</a>',
+                
+				'edit' => '<a class="titaniumbutton" href="' . $post_urls['edit'] . '">' . $titanium_lang['Edit_pm'] . '</a>'
+        );
+##############################################################################################################################################################################
+		else:
+		$post_urls = array(
                 'post' => append_titanium_sid("privmsg.$phpEx?mode=post"),
                 'reply' => append_titanium_sid("privmsg.$phpEx?mode=reply&amp;" . POST_POST_URL . "=$privmsg_id"),
                 'quote' => append_titanium_sid("privmsg.$phpEx?mode=quote&amp;" . POST_POST_URL . "=$privmsg_id"),
                 'edit' => append_titanium_sid("privmsg.$phpEx?mode=edit&amp;" . POST_POST_URL . "=$privmsg_id")
         );
+
         $post_icons = array(
                 'post_img' => '<a href="' . $post_urls['post'] . '"><img src="' . $images['pm_postmsg'] . '" alt="' . $titanium_lang['Post_new_pm'] . '" border="0"></a>',
                 'post' => '<a href="' . $post_urls['post'] . '">' . $titanium_lang['Post_new_pm'] . '</a>',
@@ -593,8 +618,9 @@ u.user_allow_viewonline
                 'edit_img' => '<a href="' . $post_urls['edit'] . '"><img src="' . $images['pm_editmsg'] . '" alt="' . $titanium_lang['Edit_pm'] . '" border="0"></a>',
                 'edit' => '<a href="' . $post_urls['edit'] . '">' . $titanium_lang['Edit_pm'] . '</a>'
         );
+		endif;
 
-        if ( $folder == 'inbox' )
+        if( $folder == 'inbox')
         {
                 $post_img = $post_icons['post_img'];
                 $reply_img = $post_icons['reply_img'];
@@ -602,6 +628,7 @@ u.user_allow_viewonline
                 $edit_img = '';
                 $post = $post_icons['post'];
                 $reply = $post_icons['reply'];
+				
                 /**
                  *  Code added for use with reposnsive themes
                  */
@@ -610,14 +637,15 @@ u.user_allow_viewonline
                 
                 $quote = $post_icons['quote'];
                 $l_box_name = $titanium_lang['Inbox'];
-                /**
+                
+				/**
                  *  Code added for use with reposnsive themes
                  */
                 $edit = '';
                 $edit_uri = '';
                 $edit_locale = '';
         }
-        else if ( $folder == 'outbox' )
+        elseif( $folder == 'outbox')
         {
                 $post_img = $post_icons['post_img'];
                 $reply_img = '';
@@ -625,7 +653,8 @@ u.user_allow_viewonline
                 $edit_img = $post_icons['edit_img'];
                 $post = $post_icons['post'];
                 $reply = '';
-                /**
+                
+				/**
                  *  Code added for use with reposnsive themes
                  */
                 $reply_uri = '';
@@ -634,16 +663,17 @@ u.user_allow_viewonline
                 $quote = '';
                 $edit = $post_icons['edit'];
                 $l_box_name = $titanium_lang['Outbox'];
-                /**
+                
+				/**
                  *  Code added for use with reposnsive themes
                  */
                 $edit_uri = $post_urls['edit'];
                 $edit_locale = $titanium_lang['Edit_pm'];
                 
         }
-        else if ( $folder == 'savebox' )
+        elseif( $folder == 'savebox')
         {
-                if ( $privmsg['privmsgs_type'] == PRIVMSGS_SAVED_IN_MAIL )
+                if($privmsg['privmsgs_type'] == PRIVMSGS_SAVED_IN_MAIL)
                 {
                         $post_img = $post_icons['post_img'];
                         $reply_img = $post_icons['reply_img'];
@@ -651,7 +681,8 @@ u.user_allow_viewonline
                         $edit_img = '';
                         $post = $post_icons['post'];
                         $reply = $post_icons['reply'];
-                        /**
+                        
+						/**
                          *  Code added for use with reposnsive themes
                          */
                         $reply_uri = $post_urls['reply'];
@@ -659,7 +690,8 @@ u.user_allow_viewonline
 
                         $quote = $post_icons['quote'];
                         $edit = '';
-                        /**
+                        
+						/**
                          *  Code added for use with reposnsive themes
                          */
                         $edit_uri = '';
@@ -673,7 +705,8 @@ u.user_allow_viewonline
                         $edit_img = '';
                         $post = $post_icons['post'];
                         $reply = '';
-                        /**
+                        
+						/**
                          *  Code added for use with reposnsive themes
                          */
                         $reply_uri = '';
@@ -681,7 +714,8 @@ u.user_allow_viewonline
 
                         $quote = '';
                         $edit = '';
-                        /**
+                        
+						/**
                          *  Code added for use with reposnsive themes
                          */
                         $edit_uri = '';
@@ -689,7 +723,7 @@ u.user_allow_viewonline
                 }
                 $l_box_name = $titanium_lang['Saved'];
         }
-        else if ( $folder == 'sentbox' )
+        elseif($folder == 'sentbox')
         {
                 $post_img = $post_icons['post_img'];
                 $reply_img = '';
@@ -697,7 +731,8 @@ u.user_allow_viewonline
                 $edit_img = '';
                 $post = $post_icons['post'];
                 $reply = '';
-                /**
+                
+				/**
                  *  Code added for use with reposnsive themes
                  */
                 $reply_uri = '';
@@ -706,7 +741,8 @@ u.user_allow_viewonline
                 $quote = '';
                 $edit = '';
                 $l_box_name = $titanium_lang['Sent'];
-                /**
+                
+				/**
                  *  Code added for use with reposnsive themes
                  */
                 $edit_uri = '';
@@ -719,12 +755,11 @@ u.user_allow_viewonline
         $phpbb2_page_title = $titanium_lang['Read_pm'];
         include(NUKE_INCLUDE_DIR.'page_header.php');
 
-        //
-        // Load templates
-        //
+        # Load templates
         $phpbb2_template->set_filenames(array(
                 'body' => 'privmsgs_read_body.tpl')
         );
+
         if (is_active("Forums")) {
             make_jumpbox('viewforum.'.$phpEx);
         }
@@ -733,26 +768,28 @@ u.user_allow_viewonline
         $titanium_user_id_to = $privmsg['user_id_2'];
 
         switch( $privmsg['user_avatar_type'] ):
-	
 			# user_allowavatar = 1
 			case USER_AVATAR_UPLOAD:
-				$phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_upload'] ) ? '<img class="priv-msgs-avatar" style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_path'] . '/' . $privmsg['user_avatar'] . '" alt="" border="0" />' : '';
+				$phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_upload'] ) ? '<img class="priv-msgs-avatar" 
+				style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" 
+				src="' . $phpbb2_board_config['avatar_path'] . '/' . $privmsg['user_avatar'] . '" alt="" border="0" />' : '';
 				break;
-
 			# user_allowavatar = 2
 			case USER_AVATAR_REMOTE:
-				// $evouserinfo_avatar .= avatar_resize($userinfo['user_avatar']);
-				$phpbb2_poster_avatar = '<img class="priv-msgs-avatar" style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="'.avatar_resize($privmsg['user_avatar']).'" alt="" border="0" />';
+				$phpbb2_poster_avatar = '<img class="priv-msgs-avatar" style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; 
+				max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="'.avatar_resize($privmsg['user_avatar']).'" alt="" border="0" />';
 				break;
-
 			# user_allowavatar = 3
 			case USER_AVATAR_GALLERY:
-				$phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img class="priv-msgs-avatar" style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($privmsg['user_avatar'] == 'blank.gif' || $privmsg['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $privmsg['user_avatar']) . '" alt="" border="0" />' : '';
+				$phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img class="priv-msgs-avatar" 
+				style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" 
+				src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($privmsg['user_avatar'] == 'blank.gif' 
+				|| $privmsg['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $privmsg['user_avatar']) . '" alt="" border="0" />' : '';
 				break;
-		
 		endswitch;
 
-        $phpbb2_template->assign_vars(array(
+        if ( defined('bootstrap') ):
+		$phpbb2_template->assign_vars(array(
         		'MODULE_NAME' => $mod_name,
         		'MODULE_URI' => append_titanium_sid("privmsg.$phpEx"),
         		'SENDER_AVATAR' => $phpbb2_poster_avatar,
@@ -765,8 +802,7 @@ u.user_allow_viewonline
                 'SAVEBOX_IMG' => $savebox_img,
                 'INBOX' => $inbox_url,
 
-                //'POST_PM_IMG' => $post_img,
-				'POST_PM_IMG' => 'BUTTON REPLACE',
+                'POST_PM_IMG' => $post_img,
                 'REPLY_PM_IMG' => $reply_img,
                 'EDIT_PM_IMG' => $edit_img,
                 'QUOTE_PM_IMG' => $quote_img,
@@ -808,6 +844,63 @@ u.user_allow_viewonline
                 'S_PRIVMSGS_ACTION' => append_titanium_sid("privmsg.$phpEx?folder=$folder"),
                 'S_HIDDEN_FIELDS' => $s_hidden_fields)
         );
+		else:
+		$phpbb2_template->assign_vars(array(
+        		'MODULE_NAME' => $mod_name,
+        		'MODULE_URI' => append_titanium_sid("privmsg.$phpEx"),
+        		'SENDER_AVATAR' => $phpbb2_poster_avatar,
+        		'SENDER_PROIFLE_URI' => "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . '=' . $titanium_user_id_from,
+        		'MESSAGE_INBOX_URI' => 'modules.php?name=Private_Messages&file=index&folder=inbox&mode=read&p=' . $privmsgs_id,
+
+                'INBOX_IMG' => $inbox_img,
+                'SENTBOX_IMG' => $sentbox_img,
+                'OUTBOX_IMG' => $outbox_img,
+                'SAVEBOX_IMG' => $savebox_img,
+                'INBOX' => $inbox_url,
+
+                'POST_PM_IMG' => $post_img,
+                'REPLY_PM_IMG' => $reply_img,
+                'EDIT_PM_IMG' => $edit_img,
+                'QUOTE_PM_IMG' => $quote_img,
+                'POST_PM' => $post,
+                'REPLY_PM' => $reply,
+
+                /**
+                 *  Code added for use with reposnsive themes
+                 */
+                'REPLY_URI' => $reply_uri,
+                'REPLY_LOCALE' => $reply_locale,
+                'EDIT_URI' => $edit_uri,
+                'EDIT_LOCALE' => $edit_locale,
+
+                'EDIT_PM' => $edit,
+                'QUOTE_PM' => $quote,
+
+
+                'SENTBOX' => $sentbox_url,
+                'OUTBOX' => $outbox_url,
+                'SAVEBOX' => $savebox_url,
+
+                'BOX_NAME' => $l_box_name,
+
+                'L_MESSAGE' => $titanium_lang['Message'],
+                'L_INBOX' => $titanium_lang['Inbox'],
+                'L_OUTBOX' => $titanium_lang['Outbox'],
+                'L_SENTBOX' => $titanium_lang['Sent'],
+                'L_SAVEBOX' => $titanium_lang['Saved'],
+                'L_FLAG' => $titanium_lang['Flag'],
+                'L_SUBJECT' => $titanium_lang['Subject'],
+                'L_POSTED' => $titanium_lang['Posted'],
+                'L_DATE' => $titanium_lang['Date'],
+                'L_FROM' => $titanium_lang['From'],
+                'L_TO' => $titanium_lang['To'],
+                'L_SAVE_MSG' => $titanium_lang['Save_message'],
+                'L_DELETE_MSG' => $titanium_lang['Delete_message'],
+
+                'S_PRIVMSGS_ACTION' => append_titanium_sid("privmsg.$phpEx?folder=$folder"),
+                'S_HIDDEN_FIELDS' => $s_hidden_fields)
+        );
+		endif;
 
 /*****[BEGIN]******************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
@@ -820,34 +913,72 @@ u.user_allow_viewonline
         $post_date = create_date($phpbb2_board_config['default_dateformat'], $privmsg['privmsgs_date'], $phpbb2_board_config['board_timezone']);
 
         $temp_url = "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . '=' . $titanium_user_id_from;
-        $profile_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_profile'] . '" alt="' . $titanium_lang['Read_profile'] . '" title="' . $titanium_lang['Read_profile'] . '" border="0" /></a>';
-        $profile = '<a href="' . $temp_url . '">' . $titanium_lang['Read_profile'] . '</a>';
+        
+		 if ( defined('bootstrap') ):
+		$profile_img = '<a class="titaniumbutton" href="' . $temp_url . '">View Members Profile</a>';
+        else:
+		$profile_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_profile'] . '" alt="' . $titanium_lang['Read_profile'] . '" title="' 
+		. $titanium_lang['Read_profile'] . '" border="0" /></a>';
+		endif;
+
+		$profile = '<a href="' . $temp_url . '">' . $titanium_lang['Read_profile'] . '</a>';
 
         $temp_url = append_titanium_sid("privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . "=$titanium_user_id_from");
-        $pm_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_pm'] . '" alt="' . $titanium_lang['Send_private_message'] . '" title="' . $titanium_lang['Send_private_message'] . '" border="0" /></a>';
-        $pm = '<a href="' . $temp_url . '">' . $titanium_lang['Send_private_message'] . '</a>';
-
-        if ( !empty($privmsg['user_viewemail']) || $userdata['user_level'] == ADMIN )
+        
+		$pm_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_pm'] . '" alt="' . $titanium_lang['Send_private_message'] 
+		. '" title="' . $titanium_lang['Send_private_message'] . '" border="0" /></a>';
+        
+		$pm = '<a href="' . $temp_url . '">' . $titanium_lang['Send_private_message'] . '</a>';
+        
+		if ( defined('bootstrap') ):
+        if(!empty($privmsg['user_viewemail']) || $userdata['user_level'] == ADMIN)
         {
-                $email_uri = ( $phpbb2_board_config['board_email_form'] ) ? "modules.php?name=Profile&mode=email&amp;" . POST_USERS_URL .'=' . $titanium_user_id_from : 'mailto:' . $privmsg['user_email'];
+                $email_uri = ( $phpbb2_board_config['board_email_form'] ) ? "modules.php?name=Profile&mode=email&amp;" 
+				. POST_USERS_URL .'=' . $titanium_user_id_from : 'mailto:' . $privmsg['user_email'];
 
-                $email_img = '<a href="' . $email_uri . '"><img src="' . $images['icon_email'] . '" alt="' . $titanium_lang['Send_email'] . '" title="' . $titanium_lang['Send_email'] . '" border="0" /></a>';
-                $email = '<a href="' . $email_uri . '">' . $titanium_lang['Send_email'] . '</a>';
+                $email_img = '<a class = "titaniumbutton" href="' . $email_uri . '">Send Email</a>';
+                
+				$email = '<a href="' . $email_uri . '">' . $titanium_lang['Send_email'] . '</a>';
         }
         else
         {
                 $email_img = '';
                 $email = '';
         }
+		else:
+        if(!empty($privmsg['user_viewemail']) || $userdata['user_level'] == ADMIN)
+        {
+                $email_uri = ( $phpbb2_board_config['board_email_form'] ) ? "modules.php?name=Profile&mode=email&amp;" 
+				. POST_USERS_URL .'=' . $titanium_user_id_from : 'mailto:' . $privmsg['user_email'];
 
-        $www_img = ( $privmsg['user_website'] ) ? '<a href="' . $privmsg['user_website'] . '" target="_userwww"><img src="' . $images['icon_www'] . '" alt="' . $titanium_lang['Visit_website'] . '" title="' . $titanium_lang['Visit_website'] . '" border="0" /></a>' : '';
-        $www = ( $privmsg['user_website'] ) ? '<a href="' . $privmsg['user_website'] . '" target="_userwww">' . $titanium_lang['Visit_website'] . '</a>' : '';
+                $email_img = '<a href="' . $email_uri . '"><img src="' . $images['icon_email'] . '" alt="' . $titanium_lang['Send_email'] . '" title="' 
+				. $titanium_lang['Send_email'] . '" border="0" /></a>';
+                
+				$email = '<a href="' . $email_uri . '">' . $titanium_lang['Send_email'] . '</a>';
+        }
+        else
+        {
+                $email_img = '';
+                $email = '';
+        }
+		endif;
+
+        if ( defined('bootstrap') ):
+        $www_img = ( $privmsg['user_website'] ) ? '<a class= "titaniumbutton" href="' . $privmsg['user_website'] . '" target="_userwww">Visit Members Web Portal</a>' : '';
+        else:
+        $www_img = ( $privmsg['user_website'] ) ? '<a href="' . $privmsg['user_website'] . '" target="_userwww"><img src="' . $images['icon_www'] . '" alt="' 
+		. $titanium_lang['Visit_website'] . '" title="' . $titanium_lang['Visit_website'] . '" border="0" /></a>' : '';
+		endif;
+		$www = ( $privmsg['user_website'] ) ? '<a href="' . $privmsg['user_website'] . '" target="_userwww">' . $titanium_lang['Visit_website'] . '</a>' : '';
 		
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
 		$phpbb2_bday_month_day = floor($privmsg['user_birthday'] / 10000);
-		$phpbb2_bday_year_age = ( $privmsg['birthday_display'] != BIRTHDAY_NONE && $privmsg['birthday_display'] != BIRTHDAY_DATE ) ? $privmsg['user_birthday'] - 10000*$phpbb2_bday_month_day : 0;
+		
+		$phpbb2_bday_year_age = ( $privmsg['birthday_display'] != BIRTHDAY_NONE && $privmsg['birthday_display'] != BIRTHDAY_DATE ) 
+		? $privmsg['user_birthday'] - 10000*$phpbb2_bday_month_day : 0;
+		
 		$phpbb2_fudge = ( gmdate('md') < $phpbb2_bday_month_day ) ? 1 : 0;
 		$phpbb2_age = ( $phpbb2_bday_year_age ) ? gmdate('Y')-$phpbb2_bday_year_age-$phpbb2_fudge : false;
 /*****[END]********************************************
@@ -857,53 +988,72 @@ u.user_allow_viewonline
         $temp_url = "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . "=$titanium_user_id_from";
 
         $temp_url = "modules.php?name=Forums&amp;file=search&amp;search_author=" . urlencode($titanium_username_from) . "&amp;showresults=posts";
-        $search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . sprintf($titanium_lang['Search_user_posts'], $titanium_username_from) . '" title="' . sprintf($titanium_lang['Search_user_posts'], $titanium_username_from) . '" border="0" /></a>';
-        $search = '<a href="' . $temp_url . '">' . sprintf($titanium_lang['Search_user_posts'], $titanium_username_from) . '</a>';
+        
+		$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . sprintf($titanium_lang['Search_user_posts'], $titanium_username_from) 
+		. '" title="' . sprintf($titanium_lang['Search_user_posts'], $titanium_username_from) . '" border="0" /></a>';
+        
+		$search = '<a href="' . $temp_url . '">' . sprintf($titanium_lang['Search_user_posts'], $titanium_username_from) . '</a>';
 /*****[BEGIN]******************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
-        if ($privmsg['user_session_time_1'] >= (time()-$phpbb2_board_config['online_time']))
+        if($privmsg['user_session_time_1'] >= (time()-$phpbb2_board_config['online_time']))
         {
-            if ($privmsg['user_allow_viewonline_1'])
+            if($privmsg['user_allow_viewonline_1'])
             {
-                $online_status_img = '<a href="' . append_titanium_sid("viewonline.$phpEx") . '"><img src="' . $images['icon_online'] . '" alt="' . sprintf($titanium_lang['is_online'], $titanium_username_from) . '" title="' . sprintf($titanium_lang['is_online'], $titanium_username_from) . '" /></a>&nbsp;';
-                $online_status = '&nbsp;(<strong><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' . sprintf($titanium_lang['is_online'], $titanium_username_from) . '"' . $online_color . '>' . $titanium_lang['Online'] . '</a></strong>)';
+                $online_status_img = '<a href="' . append_titanium_sid("viewonline.$phpEx") . '"><img src="' . $images['icon_online'] . '" alt="' 
+				. sprintf($titanium_lang['is_online'], $titanium_username_from) . '" title="' . sprintf($titanium_lang['is_online'], $titanium_username_from) . '" /></a>&nbsp;';
+                
+				$online_status = '&nbsp;(<strong><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' . sprintf($titanium_lang['is_online'], $titanium_username_from) 
+				. '"' . $online_color . '>' . $titanium_lang['Online'] . '</a></strong>)';
             }
-            else if ($userdata['user_level'] == ADMIN || $userdata['user_id'] == $titanium_user_id_from)
+            elseif ($userdata['user_level'] == ADMIN || $userdata['user_id'] == $titanium_user_id_from)
             {
-                $online_status_img = '<a href="' . append_titanium_sid("viewonline.$phpEx") . '"><img src="' . $images['icon_hidden'] . '" alt="' . sprintf($titanium_lang['is_hidden'], $titanium_username_from) . '" title="' . sprintf($titanium_lang['is_hidden'], $titanium_username_from) . '" /></a>&nbsp;';
-                $online_status = '&nbsp;(<strong><em><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' . sprintf($titanium_lang['is_hidden'], $titanium_username_from) . '"' . $hidden_color . '>' . $titanium_lang['Hidden'] . '</a></em></strong>)';
+                $online_status_img = '<a href="' . append_titanium_sid("viewonline.$phpEx") . '"><img src="' . $images['icon_hidden'] 
+				. '" alt="' . sprintf($titanium_lang['is_hidden'], $titanium_username_from) . '" title="' . sprintf($titanium_lang['is_hidden'], $titanium_username_from) . '" /></a>&nbsp;';
+                
+				$online_status = '&nbsp;(<strong><em><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' 
+				. sprintf($titanium_lang['is_hidden'], $titanium_username_from) . '"' . $hidden_color . '>' . $titanium_lang['Hidden'] . '</a></em></strong>)';
             }
             else
             {
-                $online_status_img = '<img src="' . $images['icon_offline'] . '" alt="' . sprintf($titanium_lang['is_offline'], $titanium_username_from) . '" title="' . sprintf($titanium_lang['is_offline'], $titanium_username_from) . '" />&nbsp;';
-                $online_status = '&nbsp;(<span title="' . sprintf($titanium_lang['is_offline'], $titanium_username_from) . '"' . $offline_color . '><strong>' . $titanium_lang['Offline'] . '</strong></span>)';
+                $online_status_img = '<img src="' . $images['icon_offline'] . '" alt="' . sprintf($titanium_lang['is_offline'], $titanium_username_from) 
+				. '" title="' . sprintf($titanium_lang['is_offline'], $titanium_username_from) . '" />&nbsp;';
+                
+				$online_status = '&nbsp;(<span title="' . sprintf($titanium_lang['is_offline'], $titanium_username_from) . '"' . $offline_color . '><strong>' 
+				. $titanium_lang['Offline'] . '</strong></span>)';
             }
         }
         else
         {
-            $online_status_img = '<img src="' . $images['icon_offline'] . '" alt="' . sprintf($titanium_lang['is_offline'], $titanium_username_from) . '" title="' . sprintf($titanium_lang['is_offline'], $titanium_username_from) . '" />&nbsp;';
-            $online_status = '&nbsp;(<span title="' . sprintf($titanium_lang['is_offline'], $titanium_username_from) . '"' . $offline_color . '><strong>' . $titanium_lang['Offline'] . '</strong></span>)';
+            $online_status_img = '<img src="' . $images['icon_offline'] . '" alt="' . sprintf($titanium_lang['is_offline'], $titanium_username_from) 
+			. '" title="' . sprintf($titanium_lang['is_offline'], $titanium_username_from) . '" />&nbsp;';
+            
+			$online_status = '&nbsp;(<span title="' . sprintf($titanium_lang['is_offline'], $titanium_username_from) . '"' . $offline_color . '><strong>' 
+			. $titanium_lang['Offline'] . '</strong></span>)';
         }
 
-        if ($privmsg['user_session_time_2'] >= (time()-$phpbb2_board_config['online_time']))
+        if($privmsg['user_session_time_2'] >= (time()-$phpbb2_board_config['online_time']))
         {
             if ($privmsg['user_allow_viewonline_2'])
             {
-                $online_status_2 = '&nbsp;(<strong><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' . sprintf($titanium_lang['is_online'], $titanium_username_to) . '"' . $online_color . '>' . $titanium_lang['Online'] . '</a></strong>)';
+                $online_status_2 = '&nbsp;(<strong><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' 
+				. sprintf($titanium_lang['is_online'], $titanium_username_to) . '"' . $online_color . '>' . $titanium_lang['Online'] . '</a></strong>)';
             }
-            else if ($userdata['user_level'] == ADMIN || $userdata['user_id'] == $titanium_user_id_to)
+            elseif ($userdata['user_level'] == ADMIN || $userdata['user_id'] == $titanium_user_id_to)
             {
-                $online_status_2 = '&nbsp;(<strong><em><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' . sprintf($titanium_lang['is_hidden'], $titanium_username_to) . '"' . $hidden_color . '>' . $titanium_lang['Hidden'] . '</a></em></strong>)';
+                $online_status_2 = '&nbsp;(<strong><em><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' 
+				. sprintf($titanium_lang['is_hidden'], $titanium_username_to) . '"' . $hidden_color . '>' . $titanium_lang['Hidden'] . '</a></em></strong>)';
             }
             else
             {
-            $online_status_2 = '&nbsp;(<span title="' . sprintf($titanium_lang['is_offline'], $titanium_username_to) . '"' . $offline_color . '>' . $titanium_lang['Offline'] . '</strong></span>)';
+                $online_status_2 = '&nbsp;(<span title="' . sprintf($titanium_lang['is_offline'], $titanium_username_to) . '"' . $offline_color . '>' 
+				. $titanium_lang['Offline'] . '</strong></span>)';
             }
         }
         else
         {
-            $online_status_2 = '&nbsp;(<span title="' . sprintf($titanium_lang['is_offline'], $titanium_username_to) . '"' . $offline_color . '><strong>' . $titanium_lang['Offline'] . '</strong></span>)';
+            $online_status_2 = '&nbsp;(<span title="' . sprintf($titanium_lang['is_offline'], $titanium_username_to) . '"' . $offline_color . '><strong>' 
+			. $titanium_lang['Offline'] . '</strong></span>)';
         }
 /*****[END]********************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
@@ -936,10 +1086,8 @@ u.user_allow_viewonline
 
         $titanium_user_sig_bbcode_uid = ( $privmsg['privmsgs_from_userid'] == $userdata['user_id'] ) ? $userdata['user_sig_bbcode_uid'] : $privmsg['user_sig_bbcode_uid'];
 
-        //
-        // If the board has HTML off but the post has HTML
-        // on then we process it, else leave it alone
-        //
+        # If the board has HTML off but the post has HTML
+        # on then we process it, else leave it alone
         if ( !$phpbb2_board_config['allow_html'] || !$userdata['user_allowhtml'])
         {
                 if ( !empty($titanium_user_sig))
@@ -1122,12 +1270,6 @@ else if ( ( $delete && $mark_list ) || $delete_all )
         }
         else if ( $confirm )
         {
-				// session id check
-				// if ($sid == '' || $sid != $userdata['session_id'])
-				// {
-				// 	message_die(GENERAL_ERROR, $titanium_lang['Session_invalid']);
-				// }
-
                 $delete_sql_id = '';
 
                 if (!$delete_all)
@@ -2820,12 +2962,14 @@ $phpbb2_template->assign_vars(array(
  		'MODULE_NAME' => $mod_name,
         'MODULE_URI' => append_titanium_sid("privmsg.$phpEx"),
 
-        //'POST_PM_IMG' => $post_pm_img,
+        # FOR BOOT STRAP
 		'POST_PM_IMG' => '<a href="modules.php?name=Private_Messages&mode=post" class="titaniumbutton">Send Private Message</a>',
+		
 /*****[BEGIN]******************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
-        'MASS_PM_IMG' => '<a href="modules.php?name=Forums&file=groupmsg" class="titaniumbutton">Message Everyone</a>',
+        # FOR BOOT STRAP
+		'MASS_PM_IMG' => '<a href="modules.php?name=Forums&file=groupmsg" class="titaniumbutton">Message Everyone</a>',
 
 /*****[END]********************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]

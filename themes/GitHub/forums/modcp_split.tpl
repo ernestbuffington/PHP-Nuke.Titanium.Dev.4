@@ -48,7 +48,7 @@
   </tr>
   <!-- END postrow -->
   <tr> 
-    <td class="catHead center" colspan="3"><input class="liteoption" type="submit" name="split_type_all" value="{L_SPLIT_POSTS}" />&nbsp;<input class="liteoption" type="submit" name="split_type_beyond" value="{L_SPLIT_AFTER}" /></td>
+    <td class="catHead center" colspan="3"><input class="titaniumbutton" type="submit" name="split_type_all" value="{L_SPLIT_POSTS}" />&nbsp;<input class="titaniumbutton" type="submit" name="split_type_beyond" value="{L_SPLIT_AFTER}" /></td>
   </tr>
 </table>
 {S_HIDDEN_FIELDS}

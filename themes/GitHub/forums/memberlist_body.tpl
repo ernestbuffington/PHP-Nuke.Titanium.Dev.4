@@ -11,7 +11,7 @@
     <td class="catHead">
       <table style="width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">
         <tr>
-          <td class="row1" style="text-align: center; width: 33%;">{L_SELECT_SORT_METHOD}&nbsp;{S_MODE_SELECT}&nbsp;{S_ORDER_SELECT}&nbsp;<input type="submit" name="submit" value="{L_GO}" style="cursor: pointer;" class="liteoption" /></td>
+          <td class="row1" style="text-align: center; width: 33%;">{L_SELECT_SORT_METHOD}&nbsp;{S_MODE_SELECT}&nbsp;{S_ORDER_SELECT}&nbsp;<input type="submit" name="submit" value="{L_GO}" style="cursor: pointer;" class="titaniumbutton" /></td>
           <td class="catHead" style="text-align: center; width: 33.3%;"><h1>{L_PAGE_TITLE}</h1></td>
           <td class="row1" style="width: 33%;" align="center">
           <span>

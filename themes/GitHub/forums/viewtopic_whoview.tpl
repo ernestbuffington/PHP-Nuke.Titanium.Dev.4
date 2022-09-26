@@ -15,7 +15,7 @@
   	  <table border="0" cellpadding="0" cellspacing="1" class="col-12" width="100%">
   	  	<tr> 
 	      <td>{L_ACTUAL_TIME}</td>
-	      <td class="col-6 right" width="1">{L_SELECT_SORT_METHOD}:&nbsp;{S_MODE_SELECT}&nbsp;&nbsp;{L_ORDER}&nbsp;{S_ORDER_SELECT}&nbsp;&nbsp;<input type="submit" name="submit" value="{L_SUBMIT}" class="liteoption" /></td>
+	      <td class="col-6 right" width="1">{L_SELECT_SORT_METHOD}:&nbsp;{S_MODE_SELECT}&nbsp;&nbsp;{L_ORDER}&nbsp;{S_ORDER_SELECT}&nbsp;&nbsp;<input type="submit" name="submit" value="{L_SUBMIT}" class="titaniumbutton" /></td>
         </tr>
   	  	<tr> 
 	      <td>{L_LAST_VIEWED_TOPIC_LINK_PREFIX} {L_LAST_VIEWED_TOPIC_LINK}</td>

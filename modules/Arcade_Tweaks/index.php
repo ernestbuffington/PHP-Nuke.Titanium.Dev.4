@@ -301,7 +301,7 @@ function MakeIntelliAddForm($basename)
         $content .= "        <option value=\"" . $category['arcade_catid'] . "\" >" . $category['arcade_cattitle'] . "</option>\n";
     } 
     $content .= "    </select>\n";
-    $content .= "    <input type=\"submit\" class=\"liteoption\" value=\"IntelliAdd\">";
+    $content .= "    <input type=\"submit\" class=\"titaniumbutton\" value=\"IntelliAdd\">";
     $content .= "</form>\n";
     return $content;
 } 
@@ -532,7 +532,7 @@ function SearchDB()
                 echo "<option value=\"removefromdb\">Remove from DB</option>";
                 echo "<option value=\"removefiles\">Remove files from DB and Dir</option>";
                 echo "</select>";
-                echo "<input type=\"submit\" class=\"liteoption\"></form>";
+                echo "<input type=\"submit\" class=\"titaniumbutton\"></form>";
             } 
         } //if ($searchin!="comment")
         else { // it's a search on comment
@@ -609,7 +609,7 @@ function EditComment()
             ."<br /><a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['user_id']."\">".$row['username']."</a>"
             ."<br />".date( "D M d, Y g:i a" , $row['game_highdate'] )."</td>\n"
             ."<td colspan=\"10\" align=\"center\"><textarea ROWS=6 COLS=40 name=\"comment_text\">".$row['comments_value']."</textarea></td></tr>\n";
-        echo "<tr><td></td><td></td><td align=\"center\" colspan=\"10\"><input type=\"submit\" class=\"liteoption\" value=\"Change Comment\"></td></tr>\n";
+        echo "<tr><td></td><td></td><td align=\"center\" colspan=\"10\"><input type=\"submit\" class=\"titaniumbutton\" value=\"Change Comment\"></td></tr>\n";
         echo "</form>\n";
         echo "</table>\n";
     }
@@ -627,7 +627,7 @@ function SearchDBForm()
     $content .= "    <option value=\"comment\">Comments</option>\n";
     $content .= "    <option value=\"gameid\">Game's ID</option>\n";
     $content .= "</select>\n";
-    $content .= "<input type=\"submit\" class=\"liteoption\" value=\"Search..\">";
+    $content .= "<input type=\"submit\" class=\"titaniumbutton\" value=\"Search..\">";
     $content .= "</form>\n";
     return $content;
 } 
@@ -757,7 +757,7 @@ function setCheckboxes(do_check)
     echo "<option value=\"removefromdb\">Remove from DB</option>";
     echo "<option value=\"removefiles\">Remove files from DB and Dir</option>";
     echo "</select>";
-    echo "<input type=\"submit\" class=\"liteoption\"></form>";
+    echo "<input type=\"submit\" class=\"titaniumbutton\"></form>";
     MakePageDBLinks(0, count($gamesdata), $filesbypage, $cstart);
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
@@ -786,7 +786,7 @@ function SubmitChange()
             foreach($_categoryArray AS $row) {
                 echo "<option value=\"" . $row['arcade_catid'] . "\">" . $row['arcade_cattitle'];
             } 
-            echo "</select>&nbsp;<input type=\"submit\" class=\"liteoption\" name=\"Move\">";
+            echo "</select>&nbsp;<input type=\"submit\" class=\"titaniumbutton\" name=\"Move\">";
             echo "<input type=\"hidden\" name=\"selectaction\" value=\"changecat\">"
              . "</form>";
             CloseTable();
@@ -804,7 +804,7 @@ function SubmitChange()
             echo "</ul>";
             echo "<u>New window size</u>:  <strong>Width:</strong> <input type=\"text\" class=\"select\" name=\"gwidth\" value=\"\" size=\"4\">";
             echo "   <strong>Height:</strong> <input type=\"text\" class=\"select\" name=\"gheight\" value=\"\" size=\"4\">";
-            echo "&nbsp;<input type=\"submit\" class=\"liteoption\" value=\"Set Size\">";
+            echo "&nbsp;<input type=\"submit\" class=\"titaniumbutton\" value=\"Set Size\">";
             echo "<input type=\"hidden\" name=\"selectaction\" value=\"changesize\">"
              . "</form>";
             CloseTable();
@@ -822,9 +822,9 @@ function SubmitChange()
             echo "</ul>";
             echo "Please Confirm you want to remove ALL Scores for this games: ";
             echo "<input type=\"hidden\" name=\"selectaction\" value=\"removescore\">";
-            echo "<br /><input type=\"submit\" class=\"liteoption\" value=\"I Confirm\"></form>";
+            echo "<br /><input type=\"submit\" class=\"titaniumbutton\" value=\"I Confirm\"></form>";
             echo "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=checkDB\" name=\"dontconfirm\" method=\"post\">";
-            echo "<input type=\"submit\" class=\"liteoption\" value=\"No,Dont Remove scores\"></form>";
+            echo "<input type=\"submit\" class=\"titaniumbutton\" value=\"No,Dont Remove scores\"></form>";
             CloseTable();
             include_once(NUKE_BASE_DIR.'footer.php');
             break;
@@ -840,9 +840,9 @@ function SubmitChange()
             echo "</ul>";
             echo "Please Confirm you want to <strong><big>remove this " . count($gameid) . " game(s) from DB</big></strong> (Files will stay in your games directory.): ";
             echo "<input type=\"hidden\" name=\"selectaction\" value=\"removefromdb\">";
-            echo "<br /><input type=\"submit\" class=\"liteoption\" value=\"I Confirm\"></form>";
+            echo "<br /><input type=\"submit\" class=\"titaniumbutton\" value=\"I Confirm\"></form>";
             echo "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=checkDB\" name=\"dontconfirm\" method=\"post\">";
-            echo "<input type=\"submit\" class=\"liteoption\" value=\"No,Dont Remove this games\"></form>";
+            echo "<input type=\"submit\" class=\"titaniumbutton\" value=\"No,Dont Remove this games\"></form>";
             CloseTable();
             include_once(NUKE_BASE_DIR.'footer.php');
             break;
@@ -1088,7 +1088,7 @@ function ShowCategory()
     echo "<br /><hr width='40%'>";
     echo "<center><form action=\"modules.php?name=$titanium_module_name&amp;m_op=addcategory\" method=\"post\">Add a Category:&nbsp;";
     echo "<input type=\"text\" class=\"select\" name=\"title\" value=\"\" length=\"15\" maxlength=\"100\">&nbsp;";
-    echo "<input type=\"submit\" class=\"liteoption\" value=\"Add\">";
+    echo "<input type=\"submit\" class=\"titaniumbutton\" value=\"Add\">";
     echo "</form></center>";
     if (isset($catid)) {
         echo "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=submitchange\" name=\"gameselection\"method=\"post\">";
@@ -1141,7 +1141,7 @@ function setCheckboxes(do_check)
         echo "<option value=\"removefromdb\">Remove from DB</option>";
         echo "<option value=\"removefiles\">Remove files from DB and Dir</option>";
         echo "</select>";
-        echo "<input type=\"submit\" class=\"liteoption\"></form>";
+        echo "<input type=\"submit\" class=\"titaniumbutton\"></form>";
     } 
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');

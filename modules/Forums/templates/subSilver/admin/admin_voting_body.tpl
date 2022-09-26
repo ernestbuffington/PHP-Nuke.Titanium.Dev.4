@@ -71,7 +71,7 @@
   <table width="100%" cellspacing="2" cellpadding="2" border="0" align="center">
     <tr> 
       <td align="right" nowrap="nowrap"><span class="genmed">{L_SELECT_SORT_FIELD}:&nbsp;{S_FIELD_SELECT}&nbsp;&nbsp;{L_SORT_ORDER}:&nbsp;{S_ORDER_SELECT}&nbsp;&nbsp; 
-        <input type="submit" name="submit" value="{L_SUBMIT}" class="liteoption" />
+        <input type="submit" name="submit" value="{L_SUBMIT}" class="titaniumbutton" />
         </span>
       </td>
     </tr>

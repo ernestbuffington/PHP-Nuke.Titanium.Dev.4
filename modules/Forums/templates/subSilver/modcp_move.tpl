@@ -23,7 +23,7 @@
               {S_HIDDEN_FIELDS} 
               <input class="mainoption" type="submit" name="confirm" value="{L_YES}" />
               &nbsp;&nbsp; 
-              <input class="liteoption" type="submit" name="cancel" value="{L_NO}" />
+              <input class="titaniumbutton" type="submit" name="cancel" value="{L_NO}" />
             </td>
           </tr>
           <tr> 

@@ -58,7 +58,7 @@
           </td>
           <td class="row1" nowrap="nowrap">{L_SHOW}</td>
           <td class="row1" nowrap="nowrap"><input type="text" size="5" value="{S_SHOW}" name="show"></td>
-          <td class="row1" nowrap="nowrap">{S_HIDDEN_FIELDS}<input type="submit" value="{S_SORT}" name="change_sort" class="liteoption"></td>
+          <td class="row1" nowrap="nowrap">{S_HIDDEN_FIELDS}<input type="submit" value="{S_SORT}" name="change_sort" class="titaniumbutton"></td>
         </tr>
       </table>
     </td>

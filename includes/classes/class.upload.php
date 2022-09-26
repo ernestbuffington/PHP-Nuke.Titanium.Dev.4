@@ -131,7 +131,7 @@ class myubrowse
                                 echo "<option value=\"".$row['username']."\">".$row['username']." ($count, $size)</option>\n";
                         }
                 }
-                echo "</select> <input type=\"submit\" class=\"liteoption\" value=\"".MYU_SUBMIT."\"> <input type=\"submit\" class=\"liteoption\" name=\"cancel\" value=\"".MYU_GOBACK."\"></form>";
+                echo "</select> <input type=\"submit\" class=\"titaniumbutton\" value=\"".MYU_SUBMIT."\"> <input type=\"submit\" class=\"titaniumbutton\" name=\"cancel\" value=\"".MYU_GOBACK."\"></form>";
                 CloseTable();
                 include_once(NUKE_BASE_DIR.'footer.php');
         }
@@ -181,7 +181,7 @@ class myubrowse
                 echo "</table>";
                 closedir($open);
                 echo "<form action=\"modules.php?name=".$this->module_name."&amp;file=browse\" method=\"post\">\n"
-                    ."<center><input type=\"submit\" class=\"liteoption\" value=\"".MYU_GOBACK."\"></center>\n";
+                    ."<center><input type=\"submit\" class=\"titaniumbutton\" value=\"".MYU_GOBACK."\"></center>\n";
                 CloseTable();
                 include_once(NUKE_BASE_DIR.'footer.php');
         }

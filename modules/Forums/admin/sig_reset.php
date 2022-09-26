@@ -81,7 +81,7 @@ switch ( $mode )
                 <th class="thHead" height="25" valign="middle"><span class="tableTitle"><?php echo $titanium_lang['sig_reset'];?></span></th>
             </tr>
             <tr>
-                <td class="row1" align="center"><form action="<?php echo "sig_reset.$phpEx?mode=all"?>" method="post"><span class="gen"><br /><?php echo $titanium_lang['sig_reset_confirm'];?><br /><br /><input type="submit" name="confirm" value="<?php echo $titanium_lang['Yes'];?>" class="liteoption" />&nbsp;&nbsp;<input type="submit" name="cancel" value="<?php echo $titanium_lang['No'];?>" class="mainoption" onclick="javascript:window.close();" /></span></form></td>
+                <td class="row1" align="center"><form action="<?php echo "sig_reset.$phpEx?mode=all"?>" method="post"><span class="gen"><br /><?php echo $titanium_lang['sig_reset_confirm'];?><br /><br /><input type="submit" name="confirm" value="<?php echo $titanium_lang['Yes'];?>" class="titaniumbutton" />&nbsp;&nbsp;<input type="submit" name="cancel" value="<?php echo $titanium_lang['No'];?>" class="mainoption" onclick="javascript:window.close();" /></span></form></td>
             </tr>
         </table><?php
         break; 

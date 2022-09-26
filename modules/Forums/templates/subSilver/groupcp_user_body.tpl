@@ -17,7 +17,7 @@
         <tr><form method="post" action="{S_USERGROUP_ACTION}">
             <td width="40%"><span class="gensmall">{GROUP_MEMBER_SELECT}</span></td>
             <td align="center" width="30%"> 
-              <input type="submit" value="{L_VIEW_INFORMATION}" class="liteoption" />{S_HIDDEN_FIELDS}
+              <input type="submit" value="{L_VIEW_INFORMATION}" class="titaniumbutton" />{S_HIDDEN_FIELDS}
             </td>
         </form></tr>
       </table>
@@ -32,7 +32,7 @@
         <tr><form method="post" action="{S_USERGROUP_ACTION}">
             <td width="40%"><span class="gensmall">{GROUP_PENDING_SELECT}</span></td>
             <td align="center" width="30%"> 
-              <input type="submit" value="{L_VIEW_INFORMATION}" class="liteoption" />{S_HIDDEN_FIELDS}
+              <input type="submit" value="{L_VIEW_INFORMATION}" class="titaniumbutton" />{S_HIDDEN_FIELDS}
             </td>
         </form></tr>
       </table>
@@ -51,7 +51,7 @@
         <tr><form method="post" action="{S_USERGROUP_ACTION}">
             <td width="40%"><span class="gensmall">{GROUP_LIST_SELECT}</span></td>
             <td align="center" width="30%"> 
-              <input type="submit" value="{L_VIEW_INFORMATION}" class="liteoption" />{S_HIDDEN_FIELDS}
+              <input type="submit" value="{L_VIEW_INFORMATION}" class="titaniumbutton" />{S_HIDDEN_FIELDS}
             </td>
         </form></tr>
       </table>

@@ -10,7 +10,7 @@
       <th class="thHead" colspan="{S_COLSPAN}" height="25" valign="middle">{L_AVATAR_GALLERY}</th>
     </tr>
     <tr> 
-      <td class="catBottom" align="center" valign="middle" colspan="6" height="28"><span class="genmed">{L_CATEGORY}:&nbsp;{S_CATEGORY_SELECT}&nbsp;<input type="submit" class="liteoption" value="{L_GO}" name="avatargallery" /></span></td>
+      <td class="catBottom" align="center" valign="middle" colspan="6" height="28"><span class="genmed">{L_CATEGORY}:&nbsp;{S_CATEGORY_SELECT}&nbsp;<input type="submit" class="titaniumbutton" value="{L_GO}" name="avatargallery" /></span></td>
     </tr>
     <!-- BEGIN avatar_row -->
     <tr> 
@@ -29,7 +29,7 @@
       <td class="catBottom" colspan="{S_COLSPAN}" align="center" height="28">{S_HIDDEN_FIELDS} 
         <input type="submit" name="submitavatar" value="{L_SELECT_AVATAR}" class="mainoption" />
         &nbsp;&nbsp; 
-        <input type="submit" name="cancelavatar" value="{L_RETURN_PROFILE}" class="liteoption" />
+        <input type="submit" name="cancelavatar" value="{L_RETURN_PROFILE}" class="titaniumbutton" />
       </td>
     </tr>
   </table>

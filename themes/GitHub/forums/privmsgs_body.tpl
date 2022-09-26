@@ -36,7 +36,7 @@ nuke_jq( document ).ready(function($)
   <tr> 
     <td width="77%" align="left" valign="middle">{POST_PM_IMG} {MASS_PM_IMG}<strong>&nbsp;<a href="{U_HINDEX}">{L_INDEXHOME}</a></strong> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i><strong> Private Messages</strong> {PAGE_NUMBER}</td>
     <td width="23%" align="right" nowrap="nowrap">
-      {L_DISPLAY_MESSAGES}: <select name="msgdays">{S_SELECT_MSG_DAYS}</select><input type="submit" value="{L_GO}" name="submit_msgdays" class="liteoption" />
+      {L_DISPLAY_MESSAGES}: <select name="msgdays">{S_SELECT_MSG_DAYS}</select><input type="submit" value="{L_GO}" name="submit_msgdays" class="titaniumbutton" />
     </td>
   </tr>
 </table>

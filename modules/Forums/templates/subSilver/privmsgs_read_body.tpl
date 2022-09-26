@@ -67,12 +67,12 @@
     </tr>
     <tr>
       <td class="catBottom" colspan="3" height="28" align="right"> {S_HIDDEN_FIELDS} 
-        <input type="submit" name="save" value="{L_SAVE_MSG}" class="liteoption" />
+        <input type="submit" name="save" value="{L_SAVE_MSG}" class="titaniumbutton" />
         &nbsp; 
-        <input type="submit" name="delete" value="{L_DELETE_MSG}" class="liteoption" />
+        <input type="submit" name="delete" value="{L_DELETE_MSG}" class="titaniumbutton" />
         <!-- BEGIN switch_attachments -->
         &nbsp; 
-        <input type="submit" name="pm_delete_attach" value="{L_DELETE_ATTACHMENTS}" class="liteoption" />
+        <input type="submit" name="pm_delete_attach" value="{L_DELETE_ATTACHMENTS}" class="titaniumbutton" />
         <!-- END switch_attachments -->
       </td>
     </tr>

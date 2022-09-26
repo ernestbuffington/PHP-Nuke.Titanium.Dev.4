@@ -143,7 +143,7 @@ if (is_mod_admin()) {
         </tr>';
         $submit = ' &nbsp;
         <input type="submit" name="send" value="'.$admlang['global']['send'].'&nbsp;'._NEWSLETTER.'" class="mainoption"'.$status.' /> &nbsp;
-        <input type="submit" name="discard" value="'.$admlang['global']['discard'].'" class="liteoption" />
+        <input type="submit" name="discard" value="'.$admlang['global']['discard'].'" class="titaniumbutton" />
         <input type="hidden" name="n_group" value="'.$group.'" />';
     }
 

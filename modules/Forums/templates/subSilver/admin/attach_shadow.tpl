@@ -57,7 +57,7 @@
   <!-- END table_shadow_row -->
     <tr align="right"> 
       <td class="catBottom" colspan="5" height="29">
-      <input type="submit" name="submit" class="liteoption" value="{L_DELETE_MARKED}" /></td>
+      <input type="submit" name="submit" class="titaniumbutton" value="{L_DELETE_MARKED}" /></td>
     </tr>
 </table>
 {S_HIDDEN}

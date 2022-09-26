@@ -38,7 +38,7 @@
     </tr>
 <!-- END module_admin_fields -->
     <tr>
-        <td class="catBottom" colspan="2" align="center">{S_HIDDEN_FIELDS}<input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" class="liteoption" /></td>
+        <td class="catBottom" colspan="2" align="center">{S_HIDDEN_FIELDS}<input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" class="titaniumbutton" /></td>
     </tr>
 </table>
 <br />
@@ -72,19 +72,19 @@
         <td class="row1">{L_ADDED_GROUPS}</td>
         <td class="row2">{S_SELECTED_GROUPS}&nbsp;
 <!-- BEGIN switch_groups_selected -->
-<input type="submit" name="delete_group" value="{L_REMOVE}" class="liteoption" /></td>
+<input type="submit" name="delete_group" value="{L_REMOVE}" class="titaniumbutton" /></td>
 <!-- END switch_groups_selected -->
     </tr>
     <tr> 
         <td class="row1">{L_GROUPS}</td>
         <td class="row2">{S_GROUP_SELECT}&nbsp;
 <!-- BEGIN switch_groups_there -->
-<input type="submit" name="add_group" value="{L_ADD}" class="liteoption" /></td>
+<input type="submit" name="add_group" value="{L_ADD}" class="titaniumbutton" /></td>
 <!-- END switch_groups_there -->
         </td>
     </tr>
     <tr>
-        <td class="catBottom" colspan="2" align="center">{S_HIDDEN_FIELDS}<input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" class="liteoption" /></td>
+        <td class="catBottom" colspan="2" align="center">{S_HIDDEN_FIELDS}<input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" class="titaniumbutton" /></td>
     </tr>
 </table>
 </form>
@@ -146,6 +146,6 @@
         <td class="row2"><input type="file" name="package" size="20" value="" class="post"></td>
     </tr>
     <tr>
-        <td class="catBottom" colspan="2" align="center">{S_SELECT_HIDDEN_FIELDS}{S_UPLOAD_HIDDEN_FIELDS}<input type="submit" name="submit" value="{L_UPDATE}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" class="liteoption" /></td>
+        <td class="catBottom" colspan="2" align="center">{S_SELECT_HIDDEN_FIELDS}{S_UPLOAD_HIDDEN_FIELDS}<input type="submit" name="submit" value="{L_UPDATE}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" class="titaniumbutton" /></td>
     </tr>
 </table></form>

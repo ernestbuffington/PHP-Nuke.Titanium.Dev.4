@@ -267,12 +267,12 @@ if (($select_from || $select_to) && (!$cancel))
     {
         if ( $phpbb2_start > 0 )
         {
-            $pagination .= '<input type="submit" name="page_prec" value="&laquo;" class="liteoption" />&nbsp;';
+            $pagination .= '<input type="submit" name="page_prec" value="&laquo;" class="titaniumbutton" />&nbsp;';
         }
         $pagination .= sprintf($titanium_lang['Page_of'], ($phpbb2_start+1), $nbpages) . '&nbsp;';
         if ( $phpbb2_start < ($nbpages-1) )
         {
-            $pagination .= '<input type="submit" name="page_next" value="&raquo;" class="liteoption" />';
+            $pagination .= '<input type="submit" name="page_next" value="&raquo;" class="titaniumbutton" />';
         }
     }
 
@@ -316,7 +316,7 @@ if (($select_from || $select_to) && (!$cancel))
     $split_type = true;
     $display_nav_tree = false;
     $footer = '<input type="submit" name="submit" value="' . $titanium_lang['Select'] . '" class="mainoption" />';
-    $footer .= '&nbsp;<input type="submit" name="cancel" value="' . $titanium_lang['Cancel'] . '" class="liteoption" />';
+    $footer .= '&nbsp;<input type="submit" name="cancel" value="' . $titanium_lang['Cancel'] . '" class="titaniumbutton" />';
     $inbox = false;
     $select_field = 'topic_selected';
     $select_type = 2;

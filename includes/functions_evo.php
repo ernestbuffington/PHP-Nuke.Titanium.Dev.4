@@ -882,7 +882,7 @@ function confirm_msg($link, $msg) {
         <tr>
             <td class="row1" align="center"><form action="'.$link.'" method="post"><span class="gen">
                 <br />'.$msg.'<br /><br /><input type="submit" name="confirm" value="'._YES.'" class="mainoption" />
-                &nbsp;&nbsp;<input type="submit" name="cancel" value="'._NO.'" class="liteoption" /></span></form>
+                &nbsp;&nbsp;<input type="submit" name="cancel" value="'._NO.'" class="titaniumbutton" /></span></form>
             </td>
         </tr>
     </table>

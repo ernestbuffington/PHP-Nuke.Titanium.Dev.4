@@ -13,6 +13,6 @@
     </tr>
     <!-- END select_box -->
     <tr>
-        <td class="catBottom" align="center">{S_HIDDEN_FIELDS}<input type="submit" class="liteoption" name="new" value="{L_CREATE_NEW_GROUP}" /></td>
+        <td class="catBottom" align="center">{S_HIDDEN_FIELDS}<input type="submit" class="titaniumbutton" name="new" value="{L_CREATE_NEW_GROUP}" /></td>
     </tr>
 </table></form>

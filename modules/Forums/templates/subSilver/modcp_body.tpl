@@ -37,14 +37,14 @@
     <!-- END topicrow -->
     <tr align="right"> 
       <td class="catBottom" colspan="6" height="29"> {S_HIDDEN_FIELDS} 
-        <input type="submit" name="delete" class="liteoption" value="{L_DELETE}" />
+        <input type="submit" name="delete" class="titaniumbutton" value="{L_DELETE}" />
         &nbsp; 
-        <input type="submit" name="move" class="liteoption" value="{L_MOVE}" />
+        <input type="submit" name="move" class="titaniumbutton" value="{L_MOVE}" />
         &nbsp; 
-        <input type="submit" name="lock" class="liteoption" value="{L_LOCK}" />
+        <input type="submit" name="lock" class="titaniumbutton" value="{L_LOCK}" />
         &nbsp; 
-        <input type="submit" name="unlock" class="liteoption" value="{L_UNLOCK}" />
-            <input type="submit" name="cement" class="liteoption" value="{L_PRIORITIZE}" />
+        <input type="submit" name="unlock" class="titaniumbutton" value="{L_UNLOCK}" />
+            <input type="submit" name="cement" class="titaniumbutton" value="{L_PRIORITIZE}" />
       </td>
     </tr>
   </table>

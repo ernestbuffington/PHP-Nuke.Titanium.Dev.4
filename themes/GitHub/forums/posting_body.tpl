@@ -58,7 +58,7 @@
   <!-- BEGIN switch_privmsg -->
   <tr> 
     <td class="row1">{L_USERNAME}</td>
-    <td class="row2"><input type="text" class="post" name="username" style="width:30%; padding-left:7px; letter-spacing:1px;" tabindex="1" value="{USERNAME}" />&nbsp;<input style="border:1px solid black; cursor:pointer; text-transform: uppercase;" type="submit" name="usersubmit" value="{L_FIND_USERNAME}" class="liteoption" onclick="window.open('{U_SEARCH_USER}', '_phpbbsearch', 'HEIGHT=250,resizable=yes,WIDTH=400');return false;" /></td>
+    <td class="row2"><input type="text" class="post" name="username" style="width:30%; padding-left:7px; letter-spacing:1px;" tabindex="1" value="{USERNAME}" />&nbsp;<input style="border:1px solid black; cursor:pointer; text-transform: uppercase;" type="submit" name="usersubmit" value="{L_FIND_USERNAME}" class="titaniumbutton" onclick="window.open('{U_SEARCH_USER}', '_phpbbsearch', 'HEIGHT=250,resizable=yes,WIDTH=400');return false;" /></td>
   </tr>
   <!-- END switch_privmsg -->
   <!-- Start add - Custom mass PM MOD -->
@@ -153,8 +153,8 @@
   <tr> 
     <td style="height:30px; text-align:center;" class="catBottom" colspan="2">
       {S_HIDDEN_FORM_FIELDS}
-      <input type="submit" tabindex="5" name="preview" id="preview" class="liteoption" value="{L_PREVIEW}" />
-      <input type="submit" id="submit" accesskey="s" tabindex="6" name="post" class="liteoption" value="{L_SUBMIT}" />
+      <input type="submit" tabindex="5" name="preview" id="preview" class="titaniumbutton" value="{L_PREVIEW}" />
+      <input type="submit" id="submit" accesskey="s" tabindex="6" name="post" class="titaniumbutton" value="{L_SUBMIT}" />
     </td>
   </tr>
 </table>

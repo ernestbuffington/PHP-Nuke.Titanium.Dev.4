@@ -35,7 +35,7 @@ function toggle_check_all()
   <table width="100%" cellspacing="2" cellpadding="2" border="0" align="center">
     <tr>
       <td align="right" nowrap="nowrap"><span class="genmed">{L_SELECT_SORT_METHOD}:&nbsp;{S_MODE_SELECT}&nbsp;&nbsp;{L_ORDER}&nbsp;{S_ORDER_SELECT}&nbsp;&nbsp; 
-        <input type="submit" name="submit" value="{L_SORT}" class="liteoption" />
+        <input type="submit" name="submit" value="{L_SORT}" class="titaniumbutton" />
         </span></td>
     </tr>
   </table>
@@ -66,7 +66,7 @@ function toggle_check_all()
     </tr>
     <!-- END emptyrow -->
     <tr> 
-      <td class="catbottom" colspan="6" height="28" align="center"><input type="submit" class="mainoption" value="{L_DELETE}">&nbsp;&nbsp;<input type="reset" class="liteoption" value="{L_CLEAR}"></td>
+      <td class="catbottom" colspan="6" height="28" align="center"><input type="submit" class="mainoption" value="{L_DELETE}">&nbsp;&nbsp;<input type="reset" class="titaniumbutton" value="{L_CLEAR}"></td>
     </tr>
   </table>
 </form>

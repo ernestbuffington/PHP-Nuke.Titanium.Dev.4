@@ -18,7 +18,7 @@
         <td class="row2"><input class="post" type="text" name="search_url2" size="55" maxlength="255" value="{SEARCH_URL2}" /></td>
     </tr>
     <tr>
-        <td class="catBottom" colspan="2" align="center"><input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" class="liteoption" /></td>
+        <td class="catBottom" colspan="2" align="center"><input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" class="titaniumbutton" /></td>
     </tr>
 </table>
 {S_HIDDEN_FIELDS}</form>

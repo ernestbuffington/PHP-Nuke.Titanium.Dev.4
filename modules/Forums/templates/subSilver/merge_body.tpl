@@ -22,7 +22,7 @@
     <td class="row2" width="50%">
         <span class="gen">
             <input type="text" class="post" name="from_topic" size="50" maxlength="60" value="{FROM_TOPIC}" />
-            <input type="submit" class="liteoption" name="select_from" value="{L_SEARCH}" />
+            <input type="submit" class="titaniumbutton" name="select_from" value="{L_SEARCH}" />
         </span>
     </td>
 </tr>
@@ -31,7 +31,7 @@
     <td class="row2" width="50%">
         <span class="gen">
             <input type="text" class="post" name="to_topic" size="50" maxlength="60" value="{TO_TOPIC}" />
-            <input type="submit" class="liteoption" name="select_to" value="{L_SEARCH}" />
+            <input type="submit" class="titaniumbutton" name="select_to" value="{L_SEARCH}" />
         </span>
     </td>
 </tr>
@@ -42,7 +42,7 @@
 <tr>
     <td class="catBottom" colspan="2" align="center" height="28">
         <input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />
-        <input type="submit" name="refresh" value="{L_REFRESH}" class="liteoption" />
+        <input type="submit" name="refresh" value="{L_REFRESH}" class="titaniumbutton" />
         {S_HIDDEN_FIELDS}
     </td>
 </tr>

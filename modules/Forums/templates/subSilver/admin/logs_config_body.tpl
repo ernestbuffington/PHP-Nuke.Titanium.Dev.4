@@ -12,14 +12,14 @@
     </tr>
     <tr> 
         <td class="row1">{L_ADD_ADMIN_USERNAME}<br /><span class="gensmall">{L_USERNAME_ADD_ADMIN_EXPLAIN}</span></td>
-        <td class="row2">{S_ADD_ADMIN}&nbsp;<input type="submit" name="add_admin" value="{L_ADD}" class="liteoption" /></td>
+        <td class="row2">{S_ADD_ADMIN}&nbsp;<input type="submit" name="add_admin" value="{L_ADD}" class="titaniumbutton" /></td>
     </tr>
     <tr>
         <td class="row1">{L_DELETE_ADMIN_USERNAME}<br /><span class="gensmall">{L_USERNAME_DELETE_ADMIN_EXPLAIN}</span></td>
-        <td class="row2">{S_DELETE_ADMIN}&nbsp;<input type="submit" name="delete_admin" value="{L_DELETE}" class="liteoption" /></td>
+        <td class="row2">{S_DELETE_ADMIN}&nbsp;<input type="submit" name="delete_admin" value="{L_DELETE}" class="titaniumbutton" /></td>
     </tr>
         <tr>
-        <td class="catBottom" colspan="2" align="center">{S_HIDDEN_FIELDS}<input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" class="liteoption" />
+        <td class="catBottom" colspan="2" align="center">{S_HIDDEN_FIELDS}<input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" class="titaniumbutton" />
         </td>
     </tr>
 </table>
@@ -31,7 +31,7 @@
     </tr>
     <tr> 
         <td class="row1">{L_PRUNE}<br /><span class="gensmall">{L_PRUNE_EXPLAIN}</span></td>
-        <td class="row2"><input type="text" name="prune_days" size="5" class="liteoption" />&nbsp;<input type="submit" name="do_prune" value="{L_DO_PRUNE}" class="mainoption" /></td>
+        <td class="row2"><input type="text" name="prune_days" size="5" class="titaniumbutton" />&nbsp;<input type="submit" name="do_prune" value="{L_DO_PRUNE}" class="mainoption" /></td>
     </tr>
 </table>
 </form>

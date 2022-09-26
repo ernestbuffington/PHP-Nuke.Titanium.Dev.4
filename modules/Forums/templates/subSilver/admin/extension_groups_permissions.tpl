@@ -21,7 +21,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="cat" align="center"> <input class="liteoption" type="submit" name="del_forum" value="{L_REMOVE_SELECTED}" /> &nbsp; <input class="liteoption" type="submit" name="close_perm" value="{L_CLOSE_WINDOW}" /><input type="hidden" name="e_mode" value="perm" /></td>
+                    <td class="cat" align="center"> <input class="titaniumbutton" type="submit" name="del_forum" value="{L_REMOVE_SELECTED}" /> &nbsp; <input class="titaniumbutton" type="submit" name="close_perm" value="{L_CLOSE_WINDOW}" /><input type="hidden" name="e_mode" value="perm" /></td>
                 </tr>
             </table>
             </form>
@@ -44,7 +44,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="cat" align="center"> <input type="submit" name="add_forum" value="{L_ADD_SELECTED}" class="mainoption" />&nbsp; <input type="reset" value="{L_RESET}" class="liteoption" />&nbsp; <input type="hidden" name="e_mode" value="perm" /></td>
+                    <td class="cat" align="center"> <input type="submit" name="add_forum" value="{L_ADD_SELECTED}" class="mainoption" />&nbsp; <input type="reset" value="{L_RESET}" class="titaniumbutton" />&nbsp; <input type="hidden" name="e_mode" value="perm" /></td>
                 </tr>
             </table>
             </form>

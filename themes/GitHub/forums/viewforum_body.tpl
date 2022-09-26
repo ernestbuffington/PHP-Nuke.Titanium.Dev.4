@@ -92,7 +92,7 @@
       <table cellspacing="0" cellpadding="0" border="0" style="float: right;">
         <tr>
           <td>
-            {L_DISPLAY_TOPICS}:&nbsp;{S_SELECT_TOPIC_DAYS}&nbsp; {S_DISPLAY_ORDER}<input type="submit" class="liteoption" value="{L_GO}" name="submit" />
+            {L_DISPLAY_TOPICS}:&nbsp;{S_SELECT_TOPIC_DAYS}&nbsp; {S_DISPLAY_ORDER}<input type="submit" class="titaniumbutton" value="{L_GO}" name="submit" />
           </td>
         </tr>
       </table>

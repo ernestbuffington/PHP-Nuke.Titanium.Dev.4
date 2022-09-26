@@ -230,7 +230,7 @@
         <tr>
           <td>
             <form method="post" action="{S_POST_DAYS_ACTION}">
-              {L_DISPLAY_POSTS}: {S_SELECT_POST_DAYS}{S_SELECT_POST_ORDER} <input type="submit" value="{L_GO}" class="liteoption" name="submit" />
+              {L_DISPLAY_POSTS}: {S_SELECT_POST_DAYS}{S_SELECT_POST_ORDER} <input type="submit" value="{L_GO}" class="titaniumbutton" name="submit" />
             </form>
           </td>
         </tr>

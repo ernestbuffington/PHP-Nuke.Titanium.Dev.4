@@ -31,7 +31,7 @@
       <td class="cat" colspan="9" align="right"><span class="cattitle"> 
         <input type="submit" name="approve" value="{L_APPROVE_SELECTED}" class="mainoption" />
         &nbsp; 
-        <input type="submit" name="deny" value="{L_DENY_SELECTED}" class="liteoption" />
+        <input type="submit" name="deny" value="{L_DENY_SELECTED}" class="titaniumbutton" />
         </span></td>
     </tr>
 </table>

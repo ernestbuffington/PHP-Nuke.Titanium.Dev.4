@@ -7,7 +7,7 @@
   <table width="100%" cellspacing="2" cellpadding="2" border="0" align="center">
     <tr> 
       <td align="right" nowrap="nowrap"><span class="genmed">{L_VIEW}:&nbsp;{S_VIEW_SELECT}&nbsp;&nbsp; 
-        <input type="submit" name="submit" value="{L_SUBMIT}" class="liteoption" />
+        <input type="submit" name="submit" value="{L_SUBMIT}" class="titaniumbutton" />
         </span></td>
     </tr>
   </table>
