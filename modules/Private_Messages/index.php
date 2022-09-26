@@ -169,131 +169,130 @@ if($cancel):
     exit;
 endif;
 
-//
-// Var definitions
-//
-if ( !empty($_POST['mode']) || !empty($_GET['mode']) )
-{
+
+# Var definitions
+if(!empty($_POST['mode']) || !empty($_GET['mode'])):
     $mode = ( !empty($_POST['mode']) ) ? $_POST['mode'] : $_GET['mode'];
     $mode = htmlspecialchars($mode);
-}
-else
-{
-    $mode = '';
-}
-
-
-
-if ( $HTTP_GET_VARS['page'] ):
-
-    $pageroot       = (!empty($HTTP_GET_VARS['page'])) ? $HTTP_GET_VARS['page'] : 1;
-    $page           = (isset($pageroot)) ? intval($pageroot) : 1;
-
-    $calc           = $phpbb2_board_config['topics_per_page'] * $page;
-    $phpbb2_start          = $calc - $phpbb2_board_config['topics_per_page'];
-
 else:
-
-    $phpbb2_start = ( !empty($_GET['start']) ) ? intval($_GET['start']) : 0;
-    $phpbb2_start = ($phpbb2_start < 0) ? 0 : $phpbb2_start;
-
+    $mode = '';
 endif;
 
-if ( isset($_POST[POST_POST_URL]) || isset($_GET[POST_POST_URL]) )
-{
+if($HTTP_GET_VARS['page']):
+    $pageroot       = (!empty($HTTP_GET_VARS['page'])) ? $HTTP_GET_VARS['page'] : 1;
+    $page           = (isset($pageroot)) ? intval($pageroot) : 1;
+    $calc           = $phpbb2_board_config['topics_per_page'] * $page;
+    $phpbb2_start   = $calc - $phpbb2_board_config['topics_per_page'];
+else:
+    $phpbb2_start = ( !empty($_GET['start']) ) ? intval($_GET['start']) : 0;
+    $phpbb2_start = ($phpbb2_start < 0) ? 0 : $phpbb2_start;
+endif;
+
+if(isset($_POST[POST_POST_URL]) || isset($_GET[POST_POST_URL])):
     $privmsg_id = ( isset($_POST[POST_POST_URL]) ) ? intval($_POST[POST_POST_URL]) : intval($_GET[POST_POST_URL]);
-}
-else
-{
+else:
     $privmsg_id = '';
-}
+endif;
 
 $error = FALSE;
 
-//
-// Define the box image links
-//
+# Define the box image links
 $inbox_img = ( $folder != 'inbox' || !empty($mode) ) ? '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '"><img src="' . $images['pm_inbox'] . '" border="0" alt="' . $titanium_lang['Inbox'] . '" /></a>' : '<img src="' . $images['pm_inbox'] . '" border="0" alt="' . $titanium_lang['Inbox'] . '" />';
 $inbox_url = ( $folder != 'inbox' || !empty($mode) ) ? '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '">' . $titanium_lang['Inbox'] . '</a>' : $titanium_lang['Inbox'];
-
 
 $inbox_uri = append_titanium_sid("privmsg.$phpEx?folder=inbox");
 $inbox_title = $titanium_lang['Inbox'];
 
-
 $outbox_img = ( $folder != 'outbox' || !empty($mode) ) ? '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=outbox") . '"><img src="' . $images['pm_outbox'] . '" border="0" alt="' . $titanium_lang['Outbox'] . '" /></a>' : '<img src="' . $images['pm_outbox'] . '" border="0" alt="' . $titanium_lang['Outbox'] . '" />';
 $outbox_url = ( $folder != 'outbox' || !empty($mode) ) ? '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=outbox") . '">' . $titanium_lang['Outbox'] . '</a>' : $titanium_lang['Outbox'];
-
 
 $outbox_uri = append_titanium_sid("privmsg.$phpEx?folder=outbox");
 $outbox_title = $titanium_lang['Outbox'];
 
-
 $sentbox_img = ( $folder != 'sentbox' || !empty($mode) ) ? '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=sentbox") . '"><img src="' . $images['pm_sentbox'] . '" border="0" alt="' . $titanium_lang['Sentbox'] . '" /></a>' : '<img src="' . $images['pm_sentbox'] . '" border="0" alt="' . $titanium_lang['Sentbox'] . '" />';
 $sentbox_url = ( $folder != 'sentbox' || !empty($mode) ) ? '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=sentbox") . '">' . $titanium_lang['Sentbox'] . '</a>' : $titanium_lang['Sentbox'];
-
 
 $sentbox_uri = append_titanium_sid("privmsg.$phpEx?folder=sentbox");
 $sentbox_title = $titanium_lang['Sentbox'];
 
-
 $savebox_img = ( $folder != 'savebox' || !empty($mode) ) ? '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=savebox") . '"><img src="' . $images['pm_savebox'] . '" border="0" alt="' . $titanium_lang['Savebox'] . '" /></a>' : '<img src="' . $images['pm_savebox'] . '" border="0" alt="' . $titanium_lang['Savebox'] . '" />';
 $savebox_url = ( $folder != 'savebox' || !empty($mode) ) ? '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=savebox") . '">' . $titanium_lang['Savebox'] . '</a>' : $titanium_lang['Savebox'];
-
 
 $savebox_uri = append_titanium_sid("privmsg.$phpEx?folder=savebox");
 $savebox_title = $titanium_lang['Savebox'];
 
+# Mod: Enhanced BBGroups v1.0.0 START
+if($folder == 'inbox'): 
 
-/*****[BEGIN]******************************************
- [ Mod:     Enhanced BBGroups                  v1.0.0 ]
- ******************************************************/
-
-if ( $folder == 'inbox' ) 
-{
-    $max_boxsize_sql = "SELECT ug.group_id, g.max_inbox, g.override_max_inbox FROM " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE . " g WHERE ug.user_id = " . $userdata['user_id'] . " AND ug.group_id = g.group_id ORDER BY override_max_inbox DESC, max_inbox DESC";
-    $max_boxsize_result = $titanium_db->sql_query($max_boxsize_sql);
+    $max_boxsize_sql = "SELECT ug.group_id, 
+	                           g.max_inbox, 
+					  g.override_max_inbox 
+					  
+	FROM " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE . " g 
+	
+	WHERE ug.user_id = " . $userdata['user_id'] . " 
+	
+	AND ug.group_id = g.group_id 
+	
+	ORDER BY override_max_inbox DESC, max_inbox DESC";
+    
+	$max_boxsize_result = $titanium_db->sql_query($max_boxsize_sql);
     $max_boxsize_row = $titanium_db->sql_fetchrow($max_boxsize_result);
     $max_boxsize = $phpbb2_board_config['max_inbox_privmsgs'];
-    if ( $max_boxsize_row['override_max_inbox'] == 1 ) 
-    {
-        $max_boxsize = $max_boxsize_row['max_inbox']; 
-    }
-}
-else if ( $folder == 'savebox' ) 
-{
-    $max_boxsize_sql = "SELECT ug.group_id, g.max_savebox, g.override_max_savebox FROM " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE . " g WHERE ug.user_id = " . $userdata['user_id'] . " AND ug.group_id = g.group_id ORDER BY override_max_savebox DESC, max_savebox DESC";
-    $max_boxsize_result = $titanium_db->sql_query($max_boxsize_sql);
+    if ( $max_boxsize_row['override_max_inbox'] == 1 ): 
+    $max_boxsize = $max_boxsize_row['max_inbox']; 
+    endif;
+
+elseif($folder == 'savebox'): 
+
+    $max_boxsize_sql = "SELECT ug.group_id, 
+	                         g.max_savebox, 
+				    g.override_max_savebox 
+					
+	FROM " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE . " g 
+	
+	WHERE ug.user_id = " . $userdata['user_id'] . " 
+	
+	AND ug.group_id = g.group_id 
+	
+	ORDER BY override_max_savebox DESC, max_savebox DESC";
+    
+	$max_boxsize_result = $titanium_db->sql_query($max_boxsize_sql);
     $max_boxsize_row = $titanium_db->sql_fetchrow($max_boxsize_result);
     $max_boxsize = $phpbb2_board_config['max_savebox_privmsgs'];
-    if ( $max_boxsize_row['override_max_savebox'] == 1 ) 
-    {
-        $max_boxsize = $max_boxsize_row['max_savebox']; 
-    }
-}
-else if ( $folder == 'sentbox' )
-{
-    $max_boxsize_sql = "SELECT ug.group_id, g.max_sentbox, g.override_max_sentbox FROM " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE . " g WHERE ug.user_id = " . $userdata['user_id'] . " AND ug.group_id = g.group_id ORDER BY override_max_sentbox DESC, max_sentbox DESC";
-    $max_boxsize_result = $titanium_db->sql_query($max_boxsize_sql);
+    
+	if($max_boxsize_row['override_max_savebox'] == 1): 
+    $max_boxsize = $max_boxsize_row['max_savebox']; 
+	endif;
+
+elseif($folder == 'sentbox'):
+
+    $max_boxsize_sql = "SELECT ug.group_id, 
+	                         g.max_sentbox, 
+					g.override_max_sentbox 
+					
+	FROM " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE . " g 
+	
+	WHERE ug.user_id = " . $userdata['user_id'] . " 
+	
+	AND ug.group_id = g.group_id 
+	
+	ORDER BY override_max_sentbox DESC, max_sentbox DESC";
+    
+	$max_boxsize_result = $titanium_db->sql_query($max_boxsize_sql);
     $max_boxsize_row = $titanium_db->sql_fetchrow($max_boxsize_result);
     $max_boxsize = $phpbb2_board_config['max_sentbox_privmsgs'];
-    if ( $max_boxsize_row['override_max_sentbox'] == 1 ) 
-    {
-        $max_boxsize = $max_boxsize_row['max_sentbox']; 
-    }
-}
+    
+	if ( $max_boxsize_row['override_max_sentbox'] == 1 ): 
+    $max_boxsize = $max_boxsize_row['max_sentbox'];
+	endif; 
 
-/*****[END]********************************************
- [ Mod:     Enhanced BBGroups                  v1.0.0 ]
- ******************************************************/
+endif;
+# Mod: Enhanced BBGroups v1.0.0 END
 
-/*****[BEGIN]******************************************
- [ Mod:    Attachment Mod                      v2.4.1 ]
- ******************************************************/
+# Mod: Attachment Mod v2.4.1 START
 execute_privmsgs_attachment_handling($mode);
-/*****[END]********************************************
- [ Mod:    Attachment Mod                      v2.4.1 ]
- ******************************************************/
+# Mod: Attachment Mod v2.4.1 END
 
 // ----------
 // Start main
