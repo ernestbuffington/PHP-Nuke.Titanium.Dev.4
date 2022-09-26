@@ -1730,8 +1730,10 @@ if( $total_phpbb2_categories = $titanium_db->sql_numrows($q_categories) )
 /*****[BEGIN]******************************************
  [ Mod:     Forum Icons                        v1.0.4 ]
  ******************************************************/
-										'FORUM_ICON_IMG' => ( $forum_rows[$j]['forum_icon'] ) ? '<img src="' . $phpbb2_root_path . $forum_rows[$j]['forum_icon'] 
-										. '" alt="'.$phpbb2_forum_data[$j]['forum_name'].'" title="'.$phpbb2_forum_data[$j]['forum_name'].'" />' : '',
+
+'FORUM_ICON_IMG' => ( $forum_rows[$j]['forum_icon'] ) ? '<img src="' . $phpbb2_root_path . $forum_rows[$j]['forum_icon'] 
+. '" alt="'.$phpbb2_forum_data[$j]['forum_name'].'" title="'.$phpbb2_forum_data[$j]['forum_name'].'" />' : '',
+
 /*****[END]********************************************
  [ Mod:     Forum Icons                        v1.0.4 ]
  ******************************************************/

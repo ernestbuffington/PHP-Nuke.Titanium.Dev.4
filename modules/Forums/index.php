@@ -38,6 +38,7 @@
 	  Forumtitle as Weblink                    v1.2.2
 	  Forum Icons                              v1.0.4
 	  Birthdays                                v3.0.0
+	  Forum Icon Path Mod                      v1.0.0       09/26/2022
  ************************************************************************/
 
 if (!defined('MODULE_FILE')) {
@@ -779,7 +780,8 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
                                                         $row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];
 
                                                         /*--FNA--*/
-
+                                                        global $phpbb2_icon;
+														
                                                         $phpbb2_template->assign_block_vars('catrow.forumrow', array(
 /*****[BEGIN]******************************************
  [ Mod:    DHTML Collapsible Forum Index MOD     v1.1.1]
@@ -796,8 +798,18 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
  [ Mod:    Forum Icons                         v1.0.4 ]
  ******************************************************/ 
 								                                'FORUM_FOLDER_IMG' => ( $phpbb2_forum_data[$j]['title_is_link'] == 1 && $phpbb2_forum_data[$j]['forum_link_icon'] != '' ) ? $phpbb2_forum_data[$j]['forum_link_icon'] : $phpbb2_folder_image,
-																'FORUM_ICON_IMG' => ($phpbb2_icon) ? '<img src="' . $phpbb2_root_path . $phpbb2_icon . '" alt="'.$phpbb2_forum_data[$j]['forum_name'].'" title="'.$phpbb2_forum_data[$j]['forum_name'].'" />' : '',
-								                                'FORUM_LINK_COUNT' => ( $phpbb2_forum_data[$j]['title_is_link'] == 1 ) ? sprintf($titanium_lang['Forum_link_count'], $phpbb2_forum_data[$j]['forum_link_count']) : '',
+	
+############################################################################################################################################
+# Forum Icon Path Mod - 09/26/2022 by Ernest Buffington - START                                                                            #       
+############################################################################################################################################
+'FORUM_ICON_IMG' => ($phpbb2_icon) 
+? '<img src="' . forum_icon_img_path($forum_rows[$j]['forum_icon'], 'Forums') . $phpbb2_icon . '" alt="'.$phpbb2_forum_data[$j]['forum_name'].'" title="'.$phpbb2_forum_data[$j]['forum_name'].'" />' : '',
+############################################################################################################################################
+# Forum Icon Path Mod - 09/26/2022 by Ernest Buffington - END                                                                              #       
+############################################################################################################################################
+
+								                                
+																'FORUM_LINK_COUNT' => ( $phpbb2_forum_data[$j]['title_is_link'] == 1 ) ? sprintf($titanium_lang['Forum_link_count'], $phpbb2_forum_data[$j]['forum_link_count']) : '',
 								                                'FORUM_LINK_TARGET' => ($phpbb2_forum_data[$j]['forum_link_target']) ? 'target="_blank"' : '',
 /*****[END]********************************************
  [ Mod:    Forum Icons                         v1.0.4 ]
