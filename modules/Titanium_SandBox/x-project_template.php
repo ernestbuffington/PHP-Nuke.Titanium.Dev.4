@@ -15,7 +15,6 @@ print "</div><hr />";
 
     # SIMPLE TEST
 	# START sample flash instance 9/5/2017
-    print ini_get("open_basedir");    
 	print '<div align="center">';
 	$newswf = new swfheader(false);
     $newswf->loadswf("modules/Titanium_SandBox/swf/theghost.swf");
