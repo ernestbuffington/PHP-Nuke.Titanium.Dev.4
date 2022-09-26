@@ -143,7 +143,7 @@ define('DEV_ENVIRONMENT', 'development');                #
 # 5. $testfile = 'x-project_template.php';            <---- ##### Added 1/8/2012 by Ernest Buffington 
 # 6. $testfile = 'x-facebook_testing_template.php';   <---- ##### Added 4/5/2012 by Ernest Buffington 
 # 7. $testfile = 'x-file_get_contents_example.php';   <---- ##### Added 9/5/2017 by Ernest Buffington
-# 7. $testfile = 'x-bootstrap_4_modal.php'; 
+# 7. $testfile = 'x-bootstrap_4_modal.php';           <---- ##### Added 9/5/2022 by Ernest Buffington
 #############################################################
 global $testfile;
 
@@ -152,7 +152,7 @@ global $testfile;
 #############################################################
 $testfile = '';
 
-if ($mode == 0)
+if ($mode == 0) # default page for SandBoX
 $testfile = 'x-clean_slate_template.php';
 if ($mode == 1)
 $testfile = 'x-fullscreen_shockwave_example.php';
