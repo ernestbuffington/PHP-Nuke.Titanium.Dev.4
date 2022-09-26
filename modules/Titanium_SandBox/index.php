@@ -181,8 +181,6 @@ if (defined('DEV_ENVIRONMENT'))
 		echo "<br />";
         echo '<fieldset style="border-color: green; border-width: '.$fieldset_border_width.'; border-style: solid;">';
 
-		//echo '<div align="center"><h2>CURRENT SELECTED TEMPLATE<br /><font color="green"> modules<font color ="white">/</font>'
-		//.$titanium_module_name.'<font color ="white">/</font>'.$testfile.'</font></h2></div><br />'; 
         include (MODULES.'Titanium_SandBox/'.$testfile);
 
         echo "<br />";
@@ -285,8 +283,8 @@ echo "</span>";
 }
 
 if ( defined('facebook') ):
-include (MODULES.'Titanium_SandBox/facebook/custom_share_axample_01.php'); //this will autp load if facebook is enabled
-include (MODULES.'Titanium_SandBox/facebook/standard_comments.php');       //this will autp load if facebook is enabled 	
+include (MODULES.'Titanium_SandBox/facebook/custom_share_axample_01.php'); //this will auto load if facebook is enabled
+include (MODULES.'Titanium_SandBox/facebook/standard_comments.php');       //this will auto load if facebook is enabled 	
 endif;
 CloseTable();
 include("footer.php");	
