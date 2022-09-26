@@ -97,7 +97,7 @@ $fpr_img = "<img align=\"absbottom\" width=\"25\" src=\"$fpr\" border=\"0\">";
 </td>
 <td align="left" width="100%" valign="top" >
         <?
-        echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">';
+        echo '<fieldset style="border-color: '.$textcolor1.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
         echo '<br /><font size="3" color="'.$textcolor1.'">The <strong>Titanium </strong> Sandbox Module '
 		. ' v'.NUKE_TITANIUM.' : This module is only for <strong>PHP-Nuke Titanium</strong> '
 		. 'application builders. A sandbox is a testing environment that isolates '
@@ -106,7 +106,7 @@ $fpr_img = "<img align=\"absbottom\" width=\"25\" src=\"$fpr\" border=\"0\">";
 		. 'access to any programming language that you would like to explore.<br /><br />'
 		
 		
-		. '<div align="center"><strong>Languages Available:</strong> '
+		. '<div align="left"><strong>Languages Available:</strong> '
 		. 'HTML - HyperText Markup Language, CGI - Common Gateway Interface, Javascript, Java, PHP, XML - eXtensible Markup Language, Perl, Python, '
 		. 'cURL, Linux C</div>'
 		. '<br />'
