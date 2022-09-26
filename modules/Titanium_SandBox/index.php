@@ -21,8 +21,8 @@ if (!defined('MODULE_FILE')) {
     Header("Location: /index.php");
 	exit();
 }         
-$pagetitle = 'Titanium SandBox v4.0.2';
-$title = 'Titanium SandBox odule v4.0.2';
+$pagetitle = 'Titanium SandBox ''.NUKE_TITANIUM.';
+$title = 'Titanium SandBox odule ''.NUKE_TITANIUM.';
 
 require_once("mainfile.php");
 
