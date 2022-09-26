@@ -13,7 +13,7 @@ print "</div><hr />";
 # TEST CODE GOES HERE - START
 ###########################################################################################################################################################################
 
-    # SIMPLE TEST
+    # SIMPLE TEST USING SWF FLASH AUTO LOADER
 	# START sample flash instance 9/5/2017
 	print '<div align="center">';
 	$newswf = new swfheader(false);
