@@ -8,7 +8,7 @@
     <tr> 
 <!--      <td align="left" nowrap="nowrap"><span class="gen"><a class="gen" href="{U_BACK}" />Back</a></span></td> -->
       <td align="right" nowrap="nowrap"><span class="genmed">{L_VIEW}:&nbsp;{S_VIEW_SELECT}&nbsp;&nbsp;{L_SELECT_SORT_METHOD}:&nbsp;{S_MODE_SELECT}&nbsp;&nbsp;{L_ORDER}&nbsp;{S_ORDER_SELECT}&nbsp;&nbsp; 
-        <input type="submit" name="submit" value="{L_SUBMIT}" class="titaniumbutton" />
+        <input type="submit" name="submit" value="{L_SUBMIT}" class="liteoption" />
         </span>
       </td>
     </tr>

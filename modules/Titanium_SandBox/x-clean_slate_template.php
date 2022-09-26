@@ -15,6 +15,8 @@ print "</div><hr />";
     global $nukeurl;
     # start SIMPLE CODE TEST
 	print '<div align="center"><h1>Hello World</h1></div>';
+	$forum_image = img('mariadb80x80.png', 'Forums');
+	print '<div align="center"><h1><img src='.$forum_image.'></h1></div>';
     # end SIMPLE CODE TEST
     print $nukeurl;
 ###########################################################################################################################################################################			
