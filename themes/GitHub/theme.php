@@ -104,8 +104,8 @@ $make_xtreme_avatar_small,
              $titanium_db;
 
     list($portaladminname, 
-	              $avatar, 
-				   $email) = $titanium_db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `titanium_users` WHERE `user_id`=$portaladmin", SQL_NUM);
+	          $avatar, 
+		   $email) = $titanium_db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `titanium_users` WHERE `user_id`=$portaladmin", SQL_NUM);
 				   
 $my_welcome_message = '<a class = "welcome" href="'.HTTPS.'">PHP-Nuke Titanium Dev 4 <font color="#FF9900" size="1">(Desktop Version)</font></a>';
 
@@ -144,7 +144,6 @@ $bgcolor3   = $ThemeInfo['bgcolor3'];
 $bgcolor4   = $ThemeInfo['bgcolor4'];
 $textcolor1 = $ThemeInfo['textcolor1'];
 $textcolor2 = $ThemeInfo['textcolor2'];
-//$ThemeInfo['uitotophover'] = '#666666';
 
 define('theme_dir', 'themes/'.$theme_name.'/');
 define('theme_images_dir', theme_dir.'images/');
@@ -205,14 +204,14 @@ function themeheader(){	include_once(theme_dir.'header.php'); }
 #----------------#
 function themefooter(){ include_once(theme_dir.'footer.php'); }
 
-#--------------------#
-# News Index Section #
-#--------------------#
+#---------------------#
+# Blogs Index Section #
+#---------------------#
 include_once(theme_dir.'function_themeindex.php');
 
-#----------------------#
-# News Article Section #
-#----------------------#
+#-----------------------#
+# Blogs Article Section #
+#-----------------------#
 include_once(theme_dir.'function_themearticle.php');
 
 #-------------------#
