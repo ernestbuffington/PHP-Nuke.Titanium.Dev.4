@@ -283,8 +283,8 @@ echo "</span>";
 }
 
 if ( defined('facebook') ):
-include (MODULES.'Titanium_SandBox/facebook/custom_share_axample_01.php'); //this will auto load if facebook is enabled
-include (MODULES.'Titanium_SandBox/facebook/standard_comments.php');       //this will auto load if facebook is enabled 	
+include (MODULES.'Titanium_SandBox/facebook/custom_share_axample_01.php'); # this will auto load if facebook is enabled
+include (MODULES.'Titanium_SandBox/facebook/standard_comments.php');       # this will auto load if facebook is enabled 	
 endif;
 CloseTable();
 include("footer.php");	
