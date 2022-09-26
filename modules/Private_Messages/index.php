@@ -294,34 +294,33 @@ endif;
 execute_privmsgs_attachment_handling($mode);
 # Mod: Attachment Mod v2.4.1 END
 
-// ----------
-// Start main
-//
-if ( $mode == 'newpm' )
+# Start main
+if($mode == 'newpm')
 {
         $gen_simple_header = TRUE;
 
         $phpbb2_page_title = $titanium_lang['Private_Messaging'];
-        include(NUKE_INCLUDE_DIR.'page_header_review.php');
+        
+		include(NUKE_INCLUDE_DIR.'page_header_review.php');
 
         $phpbb2_template->set_filenames(array(
                 'body' => 'privmsgs_popup.tpl')
         );
 
-        if ( $userdata['session_logged_in'] )
+        if($userdata['session_logged_in'])
         {
-                if ( $userdata['user_new_privmsg'] )
+                if($userdata['user_new_privmsg'])
                 {
                     $l_new_message = ( $userdata['user_new_privmsg'] == 1 ) ? $titanium_lang['You_new_pm'] : $titanium_lang['You_new_pms'];
 					$l_message_text_unread = sprintf($l_new_message, $userdata['user_new_privmsg']);
                 }
                 else
                 {
-                    #$l_new_message = $titanium_lang['You_no_new_pm'];
 					$l_message_text_unread = $titanium_lang['No_unread_pm'];
                 }
 
-                $l_message_text_unread .= '<br /><br />' . sprintf($titanium_lang['Click_view_privmsg'], '<a href="' . append_titanium_sid("privmsg.".$phpEx."?folder=inbox") . '" onclick="jump_to_inbox();return false;" target="_new">', '</a>');
+                $l_message_text_unread .= '<br /><br />' . sprintf($titanium_lang['Click_view_privmsg'], '<a href="' 
+				. append_titanium_sid("privmsg.".$phpEx."?folder=inbox") . '" onclick="jump_to_inbox();return false;" target="_new">', '</a>');
         }
         else
         {
@@ -340,9 +339,9 @@ if ( $mode == 'newpm' )
         exit;
 
 }
-else if ( $mode == 'read' )
+elseif($mode == 'read')
 {
-        if ( !empty($_GET[POST_POST_URL]) )
+        if(!empty($_GET[POST_POST_URL]))
         {
                 $privmsgs_id = intval($_GET[POST_POST_URL]);
         }
@@ -351,19 +350,14 @@ else if ( $mode == 'read' )
                 message_die(GENERAL_ERROR, $titanium_lang['No_post_id']);
         }
 
-        if ( !$userdata['session_logged_in'] )
+        if ( !$userdata['session_logged_in'])
         {
-                // not needed anymore due to function redirect_titanium()
-//$header_location = ( @preg_match('/Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ) ? 'Refresh: 0; URL=' : 'Location: ';
                 redirect_titanium("modules.php?name=Your_Account&redirect=privmsg&folder=$folder&mode=$mode&" . POST_POST_URL . "=$privmsgs_id");
-                //redirect_titanium(append_titanium_sid("login.$phpEx?redirect=privmsg.$phpEx&folder=$folder&mode=$mode&" . POST_POST_URL . "=$privmsgs_id", true));
                 exit;
         }
 
-        //
-        // SQL to pull appropriate message, prevents nosey people
-        // reading other peoples messages ... hopefully!
-        //
+        # SQL to pull appropriate message, prevents nosey people
+        # reading other peoples messages ... hopefully!
         switch( $folder )
         {
                 case 'inbox':
@@ -397,37 +391,76 @@ else if ( $mode == 'read' )
                         break;
         }
 
-        //
-        // Major query obtains the message ...
-        //
+        
+        # Major query obtains the message ...
 /*****[BEGIN]******************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-        $sql = "SELECT u.username AS username_1, u.user_id AS user_id_1, u2.username AS username_2, u2.user_id AS user_id_2, u.user_sig_bbcode_uid, u.user_posts, u.user_from, u.user_website, u.user_birthday, u.birthday_display, u.user_email, u.user_regdate, u.user_viewemail, u.user_rank, u.user_sig, u.user_avatar, u.user_avatar_type, u.user_allow_viewonline AS user_allow_viewonline_1, u2.user_allow_viewonline AS user_allow_viewonline_2, u.user_session_time AS user_session_time_1, u2.user_session_time AS user_session_time_2, pm.*, pmt.privmsgs_bbcode_uid, pmt.privmsgs_text
-                FROM " . PRIVMSGS_TABLE . " pm, " . PRIVMSGS_TEXT_TABLE . " pmt, " . USERS_TABLE . " u, " . USERS_TABLE . " u2
-                WHERE pm.privmsgs_id = '$privmsgs_id'
-                        AND pmt.privmsgs_text_id = pm.privmsgs_id
-                        $pm_sql_user
-                        AND u.user_id = pm.privmsgs_from_userid
-                        AND u2.user_id = pm.privmsgs_to_userid";
+        $sql = "SELECT u.username 
+		
+		  AS username_1, 
+		      u.user_id 
+		
+		   AS user_id_1, 
+		    u2.username 
+		
+		  AS username_2, 
+		     u2.user_id 
+		
+		   AS user_id_2, 
+  u.user_sig_bbcode_uid, 
+           u.user_posts, 
+		    u.user_from, 
+	     u.user_website, 
+	    u.user_birthday, 
+     u.birthday_display, 
+           u.user_email, 
+	     u.user_regdate, 
+	   u.user_viewemail, 
+	        u.user_rank, 
+		     u.user_sig, 
+		  u.user_avatar, 
+     u.user_avatar_type, 
+u.user_allow_viewonline 
+       
+	      AS user_allow_viewonline_1, 
+		    u2.user_allow_viewonline 
+		  
+		  AS user_allow_viewonline_2, 
+		         u.user_session_time 
+				 
+		  AS user_session_time_1, 
+		    u2.user_session_time 
+		  
+		  AS user_session_time_2, 
+		                    pm.*, 
+		 pmt.privmsgs_bbcode_uid, 
+		       pmt.privmsgs_text
+         
+		 FROM " . PRIVMSGS_TABLE . " pm, " . PRIVMSGS_TEXT_TABLE . " pmt, " . USERS_TABLE . " u, " . USERS_TABLE . " u2
+         
+		 WHERE pm.privmsgs_id = '$privmsgs_id'
+         
+		 AND pmt.privmsgs_text_id = pm.privmsgs_id
+         
+		 $pm_sql_user
+         
+		 AND u.user_id = pm.privmsgs_from_userid
+         
+		 AND u2.user_id = pm.privmsgs_to_userid";
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
-        if ( !($result = $titanium_db->sql_query($sql)) )
-        {
-                message_die(GENERAL_ERROR, 'Could not query private message post information', '', __LINE__, __FILE__, $sql);
-        }
-
-        //
-        // Did the query return any data?
-        //
-        if ( !($privmsg = $titanium_db->sql_fetchrow($result)) )
-        {
-                redirect_titanium(append_titanium_sid("privmsg.$phpEx?folder=$folder", true));
-                exit;
-        }
+        if(!($result = $titanium_db->sql_query($sql)))
+        message_die(GENERAL_ERROR, 'Could not query private message post information', '', __LINE__, __FILE__, $sql);
+ 
+        # Did the query return any data?
+        if(!($privmsg = $titanium_db->sql_fetchrow($result))):
+          redirect_titanium(append_titanium_sid("privmsg.$phpEx?folder=$folder", true));
+          exit;
+        endif;
 
         $privmsg_id = $privmsg['privmsgs_id'];
 
