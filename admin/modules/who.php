@@ -4,6 +4,15 @@
  =======================================================================*/
 
 /************************************************************************
+   PHP-Nuke Titanium: 4nWhoIsOnline
+   ============================================
+   Copyright (c) 2022 by The 86it Develepers - www.86it.us
+   Improved by   : Ernest Buffington (TheGhost) (www.86it.us)
+   Version       : 2.0.0 (Based on 4nWhoIsOnline Version 1.0.5)
+   Date          : 09.27.202 (mm.dd.yyyy)
+*************************************************************************/
+
+/************************************************************************
    Nuke-Evolution: 4nWhoIsOnline
    ============================================
    Copyright (c) 2005 by The Nuke-Evolution Team - Nuke-Evolution.com
@@ -16,6 +25,7 @@
 
    Description   : 4nWhoIsOnline shows the current visitors online with
                    their resolved DNS name and country.
+				   
 *************************************************************************/
 /* Based on 4nWhoIsOnline Version 0.91 (german & english)               */
 /* for phpNUKE Version 6.5 - 6.7 (www.phpnuke.org)                      */
