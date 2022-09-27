@@ -198,7 +198,7 @@ if($row = $titanium_db->sql_fetchrow($result)):
            break;
            case USER_AVATAR_GALLERY:
            $current_avatar = $phpbb2_board_config['avatar_gallery_path'] . '/' . (($row['user_avatar'] 
-			== 'blank.gif' || $row['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $row['user_avatar']);
+			== 'blank.gif' || $row['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $row['user_avatar']);
            break;
 		}
         /*****[END]********************************************

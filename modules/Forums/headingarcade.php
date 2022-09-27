@@ -256,7 +256,7 @@ if ( $userdata['user_avatar_type'] && $userdata['user_allowavatar'] )
 }
 IF ( empty($avatar_img) )
 {
-   $avatar_img = '<img src="' . $phpbb2_board_config['avatar_gallery_path'] . '/blank.gif" alt="Default Avatar" border="0" />';
+   $avatar_img = '<img src="' . $phpbb2_board_config['avatar_gallery_path'] . '/blank.png" alt="Default Avatar" border="0" />';
 }
 // Finished avatar
 

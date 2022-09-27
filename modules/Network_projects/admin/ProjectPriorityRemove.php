@@ -11,7 +11,9 @@
 global $titanium_db2;
 get_lang('Network_Projects');
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
-$pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']."::: "._NETWORK_PROJECTS.": "._NETWORK_DELETEPRIORITY;
+
+$pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_PROJECTS.': '._NETWORK_DELETEPRIORITY;
+
 $priority_id = intval($priority_id);
 if($priority_id < 1) { header("Location: ".$admin_file.".php?op=ProjectPriorityList"); }
 include_once(NUKE_BASE_DIR.'header.php');

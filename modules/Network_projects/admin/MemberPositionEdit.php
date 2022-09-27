@@ -10,7 +10,9 @@
 /********************************************************/
 global $titanium_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
-$pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']."::: "._NETWORK_MEMBERS.": "._NETWORK_EDITPOSITION;
+
+$pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_MEMBERS.': '._NETWORK_EDITPOSITION;
+
 $position_id = intval($position_id);
 if($position_id < 1) { header("Location: ".$admin_file.".php?op=MemberPositionList"); }
 include_once(NUKE_BASE_DIR.'header.php');

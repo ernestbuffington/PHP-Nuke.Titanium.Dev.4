@@ -130,7 +130,7 @@ include(NUKE_BASE_DIR. 'header.php');
         list($phpbb2_newest_uid) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT max(user_id) AS newest_uid FROM ".$titanium_user_prefix."_users"));
         if ($phpbb2_newest_uid == "-1") { $new_uid = 1; } else { $new_uid = $phpbb2_newest_uid+1; }
         $lv = time();
-        $result = $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_users (user_id, name, username, user_email, user_avatar, user_regdate, user_viewemail, user_password, user_lang, user_lastvisit) VALUES ($new_uid, '$ya_username', '$ya_username', '$ya_user_email', 'gallery/blank.gif', '$titanium_user_regdate', '0', '$new_password', '$titanium_language', '$lv')");
+        $result = $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_users (user_id, name, username, user_email, user_avatar, user_regdate, user_viewemail, user_password, user_lang, user_lastvisit) VALUES ($new_uid, '$ya_username', '$ya_username', '$ya_user_email', 'gallery/blank.png', '$titanium_user_regdate', '0', '$new_password', '$titanium_language', '$lv')");
 
         if ((count($nfield) > 0) AND ($result)) {
           foreach ($nfield as $key => $var) {
@@ -139,7 +139,7 @@ include(NUKE_BASE_DIR. 'header.php');
         }
 
     $titanium_db->sql_query("LOCK TABLES ".$titanium_user_prefix."_users WRITE");
-    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_avatar='gallery/blank.gif', user_avatar_type='3', user_lang='$titanium_language', user_lastvisit='$lv', umode='nested' WHERE user_id='$new_uid'");
+    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_avatar='gallery/blank.png', user_avatar_type='3', user_lang='$titanium_language', user_lastvisit='$lv', umode='nested' WHERE user_id='$new_uid'");
 
     $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET username='$ya_username', name='$realname', user_email='$ya_user_email', femail='$femail', user_website='$titanium_user_website', user_from='$titanium_user_from', user_occ='$titanium_user_occ', user_interests='$titanium_user_interests', newsletter='$newsletter', user_viewemail='$titanium_user_viewemail', user_allow_viewonline='$titanium_user_allow_viewonline', user_timezone='$titanium_user_timezone', user_dateformat='$titanium_user_dateformat', user_sig='$titanium_user_sig', bio='$bio', user_password='$new_password', user_regdate='$titanium_user_regdate' WHERE user_id='$new_uid'");
 

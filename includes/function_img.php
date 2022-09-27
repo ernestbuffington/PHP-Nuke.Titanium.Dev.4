@@ -42,7 +42,6 @@ function forum_icon_img_path($imgfile='', $mymodule='', $empty=true)
 {
     global $phpbb2_icon, $currentlang, $ThemeSel, $Default_Theme, $ImageDebug;
 	
-	$ImageDebug = false;
 	$forum_theme_icons_found = false;
 	
 	# If file is found use themes/theme_name/images/forum_icons path!
@@ -50,8 +49,6 @@ function forum_icon_img_path($imgfile='', $mymodule='', $empty=true)
 	{
         $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/$imgfile"; 
 		$forum_theme_icons_found = true;
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>NEW ICON PATH:</strong> '.$titanium_image.'</font></div>';
     } 
 	else # if we do not find any images under the theme directory use the Forums system default forum_icons dir!
 	if (@file_exists(TITANIUM_MODULES_DIR . $mymodule . '/images/forum_icons/'.$imgfile)) 
@@ -59,16 +56,12 @@ function forum_icon_img_path($imgfile='', $mymodule='', $empty=true)
 		if($forum_theme_icons_found)
 		return;
 		
-		if($ImageDebug)
         $titanium_image = TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/forum_icons/$imgfile";
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+
     } 
 	else # if we dont find shit write it to the error log
 	{
-	    log_write('error', "( ".TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/$imgfile"." ) not found!", 'Image Not Found Error');
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>NOT FOUND:</strong> '.$titanium_image.'</font></div>';
+
     }
 	
 	return($titanium_image);

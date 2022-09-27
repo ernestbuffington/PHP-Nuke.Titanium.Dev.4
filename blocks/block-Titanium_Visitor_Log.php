@@ -69,7 +69,7 @@ while($whosbeen = $titanium_db->sql_fetchrow($result)):
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
 		$avatar = '<td width="45px">'. ( $phpbb2_board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		? '<div align="center"><img class="rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }

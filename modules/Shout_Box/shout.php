@@ -702,7 +702,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
 		
         if ($conf['anonymouspost'] == 'no' && $titanium_username == 'Anonymous') 
 		{
-            $bottom_content .= "<div style=\"padding: 1px;\" align=\"center\" class=\"content\"><a href=\"modules.php?name=Shout_Box\">"._SHOUTHISTORY."</a>";
+            $bottom_content .= "<div style=\"padding: 1px;\" align=\"center\" ><a class=\"titaniumbutton\" href=\"modules.php?name=Shout_Box\">"._SHOUTHISTORY."</a>";
             $bottom_content .= "&nbsp;<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=4\" onmouseout=\"SBspeed=1\"><img src=\"$up_img\" 
 			border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
             
@@ -723,7 +723,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
 		    $bottom_content .= "<td align=\"center\"".(($SBpos == 'center') ? " colspan=\"".(($conf['anonymouspost']== 'yes' 
 			&& $titanium_username == 'Anonymous') ? '3' : '2')."\" style=\"padding: 5px 0;\"" : '') . ">";
             
-			$bottom_content .= "<div align=\"center\"><a href=\"modules.php?name=Shout_Box\">"._SHOUTHISTORY."</a></div>";
+			$bottom_content .= "<div align=\"center\"><a class=\"titaniumbutton\" href=\"modules.php?name=Shout_Box\">"._SHOUTHISTORY."</a></div>";
             $bottom_content .= "<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=4\" onmouseout=\"SBspeed=1\"><img 
 			src=\"$up_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
             
@@ -779,14 +779,14 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
 				$bottom_content .= "<div id=\"smilies_hide\" style=\"display: block;\">";
 				
 				$bottom_content .= "<div class=\"content\">";
-				$bottom_content .= "<input type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />&nbsp;"; # added a space between buttons
-				$bottom_content .= "<span onclick=\"changeBoxSize('show'); return false;\"><input type=\"button\" value=\""._SMILIES."\" /></span>";
+				$bottom_content .= "<input class=\"titaniumbutton\" type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />&nbsp;"; # added a space between buttons
+				$bottom_content .= "<span onclick=\"changeBoxSize('show'); return false;\"><input class=\"titaniumbutton\" type=\"button\" value=\""._SMILIES."\" /></span>";
 				$bottom_content .= "</div>";
 				$bottom_content .= "</div>";
 				$bottom_content .= "<div id=\"smilies_show\" style=\"display: none;\">";
 				$bottom_content .= "<div class=\"content\">";
-				$bottom_content .= "<input type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />&nbsp;"; # added a space between buttons
-				$bottom_content .= "<span onclick=\"changeBoxSize ('hide'); return false;\"><input type=\"button\" value=\""._SMILIES."\" /></span>";
+				$bottom_content .= "<input class=\"titaniumbutton\" type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />&nbsp;"; # added a space between buttons
+				$bottom_content .= "<span onclick=\"changeBoxSize ('hide'); return false;\"><input class=\"titaniumbutton\" type=\"button\" value=\""._SMILIES."\" /></span>";
 				$bottom_content .= "<br /><br />";
 				$bottom_content .= "<tr>";
 				$bottom_content .= "<td align=\"center\" nowrap=\"nowrap\">";
@@ -805,14 +805,14 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
 				$bottom_content .= "<input type=\"hidden\" name=\"ShoutSubmit\" id=\"ShoutSubmit\" value=\"ShoutPost\" />";
 				$bottom_content .= "<div id=\"smilies_hide\" style=\"display: block;\">";
 				$bottom_content .= "<div class=\"content\"><br/>"; # added
-				$bottom_content .= "<input type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />&nbsp;"; # added a space between buttons
-				$bottom_content .= "<span onclick=\"changeBoxSize('show'); return false;\"><input type=\"button\" value=\""._SMILIES."\" /></span>";
+				$bottom_content .= "<input class=\"titaniumbutton\" type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />&nbsp;"; # added a space between buttons
+				$bottom_content .= "<span onclick=\"changeBoxSize('show'); return false;\"><input class=\"titaniumbutton\" type=\"button\" value=\""._SMILIES."\" /></span>";
 				$bottom_content .= "</div>";
 				$bottom_content .= "</div>";
 				$bottom_content .= "<div id=\"smilies_show\" style=\"display: none;\">";
 				$bottom_content .= "<div class=\"content\">";
-				$bottom_content .= "<input type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />&nbsp;"; # added a space between buttons
-				$bottom_content .= "<span onclick=\"changeBoxSize ('hide'); return false;\"><input type=\"button\" value=\""._SMILIES."\" /></span>";
+				$bottom_content .= "<input  class=\"titaniumbutton\" type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />&nbsp;"; # added a space between buttons
+				$bottom_content .= "<span onclick=\"changeBoxSize ('hide'); return false;\"><input class=\"titaniumbutton\" type=\"button\" value=\""._SMILIES."\" /></span>";
 				$bottom_content .= "<br /><br />";
 			}
 

@@ -62,14 +62,15 @@ function pjadmin_menu($pjtitle="")
   
   if(!empty($pjtitle)) 
   { 
-    $pjtitle = "::: ". $pjtitle; 
+    $pjtitle = $pjtitle; 
   } 
   else 
   { 
-    $pjtitle = "::: "._NETWORK_ADMIN." ::: "; 
+    $pjtitle = _NETWORK_ADMIN." - "; 
   }
 
-  echo "<center class='title'><strong>"._NETWORK_TITLE." ".$pj_config['version_number']." $pjtitle ::: </strong></center><br />\n";
+  echo '<div class="title" align="center"><strong>'._NETWORK_TITLE.' v'.$pj_config['version_number'].' '.$pjtitle.'</strong></div><br />'; 
+  
   echo "<table border='1' align='center' width='100%' cellpadding='2' cellspacing='0'>\n";
   echo "<tr bgcolor='$bgcolor2'>\n";
   echo "<td align='center' valign='top' width='20%'>&nbsp;<strong><u>"._NETWORK_PROJECTS."</u></strong>&nbsp;</td>\n";

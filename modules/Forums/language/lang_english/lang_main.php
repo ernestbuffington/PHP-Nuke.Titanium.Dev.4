@@ -205,7 +205,7 @@ $titanium_lang['Suspend_This_User'] = '%sSuspend this user%s';
 $titanium_lang['Delete_This_User'] = '%sDelete this user%s';
 
 // $titanium_lang['Forum_Index'] = '%s Forum Index';  // eg. sitename Forum Index, %s can be removed if you prefer
-$titanium_lang['Forum_Index'] = 'Forum Index';
+$titanium_lang['Forum_Index'] = 'Forums';
 $titanium_lang['Home_Index']  = 'Home';
 
 
@@ -1373,7 +1373,7 @@ $titanium_lang['Look_up_User'] = 'Look up Member';
 /*****[BEGIN]******************************************
  [ Mod:     Theme Simplifications              v1.0.0 ]
  ******************************************************/
-$titanium_lang['Mini_Index'] = 'Forum Index';
+$titanium_lang['Mini_Index'] = 'Forums';
 $titanium_lang['Rules'] = 'Board Rules';
 $titanium_lang['Login_Logout'] = 'Login / Logout';
 /*****[END]********************************************
@@ -1748,7 +1748,7 @@ $titanium_lang['thank_no_exist'] = 'Forum thank information doesn\'t exists';
  [ Mod:    DHTML Collapsible Forum Index MOD     v1.1.1]
  ******************************************************/
 $titanium_lang['CFI_options'] = "C.F.I.";
-$titanium_lang['CFI_options_ex'] = "Collapsible Forum Index Options";
+$titanium_lang['CFI_options_ex'] = "Collapsible Forums Options";
 $titanium_lang['CFI_close'] = "Close";
 $titanium_lang['CFI_delete'] = "Delete Saved State";
 $titanium_lang['CFI_restore'] = "Restore Saved State";

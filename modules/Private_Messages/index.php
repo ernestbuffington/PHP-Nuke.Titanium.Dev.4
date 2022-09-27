@@ -784,7 +784,7 @@ u.user_allow_viewonline
 				$phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img class="priv-msgs-avatar" 
 				style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" 
 				src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($privmsg['user_avatar'] == 'blank.gif' 
-				|| $privmsg['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $privmsg['user_avatar']) . '" alt="" border="0" />' : '';
+				|| $privmsg['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $privmsg['user_avatar']) . '" alt="" border="0" />' : '';
 				break;
 		endswitch;
 

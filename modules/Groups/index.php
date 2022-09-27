@@ -85,7 +85,7 @@ function generate_user_info(&$row,
            break;
            case USER_AVATAR_GALLERY:
            $phpbb2_poster_avatar = $phpbb2_board_config['avatar_gallery_path'] . '/' . (($row['user_avatar'] 
-			== 'blank.gif' || $row['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $row['user_avatar']);
+			== 'blank.gif' || $row['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $row['user_avatar']);
            break;
 		}
         # Mod: Forum Index Avatar Mod v3.0.0 END
@@ -947,7 +947,7 @@ elseif($group_id)
       break;
       case USER_AVATAR_GALLERY:
       $modavatar = $phpbb2_board_config['avatar_gallery_path'].'/'.(($group_moderator['user_avatar'] 
-	  == 'blank.gif' || $row['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $group_moderator['user_avatar']);
+	  == 'blank.gif' || $row['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $group_moderator['user_avatar']);
       break;
 	}
 	$mod_avatar = '<img class="rounded-corners-header" height="auto" width="30" src="'.$modavatar.'">&nbsp;';
@@ -1093,7 +1093,7 @@ elseif($group_id)
       break;
       case USER_AVATAR_GALLERY:
       $current_avatar = $phpbb2_board_config['avatar_gallery_path'] . '/' . (($group_members[$i]['user_avatar'] 
-	  == 'blank.gif' || $row['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $group_members[$i]['user_avatar']);
+	  == 'blank.gif' || $row['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $group_members[$i]['user_avatar']);
       break;
 	}
 	$titanium_user_avatar = '<img class="rounded-corners-header" height="auto" width="30" src="'.$current_avatar.'">&nbsp;';
@@ -1241,7 +1241,7 @@ elseif($group_id)
                   break;
                   case USER_AVATAR_GALLERY:
                   $current_avatar = $phpbb2_board_config['avatar_gallery_path'].'/'.(($modgroup_pending_list[$i]['user_avatar'] 
-	              == 'blank.gif' || $row['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $modgroup_pending_list[$i]['user_avatar']);
+	              == 'blank.gif' || $row['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $modgroup_pending_list[$i]['user_avatar']);
                   break;
 	          }
 	

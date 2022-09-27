@@ -1510,7 +1510,7 @@ else
 
 			# user_allowavatar = 3
 			case USER_AVATAR_GALLERY:
-				$avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($titanium_user_avatar == 'blank.gif' || $titanium_user_avatar == 'gallery/blank.gif') ? 'blank.png' : $titanium_user_avatar) . '" alt="" border="0" />' : '';
+				$avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($titanium_user_avatar == 'blank.gif' || $titanium_user_avatar == 'gallery/blank.png') ? 'blank.png' : $titanium_user_avatar) . '" alt="" border="0" />' : '';
 				break;
 		}
 	}

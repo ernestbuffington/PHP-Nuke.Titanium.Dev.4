@@ -979,7 +979,7 @@ if ($old_school_imagedropdown==0)
 		$displaytargetnone="none";
 	}
 	
-	echo "<img style=\"display: ".$displaytargetblank."; width: 15px; margin-right: 5px;\" src=\"".$urlofimages."/admin/targetblank.gif\" name=\"targetblank$key\" alt=\""._MENU_TARGETBLANK."\" title=\""._MENU_TARGETBLANK."\">";
+	echo "<img style=\"display: ".$displaytargetblank."; width: 15px; margin-right: 5px;\" src=\"".$urlofimages."/admin/targetblank.png\" name=\"targetblank$key\" alt=\""._MENU_TARGETBLANK."\" title=\""._MENU_TARGETBLANK."\">";
 	
 	echo "<img style=\"display: ".$displaytargetnone."; width: 15px; margin-right: 5px;\" src=\"".$urlofimages."/admin/targetnone.gif\" name=\"targetnone$key\" alt=\""._MENU_TARGETNONE."\" title=\""._MENU_TARGETNONE."\">";
 

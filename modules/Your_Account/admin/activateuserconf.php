@@ -75,7 +75,7 @@ list($uname, $realname, $email, $upass, $ureg) = $titanium_db->sql_fetchrow($tit
     $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_users_temp");
     list($phpbb2_newest_uid) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT max(user_id) AS newest_uid FROM ".$titanium_user_prefix."_users"));
     if ($phpbb2_newest_uid == "-1") { $new_uid = 1; } else { $new_uid = $phpbb2_newest_uid+1; }
-    $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_users (user_id, name, username, user_email, user_regdate, user_password, user_level, user_active, user_avatar, user_avatar_type, user_from) VALUES ('$new_uid', '$realname', '$uname', '$email', '$ureg', '$upass', 1, 1, 'gallery/blank.gif', 3, '')");
+    $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_users (user_id, name, username, user_email, user_regdate, user_password, user_level, user_active, user_avatar, user_avatar_type, user_from) VALUES ('$new_uid', '$realname', '$uname', '$email', '$ureg', '$upass', 1, 1, 'gallery/blank.png', 3, '')");
 
     $res = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE uid = '$act_uid'");
     while ($sqlvalue = $titanium_db->sql_fetchrow($res)) {

@@ -237,7 +237,7 @@ function searchHistory($where, $sbsearchtext, $results, $style, $order, $page)
             // Disallow Anonymous users from seeing links to users' accounts
             if ($titanium_username == "Anonymous") 
 			{
-                if (!empty($rowN['user_avatar']) && $rowN['user_avatar'] != "blank.gif" && ($rowN['user_avatar'] != "gallery/blank.gif") && (stristr($rowN['user_avatar'],'.') == TRUE)) 
+                if (!empty($rowN['user_avatar']) && $rowN['user_avatar'] != "blank.gif" && ($rowN['user_avatar'] != "gallery/blank.png") && (stristr($rowN['user_avatar'],'.') == TRUE)) 
 				{
                     echo "<tr><td style=\"background-color: $bgcolor;\">";
                     echo "<table cellpadding=\"1\" cellspacing=\"0\" width=\"100%\" border=\"0\">";
@@ -314,7 +314,7 @@ function searchHistory($where, $sbsearchtext, $results, $style, $order, $page)
                 // check to see if nickname is a user in the DB && not Anonymous
                 if (is_array($rowN) && $rowN['username'] != "Anonymous") 
 				{
-                    if (($rowN['user_avatar']) && ($rowN['user_avatar'] != "blank.gif") && ($rowN['user_avatar'] != "gallery/blank.gif") && (stristr($rowN['user_avatar'],'.') == TRUE)) 
+                    if (($rowN['user_avatar']) && ($rowN['user_avatar'] != "blank.gif") && ($rowN['user_avatar'] != "gallery/blank.png") && (stristr($rowN['user_avatar'],'.') == TRUE)) 
 					{
                         echo "<tr><td style=\"background-color: $bgcolor;\">";
                         echo "<table cellpadding=\"1\" cellspacing=\"0\" width=\"100%\" border=\"0\">";
@@ -808,7 +808,7 @@ function findAvatar($row_avatar)
         } 
 		else 
 		{
-            $AvatarFound = "<img height=\"40\" src=\"".$avatar_path['config_value']."/blank.gif\" alt=\"\" /></td>";
+            $AvatarFound = "<img height=\"40\" src=\"".$avatar_path['config_value']."/blank.png\" alt=\"\" /></td>";
         }
     }
     return $AvatarFound;
@@ -902,7 +902,7 @@ function showHistory($page)
         // Disallow Anonymous users from seeing links to users' accounts
         if ($titanium_username == "Anonymous") 
 		{
-            if (!empty($rowN['user_avatar']) && ($rowN['user_avatar'] != "blank.gif") && ($rowN['user_avatar'] != "gallery/blank.gif") && (stristr($rowN['user_avatar'],'.') == TRUE)) 
+            if (!empty($rowN['user_avatar']) && ($rowN['user_avatar'] != "blank.gif") && ($rowN['user_avatar'] != "gallery/blank.png") && (stristr($rowN['user_avatar'],'.') == TRUE)) 
 			{
                 echo "<tr><td style=\"background-color: $bgcolor;\">";
                 echo "<table cellpadding=\"1\" cellspacing=\"0\" width=\"100%\" border=\"0\">";
@@ -964,7 +964,7 @@ function showHistory($page)
         } else {
             // check to see if nickname is a user in the DB && not Anonymous
             if (is_array($rowN) && ($rowN['username'] != "Anonymous")) {
-                if (!empty($rowN['user_avatar']) && ($rowN['user_avatar'] != "blank.gif") && ($rowN['user_avatar'] != "gallery/blank.gif") && (stristr($rowN['user_avatar'],'.') == TRUE)) {
+                if (!empty($rowN['user_avatar']) && ($rowN['user_avatar'] != "blank.gif") && ($rowN['user_avatar'] != "gallery/blank.png") && (stristr($rowN['user_avatar'],'.') == TRUE)) {
                     echo "<tr><td style=\"background-color: $bgcolor;\">";
                     echo "<table cellpadding=\"1\" cellspacing=\"0\" width=\"100%\" border=\"0\">";
                     echo "<tr><td valign='top' style=\"background-color: $bgcolor;\">";

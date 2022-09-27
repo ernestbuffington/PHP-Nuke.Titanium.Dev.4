@@ -723,7 +723,7 @@ td.extra {
 
 /* The Outline Round the Main Forum Tables */
 .forumline {
-  background: <?=$bgcolor3?>;
+  background: <?=$bgcolor4?>;
   border: #222 0px solid;
 }
 
@@ -826,21 +826,21 @@ td.row3Right, td.spaceRow {
 	font-weight: bold;
 	font-size: 18px;
 	line-height: 120%;
-	color: #CCC;
+	color: <?=$textcolor1?>;
 	text-decoration: none;
 }
 a.maintitle:link {
-	color: <?=$bgcolor1?>;
+	color: <?=$$textcolor1?>;
 	font-size: 18px;
 	text-decoration: none;
 }
 a.maintitle:visited {
-	color: <?=$bgcolor1?>;
+	color: <?=$textcolor1?>;
 	font-size: 18px;
 	text-decoration: none;
 }
 a.maintitle:hover {
-	color: #888;
+	color: <?=$textcolor1?>;
 	font-size: 18px;
 	text-decoration: none;
 }

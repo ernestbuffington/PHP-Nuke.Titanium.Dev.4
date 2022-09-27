@@ -594,9 +594,9 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
  [ Mod:    Forum Index Avatar Mod                 v1.0]
  ******************************************************/
                                             // if ($phpbb2_forum_data[$j]['user_avatar'] == "")
-                                            //     $phpbb2_poster_avatar = $phpbb2_board_config['avatar_path']."/blank.gif";
-                                            // elseif ($phpbb2_forum_data[$j]['user_avatar'] == "gallery/blank.gif")
-                                            //     $phpbb2_poster_avatar = $phpbb2_board_config['avatar_path']."/blank.gif";
+                                            //     $phpbb2_poster_avatar = $phpbb2_board_config['avatar_path']."/blank.png";
+                                            // elseif ($phpbb2_forum_data[$j]['user_avatar'] == "gallery/blank.png")
+                                            //     $phpbb2_poster_avatar = $phpbb2_board_config['avatar_path']."/blank.png";
                                             // elseif (preg_match('#http://#i', $phpbb2_forum_data[$j]['user_avatar']))
                                             //     $phpbb2_poster_avatar = $phpbb2_forum_data[$j]['user_avatar'];
                                             // elseif (preg_match('#gallery/#i', $phpbb2_forum_data[$j]['user_avatar'])) 
@@ -615,7 +615,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
                                                     break;
                                                 case USER_AVATAR_GALLERY:
                                                     $phpbb2_poster_avatar = $phpbb2_board_config['avatar_gallery_path'] . '/' . (($phpbb2_forum_data[$j]['user_avatar'] 
-													== 'blank.gif' || $phpbb2_forum_data[$j]['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $phpbb2_forum_data[$j]['user_avatar']);
+													== 'blank.gif' || $phpbb2_forum_data[$j]['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $phpbb2_forum_data[$j]['user_avatar']);
                                                     break;
                                             }                                  
 /*****[END]********************************************

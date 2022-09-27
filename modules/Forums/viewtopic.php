@@ -1425,7 +1425,7 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
             case USER_AVATAR_GALLERY:
                 $phpbb2_poster_avatar = ($phpbb2_board_config['allow_avatar_local']) 
 				? '<img width="200" class="rounded-corners-forum" src="'.$phpbb2_board_config['avatar_gallery_path'].'/'.(($postrow[$i]['user_avatar'] == 'blank.gif' 
-				|| $postrow[$i]['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $postrow[$i]['user_avatar']).'" alt="" border="0" />' : '';
+				|| $postrow[$i]['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $postrow[$i]['user_avatar']).'" alt="" border="0" />' : '';
                 break;
         endswitch;
     endif;
@@ -1446,8 +1446,8 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
     endif;
     # Mod: Default avatar v1.1.0 END
 
-        $images['default_avatar'] = "modules/Forums/images/avatars/gallery/blank.gif";
-        $images['guest_avatar'] = "modules/Forums/images/avatars/gallery/blank.gif";
+        $images['default_avatar'] = "modules/Forums/images/avatars/gallery/blank.png";
+        $images['guest_avatar'] = "modules/Forums/images/avatars/gallery/blank.png";
         
         # Mod: Default avatar v1.1.0 START
         if(empty($phpbb2_poster_avatar) && $poster_id != ANONYMOUS)

@@ -80,7 +80,7 @@ if ($num > 0):
             echo "<img src='$usrinfo[user_avatar]'>";
             
 			elseif(empty($usrinfo['user_avatar'])):     # Type 3
-            echo "<img src='".$phpbb2_board_config['avatar_gallery_path']."/gallery/blank.gif'>";
+            echo "<img src='".$phpbb2_board_config['avatar_gallery_path']."/gallery/blank.png'>";
             
 			
 			else:
