@@ -11,6 +11,12 @@ This is the Current US Version of PHP-Nuke Titanium<br />
 This is a hardened version of PHP-Nuke and is secure and safe.<br />
 <a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank">https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4</a> <- click here
 <hr>
+<strong><i class="bi bi-calendar3"></i> Sep 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Created Icons for GitHub v1.0 Forums Area<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 26th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Buttons in GitHub v1.0 Theme<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 25th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Created GitHub v1.0 Theme for the PHP-Nuke Titanium Site<br />
+<hr>
 <strong><i class="bi bi-calendar3"></i> Sep 24th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Theme change white screen<br />
 <strong><i class="bi bi-calendar3"></i> Sep 24th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated php-nuke-titanium.86it.us<br />
 <hr>
