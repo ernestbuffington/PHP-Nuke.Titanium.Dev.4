@@ -270,7 +270,7 @@ define("_NETWORK_TASKNAME","Task Name");
 define("_NETWORK_TASKOPTIONS","Task Options / Statistics");
 define("_NETWORK_TASKS","Tasks");
 define("_NETWORK_TASKSDESC","Manage tasks.");
-define("_NETWORK_TITLE","::: Titanium Network Projects ");
+define("_NETWORK_TITLE","NukeScripts™ Network Projects ");
 define("_NETWORK_TOTALPOSITIONS","Total Positions");
 define("_NETWORK_TOTALPRIORITIES","Total Priorities");
 define("_NETWORK_TOTALPROJECTPRIORITIES","Total Project Priorities");

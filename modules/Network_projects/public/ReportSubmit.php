@@ -13,15 +13,19 @@ if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 $project_id = intval($project_id);
 $project = pjproject_info($project_id);
 if($project['allowreports'] > 0) {
-  $pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']." ::: "._NETWORK_SUBMITAREPORT." ::: ";
+  
+  $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_SUBMITAREPORT;
+  
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
-  echo '<div align="center"><strong>'._NETWORK_TITLE." v".$pj_config['version_number']." ::: "._NETWORK_SUBMITAREPORT." ::: ".'</strong></div>';
+
+  echo '<div align="center"><strong>'._NETWORK_TITLE." v".$pj_config['version_number']." - "._NETWORK_SUBMITAREPORT.'</strong></div>';
+
   echo '<div align="center">';
-  echo '[ <a href="modules.php?name=Network_Projects">' . _NETWORK_PROJECTLIST . '</a> | ';
-  echo '<a href="modules.php?name=Network_Projects&op=TaskMap">' . _NETWORK_TASKMAP . '</a> | ';
-  echo '<a href="modules.php?name=Network_Projects&op=ReportMap">' . _NETWORK_REPORTMAP . '</a> | ';
-  echo '<a href="modules.php?name=Network_Projects&op=RequestMap">' . _NETWORK_REQUESTMAP . '</a> ]';
+  echo '<a class="titaniumbutton" href="modules.php?name=Network_Projects">' . _NETWORK_PROJECTLIST . '</a> ';
+  echo '<a class="titaniumbutton" href="modules.php?name=Network_Projects&op=TaskMap">' . _NETWORK_TASKMAP . '</a> ';
+  echo '<a class="titaniumbutton" href="modules.php?name=Network_Projects&op=ReportMap">' . _NETWORK_REPORTMAP . '</a> ';
+  echo '<a class="titaniumbutton" href="modules.php?name=Network_Projects&op=RequestMap">' . _NETWORK_REQUESTMAP . '</a>';
   echo '</div><br/>';
   
   echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
@@ -51,8 +55,8 @@ if($project['allowreports'] > 0) {
   echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_SUMMARY.":</td>\n";
   echo "<td><input type='text' name='report_name' size='30'></td></tr>\n";
   echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._NETWORK_DESCRIPTION.":</td>\n";
-  echo "<td><textarea name='report_description' cols='60' rows='10'></textarea></td></tr>\n";
-  echo "<tr><td align='center' colspan='2'><input type='submit' value='"._NETWORK_SUBMITREPORT."'></td></tr>\n";
+  echo "<td><textarea name='report_description' cols='60' rows='10'></textarea></td></tr>\n"; 
+  echo "<tr><td align='center' colspan='2'><input class='titaniumbutton' type='submit' value='"._NETWORK_SUBMITREPORT."'></td></tr>\n";
   echo "</form>\n";
   echo "</table>\n";
   CloseTable();

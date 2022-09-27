@@ -68,7 +68,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
   {
     $this->_stream = $stream;
     $this->_path = $path;
-    $this->_quotes = get_magic_quotes_runtime();
+    $this->_quotes = @get_magic_quotes_runtime();
   }
 
   /**

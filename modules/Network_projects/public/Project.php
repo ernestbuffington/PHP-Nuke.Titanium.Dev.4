@@ -24,11 +24,12 @@ $project_tasks = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT `ta
 $projectpriority = pjprojectpriority_info($project['priority_id']);
 OpenTable();
 echo '<div align="center"><strong>'._NETWORK_TITLE." v".$pj_config['version_number']." ::: "._NETWORK_VIEWPROJECT." ::: ".'</strong></div>';
+
 echo '<div align="center">';
-echo '[ <a href="modules.php?name=Network_Projects">' . _NETWORK_PROJECTLIST . '</a> | ';
-echo '<a href="modules.php?name=Network_Projects&op=TaskMap">' . _NETWORK_TASKMAP . '</a> | ';
-echo '<a href="modules.php?name=Network_Projects&op=ReportMap">' . _NETWORK_REPORTMAP . '</a> | ';
-echo '<a href="modules.php?name=Network_Projects&op=RequestMap">' . _NETWORK_REQUESTMAP . '</a> ]';
+echo '<a class="titaniumbutton" href="modules.php?name=Network_Projects">' . _NETWORK_PROJECTLIST . '</a> ';
+echo '<a class="titaniumbutton" href="modules.php?name=Network_Projects&op=TaskMap">' . _NETWORK_TASKMAP . '</a> ';
+echo '<a class="titaniumbutton" href="modules.php?name=Network_Projects&op=ReportMap">' . _NETWORK_REPORTMAP . '</a> ';
+echo '<a class="titaniumbutton" href="modules.php?name=Network_Projects&op=RequestMap">' . _NETWORK_REQUESTMAP . '</a>';
 echo '</div><br/>';
 
 echo "<table align='center' width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
@@ -164,7 +165,9 @@ if($project['allowreports'] > 0) {
   if(!$column2) $column2 = "report_name";
   if(!$direction2) $direction2 = "asc";
   echo "<table border='1' cellpadding='2' cellspacing='0' width='100%'>\n";
-  echo "<tr><td colspan='6'><nobr><a href='modules.php?name=$titanium_module_name&amp;op=ReportSubmit&amp;project_id=$project_id'>"._NETWORK_SUBMITAREPORT."</a></nobr></td></tr>\n";
+  
+  echo "<tr><td colspan='6'><nobr><a class='titaniumbutton' href='modules.php?name=$titanium_module_name&amp;op=ReportSubmit&amp;project_id=$project_id'>"._NETWORK_SUBMITAREPORT."</a></nobr></td></tr>\n";
+  
   echo "<tr><td bgcolor='$bgcolor2' colspan='2' width='100%'><nobr><strong>"._NETWORK_REPORTS."</strong></nobr></td>\n";
   echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_TYPE."</strong></nobr></td>\n";
   echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_STATUS."</strong></nobr></td>\n";
@@ -224,7 +227,9 @@ if($project['allowrequests'] > 0) {
   if(!$column3) $column3 = "request_name";
   if(!$direction3) $direction3 = "asc";
   echo "<table border='1' cellpadding='2' cellspacing='0' width='100%'>\n";
-  echo "<tr><td colspan='6'><nobr><a href='modules.php?name=$titanium_module_name&amp;op=RequestSubmit&amp;project_id=$project_id'>"._NETWORK_SUBMITAREQUEST."</a></nobr></td></tr>\n";
+  
+  echo "<tr><td colspan='6'><nobr><a class='titaniumbutton' href='modules.php?name=$titanium_module_name&amp;op=RequestSubmit&amp;project_id=$project_id'>"._NETWORK_SUBMITAREQUEST."</a></nobr></td></tr>\n";
+  
   echo "<tr><td bgcolor='$bgcolor2' colspan='2' width='100%'><nobr><strong>"._NETWORK_REQUESTS."</strong></nobr></td>\n";
   echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_TYPE."</strong></nobr></td>\n";
   echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_STATUS."</strong></nobr></td>\n";
