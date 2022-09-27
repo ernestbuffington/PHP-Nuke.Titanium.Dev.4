@@ -41,11 +41,11 @@ if($project['allowreports'] > 0) {
     header("Location: modules.php?name=$titanium_module_name&op=Report&report_id=$report_id");
   } else {
     
-	$pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' '._NETWORK_REPORTADD.'';
+	$pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REPORTADD;
     
 	include_once(NUKE_BASE_DIR.'header.php');
     OpenTable();
-    echo '<div align="center"><strong>'._NETWORK_TITLE." v".$pj_config['version_number']." ::: "._NETWORK_REPORTADD." ::: ".'</strong></div>';
+    echo '<div align="center"><strong>'._NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REPORTADD.'</strong></div>';
     echo '<div align="center">';
     echo '[ <a href="modules.php?name=Network_Projects">' . _NETWORK_PROJECTLIST . '</a> | ';
     echo '<a href="modules.php?name=Network_Projects&op=TaskMap">' . _NETWORK_TASKMAP . '</a> | ';

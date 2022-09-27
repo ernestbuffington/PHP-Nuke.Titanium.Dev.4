@@ -310,6 +310,9 @@ if (!function_exists('classAutoloader')):
 endif;
 
 if (CAN_MOD_INI):
+  if (version_compare(PHP_VERSION, '5.3.0', '<')):
+    ini_set('magic_quotes_runtime', 0);
+  endif;
     ini_set('magic_quotes_sybase', 0);
     ini_set('zlib.output_compression', 0);
 endif;

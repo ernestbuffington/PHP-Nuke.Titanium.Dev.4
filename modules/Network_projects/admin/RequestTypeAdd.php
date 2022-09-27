@@ -14,7 +14,7 @@ if(!defined('NETWORK_SUPPORT_ADMIN'))
   die("Illegal Access Detected!!!"); 
 }
 
-$pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']."::: "._NETWORK_REQUESTS.": "._NETWORK_TYPEADD;
+$pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REQUESTS.': '._NETWORK_TYPEADD;
 
 include_once(NUKE_BASE_DIR.'header.php');
 
@@ -26,7 +26,7 @@ CloseTable();
 
 //echo "<br />";
 
-pjadmin_menu(_NETWORK_REQUESTS.": "._NETWORK_TYPEADD);
+pjadmin_menu(_NETWORK_REQUESTS.': '._NETWORK_TYPEADD);
 //echo "<br />";
 
 OpenTable();

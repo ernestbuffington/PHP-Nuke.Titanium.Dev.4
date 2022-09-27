@@ -10,7 +10,7 @@
 /********************************************************/
 global $titanium_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
-$pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']."::: "._NETWORK_REQUESTS.": "._NETWORK_DELETESTATUS;
+$pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REQUESTS.': '._NETWORK_DELETESTATUS;
 $status_id = intval($status_id);
 if($status_id < 1) { header("Location: ".$admin_file.".php?op=RequestStatusList"); }
 include_once(NUKE_BASE_DIR.'header.php');
@@ -22,7 +22,7 @@ CloseTable();
 //echo "<br />";
 $statusresult = $titanium_db2->sql_query("SELECT `status_name` FROM `".$network_prefix."_requests_status` WHERE `status_id`='$status_id'");
 list($status_name) = $titanium_db2->sql_fetchrow($statusresult);
-pjadmin_menu(_NETWORK_REQUESTS.": "._NETWORK_DELETESTATUS);
+pjadmin_menu(_NETWORK_REQUESTS.': '._NETWORK_DELETESTATUS);
 //echo "<br />";
 OpenTable();
 echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>";

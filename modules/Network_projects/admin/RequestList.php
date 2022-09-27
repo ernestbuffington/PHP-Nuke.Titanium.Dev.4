@@ -10,7 +10,7 @@
 /********************************************************/
 global $titanium_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
-$pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']."::: "._NETWORK_REQUESTS.": "._NETWORK_REQUESTLIST;
+$pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REQUESTS.': '._NETWORK_REQUESTLIST;
 if(!$page) $page = 1;
 if(!$per_page) $per_page = 25;
 if(!$column) $column = "project_id";
@@ -22,7 +22,7 @@ echo "<br /><br />";
 echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NETWORK_RETURNMAIN . "</a> ]</div>\n";
 CloseTable();
 //echo "<br />";
-pjadmin_menu(_NETWORK_REQUESTS.": "._NETWORK_REQUESTLIST);
+pjadmin_menu(_NETWORK_REQUESTS.': '._NETWORK_REQUESTLIST);
 //echo "<br />\n";
 OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
