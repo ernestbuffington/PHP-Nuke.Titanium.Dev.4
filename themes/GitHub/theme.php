@@ -144,7 +144,6 @@ $bgcolor3   = $ThemeInfo['bgcolor3'];
 $bgcolor4   = $ThemeInfo['bgcolor4'];
 $textcolor1 = $ThemeInfo['textcolor1'];
 $textcolor2 = $ThemeInfo['textcolor2'];
-//$ThemeInfo['uitotophover'] = '#666666';
 
 define('theme_dir', 'themes/'.$theme_name.'/');
 define('theme_images_dir', theme_dir.'images/');
@@ -205,14 +204,14 @@ function themeheader(){	include_once(theme_dir.'header.php'); }
 #----------------#
 function themefooter(){ include_once(theme_dir.'footer.php'); }
 
-#--------------------#
-# News Index Section #
-#--------------------#
+#------_--------------#
+# Blogs Index Section #
+#-------_-------------#
 include_once(theme_dir.'function_themeindex.php');
 
-#----------------------#
-# News Article Section #
-#----------------------#
+#------_----------------#
+# Blogs Article Section #
+#-------_---------------#
 include_once(theme_dir.'function_themearticle.php');
 
 #-------------------#
