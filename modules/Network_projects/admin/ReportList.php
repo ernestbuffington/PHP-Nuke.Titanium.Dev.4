@@ -10,7 +10,9 @@
 /********************************************************/
 global $titanium_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
-$pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']."::: "._NETWORK_REPORTS.": "._NETWORK_REPORTLIST;
+
+$pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REPORTS.': '._NETWORK_REPORTLIST;
+
 if(!$page) $page = 1;
 if(!$per_page) $per_page = 25;
 if(!$column) $column = "project_id";
