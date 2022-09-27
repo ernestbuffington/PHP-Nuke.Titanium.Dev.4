@@ -295,7 +295,7 @@ $topic_id = intval($forum_topic_data['topic_id']);
 # Check if the Thanks feature is active for this forum
 $sql = "SELECT `forum_thank` 
 		FROM ".FORUMS_TABLE." 
-		WHERE forum_id =$phpbb2_forum_id";
+		WHERE forum_id = $phpbb2_forum_id";
 		
 if ( !($result = $titanium_db->sql_query($sql)) )
 message_die(GENERAL_ERROR, "Could not obtain forum information", '', __LINE__, __FILE__, $sql);
