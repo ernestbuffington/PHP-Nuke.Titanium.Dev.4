@@ -148,18 +148,18 @@ hr {
 	height: 1px;
 	margin: 5px 0;
 	width: 100%;
-    #opacity: 0.4;
+   /* #opacity: 0.4; */
 
 }
 
    
 .outer_table_opacity
 {
-  opacity: 0.9;
+  /* opacity: 0.9; */
 }
 .inferno_header_table
 {
-opacity: 0.9;
+  /* opacity: 0.9; */
 background-color: black; 
 background-image: 
 url(themes/<?=$theme_name?>/backgrounds/top_box.png),       /* top black glass - TheGhost add 03/19/2021 */
@@ -1101,6 +1101,7 @@ font-style:italic;color:<?=$textcolor1?>;
 .forum-ranks {margin-bottom: 2px;}
 .forum-avatar {padding-bottom: 5px;}
 
+/* THIS IS THE NEW SHIT */
 /* Progress Bar Rules START */
 progress {
   /* style rules */
@@ -1210,4 +1211,23 @@ padding-bottom: 2em;
 padding-left: 2em;
 }
 
+.visitors:hover{
+/* filter: grayscale(0%); */
+  filter: saturate(5px);
+  transform: rotate(360deg);
+  transition: transform .8s ease-in-out;
+  cursor: pointer;
+}
+.visitors{
+/* filter: grayscale(100%); */
+transition: all .2s ease-in-out;
+  max-width: 100vmin;
+  max-height: 70vmin;
+  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.2);
+  border-radius: 100%;
+}
+}
 <?
+
+
+

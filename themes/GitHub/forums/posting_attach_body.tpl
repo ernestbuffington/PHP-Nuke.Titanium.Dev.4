@@ -1,6 +1,7 @@
+<!-- GitHub v1.0 Theme -->
 <!-- BEGIN show_apcp -->
     <tr>
-        <th class="thHead" colspan="2">{L_ATTACH_POSTING_CP}</th>
+        <th class="thHead" colspan="2"><h1>{L_ATTACH_POSTING_CP}</h1></th>
     </tr>
     <tr>
         <td class="row1" colspan="2"><span class="gensmall">{L_ATTACH_POSTING_CP_EXPLAIN}</span></td>
