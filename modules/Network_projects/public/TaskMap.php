@@ -126,21 +126,121 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
   
   $task_total = $titanium_db2->sql_numrows($taskresult);
   
-  if($task_total != 0){
-    while(list($task_id, $task_name, $task_percent, $priority_id, $status_id) = $titanium_db2->sql_fetchrow($taskresult)) {
+  if($task_total != 0)
+  {
+    while(list($task_id, $task_name, $task_percent, $priority_id, $status_id) = $titanium_db2->sql_fetchrow($taskresult)) 
+	{
       $memberresult = $titanium_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_tasks_members` WHERE `task_id`='$task_id' ORDER BY `member_id`");
-      $member_total = $titanium_db2->sql_numrows($membersresult);
-      $taskstatus = pjtaskstatus_info($status_id);
-      $taskpriority = pjtaskpriority_info($priority_id);
-      $pjimage = pjimage("task.png", $titanium_module_name);
-      echo "<tr><td class='row1' ><img src='$pjimage'></td>\n";
+    
+	  $member_total = $titanium_db2->sql_numrows($membersresult);
+    
+	  $taskstatus = pjtaskstatus_info($status_id);
+    
+	  $taskpriority = pjtaskpriority_info($priority_id);
+    
+
+	  if($taskstatus['status_name'] === 'Inactive'):
+      $color1 = 'grey';
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: ".$color1."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color1."'\" class=\"bi bi-calendar-check\"></i>";
+      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color1.">".$taskstatus['status_name']."</font></nobr></td>\n";
+	  
+	  elseif($taskstatus['status_name'] === 'On Going'):
+      $color2 = 'red';
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: ".$color2."\" onMouseOver=\"this.style.color='green'\" onMouseOut=\"this.style.color='".$color2."'\" class=\"bi bi-calendar-x\"></i>";
+      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color2.">".$taskstatus['status_name']."</font></nobr></td>\n";
+      
+	  elseif($taskstatus['status_name'] === 'Holding'):
+      $color3 = '#66FFFF';
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: ".$color3."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color3."'\" class=\"bi bi-calendar-check\"></i>";
+      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color3.">".$taskstatus['status_name']."</font></nobr></td>\n";
+      
+	  elseif($taskstatus['status_name'] === 'Open'):
+      $color4 = '#FF3366';
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: ".$color4."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color4."'\" class=\"bi bi-calendar-check\"></i>";
+      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color4.">".$taskstatus['status_name']."</font></nobr></td>\n";
+      
+	  elseif($taskstatus['status_name'] === 'Completed'):
+      $color5 = 'green';
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: ".$color5."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color5."'\" class=\"bi bi-calendar-check\"></i>";
+      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color5.">".$taskstatus['status_name']."</font></nobr></td>\n";
+      
+	  elseif($taskstatus['status_name'] === 'Discontinued'):
+      $color6 = 'grey';
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: ".$color6."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color6."'\" class=\"bi bi-calendar-check\"></i>";
+      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color6.">".$taskstatus['status_name']."</font></nobr></td>\n";
+      
+	  elseif($taskstatus['status_name'] === 'Active'):
+      $color7 = 'red';
+ 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: ".$color7."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color7."'\" class=\"bi bi-calendar-x\"></i>";
+      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color7.">".$taskstatus['status_name']."</font></nobr></td>\n";
+      
+	  elseif($taskstatus['status_name'] === 'Suspended'):
+      $color8 = 'grey';
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: ".$color8."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color8 ."'\" class=\"bi bi-x-square\"></i>";
+      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      $task_status_name = "<td class='row1' align='center'><nobr><font class=\"blink-one\" color=".$color8.">".$taskstatus['status_name']."</font></nobr></td>\n";
+      
+	  elseif($taskstatus['status_name'] === 'Fix Completed'):
+      $color9 = 'green';
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: ".$color9."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color9."'\" class=\"bi bi-calendar-check\"></i>";
+      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color9.">".$taskstatus['status_name']."</font></nobr></td>\n";
+
+      else:
+      $color10 = 'white';
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: '".$color10."'\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color10."'\" class=\"bi bi-calendar-check\"></i>";
+      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color10.">".$taskstatus['status_name']."</font></nobr></td>\n";
+
+	  endif;
+
+      echo "<tr><td class='row1' >$demo</td>\n";
       echo "<td colspan='2' width='100%'><a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id'>$task_name</a></td>\n";
-      if(empty($taskstatus['status_name'])){ $taskstatus['status_name'] = _NETWORK_NA; }
-      echo "<td class='row1' align='center'><nobr>".$taskstatus['status_name']."</nobr></td>\n";
-      if(empty($taskpriority['priority_name'])){ $taskpriority['priority_name'] = _NETWORK_NA; }
-      echo "<td class='row1' align='center'><nobr>".$taskpriority['priority_name']."</nobr></td>\n";
+    
+	  
+	  if(empty($taskstatus['status_name']))
+	  { 
+	    $taskstatus['status_name'] = _NETWORK_NA; 
+	  }
+      print $task_status_name;
+      
+	  
+	  if(empty($taskpriority['priority_name']))
+	  { 
+	    $taskpriority['priority_name'] = _NETWORK_NA; 
+	  }
+      
+	  echo "<td class='row1' align='center'><nobr>".$taskpriority['priority_name']."</nobr></td>\n";
       $wbprogress = pjprogress($task_percent);
-      echo "<td class='row1' align='center'><nobr>$wbprogress</nobr></td>\n";
+      
+	  echo "<td class='row1' align='center'><nobr>$wbprogress</nobr></td>\n";
       echo "<td class='row1' align='center'><nobr>$member_total</nobr></td></tr>\n";
     }
   } else {
@@ -150,7 +250,6 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
   }
   echo "</table>\n";
   CloseTable();
-  //echo "<br />\n";
 }
 include_once(NUKE_BASE_DIR.'footer.php');
 
