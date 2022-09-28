@@ -86,7 +86,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
   if($project['project_site'] > "") 
   {
 	# got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
-    $pjimage = "<i style=\"font-size: 25px; color: #008080\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#008080'\" class=\"bi bi-server\"></i>";
+    $pjimage = "<i style=\"font-size: 25px; color: #45B39D\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#45B39D'\" class=\"bi bi-server\"></i>";
     $demo = " <a href='".$project['project_site']."' target='_blank'>$pjimage</a>";
 	# got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
   } 
@@ -95,39 +95,86 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
     $demo = "&nbsp;";
   }
   echo "<td class='row1' align='center'>$demo</td>\n";
-  echo "<td class='row1' align='center'>$taskrows</a></td>\n";
+  
+  if($taskrows > 0)
+  $color = '#ECAB53';
+  else
+  $color = '#008080';
+
+  echo "<td class='row1' align='center'><font color=\"$color\">$taskrows</font></td>\n";
   
   if($project['allowreports'] > 0) 
   {
-    echo "<td class='row1' align='center'>$report_total</td>\n";
+	if($report_total > 0)
+	$color = '#ECAB53';
+	else
+	$color = '#008080';
+
+    echo "<td class='row1' align='center'><font color=\"$color\">$report_total</font></td>\n";
   } 
   else 
   {
     echo "<td class='row1' align='center'>----</td>\n";
   }
   
+  if($request_total > 0)
+  $color = '#ECAB53';
+  else
+  $color = '#008080';
+
   if($project['allowrequests'] > 0) 
   {
-    echo "<td class='row1' align='center'>$request_total</td>\n";
+    echo "<td class='row1' align='center'><font color=\"$color\">$request_total</font></td>\n";
   } 
   else 
   {
     echo "<td class='row1' align='center'>----</td>\n";
   }
+
+  if($projectstatus['status_name'] === 'Active')
+  $color = '#66FF00';
+  elseif($projectstatus['status_name'] === 'Inactive')
+  $color = 'grey';
+  elseif($projectstatus['status_name'] === 'Pending')
+  $color = '#66FFFF';
+  elseif($projectstatus['status_name'] === 'Released')
+  $color = '#FF3366';
+  elseif($projectstatus['status_name'] === 'N/A')
+  $color = 'grey';
+  else
+  $color = 'white';
   
   if(empty($projectstatus['status_name']))
   { 
     $projectstatus['status_name'] = _NETWORK_NA; 
   }
-  echo "<td class='row1' align='center'>".$projectstatus['status_name']."</td>\n";
+  echo "<td class='row1' align='center'><font color=\"$color\">".$projectstatus['status_name']."</font></td>\n";
   
+
+  if($projectpriority['priority_name'] === 'Low')
+  $color = 'white';
+  elseif($projectpriority['priority_name'] === 'Low-Med')
+  $color = '#FFCC99';
+  elseif($projectpriority['priority_name'] === 'Medium')
+  $color = '#FFCC00';
+  elseif($projectpriority['priority_name'] === 'High-Med')
+  $color = '#ff632a';
+  elseif($projectpriority['priority_name'] === 'High')
+  $color = 'red';
+  else
+  $color = 'grey';
+
   if(empty($projectpriority['priority_name']))
   { 
     $projectpriority['priority_name'] = _NETWORK_NA; 
   }
   
-  echo "<td class='row1' align='center'><nobr>".$projectpriority['priority_name']."</nobr></td>\n";
-  echo "<td class='row1' align='center'><nobr>$member_total</nobr></td>\n";
+  echo "<td class='row1' align='center'><nobr><font color=\"$color\">".$projectpriority['priority_name']."</font></nobr></td>\n";
+
+  if($member_total > 0)
+  $color = '#FFCC66';
+
+  echo "<td class='row1' align='center'><nobr><font color=\"$color\">$member_total</font></nobr></td>\n";
   
   $wbprogress = pjprogress($project['project_percent']);
   
