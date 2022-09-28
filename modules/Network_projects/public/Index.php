@@ -85,8 +85,10 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
   
   if($project['project_site'] > "") 
   {
-    $pjimage = pjimage("demo.png", $titanium_module_name);
-    $demo = " <a href='".$project['project_site']."' target='_blank'><img src='$pjimage' border='0' alt='".$project['project_name']." "._NETWORK_SITE."' title='".$project['project_name']." "._NETWORK_SITE."'></a>";
+	# got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+    $pjimage = "<i style=\"font-size: 25px; color: #008080\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#008080'\" class=\"bi bi-server\"></i>";
+    $demo = " <a href='".$project['project_site']."' target='_blank'>$pjimage</a>";
+	# got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
   } 
   else 
   {
