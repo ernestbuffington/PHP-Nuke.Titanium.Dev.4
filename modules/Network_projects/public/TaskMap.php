@@ -14,13 +14,17 @@ if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_TASKMAP;
 
 include_once(NUKE_BASE_DIR.'header.php');
+
 $projectresult = $titanium_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
+
 while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
+
   $project = pjprojectpercent_info($project_id);
   $projectstatus = pjprojectstatus_info($project['status_id']);
   $projectpriority = pjprojectpriority_info($project['priority_id']);
   $memberresult = $titanium_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id' ORDER BY `member_id`");
   $member_total = $titanium_db2->sql_numrows($membersresult);
+
   OpenTable();
   
   echo '<div align="center"><strong>'._NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_TASKMAP.'</strong></div>';
@@ -47,23 +51,79 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
   if($project['featured'] > 0) { $project['project_name'] = "<strong>".$project['project_name']."</strong>"; }
   
   echo "<tr><td class='row1' align='center'><img src='$pjimage'></td>\n";
+  
   echo "<td class='row1' width='100%'><a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
-  if($project['project_site'] > "") {
-    $pjimage = pjimage("demo.png", $titanium_module_name);
-    $demo = " <a href='".$project['project_site']."' target='_blank'><img src='$pjimage' border='0' alt='".$project['project_name']." "._NETWORK_SITE."' title='".$project['project_name']." "._NETWORK_SITE."'></a>";
-  } else {
+  
+  if($project['project_site'] > "") 
+  {
+    # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+    $pjimage = "<i style=\"font-size: 25px; color: #45B39D\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#45B39D'\" class=\"bi bi-server\"></i>";
+    $demo = " <a href='".$project['project_site']."' target='_blank'>$pjimage</a>";
+    # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+  } 
+  else 
+  {
     $demo = "&nbsp;";
   }
+  
   echo "<td class='row1' align='center'>$demo</td>\n";
-  if(empty($projectstatus['status_name'])){ $projectstatus['status_name'] = _NETWORK_NA; }
-  echo "<td class='row1' align='center'><nobr>".$projectstatus['status_name']."</nobr></td>\n";
-  if(empty($projectpriority['priority_name'])){ $projectpriority['priority_name'] = _NETWORK_NA; }
-  echo "<td class='row1' align='center'><nobr>".$projectpriority['priority_name']."</nobr></td>\n";
+  
+  if($projectstatus['status_name'] === 'Active')
+  $color = '#66FF00';
+  elseif($projectstatus['status_name'] === 'Inactive')
+  $color = 'grey';
+  elseif($projectstatus['status_name'] === 'Pending')
+  $color = '#66FFFF';
+  elseif($projectstatus['status_name'] === 'Released')
+  $color = '#FF3366';
+  elseif($projectstatus['status_name'] === 'N/A')
+  $color = 'grey';
+  else
+  $color = 'white';
+ 
+  if(empty($projectstatus['status_name']))
+  { 
+    $projectstatus['status_name'] = _NETWORK_NA; 
+  }
+  echo "<td class='row1' align='center'><nobr><font color=\"$color\">".$projectstatus['status_name']."</font></nobr></td>\n";
+  
+  if($projectpriority['priority_name'] === 'Low')
+  $color = 'white';
+  elseif($projectpriority['priority_name'] === 'Low-Med')
+  $color = '#FFCC99';
+  elseif($projectpriority['priority_name'] === 'Medium')
+  $color = '#FFCC00';
+  elseif($projectpriority['priority_name'] === 'High-Med')
+  $color = '#ff632a';
+  elseif($projectpriority['priority_name'] === 'High')
+  $color = 'red';
+  else
+  $color = 'grey';
+  
+  if(empty($projectpriority['priority_name']))
+  { 
+    $projectpriority['priority_name'] = _NETWORK_NA; 
+  }
+  echo "<td class='row1' align='center'><nobr><font color=\"$color\">".$projectpriority['priority_name']."</font></nobr></td>\n";
+  
   $wbprogress = pjprogress($project['project_percent']);
+  
   echo "<td class='row1' align='center'><nobr>$wbprogress</nobr></td>\n";
+  
   echo "<td class='row1' align='center'><nobr>$member_total</nobr></td></tr>\n";
+  
   echo "<tr><td class='row1' width='100%' bgcolor='$bgcolor2' colspan='7'><strong>"._NETWORK_PROJECTTASKS."</strong></td></tr>\n";
-  $taskresult = $titanium_db2->sql_query("SELECT `task_id`, `task_name`, `task_percent`, `priority_id`, `status_id` FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id' ORDER BY `task_name`");
+  
+  $taskresult = $titanium_db2->sql_query("SELECT `task_id`, 
+                                               `task_name`, 
+											`task_percent`, 
+											 `priority_id`, 
+											   `status_id` 
+											   
+  FROM `".$network_prefix."_tasks` 
+  
+  WHERE `project_id`='$project_id' ORDER BY `task_name`");
+  
   $task_total = $titanium_db2->sql_numrows($taskresult);
   
   if($task_total != 0){
