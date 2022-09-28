@@ -218,7 +218,7 @@ define("_NETWORK_REQUESTS","Requests");
 define("_NETWORK_REQUESTUPDATE","Update Request");
 define("_NETWORK_REQUESTVIEW","View Request");
 define("_NETWORK_RETURN","[ <a href=\"javascript:history.go(-1)\">Return to last page</a> ]");
-define("_NETWORK_SITE","Site");
+define("_NETWORK_SITE","WebSite");
 define("_NETWORK_SORT","Sort");
 define("_NETWORK_STARTDATE","Start Date");
 define("_NETWORK_STATUS","Status");
