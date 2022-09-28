@@ -122,14 +122,13 @@ function pjadmin_menu($pjtitle="")
   CloseTable();
 }
 
-function pjimage($imgfile, $titanium_module_name) 
+function pjimage($imgfile,$titanium_module_name) 
 {
   $ThemeSel = get_theme();
   if(file_exists("themes/$ThemeSel/images/$titanium_module_name/$imgfile")) 
     $pjimage = "themes/$ThemeSel/images/$titanium_module_name/$imgfile";
   else 
     $pjimage = "modules/$titanium_module_name/images/$imgfile";
-
   return($pjimage);
 }
 
