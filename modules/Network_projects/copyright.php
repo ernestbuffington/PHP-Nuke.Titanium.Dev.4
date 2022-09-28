@@ -18,9 +18,9 @@ require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 $author_name = "NukeScripts™"; 
 $author_email = "nukescripts [at] 86it [dot] us";
 $author_homepage = "https://www.86it.us";
-$license = "GNU/GPL 3.0";
+$license = "GNU/GPL 2.0";
 $download_location = "https://www.86it.us";
-$titanium_module_version = "11.11";
+$titanium_module_version = "4.0.2";
 $titanium_module_description = "Advanced Network Project Management";
 
 // DO NOT TOUCH THE FOLLOWING COPYRIGHT CODE. YOU'RE JUST ALLOWED TO CHANGE YOUR "OWN"
