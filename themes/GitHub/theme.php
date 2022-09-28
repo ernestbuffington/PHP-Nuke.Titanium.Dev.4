@@ -176,6 +176,7 @@ addPHPCSSToHead(theme_phpstyle_dir.'footer.php','file');
 addPHPCSSToHead(theme_phpstyle_dir.'maintable.php','file');  
 addPHPCSSToHead(theme_phpstyle_dir.'CKeditor.php','file');   
 addPHPCSSToHead(theme_phpstyle_dir.'jquery_floating_admin.php','file');   
+addPHPCSSToHead(theme_phpstyle_dir.'Nuke_Projects.php','file');   
 
 #-------------------#
 # OpenTable Section #

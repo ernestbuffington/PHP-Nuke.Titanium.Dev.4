@@ -88,5 +88,5 @@ define("_CLICKSPERCENT","Clicks Percent");
 define("_GENERATEDON","Report Generated on");
 define("_STATSSENT","Statistics for your Network Ad Banner has been sent via email to:");
 define("_FLASHMOVIE","Flash Movie");
-define("_WELCOMEADS","<strong>Welcome to our Advertising Section!</strong><br /><br />If you want your banner ad here in our website, you may want to know some details because you should know what kind of target and ads plans we can offer.<br /><br />If you are already our advertising customer, please login <a href=\"modules.php?name=Advertising&amp;op=client\">here</a>.<br />");
+define("_WELCOME_NETWORK_ADS","<strong>Welcome to our Network Advertising Section!</strong><br /><br />If you want your banner ad here in our network websites, you may want to know some details because you should know what kind of target and network ad plans we can offer.<br /><br />If you are already a Network Advertising customer, please login <a class=\"network_ads\" href=\"modules.php?name=Network_Advertising&amp;op=network_ad_client\">HERE</a>.<br />");
 ?>

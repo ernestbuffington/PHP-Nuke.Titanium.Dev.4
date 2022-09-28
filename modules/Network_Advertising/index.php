@@ -36,42 +36,62 @@ if (!defined('MODULE_FILE')) {
 $titanium_module_name = basename(dirname(__FILE__));
 get_lang($titanium_module_name);
 
-function is_ad_client($network_ad_client) {
+function is_ad_client($network_ad_client) 
+{
     global $network_prefix, $titanium_db2;
     static $ClientSave;
-    if(isset($ClientSave)) return $ClientSave;
-    if(!is_array($network_ad_client)) {
+
+    if(isset($ClientSave)) 
+	return $ClientSave;
+    
+	if(!is_array($network_ad_client)) 
+	{
         $network_ad_client = base64_decode($network_ad_client);
         $network_ad_client = addslashes($network_ad_client);
         $network_ad_client = explode(":", $network_ad_client);
         $cid = $network_ad_client[0];
         if (isset($network_ad_client[2])) { $pwd = $network_ad_client[2]; }
-    } else {
+    } 
+	else 
+	{
         $cid = $network_ad_client[0];
         if (isset($network_ad_client[2])) { $pwd = $network_ad_client[2]; }
     }
-    if (!empty($cid) AND !empty($pwd)) {
+    
+	if (!empty($cid) AND !empty($pwd)) 
+	{
         list($pass) = $titanium_db2->sql_ufetchrow("SELECT passwd FROM ".$network_prefix."_banner_clients WHERE cid='$cid'");
-        if(!empty($pass) AND $pass == $pwd) {
+        
+		if(!empty($pass) AND $pass == $pwd) 
+		{
             return $ClientSave = 1;
         }
     }
     return $ClientSave = 0;
 }
 
-function the_network_menu() {
+function the_network_menu() 
+{
     global $titanium_module_name, $network_prefix, $titanium_db2, $network_ad_client, $op;
-    if (is_ad_client($network_ad_client)) {
-        if ($op == "network_client_home") {
+
+    if (is_ad_client($network_ad_client)) 
+	{
+        if ($op == "network_client_home") 
+		{
             $ad_client_opt = "My Network Ads";
-        } else {
-            $ad_client_opt = "<a href=\"modules.php?name=$titanium_module_name&amp;op=network_client_home\">"._MYADS."</a>";
+        } 
+		else 
+		{
+            $ad_client_opt = "<a class=\"titaniumbutton\" href=\"modules.php?name=$titanium_module_name&amp;op=network_client_home\">"._MYADS."</a>";
         }
-    } else {
-        $ad_client_opt = "<a href=\"modules.php?name=$titanium_module_name&amp;op=network_ad_client\">"._CLIENTLOGIN."</a>";
+    } 
+	else 
+	{
+        $ad_client_opt = "<a class=\"titaniumbutton\" href=\"modules.php?name=$titanium_module_name&amp;op=network_ad_client\">"._CLIENTLOGIN."</a>";
     }
-    OpenTable();
-    echo "<center><strong>"._ADSMENU."</strong><br /><br />[ <a href=\"modules.php?name=$titanium_module_name\">"._MAINPAGE."</a> | " . (is_active('Statistics') ? "<a href=\"modules.php?name=Statistics\">"._SITESTATS."</a> |" : "") . "  <a href=\"modules.php?name=$titanium_module_name&amp;op=network_ad_terms\">"._TERMS."</a> | <a href=\"modules.php?name=$titanium_module_name&amp;op=ad_plans\">"._PLANSPRICES."</a> | $ad_client_opt ]</center>";
+    
+	OpenTable();
+    echo "<div align=\"center\"><strong>"._ADSMENU."</strong><br /><br /><a class=\"titaniumbutton\" href=\"modules.php?name=$titanium_module_name\">"._MAINPAGE."</a> " . (is_active('Statistics') ? "<a  class=\"titaniumbutton\" href=\"modules.php?name=Statistics\">"._SITESTATS."</a> " : "") . "<a  class=\"titaniumbutton\" href=\"modules.php?name=$titanium_module_name&amp;op=network_ad_terms\">"._TERMS."</a> <a  class=\"titaniumbutton\" href=\"modules.php?name=$titanium_module_name&amp;op=ad_plans\">"._PLANSPRICES."</a> $ad_client_opt</div>";
     CloseTable();
 }
 
@@ -81,7 +101,7 @@ function theindex() {
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.' '._ADVERTISING);
     OpenTable();
-    echo _WELCOMEADS;
+    echo '<div align=\"center\">'._WELCOME_NETWORK_ADS.'</div>';
     CloseTable();
     the_network_menu();
     include_once(NUKE_BASE_DIR.'footer.php');

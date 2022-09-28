@@ -68,7 +68,7 @@ define_once('CUR_EVO', 'NUKE_EVO');
 define_once('CUR_TITANIUM', 'NUKE_TITANIUM');
 define_once('EVO_EDITION', 'xtreme');
 # Network Support
-define_once('TITANIUM_EDITION', 'Network');
+define_once('TITANIUM_EDITION', 'AN602');
 
 define('PHPVERS', @phpversion());
 define_once('EVO_VERSION', NUKE_EVO . ' ' . EVO_EDITION);
@@ -275,6 +275,7 @@ define('NUKE_JQUERY_INCLUDE_DIR', 'includes/js/');
 define('NUKE_JQUERY_SCRIPTS_DIR', 'includes/js/scripts/');
 define('NUKE_LANGUAGE_DIR', NUKE_BASE_DIR . 'language/');
 define('NUKE_MODULES_DIR', NUKE_BASE_DIR . 'modules/');
+define('NUKE_PROJECTS_CSS_DIR', NUKE_BASE_DIR . 'modules/Network_Projects/css/');
 define('NUKE_THEMES_DIR', NUKE_BASE_DIR . 'themes/');
 define('NUKE_THEMES_SAVE_DIR', NUKE_INCLUDE_DIR . 'saved_themes/');
 define('NUKE_ADMIN_DIR', NUKE_BASE_DIR . 'admin/');

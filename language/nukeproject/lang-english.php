@@ -69,7 +69,24 @@ define("_NETWORK_ERRORNOSUMMARY","<strong>ERROR: Missing Summary</strong>");
 define("_NETWORK_ERRORREPORT","There is a problem with the report you have submitted.");
 define("_NETWORK_ERRORREQUEST","There is a problem with the request you have submitted.");
 define("_NETWORK_FEATURED","Featured");
-define("_NETWORK_FEATUREDBLOCK","Featured in block");
+
+define("_NETWORK_FEATUREDBLOCK","Project Type");
+
+# Network Projects Mod v1.0
+define("_NETWORK_PROJECT_TYPE","Project Type");
+define("_NETWORK_TWEB_PORTAL","PHP-Nuke Titanium Web Portal");
+define("_NETWORK_TWEB_MODULE","PHP-Nuke Titanium Module");
+define("_NETWORK_TWEB_BLOCK","PHP-Nuke Titanium Block");
+define("_NETWORK_TWEB_MOD","PHP-Nuke Titanium phpBB2 Mod");
+define("_NETWORK_TWEB_THEME","PHP-Nuke Titanium Theme");
+define("_NETWORK_EWEB_PORTAL","Nuke Evolution Web Portal");
+define("_NETWORK_EWEB_MODULE","Nuke Evolution Module");
+define("_NETWORK_EWEB_BLOCKS","Nuke Evolution Block");
+define("_NETWORK_EWEB_MOD","Nuke Evolution phpBB2 Mod");
+define("_NETWORK_EWEB_TYPE","Nuke Evolution Theme");
+define("_NETWORK_EWEB_MISC","Misc Project");
+
+
 define("_NETWORK_FINISHDATE","Finish Date");
 define("_NETWORK_FIXWEIGHT","Fix weight conflicts");
 define("_NETWORK_FUNCTIONS","Functions");

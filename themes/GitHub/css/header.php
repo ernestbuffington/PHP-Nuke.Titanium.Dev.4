@@ -1183,18 +1183,21 @@ a.titaniumbutton:hover,input.titaniumbutton:hover
 }
 
 
-.forumline th, .forumline td {
+.forumline th, .forumline td 
+{
   -moz-border-radius: 5px !important;
 }
 
-.forumline {
+.forumline 
+{
   border-spacing: 0;
   border-collapse: separate;
   border-radius: 10px;
   border: 1px solid black;
 }
 
-.forumline th, .forumline td {
+.forumline th, .forumline td 
+{
   -moz-border-radius: 5px !important;
 }
 .theme_index{
@@ -1204,29 +1207,32 @@ padding-bottom: 2em;
 padding-left: 2em;
 }
 
-.theme_header{
+.theme_header
+{
 padding-top: 2em;
 padding-right: 2em;
 padding-bottom: 2em;
 padding-left: 2em;
 }
 
-.visitors:hover{
+.visitors:hover
+{
 /* filter: grayscale(0%); */
   filter: saturate(5px);
   transform: rotate(360deg);
   transition: transform .8s ease-in-out;
   cursor: pointer;
 }
-.visitors{
+.visitors
+{
 /* filter: grayscale(100%); */
-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
   max-width: 100vmin;
   max-height: 70vmin;
   box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.2);
   border-radius: 100%;
 }
-}
+
 <?
 
 

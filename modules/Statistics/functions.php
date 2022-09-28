@@ -75,6 +75,7 @@ function Stats_Main() {
     list($cnum) = $titanium_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$titanium_prefix.'_comments`');
     list($subnum) = $titanium_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$titanium_prefix.'_queue`');
     $evover = ucfirst(EVO_EDITION);
+	$titaniumver = ucfirst(TITANIUM_EDITION);
     echo '<tr>
         <td colspan="3" class="cat"><div class="cattitle" align="center">'._MISCSTATS.'</div></td>
     </tr><tr align="left">
@@ -104,8 +105,14 @@ function Stats_Main() {
         <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$titanium_module_name.'/images/waiting.gif" alt="" />&nbsp;'._NEWSWAITING.'</span></td><td class="row3"><span class="gen">'.$subnum.'</span></td>
     </tr>';
     echo '<tr align="left">
+        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$titanium_module_name.'/images/sections.gif" alt="" />&nbsp;'._TITANIUMVER.'</span></td><td class="row3"><span class="gen">'.ucfirst($titaniumver).'</span></td>
+    </tr>';
+	
+    echo '<tr align="left">
         <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$titanium_module_name.'/images/sections.gif" alt="" />&nbsp;'._EVOVER.'</span></td><td class="row3"><span class="gen">'.ucfirst($evover).'</span></td>
-    </tr></table>';
+    </tr>
+	
+	</table>';
     CloseTable();
 }
 
