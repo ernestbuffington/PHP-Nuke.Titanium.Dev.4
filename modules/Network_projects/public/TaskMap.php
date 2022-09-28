@@ -10,7 +10,9 @@
 /********************************************************/
 global $titanium_db2;
 if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
-$pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']." ::: "._NETWORK_TASKMAP." ::: ";
+
+$pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_TASKMAP;
+
 include_once(NUKE_BASE_DIR.'header.php');
 $projectresult = $titanium_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
 while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
@@ -20,7 +22,8 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
   $memberresult = $titanium_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id' ORDER BY `member_id`");
   $member_total = $titanium_db2->sql_numrows($membersresult);
   OpenTable();
-  echo '<div align="center"><strong>'._NETWORK_TITLE." v".$pj_config['version_number']." ::: "._NETWORK_TASKMAP." ::: ".'</strong></div>';
+  
+  echo '<div align="center"><strong>'._NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_TASKMAP.'</strong></div>';
   
   echo '<div align="center">';
   echo '<a class="titaniumbutton" href="modules.php?name=Network_Projects">' . _NETWORK_PROJECTLIST . '</a> ';

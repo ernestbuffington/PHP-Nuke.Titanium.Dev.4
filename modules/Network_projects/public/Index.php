@@ -32,17 +32,17 @@ echo '<a class="titaniumbutton" href="modules.php?name=Network_Projects&op=Reque
 echo '</div><br/>';
 
 
-echo "<table align='center' width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
+echo "<table class='forumline' align='center' width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr>\n";
-echo "<td width='100%' bgcolor='$bgcolor2' colspan='2'><strong>"._NETWORK_PROJECTNAME."</strong></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_SITE."</strong></nobr></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_TASKS."</strong></nobr></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_REPORTS."</strong></nobr></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_REQUESTS."</strong></nobr></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_STATUS."</strong></nobr></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PRIORITY."</strong></nobr></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_MEMBERS."</strong></nobr></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PROGRESSBAR."</strong></nobr></td>\n";
+echo "<td class='row1' width='100%' bgcolor='$bgcolor2' colspan='2'><strong>"._NETWORK_PROJECTNAME."</strong></td>\n";
+echo "<td class='row1' align='center' bgcolor='$bgcolor2'><nobr><strong>&nbsp;&nbsp;&nbsp;&nbsp;"._NETWORK_SITE."&nbsp;&nbsp;&nbsp;&nbsp;</strong></nobr></td>\n";
+echo "<td class='row1' align='center' bgcolor='$bgcolor2'><nobr><strong>&nbsp;&nbsp;&nbsp;"._NETWORK_TASKS."&nbsp;&nbsp;&nbsp;</strong></nobr></td>\n";
+echo "<td class='row1' align='center' bgcolor='$bgcolor2'><nobr><strong>&nbsp;&nbsp;&nbsp;"._NETWORK_REPORTS."&nbsp;&nbsp;&nbsp;</strong></nobr></td>\n";
+echo "<td class='row1' align='center' bgcolor='$bgcolor2'><nobr><strong>&nbsp;&nbsp;&nbsp;"._NETWORK_REQUESTS."&nbsp;&nbsp;&nbsp;</strong></nobr></td>\n";
+echo "<td class='row1' align='center' bgcolor='$bgcolor2'><nobr><strong>&nbsp;&nbsp;&nbsp;"._NETWORK_STATUS."&nbsp;&nbsp;&nbsp;</strong></nobr></td>\n";
+echo "<td class='row1' align='center' bgcolor='$bgcolor2'><nobr><strong>&nbsp;&nbsp;&nbsp;"._NETWORK_PRIORITY."&nbsp;&nbsp;&nbsp;</strong></nobr></td>\n";
+echo "<td class='row1' align='center' bgcolor='$bgcolor2'><nobr><strong>&nbsp;&nbsp;&nbsp;"._NETWORK_MEMBERS."&nbsp;&nbsp;&nbsp;</strong></nobr></td>\n";
+echo "<td class='row1' align='center' bgcolor='$bgcolor2'><nobr><strong>&nbsp;&nbsp;&nbsp;"._NETWORK_PROGRESSBAR."</strong></nobr></td>\n";
 echo "</tr>\n";
 $projectresult = $titanium_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
 
@@ -81,7 +81,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
     $pjimage = pjimage("project.png", $titanium_module_name);
   }
   
-  echo "<td align='center'><img src='$pjimage'></td><td width='100%'><a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  echo "<td class='row1' align='center'><img src='$pjimage'></td><td width='100%'><a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
   if($project['project_site'] > "") 
   {
@@ -92,53 +92,48 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
   {
     $demo = "&nbsp;";
   }
-  echo "<td align='center'>$demo</td>\n";
-  echo "<td align='center'>$taskrows</a></td>\n";
+  echo "<td class='row1' align='center'>$demo</td>\n";
+  echo "<td class='row1' align='center'>$taskrows</a></td>\n";
   
   if($project['allowreports'] > 0) 
   {
-    echo "<td align='center'>$report_total</td>\n";
+    echo "<td class='row1' align='center'>$report_total</td>\n";
   } 
   else 
   {
-    echo "<td align='center'>----</td>\n";
+    echo "<td class='row1' align='center'>----</td>\n";
   }
   
   if($project['allowrequests'] > 0) 
   {
-    echo "<td align='center'>$request_total</td>\n";
+    echo "<td class='row1' align='center'>$request_total</td>\n";
   } 
   else 
   {
-    echo "<td align='center'>----</td>\n";
+    echo "<td class='row1' align='center'>----</td>\n";
   }
   
   if(empty($projectstatus['status_name']))
   { 
     $projectstatus['status_name'] = _NETWORK_NA; 
   }
-  echo "<td align='center'>".$projectstatus['status_name']."</td>\n";
+  echo "<td class='row1' align='center'>".$projectstatus['status_name']."</td>\n";
   
   if(empty($projectpriority['priority_name']))
   { 
     $projectpriority['priority_name'] = _NETWORK_NA; 
   }
   
-  echo "<td align='center'><nobr>".$projectpriority['priority_name']."</nobr></td>\n";
-  echo "<td align='center'><nobr>$member_total</nobr></td>\n";
+  echo "<td class='row1' align='center'><nobr>".$projectpriority['priority_name']."</nobr></td>\n";
+  echo "<td class='row1' align='center'><nobr>$member_total</nobr></td>\n";
   
   $wbprogress = pjprogress($project['project_percent']);
   
-  echo "<td align='center'><nobr>$wbprogress</nobr></td>\n";
+  echo "<td class='row1' align='center'><nobr>$wbprogress</nobr></td>\n";
   echo "</tr>\n";
 }
 
-echo "<tr><td bgcolor='$bgcolor2' colspan='10' align='right'>\n";
-echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'><tr>\n";
-echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;op=TaskMap'><strong>"._NETWORK_TASKMAP."</strong></a></td>\n";
-echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;op=ReportMap'><strong>"._NETWORK_REPORTMAP."</strong></a></td>\n";
-echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;op=RequestMap'><strong>"._NETWORK_REQUESTMAP."</strong></a></td>\n";
-echo "</tr></table>\n";
+
 echo "</td></tr>\n";
 echo "</table>\n";
 
