@@ -28,7 +28,7 @@ require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 
 $author_name = "Ernest Buffington";
 $author_email = "ernest.buffington@facebook.com";
-$author_homepage = "http://theghost.86it.us";
+$author_homepage = "http://php-nuke-titanium.86it.us";
 $license = "GNU/GPL"; 
 $download_location = "";
 $titanium_module_version = "2.0";

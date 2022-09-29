@@ -20,7 +20,7 @@
 # Read CHANGELOG File for Updates & Upgrades Info                                       #
 #                                                                                       #
 # Designed By: TheGhost                                                                 #
-# Web Site: https://theghost.86it.us                                                    #
+# Web Site: https://php-nuke-titanium.86it.us                                           #
 # Purpose: PHP-Nuke Titanium | Xtreme Evo                                               #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
