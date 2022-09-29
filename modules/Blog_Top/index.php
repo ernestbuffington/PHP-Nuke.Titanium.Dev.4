@@ -33,7 +33,7 @@ include_once(NUKE_BASE_DIR.'header.php');
 
 global $titanium_prefix, $titanium_db, $textcolor1, $fieldset_color, $fieldset_border_width, $digits_color;
 
-title($sitename.' '.'Blog Top 10');
+title($sitename.' '.'Blogs Top 10');
 
 if($multilingual == 1): 
     $queryalang = "WHERE (alanguage='$currentlang' OR alanguage='')"; /* top stories */
@@ -51,7 +51,7 @@ endif;
 
 OpenTable();
 
-$top = '10';
+$top = '100';
 ##############################################################################################################################################################################
 # Top 10 read Blogs 
 ##############################################################################################################################################################################

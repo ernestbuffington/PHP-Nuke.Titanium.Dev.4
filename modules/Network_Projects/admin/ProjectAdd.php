@@ -2,12 +2,14 @@
 /*=======================================================================
  PHP-Nuke Titanium: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
+
 /********************************************************/
 /* NukeProject(tm)                                      */
 /* By: NukeScripts Network (webmaster@nukescripts.net)  */
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
+
 global $titanium_db2;
 
 get_lang('Network_Projects');
@@ -75,57 +77,82 @@ echo "<td><select name='priority_id'>\n";
 
 $prioritylist = $titanium_db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_projects_priorities` ORDER BY `priority_weight`");
 
-while(list($s_priority_id, $s_priority_name) = $titanium_db2->sql_fetchrow($prioritylist)){
+while(list($s_priority_id, $s_priority_name) = $titanium_db2->sql_fetchrow($prioritylist))
+{
   echo "<option value='$s_priority_id'>$s_priority_name</option>\n";
 }
+
 echo "</select></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_STATUSPERCENT.":</td>\n";
 echo "<td><input type='text' name='project_percent' size='4'>% "._NETWORK_STATUSPERCENT_CALCULATE."</td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_STATUS.":</td>\n";
 echo "<td><select name='status_id'>\n";
+
 $statuslist = $titanium_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_projects_status` ORDER BY `status_weight`");
-while(list($s_status_id, $s_status_name) = $titanium_db2->sql_fetchrow($statuslist)){
+
+while(list($s_status_id, $s_status_name) = $titanium_db2->sql_fetchrow($statuslist))
+{
   echo "<option value='$s_status_id'>$s_status_name</option>\n";
 }
+
 echo "</select></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_STARTDATE.":</td>\n";
 echo "<td><select name='project_start_month'>\n";
 echo "<option value='00'>--</option>\n";
-for($i = 1; $i <= 12; $i++){
+
+for($i = 1; $i <= 12; $i++)
+{
   if($i == date("m")){ $sel = "SELECTed"; } else { $sel = ""; }
   echo "<option value='$i' $sel>$i</option>\n";
 }
+
 echo "</select><select name='project_start_day'>\n";
 echo "<option value='00'>--</option>\n";
-for($i = 1; $i <= 31; $i++){
+
+for($i = 1; $i <= 31; $i++)
+{
   if($i == date("d")){ $sel = "SELECTed"; } else { $sel = ""; }
   echo "<option value='$i' $sel>$i</option>\n";
 }
+
 echo "</select><input type=text name='project_start_year' value='".date("Y")."' size='4' maxlength='4'></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_FINISHDATE.":</td>\n";
 echo "<td><select name='project_finish_month'>\n";
 echo "<option value='00'>--</option>\n";
-for($i = 1; $i <= 12; $i++){
+
+for($i = 1; $i <= 12; $i++)
+{
   echo "<option value='$i'>$i</option>\n";
 }
+
 echo "</select><select name='project_finish_day'>\n";
 echo "<option value='00'>--</option>\n";
-for($i = 1; $i <= 31; $i++){
+
+for($i = 1; $i <= 31; $i++)
+{
   echo "<option value='$i'>$i</option>\n";
 }
+
 echo "</select><input type=text name='project_finish_year' value='0000' size='4' maxlength='4'></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._NETWORK_ASSIGNMEMBERS.":</td>\n";
 echo "<td><select name='member_ids[]' size='10' multiple>\n";
+
 $memberlistresult = $titanium_db2->sql_query("SELECT `member_id`, `member_name` FROM `".$network_prefix."_members` ORDER BY `member_name`");
-while(list($member_id, $member_name) = $titanium_db2->sql_fetchrow($memberlistresult)) {
+
+while(list($member_id, $member_name) = $titanium_db2->sql_fetchrow($memberlistresult)) 
+{
   echo "<option value='$member_id'>$member_name</option>\n";
 }
+
 echo "</select></td></tr>\n";
-echo "<tr><td colspan='2' align='center'><input type='submit' value='"._NETWORK_PROJECTADD."'></td></tr>\n";
+echo "<tr><td colspan='2' align='center'>&nbsp;</td></tr>\n";
+echo "<tr><td colspan='2' align='center'><input class='titaniumbutton' type='submit' value='"._NETWORK_PROJECTADD."'></td></tr>\n";
 echo "</form>\n";
 echo "</table>\n";
-CloseTable();
-pj_copy();
-include_once(NUKE_BASE_DIR.'footer.php');
 
+CloseTable();
+
+pj_copy();
+
+include_once(NUKE_BASE_DIR.'footer.php');
 ?>

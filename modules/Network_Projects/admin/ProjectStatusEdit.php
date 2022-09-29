@@ -15,12 +15,15 @@ if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_PROJECTS.': '._NETWORK_EDITSTATUS;
 
 $status_id = intval($status_id);
-if($status_id < 1) { header("Location: ".$admin_file.".php?op=ProjectStatusList"); }
+
+if($status_id < 1) 
+header("Location: ".$admin_file.".php?op=ProjectStatusList"); 
+
 include_once(NUKE_BASE_DIR.'header.php');
 
 $status = pjprojectstatus_info($status_id);
 pjadmin_menu(_NETWORK_PROJECTS.": "._NETWORK_EDITSTATUS);
-//echo "<br />\n";
+
 OpenTable();
 echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
 echo "<form method='post' action='".$admin_file.".php'>\n";

@@ -156,7 +156,7 @@ else:
     echo '         <li><strong><a href="modules.php?name=Blog" class="btn btn-primary dropbtn" role="button">View Blog Posts</a></strong></li>';
     echo '         <li><strong><a href="modules.php?name=Blog_Topics" class="btn btn-primary dropbtn" role="button">View Blog Topics</a></strong></li>';
     echo '         <li><strong><a href="modules.php?name=Blog_Archive" class="btn btn-primary dropbtn" role="button">View Blog Archives</a></strong></li>';
-    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 10 Blog Posts</a></strong></li>';
+    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 100 Blog Posts</a></strong></li>';
     if (!is_mod_admin('super'))
 	echo '         <li><strong><a href="modules.php?name=Blog_Submit" class="btn btn-primary dropbtn" role="button">Submit Blog Post</a></strong></li>';
     echo '       </ul>';
@@ -359,7 +359,7 @@ if (is_user())
     echo '         <li><strong><a href="modules.php?name=Blog" class="btn btn-primary dropbtn" role="button">View Blog Posts</a></strong></li>';                       #
     echo '         <li><strong><a href="modules.php?name=Blog_Topics" class="btn btn-primary dropbtn" role="button">View Blog Topics</a></strong></li>';               #
     echo '         <li><strong><a href="modules.php?name=Blog_Archive" class="btn btn-primary dropbtn" role="button">View Blog Archives</a></strong></li>';            #
-    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 10 Blog Posts</a></strong></li>';            #
+    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 100 Blog Posts</a></strong></li>';            #
     if (!is_mod_admin('super'))                                                                                                                                        #
 	echo '         <li><strong><a href="modules.php?name=Blog_Submit" class="btn btn-primary dropbtn" role="button">Submit Blog Post</a></strong></li>';               #
     echo '       </ul>';                                                                                                                                               #
@@ -469,7 +469,7 @@ if (is_user())
     echo '         <li><strong><a href="modules.php?name=Blog" class="btn btn-primary dropbtn" role="button">View Blog Posts</a></strong></li>';                       #
     echo '         <li><strong><a href="modules.php?name=Blog_Topics" class="btn btn-primary dropbtn" role="button">View Blog Topics</a></strong></li>';               #
     echo '         <li><strong><a href="modules.php?name=Blog_Archive" class="btn btn-primary dropbtn" role="button">View Blog Archives</a></strong></li>';            #
-    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 10 Blog Posts</a></strong></li>';            #
+    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 100 Blog Posts</a></strong></li>';            #
     if (!is_mod_admin('super'))                                                                                                                                        #
 	echo '         <li><strong><a href="modules.php?name=Blog_Submit" class="btn btn-primary dropbtn" role="button">Submit Blog Post</a></strong></li>';               #
     echo '       </ul>';                                                                                                                                               #
@@ -579,7 +579,7 @@ if (is_user())
     echo '         <li><strong><a href="modules.php?name=Blog" class="btn btn-primary dropbtn" role="button">View Blog Posts</a></strong></li>';                       #
     echo '         <li><strong><a href="modules.php?name=Blog_Topics" class="btn btn-primary dropbtn" role="button">View Blog Topics</a></strong></li>';               #
     echo '         <li><strong><a href="modules.php?name=Blog_Archive" class="btn btn-primary dropbtn" role="button">View Blog Archives</a></strong></li>';            #
-    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 10 Blog Posts</a></strong></li>';            #
+    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 100 Blog Posts</a></strong></li>';            #
     if (!is_mod_admin('super'))                                                                                                                                        #
 	echo '         <li><strong><a href="modules.php?name=Blog_Submit" class="btn btn-primary dropbtn" role="button">Submit Blog Post</a></strong></li>';               #
     echo '       </ul>';                                                                                                                                               #
@@ -689,7 +689,7 @@ if (is_user())
     echo '         <li><strong><a href="modules.php?name=Blog" class="btn btn-primary dropbtn" role="button">View Blog Posts</a></strong></li>';                       #
     echo '         <li><strong><a href="modules.php?name=Blog_Topics" class="btn btn-primary dropbtn" role="button">View Blog Topics</a></strong></li>';               #
     echo '         <li><strong><a href="modules.php?name=Blog_Archive" class="btn btn-primary dropbtn" role="button">View Blog Archives</a></strong></li>';            #
-    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 10 Blog Posts</a></strong></li>';            #
+    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 100 Blog Posts</a></strong></li>';            #
     if (!is_mod_admin('super'))                                                                                                                                        #
 	echo '         <li><strong><a href="modules.php?name=Blog_Submit" class="btn btn-primary dropbtn" role="button">Submit Blog Post</a></strong></li>';               #
     echo '       </ul>';                                                                                                                                               #
@@ -799,7 +799,7 @@ if (is_user())
     echo '         <li><strong><a href="modules.php?name=Blog" class="btn btn-primary dropbtn" role="button">View Blog Posts</a></strong></li>';                       #
     echo '         <li><strong><a href="modules.php?name=Blog_Topics" class="btn btn-primary dropbtn" role="button">View Blog Topics</a></strong></li>';               #
     echo '         <li><strong><a href="modules.php?name=Blog_Archive" class="btn btn-primary dropbtn" role="button">View Blog Archives</a></strong></li>';            #
-    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 10 Blog Posts</a></strong></li>';            #
+    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 100 Blog Posts</a></strong></li>';            #
     if (!is_mod_admin('super'))                                                                                                                                        #
 	echo '         <li><strong><a href="modules.php?name=Blog_Submit" class="btn btn-primary dropbtn" role="button">Submit Blog Post</a></strong></li>';               #
     echo '       </ul>';                                                                                                                                               #
@@ -906,7 +906,7 @@ echo '<div class="btn-group">';
     echo '         <li><strong><a href="modules.php?name=Blog" class="btn btn-primary dropbtn" role="button">View Blog Posts</a></strong></li>';                       #
     echo '         <li><strong><a href="modules.php?name=Blog_Topics" class="btn btn-primary dropbtn" role="button">View Blog Topics</a></strong></li>';               #
     echo '         <li><strong><a href="modules.php?name=Blog_Archive" class="btn btn-primary dropbtn" role="button">View Blog Archives</a></strong></li>';            #
-    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 10 Blog Posts</a></strong></li>';            #
+    echo '         <li><strong><a href="modules.php?name=Blog_Top" class="btn btn-primary dropbtn" role="button">View Top 100 Blog Posts</a></strong></li>';            #
     if (!is_mod_admin('super'))                                                                                                                                        #
 	echo '         <li><strong><a href="modules.php?name=Blog_Submit" class="btn btn-primary dropbtn" role="button">Submit Blog Post</a></strong></li>';               #
     echo '       </ul>';                                                                                                                                               #
