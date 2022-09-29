@@ -17,7 +17,7 @@
 #########################################################################
 if (!defined('MODULE_FILE')) 
 {
-   //die ("You can't access this file directly...");
+   exit("You can't access this file directly...");
 }
 
 global $titanium_prefix, $titanium_db, $cookie, $titanium_user, $theme_name;
