@@ -10,6 +10,8 @@
 /* Copyright (c) 2005 by Francisco Burzi                                */
 /* http://phpnuke.org                                                   */
 /*                                                                      */
+/* Module Version v1.0b                                                 */
+/*                                                                      */
 /* Google Page Rank Calculation                                         */
 /* Copyright 2004 by GoogleCommunity.com                                */
 /*                                                                      */
