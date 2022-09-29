@@ -12,12 +12,7 @@ global $titanium_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal File Access Detected!!"); }
 $pagetitle = "NukeProject(tm): Error Loading Functions";
 include_once(NUKE_BASE_DIR.'header.php');
-OpenTable();
-echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=Main\">" . _NETWORK_ADMIN_HEADER . "</a></div>\n";
-echo "<br /><br />";
-echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NETWORK_RETURNMAIN . "</a> ]</div>\n";
-CloseTable();
-//echo "<br />";
+
 title($pagetitle);
 OpenTable();
 echo "It appears that NukeProject(tm) has not been configured correctly.  The

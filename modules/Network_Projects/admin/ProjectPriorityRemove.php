@@ -17,12 +17,7 @@ $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_PRO
 $priority_id = intval($priority_id);
 if($priority_id < 1) { header("Location: ".$admin_file.".php?op=ProjectPriorityList"); }
 include_once(NUKE_BASE_DIR.'header.php');
-OpenTable();
-echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=Main\">" . _NETWORK_ADMIN_HEADER . "</a></div>\n";
-echo "<br /><br />";
-echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NETWORK_RETURNMAIN . "</a> ]</div>\n";
-CloseTable();
-//echo "<br />";
+
 $priority = pjprojectpriority_info($priority_id);
 pjadmin_menu(_NETWORK_PROJECTS.": "._NETWORK_DELETEPRIORITY);
 //echo "<br />\n";

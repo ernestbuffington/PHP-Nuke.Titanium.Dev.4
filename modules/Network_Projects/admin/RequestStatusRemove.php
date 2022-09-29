@@ -14,12 +14,7 @@ $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REQ
 $status_id = intval($status_id);
 if($status_id < 1) { header("Location: ".$admin_file.".php?op=RequestStatusList"); }
 include_once(NUKE_BASE_DIR.'header.php');
-OpenTable();
-echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=Main\">" . _NETWORK_ADMIN_HEADER . "</a></div>\n";
-echo "<br /><br />";
-echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NETWORK_RETURNMAIN . "</a> ]</div>\n";
-CloseTable();
-//echo "<br />";
+
 $statusresult = $titanium_db2->sql_query("SELECT `status_name` FROM `".$network_prefix."_requests_status` WHERE `status_id`='$status_id'");
 list($status_name) = $titanium_db2->sql_fetchrow($statusresult);
 pjadmin_menu(_NETWORK_REQUESTS.': '._NETWORK_DELETESTATUS);

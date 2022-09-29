@@ -16,12 +16,7 @@ $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REP
 $type_id = intval($type_id);
 if($type_id < 1) { header("Location: ".$admin_file.".php?op=RequestTypeList"); }
 include_once(NUKE_BASE_DIR.'header.php');
-OpenTable();
-echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=Main\">" . _NETWORK_ADMIN_HEADER . "</a></div>\n";
-echo "<br /><br />";
-echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NETWORK_RETURNMAIN . "</a> ]</div>\n";
-CloseTable();
-//echo "<br />";
+
 $typeresult = $titanium_db2->sql_query("SELECT `type_name` FROM `".$network_prefix."_reports_types` WHERE `type_id`='$type_id'");
 list($type_name) = $titanium_db2->sql_fetchrow($statusresult);
 pjadmin_menu(_NETWORK_REPORTS.": "._NETWORK_DELETETYPE);

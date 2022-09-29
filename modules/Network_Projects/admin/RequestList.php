@@ -16,12 +16,7 @@ if(!$per_page) $per_page = 25;
 if(!$column) $column = "project_id";
 if(!$direction) $direction = "desc";
 include_once(NUKE_BASE_DIR.'header.php');
-OpenTable();
-echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=Main\">" . _NETWORK_ADMIN_HEADER . "</a></div>\n";
-echo "<br /><br />";
-echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NETWORK_RETURNMAIN . "</a> ]</div>\n";
-CloseTable();
-//echo "<br />";
+
 pjadmin_menu(_NETWORK_REQUESTS.': '._NETWORK_REQUESTLIST);
 //echo "<br />\n";
 OpenTable();

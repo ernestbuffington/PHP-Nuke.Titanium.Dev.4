@@ -15,12 +15,7 @@ if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_PROJECTS.': '._NETWORK_REPORTLIST;
 
 include_once(NUKE_BASE_DIR.'header.php');
-OpenTable();
-echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=Main\">" . _NETWORK_ADMIN_HEADER . "</a></div>\n";
-echo "<br /><br />";
-echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NETWORK_RETURNMAIN . "</a> ]</div>\n";
-CloseTable();
-//echo "<br />";
+
 $projectresult = $titanium_db2->sql_query("SELECT `project_name`, `project_description`, `status_id`, `priority_id` FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'");
 list($project_name, $project_description, $status_id, $priority_id) = $titanium_db2->sql_fetchrow($projectresult);
 pjadmin_menu(_NETWORK_PROJECTS.": "._NETWORK_REPORTLIST);

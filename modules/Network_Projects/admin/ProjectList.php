@@ -9,20 +9,16 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 global $titanium_db2;
+
 get_lang('Network_Projects');
+
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_PROJECTS.': '._NETWORK_PROJECTLIST; 
 
 include_once(NUKE_BASE_DIR.'header.php');
-OpenTable();
-echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=Main\">" . _NETWORK_ADMIN_HEADER . "</a></div>\n";
-echo "<br /><br />";
-echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NETWORK_RETURNMAIN . "</a> ]</div>\n";
-CloseTable();
-//echo "<br />";
+
 pjadmin_menu(_NETWORK_PROJECTS.": "._NETWORK_PROJECTLIST);
-//echo "<br />\n";
 $projectresult = $titanium_db2->sql_query("SELECT `project_id`, `project_name`, `weight`, `featured`, `status_id`, `priority_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
 $project_total = $titanium_db2->sql_numrows($projectresult);
 OpenTable();

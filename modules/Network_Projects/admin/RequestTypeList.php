@@ -19,17 +19,7 @@ $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REQ
 
 include_once(NUKE_BASE_DIR.'header.php');
 
-OpenTable();
-echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=Main\">" . _NETWORK_ADMIN_HEADER . "</a></div>\n";
-echo "<br /><br />";
-echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NETWORK_RETURNMAIN . "</a> ]</div>\n";
-CloseTable();
-
-//echo "<br />";
-
 pjadmin_menu(_NETWORK_REQUESTS.': '._NETWORK_TYPELIST);
-
-//echo "<br />";
 
 //Thinsg like this happen when a programmer does not have the faintest idea what he or she is doing, or
 //he or she is just too fucking lazy to double check his or her work...
