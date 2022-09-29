@@ -25,27 +25,27 @@ $project_total = $titanium_db2->sql_numrows($projectresult);
 
 OpenTable();
 
-echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
-echo "<tr><td colspan='3' width='100%' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PROJECTOPTIONS."</strong></nobr></td></tr>\n";
+echo "<table class='projects_row1' width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
+echo "<tr><td class='projects_row1' colspan='3' width='100%' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PROJECTOPTIONS."</strong></nobr></td></tr>\n";
 
 $pjimage = pjimage("options.png", $titanium_module_name);
 
-echo "<tr><td><img src='$pjimage'></td><td colspan='2' width='100%'><nobr><a href='".$admin_file.".php?op=ProjectAdd'>"._NETWORK_PROJECTADD."</a></nobr></td></tr>\n";
+echo "<tr><td class='projects_row1'><img src='$pjimage'></td><td class='projects_row1' colspan='2' width='100%'><nobr><a href='".$admin_file.".php?op=ProjectAdd'>"._NETWORK_PROJECTADD."</a></nobr></td></tr>\n";
 
 $pjimage = pjimage("stats.png", $titanium_module_name);
 
-echo "<tr><td><img src='$pjimage'></td><td colspan='3' width='100%'><nobr>"._NETWORK_TOTALPROJECTS.": <strong>$project_total</strong></nobr></td></tr>\n";
+echo "<tr><td class='projects_row1'><img src='$pjimage'></td><td class='projects_row1' colspan='3' width='100%'><nobr>"._NETWORK_TOTALPROJECTS.": <strong>$project_total</strong></nobr></td></tr>\n";
 echo "</table>\n";
 
-echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
-echo "<tr><td colspan='2' bgcolor='$bgcolor2' width='100%'><strong>"._NETWORK_PROJECTS."</strong></a></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_WEIGHT."</strong></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_STATUS."</strong></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_PRIORITY."</strong></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_TASKS."</strong></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_REPORTS."</strong></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_REQUESTS."</strong></td>\n";
-echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</strong></td></tr>\n";
+echo "<table class='projects_row1' width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
+echo "<tr><td class='projects_row1' colspan='2' bgcolor='$bgcolor2' width='100%'><strong>"._NETWORK_PROJECTS."</strong></a></td>\n";
+echo "<td class='projects_row1' align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_WEIGHT."</strong></td>\n";
+echo "<td class='projects_row1' align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_STATUS."</strong></td>\n";
+echo "<td class='projects_row1' align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_PRIORITY."</strong></td>\n";
+echo "<td class='projects_row1' align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_TASKS."</strong></td>\n";
+echo "<td class='projects_row1' align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_REPORTS."</strong></td>\n";
+echo "<td class='projects_row1' align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_REQUESTS."</strong></td>\n";
+echo "<td class='projects_row1' align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</strong></td></tr>\n";
 
 if($project_total != 0):
 
@@ -72,7 +72,7 @@ if($project_total != 0):
 	else 
       $pjimage = pjimage("project.png", $titanium_module_name);
     
-	echo "<tr><td><img src='$pjimage'></td><td width='100%'>$project_name</td>\n";
+	echo "<tr><td class='projects_row1'><img src='$pjimage'></td><td width='100%'>$project_name</td>\n";
 
     $weight1 = $weight - 1;
     $weight3 = $weight + 1;
@@ -86,7 +86,7 @@ if($project_total != 0):
     list($pid2) = $titanium_db2->sql_fetchrow($res2);
     $con2 = "$pid2";
 
-    echo "<td align='center'><nobr>";
+    echo "<td class='projects_row1' align='center'><nobr>";
 
     if($con1): 
       echo"<a href='".$admin_file.".php?op=ProjectOrder&amp;weight=$weight&amp;pid=$project_id&amp;weightrep=$weight1&amp;pidrep=$con1'>";
@@ -107,20 +107,21 @@ if($project_total != 0):
 	if(empty($projectstatus['status_name'])) 
 	  $projectstatus['status_name'] = _NETWORK_NA; 
 
-    echo "<td align='center'><a href='".$admin_file.".php?op=ProjectStatusList'>".$projectstatus['status_name']."</a></td>\n";
+    echo "<td class='projects_row1' align='center'><a href='".$admin_file.".php?op=ProjectStatusList'>".$projectstatus['status_name']."</a></td>\n";
 
     if(empty($projectpriority['priority_name'])) 
 	  $projectpriority['priority_name'] = _NETWORK_NA; 
     
-	echo "<td align='center'><a href='".$admin_file.".php?op=ProjectPriorityList'>".$projectpriority['priority_name']."</a></td>\n";
-    echo "<td align='center'><a href='".$admin_file.".php?op=ProjectTasks&amp;project_id=$project_id'>$tasks</a></td>\n";
-    echo "<td align='center'><a href='".$admin_file.".php?op=ProjectReports&amp;project_id=$project_id'>$reports</a></td>\n";
-    echo "<td align='center'><a href='".$admin_file.".php?op=ProjectRequests&amp;project_id=$project_id'>$requests</a></td>\n";
-    echo "<td align='center'><nobr>[ <a href='".$admin_file.".php?op=ProjectEdit&amp;project_id=$project_id'>"._NETWORK_EDIT."</a>";
-    echo " | <a href='".$admin_file.".php?op=ProjectRemove&amp;project_id=$project_id'>"._NETWORK_DELETE."</a> ]</nobr></td></tr>\n";
+	echo "<td class='projects_row1' align='center'><a href='".$admin_file.".php?op=ProjectPriorityList'>".$projectpriority['priority_name']."</a></td>\n";
+    echo "<td class='projects_row1' align='center'><a href='".$admin_file.".php?op=ProjectTasks&amp;project_id=$project_id'>$tasks</a></td>\n";
+    echo "<td class='projects_row1' align='center'><a href='".$admin_file.".php?op=ProjectReports&amp;project_id=$project_id'>$reports</a></td>\n";
+    echo "<td class='projects_row1' align='center'><a href='".$admin_file.".php?op=ProjectRequests&amp;project_id=$project_id'>$requests</a></td>\n";
+    echo "<td class='projects_row1' align='center'><nobr> <a class='titaniumbutton' href='".$admin_file.".php?op=ProjectEdit&amp;project_id=$project_id'>"._NETWORK_EDIT."</a>";
+    echo " <a class='titaniumbutton' href='".$admin_file.".php?op=ProjectRemove&amp;project_id=$project_id'>"._NETWORK_DELETE."</a> </nobr></td></tr>\n";
   endwhile;
 
-  echo "<tr><td align='center' colspan='9'><a href='".$admin_file.".php?op=ProjectFix'>"._NETWORK_FIXWEIGHT."</a></td></tr>\n";
+  echo "<tr><td align='center' colspan='9'>&nbsp;</td></tr>\n";
+  echo "<tr><td align='center' colspan='9'><a class='titaniumbutton' href='".$admin_file.".php?op=ProjectFix'>"._NETWORK_FIXWEIGHT."</a></td></tr>\n";
  
 else: 
   echo "<tr><td width='100%' colspan='9' align='center'>"._NETWORK_NOPROJECTS."</td></tr>\n";
