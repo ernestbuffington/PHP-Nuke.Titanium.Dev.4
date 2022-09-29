@@ -81,17 +81,17 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 	   $project['project_name'] = "<strong>".$project['project_name']."</strong>"; 
 
        # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
-       if($project['featured'] == 0)
-	   $pjimage = "<i style=\"font-size: 25px; color: #4876FF\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#4876FF'\" class=\"bi bi-clipboard-pulse\"></i>";
+       if($project['featured'] == 0) # PHP-Nuke Titanium Web Portal
+	   $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-clipboard-pulse\"></i>";
 
-       if($project['featured'] == 1)
-	   $pjimage = "<i style=\"font-size: 25px; color: #436EEE\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#436EEE'\" class=\"bi bi-grid\"></i>";
+       if($project['featured'] == 1) # PHP-Nuke Titanium Module
+	   $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-grid\"></i>";
 
-       if($project['featured'] == 2)
-	   $pjimage = "<i style=\"font-size: 25px; color: #436EEE\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#436EEE'\" class=\"bi bi-box\"></i>";
+       if($project['featured'] == 2) # PHP-Nuke Titanium Block
+	   $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-box\"></i>";
 
-       if($project['featured'] == 3)
-	   $pjimage = "<i style=\"font-size: 25px; color: #4169E1\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#4169E1'\" class=\"bi bi-file-earmark-bar-graph\"></i>";
+       if($project['featured'] == 3) # PHP-Nuke Titanium phpBB2 Mod
+	   $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-file-earmark-bar-graph\"></i>";
   # Set the icon for the projext END
 
 
