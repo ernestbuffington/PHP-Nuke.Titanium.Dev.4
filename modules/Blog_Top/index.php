@@ -2,6 +2,7 @@
 /*=======================================================================
  PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
+
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
@@ -21,6 +22,7 @@
 	  Titanium Updated                         v3.0.0       08/26/2019
  ************************************************************************/
 if (!defined('MODULE_FILE'))
+
 exit('You can\'t access this file directly...');
 
 $titanium_module_name = basename(dirname(__FILE__));
@@ -29,8 +31,7 @@ get_lang($titanium_module_name);
 
 include_once(NUKE_BASE_DIR.'header.php');
 
-global $fieldset_color, $fieldset_border_width, $digits_color;
-global $titanium_prefix, $titanium_db, $textcolor1;
+global $titanium_prefix, $titanium_db, $textcolor1, $fieldset_color, $fieldset_border_width, $digits_color;
 
 title($sitename.' '.'Blog Top 10');
 
@@ -52,20 +53,24 @@ OpenTable();
 
 $top = '10';
 ##############################################################################################################################################################################
-# Top 10 read stories 
+# Top 10 read Blogs 
 ##############################################################################################################################################################################
 echo '<br />';
 
 echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><font color="'.$textcolor1.'">'.$top.' '._MOST_READ_BLOG_POSTS.'</font></strong></legend>';
+
+echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; 
+      margin-bottom: 0px; font-weight: bold;"><font color="'.$textcolor1.'">'.$top.' '._MOST_READ_BLOG_POSTS.'</font></strong></legend>';
+
 echo '<br />';
 $result = $titanium_db->sql_query("SELECT sid, title, counter FROM ".$titanium_prefix."_stories $queryalang ORDER BY counter DESC LIMIT 0,$top");
 
-if ($titanium_db->sql_numrows($result) > 0) 
-{
+if($titanium_db->sql_numrows($result) > 0): 
+
     echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
     echo '<ol>';
-    while ($row = $titanium_db->sql_fetchrow($result)) 
+    
+	while ($row = $titanium_db->sql_fetchrow($result)) 
 	{
         $sid = intval($row['sid']);
         $title = stripslashes(check_html($row['title'], "nohtml"));
@@ -73,18 +78,20 @@ if ($titanium_db->sql_numrows($result) > 0)
 
 	    if($counter>0) 
 		{
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('reads-icon-16.png','Blog_Top').'"> <a href="modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$counter.'</font></strong> '.BLOG_POST_READS.' )</li>';
+            echo '<li> <i class="bi bi-arrow-right-square"></i>&nbsp;';
+			echo ' <a href="modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'"> '.$title.'</a> ';
+			echo ' - ( <strong><font color="'.$digits_color.'">'.$counter.'</font></strong> '.BLOG_POST_READS.' )</li>';
         }
     }
     
 	echo "</ol></div></legend></fieldset>";
 	echo '<br />';
 
-}
+endif;
 $titanium_db->sql_freeresult($result);
 
 ##############################################################################################################################################################################
-# Top 10 most voted stories 
+# Top 10 most voted Blogs 
 ##############################################################################################################################################################################
 $result2 = $titanium_db->sql_query("SELECT sid, title, ratings FROM ".$titanium_prefix."_stories $querya1lang score!='0' ORDER BY ratings DESC LIMIT 0,$top");
 if ($titanium_db->sql_numrows($result2) > 0) 
@@ -102,7 +109,7 @@ echo '<br />';
         $ratings = intval($row2['ratings']);
         if($ratings>0) 
 		{
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('speedometer-16.png','Blog_Top').'"> <a href="modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'"> '.$title.'</a> - ( <font color="'.$digits_color.'"><strong>'.$ratings.'</strong></font> '._LVOTES.' )</li>';
+            echo '<li><i class="bi bi-award"></i> <a href="modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'"> '.$title.'</a> - ( <font color="'.$digits_color.'"><strong>'.$ratings.'</strong></font> '._LVOTES.' )</li>';
         }
     }
     echo "</ol></div></legend></fieldset>";
@@ -112,7 +119,7 @@ echo '<br />';
 $titanium_db->sql_freeresult($result2);
 
 ##############################################################################################################################################################################
-# Top 10 best rated stories 
+# Top 10 best rated Blogs 
 ##############################################################################################################################################################################
 $result3 = $titanium_db->sql_query("SELECT sid, title, score, ratings FROM ".$titanium_prefix."_stories $querya1lang score!='0' ORDER BY ratings+score DESC LIMIT 0,$top");
 if ($titanium_db->sql_numrows($result3) > 0) 
@@ -132,7 +139,7 @@ echo '<br />';
         $ratings = intval($row3['ratings']);
         if($score>0) {
             $rate = substr($score / $ratings, 0, 4);
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('thumbs-up-16.png','Blog_Top').'"> <a href="modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$rate.'</font></strong> '._POINTS.' )</li>';
+            echo '<li><i class="bi bi-hand-thumbs-up"></i> <a href="modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$rate.'</font></strong> '._POINTS.' )</li>';
         }
     }
     echo "</ol></div></legend></fieldset>";
@@ -142,7 +149,7 @@ echo '<br />';
 $titanium_db->sql_freeresult($result3);
 
 ##############################################################################################################################################################################
-# Top 10 commented stories 
+# Top 10 commented Blogs 
 ##############################################################################################################################################################################
 if ($articlecomm == 1) 
 {
@@ -166,7 +173,7 @@ if ($articlecomm == 1)
         
 		    if($comments>0) 
 			{
-                echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('comments-16.png','Blog_Top').'"> <a href="modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$comments.'</font></strong> '.BLOG_COMMENTS.' )</li>';
+                echo '<li><i class="bi bi-chat-right"></i> <a href="modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$comments.'</font></strong> '.BLOG_COMMENTS.' )</li>';
             }
         }
         echo "</ol></div></legend></fieldset>";
@@ -178,7 +185,7 @@ $titanium_db->sql_freeresult($result4);
 
 
 ##############################################################################################################################################################################
-# Top 10 categories 
+# Top 10 Blog categories 
 ##############################################################################################################################################################################
 $result5 = $titanium_db->sql_query("SELECT catid, title, counter FROM ".$titanium_prefix."_stories_cat ORDER BY counter DESC LIMIT 0,$top");
 
@@ -200,7 +207,7 @@ if ($titanium_db->sql_numrows($result5) > 0)
     
 	    if($counter>0) 
 		{
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('comment-square-16.png','Blog_Top').'"> <a href="modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid='.$catid.'">'.$title,'</a> - ( <strong><font color="'.$digits_color.'">'.$counter.'</font></strong> '._HITS.' )</li>';
+            echo '<li><i class="bi bi-fire"></i> <a href="modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid='.$catid.'">'.$title,'</a> - ( <strong><font color="'.$digits_color.'">'.$counter.'</font></strong> '._HITS.' )</li>';
         }
     }
     echo "</ol></div></legend></fieldset>";
@@ -211,176 +218,40 @@ $titanium_db->sql_freeresult($result5);
 
 
 ##############################################################################################################################################################################
-# Top 10 users submitters 
+# Top 10 user blog submitters 
 ##############################################################################################################################################################################
 $result7 = $titanium_db->sql_query("SELECT username, counter FROM ".$titanium_user_prefix."_users WHERE counter > '0' ORDER BY counter DESC LIMIT 0,$top");
+
 if ($titanium_db->sql_numrows($result7) > 0) 
 {
     echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-    echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><font 
-	color="'.$textcolor1.'">'.$top.' '._MOST_ACTIVE_BLOG_AUTHORS.'</font></strong></legend>';
-    echo '<br />';
+    
+	echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;">';
+	echo '<font color="'.$textcolor1.'">'.$top.' '._MOST_ACTIVE_BLOG_AUTHORS.'</font></strong></legend>';
+    
+	echo '<br />';
 
     echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
     echo '<ol>';
 
-    while ($row7 = $titanium_db->sql_fetchrow($result7)) 
-	{
+	while ($row7 = $titanium_db->sql_fetchrow($result7)): 
+	
         $uname = stripslashes($row7['username']);
         $counter = intval($row7['counter']);
     
-	    if($counter>0) 
-		{
-            echo '<li><img class="icons" align="absmiddle" width="16" 
-			src="'.img('submit-icon-16.png','Blog_Top').'"> <a 
-			href="modules.php?name=Your_Account&amp;op=userinfo&amp;username=$uname">'.$uname.'</a> - ( <strong><font color="'.$digits_color.'">'.$counter,'</font></strong> '
-			._BLOG_POSTS_SENT.' )</li>';
-        }
-    }
-    
+
+	    if($counter > 0): 
+            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('submit-icon-16.png','Blog_Top').'"> ';
+			echo '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username=$uname">'.$uname.'</a> - ( <strong>';
+			echo '<font color="'.$digits_color.'">'.$counter,'</font></strong> '._BLOG_POSTS_SENT.' )</li>';
+		endif;
+    endwhile;
+
 	echo "</ol></div></legend></fieldset>";
 	echo '<br />';
 
 }
 $titanium_db->sql_freeresult($result7);
-
-##############################################################################################################################################################################
-# Top 10 Polls 
-##############################################################################################################################################################################
-//$result8 = $titanium_db->sql_query("select * from ".$titanium_prefix."_poll_desc $queryplang");
-//if ($titanium_db->sql_numrows($result8)>0) 
-//{
-//
-//    echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-//    echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;">'.$top.' '._VOTEDPOLLS.'</strong></legend>';
-
-//    echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
-//    echo '<ol>';
-
-    
-//	$result9 = $titanium_db->sql_query("SELECT pollID, pollTitle, timeStamp, voters FROM ".$titanium_prefix."_poll_desc $queryplang order by voters DESC limit 0,$top");
-//    $counter = 0;
-
-//    while($row9 = $titanium_db->sql_fetchrow($result9)) 
-//	{
-//        $resultArray[$counter] = array($row9['pollID'], $row9['pollTitle'], $row9['timeStamp'], $row9['voters']);
-//        $counter++;
-//    }
-//    $titanium_db->sql_freeresult($result9);
-//    
-//	for ($count = 0; $count < count($resultArray); $count++) 
-//	{
-//        $id = $resultArray[$count][0];
-//        $pollTitle = $resultArray[$count][1];
-//        $voters = $resultArray[$count][3];
-//        
-//		for($i = 0; $i < 12; $i++) 
-//		{
-//            $result10 = $titanium_db->sql_query("SELECT optionCount FROM ".$titanium_prefix."_poll_data WHERE (pollID='$id') AND (voteID='$i')");
-//            $row10 = $titanium_db->sql_fetchrow($result10);
-//            $optionCount = $row10['optionCount'];
-//        
-//		    if(!isset($sum)) 
-//			{
-//                $sum = 0;
-//            }
-//            
-//			$sum = (int)$sum+$optionCount;
-//        }
-//        echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('speedometer-16.png','Blog_Top').'"> <a href="modules.php?name=Surveys&amp;pollID='.$id.'">'.$pollTitle.'</a> - ( '.$sum.' '._LVOTES.' )</li>';
-        
-//		$sum = 0;
-//    }
-//    echo "</ol></div></legend></fieldset>";
-//}
-//$titanium_db->sql_freeresult($result8);
-
-
-##############################################################################################################################################################################
-# Top 10 authors 
-##############################################################################################################################################################################
-$result11 = $titanium_db->sql_query("SELECT aid, counter FROM ".$titanium_prefix."_authors ORDER BY counter DESC LIMIT 0,$top");
-
-if ($titanium_db->sql_numrows($result11) > 0) 
-{
-    echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-    echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><font 
-	color="'.$textcolor1.'">'.$top.' '._MOST_ACTIVE_BLOG_AUTHORS.'</font></strong></legend>';
-    echo '<br />';
-    
-	echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
-    echo '<ol>';
-
-    while ($row11 = $titanium_db->sql_fetchrow($result11)) 
-	{
-        $aid = stripslashes($row11['aid']);
-        $counter = intval($row11['counter']);
-    
-	    if($counter>0) 
-		{
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('admin-16.png','Blog_Top').'"> <a href="modules.php?name=Search&amp;query=&amp;author='.$aid.'">'.$aid.'</a> - ( '.$counter.' '._NEWSPUBLISHED.' )</li>';
-        }
-    }
-    
-	echo "</ol></div></legend></fieldset>";
-	echo '<br />';
-
-}
-$titanium_db->sql_freeresult($result11);
-
-/* Top 10 reviews */
-//$result12 = $titanium_db->sql_query("SELECT id, title, hits FROM ".$titanium_prefix."_reviews $queryrlang ORDER BY hits DESC LIMIT 0,$top");
-//if ($titanium_db->sql_numrows($result12) > 0) {
-//    echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._READREVIEWS."</strong></span><ol>\n";
-//    while ($row12 = $titanium_db->sql_fetchrow($result12)) {
-//        $id = intval($row12['id']);
-//        $title = stripslashes(check_html($row12['title'], "nohtml"));
-//        $hits = intval($row12['hits']);
-//        if($hits>0) {
-//            echo "<li><a href=\"modules.php?name=Reviews&amp;op=showcontent&amp;id=$id\">$title</a> - ($hits ".BLOG_POST_READS.")</li>\n";
-//        }
-//    }
-//    echo "</ol></div>\n";
-//}
-//$titanium_db->sql_freeresult($result12);
-
-
-/* Top 10 downloads */
-//$result13 = $titanium_db->sql_query("SELECT lid, cid, title, hits FROM ".$titanium_prefix."_nsngd_downloads ORDER BY hits DESC LIMIT 0,$top");
-//if ($titanium_db->sql_numrows($result13) > 0) {
-//    echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._DOWNLOADEDFILES."</strong></span><ol>\n";
-//    while ($row13 = $titanium_db->sql_fetchrow($result13)) {
-//        $lid = intval($row13['lid']);
-//        $cid = intval($row13['cid']);
-//        $title = stripslashes(check_html($row13['title'], "nohtml"));
-//        $hits = intval($row13['hits']);
-//        if($hits>0) {
-//            $row_res = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_nsngd_categories WHERE cid='$cid'"));
-//            $ctitle = stripslashes(check_html($row_res['title'], "nohtml"));
-//            $utitle = str_replace(" ", "_", $title);
-//            echo "<li><a href=\"modules.php?name=Downloads&amp;d_op=viewdownloaddetails&amp;lid=$lid&amp;ttitle=$utitle\">$title</a> ("._BLOG_POST_CATEGORY.": $ctitle) - ($hits "._LDOWNLOADS.")</li>\n";
-//        }
-//    }
-//    echo "</ol></div>\n\n";
-//}
-//$titanium_db->sql_freeresult($result13);
-
-/* Top 10 Pages in Content */
-//$result14 = $titanium_db->sql_query("SELECT pid, title, counter FROM ".$titanium_prefix."_pages WHERE active='1' ORDER BY counter DESC LIMIT 0,$top");
-//if ($titanium_db->sql_numrows($result14) > 0) {
-//    echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._MOSTREADPAGES."</strong></span><ol>\n";
-//    while ($row14 = $titanium_db->sql_fetchrow($result14)) {
-//        $pid = intval($row14['pid']);
-//        $title = stripslashes(check_html($row14['title'], "nohtml"));
-//        $counter = intval($row14['counter']);
-//        if($counter>0) {
-//            echo "<li><a href=\"modules.php?name=Content&amp;pa=showpage&amp;pid=$pid\">$title</a> ($counter ".BLOG_POST_READS.")</li>\n";
-//        }
-//    }
-//    echo "</ol></div>\n\n";
-//}
-//$titanium_db->sql_freeresult($result14);
-
 CloseTable();
 include_once(NUKE_BASE_DIR.'footer.php');
 ?>
