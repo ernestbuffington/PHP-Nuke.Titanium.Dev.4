@@ -2,16 +2,14 @@
 /*======================================================================= 
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
-
-
-if (!defined('MODULE_FILE')) {
-   die('You can\'t access this file directly...');
-}
+if (!defined('MODULE_FILE')){die('You can\'t access this file directly...');}
 
 global $_GETVAR;
+
 $_GETVAR->unsetVariables();
 
 $titanium_module_name = basename(dirname(__FILE__));
+
 get_lang($titanium_module_name);
 
 define('NUKE_DONATIONS', dirname(__FILE__) . '/');
@@ -19,7 +17,8 @@ define('NUKE_DONATIONS_INCLUDES', NUKE_DONATIONS . 'includes/');
 
 include_once(NUKE_DONATIONS_INCLUDES . 'base.php');
 
-function donation_index() {
+function donation_index() 
+{
     global $titanium_lang_donate;
     donation_title();
     OpenTable();
@@ -31,7 +30,7 @@ function donation_index() {
     CloseTable();
 }
 
-// global $more_js;
+# global $more_js;
 $donation_js = '<script type="text/javascript">
 function createCookie(name, value, days)
 {
@@ -73,5 +72,4 @@ switch ($op) {
     break;
 }
 include_once(NUKE_BASE_DIR.'footer.php');
-
 ?>
