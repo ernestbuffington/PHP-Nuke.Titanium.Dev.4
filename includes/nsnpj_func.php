@@ -14,44 +14,39 @@
       Nuke Patched                             v3.1.0       10/25/2005
  ************************************************************************/
 
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
-    exit('Access Denied');
-}
+if(realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])){exit('Access Denied');}
+
 global $titanium_db2;
+
 define('NETWORK_SUPPORT_FUNC', true);
-// Load required scripts
+# Load required scripts
 
-// Load required lang file
+# Load required lang file
 if(!isset($titanium_lang)) 
-{ 
   $titanium_lang = $nuke_config['language']; 
-}
 
-if (!stristr("$titanium_lang", ".") AND file_exists(NUKE_LANGUAGE_DIR."nukeproject/lang-$titanium_lang.php")) 
-{
+if(!stristr("$titanium_lang", ".") AND file_exists(NUKE_LANGUAGE_DIR."nukeproject/lang-$titanium_lang.php"))
   @require_once(NUKE_LANGUAGE_DIR."nukeproject/lang-$titanium_lang.php");
-} 
 else 
-{
   @require_once(NUKE_LANGUAGE_DIR."nukeproject/lang-english.php");
-}
 
 function pjget_configs()
 {
   if(defined('network')):
+
   global $network_prefix, $titanium_db2;
+
   $configresult = $titanium_db2->sql_query("SELECT `config_name`, `config_value` FROM `".$network_prefix."_config`");
   
-  while(list($config_name, $config_value) = $titanium_db2->sql_fetchrow($configresult)) 
-  {
+  while(list($config_name, $config_value) = $titanium_db2->sql_fetchrow($configresult)): 
     $config[$config_name] = $config_value;
-  }
+  endwhile;
   
   return $config;
   endif;
 }
 
-// Load Config data
+# Load Config data
 $pj_config = pjget_configs();
 
 function pjadmin_menu($pjtitle="")
@@ -60,25 +55,30 @@ function pjadmin_menu($pjtitle="")
 
   OpenTable();
   
+  echo "<div align=\"center\">\n<a class=\"titaniumbutton\" href=\"$admin_file.php\">" . _NETWORK_RETURNMAIN . "</a></div>\n";
+  echo '</br>'; 
+  
   if(!empty($pjtitle)) 
-  { 
     $pjtitle = $pjtitle; 
-  } 
   else 
-  { 
     $pjtitle = _NETWORK_ADMIN." - "; 
-  }
-
+ 
   echo '<div class="title" align="center"><strong>'._NETWORK_TITLE.' v'.$pj_config['version_number'].' '.$pjtitle.'</strong></div><br />'; 
   
   echo "<table border='1' align='center' width='100%' cellpadding='2' cellspacing='0'>\n";
+
   echo "<tr bgcolor='$bgcolor2'>\n";
   echo "<td align='center' valign='top' width='20%'>&nbsp;<strong><u>"._NETWORK_PROJECTS."</u></strong>&nbsp;</td>\n";
+ 
   echo "<td align='center' valign='top' width='20%'>&nbsp;<strong><u>"._NETWORK_TASKS."</u></strong>&nbsp;</td>\n";
+ 
   echo "<td align='center' valign='top' width='20%'>&nbsp;<strong><u>"._NETWORK_REPORTS."</u></strong>&nbsp;</td>\n";
+ 
   echo "<td align='center' valign='top' width='20%'>&nbsp;<strong><u>"._NETWORK_REQUESTS."</u></strong>&nbsp;</td>\n";
+ 
   echo "<td align='center' valign='top' width='20%'>&nbsp;<strong><u>"._NETWORK_MEMBERS."</u></strong>&nbsp;</td>\n";
   echo "</tr>\n";
+
   echo "<tr>\n";
   echo "<td align='center' valign='top' width='20%' rowspan='3'>\n";
   echo "&nbsp;<a href='".$admin_file.".php?op=ProjectConfig'>"._NETWORK_CONFIG."</a>&nbsp;<br />\n";
@@ -86,38 +86,45 @@ function pjadmin_menu($pjtitle="")
   echo "&nbsp;<a href='".$admin_file.".php?op=ProjectPriorityList'>"._NETWORK_PRIORITYLIST."</a>&nbsp;<br />\n";
   echo "&nbsp;<a href='".$admin_file.".php?op=ProjectStatusList'>"._NETWORK_STATUSLIST."</a>&nbsp;<br />\n";
   echo "</td>\n";
+
   echo "<td align='center' valign='top' width='20%' rowspan='3'>\n";
   echo "&nbsp;<a href='".$admin_file.".php?op=TaskConfig'>"._NETWORK_CONFIG."</a>&nbsp;<br />\n";
   echo "&nbsp;<a href='".$admin_file.".php?op=TaskList'>"._NETWORK_TASKLIST."</a>&nbsp;<br />\n";
   echo "&nbsp;<a href='".$admin_file.".php?op=TaskPriorityList'>"._NETWORK_PRIORITYLIST."</a>&nbsp;<br />\n";
   echo "&nbsp;<a href='".$admin_file.".php?op=TaskStatusList'>"._NETWORK_STATUSLIST."</a>&nbsp;<br />\n";
   echo "</td>\n";
+
   echo "<td align='center' valign='top' width='20%' rowspan='3'>";
   echo "&nbsp;<a href='".$admin_file.".php?op=ReportConfig'>"._NETWORK_CONFIG."</a>&nbsp;<br />";
   echo "&nbsp;<a href='".$admin_file.".php?op=ReportList'>"._NETWORK_REPORTLIST."</a>&nbsp;<br />";
   echo "&nbsp;<a href='".$admin_file.".php?op=ReportStatusList'>"._NETWORK_STATUSLIST."</a>&nbsp;<br />";
   echo "&nbsp;<a href='".$admin_file.".php?op=ReportTypeList'>"._NETWORK_TYPELIST."</a>&nbsp;<br />";
   echo "</td>\n";
+
   echo "<td align='center' valign='top' width='20%' rowspan='3'>";
   echo "&nbsp;<a href='".$admin_file.".php?op=RequestConfig'>"._NETWORK_CONFIG."</a>&nbsp;<br />";
   echo "&nbsp;<a href='".$admin_file.".php?op=RequestList'>"._NETWORK_REQUESTLIST."</a>&nbsp;<br />";
   echo "&nbsp;<a href='".$admin_file.".php?op=RequestStatusList'>"._NETWORK_STATUSLIST."</a>&nbsp;<br />";
   echo "&nbsp;<a href='".$admin_file.".php?op=RequestTypeList'>"._NETWORK_TYPELIST."</a>&nbsp;<br />";
   echo "</td>\n";
+
   echo "<td align='center' valign='top' width='20%'>";
   echo "&nbsp;<a href='".$admin_file.".php?op=MemberList'>"._NETWORK_MEMBERLIST."</a>&nbsp;<br />\n";
   echo "&nbsp;<a href='".$admin_file.".php?op=MemberPositionList'>"._NETWORK_POSITIONLIST."</a>&nbsp;<br />\n";
   echo "&nbsp;&nbsp;<br />\n";
   echo "</td>\n";
   echo "</tr>\n";
+
   echo "<tr bgcolor='$bgcolor2'>\n";
   echo "<td align='center' valign='top' width='20%'><strong>"._NETWORK_GENERAL."</strong></td>\n";
   echo "</tr>\n";
+
   echo "<tr>\n";
   echo "<td align='center' valign='top' width='20%'>";
   echo "&nbsp;<a href='".$admin_file.".php?op=Config'>"._NETWORK_GENCONFIG."</a>&nbsp;<br />\n";
   echo "</td>\n";
   echo "</tr>\n";
+
   echo "</table>\n";
   CloseTable();
 }
@@ -132,43 +139,57 @@ function pjimage($imgfile,$titanium_module_name)
   return($pjimage);
 }
 
-function pjprogress($percent) {
+function pjprogress($percent) 
+{
   global $titanium_module_name;
+
   $pjimage = pjimage("bar_left.png", $titanium_module_name);
+
   $wbprogress  = "<img src='$pjimage' width='1' height='7'>";
-  if($percent == 0){
+
+  if($percent == 0):
     $pjimage = pjimage("bar_center_red.png", $titanium_module_name);
     $wbprogress .= "<img src='$pjimage' width='100' height='7' alt='0"._NETWORK_PERCENT." "._NETWORK_COMPLETED."' title='0"._NETWORK_PERCENT." "._NETWORK_COMPLETED."'>";
-  } else {
-    if($percent > 100){ $progress = 100; } else { $progress = $percent; }
-    $pjimage = pjimage("bar_center_grn.png", $titanium_module_name);
+  else: 
+    if($percent > 100)
+	  $progress = 100; 
+	else 
+	$progress = $percent; 
+	$pjimage = pjimage("bar_center_grn.png", $titanium_module_name);
     $wbprogress .= "<img src='$pjimage' width='".$progress."' height=7 alt='".$progress.""._NETWORK_PERCENT." "._NETWORK_COMPLETED."' title='".$progress.""._NETWORK_PERCENT." "._NETWORK_COMPLETED."'>";
-    if($progress < 100){
+    if($progress < 100):
       $incomplete = 100 - $progress;
       $pjimage = pjimage("bar_center_red.png", $titanium_module_name);
       $wbprogress .= "<img src='$pjimage' width='".$incomplete."' height=7 alt='".$progress.""._NETWORK_PERCENT." "._NETWORK_COMPLETED."' title='".$progress.""._NETWORK_PERCENT." "._NETWORK_COMPLETED."'>";
-    }
-  }
+    endif;
+  endif;
+  
   $pjimage = pjimage("bar_right.png", $titanium_module_name);
   $wbprogress .= "<img src='$pjimage' width='1' height='7'>";
+  
   return($wbprogress);
 }
 
-function pjmember_info($member_id){
+function pjmember_info($member_id)
+{
   global $network_prefix, $titanium_db2;
   $member_id = intval($member_id);
   $member = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_members` WHERE `member_id`='$member_id'"));
   return $member;
 }
 
-function pjmemberposition_info($position_id){
+function pjmemberposition_info($position_id)
+{
   global $network_prefix, $titanium_db2;
+
   $position_id = intval($position_id);
   $position = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_members_positions` WHERE `position_id`='$position_id'"));
+
   return $position;
 }
 
-function pjproject_info($project_id){
+function pjproject_info($project_id)
+{
   global $network_prefix, $titanium_db2;
   $project_id = intval($project_id);
   $project = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'"));
@@ -211,36 +232,37 @@ function pjtaskstatus_info($status_id){
   return $status;
 }
 
-function pjprojectpercent_info($project_id){
+function pjprojectpercent_info($project_id)
+{
   global $network_prefix, $titanium_db2;
+
   $project_id = intval($project_id);
+
   $project = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'"));
+
   $percentresult = $titanium_db2->sql_query("SELECT `task_percent`, `priority_id` FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id'");
+
   $percentnumber = $titanium_db2->sql_numrows($percentresult);
-  if($project['project_percent'] == 0 AND $percentnumber > 0) 
-  {
+
+  if($project['project_percent'] == 0 AND $percentnumber > 0): 
     $percentoverall = $percentfactor = 0;
-  
-    while(list($task_percent, $priority_id) = $titanium_db2->sql_fetchrow($percentresult)) 
-	{
+    while(list($task_percent, $priority_id) = $titanium_db2->sql_fetchrow($percentresult)): 
       $taskpriority = pjtaskpriority_info($priority_id);
-    
-	  if($taskpriority['priority_weight'] > 0) 
-	  {
+	  if($taskpriority['priority_weight'] > 0): 
         $percentoverall = $percentoverall + ($task_percent * $taskpriority['priority_weight']);
         $percentfactor = $percentfactor + $taskpriority['priority_weight'];
-      }
-    }
-    if($percentnumber > 0 AND $percentfactor > 0) 
-	{
+      endif;
+    endwhile;
+    if($percentnumber > 0 AND $percentfactor > 0): 
       $percenttotal = $percentoverall / $percentfactor;
       $project['project_percent'] = number_format($percenttotal, 0, '.', ',');
-    }
-  }
+    endif;
+  endif;
   return $project;
 }
 
-function pjencode_email($email_address){
+function pjencode_email($email_address)
+{
   $encoded = bin2hex("$email_address");
   $encoded = chunk_split($encoded, 2, '%');
   $encoded = '%' . substr($encoded, 0, strlen($encoded) - 1);
@@ -254,24 +276,22 @@ function pjsave_config($config_name, $config_value)
   $resultnum = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_config` WHERE `config_name`='$config_name'"));
   
   if($resultnum < 1) 
-  {
     $titanium_db2->sql_query("INSERT INTO `".$network_prefix."_config` (`config_name`, `config_value`) VALUES ('$config_name', '$config_value')");
-  } 
   else 
-  {
     $titanium_db2->sql_query("UPDATE `".$network_prefix."_config` SET `config_value`='$config_value' WHERE `config_name`='$config_name'");
-  }
    
    $titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_config`");
 }
 
-function pjunhtmlentities($string) {
+function pjunhtmlentities($string) 
+{
   $trans_tbl = get_html_translation_table(HTML_ENTITIES);
   $trans_tbl = array_flip($trans_tbl);
   return strtr($string, $trans_tbl);
 }
 
-function pjreport_info($report_id){
+function pjreport_info($report_id)
+{
   global $network_prefix, $titanium_db2;
   $report_id = intval($report_id);
   $report = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_reports` WHERE `report_id`='$report_id'"));
@@ -281,51 +301,70 @@ function pjreport_info($report_id){
 function pjreportcomment_info($comment_id)
 {
   global $network_prefix, $titanium_db2;
+
   $comment_id = intval($comment_id);
   $reportcomment = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_comments` WHERE `comment_id`='$comment_id'"));
+
   return $reportcomment;
 }
 
-function pjreportstatus_info($status_id){
+function pjreportstatus_info($status_id)
+{
   global $network_prefix, $titanium_db2;
+
   $status_id = intval($status_id);
   $reportstatus = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_status` WHERE `status_id`='$status_id'"));
+
   return $reportstatus;
 }
 
-function pjreporttype_info($type_id){
+function pjreporttype_info($type_id)
+{
   global $network_prefix, $titanium_db2;
+
   $type_id = intval($type_id);
   $reporttype = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_types` WHERE `type_id`='$type_id'"));
+
   return $reporttype;
 }
 
 function pjrequest_info($request_id)
 {
   global $network_prefix, $titanium_db2;
+
   $request_id = intval($request_id);
   $request = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests` WHERE `request_id`='$request_id'"));
+
   return $request;
 }
 
-function pjrequestcomment_info($comment_id){
+function pjrequestcomment_info($comment_id)
+{
   global $network_prefix, $titanium_db2;
+
   $comment_id = intval($comment_id);
   $requestcomment = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_comments` WHERE `comment_id`='$comment_id'"));
+
   return $requestcomment;
 }
 
-function pjrequeststatus_info($status_id){
+function pjrequeststatus_info($status_id)
+{
   global $network_prefix, $titanium_db2;
+
   $status_id = intval($status_id);
   $requeststatus = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_status` WHERE `status_id`='$status_id'"));
+
   return $requeststatus;
 }
 
-function pjrequesttype_info($type_id){
+function pjrequesttype_info($type_id)
+{
   global $network_prefix, $titanium_db2;
+
   $type_id = intval($type_id);
   $requesttype = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_types` WHERE `type_id`='$type_id'"));
+
   return $requesttype;
 }
 
