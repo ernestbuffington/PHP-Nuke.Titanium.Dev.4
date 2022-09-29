@@ -2,12 +2,14 @@
 /*=======================================================================
  PHP-Nuke Titanium: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
+
 /********************************************************/
 /* NukeProject(tm)                                      */
 /* By: NukeScripts Network (webmaster@nukescripts.net)  */
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
+
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       10/25/2005
@@ -22,6 +24,7 @@ $titanium_module_name = basename(dirname(dirname(__FILE__)));
 
 define('NETWORK_SUPPORT_ADMIN', true);
 define('INDEX_FILE', true);
+
 $aid = substr($aid, 0,125);
 
 $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `title`, `admins` FROM `".$titanium_prefix."_modules` WHERE `title`='$titanium_module_name'"));
@@ -30,14 +33,18 @@ $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `name`, `radm
 $admins = explode(",", $row['admins']);
 $auth_user = 0;
 
-for ($i=0; $i < sizeof($admins); $i++) {
-    if ($row2['name'] == "$admins[$i]" AND !empty($row['admins'])) {
+for ($i=0; $i < sizeof($admins); $i++) 
+{
+    if ($row2['name'] == "$admins[$i]" AND !empty($row['admins'])) 
+	{
         $auth_user = 1;
     }
 }
 
-if ($row2['radminsuper'] == 1 || $auth_user == 1) {
+if ($row2['radminsuper'] == 1 || $auth_user == 1) 
+{
   if(!defined('NETWORK_SUPPORT_FUNC')) { $op = "LoadError"; }
+
   switch ($op) {
     case "Config":include_once(NUKE_MODULES_DIR.$titanium_module_name."/admin/Config.php");break;
     case "ConfigUpdate":include_once(NUKE_MODULES_DIR.$titanium_module_name."/admin/ConfigUpdate.php");break;
@@ -187,7 +194,9 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
     case "TaskStatusUpdate":include_once(NUKE_MODULES_DIR.$titanium_module_name."/admin/TaskStatusUpdate.php");break;
     case "TaskUpdate":include_once(NUKE_MODULES_DIR.$titanium_module_name."/admin/TaskUpdate.php");break;
   }
-} else {
+} 
+else 
+{
     include_once(NUKE_BASE_DIR.'header.php');
     OpenTable();
     echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=Main\">" . _NETWORK_ADMIN_HEADER . "</a></div>\n";
@@ -200,5 +209,4 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 }
-
 ?>
