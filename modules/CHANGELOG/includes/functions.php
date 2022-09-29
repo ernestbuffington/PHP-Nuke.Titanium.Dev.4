@@ -93,7 +93,7 @@ file_put_contents('/some/path/on/your/webhost', $data);
 }
 
 function titanium_site_down() {
-	$url = 'http://php-nuke-titanium.86it.us/version_network.txt';
+	$url = 'http://php-nuke-titanium.86it.us/versions/version_network.txt';
     $address = parse_url($url);
     $host = $address['host'];
     if (!($ip = @gethostbyname($host))) return false;
@@ -107,7 +107,7 @@ function titanium_get_version() {
       //  return NUKE_TITANIUM;
     }
     
-	$contents = file_get_contents('http://php-nuke-titanium.86it.us/version_network.txt');
+	$contents = file_get_contents('http://php-nuke-titanium.86it.us/versions/version_network.txt');
 
     if(substr($contents,strlen($contents)-1) == "\n") {
         $contents = substr($contents,0,strlen($contents)-1);
@@ -142,7 +142,7 @@ function titanium_compare() {
 function ghost_changelog() 
 {
    
-    $data = @file('http://php-nuke-titanium.86it.us/ghost_status.txt');
+    $data = @file('http://php-nuke-titanium.86it.us/versions/ghost_status.txt');
     
 	$log_ghost = "<table class=\"\" width='100%'>";
     
@@ -229,7 +229,7 @@ function ghost_changelog()
 function titanium_changelog() 
 {
 	global $domain;
-    $data = @file("http://".$domain."/".$domain.".txt");
+    $data = @file("http://".$domain."/versions/".$domain.".txt");
     
 	$log_evo = "<table class=\"\" width='100%'>";
     
@@ -306,7 +306,7 @@ function titanium_get_download() {
     }
 
     
-	$contents = @file_get_contents('http://php-nuke-titanium.86it.us/download_network.txt');
+	$contents = @file_get_contents('http://php-nuke-titanium.86it.us/versions/download_network.txt');
 
     if(substr($contents,strlen($contents)-1) == "\n") {
         $contents = substr($contents,0,strlen($contents)-1);
@@ -362,5 +362,4 @@ echo "<center><strong><span style='color:#3b5998'>The Base Engine on <span style
     //echo "<br /><br /><strong><a href='".$admin_file.".php'>"._TRACKER_BACK."</a></strong>";
     echo "</center>";
 }
-
 ?>
