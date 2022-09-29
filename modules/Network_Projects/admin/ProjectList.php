@@ -21,11 +21,13 @@ include_once(NUKE_BASE_DIR.'header.php');
 pjadmin_menu(_NETWORK_PROJECTS.": "._NETWORK_PROJECTLIST);
 
 $projectresult = $titanium_db2->sql_query("SELECT `project_id`, `project_name`, `weight`, `featured`, `status_id`, `priority_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
+
 $project_total = $titanium_db2->sql_numrows($projectresult);
 
 OpenTable();
 
 echo "<table class='projects_row1' width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
+
 echo "<tr><td class='projects_row1' colspan='3' width='100%' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PROJECTOPTIONS."</strong></nobr></td></tr>\n";
 
 $pjimage = pjimage("options.png", $titanium_module_name);
@@ -72,7 +74,7 @@ if($project_total != 0):
 	else 
       $pjimage = pjimage("project.png", $titanium_module_name);
     
-	echo "<tr><td class='projects_row1'><img src='$pjimage'></td><td width='100%'>$project_name</td>\n";
+	echo "<tr><td class='projects_row1'><img src='$pjimage'></td><td class='projects_row1' width='100%'>$project_name</td>\n";
 
     $weight1 = $weight - 1;
     $weight3 = $weight + 1;
