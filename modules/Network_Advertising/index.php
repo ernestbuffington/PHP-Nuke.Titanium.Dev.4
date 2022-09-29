@@ -7,6 +7,11 @@
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
 /*                                                                      */
+/* Network Advertising Module v1.0                                      */
+/* Copyright (c) 2020 by Ernest Buffington                              */
+/* http://www.86it.us                                                   */
+/* The 86it Developers Network                                          */
+/*                                                                      */
 /* Copyright (c) 2005 by Francisco Burzi                                */
 /* http://phpnuke.org                                                   */
 /*                                                                      */
