@@ -191,8 +191,8 @@ while(list($member_id, $member_name) = $titanium_db2->sql_fetchrow($memberlistre
   }
 }
 echo "</select></td></tr>\n";
-
-echo "<tr><td colspan='2' align='center'><input type='submit' value='"._NETWORK_UPDATEPROJECT."'></td></tr>\n";
+echo "<tr><td colspan='2' align='center'>&nbsp;</td></tr>\n";
+echo "<tr><td colspan='2' align='center'><input class='titaniumbutton' type='submit' value='"._NETWORK_UPDATEPROJECT."'></td></tr>\n";
 echo "</form>\n";
 echo "</table>\n";
 
@@ -240,8 +240,12 @@ if($numrows > 0)
     echo "<td align=center><nobr><input name='delete_member_ids[]' type='checkbox' value='$member_id'></td>";
     echo "</tr>";
   }
-  echo "<tr><td colspan='4' width='100%' align=right bgcolor='$bgcolor2'><input type='submit' value='"._NETWORK_UPDATE."'>";
-  echo "<input type='submit' value='"._NETWORK_DELETE."'></td></tr>";
+  echo "<tr><td colspan='4' width='100%' align=right bgcolor='$bgcolor2'>";
+  echo "&nbsp;</td></tr>";
+
+
+  echo "<tr><td colspan='4' width='100%' align=right bgcolor='$bgcolor2'><input class='titaniumbutton' type='submit' value='"._NETWORK_UPDATE."'>";
+  echo "<input class='titaniumbutton' type='submit' value='"._NETWORK_DELETE."'></td></tr>";
 } 
 else 
 {
