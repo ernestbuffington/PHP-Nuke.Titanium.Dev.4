@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /*********************************************
   CPG-NUKE: Advanced Content Management System
   ********************************************
@@ -28,21 +27,26 @@
       Nuke Patched                             v3.1.0       07/17/2005
  ************************************************************************/
 
-if (!defined('MODULE_FILE')) {
-   die('You can\'t access this file directly...');
-}
+if(!defined('MODULE_FILE')){die('You can\'t access this file directly...');}
 
 $titanium_module_name = basename(dirname(__FILE__));
+
 get_lang($titanium_module_name);
+
 include(NUKE_MODULES_DIR.$titanium_module_name.'/doc_config.php');
 
 define('INDEX_FILE', true);
 
-function main() {
+function main() 
+{
     global $sitename, $titanium_module_name, $questions;
-    include_once(NUKE_BASE_DIR.'header.php');
-    title($sitename.': '._NSINDEXLEGAL);
-    if (file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/copyright.php')) {
+    
+	include_once(NUKE_BASE_DIR.'header.php');
+    
+	title($sitename.': '._NSINDEXLEGAL);
+
+    if (file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/copyright.php')) 
+	{
         OpenTable();
         echo "<br /><br /><div align=\"justify\">";
         echo "<strong>$sitename</strong> "._NSINDEX1." <strong>$sitename</strong> "._NSINDEX2."<br /><br />";
@@ -52,20 +56,21 @@ function main() {
         echo "</div><br /><br />";
         ns_doc_links();
         CloseTable();
-        } else {
+        
+	} 
+	else 
+	{
         OpenTable();
         echo ""._NSNOCOPY."";
         CloseTable();
     }
+  
   include_once(NUKE_BASE_DIR.'footer.php');
 }
 
 switch ($op) {
-
     default:
         main();
     break;
-
 }
-
 ?>
