@@ -77,21 +77,24 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
   
   # Set the icon for the projext START
   $pjimage = "<i style=\"font-size: 25px; color: #45B39D\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#45B39D'\" class=\"bi bi-exclamation-triangle\"></i>";
-    
-	   $project['project_name'] = "<strong>".$project['project_name']."</strong>"; 
+  $project['project_name'] = "<strong>".$project['project_name']."</strong>"; 
 
-       # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
-       if($project['featured'] == 0) # PHP-Nuke Titanium Web Portal
-	   $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-clipboard-pulse\"></i>";
+  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+  if($project['featured'] == 0) # PHP-Nuke Titanium Web Portal
+  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-grid-3x2-gap\"></i>";
 
-       if($project['featured'] == 1) # PHP-Nuke Titanium Module
-	   $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-grid\"></i>";
+  if($project['featured'] == 1) # PHP-Nuke Titanium Module
+  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-grid-1x2\"></i>";
 
-       if($project['featured'] == 2) # PHP-Nuke Titanium Block
-	   $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-box\"></i>";
+  if($project['featured'] == 2) # PHP-Nuke Titanium Block
+  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-box\"></i>";
 
-       if($project['featured'] == 3) # PHP-Nuke Titanium phpBB2 Mod
-	   $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-file-earmark-bar-graph\"></i>";
+  if($project['featured'] == 3) # PHP-Nuke Titanium phpBB2 Mod
+  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-file-earmark-bar-graph\"></i>";
+
+  if($project['featured'] == 4) # PHP-Nuke Titanium Theme
+  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-palette\"></i>";
+
   # Set the icon for the projext END
 
 
