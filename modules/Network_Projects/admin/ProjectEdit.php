@@ -2,14 +2,18 @@
 /*=======================================================================
  PHP-Nuke Titanium: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
+
 /********************************************************/
 /* NukeProject(tm)                                      */
 /* By: NukeScripts Network (webmaster@nukescripts.net)  */
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
+
 global $titanium_db2;
+
 get_lang('Network_Projects');
+
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_PROJECTS.': '._NETWORK_EDITPROJECT;
@@ -17,8 +21,9 @@ $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_PRO
 include_once(NUKE_BASE_DIR.'header.php');
 
 $project = pjproject_info($project_id);
+
 pjadmin_menu(_NETWORK_PROJECTS.": "._NETWORK_EDITPROJECT);
-//echo "<br />\n";
+
 OpenTable();
 echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
 echo "<form method='post' action='".$admin_file.".php'>\n";
@@ -30,6 +35,7 @@ echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_PROJECTSITE.":</td>\n";
 echo "<td><input type='text' name='project_site' size='30' value=\"".$project['project_site']."\"></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._NETWORK_PROJECTDESCRIPTION.":</td>\n";
 echo "<td><textarea name='project_description' cols='60' rows='10' wrap='virtual'>".$project['project_description']."</textarea></td></tr>\n";
+
 $sel1 = $sel2 = $sel3 = $sel4 = "";
 
 if($project['featured'] == 0) 
