@@ -32,11 +32,19 @@ echo "<tr><td class='projects_row1' colspan='3' width='100%' bgcolor='$bgcolor2'
 
 $pjimage = pjimage("options.png", $titanium_module_name);
 
-echo "<tr><td class='projects_row1'><img src='$pjimage'></td><td class='projects_row1' colspan='2' width='100%'><nobr><a href='".$admin_file.".php?op=ProjectAdd'>"._NETWORK_PROJECTADD."</a></nobr></td></tr>\n";
+echo "<tr>";
+
+echo "<td class='projects_row1'><i style=\"font-size: 40px; color: #45B39D\" class=\"bi bi-pencil-square\"></i></td>";
+
+echo "<td class='projects_row1' colspan='2' width='100%'><nobr>";
+
+echo "<a class=\"titaniumbutton\" href='".$admin_file.".php?op=ProjectAdd'>"._NETWORK_PROJECTADD."</a></nobr>";
+
+echo "</td></tr>\n";
 
 $pjimage = pjimage("stats.png", $titanium_module_name);
 
-echo "<tr><td class='projects_row1'><img src='$pjimage'></td><td class='projects_row1' colspan='3' width='100%'><nobr>"._NETWORK_TOTALPROJECTS.": <strong>$project_total</strong></nobr></td></tr>\n";
+echo "<tr><td align='center' class='projects_row1'><img width='30' height='30' src='$pjimage'></td><td class='projects_row1' colspan='3' width='100%'><nobr>"._NETWORK_TOTALPROJECTS.": <strong>$project_total</strong></nobr></td></tr>\n";
 echo "</table>\n";
 
 echo "<table class='projects_row1' width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
