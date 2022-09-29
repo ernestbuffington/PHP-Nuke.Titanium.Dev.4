@@ -1,4 +1,20 @@
 <?php
+#########################################################################
+# Cemetery Module                                                       #
+# Copyright (c) 2003 by David Moulton dave@themoultons.net              #
+# http://www.themoultons.net                                            #
+#                                                                       #
+# This program is free software. You can redistribute it and/or modify  #
+# it under the terms of the GNU General Public License as published by  #
+# the Free Software Foundation; either version 2 of the License.        #
+#########################################################################
+
+#########################################################################
+# PHP-Nuke Titanium : Enhanced PHP-Nuke Web Portal System               #
+#########################################################################
+# [CHANGES]                                                             #
+# Nuke Patched                                      v3.1.0   06/26/2005 #
+#########################################################################
 if (!defined('MODULE_FILE'))die ("You can't access this file directly...");
 global $titanium_prefix, $titanium_db, $cookie, $titanium_user, $theme_name;
 $index = 1;

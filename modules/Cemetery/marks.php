@@ -1,17 +1,29 @@
 <?php
 if (!defined('MODULE_FILE')) die("You can't access this file directly...");
+
 global $titanium_prefix, $titanium_db, $cookie, $titanium_user, $theme_name;
+
 $index = 1;
+
 require_once("mainfile.php");
+
 $titanium_module_name = basename(dirname(__FILE__));
+
 get_lang($titanium_module_name);
+
 $pagetitle = "86it Developers Network - My "._MARKSTITLE;
+
 include("header.php");
+
 $userinfo = getusrinfo( $titanium_user );
+
 $titanium_userid = $userinfo["user_id"];
+
 $catname=@htmlentities($catname);
+
 if(!isset($titanium_userid) || $titanium_userid== "")
 $titanium_userid = 0;
+
 # Sometimes we don't know the category name
 if((!isset($catname) || $catname== "") && (isset($category) && $category != "")):
 	$getname="select name from ".$titanium_prefix."_cemetery_cat where category_id='$category'";
@@ -19,6 +31,7 @@ if((!isset($catname) || $catname== "") && (isset($category) && $category != ""))
 	$namerow=@$titanium_db->sql_fetchrow($getnameres,$titanium_db);
 	$catname=$namerow['name'];
 endif;
+
 OpenTable();
 # space at the top of the page
 echo '<div align="center" style="padding-top:6px;">'; 
