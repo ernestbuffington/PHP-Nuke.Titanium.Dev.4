@@ -35,7 +35,7 @@ echo '<a class="titaniumbutton" href="modules.php?name=Network_Projects&op=Reque
 echo '</div><br/>';
 
 
-echo "<table class='forumline' align='center' width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
+echo "<table class='projects_row1' align='center' width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr>\n";
 echo "<td class='projects_row1' width='100%' bgcolor='$bgcolor2' colspan='2'><strong>"._NETWORK_PROJECTNAME."</strong></td>\n";
 echo "<td class='projects_row1' align='center' bgcolor='$bgcolor2'><nobr><strong>&nbsp;&nbsp;&nbsp;&nbsp;"._NETWORK_SITE."&nbsp;&nbsp;&nbsp;&nbsp;</strong></nobr></td>\n";
@@ -95,7 +95,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
        # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
   }
   
-  echo "<td class='row1' align='center'>$pjimage</td><td width='100%'><a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  echo "<td class='projects_row1' align='center'>$pjimage</td><td width='100%'><a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
   $pjimage = "<i style=\"font-size: 25px; color: #45B39D\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#45B39D'\" class=\"bi bi-server\"></i>";
     
@@ -110,7 +110,7 @@ if($project['project_site'] > "")
 	{
       $demo = "&nbsp;";
     }
-    echo "<td align='center'>$demo</td>\n";
+    echo "<td class='projects_row1' align='center'>$demo</td>\n";
 
     
   if($taskrows > 0)
@@ -118,7 +118,7 @@ if($project['project_site'] > "")
   else
   $color = '#008080';
 
-  echo "<td class='row1' align='center'><font color=\"$color\">$taskrows</font></td>\n";
+  echo "<td class='projects_row1' align='center'><font color=\"$color\">$taskrows</font></td>\n";
   
   if($project['allowreports'] > 0) 
   {
@@ -127,11 +127,11 @@ if($project['project_site'] > "")
 	else
 	$color = '#008080';
 
-    echo "<td class='row1' align='center'><font color=\"$color\">$report_total</font></td>\n";
+    echo "<td class='projects_row1' align='center'><font color=\"$color\">$report_total</font></td>\n";
   } 
   else 
   {
-    echo "<td class='row1' align='center'>----</td>\n";
+    echo "<td class='projects_row1' align='center'>----</td>\n";
   }
   
   if($request_total > 0)
@@ -141,11 +141,11 @@ if($project['project_site'] > "")
 
   if($project['allowrequests'] > 0) 
   {
-    echo "<td class='row1' align='center'><font color=\"$color\">$request_total</font></td>\n";
+    echo "<td class='projects_row1' align='center'><font color=\"$color\">$request_total</font></td>\n";
   } 
   else 
   {
-    echo "<td class='row1' align='center'>----</td>\n";
+    echo "<td class='projects_row1' align='center'>----</td>\n";
   }
 
   if($projectstatus['status_name'] === 'Active')
@@ -165,7 +165,7 @@ if($project['project_site'] > "")
   { 
     $projectstatus['status_name'] = _NETWORK_NA; 
   }
-  echo "<td class='row1' align='center'><font color=\"$color\">".$projectstatus['status_name']."</font></td>\n";
+  echo "<td class='projects_row1' align='center'><font color=\"$color\">".$projectstatus['status_name']."</font></td>\n";
   
 
   if($projectpriority['priority_name'] === 'Low')
@@ -186,16 +186,16 @@ if($project['project_site'] > "")
     $projectpriority['priority_name'] = _NETWORK_NA; 
   }
   
-  echo "<td class='row1' align='center'><nobr><font color=\"$color\">".$projectpriority['priority_name']."</font></nobr></td>\n";
+  echo "<td class='projects_row1' align='center'><nobr><font color=\"$color\">".$projectpriority['priority_name']."</font></nobr></td>\n";
 
   if($member_total > 0)
   $color = '#FFCC66';
 
-  echo "<td class='row1' align='center'><nobr><font color=\"$color\">$member_total</font></nobr></td>\n";
+  echo "<td class='projects_row1' align='center'><nobr><font color=\"$color\">$member_total</font></nobr></td>\n";
   
   $wbprogress = pjprogress($project['project_percent']);
   
-  echo "<td class='row1' align='center'><nobr>$wbprogress</nobr></td>\n";
+  echo "<td class='projects_row1' align='center'><nobr>$wbprogress</nobr></td>\n";
   echo "</tr>\n";
 }
 
