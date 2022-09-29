@@ -1,15 +1,14 @@
 <?php
-if (!defined('MODULE_FILE')) die('You can\'t access this file directly...');
+if(!defined('MODULE_FILE')) die('You can\'t access this file directly...');
 
 $titanium_module_name = basename(dirname(__FILE__));
 
-if ( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
-        $mode = ( isset($HTTP_POST_VARS['mode']) ) ? htmlspecialchars($HTTP_POST_VARS['mode']) : htmlspecialchars($HTTP_GET_VARS['mode']);
+if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
+ $mode = ( isset($HTTP_POST_VARS['mode']) ) ? htmlspecialchars($HTTP_POST_VARS['mode']) : htmlspecialchars($HTTP_GET_VARS['mode']);
 else
-        $mode = '';
-//
-// Generate page
-//
+ $mode = '';
+
+# Generate page
 global $titanium_module_name, $bgcolor2;
 
 if(!isset($titanium_module_name) || empty($titanium_module_name))
@@ -20,20 +19,7 @@ get_lang($titanium_module_name);
 $pagetitle = 'Complete CSS Reference';
 
 include(NUKE_BASE_DIR.'header.php');
-    #########################################################################
-    # Table Header Module     Fix Start - by TheGhost   v1.0.0     01/30/2012
-    #########################################################################
-    if(!function_exists('OpenTableModule'))
-    {
-      OpenTable();
-	}
-	else
-	{
-	   OpenTableModule();
-	}
-    #########################################################################
-    # Table Header Module     Fix End  - by TheGhost   v1.0.0     01/30/2012
-    #########################################################################
+OpenTable();
 ?>
 <p align="center"><a href="#1">Font</a> | <a href="#2">Color and Background</a>
 | <a href="#3">Text</a> | <a href="#4">Box</a> | <a href="#5">Classification</a>

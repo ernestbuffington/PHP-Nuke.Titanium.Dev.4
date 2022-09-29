@@ -13,10 +13,10 @@ require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 
 $titanium_module_name = basename(dirname(__FILE__));
 $mod_name = "CSS Color Chart";
-$author_email = "";
-$author_homepage = "";
-$author_name = "";
-$license = "";
+$author_email = "ernest.buffington@gmail.com";
+$author_homepage = "https://theghost.86it.us";
+$author_name = "Ernest Buffington AKA TheGhost";
+$license = "GPL v2.0";
 $based_on = "Scratch";
 $download_location = "";
 $titanium_module_version = "v5.4";

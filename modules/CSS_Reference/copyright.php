@@ -29,11 +29,11 @@ require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 
 $author_name = "Ernest \"TheGhost\" Buffington";
 $author_email = "ernest.buffingtonton@gmail.com";
-$author_homepage = "http://cvs.86it.us";
+$author_homepage = "http://theghost.86it.us";
 $license = "Lifetime";
 $download_location = "";
 $titanium_module_version = "1.2";
-$titanium_module_description = "CSS Reference";
+$titanium_module_description = "CSS Reference Chart";
 
 // DO NOT TOUCH THE FOLLOWING COPYRIGHT CODE. YOU'RE JUST ALLOWED TO CHANGE YOUR "OWN"
 // MODULE'S DATA (SEE ABOVE) SO THE SYSTEM CAN BE ABLE TO SHOW THE COPYRIGHT NOTICE
@@ -43,5 +43,4 @@ $titanium_module_description = "CSS Reference";
 // YOU'RE NOT THIS MODULE'S AUTHOR.
 
 show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $titanium_module_version, $titanium_module_description);
-
 ?>
