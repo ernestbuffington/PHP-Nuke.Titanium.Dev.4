@@ -16,10 +16,10 @@ require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 // module's directory. It's all, as easy as it sounds ;)
 
 $author_name = "NukeScripts™"; 
-$author_email = "nukescripts [at] 86it [dot] us";
-$author_homepage = "https://www.86it.us";
+$author_email = "nukescripts[at]86it[dot]us";
+$author_homepage = "https://nukescripts.86it.us";
 $license = "GNU/GPL 2.0";
-$download_location = "https://www.86it.us";
+$download_location = "https://php-nuke-titanium.86it.us";
 $titanium_module_version = "4.0.2";
 $titanium_module_description = "Advanced Network Project Management";
 
