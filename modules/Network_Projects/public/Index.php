@@ -95,6 +95,24 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
   if($project['featured'] == 4) # PHP-Nuke Titanium Theme
   $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-palette\"></i>";
 
+  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+  if($project['featured'] == 5) # Nuke Evo Web Portal
+  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-grid-3x2-gap\"></i>";
+
+  if($project['featured'] == 6) # Nuke Evo Module
+  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-grid-1x2\"></i>";
+
+  if($project['featured'] == 7) # Nuke Evo Block
+  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-box\"></i>";
+
+  if($project['featured'] == 8) # Nuke Evo phpBB2 Mod
+  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-file-earmark-bar-graph\"></i>";
+
+  if($project['featured'] == 9) # Nuke Evo Theme
+  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-palette\"></i>";
+
+  if($project['featured'] == 10) # Misc Project
+  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-palette\"></i>";
   # Set the icon for the projext END
 
 
