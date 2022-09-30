@@ -23,7 +23,7 @@ $author_email = '';
 $author_homepage = 'http://nukescripts.86it.us';
 $license = 'Copyright &#169; 2000-2008 NukeScripts(tm)';
 $download_location = '';
-$titanium_module_version = '2.6.01';
+$titanium_module_version = '2.6.04';
 $titanium_module_description = 'Advanced site security proudly produced by: NukeScripts(tm), Raven PHPScripts, NukeResources, &amp; Nuke-Evolution.';
 
 // DO NOT TOUCH THE FOLLOWING COPYRIGHT CODE. YOU'RE JUST ALLOWED TO CHANGE YOUR "OWN"

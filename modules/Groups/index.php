@@ -11,7 +11,7 @@
  *   email                : support@phpbb.com
  *
  *   Id: groupcp.php,v 1.58.2.23 2005/05/06 20:50:10 acydburn Exp
- *
+ *   Version 1.5
  *   Modifications made by the Nuke-Evolution Team
  *
  ***************************************************************************/
