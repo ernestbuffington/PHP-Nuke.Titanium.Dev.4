@@ -2,6 +2,19 @@
 /*======================================================================= 
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
+echo "<!--                                                                                
+@@@@@@@  @@@  @@@  @@@@@@@@   @@@@@@@@  @@@  @@@   @@@@@@    @@@@@@   @@@@@@@  
+@@@@@@@  @@@  @@@  @@@@@@@@  @@@@@@@@@  @@@  @@@  @@@@@@@@  @@@@@@@   @@@@@@@  
+  @@!    @@!  @@@  @@!       !@@        @@!  @@@  @@!  @@@  !@@         @@!    
+  !@!    !@!  @!@  !@!       !@!        !@!  @!@  !@!  @!@  !@!         !@!    
+  @!!    @!@!@!@!  @!!!:!    !@! @!@!@  @!@!@!@!  @!@  !@!  !!@@!!      @!!    
+  !!!    !!!@!!!!  !!!!!:    !!! !!@!!  !!!@!!!!  !@!  !!!   !!@!!!     !!!    
+  !!:    !!:  !!!  !!:       :!!   !!:  !!:  !!!  !!:  !!!       !:!    !!:    
+  :!:    :!:  !:!  :!:       :!:   !::  :!:  !:!  :!:  !:!      !:!     :!:    
+   ::    ::   :::   :: ::::   ::: ::::  ::   :::  ::::: ::  :::: ::      ::    
+   :      :   : :  : :: ::    :: :: :    :   : :   : :  :   :: : :       :     
+                                                                                -->\n";
+echo "\n<!-- LOADING JAVASCRIPT START includes/javascript.php -->\n";
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
@@ -13,6 +26,7 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
+
 /***************************************************************************
  *   This file is part of the phpBB2 port to Nuke 6.0 (c) copyright 2002
  *   by Tom Nitzschner (tom@toms-home.com)
@@ -30,6 +44,7 @@
  *   under the GNU GENERAL PUBLIC LICENSE. Please see the README for more information.
  *
  ***************************************************************************/
+
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
@@ -45,20 +60,16 @@
       IE Embed Fix                             v1.0.0       04/24/2006
 	  jQuery Lightbox Resize Images            v0.5
  ************************************************************************/
-//Note due to all the windows.onload use womAdd('function_name()'); instead
-
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
-  exit('Access Denied');
-}
+# Note due to all the windows.onload use womAdd('function_name()'); instead
+if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {exit('Access Denied');}
 
 include_once(NUKE_INCLUDE_DIR.'styles.php');
 
 ##################################################
 # Include for some common javascripts functions  #
 ##################################################
-
 addJSToHead(NUKE_JQUERY_SCRIPTS_DIR.'javascript/onload.js','file');
-
+echo "<!-- LOADED ".NUKE_JQUERY_SCRIPTS_DIR."javascript/onload.js FROM includes/javascript.php -->\n";
 /*****[BEGIN]******************************************
  [ Base:    NukeSentinel                       v2.4.1 ]
  ******************************************************/
@@ -66,8 +77,11 @@ global $sentineladmin;
 if(!defined('FORUM_ADMIN')) 
 {
     addJSToHead('includes/nukesentinel/overlib.js','file');
+    echo "<!-- LOADED includes/nukesentinel/overlib.js FROM FROM includes/javascript.php -->\n";
     addJSToHead('includes/nukesentinel/overlib_hideform.js','file');
+    echo "<!-- LOADED includes/nukesentinel/overlib_hideform.js FROM FROM includes/javascript.php -->\n";
     addJSToHead('includes/nukesentinel/nukesentinel3.js','file');
+    echo "<!-- LOADED includes/nukesentinel/nukesentinel3.js FROM FROM includes/javascript.php -->\n";
 }
 /*****[END]********************************************
  [ Base:    NukeSentinel                       v2.4.1 ]
@@ -179,6 +193,11 @@ echo "</script>\n\n";
   else	
   $connected = '::: You aren\'t logged into our facebook app :::';
 
+echo "<!-- LOADED TITANIUM FACEBOOK v5 FROM FROM includes/javascript.php -->\n";
+}
+else
+{
+echo "<!-- NOT LOADED TITANIUM FACEBOOK v5 FROM FROM includes/javascript.php -->\n";
 }
 /* echo "\n<script type=\"text/javascript\">\n"; */
 /* echo "<!--\n";                                */
@@ -206,7 +225,8 @@ if (defined('MODULE_FILE') && !defined("HOME_FILE") AND file_exists("modules/".$
     echo "<script type=\"text/javascript\">\n";
     echo "<!--\n";
     echo "function openwindow(){\n";
-    echo "    window.open (\"modules/".$name."/copyright.php\",\"Copyright\",\"toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=no,copyhistory=no,width=400,height=200\");\n";
+    echo "window.open (\"modules/".$name."/copyright.php\",\"Copyright\",\"toolbar=no,
+	      location=no,directories=no,status=no,scrollbars=yes,resizable=no,copyhistory=no,width=400,height=200\");\n";
     echo "}\n\n";
     echo "//-->\n";
     echo "</script>\n\n";
@@ -514,20 +534,6 @@ include(NUKE_JQUERY_INCLUDE_DIR.'jquery.tooltipster.php');
 /*****[END]********************************************
  [ Mod:     jQuery                             v1.5.0 ]
  ******************************************************/
-echo "\n\n<!--                                                                                
-@@@@@@@  @@@  @@@  @@@@@@@@   @@@@@@@@  @@@  @@@   @@@@@@    @@@@@@   @@@@@@@  
-@@@@@@@  @@@  @@@  @@@@@@@@  @@@@@@@@@  @@@  @@@  @@@@@@@@  @@@@@@@   @@@@@@@  
-  @@!    @@!  @@@  @@!       !@@        @@!  @@@  @@!  @@@  !@@         @@!    
-  !@!    !@!  @!@  !@!       !@!        !@!  @!@  !@!  @!@  !@!         !@!    
-  @!!    @!@!@!@!  @!!!:!    !@! @!@!@  @!@!@!@!  @!@  !@!  !!@@!!      @!!    
-  !!!    !!!@!!!!  !!!!!:    !!! !!@!!  !!!@!!!!  !@!  !!!   !!@!!!     !!!    
-  !!:    !!:  !!!  !!:       :!!   !!:  !!:  !!!  !!:  !!!       !:!    !!:    
-  :!:    :!:  !:!  :!:       :!:   !::  :!:  !:!  :!:  !:!      !:!     :!:    
-   ::    ::   :::   :: ::::   ::: ::::  ::   :::  ::::: ::  :::: ::      ::    
-   :      :   : :  : :: ::    :: :: :    :   : :   : :  :   :: : :       :     
-                                                                                -->\n";
-echo "\n<!-- Ernest Allen Buffington aka TheGhost -->\n\n\n";
-
 global $analytics;
 
 /* This is garbage as far as I can see - to much fucking work to get it working.
@@ -548,7 +554,7 @@ global $more_js;
 if (!empty($more_js)) {
     echo $more_js;
 }
-
+echo "\n<!-- LOADING JAVASCRIPT END includes/javascript.php -->\n";
 //DO NOT PUT ANYTHING AFTER THIS LINE
 echo "<!--[if IE]><script type=\"text/javascript\">womOn();</script><![endif]-->\n";
 ?>
