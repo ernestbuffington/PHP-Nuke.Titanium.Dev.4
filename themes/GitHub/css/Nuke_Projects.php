@@ -95,6 +95,27 @@ a.projectlink:hover,input.projectlink:hover
 }
 
 
+/* Proof Of God v1.0 Style Sheet Cell Colors and Backgrounds START */ 
+/* Main table cell colours and backgrounds */
+td.proof_of_god_row1 {
+	background: <?=$bgcolor2?>;
+	border: 1px solid #212f47;
+	padding: 4px;
+}
+
+td.proof_of_god_row2 {
+	border: 1px solid #212f47;
+	padding: 14px;
+}
+
+td.proof_of_god_row3 {
+	background-color: <?=$bgcolor4?>;
+	border: 1px solid border: 1px solid <?=$bgcolor3?>;
+	border: 1px solid <?=$bgcolor3?>;
+	padding: 4px;
+}
+
+
 /* Nuke_Projects Style Sheet Cell Colors and Backgrounds START */ 
 /* Main table cell colours and backgrounds */
 td.projects_row1 {
