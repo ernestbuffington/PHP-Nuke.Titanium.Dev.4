@@ -3,14 +3,13 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
 /*                                                                      */
 /* Copyright (c) 2002 by Francisco Burzi                                */
 /* http://phpnuke.org                                                   */
-/*                                                                      */
+/* Version 1.0                                                          */
 /* ======================                                               */
 /* Based on Automated FAQ                                               */
 /* Copyright (c) 2001 by                                                */
