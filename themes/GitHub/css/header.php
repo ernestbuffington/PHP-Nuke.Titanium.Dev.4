@@ -336,7 +336,6 @@ select { cursor: pointer; }
 
 input, select { vertical-align: middle; }
 label.radio { cursor: pointer; }
-input[type='checkbox'] { cursor: pointer; }
 
 /*
  * 2. Primary page styles
@@ -989,7 +988,7 @@ a.postlink:hover {
 /*--------------------------------------------------------------*/
 /* Everything Below this Line Needs to be Added to Other Themes */
 /*--------------------------------------------------------------*/
-input[type='submit'],input[type='checkbox'],input[type='radio']{cursor:pointer;}
+input[type='submit'],input[type='radio']{cursor:pointer;}
 select{color: #fff;border:1px solid <?=$bgcolor1?>;cursor:pointer;margin:0 1px 1px;box-sizing:border-box;}
 input{color: #fff;border:1px solid <?=$bgcolor1?>;box-sizing:border-box;letter-spacing:1px;margin:0 1px 1px;padding:5px;box-sizing:border-box;}
 span.uppercase{text-transform:uppercase;}
@@ -999,7 +998,6 @@ td.threads,th.threads{width:80px;}
 td.last_post,th.last_post{width:200px;padding-left:5px;}
 
 input[type='radio']{background-color:transparent!important;width:18px;height:18px;}
-input[type='checkbox']{width:18px;height:18px;}
 input[type='image']{border:none;padding:0;}
 
 progress{background-color:<?=$bgcolor2?>;border:0;height:18px;}

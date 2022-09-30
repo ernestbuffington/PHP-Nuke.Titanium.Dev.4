@@ -116,7 +116,12 @@ td.projects_row3 {
 }
 
 /* Nuke_Projects Style Sheet Cell Colors and Backgrounds END */ 
+input[type='checkbox']
+{
+  width:17px;height:17px;
+  cursor: pointer;
+}
+
+
+
 <?
-
-
-

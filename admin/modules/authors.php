@@ -41,8 +41,9 @@ function displayadmins()
     if (is_admin()) {
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
-        echo '<div style="text-align: center; margin-bottom: 20px;">[ <a href="'.$admin_file.'.php?op=mod_authors">'.$admlang['authors']['header'].'</a> ]
-		<br />[ <a href="'.$admin_file.'.php">'.$admlang['global']['header_return'].'</a> ]</div>';
+		
+		# Return to Main Administration Button
+        echo '<div style="text-align: center; margin-bottom: 20px;"><a class="titaniumbutton" href="'.$admin_file.'.php">'.$admlang['global']['header_return'].'</a> </div>';
         
 		echo '<table style="width: 100%;" border="0" cellpadding="3" cellspacing="1" class="forumline">'."\n";
         echo '  <tr>'."\n";
@@ -59,18 +60,22 @@ function displayadmins()
         echo '    <td class="catHead" style="text-align: center; text-transform: uppercase; width: 15%;">'.$admlang['authors']['option1'].'</td>'."\n";
         echo '    <td class="catHead" style="text-align: center; text-transform: uppercase; width: 15%;">'.$admlang['global']['delete'].'</td>'."\n";
         echo '  </tr>'."\n";
-        $result = $titanium_db->sql_query("SELECT `aid`, `email`, `name`, `admlanguage`, `url` FROM `".$titanium_prefix."_authors`");
+        
+		$result = $titanium_db->sql_query("SELECT `aid`, `email`, `name`, `admlanguage`, `url` FROM `".$titanium_prefix."_authors`");
         $countAuthor = 1;
-        while ($row = $titanium_db->sql_fetchrow($result)) 
+        
+		while ($row = $titanium_db->sql_fetchrow($result)) 
         {
             $admlanguage    = $row['admlanguage'];
             $authorID       = substr($row['aid'], 0,25);
             $name           = substr($row['name'], 0,50);
-            if (empty($admlanguage)) 
+            $email          = $row['email'];
+			
+		    if (empty($admlanguage)) 
                 $admlanguage = $admlang['global']['all'];
 
-            if($row['url'])
-                $authorURL = '<span style="float:right;"><a href="'.$row['url'].'"><span class="ml-sprite ml-www tooltip"></span></a></span>';
+            if($email) # Fixed this as it was never going to allow you to send a direct eamil the way it was! 09/30/2022 TheGhost
+                $authorURL = '<span style="float:right;"><a href="mailto:'.$email.'"><i style="font-size: 25px;" class="bi bi-envelope"></i</span></a></span>';
             else
                 $authorURL = '';
 
@@ -81,60 +86,74 @@ function displayadmins()
             echo '    <td class="'.$row_class.'"><span style="float:left;">'.$authorID.'</span>'.$authorURL.'</td>'."\n";
             echo '    <td class="'.$row_class.'">'.$row['email'].'</td>'."\n";
             echo '    <td class="'.$row_class.'" style="text-align: center;">'.$admlanguage.'</td>'."\n";
-            echo '    <td class="'.$row_class.'" style="text-align: center;"><a href="'.$admin_file.'.php?op=modifyadmin&amp;chng_aid='.$authorID.'">'.$admlang['authors']['modify'].'</a></td>'."\n";
-            echo '    <td class="'.$row_class.'" style="text-align: center;">'.(($name == 'God') ? $admlang['authors']['main'] : '<a href="'.$admin_file.'.php?op=deladmin&amp;del_aid='.$authorID.'">'.$admlang['global']['delete'].'</a>').'</td>'."\n";
+            echo '    <td class="'.$row_class.'" style="text-align: center;"><a class="titaniumbutton" href="'.$admin_file.'.php?op=modifyadmin&amp;chng_aid='.$authorID.'">'.$admlang['authors']['modify'].'</a></td>'."\n";
+            echo '    <td class="'.$row_class.'" style="text-align: center;">'.(($name == 'God') ? $admlang['authors']['main'] : '<a class="titaniumbutton" href="'.$admin_file.'.php?op=deladmin&amp;del_aid='.$authorID.'">'.$admlang['global']['delete'].'</a>').'</td>'."\n";
             echo '  </tr>'."\n";
             $countAuthor++;
         }
 
-        echo '  <tr>'."\n";
-        echo '    <td class="catBottom" colspan="6" style="text-align: center;">[ <a href="'.$admin_file.'.php">'.$admlang['global']['header_return'].'</a> ]</td>'."\n";
+        echo '  <tr>'."\n"; # Removed redundant Return to Adminsitration Button/Link - Added &nbsp; <- a space instead DUH! 09/30/2022 TheGhost
+        echo '    <td class="catBottom" colspan="6" style="text-align: center;">&nbsp;</td>'."\n";
         echo '  </tr>'."\n";
         echo '</table>'."\n";
 
         echo '<br />';
 
         echo '<form action="'.$admin_file.'.php" method="post" name="newauthor">';
-        echo '<table style="width: 100%;" border="0" cellpadding="3" cellspacing="1" class="forumline">'."\n";
+        
+		echo '<table style="width: 100%;" border="0" cellpadding="3" cellspacing="1" class="forumline">'."\n";
         echo '  <tr>'."\n";
         echo '    <td class="catHead" colspan="2" style="text-align: center; text-transform: uppercase;">'.$admlang['authors']['add'].'</td>'."\n";
         echo '  </tr>'."\n";
-        # Author username
-        echo '  <tr>'."\n";
-        echo '    <td class="row1" style="width: 50%;">';
-        echo '      <span style="float: left; margin: 2px;">'.$admlang['global']['name'].'</span>';
-        echo '      <span class="evo-sprite help tooltip float-right" title="'.$admlang['authors']['can_not'].'"></span>';
-        echo '    </td>'."\n";
-        echo '    <td class="row1" style="width: 50%;"><input type="text" name="add_name" style="width: 250px;" maxlength="50" required></td>'."\n";
-        echo '  </tr>'."\n";
-        # Author Nickname field
-        echo '  <tr>'."\n";
-        echo '    <td class="row1" style="width: 50%;">'.$admlang['global']['nickname'].'</td>'."\n";
-        echo '    <td class="row1" style="width: 50%;"><input type="text" name="add_aid" style="width: 250px;" maxlength="50" required></td>'."\n";
-        echo '  </tr>'."\n";
-        # Author Email
-        echo '  <tr>'."\n";
-        echo '    <td class="row1" style="width: 50%;">'.$admlang['global']['email'].'</td>'."\n";
-        echo '    <td class="row1" style="width: 50%;"><input type="text" name="add_email" style="width: 250px;" maxlength="50" required></td>'."\n";
-        echo '  </tr>'."\n";
+        
+		# Author username
+        echo '<tr>'."\n";
+        echo '<td align="left" valign="absmiddle" class="row1" style="width: 30%;">';
+		echo '<i style="font-size: 18px;" class="glyphicon glyphicon-user"></i><font size="4"> '.$admlang['authors']['author'].'</font>';
+		
+        echo '<span class="evo-sprite help tooltip float-right" title="'.$admlang['authors']['can_not'].'"></span>';
+        echo '</td>'."\n";
+        echo '<td class="row1" style="width: 50%;"><input type="text" name="add_name" style="width: 250px;" maxlength="50" required></td>'."\n";
+        echo '</tr>'."\n";
+        
+		# Author Nickname field
+       
+        echo '<tr>'."\n";
+        echo '<td align="left" valign="absmiddle" class="row1" style="width: 30%;">';
+		echo '<i style="font-size: 18px;" class="bi bi-person-badge"></i><font size="4"> '.$admlang['global']['nickname'].'</font>';
+        echo '<td class="row1" style="width: 50%;"><input type="text" name="add_aid" style="width: 250px;" maxlength="50" required></td>'."\n";
+        echo '</tr>'."\n";
+		
+		# Author Email
+        echo '<tr>'."\n";
+        echo '<td align="left" valign="absmiddle" class="row1" style="width: 30%;">';
+		echo '<i style="font-size: 18px;" class="bi bi-envelope-paper"></i><font size="4"> '.$admlang['global']['email'].'</font>';
+        echo '<td class="row1" style="width: 50%;"><input type="text" autocomplete="off" name="add_email" style="width: 250px;" maxlength="50" required></td>'."\n";
+        echo '</tr>'."\n";
+
         # Author URL
-        echo '  <tr>'."\n";
-        echo '    <td class="row1" style="width: 50%;">'.$admlang['global']['url'].'</td>'."\n";
-        echo '    <td class="row1" style="width: 50%;"><input type="text" name="add_url" style="width: 250px;" maxlength="50" required></td>'."\n";
-        echo '  </tr>'."\n";
-        # Author Language selection
+        echo '<tr>'."\n";
+        echo '<td align="left" valign="absmiddle" class="row1" style="width: 30%;">';
+		echo '<i style="font-size: 20px;" class="bi bi-link-45deg"></i><font size="4"> '.$admlang['global']['url'].'</font>';
+        echo '<td class="row1" style="width: 50%;"><input type="text" name="add_url" style="width: 250px;" maxlength="50" required></td>'."\n";
+        echo '</tr>'."\n";
+
+        
+		# Author Language selection
         if ($multilingual == 1) 
         {
             $titanium_languageslist = lang_list();
-            echo '  <tr>'."\n";
-            echo '    <td class="row1" style="width: 50%;">'.$admlang['global']['language'].'</td>'."\n";
-            echo '    <td class="row1" style="width: 50%;">';
-            echo '      <select name="add_admlanguage">';
-            for ($i = 0, $maxi = count($titanium_languageslist); $i < $maxi; $i++) 
+            echo '<tr>'."\n";
+            echo '<td class="row1" style="width: 30%;">'.$admlang['global']['language'].'</td>'."\n";
+            echo '<td class="row1" style="width: 30%;">';
+            echo '<select name="add_admlanguage">';
+            
+			for ($i = 0, $maxi = count($titanium_languageslist); $i < $maxi; $i++) 
             {
                 if(!empty($titanium_languageslist[$i])) 
                 {
-                    echo '        <option name="xlanguage" value="'.$titanium_languageslist[$i].'"'.(($titanium_languageslist[$i]==$titanium_language) ? ' selected="selected"' : '').'>'.ucwords($titanium_languageslist[$i]).'</option>';     
+                    echo '<option name="xlanguage" value="'.$titanium_languageslist[$i].'"'
+					.(($titanium_languageslist[$i]==$titanium_language) ? ' selected="selected"' : '').'>'.ucwords($titanium_languageslist[$i]).'</option>';     
                 }
             }            
             echo '      </select>';
@@ -145,48 +164,70 @@ function displayadmins()
         {
             echo '<input type="hidden" name="add_admlanguage" value="">';
         }
-        # Setup the author permissions.
+        
+		# Setup the author permissions.
         $result = $titanium_db->sql_query("SELECT `mid`, `title` FROM `".$titanium_prefix."_modules` ORDER BY `title` ASC");
         $a = 0;
-        echo '  <tr>'."\n";
-        echo '    <td class="row1" style="width: 50%; vertical-align: text-top;">';
-        echo '      <span style="float: left; margin: 2px;">'.$admlang['global']['permissions'].'</span>';
-        echo '      <span class="evo-sprite help tooltip float-right" title="'.$admlang['authors']['superwarn'].'"></span>';
-        echo '    </td>'."\n";
-        echo '    <td class="row1" style="width: 50%;">';
-        echo '      <table style="width: 100%;" border="0" cellpadding="3" cellspacing="1" class="forumline">'."\n";
-        echo '        <tr>';
-        while ($row = $titanium_db->sql_fetchrow($result)) 
+        echo '<tr>'."\n";
+        
+		echo '<td class="row1" style="width: 30%; vertical-align: text-top;">';
+        
+		echo '<span style="float: left; margin: 2px;">'.$admlang['global']['permissions'].'</span>';
+        echo '<span class="evo-sprite help tooltip float-right" title="'.$admlang['authors']['superwarn'].'"></span>';
+        
+		echo '</td>'."\n";
+        
+		echo '<td class="row1" style="width: 30%;">';
+        
+		echo '<table style="width: 100%;" border="0" cellpadding="3" cellspacing="1" class="forumline">'."\n";
+        echo '<tr>';
+        
+		while ($row = $titanium_db->sql_fetchrow($result)) 
         {
             $title = str_replace("_", " ", $row['title']);
-            if (file_exists('modules/'.$row['title'].'/admin/index.php') AND file_exists('modules/'.$row['title'].'/admin/links.php') AND file_exists('modules/'.$row['title'].'/admin/case.php')) 
+        
+		    if (file_exists('modules/'.$row['title'].'/admin/index.php') 
+			AND file_exists('modules/'.$row['title'].'/admin/links.php') 
+			AND file_exists('modules/'.$row['title'].'/admin/case.php')) 
             {
-                echo '          <td class="row1" style="width: 33%;"><input  type="checkbox" name="auth_modules[]" value="'.intval($row['mid']).'">&nbsp;'.$title.'</td>';
-                if ($a == 2) 
+
+            echo '<tr>';
+                echo '<div class="checkbox">';
+				echo '<td width="1%" class="row1"><input id="checkbox" type="checkbox" name="auth_modules[]" value="'.intval($row['mid']).'"></td>';
+				echo '<td style="padding-top:13px" class="row1" style="width: 35%;"><font size="3"><strong>'.$title.'</strong></font></td>';
+                echo '</div>';
+			    
+				if ($a == 2) 
                 {
-                    echo '  </tr>';
-                    // echo '  <tr>';
-                    // echo '    <td>&nbsp;</td>';
+                    echo '</tr>';
                     $a = 0;
-                } else {
+                } 
+				else 
+				{
                     $a++;
                 }
             }
         }
-        $titanium_db->sql_freeresult($result);
+        
+		$titanium_db->sql_freeresult($result);
         echo '        </tr>';
         echo '        <tr>';
-        echo '          <td class="row1" colspan="3"><input type="checkbox" name="add_radminsuper" value="1"> <strong>'.$admlang['authors']['superadmin'].'</strong></td>';
-        echo '        </tr>';
-        echo '      </table>';
+        
+		echo '<td class="row1" ><input type="checkbox" name="add_radminsuper" value="1"></td>';
+        echo '<td style="padding-top:15px" class="row1" ><strong><font color="red" class="blink-one" size="3">'.$admlang['authors']['superadmin'].'</font></strong> (All Privileges)</td>';
+        
+		echo '        </tr>';
+ 		echo '      </table>';
         echo '    </td>'."\n";
         echo '  </tr>'."\n";
-        # Author password
+        
+		# Author password
         echo '  <tr>'."\n";
         echo '    <td class="row1" style="width: 50%;">'.$admlang['global']['password'].'</td>'."\n";
         echo '    <td class="row1" style="width: 50%;"><input type="titaniumbutton" name="add_pwd" style="width: 250px;" maxlength="50" required></td>'."\n";
         echo '  </tr>'."\n";
-        # Submit the form
+        
+		# Submit the form
         echo '  <tr>'."\n";
         echo '    <td class="catBottom" colspan="2" style="text-align: center;"><input class="titaniumbutton" style="text-transform: uppercase;" type="submit" value="'.$admlang['authors']['submit'].'"></td>'."\n";
         echo '  </tr>'."\n";
