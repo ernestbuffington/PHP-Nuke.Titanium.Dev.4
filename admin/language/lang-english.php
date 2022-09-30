@@ -116,7 +116,7 @@ $admlang['referers']['none']			= 'There are no %s to display';
 
 
 $admlang['preferences']['link'] 		= 'Preferences';
-$admlang['preferences']['header']		= 'PHP-Nuke Titanium Preferences :: Admin Panel';
+$admlang['preferences']['header']		= 'Admin Panel';
 
 $admlang['preferences']['plugins'] 		= 'Plugins';
 $admlang['plugins']['header'] 			= 'Custom Plugin Administration';

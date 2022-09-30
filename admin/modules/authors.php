@@ -184,11 +184,11 @@ function displayadmins()
         # Author password
         echo '  <tr>'."\n";
         echo '    <td class="row1" style="width: 50%;">'.$admlang['global']['password'].'</td>'."\n";
-        echo '    <td class="row1" style="width: 50%;"><input type="password" name="add_pwd" style="width: 250px;" maxlength="50" required></td>'."\n";
+        echo '    <td class="row1" style="width: 50%;"><input type="titaniumbutton" name="add_pwd" style="width: 250px;" maxlength="50" required></td>'."\n";
         echo '  </tr>'."\n";
         # Submit the form
         echo '  <tr>'."\n";
-        echo '    <td class="catBottom" colspan="2" style="text-align: center;"><input class="mainoption" style="text-transform: uppercase;" type="submit" value="'.$admlang['authors']['submit'].'"></td>'."\n";
+        echo '    <td class="catBottom" colspan="2" style="text-align: center;"><input class="titaniumbutton" style="text-transform: uppercase;" type="submit" value="'.$admlang['authors']['submit'].'"></td>'."\n";
         echo '  </tr>'."\n";
         echo '</table>'."\n";
         echo '<input type="hidden" name="op" value="AddAuthor">';

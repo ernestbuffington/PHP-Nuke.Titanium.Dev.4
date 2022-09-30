@@ -5,11 +5,11 @@
 <title>Live Feed from the PHP-Nuke Titanium Dev 4 Website</title>
 </head>
 <body> 
-<strong>Current Build:</strong> v4.0.2 Dev 4 Beta<hr>
-<strong>PHP-Nuke Titanium Dev 4 Repsoitory</strong> (Nightly Builds)<br />
-This is the Current US Version of PHP-Nuke Titanium<br /> 
-This is a hardened version of PHP-Nuke and is secure and safe.<br />
-<a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank">https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4</a> <- click here
+<strong>Current Build:</strong> v4.0.2 Beta<hr>
+<div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
+<div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 30th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Sep 29th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
 <hr>
