@@ -100,7 +100,7 @@ $admlang['authors']['modify']			= 'Modify Info';
 $admlang['authors']['can_not'] 			= 'Can not be changed later.';
 $admlang['authors']['option1'] 			= 'Option';
 $admlang['authors']['required'] 		= 'Required field';
-$admlang['authors']['submit'] 			= 'Add new Blog Author';
+$admlang['authors']['submit'] 			= 'Add new Administrator';
 $admlang['authors']['superadmin']		= 'Super Admin';
 $admlang['authors']['superwarn']		= 'WARNING: If Super Admin is checked, the user will get full access! (excludes Edit Admins and Nuke Sentinel)';
 
