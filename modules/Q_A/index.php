@@ -24,7 +24,9 @@ get_lang($titanium_module_name);
 $pagetitle = "86it Developers Network - My ". _MARKSTITLE;
 
 include("header.php");
-//include("/pages/home/home.php");
-header('Location: pages/home/home.php');
+OpenTable();
+include("/pages/home/home.php");
+//header('Location: pages/home/home.php');
+CloseTable();
 include("footer.php");
 ?>
