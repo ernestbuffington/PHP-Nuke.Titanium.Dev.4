@@ -19,8 +19,6 @@ Options +FollowSymlinks
 <IfModule mod_rewrite.c> 
 RewriteEngine on
 
-AddType application/wasm .wasm
-
 ##################################################################################################
 # Force SSL - no insecure data connections!                                                      ##### Added By Ernest Allen Buffington 08/05/2019
 ##################################################################################################
@@ -186,4 +184,4 @@ Header append Cache-Control "public"
   AddHandler application/x-httpd-ea-php74 .php .php7 .phtml
 </IfModule>
 # php -- END cPanel-generated handler, do not edit
-AddHandler handler-ruffle .wasm
+AddHandler application/x-wasm .wasm

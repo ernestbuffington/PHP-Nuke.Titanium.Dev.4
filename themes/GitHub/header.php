@@ -99,7 +99,7 @@ $moreuser_info .= '';
 if(isset($_COOKIE['fbsr_' . $appID])):
 $marquee_one .= '';
 else:
-$marquee_one .= '';
+$marquee_one .= '<font color="#666666">PHP-Nuke Titanium uses the following: PHP 7.4.33, UTF Tools v1.69, CSS, CSS3, JavaScript, Jquery, Ruffle, SwiftMailer, Bootstrap, HTML Purifier v4.15.0, HTML5 Shiv 3.7.3, Ajax, Zend Framework, Sentinel™, HoneyPot, Facebook SDK V4, Window Onload Manager (WOM) v1.0, BBcode, Blog Feed 2.0, WYSIWYG Ckeditor, SCeditor, We are currently re-writing the Network Projects module.</font>';
 endif;
 
 //$bullshit2 = 'Sept 28th 2019, Oct 4th 2019, Oct 5th 2019, Oct 11th 2019, Oct 13th 2019, Oct 14th 2019 Oct 20th 2019, Oct 22nd 2019, Oct 24th 2019';
@@ -107,7 +107,7 @@ endif;
 $lfinger = '<img border="0" align="absmiddle" height="16" src="themes/'.$theme_name.'/images/finger-pointing-left-icon.png" alt="Look at this!" title="Look at this!">';
 $rfinger = '<img border="0" align="absmiddle" height="16" src="themes/'.$theme_name.'/images/finger-pointing-right-icon.png" alt="Look at this!" title="Look at this!">';
 
-$marquee_two = '';
+$marquee_two = '<font color="#666666">We are looking for folks to help build the PHP-Nuke Titanium Community!</font>';
 
 # This is the flex container used to resize the layout START
 echo '<section id="flex-container">';

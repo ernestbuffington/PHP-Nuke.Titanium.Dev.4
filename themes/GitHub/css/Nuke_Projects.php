@@ -65,9 +65,51 @@ global $font_colorH, $font_colorV, $font_colorA, $font_colorL, $body_color;
 
 
 ?>
+/* Modules Link START */
+a.modules,input.modules
+{
+ display:inline-block;
+ box-sizing: border-box;
+ text-decoration:none;
+ font-family:'Roboto',sans-serif;
+ font-weight:bold;
+ 
+ /* Start Link Color - Regular Appearance */
+ color: grey;
+ 
+ text-align:center;
+ transition: all 0.2s;
+}
+a.modules:hover,input.modules:hover
+{
+  /* Main Font Color */
+  color:darkgrey;
+ /* Highlight Color On Hover */
+}
+
+@media all and (max-width:30em)
+{
+  a.modules, input.modules
+  {
+    display:block;
+  }
+}
+/* Modules Link END */
+
 .circle {
 
 }
+
+
+
+
+
+
+
+
+
+
+
 /* Project Link Active Project START */
 a.projectlinkactive,input.projectlkactive
 {
