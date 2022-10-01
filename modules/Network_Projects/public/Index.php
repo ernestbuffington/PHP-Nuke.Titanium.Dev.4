@@ -219,35 +219,74 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
     echo "<td class='projects_row1' align='center'>$demo</td>\n";
 
     
-  if($taskrows > 0)
-  $color = '#ECAB53';
-  else
-  $color = '#008080';
-
-  echo "<td class='projects_row1' align='center'><font color=\"$color\">$taskrows</font></td>\n";
+  if($taskrows > 0):
+     if($projectstatus['status_name'] === 'Active'):
+     $color = '#66FF00';
+     elseif($projectstatus['status_name'] === 'Inactive'):
+     $color = 'grey';
+     elseif($projectstatus['status_name'] === 'Pending'):
+     $color = '#66FFFF';
+     elseif($projectstatus['status_name'] === 'Released'):
+     $color = '#FF3366';
+     elseif($projectstatus['status_name'] === 'N/A'):
+     $color = 'grey';
+     else:
+     $color = 'white';
+     endif;
+  else:
+  $color = 'grey';
+  endif;
+  
+  echo "<td class='projects_row1' align='center'><strong><font color=\"$color\">$taskrows</font></strong></td>\n";
   
   if($project['allowreports'] > 0) 
   {
-	if($report_total > 0)
-	$color = '#ECAB53';
-	else
-	$color = '#008080';
+	if($report_total > 0):
+     if($projectstatus['status_name'] === 'Active'):
+     $color = '#66FF00';
+     elseif($projectstatus['status_name'] === 'Inactive'):
+     $color = 'grey';
+     elseif($projectstatus['status_name'] === 'Pending'):
+     $color = '#66FFFF';
+     elseif($projectstatus['status_name'] === 'Released'):
+     $color = '#FF3366';
+     elseif($projectstatus['status_name'] === 'N/A'):
+     $color = 'grey';
+     else:
+     $color = 'white';
+     endif;
+   else:
+   $color = 'grey';
+   endif;
 
-    echo "<td class='projects_row1' align='center'><font color=\"$color\">$report_total</font></td>\n";
+   echo "<td class='projects_row1' align='center'><strong><font color=\"$color\">$report_total</font></strong></td>\n";
   } 
   else 
   {
     echo "<td class='projects_row1' align='center'>----</td>\n";
   }
   
-  if($request_total > 0)
-  $color = '#ECAB53';
-  else
-  $color = '#008080';
+   if($request_total > 0):
+     if($projectstatus['status_name'] === 'Active'):
+     $color = '#66FF00';
+     elseif($projectstatus['status_name'] === 'Inactive'):
+     $color = 'grey';
+     elseif($projectstatus['status_name'] === 'Pending'):
+     $color = '#66FFFF';
+     elseif($projectstatus['status_name'] === 'Released'):
+     $color = '#FF3366';
+     elseif($projectstatus['status_name'] === 'N/A'):
+     $color = 'grey';
+     else:
+     $color = 'white';
+     endif;
+   else:
+   $color = 'grey';
+   endif;
 
   if($project['allowrequests'] > 0) 
   {
-    echo "<td class='projects_row1' align='center'><font color=\"$color\">$request_total</font></td>\n";
+    echo "<td class='projects_row1' align='center'><strong><font color=\"$color\">$request_total</font></strong></td>\n";
   } 
   else 
   {
