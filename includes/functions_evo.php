@@ -512,23 +512,31 @@ function avatar_resize($avatar_url)
 {
     global $phpbb2_board_config;
     static $loaded_avatars;
-    if(!isset($loaded_avatars[$avatar_url])) {
+    if(!isset($loaded_avatars[$avatar_url])) 
+	{
         $loaded_avatars[$avatar_url] = array();
-        list($avatar_width, $avatar_height) = @getimagesize($avatar_url);
-        if ($avatar_width > $phpbb2_board_config['avatar_max_width'] && $avatar_height <= $phpbb2_board_config['avatar_max_height']) {
+    
+	    list($avatar_width, $avatar_height) = @getimagesize($avatar_url);
+    
+	    if ($avatar_width > $phpbb2_board_config['avatar_max_width'] && $avatar_height <= $phpbb2_board_config['avatar_max_height']) 
+		{
             $cons_width  = $phpbb2_board_config['avatar_max_width'];
             $cons_height = round((($phpbb2_board_config['avatar_max_width'] * $avatar_height) / $avatar_width), 0);
         }
-        elseif($avatar_width <= $phpbb2_board_config['avatar_max_width'] && $avatar_height > $phpbb2_board_config['avatar_max_height']) {
+        elseif($avatar_width <= $phpbb2_board_config['avatar_max_width'] && $avatar_height > $phpbb2_board_config['avatar_max_height']) 
+		{
             $cons_width  = round((($phpbb2_board_config['avatar_max_height'] * $avatar_width) / $avatar_height), 0);
             $cons_height = $phpbb2_board_config['avatar_max_height'];
         }
-        elseif($avatar_width > $phpbb2_board_config['avatar_max_width'] && $avatar_height > $phpbb2_board_config['avatar_max_height']) {
-            if($avatar_width >= $avatar_height) {
+        elseif($avatar_width > $phpbb2_board_config['avatar_max_width'] && $avatar_height > $phpbb2_board_config['avatar_max_height']) 
+		{
+            if($avatar_width >= $avatar_height) 
+			{
                 $cons_width = $phpbb2_board_config['avatar_max_width'];
                 $cons_height = round((($phpbb2_board_config['avatar_max_width'] * $avatar_height) / $avatar_width), 0);
             }
-            elseif($avatar_width < $avatar_height) {
+            elseif($avatar_width < $avatar_height) 
+			{
                 $cons_width = round((($phpbb2_board_config['avatar_max_height'] * $avatar_width) / $avatar_height), 0);
                 $cons_height = $phpbb2_board_config['avatar_max_height'];
             }

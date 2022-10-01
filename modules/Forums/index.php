@@ -592,17 +592,6 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 /*****[BEGIN]******************************************
  [ Mod:    Forum Index Avatar Mod                 v1.0]
  ******************************************************/
-                                            // if ($phpbb2_forum_data[$j]['user_avatar'] == "")
-                                            //     $phpbb2_poster_avatar = $phpbb2_board_config['avatar_path']."/blank.png";
-                                            // elseif ($phpbb2_forum_data[$j]['user_avatar'] == "gallery/blank.png")
-                                            //     $phpbb2_poster_avatar = $phpbb2_board_config['avatar_path']."/blank.png";
-                                            // elseif (preg_match('#http://#i', $phpbb2_forum_data[$j]['user_avatar']))
-                                            //     $phpbb2_poster_avatar = $phpbb2_forum_data[$j]['user_avatar'];
-                                            // elseif (preg_match('#gallery/#i', $phpbb2_forum_data[$j]['user_avatar'])) 
-                                            //     $phpbb2_poster_avatar = $phpbb2_board_config['avatar_gallery_path'].'/'.$phpbb2_forum_data[$j]['user_avatar'];
-                                            // else
-                                            //     $phpbb2_poster_avatar = $phpbb2_board_config['avatar_path']."/".$phpbb2_forum_data[$j]['user_avatar']; 
-
                                             $phpbb2_poster_avatar = $phpbb2_board_config['default_avatar_users_url'];
                                             switch( $phpbb2_forum_data[$j]['user_avatar_type'] )
                                             {
@@ -614,7 +603,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
                                                     break;
                                                 case USER_AVATAR_GALLERY:
                                                     $phpbb2_poster_avatar = $phpbb2_board_config['avatar_gallery_path'] . '/' . (($phpbb2_forum_data[$j]['user_avatar'] 
-													== 'blank.gif' || $phpbb2_forum_data[$j]['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $phpbb2_forum_data[$j]['user_avatar']);
+													== 'blank.png' || $phpbb2_forum_data[$j]['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $phpbb2_forum_data[$j]['user_avatar']);
                                                     break;
                                             }                                  
 /*****[END]********************************************
@@ -732,8 +721,6 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-
-                                                                // $phpbb2_last_post = '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_POST_URL.'='.$phpbb2_forum_data[$j]['forum_last_post_id']).'#'.$phpbb2_forum_data[$j]['forum_last_post_id'].'"><img src="'.$images['icon_latest_reply'].'" border="0" alt="'.$titanium_lang['View_latest_post'].'" title="'.$titanium_lang['View_latest_post'].'" /></a>';
                                                                 $phpbb2_last_post = '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_POST_URL.'='.$phpbb2_forum_data[$j]['forum_last_post_id']).'#'.$phpbb2_forum_data[$j]['forum_last_post_id'].'"><i class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$titanium_lang['View_latest_post'].'"></i></a>';
 /*****[BEGIN]******************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]

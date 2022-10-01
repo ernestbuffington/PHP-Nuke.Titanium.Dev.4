@@ -655,7 +655,7 @@ function get_theme_option($name, $type='string')
  * @param bool    $force_refresh         Choose whether to force an update, Default: false.
  * @return array  Return a json object with all the version information.
  */
-function cache_json_data($version_check_url,$local_cache_location,$force_refresh = false,$headers = [],$cache_time = 86400) 
+function cache_json_data($version_check_url,$local_cache_location,$force_refresh = false,$headers = '[],$cache_time = 86400') 
 {
 	$url = $version_check_url;
 	$cache = $local_cache_location;
@@ -864,10 +864,10 @@ function get_user_avatar($titanium_user_id) {
 	$default_member_avatar = evo_image('avatar_member.png', 'Forums');
 	$default_guest_avatar  = evo_image('avatar_guest.png', 'Forums');
 	if ( empty($phpbb2_poster_avatar) && $titanium_user_id != ANONYMOUS) {
-		$phpbb2_poster_avatar = '<img src="'.  $default_member_avatar .'" alt="" border="0" />';
+		$phpbb2_poster_avatar = '<img class="rounded-corners-user-info" src="'.  $default_member_avatar .'" alt="" border="0" />';
 	}
 	if ( $titanium_user_id == ANONYMOUS ) {
-		$phpbb2_poster_avatar = '<img src="'.  $default_guest_avatar .'" alt="" border="0" />';
+		$phpbb2_poster_avatar = '<img class="rounded-corners-user-info" src="'.  $default_guest_avatar .'" alt="" border="0" />';
 	}
 	$avatarData[$titanium_user_id] = $poser_avatar;
 	return ($phpbb2_poster_avatar);

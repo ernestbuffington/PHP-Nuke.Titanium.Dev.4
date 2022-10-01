@@ -9,7 +9,7 @@
 /*                                                                               */
 /* Copyright (c) 2004 by Comunidade PHP Nuke Brasil                              */
 /* http://dev.phpnuke.org.br & http://www.phpnuke.org.br                         */
-/*                                                                               */
+/* v1.0                                                                          */
 /* Contact author: escudero@phpnuke.org.br                                       */
 /* International Support Forum: http://ravenphpscripts.com/forum76.html          */
 /*                                                                               */

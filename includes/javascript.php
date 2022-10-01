@@ -14,7 +14,7 @@ echo "<!--
    ::    ::   :::   :: ::::   ::: ::::  ::   :::  ::::: ::  :::: ::      ::    
    :      :   : :  : :: ::    :: :: :    :   : :   : :  :   :: : :       :     
                                                                                 -->\n";
-echo "\n<!-- LOADING JAVASCRIPT START includes/javascript.php -->\n";
+echo "\n<!-- LOADING JAVASCRIPT START includes/javascript.php -->\n\n";
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
@@ -554,7 +554,7 @@ global $more_js;
 if (!empty($more_js)) {
     echo $more_js;
 }
-echo "\n<!-- LOADING JAVASCRIPT END includes/javascript.php -->\n";
 //DO NOT PUT ANYTHING AFTER THIS LINE
 echo "<!--[if IE]><script type=\"text/javascript\">womOn();</script><![endif]-->\n";
+echo "\n<!-- LOADING JAVASCRIPT END includes/javascript.php -->\n";
 ?>

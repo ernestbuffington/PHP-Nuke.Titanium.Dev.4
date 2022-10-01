@@ -125,15 +125,15 @@ $avatar_img = '';
 if($profiledata['user_avatar_type'] && $profiledata['user_allowavatar']):
     switch( $profiledata['user_avatar_type']):
         case USER_AVATAR_UPLOAD:
-            $avatar_img = ($phpbb2_board_config['allow_avatar_upload']) ? '<img class="rounded-corners-profile" style="max-height: 200px; 
+            $avatar_img = ($phpbb2_board_config['allow_avatar_upload']) ? '<img class="rounded-corners-user-info" style="max-height: 200px; 
 			max-width: 200px;" src="'.$phpbb2_board_config['avatar_path']. '/'. $profiledata['user_avatar'] . '" alt="" border="0" />' : '';
             break;
         case USER_AVATAR_REMOTE:
-            $avatar_img = '<img style="max-height: 200px; max-width: 200px;" s
+            $avatar_img = '<img class="rounded-corners-user-info" style="max-height: 200px; max-width: 200px;" s
 			rc="' . resize_avatar($profiledata['user_avatar']) . '" alt="" border="0" />';
             break;
         case USER_AVATAR_GALLERY:
-            $avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img style="max-height: 200px; max-width: 
+            $avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img class="rounded-corners-user-info" style="max-height: 200px; max-width: 
 			200px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' 
 			. (($profiledata['user_avatar'] == 'blank.gif' || $profiledata['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $profiledata['user_avatar']) 
 			. '" alt="" border="0" />' : '';
@@ -143,7 +143,7 @@ endif;
 # Mod: Default avatar v1.1.0 START
 if((!$avatar_img) && (($phpbb2_board_config['default_avatar_set'] == 1) 
 || ($phpbb2_board_config['default_avatar_set'] == 2)) && ($phpbb2_board_config['default_avatar_users_url'])):
-  $avatar_img = '<img style="max-height: 200px; max-width: 200px;" src="'.$phpbb2_board_config['default_avatar_users_url'].'" alt="" border="0" />';
+  $avatar_img = '<img class="rounded-corners-profile" style="max-height: 200px; max-width: 200px;" src="'.$phpbb2_board_config['default_avatar_users_url'].'" alt="" border="0" />';
 endif;
 # Mod: Default avatar v1.1.0 END
 # avatar on users profile page END

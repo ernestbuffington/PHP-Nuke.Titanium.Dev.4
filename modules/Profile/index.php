@@ -221,8 +221,4 @@ function gen_rand_string($hash)
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
         include('includes/usercp_register.'.$phpEx);
-       // $header_location = ( @preg_match("/Microsoft|WebSTAR|Xitami/", $_SERVER["SERVER_SOFTWARE"]) ) ? "Refresh: 0; URL=" : "Location: ";
-       // redirect_titanium(append_titanium_sid("index.$phpEx", true));
-       // exit;
-
 ?>

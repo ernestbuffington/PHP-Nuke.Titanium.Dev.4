@@ -9,7 +9,7 @@
 
  Copyright (c) 2003-2005 by Aric Bolf (SuperCat)
  http://www.OurScripts.net
-
+ v1.0
  Copyright (c) 2002 by Quiecom
  http://www.Quiecom.com
 
