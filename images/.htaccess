@@ -1,0 +1,9 @@
+Order allow,deny
+allow from all
+
+<FilesMatch "\.php$">
+  deny from all
+</FilesMatch>
+<FilesMatch "captcha\.php">
+  allow from all
+</FilesMatch>
