@@ -2,16 +2,15 @@
 /*=======================================================================
  PHP-Nuke Titanium: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
+
 /********************************************************/
 /* NukeProject(tm)                                      */
 /* By: NukeScripts Network (webmaster@nukescripts.net)  */
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-if(!defined('SUPPORT_NETWORK')) 
-{ 
-   die("Illegal Access Detected!!!"); 
-}
+
+if(!defined('SUPPORT_NETWORK')){die("Illegal Access Detected!!!");}
 
 global $network_prefix, $titanium_db2;
 
@@ -47,6 +46,7 @@ echo "<td class='projects_row1' align='center' bgcolor='$bgcolor2'><nobr><strong
 echo "<td class='projects_row1' align='center' bgcolor='$bgcolor2'><nobr><strong>&nbsp;"._NETWORK_MEMBERS."&nbsp;</strong></nobr></td>\n";
 echo "<td class='projects_row1' align='center' bgcolor='$bgcolor2'><nobr><strong>&nbsp;&nbsp;"._NETWORK_PROGRESSBAR."</strong></nobr></td>\n";
 echo "</tr>\n";
+
 $projectresult = $titanium_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
 
 while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) 
@@ -140,27 +140,27 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
   .$color_project_icon."'\" class=\"bi bi-palette\"></i>";
 
   if($projectstatus['status_name'] === 'Active'):
-  $demo = " <a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  $demo = " <a class='projectlinkactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
   echo "<td class='projects_row1' align='center'><a class='projectlinkactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
   elseif($projectstatus['status_name'] === 'Inactive'):
-  $demo = " <a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  $demo = " <a class='projectlinkinactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
   echo "<td class='projects_row1' align='center'><a class='projectlinkinactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkinactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
   elseif($projectstatus['status_name'] === 'Pending'):
-  $demo = " <a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  $demo = " <a class='projectlinkpending' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
   echo "<td class='projects_row1' align='center'><a class='projectlinkpending' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkpending' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
   elseif($projectstatus['status_name'] === 'Released'):
-  $demo = " <a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  $demo = " <a class='projectlinkreleased' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
   echo "<td class='projects_row1' align='center'><a class='projectlinkreleased' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkreleased' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
   elseif($projectstatus['status_name'] === 'N/A'):
-  $demo = " <a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  $demo = " <a class='projectlinkna' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
   echo "<td class='projects_row1' align='center'><a class='projectlinkna' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkna' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
@@ -174,10 +174,43 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
     
     if($project['project_site'] > "") 
 	{
-      # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
-      $pjimage = "<i style=\"font-size: 25px; color: #45B39D\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#45B39D'\" class=\"bi bi-box-arrow-up-right\"></i>";
+      
+	  if($projectstatus['status_name'] === 'Active'):
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: #66FF00\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#66FF00'\" class=\"bi bi-box-arrow-up-right\"></i>";
       $demo = " <a class='projectlink' href='".$project['project_site']."' target='_blank'>$pjimage</a>";
       # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      
+	  elseif($projectstatus['status_name'] === 'Inactive'):
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: grey\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='grey\" class=\"bi bi-box-arrow-up-right\"></i>";
+      $demo = " <a class='projectlink' href='".$project['project_site']."' target='_blank'>$pjimage</a>";
+      # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      
+	  elseif($projectstatus['status_name'] === 'Pending'):
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: #66FFFF\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#66FFFF'\" class=\"bi bi-box-arrow-up-right\"></i>";
+      $demo = " <a class='projectlink' href='".$project['project_site']."' target='_blank'>$pjimage</a>";
+      # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      
+	  elseif($projectstatus['status_name'] === 'Released'):
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: #FF3366\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#FF3366'\" class=\"bi bi-box-arrow-up-right\"></i>";
+      $demo = " <a class='projectlink' href='".$project['project_site']."' target='_blank'>$pjimage</a>";
+      # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      
+	  elseif($projectstatus['status_name'] === 'N/A'):
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: grey\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='grey'\" class=\"bi bi-box-arrow-up-right\"></i>";
+      $demo = " <a class='projectlink' href='".$project['project_site']."' target='_blank'>$pjimage</a>";
+      # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      
+	  else:
+	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
+      $pjimage = "<i style=\"font-size: 25px; color: white\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='white'\" class=\"bi bi-box-arrow-up-right\"></i>";
+      $demo = " <a class='projectlink' href='".$project['project_site']."' target='_blank'>$pjimage</a>";
+      # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+      endif;
     } 
 	else 
 	{
