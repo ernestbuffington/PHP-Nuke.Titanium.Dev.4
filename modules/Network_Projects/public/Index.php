@@ -335,7 +335,9 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 
   if($member_total > 0)
   $color = '#FFCC66';
-
+  else
+  $color = 'grey';
+   
   echo "<td class='projects_row1' align='center'><nobr><font size=\"4\" color=\"$color\"><strong>$member_total</strong></font></nobr></td>\n";
   
   $wbprogress = pjprogress($project['project_percent']);
