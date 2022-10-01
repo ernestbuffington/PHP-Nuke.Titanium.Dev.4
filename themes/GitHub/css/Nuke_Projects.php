@@ -65,6 +65,9 @@ global $font_colorH, $font_colorV, $font_colorA, $font_colorL, $body_color;
 
 
 ?>
+.circle {
+
+}
 /* Project Link Active Project START */
 a.projectlinkactive,input.projectlkactive
 {

@@ -237,7 +237,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
   $color = 'grey';
   endif;
   
-  echo "<td class='projects_row1' align='center'><strong><font color=\"$color\">$taskrows</font></strong></td>\n";
+  echo "<td class='projects_row1' align='center'><strong><font size=\"4\" color=\"$color\">$taskrows</font></strong></td>\n";
   
   if($project['allowreports'] > 0) 
   {
@@ -259,7 +259,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
    $color = 'grey';
    endif;
 
-   echo "<td class='projects_row1' align='center'><strong><font color=\"$color\">$report_total</font></strong></td>\n";
+   echo "<td class='projects_row1' align='center'><font size=\"4\" color=\"$color\"><strong>$report_total</strong></font></td>\n";
   } 
   else 
   {
@@ -286,7 +286,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 
   if($project['allowrequests'] > 0) 
   {
-    echo "<td class='projects_row1' align='center'><strong><font color=\"$color\">$request_total</font></strong></td>\n";
+    echo "<td class='projects_row1' align='center'><strong><font size=\"4\" color=\"$color\">$request_total</font></strong></td>\n";
   } 
   else 
   {
@@ -310,7 +310,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
   { 
     $projectstatus['status_name'] = _NETWORK_NA; 
   }
-  echo "<td class='projects_row1' align='center'><font color=\"$color\">".$projectstatus['status_name']."</font></td>\n";
+  echo "<td class='projects_row1' align='center'><font color=\"$color\"><strong>".$projectstatus['status_name']."</strong></font></td>\n";
   
 
   if($projectpriority['priority_name'] === 'Low')
@@ -331,12 +331,12 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
     $projectpriority['priority_name'] = _NETWORK_NA; 
   }
   
-  echo "<td class='projects_row1' align='center'><nobr><font color=\"$color\">".$projectpriority['priority_name']."</font></nobr></td>\n";
+  echo "<td class='projects_row1' align='center'><nobr><font color=\"$color\"><strong>".$projectpriority['priority_name']."</strong></font></nobr></td>\n";
 
   if($member_total > 0)
   $color = '#FFCC66';
 
-  echo "<td class='projects_row1' align='center'><nobr><font color=\"$color\">$member_total</font></nobr></td>\n";
+  echo "<td class='projects_row1' align='center'><nobr><font size=\"4\" color=\"$color\"><strong>$member_total</strong></font></nobr></td>\n";
   
   $wbprogress = pjprogress($project['project_percent']);
   
