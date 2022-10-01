@@ -74,6 +74,22 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
   $request_total = $titanium_db2->sql_numrows($requestresult);
   
   echo "<tr>\n";
+
+  global $color_project_icon;
+
+  if($projectstatus['status_name'] === 'Active'):
+  $color_project_icon = '#66FF00';
+  elseif($projectstatus['status_name'] === 'Inactive'):
+  $color_project_icon = 'grey';
+  elseif($projectstatus['status_name'] === 'Pending'):
+  $color_project_icon = '#66FFFF';
+  elseif($projectstatus['status_name'] === 'Released'):
+  $color_project_icon = '#FF3366';
+  elseif($projectstatus['status_name'] === 'N/A'):
+  $color_project_icon = 'grey';
+  else:
+  $color_project_icon = 'white';
+  endif;
   
   # Set the icon for the projext START
   $pjimage = "<i style=\"font-size: 25px; color: #45B39D\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#45B39D'\" class=\"bi bi-exclamation-triangle\"></i>";
@@ -81,46 +97,66 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
   if($project['featured'] == 0) # PHP-Nuke Titanium Web Portal
-  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-grid-3x2-gap\"></i>";
-
+  $pjimage = "<i style=\"font-size: 25px; color: ".$color_project_icon."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color_project_icon."'\" class=\"bi bi-grid-3x2-gap\"></i>";
+  
+  
   if($project['featured'] == 1) # PHP-Nuke Titanium Module
-  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-grid-1x2\"></i>";
+  $pjimage = "<i style=\"font-size: 25px; color: ".$color_project_icon."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color_project_icon."'\" class=\"bi bi-grid-1x2\"></i>";
 
   if($project['featured'] == 2) # PHP-Nuke Titanium Block
-  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-box\"></i>";
+  $pjimage = "<i style=\"font-size: 25px; color:".$color_project_icon."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color_project_icon."'\" class=\"bi bi-box\"></i>";
 
   if($project['featured'] == 3) # PHP-Nuke Titanium phpBB2 Mod
-  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-file-earmark-bar-graph\"></i>";
+  $pjimage = "<i style=\"font-size: 25px; color: ".$color_project_icon."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color_project_icon."'\" class=\"bi bi-file-earmark-bar-graph\"></i>";
 
   if($project['featured'] == 4) # PHP-Nuke Titanium Theme
-  $pjimage = "<i style=\"font-size: 25px; color: #0078d7\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#0078d7'\" class=\"bi bi-palette\"></i>";
+  $pjimage = "<i style=\"font-size: 25px; color: ".$color_project_icon."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color_project_icon."'\" class=\"bi bi-palette\"></i>";
 
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
   if($project['featured'] == 5) # Nuke Evo Web Portal
-  $pjimage = "<i style=\"font-size: 25px; color: #104E8B\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#104E8B'\" class=\"bi bi-grid-3x2-gap\"></i>";
+  $pjimage = "<i style=\"font-size: 25px; color: ".$color_project_icon."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color_project_icon."'\" class=\"bi bi-grid-3x2-gap\"></i>";
 
   if($project['featured'] == 6) # Nuke Evo Module
-  $pjimage = "<i style=\"font-size: 25px; color: #104E8B\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#104E8B'\" class=\"bi bi-grid-1x2\"></i>";
+  $pjimage = "<i style=\"font-size: 25px; color: ".$color_project_icon."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color_project_icon."'\" class=\"bi bi-grid-1x2\"></i>";
 
   if($project['featured'] == 7) # Nuke Evo Block
-  $pjimage = "<i style=\"font-size: 25px; color: #104E8B\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#104E8B'\" class=\"bi bi-box\"></i>";
+  $pjimage = "<i style=\"font-size: 25px; color: ".$color_project_icon."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color_project_icon."'\" class=\"bi bi-box\"></i>";
 
   if($project['featured'] == 8) # Nuke Evo phpBB2 Mod
-  $pjimage = "<i style=\"font-size: 25px; color: #104E8B\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#104E8B'\" class=\"bi bi-file-earmark-bar-graph\"></i>";
+  $pjimage = "<i style=\"font-size: 25px; color: ".$color_project_icon."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color_project_icon."'\" class=\"bi bi-file-earmark-bar-graph\"></i>";
 
   if($project['featured'] == 9) # Nuke Evo Theme
-  $pjimage = "<i style=\"font-size: 25px; color: #104E8B\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#104E8B'\" class=\"bi bi-palette\"></i>";
+  $pjimage = "<i style=\"font-size: 25px; color: ".$color_project_icon."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color_project_icon."'\" class=\"bi bi-palette\"></i>";
 
   if($project['featured'] == 10) # Misc Project
-  $pjimage = "<i style=\"font-size: 25px; color: red\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='red'\" class=\"bi bi-palette\"></i>";
+  $pjimage = "<i style=\"font-size: 25px; color: ".$color_project_icon."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color_project_icon."'\" class=\"bi bi-palette\"></i>";
   # Set the icon for the projext END
 
-
-       
+  if($projectstatus['status_name'] === 'Active'):
   $demo = " <a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
-  
+  echo "<td class='projects_row1' align='center'><a class='projectlinkactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  elseif($projectstatus['status_name'] === 'Inactive'):
+  $demo = " <a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+  echo "<td class='projects_row1' align='center'><a class='projectlinkinactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkinactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  elseif($projectstatus['status_name'] === 'Pending'):
+  $demo = " <a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+  echo "<td class='projects_row1' align='center'><a class='projectlinkpending' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkpending' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  elseif($projectstatus['status_name'] === 'Released'):
+  $demo = " <a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+  echo "<td class='projects_row1' align='center'><a class='projectlinkreleased' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkreleased' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  elseif($projectstatus['status_name'] === 'N/A'):
+  $demo = " <a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
+  echo "<td class='projects_row1' align='center'><a class='projectlinkna' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkna' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  else:
+  $demo = " <a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
   echo "<td class='projects_row1' align='center'><a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  endif;
   
   $pjimage = "<i style=\"font-size: 25px; color: #45B39D\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#45B39D'\" class=\"bi bi-server\"></i>";
     

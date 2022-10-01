@@ -65,6 +65,136 @@ global $font_colorH, $font_colorV, $font_colorA, $font_colorL, $body_color;
 
 
 ?>
+/* Project Link Active Project START */
+a.projectlinkactive,input.projectlkactive
+{
+ display:inline-block;
+ box-sizing: border-box;
+ text-decoration:none;
+ font-family:'Roboto',sans-serif;
+ font-weight:bold;
+ 
+ /* Start Link Color - Regular Appearance */
+ color: #66FF00;
+ 
+ text-align:center;
+ transition: all 0.2s;
+}
+a.projectlinkactive:hover,input.projectlinkactive:hover
+{
+  /* Main Font Color */
+  color:white;
+ /* Highlight Color On Hover */
+}
+
+@media all and (max-width:30em)
+{
+  a.projectlinkactive, input.projectlinkactive
+  {
+    display:block;
+  }
+}
+/* Project Link Active Project END */
+
+
+
+/* Project Link InActive Project START */
+a.projectlinkinactive,input.projectlinkinactive
+{
+ display:inline-block;
+ box-sizing: border-box;
+ text-decoration:none;
+ font-family:'Roboto',sans-serif;
+ font-weight:bold;
+ 
+ /* Start Link Color - Regular Appearance */
+ color: grey;
+ 
+ text-align:center;
+ transition: all 0.2s;
+}
+a.projectlinkinactive:hover,input.projectlinkinactive:hover
+{
+  /* Main Font Color */
+  color:white;
+ /* Highlight Color On Hover */
+}
+
+@media all and (max-width:30em)
+{
+  a.projectlinkinactive, input.projectlinkinactive
+  {
+    display:block;
+  }
+}
+/* Project Link InActive Project END */
+
+
+/* Project Link Pending Project START */
+a.projectlinkpending,input.projectlinkpending
+{
+ display:inline-block;
+ box-sizing: border-box;
+ text-decoration:none;
+ font-family:'Roboto',sans-serif;
+ font-weight:bold;
+ 
+ /* Start Link Color - Regular Appearance */
+ color: #66FFFF;
+ 
+ text-align:center;
+ transition: all 0.2s;
+}
+a.projectlinkpending:hover,input.projectlinkpending:hover
+{
+  /* Main Font Color */
+  color:white;
+ /* Highlight Color On Hover */
+}
+
+@media all and (max-width:30em)
+{
+  a.projectlinkpending, input.projectlinkpending
+  {
+    display:block;
+  }
+}
+/* Project Link Pending Project END */
+
+
+/* Project Link Released Project START */
+a.projectlinkreleased,input.projectlinkreleased
+{
+ display:inline-block;
+ box-sizing: border-box;
+ text-decoration:none;
+ font-family:'Roboto',sans-serif;
+ font-weight:bold;
+ 
+ /* Start Link Color - Regular Appearance */
+ color: #FF3366;
+ 
+ text-align:center;
+ transition: all 0.2s;
+}
+a.projectlinkreleased:hover,input.projectlinkreleased:hover
+{
+  /* Main Font Color */
+  color:white;
+ /* Highlight Color On Hover */
+}
+
+@media all and (max-width:30em)
+{
+  a.projectlinkreleased, input.projectlinkreleased
+  {
+    display:block;
+  }
+}
+/* Project Link Released Project END */
+
+
+/* Regular Project Link */
 a.projectlink,input.projectlink
 {
  display:inline-block;
@@ -74,7 +204,7 @@ a.projectlink,input.projectlink
  font-weight:bold;
  
  /* Start Link Color - Regular Appearance */
- color: #008080;
+ color: white;
  
  text-align:center;
  transition: all 0.2s;

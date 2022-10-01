@@ -111,7 +111,7 @@ function displayadmins()
         echo '<td align="left" valign="absmiddle" class="row1" style="width: 30%;">';
 		echo '<i style="font-size: 18px;" class="glyphicon glyphicon-user"></i><font size="4"> '.$admlang['authors']['author'].'</font>';
 		
-        echo '<span class="evo-sprite help tooltip float-right" title="'.$admlang['authors']['can_not'].'"></span>';
+        echo '<span class="evo-sprite help tooltip-html float-right tooltipstered" title="'.$admlang['authors']['can_not'].'"></span>';
         echo '</td>'."\n";
         echo '<td class="row1" style="width: 50%;"><input type="text" name="add_name" style="width: 250px;" maxlength="50" required></td>'."\n";
         echo '</tr>'."\n";
@@ -121,12 +121,14 @@ function displayadmins()
         echo '<tr>'."\n";
         echo '<td align="left" valign="absmiddle" class="row1" style="width: 30%;">';
 		echo '<i style="font-size: 18px;" class="bi bi-person-badge"></i><font size="4"> '.$admlang['global']['nickname'].'</font>';
-        echo '<td class="row1" style="width: 50%;"><input type="text" name="add_aid" style="width: 250px;" maxlength="50" required></td>'."\n";
+        echo '<span class="evo-sprite help tooltip-html float-right tooltipstered" title="'.$admlang['authors']['can'].'"></span>';
+         echo '<td class="row1" style="width: 50%;"><input type="text" name="add_aid" style="width: 250px;" maxlength="50" required></td>'."\n";
         echo '</tr>'."\n";
 		
 		# Author Email
         echo '<tr>'."\n";
         echo '<td align="left" valign="absmiddle" class="row1" style="width: 30%;">';
+        echo '<span class="evo-sprite help tooltip-html float-right tooltipstered" title="'.$admlang['authors']['email'].'"></span>';
 		echo '<i style="font-size: 18px;" class="bi bi-envelope-paper"></i><font size="4"> '.$admlang['global']['email'].'</font>';
         echo '<td class="row1" style="width: 50%;"><input type="text" autocomplete="off" name="add_email" style="width: 250px;" maxlength="50" required></td>'."\n";
         echo '</tr>'."\n";
@@ -134,6 +136,7 @@ function displayadmins()
         # Author URL
         echo '<tr>'."\n";
         echo '<td align="left" valign="absmiddle" class="row1" style="width: 30%;">';
+       echo '<span class="evo-sprite help tooltip-html float-right tooltipstered" title="'.$admlang['authors']['www'].'"></span>';
 		echo '<i style="font-size: 20px;" class="bi bi-link-45deg"></i><font size="4"> '.$admlang['global']['url'].'</font>';
         echo '<td class="row1" style="width: 50%;"><input type="text" name="add_url" style="width: 250px;" maxlength="50" required></td>'."\n";
         echo '</tr>'."\n";
