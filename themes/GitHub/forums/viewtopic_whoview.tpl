@@ -57,7 +57,7 @@
   <!-- END memberrow -->
   <tr>
   	<td class="catBottom" colspan="6"><div align="center">
-    <form><input type="button" value="Back to Topic" onclick="history.back()"></form></div>
+    <form><input class="titaniumbutton" type="button" value="Back to Topic" onclick="history.back()"></form></div>
     </td>
   </tr>
 </table>

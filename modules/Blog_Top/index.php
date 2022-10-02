@@ -241,7 +241,7 @@ if ($titanium_db->sql_numrows($result7) > 0)
     
 
 	    if($counter > 0): 
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('submit-icon-16.png','Blog_Top').'"> ';
+            echo '<li><i class="bi bi-person-bounding-box"></i>  ';
 			echo '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username=$uname">'.$uname.'</a> - ( <strong>';
 			echo '<font color="'.$digits_color.'">'.$counter,'</font></strong> '._BLOG_POSTS_SENT.' )</li>';
 		endif;
