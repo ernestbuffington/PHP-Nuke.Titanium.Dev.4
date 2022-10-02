@@ -94,33 +94,32 @@ else
 {
 	global $userinfo, $bgcolor1, $bgcolor2;
 
+    $icon1 = "<i style=\"font-size: 17px; color: #3498DB\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#3498DB'\" class=\"fa fa-upload\"></i>";
+    $link1 = " <a class=\"modules\" href=\"modules.php?name=Image_Repository\" target=\"_self\"> ".$icon1." My Hosted Images</a>";
+    $evouserinfo_login  = '<div style="padding-left: 10px;">';
+	$evouserinfo_login .= $link1."";
+	$evouserinfo_login .= '</div>';
+
+    $icon2 = " <i style=\"font-size: 18px; color: #FF0000\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#FF0000'\" class=\"fa fa-bookmark\"></i>";
+    $link2 = " <a class=\"modules\" href=\"modules.php?name=Bookmarks\" target=\"_self\"> ".$icon2." My Book Mark Vault</a>";
+    $evouserinfo_login .= '<div style="padding-left: 13px;">';
+	$evouserinfo_login .= $link2."";
+	$evouserinfo_login .= '</div>';
+
+    $icon3 = "<i style=\"font-size: 17px; color: #45B39D\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#45B39D'\" class=\"fa fa-cog\"></i>";
+    $link3 = " <a class=\"modules\" href=\"modules.php?name=Your_Account&op=chgtheme\" target=\"_self\"> ".$icon3." My Theme</a>";
+    $evouserinfo_login .= '<div style="padding-left: 10px;">';
+	$evouserinfo_login .= $link3."";
+	$evouserinfo_login .= '</div>';
 
 
-	$evouserinfo_login .= '<div style="padding-left: 11px;">';
-    $evouserinfo_login .= '  <font color="#FFFFFF"><i class="fa fa-envelope-open-o" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Private_Messages">'.$titanium_lang_evo_userblock['BLOCK']['LOGIN']['MYMESSAGEBOX'].'</a>';
-    $evouserinfo_login .= '</div>';
+    $icon4 = "<i style=\"font-size: 18px; color: gold\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='gold'\" class=\"fa fa-id-badge\"></i>";
+    $link4 = " <a class=\"modules\" href=\"modules.php?name=Profile&mode=viewprofile&u=".$userinfo['user_id']."\" target=\"_self\"> ".$icon4." My Profile</a>";
+    $evouserinfo_login .= '<div style="padding-left: 13px;">';
+	$evouserinfo_login .= $link4."";
+	$evouserinfo_login .= '</div>';
 
-	$evouserinfo_login .= '<div style="padding-left: 11px;">';
-    $evouserinfo_login .= '  <font color="#3498DB"><i class="fa fa-upload" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Image_Repository">'.$titanium_lang_evo_userblock['BLOCK']['LOGIN']['MYHOSTEDIMAGES'].'</a>';
-    $evouserinfo_login .= '</div>';
-    
-	$evouserinfo_login .= '<div style="padding-left: 14px;">';
-    $evouserinfo_login .= '  <font color="red"><i class="fa fa-bookmark" aria-hidden="true"></i></font>&nbsp;<a 
-	href="modules.php?name=Bookmarks">'.$titanium_lang_evo_userblock['BLOCK']['LOGIN']['MYBOOKMARKS'].'</a>';
-    $evouserinfo_login .= '</div>';
 
-    $evouserinfo_login .= '<div style="padding-left: 11px;">';
-    $evouserinfo_login .= '  <font color="#45B39D"><i class="fa fa-cog" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Your_Account&op=chgtheme">'.$titanium_lang_evo_userblock['BLOCK']['LOGIN']['CHANGEMYTHEME'].'</a>';
-    $evouserinfo_login .= '</div>';
-
-    $evouserinfo_login .= '<div style="padding-left: 14px;">';
-    $evouserinfo_login .= '  <font color="gold"><i class="fa fa-id-badge" aria-hidden="true"></i>
-</font> <a 
-	href="modules.php?name=Profile&mode=viewprofile&u='.$userinfo['user_id'].'">'.$titanium_lang_evo_userblock['BLOCK']['LOGIN']['MYPROFILE'].'</a>';
-    $evouserinfo_login .= '</div>';
 
     $evouserinfo_login .= '<div style="padding-left: 13px;">';
     $evouserinfo_login .= '  <font color="gold"><i class="fa fa-bars" aria-hidden="true"></i></font> <a 
