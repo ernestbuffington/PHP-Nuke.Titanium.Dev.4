@@ -119,27 +119,29 @@ else
 	$evouserinfo_login .= $link4."";
 	$evouserinfo_login .= '</div>';
 
-
-
-    $evouserinfo_login .= '<div style="padding-left: 13px;">';
-    $evouserinfo_login .= '  <font color="gold"><i class="fa fa-bars" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Profile">'.$titanium_lang_evo_userblock['BLOCK']['LOGIN']['EDITMYPROFILE'].'</a>';
-    $evouserinfo_login .= '</div>';
-
+    $icon5 = "<i style=\"font-size: 17px; color: gold\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='gold'\" class=\"fa fa-bars\"></i>";
+    $link5 = " <a class=\"modules\" href=\"modules.php?name=Profile\" target=\"_self\"> ".$icon5." Edit Profile</a>";
     $evouserinfo_login .= '<div style="padding-left: 12px;">';
-    $evouserinfo_login .= '  <font color="orange"><i class="fa fa-sign-out" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Your_Account&amp;op=logout">'.$titanium_lang_evo_userblock['BLOCK']['LOGIN']['LOGOUT'].'</a>';
-    $evouserinfo_login .= '</div>';
+	$evouserinfo_login .= $link5."";
+	$evouserinfo_login .= '</div>';
 
+    $icon6 = "<i style=\"font-size: 17px; color: orange\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='orange'\" class=\"fa fa-sign-out\"></i>";
+    $link6 = " <a class=\"modules\" href=\"modules.php?name=Profile\" target=\"_self\"> ".$icon6." Log Out</a>";
     $evouserinfo_login .= '<div style="padding-left: 12px;">';
-    $evouserinfo_login .= '  <font color="red"><i class="fa fa-trash" aria-hidden="true"></i></font> <a href="modules.php?name=Your_Account&op=delete">'.
-	$titanium_lang_evo_userblock['BLOCK']['LOGIN']['DELETE'].'</a>';
-    $evouserinfo_login .= '</div>';
+	$evouserinfo_login .= $link6."";
+	$evouserinfo_login .= '</div>';
 
+    $icon7 = "<i style=\"font-size: 17px; color: red\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='red'\" class=\"fa fa-trash\"></i>";
+    $link7 = " <a class=\"modules\" href=\"modules.php?name=Your_Account&op=delete\" target=\"_self\"> ".$icon7." Deactivate Account</a>";
+    $evouserinfo_login .= '<div style="padding-left: 12px;">';
+	$evouserinfo_login .= $link7."";
+	$evouserinfo_login .= '</div>';
+
+    $icon8 = "<i style=\"font-size: 16px; color: tan\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='tan'\" class=\"fas fa-cookie\"></i>";
+    $link8 = " <a class=\"modules\" href=\"modules.php?name=Your_Account&op=ShowCookiesRedirect\" target=\"_self\"> ".$icon8." View My Cookies</a>";
     $evouserinfo_login .= '<div style="padding-left: 11px;">';
-    $evouserinfo_login .= '  <font color="tan"><i class="fas fa-cookie" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Your_Account&op=ShowCookiesRedirect">'.$titanium_lang_evo_userblock['BLOCK']['LOGIN']['COOKIES'].'</a>';
-    $evouserinfo_login .= '</div>';
+	$evouserinfo_login .= $link8."";
+	$evouserinfo_login .= '</div>';
 
     if(defined('facebook')): 
 	  
