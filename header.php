@@ -438,13 +438,15 @@ function online()
      *
      * @since 2.0.9f
      */
+	global $screen_res;
     if ( $guest == 0 ):
         $titanium_db->sql_query("REPLACE INTO `".$titanium_prefix."_users_who_been` (`user_ID`, 
 		                                                                            `username`, 
-																                  `last_visit`) 
+																                  `last_visit`,
+																				  `resolution`) 
    values ('".$userinfo['user_id']."', 
            '".$userinfo['username']."', 
-		    ".time().");");
+		   '".time()."','".$screen_res."');                                                  ");
 	endif;
 }
 

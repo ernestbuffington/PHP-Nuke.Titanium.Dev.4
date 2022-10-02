@@ -9,6 +9,13 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Oct 2nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Evo User Block<br />
+<strong><i class="bi bi-calendar3"></i> Oct 2nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Oct 1st 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Blog Top 100 Icons<br />
+<strong><i class="bi bi-calendar3"></i> Oct 1st 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Evo User Block<br />
+<strong><i class="bi bi-calendar3"></i> Oct 1st 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
+<hr>
 <strong><i class="bi bi-calendar3"></i> Sep 30th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
 <strong><i class="bi bi-calendar3"></i> Sep 30th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added all projects to Network Projects<br />
 <strong><i class="bi bi-calendar3"></i> Sep 30th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Avatar Image in Profile<br />
