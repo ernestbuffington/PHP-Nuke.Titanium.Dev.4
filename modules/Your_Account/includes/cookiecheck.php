@@ -210,7 +210,7 @@ function ShowCookies()
 			echo "<tr><td align=\"left\" nowrap=\"nowrap\">$cName</td><td width=\"100%\" align=\"left\">$cValue</td></tr>";
         }
             
-			echo "</table></td><td valign=\"bottom\"><input type=\"submit\" name=\"submit\" value='"._YA_COOKIEDELTHESE."'></td></form></tr></table></fieldset>";
+			echo "</table></td><td valign=\"bottom\"><input class=\"titaniumbutton\" type=\"submit\" name=\"submit\" value='"._YA_COOKIEDELTHESE."'></td></form></tr></table></fieldset>";
 	}
     else 
 	{
