@@ -16,19 +16,14 @@
    Notes         : Evo User Block PMs Module
 ************************************************************************/
 
-if(!defined('NUKE_EVO')) {
-   die ("Illegal File Access");
-}
+if(!defined('NUKE_EVO')){die("Illegal File Access");}
 
 global $evouserinfo_addons, $evouserinfo_pms, $titanium_lang_evo_userblock;
 
 if (is_user()):
-
     global $userinfo;    
     $evouserinfo_pms  = '<div style="padding-left: 10px;">';
-    $evouserinfo_pms .= '  <i class="fas fa-envelope" aria-hidden="true"></i>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['PMS']['INBOX'].'<span style="float:right"><a title="'.$titanium_lang_evo_userblock['BLOCK']['PMS']['OPEN_INBOX'].'" href="modules.php?name=Private_Messages">'.has_new_or_unread_private_messages().'</a></span>';
-    $evouserinfo_pms .= '</div>';
-
+	$evouserinfo_pms .= '  <a title="Open Inbox" class="modules" href="modules.php?name=Private_Messages"><i style="font-size: 17px;" class="fas fa-envelope" aria-hidden="true"></i>&nbsp;&nbsp;'.has_new_or_unread_private_messages().'&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['PMS']['INBOX'].'<span style="float:right"></a><a title="'.$titanium_lang_evo_userblock['BLOCK']['PMS']['OPEN_INBOX'].'" class="modules" href="modules.php?name=Private_Messages"></a></span>';
+	$evouserinfo_pms .= '</div>';
 endif;
-
 ?>
