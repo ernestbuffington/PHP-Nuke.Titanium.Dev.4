@@ -126,7 +126,7 @@ else
 	$evouserinfo_login .= '</div>';
 
     $icon6 = "<i style=\"font-size: 17px; color: orange\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='orange'\" class=\"fa fa-sign-out\"></i>";
-    $link6 = " <a class=\"modules\" href=\"modules.php?name=Profile\" target=\"_self\"> ".$icon6." Log Out</a>";
+    $link6 = " <a class=\"modules\" href=\"modules.php?name=Your_Account&op=logout\" target=\"_self\"> ".$icon6." Log Out</a>";
     $evouserinfo_login .= '<div style="padding-left: 12px;">';
 	$evouserinfo_login .= $link6."";
 	$evouserinfo_login .= '</div>';
