@@ -873,22 +873,7 @@ function MostPopular($ratenum, $ratetype)
 
 function RandomLink() 
 {
-/*  This is pure garabage!
-    global $titanium_prefix, $titanium_db;
-    $result = $titanium_db->sql_query("SELECT * from ".$titanium_prefix."_links_links");
-    $numrows = $titanium_db->sql_numrows($result);
-    if ($numrows == 1) {
-    $random = 1;
-    } else {
-    srand((double)microtime()*1000000);
-    $random = rand(1,$numrows);
-        $random = intval($random);
-    }
-    $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT url from ".$titanium_prefix."_links_links where lid='$random'"));
-    $url = stripslashes($row2['url']);
-    $titanium_db->sql_query("update ".$titanium_prefix."_links_links set hits=hits+1 where lid='$random'");
-    redirect_titanium("$url");
-*/
+ # GONE GONE GONE
 }
 
 function viewlink($cid, $min, $orderby, $show) 
