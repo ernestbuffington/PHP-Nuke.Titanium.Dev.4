@@ -1,0 +1,15 @@
+/* Fancy form styles for IE */
+
+input, textarea, select {
+	border-width: 1px;
+}
+
+/* Start replacement - Advanced time management MOD */
+/* input { text-indent : 2px; }
+/* End replacement - Advanced time management MOD */
+
+input.button {
+	border-width: 1px;
+}
+
+.postbody { line-height: 18px }
