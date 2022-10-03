@@ -152,7 +152,7 @@ $persistency = false;
 ################################################
 
 ######################################################################
-# You must un-comment this to enable The 96it Developers Network SDK #
+# You must un-comment this to enable The 86it Developers Network SDK #
 ######################################################################
 # define('network', 'enabled');                  #
 ##################################################
