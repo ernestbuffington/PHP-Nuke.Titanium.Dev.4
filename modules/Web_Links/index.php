@@ -108,7 +108,7 @@ function menu($mainlink)
     endif;
     
 	echo "<form action=\"modules.php?name=".$titanium_module_name."&amp;l_op=search&amp;query=".$query."\" method=\"post\">"
-    ."<span class=\"content\"><input type=\"text\" size=\"25\" name=\"query\"> <input type=\"submit\" value=\""._SEARCH."\"></span>"
+    ."<span class=\"content\"><input class=\"titaniumbutton\" type=\"text\" size=\"25\" name=\"query\"> <input class=\"titaniumbutton\" type=\"submit\" value=\""._SEARCH."\"></span>"
     ."</form>";
     
 	echo "<br /><strong><span class=\"content\"> ";
@@ -137,7 +137,7 @@ function SearchForm()
 	
     echo "<form action=\"modules.php?name=".$titanium_module_name,"&amp;l_op=search&amp;query=".$query."\" method=\"post\">"
     ."<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">"
-    ."<tr><td><span class=\"content\"><input type=\"text\" size=\"25\" name=\"query\"> <input type=\"submit\" value=\""._SEARCH."\"></td></tr>"
+    ."<tr><td><span class=\"content\"><input class=\"titaniumbutton\" type=\"text\" size=\"25\" name=\"query\"> <input class=\"titaniumbutton\" type=\"submit\" value=\""._SEARCH."\"></td></tr>"
     ."</table>"
     ."</form>";
 }
