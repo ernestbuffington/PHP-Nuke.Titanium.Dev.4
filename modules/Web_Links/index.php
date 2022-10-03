@@ -938,8 +938,10 @@ function viewlink($cid, $min, $orderby, $show)
         $cid2 = intval($row2['cid']);
         $title2 = stripslashes(check_html($row2['title'], "nohtml"));
         $cdescription2 = stripslashes($row2['cdescription']);
-    echo "<td><span class=\"option\"><strong><big><i class=\"bi bi-arrow-return-right\"></i></big></strong> <a href=\"modules.php?name=Web_Links&amp;l_op=viewlink&amp;cid=$cid2\"><strong>$title2</strong></a></span>";
-    categorynewlinkgraphic($cid2);
+    echo "<td><span class=\"option\"><strong><big><i class=\"bi bi-arrow-return-right\"></i></big></strong> <a 
+	href=\"modules.php?name=Web_Links&amp;l_op=viewlink&amp;cid=$cid2\"><strong>$title2</strong></a></span>";
+    
+	categorynewlinkgraphic($cid2);
     
 	if ($description2) 
     echo "<span class=\"content\">$cdescription2</span><br />";
