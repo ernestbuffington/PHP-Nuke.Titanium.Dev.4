@@ -813,7 +813,8 @@ function MostPopular($ratenum, $ratetype)
     $totalvotes = intval($row3['totalvotes']);
     $totalcomments = $row3['totalcomments'];
     $linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
-    echo "<span class=\"content\"><font size=\"4\"><i class=\"bi bi-link-45deg\"></i></font> <a 
+    
+	echo "<span class=\"content\"><font size=\"4\"><i class=\"bi bi-link-45deg\"></i></font> <a 
 	href=\"modules.php?name=$titanium_module_name&amp;l_op=visit&amp;lid=$lid\" target=\"new\">$title</a>";
     
 	newlinkgraphic($datetime, $time);
