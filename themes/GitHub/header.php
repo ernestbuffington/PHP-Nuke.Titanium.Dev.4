@@ -99,7 +99,7 @@ $moreuser_info .= '';
 if(isset($_COOKIE['fbsr_' . $appID])):
 $marquee_one .= '';
 else:
-$marquee_one .= '<font color="#666666">PHP-Nuke Titanium uses the following: PHP 7.4.33, UTF Tools v1.69, CSS, CSS3, JavaScript, Jquery, Ruffle, SwiftMailer, Bootstrap, HTML Purifier v4.15.0, HTML5 Shiv 3.7.3, Ajax, Zend Framework, Sentinel™, HoneyPot, Facebook SDK V4, Window Onload Manager (WOM) v1.0, BBcode, Blog Feed 2.0, WYSIWYG Ckeditor, SCeditor, We are currently re-writing the Network Projects module.</font>';
+$marquee_one .= '<font color="#666666">PHP-Nuke Titanium uses the following: PHP 7.4.33, UTF Tools v1.69, CSS, CSS3, JavaScript, Jquery, Ruffle, SwiftMailer, Bootstrap, HTML Purifier v4.15.0, HTML5 Shiv 3.7.3, Ajax, Zend Framework, Sentinel™, HoneyPot, Window Onload Manager (WOM) v1.0, BBcode, Blog Feed 2.0, WYSIWYG Ckeditor, SCeditor, Vimeo API v3.0, Google API v2.12, Facebook PHP SDK v3.2, Facebook PHP Graph v5.7, We are currently re-writing the Network Projects module.</font>'; 
 endif;
 
 //$bullshit2 = 'Sept 28th 2019, Oct 4th 2019, Oct 5th 2019, Oct 11th 2019, Oct 13th 2019, Oct 14th 2019 Oct 20th 2019, Oct 22nd 2019, Oct 24th 2019';

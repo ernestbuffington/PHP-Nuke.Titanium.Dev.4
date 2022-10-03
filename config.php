@@ -1,5 +1,4 @@
 <?php
-
 /*=======================================================================
  PHP-Nuke Titanium: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
@@ -45,7 +44,7 @@ $titanium_dbuname = 'dev4_user';
 /*----[ $titanium_dbpass ] -------------------------------
 | The password associated with your db usersname          |
 ---------------------------------------------------------*/
-$titanium_dbpass = '';
+$titanium_dbpass = 'xxxxxxxxxxxxxxxxxxxx';
 
 /*----[ $titanium_dbtype ] -------------------------------
 | The type of SQL server you prefer to use                |
@@ -139,6 +138,24 @@ $use_cache = 1;
 | false = Off                                             |
 ---------------------------------------------------------*/
 $persistency = false;
+
+#################################################
+# You must un-comment this to enable vimeo SDK  #
+#################################################
+# define('vimeo', 'enabled');                  #
+################################################
+
+####################################################
+# You must un-comment this to enable facebook  SDK #
+####################################################
+# define('facebook', 'enabled');               #
+################################################
+
+######################################################################
+# You must un-comment this to enable The 96it Developers Network SDK #
+######################################################################
+# define('network', 'enabled');                  #
+##################################################
 
 /*********************************************************************/
 /* You have finished configuration of your site. Now you can change  */

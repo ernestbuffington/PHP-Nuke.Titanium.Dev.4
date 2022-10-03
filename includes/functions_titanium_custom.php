@@ -251,7 +251,7 @@ function title_and_meta_tags()
                  
 			       
 				   global $titanium_prefix, $portaladmin, $webmastername;
-				    
+				   
 				   list($webmastername, 
 	               $avatar, 
 				   $email) = $titanium_db->sql_ufetchrow("SELECT `name`,`user_avatar`, `user_email` FROM `".$titanium_prefix."_users` WHERE `user_id`='$portaladmin'", SQL_NUM);

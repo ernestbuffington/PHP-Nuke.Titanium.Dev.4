@@ -1,7 +1,7 @@
 <?php
-/*=======================================================================
- Nuke-Evolution Basic: Enhanced PHP-Nuke Web Portal System
- =======================================================================*/
+/*============================================================================
+ PHP-Nuke Titanium | PHP-Nuke Evolution : Enhanced PHP-Nuke Web Portal System
+ =============================================================================*/
 
 /**
  *
@@ -21,9 +21,10 @@
 
 defined('NUKE_EVO') || die('Direct access is not allowed');
 
-//Valid domains
+# Valid domains
 define('REGEXP_TLD', '/(\.AC|\.AD|\.AE|\.AERO|\.AF|\.AG|\.AI|\.AL|\.AM|\.AN|\.AO|\.AQ|\.AR|\.ARPA|\.AS|\.AT|\.AU|\.AW|\.AX|\.AZ|\.BA|\.BB|\.BD|\.BE|\.BF|\.BG|\.BH|\.BI|\.BIZ|\.BJ|\.BM|\.BN|\.BO|\.BR|\.BS|\.BT|\.BV|\.BW|\.BY|\.BZ|\.CA|\.CAT|\.CC|\.CD|\.CF|\.CG|\.CH|\.CI|\.CK|\.CL|\.CM|\.CN|\.CO|\.COM|\.COOP|\.CR|\.CU|\.CV|\.CX|\.CY|\.CZ|\.DE|\.DJ|\.DK|\.DM|\.DO|\.DZ|\.EC|\.EDU|\.EE|\.EG|\.ER|\.ES|\.ET|\.EU|\.FI|\.FJ|\.FK|\.FM|\.FO|\.FR|\.GA|\.GB|\.GD|\.GE|\.GF|\.GG|\.GH|\.GI|\.GL|\.GM|\.GN|\.GOV|\.GP|\.GQ|\.GR|\.GS|\.GT|\.GU|\.GW|\.GY|\.HK|\.HM|\.HN|\.HR|\.HT|\.HU|\.ID|\.IE|\.IL|\.IM|\.IN|\.INFO|\.INT|\.IO|\.IQ|\.IR|\.IS|\.IT|\.JE|\.JM|\.JO|\.JOBS|\.JP|\.KE|\.KG|\.KH|\.KI|\.KM|\.KN|\.KR|\.KW|\.KY|\.KZ|\.LA|\.LB|\.LC|\.LI|\.LK|\.LR|\.LS|\.LT|\.LU|\.LV|\.LY|\.MA|\.MC|\.MD|\.MG|\.MH|\.MIL|\.MK|\.ML|\.MM|\.MN|\.MO|\.MOBI|\.MP|\.MQ|\.MR|\.MS|\.MT|\.MU|\.MUSEUM|\.MV|\.MW|\.MX|\.MY|\.MZ|\.NA|\.NAME|\.NC|\.NE|\.NET|\.NF|\.NG|\.NI|\.NL|\.NO|\.NP|\.NR|\.NU|\.NZ|\.OM|\.ORG|\.PA|\.PE|\.PF|\.PG|\.PH|\.PK|\.PL|\.PM|\.PN|\.PR|\.PRO|\.PS|\.PT|\.PW|\.PY|\.QA|\.RE|\.RO|\.RU|\.RW|\.SA|\.SB|\.SC|\.SD|\.SE|\.SG|\.SH|\.SI|\.SJ|\.SK|\.SL|\.SM|\.SN|\.SO|\.SR|\.ST|\.SU|\.SV|\.SY|\.SZ|\.TC|\.TD|\.TEL|\.TF|\.TG|\.TH|\.TJ|\.TK|\.TL|\.TM|\.TN|\.TO|\.TP|\.TR|\.TRAVEL|\.TT|\.TV|\.TW|\.TZ|\.UA|\.UG|\.UK|\.UM|\.US|\.UY|\.UZ|\.VA|\.VC|\.VE|\.VG|\.VI|\.VN|\.VU|\.WF|\.WS|\.YE|\.YT|\.YU|\.ZA|\.ZM|\.ZW)/i');
-//Alpha Numeric
+
+# Alpha Numeric
 define('REGEXP_ALPHANUMERIC', '/[^\d\w]/i');
 define('REGEXP_ALPHANUMERIC_SPACE', '/[^\d\w\s]/i');
 //Just Alpha
@@ -31,7 +32,6 @@ define('REGEXP_ALPHA', '/[^\w]/i');
 define('REGEXP_ALPHA_SPACE', '/[^\w\s]/i');
 
 require_once(NUKE_INCLUDE_DIR.'utf/utf_tools.php');
-
 
 /**
  * Selects and runs the correct slash adding function
@@ -41,13 +41,15 @@ require_once(NUKE_INCLUDE_DIR.'utf/utf_tools.php');
  * @param mixed $data The data to add slashes too
  * @return Data with slashes
  */
-function slashFunction($function, $data) {
+function slashFunction($function, $data) 
+{
     global $titanium_db;
 
-    //Error check
+    # Error check
     if (empty($data)) return $data;
 
-    switch ($function) {
+    switch ($function) 
+	{
         case 'mysql_real_escape_string':
             return mysql_real_escape_string($data);
         case 'mysql_escape_string':
@@ -61,6 +63,7 @@ function slashFunction($function, $data) {
             return addslashes($data);
     }
 }
+
 /**
  * Will add slashes to arrays
  * This function is outside the class due to array_map
@@ -68,57 +71,86 @@ function slashFunction($function, $data) {
  * @param mixed $data The data to add slashes to
  * @return Data with slashes
  */
-function deepSlash($data) {
+function deepSlash($data) 
+{
     global $titanium_db, $titanium_dbtype;
-    //If there is no data get out
+
+    # If there is no data get out
     if (empty($data)) return $data;
 
-    //Get what function to use
+    # Get what function to use
     static $function;
-    if (empty($function)) {
-        //If for some reason there is no DB connector
-        if (!isset($titanium_db) || !is_object($titanium_db)) {
-            //Use addslashes
+    
+	if (empty($function)) 
+	{
+        # If for some reason there is no DB connector
+        if(!isset($titanium_db) || !is_object($titanium_db)) 
+		{
+            # Use addslashes
             $function = 'addslashes';
-        } else if ($titanium_dbtype == 'mysqli' && function_exists('mysqli_real_escape_string')) {
+        } 
+		elseif($titanium_dbtype == 'mysqli' && function_exists('mysqli_real_escape_string')) 
+		{
             $function = 'mysqli_real_escape_string';
-        } else if ($titanium_dbtype == 'mysqli_escape_string') {
+        }
+		elseif($titanium_dbtype == 'mysqli_escape_string') 
+		{
             $function = 'mysqli_escape_string';
-        } else if (function_exists('mysql_real_escape_string')) {
+        }
+		elseif(function_exists('mysql_real_escape_string')) 
+		{
             $function = 'mysql_real_escape_string';
-        } else {
+        } 
+		else 
+		{
             $function = 'mysql_escape_string';
         }
     }
-    //If the data wasnt an array for some reason add slashes to it and send it back
+    
+	# If the data wasnt an array for some reason add slashes to it and send it back
     if (!is_array($data)) return slashFunction($function, $data);
 
-    //Loop through the data
-    foreach ($data as $k => $v) {
-        //If its an array
-        if(is_array($data[$k])) {
-            //Go though this function again
+    # Loop through the data
+    foreach ($data as $k => $v) 
+	{
+        # If its an array
+        if(is_array($data[$k])) 
+		{
+            # Go though this function again
             $data[$k] = array_map('deepSlash', $data[$k]);
-        } else {
-            if (is_numeric($v) || empty($v)) {
+        } 
+		else 
+		{
+            if (is_numeric($v) || empty($v)) 
+			{
                 $data[$k] = $v;
-            } else {
+            } 
+			else 
+			{
                 $v = str_replace("\r\n", "\n", $v);
                 $v = str_replace("\r", "\n", $v);
                 $v = trim($v);
-                if (!empty($v)) {
+            
+			    if(!empty($v)) 
+				{
                     $data[$k] = slashFunction($function, $v);
                     $data[$k] = str_replace('\n', "\n", $data[$k]);
                     $data[$k] = utf8_normalize_nfc($data[$k]);
-                    //Get the registered globals also
+                    # Get the registered globals also
                     global $$k;
-                    if (isset($$k) && !empty($$k)) {
+                    
+					if(isset($$k) && !empty($$k)) 
+					{
                         $$k = $data[$k];
                     }
-                } else {
+                } 
+				else 
+				{
                     $data[$k] = '';
                     global $$k;
-                    if (isset($$k) && !empty($$k)) {
+                
+				    if(isset($$k) && !empty($$k)) 
+					{
                         $$k = '';
                     }
                 }
@@ -127,6 +159,7 @@ function deepSlash($data) {
     }
     return $data;
 }
+
 /**
  * Will strip slashes from arrays
  * This function is outside the class due to array_map
@@ -134,25 +167,39 @@ function deepSlash($data) {
  * @param mixed $data The data to strip slashes from
  * @return Data without slashes
  */
-function deepStrip($data) {
-    //Error check
-    if (empty($data))       return $data;
-    if (!is_array($data))   return stripslashes($data);
+function deepStrip($data) 
+{
+    # Error check
+    if (empty($data))       
+	return $data;
+    
+	if (!is_array($data))   
+	return stripslashes($data);
 
-    //Loop through the data
-    foreach ($data as $k => $v) {
-        //If its an array
-        if(is_array($data[$k])) {
-            //Go though this function again
+    # Loop through the data
+    foreach ($data as $k => $v) 
+	{
+        # If its an array
+        if(is_array($data[$k])) 
+		{
+            # Go though this function again
             $data[$k] = array_map('deepStrip', $data[$k]);
-        } else {
-            if (is_numeric($v) || empty($v)) {
+        } 
+		else 
+		{
+            if(is_numeric($v) || empty($v)) 
+			{
                 $data[$k] = $v;
-            } else {
+            } 
+			else 
+			{
                 $data[$k] = stripslashes($v);
-                //Get the registered globals also
+                
+				#Get the registered globals also
                 global $$k;
-                if (isset($$k) && !empty($$k)) {
+                
+				if(isset($$k) && !empty($$k)) 
+				{
                     $$k = $data[$k];
                 }
             }
@@ -161,84 +208,124 @@ function deepStrip($data) {
     return $data;
 }
 
-function deepPurifier($data) {
+function deepPurifier($data) 
+{
 	global $titanium_html_auth, $admin;
+
     static $config, $purifier;
 
-    //Error check
-    if (empty($data))       return $data;
-    if (!is_array($data))   return stripslashes($data);
+    # Error check
+    if(empty($data))       
+	return $data;
+
+    if(!is_array($data))   
+	return stripslashes($data);
 
     $test = implode(' ', $data);
 
-    if (!preg_match('[<|>]', $test)) {
+    if(!preg_match('[<|>]', $test)) 
+	{
         return $data;
     }
 	
-	if (!isset($config) || empty($config)) {
+	if(!isset($config) || empty($config)) 
+	{
 		# This was changed because we added the repo and loaded it accordingly!
         # Guy like me gets it done! TheGhost 9/20/2022 2:42pm
         require_once(NUKE_INCLUDE_DIR.'purifier/library/HTMLPurifier.auto.php');
-    	$config = HTMLPurifier_Config::createDefault();
+    	
+		$config = HTMLPurifier_Config::createDefault();
+		
 		$config->set('Core.Encoding', 'UTF-8');
 		$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 		
-        if (!is_god($admin) || (is_god($admin) && !$titanium_html_auth)) {
+        if(!is_god($admin) || (is_god($admin) && !$titanium_html_auth)) 
+		{
 			$config->set('HTML.Trusted', true);
 			$config->set('HTML.SafeObject', true);
 			$config->set('HTML.SafeEmbed', true);
-			$config->set('HTML.AllowedElements', array('div','script','object','p','span','pre','b','i','u','strong','em','sup','a','img','table','tr','td','tbody','thead','param'));
+			
+			$cfg->set('HTML.SafeIframe', true); # Add Safe Iframe
+            $cfg->set('URI.SafeIframeRegexp', '%^(https?:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%'); # allow YouTube and Vimeo
+            # This line is important allow iframe in allowed elements or it will not work    
+            $config->set('HTML.AllowedAttributes','iframe@src,iframe@allowfullscreen');
+			$config->set('HTML.AllowedElements', array('iframe','div','script','object','p','span','pre','b','i','u','strong','em','sup','a','img','table','tr','td','tbody','thead','param'));
 			$config->set('Output.FlashCompat', true);
 			$config->set('Attr.EnableID', true);
-			$config->set('Filter.Custom', array( new HTMLPurifier_Filter_Iframe() ));
+			$config->set('Filter.Custom', array(new HTMLPurifier_Filter_MyIframe()));
 			$config->set('Filter.Custom', array( new HTMLPurifier_Filter_YouTube() ));
         }
-		
-        $purifier = new HTMLPurifier($config);
+        
+		$def = $config->getHTMLDefinition(true);
+        $def->addAttribute('iframe', 'allowfullscreen', 'Bool');
+        
+		$purifier = new HTMLPurifier($config);
     }
 
-    //Loop through the data
-    foreach ($data as $k => $v) {
-        //If its an array
-        if(is_array($data[$k])) {
-            //Go though this function again
+    # Loop through the data
+    foreach ($data as $k => $v) 
+	{
+        # If its an array
+        if(is_array($data[$k])) 
+		{
+            # Go though this function again
             $data[$k] = array_map('deepStrip', $data[$k]);
-        } else {
-            if (is_numeric($v) || empty($v)) {
+        } 
+		else 
+		{
+            if(is_numeric($v) || empty($v)) 
+			{
                 $data[$k] = $v;
-            } else {
-                if (isset($_GET['op']) && $_GET['op'] == 'Configure' && isset($_GET['sub']) && $_GET['sub'] == '11') {
+            } 
+			else 
+			{
+                if (isset($_GET['op']) && $_GET['op'] == 'Configure' && isset($_GET['sub']) && $_GET['sub'] == '11') 
+				{
                     $data[$k] = $v;
                     continue;
-                } else if ($k == 'xsitename' || $k == 'xslogan') {
+                } 
+				elseif($k == 'xsitename' || $k == 'xslogan') 
+				{
                     $data[$k] = $v;
                     continue;
-                } else if (isset($_GET['name'])) {
-                    //If forum post let it pass to the forum html security
-                    if ($_GET['name'] == 'Forums' && (isset($_GET['file']) && ($_GET['file'] == 'posting')) && ($k == 'message' || $k == 'subject')) {
+                }
+				elseif (isset($_GET['name'])) 
+				{
+                    # If forum post let it pass to the forum html security
+                    if($_GET['name'] == 'Forums' && (isset($_GET['file']) && ($_GET['file'] == 'posting')) && ($k == 'message' || $k == 'subject')) 
+					{
                         $data[$k] = $v;
                         continue;
                     }
-                    //If PM let it pass to the forum html security
-                    if ($_GET['name'] == 'Private_Messages' && ($k == 'message' || $k == 'subject')) {
+                    
+					# If PM let it pass to the forum html security
+                    if($_GET['name'] == 'Private_Messages' && ($k == 'message' || $k == 'subject')) 
+					{
                         $data[$k] = $v;
                         continue;
                     }
-                    //If SIG let it pass to the forum html security
-                    if ($_GET['name'] == 'Profile' && (isset($_GET['mode']) && ($_GET['mode'] == 'signature')) && $k == 'signature') {
+                    
+					#If SIG let it pass to the forum html security
+                    if($_GET['name'] == 'Profile' && (isset($_GET['mode']) && ($_GET['mode'] == 'signature')) && $k == 'signature') 
+					{
                         $data[$k] = $v;
                         continue;
                     }
                 }
-                //If its a strip lets purify it
-                if (!is_god($admin) || (is_god($admin) && !$titanium_html_auth)) {
+                
+				#If its a strip lets purify it
+                if(!is_god($admin) || (is_god($admin) && !$titanium_html_auth)) 
+				{
 					$data[$k] = $purifier->purify($v);
 				}
 				
                 $data[$k] = str_replace('\n', "\n", $data[$k]);
-                //Get the registered globals also
+                
+				#Get the registered globals also
                 global $$k;
-                if (isset($$k) && !empty($$k)) {
+                
+				if(isset($$k) && !empty($$k)) 
+				{
                     $$k = $data[$k];
                 }
             }

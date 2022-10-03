@@ -297,7 +297,29 @@ class BBCode
 					# http://www.youtu.be/fds123
 					$id = $path[1];
 
-				$video_replace = '<iframe style="max-width: 100%" id="ytplayer-'.$id.'" width="'.$phpbb2_board_config['youtube_width'].'" height="'.$phpbb2_board_config['youtube_height'].'" src="//www.youtube.com/embed/'.$id.'?rel=0&amp;vq=hd1080" frameborder="0" allowfullscreen=""></iframe><br />[<a href="https://www.youtube.com/watch?v='.$id.'" target="_blank">'._WATCH_YOUTUBE.'</a>]';
+				$video_replace = '<iframe style="max-width: 100%" id="ytplayer-'.$id.'" width="'.$phpbb2_board_config['youtube_width'].'" height="'.$phpbb2_board_config['youtube_height'].'" src="//www.youtube.com/embed/'.$id.'?rel=0&amp;vq=hd1080" frameborder="0" allowfullscreen=""></iframe><br /><a class="titaniumbutton" href="https://www.youtube.com/watch?v='.$id.'" target="_blank">'._WATCH_YOUTUBE.'</a>';
+				break;
+
+
+			/* ----- vimeo video embed ----- */
+			case "vimeo":
+				if($fragments[0])
+					# http://www.vimeo.com/watch#!v=fds123
+					$id = str_replace('!v=', '', $fragments[0]); 
+				elseif($input['v'])
+					# http://www.vimeo.com/watch?v=fds123
+					$id = $input['v']; 
+				else
+					# http://www.vimeo.be/fds123
+					$id = $path[1];
+					
+				$video_replace = '<iframe src="https://player.vimeo.com/video/'.$id.'?h=acbbe0e498" width="'.$phpbb2_board_config['youtube_width'].'" height="'.$phpbb2_board_config['youtube_height'].'" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+<p><a href="https://vimeo.com/'.$id.'">Watch On Vimeo</a></p>';
+	
+					
+					
+
+				$video_replace = '<iframe style="max-width: 100%" id="ytplayer-'.$id.'" width="'.$phpbb2_board_config['youtube_width'].'" height="'.$phpbb2_board_config['youtube_height'].'" src="//www.youtube.com/embed/'.$id.'?rel=0&amp;vq=hd1080" frameborder="0" allowfullscreen=""></iframe><br /><a class="titaniumbutton" href="https://www.youtube.com/watch?v='.$id.'" target="_blank">'._WATCH_YOUTUBE.'</a>';
 				break;
 
 			/* ----- twitch video embed ----- */

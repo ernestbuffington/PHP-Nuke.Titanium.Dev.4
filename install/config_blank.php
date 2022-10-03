@@ -140,6 +140,24 @@ $use_cache = 1;
 ---------------------------------------------------------*/
 $persistency = false;
 
+#################################################
+# You must un-comment this to enable vimeo SDK  #
+#################################################
+# define('vimeo', 'enabled');                  #
+################################################
+
+####################################################
+# You must un-comment this to enable facebook  SDK #
+####################################################
+# define('facebook', 'enabled');               #
+################################################
+
+######################################################################
+# You must un-comment this to enable The 96it Developers Network SDK #
+######################################################################
+# define('network', 'enabled');                  #
+##################################################
+
 /*********************************************************************/
 /* You have finished configuration of your site. Now you can change  */
 /* all you want in the Administration Section. To enter just launch  */

@@ -318,12 +318,17 @@ if (CAN_MOD_INI):
     ini_set('zlib.output_compression', 0);
 endif;
 
-# Enable 86it Network Support START
-if (@file_exists(NUKE_BASE_DIR.'nconfig.php')):  
-@require_once(NUKE_BASE_DIR.'nconfig.php');
-global $titanium_dbpass2, $titanium_dbhost2, $titanium_dbname2, $titanium_dbuname2, $titanium_db2, $network_prefix;
+// Include config file
+@require_once(NUKE_BASE_DIR.'config.php');
 
+# Load Vendors
+require_once NUKE_BASE_DIR . '/vendor/autoload.php';
+
+# Enable 86it Network Support START
 if(defined('network')):
+  if (@file_exists(NUKE_BASE_DIR.'nconfig.php')):  
+  @require_once(NUKE_BASE_DIR.'nconfig.php');
+  global $titanium_dbpass2, $titanium_dbhost2, $titanium_dbname2, $titanium_dbuname2, $titanium_db2, $network_prefix;
   if(!isset($titanium_dbname2) || empty($titanium_dbname2)) 
   die('$titanium_dbname2 <- your network database name is not configured in your ROOT nbconfig.php file!');
   if(!isset($titanium_dbuname2) || empty($titanium_dbuname2)) 
@@ -336,10 +341,25 @@ if(defined('network')):
 endif;
 # Enable 86it Network Support END 
 
+# vimeo SDK API version 3.4 Mod START 
+if(defined('vimeo')):
+   if(@file_exists(NUKE_BASE_DIR.'vconfig.php')):  
+   @require_once(NUKE_BASE_DIR.'vconfig.php');
+   global $client, $client_id, $client_secret, $access_token;
+   if(!isset($client_id) || empty($client_id)) 
+   die('$client_id <- your client ID is not set in your ROOT vconfig.php file!');
+   if(!isset($client_secret) || empty($client_secret)) 
+   die('$client_secret <- your Vimeo Secret is not defined in your ROOT vconfig.php file!');
+   if(!isset($access_token) || empty($access_token)) 
+   die('$access_token <- your Vimeo access token is not defined in your ROOT vconfig.php file!');
+   endif;
+endif;
+# vimeo SDK API version 3.4 Mod END 
+
 # facebook SDK Mod START
-if (@file_exists(NUKE_BASE_DIR.'fbconfig.php')):  
-@require_once(NUKE_BASE_DIR.'fbconfig.php');
-  if ( defined('facebook') ):
+if(defined('facebook')):
+  if (@file_exists(NUKE_BASE_DIR.'fbconfig.php')):  
+  @require_once(NUKE_BASE_DIR.'fbconfig.php');
   global $fb, $appID, $api_version, $appSecret, $my_url;
   if(!isset($my_url) || empty($my_url)) 
   die('$my_url <- your domain is not set in your ROOT fbconfig.php file!');
@@ -353,18 +373,17 @@ if (@file_exists(NUKE_BASE_DIR.'fbconfig.php')):
 endif;
 # facebook SDK Mod END
 
-// Include config file
-@require_once(NUKE_BASE_DIR.'config.php');
-
-if(!$directory_mode)
+if(!$directory_mode):
 $directory_mode = 0777;
-else
+else:
 $directory_mode = 0755;
+endif;
 
-if (!$file_mode)
+if(!$file_mode):
 $file_mode = 0666;
-else
+else:
 $file_mode = 0644;
+endif;
 
 // Core exceptions handler
 include_once(NUKE_INCLUDE_DIR . 'exception.php');
@@ -512,6 +531,7 @@ $phpbb2_board_config = load_phpbb2_board_config();
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
+
 /*****[BEGIN]******************************************
  [ Mod:     Lock Modules                       v1.0.0 ]
  [ Mod:     Queries Count                      v2.0.0 ]

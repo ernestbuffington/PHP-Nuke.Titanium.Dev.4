@@ -204,7 +204,7 @@ head();
 
 function online() 
 {
-    global $titanium_prefix, $titanium_db, $name, $phpbb2_board_config, $userinfo, $identify;
+    global $screen_res, $titanium_prefix, $titanium_db, $name, $phpbb2_board_config, $userinfo, $identify;
     $ip = $identify->get_ip();
     $url = (defined('ADMIN_FILE')) ? 'index.php' : Fix_Quotes($_SERVER['REQUEST_URI']);
     $uname = $ip;
@@ -438,7 +438,7 @@ function online()
      *
      * @since 2.0.9f
      */
-	global $screen_res;
+	
     if ( $guest == 0 ):
         $titanium_db->sql_query("REPLACE INTO `".$titanium_prefix."_users_who_been` (`user_ID`, 
 		                                                                            `username`, 

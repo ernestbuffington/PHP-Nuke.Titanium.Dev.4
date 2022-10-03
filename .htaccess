@@ -116,6 +116,13 @@ RewriteRule ^.*$ http://127.0.0.1 [R,L]
     Satisfy All
 </files>
 
+
+# vimeo SDK API version 3.4
+# Disable vconfig.php viewing from browser
+<files ~ "\vconfig.php$">
+    deny from all
+</files>
+
 # Network Titanium SDK v5
 # Disable fbconfig.php viewing from browser
 <files ~ "\nconfig.php$">

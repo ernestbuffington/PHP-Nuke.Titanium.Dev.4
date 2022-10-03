@@ -87,8 +87,6 @@ $theme_name = basename(dirname(__FILE__));
 include(NUKE_THEMES_DIR.$theme_name.'/theme_info.php');
 
 # your admin id - this will normally be 2
-$portaladmin = 2;
-
        global $powered_by, 
       $my_welcome_message, 
            $eighty_six_it, 
@@ -100,7 +98,9 @@ $define_theme_xtreme_209e,
      $avatar_overide_size, 
 	           $ThemeInfo, 
 	   $use_xtreme_voting, 
+	         $portaladmin,
 $make_xtreme_avatar_small,
+
              $titanium_db;
 
     list($portaladminname, 

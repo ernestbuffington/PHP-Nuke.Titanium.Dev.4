@@ -97,6 +97,6 @@
 
 <!-- BEGIN twitch --><iframe src="https://{TYPE}.twitch.tv/{TWITCH}&amp;autoplay=false" frameborder="0" scrolling="no" height="{TWITCH_HEIGHT}" width="{TWITCH_WIDTH}" allowfullscreen=""></iframe><!-- END twitch -->
 
-<!-- BEGIN youtube --><iframe id="ytplayer-{YOUTUBE}" width="{YOUTUBE_WIDTH}" height="{YOUTUBE_HEIGHT}" src="//www.youtube.com/embed/{YOUTUBE}?rel=0&amp;vq=hd1080" frameborder="0" allowfullscreen=""></iframe><br />[<a href="https://www.youtube.com/watch?v={YOUTUBE}" target="_blank">{WATCH_YOUTUBE}</a>]<!-- END youtube -->
+<!-- BEGIN youtube --><iframe id="ytplayer-{YOUTUBE}" width="{YOUTUBE_WIDTH}" height="{YOUTUBE_HEIGHT}" src="//www.youtube.com/embed/{YOUTUBE}?rel=0&amp;vq=hd1080" frameborder="0" allowfullscreen=""></iframe><br /><br /><a class="titaniumbutton" href="https://www.youtube.com/watch?v={YOUTUBE}" target="_blank">{WATCH_YOUTUBE}</a><!-- END youtube -->
 
-<!-- BEGIN youtubeV209 --><iframe id="ytplayer-{YOUTUBE}" width="640" height="360" src="//www.youtube.com/embed/{YOUTUBE}?rel=0&amp;vq=hd1080" frameborder="0" allowfullscreen=""></iframe><br />[<a href="https://www.youtube.com/watch?v={YOUTUBE}" target="_blank">{WATCH_YOUTUBE}</a>]<!-- END youtubeV209 -->
+<!-- BEGIN youtubeV209 --><iframe id="ytplayer-{YOUTUBE}" width="640" height="360" src="//www.youtube.com/embed/{YOUTUBE}?rel=0&amp;vq=hd1080" frameborder="0" allowfullscreen=""></iframe><br /><br /><a class="titaniumbutton" href="https://www.youtube.com/watch?v={YOUTUBE}" target="_blank">{WATCH_YOUTUBE}</a><!-- END youtubeV209 -->

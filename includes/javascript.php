@@ -101,9 +101,8 @@ echo "function titaniumAPI() {\n";                   // Testing Graph API after 
 echo "console.log('Welcome!  Fetching your information.... ');\n";
 echo "FB.api('/me', function(response) {\n";
 echo "console.log('Successful login for: ' + response.name);\n";
-    // this error comes with the following
-    // Uncaught TypeError: Cannot set property 'innerHTML' of null
-    // echo "document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';\n";
+
+
 
 
 echo "});\n";
@@ -156,7 +155,7 @@ echo "{\n";
              echo "var uid = response.authResponse.userID;\n";
              echo "var accessToken = response.authResponse.accessToken;\n";
              echo "console.log(response.authResponse.accessToken);\n";
-   echo "}\n";
+  echo "}\n";
    echo "else\n"; 
    echo "if (response.status === 'not_authorized')\n";
    echo "{\n";
@@ -176,6 +175,8 @@ echo "FB.AppEvents.logPageView();\n";
 ##################################################################################################################
 echo "};\n";
 
+
+
 echo "(function(d, s, id){\n";
 echo "var js, fjs = d.getElementsByTagName(s)[0];\n";
 echo "if (d.getElementById(id)) {return;}\n";
@@ -184,6 +185,8 @@ echo "js.src = 'https://connect.facebook.net/en_US/sdk.js';\n";
 
 echo "fjs.parentNode.insertBefore(js, fjs);\n";
 echo "}(document, 'script', 'facebook-jssdk'));\n";
+
+
 echo "//-->\n";
 echo "</script>\n\n";
 
