@@ -2182,7 +2182,7 @@ function outsidelinksetup($lid)
 
     echo ''._PROMOTE02.'<br /><br />';
 	
-	echo '<div align="center"><a href="'.$nukeurl.'/modules.php?name='.$titanium_module_name.'&amp;l_op=ratelink&amp;lid='.$lid.'">'._RATETHISSITE.' @ '.$sitename.'</a></div><br />';
+	echo '<div align="center"><a class=\"titaniumbutton\" href="'.$nukeurl.'/modules.php?name='.$titanium_module_name.'&amp;l_op=ratelink&amp;lid='.$lid.'">'._RATETHISSITE.' @ '.$sitename.'</a></div><br />';
 
 
     echo '<div align="center">'._HTMLCODE1.'</div><br />';
