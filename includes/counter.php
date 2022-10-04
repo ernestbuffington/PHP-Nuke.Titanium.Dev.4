@@ -26,7 +26,7 @@ define('COUNTER', 1);
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))
     exit('Access Denied');
 
-global $titanium_prefix, $titanium_db, $browser, $phpbb2_agent;
+global $pnt_prefix, $pnt_db, $browser, $phpbb2_agent;
 
 if($phpbb2_agent['engine'] == 'bot'):
     $browser = 'Bot';
@@ -43,12 +43,12 @@ else:
 endif;
 
 $now = explode('-',date('d-m-Y-H'));
-$result = $titanium_db->sql_query('UPDATE '.$titanium_prefix."_counter SET count=count+1 WHERE (var='$browser' AND type='browser') OR (var='$os' AND type='os') OR (type='total' AND var='hits')");
-$titanium_db->sql_freeresult($result);
+$result = $pnt_db->sql_query('UPDATE '.$pnt_prefix."_counter SET count=count+1 WHERE (var='$browser' AND type='browser') OR (var='$os' AND type='os') OR (type='total' AND var='hits')");
+$pnt_db->sql_freeresult($result);
 
-if (!$titanium_db->sql_query('UPDATE '.$titanium_prefix."_stats_hour SET hits=hits+1 WHERE (year='$now[2]') AND (month='$now[1]') AND (date='$now[0]') AND (hour='$now[3]')") || !$titanium_db->sql_affectedrows()) {
-    $titanium_db->sql_query('INSERT INTO '.$titanium_prefix."_stats_hour VALUES ('$now[2]','$now[1]','$now[0]','$now[3]','1')");
+if (!$pnt_db->sql_query('UPDATE '.$pnt_prefix."_stats_hour SET hits=hits+1 WHERE (year='$now[2]') AND (month='$now[1]') AND (date='$now[0]') AND (hour='$now[3]')") || !$pnt_db->sql_affectedrows()) {
+    $pnt_db->sql_query('INSERT INTO '.$pnt_prefix."_stats_hour VALUES ('$now[2]','$now[1]','$now[0]','$now[3]','1')");
 }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 ?>

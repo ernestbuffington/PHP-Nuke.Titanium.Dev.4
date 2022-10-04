@@ -20,8 +20,8 @@ $author_email = "nukescripts[at]86it[dot]us";
 $author_homepage = "https://nukescripts.86it.us";
 $license = "GNU/GPL 2.0";
 $download_location = "https://php-nuke-titanium.86it.us";
-$titanium_module_version = "4.0.2";
-$titanium_module_description = "Advanced Network Project Management";
+$pnt_module_version = "4.0.2";
+$pnt_module_description = "Advanced Network Project Management";
 
 // DO NOT TOUCH THE FOLLOWING COPYRIGHT CODE. YOU'RE JUST ALLOWED TO CHANGE YOUR "OWN"
 // MODULE'S DATA (SEE ABOVE) SO THE SYSTEM CAN BE ABLE TO SHOW THE COPYRIGHT NOTICE
@@ -30,5 +30,5 @@ $titanium_module_description = "Advanced Network Project Management";
 // AND YOU ARE NOT ALLOWED TO DELETE THIS FILE NOR TO CHANGE ANYTHING FROM THIS FILE IF
 // YOU'RE NOT THIS MODULE'S AUTHOR.
 
-show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $titanium_module_version, $titanium_module_description);
+show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $pnt_module_version, $pnt_module_description);
 ?>

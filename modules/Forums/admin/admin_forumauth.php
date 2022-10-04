@@ -35,7 +35,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $titanium_module['Forums']['Permissions']   = $filename;
+        $pnt_module['Forums']['Permissions']   = $filename;
 
         return;
 }
@@ -174,7 +174,7 @@ if( isset($HTTP_POST_VARS['submit']) )
 
                 if ( $sql != '' )
                 {
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update auth table', '', __LINE__, __FILE__, $sql);
                         }
@@ -202,13 +202,13 @@ $sql = "SELECT f.*
         WHERE c.cat_id = f.cat_id
         $forum_sql
         ORDER BY c.cat_order ASC, f.forum_order ASC";
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
         message_die(GENERAL_ERROR, "Couldn't obtain forum list", "", __LINE__, __FILE__, $sql);
 }
 
-$forum_rows = $titanium_db->sql_fetchrowset($result);
-$titanium_db->sql_freeresult($result);
+$forum_rows = $pnt_db->sql_fetchrowset($result);
+$pnt_db->sql_freeresult($result);
 
 if( empty($phpbb2_forum_id) )
 {

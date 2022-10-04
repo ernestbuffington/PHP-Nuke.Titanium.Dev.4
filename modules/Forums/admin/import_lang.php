@@ -62,14 +62,14 @@ include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
 
 $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $titanium_db->sql_fetchrow($result))
+while ($row = $pnt_db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
@@ -151,8 +151,8 @@ if ($mode == 'import_new_lang' && $submit)
         @reset($lang_array);
         while (list($key, $data) = @each($lang_array))
         {
-            $titanium_modules = get_modules_from_lang_block($data);
-            add_new_language_predefined($key, $titanium_modules);
+            $pnt_modules = get_modules_from_lang_block($data);
+            add_new_language_predefined($key, $pnt_modules);
         }
         
         message_die(GENERAL_MESSAGE, $lang['Language_pak_installed']);
@@ -255,9 +255,9 @@ if ($mode == 'import_new_lang' && $submit)
             'LANGUAGE' => $language)
         );
 
-        $titanium_modules = get_modules_from_lang_block($data);
-        @reset($titanium_modules);
-        while (list($pnt_module, $titanium_module_data) = each($titanium_modules))
+        $pnt_modules = get_modules_from_lang_block($data);
+        @reset($pnt_modules);
+        while (list($pnt_module, $pnt_module_data) = each($pnt_modules))
         {
             $phpbb2_template->assign_block_vars('languages.modules', array(
                 'MODULE' => $pnt_module)
@@ -301,22 +301,22 @@ if (($mode == 'import_new_lang') && (!$submit))
         {
             $phpbb2_template->assign_block_vars('switch_select_lang', array());
 
-            $titanium_module_select_field = '<select name="selected_pak_file">';
+            $pnt_module_select_field = '<select name="selected_pak_file">';
 
-            for ($i = 0; $i < count($titanium_module_paks); $i++)
+            for ($i = 0; $i < count($pnt_module_paks); $i++)
             {
                 $selected = ($i == 0) ? ' selected="selected"' : '';
 
-                $titanium_module_select_field .= '<option value="' . $lang_paks[$i] . '"' . $selected . '>' . $lang_paks[$i] . '</option>';
+                $pnt_module_select_field .= '<option value="' . $lang_paks[$i] . '"' . $selected . '>' . $lang_paks[$i] . '</option>';
             }
     
-            $titanium_module_select_field .= '</select>';
+            $pnt_module_select_field .= '</select>';
             
             $s_hidden_fields = '<input type="hidden" name="fileselect" value="1">';
 
             $phpbb2_template->assign_vars(array(
                 'L_SELECT_LANGUAGE' => $lang['Select_language_pak'],
-                'S_SELECT_LANGUAGE' => $titanium_module_select_field,
+                'S_SELECT_LANGUAGE' => $pnt_module_select_field,
                 'S_SELECT_HIDDEN_FIELDS' => $s_hidden_fields)
             );
         

@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 get_lang('Network_Projects');
 if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 $project_id = intval($project_id);
@@ -28,8 +28,8 @@ if($project['allowrequests'] > 0) {
     $submitter_name = htmlentities($submitter_name, ENT_QUOTES);
     $request_name = htmlentities($request_name, ENT_QUOTES);
     $request_description = htmlentities($request_description, ENT_QUOTES);
-    $titanium_db2->sql_query("INSERT INTO `".$network_prefix."_requests` VALUES (NULL, '$project_id', '$type_id', '$status_id', '$request_name', '$request_description', '$submitter_name', '$submitter_email', '$submitter_ip', '$date', '0', '0')");
-    list($request_id) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `request_id` FROM `".$network_prefix."_requests` WHERE `date_submitted`='$date' AND `project_id`='$project_id' AND `type_id`='$type_id' AND `status_id`='$status_id' AND `request_name`='$request_name'"));
+    $pnt_db2->sql_query("INSERT INTO `".$network_prefix."_requests` VALUES (NULL, '$project_id', '$type_id', '$status_id', '$request_name', '$request_description', '$submitter_name', '$submitter_email', '$submitter_ip', '$date', '0', '0')");
+    list($request_id) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `request_id` FROM `".$network_prefix."_requests` WHERE `date_submitted`='$date' AND `project_id`='$project_id' AND `type_id`='$type_id' AND `status_id`='$status_id' AND `request_name`='$request_name'"));
     if($pj_config['notify_request_admin'] == 1){
       $admin_email = $adminmail;
       $subject = _NETWORK_NEWREQUESTMESSAGES;

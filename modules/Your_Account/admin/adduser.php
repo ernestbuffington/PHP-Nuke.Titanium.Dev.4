@@ -62,8 +62,8 @@ if(is_mod_admin($pnt_module)) {
     echo "<tr><td bgcolor='$bgcolor2'>"._FAKEEMAIL.":</td><td bgcolor='$bgcolor1'><input type='text' name='add_femail' size='30' maxlength='60'></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._URL.":</td><td bgcolor='$bgcolor1'><input type='text' name='add_url' size='30' maxlength='60'></td></tr>\n";
 
-    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
-        while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
+    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
+        while ($sqlvalue = $pnt_db->sql_fetchrow($result)) {
           $t = $sqlvalue[fid];
           $value2 = explode("::", $sqlvalue[value]);
           if (substr($sqlvalue[name],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue[name];

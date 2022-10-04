@@ -18,9 +18,9 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 if(is_god($admin)) {
   $importnamed = $exportnamed = '';
   $importadded = $exportadded = 0;
-  $importad = $titanium_db->sql_query("SELECT `aid`, `name`, `pwd` FROM `".$titanium_prefix."_authors`");
-  while(list($a_aid, $a_name, $a_pwd) = $titanium_db->sql_fetchrow($importad)) {
-    $adminrow = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT `aid` FROM `".$titanium_prefix."_nsnst_admins` WHERE `aid`='$a_aid'"));
+  $importad = $pnt_db->sql_query("SELECT `aid`, `name`, `pwd` FROM `".$pnt_prefix."_authors`");
+  while(list($a_aid, $a_name, $a_pwd) = $pnt_db->sql_fetchrow($importad)) {
+    $adminrow = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `aid` FROM `".$pnt_prefix."_nsnst_admins` WHERE `aid`='$a_aid'"));
     if($adminrow == 0) {
       $importadded++;
       if($importnamed == '') { $importnamed = $a_aid; } else { $importnamed = $importnamed.', '.$a_aid; }
@@ -35,27 +35,27 @@ if(is_god($admin)) {
       $xpassword_crypt = crypt($makepass);
       if(!get_magic_quotes_runtime()) { $makepass = addslashes($makepass); }
       if(strtolower($a_name) == "god") { $is_god = 1; } else { $is_god = 0; }
-      $result = $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_nsnst_admins` (`aid`, `login`, `protected`, `password`, `password_md5`, `password_crypt`) VALUES ('$a_aid', '$a_aid', '$is_god', '$makepass', '$xpassword_md5', '$xpassword_crypt')");
-      $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_nsnst_admins");
-      $aidrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_admins` WHERE `aid`='$a_aid' LIMIT 0,1"));
+      $result = $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_nsnst_admins` (`aid`, `login`, `protected`, `password`, `password_md5`, `password_crypt`) VALUES ('$a_aid', '$a_aid', '$is_god', '$makepass', '$xpassword_md5', '$xpassword_crypt')");
+      $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_nsnst_admins");
+      $aidrow = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_admins` WHERE `aid`='$a_aid' LIMIT 0,1"));
       $subject = _AB_ACCESSFOR." ".$nuke_config['sitename'];
       $message  = _AB_HTTPONLY."\n";
       $message .= _AB_LOGIN.': '.$aidrow['login']."\n";
       $message .= _AB_PASSWORD.': '.$aidrow['password']."\n";
       $message .= _AB_PROTECTED.': ';
       if($aidrow['protected']==0) { $message .= _AB_NO."\n"; } else { $message .= _AB_YES."\n"; }
-      list($amail) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `email` FROM `".$titanium_prefix."_authors` WHERE `aid`='$a_aid' LIMIT 0,1"));
+      list($amail) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `email` FROM `".$pnt_prefix."_authors` WHERE `aid`='$a_aid' LIMIT 0,1"));
       @evo_mail($amail, $subject, $message,"From: ".$nuke_config['adminmail']."\r\nX-Mailer: "._AB_NUKESENTINEL."\r\n");
     }
   }
-  $exportad = $titanium_db->sql_query("SELECT `aid` FROM `".$titanium_prefix."_nsnst_admins`");
-  while(list($a_aid) = $titanium_db->sql_fetchrow($exportad)) {
-    $adminrow = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT `aid` FROM `".$titanium_prefix."_authors` WHERE `aid`='$a_aid' LIMIT 0,1"));
+  $exportad = $pnt_db->sql_query("SELECT `aid` FROM `".$pnt_prefix."_nsnst_admins`");
+  while(list($a_aid) = $pnt_db->sql_fetchrow($exportad)) {
+    $adminrow = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `aid` FROM `".$pnt_prefix."_authors` WHERE `aid`='$a_aid' LIMIT 0,1"));
     if($adminrow == 0) {
       $exportadded++;
       if($exportnamed == '') { $exportnamed = $a_aid; } else { $exportnamed = $exportnamed.', '.$a_aid; }
-      $result = $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_admins` WHERE `aid`='$a_aid' LIMIT 1");
-      $titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_admins`");
+      $result = $pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_admins` WHERE `aid`='$a_aid' LIMIT 1");
+      $pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_admins`");
     }
   }
   include_once(NUKE_BASE_DIR.'header.php');

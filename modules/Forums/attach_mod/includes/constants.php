@@ -24,14 +24,14 @@ define('IMAGE_CAT', 1);
 define('STREAM_CAT', 2);
 define('SWF_CAT', 3);
 // Tables
-define('ATTACH_CONFIG_TABLE', $titanium_prefix . '_bbattachments_config');
-define('EXTENSION_GROUPS_TABLE', $titanium_prefix . '_bbextension_groups');
-define('EXTENSIONS_TABLE', $titanium_prefix . '_bbextensions');
-define('FORBIDDEN_EXTENSIONS_TABLE', $titanium_prefix . '_bbforbidden_extensions');
-define('ATTACHMENTS_DESC_TABLE', $titanium_prefix . '_bbattachments_desc');
-define('ATTACHMENTS_TABLE', $titanium_prefix . '_bbattachments');
-define('QUOTA_TABLE', $titanium_prefix . '_bbattach_quota');
-define('QUOTA_LIMITS_TABLE', $titanium_prefix . '_bbquota_limits');
+define('ATTACH_CONFIG_TABLE', $pnt_prefix . '_bbattachments_config');
+define('EXTENSION_GROUPS_TABLE', $pnt_prefix . '_bbextension_groups');
+define('EXTENSIONS_TABLE', $pnt_prefix . '_bbextensions');
+define('FORBIDDEN_EXTENSIONS_TABLE', $pnt_prefix . '_bbforbidden_extensions');
+define('ATTACHMENTS_DESC_TABLE', $pnt_prefix . '_bbattachments_desc');
+define('ATTACHMENTS_TABLE', $pnt_prefix . '_bbattachments');
+define('QUOTA_TABLE', $pnt_prefix . '_bbattach_quota');
+define('QUOTA_LIMITS_TABLE', $pnt_prefix . '_bbquota_limits');
 // Pages
 define('PAGE_UACP', -1210);
 define('PAGE_RULES', -1214);

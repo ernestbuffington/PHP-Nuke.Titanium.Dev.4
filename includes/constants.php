@@ -212,164 +212,164 @@ define('HIDDEN_CAT', 0); // NOTE: change this value to the forum id, of the foru
  ******************************************************/
 
 // Nuke-Evolution Core Tables
-define('_AUTHOR_TABLE', $titanium_prefix.'_authors');
-define('_AUTONEWS_TABLE', $titanium_prefix.'_autonews');
-define('_BLOCKS_TABLE', $titanium_prefix.'_blocks');
-define('_COMMENTS_TABLE', $titanium_prefix.'_comments');
-define('_COUNTER_TABLE', $titanium_prefix.'_counter');
-define('_COUNTRY_TABLE', $titanium_prefix.'_country');
-define('_EVOCONFIG_TABLE', $titanium_prefix.'_evolution');
-define('_EVO_CONFIG_TABLE', $titanium_prefix.'_evolution_config');
-define('_HEADLINES_TABLE', $titanium_prefix.'_headlines');
-define('_MAIN_TABLE', $titanium_prefix.'_main');
-define('_META_TABLE', $titanium_prefix.'_meta');
-define('_MESSAGE_TABLE', $titanium_prefix.'_message');
-define('_MODULES_TABLE', $titanium_prefix.'_modules');
-define('_MODULES_CATEGORIES_TABLE', $titanium_prefix.'_modules_cat');
-define('_MODULES_CONFIG_TABLE', $titanium_prefix.'_modules_config');
-define('_MODULES_EXLINKS_TABLE', $titanium_prefix.'_modules_links');
-define('_MODULES_POPUPS_TABLE', $titanium_prefix.'_modules_popups');
-define('_MOSTONLINE_TABLE', $titanium_prefix.'_mostonline');
-define('_NUKE_CONFIG_TABLE', $titanium_prefix.'_config');
-define('_QUEUE_TABLE', $titanium_prefix.'_queue');
-define('_REFERER_TABLE', $titanium_prefix.'_referer');
-define('_SECURITY_BOT_TABLE', $titanium_prefix.'_security_agents');
-define('_SESSION_TABLE', $titanium_prefix.'_session');
-define('_THEMES_TABLE', $titanium_prefix.'_themes');
-define('_THEMES_INFO_TABLE', $titanium_prefix.'_themes_info');
-define('_WELCOME_PM_TABLE', $titanium_prefix.'_welcome_pm');
-define('_USERS_WHO_BEEN', $titanium_prefix.'_users_who_been');
+define('_AUTHOR_TABLE', $pnt_prefix.'_authors');
+define('_AUTONEWS_TABLE', $pnt_prefix.'_autonews');
+define('_BLOCKS_TABLE', $pnt_prefix.'_blocks');
+define('_COMMENTS_TABLE', $pnt_prefix.'_comments');
+define('_COUNTER_TABLE', $pnt_prefix.'_counter');
+define('_COUNTRY_TABLE', $pnt_prefix.'_country');
+define('_EVOCONFIG_TABLE', $pnt_prefix.'_evolution');
+define('_EVO_CONFIG_TABLE', $pnt_prefix.'_evolution_config');
+define('_HEADLINES_TABLE', $pnt_prefix.'_headlines');
+define('_MAIN_TABLE', $pnt_prefix.'_main');
+define('_META_TABLE', $pnt_prefix.'_meta');
+define('_MESSAGE_TABLE', $pnt_prefix.'_message');
+define('_MODULES_TABLE', $pnt_prefix.'_modules');
+define('_MODULES_CATEGORIES_TABLE', $pnt_prefix.'_modules_cat');
+define('_MODULES_CONFIG_TABLE', $pnt_prefix.'_modules_config');
+define('_MODULES_EXLINKS_TABLE', $pnt_prefix.'_modules_links');
+define('_MODULES_POPUPS_TABLE', $pnt_prefix.'_modules_popups');
+define('_MOSTONLINE_TABLE', $pnt_prefix.'_mostonline');
+define('_NUKE_CONFIG_TABLE', $pnt_prefix.'_config');
+define('_QUEUE_TABLE', $pnt_prefix.'_queue');
+define('_REFERER_TABLE', $pnt_prefix.'_referer');
+define('_SECURITY_BOT_TABLE', $pnt_prefix.'_security_agents');
+define('_SESSION_TABLE', $pnt_prefix.'_session');
+define('_THEMES_TABLE', $pnt_prefix.'_themes');
+define('_THEMES_INFO_TABLE', $pnt_prefix.'_themes_info');
+define('_WELCOME_PM_TABLE', $pnt_prefix.'_welcome_pm');
+define('_USERS_WHO_BEEN', $pnt_prefix.'_users_who_been');
 
 // Admin failed login check
-define('_FAILED_LOGIN_INFO_TABLE', $titanium_prefix.'_admin_fc');
+define('_FAILED_LOGIN_INFO_TABLE', $pnt_prefix.'_admin_fc');
 
 // Error-Log
-define('_ERROR_TABLE', $titanium_prefix.'_errors');
-define('_ERROR_CONFIG_TABLE', $titanium_prefix.'_errors_config');
+define('_ERROR_TABLE', $pnt_prefix.'_errors');
+define('_ERROR_CONFIG_TABLE', $pnt_prefix.'_errors_config');
 
 // Evo_UserBlock
-define('_BLOCK_EVO_USERINFO_TABLE', $titanium_prefix.'_evo_userinfo');
-define('_BLOCK_EVO_USERINFO_ADDONS_TABLE', $titanium_prefix.'_evo_userinfo_addons');
+define('_BLOCK_EVO_USERINFO_TABLE', $pnt_prefix.'_evo_userinfo');
+define('_BLOCK_EVO_USERINFO_ADDONS_TABLE', $pnt_prefix.'_evo_userinfo_addons');
 
 // FAQ
-define('_FAQ_ANSWER_TABLE', $titanium_prefix.'_faqanswer');
-define('_FAQ_CATEGORIES_TABLE', $titanium_prefix.'_faqcategories');
+define('_FAQ_ANSWER_TABLE', $pnt_prefix.'_faqanswer');
+define('_FAQ_CATEGORIES_TABLE', $pnt_prefix.'_faqcategories');
 
 // Honeypot
-define('_HONEYPOT_TABLE', $titanium_prefix.'_honeypot');
-define('_HONEYPOT_CONFIG_TABLE', $titanium_prefix.'_honeypot_config');
+define('_HONEYPOT_TABLE', $pnt_prefix.'_honeypot');
+define('_HONEYPOT_CONFIG_TABLE', $pnt_prefix.'_honeypot_config');
 
 // Link Us
-define('_LINKUS_CONFIG_TABLE', $titanium_prefix.'_link_us_config');
-define('_LINKUS_TABLE', $titanium_prefix.'_link_us');
+define('_LINKUS_CONFIG_TABLE', $pnt_prefix.'_link_us_config');
+define('_LINKUS_TABLE', $pnt_prefix.'_link_us');
 
 // News
-define('_NSNNE_FUNC_TABLE', $titanium_prefix.'_nsnne_func');
-define('_NSNNE_CONFIG_TABLE', $titanium_prefix.'_nsnne_config');
+define('_NSNNE_FUNC_TABLE', $pnt_prefix.'_nsnne_func');
+define('_NSNNE_CONFIG_TABLE', $pnt_prefix.'_nsnne_config');
 
 // Sommaire (not pre-installed within Evo)
-define('_SOMMAIRE_TABLE', $titanium_prefix.'_sommaire');
-define('_SOMMAIRE_CATEGORIES_TABLE', $titanium_prefix.'_sommaire_categories');
+define('_SOMMAIRE_TABLE', $pnt_prefix.'_sommaire');
+define('_SOMMAIRE_CATEGORIES_TABLE', $pnt_prefix.'_sommaire_categories');
 
 // Statistics
-define('_STATS_HOUR_TABLE', $titanium_prefix.'_stats_hour');
+define('_STATS_HOUR_TABLE', $pnt_prefix.'_stats_hour');
 
 // Stories Archive
-define('_STORIES_TABLE', $titanium_prefix.'_stories');
-define('_STORIES_CATEGORIES_TABLE', $titanium_prefix.'_stories_cat');
+define('_STORIES_TABLE', $pnt_prefix.'_stories');
+define('_STORIES_CATEGORIES_TABLE', $pnt_prefix.'_stories_cat');
 
 // Supporters
-define('_NSNSP_SITES_TABLE', $titanium_prefix.'_nsnsp_sites');
-define('_NSNSP_CONFIG_TABLE', $titanium_prefix.'_nsnsp_config');
+define('_NSNSP_SITES_TABLE', $pnt_prefix.'_nsnsp_sites');
+define('_NSNSP_CONFIG_TABLE', $pnt_prefix.'_nsnsp_config');
 
 // Surveys
-define('_POLL_COMMENTS_TABLE', $titanium_prefix.'_pollcomments');
-define('_POLL_DESC_TABLE', $titanium_prefix.'_poll_desc');
-define('_POLL_DATA_TABLE', $titanium_prefix.'_poll_data');
-define('_POLL_CHECK_TABLE', $titanium_prefix.'_poll_check');
+define('_POLL_COMMENTS_TABLE', $pnt_prefix.'_pollcomments');
+define('_POLL_DESC_TABLE', $pnt_prefix.'_poll_desc');
+define('_POLL_DATA_TABLE', $pnt_prefix.'_poll_data');
+define('_POLL_CHECK_TABLE', $pnt_prefix.'_poll_check');
 
 // Topics
-define('_TOPICS_TABLE', $titanium_prefix.'_topics');
+define('_TOPICS_TABLE', $pnt_prefix.'_topics');
 
 // Web Links
-define('_WEBLINKS_CONFIG_TABLE', $titanium_prefix.'_links_config');
-define('_WEBLINKS_CATEGORIES_TABLE', $titanium_prefix.'_links_categories');
-define('_WEBLINKS_SUBCATEGORIES_TABLE', $titanium_prefix.'_links_subcategories');
-define('_WEBLINKS_LINKS_TABLE', $titanium_prefix.'_links_links');
-define('_WEBLINKS_NEWLINK_TABLE', $titanium_prefix.'_links_newlink');
-define('_WEBLINKS_EDITORIALS_TABLE', $titanium_prefix.'_links_editorials');
-define('_WEBLINKS_VOTEDATA_TABLE', $titanium_prefix.'_links_votedata');
-define('_WEBLINKS_MODREQUEST_TABLE', $titanium_prefix.'_links_modrequest');
+define('_WEBLINKS_CONFIG_TABLE', $pnt_prefix.'_links_config');
+define('_WEBLINKS_CATEGORIES_TABLE', $pnt_prefix.'_links_categories');
+define('_WEBLINKS_SUBCATEGORIES_TABLE', $pnt_prefix.'_links_subcategories');
+define('_WEBLINKS_LINKS_TABLE', $pnt_prefix.'_links_links');
+define('_WEBLINKS_NEWLINK_TABLE', $pnt_prefix.'_links_newlink');
+define('_WEBLINKS_EDITORIALS_TABLE', $pnt_prefix.'_links_editorials');
+define('_WEBLINKS_VOTEDATA_TABLE', $pnt_prefix.'_links_votedata');
+define('_WEBLINKS_MODREQUEST_TABLE', $pnt_prefix.'_links_modrequest');
 
 // Your Account (CNBYA)
-define('_CNBYA_CONFIG_TABLE', $titanium_prefix.'_cnbya_config');
-define('_CNBYA_VALUE_TABLE', $titanium_prefix.'_cnbya_value');
-define('_CNBYA_FIELD_TABLE', $titanium_prefix.'_cnbya_field');
-define('_CNBYA_VALUE_TEMP_TABLE', $titanium_prefix.'_cnbya_value_temp');
+define('_CNBYA_CONFIG_TABLE', $pnt_prefix.'_cnbya_config');
+define('_CNBYA_VALUE_TABLE', $pnt_prefix.'_cnbya_value');
+define('_CNBYA_FIELD_TABLE', $pnt_prefix.'_cnbya_field');
+define('_CNBYA_VALUE_TEMP_TABLE', $pnt_prefix.'_cnbya_value_temp');
 
 
 
 // Table names
-//define('CONFIRM_TABLE', $titanium_prefix.'_bbconfirm');
-define('AUC_TABLE', $titanium_prefix.'_bbadvanced_username_color');
-define('AUTH_ACCESS_TABLE', $titanium_prefix.'_bbauth_access');
-define('BANLIST_TABLE', $titanium_prefix.'_bbbanlist');
-define('CATEGORIES_TABLE', $titanium_prefix.'_bbcategories');
-define('CONFIG_TABLE', $titanium_prefix.'_bbconfig');
-define('DISALLOW_TABLE', $titanium_prefix.'_bbdisallow');
-define('FORUMS_TABLE', $titanium_prefix.'_bbforums');
-define('GROUPS_TABLE', $titanium_prefix.'_bbgroups');
-define('POSTS_TABLE', $titanium_prefix.'_bbposts');
+//define('CONFIRM_TABLE', $pnt_prefix.'_bbconfirm');
+define('AUC_TABLE', $pnt_prefix.'_bbadvanced_username_color');
+define('AUTH_ACCESS_TABLE', $pnt_prefix.'_bbauth_access');
+define('BANLIST_TABLE', $pnt_prefix.'_bbbanlist');
+define('CATEGORIES_TABLE', $pnt_prefix.'_bbcategories');
+define('CONFIG_TABLE', $pnt_prefix.'_bbconfig');
+define('DISALLOW_TABLE', $pnt_prefix.'_bbdisallow');
+define('FORUMS_TABLE', $pnt_prefix.'_bbforums');
+define('GROUPS_TABLE', $pnt_prefix.'_bbgroups');
+define('POSTS_TABLE', $pnt_prefix.'_bbposts');
 /*--FNA--*/
-define('POSTS_TEXT_TABLE', $titanium_prefix.'_bbposts_text');
-define('PRIVMSGS_TABLE', $titanium_prefix.'_bbprivmsgs');
-define('PRIVMSGS_TEXT_TABLE', $titanium_prefix.'_bbprivmsgs_text');
-define('PRIVMSGS_IGNORE_TABLE', $titanium_prefix.'_bbprivmsgs_ignore');
-define('PRUNE_TABLE', $titanium_prefix.'_bbforum_prune');
-define('RANKS_TABLE', $titanium_prefix.'_bbranks');
-define('SEARCH_TABLE', $titanium_prefix.'_bbsearch_results');
-define('SEARCH_WORD_TABLE', $titanium_prefix.'_bbsearch_wordlist');
-define('SEARCH_MATCH_TABLE', $titanium_prefix.'_bbsearch_wordmatch');
-define('SESSIONS_TABLE', $titanium_prefix.'_bbsessions');
-define('SESSIONS_KEYS_TABLE', $titanium_prefix.'_bbsessions_keys');
-define('SMILIES_TABLE', $titanium_prefix.'_bbsmilies');
+define('POSTS_TEXT_TABLE', $pnt_prefix.'_bbposts_text');
+define('PRIVMSGS_TABLE', $pnt_prefix.'_bbprivmsgs');
+define('PRIVMSGS_TEXT_TABLE', $pnt_prefix.'_bbprivmsgs_text');
+define('PRIVMSGS_IGNORE_TABLE', $pnt_prefix.'_bbprivmsgs_ignore');
+define('PRUNE_TABLE', $pnt_prefix.'_bbforum_prune');
+define('RANKS_TABLE', $pnt_prefix.'_bbranks');
+define('SEARCH_TABLE', $pnt_prefix.'_bbsearch_results');
+define('SEARCH_WORD_TABLE', $pnt_prefix.'_bbsearch_wordlist');
+define('SEARCH_MATCH_TABLE', $pnt_prefix.'_bbsearch_wordmatch');
+define('SESSIONS_TABLE', $pnt_prefix.'_bbsessions');
+define('SESSIONS_KEYS_TABLE', $pnt_prefix.'_bbsessions_keys');
+define('SMILIES_TABLE', $pnt_prefix.'_bbsmilies');
 /*****[BEGIN]******************************************
  [ Mod:    Thank You Mod                       v1.1.8 ]
  ******************************************************/
-define('THANKS_TABLE', $titanium_prefix.'_bbthanks');
+define('THANKS_TABLE', $pnt_prefix.'_bbthanks');
 /*****[END]********************************************
  [ Mod:    Thank You Mod                       v1.1.8 ]
  ******************************************************/
-define('THEMES_TABLE', $titanium_prefix.'_bbthemes');
-define('THEMES_NAME_TABLE', $titanium_prefix.'_bbthemes_name');
-define('TOPICS_TABLE', $titanium_prefix.'_bbtopics');
+define('THEMES_TABLE', $pnt_prefix.'_bbthemes');
+define('THEMES_NAME_TABLE', $pnt_prefix.'_bbthemes_name');
+define('TOPICS_TABLE', $pnt_prefix.'_bbtopics');
 /*****[BEGIN]******************************************
  [ Mod:     Email topic to friend              v1.0.0 ]
  ******************************************************/
-define('TOPICS_EMAIL_TABLE', $titanium_prefix.'_bbtopics_email');
+define('TOPICS_EMAIL_TABLE', $pnt_prefix.'_bbtopics_email');
 /*****[END]********************************************
  [ Mod:     Email topic to friend              v1.0.0 ]
  ******************************************************/
-define('TOPICS_WATCH_TABLE', $titanium_prefix.'_bbtopics_watch');
-define('USER_GROUP_TABLE', $titanium_prefix.'_bbuser_group');
-define('USERS_TABLE', $titanium_user_prefix.'_users');
-define('USERS_TEMP_TABLE', $titanium_user_prefix.'_users_temp');
-define('WORDS_TABLE', $titanium_prefix.'_bbwords');
-define('VOTE_DESC_TABLE', $titanium_prefix.'_bbvote_desc');
-define('VOTE_RESULTS_TABLE', $titanium_prefix.'_bbvote_results');
-define('VOTE_USERS_TABLE', $titanium_prefix.'_bbvote_voters');
+define('TOPICS_WATCH_TABLE', $pnt_prefix.'_bbtopics_watch');
+define('USER_GROUP_TABLE', $pnt_prefix.'_bbuser_group');
+define('USERS_TABLE', $pnt_user_prefix.'_users');
+define('USERS_TEMP_TABLE', $pnt_user_prefix.'_users_temp');
+define('WORDS_TABLE', $pnt_prefix.'_bbwords');
+define('VOTE_DESC_TABLE', $pnt_prefix.'_bbvote_desc');
+define('VOTE_RESULTS_TABLE', $pnt_prefix.'_bbvote_results');
+define('VOTE_USERS_TABLE', $pnt_prefix.'_bbvote_voters');
 /*****[START]******************************************
  [ Base:    Who viewed a topic                 v1.0.3 ]
  ******************************************************/
-define('TOPIC_VIEW_TABLE', $titanium_prefix.'_bbtopic_view'); 
+define('TOPIC_VIEW_TABLE', $pnt_prefix.'_bbtopic_view'); 
 /*****[END]********************************************
  [ Base:    Who viewed a topic                 v1.0.3 ]
  ******************************************************/
 /*****[BEGIN]******************************************
  [ Mod:     Users Reputations Systems          v1.0.0 ]
  ******************************************************/
-define('REPUTATION_TABLE', $titanium_prefix.'_bbreputation');
-define('REPUTATION_CONFIG_TABLE', $titanium_prefix.'_bbreputation_config');
+define('REPUTATION_TABLE', $pnt_prefix.'_bbreputation');
+define('REPUTATION_CONFIG_TABLE', $pnt_prefix.'_bbreputation_config');
 /*****[END]********************************************
  [ Mod:     Users Reputations System           v1.0.0 ]
  ******************************************************/
@@ -377,16 +377,16 @@ define('REPUTATION_CONFIG_TABLE', $titanium_prefix.'_bbreputation_config');
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
-define('FLAG_TABLE', $titanium_prefix.'_bbflags');
+define('FLAG_TABLE', $pnt_prefix.'_bbflags');
 /*****[END]********************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
 /*****[BEGIN]******************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
-define('XDATA_FIELDS_TABLE', $titanium_prefix.'_bbxdata_fields');
-define('XDATA_DATA_TABLE', $titanium_prefix.'_bbxdata_data');
-define('XDATA_AUTH_TABLE', $titanium_prefix.'_bbxdata_auth');
+define('XDATA_FIELDS_TABLE', $pnt_prefix.'_bbxdata_fields');
+define('XDATA_DATA_TABLE', $pnt_prefix.'_bbxdata_data');
+define('XDATA_AUTH_TABLE', $pnt_prefix.'_bbxdata_auth');
 
 define('XD_AUTH_ALLOW', 1);
 define('XD_AUTH_DENY', 0);
@@ -409,7 +409,7 @@ define('XD_REGEXP_NUMBERS', "/^[0-9]{1,}$/");
 define('REPORT_POST_NEW', 1);
 define('REPORT_POST_CLOSED', 2);
 
-define('POST_REPORTS_TABLE', $titanium_prefix.'_bbpost_reports');
+define('POST_REPORTS_TABLE', $pnt_prefix.'_bbpost_reports');
 /*****[END]********************************************
  [ Mod:     Report Posts                       v1.2.3 ]
  ******************************************************/
@@ -417,7 +417,7 @@ define('POST_REPORTS_TABLE', $titanium_prefix.'_bbpost_reports');
 /*****[BEGIN]******************************************
  [ Mod:     Quick Search                       v3.0.1 ]
  ******************************************************/
-define('QUICKSEARCH_TABLE', $titanium_prefix.'_bbquicksearch');
+define('QUICKSEARCH_TABLE', $pnt_prefix.'_bbquicksearch');
 /*****[END]********************************************
  [ Mod:     Quick Search                       v3.0.1 ]
  ******************************************************/
@@ -447,8 +447,8 @@ define('FULL_PC', 6);
 /*****[BEGIN]******************************************
  [ Mod:     Log Moderator Actions              v1.1.6 ]
  ******************************************************/
-define('LOGS_TABLE', $titanium_prefix.'_bblogs');
-define('LOGS_CONFIG_TABLE', $titanium_prefix.'_bblogs_config');
+define('LOGS_TABLE', $pnt_prefix.'_bblogs');
+define('LOGS_CONFIG_TABLE', $pnt_prefix.'_bblogs_config');
 define('LOG_ACTIONS_VERSION', '1.1.6');
 /*****[END]********************************************
  [ Mod:     Log Moderator Actions              v1.1.6 ]
@@ -486,15 +486,15 @@ define('BIRTHDAY_PM',3);
 /*****[BEGIN]******************************************
  [ Mod:     Arcade                             v3.0.2 ]
  ******************************************************/
-define('GAMES_TABLE', $titanium_prefix.'_bbgames');
-define('SCORES_TABLE', $titanium_prefix.'_bbscores');
-define('GAMEHASH_TABLE', $titanium_prefix.'_bbgamehash');
-define('HACKGAME_TABLE', $titanium_prefix.'_bbhackgame');
-define('ARCADE_CATEGORIES_TABLE', $titanium_prefix.'_bbarcade_categories');
-define('ARCADE_TABLE', $titanium_prefix.'_bbarcade');
-define('AUTH_ARCADE_ACCESS_TABLE', $titanium_prefix.'_bbauth_arcade_access');
-define('COMMENTS_TABLE', $titanium_prefix.'_bbarcade_comments'); 
-define('ARCADE_FAV_TABLE', $titanium_prefix.'_bbarcade_fav');
+define('GAMES_TABLE', $pnt_prefix.'_bbgames');
+define('SCORES_TABLE', $pnt_prefix.'_bbscores');
+define('GAMEHASH_TABLE', $pnt_prefix.'_bbgamehash');
+define('HACKGAME_TABLE', $pnt_prefix.'_bbhackgame');
+define('ARCADE_CATEGORIES_TABLE', $pnt_prefix.'_bbarcade_categories');
+define('ARCADE_TABLE', $pnt_prefix.'_bbarcade');
+define('AUTH_ARCADE_ACCESS_TABLE', $pnt_prefix.'_bbauth_arcade_access');
+define('COMMENTS_TABLE', $pnt_prefix.'_bbarcade_comments'); 
+define('ARCADE_FAV_TABLE', $pnt_prefix.'_bbarcade_fav');
 /*****[END]********************************************
  [ Mod:     Arcade                             v3.0.2 ]
  ******************************************************/
@@ -503,48 +503,48 @@ define('ARCADE_FAV_TABLE', $titanium_prefix.'_bbarcade_fav');
 [ Mod: Inline Banner Ad                       v1.2.3 ]
 ******************************************************/
 define('ALL', 1);
-define('ADS_TABLE', $titanium_prefix.'_bbinline_ads');
+define('ADS_TABLE', $pnt_prefix.'_bbinline_ads');
 /*****[END]*******************************************
 [ Mod: Inline Banner Ad                       v1.2.3 ]
 ******************************************************/
 
-// define('evolution_config_table', $titanium_prefix.'_evolution');
+// define('evolution_config_table', $pnt_prefix.'_evolution');
 
 // Downloads
-define('_DOWNLOADS_ACCESSES_TABLE', $titanium_prefix.'_downloads_accesses');
-define('_DOWNLOADS_CONFIG_TABLE', $titanium_prefix.'_downloads_config');
-define('_DOWNLOADS_GROUPS_TABLE', $titanium_prefix.'_downloads_groups');
-define('_DOWNLOADS_USERS_TABLE', $titanium_prefix.'_downloads_users');
-define('_DOWNLOADS_CATEGORIES_TABLE', $titanium_prefix.'_downloads_categories');
-define('_DOWNLOADS_DOWNLOADS_TABLE', $titanium_prefix.'_downloads_downloads');
-define('_DOWNLOADS_NEWDOWNLOADS_TABLE', $titanium_prefix.'_downloads_newdownloads');
-define('_DOWNLOADS_EDITORIALS_TABLE', $titanium_prefix.'_downloads_editorials');
-define('_DOWNLOADS_VOTEDATA_TABLE', $titanium_prefix.'_downloads_votedata');
-define('_DOWNLOADS_EXTENSIONS_TABLE', $titanium_prefix.'_downloads_extensions');
-define('_DOWNLOADS_HISTORY_TABLE', $titanium_prefix.'_downloads_history');
-define('_DOWNLOADS_LICENSES_TABLE', $titanium_prefix.'_downloads_licenses');
+define('_DOWNLOADS_ACCESSES_TABLE', $pnt_prefix.'_downloads_accesses');
+define('_DOWNLOADS_CONFIG_TABLE', $pnt_prefix.'_downloads_config');
+define('_DOWNLOADS_GROUPS_TABLE', $pnt_prefix.'_downloads_groups');
+define('_DOWNLOADS_USERS_TABLE', $pnt_prefix.'_downloads_users');
+define('_DOWNLOADS_CATEGORIES_TABLE', $pnt_prefix.'_downloads_categories');
+define('_DOWNLOADS_DOWNLOADS_TABLE', $pnt_prefix.'_downloads_downloads');
+define('_DOWNLOADS_NEWDOWNLOADS_TABLE', $pnt_prefix.'_downloads_newdownloads');
+define('_DOWNLOADS_EDITORIALS_TABLE', $pnt_prefix.'_downloads_editorials');
+define('_DOWNLOADS_VOTEDATA_TABLE', $pnt_prefix.'_downloads_votedata');
+define('_DOWNLOADS_EXTENSIONS_TABLE', $pnt_prefix.'_downloads_extensions');
+define('_DOWNLOADS_HISTORY_TABLE', $pnt_prefix.'_downloads_history');
+define('_DOWNLOADS_LICENSES_TABLE', $pnt_prefix.'_downloads_licenses');
 
-define('_FILE_REPOSITORY_CATEGORIES', $titanium_prefix.'_file_repository_categories');
-define('_FILE_REPOSITORY_COMMENTS',   $titanium_prefix.'_file_repository_comments');
-define('_FILE_REPOSITORY_EXTENSIONS', $titanium_prefix.'_file_repository_extensions');
-define('_FILE_REPOSITORY_FILES',    $titanium_prefix.'_file_repository_files');
-define('_FILE_REPOSITORY_ITEMS',    $titanium_prefix.'_file_repository_items');
-define('_FILE_REPOSITORY_SCREENSHOTS',  $titanium_prefix.'_file_repository_screenshots');
-define('_FILE_REPOSITORY_SETTINGS',   $titanium_prefix.'_file_repository_settings');
-define('_FILE_REPOSITORY_THEMES',   $titanium_prefix.'_file_repository_themes');
+define('_FILE_REPOSITORY_CATEGORIES', $pnt_prefix.'_file_repository_categories');
+define('_FILE_REPOSITORY_COMMENTS',   $pnt_prefix.'_file_repository_comments');
+define('_FILE_REPOSITORY_EXTENSIONS', $pnt_prefix.'_file_repository_extensions');
+define('_FILE_REPOSITORY_FILES',    $pnt_prefix.'_file_repository_files');
+define('_FILE_REPOSITORY_ITEMS',    $pnt_prefix.'_file_repository_items');
+define('_FILE_REPOSITORY_SCREENSHOTS',  $pnt_prefix.'_file_repository_screenshots');
+define('_FILE_REPOSITORY_SETTINGS',   $pnt_prefix.'_file_repository_settings');
+define('_FILE_REPOSITORY_THEMES',   $pnt_prefix.'_file_repository_themes');
 
-define('AUTHORS_TABLE', $titanium_prefix.'_authors');
-define('EVOLUTION_CONFIG_TABLE', $titanium_prefix.'_evolution');
-define('META_TABLE', $titanium_prefix.'_meta');
-// define('MODULES_TABLE', $titanium_prefix.'_modules');
+define('AUTHORS_TABLE', $pnt_prefix.'_authors');
+define('EVOLUTION_CONFIG_TABLE', $pnt_prefix.'_evolution');
+define('META_TABLE', $pnt_prefix.'_meta');
+// define('MODULES_TABLE', $pnt_prefix.'_modules');
 
-define('EVOLUTION_SESSIONS_TABLE', $titanium_prefix.'_session');
-define('USERS_BEEN_TABLE', $titanium_prefix.'_users_who_been');
+define('EVOLUTION_SESSIONS_TABLE', $pnt_prefix.'_session');
+define('USERS_BEEN_TABLE', $pnt_prefix.'_users_who_been');
 
-define('THEMES_THEMES_TABLE', $titanium_prefix.'_themes');
+define('THEMES_THEMES_TABLE', $pnt_prefix.'_themes');
 
-define('HONEYPOT_TABLE', $titanium_prefix.'_honeypot');
+define('HONEYPOT_TABLE', $pnt_prefix.'_honeypot');
 
-define('IP_TO_COUNTRY_TABLE', $titanium_prefix.'_nsnst_ip2country');
+define('IP_TO_COUNTRY_TABLE', $pnt_prefix.'_nsnst_ip2country');
 
 ?>

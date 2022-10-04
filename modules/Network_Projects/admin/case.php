@@ -18,17 +18,17 @@
 if (!defined('ADMIN_FILE')) {
    die('Access Denied');
 }
-global $titanium_prefix, $network_prefix, $titanium_db2, $titanium_db;
+global $pnt_prefix, $network_prefix, $pnt_db2, $pnt_db;
 $pnt_module = basename(dirname(dirname(__FILE__)));
 $aid = substr($aid, 0,125);
 
-$query = $titanium_db->sql_query("SELECT `title`, `admins` FROM `".$titanium_prefix."_modules` WHERE `title`='$pnt_module'");
-list($mod_title, $admins) = $titanium_db->sql_fetchrow($query);
-$titanium_db->sql_freeresult($query);
+$query = $pnt_db->sql_query("SELECT `title`, `admins` FROM `".$pnt_prefix."_modules` WHERE `title`='$pnt_module'");
+list($mod_title, $admins) = $pnt_db->sql_fetchrow($query);
+$pnt_db->sql_freeresult($query);
 
-$query2 = $titanium_db->sql_query("SELECT `name`, `radminsuper` FROM `".$titanium_prefix."_authors` WHERE `aid`='$aid'");
-list($rname, $radminsuper) = $titanium_db->sql_fetchrow($query2);
-$titanium_db->sql_freeresult($query2);
+$query2 = $pnt_db->sql_query("SELECT `name`, `radminsuper` FROM `".$pnt_prefix."_authors` WHERE `aid`='$aid'");
+list($rname, $radminsuper) = $pnt_db->sql_fetchrow($query2);
+$pnt_db->sql_freeresult($query2);
 
 $admins = explode(",", $admins);
 $auth_user = 0;

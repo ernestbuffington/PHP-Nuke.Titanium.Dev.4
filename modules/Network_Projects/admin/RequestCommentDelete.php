@@ -8,11 +8,11 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $comment_id = intval($comment_id);
-$titanium_db2->sql_query("DELETE FROM `".$network_prefix."_requests_comments` WHERE `comment_id`='$comment_id'");
-$titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_requests_comments`");
+$pnt_db2->sql_query("DELETE FROM `".$network_prefix."_requests_comments` WHERE `comment_id`='$comment_id'");
+$pnt_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_requests_comments`");
 header("Location: modules.php?name=$pnt_module&op=Request&request_id=$request_id");
 
 ?>

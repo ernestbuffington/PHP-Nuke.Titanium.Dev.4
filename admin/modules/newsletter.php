@@ -30,7 +30,7 @@ if (!defined('ADMIN_FILE')) {
    die ("Illegal File Access");
 }
 
-global $titanium_prefix, $titanium_db, $admin_file, $currentlang;
+global $pnt_prefix, $pnt_db, $admin_file, $currentlang;
 if (is_mod_admin()) {
     if (strtoupper(substr(PHP_OS,0,3)=='WIN')) {
         $eol = "\r\n";
@@ -43,10 +43,10 @@ if (is_mod_admin()) {
     function newsletter_selection($fieldname, $current) {
         static $groups;
         if (!isset($groups)) {
-            global $titanium_db, $titanium_prefix, $admlang;
+            global $pnt_db, $pnt_prefix, $admlang;
             $groups = array(0=>$admlang['global']['all_members'], 1=>$admlang['newsletter']['subscribed'], 2=>$admlang['global']['administrators']);
-            $groupsResult = $titanium_db->sql_query("SELECT group_id, group_name FROM ".$titanium_prefix."_bbgroups WHERE group_single_user=0");
-            while (list($groupID, $groupName) = $titanium_db->sql_fetchrow($groupsResult, SQL_NUM)) {
+            $groupsResult = $pnt_db->sql_query("SELECT group_id, group_name FROM ".$pnt_prefix."_bbgroups WHERE group_single_user=0");
+            while (list($groupID, $groupName) = $pnt_db->sql_fetchrow($groupsResult, SQL_NUM)) {
                 $groups[($groupID+2)] = $groupName;
             }
         }
@@ -62,7 +62,7 @@ if (is_mod_admin()) {
         redirect_titanium($admin_file.'.php?op=newsletter');
     } elseif (isset($_POST['send'])) {
         global $aid;
-        $row = $titanium_db->sql_ufetchrow('SELECT `adminmail` FROM `'.$titanium_prefix.'_config');
+        $row = $pnt_db->sql_ufetchrow('SELECT `adminmail` FROM `'.$pnt_prefix.'_config');
         $admin_email = $row[0];
         $admin_name = $aid;
         $headers = '';
@@ -84,20 +84,20 @@ if (is_mod_admin()) {
         $mailcontent = Remove_Slashes($mailcontent);
         ignore_user_abort(true);
         if ($n_group == 0) {
-            $query = "SELECT username, user_email FROM ".$titanium_user_prefix."_users WHERE user_level > 0 AND user_id > 1";
+            $query = "SELECT username, user_email FROM ".$pnt_user_prefix."_users WHERE user_level > 0 AND user_id > 1";
         } elseif ($n_group == 2) {
-            $query = "SELECT aid, email FROM ".$titanium_prefix."_authors";
+            $query = "SELECT aid, email FROM ".$pnt_prefix."_authors";
         } elseif ($n_group > 2) {
             $n_group -= 2;
-            $query = "SELECT u.username, u.user_email FROM ".$titanium_user_prefix."_users u, ".$titanium_prefix."_bbuser_group g WHERE u.user_level>0 AND g.group_id=$n_group AND u.user_id = g.user_id AND user_pending=0";
+            $query = "SELECT u.username, u.user_email FROM ".$pnt_user_prefix."_users u, ".$pnt_prefix."_bbuser_group g WHERE u.user_level>0 AND g.group_id=$n_group AND u.user_id = g.user_id AND user_pending=0";
         } else {
-            $query = "SELECT username, user_email FROM ".$titanium_user_prefix."_users WHERE user_level > 0 AND user_id > 1 AND newsletter=1";
+            $query = "SELECT username, user_email FROM ".$pnt_user_prefix."_users WHERE user_level > 0 AND user_id > 1 AND newsletter=1";
         }
         $mailcontent = _HELLO.",<br /><br /> $mailcontent $eol $eol".$admlang['newsletter']['regards'].",<br /><br />$sitename ".$admlang['global']['staff']."<br /><br />".$admlang['newsletter']['unsubscribe'];
         $recipients = array();
-        $result = $titanium_db->sql_query($query, true);
+        $result = $pnt_db->sql_query($query, true);
         set_time_limit(0);
-        while (list($u_name, $u_email) = $titanium_db->sql_fetchrow($result, SQL_NUM)) {
+        while (list($u_name, $u_email) = $pnt_db->sql_fetchrow($result, SQL_NUM)) {
             $recipients[$u_name] = $u_email;
         }
         if (empty($recipients) || count($recipients) < 1) {
@@ -114,17 +114,17 @@ if (is_mod_admin()) {
         if (empty($subject)) { DisplayError(sprintf($admlang['global']['not_set'], $admlang['global']['subject'])); }
         if (empty($mailcontent)) { DisplayError(sprintf($admlang['global']['not_set'], $admlang['global']['content'])); }
         if ($group == 0) {
-            list($num_users) = $titanium_db->sql_fetchrow($titanium_db->sql_query('SELECT COUNT(*) FROM '.$titanium_user_prefix.'_users WHERE user_level > 0 AND user_id > 1'));
+            list($num_users) = $pnt_db->sql_fetchrow($pnt_db->sql_query('SELECT COUNT(*) FROM '.$pnt_user_prefix.'_users WHERE user_level > 0 AND user_id > 1'));
             $group_name = strtolower($admlang['global']['all_members']);
         } elseif ($group == 2) {
-            list($num_users) = $titanium_db->sql_fetchrow($titanium_db->sql_query('SELECT COUNT(*) FROM '.$titanium_prefix.'_authors'));
+            list($num_users) = $pnt_db->sql_fetchrow($pnt_db->sql_query('SELECT COUNT(*) FROM '.$pnt_prefix.'_authors'));
             $group_name = strtolower($admlang['global']['administrators']);
         } elseif ($group > 2) {
             $group_id = $group-2;
-            list($num_users) = $titanium_db->sql_fetchrow($titanium_db->sql_query('SELECT COUNT(*) FROM '.$titanium_prefix.'_bbuser_group WHERE group_id="'.$group_id.'" AND user_pending="0"'));
-            list($group_name) = $titanium_db->sql_ufetchrow("SELECT group_name FROM ".$titanium_prefix."_bbgroups WHERE group_id=$group_id", SQL_NUM);
+            list($num_users) = $pnt_db->sql_fetchrow($pnt_db->sql_query('SELECT COUNT(*) FROM '.$pnt_prefix.'_bbuser_group WHERE group_id="'.$group_id.'" AND user_pending="0"'));
+            list($group_name) = $pnt_db->sql_ufetchrow("SELECT group_name FROM ".$pnt_prefix."_bbgroups WHERE group_id=$group_id", SQL_NUM);
         } else {
-            list($num_users) = $titanium_db->sql_fetchrow($titanium_db->sql_query('SELECT COUNT(*) FROM '.$titanium_user_prefix.'_users WHERE user_level > 0 AND newsletter="1"'));
+            list($num_users) = $pnt_db->sql_fetchrow($pnt_db->sql_query('SELECT COUNT(*) FROM '.$pnt_user_prefix.'_users WHERE user_level > 0 AND newsletter="1"'));
             $group_name = strtolower($admlang['newsletter']['subscribed']);
         }
         $status = '';

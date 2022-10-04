@@ -25,7 +25,7 @@ global $evouserinfo_addons, $evouserinfo_members;
 # group memberships
 function evouserinfo_members () 
 {
-    global $userinfo, $titanium_db, $titanium_prefix, $titanium_user_prefix, $evouserinfo_members, $lang_evo_userblock;
+    global $userinfo, $pnt_db, $pnt_prefix, $pnt_user_prefix, $evouserinfo_members, $lang_evo_userblock;
     
     $evouserinfo_members = '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['MEMBERS']['MEMBERS'].'</div>';
 
@@ -62,12 +62,12 @@ function evouserinfo_members ()
     # Select all groups where the user has a pending membership.
     if(is_user()) 
 	{
-	   $result = $titanium_db->sql_query('SELECT g.group_id, 
+	   $result = $pnt_db->sql_query('SELECT g.group_id, 
 	                                  g.group_name, 
 								      g.group_type
             
-			               FROM '.$titanium_prefix.'_bbgroups g, 
-			               '.$titanium_prefix.'_bbuser_group ug
+			               FROM '.$pnt_prefix.'_bbgroups g, 
+			               '.$pnt_prefix.'_bbuser_group ug
             
 			               WHERE ug.user_id = '.$userinfo['user_id'].'
 				           AND ug.group_id = g.group_id
@@ -75,12 +75,12 @@ function evouserinfo_members ()
 				           AND g.group_single_user = 0
 			               ORDER BY g.group_name, ug.user_id'); 
     
-	   if ($titanium_db->sql_numrows($result)) 
+	   if ($pnt_db->sql_numrows($result)) 
 	   {
 
 	      $evouserinfo_members .= '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['MEMBERS']['PENDING'].'</div>'; 
        
-	      while( $row = $titanium_db->sql_fetchrow($result) ) 
+	      while( $row = $pnt_db->sql_fetchrow($result) ) 
 		  {
             $in_group[] = $row['group_id'];
 
@@ -95,7 +95,7 @@ function evouserinfo_members ()
         
        }
 	    
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
    }
 }
 

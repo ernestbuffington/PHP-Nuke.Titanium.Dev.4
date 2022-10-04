@@ -43,7 +43,7 @@ $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOF
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_TOPARCADES, $nukeuser);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_TOPARCADES, $nukeuser);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -83,11 +83,11 @@ if (empty($liste_cat_auth)) {
 
 $sql = "SELECT COUNT(*) AS nbtot FROM " . GAMES_TABLE . " WHERE arcade_catid IN ($liste_cat_auth)";
 
-if (!($result = $titanium_db->sql_query($sql))) {
+if (!($result = $pnt_db->sql_query($sql))) {
         message_die(GENERAL_ERROR, "Could not read the games table", '', __LINE__, __FILE__, $sql);
 }
 
-if ($row=$titanium_db->sql_fetchrow($result)) {
+if ($row=$pnt_db->sql_fetchrow($result)) {
         $total_phpbb2_games = $row['nbtot'];
 } else {
         $total_phpbb2_games = 0;
@@ -99,13 +99,13 @@ $limit_sql = " LIMIT $phpbb2_start," . $games_par_page;
 
 $sql = "SELECT distinct game_id , game_name FROM " . GAMES_TABLE . " WHERE arcade_catid IN ($liste_cat_auth) ORDER BY game_name ASC $limit_sql";
 
-if (!($result = $titanium_db->sql_query($sql))) {
+if (!($result = $pnt_db->sql_query($sql))) {
         message_die(GENERAL_ERROR, "Could not read the games table", '', __LINE__, __FILE__, $sql);
 }
 
 $fini = false;
 
-if (!$row = $titanium_db->sql_fetchrow($result)) {
+if (!$row = $pnt_db->sql_fetchrow($result)) {
         $fini=true;
 }
 
@@ -125,11 +125,11 @@ while ((!$fini) ) {
                         $lastscore = 0;
                         $sql2 = "SELECT s.* , u.username FROM " . SCORES_TABLE . " s LEFT JOIN " . USERS_TABLE . " u ON u.user_id = s.user_id WHERE s.game_id = " . $row['game_id'] . " ORDER BY s.score_game DESC, s.score_date ASC LIMIT 0,5";
 
-                        if (!($result2 = $titanium_db->sql_query($sql2))) {
+                        if (!($result2 = $pnt_db->sql_query($sql2))) {
                                 message_die(GENERAL_ERROR, "Could not read from the scores/users tables", '', __LINE__, __FILE__, $sql);
                         }
 
-                        while($row2 = $titanium_db->sql_fetchrow($result2)) {
+                        while($row2 = $pnt_db->sql_fetchrow($result2)) {
                                 $posreelle++;
 
                                 if ($lastscore != $row2['score_game']) {
@@ -149,7 +149,7 @@ while ((!$fini) ) {
                                 );
                         }
 
-                        if (!($row = $titanium_db->sql_fetchrow($result))) {
+                        if (!($row = $pnt_db->sql_fetchrow($result))) {
                                 $fini = true;
                         }
                 }

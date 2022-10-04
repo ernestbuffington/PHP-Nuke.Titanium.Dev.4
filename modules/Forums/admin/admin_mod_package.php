@@ -31,7 +31,7 @@ define('IN_PHPBB2', true);
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $titanium_module['Statistics']['Package_Module'] = $filename . '?mode=mod_pak';
+    $pnt_module['Statistics']['Package_Module'] = $filename . '?mode=mod_pak';
     return;
 }
 
@@ -64,14 +64,14 @@ include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
 
 $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $titanium_db->sql_fetchrow($result))
+while ($row = $pnt_db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }

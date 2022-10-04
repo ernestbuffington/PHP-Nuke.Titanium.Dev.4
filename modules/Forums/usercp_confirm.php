@@ -43,7 +43,7 @@ include_once('includes/bbcode.'.$phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -77,12 +77,12 @@ $sql = 'SELECT code
     FROM ' . CONFIRM_TABLE . "
     WHERE session_id = '" . $userdata['session_id'] . "'
         AND confirm_id = '$confirm_id'";
-$result = $titanium_db->sql_query($sql);
+$result = $pnt_db->sql_query($sql);
 
 // If we have a row then grab data else create a new id
-if ($row = $titanium_db->sql_fetchrow($result))
+if ($row = $pnt_db->sql_fetchrow($result))
 {
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     $code = $row['code'];
 }
 else

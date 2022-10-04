@@ -16,7 +16,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 if(!get_magic_quotes_runtime()) { $harvester = addslashes($harvester); }
-$testnum1 = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_harvesters` WHERE `harvester`='".$harvester."' AND `hid`!='".$hid."'"));
+$testnum1 = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_harvesters` WHERE `harvester`='".$harvester."' AND `hid`!='".$hid."'"));
 if($testnum1 > 0) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
@@ -48,8 +48,8 @@ if($testnum1 > 0) {
   CloseTable();
   include_once(NUKE_BASE_DIR.'footer.php');
 } else {
-  $getIPs = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_harvesters` WHERE `hid`='".$hid."' LIMIT 0,1"));
-  $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_harvesters` SET `harvester`='".$harvester."' WHERE `hid`='".$hid."'");
+  $getIPs = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_harvesters` WHERE `hid`='".$hid."' LIMIT 0,1"));
+  $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_harvesters` SET `harvester`='".$harvester."' WHERE `hid`='".$hid."'");
   $list_harvester = explode("\r\n", $ab_config['list_harvester']);
   $list_harvester = str_replace($getIPs['harvester'], $harvester, $list_harvester);
   rsort($list_harvester);

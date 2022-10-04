@@ -61,7 +61,7 @@
   			$img_upload = $site_image;
 		}
 		
-		$result = $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_link_us`(`id`, `site_name`, `site_url`, `site_image`, `site_description`, `site_hits`, `site_status`, `date_added`, `button_type`, `user_id`, `user_name`, `user_email`, `user_ip`) VALUES (NULL, '".$site_name."', '".$site_url."', '".$img_upload."', '".$site_description."', '".$site_hits."', '".$site_status."', '".$date_added."', '".$button_type."', '".$titanium_user_id."', '".$titanium_user_name."', '".$titanium_user_email."', '".$titanium_user_ip."')");
+		$result = $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_link_us`(`id`, `site_name`, `site_url`, `site_image`, `site_description`, `site_hits`, `site_status`, `date_added`, `button_type`, `user_id`, `user_name`, `user_email`, `user_ip`) VALUES (NULL, '".$site_name."', '".$site_url."', '".$img_upload."', '".$site_description."', '".$site_hits."', '".$site_status."', '".$date_added."', '".$button_type."', '".$pnt_user_id."', '".$pnt_user_name."', '".$pnt_user_email."', '".$pnt_user_ip."')");
 		
 		if(!$result) {
     		include_once(NUKE_BASE_DIR.'header.php');
@@ -77,10 +77,10 @@
     		$msg .= $lang_new[$pnt_module]['SITE_URL'].": ".Remove_Slashes($site_url)."\n";
     		$msg .= $lang_new[$pnt_module]['SITE_IMAGE'].": ".Remove_Slashes($imgurl)."\n";
     		$msg .= $lang_new[$pnt_module]['SITE_DESCRIPTION'].": ".Remove_Slashes($site_description)."\n";
-    		$msg .= $lang_new[$pnt_module]['SUB_YOUR_ID'].": ".$titanium_user_id."\n";
-    		$msg .= $lang_new[$pnt_module]['SUB_USERNAME'].": ".Remove_Slashes($titanium_user_name)."\n";
-    		$msg .= $lang_new[$pnt_module]['SUB_EMAIL'].": ".Remove_Slashes($titanium_user_email)."\n";
-    		$msg .= $lang_new[$pnt_module]['SUB_IP'].": ".$titanium_user_ip."\n";
+    		$msg .= $lang_new[$pnt_module]['SUB_YOUR_ID'].": ".$pnt_user_id."\n";
+    		$msg .= $lang_new[$pnt_module]['SUB_USERNAME'].": ".Remove_Slashes($pnt_user_name)."\n";
+    		$msg .= $lang_new[$pnt_module]['SUB_EMAIL'].": ".Remove_Slashes($pnt_user_email)."\n";
+    		$msg .= $lang_new[$pnt_module]['SUB_IP'].": ".$pnt_user_ip."\n";
     		$to = $adminmail;
     		$subject = $sitename.$lang_new[$pnt_module]['SUB_ADDED'];
     		$mailheaders = "From: ".$adminmail."\r\n";

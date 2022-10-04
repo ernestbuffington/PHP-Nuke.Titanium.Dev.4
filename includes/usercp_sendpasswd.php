@@ -31,40 +31,40 @@ if (!defined('IN_PHPBB2'))
 
 if ( isset($HTTP_POST_VARS['submit']) )
 {
-    $titanium_username = ( !empty($HTTP_POST_VARS['username']) ) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
+    $pnt_username = ( !empty($HTTP_POST_VARS['username']) ) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
     $email = ( !empty($HTTP_POST_VARS['email']) ) ? trim(strip_tags(htmlspecialchars($HTTP_POST_VARS['email']))) : '';
 
         $sql = "SELECT user_id, username, user_email, user_active, user_lang
                 FROM " . USERS_TABLE . "
                 WHERE user_email = '" . str_replace("\'", "''", $email) . "'
-            AND username = '" . str_replace("\'", "''", $titanium_username) . "'";
-    if ( $result = $titanium_db->sql_query($sql) )
+            AND username = '" . str_replace("\'", "''", $pnt_username) . "'";
+    if ( $result = $pnt_db->sql_query($sql) )
     {
-        if ( $row = $titanium_db->sql_fetchrow($result) )
+        if ( $row = $pnt_db->sql_fetchrow($result) )
         {
             if ( !$row['user_active'] )
             {
                 message_die(GENERAL_MESSAGE, $lang['No_send_account_inactive']);
             }
 
-            $titanium_username = $row['username'];
-            $titanium_user_id = $row['user_id'];
+            $pnt_username = $row['username'];
+            $pnt_user_id = $row['user_id'];
 
-            $titanium_user_actkey = gen_rand_string(true);
+            $pnt_user_actkey = gen_rand_string(true);
             $key_len = 54 - strlen($server_url);
             $key_len = ($key_len > 6) ? $key_len : 6;
-            $titanium_user_actkey = substr($titanium_user_actkey, 0, $key_len);
+            $pnt_user_actkey = substr($pnt_user_actkey, 0, $key_len);
             $user_password = gen_rand_string(false);
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
                         $sql = "UPDATE " . USERS_TABLE . "
-                SET user_newpasswd = '" . md5($user_password) . "', user_actkey = '$titanium_user_actkey'  
+                SET user_newpasswd = '" . md5($user_password) . "', user_actkey = '$pnt_user_actkey'  
                 WHERE user_id = " . $row['user_id'];
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-            if ( !$titanium_db->sql_query($sql) )
+            if ( !$pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not update new password information', '', __LINE__, __FILE__, $sql);
             }
@@ -81,11 +81,11 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
             $emailer->assign_vars(array(
                 'SITENAME' => $phpbb2_board_config['sitename'], 
-                'USERNAME' => $titanium_username,
+                'USERNAME' => $pnt_username,
                 'PASSWORD' => $user_password,
                 'EMAIL_SIG' => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : '', 
 
-                'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $titanium_user_id . '&act_key=' . $titanium_user_actkey)
+                'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $pnt_user_id . '&act_key=' . $pnt_user_actkey)
             );
             $emailer->send();
             $emailer->reset();
@@ -110,7 +110,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 }
 else
 {
-    $titanium_username = '';
+    $pnt_username = '';
     $email = '';
 }
 
@@ -125,7 +125,7 @@ $phpbb2_template->set_filenames(array(
 make_jumpbox('viewforum.'.$phpEx);
 
 $phpbb2_template->assign_vars(array(
-    'USERNAME' => $titanium_username,
+    'USERNAME' => $pnt_username,
     'EMAIL' => $email,
 
         'L_SEND_PASSWORD' => $lang['Send_password'],

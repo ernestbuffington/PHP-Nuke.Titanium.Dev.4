@@ -43,7 +43,7 @@ function smarty_function_html_image($params, $phpbb2_template)
     $height = '';
     $width = '';
     $extra = '';
-    $titanium_prefix = '';
+    $pnt_prefix = '';
     $suffix = '';
     $path_prefix = '';
     $basedir = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '';
@@ -68,7 +68,7 @@ function smarty_function_html_image($params, $phpbb2_template)
 
             case 'link':
             case 'href':
-                $titanium_prefix = '<a href="' . $_val . '">';
+                $pnt_prefix = '<a href="' . $_val . '">';
                 $suffix = '</a>';
                 break;
 
@@ -157,5 +157,5 @@ function smarty_function_html_image($params, $phpbb2_template)
         $height = round($height * $_resize);
     }
 
-    return $titanium_prefix . '<img src="' . $path_prefix . $file . '" alt="' . $alt . '" width="' . $width . '" height="' . $height . '"' . $extra . ' />' . $suffix;
+    return $pnt_prefix . '<img src="' . $path_prefix . $file . '" alt="' . $alt . '" width="' . $width . '" height="' . $height . '"' . $extra . ' />' . $suffix;
 }

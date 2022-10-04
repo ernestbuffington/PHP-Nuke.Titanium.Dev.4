@@ -47,11 +47,11 @@ if ( !defined( 'MSNL_LOADED' ) ) { die( "Illegal File Access" ); }
 $msnl_iNID = intval( $msnl_nid );
 
 $sql = "SELECT `filename`, `hits`, `view`, `groups`, `cid` FROM `"
-			.$titanium_prefix."_hnl_newsletters` "
+			.$pnt_prefix."_hnl_newsletters` "
 			."WHERE `nid` = '$msnl_iNID'";
 			
 $result					= msnl_fSQLCall( $sql );
-$resultcount		= $titanium_db->sql_numrows( $result );
+$resultcount		= $pnt_db->sql_numrows( $result );
 
 /************************************************************************
 * View the newsletter if no errors and the file exists
@@ -63,7 +63,7 @@ if ( !$result || $resultcount < 1 ) { //Bad SQL call
 	
 } else { //Successful SQL call
 
-	$row = $titanium_db->sql_fetchrow( $result );
+	$row = $pnt_db->sql_fetchrow( $result );
 
 	$msnl_asRec['hits']			= intval( $row['hits'] );
 	$msnl_asRec['cid']			= intval( $row['cid'] );
@@ -79,11 +79,11 @@ if ( !$result || $resultcount < 1 ) { //Bad SQL call
 
 			$msnl_asRec['hits']++;
 
-			$sql	= "UPDATE `".$titanium_prefix."_hnl_newsletters` "
+			$sql	= "UPDATE `".$pnt_prefix."_hnl_newsletters` "
 						. "SET `hits` = '".$msnl_asRec['hits']."' "
 						. "WHERE `nid` = '$msnl_iNID'";
 
-			$titanium_db->sql_query( $sql );
+			$pnt_db->sql_query( $sql );
 
 		}
 

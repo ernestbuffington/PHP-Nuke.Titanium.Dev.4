@@ -57,14 +57,14 @@ include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
 
 $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $titanium_db->sql_fetchrow($result))
+while ($row = $pnt_db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
@@ -75,27 +75,27 @@ include($phpbb2_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
 
 if ($mode == 'export_module')
 {
-    $titanium_module_id = (isset($HTTP_GET_VARS['module'])) ? intval($HTTP_GET_VARS['module']) : -1;
+    $pnt_module_id = (isset($HTTP_GET_VARS['module'])) ? intval($HTTP_GET_VARS['module']) : -1;
     $language = (isset($HTTP_GET_VARS['lang'])) ? trim($HTTP_GET_VARS['lang']) : '';
         
-    if (($language == '') || ($titanium_module_id == -1))
+    if (($language == '') || ($pnt_module_id == -1))
     {
         message_die(GENERAL_MESSAGE, 'Invalid Call, Hacking Attempt ?');
     }
         
-    $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE module_id = " . $titanium_module_id;
+    $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE module_id = " . $pnt_module_id;
 
-    if (!($result = $titanium_db->sql_query($sql)) )
+    if (!($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
     }
     
-    if ($titanium_db->sql_numrows($result) == 0)
+    if ($pnt_db->sql_numrows($result) == 0)
     {
-        message_die(GENERAL_ERROR, 'Unable to get Module ' . $titanium_module_id);
+        message_die(GENERAL_ERROR, 'Unable to get Module ' . $pnt_module_id);
     }
         
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
     $short_name = trim($row['short_name']);
     
     if (!($fp = fopen($phpbb2_root_path . 'modules/cache/temp.pak', 'wb')))
@@ -157,18 +157,18 @@ else if ($mode == 'export_lang')
         
     $sql = "SELECT short_name FROM " . MODULES_TABLE;
 
-    if (!($result = $titanium_db->sql_query($sql)) )
+    if (!($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
     }
     
-    if ($titanium_db->sql_numrows($result) == 0)
+    if ($pnt_db->sql_numrows($result) == 0)
     {
         message_die(GENERAL_ERROR, 'Unable to get Modules.');
     }
         
-    $rows = $titanium_db->sql_fetchrowset($result);
-    $num_rows = $titanium_db->sql_numrows($result);
+    $rows = $pnt_db->sql_fetchrowset($result);
+    $num_rows = $pnt_db->sql_numrows($result);
     
     if (!($fp = fopen($phpbb2_root_path . 'modules/cache/temp.pak', 'wb')))
     {
@@ -227,18 +227,18 @@ else if ($mode == 'export_everything')
 {
     $sql = "SELECT short_name FROM " . MODULES_TABLE;
 
-    if (!($result = $titanium_db->sql_query($sql)) )
+    if (!($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
     }
     
-    if ($titanium_db->sql_numrows($result) == 0)
+    if ($pnt_db->sql_numrows($result) == 0)
     {
         message_die(GENERAL_ERROR, 'Unable to get Modules.');
     }
         
-    $rows = $titanium_db->sql_fetchrowset($result);
-    $num_rows = $titanium_db->sql_numrows($result);
+    $rows = $pnt_db->sql_fetchrowset($result);
+    $num_rows = $pnt_db->sql_numrows($result);
     
     $languages = get_all_installed_languages();
         

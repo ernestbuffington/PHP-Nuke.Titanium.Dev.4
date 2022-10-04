@@ -25,7 +25,7 @@ CloseMenu();
 CloseTable();
 echo '<br />'."\n";
 OpenTable();
-$getIPs = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_protected_ranges` WHERE `ip_lo`='$ip_lo' AND `ip_hi`='$ip_hi' LIMIT 0,1"));
+$getIPs = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_protected_ranges` WHERE `ip_lo`='$ip_lo' AND `ip_hi`='$ip_hi' LIMIT 0,1"));
 $ip_lo = explode(".", long2ip($getIPs['ip_lo']));
 $ip_hi = explode(".", long2ip($getIPs['ip_hi']));
 echo '<form action="'.$admin_file.'.php" method="post">'."\n";
@@ -52,8 +52,8 @@ echo '. <input type="text" name="xip_hi[3]" size="4" maxlength="3" value="'.$ip_
 echo '<tr><td bgcolor="'.$bgcolor2.'" valign="top"><strong>'._AB_NOTES.':</strong></td><td><textarea name="xnotes" rows="10" cols="60">'.$getIPs['notes'].'</textarea></td></tr>'."\n";
 echo '<tr><td bgcolor="'.$bgcolor2.'"><strong>'._AB_COUNTRY.':</strong></td>'."\n";
 echo '<td><select name="xc2c">'."\n";
-$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_countries` ORDER BY `c2c`");
-while($countryrow = $titanium_db->sql_fetchrow($result)) {
+$result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_countries` ORDER BY `c2c`");
+while($countryrow = $pnt_db->sql_fetchrow($result)) {
   echo '<option value="'.$countryrow['c2c'].'"';
   if($countryrow['c2c'] == $getIPs['c2c']) { echo ' selected="selected"'; }
   echo '>'.strtoupper($countryrow['c2c']).' - '.$countryrow['country'].'</option>'."\n";

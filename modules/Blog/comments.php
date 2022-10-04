@@ -76,13 +76,13 @@ function format_url($comment)
 }
 
 function modone() {
-    global $admin, $titanium_moderate, $pnt_module;
-    if(((isset($admin)) && ($titanium_moderate == 1)) || ($titanium_moderate==2)) echo "<form action=\"modules.php?name=$pnt_module&file=comments\" method=\"post\">";
+    global $admin, $moderate, $pnt_module;
+    if(((isset($admin)) && ($moderate == 1)) || ($moderate==2)) echo "<form action=\"modules.php?name=$pnt_module&file=comments\" method=\"post\">";
 }
 
 function modtwo($tid, $score, $reason) {
-    global $admin, $titanium_user, $titanium_moderate, $reasons;
-    if((((isset($admin)) && ($titanium_moderate == 1)) || ($titanium_moderate == 2)) && ($titanium_user)) {
+    global $admin, $pnt_user, $moderate, $reasons;
+    if((((isset($admin)) && ($moderate == 1)) || ($moderate == 2)) && ($pnt_user)) {
     echo " | <select name=dkn$tid>";
     for($i=0,$maxi=count($reasons); $i<$maxi; $i++) {
         echo "<option value=\"$score:$i\">$reasons[$i]</option>\n";
@@ -92,8 +92,8 @@ function modtwo($tid, $score, $reason) {
 }
 
 function modthree($sid, $mode, $order, $thold=0) {
-    global $admin, $titanium_user, $titanium_moderate;
-    if((((isset($admin)) && ($titanium_moderate == 1)) || ($titanium_moderate==2)) && ($titanium_user)) echo "<center><input type=\"hidden\" name=\"sid\" value=\"$sid\"><input type=\"hidden\" name=\"mode\" value=\"$mode\"><input type=\"hidden\" name=\"order\" value=\"$order\"><input type=\"hidden\" name=\"thold\" value=\"$thold\">
+    global $admin, $pnt_user, $moderate;
+    if((((isset($admin)) && ($moderate == 1)) || ($moderate==2)) && ($pnt_user)) echo "<center><input type=\"hidden\" name=\"sid\" value=\"$sid\"><input type=\"hidden\" name=\"mode\" value=\"$mode\"><input type=\"hidden\" name=\"order\" value=\"$order\"><input type=\"hidden\" name=\"thold\" value=\"$thold\">
     <input type=\"hidden\" name=\"op\" value=\"moderate\">
     <input type=\"image\" src=\"images/menu/moderate.gif\"></center></form>";
 }
@@ -106,24 +106,24 @@ function nocomm() {
 
 function navbar($sid, $title, $thold, $mode, $order) 
 {
-    global $titanium_user, $bgcolor1, $bgcolor2, $textcolor1, $textcolor2, $anonpost, $titanium_prefix, $titanium_db, $pnt_module;
+    global $pnt_user, $bgcolor1, $bgcolor2, $textcolor1, $textcolor2, $anonpost, $pnt_prefix, $pnt_db, $pnt_module;
 
-    $query = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_comments WHERE sid='$sid'");
+    $query = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_comments WHERE sid='$sid'");
 
     if(!$query) {
         $count = 0;
     } else {
-        $count = $titanium_db->sql_numrows($query);
+        $count = $pnt_db->sql_numrows($query);
     }
-    $titanium_db->sql_freeresult($query);
+    $pnt_db->sql_freeresult($query);
 
     $sid = intval($sid);
 
-    $query = $titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories WHERE sid='$sid'");
+    $query = $pnt_db->sql_query("SELECT title FROM ".$pnt_prefix."_stories WHERE sid='$sid'");
 
-    list($un_title) = $titanium_db->sql_fetchrow($query);
+    list($un_title) = $pnt_db->sql_fetchrow($query);
 
-    $titanium_db->sql_freeresult($query);
+    $pnt_db->sql_freeresult($query);
 
     if(!isset($thold)) 
 	{
@@ -171,7 +171,7 @@ function navbar($sid, $title, $thold, $mode, $order)
 
 function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblwidth=99) {
     
-	global $datetime, $titanium_user, $cookie, $bgcolor1, $reasons, $anonymous, $anonpost, $commentlimit, $titanium_prefix, $textcolor2, $titanium_db, $pnt_module, $titanium_user_prefix, $userinfo;
+	global $datetime, $pnt_user, $cookie, $bgcolor1, $reasons, $anonymous, $anonpost, $commentlimit, $pnt_prefix, $textcolor2, $pnt_db, $pnt_module, $pnt_user_prefix, $userinfo;
     
 	$comments = 0;
     
@@ -179,7 +179,7 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 	{
         $mode = $userinfo['umode'];
     }
-                         $result = $titanium_db->sql_query("SELECT `tid`, 
+                         $result = $pnt_db->sql_query("SELECT `tid`, 
 	                                                      `pid`, 
 														  `sid`, 
 												`datePublished`, 
@@ -193,14 +193,14 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 													    `score`, 
 													   `reason` 
 													   
-													FROM ".$titanium_prefix."_comments WHERE pid='$tid' ORDER BY datePublished, tid");
+													FROM ".$pnt_prefix."_comments WHERE pid='$tid' ORDER BY datePublished, tid");
     
 	
 	if ($mode == 'nested') 
 	{
     /* without the tblwidth variable, the tables run of the screen with netscape */
     /* in nested mode in long threads so the text can't be read. */
-    while ($row = $titanium_db->sql_fetchrow($result)) 
+    while ($row = $pnt_db->sql_fetchrow($result)) 
 	{
         $r_tid = intval($row["tid"]);
         $r_pid = intval($row["pid"]);
@@ -255,11 +255,11 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
             echo "<br />"._BY." $r_name "._ON." $r_date";
         }
         if ($r_name != $anonymous) {
-            $row3 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_id FROM ".$titanium_user_prefix."_users WHERE username='$r_name'"));
+            $row3 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_id FROM ".$pnt_user_prefix."_users WHERE username='$r_name'"));
             $$ruid = intval($row3['user_id']);
             echo "<br />(<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$r_name\">"._USERINFO."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$ruid\">"._SENDAMSG."</a>) ";
         }
-        $row_url = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_website FROM ".$titanium_user_prefix."_users WHERE username='$r_name'"));
+        $row_url = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_website FROM ".$pnt_user_prefix."_users WHERE username='$r_name'"));
         $url = stripslashes($row_url["user_website"]);
         if ($url != "http://" AND $url != "" AND preg_match("#http://#i", $url)) { echo "<a href=\"$url\" target=\"new\">$url</a> "; }
         echo "</font></td></tr><tr><td>";
@@ -276,7 +276,7 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
         }
     }
     } elseif ($mode == 'flat') {
-        while ($row = $titanium_db->sql_fetchrow($result)) {
+        while ($row = $pnt_db->sql_fetchrow($result)) {
         $r_tid = intval($row["tid"]);
         $r_pid = intval($row["pid"]);
         $r_sid = intval($row["sid"]);
@@ -318,11 +318,11 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
             echo "<br />"._BY." $r_name "._ON." $r_date";
             }
             if ($r_name != $anonymous) {
-            $row3 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_id FROM ".$titanium_user_prefix."_users WHERE username='$r_name'"));
+            $row3 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_id FROM ".$pnt_user_prefix."_users WHERE username='$r_name'"));
             $ruid = intval($row3["user_id"]);
             echo "<br />(<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$r_name\">"._USERINFO."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$ruid\">"._SENDAMSG."</a>) ";
             }
-            $row_url2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_website FROM ".$titanium_user_prefix."_users WHERE username='$r_name'"));
+            $row_url2 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_website FROM ".$pnt_user_prefix."_users WHERE username='$r_name'"));
             $url = stripslashes($row_url2["user_website"]);
             if ($url != "http://" AND $url != "" AND preg_match("#http://#i", $url)) { echo "<a href=\"$url\" target=\"new\">$url</a> "; }
             echo "</font></td></tr><tr><td>";
@@ -339,7 +339,7 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
         }
         }
     } else {
-       while ($row = $titanium_db->sql_fetchrow($result)) {
+       while ($row = $pnt_db->sql_fetchrow($result)) {
         $r_tid = intval($row["tid"]);
         $r_pid = intval($row["pid"]);
         $r_sid = intval($row["sid"]);
@@ -379,9 +379,9 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 }
 
 function DisplayBabies ($tid, $level=0, $dummy=0) {
-    global $datetime, $anonymous, $titanium_prefix, $titanium_db, $pnt_module;
+    global $datetime, $anonymous, $pnt_prefix, $pnt_db, $pnt_module;
     $comments = 0;
-                         $result = $titanium_db->sql_query("SELECT `tid`, 
+                         $result = $pnt_db->sql_query("SELECT `tid`, 
 	                                                      `pid`, 
 														  `sid`, 
 												`datePublished`, 
@@ -393,9 +393,9 @@ function DisplayBabies ($tid, $level=0, $dummy=0) {
 													  `subject`, 
 													  `comment`, 
 													    `score`, 
-													   `reason` FROM ".$titanium_prefix."_comments WHERE pid='$tid' ORDER BY date, tid");
+													   `reason` FROM ".$pnt_prefix."_comments WHERE pid='$tid' ORDER BY date, tid");
 	
-	while ($row = $titanium_db->sql_fetchrow($result)) {
+	while ($row = $pnt_db->sql_fetchrow($result)) {
         $r_tid = intval($row["tid"]);
         $r_pid = intval($row["pid"]);
         $r_sid = intval($row["sid"]);
@@ -426,7 +426,7 @@ function DisplayBabies ($tid, $level=0, $dummy=0) {
 	echo "<a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;op=showreply&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">$r_subject</a></font><font class=\"content\"> "._BY." $r_name "._ON." $r_date<br />";
     DisplayBabies($r_tid, $level+1, $dummy+1);
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     if ($level && $comments) {
         echo "</ul>";
     }
@@ -435,9 +435,9 @@ function DisplayBabies ($tid, $level=0, $dummy=0) {
 function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0, $level=0, $nokids=0) 
 {
     
-	global $hr, $titanium_user, $datetime, $cookie, $mainfile, $admin, $commentlimit, 
-	$anonymous, $reasons, $anonpost, $foot1, $foot2, $foot3, $foot4, $titanium_prefix, 
-	$acomm, $articlecomm, $titanium_db, $pnt_module, $nukeurl, $admin_file, $titanium_user_prefix, $userinfo, $cookie;
+	global $hr, $pnt_user, $datetime, $cookie, $mainfile, $admin, $commentlimit, 
+	$anonymous, $reasons, $anonpost, $foot1, $foot2, $foot3, $foot4, $pnt_prefix, 
+	$acomm, $articlecomm, $pnt_db, $pnt_module, $nukeurl, $admin_file, $pnt_user_prefix, $userinfo, $cookie;
     
 	if(defined('NUKE_FILE')) 
 	{
@@ -469,7 +469,7 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
 		       `score`, 
 		      `reason` 
 													   
-	FROM ".$titanium_prefix."_comments WHERE sid='$sid' and pid='$pid'";
+	FROM ".$pnt_prefix."_comments WHERE sid='$sid' and pid='$pid'";
 	
 	if($thold != "") 
 	{
@@ -484,8 +484,8 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
     
 	if ($order==2) $q .= " ORDER BY score DESC";
     
-	$something = $titanium_db->sql_query($q);
-    $num_tid = $titanium_db->sql_numrows($something);
+	$something = $pnt_db->sql_query($q);
+    $num_tid = $pnt_db->sql_numrows($something);
     
 	if ($acomm == 1) 
 	{
@@ -502,7 +502,7 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
     //echo "<br />";
     OpenTable();
     
-	$row_q = $titanium_db->sql_fetchrow($something);
+	$row_q = $pnt_db->sql_fetchrow($something);
     
 	$tid = intval($row_q["tid"]);
     $pid = intval($row_q["pid"]);
@@ -549,7 +549,7 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
     /* with this you can see who is flaming you...*/
 
     if (is_active("Journal")) {
-        $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT jid FROM ".$titanium_prefix."_journal WHERE aid='$c_name' AND status='yes' ORDER BY pdate,jid DESC LIMIT 0,1"));
+        $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT jid FROM ".$pnt_prefix."_journal WHERE aid='$c_name' AND status='yes' ORDER BY pdate,jid DESC LIMIT 0,1"));
         $jid = intval($row["jid"]);
         if ($jid != "" AND isset($jid)) {
         $journal = " | <a href=\"modules.php?name=Journal&amp;file=display&amp;jid=$jid\">"._JOURNAL."</a>";
@@ -558,16 +558,16 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
         }
     }
     if ($c_name != $anonymous) {
-        $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_id FROM ".$titanium_user_prefix."_users WHERE username='$c_name'"));
+        $row2 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_id FROM ".$pnt_user_prefix."_users WHERE username='$c_name'"));
         $r_uid = intval($row2["user_id"]);
         echo "<br />(<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$c_name\">"._USERINFO."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$r_uid\">"._SENDAMSG."</a>$journal) ";
     }
-    $row_url = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_website FROM ".$titanium_user_prefix."_users WHERE username='$c_name'"));
+    $row_url = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_website FROM ".$pnt_user_prefix."_users WHERE username='$c_name'"));
     $url = stripslashes($row_url["user_website"]);
     if ($url != "http://" AND $url != "" AND preg_match("#http://#i", $url)) { echo "<a href=\"$url\" target=\"new\">$url</a> "; }
 
     if(is_mod_admin($pnt_module)) {
-        $row3 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT host_name FROM ".$titanium_prefix."_comments WHERE tid='$tid'"));
+        $row3 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT host_name FROM ".$pnt_prefix."_comments WHERE tid='$tid'"));
         $host_name = $row3["host_name"];
         echo "<br /><strong>(IP: $host_name)</strong>";
     }
@@ -580,7 +580,7 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
         echo "<font class=\"content\"> [ <a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;op=Reply&amp;pid=$tid&amp;sid=$sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
     }
     if ($pid != 0) {
-        $row4 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT pid FROM ".$titanium_prefix."_comments WHERE tid='$pid'"));
+        $row4 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT pid FROM ".$pnt_prefix."_comments WHERE tid='$pid'"));
         $erin = intval($row4["pid"]);
         echo " | <a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;sid=$sid&amp;pid=$erin&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._PARENT."</a>";
     }
@@ -598,7 +598,7 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
     $count_times += 1;
     CloseTable();
     }
-    $titanium_db->sql_freeresult($something);
+    $pnt_db->sql_freeresult($something);
     modthree($sid, $mode, $order, $thold);
     if ($pid==0) 
 	{
@@ -613,11 +613,11 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
 
 function singlecomment($tid, $sid, $mode, $order, $thold) 
 {
-    global $pnt_module, $titanium_user, $cookie, $datetime, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $admin, $anonpost, $titanium_prefix, $textcolor2, $titanium_db;
+    global $pnt_module, $pnt_user, $cookie, $datetime, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $admin, $anonpost, $pnt_prefix, $textcolor2, $pnt_db;
 
     include_once(NUKE_BASE_DIR."header.php");
 
-    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT datePublished, dateModified, name, email, subject, comment, score, reason FROM ".$titanium_prefix."_comments WHERE tid='$tid' AND sid='$sid'"));
+    $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT datePublished, dateModified, name, email, subject, comment, score, reason FROM ".$pnt_prefix."_comments WHERE tid='$tid' AND sid='$sid'"));
 
     $date = $row["datePublished"];
 	$modified = $row["dateModified"];
@@ -655,7 +655,7 @@ function reply($pid, $sid, $mode, $order, $thold)
 {
     include_once(NUKE_BASE_DIR."header.php");
 
-    global $pnt_module, $titanium_user, $cookie, $bgcolor1, $bgcolor2, $bgcolor3, $titanium_db, $anonpost, $anonymous, $admin, $AllowableHTML;
+    global $pnt_module, $pnt_user, $cookie, $bgcolor1, $bgcolor2, $bgcolor3, $pnt_db, $anonpost, $anonymous, $admin, $AllowableHTML;
 
     if ($anonpost == 0 AND !is_user() AND !is_mod_admin($pnt_module)) {
 
@@ -671,7 +671,7 @@ function reply($pid, $sid, $mode, $order, $thold)
 	{
     if ($pid != 0) 
 	{
-        $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT datePublished, dateModified, name, email, subject, comment, score FROM ".$titanium_prefix."_comments WHERE tid='$pid'"));
+        $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT datePublished, dateModified, name, email, subject, comment, score FROM ".$pnt_prefix."_comments WHERE tid='$pid'"));
     
 	    $date = $row["datePublished"];
         $modified = $row["dateModified"];
@@ -684,7 +684,7 @@ function reply($pid, $sid, $mode, $order, $thold)
     } 
 	else 
 	{
-        $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT datePublished, dateModified, title, hometext, bodytext, informant, notes FROM ".$titanium_prefix."_stories WHERE sid='$sid'"));
+        $row2 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT datePublished, dateModified, title, hometext, bodytext, informant, notes FROM ".$pnt_prefix."_stories WHERE sid='$sid'"));
         
 		$date = $row2["datePublished"];
 		$modified = $row2["dateModified"];
@@ -737,10 +737,10 @@ function reply($pid, $sid, $mode, $order, $thold)
     }
     if (!isset($pid) || !isset($sid)) { echo "Something is not right. This message is just to keep things from messing up down the road"; exit(); }
     if ($pid == 0) {
-        $row3 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories WHERE sid='$sid'"));
+        $row3 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT title FROM ".$pnt_prefix."_stories WHERE sid='$sid'"));
         $subject = stripslashes(check_html($row3["title"], "nohtml"));
     } else {
-        $row4 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT subject FROM ".$titanium_prefix."_comments WHERE tid='$pid'"));
+        $row4 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT subject FROM ".$pnt_prefix."_comments WHERE tid='$pid'"));
         $subject = stripslashes(check_html($row4["subject"], "nohtml"));
     }
     CloseTable();
@@ -785,7 +785,7 @@ function replyPreview ($pid, $sid, $subject, $comment, $xanonpost, $mode, $order
 {
     include_once(NUKE_BASE_DIR."header.php");
 
-    global $pnt_module, $titanium_user, $cookie, $AllowableHTML, $anonymous, $anonpost;
+    global $pnt_module, $pnt_user, $cookie, $AllowableHTML, $anonymous, $anonpost;
 
     OpenTable();
     echo "<center><font class=\"title\"><strong>"._COMREPLYPRE."</strong></font></center>";
@@ -863,7 +863,7 @@ function replyPreview ($pid, $sid, $subject, $comment, $xanonpost, $mode, $order
 function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $mode, $order, $thold, $posttype) 
 {
     
-	global $pnt_module, $titanium_user, $userinfo, $EditedMessage, $cookie, $AllowableHTML, $ultramode, $titanium_prefix, $anonpost, $articlecomm, $titanium_db;
+	global $pnt_module, $pnt_user, $userinfo, $EditedMessage, $cookie, $AllowableHTML, $ultramode, $pnt_prefix, $anonpost, $articlecomm, $pnt_db;
     
 	$author = Fix_Quotes($author);
     
@@ -896,13 +896,13 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
         $score = 0;
     }
     $ip = identify::get_ip();
-    $fakeresult = $titanium_db->sql_query("SELECT acomm FROM ".$titanium_prefix."_stories WHERE sid='$sid'");
-    $fake = $titanium_db->sql_numrows($fakeresult);
+    $fakeresult = $pnt_db->sql_query("SELECT acomm FROM ".$pnt_prefix."_stories WHERE sid='$sid'");
+    $fake = $pnt_db->sql_numrows($fakeresult);
     $comment = trim($comment);
     
 	if (($fake == 1) AND ($articlecomm == 1)) 
 	{
-      $fakerow = $titanium_db->sql_fetchrow($fakeresult);
+      $fakerow = $pnt_db->sql_fetchrow($fakeresult);
       $acomm = intval($fakerow["acomm"]);
     
 	if (((($anonpost == 0) AND (is_user())) OR ($anonpost == 1)) AND ($acomm == 0)) 
@@ -923,7 +923,7 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
 	  if(empty($score))
 	  $score = 1;
 	  
-	  $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_comments` (`tid`, 
+	  $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_comments` (`tid`, 
 	                                                      `pid`, 
 														  `sid`, 
 												`datePublished`, 
@@ -951,7 +951,7 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
 													   '$score', 
 															'0')");
 
-	  $titanium_db->sql_query("UPDATE ".$titanium_prefix."_stories SET comments=comments+1 WHERE sid='$sid'");
+	  $pnt_db->sql_query("UPDATE ".$pnt_prefix."_stories SET comments=comments+1 WHERE sid='$sid'");
     
 	  if ($ultramode) 
 	  {
@@ -973,7 +973,7 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
     @include_once("footer.php");
     exit;
     }
-    $titanium_db->sql_freeresult($fakeresult);
+    $pnt_db->sql_freeresult($fakeresult);
     if (isset($cookie[4])) { $options .= "&mode=$cookie[4]"; } else { $options .= "&mode=thread"; }
     if (isset($cookie[5])) { $options .= "&order=$cookie[5]"; } else { $options .= "&order=0"; }
     if (isset($cookie[6])) { $options .= "&thold=$cookie[6]"; } else { $options .= "&thold=0"; }
@@ -999,7 +999,7 @@ switch($op) {
        @include_once(dirname(__FILE__)."/mainfile.php");
     }
    
-    if(($admintest==1) || ($titanium_moderate==2)) 
+    if(($admintest==1) || ($moderate==2)) 
 	{
         while(list($tdw, $emp) = each($_POST)) 
 		{
@@ -1009,7 +1009,7 @@ switch($op) {
             $emp = explode(":", $emp);
             if($emp[1] != 0) {
             $tdw = str_replace("dkn", "", $tdw);
-            $q = "UPDATE ".$titanium_prefix."_comments SET";
+            $q = "UPDATE ".$pnt_prefix."_comments SET";
             if(($emp[1] == 9) && ($emp[0]>=0)) { # Overrated
                 $q .= " score=score-1 where tid='$tdw'";
             } elseif (($emp[1] == 10) && ($emp[0]<=4)) { # Underrated
@@ -1021,7 +1021,7 @@ switch($op) {
             } elseif (($emp[0] == -1) || ($emp[0] == 5)) {
                 $q .= " reason=$emp[1] where tid='$tdw'";
             }
-            if(strlen($q) > 20) $titanium_db->sql_query($q);
+            if(strlen($q) > 20) $pnt_db->sql_query($q);
             }
         }
         }

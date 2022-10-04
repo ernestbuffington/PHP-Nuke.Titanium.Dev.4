@@ -41,7 +41,7 @@ if (!defined('CNBYA')) {
 
 if(is_mod_admin($pnt_module)) {
 
-    list($email) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_email FROM ".$titanium_user_prefix."_users WHERE user_id='$sus_uid'"));
+    list($email) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_email FROM ".$pnt_user_prefix."_users WHERE user_id='$sus_uid'"));
     if ($ya_config['servermail'] == 0) {
         include_once(NUKE_INCLUDE_DIR.'functions_evo.php');
         $message = _SORRYTO." $sitename "._HASSUSPEND;
@@ -58,7 +58,7 @@ if(is_mod_admin($pnt_module)) {
         );
         evo_phpmailer( $email, $subject, $message, $headers );
     }
-    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_level='0', user_active='0' WHERE user_id='$sus_uid'");
+    $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET user_level='0', user_active='0' WHERE user_id='$sus_uid'");
     $pagetitle = ": "._USERADMIN." - "._ACCTSUSPEND;
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();

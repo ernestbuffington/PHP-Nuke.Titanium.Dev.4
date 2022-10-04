@@ -133,7 +133,7 @@ if(!empty($phpbb2_forum_id)):
         $sql = "SELECT *
                 FROM ".FORUMS_TABLE."
                 WHERE forum_id = '$phpbb2_forum_id'";
-        if(!($result = $titanium_db->sql_query($sql))):
+        if(!($result = $pnt_db->sql_query($sql))):
           message_die(GENERAL_ERROR, 'Could not obtain forums information', '', __LINE__, __FILE__, $sql);
         endif;
 else:
@@ -142,11 +142,11 @@ endif;
 
 # If the query doesn't return any rows this isn't a valid forum. Inform
 # the user.
-if(!($forum_row = $titanium_db->sql_fetchrow($result)))
+if(!($forum_row = $pnt_db->sql_fetchrow($result)))
 message_die(GENERAL_MESSAGE, 'Forum_not_exist');
 
 # Start session management
-$userdata = titanium_session_pagestart($titanium_user_ip, $phpbb2_forum_id);
+$userdata = titanium_session_pagestart($pnt_user_ip, $phpbb2_forum_id);
 titanium_init_userprefs($userdata);
 # End session management
 
@@ -194,10 +194,10 @@ if($phpbb2_mark_read == 'topics'):
                         WHERE t.forum_id = $phpbb2_forum_id
                         AND t.topic_last_post_id = p.post_id
                         ORDER BY t.topic_last_post_id DESC LIMIT 1";
-                if( !($result = $titanium_db->sql_query($sql)))
+                if( !($result = $pnt_db->sql_query($sql)))
                 message_die(GENERAL_ERROR, 'Could not obtain forums information', '', __LINE__, __FILE__, $sql);
 
-                if($row = $titanium_db->sql_fetchrow($result)):
+                if($row = $pnt_db->sql_fetchrow($result)):
                         $phpbb2_tracking_forums = ( isset($HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'] . '_f']) ) ? unserialize($HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'] . '_f']) : array();
                         $phpbb2_tracking_topics = ( isset($HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'] . '_t']) ) ? unserialize($HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'] . '_t']) : array();
 
@@ -261,14 +261,14 @@ $sql = "SELECT u.user_id, u.username
         GROUP BY u.user_id, u.username
         ORDER BY u.user_id";
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 {
   message_die(GENERAL_ERROR, 'Could not query forum moderator information', '', __LINE__, __FILE__, $sql);
 }
 
 $moderators = array();
 
-while($row = $titanium_db->sql_fetchrow($result)):
+while($row = $pnt_db->sql_fetchrow($result)):
     # Mod: Advanced Username Color v1.0.5 START
     $moderators[] = '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id']).'">'.UsernameColor($row['username']).'</a>';
     # Mod: Advanced Username Color v1.0.5 START
@@ -285,10 +285,10 @@ $sql = "SELECT g.group_id, g.group_name
         GROUP BY g.group_id, g.group_name
         ORDER BY g.group_id";
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 message_die(GENERAL_ERROR,'Could not query forum moderator information', '', __LINE__, __FILE__, $sql);
 
-while($row = $titanium_db->sql_fetchrow($result)):
+while($row = $pnt_db->sql_fetchrow($result)):
   $moderators[] = '<a href="'.append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL."=".$row['group_id']).'">'.GroupColor($row['group_name']).'</a>';
 endwhile;
 
@@ -310,11 +310,11 @@ if(!empty($HTTP_POST_VARS['topicdays']) || !empty($HTTP_GET_VARS['topicdays'])):
                 WHERE t.forum_id = '$phpbb2_forum_id'
                         AND p.post_id = t.topic_last_post_id
                         AND p.post_time >= '$min_topic_time'";
-        if (!($result = $titanium_db->sql_query($sql))):
+        if (!($result = $pnt_db->sql_query($sql))):
         message_die(GENERAL_ERROR,'Could not obtain limited topics count information','', __LINE__, __FILE__,$sql);
         endif;
         
-		$row = $titanium_db->sql_fetchrow($result);
+		$row = $pnt_db->sql_fetchrow($result);
 
         $phpbb2_topics_count = ($row['forum_topics']) ? $row['forum_topics'] : 1;
         $limit_topics_time = "AND p.post_time >= $min_topic_time";
@@ -351,15 +351,15 @@ $select_topic_days .= '</select>';
    ORDER BY t.topic_priority DESC, t.topic_last_post_id DESC ";
  # Mod: Topic Cement v1.0.3 END
 
-if(!$result = $titanium_db->sql_query($sql))
+if(!$result = $pnt_db->sql_query($sql))
 message_die(GENERAL_ERROR,"Couldn't obtain topic information","", __LINE__, __FILE__,$sql);
 $topic_rowset = array();
 $total_phpbb2_announcements = 0;
-while($row = $titanium_db->sql_fetchrow($result)):
+while($row = $pnt_db->sql_fetchrow($result)):
    $topic_rowset[] = $row;
    $total_phpbb2_announcements++;
 endwhile;
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 # Mod: Global Announcements v1.2.8 END
 
 # All announcement data, this keeps announcements
@@ -373,7 +373,7 @@ $sql = "SELECT t.*, u.username, u.user_id, u2.username as user2, u2.user_id as i
                 AND t.topic_type = ".POST_ANNOUNCE."
         ORDER BY t.topic_last_post_id DESC ";
 
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 message_die(GENERAL_ERROR, 'Could not obtain topic information', '', __LINE__, __FILE__, $sql);
 
 /*****[BEGIN]******************************************
@@ -385,11 +385,11 @@ message_die(GENERAL_ERROR, 'Could not obtain topic information', '', __LINE__, _
  [ Mod:     Global Announcements               v1.2.8 ] HERE WE GO AGAIN WITH UNCOMMENTED CHANGES? WHY? WHO?
  ******************************************************/
 
-while($row = $titanium_db->sql_fetchrow($result)):
+while($row = $pnt_db->sql_fetchrow($result)):
   $topic_rowset[] = $row;
   $total_phpbb2_announcements++;
 endwhile;
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 # Grab all the basic data (all topics except announcements)
 # for this forum
@@ -438,15 +438,15 @@ $sql = "SELECT t.*, u.username, u.user_id, u2.username as user2, u2.username as 
 # Mod: Topic Cement v1.0.3 END
 # Mod: Topic display order v1.0.2 END
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 message_die(GENERAL_ERROR, 'Could not obtain topic information', '', __LINE__, __FILE__, $sql);
 
 $total_phpbb2_topics = 0;
-while($row = $titanium_db->sql_fetchrow($result)):
+while($row = $pnt_db->sql_fetchrow($result)):
     $topic_rowset[] = $row;
     $total_phpbb2_topics++;
 endwhile;
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 # Total topics ...
 $total_phpbb2_topics += $total_phpbb2_announcements;
@@ -483,7 +483,7 @@ if($phpbb2_is_auth['auth_mod'])
 $s_auth_can .= sprintf($lang['Rules_moderate'], '<a href="'.append_titanium_sid("modcp.$phpEx?".POST_FORUM_URL."=$phpbb2_forum_id").'">', '</a>');
 
 # Mozilla navigation bar
-$titanium_nav_links['up'] = array(
+$pnt_nav_links['up'] = array(
         'url' => append_titanium_sid('index.'.$phpEx),
         'title' => sprintf($lang['Forum_Index'], $phpbb2_board_config['sitename'])
 );
@@ -881,13 +881,13 @@ switch(SQL_LAYER):
 		break;
 endswitch;
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 message_die(GENERAL_ERROR,'Could not query subforums information','', __LINE__, __FILE__,$sql);
 $subforum_data = array();
-while($row = $titanium_db->sql_fetchrow($result)):
+while($row = $pnt_db->sql_fetchrow($result)):
  $subforum_data[] = $row;
 endwhile;
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 if(($total_phpbb2_forums = count($subforum_data)) > 0):
 	# Find which forums are visible for this user
@@ -923,15 +923,15 @@ if($total_phpbb2_forums)
 				AND p.post_time > ".$userdata['user_lastvisit']." 
 				AND t.topic_moved_id = 0"; 
 
-		if(!($result = $titanium_db->sql_query($sql)))
+		if(!($result = $pnt_db->sql_query($sql)))
 		message_die(GENERAL_ERROR,'Could not query new topic information','', __LINE__, __FILE__,$sql);
 
 		$new_phpbb2_topic_data = array();
 
-		while($phpbb2_topic_data = $titanium_db->sql_fetchrow($result)):
+		while($phpbb2_topic_data = $pnt_db->sql_fetchrow($result)):
 			$new_phpbb2_topic_data[$phpbb2_topic_data['forum_id']][$phpbb2_topic_data['topic_id']] = $phpbb2_topic_data['post_time'];
 		endwhile;
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 	endif;
 
 	# Obtain list of moderators of each forum
@@ -947,13 +947,13 @@ if($total_phpbb2_forums)
 		GROUP BY u.user_id, u.username, aa.forum_id 
 		ORDER BY aa.forum_id, u.user_id";
 
-	if (!($result = $titanium_db->sql_query($sql, false, true)))
+	if (!($result = $pnt_db->sql_query($sql, false, true)))
 	message_die(GENERAL_ERROR, 'Could not query forum moderator information', '', __LINE__, __FILE__, $sql);
 
-	while($row = $titanium_db->sql_fetchrow($result)):
+	while($row = $pnt_db->sql_fetchrow($result)):
 	 $subforum_moderators[$row['forum_id']][] = '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id']).'">'.UsernameColor($row['username']).'</a>';
 	endwhile;
-	$titanium_db->sql_freeresult($result);	
+	$pnt_db->sql_freeresult($result);	
 
 	$sql = "SELECT aa.forum_id, g.group_id, g.group_name 
 		FROM ".AUTH_ACCESS_TABLE." aa, ".USER_GROUP_TABLE." ug, ".GROUPS_TABLE." g 
@@ -965,13 +965,13 @@ if($total_phpbb2_forums)
 		GROUP BY g.group_id, g.group_name, aa.forum_id 
 		ORDER BY aa.forum_id, g.group_id";
 
-	if(!($result = $titanium_db->sql_query($sql,false,true)))
+	if(!($result = $pnt_db->sql_query($sql,false,true)))
 	message_die(GENERAL_ERROR, 'Could not query forum moderator information', '', __LINE__, __FILE__, $sql);
 
-	while($row = $titanium_db->sql_fetchrow($result))
+	while($row = $pnt_db->sql_fetchrow($result))
 		$subforum_moderators[$row['forum_id']][] = '<a href="' . append_titanium_sid("groupcp.$phpEx?" . POST_GROUPS_URL . "=" . $row['group_id']) . '">' . 	GroupColor($row['group_name']) . '</a>';
 	emdwhile;
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 
 	# show subforums
 	for($j = 0; $j < $total_phpbb2_forums; $j++):

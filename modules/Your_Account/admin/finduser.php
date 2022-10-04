@@ -53,14 +53,14 @@ if(is_mod_admin($pnt_module)) {
     amain();
     echo "<br />\n";
     if (isset($xusername) AND !empty($xusername)) {
-        $sql = "SELECT * FROM ".$titanium_user_prefix."_users WHERE username='$xusername'";
+        $sql = "SELECT * FROM ".$pnt_user_prefix."_users WHERE username='$xusername'";
     } elseif (isset($xuser_id) AND !empty($xuser_id)) {
-        $sql = "SELECT * FROM ".$titanium_user_prefix."_users WHERE user_id='$xuser_id'";
+        $sql = "SELECT * FROM ".$pnt_user_prefix."_users WHERE user_id='$xuser_id'";
     } elseif (isset($xuser_email) AND !empty($xuser_email)) {
-        $sql = "SELECT * FROM ".$titanium_user_prefix."_users WHERE user_email='$xuser_email'";
+        $sql = "SELECT * FROM ".$pnt_user_prefix."_users WHERE user_email='$xuser_email'";
     }
-    if($titanium_db->sql_numrows($titanium_db->sql_query($sql)) > 0) {
-        $chnginfo = $titanium_db->sql_fetchrow($titanium_db->sql_query($sql));
+    if($pnt_db->sql_numrows($pnt_db->sql_query($sql)) > 0) {
+        $chnginfo = $pnt_db->sql_fetchrow($pnt_db->sql_query($sql));
         OpenTable();
         echo "<center><table border='0'>\n";
         echo "<tr><td bgcolor='$bgcolor2'>"._USERID.":</td><td><strong>".$chnginfo['user_id']."</strong></td></tr>\n";

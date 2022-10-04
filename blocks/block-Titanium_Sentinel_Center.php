@@ -12,13 +12,13 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $block_title, $titanium_db, $titanium_prefix, $ab_config, $currentlang;
+global $block_title, $pnt_db, $pnt_prefix, $ab_config, $currentlang;
 
 $block_title = 'NukeSentinel Security';
 $content = '';
-$result = $titanium_db->sql_query('SELECT `reason` FROM `'.$titanium_prefix.'_nsnst_blocked_ips`');
-$total_phpbb2_ips = $titanium_db->sql_numrows($result);
-$titanium_db->sql_freeresult($result);
+$result = $pnt_db->sql_query('SELECT `reason` FROM `'.$pnt_prefix.'_nsnst_blocked_ips`');
+$total_phpbb2_ips = $pnt_db->sql_numrows($result);
+$pnt_db->sql_freeresult($result);
 
 $total_phpbb2_ips+=109729; 
 

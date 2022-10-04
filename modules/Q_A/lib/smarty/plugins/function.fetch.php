@@ -71,7 +71,7 @@ function smarty_function_fetch($params, $phpbb2_template)
                 $port = $uri_parts['port'];
             }
             if (!empty($uri_parts['user'])) {
-                $titanium_user = $uri_parts['user'];
+                $pnt_user = $uri_parts['user'];
             }
             if (!empty($uri_parts['pass'])) {
                 $pass = $uri_parts['pass'];
@@ -85,7 +85,7 @@ function smarty_function_fetch($params, $phpbb2_template)
                         break;
                     case "user":
                         if (!empty($param_value)) {
-                            $titanium_user = $param_value;
+                            $pnt_user = $param_value;
                         }
                         break;
                     case "pass":
@@ -182,8 +182,8 @@ function smarty_function_fetch($params, $phpbb2_template)
                         fputs($fp, $curr_header."\r\n");
                     }
                 }
-                if (!empty($titanium_user) && !empty($pass)) {
-                    fputs($fp, "Authorization: BASIC ".base64_encode("$titanium_user:$pass")."\r\n");
+                if (!empty($pnt_user) && !empty($pass)) {
+                    fputs($fp, "Authorization: BASIC ".base64_encode("$pnt_user:$pass")."\r\n");
                 }
 
                 fputs($fp, "\r\n");

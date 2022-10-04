@@ -29,7 +29,7 @@ define('IN_PHPBB2', 1);
 if ( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $titanium_module['Users']['Ban_Management'] = $filename;
+        $pnt_module['Users']['Ban_Management'] = $filename;
 
         return;
 }
@@ -46,11 +46,11 @@ require('./pagestart.' . $phpEx);
 //
 if ( isset($HTTP_POST_VARS['submit']) )
 {
-        $titanium_user_bansql = '';
+        $pnt_user_bansql = '';
         $email_bansql = '';
         $ip_bansql = '';
 
-        $titanium_user_list = array();
+        $pnt_user_list = array();
         if ( !empty($HTTP_POST_VARS['username']) )
         {
                 $this_userdata = get_userdata($HTTP_POST_VARS['username'], true);
@@ -59,7 +59,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                         message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
                 }
 
-                $titanium_user_list[] = $this_userdata['user_id'];
+                $pnt_user_list[] = $this_userdata['user_id'];
         }
 
         $ip_list = array();
@@ -168,21 +168,21 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
         $sql = "SELECT *
                 FROM " . BANLIST_TABLE;
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, "Couldn't obtain banlist information", "", __LINE__, __FILE__, $sql);
         }
 
-        $current_banlist = $titanium_db->sql_fetchrowset($result);
-        $titanium_db->sql_freeresult($result);
+        $current_banlist = $pnt_db->sql_fetchrowset($result);
+        $pnt_db->sql_freeresult($result);
 
         $kill_session_sql = '';
-        for($i = 0; $i < count($titanium_user_list); $i++)
+        for($i = 0; $i < count($pnt_user_list); $i++)
         {
                 $in_banlist = false;
                 for($j = 0; $j < count($current_banlist); $j++)
                 {
-                        if ( $titanium_user_list[$i] == $current_banlist[$j]['ban_userid'] )
+                        if ( $pnt_user_list[$i] == $current_banlist[$j]['ban_userid'] )
                         {
                                 $in_banlist = true;
                         }
@@ -190,11 +190,11 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
                 if ( !$in_banlist )
                 {
-                        $kill_session_sql .= ( ( $kill_session_sql != '' ) ? ' OR ' : '' ) . "session_user_id = " . $titanium_user_list[$i];
+                        $kill_session_sql .= ( ( $kill_session_sql != '' ) ? ' OR ' : '' ) . "session_user_id = " . $pnt_user_list[$i];
 
                         $sql = "INSERT INTO " . BANLIST_TABLE . " (ban_userid)
-                                VALUES (" . $titanium_user_list[$i] . ")";
-                        if ( !$titanium_db->sql_query($sql) )
+                                VALUES (" . $pnt_user_list[$i] . ")";
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't insert ban_userid info into database", "", __LINE__, __FILE__, $sql);
                         }
@@ -227,7 +227,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
                         $sql = "INSERT INTO " . BANLIST_TABLE . " (ban_ip)
                                 VALUES ('" . $ip_list[$i] . "')";
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't insert ban_ip info into database", "", __LINE__, __FILE__, $sql);
                         }
@@ -243,7 +243,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
         {
                 $sql = "DELETE FROM " . SESSIONS_TABLE . "
                         WHERE $kill_session_sql";
-                if ( !$titanium_db->sql_query($sql) )
+                if ( !$pnt_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, "Couldn't delete banned sessions from database", "", __LINE__, __FILE__, $sql);
                 }
@@ -264,7 +264,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                 {
                         $sql = "INSERT INTO " . BANLIST_TABLE . " (ban_email)
                                 VALUES ('" . str_replace("\'", "''", $email_list[$i]) . "')";
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't insert ban_email info into database", "", __LINE__, __FILE__, $sql);
                         }
@@ -275,13 +275,13 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
         if ( isset($HTTP_POST_VARS['unban_user']) )
         {
-                $titanium_user_list = $HTTP_POST_VARS['unban_user'];
+                $pnt_user_list = $HTTP_POST_VARS['unban_user'];
 
-                for($i = 0; $i < count($titanium_user_list); $i++)
+                for($i = 0; $i < count($pnt_user_list); $i++)
                 {
-                        if ( $titanium_user_list[$i] != -1 )
+                        if ( $pnt_user_list[$i] != -1 )
                         {
-                                $where_sql .= ( ( $where_sql != '' ) ? ', ' : '' ) . intval($titanium_user_list[$i]);
+                                $where_sql .= ( ( $where_sql != '' ) ? ', ' : '' ) . intval($pnt_user_list[$i]);
                         }
                 }
         }
@@ -316,7 +316,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
         {
                 $sql = "DELETE FROM " . BANLIST_TABLE . "
                         WHERE ban_id IN ($where_sql)";
-                if ( !$titanium_db->sql_query($sql) )
+                if ( !$pnt_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, "Couldn't delete ban info from database", "", __LINE__, __FILE__, $sql);
                 }
@@ -354,7 +354,7 @@ else
                 'L_BAN_EMAIL_EXPLAIN' => $lang['Ban_email_explain'])
         );
 
-        $titanium_userban_count = 0;
+        $pnt_userban_count = 0;
         $ipban_count = 0;
         $emailban_count = 0;
 
@@ -364,19 +364,19 @@ else
                         AND b.ban_userid <> 0
                         AND u.user_id <> " . ANONYMOUS . "
                 ORDER BY u.user_id ASC";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not select current user_id ban list', '', __LINE__, __FILE__, $sql);
         }
 
-        $titanium_user_list = $titanium_db->sql_fetchrowset($result);
-        $titanium_db->sql_freeresult($result);
+        $pnt_user_list = $pnt_db->sql_fetchrowset($result);
+        $pnt_db->sql_freeresult($result);
 
         $select_userlist = '';
-        for($i = 0; $i < count($titanium_user_list); $i++)
+        for($i = 0; $i < count($pnt_user_list); $i++)
         {
-                $select_userlist .= '<option value="' . $titanium_user_list[$i]['ban_id'] . '">' . $titanium_user_list[$i]['username'] . '</option>';
-                $titanium_userban_count++;
+                $select_userlist .= '<option value="' . $pnt_user_list[$i]['ban_id'] . '">' . $pnt_user_list[$i]['username'] . '</option>';
+                $pnt_userban_count++;
         }
 
         if( $select_userlist == '' )
@@ -388,13 +388,13 @@ else
 
         $sql = "SELECT ban_id, ban_ip, ban_email
                 FROM " . BANLIST_TABLE;
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not select current ip ban list', '', __LINE__, __FILE__, $sql);
         }
 
-        $banlist = $titanium_db->sql_fetchrowset($result);
-        $titanium_db->sql_freeresult($result);
+        $banlist = $pnt_db->sql_fetchrowset($result);
+        $pnt_db->sql_freeresult($result);
 
         $select_iplist = '';
         $select_emaillist = '';

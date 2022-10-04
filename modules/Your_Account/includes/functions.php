@@ -56,21 +56,21 @@ function Show_CNBYA_menu(){
     CloseTable();
 }
 
-function ya_userCheck($titanium_username){
-    global $stop, $titanium_user_prefix, $titanium_db, $ya_config, $titanium_prefix;
+function ya_userCheck($pnt_username){
+    global $stop, $pnt_user_prefix, $pnt_db, $ya_config, $pnt_prefix;
 	
 	// Remove any whitespace
-	$titanium_username = trim($titanium_username);
+	$pnt_username = trim($pnt_username);
 	
-    if (!Validate($titanium_username, 'username', '', 1, 1)){
+    if (!Validate($pnt_username, 'username', '', 1, 1)){
         $stop = "<center>"._ERRORINVNICK."</center><br />";
     }
 	
-    if (strlen($titanium_username) > $ya_config['nick_max']) $stop = "<center>"._YA_NICKLENGTH."</center>";
-    if (strlen($titanium_username) < $ya_config['nick_min']) $stop = "<center>"._YA_NICKLENGTH."</center>";
+    if (strlen($pnt_username) > $ya_config['nick_max']) $stop = "<center>"._YA_NICKLENGTH."</center>";
+    if (strlen($pnt_username) < $ya_config['nick_min']) $stop = "<center>"._YA_NICKLENGTH."</center>";
 	
-    $result = $titanium_db->sql_query("SELECT disallow_username FROM ". $titanium_prefix ."_bbdisallow");
-    $disallowed = $titanium_db->sql_fetchrowset($result);
+    $result = $pnt_db->sql_query("SELECT disallow_username FROM ". $pnt_prefix ."_bbdisallow");
+    $disallowed = $pnt_db->sql_fetchrowset($result);
 	
 	if (is_array($disallowed)){
         foreach($disallowed as $bad_nick){
@@ -83,7 +83,7 @@ function ya_userCheck($titanium_username){
 		
 		if (!empty($BadNickList) && is_array($BadNickList)){
 			for($i=0; $i<count($BadNickList); $i++){
-				if (strtolower(trim($BadNickList[$i])) == strtolower($titanium_username)){
+				if (strtolower(trim($BadNickList[$i])) == strtolower($pnt_username)){
 					$stop = "<center>"._NAMERESTRICTED."</center><br />";
 					break;
 				}
@@ -91,9 +91,9 @@ function ya_userCheck($titanium_username){
 		}
 	}
 	
-    if (strrpos($titanium_username,' ') > 0) $stop = "<center>"._NICKNOSPACES."</center>";
-    if ($titanium_db->sql_numrows($titanium_db->sql_query("SELECT username FROM ".$titanium_user_prefix."_users WHERE username='$titanium_username'")) > 0) $stop = "<center>"._NICKTAKEN."</center><br />";
-    if ($titanium_db->sql_numrows($titanium_db->sql_query("SELECT username FROM ".$titanium_user_prefix."_users_temp WHERE username='$titanium_username'")) > 0) $stop = "<center>"._NICKTAKEN."</center><br />";
+    if (strrpos($pnt_username,' ') > 0) $stop = "<center>"._NICKNOSPACES."</center>";
+    if ($pnt_db->sql_numrows($pnt_db->sql_query("SELECT username FROM ".$pnt_user_prefix."_users WHERE username='$pnt_username'")) > 0) $stop = "<center>"._NICKTAKEN."</center><br />";
+    if ($pnt_db->sql_numrows($pnt_db->sql_query("SELECT username FROM ".$pnt_user_prefix."_users_temp WHERE username='$pnt_username'")) > 0) $stop = "<center>"._NICKTAKEN."</center><br />";
 	
     return ($stop);
 }
@@ -106,37 +106,37 @@ global $ya_config, $adminmail;
     }
 }
 
-function ya_mailCheck($titanium_user_email) {
-    global $stop, $titanium_user_prefix, $titanium_db, $ya_config;
+function ya_mailCheck($pnt_user_email) {
+    global $stop, $pnt_user_prefix, $pnt_db, $ya_config;
 	
-    $titanium_user_email = strtolower($titanium_user_email);
+    $pnt_user_email = strtolower($pnt_user_email);
 	
-    if ((!$titanium_user_email) || (empty($titanium_user_email)) || (!preg_match("/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,6}$/i", $titanium_user_email))) $stop = "<center>"._ERRORINVEMAIL."</center><br />";
+    if ((!$pnt_user_email) || (empty($pnt_user_email)) || (!preg_match("/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,6}$/i", $pnt_user_email))) $stop = "<center>"._ERRORINVEMAIL."</center><br />";
 	
     if ($ya_config['bad_mail'] > ""){
         $BadMailList = explode("\n", $ya_config['bad_mail']);
 		
         for($i=0; $i<count($BadMailList); $i++){
-            if (substr($titanium_user_email, -strlen(trim($BadMailList[$i]))) == strtolower(trim($BadMailList[$i]))){
+            if (substr($pnt_user_email, -strlen(trim($BadMailList[$i]))) == strtolower(trim($BadMailList[$i]))){
 				$stop = "<center>"._MAILBLOCKED." <strong>".$BadMailList[$i]."</strong></center><br />";
 				break;
 			}
        	}
     }
 	
-    if (strrpos($titanium_user_email,' ') > 0) $stop = "<center>"._ERROREMAILSPACES."</center><br />";
-    if ($titanium_db->sql_numrows($titanium_db->sql_query("SELECT user_email FROM ".$titanium_user_prefix."_users WHERE user_email='$titanium_user_email'")) > 0) $stop = "<center>"._EMAILREGISTERED."</center><br />";
-    if ($titanium_db->sql_numrows($titanium_db->sql_query("SELECT user_email FROM ".$titanium_user_prefix."_users WHERE user_email='".md5($titanium_user_email)."'")) > 0) $stop = "<center>"._EMAILNOTUSABLE."</center><br />";
-    if ($titanium_db->sql_numrows($titanium_db->sql_query("SELECT user_email FROM ".$titanium_user_prefix."_users_temp WHERE user_email='$titanium_user_email'")) > 0) $stop = "<center>"._EMAILREGISTERED."</center><br />";
+    if (strrpos($pnt_user_email,' ') > 0) $stop = "<center>"._ERROREMAILSPACES."</center><br />";
+    if ($pnt_db->sql_numrows($pnt_db->sql_query("SELECT user_email FROM ".$pnt_user_prefix."_users WHERE user_email='$pnt_user_email'")) > 0) $stop = "<center>"._EMAILREGISTERED."</center><br />";
+    if ($pnt_db->sql_numrows($pnt_db->sql_query("SELECT user_email FROM ".$pnt_user_prefix."_users WHERE user_email='".md5($pnt_user_email)."'")) > 0) $stop = "<center>"._EMAILNOTUSABLE."</center><br />";
+    if ($pnt_db->sql_numrows($pnt_db->sql_query("SELECT user_email FROM ".$pnt_user_prefix."_users_temp WHERE user_email='$pnt_user_email'")) > 0) $stop = "<center>"._EMAILREGISTERED."</center><br />";
     
 	return ($stop);
 }
 
-function ya_passCheck($titanium_user_pass1, $titanium_user_pass2) {
+function ya_passCheck($pnt_user_pass1, $pnt_user_pass2) {
     global $stop, $ya_config;
-    if (strlen($titanium_user_pass1) > $ya_config['pass_max']) $stop = "<center>"._YA_PASSLENGTH."</center><br />";
-    if (strlen($titanium_user_pass1) < $ya_config['pass_min']) $stop = "<center>"._YA_PASSLENGTH."</center><br />";
-    if ($titanium_user_pass1 != $titanium_user_pass2) $stop = "<center>"._PASSWDNOMATCH."</center><br />";
+    if (strlen($pnt_user_pass1) > $ya_config['pass_max']) $stop = "<center>"._YA_PASSLENGTH."</center><br />";
+    if (strlen($pnt_user_pass1) < $ya_config['pass_min']) $stop = "<center>"._YA_PASSLENGTH."</center><br />";
+    if ($pnt_user_pass1 != $pnt_user_pass2) $stop = "<center>"._PASSWDNOMATCH."</center><br />";
     return($stop);
 }
 
@@ -148,26 +148,26 @@ function ya_fixtext($ya_fixtext) {
 
 // function improved by Peter
 function ya_save_config($config_name, $config_value, $config_param=""){
-    global $titanium_prefix, $titanium_db, $cache;
+    global $pnt_prefix, $pnt_db, $cache;
     Fix_Quotes($config_value);
     if($config_param == 'html') {
         $config_name = check_html($config_name, 'nohtml');
         $config_value = check_html($config_value, 'html');
-        $titanium_db -> sql_query("UPDATE ".$titanium_prefix."_cnbya_config SET config_value='$config_value' WHERE config_name='$config_name'");
+        $pnt_db -> sql_query("UPDATE ".$pnt_prefix."_cnbya_config SET config_value='$config_value' WHERE config_name='$config_name'");
     }
     if($config_param == 'nohtml') {
         $config_name = check_html($config_name, 'nohtml');
         $config_value = ya_fixtext(check_html($config_value, 'nohtml'));
-        $titanium_db -> sql_query("UPDATE ".$titanium_prefix."_cnbya_config SET config_value='$config_value' WHERE config_name='$config_name'");
+        $pnt_db -> sql_query("UPDATE ".$pnt_prefix."_cnbya_config SET config_value='$config_value' WHERE config_name='$config_name'");
     } else {
         $config_name=check_html($config_name, 'nohtml');
         $config_value = intval($config_value);
-        $titanium_db -> sql_query("UPDATE ".$titanium_prefix."_cnbya_config SET config_value='$config_value' WHERE config_name='$config_name'");
+        $pnt_db -> sql_query("UPDATE ".$pnt_prefix."_cnbya_config SET config_value='$config_value' WHERE config_name='$config_name'");
     }
 }
 
 function ya_get_configs(){
-    global $titanium_prefix, $titanium_db, $cache;
+    global $pnt_prefix, $pnt_db, $cache;
     static $ya_config;
     if(isset($ya_config)) return $ya_config;
 /*****['BEGIN']****************************************
@@ -177,11 +177,11 @@ function ya_get_configs(){
 /*****['END']******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-      $configresult = $titanium_db->sql_query("SELECT config_name, config_value FROM ".$titanium_prefix."_cnbya_config");
-      while (list($config_name, $config_value) = $titanium_db->sql_fetchrow($configresult)) {
+      $configresult = $pnt_db->sql_query("SELECT config_name, config_value FROM ".$pnt_prefix."_cnbya_config");
+      while (list($config_name, $config_value) = $pnt_db->sql_fetchrow($configresult)) {
           $ya_config[$config_name] = $config_value;
       }
-      $titanium_db->sql_freeresult($configresult);
+      $pnt_db->sql_freeresult($configresult);
 /*****['BEGIN']****************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -194,28 +194,28 @@ function ya_get_configs(){
 }
 
 function yacookie($setuid, $setusername, $setpass, $setstorynum, $setumode, $setuorder, $setthold, $setnoscore, $setublockon, $settheme, $setcommentmax) {
-    global $ya_config, $titanium_db, $titanium_prefix, $identify;
+    global $ya_config, $pnt_db, $pnt_prefix, $identify;
     $ip = $identify->get_ip();
-    $result = $titanium_db->sql_query("SELECT time FROM ".$titanium_prefix."_session WHERE uname='$setusername'");
+    $result = $pnt_db->sql_query("SELECT time FROM ".$pnt_prefix."_session WHERE uname='$setusername'");
     $ctime = time();
 
     $guest = 1;
-    $titanium_user_agent = $identify->identify_agent();
+    $pnt_user_agent = $identify->identify_agent();
     if (is_user()) {
         $guest = 0;
-    } elseif($titanium_user_agent['engine'] == 'bot') {
+    } elseif($pnt_user_agent['engine'] == 'bot') {
         $guest = 3;
     }
 
     if (!empty($setusername)) {
         $uname = substr($setusername, 0,25);
-        if ($row = $titanium_db->sql_fetchrow($result)) {
-            $titanium_db->sql_query("UPDATE ".$titanium_prefix."_session SET uname='$setusername', time='$ctime', host_addr='$ip', guest='$guest' WHERE uname='$uname'");
+        if ($row = $pnt_db->sql_fetchrow($result)) {
+            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_session SET uname='$setusername', time='$ctime', host_addr='$ip', guest='$guest' WHERE uname='$uname'");
         } else {
-            $titanium_db->sql_query("INSERT INTO ".$titanium_prefix."_session (uname, time, host_addr, guest) VALUES ('$uname', '$ctime', '$ip', '$guest')");
+            $pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_session (uname, time, host_addr, guest) VALUES ('$uname', '$ctime', '$ip', '$guest')");
         }
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     $info = base64_encode("$setuid:$setusername:$setpass:$setstorynum:$setumode:$setuorder:$setthold:$setnoscore:$setublockon:$settheme:$setcommentmax");
     if ($ya_config['cookietimelife'] != '-') {
@@ -258,15 +258,15 @@ function YA_MakePass() {
 }
 
 function amain() {
-    global $ya_config, $pnt_module, $titanium_db, $titanium_user_prefix, $bgcolor2, $bgcolor1, $textcolor1, $find, $what, $match, $query, $admin_file;
+    global $ya_config, $pnt_module, $pnt_db, $pnt_user_prefix, $bgcolor2, $bgcolor1, $textcolor1, $find, $what, $match, $query, $admin_file;
     $cnbyaversion = $ya_config['version'];
 
     OpenTable();
-    $act = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users WHERE user_level>'0' AND user_id>'1'"));
-    $sus = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users WHERE user_level='0' AND user_id>'1'"));
-    $del = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users WHERE user_level='-1' AND user_id>'1'"));
-    $nor = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users WHERE user_id>'1'"));
-    $pen = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users_temp"));
+    $act = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE user_level>'0' AND user_id>'1'"));
+    $sus = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE user_level='0' AND user_id>'1'"));
+    $del = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE user_level='-1' AND user_id>'1'"));
+    $nor = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE user_id>'1'"));
+    $pen = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users_temp"));
 
     echo "<table align='center' cellpadding='2' cellspacing='2' border='0' width='100%'>\n";
 
@@ -310,7 +310,7 @@ function amain() {
 }
 
 function asearch() {
-    global $pnt_module, $bgcolor2, $bgcolor1, $textcolor1, $find, $what, $match, $query, $titanium_db, $titanium_user_prefix;
+    global $pnt_module, $bgcolor2, $bgcolor1, $textcolor1, $find, $what, $match, $query, $pnt_db, $pnt_user_prefix;
     OpenTable();
     echo "<table style='margin:auto' cellpadding='2' cellspacing='2' border='0'>\n";
     echo "<form method='post' action='modules.php?name=$pnt_module&amp;file=admin'>\n";
@@ -328,8 +328,8 @@ function asearch() {
     echo "</select></td>\n";
 
     echo "<td align='center'><select name='what'>\n";
-    $result = $titanium_db->sql_query("DESCRIBE " . $titanium_user_prefix . "_users");
-    while($row = $titanium_db->sql_fetchrow($result)){
+    $result = $pnt_db->sql_query("DESCRIBE " . $pnt_user_prefix . "_users");
+    while($row = $pnt_db->sql_fetchrow($result)){
         if($row[0] != "user_password") {
             echo "<option value='" . $row[0]."' " . ((($what == $row[0]) || (empty($what) && $row[0] == "username") )? "selected" : "") . ">" . ucwords(str_replace("_", " ", $row[0])) . "</option>\n";
         }
@@ -348,8 +348,8 @@ function asearch() {
     CloseTable();
 }
 
-function mmain($titanium_user) {
-    global $stop, $pnt_module, $redirect, $mode, $t, $f, $ya_config, $titanium_user, $p;
+function mmain($pnt_user) {
+    global $stop, $pnt_module, $redirect, $mode, $t, $f, $ya_config, $pnt_user, $p;
     if(!is_user()) {
         include_once(NUKE_BASE_DIR.'header.php');
         mt_srand ((double)microtime()*1000000);

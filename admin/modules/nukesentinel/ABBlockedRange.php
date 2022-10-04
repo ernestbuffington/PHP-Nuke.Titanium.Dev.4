@@ -29,7 +29,7 @@ if(!isset($min)) $min=0;
 if(!isset($max)) $max=$min+$perpage;
 if(!isset($column) or !$column or $column=="") $column = "ip_lo";
 if(!isset($direction) or !$direction or $direction=="") $direction = "asc";
-$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges`"));
+$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ranges`"));
 if($totalselected > 0) {
   echo "<table summary='' align='center' border='0' cellpadding='2' cellspacing='2' bgcolor='$bgcolor2' width='100%'>\n";
   // Page Sorting
@@ -67,8 +67,8 @@ if($totalselected > 0) {
   echo "<td align='center' width='10%'><strong>"._AB_CIDRS."</strong></td>\n";
   echo "<td align='center' width='10%'><strong>"._AB_FUNCTIONS."</strong></td>\n";
   echo "</tr>\n";
-  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges` ORDER BY $column $direction LIMIT $min,$perpage");
-  while($getIPs = $titanium_db->sql_fetchrow($result)) {
+  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ranges` ORDER BY $column $direction LIMIT $min,$perpage");
+  while($getIPs = $pnt_db->sql_fetchrow($result)) {
     $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
     $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
     $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);

@@ -47,7 +47,7 @@ if (!defined('CNBYA')) {
     $direktori = $phpbb2_board_config['avatar_gallery_path'];
     
     $newavatar=$category."/".$avatar;
-    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_avatar='$newavatar', user_avatar_type='3' WHERE username='$cookie[1]'");
+    $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET user_avatar='$newavatar', user_avatar_type='3' WHERE username='$cookie[1]'");
     echo "<center><span class=\"content\">"._YA_AVATARFOR." ".$cookie[1]." "._YA_SAVED."</span></center><br />";
     if (preg_match("/(http)/", $newavatar)) {
       echo "<center>"._YA_NEWAVATAR.":<br /><img alt=\"\" src=\"$newavatar\"><br />";

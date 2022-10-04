@@ -5,12 +5,12 @@ include_once($BASE_DIR .'database/registered_user.php');
 
 $USERNAME = $_SESSION['username'];
 
-$titanium_userid = getUserByUsername($USERNAME)['userid'];
+$pnt_userid = getUserByUsername($USERNAME)['userid'];
 
-if(getAnswerRating($_GET['answer'], $titanium_userid) == false){
-	createAnswerRating($_GET['answer'], $titanium_userid, $_GET['upvote'] == "true");
+if(getAnswerRating($_GET['answer'], $pnt_userid) == false){
+	createAnswerRating($_GET['answer'], $pnt_userid, $_GET['upvote'] == "true");
 }else{
-	updateAnswerRating($_GET['answer'], $titanium_userid, $_GET['upvote'] == "true");
+	updateAnswerRating($_GET['answer'], $pnt_userid, $_GET['upvote'] == "true");
 }
 
 echo json_encode(calculateAnswerRating($_GET['answer']));

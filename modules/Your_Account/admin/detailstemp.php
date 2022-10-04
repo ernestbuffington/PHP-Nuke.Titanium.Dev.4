@@ -52,9 +52,9 @@ if(is_mod_admin($pnt_module)) {
     title(""._USERADMIN." - "._DETUSER.": <i>$chng_uid</i>");
     amain();
     echo "<br />\n";
-    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$chng_uid'");
-    if($titanium_db->sql_numrows($result) > 0) {
-    $chnginfo = $titanium_db->sql_fetchrow($result);
+    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users_temp WHERE user_id='$chng_uid'");
+    if($pnt_db->sql_numrows($result) > 0) {
+    $chnginfo = $pnt_db->sql_fetchrow($result);
     OpenTable();
     echo "<center><table border='0'>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._USERID.":</td><td><strong><input type='text' value='$chnginfo[user_id]' size='40' disabled=disabled style='color=#000000;background-color: #FFFFFF'></strong></td></tr>\n";
@@ -62,11 +62,11 @@ if(is_mod_admin($pnt_module)) {
     echo "<tr><td bgcolor='$bgcolor2'>"._UREALNAME.":</td><td><strong><input type='text' value='$chnginfo[realname]' size='40' disabled=disabled style='color=#000000;background-color: #FFFFFF'></strong></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._EMAIL.":</td><td><strong><a href='mailto:".$chnginfo['user_email']."'><input type='text' value='$chnginfo[user_email]' size='40' disabled=disabled style='color=#000000;background-color: #FFFFFF'></a></strong></td></tr>\n";
 
-    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
-    while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
+    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
+    while ($sqlvalue = $pnt_db->sql_fetchrow($result)) {
     $t = $sqlvalue[fid];
-    $result1 = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE uid='$chng_uid' AND fid='$t'");
-        while ($tmpsqlvalue = $titanium_db->sql_fetchrow($result1)) {
+    $result1 = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_value_temp WHERE uid='$chng_uid' AND fid='$t'");
+        while ($tmpsqlvalue = $pnt_db->sql_fetchrow($result1)) {
             $tmp_value=$tmpsqlvalue[value];
             if (substr($sqlvalue[name],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue[name];
             echo "<tr><td bgcolor='$bgcolor2'>$name_exit</td><td bgcolor='$bgcolor3'><strong><input type='text' value='$tmp_value' size='40' disabled=disabled style='color=#000000;background-color: #FFFFFF'></strong>";

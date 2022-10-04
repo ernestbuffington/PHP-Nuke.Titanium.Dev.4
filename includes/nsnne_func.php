@@ -22,8 +22,8 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 }
 
 function blogs_save_config($config_name, $config_value){
-    global $titanium_prefix, $titanium_db, $cache;
-    $titanium_db->sql_query("UPDATE ".$titanium_prefix."_nsnne_config SET config_value='$config_value' WHERE config_name='$config_name'");
+    global $pnt_prefix, $pnt_db, $cache;
+    $pnt_db->sql_query("UPDATE ".$pnt_prefix."_nsnne_config SET config_value='$config_value' WHERE config_name='$config_name'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -34,7 +34,7 @@ function blogs_save_config($config_name, $config_value){
 }
 
 function blog_get_configs(){
-    global $titanium_prefix, $titanium_db, $cache;
+    global $pnt_prefix, $pnt_db, $cache;
     static $config;
     if(isset($config)) return $config;
 /*****[BEGIN]******************************************
@@ -44,11 +44,11 @@ function blog_get_configs(){
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $configresult = $titanium_db->sql_query("SELECT config_name, config_value FROM ".$titanium_prefix."_nsnne_config");
-        while (list($config_name, $config_value) = $titanium_db->sql_fetchrow($configresult)) {
+        $configresult = $pnt_db->sql_query("SELECT config_name, config_value FROM ".$pnt_prefix."_nsnne_config");
+        while (list($config_name, $config_value) = $pnt_db->sql_fetchrow($configresult)) {
             $config[$config_name] = $config_value;
         }
-        $titanium_db->sql_freeresult($configresult);
+        $pnt_db->sql_freeresult($configresult);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -62,18 +62,18 @@ function blog_get_configs(){
 
 function automated_blogs() 
 {
-    global $titanium_prefix, $multilingual, $currentlang, $titanium_db;
+    global $pnt_prefix, $multilingual, $currentlang, $pnt_db;
     
-	$result = $titanium_db->sql_query('SELECT * FROM '.$titanium_prefix.'_autonews WHERE datePublished<="'.date('Y-m-d G:i:s', time()).'"');
+	$result = $pnt_db->sql_query('SELECT * FROM '.$pnt_prefix.'_autonews WHERE datePublished<="'.date('Y-m-d G:i:s', time()).'"');
     
-	while ($row2 = $titanium_db->sql_fetchrow($result)) 
+	while ($row2 = $pnt_db->sql_fetchrow($result)) 
 	{
         $title = addslashes($row2['title']);
         $hometext = addslashes($row2['hometext']);
         $bodytext = addslashes($row2['bodytext']);
         $notes = addslashes($row2['notes']);
 
-        $titanium_db->sql_query("INSERT INTO ".$titanium_prefix."_stories VALUES (NULL, 
+        $pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_stories VALUES (NULL, 
 		                                              '$row2[catid]', 
 													    '$row2[aid]', 
 														    '$title', 
@@ -97,11 +97,11 @@ function automated_blogs()
 												                 '0', 
 																 '1')");
     }
-    if ($titanium_db->sql_numrows($result)) 
+    if ($pnt_db->sql_numrows($result)) 
 	{
-        $titanium_db->sql_query('DELETE FROM '.$titanium_prefix.'_autonews WHERE datePublished<="'.date('Y-m-d G:i:s', time()).'"');
+        $pnt_db->sql_query('DELETE FROM '.$pnt_prefix.'_autonews WHERE datePublished<="'.date('Y-m-d G:i:s', time()).'"');
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 }
 
 ?>

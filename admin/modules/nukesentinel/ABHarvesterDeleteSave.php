@@ -15,10 +15,10 @@ if (!defined('NUKESENTINEL_ADMIN')) {
    die ('You can\'t access this file directly...');
 }
 
-$getIPs = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_harvesters` WHERE `hid`='".$hid."' LIMIT 0,1"));
-$titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_harvesters` WHERE `hid`='".$hid."'");
-$titanium_db->sql_query("ALTER TABLE `".$titanium_prefix."_nsnst_harvesters` ORDER BY `harvester`");
-$titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_harvesters`");
+$getIPs = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_harvesters` WHERE `hid`='".$hid."' LIMIT 0,1"));
+$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_harvesters` WHERE `hid`='".$hid."'");
+$pnt_db->sql_query("ALTER TABLE `".$pnt_prefix."_nsnst_harvesters` ORDER BY `harvester`");
+$pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_harvesters`");
 $list_harvester = explode("\r\n", $ab_config['list_harvester']);
 $list_harvester = str_replace($getIPs['harvester'], "", $list_harvester);
 rsort($list_harvester);

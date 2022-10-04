@@ -30,14 +30,14 @@ if (!defined('IN_PHPBB2'))
 }
 
 // Define Table Constants
-define('STATS_CONFIG_TABLE', $titanium_prefix . '_bbstats_config');
-define('MODULE_ADMIN_TABLE', $titanium_prefix . '_bbstats_module_admin_panel');
-define('CACHE_TABLE', $titanium_prefix . '_bbstats_module_cache');
-define('MODULE_GROUP_AUTH_TABLE', $titanium_prefix . '_bbstats_module_group_auth');
-define('MODULE_INFO_TABLE', $titanium_prefix . '_bbstats_module_info');
-define('MODULES_TABLE', $titanium_prefix . '_bbstats_modules');
-define('SMILIE_INDEX_TABLE', $titanium_prefix . '_bbstats_smilies_index');
-define('SMILIE_INFO_TABLE', $titanium_prefix . '_bbstats_smilies_info');
+define('STATS_CONFIG_TABLE', $pnt_prefix . '_bbstats_config');
+define('MODULE_ADMIN_TABLE', $pnt_prefix . '_bbstats_module_admin_panel');
+define('CACHE_TABLE', $pnt_prefix . '_bbstats_module_cache');
+define('MODULE_GROUP_AUTH_TABLE', $pnt_prefix . '_bbstats_module_group_auth');
+define('MODULE_INFO_TABLE', $pnt_prefix . '_bbstats_module_info');
+define('MODULES_TABLE', $pnt_prefix . '_bbstats_modules');
+define('SMILIE_INDEX_TABLE', $pnt_prefix . '_bbstats_smilies_index');
+define('SMILIE_INFO_TABLE', $pnt_prefix . '_bbstats_smilies_info');
 
 if(is_admin()):
     define('STATS_DEBUG', true); // Debug Mode

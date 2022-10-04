@@ -56,7 +56,7 @@ if (!defined('CNBYA')) die('CNBYA protection');
   
   if ($setinfo['agreedtos'] == '0'):
     echo "<form name=\"tos1\" action=\"modules.php?name=$pnt_module\" method=\"POST\"><td colspan=\"2\">\n";
-    echo "<input type=\"hidden\" name=\"username\" value=$titanium_username>\n";
+    echo "<input type=\"hidden\" name=\"username\" value=$pnt_username>\n";
     echo "<input type=\"hidden\" name=\"user_password\" value=$user_password>\n";
     echo "<input type=\"hidden\" name=\"random_num\" value=$random_num>\n";
     echo "<input type=\"hidden\" name=\"gfx_check\" value=$gfx_check>\n";

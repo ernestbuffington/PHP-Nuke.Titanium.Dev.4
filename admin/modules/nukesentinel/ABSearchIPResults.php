@@ -49,7 +49,7 @@ echo '</form>'."\n";
 CloseTable();
 if($torun > 0) {
   //BLOCKED IP SEARCH RESULTS
-  $totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_addr` LIKE '$sip'"));
+  $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE `ip_addr` LIKE '$sip'"));
   if($totalselected > 0) {
     echo '<br />'."\n";
     OpenTable();
@@ -63,14 +63,14 @@ if($torun > 0) {
     echo '<td align="center" width="15%"><strong>'._AB_REASON.'</strong></td>'."\n";
     echo '<td align="center" width="15%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     echo '</tr>'."\n";
-    $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_addr` LIKE '$sip' ORDER BY `ip_long`");
-    while($getIPs = $titanium_db->sql_fetchrow($result)) {
-      list($getIPs['reason']) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `reason` FROM `".$titanium_prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1"));
+    $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE `ip_addr` LIKE '$sip' ORDER BY `ip_long`");
+    while($getIPs = $pnt_db->sql_fetchrow($result)) {
+      list($getIPs['reason']) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `reason` FROM `".$pnt_prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1"));
       $getIPs['reason'] = str_replace("Abuse-", "", $getIPs['reason']);
       $bdate = date("Y-m-d @ H:i:s", $getIPs['date']);
       $lookupip = str_replace("*", "0", $getIPs['ip_addr']);
       if($getIPs['expires']==0) { $bexpire = _AB_PERMENANT; } else { $bexpire = date("Y-m-d @ H:i:s", $getIPs['expires']); }
-      list($bname) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `username` FROM `".$titanium_user_prefix."_users` WHERE `user_id`='".$getIPs['user_id']."' LIMIT 0,1"));
+      list($bname) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `username` FROM `".$pnt_user_prefix."_users` WHERE `user_id`='".$getIPs['user_id']."' LIMIT 0,1"));
       $qs = htmlentities(base64_decode($getIPs['query_string']));
       $qs = str_replace("%20", " ", $qs);
       $qs = str_replace("/**/", "/* */", $qs);
@@ -95,7 +95,7 @@ if($torun > 0) {
     CloseTable();
   }
   //BLOCKED RANGES SEARCH RESULTS
-  $totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'"));
+  $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ranges` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'"));
   if($totalselected > 0) {
     echo '<br />'."\n";
     OpenTable();
@@ -110,8 +110,8 @@ if($torun > 0) {
     echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     echo '</tr>'."\n";
     $x = 0;
-    $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'");
-    while($getIPs = $titanium_db->sql_fetchrow($result)) {
+    $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ranges` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'");
+    while($getIPs = $pnt_db->sql_fetchrow($result)) {
       $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
       $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
       $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);
@@ -136,7 +136,7 @@ if($torun > 0) {
     CloseTable();
   }
   //EXCLUDED RANGES SEARCH RESULTS
-  $totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_excluded_ranges` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'"));
+  $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_excluded_ranges` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'"));
   if($totalselected > 0) {
     echo '<br />'."\n";
     OpenTable();
@@ -151,8 +151,8 @@ if($torun > 0) {
     echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     echo '</tr>'."\n";
     $x = 0;
-    $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_excluded_ranges` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'");
-    while($getIPs = $titanium_db->sql_fetchrow($result)) {
+    $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_excluded_ranges` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'");
+    while($getIPs = $pnt_db->sql_fetchrow($result)) {
       $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
       $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
       $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);
@@ -177,7 +177,7 @@ if($torun > 0) {
     CloseTable();
   }
   //PROTECTED RANGES SEARCH RESULTS
-  $totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_protected_ranges` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'"));
+  $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_protected_ranges` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'"));
   if($totalselected > 0) {
     echo '<br />'."\n";
     OpenTable();
@@ -192,8 +192,8 @@ if($torun > 0) {
     echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     echo '</tr>'."\n";
     $x = 0;
-    $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_protected_ranges` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'");
-    while($getIPs = $titanium_db->sql_fetchrow($result)) {
+    $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_protected_ranges` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'");
+    while($getIPs = $pnt_db->sql_fetchrow($result)) {
       $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
       $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
       $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);
@@ -218,7 +218,7 @@ if($torun > 0) {
     CloseTable();
   }
   //IP 2 COUNTRY SEARCH
-  $totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_ip2country` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'"));
+  $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_ip2country` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'"));
   if($totalselected > 0) {
     echo '<br />'."\n";
     OpenTable();
@@ -233,8 +233,8 @@ if($torun > 0) {
     echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     echo '</tr>'."\n";
     $x = 0;
-    $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_ip2country` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'");
-    while($getIPs = $titanium_db->sql_fetchrow($result)) {
+    $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_ip2country` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip'");
+    while($getIPs = $pnt_db->sql_fetchrow($result)) {
       $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
       $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
       $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);
@@ -260,7 +260,7 @@ if($torun > 0) {
     CloseTable();
   }
   //TRACKED IP SEARCH RESULTS
-  $totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT `username`, `ip_addr`, MAX(`date`), COUNT(*) FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `ip_addr` LIKE '$sip' GROUP BY 1,2"));
+  $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `username`, `ip_addr`, MAX(`date`), COUNT(*) FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `ip_addr` LIKE '$sip' GROUP BY 1,2"));
   if($totalselected > 0) {
     echo '<br />'."\n";
     OpenTable();
@@ -272,12 +272,12 @@ if($torun > 0) {
     echo '<td align="center"><strong>'._AB_LASTVIEWED.'</strong></td>'."\n";
     echo '<td align="center"><strong>'._AB_HITS.'</strong></td>'."\n";
     echo '<td align="center"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
-    $result = $titanium_db->sql_query("SELECT `user_id`, `username`, `ip_addr`, MAX(`date`), COUNT(*), MIN(`tid`), `c2c` FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `ip_addr` LIKE '$sip' GROUP BY 2,3");
-    while(list($titanium_userid,$titanium_username,$ipaddr,$lastview,$hits,$tid, $c2c) = $titanium_db->sql_fetchrow($result)){
+    $result = $pnt_db->sql_query("SELECT `user_id`, `username`, `ip_addr`, MAX(`date`), COUNT(*), MIN(`tid`), `c2c` FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `ip_addr` LIKE '$sip' GROUP BY 2,3");
+    while(list($pnt_userid,$pnt_username,$ipaddr,$lastview,$hits,$tid, $c2c) = $pnt_db->sql_fetchrow($result)){
       echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
       echo '<td>';
-      if($titanium_userid != 1) {
-        echo '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$titanium_username.'" target="_blank"><img src="images/nukesentinel/usericon.png" height="16" width="16" alt="'.$titanium_username.'" title="'.$titanium_username.'" border="0" /></a>';
+      if($pnt_userid != 1) {
+        echo '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$pnt_username.'" target="_blank"><img src="images/nukesentinel/usericon.png" height="16" width="16" alt="'.$pnt_username.'" title="'.$pnt_username.'" border="0" /></a>';
       } else {
         echo '<img src="images/nukesentinel/anonicon.png" height="16" width="16" alt="'.$anonymous.'" title="'.$anonymous.'" border="0" />';
       }
@@ -288,8 +288,8 @@ if($torun > 0) {
       echo '<td align="center">'.$flagimg.'</td>'."\n";
       echo '<td align="center">'.date("Y-m-d \@ H:i:s",$lastview).'</td>'."\n";
       echo '<td align="center">'.$hits.'</td>'."\n";
-      echo '<td align="center" nowrap="nowrap"><a href="'.$admin_file.'.php?op=ABTrackedPagesPrint&amp;user_id='.$titanium_userid.'&amp;ip_addr='.$ipaddr.'" target="_blank"><img src="images/nukesentinel/print.png" height="16" width="16" alt="'._AB_PRINT.'" title="'._AB_PRINT.'" border="0" /></a>'."\n";
-      echo '<a href="'.$admin_file.'.php?op=ABTrackedPages&amp;user_id='.$titanium_userid.'&amp;ip_addr='.$ipaddr.'" target="_blank"><img src="images/nukesentinel/view.png" height="16" width="16" alt="'._AB_VIEW.'" title="'._AB_VIEW.'" border="0" /></a>'."\n";
+      echo '<td align="center" nowrap="nowrap"><a href="'.$admin_file.'.php?op=ABTrackedPagesPrint&amp;user_id='.$pnt_userid.'&amp;ip_addr='.$ipaddr.'" target="_blank"><img src="images/nukesentinel/print.png" height="16" width="16" alt="'._AB_PRINT.'" title="'._AB_PRINT.'" border="0" /></a>'."\n";
+      echo '<a href="'.$admin_file.'.php?op=ABTrackedPages&amp;user_id='.$pnt_userid.'&amp;ip_addr='.$ipaddr.'" target="_blank"><img src="images/nukesentinel/view.png" height="16" width="16" alt="'._AB_VIEW.'" title="'._AB_VIEW.'" border="0" /></a>'."\n";
       echo '<a href="'.$admin_file.'.php?op=ABTrackedAdd&amp;tid='.$tid.'&amp;xop='.$op.'&amp;sip='.$tempsip.'" target="_blank"><img src="images/nukesentinel/block.png" height="16" width="16" alt="'._AB_BLOCK.'" title="'._AB_BLOCK.'" border="0" /></a>'."\n";
       echo '<a href="'.$admin_file.'.php?op=ABTrackedDelete&amp;tid='.$tid.'&amp;xop='.$op.'&amp;sip='.$tempsip.'"><img src="images/nukesentinel/delete.png" height="16" width="16" alt="'._AB_DELETE.'" title="'._AB_DELETE.'" border="0" /></a></td>'."\n";
       echo '</tr>'."\n";
@@ -298,7 +298,7 @@ if($torun > 0) {
     CloseTable();
   }
   //USER IP SEARCH RESULTS
-  $totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_user_prefix."_users` WHERE `last_ip` LIKE '$sip'"));
+  $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_user_prefix."_users` WHERE `last_ip` LIKE '$sip'"));
   if($totalselected > 0) {
     echo '<br />'."\n";
     OpenTable();
@@ -312,8 +312,8 @@ if($torun > 0) {
     echo '<td width="2%"><strong>&nbsp;</strong></td>'."\n";
     echo '<td align="right" width="15%"><strong>'._AB_REGDATE.'</strong></td>'."\n";
     echo '</tr>'."\n";
-    $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_user_prefix."_users` WHERE `last_ip` LIKE '$sip'");
-    while($chnginfo = $titanium_db->sql_fetchrow($result)) {
+    $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_user_prefix."_users` WHERE `last_ip` LIKE '$sip'");
+    while($chnginfo = $pnt_db->sql_fetchrow($result)) {
       echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
       echo '<td><a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$chnginfo['username'].'" target="_blank">'.$chnginfo['username'].'</a></td>'."\n";
       echo '<td><a href="mailto:'.$chnginfo['user_email'].'">'.$chnginfo['user_email'].'</a></td>'."\n";

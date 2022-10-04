@@ -18,13 +18,13 @@ if(!defined('NUKE_EVO')) {
 }
 
 global $bgcolor1, $bgcolor2;
-$cbinfo = $titanium_db->sql_fetchrow($titanium_db->sql_query("select * from `".$titanium_prefix."_nsncb_config` where `cgid`='4'"));
+$cbinfo = $pnt_db->sql_fetchrow($pnt_db->sql_query("select * from `".$pnt_prefix."_nsncb_config` where `cgid`='4'"));
 if($cbinfo['enabled'] == '1') {
     if($cbinfo['height'] <> "") { $cheight = "height='".$cbinfo['height']."' "; } else { $cheight = ""; }
     echo "<table width='100%' ".$cheight."border='0' cellspacing='1' cellpadding='0'><tr><td valign='top'>\n";
     echo "<table width='100%' ".$cheight."border='0' cellspacing='1' cellpadding='0'><tr>";
-    $result3 = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsncb_blocks` WHERE `cgid`='4' ORDER BY `cbid`");
-    while($cbidinfo = $titanium_db->sql_fetchrow($result3)) {
+    $result3 = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsncb_blocks` WHERE `cgid`='4' ORDER BY `cbid`");
+    while($cbidinfo = $pnt_db->sql_fetchrow($result3)) {
         if($cbidinfo['cbid'] <= $cbinfo['count']) {
             if($cbidinfo['wtype'] == '0') {
                 echo "<td width='".$cbidinfo['width']."' valign='top' align='center'>\n";

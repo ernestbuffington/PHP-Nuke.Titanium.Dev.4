@@ -20,11 +20,11 @@
     exit;
   }
 
-  $titanium_username = $_SESSION['username'];
+  $pnt_username = $_SESSION['username'];
   $tweet = $_POST['tweet'];
   
   try {
-    createTweet($titanium_username, strip_tags($tweet));
+    createTweet($pnt_username, strip_tags($tweet));
   } catch (PDOException $e) {
     $_SESSION['error_messages'][] = 'Error creating tweet: ' . $e->getMessage();
 

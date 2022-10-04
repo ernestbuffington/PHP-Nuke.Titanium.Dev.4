@@ -23,31 +23,31 @@ global $evouserinfo_addons, $evouserinfo_mostever;
 
 function evouserinfo_get_mostonline () 
 {
-    global $titanium_db, $titanium_prefix;    
-    $result = $titanium_db->sql_query("SELECT total, members, nonmembers FROM ".$titanium_prefix."_mostonline");
-    $mostonline = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    global $pnt_db, $pnt_prefix;    
+    $result = $pnt_db->sql_query("SELECT total, members, nonmembers FROM ".$pnt_prefix."_mostonline");
+    $mostonline = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     $out['total'] = (is_integer(intval($mostonline['total']))) ? intval($mostonline['total']) : 0;
     $out['members'] = (is_integer(intval($mostonline['members']))) ? intval($mostonline['members']) : 0;
     $out['nonmembers'] = (is_integer(intval($mostonline['nonmembers']))) ? intval($mostonline['nonmembers']) : 0;
 
-    $result = $titanium_db->sql_query("SELECT COUNT(*) FROM `".$titanium_prefix."_session` WHERE `guest`='0' OR `guest`='2'");
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
-    $titanium_users = $row[0];
+    $result = $pnt_db->sql_query("SELECT COUNT(*) FROM `".$pnt_prefix."_session` WHERE `guest`='0' OR `guest`='2'");
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
+    $pnt_users = $row[0];
 
-    $result = $titanium_db->sql_query("SELECT COUNT(*) FROM `".$titanium_prefix."_session` WHERE `guest`='1' OR `guest`='3'");
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $result = $pnt_db->sql_query("SELECT COUNT(*) FROM `".$pnt_prefix."_session` WHERE `guest`='1' OR `guest`='3'");
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
     $guests = $row[0];
 
-    $total = $titanium_users + $guests;
+    $total = $pnt_users + $guests;
     
     if ($total > $out['total']):
 
-        $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_mostonline` WHERE `total`='".$out['total']."' LIMIT 1");
-        $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_mostonline` VALUES ('".$total."','".$titanium_users."','".$guests."')");
+        $pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_mostonline` WHERE `total`='".$out['total']."' LIMIT 1");
+        $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_mostonline` VALUES ('".$total."','".$pnt_users."','".$guests."')");
 
     endif;
 

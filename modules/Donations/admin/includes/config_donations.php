@@ -157,19 +157,19 @@ function display_config() {
     Notes:       Will toss a DonateError if the values are not found
 ================================================================================================*/
 function get_values() {
-    global $titanium_db, $titanium_prefix, $lang_donate, $cache;
+    global $pnt_db, $pnt_prefix, $lang_donate, $cache;
     static $don;
     if(isset($don) && is_array($don)) { return $don; }
     if (!$don = $cache->load('general', 'donations')) {
-        $sql = 'SELECT config_value, config_name from `'.$titanium_prefix.'_donators_config` WHERE config_name LIKE "gen_%"';
-        if(!$result = $titanium_db->sql_query($sql)) {
+        $sql = 'SELECT config_value, config_name from `'.$pnt_prefix.'_donators_config` WHERE config_name LIKE "gen_%"';
+        if(!$result = $pnt_db->sql_query($sql)) {
             DonateError($lang_donate['VALUES_NF']);
         }
-        while ($row = $titanium_db->sql_fetchrow($result)) {
+        while ($row = $pnt_db->sql_fetchrow($result)) {
             $don[str_replace('gen_', '', $row['config_name'])] = $row['config_value'];
         }
         $cache->save('general', 'donations', $don);
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
     }
     return $don;
 }
@@ -182,7 +182,7 @@ function get_values() {
     Notes:       Writes values to the DB
 ================================================================================================*/
 function write_values($values) {
-    global $titanium_db, $titanium_prefix, $cache;
+    global $pnt_db, $pnt_prefix, $cache;
     //Loop through values
     foreach ($values as $key => $value) {
         //Remove crap
@@ -193,10 +193,10 @@ function write_values($values) {
         }
         $key = Fix_Quotes(check_html($key, 'nohtml'));
         //Setup SQL
-        $sql = 'UPDATE '.$titanium_prefix.'_donators_config SET';
+        $sql = 'UPDATE '.$pnt_prefix.'_donators_config SET';
         $sql .= ' config_value="'.$value.'" WHERE config_name="gen_'.$key.'";';
         //Run SQL
-        $titanium_db->sql_query($sql);
+        $pnt_db->sql_query($sql);
     }
     //Clear the cache
     $cache->delete('general', 'donations');

@@ -39,8 +39,8 @@ if (!defined('CNBYA')) {
 }
 
 // Group Memberships
-$result = $titanium_db->sql_query("SELECT ug.group_id, g.group_name FROM ".$titanium_prefix."_bbuser_group ug INNER JOIN ".$titanium_prefix."_bbgroups g ON (g.group_id = ug.group_id AND g.group_single_user = 0) WHERE ug.user_pending = 0 AND ug.user_id = ".$usrinfo['user_id']);
-if ($titanium_db->sql_numrows($result) > 0) {
+$result = $pnt_db->sql_query("SELECT ug.group_id, g.group_name FROM ".$pnt_prefix."_bbuser_group ug INNER JOIN ".$pnt_prefix."_bbgroups g ON (g.group_id = ug.group_id AND g.group_single_user = 0) WHERE ug.user_pending = 0 AND ug.user_id = ".$usrinfo['user_id']);
+if ($pnt_db->sql_numrows($result) > 0) {
     echo "<br />";
     OpenTable();
 /*****[BEGIN]******************************************
@@ -51,7 +51,7 @@ if ($titanium_db->sql_numrows($result) > 0) {
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-    while(list($gid, $gname) = $titanium_db->sql_fetchrow($result)) {
+    while(list($gid, $gname) = $pnt_db->sql_fetchrow($result)) {
 /*****[BEGIN]******************************************
  [ Mod:    Group Colors                        v1.0.0 ]
  ******************************************************/

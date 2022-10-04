@@ -25,7 +25,7 @@ if (!defined('ADMIN_FILE')) {
    die('Access Denied');
 }
 
-global $titanium_prefix, $titanium_db, $admdata;
+global $pnt_prefix, $pnt_db, $admdata;
 $pnt_module = basename(dirname(dirname(__FILE__)));
 if(is_mod_admin($pnt_module)) {
 
@@ -34,15 +34,15 @@ if(is_mod_admin($pnt_module)) {
 /*********************************************************/
 
 function mod_main($title, $description) {
-    global $titanium_prefix, $titanium_db, $admin_file;
+    global $pnt_prefix, $pnt_db, $admin_file;
     $title = Fix_Quotes($title);
     $description = Fix_Quotes($description);
-    $titanium_db->sql_query("UPDATE ".$titanium_prefix."_reviews_main SET title='$title', description='$description'");
+    $pnt_db->sql_query("UPDATE ".$pnt_prefix."_reviews_main SET title='$title', description='$description'");
     redirect_titanium($admin_file.".php?op=reviews");
 }
 
 function reviews() {
-    global $titanium_prefix, $titanium_db, $multilingual, $admin_file;
+    global $pnt_prefix, $pnt_db, $multilingual, $admin_file;
     include_once(NUKE_BASE_DIR.'header.php');
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=reviews\">" . _REV_ADMIN_HEADER . "</a></div>\n";
@@ -54,9 +54,9 @@ function reviews() {
     echo "<center><span class=\"title\"><strong>"._REVADMIN."</strong></span></center>";
     CloseTable();
     echo "<br />";
-    $resultrm = $titanium_db->sql_query("SELECT title, description FROM ".$titanium_prefix."_reviews_main");
-    list($title, $description) = $titanium_db->sql_fetchrow($resultrm);
-    $titanium_db->sql_freeresult($resultrm);
+    $resultrm = $pnt_db->sql_query("SELECT title, description FROM ".$pnt_prefix."_reviews_main");
+    list($title, $description) = $pnt_db->sql_fetchrow($resultrm);
+    $pnt_db->sql_freeresult($resultrm);
     OpenTable();
     echo "<form action=\"".$admin_file.".php\" method=\"post\">"
     ."<center>"._REVTITLE."<br />"
@@ -70,10 +70,10 @@ function reviews() {
     echo "<br />";
     OpenTable();
     echo "<center><span class=\"option\"><strong>"._REVWAITING."</strong></span><br />";
-    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_reviews_add order by id");
-    $numrows = $titanium_db->sql_numrows($result);
+    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_reviews_add order by id");
+    $numrows = $pnt_db->sql_numrows($result);
     if ($numrows>0) {
-        while(list($id, $date, $title, $text, $reviewer, $email, $score, $url, $url_title, $rlanguage) = $titanium_db->sql_fetchrow($result)) {
+        while(list($id, $date, $title, $text, $reviewer, $email, $score, $url, $url_title, $rlanguage) = $pnt_db->sql_fetchrow($result)) {
             $id = intval($id);
             $score = intval($score);
             $title = stripslashes($title);
@@ -107,9 +107,9 @@ function reviews() {
                 ."<tr><td>"._LINKTITLE.":</td><td><input type=\"text\" name=\"url_title\" value=\"$url_title\" size=\"25\" maxlength=\"50\"></td></tr>";
             }
             echo "<tr><td>"._IMAGE.":</td><td><input type=\"text\" name=\"cover\" size=\"25\" maxlength=\"100\"><br /><i>"._REVIMGINFO."</i></td></tr></table>";
-            echo "<input type=\"hidden\" name=\"op\" value=\"add_review\"><input type=\"submit\" value=\""._ADDREVIEW."\"> - [ <a href=\"".$admin_file.".php?op=deleteNotice&amp;id=$id&amp;table=".$titanium_prefix."_reviews_add&amp;op_back=reviews\">"._DELETE."</a> ]</form>";
+            echo "<input type=\"hidden\" name=\"op\" value=\"add_review\"><input type=\"submit\" value=\""._ADDREVIEW."\"> - [ <a href=\"".$admin_file.".php?op=deleteNotice&amp;id=$id&amp;table=".$pnt_prefix."_reviews_add&amp;op_back=reviews\">"._DELETE."</a> ]</form>";
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
     } else {
         echo "<br /><br /><i>"._NOREVIEW2ADD."</i><br /><br />";
     }
@@ -124,7 +124,7 @@ function reviews() {
 }
 
 function add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $rlanguage) {
-    global $titanium_prefix, $titanium_db, $admin_file, $cache;
+    global $pnt_prefix, $pnt_db, $admin_file, $cache;
 
     $id = intval($id);
     $title = Fix_Quotes($title);
@@ -132,8 +132,8 @@ function add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover
     $reviewer = Fix_Quotes($reviewer);
     $email = Fix_Quotes($email);
     $score = intval($score);
-    $titanium_db->sql_query("insert into ".$titanium_prefix."_reviews values (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1', '$rlanguage')");
-    $titanium_db->sql_query("delete FROM ".$titanium_prefix."_reviews_add WHERE id = '$id'");
+    $pnt_db->sql_query("insert into ".$pnt_prefix."_reviews values (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1', '$rlanguage')");
+    $pnt_db->sql_query("delete FROM ".$pnt_prefix."_reviews_add WHERE id = '$id'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

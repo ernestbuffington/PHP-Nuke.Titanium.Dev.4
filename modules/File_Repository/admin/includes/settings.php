@@ -17,7 +17,7 @@ function _file_repository_configuration()
 {
 	// upload size in bytes (int)(str_replace('M', '', ini_get('post_max_size')) * 1024 * 1024)
 	// upload size in mb ini_get('post_max_size')
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings;
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $settings;
 	_admin_navigation_menu();
 	echo '<form action="'.$admin_file.'.php?op='._MODNAME.'&amp;action=settings_save" method="post">'."\n";
 	echo '<table style="width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
@@ -234,12 +234,12 @@ function _file_repository_configuration()
 		if(!empty($themelist[$i])) 
 		{
 			$sql = "SELECT * FROM `"._FILE_REPOSITORY_THEMES."` WHERE `theme_name`='$themelist[$i]'";
-			$result = $titanium_db->sql_query($sql);
-			$row = $titanium_db->sql_fetchrow($result);
-			$titanium_db->sql_freeresult($result);
+			$result = $pnt_db->sql_query($sql);
+			$row = $pnt_db->sql_fetchrow($result);
+			$pnt_db->sql_freeresult($result);
 			if (empty($row)) 
 			{
-				$titanium_db->sql_query("INSERT INTO `"._FILE_REPOSITORY_THEMES."` (`theme_name`,`cell`,`head`,`per_row`,`show_left`) VALUES ('$themelist[$i]',0,0,2,1)");
+				$pnt_db->sql_query("INSERT INTO `"._FILE_REPOSITORY_THEMES."` (`theme_name`,`cell`,`head`,`per_row`,`show_left`) VALUES ('$themelist[$i]',0,0,2,1)");
 			}
 			$row['cell'] 		= ($row['cell']) ? $row['cell'] : '0';
 			$row['head'] 		= ($row['head']) ? $row['head'] : '0';
@@ -279,31 +279,31 @@ function _file_repository_configuration()
 
 function _file_repository_configuration_save_variables()
 {
-	global $titanium_db, $admin_file;
+	global $pnt_db, $admin_file;
 
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['pophits']."' WHERE `config_name`='pophits'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['uhead']."' WHERE `config_name`='uhead'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['utext']."' WHERE `config_name`='utext'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['parse_smilies']."' WHERE `config_name`='parse_smilies'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['viewer']."' WHERE `config_name`='viewer'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['date_format']."' WHERE `config_name`='date_format'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['usegfxcheck']."' WHERE `config_name`='usegfxcheck'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['captcha']."' WHERE `config_name`='captcha'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['viewer']."' WHERE `config_name`='viewer'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['developer_mode']."' WHERE `config_name`='developer_mode'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['overview_count']."' WHERE `config_name`='overview_count'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['overview_display']."' WHERE `config_name`='overview_display'");	
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['most_popular']."' WHERE `config_name`='most_popular'"); 
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['download_view']."' WHERE `config_name`='download_view'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['adminBypass']."' WHERE `config_name`='adminBypass'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['pophits']."' WHERE `config_name`='pophits'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['uhead']."' WHERE `config_name`='uhead'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['utext']."' WHERE `config_name`='utext'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['parse_smilies']."' WHERE `config_name`='parse_smilies'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['viewer']."' WHERE `config_name`='viewer'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['date_format']."' WHERE `config_name`='date_format'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['usegfxcheck']."' WHERE `config_name`='usegfxcheck'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['captcha']."' WHERE `config_name`='captcha'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['viewer']."' WHERE `config_name`='viewer'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['developer_mode']."' WHERE `config_name`='developer_mode'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['overview_count']."' WHERE `config_name`='overview_count'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['overview_display']."' WHERE `config_name`='overview_display'");	
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['most_popular']."' WHERE `config_name`='most_popular'"); 
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['download_view']."' WHERE `config_name`='download_view'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['adminBypass']."' WHERE `config_name`='adminBypass'");
 	# added in 1.1.0
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['show_legend']."' WHERE `config_name`='show_legend'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['users_can_upload']."' WHERE `config_name`='users_can_upload'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['group_allowed_to_upload']."' WHERE `config_name`='group_allowed_to_upload'");	
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['users_file_upload_amount']."' WHERE `config_name`='users_file_upload_amount'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['users_screens_upload_amount']."' WHERE `config_name`='users_screens_upload_amount'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['allowed_file_extensions']."' WHERE `config_name`='allowed_file_extensions'");
-	$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['allowed_image_extensions']."' WHERE `config_name`='allowed_image_extensions'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['show_legend']."' WHERE `config_name`='show_legend'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['users_can_upload']."' WHERE `config_name`='users_can_upload'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['group_allowed_to_upload']."' WHERE `config_name`='group_allowed_to_upload'");	
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['users_file_upload_amount']."' WHERE `config_name`='users_file_upload_amount'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['users_screens_upload_amount']."' WHERE `config_name`='users_screens_upload_amount'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['allowed_file_extensions']."' WHERE `config_name`='allowed_file_extensions'");
+	$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['allowed_image_extensions']."' WHERE `config_name`='allowed_image_extensions'");
 	# added in 1.1.0
 
 	for ($x = 1; $x <= $_POST['total_themes']; $x++) 
@@ -312,7 +312,7 @@ function _file_repository_configuration_save_variables()
 		if ( $_POST['show_left'.$x] ):
 			$show_left = ", `show_left`='".$_POST['show_left'.$x]."'";
 		endif;
-		$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_THEMES."` SET `cell`='".$_POST['cell'.$x]."', `head`='".$_POST['head'.$x]."', `per_row`='".$_POST['per_row'.$x]."'".$show_left." WHERE `theme_name`='".$_POST['theme_name'.$x]."'");
+		$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_THEMES."` SET `cell`='".$_POST['cell'.$x]."', `head`='".$_POST['head'.$x]."', `per_row`='".$_POST['per_row'.$x]."'".$show_left." WHERE `theme_name`='".$_POST['theme_name'.$x]."'");
 	}
 
 	# added in 1.1.0
@@ -322,11 +322,11 @@ function _file_repository_configuration_save_variables()
 			$area_to_display .= $areas.',';
 		endforeach;
 		$area_to_display_string = rtrim($area_to_display, ", \t\n");
-		$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$area_to_display_string."' WHERE `config_name`='overview_display_areas'");
+		$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='".$area_to_display_string."' WHERE `config_name`='overview_display_areas'");
 
 	else:
 		# if there are no values, just empty the value.
-		$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='' WHERE `config_name`='overview_display_areas'");
+		$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_SETTINGS."` SET `config_value`='' WHERE `config_name`='overview_display_areas'");
 	endif;
 	# added in 1.1.0
 	_redirect_titanium($admin_file.'.php?op='._MODNAME.'&action=settings');

@@ -19,7 +19,7 @@ $addJStoBody .= '  })'."\n";
 $addJStoBody .= '</script>'."\n";
 addJSToBody($addJStoBody,'inline');
 addCSSToHead('./modules/ECalendar/css/astyle.css','file');
-global $titanium_prefix, $titanium_db, $admdata;
+global $pnt_prefix, $pnt_db, $admdata;
 $pnt_module = basename(dirname(__FILE__));
 get_lang($pnt_module);
 
@@ -29,7 +29,7 @@ if(is_mod_admin($pnt_module)) {
 | Main Admin Calendar section
 ===================================================*/
 function main() {
-    global $titanium_prefix, $titanium_db, $admin_file;
+    global $pnt_prefix, $pnt_db, $admin_file;
     include_once(NUKE_BASE_DIR.'header.php');
     OpenTable();	
 	   echo '<div style="text-align:center;"><h2>'._ECALENDAR.'</h2><br>'._ADDED.'<br><br></div>' , PHP_EOL
@@ -106,10 +106,10 @@ function main() {
 | Event Edit Section
 ===================================================*/
 function edit_event($eid) {
-    global $titanium_prefix, $titanium_db, $admin_file;
+    global $pnt_prefix, $pnt_db, $admin_file;
 
-		$result = $titanium_db->sql_query("SELECT eid, month, day, year, reoccur, time, ampm, title FROM ".$titanium_prefix."_ecalendar WHERE eid = '$eid'");
-		list($eid, $month, $day, $year, $reoccur, $time, $ampm, $title) = $titanium_db->sql_fetchrow($result);
+		$result = $pnt_db->sql_query("SELECT eid, month, day, year, reoccur, time, ampm, title FROM ".$pnt_prefix."_ecalendar WHERE eid = '$eid'");
+		list($eid, $month, $day, $year, $reoccur, $time, $ampm, $title) = $pnt_db->sql_fetchrow($result);
 		addCSSToHead('./modules/ECalendar/css/astyle.css','file');
 		$hour = '';
 		$min = '';
@@ -210,15 +210,15 @@ function edit_event($eid) {
 | Events Display Section
 ===================================================*/
 function events_display() {
-	global $titanium_prefix, $titanium_db, $admin_file;
-	$count_events = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_ecalendar"));
+	global $pnt_prefix, $pnt_db, $admin_file;
+	$count_events = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_ecalendar"));
 	$pagination = new Paginator($_GET['page'],$count_events);
 	$pagination->set_Limit(10);
 	$pagination->set_Links(3);
 	$limit1 = $pagination->getRange1();
 	$limit2 = $pagination->getRange2();
 
-        $result = $titanium_db->sql_query("SELECT eid, month, day, year, reoccur, time, ampm, title FROM ".$titanium_prefix."_ecalendar ORDER by `eid` ASC  LIMIT ".$limit1.", ".$limit2);
+        $result = $pnt_db->sql_query("SELECT eid, month, day, year, reoccur, time, ampm, title FROM ".$pnt_prefix."_ecalendar ORDER by `eid` ASC  LIMIT ".$limit1.", ".$limit2);
 		echo '<div style="width:100%; overflow-y: auto; overflow-x: hidden; max-height: 800px;">' , PHP_EOL
 		, '<table style="width:80%; margin: 0 auto;" border="0" cellpadding="2" cellspacing="2" class="forumline" align="center">' , PHP_EOL
 		, '<tr>' , PHP_EOL
@@ -228,8 +228,8 @@ function events_display() {
 		, '<th class="catHead" style="width: 150px; font-size:14px;">'._REOCCURRING.'</th>' , PHP_EOL
 		, '<th class="catHead" style="width:50px; font-size:14px;">&nbsp;</th>' , PHP_EOL
 		, '</tr>' , PHP_EOL;
-        if ($titanium_db->sql_numrows($result) > 0) {
-            while (list($eid, $month, $day, $year, $reoccur, $time, $ampm, $title) = $titanium_db->sql_fetchrow($result)) {
+        if ($pnt_db->sql_numrows($result) > 0) {
+            while (list($eid, $month, $day, $year, $reoccur, $time, $ampm, $title) = $pnt_db->sql_fetchrow($result)) {
 				$x++;
 				$bgcolor = ($x%2 == 0) ? 'row2' : 'row3';
 				$ampm = ($ampm == 0) ? 'AM' : 'PM';
@@ -253,7 +253,7 @@ function events_display() {
 
 				$today = date("Ymd");
 				if (($today > $date) && ($reoccur == 0)){
-					$result = $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_ecalendar` WHERE eid = '$eid'");
+					$result = $pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_ecalendar` WHERE eid = '$eid'");
 				}
             }
 			echo '</table>' , PHP_EOL;
@@ -268,7 +268,7 @@ function events_display() {
 				echo '</table>' , PHP_EOL;
         }
 		echo '</div>' , PHP_EOL;
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 				if($count_events > 10)
 		{
 			if ($pagination->getCurrent() == 1)
@@ -301,9 +301,9 @@ function events_display() {
 | Event Delete Function
 ===================================================*/
 function remove_event($eid){
-    global $titanium_prefix, $titanium_db, $admin_file;
+    global $pnt_prefix, $pnt_db, $admin_file;
 	$eid = intval($eid);
-    $result = $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_ecalendar` WHERE eid = '$eid'");
+    $result = $pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_ecalendar` WHERE eid = '$eid'");
 	redirect_titanium($admin_file.".php?op=ecalendar");
 }
 
@@ -311,7 +311,7 @@ function remove_event($eid){
 | Event Add/Save Function
 ===================================================*/
 function add_event() {
-    global $titanium_prefix, $titanium_db, $admin_file;
+    global $pnt_prefix, $pnt_db, $admin_file;
 	$date = $_POST['date'];
 	$date = str_replace('/','',$date);
 	$month = date("m", strtotime($date));
@@ -325,7 +325,7 @@ function add_event() {
 	}
 	$ampm = $_POST['ampm'];
 	$title = htmlentities($_POST['title'], ENT_QUOTES);
-	$result = $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_ecalendar`(`month`, `day`, `year`, `reoccur`, `time`, `ampm`, `title`) VALUES ('".$month."', '".$day."', '".$year."', '".$reoccur."', '".$time."', '".$ampm."', '".$title."')");
+	$result = $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_ecalendar`(`month`, `day`, `year`, `reoccur`, `time`, `ampm`, `title`) VALUES ('".$month."', '".$day."', '".$year."', '".$reoccur."', '".$time."', '".$ampm."', '".$title."')");
 	include_once(NUKE_BASE_DIR.'header.php');
 		if(!$result) {
 
@@ -351,7 +351,7 @@ function add_event() {
 ===================================================*/
 
 function update_event($eid) {
-    global $titanium_prefix, $titanium_db, $admin_file;
+    global $pnt_prefix, $pnt_db, $admin_file;
 	$date = $_POST['date'];
 	$date = str_replace('/','',$date);
 	$month = date("m", strtotime($date));
@@ -365,7 +365,7 @@ function update_event($eid) {
 	$reoccur = $_POST["reoccur"];
 	$ampm = $_POST['ampm'];
 	$title = htmlentities($_POST['title'], ENT_QUOTES);
- $titanium_db->sql_query("UPDATE `".$titanium_prefix."_ecalendar` SET `day` = '".$day."', `month` = '".$month."', `year` = '".$year."', `reoccur` = '".$reoccur."', `time` = '".$time."', `ampm` = '".$ampm."', `title` = '".$title."' WHERE eid = '$eid'");
+ $pnt_db->sql_query("UPDATE `".$pnt_prefix."_ecalendar` SET `day` = '".$day."', `month` = '".$month."', `year` = '".$year."', `reoccur` = '".$reoccur."', `time` = '".$time."', `ampm` = '".$ampm."', `title` = '".$title."' WHERE eid = '$eid'");
 	redirect_titanium($admin_file.".php?op=ecalendar");
 }
 /*===================================================

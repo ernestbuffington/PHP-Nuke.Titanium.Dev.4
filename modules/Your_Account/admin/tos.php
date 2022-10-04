@@ -54,7 +54,7 @@ if(is_mod_admin($pnt_module)) {
     echo "<br />\n";
     if ($_POST['submit']) {
     $tos = Fix_Quotes($_POST['tos_text']);
-    $titanium_db->sql_query("UPDATE " . $titanium_prefix . "_cnbya_config SET config_value = '" . $tos . "' WHERE config_name = 'tos_text'");
+    $pnt_db->sql_query("UPDATE " . $pnt_prefix . "_cnbya_config SET config_value = '" . $tos . "' WHERE config_name = 'tos_text'");
     $cache->delete('ya_config');
     OpenTable();
     echo "<center>Your Terms of Service have been updated.</center>\n";

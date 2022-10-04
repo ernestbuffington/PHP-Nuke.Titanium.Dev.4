@@ -27,7 +27,7 @@ define('IN_PHPBB2', true);
 if( !empty($setmodules) )
 {
 	$filename = basename(__FILE__);
-	$titanium_module['Forums']['Overall Permissions']   = $filename . '?' . POST_FORUM_URL . "=$phpbb2_forum_id";
+	$pnt_module['Forums']['Overall Permissions']   = $filename . '?' . POST_FORUM_URL . "=$phpbb2_forum_id";
 
 	return;
 }
@@ -134,7 +134,7 @@ if( isset($HTTP_POST_VARS['submit']) )
 		}
 		if ($sql != '') {
 			$sql = "UPDATE " . FORUMS_TABLE . " SET $sql WHERE forum_id = $phpbb2_forum_id;";
-			if ( !$titanium_db->sql_query($sql) )
+			if ( !$pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, 'Could not update auth table', '', __LINE__, __FILE__, $sql);
 			}
@@ -146,26 +146,26 @@ if( isset($HTTP_POST_VARS['submit']) )
 $sql = "SELECT cat_id, cat_title, cat_order
 	FROM " . CATEGORIES_TABLE . "
 	ORDER BY cat_order";
-if( !$q_categories = $titanium_db->sql_query($sql) )
+if( !$q_categories = $pnt_db->sql_query($sql) )
 {
 	message_die(GENERAL_ERROR, "Could not query categories list", "", __LINE__, __FILE__, $sql);
 }
 
-if( $total_phpbb2_categories = $titanium_db->sql_numrows($q_categories) ) 
+if( $total_phpbb2_categories = $pnt_db->sql_numrows($q_categories) ) 
 {
-	$category_rows = $titanium_db->sql_fetchrowset($q_categories);
+	$category_rows = $pnt_db->sql_fetchrowset($q_categories);
 
 	$sql = "SELECT *
 		FROM " . FORUMS_TABLE . "
 		ORDER BY cat_id, forum_order";
-	if(!$q_forums = $titanium_db->sql_query($sql))
+	if(!$q_forums = $pnt_db->sql_query($sql))
 	{
 		message_die(GENERAL_ERROR, "Could not query forums information", "", __LINE__, __FILE__, $sql);
 	}
 
-	if( $total_phpbb2_forums = $titanium_db->sql_numrows($q_forums) )
+	if( $total_phpbb2_forums = $pnt_db->sql_numrows($q_forums) )
 	{
-		$forum_rows = $titanium_db->sql_fetchrowset($q_forums);
+		$forum_rows = $pnt_db->sql_fetchrowset($q_forums);
 	}
 
 	//

@@ -52,13 +52,13 @@ if(is_mod_admin($pnt_module)) {
     title(""._USERADMIN." - "._DETUSER.": <i>$chng_uid</i>");
     amain();
     echo "<br />\n";
-    $sql = "SELECT * FROM ".$titanium_user_prefix."_users WHERE user_id='$chng_uid'";
-    if($titanium_db->sql_numrows($titanium_db->sql_query($sql)) > 0) {
-        $chnginfo = $titanium_db->sql_fetchrow($titanium_db->sql_query($sql));
+    $sql = "SELECT * FROM ".$pnt_user_prefix."_users WHERE user_id='$chng_uid'";
+    if($pnt_db->sql_numrows($pnt_db->sql_query($sql)) > 0) {
+        $chnginfo = $pnt_db->sql_fetchrow($pnt_db->sql_query($sql));
         
-    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field");
-    while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
-    list($value) = $titanium_db->sql_fetchrow( $titanium_db->sql_query("SELECT value FROM ".$titanium_user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$chnginfo[user_id]'"));
+    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field");
+    while ($sqlvalue = $pnt_db->sql_fetchrow($result)) {
+    list($value) = $pnt_db->sql_fetchrow( $pnt_db->sql_query("SELECT value FROM ".$pnt_user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$chnginfo[user_id]'"));
     $chnginfo[$sqlvalue[name]] = $value;
     }
         
@@ -72,8 +72,8 @@ if(is_mod_admin($pnt_module)) {
     echo "<tr><td bgcolor='$bgcolor2'>"._REGDATE.":</td><td><strong>".$chnginfo['user_regdate']."</strong></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._FAKEEMAIL.":</td><td><strong>".$chnginfo['femail']."</strong></td></tr>\n";
         
-        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field ORDER BY pos");
-            while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
+        $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field ORDER BY pos");
+            while ($sqlvalue = $pnt_db->sql_fetchrow($result)) {
               if (substr($sqlvalue[name],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue[name];
               echo "<tr><td bgcolor='$bgcolor2'>$name_exit</td><td><strong>".$chnginfo[$sqlvalue[name]]."</strong></td></tr>\n";
             }

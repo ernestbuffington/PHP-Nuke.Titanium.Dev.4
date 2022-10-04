@@ -626,8 +626,8 @@ function has_new_or_unread_private_messages()
  */
 function get_evo_option($name, $type='string')
 {
-	global $titanium_config;
-	return ($type == 'string') ? $titanium_config[$name] : intval($titanium_config[$name]);
+	global $pnt_config;
+	return ($type == 'string') ? $pnt_config[$name] : intval($pnt_config[$name]);
 }
 
 /**
@@ -796,14 +796,14 @@ function stripslashes_deep( $string )
  *
  * @since 2.0.9e
  *
- * @global db $titanium_db Evolution Xtreme database abstraction object.
+ * @global db $pnt_db Evolution Xtreme database abstraction object.
  *
  * @param string|array $data Unescaped data
  * @return string|array Escaped data
  */
 function esc_sql( $data ) {
-	global $titanium_db;
-	return $titanium_db->sql_escapestring( $data );
+	global $pnt_db;
+	return $pnt_db->sql_escapestring( $data );
 }
 
 /**
@@ -830,46 +830,46 @@ function url_shorten( $url, $length = 35 ) {
  *
  * @since 2.0.9e
  *
- * @global db $titanium_db Evolution Xtreme database abstraction object.
+ * @global db $pnt_db Evolution Xtreme database abstraction object.
  * @global board_config $phpbb2_board_config Forum configuration variable.
  * @global userinfo $userinfo Get the logged in users account information.
  */
-function get_user_avatar($titanium_user_id) {
-	global $titanium_db, $phpbb2_board_config, $userinfo;
+function get_user_avatar($pnt_user_id) {
+	global $pnt_db, $phpbb2_board_config, $userinfo;
 	static $avatarData;
 
-	if(is_array($avatarData[$titanium_user_id]) && !empty($avatarData[$titanium_user_id])) { return $avatarData[$titanium_user_id]; }
-	if ( $titanium_user_id == $userinfo['user_id'] ) {
-		 $titanium_user_avatar       = $userinfo['user_avatar'];
-		 $titanium_user_avatar_type  = $userinfo['user_avatar_type'];
-		 $titanium_user_avatar_allow = $userinfo['user_allowavatar'];
-		 $titanium_user_avatar_show  = $userinfo['user_showavatars'];
+	if(is_array($avatarData[$pnt_user_id]) && !empty($avatarData[$pnt_user_id])) { return $avatarData[$pnt_user_id]; }
+	if ( $pnt_user_id == $userinfo['user_id'] ) {
+		 $pnt_user_avatar       = $userinfo['user_avatar'];
+		 $pnt_user_avatar_type  = $userinfo['user_avatar_type'];
+		 $pnt_user_avatar_allow = $userinfo['user_allowavatar'];
+		 $pnt_user_avatar_show  = $userinfo['user_showavatars'];
 	} else {
-		list($titanium_user_avatar, $titanium_user_avatar_type, $titanium_user_avatar_allow, $titanium_user_avatar_show) = $titanium_db->sql_ufetchrow("SELECT user_avatar, user_avatar_type, user_allowavatar, user_showavatars FROM ".USERS_TABLE." WHERE user_id = '" . $titanium_user_id . "' LIMIT 1");
+		list($pnt_user_avatar, $pnt_user_avatar_type, $pnt_user_avatar_allow, $pnt_user_avatar_show) = $pnt_db->sql_ufetchrow("SELECT user_avatar, user_avatar_type, user_allowavatar, user_showavatars FROM ".USERS_TABLE." WHERE user_id = '" . $pnt_user_id . "' LIMIT 1");
 	}
 	$phpbb2_poster_avatar = '';
-	if ( $titanium_user_avatar_type && $titanium_user_id != ANONYMOUS && $titanium_user_avatar_allow && $titanium_user_avatar_show && !empty($titanium_user_avatar)) {
-		switch( $titanium_user_avatar_type ) {
+	if ( $pnt_user_avatar_type && $pnt_user_id != ANONYMOUS && $pnt_user_avatar_allow && $pnt_user_avatar_show && !empty($pnt_user_avatar)) {
+		switch( $pnt_user_avatar_type ) {
 			case USER_AVATAR_UPLOAD:
-				$phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_upload'] ) ? avatar_resize($phpbb2_board_config['avatar_path'] . '/' . $titanium_user_avatar) : '';
+				$phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_upload'] ) ? avatar_resize($phpbb2_board_config['avatar_path'] . '/' . $pnt_user_avatar) : '';
 				break;
 			case USER_AVATAR_REMOTE:
-				$phpbb2_poster_avatar = avatar_resize($titanium_user_avatar);
+				$phpbb2_poster_avatar = avatar_resize($pnt_user_avatar);
 				break;
 			case USER_AVATAR_GALLERY:
-				$phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_local'] ) ? avatar_resize($phpbb2_board_config['avatar_gallery_path'] . '/' . $titanium_user_avatar) : '';
+				$phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_local'] ) ? avatar_resize($phpbb2_board_config['avatar_gallery_path'] . '/' . $pnt_user_avatar) : '';
 				break;
 		}
 	}
 	$default_member_avatar = evo_image('avatar_member.png', 'Forums');
 	$default_guest_avatar  = evo_image('avatar_guest.png', 'Forums');
-	if ( empty($phpbb2_poster_avatar) && $titanium_user_id != ANONYMOUS) {
+	if ( empty($phpbb2_poster_avatar) && $pnt_user_id != ANONYMOUS) {
 		$phpbb2_poster_avatar = '<img class="rounded-corners-user-info" src="'.  $default_member_avatar .'" alt="" border="0" />';
 	}
-	if ( $titanium_user_id == ANONYMOUS ) {
+	if ( $pnt_user_id == ANONYMOUS ) {
 		$phpbb2_poster_avatar = '<img class="rounded-corners-user-info" src="'.  $default_guest_avatar .'" alt="" border="0" />';
 	}
-	$avatarData[$titanium_user_id] = $poser_avatar;
+	$avatarData[$pnt_user_id] = $poser_avatar;
 	return ($phpbb2_poster_avatar);
 }
 

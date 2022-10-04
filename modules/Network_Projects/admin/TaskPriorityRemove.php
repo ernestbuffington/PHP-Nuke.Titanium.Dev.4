@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_TASKS.': '._NETWORK_DELETEPRIORITY;
 $priority_id = intval($priority_id);
@@ -26,8 +26,8 @@ echo "<input type='hidden' name='priority_id' value='$priority_id'>\n";
 echo "<tr><td align='center'><strong>"._NETWORK_SWAPTASKPRIORITY."</strong></td></tr>\n";
 echo "<tr><td align='center'>".$priority['priority_name']." -> <select name='swap_priority_id'>\n";
 echo "<option value='-1'>"._NETWORK_NA."</option>\n";
-$prioritylist = $titanium_db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_tasks_priorities` WHERE `priority_id` != '$priority_id' AND `priority_id` > 0 ORDER BY `priority_weight`");
-while(list($s_priority_id, $s_priority_name) = $titanium_db2->sql_fetchrow($prioritylist)){
+$prioritylist = $pnt_db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_tasks_priorities` WHERE `priority_id` != '$priority_id' AND `priority_id` > 0 ORDER BY `priority_weight`");
+while(list($s_priority_id, $s_priority_name) = $pnt_db2->sql_fetchrow($prioritylist)){
   echo "<option value='$s_priority_id'>".$s_priority_name."</option>\n";
 }
 echo "</select></td></tr>\n";

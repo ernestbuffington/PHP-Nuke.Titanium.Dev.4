@@ -22,7 +22,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
 	$file = basename(__FILE__);
-	$titanium_module['Users']['Flags'] = "$file";
+	$pnt_module['Users']['Flags'] = "$file";
 	return;
 }
 
@@ -87,12 +87,12 @@ if( $mode != "" )
 
 			$sql = "SELECT * FROM " . FLAG_TABLE . "
 				WHERE flag_id = $flag_id";
-			if(!$result = $titanium_db->sql_query($sql))
+			if(!$result = $pnt_db->sql_query($sql))
 			{
 				message_die(GENERAL_ERROR, "Couldn't obtain flag data", "", __LINE__, __FILE__, $sql);
 			}
 			
-			$flag_info = $titanium_db->sql_fetchrow($result);
+			$flag_info = $pnt_db->sql_fetchrow($result);
 			$s_hidden_fields .= '<input type="hidden" name="id" value="' . $flag_id . '" />';
 
 		}
@@ -164,7 +164,7 @@ if( $mode != "" )
 			$message = $lang['Flag_added'];
 		}
 		
-		if( !$result = $titanium_db->sql_query($sql) )
+		if( !$result = $pnt_db->sql_query($sql) )
 		{
 			message_die(GENERAL_ERROR, "Couldn't update/insert into flags table", "", __LINE__, __FILE__, $sql);
 		}
@@ -226,11 +226,11 @@ if( $mode != "" )
 			// get the doomed flag's info
 			$sql = "SELECT * FROM " . FLAG_TABLE . " 
 				WHERE flag_id = $flag_id" ;
-			if( !$result = $titanium_db->sql_query($sql) )
+			if( !$result = $pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, "Couldn't get flag data", "", __LINE__, __FILE__, $sql);
 			}
-			$row = $titanium_db->sql_fetchrow($result);
+			$row = $pnt_db->sql_fetchrow($result);
 			$flag_image = $row['flag_image'] ;
 
 
@@ -238,7 +238,7 @@ if( $mode != "" )
 			$sql = "DELETE FROM " . FLAG_TABLE . "
 				WHERE flag_id = $flag_id";
 			
-			if( !$result = $titanium_db->sql_query($sql) )
+			if( !$result = $pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, "Couldn't delete flag data", "", __LINE__, __FILE__, $sql);
 			}
@@ -248,7 +248,7 @@ if( $mode != "" )
 			$sql = "UPDATE " . USERS_TABLE . " 
 				SET user_from_flag = 'blank.gif' 
 				WHERE user_from_flag = '$flag_image'";
-			if( !$result = $titanium_db->sql_query($sql) ) 
+			if( !$result = $pnt_db->sql_query($sql) ) 
 			{
 				message_die(GENERAL_ERROR, $lang['No_update_flags'], "", __LINE__, __FILE__, $sql);
 			}
@@ -275,12 +275,12 @@ if( $mode != "" )
 		
 		$sql = "SELECT * FROM " . FLAG_TABLE . "
 			ORDER BY flag_name";
-		if( !$result = $titanium_db->sql_query($sql) )
+		if( !$result = $pnt_db->sql_query($sql) )
 		{
 			message_die(GENERAL_ERROR, "Couldn't obtain flags data", "", __LINE__, __FILE__, $sql);
 		}
 		
-		$flag_rows = $titanium_db->sql_fetchrowset($result);
+		$flag_rows = $pnt_db->sql_fetchrowset($result);
 		$flag_count = count($flag_rows);
 		
 		$phpbb2_template->assign_vars(array(
@@ -329,13 +329,13 @@ else
 	
 	$sql = "SELECT * FROM " . FLAG_TABLE . "
 		ORDER BY flag_name ASC";
-	if( !$result = $titanium_db->sql_query($sql) )
+	if( !$result = $pnt_db->sql_query($sql) )
 	{
 		message_die(GENERAL_ERROR, "Couldn't obtain flags data", "", __LINE__, __FILE__, $sql);
 	}
-	$flag_count = $titanium_db->sql_numrows($result);
+	$flag_count = $pnt_db->sql_numrows($result);
 
-	$flag_rows = $titanium_db->sql_fetchrowset($result);
+	$flag_rows = $pnt_db->sql_fetchrowset($result);
 	
 	$phpbb2_template->assign_vars(array(
 		"L_FLAGS_TITLE" => $lang['Flags_title'],

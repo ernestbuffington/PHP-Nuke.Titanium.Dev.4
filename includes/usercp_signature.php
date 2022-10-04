@@ -87,13 +87,13 @@ if ($submit)
         {
         $bbcode_uid = ( $bbcode_on ) ? make_bbcode_uid() : '';
         $signature = prepare_message($signature, $html_on, $bbcode_on, $smilies_on, $bbcode_uid);
-        $titanium_user_id =  $userdata['user_id'];
+        $pnt_user_id =  $userdata['user_id'];
 
         $sql = "UPDATE " . USERS_TABLE . "
         SET user_sig = '" . str_replace("\'", "''", $signature) . "', user_sig_bbcode_uid = '$bbcode_uid'
-        WHERE user_id = $titanium_user_id";
+        WHERE user_id = $pnt_user_id";
 
-            if ( !($result = $titanium_db->sql_query($sql)) )
+            if ( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not update users table', '', __LINE__, __FILE__, $sql);
             }
@@ -169,26 +169,26 @@ else if ($mode)
     $signature_bbcode_uid = $userdata['user_sig_bbcode_uid'];
     $signature = ( $signature_bbcode_uid != '' ) ? preg_replace("/:(([a-z0-9]+:)?)$signature_bbcode_uid\]/si", ']', $userdata['user_sig']) : $userdata['user_sig'];
     $bbcode_uid = $userdata['user_sig_bbcode_uid'];
-    $titanium_user_sig = prepare_message($userdata['user_sig'], $html_on, $bbcode_on, $smilies_on, $bbcode_uid);
+    $pnt_user_sig = prepare_message($userdata['user_sig'], $html_on, $bbcode_on, $smilies_on, $bbcode_uid);
 
-    if( $titanium_user_sig != '' ) 
+    if( $pnt_user_sig != '' ) 
     { 
-        if ( $bbcode_on  == 1 ) { $titanium_user_sig = bbencode_second_pass($titanium_user_sig, $bbcode_uid); }
-        if ( $bbcode_on  == 1 ) { $titanium_user_sig = bbencode_first_pass($titanium_user_sig, $bbcode_uid); }
-        if ( $bbcode_on  == 1 ) { $titanium_user_sig = make_clickable($titanium_user_sig); }
-        if ( $smilies_on == 1 ) { $titanium_user_sig = smilies_pass($titanium_user_sig); }
+        if ( $bbcode_on  == 1 ) { $pnt_user_sig = bbencode_second_pass($pnt_user_sig, $bbcode_uid); }
+        if ( $bbcode_on  == 1 ) { $pnt_user_sig = bbencode_first_pass($pnt_user_sig, $bbcode_uid); }
+        if ( $bbcode_on  == 1 ) { $pnt_user_sig = make_clickable($pnt_user_sig); }
+        if ( $smilies_on == 1 ) { $pnt_user_sig = smilies_pass($pnt_user_sig); }
 /*****[BEGIN]******************************************
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
  ******************************************************/
-        $titanium_user_sig = $phpbb2_board_config['sig_line'] . $titanium_user_sig;
+        $pnt_user_sig = $phpbb2_board_config['sig_line'] . $pnt_user_sig;
 /*****[END]********************************************
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
  ******************************************************/
-        $titanium_user_sig = nl2br($titanium_user_sig); 
+        $pnt_user_sig = nl2br($pnt_user_sig); 
     }
     else 
     { 
-        $titanium_user_sig = $lang['sig_none']; 
+        $pnt_user_sig = $lang['sig_none']; 
     }
 
 }
@@ -232,7 +232,7 @@ else if ($mode)
  [ Mod:     BBCode Box                         v1.0.0 ]
  ******************************************************/        
         'SIGNATURE' => $signature,
-        'CURRENT_PREVIEW' => $titanium_user_sig,
+        'CURRENT_PREVIEW' => $pnt_user_sig,
         'PREVIEW' => htmlspecialchars(stripslashes($signature)),
         'REAL_PREVIEW' => $preview_sig,
         'SAVE_MESSAGE' => $save_message,

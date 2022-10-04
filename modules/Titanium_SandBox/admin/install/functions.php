@@ -217,19 +217,19 @@ function validate_data($post){
 
 	$error = '';
     $message = '';
-    $titanium_dbhost = (isset($_POST['dbhost'])) ? $_POST['dbhost'] : $error .= '<font color="red">'.$install_lang['dbhost_error'].'</font><br />';
-    $titanium_dbname = (isset($_POST['dbname'])) ? $_POST['dbname'] : $error .= '<font color="red">'.$install_lang['dbname_error'].'</font><br />';
-    $titanium_dbuser = (isset($_POST['dbuser'])) ? $_POST['dbuser'] : $error .= '<font color="red">'.$install_lang['dbuser_error'].'</font>br />';
-    $titanium_dbpass = (isset($_POST['dbpass'])) ? $_POST['dbpass'] : '';
-    $titanium_prefix = (isset($_POST['prefix'])) ? $_POST['prefix'] : $error .= '<font color="red">'.$install_lang['prefix_error'].'</font><br />';
-    $titanium_user_prefix = (isset($_POST['user_prefix'])) ? $_POST['user_prefix'] : $error .= '<font color="red">'.$install_lang['uprefix_error'].'</font><br />';
-    $titanium_dbtype = (isset($_POST['dbtype'])) ? $_POST['dbtype'] : $error .= '<font color="red">'.$install_lang['dbtype_error'].'</font><br />';
+    $pnt_dbhost = (isset($_POST['dbhost'])) ? $_POST['dbhost'] : $error .= '<font color="red">'.$install_lang['dbhost_error'].'</font><br />';
+    $pnt_dbname = (isset($_POST['dbname'])) ? $_POST['dbname'] : $error .= '<font color="red">'.$install_lang['dbname_error'].'</font><br />';
+    $pnt_dbuser = (isset($_POST['dbuser'])) ? $_POST['dbuser'] : $error .= '<font color="red">'.$install_lang['dbuser_error'].'</font>br />';
+    $pnt_dbpass = (isset($_POST['dbpass'])) ? $_POST['dbpass'] : '';
+    $pnt_prefix = (isset($_POST['prefix'])) ? $_POST['prefix'] : $error .= '<font color="red">'.$install_lang['prefix_error'].'</font><br />';
+    $pnt_user_prefix = (isset($_POST['user_prefix'])) ? $_POST['user_prefix'] : $error .= '<font color="red">'.$install_lang['uprefix_error'].'</font><br />';
+    $pnt_dbtype = (isset($_POST['dbtype'])) ? $_POST['dbtype'] : $error .= '<font color="red">'.$install_lang['dbtype_error'].'</font><br />';
     if (!empty($error)){
         $error .= '<center><input type="hidden" name="step" value="'.$next_step.'" /><input type="submit" class="button" name="submit" value="'.$install_lang['continue'].' '.$next_step.'" disabled="disabled" /></center>';
         return $error;
     }
 
-    if (!($server_check = @mysqli_connect($titanium_dbhost, $titanium_dbuser, $titanium_dbpass, $titanium_dbname))){
+    if (!($server_check = @mysqli_connect($pnt_dbhost, $pnt_dbuser, $pnt_dbpass, $pnt_dbname))){
         $error .= '<font color="red">'.$install_lang['connection_failed'].'</font><br />';
     }
 
@@ -238,13 +238,13 @@ function validate_data($post){
         return $error;
     }
 
-    $_SESSION['dbhost'] = $titanium_dbhost;
-    $_SESSION['dbname'] = $titanium_dbname;
-    $_SESSION['dbuser'] = $titanium_dbuser;
-    $_SESSION['dbpass'] = $titanium_dbpass;
-    $_SESSION['prefix'] = $titanium_prefix;
-    $_SESSION['user_prefix'] = $titanium_user_prefix;
-    $_SESSION['dbtype'] = $titanium_dbtype;
+    $_SESSION['dbhost'] = $pnt_dbhost;
+    $_SESSION['dbname'] = $pnt_dbname;
+    $_SESSION['dbuser'] = $pnt_dbuser;
+    $_SESSION['dbpass'] = $pnt_dbpass;
+    $_SESSION['prefix'] = $pnt_prefix;
+    $_SESSION['user_prefix'] = $pnt_user_prefix;
+    $_SESSION['dbtype'] = $pnt_dbtype;
 
     if (generate_config()){
         $message .= '<font color="green">'.$install_lang['config_success'].'</font><br />';
@@ -257,7 +257,7 @@ function validate_data($post){
 }
 
 function do_sql($install_file){
-    global $nuke_name, $next_step, $step, $install_lang, $titanium_prefix, $titanium_user_prefix, $server_check;
+    global $nuke_name, $next_step, $step, $install_lang, $pnt_prefix, $pnt_user_prefix, $server_check;
 
     if(!$handle = @fopen($install_file, 'r')){
         $message = $install_lang['cant_open'].' '.$install_file;
@@ -312,11 +312,11 @@ function do_sql($install_file){
             $inside_quote = 1;
             $quote_inside = $current_char;
         } elseif (!$inside_quote && $current_char == ';'){
-            if ($titanium_user_prefix != "nuke" && !empty($titanium_user_prefix)){
-                $data_buffer = str_replace("`nuke_users`", "`" . $titanium_user_prefix . "_users`", $data_buffer);
+            if ($pnt_user_prefix != "nuke" && !empty($pnt_user_prefix)){
+                $data_buffer = str_replace("`nuke_users`", "`" . $pnt_user_prefix . "_users`", $data_buffer);
             }
-            if($titanium_prefix != "nuke" && !empty($titanium_prefix)) {
-                $data_buffer = str_replace("`nuke_", "`".$titanium_prefix."_", $data_buffer);
+            if($pnt_prefix != "nuke" && !empty($pnt_prefix)) {
+                $data_buffer = str_replace("`nuke_", "`".$pnt_prefix."_", $data_buffer);
             }
 
             @mysqli_query($server_check, $data_buffer);
@@ -377,12 +377,12 @@ function validate_admin(){
  [ Mod:    Auto Admin Protection               v2.0.0 ]
  ******************************************************/
 		$cookie_location = str_replace('/install.php', '', $_SERVER['PHP_SELF']);
-		$titanium_user_nick = $_POST['admin_nick'];
-		$titanium_user_pass = md5($_POST['admin_pass']);
+		$pnt_user_nick = $_POST['admin_nick'];
+		$pnt_user_pass = md5($_POST['admin_pass']);
 /*****[BEGIN]******************************************
  [ Mod:    Auto Admin Login                    v2.0.0 ]
  ******************************************************/
-		$cookiedata_admin = base64_encode("$titanium_user_nick:$titanium_user_pass:english:1:new");
+		$cookiedata_admin = base64_encode("$pnt_user_nick:$pnt_user_pass:english:1:new");
 		setcookie('admin',$cookiedata_admin,time()+2592000,$cookie_location);
 /******************************************************
  [ Mod:    Auto Admin Login                    v2.0.0 ]
@@ -390,13 +390,13 @@ function validate_admin(){
 /*****[BEGIN]******************************************
  [ Mod:    Auto First User Login               v1.0.0 ]
  ******************************************************/
-        $cookiedata = base64_encode("2:$titanium_user_nick:$titanium_user_pass");
+        $cookiedata = base64_encode("2:$pnt_user_nick:$pnt_user_pass");
         setcookie('user',$cookiedata,time()+2592000,$cookie_location);
 /*****[END]********************************************
  [ Mod:    Auto First User Login               v1.0.0 ]
  ******************************************************/
-        $titanium_user_regdate = date('M d, Y');
-        $titanium_user_avatar = 'blank.gif';
+        $pnt_user_regdate = date('M d, Y');
+        $pnt_user_avatar = 'blank.gif';
         $commentlimit = 4096;
         if ($_POST['admin_website'] == 'http://'){
 			$url = '';
@@ -404,12 +404,12 @@ function validate_admin(){
 			$url = $_POST['admin_website'];
 		}
 
-        if (!mysqli_query($server_check, "INSERT INTO `" . $_SESSION['prefix'] . "_authors` VALUES ('$titanium_user_nick', 'God', '".$url."', '".$_POST['admin_email']."', '$titanium_user_pass', '0', '1', '')")){
+        if (!mysqli_query($server_check, "INSERT INTO `" . $_SESSION['prefix'] . "_authors` VALUES ('$pnt_user_nick', 'God', '".$url."', '".$_POST['admin_email']."', '$pnt_user_pass', '0', '1', '')")){
             $error = true;
             $message .= '<font color="red">'.$install_lang['god_fail'].'</font><br />';
         }
 
-        if (!mysqli_query($server_check, "INSERT INTO " . $_SESSION['user_prefix'] . "_users (`user_id`, `username`, `user_email`, `user_website`, `user_avatar`, `user_regdate`, `user_password`, `theme`, `commentmax`, `user_level`, `user_lang`, `user_dateformat`, `user_color_gc`, `user_color_gi`, `user_posts`) VALUES (NULL,'$titanium_user_nick','".$_POST['admin_email']."','".$url."','".$titanium_user_avatar."','".$titanium_user_regdate."','$titanium_user_pass','XtremeV3','".$commentlimit."', '2', 'english','D M d, Y g:i a','d12727','--1--', '1')")){
+        if (!mysqli_query($server_check, "INSERT INTO " . $_SESSION['user_prefix'] . "_users (`user_id`, `username`, `user_email`, `user_website`, `user_avatar`, `user_regdate`, `user_password`, `theme`, `commentmax`, `user_level`, `user_lang`, `user_dateformat`, `user_color_gc`, `user_color_gi`, `user_posts`) VALUES (NULL,'$pnt_user_nick','".$_POST['admin_email']."','".$url."','".$pnt_user_avatar."','".$pnt_user_regdate."','$pnt_user_pass','XtremeV3','".$commentlimit."', '2', 'english','D M d, Y g:i a','d12727','--1--', '1')")){
 			$error = true;
 			$message .= '<font color="red">'.$install_lang['user_fail'].'</font><br />';
 		}

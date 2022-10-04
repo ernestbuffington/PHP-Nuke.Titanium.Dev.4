@@ -41,10 +41,10 @@ if (!defined('CNBYA')) {
 
 if(is_mod_admin($pnt_module)) {
 
-    list($titanium_username, $email, $check_num) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT username, user_email, check_num FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$rsn_uid'"));
+    list($pnt_username, $email, $check_num) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT username, user_email, check_num FROM ".$pnt_user_prefix."_users_temp WHERE user_id='$rsn_uid'"));
     if ($ya_config['servermail'] == 0) {
         $time = time();
-        $finishlink = "$nukeurl/modules.php?name=$pnt_module&op=activate&username=$titanium_username&check_num=$check_num";
+        $finishlink = "$nukeurl/modules.php?name=$pnt_module&op=activate&username=$pnt_username&check_num=$check_num";
         $message = _WELCOMETO." $sitename!<br /><br />";
         $message .= _YOUUSEDEMAIL." ($email) "._TOREGISTER." $sitename.<br /><br />";
         $message .= _TOFINISHUSER."<br /><br /><a href=\"$finishlink\">$finishlink</a>";
@@ -57,7 +57,7 @@ if(is_mod_admin($pnt_module)) {
         );
         evo_phpmailer( $email, $subject, $message, $headers );
     }
-    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users_temp SET time='$time' WHERE user_id='$rsn_uid'");
+    $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users_temp SET time='$time' WHERE user_id='$rsn_uid'");
     $pagetitle = ": "._USERADMIN." - "._RESENTMAIL;
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();

@@ -22,7 +22,7 @@ echo "<LINK REL='StyleSheet' HREF='themes/$theme_Sel/style/style.css' TYPE='text
 echo "</head><body>\n";
 echo "<h1 align='center'>$pagetitle</h1>\n";
 if(!isset($modfilter)) $modfilter='';
-$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`user_agent`) FROM `".$titanium_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1"));
+$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT DISTINCT(`user_agent`) FROM `".$pnt_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1"));
 if($totalselected > 0) {
   echo "<table summary='' align='center' border='2' cellpadding='2' cellspacing='2'>\n";
   echo "<tr>\n";
@@ -30,17 +30,17 @@ if($totalselected > 0) {
   echo "<td align='center'><strong>"._AB_IPSTRACKED."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_LASTVIEWED."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_HITS."</strong></td>\n";
-  $result = $titanium_db->sql_query("SELECT `user_agent`, MAX(`date`), COUNT(*) FROM `".$titanium_prefix."_nsnst_tracked_ips` GROUP BY 1");
-  while(list($titanium_user_agent, $lastview, $hits) = $titanium_db->sql_fetchrow($result)){
+  $result = $pnt_db->sql_query("SELECT `user_agent`, MAX(`date`), COUNT(*) FROM `".$pnt_prefix."_nsnst_tracked_ips` GROUP BY 1");
+  while(list($pnt_user_agent, $lastview, $hits) = $pnt_db->sql_fetchrow($result)){
     echo "<tr>";
-    echo "<td>$titanium_user_agent</td>";
-    $trackedips = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `user_agent`='$titanium_user_agent'"));
+    echo "<td>$pnt_user_agent</td>";
+    $trackedips = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `user_agent`='$pnt_user_agent'"));
     echo "<td align='center'>$trackedips</td>\n";
     echo "<td align='center'>".date("Y-m-d \@ H:i:s",$lastview)."</td>";
     echo "<td align='center'>$hits</td>";
     echo "</tr>";
   }
-  $titanium_db->sql_freeresult($result);
+  $pnt_db->sql_freeresult($result);
   // End IP Stats
   echo "</table>";
 } else {

@@ -18,8 +18,8 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 if(is_god($admin)) {
   if($ab_config['staccess_path'] > "") {
     $stwrite = "";
-    $adminresult = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_admins` WHERE `password_crypt`>'' ORDER BY `aid`");
-    while($adminrow = $titanium_db->sql_fetchrow($adminresult)) {
+    $adminresult = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_admins` WHERE `password_crypt`>'' ORDER BY `aid`");
+    while($adminrow = $pnt_db->sql_fetchrow($adminresult)) {
       $stwrite .= $adminrow['login'].":".$adminrow['password_crypt']."\n";
       $doit = fopen($ab_config['staccess_path'], "w");
       fwrite($doit, $stwrite);

@@ -63,7 +63,7 @@ include('includes/bbcode.'.$phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -80,19 +80,19 @@ if ($phpbb2_forum_link && $phpbb2_forum_id)
 	$sql = "UPDATE " . FORUMS_TABLE . "
 		SET forum_link_count = forum_link_count + 1
 		WHERE forum_id = $phpbb2_forum_id";
-	if (!($titanium_db->sql_query($sql)))
+	if (!($pnt_db->sql_query($sql)))
 	{
 		message_die(GENERAL_ERROR, 'Could not update link counter', '', __LINE__, __FILE__, $sql);
 	}
 
 	$sql = "SELECT weblink FROM " . FORUMS_TABLE . "
 		WHERE forum_id = $phpbb2_forum_id";
-	if (!($result = $titanium_db->sql_query($sql)))
+	if (!($result = $pnt_db->sql_query($sql)))
 	{
 		message_die(GENERAL_ERROR, 'Could not read forum weblink', '', __LINE__, __FILE__, $sql);
 	}
 
-	while ($row = $titanium_db->sql_fetchrow($result))
+	while ($row = $pnt_db->sql_fetchrow($result))
 	{
 		$phpbb2_forum_weblink = $row['weblink'];
 	}
@@ -204,16 +204,16 @@ $sql = "SELECT c.cat_id, c.cat_title, c.cat_order
 /*****[END]********************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
-if( !($result = $titanium_db->sql_query($sql)) )
+if( !($result = $pnt_db->sql_query($sql)) )
 {
         message_die(GENERAL_ERROR, 'Could not query categories list', '', __LINE__, __FILE__, $sql);
 }
 $category_rows = array();
-while ($row = $titanium_db->sql_fetchrow($result))
+while ($row = $pnt_db->sql_fetchrow($result))
 {
 	$category_rows[] = $row;
 }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 /*****[BEGIN]******************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
@@ -230,17 +230,17 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
                 LEFT JOIN " . POSTS_TABLE . " p ON p.post_id = f.forum_last_post_id )
                 LEFT JOIN " . USERS_TABLE . " u ON u.user_id = p.poster_id )
                 ORDER BY f.cat_id, f.forum_order";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not query forums information', '', __LINE__, __FILE__, $sql);
         }
 
         $phpbb2_forum_data = array();
-        while( $row = $titanium_db->sql_fetchrow($result) )
+        while( $row = $pnt_db->sql_fetchrow($result) )
         {
                 $phpbb2_forum_data[] = $row;
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         if ( !($total_phpbb2_forums = count($phpbb2_forum_data)) )
         {
@@ -263,17 +263,17 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
                         WHERE p.post_id = t.topic_last_post_id
                                 AND p.post_time > " . $userdata['user_lastvisit'] . "
                                 AND t.topic_moved_id = '0'";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not query new topic information', '', __LINE__, __FILE__, $sql);
                 }
 
                 $new_phpbb2_topic_data = array();
-                while( $phpbb2_topic_data = $titanium_db->sql_fetchrow($result) )
+                while( $phpbb2_topic_data = $pnt_db->sql_fetchrow($result) )
                 {
                         $new_phpbb2_topic_data[$phpbb2_topic_data['forum_id']][$phpbb2_topic_data['topic_id']] = $phpbb2_topic_data['post_time'];
                 }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         }
 
         //
@@ -291,12 +291,12 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
                 GROUP BY u.user_id, u.username, aa.forum_id
                 ORDER BY aa.forum_id, u.user_id";
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not query forum moderator information', '', __LINE__, __FILE__, $sql);
         }
 
-        while( $row = $titanium_db->sql_fetchrow($result) )
+        while( $row = $pnt_db->sql_fetchrow($result) )
         {
 /*****[BEGIN]******************************************
 [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -306,7 +306,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 [ Mod:    Advanced Username Color             v1.0.5 ]
 ******************************************************/
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         $sql = "SELECT aa.forum_id, g.group_id, g.group_name
                 FROM " . AUTH_ACCESS_TABLE . " aa, " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE . " g
@@ -318,16 +318,16 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 
                 GROUP BY g.group_id, g.group_name, aa.forum_id
                 ORDER BY aa.forum_id, g.group_id";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not query forum moderator information', '', __LINE__, __FILE__, $sql);
         }
 
-        while( $row = $titanium_db->sql_fetchrow($result) )
+        while( $row = $pnt_db->sql_fetchrow($result) )
         {
                 $phpbb2_forum_moderators[$row['forum_id']][] = '<a href="' . append_titanium_sid("groupcp.$phpEx?" . POST_GROUPS_URL . "=" . $row['group_id']) . '">' . GroupColor($row['group_name']) . '</a>';
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 		
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
@@ -344,13 +344,13 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 					AND birthday_display <> " . BIRTHDAY_NONE . " 
 					AND birthday_display <> " . BIRTHDAY_AGE . " 
 				ORDER BY username DESC";
-			if ( !($result = $titanium_db->sql_query($sql)) )
+			if ( !($result = $pnt_db->sql_query($sql)) )
 			{
 				message_die(GENERAL_ERROR, 'Could not query members birthday information', '', __LINE__, __FILE__, $sql);
 			}
 	
 			$phpbb2_user_birthdays = array();
-			while ( $row = $titanium_db->sql_fetchrow($result) )
+			while ( $row = $pnt_db->sql_fetchrow($result) )
 			{
 				// if birthday_display is set to "Display day and month (but not year)" (eg. BIRTHDAY_DATE), set the year
 				// to 0.
@@ -367,7 +367,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 				}
 				$phpbb2_user_birthdays[] = '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $phpbb2_color . '>' . UsernameColor($row['username']) . '</a>' . $phpbb2_age;
 			}
-			$titanium_db->sql_freeresult($result);
+			$pnt_db->sql_freeresult($result);
 	
 			$phpbb2_birthdays = (!empty($phpbb2_user_birthdays)) ?
 				sprintf($lang['Congratulations'],implode(', ',$phpbb2_user_birthdays)) :
@@ -387,12 +387,12 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 						AND birthday_display <> " . BIRTHDAY_NONE . " 
 						AND birthday_display <> " . BIRTHDAY_AGE . " 
 					ORDER BY user_birthday ASC, username DESC";
-				if ( !($result = $titanium_db->sql_query($sql)) )
+				if ( !($result = $pnt_db->sql_query($sql)) )
 				{
 					message_die(GENERAL_ERROR, 'Could not query upcoming birthday information', '', __LINE__, __FILE__, $sql);
 				}
 				$phpbb2_upcoming_birthdays = array();
-				while ( $row = $titanium_db->sql_fetchrow($result) )
+				while ( $row = $pnt_db->sql_fetchrow($result) )
 				{
 					$phpbb2_bday_month_day = floor($row['user_birthday'] / 10000);
 					$phpbb2_bday_year_age = ( $row['birthday_display'] != BIRTHDAY_DATE ) ? $row['user_birthday'] - 10000*$phpbb2_bday_month_day : 0;

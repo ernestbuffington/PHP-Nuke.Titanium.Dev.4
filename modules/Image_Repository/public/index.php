@@ -15,7 +15,7 @@ if (!defined('MODULE_FILE') || !defined('_IMAGE_REPOSITORY_INDEX') )
 
 function main()
 {
-	global $titanium_db, $lang_new, $pnt_module, $userinfo, $nukeurl, $settings, $mysettings, $myimages;
+	global $pnt_db, $lang_new, $pnt_module, $userinfo, $nukeurl, $settings, $mysettings, $myimages;
 	OpenTable();
 	echo '<br />';
 	index_navigation_header();
@@ -39,7 +39,7 @@ function main()
 //-------------------------------------------------------------------------
 //	THIS IS THE PAGINATION CLASS.
 //-------------------------------------------------------------------------	
-	$result = $titanium_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."' ORDER BY `uploaded` DESC LIMIT ".$limit1.", ".$limit2);
+	$result = $pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."' ORDER BY `uploaded` DESC LIMIT ".$limit1.", ".$limit2);
 	$quotainfo = _quota_percentages($userinfo['user_id']);
 	echo '<table style="width:100%;'.(($quotainfo['total_size'] >= $quotainfo['quota']) ? ' display:none;' : '').'" border="0" cellpadding="4" cellspacing="1" class="forumline" id="image_repository_upload">'."\n";
 	echo '  <tr>'."\n";
@@ -85,19 +85,19 @@ function main()
 //-------------------------------------------------------------------------
 //	SHOW THAT NO IMAGES CURRENTLY EXIST IN THEIR DATABASE.
 //-------------------------------------------------------------------------	
-	echo '  <tr id="noimages" '.(($titanium_db->sql_numrows($result) == 0) ? '' : 'style="display:none;"').'>'."\n";
+	echo '  <tr id="noimages" '.(($pnt_db->sql_numrows($result) == 0) ? '' : 'style="display:none;"').'>'."\n";
 	echo '    <td'.tablecss(FALSE,'center','row1',2).'>'._string_to_upper($lang_new[$pnt_module]['IMAGE_NONE']).'</td>'."\n";
 	echo '  </tr>'."\n";
 //-------------------------------------------------------------------------
 //	SHOW THAT NO IMAGES CURRENTLY EXIST IN THEIR DATABASE.
 //-------------------------------------------------------------------------	
-	echo '  <tr id="imagelist" '.(($titanium_db->sql_numrows($result) == 0) ? 'style="display:none;"' : '').'>'."\n";
+	echo '  <tr id="imagelist" '.(($pnt_db->sql_numrows($result) == 0) ? 'style="display:none;"' : '').'>'."\n";
 	echo '    <td'.tablecss('15%','center','catBottom').'>'._string_to_upper($lang_new[$pnt_module]['IMAGE']).'</td>'."\n";
 	echo '    <td'.tablecss('85%','center','catBottom').'>'._string_to_upper($lang_new[$pnt_module]['CODES']).'</td>'."\n";
 	echo '  </tr>'."\n";	
-	if($titanium_db->sql_numrows($result) > 0)
+	if($pnt_db->sql_numrows($result) > 0)
 	{
-		while($row = $titanium_db->sql_fetchrow($result))
+		while($row = $pnt_db->sql_fetchrow($result))
 		{	
 			echo '	<tr class="imagethumbs" id="image-'.$row['pid'].'">'."\n";	
 //-------------------------------------------------------------------------
@@ -119,7 +119,7 @@ function main()
 				$imagesize_info = @getimagesize(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename']);
 				if(file_exists(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$row['filename']) && ($imagesize_info[0] < _IREPOSITORY_THUMBWIDTH || $imagesize_info[0] < _IREPOSITORY_THUMBHEIGHT) && $row['bypass_thumb'] == 0)
 				{
-					$titanium_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_UPLOADS."` SET `bypass_thumb`='1' WHERE `pid`='".$row['pid']."' && `submitter`='".$userinfo['user_id']."'");
+					$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_UPLOADS."` SET `bypass_thumb`='1' WHERE `pid`='".$row['pid']."' && `submitter`='".$userinfo['user_id']."'");
 					echo '    <td'.tablecss(FALSE,'center','row1').' id="thumbnail_holder'.$row['pid'].'">';
 					echo '      <div class="thumbnail_border"><img class="thumbnail_border" src="'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$row['filename'].'" /></div>';
 					echo '    </td>'."\n"; 
@@ -168,7 +168,7 @@ function main()
 			echo '    </td>'."\n";			
 			echo '  </tr>'."\n";
 		}
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 	}
 //-------------------------------------------------------------------------
 //	HERE WE HAVE THE PAGINATION LINKS, IF THE CURRENT IMAGE COUNT DOES NOT,
@@ -223,7 +223,7 @@ function main()
 
 function uploadmyimage()
 {
-	global $titanium_db, $lang_new, $pnt_module, $userinfo, $settings;
+	global $pnt_db, $lang_new, $pnt_module, $userinfo, $settings;
 //-------------------------------------------------------------------------
 //	CHECK IF IT'S AN AJAX REQUEST, EXIT IF NOT.
 //-------------------------------------------------------------------------
@@ -276,13 +276,13 @@ function uploadmyimage()
 //-------------------------------------------------------------------------
 //	GENERATE A THUMBNAIL FOR USE IN THE FORUMS.
 //-------------------------------------------------------------------------
-		$titanium_db->sql_query("INSERT INTO `"._IMAGE_REPOSITORY_UPLOADS."` (`pid`,`filename`,`submitter`,`image`,`size`,`screensize`,`uploaded`) VALUES (NULL,'".$randomise."','".$userinfo['user_id']."','".$randomise."','".$_FILES['myimage']['size']."','".$natural_size."','".time()."')");
+		$pnt_db->sql_query("INSERT INTO `"._IMAGE_REPOSITORY_UPLOADS."` (`pid`,`filename`,`submitter`,`image`,`size`,`screensize`,`uploaded`) VALUES (NULL,'".$randomise."','".$userinfo['user_id']."','".$randomise."','".$_FILES['myimage']['size']."','".$natural_size."','".time()."')");
 		if($image_size_info[0] > _IREPOSITORY_THUMBWIDTH || $image_size_info[1] > _IREPOSITORY_THUMBHEIGHT)
 		{
 			_createthumb(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$randomise, _IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$randomise, array('width' => _IREPOSITORY_THUMBWIDTH, 'height' => _IREPOSITORY_THUMBHEIGHT, 'aspect_ratio' => TRUE));
 		} else {				
 			@copy(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$randomise, _IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$randomise);
-			$titanium_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_UPLOADS."` SET `bypass_thumb`='1' WHERE `pid`='".$titanium_db->sql_nextid()."' && `submitter`='".$userinfo['user_id']."'");
+			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_UPLOADS."` SET `bypass_thumb`='1' WHERE `pid`='".$pnt_db->sql_nextid()."' && `submitter`='".$userinfo['user_id']."'");
 		}
 //-------------------------------------------------------------------------
 //	GENERATE A THUMBNAIL FOR USE IN THE FORUMS.
@@ -296,7 +296,7 @@ function uploadmyimage()
 			'size' 			=> $_FILES['myimage']['size'], 
 			'resolution'	=> $natural_size, 
 			'uploaded'		=> formatTimestamp_to_date('D M d, Y g:i a', time(), $userinfo['user_timezone']), 
-			'nextid' 		=> $titanium_db->sql_nextid()
+			'nextid' 		=> $pnt_db->sql_nextid()
 		);
 		die(json_encode($response));
 //-------------------------------------------------------------------------
@@ -315,8 +315,8 @@ function uploadmyimage()
 
 function generatemythumb()
 {
-	global $titanium_db, $lang_new, $pnt_module, $userinfo;
-	$row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `filename`, `submItter` FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$_POST['pid']."'"));
+	global $pnt_db, $lang_new, $pnt_module, $userinfo;
+	$row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `filename`, `submItter` FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$_POST['pid']."'"));
 //-------------------------------------------------------------------------
 //	CHECK WHOEVER IS TRYING TO GENERATE THUMB, OWNS THE IMAGE
 //-------------------------------------------------------------------------
@@ -360,8 +360,8 @@ function generatemythumb()
 
 function deletemyimage()
 {
-	global $titanium_db, $lang_new, $pnt_module, $userinfo;
-	$row  = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$_POST['pid']."'"));
+	global $pnt_db, $lang_new, $pnt_module, $userinfo;
+	$row  = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$_POST['pid']."'"));
 	if(is_admin() || $userinfo['user_id'] == $row['submitter'])
 	{
 //-------------------------------------------------------------------------
@@ -371,8 +371,8 @@ function deletemyimage()
 		if(@unlink(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename']))
 		{
 			@unlink(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/thumbs/thumb_'.$row['filename']);
-			$titanium_db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$row['pid']."'");
-			$titanium_db->sql_optimize(_IMAGE_REPOSITORY_UPLOADS);
+			$pnt_db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$row['pid']."'");
+			$pnt_db->sql_optimize(_IMAGE_REPOSITORY_UPLOADS);
 		}
 //-------------------------------------------------------------------------
 //	AWWW, YOU WANT TO DELETE THE IMAGE, OKIES, LETS REMOVE THE FILE,
@@ -391,9 +391,9 @@ function deletemyimage()
 
 function modal_code_popup()
 {
-	global $titanium_db, $lang_new, $pnt_module, $userinfo, $nukeurl;
-	$result = $titanium_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."' && `pid`='".$_GET['pid']."'");
-	$row = $titanium_db->sql_fetchrow($result);
+	global $pnt_db, $lang_new, $pnt_module, $userinfo, $nukeurl;
+	$result = $pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."' && `pid`='".$_GET['pid']."'");
+	$row = $pnt_db->sql_fetchrow($result);
 	OpenTable();
 	echo '<table style="width: 700px;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '	<tr>'."\n";
@@ -445,13 +445,13 @@ function modal_code_popup()
 //-------------------------------------------------------------------------
 function mysettings()
 {
-	global $titanium_db, $lang_new, $pnt_module, $userinfo, $settings, $mysettings;
+	global $pnt_db, $lang_new, $pnt_module, $userinfo, $settings, $mysettings;
 	if($_POST['submit'] && $_POST['uid'] == $userinfo['user_id'])
 	{
 //-------------------------------------------------------------------------
 //	OK, LETS UPDATE THE USERS SETTINGS.
 //-------------------------------------------------------------------------
-		$titanium_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_USERS."` SET `border_color`='".$_POST['border_color']."', `background_color`='".$_POST['background_color']."', `percent_color`='".$_POST['percent_color']."', `custom_color`='".$_POST['custom_color']."' WHERE `uid` = '".$userinfo['user_id']."'");
+		$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_USERS."` SET `border_color`='".$_POST['border_color']."', `background_color`='".$_POST['background_color']."', `percent_color`='".$_POST['percent_color']."', `custom_color`='".$_POST['custom_color']."' WHERE `uid` = '".$userinfo['user_id']."'");
 //-------------------------------------------------------------------------
 //	OK, LETS UPDATE THE USERS SETTINGS.
 //-------------------------------------------------------------------------
@@ -460,11 +460,11 @@ function mysettings()
 //-------------------------------------------------------------------------
 		if(is_admin())
 		{
-			$titanium_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='"._calculate_bytesize($_POST['quota'])."' WHERE `config_name`='quota'");
-			$titanium_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='"._calculate_bytesize($_POST['max_upload'])."' WHERE `config_name`='max_upload'");
-			$titanium_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['spacing']."' WHERE `config_name`='spacing'");
-			$titanium_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['perpage']."' WHERE `config_name`='perpage'");
-			$titanium_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['admin_perpage']."' WHERE `config_name`='admin_perpage'");
+			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='"._calculate_bytesize($_POST['quota'])."' WHERE `config_name`='quota'");
+			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='"._calculate_bytesize($_POST['max_upload'])."' WHERE `config_name`='max_upload'");
+			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['spacing']."' WHERE `config_name`='spacing'");
+			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['perpage']."' WHERE `config_name`='perpage'");
+			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['admin_perpage']."' WHERE `config_name`='admin_perpage'");
 		}
 //-------------------------------------------------------------------------
 //	UPDATE THE ADMINISTRATION SETTINGS, ONLY ADMINS CAN DO THIS.
@@ -550,7 +550,7 @@ function mysettings()
 //-------------------------------------------------------------------------
 function myquota()
 {
-	global $titanium_db, $lang_new, $pnt_module, $userinfo, $settings;
+	global $pnt_db, $lang_new, $pnt_module, $userinfo, $settings;
 	$quotainfo = _quota_percentages($userinfo['user_id']);
 	OpenTable();
 	index_navigation_header();
@@ -595,7 +595,7 @@ function myquota()
 
 function manage_users()
 {
-	global $titanium_db, $lang_new, $pnt_module, $settings;
+	global $pnt_db, $lang_new, $pnt_module, $settings;
 //-------------------------------------------------------------------------
 //	DENY ANYONE WHO ISNT AN ADMIN.
 //-------------------------------------------------------------------------	
@@ -604,7 +604,7 @@ function manage_users()
 //-------------------------------------------------------------------------
 //	DENY ANYONE WHO ISNT AN ADMIN.
 //-------------------------------------------------------------------------	
-	$total  	= $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_USERS."`"));
+	$total  	= $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_USERS."`"));
 //-------------------------------------------------------------------------
 //	PAGINATION CLASS, LETS GET IT SETUP.
 //-------------------------------------------------------------------------	
@@ -635,21 +635,21 @@ function manage_users()
 //-------------------------------------------------------------------------
 	if($_POST['quota'])
 	{
-		$titanium_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_USERS."` SET `quota`='"._calculate_bytesize($_POST['quota'])."' WHERE `uid`='".$_POST['uid']."'");
+		$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_USERS."` SET `quota`='"._calculate_bytesize($_POST['quota'])."' WHERE `uid`='".$_POST['uid']."'");
 		_redirect_titanium('modules.php?name='.$pnt_module.'&op=users'.(($_POST['page']) ? '&page='.$_POST['page'] : ''));
 	}
 //-------------------------------------------------------------------------
 //	LETS UPDATE THE SELECTED USERS QUOTA.
 //-------------------------------------------------------------------------	
-	$result 	= $titanium_db->sql_query("SELECT * FROM ("._IMAGE_REPOSITORY_USERS." s, "._USERS_TABLE." u) WHERE u.user_id = s.uid ".$alpha_where_first."ORDER BY u.`username` ASC LIMIT ".$limit1.", ".$limit2);
+	$result 	= $pnt_db->sql_query("SELECT * FROM ("._IMAGE_REPOSITORY_USERS." s, "._USERS_TABLE." u) WHERE u.user_id = s.uid ".$alpha_where_first."ORDER BY u.`username` ASC LIMIT ".$limit1.", ".$limit2);
 	OpenTable();
 	index_navigation_header();
 	echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";	
 	echo '	<tr>'."\n";
 	echo '    <td'.tablecss(FALSE,'center','catBottom',5).'>'._string_to_upper($lang_new[$pnt_module]['USERS']).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
-	echo '	  <td'.tablecss(FALSE,'center','row1',5).'>'.(($titanium_db->sql_numrows($result) > 0) ? _alphabetlist() : $lang_new[$pnt_module]['USER_NONE']).'</td>'."\n";
-	echo '  </tr>'."\n".'<tr '.(($titanium_db->sql_numrows($result) > 0) ? '' : 'style="display:none;"').'>'."\n";
+	echo '	  <td'.tablecss(FALSE,'center','row1',5).'>'.(($pnt_db->sql_numrows($result) > 0) ? _alphabetlist() : $lang_new[$pnt_module]['USER_NONE']).'</td>'."\n";
+	echo '  </tr>'."\n".'<tr '.(($pnt_db->sql_numrows($result) > 0) ? '' : 'style="display:none;"').'>'."\n";
 	echo '	  <td'.tablecss('20%',FALSE,'catBottom').'>'.$lang_new[$pnt_module]['USER'].'</td>'."\n";
 	echo '	  <td'.tablecss('20%',FALSE,'catBottom').'>'.$lang_new[$pnt_module]['IMAGECOUNT'].'</td>'."\n";
 	echo '	  <td'.tablecss('20%',FALSE,'catBottom').'>'.$lang_new[$pnt_module]['QUOTA_USED'].'</td>'."\n";
@@ -657,13 +657,13 @@ function manage_users()
 	echo '	  <td'.tablecss('20%','center','catBottom').'>'.$lang_new[$pnt_module]['OPTIONS'].'</td>'."\n";
 	echo '  </tr>'."\n";
 	$i = 0;
-	while($row = $titanium_db->sql_fetchrow($result))
+	while($row = $pnt_db->sql_fetchrow($result))
 	{
 		$row['username'] = (function_exists('UsernameColor')) ? UsernameColor($row['username']) : $row['username'];
 		$quotainfo = _quota_percentages($row['uid']);
 		if($row['uid'] > 1)
 		{
-			$image_count = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$row['uid']."'"));	
+			$image_count = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$row['uid']."'"));	
 			echo '  <tr id="user-'.$row['uid'].'">'."\n";
 			if(function_exists('redirect'))
 				echo '	  <td'.tablecss('20%',FALSE,'row1').'><a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$row['user_id'].'" target="_BLANK">'.$row['username'].'</a></td>'."\n";
@@ -676,7 +676,7 @@ function manage_users()
 			echo '  </tr>'."\n";
 		}
 	}
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 	echo '  <tr>'."\n";
 	echo '    <td'.tablecss(FALSE,'right','catBottom',5).'>';
 //-------------------------------------------------------------------------
@@ -721,7 +721,7 @@ function manage_users()
 
 function manage_users_images()
 {
-	global $titanium_db, $lang_new, $pnt_module, $settings;
+	global $pnt_db, $lang_new, $pnt_module, $settings;
 	OpenTable();
 	index_navigation_header();
 //-------------------------------------------------------------------------
@@ -732,7 +732,7 @@ function manage_users_images()
 //-------------------------------------------------------------------------
 //	DENY ANYONE WHO ISNT AN ADMIN.
 //-------------------------------------------------------------------------	
-	$result = $titanium_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$_GET['uid']."' ORDER BY `uploaded` DESC");
+	$result = $pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$_GET['uid']."' ORDER BY `uploaded` DESC");
 	echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr>';
 	echo '    <td'.tablecss(FALSE,'center','catHead',5).'>'._string_to_upper(sprintf($lang_new[$pnt_module]['IMAGES_SUBMITTED'],_submitter($_GET['uid']))).'</td>';
@@ -744,7 +744,7 @@ function manage_users_images()
 	echo '    <td'.tablecss('20%','center','catHead').'>'._string_to_upper($lang_new[$pnt_module]['IMAGE_SIZE']).'</td>';
 	echo '    <td'.tablecss('20%','center','catHead').'>'._string_to_upper($lang_new[$pnt_module]['OPTIONS']).'</td>';
 	echo '  </tr>';
-	while($uploadinfo = $titanium_db->sql_fetchrow($result))
+	while($uploadinfo = $pnt_db->sql_fetchrow($result))
 	{
 		echo '  <tr id="user-image-'.$uploadinfo['pid'].'">';
 		echo '    <td'.tablecss('20%','center','row1').'><a'.linkcss().get_image_viewer().' href="'._IREPOSITORY_DIR.'/'.($uploadinfo['submitter']+10000).'/'.$uploadinfo['filename'].'">'.$lang_new[$pnt_module]['VIEW'].'</a></td>';
@@ -763,19 +763,19 @@ function manage_users_images()
 
 function admin_delete_image()
 {
-	global $titanium_db, $lang_new, $pnt_module;		
+	global $pnt_db, $lang_new, $pnt_module;		
 	if(is_admin())
 	{
 //-------------------------------------------------------------------------
 //	AWWW, YOU WANT TO DELETE THE IMAGE, OKIES, LETS REMOVE THE FILE,
 //	FROM THE DATABASE, AND REMOVE ANY TRACE OF IT.
 //-------------------------------------------------------------------------	
-		$row  = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$_POST['pid']."'"));
+		$row  = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$_POST['pid']."'"));
 		if(@unlink(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename']))
 		{
 			@unlink(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/thumbs/thumb_'.$row['filename']);
-			$titanium_db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$row['pid']."'");
-			$titanium_db->sql_optimize(_IMAGE_REPOSITORY_UPLOADS);
+			$pnt_db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$row['pid']."'");
+			$pnt_db->sql_optimize(_IMAGE_REPOSITORY_UPLOADS);
 		}
 		die(json_encode(array('pid' => $row['pid'])));
 //-------------------------------------------------------------------------
@@ -795,28 +795,28 @@ function admin_delete_image()
 
 function admin_delete_user()
 {
-	global $titanium_db;
+	global $pnt_db;
 	if(is_admin())
 	{
-		$result = $titanium_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$_POST['user']."'");
-		while($row = $titanium_db->sql_fetchrow($result))
+		$result = $pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$_POST['user']."'");
+		while($row = $pnt_db->sql_fetchrow($result))
 		{
 			if(file_exists(_IREPOSITORY_DIR.($_POST['user']+10000).'/'.$row['filename']))
 			{
 				@unlink(_IREPOSITORY_DIR.($_POST['user']+10000).'/'.$row['filename']);
 				@unlink(_IREPOSITORY_DIR.($_POST['user']+10000).'/thumbs/thumb_'.$row['filename']);
-				$titanium_db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$row['pid']."'");
+				$pnt_db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$row['pid']."'");
 			}
 		}
-		$titanium_db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_USERS."` WHERE `uid`='".$_POST['user']."'");
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_USERS."` WHERE `uid`='".$_POST['user']."'");
+		$pnt_db->sql_freeresult($result);
 		die(json_encode(array('user' => $_POST['user'])));
 	}
 }
 
 function image_forum_upload()
 {
-	global $titanium_db, $lang_new, $pnt_module, $userinfo, $settings;
+	global $pnt_db, $lang_new, $pnt_module, $userinfo, $settings;
 //-------------------------------------------------------------------------
 //	CHECK IF IT'S AN AJAX REQUEST, EXIT IF NOT.
 //-------------------------------------------------------------------------
@@ -869,13 +869,13 @@ function image_forum_upload()
 //-------------------------------------------------------------------------
 //	GENERATE A THUMBNAIL FOR USE IN THE FORUMS.
 //-------------------------------------------------------------------------
-		$titanium_db->sql_query("INSERT INTO `"._IMAGE_REPOSITORY_UPLOADS."` (`pid`,`filename`,`submitter`,`image`,`size`,`screensize`,`uploaded`) VALUES (NULL,'".$randomise."','".$userinfo['user_id']."','".$randomise."','".$_FILES['forum-image-upload']['size']."','".$natural_size."','".time()."')");
+		$pnt_db->sql_query("INSERT INTO `"._IMAGE_REPOSITORY_UPLOADS."` (`pid`,`filename`,`submitter`,`image`,`size`,`screensize`,`uploaded`) VALUES (NULL,'".$randomise."','".$userinfo['user_id']."','".$randomise."','".$_FILES['forum-image-upload']['size']."','".$natural_size."','".time()."')");
 		if($image_size_info[0] > _IREPOSITORY_THUMBWIDTH || $image_size_info[1] > _IREPOSITORY_THUMBHEIGHT)
 		{
 			_createthumb('modules/'.$_POST['modname'].'/files/'.$_POST['user'].'/'.$randomise, 'modules/'.$_POST['modname'].'/files/'.$_POST['user'].'/thumbs/thumb_'.$randomise, array('width' => _IREPOSITORY_THUMBWIDTH, 'height' => _IREPOSITORY_THUMBHEIGHT, 'aspect_ratio' => TRUE));
 		} else {				
 			@copy('modules/'.$_POST['modname'].'/files/'.$_POST['user'].'/'.$randomise, 'modules/'.$_POST['modname'].'/files/'.$_POST['user'].'/thumbs/thumb_'.$randomise);
-			$titanium_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_UPLOADS."` SET `bypass_thumb`='1' WHERE `pid`='".$titanium_db->sql_nextid()."' && `submitter`='".$userinfo['user_id']."'");
+			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_UPLOADS."` SET `bypass_thumb`='1' WHERE `pid`='".$pnt_db->sql_nextid()."' && `submitter`='".$userinfo['user_id']."'");
 		}
 //-------------------------------------------------------------------------
 //	GENERATE A THUMBNAIL FOR USE IN THE FORUMS.

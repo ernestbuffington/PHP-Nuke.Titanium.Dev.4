@@ -41,7 +41,7 @@ if (!defined('CNBYA')) {
 
     if (is_mod_admin('super')) {
 
-    list($uname, $rname, $email, $site, $upass) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT username, name, user_email, user_website, user_password FROM ".$titanium_user_prefix."_users WHERE user_id='$chng_uid'"));
+    list($uname, $rname, $email, $site, $upass) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT username, name, user_email, user_website, user_password FROM ".$pnt_user_prefix."_users WHERE user_id='$chng_uid'"));
     $pagetitle = ": "._USERADMIN." - "._PROMOTEUSER;
     include_once(NUKE_BASE_DIR.'header.php');
     title(_USERADMIN." - "._PROMOTEUSER);
@@ -62,8 +62,8 @@ if ($Version_Num >= 7.5) {
     echo "<tr><td bgcolor='$bgcolor2'>"._URL.":</td><td colspan='3'><input type='text' name='add_url' size='30' maxlength='60' value='$site'></td></tr>";
     //[vecino398(curt)]  www.vecino398.com -Modification- 
     echo "<tr><td bgcolor='$bgcolor2' valign='top'>" . _PERMISSIONS . ":</td>"; 
-    $result = $titanium_db->sql_query("SELECT mid, title FROM ".$titanium_prefix."_modules ORDER BY title ASC"); 
-    while ($row = $titanium_db->sql_fetchrow($result)) { 
+    $result = $pnt_db->sql_query("SELECT mid, title FROM ".$pnt_prefix."_modules ORDER BY title ASC"); 
+    while ($row = $pnt_db->sql_fetchrow($result)) { 
         $title = str_replace("_", " ", $row['title']); 
         if (file_exists("modules/$row[title]/admin/index.php") AND file_exists("modules/$row[title]/admin/links.php") AND file_exists("modules/$row[title]/admin/case.php")) { 
             echo "<td><input type=\"checkbox\" name=\"auth_modules[]\" value=\"$row[mid]\"> $title</td>"; 

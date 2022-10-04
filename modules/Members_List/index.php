@@ -55,7 +55,7 @@ include($phpbb2_root_path.'extension.inc');
 include($phpbb2_root_path.'common.'.$phpEx);
 
 # Start session management
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_VIEWMEMBERS);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_VIEWMEMBERS);
 titanium_init_userprefs($userdata);
 
 $pageroot = (!empty($HTTP_GET_VARS['page'])) ? $HTTP_GET_VARS['page'] : 1;
@@ -189,10 +189,10 @@ switch($mode):
 endswitch;
 # search switch END
 
-$titanium_username = (!empty($HTTP_POST_VARS['username'])) ? $HTTP_POST_VARS['username'] : '';
-if ($titanium_username && isset($HTTP_POST_VARS['submituser'])):
+$pnt_username = (!empty($HTTP_POST_VARS['username'])) ? $HTTP_POST_VARS['username'] : '';
+if ($pnt_username && isset($HTTP_POST_VARS['submituser'])):
     # search for users with a wildcard
-	$search_author = str_replace('*', '%', trim($titanium_username));
+	$search_author = str_replace('*', '%', trim($pnt_username));
 	if((strpos($search_author, '%') !== false) && (strlen(str_replace('%', '',$search_author)) < $phpbb2_board_config['search_min_chars']))
 	$search_author = '';
 
@@ -240,7 +240,7 @@ if ($titanium_username && isset($HTTP_POST_VARS['submituser'])):
 					    user_lastvisit 
 						
 	FROM ".USERS_TABLE." 
-	WHERE username = '$titanium_username' 
+	WHERE username = '$pnt_username' 
 	AND user_id <> ".ANONYMOUS." LIMIT 1";
 	# this is the original SQL queery END
 
@@ -268,25 +268,25 @@ else:
     FROM ".USERS_TABLE." WHERE user_id <> ".ANONYMOUS."".$where." ORDER BY $order_by";
 endif;
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 message_die(GENERAL_ERROR, 'Could not query users', '', __LINE__, __FILE__, $sql);
 
 global $textcolor1;
 $theme_name = get_theme();
 
-if($row = $titanium_db->sql_fetchrow($result)):
+if($row = $pnt_db->sql_fetchrow($result)):
 
 	$i = 0;
 	do
 	{
 		$realname = $row['name'];
-		$titanium_username = $row['username'];
-		$titanium_user_id = intval($row['user_id']);
+		$pnt_username = $row['username'];
+		$pnt_user_id = intval($row['user_id']);
 		
 		# Get the users location and flag
-		$titanium_user_from = (!empty($row['user_from'])) ? $row['user_from'] : '&nbsp;';
+		$pnt_user_from = (!empty($row['user_from'])) ? $row['user_from'] : '&nbsp;';
 
-		$titanium_user_flag = (!empty($row['user_from_flag'])) ? 
+		$pnt_user_flag = (!empty($row['user_from_flag'])) ? 
 		'&nbsp;'.get_evo_icon('countries '.str_replace('.png','',$row['user_from_flag'])).'&nbsp;' : '&nbsp;'.get_evo_icon('countries unknown').'&nbsp;';
 		 
 		# Calculate the users age.
@@ -302,7 +302,7 @@ if($row = $titanium_db->sql_fetchrow($result)):
 		
 		# Website URL
 		if(!empty($row['user_website']))
-		$www = '<a href="'.$row['user_website'].'" target="_blank"><img class="tooltip-html copyright" alt="Male" title="Visit '.$titanium_username.'\'s Web Portal" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-website-512.png" /></a>';
+		$www = '<a href="'.$row['user_website'].'" target="_blank"><img class="tooltip-html copyright" alt="Male" title="Visit '.$pnt_username.'\'s Web Portal" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-website-512.png" /></a>';
 		else
 		$www = '';
 		
@@ -330,10 +330,10 @@ if($row = $titanium_db->sql_fetchrow($result)):
          ******************************************************/
 		
 		# Number of Posts
-		$phpbb2_posts = ($row['user_posts']) ? '<a href="modules.php?name=Forums&file=search&search_author='.$titanium_username.'">'.$row['user_posts'].'</a>' : 0;
+		$phpbb2_posts = ($row['user_posts']) ? '<a href="modules.php?name=Forums&file=search&search_author='.$pnt_username.'">'.$row['user_posts'].'</a>' : 0;
 		
 		# Private message link
-		$pm = '<a href="'.append_titanium_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=$titanium_user_id").'"><img class="tooltip-html copyright" alt="Male" title="Send A Private Message To '.$titanium_username.'" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-send-80.png" /></a>';
+		$pm = '<a href="'.append_titanium_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=$pnt_user_id").'"><img class="tooltip-html copyright" alt="Male" title="Send A Private Message To '.$pnt_username.'" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-send-80.png" /></a>';
 		
 		# does the person have a dick START
 		if($row['user_gender'] ==1)
@@ -347,7 +347,7 @@ if($row = $titanium_db->sql_fetchrow($result)):
 		
 		# facebook mod v1.0 START
 		if(!empty($row['user_facebook']))
-		$facebook = '<a href="https://www.facebook.com/'.$row['user_facebook'].'" target="_blank"><img class="tooltip-html copyright" alt="Male" title="View '.$titanium_username.'\'s Facebook Page" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-facebook-80.png" /></a>';
+		$facebook = '<a href="https://www.facebook.com/'.$row['user_facebook'].'" target="_blank"><img class="tooltip-html copyright" alt="Male" title="View '.$pnt_username.'\'s Facebook Page" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-facebook-80.png" /></a>';
 		else
 		$facebook = '';
 		# facebook mod v1.0 END
@@ -371,8 +371,8 @@ if($row = $titanium_db->sql_fetchrow($result)):
        endif;
        # Mod: Online/Offline/Hidden v2.2.7 END
         
-		if(strlen($titanium_user_from) == 6)
-		$titanium_user_from = 'The InterWebs';
+		if(strlen($pnt_user_from) == 6)
+		$pnt_user_from = 'The InterWebs';
 
         if (!is_admin())
         if(!$row['user_allow_viewonline'])
@@ -384,8 +384,8 @@ if($row = $titanium_db->sql_fetchrow($result)):
 			'ROW_NUMBER' => $i + ( $phpbb2_start + 1 ),
 			'ROW_CLASS' => $row_class,
 			'USERNAME' => UsernameColor($row['username']),
-			'FROM' => $titanium_user_from,
-			'FLAG' => $titanium_user_flag,
+			'FROM' => $pnt_user_from,
+			'FLAG' => $pnt_user_flag,
 			'JOINED' => $joined,
 			'AGE' => $phpbb2_age,
 			'POSTS' => $phpbb2_posts,
@@ -396,12 +396,12 @@ if($row = $titanium_db->sql_fetchrow($result)):
 			'FACEBOOK' => $facebook,
 			'STATUS' => $online_status,
 			'CURRENT_AVATAR' => '<img class="rounded-corners-header" height="auto" width="30" src="'.$current_avatar.'">&nbsp;',
-			'U_VIEWPROFILE' => "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . "=$titanium_user_id")
+			'U_VIEWPROFILE' => "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . "=$pnt_user_id")
 		);
 		$i++;
 	} 
-	while ( $row = $titanium_db->sql_fetchrow($result) );
-	$titanium_db->sql_freeresult($result);
+	while ( $row = $pnt_db->sql_fetchrow($result) );
+	$pnt_db->sql_freeresult($result);
 
 else:
 	$phpbb2_template->assign_block_vars('no_username', array(
@@ -409,14 +409,14 @@ else:
 	);
 endif;
 
-$total_phpbb2_found = $titanium_db->sql_unumrows($sql);
+$total_phpbb2_found = $pnt_db->sql_unumrows($sql);
 
 # Generate the page numbers
 $alphanum 	= ( isset($HTTP_POST_VARS['alphanum']) ) ? htmlspecialchars($HTTP_POST_VARS['alphanum']) : htmlspecialchars($HTTP_GET_VARS['alphanum']);
 $where 		= ( $alphanum == 'num' ) ? " AND `username` NOT RLIKE '^[A-Z]' " : " AND `username` LIKE '".$alphanum."%' ";
 $sql1 		= "SELECT count(*) AS total FROM " . USERS_TABLE . " WHERE user_id <> " . ANONYMOUS.$where;
-$result1 	= $titanium_db->sql_query($sql1);
-$total 		= $titanium_db->sql_fetchrow($result1);
+$result1 	= $pnt_db->sql_query($sql1);
+$total 		= $pnt_db->sql_fetchrow($result1);
 
 if($total['total'] > $phpbb2_board_config['topics_per_page'] && $mode != 'topten' || $phpbb2_board_config['topics_per_page'] < 10):
 	if(isset($pageroot))

@@ -42,7 +42,7 @@ $aprvmUtil->find_lang_file('lang_admin_priv_msgs');
 if (!empty($setmodules))
 {
     $filename = basename(__FILE__);
-    $titanium_module['Users']['Private_Messages'] = $filename;
+    $pnt_module['Users']['Private_Messages'] = $filename;
     return;
 }
 
@@ -152,11 +152,11 @@ switch($pmaction)
            FROM ' . PRIVMSGS_TABLE . "$archive_text pm, " . PRIVMSGS_TEXT_TABLE . " pmt
            WHERE pm.privmsgs_id = pmt.privmsgs_text_id
            AND pmt.privmsgs_text_id = $view_id";
-        if(!$result = $titanium_db->sql_query($sql))
+        if(!$result = $pnt_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__);
         }
-        $privmsg = $titanium_db->sql_fetchrow($result);
+        $privmsg = $pnt_db->sql_fetchrow($result);
         /************************/
         /* Just stole all the phpBB code for message processing :) And edited a ton of it out since we are all admins here */
         /**********************/
@@ -212,28 +212,28 @@ switch($pmaction)
         if ($pmaction == 'remove_old')
         {
             // Build user sql list
-            $titanium_user_id_sql_list = '';
+            $pnt_user_id_sql_list = '';
             $sql = 'SELECT user_id FROM '. USERS_TABLE .'
                WHERE user_id <> '. ANONYMOUS;
-            if(!$result = $titanium_db->sql_query($sql))
+            if(!$result = $pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, $lang['Error_Other_Table'], '', __LINE__, __FILE__);
             }
-            while($row = $titanium_db->sql_fetchrow($result))
+            while($row = $pnt_db->sql_fetchrow($result))
             {
-                $titanium_user_id_sql_list .= ($titanium_user_id_sql_list != '') ? ', '.$row['user_id'] : $row['user_id'];
+                $pnt_user_id_sql_list .= ($pnt_user_id_sql_list != '') ? ', '.$row['user_id'] : $row['user_id'];
             }
             
             // Get orphan PM ids
             $priv_msgs_id_sql_list = '';
             $sql = 'SELECT privmsgs_id FROM '. PRIVMSGS_TABLE ."$archive_text
-                WHERE privmsgs_to_userid NOT IN ($titanium_user_id_sql_list)";
+                WHERE privmsgs_to_userid NOT IN ($pnt_user_id_sql_list)";
             //print $sql;
-            if(!$result = $titanium_db->sql_query($sql))
+            if(!$result = $pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
-            while ($row = $titanium_db->sql_fetchrow($result))
+            while ($row = $pnt_db->sql_fetchrow($result))
             {
                 $priv_msgs_id_sql_list .= ($priv_msgs_id_sql_list != '') ? ', '.$row['privmsgs_id'] : $row['privmsgs_id'];
             }
@@ -242,7 +242,7 @@ switch($pmaction)
                 $sql = "DELETE FROM " . PRIVMSGS_TEXT_TABLE . "
                       WHERE privmsgs_text_id IN ($priv_msgs_id_sql_list)";
                 //print $sql;
-                if(!$titanium_db->sql_query($sql))
+                if(!$pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
                 }
@@ -250,14 +250,14 @@ switch($pmaction)
                 $sql = "DELETE FROM " . PRIVMSGS_TABLE . "$archive_text
                       WHERE privmsgs_id  IN ($priv_msgs_id_sql_list)";
                 //print $sql;
-                if(!$titanium_db->sql_query($sql))
+                if(!$pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
                 }
             }
             
             $status_message .= $lang['Removed_Old'];
-            $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($lang['Affected_Rows'], $titanium_db->sql_affectedrows()) : '';
+            $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($lang['Affected_Rows'], $pnt_db->sql_affectedrows()) : '';
         }
     }
     case 'remove_sent':
@@ -268,11 +268,11 @@ switch($pmaction)
             $priv_msgs_id_sql_list = '';
             $sql = 'SELECT privmsgs_id FROM '. PRIVMSGS_TABLE ."$archive_text
                 WHERE privmsgs_type = ". PRIVMSGS_SENT_MAIL;
-            if(!$result = $titanium_db->sql_query($sql))
+            if(!$result = $pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
-            while ($row = $titanium_db->sql_fetchrow($result))
+            while ($row = $pnt_db->sql_fetchrow($result))
             {
                 $priv_msgs_id_sql_list .= ($priv_msgs_id_sql_list != '') ? ', '.$row['privmsgs_id'] : $row['privmsgs_id'];
             }
@@ -281,7 +281,7 @@ switch($pmaction)
                 $sql = "DELETE FROM " . PRIVMSGS_TEXT_TABLE . "
                       WHERE privmsgs_text_id IN ($priv_msgs_id_sql_list)";
                 //print $sql;
-                if(!$titanium_db->sql_query($sql))
+                if(!$pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
                 }
@@ -289,14 +289,14 @@ switch($pmaction)
                 $sql = "DELETE FROM " . PRIVMSGS_TABLE . "$archive_text
                       WHERE privmsgs_id  IN ($priv_msgs_id_sql_list)";
                 //print $sql;
-                if(!$titanium_db->sql_query($sql))
+                if(!$pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
                 }
             }
             
             $status_message .= $lang['Removed_Sent'];
-            $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($lang['Affected_Rows'], $titanium_db->sql_affectedrows()) : '';
+            $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($lang['Affected_Rows'], $pnt_db->sql_affectedrows()) : '';
         }
     }
     case 'remove_all':
@@ -304,19 +304,19 @@ switch($pmaction)
         if ($pmaction == 'remove_all')
         {
             $sql = "DELETE FROM " . PRIVMSGS_TEXT_TABLE;
-            if(!$titanium_db->sql_query($sql))
+            if(!$pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
             
             $sql = "DELETE FROM " . PRIVMSGS_TABLE;
-            if(!$titanium_db->sql_query($sql))
+            if(!$pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
             
             $status_message .= $lang['Removed_All'];
-            $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($lang['Affected_Rows'], $titanium_db->sql_affectedrows()) : '';
+            $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($lang['Affected_Rows'], $pnt_db->sql_affectedrows()) : '';
         }
     }
     default:
@@ -329,13 +329,13 @@ switch($pmaction)
                ORDER BY $sort $order
                LIMIT $phpbb2_start, $phpbb2_topics_per_pg";
         
-        if(!$result = $titanium_db->sql_query($sql))
+        if(!$result = $pnt_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, $lang['Error_Posts_Archive_Table'], '', __LINE__, __FILE__);
         }
         
         $i = 0;
-        while($row = $titanium_db->sql_fetchrow($result))
+        while($row = $pnt_db->sql_fetchrow($result))
         {
             $view_url = (!$phpbb2_board_config['aprvmView']) ? append_titanium_sid($aprvmUtil->urlStart.'&pmaction=view_message&view_id='.$row['privmsgs_id']) : '#';
             $onclick_url = ($phpbb2_board_config['aprvmView']) ? "JavaScript:window.open('" . append_titanium_sid($aprvmUtil->urlStart.'&pmaction=view_message&view_id=' . $row['privmsgs_id']) . "', '_privmsg', 'HEIGHT=450,resizable=yes,WIDTH=550')" : '';
@@ -495,7 +495,7 @@ class aprvmUtils
     
     function setupConfig()
     {
-        global $phpbb2_board_config, $titanium_db, $HTTP_GET_VARS, $status_message, $lang, $cache;
+        global $phpbb2_board_config, $pnt_db, $HTTP_GET_VARS, $status_message, $lang, $cache;
 
         $configList = array('aprvmArchive', 'aprvmVersion', 'aprvmView', 'aprvmRows', 'aprvmIP');
         $configLangs = array('aprvmArchive' => $lang['Archive_Feature'],
@@ -512,7 +512,7 @@ class aprvmUtils
             $sql = 'UPDATE '. CONFIG_TABLE . "
                     set config_value = '{$HTTP_GET_VARS['config_value']}'
                     WHERE config_name = '{$HTTP_GET_VARS['config_name']}'";
-            $titanium_db->sql_query($sql);
+            $pnt_db->sql_query($sql);
             
             $phpbb2_board_config[$HTTP_GET_VARS['config_name']] = $HTTP_GET_VARS['config_value'];
 /*****[BEGIN]******************************************
@@ -534,7 +534,7 @@ class aprvmUtils
                     (config_name, config_value)
                     VALUES
                     ('$val', '{$configDefaults[$num]}')";
-                $titanium_db->sql_query($sql);
+                $pnt_db->sql_query($sql);
                 $phpbb2_board_config[$val] = $configDefaults[$num];
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -552,10 +552,10 @@ class aprvmUtils
         if ($phpbb2_board_config['aprvmArchive'])
         {
             $sql = 'SELECT privmsgs_id FROM ' . PRIVMSGS_TABLE .$this->archiveText;
-            if(!$result = $titanium_db->sql_query($sql))
+            if(!$result = $pnt_db->sql_query($sql))
             {
                 //Cheap way for checking if the archive table exists
-                $errorMessage = $titanium_db->sql_error();
+                $errorMessage = $pnt_db->sql_error();
                 if (strpos($errorMessage['message'], 'exist') !== false)
                 {
                     $this->doArchiveTable();
@@ -569,7 +569,7 @@ class aprvmUtils
             $sql = 'UPDATE '. CONFIG_TABLE . "
                     set config_value = '{$this->modVersion}'
                     WHERE config_name = 'aprvmVersion'";
-            $titanium_db->sql_query($sql);
+            $pnt_db->sql_query($sql);
             $phpbb2_board_config['aprvmVersion'] = $this->modVersion;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -582,9 +582,9 @@ class aprvmUtils
         }
     }
 
-    function resync($type, $titanium_user_id, $num = 1)
+    function resync($type, $pnt_user_id, $num = 1)
     {
-        global $titanium_db;
+        global $pnt_db;
 
         if (($type == PRIVMSGS_NEW_MAIL || $type == PRIVMSGS_UNREAD_MAIL))
         {
@@ -601,21 +601,21 @@ class aprvmUtils
 
             $sql = "UPDATE " . USERS_TABLE . "
                 SET $sql 
-                WHERE user_id = $titanium_user_id";
-            if ( !$titanium_db->sql_query($sql) )
+                WHERE user_id = $pnt_user_id";
+            if ( !$pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
         }
     }
 
-    function make_drop_box($titanium_prefix = 'sort')
+    function make_drop_box($pnt_prefix = 'sort')
     {
         global $sort_types, $order_types, $pmtypes, $lang, $sort, $order, $pmtype, $phpbb2_page_title;
 
-        $rval = '<select name="'.$titanium_prefix.'">';
+        $rval = '<select name="'.$pnt_prefix.'">';
 
-        switch($titanium_prefix)
+        switch($pnt_prefix)
         {
             case 'sort':
             foreach($sort_types as $val)
@@ -646,7 +646,7 @@ class aprvmUtils
 
     function id_2_name($id, $mode = 'user')
     {
-        global $titanium_db;
+        global $pnt_db;
 
         static $nameCache; //Stores names we've already sent a query for
                            //Has array sections ['user'] and ['reverse']
@@ -670,11 +670,11 @@ class aprvmUtils
                 $sql = 'SELECT username FROM ' . USERS_TABLE . "
                    WHERE user_id = $id";
 
-                if(!$result = $titanium_db->sql_query($sql))
+                if(!$result = $pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, $lang['Error_Other_Table'], '', __LINE__, __FILE__, $sql);
                 }
-                $row = $titanium_db->sql_fetchrow($result);
+                $row = $pnt_db->sql_fetchrow($result);
                 //Setupcache
                 $nameCache['user'][$row['user_id']] = $row['username'];
                 $nameCache['reverse'][$row['username']] = $row['user_id'];
@@ -690,11 +690,11 @@ class aprvmUtils
                 $sql = 'SELECT user_id FROM ' . USERS_TABLE . "
                    WHERE username = '$id'";
 
-                if(!$result = $titanium_db->sql_query($sql))
+                if(!$result = $pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, $lang['Error_Other_Table'], '', __LINE__, __FILE__, $sql);
                 }
-                $row = $titanium_db->sql_fetchrow($result);
+                $row = $pnt_db->sql_fetchrow($result);
                 if (empty($row['user_id']))
                 {
                     return 0;
@@ -713,7 +713,7 @@ class aprvmUtils
     
     function do_pagination($mode = 'normal')
     {
-        global $titanium_db, $filter_from_text, $filter_to_text, $filter_from, $filter_to, $lang, $phpbb2_template, $order;
+        global $pnt_db, $filter_from_text, $filter_to_text, $filter_from, $filter_to, $lang, $phpbb2_template, $order;
         global $mode, $pmtype, $sort, $pmtype_text, $archive_text, $phpbb2_start, $archive_start, $phpbb2_topics_per_pg, $phpEx;
 
         $sql = 'SELECT count(*) AS total FROM ' . PRIVMSGS_TABLE . $this->inArchiveText." pm
@@ -722,11 +722,11 @@ class aprvmUtils
            $filter_from_text
            $filter_to_text";
 
-        if(!$result = $titanium_db->sql_query($sql))
+        if(!$result = $pnt_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
         }
-        $total = $titanium_db->sql_fetchrow($result);
+        $total = $pnt_db->sql_fetchrow($result);
         $total_phpbb2_pms = ($total['total'] > 0) ? $total['total'] : 1;
 
         $pagination = generate_pagination($this->urlPage, $total_phpbb2_pms, $phpbb2_topics_per_pg, $phpbb2_start)."&nbsp;";
@@ -779,7 +779,7 @@ class aprvmUtils
     
     function doArchiveTable()
     {
-        global $titanium_db, $status_message, $lang, $titanium_prefix;
+        global $pnt_db, $status_message, $lang, $pnt_prefix;
         
         switch (SQL_LAYER)
         {
@@ -787,7 +787,7 @@ class aprvmUtils
             case 'mysql4':
             case 'mysqli':
             {
-                $create[] = "CREATE TABLE `".$titanium_prefix."privmsgs_archive` (
+                $create[] = "CREATE TABLE `".$pnt_prefix."privmsgs_archive` (
                     `privmsgs_id` mediumint( 8 ) unsigned NOT NULL AUTO_INCREMENT ,
                     `privmsgs_type` tinyint( 4 ) NOT NULL default '0',
                     `privmsgs_subject` varchar( 255 ) NOT NULL default '0',
@@ -809,7 +809,7 @@ class aprvmUtils
 
         foreach($create as $sql)
         {
-            if(!$result = $titanium_db->sql_query($sql))
+            if(!$result = $pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, $lang['Error_Posts_Archive_Table'], '', __LINE__, __FILE__);
             }
@@ -840,7 +840,7 @@ class aprvmManager
 
     function doArchive()
     {
-        global $lang, $titanium_db, $status_message, $aprvmUtil;
+        global $lang, $pnt_db, $status_message, $aprvmUtil;
         
         if (!count($this->archiveQueue)) return;
         
@@ -852,18 +852,18 @@ class aprvmManager
         
         $sql = 'SELECT * FROM ' . PRIVMSGS_TABLE . "
                WHERE privmsgs_id IN ($postList)";
-        if(!$result = $titanium_db->sql_query($sql))
+        if(!$result = $pnt_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
         }
-        while ($row = $titanium_db->sql_fetchrow($result))
+        while ($row = $pnt_db->sql_fetchrow($result))
         {
             $sql = 'INSERT INTO ' . PRIVMSGS_TABLE . $aprvmUtil->archiveText.' VALUES
                (' . $row['privmsgs_id'] . ', ' . $row['privmsgs_type'] . ", '" . addslashes($row['privmsgs_subject']) . "', " .
                 $row['privmsgs_from_userid'] . ', ' . $row['privmsgs_to_userid'] . ', ' . $row['privmsgs_date'] . ", '" .
                 $row['privmsgs_ip'] . "', " . $row['privmsgs_enable_bbcode'] . ', ' . $row['privmsgs_enable_html'] . ', ' .
                 $row['privmsgs_enable_smilies'] . ', ' . $row['privmsgs_attach_sig'] . ')';
-            if(!$titanium_db->sql_query($sql))
+            if(!$pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, $lang['Error_Posts_Text_Table'], '', __LINE__, __FILE__, $sql);
             }
@@ -875,7 +875,7 @@ class aprvmManager
         }
         $sql = 'DELETE FROM ' . PRIVMSGS_TABLE . "
                   WHERE privmsgs_id IN ($postList)";
-        if(!$titanium_db->sql_query($sql))
+        if(!$pnt_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, $lang['Error_Posts_Text_Table'], '', __LINE__, __FILE__, $sql);
         }
@@ -884,7 +884,7 @@ class aprvmManager
     
     function doDelete()
     {
-        global $phpbb2_board_config, $HTTP_POST_VARS, $titanium_db, $lang, $status_message, $aprvmUtil, $mode;
+        global $phpbb2_board_config, $HTTP_POST_VARS, $pnt_db, $lang, $status_message, $aprvmUtil, $mode;
         
         if (!count($this->deleteQueue)) return;
 
@@ -896,11 +896,11 @@ class aprvmManager
                 /* This query isn't really needed, but makes the hey we deleted this title isntead of id show up */
                 $sql = 'SELECT privmsgs_subject FROM ' . PRIVMSGS_TABLE . $aprvmUtil->archiveText . " 
                        WHERE privmsgs_id = $post_id";
-                if(!$result = $titanium_db->sql_query($sql))
+                if(!$result = $pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, $lang['Error_Posts_Archive_Table'], '', __LINE__, __FILE__, $sql);
                 }
-                $row = $titanium_db->sql_fetchrow($result);
+                $row = $pnt_db->sql_fetchrow($result);
                 $status_message .= sprintf($lang['Archived_Message_No_Delete'], $row['privmsgs_subject']);
             }
             else
@@ -911,11 +911,11 @@ class aprvmManager
 
             $sql = 'SELECT privmsgs_subject, privmsgs_to_userid, privmsgs_type FROM ' . PRIVMSGS_TABLE . $aprvmUtil->inArchiveText."
                WHERE privmsgs_id IN ($postList)";
-            if(!$result = $titanium_db->sql_query($sql))
+            if(!$result = $pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
-            while ($row = $titanium_db->sql_fetchrow($result))
+            while ($row = $pnt_db->sql_fetchrow($result))
             {
                 $status_message .= sprintf($lang['Deleted_Message'], $row['privmsgs_subject']);
 
@@ -927,14 +927,14 @@ class aprvmManager
 
             $sql = "DELETE FROM " . PRIVMSGS_TEXT_TABLE . "
                       WHERE privmsgs_text_id IN ($postList)";
-            if(!$titanium_db->sql_query($sql))
+            if(!$pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
 
             $sql = "DELETE FROM " . PRIVMSGS_TABLE . $aprvmUtil->inArchiveText." 
                       WHERE privmsgs_id IN ($postList)";
-            if(!$titanium_db->sql_query($sql))
+            if(!$pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
@@ -948,11 +948,11 @@ class aprvmManager
         $this->doDelete();
         if (count($this->syncNums))
         {
-            foreach($this->syncNums as $titanium_user_id => $type)
+            foreach($this->syncNums as $pnt_user_id => $type)
             {
                 foreach($type as $pmType => $num)
                 {
-                    $aprvmUtil->resync($pmType, $titanium_user_id, $num);
+                    $aprvmUtil->resync($pmType, $pnt_user_id, $num);
                 }
             }
         }

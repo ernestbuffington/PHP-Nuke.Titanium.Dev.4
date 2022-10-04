@@ -15,7 +15,7 @@ if (!defined('IN_FILE_REPOSITORY'))
 
 function _file_repository_extensions ()
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings;
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $settings;
 	_admin_navigation_menu ();
 	echo '<table style="width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
@@ -31,9 +31,9 @@ function _file_repository_extensions ()
 	echo '  </tr>';
 
 	$sql = "SELECT `eid`, `extension`, `file`, `image` FROM `"._FILE_REPOSITORY_EXTENSIONS."` ORDER BY `eid` ASC";
-	$result = $titanium_db->sql_query($sql);
+	$result = $pnt_db->sql_query($sql);
 	$count = 1;
-	while( $row = $titanium_db->sql_fetchrow($result) ):
+	while( $row = $pnt_db->sql_fetchrow($result) ):
 
 		echo '  <tr'._bgColor(1).'>';
 		echo '    <td'._tdcss(FALSE,'center',_sc()).'>'.$count.'</td>';
@@ -45,7 +45,7 @@ function _file_repository_extensions ()
 		$count++;
 
 	endwhile;
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 
 	echo '  <tr'._bgColor(2).'>'."\n";
 	echo '    <td'._tdcss(FALSE,'center',_sf(),5).'>&nbsp;</td>'."\n";

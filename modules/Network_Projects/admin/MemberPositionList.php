@@ -10,7 +10,7 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 get_lang('Network_Projects');
 
@@ -22,8 +22,8 @@ include_once(NUKE_BASE_DIR.'header.php');
 
 pjadmin_menu(_NETWORK_MEMBERS.": "._NETWORK_POSITIONLIST);
 
-$positionresult = $titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_members_positions` WHERE `position_weight` > 0 ORDER BY `position_weight`");
-$position_total = $titanium_db2->sql_numrows($positionresult);
+$positionresult = $pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_members_positions` WHERE `position_weight` > 0 ORDER BY `position_weight`");
+$position_total = $pnt_db2->sql_numrows($positionresult);
 
 OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
@@ -41,14 +41,14 @@ echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</str
 
 if($position_total != 0)
 {
-  while($position_row = $titanium_db2->sql_fetchrow($positionresult)) 
+  while($position_row = $pnt_db2->sql_fetchrow($positionresult)) 
   {
     $pjimage = pjimage("position.png", $pnt_module);
     echo "<tr><td><img src='$pjimage'></td><td width='100%'>".$position_row['position_name']."</td>\n";
     $weight1 = $position_row['position_weight'] - 1;
     $weight3 = $position_row['position_weight'] + 1;
-    list($pid1) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `position_id` FROM `".$network_prefix."_members_positions` WHERE `position_weight`='$weight1'"));
-    list($pid2) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `position_id` FROM `".$network_prefix."_members_positions` WHERE `position_weight`='$weight3'"));
+    list($pid1) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `position_id` FROM `".$network_prefix."_members_positions` WHERE `position_weight`='$weight1'"));
+    list($pid2) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `position_id` FROM `".$network_prefix."_members_positions` WHERE `position_weight`='$weight3'"));
     echo "<td align='center'><nobr>";
     
 	if($pid1 AND $pid1 > 0) 

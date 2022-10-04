@@ -46,7 +46,7 @@ if(!defined('CNBYA')) die('CNBYA protection');
     $avatar="https://$avatar"; 
     endif;
 
-    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_avatar='$avatar', user_avatar_type='2' WHERE username='$cookie[1]'");
+    $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET user_avatar='$avatar', user_avatar_type='2' WHERE username='$cookie[1]'");
     echo "<div align=\"center\"><span class=\"content\">"._YA_AVATARFOR." ".$cookie[1]." "._YA_SAVED."</span></div><br />";
     
 	if (preg_match("/(https)/", $avatar)): 

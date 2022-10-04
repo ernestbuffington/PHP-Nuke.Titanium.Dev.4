@@ -37,22 +37,22 @@ if (!defined('CNBYA')) {
 
     if ($ya_config['expiring']!=0) {
         $past = time()-$ya_config['expiring'];
-        $res = $titanium_db->sql_query("SELECT user_id FROM ".$titanium_user_prefix."_users_temp WHERE time < '$past'");
-        while (list($uid) = $titanium_db->sql_fetchrow($res)) {
+        $res = $pnt_db->sql_query("SELECT user_id FROM ".$pnt_user_prefix."_users_temp WHERE time < '$past'");
+        while (list($uid) = $pnt_db->sql_fetchrow($res)) {
                   $uid = intval($uid);
-          $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_users_temp WHERE user_id = $uid");
-          $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE uid = '$uid'");
+          $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_users_temp WHERE user_id = $uid");
+          $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_value_temp WHERE uid = '$uid'");
         }
         
-        $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_cnbya_value_temp");
-        $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_users_temp");
+        $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_user_prefix."_cnbya_value_temp");
+        $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_user_prefix."_users_temp");
     }
 
-    $titanium_username  = trim(check_html($titanium_username, 'nohtml'));
+    $pnt_username  = trim(check_html($pnt_username, 'nohtml'));
     $check_num = trim(check_html($check_num, 'nohtml'));
-    $result    = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users_temp WHERE username='$titanium_username' AND check_num='$check_num'");
-    if ($titanium_db->sql_numrows($result) == 1) {
-        $row_act = $titanium_db->sql_fetchrow($result);
+    $result    = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users_temp WHERE username='$pnt_username' AND check_num='$check_num'");
+    if ($pnt_db->sql_numrows($result) == 1) {
+        $row_act = $pnt_db->sql_fetchrow($result);
     $ya_username = $row_act['username'];
     $ya_realname = $row_act['realname'];
     $ya_useremail = $row_act['user_email'];

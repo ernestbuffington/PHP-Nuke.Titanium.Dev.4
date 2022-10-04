@@ -45,21 +45,21 @@ $blog_config = blog_get_configs();
 
 get_lang($pnt_module);
 
-    global $titanium_db, 
-             $storyhome, 
+    global $pnt_db, 
+             $bloghome, 
              $topicname, 
             $topicimage, 
              $topictext, 
               $datetime,
 	          $modified, 
-         $titanium_user, 
+         $pnt_user, 
 	            $cookie, 
-	   $titanium_prefix, 
+	   $pnt_prefix, 
           $multilingual, 
            $currentlang, 
            $articlecomm, 
               $sitename, 
-    $titanium_user_news, 
+    $user_blogs, 
 	          $userinfo;
  
 automated_blogs();
@@ -79,7 +79,7 @@ switch($op):
             if(isset($userinfo['storynum'])): 
                 $blognum = $userinfo['storynum'];
 			else: 
-              $blognum = $storyhome;
+              $blognum = $bloghome;
 			endif;
 		else: 
         $blognum = $blog_config["homenumber"];
@@ -127,21 +127,21 @@ switch($op):
 			endif;
         endif;
 
-        $result = $titanium_db->sql_query("SELECT COUNT(*) AS numrows FROM ".$titanium_prefix."_stories $querylang");
+        $result = $pnt_db->sql_query("SELECT COUNT(*) AS numrows FROM ".$pnt_prefix."_stories $querylang");
 
-        list($totalarticles) = $titanium_db->sql_fetchrow($result);
+        list($totalarticles) = $pnt_db->sql_fetchrow($result);
 
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         $querylang = (!isset($querylang) || empty($querylang)) ? 'WHERE `datePublished` <= now()' : $querylang . ' AND `datePublished` <= now()';
-        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_stories $querylang ORDER BY sid DESC LIMIT $min,$blognum");
+        $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_stories $querylang ORDER BY sid DESC LIMIT $min,$blognum");
 
         if($blog_config["columns"] == 1) // DUAL BLOG
         echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
         
 		$a = 0;
         
-		while($artinfo = $titanium_db->sql_fetchrow($result)): 
+		while($artinfo = $pnt_db->sql_fetchrow($result)): 
 		
             $artinfo["datePublished"] = formatTimestamp($artinfo["datePublished"]);
         
@@ -262,9 +262,9 @@ switch($op):
             $sid = $artinfo["sid"];
 
             if($artinfo["catid"] != 0): 
-                $result3 = $titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
-                $catinfo = $titanium_db->sql_fetchrow($result3);
-                $titanium_db->sql_freeresult($result3);
+                $result3 = $pnt_db->sql_query("SELECT title FROM ".$pnt_prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
+                $catinfo = $pnt_db->sql_fetchrow($result3);
+                $pnt_db->sql_freeresult($result3);
                 $morelink .= " | <a href='modules.php?name=$pnt_module&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
             endif;
             
@@ -334,7 +334,7 @@ switch($op):
 		   endif;
         endwhile;
         
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 
         if($blog_config["columns"] == 1): # DUAL BLOG
             if ($a ==1) { echo "<td width='50%'>&nbsp;</td></tr>\n"; } else { echo "</tr>\n"; }
@@ -417,8 +417,8 @@ switch($op):
 			if($a == 1): 
                 redirect_titanium("modules.php?name=$pnt_module&op=rate_complete&sid=$sid&rated=1");
 			else: 
-                $result = $titanium_db->sql_query("update ".$titanium_prefix."_stories set score=score+$score, ratings=ratings+1 where sid='$sid'");
-                $titanium_db->sql_freeresult($result);
+                $result = $pnt_db->sql_query("update ".$pnt_prefix."_stories set score=score+$score, ratings=ratings+1 where sid='$sid'");
+                $pnt_db->sql_freeresult($result);
                 $info = base64_encode("$rcookie$sid:");
                 setcookie("ratecookie","$info",time()+86400);
                 redirect_titanium("modules.php?name=Blog&op=rate_complete&sid=$sid&score=$score");

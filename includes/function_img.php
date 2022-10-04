@@ -47,7 +47,7 @@ function forum_icon_img_path($imgfile='', $mymodule='', $empty=true)
 	# If file is found use themes/theme_name/images/forum_icons path!
 	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/forums/images/forum_icons/'.$imgfile)) 
 	{
-        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/$imgfile"; 
+        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/$imgfile"; 
 		$forum_theme_icons_found = true;
     } 
 	else # if we do not find any images under the theme directory use the Forums system default forum_icons dir!
@@ -56,7 +56,7 @@ function forum_icon_img_path($imgfile='', $mymodule='', $empty=true)
 		if($forum_theme_icons_found)
 		return;
 		
-        $titanium_image = TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/forum_icons/$imgfile";
+        $pnt_image = TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/forum_icons/$imgfile";
 
     } 
 	else # if we dont find shit write it to the error log
@@ -64,7 +64,7 @@ function forum_icon_img_path($imgfile='', $mymodule='', $empty=true)
 
     }
 	
-	return($titanium_image);
+	return($pnt_image);
 }
 ############################################################################################################################################
 # Forum Icon Path Mod - 09/26/2022 by Ernest Buffington - END                                                                              #       
@@ -84,102 +84,102 @@ function img($imgfile='', $mymodule='', $empty=true)
     # not sure what we are doing here?
 	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) 
 	{
-        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
+        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else # check for images in the themes languages directory!
 	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/images/lang_' . $currentlang . '/' . $imgfile)) 
 	{
-        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/lang_".$currentlang."/$imgfile";
+        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/lang_".$currentlang."/$imgfile";
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else # looks like its lookin for a folder named after the module in the imaages area!
 	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/' . $imgfile)) 
 	{
-        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$mymodule/$imgfile";
+        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$mymodule/$imgfile";
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else
 	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/images/' . $imgfile)) 
 	{
-        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$imgfile";
+        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$imgfile";
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else
 	if (@file_exists(TITANIUM_THEMES_DIR . $Default_Theme . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) 
 	{
-        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/$mymodule/lang_".$currentlang."/$imgfile";
+        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/$mymodule/lang_".$currentlang."/$imgfile";
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else
 	if (@file_exists(TITANIUM_THEMES_DIR . $Default_Theme . '/images/lang_' . $currentlang . '/' . $imgfile)) 
 	{
-        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/lang_".$currentlang."/$imgfile";
+        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/lang_".$currentlang."/$imgfile";
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else
 	if (@file_exists(TITANIUM_THEMES_DIR . $Default_Theme . '/images/' . $mymodule . '/' . $imgfile)) 
 	{
-        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/$mymodule/$imgfile";
+        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/$mymodule/$imgfile";
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else
 	if (@file_exists(TITANIUM_THEMES_DIR . $Default_Theme . '/images/' . $imgfile)) 
 	{
-        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/$imgfile";
+        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/$imgfile";
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else
 	if (@file_exists(TITANIUM_MODULES_DIR . $mymodule . '/images/lang_' . $currentlang . '/' . $imgfile)) 
 	{
-        $titanium_image = TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/lang_".$currentlang."/$imgfile";
+        $pnt_image = TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/lang_".$currentlang."/$imgfile";
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else
 	if (@file_exists(TITANIUM_MODULES_DIR . $mymodule . '/images/' . $imgfile)) 
 	{
-        $titanium_image =  TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/$imgfile";
+        $pnt_image =  TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/$imgfile";
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else
 	if (@file_exists(TITANIUM_IMAGES_DIR . $mymodule . '/' . $imgfile)) 
 	{
-        $titanium_image = TITANIUM_IMAGES_BASE_DIR . $mymodule ."/$imgfile";
+        $pnt_image = TITANIUM_IMAGES_BASE_DIR . $mymodule ."/$imgfile";
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else
 	if (@file_exists(TITANIUM_IMAGES_DIR . $imgfile)) 
 	{
-        $titanium_image = TITANIUM_IMAGES_BASE_DIR . $imgfile;
+        $pnt_image = TITANIUM_IMAGES_BASE_DIR . $imgfile;
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else
 	if (@file_exists(TITANIUM_BASE_DIR . $imgfile)) 
 	{
-        $titanium_image = TITANIUM_HREF_BASE_DIR . $imgfile;
+        $pnt_image = TITANIUM_HREF_BASE_DIR . $imgfile;
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
     } 
 	else
 	{
 	    log_write('error', "( ".TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/$imgfile"." ) not found!", 'Image Not Found Error');
 		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>NOT FOUND:</strong> '.$titanium_image.'</font></div>';
+        echo '<div align="center"><font color="red"><strong>NOT FOUND:</strong> '.$pnt_image.'</font></div>';
     }
 	
-	return($titanium_image);
+	return($pnt_image);
 }
 ############################################################################################################################################
 # Image Mod - End  01/01/2012                                                                                                              #

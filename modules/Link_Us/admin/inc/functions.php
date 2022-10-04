@@ -64,9 +64,9 @@ function check_image_type($type) {
 
 function LinkusAdminMain(){
 	
-		global $titanium_prefix, $titanium_db, $lang_new, $pnt_module, $admin_file;	
-		$config = $titanium_db->sql_ufetchrow("SELECT * FROM `".$titanium_prefix."_link_us_config` LIMIT 0,1");
-		list($pending) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT COUNT(*) FROM `".$titanium_prefix."_link_us` WHERE `site_status` = '3'"));
+		global $pnt_prefix, $pnt_db, $lang_new, $pnt_module, $admin_file;	
+		$config = $pnt_db->sql_ufetchrow("SELECT * FROM `".$pnt_prefix."_link_us_config` LIMIT 0,1");
+		list($pending) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT COUNT(*) FROM `".$pnt_prefix."_link_us` WHERE `site_status` = '3'"));
 		
 		if (!empty($config) || is_array($config)) {
 		

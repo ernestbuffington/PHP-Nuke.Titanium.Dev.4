@@ -37,7 +37,7 @@ $uinfo = $userinfo;
 $ulevel = (isset($uinfo['user_level'])) ? $uinfo['user_level'] : 0;
 $uactive = (isset($uinfo['user_active'])) ? $uinfo['user_active'] : 0;
 if ( ($ulevel < 1) OR ($uactive < 1) ) {
-    unset($titanium_user);
+    unset($pnt_user);
     unset($cookie);
 }
 
@@ -49,10 +49,10 @@ if(isset($_GET['name']) && isset($_GET['file']) || isset($_GET['mode'])) {
 
 if (is_user()) {
     $lv = time();
-    //$titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_lastvisit='$lv' WHERE user_id='".$uinfo['user_id']."'");
-    $result = $titanium_db->sql_query("SELECT time FROM ".$titanium_prefix."_session WHERE uname='$uinfo[username]'");
-    list($sessiontime) = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    //$pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET user_lastvisit='$lv' WHERE user_id='".$uinfo['user_id']."'");
+    $result = $pnt_db->sql_query("SELECT time FROM ".$pnt_prefix."_session WHERE uname='$uinfo[username]'");
+    list($sessiontime) = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
 // modified by menelaos dot hetnet dot nl to reduce amount of sql-queries
 /*****[BEGIN]******************************************
@@ -62,11 +62,11 @@ if (is_user()) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-      $configresult = $titanium_db->sql_query("SELECT config_name, config_value FROM ".$titanium_prefix."_cnbya_config");
-      while (list($config_name, $config_value) = $titanium_db->sql_fetchrow($configresult)) {
+      $configresult = $pnt_db->sql_query("SELECT config_name, config_value FROM ".$pnt_prefix."_cnbya_config");
+      while (list($config_name, $config_value) = $pnt_db->sql_fetchrow($configresult)) {
           $ya_config[$config_name] = $config_value;
       }
-      $titanium_db->sql_freeresult($configresult);
+      $pnt_db->sql_freeresult($configresult);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -87,11 +87,11 @@ if (is_user()) {
         $r_username = $uinfo['username'];
         @setcookie("user");
         if (trim($cookiepath) != '') setcookie("user","","","$ya_config[cookiepath]");
-        $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_session WHERE uname='$r_username'");
-        $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_session");
-        $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_bbsessions WHERE session_user_id='$r_uid'");
-        $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_bbsessions");
-        unset($titanium_user);
+        $pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_session WHERE uname='$r_username'");
+        $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_session");
+        $pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_bbsessions WHERE session_user_id='$r_uid'");
+        $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_bbsessions");
+        unset($pnt_user);
         unset($cookie);
       redirect_titanium("modules.php?name=Your_Account");
       exit;
@@ -103,9 +103,9 @@ if (is_user()) {
     // WHEN THE ADMIN WANTS IT RUN.
     if (($autosuspend > 0) AND ($autosuspendmain==1)) {
         $st = time() - $autosuspend;
-        $susresult = $titanium_db->sql_query("SELECT user_id FROM ".$titanium_user_prefix."_users WHERE user_lastvisit <= $st AND user_level > 0");
-            while(list($sus_uid) = $titanium_db->sql_fetchrow($susresult)) {
-            $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_level='0', user_active='0' WHERE user_id='$sus_uid'");
+        $susresult = $pnt_db->sql_query("SELECT user_id FROM ".$pnt_user_prefix."_users WHERE user_lastvisit <= $st AND user_level > 0");
+            while(list($sus_uid) = $pnt_db->sql_fetchrow($susresult)) {
+            $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET user_level='0', user_active='0' WHERE user_id='$sus_uid'");
     }
   }
 

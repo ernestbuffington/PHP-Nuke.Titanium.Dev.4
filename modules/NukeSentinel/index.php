@@ -13,7 +13,7 @@ if(!defined('MODULE_FILE')) die ('You can\'t access this file directly...');
 define('NUKESENTINEL_PUBLIC',true);
 $pnt_module = basename(dirname(__FILE__));
 $ab_config = abget_configs();
-$checkrow = $titanium_db->sql_numrows($titanium_db->sql_query('SELECT `ip_lo` FROM `'.$titanium_prefix.'_nsnst_ip2country` LIMIT 0,1'));
+$checkrow = $pnt_db->sql_numrows($pnt_db->sql_query('SELECT `ip_lo` FROM `'.$pnt_prefix.'_nsnst_ip2country` LIMIT 0,1'));
 if($checkrow > 0) $tableexist = 1; else $tableexist = 0; 
 if(!isset($op)) $op='';
 if($op == 'STIP2C' AND $tableexist != 1) $op = 'STIndex';

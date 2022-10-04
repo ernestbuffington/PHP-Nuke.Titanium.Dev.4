@@ -33,7 +33,7 @@ define('NUKE_EVO_USERBLOCK_ADMIN', dirname(__FILE__) . '/');
 define('NUKE_EVO_USERBLOCK_ADMIN_INCLUDES', NUKE_EVO_USERBLOCK_ADMIN . 'includes/');
 define('NUKE_EVO_USERBLOCK_ADMIN_ADDONS', NUKE_EVO_USERBLOCK_ADMIN . 'addons/');
 
-global $titanium_prefix, $titanium_db, $admin_file, $admdata, $lang_evo_userblock;
+global $pnt_prefix, $pnt_db, $admin_file, $admdata, $lang_evo_userblock;
 $pnt_module = basename(dirname(dirname(__FILE__)));
 
 if (!is_mod_admin($pnt_module)) {
@@ -186,10 +186,10 @@ function evouserinfo_drawlists () {
 }
 
 function evouserinfo_write ($data){
-    global $titanium_prefix, $titanium_db, $lang_evo_userblock, $cache;
+    global $pnt_prefix, $pnt_db, $lang_evo_userblock, $cache;
     
     //Clear All Previous Breaks
-    $titanium_db->sql_query('DELETE FROM `'.$titanium_prefix.'_evo_userinfo` WHERE `name`="Break"');
+    $pnt_db->sql_query('DELETE FROM `'.$pnt_prefix.'_evo_userinfo` WHERE `name`="Break"');
     //Write Data
     if(is_array($data)) {
         foreach ($data as $type => $sub) {
@@ -197,8 +197,8 @@ function evouserinfo_write ($data){
                 $i = 1;
                 foreach ($sub as $element) {
                     if (!preg_match('#'.$lang_evo_userblock['ADMIN']['BREAK'].'#',$element)) {
-                        $sql = 'UPDATE `'.$titanium_prefix.'_evo_userinfo` SET `position`='.$i.', `active`=0 WHERE `filename`="'.$element.'";';
-                        $titanium_db->sql_query($sql);
+                        $sql = 'UPDATE `'.$pnt_prefix.'_evo_userinfo` SET `position`='.$i.', `active`=0 WHERE `filename`="'.$element.'";';
+                        $pnt_db->sql_query($sql);
                         $i++;
                     } else {
                         $i++;
@@ -208,12 +208,12 @@ function evouserinfo_write ($data){
                 $i = 1;
                 foreach ($sub as $element) {
                     if (!preg_match('#'.$lang_evo_userblock['ADMIN']['BREAK'].'#',$element)) {
-                        $sql = 'UPDATE `'.$titanium_prefix.'_evo_userinfo` SET `position`='.$i.', `active`=1 WHERE `filename`="'.$element.'"';
-                        $titanium_db->sql_query($sql);
+                        $sql = 'UPDATE `'.$pnt_prefix.'_evo_userinfo` SET `position`='.$i.', `active`=1 WHERE `filename`="'.$element.'"';
+                        $pnt_db->sql_query($sql);
                         $i++;
                     } else {
-                        $sql = 'INSERT INTO `'.$titanium_prefix.'_evo_userinfo` values ("Break", "Break", 1, '.$i.', "")';
-                        $titanium_db->sql_query($sql);
+                        $sql = 'INSERT INTO `'.$pnt_prefix.'_evo_userinfo` values ("Break", "Break", 1, '.$i.', "")';
+                        $pnt_db->sql_query($sql);
                         $i++;
                     }
                 }
@@ -263,8 +263,8 @@ if (isset($_POST['order']))
   redirect_titanium($admin_file.".php?op=evo-userinfo");
 }
 if (isset($_POST['evouserinfo_ec']) && is_int(intval($_POST['evouserinfo_ec']))) {
-    global $titanium_db, $titanium_prefix, $cache, $evouserinfo_ec;
-    $titanium_db->sql_query("UPDATE ".$titanium_prefix."_evolution SET evo_value='".$_POST['evouserinfo_ec']."' WHERE evo_field='evouserinfo_ec'");
+    global $pnt_db, $pnt_prefix, $cache, $evouserinfo_ec;
+    $pnt_db->sql_query("UPDATE ".$pnt_prefix."_evolution SET evo_value='".$_POST['evouserinfo_ec']."' WHERE evo_field='evouserinfo_ec'");
     $cache->delete('titanium_config', 'config');
     $cache->resync();
     $evouserinfo_ec = intval($_POST['evouserinfo_ec']);

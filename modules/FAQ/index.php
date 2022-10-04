@@ -42,7 +42,7 @@ $pagetitle = '- '.$pnt_module;
 
 function ShowFaq($id_cat, $categories) 
 {
-    global $bgcolor2, $sitename, $titanium_prefix, $titanium_db, $pnt_module;
+    global $bgcolor2, $sitename, $pnt_prefix, $pnt_db, $pnt_module;
     $categories = htmlentities($categories);
     OpenTable();
 
@@ -58,9 +58,9 @@ function ShowFaq($id_cat, $categories)
         ."<tr bgcolor=\"$bgcolor2\"><td colspan=\"2\"><span class=\"option\"><strong>"._QUESTION."</strong></span></td></tr><tr><td colspan=\"2\">";
     
 	$id_cat = intval($id_cat);
-    $result = $titanium_db->sql_query("SELECT id, id_cat, question, answer FROM ".$titanium_prefix."_faqanswer WHERE id_cat='$id_cat'");
+    $result = $pnt_db->sql_query("SELECT id, id_cat, question, answer FROM ".$pnt_prefix."_faqanswer WHERE id_cat='$id_cat'");
 
-    while ($row = $titanium_db->sql_fetchrow($result)):
+    while ($row = $pnt_db->sql_fetchrow($result)):
         $id = intval($row['id']);
         $id_cat = intval($row['id_cat']);
         $question = stripslashes(check_html($row['question'], "nohtml"));
@@ -74,14 +74,14 @@ function ShowFaq($id_cat, $categories)
 
 function ShowFaqAll($id_cat) 
 {
-    global $bgcolor2, $titanium_prefix, $titanium_db, $pnt_module;
+    global $bgcolor2, $pnt_prefix, $pnt_db, $pnt_module;
     $id_cat = intval($id_cat);
 
     echo "<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\" border=\"0\">"
         ."<tr bgcolor=\"$bgcolor2\"><td colspan=\"2\"><span class=\"option\"><strong>"._ANSWER."</strong></span></td></tr>";
-    $result = $titanium_db->sql_query("SELECT id, id_cat, question, answer FROM ".$titanium_prefix."_faqanswer WHERE id_cat='$id_cat'");
+    $result = $pnt_db->sql_query("SELECT id, id_cat, question, answer FROM ".$pnt_prefix."_faqanswer WHERE id_cat='$id_cat'");
 
-    while ($row = $titanium_db->sql_fetchrow($result)): 
+    while ($row = $pnt_db->sql_fetchrow($result)): 
 	
         $id = intval($row['id']);
         $id_cat = intval($row['id_cat']);
@@ -122,9 +122,9 @@ if (!isset($myfaq)):
 	echo "<center><span class=\"option\"><h1>"._FAQ2."</h1></span></center><br /><br />"
     ."<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\" border=\"0\">"
     ."<tr><td bgcolor=\"$bgcolor2\"><span class=\"option\"><strong>"._CATEGORIES."</strong></span></td></tr><tr><td>";
-    $result2 = $titanium_db->sql_query("SELECT id_cat, categories FROM ".$titanium_prefix."_faqcategories $querylang");
+    $result2 = $pnt_db->sql_query("SELECT id_cat, categories FROM ".$pnt_prefix."_faqcategories $querylang");
 
-    while ($row2 = $titanium_db->sql_fetchrow($result2)):
+    while ($row2 = $pnt_db->sql_fetchrow($result2)):
      $id_cat = intval($row2['id_cat']);
      $categories = stripslashes(check_html($row2['categories'], "nohtml"));
      $catname = urlencode($categories);

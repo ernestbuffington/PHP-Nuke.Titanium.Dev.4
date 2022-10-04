@@ -55,15 +55,15 @@ if($longip_hi < $longip_lo) {
   include_once(NUKE_BASE_DIR.'footer.php');
   die();
 }
-list($xcountry) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `country` FROM `".$titanium_prefix."_nsnst_countries` WHERE `c2c`='$xc2c' LIMIT 0,1"));
-$test1 = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_nsnst_ip2country WHERE (ip_lo<='$longip_lo' AND ip_hi>='$longip_lo') AND (`ip_lo`!='$old_ip_lo' AND `ip_hi`!='$old_ip_hi') ORDER BY `ip_lo`");
-$test2 = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_nsnst_ip2country WHERE (ip_lo<='$longip_hi' AND ip_hi>='$longip_hi') AND (`ip_lo`!='$old_ip_lo' AND `ip_hi`!='$old_ip_hi') ORDER BY `ip_lo`");
-$test3 = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_nsnst_ip2country WHERE (ip_lo>='$longip_lo' AND ip_hi<='$longip_hi') AND (`ip_lo`!='$old_ip_lo' AND `ip_hi`!='$old_ip_hi') ORDER BY `ip_lo`");
-$test4 = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_nsnst_ip2country WHERE (ip_lo<='$longip_lo' AND ip_hi>='$longip_hi') AND (`ip_lo`!='$old_ip_lo' AND `ip_hi`!='$old_ip_hi') ORDER BY `ip_lo`");
-$testnum1 = $titanium_db->sql_numrows($test1);
-$testnum2 = $titanium_db->sql_numrows($test2);
-$testnum3 = $titanium_db->sql_numrows($test3);
-$testnum4 = $titanium_db->sql_numrows($test4);
+list($xcountry) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `country` FROM `".$pnt_prefix."_nsnst_countries` WHERE `c2c`='$xc2c' LIMIT 0,1"));
+$test1 = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_nsnst_ip2country WHERE (ip_lo<='$longip_lo' AND ip_hi>='$longip_lo') AND (`ip_lo`!='$old_ip_lo' AND `ip_hi`!='$old_ip_hi') ORDER BY `ip_lo`");
+$test2 = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_nsnst_ip2country WHERE (ip_lo<='$longip_hi' AND ip_hi>='$longip_hi') AND (`ip_lo`!='$old_ip_lo' AND `ip_hi`!='$old_ip_hi') ORDER BY `ip_lo`");
+$test3 = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_nsnst_ip2country WHERE (ip_lo>='$longip_lo' AND ip_hi<='$longip_hi') AND (`ip_lo`!='$old_ip_lo' AND `ip_hi`!='$old_ip_hi') ORDER BY `ip_lo`");
+$test4 = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_nsnst_ip2country WHERE (ip_lo<='$longip_lo' AND ip_hi>='$longip_hi') AND (`ip_lo`!='$old_ip_lo' AND `ip_hi`!='$old_ip_hi') ORDER BY `ip_lo`");
+$testnum1 = $pnt_db->sql_numrows($test1);
+$testnum2 = $pnt_db->sql_numrows($test2);
+$testnum3 = $pnt_db->sql_numrows($test3);
+$testnum4 = $pnt_db->sql_numrows($test4);
 if($testnum1 > 0 OR $testnum2 >0 OR $testnum3 >0 OR $testnum4 >0) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
@@ -85,7 +85,7 @@ if($testnum1 > 0 OR $testnum2 >0 OR $testnum3 >0 OR $testnum4 >0) {
     $testmessage .= '<td align="center" width="15%"><strong>'._AB_CODE.'</strong></td>'."\n";
     $testmessage .= '<td align="center" width="20%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     $testmessage .= '</tr>'."\n";
-    while($testrow1 = $titanium_db->sql_fetchrow($test1)) {
+    while($testrow1 = $pnt_db->sql_fetchrow($test1)) {
       $testrow1['ip_lo_ip'] = long2ip($testrow1['ip_lo']);
       $testrow1['ip_hi_ip'] = long2ip($testrow1['ip_hi']);
       $testrow1['c2c'] = strtoupper($testrow1['c2c']);
@@ -112,7 +112,7 @@ if($testnum1 > 0 OR $testnum2 >0 OR $testnum3 >0 OR $testnum4 >0) {
     $testmessage .= '<td align="center" width="15%"><strong>'._AB_CODE.'</strong></td>'."\n";
     $testmessage .= '<td align="center" width="20%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     $testmessage .= '</tr>'."\n";
-    while($testrow2 = $titanium_db->sql_fetchrow($test2)) {
+    while($testrow2 = $pnt_db->sql_fetchrow($test2)) {
       $testrow2['ip_lo_ip'] = long2ip($testrow2['ip_lo']);
       $testrow2['ip_hi_ip'] = long2ip($testrow2['ip_hi']);
       $testrow2['c2c'] = strtoupper($testrow2['c2c']);
@@ -139,7 +139,7 @@ if($testnum1 > 0 OR $testnum2 >0 OR $testnum3 >0 OR $testnum4 >0) {
     $testmessage .= '<td align="center" width="15%"><strong>'._AB_CODE.'</strong></td>'."\n";
     $testmessage .= '<td align="center" width="20%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     $testmessage .= '</tr>'."\n";
-    while($testrow3 = $titanium_db->sql_fetchrow($test3)) {
+    while($testrow3 = $pnt_db->sql_fetchrow($test3)) {
       $testrow3['ip_lo_ip'] = long2ip($testrow3['ip_lo']);
       $testrow3['ip_hi_ip'] = long2ip($testrow3['ip_hi']);
       $testrow3['c2c'] = strtoupper($testrow3['c2c']);
@@ -166,7 +166,7 @@ if($testnum1 > 0 OR $testnum2 >0 OR $testnum3 >0 OR $testnum4 >0) {
     $testmessage .= '<td align="center" width="15%"><strong>'._AB_CODE.'</strong></td>'."\n";
     $testmessage .= '<td align="center" width="20%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     $testmessage .= '</tr>'."\n";
-    while($testrow4 = $titanium_db->sql_fetchrow($test4)) {
+    while($testrow4 = $pnt_db->sql_fetchrow($test4)) {
       $testrow4['ip_lo_ip'] = long2ip($testrow4['ip_lo']);
       $testrow4['ip_hi_ip'] = long2ip($testrow4['ip_hi']);
       $testrow4['c2c'] = strtoupper($testrow4['c2c']);
@@ -189,10 +189,10 @@ if($testnum1 > 0 OR $testnum2 >0 OR $testnum3 >0 OR $testnum4 >0) {
   include_once(NUKE_BASE_DIR.'footer.php');
 } else {
   $xtime = time();
-  $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_ip2country` SET `ip_lo`='$longip_lo', `ip_hi`='$longip_hi', `c2c`='$xc2c', `date`='$xtime' WHERE `ip_lo`='$old_ip_lo' AND `ip_hi`='$old_ip_hi'");
-  $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_tracked_ips` SET `c2c`='$xc2c' WHERE `ip_long` >= '$longip_lo' AND `ip_long` <= '$longip_hi'");
-  $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_blocked_ips` SET `c2c`='$xc2c' WHERE `ip_long` >= '$longip_lo' AND `ip_long` <= '$longip_hi'");
-  $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_blocked_ranges` SET `c2c`='$xc2c' WHERE `ip_lo` >= '$longip_lo' AND `ip_lo` <= '$longip_hi'");
+  $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_ip2country` SET `ip_lo`='$longip_lo', `ip_hi`='$longip_hi', `c2c`='$xc2c', `date`='$xtime' WHERE `ip_lo`='$old_ip_lo' AND `ip_hi`='$old_ip_hi'");
+  $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_tracked_ips` SET `c2c`='$xc2c' WHERE `ip_long` >= '$longip_lo' AND `ip_long` <= '$longip_hi'");
+  $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_blocked_ips` SET `c2c`='$xc2c' WHERE `ip_long` >= '$longip_lo' AND `ip_long` <= '$longip_hi'");
+  $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_blocked_ranges` SET `c2c`='$xc2c' WHERE `ip_lo` >= '$longip_lo' AND `ip_lo` <= '$longip_hi'");
   header("Location: ".$admin_file.".php?op=$xop&min=$min&column=$column&direction=$direction&sip=$sip&showcountry=$showcountry");
 }
 

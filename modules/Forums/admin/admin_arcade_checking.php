@@ -20,7 +20,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $titanium_module['Arcade_Admin']['Settings_check'] = $file;
+    $pnt_module['Arcade_Admin']['Settings_check'] = $file;
     return;
 }
 
@@ -161,7 +161,7 @@ $tablecheck=array(GAMES_TABLE,SCORES_TABLE,GAMEHASH_TABLE,ARCADE_CATEGORIES_TABL
 foreach($tablecheck as $tablename){
     echo "<tr><td>$tablename</td>";
     $SQL="SELECT COUNT(*) FROM $tablename";
-    $result=$titanium_db->sql_query($SQL);
+    $result=$pnt_db->sql_query($SQL);
     if ($result) 
         echo "<td align=\"center\"> OK</td>";
     else {
@@ -216,7 +216,7 @@ echo "    <tr>\n"
     ."    </tr>\n";
 
 $sql = "SELECT user_level FROM " . USERS_TABLE . " WHERE user_id = 2";
-$row = $titanium_db->sql_fetchrow($titanium_db->sql_query($sql));
+$row = $pnt_db->sql_fetchrow($pnt_db->sql_query($sql));
 if (empty($row))
 {
 echo "<tr><td>Admin User ID Check</td>";

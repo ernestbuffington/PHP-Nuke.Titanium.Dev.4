@@ -65,7 +65,7 @@ if ( !defined('MSNL_APPLY') ) {
 	* newsletters.  Must re-assign all newsletters which have this category.
 	************************************************************************/
 
-	$sql	= "UPDATE `".$titanium_prefix."_hnl_newsletters` SET "
+	$sql	= "UPDATE `".$pnt_prefix."_hnl_newsletters` SET "
 					."`cid` = 							1 "
 					."WHERE `cid` = '"			.$msnl_iCID."'";
 
@@ -81,7 +81,7 @@ if ( !defined('MSNL_APPLY') ) {
 * Perform the delete.
 ************************************************************************/
 
-$sql	= "DELETE FROM `".$titanium_prefix."_hnl_categories` "
+$sql	= "DELETE FROM `".$pnt_prefix."_hnl_categories` "
 				."WHERE `cid` = '$msnl_iCID'";
 
 if ( !msnl_fSQLCall( $sql ) ) { //Had an error in the DELETE

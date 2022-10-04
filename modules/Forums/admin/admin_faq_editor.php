@@ -28,23 +28,23 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-   $titanium_module['Faq_manager']['board_faq'] = "$file?file=faq";
-   $titanium_module['Faq_manager']['bbcode_faq'] = "$file?file=bbcode";
+   $pnt_module['Faq_manager']['board_faq'] = "$file?file=faq";
+   $pnt_module['Faq_manager']['bbcode_faq'] = "$file?file=bbcode";
 /*****[BEGIN]******************************************
  [ Mod:     Board Rules                        v2.0.0 ]
  ******************************************************/
-   $titanium_module['Faq_manager']['site_rules'] = "$file?file=rules";
+   $pnt_module['Faq_manager']['site_rules'] = "$file?file=rules";
 /*****[END]********************************************
  [ Mod:     Board Rules                        v2.0.0 ]
  ******************************************************/
     if(file_exists($phpbb2_root_path . 'attach_mod/attachment_mod.'.$phpEx))
     {
-       $titanium_module['Faq_manager']['attachment_faq'] = "$file?file=faq_attach";
+       $pnt_module['Faq_manager']['attachment_faq'] = "$file?file=faq_attach";
     }
     if(file_exists($phpbb2_root_path . 'mods/prillian/im_main.'.$phpEx))
     {
-       $titanium_module['Faq_manager']['prillian_faq'] = "$file?file=prillian_faq";
-       $titanium_module['Faq_manager']['bid_faq'] = "$file?file=bid_faq";
+       $pnt_module['Faq_manager']['prillian_faq'] = "$file?file=prillian_faq";
+       $pnt_module['Faq_manager']['bid_faq'] = "$file?file=bid_faq";
     }
     return;
 }

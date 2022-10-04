@@ -38,8 +38,8 @@ else
 //
 global $pnt_module;
 
-$titanium_title = 'Live Change Log v11.1';
-$pagetitle = 'PHP-Nuke Titanium &raquo; '.$titanium_title;
+$pnt_title = 'Live Change Log v11.1';
+$pagetitle = 'PHP-Nuke Titanium &raquo; '.$pnt_title;
 
 if(!isset($pnt_module) || empty($pnt_module)){
     $pnt_module = basename(dirname(__FILE__));
@@ -68,7 +68,7 @@ OpenTableModule();
 #########################################################################
 global $chnangelogstatus, $myappid;
 
-//$titanium_browser = new Browser();
+//$pnt_browser = new Browser();
 echo "<br />";
 //include (NUKE_INCLUDE_DIR."/facebook/facebook.php");
 
@@ -106,7 +106,7 @@ $favicon = img('chrome_logo.png', 'CHANGELOG');
 
 
 
-if ($titanium_user) 
+if ($pnt_user) 
 {
 //echo "<hr>";
 //echo "<b><font color=\"#3b5998\">facebook</font></b> currently has over <font color=red>350,000</font> developers and entrepreneurs from <font color=red>225</font> countries."; 

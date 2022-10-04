@@ -72,11 +72,11 @@ global $customlang,
 echo '<!-- FOOTER START -->';
 global 
 	   $index, 
-	    $titanium_user, 
+	    $pnt_user, 
 	 $banners, 
 	  $cookie, 
-         $titanium_dbi, 
-		  $titanium_db, 
+         $pnt_dbi, 
+		  $pnt_db, 
 	   $admin, 
    $adminmail, 
   $total_phpbb2_time, 
@@ -91,7 +91,7 @@ global
   $theme_name, 
    $ThemeInfo,
     $bgcolor4,
-      $titanium_prefix;
+      $pnt_prefix;
 
 
 if(blocks_visible('right')) 

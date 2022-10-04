@@ -27,15 +27,15 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $titanium_prefix, $titanium_db;
+global $pnt_prefix, $pnt_db;
 
-$sql = "SELECT pid, title FROM " . $titanium_prefix . "_pages WHERE active='1'";
-$result = $titanium_db->sql_query($sql);
-while (list($pid, $title) = $titanium_db->sql_fetchrow($result)) {
+$sql = "SELECT pid, title FROM " . $pnt_prefix . "_pages WHERE active='1'";
+$result = $pnt_db->sql_query($sql);
+while (list($pid, $title) = $pnt_db->sql_fetchrow($result)) {
     $pid = intval($pid);
     $title = stripslashes($title);
     $content .= "<strong><big>&middot;</big></strong>&nbsp;<a href=\"modules.php?name=Content&amp;pa=showpage&amp;pid=$pid\">$title</a><br />";
 }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 ?>

@@ -68,15 +68,15 @@ class StatisticsCORE
     var $global_array = array();
     var $use_db_cache = false;
     var $do_not_use_cache = false; // force to not use caches at all if set to true
-    var $titanium_module_reloaded = false;
-    var $titanium_module_variables = array();
+    var $pnt_module_reloaded = false;
+    var $pnt_module_variables = array();
     var $used_language = '';
 
     // Informations about the currently parsed module
     var $current_module_path = '';
     var $current_module_name = '';
     var $current_module_id = 0;
-    var $titanium_module_info = array(); // Additional Module Informations gathered within other positions through the process
+    var $pnt_module_info = array(); // Additional Module Informations gathered within other positions through the process
 
     // Data
     var $calculation_data = array();
@@ -133,7 +133,7 @@ class StatisticsCORE
  ******************************************************/
 
     // Init Module
-    function start_module($titanium_db_cache_on = false)
+    function start_module($pnt_db_cache_on = false)
     {
         global $stats_template, $theme, $stat_db;
 
@@ -146,7 +146,7 @@ class StatisticsCORE
 
         $stat_db->begin_cached_query();
 
-        if ((!$titanium_db_cache_on) || ($this->do_not_use_cache))
+        if ((!$pnt_db_cache_on) || ($this->do_not_use_cache))
         {
             return;
         }
@@ -481,13 +481,13 @@ class StatisticsCORE
     // $stat_db->sql_query()
     function sql_query($sql_statement, $error_message, $transaction = FALSE)
     {
-        global $stat_db, $titanium_db;
+        global $stat_db, $pnt_db;
 
         $result = $stat_db->sql_query($sql_statement, $transaction);
 
         if (!$result)
         {
-            $error = $titanium_db->sql_error();
+            $error = $pnt_db->sql_error();
             $this->error_handler($error_message, $error['message'] . '<br />SQL Statement: ' . $sql_statement);
         }
         return $result;
@@ -529,7 +529,7 @@ $content_values = '';
 
 function init_core()
 {
-    global $stats_config, $core, $stat_db, $stat_functions, $titanium_db, $userdata;
+    global $stats_config, $core, $stat_db, $stat_functions, $pnt_db, $userdata;
 
     $core = new StatisticsCORE;
 
@@ -541,22 +541,22 @@ function init_core()
     // Get Module Variables
     $sql = "SELECT module_id, config_name, config_value, config_type FROM " . MODULE_ADMIN_TABLE;
 
-    if (!$result = $titanium_db->sql_query($sql))
+    if (!$result = $pnt_db->sql_query($sql))
     {
         message_die(GENERAL_ERROR, 'Could not find Module Admin Table', '', __LINE__, __FILE__, $sql);
     }
 
-    $rows = $titanium_db->sql_fetchrowset($result);
-    $num_rows = $titanium_db->sql_numrows($result);
+    $rows = $pnt_db->sql_fetchrowset($result);
+    $num_rows = $pnt_db->sql_numrows($result);
 
     for ($i = 0; $i < $num_rows; $i++)
     {
-        $titanium_module_id = intval($rows[$i]['module_id']);
+        $pnt_module_id = intval($rows[$i]['module_id']);
 
         switch (trim($rows[$i]['config_type']))
         {
             case 'number':
-                $core->module_variables[$titanium_module_id][trim($rows[$i]['config_name'])] = intval($rows[$i]['config_value']);
+                $core->module_variables[$pnt_module_id][trim($rows[$i]['config_name'])] = intval($rows[$i]['config_value']);
                 break;
         }
     }

@@ -57,11 +57,11 @@ if(is_mod_admin($pnt_module)) {
     OpenTable();
     $query = str_replace("\"","",$query);
     $query = str_replace("\'","",$query);
-    if ($find == "findUser") { $titanium_usertable = $titanium_user_prefix."_users"; } else { $titanium_usertable = $titanium_user_prefix."_users_temp"; }
+    if ($find == "findUser") { $pnt_usertable = $pnt_user_prefix."_users"; } else { $pnt_usertable = $pnt_user_prefix."_users_temp"; }
     if ($match == "equal") { $sign = "='$query'"; } else { $sign = "LIKE '%".$query."%'"; }
     if (!isset($min)) $min=0;
     if (!isset($max)) $max=$min+$ya_config['perpage'];
-    $totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM $titanium_usertable WHERE $what $sign"));
+    $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM $pnt_usertable WHERE $what $sign"));
     echo "<table align='center' cellpadding='2' cellspacing='2' bgcolor='$textcolor1' border='0'>\n";
     echo "<tr bgcolor='$bgcolor2'>\n<td><strong>"._USERID."</strong></td>\n";
     echo "<td><strong>"._USERNAME."</strong></td>\n";
@@ -69,8 +69,8 @@ if(is_mod_admin($pnt_module)) {
     echo "<td align='center'><strong>"._EMAIL."</strong></td>\n";
     echo "<td align='center'><strong>"._REGDATE."</strong></td>\n";
     echo "<td align='center'><strong>"._FUNCTIONS."</strong></td>\n</tr>\n";
-    $result = $titanium_db->sql_query("SELECT * FROM $titanium_usertable WHERE $what $sign ORDER BY username LIMIT $min,".$ya_config['perpage']."");
-    while($chnginfo = $titanium_db->sql_fetchrow($result)) {
+    $result = $pnt_db->sql_query("SELECT * FROM $pnt_usertable WHERE $what $sign ORDER BY username LIMIT $min,".$ya_config['perpage']."");
+    while($chnginfo = $pnt_db->sql_fetchrow($result)) {
         echo "<tr bgcolor='$bgcolor1'><form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
         echo "<input type='hidden' name='query' value='$query'>\n";
         echo "<input type='hidden' name='find' value='$find'>\n";

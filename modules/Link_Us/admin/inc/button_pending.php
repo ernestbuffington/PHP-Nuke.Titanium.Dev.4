@@ -32,11 +32,11 @@
 	
 	OpenTable();
 $a = 0;
-$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_link_us` WHERE `site_status`='3' ORDER BY `site_name`");
-$numrows = $titanium_db->sql_numrows($result);
+$result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_link_us` WHERE `site_status`='3' ORDER BY `site_name`");
+$numrows = $pnt_db->sql_numrows($result);
 if($numrows > 0) {
   echo "<table border='0' cellpadding='2' cellspacing='5' width='100%'>";
-  while($row = $titanium_db->sql_fetchrow($result)) {
+  while($row = $pnt_db->sql_fetchrow($result)) {
     if($a == 0) { echo "<tr>"; }
     echo "<td width='50%' valign='top'>";
 	

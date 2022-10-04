@@ -74,12 +74,12 @@ include(NUKE_BASE_DIR. 'header.php');
 
 //     if (GDSUPPORT AND $code != $gfx_check AND ($ya_config['usegfxcheck'] == 3 OR $ya_config['usegfxcheck'] == 4 OR $ya_config['usegfxcheck'] == 6)) {
 
-    $titanium_user_regdate = date("M d, Y");
+    $pnt_user_regdate = date("M d, Y");
     if (!isset($stop)) {
         $ya_username = ya_fixtext($ya_username);
         $ya_user_email = ya_fixtext($ya_user_email);
-        if ($result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users WHERE `username`='$ya_username' OR `user_email`='$ya_user_email'")) {
-            if ($row = $titanium_db->sql_fetchrow($result)) {
+        if ($result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE `username`='$ya_username' OR `user_email`='$ya_user_email'")) {
+            if ($row = $pnt_db->sql_fetchrow($result)) {
                 if (isset($row['username']) || isset($row['user_email'])) {
                     if ($row['username'] ==  $ya_username || $row['user_email'] == $ya_user_email) {
                         redirect_titanium("modules.php?name=$pnt_module");
@@ -97,20 +97,20 @@ include(NUKE_BASE_DIR. 'header.php');
  ******************************************************/
         $realname = ya_fixtext($realname);
         $femail = ya_fixtext($femail);
-        $titanium_user_website = check_html($titanium_user_website);
-        if (!preg_match("#http://#i", $titanium_user_website) AND !empty($titanium_user_website)) { $titanium_user_website = "http://$titanium_user_website"; }
+        $pnt_user_website = check_html($pnt_user_website);
+        if (!preg_match("#http://#i", $pnt_user_website) AND !empty($pnt_user_website)) { $pnt_user_website = "http://$pnt_user_website"; }
         $bio = str_replace("<br />", "\r\n", $bio);
         $bio = ya_fixtext($bio);
-        $titanium_user_sig = str_replace("<br />", "\r\n", $titanium_user_sig);
-        $titanium_user_sig = ya_fixtext($titanium_user_sig);
-        $titanium_user_occ = ya_fixtext($titanium_user_occ);
-        $titanium_user_from = ya_fixtext($titanium_user_from);
-        $titanium_user_interests = ya_fixtext($titanium_user_interests);
-        $titanium_user_dateformat = ya_fixtext($titanium_user_dateformat);
+        $pnt_user_sig = str_replace("<br />", "\r\n", $pnt_user_sig);
+        $pnt_user_sig = ya_fixtext($pnt_user_sig);
+        $pnt_user_occ = ya_fixtext($pnt_user_occ);
+        $pnt_user_from = ya_fixtext($pnt_user_from);
+        $pnt_user_interests = ya_fixtext($pnt_user_interests);
+        $pnt_user_dateformat = ya_fixtext($pnt_user_dateformat);
         $newsletter = intval($newsletter);
-        $titanium_user_viewemail = intval($titanium_user_viewemail);
-        $titanium_user_allow_viewonline = intval($titanium_user_allow_viewonline);
-        $titanium_user_timezone = intval($titanium_user_timezone);
+        $pnt_user_viewemail = intval($pnt_user_viewemail);
+        $pnt_user_allow_viewonline = intval($pnt_user_allow_viewonline);
+        $pnt_user_timezone = intval($pnt_user_timezone);
 /*****[BEGIN]******************************************
  [ Mod:     XData                              v0.1.1 ]
  ******************************************************/
@@ -127,35 +127,35 @@ include(NUKE_BASE_DIR. 'header.php');
 /*****[END]********************************************
  [ Mod:     XData                              v0.1.1 ]
  ******************************************************/
-        list($phpbb2_newest_uid) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT max(user_id) AS newest_uid FROM ".$titanium_user_prefix."_users"));
+        list($phpbb2_newest_uid) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT max(user_id) AS newest_uid FROM ".$pnt_user_prefix."_users"));
         if ($phpbb2_newest_uid == "-1") { $new_uid = 1; } else { $new_uid = $phpbb2_newest_uid+1; }
         $lv = time();
-        $result = $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_users (user_id, name, username, user_email, user_avatar, user_regdate, user_viewemail, user_password, user_lang, user_lastvisit) VALUES ($new_uid, '$ya_username', '$ya_username', '$ya_user_email', 'gallery/blank.png', '$titanium_user_regdate', '0', '$new_password', '$language', '$lv')");
+        $result = $pnt_db->sql_query("INSERT INTO ".$pnt_user_prefix."_users (user_id, name, username, user_email, user_avatar, user_regdate, user_viewemail, user_password, user_lang, user_lastvisit) VALUES ($new_uid, '$ya_username', '$ya_username', '$ya_user_email', 'gallery/blank.png', '$pnt_user_regdate', '0', '$new_password', '$language', '$lv')");
 
         if ((count($nfield) > 0) AND ($result)) {
           foreach ($nfield as $key => $var) {
-              $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_cnbya_value (uid, fid, value) VALUES ('$new_uid', '$key','$nfield[$key]')");
+              $pnt_db->sql_query("INSERT INTO ".$pnt_user_prefix."_cnbya_value (uid, fid, value) VALUES ('$new_uid', '$key','$nfield[$key]')");
           }
         }
 
-    $titanium_db->sql_query("LOCK TABLES ".$titanium_user_prefix."_users WRITE");
-    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_avatar='gallery/blank.png', user_avatar_type='3', user_lang='$language', user_lastvisit='$lv', umode='nested' WHERE user_id='$new_uid'");
+    $pnt_db->sql_query("LOCK TABLES ".$pnt_user_prefix."_users WRITE");
+    $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET user_avatar='gallery/blank.png', user_avatar_type='3', user_lang='$language', user_lastvisit='$lv', umode='nested' WHERE user_id='$new_uid'");
 
-    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET username='$ya_username', name='$realname', user_email='$ya_user_email', femail='$femail', user_website='$titanium_user_website', user_from='$titanium_user_from', user_occ='$titanium_user_occ', user_interests='$titanium_user_interests', newsletter='$newsletter', user_viewemail='$titanium_user_viewemail', user_allow_viewonline='$titanium_user_allow_viewonline', user_timezone='$titanium_user_timezone', user_dateformat='$titanium_user_dateformat', user_sig='$titanium_user_sig', bio='$bio', user_password='$new_password', user_regdate='$titanium_user_regdate' WHERE user_id='$new_uid'");
+    $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET username='$ya_username', name='$realname', user_email='$ya_user_email', femail='$femail', user_website='$pnt_user_website', user_from='$pnt_user_from', user_occ='$pnt_user_occ', user_interests='$pnt_user_interests', newsletter='$newsletter', user_viewemail='$pnt_user_viewemail', user_allow_viewonline='$pnt_user_allow_viewonline', user_timezone='$pnt_user_timezone', user_dateformat='$pnt_user_dateformat', user_sig='$pnt_user_sig', bio='$bio', user_password='$new_password', user_regdate='$pnt_user_regdate' WHERE user_id='$new_uid'");
 
-    $titanium_db->sql_query("UNLOCK TABLES");
+    $pnt_db->sql_query("UNLOCK TABLES");
     $sql = "INSERT INTO " . GROUPS_TABLE . " (group_name, group_description, group_single_user, group_moderator)
             VALUES ('', 'Personal User', '1', '0')";
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         DisplayError('Could not insert data into groups table<br />'.$sql);
     }
 
-    $group_id = $titanium_db->sql_nextid();
+    $group_id = $pnt_db->sql_nextid();
 
     $sql = "INSERT INTO " . USER_GROUP_TABLE . " (user_id, group_id, user_pending)
         VALUES ('$new_uid', '$group_id', '0')";
-    if( !($result = $titanium_db->sql_query($sql)) )
+    if( !($result = $pnt_db->sql_query($sql)) )
     {
         DisplayError('Could not insert data into user_group table<br />'.$sql);
     }
@@ -198,9 +198,9 @@ include(NUKE_BASE_DIR. 'header.php');
             }
             title(_USERREGLOGIN);
             OpenTable();
-            $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users WHERE username='$ya_username' AND user_password='$new_password'");
-            if ($titanium_db->sql_numrows($result) == 1) {
-                $userinfo = $titanium_db->sql_fetchrow($result);
+            $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE username='$ya_username' AND user_password='$new_password'");
+            if ($pnt_db->sql_numrows($result) == 1) {
+                $userinfo = $pnt_db->sql_fetchrow($result);
                 yacookie($userinfo['user_id'],$userinfo['username'],$userinfo['user_password'],$userinfo['storynum'],$userinfo['umode'],$userinfo['uorder'],$userinfo['thold'],$userinfo['noscore'],$userinfo['ublockon'],$userinfo['theme'],$userinfo['commentmax']);
 // menelaos: i wonder if this cookie is set correctly
 // menelaos: refresh of location? The next line causes multiple accounts to be loaded into the database, this has to be fixed

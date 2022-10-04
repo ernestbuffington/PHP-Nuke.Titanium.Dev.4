@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 get_lang('Network_Projects');
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_TASKS.': '._NETWORK_PRIORITYLIST;
@@ -16,8 +16,8 @@ include_once(NUKE_BASE_DIR.'header.php');
 
 pjadmin_menu(_NETWORK_TASKS.': '._NETWORK_PRIORITYLIST);
 //echo "<br />\n";
-$priorityresult = $titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_tasks_priorities` WHERE `priority_weight` > 0 ORDER BY `priority_weight`");
-$priority_total = $titanium_db2->sql_numrows($priorityresult);
+$priorityresult = $pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_tasks_priorities` WHERE `priority_weight` > 0 ORDER BY `priority_weight`");
+$priority_total = $pnt_db2->sql_numrows($priorityresult);
 OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr><td colspan='3' width='100%' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PRIORITYOPTIONS."</strong></nobr></td></tr>\n";
@@ -34,13 +34,13 @@ echo "<tr><td colspan='2' bgcolor='$bgcolor2' width='100%'><strong>"._NETWORK_PR
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_WEIGHT."</strong></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</strong></td></tr>\n";
 if($priority_total != 0){
-  while($priority_row = $titanium_db2->sql_fetchrow($priorityresult)) {
+  while($priority_row = $pnt_db2->sql_fetchrow($priorityresult)) {
     $pjimage = pjimage("priority.png", $pnt_module);
     echo "<tr><td><img src='$pjimage'></td><td width='100%'>".$priority_row['priority_name']."</td>\n";
     $weight1 = $priority_row['priority_weight'] - 1;
     $weight3 = $priority_row['priority_weight'] + 1;
-    list($pid1) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `priority_id` FROM `".$network_prefix."_projects_priorities` WHERE `priority_weight`='$weight1'"));
-    list($pid2) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `priority_id` FROM `".$network_prefix."_projects_priorities` WHERE `priority_weight`='$weight3'"));
+    list($pid1) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `priority_id` FROM `".$network_prefix."_projects_priorities` WHERE `priority_weight`='$weight1'"));
+    list($pid2) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `priority_id` FROM `".$network_prefix."_projects_priorities` WHERE `priority_weight`='$weight3'"));
     echo "<td align='center'><nobr>";
     if($pid1 AND $pid1 > 0) {
       echo "<a href='".$admin_file.".php?op=ProjectPriorityOrder&amp;weight=".$priority_row['priority_weight']."&amp;pid=".$priority_row['priority_id']."&amp;weightrep=$weight1&amp;pidrep=$pid1'><img src='modules/$pnt_module/images/weight_up.png' border='0' hspace='3' alt='"._NETWORK_UP."' title='"._NETWORK_UP."'></a>";

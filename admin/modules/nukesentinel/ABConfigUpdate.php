@@ -23,7 +23,7 @@ $phpbb2_endlist = count($block_list)-1;
 if(empty($block_list[$phpbb2_endlist])) { array_pop($block_list); }
 sort($block_list);
 $xblocker_row['list'] = implode("\r\n", $block_list);
-$titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_blockers` SET `list`='".$xblocker_row['list']."' WHERE `block_name`='".$xblocker_row['block_name']."'");
+$pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_blockers` SET `list`='".$xblocker_row['list']."' WHERE `block_name`='".$xblocker_row['block_name']."'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

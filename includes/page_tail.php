@@ -93,7 +93,7 @@ if ($popup != 1) {
     include_once("footer.php");
 } else {
      $cache->resync();
-     $titanium_db->sql_close();
+     $pnt_db->sql_close();
 }
 
 //

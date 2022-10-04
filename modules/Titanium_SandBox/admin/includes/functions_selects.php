@@ -221,21 +221,21 @@ global $lang;
  ******************************************************/
 function auc_colors_select($default, $select_name = "color_groups", $value = "group_id")
 {
-global $titanium_db, $titanium_prefix;
+global $pnt_db, $pnt_prefix;
 
     $g_select = '<select class="form-control" name="' . $select_name . '" id="' . $select_name . '">';
-    $sql = "SELECT * FROM " . $titanium_prefix . "_bbadvanced_username_color  ORDER BY group_name ASC";
-    if (!$result = $titanium_db->sql_query($sql)) {
+    $sql = "SELECT * FROM " . $pnt_prefix . "_bbadvanced_username_color  ORDER BY group_name ASC";
+    if (!$result = $pnt_db->sql_query($sql)) {
         die(mysql_error());
     }
     $selected = (!$defualt) ? "selected=\"selected\"" : "";
     $g_select .= '<option value="0" '.$selected.'>None</option>';
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
         $selected = ( $row['group_id'] == $default ) ? ' selected="selected"' : '';
         $g_select .= '<option value="' . $row[$value] . '"' . $selected . '>' . $row['group_name'] . '</option>';
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     $g_select .= '</select>';
 
@@ -244,21 +244,21 @@ global $titanium_db, $titanium_prefix;
 
 function ranks_select($default, $select_name = "ranks", $value = "rank_id")
 {
-    global $titanium_db, $titanium_prefix;
+    global $pnt_db, $pnt_prefix;
 
     $g_select = '<select class="form-control" name="' . $select_name . '" id="' . $select_name . '">';
     $sql = "SELECT * FROM " . RANKS_TABLE . " WHERE rank_special = 1 ORDER BY rank_title ASC";
-    if (!$result = $titanium_db->sql_query($sql)) {
+    if (!$result = $pnt_db->sql_query($sql)) {
         die(mysql_error());
     }
     $selected = (!$defualt) ? "selected=\"selected\"" : "";
     $g_select .= '<option value="0" '.$selected.'>None</option>';
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
         $selected = ( $row['rank_id'] == $default ) ? ' selected="selected"' : '';
         $g_select .= '<option value="' . $row[$value] . '"' . $selected . '>' . $row['rank_title'] . '</option>';
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     $g_select .= '</select>';
 

@@ -42,12 +42,12 @@ $count = 1;
 
 $sql ="SELECT g.*, u.username, u.user_id FROM " . GAMES_TABLE. " g LEFT JOIN " . USERS_TABLE. " u ON g.game_highuser = u.user_id WHERE g.game_highscore > 0 ORDER BY g.game_highdate ASC LIMIT 0,10";
 
-if( !($result = $titanium_db->sql_query($sql)) )
+if( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Cannot access game stats", '', __LINE__, __FILE__, $sql); 
     }
 
-while ( $row = $titanium_db->sql_fetchrow($result))
+while ( $row = $pnt_db->sql_fetchrow($result))
             {
             $held_time = time() - $row['game_highdate'];
             $held_time = sec2hms($held_time);

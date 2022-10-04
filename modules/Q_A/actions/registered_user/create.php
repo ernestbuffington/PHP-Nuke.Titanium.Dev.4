@@ -26,11 +26,11 @@ exit;
 $name = strip_tags($_POST['name']);
 $surname = strip_tags($_POST['surname']);
 $email = strip_tags($_POST['email']);
-$titanium_username = strip_tags($_POST['username']);
+$pnt_username = strip_tags($_POST['username']);
 $company = strip_tags($_POST['company']);
 
 try {
-  createUser($name, $surname, $email, $titanium_username, $password, $company);
+  createUser($name, $surname, $email, $pnt_username, $password, $company);
 } catch (PDOException $e) {
 
   if (strpos($e->getMessage(), 'users_pkey') !== false) {

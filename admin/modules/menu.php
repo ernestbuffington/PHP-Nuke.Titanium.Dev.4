@@ -10,7 +10,7 @@
 /* This program's license is General Public License     */
 /* http://www.gnu.org/licenses/gpl.txt                  */
 /********************************************************/
-global $admin_file, $admin, $key, $deletecat, $titanium_db, $titanium_prefix, $sql, $upgrade_test, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $bgcolorhide, $zetheme;
+global $admin_file, $admin, $key, $deletecat, $pnt_db, $pnt_prefix, $sql, $upgrade_test, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $bgcolorhide, $zetheme;
 
 //fixed by Ernest Allen Buffington PHP 5
 if (!preg_match("/".$admin_file.".php/", $_SERVER['PHP_SELF'])) 
@@ -21,9 +21,9 @@ if (!preg_match("/".$admin_file.".php/", $_SERVER['PHP_SELF']))
 
 $aid = trim($aid);
 
-$result = $titanium_db->sql_query("select name, radminsuper from ".$titanium_prefix."_authors where aid='$aid'");
+$result = $pnt_db->sql_query("select name, radminsuper from ".$pnt_prefix."_authors where aid='$aid'");
 
-$row = $titanium_db->sql_fetchrow($result);
+$row = $pnt_db->sql_fetchrow($result);
 
 if ($row['radminsuper']!=1) 
 {
@@ -586,9 +586,9 @@ $zetheme=get_theme();
 function index() 
 {
 	       global $admin_file, 
-		                  $titanium_db, 
+		                  $pnt_db, 
 						 $sql, 
-				      $titanium_prefix, 
+				      $pnt_prefix, 
 					$bgcolor1, 
 					$bgcolor2, 
 					$bgcolor3, 
@@ -717,29 +717,29 @@ if ($old_school_imagedropdown==0)
 		echo "<script type=\"text/javascript\">oldschool=1;</script>";
 	}
 	
-	$sql = "SELECT title FROM ".$titanium_prefix."_modules ORDER BY title ASC";
+	$sql = "SELECT title FROM ".$pnt_prefix."_modules ORDER BY title ASC";
 	
-	$titanium_modulesaffiche= $titanium_db->sql_query($sql);
+	$pnt_modulesaffiche= $pnt_db->sql_query($sql);
 	
 	$menu_counter=0;
 	
-	while ($tempo = $titanium_db->sql_fetchrow($titanium_modulesaffiche)) 
+	while ($tempo = $pnt_db->sql_fetchrow($pnt_modulesaffiche)) 
 	{
-		$titanium_modules[$menu_counter]= $tempo['title'];
+		$pnt_modules[$menu_counter]= $tempo['title'];
 		$menu_counter++;
 	}
 
-	$sql2= "SELECT id, groupmenu, module, url, url_text, image, new, new_days, class, bold, sublevel, date_debut, date_fin, days FROM ".$titanium_prefix."_menu_categories ORDER BY id ASC";
+	$sql2= "SELECT id, groupmenu, module, url, url_text, image, new, new_days, class, bold, sublevel, date_debut, date_fin, days FROM ".$pnt_prefix."_menu_categories ORDER BY id ASC";
 	
-	$result2= $titanium_db->sql_query($sql2);
+	$result2= $pnt_db->sql_query($sql2);
 
 	$menu_counter=0;
 	
-	$row2=$titanium_db->sql_fetchrow($result2); 
+	$row2=$pnt_db->sql_fetchrow($result2); 
 	
 	$categorie=$row2['groupmenu'];
 	
-	$titanium_moduleinthisgroup[$categorie][$menu_counter]=(stripslashes($row2['module'])); //fixed by Ernest Allen Buffington PHP 5
+	$pnt_moduleinthisgroup[$categorie][$menu_counter]=(stripslashes($row2['module'])); //fixed by Ernest Allen Buffington PHP 5
 	
 	$linkinthisgroup[$categorie][$menu_counter]=(stripslashes($row2['url'])); //fixed by Ernest Allen Buffington PHP 5
 	 
@@ -767,7 +767,7 @@ if ($old_school_imagedropdown==0)
 
 	$menu_counter2=$categorie;
 
-	while ($row2 = $titanium_db->sql_fetchrow($result2)) 
+	while ($row2 = $pnt_db->sql_fetchrow($result2)) 
 	{ 
 	  $categorie=$row2['groupmenu'];
 	  
@@ -780,7 +780,7 @@ if ($old_school_imagedropdown==0)
 		$menu_counter=0;
 	  }
 
-	 $titanium_moduleinthisgroup[$categorie][$menu_counter]=(stripslashes($row2['module'])); //fixed by Ernest Allen Buffington PHP 5
+	 $pnt_moduleinthisgroup[$categorie][$menu_counter]=(stripslashes($row2['module'])); //fixed by Ernest Allen Buffington PHP 5
 	 $linkinthisgroup[$categorie][$menu_counter]=(stripslashes($row2['url'])); //fixed by Ernest Allen Buffington PHP 5
 	 $linktextinthisgroup[$categorie][$menu_counter]=(stripslashes($row2['url_text'])); //fixed by Ernest Allen Buffington PHP 5 
 	 
@@ -815,9 +815,9 @@ if ($old_school_imagedropdown==0)
 	."</style>";
 
 	//nuke_menu
-	$sql = "SELECT groupmenu, name, image, lien, hr, center, bgcolor, invisible, class, new, bold, listbox, dynamic, date_debut, date_fin, days FROM ".$titanium_prefix."_menu ORDER BY groupmenu ASC";
+	$sql = "SELECT groupmenu, name, image, lien, hr, center, bgcolor, invisible, class, new, bold, listbox, dynamic, date_debut, date_fin, days FROM ".$pnt_prefix."_menu ORDER BY groupmenu ASC";
 	
-	$result = $titanium_db->sql_query($sql);
+	$result = $pnt_db->sql_query($sql);
 	
 	if (!$result) {die("<div class=\"red\" align=\"center\" style=\"font-size:16px\"><strong><br>"._MENU_NOTABLEPB."<br></strong></div>");}
 
@@ -840,7 +840,7 @@ if ($old_school_imagedropdown==0)
 	   echo "<tr><td colspan=4>"._MENU_NOTABLEPB."</td></tr>";
 	}
 	
-	while ($row = $titanium_db->sql_fetchrow($result)) 
+	while ($row = $pnt_db->sql_fetchrow($result)) 
 	{  
 	   $groupmenu[$key] = $row['groupmenu'];
 	   $catname[$key] = $row['name'];
@@ -1025,7 +1025,7 @@ if ($old_school_imagedropdown==0)
 	echo "</td>"
 	."</tr><tr><td bgcolor=\"$bgcolor1\" id=\"showhide_content_$key\"".$display_cat.">";
 	
-	$nbmodules = $nombremodules = count($titanium_moduleinthisgroup[$groupmenu[$key]]);
+	$nbmodules = $nombremodules = count($pnt_moduleinthisgroup[$groupmenu[$key]]);
 	$nombremodules=$nombremodules+4; 
 
 	echo "<table align=\"center\" border=0 cellspacing=0 cellpadding=2 width=\"100%\"><tr><td></td><td align =\"center\">"._MENU_CATCONTENT."</td><td align=\"center\">"._MENU_LINKURL."</td><td align=\"center\">"._MENU_LINKTEXT."</td><td width=\"3\"></td>";
@@ -1124,24 +1124,24 @@ if ($old_school_imagedropdown==0)
 		echo "<select name=\"menuformingroup[$key][$z]\" onchange='disab(this,this.value,this.form.elements[\"menuformmodulelink[$key][$z]\"],this.form.elements[\"menuformmodulelinktext[$key][$z]\"],\"$linkvalue\",\"$linktextvalue\"); menuadminshowhide(\"$menuzenom\",$hideok)'>";
 
 		echo "<option value=\"Aucun\">ADD MODULE LINK TO MENU";
-		$selected = ($titanium_moduleinthisgroup[$groupmenu[$key]][$z]=="Horizonatal Rule") ? "selected" : "" ;
+		$selected = ($pnt_moduleinthisgroup[$groupmenu[$key]][$z]=="Horizonatal Rule") ? "selected" : "" ;
 		echo "<option value=\"Horizonatal Rule\" $selected>*Horizonatal Rule*";
-		$selected = ($titanium_moduleinthisgroup[$groupmenu[$key]][$z]=="External Link") ? "selected" : "" ;
+		$selected = ($pnt_moduleinthisgroup[$groupmenu[$key]][$z]=="External Link") ? "selected" : "" ;
 		echo "<option value=\"External Link\" $selected>*External Link*";
-		$selected = ($titanium_moduleinthisgroup[$groupmenu[$key]][$z]=="MENUTEXTONLY") ? "selected" : "" ;
+		$selected = ($pnt_moduleinthisgroup[$groupmenu[$key]][$z]=="MENUTEXTONLY") ? "selected" : "" ;
 		echo "<option value=\"MENUTEXTONLY\" $selected>*Text Without Url*";
 		echo "<option value=\"SEP\">=======================";
 		
-		for ($i=0;$i<count($titanium_modules);$i++) 
+		for ($i=0;$i<count($pnt_modules);$i++) 
 		{
 		    
-			$selected = ($titanium_modules[$i]==$titanium_moduleinthisgroup[$groupmenu[$key]][$z]) ? "selected" : "" ;
-			if ($titanium_modules[$i] == '..')
+			$selected = ($pnt_modules[$i]==$pnt_moduleinthisgroup[$groupmenu[$key]][$z]) ? "selected" : "" ;
+			if ($pnt_modules[$i] == '..')
 			{
 				
 			}
 			else
-			echo "<option value=\"$titanium_modules[$i]\" $selected>$titanium_modules[$i]";
+			echo "<option value=\"$pnt_modules[$i]\" $selected>$pnt_modules[$i]";
 		
 		}
 		
@@ -1215,13 +1215,13 @@ echo "</td></tr></table>";
 		
 		echo "<img style=\"display: ".$displaytargetnone."; width: 15px; margin-right: 5px;\" src=\"".$urlofimages."/admin/targetnone.gif\" name=\"targetnone$formpointeur\" alt=\""._MENU_TARGETNONE."\" title=\""._MENU_TARGETNONE."\">";
 
-		if ($titanium_moduleinthisgroup[$groupmenu[$key]][$z]=="External Link") 
+		if ($pnt_moduleinthisgroup[$groupmenu[$key]][$z]=="External Link") 
 		{ //'External Link' 
 			$visibility_link="";
 			$visibility_link_text="";
 		}
 		else
-		if ($titanium_moduleinthisgroup[$groupmenu[$key]][$z]=="MENUTEXTONLY") 
+		if ($pnt_moduleinthisgroup[$groupmenu[$key]][$z]=="MENUTEXTONLY") 
 		{ // Text Only
 			$visibility_link="style=\"visibility:hidden;\" disabled";
 			$visibility_link_text="";
@@ -1386,8 +1386,8 @@ function send()
 	      $menuformfirstclass, 
 		     $menuformdynamic, 
 			        $sublevel, 
-					      $titanium_db, 
-					  $titanium_prefix, 
+					      $pnt_db, 
+					  $pnt_prefix, 
 					     $sql,
 				  $admin_file;
 
@@ -1440,19 +1440,19 @@ for ($i=0; $i<=$menuformkeymenu; $i++)
 	}
 }
 
-$titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_menu");
-$titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_menu_categories");
+$pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_menu");
+$pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_menu_categories");
 
-global $titanium_db, $titanium_prefix;
-$sql="SELECT * FROM ".$titanium_prefix."_modules LIMIT 1";
-$result=$titanium_db->sql_query($sql);
-$row=$titanium_db->sql_fetchrow($result);
+global $pnt_db, $pnt_prefix;
+$sql="SELECT * FROM ".$pnt_prefix."_modules LIMIT 1";
+$result=$pnt_db->sql_query($sql);
+$row=$pnt_db->sql_fetchrow($result);
 if(isset($row['mod_group']))
 {
-    global $titanium_db, $titanium_prefix;
+    global $pnt_db, $pnt_prefix;
 	$sql2="SELECT * FROM ".prefix."_users LIMIT 1";
-	$result2=$titanium_db->sql_query($sql2);
-	$row2=$titanium_db->sql_fetchrow($result2);
+	$result2=$pnt_db->sql_query($sql2);
+	$row2=$pnt_db->sql_fetchrow($result2);
 	$managment_group=(isset($row2['points'])) ? 1 : 0 ;
 }
 else 
@@ -1516,7 +1516,7 @@ for ($i=0; $i<=$menuformkeymenu; $i++)
 			if (empty($menu_schedule_date_fin[$i][$j]))
 			$menu_schedule_date_fin[$i][$j] = 0;
 			
-			$sql="INSERT INTO ".$titanium_prefix."_menu_categories (groupmenu, 
+			$sql="INSERT INTO ".$pnt_prefix."_menu_categories (groupmenu, 
 			                                                  module, 
 															     url, 
 															url_text, 
@@ -1544,7 +1544,7 @@ for ($i=0; $i<=$menuformkeymenu; $i++)
 					'".$menu_schedule_date_fin[$i][$j]."', 
 					'".$menu_schedule_days[$i][$j]."')";
 			
-			$titanium_db->sql_query($sql);
+			$pnt_db->sql_query($sql);
 			
 		}
 		
@@ -1562,7 +1562,7 @@ for ($i=0; $i<=$menuformkeymenu; $i++)
         if (empty($invisible))
         $invisible = 0;
 
-		$sql="INSERT INTO ".$titanium_prefix."_menu (groupmenu, 
+		$sql="INSERT INTO ".$pnt_prefix."_menu (groupmenu, 
 		                                         name, 
 												image, 
 												 lien, 
@@ -1596,14 +1596,14 @@ for ($i=0; $i<=$menuformkeymenu; $i++)
 				'".$menu_schedule_date_fin_cat[$i]."', 
 				'".$menu_schedule_days_cat[$i]."')";
 		
-		$titanium_db->sql_query($sql);
+		$pnt_db->sql_query($sql);
 		
 	} 
 }
 
 $nom = ($menushowadmin=='on') ? "" : "menunoadmindisplay" ;
 
-$sql="INSERT INTO ".$titanium_prefix."_menu (groupmenu, 
+$sql="INSERT INTO ".$pnt_prefix."_menu (groupmenu, 
                                          name, 
 										image, 
 										 lien, 
@@ -1637,7 +1637,7 @@ VALUES (99,
 		0, 
 		NULL)";
 
-$titanium_db->sql_query($sql);
+$pnt_db->sql_query($sql);
 
 include_once("header.php");
 OpenTable();
@@ -1652,7 +1652,7 @@ function edit()
 {
 	      global $key, 
 	               $z, 
-	      $titanium_modulename, 
+	      $pnt_modulename, 
 	       $link_name, 
 	        $lienlien, 
 	           $image, 
@@ -1670,8 +1670,8 @@ function edit()
  $menu_category_class, 
      $menu_link_class, 
 	   $menu_new_days, 
-	              $titanium_db, 
-			  $titanium_prefix, 
+	              $pnt_db, 
+			  $pnt_prefix, 
 		 $urlofimages, 
 		  $admin_file,
 		     $dynamic;
@@ -1686,13 +1686,13 @@ function edit()
 			
 				if ($image<>"middot.gif") 
 				{
-					$titanium_moduleimagesize = getimagesize("".$urlofimages."/categories/$image");
+					$pnt_moduleimagesize = getimagesize("".$urlofimages."/categories/$image");
 				}
 				else 
 				{
-					$titanium_moduleimagesize[0]=5;
+					$pnt_moduleimagesize[0]=5;
 				}
-				$imagesize =$catimagesize[0]-$titanium_moduleimagesize[0];
+				$imagesize =$catimagesize[0]-$pnt_moduleimagesize[0];
 
 				if ($imagesize<0) {
 					$imagesize=0;
@@ -1736,16 +1736,16 @@ function edit()
 		if ($z!="imacategory") {
 			echo "<tr bgcolor=\"darkgrey\">";
 			$displayimage= ($image=="middot.gif") ? "<strong>&middot;</strong>" : "<img src=\"".$urlofimages."/categories/$image\">";
-			if ($titanium_modulename=="External Link" || $titanium_modulename=="MENUTEXTONLY") {
+			if ($pnt_modulename=="External Link" || $pnt_modulename=="MENUTEXTONLY") {
 				echo "<td bgcolor=\"darkgrey\"><img src=\"".$urlofimages."/admin/none.gif\" width=\"$imagesize\" height=\"1\">".$displayimage."&nbsp;$link_name</td>";
 			}
-			elseif ($titanium_modulename=="Horizonatal Rule") {
+			elseif ($pnt_modulename=="Horizonatal Rule") {
 				echo "<td bgcolor=\"darkgrey\"><img src=\"".$urlofimages."/admin/none.gif\" width=\"$imagesize\" height=\"1\"><hr></td>";
 			}
 			else {
-				echo "<td bgcolor=\"darkgrey\"><img src=\"".$urlofimages."/admin/none.gif\" width=\"$imagesize\" height=\"1\">".$displayimage."&nbsp;$titanium_modulename</td>";
+				echo "<td bgcolor=\"darkgrey\"><img src=\"".$urlofimages."/admin/none.gif\" width=\"$imagesize\" height=\"1\">".$displayimage."&nbsp;$pnt_modulename</td>";
 			}
-			$disabled=($titanium_modulename=="Horizonatal Rule") ? "disabled" : "" ;
+			$disabled=($pnt_modulename=="Horizonatal Rule") ? "disabled" : "" ;
 			echo "<td bgcolor=\"darkgrey\">"._MENU_CLASS." : <input type=\"text\" class=\"select\" name=\"somlienclass\" value=\"$link_class\" size=10></td>
 		<td>"._MENU_SINCE." <input type=\"text\" class=\"select\" name=\"somnew_days\" value=\"$new_days\" $disabled size=2> "._MENU_NBDAYS."
 		";
@@ -1786,7 +1786,7 @@ function edit()
 }
 
 function menu_schedule() {
-	global $key, $z, $titanium_modulename, $link_name, $lienlien, $image, $new_days, $categoryclass, $link_class, $catname, $catimage, $bgcolor1, $bgcolor3, $bgcolor2, $bgcolor4, $zetheme, $menu_edit_posted, $menu_category_class, $menu_link_class, $menu_new_days, $titanium_db, $titanium_prefix, $urlofimages;
+	global $key, $z, $pnt_modulename, $link_name, $lienlien, $image, $new_days, $categoryclass, $link_class, $catname, $catimage, $bgcolor1, $bgcolor3, $bgcolor2, $bgcolor4, $zetheme, $menu_edit_posted, $menu_category_class, $menu_link_class, $menu_new_days, $pnt_db, $pnt_prefix, $urlofimages;
 	global $admin_file;
 	if (!isset($admin_file)) {$admin_file="admin";}
 	
@@ -2051,7 +2051,7 @@ function menu_schedule() {
 function deletecat() {//pour supprimer une catégorie (fonction appelée par le clic sur "supprimer" dans une ligne du formulaire)
 	global $admin_file;
 	if (!isset($admin_file)) {$admin_file="admin";}
-	global $deletecat, $key, $confirm, $catname, $titanium_db, $titanium_prefix;
+	global $deletecat, $key, $confirm, $catname, $pnt_db, $pnt_prefix;
 	if ($confirm<>"YES") {
 		include_once ("header.php");
 		GraphicAdmin();
@@ -2066,8 +2066,8 @@ function deletecat() {//pour supprimer une catégorie (fonction appelée par le cl
 	}
 	else {
 		$confirm="NO";
-		$titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_menu WHERE groupmenu='$deletecat'");
-		$titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_menu_categories WHERE groupmenu='$deletecat'");
+		$pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_menu WHERE groupmenu='$deletecat'");
+		$pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_menu_categories WHERE groupmenu='$deletecat'");
 		index();
 	}
 }

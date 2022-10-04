@@ -22,7 +22,7 @@
 */
 function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
 {
-    global $titanium_db;
+    global $pnt_db;
 
     $id = (int) $id;
     $quota_type = (int) $quota_type;
@@ -44,12 +44,12 @@ function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
                 WHERE user_id = $id
                     AND quota_type = $quota_type";
 
-            if (!($result = $titanium_db->sql_query($sql)))
+            if (!($result = $pnt_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not get Entry', '', __LINE__, __FILE__, $sql);
             }
 
-            if ($titanium_db->sql_numrows($result) == 0)
+            if ($pnt_db->sql_numrows($result) == 0)
             {
                 $sql_ary = array(
                     'user_id'        => (int) $id,
@@ -67,10 +67,10 @@ function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
                     WHERE user_id = $id
                         AND quota_type = $quota_type";
             }
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_freeresult($result);
         }
     
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Unable to update quota Settings', '', __LINE__, __FILE__, $sql);
         }
@@ -84,7 +84,7 @@ function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
                 WHERE group_id = $id 
                     AND quota_type = $quota_type";
 
-            if (!($result = $titanium_db->sql_query($sql)))
+            if (!($result = $pnt_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Unable to delete quota Settings', '', __LINE__, __FILE__, $sql);
             }
@@ -97,12 +97,12 @@ function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
                 WHERE group_id = $id 
                     AND quota_type = $quota_type";
 
-            if (!($result = $titanium_db->sql_query($sql)))
+            if (!($result = $pnt_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not get Entry', '', __LINE__, __FILE__, $sql);
             }
 
-            if ($titanium_db->sql_numrows($result) == 0)
+            if ($pnt_db->sql_numrows($result) == 0)
             {
                 $sql = 'INSERT INTO ' . QUOTA_TABLE . " (user_id, group_id, quota_type, quota_limit_id) 
                     VALUES (0, $id, $quota_type, $quota_limit_id)";
@@ -113,7 +113,7 @@ function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
                     WHERE group_id = $id AND quota_type = $quota_type";
             }
     
-            if (!$titanium_db->sql_query($sql))
+            if (!$pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, 'Unable to update quota Settings', '', __LINE__, __FILE__, $sql);
             }
@@ -179,7 +179,7 @@ function sort_multi_array ($sort_array, $key, $sort_order, $pre_string_sort = 0)
 */
 function entry_exists($attach_id)
 {
-    global $titanium_db;
+    global $pnt_db;
 
     $attach_id = (int) $attach_id;
 
@@ -192,16 +192,16 @@ function entry_exists($attach_id)
         FROM ' . ATTACHMENTS_TABLE . "
         WHERE attach_id = $attach_id";
 
-	$result = $titanium_db->sql_query($sql);
+	$result = $pnt_db->sql_query($sql);
 
 	if (!$result)
     {
         message_die(GENERAL_ERROR, 'Could not get Entry', '', __LINE__, __FILE__, $sql);
     }
 
-    $ids = $titanium_db->sql_fetchrowset($result);
-    $num_ids = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $ids = $pnt_db->sql_fetchrowset($result);
+    $num_ids = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     $exists = false;
     
@@ -220,15 +220,15 @@ function entry_exists($attach_id)
                 WHERE privmsgs_id = ' . intval($ids[$i]['privmsgs_id']);
         }
 
-		$result = $titanium_db->sql_query($sql);
+		$result = $pnt_db->sql_query($sql);
 
 		if (!$result)
         {
             message_die(GENERAL_ERROR, 'Could not get Entry', '', __LINE__, __FILE__, $sql);
         }
     
-		$num_rows = $titanium_db->sql_numrows($result);
-		$titanium_db->sql_freeresult($result);
+		$num_rows = $pnt_db->sql_numrows($result);
+		$pnt_db->sql_freeresult($result);
 
 		if ($num_rows > 0)
         {
@@ -391,7 +391,7 @@ function get_formatted_dirsize()
 */
 function search_attachments($order_by, &$total_phpbb2_rows)
 {
-    global $titanium_db, $HTTP_POST_VARS, $HTTP_GET_VARS, $lang;
+    global $pnt_db, $HTTP_POST_VARS, $HTTP_GET_VARS, $lang;
     
     $where_sql = array();
 
@@ -418,21 +418,21 @@ function search_attachments($order_by, &$total_phpbb2_rows)
             FROM ' . USERS_TABLE . "
             WHERE username LIKE '$search_author'";
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Couldn\'t obtain list of matching users (searching for: ' . $search_author . ')', '', __LINE__, __FILE__, $sql);
         }
 
         $matching_userids = '';
-        if ($row = $titanium_db->sql_fetchrow($result))
+        if ($row = $pnt_db->sql_fetchrow($result))
         {
             do
             {
                 $matching_userids .= (($matching_userids != '') ? ', ' : '') . intval($row['user_id']);
             }
-            while ($row = $titanium_db->sql_fetchrow($result));
+            while ($row = $pnt_db->sql_fetchrow($result));
             
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_freeresult($result);
         }
         else
         {
@@ -509,27 +509,27 @@ function search_attachments($order_by, &$total_phpbb2_rows)
 
     $sql .= $order_by; 
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
     }
 
-    $attachments = $titanium_db->sql_fetchrowset($result);
-    $num_attach = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $attachments = $pnt_db->sql_fetchrowset($result);
+    $num_attach = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     if ($num_attach == 0)
     {
         message_die(GENERAL_MESSAGE, $lang['No_attach_search_match']);
     }
 
-    if (!($result = $titanium_db->sql_query($total_phpbb2_rows_sql)))
+    if (!($result = $pnt_db->sql_query($total_phpbb2_rows_sql)))
     {
         message_die(GENERAL_ERROR, 'Could not query attachments', '', __LINE__, __FILE__, $sql);
     }
 
-    $total_phpbb2_rows = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $total_phpbb2_rows = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     return $attachments;
 }

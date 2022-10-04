@@ -31,8 +31,8 @@ function show_copyright($author_name = "",
 				    $author_homepage = "", 
 					        $license = "", 
 				  $download_location = "", 
-		    $titanium_module_version = "", 
-		$titanium_module_description = "") 
+		    $pnt_module_version = "", 
+		$pnt_module_description = "") 
 {
     if (empty($author_name)) { $author_name = "N/A"; }
 
@@ -44,9 +44,9 @@ function show_copyright($author_name = "",
 
     if (!empty($download_location)) { $download = "<a href='$download_location' target='_blank'>Module's Download</a>"; } else { $download = "No Download Available"; }
 
-    if (empty($titanium_module_version)) { $titanium_module_version = "N/A"; }
+    if (empty($pnt_module_version)) { $pnt_module_version = "N/A"; }
 
-    if (empty($titanium_module_description)) { $titanium_module_description = "N/A"; }
+    if (empty($pnt_module_description)) { $pnt_module_description = "N/A"; }
 
     $pnt_module = basename(dirname($_SERVER['PHP_SELF']));
     $pnt_module = str_replace("_", " ", $pnt_module);
@@ -80,8 +80,8 @@ a {
 		."$pnt_module module for <a href='http://www.php-nuke-titanium.86it.us' target='_blank'>PHP-Nuke Titanium</a><br /><br /></div>\n"
         
 		."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>Module's Name:</strong> $pnt_module<br />\n"
-        ."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>Module's Version:</strong> $titanium_module_version<br />\n"
-        ."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>Module's Description:</strong> $titanium_module_description<br />\n"
+        ."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>Module's Version:</strong> $pnt_module_version<br />\n"
+        ."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>Module's Description:</strong> $pnt_module_description<br />\n"
         ."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>License:</strong> $license<br />\n"
         ."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>Author's Name:</strong> $author_name<br />\n"
         ."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>Author's Email:</strong> $author_user_email<br /><br />\n"

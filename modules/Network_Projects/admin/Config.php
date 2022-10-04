@@ -10,7 +10,7 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
@@ -35,21 +35,21 @@ while($file = readdir($handle))
 {
   if( (!preg_match("/[.]/",$file) AND file_exists("modules/$file/index.php")) ) 
   { 
-    $titanium_modulelist .= "$file "; 
+    $pnt_modulelist .= "$file "; 
   }
 }
 closedir($handle);
 
-$titanium_modulelist = explode(" ", $titanium_modulelist);
+$pnt_modulelist = explode(" ", $pnt_modulelist);
 
-sort($titanium_modulelist);
+sort($pnt_modulelist);
 
-for($i=0; $i < sizeof($titanium_modulelist); $i++) 
+for($i=0; $i < sizeof($pnt_modulelist); $i++) 
 {
-  if($titanium_modulelist[$i]!="") {
-    echo "<option value=\"$titanium_modulelist[$i]\" ";
-    if($titanium_modulelist[$i] == $pj_config['location']) echo "selected";
-    echo ">$titanium_modulelist[$i]\n";
+  if($pnt_modulelist[$i]!="") {
+    echo "<option value=\"$pnt_modulelist[$i]\" ";
+    if($pnt_modulelist[$i] == $pj_config['location']) echo "selected";
+    echo ">$pnt_modulelist[$i]\n";
   }
 }
 

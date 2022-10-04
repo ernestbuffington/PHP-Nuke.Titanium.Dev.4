@@ -18,7 +18,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $titanium_module['Arcade_Admin']['Add_a_game'] = $file;
+    $pnt_module['Arcade_Admin']['Add_a_game'] = $file;
     return;
 }
 
@@ -51,39 +51,39 @@ if( isset($HTTP_POST_VARS['submit']) )
             $game_pic = $game_scorevar . ".gif";
     
         $sql = "SELECT MAX(game_order) AS max_order FROM " . GAMES_TABLE;
-        if( !$result = $titanium_db->sql_query($sql) )
+        if( !$result = $pnt_db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, "Unable to obtain the last sequence number of the table plays", "", __LINE__, __FILE__, $sql);
         }
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
     
         $max_order = $row['max_order'];
         $next_order = $max_order + 10;
     
         $sql = "INSERT INTO " . GAMES_TABLE . " ( game_order, game_pic, game_desc, game_highscore, game_highdate, game_highuser, game_name, game_swf, game_width, game_height, game_scorevar, game_type, arcade_catid ) " .
             "VALUES ($next_order, '$game_pic', '" . str_replace("\'", "''", $game_desc) . "', 0, 0, 0, '" . str_replace("\'", "''", $game_name) . "', '$game_swf', '$game_width', '$game_height', '$game_scorevar','$game_type','$catid')";
-        if( !$result = $titanium_db->sql_query($sql) )
+        if( !$result = $pnt_db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, "Couldn't insert row in games table", "", __LINE__, __FILE__, $sql);
         }
     
         $sql = "UPDATE " . ARCADE_CATEGORIES_TABLE . " SET arcade_nbelmt = arcade_nbelmt + 1 WHERE arcade_catid = $catid";
-        if( !$titanium_db->sql_query($sql) )
+        if( !$pnt_db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, "Couldn't update categories table", "", __LINE__, __FILE__, $sql);
         }
         
         //Comments Mod Start 
              $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_order = $next_order ";
-             if( !$result = $titanium_db->sql_query($sql) ) 
+             if( !$result = $pnt_db->sql_query($sql) ) 
              { 
                 message_die(GENERAL_ERROR, "Couldn't update comments table", "", __LINE__, __FILE__, $sql);
             } 
-             $row = $titanium_db->sql_fetchrow($result); 
+             $row = $pnt_db->sql_fetchrow($result); 
              $game_id = $row['game_id']; 
           
              $sql = "INSERT INTO " . COMMENTS_TABLE . " ( game_id, comments_value ) VALUES ($game_id, '')";
-             if( !$titanium_db->sql_query($sql) ) 
+             if( !$pnt_db->sql_query($sql) ) 
              { 
                     message_die(GENERAL_ERROR, "Couldn't update comments table", "", __LINE__, __FILE__, $sql);
              } 
@@ -110,12 +110,12 @@ $phpbb2_template->set_filenames(array(
 );
 
 $sql = "SELECT arcade_cattitle, arcade_catid FROM " . ARCADE_CATEGORIES_TABLE . " ORDER BY arcade_cattitle ASC";
-if( !($result = $titanium_db->sql_query($sql)) )
+if( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, "Error retrieving categories", '', __LINE__, __FILE__, $sql); 
 }
 
-while ( $row = $titanium_db->sql_fetchrow($result))
+while ( $row = $pnt_db->sql_fetchrow($result))
 {
     $cats = $cats . "<option value='" . $row['arcade_catid'] . "' >" . $row['arcade_cattitle'] . "</option>\n";
 }

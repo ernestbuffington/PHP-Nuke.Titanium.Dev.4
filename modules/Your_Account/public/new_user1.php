@@ -73,8 +73,8 @@ if (!defined('CNBYA')) {
 	}
     # end Nuke Honeypot
 
-    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE (need = '2') OR (need = '3') ORDER BY pos");
-        while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
+    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field WHERE (need = '2') OR (need = '3') ORDER BY pos");
+        while ($sqlvalue = $pnt_db->sql_fetchrow($result)) {
           $t = $sqlvalue['fid'];
           $value2 = explode("::", $sqlvalue['value']);
           if (substr($sqlvalue['name'],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue['name'];
@@ -138,15 +138,15 @@ if (!defined('CNBYA')) {
     }
     closedir($handle);
     if ($thmcount > 1) { echo "<li>"._ASREG6."\n"; }
-    $sql = "SELECT custom_title FROM ".$titanium_prefix."_modules WHERE active='1' AND view='1' AND inmenu='1'";
-    $result = $titanium_db->sql_query($sql);
-    while ($row = $titanium_db->sql_fetchrow($result)) {
+    $sql = "SELECT custom_title FROM ".$pnt_prefix."_modules WHERE active='1' AND view='1' AND inmenu='1'";
+    $result = $pnt_db->sql_query($sql);
+    while ($row = $pnt_db->sql_fetchrow($result)) {
         $custom_title = $row['custom_title'];
         if (!empty($custom_title)) { echo "<li>"._ACCESSTO." $custom_title\n"; }
     }
-    $sql = "SELECT title FROM ".$titanium_prefix."_blocks WHERE active='1' AND view='1'";
-    $result = $titanium_db->sql_query($sql);
-    while ($row = $titanium_db->sql_fetchrow($result)) {
+    $sql = "SELECT title FROM ".$pnt_prefix."_blocks WHERE active='1' AND view='1'";
+    $result = $pnt_db->sql_query($sql);
+    while ($row = $pnt_db->sql_fetchrow($result)) {
         $b_title = $row['title'];
         if (!empty($b_title)) { echo "<li>"._ACCESSTO." $b_title\n"; }
     }

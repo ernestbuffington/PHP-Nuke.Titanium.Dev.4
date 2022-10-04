@@ -72,12 +72,12 @@ if (!defined('IN_PHPBB2'))
 $sql = "SELECT user_active, user_id, username, user_email, user_newpasswd, user_lang, user_actkey
         FROM " . USERS_TABLE . "
         WHERE user_id = " . intval($HTTP_GET_VARS[POST_USERS_URL]);
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
         message_die(GENERAL_ERROR, 'Could not obtain user information', '', __LINE__, __FILE__, $sql);
 }
 
-if ( $row = $titanium_db->sql_fetchrow($result) )
+if ( $row = $pnt_db->sql_fetchrow($result) )
 {
         if ( $row['user_active'] && empty($row['user_actkey']) )
         {
@@ -105,7 +105,7 @@ if ( $row = $titanium_db->sql_fetchrow($result) )
                 $sql = "UPDATE " . USERS_TABLE . "
                         SET user_active = 1, user_actkey = ''" . $sql_update_pass . "
                         WHERE user_id = " . $row['user_id'];
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not update users table', '', __LINE__, __FILE__, $sql_update);
                 }
@@ -151,7 +151,7 @@ if ( $row = $titanium_db->sql_fetchrow($result) )
         {
                 message_die(GENERAL_MESSAGE, $lang['Wrong_activation']);
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 }
 else
 {

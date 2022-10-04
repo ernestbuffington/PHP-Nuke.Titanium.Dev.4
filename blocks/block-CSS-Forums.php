@@ -1,6 +1,6 @@
 <?php
 
-global $blockslang, $admin, $titanium_db, $userinfo;
+global $blockslang, $admin, $pnt_db, $userinfo;
 
 /**
  *	Choose whether or not when clicking the topic title, it shoudl take you to first post or last.
@@ -287,7 +287,7 @@ if (!$phpbb2_topic_data = titanium_cache_load('TopicData', 'home')):
 	$phpbb2_topic_data = array();
 	$result = dbquery("SELECT t.topic_id, t.topic_type, t.topic_attachment, f.forum_name, f.forum_color, f.forum_id, t.topic_last_post_id, t.topic_first_post_id, t.topic_title, t.topic_poster, t.topic_views, t.topic_replies, t.topic_status, p.post_time, p.poster_id, pu.username as postername, u.username, u.user_id FROM `".TOPICS_TABLE."` t, `".FORUMS_TABLE."` f, `".POSTS_TABLE."` p, `".USERS_TABLE."` u, `".USERS_TABLE."` pu WHERE t.forum_id=f.forum_id AND p.post_id=t.topic_last_post_id AND u.user_id=t.topic_poster AND pu.user_id=p.poster_id AND t.topic_moved_id = '0' ORDER BY topic_last_post_id DESC LIMIT $last_new_topics");
 
-	while ( list( $topic_id, $topic_type, $topic_attachment, $forum_name, $forum_color, $phpbb2_forum_id, $topic_last_post_id, $topic_first_post_id, $topic_title, $topic_poster, $topic_views, $topic_replies, $topic_status, $post_time, $poster_id, $poster_name, $titanium_username, $titanium_user_id ) = dbrow( $result)) 
+	while ( list( $topic_id, $topic_type, $topic_attachment, $forum_name, $forum_color, $phpbb2_forum_id, $topic_last_post_id, $topic_first_post_id, $topic_title, $topic_poster, $topic_views, $topic_replies, $topic_status, $post_time, $poster_id, $poster_name, $pnt_username, $pnt_user_id ) = dbrow( $result)) 
 	{
 	        $phpbb2_topic_data[$topic_id]['topic_id'] 			 = $topic_id;
 	        $phpbb2_topic_data[$topic_id]['topic_type'] 		 = $topic_type;
@@ -305,8 +305,8 @@ if (!$phpbb2_topic_data = titanium_cache_load('TopicData', 'home')):
 	        $phpbb2_topic_data[$topic_id]['post_time'] 			 = $post_time;
 	        $phpbb2_topic_data[$topic_id]['poster_id'] 			 = $poster_id;
 	        $phpbb2_topic_data[$topic_id]['poster_name'] 		 = $poster_name;
-	        $phpbb2_topic_data[$topic_id]['username'] 			 = $titanium_username;
-	        $phpbb2_topic_data[$topic_id]['user_id'] 			 = $titanium_user_id;
+	        $phpbb2_topic_data[$topic_id]['username'] 			 = $pnt_username;
+	        $phpbb2_topic_data[$topic_id]['user_id'] 			 = $pnt_user_id;
 	}
 	dbfree($result);
 /*****[BEGIN]******************************************

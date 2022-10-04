@@ -18,7 +18,7 @@ define('IN_PHPBB2', true);
 if (!empty($setmodules))
 {
     $filename = basename(__FILE__);
-    $titanium_module['Attachments']['Control_Panel'] = $filename;
+    $pnt_module['Attachments']['Control_Panel'] = $filename;
     return;
 }
 
@@ -280,12 +280,12 @@ if ($submit_change && $view == 'attachments')
         FROM ' . ATTACHMENTS_DESC_TABLE . '
         ORDER BY attach_id';
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t get Attachment informations', '', __LINE__, __FILE__, $sql);
     }
 
-    while ($attachrow = $titanium_db->sql_fetchrow($result))
+    while ($attachrow = $pnt_db->sql_fetchrow($result))
     {
         if (isset($attachments['_' . $attachrow['attach_id']]))
         {
@@ -295,14 +295,14 @@ if ($submit_change && $view == 'attachments')
                     SET comment = '" . attach_mod_sql_escape($attachments['_' . $attachrow['attach_id']]['comment']) . "', download_count = " . (int) $attachments['_' . $attachrow['attach_id']]['download_count'] . "
                     WHERE attach_id = " . (int) $attachrow['attach_id'];
                 
-                if (!$titanium_db->sql_query($sql))
+                if (!$pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t update Attachments Informations', '', __LINE__, __FILE__, $sql);
                 }
             }
         }
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 }
 
 // Statistics
@@ -330,13 +330,13 @@ if ($view == 'stats')
     $sql = "SELECT count(*) AS total
         FROM " . ATTACHMENTS_DESC_TABLE;
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Error getting total attachments', '', __LINE__, __FILE__, $sql);
     }
 
-    $total = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $total = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     $number_of_attachments = $total['total'];
 
@@ -345,52 +345,52 @@ if ($view == 'stats')
         WHERE post_id <> 0
         GROUP BY post_id";
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Error getting total posts', '', __LINE__, __FILE__, $sql);
     }
 
-    $number_of_posts = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $number_of_posts = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     $sql = "SELECT privmsgs_id
         FROM " . ATTACHMENTS_TABLE . "
         WHERE privmsgs_id <> 0
         GROUP BY privmsgs_id";
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Error getting total private messages', '', __LINE__, __FILE__, $sql);
     }
 
-    $number_of_pms = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $number_of_pms = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     $sql = "SELECT p.topic_id
         FROM " . ATTACHMENTS_TABLE . " a, " . POSTS_TABLE . " p
         WHERE a.post_id = p.post_id
         GROUP BY p.topic_id";
 
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Error getting total topics', '', __LINE__, __FILE__, $sql);
     }
 
-    $number_of_topics = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $number_of_topics = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     $sql = "SELECT user_id_1
         FROM " . ATTACHMENTS_TABLE . "
         WHERE (post_id <> 0)
         GROUP BY user_id_1";
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Error getting total users', '', __LINE__, __FILE__, $sql);
     }
 
-    $number_of_users = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $number_of_users = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     $phpbb2_template->assign_vars(array(
         'L_STATISTIC'                => $lang['Statistic'],
@@ -423,13 +423,13 @@ if ($view == 'search')
         WHERE f.cat_id = c.cat_id 
         ORDER BY c.cat_id, f.forum_order";
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not obtain forum_name/forum_id', '', __LINE__, __FILE__, $sql);
     }
 
     $s_forums = '';
-    while ($row = $titanium_db->sql_fetchrow($result))
+    while ($row = $pnt_db->sql_fetchrow($result))
     {
         $s_forums .= '<option value="' . $row['forum_id'] . '">' . $row['forum_name'] . '</option>';
 
@@ -513,14 +513,14 @@ if ($view == 'username')
         $sql .= ' ' . $order_by;
     }
     
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
     }
 
-    $members = $titanium_db->sql_fetchrowset($result);
-    $num_members = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $members = $pnt_db->sql_fetchrowset($result);
+    $num_members = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     if ($num_members > 0)
     {
@@ -532,14 +532,14 @@ if ($view == 'username')
                 WHERE user_id_1 = " . intval($members[$i]['user_id']) . " 
                 GROUP BY attach_id";
         
-            if (!($result = $titanium_db->sql_query($sql)))
+            if (!($result = $pnt_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
             }
         
-            $attach_ids = $titanium_db->sql_fetchrowset($result);
-            $num_attach_ids = $titanium_db->sql_numrows($result);
-            $titanium_db->sql_freeresult($result);
+            $attach_ids = $pnt_db->sql_fetchrowset($result);
+            $num_attach_ids = $pnt_db->sql_numrows($result);
+            $pnt_db->sql_freeresult($result);
 
             $attach_id = array();
 
@@ -555,13 +555,13 @@ if ($view == 'username')
                     FROM " . ATTACHMENTS_DESC_TABLE . "
                     WHERE attach_id IN (" . implode(', ', $attach_id) . ")";
 
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $titanium_db->sql_fetchrow($result);
-                $titanium_db->sql_freeresult($result);
+                $row = $pnt_db->sql_fetchrow($result);
+                $pnt_db->sql_freeresult($result);
 
                 $members[$i]['total_size'] = (int) $row['total_size'];
             }
@@ -575,7 +575,7 @@ if ($view == 'username')
         
         for ($i = 0; $i < count($members); $i++)
         {
-            $titanium_username = $members[$i]['username'];
+            $pnt_username = $members[$i]['username'];
             $total_phpbb2_attachments = $members[$i]['total_attachments'];
             $total_phpbb2_size = $members[$i]['total_size'];
 
@@ -586,7 +586,7 @@ if ($view == 'username')
                 'ROW_NUMBER'        => $i + ( $HTTP_GET_VARS['start'] + 1 ),
                 'ROW_COLOR'            => '#' . $row_color,
                 'ROW_CLASS'            => $row_class,
-                'USERNAME'            => $titanium_username,
+                'USERNAME'            => $pnt_username,
                 'TOTAL_ATTACHMENTS'    => $total_phpbb2_attachments,
                 'TOTAL_SIZE'        => round(($total_phpbb2_size / MEGABYTE), 2),
                 'U_VIEW_MEMBER'        => append_titanium_sid('admin_attach_cp.' . $phpEx . '?view=attachments&amp;uid=' . $members[$i]['user_id']))
@@ -598,19 +598,19 @@ if ($view == 'username')
         FROM " . ATTACHMENTS_TABLE . "
         GROUP BY user_id_1";
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Error getting total users', '', __LINE__, __FILE__, $sql);
     }
 
-    $total_phpbb2_rows = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $total_phpbb2_rows = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 }
 
 // Attachments
 if ($view == 'attachments')
 {
-    $titanium_user_based = ($uid) ? TRUE : FALSE;
+    $pnt_user_based = ($uid) ? TRUE : FALSE;
     $search_based = (isset($HTTP_POST_VARS['search']) && $HTTP_POST_VARS['search']) ? TRUE : FALSE;
     
     $hidden_fields = '';
@@ -643,21 +643,21 @@ if ($view == 'attachments')
     $total_phpbb2_rows = 0;
     
     // Are we called from Username ?
-    if ($titanium_user_based)
+    if ($pnt_user_based)
     {
         $sql = "SELECT username 
             FROM " . USERS_TABLE . " 
             WHERE user_id = " . intval($uid);
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Error getting username', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $titanium_db->sql_fetchrow($result);
-        $titanium_db->sql_freeresult($result);
+        $row = $pnt_db->sql_fetchrow($result);
+        $pnt_db->sql_freeresult($result);
 
-        $titanium_username = $row['username'];
+        $pnt_username = $row['username'];
 
         $s_hidden = '<input type="hidden" name="u_id" value="' . intval($uid) . '" />';
     
@@ -665,7 +665,7 @@ if ($view == 'attachments')
 
         $phpbb2_template->assign_vars(array(
             'S_USER_HIDDEN'            => $s_hidden,
-            'L_STATISTICS_FOR_USER'    => sprintf($lang['Statistics_for_user'], $titanium_username))
+            'L_STATISTICS_FOR_USER'    => sprintf($lang['Statistics_for_user'], $pnt_username))
         );
 
         $sql = "SELECT attach_id 
@@ -673,18 +673,18 @@ if ($view == 'attachments')
             WHERE user_id_1 = " . intval($uid) . "
             GROUP BY attach_id";
         
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
         }
         
-        $attach_ids = $titanium_db->sql_fetchrowset($result);
-        $num_attach_ids = $titanium_db->sql_numrows($result);
-        $titanium_db->sql_freeresult($result);
+        $attach_ids = $pnt_db->sql_fetchrowset($result);
+        $num_attach_ids = $pnt_db->sql_numrows($result);
+        $pnt_db->sql_freeresult($result);
 
         if ($num_attach_ids == 0)
         {
-            message_die(GENERAL_MESSAGE, 'For some reason no Attachments are assigned to the User "' . $titanium_username . '".');
+            message_die(GENERAL_MESSAGE, 'For some reason no Attachments are assigned to the User "' . $pnt_username . '".');
         }
         
         $total_phpbb2_rows = $num_attach_ids;
@@ -716,14 +716,14 @@ if ($view == 'attachments')
 
     if (!$search_based)
     {
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
         }
 
-        $attachments = $titanium_db->sql_fetchrowset($result);
-        $num_attach = $titanium_db->sql_numrows($result);
-        $titanium_db->sql_freeresult($result);
+        $attachments = $pnt_db->sql_fetchrowset($result);
+        $num_attach = $pnt_db->sql_numrows($result);
+        $pnt_db->sql_freeresult($result);
     }
     
 	if (sizeof($attachments) > 0)
@@ -752,14 +752,14 @@ if ($view == 'attachments')
                 FROM " . ATTACHMENTS_TABLE . "
                 WHERE attach_id = " . intval($attachments[$i]['attach_id']);
 
-            if (!($result = $titanium_db->sql_query($sql)))
+            if (!($result = $pnt_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
             }
 
-            $ids = $titanium_db->sql_fetchrowset($result);
-            $num_ids = $titanium_db->sql_numrows($result);
-            $titanium_db->sql_freeresult($result);
+            $ids = $pnt_db->sql_fetchrowset($result);
+            $num_ids = $pnt_db->sql_numrows($result);
+            $pnt_db->sql_freeresult($result);
 
             for ($j = 0; $j < $num_ids; $j++)
             {
@@ -770,13 +770,13 @@ if ($view == 'attachments')
                         WHERE p.post_id = " . intval($ids[$j]['post_id']) . " AND p.topic_id = t.topic_id
                         GROUP BY t.topic_id, t.topic_title";
 
-                    if (!($result = $titanium_db->sql_query($sql)))
+                    if (!($result = $pnt_db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Couldn\'t query topic', '', __LINE__, __FILE__, $sql);
                     }
 
-                    $row = $titanium_db->sql_fetchrow($result);
-                    $titanium_db->sql_freeresult($result);
+                    $row = $pnt_db->sql_fetchrow($result);
+                    $pnt_db->sql_freeresult($result);
             
                     $post_title = $row['topic_title'];
 
@@ -821,19 +821,19 @@ if ($view == 'attachments')
         }
     }
 
-    if (!$search_based && !$titanium_user_based)
+    if (!$search_based && !$pnt_user_based)
     {
         if ($total_phpbb2_attachments == 0)
         {
             $sql = "SELECT attach_id FROM " . ATTACHMENTS_DESC_TABLE;
 
-            if ( !($result = $titanium_db->sql_query($sql)) )
+            if ( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not query Attachment Description Table', '', __LINE__, __FILE__, $sql);
             }
 
-            $total_phpbb2_rows = $titanium_db->sql_numrows($result);
-            $titanium_db->sql_freeresult($result);
+            $total_phpbb2_rows = $pnt_db->sql_numrows($result);
+            $pnt_db->sql_freeresult($result);
         }
     }
 }

@@ -20,21 +20,21 @@ if (!defined('MODULE_FILE'))
    die ("You can't access this file directly...");
 }
 
-global $titanium_prefix, $titanium_db, $cookie, $titanium_user;
+global $pnt_prefix, $pnt_db, $cookie, $pnt_user;
 
 if ((isset($_POST['popup']) && !empty($_POST['popup'])) && (isset($_GET['popup']) && !empty($_GET['popup']))) 
 $popup = (isset($_GET['popup']) && !stristr($_GET['popup'],'..') && !stristr($_GET['popup'],'://')) ? addslashes(trim($_GET['popup'])) : false;
 else 
 $popup = (isset($_REQUEST['popup']) && !stristr($_REQUEST['popup'],'..') && !stristr($_REQUEST['popup'],'://')) ? addslashes(trim($_REQUEST['popup'])) : false;
 
-$userinfo = getusrinfo( $titanium_user );
-$titanium_userid = $userinfo["user_id"];
+$userinfo = getusrinfo( $pnt_user );
+$pnt_userid = $userinfo["user_id"];
 $markurl=@htmlentities($markurl);
 $markname=@htmlentities($markname);
 $markcomment=@htmlentities($markcomment);
 
-if (!isset($titanium_userid) || $titanium_userid=="")
-$titanium_userid=0;
+if (!isset($pnt_userid) || $pnt_userid=="")
+$pnt_userid=0;
 
 $index = 1;
 
@@ -60,17 +60,17 @@ if ($form_done=="yes" && (isset($catid) && $catid!=""))
 	
 	if (isset($markid) && $markid!="")
 	{
-		$query = "update ".$titanium_prefix."_bookmarks set name='$markname',url='$markurl',category_id=$catid,description='$markcomment',mod_date=now(),popup=$popup where id=$markid";
+		$query = "update ".$pnt_prefix."_bookmarks set name='$markname',url='$markurl',category_id=$catid,description='$markcomment',mod_date=now(),popup=$popup where id=$markid";
 	}
 	else
 	{
-		$query = "insert into ".$titanium_prefix."_bookmarks (user_id,category_id,name,url,description,mod_date,popup) values ($titanium_userid,$catid,'$markname','$markurl','$markcomment',now(),$popup)";
+		$query = "insert into ".$pnt_prefix."_bookmarks (user_id,category_id,name,url,description,mod_date,popup) values ($pnt_userid,$catid,'$markname','$markurl','$markcomment',now(),$popup)";
 	}
 
-	$titanium_db->sql_query ($query,$titanium_db);
+	$pnt_db->sql_query ($query,$pnt_db);
 	
-	$catquery = "update " . $titanium_prefix . "_bookmarks_cat set mod_date=now() where category_id=$catid";
-	$titanium_db->sql_query ($catquery,$titanium_db);
+	$catquery = "update " . $pnt_prefix . "_bookmarks_cat set mod_date=now() where category_id=$catid";
+	$pnt_db->sql_query ($catquery,$pnt_db);
 
 	header("Location: modules.php?name=$pnt_module&file=marks&category=$catid");
 }
@@ -104,12 +104,12 @@ OpenTable();
 <table align=center>
 <tr><td><? echo _CATEGORY ?></td><td><select name=catid>
 <?
-$getcatquery = "select * from " . $titanium_prefix . "_bookmarks_cat where user_id=$titanium_userid order by name";
-$cat_ret = $titanium_db->sql_query  ($getcatquery,$titanium_db);
+$getcatquery = "select * from " . $pnt_prefix . "_bookmarks_cat where user_id=$pnt_userid order by name";
+$cat_ret = $pnt_db->sql_query  ($getcatquery,$pnt_db);
 
-for ($i=0;$i<$titanium_db->sql_numrows  ($cat_ret,$titanium_db);$i++)
+for ($i=0;$i<$pnt_db->sql_numrows  ($cat_ret,$pnt_db);$i++)
 {
-	$catrow = $titanium_db->sql_fetchrow($cat_ret);
+	$catrow = $pnt_db->sql_fetchrow($cat_ret);
 	echo "<option value='".$catrow['category_id']."' ";
 	if ($catid == $catrow['category_id'])
 	{
@@ -117,7 +117,7 @@ for ($i=0;$i<$titanium_db->sql_numrows  ($cat_ret,$titanium_db);$i++)
 	}
 	echo ">".$catrow['name']."\n";
 }
-$titanium_db->sql_freeresult($cat_ret);
+$pnt_db->sql_freeresult($cat_ret);
 
 ?>
 </select> &nbsp; 
@@ -134,8 +134,8 @@ if ($i==0)
 <?
 	if (!isset($markurl) || $markurl=="")
 	{
-       global $titanium_db;
-       list($markurl) = $titanium_db->sql_ufetchrow("SELECT `url` FROM `".$titanium_prefix."_bookmarks` WHERE `id`='$markid'", SQL_NUM);
+       global $pnt_db;
+       list($markurl) = $pnt_db->sql_ufetchrow("SELECT `url` FROM `".$pnt_prefix."_bookmarks` WHERE `id`='$markid'", SQL_NUM);
        $markurl=@htmlentities($markurl);
 	   $popup=1;
 	}

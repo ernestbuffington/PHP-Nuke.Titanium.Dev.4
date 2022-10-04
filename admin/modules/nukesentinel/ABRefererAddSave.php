@@ -16,7 +16,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 if(!get_magic_quotes_runtime()) { $referer = addslashes($referer); }
-$testnum1 = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_referers` WHERE `referer`='$referer'"));
+$testnum1 = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_referers` WHERE `referer`='$referer'"));
 if($testnum1 > 0) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
@@ -48,9 +48,9 @@ if($testnum1 > 0) {
   CloseTable();
   include_once(NUKE_BASE_DIR.'footer.php');
 } else {
-  $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_nsnst_referers` (`referer`) VALUES ('$referer')");
-  $titanium_db->sql_query("ALTER TABLE `".$titanium_prefix."_nsnst_referers` ORDER BY `referer`");
-  $titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_referers`");
+  $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_nsnst_referers` (`referer`) VALUES ('$referer')");
+  $pnt_db->sql_query("ALTER TABLE `".$pnt_prefix."_nsnst_referers` ORDER BY `referer`");
+  $pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_referers`");
   $list_referer = $ab_config['list_referer']."\r\n".$referer;
   $list_referer = explode("\r\n", $list_referer);
   rsort($list_referer);

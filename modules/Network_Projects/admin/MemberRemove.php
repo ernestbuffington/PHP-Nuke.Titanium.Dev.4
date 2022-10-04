@@ -10,7 +10,7 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
@@ -30,9 +30,9 @@ echo "<input type='hidden' name='member_id' value='$member_id'>\n";
 echo "<tr><td align='center'><strong>"._NETWORK_SWAPMEMBER."</strong></td></tr>\n";
 echo "<tr><td align='center'>".$member['member_name']." -> <select name='swap_member_id'>\n";
 echo "<option value='0'>---------</option>\n";
-$memberlist = $titanium_db2->sql_query("SELECT `member_id`, `member_name` FROM `".$network_prefix."_members` WHERE `member_id` != '$member_id' ORDER BY `member_name`");
+$memberlist = $pnt_db2->sql_query("SELECT `member_id`, `member_name` FROM `".$network_prefix."_members` WHERE `member_id` != '$member_id' ORDER BY `member_name`");
 
-while(list($s_member_id, $s_member_name) = $titanium_db2->sql_fetchrow($memberlist))
+while(list($s_member_id, $s_member_name) = $pnt_db2->sql_fetchrow($memberlist))
 {
     echo "<option value='$s_member_id'>$s_member_name</option>\n";
 }

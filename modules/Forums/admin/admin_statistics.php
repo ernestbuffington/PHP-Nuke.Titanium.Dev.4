@@ -41,8 +41,8 @@ if (!empty($phpbb2_board_config))
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $titanium_module['Statistics']['Install_module'] = $filename . '?mode=mod_install';
-    $titanium_module['Statistics']['Manage_modules'] = $filename . '?mode=mod_manage';
+    $pnt_module['Statistics']['Install_module'] = $filename . '?mode=mod_install';
+    $pnt_module['Statistics']['Manage_modules'] = $filename . '?mode=mod_manage';
     return;
 }
 $submit = (isset($HTTP_POST_VARS['submit'])) ? TRUE : FALSE;
@@ -71,14 +71,14 @@ include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
 
 $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $titanium_db->sql_fetchrow($result))
+while ($row = $pnt_db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
@@ -232,12 +232,12 @@ if (($mode == 'mod_install') && ($submit))
     {
         $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE short_name = '" . trim($info_array['short_name']) . "'";
 
-        if (!($result = $titanium_db->sql_query($sql)) )
+        if (!($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
         }
     
-        if ($titanium_db->sql_numrows($result) > 0)
+        if ($pnt_db->sql_numrows($result) > 0)
         {
             message_die(GENERAL_ERROR, sprintf($lang['Inst_module_already_exist'], $info_array['short_name']));
         }
@@ -246,17 +246,17 @@ if (($mode == 'mod_install') && ($submit))
     {
         $sql = "SELECT * FROM " . MODULES_TABLE . " WHERE module_id = " . $update_id;
 
-        if (!($result = $titanium_db->sql_query($sql)) )
+        if (!($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
         }
     
-        if ($titanium_db->sql_numrows($result) == 0)
+        if ($pnt_db->sql_numrows($result) == 0)
         {
             message_die(GENERAL_ERROR, 'Unable to get Module ' . $update_id);
         }
         
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
 
         if (trim($row['short_name']) != trim($info_array['short_name']))
         {
@@ -326,7 +326,7 @@ if (($mode == 'mod_install') && (!$submit))
     // erst mal package auswhlen... oder hochladen
     if ( (!isset($HTTP_POST_VARS['fileupload'])) && (!isset($HTTP_POST_VARS['fileselect'])) )
     {
-        $titanium_module_paks = array();
+        $pnt_module_paks = array();
     
         $dir = @opendir($phpbb2_root_path . 'modules/pakfiles');
 
@@ -336,33 +336,33 @@ if (($mode == 'mod_install') && (!$submit))
             {
                 if ( preg_match('/\.pak$/i', $file) )
                 {
-                    $titanium_module_paks[] = $file;
+                    $pnt_module_paks[] = $file;
                 }
             }
         }
 
         @closedir($dir);
 
-        if (count($titanium_module_paks) > 0)
+        if (count($pnt_module_paks) > 0)
         {
             $phpbb2_template->assign_block_vars('switch_select_module', array());
 
-            $titanium_module_select_field = '<select name="selected_pak_file">';
+            $pnt_module_select_field = '<select name="selected_pak_file">';
 
-            for ($i = 0; $i < count($titanium_module_paks); $i++)
+            for ($i = 0; $i < count($pnt_module_paks); $i++)
             {
                 $selected = ($i == 0) ? ' selected="selected"' : '';
 
-                $titanium_module_select_field .= '<option value="' . $titanium_module_paks[$i] . '"' . $selected . '>' . $titanium_module_paks[$i] . '</option>';
+                $pnt_module_select_field .= '<option value="' . $pnt_module_paks[$i] . '"' . $selected . '>' . $pnt_module_paks[$i] . '</option>';
             }
     
-            $titanium_module_select_field .= '</select>';
+            $pnt_module_select_field .= '</select>';
             
             $s_hidden_fields = '<input type="hidden" name="fileselect" value="1">';
 
             $phpbb2_template->assign_vars(array(
                 'L_SELECT_MODULE' => $lang['Select_module_pak'],
-                'S_SELECT_MODULE' => $titanium_module_select_field,
+                'S_SELECT_MODULE' => $pnt_module_select_field,
                 'S_SELECT_HIDDEN_FIELDS' => $s_hidden_fields)
             );
         
@@ -390,23 +390,23 @@ if ($mode == 'mod_manage')
 {
     if (isset($HTTP_GET_VARS['move_up']))
     {
-        $titanium_module_id = intval($HTTP_GET_VARS['move_up']);
-        move_up($titanium_module_id);
+        $pnt_module_id = intval($HTTP_GET_VARS['move_up']);
+        move_up($pnt_module_id);
     }
     else if (isset($HTTP_GET_VARS['move_down']))
     {
-        $titanium_module_id = intval($HTTP_GET_VARS['move_down']);
-        move_down($titanium_module_id);
+        $pnt_module_id = intval($HTTP_GET_VARS['move_down']);
+        move_down($pnt_module_id);
     }
     else if (isset($HTTP_GET_VARS['activate']))
     {
-        $titanium_module_id = intval($HTTP_GET_VARS['activate']);
-        activate($titanium_module_id);
+        $pnt_module_id = intval($HTTP_GET_VARS['activate']);
+        activate($pnt_module_id);
     }
     else if (isset($HTTP_GET_VARS['deactivate']))
     {
-        $titanium_module_id = intval($HTTP_GET_VARS['deactivate']);
-        deactivate($titanium_module_id);
+        $pnt_module_id = intval($HTTP_GET_VARS['deactivate']);
+        deactivate($pnt_module_id);
     }
     
     $phpbb2_template->set_filenames(array(
@@ -415,12 +415,12 @@ if ($mode == 'mod_manage')
 
     $sql = "SELECT m.*, i.* FROM " . MODULES_TABLE . " m, " . MODULE_INFO_TABLE . " i WHERE i.module_id = m.module_id ORDER BY module_order ASC";
 
-    if (!($result = $titanium_db->sql_query($sql)) )
+    if (!($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get Module Informations', '', __LINE__, __FILE__, $sql);
     }
 
-    if ($titanium_db->sql_numrows($result) == 0)
+    if ($pnt_db->sql_numrows($result) == 0)
     {
         message_die(GENERAL_MESSAGE, 'No installed Modules found.');
     }
@@ -434,22 +434,22 @@ if ($mode == 'mod_manage')
         'L_MANAGE_MODULES_EXPLAIN' => $lang['Manage_modules_explain'])
     );
 
-    while ($row = $titanium_db->sql_fetchrow($result))
+    while ($row = $pnt_db->sql_fetchrow($result))
     {
-        $titanium_module_id = intval($row['module_id']);
-        $titanium_module_active = (intval($row['active'])) ? TRUE : FALSE;
+        $pnt_module_id = intval($row['module_id']);
+        $pnt_module_active = (intval($row['active'])) ? TRUE : FALSE;
 
         $phpbb2_template->assign_block_vars('modulerow', array(
             'MODULE_NAME' => trim($row['long_name']),
             'MODULE_DESC' => trim(nl2br($row['extra_info'])),
 
-            'U_VIEW_MODULE' => '../../../modules.php?name=Forums&amp;file=statistics&amp;preview='.$titanium_module_id,
-            'U_MODULE_EDIT' => append_titanium_sid($phpbb2_root_path . 'admin/admin_edit_module.'.$phpEx.'?mode=mod_edit&amp;module='.$titanium_module_id),
-            'U_MODULE_DELETE' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode=mod_delete&amp;module='.$titanium_module_id),
-            'U_MODULE_MOVE_UP' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;move_up='.$titanium_module_id),
-            'U_MODULE_MOVE_DOWN' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;move_down='.$titanium_module_id),
-            'U_MODULE_ACTIVATE' => ($titanium_module_active) ? append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;deactivate='.$titanium_module_id) : append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;activate='.$titanium_module_id),
-            'ACTIVATE' => ($titanium_module_active) ? $lang['Deactivate'] : $lang['Activate'])
+            'U_VIEW_MODULE' => '../../../modules.php?name=Forums&amp;file=statistics&amp;preview='.$pnt_module_id,
+            'U_MODULE_EDIT' => append_titanium_sid($phpbb2_root_path . 'admin/admin_edit_module.'.$phpEx.'?mode=mod_edit&amp;module='.$pnt_module_id),
+            'U_MODULE_DELETE' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode=mod_delete&amp;module='.$pnt_module_id),
+            'U_MODULE_MOVE_UP' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;move_up='.$pnt_module_id),
+            'U_MODULE_MOVE_DOWN' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;move_down='.$pnt_module_id),
+            'U_MODULE_ACTIVATE' => ($pnt_module_active) ? append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;deactivate='.$pnt_module_id) : append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;activate='.$pnt_module_id),
+            'ACTIVATE' => ($pnt_module_active) ? $lang['Deactivate'] : $lang['Activate'])
         );
     }
 }
@@ -464,14 +464,14 @@ if ($mode == 'mod_delete')
     {
         if (isset($HTTP_GET_VARS['module']))
         {
-            $titanium_module_id = intval($HTTP_GET_VARS['module']);
+            $pnt_module_id = intval($HTTP_GET_VARS['module']);
         }
         else
         {
             message_die(GENERAL_ERROR, 'Unable to delete Module.');
         }
 
-        $hidden_fields = '<input type="hidden" name="mode" value="'.$mode.'" /><input type="hidden" name="module_id" value="'.$titanium_module_id.'" />';
+        $hidden_fields = '<input type="hidden" name="mode" value="'.$mode.'" /><input type="hidden" name="module_id" value="'.$pnt_module_id.'" />';
             
         $phpbb2_template->set_filenames(array(
             'body' => 'confirm_body.tpl')
@@ -492,7 +492,7 @@ if ($mode == 'mod_delete')
     {
         if (isset($HTTP_POST_VARS['module_id']))
         {
-            $titanium_module_id = intval($HTTP_POST_VARS['module_id']);
+            $pnt_module_id = intval($HTTP_POST_VARS['module_id']);
         }
         else
         {
@@ -500,19 +500,19 @@ if ($mode == 'mod_delete')
         }
     
         // Firstly, we need the Module Informations ;)
-        $sql = "SELECT * FROM " . MODULES_TABLE . " WHERE module_id = " . $titanium_module_id;
+        $sql = "SELECT * FROM " . MODULES_TABLE . " WHERE module_id = " . $pnt_module_id;
         
-        if (!($result = $titanium_db->sql_query($sql)) )
+        if (!($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to get Module Informations', '', __LINE__, __FILE__, $sql);
         }
 
-        if ($titanium_db->sql_numrows($result) == 0)
+        if ($pnt_db->sql_numrows($result) == 0)
         {
             message_die(GENERAL_MESSAGE, 'No Module Data found... unable to delete Module.');
         }
 
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
         $short_name = trim($row['short_name']);
         
         // Ok, collect the Informations for deleting the Language Variables
@@ -560,23 +560,23 @@ if ($mode == 'mod_delete')
         }
 
         // Now begin the Transaction
-        $sql = "DELETE FROM " . MODULES_TABLE . " WHERE module_id = " . $titanium_module_id;
+        $sql = "DELETE FROM " . MODULES_TABLE . " WHERE module_id = " . $pnt_module_id;
 
-        if (!($result = $titanium_db->sql_query($sql)) )
+        if (!($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to delete Module', '', __LINE__, __FILE__, $sql);
         }
 
-        $sql = "DELETE FROM " . MODULE_INFO_TABLE . " WHERE module_id = " . $titanium_module_id;
+        $sql = "DELETE FROM " . MODULE_INFO_TABLE . " WHERE module_id = " . $pnt_module_id;
 
-        if (!($result = $titanium_db->sql_query($sql)) )
+        if (!($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to delete Module', '', __LINE__, __FILE__, $sql);
         }
         
-        $sql = "DELETE FROM " . CACHE_TABLE . " WHERE module_id = " . $titanium_module_id;
+        $sql = "DELETE FROM " . CACHE_TABLE . " WHERE module_id = " . $pnt_module_id;
 
-        if (!($result = $titanium_db->sql_query($sql)) )
+        if (!($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to delete Module', '', __LINE__, __FILE__, $sql);
         }
@@ -584,12 +584,12 @@ if ($mode == 'mod_delete')
         // was this the last module ?
         $sql = "SELECT * FROM " . MODULES_TABLE;
 
-        if (!($result = $titanium_db->sql_query($sql)) )
+        if (!($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to select Modules', '', __LINE__, __FILE__, $sql);
         }
         
-        if ($titanium_db->sql_numrows($result) == 0)
+        if ($pnt_db->sql_numrows($result) == 0)
         {
             $delete_language_folder = TRUE;
         }
@@ -672,12 +672,12 @@ if ($mode == 'mod_delete')
     
         // Delete the Module Files
         $directory = $phpbb2_root_path . 'modules/' . $short_name;
-        $titanium_module_file = $phpbb2_root_path . 'modules/' . $short_name . '/module.php';
+        $pnt_module_file = $phpbb2_root_path . 'modules/' . $short_name . '/module.php';
 
-        if (file_exists($titanium_module_file))
+        if (file_exists($pnt_module_file))
         {
-            chmod($titanium_module_file, $file_mode);
-            unlink($titanium_module_file);
+            chmod($pnt_module_file, $file_mode);
+            unlink($pnt_module_file);
         }
 
         if (file_exists($directory))

@@ -196,7 +196,7 @@ class emailer
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
         {
-                global $phpbb2_board_config, $lang, $phpEx, $phpbb2_root_path, $titanium_db, $cache;
+                global $phpbb2_board_config, $lang, $phpEx, $phpbb2_root_path, $pnt_db, $cache;
 
             // Escape all quotes, else the eval will fail.
                 $this->msg = str_replace ("'", "\'", $this->msg);
@@ -285,7 +285,7 @@ class emailer
                                 $sql = "UPDATE " . CONFIG_TABLE . "
                                         SET config_value = '1'
                                         WHERE config_name = 'sendmail_fix'";
-                                if (!$titanium_db->sql_query($sql))
+                                if (!$pnt_db->sql_query($sql))
                                 {
                                         message_die(GENERAL_ERROR, 'Unable to update config table', '', __LINE__, __FILE__, $sql);
                                 }

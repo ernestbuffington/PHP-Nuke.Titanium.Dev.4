@@ -25,7 +25,7 @@ define ('IN_PHPBB2', true);
 if ( !empty($setmodules) )
 {
   $filename = basename(__FILE__);
-  $titanium_module['General']['Rebuild_Search'] = $filename;
+  $pnt_module['General']['Rebuild_Search'] = $filename;
   return;
 }
 
@@ -46,7 +46,7 @@ include($phpbb2_root_path.'language/lang_'.$phpbb2_board_config['default_lang'].
 
 
 // define some constants
-define('SEARCH_REBUILD_TABLE', $titanium_prefix.'_bbsearch_rebuild');
+define('SEARCH_REBUILD_TABLE', $pnt_prefix.'_bbsearch_rebuild');
 
 define('REBUILD_SEARCH_PROCESSED', 1);  // when a batch of posts has been processed
 define('REBUILD_SEARCH_ABORTED', 0);  // when the user aborted the processing
@@ -141,7 +141,7 @@ if ( isset($HTTP_GET_VARS['cancel_button']) || isset($HTTP_POST_VARS['cancel_but
     SET rebuild_session_status = " . REBUILD_SEARCH_ABORTED . "
     WHERE rebuild_session_id = " . get_last_rebuild_session_id();
 
-  if ( !$titanium_db->sql_query($sql) )
+  if ( !$pnt_db->sql_query($sql) )
   {
     message_die(GENERAL_ERROR, 'Could not update rebuild session status', '', __LINE__, __FILE__, $sql);
   }
@@ -303,7 +303,7 @@ if ( $mode == 'submit' || $mode == 'refresh' )
   }
 
   // get the db sizes
-  list($titanium_db_size, $search_tables_size) = get_db_sizes();
+  list($pnt_db_size, $search_tables_size) = get_db_sizes();
 
   //
   // start the cycle timer
@@ -317,7 +317,7 @@ if ( $mode == 'submit' || $mode == 'refresh' )
       ORDER BY post_id ASC
       LIMIT $post_limit";
 
-  if( !($result = $titanium_db->sql_query($sql)) )
+  if( !($result = $pnt_db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not obtain posts', '', __LINE__, __FILE__, $sql);
   }
@@ -331,7 +331,7 @@ if ( $mode == 'submit' || $mode == 'refresh' )
   $timer_expired = false;
 
   $num_rows = 0;
-  while ( ($row = $titanium_db->sql_fetchrow($result)) && ($timer_expired == false) )
+  while ( ($row = $pnt_db->sql_fetchrow($result)) && ($timer_expired == false) )
   {
     // used for calculating loop duration and changing the timer condition
     $phpbb2_start_temp_time = time();
@@ -409,7 +409,7 @@ if ( $mode == 'submit' || $mode == 'refresh' )
         WHERE rebuild_session_id = " . get_last_rebuild_session_id();
     }
 
-    if ( !$titanium_db->sql_query($sql) )
+    if ( !$pnt_db->sql_query($sql) )
     {
       message_die(GENERAL_ERROR, 'Could not insert/update rebuild search data', '', __LINE__, __FILE__, $sql);
     }
@@ -473,7 +473,7 @@ if ( $mode == 'submit' || $mode == 'refresh' )
       WHERE rebuild_session_id = " . get_last_rebuild_session_id() . "
         AND end_post_id = " . get_latest_post_id();
 
-    if ( !$titanium_db->sql_query($sql) )
+    if ( !$pnt_db->sql_query($sql) )
     {
       message_die(GENERAL_ERROR, 'Could not update rebuild session status', '', __LINE__, __FILE__, $sql);
     }
@@ -485,7 +485,7 @@ if ( $mode == 'submit' || $mode == 'refresh' )
     {
       $sql = "OPTIMIZE TABLE " . $table;
 
-      if ( !$titanium_db->sql_query($sql) )
+      if ( !$pnt_db->sql_query($sql) )
       {
         message_die(GENERAL_ERROR, 'Could not optimize table', '', __LINE__, __FILE__, $sql);
       }
@@ -505,7 +505,7 @@ if ( $mode == 'submit' || $mode == 'refresh' )
   $total_phpbb2_percent = ($phpbb2_total_posts_processed / $phpbb2_total_posts) * 100;
 
   // get the db sizes
-  list($titanium_db_size, $search_tables_size) = get_db_sizes();
+  list($pnt_db_size, $search_tables_size) = get_db_sizes();
 
   // calculate the final (estimated) values
   $final_search_tables_size = '';
@@ -516,9 +516,9 @@ if ( $mode == 'submit' || $mode == 'refresh' )
     $phpbb2_start_search_tables_size = get_rebuild_session_details('last', 'search_size');
     $final_search_tables_size = $phpbb2_start_search_tables_size + round(($search_tables_size - $phpbb2_start_search_tables_size) * (100 / $session_percent));
 
-    if ( is_numeric($titanium_db_size) )
+    if ( is_numeric($pnt_db_size) )
     {
-      $final_db_size = $titanium_db_size + ($final_search_tables_size - $search_tables_size);
+      $final_db_size = $pnt_db_size + ($final_search_tables_size - $search_tables_size);
     }
   }
 
@@ -587,7 +587,7 @@ if ( $mode == 'submit' || $mode == 'refresh' )
 
     'SEARCH_TABLES_SIZE'    => create_db_size($search_tables_size),
     'FINAL_SEARCH_TABLES_SIZE' => create_db_size($final_search_tables_size),
-    'DB_SIZE'           => create_db_size($titanium_db_size),
+    'DB_SIZE'           => create_db_size($pnt_db_size),
     'FINAL_DB_SIZE'       => create_db_size($final_db_size),
 
     'START_POST'    => get_rebuild_session_details('last', 'start_post_id'),

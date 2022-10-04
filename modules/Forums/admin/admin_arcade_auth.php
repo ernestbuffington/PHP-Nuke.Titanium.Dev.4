@@ -24,8 +24,8 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $titanium_module['Users']['Permissions_arcade'] = $filename . '?mode=user';
-    $titanium_module['Groups']['Permissions_arcade'] = $filename . '?mode=group';
+    $pnt_module['Users']['Permissions_arcade'] = $filename . '?mode=user';
+    $pnt_module['Groups']['Permissions_arcade'] = $filename . '?mode=group';
 
     return;
 }
@@ -43,7 +43,7 @@ require($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
 require($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_arcade.' . $phpEx);
 
 $mode = get_var_gf(array('name' => 'mode','intval' => false,'okvar' => array('user','group'),'default' => ''));
-$titanium_user_id = get_var_gf(array('name' => POST_USERS_URL, 'intval' => true, 'default' => 0 ));
+$pnt_user_id = get_var_gf(array('name' => POST_USERS_URL, 'intval' => true, 'default' => 0 ));
 $group_id = get_var_gf(array('name' => POST_GROUPS_URL, 'intval' => true, 'default' => 0 ));
 
 // ---------------
@@ -91,9 +91,9 @@ if (!function_exists(check_auth))
 // End Functions
 // -------------
 
-if ( isset($HTTP_POST_VARS['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( $mode == 'group' && $group_id ) ) )
+if ( isset($HTTP_POST_VARS['submit']) && ( ( $mode == 'user' && $pnt_user_id ) || ( $mode == 'group' && $group_id ) ) )
 {
-    $titanium_user_level = '';
+    $pnt_user_level = '';
     if ( $mode == 'user' )
     {
         //
@@ -101,30 +101,30 @@ if ( isset($HTTP_POST_VARS['submit']) && ( ( $mode == 'user' && $titanium_user_i
         //
         $sql = "SELECT g.group_id, u.user_level
                 FROM " . USER_GROUP_TABLE . " ug, " . USERS_TABLE . " u, " . GROUPS_TABLE . " g
-                WHERE u.user_id = $titanium_user_id 
+                WHERE u.user_id = $pnt_user_id 
                 AND ug.user_id = u.user_id 
                 AND g.group_id = ug.group_id 
                 AND g.group_single_user = " . TRUE;
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not select info from user/user_group table', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
 
         $group_id = $row['group_id'];
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
     }
     
     $sql = "SELECT arcade_catid FROM " . AUTH_ARCADE_ACCESS_TABLE . " WHERE group_id = $group_id";
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not select info from user/user_group table', '', __LINE__, __FILE__, $sql);
     }
     
     //List categories where the user has already access
     $cat_list = array();
-    while ($row = $titanium_db->sql_fetchrow($result))
+    while ($row = $pnt_db->sql_fetchrow($result))
     {
         $cat_list[$row['arcade_catid']] = 1;
     }
@@ -150,7 +150,7 @@ if ( isset($HTTP_POST_VARS['submit']) && ( ( $mode == 'user' && $titanium_user_i
     if (!empty($liste_a_creer))
     {
         $sql = "INSERT INTO " . AUTH_ARCADE_ACCESS_TABLE . " ( group_id, arcade_catid) VALUES " . $liste_a_creer;
-        if ( !$titanium_db->sql_query($sql) )
+        if ( !$pnt_db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, 'Could not update arcade auth table', '', __LINE__, __FILE__, $sql);
         }
@@ -159,7 +159,7 @@ if ( isset($HTTP_POST_VARS['submit']) && ( ( $mode == 'user' && $titanium_user_i
     if (!empty($liste_a_supprimer))
     {
         $sql = "DELETE FROM " . AUTH_ARCADE_ACCESS_TABLE . " WHERE arcade_catid IN ( $liste_a_supprimer )";
-        if ( !$titanium_db->sql_query($sql) )
+        if ( !$pnt_db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, 'Could not update arcade auth table', '', __LINE__, __FILE__, $sql);
         }
@@ -167,7 +167,7 @@ if ( isset($HTTP_POST_VARS['submit']) && ( ( $mode == 'user' && $titanium_user_i
     $message = $lang['Arcade_auth_updated'] . '<br /><br />' . sprintf($lang['Click_return_arcadeauth'], '<a href="' . append_titanium_sid("admin_arcade_auth.$phpEx?mode=$mode") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
     message_die(GENERAL_MESSAGE, $message);
 }
-else if ( ( $mode == 'user' && ( isset($HTTP_POST_VARS['username']) || $titanium_user_id ) ) || ( $mode == 'group' && $group_id ) )
+else if ( ( $mode == 'user' && ( isset($HTTP_POST_VARS['username']) || $pnt_user_id ) ) || ( $mode == 'group' && $group_id ) )
 {
         // MANAGEMENT OF THE RIGHTS FOR A USER
     if ( isset($HTTP_POST_VARS['username']) )
@@ -177,47 +177,47 @@ else if ( ( $mode == 'user' && ( isset($HTTP_POST_VARS['username']) || $titanium
         {
             message_die(GENERAL_MESSAGE, $lang['No_such_user']);
         }
-        $titanium_user_id = $this_userdata['user_id'];
+        $pnt_user_id = $this_userdata['user_id'];
     }
 
     $sql = "SELECT * 
         FROM " . ARCADE_CATEGORIES_TABLE . "
         ORDER BY arcade_catorder";
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Couldn't obtain arcade categories information", "", __LINE__, __FILE__, $sql);
     }
 
     $arcade_access = array();
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
         $arcade_access[] = $row;
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
 
     $sql = "SELECT u.user_id, u.username, u.user_level, g.group_id, g.group_name, g.group_single_user FROM " . USERS_TABLE . " u, " . GROUPS_TABLE . " g, " . USER_GROUP_TABLE . " ug WHERE ";
-    $sql .= ( $mode == 'user' ) ? "u.user_id = $titanium_user_id AND ug.user_id = u.user_id AND g.group_id = ug.group_id" : "g.group_id = $group_id AND ug.group_id = g.group_id AND u.user_id = ug.user_id";
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    $sql .= ( $mode == 'user' ) ? "u.user_id = $pnt_user_id AND ug.user_id = u.user_id AND g.group_id = ug.group_id" : "g.group_id = $group_id AND ug.group_id = g.group_id AND u.user_id = ug.user_id";
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Couldn't obtain user/group information", "", __LINE__, __FILE__, $sql);
     }
     $ug_info = array();
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
         $ug_info[] = $row;
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     
-    $sql = ( $mode == 'user' ) ? "SELECT aa.arcade_catid FROM " . AUTH_ARCADE_ACCESS_TABLE . " aa, " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE. " g WHERE ug.user_id = $titanium_user_id AND g.group_id = ug.group_id AND aa.group_id = ug.group_id AND g.group_single_user = 1" : "SELECT arcade_catid FROM " . AUTH_ARCADE_ACCESS_TABLE . " WHERE group_id = $group_id";
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    $sql = ( $mode == 'user' ) ? "SELECT aa.arcade_catid FROM " . AUTH_ARCADE_ACCESS_TABLE . " aa, " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE. " g WHERE ug.user_id = $pnt_user_id AND g.group_id = ug.group_id AND aa.group_id = ug.group_id AND g.group_single_user = 1" : "SELECT arcade_catid FROM " . AUTH_ARCADE_ACCESS_TABLE . " WHERE group_id = $group_id";
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Couldn't obtain user/group permissions", "", __LINE__, __FILE__, $sql);
     }
 
     $auth_access = array();
-    while($row=$titanium_db->sql_fetchrow($result))
+    while($row=$pnt_db->sql_fetchrow($result))
     {
         $auth_access[$row['arcade_catid']]=1;
     }    
@@ -307,7 +307,7 @@ else if ( ( $mode == 'user' && ( isset($HTTP_POST_VARS['username']) || $titanium
     );
 
     $s_hidden_fields = '<input type="hidden" name="mode" value="' . $mode . '" /><input type="hidden" name="adv" value="' . $adv . '" />';
-    $s_hidden_fields .= ( $mode == 'user' ) ? '<input type="hidden" name="' . POST_USERS_URL . '" value="' . $titanium_user_id . '" />' : '<input type="hidden" name="' . POST_GROUPS_URL . '" value="' . $group_id . '" />';
+    $s_hidden_fields .= ( $mode == 'user' ) ? '<input type="hidden" name="' . POST_USERS_URL . '" value="' . $pnt_user_id . '" />' : '<input type="hidden" name="' . POST_GROUPS_URL . '" value="' . $group_id . '" />';
 
     if ( $mode == 'user' )
     {
@@ -378,19 +378,19 @@ else
         $sql = "SELECT group_id, group_name
             FROM " . GROUPS_TABLE . "
             WHERE group_single_user <> " . TRUE;
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, "Couldn't get group list", "", __LINE__, __FILE__, $sql);
         }
 
-        if ( $row = $titanium_db->sql_fetchrow($result) )
+        if ( $row = $pnt_db->sql_fetchrow($result) )
         {
             $select_list = '<select name="' . POST_GROUPS_URL . '">';
             do
             {
                 $select_list .= '<option value="' . $row['group_id'] . '">' . $row['group_name'] . '</option>';
             }
-            while ( $row = $titanium_db->sql_fetchrow($result) );
+            while ( $row = $pnt_db->sql_fetchrow($result) );
             $select_list .= '</select>';
         }
 

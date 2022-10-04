@@ -24,29 +24,29 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 | management system based on PHP-Nuke                     |
 ---------------------------------------------------------*/
 
-/*----[ $titanium_dbhost ] -------------------------------
+/*----[ $pnt_dbhost ] -------------------------------
 | Your database host, normally 'localhost'                |
 |                                                         |
 | Default: localhost                                      |
 ---------------------------------------------------------*/
-$titanium_dbhost = 'localhost';
-/*----[ $titanium_dbname ] -------------------------------
+$pnt_dbhost = 'localhost';
+/*----[ $pnt_dbname ] -------------------------------
 | The name of your database that will hold tables         |
 ---------------------------------------------------------*/
-$titanium_dbname = 'dev4_engine';
+$pnt_dbname = 'dev4_engine';
 
-/*----[ $titanium_dbuname ] ------------------------------
+/*----[ $pnt_dbuname ] ------------------------------
 | The username linked to your database, must have correct |
 | permissions                                             |
 ---------------------------------------------------------*/
-$titanium_dbuname = 'dev4_user';
+$pnt_dbuname = 'dev4_user';
 
-/*----[ $titanium_dbpass ] -------------------------------
+/*----[ $pnt_dbpass ] -------------------------------
 | The password associated with your db usersname          |
 ---------------------------------------------------------*/
-$titanium_dbpass = 'xxxxxxxxxxxxxxxxxxxx';
+$pnt_dbpass = 'xxxxxxxxxxxxxxxxxxxx';
 
-/*----[ $titanium_dbtype ] -------------------------------
+/*----[ $pnt_dbtype ] -------------------------------
 | The type of SQL server you prefer to use                |
 |                                                         |
 | Choose from the following (case-sensitive):             |
@@ -55,22 +55,22 @@ $titanium_dbpass = 'xxxxxxxxxxxxxxxxxxxx';
 |                                                         |
 | Default: mysqli                                         |
 ---------------------------------------------------------*/
-$titanium_dbtype = 'mysqli';
+$pnt_dbtype = 'mysqli';
 
-/*----[ $titanium_prefix ] -------------------------------
+/*----[ $pnt_prefix ] -------------------------------
 | The prefix for your tables                              |
 |                                                         |
 | Default: titanium                                       |
 ---------------------------------------------------------*/
-$titanium_prefix = 'titanium';
+$pnt_prefix = 'titanium';
 
-/*----[ $titanium_user_prefix ] --------------------------
+/*----[ $pnt_user_prefix ] --------------------------
 | The prefix for your PHP-Nuke Titanium user-related      |
 | tables Do not change this unless it is really needed    |
 |                                                         |
 | Default: titanium                                       |
 ---------------------------------------------------------*/
-$titanium_user_prefix = 'titanium';
+$pnt_user_prefix = 'titanium';
 
 /*----[ $admin_file ] ------------------------------------
 | The filename of your Admin File                         |

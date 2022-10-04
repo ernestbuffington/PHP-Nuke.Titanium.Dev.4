@@ -24,7 +24,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $titanium_module['AUC']['Management'] = "$file";
+    $pnt_module['AUC']['Management'] = "$file";
     return;
 }
 
@@ -38,8 +38,8 @@ include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
         $mode = (isset($HTTP_POST_VARS['mode'])) ? $HTTP_POST_VARS['mode'] : $HTTP_GET_VARS['mode'];
     else
         $mode = '';
-    global $titanium_prefix;
-    define('COLORS', $titanium_prefix .'_bbadvanced_username_color');
+    global $pnt_prefix;
+    define('COLORS', $pnt_prefix .'_bbadvanced_username_color');
     $link = append_titanium_sid("admin_advanced_username_color_m.". $phpEx);
 
 if ($mode == "main" || !$mode)
@@ -78,8 +78,8 @@ if ($mode == "main" || !$mode)
           FROM ". COLORS ."
           WHERE group_id > '0'
           ORDER BY group_name ASC";
-    $r            = $titanium_db->sql_query($q);
-    while($row     = $titanium_db->sql_fetchrow($r))
+    $r            = $pnt_db->sql_query($q);
+    while($row     = $pnt_db->sql_fetchrow($r))
         {
     $name     = $row['group_name'];
     $id     = $row['group_id'];
@@ -110,8 +110,8 @@ if ($mode == "main" || !$mode)
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id = '". $group ."'";
-    $r        = $titanium_db->sql_query($q);
-    $row     = $titanium_db->sql_fetchrow($r);
+    $r        = $pnt_db->sql_query($q);
+    $row     = $pnt_db->sql_fetchrow($r);
     $name     = $row['group_name'];
     $id     = $row['group_id'];
     $phpbb2_color    = $row['group_color'];
@@ -149,8 +149,8 @@ if ($mode == "main" || !$mode)
           FROM ". USERS_TABLE ."
           WHERE user_color_gi <> '0'
           ORDER BY username ASC";
-    $r            = $titanium_db->sql_query($q);
-    while($row     = $titanium_db->sql_fetchrow($r))
+    $r            = $pnt_db->sql_query($q);
+    while($row     = $pnt_db->sql_fetchrow($r))
         {
         if    (preg_match('/--'. $id .'--/i', $row['user_color_gi']))
             echo "                <option value=''>". $row['username'] ."</option>";
@@ -177,8 +177,8 @@ if ($mode == "main" || !$mode)
           FROM ". GROUPS_TABLE ."
           WHERE group_id > 0 AND group_description <> 'Personal User'
           ORDER BY group_id ASC";
-    $r = $titanium_db->sql_query($q);
-    $groups = $titanium_db->sql_fetchrowset($r);
+    $r = $pnt_db->sql_query($q);
+    $groups = $pnt_db->sql_fetchrowset($r);
 
     echo "                <select name='group_id'>";
     echo '                    <option selected value="" class="post">----------</option>';
@@ -211,12 +211,12 @@ if ($mode == "main" || !$mode)
     $q = "SELECT username, user_id
           FROM ". USERS_TABLE ."
           ORDER BY username ASC";
-    $r = $titanium_db->sql_query($q);
-    $titanium_users = $titanium_db->sql_fetchrowset($r);
+    $r = $pnt_db->sql_query($q);
+    $pnt_users = $pnt_db->sql_fetchrowset($r);
     echo "                <select name='users_id'>";
     echo '                    <option selected value="" class="post">----------</option>';
-        for ($x = 0; $x < count($titanium_users); $x++)
-            echo '<option value="'. $titanium_users[$x]['user_id'] .'" class="post">'. $titanium_users[$x]['username'] .'</option>';
+        for ($x = 0; $x < count($pnt_users); $x++)
+            echo '<option value="'. $pnt_users[$x]['user_id'] .'" class="post">'. $pnt_users[$x]['username'] .'</option>';
     echo "                </select>";
     echo "            </span>";
     echo "        </td>";
@@ -256,8 +256,8 @@ if ($mode == "main" || !$mode)
           FROM ". USERS_TABLE ."
           WHERE user_color_gi <> '0'
           ORDER BY username ASC";
-    $r            = $titanium_db->sql_query($q);
-    while($row     = $titanium_db->sql_fetchrow($r))
+    $r            = $pnt_db->sql_query($q);
+    while($row     = $pnt_db->sql_fetchrow($r))
         {
         if    (preg_match('/--'. $id .'--/i', $row['user_color_gi']))
             echo "            <option value='". $row['user_id'] ."'>". $row['username'] ."</option>";
@@ -277,14 +277,14 @@ if ($mode == "main" || !$mode)
 
     if($mode == "del_user")
         {
-    $titanium_user     = $HTTP_POST_VARS['delete'];
+    $pnt_user     = $HTTP_POST_VARS['delete'];
     $group     = $HTTP_POST_VARS['group'];
 
     $q = "SELECT user_color_gi
           FROM ". USERS_TABLE ."
-          WHERE user_id = '". $titanium_user ."'";
-    $r         = $titanium_db->sql_query($q);
-    $row     = $titanium_db->sql_fetchrow($r);
+          WHERE user_id = '". $pnt_user ."'";
+    $r         = $pnt_db->sql_query($q);
+    $row     = $pnt_db->sql_fetchrow($r);
 
     $remove = str_replace('--'. $group .'--', '', $row['user_color_gi']);
     if (!$remove)
@@ -297,8 +297,8 @@ if ($mode == "main" || !$mode)
         {
     $q = "SELECT group_color, group_id
           FROM ". COLORS ."";
-    $r = $titanium_db->sql_query($q);
-    $groups_info = $titanium_db->sql_fetchrowset($r);
+    $r = $pnt_db->sql_query($q);
+    $groups_info = $pnt_db->sql_fetchrowset($r);
         for ($a = 0; $a < count($groups_info); $a++)
             {
             if (preg_match('/--'. $groups_info[$a]['group_id'] .'--/i', $new_id))
@@ -313,8 +313,8 @@ if ($mode == "main" || !$mode)
 
     $q = "UPDATE ". USERS_TABLE ."
           SET user_color_gi = '$new_id', user_color_gc = '$new_color'
-          WHERE user_id = '". $titanium_user ."'";
-    $r = $titanium_db->sql_query($q);
+          WHERE user_id = '". $pnt_user ."'";
+    $r = $pnt_db->sql_query($q);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -341,15 +341,15 @@ if ($mode == "main" || !$mode)
 
         if ($multi)
             {
-        $titanium_users = explode("\n", $multi);
-            for ($x = 0; $x < count($titanium_users); $x++)
+        $pnt_users = explode("\n", $multi);
+            for ($x = 0; $x < count($pnt_users); $x++)
                 {
-            $titanium_users[$x] = trim(addslashes(stripslashes($titanium_users[$x])));
+            $pnt_users[$x] = trim(addslashes(stripslashes($pnt_users[$x])));
             $q = "SELECT user_color_gi, user_id
                   FROM ". USERS_TABLE ."
-                  WHERE username = '". $titanium_users[$x] ."'";
-            $r         = $titanium_db->sql_query($q);
-            $row     = $titanium_db->sql_fetchrow($r);
+                  WHERE username = '". $pnt_users[$x] ."'";
+            $r         = $pnt_db->sql_query($q);
+            $row     = $pnt_db->sql_fetchrow($r);
 
                 if ($row['user_color_gi'] <> '0')
                     $group = '--'. $group .'--'. $row['user_color_gi'];
@@ -359,7 +359,7 @@ if ($mode == "main" || !$mode)
             $q = "UPDATE ". USERS_TABLE ."
                   SET user_color_gi = '". $group ."', user_color_gc = '". $phpbb2_color ."'
                   WHERE user_id = '". $row['user_id'] ."'";
-            if (!$titanium_db->sql_query($q))
+            if (!$pnt_db->sql_query($q))
                 message_die(GENERAL_ERROR, 'ERROR!', '', __LINE__, __FILE__, $q);
                 }
 /*****[BEGIN]******************************************
@@ -376,8 +376,8 @@ if ($mode == "main" || !$mode)
         $q = "SELECT user_color_gi
               FROM ". USERS_TABLE ."
               WHERE user_id = '". $who ."'";
-        $r         = $titanium_db->sql_query($q);
-        $row     = $titanium_db->sql_fetchrow($r);
+        $r         = $pnt_db->sql_query($q);
+        $row     = $pnt_db->sql_fetchrow($r);
 
             if ($row['user_color_gi'] <> '0')
                 $group = '--'. $group .'--'. $row['user_color_gi'];
@@ -387,7 +387,7 @@ if ($mode == "main" || !$mode)
         $q = "UPDATE ". USERS_TABLE ."
               SET user_color_gi = '". $group ."', user_color_gc = '". $phpbb2_color ."'
               WHERE user_id = '". $who ."'";
-        if (!$titanium_db->sql_query($q))
+        if (!$pnt_db->sql_query($q))
             message_die(GENERAL_ERROR, 'ERROR!', '', __LINE__, __FILE__, $q);
             }
 /*****[BEGIN]******************************************
@@ -411,15 +411,15 @@ if ($mode == "main" || !$mode)
         $q_group = "SELECT user_id
               FROM ". USER_GROUP_TABLE ."
               WHERE group_id = '". $who ."'";
-        $r_group    = $titanium_db->sql_query($q_group);
+        $r_group    = $pnt_db->sql_query($q_group);
 
-    while($id_group = $titanium_db->sql_fetchrow($r_group))
+    while($id_group = $pnt_db->sql_fetchrow($r_group))
       {
         $q = "SELECT user_color_gi
               FROM ". USERS_TABLE ."
               WHERE user_id = '". $id_group['user_id'] ."'";
-        $r         = $titanium_db->sql_query($q);
-        $row     = $titanium_db->sql_fetchrow($r);
+        $r         = $pnt_db->sql_query($q);
+        $row     = $pnt_db->sql_fetchrow($r);
             $test = '--'. $group .'--';
         if(strstr($row[0], $test)) {
                 continue;
@@ -433,7 +433,7 @@ if ($mode == "main" || !$mode)
               SET user_color_gi = '". $group ."', user_color_gc = '". $phpbb2_color ."'
               WHERE user_id = '". $id_group['user_id'] ."'";
 
-        if (!$titanium_db->sql_query($q)) {
+        if (!$pnt_db->sql_query($q)) {
             message_die(GENERAL_ERROR, 'ERROR!', '', __LINE__, __FILE__, $q);
             }
 /*****[BEGIN]******************************************

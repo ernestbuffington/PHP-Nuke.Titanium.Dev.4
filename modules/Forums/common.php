@@ -197,12 +197,12 @@ $userdata = array();
 $theme = array();
 $images = array();
 $lang = array();
-$titanium_nav_links = array();
-$titanium_dss_seeded = false;
+$pnt_nav_links = array();
+$pnt_dss_seeded = false;
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-$titanium_pc_dateTime = array();
+$pnt_pc_dateTime = array();
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
@@ -222,7 +222,7 @@ include_once(NUKE_INCLUDE_DIR.'functions.php');
 include_once(NUKE_DB_DIR.'db.php');
 
 // We do not need this any longer, unset for safety purposes
-unset($titanium_dbpasswd);
+unset($pnt_dbpasswd);
 
 //
 // Obtain and encode users IP
@@ -232,9 +232,9 @@ unset($titanium_dbpasswd);
 // even bother complaining ... go scream and shout at the idiots out there who feel
 // "clever" is doing harm rather than good ... karma is a great thing ... :)
 // Quake: sorry fella, we are using a better ip tracker :)
-//$titanium_client_ip = ( !empty($HTTP_SERVER_VARS['REMOTE_ADDR']) ) ? $HTTP_SERVER_VARS['REMOTE_ADDR'] : ( ( !empty($HTTP_ENV_VARS['REMOTE_ADDR']) ) ? $HTTP_ENV_VARS['REMOTE_ADDR'] : getenv('REMOTE_ADDR') );
-$titanium_client_ip = $identify->get_ip();
-$titanium_user_ip = encode_ip($titanium_client_ip);
+//$pnt_client_ip = ( !empty($HTTP_SERVER_VARS['REMOTE_ADDR']) ) ? $HTTP_SERVER_VARS['REMOTE_ADDR'] : ( ( !empty($HTTP_ENV_VARS['REMOTE_ADDR']) ) ? $HTTP_ENV_VARS['REMOTE_ADDR'] : getenv('REMOTE_ADDR') );
+$pnt_client_ip = $identify->get_ip();
+$pnt_user_ip = encode_ip($pnt_client_ip);
 
 //
 // Setup forum wide options, if this fails

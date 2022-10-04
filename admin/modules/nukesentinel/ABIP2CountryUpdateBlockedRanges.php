@@ -18,7 +18,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 @set_time_limit(600);
 $perpage = 200;
 if(!$ab_config['page_delay'] OR $ab_config['page_delay'] < 1) { $pagedelay = 5; } else { $pagedelay = $ab_config['page_delay']; }
-$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT `ip_lo` FROM `".$titanium_prefix."_nsnst_blocked_ranges`"));
+$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `ip_lo` FROM `".$pnt_prefix."_nsnst_blocked_ranges`"));
 if(!isset($min)) {
   $min=0;
   $pagesint = ($totalselected / $perpage);
@@ -47,13 +47,13 @@ if(!isset($min)) {
   CloseTable();
   include_once(NUKE_BASE_DIR.'footer.php');
 } else if($min < $totalselected) {
-  $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_config` SET `config_value`='1' WHERE `config_name`='site_switch'");
+  $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_config` SET `config_value`='1' WHERE `config_name`='site_switch'");
   $ab_config['site_switch'] = 1;
-  $result = $titanium_db->sql_query("SELECT `ip_lo` FROM `".$titanium_prefix."_nsnst_blocked_ranges` LIMIT $min, $perpage");
-  while(list($xip_lo) = $titanium_db->sql_fetchrow($result)) {
-    list($xc2c) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `c2c` FROM `".$titanium_prefix."_nsnst_ip2country` WHERE `ip_lo`<='$xip_lo' AND `ip_hi`>='$xip_lo' LIMIT 0,1"));
+  $result = $pnt_db->sql_query("SELECT `ip_lo` FROM `".$pnt_prefix."_nsnst_blocked_ranges` LIMIT $min, $perpage");
+  while(list($xip_lo) = $pnt_db->sql_fetchrow($result)) {
+    list($xc2c) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `c2c` FROM `".$pnt_prefix."_nsnst_ip2country` WHERE `ip_lo`<='$xip_lo' AND `ip_hi`>='$xip_lo' LIMIT 0,1"));
     if(!$xc2c) { $xc2c = "00"; }
-    $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_blocked_ranges` SET `c2c`='$xc2c' WHERE `ip_lo`='$xip_lo'");
+    $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_blocked_ranges` SET `c2c`='$xc2c' WHERE `ip_lo`='$xip_lo'");
   }
   $max=$min+$perpage;
   $pagesint = ($totalselected / $perpage);
@@ -77,7 +77,7 @@ if(!isset($min)) {
   CloseTable();
   include_once(NUKE_BASE_DIR.'footer.php');
 } else {
-  $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_config` SET `config_value`='0' WHERE `config_name`='site_switch'");
+  $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_config` SET `config_value`='0' WHERE `config_name`='site_switch'");
   $ab_config['site_switch'] = 0;
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();

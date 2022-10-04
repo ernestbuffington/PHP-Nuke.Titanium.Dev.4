@@ -41,13 +41,13 @@ require_once(dirname(__FILE__).'/mainfile.php');
 /*****[BEGIN]******************************************
  [ Mod:    Banner Ads                          v1.0.0 ]
  ******************************************************/
-global $titanium_prefix, $titanium_db, $admin_file, $httpref, $httprefmax;
+global $pnt_prefix, $pnt_db, $admin_file, $httpref, $httprefmax;
 if (isset($_GET['op'])):
 	if($_GET['op'] == 'ad_click' && isset($_GET['bid'])):
         $bid = intval($_GET['bid']);
-        list($clickurl) = $titanium_db->sql_ufetchrow("SELECT `clickurl` FROM `".$titanium_prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
+        list($clickurl) = $pnt_db->sql_ufetchrow("SELECT `clickurl` FROM `".$pnt_prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
         if(!is_admin())
-        $titanium_db->sql_query("UPDATE `".$titanium_prefix."_banner` SET `clicks`=clicks+1 WHERE `bid`='$bid'");
+        $pnt_db->sql_query("UPDATE `".$pnt_prefix."_banner` SET `clicks`=clicks+1 WHERE `bid`='$bid'");
         redirect_titanium($clickurl);
 	else: 
         exit('Illegal Operation');
@@ -60,13 +60,13 @@ endif;
 /*****[BEGIN]**************************************************
  [ Mod:    Network Banner Ads                          v1.0.0 ]#### 3/19/2021
  **************************************************************/
-global $network_prefix, $titanium_db2;
+global $network_prefix, $pnt_db2;
 if (isset($_GET['op'])):
     if($_GET['op'] == 'ad_network_click' && isset($_GET['bid'])):
         $bid = intval($_GET['bid']);
-        list($clickurl) = $titanium_db2->sql_ufetchrow("SELECT `clickurl` FROM `".$network_prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
+        list($clickurl) = $pnt_db2->sql_ufetchrow("SELECT `clickurl` FROM `".$network_prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
         if(!is_admin())
-        $titanium_db2->sql_query("UPDATE `".$network_prefix."_banner` SET `clicks`=clicks+1 WHERE `bid`='$bid'");
+        $pnt_db2->sql_query("UPDATE `".$network_prefix."_banner` SET `clicks`=clicks+1 WHERE `bid`='$bid'");
         redirect_titanium($clickurl);
 	else: 
         exit('Illegal Operation');
@@ -89,7 +89,7 @@ if($arcade == 'Arcade' && $newscore='newscore'):
      $gamescore = intval($HTTP_POST_VARS['gscore']);
 
       //Get Game ID
-      $row = $titanium_db->sql_ufetchrow("SELECT game_id FROM ".$titanium_prefix."_bbgames WHERE game_scorevar='$gamename'");
+      $row = $pnt_db->sql_ufetchrow("SELECT game_id FROM ".$pnt_prefix."_bbgames WHERE game_scorevar='$gamename'");
       $gid = intval($row['game_id']);
 
       $ThemeSel = get_theme();
@@ -142,11 +142,11 @@ if (stristr($file,"..") || stristr($mod_file,"..") || stristr($mop,"..")):
  ******************************************************/
     die("You are so cool...");
 else:
-    $titanium_module = $titanium_db->sql_ufetchrow('SELECT `blocks` FROM `'.$titanium_prefix.'_modules` WHERE `title`="'.$pnt_module.'"');
+    $pnt_module = $pnt_db->sql_ufetchrow('SELECT `blocks` FROM `'.$pnt_prefix.'_modules` WHERE `title`="'.$pnt_module.'"');
 	$modpath = NUKE_MODULES_DIR.$pnt_module."/$file.php";
 	if (file_exists($modpath)):
-		$showblocks = $titanium_module['blocks'];
-		unset($titanium_module, $error);
+		$showblocks = $pnt_module['blocks'];
+		unset($pnt_module, $error);
 		require($modpath);
     else:
         DisplayError((is_admin()) ? "<strong>"._HOMEPROBLEM."</strong><br /><br />[ <a href=\"".$admin_file.".php?op=modules\">"._ADDAHOME."</a> ]" : _HOMEPROBLEMUSER);

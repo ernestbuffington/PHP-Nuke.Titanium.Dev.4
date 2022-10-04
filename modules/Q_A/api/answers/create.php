@@ -5,12 +5,12 @@ include_once($BASE_DIR .'database/registered_user.php');
 
 $USERNAME = $_SESSION['username'];
 
-$titanium_userid = getUserByUsername($USERNAME)['userid'];
+$pnt_userid = getUserByUsername($USERNAME)['userid'];
 $questionid = $_POST['questionid'];
 $content = $_POST['content'];
 
 
-$answerid = createAnswer($questionid, $titanium_userid, $content);
+$answerid = createAnswer($questionid, $pnt_userid, $content);
 
 echo json_encode(getAnswer($answerid));
 ?>

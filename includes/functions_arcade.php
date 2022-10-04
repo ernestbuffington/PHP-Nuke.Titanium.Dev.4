@@ -33,56 +33,56 @@ if ( !file_exists($phpbb2_root_path . 'language/lang_' . $language . '/lang_main
 include($phpbb2_root_path . 'language/lang_' . $language . '/lang_main_arcade.' . $phpEx);
 
 function read_arcade_config() {
-        global $titanium_db;
+        global $pnt_db;
 
         $arcade_config = array();
         $sql = "SELECT * FROM " . ARCADE_TABLE;
 
-        if(!($result = $titanium_db->sql_query($sql))) {
+        if(!($result = $pnt_db->sql_query($sql))) {
                 message_die(CRITICAL_ERROR, "Could not query arcade config information", "", __LINE__, __FILE__, $sql);
         }
 
-        while ($row = $titanium_db->sql_fetchrow($result)) {
+        while ($row = $pnt_db->sql_fetchrow($result)) {
                 $arcade_config[$row['arcade_name']] = $row['arcade_value'];
         }
 
         return $arcade_config;
 }
 
-function get_arcade_categories($titanium_user_id, $titanium_user_level, $mode) {
-        global $titanium_db;
+function get_arcade_categories($pnt_user_id, $pnt_user_level, $mode) {
+        global $pnt_db;
         $liste_cat = '';
         $nbcat = 0;
 
         switch ($mode) {
                 case 'view':
                     $liste_auth = "0,1,3,5";
-                    $liste_auth .= ($titanium_user_level == ADMIN) ? ',2,4,6' : (( $titanium_user_level == MOD) ? ',4' : '');
+                    $liste_auth .= ($pnt_user_level == ADMIN) ? ',2,4,6' : (( $pnt_user_level == MOD) ? ',4' : '');
                     break;
 
                 case 'play':
                     $liste_auth = "0";
-                    $liste_auth .= ($titanium_user_level == ADMIN) ? ',1,2,3,4,5,6' : (( $titanium_user_level == MOD) ? ',3,4' : '');
+                    $liste_auth .= ($pnt_user_level == ADMIN) ? ',1,2,3,4,5,6' : (( $pnt_user_level == MOD) ? ',3,4' : '');
                     break;
         }
 
         $sql = "SELECT arcade_catid FROM " . ARCADE_CATEGORIES_TABLE . " WHERE arcade_catauth IN ($liste_auth)";
 
-        if (!($result = $titanium_db->sql_query($sql))) {
+        if (!($result = $pnt_db->sql_query($sql))) {
                 message_die(GENERAL_ERROR, 'Could not select info FROM arcade_categories table', '', __LINE__, __FILE__, $sql);
         }
 
-        while($row = $titanium_db->sql_fetchrow($result)) {
+        while($row = $pnt_db->sql_fetchrow($result)) {
                 $liste_cat .= (empty($liste_cat)) ? $row['arcade_catid'] : ',' . $row['arcade_catid'];
         }
 
-          $sql = "SELECT aa.arcade_catid FROM " . AUTH_ARCADE_ACCESS_TABLE . " aa, " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE. " g WHERE ug.user_id = $titanium_user_id AND g.group_id = ug.group_id AND aa.group_id = ug.group_id ";
+          $sql = "SELECT aa.arcade_catid FROM " . AUTH_ARCADE_ACCESS_TABLE . " aa, " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE. " g WHERE ug.user_id = $pnt_user_id AND g.group_id = ug.group_id AND aa.group_id = ug.group_id ";
 
-        if (!($result = $titanium_db->sql_query($sql))) {
+        if (!($result = $pnt_db->sql_query($sql))) {
                 message_die(GENERAL_ERROR, 'Could not select info FROM user/user_group table', '', __LINE__, __FILE__, $sql);
         }
 
-        while($row = $titanium_db->sql_fetchrow($result)) {
+        while($row = $pnt_db->sql_fetchrow($result)) {
                 $liste_cat .= (empty($liste_cat)) ? $row['arcade_catid'] : ',' . $row['arcade_catid'];
         }
 

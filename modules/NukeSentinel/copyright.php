@@ -23,8 +23,8 @@ $author_email = '';
 $author_homepage = 'http://nukescripts.86it.us';
 $license = 'Copyright &#169; 2000-2008 NukeScripts(tm)';
 $download_location = '';
-$titanium_module_version = '2.6.04';
-$titanium_module_description = 'Advanced site security proudly produced by: NukeScripts(tm), Raven PHPScripts, NukeResources, &amp; Nuke-Evolution.';
+$pnt_module_version = '2.6.04';
+$pnt_module_description = 'Advanced site security proudly produced by: NukeScripts(tm), Raven PHPScripts, NukeResources, &amp; Nuke-Evolution.';
 
 // DO NOT TOUCH THE FOLLOWING COPYRIGHT CODE. YOU'RE JUST ALLOWED TO CHANGE YOUR "OWN"
 // MODULE'S DATA (SEE ABOVE) SO THE SYSTEM CAN BE ABLE TO SHOW THE COPYRIGHT NOTICE
@@ -33,6 +33,6 @@ $titanium_module_description = 'Advanced site security proudly produced by: Nuke
 // AND YOU ARE NOT ALLOWED TO DELETE THIS FILE NOR TO CHANGE ANYTHING FROM THIS FILE IF
 // YOU'RE NOT THIS MODULE'S AUTHOR.
 
-show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $titanium_module_version, $titanium_module_description);
+show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $pnt_module_version, $pnt_module_description);
 
 ?>

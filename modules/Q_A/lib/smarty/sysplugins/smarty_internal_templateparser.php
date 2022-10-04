@@ -95,7 +95,7 @@ class Smarty_Internal_Templateparser#line 80 "smarty_internal_templateparser.php
     // states whether the parse was successful or not
     public $successful = true;
     public $retvalue = 0;
-    public static $titanium_prefix_number = 0;
+    public static $pnt_prefix_number = 0;
     private $lex;
     private $internalError = false;
     private $strip = false;
@@ -2617,9 +2617,9 @@ static public $yy_action = array(
 #line 2613 "smarty_internal_templateparser.php"
 #line 677 "smarty_internal_templateparser.y"
     function yy_r101(){
-    self::$titanium_prefix_number++;
-    $this->compiler->prefix_code[] = '<?php $_tmp'.self::$titanium_prefix_number.'='.$this->yystack[$this->yyidx + 0]->minor.';?>';
-    $this->_retvalue = $this->yystack[$this->yyidx + -2]->minor.$this->yystack[$this->yyidx + -1]->minor.'$_tmp'.self::$titanium_prefix_number;
+    self::$pnt_prefix_number++;
+    $this->compiler->prefix_code[] = '<?php $_tmp'.self::$pnt_prefix_number.'='.$this->yystack[$this->yyidx + 0]->minor.';?>';
+    $this->_retvalue = $this->yystack[$this->yyidx + -2]->minor.$this->yystack[$this->yyidx + -1]->minor.'$_tmp'.self::$pnt_prefix_number;
     }
 #line 2620 "smarty_internal_templateparser.php"
 #line 686 "smarty_internal_templateparser.y"
@@ -2694,9 +2694,9 @@ static public $yy_action = array(
 #line 2690 "smarty_internal_templateparser.php"
 #line 793 "smarty_internal_templateparser.y"
     function yy_r121(){
-    self::$titanium_prefix_number++;
-    $this->compiler->prefix_code[] = '<?php ob_start();?>'.$this->yystack[$this->yyidx + -1]->minor.'<?php $_tmp'.self::$titanium_prefix_number.'=ob_get_clean();?>';
-    $this->_retvalue = '$_tmp'.self::$titanium_prefix_number;
+    self::$pnt_prefix_number++;
+    $this->compiler->prefix_code[] = '<?php ob_start();?>'.$this->yystack[$this->yyidx + -1]->minor.'<?php $_tmp'.self::$pnt_prefix_number.'=ob_get_clean();?>';
+    $this->_retvalue = '$_tmp'.self::$pnt_prefix_number;
     }
 #line 2697 "smarty_internal_templateparser.php"
 #line 808 "smarty_internal_templateparser.y"
@@ -2869,9 +2869,9 @@ static public $yy_action = array(
                 }
                 $par = implode(',',$this->yystack[$this->yyidx + -1]->minor);
                 if (strncasecmp($par,'$_smarty_tpl->getConfigVariable',strlen('$_smarty_tpl->getConfigVariable')) === 0) {
-                    self::$titanium_prefix_number++;
-                    $this->compiler->prefix_code[] = '<?php $_tmp'.self::$titanium_prefix_number.'='.str_replace(')',', false)',$par).';?>';
-                    $isset_par = '$_tmp'.self::$titanium_prefix_number;
+                    self::$pnt_prefix_number++;
+                    $this->compiler->prefix_code[] = '<?php $_tmp'.self::$pnt_prefix_number.'='.str_replace(')',', false)',$par).';?>';
+                    $isset_par = '$_tmp'.self::$pnt_prefix_number;
                 } else {
                     $isset_par=str_replace("')->value","',null,true,false)->value",$par);
                 }
@@ -2907,9 +2907,9 @@ static public $yy_action = array(
     if ($this->security) {
         $this->compiler->trigger_template_error (self::Err2);
     }
-    self::$titanium_prefix_number++;
-    $this->compiler->prefix_code[] = '<?php $_tmp'.self::$titanium_prefix_number.'='.$this->compileVariable("'".$this->yystack[$this->yyidx + -3]->minor."'").';?>';
-    $this->_retvalue = '$_tmp'.self::$titanium_prefix_number.'('. implode(',',$this->yystack[$this->yyidx + -1]->minor) .')';
+    self::$pnt_prefix_number++;
+    $this->compiler->prefix_code[] = '<?php $_tmp'.self::$pnt_prefix_number.'='.$this->compileVariable("'".$this->yystack[$this->yyidx + -3]->minor."'").';?>';
+    $this->_retvalue = '$_tmp'.self::$pnt_prefix_number.'('. implode(',',$this->yystack[$this->yyidx + -1]->minor) .')';
     }
 #line 2910 "smarty_internal_templateparser.php"
 #line 1043 "smarty_internal_templateparser.y"

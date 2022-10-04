@@ -35,19 +35,19 @@ function change_post_msg($message,$ya_username)
 //PM Sign Up
 function send_pm($new_uid,$ya_username)
 {
-    global $titanium_db, $titanium_prefix, $titanium_user_prefix, $phpbb2_board_config;
+    global $pnt_db, $pnt_prefix, $pnt_user_prefix, $phpbb2_board_config;
 
     if($phpbb2_board_config['welcome_pm'] != '1') { return; }
 
     $privmsgs_date = time();
 
-    $sql = "SELECT * FROM ".$titanium_prefix."_welcome_pm";
+    $sql = "SELECT * FROM ".$pnt_prefix."_welcome_pm";
 
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
            echo "Could not obtain private message";
     }
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
     $message = $row['msg'];
     $subject = $row['subject'];
     if(empty($message) || empty($subject)) {
@@ -60,26 +60,26 @@ function send_pm($new_uid,$ya_username)
 
     $from_userid = (!$phpbb2_board_config['welcome_pm_username']) ? 2 : 1;
 
-    $sql = "INSERT INTO " . $titanium_prefix . "_bbprivmsgs (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date ) VALUES ('1', '".$subject."', '".$from_userid."', '".$new_uid."', ".$privmsgs_date.")";
-    if ( !$titanium_db->sql_query($sql) )
+    $sql = "INSERT INTO " . $pnt_prefix . "_bbprivmsgs (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date ) VALUES ('1', '".$subject."', '".$from_userid."', '".$new_uid."', ".$privmsgs_date.")";
+    if ( !$pnt_db->sql_query($sql) )
     {
        echo "Could not insert private message sent info";
     }
 
-    $privmsg_sent_id = $titanium_db->sql_nextid();
+    $privmsg_sent_id = $pnt_db->sql_nextid();
     $privmsg_message = addslashes($privmsg_message);
 
-    $sql = "INSERT INTO " . $titanium_prefix . "_bbprivmsgs_text (privmsgs_text_id, privmsgs_bbcode_uid, privmsgs_text) VALUES ('".$privmsg_sent_id."', '".$bbcode_uid."', '".$privmsg_message."')";
+    $sql = "INSERT INTO " . $pnt_prefix . "_bbprivmsgs_text (privmsgs_text_id, privmsgs_bbcode_uid, privmsgs_text) VALUES ('".$privmsg_sent_id."', '".$bbcode_uid."', '".$privmsg_message."')";
 
-    if ( !$titanium_db->sql_query($sql) )
+    if ( !$pnt_db->sql_query($sql) )
     {
        echo "Could not insert private message sent text";
     }
 
-    $sql = "UPDATE " . $titanium_user_prefix . "_users
+    $sql = "UPDATE " . $pnt_user_prefix . "_users
             SET user_new_privmsg = user_new_privmsg + 1,  user_last_privmsg = '" . time() . "'
             WHERE user_id = $new_uid";
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
          echo "Could not update users table";
     }

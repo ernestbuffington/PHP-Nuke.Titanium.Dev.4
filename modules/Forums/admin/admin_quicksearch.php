@@ -36,7 +36,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $titanium_module['General']['Quick Search List'] = "$file";
+    $pnt_module['General']['Quick Search List'] = "$file";
     return;
 }
 
@@ -93,13 +93,13 @@ if( !empty($mode) )
 
             $sql = "SELECT * FROM " . QUICKSEARCH_TABLE . "
                 WHERE search_id = $search_id";
-            if(!$result = $titanium_db->sql_query($sql))
+            if(!$result = $pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, "Couldn't obtain quick search data", "", __LINE__, __FILE__, $sql);
             }
             
             $search_info = array();
-            $search_info = $titanium_db->sql_fetchrow($result);
+            $search_info = $pnt_db->sql_fetchrow($result);
             $s_hidden_fields .= '<input type="hidden" name="id" value="' . $search_id . '" />';
 
         }
@@ -163,7 +163,7 @@ if( !empty($mode) )
             $message = $lang['Search_added'];
         }
         
-        if( !$result = $titanium_db->sql_query($sql) )
+        if( !$result = $pnt_db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, "Couldn't update quick search table", "", __LINE__, __FILE__, $sql);
         }
@@ -189,7 +189,7 @@ if( !empty($mode) )
             $sql = "DELETE FROM " . QUICKSEARCH_TABLE . "
                 WHERE search_id = $search_id";
             
-            if( !$result = $titanium_db->sql_query($sql) )
+            if( !$result = $pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Couldn't delete quick search data", "", __LINE__, __FILE__, $sql);
             }
@@ -212,13 +212,13 @@ if( !empty($mode) )
         
         $sql = "SELECT * FROM " . QUICKSEARCH_TABLE . "
             ORDER BY search_name";
-        if( !$result = $titanium_db->sql_query($sql) )
+        if( !$result = $pnt_db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, "Couldn't retrieve quick search data", "", __LINE__, __FILE__, $sql);
         }
         
         $search_rows = array();
-        $search_rows = $titanium_db->sql_fetchrowset($result);
+        $search_rows = $pnt_db->sql_fetchrowset($result);
         $search_count = count($search_rows);
         
         $phpbb2_template->assign_vars(array(
@@ -263,14 +263,14 @@ else
     
     $sql = "SELECT * FROM " . QUICKSEARCH_TABLE . "
         ORDER BY search_name";
-    if( !$result = $titanium_db->sql_query($sql) )
+    if( !$result = $pnt_db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, "Couldn't retrieve quick search data", "", __LINE__, __FILE__, $sql);
     }
-    $search_count = $titanium_db->sql_numrows($result);
+    $search_count = $pnt_db->sql_numrows($result);
 
     $search_rows = array();
-    $search_rows = $titanium_db->sql_fetchrowset($result);
+    $search_rows = $pnt_db->sql_fetchrowset($result);
     
     $phpbb2_template->assign_vars(array(
         "L_SEARCHS_TITLE" => $lang['Search_title'],

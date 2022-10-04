@@ -8,16 +8,16 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REQUESTMAP;
 
 include_once(NUKE_BASE_DIR.'header.php');
 
-$projectresult = $titanium_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
+$projectresult = $pnt_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
 
-while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) 
+while(list($project_id) = $pnt_db2->sql_fetchrow($projectresult)) 
 {
   $project = pjproject_info($project_id);
   $projectstatus = pjprojectstatus_info($project['status_id']);
@@ -25,7 +25,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 
   if($project['allowrequests'] > 0) 
   {
-    $requestresult = $titanium_db2->sql_query("SELECT `request_id`, 
+    $requestresult = $pnt_db2->sql_query("SELECT `request_id`, 
 	                                                `request_name`, 
 													   `status_id`, 
 													     `type_id` 
@@ -34,7 +34,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 	
 	WHERE `project_id`='$project_id' ORDER BY `request_name`");
     
-	$request_total = $titanium_db2->sql_numrows($requestresult);
+	$request_total = $pnt_db2->sql_numrows($requestresult);
     
 	OpenTable();
     
@@ -93,7 +93,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
     
 	if($request_total > 0)
 	{
-      list($last_date) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `date_submitted` 
+      list($last_date) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `date_submitted` 
 	  
 	  FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id' ORDER BY `date_submitted` desc"));
       
@@ -115,11 +115,11 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 	if($request_total != 0)
 	{
     
-	  while(list($request_id, $request_name, $status_id, $type_id) = $titanium_db2->sql_fetchrow($requestresult)) 
+	  while(list($request_id, $request_name, $status_id, $type_id) = $pnt_db2->sql_fetchrow($requestresult)) 
 	  {
-        $requestcommentresult = $titanium_db2->sql_query("SELECT `request_id` FROM `".$network_prefix."_requests_comments` WHERE `request_id`='$request_id'");
+        $requestcommentresult = $pnt_db2->sql_query("SELECT `request_id` FROM `".$network_prefix."_requests_comments` WHERE `request_id`='$request_id'");
       
-	    $requestcomment_total = $titanium_db2->sql_numrows($requestcommentresult);
+	    $requestcomment_total = $pnt_db2->sql_numrows($requestcommentresult);
       
 	    $requeststatus = pjrequeststatus_info($status_id);
       
@@ -149,7 +149,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 
         if($requestcomment_total > 0)
 		{
-          list($last_date) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `date_commented` 
+          list($last_date) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `date_commented` 
 		  
 		  FROM `".$network_prefix."_requests_comments` WHERE `request_id`='$request_id' ORDER BY `date_commented` desc"));
           

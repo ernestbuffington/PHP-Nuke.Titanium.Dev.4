@@ -18,7 +18,7 @@ require_once('mainfile.php');
 
 if(is_mod_admin($pnt_module)) 
 {
-	global $titanium_db, $admin_file, $currentlang, $userinfo;
+	global $pnt_db, $admin_file, $currentlang, $userinfo;
 //-------------------------------------------------------------------------
 //  INCLUDE THE LANGUAGE FILE FOR THE MODULE.
 //-------------------------------------------------------------------------

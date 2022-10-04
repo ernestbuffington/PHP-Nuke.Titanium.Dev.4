@@ -33,7 +33,7 @@ include($phpbb2_root_path . 'common.'.$phpEx);
 include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_auc.' . $phpEx);
 
 # Start session management 
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX); 
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX); 
 titanium_init_userprefs($userdata); 
 # End session management 
 
@@ -67,9 +67,9 @@ if($exist):
                  WHERE user_level = '".$g."' 
                  ORDER BY user_id ASC"; 
   
-  $r = $titanium_db->sql_query($q);
+  $r = $pnt_db->sql_query($q);
      
-  while($row1 = $titanium_db->sql_fetchrow($r)):
+  while($row1 = $pnt_db->sql_fetchrow($r)):
   
      $row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2']; 
      $row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2']; 
@@ -112,13 +112,13 @@ if($exist):
 
 elseif($group):
  
-   $sql = "SELECT * FROM ".$titanium_prefix."_bbadvanced_username_color
+   $sql = "SELECT * FROM ".$pnt_prefix."_bbadvanced_username_color
                     WHERE group_id = '".$group."' "; 
 					
-   if(!$result = $titanium_db->sql_query($sql)) 
+   if(!$result = $pnt_db->sql_query($sql)) 
    message_die(GENERAL_ERROR, "Error Selecting Group Name.", "", __LINE__, __FILE__, $sql); 
    
-   $row = $titanium_db->sql_fetchrow($result);
+   $row = $pnt_db->sql_fetchrow($result);
              
    $i = 1;
                                                                     
@@ -127,8 +127,8 @@ elseif($group):
                   AND user_allow_viewonline = 1
 				  ORDER BY username ASC"; 
    
-   $r = $titanium_db->sql_query($q);
-   $row1 = $titanium_db->sql_fetchrowset($r);
+   $r = $pnt_db->sql_query($q);
+   $row1 = $pnt_db->sql_fetchrowset($r);
             
    for($a = 0; $a < count($row1); $a++):
      if(!$row1[$a]['user_id']) 

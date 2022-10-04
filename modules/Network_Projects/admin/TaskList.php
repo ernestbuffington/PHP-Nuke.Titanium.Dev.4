@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
@@ -28,7 +28,7 @@ echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr><td colspan='3' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_TASKOPTIONS."</strong></nobr></td></tr>\n";
 $pjimage = pjimage("options.png", $pnt_module);
 echo "<tr><td><img src='$pjimage'></td><td colspan='2' width='100%'><nobr><a href='".$admin_file.".php?op=TaskAdd'>"._NETWORK_TASKADD."</a></nobr></td></tr>\n";
-$taskrows = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT `task_id` FROM `".$network_prefix."_tasks`"));
+$taskrows = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT `task_id` FROM `".$network_prefix."_tasks`"));
 $pjimage = pjimage("stats.png", $pnt_module);
 echo "<tr><td><img src='$pjimage'></td><td colspan='2' width='100%'><nobr>"._NETWORK_TOTALTASKS.": <strong>$taskrows</strong></nobr></td></tr>\n";
 echo "</table>\n";
@@ -47,12 +47,12 @@ echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_STATUS."</strong
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_PRIORITY."</strong></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</strong></td></tr>\n";
 if($taskrows > 0){
-  $reviewresult = $titanium_db2->sql_query("SELECT `task_id`, `task_name`, `project_id`, `priority_id`, `status_id` FROM `".$network_prefix."_tasks` ORDER BY `$column` $direction LIMIT $phpbb2_start_list, $phpbb2_end_list");
-  while(list($task_id, $task_name, $project_id, $priority_id, $status_id) = $titanium_db2->sql_fetchrow($reviewresult)){
+  $reviewresult = $pnt_db2->sql_query("SELECT `task_id`, `task_name`, `project_id`, `priority_id`, `status_id` FROM `".$network_prefix."_tasks` ORDER BY `$column` $direction LIMIT $phpbb2_start_list, $phpbb2_end_list");
+  while(list($task_id, $task_name, $project_id, $priority_id, $status_id) = $pnt_db2->sql_fetchrow($reviewresult)){
     $taskstatus = pjtaskstatus_info($status_id);
     $project = pjproject_info($project_id);
     $taskpriority = pjtaskpriority_info($priority_id);
-    $members = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_tasks_members` WHERE `task_id`='$task_id'"));
+    $members = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_tasks_members` WHERE `task_id`='$task_id'"));
     $pjimage = pjimage("task.png", $pnt_module);
     echo "<tr><td><img src='$pjimage'></td><td width='100%'>$task_name</td>\n";
     echo "<td align='center'><nobr><a href='".$admin_file.".php?op=ProjectList'>".$project['project_name']."</a></nobr></td>\n";

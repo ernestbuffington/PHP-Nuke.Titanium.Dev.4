@@ -95,18 +95,18 @@ LIMIT " . $core->return_limit;
 
 $result = $core->sql_query($sql, 'Couldn\'t retrieve topposters data');
 
-$titanium_user_count = $core->sql_numrows($result);
-$titanium_user_data = $core->sql_fetchrowset($result);
+$pnt_user_count = $core->sql_numrows($result);
+$pnt_user_data = $core->sql_fetchrowset($result);
 
 $phpbb2_total_posts_thisweek = 0;
 
-for ($i = 0; $i < $titanium_user_count; $i++)
+for ($i = 0; $i < $pnt_user_count; $i++)
 {
-    $phpbb2_total_posts_thisweek += intval($titanium_user_data[$i]['user_posts']);
+    $phpbb2_total_posts_thisweek += intval($pnt_user_data[$i]['user_posts']);
 }
 
-$content->init_math('user_posts', $titanium_user_data[0]['user_posts'], $phpbb2_total_posts_thisweek);
-$core->set_data($titanium_user_data);
+$content->init_math('user_posts', $pnt_user_data[0]['user_posts'], $phpbb2_total_posts_thisweek);
+$core->set_data($pnt_user_data);
 
 $core->define_view('set_rows', array(
     '$core->pre_defined()',

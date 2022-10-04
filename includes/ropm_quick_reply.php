@@ -147,7 +147,7 @@ $phpbb2_template->assign_var_from_handle('ROPM_QUICKREPLY_OUTPUT', 'ropm_quick_r
 
 function generate_smilies_row()
 {
-   global $titanium_db, $phpbb2_board_config, $phpbb2_template;
+   global $pnt_db, $phpbb2_board_config, $phpbb2_template;
 
    $max_smilies = $phpbb2_board_config['ropm_quick_reply_smilies'];
 
@@ -168,12 +168,12 @@ function generate_smilies_row()
          ORDER BY smilies_id LIMIT ' . $max_smilies;
       break;
    }
-   if (!$result = $titanium_db->sql_query($sql))
+   if (!$result = $pnt_db->sql_query($sql))
    {
       message_die(GENERAL_ERROR, "Couldn't retrieve smilies list", '', __LINE__, __FILE__, $sql);
    }
-   $smilies_count = $titanium_db->sql_numrows($result);
-   $smilies_data = $titanium_db->sql_fetchrowset($result);
+   $smilies_count = $pnt_db->sql_numrows($result);
+   $smilies_data = $pnt_db->sql_fetchrowset($result);
    for ($i = 0; $i < $smilies_count; $i++)
    {
          $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.SMILIES', array(
@@ -185,11 +185,11 @@ function generate_smilies_row()
    $sql = 'SELECT COUNT(*) FROM ' . SMILIES_TABLE . '
            GROUP BY smile_url;';
 
-   if (!$result = $titanium_db->sql_query($sql))
+   if (!$result = $pnt_db->sql_query($sql))
    {
       message_die(GENERAL_ERROR, "Couldn't count smilies", '', __LINE__, __FILE__, $sql);
    }
-   $real_smilies_count = $titanium_db->sql_numrows($result);
+   $real_smilies_count = $pnt_db->sql_numrows($result);
    if ($real_smilies_count > $max_smilies || !$max_smilies)
    $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.MORESMILIES', array());
 }

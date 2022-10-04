@@ -18,15 +18,15 @@ donation_title();
     Notes:       N/A
 ================================================================================================*/
 function make_get_values () {
-    global $titanium_db, $titanium_prefix, $lang_donate;
+    global $pnt_db, $pnt_prefix, $lang_donate;
     //Get the donation values
-    $sql = 'SELECT config_value from '.$titanium_prefix.'_donators_config WHERE config_name="values"';
+    $sql = 'SELECT config_value from '.$pnt_prefix.'_donators_config WHERE config_name="values"';
     //If not
-    if(!$result = $titanium_db->sql_query($sql)) {
+    if(!$result = $pnt_db->sql_query($sql)) {
         DonateError($lang_donate['VALUES_NF'],0);
     }
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
     //Explode them into an array
     $values = explode(',', $row[0]);
     //Send them back

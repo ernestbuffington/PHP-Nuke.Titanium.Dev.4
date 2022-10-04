@@ -18,7 +18,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $titanium_module['Arcade_Admin']['Manage_games'] = $file;
+    $pnt_module['Arcade_Admin']['Manage_games'] = $file;
     return;
 }
 
@@ -36,17 +36,17 @@ require($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
 
 function resynch_arcade_categorie($catid)
 {
-  global $titanium_db;
+  global $pnt_db;
   
   $sql = "SELECT COUNT(*) AS nbelmt FROM " . GAMES_TABLE . " WHERE arcade_catid = $catid";
-  if( !$result = $titanium_db->sql_query($sql) )
+  if( !$result = $pnt_db->sql_query($sql) )
   {
     message_die(GENERAL_ERROR, "Could not read the games table", "", __LINE__, __FILE__, $sql);
   }
-  $row = $titanium_db->sql_fetchrow($result);
+  $row = $pnt_db->sql_fetchrow($result);
   $nbelmt = $row['nbelmt'];
   $sql = "UPDATE " . ARCADE_CATEGORIES_TABLE . " SET arcade_nbelmt = $nbelmt WHERE arcade_catid = $catid";
-  if( !$result = $titanium_db->sql_query($sql) )
+  if( !$result = $pnt_db->sql_query($sql) )
   {
     message_die(GENERAL_ERROR, "Could not update the arcade categories table", "", __LINE__, __FILE__, $sql);
   }
@@ -73,12 +73,12 @@ if ( $mode == 'movedel')
 {
     $to_catid = get_var_gf(array('name'=>'to_catid', 'intval'=>true ));
     $sql = "UPDATE " . GAMES_TABLE . " SET arcade_catid = $to_catid WHERE arcade_catid = $arcade_catid";
-    if( !$titanium_db->sql_query($sql) )
+    if( !$pnt_db->sql_query($sql) )
     {
       message_die(GENERAL_ERROR, "Could not read the games table", "", __LINE__, __FILE__, $sql);
     }
     $sql = "DELETE FROM " . ARCADE_CATEGORIES_TABLE . " WHERE arcade_catid = $arcade_catid";
-    if( !$titanium_db->sql_query($sql) )
+    if( !$pnt_db->sql_query($sql) )
     {
       message_die(GENERAL_ERROR, "Could not read the arcade categories table", "", __LINE__, __FILE__, $sql);
     }
@@ -92,15 +92,15 @@ if ( $mode == 'delete')
 {
   // If the category is empty one removes it
   $sql = "SELECT COUNT(*) AS nb FROM " . GAMES_TABLE . " WHERE arcade_catid = $arcade_catid";
-  if( !$result = $titanium_db->sql_query($sql) )
+  if( !$result = $pnt_db->sql_query($sql) )
   {
     message_die(GENERAL_ERROR, "Could not read the games table", "", __LINE__, __FILE__, $sql);
   }
-  $row = $titanium_db->sql_fetchrow($result);  
+  $row = $pnt_db->sql_fetchrow($result);  
   if ( $row['nb'] == 0 )
   {
     $sql = "DELETE FROM " . ARCADE_CATEGORIES_TABLE . " WHERE arcade_catid = $arcade_catid";
-    if( !$result = $titanium_db->sql_query($sql) )
+    if( !$result = $pnt_db->sql_query($sql) )
       {
       message_die(GENERAL_ERROR, "Could not delete the category", "", __LINE__, __FILE__, $sql);
     }
@@ -109,12 +109,12 @@ if ( $mode == 'delete')
   {
 
       $sql = "SELECT arcade_catid, arcade_cattitle FROM " . ARCADE_CATEGORIES_TABLE ;
-      if( !$result = $titanium_db->sql_query($sql) )
+      if( !$result = $pnt_db->sql_query($sql) )
       {
          message_die(GENERAL_ERROR, "Could not read the arcade category table", "", __LINE__, __FILE__, $sql);
       }
       $liste_cat = '';
-      while( $row = $titanium_db->sql_fetchrow($result))
+      while( $row = $pnt_db->sql_fetchrow($result))
       {
          if($row['arcade_catid']!=$arcade_catid)
          {  
@@ -168,18 +168,18 @@ if ( $mode == 'editcreate')
 
     $sql = "SELECT MAX(arcade_catorder) AS max_order
             FROM " . ARCADE_CATEGORIES_TABLE;
-            if( !$result = $titanium_db->sql_query($sql) )
+            if( !$result = $pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Impossible to obtain the last sequence number of the table arcade_categories", "", __LINE__, __FILE__, $sql);
             }
-            $row = $titanium_db->sql_fetchrow($result);
+            $row = $pnt_db->sql_fetchrow($result);
 
             $max_order = $row['max_order'];
             $next_order = $max_order + 10;
 
             $sql = "INSERT INTO " . ARCADE_CATEGORIES_TABLE . " ( arcade_cattitle, arcade_nbelmt, arcade_catorder )
                     VALUES ('" . str_replace("\'","''",$arcade_cattitle) . "', 0, $next_order)" ;
-            if( !$titanium_db->sql_query($sql) )
+            if( !$pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Couldn't update arcade_categories table", "", __LINE__, __FILE__, $sql);
             }
@@ -198,7 +198,7 @@ if ( $mode == 'editsave')
             SET arcade_cattitle = '" . str_replace("\'","''",$arcade_cattitle) . "', arcade_catauth = $arcade_catauth
             WHERE arcade_catid = '$arcade_catid'";
 
-    if( !$titanium_db->sql_query($sql) )
+    if( !$pnt_db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, "Couldn't update arcade_categories table", "", __LINE__, __FILE__, $sql);
     }
@@ -214,7 +214,7 @@ if ( $mode == 'move')
             SET arcade_catorder = $arcade_catorder + $catorder2 - arcade_catorder
             WHERE arcade_catid = '$arcade_catid' OR arcade_catid = '$catid2'";
 
-    if( !$titanium_db->sql_query($sql) )
+    if( !$pnt_db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, "Couldn't update arcade_categories table", "", __LINE__, __FILE__, $sql);
     }
@@ -226,11 +226,11 @@ if ( $mode == 'move')
 if ( $mode == 'edit')
 {
     $sql = "SELECT arcade_cattitle, arcade_catauth FROM " . ARCADE_CATEGORIES_TABLE . " WHERE arcade_catid = '$arcade_catid'";
-            if( !$result = $titanium_db->sql_query($sql) )
+            if( !$result = $pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Impossible to obtain the infos table arcade_categories", "", __LINE__, __FILE__, $sql);
             }
-            $row = $titanium_db->sql_fetchrow($result);
+            $row = $pnt_db->sql_fetchrow($result);
 
     $phpbb2_template->set_filenames(array(
         "body" => "admin/arcade_catedit_body.tpl")
@@ -320,7 +320,7 @@ $sql = "SELECT *
         FROM " . ARCADE_CATEGORIES_TABLE . 
       " ORDER BY arcade_catorder ASC ";
         
-if(!$result = $titanium_db->sql_query($sql))
+if(!$result = $pnt_db->sql_query($sql))
 {
     message_die(CRITICAL_ERROR, "Could not query arcade_categorie in admin_arcade", "", __LINE__, __FILE__, $sql);
 }
@@ -354,7 +354,7 @@ $phpbb2_template->assign_vars(array(
 );
 
 $liste_cat = array();
-while( $row = $titanium_db->sql_fetchrow($result) )
+while( $row = $pnt_db->sql_fetchrow($result) )
 {
   $liste_cat[] = $row;
 }

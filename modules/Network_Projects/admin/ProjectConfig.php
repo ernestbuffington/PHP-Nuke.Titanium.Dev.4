@@ -10,7 +10,7 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 get_lang('Network_Projects');
 
@@ -30,9 +30,9 @@ echo "<input type='hidden' name='op' value='ProjectConfigUpdate'>\n";
 echo "<tr><td bgcolor='$bgcolor2'><strong>"._NETWORK_NEWPROJECTSTATUS.":</strong></td>\n";
 echo "<td><select name='new_project_status'>\n";
 
-$status = $titanium_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_projects_status` ORDER BY `status_weight`");
+$status = $pnt_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_projects_status` ORDER BY `status_weight`");
 
-while(list($status_id, $status_name) = $titanium_db2->sql_fetchrow($status)) 
+while(list($status_id, $status_name) = $pnt_db2->sql_fetchrow($status)) 
 {
     if($pj_config['new_project_status'] == $status_id) 
 	{ 
@@ -49,9 +49,9 @@ echo "</select></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'><strong>"._NETWORK_NEWPROJECTPRIORITY.":</strong></td>\n";
 echo "<td><select name='new_project_priority'>\n";
 
-$priority = $titanium_db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_projects_priorities` ORDER BY `priority_weight`");
+$priority = $pnt_db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_projects_priorities` ORDER BY `priority_weight`");
 
-while(list($priority_id, $priority_name) = $titanium_db2->sql_fetchrow($priority)) 
+while(list($priority_id, $priority_name) = $pnt_db2->sql_fetchrow($priority)) 
 {
     if($pj_config['new_project_priority'] == $priority_id) 
 	{ 
@@ -71,9 +71,9 @@ echo "<td><input type='text' name='project_date_format' value=\"".$pj_config['pr
 echo "<tr><td bgcolor='$bgcolor2'><strong>"._NETWORK_NEWPROJECTPOSITION.":</strong></td>\n";
 echo "<td><select name='new_project_position'>\n";
 
-$position = $titanium_db2->sql_query("SELECT `position_id`, `position_name` FROM `".$network_prefix."_members_positions` ORDER BY `position_weight`");
+$position = $pnt_db2->sql_query("SELECT `position_id`, `position_name` FROM `".$network_prefix."_members_positions` ORDER BY `position_weight`");
 
-while(list($position_id, $position_name) = $titanium_db2->sql_fetchrow($position)) 
+while(list($position_id, $position_name) = $pnt_db2->sql_fetchrow($position)) 
 {
     if($pj_config['new_project_position'] == $position_id) 
 	{ 

@@ -55,18 +55,18 @@ if(isset($privmsg_id))
 $privmsg_id = intval($privmsg_id);
 
 if (!empty($pm_uname)): 
-    $sql = "SELECT user_id from ".$titanium_user_prefix."_users WHERE username='$pm_uname'";
-    $result = $titanium_db->sql_query($sql);
-    $row = $titanium_db->sql_fetchrow($result);
+    $sql = "SELECT user_id from ".$pnt_user_prefix."_users WHERE username='$pm_uname'";
+    $result = $pnt_db->sql_query($sql);
+    $row = $pnt_db->sql_fetchrow($result);
     $u = intval($row['user_id']);
     $mode = 'post';
     redirect_titanium("modules.php?name=Private_Messages&mode=$mode&u=$u");
     exit;
 endif;
 
-$sql_title = "SELECT custom_title from ".$titanium_prefix."_modules where title='$name'";
-$result_title = $titanium_db->sql_query($sql_title);
-$row_title = $titanium_db->sql_fetchrow($result_title);
+$sql_title = "SELECT custom_title from ".$pnt_prefix."_modules where title='$name'";
+$result_title = $pnt_db->sql_query($sql_title);
+$row_title = $pnt_db->sql_fetchrow($result_title);
 
 if(empty($row_title['custom_title'])): 
  $mod_name = str_replace("_", " ", $name);
@@ -127,7 +127,7 @@ else:
 endif;
 
 # Start session management
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_PRIVMSGS);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_PRIVMSGS);
 titanium_init_userprefs($userdata);
 # End session management
 
@@ -138,12 +138,12 @@ if(!empty($welcome_pm) && !empty($submit))
     if(empty($_POST['subject'])) 
     message_die(GENERAL_ERROR,$lang['Welcome_PM_Subject']);
     
-	if($titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_welcome_pm")) != 0) 
-    $sql_w_pm = "UPDATE ".$titanium_prefix."_welcome_pm SET subject='".$_POST['subject']."', msg='".$_POST['message']."'";
+	if($pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_welcome_pm")) != 0) 
+    $sql_w_pm = "UPDATE ".$pnt_prefix."_welcome_pm SET subject='".$_POST['subject']."', msg='".$_POST['message']."'";
 	else 
-    $sql_w_pm = "INSERT INTO ".$titanium_prefix."_welcome_pm VALUES('".$_POST['subject']."', '".$_POST['message']."')";
+    $sql_w_pm = "INSERT INTO ".$pnt_prefix."_welcome_pm VALUES('".$_POST['subject']."', '".$_POST['message']."')";
     
-	$titanium_db->sql_query($sql_w_pm);
+	$pnt_db->sql_query($sql_w_pm);
     $msg = $lang['Welcome_PM_Set'] . '<br /><br />' . sprintf($lang['Click_return_inbox'], '<a 
 	href="' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '">', '</a> ') . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' 
 	. append_titanium_sid("index.$phpEx") . '">', '</a>');
@@ -239,8 +239,8 @@ if($folder == 'inbox'):
 	
 	ORDER BY override_max_inbox DESC, max_inbox DESC";
     
-	$max_boxsize_result = $titanium_db->sql_query($max_boxsize_sql);
-    $max_boxsize_row = $titanium_db->sql_fetchrow($max_boxsize_result);
+	$max_boxsize_result = $pnt_db->sql_query($max_boxsize_sql);
+    $max_boxsize_row = $pnt_db->sql_fetchrow($max_boxsize_result);
     $max_boxsize = $phpbb2_board_config['max_inbox_privmsgs'];
     if ( $max_boxsize_row['override_max_inbox'] == 1 ): 
     $max_boxsize = $max_boxsize_row['max_inbox']; 
@@ -260,8 +260,8 @@ elseif($folder == 'savebox'):
 	
 	ORDER BY override_max_savebox DESC, max_savebox DESC";
     
-	$max_boxsize_result = $titanium_db->sql_query($max_boxsize_sql);
-    $max_boxsize_row = $titanium_db->sql_fetchrow($max_boxsize_result);
+	$max_boxsize_result = $pnt_db->sql_query($max_boxsize_sql);
+    $max_boxsize_row = $pnt_db->sql_fetchrow($max_boxsize_result);
     $max_boxsize = $phpbb2_board_config['max_savebox_privmsgs'];
     
 	if($max_boxsize_row['override_max_savebox'] == 1): 
@@ -282,8 +282,8 @@ elseif($folder == 'sentbox'):
 	
 	ORDER BY override_max_sentbox DESC, max_sentbox DESC";
     
-	$max_boxsize_result = $titanium_db->sql_query($max_boxsize_sql);
-    $max_boxsize_row = $titanium_db->sql_fetchrow($max_boxsize_result);
+	$max_boxsize_result = $pnt_db->sql_query($max_boxsize_sql);
+    $max_boxsize_row = $pnt_db->sql_fetchrow($max_boxsize_result);
     $max_boxsize = $phpbb2_board_config['max_sentbox_privmsgs'];
     
 	if ( $max_boxsize_row['override_max_sentbox'] == 1 ): 
@@ -456,11 +456,11 @@ u.user_allow_viewonline
  [ Mod:    Birthdays                           v3.0.0 ]
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
-        if(!($result = $titanium_db->sql_query($sql)))
+        if(!($result = $pnt_db->sql_query($sql)))
         message_die(GENERAL_ERROR, 'Could not query private message post information', '', __LINE__, __FILE__, $sql);
  
         # Did the query return any data?
-        if(!($privmsg = $titanium_db->sql_fetchrow($result))):
+        if(!($privmsg = $pnt_db->sql_fetchrow($result))):
           redirect_titanium(append_titanium_sid("privmsg.$phpEx?folder=$folder", true));
           exit;
         endif;
@@ -485,14 +485,14 @@ u.user_allow_viewonline
                         SET $sql
                         WHERE user_id = " . $userdata['user_id'];
                
-			    if(!$titanium_db->sql_query($sql))
+			    if(!$pnt_db->sql_query($sql))
                 message_die(GENERAL_ERROR, 'Could not update private message read status for user', '', __LINE__, __FILE__, $sql);
 
                 $sql = "UPDATE " . PRIVMSGS_TABLE . "
                         SET privmsgs_type = " . PRIVMSGS_READ_MAIL . "
                         WHERE privmsgs_id = " . $privmsg['privmsgs_id'];
 
-                if(!$titanium_db->sql_query($sql))
+                if(!$pnt_db->sql_query($sql))
                 message_die(GENERAL_ERROR, 'Could not update private message read status', '', __LINE__, __FILE__, $sql);
 
                 # Check to see if the poster has a 'full' sent box
@@ -501,12 +501,12 @@ u.user_allow_viewonline
                         WHERE privmsgs_type = " . PRIVMSGS_SENT_MAIL . "
                                 AND privmsgs_from_userid = " . $privmsg['privmsgs_from_userid'];
                 
-				if(!($result = $titanium_db->sql_query($sql)))
+				if(!($result = $pnt_db->sql_query($sql)))
                 message_die(GENERAL_ERROR, 'Could not obtain sent message info for sendee', '', __LINE__, __FILE__, $sql);
 
                 $sql_priority = ( SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli') ? 'LOW_PRIORITY' : '';
 
-                if($sent_info = $titanium_db->sql_fetchrow($result))
+                if($sent_info = $pnt_db->sql_fetchrow($result))
                 {
                         if ($phpbb2_board_config['max_sentbox_privmsgs'] && $sent_info['sent_items'] >= $phpbb2_board_config['max_sentbox_privmsgs']):
                         
@@ -515,20 +515,20 @@ u.user_allow_viewonline
                                                 AND privmsgs_date = " . $sent_info['oldest_post_time'] . "
                                                 AND privmsgs_from_userid = " . $privmsg['privmsgs_from_userid'];
                                 
-								if ( !$result = $titanium_db->sql_query($sql) )
+								if ( !$result = $pnt_db->sql_query($sql) )
                                 message_die(GENERAL_ERROR, 'Could not find oldest privmsgs', '', __LINE__, __FILE__, $sql);
                                 
-								$old_privmsgs_id = $titanium_db->sql_fetchrow($result);
+								$old_privmsgs_id = $pnt_db->sql_fetchrow($result);
                                 $old_privmsgs_id = $old_privmsgs_id['privmsgs_id'];
 
                                 $sql = "DELETE $sql_priority FROM " . PRIVMSGS_TABLE . "
                                         WHERE privmsgs_id = '$old_privmsgs_id'";
-                                if ( !$titanium_db->sql_query($sql) )
+                                if ( !$pnt_db->sql_query($sql) )
                                 message_die(GENERAL_ERROR, 'Could not delete oldest privmsgs (sent)', '', __LINE__, __FILE__, $sql);
 
                                 $sql = "DELETE $sql_priority FROM " . PRIVMSGS_TEXT_TABLE . "
                                         WHERE privmsgs_text_id = '$old_privmsgs_id'";
-                                if ( !$titanium_db->sql_query($sql) )
+                                if ( !$pnt_db->sql_query($sql) )
                                 message_die(GENERAL_ERROR, 'Could not delete oldest privmsgs text (sent)', '', __LINE__, __FILE__, $sql);
                         endif;
                 }
@@ -556,14 +556,14 @@ u.user_allow_viewonline
 																						  . $privmsg['privmsgs_enable_bbcode'] . ", " 
 																						  . $privmsg['privmsgs_enable_smilies'] . ", " 
 																						  . $privmsg['privmsgs_attach_sig'] . ")";
-                if ( !$titanium_db->sql_query($sql) )
+                if ( !$pnt_db->sql_query($sql) )
                 message_die(GENERAL_ERROR, 'Could not insert private message sent info', '', __LINE__, __FILE__, $sql);
 
-                $privmsg_sent_id = $titanium_db->sql_nextid();
+                $privmsg_sent_id = $pnt_db->sql_nextid();
 
                 $sql = "INSERT $sql_priority INTO " . PRIVMSGS_TEXT_TABLE . " (privmsgs_text_id, privmsgs_bbcode_uid, privmsgs_text)
                         VALUES ('$privmsg_sent_id', '" . $privmsg['privmsgs_bbcode_uid'] . "', '" . str_replace("\'", "''", addslashes($privmsg['privmsgs_text'])) . "')";
-                if ( !$titanium_db->sql_query($sql) )
+                if ( !$pnt_db->sql_query($sql) )
                 message_die(GENERAL_ERROR, 'Could not insert private message sent text', '', __LINE__, __FILE__, $sql);
         }
 
@@ -764,8 +764,8 @@ u.user_allow_viewonline
             make_jumpbox('viewforum.'.$phpEx);
         }
 
-        $titanium_user_id_from = $privmsg['user_id_1'];
-        $titanium_user_id_to = $privmsg['user_id_2'];
+        $pnt_user_id_from = $privmsg['user_id_1'];
+        $pnt_user_id_to = $privmsg['user_id_2'];
 
         switch( $privmsg['user_avatar_type'] ):
 			# user_allowavatar = 1
@@ -793,7 +793,7 @@ u.user_allow_viewonline
         		'MODULE_NAME' => $mod_name,
         		'MODULE_URI' => append_titanium_sid("privmsg.$phpEx"),
         		'SENDER_AVATAR' => $phpbb2_poster_avatar,
-        		'SENDER_PROIFLE_URI' => "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . '=' . $titanium_user_id_from,
+        		'SENDER_PROIFLE_URI' => "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . '=' . $pnt_user_id_from,
         		'MESSAGE_INBOX_URI' => 'modules.php?name=Private_Messages&file=index&folder=inbox&mode=read&p=' . $privmsgs_id,
 
                 'INBOX_IMG' => $inbox_img,
@@ -849,7 +849,7 @@ u.user_allow_viewonline
         		'MODULE_NAME' => $mod_name,
         		'MODULE_URI' => append_titanium_sid("privmsg.$phpEx"),
         		'SENDER_AVATAR' => $phpbb2_poster_avatar,
-        		'SENDER_PROIFLE_URI' => "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . '=' . $titanium_user_id_from,
+        		'SENDER_PROIFLE_URI' => "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . '=' . $pnt_user_id_from,
         		'MESSAGE_INBOX_URI' => 'modules.php?name=Private_Messages&file=index&folder=inbox&mode=read&p=' . $privmsgs_id,
 
                 'INBOX_IMG' => $inbox_img,
@@ -912,7 +912,7 @@ u.user_allow_viewonline
 
         $post_date = create_date($phpbb2_board_config['default_dateformat'], $privmsg['privmsgs_date'], $phpbb2_board_config['board_timezone']);
 
-        $temp_url = "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . '=' . $titanium_user_id_from;
+        $temp_url = "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . '=' . $pnt_user_id_from;
         
 		 if ( defined('bootstrap') ):
 		$profile_img = '<a class="titaniumbutton" href="' . $temp_url . '">View Members Profile</a>';
@@ -923,7 +923,7 @@ u.user_allow_viewonline
 
 		$profile = '<a href="' . $temp_url . '">' . $lang['Read_profile'] . '</a>';
 
-        $temp_url = append_titanium_sid("privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . "=$titanium_user_id_from");
+        $temp_url = append_titanium_sid("privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . "=$pnt_user_id_from");
         
 		$pm_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_pm'] . '" alt="' . $lang['Send_private_message'] 
 		. '" title="' . $lang['Send_private_message'] . '" border="0" /></a>';
@@ -934,7 +934,7 @@ u.user_allow_viewonline
         if(!empty($privmsg['user_viewemail']) || $userdata['user_level'] == ADMIN)
         {
                 $email_uri = ( $phpbb2_board_config['board_email_form'] ) ? "modules.php?name=Profile&mode=email&amp;" 
-				. POST_USERS_URL .'=' . $titanium_user_id_from : 'mailto:' . $privmsg['user_email'];
+				. POST_USERS_URL .'=' . $pnt_user_id_from : 'mailto:' . $privmsg['user_email'];
 
                 $email_img = '<a class = "titaniumbutton" href="' . $email_uri . '">Send Email</a>';
                 
@@ -949,7 +949,7 @@ u.user_allow_viewonline
         if(!empty($privmsg['user_viewemail']) || $userdata['user_level'] == ADMIN)
         {
                 $email_uri = ( $phpbb2_board_config['board_email_form'] ) ? "modules.php?name=Profile&mode=email&amp;" 
-				. POST_USERS_URL .'=' . $titanium_user_id_from : 'mailto:' . $privmsg['user_email'];
+				. POST_USERS_URL .'=' . $pnt_user_id_from : 'mailto:' . $privmsg['user_email'];
 
                 $email_img = '<a href="' . $email_uri . '"><img src="' . $images['icon_email'] . '" alt="' . $lang['Send_email'] . '" title="' 
 				. $lang['Send_email'] . '" border="0" /></a>';
@@ -985,14 +985,14 @@ u.user_allow_viewonline
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
 
-        $temp_url = "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . "=$titanium_user_id_from";
+        $temp_url = "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . "=$pnt_user_id_from";
 
-        $temp_url = "modules.php?name=Forums&amp;file=search&amp;search_author=" . urlencode($titanium_username_from) . "&amp;showresults=posts";
+        $temp_url = "modules.php?name=Forums&amp;file=search&amp;search_author=" . urlencode($pnt_username_from) . "&amp;showresults=posts";
         
-		$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . sprintf($lang['Search_user_posts'], $titanium_username_from) 
-		. '" title="' . sprintf($lang['Search_user_posts'], $titanium_username_from) . '" border="0" /></a>';
+		$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . sprintf($lang['Search_user_posts'], $pnt_username_from) 
+		. '" title="' . sprintf($lang['Search_user_posts'], $pnt_username_from) . '" border="0" /></a>';
         
-		$search = '<a href="' . $temp_url . '">' . sprintf($lang['Search_user_posts'], $titanium_username_from) . '</a>';
+		$search = '<a href="' . $temp_url . '">' . sprintf($lang['Search_user_posts'], $pnt_username_from) . '</a>';
 /*****[BEGIN]******************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
@@ -1001,34 +1001,34 @@ u.user_allow_viewonline
             if($privmsg['user_allow_viewonline_1'])
             {
                 $online_status_img = '<a href="' . append_titanium_sid("viewonline.$phpEx") . '"><img src="' . $images['icon_online'] . '" alt="' 
-				. sprintf($lang['is_online'], $titanium_username_from) . '" title="' . sprintf($lang['is_online'], $titanium_username_from) . '" /></a>&nbsp;';
+				. sprintf($lang['is_online'], $pnt_username_from) . '" title="' . sprintf($lang['is_online'], $pnt_username_from) . '" /></a>&nbsp;';
                 
-				$online_status = '&nbsp;(<strong><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' . sprintf($lang['is_online'], $titanium_username_from) 
+				$online_status = '&nbsp;(<strong><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' . sprintf($lang['is_online'], $pnt_username_from) 
 				. '"' . $online_color . '>' . $lang['Online'] . '</a></strong>)';
             }
-            elseif ($userdata['user_level'] == ADMIN || $userdata['user_id'] == $titanium_user_id_from)
+            elseif ($userdata['user_level'] == ADMIN || $userdata['user_id'] == $pnt_user_id_from)
             {
                 $online_status_img = '<a href="' . append_titanium_sid("viewonline.$phpEx") . '"><img src="' . $images['icon_hidden'] 
-				. '" alt="' . sprintf($lang['is_hidden'], $titanium_username_from) . '" title="' . sprintf($lang['is_hidden'], $titanium_username_from) . '" /></a>&nbsp;';
+				. '" alt="' . sprintf($lang['is_hidden'], $pnt_username_from) . '" title="' . sprintf($lang['is_hidden'], $pnt_username_from) . '" /></a>&nbsp;';
                 
 				$online_status = '&nbsp;(<strong><em><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' 
-				. sprintf($lang['is_hidden'], $titanium_username_from) . '"' . $hidden_color . '>' . $lang['Hidden'] . '</a></em></strong>)';
+				. sprintf($lang['is_hidden'], $pnt_username_from) . '"' . $hidden_color . '>' . $lang['Hidden'] . '</a></em></strong>)';
             }
             else
             {
-                $online_status_img = '<img src="' . $images['icon_offline'] . '" alt="' . sprintf($lang['is_offline'], $titanium_username_from) 
-				. '" title="' . sprintf($lang['is_offline'], $titanium_username_from) . '" />&nbsp;';
+                $online_status_img = '<img src="' . $images['icon_offline'] . '" alt="' . sprintf($lang['is_offline'], $pnt_username_from) 
+				. '" title="' . sprintf($lang['is_offline'], $pnt_username_from) . '" />&nbsp;';
                 
-				$online_status = '&nbsp;(<span title="' . sprintf($lang['is_offline'], $titanium_username_from) . '"' . $offline_color . '><strong>' 
+				$online_status = '&nbsp;(<span title="' . sprintf($lang['is_offline'], $pnt_username_from) . '"' . $offline_color . '><strong>' 
 				. $lang['Offline'] . '</strong></span>)';
             }
         }
         else
         {
-            $online_status_img = '<img src="' . $images['icon_offline'] . '" alt="' . sprintf($lang['is_offline'], $titanium_username_from) 
-			. '" title="' . sprintf($lang['is_offline'], $titanium_username_from) . '" />&nbsp;';
+            $online_status_img = '<img src="' . $images['icon_offline'] . '" alt="' . sprintf($lang['is_offline'], $pnt_username_from) 
+			. '" title="' . sprintf($lang['is_offline'], $pnt_username_from) . '" />&nbsp;';
             
-			$online_status = '&nbsp;(<span title="' . sprintf($lang['is_offline'], $titanium_username_from) . '"' . $offline_color . '><strong>' 
+			$online_status = '&nbsp;(<span title="' . sprintf($lang['is_offline'], $pnt_username_from) . '"' . $offline_color . '><strong>' 
 			. $lang['Offline'] . '</strong></span>)';
         }
 
@@ -1037,22 +1037,22 @@ u.user_allow_viewonline
             if ($privmsg['user_allow_viewonline_2'])
             {
                 $online_status_2 = '&nbsp;(<strong><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' 
-				. sprintf($lang['is_online'], $titanium_username_to) . '"' . $online_color . '>' . $lang['Online'] . '</a></strong>)';
+				. sprintf($lang['is_online'], $pnt_username_to) . '"' . $online_color . '>' . $lang['Online'] . '</a></strong>)';
             }
-            elseif ($userdata['user_level'] == ADMIN || $userdata['user_id'] == $titanium_user_id_to)
+            elseif ($userdata['user_level'] == ADMIN || $userdata['user_id'] == $pnt_user_id_to)
             {
                 $online_status_2 = '&nbsp;(<strong><em><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' 
-				. sprintf($lang['is_hidden'], $titanium_username_to) . '"' . $hidden_color . '>' . $lang['Hidden'] . '</a></em></strong>)';
+				. sprintf($lang['is_hidden'], $pnt_username_to) . '"' . $hidden_color . '>' . $lang['Hidden'] . '</a></em></strong>)';
             }
             else
             {
-                $online_status_2 = '&nbsp;(<span title="' . sprintf($lang['is_offline'], $titanium_username_to) . '"' . $offline_color . '>' 
+                $online_status_2 = '&nbsp;(<span title="' . sprintf($lang['is_offline'], $pnt_username_to) . '"' . $offline_color . '>' 
 				. $lang['Offline'] . '</strong></span>)';
             }
         }
         else
         {
-            $online_status_2 = '&nbsp;(<span title="' . sprintf($lang['is_offline'], $titanium_username_to) . '"' . $offline_color . '><strong>' 
+            $online_status_2 = '&nbsp;(<span title="' . sprintf($lang['is_offline'], $pnt_username_to) . '"' . $offline_color . '><strong>' 
 			. $lang['Offline'] . '</strong></span>)';
         }
 /*****[END]********************************************
@@ -1077,22 +1077,22 @@ u.user_allow_viewonline
 
         if ( $phpbb2_board_config['allow_sig'] )
         {
-                $titanium_user_sig = ( $privmsg['privmsgs_from_userid'] == $userdata['user_id'] ) ? $userdata['user_sig'] : $privmsg['user_sig'];
+                $pnt_user_sig = ( $privmsg['privmsgs_from_userid'] == $userdata['user_id'] ) ? $userdata['user_sig'] : $privmsg['user_sig'];
         }
         else
         {
-                $titanium_user_sig = '';
+                $pnt_user_sig = '';
         }
 
-        $titanium_user_sig_bbcode_uid = ( $privmsg['privmsgs_from_userid'] == $userdata['user_id'] ) ? $userdata['user_sig_bbcode_uid'] : $privmsg['user_sig_bbcode_uid'];
+        $pnt_user_sig_bbcode_uid = ( $privmsg['privmsgs_from_userid'] == $userdata['user_id'] ) ? $userdata['user_sig_bbcode_uid'] : $privmsg['user_sig_bbcode_uid'];
 
         # If the board has HTML off but the post has HTML
         # on then we process it, else leave it alone
         if ( !$phpbb2_board_config['allow_html'] || !$userdata['user_allowhtml'])
         {
-                if ( !empty($titanium_user_sig))
+                if ( !empty($pnt_user_sig))
                 {
-                        $titanium_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $titanium_user_sig);
+                        $pnt_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $pnt_user_sig);
                 }
 
                 if ( $privmsg['privmsgs_enable_html'] )
@@ -1101,9 +1101,9 @@ u.user_allow_viewonline
                 }
         }
 
-        if ( !empty($titanium_user_sig) && $privmsg['privmsgs_attach_sig'] && !empty($titanium_user_sig_bbcode_uid) )
+        if ( !empty($pnt_user_sig) && $privmsg['privmsgs_attach_sig'] && !empty($pnt_user_sig_bbcode_uid) )
         {
-                $titanium_user_sig = ( $phpbb2_board_config['allow_bbcode'] ) ? bbencode_second_pass($titanium_user_sig, $titanium_user_sig_bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $titanium_user_sig);
+                $pnt_user_sig = ( $phpbb2_board_config['allow_bbcode'] ) ? bbencode_second_pass($pnt_user_sig, $pnt_user_sig_bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $pnt_user_sig);
         }
 
         if ( !empty($bbcode_uid) )
@@ -1113,13 +1113,13 @@ u.user_allow_viewonline
 
         $private_message = make_clickable($private_message);
 
-        if ( $privmsg['privmsgs_attach_sig'] && !empty($titanium_user_sig) )
+        if ( $privmsg['privmsgs_attach_sig'] && !empty($pnt_user_sig) )
         {
 /*****[BEGIN]******************************************
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
  [ Mod:     Bottom aligned signature           v1.2.0 ]
  ******************************************************/
-                $private_message .= '<br />' . $phpbb2_board_config['sig_line'] . '<br />' . make_clickable($titanium_user_sig);
+                $private_message .= '<br />' . $phpbb2_board_config['sig_line'] . '<br />' . make_clickable($pnt_user_sig);
 /*****[END]********************************************
  [ Mod:     Bottom aligned signature           v1.2.0 ]
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
@@ -1154,8 +1154,8 @@ u.user_allow_viewonline
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-        $titanium_username_from = UsernameColor($privmsg['username_1']);
-        $titanium_username_to = UsernameColor($privmsg['username_2']);
+        $pnt_username_from = UsernameColor($privmsg['username_1']);
+        $pnt_username_to = UsernameColor($privmsg['username_2']);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -1164,9 +1164,9 @@ u.user_allow_viewonline
         // Dump it to the templating engine
         //
         $phpbb2_template->assign_vars(array(
-                'MESSAGE_TO' => $titanium_username_to,
-                // 'MESSAGE_FROM' => $titanium_username_from,
-                'MESSAGE_FROM' => (($privmsg['privmsgs_from_userid'] == 1) ? $phpbb2_board_config['welcome_pm_username'] : $titanium_username_from),
+                'MESSAGE_TO' => $pnt_username_to,
+                // 'MESSAGE_FROM' => $pnt_username_from,
+                'MESSAGE_FROM' => (($privmsg['privmsgs_from_userid'] == 1) ? $phpbb2_board_config['welcome_pm_username'] : $pnt_username_from),
                 'MESSAGE_FROM_ID' => $privmsg['privmsgs_from_userid'],
                 'RANK_IMAGE' => $rank_image,
                 'POSTER_JOINED' => $poster_joined,
@@ -1308,13 +1308,13 @@ else if ( ( $delete && $mark_list ) || $delete_all )
                    FROM " . PRIVMSGS_TABLE . "
                    WHERE $delete_type $delete_sql_id";
 
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                    message_die(GENERAL_ERROR, 'Could not obtain id list to delete messages', '', __LINE__, __FILE__, $sql);
                 }
 
                 $mark_list = array();
-                while ( $row = $titanium_db->sql_fetchrow($result) )
+                while ( $row = $pnt_db->sql_fetchrow($result) )
                 {
                    $mark_list[] = $row['privmsgs_id'];
                 }
@@ -1356,12 +1356,12 @@ else if ( ( $delete && $mark_list ) || $delete_all )
                                         WHERE privmsgs_id IN ($delete_sql_id)
                                                 AND $sql
                                                 AND privmsgs_type IN (" . PRIVMSGS_NEW_MAIL . ", " . PRIVMSGS_UNREAD_MAIL . ")";
-                                if ( !($result = $titanium_db->sql_query($sql)) )
+                                if ( !($result = $pnt_db->sql_query($sql)) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not obtain user id list for outbox messages', '', __LINE__, __FILE__, $sql);
                                 }
 
-                                if ( $row = $titanium_db->sql_fetchrow($result))
+                                if ( $row = $pnt_db->sql_fetchrow($result))
                                 {
                                         $update_users = $update_list = array();
 
@@ -1378,15 +1378,15 @@ else if ( ( $delete && $mark_list ) || $delete_all )
                                                                 break;
                                                 }
                                         }
-                                        while ($row = $titanium_db->sql_fetchrow($result));
+                                        while ($row = $pnt_db->sql_fetchrow($result));
 
                                         if (count($update_users))
                                         {
-                                                while (list($type, $titanium_users) = each($update_users))
+                                                while (list($type, $pnt_users) = each($update_users))
                                                 {
-                                                        while (list($titanium_user_id, $dec) = each($titanium_users))
+                                                        while (list($pnt_user_id, $dec) = each($pnt_users))
                                                         {
-                                                                $update_list[$type][$dec][] = $titanium_user_id;
+                                                                $update_list[$type][$dec][] = $pnt_user_id;
                                                         }
                                                 }
                                                 unset($update_users);
@@ -1404,14 +1404,14 @@ else if ( ( $delete && $mark_list ) || $delete_all )
                                                                         break;
                                                         }
 
-                                                        while (list($dec, $titanium_user_ary) = each($dec_ary))
+                                                        while (list($dec, $pnt_user_ary) = each($dec_ary))
                                                         {
-                                                                $titanium_user_ids = implode(', ', $titanium_user_ary);
+                                                                $pnt_user_ids = implode(', ', $pnt_user_ary);
 
                                                                 $sql = "UPDATE " . USERS_TABLE . "
                                                                         SET $type = $type - $dec
-                                                                        WHERE user_id IN ($titanium_user_ids)";
-                                                                if ( !$titanium_db->sql_query($sql) )
+                                                                        WHERE user_id IN ($pnt_user_ids)";
+                                                                if ( !$pnt_db->sql_query($sql) )
                                                                 {
                                                                         message_die(GENERAL_ERROR, 'Could not update user pm counters', '', __LINE__, __FILE__, $sql);
                                                                 }
@@ -1420,7 +1420,7 @@ else if ( ( $delete && $mark_list ) || $delete_all )
                                                 unset($update_list);
                                         }
                                 }
-                                $titanium_db->sql_freeresult($result);
+                                $pnt_db->sql_freeresult($result);
                         }
 
                         // Delete the messages
@@ -1454,12 +1454,12 @@ else if ( ( $delete && $mark_list ) || $delete_all )
                                         break;
                         }
 
-                        if ( !$titanium_db->sql_query($delete_sql) )
+                        if ( !$pnt_db->sql_query($delete_sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete private message info', '', __LINE__, __FILE__, $delete_sql);
                         }
 
-                        if ( !$titanium_db->sql_query($delete_text_sql) )
+                        if ( !$pnt_db->sql_query($delete_text_sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete private message text', '', __LINE__, __FILE__, $delete_text_sql);
                         }
@@ -1486,14 +1486,14 @@ else if ( $save && $mark_list && $folder != 'savebox' && $folder != 'outbox' )
                                         AND privmsgs_type = " . PRIVMSGS_SAVED_IN_MAIL . " )
                                 OR ( privmsgs_from_userid = " . $userdata['user_id'] . "
                                         AND privmsgs_type = " . PRIVMSGS_SAVED_OUT_MAIL . ") )";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not obtain sent message info for sendee', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql_priority = ( SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli') ? 'LOW_PRIORITY' : '';
 
-                if ( $saved_info = $titanium_db->sql_fetchrow($result) )
+                if ( $saved_info = $pnt_db->sql_fetchrow($result) )
                 {
                         if ($phpbb2_board_config['max_savebox_privmsgs'] && $saved_info['savebox_items'] >= $phpbb2_board_config['max_savebox_privmsgs'] )
                         {
@@ -1503,23 +1503,23 @@ else if ( $save && $mark_list && $folder != 'savebox' && $folder != 'outbox' )
                                                         OR ( privmsgs_from_userid = " . $userdata['user_id'] . "
                                                                 AND privmsgs_type = " . PRIVMSGS_SAVED_OUT_MAIL . ") )
                                                 AND privmsgs_date = " . $saved_info['oldest_post_time'];
-                                if ( !$result = $titanium_db->sql_query($sql) )
+                                if ( !$result = $pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not find oldest privmsgs (save)', '', __LINE__, __FILE__, $sql);
                                 }
-                                $old_privmsgs_id = $titanium_db->sql_fetchrow($result);
+                                $old_privmsgs_id = $pnt_db->sql_fetchrow($result);
                                 $old_privmsgs_id = $old_privmsgs_id['privmsgs_id'];
 
                                 $sql = "DELETE $sql_priority FROM " . PRIVMSGS_TABLE . "
                                         WHERE privmsgs_id = '$old_privmsgs_id'";
-                                if ( !$titanium_db->sql_query($sql) )
+                                if ( !$pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not delete oldest privmsgs (save)', '', __LINE__, __FILE__, $sql);
                                 }
 
                                 $sql = "DELETE $sql_priority FROM " . PRIVMSGS_TEXT_TABLE . "
                                         WHERE privmsgs_text_id = '$old_privmsgs_id'";
-                                if ( !$titanium_db->sql_query($sql) )
+                                if ( !$pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not delete oldest privmsgs text (save)', '', __LINE__, __FILE__, $sql);
                                 }
@@ -1555,12 +1555,12 @@ else if ( $save && $mark_list && $folder != 'savebox' && $folder != 'outbox' )
                                 WHERE privmsgs_id IN ($saved_sql_id)
                                         AND $sql
                                         AND privmsgs_type IN (" . PRIVMSGS_NEW_MAIL . ", " . PRIVMSGS_UNREAD_MAIL . ")";
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not obtain user id list for outbox messages', '', __LINE__, __FILE__, $sql);
                         }
 
-                        if ( $row = $titanium_db->sql_fetchrow($result))
+                        if ( $row = $pnt_db->sql_fetchrow($result))
                         {
                                 $update_users = $update_list = array();
 
@@ -1577,15 +1577,15 @@ else if ( $save && $mark_list && $folder != 'savebox' && $folder != 'outbox' )
                                                         break;
                                         }
                                 }
-                                while ($row = $titanium_db->sql_fetchrow($result));
+                                while ($row = $pnt_db->sql_fetchrow($result));
 
                                 if (count($update_users))
                                 {
-                                        while (list($type, $titanium_users) = each($update_users))
+                                        while (list($type, $pnt_users) = each($update_users))
                                         {
-                                                while (list($titanium_user_id, $dec) = each($titanium_users))
+                                                while (list($pnt_user_id, $dec) = each($pnt_users))
                                                 {
-                                                        $update_list[$type][$dec][] = $titanium_user_id;
+                                                        $update_list[$type][$dec][] = $pnt_user_id;
                                                 }
                                         }
                                         unset($update_users);
@@ -1603,14 +1603,14 @@ else if ( $save && $mark_list && $folder != 'savebox' && $folder != 'outbox' )
                                                                 break;
                                                 }
 
-                                                while (list($dec, $titanium_user_ary) = each($dec_ary))
+                                                while (list($dec, $pnt_user_ary) = each($dec_ary))
                                                 {
-                                                        $titanium_user_ids = implode(', ', $titanium_user_ary);
+                                                        $pnt_user_ids = implode(', ', $pnt_user_ary);
 
                                                         $sql = "UPDATE " . USERS_TABLE . "
                                                                 SET $type = $type - $dec
-                                                                WHERE user_id IN ($titanium_user_ids)";
-                                                        if ( !$titanium_db->sql_query($sql) )
+                                                                WHERE user_id IN ($pnt_user_ids)";
+                                                        if ( !$pnt_db->sql_query($sql) )
                                                         {
                                                                 message_die(GENERAL_ERROR, 'Could not update user pm counters', '', __LINE__, __FILE__, $sql);
                                                         }
@@ -1619,7 +1619,7 @@ else if ( $save && $mark_list && $folder != 'savebox' && $folder != 'outbox' )
                                         unset($update_list);
                                 }
                         }
-                        $titanium_db->sql_freeresult($result);
+                        $pnt_db->sql_freeresult($result);
                 }
 
                 switch ($folder)
@@ -1648,7 +1648,7 @@ else if ( $save && $mark_list && $folder != 'savebox' && $folder != 'outbox' )
 
                 $saved_sql .= " AND privmsgs_id IN ($saved_sql_id)";
 
-                if ( !$titanium_db->sql_query($saved_sql) )
+                if ( !$pnt_db->sql_query($saved_sql) )
                 {
                         message_die(GENERAL_ERROR, 'Could not save private messages', '', __LINE__, __FILE__, $saved_sql);
                 }
@@ -1662,11 +1662,11 @@ else if ( $submit || $refresh || !empty($mode) )
 {
         if ( !$userdata['session_logged_in'] )
         {
-                $titanium_user_id = ( isset($_GET[POST_USERS_URL]) ) ? '&' . POST_USERS_URL . '=' . intval($_GET[POST_USERS_URL]) : '';
+                $pnt_user_id = ( isset($_GET[POST_USERS_URL]) ) ? '&' . POST_USERS_URL . '=' . intval($_GET[POST_USERS_URL]) : '';
                 // not needed anymore due to function redirect_titanium()
 //$header_location = ( @preg_match('/Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ) ? 'Refresh: 0; URL=' : 'Location: ';
-                redirect_titanium("modules.php?name=Your_Account&redirect=privmsg&folder=$folder&mode=$mode" . $titanium_user_id);
-                //redirect_titanium(append_titanium_sid("login.$phpEx?redirect=privmsg.$phpEx&folder=$folder&mode=$mode" . $titanium_user_id, true));
+                redirect_titanium("modules.php?name=Your_Account&redirect=privmsg&folder=$folder&mode=$mode" . $pnt_user_id);
+                //redirect_titanium(append_titanium_sid("login.$phpEx?redirect=privmsg.$phpEx&folder=$folder&mode=$mode" . $pnt_user_id, true));
                 exit;
         }
 
@@ -1701,7 +1701,7 @@ else if ( $submit || $refresh || !empty($mode) )
         }
 
         $attach_sig = ( $submit || $refresh ) ? ( ( !empty($_POST['attach_sig']) ) ? TRUE : 0 ) : $userdata['user_attachsig'];
-        $titanium_user_sig = ( !empty($userdata['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : "";
+        $pnt_user_sig = ( !empty($userdata['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : "";
 
         if ( $submit && $mode != 'edit' )
         {
@@ -1711,11 +1711,11 @@ else if ( $submit || $refresh || !empty($mode) )
                 $sql = "SELECT MAX(privmsgs_date) AS last_post_time
                         FROM " . PRIVMSGS_TABLE . "
                         WHERE privmsgs_from_userid = " . $userdata['user_id'];
-                if ( $result = $titanium_db->sql_query($sql) )
+                if ( $result = $pnt_db->sql_query($sql) )
                 {
-                        $titanium_db_row = $titanium_db->sql_fetchrow($result);
+                        $pnt_db_row = $pnt_db->sql_fetchrow($result);
 
-                        $phpbb2_last_post_time = $titanium_db_row['last_post_time'];
+                        $phpbb2_last_post_time = $pnt_db_row['last_post_time'];
                         $current_time = time();
 
                         if ( ( $current_time - $phpbb2_last_post_time ) < $phpbb2_board_config['flood_interval'])
@@ -1735,16 +1735,16 @@ else if ( $submit || $refresh || !empty($mode) )
             WHERE privmsgs_id = ' . (int) $privmsg_id . '
                 AND privmsgs_from_userid = ' . $userdata['user_id'];
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, "Could not obtain message details", "", __LINE__, __FILE__, $sql);
         }
 
-        if (!($row = $titanium_db->sql_fetchrow($result)))
+        if (!($row = $pnt_db->sql_fetchrow($result)))
         {
             message_die(GENERAL_MESSAGE, $lang['No_such_post']);
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         unset($row);
     }
@@ -1773,11 +1773,11 @@ else if ( $submit || $refresh || !empty($mode) )
                                 WHERE username IN ($to_usernames)
                                         AND user_id <> " . ANONYMOUS . " ORDER BY username ASC";
 
-                        if( !($result2 = $titanium_db->sql_query($sql)) )
+                        if( !($result2 = $pnt_db->sql_query($sql)) )
                         {
                             message_die(GENERAL_ERROR, 'Could not obtain users PM information', '', __LINE__, __FILE__, $sql);
                         }
-                        $to_users = $titanium_db->sql_fetchrowset($result2);
+                        $to_users = $pnt_db->sql_fetchrowset($result2);
                         $n=0;
                         while ($to_username_array[$n] && !$error)
                         {
@@ -1874,14 +1874,14 @@ else if ( $submit || $refresh || !empty($mode) )
                                                 OR privmsgs_type = " . PRIVMSGS_READ_MAIL . "
                                                 OR privmsgs_type = " . PRIVMSGS_UNREAD_MAIL . " )
                                         AND privmsgs_to_userid = " . $to_userdata['user_id'];
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_MESSAGE, $lang['No_such_user']);
                         }
 
                         $sql_priority = ( SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli') ? 'LOW_PRIORITY' : '';
 
-                        if ( $inbox_info = $titanium_db->sql_fetchrow($result) )
+                        if ( $inbox_info = $pnt_db->sql_fetchrow($result) )
                         {
 /*****[BEGIN]******************************************
  [ Mod:     Enhanced BBGroups                  v1.0.0 ]
@@ -1903,23 +1903,23 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
                                                                 OR privmsgs_type = " . PRIVMSGS_UNREAD_MAIL . "  )
                                                         AND privmsgs_date = " . $inbox_info['oldest_post_time'] . "
                                                         AND privmsgs_to_userid = " . $to_userdata['user_id'];
-                                        if ( !$result = $titanium_db->sql_query($sql) )
+                                        if ( !$result = $pnt_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not find oldest privmsgs (inbox)', '', __LINE__, __FILE__, $sql);
                                         }
-                                        $old_privmsgs_id = $titanium_db->sql_fetchrow($result);
+                                        $old_privmsgs_id = $pnt_db->sql_fetchrow($result);
                                         $old_privmsgs_id = $old_privmsgs_id['privmsgs_id'];
 
                                         $sql = "DELETE $sql_priority FROM " . PRIVMSGS_TABLE . "
                                                 WHERE privmsgs_id = '$old_privmsgs_id'";
-                                        if ( !$titanium_db->sql_query($sql) )
+                                        if ( !$pnt_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not delete oldest privmsgs (inbox)'.$sql, '', __LINE__, __FILE__, $sql);
                                         }
 
                                         $sql = "DELETE $sql_priority FROM " . PRIVMSGS_TEXT_TABLE . "
                                                 WHERE privmsgs_text_id = '$old_privmsgs_id'";
-                                        if ( !$titanium_db->sql_query($sql) )
+                                        if ( !$pnt_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not delete oldest privmsgs text (inbox)', '', __LINE__, __FILE__, $sql);
                                         }
@@ -1927,23 +1927,23 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
                         }
 
                         $sql_info = "INSERT INTO " . PRIVMSGS_TABLE . " (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date, privmsgs_ip, privmsgs_enable_html, privmsgs_enable_bbcode, privmsgs_enable_smilies, privmsgs_attach_sig)
-                                VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", $privmsg_subject) . "', " . $userdata['user_id'] . ", " . $to_userdata['user_id'] . ", $msg_time, '$titanium_user_ip', '$html_on', '$bbcode_on', '$smilies_on', '$attach_sig')";
+                                VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", $privmsg_subject) . "', " . $userdata['user_id'] . ", " . $to_userdata['user_id'] . ", $msg_time, '$pnt_user_ip', '$html_on', '$bbcode_on', '$smilies_on', '$attach_sig')";
                 }
                 else
                 {
                         $sql_info = "UPDATE " . PRIVMSGS_TABLE . "
-                                SET privmsgs_type = " . PRIVMSGS_NEW_MAIL . ", privmsgs_subject = '" . str_replace("\'", "''", $privmsg_subject) . "', privmsgs_from_userid = " . $userdata['user_id'] . ", privmsgs_to_userid = " . $to_userdata['user_id'] . ", privmsgs_date = '$msg_time', privmsgs_ip = '$titanium_user_ip', privmsgs_enable_html = '$html_on', privmsgs_enable_bbcode = '$bbcode_on', privmsgs_enable_smilies = '$smilies_on', privmsgs_attach_sig = '$attach_sig'
+                                SET privmsgs_type = " . PRIVMSGS_NEW_MAIL . ", privmsgs_subject = '" . str_replace("\'", "''", $privmsg_subject) . "', privmsgs_from_userid = " . $userdata['user_id'] . ", privmsgs_to_userid = " . $to_userdata['user_id'] . ", privmsgs_date = '$msg_time', privmsgs_ip = '$pnt_user_ip', privmsgs_enable_html = '$html_on', privmsgs_enable_bbcode = '$bbcode_on', privmsgs_enable_smilies = '$smilies_on', privmsgs_attach_sig = '$attach_sig'
                                 WHERE privmsgs_id = '$privmsg_id'";
                 }
 
-                if ( !($result = $titanium_db->sql_query($sql_info)) )
+                if ( !($result = $pnt_db->sql_query($sql_info)) )
                 {
                         message_die(GENERAL_ERROR, "Could not insert/update private message sent info.", "", __LINE__, __FILE__, $sql_info);
                 }
 
                 if ( $mode != 'edit' )
                 {
-                        $privmsg_sent_id = $titanium_db->sql_nextid();
+                        $privmsg_sent_id = $pnt_db->sql_nextid();
 
                         $sql = "INSERT INTO " . PRIVMSGS_TEXT_TABLE . " (privmsgs_text_id, privmsgs_bbcode_uid, privmsgs_text)
                                 VALUES ('$privmsg_sent_id', '" . $bbcode_uid . "', '" . str_replace("\'", "''", $privmsg_message) . "')";
@@ -1955,7 +1955,7 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
                                 WHERE privmsgs_text_id = '$privmsg_id'";
                 }
 
-                if ( !$titanium_db->sql_query($sql) )
+                if ( !$pnt_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, "Could not insert/update private message sent text.", "", __LINE__, __FILE__, $sql);
                 }
@@ -1976,7 +1976,7 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
                         $sql = "UPDATE " . USERS_TABLE . "
                                 SET user_new_privmsg = user_new_privmsg + 1, user_last_privmsg = " . time() . "
                                 WHERE user_id = " . $to_userdata['user_id'];
-                        if ( !$status = $titanium_db->sql_query($sql) )
+                        if ( !$status = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update private message new/read status for user', '', __LINE__, __FILE__, $sql);
                         }
@@ -2037,14 +2037,14 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
                 {
                         $phpbb2_page_title = $lang['Post_new_pm'];
 
-                        $titanium_user_sig = ( !empty($userdata['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
+                        $pnt_user_sig = ( !empty($userdata['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
 
                 }
                 else if ( $mode == 'reply' )
                 {
                         $phpbb2_page_title = $lang['Post_reply_pm'];
 
-                        $titanium_user_sig = ( !empty($userdata['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
+                        $pnt_user_sig = ( !empty($userdata['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
 
                 }
                 else if ( $mode == 'edit' )
@@ -2055,19 +2055,19 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
                                 FROM " . PRIVMSGS_TABLE . " pm, " . USERS_TABLE . " u
                                 WHERE pm.privmsgs_id = '$privmsg_id'
                                         AND u.user_id = pm.privmsgs_from_userid";
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, "Could not obtain post and post text", "", __LINE__, __FILE__, $sql);
                         }
 
-                        if ( $postrow = $titanium_db->sql_fetchrow($result) )
+                        if ( $postrow = $pnt_db->sql_fetchrow($result) )
                         {
                                 if ( $userdata['user_id'] != $postrow['user_id'] )
                                 {
                                         message_die(GENERAL_MESSAGE, $lang['Edit_own_posts']);
                                 }
 
-                                $titanium_user_sig = ( !empty($postrow['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $postrow['user_sig'] : '';
+                                $pnt_user_sig = ( !empty($postrow['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $postrow['user_sig'] : '';
                         }
                 }
         }
@@ -2080,19 +2080,19 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
 
                 if ( !empty($_GET[POST_USERS_URL]) )
                 {
-                        $titanium_user_id = intval($_GET[POST_USERS_URL]);
+                        $pnt_user_id = intval($_GET[POST_USERS_URL]);
 
                         $sql = "SELECT username
                                 FROM " . USERS_TABLE . "
-                                WHERE user_id = '$titanium_user_id'
+                                WHERE user_id = '$pnt_user_id'
                                         AND user_id <> " . ANONYMOUS;
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 $error = TRUE;
                                 $error_msg = $lang['No_such_user'];
                         }
 
-                        if ( $row = $titanium_db->sql_fetchrow($result) )
+                        if ( $row = $pnt_db->sql_fetchrow($result) )
                         {
                                 $to_username = $row['username'];
                         }
@@ -2107,12 +2107,12 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
                                         AND ( pm.privmsgs_type = " . PRIVMSGS_NEW_MAIL . "
                                                 OR pm.privmsgs_type = " . PRIVMSGS_UNREAD_MAIL . " )
                                         AND u.user_id = pm.privmsgs_to_userid";
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not obtain private message for editing', '', __LINE__, __FILE__, $sql);
                         }
 
-                        if ( !($privmsg = $titanium_db->sql_fetchrow($result)) )
+                        if ( !($privmsg = $pnt_db->sql_fetchrow($result)) )
                         {
                                 // not needed anymore due to function redirect_titanium()
 //$header_location = ( @preg_match('/Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ) ? 'Refresh: 0; URL=' : 'Location: ';
@@ -2133,7 +2133,7 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
                         $privmsg_message = str_replace('<br />', "\n", $privmsg_message);
                         //$privmsg_message = preg_replace('#</textarea>#si', '&lt;/textarea&gt;', $privmsg_message);
 
-                        $titanium_user_sig = ( $phpbb2_board_config['allow_sig'] ) ? (($privmsg['privmsgs_type'] == PRIVMSGS_NEW_MAIL) ? $titanium_user_sig : $privmsg['user_sig']) : '';
+                        $pnt_user_sig = ( $phpbb2_board_config['allow_sig'] ) ? (($privmsg['privmsgs_type'] == PRIVMSGS_NEW_MAIL) ? $pnt_user_sig : $privmsg['user_sig']) : '';
 
                         $to_username = $privmsg['username'];
                         $to_userid = $privmsg['user_id'];
@@ -2148,12 +2148,12 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
                                         AND pmt.privmsgs_text_id = pm.privmsgs_id
                                         AND pm.privmsgs_to_userid = " . $userdata['user_id'] . "
                                         AND u.user_id = pm.privmsgs_from_userid";
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not obtain private message for editing', '', __LINE__, __FILE__, $sql);
                         }
 
-                        if ( !($privmsg = $titanium_db->sql_fetchrow($result)) )
+                        if ( !($privmsg = $pnt_db->sql_fetchrow($result)) )
                         {
                                 // not needed anymore due to function redirect_titanium()
 //$header_location = ( @preg_match('/Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ) ? 'Refresh: 0; URL=' : 'Location: ';
@@ -2225,15 +2225,15 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
                 //
         if ( !$html_on || !$phpbb2_board_config['allow_html'] || !$userdata['user_allowhtml'] )
                 {
-                        if ( !empty($titanium_user_sig) )
+                        if ( !empty($pnt_user_sig) )
                         {
-                                $titanium_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $titanium_user_sig);
+                                $pnt_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $pnt_user_sig);
                         }
                 }
 
-                if ( $attach_sig && !empty($titanium_user_sig) && $userdata['user_sig_bbcode_uid'] )
+                if ( $attach_sig && !empty($pnt_user_sig) && $userdata['user_sig_bbcode_uid'] )
                 {
-                        $titanium_user_sig = bbencode_second_pass($titanium_user_sig, $userdata['user_sig_bbcode_uid']);
+                        $pnt_user_sig = bbencode_second_pass($pnt_user_sig, $userdata['user_sig_bbcode_uid']);
                 }
 
                 if ( $bbcode_on )
@@ -2241,13 +2241,13 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
                         $preview_message = bbencode_second_pass($preview_message, $bbcode_uid);
                 }
 
-                if ( $attach_sig && !empty($titanium_user_sig) )
+                if ( $attach_sig && !empty($pnt_user_sig) )
                 {
 /*****[BEGIN]******************************************
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
  [ Mod:     Bottom aligned signature           v1.2.0 ]
  ******************************************************/
-                        $preview_message = $preview_message . '<br />' . $phpbb2_board_config['sig_line'] . '<br />' . $titanium_user_sig;
+                        $preview_message = $preview_message . '<br />' . $phpbb2_board_config['sig_line'] . '<br />' . $pnt_user_sig;
 /*****[END]********************************************
  [ Mod:     Bottom aligned signature           v1.2.0 ]
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
@@ -2409,7 +2409,7 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
         // Signature toggle selection - only show if
         // the user has a signature
         //
-        if ( !empty($titanium_user_sig) )
+        if ( !empty($pnt_user_sig) )
         {
                 $phpbb2_template->assign_block_vars('switch_signature_checkbox', array());
         }
@@ -2583,7 +2583,7 @@ if ( !$userdata['session_logged_in'] )
 $sql = "UPDATE " . USERS_TABLE . "
         SET user_unread_privmsg = user_unread_privmsg + user_new_privmsg, user_new_privmsg = '0', user_last_privmsg = " . $userdata['session_start'] . "
         WHERE user_id = " . $userdata['user_id'];
-if ( !$titanium_db->sql_query($sql) )
+if ( !$pnt_db->sql_query($sql) )
 {
         message_die(GENERAL_ERROR, 'Could not update private message new/read status for user', '', __LINE__, __FILE__, $sql);
 }
@@ -2592,7 +2592,7 @@ $sql = "UPDATE " . PRIVMSGS_TABLE . "
         SET privmsgs_type = " . PRIVMSGS_UNREAD_MAIL . "
         WHERE privmsgs_type = " . PRIVMSGS_NEW_MAIL . "
                 AND privmsgs_to_userid = " . $userdata['user_id'];
-if ( !$titanium_db->sql_query($sql) )
+if ( !$pnt_db->sql_query($sql) )
 {
         message_die(GENERAL_ERROR, 'Could not update private message new/read status (2) for user', '', __LINE__, __FILE__, $sql);
 }
@@ -2748,11 +2748,11 @@ for ($i = 1; $i < 5; $i++)
     // savebox (4)
     $sql_4 .= "WHERE ( ( privmsgs_to_userid = " . $userdata['user_id'] . " AND privmsgs_type = " . PRIVMSGS_SAVED_IN_MAIL . " ) OR ( privmsgs_from_userid = " . $userdata['user_id'] . " AND privmsgs_type = " . PRIVMSGS_SAVED_OUT_MAIL . ") )";
 
-    if ( !($result1 = $titanium_db->sql_query($$sql2)) )
+    if ( !($result1 = $pnt_db->sql_query($$sql2)) )
     {
         message_die(GENERAL_ERROR, 'Could not query forum PM information', '', __LINE__, __FILE__, $sql_tot_pm_savebox);
     }
-    while ($row1 = $titanium_db->sql_fetchrow($result1))
+    while ($row1 = $pnt_db->sql_fetchrow($result1))
     {
         $total_phpbb2_inbox .= $row1['tot_1'];
         $total_phpbb2_sentbox .= $row1['tot_2'];
@@ -2768,19 +2768,19 @@ for ($i = 1; $i < 5; $i++)
 //
 // Get messages
 //
-if ( !($result = $titanium_db->sql_query($sql_tot)) )
+if ( !($result = $pnt_db->sql_query($sql_tot)) )
 {
         message_die(GENERAL_ERROR, 'Could not query private message information', '', __LINE__, __FILE__, $sql_tot);
 }
 
-$pm_total = ( $row = $titanium_db->sql_fetchrow($result) ) ? $row['total'] : 0;
+$pm_total = ( $row = $pnt_db->sql_fetchrow($result) ) ? $row['total'] : 0;
 
-if ( !($result = $titanium_db->sql_query($sql_all_tot)) )
+if ( !($result = $pnt_db->sql_query($sql_all_tot)) )
 {
         message_die(GENERAL_ERROR, 'Could not query private message information', '', __LINE__, __FILE__, $sql_tot);
 }
 
-$pm_all_total = ( $row = $titanium_db->sql_fetchrow($result) ) ? $row['total'] : 0;
+$pm_all_total = ( $row = $pnt_db->sql_fetchrow($result) ) ? $row['total'] : 0;
 
 //
 // Build select box
@@ -2849,11 +2849,11 @@ if ( $userdata['user_level'] == ADMIN )
             (g.group_allow_pm='".AUTH_ACL."' AND ug.user_id = " . $userdata['user_id'] . " AND ug.group_id = g.group_id ) OR
             (g.group_allow_pm='".AUTH_REG."')
         )" ;
-    if( !$g_result = $titanium_db->sql_query($sql_g) )
+    if( !$g_result = $pnt_db->sql_query($sql_g) )
     {
         message_die(GENERAL_ERROR, "Could not select group names!", __LINE__, __FILE__, $sql_g);
     }
-    if( $titanium_db->sql_numrows($g_result))
+    if( $pnt_db->sql_numrows($g_result))
     {
         $mass_pm_img = '<a href="' . append_titanium_sid("groupmsg.$phpEx") . '"><img src="' . $images['mass_pm'] . '" border="0" alt="' . $lang['Mass_pm'] . '" /></a>';
         $mass_pm_allowed = true;
@@ -3124,12 +3124,12 @@ endif;
 //
 // Okay, let's build the correct folder
 //
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
         message_die(GENERAL_ERROR, 'Could not query private messages', '', __LINE__, __FILE__, $sql);
 }
 
-if ( $row = $titanium_db->sql_fetchrow($result) )
+if ( $row = $pnt_db->sql_fetchrow($result) )
 {
     $i = 0;
     do
@@ -3205,7 +3205,7 @@ if ( $row = $titanium_db->sql_fetchrow($result) )
                         'U_FROM_USER_PROFILE' => $u_from_user_profile)
                 );
         }
-        while( $row = $titanium_db->sql_fetchrow($result) );
+        while( $row = $pnt_db->sql_fetchrow($result) );
 
         $pagination_variables = array(
             'url' => append_titanium_sid('privmsg.'.$phpEx.'?folder='.$folder), 

@@ -9,11 +9,11 @@
     exit;
   }
 
-  $titanium_username = $_POST['username'];
+  $pnt_username = $_POST['username'];
   $password = $_POST['password'];
   
-  if (isLoginCorrect($titanium_username, $password)) {
-    $_SESSION['username'] = $titanium_username;
+  if (isLoginCorrect($pnt_username, $password)) {
+    $_SESSION['username'] = $pnt_username;
     $_SESSION['success_messages'][] = 'Login successful';  
   } else {
     $_SESSION['error_messages'][] = 'Login failed';  

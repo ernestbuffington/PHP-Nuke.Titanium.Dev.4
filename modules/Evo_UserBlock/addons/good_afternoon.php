@@ -25,7 +25,7 @@ global $evouserinfo_addons, $evouserinfo_good_afternoon, $lang_evo_userblock;
 
 function evouserinfo_create_date($format, $gmepoch, $tz)
 {
-    global $phpbb2_board_config, $lang, $userdata, $titanium_pc_dateTime;
+    global $phpbb2_board_config, $lang, $userdata, $pnt_pc_dateTime;
     
 	static $translate;
     
@@ -66,24 +66,24 @@ function evouserinfo_create_date($format, $gmepoch, $tz)
                 return ( !empty($translate) ) ? strtr(@date($format, $gmepoch), $translate) : @date($format, $gmepoch);
                 break;
             case SERVER_PC:
-                if ( isset($titanium_pc_dateTime['pc_timezoneOffset']) )
+                if ( isset($pnt_pc_dateTime['pc_timezoneOffset']) )
                 {
-                    $tzo_sec = $titanium_pc_dateTime['pc_timezoneOffset'];
+                    $tzo_sec = $pnt_pc_dateTime['pc_timezoneOffset'];
                 } else
                 {
-                    $titanium_user_pc_timeOffsets = explode("/", $userdata['user_pc_timeOffsets']);
-                    $tzo_sec = $titanium_user_pc_timeOffsets[0];
+                    $pnt_user_pc_timeOffsets = explode("/", $userdata['user_pc_timeOffsets']);
+                    $tzo_sec = $pnt_user_pc_timeOffsets[0];
                 }
                 return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
                 break;
             case FULL_PC:
-                if ( isset($titanium_pc_dateTime['pc_timeOffset']) )
+                if ( isset($pnt_pc_dateTime['pc_timeOffset']) )
                 {
-                    $tzo_sec = $titanium_pc_dateTime['pc_timeOffset'];
+                    $tzo_sec = $pnt_pc_dateTime['pc_timeOffset'];
                 } else
                 {
-                    $titanium_user_pc_timeOffsets = explode("/", $userdata['user_pc_timeOffsets']);
-                    $tzo_sec = (isset($titanium_user_pc_timeOffsets[1])) ? $titanium_user_pc_timeOffsets[1] : '';
+                    $pnt_user_pc_timeOffsets = explode("/", $userdata['user_pc_timeOffsets']);
+                    $tzo_sec = (isset($pnt_user_pc_timeOffsets[1])) ? $pnt_user_pc_timeOffsets[1] : '';
                 }
                 return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
                 break;
@@ -108,9 +108,9 @@ function evouserinfo_create_date($format, $gmepoch, $tz)
                 return ( !empty($translate) ) ? strtr(@date($format, $gmepoch), $translate) : @date($format, $gmepoch);
                 break;
             case SERVER_PC:
-                if ( isset($titanium_pc_dateTime['pc_timezoneOffset']) )
+                if ( isset($pnt_pc_dateTime['pc_timezoneOffset']) )
                 {
-                    $tzo_sec = $titanium_pc_dateTime['pc_timezoneOffset'];
+                    $tzo_sec = $pnt_pc_dateTime['pc_timezoneOffset'];
                 } else
                 {
                     $tzo_sec = 0;
@@ -118,9 +118,9 @@ function evouserinfo_create_date($format, $gmepoch, $tz)
                 return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
                 break;
             case FULL_PC:
-                if ( isset($titanium_pc_dateTime['pc_timeOffset']) )
+                if ( isset($pnt_pc_dateTime['pc_timeOffset']) )
                 {
-                    $tzo_sec = $titanium_pc_dateTime['pc_timeOffset'];
+                    $tzo_sec = $pnt_pc_dateTime['pc_timeOffset'];
                 } else
                 {
                     $tzo_sec = 0;

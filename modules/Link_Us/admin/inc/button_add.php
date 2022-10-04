@@ -32,7 +32,7 @@ global $identify;
 
 LinkusAdminMain();
 
-	$config = $titanium_db->sql_ufetchrow("SELECT * FROM `".$titanium_prefix."_link_us_config` LIMIT 0,1");
+	$config = $pnt_db->sql_ufetchrow("SELECT * FROM `".$pnt_prefix."_link_us_config` LIMIT 0,1");
 	
 	$ip = $identify->get_ip();
 

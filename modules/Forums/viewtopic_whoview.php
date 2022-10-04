@@ -47,7 +47,7 @@ $current_date = "<i class=\"bi bi-calendar3\"></i>&nbsp;&nbsp;$month/$date/$year
 $actual_time = $current_date;
 
 # Start session management
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_TOPIC_VIEW, $nukeuser);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_TOPIC_VIEW, $nukeuser);
 titanium_init_userprefs($userdata);
 # End session management
 
@@ -67,12 +67,12 @@ endif;
 # find the forum, in which the topic are located
 if(empty($topic_id))$topic_id = 0;
 $sql = "SELECT f.forum_id FROM ".TOPICS_TABLE." t, ".FORUMS_TABLE." f WHERE f.forum_id = t.forum_id AND t.topic_id=$topic_id";
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 message_die(GENERAL_ERROR, "Could not obtain topic information", '', __LINE__, __FILE__, $sql);
-if(!($forum_topic_data = $titanium_db->sql_fetchrow($result)))
+if(!($forum_topic_data = $pnt_db->sql_fetchrow($result)))
 message_die(GENERAL_MESSAGE, 'Topic_post_not_exist');
 $phpbb2_forum_id = $forum_topic_data['forum_id'];
-list($topic_title) = $titanium_db->sql_ufetchrow("SELECT `topic_title` FROM `".TOPICS_TABLE."` WHERE `topic_id`=$topic_id", SQL_NUM);
+list($topic_title) = $pnt_db->sql_ufetchrow("SELECT `topic_title` FROM `".TOPICS_TABLE."` WHERE `topic_id`=$topic_id", SQL_NUM);
 $topic_link = '<a href="modules.php?name=Forums&file=viewtopic&t='.$topic_id.'" target="_self">'.$topic_title.'</a>';
 # End add - Who viewed a topic MOD
 
@@ -172,17 +172,17 @@ $sql = "SELECT u.username,
 	
 	FROM ".USERS_TABLE." u, ".TOPIC_VIEW_TABLE." tv WHERE u.user_id = tv.user_id AND tv.topic_id= ".$topic_id." ORDER BY $order_by";
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 message_die(GENERAL_ERROR, 'Could not query users', '', __LINE__, __FILE__, $sql);
 
-if($row = $titanium_db->sql_fetchrow($result)):
+if($row = $pnt_db->sql_fetchrow($result)):
 
 	$i = 0;
 	do
 	{
-		$titanium_username = $row['username'];
-		$titanium_user_id = $row['user_id'];
-		$titanium_user_from = ( !empty($row['user_from']) ) ? $row['user_from'] : '&nbsp;';
+		$pnt_username = $row['username'];
+		$pnt_user_id = $row['user_id'];
+		$pnt_user_from = ( !empty($row['user_from']) ) ? $row['user_from'] : '&nbsp;';
 		$joined	= $row['user_regdate'];
 		
         /*****[BEGIN]******************************************
@@ -216,12 +216,12 @@ if($row = $titanium_db->sql_fetchrow($result)):
 		target="_blank">'.get_evo_icon('evo-sprite facebook tooltip', $lang['Visit_facebook']).'</a>&nbsp;' : '');
 		
 		# Display the users country of origin.
-		$titanium_user_flag = (!empty($row['user_from_flag'])) ? 
+		$pnt_user_flag = (!empty($row['user_from_flag'])) ? 
 		'&nbsp;'.get_evo_icon('countries '.str_replace('.png','',$row['user_from_flag'])).'&nbsp;' : '&nbsp;'.get_evo_icon('countries unknown').'&nbsp;';
 		
 		# Send user a private message.
-		$pm	= '<a href="'.append_titanium_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=$titanium_user_id").'">'.get_evo_icon('evo-sprite 
-		mail tooltip', sprintf($lang['Send_private_message'],$titanium_username)).'</a>';
+		$pm	= '<a href="'.append_titanium_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=$pnt_user_id").'">'.get_evo_icon('evo-sprite 
+		mail tooltip', sprintf($lang['Send_private_message'],$pnt_username)).'</a>';
 		
 		# Website URL
 		$www = ($row['user_website']) ? '<a href="'.$row['user_website'].'" target="_userwww">'.get_evo_icon('evo-sprite globe tooltip', $lang['Visit_website']).'</a>&nbsp;' : '';
@@ -244,19 +244,19 @@ if($row = $titanium_db->sql_fetchrow($result)):
        $online_status = '<span title="'.sprintf($lang['is_offline'], $row['username']) . '"' . $offline_color . '><img alt="online" src="themes/'.$theme_name.'/forums/images/status/offline_bgcolor_one.gif" /></span>';
        endif;
        # Mod: Online/Offline/Hidden v2.2.7 END
- 		if(strlen($titanium_user_from) == 6)
-		$titanium_user_from = 'The InterWebs';
+ 		if(strlen($pnt_user_from) == 6)
+		$pnt_user_from = 'The InterWebs';
 		 
 		if (!is_admin())
         # Nobody but the admin gives a shit about Anonymous people
-		if($titanium_username == 'Anonymous') 
+		if($pnt_username == 'Anonymous') 
 		continue;
 		
 		$phpbb2_template->assign_block_vars('memberrow', array(
 			'ROW_NUMBER' 	=> $i + ($_GET['start'] + 1),
-			'USERNAME' 		=> UsernameColor($titanium_username),
-			'FROM' 			=> $titanium_user_from,
-			'FLAG'			=> $titanium_user_flag,
+			'USERNAME' 		=> UsernameColor($pnt_username),
+			'FROM' 			=> $pnt_user_from,
+			'FLAG'			=> $pnt_user_flag,
 			'FACEBOOK'		=> $facebook,
 			'VIEW_TIME' 	=> '<i class="bi bi-calendar3"></i> '.$view_time,
 			'VIEW_COUNT' 	=> $view_count,
@@ -267,12 +267,12 @@ if($row = $titanium_db->sql_fetchrow($result)):
 			'ONLINE_STATUS' => $online_status,
 			'TOPICTITLE'    => '<font size="3">'.$topic_title.'</font>',
 			'TOPICLINK'     => '<font size="3"><i class="bi bi-card-heading"></i> '.$topic_link.'</font>',
-			'U_VIEWPROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$titanium_user_id"))
+			'U_VIEWPROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$pnt_user_id"))
 		);
 
 		$i++;
 	}
-	while($row = $titanium_db->sql_fetchrow($result));
+	while($row = $pnt_db->sql_fetchrow($result));
 	
 endif;
 
@@ -282,10 +282,10 @@ if($mode != 'topten' || $phpbb2_board_config['topics_per_page'] < 10):
 		FROM ".TOPIC_VIEW_TABLE."
 		WHERE topic_id = " . $topic_id;
     # End replacement - Who viewed a topic MOD
-	if(!($result = $titanium_db->sql_query($sql))):
+	if(!($result = $pnt_db->sql_query($sql))):
 	message_die(GENERAL_ERROR, 'Error getting total users', '', __LINE__, __FILE__, $sql);
     endif;
-	if($total = $titanium_db->sql_fetchrow($result)):
+	if($total = $pnt_db->sql_fetchrow($result)):
 	   $total_phpbb2_members = $total['total'];
        # Start replacement - Who viewed a topic MOD
        $pagination = generate_pagination("topic_view_users.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;

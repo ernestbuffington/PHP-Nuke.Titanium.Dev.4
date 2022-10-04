@@ -18,9 +18,9 @@ define('IN_PHPBB2', true);
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $titanium_module['Extensions']['Extension_control'] = $filename . '?mode=extensions';
-    $titanium_module['Extensions']['Extension_group_manage'] = $filename . '?mode=groups';
-    $titanium_module['Extensions']['Forbidden_extensions'] = $filename . '?mode=forbidden';
+    $pnt_module['Extensions']['Extension_control'] = $filename . '?mode=extensions';
+    $pnt_module['Extensions']['Extension_group_manage'] = $filename . '?mode=groups';
+    $pnt_module['Extensions']['Forbidden_extensions'] = $filename . '?mode=forbidden';
     return;
 }
 
@@ -76,16 +76,16 @@ $attach_config = array();
 $sql = 'SELECT *
     FROM ' . ATTACH_CONFIG_TABLE;
 
-if (!($result = $titanium_db->sql_query($sql)))
+if (!($result = $pnt_db->sql_query($sql)))
 {
     message_die(GENERAL_ERROR, 'Could not query attachment information', '', __LINE__, __FILE__, $sql);
 }
 
-while ($row = $titanium_db->sql_fetchrow($result))
+while ($row = $pnt_db->sql_fetchrow($result))
 {
     $attach_config[$row['config_name']] = trim($row['config_value']);
 }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 // Extension Management
 if ($submit && $mode == 'extensions')
@@ -108,14 +108,14 @@ if ($submit && $mode == 'extensions')
         FROM ' . EXTENSIONS_TABLE . '
         ORDER BY ext_id';
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t get Extension Informations.', '', __LINE__, __FILE__, $sql);
     }
 
-    $num_rows = $titanium_db->sql_numrows($result);
-    $extension_row = $titanium_db->sql_fetchrowset($result);
-    $titanium_db->sql_freeresult($result);
+    $num_rows = $pnt_db->sql_numrows($result);
+    $extension_row = $pnt_db->sql_fetchrowset($result);
+    $pnt_db->sql_freeresult($result);
 
     if ($num_rows > 0)
     {
@@ -131,7 +131,7 @@ if ($submit && $mode == 'extensions')
                 $sql = 'UPDATE ' . EXTENSIONS_TABLE . ' SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
                     WHERE ext_id = ' . (int) $extension_row[$i]['ext_id'];
 
-                if (!$titanium_db->sql_query($sql))
+                if (!$pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t update Extension Informations', '', __LINE__, __FILE__, $sql);
                 }
@@ -150,7 +150,7 @@ if ($submit && $mode == 'extensions')
             FROM ' . EXTENSIONS_TABLE . '
             WHERE ext_id IN (' . $extension_id_sql . ')';
 
-        if (!$result = $titanium_db->sql_query($sql))
+        if (!$result = $pnt_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Could not delete Extensions', '', __LINE__, __FILE__, $sql);
         }
@@ -175,14 +175,14 @@ if ($submit && $mode == 'extensions')
             $sql = 'SELECT extension
                 FROM ' . EXTENSIONS_TABLE;
 
-            if (!($result = $titanium_db->sql_query($sql)))
+            if (!($result = $pnt_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not query Extensions', '', __LINE__, __FILE__, $sql);
             }
 
-            $row = $titanium_db->sql_fetchrowset($result);
-            $num_rows = $titanium_db->sql_numrows($result);
-            $titanium_db->sql_freeresult($result);
+            $row = $pnt_db->sql_fetchrowset($result);
+            $num_rows = $pnt_db->sql_numrows($result);
+            $pnt_db->sql_freeresult($result);
 
             if ($num_rows > 0)
             {
@@ -206,14 +206,14 @@ if ($submit && $mode == 'extensions')
                 $sql = 'SELECT extension
                     FROM ' . FORBIDDEN_EXTENSIONS_TABLE;
 
-                if (!($result = $titanium_db->sql_query($sql)))
+                if (!($result = $pnt_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Could not query Extensions', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $titanium_db->sql_fetchrowset($result);
-                $num_rows = $titanium_db->sql_numrows($result);
-                $titanium_db->sql_freeresult($result);
+                $row = $pnt_db->sql_fetchrowset($result);
+                $num_rows = $pnt_db->sql_numrows($result);
+                $pnt_db->sql_freeresult($result);
 
                 if ($num_rows > 0)
                 {
@@ -243,7 +243,7 @@ if ($submit && $mode == 'extensions')
 
                 $sql = 'INSERT INTO ' . EXTENSIONS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-                if (!$titanium_db->sql_query($sql))
+                if (!$pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, 'Could not add Extension', '', __LINE__, __FILE__, $sql);
                 }
@@ -300,14 +300,14 @@ if ($mode == 'extensions')
         FROM ' . EXTENSIONS_TABLE . '
         ORDER BY group_id';
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t get Extension informations', '', __LINE__, __FILE__, $sql);
     }
 
-    $extension_row = $titanium_db->sql_fetchrowset($result);
-    $num_extension_row = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $extension_row = $pnt_db->sql_fetchrowset($result);
+    $num_extension_row = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     if ($num_extension_row > 0)
     {
@@ -382,7 +382,7 @@ if ($submit && $mode == 'groups')
         $sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . ' SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
             WHERE group_id = ' . (int) $group_change_list[$i];
 
-        if (!($titanium_db->sql_query($sql)))
+        if (!($pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Couldn\'t update Extension Groups Informations', '', __LINE__, __FILE__, $sql);
         }
@@ -399,7 +399,7 @@ if ($submit && $mode == 'groups')
             FROM ' . EXTENSION_GROUPS_TABLE . '
             WHERE group_id IN (' . $group_id_sql . ')';
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not delete Extension Groups', '', __LINE__, __FILE__, $sql);
         }
@@ -409,7 +409,7 @@ if ($submit && $mode == 'groups')
             SET group_id = 0
             WHERE group_id IN (' . $group_id_sql . ')';
 
-        if (!$result = $titanium_db->sql_query($sql))
+        if (!$result = $pnt_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Could not assign Extensions to Pending Group.', '', __LINE__, __FILE__, $sql);
         }
@@ -432,14 +432,14 @@ if ($submit && $mode == 'groups')
         $sql = 'SELECT group_name
             FROM ' . EXTENSION_GROUPS_TABLE;
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not query Extension Groups Table', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $titanium_db->sql_fetchrowset($result);
-        $num_rows = $titanium_db->sql_numrows($result);
-        $titanium_db->sql_freeresult($result);
+        $row = $pnt_db->sql_fetchrowset($result);
+        $num_rows = $pnt_db->sql_numrows($result);
+        $pnt_db->sql_freeresult($result);
 
         if ($num_rows > 0)
         {
@@ -473,7 +473,7 @@ if ($submit && $mode == 'groups')
 
             $sql = 'INSERT INTO ' . EXTENSION_GROUPS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-            if (!($titanium_db->sql_query($sql)))
+            if (!($pnt_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not add Extension Group', '', __LINE__, __FILE__, $sql);
             }
@@ -542,14 +542,14 @@ if ($mode == 'groups')
     $sql = 'SELECT *
         FROM ' . EXTENSION_GROUPS_TABLE;
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t get Extension Group informations', '', __LINE__, __FILE__, $sql);
     }
 
-    $extension_group = $titanium_db->sql_fetchrowset($result);
-    $num_extension_group = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $extension_group = $pnt_db->sql_fetchrowset($result);
+    $num_extension_group = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     for ($i = 0; $i < $num_extension_group; $i++)
     {
@@ -594,14 +594,14 @@ if ($mode == 'groups')
                 FROM ' . EXTENSIONS_TABLE . '
                 WHERE group_id = ' . (int) $viewgroup;
 
-            if (!$result = $titanium_db->sql_query($sql))
+            if (!$result = $pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, 'Couldn\'t get Extension informations', '', __LINE__, __FILE__, $sql);
             }
 
-            $extension = $titanium_db->sql_fetchrowset($result);
-            $num_extension = $titanium_db->sql_numrows($result);
-            $titanium_db->sql_freeresult($result);
+            $extension = $pnt_db->sql_fetchrowset($result);
+            $num_extension = $pnt_db->sql_numrows($result);
+            $pnt_db->sql_freeresult($result);
 
             for ($j = 0; $j < $num_extension; $j++)
             {
@@ -628,7 +628,7 @@ if ($submit && $mode == 'forbidden')
             FROM ' . FORBIDDEN_EXTENSIONS_TABLE . '
             WHERE ext_id IN (' . $extension_id_sql . ')';
 
-        if (!$result = $titanium_db->sql_query($sql))
+        if (!$result = $pnt_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Could not delete forbidden extensions', '', __LINE__, __FILE__, $sql);
         }
@@ -643,14 +643,14 @@ if ($submit && $mode == 'forbidden')
         $sql = 'SELECT extension
             FROM ' . FORBIDDEN_EXTENSIONS_TABLE;
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not query forbidden extensions', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $titanium_db->sql_fetchrowset($result);
-        $num_rows = $titanium_db->sql_numrows($result);
-        $titanium_db->sql_freeresult($result);
+        $row = $pnt_db->sql_fetchrowset($result);
+        $num_rows = $pnt_db->sql_numrows($result);
+        $pnt_db->sql_freeresult($result);
 
         if ($num_rows > 0)
         {
@@ -674,14 +674,14 @@ if ($submit && $mode == 'forbidden')
             $sql = 'SELECT extension
                 FROM ' . EXTENSIONS_TABLE;
 
-            if (!($result = $titanium_db->sql_query($sql)))
+            if (!($result = $pnt_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not query extensions', '', __LINE__, __FILE__, $sql);
             }
 
-            $row = $titanium_db->sql_fetchrowset($result);
-            $num_rows = $titanium_db->sql_numrows($result);
-            $titanium_db->sql_freeresult($result);
+            $row = $pnt_db->sql_fetchrowset($result);
+            $num_rows = $pnt_db->sql_numrows($result);
+            $pnt_db->sql_freeresult($result);
 
             if ($num_rows > 0)
             {
@@ -705,7 +705,7 @@ if ($submit && $mode == 'forbidden')
             $sql = 'INSERT INTO ' . FORBIDDEN_EXTENSIONS_TABLE . " (extension)
                 VALUES ('" . attach_mod_sql_escape(strtolower($extension)) . "')";
 
-            if (!($titanium_db->sql_query($sql)))
+            if (!($pnt_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not add forbidden extension', '', __LINE__, __FILE__, $sql);
             }
@@ -743,14 +743,14 @@ if ($mode == 'forbidden')
         FROM ' . FORBIDDEN_EXTENSIONS_TABLE . '
         ORDER BY extension';
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get forbidden extension informations', '', __LINE__, __FILE__, $sql);
     }
 
-    $extensionrow = $titanium_db->sql_fetchrowset($result);
-    $num_extensionrow = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $extensionrow = $pnt_db->sql_fetchrowset($result);
+    $num_extensionrow = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     if ($num_extensionrow > 0)
     {
@@ -795,7 +795,7 @@ if ($add_forum && $e_mode == 'perm' && $group)
     if ($add_all_forums)
     {
         $sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . " SET forum_permissions = '' WHERE group_id = " . (int) $group;
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not update Permissions', '', __LINE__, __FILE__, $sql);
         }
@@ -809,13 +809,13 @@ if ($add_forum && $e_mode == 'perm' && $group)
             WHERE group_id = ' . intval($group) . '
             LIMIT 1';
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not get Group Permissions from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $titanium_db->sql_fetchrow($result);
-        $titanium_db->sql_freeresult($result);
+        $row = $pnt_db->sql_fetchrow($result);
+        $pnt_db->sql_freeresult($result);
 
         if (trim($row['forum_permissions']) == '')
         {
@@ -839,7 +839,7 @@ if ($add_forum && $e_mode == 'perm' && $group)
 
         $sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . " SET forum_permissions = '" . attach_mod_sql_escape($auth_bitstream) . "' WHERE group_id = " . (int) $group;
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not update Permissions', '', __LINE__, __FILE__, $sql);
         }
@@ -858,13 +858,13 @@ if ($delete_forum && $e_mode == 'perm' && $group)
         WHERE group_id = ' . intval($group) . '
         LIMIT 1';
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Group Permissions from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
     }
 
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     $auth_p2 = auth_unpack(trim($row['forum_permissions']));
     $auth_p = array();
@@ -882,7 +882,7 @@ if ($delete_forum && $e_mode == 'perm' && $group)
 
     $sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . " SET forum_permissions = '" . attach_mod_sql_escape($auth_bitstream) . "' WHERE group_id = " . (int) $group;
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not update Permissions', '', __LINE__, __FILE__, $sql);
     }
@@ -900,13 +900,13 @@ if ($e_mode == 'perm' && $group)
         WHERE group_id = ' . intval($group) . '
         LIMIT 1';
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Group Name from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
     }
 
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     $group_name = $row['group_name'];
     $allowed_forums = trim($row['forum_permissions']);
@@ -925,12 +925,12 @@ if ($e_mode == 'perm' && $group)
         $forum_p = auth_unpack($allowed_forums);
 
         $sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE . " WHERE forum_id IN (" . implode(', ', $forum_p) . ")";
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not get Forum Names', '', __LINE__, __FILE__, $sql);
         }
 
-        while ($row = $titanium_db->sql_fetchrow($result))
+        while ($row = $pnt_db->sql_fetchrow($result))
         {
             $forum_perm[$act_id]['forum_id'] = $row['forum_id'];
             $forum_perm[$act_id]['forum_name'] = $row['forum_name'];
@@ -961,16 +961,16 @@ if ($e_mode == 'perm' && $group)
 
     $sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE;
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Forums', '', __LINE__, __FILE__, $sql);
     }
 
-    while ($row = $titanium_db->sql_fetchrow($result))
+    while ($row = $pnt_db->sql_fetchrow($result))
     {
         $forum_option_values[intval($row['forum_id'])] = $row['forum_name'];
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     foreach ($forum_option_values as $value => $option)
     {
@@ -985,12 +985,12 @@ if ($e_mode == 'perm' && $group)
     $empty_perm_forums = array();
     $sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE . " WHERE auth_attachments < " . AUTH_ADMIN;
 
-    if (!($f_result = $titanium_db->sql_query($sql)))
+    if (!($f_result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Forums.', '', __LINE__, __FILE__, $sql);
     }
 
-    while ($row = $titanium_db->sql_fetchrow($f_result))
+    while ($row = $pnt_db->sql_fetchrow($f_result))
     {
         $phpbb2_forum_id = $row['forum_id'];
 
@@ -999,14 +999,14 @@ if ($e_mode == 'perm' && $group)
             WHERE allow_group = 1
             ORDER BY group_name ASC";
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not query Extension Groups.', '', __LINE__, __FILE__, $sql);
         }
 
-        $rows = $titanium_db->sql_fetchrowset($result);
-        $num_rows = $titanium_db->sql_numrows($result);
-        $titanium_db->sql_freeresult($result);
+        $rows = $pnt_db->sql_fetchrowset($result);
+        $num_rows = $pnt_db->sql_numrows($result);
+        $pnt_db->sql_freeresult($result);
 
         $found_forum = FALSE;
 
@@ -1025,7 +1025,7 @@ if ($e_mode == 'perm' && $group)
             $empty_perm_forums[$phpbb2_forum_id] = $row['forum_name'];
         }
     }
-    $titanium_db->sql_freeresult($f_result);
+    $pnt_db->sql_freeresult($f_result);
 
     $message = '';
 

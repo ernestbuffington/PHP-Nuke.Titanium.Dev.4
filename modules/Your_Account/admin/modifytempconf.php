@@ -47,19 +47,19 @@ if(is_mod_admin($pnt_module)) {
     if ($chng_email != $old_email) { ya_mailCheck($chng_email); }
     if (empty($stop)) {
         $time = time();
-//      $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users_temp SET username='$chng_uname', realname='$chng_realname',  user_email='$chng_email', user_regdate='$chng_regdate', time='$time' WHERE user_id='$chng_uid'");
-        $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users_temp SET username='$chng_uname', realname='$chng_realname',  user_email='$chng_email' WHERE user_id='$chng_uid'");
+//      $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users_temp SET username='$chng_uname', realname='$chng_realname',  user_email='$chng_email', user_regdate='$chng_regdate', time='$time' WHERE user_id='$chng_uid'");
+        $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users_temp SET username='$chng_uname', realname='$chng_realname',  user_email='$chng_email' WHERE user_id='$chng_uid'");
 
         if (count($nfield) > 0) {
          foreach ($nfield as $key => $var) {
          $nfield[$key] = ya_fixtext($nfield[$key]);
-           if (($titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE fid='$key' AND uid = '$chng_uid'"))) == 0) {
+           if (($pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_value_temp WHERE fid='$key' AND uid = '$chng_uid'"))) == 0) {
           
-            $sql = "INSERT INTO ".$titanium_user_prefix."_cnbya_value_temp (uid, fid, value) VALUES ('$chng_uid', '$key','$nfield[$key]')";
-            $titanium_db->sql_query($sql);
+            $sql = "INSERT INTO ".$pnt_user_prefix."_cnbya_value_temp (uid, fid, value) VALUES ('$chng_uid', '$key','$nfield[$key]')";
+            $pnt_db->sql_query($sql);
           }
           else {
-            $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_cnbya_value_temp SET value='$nfield[$key]' WHERE fid='$key' AND uid = '$chng_uid'");
+            $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_cnbya_value_temp SET value='$nfield[$key]' WHERE fid='$key' AND uid = '$chng_uid'");
           } 
          }
         }

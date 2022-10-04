@@ -27,7 +27,7 @@
 if( !empty($setmodules) )
 {
         $file = basename(__FILE__);
-        $titanium_module['General']['Word_Censor'] = $file;
+        $pnt_module['General']['Word_Censor'] = $file;
         return;
 }
 
@@ -94,12 +94,12 @@ if( $mode != "" )
                                 $sql = "SELECT *
                                         FROM " . WORDS_TABLE . "
                                         WHERE word_id = $word_id";
-                                if(!$result = $titanium_db->sql_query($sql))
+                                if(!$result = $pnt_db->sql_query($sql))
                                 {
                                         message_die(GENERAL_ERROR, "Could not query words table", "Error", __LINE__, __FILE__, $sql);
                                 }
 
-                                $word_info = $titanium_db->sql_fetchrow($result);
+                                $word_info = $pnt_db->sql_fetchrow($result);
                                 $s_hidden_fields .= '<input type="hidden" name="id" value="' . $word_id . '" />';
                         }
                         else
@@ -152,7 +152,7 @@ if( $mode != "" )
                         $message = $lang['Word_added'];
                 }
 
-                if(!$result = $titanium_db->sql_query($sql))
+                if(!$result = $pnt_db->sql_query($sql))
                 {
                         message_die(GENERAL_ERROR, "Could not insert data into words table", $lang['Error'], __LINE__, __FILE__, $sql);
                 }
@@ -178,7 +178,7 @@ if( $mode != "" )
                         $sql = "DELETE FROM " . WORDS_TABLE . "
                                 WHERE word_id = $word_id";
 
-                        if(!$result = $titanium_db->sql_query($sql))
+                        if(!$result = $pnt_db->sql_query($sql))
                         {
                                 message_die(GENERAL_ERROR, "Could not remove data from words table", $lang['Error'], __LINE__, __FILE__, $sql);
                         }
@@ -222,13 +222,13 @@ else
         $sql = "SELECT *
                 FROM " . WORDS_TABLE . "
                 ORDER BY word";
-        if( !$result = $titanium_db->sql_query($sql) )
+        if( !$result = $pnt_db->sql_query($sql) )
         {
                 message_die(GENERAL_ERROR, "Could not query words table", $lang['Error'], __LINE__, __FILE__, $sql);
         }
 
-        $word_rows = $titanium_db->sql_fetchrowset($result);
-        $titanium_db->sql_freeresult($result);
+        $word_rows = $pnt_db->sql_fetchrowset($result);
+        $pnt_db->sql_freeresult($result);
         $word_count = count($word_rows);
 
         $phpbb2_template->assign_vars(array(

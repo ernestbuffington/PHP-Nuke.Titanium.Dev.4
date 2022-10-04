@@ -85,11 +85,11 @@ class Swift_Transport_Esmtp_AuthHandler implements Swift_Transport_EsmtpHandler
   
   /**
    * Set the username to authenticate with.
-   * @param string $titanium_username
+   * @param string $pnt_username
    */
-  public function setUsername($titanium_username)
+  public function setUsername($pnt_username)
   {
-    $this->_username = $titanium_username;
+    $this->_username = $pnt_username;
   }
   
   /**

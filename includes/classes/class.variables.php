@@ -43,7 +43,7 @@ require_once(NUKE_INCLUDE_DIR.'utf/utf_tools.php');
  */
 function slashFunction($function, $data) 
 {
-    global $titanium_db;
+    global $pnt_db;
 
     # Error check
     if (empty($data)) return $data;
@@ -55,9 +55,9 @@ function slashFunction($function, $data)
         case 'mysql_escape_string':
             return mysql_escape_string($data);
         case 'mysqli_real_escape_string':
-            return mysqli_real_escape_string($titanium_db->db_connect_id, $data);
+            return mysqli_real_escape_string($pnt_db->db_connect_id, $data);
         case 'mysqli_escape_string':
-            return mysqli_escape_string($titanium_db->db_connect_id, $data);
+            return mysqli_escape_string($pnt_db->db_connect_id, $data);
         case 'addslashes':
         default:
             return addslashes($data);
@@ -73,7 +73,7 @@ function slashFunction($function, $data)
  */
 function deepSlash($data) 
 {
-    global $titanium_db, $titanium_dbtype;
+    global $pnt_db, $pnt_dbtype;
 
     # If there is no data get out
     if (empty($data)) return $data;
@@ -84,16 +84,16 @@ function deepSlash($data)
 	if (empty($function)) 
 	{
         # If for some reason there is no DB connector
-        if(!isset($titanium_db) || !is_object($titanium_db)) 
+        if(!isset($pnt_db) || !is_object($pnt_db)) 
 		{
             # Use addslashes
             $function = 'addslashes';
         } 
-		elseif($titanium_dbtype == 'mysqli' && function_exists('mysqli_real_escape_string')) 
+		elseif($pnt_dbtype == 'mysqli' && function_exists('mysqli_real_escape_string')) 
 		{
             $function = 'mysqli_real_escape_string';
         }
-		elseif($titanium_dbtype == 'mysqli_escape_string') 
+		elseif($pnt_dbtype == 'mysqli_escape_string') 
 		{
             $function = 'mysqli_escape_string';
         }
@@ -210,7 +210,7 @@ function deepStrip($data)
 
 function deepPurifier($data) 
 {
-	global $titanium_html_auth, $admin;
+	global $pnt_html_auth, $admin;
 
     static $config, $purifier;
 
@@ -239,7 +239,7 @@ function deepPurifier($data)
 		$config->set('Core.Encoding', 'UTF-8');
 		$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 		
-        if(!is_god($admin) || (is_god($admin) && !$titanium_html_auth)) 
+        if(!is_god($admin) || (is_god($admin) && !$pnt_html_auth)) 
 		{
 			$config->set('HTML.Trusted', true);
 			$config->set('HTML.SafeObject', true);
@@ -314,7 +314,7 @@ function deepPurifier($data)
                 }
                 
 				#If its a strip lets purify it
-                if(!is_god($admin) || (is_god($admin) && !$titanium_html_auth)) 
+                if(!is_god($admin) || (is_god($admin) && !$pnt_html_auth)) 
 				{
 					$data[$k] = $purifier->purify($v);
 				}

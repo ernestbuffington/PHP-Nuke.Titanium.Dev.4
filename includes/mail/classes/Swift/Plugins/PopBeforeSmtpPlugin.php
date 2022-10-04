@@ -113,11 +113,11 @@ class Swift_Plugins_PopBeforeSmtpPlugin
   /**
    * Set the username to use when connecting (if needed).
    * 
-   * @param string $titanium_username
+   * @param string $pnt_username
    */
-  public function setUsername($titanium_username)
+  public function setUsername($pnt_username)
   {
-    $this->_username = $titanium_username;
+    $this->_username = $pnt_username;
     return $this;
   }
   

@@ -10,7 +10,7 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 get_lang('Network_Projects');
 
@@ -24,8 +24,8 @@ if($priority_id < 1)
 }
 
 $priority_name = htmlentities($priority_name, ENT_QUOTES);
-$titanium_db2->sql_query("UPDATE `".$network_prefix."_projects_priorities` SET `priority_name`='$priority_name' WHERE `priority_id`='$priority_id'");
-$titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_projects_priorities`");
+$pnt_db2->sql_query("UPDATE `".$network_prefix."_projects_priorities` SET `priority_name`='$priority_name' WHERE `priority_id`='$priority_id'");
+$pnt_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_projects_priorities`");
 
 header("Location: ".$admin_file.".php?op=ProjectPriorityList");
 ?>

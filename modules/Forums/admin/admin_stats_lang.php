@@ -39,7 +39,7 @@ if (!empty($phpbb2_board_config))
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $titanium_module['Statistics']['Stats_langcp'] = $filename . '?mode=select';
+    $pnt_module['Statistics']['Stats_langcp'] = $filename . '?mode=select';
     return;
 }
 require('pagestart.' . $phpEx);
@@ -70,14 +70,14 @@ include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
 
 $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $titanium_db->sql_fetchrow($result))
+while ($row = $pnt_db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
@@ -157,10 +157,10 @@ if (count($update_list) > 0)
 {
     @reset($update_list);
     list($language, $v_array) = each($update_list);
-    list($titanium_module_id, $v2_array) = each($v_array);
+    list($pnt_module_id, $v2_array) = each($v_array);
     list($key, $value) = each($v2_array);
 
-    set_lang_entry($language, $titanium_module_id, $key, $lang_entry[$language][$titanium_module_id][$key]);
+    set_lang_entry($language, $pnt_module_id, $key, $lang_entry[$language][$pnt_module_id][$key]);
 }
 else if ($update_all_lang)
 {
@@ -170,7 +170,7 @@ else if ($update_all_lang)
     while (list($language, $v_array) = each($lang_entry))
     {
         // Begin Modules
-        while (list($titanium_module_id, $v2_array) = each($v_array))
+        while (list($pnt_module_id, $v2_array) = each($v_array))
         {
             $lang_block = '';
             // Begin Language Entries
@@ -179,7 +179,7 @@ else if ($update_all_lang)
                 $lang_block .= '$lang[\'' . trim($key) . '\'] = \'' . trim($value) . '\';';
                 $lang_block .= "\n";
             }
-            set_lang_block($language, $titanium_module_id, $lang_block);
+            set_lang_block($language, $pnt_module_id, $lang_block);
         }
     }
 }
@@ -187,18 +187,18 @@ else if (($add_key != '') && (count($add_new_key) > 0))
 {
     @reset($add_new_key);
     list($language, $v_array) = each($add_new_key);
-    list($titanium_module_id, $value) = each($v_array);
+    list($pnt_module_id, $value) = each($v_array);
     
-    lang_add_new_key($language, $titanium_module_id, $add_key, $add_value);
+    lang_add_new_key($language, $pnt_module_id, $add_key, $add_value);
 }
 else if (count($delete_list) > 0)
 {
     @reset($delete_list);
     list($language, $v_array) = each($delete_list);
-    list($titanium_module_id, $v2_array) = each($v_array);
+    list($pnt_module_id, $v2_array) = each($v_array);
     list($key, $value) = each($v2_array);
 
-    delete_lang_key($language, $titanium_module_id, $key);
+    delete_lang_key($language, $pnt_module_id, $key);
 }
 
 if ($mode == 'select')
@@ -234,12 +234,12 @@ if ($mode == 'select')
 
     $sql = "SELECT m.*, i.* FROM " . MODULES_TABLE . " m, " . MODULE_INFO_TABLE . " i WHERE i.module_id = m.module_id";
 
-    if (!($result = $titanium_db->sql_query($sql)) )
+    if (!($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get Module Informations', '', __LINE__, __FILE__, $sql);
     }
 
-    $titanium_modules = $titanium_db->sql_fetchrowset($result);
+    $pnt_modules = $pnt_db->sql_fetchrowset($result);
 
     for ($i = 0; $i < count($provided_languages); $i++)
     {
@@ -264,20 +264,20 @@ if ($mode == 'select')
 
         if ($lang_decollapse == $provided_languages[$i])
         {
-            for ($j = 0; $j < count($titanium_modules); $j++)
+            for ($j = 0; $j < count($pnt_modules); $j++)
             {
-                $informations = ( intval($titanium_modules[$j]['active']) == 1) ? 'Active' : 'Not Active';
+                $informations = ( intval($pnt_modules[$j]['active']) == 1) ? 'Active' : 'Not Active';
 
-                if (!module_is_in_lang($titanium_modules[$j]['short_name'], $provided_languages[$i]))
+                if (!module_is_in_lang($pnt_modules[$j]['short_name'], $provided_languages[$i]))
                 {
                     $informations .= '<br />No Content';
                 }
             
                 $phpbb2_template->assign_block_vars('langrow.modulerow', array(
-                    'MODULE_NAME' => $titanium_modules[$j]['long_name'],
-                    'MODULE_DESC' => $titanium_modules[$j]['extra_info'],
-                    'U_LANG_EDIT' => $phpbb2_root_path . 'admin/admin_stats_lang.php?mode=select&amp;m_mode=edit&amp;lang=' . $provided_languages[$i] . '&amp;module=' . $titanium_modules[$j]['module_id'] . '&amp;d_lang=' . $lang_decollapse,
-                    'U_LANG_EXPORT' => $phpbb2_root_path . 'admin/download_lang.php?mode=export_module&amp;lang=' . $provided_languages[$i] . '&amp;module=' . $titanium_modules[$j]['module_id'],
+                    'MODULE_NAME' => $pnt_modules[$j]['long_name'],
+                    'MODULE_DESC' => $pnt_modules[$j]['extra_info'],
+                    'U_LANG_EDIT' => $phpbb2_root_path . 'admin/admin_stats_lang.php?mode=select&amp;m_mode=edit&amp;lang=' . $provided_languages[$i] . '&amp;module=' . $pnt_modules[$j]['module_id'] . '&amp;d_lang=' . $lang_decollapse,
+                    'U_LANG_EXPORT' => $phpbb2_root_path . 'admin/download_lang.php?mode=export_module&amp;lang=' . $provided_languages[$i] . '&amp;module=' . $pnt_modules[$j]['module_id'],
                     'INFORMATIONS' => $informations)
                 );
             }
@@ -285,7 +285,7 @@ if ($mode == 'select')
     }
     if ($m_mode == 'edit')
     {
-        $titanium_module_id = (isset($HTTP_GET_VARS['module'])) ? intval($HTTP_GET_VARS['module']) : -1;
+        $pnt_module_id = (isset($HTTP_GET_VARS['module'])) ? intval($HTTP_GET_VARS['module']) : -1;
         $language = (isset($HTTP_GET_VARS['lang'])) ? trim($HTTP_GET_VARS['lang']) : '';
         
         if ($language == '')
@@ -295,20 +295,20 @@ if ($mode == 'select')
         
         $current_modules = array();
 
-        if ($titanium_module_id != -1)
+        if ($pnt_module_id != -1)
         {
-            for ($i = 0; $i < count($titanium_modules); $i++)
+            for ($i = 0; $i < count($pnt_modules); $i++)
             {
-                if (intval($titanium_modules[$i]['module_id']) == $titanium_module_id)
+                if (intval($pnt_modules[$i]['module_id']) == $pnt_module_id)
                 {
-                    $current_modules[0] = $titanium_modules[$i];
+                    $current_modules[0] = $pnt_modules[$i];
                     break;
                 }
             }
         }
         else
         {
-            $current_modules = $titanium_modules;
+            $current_modules = $pnt_modules;
         }
 
         $phpbb2_template->assign_vars(array(

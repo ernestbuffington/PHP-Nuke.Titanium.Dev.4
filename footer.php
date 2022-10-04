@@ -45,18 +45,18 @@ function footmsg()
 	  $total_phpbb2_time, 
 	  $phpbb2_start_time, 
 	     $footmsg, 
-		      $titanium_db,
-			 $titanium_db2, 
-   $titanium_queries_count, 
+		      $pnt_db,
+			 $pnt_db2, 
+   $pnt_queries_count, 
    $usrclearcache, 
         $debugger, 
 		   $debug, 
 		   $cache, 
 	   $use_cache,
 	       $index,
-	      $titanium_prefix,
-		    $titanium_user, 
-	 $titanium_user_prefix,
+	      $pnt_prefix,
+		    $pnt_user, 
+	 $pnt_user_prefix,
 	      $cookie,
 	    $blognum,
    $Default_Theme,
@@ -156,12 +156,12 @@ $total_phpbb2_time .= '</font></strong>';
 endif;
 
 # MariaDB version at bottom of footer START
-$footmsg .= $titanium_db->mariadb_version().'<br/>';
+$footmsg .= $pnt_db->mariadb_version().'<br/>';
 # MariaDB version at bottom of footer END
 
 # START Queries Count v2.0.1
-if($titanium_queries_count):
-$total_phpbb2_time .= ' | DB Queries: <strong><font color="'.$digits_color.'">' . $titanium_db->num_queries;
+if($pnt_queries_count):
+$total_phpbb2_time .= ' | DB Queries: <strong><font color="'.$digits_color.'">' . $pnt_db->num_queries;
 $total_phpbb2_time .= '</font></strong>';
 endif;
 # END Queries Count v2.0.1
@@ -182,7 +182,7 @@ if(is_admin()):
      //$interval = strtotime('-1 day');
 	 $interval = strtotime('-1 day');
        if (($last_optimize <= $interval) || ($first_time && $cache->valid && $use_cache)):
-         if ($titanium_db->sql_optimize()):
+         if ($pnt_db->sql_optimize()):
            $cache->save('last_optimize', 'config', time());
              $total_phpbb2_time .= "<br />Database Optimized";
          endif;
@@ -207,7 +207,7 @@ endif;
     
 	if (is_admin()) 
 	{
-      echo $titanium_db->print_debug();
+      echo $pnt_db->print_debug();
     }
     # END Debugger v1.0.0
 	
@@ -218,7 +218,7 @@ endif;
 		    $strstart = strlen(NUKE_BASE_DIR);
 			$debug_sql = '<span class="genmed" style="font-weight: bold;">SQL Debug:</span><br /><br />';
 			
-			foreach ($titanium_db->querylist as $file => $queries) 
+			foreach ($pnt_db->querylist as $file => $queries) 
 			{
 				$file = substr($file, $strstart);
 				if (empty($file)) $file = 'unknown file';
@@ -371,12 +371,12 @@ $cache->resync();
  [ Other:   DB Connectors                      v2.0.0 ]
  [ Other:   Persistent DB Connection           v2.0.0 ]
  ******************************************************/
-if(is_object($titanium_db))
-$titanium_db->sql_close(); //close local database
-if(is_object($titanium_db2))
-$titanium_db2->sql_close(); //close network user database
-//if(is_object($titanium_db3))
-//$titanium_db3->sql_close(); //close music database
+if(is_object($pnt_db))
+$pnt_db->sql_close(); //close local database
+if(is_object($pnt_db2))
+$pnt_db2->sql_close(); //close network user database
+//if(is_object($pnt_db3))
+//$pnt_db3->sql_close(); //close music database
 /*****[END]********************************************
  [ Other:   DB Connectors                      v2.0.0 ]
  [ Other:   Persistent DB Connection           v2.0.0 ]

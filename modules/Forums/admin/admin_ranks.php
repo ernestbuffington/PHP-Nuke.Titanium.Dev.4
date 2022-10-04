@@ -27,7 +27,7 @@
 if( !empty($setmodules) )
 {
 	$file = basename(__FILE__);
-	$titanium_module['Users']['Ranks'] = $file;
+	$pnt_module['Users']['Ranks'] = $file;
 	return;
 }
 
@@ -91,12 +91,12 @@ if( $mode != "" )
 
                         $sql = "SELECT * FROM " . RANKS_TABLE . "
                                 WHERE rank_id = $rank_id";
-                        if(!$result = $titanium_db->sql_query($sql))
+                        if(!$result = $pnt_db->sql_query($sql))
                         {
                                 message_die(GENERAL_ERROR, "Couldn't obtain rank data", "", __LINE__, __FILE__, $sql);
                         }
 
-                        $rank_info = $titanium_db->sql_fetchrow($result);
+                        $rank_info = $pnt_db->sql_fetchrow($result);
                         $s_hidden_fields .= '<input type="hidden" name="id" value="' . $rank_id . '" />';
 
                 }
@@ -281,7 +281,7 @@ if( $mode != "" )
                                         SET user_rank = 0
                                         WHERE user_rank = $rank_id";
 
-                                if( !$result = $titanium_db->sql_query($sql) )
+                                if( !$result = $pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, $lang['No_update_ranks'], "", __LINE__, __FILE__, $sql);
                                 }
@@ -300,7 +300,7 @@ if( $mode != "" )
                         $message = $lang['Rank_added'];
                 }
 
-                if( !$result = $titanium_db->sql_query($sql) )
+                if( !$result = $pnt_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, "Couldn't update/insert into ranks table", "", __LINE__, __FILE__, $sql);
                 }
@@ -330,7 +330,7 @@ if( $mode != "" )
                         $sql = "DELETE FROM " . RANKS_TABLE . "
                                 WHERE rank_id = $rank_id";
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't delete rank data", "", __LINE__, __FILE__, $sql);
                         }
@@ -339,7 +339,7 @@ if( $mode != "" )
                                 SET user_rank = 0
                                 WHERE user_rank = $rank_id";
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, $lang['No_update_ranks'], "", __LINE__, __FILE__, $sql);
                         }
@@ -389,13 +389,13 @@ if( $mode != "" )
 
  $sql = "SELECT * FROM " . RANKS_TABLE . "
  	ORDER BY rank_min ASC, rank_special ASC";
- if( !$result = $titanium_db->sql_query($sql) )
+ if( !$result = $pnt_db->sql_query($sql) )
  {
  	message_die(GENERAL_ERROR, "Couldn't obtain ranks data", "", __LINE__, __FILE__, $sql);
  }
- $rank_count = $titanium_db->sql_numrows($result);
+ $rank_count = $pnt_db->sql_numrows($result);
 
- $rank_rows = $titanium_db->sql_fetchrowset($result);
+ $rank_rows = $pnt_db->sql_fetchrowset($result);
 
  $phpbb2_template->assign_vars(array(
  	"L_RANKS_TITLE" => $lang['Ranks_title'],

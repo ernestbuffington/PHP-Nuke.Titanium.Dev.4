@@ -43,7 +43,7 @@ include('includes/constants.'. $phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_ARCADES, $nukeuser);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_ARCADES, $nukeuser);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -106,17 +106,17 @@ $delfavori = $HTTP_GET_VARS['delfavori'];
 if ($actfav=$favori+$delfavori)
     {
     $sql = "SELECT COUNT(*) AS nbfav FROM ".ARCADE_FAV_TABLE." WHERE  user_id= ".$userdata['user_id']." AND game_id= ".$actfav;
-    if( !($result = $titanium_db->sql_query($sql)) )
+    if( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql);
         }
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
     $nbfav = $row['nbfav'];
 
     if (!$nbfav && $favori)
         {
             $sql = "INSERT INTO ". ARCADE_FAV_TABLE ." VALUES ('','".$userdata['user_id']."','$favori')";
-            if( !($result = $titanium_db->sql_query($sql)) )
+            if( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql);
                 }
@@ -125,7 +125,7 @@ if ($actfav=$favori+$delfavori)
     elseif($delfavori)
         {
             $sql = "DELETE FROM ". ARCADE_FAV_TABLE ." WHERE  user_id= ".$userdata['user_id']." AND game_id= ".$delfavori;
-            if( !($result = $titanium_db->sql_query($sql)) )
+            if( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql);
                 }
@@ -168,11 +168,11 @@ if (( $arcade_catid == 0 ) and ( $arcade_config['use_category_mod'] )) {
             . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userdata['user_id'] . " LEFT JOIN "
             . ARCADE_FAV_TABLE . " f ON f.game_id = g.game_id WHERE f.user_id=".$userdata['user_id'] ;
 
-            if( !($result = $titanium_db->sql_query($sql)) )
+            if( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql);
             }
-            if ($titanium_db->sql_numrows($result))
+            if ($pnt_db->sql_numrows($result))
             {
                 $phpbb2_template->assign_block_vars('favrow',array()) ;
 /*****[BEGIN]******************************************
@@ -182,7 +182,7 @@ if (( $arcade_catid == 0 ) and ( $arcade_config['use_category_mod'] )) {
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                while( $frow = $titanium_db->sql_fetchrow($result))
+                while( $frow = $pnt_db->sql_fetchrow($result))
                 {
                 $phpbb2_template->assign_block_vars('favrow.fav_row',array(
                 'GAMENAMEF' => $frow[game_name],
@@ -223,21 +223,21 @@ if (( $arcade_catid == 0 ) and ( $arcade_config['use_category_mod'] )) {
 
         $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date FROM " . GAMES_TABLE . " g LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN " . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userdata['user_id'] . " WHERE  g.arcade_catid IN ($liste_cat_auth) ORDER BY g.arcade_catid, $order_by";
 
-        if( !($result = $titanium_db->sql_query($sql)) ) {
+        if( !($result = $pnt_db->sql_query($sql)) ) {
                 message_die(GENERAL_ERROR, "Could not read arcade categories", '', __LINE__, __FILE__, $sql);
         }
 
-        while( $row = $titanium_db->sql_fetchrow($result)) {
+        while( $row = $pnt_db->sql_fetchrow($result)) {
                 $liste_jeux[$row['arcade_catid']][] = $row;
         }
 
         $sql = "SELECT arcade_catid, arcade_cattitle, arcade_nbelmt, arcade_catauth FROM " . ARCADE_CATEGORIES_TABLE . " WHERE  arcade_catid IN ($liste_cat_auth) ORDER BY arcade_catorder";
 
-        if( !($result = $titanium_db->sql_query($sql)) ) {
+        if( !($result = $pnt_db->sql_query($sql)) ) {
                 message_die(GENERAL_ERROR, "Could not read arcade categories", '', __LINE__, __FILE__, $sql);
         }
 
-        while( $row = $titanium_db->sql_fetchrow($result)) {
+        while( $row = $pnt_db->sql_fetchrow($result)) {
                 $nbjeux = sizeof($liste_jeux[$row['arcade_catid']]);
 
                 if ($nbjeux > 0) {
@@ -316,11 +316,11 @@ if ( $arcade_config['use_category_mod']) {
         $sql_where = " WHERE  arcade_catid = $arcade_catid AND arcade_catid IN ($liste_cat_auth)";
         $sql = "SELECT arcade_cattitle, arcade_nbelmt AS nbgames FROM " . ARCADE_CATEGORIES_TABLE . " $sql_where";
 
-        if( !($result = $titanium_db->sql_query($sql)) ) {
+        if( !($result = $pnt_db->sql_query($sql)) ) {
                 message_die(GENERAL_ERROR, "Could not read the arcade categories table", '', __LINE__, __FILE__, $sql);
         }
 
-        if ( $row = $titanium_db->sql_fetchrow($result)) {
+        if ( $row = $pnt_db->sql_fetchrow($result)) {
                 $total_phpbb2_games = $row['nbgames'];
         } else {
                 message_die(GENERAL_MESSAGE,$lang['no_arcade_cat']);
@@ -330,11 +330,11 @@ if ( $arcade_config['use_category_mod']) {
 } else {
         $sql = "SELECT COUNT(*) AS nbgames FROM " . GAMES_TABLE;
 
-        if( !($result = $titanium_db->sql_query($sql)) ) {
+        if( !($result = $pnt_db->sql_query($sql)) ) {
                 message_die(GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql);
         }
 
-        if ( $row = $titanium_db->sql_fetchrow($result)) {
+        if ( $row = $pnt_db->sql_fetchrow($result)) {
                 $total_phpbb2_games = $row['nbgames'];
         }
 }
@@ -370,15 +370,15 @@ $phpbb2_template->assign_vars(array(
             . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userdata['user_id'] . " LEFT JOIN "
             . ARCADE_FAV_TABLE . " f ON f.game_id = g.game_id WHERE  f.user_id=".$userdata['user_id'] ;
 
-            if( !($result = $titanium_db->sql_query($sql)) )
+            if( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql);
             }
-            if ($titanium_db->sql_numrows($result))
+            if ($pnt_db->sql_numrows($result))
             {
                 $phpbb2_template->assign_block_vars('favrow',array()) ;
 
-                while( $frow = $titanium_db->sql_fetchrow($result))
+                while( $frow = $pnt_db->sql_fetchrow($result))
                 {
                 $phpbb2_template->assign_block_vars('favrow.fav_row',array(
                 'GAMENAMEF' => $frow[game_name],
@@ -418,11 +418,11 @@ $phpbb2_template->assign_vars(array(
 
 $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date FROM " . GAMES_TABLE . " g LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN " . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userdata['user_id'] . " $sql_where ORDER BY $order_by $limit";
 
-if( !($result = $titanium_db->sql_query($sql)) ) {
+if( !($result = $pnt_db->sql_query($sql)) ) {
         message_die(GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql);
 }
 
-while( $row = $titanium_db->sql_fetchrow($result) ) {
+while( $row = $pnt_db->sql_fetchrow($result) ) {
         $phpbb2_template->assign_block_vars('gamerow', array(
                 'GAMENAME' => $row['game_name'],
                 'GAMEPIC' => ( $row['game_pic'] != '' ) ? "<a href='" . append_titanium_sid("games.$phpEx?gid=" . $row['game_id'] ) . "'><img src='".$phpbb2_root_path ."games/pics/" . $row['game_pic'] . "' align='absmiddle' border='0' width='30' height='30' alt='" . $row['game_name'] . "' ></a>" : '' ,

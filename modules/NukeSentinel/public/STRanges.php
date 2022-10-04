@@ -24,7 +24,7 @@ if (!isset($min)) { $min=0; } else { $min = intval($min); }
 if (!isset($max)) { $max = $min + $perpage; } else { $max = intval($max); }
 if ($column != "ip_lo" and $column != "date") { $column = "ip_lo"; }
 if ($direction != "asc" and $direction != "desc") { $direction = "asc"; }
-$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT `reason` FROM `".$titanium_prefix."_nsnst_blocked_ranges`"));
+$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `reason` FROM `".$pnt_prefix."_nsnst_blocked_ranges`"));
 if ($totalselected > 0) {
   // Page Sorting
   echo '<table summary="" align="center" border="0" cellpadding="2" cellspacing="2" width="100%">'."\n";
@@ -58,8 +58,8 @@ if ($totalselected > 0) {
   echo '<td align="center" width="33%"><strong>'._AB_IPHI.'</strong></td>'."\n";
   echo '<td align="center" width="34%"><strong>'._AB_DATE.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges` ORDER BY $column $direction LIMIT $min,$perpage");
-  while ($getIPs = $titanium_db->sql_fetchrow($result)) {
+  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ranges` ORDER BY $column $direction LIMIT $min,$perpage");
+  while ($getIPs = $pnt_db->sql_fetchrow($result)) {
     $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
     $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";

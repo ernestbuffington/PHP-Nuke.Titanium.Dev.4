@@ -11,7 +11,7 @@ if (!defined('MODULE_FILE'))
    die ("You can't access this file directly...");
 }
 
-global $network_prefix, $titanium_db, $cookie, $titanium_user, $theme_name;
+global $network_prefix, $pnt_db, $cookie, $pnt_user, $theme_name;
 
 $index = 1;
 

@@ -294,7 +294,7 @@ function get_icon_title($phpbb2_icon, $empty=0, $topic_type=-1, $admin=false)
 
 function get_db_stat($mode)
 {
-    global $titanium_db;
+    global $pnt_db;
 
     switch( $mode )
     {
@@ -320,12 +320,12 @@ function get_db_stat($mode)
             break;
     }
 
-    if(!($result = $titanium_db->sql_query($sql)))
+    if(!($result = $pnt_db->sql_query($sql)))
     {
         return false;
     }
 
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
 
     switch($mode)
     {
@@ -347,13 +347,13 @@ function get_db_stat($mode)
 }
 
 // added at phpBB 2.0.11 to properly format the username
-function phpbb_clean_username($titanium_username)
+function phpbb_clean_username($pnt_username)
 {
-    $titanium_username = substr(htmlspecialchars(str_replace("\'", "'", trim($titanium_username))), 0, 25);
-    $titanium_username = phpbb_rtrim($titanium_username, "\\");
-    $titanium_username = str_replace("'", "\'", $titanium_username);
+    $pnt_username = substr(htmlspecialchars(str_replace("\'", "'", trim($pnt_username))), 0, 25);
+    $pnt_username = phpbb_rtrim($pnt_username, "\\");
+    $pnt_username = str_replace("'", "\'", $pnt_username);
 
-    return $titanium_username;
+    return $pnt_username;
 }
 /**
 * This function is a wrapper for ltrim, as charlist is only supported in php >= 4.1.0
@@ -418,42 +418,42 @@ function phpbb_rtrim($str, $charlist = false)
 */
 function dss_rand()
 {
-	global $titanium_db, $phpbb2_board_config, $titanium_dss_seeded;
+	global $pnt_db, $phpbb2_board_config, $pnt_dss_seeded;
 
 	$val = $phpbb2_board_config['rand_seed'] . microtime();
 	$val = md5($val);
 	$phpbb2_board_config['rand_seed'] = md5($phpbb2_board_config['rand_seed'] . $val . 'a');
 
-	if($titanium_dss_seeded !== true)
+	if($pnt_dss_seeded !== true)
 	{
 		$sql = "UPDATE " . CONFIG_TABLE . " SET
 			config_value = '" . $phpbb2_board_config['rand_seed'] . "'
 			WHERE config_name = 'rand_seed'";
 
-		if(!$titanium_db->sql_query($sql))
+		if(!$pnt_db->sql_query($sql))
 		{
 			message_die(GENERAL_ERROR, "Unable to reseed PRNG", "", __LINE__, __FILE__, $sql);
 		}
 
-		$titanium_dss_seeded = true;
+		$pnt_dss_seeded = true;
 	}
 	return substr($val, 4, 16);
 }
 
 //
-// Get Userdata, $titanium_user can be username or user_id. If force_str is true, the username will be forced.
+// Get Userdata, $pnt_user can be username or user_id. If force_str is true, the username will be forced.
 //
-function get_userdata($titanium_user, $force_str = false) 
+function get_userdata($pnt_user, $force_str = false) 
 {
-    global $titanium_db;
-    $titanium_user = (!is_numeric($titanium_user) || $force_str) ? phpbb_clean_username($titanium_user) : intval($titanium_user);
+    global $pnt_db;
+    $pnt_user = (!is_numeric($pnt_user) || $force_str) ? phpbb_clean_username($pnt_user) : intval($pnt_user);
     $sql = "SELECT * FROM ".USERS_TABLE." WHERE ";
-    $sql .= (( is_integer($titanium_user)) ? "user_id = $titanium_user" : "username = '".str_replace("\'", "''", $titanium_user)."'" )." AND user_id <> ".ANONYMOUS;
-    if(!($result = $titanium_db->sql_query($sql))) 
+    $sql .= (( is_integer($pnt_user)) ? "user_id = $pnt_user" : "username = '".str_replace("\'", "''", $pnt_user)."'" )." AND user_id <> ".ANONYMOUS;
+    if(!($result = $pnt_db->sql_query($sql))) 
 	{
         message_die(GENERAL_ERROR, 'Tried obtaining data for a non-existent user', '', __LINE__, __FILE__, $sql);
     }
-    return ($row = $titanium_db->sql_fetchrow($result)) ? $row : false;
+    return ($row = $pnt_db->sql_fetchrow($result)) ? $row : false;
 }
 
 /*****[BEGIN]******************************************
@@ -463,50 +463,50 @@ function get_userdata($titanium_user, $force_str = false)
  * FUNCTION set_user_xdata
  *
  * Sets a specefic custom profile field ($which_xdata) to the specefied
- * value ($value) for the user ($titanium_user).
+ * value ($value) for the user ($pnt_user).
  *
- * @param int|string $titanium_user        - user_id or username of the user we're editing
+ * @param int|string $pnt_user        - user_id or username of the user we're editing
  * @param int|string $which_xdata - the profile field being changed
  * @param mixed $value            - value to assign
- * @global class $titanium_db
+ * @global class $pnt_db
  * @return null
  */
-function set_user_xdata($titanium_user, $which_xdata, $value)
+function set_user_xdata($pnt_user, $which_xdata, $value)
 {
-    global $titanium_db;
+    global $pnt_db;
 
 //    $value = trim(htmlspecialchars($value));
     $value = str_replace("\\'", "'", $value);
     $value = str_replace("'", "\\'", $value);
 
-    $titanium_user_is_name = (!is_numeric($titanium_user)) ? true : false;
+    $pnt_user_is_name = (!is_numeric($pnt_user)) ? true : false;
 	$xd_is_name = (!is_numeric($which_xdata)) ? true : false;
 
-    if($titanium_user_is_name)
+    if($pnt_user_is_name)
     {
-        $titanium_user = phpbb_clean_username($titanium_user);
+        $pnt_user = phpbb_clean_username($pnt_user);
     }
 
-    $titanium_user_where = ($titanium_user_is_name) ? ('u.username = \''.$titanium_user.'\'') : ('u.user_id = '.$titanium_user);
+    $pnt_user_where = ($pnt_user_is_name) ? ('u.username = \''.$pnt_user.'\'') : ('u.user_id = '.$pnt_user);
 	$field_where = ($xd_is_name) ? ('xf.code_name = \''.$which_xdata.'\'') : ('xf.field_id = '.$which_xdata);
 
     $sql = "SELECT u.user_id, xf.field_id FROM ("
         .USERS_TABLE. " AS u, ".XDATA_FIELDS_TABLE." AS xf)
-        WHERE " .$titanium_user_where. " AND ".$field_where."
+        WHERE " .$pnt_user_where. " AND ".$field_where."
         LIMIT 1";
 
-    if(!($result = $titanium_db->sql_query($sql)))
+    if(!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, $lang['XData_error_obtaining_userdata'], '', __LINE__, __FILE__, $sql);
     }
 
-     $row = $titanium_db->sql_fetchrow($result);
+     $row = $pnt_db->sql_fetchrow($result);
 
     $sql = "DELETE FROM ".XDATA_DATA_TABLE."
         WHERE user_id = ".$row['user_id']." AND field_id = ".$row['field_id']."
         LIMIT 1";
 
-    if(!($titanium_db->sql_query($sql)))
+    if(!($pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, $lang['XData_failure_removing_data'], '', __LINE__, __FILE__, $sql);
     }
@@ -517,7 +517,7 @@ function set_user_xdata($titanium_user, $which_xdata, $value)
             (user_id, field_id, xdata_value)
             VALUES (" . $row['user_id'] . ", ".$row['field_id'].", '".$value."')";
 
-        if(!($titanium_db->sql_query($sql)))
+        if(!($pnt_db->sql_query($sql)))
         {
                message_die(GENERAL_ERROR, $lang['XData_failure_inserting_data'], '', __LINE__, __FILE__, $sql);
         }
@@ -527,52 +527,52 @@ function set_user_xdata($titanium_user, $which_xdata, $value)
 /**
  * FUNCTION get_user_xdata
  *
- * retrieves the custom profile field data for the user ($titanium_user)
+ * retrieves the custom profile field data for the user ($pnt_user)
  * similar to get_userdata
  *
- * @param int|string $titanium_user
+ * @param int|string $pnt_user
  * @param bool $force_str
- * @global class $titanium_db
+ * @global class $pnt_db
  * @global array $lang
  * @return array $data
  */
-function get_user_xdata($titanium_user, $force_str = false)
+function get_user_xdata($pnt_user, $force_str = false)
 {
-    global $titanium_db;
-    $is_name = ((intval($titanium_user) == 0) || $force_str);
+    global $pnt_db;
+    $is_name = ((intval($pnt_user) == 0) || $force_str);
 
-    if(!isset($titanium_user) || empty($titanium_user)) return '';
+    if(!isset($pnt_user) || empty($pnt_user)) return '';
 
     if($is_name)
     {
-        $titanium_user = trim(htmlspecialchars($titanium_user));
-        $titanium_user = substr(str_replace("\\'", "'", $titanium_user), 0, 25);
-        $titanium_user = str_replace("'", "\\'", $titanium_user);
+        $pnt_user = trim(htmlspecialchars($pnt_user));
+        $pnt_user = substr(str_replace("\\'", "'", $pnt_user), 0, 25);
+        $pnt_user = str_replace("'", "\\'", $pnt_user);
 
         $sql = "SELECT xf.field_type, xf.code_name, xd.xdata_value
 				FROM ".XDATA_DATA_TABLE." xd, ".USERS_TABLE." u, ".XDATA_FIELDS_TABLE." xf
- 				WHERE xf.field_id = xd.field_id AND xd.user_id = u.user_id AND u.username = '".$titanium_user."'";
+ 				WHERE xf.field_id = xd.field_id AND xd.user_id = u.user_id AND u.username = '".$pnt_user."'";
     }
     else
     {
-        $titanium_user = intval($titanium_user);
+        $pnt_user = intval($pnt_user);
 
         $sql = "SELECT xf.field_type, xf.code_name, xd.xdata_value
 				FROM ".XDATA_DATA_TABLE." xd, ".XDATA_FIELDS_TABLE." xf
-				WHERE xf.field_id = xd.field_id AND xd.user_id = ".$titanium_user;
+				WHERE xf.field_id = xd.field_id AND xd.user_id = ".$pnt_user;
     }
 
-    if(!($result = $titanium_db->sql_query($sql)))
+    if(!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, $lang['XData_error_obtaining_user_xdata'], '', __LINE__, __FILE__, $sql);
     }
 
     $data = array();
-    while($row = $titanium_db->sql_fetchrow($result))
+    while($row = $pnt_db->sql_fetchrow($result))
     {
         $data[$row['code_name']] = ($row['field_type'] != 'checkbox') ? $row['xdata_value'] : (($row['xdata_value'] == 1) ? $lang['true'] : $lang['false']);
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     return $data;
 }
@@ -589,7 +589,7 @@ function get_user_xdata($titanium_user, $force_str = false)
  */
 function get_xd_metadata($force_refresh = false)
 {
-    global $titanium_db;
+    global $pnt_db;
     static $meta = false;
 
     if(!is_array($meta) || $force_refresh)
@@ -617,14 +617,14 @@ function get_xd_metadata($force_refresh = false)
             FROM " . XDATA_FIELDS_TABLE . "
             ORDER BY field_order ASC";
 
-        if(!($result = $titanium_db->sql_query($sql)))
+        if(!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_field_data'], '', __LINE__, __FILE__, $sql);
         }
 
         $data = array();
 
-        while($row = $titanium_db->sql_fetchrow($result))
+        while($row = $pnt_db->sql_fetchrow($result))
         {
             $data[$row['code_name']] = $row;
 
@@ -647,11 +647,11 @@ function get_xd_metadata($force_refresh = false)
     return $meta;
 }
 
-function xdata_auth($fields, $titanium_userid, $meta = false)
+function xdata_auth($fields, $pnt_userid, $meta = false)
 {
-    global $titanium_db;
+    global $pnt_db;
 
-    if(!isset($titanium_userid) || empty($titanium_userid)) return '';
+    if(!isset($pnt_userid) || empty($pnt_userid)) return '';
 
     if ($field_id == false)
     {
@@ -670,13 +670,13 @@ function xdata_auth($fields, $titanium_userid, $meta = false)
     {
         $sql = "SELECT xf.default_auth AS default_auth, xf.code_name AS code_name FROM ".XDATA_FIELDS_TABLE." xf
 				WHERE $field_sql";
-        if(!($result = $titanium_db->sql_query($sql)))
+        if(!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_field_data'], '', __LINE__, __FILE__, $sql);
         }
 
         $meta = array();
-        while($data = $titanium_db->sql_fetchrow($result))
+        while($data = $pnt_db->sql_fetchrow($result))
         {
             $meta[$data['code_name']]['default_auth'] = $data['default_auth'];
         }
@@ -687,11 +687,11 @@ function xdata_auth($fields, $titanium_userid, $meta = false)
 			WHERE xf.field_id = xa.field_id
 			  AND xa.group_id = ug.group_id
 			  AND xa.group_id = g.group_id
-			  AND ug.user_id = $titanium_userid
+			  AND ug.user_id = $pnt_userid
 			  AND $field_sql
 			ORDER BY g.group_single_user ASC";
 
-   if(!($result = $titanium_db->sql_query($sql)))
+   if(!($result = $pnt_db->sql_query($sql)))
    {
         message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_field_auth'], '', __LINE__, __FILE__, $sql);
    }
@@ -702,7 +702,7 @@ function xdata_auth($fields, $titanium_userid, $meta = false)
         $auth[$key] = $value['default_auth'];
    }
 
-   while($data = $titanium_db->sql_fetchrow($result))
+   while($data = $pnt_db->sql_fetchrow($result))
    {
         $auth[$data['code_name']] = ( $data['auth_value'] == XD_AUTH_ALLOW);
    }
@@ -734,7 +734,7 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
 /*****[BEGIN]******************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
-    global $phpbb2_template, $userdata, $lang, $titanium_db, $titanium_nav_links, $phpEx, $SID;
+    global $phpbb2_template, $userdata, $lang, $pnt_db, $pnt_nav_links, $phpEx, $SID;
 /*****[END]********************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
@@ -754,7 +754,7 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
  [ Mod:     Forumtitle as Weblink              v1.2.2 ]
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
-    $category_rows = $titanium_db->sql_ufetchrowset($sql);
+    $category_rows = $pnt_db->sql_ufetchrowset($sql);
 
     if ( $total_phpbb2_categories = count($category_rows) )
     {
@@ -768,7 +768,7 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
 /*****[END]********************************************
  [ Mod:    Forumtitle as Weblink               v1.2.2 ]
  ******************************************************/ 
-        if(!($result = $titanium_db->sql_query($sql)))
+        if(!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not obtain forums information', '', __LINE__, __FILE__, $sql);
         }
@@ -777,7 +777,7 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
 		!= -1){ forms[\'jumpbox\'].submit() }"><option value="-1">'.$lang['Select_forum'].'</option>';
 
         $forum_rows = array();
-        while($row = $titanium_db->sql_fetchrow($result))
+        while($row = $pnt_db->sql_fetchrow($result))
         {
             $forum_rows[] = $row;
 /*****[BEGIN]******************************************
@@ -788,7 +788,7 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         if($total_phpbb2_forums = count($forum_rows))
         {
@@ -813,10 +813,10 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
                         $boxstring_forums .=  '<option value="' . $forum_rows[$j]['forum_id'] . '"' . $selected . '>' . $forum_rows[$j]['forum_name'] . '</option>';
 
                         //
-                        // Add an array to $titanium_nav_links for the Mozilla navigation bar.
+                        // Add an array to $pnt_nav_links for the Mozilla navigation bar.
                         // 'chapter' and 'forum' can create multiple items, therefore we are using a nested array.
                         //
-                        $titanium_nav_links['chapter forum'][$forum_rows[$j]['forum_id']] = array (
+                        $pnt_nav_links['chapter forum'][$forum_rows[$j]['forum_id']] = array (
                             'url' => append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=" . $forum_rows[$j]['forum_id']),
                             'title' => $forum_rows[$j]['forum_name']
                         );
@@ -833,10 +833,10 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
 								$boxstring_forums .=  '<option value="' . $forum_rows[$k]['forum_id'] . '"' . $selected . '>-- ' . $forum_rows[$k]['forum_name'] . '</option>';
 
 								//
-								// Add an array to $titanium_nav_links for the Mozilla navigation bar.
+								// Add an array to $pnt_nav_links for the Mozilla navigation bar.
 								// 'chapter' and 'forum' can create multiple items, therefore we are using a nested array.
 								//
-								$titanium_nav_links['chapter forum'][$forum_rows[$k]['forum_id']] = array (
+								$pnt_nav_links['chapter forum'][$forum_rows[$k]['forum_id']] = array (
 									'url' => append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=" . $forum_rows[$k]['forum_id']),
 									'title' => $forum_rows[$k]['forum_name']
 								);
@@ -893,12 +893,12 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
 // Initialise user settings on page load
 function titanium_init_userprefs($userdata)
 {
-    global $phpbb2_board_config, $theme, $images, $phpbb2_template, $lang, $phpEx, $phpbb2_root_path, $titanium_db, $titanium_nav_links;
+    global $phpbb2_board_config, $theme, $images, $phpbb2_template, $lang, $phpEx, $phpbb2_root_path, $pnt_db, $pnt_nav_links;
 
 /*****[BEGIN]******************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
-	global $titanium_db, $mods, $list_yes_no, $userdata;
+	global $pnt_db, $mods, $list_yes_no, $userdata;
 
 	//	get all the mods settings
 	$dir = @opendir(NUKE_INCLUDE_DIR . 'mods_settings');
@@ -966,7 +966,7 @@ function titanium_init_userprefs($userdata)
 			SET user_lang = '" . $default_lang . "'
 			WHERE user_lang = '" . $userdata['user_lang'] . "'";
 
-		if ( !($result = $titanium_db->sql_query($sql)) )
+		if ( !($result = $pnt_db->sql_query($sql)) )
 		{
 			message_die(CRITICAL_ERROR, 'Could not update user language info');
 		}
@@ -980,7 +980,7 @@ function titanium_init_userprefs($userdata)
 			SET config_value = '" . $default_lang . "'
 			WHERE config_name = 'default_lang'";
 
-		if ( !($result = $titanium_db->sql_query($sql)) )
+		if ( !($result = $pnt_db->sql_query($sql)) )
 		{
 			message_die(CRITICAL_ERROR, 'Could not update user language info');
 		}
@@ -1042,19 +1042,19 @@ function titanium_init_userprefs($userdata)
     // Defined here to correctly assign the Language Variables
     // and be able to change the variables within code.
     //
-        $titanium_nav_links['top'] = array (
+        $pnt_nav_links['top'] = array (
         'url' => append_titanium_sid("index.$phpEx"),
         'title' => sprintf($lang['Forum_Index'], $phpbb2_board_config['sitename'])
     );
-        $titanium_nav_links['search'] = array (
+        $pnt_nav_links['search'] = array (
         'url' => append_titanium_sid("search.$phpEx"),
         'title' => $lang['Search']
     );
-        $titanium_nav_links['help'] = array (
+        $pnt_nav_links['help'] = array (
         'url' => append_titanium_sid("faq.$phpEx"),
         'title' => $lang['FAQ']
     );
-        $titanium_nav_links['author'] = array (
+        $pnt_nav_links['author'] = array (
         'url' => append_titanium_sid("memberlist.$phpEx"),
         'title' => $lang['Memberlist']
     );
@@ -1064,7 +1064,7 @@ function titanium_init_userprefs($userdata)
 
 function setup_style($style)
 {
-    global $titanium_db, $titanium_prefix, $phpbb2_board_config, $phpbb2_template, $images, $phpbb2_root_path, $name, $titanium_user, $cookie;
+    global $pnt_db, $pnt_prefix, $phpbb2_board_config, $phpbb2_template, $images, $phpbb2_root_path, $name, $pnt_user, $cookie;
 
     if($name == "Forums"){
         $default_style=$phpbb2_board_config['default_style'];
@@ -1074,12 +1074,12 @@ function setup_style($style)
     }
 
     $sql = "SELECT * FROM " . THEMES_TABLE . " WHERE themes_id = ". (int) $style;
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(CRITICAL_ERROR, 'Could not query database for theme info');
     }
 
-    if ( !($row = $titanium_db->sql_fetchrow($result)) )
+    if ( !($row = $pnt_db->sql_fetchrow($result)) )
     {
  		// We are trying to setup a style which does not exist in the database
  		// Try to fallback to the board default (if the user had a custom style)
@@ -1089,19 +1089,19 @@ function setup_style($style)
  			$sql = 'SELECT *
  				FROM ' . THEMES_TABLE . '
  				WHERE themes_id = ' . (int) $phpbb2_board_config['default_style'];
- 			if ( !($result = $titanium_db->sql_query($sql)) )
+ 			if ( !($result = $pnt_db->sql_query($sql)) )
  			{
  				message_die(CRITICAL_ERROR, 'Could not query database for theme info');
  			}
 
- 			if ( $row = $titanium_db->sql_fetchrow($result) )
+ 			if ( $row = $pnt_db->sql_fetchrow($result) )
  			{
- 				$titanium_db->sql_freeresult($result);
+ 				$pnt_db->sql_freeresult($result);
 
  				$sql = 'UPDATE ' . USERS_TABLE . '
  					SET user_style = ' . (int) $phpbb2_board_config['default_style'] . "
  					WHERE user_style = $style";
- 				if ( !($result = $titanium_db->sql_query($sql)) )
+ 				if ( !($result = $pnt_db->sql_query($sql)) )
  				{
  					message_die(CRITICAL_ERROR, 'Could not update user theme info');
  				}
@@ -1116,7 +1116,7 @@ function setup_style($style)
  			message_die(CRITICAL_ERROR, "Could not get theme data for themes_id [$style]");
  		}
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     $ThemeSel = get_theme();
     if (file_exists("themes/$ThemeSel/forums/index_body.tpl")) {
@@ -1126,7 +1126,7 @@ function setup_style($style)
         $phpbb2_template_name = $row['template_name'];
         $phpbb2_template_path = $phpbb2_root_path . 'templates/';
     }
-    $phpbb2_template = new Template($phpbb2_template_path . $phpbb2_template_name, $phpbb2_board_config, $titanium_db);
+    $phpbb2_template = new Template($phpbb2_template_path . $phpbb2_template_name, $phpbb2_board_config, $pnt_db);
 
     if ( $phpbb2_template )
     {
@@ -1179,7 +1179,7 @@ function create_date($format, $gmepoch, $tz)
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-    global $phpbb2_board_config, $lang, $userdata, $titanium_pc_dateTime;
+    global $phpbb2_board_config, $lang, $userdata, $pnt_pc_dateTime;
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
@@ -1217,24 +1217,24 @@ if ( $userdata['user_id'] != ANONYMOUS )
             return ( !empty($translate) ) ? strtr(@date($format, $gmepoch), $translate) : @date($format, $gmepoch);
             break;
         case SERVER_PC:
-            if ( isset($titanium_pc_dateTime['pc_timezoneOffset']) )
+            if ( isset($pnt_pc_dateTime['pc_timezoneOffset']) )
             {
-                $tzo_sec = $titanium_pc_dateTime['pc_timezoneOffset'];
+                $tzo_sec = $pnt_pc_dateTime['pc_timezoneOffset'];
             } else
             {
-                $titanium_user_pc_timeOffsets = explode("/", $userdata['user_pc_timeOffsets']);
-                $tzo_sec = $titanium_user_pc_timeOffsets[0];
+                $pnt_user_pc_timeOffsets = explode("/", $userdata['user_pc_timeOffsets']);
+                $tzo_sec = $pnt_user_pc_timeOffsets[0];
             }
             return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
             break;
         case FULL_PC:
-            if ( isset($titanium_pc_dateTime['pc_timeOffset']) )
+            if ( isset($pnt_pc_dateTime['pc_timeOffset']) )
             {
-                $tzo_sec = $titanium_pc_dateTime['pc_timeOffset'];
+                $tzo_sec = $pnt_pc_dateTime['pc_timeOffset'];
             } else
             {
-                $titanium_user_pc_timeOffsets = explode("/", $userdata['user_pc_timeOffsets']);
-                $tzo_sec = (isset($titanium_user_pc_timeOffsets[1])) ? $titanium_user_pc_timeOffsets[1] : '';
+                $pnt_user_pc_timeOffsets = explode("/", $userdata['user_pc_timeOffsets']);
+                $tzo_sec = (isset($pnt_user_pc_timeOffsets[1])) ? $pnt_user_pc_timeOffsets[1] : '';
             }
             return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
             break;
@@ -1262,9 +1262,9 @@ if ( $userdata['user_id'] != ANONYMOUS )
             return ( !empty($translate) ) ? strtr(@date($format, $gmepoch), $translate) : @date($format, $gmepoch);
             break;
         case SERVER_PC:
-            if ( isset($titanium_pc_dateTime['pc_timezoneOffset']) )
+            if ( isset($pnt_pc_dateTime['pc_timezoneOffset']) )
             {
-                $tzo_sec = $titanium_pc_dateTime['pc_timezoneOffset'];
+                $tzo_sec = $pnt_pc_dateTime['pc_timezoneOffset'];
             } else
             {
                 $tzo_sec = 0;
@@ -1272,9 +1272,9 @@ if ( $userdata['user_id'] != ANONYMOUS )
             return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
             break;
         case FULL_PC:
-            if ( isset($titanium_pc_dateTime['pc_timeOffset']) )
+            if ( isset($pnt_pc_dateTime['pc_timeOffset']) )
             {
-                $tzo_sec = $titanium_pc_dateTime['pc_timeOffset'];
+                $tzo_sec = $pnt_pc_dateTime['pc_timeOffset'];
             } else
             {
                 $tzo_sec = 0;
@@ -1476,27 +1476,27 @@ function phpbb_preg_quote($str, $delimiter)
 //
 function obtain_word_list(&$orig_word, &$replacement_word)
 {
-    global $titanium_db;
+    global $pnt_db;
 
     //
     // Define censored word matches
     //
     $sql = "SELECT word, replacement
         FROM  " . WORDS_TABLE;
-    if( !($result = $titanium_db->sql_query($sql)) )
+    if( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not get censored words from database', '', __LINE__, __FILE__, $sql);
     }
 
-    if ( $row = $titanium_db->sql_fetchrow($result) )
+    if ( $row = $pnt_db->sql_fetchrow($result) )
     {
         do
         {
             $orig_word[] = '#\b(' . str_replace('\*', '\w*?', preg_quote($row['word'], '#')) . ')\b#i';
             $replacement_word[] = $row['replacement'];
         }
-        while ( $row = $titanium_db->sql_fetchrow($result) );
-        $titanium_db->sql_freeresult($result);
+        while ( $row = $pnt_db->sql_fetchrow($result) );
+        $pnt_db->sql_freeresult($result);
     }
 
     return true;
@@ -1523,7 +1523,7 @@ function obtain_word_list(&$orig_word, &$replacement_word)
 //
 function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '', $err_file = '', $sql = '')
 {
-    global $titanium_db, $phpbb2_template, $phpbb2_board_config, $theme, $lang, $phpEx, $phpbb2_root_path, $titanium_nav_links, $gen_simple_header, $images, $userdata, $titanium_user_ip, $session_length, $phpbb2_starttime;
+    global $pnt_db, $phpbb2_template, $phpbb2_board_config, $theme, $lang, $phpEx, $phpbb2_root_path, $pnt_nav_links, $gen_simple_header, $images, $userdata, $pnt_user_ip, $session_length, $phpbb2_starttime;
     static $has_died, $msg_history;
 	
 	if ( !isset($msg_history) || ( isset($msg_history) && !is_array($msg_history) ) )
@@ -1613,7 +1613,7 @@ function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '',
     //
     if ( DEBUG && ( $msg_code == GENERAL_ERROR || $msg_code == CRITICAL_ERROR ) )
     {
-        $sql_error = $titanium_db->sql_error();
+        $sql_error = $pnt_db->sql_error();
 
         $debug_text = '';
 
@@ -1635,7 +1635,7 @@ function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '',
 
     if( empty($userdata) && ( $msg_code == GENERAL_MESSAGE || $msg_code == GENERAL_ERROR ) )
     {
-		$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+		$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
 		titanium_init_userprefs($userdata);
     }
 
@@ -1821,31 +1821,31 @@ function phpbb_realpath($path)
 }
 
 // modded by Quake for NOT using $nukeuser
-function bblogin($titanium_session_id) {
-        global $userdata, $titanium_user_ip, $session_length, $titanium_session_id, $titanium_db, $nuke_file_path, $cookie;
+function bblogin($pnt_session_id) {
+        global $userdata, $pnt_user_ip, $session_length, $pnt_session_id, $pnt_db, $nuke_file_path, $cookie;
         define("IN_LOGIN", true);
         $nuid = $cookie[0];
         $sql = "SELECT s.*
                 FROM " . SESSIONS_TABLE . " s
-                WHERE s.session_id = '$titanium_session_id'
-                AND s.session_ip = '$titanium_user_ip'";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+                WHERE s.session_id = '$pnt_session_id'
+                AND s.session_ip = '$pnt_user_ip'";
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(CRITICAL_ERROR, 'Error doing DB query userdata row fetch : session_pagestar');
         }
-        $logindata = $titanium_db->sql_fetchrow($result);
-        $titanium_db->sql_freeresult($result);
+        $logindata = $pnt_db->sql_fetchrow($result);
+        $pnt_db->sql_freeresult($result);
         if( $nuid != $logindata['session_user_id'] ) {
             $nusername = $cookie[1];
             $sql = "SELECT user_id, username, user_password, user_active, user_level
                     FROM ".USERS_TABLE."
                     WHERE username = '" . str_replace("\'", "''", $nusername) . "'";
-            $result = $titanium_db->sql_query($sql);
+            $result = $pnt_db->sql_query($sql);
             if(!$result) {
                 message_die(GENERAL_ERROR, "Error in obtaining userdata : login", "", __LINE__, __FILE__, $sql);
             }
-            $rowresult = $titanium_db->sql_fetchrow($result);
-            $titanium_db->sql_freeresult($result);
+            $rowresult = $pnt_db->sql_fetchrow($result);
+            $pnt_db->sql_freeresult($result);
             $password = $cookie[2];
             if(count($rowresult) ) {
                 if( $rowresult['user_level'] != ADMIN && $phpbb2_board_config['board_disable'] ) {
@@ -1853,9 +1853,9 @@ function bblogin($titanium_session_id) {
                 } else {
                     if( $password == $rowresult['user_password'] && $rowresult['user_active'] ) {
                         $autologin = 0;
-                        $userdata = session_begin_titanium($rowresult['user_id'], $titanium_user_ip, PAGE_INDEX, $session_length, FALSE, $autologin);
-                        $titanium_session_id = $userdata['session_id'];
-                        if(!$titanium_session_id ) {
+                        $userdata = session_begin_titanium($rowresult['user_id'], $pnt_user_ip, PAGE_INDEX, $session_length, FALSE, $autologin);
+                        $pnt_session_id = $userdata['session_id'];
+                        if(!$pnt_session_id ) {
                             message_die(CRITICAL_ERROR, "Couldn't start session : login", "", __LINE__, __FILE__);
                         } else {
                         }
@@ -1901,15 +1901,15 @@ function show_glance($where) {
 /*****[BEGIN]******************************************
  [ Mod:   Log Actions Mod - Topic View         v2.0.0 ]
  ******************************************************/
-function allow_log_view($titanium_user_level) {
+function allow_log_view($pnt_user_level) {
     global $phpbb2_board_config, $userdata;
-      if ($phpbb2_board_config['logs_view_level'] == ADMIN && $titanium_user_level == ADMIN) {
+      if ($phpbb2_board_config['logs_view_level'] == ADMIN && $pnt_user_level == ADMIN) {
            return true;
            exit;
-      } elseif ($phpbb2_board_config['logs_view_level'] == MOD && ($titanium_user_level == MOD || $titanium_user_level == ADMIN)) {
+      } elseif ($phpbb2_board_config['logs_view_level'] == MOD && ($pnt_user_level == MOD || $pnt_user_level == ADMIN)) {
            return true;
            exit;
-      } elseif ($phpbb2_board_config['logs_view_level'] == USER && $titanium_user_level >= USER && $userdata['user_id'] != ANONYMOUS) {
+      } elseif ($phpbb2_board_config['logs_view_level'] == USER && $pnt_user_level >= USER && $userdata['user_id'] != ANONYMOUS) {
            return true;
            exit;
       } elseif ($phpbb2_board_config['logs_view_level'] == "0") {
@@ -2002,7 +2002,7 @@ function is_category_collapsed($cat_id)
 //
 function password_check ($mode, $id, $password, $redirect)
 {
-	global $titanium_db, $phpbb2_template, $theme, $phpbb2_board_config, $lang, $phpEx, $phpbb2_root_path, $gen_simple_header;
+	global $pnt_db, $phpbb2_template, $theme, $phpbb2_board_config, $lang, $phpEx, $phpbb2_root_path, $gen_simple_header;
 	global $userdata;
 	global $HTTP_COOKIE_VARS;
 	$cookie_name = $phpbb2_board_config['cookie_name'];
@@ -2025,11 +2025,11 @@ function password_check ($mode, $id, $password, $redirect)
 			$sql = '';
 			$passdata = '';
 	}
-	if( !$result = $titanium_db->sql_query($sql) )
+	if( !$result = $pnt_db->sql_query($sql) )
 	{
 		message_die(GENERAL_ERROR, 'Could not retrieve password', '', __LINE__, __FILE__, $sql);
 	}
-	$row = $titanium_db->sql_fetchrow($result);
+	$row = $pnt_db->sql_fetchrow($result);
 	if( $password != $row['password'] )
 	{
 		$message = ( $mode == 'topic' ) ? $lang['Incorrect_topic_password'] : $lang['Incorrect_forum_password'];
@@ -2046,7 +2046,7 @@ function password_check ($mode, $id, $password, $redirect)
 }
 function password_box ($mode, $s_form_action)
 {
-	global $titanium_db, $phpbb2_template, $theme, $phpbb2_board_config, $lang, $phpEx, $phpbb2_root_path, $gen_simple_header;
+	global $pnt_db, $phpbb2_template, $theme, $phpbb2_board_config, $lang, $phpEx, $phpbb2_root_path, $gen_simple_header;
 	global $userdata;
 	$l_enter_password = ( $mode == 'topic' ) ? $lang['Enter_topic_password'] : $lang['Enter_forum_password'];
 	$phpbb2_page_title = $l_enter_password;

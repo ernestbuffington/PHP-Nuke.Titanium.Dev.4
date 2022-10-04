@@ -27,15 +27,15 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $titanium_prefix, $titanium_db;
+global $pnt_prefix, $pnt_db;
 
-$sql = "SELECT id, title FROM ".$titanium_prefix."_reviews ORDER BY id DESC LIMIT 0,10";
-$result = $titanium_db->sql_query($sql);
-while (list($id, $title) = $titanium_db->sql_fetchrow($result)) {
+$sql = "SELECT id, title FROM ".$pnt_prefix."_reviews ORDER BY id DESC LIMIT 0,10";
+$result = $pnt_db->sql_query($sql);
+while (list($id, $title) = $pnt_db->sql_fetchrow($result)) {
     $id = intval($id);
     $title = stripslashes($title);
     $content .= "<strong><big>&middot;</big></strong>&nbsp;<a href=\"modules.php?name=Reviews&amp;rop=showcontent&amp;id=$id\">$title</a><br />";
 }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 ?>

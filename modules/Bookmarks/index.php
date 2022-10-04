@@ -20,7 +20,7 @@ if (!defined('MODULE_FILE'))
    exit("You can't access this file directly...");
 }
 
-global $titanium_prefix, $titanium_db, $cookie, $titanium_user, $theme_name;
+global $pnt_prefix, $pnt_db, $cookie, $pnt_user, $theme_name;
 
 $index = 1;
 
@@ -34,12 +34,12 @@ $pagetitle = "86it Developers Network - My ". _MARKSTITLE;
 
 include("header.php");
 
-$userinfo = getusrinfo( $titanium_user );
-$titanium_userid = $userinfo["user_id"];
+$userinfo = getusrinfo( $pnt_user );
+$pnt_userid = $userinfo["user_id"];
 
-if (!isset($titanium_userid) || $titanium_userid=="")
+if (!isset($pnt_userid) || $pnt_userid=="")
 {
-  $titanium_userid=0;
+  $pnt_userid=0;
 }
 
 
@@ -51,8 +51,8 @@ echo "<br>";
 
 //OpenTable();
 echo "<hr />";
-$cat_query = "select category_id,name,description,mod_date from " . $titanium_prefix."_bookmarks_cat  where user_id=" . $titanium_userid . " order by name";
-$categories_res = $titanium_db->sql_query ($cat_query, $titanium_db);
+$cat_query = "select category_id,name,description,mod_date from " . $pnt_prefix."_bookmarks_cat  where user_id=" . $pnt_userid . " order by name";
+$categories_res = $pnt_db->sql_query ($cat_query, $pnt_db);
 
 echo "<table align=center width=98%>
       <tr class=boxtitle>
@@ -63,9 +63,9 @@ echo "<table align=center width=98%>
 	  <td width=5%><strong>Edit</strong></td>
 	  <td width=8%><strong>Delete</strong></td></tr>\n";
 
-for ($i=0; $i<$titanium_db->sql_numrows  ($categories_res,$titanium_db);$i++)
+for ($i=0; $i<$pnt_db->sql_numrows  ($categories_res,$pnt_db);$i++)
 {
-	$cat = $titanium_db->sql_fetchrow($categories_res,$titanium_db);
+	$cat = $pnt_db->sql_fetchrow($categories_res,$pnt_db);
 
 	echo "<tr class=boxlist><td><img src=\"themes/".$theme_name."/images/invisible_pixel.gif\" alt=\"\" width=\"15\" height=\"1\" />
 	<a href=modules.php?name=".$pnt_module."&amp;file=marks&amp;category=".$cat['category_id']."&amp;catname=".urlencode($cat['name']).">" . $cat['name'] . "</a></td>
@@ -80,7 +80,7 @@ for ($i=0; $i<$titanium_db->sql_numrows  ($categories_res,$titanium_db);$i++)
 echo "</table>";
 echo "<hr />";
 
-$titanium_db->sql_freeresult($categories_res);
+$pnt_db->sql_freeresult($categories_res);
 
 //CloseTable();
 echo "<br>";

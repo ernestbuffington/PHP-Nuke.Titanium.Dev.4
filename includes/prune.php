@@ -82,22 +82,22 @@ if (defined('FORUM_ADMIN')) {
 
 function prune($phpbb2_forum_id, $prune_date, $prune_all = false)
 {
-        global $titanium_db, $lang;
+        global $pnt_db, $lang;
         
      	// Before pruning, lets try to clean up the invalid topic entries
      	$sql = 'SELECT topic_id FROM ' . TOPICS_TABLE . '
      		WHERE topic_last_post_id = 0';
-     	if ( !($result = $titanium_db->sql_query($sql)) )
+     	if ( !($result = $pnt_db->sql_query($sql)) )
      	{
      		message_die(GENERAL_ERROR, 'Could not obtain lists of topics to sync', '', __LINE__, __FILE__, $sql);
      	}
      
-     	while( $row = $titanium_db->sql_fetchrow($result) )
+     	while( $row = $pnt_db->sql_fetchrow($result) )
      	{
      		sync('topic', $row['topic_id']);
      	}
  
- 	    $titanium_db->sql_freeresult($result);
+ 	    $pnt_db->sql_freeresult($result);
  	    
         $prune_all = ($prune_all) ? '' : 'AND t.topic_vote = 0 AND t.topic_type <> ' . POST_ANNOUNCE;
         //
@@ -114,17 +114,17 @@ function prune($phpbb2_forum_id, $prune_date, $prune_all = false)
                 $sql .= " AND p.post_time < '$prune_date'";
         }
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not obtain lists of topics to prune', '', __LINE__, __FILE__, $sql);
         }
 
         $sql_topics = '';
-        while( $row = $titanium_db->sql_fetchrow($result) )
+        while( $row = $pnt_db->sql_fetchrow($result) )
         {
                 $sql_topics .= ( ( $sql_topics != '' ) ? ', ' : '' ) . $row['topic_id'];
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         if( $sql_topics != '' )
         {
@@ -132,48 +132,48 @@ function prune($phpbb2_forum_id, $prune_date, $prune_all = false)
                         FROM " . POSTS_TABLE . "
                         WHERE forum_id = '$phpbb2_forum_id'
                                 AND topic_id IN ($sql_topics)";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not obtain list of posts to prune', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql_post = '';
-                while ( $row = $titanium_db->sql_fetchrow($result) )
+                while ( $row = $pnt_db->sql_fetchrow($result) )
                 {
                         $sql_post .= ( ( $sql_post != '' ) ? ', ' : '' ) . $row['post_id'];
                 }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
 
                 if ( $sql_post != '' )
                 {
                         $sql = "DELETE FROM " . TOPICS_WATCH_TABLE . "
                                 WHERE topic_id IN ($sql_topics)";
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete watched topics during prune', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "DELETE FROM " . TOPICS_TABLE . "
                                 WHERE topic_id IN ($sql_topics)";
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete topics during prune', '', __LINE__, __FILE__, $sql);
                         }
 
-                        $pruned_topics = $titanium_db->sql_affectedrows();
+                        $pruned_topics = $pnt_db->sql_affectedrows();
 
                         $sql = "DELETE FROM " . POSTS_TABLE . "
                                 WHERE post_id IN ($sql_post)";
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete post_text during prune', '', __LINE__, __FILE__, $sql);
                         }
 
-                        $pruned_posts = $titanium_db->sql_affectedrows();
+                        $pruned_posts = $pnt_db->sql_affectedrows();
 
                         $sql = "DELETE FROM " . POSTS_TEXT_TABLE . "
                                 WHERE post_id IN ($sql_post)";
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete post during prune', '', __LINE__, __FILE__, $sql);
                         }
@@ -201,17 +201,17 @@ function prune($phpbb2_forum_id, $prune_date, $prune_all = false)
 //
 function auto_prune($phpbb2_forum_id = 0)
 {
-        global $titanium_db, $lang;
+        global $pnt_db, $lang;
 
         $sql = "SELECT *
                 FROM " . PRUNE_TABLE . "
                 WHERE forum_id = '$phpbb2_forum_id'";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not read auto_prune table', '', __LINE__, __FILE__, $sql);
         }
 
-        if ( $row = $titanium_db->sql_fetchrow($result) )
+        if ( $row = $pnt_db->sql_fetchrow($result) )
         {
                 if ( $row['prune_freq'] && $row['prune_days'] )
                 {
@@ -224,7 +224,7 @@ function auto_prune($phpbb2_forum_id = 0)
                         $sql = "UPDATE " . FORUMS_TABLE . "
                                 SET prune_next = '$next_prune'
                                 WHERE forum_id = '$phpbb2_forum_id'";
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update forum table', '', __LINE__, __FILE__, $sql);
                         }

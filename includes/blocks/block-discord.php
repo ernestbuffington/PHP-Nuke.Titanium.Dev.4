@@ -12,22 +12,22 @@
 /************************************************************************/
 
 require_once('../../mainfile.php');
-global $admin_file, $currentlang, $titanium_prefix;
-	$result3 = $titanium_db->sql_query("SHOW TABLES LIKE '".$titanium_prefix."_discord_config'");
-	$tableExists = $titanium_db->sql_numrows($result3);
+global $admin_file, $currentlang, $pnt_prefix;
+	$result3 = $pnt_db->sql_query("SHOW TABLES LIKE '".$pnt_prefix."_discord_config'");
+	$tableExists = $pnt_db->sql_numrows($result3);
 	if ($tableExists != 0){
 function dis_config()
 {
-	global $titanium_db;
+	global $pnt_db;
 	static $disconfig;
 
 	if(isset($disconfig) && is_array($disconfig))
 		return $disconfig;
 
-	$result = $titanium_db->sql_query("SELECT `config_value`, `config_name` FROM `nuke_discord_config`");
-	while ($row = $titanium_db->sql_fetchrow($result))
+	$result = $pnt_db->sql_query("SELECT `config_value`, `config_name` FROM `nuke_discord_config`");
+	while ($row = $pnt_db->sql_fetchrow($result))
 		$disconfig[$row['config_name']] = $row['config_value'];
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 	return $disconfig;
 }
 $disconfig 	= dis_config();

@@ -3,7 +3,7 @@
 if(!defined('NUKE_EVO')) 
 	exit;
 
-global $titanium_db, $block_title, $titanium_user_prefix, $titanium_prefix, $cache, $blockslang, $images, $phpbb2_board_config, $phpbb2_board_config, $userinfo;
+global $pnt_db, $block_title, $pnt_user_prefix, $pnt_prefix, $cache, $blockslang, $images, $phpbb2_board_config, $phpbb2_board_config, $userinfo;
 
 define('forum_board_icon_path','themes/'.get_theme().'/forums');
 
@@ -32,9 +32,9 @@ $count_topics = 0;
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 	$phpbb2_topic_data = array();
-	$result = $titanium_db->sql_query("SELECT t.topic_id, t.topic_type, t.topic_attachment, f.forum_name, f.forum_color, f.forum_id, t.topic_last_post_id, t.topic_first_post_id, t.topic_title, t.topic_poster, t.topic_views, t.topic_replies, t.topic_status, p.post_time, p.poster_id, pu.username as postername, u.username, u.user_id FROM ".$titanium_prefix."_bbtopics t, ".$titanium_prefix."_bbforums f, ".$titanium_prefix."_bbposts p, ".$titanium_user_prefix."_users u, ".$titanium_user_prefix."_users pu WHERE t.forum_id=f.forum_id AND p.post_id=t.topic_last_post_id AND u.user_id=t.topic_poster AND pu.user_id=p.poster_id AND t.topic_moved_id = '0' ORDER BY topic_last_post_id DESC LIMIT $last_new_topics");
+	$result = $pnt_db->sql_query("SELECT t.topic_id, t.topic_type, t.topic_attachment, f.forum_name, f.forum_color, f.forum_id, t.topic_last_post_id, t.topic_first_post_id, t.topic_title, t.topic_poster, t.topic_views, t.topic_replies, t.topic_status, p.post_time, p.poster_id, pu.username as postername, u.username, u.user_id FROM ".$pnt_prefix."_bbtopics t, ".$pnt_prefix."_bbforums f, ".$pnt_prefix."_bbposts p, ".$pnt_user_prefix."_users u, ".$pnt_user_prefix."_users pu WHERE t.forum_id=f.forum_id AND p.post_id=t.topic_last_post_id AND u.user_id=t.topic_poster AND pu.user_id=p.poster_id AND t.topic_moved_id = '0' ORDER BY topic_last_post_id DESC LIMIT $last_new_topics");
 
-	while ( list( $topic_id, $topic_type, $topic_attachment, $forum_name, $forum_color, $phpbb2_forum_id, $topic_last_post_id, $topic_first_post_id, $topic_title, $topic_poster, $topic_views, $topic_replies, $topic_status, $post_time, $poster_id, $poster_name, $titanium_username, $titanium_user_id ) = $titanium_db->sql_fetchrow( $result)) 
+	while ( list( $topic_id, $topic_type, $topic_attachment, $forum_name, $forum_color, $phpbb2_forum_id, $topic_last_post_id, $topic_first_post_id, $topic_title, $topic_poster, $topic_views, $topic_replies, $topic_status, $post_time, $poster_id, $poster_name, $pnt_username, $pnt_user_id ) = $pnt_db->sql_fetchrow( $result)) 
 	{
 	        $phpbb2_topic_data[$topic_id]['topic_id'] 			  = $topic_id;
 	        $phpbb2_topic_data[$topic_id]['topic_type'] 		  = $topic_type;
@@ -52,10 +52,10 @@ $count_topics = 0;
 	        $phpbb2_topic_data[$topic_id]['post_time'] 		  = $post_time;
 	        $phpbb2_topic_data[$topic_id]['poster_id'] 		  = $poster_id;
 	        $phpbb2_topic_data[$topic_id]['poster_name'] 		  = $poster_name;
-	        $phpbb2_topic_data[$topic_id]['username'] 			  = $titanium_username;
-	        $phpbb2_topic_data[$topic_id]['user_id'] 			  = $titanium_user_id;
+	        $phpbb2_topic_data[$topic_id]['username'] 			  = $pnt_username;
+	        $phpbb2_topic_data[$topic_id]['user_id'] 			  = $pnt_user_id;
 	}
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

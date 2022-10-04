@@ -43,7 +43,7 @@ include('includes/constants.'. $phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_ARCADES, $nukeuser);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_ARCADES, $nukeuser);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -123,13 +123,13 @@ $phpbb2_template->assign_vars(array(
 
 $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date FROM " . GAMES_TABLE . " g LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN " . SCORES_TABLE . " s ON s.game_id = g.game_id AND s.user_id = " . $userdata['user_id'] . " ORDER BY $order_by";
 
-if( !($result = $titanium_db->sql_query($sql)) ) {
+if( !($result = $pnt_db->sql_query($sql)) ) {
         message_die(GENERAL_ERROR, "Unable to retrieve game AND score data", '', __LINE__, __FILE__, $sql);
 }
 
 $total_phpbb2_match_count = 0;
 
-while( $row = $titanium_db->sql_fetchrow($result) ) {
+while( $row = $pnt_db->sql_fetchrow($result) ) {
         //Displays ON the games that you have no score/haven't played
         if($row['score_game'] == 0)
          {
@@ -230,11 +230,11 @@ $phpbb2_template->assign_vars(array(
 
 $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date FROM " . GAMES_TABLE . " g LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN " . SCORES_TABLE . " s ON s.game_id = g.game_id AND s.user_id = " . $userdata['user_id'] . " ORDER BY g.game_order DESC LIMIT 0, $total_phpbb2_match_count";
 
-if( !($result = $titanium_db->sql_query($sql)) ) {
+if( !($result = $pnt_db->sql_query($sql)) ) {
         message_die(GENERAL_ERROR, "Unable to retrieve game AND score data", '', __LINE__, __FILE__, $sql);
 }
 
-while( $row = $titanium_db->sql_fetchrow($result) ) {
+while( $row = $pnt_db->sql_fetchrow($result) ) {
         //Displays ON the games that you have no score/haven't played
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -328,12 +328,12 @@ $arcade_config = read_arcade_config();
 //Gets total games from you search results AND set the number of total search results.
 $sql = "SELECT COUNT(*) as total_games FROM " . GAMES_TABLE . " $where_search";
 
-        if( !($result = $titanium_db->sql_query($sql)) ) {
+        if( !($result = $pnt_db->sql_query($sql)) ) {
                 message_die(GENERAL_ERROR, "Unable to retrieve data from game table", '', __LINE__, __FILE__, $sql);
         }
 
 
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
         $total_phpbb2_match_count = $row['total_games'];
         $l_search_matches = ( $total_phpbb2_match_count == 1 ) ? sprintf($lang['Found_search_match'], $total_phpbb2_match_count) : sprintf($lang['Found_search_matches'], $total_phpbb2_match_count);
 
@@ -392,11 +392,11 @@ $phpbb2_template->assign_vars(array(
 
 $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date FROM " . GAMES_TABLE . " g LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN " . SCORES_TABLE . " s ON s.game_id = g.game_id AND s.user_id = " . $userdata['user_id'] . " $where_search ORDER BY $order_by";
 
-if( !($result = $titanium_db->sql_query($sql)) ) {
+if( !($result = $pnt_db->sql_query($sql)) ) {
         message_die(GENERAL_ERROR, "Could not read from the games/users table", '', __LINE__, __FILE__, $sql);
 }
 
-while( $row = $titanium_db->sql_fetchrow($result) ) {
+while( $row = $pnt_db->sql_fetchrow($result) ) {
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/

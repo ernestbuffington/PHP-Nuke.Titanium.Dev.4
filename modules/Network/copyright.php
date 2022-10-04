@@ -40,8 +40,8 @@ $author_email = "ernest.buffington@facebook.com";
 $author_homepage = "http://cvs.86it.us";
 $license = "GNU/GPL";
 $download_location = "";
-$titanium_module_version = "1.0";
-$titanium_module_description = "Network Information";
+$pnt_module_version = "1.0";
+$pnt_module_description = "Network Information";
 
 // DO NOT TOUCH THE FOLLOWING COPYRIGHT CODE. YOU'RE JUST ALLOWED TO CHANGE YOUR "OWN"
 // MODULE'S DATA (SEE ABOVE) SO THE SYSTEM CAN BE ABLE TO SHOW THE COPYRIGHT NOTICE
@@ -50,6 +50,6 @@ $titanium_module_description = "Network Information";
 // AND YOU ARE NOT ALLOWED TO DELETE THIS FILE NOR TO CHANGE ANYTHING FROM THIS FILE IF
 // YOU'RE NOT THIS MODULE'S AUTHOR.
 
-show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $titanium_module_version, $titanium_module_description);
+show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $pnt_module_version, $pnt_module_description);
 
 ?>

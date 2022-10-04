@@ -47,7 +47,7 @@ function head()
 			               $userinfo, 
 						     $cookie, 
 					  	    $sitekey, 
-						$titanium_db, 
+						$pnt_db, 
 							$banners, 
 						        $ads, 
 							$browser, 
@@ -106,8 +106,8 @@ function head()
     include_once(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php');
     echo "<!-- CHECKING FOR pre 2019 themes -> javascript.php in Theme Dir END -->\n\n";
     echo '<script src="includes/ruffle-core/ruffle.js"></script>';
-	global $titanium_browser;
-    $titanium_browser = new Browser();
+	global $pnt_browser;
+    $pnt_browser = new Browser();
 	
     # FlyKit Mod v1.0.0 START
 	# used to add rounded corners to user avatars!
@@ -204,24 +204,24 @@ head();
 
 function online() 
 {
-    global $screen_res, $titanium_prefix, $titanium_db, $name, $phpbb2_board_config, $userinfo, $identify;
+    global $screen_res, $pnt_prefix, $pnt_db, $name, $phpbb2_board_config, $userinfo, $identify;
     $ip = $identify->get_ip();
     $url = (defined('ADMIN_FILE')) ? 'index.php' : Fix_Quotes($_SERVER['REQUEST_URI']);
     $uname = $ip;
     $guest = 1;
-    $titanium_user_agent = $identify->identify_agent();
+    $pnt_user_agent = $identify->identify_agent();
 	
 	if(is_user()):
 	$uname = $userinfo['username'];
     $guest = 0;
 	else:
 
-    //if(($titanium_user_agent['engine'] == 'bot')):
-    //$uname = $titanium_user_agent['bot'];
+    //if(($pnt_user_agent['engine'] == 'bot')):
+    //$uname = $pnt_user_agent['bot'];
 	//$guest = 3;
     //endif;
     
-	//if(($titanium_user_agent['engine'] == '')):
+	//if(($pnt_user_agent['engine'] == '')):
 	//endif;
     # Facebook IP Range
 
@@ -410,7 +410,7 @@ function online()
 	
 	# This was changed to prevent Deadlock found when trying to get lock;
     # Guy like me gets it done! TheGhost 9/20/2022 2:42pm
-	$titanium_db->sql_query('DELETE FROM `'.$titanium_prefix.'_session` WHERE `time` < "'.$past.'" - INTERVAL 900 SECOND ORDER BY `time` ASC');
+	$pnt_db->sql_query('DELETE FROM `'.$pnt_prefix.'_session` WHERE `time` < "'.$past.'" - INTERVAL 900 SECOND ORDER BY `time` ASC');
     $ctime = time();
 
     /**
@@ -418,7 +418,7 @@ function online()
      *
      * @since 2.0.9f
      */
-    $titanium_db->sql_query("REPLACE INTO `".$titanium_prefix."_session` (uname, 
+    $pnt_db->sql_query("REPLACE INTO `".$pnt_prefix."_session` (uname, 
 	                                                                       time, 
 													                  starttime, 
 													                  host_addr, 
@@ -440,7 +440,7 @@ function online()
      */
 	
     if ( $guest == 0 ):
-        $titanium_db->sql_query("REPLACE INTO `".$titanium_prefix."_users_who_been` (`user_ID`, 
+        $pnt_db->sql_query("REPLACE INTO `".$pnt_prefix."_users_who_been` (`user_ID`, 
 		                                                                            `username`, 
 																                  `last_visit`,
 																				  `resolution`) 

@@ -41,9 +41,9 @@ if(!defined('IN_SETTINGS'))exit('Access Denied');
                 $articlecomm, 
                     $minpass, 
                $my_headlines, 
-         $titanium_user_news, 
+         $user_blogs, 
                    $adminssl, 
-     $titanium_queries_count, 
+     $pnt_queries_count, 
                  $use_colors, 
       $lock_titanium_modules, 
                     $banners, 
@@ -56,7 +56,7 @@ if(!defined('IN_SETTINGS'))exit('Access Denied');
                $collapsetype, 
                   $analytics, 
                  $use_stream, 
-         $titanium_html_auth, 
+         $pnt_html_auth, 
          $use_floating_admin, 
                 $arrow_color, 
 	             $img_viewer, 
@@ -101,7 +101,7 @@ echo '        </tr>'.PHP_EOL;
 
 echo '        <tr>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.$admlang['misc']['queries'].'</td>'.PHP_EOL;
-echo '          <td class="row1" style="width: 50%;">'.yesno_option('xqueries_count', $titanium_queries_count).'</td>'.PHP_EOL;
+echo '          <td class="row1" style="width: 50%;">'.yesno_option('xqueries_count', $pnt_queries_count).'</td>'.PHP_EOL;
 echo '        </tr>'.PHP_EOL;
 
 echo '        <tr>'.PHP_EOL;
@@ -131,7 +131,7 @@ if (is_god($admin))
 {
   echo '        <tr>'.PHP_EOL;
   echo '          <td class="row1" style="width: 50%;">'.$admlang['misc']['html_bypass'].'</td>'.PHP_EOL;
-  echo '          <td class="row1" style="width: 50%;">'.yesno_option('xhtml_auth', $titanium_html_auth).'</td>'.PHP_EOL;
+  echo '          <td class="row1" style="width: 50%;">'.yesno_option('xhtml_auth', $pnt_html_auth).'</td>'.PHP_EOL;
   echo '        </tr>'.PHP_EOL;
 }
 

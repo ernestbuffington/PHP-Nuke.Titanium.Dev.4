@@ -69,11 +69,11 @@ if ( !defined( 'MSNL_LOADED' ) and !defined( 'BLOCK_FILE' ) and !defined( 'NUKE_
 
 function msnl_fGetModCfg() {
 
-	global $titanium_prefix, $titanium_db;
+	global $pnt_prefix, $pnt_db;
 	
 	$asModCfg	= array();
 
-	$sql = "SELECT * FROM `".$titanium_prefix."_hnl_cfg`";
+	$sql = "SELECT * FROM `".$pnt_prefix."_hnl_cfg`";
 
 	$result = msnl_fSQLCall( $sql );
 
@@ -83,7 +83,7 @@ function msnl_fGetModCfg() {
 
 	} else { //DB Call was successful
 
-		while ( list( $cfg_nm, $cfg_val ) = $titanium_db->sql_fetchrow( $result ) ) {
+		while ( list( $cfg_nm, $cfg_val ) = $pnt_db->sql_fetchrow( $result ) ) {
 
 			$asModCfg[$cfg_nm] 		= $cfg_val;
 
@@ -105,9 +105,9 @@ function msnl_fGetModCfg() {
 
 function msnl_fSQLCall( $sql ) {
 
-	global $msnl_gasModCfg, $titanium_db;
+	global $msnl_gasModCfg, $pnt_db;
 	
-	$result = $titanium_db->sql_query( $sql );
+	$result = $pnt_db->sql_query( $sql );
 	
 	if ( $result ) {
 
@@ -119,7 +119,7 @@ function msnl_fSQLCall( $sql ) {
 
 		if ( $msnl_gasModCfg['debug_mode'] != MSNL_OFF )	{
 
-			$sql_error = $titanium_db->sql_error();
+			$sql_error = $pnt_db->sql_error();
 
 			echo "<p><b>"._MSNL_COM_ERR_SQL.": </b>".$sql_error['message']."</p>\n";
 			echo "<p><b>"._MSNL_COM_LAB_SQL." = </b>".$sql."</p>\n";
@@ -485,7 +485,7 @@ switch( $sHTML ) {
 
 function msnl_fIsViewable( $view, $cid, $groups ) {
 
-	global $admin, $titanium_user, $userinfo, $msnl_gasModCfg;
+	global $admin, $pnt_user, $userinfo, $msnl_gasModCfg;
 
 	//NOTE: only Admins should be allowed to see the first category which is reserved for *Unassigned*
 
@@ -499,19 +499,19 @@ function msnl_fIsViewable( $view, $cid, $groups ) {
 
 			$viewable = 1;
 
-	} elseif ( $cid <> 1 AND $view == 1 AND is_user( $titanium_user ) ) {  //Registered User
+	} elseif ( $cid <> 1 AND $view == 1 AND is_user( $pnt_user ) ) {  //Registered User
 
 			$viewable = 1;
 
-	} elseif ( $cid <> 1 AND $view == 2 AND is_user( $titanium_user ) AND $userinfo[newsletter] == 1 ) {  //Subscribed (Newsletter) User
+	} elseif ( $cid <> 1 AND $view == 2 AND is_user( $pnt_user ) AND $userinfo[newsletter] == 1 ) {  //Subscribed (Newsletter) User
 
 			$viewable = 1;
 
-	} elseif ( $cid <> 1 AND $view == 3 AND is_user( $titanium_user ) AND paid() ) {  //Paid subscribers
+	} elseif ( $cid <> 1 AND $view == 3 AND is_user( $pnt_user ) AND paid() ) {  //Paid subscribers
 
 			$viewable = 1;
 
-	} elseif ( $cid <> 1 AND $view == 3 AND is_user( $titanium_user ) AND $msnl_gasModCfg['nsn_groups'] == 1 ) {  //NSN Groups Only
+	} elseif ( $cid <> 1 AND $view == 3 AND is_user( $pnt_user ) AND $msnl_gasModCfg['nsn_groups'] == 1 ) {  //NSN Groups Only
 
 			if ( in_groups( $groups ) ) {
 

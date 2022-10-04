@@ -24,7 +24,7 @@ if (!isset($min)) { $min=0; } else { $min = intval($min); }
 if (!isset($max)) { $max = $min + $perpage; } else { $max = intval($max); }
 if ($column != "ip_long" and $column != "reason" and $column != "date") { $column = "ip_long"; }
 if ($direction != "asc" and $direction != "desc") { $direction = "asc"; }
-$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT `reason` FROM `".$titanium_prefix."_nsnst_blocked_ips`"));
+$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `reason` FROM `".$pnt_prefix."_nsnst_blocked_ips`"));
 if ($totalselected > 0) {
   // Page Sorting
   echo '<table summary="" align="center" border="0" cellpadding="2" cellspacing="2" width="100%">'."\n";
@@ -58,8 +58,8 @@ if ($totalselected > 0) {
   echo '<td align="center" width="33%"><strong>'._AB_DATE.'</strong></td>'."\n";
   echo '<td align="center" width="33%"><strong>'._AB_REASON.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` ORDER BY $column $direction LIMIT $min,$perpage");
-  while ($getIPs = $titanium_db->sql_fetchrow($result)) {
+  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` ORDER BY $column $direction LIMIT $min,$perpage");
+  while ($getIPs = $pnt_db->sql_fetchrow($result)) {
     $bdate = date("Y-m-d @ H:i:s", $getIPs['date']);
     $lookupip = str_replace("*", "0", $getIPs['ip_addr']);
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
@@ -73,8 +73,8 @@ if ($totalselected > 0) {
     echo '<td align="center">'.$bdate.'</td>'."\n";
     $reason = "----------";
     if((is_admin() AND $ab_config['display_reason']==1) OR ((is_user() OR is_admin()) AND $ab_config['display_reason']==2) OR $ab_config['display_reason']==3) {
-      $result2 = $titanium_db->sql_query("SELECT `reason` FROM `".$titanium_prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1");
-      list($reason) = $titanium_db->sql_fetchrow($result2);
+      $result2 = $pnt_db->sql_query("SELECT `reason` FROM `".$pnt_prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1");
+      list($reason) = $pnt_db->sql_fetchrow($result2);
       $reason = str_replace("Abuse-","",$reason);
     }
     echo '<td align="center">'.$reason.'</td>'."\n";

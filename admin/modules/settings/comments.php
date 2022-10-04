@@ -29,7 +29,7 @@ if(!defined('IN_SETTINGS')) {
   exit('Access Denied');
 }
 
-global $titanium_moderate, $commentlimit, $anonymous;
+global $moderate, $commentlimit, $anonymous;
 echo '  <tr>'.PHP_EOL;
 echo '    <td class="catHead" colspan="3" style="font-weight: bold; text-align: center; text-transform: uppercase;">'.$admlang['preferences']['comment_opts'].'</td>'.PHP_EOL;
 echo '  </tr>'.PHP_EOL;
@@ -38,7 +38,7 @@ echo '    <td class="row1" colspan="3">'.PHP_EOL;
 echo '      <table border="0" cellpadding="4" cellspacing="1" class="forumline" style="width: 100%;">'.PHP_EOL;
 echo '        <tr>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.$admlang['backend']['title'].'</td>'.PHP_EOL;
-echo '          <td class="row1" style="width: 50%;">'.select_box('xmoderate',$titanium_moderate,array(0 => $admlang['comments']['no_moderation'], 1 => $admlang['comments']['admins'], 2 => $admlang['comments']['users'])).'</td>'.PHP_EOL;
+echo '          <td class="row1" style="width: 50%;">'.select_box('xmoderate',$moderate,array(0 => $admlang['comments']['no_moderation'], 1 => $admlang['comments']['admins'], 2 => $admlang['comments']['users'])).'</td>'.PHP_EOL;
 echo '        </tr>'.PHP_EOL;
 echo '        <tr>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.$admlang['comments']['limit'].'</td>'.PHP_EOL;

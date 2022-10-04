@@ -29,7 +29,7 @@ if (!defined('IN_PHPBB2'))
     die('ACCESS DENIED');
 }
 
-global $do_gzip_compress, $phpbb2_template, $cache, $userdata, $titanium_db, $lang, $phpbb2_board_config;
+global $do_gzip_compress, $phpbb2_template, $cache, $userdata, $pnt_db, $lang, $phpbb2_board_config;
 //
 // Show the overall footer.
 //
@@ -52,7 +52,7 @@ $cache->resync();
 //
 // Close our DB connection.
 //
-$titanium_db->sql_close();
+$pnt_db->sql_close();
 
 //
 // Compress buffered output if required

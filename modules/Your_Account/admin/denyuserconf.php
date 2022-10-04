@@ -41,7 +41,7 @@ if (!defined('CNBYA')) {
 
 if(is_mod_admin($pnt_module)) {
 
-    list($email) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_email FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$dny_uid'"));
+    list($email) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_email FROM ".$pnt_user_prefix."_users_temp WHERE user_id='$dny_uid'"));
     if ($ya_config['servermail'] == 0) {
         $message = _SORRYTO." $sitename "._HASDENY;
         if ($denyreason > "") {
@@ -58,10 +58,10 @@ if(is_mod_admin($pnt_module)) {
         );
         evo_phpmailer( $email, $subject, $message, $headers );
     }
-    $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$dny_uid'");
-    $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE uid='$dny_uid'");
-    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_users_temp");
-    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_cnbya_value_temp");
+    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_users_temp WHERE user_id='$dny_uid'");
+    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_value_temp WHERE uid='$dny_uid'");
+    $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_user_prefix."_users_temp");
+    $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_user_prefix."_cnbya_value_temp");
     $pagetitle = ": "._USERADMIN." - "._ACCTDENY;
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();

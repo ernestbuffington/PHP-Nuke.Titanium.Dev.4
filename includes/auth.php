@@ -104,7 +104,7 @@ exit('ACCESS DENIED');
 
 function auth($type, $phpbb2_forum_id, $userdata, $f_access = '')
 {
-   global $titanium_db, $lang;
+   global $pnt_db, $lang;
 
 switch($type):
      case AUTH_ALL:
@@ -200,17 +200,17 @@ endswitch;
                     FROM " . FORUMS_TABLE . " a
                     $forum_match_sql";
 						
-            if(!($result = $titanium_db->sql_query($sql)))
+            if(!($result = $pnt_db->sql_query($sql)))
             message_die(GENERAL_ERROR, 'Failed obtaining forum access control lists', '', __LINE__, __FILE__, $sql);
 
             $sql_fetchrow = ($phpbb2_forum_id != AUTH_LIST_ALL) ? 'sql_fetchrow' : 'sql_fetchrowset';
 
-            if(!($f_access = $titanium_db->$sql_fetchrow($result))):
-              $titanium_db->sql_freeresult($result);
+            if(!($f_access = $pnt_db->$sql_fetchrow($result))):
+              $pnt_db->sql_freeresult($result);
               return array();
             endif;
 
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_freeresult($result);
         endif;
 
         # If the user isn't logged on then all we need do is check if the forum
@@ -226,9 +226,9 @@ endswitch;
                    AND ug.user_pending = '0'
                    AND a.group_id = ug.group_id
                    $forum_match_sql";
-            if(!($result = $titanium_db->sql_query($sql)))
+            if(!($result = $pnt_db->sql_query($sql)))
             message_die(GENERAL_ERROR, 'Failed obtaining forum access control lists', '', __LINE__, __FILE__, $sql);
-            if($row = $titanium_db->sql_fetchrow($result)):
+            if($row = $pnt_db->sql_fetchrow($result)):
               do
                {
                   if ( $phpbb2_forum_id != AUTH_LIST_ALL)
@@ -236,10 +236,10 @@ endswitch;
                   else
                   $u_access[$row['forum_id']][] = $row;
                 }
-                while( $row = $titanium_db->sql_fetchrow($result) );
+                while( $row = $pnt_db->sql_fetchrow($result) );
             endif;
         
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
         endif;
 
         $is_admin = ( $userdata['user_level'] == ADMIN && $userdata['session_logged_in'] ) ? TRUE : 0;

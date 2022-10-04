@@ -72,13 +72,13 @@ else
             FROM " . TOPICS_WATCH_TABLE . "
             WHERE topic_id = $topic_id
                 AND user_id = " . $userdata['user_id'];
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not obtain topic watch information', '', __LINE__, __FILE__, $sql);
         }
 
-        $notify_user = ( $titanium_db->sql_fetchrow($result) ) ? TRUE : $userdata['user_notify'];
-        $titanium_db->sql_freeresult($result);
+        $notify_user = ( $pnt_db->sql_fetchrow($result) ) ? TRUE : $userdata['user_notify'];
+        $pnt_db->sql_freeresult($result);
     }
     else
     {
@@ -88,7 +88,7 @@ else
 
 $attach_sig = ( $submit || $refresh ) ? ( ( !empty($HTTP_POST_VARS['attach_sig']) ) ? TRUE : 0 ) : ( ( $userdata['user_id'] == ANONYMOUS ) ? 0 : $userdata['user_attachsig'] );
 
-$titanium_user_sig = ( $userdata['user_sig'] != '' ) ? $userdata['user_sig'] : '';
+$pnt_user_sig = ( $userdata['user_sig'] != '' ) ? $userdata['user_sig'] : '';
 
 if ( (($userdata['user_quickreply_mode']==1) && ($userdata['user_id'] != ANONYMOUS)) || (($phpbb2_board_config['anonymous_sqr_mode']==1) && ($userdata['user_id'] == ANONYMOUS)) )
 {
@@ -96,7 +96,7 @@ if ( (($userdata['user_quickreply_mode']==1) && ($userdata['user_id'] != ANONYMO
     //
     // Signature toggle selection
     //
-    if( $titanium_user_sig != '' )
+    if( $pnt_user_sig != '' )
     {
         $phpbb2_template->assign_block_vars('switch_advanced_qr.switch_signature_checkbox', array());
     }
@@ -156,11 +156,11 @@ if ( (($userdata['user_quickreply_mode']==1) && ($userdata['user_id'] != ANONYMO
 if (  $phpbb2_is_auth['auth_mod'] )
 {
         $sql = "SELECT topic_status FROM " . TOPICS_TABLE . " WHERE topic_id = '$reply_topic_id'";
-            if (!$result = $titanium_db->sql_query($sql)) {
+            if (!$result = $pnt_db->sql_query($sql)) {
             message_die(GENERAL_ERROR, 'Could not obtain topic status information', '', __LINE__, __FILE__, $sql);
             }
-        $topic_status = $titanium_db->sql_fetchrow($result);
-        $titanium_db->sql_freeresult($result);
+        $topic_status = $pnt_db->sql_fetchrow($result);
+        $pnt_db->sql_freeresult($result);
         $topic_status = $topic_status['topic_status'];
 
     if ( $topic_status == TOPIC_LOCKED )

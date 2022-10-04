@@ -21,7 +21,7 @@
       Networked                     v11.11.11  10/08/2017
 	  Converted To Network Support             10/08/2017	  
  ********************************************************/
-global $titanium_prefix, $network_prefix, $titanium_db2, $titanium_db;
+global $pnt_prefix, $network_prefix, $pnt_db2, $pnt_db;
 
 if (!defined('MODULE_FILE'))
 { 

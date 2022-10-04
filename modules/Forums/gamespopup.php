@@ -41,7 +41,7 @@ include($phpbb2_root_path . 'common.'.$phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_GAME, $nukeuser);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_GAME, $nukeuser);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -81,12 +81,12 @@ else
 {
 $sql = "SELECT * FROM " . POSTS_TABLE . " WHERE poster_id = $uid and post_time BETWEEN $old_time AND $current_time";
 }
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not obtain forums information', '', __LINE__, __FILE__, $sql);
     }
 
-    $Amount_Of_Posts = $titanium_db->sql_numrows( $result );
+    $Amount_Of_Posts = $pnt_db->sql_numrows( $result );
 
 
     if($Amount_Of_Posts < $phpbb2_posts)
@@ -113,11 +113,11 @@ if (!empty($HTTP_POST_VARS['gid']) || !empty($HTTP_GET_VARS['gid'])) {
 
 $sql = "SELECT g.* , u.username, MAX(s.score_game) AS highscore FROM " . GAMES_TABLE . " g LEFT JOIN " . SCORES_TABLE . " s ON g.game_id = s.game_id LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id WHERE g.game_id = $gid GROUP BY g.game_id,g.game_highscore";
 
-if (!($result = $titanium_db->sql_query($sql))) {
+if (!($result = $pnt_db->sql_query($sql))) {
         message_die(GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql);
 }
 
-if (!($row = $titanium_db->sql_fetchrow($result)) ) {
+if (!($row = $pnt_db->sql_fetchrow($result)) ) {
         message_die(GENERAL_ERROR, "This game does not exist", '', __LINE__, __FILE__, $sql);
 }
 
@@ -143,7 +143,7 @@ if($mode == "done")
 
                 $sql = "SELECT s.*, u.username FROM " . SCORES_TABLE . " s LEFT JOIN " . USERS_TABLE . " u ON s.user_id = u.user_id WHERE game_id = $gid ORDER BY s.score_game DESC, s.score_date ASC LIMIT 0,15";
 
-                if (!($result = $titanium_db->sql_query($sql)))
+                if (!($result = $pnt_db->sql_query($sql)))
                 {
         message_die(GENERAL_ERROR, "Could not read from scores table", '', __LINE__, __FILE__, $sql);
                 }
@@ -151,7 +151,7 @@ if($mode == "done")
                 $pos = 0;
                 $posreelle = 0;
                 $lastscore = 0;
-                while ($row = $titanium_db->sql_fetchrow($result))
+                while ($row = $pnt_db->sql_fetchrow($result))
                 {
                     $posreelle++;
                         if ($lastscore!=$row['score_game'])
@@ -203,7 +203,7 @@ $phpbb2_template->set_filenames(array(
 
 $sql = "DELETE FROM " . GAMEHASH_TABLE . " WHERE hash_date < " . (time() - 72000);
 
-if (!$titanium_db->sql_query($sql)) {
+if (!$pnt_db->sql_query($sql)) {
         message_die(GENERAL_ERROR, "Could not delete from the hash table", '', __LINE__, __FILE__, $sql);
 }
 
@@ -211,10 +211,10 @@ if (!$titanium_db->sql_query($sql)) {
 if ($row['game_type'] == 3) {
         $type_v2 = true;
         $phpbb2_template->assign_block_vars('game_type_V2',array());
-        $gamehash_id = md5(uniqid($titanium_user_ip));
+        $gamehash_id = md5(uniqid($pnt_user_ip));
         $sql = "INSERT INTO " . GAMEHASH_TABLE . " (gamehash_id , game_id , user_id , hash_date) VALUES ('$gamehash_id' , '$gid' , '" . $userdata['user_id'] . "' , '" . time() . "')";
 
-        if (!($result = $titanium_db->sql_query($sql))) {
+        if (!($result = $pnt_db->sql_query($sql))) {
                 message_die(GENERAL_ERROR, "Could not delete from the hash table", '', __LINE__, __FILE__, $sql);
         }
 }
@@ -233,10 +233,10 @@ elseif ($row['game_type'] == 4 or $row['game_type'] == 5)
         setcookie('timestarted', '', time() - 3600);
         setcookie('timestarted', time());
 
-        $gamehash_id = md5($titanium_user_ip);
+        $gamehash_id = md5($pnt_user_ip);
         $sql = "INSERT INTO " . GAMEHASH_TABLE . " (gamehash_id , game_id , user_id , hash_date) VALUES ('$gamehash_id' , '$gid' , '" . $userdata['user_id'] . "' , '" . time() . "')";
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
                 {
         message_die(GENERAL_ERROR, "Couldn't update hashtable", '', __LINE__, __FILE__, $sql);
         }
@@ -252,10 +252,10 @@ setcookie('arcadepopup', '1');
 
 $scriptpath = substr($phpbb2_board_config['script_path'] , strlen($phpbb2_board_config['script_path']) - 1 , 1) == '/' ? substr($phpbb2_board_config['script_path'] , 0 , strlen($phpbb2_board_config['script_path']) - 1) : $phpbb2_board_config['script_path'];
 $scriptpath = "http://" . $phpbb2_board_config['server_name'] .$scriptpath;
-global $titanium_prefix;
-$sql = "SELECT arcade_cattitle FROM `".$titanium_prefix."_bbarcade_categories` WHERE arcade_catid = " . $row['arcade_catid'];
-$result = $titanium_db->sql_query($sql);
-$ourrow = $titanium_db->sql_fetchrow($result);
+global $pnt_prefix;
+$sql = "SELECT arcade_cattitle FROM `".$pnt_prefix."_bbarcade_categories` WHERE arcade_catid = " . $row['arcade_catid'];
+$result = $pnt_db->sql_query($sql);
+$ourrow = $pnt_db->sql_fetchrow($result);
 $cat_title = $ourrow['arcade_cattitle'];
 
 $phpbb2_template->assign_vars(array(

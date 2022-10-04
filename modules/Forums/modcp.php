@@ -287,7 +287,7 @@ if ( !empty($topic_id) )
 
                         AND f.forum_id = t.forum_id";
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
 
         {
 
@@ -295,7 +295,7 @@ if ( !empty($topic_id) )
 
         }
 
-        $topic_row = $titanium_db->sql_fetchrow($result);
+        $topic_row = $pnt_db->sql_fetchrow($result);
 
 
 
@@ -327,7 +327,7 @@ else if ( !empty($phpbb2_forum_id) )
 
                 WHERE forum_id = " . $phpbb2_forum_id;
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
 
         {
 
@@ -335,7 +335,7 @@ else if ( !empty($phpbb2_forum_id) )
 
         }
 
-        $topic_row = $titanium_db->sql_fetchrow($result);
+        $topic_row = $pnt_db->sql_fetchrow($result);
 
 
 
@@ -371,7 +371,7 @@ else
 
 //
 
-$userdata = titanium_session_pagestart($titanium_user_ip, $phpbb2_forum_id);
+$userdata = titanium_session_pagestart($pnt_user_ip, $phpbb2_forum_id);
 
 titanium_init_userprefs($userdata);
 
@@ -541,7 +541,7 @@ switch( $mode )
 
                     AND forum_id = '$phpbb2_forum_id'";
 
-            if ( !($result = $titanium_db->sql_query($sql)) )
+            if ( !($result = $pnt_db->sql_query($sql)) )
 
             {
 
@@ -553,7 +553,7 @@ switch( $mode )
 
             $topic_id_sql = '';
 
-            while ($row = $titanium_db->sql_fetchrow($result))
+            while ($row = $pnt_db->sql_fetchrow($result))
 
             {
 
@@ -561,7 +561,7 @@ switch( $mode )
 
             }
 
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_freeresult($result);
 
 
 
@@ -581,7 +581,7 @@ switch( $mode )
 
                                 GROUP BY poster_id";
 
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
 
                         {
 
@@ -599,7 +599,7 @@ switch( $mode )
 
  ******************************************************/
 
-                        $titanium_user_updated = array();
+                        $pnt_user_updated = array();
 
 /*****[END]********************************************
 
@@ -607,7 +607,7 @@ switch( $mode )
 
  ******************************************************/
 
-                        while ( $row = $titanium_db->sql_fetchrow($result) )
+                        while ( $row = $pnt_db->sql_fetchrow($result) )
 
                         {
 /*****[BEGIN]******************************************
@@ -628,7 +628,7 @@ switch( $mode )
 
  ******************************************************/
 
-                                $titanium_user_updated [] = "SELECT ug.user_id, g.group_id as g_id, u.user_posts, g.group_count, g.group_count_max, ".$row['poster_id']." as u_id FROM (" . GROUPS_TABLE . " g, ".USERS_TABLE." u)
+                                $pnt_user_updated [] = "SELECT ug.user_id, g.group_id as g_id, u.user_posts, g.group_count, g.group_count_max, ".$row['poster_id']." as u_id FROM (" . GROUPS_TABLE . " g, ".USERS_TABLE." u)
 
                                         LEFT JOIN ". USER_GROUP_TABLE." ug ON g.group_id=ug.group_id AND ug.user_id=".$row['poster_id']."
 
@@ -648,7 +648,7 @@ switch( $mode )
 
                         }
 
-                        $titanium_db->sql_freeresult($result);
+                        $pnt_db->sql_freeresult($result);
 
 
 
@@ -660,7 +660,7 @@ switch( $mode )
 
                                 {
 
-                                        if ( !$titanium_db->sql_query($count_sql[$i]) )
+                                        if ( !$pnt_db->sql_query($count_sql[$i]) )
 
                                         {
 
@@ -680,33 +680,33 @@ switch( $mode )
 
  ******************************************************/
 
-                        if ( sizeof($titanium_user_updated) )
+                        if ( sizeof($pnt_user_updated) )
 
                         {
 
-                        	for($i = 0; $i < sizeof($titanium_user_updated); $i++)
+                        	for($i = 0; $i < sizeof($pnt_user_updated); $i++)
 
                         	{
 
-                        		if ( !($result = $titanium_db->sql_query($titanium_user_updated[$i])) )
+                        		if ( !($result = $pnt_db->sql_query($pnt_user_updated[$i])) )
 
                         		{
 
-                        			message_die(GENERAL_ERROR, 'Error geting users post stat', '', __LINE__, __FILE__, $titanium_user_updated[$i]);
+                        			message_die(GENERAL_ERROR, 'Error geting users post stat', '', __LINE__, __FILE__, $pnt_user_updated[$i]);
 
                         		}
 
-                        		while ($group_data = $titanium_db->sql_fetchrow($result))
+                        		while ($group_data = $pnt_db->sql_fetchrow($result))
 
                         		{
 
-                        			$titanium_user_already_added = (!empty($group_data['user_id']) || $group_data['u_id']==ANONYMOUS) ? TRUE : FALSE;
+                        			$pnt_user_already_added = (!empty($group_data['user_id']) || $group_data['u_id']==ANONYMOUS) ? TRUE : FALSE;
 
-                        			$titanium_user_add = ($group_data['group_count'] == $group_data['user_posts'] && $group_data['u_id']!=ANONYMOUS) ? TRUE : FALSE;
+                        			$pnt_user_add = ($group_data['group_count'] == $group_data['user_posts'] && $group_data['u_id']!=ANONYMOUS) ? TRUE : FALSE;
 
-                        			$titanium_user_remove = ($group_data['group_count'] > $group_data['user_posts'] && $group_data['u_id']!=ANONYMOUS) ? TRUE : FALSE;
+                        			$pnt_user_remove = ($group_data['group_count'] > $group_data['user_posts'] && $group_data['u_id']!=ANONYMOUS) ? TRUE : FALSE;
 
-                        			if ($titanium_user_add && !$titanium_user_already_added)
+                        			if ($pnt_user_add && !$pnt_user_already_added)
 
                         			{
 
@@ -716,7 +716,7 @@ switch( $mode )
 
                         					VALUES (".$group_data['g_id'].", ".$group_data['u_id'].", '0')";
 
-                        				if ( !($titanium_db->sql_query($sql)) )
+                        				if ( !($pnt_db->sql_query($sql)) )
 
                         				{
 
@@ -726,7 +726,7 @@ switch( $mode )
 
                         			} else
 
-                        			if ( $titanium_user_already_added && $titanium_user_remove)
+                        			if ( $pnt_user_already_added && $pnt_user_remove)
 
                         			{
 
@@ -738,7 +738,7 @@ switch( $mode )
 
                         					AND user_id=".$group_data['u_id'];
 
-                        				if ( !($titanium_db->sql_query($sql)) )
+                        				if ( !($pnt_db->sql_query($sql)) )
 
                         				{
 
@@ -752,7 +752,7 @@ switch( $mode )
 
                         		}
 
-                        		$titanium_db->sql_freeresult($result);
+                        		$pnt_db->sql_freeresult($result);
 
                         	}
 
@@ -770,7 +770,7 @@ switch( $mode )
 
                                 WHERE topic_id IN ($topic_id_sql)";
 
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
 
                         {
 
@@ -782,7 +782,7 @@ switch( $mode )
 
                         $post_id_sql = '';
 
-                        while ( $row = $titanium_db->sql_fetchrow($result) )
+                        while ( $row = $pnt_db->sql_fetchrow($result) )
 
                         {
 
@@ -790,7 +790,7 @@ switch( $mode )
 
                         }
 
-                        $titanium_db->sql_freeresult($result);
+                        $pnt_db->sql_freeresult($result);
 
 
 
@@ -800,7 +800,7 @@ switch( $mode )
 
                                 WHERE topic_id IN ($topic_id_sql)";
 
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
 
                         {
 
@@ -812,7 +812,7 @@ switch( $mode )
 
                         $vote_id_sql = '';
 
-                        while ( $row = $titanium_db->sql_fetchrow($result) )
+                        while ( $row = $pnt_db->sql_fetchrow($result) )
 
                         {
 
@@ -820,7 +820,7 @@ switch( $mode )
 
                         }
 
-                        $titanium_db->sql_freeresult($result);
+                        $pnt_db->sql_freeresult($result);
 
 						
 
@@ -834,7 +834,7 @@ switch( $mode )
 
 								WHERE topic_id IN ($topic_id_sql)";
 
-						if ( !$titanium_db->sql_query($sql) )
+						if ( !$pnt_db->sql_query($sql) )
 
 						{
 
@@ -864,7 +864,7 @@ switch( $mode )
 
                                         OR topic_moved_id IN ($topic_id_sql)";
 
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
 
                         {
 
@@ -884,7 +884,7 @@ switch( $mode )
 
                                         WHERE post_id IN ($post_id_sql)";
 
-                                if ( !$titanium_db->sql_query($sql) )
+                                if ( !$pnt_db->sql_query($sql) )
 
                                 {
 
@@ -916,7 +916,7 @@ switch( $mode )
 
 
 
-                                if ( !$titanium_db->sql_query($sql) )
+                                if ( !$pnt_db->sql_query($sql) )
 
                                 {
 
@@ -956,7 +956,7 @@ switch( $mode )
 
                                         WHERE vote_id IN ($vote_id_sql)";
 
-                                if ( !$titanium_db->sql_query($sql) )
+                                if ( !$pnt_db->sql_query($sql) )
 
                                 {
 
@@ -972,7 +972,7 @@ switch( $mode )
 
                                         WHERE vote_id IN ($vote_id_sql)";
 
-                                if ( !$titanium_db->sql_query($sql) )
+                                if ( !$pnt_db->sql_query($sql) )
 
                                 {
 
@@ -988,7 +988,7 @@ switch( $mode )
 
                                         WHERE vote_id IN ($vote_id_sql)";
 
-                                if ( !$titanium_db->sql_query($sql) )
+                                if ( !$pnt_db->sql_query($sql) )
 
                                 {
 
@@ -1001,7 +1001,7 @@ switch( $mode )
 
 
                         $sql = "DELETE FROM " . TOPICS_WATCH_TABLE . " WHERE topic_id IN ($topic_id_sql)";
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                             message_die(GENERAL_ERROR, 'Could not delete watched post list', '', __LINE__, __FILE__, $sql);
                         }
@@ -1010,7 +1010,7 @@ switch( $mode )
  [ Base:    Who viewed a topic                 v1.0.3 ]
  ******************************************************/
 						$sql = "DELETE FROM " . TOPIC_VIEW_TABLE . " WHERE topic_id IN ($topic_id_sql)"; 
-						if ( !$titanium_db->sql_query($sql, END_TRANSACTION) ) 
+						if ( !$pnt_db->sql_query($sql, END_TRANSACTION) ) 
 						{ 
 							message_die(GENERAL_ERROR, 'Could not delete viewed post list', '', __LINE__, __FILE__, $sql); 
 						}
@@ -1228,7 +1228,7 @@ switch( $mode )
 
                               WHERE forum_id = ' . $new_forum_id;
 
-                           if ( !($result = $titanium_db->sql_query($sql)) )
+                           if ( !($result = $pnt_db->sql_query($sql)) )
 
                            {
 
@@ -1238,7 +1238,7 @@ switch( $mode )
 
 
 
-                           if (!$titanium_db->sql_fetchrow($result))
+                           if (!$pnt_db->sql_fetchrow($result))
 
                            {
 
@@ -1248,7 +1248,7 @@ switch( $mode )
 
 
 
-                           $titanium_db->sql_freeresult($result);
+                           $pnt_db->sql_freeresult($result);
 
 
 
@@ -1282,7 +1282,7 @@ switch( $mode )
 
                                                 AND topic_status <> " . TOPIC_MOVED;
 
-                                if ( !($result = $titanium_db->sql_query($sql)) )
+                                if ( !($result = $pnt_db->sql_query($sql)) )
 
                                 {
 
@@ -1292,9 +1292,9 @@ switch( $mode )
 
 
 
-                                $row = $titanium_db->sql_fetchrowset($result);
+                                $row = $pnt_db->sql_fetchrowset($result);
 
-                                $titanium_db->sql_freeresult($result);
+                                $pnt_db->sql_freeresult($result);
 
 
 
@@ -1316,7 +1316,7 @@ switch( $mode )
 
                                                         VALUES ('$old_forum_id', '" . addslashes(str_replace("\'", "''", $row[$i]['topic_title'])) . "', '" . str_replace("\'", "''", $row[$i]['topic_poster']) . "', " . $row[$i]['topic_time'] . ", " . TOPIC_MOVED . ", " . POST_NORMAL . ", " . $row[$i]['topic_vote'] . ", " . $row[$i]['topic_views'] . ", " . $row[$i]['topic_replies'] . ", " . $row[$i]['topic_first_post_id'] . ", " . $row[$i]['topic_last_post_id'] . ", '$topic_id')";
 
-                                                if ( !$titanium_db->sql_query($sql) )
+                                                if ( !$pnt_db->sql_query($sql) )
 
                                                 {
 
@@ -1350,7 +1350,7 @@ switch( $mode )
 
                                                 WHERE topic_id = '$topic_id'";
 
-                                        if ( !$titanium_db->sql_query($sql) )
+                                        if ( !$pnt_db->sql_query($sql) )
 
                                         {
 
@@ -1366,7 +1366,7 @@ switch( $mode )
 
                                                 WHERE topic_id = '$topic_id'";
 
-                                        if ( !$titanium_db->sql_query($sql) )
+                                        if ( !$pnt_db->sql_query($sql) )
 
                                         {
 
@@ -1594,7 +1594,7 @@ switch( $mode )
 
                         AND topic_moved_id = '0'";
 
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
 
                 {
 
@@ -1684,7 +1684,7 @@ switch( $mode )
 
                         AND topic_moved_id = '0'";
 
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
 
                 {
 
@@ -1796,7 +1796,7 @@ switch( $mode )
 
                         AND forum_id = '$phpbb2_forum_id'";
 
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
 
                         {
 
@@ -1808,7 +1808,7 @@ switch( $mode )
 
                         $post_id_sql = '';
 
-                        while ($row = $titanium_db->sql_fetchrow($result))
+                        while ($row = $pnt_db->sql_fetchrow($result))
 
                         {
 
@@ -1816,7 +1816,7 @@ switch( $mode )
 
                         }
 
-                        $titanium_db->sql_freeresult($result);
+                        $pnt_db->sql_freeresult($result);
 
              			if ($post_id_sql == '')
 
@@ -1834,7 +1834,7 @@ switch( $mode )
 
                                 ORDER BY post_time ASC";
 
-                        if (!($result = $titanium_db->sql_query($sql)))
+                        if (!($result = $pnt_db->sql_query($sql)))
 
                         {
 
@@ -1844,7 +1844,7 @@ switch( $mode )
 
 
 
-                        if ($row = $titanium_db->sql_fetchrow($result))
+                        if ($row = $pnt_db->sql_fetchrow($result))
 
                         {
 
@@ -1856,7 +1856,7 @@ switch( $mode )
 
 
 
-                                $titanium_user_id_sql = '';
+                                $pnt_user_id_sql = '';
 
                                 $post_id_sql = '';
 
@@ -1864,7 +1864,7 @@ switch( $mode )
 
                                 {
 
-                                        $titanium_user_id_sql .= ((!empty($titanium_user_id_sql)) ? ', ' : '') . intval($row['poster_id']);
+                                        $pnt_user_id_sql .= ((!empty($pnt_user_id_sql)) ? ', ' : '') . intval($row['poster_id']);
 
                                         $post_id_sql .= (($post_id_sql != '') ? ', ' : '') . intval($row['post_id']);;                                          $post_id_sql .= ((!empty($post_id_sql)) ? ', ' : '') . intval($row['post_id']);;
 
@@ -1872,7 +1872,7 @@ switch( $mode )
 
                                 }
 
-                                while ($row = $titanium_db->sql_fetchrow($result));
+                                while ($row = $pnt_db->sql_fetchrow($result));
 
 
 
@@ -1898,7 +1898,7 @@ switch( $mode )
 
                                       WHERE forum_id = ' . $new_forum_id;
 
-                                   if ( !($result = $titanium_db->sql_query($sql)) )
+                                   if ( !($result = $pnt_db->sql_query($sql)) )
 
                                    {
 
@@ -1908,7 +1908,7 @@ switch( $mode )
 
 
 
-                                   if (!$titanium_db->sql_fetchrow($result))
+                                   if (!$pnt_db->sql_fetchrow($result))
 
                                    {
 
@@ -1918,7 +1918,7 @@ switch( $mode )
 
 
 
-                                   $titanium_db->sql_freeresult($result);
+                                   $pnt_db->sql_freeresult($result);
 
 
 
@@ -1926,7 +1926,7 @@ switch( $mode )
 
                                         VALUES ('" . str_replace("\'", "''", $post_subject) . "', '$first_poster', " . $topic_time . ", '$new_forum_id', " . TOPIC_UNLOCKED . ", " . POST_NORMAL . ")";
 
-                                if (!($titanium_db->sql_query($sql)))
+                                if (!($pnt_db->sql_query($sql)))
 
                                 {
 
@@ -1936,7 +1936,7 @@ switch( $mode )
 
 
 
-                                $new_topic_id = $titanium_db->sql_nextid();
+                                $new_topic_id = $pnt_db->sql_nextid();
 
 
 
@@ -1966,9 +1966,9 @@ switch( $mode )
 
                                         WHERE topic_id = '$topic_id'
 
-                                                AND user_id IN ($titanium_user_id_sql)";
+                                                AND user_id IN ($pnt_user_id_sql)";
 
-                                if (!$titanium_db->sql_query($sql))
+                                if (!$pnt_db->sql_query($sql))
 
                                 {
 
@@ -1988,7 +1988,7 @@ switch( $mode )
 
                                         WHERE $sql_where";
 
-                                if (!$titanium_db->sql_query($sql))
+                                if (!$pnt_db->sql_query($sql))
 
                                 {
 
@@ -2056,7 +2056,7 @@ switch( $mode )
 
 
 
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
 
                         {
 
@@ -2070,11 +2070,11 @@ switch( $mode )
 
 
 
-                        if( ( $phpbb2_total_posts = $titanium_db->sql_numrows($result) ) > 0 )
+                        if( ( $phpbb2_total_posts = $pnt_db->sql_numrows($result) ) > 0 )
 
                         {
 
-                                $postrow = $titanium_db->sql_fetchrowset($result);
+                                $postrow = $pnt_db->sql_fetchrowset($result);
 
 
 
@@ -2332,7 +2332,7 @@ switch( $mode )
 
                         AND forum_id = '$phpbb2_forum_id'";
 
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
 
                 {
 
@@ -2342,7 +2342,7 @@ switch( $mode )
 
 
 
-                if ( !($post_row = $titanium_db->sql_fetchrow($result)) )
+                if ( !($post_row = $pnt_db->sql_fetchrow($result)) )
 
                 {
 
@@ -2408,7 +2408,7 @@ switch( $mode )
 
                         ORDER BY " . (( SQL_LAYER == 'msaccess' ) ? 'COUNT(*)' : 'postings' ) . " DESC";
 
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
 
                 {
 
@@ -2418,7 +2418,7 @@ switch( $mode )
 
 
 
-                if ( $row = $titanium_db->sql_fetchrow($result) )
+                if ( $row = $pnt_db->sql_fetchrow($result) )
 
                 {
 
@@ -2478,7 +2478,7 @@ switch( $mode )
 
                         }
 
-                        while ( $row = $titanium_db->sql_fetchrow($result) );
+                        while ( $row = $pnt_db->sql_fetchrow($result) );
 
                 }
 
@@ -2502,7 +2502,7 @@ switch( $mode )
 
                         ORDER BY " . (( SQL_LAYER == 'msaccess' ) ? 'COUNT(*)' : 'postings' ) . " DESC";
 
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
 
                 {
 
@@ -2512,7 +2512,7 @@ switch( $mode )
 
 
 
-                if ( $row = $titanium_db->sql_fetchrow($result) )
+                if ( $row = $pnt_db->sql_fetchrow($result) )
 
                 {
 
@@ -2524,7 +2524,7 @@ switch( $mode )
 
                                 $id = $row['user_id'];
 
-                                $titanium_username = ( $id == ANONYMOUS ) ? $lang['Guest'] : $row['username'];
+                                $pnt_username = ( $id == ANONYMOUS ) ? $lang['Guest'] : $row['username'];
 
 
 
@@ -2540,17 +2540,17 @@ switch( $mode )
 
                                         'ROW_CLASS' => $row_class,
 
-                                        'USERNAME' => $titanium_username,
+                                        'USERNAME' => $pnt_username,
 
                                         'POSTS' => $row['postings'] . ' ' . ( ( $row['postings'] == 1 ) ? $lang['Post'] : $lang['Posts'] ),
 
-                                        'L_SEARCH_POSTS' => sprintf($lang['Search_user_posts'], $titanium_username),
+                                        'L_SEARCH_POSTS' => sprintf($lang['Search_user_posts'], $pnt_username),
 
 
 
                                         'U_PROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$id"),
 
-                                        'U_SEARCHPOSTS' => append_titanium_sid("search.$phpEx?search_author=" . (($id == ANONYMOUS) ? 'Anonymous' : urlencode($titanium_username)) . "&amp;showresults=topics"))
+                                        'U_SEARCHPOSTS' => append_titanium_sid("search.$phpEx?search_author=" . (($id == ANONYMOUS) ? 'Anonymous' : urlencode($pnt_username)) . "&amp;showresults=topics"))
 
                                 );
 
@@ -2560,7 +2560,7 @@ switch( $mode )
 
                         }
 
-                        while ( $row = $titanium_db->sql_fetchrow($result) );
+                        while ( $row = $pnt_db->sql_fetchrow($result) );
 
                 }
 
@@ -2610,7 +2610,7 @@ switch( $mode )
 
                     WHERE topic_id = ".$phpbb2_topics[$i];
 
-             if ( !($result = $titanium_db->sql_query($sql)) )
+             if ( !($result = $pnt_db->sql_query($sql)) )
 
              {
 
@@ -2862,7 +2862,7 @@ switch( $mode )
 
  ******************************************************/
 
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
 
                 {
 
@@ -2872,7 +2872,7 @@ switch( $mode )
 
 
 
-                while ( $row = $titanium_db->sql_fetchrow($result) )
+                while ( $row = $pnt_db->sql_fetchrow($result) )
 
                 {
 

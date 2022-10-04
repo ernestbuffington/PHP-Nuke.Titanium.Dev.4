@@ -24,7 +24,7 @@ echo '</head>'."\n";
 echo '<body bgcolor="#FFFFFF" text="#000000" link="#000000" alink="#000000" vlink="#000000">'."\n";
 echo '<h1 align="center">'.$pagetitle.'</h1>'."\n";
 $tid=intval($tid);
-list($uname) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `refered_from` FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
+list($uname) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `refered_from` FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
 $xname = wordwrap($uname, 50, "\n", true);
 $xname = str_replace("&amp;amp;", "&amp;", htmlentities($xname, ENT_QUOTES));
 $xname = str_replace("\n", "<br />\n", $xname);
@@ -34,8 +34,8 @@ echo '<tr bgcolor="#ffffff">'."\n";
 echo '<td><strong>'._AB_PAGEVIEWED.'</strong></td>'."\n";
 echo '<td><strong>'._AB_DATE.'</strong></td>'."\n";
 echo '</tr>'."\n";
-$result = $titanium_db->sql_query("SELECT `page`, `date` FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `refered_from`='$uname' ORDER BY `date` DESC");
-while(list($page, $date_time) = $titanium_db->sql_fetchrow($result)){
+$result = $pnt_db->sql_query("SELECT `page`, `date` FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `refered_from`='$uname' ORDER BY `date` DESC");
+while(list($page, $date_time) = $pnt_db->sql_fetchrow($result)){
   $page = wordwrap($page, 50, "\n", true);
   $page = str_replace("&amp;amp;", "&amp;", htmlentities($page, ENT_QUOTES));
   $page = str_replace("\n", "<br />\n", $page);

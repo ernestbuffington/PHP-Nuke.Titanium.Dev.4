@@ -81,14 +81,14 @@ $phpbb2_template->set_filenames(array(
 
 $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, u.user_level FROM " . GAMES_TABLE . " g, " . USERS_TABLE . " u WHERE g.game_highuser = u.user_id AND g.game_highuser <> 0 GROUP BY g.game_highuser ORDER BY nbvictoires DESC LIMIT 0,10";
 
-    if( !($result = $titanium_db->sql_query($sql)) )
+    if( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(CRITICAL_ERROR, "Could not query games information", "", __LINE__, __FILE__, $sql);
     }
 
     $place=0;
     $nbvictprec=0;
-    while ( $row = $titanium_db->sql_fetchrow($result) )
+    while ( $row = $pnt_db->sql_fetchrow($result) )
     {
         if ($nbvictprec<>$row['nbvictoires'])
         {
@@ -113,11 +113,11 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-        $titanium_user_online_link = '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'>' . $row['username'] . '</a>';
+        $pnt_user_online_link = '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'>' . $row['username'] . '</a>';
 
         $phpbb2_template->assign_block_vars('player_row', array(
             'CLASSEMENT' => $place,
-            'USERNAME' => $titanium_user_online_link,
+            'USERNAME' => $pnt_user_online_link,
             'VICTOIRES' => $row['nbvictoires'])
         );
 
@@ -128,11 +128,11 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
 
    $sql = " SELECT g.* , u.username FROM " . GAMES_TABLE . " g, " . USERS_TABLE . " u WHERE g.game_highuser = u.user_id ORDER BY game_highdate DESC LIMIT 0,5  ";
 
-   if ( !($result = $titanium_db->sql_query($sql)) )
+   if ( !($result = $pnt_db->sql_query($sql)) )
    {
       message_die(GENERAL_ERROR, 'Could not query the games/users table', '', __LINE__, __FILE__, $sql);
    }
-   while($rowArcade = $titanium_db->sql_fetchrow($result))
+   while($rowArcade = $pnt_db->sql_fetchrow($result))
    {
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -158,11 +158,11 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
 
    $sql = " SELECT u.user_id, u.username, s.game_id, s.score_game, s.score_date, g.game_name FROM " . SCORES_TABLE . " s, " . USERS_TABLE . " u, " . GAMES_TABLE . " g WHERE s.user_id = u.user_id AND s.game_id = g.game_id ORDER BY score_date DESC LIMIT 0,1";
 
-   if ( !($result = $titanium_db->sql_query($sql)) )
+   if ( !($result = $pnt_db->sql_query($sql)) )
    {
       message_die(GENERAL_ERROR, 'Could not query the scores/users table', '', __LINE__, __FILE__, $sql);
    }
-   if($rowScore = $titanium_db->sql_fetchrow($result))
+   if($rowScore = $pnt_db->sql_fetchrow($result))
    {
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -186,16 +186,16 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
 $sql = "SELECT *
     FROM " . RANKS_TABLE . "
     ORDER BY rank_special, rank_min";
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not obtain ranks information', '', __LINE__, __FILE__, $sql);
 }
 
-while ( $row = $titanium_db->sql_fetchrow($result) )
+while ( $row = $pnt_db->sql_fetchrow($result) )
 {
     $ranksrow[] = $row;
 }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 $poster_rank = '';
 $rank_image = '';
@@ -229,11 +229,11 @@ else
 
 // Calculates the users total number of arcade victories
 $sql = "SELECT COUNT(*) AS nbvictoires FROM " . GAMES_TABLE . " WHERE game_highuser = " . $userdata['user_id'];
-if( !$result = $titanium_db->sql_query($sql))
+if( !$result = $pnt_db->sql_query($sql))
 {
     message_die(GENERAL_ERROR, 'Could not obtain games information', '', __LINE__, __FILE__, $sql);
 }
-$row = $titanium_db->sql_fetchrow($result);
+$row = $pnt_db->sql_fetchrow($result);
 $nbvictoires = $row['nbvictoires'];
 // Ends calculation the users total number of arcade victories
 
@@ -262,20 +262,20 @@ IF ( empty($avatar_img) )
 
 //Total times playing Arcade
 $sql = "SELECT SUM(score_set) AS games_played FROM " . SCORES_TABLE . " WHERE user_id = " . $userdata['user_id'];
-if( !$result = $titanium_db->sql_query($sql))
+if( !$result = $pnt_db->sql_query($sql))
 {
     message_die(GENERAL_ERROR, 'Could not obtain games information', '', __LINE__, __FILE__, $sql);
 }
-$row = $titanium_db->sql_fetchrow($result);
+$row = $pnt_db->sql_fetchrow($result);
 $games_played = $row['games_played'];
 
 //Total time playing Arcade
 $sql = "SELECT SUM(score_time) AS games_time FROM " . SCORES_TABLE . " WHERE user_id = " . $userdata['user_id'];
-if( !$result = $titanium_db->sql_query($sql))
+if( !$result = $pnt_db->sql_query($sql))
 {
     message_die(GENERAL_ERROR, 'Could not obtain games information', '', __LINE__, __FILE__, $sql);
 }
-$row = $titanium_db->sql_fetchrow($result);
+$row = $pnt_db->sql_fetchrow($result);
 $games_time = sec2hms($row['games_time']);
 
 

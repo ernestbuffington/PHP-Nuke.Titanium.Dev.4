@@ -39,7 +39,7 @@ $pnt_module = basename(dirname(__FILE__));
 get_lang($pnt_module);
 
 function is_client($client) {
-    global $titanium_prefix, $titanium_db;
+    global $pnt_prefix, $pnt_db;
     static $ClientSave;
     if(isset($ClientSave)) return $ClientSave;
     if(!is_array($client)) {
@@ -53,7 +53,7 @@ function is_client($client) {
         if (isset($client[2])) { $pwd = $client[2]; }
     }
     if (!empty($cid) AND !empty($pwd)) {
-        list($pass) = $titanium_db->sql_ufetchrow("SELECT passwd FROM ".$titanium_prefix."_banner_clients WHERE cid='$cid'");
+        list($pass) = $pnt_db->sql_ufetchrow("SELECT passwd FROM ".$pnt_prefix."_banner_clients WHERE cid='$cid'");
         if(!empty($pass) AND $pass == $pwd) {
             return $ClientSave = 1;
         }
@@ -62,7 +62,7 @@ function is_client($client) {
 }
 
 function themenu() {
-    global $pnt_module, $titanium_prefix, $titanium_db, $client, $op;
+    global $pnt_module, $pnt_prefix, $pnt_db, $client, $op;
 
     echo "<br />";
     if (is_client($client)) {
@@ -80,7 +80,7 @@ function themenu() {
 }
 
 function theindex() {
-    global $titanium_prefix, $titanium_db, $sitename;
+    global $pnt_prefix, $pnt_db, $sitename;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.' '._ADVERTISING);
@@ -92,17 +92,17 @@ function theindex() {
 }
 
 function plans() {
-    global $pnt_module, $titanium_prefix, $titanium_db, $bgcolor2, $sitename;
+    global $pnt_module, $pnt_prefix, $pnt_db, $bgcolor2, $sitename;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.': '._PLANSPRICES);
     OpenTable();
-    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_banner_plans WHERE active='1'");
-    if ($titanium_db->sql_numrows($result) > 0) {
+    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_banner_plans WHERE active='1'");
+    if ($pnt_db->sql_numrows($result) > 0) {
         echo ""._LISTPLANS."<br /><br />";
         echo "<table border=\"1\" width=\"100%\" cellpadding=\"3\">";
         echo "<tr><td align=\"center\" nowrap bgcolor=\"$bgcolor2\"><strong>"._PLANNAME."</strong></td><td bgcolor=\"$bgcolor2\">&nbsp;<strong>"._DESCRIPTION."</strong></td><td align=\"center\" bgcolor=\"$bgcolor2\"><strong>"._QUANTITY."</strong></td><td align=\"center\" bgcolor=\"$bgcolor2\"><strong>"._PRICE."</strong></td><td align=\"center\" bgcolor=\"$bgcolor2\" nowrap><strong>"._BUYLINKS."</strong></td></tr>";
-        while ($row = $titanium_db->sql_fetchrow($result)) {
+        while ($row = $pnt_db->sql_fetchrow($result)) {
             if ($row['delivery_type'] == "0") {
                 $delivery = _IMPRESSIONS;
             } elseif ($row['delivery_type'] == "1") {
@@ -116,7 +116,7 @@ function plans() {
             }
             echo "<tr><td valign=\"top\"><strong>".$row['name']."</strong></td><td>".$row['description']."</td><td valign=\"bottom\"><center>".$row['delivery']."<br />$delivery</center></td><td valign=\"bottom\">".$row['price']."</td><td valign=\"bottom\" nowrap><center>".$row['buy_links']."</center></td></tr>";
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         echo "</table>";
     } else {
         echo "<center>"._ADSNOCONTENT."<br /><br />"._GOBACK."</center>";
@@ -127,7 +127,7 @@ function plans() {
 }
 
 function terms() {
-    global $pnt_module, $titanium_prefix, $titanium_db, $sitename;
+    global $pnt_module, $pnt_prefix, $pnt_db, $sitename;
 
     $today = getdate();
     $month = $today['mon'];
@@ -135,7 +135,7 @@ function terms() {
     $year = $today['year'];
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.': '._TERMSCONDITIONS);
-    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_banner_terms"));
+    $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_banner_terms"));
     $terms = str_replace("[sitename]", $sitename, $row['terms_body']);
     $terms = str_replace("[country]", $row['country'], $terms);
     $terms = decode_bb_all($terms, 1, true);
@@ -149,7 +149,7 @@ function terms() {
 }
 
 function client() {
-    global $pnt_module, $titanium_prefix, $titanium_db, $sitename, $client;
+    global $pnt_module, $pnt_prefix, $pnt_db, $sitename, $client;
 
     if (is_client($client)) {
         redirect_titanium("modules.php?name=$pnt_module&op=client_home");
@@ -189,9 +189,9 @@ function client_logout() {
 }
 
 function client_valid($login, $pass) {
-    global $titanium_prefix, $titanium_db, $pnt_module, $sitename;
-    $result = $titanium_db->sql_query("SELECT cid FROM ".$titanium_prefix."_banner_clients WHERE login='$login' AND passwd='$pass'");
-    if ($titanium_db->sql_numrows($result) != 1) {
+    global $pnt_prefix, $pnt_db, $pnt_module, $sitename;
+    $result = $pnt_db->sql_query("SELECT cid FROM ".$pnt_prefix."_banner_clients WHERE login='$login' AND passwd='$pass'");
+    if ($pnt_db->sql_numrows($result) != 1) {
         include_once(NUKE_BASE_DIR.'header.php');
         title($sitename.': '._ADSYSTEM);
         OpenTable();
@@ -201,7 +201,7 @@ function client_valid($login, $pass) {
         include_once(NUKE_BASE_DIR.'footer.php');
         exit;
     } else {
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
         $cid = $row['cid'];
         $info = base64_encode("$cid:$login:$pass");
         setcookie("client",$info,time()+3600);
@@ -210,7 +210,7 @@ function client_valid($login, $pass) {
 }
 
 function client_home() {
-    global $titanium_prefix, $titanium_db, $sitename, $bgcolor2, $pnt_module, $client;
+    global $pnt_prefix, $pnt_db, $sitename, $bgcolor2, $pnt_module, $client;
 
     if (!is_client($client)) {
         redirect_titanium("modules.php?name=$pnt_module&op=client");
@@ -222,7 +222,7 @@ function client_home() {
         $client = addslashes($client);
         $client = explode(":", $client);
         $cid = $client[0];
-        $row = $titanium_db->sql_ufetchrow("SELECT * FROM ".$titanium_prefix."_banner_clients WHERE cid='$cid'");
+        $row = $pnt_db->sql_ufetchrow("SELECT * FROM ".$pnt_prefix."_banner_clients WHERE cid='$cid'");
         echo "<center>"._ACTIVEADSFOR." ".$row['name']."</center><br />"
                ."<table width=\"100%\" border=\"1\"><tr>"
                ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._NAME."</strong></td>"
@@ -233,9 +233,9 @@ function client_home() {
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>% "._CLICKS."</strong></td>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._TYPE."</strong></td>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._FUNCTIONS."</strong></td><tr>";
-        $sql = "SELECT * FROM ".$titanium_prefix."_banner WHERE cid='".$row['cid']."' AND active='1'";
-        $result = $titanium_db->sql_query($sql, true);
-        while ($row = $titanium_db->sql_fetchrow($result)) {
+        $sql = "SELECT * FROM ".$pnt_prefix."_banner WHERE cid='".$row['cid']."' AND active='1'";
+        $result = $pnt_db->sql_query($sql, true);
+        while ($row = $pnt_db->sql_fetchrow($result)) {
             $bid = $row['bid'];
             $bid = intval($bid);
             $imptotal = $row['imptotal'];
@@ -273,9 +273,9 @@ function client_home() {
                 ."<td align=\"center\">".ucfirst($row['ad_class'])."</td>"
                 ."<td align=\"center\"><a href=\"modules.php?name=$pnt_module&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EMAILSTATS."\" title=\""._EMAILSTATS."\"></a>  <a href=\"modules.php?name=$pnt_module&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/view.gif\" border=\"0\" alt=\""._VIEWBANNER."\" title=\""._VIEWBANNER."\"></a></td><tr>";
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         echo "</table>";
-        $row = $titanium_db->sql_ufetchrow("SELECT * FROM ".$titanium_prefix."_banner_clients WHERE cid='$cid'");
+        $row = $pnt_db->sql_ufetchrow("SELECT * FROM ".$pnt_prefix."_banner_clients WHERE cid='$cid'");
         echo "<br /><br /><center>"._INACTIVEADS." ".$row['name']."</center><br />"
             ."<table width=\"100%\" border=\"1\"><tr>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._NAME."</strong></td>"
@@ -286,9 +286,9 @@ function client_home() {
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>% "._CLICKS."</strong></td>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._TYPE."</strong></td>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._FUNCTIONS."</strong></td><tr>";
-        $sql = "SELECT * FROM ".$titanium_prefix."_banner WHERE cid='".$row['cid']."' AND active='0'";
-        $result = $titanium_db->sql_query($sql, true);
-        while ($row = $titanium_db->sql_fetchrow($result)) {
+        $sql = "SELECT * FROM ".$pnt_prefix."_banner WHERE cid='".$row['cid']."' AND active='0'";
+        $result = $pnt_db->sql_query($sql, true);
+        while ($row = $pnt_db->sql_fetchrow($result)) {
             $bid = $row['bid'];
             $bid = intval($bid);
             $imptotal = $row['imptotal'];
@@ -327,7 +327,7 @@ function client_home() {
                 ."<td align=\"center\"><a href=\"modules.php?name=$pnt_module&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EMAILSTATS."\" title=\""._EMAILSTATS."\"></a>  <a href=\"modules.php?name=$pnt_module&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/view.gif\" border=\"0\" alt=\""._VIEWBANNER."\" title=\""._VIEWBANNER."\"></a></td><tr>";
             $a = 1;
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         if ($a != 1) {
             echo "<td align=\"center\" colspan=\"8\"><i>"._NOCONTENT."</i></td></tr>";
         }
@@ -339,7 +339,7 @@ function client_home() {
 }
 
 function view_banner($cid, $bid) {
-    global $titanium_prefix, $titanium_db, $pnt_module, $client, $bgcolor2, $sitename;
+    global $pnt_prefix, $pnt_db, $pnt_module, $client, $bgcolor2, $sitename;
 
     if (!is_client($client)) {
         redirect_titanium("modules.php?name=$pnt_module&amp;op=client");
@@ -361,7 +361,7 @@ function view_banner($cid, $bid) {
             include_once(NUKE_BASE_DIR.'header.php');
             title($sitename.' '._ADSYSTEM);
             OpenTable();
-            $row = $titanium_db->sql_ufetchrow("SELECT * FROM ".$titanium_prefix."_banner WHERE bid='$bid'");
+            $row = $pnt_db->sql_ufetchrow("SELECT * FROM ".$pnt_prefix."_banner WHERE bid='$bid'");
             $cid = intval($row['cid']);
             $imptotal = intval($row['imptotal']);
             $impmade = intval($row['impmade']);
@@ -453,7 +453,7 @@ function view_banner($cid, $bid) {
 }
 
 function client_report($cid, $bid) {
-    global $titanium_prefix, $titanium_db, $pnt_module, $client, $sitename;
+    global $pnt_prefix, $pnt_db, $pnt_module, $client, $sitename;
 
     if (!is_client($client)) {
         redirect_titanium("modules.php?name=$pnt_module&op=client");
@@ -477,7 +477,7 @@ function client_report($cid, $bid) {
             OpenTable();
             $bid = intval($bid);
             $cid = intval($cid);
-            list($name, $email) = $titanium_db->sql_ufetchrow("SELECT name, email FROM ".$titanium_prefix."_banner_clients WHERE cid='$cid'");
+            list($name, $email) = $pnt_db->sql_ufetchrow("SELECT name, email FROM ".$pnt_prefix."_banner_clients WHERE cid='$cid'");
             $name = htmlentities($name);
             if (empty($email)) {
                 echo "<center><br /><br />"
@@ -487,7 +487,7 @@ function client_report($cid, $bid) {
                 themenu();
                 include_once(NUKE_BASE_DIR.'footer.php');
             } else {
-                list($bid, $imptotal, $impmade, $clicks, $imageurl, $clickurl, $date, $ad_class) = $titanium_db->sql_ufetchrow("SELECT bid, name, imptotal, impmade, clicks, imageurl, clickurl, date, ad_class FROM ".$titanium_prefix."_banner WHERE bid='$bid' AND cid='$cid'");
+                list($bid, $imptotal, $impmade, $clicks, $imageurl, $clickurl, $date, $ad_class) = $pnt_db->sql_ufetchrow("SELECT bid, name, imptotal, impmade, clicks, imageurl, clickurl, date, ad_class FROM ".$pnt_prefix."_banner WHERE bid='$bid' AND cid='$cid'");
                 $bid = intval($bid);
                 $imptotal = intval($imptotal);
                 $impmade = intval($impmade);

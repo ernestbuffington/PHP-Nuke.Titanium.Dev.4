@@ -21,7 +21,7 @@ if(!defined('ADMIN_FILE')) {
 
 if (!defined("NSNCBLOCKS_IS_LOADED")) $op = 'CenterBlocksLoadError';
 $textrowcol = "rows='15' cols='60'";
-global $titanium_prefix, $titanium_db, $admin_file, $admdata;
+global $pnt_prefix, $pnt_db, $admin_file, $admdata;
 if (is_mod_admin()) {
   switch($op) {
     case "CenterBlocksAdmin":include(NUKE_ADMIN_MODULE_DIR.'cblocks/CenterBlocksAdmin.php');break;

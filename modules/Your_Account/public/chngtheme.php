@@ -53,7 +53,7 @@ if (!defined('CNBYA')) {
     } 
 	else 
 	{
-        mmain($titanium_user);
+        mmain($pnt_user);
     }
 
 ?>

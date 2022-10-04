@@ -19,48 +19,48 @@ function modadmin_title()
 
 function modadmin_get_modules ($mid = '') 
 {
-    global $titanium_prefix, $titanium_db, $admlang;
+    global $pnt_prefix, $pnt_db, $admlang;
 
     $mid = (!empty($mid)) ? 'WHERE mid='.$mid : '';
 
-    if(!$result = $titanium_db->sql_query("SELECT `mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `blocks`, `groups` FROM `".$titanium_prefix."_modules` $mid ORDER BY `mid` ASC")) 
+    if(!$result = $pnt_db->sql_query("SELECT `mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `blocks`, `groups` FROM `".$pnt_prefix."_modules` $mid ORDER BY `mid` ASC")) 
     DisplayError($admlang['modblock']['no_values']);
 
-    if (!$out = $titanium_db->sql_fetchrowset($result)) 
+    if (!$out = $pnt_db->sql_fetchrowset($result)) 
     DisplayError($admlang['modblock']['no_values']);
 
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     return $out;
 }
 
-function modadmin_usergroup_whoview($titanium_module)
+function modadmin_usergroup_whoview($pnt_module)
 {
-   global $titanium_db, $titanium_prefix, $admlang;
+   global $pnt_db, $pnt_prefix, $admlang;
 
    $who_view = '';
 
-   if($titanium_module['view'] == 0 || $titanium_module['view'] == 1) 
+   if($pnt_module['view'] == 0 || $pnt_module['view'] == 1) 
       $who_view = $admlang['global']['all_visitors'];
    else
-   if($titanium_module['view'] == 2) 
+   if($pnt_module['view'] == 2) 
             $who_view = $admlang['global']['guests_only'];
    else
-   if($titanium_module['view'] == 3) 
+   if($pnt_module['view'] == 3) 
             $who_view = $admlang['global']['users_only'];
    else
-   if($titanium_module['view'] == 4) 
+   if($pnt_module['view'] == 4) 
             $who_view = $admlang['global']['admins_only'];
    else
-   if($titanium_module['view'] == 6) 
+   if($pnt_module['view'] == 6) 
    {
-      $groups = explode('-', $titanium_module['groups']);
+      $groups = explode('-', $pnt_module['groups']);
    
       foreach ($groups as $group) 
       {
          if (!empty($group)) 
          {
-            $row = $titanium_db->sql_ufetchrow("SELECT group_name FROM ".$titanium_prefix.'_bbgroups WHERE group_id='.$group, SQL_NUM);
+            $row = $pnt_db->sql_ufetchrow("SELECT group_name FROM ".$pnt_prefix.'_bbgroups WHERE group_id='.$group, SQL_NUM);
    
             if (!empty($row['group_name'])) 
             {
@@ -80,7 +80,7 @@ function modadmin_usergroup_whoview($titanium_module)
 
 function modadmin_dispaly_modules($modadmin_modules) 
 {
-   global $titanium_prefix, $titanium_db, $admin_file, $bgcolor, $bgcolor2,$bgcolor3, $bgcolor4, $admlang;
+   global $pnt_prefix, $pnt_db, $admin_file, $bgcolor, $bgcolor2,$bgcolor3, $bgcolor4, $admlang;
    
    if(!is_array($modadmin_modules)) 
    DisplayError($admlang['modblock']['no_values']);
@@ -105,9 +105,9 @@ function modadmin_dispaly_modules($modadmin_modules)
    echo '<td class="catHead" style="width: 10%;">'.$admlang['global']['functions'].'</td>';
    echo '</tr>';
    
-   foreach ($modadmin_modules as $titanium_module) 
+   foreach ($modadmin_modules as $pnt_module) 
    {
-      if(substr($titanium_module['title'],0,3) == '~l~') 
+      if(substr($pnt_module['title'],0,3) == '~l~') 
       {
          continue;
       }
@@ -115,7 +115,7 @@ function modadmin_dispaly_modules($modadmin_modules)
       # Fixed by TheGhost 3/26/2021
 	  # this boggled my mind years ago, I added this to remove the .. module that did not really exists!
 	  # do not pase the index as a module in the moodules list
-      if(substr($titanium_module['title'],0,2) == '..') 
+      if(substr($pnt_module['title'],0,2) == '..') 
       {
          continue;
       }
@@ -123,7 +123,7 @@ function modadmin_dispaly_modules($modadmin_modules)
       # Fixed by TheGhost 3/26/2021
       # this boggled my miond years ago, I added this to remove the .. module that did not really exists!
 	  # allow an index.html in the root of the modules folder
-      if(substr($titanium_module['title'],0,10) == 'index.html') 
+      if(substr($pnt_module['title'],0,10) == 'index.html') 
       {
          continue;
       }
@@ -131,60 +131,60 @@ function modadmin_dispaly_modules($modadmin_modules)
       # Fixed by TheGhost 3/26/2021
 	  # this boggled my miond years ago, I added this to remove the .. module that did not really exists!
 	  # Remove Evo User Block from modules list!
-      if(substr($titanium_module['title'],0,13) == 'Evo_UserBlock') 
+      if(substr($pnt_module['title'],0,13) == 'Evo_UserBlock') 
       {
          continue;
       }
 
       # lis the top header information
-      if($titanium_module['title'] == $main_module_titanium) 
+      if($pnt_module['title'] == $main_module_titanium) 
       {
          $home       = get_evo_icon('evo-sprite home', $admlang['modules']['inhome']);
          $active     = get_evo_icon('evo-sprite ok', $admlang['global']['active']);
-         $title      = "<strong>".$titanium_module['title']."</strong>";
+         $title      = "<strong>".$pnt_module['title']."</strong>";
          $who_view   = "<strong>".$who_view."</strong>";
       } 
 	  else 
 	  {
-         $home       = '<a href="'.$admin_file.'.php?op=modules&amp;h='.$titanium_module['mid'].'">'.get_evo_icon('evo-sprite cancel', $admlang['global']['inactive']).'</a>';
-         $active     = (intval($titanium_module['active'])) ? '<a href="'.$admin_file.'.php?op=modules&amp;a='.$titanium_module['mid'].'">'.get_evo_icon('evo-sprite ok', $admlang['global']['active']).'</a>' : '<a href="'.$admin_file.'.php?op=modules&amp;a='.$titanium_module['mid'].'">'.get_evo_icon('evo-sprite cancel', $admlang['global']['inactive']).'</a>';
-         $title      =  (!intval($titanium_module['inmenu'])) ? "[&nbsp;<big><strong>&middot;</strong></big>&nbsp;]&nbsp;".$titanium_module['title'] : $titanium_module['title'];
+         $home       = '<a href="'.$admin_file.'.php?op=modules&amp;h='.$pnt_module['mid'].'">'.get_evo_icon('evo-sprite cancel', $admlang['global']['inactive']).'</a>';
+         $active     = (intval($pnt_module['active'])) ? '<a href="'.$admin_file.'.php?op=modules&amp;a='.$pnt_module['mid'].'">'.get_evo_icon('evo-sprite ok', $admlang['global']['active']).'</a>' : '<a href="'.$admin_file.'.php?op=modules&amp;a='.$pnt_module['mid'].'">'.get_evo_icon('evo-sprite cancel', $admlang['global']['inactive']).'</a>';
+         $title      =  (!intval($pnt_module['inmenu'])) ? "[&nbsp;<big><strong>&middot;</strong></big>&nbsp;]&nbsp;".$pnt_module['title'] : $pnt_module['title'];
       }
 
-      if(isset($titanium_module['blocks'])) 
+      if(isset($pnt_module['blocks'])) 
       {
-         switch($titanium_module['blocks']) 
+         switch($pnt_module['blocks']) 
          {
             case 0:
-               $titanium_module['blocks'] = $admlang['global']['none'];
+               $pnt_module['blocks'] = $admlang['global']['none'];
                break;
             case 1:
-               $titanium_module['blocks'] = $admlang['global']['left'];
+               $pnt_module['blocks'] = $admlang['global']['left'];
                break;
             case 2:
-               $titanium_module['blocks'] = $admlang['global']['right'];
+               $pnt_module['blocks'] = $admlang['global']['right'];
                break;
             case 3:
-               $titanium_module['blocks'] = $admlang['global']['both'];
+               $pnt_module['blocks'] = $admlang['global']['both'];
                break;
             default:
-               $titanium_module['blocks'] = '';
+               $pnt_module['blocks'] = '';
                break;
             }
         } 
         else 
         {
-            $titanium_module['blocks'] = '';
+            $pnt_module['blocks'] = '';
         }
 
       echo '<tr>';
       echo '<td class="row1">'.$active.'</td>';
       echo '<td class="row1">'.$home.'</td>';
-      echo '<td class="row1" style="text-align: left;"><a href="modules.php?name='.$titanium_module['title'].'" title="'.$admlang['global']['show'].'">'.$title.'</a></td>';
-      echo '<td class="row1" style="text-align: left;">'.$titanium_module['custom_title'].'</td>';
-      echo '<td class="row1" style="text-align: left;">'.modadmin_usergroup_whoview($titanium_module).'</td>';
-      echo '<td class="row1">'.$titanium_module['blocks'].'</td>';
-      echo '<td class="row1"><a href="'.$admin_file.'.php?op=modules&amp;edit='.$titanium_module['mid'].'">'.get_evo_icon('evo-sprite edit').'</a></td>'; // '._EDIT.'
+      echo '<td class="row1" style="text-align: left;"><a href="modules.php?name='.$pnt_module['title'].'" title="'.$admlang['global']['show'].'">'.$title.'</a></td>';
+      echo '<td class="row1" style="text-align: left;">'.$pnt_module['custom_title'].'</td>';
+      echo '<td class="row1" style="text-align: left;">'.modadmin_usergroup_whoview($pnt_module).'</td>';
+      echo '<td class="row1">'.$pnt_module['blocks'].'</td>';
+      echo '<td class="row1"><a href="'.$admin_file.'.php?op=modules&amp;edit='.$pnt_module['mid'].'">'.get_evo_icon('evo-sprite edit').'</a></td>'; // '._EDIT.'
       echo '</tr>';
    }
    echo '</table>';
@@ -192,9 +192,9 @@ function modadmin_dispaly_modules($modadmin_modules)
    CloseTable();
 }
 
-function modadmin_edit_module($titanium_module) 
+function modadmin_edit_module($pnt_module) 
 {
-   global $titanium_prefix, $titanium_db, $admin_file, $admlang;
+   global $pnt_prefix, $pnt_db, $admin_file, $admlang;
    
    $main_module_titanium = main_module_titanium();
    
@@ -202,7 +202,7 @@ function modadmin_edit_module($titanium_module)
    
    $o1 = $o2 = $o3 = $o4 = $o6 = '';
    
-   switch ($titanium_module['view']) 
+   switch ($pnt_module['view']) 
    {
       case 1: $o1 = 'SELECTED'; 
 	  break;
@@ -214,31 +214,31 @@ function modadmin_edit_module($titanium_module)
 	  break;
       case 6:
          $o6 = 'SELECTED';
-         $ingroups = explode('-', $titanium_module['groups']);
+         $ingroups = explode('-', $pnt_module['groups']);
          break;
    }
    OpenTable();
-   if(substr($titanium_module['title'],0,3) != '~l~') 
+   if(substr($pnt_module['title'],0,3) != '~l~') 
    {
-      $a = ($titanium_module['title'] == $main_module_titanium) ? ' - ('.$admlang['modules']['inhome'].')' : '';
+      $a = ($pnt_module['title'] == $main_module_titanium) ? ' - ('.$admlang['modules']['inhome'].')' : '';
 
       echo '<form method="post" action="'.$admin_file.'.php?op=modules">';
-      echo '<input type="hidden" name="save" value="'.$titanium_module['mid'].'" />';
+      echo '<input type="hidden" name="save" value="'.$pnt_module['mid'].'" />';
       echo '<table style="width: 100%;" cellpadding="4" cellspacing="1" border="1" class="forumline">';
       echo '<tr>';
-      echo '<td class="catHead" colspan="2" style="text-align: center;">'.$titanium_module['title'].$a.'</td>';
+      echo '<td class="catHead" colspan="2" style="text-align: center;">'.$pnt_module['title'].$a.'</td>';
       echo '</tr>';
       echo '<tr>';
       echo '<td class="row1" style="width: 50%;">'.$admlang['global']['title_custom'].'</td>';
       echo '<td class="row1" style="width: 50%;"><input style="height: 24px; padding-left: 3px; padding-right: 3px; width: 99%;" 
-	  type="text" name="custom_title" id="custom_title" value="'.$titanium_module['custom_title'].'" maxlength="255" /></td>';
+	  type="text" name="custom_title" id="custom_title" value="'.$pnt_module['custom_title'].'" maxlength="255" /></td>';
       
 	  echo '</tr>';
 
       echo '<tr>';
       echo '<td class="row1" style="width: 50%;">'.$admlang['global']['who_view'].'</td>';
       echo '<td class="row1" style="width: 50%;">';
-      if($titanium_module['title'] == $main_module_titanium || $titanium_module['title'] == 'Your_Account' || $titanium_module['title'] == 'Profile') 
+      if($pnt_module['title'] == $main_module_titanium || $pnt_module['title'] == 'Your_Account' || $pnt_module['title'] == 'Profile') 
       {
          echo '<input type="hidden" name="view" value="0" />';
       } 
@@ -255,11 +255,11 @@ function modadmin_edit_module($titanium_module)
 
          echo "<span class='tiny'>"._WHATGRDESC."</span><br /><br /><strong>"._WHATGROUPS."</strong><br /> <select name='add_groups[]' style=\"cursor: pointer; font-size: 11px !important; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; letter-spacing: 1px; margin: 0px 1px 1px; padding: 5px;\" multiple size='5'>\n";
             
-			$groupsResult = $titanium_db->sql_query("select group_id, group_name from ".$titanium_prefix."_bbgroups where group_description <> 'Personal User'");
+			$groupsResult = $pnt_db->sql_query("select group_id, group_name from ".$pnt_prefix."_bbgroups where group_description <> 'Personal User'");
             
-			while(list($gid, $gname) = $titanium_db->sql_fetchrow($groupsResult)) 
+			while(list($gid, $gname) = $pnt_db->sql_fetchrow($groupsResult)) 
 			{
-                if(in_array($gid,$ingroups) AND $titanium_module['view'] == 5) 
+                if(in_array($gid,$ingroups) AND $pnt_module['view'] == 5) 
 				{ 
 				  $sel = "selected"; 
 				} 
@@ -281,10 +281,10 @@ function modadmin_edit_module($titanium_module)
       echo '<td class="row1" style="width: 50%;">'.$admlang['blocks']['visible'].'</td>';
       echo '<td class="row1" style="width: 50%;">';
       echo '<select name="blocks" style="cursor: pointer; font-size: 11px !important; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; letter-spacing: 1px; margin: 0px 1px 1px; padding: 5px;">';
-      echo '<option value="0"'.(($titanium_module['blocks'] == 0) ? ' selected="selected"' : '').'>'.$admlang['global']['none'].'</option>';
-      echo '<option value="1"'.(($titanium_module['blocks'] == 1) ? ' selected="selected"' : '').'>'.$admlang['global']['left'].'</option>';
-      echo '<option value="2"'.(($titanium_module['blocks'] == 2) ? ' selected="selected"' : '').'>'.$admlang['global']['right'].'</option>';
-      echo '<option value="3"'.(($titanium_module['blocks'] == 3) ? ' selected="selected"' : '').'>'.$admlang['global']['both'].'</option>';
+      echo '<option value="0"'.(($pnt_module['blocks'] == 0) ? ' selected="selected"' : '').'>'.$admlang['global']['none'].'</option>';
+      echo '<option value="1"'.(($pnt_module['blocks'] == 1) ? ' selected="selected"' : '').'>'.$admlang['global']['left'].'</option>';
+      echo '<option value="2"'.(($pnt_module['blocks'] == 2) ? ' selected="selected"' : '').'>'.$admlang['global']['right'].'</option>';
+      echo '<option value="3"'.(($pnt_module['blocks'] == 3) ? ' selected="selected"' : '').'>'.$admlang['global']['both'].'</option>';
       echo '</select><br />';
       echo '</td>';
       echo '</tr>';
@@ -293,8 +293,8 @@ function modadmin_edit_module($titanium_module)
       echo '<td class="row1" style="width: 50%;">'.$admlang['modules']['inmenu'].'</td>';
       echo '<td class="row1" style="width: 50%;">';
       echo '<select name="inmenu" style="cursor: pointer; font-size: 11px !important; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; letter-spacing: 1px; margin: 0px 1px 1px; padding: 5px;">';
-      echo '<option value="0"'.(($titanium_module['inmenu'] == 0) ? ' selected="selected"' : '').'>'.$admlang['global']['no'].'</option>';
-      echo '<option value="1"'.(($titanium_module['inmenu'] == 1) ? ' selected="selected"' : '').'>'.$admlang['global']['yes'].'</option>';
+      echo '<option value="0"'.(($pnt_module['inmenu'] == 0) ? ' selected="selected"' : '').'>'.$admlang['global']['no'].'</option>';
+      echo '<option value="1"'.(($pnt_module['inmenu'] == 1) ? ' selected="selected"' : '').'>'.$admlang['global']['yes'].'</option>';
       echo '</select><br />';
       echo '</td>';
       echo '</tr>';
@@ -312,20 +312,20 @@ function modadmin_edit_module($titanium_module)
    CloseTable();
 }
 
-function modadmin_activate($titanium_module) 
+function modadmin_activate($pnt_module) 
 {
-   global $titanium_prefix, $titanium_db, $cache, $debugger;
+   global $pnt_prefix, $pnt_db, $cache, $debugger;
    
-   $result = $titanium_db->sql_query('SELECT active FROM '.$titanium_prefix."_modules WHERE mid=$titanium_module");
+   $result = $pnt_db->sql_query('SELECT active FROM '.$pnt_prefix."_modules WHERE mid=$pnt_module");
    
-   if($titanium_db->sql_numrows($result) > 0) 
+   if($pnt_db->sql_numrows($result) > 0) 
    {
-      list($active) = $titanium_db->sql_fetchrow($result);
+      list($active) = $pnt_db->sql_fetchrow($result);
       
 	  if(is_numeric($active)) 
       {
          $active = intval(!$active);
-         $titanium_db->sql_query('UPDATE '.$titanium_prefix."_modules SET active='$active' WHERE mid=$titanium_module");
+         $pnt_db->sql_query('UPDATE '.$pnt_prefix."_modules SET active='$active' WHERE mid=$pnt_module");
       }
    }
    
@@ -335,28 +335,28 @@ function modadmin_activate($titanium_module)
 
 function modadmin_activate_all($type) 
 {
-   global $titanium_prefix, $titanium_db, $cache;
+   global $pnt_prefix, $pnt_db, $cache;
    
    $active = ($type == 'all') ? '1;' : "0 WHERE `title` <> 'Your_Account' AND `title` <> 'Profile';";
-   $sql = "UPDATE `".$titanium_prefix."_modules` SET `active`=".$active;
-   $titanium_db->sql_query($sql);
+   $sql = "UPDATE `".$pnt_prefix."_modules` SET `active`=".$active;
+   $pnt_db->sql_query($sql);
    $cache->delete('active_modules');
    $cache->resync();
 }
 
 function modadmin_home($mid) 
 {
-   global $titanium_prefix, $titanium_db, $cache;
+   global $pnt_prefix, $pnt_db, $cache;
    
-   list($title) = $titanium_db->sql_ufetchrow("SELECT title FROM ".$titanium_prefix."_modules WHERE mid='$mid'",SQL_NUM);
+   list($title) = $pnt_db->sql_ufetchrow("SELECT title FROM ".$pnt_prefix."_modules WHERE mid='$mid'",SQL_NUM);
    
    if ($title == '' || $title == 'Evo_UserBlock') 
    {
       return false;
    }
    
-   $titanium_db->sql_query("UPDATE ".$titanium_prefix."_main SET main_module='$title'");
-   $titanium_db->sql_query("UPDATE ".$titanium_prefix."_modules SET active=1, view=0 WHERE mid='$mid'");
+   $pnt_db->sql_query("UPDATE ".$pnt_prefix."_main SET main_module='$title'");
+   $pnt_db->sql_query("UPDATE ".$pnt_prefix."_modules SET active=1, view=0 WHERE mid='$mid'");
    $cache->delete('main_module');
    $cache->delete('active_modules');
    $cache->resync();
@@ -364,7 +364,7 @@ function modadmin_home($mid)
 
 function modadmin_edit_save($mid) 
 {
-   global $titanium_prefix, $titanium_db, $admin_file, $cache;
+   global $pnt_prefix, $pnt_db, $admin_file, $cache;
    
    $ingroups = array();
    
@@ -384,7 +384,7 @@ function modadmin_edit_save($mid)
       $view = intval($_POST['view']);
       $title = '~l~'.Fix_Quotes($_POST['title']);
       $custom_title = Fix_Quotes($_POST['custom_title']);
-      $titanium_db->sql_query("UPDATE `".$titanium_prefix."_modules` SET `custom_title`='$custom_title', `title`='$title', `view`=$view, `groups`='$ingroups' WHERE `mid`=$mid");
+      $pnt_db->sql_query("UPDATE `".$pnt_prefix."_modules` SET `custom_title`='$custom_title', `title`='$title', `view`=$view, `groups`='$ingroups' WHERE `mid`=$mid");
    } 
    else 
    {
@@ -392,7 +392,7 @@ function modadmin_edit_save($mid)
       $inmenu = intval($_POST['inmenu']);
       $blocks = intval($_POST['blocks']);
       $custom_title = Fix_Quotes($_POST['custom_title']);
-      $titanium_db->sql_query("UPDATE `".$titanium_prefix."_modules` SET `custom_title`='$custom_title', `view`=$view, `inmenu`=$inmenu, `blocks`=$blocks, `groups`='$ingroups' $title WHERE `mid`=$mid");
+      $pnt_db->sql_query("UPDATE `".$pnt_prefix."_modules` SET `custom_title`='$custom_title', `view`=$view, `inmenu`=$inmenu, `blocks`=$blocks, `groups`='$ingroups' $title WHERE `mid`=$mid");
    }
 }
 
@@ -401,14 +401,14 @@ function modadmin_edit_save($mid)
 //---------------------
 function modadmin_get_inactive () 
 {
-    global $titanium_prefix, $titanium_db, $cache, $admlang;
+    global $pnt_prefix, $pnt_db, $cache, $admlang;
 
-    if(!$result = $titanium_db->sql_query("SELECT `mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `blocks` FROM `".$titanium_prefix."_modules` WHERE `cat_id`=0 AND `inmenu`<>0 ORDER BY `pos` ASC"))     {
+    if(!$result = $pnt_db->sql_query("SELECT `mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `blocks` FROM `".$pnt_prefix."_modules` WHERE `cat_id`=0 AND `inmenu`<>0 ORDER BY `pos` ASC"))     {
         DisplayError($admlang['modblock']['no_values']);
     }
     
-	$out = $titanium_db->sql_fetchrowset($result);
-    $titanium_db->sql_freeresult($result);
+	$out = $pnt_db->sql_fetchrowset($result);
+    $pnt_db->sql_freeresult($result);
     return $out;
 }
 
@@ -432,7 +432,7 @@ function modadmin_ajax_header ()
 
 function modadmin_block () 
 {
-    global $lang_evo_userblock, $admin_file, $titanium_module_collapse, $Default_Theme, $pnt_module, $phpbb2_board_config, $userinfo, $modadmin_module_cats, $bgcolor2, $admlang;
+    global $lang_evo_userblock, $admin_file, $pnt_module_collapse, $Default_Theme, $pnt_module, $phpbb2_board_config, $userinfo, $modadmin_module_cats, $bgcolor2, $admlang;
 
     $inactive = modadmin_get_inactive();
 
@@ -465,7 +465,7 @@ function modadmin_block ()
     echo "<tr><td align=\"right\">\n";
     echo $admlang['misc']['collapse'];
     echo "</td><td align=\"left\">\n";
-    echo yesno_option('collapse',$titanium_module_collapse);
+    echo yesno_option('collapse',$pnt_module_collapse);
     echo "</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
@@ -516,7 +516,7 @@ function modadmin_block ()
 	//Active
     if(is_array($modadmin_module_cats)) 
     {
-        global $titanium_db, $titanium_prefix;
+        global $pnt_db, $pnt_prefix;
     
 	    $i = 0;
     
@@ -545,10 +545,10 @@ function modadmin_block ()
             }
             echo "<span style=\"font-weight: bold; text-align: 'center';\">".$cat['name']."&nbsp;&nbsp;<a href=\"".$admin_file.".php?op=modules&amp;editcat=".$cat['cid']."\">".get_evo_icon('evo-sprite edit', $admlang['modblock']['edit'])."</a>&nbsp;<a href=\"".$admin_file.".php?op=modules&amp;deletecat=".$cat['cid']."\">".get_evo_icon('evo-sprite trash-2', $admlang['modblock']['delete'])."</a>&nbsp;".$updown."</span>";
             echo "<ul id=\"ul".$cat['cid']."\" class=\"sortable boxy\">\n";
-            $sql = 'SELECT * FROM `'.$titanium_prefix.'_modules` WHERE cat_id='.$cat['cid'].' AND `inmenu`<>0 ORDER BY `pos` ASC';
-            $result = $titanium_db->sql_query($sql);
+            $sql = 'SELECT * FROM `'.$pnt_prefix.'_modules` WHERE cat_id='.$cat['cid'].' AND `inmenu`<>0 ORDER BY `pos` ASC';
+            $result = $pnt_db->sql_query($sql);
             
-			while ($row = $titanium_db->sql_fetchrow($result)) 
+			while ($row = $pnt_db->sql_fetchrow($result)) 
             {
               echo '<li class="'.(($row['active'] == 1) ? "active" : "inactive").'" id="mod'.$row['mid'].'" ondblclick="change_status('.$row['mid'].')">'
                   .'<table class="col-12">'
@@ -560,7 +560,7 @@ function modadmin_block ()
                   .'</li>';
             }
             
-			$titanium_db->sql_freeresult($result);
+			$pnt_db->sql_freeresult($result);
             echo "</ul>\n";
         }
     }
@@ -625,7 +625,7 @@ function modadmin_block ()
 
 function modadmin_get_module_cats () 
 {
-    global $modadmin_module_cats, $titanium_prefix, $titanium_db, $cache;
+    global $modadmin_module_cats, $pnt_prefix, $pnt_db, $cache;
 
     static $cats;
 
@@ -633,17 +633,17 @@ function modadmin_get_module_cats ()
 
     if((($cats = $cache->load('module_cats', 'config')) === false) || !isset($cats)) 
 	{
-        if(!$result = $titanium_db->sql_query("SELECT `cid`, `name`, `image`, `pos`, `link_type`, `link` FROM `".$titanium_prefix."_modules_cat` WHERE `name`<>'Home' ORDER BY `pos` ASC")) 
+        if(!$result = $pnt_db->sql_query("SELECT `cid`, `name`, `image`, `pos`, `link_type`, `link` FROM `".$pnt_prefix."_modules_cat` WHERE `name`<>'Home' ORDER BY `pos` ASC")) 
 		{
             DisplayError($admlang['modblock']['no_values']);
         }
         
-		if (!$cats = $titanium_db->sql_fetchrowset($result)) 
+		if (!$cats = $pnt_db->sql_fetchrowset($result)) 
 		{
             DisplayError($admlang['modblock']['no_values']);
         }
         
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
         $cache->save('module_cats', 'config', $cats);
     }
     
@@ -678,19 +678,19 @@ function modadmin_parse_data($data)
 
 function modadmin_write_cats ($data) 
 {
-    global $titanium_db, $titanium_prefix, $cache;
+    global $pnt_db, $pnt_prefix, $cache;
 
     if(is_array($data)) 
 	{
-        foreach ($data as $key => $titanium_modules) 
+        foreach ($data as $key => $pnt_modules) 
 		{
             $i = 0;
         
-		    foreach ($titanium_modules as $id) 
+		    foreach ($pnt_modules as $id) 
 			{
                 $key = ($key == 'left_col') ? '0' : $key;
-                $sql = 'UPDATE `'.$titanium_prefix.'_modules` SET `cat_id`='.$key.', `pos`='.$i.' WHERE `mid`="'.$id.'"';
-                $titanium_db->sql_query($sql);
+                $sql = 'UPDATE `'.$pnt_prefix.'_modules` SET `cat_id`='.$key.', `pos`='.$i.' WHERE `mid`="'.$id.'"';
+                $pnt_db->sql_query($sql);
                 $i++;
             }
         }
@@ -702,49 +702,49 @@ function modadmin_write_cats ($data)
 
 function modadmin_new_cat ($name, $image) 
 {
-    global $titanium_db, $titanium_prefix, $cache;
+    global $pnt_db, $pnt_prefix, $cache;
 
-    $result = $titanium_db->sql_query('SELECT COUNT(*) FROM `'.$titanium_prefix.'_modules_cat`');
-    $num = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $result = $pnt_db->sql_query('SELECT COUNT(*) FROM `'.$pnt_prefix.'_modules_cat`');
+    $num = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
     $name = Fix_Quotes($name);
     $image = Fix_Quotes($image);
-    $sql = 'INSERT INTO `'.$titanium_prefix.'_modules_cat` VALUES ("","'.$name.'","'.$image.'",'.($num[0]+1).', 0, "")';
-    $result = $titanium_db->sql_query($sql);
+    $sql = 'INSERT INTO `'.$pnt_prefix.'_modules_cat` VALUES ("","'.$name.'","'.$image.'",'.($num[0]+1).', 0, "")';
+    $result = $pnt_db->sql_query($sql);
     $cache->delete('module_cats');
     $cache->resync();
 }
 
 function modadmin_delete_cat ($cid) 
 {
-    global $titanium_db, $titanium_prefix, $cache;
+    global $pnt_db, $pnt_prefix, $cache;
 
-    $sql = 'DELETE FROM `'.$titanium_prefix.'_modules_cat` WHERE `cid`='.$cid;
-    $titanium_db->sql_query($sql);
-    $sql = 'UPDATE `'.$titanium_prefix.'_modules` SET `cat_id`=0 WHERE `cat_id`='.$cid;
-    $titanium_db->sql_query($sql);
+    $sql = 'DELETE FROM `'.$pnt_prefix.'_modules_cat` WHERE `cid`='.$cid;
+    $pnt_db->sql_query($sql);
+    $sql = 'UPDATE `'.$pnt_prefix.'_modules` SET `cat_id`=0 WHERE `cat_id`='.$cid;
+    $pnt_db->sql_query($sql);
     $cache->delete('module_cats');
     $cache->resync();
 }
 
 function modadmin_move_cat ($pos, $up) 
 {
-    global $titanium_db, $titanium_prefix, $cache;
+    global $pnt_db, $pnt_prefix, $cache;
 
     $where = ($up) ? ($pos - 1) : ($pos + 1);
-    $sql = "UPDATE `".$titanium_prefix."_modules_cat` SET `pos`=127 WHERE `pos`=".$where;
-    $titanium_db->sql_query($sql);
-    $sql = "UPDATE `".$titanium_prefix."_modules_cat` SET `pos`=".$where." WHERE `pos`=".$pos;
-    $titanium_db->sql_query($sql);
-    $sql = "UPDATE `".$titanium_prefix."_modules_cat` SET `pos`=".$pos." WHERE `pos`=127";
-    $titanium_db->sql_query($sql);
+    $sql = "UPDATE `".$pnt_prefix."_modules_cat` SET `pos`=127 WHERE `pos`=".$where;
+    $pnt_db->sql_query($sql);
+    $sql = "UPDATE `".$pnt_prefix."_modules_cat` SET `pos`=".$where." WHERE `pos`=".$pos;
+    $pnt_db->sql_query($sql);
+    $sql = "UPDATE `".$pnt_prefix."_modules_cat` SET `pos`=".$pos." WHERE `pos`=127";
+    $pnt_db->sql_query($sql);
     $cache->delete('module_cats');
     $cache->resync();
 }
 
 function modadmin_edit_cat($cat) 
 {
-    global $titanium_prefix, $titanium_db, $admin_file, $cache, $admlang;
+    global $pnt_prefix, $pnt_db, $admin_file, $cache, $admlang;
 
     $cat = Fix_Quotes($cat);
 
@@ -752,9 +752,9 @@ function modadmin_edit_cat($cat)
 	{
         DisplayError($admlang['modblock']['not_found']);
     }
-    $result = $titanium_db->sql_query('SELECT name, image FROM `'.$titanium_prefix.'_modules_cat` WHERE `cid` = '.$cat);
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $result = $pnt_db->sql_query('SELECT name, image FROM `'.$pnt_prefix.'_modules_cat` WHERE `cid` = '.$cat);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     if(!isset($row[0]) || empty($row[0])) 
 	{
@@ -779,7 +779,7 @@ function modadmin_edit_cat($cat)
 
 function modadmin_edit_cat_save($cat, $name, $image) 
 {
-    global $titanium_prefix, $titanium_db, $admin_file, $cache, $admlang;
+    global $pnt_prefix, $pnt_db, $admin_file, $cache, $admlang;
 
     $name = Fix_Quotes($name);
     $image = Fix_Quotes($image);
@@ -790,32 +790,32 @@ function modadmin_edit_cat_save($cat, $name, $image)
         DisplayError($admlang['modblock']['not_found']);
     }
 
-    $sql = "UPDATE `".$titanium_prefix."_modules_cat` SET `name`=\"".$name."\", `image`=\"".$image."\" WHERE `cid`=".$cat;
-    $titanium_db->sql_query($sql);
+    $sql = "UPDATE `".$pnt_prefix."_modules_cat` SET `name`=\"".$name."\", `image`=\"".$image."\" WHERE `cid`=".$cat;
+    $pnt_db->sql_query($sql);
     $cache->delete('module_cats');
 }
 
 function modadmin_new_link ($title, $link) 
 {
-    global $titanium_db, $titanium_prefix, $cache, $admlang;
+    global $pnt_db, $pnt_prefix, $cache, $admlang;
 
     if(empty($title) || empty($link)) DisplayError($admlang['modblock']['link_title_error']);
 
     $title = Fix_Quotes($title);
     $link = Fix_Quotes($link);
     Validate($link, 'url', 'modules');
-    $sql = 'INSERT INTO `'.$titanium_prefix.'_modules` VALUES (NULL,"~l~'.$title.'","'.$link.'",0,0,1,0,0,1,"","")';
-    $titanium_db->sql_query($sql);
+    $sql = 'INSERT INTO `'.$pnt_prefix.'_modules` VALUES (NULL,"~l~'.$title.'","'.$link.'",0,0,1,0,0,1,"","")';
+    $pnt_db->sql_query($sql);
     $cache->delete('module_links');
     $cache->resync();
 }
 
 function modadmin_delete_link ($mid) 
 {
-    global $titanium_db, $titanium_prefix, $cache;
+    global $pnt_db, $pnt_prefix, $cache;
 
-    $sql = 'DELETE FROM `'.$titanium_prefix.'_modules` WHERE `mid`='.$mid.' AND `title` LIKE "~l~%"';
-    $titanium_db->sql_query($sql);
+    $sql = 'DELETE FROM `'.$pnt_prefix.'_modules` WHERE `mid`='.$mid.' AND `title` LIKE "~l~%"';
+    $pnt_db->sql_query($sql);
     $cache->delete('module_links');
     $cache->resync();
 }
@@ -921,9 +921,9 @@ if(isset($_GET['upcat']) || isset($_GET['downcat']))
 
 if(isset($_POST['collapse']) && is_int(intval($_POST['collapse']))) 
 {
-   global $titanium_db, $titanium_prefix, $titanium_module_collapse, $cache;
-   $titanium_db->sql_query('UPDATE `'.$titanium_prefix.'_evolution` SET `evo_value`="'.intval($_POST['collapse']).'" WHERE `evo_field`= "module_collapse"');
-   $titanium_module_collapse = intval($_POST['collapse']);
+   global $pnt_db, $pnt_prefix, $pnt_module_collapse, $cache;
+   $pnt_db->sql_query('UPDATE `'.$pnt_prefix.'_evolution` SET `evo_value`="'.intval($_POST['collapse']).'" WHERE `evo_field`= "module_collapse"');
+   $pnt_module_collapse = intval($_POST['collapse']);
    $cache->delete('titanium_config');
    $cache->resync();
 }

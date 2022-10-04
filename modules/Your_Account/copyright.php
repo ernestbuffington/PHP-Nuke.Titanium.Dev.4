@@ -30,9 +30,9 @@ $author_homepage    = "http://dev.phpnuke.org.br";
 $author_name        = "<a href=\"$author_homepage\">Comunidade PHP Nuke Brasil</a>";
 $license        = "Modifications - Copyright &copy; 2000-2004 Comunidade PHP Nuke Brasil";
 $download_location    = "";
-$titanium_module_version        = "4.4.2";
-$titanium_module_description    = "";
+$pnt_module_version        = "4.4.2";
+$pnt_module_description    = "";
 
-show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $titanium_module_version, $titanium_module_description);
+show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $pnt_module_version, $pnt_module_description);
 
 ?>

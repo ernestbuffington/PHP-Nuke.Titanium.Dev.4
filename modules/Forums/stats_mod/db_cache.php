@@ -48,7 +48,7 @@ class cached_db
 
 class StatisticsDB
 {
-    var $titanium_db_result = array();
+    var $pnt_db_result = array();
     var $index = -2;
     var $numrows_data = array();
     var $fetchrowset_data = array();
@@ -99,7 +99,7 @@ class StatisticsDB
 
     function sql_query($query = "", $transaction = FALSE)
     {
-        global $titanium_db, $titanium_dbms;
+        global $pnt_db, $pnt_dbms;
 
         if ($this->index == -2)
         {
@@ -125,7 +125,7 @@ class StatisticsDB
                 $curtime = $curtime[0] + $curtime[1] - $stats_starttime;
             }
 
-            $titanium_db_result = $titanium_db->sql_query($query, $transaction);
+            $pnt_db_result = $pnt_db->sql_query($query, $transaction);
 
             if ( STATS_DEBUG )
             {
@@ -133,24 +133,24 @@ class StatisticsDB
                 $phpbb2_endtime = $phpbb2_endtime[0] + $phpbb2_endtime[1] - $stats_starttime;
 
                 $this->sql_report .= "<pre>Query:\t" . htmlspecialchars(preg_replace('/[\s]*[\n\r\t]+[\n\r\s\t]*/', "\n\t", $query)) . "\n\n";
-                $affected_rows = $titanium_db->sql_affectedrows($titanium_db_result);
-                if ($titanium_db_result)
+                $affected_rows = $pnt_db->sql_affectedrows($pnt_db_result);
+                if ($pnt_db_result)
                 {
                     $this->sql_report .= "Time before:  $curtime\nTime after:   $phpbb2_endtime\nElapsed time: <strong>" . ($phpbb2_endtime - $curtime) . "</strong>\n</pre>";
                 }
                 else
                 {
-                    $error = $titanium_db->sql_error();
+                    $error = $pnt_db->sql_error();
                     $this->sql_report .= '<strong>FAILED</strong> - MySQL Error ' . $error['code'] . ': ' . htmlspecialchars($error['message']) . '<br /><br /><pre>';
                 }
                 $this->sql_time += $phpbb2_endtime - $curtime;
 
-                if ( (($titanium_dbms == 'mysql') || ($titanium_dbms == 'mysql4')) && (function_exists('mysql_fetch_assoc')) )
+                if ( (($pnt_dbms == 'mysql') || ($pnt_dbms == 'mysql4')) && (function_exists('mysql_fetch_assoc')) )
                 {
                     if (preg_match('/^SELECT/', $query))
                     {
                         $html_table = FALSE;
-                        if ($result = mysql_query("EXPLAIN $query", $titanium_db->db_connect_id))
+                        if ($result = mysql_query("EXPLAIN $query", $pnt_db->db_connect_id))
                         {
                             $i = 0;
                             while ($row = mysql_fetch_assoc($result))
@@ -181,19 +181,19 @@ class StatisticsDB
         }
         else
         {
-            $titanium_db_result = $this->index;
+            $pnt_db_result = $this->index;
             $this->curr_n_row = 0;
             $this->curr_fs_row = 0;
             $this->curr_f_row = 0;
         }
 
-        $this->db_result[$this->index] = $titanium_db_result;
+        $this->db_result[$this->index] = $pnt_db_result;
 
         $this->begin_new_transaction();
         
         if (!$this->use_cache)
         {
-            return ($titanium_db_result);
+            return ($pnt_db_result);
         }
         else
         {
@@ -203,11 +203,11 @@ class StatisticsDB
 
     function sql_numrows($query_id = 0)
     {
-        global $titanium_db;
+        global $pnt_db;
 
         if (!$this->use_cache)
         {
-            $result = $titanium_db->sql_numrows($query_id);
+            $result = $pnt_db->sql_numrows($query_id);
             $this->numrows_data[$this->index][] = $result;
         }
         else
@@ -220,11 +220,11 @@ class StatisticsDB
 
     function sql_fetchrowset($query_id = 0)
     {
-        global $titanium_db;
+        global $pnt_db;
 
         if (!$this->use_cache)
         {
-            $result = $titanium_db->sql_fetchrowset($query_id);
+            $result = $pnt_db->sql_fetchrowset($query_id);
             $this->fetchrowset_data[$this->index][] = $result;
         }
         else
@@ -237,11 +237,11 @@ class StatisticsDB
 
     function sql_fetchrow($query_id = 0)
     {
-        global $titanium_db;
+        global $pnt_db;
 
         if (!$this->use_cache)
         {
-            $result = $titanium_db->sql_fetchrow($query_id);
+            $result = $pnt_db->sql_fetchrow($query_id);
             $this->fetchrow_data[$this->index][] = $result;
         }
         else
@@ -252,9 +252,9 @@ class StatisticsDB
         return ($result);
     }
 
-    function end_cached_query($titanium_module_id, $empty_cache = false)
+    function end_cached_query($pnt_module_id, $empty_cache = false)
     {
-        global $titanium_db;
+        global $pnt_db;
 
         if ($this->use_cache)
         {
@@ -265,7 +265,7 @@ class StatisticsDB
         {
             $sql = "UPDATE " . CACHE_TABLE . "
             SET db_cache = ''
-            WHERE module_id = " . $titanium_module_id;
+            WHERE module_id = " . $pnt_module_id;
         }
         else
         {
@@ -274,10 +274,10 @@ class StatisticsDB
             $sql = "UPDATE " . CACHE_TABLE . "
             SET db_cache = '" . sql_quote(serialize($data)) . "',
             module_cache_time = " . time() . "
-            WHERE module_id = " . $titanium_module_id;
+            WHERE module_id = " . $pnt_module_id;
         }
 
-        if (!$titanium_db->sql_query($sql))
+        if (!$pnt_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Unable to update DB Cache', '', __LINE__, __FILE__, $sql);
         }

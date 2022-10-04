@@ -30,7 +30,7 @@ endif;
  */
 function title_and_meta_tags()
 {
-	global $sitename, $appID, $name, $sid, $file, $titanium_db, $titanium_prefix;
+	global $sitename, $appID, $name, $sid, $file, $pnt_db, $pnt_prefix;
 	
 	$ThemeSel           = get_theme();
 	$item_delim         = "&raquo;";
@@ -122,11 +122,11 @@ function title_and_meta_tags()
 			
             if ($file == 'article' && isset($sid) && is_numeric($sid)):
 	        
-                    list($art, $top) = $titanium_db->sql_ufetchrow("SELECT `title`, `topic` FROM `".$titanium_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
+                    list($art, $top) = $pnt_db->sql_ufetchrow("SELECT `title`, `topic` FROM `".$pnt_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
     
 	          if ($top) 
 		      {
-                 list($top, $topicimage) = $titanium_db->sql_ufetchrow("SELECT `topictext`,`topicimage` FROM `".$titanium_prefix."_topics` WHERE `topicid`='".$top."'", SQL_NUM);
+                 list($top, $topicimage) = $pnt_db->sql_ufetchrow("SELECT `topictext`,`topicimage` FROM `".$pnt_prefix."_topics` WHERE `topicid`='".$top."'", SQL_NUM);
 
                  if ($sitename == $top):
 			           $newpagetitle = "$sitename $item_delim $art";
@@ -145,7 +145,7 @@ function title_and_meta_tags()
               $facebook_ia_rules_url = "<meta property=\"ia:rules_url\" content=\"".HTTPS."modules.php?name=$name&file=article&sid=$sid\" />\n";
 	      $facebook_ia_rules_url_dev = "<meta property=\"ia:rules_url_dev\" content=\"".HTTPS."modules.php?name=$name&file=article&sid=$sid\" />\n";
 			     
-				     list($hometext) = $titanium_db->sql_ufetchrow("SELECT `hometext` FROM `".$titanium_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
+				     list($hometext) = $pnt_db->sql_ufetchrow("SELECT `hometext` FROM `".$pnt_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
 
 			               $hometext = stripslashes(check_html($hometext, "nohtml")); 	 	 
 
@@ -169,16 +169,16 @@ function title_and_meta_tags()
                    $structured_data .= '  "'.HTTPS.'images/google/16x9.png"'."\n";
                    $structured_data .= '  ],'."\n\n";
 				 
-                         list($time) = $titanium_db->sql_ufetchrow("SELECT `datePublished` FROM `".$titanium_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
+                         list($time) = $pnt_db->sql_ufetchrow("SELECT `datePublished` FROM `".$pnt_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
 				   $structured_data .= '  "datePublished": "'.$time.'",'."\n";
-				          list($dtm) = $titanium_db->sql_ufetchrow("SELECT `dateModified` FROM `".$titanium_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
+				          list($dtm) = $pnt_db->sql_ufetchrow("SELECT `dateModified` FROM `".$pnt_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
                    $structured_data .= '  "dateModified": "'.$dtm.'",'."\n\n";
                  
-				         list($name) = $titanium_db->sql_ufetchrow("SELECT `informant` FROM `".$titanium_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
-				     list($titanium_username) = $titanium_db->sql_ufetchrow("SELECT `name` FROM `".$titanium_prefix."_users` WHERE `username`='".$name."'", SQL_NUM);
+				         list($name) = $pnt_db->sql_ufetchrow("SELECT `informant` FROM `".$pnt_prefix."_stories` WHERE `sid`='".$sid."'", SQL_NUM);
+				     list($pnt_username) = $pnt_db->sql_ufetchrow("SELECT `name` FROM `".$pnt_prefix."_users` WHERE `username`='".$name."'", SQL_NUM);
 				   $structured_data .= '  "author": {'."\n";
                    $structured_data .= '  "@type": "Person",'."\n";
-                   $structured_data .= '  "name": "'.$titanium_username.'"'."\n";
+                   $structured_data .= '  "name": "'.$pnt_username.'"'."\n";
                    $structured_data .= '  },'."\n\n";
                  
 				   $structured_data .= ' "publisher": {'."\n";
@@ -240,21 +240,21 @@ function title_and_meta_tags()
                    $structured_data .= '  "'.HTTPS.'images/google/4x3.png",'."\n";
                    $structured_data .= '  "'.HTTPS.'images/google/16x9.png"'."\n";
                    $structured_data .= '  ],'."\n\n";
-			               list($dp) = $titanium_db->sql_ufetchrow("SELECT `datePublished` FROM `".$titanium_prefix."_config`", SQL_NUM);	 
+			               list($dp) = $pnt_db->sql_ufetchrow("SELECT `datePublished` FROM `".$pnt_prefix."_config`", SQL_NUM);	 
 			       $structured_data .= '  "datePublished": "'.$dp.'",'."\n";
-			             list($dmod) = $titanium_db->sql_ufetchrow("SELECT `dateModified` FROM `".$titanium_prefix."_config`", SQL_NUM);
+			             list($dmod) = $pnt_db->sql_ufetchrow("SELECT `dateModified` FROM `".$pnt_prefix."_config`", SQL_NUM);
 						 if(empty($dmod)) # u need to add this to save edit General Site Settings
 						 {
-							$titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_config`(dateModified) VALUES (null)"); 
+							$pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_config`(dateModified) VALUES (null)"); 
 						 }	 
                    $structured_data .= '  "dateModified": "'.$dmod.'",'."\n\n";
                  
 			       
-				   global $titanium_prefix, $portaladmin, $webmastername;
+				   global $pnt_prefix, $portaladmin, $webmastername;
 				   
 				   list($webmastername, 
 	               $avatar, 
-				   $email) = $titanium_db->sql_ufetchrow("SELECT `name`,`user_avatar`, `user_email` FROM `".$titanium_prefix."_users` WHERE `user_id`='$portaladmin'", SQL_NUM);
+				   $email) = $pnt_db->sql_ufetchrow("SELECT `name`,`user_avatar`, `user_email` FROM `".$pnt_prefix."_users` WHERE `user_id`='$portaladmin'", SQL_NUM);
 
 				   $structured_data .= '  "author": {'."\n";
                    $structured_data .= '  "@type": "Person",'."\n";

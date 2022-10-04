@@ -16,12 +16,12 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 function abget_country($tempip){
-  global $titanium_prefix, $titanium_db;
+  global $pnt_prefix, $pnt_db;
   $tempip = str_replace(".*", ".0", $tempip);
   $tempip = sprintf("%u", ip2long($tempip));
-  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_ip2country` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip' LIMIT 0,1");
-  $countryinfo = $titanium_db->sql_fetchrow($result);
-  $titanium_db->sql_freeresult($result);
+  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_ip2country` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip' LIMIT 0,1");
+  $countryinfo = $pnt_db->sql_fetchrow($result);
+  $pnt_db->sql_freeresult($result);
   $ctitle = abget_countrytitle($countryinfo['c2c']);
   $countryinfo['country'] = $ctitle['country'];
   if(!$countryinfo) {
@@ -34,10 +34,10 @@ function abget_country($tempip){
 }
 
 function abget_countrytitle($c2c){
-  global $titanium_prefix, $titanium_db;
-  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_countries` WHERE `c2c`='$c2c' LIMIT 0,1");
-  $countrytitleinfo = $titanium_db->sql_fetchrow($result);
-  $titanium_db->sql_freeresult($result);
+  global $pnt_prefix, $pnt_db;
+  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_countries` WHERE `c2c`='$c2c' LIMIT 0,1");
+  $countrytitleinfo = $pnt_db->sql_fetchrow($result);
+  $pnt_db->sql_freeresult($result);
   if(!$countrytitleinfo) {
     $countrytitleinfo['c2c'] = "00";
     $countrytitleinfo['country'] = _AB_UNKNOWN;
@@ -48,16 +48,16 @@ function abget_countrytitle($c2c){
 }
 
 function absave_config($config_name, $config_value){
-  global $titanium_prefix, $titanium_db, $cache;
+  global $pnt_prefix, $pnt_db, $cache;
   if(!get_magic_quotes_runtime()) {
     $config_name = addslashes($config_name);
     $config_value = addslashes($config_value);
   }
-  $resultnum = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_config` WHERE `config_name`='$config_name' LIMIT 0,1"));
+  $resultnum = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_config` WHERE `config_name`='$config_name' LIMIT 0,1"));
   if($resultnum < 1) {
-    $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_nsnst_config` (`config_name`, `config_value`) VALUES ('$config_name', '$config_value')");
+    $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_nsnst_config` (`config_name`, `config_value`) VALUES ('$config_name', '$config_value')");
   } else {
-    $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_config` SET `config_value`='$config_value' WHERE `config_name`='$config_name'");
+    $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_config` SET `config_value`='$config_value' WHERE `config_name`='$config_name'");
   }
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -75,10 +75,10 @@ function blankmenu() {
 
 function mastermenu() 
 {
-  global $ab_config, $getAdmin, $titanium_prefix, $titanium_db, $op, $admin, $admin_file;
+  global $ab_config, $getAdmin, $pnt_prefix, $pnt_db, $op, $admin, $admin_file;
 
   $sapi_name = strtolower(php_sapi_name());
-  $checkrow = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_nsnst_ip2country"));
+  $checkrow = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_nsnst_ip2country"));
   
   if($checkrow > 0) 
   { 
@@ -361,9 +361,9 @@ function trackedmenu() {
 }
 
 function flag_img($c2c) {
-  global $titanium_prefix, $titanium_db;
+  global $pnt_prefix, $pnt_db;
   $c2c = strtolower($c2c);
-  list($xcountry) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `country` FROM `".$titanium_prefix."_nsnst_countries` WHERE `c2c`='$c2c' LIMIT 0,1"));
+  list($xcountry) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `country` FROM `".$pnt_prefix."_nsnst_countries` WHERE `c2c`='$c2c' LIMIT 0,1"));
   if(!file_exists("images/nukesentinel/countries/".$c2c.".png")) {
     return '<img src="images/nukesentinel/countries/00.png" border="0" height="15" width="25" alt="('.$c2c.') '.$xcountry.'" title="('.$c2c.') '.$xcountry.'" />';
   } else {
@@ -444,7 +444,7 @@ function templatemenu($phpbb2_template="") {
 }
 
 function abview_template($phpbb2_template="") {
-  global $nuke_config, $ab_config, $nsnst_const, $titanium_db, $titanium_prefix, $ip;
+  global $nuke_config, $ab_config, $nsnst_const, $pnt_db, $pnt_prefix, $ip;
   if(empty($phpbb2_template)) { $phpbb2_template = "abuse_default.tpl"; }
   $sitename = $nuke_config['sitename'];
   $adminmail = $nuke_config['adminmail'];
@@ -474,7 +474,7 @@ function abview_template($phpbb2_template="") {
 }
 
 function OpenMenu($adsection="") {
-  global $bgcolor1, $bgcolor2, $textcolor1, $ab_config, $getAdmin, $titanium_prefix, $titanium_db, $op, $admin;
+  global $bgcolor1, $bgcolor2, $textcolor1, $ab_config, $getAdmin, $pnt_prefix, $pnt_db, $op, $admin;
   echo '<script type="text/javascript" src="includes/nukesentinel/nukesentinel1.js"><!-- overLIB (c) Erik Bosrup --></script>'."\n";
   echo '<script type="text/javascript" src="includes/nukesentinel/nukesentinel2.js"><!-- overLIB_hideform (c) Erik Bosrup --></script>'."\n";
   echo '<script type="text/javascript" src="includes/nukesentinel/nukesentinel3.js"><!-- overLIB_centerpopup (c) Erik Bosrup --></script>'."\n";

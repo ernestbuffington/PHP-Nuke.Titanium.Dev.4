@@ -19,9 +19,9 @@ $author_name = "Ernest Buffington AKA TheGhost";
 $license = "GPL v2.0";
 $based_on = "Scratch";
 $download_location = "";
-$titanium_module_version = "v5.4";
+$pnt_module_version = "v5.4";
 $release_date = "02/09/2012";
-$titanium_module_description = "CSS Color Chart Module";
+$pnt_module_description = "CSS Color Chart Module";
 $mod_cost = "";
-show_copyright($author_name, $author_email, $author_homepage, $based_on, $license, $download_location, $titanium_module_version, $titanium_module_description, $release_date, $mod_cost);
+show_copyright($author_name, $author_email, $author_homepage, $based_on, $license, $download_location, $pnt_module_version, $pnt_module_description, $release_date, $mod_cost);
 ?>

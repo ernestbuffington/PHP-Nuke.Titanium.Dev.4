@@ -32,14 +32,14 @@ if(!isset($pnt_module) || empty($pnt_module)){
 get_lang($pnt_module);
 
 global $domain;
-$titanium_title = 'cPanel Login';
-$pagetitle = 'http://'.$domain.' &raquo; '.$titanium_title;
+$pnt_title = 'cPanel Login';
+$pagetitle = 'http://'.$domain.' &raquo; '.$pnt_title;
 
 include(NUKE_BASE_DIR.'header.php');
 title($sitename.' '.$pagetitle);
 OpenTable();
 
-echo '<div align="center"><strong>'.$titanium_title.'</strong></div>';
+echo '<div align="center"><strong>'.$pnt_title.'</strong></div>';
 $postlocation = "modules.php?name=cPanel_Login&amp;file=docpanellogin";
 print "<form action=\"" . $postlocation . "\" method=\"POST\">";
 if (($_GET['failed'] == "1") or ($error == 1))

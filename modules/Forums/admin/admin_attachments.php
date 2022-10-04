@@ -19,11 +19,11 @@ define('IN_PHPBB2', true);
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $titanium_module['Attachments']['Manage'] = $filename . '?mode=manage';
-    $titanium_module['Attachments']['Shadow_attachments'] = $filename . '?mode=shadow';
-    $titanium_module['Extensions']['Special_categories'] = $filename . '?mode=cats';
-    $titanium_module['Attachments']['Sync_attachments'] = $filename . '?mode=sync';
-    $titanium_module['Attachments']['Quota_limits'] = $filename . '?mode=quota';
+    $pnt_module['Attachments']['Manage'] = $filename . '?mode=manage';
+    $pnt_module['Attachments']['Shadow_attachments'] = $filename . '?mode=shadow';
+    $pnt_module['Extensions']['Special_categories'] = $filename . '?mode=cats';
+    $pnt_module['Attachments']['Sync_attachments'] = $filename . '?mode=sync';
+    $pnt_module['Attachments']['Quota_limits'] = $filename . '?mode=quota';
     return;
 }
 
@@ -78,12 +78,12 @@ $search_imagick = (isset($HTTP_POST_VARS['search_imagick'])) ? TRUE : FALSE;
 $sql = 'SELECT *
     FROM ' . ATTACH_CONFIG_TABLE;
 
-if (!$result = $titanium_db->sql_query($sql))
+if (!$result = $pnt_db->sql_query($sql))
 {
     message_die(GENERAL_ERROR, 'Could not find Attachment Config Table', '', __LINE__, __FILE__, $sql);
 }
 
-while ($row = $titanium_db->sql_fetchrow($result))
+while ($row = $pnt_db->sql_fetchrow($result))
 {
     $config_name = $row['config_name'];
     $config_value = $row['config_value'];
@@ -161,7 +161,7 @@ while ($row = $titanium_db->sql_fetchrow($result))
                     SET max_filesize = ' . (int) $new_size . '
                     WHERE max_filesize = ' . (int) $old_size;
 
-                if (!($result_2 = $titanium_db->sql_query($sql)))
+                if (!($result_2 = $pnt_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Could not update Extension Group informations', '', __LINE__, __FILE__, $sql);
                 }
@@ -178,7 +178,7 @@ while ($row = $titanium_db->sql_fetchrow($result))
                 WHERE config_name = '" . attach_mod_sql_escape($config_name) . "'";
         }
 
-        if (!$titanium_db->sql_query($sql))
+        if (!$pnt_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Failed to update attachment configuration for ' . $config_name, '', __LINE__, __FILE__, $sql);
         }
@@ -189,7 +189,7 @@ while ($row = $titanium_db->sql_fetchrow($result))
         }
     }
 }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 $cache_dir = $phpbb2_root_path . '/cache';
 $cache_file = $cache_dir . '/attach_config.php';
@@ -265,14 +265,14 @@ if ($check_upload)
     $sql = 'SELECT *
         FROM ' . ATTACH_CONFIG_TABLE;
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not find Attachment Config Table', '', __LINE__, __FILE__, $sql);
     }
 
-    $row = $titanium_db->sql_fetchrowset($result);
-    $num_rows = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $row = $pnt_db->sql_fetchrowset($result);
+    $num_rows = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     for ($i = 0; $i < $num_rows; $i++)
     {
@@ -550,7 +550,7 @@ if ($submit && $mode == 'shadow')
             FROM ' . ATTACHMENTS_DESC_TABLE . '
             WHERE attach_id IN (' . $attach_id_sql . ')';
 
-        if (!$result = $titanium_db->sql_query($sql))
+        if (!$result = $pnt_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Could not delete attachment entries', '', __LINE__, __FILE__, $sql);
         }
@@ -559,7 +559,7 @@ if ($submit && $mode == 'shadow')
             FROM ' . ATTACHMENTS_TABLE . '
             WHERE attach_id IN (' . $attach_id_sql . ')';
 
-        if (!$result = $titanium_db->sql_query($sql))
+        if (!$result = $pnt_db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Could not delete attachment entries', '', __LINE__, __FILE__, $sql);
         }
@@ -607,35 +607,35 @@ if ($mode == 'shadow')
         FROM ' . ATTACHMENTS_DESC_TABLE . '
         ORDER BY attach_id';
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get attachment informations', '', __LINE__, __FILE__, $sql);
     }
 
     $i = 0;
-    while ($row = $titanium_db->sql_fetchrow($result))
+    while ($row = $pnt_db->sql_fetchrow($result))
     {
         $table_attachments['attach_id'][$i] = (int) $row['attach_id'];
         $table_attachments['physical_filename'][$i] = basename($row['physical_filename']);
         $table_attachments['comment'][$i] = $row['comment'];
         $i++;
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     $sql = 'SELECT attach_id
         FROM ' . ATTACHMENTS_TABLE . '
         GROUP BY attach_id';
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get attachment informations', '', __LINE__, __FILE__, $sql);
     }
 
-    while ($row = $titanium_db->sql_fetchrow($result))
+    while ($row = $pnt_db->sql_fetchrow($result))
     {
         $assign_attachments[] = intval($row['attach_id']);
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     // collect all attachments on file-system
     $file_attachments = collect_attachments();
@@ -770,13 +770,13 @@ if ($mode == 'cats')
     $s_assigned_group_streams = array();
     $s_assigned_group_flash = array();
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Group Names from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
     }
 
-    $row = $titanium_db->sql_fetchrowset($result);
-    $titanium_db->sql_freeresult($result);
+    $row = $pnt_db->sql_fetchrowset($result);
+    $pnt_db->sql_freeresult($result);
 
 	for ($i = 0; $i < sizeof($row); $i++)
     {
@@ -874,14 +874,14 @@ if ($check_image_cat)
     $sql = 'SELECT *
         FROM ' . ATTACH_CONFIG_TABLE;
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not find Attachment Config Table', '', __LINE__, __FILE__, $sql);
     }
 
-    $row = $titanium_db->sql_fetchrowset($result);
-    $num_rows = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $row = $pnt_db->sql_fetchrowset($result);
+    $num_rows = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     for ($i = 0; $i < $num_rows; $i++)
     {
@@ -1032,7 +1032,7 @@ if ($mode == 'sync')
     echo (isset($lang['Sync_topics'])) ? $lang['Sync_topics'] : 'Sync Topics';
 
     $sql = "SELECT topic_id    FROM " . TOPICS_TABLE;
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get topic ID', '', __LINE__, __FILE__, $sql);
     }
@@ -1040,7 +1040,7 @@ if ($mode == 'sync')
     echo '<br />';
 
     $i = 0;
-    while ($row = $titanium_db->sql_fetchrow($result))
+    while ($row = $pnt_db->sql_fetchrow($result))
     {
         @flush();
         echo '.';
@@ -1051,7 +1051,7 @@ if ($mode == 'sync')
         attachment_sync_topic($row['topic_id']);
         $i++;
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     echo '<br /><br />';
     echo (isset($lang['Sync_posts'])) ? $lang['Sync_posts'] : 'Sync Posts';
@@ -1063,23 +1063,23 @@ if ($mode == 'sync')
             AND p.post_id = a.post_id
             AND a.user_id_1 <> p.poster_id';
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get post ID', '', __LINE__, __FILE__, $sql);
     }
 
     echo '<br />';
 
-    $rows = $titanium_db->sql_fetchrowset($result);
-    $num_rows = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $rows = $pnt_db->sql_fetchrowset($result);
+    $num_rows = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     for ($i = 0; $i < $num_rows; $i++)
     {
         $sql = 'UPDATE ' . ATTACHMENTS_TABLE . ' SET user_id_1 = ' . intval($rows[$i]['poster_id']) . '
             WHERE attach_id = ' . intval($rows[$i]['attach_id']) . ' AND post_id = ' . intval($rows[$i]['post_id']);
 
-        $titanium_db->sql_query($sql);
+        $pnt_db->sql_query($sql);
 
         @flush();
         echo '.';
@@ -1097,7 +1097,7 @@ if ($mode == 'sync')
     // Go through all of them and make sure the Thumbnail exist. If it does not exist, unset the Thumbnail Flag
     $sql = "SELECT attach_id, physical_filename, thumbnail FROM " . ATTACHMENTS_DESC_TABLE . " WHERE thumbnail = 1";
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get thumbnail informations', '', __LINE__, __FILE__, $sql);
     }
@@ -1105,7 +1105,7 @@ if ($mode == 'sync')
     echo '<br />';
 
     $i = 0;
-    while ($row = $titanium_db->sql_fetchrow($result))
+    while ($row = $pnt_db->sql_fetchrow($result))
     {
         @flush();
         echo '.';
@@ -1118,22 +1118,22 @@ if ($mode == 'sync')
         {
             $info .= sprintf($lang['Sync_thumbnail_resetted'], $row['physical_filename']) . '<br />';
             $sql = "UPDATE " . ATTACHMENTS_DESC_TABLE . " SET thumbnail = 0 WHERE attach_id = " . (int) $row['attach_id'];
-            if (!($titanium_db->sql_query($sql)))
+            if (!($pnt_db->sql_query($sql)))
             {
-                $error = $titanium_db->sql_error();
+                $error = $pnt_db->sql_error();
                 die('Could not update thumbnail informations -> ' . $error['message'] . ' -> ' . $sql);
             }
         }
         $i++;
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     // Sync Thumbnails (make sure all non-existent thumbnails are deleted) - the other way around
     // Get all Posts/PM's with the Thumbnail Flag NOT set
     // Go through all of them and make sure the Thumbnail does NOT exist. If it does exist, delete it
     $sql = "SELECT attach_id, physical_filename, thumbnail FROM " . ATTACHMENTS_DESC_TABLE . " WHERE thumbnail = 0";
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get thumbnail informations', '', __LINE__, __FILE__, $sql);
     }
@@ -1141,7 +1141,7 @@ if ($mode == 'sync')
     echo '<br />';
 
     $i = 0;
-    while ($row = $titanium_db->sql_fetchrow($result))
+    while ($row = $pnt_db->sql_fetchrow($result))
     {
         @flush();
         echo '.';
@@ -1157,7 +1157,7 @@ if ($mode == 'sync')
         }
         $i++;
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
     @flush();
     die('<br /><br /><br />' . $lang['Attach_sync_finished'] . '<br /><br />' . $info);
@@ -1184,7 +1184,7 @@ if ($submit && $mode == 'quota')
             SET quota_desc = '" . attach_mod_sql_escape($quota_desc_list[$i]) . "', quota_limit = " . (int) $filesize_list[$i] . "
             WHERE quota_limit_id = " . (int) $quota_change_list[$i];
 
-        if (!($titanium_db->sql_query($sql)))
+        if (!($pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Couldn\'t update Quota Limits', '', __LINE__, __FILE__, $sql);
         }
@@ -1201,7 +1201,7 @@ if ($submit && $mode == 'quota')
             FROM ' . QUOTA_LIMITS_TABLE . '
             WHERE quota_limit_id IN (' . $quota_id_sql . ')';
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not delete Quota Limits', '', __LINE__, __FILE__, $sql);
         }
@@ -1211,7 +1211,7 @@ if ($submit && $mode == 'quota')
             FROM ' . QUOTA_TABLE . '
             WHERE quota_limit_id IN (' . $quota_id_sql . ')';
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not delete Quotas', '', __LINE__, __FILE__, $sql);
         }
@@ -1229,14 +1229,14 @@ if ($submit && $mode == 'quota')
         $sql = 'SELECT quota_desc
             FROM ' . QUOTA_LIMITS_TABLE;
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not query Quota Limits Table', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $titanium_db->sql_fetchrowset($result);
-        $num_rows = $titanium_db->sql_numrows($result);
-        $titanium_db->sql_freeresult($result);
+        $row = $pnt_db->sql_fetchrowset($result);
+        $num_rows = $pnt_db->sql_numrows($result);
+        $pnt_db->sql_freeresult($result);
 
         if ($num_rows > 0)
         {
@@ -1261,7 +1261,7 @@ if ($submit && $mode == 'quota')
             $sql = "INSERT INTO " . QUOTA_LIMITS_TABLE . " (quota_desc, quota_limit)
             VALUES ('" . attach_mod_sql_escape($quota_desc) . "', " . (int) $filesize . ")";
 
-            if (!($titanium_db->sql_query($sql)))
+            if (!($pnt_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not add Quota Limit', '', __LINE__, __FILE__, $sql);
             }
@@ -1317,13 +1317,13 @@ if ($mode == 'quota')
 
     $sql = "SELECT * FROM " . QUOTA_LIMITS_TABLE . " ORDER BY quota_limit DESC";
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get quota limits', '', __LINE__, __FILE__, $sql);
     }
 
-    $rows = $titanium_db->sql_fetchrowset($result);
-    $titanium_db->sql_freeresult($result);
+    $rows = $pnt_db->sql_fetchrowset($result);
+    $pnt_db->sql_freeresult($result);
 
 	for ($i = 0; $i < sizeof($rows); $i++)
     {
@@ -1361,13 +1361,13 @@ if ($mode == 'quota' && $e_mode == 'view_quota')
 
     $sql = "SELECT * FROM " . QUOTA_LIMITS_TABLE . " WHERE quota_limit_id = " . (int) $quota_id . " LIMIT 1";
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get quota limits', '', __LINE__, __FILE__, $sql);
     }
 
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     $phpbb2_template->assign_vars(array(
         'L_QUOTA_LIMIT_DESC'    => $row['quota_desc'],
@@ -1383,14 +1383,14 @@ if ($mode == 'quota' && $e_mode == 'view_quota')
             AND q.user_id <> 0
             AND q.user_id = u.user_id';
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get quota limits', '', __LINE__, __FILE__, $sql);
     }
 
-    $rows = $titanium_db->sql_fetchrowset($result);
-    $num_rows = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $rows = $pnt_db->sql_fetchrowset($result);
+    $num_rows = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     for ($i = 0; $i < $num_rows; $i++)
     {
@@ -1416,14 +1416,14 @@ if ($mode == 'quota' && $e_mode == 'view_quota')
             AND q.group_id <> 0
             AND q.group_id = g.group_id';
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get quota limits', '', __LINE__, __FILE__, $sql);
     }
 
-    $rows = $titanium_db->sql_fetchrowset($result);
-    $num_rows = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $rows = $pnt_db->sql_fetchrowset($result);
+    $num_rows = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 
     for ($i = 0; $i < $num_rows; $i++)
     {

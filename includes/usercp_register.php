@@ -88,7 +88,7 @@ $verification = null;
  # Mod: YA Merge v1.0.0 START
  if($mode === 'register' && isset($check_num)): 
 	# Check the users verification check number, if it doesn't match trigger an error
-	$verified = $titanium_db->sql_query(
+	$verified = $pnt_db->sql_query(
 		sprintf('SELECT username, 
 		                realname, 
 					  user_email, 
@@ -96,12 +96,12 @@ $verification = null;
 				   user_password 
 				   
 				 FROM %s_users_temp 
-				 WHERE check_num = "%s"', $titanium_user_prefix, $titanium_db->sql_escapestring($check_num)));
+				 WHERE check_num = "%s"', $pnt_user_prefix, $pnt_db->sql_escapestring($check_num)));
 				 
-	if(!$verified || $titanium_db->sql_numrows($verified) === 0) 
+	if(!$verified || $pnt_db->sql_numrows($verified) === 0) 
 	message_die(GENERAL_ERROR, sprintf($lang['Error_Check_Num'], append_titanium_sid('modules.php?name=Your_Account&op=new_user')));
 	# The user exists, lets keep moving on
-	$verification = $titanium_db->sql_fetchrow($verified);
+	$verification = $pnt_db->sql_fetchrow($verified);
 	$phpbb2_template->assign_block_vars('switch_silent_password', array());
  else: 
 	$phpbb2_template->assign_block_vars('switch_ya_merge', array());
@@ -111,13 +111,13 @@ $verification = null;
 # Mod: Initial Usergroup v1.0.1 START
 function init_group($uid) 
 {
-	global $titanium_prefix, $titanium_db, $phpbb2_board_config;
+	global $pnt_prefix, $pnt_db, $phpbb2_board_config;
 
 	if($phpbb2_board_config['initial_group_id'] != "0" && $phpbb2_board_config['initial_group_id'] != NULL): 
 		$initialusergroup = intval($phpbb2_board_config['initial_group_id']);
 		if($initialusergroup == 0) 
 		return;
-		$titanium_db->sql_query("INSERT INTO ".$titanium_prefix."_bbuser_group (group_id, user_id, user_pending) VALUES ('$initialusergroup', $uid, '0')");
+		$pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_bbuser_group (group_id, user_id, user_pending) VALUES ('$initialusergroup', $uid, '0')");
 		add_group_attributes($uid, $initialusergroup);
 	endif;
 }
@@ -133,20 +133,20 @@ function change_post_msg($message,$ya_username)
 
 function send_pm($new_uid,$ya_username)
 {
-	global $titanium_db, $titanium_prefix, $titanium_user_prefix, $phpbb2_board_config;
+	global $pnt_db, $pnt_prefix, $pnt_user_prefix, $phpbb2_board_config;
 
 	if($phpbb2_board_config['welcome_pm'] != '1') 
 	return; 
 
 	$privmsgs_date = time();
 
-	$sql = "SELECT * FROM ".$titanium_prefix."_welcome_pm";
+	$sql = "SELECT * FROM ".$pnt_prefix."_welcome_pm";
 
-	if(!($result = $titanium_db->sql_query($sql)))
+	if(!($result = $pnt_db->sql_query($sql)))
     echo "Could not obtain private message";
 	
-	$row = $titanium_db->sql_fetchrow($result);
-	$titanium_db->sql_freeresult($result);
+	$row = $pnt_db->sql_fetchrow($result);
+	$pnt_db->sql_freeresult($result);
 	$message = $row['msg'];
 	$subject = $row['subject'];
 	
@@ -158,32 +158,32 @@ function send_pm($new_uid,$ya_username)
 	$bbcode_uid = make_bbcode_uid();
 	$privmsg_message = prepare_message($message, 1, 1, 1, $bbcode_uid);
 	
-	$sql = "INSERT INTO ".$titanium_prefix."_bbprivmsgs (privmsgs_type, 
+	$sql = "INSERT INTO ".$pnt_prefix."_bbprivmsgs (privmsgs_type, 
 	                                         privmsgs_subject, 
 										 privmsgs_from_userid, 
 										   privmsgs_to_userid, 
 										        privmsgs_date ) 
 			VALUES ('1', '".$subject."', '2', '".$new_uid."', ".$privmsgs_date.")";
 	
-	if(!$titanium_db->sql_query($sql))
+	if(!$pnt_db->sql_query($sql))
 	echo "Could not insert private message sent info";
 
-	$privmsg_sent_id = $titanium_db->sql_nextid();
+	$privmsg_sent_id = $pnt_db->sql_nextid();
 	$privmsg_message = addslashes($privmsg_message);
 
-	$sql = "INSERT INTO ".$titanium_prefix."_bbprivmsgs_text (privmsgs_text_id, 
+	$sql = "INSERT INTO ".$pnt_prefix."_bbprivmsgs_text (privmsgs_text_id, 
 	                                              privmsgs_bbcode_uid, 
 												        privmsgs_text) 
 			VALUES ('".$privmsg_sent_id."', '".$bbcode_uid."', '".$privmsg_message."')";
 			
-	if(!$titanium_db->sql_query($sql))
+	if(!$pnt_db->sql_query($sql))
     echo "Could not insert private message sent text";
 
-	$sql = "UPDATE ".$titanium_user_prefix."_users
+	$sql = "UPDATE ".$pnt_user_prefix."_users
 			SET user_new_privmsg = user_new_privmsg + 1,  user_last_privmsg = '".time()."'
 			WHERE user_id = $new_uid";
 	
-	if(!($result = $titanium_db->sql_query($sql)))
+	if(!($result = $pnt_db->sql_query($sql)))
     echo "Could not update users table";
 
 }
@@ -207,7 +207,7 @@ $mode == 'register' ):
 	include("includes/functions_post.php");
 
 	if ($mode == 'editprofile'):
-		$titanium_user_id = intval($HTTP_POST_VARS['user_id']);
+		$pnt_user_id = intval($HTTP_POST_VARS['user_id']);
 		$current_email = trim(htmlspecialchars($HTTP_POST_VARS['current_email']));
 	endif;
 
@@ -235,7 +235,7 @@ $mode == 'register' ):
 	  $$var = trim(htmlspecialchars($HTTP_POST_VARS[$param]));
 	endwhile;
 
-	$titanium_username = (!empty($HTTP_POST_VARS['username'])) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
+	$pnt_username = (!empty($HTTP_POST_VARS['username'])) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
 	$trim_var_list = array('cur_password' => 'cur_password', 
 	                       'new_password' => 'new_password', 
 					   'password_confirm' => 'password_confirm', 
@@ -305,7 +305,7 @@ $mode == 'register' ):
 
         # Mod: YA Merge v1.0.0 START
 		if ($verification !== null):
-			$titanium_username = $verification['username'];
+			$pnt_username = $verification['username'];
 			$rname = $verification['realname'];
 			$email = $verification['user_email'];
 			$new_password = $verification['user_password'];
@@ -325,7 +325,7 @@ $mode == 'register' ):
 	endif;
 
     # Mod: Force Word Wrapping - Configurator v1.0.16 START
-	$titanium_user_wordwrap = (isset($HTTP_POST_VARS['user_wordwrap'])) ? intval($HTTP_POST_VARS['user_wordwrap']) : $phpbb2_board_config['wrap_def'];
+	$pnt_user_wordwrap = (isset($HTTP_POST_VARS['user_wordwrap'])) ? intval($HTTP_POST_VARS['user_wordwrap']) : $phpbb2_board_config['wrap_def'];
     # Mod: Force Word Wrapping - Configurator v1.0.16 END
 
     # Mod: Birthdays v3.0.0 START
@@ -333,23 +333,23 @@ $mode == 'register' ):
 	$birthday_greeting = (isset($HTTP_POST_VARS['birthday_greeting'])) ? intval($HTTP_POST_VARS['birthday_greeting']) : 0;
     # Mod: Birthdays v3.0.0 END
 
-	$titanium_user_style = (isset($HTTP_POST_VARS['style'])) ? $HTTP_POST_VARS['style'] : '';
+	$pnt_user_style = (isset($HTTP_POST_VARS['style'])) ? $HTTP_POST_VARS['style'] : '';
 
 	if(!empty($HTTP_POST_VARS['language'])):
 		if(preg_match('/^[a-z_]+$/i',$HTTP_POST_VARS['language'])):
-		$titanium_user_lang = htmlspecialchars($HTTP_POST_VARS['language']);
+		$pnt_user_lang = htmlspecialchars($HTTP_POST_VARS['language']);
 		else:
 		$error = true;
 		$error_msg = $lang['Fields_empty'];
 		endif;
 	else:
-		$titanium_user_lang = $phpbb2_board_config['default_lang'];
+		$pnt_user_lang = $phpbb2_board_config['default_lang'];
 	endif;
 
-	$titanium_user_timezone = (isset($HTTP_POST_VARS['timezone'])) ? doubleval($HTTP_POST_VARS['timezone']) : $phpbb2_board_config['board_timezone'];
+	$pnt_user_timezone = (isset($HTTP_POST_VARS['timezone'])) ? doubleval($HTTP_POST_VARS['timezone']) : $phpbb2_board_config['board_timezone'];
     
 	# Mod: Member Country Flags v2.0.7 START
-	$titanium_user_flag = (!empty($HTTP_POST_VARS['user_flag'])) ? $HTTP_POST_VARS['user_flag'] : '';
+	$pnt_user_flag = (!empty($HTTP_POST_VARS['user_flag'])) ? $HTTP_POST_VARS['user_flag'] : '';
 	# Mod: Member Country Flags v2.0.7 END
 
     # Mod: Advanced Time Management v2.2.0 START
@@ -366,12 +366,12 @@ $mode == 'register' ):
 	endif;
     # Mod: Advanced Time Management v2.2.0 END
 
-	$titanium_user_dateformat = (!empty($HTTP_POST_VARS['dateformat'])) ? trim(htmlspecialchars($HTTP_POST_VARS['dateformat'])) : $phpbb2_board_config['default_dateformat'];
+	$pnt_user_dateformat = (!empty($HTTP_POST_VARS['dateformat'])) ? trim(htmlspecialchars($HTTP_POST_VARS['dateformat'])) : $phpbb2_board_config['default_dateformat'];
 
     # Mod: Super Quick Reply v1.3.2 START
-	$titanium_user_show_quickreply = (isset($HTTP_POST_VARS['show_quickreply'])) ? intval($HTTP_POST_VARS['show_quickreply']) : 1;
-	$titanium_user_quickreply_mode = (isset($HTTP_POST_VARS['quickreply_mode'])) ? (( $HTTP_POST_VARS['quickreply_mode']) ? TRUE : 0) : TRUE;
-	$titanium_user_open_quickreply = (isset($HTTP_POST_VARS['open_quickreply'])) ? (( $HTTP_POST_VARS['open_quickreply']) ? TRUE : 0) : TRUE;
+	$pnt_user_show_quickreply = (isset($HTTP_POST_VARS['show_quickreply'])) ? intval($HTTP_POST_VARS['show_quickreply']) : 1;
+	$pnt_user_quickreply_mode = (isset($HTTP_POST_VARS['quickreply_mode'])) ? (( $HTTP_POST_VARS['quickreply_mode']) ? TRUE : 0) : TRUE;
+	$pnt_user_open_quickreply = (isset($HTTP_POST_VARS['open_quickreply'])) ? (( $HTTP_POST_VARS['open_quickreply']) ? TRUE : 0) : TRUE;
     # Mod: Super Quick Reply v1.3.2 END
 
     $sceditor = (isset($HTTP_POST_VARS['sceditor_in_source'])) ? intval($HTTP_POST_VARS['sceditor_in_source']) : 1;
@@ -384,27 +384,27 @@ $mode == 'register' ):
 	$newsletter = (isset($HTTP_POST_VARS['newsletter'])) ? intval($HTTP_POST_VARS['newsletter']) : 0;
     # Mod: YA Merge v1.0.0 END
 
-	$titanium_user_avatar_local = (isset($HTTP_POST_VARS['avatarselect']) 
+	$pnt_user_avatar_local = (isset($HTTP_POST_VARS['avatarselect']) 
 	&& !empty($HTTP_POST_VARS['submitavatar']) 
 	&& $phpbb2_board_config['allow_avatar_local']) 
 	? htmlspecialchars($HTTP_POST_VARS['avatarselect']) : ((isset($HTTP_POST_VARS['avatarlocal'])) ? htmlspecialchars($HTTP_POST_VARS['avatarlocal']) : '');
 	
-	$titanium_user_avatar_category = (isset($HTTP_POST_VARS['avatarcatname']) && $phpbb2_board_config['allow_avatar_local']) ? htmlspecialchars($HTTP_POST_VARS['avatarcatname']) : '';
+	$pnt_user_avatar_category = (isset($HTTP_POST_VARS['avatarcatname']) && $phpbb2_board_config['allow_avatar_local']) ? htmlspecialchars($HTTP_POST_VARS['avatarcatname']) : '';
 
-	$titanium_user_avatar_remoteurl = (!empty($HTTP_POST_VARS['avatarremoteurl']) ) ? trim(htmlspecialchars($HTTP_POST_VARS['avatarremoteurl'])) : '';
+	$pnt_user_avatar_remoteurl = (!empty($HTTP_POST_VARS['avatarremoteurl']) ) ? trim(htmlspecialchars($HTTP_POST_VARS['avatarremoteurl'])) : '';
 
-	$titanium_user_avatar_upload = (!empty($HTTP_POST_VARS['avatarurl'])) 
+	$pnt_user_avatar_upload = (!empty($HTTP_POST_VARS['avatarurl'])) 
 	? trim($HTTP_POST_VARS['avatarurl']) : (($HTTP_POST_FILES['avatar']['tmp_name'] != "none") ? $HTTP_POST_FILES['avatar']['tmp_name'] : '');
 
-	$titanium_user_avatar_name = (!empty($HTTP_POST_FILES['avatar']['name'])) ? $HTTP_POST_FILES['avatar']['name'] : '';
-	$titanium_user_avatar_size = (!empty($HTTP_POST_FILES['avatar']['size'])) ? $HTTP_POST_FILES['avatar']['size'] : 0;
-	$titanium_user_avatar_filetype = (!empty($HTTP_POST_FILES['avatar']['type'])) ? $HTTP_POST_FILES['avatar']['type'] : '';
+	$pnt_user_avatar_name = (!empty($HTTP_POST_FILES['avatar']['name'])) ? $HTTP_POST_FILES['avatar']['name'] : '';
+	$pnt_user_avatar_size = (!empty($HTTP_POST_FILES['avatar']['size'])) ? $HTTP_POST_FILES['avatar']['size'] : 0;
+	$pnt_user_avatar_filetype = (!empty($HTTP_POST_FILES['avatar']['type'])) ? $HTTP_POST_FILES['avatar']['type'] : '';
 
-	$titanium_user_avatar = (empty($titanium_user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar'] : 'blank.gif';
-	$titanium_user_avatar_type = (empty($titanium_user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar_type'] : '0';
+	$pnt_user_avatar = (empty($pnt_user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar'] : 'blank.gif';
+	$pnt_user_avatar_type = (empty($pnt_user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar_type'] : '0';
 
 	if((isset($HTTP_POST_VARS['avatargallery']) || isset($HTTP_POST_VARS['submitavatar']) || isset($HTTP_POST_VARS['cancelavatar'])) && (!isset($HTTP_POST_VARS['submit']))):
-		$titanium_username = stripslashes($titanium_username);
+		$pnt_username = stripslashes($pnt_username);
 		$email = stripslashes($email);
 		$cur_password = htmlspecialchars(stripslashes($cur_password));
 		$new_password = htmlspecialchars(stripslashes($new_password));
@@ -421,8 +421,8 @@ $mode == 'register' ):
 
 		$signature = htmlspecialchars(stripslashes($signature));
 		$sceditor = stripslashes($sceditor);
-		$titanium_user_lang = stripslashes($titanium_user_lang);
-		$titanium_user_dateformat = stripslashes($titanium_user_dateformat);
+		$pnt_user_lang = stripslashes($pnt_user_lang);
+		$pnt_user_dateformat = stripslashes($pnt_user_dateformat);
 
         # Mod: XData v1.0.3 START
 		@reset($xdata);
@@ -432,8 +432,8 @@ $mode == 'register' ):
         # Mod: XData v1.0.3 END
 
 		if(!isset($HTTP_POST_VARS['cancelavatar'])):
-			$titanium_user_avatar = $titanium_user_avatar_category . '/' . $titanium_user_avatar_local;
-			$titanium_user_avatar_type = USER_AVATAR_GALLERY;
+			$pnt_user_avatar = $pnt_user_avatar_category . '/' . $pnt_user_avatar_local;
+			$pnt_user_avatar_type = USER_AVATAR_GALLERY;
 		endif;
 	endif;
 endif;
@@ -442,7 +442,7 @@ endif;
 # Let's make sure the user isn't logged in while registering,
 # and ensure that they were trying to register a second time
 # (Prevents double registrations)
-if($verification !== null && ($userdata['session_logged_in'] || $titanium_username === $userdata['username'])) 
+if($verification !== null && ($userdata['session_logged_in'] || $pnt_username === $userdata['username'])) 
 message_die(GENERAL_MESSAGE, $lang['Username_taken'], '', __LINE__, __FILE__);
 
 # Did the user submit? In this case build a query to update the users profile in the DB
@@ -452,12 +452,12 @@ if(isset($HTTP_POST_VARS['submit'])):
 	$passwd_sql = '';
 	
 	if($mode == 'editprofile'):
-		if($titanium_user_id != $userdata['user_id']):
+		if($pnt_user_id != $userdata['user_id']):
 			$error = TRUE;
 			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Wrong_Profile'];
 		endif;
 	elseif($mode == 'register'):
-		if(empty($titanium_username) || empty($new_password) || empty($password_confirm) || empty($email)):
+		if(empty($pnt_username) || empty($new_password) || empty($password_confirm) || empty($email)):
 		
 			$error = TRUE;
 			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Fields_empty'];
@@ -483,10 +483,10 @@ if(isset($HTTP_POST_VARS['submit'])):
 			WHERE confirm_id = '$confirm_id'
 			AND session_id = '" . $userdata['session_id'] . "'";
 			
-			if(!($result = $titanium_db->sql_query($sql)))
+			if(!($result = $pnt_db->sql_query($sql)))
 			message_die(GENERAL_ERROR, 'Could not obtain confirmation code', '', __LINE__, __FILE__, $sql);
 
-			if($row = $titanium_db->sql_fetchrow($result)):
+			if($row = $pnt_db->sql_fetchrow($result)):
 				if($row['code'] != $confirm_code):
 					$error = TRUE;
 					$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Confirm_code_wrong'];
@@ -494,14 +494,14 @@ if(isset($HTTP_POST_VARS['submit'])):
 					$sql = 'DELETE FROM ' . CONFIRM_TABLE . "
 						WHERE confirm_id = '$confirm_id'
 						AND session_id = '" . $userdata['session_id'] . "'";
-					if (!$titanium_db->sql_query($sql))
+					if (!$pnt_db->sql_query($sql))
 						message_die(GENERAL_ERROR, 'Could not delete confirmation code', '', __LINE__, __FILE__, $sql);
 				endif;
 			else:
 				$error = TRUE;
 				$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Confirm_code_wrong'];
 			endif;
-			$titanium_db->sql_freeresult($result);
+			$pnt_db->sql_freeresult($result);
 		endif;
 	endif;
 
@@ -524,13 +524,13 @@ if(isset($HTTP_POST_VARS['submit'])):
 			
 				$sql = "SELECT user_password
 				FROM " . USERS_TABLE . "
-				WHERE user_id = '$titanium_user_id'";
+				WHERE user_id = '$pnt_user_id'";
 				
-				if(!($result = $titanium_db->sql_query($sql)))
+				if(!($result = $pnt_db->sql_query($sql)))
 				message_die(GENERAL_ERROR, 'Could not obtain user_password information', '', __LINE__, __FILE__, $sql);
 
-				$row = $titanium_db->sql_fetchrow($result);
-				$titanium_db->sql_freeresult($result);
+				$row = $pnt_db->sql_fetchrow($result);
+				$pnt_db->sql_freeresult($result);
                 
 				# Base: Evolution Functions v1.5.0 START
 				if($row['user_password'] != md5($cur_password)):
@@ -566,13 +566,13 @@ if(isset($HTTP_POST_VARS['submit'])):
 		if($mode == 'editprofile'):
 			$sql = "SELECT user_password
 			FROM " . USERS_TABLE . "
-			WHERE user_id = '$titanium_user_id'";
+			WHERE user_id = '$pnt_user_id'";
 			
-			if(!($result = $titanium_db->sql_query($sql)))
+			if(!($result = $pnt_db->sql_query($sql)))
 			message_die(GENERAL_ERROR, 'Could not obtain user_password information', '', __LINE__, __FILE__, $sql);
 
-			$row = $titanium_db->sql_fetchrow($result);
-			$titanium_db->sql_freeresult($result);
+			$row = $pnt_db->sql_fetchrow($result);
+			$pnt_db->sql_freeresult($result);
             
 			# Base: Evolution Functions v1.5.0 START
 			if($row['user_password'] != md5($cur_password)):
@@ -584,14 +584,14 @@ if(isset($HTTP_POST_VARS['submit'])):
 		endif;
 	endif;
 
-	$titanium_username_sql = '';
+	$pnt_username_sql = '';
 	if($phpbb2_board_config['allow_namechange'] || $mode == 'register'):
-		if(empty($titanium_username)):
+		if(empty($pnt_username)):
 			# Error is already triggered, since one field is empty.
 			$error = TRUE;
-		elseif($titanium_username != $userdata['username'] || $mode == 'register'):
-			if(strtolower($titanium_username) != strtolower($userdata['username']) || $mode == 'register'):
-				$result = validate_username($titanium_username);
+		elseif($pnt_username != $userdata['username'] || $mode == 'register'):
+			if(strtolower($pnt_username) != strtolower($userdata['username']) || $mode == 'register'):
+				$result = validate_username($pnt_username);
 				if($result['error']):
 				
 					$error = TRUE;
@@ -600,7 +600,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 			endif;
 
 			if(!$error)
-			$titanium_username_sql = "username = '" . str_replace("\'", "''", $titanium_username) . "', ";
+			$pnt_username_sql = "username = '" . str_replace("\'", "''", $pnt_username) . "', ";
 		endif;
 	endif;
 
@@ -640,8 +640,8 @@ if(isset($HTTP_POST_VARS['submit'])):
 			endif;
 	endswitch;
 
-	$titanium_user_birthday = sprintf('%02d%02d%04d',$bday_month,$bday_day,$phpbb2_bday_year);
-	$titanium_user_birthday2 = ($birthday_display 
+	$pnt_user_birthday = sprintf('%02d%02d%04d',$bday_month,$bday_day,$phpbb2_bday_year);
+	$pnt_user_birthday2 = ($birthday_display 
 	                   != BIRTHDAY_DATE 
 	                   && $birthday_display 
 	                   != BIRTHDAY_NONE 
@@ -675,7 +675,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 			if($meta['handle_input'] 
 			&& (($mode == 'register' 
 			&& $meta['default_auth'] == XD_AUTH_ALLOW) 
-			|| ($mode != 'register' ? xdata_auth($code_name, $titanium_user_id) : 0) || $userdata['user_level'] == ADMIN )):
+			|| ($mode != 'register' ? xdata_auth($code_name, $pnt_user_id) : 0) || $userdata['user_level'] == ADMIN )):
 			
 				if(($meta['field_length'] > 0) && (strlen($xdata[$code_name]) > $meta['field_length'])):
 					$error = TRUE;
@@ -702,7 +702,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 						$xdata_bbcode_uid = ( $allowbbcode ) ? make_bbcode_uid() : '';
 						
 						if ($allowbbcode && !empty($xdata_bbcode_uid)): 
-						$titanium_db->sql_query('UPDATE `'.USERS_TABLE.'` SET xdata_bbcode="'.$xdata_bbcode_uid.'" WHERE `user_id` ='.$userdata['user_id']);
+						$pnt_db->sql_query('UPDATE `'.USERS_TABLE.'` SET xdata_bbcode="'.$xdata_bbcode_uid.'" WHERE `user_id` ='.$userdata['user_id']);
 						endif;
 				    else: 
 					    $xdata_bbcode_uid = $userdata['xdata_bbcode'];
@@ -715,7 +715,7 @@ if(isset($HTTP_POST_VARS['submit'])):
        # Mod: XData v1.0.3 END
 
     # Mod: Force Word Wrapping - Configurator v1.0.16 START
-	if ( $titanium_user_wordwrap < $phpbb2_board_config['wrap_min'] || $titanium_user_wordwrap > $phpbb2_board_config['wrap_max'] )
+	if ( $pnt_user_wordwrap < $phpbb2_board_config['wrap_min'] || $pnt_user_wordwrap > $phpbb2_board_config['wrap_max'] )
 	{
 		$error = TRUE;
 		$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Word_Wrap_Error'];
@@ -730,36 +730,36 @@ if(isset($HTTP_POST_VARS['submit'])):
 	{
 		$avatar_sql = user_avatar_delete($userdata['user_avatar_type'], $userdata['user_avatar']);
 	}
-	elseif((!empty($titanium_user_avatar_upload) || !empty($titanium_user_avatar_name) ) && $phpbb2_board_config['allow_avatar_upload'])
+	elseif((!empty($pnt_user_avatar_upload) || !empty($pnt_user_avatar_name) ) && $phpbb2_board_config['allow_avatar_upload'])
 	{
-		if(!empty($titanium_user_avatar_upload)):
-			$avatar_mode = (empty($titanium_user_avatar_name)) ? 'remote' : 'local';
+		if(!empty($pnt_user_avatar_upload)):
+			$avatar_mode = (empty($pnt_user_avatar_name)) ? 'remote' : 'local';
 			$avatar_sql = user_avatar_upload($mode, 
 			                          $avatar_mode, 
 						  $userdata['user_avatar'], 
 					 $userdata['user_avatar_type'], 
 									        $error, 
 										$error_msg, 
-							   $titanium_user_avatar_upload, 
-							     $titanium_user_avatar_name, 
-								 $titanium_user_avatar_size, 
-							 $titanium_user_avatar_filetype);
+							   $pnt_user_avatar_upload, 
+							     $pnt_user_avatar_name, 
+								 $pnt_user_avatar_size, 
+							 $pnt_user_avatar_filetype);
 		
-		elseif(!empty($titanium_user_avatar_name)):
+		elseif(!empty($pnt_user_avatar_name)):
 			$l_avatar_size = sprintf($lang['Avatar_filesize'], round($phpbb2_board_config['avatar_filesize'] / 1024));
 			$error = true;
 			$error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $l_avatar_size;
 		endif;
 	}
-	elseif($titanium_user_avatar_remoteurl != '' && $phpbb2_board_config['allow_avatar_remote'])
+	elseif($pnt_user_avatar_remoteurl != '' && $phpbb2_board_config['allow_avatar_remote'])
 	{
 		user_avatar_delete($userdata['user_avatar_type'], $userdata['user_avatar']);
-		$avatar_sql = user_avatar_url($mode, $error, $error_msg, $titanium_user_avatar_remoteurl);
+		$avatar_sql = user_avatar_url($mode, $error, $error_msg, $pnt_user_avatar_remoteurl);
 	}
-	elseif($titanium_user_avatar_local != '' && $phpbb2_board_config['allow_avatar_local'])
+	elseif($pnt_user_avatar_local != '' && $phpbb2_board_config['allow_avatar_local'])
 	{
 		user_avatar_delete($userdata['user_avatar_type'], $userdata['user_avatar']);
-		$avatar_sql = user_avatar_gallery($mode, $error, $error_msg, $titanium_user_avatar_local, $titanium_user_avatar_category);
+		$avatar_sql = user_avatar_gallery($mode, $error, $error_msg, $pnt_user_avatar_local, $pnt_user_avatar_category);
 	}
 	
 	if(!$error)
@@ -770,24 +770,24 @@ if(isset($HTTP_POST_VARS['submit'])):
 		if($mode == 'editprofile')
 		{
 			if($email != $userdata['user_email'] && $phpbb2_board_config['require_activation'] != USER_ACTIVATION_NONE && $userdata['user_level'] != ADMIN):
-				$titanium_user_active = 0;
-				$titanium_user_actkey = gen_rand_string(true);
+				$pnt_user_active = 0;
+				$pnt_user_actkey = gen_rand_string(true);
 				$key_len = 54 - ( strlen($server_url) );
 				$key_len = ( $key_len > 6 ) ? $key_len : 6;
-				$titanium_user_actkey = substr($titanium_user_actkey, 0, $key_len);
+				$pnt_user_actkey = substr($pnt_user_actkey, 0, $key_len);
 
 				if($userdata['session_logged_in']):
 				titanium_session_end($userdata['sid'], $userdata['user_id']);
 				endif;
 			else:
-				$titanium_user_active = 1;
-				$titanium_user_actkey = '';
+				$pnt_user_active = 1;
+				$pnt_user_actkey = '';
 			endif;
 
             # Mod: Birthdays v3.0.0 START
 			$birthday_sql = '';
 			if(!$phpbb2_board_config['bday_lock'] || $userdata['user_birthday'] == 0)
-			$birthday_sql = "user_birthday = $titanium_user_birthday, user_birthday2 = $titanium_user_birthday2, ";
+			$birthday_sql = "user_birthday = $pnt_user_birthday, user_birthday2 = $pnt_user_birthday2, ";
 			# Mod: Birthdays v3.0.0 END
 
             # Mod: Force Word Wrapping - Configurator v1.0.16 START
@@ -802,22 +802,22 @@ if(isset($HTTP_POST_VARS['submit'])):
             # Mod: Gender v1.2.6 START
             # Mod: Birthdays v3.0.0 START
 			$sql = "UPDATE ".USERS_TABLE."
-			SET ".$titanium_username_sql.$passwd_sql." user_email = '".str_replace("\'", "''", $email)."', ".$birthday_sql
+			SET ".$pnt_username_sql.$passwd_sql." user_email = '".str_replace("\'", "''", $email)."', ".$birthday_sql
 			."birthday_display = $birthday_display, birthday_greeting = $birthday_greeting, user_facebook = '"
 			.str_replace("\'", "''", str_replace(' ', '+', $facebook))."', user_website = '".str_replace("\'", "''", $website)
 			."', user_occ = '".str_replace("\'", "''", $occupation)."', user_from = '".str_replace("\'", "''", $location) 
-			."',user_from_flag = '$titanium_user_flag', user_interests = '".str_replace("\'", "''", $interests)."', 
+			."',user_from_flag = '$pnt_user_flag', user_interests = '".str_replace("\'", "''", $interests)."', 
 			user_glance_show = '".intval($glance_show)."', user_viewemail = '$viewemail', user_attachsig = $attachsig, user_allowsmile = 
 			'$allowsmilies', user_showavatars = '$showavatars', user_showsignatures = '$showsignatures', user_allowhtml 
 			= '$allowhtml', user_allowbbcode = '$allowbbcode', user_allow_viewonline = '$allowviewonline', user_notify 
 			= '$notifyreply', user_notify_pm = '$notifypm', user_allow_mass_pm = '$allow_mass_pm', user_popup_pm 
-			= '$popup_pm', user_timezone = '$titanium_user_timezone', user_time_mode = $time_mode, user_dst_time_lag = $dst_time_lag, user_dateformat 
-			= '".str_replace("\'", "''",$titanium_user_dateformat)."', user_show_quickreply = '$titanium_user_show_quickreply', sceditor_in_source 
-			= '$sceditor', user_quickreply_mode = '$titanium_user_quickreply_mode', user_wordwrap = '" . str_replace("\'", "''", $titanium_user_wordwrap) 
-			. "', user_open_quickreply = $titanium_user_open_quickreply, user_lang = '".str_replace("\'", "''", $titanium_user_lang)."', theme 
-			= '$titanium_user_style', user_active = '$titanium_user_active', user_actkey = '".str_replace("\'", "''", $titanium_user_actkey)."'".$avatar_sql.", user_gender 
+			= '$popup_pm', user_timezone = '$pnt_user_timezone', user_time_mode = $time_mode, user_dst_time_lag = $dst_time_lag, user_dateformat 
+			= '".str_replace("\'", "''",$pnt_user_dateformat)."', user_show_quickreply = '$pnt_user_show_quickreply', sceditor_in_source 
+			= '$sceditor', user_quickreply_mode = '$pnt_user_quickreply_mode', user_wordwrap = '" . str_replace("\'", "''", $pnt_user_wordwrap) 
+			. "', user_open_quickreply = $pnt_user_open_quickreply, user_lang = '".str_replace("\'", "''", $pnt_user_lang)."', theme 
+			= '$pnt_user_style', user_active = '$pnt_user_active', user_actkey = '".str_replace("\'", "''", $pnt_user_actkey)."'".$avatar_sql.", user_gender 
 			= '$gender', name = '".$rname."', newsletter = '".$newsletter."', bio = '".$extra_info."', user_hide_images = '$hide_images'
-			WHERE user_id = '$titanium_user_id'";
+			WHERE user_id = '$pnt_user_id'";
             # Mod: Force Word Wrapping - Configurator v1.0.16 END
             # Mod: Super Quick Reply v1.3.2 END
             # Mod: View/Disable Avatars/Signatures v1.1.2 END
@@ -830,27 +830,27 @@ if(isset($HTTP_POST_VARS['submit'])):
             # Mod: Gender v1.2.6 END
             # Mod: Birthdays v3.0.0 END
 
-			if(!($result = $titanium_db->sql_query($sql))):
+			if(!($result = $pnt_db->sql_query($sql))):
 				message_die(GENERAL_ERROR, 'Could not update users table', '', __LINE__, __FILE__, $sql);
 			else: 
 				global $userinfo;
-				$userinfo['theme'] = $titanium_user_style;
+				$userinfo['theme'] = $pnt_user_style;
 				UpdateCookie();
 			endif;
 
 			# We remove all stored login keys since the password has been updated
 			# and change the current one (if applicable)
 			if(!empty($passwd_sql))
-			titanium_session_reset_keys($titanium_user_id, $titanium_user_ip);
+			titanium_session_reset_keys($pnt_user_id, $pnt_user_ip);
 
             # Mod: XData v1.0.3 START
 			foreach($xdata as $code_name => $value):
-			set_user_xdata($titanium_user_id, $code_name, $value);
+			set_user_xdata($pnt_user_id, $code_name, $value);
 			endforeach;
             # Mod: XData v1.0.3 END
 
 			# Commented code below for testing purposes only.
-			if(!$titanium_user_active):
+			if(!$pnt_user_active):
 			
 				# The users account has been deactivated, send them an email with a new activation key
 				include("includes/emailer.php");
@@ -861,16 +861,16 @@ if(isset($HTTP_POST_VARS['submit'])):
 					 $emailer->from($phpbb2_board_config['board_email']);
 					 $emailer->replyto($phpbb2_board_config['board_email']);
 
-					 $emailer->use_template('user_activate', stripslashes($titanium_user_lang));
+					 $emailer->use_template('user_activate', stripslashes($pnt_user_lang));
 					 $emailer->email_address($email);
 					 $emailer->set_subject($lang['Reactivate']);
 
 					 $emailer->assign_vars(array(
 						 'SITENAME' => $phpbb2_board_config['sitename'],
-						 'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $titanium_username), 0, 25)),
+						 'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $pnt_username), 0, 25)),
 						 'EMAIL_SIG' => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : '',
 
-						 'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $titanium_user_id . '&act_key=' . $titanium_user_actkey)
+						 'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $pnt_user_id . '&act_key=' . $pnt_user_actkey)
 					 );
 					 $emailer->send();
 					 $emailer->reset();
@@ -881,12 +881,12 @@ if(isset($HTTP_POST_VARS['submit'])):
 						 FROM ' . USERS_TABLE . '
 						 WHERE user_level = ' . ADMIN;
 
-					 if ( !($result = $titanium_db->sql_query($sql)) )
+					 if ( !($result = $pnt_db->sql_query($sql)) )
 					 {
 						 message_die(GENERAL_ERROR, 'Could not select Administrators', '', __LINE__, __FILE__, $sql);
 					 }
 
-					 while ($row = $titanium_db->sql_fetchrow($result))
+					 while ($row = $pnt_db->sql_fetchrow($result))
 					 {
 						 $emailer->from($phpbb2_board_config['board_email']);
 						 $emailer->replyto($phpbb2_board_config['board_email']);
@@ -896,24 +896,24 @@ if(isset($HTTP_POST_VARS['submit'])):
 						 $emailer->set_subject($lang['Reactivate']);
 
 						 $emailer->assign_vars(array(
-							 'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $titanium_username), 0, 25)),
+							 'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $pnt_username), 0, 25)),
 							 'EMAIL_SIG' => str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']),
 
-							 'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $titanium_user_id . '&act_key=' . $titanium_user_actkey)
+							 'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $pnt_user_id . '&act_key=' . $pnt_user_actkey)
 						 );
 						 $emailer->send();
 						 $emailer->reset();
 					 }
-					 $titanium_db->sql_freeresult($result);
+					 $pnt_db->sql_freeresult($result);
 				 }
 				//evcz mod=>logout
 				global $userinfo;
 				$r_uid = $userinfo['user_id'];
 				$r_username = $userinfo['username'];
 				setcookie("user");
-				$titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_session WHERE uname='$r_username'");
-				$titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_bbsessions WHERE session_user_id='$r_uid'");
-				$titanium_user = "";
+				$pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_session WHERE uname='$r_username'");
+				$pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_bbsessions WHERE session_user_id='$r_uid'");
+				$pnt_user = "";
 				//fine evcz mod=>logout
 				if (is_active("Forums")) 
 				$message = $lang['Profile_updated_inactive'].'<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
@@ -946,14 +946,14 @@ if(isset($HTTP_POST_VARS['submit'])):
 			$sql = "SELECT MAX(user_id) AS total
 			FROM ".USERS_TABLE;
 
-			if(!($result = $titanium_db->sql_query($sql)))
+			if(!($result = $pnt_db->sql_query($sql)))
 			message_die(GENERAL_ERROR, 'Could not obtain next user_id information', '', __LINE__, __FILE__, $sql);
 
-			if(!($row = $titanium_db->sql_fetchrow($result)))
+			if(!($row = $pnt_db->sql_fetchrow($result)))
 			message_die(GENERAL_ERROR, 'Could not obtain next user_id information', '', __LINE__, __FILE__, $sql);
 
-			$titanium_db->sql_freeresult($result);
-			$titanium_user_id = $row['total'] + 1;
+			$pnt_db->sql_freeresult($result);
+			$pnt_user_id = $row['total'] + 1;
 
 		    # Get current date
 			$reg_date = date("M d, Y");
@@ -1022,22 +1022,22 @@ if(isset($HTTP_POST_VARS['submit'])):
 												 user_active, 
 												 user_actkey)
 			
-			VALUES ('$titanium_user_id', '".str_replace("\'", "''", $titanium_username)."', '".$reg_date."', 
+			VALUES ('$pnt_user_id', '".str_replace("\'", "''", $pnt_username)."', '".$reg_date."', 
 			                    '".str_replace("\'", "''", $new_password) . "', 
-								'".str_replace("\'", "''", $email)."', $titanium_user_birthday, 
-								              $titanium_user_birthday2, 
+								'".str_replace("\'", "''", $email)."', $pnt_user_birthday, 
+								              $pnt_user_birthday2, 
 											$birthday_display, 
 										   $birthday_greeting, 
 								'".str_replace("\'", "''", $website) . "', 
 								'".str_replace("\'", "''", $occupation) . "', 
-								'".str_replace("\'", "''", $location) . "','$titanium_user_flag', 
+								'".str_replace("\'", "''", $location) . "','$pnt_user_flag', 
 								'" . str_replace("\'", "''", $interests) . "', 
 								'" . str_replace("\'", "''", $glance_show) . "', 
 								'" . str_replace("\'", "''", $signature) . "', 
 								
 								'$signature_bbcode_uid', 
-								         '$titanium_user_avatar', 
-									'$titanium_user_avatar_type', 
+								         '$pnt_user_avatar', 
+									'$pnt_user_avatar_type', 
 									       '$viewemail', 
 								
 								'" . str_replace("\'", "''", $facebook)."', 
@@ -1053,17 +1053,17 @@ if(isset($HTTP_POST_VARS['submit'])):
 								     '$notifypm', 
 								'$allow_mass_pm', 
 								     '$popup_pm', 
-								'$titanium_user_timezone', 
+								'$pnt_user_timezone', 
 								    '$time_mode', 
 								 '$dst_time_lag', 
 								 
-								 '" . str_replace("\'", "''", $titanium_user_dateformat)."', 
+								 '" . str_replace("\'", "''", $pnt_user_dateformat)."', 
 								 
-								 '$titanium_user_show_quickreply', 
-								 '$titanium_user_quickreply_mode', 
+								 '$pnt_user_show_quickreply', 
+								 '$pnt_user_quickreply_mode', 
 								 
-								 '" . str_replace("\'", "''", $titanium_user_wordwrap)."', $titanium_user_open_quickreply, 
-								 '".str_replace("\'", "''", $titanium_user_lang)."', '$titanium_user_style', '1', '1', 
+								 '" . str_replace("\'", "''", $pnt_user_wordwrap)."', $pnt_user_open_quickreply, 
+								 '".str_replace("\'", "''", $pnt_user_lang)."', '$pnt_user_style', '1', '1', 
 								 '".$realname."', 
 								 '".$newsletter."', 
 								 '".$extra_info."', 
@@ -1084,44 +1084,44 @@ if(isset($HTTP_POST_VARS['submit'])):
  ******************************************************/
 			if ( $phpbb2_board_config['require_activation'] == USER_ACTIVATION_SELF || $phpbb2_board_config['require_activation'] == USER_ACTIVATION_ADMIN || $coppa )
 			{
-				$titanium_user_actkey = gen_rand_string(true);
+				$pnt_user_actkey = gen_rand_string(true);
 				$key_len = 54 - (strlen($server_url));
 				$key_len = ( $key_len > 6 ) ? $key_len : 6;
-				$titanium_user_actkey = substr($titanium_user_actkey, 0, $key_len);
-				$sql .= "0, '" . str_replace("\'", "''", $titanium_user_actkey) . "')";
+				$pnt_user_actkey = substr($pnt_user_actkey, 0, $key_len);
+				$sql .= "0, '" . str_replace("\'", "''", $pnt_user_actkey) . "')";
 			}
 			else
 			{
 				$sql .= "1, '')";
 			}
-			if ( !($result = $titanium_db->sql_query($sql)) )
+			if ( !($result = $pnt_db->sql_query($sql)) )
 			{
 				message_die(GENERAL_ERROR, 'Could not insert data into users table', '', __LINE__, __FILE__, $sql);
 			}
 
 			$sql = "INSERT INTO " . GROUPS_TABLE . " (group_name, group_description, group_single_user, group_moderator)
 			VALUES ('', 'Personal User', '1', '0')";
-			if ( !($result = $titanium_db->sql_query($sql)) )
+			if ( !($result = $pnt_db->sql_query($sql)) )
 			{
 				message_die(GENERAL_ERROR, 'Could not insert data into groups table', '', __LINE__, __FILE__, $sql);
 			}
 
-			$group_id = $titanium_db->sql_nextid();
+			$group_id = $pnt_db->sql_nextid();
 
 			$sql = "INSERT INTO " . USER_GROUP_TABLE . " (user_id, group_id, user_pending)
-				VALUES ('$titanium_user_id', '$group_id', '0')";
-			if( !($result = $titanium_db->sql_query($sql)) )
+				VALUES ('$pnt_user_id', '$group_id', '0')";
+			if( !($result = $pnt_db->sql_query($sql)) )
 			{
 				message_die(GENERAL_ERROR, 'Could not insert data into user_group table', '', __LINE__, __FILE__, $sql);
 			}
 
 			// Delete the temporary user now if we are going through the verification stage of registration
-			$titanium_db->sql_query(sprintf('DELETE FROM %s_users_temp WHERE username = "%s"', $titanium_user_prefix, $titanium_username));
+			$pnt_db->sql_query(sprintf('DELETE FROM %s_users_temp WHERE username = "%s"', $pnt_user_prefix, $pnt_username));
 
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-			init_group($titanium_user_id);
+			init_group($pnt_user_id);
 /*****[END]********************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
@@ -1129,7 +1129,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 /*****[BEGIN]******************************************
  [ Mod:     Welcome PM                         v2.0.0 ]
  ******************************************************/
-			send_pm($titanium_user_id,str_replace("\'", "''", $titanium_username));
+			send_pm($pnt_user_id,str_replace("\'", "''", $pnt_username));
 /*****[END]********************************************
  [ Mod:     Welcome PM                         v2.0.0 ]
  ******************************************************/
@@ -1139,7 +1139,7 @@ if(isset($HTTP_POST_VARS['submit'])):
  ******************************************************/
 			foreach ($xdata as $code_name => $value)
 			{
-				set_user_xdata($titanium_user_id, $code_name, $value);
+				set_user_xdata($pnt_user_id, $code_name, $value);
 			}
 /*****[END]********************************************
  [ Mod:     XData                              v1.0.3 ]
@@ -1172,12 +1172,12 @@ if(isset($HTTP_POST_VARS['submit'])):
 				FROM " . USERS_TABLE . "
 				WHERE user_level = " . ADMIN;
 
-				if ( !($result = $titanium_db->sql_query($sql)) )
+				if ( !($result = $pnt_db->sql_query($sql)) )
 				{
 					message_die(GENERAL_ERROR, 'Could not select Administrators', '', __LINE__, __FILE__, $sql);
 				}
 
-				while ($row = $titanium_db->sql_fetchrow($result))
+				while ($row = $pnt_db->sql_fetchrow($result))
 				{
 					$emailer->from($phpbb2_board_config['board_email']);
 					$emailer->replyto($phpbb2_board_config['board_email']);
@@ -1187,15 +1187,15 @@ if(isset($HTTP_POST_VARS['submit'])):
 					$emailer->set_subject($lang['New_account_subject']);
 
 					$emailer->assign_vars(array(
-					'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $titanium_username), 0, 25)),
+					'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $pnt_username), 0, 25)),
 					'EMAIL_SIG' => str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']),
 
-					'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $titanium_user_id . '&act_key=' . $titanium_user_actkey)
+					'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $pnt_user_id . '&act_key=' . $pnt_user_actkey)
 					);
 					$emailer->send();
 					$emailer->reset();
 				}
-				$titanium_db->sql_freeresult($result);
+				$pnt_db->sql_freeresult($result);
 			}
 			$message = $message . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
 			message_die(GENERAL_MESSAGE, $message);
@@ -1208,7 +1208,7 @@ if ( $error )
 	//
 	// If an error occured we need to stripslashes on returned data
 	//
-	$titanium_username = stripslashes($titanium_username);
+	$pnt_username = stripslashes($pnt_username);
 	$email = stripslashes($email);
 	$cur_password = '';
 	$new_password = '';
@@ -1255,18 +1255,18 @@ if ( $error )
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-	$titanium_user_wordwrap = stripslashes($titanium_user_wordwrap);
+	$pnt_user_wordwrap = stripslashes($pnt_user_wordwrap);
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-	$titanium_user_lang = stripslashes($titanium_user_lang);
-	$titanium_user_dateformat = stripslashes($titanium_user_dateformat);
+	$pnt_user_lang = stripslashes($pnt_user_lang);
+	$pnt_user_dateformat = stripslashes($pnt_user_dateformat);
 
 }
 else if ( $mode == 'editprofile' && !isset($HTTP_POST_VARS['avatargallery']) && !isset($HTTP_POST_VARS['submitavatar']) && !isset($HTTP_POST_VARS['cancelavatar']) )
 {
-	$titanium_user_id = $userdata['user_id'];
-	$titanium_username = $userdata['username'];
+	$pnt_user_id = $userdata['user_id'];
+	$pnt_username = $userdata['username'];
 	$email = $userdata['user_email'];
 	$cur_password = '';
 	$new_password = '';
@@ -1291,7 +1291,7 @@ else if ( $mode == 'editprofile' && !isset($HTTP_POST_VARS['avatargallery']) && 
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
-	$titanium_user_flag = $userdata['user_from_flag'];
+	$pnt_user_flag = $userdata['user_from_flag'];
 /*****[END]********************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
@@ -1376,19 +1376,19 @@ else if ( $mode == 'editprofile' && !isset($HTTP_POST_VARS['avatargallery']) && 
  ******************************************************/
 	$allowviewonline = $userdata['user_allow_viewonline'];
 
-	$titanium_user_avatar = ( $userdata['user_allowavatar'] ) ? $userdata['user_avatar'] : '';
-	$titanium_user_avatar_type = ( $userdata['user_allowavatar'] ) ? $userdata['user_avatar_type'] : USER_AVATAR_NONE;
+	$pnt_user_avatar = ( $userdata['user_allowavatar'] ) ? $userdata['user_avatar'] : '';
+	$pnt_user_avatar_type = ( $userdata['user_allowavatar'] ) ? $userdata['user_avatar_type'] : USER_AVATAR_NONE;
 
-	$titanium_user_style = $userdata['theme'];
+	$pnt_user_style = $userdata['theme'];
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-	$titanium_user_wordwrap = $userdata['user_wordwrap'];
+	$pnt_user_wordwrap = $userdata['user_wordwrap'];
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-	$titanium_user_lang = $userdata['user_lang'];
-	$titanium_user_timezone = $userdata['user_timezone'];
+	$pnt_user_lang = $userdata['user_lang'];
+	$pnt_user_timezone = $userdata['user_timezone'];
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
@@ -1397,13 +1397,13 @@ else if ( $mode == 'editprofile' && !isset($HTTP_POST_VARS['avatargallery']) && 
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-	$titanium_user_dateformat = $userdata['user_dateformat'];
+	$pnt_user_dateformat = $userdata['user_dateformat'];
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-	$titanium_user_show_quickreply = $userdata['user_show_quickreply'];
-	$titanium_user_quickreply_mode = $userdata['user_quickreply_mode'];
-	$titanium_user_open_quickreply = $userdata['user_open_quickreply'];
+	$pnt_user_show_quickreply = $userdata['user_show_quickreply'];
+	$pnt_user_quickreply_mode = $userdata['user_quickreply_mode'];
+	$pnt_user_open_quickreply = $userdata['user_open_quickreply'];
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
@@ -1428,7 +1428,7 @@ make_jumpbox('viewforum.'.$phpEx);
 
 if ( $mode == 'editprofile' )
 {
-	if ( $titanium_user_id != $userdata['user_id'] )
+	if ( $pnt_user_id != $userdata['user_id'] )
 	{
 		$error = TRUE;
 		$error_msg = $lang['Wrong_Profile'];
@@ -1461,7 +1461,7 @@ if( isset($HTTP_POST_VARS['avatargallery']) && !$error )
  [ Mod:     Gender                             v1.2.6 ]
  [ Mod:     Birthdays                          v3.0.0 ]
  ******************************************************/
-	display_avatar_gallery($mode, $avatar_category, $titanium_user_id, $email, $current_email, $coppa, $titanium_username, $new_password, $cur_password, $password_confirm, $website, $location, $titanium_user_flag, $occupation, $interests, $glance_show, $signature, $viewemail, $notifypm, $allow_mass_pm, $popup_pm, $notifyreply, $attachsig, $allowhtml, $allowbbcode, $allowsmilies, $showavatars, $showsignatures, $allowviewonline, $titanium_user_style, $titanium_user_wordwrap, $titanium_user_lang, $bday_month, $bday_day, $phpbb2_bday_year, $birthday_display, $birthday_greeting, $titanium_user_timezone, $time_mode, $dst_time_lag, $titanium_user_dateformat, $titanium_user_show_quickreply, $titanium_user_quickreply_mode, $titanium_user_open_quickreply, $userdata['session_id'], $xdata, $rname, $extra_info, $newsletter, $hide_images, $gender, $facebook);
+	display_avatar_gallery($mode, $avatar_category, $pnt_user_id, $email, $current_email, $coppa, $pnt_username, $new_password, $cur_password, $password_confirm, $website, $location, $pnt_user_flag, $occupation, $interests, $glance_show, $signature, $viewemail, $notifypm, $allow_mass_pm, $popup_pm, $notifyreply, $attachsig, $allowhtml, $allowbbcode, $allowsmilies, $showavatars, $showsignatures, $allowviewonline, $pnt_user_style, $pnt_user_wordwrap, $pnt_user_lang, $bday_month, $bday_day, $phpbb2_bday_year, $birthday_display, $birthday_greeting, $pnt_user_timezone, $time_mode, $dst_time_lag, $pnt_user_dateformat, $pnt_user_show_quickreply, $pnt_user_quickreply_mode, $pnt_user_open_quickreply, $userdata['session_id'], $xdata, $rname, $extra_info, $newsletter, $hide_images, $gender, $facebook);
 /*****[END]********************************************
  [ Mod:     Birthdays                          v3.0.0 ]
  [ Mod:     Gender                             v1.2.6 ]
@@ -1487,30 +1487,30 @@ else
 		$coppa = FALSE;
 	}
 
-	if ( !isset($titanium_user_style) )
+	if ( !isset($pnt_user_style) )
 	{
-		$titanium_user_style = $phpbb2_board_config['default_style'];
+		$pnt_user_style = $phpbb2_board_config['default_style'];
 	}
 
 	$avatar_img = '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/blank.png" alt="" border="0" />';
-	if ( $titanium_user_avatar_type )
+	if ( $pnt_user_avatar_type )
 	{
-		switch( $titanium_user_avatar_type )
+		switch( $pnt_user_avatar_type )
 		{
 			# user_allowavatar = 1
 			case USER_AVATAR_UPLOAD:
-				$avatar_img = ( $phpbb2_board_config['allow_avatar_upload'] ) ? '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_path'] . '/' . $titanium_user_avatar . '" alt="" border="0" />' : '';
+				$avatar_img = ( $phpbb2_board_config['allow_avatar_upload'] ) ? '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_path'] . '/' . $pnt_user_avatar . '" alt="" border="0" />' : '';
 				break;
 
 			# user_allowavatar = 2
 			case USER_AVATAR_REMOTE:
-				// $avatar_img = resize_avatar($titanium_user_avatar);
-				$avatar_img = '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . resize_avatar($titanium_user_avatar) . '" alt="" border="0" />';
+				// $avatar_img = resize_avatar($pnt_user_avatar);
+				$avatar_img = '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . resize_avatar($pnt_user_avatar) . '" alt="" border="0" />';
 				break;
 
 			# user_allowavatar = 3
 			case USER_AVATAR_GALLERY:
-				$avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($titanium_user_avatar == 'blank.gif' || $titanium_user_avatar == 'gallery/blank.png') ? 'blank.png' : $titanium_user_avatar) . '" alt="" border="0" />' : '';
+				$avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($pnt_user_avatar == 'blank.gif' || $pnt_user_avatar == 'gallery/blank.png') ? 'blank.png' : $pnt_user_avatar) . '" alt="" border="0" />' : '';
 				break;
 		}
 	}
@@ -1528,9 +1528,9 @@ else
 		$s_hidden_fields .= '<input type="hidden" name="current_email" value="' . $userdata['user_email'] . '" />';
 	}
 
-	if ( !empty($titanium_user_avatar_local) )
+	if ( !empty($pnt_user_avatar_local) )
 	{
-		$s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $titanium_user_avatar_local . '" /><input type="hidden" name="avatarcatname" value="' . $titanium_user_avatar_category . '" />';
+		$s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $pnt_user_avatar_local . '" /><input type="hidden" name="avatarcatname" value="' . $pnt_user_avatar_category . '" />';
 	}
 
 	$html_status =  ( $userdata['user_allowhtml'] && $phpbb2_board_config['allow_html'] ) ? $lang['HTML_is_ON'] : $lang['HTML_is_OFF'];
@@ -1691,18 +1691,18 @@ else
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
 	$sql = "SELECT * FROM `".FLAG_TABLE."` ORDER BY `flag_name`";
-	if ( !$flags_result = $titanium_db->sql_query( $sql ) )
+	if ( !$flags_result = $pnt_db->sql_query( $sql ) )
 	{
 		message_die(GENERAL_ERROR, "Couldn't obtain flags information.", "", __LINE__, __FILE__, $sql);
 	}
 
 	$default_flag_image = 'unknown.png';
 
-	$selected = ( isset($titanium_user_flag) ) ? '' : ' selected';
+	$selected = ( isset($pnt_user_flag) ) ? '' : ' selected';
 
 	$flag_select  = '<select class="user_from_flag_select" name="user_flag">';
 	$flag_select .= '	<option value="blank"'.$selected.'>'.$lang['Select_Country'].'</option>';
-	while ( $flag_row = $titanium_db->sql_fetchrow($flags_result) ):
+	while ( $flag_row = $pnt_db->sql_fetchrow($flags_result) ):
 
 		/**
 		 *	coding added to add new reponsive theme support
@@ -1711,15 +1711,15 @@ else
 
 			'FLAG_NAME' 	=> str_replace('_', ' ', $flag_row['flag_name']),
 			'FLAG_IMAGE' 	=> $flag_row['flag_image'],
-			'FLAG_SELECTED' => ( isset( $titanium_user_flag) ) ? ((str_replace('.png', '', $titanium_user_flag) == str_replace('.png', '', $flag_row['flag_image'])) ? ' selected' : '' ) : ''
+			'FLAG_SELECTED' => ( isset( $pnt_user_flag) ) ? ((str_replace('.png', '', $pnt_user_flag) == str_replace('.png', '', $flag_row['flag_image'])) ? ' selected' : '' ) : ''
 
 		));
 
-		$selected = ( isset( $titanium_user_flag) ) ? ((str_replace('.png','',$titanium_user_flag) == str_replace('.png', '', $flag_row['flag_image'])) ? ' selected' : '' ) : '';
+		$selected = ( isset( $pnt_user_flag) ) ? ((str_replace('.png','',$pnt_user_flag) == str_replace('.png', '', $flag_row['flag_image'])) ? ' selected' : '' ) : '';
 		$flag_select .= '	<option value="'.$flag_row['flag_image'].'"'.$selected.'>'.$flag_row['flag_name'].'</option>';
-		// if ( isset( $titanium_user_flag ) && $titanium_user_flag == str_replace('.png', '', $flag_row['flag_image']) )
+		// if ( isset( $pnt_user_flag ) && $pnt_user_flag == str_replace('.png', '', $flag_row['flag_image']) )
 		// {
-			$flag_start_image = str_replace('.png', '', $titanium_user_flag);
+			$flag_start_image = str_replace('.png', '', $pnt_user_flag);
 		// }
 
 	endwhile;
@@ -1863,56 +1863,56 @@ else
 	{
 		$sql = 'SELECT session_id
 			FROM ' . SESSIONS_TABLE;
-		if (!($result = $titanium_db->sql_query($sql)))
+		if (!($result = $pnt_db->sql_query($sql)))
 		{
 			message_die(GENERAL_ERROR, 'Could not select session data', '', __LINE__, __FILE__, $sql);
 		}
 
-		if ($row = $titanium_db->sql_fetchrow($result))
+		if ($row = $pnt_db->sql_fetchrow($result))
 		{
 			$confirm_sql = '';
 			do
 			{
 				$confirm_sql .= (($confirm_sql != '') ? ', ' : '') . "'" . $row['session_id'] . "'";
 			}
-			while ($row = $titanium_db->sql_fetchrow($result));
+			while ($row = $pnt_db->sql_fetchrow($result));
 
 			$sql = 'DELETE FROM ' .  CONFIRM_TABLE . "
 				WHERE session_id NOT IN ($confirm_sql)";
-			if (!$titanium_db->sql_query($sql))
+			if (!$pnt_db->sql_query($sql))
 			{
 				message_die(GENERAL_ERROR, 'Could not delete stale confirm data', '', __LINE__, __FILE__, $sql);
 			}
 		}
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 
 		$sql = 'SELECT COUNT(session_id) AS attempts
 			FROM ' . CONFIRM_TABLE . "
 			WHERE session_id = '" . $userdata['session_id'] . "'";
-		if (!($result = $titanium_db->sql_query($sql)))
+		if (!($result = $pnt_db->sql_query($sql)))
 		{
 			message_die(GENERAL_ERROR, 'Could not obtain confirm code count', '', __LINE__, __FILE__, $sql);
 		}
 
-		if ($row = $titanium_db->sql_fetchrow($result))
+		if ($row = $pnt_db->sql_fetchrow($result))
 		{
 			if ($row['attempts'] > 3)
 			{
 				message_die(GENERAL_MESSAGE, $lang['Too_many_registers']);
 			}
 		}
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 
 		// Generate the required confirmation code
 		// NB 0 (zero) could get confused with O (the letter) so we make change it
 		$code = dss_rand();
 		$code = strtoupper(str_replace('0', 'o', substr($code, 0, 6)));
 
-		$confirm_id = md5(uniqid($titanium_user_ip));
+		$confirm_id = md5(uniqid($pnt_user_ip));
 
 		$sql = 'INSERT INTO ' . CONFIRM_TABLE . " (confirm_id, session_id, code)
 			VALUES ('$confirm_id', '". $userdata['session_id'] . "', '$code')";
-		if (!$titanium_db->sql_query($sql))
+		if (!$pnt_db->sql_query($sql))
 		{
 			message_die(GENERAL_ERROR, 'Could not insert new confirm code information', '', __LINE__, __FILE__, $sql);
 		}
@@ -1944,7 +1944,7 @@ else
 	$form_enctype = ( @$ini_val('file_uploads') == '0' || strtolower(@$ini_val('file_uploads') == 'off') || phpversion() == '4.0.4pl1' || !$phpbb2_board_config['allow_avatar_upload'] || ( phpversion() < '4.0.3' && @$ini_val('open_basedir') != '' ) ) ? '' : 'enctype="multipart/form-data"';
 
 	$phpbb2_template->assign_vars(array(
-				'USERNAME' => isset($titanium_username) ? $titanium_username : '',
+				'USERNAME' => isset($pnt_username) ? $pnt_username : '',
 				'CUR_PASSWORD' => isset($cur_password) ? $cur_password : '',
 				'NEW_PASSWORD' => isset($new_password) ? $new_password : '',
 				'PASSWORD_CONFIRM' => isset($password_confirm) ? $password_confirm : '',
@@ -2161,11 +2161,11 @@ else
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-				'WRAP_ROW' => ( $mode == 'register' ) ? $phpbb2_board_config['wrap_def'] : $titanium_user_wordwrap,
+				'WRAP_ROW' => ( $mode == 'register' ) ? $phpbb2_board_config['wrap_def'] : $pnt_user_wordwrap,
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-				'LANGUAGE_SELECT' => language_select($titanium_user_lang, 'language'),
+				'LANGUAGE_SELECT' => language_select($pnt_user_lang, 'language'),
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
@@ -2202,7 +2202,7 @@ else
 /*****[END]********************************************
  [ Base:    Theme Management                   v1.0.2 ]
  ******************************************************/
-				'TIMEZONE_SELECT' => tz_select($titanium_user_timezone, 'timezone'),
+				'TIMEZONE_SELECT' => tz_select($pnt_user_timezone, 'timezone'),
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
@@ -2231,15 +2231,15 @@ else
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-				'DATE_FORMAT' => $titanium_user_dateformat,
+				'DATE_FORMAT' => $pnt_user_dateformat,
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-				'QUICK_REPLY_SELECT' => quick_reply_select($titanium_user_show_quickreply, 'show_quickreply'),
-				'QUICK_REPLY_MODE_BASIC' => ( $titanium_user_quickreply_mode==0 ) ? 'checked="checked"' : '',
-				'QUICK_REPLY_MODE_ADVANCED' => ( $titanium_user_quickreply_mode!=0 ) ? 'checked="checked"' : '',
-				'OPEN_QUICK_REPLY_YES' => ( $titanium_user_open_quickreply ) ? 'checked="checked"' : '',
-				'OPEN_QUICK_REPLY_NO' => ( !$titanium_user_open_quickreply ) ? 'checked="checked"' : '',
+				'QUICK_REPLY_SELECT' => quick_reply_select($pnt_user_show_quickreply, 'show_quickreply'),
+				'QUICK_REPLY_MODE_BASIC' => ( $pnt_user_quickreply_mode==0 ) ? 'checked="checked"' : '',
+				'QUICK_REPLY_MODE_ADVANCED' => ( $pnt_user_quickreply_mode!=0 ) ? 'checked="checked"' : '',
+				'OPEN_QUICK_REPLY_YES' => ( $pnt_user_open_quickreply ) ? 'checked="checked"' : '',
+				'OPEN_QUICK_REPLY_NO' => ( !$pnt_user_open_quickreply ) ? 'checked="checked"' : '',
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/

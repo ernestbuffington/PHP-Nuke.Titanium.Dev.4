@@ -16,10 +16,10 @@ if (!defined('NUKESENTINEL_PUBLIC')) {
 }
 
 function stmain_menu($subtitle = "") {
-  global $titanium_db, $titanium_prefix, $pnt_module;
+  global $pnt_db, $pnt_prefix, $pnt_module;
   if($subtitle > "") { $subtitle = ": ".$subtitle; }
   OpenTable();
-  $checkrow = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT `ip_lo` FROM `".$titanium_prefix."_nsnst_ip2country`"));
+  $checkrow = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `ip_lo` FROM `".$pnt_prefix."_nsnst_ip2country`"));
   echo '<table summary="" align="center" border="0" cellpadding="2" cellspacing="2">'."\n";
   echo '<tr><td align="center" colspan="3" class="title">'._AB_NUKESENTINEL.$subtitle.'</td></tr>'."\n";
   echo '<tr><td><a href="modules.php?name='.$pnt_module.'&amp;op=STIPS">'._AB_BLOCKEDIPS.'</a></td></tr>'."\n";

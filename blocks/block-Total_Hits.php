@@ -30,21 +30,21 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $titanium_db, $titanium_config, $startdate;
+global $pnt_db, $pnt_config, $startdate;
 
 function block_Hits_cache($block_cachetime) {
-    global $titanium_db, $cache;
+    global $pnt_db, $cache;
     if ((($blockcache = $cache->load('hits', 'blocks')) === false) || empty($blockcache) || intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) {
-        $result = $titanium_db->sql_ufetchrow('SELECT `count` FROM `'._COUNTER_TABLE.'` WHERE `type`="total" AND `var`="hits" LIMIT 1');
+        $result = $pnt_db->sql_ufetchrow('SELECT `count` FROM `'._COUNTER_TABLE.'` WHERE `type`="total" AND `var`="hits" LIMIT 1');
         $blockcache[1]['count'] = $result['count'];
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         $blockcache[0]['stat_created'] = time();
         $cache->save('hits', 'blocks', $blockcache);
     }
     return $blockcache;
 }
 
-$blocksession = block_Hits_cache($titanium_config['block_cachetime']);
+$blocksession = block_Hits_cache($pnt_config['block_cachetime']);
 
 $content = "<div style='text-align: center; width: 100%;'>\n";
 if (empty($blocksession[1]['count'])) {

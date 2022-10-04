@@ -21,7 +21,7 @@ if (!defined('MODULE_FILE'))
    die ("You can't access this file directly...");
 }
 
-global $titanium_prefix, $titanium_db, $cookie, $titanium_user, $theme_name;
+global $pnt_prefix, $pnt_db, $cookie, $pnt_user, $theme_name;
 $index = 1;
 require_once("mainfile.php");
 $pnt_module = basename(dirname(__FILE__));
@@ -29,19 +29,19 @@ get_lang($pnt_module);
 $pagetitle = "86it Developers Network - My " . _MARKSTITLE;
 include("header.php");
 
-$userinfo = getusrinfo( $titanium_user );
-$titanium_userid = $userinfo["user_id"];
+$userinfo = getusrinfo( $pnt_user );
+$pnt_userid = $userinfo["user_id"];
 $catname=@htmlentities($catname);
 
-if (!isset($titanium_userid) || $titanium_userid=="")
-        $titanium_userid=0;
+if (!isset($pnt_userid) || $pnt_userid=="")
+        $pnt_userid=0;
 
 //Sometimes we don't know the category name
 if ((!isset($catname) || $catname=="") && (isset($category) && $category!=""))
 {
-	$getname="select name from ".$titanium_prefix."_bookmarks_cat where category_id='$category'";
-	$getnameres=$titanium_db->sql_query ($getname,$titanium_db);
-	$namerow=@$titanium_db->sql_fetchrow($getnameres,$titanium_db);
+	$getname="select name from ".$pnt_prefix."_bookmarks_cat where category_id='$category'";
+	$getnameres=$pnt_db->sql_query ($getname,$pnt_db);
+	$namerow=@$pnt_db->sql_fetchrow($getnameres,$pnt_db);
 	$catname=$namerow['name'];
 }
 OpenTable();
@@ -52,9 +52,9 @@ echo "<hr />";
 
 //OpenTable();
 
-$marks_query = "select id,name,url,description,mod_date,popup from " . $titanium_prefix . "_bookmarks where user_id=" . $titanium_userid . " and category_id='" . $category . "' order by name";
+$marks_query = "select id,name,url,description,mod_date,popup from " . $pnt_prefix . "_bookmarks where user_id=" . $pnt_userid . " and category_id='" . $category . "' order by name";
 
-$marks_res = $titanium_db->sql_query ($marks_query,$titanium_db);
+$marks_res = $pnt_db->sql_query ($marks_query,$pnt_db);
 
 echo "<table width=98%>\n<tr class=boxtitle>
       <td width=37%>
@@ -70,12 +70,12 @@ echo "<table width=98%>\n<tr class=boxtitle>
 
 
 
-for ($i=0;$i<@$titanium_db->sql_numrows  ($marks_res,$titanium_db);$i++)
+for ($i=0;$i<@$pnt_db->sql_numrows  ($marks_res,$pnt_db);$i++)
 {
-	$marks_row = @$titanium_db->sql_fetchrow($marks_res,$titanium_db);
+	$marks_row = @$pnt_db->sql_fetchrow($marks_res,$pnt_db);
 
-    global $titanium_db;
-    list($fixed_markurl) = $titanium_db->sql_ufetchrow("SELECT `url` FROM `".$titanium_prefix."_bookmarks` WHERE `id`='".$marks_row['id']."'", SQL_NUM);
+    global $pnt_db;
+    list($fixed_markurl) = $pnt_db->sql_ufetchrow("SELECT `url` FROM `".$pnt_prefix."_bookmarks` WHERE `id`='".$marks_row['id']."'", SQL_NUM);
 
 	if ($marks_row['popup']==1)
 	{
@@ -110,7 +110,7 @@ for ($i=0;$i<@$titanium_db->sql_numrows  ($marks_res,$titanium_db);$i++)
 	
 }
 echo "</table>";
-@$titanium_db->sql_freeresult($marks_res);
+@$pnt_db->sql_freeresult($marks_res);
 
 //CloseTable();
 

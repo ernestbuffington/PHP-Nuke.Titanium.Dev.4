@@ -165,7 +165,7 @@ else if ( $mode == 'smilies' )
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_POSTING);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_POSTING);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -418,11 +418,11 @@ switch ( $mode )
 
 
 
-if ( ($result = $titanium_db->sql_query($sql)) && ($post_info = $titanium_db->sql_fetchrow($result)) )
+if ( ($result = $pnt_db->sql_query($sql)) && ($post_info = $pnt_db->sql_fetchrow($result)) )
 
 {
 
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 
 
 
@@ -540,7 +540,7 @@ if ( ($result = $titanium_db->sql_query($sql)) && ($post_info = $titanium_db->sq
 
 			{
 
-				if ( !($result = $titanium_db->sql_query($sql)) )
+				if ( !($result = $pnt_db->sql_query($sql)) )
 
 				{
 
@@ -630,7 +630,7 @@ if ( ($result = $titanium_db->sql_query($sql)) && ($post_info = $titanium_db->sq
 
 								ORDER BY vr.vote_option_id";
 
-						if ( !($result = $titanium_db->sql_query($sql)) )
+						if ( !($result = $pnt_db->sql_query($sql)) )
 
 						{
 
@@ -644,7 +644,7 @@ if ( ($result = $titanium_db->sql_query($sql)) && ($post_info = $titanium_db->sq
 
 						$poll_results_sum = 0;
 
-						if ( $row = $titanium_db->sql_fetchrow($result) )
+						if ( $row = $pnt_db->sql_fetchrow($result) )
 
 						{
 
@@ -678,11 +678,11 @@ if ( ($result = $titanium_db->sql_query($sql)) && ($post_info = $titanium_db->sq
 
 								}
 
-								while ( $row = $titanium_db->sql_fetchrow($result) );
+								while ( $row = $pnt_db->sql_fetchrow($result) );
 
 						}
 
-						$titanium_db->sql_freeresult($result);
+						$pnt_db->sql_freeresult($result);
 
 
 
@@ -993,7 +993,7 @@ else
 
 								AND user_id = " . $userdata['user_id'];
 
-				if ( !($result = $titanium_db->sql_query($sql)) )
+				if ( !($result = $pnt_db->sql_query($sql)) )
 
 				{
 
@@ -1003,9 +1003,9 @@ else
 
 
 
-				$notify_user = ( $titanium_db->sql_fetchrow($result) ) ? TRUE : $userdata['user_notify'];
+				$notify_user = ( $pnt_db->sql_fetchrow($result) ) ? TRUE : $userdata['user_notify'];
 
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 
 		}
 
@@ -1157,7 +1157,7 @@ else if ( $mode == 'thank' )
 
 
 
-		$titanium_userid = $userdata['user_id'];
+		$pnt_userid = $userdata['user_id'];
 
 		$thanks_date = time();
 
@@ -1171,9 +1171,9 @@ else if ( $mode == 'thank' )
 
 				WHERE topic_id = $topic_id
 
-				AND topic_poster = $titanium_userid";
+				AND topic_poster = $pnt_userid";
 
-		if ( !($result = $titanium_db->sql_query($sql)) )
+		if ( !($result = $pnt_db->sql_query($sql)) )
 
 		{
 
@@ -1185,7 +1185,7 @@ else if ( $mode == 'thank' )
 
 
 
-		if ( ($topic_starter_check = $titanium_db->sql_fetchrow($result)) )
+		if ( ($topic_starter_check = $pnt_db->sql_fetchrow($result)) )
 
 		{
 
@@ -1207,9 +1207,9 @@ else if ( $mode == 'thank' )
 
 				WHERE topic_id = $topic_id
 
-				AND user_id = $titanium_userid";
+				AND user_id = $pnt_userid";
 
-		if ( !($result = $titanium_db->sql_query($sql)) )
+		if ( !($result = $pnt_db->sql_query($sql)) )
 
 		{
 
@@ -1219,7 +1219,7 @@ else if ( $mode == 'thank' )
 
 		}
 
-		if ( !($thankfull_check = $titanium_db->sql_fetchrow($result)) )
+		if ( !($thankfull_check = $pnt_db->sql_fetchrow($result)) )
 
 		{
 
@@ -1227,9 +1227,9 @@ else if ( $mode == 'thank' )
 
 			$sql = "INSERT INTO " . THANKS_TABLE . " (topic_id, user_id, thanks_time) 
 
-			VALUES ('" . $topic_id . "', '" . $titanium_userid . "', " . $thanks_date . ") ";
+			VALUES ('" . $topic_id . "', '" . $pnt_userid . "', " . $thanks_date . ") ";
 
-			if ( !($result = $titanium_db->sql_query($sql)) )
+			if ( !($result = $pnt_db->sql_query($sql)) )
 
 			{
 
@@ -1305,7 +1305,7 @@ else if ( $mode == 'vote' )
 
 						GROUP BY vd.vote_id";
 
-				if ( !($result = $titanium_db->sql_query($sql)) )
+				if ( !($result = $pnt_db->sql_query($sql)) )
 
 				{
 
@@ -1315,7 +1315,7 @@ else if ( $mode == 'vote' )
 
 
 
-				if ( $vote_info = $titanium_db->sql_fetchrow($result) )
+				if ( $vote_info = $pnt_db->sql_fetchrow($result) )
 
 				{
 
@@ -1331,7 +1331,7 @@ else if ( $mode == 'vote' )
 
 										AND vote_user_id = " . $userdata['user_id'];
 
-			if ( !($result2 = $titanium_db->sql_query($sql)) )
+			if ( !($result2 = $pnt_db->sql_query($sql)) )
 
 						{
 
@@ -1341,7 +1341,7 @@ else if ( $mode == 'vote' )
 
 
 
-			if ( !($row = $titanium_db->sql_fetchrow($result2)) )
+			if ( !($row = $pnt_db->sql_fetchrow($result2)) )
 
 						{
 
@@ -1353,7 +1353,7 @@ else if ( $mode == 'vote' )
 
 												AND vote_option_id = '$vote_option_id'";
 
-								if ( !$titanium_db->sql_query($sql) )
+								if ( !$pnt_db->sql_query($sql) )
 
 								{
 
@@ -1371,7 +1371,7 @@ else if ( $mode == 'vote' )
 
 								$sql = "INSERT INTO " . VOTE_USERS_TABLE . " (vote_id, vote_user_id, vote_user_ip, vote_cast)
 
-										VALUES ('$vote_id', " . $userdata['user_id'] . ", '$titanium_user_ip', '$vote_option_id')";
+										VALUES ('$vote_id', " . $userdata['user_id'] . ", '$pnt_user_ip', '$vote_option_id')";
 
 /*****[END]********************************************
 
@@ -1379,7 +1379,7 @@ else if ( $mode == 'vote' )
 
  ******************************************************/
 
-								if ( !$titanium_db->sql_query($sql) )
+								if ( !$pnt_db->sql_query($sql) )
 
 								{
 
@@ -1401,7 +1401,7 @@ else if ( $mode == 'vote' )
 
 						}
 
-			$titanium_db->sql_freeresult($result2);
+			$pnt_db->sql_freeresult($result2);
 
 				}
 
@@ -1413,7 +1413,7 @@ else if ( $mode == 'vote' )
 
 				}
 
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 
 
 
@@ -1475,7 +1475,7 @@ else if ( $submit || $confirm )
 
  ******************************************************/
 
-					$titanium_username = ( !empty($HTTP_POST_VARS['username']) ) ? $HTTP_POST_VARS['username'] : '';
+					$pnt_username = ( !empty($HTTP_POST_VARS['username']) ) ? $HTTP_POST_VARS['username'] : '';
 
 					$subject = ( !empty($HTTP_POST_VARS['subject']) ) ? trim($HTTP_POST_VARS['subject']) : '';
 
@@ -1505,7 +1505,7 @@ else if ( $submit || $confirm )
 
 
 
-					prepare_post($mode, $post_data, $bbcode_on, $html_on, $smilies_on, $error_msg, $titanium_username, $bbcode_uid, $subject, $message, $poll_title, $poll_options, $poll_length, $poll_view_toggle);
+					prepare_post($mode, $post_data, $bbcode_on, $html_on, $smilies_on, $error_msg, $pnt_username, $bbcode_uid, $subject, $message, $poll_title, $poll_options, $poll_length, $poll_view_toggle);
 
 
 
@@ -1525,7 +1525,7 @@ else if ( $submit || $confirm )
 
  ******************************************************/
 
-						submit_post($mode, $post_data, $return_message, $return_meta, $phpbb2_forum_id, $topic_id, $post_id, $poll_id, $topic_type, $bbcode_on, $html_on, $smilies_on, $attach_sig, $bbcode_uid, str_replace("\'", "''", $titanium_username), str_replace("\'", "''", $subject), str_replace("\'", "''", $message), str_replace("\'", "''", $poll_title), $poll_options, $poll_length, $poll_view_toggle, $post_icon);
+						submit_post($mode, $post_data, $return_message, $return_meta, $phpbb2_forum_id, $topic_id, $post_id, $poll_id, $topic_type, $bbcode_on, $html_on, $smilies_on, $attach_sig, $bbcode_uid, str_replace("\'", "''", $pnt_username), str_replace("\'", "''", $subject), str_replace("\'", "''", $message), str_replace("\'", "''", $poll_title), $poll_options, $poll_length, $poll_view_toggle, $post_icon);
 
 /*****[END]********************************************
 
@@ -1555,7 +1555,7 @@ else if ( $submit || $confirm )
 
 								AND topic_moved_id = '0'";
 
-							   if ( !($resultA = $titanium_db->sql_query($sqlA)) )
+							   if ( !($resultA = $pnt_db->sql_query($sqlA)) )
 
 								{
 
@@ -1595,7 +1595,7 @@ else if ( $submit || $confirm )
 
 				case 'reply':
 
-						$titanium_username = ( !empty($HTTP_POST_VARS['username']) ) ? $HTTP_POST_VARS['username'] : '';
+						$pnt_username = ( !empty($HTTP_POST_VARS['username']) ) ? $HTTP_POST_VARS['username'] : '';
 
 						$subject = ( !empty($HTTP_POST_VARS['subject']) ) ? trim($HTTP_POST_VARS['subject']) : '';
 
@@ -1625,7 +1625,7 @@ else if ( $submit || $confirm )
 
 
 
-						prepare_post($mode, $post_data, $bbcode_on, $html_on, $smilies_on, $error_msg, $titanium_username, $bbcode_uid, $subject, $message, $poll_title, $poll_options, $poll_length, $poll_view_toggle);
+						prepare_post($mode, $post_data, $bbcode_on, $html_on, $smilies_on, $error_msg, $pnt_username, $bbcode_uid, $subject, $message, $poll_title, $poll_options, $poll_length, $poll_view_toggle);
 
 
 
@@ -1651,7 +1651,7 @@ else if ( $submit || $confirm )
 
 								/*--FNA REPLACE 2--*/
 
-								submit_post($mode, $post_data, $return_message, $return_meta, $phpbb2_forum_id, $topic_id, $post_id, $poll_id, $topic_type, $bbcode_on, $html_on, $smilies_on, $attach_sig, $bbcode_uid, str_replace("\'", "''", $titanium_username), str_replace("\'", "''", $subject), str_replace("\'", "''", $message), str_replace("\'", "''", $poll_title), $poll_options, $poll_length, $poll_view_toggle, $post_icon);
+								submit_post($mode, $post_data, $return_message, $return_meta, $phpbb2_forum_id, $topic_id, $post_id, $poll_id, $topic_type, $bbcode_on, $html_on, $smilies_on, $attach_sig, $bbcode_uid, str_replace("\'", "''", $pnt_username), str_replace("\'", "''", $subject), str_replace("\'", "''", $message), str_replace("\'", "''", $poll_title), $poll_options, $poll_length, $poll_view_toggle, $post_icon);
 
 
 
@@ -1675,7 +1675,7 @@ else if ( $submit || $confirm )
 
 								AND topic_moved_id = '0'";
 
-							   if ( !($resultA = $titanium_db->sql_query($sqlA)) )
+							   if ( !($resultA = $pnt_db->sql_query($sqlA)) )
 
 								{
 
@@ -1749,14 +1749,14 @@ else if ( $submit || $confirm )
 
 				{
 
-						$titanium_user_id = ( $mode == 'reply' || $mode == 'newtopic' ) ? $userdata['user_id'] : $post_data['poster_id'];
+						$pnt_user_id = ( $mode == 'reply' || $mode == 'newtopic' ) ? $userdata['user_id'] : $post_data['poster_id'];
 
-						update_post_stats($mode, $post_data, $phpbb2_forum_id, $topic_id, $post_id, $titanium_user_id);
+						update_post_stats($mode, $post_data, $phpbb2_forum_id, $topic_id, $post_id, $pnt_user_id);
 
 /*****[BEGIN]******************************************
  [ Mod:     Users Reputations Systems          v1.0.0 ]
  ******************************************************/
-						update_reputations($mode, $titanium_user_id);
+						update_reputations($mode, $pnt_user_id);
 /*****[END]********************************************
  [ Mod:     Users Reputations System           v1.0.0 ]
  ******************************************************/
@@ -1796,7 +1796,7 @@ else if ( $submit || $confirm )
  [ Mod:     Log Moderator Actions              v1.1.6 ]
  ******************************************************/
 
-					if ( !($result = $titanium_db->sql_query($sql)) )
+					if ( !($result = $pnt_db->sql_query($sql)) )
 						{
 						message_die(GENERAL_ERROR, 'Could not update topics table', '', __LINE__, __FILE__, $sql);
 					}
@@ -1830,7 +1830,7 @@ else if ( $submit || $confirm )
 
 if( $refresh || isset($HTTP_POST_VARS['del_poll_option']) || $error_msg != '' )
 {
-		$titanium_username = ( !empty($HTTP_POST_VARS['username']) ) ? htmlspecialchars(trim(stripslashes($HTTP_POST_VARS['username']))) : '';
+		$pnt_username = ( !empty($HTTP_POST_VARS['username']) ) ? htmlspecialchars(trim(stripslashes($HTTP_POST_VARS['username']))) : '';
 		$subject = ( !empty($HTTP_POST_VARS['subject']) ) ? htmlspecialchars(trim(stripslashes($HTTP_POST_VARS['subject']))) : '';
 		$message = ( !empty($HTTP_POST_VARS['message']) ) ? htmlspecialchars(trim(stripslashes($HTTP_POST_VARS['message']))) : '';
 
@@ -1874,11 +1874,11 @@ if( $refresh || isset($HTTP_POST_VARS['del_poll_option']) || $error_msg != '' )
 
 		if ( $mode == 'newtopic' || $mode == 'reply')
 		{
-				$titanium_user_sig = ( $userdata['user_sig'] != '' && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
+				$pnt_user_sig = ( $userdata['user_sig'] != '' && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
 		}
 		else if ( $mode == 'editpost' )
 		{
-				$titanium_user_sig = ( $post_info['user_sig'] != '' && $phpbb2_board_config['allow_sig'] ) ? $post_info['user_sig'] : '';
+				$pnt_user_sig = ( $post_info['user_sig'] != '' && $phpbb2_board_config['allow_sig'] ) ? $post_info['user_sig'] : '';
 				$userdata['user_sig_bbcode_uid'] = $post_info['user_sig_bbcode_uid'];
 		}
 
@@ -1900,16 +1900,16 @@ if( $refresh || isset($HTTP_POST_VARS['del_poll_option']) || $error_msg != '' )
  [ Mod:     Smilies in Topic Titles Toggle     v1.0.0 ]
  ******************************************************/
 				$preview_subject = ($phpbb2_board_config['smilies_in_titles']) ? smilies_pass($subject) : $subject;
-				$preview_username = $titanium_username;
+				$preview_username = $pnt_username;
 
 				//
 				// Finalise processing as per viewtopic
 				//
 				if( !$html_on )
 				{
-						if( $titanium_user_sig != '' || !$userdata['user_allowhtml'] )
+						if( $pnt_user_sig != '' || !$userdata['user_allowhtml'] )
 						{
-								$titanium_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', '&lt;\2&gt;', $titanium_user_sig);
+								$pnt_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', '&lt;\2&gt;', $pnt_user_sig);
 						}
 				}
 
@@ -1922,13 +1922,13 @@ if( $refresh || isset($HTTP_POST_VARS['del_poll_option']) || $error_msg != '' )
 						FROM " . POSTS_TABLE . " p
 						WHERE p.topic_id = $topic_id
 						AND p.poster_id = " . $userdata['user_id'];
-					$resultat = $titanium_db->sql_query($sql);
-					$valid = $titanium_db->sql_numrows($resultat) ? TRUE : FALSE;}
+					$resultat = $pnt_db->sql_query($sql);
+					$valid = $pnt_db->sql_numrows($resultat) ? TRUE : FALSE;}
 
-				if( $attach_sig && $titanium_user_sig != '' && $userdata['user_sig_bbcode_uid'] )
+				if( $attach_sig && $pnt_user_sig != '' && $userdata['user_sig_bbcode_uid'] )
 				{
-						$titanium_user_sig = bbencode_second_pass($titanium_user_sig, $userdata['user_sig_bbcode_uid']);
-						$titanium_user_sig = bbencode_third_pass($titanium_user_sig, $userdata['user_sig_bbcode_uid'], $valid);
+						$pnt_user_sig = bbencode_second_pass($pnt_user_sig, $userdata['user_sig_bbcode_uid']);
+						$pnt_user_sig = bbencode_third_pass($pnt_user_sig, $userdata['user_sig_bbcode_uid'], $valid);
 				}
 
 				if( $bbcode_on )
@@ -1942,34 +1942,34 @@ if( $refresh || isset($HTTP_POST_VARS['del_poll_option']) || $error_msg != '' )
 
 				if( !empty($orig_word) )
 				{
-						$preview_username = ( !empty($titanium_username) ) ? preg_replace($orig_word, $replacement_word, $preview_username) : '';
+						$preview_username = ( !empty($pnt_username) ) ? preg_replace($orig_word, $replacement_word, $preview_username) : '';
 						$preview_subject = ( !empty($subject) ) ? preg_replace($orig_word, $replacement_word, $preview_subject) : '';
 						$preview_message = ( !empty($preview_message) ) ? preg_replace($orig_word, $replacement_word, $preview_message) : '';
 				}
 
-				if( $titanium_user_sig != '' )
+				if( $pnt_user_sig != '' )
 				{
-						$titanium_user_sig = make_clickable($titanium_user_sig);
+						$pnt_user_sig = make_clickable($pnt_user_sig);
 				}
 				$preview_message = make_clickable($preview_message);
 
 				if( $smilies_on )
 				{
-						if( $userdata['user_allowsmile'] && $titanium_user_sig != '' )
+						if( $userdata['user_allowsmile'] && $pnt_user_sig != '' )
 						{
-								$titanium_user_sig = smilies_pass($titanium_user_sig);
+								$pnt_user_sig = smilies_pass($pnt_user_sig);
 						}
 
 						$preview_message = smilies_pass($preview_message);
 				}
 
-				if( $attach_sig && $titanium_user_sig != '' )
+				if( $attach_sig && $pnt_user_sig != '' )
 				{
 /*****[BEGIN]******************************************
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
  ******************************************************/
 				$phpbb2_board_config['sig_line'] = str_replace('{THEME_NAME}', $ThemeSel, $phpbb2_board_config['sig_line']);
-				$preview_message = $preview_message . '<br />' . $phpbb2_board_config['sig_line'] . '<br />' . $titanium_user_sig;
+				$preview_message = $preview_message . '<br />' . $phpbb2_board_config['sig_line'] . '<br />' . $pnt_user_sig;
 /*****[END]********************************************
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
  ******************************************************/
@@ -2038,9 +2038,9 @@ else
 		//
 		if ( $mode == 'newtopic' )
 		{
-				$titanium_user_sig = ( $userdata['user_sig'] != '' ) ? $userdata['user_sig'] : '';
+				$pnt_user_sig = ( $userdata['user_sig'] != '' ) ? $userdata['user_sig'] : '';
 
-				$titanium_username = ($userdata['session_logged_in']) ? $userdata['username'] : '';
+				$pnt_username = ($userdata['session_logged_in']) ? $userdata['username'] : '';
 				$poll_title = '';
 				$poll_length = '';
 /*****[BEGIN]******************************************
@@ -2063,9 +2063,9 @@ else
 		}
 		else if ( $mode == 'reply' )
 		{
-				$titanium_user_sig = ( $userdata['user_sig'] != '' ) ? $userdata['user_sig'] : '';
+				$pnt_user_sig = ( $userdata['user_sig'] != '' ) ? $userdata['user_sig'] : '';
 
-				$titanium_username = ( $userdata['session_logged_in'] ) ? $userdata['username'] : '';
+				$pnt_username = ( $userdata['session_logged_in'] ) ? $userdata['username'] : '';
 				$subject = '';
 
 /*****[BEGIN]******************************************
@@ -2096,8 +2096,8 @@ else { $sql = "SELECT p.poster_id, p.topic_id
 FROM " . POSTS_TABLE . " p
 WHERE p.topic_id = $topic_id
 AND p.poster_id = " . $userdata['user_id'];
-$resultat = $titanium_db->sql_query($sql);
-if(!$titanium_db->sql_numrows($resultat)) {$message = hide_in_quote($message);}
+$resultat = $pnt_db->sql_query($sql);
+if(!$pnt_db->sql_numrows($resultat)) {$message = hide_in_quote($message);}
 				}
 /*****[END]********************************************
  [ Mod:    Hide Mod                            v1.2.0 ]
@@ -2121,7 +2121,7 @@ if(!$titanium_db->sql_numrows($resultat)) {$message = hide_in_quote($message);}
 				if ( $mode == 'editpost' )
 				{
 						$attach_sig = ( $post_info['enable_sig'] && $post_info['user_sig'] != '' ) ? TRUE : 0;
-						$titanium_user_sig = $post_info['user_sig'];
+						$pnt_user_sig = $post_info['user_sig'];
 
 						$html_on = ( $post_info['enable_html'] ) ? true : false;
 						$bbcode_on = ( $post_info['enable_bbcode'] ) ? true : false;
@@ -2130,7 +2130,7 @@ if(!$titanium_db->sql_numrows($resultat)) {$message = hide_in_quote($message);}
 				else
 				{
 						$attach_sig = ( $userdata['user_attachsig'] ) ? TRUE : 0;
-						$titanium_user_sig = $userdata['user_sig'];
+						$pnt_user_sig = $userdata['user_sig'];
 				}
 
 				if ( $post_info['bbcode_uid'] != '' )
@@ -2194,7 +2194,7 @@ if(!$titanium_db->sql_numrows($resultat)) {$message = hide_in_quote($message);}
 				}
 				else
 				{
-						$titanium_username = ( $post_info['user_id'] == ANONYMOUS && !empty($post_info['post_username']) ) ? $post_info['post_username'] : '';
+						$pnt_username = ( $post_info['user_id'] == ANONYMOUS && !empty($post_info['post_username']) ) ? $post_info['post_username'] : '';
 				}
 		}
 }
@@ -2202,7 +2202,7 @@ if(!$titanium_db->sql_numrows($resultat)) {$message = hide_in_quote($message);}
 //
 // Signature toggle selection
 //
-if( $titanium_user_sig != '' )
+if( $pnt_user_sig != '' )
 {
 		$phpbb2_template->assign_block_vars('switch_signature_checkbox', array());
 }
@@ -2502,7 +2502,7 @@ $phpbb2_template->assign_block_vars('switch_not_privmsg.reply_mode', array());
 // Output the data to the template
 //
 $phpbb2_template->assign_vars(array(
-		'USERNAME' => $titanium_username,
+		'USERNAME' => $pnt_username,
 		'SUBJECT' => $subject,
 		'MESSAGE' => $message,
 		'HTML_STATUS' => $html_status,

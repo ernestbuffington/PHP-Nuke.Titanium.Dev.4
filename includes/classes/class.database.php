@@ -91,13 +91,13 @@ class DB {
     // Returns a string containing the CREATE statement on success
     function get_table_struct($database, $table, $crlf, $drop)
     {
-        global $titanium_db;
+        global $pnt_db;
         $schema_create = '';
         if ($drop) { $schema_create .= "DROP TABLE IF EXISTS $table;$crlf"; }
         $schema_create .= "CREATE TABLE $table ($crlf";
 
-        $result = $titanium_db->sql_query("SHOW FIELDS FROM $database.$table");
-        while ($row = $titanium_db->sql_fetchrow($result)) {
+        $result = $pnt_db->sql_query("SHOW FIELDS FROM $database.$table");
+        while ($row = $pnt_db->sql_fetchrow($result)) {
             $schema_create .= "   $row[Field] $row[Type]";
             if (isset($row['Default']) && (!empty($row['Default']) || $row['Default'] == '0'))
                 $schema_create .= " DEFAULT '$row[Default]'";
@@ -105,12 +105,12 @@ class DB {
             if ($row['Extra'] != '') $schema_create .= " $row[Extra]";
             $schema_create .= ",$crlf";
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         $schema_create = preg_replace("/,$crlf/".'$', '', $schema_create);
         
-        $result = $titanium_db->sql_query("SHOW KEYS FROM $table");
+        $result = $pnt_db->sql_query("SHOW KEYS FROM $table");
         $index = array();
-        while ($row = $titanium_db->sql_fetchrow($result)) {
+        while ($row = $pnt_db->sql_fetchrow($result)) {
             $kname=$row['Key_name'];
 			if (($kname != "PRIMARY") && ($row['Non_unique'] == 0))
 			$kname="UNIQUE|$kname";
@@ -120,7 +120,7 @@ class DB {
                      $index[$kname] = array();
                  $index[$kname][] = $row['Column_name'];
             }
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_freeresult($result);
         while(list($x, $columns) = @each($index)) {
                  $schema_create .= ",$crlf";
                  if($x == "PRIMARY")
@@ -140,18 +140,18 @@ class DB {
     // Get the content of $table as a series of INSERT statements.
     function get_table_content($database, $table, $crlf, $complete=false, $echo=false, $compress=false)
     {
-        global $titanium_db;
+        global $pnt_db;
         $str = $fields = '';
-        $result = $titanium_db->sql_query("SELECT * FROM $database.$table");
-        $fieldcount = $titanium_db->sql_numfields($result);
+        $result = $pnt_db->sql_query("SELECT * FROM $database.$table");
+        $fieldcount = $pnt_db->sql_numfields($result);
         if ($complete) {
             $fields = array();
             for ($j=0; $j<$fieldcount;$j++) {
-                $fields[] = $titanium_db->sql_fieldname($j, $result);
+                $fields[] = $pnt_db->sql_fieldname($j, $result);
             }
             $fields = '('.implode(', ', $fields).') ';
         }
-        while ($row = $titanium_db->sql_fetchrow($result)) {
+        while ($row = $pnt_db->sql_fetchrow($result)) {
             $str .= "INSERT INTO $table $fields VALUES (";
             for ($j=0; $j<$fieldcount;$j++) {
                 if ($j>0) $str .= ', ';
@@ -166,7 +166,7 @@ class DB {
                 $str = '';
             }
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         return $str;
     }
 
@@ -214,11 +214,11 @@ class DB {
             $error = 'There are no queries in '.$file['name'];
             return false;
         }
-        global $titanium_db, $titanium_prefix;
+        global $pnt_db, $pnt_prefix;
         set_time_limit(0);
         foreach($queries AS $query) {
             if (!$replace_prefix) {
-                $query = preg_replace('#(TABLE|INTO|EXISTS|ON) ([a-zA-Z]*?(_))#i', "\\1 $titanium_prefix".'_', $query);
+                $query = preg_replace('#(TABLE|INTO|EXISTS|ON) ([a-zA-Z]*?(_))#i', "\\1 $pnt_prefix".'_', $query);
             } else {
                 foreach($replace_prefix AS $oldprefix => $newprefix) {
                     if ($oldprefix != $newprefix) {
@@ -230,7 +230,7 @@ class DB {
             {
                 $query .= ' ENGINE=MyISAM';
             }
-            $titanium_db->sql_query($query);
+            $pnt_db->sql_query($query);
         }
         return true;
     }

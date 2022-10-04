@@ -1,29 +1,29 @@
 <?
 
-function createAnswerRating($answerid, $titanium_userid, $up){
+function createAnswerRating($answerid, $pnt_userid, $up){
 	if($up){
 		$rating = 1;
 	}else $rating = -1;
 
 	global $conn;
 	$stmt = $conn->prepare('INSERT INTO answer_rating(answer, createdby, rating) VALUES (?, ?, ?)');
-	return $stmt->execute(array($answerid, $titanium_userid, $rating));
+	return $stmt->execute(array($answerid, $pnt_userid, $rating));
 }
 
-function updateAnswerRating($answerid, $titanium_userid, $up){
+function updateAnswerRating($answerid, $pnt_userid, $up){
 	if($up){
 		$rating = 1;
 	}else $rating = -1;
 	
 	global $conn;
 	$stmt = $conn->prepare('UPDATE answer_rating SET rating = ? WHERE answer = ? AND createdby = ?');
-	return $stmt->execute(array($rating, $answerid, $titanium_userid));
+	return $stmt->execute(array($rating, $answerid, $pnt_userid));
 }
 
-function getAnswerRating($answerid, $titanium_userid){
+function getAnswerRating($answerid, $pnt_userid){
 	global $conn;
 	$stmt = $conn->prepare('SELECT * FROM answer_rating WHERE answer = ? AND createdby = ?');
-	$stmt->execute(array($answerid, $titanium_userid));
+	$stmt->execute(array($answerid, $pnt_userid));
 	return $stmt->fetch();
 }
 

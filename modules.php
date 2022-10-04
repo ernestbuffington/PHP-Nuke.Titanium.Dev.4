@@ -45,7 +45,7 @@ global $name;
 
 if($name): 
     # Mod: Lock Modules v1.0.0 START
-    global $titanium_db, $titanium_prefix, $titanium_user, $lock_titanium_modules;
+    global $pnt_db, $pnt_prefix, $pnt_user, $lock_titanium_modules;
 
     if(($lock_titanium_modules && $name != 'Your_Account') 
 	&& !is_admin() 
@@ -57,19 +57,19 @@ if($name):
     include(NUKE_MODULES_DIR.'Your_Account/index.php');
     # Mod: Lock Modules v1.0.0 END
 
-    $titanium_module = $titanium_db->sql_ufetchrow('SELECT `title`, `active`, `view`, `blocks`, `custom_title`, `groups` FROM `'.$titanium_prefix.'_modules` WHERE `title`="'.Fix_Quotes($name).'"');
+    $pnt_module = $pnt_db->sql_ufetchrow('SELECT `title`, `active`, `view`, `blocks`, `custom_title`, `groups` FROM `'.$pnt_prefix.'_modules` WHERE `title`="'.Fix_Quotes($name).'"');
 	
-	$pnt_module = $titanium_module['title'];
+	$pnt_module = $pnt_module['title'];
 	
 	if ($pnt_module == 'Your_Account' 
 	|| $pnt_module == main_module_titanium()): 
-		$titanium_module['active'] = true;
+		$pnt_module['active'] = true;
 		$view = 0;
 	else: 
-		$view = $titanium_module['view'];
+		$view = $pnt_module['view'];
 	endif;
 	
-	if($titanium_module['active'] || is_mod_admin($pnt_module)):
+	if($pnt_module['active'] || is_mod_admin($pnt_module)):
       if (!isset($file) OR $file != $_REQUEST['file']) 
 		$file='index';
 	     if (isset($open)) 
@@ -84,15 +84,15 @@ if($name):
 		&& stristr($open,".."))) 
 		die('You are so cool...');
 		
-		$showblocks = $titanium_module['blocks'];
-		$titanium_module_title = ($titanium_module['custom_title'] != '') ? $titanium_module['custom_title'] : str_replace('_', ' ', $pnt_module);
-        $modpath = isset($titanium_module['title']) ? NUKE_MODULES_DIR.$titanium_module['title']."/$file.php" : NUKE_MODULES_DIR.$name."/$file.php";
-        $groups = (!empty($titanium_module['groups'])) ? $groups = explode('-', $titanium_module['groups']) : '';
+		$showblocks = $pnt_module['blocks'];
+		$pnt_module_title = ($pnt_module['custom_title'] != '') ? $pnt_module['custom_title'] : str_replace('_', ' ', $pnt_module);
+        $modpath = isset($pnt_module['title']) ? NUKE_MODULES_DIR.$pnt_module['title']."/$file.php" : NUKE_MODULES_DIR.$name."/$file.php";
+        $groups = (!empty($pnt_module['groups'])) ? $groups = explode('-', $pnt_module['groups']) : '';
         
 		if(!empty($open)) 
-        $modpath = isset($titanium_module['title']) ? NUKE_MODULES_DIR.$titanium_module['title']."/$open.php" : NUKE_MODULES_DIR.$name."/$open.php";
+        $modpath = isset($pnt_module['title']) ? NUKE_MODULES_DIR.$pnt_module['title']."/$open.php" : NUKE_MODULES_DIR.$name."/$open.php";
         		
-		unset($titanium_module, $error);
+		unset($pnt_module, $error);
 		
 		if($view >= 1 && !is_admin()): 
 		    # Must Not be a user
@@ -102,7 +102,7 @@ if($name):
 			elseif($view == 3 && !is_user()): 
 				$error = _MODULEUSERS;
 		    # Must Be a admin
-			elseif($view == 4 && !is_mod_admin($titanium_module['title'])): 
+			elseif($view == 4 && !is_mod_admin($pnt_module['title'])): 
 				$error = _MODULESADMINS;
 		    # Groups
 			elseif($view == 6 && !empty($groups) && is_array($groups)): 
@@ -114,7 +114,7 @@ if($name):
     			     if(isset($userinfo['groups'][$group])):
 					 $ingroup = true;
                  	 # Group Cookie Control START
-					 list($groupname) = $titanium_db->sql_ufetchrow("SELECT `group_name` FROM ".$titanium_prefix."_bbgroups WHERE `group_id`=".$group."", SQL_NUM);
+					 list($groupname) = $pnt_db->sql_ufetchrow("SELECT `group_name` FROM ".$pnt_prefix."_bbgroups WHERE `group_id`=".$group."", SQL_NUM);
    			         $groupcookie = str_replace(" ", "_", $groupname);
 					 if(!isset($_COOKIE[$groupcookie]))
 					 setcookie($groupcookie, $group, time()+2*24*60*60);
@@ -123,14 +123,14 @@ if($name):
 			    endforeach;
 
 			    if(!$ingroup)
-                  $result = $titanium_db->sql_query('SELECT `group_name`
-			                                FROM  '.$titanium_prefix.'_bbgroups 
+                  $result = $pnt_db->sql_query('SELECT `group_name`
+			                                FROM  '.$pnt_prefix.'_bbgroups 
 											WHERE group_id = '.$group.'
 				                            ORDER BY group_id'); 
 				 
-				  if($titanium_db->sql_numrows($result)): 
+				  if($pnt_db->sql_numrows($result)): 
 	              
-                     while(($row = $titanium_db->sql_fetchrow($result)) AND (!$ingroup)): 
+                     while(($row = $pnt_db->sql_fetchrow($result)) AND (!$ingroup)): 
                      
 						 # this is so you can add a custom message to any groups on your portal
 						 # just add the special group id number where it says 9999
@@ -139,7 +139,7 @@ if($name):
 						   $error  = '<div align="center" style="padding-top:6px;">';
                            $error .= '</div>';
 
-						   $error .= '<h1>'._CREDENTIALS.''.$titanium_module_title.' '._AREA.'</h1>';
+						   $error .= '<h1>'._CREDENTIALS.''.$pnt_module_title.' '._AREA.'</h1>';
 						   $error .= '<img class="icons" align="absmiddle" width="200" src="'.img('unknown-error.png','error').'"><br />'; 
                            $error .= '<strong><font size="4">'._MUSTJOIN.''.$row['group_name'].''._GAINACCESS;
 
@@ -153,7 +153,7 @@ if($name):
 						   $error  = '<div align="center" style="padding-top:6px;">';
                            $error .= '</div>';
 
-						   $error .= '<h1>'._CREDENTIALS.''.$titanium_module_title.' '._AREA.'</h1>';
+						   $error .= '<h1>'._CREDENTIALS.''.$pnt_module_title.' '._AREA.'</h1>';
 						   $error .= '<img class="icons" align="absmiddle" width="200" src="'.img('unknown-error.png','error').'"><br />'; 
                            $error .= '<strong><font size="4">'._MUSTJOIN.''.$row['group_name'].''._GAINACCESS;
 
@@ -166,7 +166,7 @@ if($name):
 						   $error  = '<div align="center" style="padding-top:6px;">';
                            $error .= '</div>';
 
-						   $error .= '<h1>'._CREDENTIALS.''.$titanium_module_title.' '._AREA.'</h1>';
+						   $error .= '<h1>'._CREDENTIALS.''.$pnt_module_title.' '._AREA.'</h1>';
 						   $error .= '<img class="icons" align="absmiddle" width="200" src="'.img('unknown-error.png','error').'"><br />'; 
                            $error .= '<strong><font size="4">'._MUSTJOIN.''.$row['group_name'].''._GAINACCESS;
 
@@ -178,7 +178,7 @@ if($name):
 					 endwhile;
         
                   endif;
-				 $titanium_db->sql_freeresult($result);
+				 $pnt_db->sql_freeresult($result);
 			endif;
 		endif;
 		

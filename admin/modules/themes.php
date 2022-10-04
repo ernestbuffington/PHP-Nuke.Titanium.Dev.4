@@ -22,7 +22,7 @@
  ************************************************************************/
 if (!defined('ADMIN_FILE')) die ("Illegal File Access");
 
-global $titanium_prefix, $titanium_db;
+global $pnt_prefix, $pnt_db;
 
 require_once(NUKE_CLASSES_DIR.'class.paginator.php');
 
@@ -69,7 +69,7 @@ function ThemeError($error_message){
 }
 
 function InstallTheme(){
-	global $admin_file, $titanium_db, $titanium_prefix, $pnt_module, $userinfo, $HTTP_POST_FILES, $HTTP_POST_VARS;
+	global $admin_file, $pnt_db, $pnt_prefix, $pnt_module, $userinfo, $HTTP_POST_FILES, $HTTP_POST_VARS;
 	
 	$filename   = $HTTP_POST_FILES['file']['name'];
 	$path_parts = pathinfo($filename);
@@ -125,7 +125,7 @@ function InstallTheme(){
 
 function downloadTheme($theme)
 {
-	global $admin_file, $aid, $titanium_db, $titanium_prefix, $pnt_module, $userinfo, $admin, $directory_mode;
+	global $admin_file, $aid, $pnt_db, $pnt_prefix, $pnt_module, $userinfo, $admin, $directory_mode;
 	
 	function RandomNumber($length=10){
 		$random = "";
@@ -170,17 +170,17 @@ function theme_footer(){
 }
 
 function display_main(){
-    global $admin_file, $aid, $titanium_db, $titanium_prefix, $bgcolor2, $bgcolor1, $bgcolor3;
+    global $admin_file, $aid, $pnt_db, $pnt_prefix, $bgcolor2, $bgcolor1, $bgcolor3;
 	
     $installed_themes = get_themes('all');
     $uninstalled_themes = get_themes('uninstalled');
 
     function make_a_row($theme){
-        global $admin_file, $bgcolor2, $bgcolor1, $bgcolor3, $titanium_db, $titanium_prefix, $titanium_user_prefix, $admin;
+        global $admin_file, $bgcolor2, $bgcolor1, $bgcolor3, $pnt_db, $pnt_prefix, $pnt_user_prefix, $admin;
 
         if (preg_match('/'._THEMES_THEME_MISSING.'/i',  ThemeGetStatus($theme['theme_name'], $theme['active']))){
-            if ($titanium_db->sql_query("DELETE FROM " . $titanium_prefix . "_themes WHERE theme_name = '".$theme['theme_name']."'")){
-                $titanium_db->sql_query("UPDATE " . $titanium_user_prefix . "_users SET theme = '" . get_default() . "' WHERE theme = '".$theme['theme_name']."'");
+            if ($pnt_db->sql_query("DELETE FROM " . $pnt_prefix . "_themes WHERE theme_name = '".$theme['theme_name']."'")){
+                $pnt_db->sql_query("UPDATE " . $pnt_user_prefix . "_users SET theme = '" . get_default() . "' WHERE theme = '".$theme['theme_name']."'");
             }
 			
             return;
@@ -307,9 +307,9 @@ function display_main(){
 }
 
 function theme_edit($theme_name){
-    global $titanium_prefix, $titanium_db, $admin_file, $admlang;
+    global $pnt_prefix, $pnt_db, $admin_file, $admlang;
 	
-    $theme_info = $titanium_db->sql_ufetchrow("SELECT * FROM " . $titanium_prefix . "_themes WHERE theme_name = '$theme_name'");
+    $theme_info = $pnt_db->sql_ufetchrow("SELECT * FROM " . $pnt_prefix . "_themes WHERE theme_name = '$theme_name'");
 	
 	$selected1 = ($theme_info['permissions'] == 1) ? ' selected="selected"' : "";
     $selected2 = ($theme_info['permissions'] == 2) ? ' selected="selected"' : "";
@@ -380,9 +380,9 @@ function theme_edit($theme_name){
     echo "        <span class='tiny'>"._WHATGRDESC."</span><br />\n";
     echo "        <select name='groups[]' multiple='multiple' size='5'>\n";
     $ingroups = explode("-",$theme_info['groups']);
-    $groupsResult = $titanium_db->sql_query("SELECT group_id, group_name FROM ".$titanium_prefix."_bbgroups WHERE group_description <> 'Personal User'");
+    $groupsResult = $pnt_db->sql_query("SELECT group_id, group_name FROM ".$pnt_prefix."_bbgroups WHERE group_description <> 'Personal User'");
 	
-    while(list($gid, $gname) = $titanium_db->sql_fetchrow($groupsResult)){
+    while(list($gid, $gname) = $pnt_db->sql_fetchrow($groupsResult)){
         $sel = in_array($gid,$ingroups) ? ' selected="selected"' : "";
         echo "            <option value='$gid'$sel>$gname</option>\n";
     }
@@ -442,7 +442,7 @@ function theme_edit($theme_name){
 }
 
 function theme_install($theme_name){
-    global $titanium_prefix, $titanium_db, $admin_file, $admlang;
+    global $pnt_prefix, $pnt_db, $admin_file, $admlang;
 
     OpenTable();
 	
@@ -477,9 +477,9 @@ function theme_install($theme_name){
 	echo "        <span class='tiny'>"._WHATGRDESC."</span><br />\n";
 	echo "        <select name='groups[]' multiple='multiple' size='5'>";
 	$ingroups = explode("-",$theme_info['groups']);
-	$groupsResult = $titanium_db->sql_query("select group_id, group_name from ".$titanium_prefix."_bbgroups WHERE group_description <> 'Personal User'");
+	$groupsResult = $pnt_db->sql_query("select group_id, group_name from ".$pnt_prefix."_bbgroups WHERE group_description <> 'Personal User'");
 	
-	while(list($gid, $gname) = $titanium_db->sql_fetchrow($groupsResult)){
+	while(list($gid, $gname) = $pnt_db->sql_fetchrow($groupsResult)){
 		$sel = in_array($gid,$ingroups) ? " selected='selected'" : "";
 		echo "            <option value='$gid'$sel>$gname</option>";
 	}
@@ -536,7 +536,7 @@ function theme_install($theme_name){
 }
 
 function update_theme($post){
-    global $titanium_db, $titanium_prefix, $titanium_user_prefix, $admin_file, $cache;
+    global $pnt_db, $pnt_prefix, $pnt_user_prefix, $admin_file, $cache;
 	
     $error = false;
 	
@@ -561,18 +561,18 @@ function update_theme($post){
         }
     }
 
-    $sql[] = "UPDATE " . $titanium_prefix . "_themes SET custom_name = '" . $post['custom_name'] . "' WHERE theme_name = '" . $post['theme_name'] . "'";
-    $sql[] = "UPDATE " . $titanium_prefix . "_themes SET active = '" . $post['active'] . "' WHERE theme_name = '" . $post['theme_name'] . "'";
-    $sql[] = "UPDATE " . $titanium_prefix . "_themes SET permissions = '" . $post['permissions'] . "' WHERE theme_name = '" . $post['theme_name'] . "'";
-    $sql[] = "UPDATE " . $titanium_prefix . "_themes SET theme_info = '" . $theme_info . "' WHERE theme_name = '" . $post['theme_name'] . "'";
+    $sql[] = "UPDATE " . $pnt_prefix . "_themes SET custom_name = '" . $post['custom_name'] . "' WHERE theme_name = '" . $post['theme_name'] . "'";
+    $sql[] = "UPDATE " . $pnt_prefix . "_themes SET active = '" . $post['active'] . "' WHERE theme_name = '" . $post['theme_name'] . "'";
+    $sql[] = "UPDATE " . $pnt_prefix . "_themes SET permissions = '" . $post['permissions'] . "' WHERE theme_name = '" . $post['theme_name'] . "'";
+    $sql[] = "UPDATE " . $pnt_prefix . "_themes SET theme_info = '" . $theme_info . "' WHERE theme_name = '" . $post['theme_name'] . "'";
 	
     if (($post['permissions'] > 1) || ($post['active'] != 1)){
-        $sql[] = "UPDATE " . $titanium_user_prefix . "_users SET theme = '" . get_default() . "' WHERE theme = '" . $post['theme_name'] . "'";
+        $sql[] = "UPDATE " . $pnt_user_prefix . "_users SET theme = '" . get_default() . "' WHERE theme = '" . $post['theme_name'] . "'";
     }
 	
-    $sql[] = "UPDATE " . $titanium_prefix . "_themes SET groups = '" . $post['groups'] . "' WHERE theme_name = '" . $post['theme_name'] . "'";
+    $sql[] = "UPDATE " . $pnt_prefix . "_themes SET groups = '" . $post['groups'] . "' WHERE theme_name = '" . $post['theme_name'] . "'";
     foreach($sql as $query){
-        if (!$titanium_db->sql_query($query)){
+        if (!$pnt_db->sql_query($query)){
             $error = true;
         }
     }
@@ -601,7 +601,7 @@ function update_theme($post){
 }
 
 function install_save($post){
-    global $titanium_db, $titanium_prefix, $admin_file;
+    global $pnt_db, $pnt_prefix, $admin_file;
 	
     $post['groups'] = (is_array($post['groups'])) ? implode('-', $post['groups']) : '';
 
@@ -622,9 +622,9 @@ function install_save($post){
         }
     }
 
-    $sql = "INSERT INTO " . $titanium_prefix . "_themes VALUES('" . $post['theme_name'] . "', '" . $post['groups'] . "', '" . $post['permissions'] . "', '" . $post['custom_name'] . "', '" . $post['active'] . "', '" . $theme_info . "')";
+    $sql = "INSERT INTO " . $pnt_prefix . "_themes VALUES('" . $post['theme_name'] . "', '" . $post['groups'] . "', '" . $post['permissions'] . "', '" . $post['custom_name'] . "', '" . $post['active'] . "', '" . $theme_info . "')";
 	
-    if ($titanium_db->sql_query($sql)){
+    if ($pnt_db->sql_query($sql)){
         OpenTable();
 		
 		echo "<div align='center'>\n";
@@ -646,7 +646,7 @@ function install_save($post){
 }
 
 function uninstall_theme($theme){
-    global $titanium_db, $titanium_prefix, $titanium_user_prefix, $admin_file, $HTTP_POST_VARS;
+    global $pnt_db, $pnt_prefix, $pnt_user_prefix, $admin_file, $HTTP_POST_VARS;
 
     function uninstall_success(){
         global $admin_file;
@@ -694,8 +694,8 @@ function uninstall_theme($theme){
 		return false;
     } else {
         if (!is_default($theme)){
-            if ($titanium_db->sql_query("DELETE FROM " . $titanium_prefix . "_themes WHERE theme_name = '$theme'")){
-                $titanium_db->sql_query("UPDATE " . $titanium_user_prefix . "_users SET theme = '" . get_default() . "' WHERE theme = '$theme'");
+            if ($pnt_db->sql_query("DELETE FROM " . $pnt_prefix . "_themes WHERE theme_name = '$theme'")){
+                $pnt_db->sql_query("UPDATE " . $pnt_user_prefix . "_users SET theme = '" . get_default() . "' WHERE theme = '$theme'");
                 uninstall_success();
 				return true;
             }
@@ -710,20 +710,20 @@ function uninstall_theme($theme){
 }
 
 function theme_makedefault($theme){
-    global $titanium_db, $titanium_prefix, $admin_file, $cache;
+    global $pnt_db, $pnt_prefix, $admin_file, $cache;
 	
     if (!theme_installed($theme)){
-        $sql = "INSERT INTO " . $titanium_prefix . "_themes VALUES('$theme', '', '1', '$theme', '1', '')";
-        $titanium_db->sql_query($sql);
+        $sql = "INSERT INTO " . $pnt_prefix . "_themes VALUES('$theme', '', '1', '$theme', '1', '')";
+        $pnt_db->sql_query($sql);
     }
 	
     $sql = array();
-    $sql[] = "UPDATE " . $titanium_prefix . "_themes SET active = '1' WHERE theme_name = '$theme'";
-    $sql[] = "UPDATE " . $titanium_prefix . "_config SET default_Theme = '$theme'";
-    $sql[] = "UPDATE " . $titanium_prefix . "_themes SET permissions = '1' WHERE theme_name = '$theme'";
+    $sql[] = "UPDATE " . $pnt_prefix . "_themes SET active = '1' WHERE theme_name = '$theme'";
+    $sql[] = "UPDATE " . $pnt_prefix . "_config SET default_Theme = '$theme'";
+    $sql[] = "UPDATE " . $pnt_prefix . "_themes SET permissions = '1' WHERE theme_name = '$theme'";
 	
     foreach($sql as $query){
-        $titanium_db->sql_query($query);
+        $pnt_db->sql_query($query);
     }
 	
     $cache->delete('php_nuke_titanium_config', 'config');
@@ -731,7 +731,7 @@ function theme_makedefault($theme){
 }
 
 function theme_deactivate($theme){
-    global $titanium_db, $titanium_prefix, $titanium_user_prefix, $admin_file, $HTTP_POST_VARS;
+    global $pnt_db, $pnt_prefix, $pnt_user_prefix, $admin_file, $HTTP_POST_VARS;
 
     function deactivate_success(){
         global $admin_file;
@@ -778,8 +778,8 @@ function theme_deactivate($theme){
 		return false;
     } else {
         if (!is_default($theme)){
-            if ($titanium_db->sql_query("UPDATE " . $titanium_prefix . "_themes SET active='0' WHERE theme_name = '$theme'")){
-                if ($titanium_db->sql_query("UPDATE " . $titanium_user_prefix . "_users SET theme = '" . get_default() . "' WHERE theme = '$theme'")){
+            if ($pnt_db->sql_query("UPDATE " . $pnt_prefix . "_themes SET active='0' WHERE theme_name = '$theme'")){
+                if ($pnt_db->sql_query("UPDATE " . $pnt_user_prefix . "_users SET theme = '" . get_default() . "' WHERE theme = '$theme'")){
 					deactivate_success();
 					return true;
                 }
@@ -792,13 +792,13 @@ function theme_deactivate($theme){
 }
 
 function theme_options($mode, $post){
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_user_prefix, $admlang;
+    global $pnt_prefix, $pnt_db, $admin_file, $pnt_user_prefix, $admlang;
 	
     if (!$mode) $mode = 'main';
 	
     switch($mode){
         case 'main':
-            list($usrthemeselect) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT config_value FROM " . $titanium_prefix . "_cnbya_config WHERE config_name = 'allowusertheme'"));
+            list($usrthemeselect) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT config_value FROM " . $pnt_prefix . "_cnbya_config WHERE config_name = 'allowusertheme'"));
             $thmselect_selected_yes = ($usrthemeselect == 0) ? ' selected="selected"' : "";
             $thmselect_selected_no  = ($usrthemeselect == 1) ? ' selected="selected"' : "";
 			
@@ -830,7 +830,7 @@ function theme_options($mode, $post){
             CloseTable();
         break;
         case 'save':
-            $titanium_db->sql_query("UPDATE " . $titanium_prefix . "_cnbya_config SET config_value = '" . $post['allowusertheme'] . "' WHERE config_name = 'allowusertheme'");
+            $pnt_db->sql_query("UPDATE " . $pnt_prefix . "_cnbya_config SET config_value = '" . $post['allowusertheme'] . "' WHERE config_name = 'allowusertheme'");
 			
             OpenTable();
 			
@@ -845,7 +845,7 @@ function theme_options($mode, $post){
 }
 
 function theme_transfer(){
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_user_prefix, $HTTP_POST_VARS, $admlang;
+    global $pnt_prefix, $pnt_db, $admin_file, $pnt_user_prefix, $HTTP_POST_VARS, $admlang;
 	
     if (!$HTTP_POST_VARS['transfer']){
         $from_themes = get_themes('dir');
@@ -893,8 +893,8 @@ function theme_transfer(){
     } else {
         $where  = ($_POST['from'] == 'all') ? "WHERE user_id <> '1'" : "WHERE theme='" . $_POST['from'] . "' AND user_id <> '1'";
         $to     = ($_POST['to'] == 'default') ? "" : $_POST['to'];
-        $result = $titanium_db->sql_query("UPDATE " . $titanium_user_prefix . "_users SET theme = '" . $to . "' $where");
-        $count  = intval($titanium_db->sql_affectedrows($result));
+        $result = $pnt_db->sql_query("UPDATE " . $pnt_user_prefix . "_users SET theme = '" . $to . "' $where");
+        $count  = intval($pnt_db->sql_affectedrows($result));
 		
         OpenTable();
 		
@@ -908,7 +908,7 @@ function theme_transfer(){
 }
 
 function users_themes(){
-	global $titanium_db, $titanium_user_prefix, $admin_file, $HTTP_GET_VARS, $admlang;
+	global $pnt_db, $pnt_user_prefix, $admin_file, $HTTP_GET_VARS, $admlang;
 
     OpenTable();
 	
@@ -933,7 +933,7 @@ function users_themes(){
 /*****[BEGIN]******************************************
  [ Base:    Pagination System                  v1.0.0 ]
  ******************************************************/
-    $num_rows = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users"));
+    $num_rows = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users"));
     $pagination = new Paginator($HTTP_GET_VARS['page'],$num_rows);
     $pagination->set_Limit(15);
     $pagination->set_Links(3);
@@ -942,12 +942,12 @@ function users_themes(){
 /*****[END]********************************************
  [ Base:    Pagination System                  v1.0.0 ]
  ******************************************************/
-    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users WHERE user_id != '1' ORDER BY user_id LIMIT $limit1, $limit2");
+    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE user_id != '1' ORDER BY user_id LIMIT $limit1, $limit2");
 	
-    while($row = $titanium_db->sql_fetchrow($result)){
-        $titanium_user_id   = intval($row['user_id']);
-        $titanium_username  = Fix_Quotes($row['username']);
-        $titanium_useremail = Fix_Quotes($row['user_email']);
+    while($row = $pnt_db->sql_fetchrow($result)){
+        $pnt_user_id   = intval($row['user_id']);
+        $pnt_username  = Fix_Quotes($row['username']);
+        $pnt_useremail = Fix_Quotes($row['user_email']);
 		
         if (empty($row['name'])){
             $realname = _NOREALNAME;
@@ -956,23 +956,23 @@ function users_themes(){
         }
 		
         if (empty($row['theme'])){
-            $titanium_usertheme = get_default();
+            $pnt_usertheme = get_default();
         } else {
-            $titanium_usertheme = Fix_Quotes($row['theme']);
+            $pnt_usertheme = Fix_Quotes($row['theme']);
         }
 		
         echo "  <tr valign=\"middle\">\n";
-		echo "    <td width='10%' align='center' bgcolor='$bgcolor3'>" .$titanium_user_id. "</td>\n";
-		echo "    <td width='30%' bgcolor='$bgcolor3'>" . $titanium_username . "</td>\n";
-		echo "    <td width='30%' bgcolor='$bgcolor3'>" . $titanium_usertheme . "</td>\n";
+		echo "    <td width='10%' align='center' bgcolor='$bgcolor3'>" .$pnt_user_id. "</td>\n";
+		echo "    <td width='30%' bgcolor='$bgcolor3'>" . $pnt_username . "</td>\n";
+		echo "    <td width='30%' bgcolor='$bgcolor3'>" . $pnt_usertheme . "</td>\n";
 		echo "    <td width='30%' align='center' bgcolor='$bgcolor3'>\n";
 		echo "        <select name='op' style='display: inline-block; width: 60%;'>\n";
 		echo "            <option value='theme_users_reset'>"._THEMES_USER_RESET."</option>\n";
 		echo "            <option value='theme_users_modify'>"._THEMES_USER_MODIFY."</option>\n";
 		echo "        </select>\n";
 		// echo "        <br />\n";
-		echo "        <input type=\"hidden\" name=\"theme_userid\" value=\"$titanium_user_id\" />\n";
-		echo "        <input type=\"hidden\" name=\"theme_username\" value=\"$titanium_username\" />\n";
+		echo "        <input type=\"hidden\" name=\"theme_userid\" value=\"$pnt_user_id\" />\n";
+		echo "        <input type=\"hidden\" name=\"theme_username\" value=\"$pnt_username\" />\n";
 		echo "        <input type='submit' value='".$admlang['global']['submit']."' />\n";
 		echo "    </td>\n";
 		echo "  </tr>\n";
@@ -1026,19 +1026,19 @@ function users_themes(){
  ******************************************************/
 }
 
-function theme_users_reset($titanium_user_id, $titanium_username, $theme){
-    global $titanium_db,$titanium_user_prefix, $admin_file;
+function theme_users_reset($pnt_user_id, $pnt_username, $theme){
+    global $pnt_db,$pnt_user_prefix, $admin_file;
 	
-    $titanium_user_id = intval($titanium_user_id);
-    $titanium_username = Fix_Quotes($titanium_username);
-    $result = $titanium_db->sql_query("UPDATE " . $titanium_user_prefix . "_users SET theme = '" . get_default() . "' WHERE user_id = '$titanium_user_id' AND username = '$titanium_username'");
+    $pnt_user_id = intval($pnt_user_id);
+    $pnt_username = Fix_Quotes($pnt_username);
+    $result = $pnt_db->sql_query("UPDATE " . $pnt_user_prefix . "_users SET theme = '" . get_default() . "' WHERE user_id = '$pnt_user_id' AND username = '$pnt_username'");
     redirect_titanium($admin_file . '.php?op=themes');
 }
 
-function theme_users_modify($titanium_user_id, $titanium_username, $theme){
-    global $titanium_db, $titanium_user_prefix, $admin_file, $HTTP_POST_VARS;
+function theme_users_modify($pnt_user_id, $pnt_username, $theme){
+    global $pnt_db, $pnt_user_prefix, $admin_file, $HTTP_POST_VARS;
 	
-    if (empty($theme) && !empty($titanium_user_id)){
+    if (empty($theme) && !empty($pnt_user_id)){
         OpenTable();
 		
         echo"<table border='2' align='center' width='100%'>\n";
@@ -1046,16 +1046,16 @@ function theme_users_modify($titanium_user_id, $titanium_username, $theme){
 		echo "    <th width='16%' align='center'><span class=\"content\" style=\"font-weight: bold\">" . _THEMES_USERNAME . "</span></th>\n";
 		echo "    <th width='16%' align='center'><span class=\"content\" style=\"font-weight: bold\">" . _THEMES_USER_SELECT. "</span></th>\n";
 		echo "  </tr>";
-        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users WHERE user_id =".$titanium_user_id);
+        $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE user_id =".$pnt_user_id);
 		
-        if ($row = $titanium_db->sql_fetchrow($result)){
-            $titanium_user_id = intval($row['user_id']);
-            $titanium_username = Fix_Quotes($row['username']);
+        if ($row = $pnt_db->sql_fetchrow($result)){
+            $pnt_user_id = intval($row['user_id']);
+            $pnt_username = Fix_Quotes($row['username']);
 			
             if(empty($row['theme'])){
-                $titanium_usertheme = get_default();
+                $pnt_usertheme = get_default();
             } else {
-                $titanium_usertheme = $row['theme'];
+                $pnt_usertheme = $row['theme'];
             }
 			
             echo "  <form method='post' action='".$admin_file.".php?op=theme_users_modify'>\n";
@@ -1063,9 +1063,9 @@ function theme_users_modify($titanium_user_id, $titanium_username, $theme){
 			echo "    <td width='50%' align='center' bgcolor='$bgcolor3'>" . $row['username'] . "</td>\n";
 			echo "    <td width='50%' align='center' bgcolor='$bgcolor3'>\n";
 			echo          GetThemeSelect('themename')."\n";
-			echo "        <input type=\"hidden\" name=\"user_id\" value=\"$titanium_user_id\" />\n";
-			echo "        <input type=\"hidden\" name=\"username\" value=\"$titanium_username\" />\n";
-			echo "        <input type=\"hidden\" name=\"theme\" value=\"$titanium_usertheme\" />\n";
+			echo "        <input type=\"hidden\" name=\"user_id\" value=\"$pnt_user_id\" />\n";
+			echo "        <input type=\"hidden\" name=\"username\" value=\"$pnt_username\" />\n";
+			echo "        <input type=\"hidden\" name=\"theme\" value=\"$pnt_usertheme\" />\n";
 			echo "        <input type='submit' value='"._THEMES_SUBMIT."' />\n";
 			echo "    </td>\n";
 			echo "  </tr>\n";
@@ -1075,7 +1075,7 @@ function theme_users_modify($titanium_user_id, $titanium_username, $theme){
 		
         CloseTable();
     } elseif (isset($HTTP_POST_VARS['user_id']) && !empty($HTTP_POST_VARS['user_id'])){
-        $titanium_db->sql_query("UPDATE " . $titanium_user_prefix . "_users SET theme = '" . $theme . "' WHERE user_id = '".$HTTP_POST_VARS['user_id']."'");
+        $pnt_db->sql_query("UPDATE " . $pnt_user_prefix . "_users SET theme = '" . $theme . "' WHERE user_id = '".$HTTP_POST_VARS['user_id']."'");
         redirect_titanium($admin_file.".php?op=theme_users");
     }
 }
@@ -1104,8 +1104,8 @@ if (is_admin()){
         break;
         case 'theme_activate':
             if (!is_default($theme)) {
-                $sql = "UPDATE " . $titanium_prefix . "_themes SET active='1' WHERE theme_name = '$theme'";
-                $titanium_db->sql_query($sql);
+                $sql = "UPDATE " . $pnt_prefix . "_themes SET active='1' WHERE theme_name = '$theme'";
+                $pnt_db->sql_query($sql);
             }
             theme_header();
             display_main();
@@ -1123,8 +1123,8 @@ if (is_admin()){
         break;
         case 'theme_quickinstall':
             if(!theme_installed($theme)) {
-                $sql = "INSERT INTO " . $titanium_prefix . "_themes VALUES('$theme', '', '1', '$theme', '1', '')";
-                $titanium_db->sql_query($sql);
+                $sql = "INSERT INTO " . $pnt_prefix . "_themes VALUES('$theme', '', '1', '$theme', '1', '')";
+                $pnt_db->sql_query($sql);
             }
             theme_header();
             display_main();

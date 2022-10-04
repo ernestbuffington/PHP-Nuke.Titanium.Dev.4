@@ -73,9 +73,9 @@ class attach_parent
     /**
     * Get Quota Limits
     */
-    function get_quota_limits($userdata_quota, $titanium_user_id = 0)
+    function get_quota_limits($userdata_quota, $pnt_user_id = 0)
     {
-        global $attach_config, $titanium_db;
+        global $attach_config, $pnt_db;
 
         //
         // Define Filesize Limits (Prepare Quota Settings)
@@ -111,9 +111,9 @@ class attach_parent
             $default = 'attachment_quota';
         }
 
-        if (!$titanium_user_id)
+        if (!$pnt_user_id)
         {
-            $titanium_user_id = intval($userdata_quota['user_id']);
+            $pnt_user_id = intval($userdata_quota['user_id']);
         }
 
         $priority = explode(';', $priority);
@@ -129,16 +129,16 @@ class attach_parent
                     WHERE g.group_single_user = 0
 						AND u.user_pending = 0
                         AND u.group_id = g.group_id
-                        AND u.user_id = ' . $titanium_user_id;
+                        AND u.user_id = ' . $pnt_user_id;
 
-                if (!($result = $titanium_db->sql_query($sql)))
+                if (!($result = $pnt_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Could not get User Group', '', __LINE__, __FILE__, $sql);
                 }
 
-                $rows = $titanium_db->sql_fetchrowset($result);
-                $num_rows = $titanium_db->sql_numrows($result);
-                $titanium_db->sql_freeresult($result);
+                $rows = $pnt_db->sql_fetchrowset($result);
+                $num_rows = $pnt_db->sql_numrows($result);
+                $pnt_db->sql_freeresult($result);
 
                 if ($num_rows > 0)
                 {
@@ -158,18 +158,18 @@ class attach_parent
                         ORDER BY l.quota_limit DESC
                         LIMIT 1';
 
-                    if (!($result = $titanium_db->sql_query($sql)))
+                    if (!($result = $pnt_db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Could not get Group Quota', '', __LINE__, __FILE__, $sql);
                     }
 
-                    if ($titanium_db->sql_numrows($result) > 0)
+                    if ($pnt_db->sql_numrows($result) > 0)
                     {
-                        $row = $titanium_db->sql_fetchrow($result);
+                        $row = $pnt_db->sql_fetchrow($result);
                         $attach_config[$limit_type] = $row['quota_limit'];
                         $found = TRUE;
                     }
-                    $titanium_db->sql_freeresult($result);
+                    $pnt_db->sql_freeresult($result);
                 }
             }
 
@@ -178,24 +178,24 @@ class attach_parent
                 // Get User Quota, if the user is not in a group or the group has no quotas
                 $sql = 'SELECT l.quota_limit
 					FROM ' . QUOTA_TABLE . ' q, ' . QUOTA_LIMITS_TABLE . ' l
-                    WHERE q.user_id = ' . $titanium_user_id . '
+                    WHERE q.user_id = ' . $pnt_user_id . '
                         AND q.user_id <> 0
                         AND q.quota_type = ' . $quota_type . '
                         AND q.quota_limit_id = l.quota_limit_id
                     LIMIT 1';
 
-                if (!($result = $titanium_db->sql_query($sql)))
+                if (!($result = $pnt_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Could not get User Quota', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ($titanium_db->sql_numrows($result) > 0)
+                if ($pnt_db->sql_numrows($result) > 0)
                 {
-                    $row = $titanium_db->sql_fetchrow($result);
+                    $row = $pnt_db->sql_fetchrow($result);
                     $attach_config[$limit_type] = $row['quota_limit'];
                     $found = TRUE;
                 }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
             }
         }
 
@@ -215,21 +215,21 @@ class attach_parent
                     WHERE quota_limit_id = ' . (int) $quota_id . '
                     LIMIT 1';
 
-                if (!($result = $titanium_db->sql_query($sql)))
+                if (!($result = $pnt_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Could not get Default Quota Limit', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ($titanium_db->sql_numrows($result) > 0)
+                if ($pnt_db->sql_numrows($result) > 0)
                 {
-                    $row = $titanium_db->sql_fetchrow($result);
+                    $row = $pnt_db->sql_fetchrow($result);
                     $attach_config[$limit_type] = $row['quota_limit'];
                 }
                 else
                 {
                     $attach_config[$limit_type] = $attach_config[$default];
                 }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
             }
         }
 
@@ -249,7 +249,7 @@ class attach_parent
     */
     function handle_attachments($mode)
     {
-        global $phpbb2_is_auth, $attach_config, $refresh, $HTTP_POST_VARS, $post_id, $submit, $preview, $error, $error_msg, $lang, $phpbb2_template, $userdata, $titanium_db;
+        global $phpbb2_is_auth, $attach_config, $refresh, $HTTP_POST_VARS, $post_id, $submit, $preview, $error, $error_msg, $lang, $phpbb2_template, $userdata, $pnt_db;
 
         //
         // ok, what shall we do ;)
@@ -309,18 +309,18 @@ class attach_parent
 			$sql = 'SELECT attach_id
 				FROM ' . ATTACHMENTS_TABLE . '
 				WHERE ' . $sql_id . ' = ' . $post_id;
-			$result = $titanium_db->sql_query($sql);
+			$result = $pnt_db->sql_query($sql);
 
 			if (!$result)
 			{
 				message_die(GENERAL_ERROR, 'Unable to get attachment information.', '', __LINE__, __FILE__, $sql);
 			}
 
-			while ($_row = $titanium_db->sql_fetchrow($result))
+			while ($_row = $pnt_db->sql_fetchrow($result))
 			{
 				$allowed_attach_ids[] = $_row['attach_id'];
 			}
-			$titanium_db->sql_freeresult($result);
+			$pnt_db->sql_freeresult($result);
 		}
 
 		// Check the submitted variables - do not allow wrong values
@@ -588,7 +588,7 @@ class attach_parent
                                     SET thumbnail = 0
                                     WHERE attach_id = ' . (int) $actual_id_list[$i];
 
-                                if (!($titanium_db->sql_query($sql)))
+                                if (!($pnt_db->sql_query($sql)))
                                 {
                                     message_die(GENERAL_ERROR, 'Unable to update ' . ATTACHMENTS_DESC_TABLE . ' Table.', '', __LINE__, __FILE__, $sql);
                                 }
@@ -647,12 +647,12 @@ class attach_parent
                             FROM ' . ATTACHMENTS_DESC_TABLE . '
                             WHERE attach_id = ' . (int) $attachment_id;
 
-                        if (!($result = $titanium_db->sql_query($sql)))
+                        if (!($result = $pnt_db->sql_query($sql)))
                         {
                             message_die(GENERAL_ERROR, 'Unable to select old Attachment Entry.', '', __LINE__, __FILE__, $sql);
                         }
 
-                        if ($titanium_db->sql_numrows($result) != 1)
+                        if ($pnt_db->sql_numrows($result) != 1)
                         {
                             $error = TRUE;
                             if(!empty($error_msg))
@@ -662,8 +662,8 @@ class attach_parent
                             $error_msg .= $lang['Error_missing_old_entry'];
                         }
 
-                        $row = $titanium_db->sql_fetchrow($result);
-                        $titanium_db->sql_freeresult($result);
+                        $row = $pnt_db->sql_fetchrow($result);
+                        $pnt_db->sql_freeresult($result);
 
                         $comment = (trim($this->file_comment) == '') ? trim($row['comment']) : trim($this->file_comment);
 
@@ -682,7 +682,7 @@ class attach_parent
                         $sql = 'UPDATE ' . ATTACHMENTS_DESC_TABLE . ' SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
                             WHERE attach_id = ' . (int) $attachment_id;
 
-                        if (!($titanium_db->sql_query($sql)))
+                        if (!($pnt_db->sql_query($sql)))
                         {
                             message_die(GENERAL_ERROR, 'Unable to update the Attachment.', '', __LINE__, __FILE__, $sql);
                         }
@@ -751,7 +751,7 @@ class attach_parent
     */
     function do_insert_attachment($mode, $message_type, $message_id)
     {
-        global $titanium_db, $upload_dir;
+        global $pnt_db, $upload_dir;
 
         if (intval($message_id) < 0)
         {
@@ -764,8 +764,8 @@ class attach_parent
 
             $post_id = 0;
             $privmsgs_id = (int) $message_id;
-            $titanium_user_id_1 = (int) $userdata['user_id'];
-            $titanium_user_id_2 = (int) $to_userdata['user_id'];
+            $pnt_user_id_1 = (int) $userdata['user_id'];
+            $pnt_user_id_2 = (int) $to_userdata['user_id'];
 			$sql_id = 'privmsgs_id';
         }
         else if ($message_type = 'post')
@@ -774,13 +774,13 @@ class attach_parent
 
             $post_id = (int) $message_id;
             $privmsgs_id = 0;
-            $titanium_user_id_1 = (isset($post_info['poster_id'])) ? (int) $post_info['poster_id'] : 0;
-            $titanium_user_id_2 = 0;
+            $pnt_user_id_1 = (isset($post_info['poster_id'])) ? (int) $post_info['poster_id'] : 0;
+            $pnt_user_id_2 = 0;
 			$sql_id = 'post_id';
 
-            if (!$titanium_user_id_1)
+            if (!$pnt_user_id_1)
             {
-                $titanium_user_id_1 = (int) $userdata['user_id'];
+                $pnt_user_id_1 = (int) $userdata['user_id'];
             }
         }
 
@@ -795,15 +795,15 @@ class attach_parent
 						FROM ' . ATTACHMENTS_TABLE . '
 						WHERE ' . $sql_id . ' = ' . $$sql_id . '
 							AND attach_id = ' . $this->attachment_id_list[$i];
-					$result = $titanium_db->sql_query($sql);
+					$result = $pnt_db->sql_query($sql);
 
 					if (!$result)
 					{
 						message_die(GENERAL_ERROR, 'Unable to get attachment information.', '', __LINE__, __FILE__, $sql);
 					}
 
-					$row = $titanium_db->sql_fetchrow($result);
-					$titanium_db->sql_freeresult($result);
+					$row = $pnt_db->sql_fetchrow($result);
+					$pnt_db->sql_freeresult($result);
 
 					if (!$row)
 					{
@@ -813,7 +813,7 @@ class attach_parent
                         SET comment = '" . attach_mod_sql_escape($this->attachment_comment_list[$i]) . "'
                         WHERE attach_id = " . $this->attachment_id_list[$i];
 
-                    if (!($titanium_db->sql_query($sql)))
+                    if (!($pnt_db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Unable to update the File Comment.', '', __LINE__, __FILE__, $sql);
                     }
@@ -834,24 +834,24 @@ class attach_parent
 
                     $sql = 'INSERT INTO ' . ATTACHMENTS_DESC_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-                    if (!($titanium_db->sql_query($sql)))
+                    if (!($pnt_db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Couldn\'t store Attachment.<br />Your ' . $message_type . ' has been stored.', '', __LINE__, __FILE__, $sql);
                     }
 
-                    $attach_id = $titanium_db->sql_nextid();
+                    $attach_id = $pnt_db->sql_nextid();
 
                     $sql_ary = array(
                         'attach_id'        => (int) $attach_id,
                         'post_id'        => (int) $post_id,
                         'privmsgs_id'    => (int) $privmsgs_id,
-                        'user_id_1'        => (int) $titanium_user_id_1,
-                        'user_id_2'        => (int) $titanium_user_id_2
+                        'user_id_1'        => (int) $pnt_user_id_1,
+                        'user_id_2'        => (int) $pnt_user_id_2
                     );
 
                     $sql = 'INSERT INTO ' . ATTACHMENTS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-                    if (!($titanium_db->sql_query($sql)))
+                    if (!($pnt_db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Couldn\'t store Attachment.<br />Your ' . $message_type . ' has been stored.', '', __LINE__, __FILE__, $sql);
                     }
@@ -880,24 +880,24 @@ class attach_parent
                 $sql = 'INSERT INTO ' . ATTACHMENTS_DESC_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
                 // Inform the user that his post has been created, but nothing is attached
-                if (!($titanium_db->sql_query($sql)))
+                if (!($pnt_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t store Attachment.<br />Your ' . $message_type . ' has been stored.', '', __LINE__, __FILE__, $sql);
                 }
 
-                $attach_id = $titanium_db->sql_nextid();
+                $attach_id = $pnt_db->sql_nextid();
 
                 $sql_ary = array(
                     'attach_id'        => (int) $attach_id,
                     'post_id'        => (int) $post_id,
                     'privmsgs_id'    => (int) $privmsgs_id,
-                    'user_id_1'        => (int) $titanium_user_id_1,
-                    'user_id_2'        => (int) $titanium_user_id_2
+                    'user_id_1'        => (int) $pnt_user_id_1,
+                    'user_id_2'        => (int) $pnt_user_id_2
                 );
 
                 $sql = 'INSERT INTO ' . ATTACHMENTS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-                if (!($titanium_db->sql_query($sql)))
+                if (!($pnt_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t store Attachment.<br />Your ' . $message_type . ' has been stored.', '', __LINE__, __FILE__, $sql);
                 }
@@ -911,7 +911,7 @@ class attach_parent
     */
     function display_attachment_bodies()
     {
-        global $attach_config, $titanium_db, $phpbb2_is_auth, $lang, $mode, $phpEx, $phpbb2_template, $upload_dir, $userdata, $HTTP_POST_VARS, $phpbb2_forum_id;
+        global $attach_config, $pnt_db, $phpbb2_is_auth, $lang, $mode, $phpEx, $phpbb2_template, $upload_dir, $userdata, $HTTP_POST_VARS, $phpbb2_forum_id;
         global $phpbb2_root_path;
 
         // Choose what to display
@@ -1082,7 +1082,7 @@ class attach_parent
     */
     function upload_attachment()
     {
-        global $HTTP_POST_FILES, $titanium_db, $HTTP_POST_VARS, $error, $error_msg, $lang, $attach_config, $userdata, $upload_dir, $phpbb2_forum_id;
+        global $HTTP_POST_FILES, $pnt_db, $HTTP_POST_VARS, $error, $error_msg, $lang, $attach_config, $userdata, $upload_dir, $phpbb2_forum_id;
 
         $this->post_attach = ($this->filename != '') ? TRUE : FALSE;
 
@@ -1111,13 +1111,13 @@ class attach_parent
                     AND e.extension = '" . attach_mod_sql_escape($this->extension) . "'
                 LIMIT 1";
 
-            if (!($result = $titanium_db->sql_query($sql)))
+            if (!($result = $pnt_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not query Extensions.', '', __LINE__, __FILE__, $sql);
             }
 
-            $row = $titanium_db->sql_fetchrow($result);
-            $titanium_db->sql_freeresult($result);
+            $row = $pnt_db->sql_fetchrow($result);
+            $pnt_db->sql_freeresult($result);
 
             $allowed_filesize = ($row['max_filesize']) ? $row['max_filesize'] : $attach_config['max_filesize'];
             $cat_id = intval($row['cat_id']);
@@ -1397,13 +1397,13 @@ class attach_parent
             {
                 $sql = 'SELECT sum(filesize) as total FROM ' . ATTACHMENTS_DESC_TABLE;
 
-                if (!($result = $titanium_db->sql_query($sql)))
+                if (!($result = $pnt_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Could not query total filesize', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $titanium_db->sql_fetchrow($result);
-                $titanium_db->sql_freeresult($result);
+                $row = $pnt_db->sql_fetchrow($result);
+                $pnt_db->sql_freeresult($result);
 
                 $total_phpbb2_filesize = $row['total'];
 
@@ -1432,14 +1432,14 @@ class attach_parent
                             AND privmsgs_id = 0
                         GROUP BY attach_id';
 
-                    if (!($result = $titanium_db->sql_query($sql)))
+                    if (!($result = $pnt_db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
                     }
 
-                    $attach_ids = $titanium_db->sql_fetchrowset($result);
-                    $num_attach_ids = $titanium_db->sql_numrows($result);
-                    $titanium_db->sql_freeresult($result);
+                    $attach_ids = $pnt_db->sql_fetchrowset($result);
+                    $num_attach_ids = $pnt_db->sql_numrows($result);
+                    $pnt_db->sql_freeresult($result);
 
                     $attach_id = array();
 
@@ -1455,13 +1455,13 @@ class attach_parent
                             FROM ' . ATTACHMENTS_DESC_TABLE . '
                             WHERE attach_id IN (' . implode(', ', $attach_id) . ')';
 
-                        if (!($result = $titanium_db->sql_query($sql)))
+                        if (!($result = $pnt_db->sql_query($sql)))
                         {
                             message_die(GENERAL_ERROR, 'Could not query total filesize', '', __LINE__, __FILE__, $sql);
                         }
 
-                        $row = $titanium_db->sql_fetchrow($result);
-                        $titanium_db->sql_freeresult($result);
+                        $row = $pnt_db->sql_fetchrow($result);
+                        $pnt_db->sql_freeresult($result);
                         $total_phpbb2_filesize = $row['total'];
                     }
                     else
@@ -1518,12 +1518,12 @@ class attach_parent
                 {
                     $u_data = get_userdata($to_user, true);
 
-                    $titanium_user_id = (int) $u_data['user_id'];
-                    $this->get_quota_limits($u_data, $titanium_user_id);
+                    $pnt_user_id = (int) $u_data['user_id'];
+                    $this->get_quota_limits($u_data, $pnt_user_id);
 
                     if ($attach_config['pm_filesize_limit'])
                     {
-                        $total_phpbb2_filesize = get_total_attach_pm_filesize('to_user', $titanium_user_id);
+                        $total_phpbb2_filesize = get_total_attach_pm_filesize('to_user', $pnt_user_id);
 
                         if (($total_phpbb2_filesize + $this->filesize) > $attach_config['pm_filesize_limit'])
                         {
@@ -1667,7 +1667,7 @@ class attach_posting extends attach_parent
     */
     function insert_attachment($post_id)
     {
-        global $titanium_db, $phpbb2_is_auth, $mode, $userdata, $error, $error_msg;
+        global $pnt_db, $phpbb2_is_auth, $mode, $userdata, $error, $error_msg;
 
         // Insert Attachment ?
         if (!empty($post_id) && ($mode == 'newtopic' || $mode == 'reply' || $mode == 'editpost') && $phpbb2_is_auth['auth_attachments'])
@@ -1681,7 +1681,7 @@ class attach_posting extends attach_parent
                     SET post_attachment = 1
                     WHERE post_id = ' . (int) $post_id;
 
-                if (!($titanium_db->sql_query($sql)))
+                if (!($pnt_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Unable to update Posts Table.', '', __LINE__, __FILE__, $sql);
                 }
@@ -1690,19 +1690,19 @@ class attach_posting extends attach_parent
                     FROM ' . POSTS_TABLE . '
                     WHERE post_id = ' . (int) $post_id;
 
-                if (!($result = $titanium_db->sql_query($sql)))
+                if (!($result = $pnt_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Unable to select Posts Table.', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $titanium_db->sql_fetchrow($result);
-                $titanium_db->sql_freeresult($result);
+                $row = $pnt_db->sql_fetchrow($result);
+                $pnt_db->sql_freeresult($result);
 
                 $sql = 'UPDATE ' . TOPICS_TABLE . '
                     SET topic_attachment = 1
                     WHERE topic_id = ' . (int) $row['topic_id'];
 
-                if (!($titanium_db->sql_query($sql)))
+                if (!($pnt_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Unable to update Topics Table.', '', __LINE__, __FILE__, $sql);
                 }

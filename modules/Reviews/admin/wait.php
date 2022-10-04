@@ -22,14 +22,14 @@ if(!defined('NUKE_EVO')) {
     exit;
 }
 
-global $admin_file, $titanium_db, $titanium_prefix, $cache;
+global $admin_file, $pnt_db, $pnt_prefix, $cache;
 
 $pnt_module = basename(dirname(dirname(__FILE__)));
 
 if(is_active($pnt_module)) {
     $content .= "<div align=\"left\"><strong><u><span class=\"content\">"._AREV."</span>:</u></strong></div>";
     if(($numwaitreviews = $cache->load('numwaitreviews', 'submissions')) === false) {
-        list($numwaitreviews) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT COUNT(*) FROM ".$titanium_prefix."_reviews_add"), SQL_NUM);
+        list($numwaitreviews) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT COUNT(*) FROM ".$pnt_prefix."_reviews_add"), SQL_NUM);
         $cache->save('numwaitreviews', 'submissions', $numwaitreviews);
     }
     $content .= "<img src=\"images/arrow.gif\" alt=\"\" />&nbsp;<a href=\"".$admin_file.".php?op=reviews\">"._WREVIEWS."</a>:&nbsp;<strong>$numwaitreviews</strong><br />";

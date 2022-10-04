@@ -10,7 +10,7 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 get_lang('Network_Projects');
 
@@ -40,9 +40,9 @@ echo "<tr><td align='center'><strong>"._NETWORK_SWAPPROJECTPRIORITY."</strong></
 echo "<tr><td align='center'>".$priority['priority_name']." -> <select name='swap_priority_id'>\n";
 echo "<option value='-1'>"._NETWORK_NA."</option>\n";
 
-$prioritylist = $titanium_db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_projects_priorities` WHERE `priority_id` != '$priority_id' AND `priority_id` > 0 ORDER BY `priority_weight`");
+$prioritylist = $pnt_db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_projects_priorities` WHERE `priority_id` != '$priority_id' AND `priority_id` > 0 ORDER BY `priority_weight`");
 
-while(list($s_priority_id, $s_priority_name) = $titanium_db2->sql_fetchrow($prioritylist))
+while(list($s_priority_id, $s_priority_name) = $pnt_db2->sql_fetchrow($prioritylist))
 {
     echo "<option value='$s_priority_id'>$s_priority_name</option>\n";
 }

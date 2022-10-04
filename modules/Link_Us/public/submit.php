@@ -31,7 +31,7 @@
 
 	global $userinfo, $identify;
 
-	list($uid, $name, $email) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `user_id`, `username`, `user_email`, `user_website` FROM `".$titanium_prefix."_users` WHERE `username`='".$userinfo['username']."'"));
+	list($uid, $name, $email) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `user_id`, `username`, `user_email`, `user_website` FROM `".$pnt_prefix."_users` WHERE `username`='".$userinfo['username']."'"));
 	$ip = $identify->get_ip();
 
 	OpenTable();

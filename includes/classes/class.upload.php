@@ -56,14 +56,14 @@ class myubrowse
         }
 
         
-		function myubrowse($admin, $network_prefix, $titanium_db2, $pnt_module, $titanium_user_prefix) 
+		function myubrowse($admin, $network_prefix, $pnt_db2, $pnt_module, $pnt_user_prefix) 
 		{
                 global $admin_file;
                 
 				$this->admin = $admin;
                 $this->prefix = $network_prefix;
                 $this->user_prefix = $network_prefix;
-                $this->db = $titanium_db2;
+                $this->db = $pnt_db2;
                 $this->module_name = $pnt_module;
                 $this->pagetitle = " - ".MYU_MYUPLOADS;
                 
@@ -94,9 +94,9 @@ class myubrowse
                 }
         }
         
-        function uploads_getusrinfo_by_id($titanium_user_id) 
+        function uploads_getusrinfo_by_id($pnt_user_id) 
 		{
-            $sql = "SELECT * FROM ".$this->user_prefix."_users WHERE user_id = '$titanium_user_id'";
+            $sql = "SELECT * FROM ".$this->user_prefix."_users WHERE user_id = '$pnt_user_id'";
             $res = $this->db->sql_query($sql, FALSE);
                    $userinfo = $this->db->sql_fetchrow($res);
             return $userinfo;
@@ -136,10 +136,10 @@ class myubrowse
                 include_once(NUKE_BASE_DIR.'footer.php');
         }
 
-        function browse($titanium_user_folder) 
+        function browse($pnt_user_folder) 
 		{
-                global $directory_mode, $titanium_user_prefix, $titanium_db2, $network_prefix;
-		        $sql = "SELECT user_id FROM ".$this->user_prefix."_users WHERE username = '$titanium_user_folder'";
+                global $directory_mode, $pnt_user_prefix, $pnt_db2, $network_prefix;
+		        $sql = "SELECT user_id FROM ".$this->user_prefix."_users WHERE username = '$pnt_user_folder'";
                 $res = $this->db->sql_query($sql, FALSE);
                 $row = $this->db->sql_fetchrow($res);
                 $userinfo = $this->uploads_getusrinfo_by_id($row['user_id']);
@@ -160,8 +160,8 @@ class myubrowse
                 include_once(NUKE_BASE_DIR.'header.php');
                 title(MYU_MYUPLOADS);
                 OpenTable();
-                $titanium_user_color = UsernameColor($titanium_user_folder);
-                echo "<table border=\"0\" width=\"100%\" cellspacing=\"2\" cellpadding=\"2\"><tr><td colspan=\"2\" align=\"center\"><span class=\"title\">$titanium_user_color</span></td></tr>"
+                $pnt_user_color = UsernameColor($pnt_user_folder);
+                echo "<table border=\"0\" width=\"100%\" cellspacing=\"2\" cellpadding=\"2\"><tr><td colspan=\"2\" align=\"center\"><span class=\"title\">$pnt_user_color</span></td></tr>"
                     ."<tr><td><strong>".MYU_FILENAME."</strong></td><td><strong>".MYU_FILESIZE."</strong></td></tr>\n";
                 $open = opendir($this->direct);
                 $i = 0;

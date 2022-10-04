@@ -43,7 +43,7 @@ if (!defined('IN_PHPBB2'))
 
 function topic_review($topic_id, $is_inline_review)
 {
-        global $titanium_db, $phpbb2_board_config, $phpbb2_template, $lang, $images, $theme, $phpEx, $phpbb2_root_path, $userdata, $titanium_user_ip, $orig_word, $replacement_word, $phpbb2_starttime;
+        global $pnt_db, $phpbb2_board_config, $phpbb2_template, $lang, $images, $theme, $phpEx, $phpbb2_root_path, $userdata, $pnt_user_ip, $orig_word, $replacement_word, $phpbb2_starttime;
 /*****[BEGIN]******************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
@@ -74,16 +74,16 @@ function topic_review($topic_id, $is_inline_review)
 /*****[END]********************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not obtain topic information', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ( !($forum_row = $titanium_db->sql_fetchrow($result)) )
+                if ( !($forum_row = $pnt_db->sql_fetchrow($result)) )
                 {
                         message_die(GENERAL_MESSAGE, 'Topic_post_not_exist');
                 }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
 
                 $phpbb2_forum_id = $forum_row['forum_id'];
                 $topic_title = $forum_row['topic_title'];
@@ -91,7 +91,7 @@ function topic_review($topic_id, $is_inline_review)
                 //
                 // Start session management
                 //
-                $userdata = titanium_session_pagestart($titanium_user_ip, $phpbb2_forum_id);
+                $userdata = titanium_session_pagestart($pnt_user_ip, $phpbb2_forum_id);
                 titanium_init_userprefs($userdata);
                 //
                 // End session management
@@ -149,7 +149,7 @@ function topic_review($topic_id, $is_inline_review)
                         AND p.post_id = pt.post_id
                 ORDER BY p.post_time DESC
                 LIMIT " . $phpbb2_board_config['posts_per_page'];
-        if ( !($result = $titanium_db->sql_query($sql,false)) )
+        if ( !($result = $pnt_db->sql_query($sql,false)) )
         {
                 message_die(GENERAL_ERROR, 'Could not obtain post/user information', '', __LINE__, __FILE__, $sql);
         }
@@ -161,7 +161,7 @@ function topic_review($topic_id, $is_inline_review)
         // and it goes like this ...
         //
         
-        $row = $titanium_db->sql_fetchrow($result,SQL_BOTH);
+        $row = $pnt_db->sql_fetchrow($result,SQL_BOTH);
         if ( $row )
         {
 /*****[BEGIN]******************************************
@@ -174,8 +174,8 @@ function topic_review($topic_id, $is_inline_review)
 						FROM " . POSTS_TABLE . " p
 						WHERE p.topic_id = $topic_id
 						AND p.poster_id = " . $userdata['user_id'];
-					$resultat = $titanium_db->sql_query($sql);
-					$valid = $titanium_db->sql_numrows($resultat) ? TRUE : FALSE;
+					$resultat = $pnt_db->sql_query($sql);
+					$valid = $pnt_db->sql_numrows($resultat) ? TRUE : FALSE;
 				}
 /*****[END]********************************************
  [ Mod:    Hide Mod                            v1.2.0 ]
@@ -350,13 +350,13 @@ function topic_review($topic_id, $is_inline_review)
 
                         $i++;
                 }
-                while ( $row = $titanium_db->sql_fetchrow($result) );
+                while ( $row = $pnt_db->sql_fetchrow($result) );
         }
         else
         {
                 message_die(GENERAL_MESSAGE, 'Topic_post_not_exist', '', __LINE__, __FILE__, $sql);
         }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
         $phpbb2_template->assign_vars(array(
                 'L_AUTHOR' => $lang['Author'],

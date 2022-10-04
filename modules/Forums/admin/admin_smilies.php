@@ -36,7 +36,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $titanium_module['General']['Smilies'] = $filename;
+        $pnt_module['General']['Smilies'] = $filename;
 
         return;
 }
@@ -122,7 +122,7 @@ if( isset($HTTP_GET_VARS['import_pack']) || isset($HTTP_POST_VARS['import_pack']
                 {
                         $sql = "DELETE
                                 FROM " . SMILIES_TABLE;
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't delete current smilies", "", __LINE__, __FILE__, $sql);
                         }
@@ -131,12 +131,12 @@ if( isset($HTTP_GET_VARS['import_pack']) || isset($HTTP_POST_VARS['import_pack']
                 {
                         $sql = "SELECT code
                                 FROM ". SMILIES_TABLE;
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't get current smilies", "", __LINE__, __FILE__, $sql);
                         }
 
-                        $cur_smilies = $titanium_db->sql_fetchrowset($result);
+                        $cur_smilies = $pnt_db->sql_fetchrowset($result);
 
                         for( $i = 0; $i < count($cur_smilies); $i++ )
                         {
@@ -186,7 +186,7 @@ if( isset($HTTP_GET_VARS['import_pack']) || isset($HTTP_POST_VARS['import_pack']
 
                                 if( $sql != '' )
                                 {
-                                        $result = $titanium_db->sql_query($sql);
+                                        $result = $pnt_db->sql_query($sql);
                                         if( !$result )
                                         {
                                                 message_die(GENERAL_ERROR, "Couldn't update smilies!", "", __LINE__, __FILE__, $sql);
@@ -249,12 +249,12 @@ else if( isset($HTTP_POST_VARS['export_pack']) || isset($HTTP_GET_VARS['export_p
         {
                 $sql = "SELECT *
                         FROM " . SMILIES_TABLE;
-                if( !$result = $titanium_db->sql_query($sql) )
+                if( !$result = $pnt_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, "Could not get smiley list", "", __LINE__, __FILE__, $sql);
                 }
 
-                $resultset = $titanium_db->sql_fetchrowset($result);
+                $resultset = $pnt_db->sql_fetchrowset($result);
 
                 $smile_pak = "";
                 for($i = 0; $i < count($resultset); $i++ )
@@ -333,7 +333,7 @@ else if ( $mode != "" )
       			{
      				$sql = "DELETE FROM " . SMILIES_TABLE . "
      					WHERE smilies_id = " . $smiley_id;
-     				$result = $titanium_db->sql_query($sql);
+     				$result = $pnt_db->sql_query($sql);
      				if( !$result )
      				{
      					message_die(GENERAL_ERROR, "Couldn't delete smiley", "", __LINE__, __FILE__, $sql);
@@ -376,12 +376,12 @@ else if ( $mode != "" )
                         $sql = "SELECT *
                                 FROM " . SMILIES_TABLE . "
                                 WHERE smilies_id = " . $smiley_id;
-                        $result = $titanium_db->sql_query($sql);
+                        $result = $pnt_db->sql_query($sql);
                         if( !$result )
                         {
                                 message_die(GENERAL_ERROR, 'Could not obtain emoticon information', "", __LINE__, __FILE__, $sql);
                         }
-                        $smile_data = $titanium_db->sql_fetchrow($result);
+                        $smile_data = $pnt_db->sql_fetchrow($result);
 
                         $filename_list = "";
                         for( $i = 0; $i < count($smiley_images); $i++ )
@@ -464,7 +464,7 @@ else if ( $mode != "" )
                         $sql = "UPDATE " . SMILIES_TABLE . "
                                 SET code = '" . str_replace("\'", "''", $smile_code) . "', smile_url = '" . str_replace("\'", "''", $smile_url) . "', emoticon = '" . str_replace("\'", "''", $smile_emotion) . "'
                                 WHERE smilies_id = $smile_id";
-                        if( !($result = $titanium_db->sql_query($sql)) )
+                        if( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't update smilies info", "", __LINE__, __FILE__, $sql);
                         }
@@ -507,7 +507,7 @@ else if ( $mode != "" )
                         //
                         $sql = "INSERT INTO " . SMILIES_TABLE . " (code, smile_url, emoticon)
                                 VALUES ('" . str_replace("\'", "''", $smile_code) . "', '" . str_replace("\'", "''", $smile_url) . "', '" . str_replace("\'", "''", $smile_emotion) . "')";
-                        $result = $titanium_db->sql_query($sql);
+                        $result = $pnt_db->sql_query($sql);
                         if( !$result )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't insert new smiley", "", __LINE__, __FILE__, $sql);
@@ -528,13 +528,13 @@ else
         //
         $sql = "SELECT *
                 FROM " . SMILIES_TABLE;
-        $result = $titanium_db->sql_query($sql);
+        $result = $pnt_db->sql_query($sql);
         if( !$result )
         {
                 message_die(GENERAL_ERROR, "Couldn't obtain smileys from database", "", __LINE__, __FILE__, $sql);
         }
 
-        $smilies = $titanium_db->sql_fetchrowset($result);
+        $smilies = $pnt_db->sql_fetchrowset($result);
 
         $phpbb2_template->set_filenames(array(
                 "body" => "admin/smile_list_body.tpl")

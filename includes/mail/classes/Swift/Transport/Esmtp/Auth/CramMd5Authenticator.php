@@ -32,21 +32,21 @@ class Swift_Transport_Esmtp_Auth_CramMd5Authenticator
   }
   
   /**
-   * Try to authenticate the user with $titanium_username and $password.
+   * Try to authenticate the user with $pnt_username and $password.
    * @param Swift_Transport_SmtpAgent $phpbb2_agent
-   * @param string $titanium_username
+   * @param string $pnt_username
    * @param string $password
    * @return boolean
    */
   public function authenticate(Swift_Transport_SmtpAgent $phpbb2_agent,
-    $titanium_username, $password)
+    $pnt_username, $password)
   {
     try
     {
       $challenge = $phpbb2_agent->executeCommand("AUTH CRAM-MD5\r\n", array(334));
       $challenge = base64_decode(substr($challenge, 4));
       $message = base64_encode(
-        $titanium_username . ' ' . $this->_getResponse($password, $challenge)
+        $pnt_username . ' ' . $this->_getResponse($password, $challenge)
         );
       $phpbb2_agent->executeCommand(sprintf("%s\r\n", $message), array(235));
       return true;

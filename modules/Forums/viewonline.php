@@ -53,7 +53,7 @@ include($phpbb2_root_path . 'common.'.$phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_VIEWONLINE);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_VIEWONLINE);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -83,20 +83,20 @@ $phpbb2_template->assign_vars(array(
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
     $q = "SELECT forum_id, forum_name FROM ". FORUMS_TABLE ."";
-    $r = $titanium_db->sql_query($q);
-    $forums_data = $titanium_db->sql_fetchrowset($r);
+    $r = $pnt_db->sql_query($q);
+    $forums_data = $pnt_db->sql_fetchrowset($r);
 
     $q = "SELECT username, user_id FROM ". USERS_TABLE ."";
-    $r = $titanium_db->sql_query($q);
-    $titanium_users_data = $titanium_db->sql_fetchrowset($r);
+    $r = $pnt_db->sql_query($q);
+    $pnt_users_data = $pnt_db->sql_fetchrowset($r);
 
     $q = "SELECT topic_id, topic_title FROM ". TOPICS_TABLE ."";
-    $r = $titanium_db->sql_query($q);
-    $phpbb2_topics_data = $titanium_db->sql_fetchrowset($r);
+    $r = $pnt_db->sql_query($q);
+    $phpbb2_topics_data = $pnt_db->sql_fetchrowset($r);
 
     $q = "SELECT cat_id, cat_title FROM ". CATEGORIES_TABLE ."";
-    $r = $titanium_db->sql_query($q);
-    $cats_data = $titanium_db->sql_fetchrowset($r);
+    $r = $pnt_db->sql_query($q);
+    $cats_data = $pnt_db->sql_fetchrowset($r);
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
@@ -105,9 +105,9 @@ $phpbb2_template->assign_vars(array(
 // Forum info
 //
 $sql = "SELECT forum_name, forum_id FROM " . FORUMS_TABLE;
-if ( $result = $titanium_db->sql_query($sql) )
+if ( $result = $pnt_db->sql_query($sql) )
 {
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
         $phpbb2_forum_data[$row['forum_id']] = $row['forum_name'];
     }
@@ -144,7 +144,7 @@ $sql = "SELECT u.user_id, u.username, u.user_allow_viewonline, u.user_level, s.s
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
 
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not obtain regd user/online information', '', __LINE__, __FILE__, $sql);
 }
@@ -157,28 +157,28 @@ $guest_counter = 0;
 $prev_user = 0;
 $prev_ip = '';
 
-while ( $row = $titanium_db->sql_fetchrow($result) )
+while ( $row = $pnt_db->sql_fetchrow($result) )
 {
     $view_online = false;
     if ( $row['session_logged_in'] )
     {
-        $titanium_user_id = $row['user_id'];
-        if ( $titanium_user_id != $prev_user )
+        $pnt_user_id = $row['user_id'];
+        if ( $pnt_user_id != $prev_user )
         {
-            $titanium_username = $row['username'];
+            $pnt_username = $row['username'];
             $style_color = '';
             if ( $row['user_level'] == ADMIN )
             {
-                $titanium_username = '<b style="color:#' . $theme['fontcolor3'] . '">' . $titanium_username . '</strong>';
+                $pnt_username = '<b style="color:#' . $theme['fontcolor3'] . '">' . $pnt_username . '</strong>';
             }
             else if ( $row['user_level'] == MOD )
             {
-                $titanium_username = '<b style="color:#' . $theme['fontcolor2'] . '">' . $titanium_username . '</strong>';
+                $pnt_username = '<b style="color:#' . $theme['fontcolor2'] . '">' . $pnt_username . '</strong>';
             }
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-            $titanium_username = UsernameColor($row['username']);
+            $pnt_username = UsernameColor($row['username']);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -188,12 +188,12 @@ while ( $row = $titanium_db->sql_fetchrow($result) )
 /*****[BEGIN]******************************************
  [ Mod:    Hidden Status Viewing               v1.0.0 ]
  ******************************************************/
-                $view_online = ( $userdata['user_level'] == ADMIN || $userdata['user_id'] == $titanium_user_id ) ? true : false;
+                $view_online = ( $userdata['user_level'] == ADMIN || $userdata['user_id'] == $pnt_user_id ) ? true : false;
 /*****[END]********************************************
  [ Mod:    Hidden Status Viewing               v1.0.0 ]
  ******************************************************/
                 $hidden_users++;
-                $titanium_username = '<i>' . $titanium_username . '</i>';
+                $pnt_username = '<i>' . $pnt_username . '</i>';
             }
             else
             {
@@ -203,14 +203,14 @@ while ( $row = $titanium_db->sql_fetchrow($result) )
 
             $which_counter = 'reg_counter';
             $which_row = 'reg_user_row';
-            $prev_user = $titanium_user_id;
+            $prev_user = $pnt_user_id;
         }
     }
     else
     {
         if ( $row['session_ip'] != $prev_ip )
         {
-            $titanium_username = $lang['Guest'];
+            $pnt_username = $lang['Guest'];
             $view_online = true;
             $guest_users++;
             $which_counter = 'guest_counter';
@@ -359,7 +359,7 @@ while ( $row = $titanium_db->sql_fetchrow($result) )
 /*****[BEGIN]******************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-        // $TITANIUM_SESSION_HANDLING = select_titanium_session_url($row['session_page'], $row['session_url_qs'], $row['session_url_ps'], $row['session_url_specific'], $userdata['user_level'], $row['user_id'], $forums_data, $phpbb2_topics_data, $titanium_users_data, $cats_data);
+        // $TITANIUM_SESSION_HANDLING = select_titanium_session_url($row['session_page'], $row['session_url_qs'], $row['session_url_ps'], $row['session_url_specific'], $userdata['user_level'], $row['user_id'], $forums_data, $phpbb2_topics_data, $pnt_users_data, $cats_data);
         // $location = $TITANIUM_SESSION_HANDLING;
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
@@ -371,10 +371,10 @@ while ( $row = $titanium_db->sql_fetchrow($result) )
         $phpbb2_template->assign_block_vars("$which_row", array(
             'ROW_COLOR' => '#' . $row_color,
             'ROW_CLASS' => $row_class,
-            'USERNAME' => $titanium_username,
+            'USERNAME' => $pnt_username,
             'LASTUPDATE' => create_date($phpbb2_board_config['default_dateformat'], $row['session_time'], $phpbb2_board_config['board_timezone']),
             'FORUM_LOCATION' => $location,
-            'U_USER_PROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $titanium_user_id),
+            'U_USER_PROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $pnt_user_id),
             'U_FORUM_LOCATION' => append_titanium_sid($location_url))
         );
         $$which_counter++;

@@ -55,7 +55,7 @@ class sceditor
 	
 	function getHtml($name)
 	{
-		global $phpbb2_board_config, $titanium_db, $titanium_prefix, $lang, $titanium_userinfo;
+		global $phpbb2_board_config, $pnt_db, $pnt_prefix, $lang, $pnt_userinfo;
 		$allowed = true;
 		if($_GET['name'] == 'Profile')
 			$allowed = false;
@@ -79,12 +79,12 @@ class sceditor
 		{
 			$JStoHTML .= '		emoticonsRoot: "'.$phpbb2_board_config['smilies_path'].'/",'.PHP_EOL;
 			$JStoHTML .= '		emoticons: {'.PHP_EOL;
-			$sql = "SELECT emoticon, code, smile_url FROM ".$titanium_prefix."_bbsmilies ORDER BY smilies_id";
-			if ($result = $titanium_db->sql_query($sql))
+			$sql = "SELECT emoticon, code, smile_url FROM ".$pnt_prefix."_bbsmilies ORDER BY smilies_id";
+			if ($result = $pnt_db->sql_query($sql))
 			{
 				$i = 0;
 				$rowset = array();
-				while ($row = $titanium_db->sql_fetchrow($result))
+				while ($row = $pnt_db->sql_fetchrow($result))
 				{
 					if (empty($rowset[$row['smile_url']]))
 					{
@@ -98,7 +98,7 @@ class sceditor
 						$i++;
 					}
 				}
-	        	$titanium_db->sql_freeresult($result);
+	        	$pnt_db->sql_freeresult($result);
 			}
 			$JStoHTML .= '			dropdown: {'.PHP_EOL;
 			$JStoHTML .= '            '.$dropdownsmilies;
@@ -110,7 +110,7 @@ class sceditor
 		}
 		$JStoHTML .= '	});'.PHP_EOL;
 		# PUT THE BBCODE EDITOR IN SOURCE MODE - USER BASED SETTING
-		if($titanium_userinfo['sceditor_in_source'] == TRUE)
+		if($pnt_userinfo['sceditor_in_source'] == TRUE)
 			$JStoHTML .= '	$("#'.$name.'").sceditor("instance").sourceMode(true);';
 
 		$JStoHTML .= '	$(document).on("click","#preview,#submit",function(event)'.PHP_EOL;

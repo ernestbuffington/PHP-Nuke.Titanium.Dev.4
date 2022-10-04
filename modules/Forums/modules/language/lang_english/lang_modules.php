@@ -237,23 +237,23 @@ $top_smilies['Smilie_code'] = 'Smiley Code';
 // [/top_smilies]
 
 // [users_by_month]
-$titanium_users_by_month = array();
+$pnt_users_by_month = array();
 
-$titanium_users_by_month['module_name'] = 'Number of new users by month';
-$titanium_users_by_month['Year'] = 'Year';
+$pnt_users_by_month['module_name'] = 'Number of new users by month';
+$pnt_users_by_month['Year'] = 'Year';
 
-$titanium_users_by_month['Month_jan'] = 'Jan';
-$titanium_users_by_month['Month_feb'] = 'Feb';
-$titanium_users_by_month['Month_mar'] = 'Mar';
-$titanium_users_by_month['Month_apr'] = 'Apr';
-$titanium_users_by_month['Month_may'] = 'May';
-$titanium_users_by_month['Month_jun'] = 'Jun';
-$titanium_users_by_month['Month_jul'] = 'Jul';
-$titanium_users_by_month['Month_aug'] = 'Aug';
-$titanium_users_by_month['Month_sep'] = 'Sep';
-$titanium_users_by_month['Month_oct'] = 'Oct';
-$titanium_users_by_month['Month_nov'] = 'Nov';
-$titanium_users_by_month['Month_dec'] = 'Dec';
+$pnt_users_by_month['Month_jan'] = 'Jan';
+$pnt_users_by_month['Month_feb'] = 'Feb';
+$pnt_users_by_month['Month_mar'] = 'Mar';
+$pnt_users_by_month['Month_apr'] = 'Apr';
+$pnt_users_by_month['Month_may'] = 'May';
+$pnt_users_by_month['Month_jun'] = 'Jun';
+$pnt_users_by_month['Month_jul'] = 'Jul';
+$pnt_users_by_month['Month_aug'] = 'Aug';
+$pnt_users_by_month['Month_sep'] = 'Sep';
+$pnt_users_by_month['Month_oct'] = 'Oct';
+$pnt_users_by_month['Month_nov'] = 'Nov';
+$pnt_users_by_month['Month_dec'] = 'Dec';
 // [/users_by_month]
 
 // [posts_by_month]

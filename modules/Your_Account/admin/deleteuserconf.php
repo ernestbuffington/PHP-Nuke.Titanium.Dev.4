@@ -41,7 +41,7 @@ if (!defined('CNBYA')) {
 
 if(is_mod_admin($pnt_module)) {
 
-    list($email) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_email FROM ".$titanium_user_prefix."_users WHERE user_id='$del_uid'"));
+    list($email) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_email FROM ".$pnt_user_prefix."_users WHERE user_id='$del_uid'"));
     if ($ya_config['servermail'] == 0) {
         $message = _SORRYTO." $sitename "._HASDELETE;
         if ($deletereason > "") {
@@ -57,7 +57,7 @@ if(is_mod_admin($pnt_module)) {
         );
         evo_phpmailer( $email, $subject, $message, $headers );
     }
-    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET name='"._MEMDEL."', username='"._NAMEDEL."', user_password='', user_website='', user_sig='', user_level='-1', user_active='0', user_allow_pm='0', points='0' WHERE user_id='$del_uid'");
+    $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET name='"._MEMDEL."', username='"._NAMEDEL."', user_password='', user_website='', user_sig='', user_level='-1', user_active='0', user_allow_pm='0', points='0' WHERE user_id='$del_uid'");
     $pagetitle = ": "._USERADMIN." - "._ACCTDELETE;
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();

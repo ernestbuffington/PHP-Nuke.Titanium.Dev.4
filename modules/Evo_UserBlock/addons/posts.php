@@ -21,36 +21,36 @@ global $evouserinfo_addons, $evouserinfo_posts;
 
 function evouserinfo_total_posts() 
 {
-    global $titanium_db, $titanium_prefix;
+    global $pnt_db, $pnt_prefix;
     
-    $sql = "SELECT COUNT(*) FROM ".$titanium_prefix."_bbposts";
-    $result = $titanium_db->sql_query($sql);
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$pnt_prefix."_bbposts";
+    $result = $pnt_db->sql_query($sql);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
     
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_total_topics() 
 {
-    global $titanium_db, $titanium_prefix;
+    global $pnt_db, $pnt_prefix;
     
-    $sql = "SELECT COUNT(*) FROM ".$titanium_prefix."_bbtopics";
-    $result = $titanium_db->sql_query($sql);
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$pnt_prefix."_bbtopics";
+    $result = $pnt_db->sql_query($sql);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
     
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_ur_total_topics() 
 {
-    global $titanium_db, $titanium_prefix, $userinfo;
+    global $pnt_db, $pnt_prefix, $userinfo;
     
-    $sql = "SELECT COUNT(*) FROM ".$titanium_prefix."_bbtopics WHERE topic_poster='".$userinfo['user_id']."'";
-    $result = $titanium_db->sql_query($sql);
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$pnt_prefix."_bbtopics WHERE topic_poster='".$userinfo['user_id']."'";
+    $result = $pnt_db->sql_query($sql);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
     
     return (isset($row[0])) ? number_format($row[0]) : '?';
 }

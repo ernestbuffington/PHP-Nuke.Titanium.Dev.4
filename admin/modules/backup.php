@@ -26,7 +26,7 @@ if (!defined('ADMIN_FILE')) {
    die ("Illegal File Access");
 }
 
-global $titanium_prefix, $titanium_db, $admdata, $titanium_dbname, $cache;
+global $pnt_prefix, $pnt_db, $admdata, $pnt_dbname, $cache;
 
 function ABCoolSize($size) {
   $kb = 1024;
@@ -48,15 +48,15 @@ if (is_mod_admin())
 {
   
 $crlf = "\n";
-$filename = $titanium_dbname.'_'.date('d-m-Y').'.sql';
-$tablelist = (isset($_POST['tablelist'])) ? $_POST['tablelist'] : $titanium_db->sql_fetchtables($titanium_dbname);
+$filename = $pnt_dbname.'_'.date('d-m-Y').'.sql';
+$tablelist = (isset($_POST['tablelist'])) ? $_POST['tablelist'] : $pnt_db->sql_fetchtables($pnt_dbname);
 @set_time_limit(0);
 
 switch ($op) {
     case 'BackupDB':
         if (empty($tablelist)) { echo('No tables found'); }
         require_once(NUKE_CLASSES_DIR.'class.database.php');
-        DB::backup($titanium_dbname, $tablelist, $filename, isset($_POST['dbstruct']), isset($_POST['dbdata']), isset($_POST['drop']), isset($_POST['gzip']));
+        DB::backup($pnt_dbname, $tablelist, $filename, isset($_POST['dbstruct']), isset($_POST['dbdata']), isset($_POST['drop']), isset($_POST['gzip']));
         break;
     
 	case 'OptimizeDB':
@@ -79,19 +79,19 @@ switch ($op) {
       echo '<td align="right" width="15%"><strong>'._AB_GAINED.'</strong></td>'."\n";
       echo '</tr>'."\n";
      $tot_data = $tot_idx = $tot_all = $tot_records = 0;
-     $result = $titanium_db->sql_query("SHOW TABLE STATUS FROM `".$titanium_dbname."`");
-     $tables = $titanium_db ->sql_numrows($result);
+     $result = $pnt_db->sql_query("SHOW TABLE STATUS FROM `".$pnt_dbname."`");
+     $tables = $pnt_db ->sql_numrows($result);
      if($tables > 0) {
        $total_phpbb2_total = $total_phpbb2_gain = 0;
-       while($row = $titanium_db->sql_fetchrow($result)) {
-         $checkrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("CHECK TABLE $row[0]"));
+       while($row = $pnt_db->sql_fetchrow($result)) {
+         $checkrow = $pnt_db->sql_fetchrow($pnt_db->sql_query("CHECK TABLE $row[0]"));
          $records = $row['Rows'];
          $tot_records += $records;
          $total = ($row['Data_length'] + $row['Index_length']) - $row['Data_free'];
          $total_phpbb2_total += $total;
          $gain = $row['Data_free'];
          if($gain>0) {
-           $optimizerow = $titanium_db->sql_fetchrow($titanium_db->sql_query("OPTIMIZE TABLE $row[0]"));
+           $optimizerow = $pnt_db->sql_fetchrow($pnt_db->sql_query("OPTIMIZE TABLE $row[0]"));
            $status = _AB_OPTIMIZED;
          } else {
            $status = $checkrow['Msg_text'];
@@ -150,14 +150,14 @@ switch ($op) {
     echo '<td align="right" width="15%"><strong>'._AB_SIZE.'</strong></td>'."\n";
     echo '</tr>'."\n";
     $tot_data = $tot_idx = $tot_all = $tot_records = 0;
-    $result = $titanium_db->sql_query("SHOW TABLE STATUS FROM `".$titanium_dbname."`");
-    $tables = $titanium_db ->sql_numrows($result);
+    $result = $pnt_db->sql_query("SHOW TABLE STATUS FROM `".$pnt_dbname."`");
+    $tables = $pnt_db ->sql_numrows($result);
     if($tables > 0) {
       $total_phpbb2_total = 0;
-      while($row = $titanium_db->sql_fetchrow($result)) {
-        $checkrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("CHECK TABLE $row[0]"));
+      while($row = $pnt_db->sql_fetchrow($result)) {
+        $checkrow = $pnt_db->sql_fetchrow($pnt_db->sql_query("CHECK TABLE $row[0]"));
         if($checkrow['Msg_text'] != "OK") {
-          $repairrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("REPAIR TABLE $row[Table] EXTENDED"));
+          $repairrow = $pnt_db->sql_fetchrow($pnt_db->sql_query("REPAIR TABLE $row[Table] EXTENDED"));
           $status = $repairrow['Msg_text'];
         } else {
           $status = $checkrow['Msg_text'];
@@ -214,12 +214,12 @@ switch ($op) {
         echo '<td align="right" width="15%"><strong>'._AB_OVERHEAD.'</strong></td>'."\n";
         echo '</tr>'."\n";
         $tot_data = $tot_idx = $tot_all = $tot_records = 0;
-        $result = $titanium_db->sql_query("SHOW TABLE STATUS FROM `".$titanium_dbname."`");
-        $tables = $titanium_db ->sql_numrows($result);
+        $result = $pnt_db->sql_query("SHOW TABLE STATUS FROM `".$pnt_dbname."`");
+        $tables = $pnt_db ->sql_numrows($result);
         if($tables > 0) {
           $total_phpbb2_total = $total_phpbb2_gain = 0;
-          while($row = $titanium_db->sql_fetchrow($result)) {
-            $checkrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("CHECK TABLE $row[0]"));
+          while($row = $pnt_db->sql_fetchrow($result)) {
+            $checkrow = $pnt_db->sql_fetchrow($pnt_db->sql_query("CHECK TABLE $row[0]"));
             $status = $checkrow['Msg_text'];
             $records = $row['Rows'];
             $tot_records += $records;
@@ -273,7 +273,7 @@ switch ($op) {
         if (!DB::query_file($_FILES['sqlfile'], $error)) { echo($error); }
         $cache->clear();
         OpenTable();
-        echo '<span><strong>'._DATABASE.': '.$titanium_dbname.'</strong></span><br /><br />'.sprintf(_IMPORTSUCCESS, $_FILES['sqlfile']['name']);
+        echo '<span><strong>'._DATABASE.': '.$pnt_dbname.'</strong></span><br /><br />'.sprintf(_IMPORTSUCCESS, $_FILES['sqlfile']['name']);
         CloseTable();
         
         OpenTable();

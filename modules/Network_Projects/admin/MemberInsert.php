@@ -10,11 +10,11 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
-$titanium_db2->sql_query("INSERT INTO `".$network_prefix."_members` VALUES (NULL, '$member_name', '$member_email')");
+$pnt_db2->sql_query("INSERT INTO `".$network_prefix."_members` VALUES (NULL, '$member_name', '$member_email')");
 
 header("Location: ".$admin_file.".php?op=MemberList");
 ?>

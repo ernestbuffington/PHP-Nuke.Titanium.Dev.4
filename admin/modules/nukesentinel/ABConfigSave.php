@@ -34,7 +34,7 @@ sort($block_list);
 $xblocker_row['list'] = implode("\r\n", $block_list);
 $xblocker_row['list'] = str_replace("\r\n\r\n", "\r\n", $xblocker_row['list']);
 $xblocker_row['duration'] = $xblocker_row['duration'] * 86400;
-$titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_blockers` SET `activate`='".$xblocker_row['activate']."', `block_type`='".$xblocker_row['block_type']."', `email_lookup`='".$xblocker_row['email_lookup']."', `forward`='".$xblocker_row['forward']."', `reason`='".$xblocker_row['reason']."', `template`='".$xblocker_row['template']."', `duration`='".$xblocker_row['duration']."', `htaccess`='".$xblocker_row['htaccess']."', `list`='".$xblocker_row['list']."' WHERE `block_name`='".$xblocker_row['block_name']."'");
+$pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_blockers` SET `activate`='".$xblocker_row['activate']."', `block_type`='".$xblocker_row['block_type']."', `email_lookup`='".$xblocker_row['email_lookup']."', `forward`='".$xblocker_row['forward']."', `reason`='".$xblocker_row['reason']."', `template`='".$xblocker_row['template']."', `duration`='".$xblocker_row['duration']."', `htaccess`='".$xblocker_row['htaccess']."', `list`='".$xblocker_row['list']."' WHERE `block_name`='".$xblocker_row['block_name']."'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

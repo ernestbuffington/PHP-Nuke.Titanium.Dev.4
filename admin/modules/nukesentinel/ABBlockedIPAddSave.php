@@ -30,7 +30,7 @@ if(($xip[0] < 0 OR $xip[0] > 255 OR (!is_numeric($xip[0]) AND $xip[0] != "*")) O
 $xIPs = implode(".", $xip);
 $bantemp = str_replace("*", "0", $xIPs);
 $xIPl = sprintf("%u", ip2long($bantemp));
-$ip = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$xIPs'"));
+$ip = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$xIPs'"));
 $bantime = time();
 $xnotes = str_replace("<br>", "\r\n", $xnotes);
 $xnotes = str_replace("<br />", "\r\n", $xnotes);
@@ -43,7 +43,7 @@ if($xexpires>0) { $xexpires = $bantime + ($xexpires * 86400); }
 if($ip < 1) {
   $temp_qs = $xquery_string;
   $temp_qs = base64_encode($temp_qs);
-  $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_nsnst_blocked_ips` VALUES ('$xIPs', '$xIPl', '$xuser_id', '$xusername', '$xuser_agent', '$bantime', '$xnotes', '$xreason', '$temp_qs', '$temp_qs', '$temp_qs', '$xx_forward_for', '$xclient_ip', '$xremote_addr', '$xremote_port', '$xrequest_method', '$xexpires', '$xc2c')");
+  $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_nsnst_blocked_ips` VALUES ('$xIPs', '$xIPl', '$xuser_id', '$xusername', '$xuser_agent', '$bantime', '$xnotes', '$xreason', '$temp_qs', '$temp_qs', '$temp_qs', '$xx_forward_for', '$xclient_ip', '$xremote_addr', '$xremote_port', '$xrequest_method', '$xexpires', '$xc2c')");
   if($ab_config['htaccess_path'] != "") {
     $i = 1;
     while($i <= 3) {

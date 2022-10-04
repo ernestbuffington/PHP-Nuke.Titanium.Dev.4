@@ -37,10 +37,10 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-    if (!empty($titanium_username) AND empty($titanium_user_email)) {
-        $sql = "SELECT username, user_email, user_password, user_level FROM ".$titanium_user_prefix."_users WHERE username='$titanium_username' LIMIT 1";
-    } elseif (empty($titanium_username) AND !empty($titanium_user_email)) {
-        $sql = "SELECT username, user_email, user_password, user_level FROM ".$titanium_user_prefix."_users WHERE user_email='$titanium_user_email' LIMIT 1";
+    if (!empty($pnt_username) AND empty($pnt_user_email)) {
+        $sql = "SELECT username, user_email, user_password, user_level FROM ".$pnt_user_prefix."_users WHERE username='$pnt_username' LIMIT 1";
+    } elseif (empty($pnt_username) AND !empty($pnt_user_email)) {
+        $sql = "SELECT username, user_email, user_password, user_level FROM ".$pnt_user_prefix."_users WHERE user_email='$pnt_user_email' LIMIT 1";
     } else {
         include_once(NUKE_BASE_DIR.'header.php');
 // removed by menelaos dot hetnet dot nl
@@ -52,8 +52,8 @@ if (!defined('CNBYA')) {
         include_once(NUKE_BASE_DIR.'footer.php');
         exit;
     }
-    $result = $titanium_db->sql_query($sql);
-    if($titanium_db->sql_numrows($result) == 0) {
+    $result = $pnt_db->sql_query($sql);
+    if($pnt_db->sql_numrows($result) == 0) {
         include_once(NUKE_BASE_DIR.'header.php');
 
 // removed by menelaos dot hetnet dot nl
@@ -73,12 +73,12 @@ if (!defined('CNBYA')) {
 /*****[END]********************************************
  [ Base:    NukeSentinel                      v2.5.00 ]
  ******************************************************/
-            $row = $titanium_db->sql_fetchrow($result);
-            $titanium_user_name = $row['username'];
-            $titanium_user_email = $row['user_email'];
+            $row = $pnt_db->sql_fetchrow($result);
+            $pnt_user_name = $row['username'];
+            $pnt_user_email = $row['user_email'];
             $user_password = $row['user_password'];
-            $titanium_user_level = $row['user_level'];
-            if ($titanium_user_level > 0) 
+            $pnt_user_level = $row['user_level'];
+            if ($pnt_user_level > 0) 
             {
                 $areyou = substr($user_password, 0, 10);
                 if ($areyou == $code) 
@@ -89,12 +89,12 @@ if (!defined('CNBYA')) {
 
                     $email_data = array(
                         'sitename'      => $sitename,
-                        'username'      => $titanium_user_name,
+                        'username'      => $pnt_user_name,
                         'ip_address'    => $identify->get_ip(),
                         'password'      => $newpass,
 
-                        'email'         => $titanium_user_email,
-                        'subject'       => sprintf($language_define_for_user_pass_subject, ((!empty($titanium_username)) ? $titanium_user_name : $titanium_user_email)),
+                        'email'         => $pnt_user_email,
+                        'subject'       => sprintf($language_define_for_user_pass_subject, ((!empty($pnt_username)) ? $pnt_user_name : $pnt_user_email)),
                         'reply_to'      => $adminmail,
                         'from'          => $adminmail,
                         'module_url'    => $nukeurl.'/modules.php?name='.$pnt_module,
@@ -122,16 +122,16 @@ if (!defined('CNBYA')) {
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-                    if (!empty($titanium_username)) {
-                        $query = "UPDATE ".$titanium_user_prefix."_users SET user_password='$cryptpass' WHERE username='$titanium_username'";
-                    } else if (!empty($titanium_user_email)) {
-                        $query = "UPDATE ".$titanium_user_prefix."_users SET user_password='$cryptpass' WHERE user_email='$titanium_user_email'";
+                    if (!empty($pnt_username)) {
+                        $query = "UPDATE ".$pnt_user_prefix."_users SET user_password='$cryptpass' WHERE username='$pnt_username'";
+                    } else if (!empty($pnt_user_email)) {
+                        $query = "UPDATE ".$pnt_user_prefix."_users SET user_password='$cryptpass' WHERE user_email='$pnt_user_email'";
                     }
                     include_once(NUKE_BASE_DIR.'header.php');
                     OpenTable();
-                    if (!$titanium_db->sql_query($query)) { echo "<center>"._UPDATEFAILED."</center><br />"; }
+                    if (!$pnt_db->sql_query($query)) { echo "<center>"._UPDATEFAILED."</center><br />"; }
                     echo "<center><strong>"._PASSWORD4." ";
-                    if (!empty($titanium_username)) { echo "'$titanium_user_name'"; } else if (!empty($titanium_user_email)) { echo "'$titanium_user_email'"; }
+                    if (!empty($pnt_username)) { echo "'$pnt_user_name'"; } else if (!empty($pnt_user_email)) { echo "'$pnt_user_email'"; }
                     echo " "._MAILED."</strong><br /><br />"._GOBACK."</center>";
                     CloseTable();
                     include_once(NUKE_BASE_DIR.'footer.php');
@@ -141,12 +141,12 @@ if (!defined('CNBYA')) {
 
                     $email_data = array(
                         'sitename'      => $sitename,
-                        'username'      => $titanium_user_name,
+                        'username'      => $pnt_user_name,
                         'ip_address'    => $identify->get_ip(),
                         'code'          => substr($user_password, 0, 10),
 
-                        'email'         => $titanium_user_email,
-                        'subject'       => sprintf($language_define_for_pass_lost_subject, ((!empty($titanium_username)) ? $titanium_user_name : $titanium_user_email)),
+                        'email'         => $pnt_user_email,
+                        'subject'       => sprintf($language_define_for_pass_lost_subject, ((!empty($pnt_username)) ? $pnt_user_name : $pnt_user_email)),
                         'reply_to'      => $adminmail,
                         'from'          => $adminmail,
                         'password_url'  => $nukeurl."/modules.php?name=$pnt_module&op=pass_lost",
@@ -170,19 +170,19 @@ if (!defined('CNBYA')) {
                     include_once(NUKE_BASE_DIR.'header.php');
                     OpenTable();
                     echo "<center><strong>"._CODEFOR." ";
-                    if (!empty($titanium_username)) { echo "'$titanium_user_name'"; } else if (!empty($titanium_user_email)) { echo "'$titanium_user_email'"; }
+                    if (!empty($pnt_username)) { echo "'$pnt_user_name'"; } else if (!empty($pnt_user_email)) { echo "'$pnt_user_email'"; }
                     echo " "._MAILED."</strong><br /><br />"._GOBACK."</center>";
                     CloseTable();
                     include_once(NUKE_BASE_DIR.'footer.php');
                 }
-            } elseif ($titanium_user_level == 0) {
+            } elseif ($pnt_user_level == 0) {
                 include_once(NUKE_BASE_DIR.'header.php');
                 title(_USERREGLOGIN);
                 OpenTable();
                 echo "<center><span class='title'>"._ACCSUSPENDED."</span></center>\n";
                 CloseTable();
                 include_once(NUKE_BASE_DIR.'footer.php');
-            } elseif ($titanium_user_level == -1) {
+            } elseif ($pnt_user_level == -1) {
                 include_once(NUKE_BASE_DIR.'header.php');
                 title(_USERREGLOGIN);
                 OpenTable();

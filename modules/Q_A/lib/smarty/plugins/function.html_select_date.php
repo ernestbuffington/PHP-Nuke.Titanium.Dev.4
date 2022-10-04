@@ -65,7 +65,7 @@ function smarty_function_html_select_date($params, $phpbb2_template)
     }
 
     /* Default values. */
-    $titanium_prefix = "Date_";
+    $pnt_prefix = "Date_";
     $phpbb2_start_year = null;
     $phpbb2_end_year = null;
     $display_days = true;
@@ -179,21 +179,21 @@ function smarty_function_html_select_date($params, $phpbb2_template)
     // Note: date() is faster than strftime()
     // Note: explode(date()) is faster than date() date() date()
     if (isset($params['time']) && is_array($params['time'])) {
-        if (isset($params['time'][$titanium_prefix . 'Year'])) {
+        if (isset($params['time'][$pnt_prefix . 'Year'])) {
             // $_REQUEST[$field_array] given
             foreach (array('Y' => 'Year',  'm' => 'Month', 'd' => 'Day') as $_elementKey => $_elementName) {
                 $_variableName = '_' . strtolower($_elementName);
-                $$_variableName = isset($params['time'][$titanium_prefix . $_elementName])
-                    ? $params['time'][$titanium_prefix . $_elementName]
+                $$_variableName = isset($params['time'][$pnt_prefix . $_elementName])
+                    ? $params['time'][$pnt_prefix . $_elementName]
                     : date($_elementKey);
             }
             $time = mktime(0, 0, 0, $_month, $_day, $_year);
-        } elseif (isset($params['time'][$field_array][$titanium_prefix . 'Year'])) {
+        } elseif (isset($params['time'][$field_array][$pnt_prefix . 'Year'])) {
             // $_REQUEST given
             foreach (array('Y' => 'Year',  'm' => 'Month', 'd' => 'Day') as $_elementKey => $_elementName) {
                 $_variableName = '_' . strtolower($_elementName);
-                $$_variableName = isset($params['time'][$field_array][$titanium_prefix . $_elementName])
-                    ? $params['time'][$field_array][$titanium_prefix . $_elementName]
+                $$_variableName = isset($params['time'][$field_array][$pnt_prefix . $_elementName])
+                    ? $params['time'][$field_array][$pnt_prefix . $_elementName]
                     : date($_elementKey);
             }
             $time = mktime(0, 0, 0, $_month, $_day, $_year);
@@ -238,7 +238,7 @@ function smarty_function_html_select_date($params, $phpbb2_template)
     if ($display_years) {
         $_html_years = '';
         $_extra = '';
-        $_name = $field_array ? ($field_array . '[' . $titanium_prefix . 'Year]') : ($titanium_prefix . 'Year');
+        $_name = $field_array ? ($field_array . '[' . $pnt_prefix . 'Year]') : ($pnt_prefix . 'Year');
         if ($all_extra) {
             $_extra .= ' ' . $all_extra;
         }
@@ -279,7 +279,7 @@ function smarty_function_html_select_date($params, $phpbb2_template)
     if ($display_months) {
         $_html_month = '';
         $_extra = '';
-        $_name = $field_array ? ($field_array . '[' . $titanium_prefix . 'Month]') : ($titanium_prefix . 'Month');
+        $_name = $field_array ? ($field_array . '[' . $pnt_prefix . 'Month]') : ($pnt_prefix . 'Month');
         if ($all_extra) {
             $_extra .= ' ' . $all_extra;
         }
@@ -318,7 +318,7 @@ function smarty_function_html_select_date($params, $phpbb2_template)
     if ($display_days) {
         $_html_day = '';
         $_extra = '';
-        $_name = $field_array ? ($field_array . '[' . $titanium_prefix . 'Day]') : ($titanium_prefix . 'Day');
+        $_name = $field_array ? ($field_array . '[' . $pnt_prefix . 'Day]') : ($pnt_prefix . 'Day');
         if ($all_extra) {
             $_extra .= ' ' . $all_extra;
         }

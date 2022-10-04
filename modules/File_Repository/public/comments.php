@@ -14,17 +14,17 @@ if (!defined('MODULE_FILE'))
 
 function _file_repository_comments()
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings, $themes, $userinfo, $admin, $titanium_user;
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $settings, $themes, $userinfo, $admin, $pnt_user;
 	OpenTable();
 	_index_navigation_header();
 	$did 		= _escape_string($_GET['did']);
 	$iteminfo 	= _collect_iteminfo($did);
 
 	$sql 	= "SELECT * FROM `"._FILE_REPOSITORY_COMMENTS."` WHERE `did` = '".$did."' AND `uid` = '".$userinfo['user_id']."'";
-	$result = $titanium_db->sql_query($sql);
-	$count 	= $titanium_db->sql_numrows($result);
+	$result = $pnt_db->sql_query($sql);
+	$count 	= $pnt_db->sql_numrows($result);
 
-	if (_check_users_permissions($iteminfo['groups']) == true && is_user($titanium_user))
+	if (_check_users_permissions($iteminfo['groups']) == true && is_user($pnt_user))
 	{
 		echo '<br />';
 		echo '<form action="modules.php?name='.$pnt_module.'&amp;action=savecomment" method="post">'."\n";
@@ -74,7 +74,7 @@ function _file_repository_comments()
 		echo '  <tr'._bgColor(2).'>'."\n";
 		echo '    <td'._tdcss(false,'center',_sh(),3).'>'._suh($lang_new[$pnt_module]['ERROR']).'</td>'."\n";
 		echo '  </tr>'."\n";
-		if(is_user($titanium_user))
+		if(is_user($pnt_user))
 		{
 			echo '  <tr'._bgColor(1).'>'."\n";
 			echo '    <td'._tdcss(false,'center',_sc(),3).'>'._sut(sprintf($lang_new[$pnt_module]['RESTRICTED'],$iteminfo['whocan'])).'</td>'."\n";
@@ -96,7 +96,7 @@ function _file_repository_comments()
 
 function _file_repository_save_my_comment()
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings, $themes, $userinfo, $admin, $titanium_user, $tnsl_bUseShortLinks;
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $settings, $themes, $userinfo, $admin, $pnt_user, $tnsl_bUseShortLinks;
 	$comment  	= (!empty($_POST['comment'])) ? _escape_string($_POST['comment']) : '';
 	$did      	= (!empty($_POST['did'])) ? intval($_POST['did']) : '';
 	$iteminfo 	= _collect_iteminfo($did);
@@ -123,7 +123,7 @@ function _file_repository_save_my_comment()
 	else
 	{
 		$sql = "INSERT INTO `"._FILE_REPOSITORY_COMMENTS."` (`cid`, `did`, `comment`, `date`, `rating`, `uid`, `user`) VALUES (NULL, '".$did."', '".$comment."', now(), '".$rating."', '".$userinfo['user_id']."', '".$userinfo['username']."')";
-		$titanium_db->sql_query($sql);
+		$pnt_db->sql_query($sql);
 		if($tnsl_bUseShortLinks == true)
 		{
 			_redirect_titanium('file-repository-item-'.$did.'.html');

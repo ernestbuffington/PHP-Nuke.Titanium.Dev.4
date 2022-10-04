@@ -20,9 +20,9 @@
 /**
 * Delete Attachment(s) from post(s) (intern)
 */
-function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, $titanium_user_id = 0)
+function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, $pnt_user_id = 0)
 {
-    global $titanium_db;
+    global $pnt_db;
 
     // Generate Array, if it's not an array
     if ($post_id_array === 0 && $attach_id_array === 0 && $page === 0)
@@ -67,24 +67,24 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
                 WHERE attach_id IN (' . implode(', ', $attach_id_array) . ")
             GROUP BY $p_id";
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not select ids', '', __LINE__, __FILE__, $sql);
         }
 
-        $num_post_list = $titanium_db->sql_numrows($result);
+        $num_post_list = $pnt_db->sql_numrows($result);
 
         if ($num_post_list == 0)
         {
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_freeresult($result);
             return;
         }
 
-        while ($row = $titanium_db->sql_fetchrow($result))
+        while ($row = $pnt_db->sql_fetchrow($result))
         {
             $post_id_array[] = intval($row[$p_id]);
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
     }
         
     if (!is_array($post_id_array))
@@ -135,24 +135,24 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
             FROM ' . ATTACHMENTS_TABLE . " $whereclause 
             GROUP BY attach_id";
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not select Attachment Ids', '', __LINE__, __FILE__, $sql);
         }
 
-        $num_attach_list = $titanium_db->sql_numrows($result);
+        $num_attach_list = $pnt_db->sql_numrows($result);
 
         if ($num_attach_list == 0)
         {
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_freeresult($result);
             return;
         }
 
-        while ($row = $titanium_db->sql_fetchrow($result))
+        while ($row = $pnt_db->sql_fetchrow($result))
         {
             $attach_id_array[] = (int) $row['attach_id'];
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
     }
     
     if (!is_array($attach_id_array))
@@ -182,52 +182,52 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
     if ($page == PAGE_PRIVMSGS)
     {
         $sql_id = 'privmsgs_id';
-        if ($titanium_user_id)
+        if ($pnt_user_id)
         {
             $post_id_array_2 = array();
 
             $sql = 'SELECT privmsgs_id, privmsgs_type, privmsgs_to_userid, privmsgs_from_userid
                 FROM ' . PRIVMSGS_TABLE . '
                 WHERE privmsgs_id IN (' . implode(', ', $post_id_array) . ')';
-            if ( !($result = $titanium_db->sql_query($sql)) )
+            if ( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Couldn\'t get Privmsgs Type', '', __LINE__, __FILE__, $sql);
             }
 
-            while ($row = $titanium_db->sql_fetchrow($result))
+            while ($row = $pnt_db->sql_fetchrow($result))
             {
                 $privmsgs_type = $row['privmsgs_type'];
                                 
                 if ($privmsgs_type == PRIVMSGS_READ_MAIL || $privmsgs_type == PRIVMSGS_NEW_MAIL || $privmsgs_type == PRIVMSGS_UNREAD_MAIL)
                 {
-                    if ($row['privmsgs_to_userid'] == $titanium_user_id)
+                    if ($row['privmsgs_to_userid'] == $pnt_user_id)
                     {
                         $post_id_array_2[] = $row['privmsgs_id'];
                     }
                 }
                 else if ($privmsgs_type == PRIVMSGS_SENT_MAIL)
                 {
-                    if ($row['privmsgs_from_userid'] == $titanium_user_id)
+                    if ($row['privmsgs_from_userid'] == $pnt_user_id)
                     {
                         $post_id_array_2[] = $row['privmsgs_id'];
                     }
                 }
                 else if ($privmsgs_type == PRIVMSGS_SAVED_OUT_MAIL)
                 {
-                    if ($row['privmsgs_from_userid'] == $titanium_user_id)
+                    if ($row['privmsgs_from_userid'] == $pnt_user_id)
                     {
                         $post_id_array_2[] = $row['privmsgs_id'];
                     }
                 }
                 else if ($privmsgs_type == PRIVMSGS_SAVED_IN_MAIL)
                 {
-                    if ($row['privmsgs_to_userid'] == $titanium_user_id)
+                    if ($row['privmsgs_to_userid'] == $pnt_user_id)
                     {
                         $post_id_array_2[] = $row['privmsgs_id'];
                     }
                 }
             }
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_freeresult($result);
             $post_id_array = $post_id_array_2;
         }
     }
@@ -242,7 +242,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
             WHERE attach_id IN (' . implode(', ', $attach_id_array) . ") 
                 AND $sql_id IN (" . implode(', ', $post_id_array) . ')';
 
-        if ( !($titanium_db->sql_query($sql)) )   
+        if ( !($pnt_db->sql_query($sql)) )   
         {
             message_die(GENERAL_ERROR, $lang['Error_deleted_attachments'], '', __LINE__, __FILE__, $sql);   
         } 
@@ -253,13 +253,13 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
                 FROM ' . ATTACHMENTS_TABLE . ' 
                     WHERE attach_id = ' . (int) $attach_id_array[$i];
             
-            if ( !($result = $titanium_db->sql_query($sql)) )
+            if ( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not select Attachment Ids', '', __LINE__, __FILE__, $sql);
             }
             
-            $num_rows = $titanium_db->sql_numrows($result);
-            $titanium_db->sql_freeresult($result);
+            $num_rows = $pnt_db->sql_numrows($result);
+            $pnt_db->sql_freeresult($result);
 
             if ($num_rows == 0)
             {
@@ -267,18 +267,18 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
                     FROM ' . ATTACHMENTS_DESC_TABLE . '
                     WHERE attach_id = ' . (int) $attach_id_array[$i];
     
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t query attach description table', '', __LINE__, __FILE__, $sql);
                 }
                 
-                $num_rows = $titanium_db->sql_numrows($result);
+                $num_rows = $pnt_db->sql_numrows($result);
 
                 if ($num_rows != 0)
                 {
                     $num_attach = $num_rows;
-                    $attachments = $titanium_db->sql_fetchrowset($result);
-                    $titanium_db->sql_freeresult($result);
+                    $attachments = $pnt_db->sql_fetchrowset($result);
+                    $pnt_db->sql_freeresult($result);
 
                     // delete attachments
                     for ($j = 0; $j < $num_attach; $j++)
@@ -293,7 +293,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
                         $sql = 'DELETE FROM ' . ATTACHMENTS_DESC_TABLE . '
                             WHERE attach_id = ' . (int) $attachments[$j]['attach_id'];
 
-                        if ( !($titanium_db->sql_query($sql)) )
+                        if ( !($pnt_db->sql_query($sql)) )
                         {
                             message_die(GENERAL_ERROR, $lang['Error_deleted_attachments'], '', __LINE__, __FILE__, $sql);
                         }
@@ -301,7 +301,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
                 }
                 else
                 {
-                    $titanium_db->sql_freeresult($result);
+                    $pnt_db->sql_freeresult($result);
                 }
             }
         }
@@ -316,20 +316,20 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
                 FROM ' . ATTACHMENTS_TABLE . ' 
                 WHERE privmsgs_id = ' . (int) $post_id_array[$i];
 
-            if ( !($result = $titanium_db->sql_query($sql)) )
+            if ( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Couldn\'t query Attachments Table', '', __LINE__, __FILE__, $sql);
             }
             
-            $num_rows = $titanium_db->sql_numrows($result);
-            $titanium_db->sql_freeresult($result);
+            $num_rows = $pnt_db->sql_numrows($result);
+            $pnt_db->sql_freeresult($result);
 
             if ($num_rows == 0)
             {
                 $sql = 'UPDATE ' . PRIVMSGS_TABLE . ' SET privmsgs_attachment = 0 
                     WHERE privmsgs_id = ' . $post_id_array[$i];
 
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t update Private Message Attachment Switch', '', __LINE__, __FILE__, $sql);
                 }
@@ -345,16 +345,16 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
                 WHERE post_id IN (' . implode(', ', $post_id_array) . ') 
                 GROUP BY topic_id';
         
-            if ( !($result = $titanium_db->sql_query($sql)) )
+            if ( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Couldn\'t select Topic ID', '', __LINE__, __FILE__, $sql);
             }
     
-            while ($row = $titanium_db->sql_fetchrow($result))
+            while ($row = $pnt_db->sql_fetchrow($result))
             {
                 attachment_sync_topic($row['topic_id']);
             }
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_freeresult($result);
         }
     }
 }

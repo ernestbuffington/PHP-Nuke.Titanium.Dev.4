@@ -53,7 +53,7 @@ include('includes/functions_reputation.'.$phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_PROFILE);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_PROFILE);
 titanium_init_userprefs($userdata);
 //
 // End session management

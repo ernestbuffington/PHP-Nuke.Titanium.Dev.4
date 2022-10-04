@@ -35,7 +35,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-    if (is_active("Private_Messages") AND ($titanium_username == $cookie[1]) AND ($usrinfo['user_password'] == $cookie[2])) {
+    if (is_active("Private_Messages") AND ($pnt_username == $cookie[1]) AND ($usrinfo['user_password'] == $cookie[2])) {
         echo "<br />";
         OpenTable();
       
@@ -55,13 +55,13 @@ if (!defined('CNBYA')) {
         } elseif (empty($mem_list) AND empty($mod_search)) {
             $links = "";
         }
-        $ya_memname = htmlspecialchars($titanium_username);
-        list($uid) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_id FROM ".$titanium_user_prefix."_users WHERE username='$ya_memname'"));
+        $ya_memname = htmlspecialchars($pnt_username);
+        list($uid) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_id FROM ".$pnt_user_prefix."_users WHERE username='$ya_memname'"));
         $uid = intval($uid);
-        $ya_newpms = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT privmsgs_to_userid FROM ".$titanium_prefix."_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND (privmsgs_type='1' OR privmsgs_type='5')"));
-        $ya_savpms = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT privmsgs_to_userid FROM ".$titanium_prefix."_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND privmsgs_type='3'"));
-        $ya_oldpms = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT privmsgs_to_userid FROM ".$titanium_prefix."_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND privmsgs_type='0'"));
-        $ya_outpms = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT privmsgs_from_userid FROM ".$titanium_prefix."_bbprivmsgs WHERE privmsgs_from_userid='$uid' AND privmsgs_type='1'"));
+        $ya_newpms = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT privmsgs_to_userid FROM ".$pnt_prefix."_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND (privmsgs_type='1' OR privmsgs_type='5')"));
+        $ya_savpms = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT privmsgs_to_userid FROM ".$pnt_prefix."_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND privmsgs_type='3'"));
+        $ya_oldpms = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT privmsgs_to_userid FROM ".$pnt_prefix."_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND privmsgs_type='0'"));
+        $ya_outpms = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT privmsgs_from_userid FROM ".$pnt_prefix."_bbprivmsgs WHERE privmsgs_from_userid='$uid' AND privmsgs_type='1'"));
         $ya_newpms = intval($ya_newpms);
         $ya_oldpms = intval($ya_oldpms);
         $ya_savpms = intval($ya_savpms);
@@ -71,9 +71,9 @@ if (!defined('CNBYA')) {
     $bbconfig = $phpbb2_board_config;
     $bbstyle    = $bbconfig['default_style'];
 
-    $sql        = "SELECT template_name FROM ".$titanium_prefix."_bbthemes WHERE themes_id='$bbstyle'";
-    $result  = $titanium_db->sql_query($sql);
-    $row     = $titanium_db->sql_fetchrow($result);
+    $sql        = "SELECT template_name FROM ".$pnt_prefix."_bbthemes WHERE themes_id='$bbstyle'";
+    $result  = $pnt_db->sql_query($sql);
+    $row     = $pnt_db->sql_fetchrow($result);
     $bbtheme = $row['template_name'];
     
     //escudero: modification to get the theme FROM nukemods

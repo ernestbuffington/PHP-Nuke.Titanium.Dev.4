@@ -38,7 +38,7 @@ if(!isset($selcolumn4)) $selcolumn4 = '';
 if(!isset($selcolumn5)) $selcolumn5 = '';
 if(!isset($seldirection1)) $seldirection1 = '';
 if(!isset($seldirection2)) $seldirection2 = '';
-$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips`"));
+$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips`"));
 if($totalselected > 0) {
   $selcolumn1 = $selcolumn2 = $selcolumn3 = $selcolumn4 = $selcolumn5 = $seldirection1 = $seldirection2 = '';
   if($column == "c2c") { $selcolumn2 = ' selected="selected"'; }
@@ -77,14 +77,14 @@ if($totalselected > 0) {
   echo '<td align="center" width="20%"><strong>'._AB_REASON.'</strong></td>'."\n";
   echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` ORDER BY `$column` $direction LIMIT $min,$perpage");
-  while($getIPs = $titanium_db->sql_fetchrow($result)) {
-    list($getIPs['reason']) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `reason` FROM `".$titanium_prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1"));
+  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` ORDER BY `$column` $direction LIMIT $min,$perpage");
+  while($getIPs = $pnt_db->sql_fetchrow($result)) {
+    list($getIPs['reason']) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `reason` FROM `".$pnt_prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1"));
     $getIPs['reason'] = str_replace("Abuse-", "", $getIPs['reason']);
     $bdate = date("Y-m-d @ H:i:s", $getIPs['date']);
     $lookupip = str_replace("*", "0", $getIPs['ip_addr']);
     if($getIPs['expires']==0) { $bexpire = _AB_PERMENANT; } else { $bexpire = date("Y-m-d @ H:i:s", $getIPs['expires']); }
-    list($bname) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `username` FROM `".$titanium_user_prefix."_users` WHERE `user_id`='".$getIPs['user_id']."' LIMIT 0,1"));
+    list($bname) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `username` FROM `".$pnt_user_prefix."_users` WHERE `user_id`='".$getIPs['user_id']."' LIMIT 0,1"));
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
     $qs = htmlentities(base64_decode($getIPs['query_string']));
     $qs = str_replace("%20", " ", $qs);

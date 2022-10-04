@@ -134,15 +134,15 @@ function Tools()
 $_categoryArray = Array();
 function CategoryTable($catid)
 {
-    global $titanium_db, $titanium_prefix, $_categoryArray;
+    global $pnt_db, $pnt_prefix, $_categoryArray;
     if (count($_categoryArray) <> 0) {
         return $_categoryArray[$catid];
     } 
     $sql = "SELECT * "
-     . "FROM " . $titanium_prefix . "_bbarcade_categories ORDER BY `arcade_catorder`";
-    $result = $titanium_db->sql_query($sql)
+     . "FROM " . $pnt_prefix . "_bbarcade_categories ORDER BY `arcade_catorder`";
+    $result = $pnt_db->sql_query($sql)
     or die("Cannot read Arcade categories.");
-    while ($row = $titanium_db->sql_fetchrow($result)) {
+    while ($row = $pnt_db->sql_fetchrow($result)) {
         $_categoryArray[$row['arcade_catid']] = $row;
     } // while 
     return $_categoryArray[$catid];
@@ -225,7 +225,7 @@ function SWFArrayFromDirectory()
 // Add a swf file in DB with default value and search for a picture in pic dir
 function IntelliAdd()
 {
-    global $gamebasename, $titanium_prefix, $titanium_db, $picdirectory;
+    global $gamebasename, $pnt_prefix, $pnt_db, $picdirectory;
     global $defaultgametype, $defaultgamewidth, $defaultgameheight;
     global $gametitle, $arcadetype, $arcade_catid; 
     // try to find a Picture
@@ -248,38 +248,38 @@ function IntelliAdd()
     } 
     // taken from arcade_elmt.php, .. and adapted.
     $sql = "SELECT MAX(game_order) AS max_order
-                FROM " . $titanium_prefix . "_bbgames";
-    if (!$result = $titanium_db->sql_query($sql)) {
+                FROM " . $pnt_prefix . "_bbgames";
+    if (!$result = $pnt_db->sql_query($sql)) {
         die("Cannot find Game Orde at line " . __LINE__ . ", File " . __FILE__);
     } 
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
 
     $max_order = $row['max_order'];
     $next_order = $max_order + 10;
 
-    $sql = "INSERT INTO " . $titanium_prefix . "_bbgames ( game_order, game_pic, game_desc, game_highscore, game_highdate, game_highuser, game_name, game_swf, game_width, game_height, game_scorevar, game_type, arcade_catid ) "
+    $sql = "INSERT INTO " . $pnt_prefix . "_bbgames ( game_order, game_pic, game_desc, game_highscore, game_highdate, game_highuser, game_name, game_swf, game_width, game_height, game_scorevar, game_type, arcade_catid ) "
      . "VALUES ($next_order, '$gamepic', '', 0, 0, 0, '$gametitle', '" . $gamebasename . ".swf', '$defaultgamewidth', '$defaultgameheight', '$gamebasename','$arcadetype','$arcade_catid')";
-    if (!$result = $titanium_db->sql_query($sql)) {
+    if (!$result = $pnt_db->sql_query($sql)) {
         die("Couldn't insert row in games table");
     } 
     // check if comments mod is installed, and add an empty comment if it's the case.
-    $commenttableexist = $titanium_db->sql_query("SELECT * FROM `" . $titanium_prefix . "_bbarcade_comments` LIMIT 0,1");
+    $commenttableexist = $pnt_db->sql_query("SELECT * FROM `" . $pnt_prefix . "_bbarcade_comments` LIMIT 0,1");
     if ($commenttableexist) {
-        $sql = "SELECT * FROM " . $titanium_prefix . "_bbgames WHERE game_order = $next_order ";
-        if (!$result = $titanium_db->sql_query($sql)) {
+        $sql = "SELECT * FROM " . $pnt_prefix . "_bbgames WHERE game_order = $next_order ";
+        if (!$result = $pnt_db->sql_query($sql)) {
             die("Couldn't update comments table");
         } 
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
         $game_id = $row['game_id'];
 
-        $sql = "INSERT INTO " . $titanium_prefix . "_bbarcade_comments ( game_id, comments_value ) VALUES ($game_id, '')";
-        if (!$titanium_db->sql_query($sql)) {
+        $sql = "INSERT INTO " . $pnt_prefix . "_bbarcade_comments ( game_id, comments_value ) VALUES ($game_id, '')";
+        if (!$pnt_db->sql_query($sql)) {
             die("Couldn't update comments table");
         } 
     } 
 
-    $sql = "UPDATE " . $titanium_prefix . "_bbarcade_categories SET arcade_nbelmt = arcade_nbelmt + 1 WHERE arcade_catid = $arcade_catid";
-    if (!$titanium_db->sql_query($sql)) {
+    $sql = "UPDATE " . $pnt_prefix . "_bbarcade_categories SET arcade_nbelmt = arcade_nbelmt + 1 WHERE arcade_catid = $arcade_catid";
+    if (!$pnt_db->sql_query($sql)) {
         die("Couldn't update categories table");
     } 
     // let's go back to the origin page
@@ -307,7 +307,7 @@ function MakeIntelliAddForm($basename)
 } 
 function checkSwfDir()
 {
-    global $swfdirectory, $titanium_db, $picdirectory, $titanium_prefix;
+    global $swfdirectory, $pnt_db, $picdirectory, $pnt_prefix;
     global $cstart, $cend, $filesbypage, $pnt_module, $filefilter;
 
     $swfOK = 0; //swf found in directory and in database
@@ -347,23 +347,23 @@ function checkSwfDir()
      . "    <th colspan=1>SWF Name</th><th width=32>&nbsp</th><th>Size</th><th>Status</th><th colspan=2>Adm</th>"
      . "</tr>\n"; 
     // One query string to found how much swf files are correctly referenced.
-    $countquery = "SELECT COUNT(*) FROM " . $titanium_prefix . "_bbgames WHERE ";
+    $countquery = "SELECT COUNT(*) FROM " . $pnt_prefix . "_bbgames WHERE ";
     foreach ($swf_array AS $swffile) {
         $countquery .= "game_swf='$swffile' or ";
     } 
     $countquery .= " game_swf='AnythingThatWillNotBeFounded'";
-    $totalcount = $titanium_db->sql_fetchrow($titanium_db->sql_query($countquery)); 
+    $totalcount = $pnt_db->sql_fetchrow($pnt_db->sql_query($countquery)); 
     // let's go in the swf files array and process them one by one
     for ($i = $cstart;$i <= $cend;$i++) {
         $swffile = $swf_array[$i]; 
         // Get data from DB for this SWF if it exists
-        $sql = "SELECT * FROM " . $titanium_prefix . "_bbgames WHERE game_swf='$swffile'";
+        $sql = "SELECT * FROM " . $pnt_prefix . "_bbgames WHERE game_swf='$swffile'";
 
-        if (!($result = $titanium_db->sql_query($sql))) {
+        if (!($result = $pnt_db->sql_query($sql))) {
             die('Cannot Read games database.');
         } 
-        $count = $titanium_db->sql_numrows($result);
-        $row = $titanium_db->sql_fetchrow($result);
+        $count = $pnt_db->sql_numrows($result);
+        $row = $pnt_db->sql_fetchrow($result);
         if (isset($filefilter) and $filefilter == "unreferenced" and $count) {
             continue;
         } 
@@ -394,7 +394,7 @@ function checkSwfDir()
                 break;
             case 1 :
                 $swfOK++; 
-                // $row=$titanium_db->sql_fetchrow($result);
+                // $row=$pnt_db->sql_fetchrow($result);
                 $category = CategoryTable($row['arcade_catid']);
                 $content .= "<td><strong>" . $row['game_name'] . "</strong>: type " . $row['game_type'] . ", " . $row['game_width'] . "x" . $row['game_height'] . "<br />"
                  . "<a href='modules/Forums/admin/arcade_elmt.php?arcade_catid=" . $row['arcade_catid'] . "'>" . $category['arcade_cattitle'] . "</a></td><td align=center>[&nbsp;<a href='modules/Forums/admin/arcade_elmt.php?mode=edit&amp;game_id=" . $row['game_id'] . "'>Edit</a>&nbsp;]</td>\n";
@@ -405,7 +405,7 @@ function checkSwfDir()
                 break;
         } 
         $content .= "</tr>\n";
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
     } //foreach  
     // ok let's start by showing the count
     echo "    <tr>\n";
@@ -451,7 +451,7 @@ function GamesDBRow($row, $showcheckbox = true)
 $__gamesdata = Array();
 function ReadAllGames($orderby = "`game_name`")
 {
-    global $titanium_db, $titanium_prefix, $__gamesdata; 
+    global $pnt_db, $pnt_prefix, $__gamesdata; 
     // if already read... return :p
     if (count($__gamesdata)) {
         return $__gamesdata;
@@ -459,14 +459,14 @@ function ReadAllGames($orderby = "`game_name`")
     global $type012; 
     // ok let's make the query
     $__gamesdata = Array();
-    $result = $titanium_db->sql_query("SELECT * FROM " . $titanium_prefix . "_bbgames ORDER BY $orderby")
+    $result = $pnt_db->sql_query("SELECT * FROM " . $pnt_prefix . "_bbgames ORDER BY $orderby")
     or die("Cannot Read games database.");
-    while ($row = $titanium_db->sql_fetchrow($result)) {
+    while ($row = $pnt_db->sql_fetchrow($result)) {
         if (!isset($type012) or ($row['game_type'] < 3)) {
             $__gamesdata[] = $row;
         } 
     } 
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     return $__gamesdata;
 } 
 // Get a field, (by default the name of the game) from a Game's Table row
@@ -484,7 +484,7 @@ function FromGameID($GameID, $field = "game_name")
 
 function SearchDB()
 {
-    global $pnt_module, $srchstring, $searchin, $titanium_prefix, $titanium_db, $titanium_user_prefix, $picdirectory;
+    global $pnt_module, $srchstring, $searchin, $pnt_prefix, $pnt_db, $pnt_user_prefix, $picdirectory;
     include_once(NUKE_BASE_DIR.'header.php');
     menu();
     title("Game's database search");
@@ -512,15 +512,15 @@ function SearchDB()
                 $field = "`game_name`" ; ;
         } // switch
         if ($searchin != "comment") {
-            $sql = "SELECT * FROM " . $titanium_prefix . "_bbgames WHERE $field LIKE '$search' ORDER BY `game_name`";
-            $result = $titanium_db->sql_query($sql) or
+            $sql = "SELECT * FROM " . $pnt_prefix . "_bbgames WHERE $field LIKE '$search' ORDER BY `game_name`";
+            $result = $pnt_db->sql_query($sql) or
             die("Error while searching Games database : $sql");
-            if (!$titanium_db->sql_numrows()) {
+            if (!$pnt_db->sql_numrows()) {
                 echo "No matches.<br /><br />" . SearchDBForm();
             } else {
                 echo "<form action=\"modules.php?name=$pnt_module&amp;m_op=submitchange\" name=\"gameselection\"method=\"post\">";
                 echo "<table width=\"100%\" border=\"1\">";
-                while ($row = $titanium_db->sql_fetchrow($result)) {
+                while ($row = $pnt_db->sql_fetchrow($result)) {
                     GamesDBRow($row, true);
                 } 
                 echo "</table>";
@@ -536,20 +536,20 @@ function SearchDB()
             } 
         } //if ($searchin!="comment")
         else { // it's a search on comment
-            $commenttable = $titanium_prefix . "_bbarcade_comments";
-            $gametable = $titanium_prefix . "_bbgames";
-            $titanium_usertable = $titanium_user_prefix . "_users";
+            $commenttable = $pnt_prefix . "_bbarcade_comments";
+            $gametable = $pnt_prefix . "_bbgames";
+            $pnt_usertable = $pnt_user_prefix . "_users";
             $search = "%" . $search . "%";
             $sql = "SELECT g.* ,u.username,c.comments_value "
              . "FROM $commenttable c "
              . "LEFT JOIN $gametable g ON g.game_id=c.game_id "
-             . "LEFT JOIN $titanium_usertable u ON u.user_id=g.game_highuser "
+             . "LEFT JOIN $pnt_usertable u ON u.user_id=g.game_highuser "
              . "WHERE c.comments_value LIKE '$search'";
-            $result = $titanium_db->sql_query($sql)
+            $result = $pnt_db->sql_query($sql)
             or die("Cannot access Comment Table : $sql ," . mysql_error());
-            if ($titanium_db->sql_numrows()) {
+            if ($pnt_db->sql_numrows()) {
                 echo "<table width=100% border=\"1\">";
-                while ($row = $titanium_db->sql_fetchrow($result)) {
+                while ($row = $pnt_db->sql_fetchrow($result)) {
                     echo "<tr><td width='32'><img src='$picdirectory" . $row['game_pic'] . "' width='32' height='32'><td><a href=''>" . $row['game_name'] . "</a><br />by <a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=" . $row['game_highuser'] . "\">" . $row['username'] . "</a></td>";
                     echo "<td>" . $row['comments_value'] . "</td>"
                      . "<td>[&nbsp;<a href='modules.php?name=$pnt_module&amp;m_op=editcomment&amp;gameid=" . $row['game_id'] . "'>Edit</a>&nbsp;|&nbsp;<a href=''>Delete</a>&nbsp;]</td></tr>";
@@ -566,14 +566,14 @@ function SearchDB()
 } 
 function ChangeComment()
 { 
-    global $titanium_prefix,$titanium_db,$comment_text,$gameid;
+    global $pnt_prefix,$pnt_db,$comment_text,$gameid;
     // 2 lines taken from comments_new.php
     $comment_text = str_replace("\'", "''", $comment_text);
     $comment_text = preg_replace(array('#&(?!(\#[0-9]+;))#', '#<#', '#>#'), array('&amp;', '&lt;', '&gt;'), $comment_text);
     
-    $commenttable = $titanium_prefix . "_bbarcade_comments";
+    $commenttable = $pnt_prefix . "_bbarcade_comments";
     $sql = "UPDATE $commenttable SET comments_value = '$comment_text' WHERE game_id = $gameid";     
-   if( !$result = $titanium_db->sql_query($sql) ) 
+   if( !$result = $pnt_db->sql_query($sql) ) 
    { 
     die("Couldn't insert row in comments table"); 
    } 
@@ -585,22 +585,22 @@ function EditComment()
     menu();
     title("Comment Edition");
     OpenTable();
-    global $titanium_db, $gameid,$titanium_prefix,$titanium_user_prefix,$pnt_module;
+    global $pnt_db, $gameid,$pnt_prefix,$pnt_user_prefix,$pnt_module;
     if (!isset($gameid)) {
         die("Error : No valid game id. Unable to edit comment.");
     } 
 
-    $commenttable = $titanium_prefix . "_bbarcade_comments";
-    $gametable = $titanium_prefix . "_bbgames";
-    $titanium_usertable = $titanium_user_prefix . "_users";
+    $commenttable = $pnt_prefix . "_bbarcade_comments";
+    $gametable = $pnt_prefix . "_bbgames";
+    $pnt_usertable = $pnt_user_prefix . "_users";
     $sql = "SELECT g.* ,u.username,u.user_id,c.comments_value "
              . "FROM $commenttable c "
              . "LEFT JOIN $gametable g ON g.game_id=c.game_id "
-             . "LEFT JOIN $titanium_usertable u ON u.user_id=g.game_highuser "
+             . "LEFT JOIN $pnt_usertable u ON u.user_id=g.game_highuser "
              . "WHERE c.game_id=$gameid";       
-    $result=$titanium_db->sql_query($sql) 
+    $result=$pnt_db->sql_query($sql) 
         or die("Cannot read table game.");
-    $row=$titanium_db->sql_fetchrow($result);
+    $row=$pnt_db->sql_fetchrow($result);
     if ($row) {
         echo "<table width=\"100%\" border=1>\n";
         GamesDBRow($row,false);
@@ -634,7 +634,7 @@ function SearchDBForm()
 // Main function to read and check Games Database
 function CheckDB()
 {
-    global $titanium_db, $titanium_prefix, $swfdirectory, $picdirectory, $pnt_module, $filesbypage;
+    global $pnt_db, $pnt_prefix, $swfdirectory, $picdirectory, $pnt_module, $filesbypage;
     global $cend, $cstart;
 
     $gamesdata = &ReadAllGames();
@@ -765,7 +765,7 @@ function setCheckboxes(do_check)
 
 function SubmitChange()
 {
-    global $titanium_db, $titanium_prefix, $selectaction, $gameid, $pnt_module, $_categoryArray;
+    global $pnt_db, $pnt_prefix, $selectaction, $gameid, $pnt_module, $_categoryArray;
     if (!is_array($gameid) or count($gameid) == 0 or !isset($selectaction) or empty($selectaction)) {
         Header("Location: modules.php?name=$pnt_module&m_op=checkDB");
     } 
@@ -857,7 +857,7 @@ function SubmitChange()
 
 function ApplyChange()
 {
-    global $titanium_db, $titanium_prefix, $selectaction, $gameid, $pnt_module, $_categoryArray;
+    global $pnt_db, $pnt_prefix, $selectaction, $gameid, $pnt_module, $_categoryArray;
     if (!is_array($gameid) or count($gameid) == 0 or !isset($selectaction) or empty($selectaction)) {
         Header("Location: modules.php?name=$pnt_module&m_op=checkDB");
     } 
@@ -873,10 +873,10 @@ function ApplyChange()
             title("Moving Games");
             echo "<ul>";
             foreach($gameid AS $gid) {
-                $sql = "UPDATE " . $titanium_prefix . "_bbgames SET"
+                $sql = "UPDATE " . $pnt_prefix . "_bbgames SET"
                  . " arcade_catid = " . $catid
                  . " WHERE game_id = " . $gid;
-                $titanium_db->sql_query($sql) or die("Cannot update Games Table");
+                $pnt_db->sql_query($sql) or die("Cannot update Games Table");
                 echo "<li>" . FromGameID($gid);
             } 
             echo "</ul>";
@@ -905,11 +905,11 @@ function ApplyChange()
             title("Changing Flash Game Window Size");
             echo "<ul>";
             foreach($gameid AS $gid) {
-                $sql = "UPDATE " . $titanium_prefix . "_bbgames SET"
+                $sql = "UPDATE " . $pnt_prefix . "_bbgames SET"
                  . " game_width = " . $gwidth
                  . ",game_height= " . $gheight
                  . " WHERE game_id = " . $gid;
-                $titanium_db->sql_query($sql) or die("Cannot update Games Table");
+                $pnt_db->sql_query($sql) or die("Cannot update Games Table");
                 echo "<li>" . FromGameID($gid);
             } 
             echo "</ul>";
@@ -924,14 +924,14 @@ function ApplyChange()
             title("Removing Scores");
             echo "<ul>";
             foreach($gameid AS $gid) {
-                $sql = "UPDATE " . $titanium_prefix . "_bbgames SET"
+                $sql = "UPDATE " . $pnt_prefix . "_bbgames SET"
                  . " game_highscore=0"
                  . ",game_highdate=0"
                  . ",game_highuser=0"
                  . " WHERE game_id = " . $gid;
-                $titanium_db->sql_query($sql) or die("Cannot update Games Table");
-                $sql = "DELETE FROM " . $titanium_prefix . "_bbscores WHERE game_id=$gid";
-                $titanium_db->sql_query($sql) or die("Cannot delete scores in Table");
+                $pnt_db->sql_query($sql) or die("Cannot update Games Table");
+                $sql = "DELETE FROM " . $pnt_prefix . "_bbscores WHERE game_id=$gid";
+                $pnt_db->sql_query($sql) or die("Cannot delete scores in Table");
                 echo "<li>" . FromGameID($gid);
             } 
             echo "</ul>";
@@ -947,10 +947,10 @@ function ApplyChange()
             echo "<ul>";
             foreach($gameid AS $gid) {
                 echo "<li>" . FromGameID($gid);
-                $sql = "DELETE FROM " . $titanium_prefix . "_bbgames  WHERE game_id = " . $gid;
-                $titanium_db->sql_query($sql) or die("Cannot delete entry from Games Table");
-                $sql = "DELETE FROM " . $titanium_prefix . "_bbscores WHERE game_id=$gid";
-                $titanium_db->sql_query($sql) or die("Cannot delete scores in Table");
+                $sql = "DELETE FROM " . $pnt_prefix . "_bbgames  WHERE game_id = " . $gid;
+                $pnt_db->sql_query($sql) or die("Cannot delete entry from Games Table");
+                $sql = "DELETE FROM " . $pnt_prefix . "_bbscores WHERE game_id=$gid";
+                $pnt_db->sql_query($sql) or die("Cannot delete scores in Table");
             } 
             echo "</ul>";
             echo " ... have been removed from database.";
@@ -1021,39 +1021,39 @@ function SyncAllCategories()
 // taken from admin_arcade_games.php and adapted
 function resynch_arcade_categorie($catid)
 {
-    global $titanium_db, $titanium_prefix;
+    global $pnt_db, $pnt_prefix;
 
-    $sql = "SELECT COUNT(*) AS nbelmt FROM " . $titanium_prefix . "_bbgames WHERE arcade_catid = $catid";
-    if (!$result = $titanium_db->sql_query($sql)) {
+    $sql = "SELECT COUNT(*) AS nbelmt FROM " . $pnt_prefix . "_bbgames WHERE arcade_catid = $catid";
+    if (!$result = $pnt_db->sql_query($sql)) {
         die("Cannot opent Games Table");
     } 
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
     $nbelmt = $row['nbelmt'];
-    $sql = "UPDATE " . $titanium_prefix . "_bbarcade_categories SET arcade_nbelmt = $nbelmt WHERE arcade_catid = $catid";
-    if (!$result = $titanium_db->sql_query($sql)) {
+    $sql = "UPDATE " . $pnt_prefix . "_bbarcade_categories SET arcade_nbelmt = $nbelmt WHERE arcade_catid = $catid";
+    if (!$result = $pnt_db->sql_query($sql)) {
         die("Cannot Update Category Table");
     } 
 } 
 // adapted from admin_arcade_games.php
 function CreateCategory($arcade_cattitle)
 {
-    global $titanium_db, $titanium_prefix;
+    global $pnt_db, $pnt_prefix;
     if (trim($arcade_cattitle) == '') {
         die("Cannot add a category without title");
     } 
     $sql = "SELECT MAX(arcade_catorder) AS max_order
-            FROM " . $titanium_prefix . "_bbarcade_categories";
-    if (!$result = $titanium_db->sql_query($sql)) {
+            FROM " . $pnt_prefix . "_bbarcade_categories";
+    if (!$result = $pnt_db->sql_query($sql)) {
         die("Cannot open category table");
     } 
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
 
     $max_order = $row['max_order'];
     $next_order = $max_order + 10;
 
-    $sql = "INSERT INTO " . $titanium_prefix . "_bbarcade_categories ( arcade_cattitle, arcade_nbelmt, arcade_catorder )
+    $sql = "INSERT INTO " . $pnt_prefix . "_bbarcade_categories ( arcade_cattitle, arcade_nbelmt, arcade_catorder )
                 VALUES ('" . str_replace("\'", "''", $arcade_cattitle) . "', 0, $next_order)" ;
-    if (!$titanium_db->sql_query($sql)) {
+    if (!$pnt_db->sql_query($sql)) {
         die("Couldn't update arcade_categories table");
     } 
     // Let's go back to category page
@@ -1061,7 +1061,7 @@ function CreateCategory($arcade_cattitle)
 } 
 function ShowCategory()
 {
-    global $titanium_db, $titanium_prefix, $pnt_module, $_categoryArray, $catid;
+    global $pnt_db, $pnt_prefix, $pnt_module, $_categoryArray, $catid;
     include_once(NUKE_BASE_DIR.'header.php');
     menu();
     echo "<br />";
@@ -1074,9 +1074,9 @@ function ShowCategory()
         echo "<tr>";
         echo "<td><a href=\"modules/Forums/admin/admin_arcade_games.php?mode=edit&amp;arcade_catid=" . $row['arcade_catid'] . "\">" . $row['arcade_cattitle'] . "</a></td><td align=\"center\">" . $row['arcade_catid'] . "</td>";
         echo "<td><a href=\"modules.php?name=$pnt_module&amp;m_op=category&amp;catid=" . $row['arcade_catid'] . "\">" . $row['arcade_nbelmt'] . " games recorded</a></td>";
-        $result = $titanium_db->sql_query("SELECT COUNT(*) AS count FROM " . $titanium_prefix . "_bbgames WHERE `arcade_catid`=" . $row['arcade_catid'])
+        $result = $pnt_db->sql_query("SELECT COUNT(*) AS count FROM " . $pnt_prefix . "_bbgames WHERE `arcade_catid`=" . $row['arcade_catid'])
         or die("Cannot read games table.");
-        $count = $titanium_db->sql_fetchrow($result);
+        $count = $pnt_db->sql_fetchrow($result);
         echo "<td>Counted " . $count['count'];
         if ($count['count'] <> $row['arcade_nbelmt']) {
             echo " [ Not Matching - <a href=\"modules.php?name=$pnt_module&amp;m_op=resynccat&amp;catid=" . $row['arcade_catid'] . "\">Re-Sync</a> ]";
@@ -1121,12 +1121,12 @@ function setCheckboxes(do_check)
  Nuke-Evolution Basic: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
         $catid = intval($catid);
-        $sql = "SELECT * FROM " . $titanium_prefix . "_bbgames WHERE arcade_catid=$catid ORDER BY `game_name`";
-        $result = $titanium_db->sql_query($sql) or die("Cannot read Games Table");
-        if ($titanium_db->sql_numrows() > 0) {
+        $sql = "SELECT * FROM " . $pnt_prefix . "_bbgames WHERE arcade_catid=$catid ORDER BY `game_name`";
+        $result = $pnt_db->sql_query($sql) or die("Cannot read Games Table");
+        if ($pnt_db->sql_numrows() > 0) {
             echo "<hr width='40%'>";
             echo "<table width=\"100%\" border=1>";
-            while ($row = $titanium_db->sql_fetchrow($result)) {
+            while ($row = $pnt_db->sql_fetchrow($result)) {
                 GamesDBRow($row);
             } 
             echo "<tr><td></td><td><a href=\"*\" onclick=\"setCheckboxes(true); return false;\">Check All</a>/";
@@ -1149,25 +1149,25 @@ function setCheckboxes(do_check)
 
 function FixDB()
 {
-    global $titanium_db, $titanium_prefix, $pnt_module;
+    global $pnt_db, $pnt_prefix, $pnt_module;
     include_once(NUKE_BASE_DIR.'header.php');
     menu();
     OpenTable();
     if ($fix = 'commentstable') {
-        $commenttableexist = $titanium_db->sql_query("SELECT * FROM `" . $titanium_prefix . "_bbarcade_comments` LIMIT 0,1");
+        $commenttableexist = $pnt_db->sql_query("SELECT * FROM `" . $pnt_prefix . "_bbarcade_comments` LIMIT 0,1");
 
         if ($commenttableexist) {
             echo "<li><strong>Comments Module</strong> found.<br />Checking if all games have their comments in comments tables.<br /><br />";
-            $sql = "SELECT * FROM " . $titanium_prefix . "_bbgames ";
-            if (!$result = $titanium_db->sql_query($sql)) {
+            $sql = "SELECT * FROM " . $pnt_prefix . "_bbgames ";
+            if (!$result = $pnt_db->sql_query($sql)) {
                 die("Cannot Open Games Table");
             } 
             $missingcomment = 0;
 
-            while ($row = $titanium_db->sql_fetchrow($result)) {
-                if (!$titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM " . $titanium_prefix . "_bbarcade_comments WHERE `game_id`=" . $row['game_id']))) {
-                    $sql = "INSERT INTO " . $titanium_prefix . "_bbarcade_comments ( game_id, comments_value ) VALUES (" . $row['game_id'] . ", '')";
-                    if (!$titanium_db->sql_query($sql)) {
+            while ($row = $pnt_db->sql_fetchrow($result)) {
+                if (!$pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM " . $pnt_prefix . "_bbarcade_comments WHERE `game_id`=" . $row['game_id']))) {
+                    $sql = "INSERT INTO " . $pnt_prefix . "_bbarcade_comments ( game_id, comments_value ) VALUES (" . $row['game_id'] . ", '')";
+                    if (!$pnt_db->sql_query($sql)) {
                         die("Couldn't update comments table");
                     } 
                     echo "Comments Added for <strong>" . $row['game_name'] . "</strong><br />";
@@ -1184,7 +1184,7 @@ function FixDB()
 // check for some database incohrence
 function DBCoherence()
 {
-    global $titanium_db, $titanium_prefix, $pnt_module;
+    global $pnt_db, $pnt_prefix, $pnt_module;
 
     include_once(NUKE_BASE_DIR.'header.php');
     menu();
@@ -1198,9 +1198,9 @@ function DBCoherence()
     $CategoryNotSynchronized = 0;
 
     foreach($_categoryArray AS $row) {
-        $result = $titanium_db->sql_query("SELECT COUNT(*) AS count FROM " . $titanium_prefix . "_bbgames WHERE `arcade_catid`=" . $row['arcade_catid'])
+        $result = $pnt_db->sql_query("SELECT COUNT(*) AS count FROM " . $pnt_prefix . "_bbgames WHERE `arcade_catid`=" . $row['arcade_catid'])
         or die("Cannot read games table.");
-        $count = $titanium_db->sql_fetchrow($result);
+        $count = $pnt_db->sql_fetchrow($result);
         if ($count['count'] <> $row['arcade_nbelmt']) {
             echo "<strong>" . $row['arcade_cattitle'] . "</strong> not synchronized. [ Not Matching - <a href=\"modules.php?name=$pnt_module&amp;m_op=resynccat&amp;catid=" . $row['arcade_catid'] . "\">Re-Sync</a> ]<br />";
             $CategoryNotSynchronized++;
@@ -1214,18 +1214,18 @@ function DBCoherence()
     echo "<br /><br />"; 
     // let see if the comment mod is installed and if all games have their "comments"
     // check if comments mod is installed, and add an empty comment if it's the case.
-    $commenttableexist = $titanium_db->sql_query("SELECT * FROM `" . $titanium_prefix . "_bbarcade_comments` LIMIT 0,1");
+    $commenttableexist = $pnt_db->sql_query("SELECT * FROM `" . $pnt_prefix . "_bbarcade_comments` LIMIT 0,1");
 
     if ($commenttableexist) {
         echo "<li><strong>Comments Module</strong> found.<br /><img src='modules/$pnt_module/images/icon_query.gif' border=0 width=16 height=16> Checking if all games have their comments in comments tables.<br /><br />";
-        $sql = "SELECT * FROM " . $titanium_prefix . "_bbgames ";
-        if (!$result = $titanium_db->sql_query($sql)) {
+        $sql = "SELECT * FROM " . $pnt_prefix . "_bbgames ";
+        if (!$result = $pnt_db->sql_query($sql)) {
             die("Cannot Open Games Table");
         } 
         $missingcomment = 0;
 
-        while ($row = $titanium_db->sql_fetchrow($result)) {
-            if (!$titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM " . $titanium_prefix . "_bbarcade_comments WHERE `game_id`=" . $row['game_id']))) {
+        while ($row = $pnt_db->sql_fetchrow($result)) {
+            if (!$pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM " . $pnt_prefix . "_bbarcade_comments WHERE `game_id`=" . $row['game_id']))) {
                 echo $row['game_name'] . " | ";
                 $missingcomment++;
             } 

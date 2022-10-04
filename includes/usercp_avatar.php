@@ -144,11 +144,11 @@ function user_avatar_upload($mode, $avatar_mode, &$current_avatar, &$current_typ
 	    $headers[] = 'Accept: image/gif, image/x-bitmap, image/jpeg, image/pjpeg';              
 	    $headers[] = 'Connection: Keep-Alive';         
 	    $headers[] = 'Content-type: application/x-www-form-urlencoded;charset=UTF-8';         
-	    $titanium_user_agent = 'php';         
+	    $pnt_user_agent = 'php';         
 	    $process = curl_init($url);         
 	    curl_setopt($process, CURLOPT_HTTPHEADER, $headers);         
 	    curl_setopt($process, CURLOPT_HEADER, 0);         
-	    curl_setopt($process, CURLOPT_USERAGENT, $titanium_user_agent); //check here         
+	    curl_setopt($process, CURLOPT_USERAGENT, $pnt_user_agent); //check here         
 	    curl_setopt($process, CURLOPT_TIMEOUT, 30);         
 	    curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);         
 	    curl_setopt($process, CURLOPT_FOLLOWLOCATION, 1);         
@@ -242,7 +242,7 @@ function user_avatar_upload($mode, $avatar_mode, &$current_avatar, &$current_typ
  [ Mod:     Gender                             v1.2.6 ]
  [ Mod:     Birthdays                          v3.0.0 ]
  ******************************************************/
-function display_avatar_gallery($mode, $category, $titanium_user_id, $email, $current_email, $coppa, $titanium_username, $new_password, $cur_password, $password_confirm, $website, $location, $titanium_user_flag, $occupation, $interests, $glance_show, $signature, $viewemail, $notifypm, $allow_mass_pm, $popup_pm, $notifyreply, $attachsig, $allowhtml, $allowbbcode, $allowsmilies, $showavatars, $showsignatures, $hideonline, $style, $wrap, $language, $bday_month, $bday_day, $phpbb2_bday_year, $birthday_display, $birthday_greeting, $timezone, $time_mode, $dst_time_lag, $dateformat, $show_quickreply, $quickreply_mode, $titanium_user_open_quickreply, $titanium_session_id, $xdata = false, $rname, $extra_info, $newsletter, $hide_images, $gender, $facebook)
+function display_avatar_gallery($mode, $category, $pnt_user_id, $email, $current_email, $coppa, $pnt_username, $new_password, $cur_password, $password_confirm, $website, $location, $pnt_user_flag, $occupation, $interests, $glance_show, $signature, $viewemail, $notifypm, $allow_mass_pm, $popup_pm, $notifyreply, $attachsig, $allowhtml, $allowbbcode, $allowsmilies, $showavatars, $showsignatures, $hideonline, $style, $wrap, $language, $bday_month, $bday_day, $phpbb2_bday_year, $birthday_display, $birthday_greeting, $timezone, $time_mode, $dst_time_lag, $dateformat, $show_quickreply, $quickreply_mode, $pnt_user_open_quickreply, $pnt_session_id, $xdata = false, $rname, $extra_info, $newsletter, $hide_images, $gender, $facebook)
 /*****[END]********************************************
  [ Mod:     Birthdays                          v3.0.0 ]
  [ Mod:     Gender                             v1.2.6 ]
@@ -258,7 +258,7 @@ function display_avatar_gallery($mode, $category, $titanium_user_id, $email, $cu
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
 {
-		global $phpbb2_board_config, $titanium_db, $phpbb2_template, $lang, $images, $theme, $phpbb2_root_path, $phpEx, $userdata;
+		global $phpbb2_board_config, $pnt_db, $phpbb2_template, $lang, $images, $theme, $phpbb2_root_path, $phpEx, $userdata;
 
 		$dir = @opendir($phpbb2_board_config['avatar_gallery_path']);
 
@@ -359,7 +359,7 @@ function display_avatar_gallery($mode, $category, $titanium_user_id, $email, $cu
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
 
-		$s_hidden_vars  = '<input type="hidden" name="sid" value="' . $titanium_session_id . '" />';
+		$s_hidden_vars  = '<input type="hidden" name="sid" value="' . $pnt_session_id . '" />';
 		$s_hidden_vars .= '<input type="hidden" name="agreed" value="true" />';
 		$s_hidden_vars .= '<input type="hidden" name="avatarcatname" value="' . $category . '" />';
 

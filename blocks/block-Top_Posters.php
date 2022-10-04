@@ -24,7 +24,7 @@ if ( !defined('BLOCK_FILE') ) {
     exit;
 }
 
-global $titanium_user, $titanium_prefix, $titanium_db, $nxp_toppost_post, $nxp_toppost_poin;
+global $pnt_user, $pnt_prefix, $pnt_db, $nxp_toppost_post, $nxp_toppost_poin;
 
 $nxp_toppost_config = array(
      'show_mini' => 5, //number of members to show in block, default=5
@@ -37,21 +37,21 @@ $nxp_toppost_config = array(
 
 // Setup Rank Arrays for later to match ranks ------------------------------------------|
 $Q00 = "SELECT rank_id, rank_title 
-	FROM " . $titanium_prefix . "_bbranks
+	FROM " . $pnt_prefix . "_bbranks
 	WHERE rank_special = 1 
 	ORDER BY rank_id ASC";
-$R00 = $titanium_db->sql_query($Q00);
-while($special_rank_info = $titanium_db->sql_fetchrow($R00))
+$R00 = $pnt_db->sql_query($Q00);
+while($special_rank_info = $pnt_db->sql_fetchrow($R00))
 {
 	$nxp_toppost_rank_spec[] = $special_rank_info;
 }
 
 $Q01 = "SELECT rank_id, rank_title, rank_min 
-	FROM " . $titanium_prefix . "_bbranks
+	FROM " . $pnt_prefix . "_bbranks
 	WHERE rank_special = 0
 	ORDER BY rank_min ASC";
-$R01 = $titanium_db->sql_query($Q01);
-while($normal_rank_info = $titanium_db->sql_fetchrow($R01))
+$R01 = $pnt_db->sql_query($Q01);
+while($normal_rank_info = $pnt_db->sql_fetchrow($R01))
 {
 	$nxp_toppost_rank_norm[] = $normal_rank_info;
 }
@@ -88,9 +88,9 @@ if ($nxp_toppost_config["show_link"] == 1)
 
 $nxp_toppost_count = 1;
 
-$Q02 = "SELECT user_id, username, user_avatar, user_from, user_from_flag, user_posts, user_rank FROM " . $titanium_prefix . "_users WHERE `user_id` != ".ANONYMOUS." ORDER BY " . $nxp_toppost_order_by . " LIMIT 0," . $nxp_toppost_show_numb;
-$R02 = $titanium_db->sql_query($Q02);
-while($nxp_toppost_user_info = $titanium_db->sql_fetchrow($R02))
+$Q02 = "SELECT user_id, username, user_avatar, user_from, user_from_flag, user_posts, user_rank FROM " . $pnt_prefix . "_users WHERE `user_id` != ".ANONYMOUS." ORDER BY " . $nxp_toppost_order_by . " LIMIT 0," . $nxp_toppost_show_numb;
+$R02 = $pnt_db->sql_query($Q02);
+while($nxp_toppost_user_info = $pnt_db->sql_fetchrow($R02))
 {
 	// Unset all common variables --------------------------------------------------|
 	unset($nxp_toppost_name, $nxp_toppost_avat, $nxp_toppost_from_imag, $nxp_toppost_rank_titl);	
@@ -152,9 +152,9 @@ while($nxp_toppost_user_info = $titanium_db->sql_fetchrow($R02))
 		// {
 		// 	$nxp_toppost_from_imag = "<img src='images/blank.png' width='17' height='11'>";
 		// }
-		$titanium_user_flag 		= str_replace('.png','',$nxp_toppost_user_info['user_from_flag']);
+		$pnt_user_flag 		= str_replace('.png','',$nxp_toppost_user_info['user_from_flag']);
         if ($nxp_toppost_user_info['user_from_flag']):
-            $nxp_toppost_from_imag      = '<span class="countries '.$titanium_user_flag.'"'.(($nxp_toppost_user_info['user_from']) ? 'title="'.$nxp_toppost_user_info['user_from'].'"' : '').'></span>';
+            $nxp_toppost_from_imag      = '<span class="countries '.$pnt_user_flag.'"'.(($nxp_toppost_user_info['user_from']) ? 'title="'.$nxp_toppost_user_info['user_from'].'"' : '').'></span>';
         else:
             $nxp_toppost_from_imag      = '<span class="countries unknown"></span>';
         endif;			
@@ -197,8 +197,8 @@ while($nxp_toppost_user_info = $titanium_db->sql_fetchrow($R02))
 		$nxp_toppost_rank_titl = "Unknown Rank";
 	}
 	
-	$tpresult = $titanium_db->sql_query("SELECT * FROM ". $titanium_prefix ."_bbadvanced_username_color WHERE group_name='$nxp_toppost_rank_titl'");
-	$rowrank = $titanium_db->sql_fetchrow($tpresult);
+	$tpresult = $pnt_db->sql_query("SELECT * FROM ". $pnt_prefix ."_bbadvanced_username_color WHERE group_name='$nxp_toppost_rank_titl'");
+	$rowrank = $pnt_db->sql_fetchrow($tpresult);
 	
 	$content .= "	<tr>\n";
 	$content .= "		<td align='left' valign='top' width='38' rowspan='4'>\n";

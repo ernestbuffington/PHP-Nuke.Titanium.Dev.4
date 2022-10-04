@@ -42,7 +42,7 @@ define('IN_PHPBB2', 1);
 if(!empty($setmodules))
 {
         $file = basename(__FILE__);
-        $titanium_module['Forums']['Manage'] = $file;
+        $pnt_module['Forums']['Manage'] = $file;
         return;
 }
 
@@ -88,7 +88,7 @@ else
 # Begin function block
 function get_info($mode, $id)
 {
-        global $titanium_db;
+        global $pnt_db;
 
         switch($mode)
         {
@@ -112,12 +112,12 @@ function get_info($mode, $id)
 
                 FROM $table";
 
-        if(!$result = $titanium_db->sql_query($sql))
+        if(!$result = $pnt_db->sql_query($sql))
         {
                 message_die(GENERAL_ERROR, "Couldn't get Forum/Category information", "", __LINE__, __FILE__, $sql);
         }
 
-        $count = $titanium_db->sql_fetchrow($result);
+        $count = $pnt_db->sql_fetchrow($result);
 
         $count = $count['total'];
 
@@ -128,17 +128,17 @@ function get_info($mode, $id)
                 WHERE $idfield = $id";
 
 
-        if( !$result = $titanium_db->sql_query($sql) )
+        if( !$result = $pnt_db->sql_query($sql) )
         {
                 message_die(GENERAL_ERROR, "Couldn't get Forum/Category information", "", __LINE__, __FILE__, $sql);
         }
 
-        if( $titanium_db->sql_numrows($result) != 1 )
+        if( $pnt_db->sql_numrows($result) != 1 )
         {
                 message_die(GENERAL_ERROR, "Forum/Category doesn't exist or multiple forums/categories with ID $id", "", __LINE__, __FILE__);
         }
 
-        $return = $titanium_db->sql_fetchrow($result);
+        $return = $pnt_db->sql_fetchrow($result);
 
         $return['number'] = $count;
 
@@ -147,7 +147,7 @@ function get_info($mode, $id)
 
 function get_list($mode, $id, $select)
 {
-        global $titanium_db;
+        global $pnt_db;
 
         switch($mode)
         {
@@ -175,14 +175,14 @@ function get_list($mode, $id, $select)
                 $sql .= " WHERE $idfield <> $id";
         }
 
-        if( !$result = $titanium_db->sql_query($sql) )
+        if( !$result = $pnt_db->sql_query($sql) )
         {
                 message_die(GENERAL_ERROR, "Couldn't get list of Categories/Forums", "", __LINE__, __FILE__, $sql);
         }
 
         $cat_list = "";
 
-        while( $row = $titanium_db->sql_fetchrow($result) )
+        while( $row = $pnt_db->sql_fetchrow($result) )
         {
                 $s = "";
 
@@ -203,26 +203,26 @@ function get_list($mode, $id, $select)
 function get_list_cat($id, $parent, $phpbb2_forum_id)
 {
 
-	global $titanium_db;
+	global $pnt_db;
 
 	# Get categories
 
 	$sql = 'SELECT * FROM ' . CATEGORIES_TABLE . ' ORDER BY cat_order ASC';
 
 
-	if( !($result = $titanium_db->sql_query($sql)) )
+	if( !($result = $pnt_db->sql_query($sql)) )
 	{
 		message_die(GENERAL_ERROR, "Couldn't get list of categories", '', __LINE__, __FILE__, $sql);
 	}
 
 	$cat_list = array();
 
-	while( $row = $titanium_db->sql_fetchrow($result) )
+	while( $row = $pnt_db->sql_fetchrow($result) )
 	{
 		$cat_list[] = $row;
 	}
 
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 
 	# Get all forums and check if forum has subforums
 	$has_sub = false;
@@ -230,14 +230,14 @@ function get_list_cat($id, $parent, $phpbb2_forum_id)
 	$sql = 'SELECT forum_id, cat_id, forum_name, forum_parent FROM ' . FORUMS_TABLE . ' ORDER BY forum_order ASC';
 	
 
-	if( !($result = $titanium_db->sql_query($sql)) )
+	if( !($result = $pnt_db->sql_query($sql)) )
 	{
 		message_die(GENERAL_ERROR, "Couldn't get list of forums", '', __LINE__, __FILE__, $sql);
 	}
 
 	$forums_list = array();
 
-	while( $row = $titanium_db->sql_fetchrow($result) )
+	while( $row = $pnt_db->sql_fetchrow($result) )
 	{
 		if( $row['forum_parent'] > 0 && $row['forum_parent'] == $phpbb2_forum_id )
 		{
@@ -250,7 +250,7 @@ function get_list_cat($id, $parent, $phpbb2_forum_id)
 		}
 	}
 
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 
 	# Generate select
 	for( $i = 0; $i < count($cat_list); $i++ )
@@ -280,7 +280,7 @@ function get_list_cat($id, $parent, $phpbb2_forum_id)
  ******************************************************/
 function renumber_order($mode, $cat = 0)
 {
-        global $titanium_db;
+        global $pnt_db;
 
         switch($mode)
         {
@@ -318,7 +318,7 @@ function renumber_order($mode, $cat = 0)
 
         $sql .= " ORDER BY $orderfield ASC";
 
-        if( !$result = $titanium_db->sql_query($sql) )
+        if( !$result = $pnt_db->sql_query($sql) )
         {
                 message_die(GENERAL_ERROR, "Couldn't get list of Categories", "", __LINE__, __FILE__, $sql);
         }
@@ -327,7 +327,7 @@ function renumber_order($mode, $cat = 0)
 
         $inc = 10;
 
-        while( $row = $titanium_db->sql_fetchrow($result) )
+        while( $row = $pnt_db->sql_fetchrow($result) )
         {
                 $sql = "UPDATE $table
 
@@ -335,7 +335,7 @@ function renumber_order($mode, $cat = 0)
 
                         WHERE $idfield = " . $row[$idfield];
 
-                if( !$titanium_db->sql_query($sql) )
+                if( !$pnt_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, "Couldn't update order fields", "", __LINE__, __FILE__, $sql);
                 }
@@ -461,12 +461,12 @@ if( !empty($mode) )
 
                                        WHERE forum_id = $phpbb2_forum_id";
 
-                                        if(!$pr_result = $titanium_db->sql_query($sql))
+                                        if(!$pr_result = $pnt_db->sql_query($sql))
                                         {
                                            message_die(GENERAL_ERROR, "Auto-Prune: Couldn't read auto_prune table.", __LINE__, __FILE__);
                                         }
 
-                                        $pr_row = $titanium_db->sql_fetchrow($pr_result);
+                                        $pr_row = $pnt_db->sql_fetchrow($pr_result);
                                 }
                                 else
                                 {
@@ -732,12 +732,12 @@ if( !empty($mode) )
 
                                 WHERE cat_id = " . intval($HTTP_POST_VARS[POST_CAT_URL]);
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't get order number from forums table", "", __LINE__, __FILE__, $sql);
                         }
 
-                        $row = $titanium_db->sql_fetchrow($result);
+                        $row = $pnt_db->sql_fetchrow($result);
 
                         $max_order = $row['max_order'];
 
@@ -747,12 +747,12 @@ if( !empty($mode) )
 
                                 FROM " . FORUMS_TABLE;
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't get order number from forums table", "", __LINE__, __FILE__, $sql);
                         }
 
-                        $row = $titanium_db->sql_fetchrow($result);
+                        $row = $pnt_db->sql_fetchrow($result);
 
                         $max_id = $row['max_id'];
 
@@ -837,7 +837,7 @@ if( !empty($mode) )
  [ Mod:    Colorize Forumtitle                 v1.0.0 ]
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't insert row in forums table", "", __LINE__, __FILE__, $sql);
                         }
@@ -853,7 +853,7 @@ if( !empty($mode) )
 
                                         VALUES('" . $next_id . "', " . intval($HTTP_POST_VARS['prune_days']) . ", " . intval($HTTP_POST_VARS['prune_freq']) . ")";
 
-                                if( !$result = $titanium_db->sql_query($sql) )
+                                if( !$result = $pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, "Couldn't insert row in prune table", "", __LINE__, __FILE__, $sql);
                                 }
@@ -886,7 +886,7 @@ if( !empty($mode) )
 							# Move subforums to new category
 							$sql = "UPDATE " . FORUMS_TABLE . " SET cat_id='$new_cat' WHERE forum_parent='$phpbb2_forum_id'";
 
-							$titanium_db->sql_query($sql);
+							$pnt_db->sql_query($sql);
 						}
 /*****[END]********************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
@@ -931,7 +931,7 @@ if( !empty($mode) )
  [ Mod:    Colorize Forumtitle                 v1.0.0 ]
  [ Mod:    Topic display order                 v1.0.2 ]
  ******************************************************/
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't update forum information", "", __LINE__, __FILE__, $sql);
                         }
@@ -949,12 +949,12 @@ if( !empty($mode) )
 
                                         WHERE forum_id = " . intval($HTTP_POST_VARS[POST_FORUM_URL]);
 
-                                if( !$result = $titanium_db->sql_query($sql) )
+                                if( !$result = $pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, "Couldn't get forum Prune Information","",__LINE__, __FILE__, $sql);
                                 }
 
-                                if( $titanium_db->sql_numrows($result) > 0 )
+                                if( $pnt_db->sql_numrows($result) > 0 )
                                 {
                                         $sql = "UPDATE " . PRUNE_TABLE . "
 
@@ -969,7 +969,7 @@ if( !empty($mode) )
                                     VALUES(" . intval($HTTP_POST_VARS[POST_FORUM_URL]) . ", " . intval($HTTP_POST_VARS['prune_days']) . ", " . intval($HTTP_POST_VARS['prune_freq']) . ")";
                                 }
 
-                                if( !$result = $titanium_db->sql_query($sql) )
+                                if( !$result = $pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, "Couldn't Update Forum Prune Information","",__LINE__, __FILE__, $sql);
                                 }
@@ -992,12 +992,12 @@ if( !empty($mode) )
 
                                 FROM " . CATEGORIES_TABLE;
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't get order number from categories table", "", __LINE__, __FILE__, $sql);
                         }
 
-                        $row = $titanium_db->sql_fetchrow($result);
+                        $row = $pnt_db->sql_fetchrow($result);
 
                         $max_order = $row['max_order'];
 
@@ -1008,7 +1008,7 @@ if( !empty($mode) )
 
                                 VALUES ('" . str_replace("\'", "''", $HTTP_POST_VARS['categoryname']) . "', $next_order)";
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't insert row in categories table", "", __LINE__, __FILE__, $sql);
                         }
@@ -1072,7 +1072,7 @@ if( !empty($mode) )
 
                                 WHERE cat_id = " . intval($HTTP_POST_VARS[POST_CAT_URL]);
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't update forum information", "", __LINE__, __FILE__, $sql);
                         }
@@ -1160,12 +1160,12 @@ if( !empty($mode) )
 
                                                 AND v.topic_id = t.topic_id";
 
-                                if (!($result = $titanium_db->sql_query($sql)))
+                                if (!($result = $pnt_db->sql_query($sql)))
                                 {
                                         message_die(GENERAL_ERROR, "Couldn't obtain list of vote ids", "", __LINE__, __FILE__, $sql);
                                 }
 
-                                if ($row = $titanium_db->sql_fetchrow($result))
+                                if ($row = $pnt_db->sql_fetchrow($result))
                                 {
                                         $vote_ids = '';
 
@@ -1174,28 +1174,28 @@ if( !empty($mode) )
                                                 $vote_ids .= (($vote_ids != '') ? ', ' : '') . $row['vote_id'];
                                         }
 
-                                        while ($row = $titanium_db->sql_fetchrow($result));
+                                        while ($row = $pnt_db->sql_fetchrow($result));
 
                                         $sql = "DELETE FROM " . VOTE_DESC_TABLE . "
 
                                                 WHERE vote_id IN ($vote_ids)";
 
-                                        $titanium_db->sql_query($sql);
+                                        $pnt_db->sql_query($sql);
 
                                         $sql = "DELETE FROM " . VOTE_RESULTS_TABLE . "
 
                                                 WHERE vote_id IN ($vote_ids)";
 
-                                        $titanium_db->sql_query($sql);
+                                        $pnt_db->sql_query($sql);
 
                                         $sql = "DELETE FROM " . VOTE_USERS_TABLE . "
 
                                                 WHERE vote_id IN ($vote_ids)";
 
-                                        $titanium_db->sql_query($sql);
+                                        $pnt_db->sql_query($sql);
                                 }
 
-                                $titanium_db->sql_freeresult($result);
+                                $pnt_db->sql_freeresult($result);
 
                                 include("../../../includes/prune.php");
 
@@ -1209,12 +1209,12 @@ if( !empty($mode) )
 
                                         WHERE forum_id IN ($from_id, $to_id)";
 
-                                if( !$result = $titanium_db->sql_query($sql) )
+                                if( !$result = $pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, "Couldn't verify existence of forums", "", __LINE__, __FILE__, $sql);
                                 }
 
-                                if($titanium_db->sql_numrows($result) != 2)
+                                if($pnt_db->sql_numrows($result) != 2)
                                 {
                                         message_die(GENERAL_ERROR, "Ambiguous forum ID's", "", __LINE__, __FILE__);
                                 }
@@ -1225,7 +1225,7 @@ if( !empty($mode) )
 
                                         WHERE forum_id = $from_id";
 
-                                if( !$result = $titanium_db->sql_query($sql) )
+                                if( !$result = $pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, "Couldn't move topics to other forum", "", __LINE__, __FILE__, $sql);
                                 }
@@ -1236,7 +1236,7 @@ if( !empty($mode) )
 
                                         WHERE forum_id = $from_id";
 
-                                if( !$result = $titanium_db->sql_query($sql) )
+                                if( !$result = $pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, "Couldn't move posts to other forum", "", __LINE__, __FILE__, $sql);
                                 }
@@ -1255,21 +1255,21 @@ if( !empty($mode) )
 
                                         AND ug.group_id = a.group_id";
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't obtain moderator list", "", __LINE__, __FILE__, $sql);
                         }
 
-                        if ($row = $titanium_db->sql_fetchrow($result))
+                        if ($row = $pnt_db->sql_fetchrow($result))
                         {
-                                $titanium_user_ids = '';
+                                $pnt_user_ids = '';
 
                                 do
                                 {
-                                        $titanium_user_ids .= (($titanium_user_ids != '') ? ', ' : '' ) . $row['user_id'];
+                                        $pnt_user_ids .= (($pnt_user_ids != '') ? ', ' : '' ) . $row['user_id'];
                                 }
 
-                                while ($row = $titanium_db->sql_fetchrow($result));
+                                while ($row = $pnt_db->sql_fetchrow($result));
 
                                 $sql = "SELECT ug.user_id
 
@@ -1281,45 +1281,45 @@ if( !empty($mode) )
 
                                                 AND ug.group_id = a.group_id
 
-                                                AND ug.user_id NOT IN ($titanium_user_ids)";
+                                                AND ug.user_id NOT IN ($pnt_user_ids)";
 
-                                if( !$result2 = $titanium_db->sql_query($sql) )
+                                if( !$result2 = $pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, "Couldn't obtain moderator list", "", __LINE__, __FILE__, $sql);
                                 }
 
-                                if ($row = $titanium_db->sql_fetchrow($result2))
+                                if ($row = $pnt_db->sql_fetchrow($result2))
                                 {
-                                        $titanium_user_ids = '';
+                                        $pnt_user_ids = '';
                                         do
                                         {
-                                                $titanium_user_ids .= (($titanium_user_ids != '') ? ', ' : '' ) . $row['user_id'];
+                                                $pnt_user_ids .= (($pnt_user_ids != '') ? ', ' : '' ) . $row['user_id'];
                                         }
 
-                                        while ($row = $titanium_db->sql_fetchrow($result2));
+                                        while ($row = $pnt_db->sql_fetchrow($result2));
 
                                         $sql = "UPDATE " . USERS_TABLE . "
 
                                                 SET user_level = " . USER . "
 
-                                                WHERE user_id IN ($titanium_user_ids)
+                                                WHERE user_id IN ($pnt_user_ids)
 
                                                         AND user_level <> " . ADMIN;
 
-                                        $titanium_db->sql_query($sql);
+                                        $pnt_db->sql_query($sql);
                                 }
 
-                                $titanium_db->sql_freeresult($result);
+                                $pnt_db->sql_freeresult($result);
 
                         }
 
-                        $titanium_db->sql_freeresult($result2);
+                        $pnt_db->sql_freeresult($result2);
 
                         $sql = "DELETE FROM " . FORUMS_TABLE . "
 
                                 WHERE forum_id = $from_id";
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't delete forum", "", __LINE__, __FILE__, $sql);
                         }
@@ -1330,7 +1330,7 @@ if( !empty($mode) )
 						// Move subforums to category
 						$sql = "UPDATE " . FORUMS_TABLE . " SET forum_parent = '0' WHERE forum_parent = '$from_id'";
 
-						$titanium_db->sql_query($sql);
+						$pnt_db->sql_query($sql);
 /*****[END]********************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
@@ -1338,7 +1338,7 @@ if( !empty($mode) )
 
                                 WHERE forum_id = $from_id";
 
-                       if( !$result = $titanium_db->sql_query($sql) )
+                       if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't delete forum", "", __LINE__, __FILE__, $sql);
                         }
@@ -1347,7 +1347,7 @@ if( !empty($mode) )
 
                                 WHERE forum_id = $from_id";
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't delete forum prune information!", "", __LINE__, __FILE__, $sql);
                         }
@@ -1376,12 +1376,12 @@ if( !empty($mode) )
 
                                         FROM ". FORUMS_TABLE;
 
-                                if( !$result = $titanium_db->sql_query($sql) )
+                                if( !$result = $pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, "Couldn't get Forum count", "", __LINE__, __FILE__, $sql);
                                 }
 
-                                $count = $titanium_db->sql_fetchrow($result);
+                                $count = $pnt_db->sql_fetchrow($result);
 
                                 $count = $count['total'];
 
@@ -1446,12 +1446,12 @@ if( !empty($mode) )
 
                                         WHERE cat_id IN ($from_id, $to_id)";
 
-                                if( !$result = $titanium_db->sql_query($sql) )
+                                if( !$result = $pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, "Couldn't verify existence of categories", "", __LINE__, __FILE__, $sql);
                                 }
 
-                                if($titanium_db->sql_numrows($result) != 2)
+                                if($pnt_db->sql_numrows($result) != 2)
                                 {
                                         message_die(GENERAL_ERROR, "Ambiguous category ID's", "", __LINE__, __FILE__);
                                 }
@@ -1462,7 +1462,7 @@ if( !empty($mode) )
 
                                         WHERE cat_id = $from_id";
 
-                                if( !$result = $titanium_db->sql_query($sql) )
+                                if( !$result = $pnt_db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, "Couldn't move forums to other category", "", __LINE__, __FILE__, $sql);
                                 }
@@ -1472,7 +1472,7 @@ if( !empty($mode) )
 
                                 WHERE cat_id = $from_id";
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't delete category", "", __LINE__, __FILE__, $sql);
                         }
@@ -1531,25 +1531,25 @@ if( !empty($mode) )
 								ORDER BY forum_order DESC";
 							}
 
-							if( !($result = $titanium_db->sql_query($sql)) )
+							if( !($result = $pnt_db->sql_query($sql)) )
 							{
 								message_die(GENERAL_ERROR, "Couldn't change category order", '', __LINE__, __FILE__, $sql);
 							}
 
-							$row = $titanium_db->sql_fetchrow($result);
+							$row = $pnt_db->sql_fetchrow($result);
 
-							$titanium_db->sql_freeresult($result);
+							$pnt_db->sql_freeresult($result);
 
 							if($row !== false)
 							{
 								// Swap forum orders
 								$sql = "UPDATE " . FORUMS_TABLE . " SET forum_order = '" . $row['forum_order'] . "' WHERE forum_id = '$phpbb2_forum_id'";
 
-								$titanium_db->sql_query($sql);
+								$pnt_db->sql_query($sql);
 
 								$sql = "UPDATE " . FORUMS_TABLE . " SET forum_order = '" . $forum_info['forum_order'] . "' WHERE forum_id = '" . $row['forum_id'] . "'";
 
-								$titanium_db->sql_query($sql);
+								$pnt_db->sql_query($sql);
 							}
 						}
 						else
@@ -1563,7 +1563,7 @@ if( !empty($mode) )
 
                                 WHERE forum_id = $phpbb2_forum_id";
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't change category order", "", __LINE__, __FILE__, $sql);
                         }
@@ -1590,7 +1590,7 @@ if( !empty($mode) )
 
                                 WHERE cat_id = $cat_id";
 
-                        if( !$result = $titanium_db->sql_query($sql) )
+                        if( !$result = $pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't change category order", "", __LINE__, __FILE__, $sql);
                         }
@@ -1657,14 +1657,14 @@ $sql = "SELECT cat_id, cat_title, cat_order
 
         ORDER BY cat_order";
 
-if( !$q_categories = $titanium_db->sql_query($sql) )
+if( !$q_categories = $pnt_db->sql_query($sql) )
 {
         message_die(GENERAL_ERROR, "Could not query categories list", "", __LINE__, __FILE__, $sql);
 }
 
-if( $total_phpbb2_categories = $titanium_db->sql_numrows($q_categories) )
+if( $total_phpbb2_categories = $pnt_db->sql_numrows($q_categories) )
 {
-        $category_rows = $titanium_db->sql_fetchrowset($q_categories);
+        $category_rows = $pnt_db->sql_fetchrowset($q_categories);
 
         $sql = "SELECT *
 
@@ -1672,14 +1672,14 @@ if( $total_phpbb2_categories = $titanium_db->sql_numrows($q_categories) )
 
                 ORDER BY cat_id, forum_order";
 
-        if(!$q_forums = $titanium_db->sql_query($sql))
+        if(!$q_forums = $pnt_db->sql_query($sql))
         {
                 message_die(GENERAL_ERROR, "Could not query forums information", "", __LINE__, __FILE__, $sql);
         }
 
-        if( $total_phpbb2_forums = $titanium_db->sql_numrows($q_forums) )
+        if( $total_phpbb2_forums = $pnt_db->sql_numrows($q_forums) )
         {
-                $forum_rows = $titanium_db->sql_fetchrowset($q_forums);
+                $forum_rows = $pnt_db->sql_fetchrowset($q_forums);
         }
 
         # Okay, let's build the index

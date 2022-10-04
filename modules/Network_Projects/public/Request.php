@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 $request_id = intval($request_id);
 $request = pjrequest_info($request_id);
@@ -69,10 +69,10 @@ if($project['allowrequests'] > 0) {
   echo "<td colspan='3' width='100%'><nobr>"._NETWORK_MODIFIED.": <strong>$modify_date</strong></nobr></td></tr>\n";
   echo "<tr><td bgcolor='$bgcolor2' colspan='3' width='100%'><nobr><strong>"._NETWORK_REQUESTMEMBERS."</strong></nobr></td>";
   echo "<td bgcolor='$bgcolor2' align='center'><strong>"._NETWORK_POSITION."</strong></td></tr>\n";
-  $memberresult = $titanium_db2->sql_query("SELECT `member_id`, `position_id` FROM `".$network_prefix."_requests_members` WHERE `request_id`='$request_id' ORDER BY `member_id`");
-  $member_total = $titanium_db2->sql_numrows($memberresult);
+  $memberresult = $pnt_db2->sql_query("SELECT `member_id`, `position_id` FROM `".$network_prefix."_requests_members` WHERE `request_id`='$request_id' ORDER BY `member_id`");
+  $member_total = $pnt_db2->sql_numrows($memberresult);
   if($member_total != 0){
-    while(list($member_id, $position_id) = $titanium_db2->sql_fetchrow($memberresult)) {
+    while(list($member_id, $position_id) = $pnt_db2->sql_fetchrow($memberresult)) {
       $pjimage = pjimage("member.png", $pnt_module);
       $member = pjmember_info($member_id);
       $position = pjmemberposition_info($position_id);
@@ -95,13 +95,13 @@ if($project['allowrequests'] > 0) {
   echo "</table>\n";
   CloseTable();
   //echo "<br />\n";
-  $commentresult = $titanium_db2->sql_query("SELECT `comment_id` FROM `".$network_prefix."_requests_comments` WHERE `request_id`='$request_id' ORDER BY `date_commented` asc");
-  $comment_total = $titanium_db2->sql_numrows($commentresult);
+  $commentresult = $pnt_db2->sql_query("SELECT `comment_id` FROM `".$network_prefix."_requests_comments` WHERE `request_id`='$request_id' ORDER BY `date_commented` asc");
+  $comment_total = $pnt_db2->sql_numrows($commentresult);
   OpenTable();
   echo "<table border='1' cellpadding='2' cellspacing='0' width='100%'>\n";
   echo "<tr><td bgcolor='$bgcolor2' width='100%'><nobr><strong>"._NETWORK_COMMENTS."</strong> <strong>(</strong> <a href='modules.php?name=$pnt_module&amp;op=RequestCommentSubmit&amp;request_id=$request_id'>"._NETWORK_COMMENTADD."</a> <strong>)</strong></nobr></td><tr>\n";
   if($comment_total > 0){
-    while(list($comment_id) = $titanium_db2->sql_fetchrow($commentresult)) {
+    while(list($comment_id) = $pnt_db2->sql_fetchrow($commentresult)) {
       $comment = pjrequestcomment_info($comment_id);
       $comment_date = date($pj_config['request_date_format'], $comment['date_commented']);    
       echo "<tr><td bgcolor='$bgcolor2'><nobr><strong><a href='mailto:".pjencode_email($comment['commenter_email'])."'>".$comment['commenter_name']."</a> @ $comment_date</strong>";

@@ -62,7 +62,7 @@ else
 OpenTable();
 #########################################################################	
 	
-$titanium_browser = new Browser();
+$pnt_browser = new Browser();
 
 OpenTable2();
 

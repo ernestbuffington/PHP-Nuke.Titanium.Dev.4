@@ -41,7 +41,7 @@ require_once('includes/bbcode.'. $phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_GAME, $nukeuser);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_GAME, $nukeuser);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -81,12 +81,12 @@ else
 {
 $sql = "SELECT * FROM " . POSTS_TABLE . " WHERE poster_id = $uid and post_time BETWEEN $old_time AND $current_time";
 }
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not obtain forums information', '', __LINE__, __FILE__, $sql);
     }
 
-    $Amount_Of_Posts = $titanium_db->sql_numrows( $result );
+    $Amount_Of_Posts = $pnt_db->sql_numrows( $result );
 
 
     if($Amount_Of_Posts < $phpbb2_posts)
@@ -116,12 +116,12 @@ else    {
 
 $sql = "SELECT g.* , MAX(s.score_game) AS highscore FROM " . GAMES_TABLE . " g LEFT JOIN " . SCORES_TABLE . " s ON g.game_id = s.game_id WHERE g.game_id = $gid GROUP BY g.game_id, g.game_highscore";
 
-if (!($result = $titanium_db->sql_query($sql)))
+if (!($result = $pnt_db->sql_query($sql)))
 {
         message_die(GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql);
 }
 
-if (!($row = $titanium_db->sql_fetchrow($result)) )
+if (!($row = $pnt_db->sql_fetchrow($result)) )
 {
         message_die(GENERAL_ERROR, "This game does not exist", '', __LINE__, __FILE__, $sql);
 }
@@ -142,7 +142,7 @@ $phpbb2_template->set_filenames(array(
 
 $sql = "DELETE FROM " . GAMEHASH_TABLE . " WHERE hash_date < " . (time() - 72000);
 
-if (!$titanium_db->sql_query($sql))
+if (!$pnt_db->sql_query($sql))
 {
         message_die(GENERAL_ERROR, "Could not delete from game hash table", '', __LINE__, __FILE__, $sql);
 }
@@ -151,10 +151,10 @@ if (!$titanium_db->sql_query($sql))
 if ($row['game_type'] == 3) {
         $type_v2 = true;
         $phpbb2_template->assign_block_vars('game_type_V2',array());
-        $gamehash_id = md5(uniqid($titanium_user_ip));
+        $gamehash_id = md5(uniqid($pnt_user_ip));
         $sql = "INSERT INTO " . GAMEHASH_TABLE . " (gamehash_id , game_id , user_id , hash_date) VALUES ('$gamehash_id' , '$gid' , '" . $userdata['user_id'] . "' , '" . time() . "')";
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
                 {
                 message_die(GENERAL_ERROR, "Could not delete from game hash table", '', __LINE__, __FILE__, $sql);
         }
@@ -174,10 +174,10 @@ elseif ($row['game_type'] == 4 or $row['game_type'] == 5)
         setcookie('timestarted', '', time() - 3600);
         setcookie('timestarted', time());
 
-        $gamehash_id = md5($titanium_user_ip);
+        $gamehash_id = md5($pnt_user_ip);
         $sql = "INSERT INTO " . GAMEHASH_TABLE . " (gamehash_id , game_id , user_id , hash_date) VALUES ('$gamehash_id' , '$gid' , '" . $userdata['user_id'] . "' , '" . time() . "')";
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
                 {
                 message_die(GENERAL_ERROR, "Couldn't update hashtable", '', __LINE__, __FILE__, $sql);
         }
@@ -191,10 +191,10 @@ else
 
 setcookie('arcadepopup', '', time() - 3600);
 setcookie('arcadepopup', '0');
-global $titanium_prefix;
-$sql = "SELECT arcade_cattitle FROM `".$titanium_prefix."_bbarcade_categories` WHERE arcade_catid = " . $row['arcade_catid'];
-$result = $titanium_db->sql_query($sql);
-$ourrow = $titanium_db->sql_fetchrow($result);
+global $pnt_prefix;
+$sql = "SELECT arcade_cattitle FROM `".$pnt_prefix."_bbarcade_categories` WHERE arcade_catid = " . $row['arcade_catid'];
+$result = $pnt_db->sql_query($sql);
+$ourrow = $pnt_db->sql_fetchrow($result);
 $cat_title = $ourrow['arcade_cattitle'];
 
 $phpbb2_template->assign_vars(array(
@@ -216,19 +216,19 @@ $phpbb2_template->assign_vars(array(
 
 $sql = "SELECT s.* , u.username, u.user_avatar_type, u.user_allowavatar, u.user_avatar FROM " . SCORES_TABLE . " s LEFT JOIN " . USERS_TABLE . " u ON s.user_id = u.user_id WHERE game_id = $gid ORDER BY s.score_game DESC, s.score_date ASC LIMIT 0,15 ";
 
-if (!($result = $titanium_db->sql_query($sql)))
+if (!($result = $pnt_db->sql_query($sql)))
 {
         message_die(GENERAL_ERROR, "Could not read from scores table", '', __LINE__, __FILE__, $sql);
 }
 
 $sql = "SELECT comments_value FROM " . COMMENTS_TABLE . " WHERE game_id = $gid";
 
-if( !($result_comment = $titanium_db->sql_query($sql)) )
+if( !($result_comment = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, "Error retrieving comment from comment table", '', __LINE__, __FILE__, $sql);
 }
 
-$row_comment = $titanium_db->sql_fetchrow($result_comment);
+$row_comment = $pnt_db->sql_fetchrow($result_comment);
 
 //
 // Define censored word matches
@@ -253,13 +253,13 @@ $comment='';
 $pos = 0;
 $posreelle = 0;
 $lastscore = 0;
-while ($row = $titanium_db->sql_fetchrow($result)) {
+while ($row = $pnt_db->sql_fetchrow($result)) {
         $posreelle++;
 
         if ($posreelle == 1) {
-                $titanium_user_avatar_type = $row['user_avatar_type'];
-                $titanium_user_allowavatar = $row['user_allowavatar'];
-                $titanium_user_avatar = $row['user_avatar'];
+                $pnt_user_avatar_type = $row['user_avatar_type'];
+                $pnt_user_allowavatar = $row['user_allowavatar'];
+                $pnt_user_avatar = $row['user_avatar'];
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -295,18 +295,18 @@ while ($row = $titanium_db->sql_fetchrow($result)) {
 }
 
 $avatar_img = '';
-if ($titanium_user_avatar_type && $titanium_user_allowavatar) {
-        switch($titanium_user_avatar_type) {
+if ($pnt_user_avatar_type && $pnt_user_allowavatar) {
+        switch($pnt_user_avatar_type) {
                 case USER_AVATAR_UPLOAD:
-                        $avatar_img = ($phpbb2_board_config['allow_avatar_upload']) ? '<img src="' . $phpbb2_board_config['avatar_path'] . '/' . $titanium_user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center" onload="resize_avatar(this)"/>' : '';
+                        $avatar_img = ($phpbb2_board_config['allow_avatar_upload']) ? '<img src="' . $phpbb2_board_config['avatar_path'] . '/' . $pnt_user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center" onload="resize_avatar(this)"/>' : '';
                         break;
 
                 case USER_AVATAR_REMOTE:
-                        $avatar_img = ($phpbb2_board_config['allow_avatar_remote']) ? '<img src="' . $titanium_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center"  onload="resize_avatar(this)"/>' : '';
+                        $avatar_img = ($phpbb2_board_config['allow_avatar_remote']) ? '<img src="' . $pnt_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center"  onload="resize_avatar(this)"/>' : '';
                         break;
 
                 case USER_AVATAR_GALLERY:
-                        $avatar_img = ($phpbb2_board_config['allow_avatar_local']) ? '<img src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . $titanium_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center"  onload="resize_avatar(this)"/>' : '';
+                        $avatar_img = ($phpbb2_board_config['allow_avatar_local']) ? '<img src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . $pnt_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center"  onload="resize_avatar(this)"/>' : '';
                         break;
         }
 }

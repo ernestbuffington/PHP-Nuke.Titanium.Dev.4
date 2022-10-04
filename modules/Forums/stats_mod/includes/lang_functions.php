@@ -239,28 +239,28 @@ function get_lang_entries($short_name, $language)
 }
 
 // Set specific language key, $value is the new key value
-function set_lang_entry($language, $titanium_module_id, $key, $value)
+function set_lang_entry($language, $pnt_module_id, $key, $value)
 {
-    global $directory_mode, $file_mode, $titanium_db, $phpbb2_root_path;
+    global $directory_mode, $file_mode, $pnt_db, $phpbb2_root_path;
 
     $language = trim($language);
-    $titanium_module_id = intval($titanium_module_id);
+    $pnt_module_id = intval($pnt_module_id);
     $lang_key = trim($key);
     $lang_value = trim($value);
 
-    $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE module_id = " . $titanium_module_id;
+    $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE module_id = " . $pnt_module_id;
 
-    if (!($result = $titanium_db->sql_query($sql)) )
+    if (!($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
     }
     
-    if ($titanium_db->sql_numrows($result) == 0)
+    if ($pnt_db->sql_numrows($result) == 0)
     {
-        message_die(GENERAL_ERROR, 'Unable to get Module ' . $titanium_module_id);
+        message_die(GENERAL_ERROR, 'Unable to get Module ' . $pnt_module_id);
     }
         
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
     $short_name = trim($row['short_name']);
     $lang_entries = array();
 
@@ -357,27 +357,27 @@ function set_lang_entry($language, $titanium_module_id, $key, $value)
 }
 
 // Set specific language block, $lang_block is the new language definition block as string
-function set_lang_block($language, $titanium_module_id, $lang_block)
+function set_lang_block($language, $pnt_module_id, $lang_block)
 {
-    global $directory_mode, $file_mode, $titanium_db, $phpbb2_root_path;
+    global $directory_mode, $file_mode, $pnt_db, $phpbb2_root_path;
 
     $language = trim($language);
-    $titanium_module_id = intval($titanium_module_id);
+    $pnt_module_id = intval($pnt_module_id);
     $lang_block = trim($lang_block);
 
-    $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE module_id = " . $titanium_module_id;
+    $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE module_id = " . $pnt_module_id;
 
-    if (!($result = $titanium_db->sql_query($sql)) )
+    if (!($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
     }
     
-    if ($titanium_db->sql_numrows($result) == 0)
+    if ($pnt_db->sql_numrows($result) == 0)
     {
-        message_die(GENERAL_ERROR, 'Unable to get Module ' . $titanium_module_id);
+        message_die(GENERAL_ERROR, 'Unable to get Module ' . $pnt_module_id);
     }
         
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
     $short_name = trim($row['short_name']);
     $lang_entries = array();
 
@@ -444,28 +444,28 @@ function set_lang_block($language, $titanium_module_id, $lang_block)
 }
 
 // Add new key to a modules language block
-function lang_add_new_key($language, $titanium_module_id, $add_key, $add_value)
+function lang_add_new_key($language, $pnt_module_id, $add_key, $add_value)
 {
-    global $directory_mode, $file_mode, $titanium_db, $phpbb2_root_path;
+    global $directory_mode, $file_mode, $pnt_db, $phpbb2_root_path;
 
     $language = trim($language);
-    $titanium_module_id = intval($titanium_module_id);
+    $pnt_module_id = intval($pnt_module_id);
     $add_key = trim($add_key);
     $add_value = trim($add_value);
 
-    $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE module_id = " . $titanium_module_id;
+    $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE module_id = " . $pnt_module_id;
 
-    if (!($result = $titanium_db->sql_query($sql)) )
+    if (!($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
     }
     
-    if ($titanium_db->sql_numrows($result) == 0)
+    if ($pnt_db->sql_numrows($result) == 0)
     {
-        message_die(GENERAL_ERROR, 'Unable to get Module ' . $titanium_module_id);
+        message_die(GENERAL_ERROR, 'Unable to get Module ' . $pnt_module_id);
     }
         
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
     $short_name = trim($row['short_name']);
     $lang_entries = array();
 
@@ -563,27 +563,27 @@ function lang_add_new_key($language, $titanium_module_id, $add_key, $add_value)
 }
 
 // Delete key out of language block
-function delete_lang_key($language, $titanium_module_id, $key_name)
+function delete_lang_key($language, $pnt_module_id, $key_name)
 {
-    global $directory_mode, $file_mode, $titanium_db, $phpbb2_root_path;
+    global $directory_mode, $file_mode, $pnt_db, $phpbb2_root_path;
 
     $language = trim($language);
-    $titanium_module_id = intval($titanium_module_id);
+    $pnt_module_id = intval($pnt_module_id);
     $key_name = trim($key_name);
 
-    $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE module_id = " . $titanium_module_id;
+    $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE module_id = " . $pnt_module_id;
 
-    if (!($result = $titanium_db->sql_query($sql)) )
+    if (!($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
     }
     
-    if ($titanium_db->sql_numrows($result) == 0)
+    if ($pnt_db->sql_numrows($result) == 0)
     {
-        message_die(GENERAL_ERROR, 'Unable to get Module ' . $titanium_module_id);
+        message_die(GENERAL_ERROR, 'Unable to get Module ' . $pnt_module_id);
     }
         
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
     $short_name = trim($row['short_name']);
     $lang_entries = array();
 
@@ -676,7 +676,7 @@ function delete_lang_key($language, $titanium_module_id, $key_name)
 // Add Empty Language
 function add_empty_language($new_language)
 {
-    global $directory_mode, $file_mode, $titanium_db, $phpbb2_root_path, $lang;
+    global $directory_mode, $file_mode, $pnt_db, $phpbb2_root_path, $lang;
 
     $language = trim($new_language);
 
@@ -703,18 +703,18 @@ function add_empty_language($new_language)
 
     $sql = "SELECT short_name FROM " . MODULES_TABLE;
 
-    if (!($result = $titanium_db->sql_query($sql)) )
+    if (!($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
     }
     
-    if ($titanium_db->sql_numrows($result) == 0)
+    if ($pnt_db->sql_numrows($result) == 0)
     {
         message_die(GENERAL_ERROR, 'Unable to get Modules');
     }
         
-    $rows = $titanium_db->sql_fetchrowset($result);
-    $num_rows = $titanium_db->sql_numrows($result);
+    $rows = $pnt_db->sql_fetchrowset($result);
+    $num_rows = $pnt_db->sql_numrows($result);
 
     for ($i = 0; $i < $num_rows; $i++)
     {
@@ -763,7 +763,7 @@ function add_empty_language($new_language)
 // Add new Language, use schema
 function add_new_language($new_language, $lang_schema)
 {
-    global $directory_mode, $file_mode, $titanium_db, $phpbb2_root_path, $lang;
+    global $directory_mode, $file_mode, $pnt_db, $phpbb2_root_path, $lang;
 
     $language = trim($new_language);
     $lang_schema = trim($lang_schema);
@@ -817,9 +817,9 @@ function add_new_language($new_language, $lang_schema)
 }
 
 // Add Language, Language Content is provided
-function add_new_language_predefined($new_language, $titanium_modules)
+function add_new_language_predefined($new_language, $pnt_modules)
 {
-    global $directory_mode, $file_mode, $titanium_db, $phpbb2_root_path, $lang;
+    global $directory_mode, $file_mode, $pnt_db, $phpbb2_root_path, $lang;
 
     // Module content is defined as array(short_name, content)
 
@@ -846,8 +846,8 @@ function add_new_language_predefined($new_language, $titanium_modules)
 
     $language_file = $phpbb2_root_path . 'modules/language/' . $language . '/lang_modules.php';
 
-    @reset($titanium_modules);
-    while (list($short_name, $lang_content) = each($titanium_modules))
+    @reset($pnt_modules);
+    while (list($short_name, $lang_content) = each($pnt_modules))
     {
         $short_name = trim($short_name);
 
@@ -893,7 +893,7 @@ function add_new_language_predefined($new_language, $titanium_modules)
 
 function delete_complete_language($language)
 {
-    global $titanium_db, $phpbb2_root_path;
+    global $pnt_db, $phpbb2_root_path;
 
     $language = trim($language);
 

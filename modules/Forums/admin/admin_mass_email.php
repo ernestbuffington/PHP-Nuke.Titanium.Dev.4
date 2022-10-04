@@ -29,7 +29,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $titanium_module['General']['Mass_Email'] = $filename;
+        $pnt_module['General']['Mass_Email'] = $filename;
 
         return;
 }
@@ -77,21 +77,21 @@ if ( isset($HTTP_POST_VARS['submit']) )
         $group_id = intval($HTTP_POST_VARS[POST_GROUPS_URL]);
 
         $sql = ( $group_id != -1 ) ? "SELECT u.user_email FROM " . USERS_TABLE . " u, " . USER_GROUP_TABLE . " ug WHERE ug.group_id = $group_id AND ug.user_pending <> " . TRUE . " AND u.user_id = ug.user_id" : "SELECT user_email FROM " . USERS_TABLE;
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not select group members', '', __LINE__, __FILE__, $sql);
         }
 
-        if ( $row = $titanium_db->sql_fetchrow($result) )
+        if ( $row = $pnt_db->sql_fetchrow($result) )
         {
                 $bcc_list = array();
                 do
                 {
                         $bcc_list[] = $row['user_email'];
                 }
-                while ( $row = $titanium_db->sql_fetchrow($result) );
+                while ( $row = $pnt_db->sql_fetchrow($result) );
 
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
         }
         else
         {
@@ -132,7 +132,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                 $email_headers = 'X-AntiAbuse: Board servername - ' . $phpbb2_board_config['server_name'] . "\n";
                 $email_headers .= 'X-AntiAbuse: User_id - ' . $userdata['user_id'] . "\n";
                 $email_headers .= 'X-AntiAbuse: Username - ' . $userdata['username'] . "\n";
-                $email_headers .= 'X-AntiAbuse: User IP - ' . decode_ip($titanium_user_ip) . "\n";
+                $email_headers .= 'X-AntiAbuse: User IP - ' . decode_ip($pnt_user_ip) . "\n";
 
                 $emailer->use_template('admin_send_email');
                 $emailer->email_address($phpbb2_board_config['board_email']);
@@ -169,19 +169,19 @@ if ( $error )
 $sql = "SELECT group_id, group_name
         FROM ".GROUPS_TABLE . "
         WHERE group_single_user <> 1";
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
         message_die(GENERAL_ERROR, 'Could not obtain list of groups', '', __LINE__, __FILE__, $sql);
 }
 
 $select_list = '<select name = "' . POST_GROUPS_URL . '"><option value = "-1">' . $lang['All_users'] . '</option>';
-if ( $row = $titanium_db->sql_fetchrow($result) )
+if ( $row = $pnt_db->sql_fetchrow($result) )
 {
         do
         {
                 $select_list .= '<option value = "' . $row['group_id'] . '">' . $row['group_name'] . '</option>';
         }
-        while ( $row = $titanium_db->sql_fetchrow($result) );
+        while ( $row = $pnt_db->sql_fetchrow($result) );
 }
 $select_list .= '</select>';
 

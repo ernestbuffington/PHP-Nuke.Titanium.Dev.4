@@ -31,7 +31,7 @@ get_lang($pnt_module);
 
 include_once(NUKE_BASE_DIR.'header.php');
 
-global $titanium_prefix, $titanium_db, $textcolor1, $fieldset_color, $fieldset_border_width, $digits_color;
+global $pnt_prefix, $pnt_db, $textcolor1, $fieldset_color, $fieldset_border_width, $digits_color;
 
 title($sitename.' '.'Blogs Top 10');
 
@@ -63,14 +63,14 @@ echo '<legend align="center" id="Legend5" runat="server" visible="true" style="w
       margin-bottom: 0px; font-weight: bold;"><font color="'.$textcolor1.'">'.$top.' '._MOST_READ_BLOG_POSTS.'</font></strong></legend>';
 
 echo '<br />';
-$result = $titanium_db->sql_query("SELECT sid, title, counter FROM ".$titanium_prefix."_stories $queryalang ORDER BY counter DESC LIMIT 0,$top");
+$result = $pnt_db->sql_query("SELECT sid, title, counter FROM ".$pnt_prefix."_stories $queryalang ORDER BY counter DESC LIMIT 0,$top");
 
-if($titanium_db->sql_numrows($result) > 0): 
+if($pnt_db->sql_numrows($result) > 0): 
 
     echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
     echo '<ol>';
     
-	while ($row = $titanium_db->sql_fetchrow($result)) 
+	while ($row = $pnt_db->sql_fetchrow($result)) 
 	{
         $sid = intval($row['sid']);
         $title = stripslashes(check_html($row['title'], "nohtml"));
@@ -88,13 +88,13 @@ if($titanium_db->sql_numrows($result) > 0):
 	echo '<br />';
 
 endif;
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 ##############################################################################################################################################################################
 # Top 10 most voted Blogs 
 ##############################################################################################################################################################################
-$result2 = $titanium_db->sql_query("SELECT sid, title, ratings FROM ".$titanium_prefix."_stories $querya1lang score!='0' ORDER BY ratings DESC LIMIT 0,$top");
-if ($titanium_db->sql_numrows($result2) > 0) 
+$result2 = $pnt_db->sql_query("SELECT sid, title, ratings FROM ".$pnt_prefix."_stories $querya1lang score!='0' ORDER BY ratings DESC LIMIT 0,$top");
+if ($pnt_db->sql_numrows($result2) > 0) 
 {
 
 echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
@@ -103,7 +103,7 @@ echo '<br />';
 
     echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
     echo '<ol>';
-    while ($row2 = $titanium_db->sql_fetchrow($result2)) {
+    while ($row2 = $pnt_db->sql_fetchrow($result2)) {
         $sid = intval($row2['sid']);
         $title = stripslashes(check_html($row2['title'], "nohtml"));
         $ratings = intval($row2['ratings']);
@@ -116,13 +116,13 @@ echo '<br />';
 	echo '<br />';
 
 }
-$titanium_db->sql_freeresult($result2);
+$pnt_db->sql_freeresult($result2);
 
 ##############################################################################################################################################################################
 # Top 10 best rated Blogs 
 ##############################################################################################################################################################################
-$result3 = $titanium_db->sql_query("SELECT sid, title, score, ratings FROM ".$titanium_prefix."_stories $querya1lang score!='0' ORDER BY ratings+score DESC LIMIT 0,$top");
-if ($titanium_db->sql_numrows($result3) > 0) 
+$result3 = $pnt_db->sql_query("SELECT sid, title, score, ratings FROM ".$pnt_prefix."_stories $querya1lang score!='0' ORDER BY ratings+score DESC LIMIT 0,$top");
+if ($pnt_db->sql_numrows($result3) > 0) 
 {
 
 echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
@@ -132,7 +132,7 @@ echo '<br />';
     echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
     echo '<ol>';
 
-    while ($row3 = $titanium_db->sql_fetchrow($result3)) {
+    while ($row3 = $pnt_db->sql_fetchrow($result3)) {
         $sid = intval($row3['sid']);
         $title = stripslashes(check_html($row3['title'], "nohtml"));
         $score = intval($row3['score']);
@@ -146,16 +146,16 @@ echo '<br />';
 	echo '<br />';
 
 }
-$titanium_db->sql_freeresult($result3);
+$pnt_db->sql_freeresult($result3);
 
 ##############################################################################################################################################################################
 # Top 10 commented Blogs 
 ##############################################################################################################################################################################
 if ($articlecomm == 1) 
 {
-    $result4 = $titanium_db->sql_query("SELECT sid, title, comments FROM ".$titanium_prefix."_stories $queryalang ORDER BY comments DESC LIMIT 0,$top");
+    $result4 = $pnt_db->sql_query("SELECT sid, title, comments FROM ".$pnt_prefix."_stories $queryalang ORDER BY comments DESC LIMIT 0,$top");
 
-    if ($titanium_db->sql_numrows($result4) > 0) 
+    if ($pnt_db->sql_numrows($result4) > 0) 
 	{
         //echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._MOST_COMMENTED_ON_BLOG_POSTS."</strong></span><ol>\n";
        echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
@@ -165,7 +165,7 @@ if ($articlecomm == 1)
        echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
        echo '<ol>';
 
-	    while ($row4 = $titanium_db->sql_fetchrow($result4)) 
+	    while ($row4 = $pnt_db->sql_fetchrow($result4)) 
 		{
             $sid = intval($row4['sid']);
             $title = stripslashes(check_html($row4['title'], "nohtml"));
@@ -181,15 +181,15 @@ if ($articlecomm == 1)
 
     }
 }
-$titanium_db->sql_freeresult($result4);
+$pnt_db->sql_freeresult($result4);
 
 
 ##############################################################################################################################################################################
 # Top 10 Blog categories 
 ##############################################################################################################################################################################
-$result5 = $titanium_db->sql_query("SELECT catid, title, counter FROM ".$titanium_prefix."_stories_cat ORDER BY counter DESC LIMIT 0,$top");
+$result5 = $pnt_db->sql_query("SELECT catid, title, counter FROM ".$pnt_prefix."_stories_cat ORDER BY counter DESC LIMIT 0,$top");
 
-if ($titanium_db->sql_numrows($result5) > 0) 
+if ($pnt_db->sql_numrows($result5) > 0) 
 {
     //echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._MOST_ACTIVE_BLOG_POST_CATEGORIES."</strong></span><ol>\n";
 
@@ -199,7 +199,7 @@ if ($titanium_db->sql_numrows($result5) > 0)
     echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
     echo '<ol>';
 
-    while ($row5 = $titanium_db->sql_fetchrow($result5)) 
+    while ($row5 = $pnt_db->sql_fetchrow($result5)) 
 	{
         $catid = intval($row5['catid']);
         $title = stripslashes(check_html($row5['title'], "nohtml"));
@@ -214,15 +214,15 @@ if ($titanium_db->sql_numrows($result5) > 0)
 	echo '<br />';
 
 }
-$titanium_db->sql_freeresult($result5);
+$pnt_db->sql_freeresult($result5);
 
 
 ##############################################################################################################################################################################
 # Top 10 user blog submitters 
 ##############################################################################################################################################################################
-$result7 = $titanium_db->sql_query("SELECT username, counter FROM ".$titanium_user_prefix."_users WHERE counter > '0' ORDER BY counter DESC LIMIT 0,$top");
+$result7 = $pnt_db->sql_query("SELECT username, counter FROM ".$pnt_user_prefix."_users WHERE counter > '0' ORDER BY counter DESC LIMIT 0,$top");
 
-if ($titanium_db->sql_numrows($result7) > 0) 
+if ($pnt_db->sql_numrows($result7) > 0) 
 {
     echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
     
@@ -234,7 +234,7 @@ if ($titanium_db->sql_numrows($result7) > 0)
     echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
     echo '<ol>';
 
-	while ($row7 = $titanium_db->sql_fetchrow($result7)): 
+	while ($row7 = $pnt_db->sql_fetchrow($result7)): 
 	
         $uname = stripslashes($row7['username']);
         $counter = intval($row7['counter']);
@@ -251,7 +251,7 @@ if ($titanium_db->sql_numrows($result7) > 0)
 	echo '<br />';
 
 }
-$titanium_db->sql_freeresult($result7);
+$pnt_db->sql_freeresult($result7);
 CloseTable();
 include_once(NUKE_BASE_DIR.'footer.php');
 ?>

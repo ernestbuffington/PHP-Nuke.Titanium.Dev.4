@@ -18,7 +18,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 if(is_god($admin)) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
-  OpenMenu(_AB_DBREPAIR." - ".$titanium_dbname);
+  OpenMenu(_AB_DBREPAIR." - ".$pnt_dbname);
   mastermenu();
   CarryMenu();
   databasemenu();
@@ -35,14 +35,14 @@ if(is_god($admin)) {
   echo '<td align="right" width="15%"><strong>'._AB_SIZE.'</strong></td>'."\n";
   echo '</tr>'."\n";
   $tot_data = $tot_idx = $tot_all = $tot_records = 0;
-  $result = $titanium_db->sql_query("SHOW TABLE STATUS FROM `".$titanium_dbname."`");
-  $tables = $titanium_db ->sql_numrows($result);
+  $result = $pnt_db->sql_query("SHOW TABLE STATUS FROM `".$pnt_dbname."`");
+  $tables = $pnt_db ->sql_numrows($result);
   if($tables > 0) {
     $total_phpbb2_total = 0;
-    while($row = $titanium_db->sql_fetchrow($result)) {
-      $checkrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("CHECK TABLE $row[0]"));
+    while($row = $pnt_db->sql_fetchrow($result)) {
+      $checkrow = $pnt_db->sql_fetchrow($pnt_db->sql_query("CHECK TABLE $row[0]"));
       if($checkrow['Msg_text'] != "OK") {
-        $repairrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("REPAIR TABLE $row[Table] EXTENDED"));
+        $repairrow = $pnt_db->sql_fetchrow($pnt_db->sql_query("REPAIR TABLE $row[Table] EXTENDED"));
         $status = $repairrow['Msg_text'];
       } else {
         $status = $checkrow['Msg_text'];

@@ -65,7 +65,7 @@ if(is_user())
 	if(!isset($thold)) 
 	$thold = $userinfo['thold']; 
     
-	$titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET umode='$mode', uorder='$order', thold='$thold' where user_id=".intval($cookie[0]));
+	$pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET umode='$mode', uorder='$order', thold='$thold' where user_id=".intval($cookie[0]));
 }
 
 if ($op == "Reply") 
@@ -84,15 +84,15 @@ if ($op == "Reply")
 	redirect_titanium("modules.php?name=$pnt_module&file=comments&op=Reply&pid=0&sid=".$sid.$display);
 }
 
-$result = $titanium_db->sql_query("select catid, aid, datePublished, dateModified, title, counter, hometext, bodytext, topic, informant, notes, acomm, haspoll, pollID, score, ratings, ticon FROM ".$titanium_prefix."_stories where sid='$sid'");
+$result = $pnt_db->sql_query("select catid, aid, datePublished, dateModified, title, counter, hometext, bodytext, topic, informant, notes, acomm, haspoll, pollID, score, ratings, ticon FROM ".$pnt_prefix."_stories where sid='$sid'");
 
-$numrows = $titanium_db->sql_numrows($result);
+$numrows = $pnt_db->sql_numrows($result);
 
 if (!empty($sid) && $numrows != 1) 
 redirect_titanium("index.php");
 
-$row = $titanium_db->sql_fetchrow($result);
-$titanium_db->sql_freeresult($result);
+$row = $pnt_db->sql_fetchrow($result);
+$pnt_db->sql_freeresult($result);
 $aaid = stripslashes($row['aid']);
 $catid = intval($row["catid"]);
 
@@ -126,7 +126,7 @@ $topic_icon = intval($row["ticon"]);
 if (empty($aaid)) 
 redirect_titanium("modules.php?name=".$pnt_module);
 
-$titanium_db->sql_query("UPDATE ".$titanium_prefix."_stories SET counter=counter+1 where sid='$sid'");
+$pnt_db->sql_query("UPDATE ".$pnt_prefix."_stories SET counter=counter+1 where sid='$sid'");
 
 $artpage = 1;
 
@@ -160,7 +160,7 @@ $informant = $anonymous;
 getTopics($sid);
 
 if ($catid != 0) {
-    $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("select title from ".$titanium_prefix."_stories_cat where catid='$catid'"));
+    $row2 = $pnt_db->sql_fetchrow($pnt_db->sql_query("select title from ".$pnt_prefix."_stories_cat where catid='$catid'"));
     $title1 = stripslashes(check_html($row2["title"], "nohtml"));
     $title = "<a href=\"modules.php?name=$pnt_module&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><font class=\"storycat\">$title1</font></a>: $title";
 }
@@ -191,7 +191,7 @@ if ($haspoll == 1)
     $boxContent = "<form action=\"modules.php?name=Surveys\" method=\"post\">";
     $boxContent .= "<input type=\"hidden\" name=\"pollID\" value=\"".$pollID."\">";
     $boxContent .= "<input type=\"hidden\" name=\"forwarder\" value=\"".$url."\">";
-    $row3 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT pollTitle, voters FROM ".$titanium_prefix."_poll_desc WHERE pollID='$pollID'"));
+    $row3 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT pollTitle, voters FROM ".$pnt_prefix."_poll_desc WHERE pollID='$pollID'"));
     $pollTitle = stripslashes(check_html($row3["pollTitle"], "nohtml"));
     $voters = $row3["voters"];
     $boxTitle = _ARTICLEPOLL;
@@ -200,10 +200,10 @@ if ($haspoll == 1)
 
     for($i = 1; $i <= 12; $i++) 
 	{
-      $result4 = $titanium_db->sql_query("SELECT pollID, optionText, optionCount, voteID FROM ".$titanium_prefix."_poll_data WHERE (pollID='$pollID') AND (voteID='$i')");
-      $row4 = $titanium_db->sql_fetchrow($result4);
-      $numrows = $titanium_db->sql_numrows($result4);
-      $titanium_db->sql_freeresult($result4);
+      $result4 = $pnt_db->sql_query("SELECT pollID, optionText, optionCount, voteID FROM ".$pnt_prefix."_poll_data WHERE (pollID='$pollID') AND (voteID='$i')");
+      $row4 = $pnt_db->sql_fetchrow($result4);
+      $numrows = $pnt_db->sql_numrows($result4);
+      $pnt_db->sql_freeresult($result4);
       
 	  if($numrows != 0) 
 	  {
@@ -217,7 +217,7 @@ if ($haspoll == 1)
     
 	for($i = 0; $i < 12; $i++) 
 	{
-      $row5 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT optionCount FROM ".$titanium_prefix."_poll_data WHERE (pollID='$pollID') AND (voteID='$i')"));
+      $row5 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT optionCount FROM ".$pnt_prefix."_poll_data WHERE (pollID='$pollID') AND (voteID='$i')"));
       $optionCount = $row5["optionCount"];
       $sum = (int)$sum+$optionCount;
     }
@@ -225,9 +225,9 @@ if ($haspoll == 1)
 
     if ($pollcomm) 
 	{
-      $result6 = $titanium_db->sql_query("select * from ".$titanium_prefix."_pollcomments where pollID='$pollID'");
-      $numcom = $titanium_db->sql_numrows($result6);
-      $titanium_db->sql_freeresult($result6);
+      $result6 = $pnt_db->sql_query("select * from ".$pnt_prefix."_pollcomments where pollID='$pollID'");
+      $numcom = $pnt_db->sql_numrows($result6);
+      $pnt_db->sql_freeresult($result6);
       $boxContent .= "<br />"._VOTES.": <strong>$sum</strong><br />"._PCOMMENTS." <strong>$numcom</strong>\n\n";
     } 
 	else 
@@ -241,16 +241,16 @@ if ($haspoll == 1)
 $boxtitle = ""._RELATED."";
 $boxstuff = "<span class=\"content\"><br />";
 
-$url_result = $titanium_db->sql_query("select name, url from ".$titanium_prefix."_related where tid='$topic'");
+$url_result = $pnt_db->sql_query("select name, url from ".$pnt_prefix."_related where tid='$topic'");
 
-while ($row_eight = $titanium_db->sql_fetchrow($url_result)) 
+while ($row_eight = $pnt_db->sql_fetchrow($url_result)) 
 {
     $name = stripslashes($row_eight["name"]);
     $url = stripslashes($row_eight["url"]);
     $boxstuff .= "<strong><big>&middot;</big></strong>&nbsp;<a href=\"".$url."\" target=\"new\">".$name."</a><br />\n";
 }
 
-$titanium_db->sql_freeresult($url_result);
+$pnt_db->sql_freeresult($url_result);
 
 $boxstuff .= "<hr noshade width=\"95%\" size=\"1\"><div align=\"center\"><strong>"._MOREABOUT."<strong><br /><a href=\"modules.php?name=Search&amp;topic=$topic\">[ $topictext ]</a><br />\n";
 $boxstuff .= "<hr noshade width=\"95%\" size=\"1\">"._NEWSBY."<br /><a href=\"modules.php?name=Search&amp;author=$aaid\">[ $aaid ]</a></div>\n";
@@ -264,7 +264,7 @@ $querylang = "AND (alanguage='$currentlang' OR alanguage='')"; /* the OR is need
 else 
 $querylang = "";
 
-$row9 = $titanium_db->sql_fetchrow($titanium_db->sql_query("select sid, title from ".$titanium_prefix."_stories where topic='$topic' $querylang order by counter desc limit 0,1"));
+$row9 = $pnt_db->sql_fetchrow($pnt_db->sql_query("select sid, title from ".$pnt_prefix."_stories where topic='$topic' $querylang order by counter desc limit 0,1"));
 $topstory = intval($row9["sid"]);
 $ttitle = stripslashes(check_html($row9["title"], "nohtml")); 
 

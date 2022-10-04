@@ -24,19 +24,19 @@ if (!defined('ADMIN_FILE'))
 die ("Illegal File Access");
 
 define('CACHE_ADMIN', true);
-global $titanium_prefix, $titanium_db, $titanium_config;
+global $pnt_prefix, $pnt_db, $pnt_config;
 
 function cache_header() 
 {
-    global $admin_file, $titanium_config, $usrclearcache, $cache;
+    global $admin_file, $pnt_config, $usrclearcache, $cache;
 
     $enabled = ($cache->valid) ? "<font color=\"green\">" . _CACHE_ENABLED . "</font>" : "<font color=\"red\">" . _CACHE_DISABLED . "</font> (<a href=\"$admin_file.php?op=howto_enable_cache\">" . _CACHE_HOWTOENABLE . "</a>)";
     $enabled_img = ($cache->valid) ? get_evo_icon('evo-sprite good') : get_evo_icon('evo-sprite bad');
     $cache_num_files = $cache->count_rows();
-    $last_cleared_img = ((time() - $titanium_config['cache_last_cleared']) >= 604800) ? get_evo_icon('evo-sprite bad') : get_evo_icon('evo-sprite good');
-    $clear_needed = ((time() - $titanium_config['cache_last_cleared']) >= 604800) ? "(<a href=\"$admin_file.php?op=cache_clear\"><font color=\"red\">" . _CACHE_CLEARNOW . "</font></a>)" : "";
-    $last_cleared = date('F j, Y, g:i a', $titanium_config['cache_last_cleared']);
-    $titanium_user_can_clear = ($usrclearcache) ? "[ <strong>" . _CACHE_YES . "</strong> | <a href=\"$admin_file.php?op=usrclearcache&amp;opt=0\">" . _CACHE_NO . "</a> ]" : "[ <a href=\"$admin_file.php?op=usrclearcache&amp;opt=1\">" . _CACHE_YES . "</a> | <strong>" . _CACHE_NO . "</strong> ]";
+    $last_cleared_img = ((time() - $pnt_config['cache_last_cleared']) >= 604800) ? get_evo_icon('evo-sprite bad') : get_evo_icon('evo-sprite good');
+    $clear_needed = ((time() - $pnt_config['cache_last_cleared']) >= 604800) ? "(<a href=\"$admin_file.php?op=cache_clear\"><font color=\"red\">" . _CACHE_CLEARNOW . "</font></a>)" : "";
+    $last_cleared = date('F j, Y, g:i a', $pnt_config['cache_last_cleared']);
+    $pnt_user_can_clear = ($usrclearcache) ? "[ <strong>" . _CACHE_YES . "</strong> | <a href=\"$admin_file.php?op=usrclearcache&amp;opt=0\">" . _CACHE_NO . "</a> ]" : "[ <a href=\"$admin_file.php?op=usrclearcache&amp;opt=1\">" . _CACHE_YES . "</a> | <strong>" . _CACHE_NO . "</strong> ]";
     $cache_good = (is_writable(NUKE_CACHE_DIR) && !ini_get('safe_mode')) ? "<font color=\"green\">" . _CACHE_GOOD . "</font>" : "<font color=\"red\">" . _CACHE_BAD . "</font>";
     $cache_good_img = (is_writable(NUKE_CACHE_DIR) && !ini_get('safe_mode')) ? get_evo_icon('evo-sprite good') : get_evo_icon('evo-sprite bad');
     $cache_good = (ini_get('safe_mode')) ? "<font color=red>" . _CACHESAFEMODE . "</font>" : $cache_good;
@@ -87,7 +87,7 @@ function cache_header()
         ."</tr>"
         ."<tr><td>"
         .(($usrclearcache == 1) ? get_evo_icon('evo-sprite good') : get_evo_icon('evo-sprite bad'))."</td><td>"
-        ."<i>" . _CACHE_USER_CAN_CLEAR . "</i></td><td>" . $titanium_user_can_clear . "</td>"
+        ."<i>" . _CACHE_USER_CAN_CLEAR . "</i></td><td>" . $pnt_user_can_clear . "</td>"
         ."</tr>"
         ."<tr><td>"
         .get_evo_icon('evo-sprite good')."</td><td>"
@@ -188,13 +188,13 @@ function cache_view($file, $name) {
 }
 
 function clear_cache() {
-    global $titanium_db, $titanium_prefix, $admin_file, $cache;
+    global $pnt_db, $pnt_prefix, $admin_file, $cache;
     
     OpenTable();
     
     if ($cache->clear()) {
         // Update the last cleared time stamp
-        $titanium_db->sql_query("UPDATE `" . $titanium_prefix . "_evolution` SET evo_value='" . time() . "' WHERE evo_field='cache_last_cleared'");
+        $pnt_db->sql_query("UPDATE `" . $pnt_prefix . "_evolution` SET evo_value='" . time() . "' WHERE evo_field='cache_last_cleared'");
         
         echo "<center>\n";
         echo "<strong>" . _CACHE_CLEARED_SUCC . "</strong><br /><br />\n";
@@ -211,10 +211,10 @@ function clear_cache() {
 }
 
 function usrclearcache($opt) {
-    global $titanium_prefix, $titanium_db, $admin_file, $cache;
+    global $pnt_prefix, $pnt_db, $admin_file, $cache;
     $opt = intval($opt);
     if($opt == 1 || $opt == 0) {
-        $titanium_db->sql_query("UPDATE ".$titanium_prefix."_evolution SET evo_value='" . $opt . "' WHERE evo_field='usrclearcache'");
+        $pnt_db->sql_query("UPDATE ".$pnt_prefix."_evolution SET evo_value='" . $opt . "' WHERE evo_field='usrclearcache'");
         $cache->delete('titanium_config');
         OpenTable();
             echo "<center>\n";

@@ -66,7 +66,7 @@ $phpbb2_template->assign_vars(array(
 //
 // Close our DB connection.
 //
-$titanium_db->sql_close();
+$pnt_db->sql_close();
 
 //
 // Compress buffered output if required and send to browser

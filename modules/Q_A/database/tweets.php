@@ -10,22 +10,22 @@
     return $stmt->fetchAll();
   }
   
-  function getUserTweets($titanium_username) {
+  function getUserTweets($pnt_username) {
     global $conn;
     $stmt = $conn->prepare("SELECT * 
                             FROM tweets JOIN 
                                  users USING(username) 
                             WHERE username = ? 
                             ORDER BY time DESC");
-    $stmt->execute(array($titanium_username));
+    $stmt->execute(array($pnt_username));
     return $stmt->fetchAll();
   }
 
-  function createTweet($titanium_username, $tweet) {
+  function createTweet($pnt_username, $tweet) {
     global $conn;
     $stmt = $conn->prepare("INSERT INTO tweets 
                             VALUES (DEFAULT, ?, ?, ?)");
-    $stmt->execute(array(date('Y-m-d H:i:s'), $titanium_username, $tweet));
+    $stmt->execute(array(date('Y-m-d H:i:s'), $pnt_username, $tweet));
   }
   
   function getTweetCountAfter($id) {

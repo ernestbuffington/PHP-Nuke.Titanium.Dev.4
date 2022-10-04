@@ -41,7 +41,7 @@ if (!defined('CNBYA')) {
 
 if(is_mod_admin($pnt_module)) {
 
-    list($email, $level) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT user_email, user_level FROM ".$titanium_user_prefix."_users WHERE user_id='$rem_uid'"));
+    list($email, $level) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_email, user_level FROM ".$pnt_user_prefix."_users WHERE user_id='$rem_uid'"));
     if ($level > -1 AND $ya_config['servermail'] == 0) {
         $message = _SORRYTO." $sitename "._HASREMOVE;
         $subject = _ACCTREMOVE;
@@ -57,16 +57,16 @@ if(is_mod_admin($pnt_module)) {
         // $from .= "Return-Path: $adminmail\n";
         // evo_mail($email, $subject, $message, $from);
     }
-    $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_users WHERE user_id='$rem_uid'");
+    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_users WHERE user_id='$rem_uid'");
 
-    $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_value WHERE uid='$rem_uid'");
-    $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE uid='$rem_uid'");
-    $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_bbuser_group WHERE user_id='$rem_uid'");
-    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_cnbya_value");
-    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_cnbya_value_temp");
-    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_bbuser_group");
+    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_value WHERE uid='$rem_uid'");
+    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_value_temp WHERE uid='$rem_uid'");
+    $pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_bbuser_group WHERE user_id='$rem_uid'");
+    $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_user_prefix."_cnbya_value");
+    $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_user_prefix."_cnbya_value_temp");
+    $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_bbuser_group");
 
-    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_users");
+    $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_user_prefix."_users");
     $pagetitle = ": "._USERADMIN." - "._ACCTREMOVE;
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();

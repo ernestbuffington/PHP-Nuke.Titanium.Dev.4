@@ -23,7 +23,7 @@ $instory = '';
 $pnt_module = basename(dirname(__FILE__));
 get_lang($pnt_module);
 
-global $admin, $titanium_prefix, $titanium_db, $pnt_module, $articlecomm, $multilingual, $admin_file;
+global $admin, $pnt_prefix, $pnt_db, $pnt_module, $articlecomm, $multilingual, $admin_file;
 if ($multilingual == 1) {
     $queryalang = "AND (s.alanguage='$currentlang' OR s.alanguage='')"; /* stories */
     $queryrlang = "AND rlanguage='$currentlang' "; /* reviews */
@@ -59,8 +59,8 @@ switch($op) {
         title($sitename.' '._SEARCH);
 		$topic = intval($topic);
         if ($topic>0) {
-            $result = $titanium_db->sql_query("SELECT `topicimage`, `topictext` FROM `".$titanium_prefix."_topics` WHERE `topicid`='$topic'");
-            $row = $titanium_db->sql_fetchrow($result);
+            $result = $pnt_db->sql_query("SELECT `topicimage`, `topictext` FROM `".$pnt_prefix."_topics` WHERE `topicid`='$topic'");
+            $row = $pnt_db->sql_fetchrow($result);
             $topicimage = stripslashes($row['topicimage']);
             $topictext = stripslashes(check_html($row['topictext'], "nohtml"));
             
@@ -102,9 +102,9 @@ switch($op) {
         } elseif ($type == 'reviews') {
             echo "<div align=\"center\"><span class=\"title\"><strong>"._SEARCHREVIEWS."</strong></span></div><br />\n";
         } elseif ($type == 'comments' AND isset($sid)) {
-            $res = $titanium_db->sql_query("SELECT `title` FROM ".$titanium_prefix."_stories WHERE `sid`='$sid'");
-            list($st_title) = $titanium_db->sql_fetchrow($res);
-            $titanium_db->sql_freeresult($res);
+            $res = $pnt_db->sql_query("SELECT `title` FROM ".$pnt_prefix."_stories WHERE `sid`='$sid'");
+            list($st_title) = $pnt_db->sql_fetchrow($res);
+            $pnt_db->sql_freeresult($res);
             $st_title = stripslashes(check_html($st_title, "nohtml"));
             $instory = "AND sid='$sid'";
             echo "<div align=\"center\"><span class=\"title\"><strong>"._SEARCHINSTORY." $st_title</strong></span></div><br />\n";
@@ -125,40 +125,40 @@ switch($op) {
             echo "<input type='hidden' name='sid' value='$sid'>";
         }
         echo "<!-- Topic Selection -->\n";
-        $toplist = $titanium_db->sql_query("SELECT `topicid`, `topictext` FROM `".$titanium_prefix."_topics` ORDER BY `topictext`");
+        $toplist = $pnt_db->sql_query("SELECT `topicid`, `topictext` FROM `".$pnt_prefix."_topics` ORDER BY `topictext`");
         echo "<select name=\"topic\">";
         echo "<option value=\"\">"._ALLTOPICS."</option>\n";
-        while($row2 = $titanium_db->sql_fetchrow($toplist)) {
+        while($row2 = $pnt_db->sql_fetchrow($toplist)) {
             $topicid = intval($row2['topicid']);
             $phpbb2_topics = stripslashes(check_html($row2['topictext'], "nohtml"));
             if ($topicid == $topic) { $sel = 'selected '; } else { $sel = ''; }
             echo "<option $sel value=\"$topicid\">$phpbb2_topics</option>\n";
         }
-        $titanium_db->sql_freeresult($toplist);
+        $pnt_db->sql_freeresult($toplist);
         echo "</select>\n";
         /* Category Selection */
         $category = intval($category);
         echo "&nbsp;<select name=\"category\">";
         echo "<option value=\"0\">"._ARTICLES."</option>\n";
-        $result3 = $titanium_db->sql_query("SELECT `catid`, `title` FROM `".$titanium_prefix."_stories_cat` ORDER BY `title`");
-        while ($row3 = $titanium_db->sql_fetchrow($result3)) {
+        $result3 = $pnt_db->sql_query("SELECT `catid`, `title` FROM `".$pnt_prefix."_stories_cat` ORDER BY `title`");
+        while ($row3 = $pnt_db->sql_fetchrow($result3)) {
             $catid = intval($row3['catid']);
             $title = stripslashes(check_html($row3['title'], "nohtml"));
             if ($catid==$category) { $sel = 'selected '; } else { $sel = ''; }
             echo "<option $sel value=\"$catid\">$title</option>\n";
         }
-        $titanium_db->sql_freeresult($result3);
+        $pnt_db->sql_freeresult($result3);
         echo "</select>\n";
         /* Authors Selection */
-        $thing = $titanium_db->sql_query("SELECT `aid` FROM `".$titanium_prefix."_authors` ORDER BY `aid`");
+        $thing = $pnt_db->sql_query("SELECT `aid` FROM `".$pnt_prefix."_authors` ORDER BY `aid`");
         echo "&nbsp;<select name=\"author\">";
         echo "<option value=\"\">"._ALLAUTHORS."</option>\n";
-        while($row4 = $titanium_db->sql_fetchrow($thing)) {
+        while($row4 = $pnt_db->sql_fetchrow($thing)) {
             $authors = stripslashes($row4['aid']);
             if ($authors==$author) { $sel = 'selected '; } else { $sel = ''; }
             echo "<option value=\"$authors\" $sel>$authors</option>\n";
         }
-        $titanium_db->sql_freeresult($thing);
+        $pnt_db->sql_freeresult($thing);
         echo "</select>\n";
         /* Date Selection */
                     ?>
@@ -181,7 +181,7 @@ switch($op) {
             } elseif ($type == 'reviews') {
                 $sel4 = 'checked';
             }
-            $num_rev = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_reviews`"));
+            $num_rev = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_reviews`"));
             echo _SEARCHON;
             echo "<input type=\"radio\" name=\"type\" value=\"stories\" $sel1> "._SSTORIES;
             if ($articlecomm == 1) {
@@ -209,7 +209,7 @@ switch($op) {
 						s.bodytext, 
 						     a.url, 
 						s.comments, 
-						   s.topic FROM ".$titanium_prefix."_stories s, ".$titanium_prefix."_authors a WHERE s.aid=a.aid $queryalang $categ";
+						   s.topic FROM ".$pnt_prefix."_stories s, ".$pnt_prefix."_authors a WHERE s.aid=a.aid $queryalang $categ";
                 
 				if (isset($query)) $q .= "AND (s.title LIKE '%$query%' OR s.hometext LIKE '%$query%' OR s.bodytext LIKE '%$query%' OR s.notes LIKE '%$query%') ";
                 if (!empty($author)) $q .= "AND s.aid='".Fix_Quotes($author)."' ";
@@ -217,14 +217,14 @@ switch($op) {
                 if (!empty($days) && $days!=0) $q .= "AND TO_DAYS(NOW()) - TO_DAYS(datePublished) <= '".Fix_Quotes($days)."' ";
                 $q .= " ORDER BY s.datePublished DESC LIMIT $min,$offset";
                 $t = $topic;
-                $result5 = $titanium_db->sql_query($q);
-                $nrows = $titanium_db->sql_numrows($result5);
+                $result5 = $pnt_db->sql_query($q);
+                $nrows = $pnt_db->sql_numrows($result5);
                 $x=0;
                 if (!empty($query)) {
                     echo "<br /><hr noshade size=\"1\"><div align=\"center\"><strong>"._SEARCHRESULTS."</strong></div><br /><br />";
                     echo "<table width=\"99%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
                     if ($nrows>0) {
-                        while($row5 = $titanium_db->sql_fetchrow($result5)) {
+                        while($row5 = $pnt_db->sql_fetchrow($result5)) {
                             $sid = intval($row5['sid']);
                             $aid = stripslashes($row5['aid']);
                             $informant = stripslashes($row5['informant']);
@@ -235,7 +235,7 @@ switch($op) {
                             $url = stripslashes($row5['url']);
                             $comments = intval($row5['comments']);
                             $topic = intval($row5['topic']);
-                            $row6 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `topictext` FROM `".$titanium_prefix."_topics` WHERE `topicid`='$topic'"));
+                            $row6 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `topictext` FROM `".$pnt_prefix."_topics` WHERE `topicid`='$topic'"));
                             $topictext = stripslashes(check_html($row6['topictext'], "nohtml"));
 
                             $furl = "modules.php?name=Blog&amp;file=article&amp;sid=$sid";
@@ -287,7 +287,7 @@ switch($op) {
                             echo "</span><br /><br /><br /></td></tr>\n";
                             $x++;
                         }
-                        $titanium_db->sql_freeresult($result5);
+                        $pnt_db->sql_freeresult($result5);
                         echo "</table>\n";
                     } else {
                         echo "<tr><td><div align=\"center\"><span class=\"option\"><strong>"._NOMATCHES."</strong></span></div><br /><br />";
@@ -308,22 +308,22 @@ switch($op) {
                 }
 
             } elseif ($type == 'comments') {
-                $result8 = $titanium_db->sql_query("SELECT `tid`, `sid`, `subject`, `datePublished`, `name` FROM `".$titanium_prefix."_comments` WHERE (`subject` LIKE '%$query%' OR `comment` LIKE '%$query%') ORDER BY `datePublished` DESC LIMIT $min,$offset");
-                $nrows = $titanium_db->sql_numrows($result8);
+                $result8 = $pnt_db->sql_query("SELECT `tid`, `sid`, `subject`, `datePublished`, `name` FROM `".$pnt_prefix."_comments` WHERE (`subject` LIKE '%$query%' OR `comment` LIKE '%$query%') ORDER BY `datePublished` DESC LIMIT $min,$offset");
+                $nrows = $pnt_db->sql_numrows($result8);
                 $x=0;
                 if (!empty($query)) {
                     echo "<br /><hr noshade size=\"1\"><div align=\"center\"><strong>"._SEARCHRESULTS."</strong></div><br /><br />";
                     echo "<table width=\"99%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
                     if ($nrows>0) {
-                        while($row8 = $titanium_db->sql_fetchrow($result8)) {
+                        while($row8 = $pnt_db->sql_fetchrow($result8)) {
                             $tid = intval($row8['tid']);
                             $sid = intval($row8['sid']);
                             $subject = stripslashes(check_html($row8['subject'], "nohtml"));
                             $date = $row8['date'];
                             $name = stripslashes($row8['name']);
-                            $row_res = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `title` FROM `".$titanium_prefix."_stories` WHERE `sid`='$sid'"));
+                            $row_res = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `title` FROM `".$pnt_prefix."_stories` WHERE `sid`='$sid'"));
                             $title = stripslashes(check_html($row_res['title'], "nohtml"));
-                            $reply = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_comments WHERE pid='$tid'"));
+                            $reply = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_comments WHERE pid='$tid'"));
                             $furl = "modules.php?name=Blog&amp;file=article&amp;thold=-1&amp;mode=flat&amp;order=1&amp;sid=$sid#$tid";
                             if(!$name) {
                                 $name = $anonymous;
@@ -349,7 +349,7 @@ switch($op) {
                             }
                             $x++;
                         }
-                        $titanium_db->sql_freeresult($result8);
+                        $pnt_db->sql_freeresult($result8);
                         echo "</table>";
                     } else {
                         echo "<tr><td><div align=\"center\"><span class=\"option\"><strong>"._NOMATCHES."</strong></span></div><br /><br />";
@@ -369,14 +369,14 @@ switch($op) {
                     }
                 }
             } elseif ($type == 'reviews') {
-                $res_n = $titanium_db->sql_query("SELECT id, title, text, reviewer, score FROM ".$titanium_prefix."_reviews WHERE (title LIKE '%$query%' OR text LIKE '%$query%') $queryrlang ORDER BY date DESC LIMIT $min,$offset");
-                $nrows = $titanium_db->sql_numrows($res_n);
+                $res_n = $pnt_db->sql_query("SELECT id, title, text, reviewer, score FROM ".$pnt_prefix."_reviews WHERE (title LIKE '%$query%' OR text LIKE '%$query%') $queryrlang ORDER BY date DESC LIMIT $min,$offset");
+                $nrows = $pnt_db->sql_numrows($res_n);
                 $x=0;
                 if (!empty($query)) {
                     echo "<br /><hr noshade size=\"1\"><div align=\"center\"><strong>"._SEARCHRESULTS."</strong></div><br /><br />";
                     echo "<table width=\"99%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
                     if ($nrows > 0) {
-                        while($rown = $titanium_db->sql_fetchrow($res_n)) {
+                        while($rown = $pnt_db->sql_fetchrow($res_n)) {
                             $id = intval($rown['id']);
                             $title = stripslashes(check_html($rown['title'], "nohtml"));
                             $text = stripslashes($rown['text']);
@@ -398,7 +398,7 @@ switch($op) {
                             print "<br /><br /><br /></span></td></tr>\n";
                             $x++;
                         }
-                        $titanium_db->sql_freeresult($res_n);
+                        $pnt_db->sql_freeresult($res_n);
                         echo "</table>\n";
                     } else {
                         echo "<tr><td><div align=\"center\"><span class=\"option\"><strong>"._NOMATCHES."</strong></span></div><br /><br />";
@@ -418,14 +418,14 @@ switch($op) {
                     }
                 }
             } elseif ($type == 'users') {
-                $res_n3 = $titanium_db->sql_query("SELECT user_id, username, name FROM ".$titanium_user_prefix."_users WHERE (username LIKE '%$query%' OR name LIKE '%$query%' OR bio LIKE '%$query%') ORDER BY username ASC LIMIT $min,$offset");
-                $nrows = $titanium_db->sql_numrows($res_n3);
+                $res_n3 = $pnt_db->sql_query("SELECT user_id, username, name FROM ".$pnt_user_prefix."_users WHERE (username LIKE '%$query%' OR name LIKE '%$query%' OR bio LIKE '%$query%') ORDER BY username ASC LIMIT $min,$offset");
+                $nrows = $pnt_db->sql_numrows($res_n3);
                 $x=0;
                 if (!empty($query)) {
                     echo "<br /><hr noshade size=\"1\"><div align=\"center\"><strong>"._SEARCHRESULTS."</strong></div><br /><br />";
                     echo "<table width=\"99%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
                     if ($nrows > 0) {
-                        while($rown3 = $titanium_db->sql_fetchrow($res_n3)) {
+                        while($rown3 = $pnt_db->sql_fetchrow($res_n3)) {
                             $uid = intval($rown3['user_id']);
                             $uname = stripslashes($rown3['username']);
                             $name = stripslashes($rown3['name']);
@@ -440,7 +440,7 @@ switch($op) {
                             echo "</span></td></tr>\n";
                             $x++;
                         }
-                        $titanium_db->sql_freeresult($res_n3);
+                        $pnt_db->sql_freeresult($res_n3);
                         echo "</table>\n";
                     } else {
                         echo "<tr><td><div align=\"center\"><span class=\"option\"><strong>"._NOMATCHES."</strong></span></div><br /><br />";
@@ -464,23 +464,23 @@ switch($op) {
             $mod1 = $mod2 = $mod3 = '';
             if (isset($query) AND !empty($query)) {
                 if (is_active('Downloads')) {
-                    $dcnt = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_downloads_downloads` WHERE `title` LIKE '%$query%' OR `description` LIKE '%$query%'"));
+                    $dcnt = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_downloads_downloads` WHERE `title` LIKE '%$query%' OR `description` LIKE '%$query%'"));
                     $mod1 = "<li> <a href=\"modules.php?name=Downloads&amp;d_op=search&amp;query=$query\">"._DOWNLOADS."</a> ($dcnt "._SEARCHRESULTS.")";
                 }
                 if (is_active('Web_Links')) {
-                    $lcnt = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_links_links` WHERE `title` LIKE '%$query%' OR `description` LIKE '%$query%'"));
+                    $lcnt = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_links_links` WHERE `title` LIKE '%$query%' OR `description` LIKE '%$query%'"));
                     $mod2 = "<li> <a href=\"modules.php?name=Web_Links&amp;l_op=search&amp;query=$query\">"._WEBLINKS."</a> ($lcnt "._SEARCHRESULTS.")";
                 }
                 if (is_active('Encyclopedia')) {
-                    $ecnt1 = $titanium_db->sql_query("SELECT `eid` FROM `".$titanium_prefix."_encyclopedia` WHERE `active`='1'");
+                    $ecnt1 = $pnt_db->sql_query("SELECT `eid` FROM `".$pnt_prefix."_encyclopedia` WHERE `active`='1'");
                     $ecnt = 0;
-                    while($row_e = $titanium_db->sql_fetchrow($ecnt1)) {
+                    while($row_e = $pnt_db->sql_fetchrow($ecnt1)) {
                         $eid = intval($row_e['eid']);
-                        $ecnt2 = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_encyclopedia WHERE title LIKE '%$query%' OR description LIKE '%$query%' AND eid='$eid'"));
-                        $ecnt3 = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_encyclopedia_text WHERE title LIKE '%$query%' OR text LIKE '%$query%' AND eid='$eid'"));
+                        $ecnt2 = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_encyclopedia WHERE title LIKE '%$query%' OR description LIKE '%$query%' AND eid='$eid'"));
+                        $ecnt3 = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_encyclopedia_text WHERE title LIKE '%$query%' OR text LIKE '%$query%' AND eid='$eid'"));
                         $ecnt = $ecnt+$ecnt2+$ecnt3;
                     }
-                    $titanium_db->sql_freeresult($ecnt1);
+                    $pnt_db->sql_freeresult($ecnt1);
                     $mod3 = "<li> <a href=\"modules.php?name=Encyclopedia&amp;file=search&amp;query=$query\">"._ENCYCLOPEDIA."</a> ($ecnt "._SEARCHRESULTS.")";
                 }
                 OpenTable();

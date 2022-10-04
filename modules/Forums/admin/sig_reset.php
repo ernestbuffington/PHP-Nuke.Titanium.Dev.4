@@ -45,7 +45,7 @@ if ( !file_exists(@phpbb_realpath($phpbb2_root_path . 'language/lang_' . $phpbb2
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $titanium_user->lang['ENCODING']; ?>">
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $pnt_user->lang['ENCODING']; ?>">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <link rel="stylesheet" href="<?php echo $phpbb2_root_path . 'templates/' . $theme['template_name'] . '/' . $theme['head_stylesheet'];?>" type="text/css">
 <title><?php echo $phpbb2_board_config['sitename']; ?></title>
@@ -89,7 +89,7 @@ switch ( $mode )
     case 'all':
         $sql = "UPDATE " . USERS_TABLE . " SET user_sig = ''";
 
-        if ( $result = $titanium_db->sql_query($sql) )
+        if ( $result = $pnt_db->sql_query($sql) )
         {
             $result_msg = $lang['sig_reset_successful'];
         } else

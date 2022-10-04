@@ -15,7 +15,7 @@ print "</div><hr />";
 	
 	if ( defined('facebook') ):
 	
-	global $phpbb2_board_config, $domain,$titanium_db, $titanium_db2, $userdata, $userinfo; 
+	global $phpbb2_board_config, $domain,$pnt_db, $pnt_db2, $userdata, $userinfo; 
     global $facebook_plugin_width, $facebookappid, $facebookappsecret; //used to set the deafult width of iframes and tables
 
 	echo "<center>Facebook Login Code Example Coming Soon\n";

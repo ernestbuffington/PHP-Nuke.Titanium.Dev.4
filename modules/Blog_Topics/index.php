@@ -43,15 +43,15 @@ title($sitename.' '._ACTIVETOPICS);
 
 OpenTable();
 
-global $fieldset_color, $fieldset_border_width, $digits_color, $titanium_db, $titanium_prefix, $tipath;
+global $fieldset_color, $fieldset_border_width, $digits_color, $pnt_db, $pnt_prefix, $tipath;
 
 $ThemeSel = get_theme();
 
-$sql = "SELECT t.topicid, t.topicimage, t.topictext, count(s.sid) AS stories, SUM(s.counter) AS readcount FROM ".$titanium_prefix."_topics t LEFT JOIN ".$titanium_prefix."_stories s ON (s.topic = t.topicid) GROUP BY t.topicid, t.topicimage, t.topictext ORDER BY t.topictext";
+$sql = "SELECT t.topicid, t.topicimage, t.topictext, count(s.sid) AS stories, SUM(s.counter) AS readcount FROM ".$pnt_prefix."_topics t LEFT JOIN ".$pnt_prefix."_stories s ON (s.topic = t.topicid) GROUP BY t.topicid, t.topicimage, t.topictext ORDER BY t.topictext";
 
-$result = $titanium_db->sql_query($sql);
+$result = $pnt_db->sql_query($sql);
 
-if ($titanium_db->sql_numrows($result) > 0) 
+if ($pnt_db->sql_numrows($result) > 0) 
 {
     $output = "<div align=\"center\"><span class=\"title\"><strong>"._ACTIVETOPICS."</strong></span><br />\n";
     $output .= "<span class=\"content\">"._CLICK2LIST."</span><br /><br />\n";
@@ -61,7 +61,7 @@ if ($titanium_db->sql_numrows($result) > 0)
     $output .= "</form></div><br />";
     echo $output;
 
-    while ($row = $titanium_db->sql_fetchrow($result)) 
+    while ($row = $pnt_db->sql_fetchrow($result)) 
 	{
         $topicid = intval($row['topicid']);
         $topicimage = stripslashes($row['topicimage']);
@@ -92,10 +92,10 @@ if ($titanium_db->sql_numrows($result) > 0)
 
         if ($row['stories'] > 0) 
 		{
-            $sql2 = "SELECT s.sid, s.catid, s.title, c.title AS cat_title FROM ".$titanium_prefix."_stories s LEFT JOIN ".$titanium_prefix."_stories_cat c ON s.catid=c.catid WHERE s.topic='$topicid' ORDER BY s.sid DESC LIMIT 0,50";
-            $result2 = $titanium_db->sql_query($sql2);
+            $sql2 = "SELECT s.sid, s.catid, s.title, c.title AS cat_title FROM ".$pnt_prefix."_stories s LEFT JOIN ".$pnt_prefix."_stories_cat c ON s.catid=c.catid WHERE s.topic='$topicid' ORDER BY s.sid DESC LIMIT 0,50";
+            $result2 = $pnt_db->sql_query($sql2);
         
-		    while ($row2 = $titanium_db->sql_fetchrow($result2)) 
+		    while ($row2 = $pnt_db->sql_fetchrow($result2)) 
 			{
                 $cat_link = (intval($row2['catid']) > 0) ? "<a href=\"modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid=".intval($row2['catid'])."\"><strong>".stripslashes(check_html($row2['cat_title'], "nohtml"))."</strong></a>: " : "";
                 echo '<img class="icons" align="absmiddle" width="16" src="'.img('topic-blogs-16.png','Blog_Topics').'"> '.$cat_link.'<a href="modules.php?name=Blog&amp;file=article&amp;sid='.intval($row2['sid']).'">'.htmlentities($row2['title']).'</a><br />';

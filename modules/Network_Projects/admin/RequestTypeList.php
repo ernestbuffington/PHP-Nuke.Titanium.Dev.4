@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 get_lang('Network_Projects');
 if(!defined('NETWORK_SUPPORT_ADMIN')) 
 { 
@@ -24,12 +24,12 @@ pjadmin_menu(_NETWORK_REQUESTS.': '._NETWORK_TYPELIST);
 //Thinsg like this happen when a programmer does not have the faintest idea what he or she is doing, or
 //he or she is just too fucking lazy to double check his or her work...
 //This error was created by god knows who - this typeresult was listing only 1 type
-//$typeresult = $titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_types` WHERE `type_weight` > 0 ORDER BY `type_weight`");
+//$typeresult = $pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_types` WHERE `type_weight` > 0 ORDER BY `type_weight`");
 
 //This new code lists all of the types and was fixed by Ernest 'TheGhost' Buffington
-$typeresult = $titanium_db2->sql_query("SELECT type_id, type_name, type_weight FROM `".$network_prefix."_requests_types` WHERE `type_weight` > -1 ORDER BY `type_weight`");
+$typeresult = $pnt_db2->sql_query("SELECT type_id, type_name, type_weight FROM `".$network_prefix."_requests_types` WHERE `type_weight` > -1 ORDER BY `type_weight`");
 
-$type_total = $titanium_db2->sql_numrows($typeresult);
+$type_total = $pnt_db2->sql_numrows($typeresult);
 
 OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>";
@@ -53,7 +53,7 @@ echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</str
 
 if($type_total != 0)
 {
-  while($type_row = $titanium_db2->sql_fetchrow($typeresult)) 
+  while($type_row = $pnt_db2->sql_fetchrow($typeresult)) 
   {
     $pjimage = pjimage("type.png", $pnt_module);
   
@@ -62,9 +62,9 @@ if($type_total != 0)
 	$weight1 = $type_row['type_weight'] - 1;
     $weight3 = $type_row['type_weight'] + 1;
   
-    list($pid1) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `type_id` FROM `".$network_prefix."_requests_types` WHERE `type_weight`='$weight1'"));
+    list($pid1) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `type_id` FROM `".$network_prefix."_requests_types` WHERE `type_weight`='$weight1'"));
   
-    list($pid2) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `type_id` FROM `".$network_prefix."_requests_types` WHERE `type_weight`='$weight3'"));
+    list($pid2) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `type_id` FROM `".$network_prefix."_requests_types` WHERE `type_weight`='$weight3'"));
     
 	echo "<td align='center'><nobr>";
   

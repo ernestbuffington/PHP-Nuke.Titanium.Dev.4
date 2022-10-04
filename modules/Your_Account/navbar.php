@@ -42,7 +42,7 @@ $pnt_module = basename(dirname(__FILE__));
 get_lang($pnt_module);
 include_once(NUKE_MODULES_DIR.$pnt_module.'/includes/functions.php');
 
-global $titanium_prefix, $titanium_db, $titanium_user_prefix, $ya_config, $thmcount;
+global $pnt_prefix, $pnt_db, $pnt_user_prefix, $ya_config, $thmcount;
 
 // menelaos: removed because it is already called in /modules/Your_Account/includes/mainfileend.php
 $ya_config = ya_get_configs();

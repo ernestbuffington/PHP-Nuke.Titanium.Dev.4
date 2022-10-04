@@ -55,7 +55,7 @@ class Content_bars
 
     function init_bars($bars = '')
     {
-        global $phpbb2_board_config, $userdata, $theme, $titanium_db, $stats_template, $phpbb2_root_path;
+        global $phpbb2_board_config, $userdata, $theme, $pnt_db, $stats_template, $phpbb2_root_path;
         
         if (is_array($bars))
         {
@@ -102,7 +102,7 @@ class Content_bars
         FROM ' . THEMES_TABLE . ' 
         WHERE themes_id = ' . $style;
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(CRITICAL_ERROR, 'Couldn\'t query database for theme info.');
         }

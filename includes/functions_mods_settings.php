@@ -40,19 +40,19 @@ function mods_settings_get_lang($key)
 //---------------------------------------------------------------
 function init_board_config_key($key, $value, $force=false)
 {
-	global $titanium_db, $phpbb2_board_config, $cache;
+	global $pnt_db, $phpbb2_board_config, $cache;
 	if (!isset($phpbb2_board_config[$key]))
 	{
 		$phpbb2_board_config[$key] = $value;
 		$sql = "INSERT INTO " . CONFIG_TABLE . " (config_name,config_value) VALUES('$key','$value')";
-		if ( !$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not add key ' . $key . ' in config table', '', __LINE__, __FILE__, $sql);
+		if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not add key ' . $key . ' in config table', '', __LINE__, __FILE__, $sql);
 		$cache->delete('board_config', 'config');
 	}
 	else if ($force)
 	{
 		$phpbb2_board_config[$key] = $value;
 		$sql = "UPDATE " . CONFIG_TABLE . " SET config_value='$value' WHERE config_name='$key'";
-		if ( !$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not add key ' . $key . ' in config table', '', __LINE__, __FILE__, $sql);
+		if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not add key ' . $key . ' in config table', '', __LINE__, __FILE__, $sql);
 		$cache->delete('board_config', 'config');
 	}
 }
@@ -62,14 +62,14 @@ function init_board_config_key($key, $value, $force=false)
 //	user_board_config_key() : get the user choice if defined
 //
 //---------------------------------------------------------------
-function user_board_config_key($key, $titanium_user_field='', $over_field='')
+function user_board_config_key($key, $pnt_user_field='', $over_field='')
 {
 	global $phpbb2_board_config, $userdata;
 
 	// get the user fields name if not given
-	if (empty($titanium_user_field))
+	if (empty($pnt_user_field))
 	{
-		$titanium_user_field = 'user_' . $key;
+		$pnt_user_field = 'user_' . $key;
 	}
 
 	// get the overwrite allowed switch name if not given
@@ -82,7 +82,7 @@ function user_board_config_key($key, $titanium_user_field='', $over_field='')
 	if (!isset($phpbb2_board_config[$key])) return;
 
 	// does the user field exists ?
-	if (!isset($userdata[$titanium_user_field])) return;
+	if (!isset($userdata[$pnt_user_field])) return;
 
 	// does the overwrite switch exists ?
 	if (!isset($phpbb2_board_config[$over_field]))
@@ -93,11 +93,11 @@ function user_board_config_key($key, $titanium_user_field='', $over_field='')
 	// overwrite with the user data only if not overwrite sat, not anonymous, and logged in
 	if (!intval($phpbb2_board_config[$over_field]) && ($userdata['user_id'] != ANONYMOUS) && $userdata['session_logged_in'])
 	{
-		$phpbb2_board_config[$key] = $userdata[$titanium_user_field];
+		$phpbb2_board_config[$key] = $userdata[$pnt_user_field];
 	}
 	else
 	{
-		$userdata[$titanium_user_field] = $phpbb2_board_config[$key];
+		$userdata[$pnt_user_field] = $phpbb2_board_config[$key];
 	}
 }
 

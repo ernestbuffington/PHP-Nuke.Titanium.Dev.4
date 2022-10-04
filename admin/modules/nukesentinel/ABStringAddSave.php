@@ -16,7 +16,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 if(!get_magic_quotes_runtime()) { $string = addslashes($string); }
-$testnum1 = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_strings` WHERE `string`='$string'"));
+$testnum1 = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_strings` WHERE `string`='$string'"));
 if($testnum1 > 0) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
@@ -48,9 +48,9 @@ if($testnum1 > 0) {
   CloseTable();
   include_once(NUKE_BASE_DIR.'footer.php');
 } else {
-  $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_nsnst_strings` (`string`) VALUES ('$string')");
-  $titanium_db->sql_query("ALTER TABLE `".$titanium_prefix."_nsnst_strings` ORDER BY `string`");
-  $titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_strings`");
+  $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_nsnst_strings` (`string`) VALUES ('$string')");
+  $pnt_db->sql_query("ALTER TABLE `".$pnt_prefix."_nsnst_strings` ORDER BY `string`");
+  $pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_strings`");
   $list_string = $ab_config['list_string']."\r\n".$string;
   $list_string = explode("\r\n", $list_string);
   rsort($list_string);

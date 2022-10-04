@@ -1,9 +1,9 @@
 <?php
 
-function createAnswer($questionid, $titanium_userid, $content){
+function createAnswer($questionid, $pnt_userid, $content){
 	global $conn;
 	$stmt = $conn->prepare('INSERT INTO answer(question, createdby, content) VALUES (?, ? ,?)');
-	$stmt->execute(array($questionid, $titanium_userid, $content));
+	$stmt->execute(array($questionid, $pnt_userid, $content));
 	return $conn->lastInsertId('answer_answerid_seq');
 };
 

@@ -32,7 +32,7 @@
  ************************************************************************/
 if (!defined('MODULE_FILE')) die('You can\'t access this file directly...');
 
-global $storyhome, $topicname, $topicimage, $topictext, $datetime, $titanium_user, $cookie, $titanium_prefix, $multilingual, $currentlang, $titanium_db, $articlecomm, $pnt_module, $userinfo;
+global $bloghome, $topicname, $topicimage, $topictext, $datetime, $pnt_user, $cookie, $pnt_prefix, $multilingual, $currentlang, $pnt_db, $articlecomm, $pnt_module, $userinfo;
 
 $pnt_module = basename(dirname(__FILE__));
 
@@ -61,7 +61,7 @@ switch ($op)
             if (isset($userinfo['setstorynum'])) 
 			$blognum = $userinfo['setstorynum']; 
 			else 
-			$blognum = $storyhome; 
+			$blognum = $bloghome; 
         } 
 		else 
             $blognum = $blog_config["homenumber"];
@@ -94,18 +94,18 @@ switch ($op)
             echo "</script>\n";
         }
 
-        $titanium_db->sql_query("update ".$titanium_prefix."_stories_cat set counter=counter+1 where catid='$catid'");
-        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_stories WHERE catid='$catid' $querylang");
-        $totalarticles = $titanium_db->sql_numrows($result);
-        $titanium_db->sql_freeresult($result);
-        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_stories WHERE catid='$catid' $querylang ORDER BY sid DESC LIMIT $min,$blognum");
+        $pnt_db->sql_query("update ".$pnt_prefix."_stories_cat set counter=counter+1 where catid='$catid'");
+        $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_stories WHERE catid='$catid' $querylang");
+        $totalarticles = $pnt_db->sql_numrows($result);
+        $pnt_db->sql_freeresult($result);
+        $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_stories WHERE catid='$catid' $querylang ORDER BY sid DESC LIMIT $min,$blognum");
         
 		if($blog_config["columns"] == 1) // DUAL
         echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
         
 		$a = 0;
 
-        while ($artinfo = $titanium_db->sql_fetchrow($result)) 
+        while ($artinfo = $pnt_db->sql_fetchrow($result)) 
 		{
             formatTimestamp($artinfo["time"]);
             $subject = stripslashes(check_html($subject, "nohtml"));
@@ -229,8 +229,8 @@ switch ($op)
 
             if ($artinfo["catid"] != 0) 
 			{
-                $result3 = $titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
-                $catinfo = $titanium_db->sql_fetchrow($result3);
+                $result3 = $pnt_db->sql_query("SELECT title FROM ".$pnt_prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
+                $catinfo = $pnt_db->sql_fetchrow($result3);
                 $morelink .= " | <a href='modules.php?name=$pnt_module&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
             }
             
@@ -268,7 +268,7 @@ switch ($op)
 			else // SINGLE 
             themeindex($artinfo["aid"], $informant, $datetime, $modified, $artinfo["title"], $artinfo["counter"], $artinfo["topic"], $artinfo["hometext"], $artinfo["notes"], $morelink, $topicname, $topicimage, $topictext);
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         
 		if($blog_config["columns"] == 1) // DUAL
 		{ 

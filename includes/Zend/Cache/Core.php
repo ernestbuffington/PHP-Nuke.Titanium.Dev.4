@@ -482,11 +482,11 @@ class Zend_Cache_Core
 
         // we need to remove cache_id_prefix from ids (see #ZF-6178, #ZF-7600)
         if (isset($this->_options['cache_id_prefix']) && $this->_options['cache_id_prefix'] !== '') {
-            $titanium_prefix    = & $this->_options['cache_id_prefix'];
-            $titanium_prefixLen = strlen($titanium_prefix);
+            $pnt_prefix    = & $this->_options['cache_id_prefix'];
+            $pnt_prefixLen = strlen($pnt_prefix);
             foreach ($ids as &$id) {
-                if (strpos($id, $titanium_prefix) === 0) {
-                    $id = substr($id, $titanium_prefixLen);
+                if (strpos($id, $pnt_prefix) === 0) {
+                    $id = substr($id, $pnt_prefixLen);
                 }
             }
         }
@@ -515,11 +515,11 @@ class Zend_Cache_Core
 
         // we need to remove cache_id_prefix from ids (see #ZF-6178, #ZF-7600)
         if (isset($this->_options['cache_id_prefix']) && $this->_options['cache_id_prefix'] !== '') {
-            $titanium_prefix    = & $this->_options['cache_id_prefix'];
-            $titanium_prefixLen = strlen($titanium_prefix);
+            $pnt_prefix    = & $this->_options['cache_id_prefix'];
+            $pnt_prefixLen = strlen($pnt_prefix);
             foreach ($ids as &$id) {
-                if (strpos($id, $titanium_prefix) === 0) {
-                    $id = substr($id, $titanium_prefixLen);
+                if (strpos($id, $pnt_prefix) === 0) {
+                    $id = substr($id, $pnt_prefixLen);
                 }
             }
         }
@@ -548,11 +548,11 @@ class Zend_Cache_Core
 
         // we need to remove cache_id_prefix from ids (see #ZF-6178, #ZF-7600)
         if (isset($this->_options['cache_id_prefix']) && $this->_options['cache_id_prefix'] !== '') {
-            $titanium_prefix    = & $this->_options['cache_id_prefix'];
-            $titanium_prefixLen = strlen($titanium_prefix);
+            $pnt_prefix    = & $this->_options['cache_id_prefix'];
+            $pnt_prefixLen = strlen($pnt_prefix);
             foreach ($ids as &$id) {
-                if (strpos($id, $titanium_prefix) === 0) {
-                    $id = substr($id, $titanium_prefixLen);
+                if (strpos($id, $pnt_prefix) === 0) {
+                    $id = substr($id, $pnt_prefixLen);
                 }
             }
         }
@@ -575,11 +575,11 @@ class Zend_Cache_Core
 
         // we need to remove cache_id_prefix from ids (see #ZF-6178, #ZF-7600)
         if (isset($this->_options['cache_id_prefix']) && $this->_options['cache_id_prefix'] !== '') {
-            $titanium_prefix    = & $this->_options['cache_id_prefix'];
-            $titanium_prefixLen = strlen($titanium_prefix);
+            $pnt_prefix    = & $this->_options['cache_id_prefix'];
+            $pnt_prefixLen = strlen($pnt_prefix);
             foreach ($ids as &$id) {
-                if (strpos($id, $titanium_prefix) === 0) {
-                    $id = substr($id, $titanium_prefixLen);
+                if (strpos($id, $pnt_prefix) === 0) {
+                    $id = substr($id, $pnt_prefixLen);
                 }
             }
         }

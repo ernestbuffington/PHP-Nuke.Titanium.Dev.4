@@ -32,7 +32,7 @@ if(!isset($min)) $min=0;
 if(!isset($max)) $max=$min+$perpage;
 if(!isset($column) or !$column or $column=="") $column = "username";
 if(!isset($direction) or !$direction or $direction=="") $direction = "asc";
-$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT `username`, MAX(`date`), COUNT(*) FROM `".$titanium_prefix."_nsnst_tracked_ips` GROUP BY 1"));
+$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `username`, MAX(`date`), COUNT(*) FROM `".$pnt_prefix."_nsnst_tracked_ips` GROUP BY 1"));
 if($totalselected > 0) {
   // Page Sorting
   $selcolumn1 = $selcolumn2 = $selcolumn3 = $seldirection1 = $seldirection2= "";
@@ -67,23 +67,23 @@ if($totalselected > 0) {
   echo '<td align="center"><strong>'._AB_HITS.'</strong></td>'."\n";
   echo '<td align="center"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $titanium_db->sql_query("SELECT `user_id`, `username`, MAX(`date`), COUNT(*) FROM `".$titanium_prefix."_nsnst_tracked_ips` GROUP BY 2 ORDER BY $column $direction LIMIT $min, $perpage");
-  while(list($titanium_userid,$titanium_username,$lastview,$hits) = $titanium_db->sql_fetchrow($result)){
+  $result = $pnt_db->sql_query("SELECT `user_id`, `username`, MAX(`date`), COUNT(*) FROM `".$pnt_prefix."_nsnst_tracked_ips` GROUP BY 2 ORDER BY $column $direction LIMIT $min, $perpage");
+  while(list($pnt_userid,$pnt_username,$lastview,$hits) = $pnt_db->sql_fetchrow($result)){
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
     echo '<td>'."\n";
-    if($titanium_userid != 1) {
-      echo '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$titanium_username.'" target="_blank">'.UsernameColor($titanium_username).'</a>';
+    if($pnt_userid != 1) {
+      echo '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$pnt_username.'" target="_blank">'.UsernameColor($pnt_username).'</a>';
     } else {
       echo $anonymous;
     }
     echo '</td>'."\n";
-    $trackedips = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `user_id`='$titanium_userid'"));
-    echo '<td align="center"><a href="'.$admin_file.'.php?op=ABTrackedUsersIPs&amp;tid='.$titanium_userid.'" target="_blank">'.$trackedips.'</a></td>'."\n";
+    $trackedips = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `user_id`='$pnt_userid'"));
+    echo '<td align="center"><a href="'.$admin_file.'.php?op=ABTrackedUsersIPs&amp;tid='.$pnt_userid.'" target="_blank">'.$trackedips.'</a></td>'."\n";
     echo '<td align="center">'.date("Y-m-d \@ H:i:s",$lastview).'</td>'."\n";
     echo '<td align="center">'.$hits.'</td>'."\n";
-    echo '<td align="center" nowrap="nowrap">&nbsp;<a href="'.$admin_file.'.php?op=ABTrackedUsersPagesPrint&amp;tid='.$titanium_userid.'" target="_blank"><img src="images/print.png" height="16" width="16" alt="'._AB_PRINT.'" title="'._AB_PRINT.'" border="0" /></a>'."\n";
-    echo '<a href="'.$admin_file.'.php?op=ABTrackedUsersPages&amp;tid='.$titanium_userid.'" target="_blank"><img src="images/magnify.png" height="16" width="16" alt="'._AB_VIEW.'" title="'._AB_VIEW.'" border="0" /></a>'."\n";
-    echo '<a href="'.$admin_file.'.php?op=ABTrackedUsersDelete&amp;user_id='.$titanium_userid.'&amp;min='.$min.'&amp;column='.$column.'&amp;direction='.$direction.'&amp;xop='.$op.'"><img src="images/delete.png" height="16" width="16" alt="'._AB_DELETE.'" title="'._AB_DELETE.'" border="0" /></a></td>'."\n";
+    echo '<td align="center" nowrap="nowrap">&nbsp;<a href="'.$admin_file.'.php?op=ABTrackedUsersPagesPrint&amp;tid='.$pnt_userid.'" target="_blank"><img src="images/print.png" height="16" width="16" alt="'._AB_PRINT.'" title="'._AB_PRINT.'" border="0" /></a>'."\n";
+    echo '<a href="'.$admin_file.'.php?op=ABTrackedUsersPages&amp;tid='.$pnt_userid.'" target="_blank"><img src="images/magnify.png" height="16" width="16" alt="'._AB_VIEW.'" title="'._AB_VIEW.'" border="0" /></a>'."\n";
+    echo '<a href="'.$admin_file.'.php?op=ABTrackedUsersDelete&amp;user_id='.$pnt_userid.'&amp;min='.$min.'&amp;column='.$column.'&amp;direction='.$direction.'&amp;xop='.$op.'"><img src="images/delete.png" height="16" width="16" alt="'._AB_DELETE.'" title="'._AB_DELETE.'" border="0" /></a></td>'."\n";
     echo '</tr>'."\n";
   }
   echo '</table>'."\n";

@@ -51,7 +51,7 @@ include($phpbb2_root_path . 'common.'.$phpEx);
 $sid = get_var('sid', '');
 
 // Start session management
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_PROFILE);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_PROFILE);
 titanium_init_userprefs($userdata);
 // End session management
 
@@ -62,14 +62,14 @@ if ($sid == '' || $sid != $userdata['session_id'])
 }
 
 // Obtain initial var settings
-$titanium_user_id = get_var(POST_USERS_URL, 0);
+$pnt_user_id = get_var(POST_USERS_URL, 0);
 
-if (!$titanium_user_id)
+if (!$pnt_user_id)
 {
     message_die(GENERAL_MESSAGE, $lang['No_user_id_specified']);
 }
 
-$profiledata = get_userdata($titanium_user_id);
+$profiledata = get_userdata($pnt_user_id);
 
 if ($profiledata['user_id'] != $userdata['user_id'] && $userdata['user_level'] != ADMIN)
 {
@@ -177,11 +177,11 @@ if ($confirm && sizeof($delete_id_list) > 0)
             WHERE attach_id = ' . intval($delete_id_list[$i]) . '
                 AND (user_id_1 = ' . intval($profiledata['user_id']) . '
                     OR user_id_2 = ' . intval($profiledata['user_id']) . ')';
-        $result = $titanium_db->sql_query($sql);
+        $result = $pnt_db->sql_query($sql);
         if ($result)
         {
-            $row = $titanium_db->sql_fetchrow($result);
-            $titanium_db->sql_freeresult($result);
+            $row = $pnt_db->sql_fetchrow($result);
+            $pnt_db->sql_freeresult($result);
 
             if ($row['post_id'] != 0)
             {
@@ -239,7 +239,7 @@ $phpbb2_template->set_filenames(array(
 
 $total_phpbb2_rows = 0;
     
-$titanium_username = $profiledata['username'];
+$pnt_username = $profiledata['username'];
 
 $s_hidden = '<input type="hidden" name="' . POST_USERS_URL . '" value="' . intval($profiledata['user_id']) . '" />';
 $s_hidden .= '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" />';
@@ -281,14 +281,14 @@ $sql = "SELECT attach_id
     WHERE user_id_1 = " . intval($profiledata['user_id']) . " OR user_id_2 = " . intval($profiledata['user_id']) . "
     GROUP BY attach_id";
         
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
 }
         
-$attach_ids = $titanium_db->sql_fetchrowset($result);
-$num_attach_ids = $titanium_db->sql_numrows($result);
-$titanium_db->sql_freeresult($result);
+$attach_ids = $pnt_db->sql_fetchrowset($result);
+$num_attach_ids = $pnt_db->sql_numrows($result);
+$pnt_db->sql_freeresult($result);
 
 $total_phpbb2_rows = $num_attach_ids;
 
@@ -308,14 +308,14 @@ if ($num_attach_ids > 0)
         WHERE a.attach_id IN (" . implode(', ', $attach_id) . ") " .
         $order_by;
         
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Couldn't query attachments", '', __LINE__, __FILE__, $sql);
     }
 
-    $attachments = $titanium_db->sql_fetchrowset($result);
-    $num_attach = $titanium_db->sql_numrows($result);
-    $titanium_db->sql_freeresult($result);
+    $attachments = $pnt_db->sql_fetchrowset($result);
+    $num_attach = $pnt_db->sql_numrows($result);
+    $pnt_db->sql_freeresult($result);
 }
 
 if (sizeof($attachments) > 0)
@@ -333,14 +333,14 @@ if (sizeof($attachments) > 0)
             FROM ' . ATTACHMENTS_TABLE . '
             WHERE attach_id = ' . (int) $attachments[$i]['attach_id'];
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
         }
 
-        $ids = $titanium_db->sql_fetchrowset($result);
-        $num_ids = $titanium_db->sql_numrows($result);
-        $titanium_db->sql_freeresult($result);
+        $ids = $pnt_db->sql_fetchrowset($result);
+        $num_ids = $pnt_db->sql_numrows($result);
+        $pnt_db->sql_freeresult($result);
 
         for ($j = 0; $j < $num_ids; $j++)
         {
@@ -351,13 +351,13 @@ if (sizeof($attachments) > 0)
                     WHERE p.post_id = " . (int) $ids[$j]['post_id'] . " AND p.topic_id = t.topic_id
                     GROUP BY t.topic_id, t.topic_title";
 
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t query topic', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $titanium_db->sql_fetchrow($result);
-                $titanium_db->sql_freeresult($result);
+                $row = $pnt_db->sql_fetchrow($result);
+                $pnt_db->sql_freeresult($result);
 
                 $post_title = $row['topic_title'];
 
@@ -378,14 +378,14 @@ if (sizeof($attachments) > 0)
                     FROM " . PRIVMSGS_TABLE . "
                     WHERE privmsgs_id = " . (int) $ids[$j]['privmsgs_id'];
 
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t get Privmsgs Type', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ($titanium_db->sql_numrows($result) != 0)
+                if ($pnt_db->sql_numrows($result) != 0)
                 {
-                    $row = $titanium_db->sql_fetchrow($result);
+                    $row = $pnt_db->sql_fetchrow($result);
                     $privmsgs_type = $row['privmsgs_type'];
                                 
 
@@ -423,7 +423,7 @@ if (sizeof($attachments) > 0)
                         $post_titles[] = $desc;
                     }
                 }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
             }
         }
 

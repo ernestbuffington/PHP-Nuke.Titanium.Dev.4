@@ -23,7 +23,7 @@ global $evouserinfo_addons, $evouserinfo_online;
 
 function evouserinfo_get_members_online() 
 {
-    global $titanium_prefix, $titanium_db, $lang_evo_userblock, $evouserinfo_addons, $titanium_user_prefix, $userinfo, $phpbb2_board_config, $Default_Theme;
+    global $pnt_prefix, $pnt_db, $lang_evo_userblock, $evouserinfo_addons, $pnt_user_prefix, $userinfo, $phpbb2_board_config, $Default_Theme;
 
     $sql = "SELECT w.uname, 
 	              w.module, 
@@ -42,9 +42,9 @@ function evouserinfo_get_members_online()
 		  u.user_viewemail, 
 		    u.user_regdate, 
 			  u.user_posts, 
-			       u.theme FROM ".$titanium_prefix."_session 
+			       u.theme FROM ".$pnt_prefix."_session 
 				   
-				   AS w LEFT JOIN ".$titanium_user_prefix."_users AS u 
+				   AS w LEFT JOIN ".$pnt_user_prefix."_users AS u 
 				   ON u.username = w.uname 
 				   WHERE w.guest = '0' 
 				   OR w.guest = '2' 
@@ -53,30 +53,30 @@ function evouserinfo_get_members_online()
 				   
 				   DESC, u.user_rank DESC, u.username";
     
-	$result = $titanium_db->sql_query($sql);
+	$result = $pnt_db->sql_query($sql);
     $i = 1;
     $hidden = 0;
     $out = array();
     $out['text'] = '';
     
-	while ($session = $titanium_db->sql_fetchrow($result)) 
+	while ($session = $pnt_db->sql_fetchrow($result)) 
     {                                   # spacer
         $num 			= ($i < 10) ? ''.'0'.$i : $i;
 		$uname 			= $session['uname'];
         $uname_color 	= UsernameColor($session['uname']);
         $level 			= $session['user_level'];
-        $titanium_module 		= $session['module'];
+        $pnt_module 		= $session['module'];
         $url 			= $session['url'];
         $url 			= str_replace("&", "&amp;", $url);
-        $where 			= '&nbsp;&nbsp;<a href="'.$url.'" alt="'.$titanium_module.'" title="'.$titanium_module.'">'.$num.'</a>.&nbsp;';
+        $where 			= '&nbsp;&nbsp;<a href="'.$url.'" alt="'.$pnt_module.'" title="'.$pnt_module.'">'.$num.'</a>.&nbsp;';
         $where 			= (is_admin()) ? $where : $num.'.&nbsp;';
-        $titanium_user_from 		= $session['user_from'];
-        $titanium_user_flag 		= str_replace('.png','',$session['user_from_flag']);
+        $pnt_user_from 		= $session['user_from'];
+        $pnt_user_flag 		= str_replace('.png','',$session['user_from_flag']);
         
 		if ($evouserinfo_addons['online_country_flag'] == 'yes'):
-        $titanium_user_flag = (($session['user_from_flag']) ? '<span class="countries '.$titanium_user_flag.'" title="'.$titanium_user_from.'"></span>&nbsp;' : '');
+        $pnt_user_flag = (($session['user_from_flag']) ? '<span class="countries '.$pnt_user_flag.'" title="'.$pnt_user_from.'"></span>&nbsp;' : '');
         else:
-        $titanium_user_flag = '';
+        $pnt_user_flag = '';
         endif;
 
         switch( $session['user_avatar_type'] ):
@@ -152,16 +152,16 @@ function evouserinfo_get_members_online()
             $admin_user_level_image = 
 			( $evouserinfo_addons['online_user_level_image'] == 'yes' ) 
 			? '&nbsp;<img style="width: 32px; height: 8px" src="images/evo_userinfo/admin.gif" alt="">' : '';
-            $out['text'] .= $where.$titanium_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
+            $out['text'] .= $where.$pnt_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
 			'.$session['user_id'].'"'.$tooltip_userinfo.'>'.$uname_color.'</a>'.$admin_user_level_image.'<br />';
             elseif ($level == 3):
             $staff_user_level_image = 
 			( $evouserinfo_addons['online_user_level_image'] == 'yes' ) 
 			? '&nbsp;<img style="width: 32px; height: 8px" src="images/evo_userinfo/staff.gif" alt="">' : '';
-            $out['text'] .= $where.$titanium_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
+            $out['text'] .= $where.$pnt_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
 			'.$session['user_id'].'"'.$tooltip_userinfo.'>'.$uname_color.'</a>'.$staff_user_level_image.'<br />';
             else:
-            $out['text'] .= $where.$titanium_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$session['user_id'].'"'.$tooltip_userinfo.'>'.$uname_color.'</a><br />';
+            $out['text'] .= $where.$pnt_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$session['user_id'].'"'.$tooltip_userinfo.'>'.$uname_color.'</a><br />';
             endif;
         
             elseif (is_admin() || $userinfo['user_id'] == $session['user_id']):
@@ -170,16 +170,16 @@ function evouserinfo_get_members_online()
             $admin_user_level_image = 
 			( $evouserinfo_addons['online_user_level_image'] == 'yes' ) 
 			? '&nbsp;<img style="width: 32px; height: 8px" src="images/evo_userinfo/admin.gif" alt="">' : '';
-            $out['text'] .= $where.$titanium_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
+            $out['text'] .= $where.$pnt_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
 			'.$session['user_id'].'"'.$tooltip_userinfo.'><i>'.$uname_color.'</i></a>'.$admin_user_level_image.'<br />';
             elseif ($level == 3):
             $staff_user_level_image = 
 			( $evouserinfo_addons['online_user_level_image'] == 'yes' ) 
 			? '&nbsp;<img style="width: 32px; height: 8px" src="images/evo_userinfo/staff.gif" alt="">' : '';
-            $out['text'] .= $where.$titanium_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
+            $out['text'] .= $where.$pnt_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
 			'.$session['user_id'].'"'.$tooltip_userinfo.'><i>'.$uname_color.'</i></a>'.$staff_user_level_image.'<br />';
             else:
-            $out['text'] .= $where.$titanium_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$session['user_id'].'"'.$tooltip_userinfo.'><i>'.$uname_color.'</i></a><br />';
+            $out['text'] .= $where.$pnt_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$session['user_id'].'"'.$tooltip_userinfo.'><i>'.$uname_color.'</i></a><br />';
             endif;
             $hidden++;
 
@@ -192,37 +192,37 @@ function evouserinfo_get_members_online()
     $out['hidden'] = $hidden;
     $out['total'] = $i;
     $out['visible'] = $i-$hidden;
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     return $out;
 }
 
 function evouserinfo_get_guests_online($phpbb2_start) 
 {
-    global $titanium_prefix, $titanium_db, $lang_evo_userblock, $identify;
-    $result = $titanium_db->sql_query("SELECT uname, url, module, host_addr FROM ".$titanium_prefix."_session WHERE guest='1' OR guest='3'");
-    $out['total'] = $titanium_db->sql_numrows($result);
+    global $pnt_prefix, $pnt_db, $lang_evo_userblock, $identify;
+    $result = $pnt_db->sql_query("SELECT uname, url, module, host_addr FROM ".$pnt_prefix."_session WHERE guest='1' OR guest='3'");
+    $out['total'] = $pnt_db->sql_numrows($result);
     $out['text'] = '';
     $i = $phpbb2_start;
-    while ($session = $titanium_db->sql_fetchrow($result)):
+    while ($session = $pnt_db->sql_fetchrow($result)):
 
         $num = ($i < 10) ? '0'.$i : $i;
         
-        $titanium_module = $session['module'];
+        $pnt_module = $session['module'];
         $url = $session['url'];
         $url = str_replace("&", "&amp;", $url);
-           //$where = '<a data-user-country="'.$session['host_addr'].'" href="'.$url.'" alt="'.$titanium_module.'" title="'.$titanium_module.'">'.$num.'</a>.&nbsp;';
+           //$where = '<a data-user-country="'.$session['host_addr'].'" href="'.$url.'" alt="'.$pnt_module.'" title="'.$pnt_module.'">'.$num.'</a>.&nbsp;';
            //$where = (is_admin()) ? $where : $num.'.&nbsp;';
         
-		$where 			= '&nbsp;&nbsp;<a class="tooltip-html-side-interact tooltipstered" href="'.$url.'" alt="'.$titanium_module.'" title="'.$url.'">'.$num.'.&nbsp;';
+		$where 			= '&nbsp;&nbsp;<a class="tooltip-html-side-interact tooltipstered" href="'.$url.'" alt="'.$pnt_module.'" title="'.$url.'">'.$num.'.&nbsp;';
         $where 			= (is_admin()) ? $where : '&nbsp;&nbsp;'.$num.'.&nbsp;';
         
 		if(!is_admin()):
             $out['text'] .= $where.$lang_evo_userblock['BLOCK']['ONLINE']['GUEST']."</a><br />\n";
         else:
         
-            $titanium_user_agent = $identify->identify_agent();
-            if($titanium_user_agent['engine'] == 'bot'):
-                $out['text'] .= $where.$titanium_user_agent['ua']."</a><br />\n";
+            $pnt_user_agent = $identify->identify_agent();
+            if($pnt_user_agent['engine'] == 'bot'):
+                $out['text'] .= $where.$pnt_user_agent['ua']."</a><br />\n";
             else:
                 // $out['text'] .= "<br />".$where.$session['uname']."\n";
                 $out['text'] .= $where.$session['uname']."</a><br />\n";
@@ -232,7 +232,7 @@ function evouserinfo_get_guests_online($phpbb2_start)
         $i++;
     
     endwhile;
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     return $out;
 }
 

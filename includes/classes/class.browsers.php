@@ -22,8 +22,8 @@
 	 *
 	 * Typical Usage:
 	 *
-	 *   $titanium_browser = new Browser();
-	 *   if( $titanium_browser->getBrowser() == Browser::BROWSER_FIREFOX && $titanium_browser->getVersion() >= 2 ) {
+	 *   $pnt_browser = new Browser();
+	 *   if( $pnt_browser->getBrowser() == Browser::BROWSER_FIREFOX && $pnt_browser->getVersion() >= 2 ) {
 	 *   	echo 'You have FireFox version 2 or greater';
 	 *   }
 	 *
@@ -210,10 +210,10 @@
 		
 		const OPERATING_SYSTEM_UNKNOWN = 'unknown';
 
-		public function __construct($titanium_useragent="") {
+		public function __construct($pnt_useragent="") {
 			$this->reset();
-			if( $titanium_useragent != "" ) {
-				$this->setUserAgent($titanium_useragent);
+			if( $pnt_useragent != "" ) {
+				$this->setUserAgent($pnt_useragent);
 			}
 			else {
 				$this->determine();
@@ -237,10 +237,10 @@
 
 		/**
 		* Check to see if the specific browser is valid
-		* @param string $titanium_browserName
+		* @param string $pnt_browserName
 		* @return True if the browser is the specified browser
 		*/
-		function isBrowser($titanium_browserName) { return( 0 == strcasecmp($this->_browser_name, trim($titanium_browserName))); }
+		function isBrowser($pnt_browserName) { return( 0 == strcasecmp($this->_browser_name, trim($pnt_browserName))); }
 
 		/**
 		* The name of the browser.  All return types are from the class contants
@@ -249,9 +249,9 @@
 		public function getBrowser() { return $this->_browser_name; }
 		/**
 		* Set the name of the browser
-		* @param $titanium_browser The name of the Browser
+		* @param $pnt_browser The name of the Browser
 		*/
-		public function setBrowser($titanium_browser) { return $this->_browser_name = $titanium_browser; }
+		public function setBrowser($pnt_browser) { return $this->_browser_name = $pnt_browser; }
 		/**
 		* The name of the platform.  All return types are from the class contants
 		* @return string Name of the browser
@@ -1117,18 +1117,18 @@
     }
  
 global $file_extension;
-$titanium_browser = new Browser();
+$pnt_browser = new Browser();
 
-    if( $titanium_browser->getBrowser() == Browser::BROWSER_IE && $titanium_browser->getVersion() >= 2 ) 
+    if( $pnt_browser->getBrowser() == Browser::BROWSER_IE && $pnt_browser->getVersion() >= 2 ) 
 	$file_extension = ".jpg";
     else
-	if( $titanium_browser->getBrowser() == Browser::BROWSER_POCKET_IE && $titanium_browser->getVersion() >= 2 ) 
+	if( $pnt_browser->getBrowser() == Browser::BROWSER_POCKET_IE && $pnt_browser->getVersion() >= 2 ) 
 	$file_extension = ".jpg";
     else
-    if( $titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() >= 2 ) 
+    if( $pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() >= 2 ) 
 	$file_extension = ".png";
     else
-	if( $titanium_browser->getBrowser() == Browser::BROWSER_OPERA && $titanium_browser->getVersion() >= 2 ) 
+	if( $pnt_browser->getBrowser() == Browser::BROWSER_OPERA && $pnt_browser->getVersion() >= 2 ) 
     $file_extension = ".png";
     else
     $file_extension = ".png";

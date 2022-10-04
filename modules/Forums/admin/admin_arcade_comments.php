@@ -23,7 +23,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
    $file = basename(__FILE__);
-   $titanium_module['Arcade_Admin']['Manage_comments'] = $file;
+   $pnt_module['Arcade_Admin']['Manage_comments'] = $file;
    return;
 }
 
@@ -46,7 +46,7 @@ $mode = $HTTP_GET_VARS['mode'];
         
     //Enters Comment into the DB
     $sql = "UPDATE " . COMMENTS_TABLE . " SET comments_value = '$comment_text' WHERE game_id = $game_id";
-    if( !$result = $titanium_db->sql_query($sql) )
+    if( !$result = $pnt_db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, "Couldn't insert row in comments table", "", __LINE__, __FILE__, $sql);
     }
@@ -71,12 +71,12 @@ $mode = $HTTP_GET_VARS['mode'];
     
     //Gets comments from database
     $sql = "SELECT g.game_id, g.game_name, c.* FROM " . GAMES_TABLE. " g LEFT JOIN " . COMMENTS_TABLE . " c ON g.game_id = c.game_id WHERE g.game_id = $gid";
-    if( !($result = $titanium_db->sql_query($sql)) )
+    if( !($result = $pnt_db->sql_query($sql)) )
             {
             message_die(GENERAL_ERROR, "Error retrieving comment list", '', __LINE__, __FILE__, $sql); 
             }
 
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
 
     $phpbb2_template->assign_vars(array(
             'GAME_ID' => $row['game_id'],
@@ -93,13 +93,13 @@ $mode = $HTTP_GET_VARS['mode'];
  
     $comments_sql = "SELECT * FROM " . COMMENTS_TABLE . " WHERE comments_value <> ''"; 
 
-    if ( !($result_count = $titanium_db->sql_query($comments_sql)) ) 
+    if ( !($result_count = $pnt_db->sql_query($comments_sql)) ) 
       { 
          // Error if it fails... 
          message_die(GENERAL_ERROR, "Couldn't obtain comment count.", "", __LINE__, __FILE__, $sql); 
       }
     
-    $count_rows = $titanium_db->sql_fetchrowset($result_count);
+    $count_rows = $pnt_db->sql_fetchrowset($result_count);
     $count_rows = array();
     $comments_total= count($count_rows);
 
@@ -112,14 +112,14 @@ $phpbb2_template->set_filenames(array(
 
                 
 $sql = "SELECT g.*, c.*, u.* FROM " . GAMES_TABLE. " g LEFT JOIN " . COMMENTS_TABLE . " c ON g.game_id = c.game_id LEFT JOIN " . USERS_TABLE ." u ON g.game_highuser=u.user_id WHERE comments_value <> '' ORDER BY game_name ASC LIMIT $phpbb2_start, $comments_perpage";
-            if( !($result = $titanium_db->sql_query($sql)) )
+            if( !($result = $pnt_db->sql_query($sql)) )
             {
             message_die(GENERAL_ERROR, "Error retrieving high score list", '', __LINE__, __FILE__, $sql); 
             }
     
     
 
-while ( $row = $titanium_db->sql_fetchrow($result))
+while ( $row = $pnt_db->sql_fetchrow($result))
             {
             
             $phpbb2_template->assign_block_vars('commentrow', array(

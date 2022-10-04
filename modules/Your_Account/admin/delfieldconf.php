@@ -41,9 +41,9 @@ if (!defined('CNBYA')) {
 
 if(is_mod_admin($pnt_module)) 
 {
-    $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_field WHERE fid='$fid'");
-    $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_value WHERE fid='$fid'");
-    $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE fid='$fid'");
+    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_field WHERE fid='$fid'");
+    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_value WHERE fid='$fid'");
+    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_value_temp WHERE fid='$fid'");
     header("Location:modules.php?name=$pnt_module&file=admin&op=addField");
 }
 

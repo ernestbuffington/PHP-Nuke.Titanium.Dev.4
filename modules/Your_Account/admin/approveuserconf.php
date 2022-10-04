@@ -53,10 +53,10 @@ include_once(NUKE_INCLUDE_DIR. 'constants.php');
 
 if(is_mod_admin($pnt_module)) {
 
-    list($titanium_username, $email, $check_num) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT username, user_email, check_num FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$apr_uid'"));
+    list($pnt_username, $email, $check_num) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT username, user_email, check_num FROM ".$pnt_user_prefix."_users_temp WHERE user_id='$apr_uid'"));
     if ($ya_config['servermail'] == 0) {
         $time     = time();
-        $finishlink     = "$nukeurl/modules.php?name=$pnt_module&op=activate&username=$titanium_username&check_num=$check_num";
+        $finishlink     = "$nukeurl/modules.php?name=$pnt_module&op=activate&username=$pnt_username&check_num=$check_num";
         $message     = _WELCOMETO." $sitename!<br /><br />";
         $message    .= _YOUUSEDEMAIL." ($email) "._TOREGISTER." $sitename.<br /><br />";
         $message    .= _TOFINISHUSER."<br /><br /><a href=\"$finishlink\">$finishlink</a>";
@@ -70,18 +70,18 @@ if(is_mod_admin($pnt_module)) {
         );
         evo_phpmailer( $email, $subject, $message, $headers );
     }
-    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users_temp SET time='$time' WHERE user_id='$apr_uid'");
+    $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users_temp SET time='$time' WHERE user_id='$apr_uid'");
 /*****[BEGIN]******************************************
  [ Mod:     Welcome PM                         v2.0.0 ]
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-    send_pm($apr_uid, $titanium_username);
+    send_pm($apr_uid, $pnt_username);
     init_group($apr_uid);
 /*****[END]********************************************
  [ Mod:     Welcome PM                         v2.0.0 ]
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-    $pagetitle = ": "._USERADMIN." - "._YA_APPROVED." . $titanium_username";
+    $pagetitle = ": "._USERADMIN." - "._YA_APPROVED." . $pnt_username";
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();
 	echo "<div align=\"center\">\n<a href=\"modules.php?name=Your_Account&file=admin\">" . _USER_ADMIN_HEADER . "</a></div>\n";
@@ -97,7 +97,7 @@ if(is_mod_admin($pnt_module)) {
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
-    echo "<tr><td align='center'><strong>"._YA_APPROVED." $titanium_username ($email)</strong></td></tr>\n";
+    echo "<tr><td align='center'><strong>"._YA_APPROVED." $pnt_username ($email)</strong></td></tr>\n";
     echo "<tr><td align='center'><strong>"._YA_SENDMAIL."</strong></td></tr>\n";
     echo "<tr><td align='center'><input type='submit' value='"._RETURN2."'></td></tr>\n";
     echo "</form>\n";

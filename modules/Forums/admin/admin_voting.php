@@ -34,7 +34,7 @@ define('IN_PHPBB2', true);
 if( !empty($setmodules) )
     {
         $filename = basename(__FILE__);
-        $titanium_module['Poll Admin']['Poll Results'] = $filename;
+        $pnt_module['Poll Admin']['Poll Results'] = $filename;
         return;
     }
 
@@ -179,22 +179,22 @@ if( !empty($setmodules) )
                 " FROM " . USERS_TABLE . " AS u , " . VOTE_USERS_TABLE . " AS vv" .
                 " WHERE u.user_id = vv.vote_user_id";
 
-        if( !($result = $titanium_db->sql_query($sql)) )
+        if( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not query users.', '', __LINE__, __FILE__, $sql);
             }
 
-        while ( $row = $titanium_db->sql_fetchrow($result) )
+        while ( $row = $pnt_db->sql_fetchrow($result) )
             {
-                    $titanium_user_id = $row['user_id'];
+                    $pnt_user_id = $row['user_id'];
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                    $titanium_username = UsernameColor($row['username']);
+                    $pnt_username = UsernameColor($row['username']);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                    $titanium_user_arr[$titanium_user_id] = $titanium_username;
+                    $pnt_user_arr[$pnt_user_id] = $pnt_username;
             }
 
     // Assign poll options array
@@ -202,12 +202,12 @@ if( !empty($setmodules) )
                  " FROM ". VOTE_RESULTS_TABLE .
                 " ORDER BY vote_id";
 
-        if( !($result = $titanium_db->sql_query($sql)) )
+        if( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not query poll options.', '', __LINE__, __FILE__, $sql);
             }
 
-        while ( $row = $titanium_db->sql_fetchrow($result) )
+        while ( $row = $pnt_db->sql_fetchrow($result) )
             { 
                 $vote_id = $row['vote_id']; 
                 $vote_option_id = $row['vote_option_id']; 
@@ -222,12 +222,12 @@ if( !empty($setmodules) )
                 " FROM ". VOTE_USERS_TABLE .
                 " ORDER BY vote_id"; 
 
-        if( !($result = $titanium_db->sql_query($sql)) )
+        if( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not query vote results.', '', __LINE__, __FILE__, $sql);
             }
 
-        while ( $row = $titanium_db->sql_fetchrow($result) )
+        while ( $row = $pnt_db->sql_fetchrow($result) )
             { 
                 $vote_id = $row['vote_id']; 
                 $vote_user_id = $row['vote_user_id']; 
@@ -238,16 +238,16 @@ if( !empty($setmodules) )
                 " FROM ". VOTE_DESC_TABLE .
                 " ORDER BY " . $order_by;
 
-        if( !($result = $titanium_db->sql_query($sql)) )
+        if( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not query poll description.', '', __LINE__, __FILE__, $sql);
             }
 
-        $num_polls = $titanium_db->sql_numrows($result);
+        $num_polls = $pnt_db->sql_numrows($result);
 
         $i = 0;
 
-        while ( $row = $titanium_db->sql_fetchrow($result) )
+        while ( $row = $pnt_db->sql_fetchrow($result) )
             { 
                 $topic_row_color = (($i % 2) == 0) ? "row1" : "row2";
                 $vote_id = $row['vote_id']; 
@@ -270,25 +270,25 @@ if( !empty($setmodules) )
                         $vote_duration = (date ("m/d/y",$vote_start)) . " - " . (date ("m/d/y",$vote_end)) . "(completed)" ;
                     } 
 
-            $titanium_user = ""; 
-            $titanium_users = ""; 
-            $titanium_user_option_arr = array();
+            $pnt_user = ""; 
+            $pnt_users = ""; 
+            $pnt_user_option_arr = array();
  
             if (count($voter_arr[$vote_id]) > 0 )
                 { 
-                    foreach($voter_arr[$vote_id] as $titanium_user_id => $option_id)
+                    foreach($voter_arr[$vote_id] as $pnt_user_id => $option_id)
                     { 
-                        $titanium_user .= $titanium_user_arr[$titanium_user_id].", "; 
-                        $titanium_user_option_arr[$option_id] .= $titanium_user_arr[$titanium_user_id].", "; 
+                        $pnt_user .= $pnt_user_arr[$pnt_user_id].", "; 
+                        $pnt_user_option_arr[$option_id] .= $pnt_user_arr[$pnt_user_id].", "; 
                     } 
-                        $titanium_user = substr($titanium_user, "0", strrpos($titanium_user, ", ")); 
+                        $pnt_user = substr($pnt_user, "0", strrpos($pnt_user, ", ")); 
                 }
  
             $phpbb2_template->assign_block_vars("votes", array( 
                 'COLOR' => $topic_row_color,
                 'LINK' => $root_path . "modules.php?name=Forums&amp;file=viewtopic&amp;t=$topic_id", 
                 'DESCRIPTION' => $vote_text, 
-                'USER' => $titanium_user, 
+                'USER' => $pnt_user, 
                 'ENDDATE' => $vote_end,
                 'VOTE_DURATION' => $vote_duration, 
                 'VOTE_ID' => $vote_id
@@ -300,13 +300,13 @@ if( !empty($setmodules) )
                         { 
                             $option_text = $elem["text"]; 
                             $option_result = $elem["result"]; 
-                            $titanium_user = $titanium_user_option_arr[$vote_option_id]; 
-                            $titanium_user = substr($titanium_user, "0", strrpos($titanium_user, ", "));
+                            $pnt_user = $pnt_user_option_arr[$vote_option_id]; 
+                            $pnt_user = substr($pnt_user, "0", strrpos($pnt_user, ", "));
  
             $phpbb2_template->assign_block_vars("votes.detail", array( 
                 'OPTION' => $option_text, 
                 'RESULT' => $option_result, 
-                'USER' => $titanium_user
+                'USER' => $pnt_user
                 )); 
                         } 
                 }
@@ -321,12 +321,12 @@ if( !empty($setmodules) )
             " FROM " . VOTE_DESC_TABLE .
             " WHERE vote_id > 0";
 
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Error getting total users', '', __LINE__, __FILE__, $sql);
         }
 
-    if ( $total = $titanium_db->sql_fetchrow($result) )
+    if ( $total = $pnt_db->sql_fetchrow($result) )
         {
             $total_phpbb2_polls = $total['total'];
             $pagination = generate_pagination("admin_voting.$phpEx?mode=$sort_field&amp;order=$sort_order", $total_phpbb2_polls, $phpbb2_board_config['topics_per_page'], $phpbb2_start). '&nbsp;';

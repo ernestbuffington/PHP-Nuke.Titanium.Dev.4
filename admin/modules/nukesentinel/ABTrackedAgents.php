@@ -42,7 +42,7 @@ if(preg_match("#All(.*)Modules#", $showmodule) || !$showmodule ) {
 } else {
   $modfilter="WHERE page LIKE '%name=$showmodule%'";
 }
-$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`user_agent`) FROM `".$titanium_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1"));
+$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT DISTINCT(`user_agent`) FROM `".$pnt_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1"));
 if($totalselected > 0) {
   $selcolumn3=$selcolumn4=$selcolumn5='';
   $seldirection1=$seldirection2='';
@@ -76,28 +76,28 @@ if($totalselected > 0) {
   // Page Sorting
   // START Modules
   $handle=opendir('modules');
-  $titanium_moduleslist = '';
+  $pnt_moduleslist = '';
   while($file = readdir($handle)) {
     if( (!preg_match("/^[\.]/",$file)) && !preg_match("/(html)$/", $file) ) {
-      $titanium_moduleslist .= "$file ";
+      $pnt_moduleslist .= "$file ";
     }
   }
   closedir($handle);
-  $titanium_moduleslist .= "&nbsp;All&nbsp;Modules &nbsp;Index &nbsp;Admin &nbsp;Backend";
-  $titanium_moduleslist = explode(" ", $titanium_moduleslist);
-  sort($titanium_moduleslist);
+  $pnt_moduleslist .= "&nbsp;All&nbsp;Modules &nbsp;Index &nbsp;Admin &nbsp;Backend";
+  $pnt_moduleslist = explode(" ", $pnt_moduleslist);
+  sort($pnt_moduleslist);
 
   echo "<td align='right' bgcolor='$bgcolor2' width='50%'>\n";
   echo "<form action=\"".$admin_file.".php?op=ABTrackedAgents\" method=\"post\">\n";
   echo "<input type='hidden' name='column' value='$column' />\n";
   echo "<input type='hidden' name='direction' value='$direction' />\n";
   echo "<strong>"._AB_MODULE.":</strong> <select name=\"showmodule\">\n";
-  for($i=0; $i < sizeof($titanium_moduleslist); $i++) {
-    if($titanium_moduleslist[$i]!="") {
-      $titanium_moduleslist[$i] = str_replace("&nbsp;", " ", $titanium_moduleslist[$i]);
-      echo "<option value=\"$titanium_moduleslist[$i]\" ";
-      if($showmodule==$titanium_moduleslist[$i] OR ((!$showmodule OR $showmodule=="") AND $titanium_moduleslist[$i]==" All Modules")) { echo " selected='selected'"; }
-      echo ">".$titanium_moduleslist[$i]."</option>\n";
+  for($i=0; $i < sizeof($pnt_moduleslist); $i++) {
+    if($pnt_moduleslist[$i]!="") {
+      $pnt_moduleslist[$i] = str_replace("&nbsp;", " ", $pnt_moduleslist[$i]);
+      echo "<option value=\"$pnt_moduleslist[$i]\" ";
+      if($showmodule==$pnt_moduleslist[$i] OR ((!$showmodule OR $showmodule=="") AND $pnt_moduleslist[$i]==" All Modules")) { echo " selected='selected'"; }
+      echo ">".$pnt_moduleslist[$i]."</option>\n";
     }
   }
   echo "</select><input type='submit' value='"._AB_GO."' /></form></td>\n";
@@ -111,11 +111,11 @@ if($totalselected > 0) {
   echo "<td align='center'><strong>"._AB_LASTVIEWED."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_HITS."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_FUNCTIONS."</strong></td>\n</tr>\n";
-  $result = $titanium_db->sql_query("SELECT DISTINCT(`user_agent`), tid, MAX(`date`), COUNT(*) FROM `".$titanium_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1 ORDER BY $column $direction LIMIT $min, $perpage");
-  while(list($titanium_user_agent, $tid, $lastview, $hits) = $titanium_db->sql_fetchrow($result)){
+  $result = $pnt_db->sql_query("SELECT DISTINCT(`user_agent`), tid, MAX(`date`), COUNT(*) FROM `".$pnt_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1 ORDER BY $column $direction LIMIT $min, $perpage");
+  while(list($pnt_user_agent, $tid, $lastview, $hits) = $pnt_db->sql_fetchrow($result)){
     echo "<tr onmouseover=\"this.style.backgroundColor='$bgcolor2'\" onmouseout=\"this.style.backgroundColor='$bgcolor1'\" bgcolor='$bgcolor1'>";
-    echo "<td>$titanium_user_agent</td>";
-    $trackedips = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `user_agent`='$titanium_user_agent'"));
+    echo "<td>$pnt_user_agent</td>";
+    $trackedips = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `user_agent`='$pnt_user_agent'"));
     echo "<td align='center'><a href='".$admin_file.".php?op=ABTrackedAgentsIPs&amp;tid=$tid' target='_blank'>$trackedips</a></td>\n";
     echo "<td align='center'>".date("Y-m-d \@ H:i:s",$lastview)."</td>";
     echo "<td align='center'>$hits</td>";

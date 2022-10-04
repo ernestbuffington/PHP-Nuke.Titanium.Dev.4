@@ -72,7 +72,7 @@ if ( !empty($phpbb2_board_config['privmsg_disable']) )
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_PRIVMSGS);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_PRIVMSGS);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -102,11 +102,11 @@ if ( !empty($group_id) )
                         (g.group_allow_pm='".AUTH_REG."' AND '".$userdata['user_id']."'!='".ANONYMOUS."' ) OR
                         (g.group_allow_pm='".AUTH_ALL."')
                 )" ;
-        $result = $titanium_db->sql_query($sql);
-        if( !$result = $titanium_db->sql_query($sql) )
+        $result = $pnt_db->sql_query($sql);
+        if( !$result = $pnt_db->sql_query($sql) )
             message_die(GENERAL_ERROR, "Could not select group name!", __LINE__, __FILE__, $sql);
-        if( ! $titanium_db->sql_numrows($result)) message_die(GENERAL_ERROR, $lang['Not_Authorised']);
-        $group = $titanium_db->sql_fetchrow($result);
+        if( ! $pnt_db->sql_numrows($result)) message_die(GENERAL_ERROR, $lang['Not_Authorised']);
+        $group = $pnt_db->sql_fetchrow($result);
         $group_name=$group['group_name'];
         $sql = "SELECT distinct u.user_id, u.user_lang, u.user_email, u.username, u.user_notify_pm,u.user_active,u.user_allow_mass_pm
             FROM " . USERS_TABLE . " u, " . USER_GROUP_TABLE . " ug
@@ -140,13 +140,13 @@ if ( !empty($group_id) )
                     AND user_level = '3' ORDER BY user_lang";
         $group_name=$lang['All_mods'];
     }
-    if( !$result = $titanium_db->sql_query($sql) )
+    if( !$result = $pnt_db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, "Coult not select group members!", __LINE__, __FILE__, $sql);
     }
-    if( ! $titanium_db->sql_numrows($result))
+    if( ! $pnt_db->sql_numrows($result))
     {
-        $pm_list = $titanium_db->sql_fetchrowset($result);
+        $pm_list = $pnt_db->sql_fetchrowset($result);
         //
         // Output a relevant GENERAL_MESSAGE about users/group
         // not existing
@@ -154,8 +154,8 @@ if ( !empty($group_id) )
         $error = TRUE;
         $error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $lang['No_to_user'];
     }
-    $PM_list = $titanium_db->sql_fetchrowset($result);
-    $PM_count=$titanium_db->sql_numrows($result);
+    $PM_list = $pnt_db->sql_fetchrowset($result);
+    $PM_count=$pnt_db->sql_numrows($result);
 }
 
 //
@@ -205,7 +205,7 @@ $error = FALSE;
     }
 
     $attach_sig = ( $submit || $refresh ) ? ( ( !empty($HTTP_POST_VARS['attach_sig']) ) ? TRUE : 0 ) : $userdata['user_attachsig'];
-    $titanium_user_sig = ( $userdata['user_sig'] != '' && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : "";
+    $pnt_user_sig = ( $userdata['user_sig'] != '' && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : "";
 
     if ( $submit)
     {
@@ -215,11 +215,11 @@ $error = FALSE;
         $sql = "SELECT MAX(privmsgs_date) AS last_post_time
             FROM " . PRIVMSGS_TABLE . "
             WHERE privmsgs_from_userid = " . $userdata['user_id'];
-        if ( $result = $titanium_db->sql_query($sql) )
+        if ( $result = $pnt_db->sql_query($sql) )
         {
-            $titanium_db_row = $titanium_db->sql_fetchrow($result);
+            $pnt_db_row = $pnt_db->sql_fetchrow($result);
 
-            $phpbb2_last_post_time = $titanium_db_row['last_post_time'];
+            $phpbb2_last_post_time = $pnt_db_row['last_post_time'];
             $current_time = time();
 
             if ( ( $current_time - $phpbb2_last_post_time ) < $phpbb2_board_config['flood_interval'])
@@ -281,14 +281,14 @@ $error = FALSE;
                         OR privmsgs_type = " . PRIVMSGS_READ_MAIL . "
                         OR privmsgs_type = " . PRIVMSGS_UNREAD_MAIL . " )
                     AND privmsgs_to_userid = " . $to_userdata['user_id'];
-            if ( !($result = $titanium_db->sql_query($sql)) )
+            if ( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_MESSAGE, $lang['No_such_user']);
             }
 
             $sql_priority = ( SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli') ? 'LOW_PRIORITY' : '';
 
-            if ( $inbox_info = $titanium_db->sql_fetchrow($result) )
+            if ( $inbox_info = $pnt_db->sql_fetchrow($result) )
             {
                 if ( $inbox_info['inbox_items'] >= $phpbb2_board_config['max_inbox_privmsgs'] )
                 {
@@ -298,7 +298,7 @@ $error = FALSE;
                                 OR privmsgs_type = " . PRIVMSGS_UNREAD_MAIL . "  )
                             AND privmsgs_date = " . $inbox_info['oldest_post_time'] . "
                             AND privmsgs_to_userid = " . $to_userdata['user_id'];
-                    if ( !$titanium_db->sql_query($sql) )
+                    if ( !$pnt_db->sql_query($sql) )
                     {
                         message_die(GENERAL_ERROR, 'Could not delete oldest privmsgs', '', __LINE__, __FILE__, $sql);
                     }
@@ -306,19 +306,19 @@ $error = FALSE;
             }
 
             $sql_info = "INSERT INTO " . PRIVMSGS_TABLE . " (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date, privmsgs_ip, privmsgs_enable_html, privmsgs_enable_bbcode, privmsgs_enable_smilies, privmsgs_attach_sig)
-                VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", str_replace("[USERNAME]",$to_userdata['username'],$privmsg_subject)) . "', " . $userdata['user_id'] . ", " . $to_userdata['user_id'] . ", $msg_time, '$titanium_user_ip', $html_on, $bbcode_on, $smilies_on, $attach_sig)";
+                VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", str_replace("[USERNAME]",$to_userdata['username'],$privmsg_subject)) . "', " . $userdata['user_id'] . ", " . $to_userdata['user_id'] . ", $msg_time, '$pnt_user_ip', $html_on, $bbcode_on, $smilies_on, $attach_sig)";
 
-            if ( !($result = $titanium_db->sql_query($sql_info)) )
+            if ( !($result = $pnt_db->sql_query($sql_info)) )
             {
                 message_die(GENERAL_ERROR, "Could not insert private message sent info.", "", __LINE__, __FILE__, $sql_info);
             }
 
-            $privmsg_sent_id = $titanium_db->sql_nextid();
+            $privmsg_sent_id = $pnt_db->sql_nextid();
 
             $sql = "INSERT INTO " . PRIVMSGS_TEXT_TABLE . " (privmsgs_text_id, privmsgs_bbcode_uid, privmsgs_text)
                 VALUES ($privmsg_sent_id, '" . $bbcode_uid . "', '" . str_replace("\'", "''", str_replace("[USERNAME]",$to_userdata['username'],$privmsg_message)) . "')";
 
-            if ( !$titanium_db->sql_query($sql) )
+            if ( !$pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Could not insert/update private message sent text.", "", __LINE__, __FILE__, $sql_info);
             }
@@ -329,7 +329,7 @@ $error = FALSE;
             $sql = "UPDATE " . USERS_TABLE . "
                 SET user_new_privmsg = user_new_privmsg + 1, user_last_privmsg = " . time() . "
                 WHERE user_id = " . $to_userdata['user_id'];
-            if ( !$status = $titanium_db->sql_query($sql) )
+            if ( !$status = $pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not update private message new/read status for user', '', __LINE__, __FILE__, $sql);
             }
@@ -408,7 +408,7 @@ $error = FALSE;
         if ( $mode == 'post' )
         {
             $phpbb2_page_title = $lang['Send_mass_pm'];
-            $titanium_user_sig = ( $userdata['user_sig'] != '' && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
+            $pnt_user_sig = ( $userdata['user_sig'] != '' && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
 
         }
     }
@@ -437,15 +437,15 @@ $error = FALSE;
         //
         if ( !$html_on )
         {
-            if ( $titanium_user_sig != '' || !$userdata['user_allowhtml'] )
+            if ( $pnt_user_sig != '' || !$userdata['user_allowhtml'] )
             {
-                $titanium_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $titanium_user_sig);
+                $pnt_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $pnt_user_sig);
             }
         }
 
-        if ( $attach_sig && $titanium_user_sig != '' && $userdata['user_sig_bbcode_uid'] )
+        if ( $attach_sig && $pnt_user_sig != '' && $userdata['user_sig_bbcode_uid'] )
         {
-            $titanium_user_sig = bbencode_second_pass($titanium_user_sig, $userdata['user_sig_bbcode_uid']);
+            $pnt_user_sig = bbencode_second_pass($pnt_user_sig, $userdata['user_sig_bbcode_uid']);
         }
 
         if ( $bbcode_on )
@@ -453,9 +453,9 @@ $error = FALSE;
             $preview_message = bbencode_second_pass($preview_message, $bbcode_uid);
         }
 
-        if ( $attach_sig && $titanium_user_sig != '' )
+        if ( $attach_sig && $pnt_user_sig != '' )
         {
-            $preview_message = $preview_message . '<br /><br />_________________<br />' . $titanium_user_sig;
+            $preview_message = $preview_message . '<br /><br />_________________<br />' . $pnt_user_sig;
         }
 
         if ( count($orig_word) )
@@ -567,7 +567,7 @@ $error = FALSE;
     // Signature toggle selection - only show if
     // the user has a signature
     //
-    if ( $titanium_user_sig != '' )
+    if ( $pnt_user_sig != '' )
     {
         $phpbb2_template->assign_block_vars('switch_signature_checkbox', array());
     }
@@ -587,9 +587,9 @@ $error = FALSE;
                 (g.group_allow_pm='".AUTH_REG."' AND '".$userdata['user_id']."'!='".ANONYMOUS."' ) OR
                 (g.group_allow_pm='".AUTH_ALL."')
         )" ;
-    if( !$g_result = $titanium_db->sql_query($sql) )
+    if( !$g_result = $pnt_db->sql_query($sql) )
     message_die(GENERAL_ERROR, "Could not select group names!", __LINE__, __FILE__, $sql);
-    $group_list = $titanium_db->sql_fetchrowset($g_result);
+    $group_list = $pnt_db->sql_fetchrowset($g_result);
     if( $userdata['user_level']!=ADMIN && empty($group_list)) message_die(GENERAL_ERROR, $lang['Mass_pm_not_allowed']);
     $groupname = $_REQUEST[POST_GROUPS_URL];
     $select_list = '<select name = "' . POST_GROUPS_URL . '">';
@@ -675,7 +675,7 @@ $error = FALSE;
         'S_BBCODE_CHECKED' => ( !$bbcode_on ) ? ' checked="checked"' : '',
         'S_SMILIES_CHECKED' => ( !$smilies_on ) ? ' checked="checked"' : '',
         'S_SIGNATURE_CHECKED' => ( $attach_sig ) ? ' checked="checked"' : '',
-        'S_NAMES_SELECT' => $titanium_user_names_select,
+        'S_NAMES_SELECT' => $pnt_user_names_select,
         'S_HIDDEN_FORM_FIELDS' => $s_hidden_fields,
         'S_POST_ACTION' => append_titanium_sid("groupmsg.$phpEx"),
 

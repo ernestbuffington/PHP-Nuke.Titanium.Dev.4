@@ -22,8 +22,8 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 }
 
 function spsave_config($config_name, $config_value){
-  global $titanium_prefix, $titanium_db, $cache;
-  $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnsp_config` SET `config_value`='$config_value' WHERE `config_name`='$config_name'");
+  global $pnt_prefix, $pnt_db, $cache;
+  $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnsp_config` SET `config_value`='$config_value' WHERE `config_name`='$config_name'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -34,7 +34,7 @@ function spsave_config($config_name, $config_value){
 }
 
 function spget_configs(){
-  global $titanium_prefix, $titanium_db, $cache;
+  global $pnt_prefix, $pnt_db, $cache;
   static $config;
   if(isset($config)) return $config;
 /*****[BEGIN]******************************************
@@ -44,11 +44,11 @@ function spget_configs(){
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-      $configresult = $titanium_db->sql_query("SELECT `config_name`, `config_value` FROM `".$titanium_prefix."_nsnsp_config`");
-      while(list($config_name, $config_value) = $titanium_db->sql_fetchrow($configresult)) {
+      $configresult = $pnt_db->sql_query("SELECT `config_name`, `config_value` FROM `".$pnt_prefix."_nsnsp_config`");
+      while(list($config_name, $config_value) = $pnt_db->sql_fetchrow($configresult)) {
         $config[$config_name] = $config_value;
       }
-      $titanium_db->sql_freeresult($configresult);
+      $pnt_db->sql_freeresult($configresult);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

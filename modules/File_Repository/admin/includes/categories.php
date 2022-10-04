@@ -15,9 +15,9 @@ if (!defined('IN_FILE_REPOSITORY'))
 
 function _file_repository_categories()
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings;
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $settings;
 	_admin_navigation_menu();
-	$result = $titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."`");
+	$result = $pnt_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."`");
 	echo '<table style="width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
 	echo '    <td'._tdcss(FALSE,'center',_sh(),5).'>'._suh($lang_new[$pnt_module]['CATEGORY_LIST']).'</td>'."\n";
@@ -28,7 +28,7 @@ function _file_repository_categories()
 	echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($lang_new[$pnt_module]['CATEGORY_UPLOADS']).'</td>'."\n";
 	echo '    <td'._tdcss('20%','center',_sh()).'>'._suh($lang_new[$pnt_module]['UPLOAD_PERMISSIONS']).'</td>'."\n";
 	echo '  </tr>'."\n";
-	echo '  <tr'._bgColor(1).(($titanium_db->sql_numrows($result) == 0 ) ? '' : ' style="display:none;"').'>';
+	echo '  <tr'._bgColor(1).(($pnt_db->sql_numrows($result) == 0 ) ? '' : ' style="display:none;"').'>';
 	echo '    <td'._tdcss(FALSE,'center',_sc(),5).'>'._sut($lang_new[$pnt_module]['CATEGORY_NONE']).'</td>';
 	echo '  </tr>';
 	echo _categories_from_database(0);
@@ -40,9 +40,9 @@ function _file_repository_categories()
 
 function _file_repository_add_category()
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings;
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $settings;
 	_admin_navigation_menu();
-	$row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `cid`='".$_GET['cid']."'"));
+	$row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `cid`='".$_GET['cid']."'"));
 	echo '<form action="'.$admin_file.'.php?op=file_repository&action=savecat" method="post">'."\n";
 //---------------------------------------------------------------------
 //	HIDDEN FIELD USED FOR UPDATING CATEGORY VARIABLES
@@ -84,7 +84,7 @@ function _file_repository_add_category()
 
 function _file_repository_save_category()
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings;	
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $settings;	
 	$active            	= (!empty($_POST['active'])) ? intval($_POST['active']) : 0;
 	$cid              	= (!empty($_POST['cid'])) ? intval($_POST['cid']) : '';
 	$permissions		= (!empty($_POST['permissions'])) ? intval($_POST['permissions']) : 0;
@@ -93,9 +93,9 @@ function _file_repository_save_category()
 	$parentid          	= (!empty($_POST['parent'])) ? $_POST['parent'] : 0;
 	$isallowed    		= (!empty($_POST['isallowed'])) ? intval($_POST['isallowed']) : 0;
 	if($cid)
-		$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_CATEGORIES."` SET `cname`='$cname', `color`='$phpbb2_color', `permissions`='$permissions', `isallowed`='$isallowed' WHERE `cid`='$cid'");
+		$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_CATEGORIES."` SET `cname`='$cname', `color`='$phpbb2_color', `permissions`='$permissions', `isallowed`='$isallowed' WHERE `cid`='$cid'");
 	else		
-		$titanium_db->sql_query("INSERT INTO `"._FILE_REPOSITORY_CATEGORIES."` (`cid`, `cname`, `color`, `parentid`, `permissions`, `isallowed`) VALUES (NULL, '$cname', '$phpbb2_color', '$parentid', '$permissions', '$isallowed')");		
+		$pnt_db->sql_query("INSERT INTO `"._FILE_REPOSITORY_CATEGORIES."` (`cid`, `cname`, `color`, `parentid`, `permissions`, `isallowed`) VALUES (NULL, '$cname', '$phpbb2_color', '$parentid', '$permissions', '$isallowed')");		
 	_redirect_titanium($admin_file.'.php?op=file_repository&action=categories');
 }
 

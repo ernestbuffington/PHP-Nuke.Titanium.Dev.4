@@ -75,7 +75,7 @@ include ("includes/functions_search.php");
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, TITANIUM_PAGE_SEARCH);
+$userdata = titanium_session_pagestart($pnt_user_ip, TITANIUM_PAGE_SEARCH);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -165,7 +165,7 @@ if ($mode == 'searchuser') {
         //
         // Flood control
         //
-        $where_sql = ($userdata['user_id'] == ANONYMOUS || empty($userdata['user_id'])) ? "se.session_ip = '$titanium_user_ip'" : 'se.session_user_id = ' . $userdata['user_id'];
+        $where_sql = ($userdata['user_id'] == ANONYMOUS || empty($userdata['user_id'])) ? "se.session_ip = '$pnt_user_ip'" : 'se.session_user_id = ' . $userdata['user_id'];
         $sql = 'SELECT MAX(sr.search_time) AS last_search_time
 
              FROM ' . SEARCH_TABLE . ' sr, ' . SESSIONS_TABLE . " se
@@ -173,8 +173,8 @@ if ($mode == 'searchuser') {
              WHERE sr.session_id = se.session_id
 
              AND $where_sql";
-        if ($result = $titanium_db->sql_query($sql)) {
-            if ($row = $titanium_db->sql_fetchrow($result)) {
+        if ($result = $pnt_db->sql_query($sql)) {
+            if ($row = $pnt_db->sql_fetchrow($result)) {
                 if (intval($row['last_search_time']) > 0 && ($current_time - intval($row['last_search_time'])) < intval($phpbb2_board_config['search_flood_interval'])) {
                     message_die(GENERAL_MESSAGE, $lang['Search_Flood_Error']);
                 }
@@ -217,14 +217,14 @@ if ($mode == 'searchuser') {
             FROM " . USERS_TABLE . "
 
             WHERE username LIKE '" . str_replace("\'", "''", $search_author) . "'";
-                if (!($result = $titanium_db->sql_query($sql))) {
+                if (!($result = $pnt_db->sql_query($sql))) {
                     message_die(GENERAL_ERROR, "Couldn't obtain list of matching users (searching for: $search_author)", "", __LINE__, __FILE__, $sql);
                 }
                 $matching_userids = '';
-                if ($row = $titanium_db->sql_fetchrow($result)) {
+                if ($row = $pnt_db->sql_fetchrow($result)) {
                     do {
                         $matching_userids.= (($matching_userids != '') ? ', ' : '') . $row['user_id'];
-                    } while ($row = $titanium_db->sql_fetchrow($result));
+                    } while ($row = $pnt_db->sql_fetchrow($result));
                 } else {
                     message_die(GENERAL_MESSAGE, $lang['No_search_match']);
                 }
@@ -236,14 +236,14 @@ if ($mode == 'searchuser') {
                 if ($search_time) {
                     $sql.= " AND post_time >= " . $search_time;
                 }
-            } if (!($result = $titanium_db->sql_query($sql))) {
+            } if (!($result = $pnt_db->sql_query($sql))) {
                 message_die(GENERAL_ERROR, 'Could not obtain matched posts list', '', __LINE__, __FILE__, $sql);
             }
             $search_ids = array();
-            while ($row = $titanium_db->sql_fetchrow($result)) {
+            while ($row = $pnt_db->sql_fetchrow($result)) {
                 $search_ids[] = $row['post_id'];
             }
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_freeresult($result);
             $total_phpbb2_match_count = count($search_ids);
         } else if ($search_keywords != '') {
             $stopword_array = @file($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/search_stopwords.txt');
@@ -323,11 +323,11 @@ if ($mode == 'searchuser') {
 
                 $search_msg_only";
                         }
-                        if (!($result = $titanium_db->sql_query($sql))) {
+                        if (!($result = $pnt_db->sql_query($sql))) {
                             message_die(GENERAL_ERROR, 'Could not obtain matched posts list', '', __LINE__, __FILE__, $sql);
                         }
                         $row = array();
-                        while ($temp_row = $titanium_db->sql_fetchrow($result)) {
+                        while ($temp_row = $pnt_db->sql_fetchrow($result)) {
                             $row[$temp_row['post_id']] = 1;
                             if (!$word_count) {
                                 $result_list[$temp_row['post_id']] = 1;
@@ -346,7 +346,7 @@ if ($mode == 'searchuser') {
                             }
                         }
                         $word_count++;
-                        $titanium_db->sql_freeresult($result);
+                        $pnt_db->sql_freeresult($result);
                     }
                 }
                 @reset($result_list);
@@ -372,11 +372,11 @@ if ($mode == 'searchuser') {
             $has_access = true;
             if (!$phpbb2_is_auth['auth_mod'] && $userdata['user_level'] != ADMIN) {
                 $sql = "SELECT forum_password FROM " . FORUMS_TABLE . " WHERE forum_id = " . $search_forum;
-                if (!$result = $titanium_db->sql_query($sql)) {
+                if (!$result = $pnt_db->sql_query($sql)) {
                     message_die(GENERAL_ERROR, 'Could not retrieve forum password information', '', __LINE__, __FILE__, $sql);
                 }
-                $row = $titanium_db->sql_fetchrow($result);
-                $titanium_db->sql_freeresult($result);
+                $row = $pnt_db->sql_fetchrow($result);
+                $pnt_db->sql_freeresult($result);
                 if ($row['forum_password'] != '' && $passdata[$key] != md5($row['forum_password'])) {
                     $has_access = false;
                 }
@@ -395,11 +395,11 @@ if ($mode == 'searchuser') {
                 $has_access = true;
                 if (!$phpbb2_is_auth['auth_mod'] && $userdata['user_level'] != ADMIN) {
                     $sql = "SELECT forum_password FROM " . FORUMS_TABLE . " WHERE forum_id = " . $key;
-                    if (!$result = $titanium_db->sql_query($sql)) {
+                    if (!$result = $pnt_db->sql_query($sql)) {
                         message_die(GENERAL_ERROR, 'Could not retrieve forum password information', '', __LINE__, __FILE__, $sql);
                     }
-                    $row = $titanium_db->sql_fetchrow($result);
-                    $titanium_db->sql_freeresult($result);
+                    $row = $pnt_db->sql_fetchrow($result);
+                    $pnt_db->sql_freeresult($result);
                     if ($row['forum_password'] != '' && $passdata[$key] != md5($row['forum_password'])) {
                         $has_access = false;
                     }
@@ -477,13 +477,13 @@ if ($mode == 'searchuser') {
 
                     GROUP BY p.topic_id";
                     }
-                    if (!($result = $titanium_db->sql_query($sql))) {
+                    if (!($result = $pnt_db->sql_query($sql))) {
                         message_die(GENERAL_ERROR, 'Could not obtain topic ids', '', __LINE__, __FILE__, $sql);
                     }
-                    while ($row = $titanium_db->sql_fetchrow($result)) {
+                    while ($row = $pnt_db->sql_fetchrow($result)) {
                         $search_ids[] = $row['topic_id'];
                     }
-                    $titanium_db->sql_freeresult($result);
+                    $pnt_db->sql_freeresult($result);
                 }
                 $total_phpbb2_match_count = count($search_ids);
             } else if ($search_author != '' || $search_time || $auth_sql != '') {
@@ -523,13 +523,13 @@ if ($mode == 'searchuser') {
                 FROM ($from_sql)
 
                 WHERE $where_sql";
-                    if (!($result = $titanium_db->sql_query($sql))) {
+                    if (!($result = $pnt_db->sql_query($sql))) {
                         message_die(GENERAL_ERROR, 'Could not obtain post ids', '', __LINE__, __FILE__, $sql);
                     }
-                    while ($row = $titanium_db->sql_fetchrow($result)) {
+                    while ($row = $pnt_db->sql_fetchrow($result)) {
                         $search_ids[] = $row['post_id'];
                     }
-                    $titanium_db->sql_freeresult($result);
+                    $pnt_db->sql_freeresult($result);
                 }
                 $total_phpbb2_match_count = count($search_ids);
             }
@@ -555,14 +555,14 @@ if ($mode == 'searchuser') {
 
             AND topic_moved_id = '0'";
             }
-            if (!($result = $titanium_db->sql_query($sql))) {
+            if (!($result = $pnt_db->sql_query($sql))) {
                 message_die(GENERAL_ERROR, 'Could not obtain post ids', '', __LINE__, __FILE__, $sql);
             }
             $search_ids = array();
-            while ($row = $titanium_db->sql_fetchrow($result)) {
+            while ($row = $pnt_db->sql_fetchrow($result)) {
                 $search_ids[] = $row['topic_id'];
             }
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_freeresult($result);
             $total_phpbb2_match_count = count($search_ids);
             //
             // Basic requirements
@@ -579,7 +579,7 @@ if ($mode == 'searchuser') {
         $sql = 'DELETE FROM ' . SEARCH_TABLE . '
 
     WHERE search_time < ' . ($current_time - (int)$phpbb2_board_config['session_length']);
-        if (!$result = $titanium_db->sql_query($sql)) {
+        if (!$result = $pnt_db->sql_query($sql)) {
             message_die(GENERAL_ERROR, 'Could not delete old search id sessions', '', __LINE__, __FILE__, $sql);
         }
         //
@@ -625,11 +625,11 @@ if ($mode == 'searchuser') {
             SET search_id = $search_id, search_time = $current_time, search_array = '" . str_replace("\'", "''", $result_array) . "'
 
             WHERE session_id = '" . $userdata['session_id'] . "'";
-        if (!($result = $titanium_db->sql_query($sql)) || !$titanium_db->sql_affectedrows()) {
+        if (!($result = $pnt_db->sql_query($sql)) || !$pnt_db->sql_affectedrows()) {
             $sql = "INSERT INTO " . SEARCH_TABLE . " (search_id, session_id, search_time, search_array)
 
                 VALUES($search_id, '" . $userdata['session_id'] . "', $current_time, '" . str_replace("\'", "''", $result_array) . "')";
-            if (!($result = $titanium_db->sql_query($sql))) {
+            if (!($result = $pnt_db->sql_query($sql))) {
                 message_die(GENERAL_ERROR, 'Could not insert search results', '', __LINE__, __FILE__, $sql);
             }
         }
@@ -643,10 +643,10 @@ if ($mode == 'searchuser') {
                 WHERE search_id = '$search_id'
 
                 AND session_id = '" . $userdata['session_id'] . "'";
-            if (!($result = $titanium_db->sql_query($sql))) {
+            if (!($result = $pnt_db->sql_query($sql))) {
                 message_die(GENERAL_ERROR, 'Could not obtain search results', '', __LINE__, __FILE__, $sql);
             }
-            if ($row = $titanium_db->sql_fetchrow($result)) {
+            if ($row = $pnt_db->sql_fetchrow($result)) {
                 $search_data = unserialize($row['search_array']);
                 for ($i = 0;$i < count($store_vars);$i++) {
                     $$store_vars[$i] = $search_data[$store_vars[$i]];
@@ -729,14 +729,14 @@ if ($mode == 'searchuser') {
             break;
         }
         $sql.= " $sort_dir LIMIT $phpbb2_start, " . $per_page;
-        if (!$result = $titanium_db->sql_query($sql)) {
+        if (!$result = $pnt_db->sql_query($sql)) {
             message_die(GENERAL_ERROR, 'Could not obtain search results', '', __LINE__, __FILE__, $sql);
         }
         $searchset = array();
-        while ($row = $titanium_db->sql_fetchrow($result)) {
+        while ($row = $pnt_db->sql_fetchrow($result)) {
             $searchset[] = $row;
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         //
         // Define censored word matches
         //
@@ -1147,7 +1147,7 @@ $sql = "SELECT c.cat_title, c.cat_id, f.forum_name, f.forum_id, f.forum_parent
     " . (($userdata['user_level'] == ADMIN) ? "" : " AND c.cat_id<>'" . HIDDEN_CAT . "'") . "
 
     ORDER BY c.cat_id, f.forum_order";
-$result = $titanium_db->sql_query($sql);
+$result = $pnt_db->sql_query($sql);
 if (!$result) {
     message_die(GENERAL_ERROR, 'Could not obtain forum_name/forum_id', '', __LINE__, __FILE__, $sql);
 }
@@ -1164,7 +1164,7 @@ $list = array();
      [ Mod:    Simple Subforums                    v1.0.1 ]
 
      ******************************************************/
-while ($row = $titanium_db->sql_fetchrow($result)) {
+while ($row = $pnt_db->sql_fetchrow($result)) {
     if ($phpbb2_is_auth_ary[$row['forum_id']]['auth_read']) {
         /*****[BEGIN]******************************************
         
@@ -1205,7 +1205,7 @@ for ($i = 0;$i < count($list);$i++) {
         ******************************************************/
     }
 }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 if ($s_forums != '') {
     $s_forums = '<option value="-1">' . $lang['All_available'] . '</option>' . $s_forums;
     //

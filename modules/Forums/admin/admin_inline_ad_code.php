@@ -23,7 +23,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
   $filename = basename(__FILE__);
-  $titanium_module['ad_managment']['ad_code'] = $filename;
+  $pnt_module['ad_managment']['ad_code'] = $filename;
 
   return;
 }
@@ -42,7 +42,7 @@ if ( isset($HTTP_POST_VARS['submit']))
         ad_name = '" . str_replace("\'", "''", htmlspecialchars($HTTP_POST_VARS['ad_name'])) . "',
         ad_code = '" . str_replace("\'", "''", $HTTP_POST_VARS['ad_code']) . "'
         WHERE ad_id = " . intval($HTTP_POST_VARS['ad_id']);
-    if( !$titanium_db->sql_query($sql) )
+    if( !$pnt_db->sql_query($sql) )
     {
       message_die(GENERAL_ERROR, "Failed to update first post ad settings", "", __LINE__, __FILE__, $sql);
     }
@@ -52,7 +52,7 @@ if ( isset($HTTP_POST_VARS['submit']))
     $sql = "INSERT INTO " . ADS_TABLE . "
         (ad_name, ad_code)
         VALUES ('" . str_replace("\'", "''", $HTTP_POST_VARS['ad_name']) . "','" . str_replace("\'", "''", $HTTP_POST_VARS['ad_code']) . "')";
-    if( !$titanium_db->sql_query($sql) )
+    if( !$pnt_db->sql_query($sql) )
     {
       message_die(GENERAL_ERROR, "Failed to update first post ad settings", "", __LINE__, __FILE__, $sql);
     }
@@ -66,16 +66,16 @@ if ($HTTP_GET_VARS['action'] == "edit")
   $sql = "SELECT *
       FROM " . ADS_TABLE . " a
       WHERE a.ad_id = " . intval($HTTP_GET_VARS['id']);
-  if ( !($result = $titanium_db->sql_query($sql)) )
+  if ( !($result = $pnt_db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not query ad information', '', __LINE__, __FILE__, $sql);
   }
   $adRow = array();
-  while( $row = $titanium_db->sql_fetchrow($result) )
+  while( $row = $pnt_db->sql_fetchrow($result) )
   {
     $adRow = $row;
   }
-  $titanium_db->sql_freeresult($result);
+  $pnt_db->sql_freeresult($result);
   $phpbb2_template->set_filenames(array(
   "body" => "admin/inline_ad_code_edit.tpl")
   );
@@ -97,7 +97,7 @@ elseif ($HTTP_GET_VARS['action'] == "delete")
   $sql = "DELETE
       FROM " . ADS_TABLE . "
       WHERE ad_id = " . intval($HTTP_GET_VARS['id']);
-  if ( !($result = $titanium_db->sql_query($sql)) )
+  if ( !($result = $pnt_db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not query ad information', '', __LINE__, __FILE__, $sql);
   }
@@ -127,17 +127,17 @@ else
 {
   $sql = "SELECT a.ad_name, a.ad_id
       FROM " . ADS_TABLE . " a";
-  if ( !($result = $titanium_db->sql_query($sql)) )
+  if ( !($result = $pnt_db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not query ad information', '', __LINE__, __FILE__, $sql);
   }
   $adRow = array();
-  while( $row = $titanium_db->sql_fetchrow($result) )
+  while( $row = $pnt_db->sql_fetchrow($result) )
   {
     $adRow[] = $row;
   }
-  $ad_count = $titanium_db->sql_numrows($result);
-  $titanium_db->sql_freeresult($result);
+  $ad_count = $pnt_db->sql_numrows($result);
+  $pnt_db->sql_freeresult($result);
 
   $phpbb2_template->set_filenames(array(
   "body" => "admin/inline_ad_code_body.tpl")

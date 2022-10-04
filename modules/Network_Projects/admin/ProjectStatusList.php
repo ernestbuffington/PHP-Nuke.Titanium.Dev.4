@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 get_lang('Network_Projects');
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
@@ -18,8 +18,8 @@ include_once(NUKE_BASE_DIR.'header.php');
 
 pjadmin_menu(_NETWORK_PROJECTS.": "._NETWORK_STATUSLIST);
 //echo "<br />\n";
-$statusresult = $titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_projects_status` WHERE `status_weight` > 0 ORDER BY `status_weight`");
-$status_total = $titanium_db2->sql_numrows($statusresult);
+$statusresult = $pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_projects_status` WHERE `status_weight` > 0 ORDER BY `status_weight`");
+$status_total = $pnt_db2->sql_numrows($statusresult);
 OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr><td colspan='3' width='100%' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_STATUSOPTIONS."</strong></nobr></td></tr>\n";
@@ -36,13 +36,13 @@ echo "<tr><td colspan='2' bgcolor='$bgcolor2' width='100%'><strong>"._NETWORK_ST
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_WEIGHT."</strong></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</strong></td></tr>\n";
 if($status_total != 0){
-  while($status_row = $titanium_db2->sql_fetchrow($statusresult)) {
+  while($status_row = $pnt_db2->sql_fetchrow($statusresult)) {
     $pjimage = pjimage("status.png", $pnt_module);
     echo "<tr><td><img src='$pjimage'></td><td width='100%'>".$status_row['status_name']."</td>\n";
     $weight1 = $status_row['status_weight'] - 1;
     $weight3 = $status_row['status_weight'] + 1;
-    list($pid1) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `status_id` FROM `".$network_prefix."_projects_status` WHERE `status_weight`='$weight1'"));
-    list($pid2) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `status_id` FROM `".$network_prefix."_projects_status` WHERE `status_weight`='$weight3'"));
+    list($pid1) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `status_id` FROM `".$network_prefix."_projects_status` WHERE `status_weight`='$weight1'"));
+    list($pid2) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `status_id` FROM `".$network_prefix."_projects_status` WHERE `status_weight`='$weight3'"));
     echo "<td align='center'><nobr>";
     if($pid1 AND $pid1 > 0) {
       echo "<a href='".$admin_file.".php?op=ProjectStatusOrder&amp;weight=".$status_row['status_weight']."&amp;pid=".$status_row['status_id']."&amp;weightrep=$weight1&amp;pidrep=$pid1'><img src='modules/$pnt_module/images/weight_up.png' border='0' hspace='3' alt='"._NETWORK_UP."' title='"._NETWORK_UP."'></a>";

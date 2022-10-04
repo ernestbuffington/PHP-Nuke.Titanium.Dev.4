@@ -27,8 +27,8 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
  * @author JeFFb68CAM
  *
  * @param string $field_name The field to retrieve
- * @param string $titanium_user Username or User_id
- * @param bool $is_name Is the $titanium_user a username
+ * @param string $pnt_user Username or User_id
+ * @param bool $is_name Is the $pnt_user a username
  * @return string
  */
 // recoded by ReOrGaNiSaTiOn
@@ -36,58 +36,58 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 // and from other files to get specific informations about an user
 // it makes no sense to cache all users (maybe this can be thousands)
 // but for actual page we can make the informations static
-function get_user_field($field_name, $titanium_user, $is_name = false) 
+function get_user_field($field_name, $pnt_user, $is_name = false) 
 {
-    global $titanium_db, $identify;
+    global $pnt_db, $identify;
     static $actual_user;
-    if (!$titanium_user) return NULL;
+    if (!$pnt_user) return NULL;
 
-    if ($is_name || !is_numeric($titanium_user))  
+    if ($is_name || !is_numeric($pnt_user))  
 	{
-        $where  = "`username` = '". str_replace("\'", "''", $titanium_user)."'";
+        $where  = "`username` = '". str_replace("\'", "''", $pnt_user)."'";
         $search = 'username';
     } 
 	else 
 	{
-        $where  = "`user_id` = '".$titanium_user."'";
+        $where  = "`user_id` = '".$pnt_user."'";
         $search = 'user_id';
     }
     
-	if (!isset($actual_user[$titanium_user])) 
+	if (!isset($actual_user[$pnt_user])) 
 	{
         $sql = "SELECT * FROM ".USERS_TABLE." WHERE $where";
-        $actual_user[$titanium_user] = $titanium_db->sql_ufetchrow($sql);
+        $actual_user[$pnt_user] = $pnt_db->sql_ufetchrow($sql);
         // We also put the groups data in the array.
-        $result = $titanium_db->sql_query('SELECT g.group_id, 
+        $result = $pnt_db->sql_query('SELECT g.group_id, 
 		                               g.group_name, 
 								g.group_single_user 
 								  
 								  FROM ('.GROUPS_TABLE.' AS g 
 								  INNER JOIN '.USER_GROUP_TABLE.' 
-								  AS ug ON (ug.group_id=g.group_id AND ug.user_id="'.$actual_user[$titanium_user]['user_id'].'" 
+								  AS ug ON (ug.group_id=g.group_id AND ug.user_id="'.$actual_user[$pnt_user]['user_id'].'" 
 								  AND ug.user_pending=0))', true);
 								  
-        while(list($g_id, $g_name, $single) = $titanium_db->sql_fetchrow($result)) 
+        while(list($g_id, $g_name, $single) = $pnt_db->sql_fetchrow($result)) 
 		{
-            $actual_user[$titanium_user]['groups'][$g_id] = ($single) ? '' : $g_name;
+            $actual_user[$pnt_user]['groups'][$g_id] = ($single) ? '' : $g_name;
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
     }
     if($field_name == '*') 
 	{
-        $actual_user[$titanium_user]['user_ip'] = $identify->get_ip();
-        return $actual_user[$titanium_user];
+        $actual_user[$pnt_user]['user_ip'] = $identify->get_ip();
+        return $actual_user[$pnt_user];
     }
     if(is_array($field_name)) 
 	{
         $data = array();
         foreach($field_name as $fld) 
 		{
-            $data[$fld] = $actual_user[$titanium_user][$fld];
+            $data[$fld] = $actual_user[$pnt_user][$fld];
         }
         return $data;
     }
-    return $actual_user[$titanium_user][$field_name];
+    return $actual_user[$pnt_user][$field_name];
 }
 
 /**
@@ -101,14 +101,14 @@ function get_user_field($field_name, $titanium_user, $is_name = false)
  */
 function get_admin_field($field_name, $admin) 
 {
-    global $titanium_db, $debugger;
+    global $pnt_db, $debugger;
     static $fields = array();
     if (!$admin) {
         return array();
     }
 
     if(!isset($fields[$admin]) || !is_array($fields[$admin])) {
-        $fields[$admin] = $titanium_db->sql_ufetchrow("SELECT * FROM "._AUTHOR_TABLE." WHERE `aid` = '" .  str_replace("\'", "''", $admin) . "'");
+        $fields[$admin] = $pnt_db->sql_ufetchrow("SELECT * FROM "._AUTHOR_TABLE." WHERE `aid` = '" .  str_replace("\'", "''", $admin) . "'");
     }
 
     if($field_name == '*') {
@@ -136,7 +136,7 @@ function get_admin_field($field_name, $admin)
 function is_mod_admin($pnt_module='super') 
 {
 
-    global $titanium_db, $aid, $admin;
+    global $pnt_db, $aid, $admin;
     static $auth = array();
 
     if(!is_admin()) return 0;
@@ -154,7 +154,7 @@ function is_mod_admin($pnt_module='super')
     $admdata = get_admin_field('*', $aid);
     $auth_user = 0;
     if($pnt_module != 'super') {
-        list($admins) = $titanium_db->sql_ufetchrow("SELECT `admins` FROM "._MODULES_TABLE." WHERE `title`='$pnt_module'");
+        list($admins) = $pnt_db->sql_ufetchrow("SELECT `admins` FROM "._MODULES_TABLE." WHERE `title`='$pnt_module'");
         $adminarray = explode(",", $admins);
         for ($i=0, $maxi=count($adminarray); $i < $maxi; $i++) {
             if ($admdata['aid'] == $adminarray[$i] && !empty($admins)) {
@@ -181,7 +181,7 @@ function is_mod_admin($pnt_module='super')
 function get_mod_admins($pnt_module='super', $all='') 
 {
 
-    global $titanium_db;
+    global $pnt_db;
     static $admins = array();
 
     if ( $all =='') {
@@ -189,22 +189,22 @@ function get_mod_admins($pnt_module='super', $all='')
     }
 
     if($pnt_module == 'super' || $all != '') {
-        $result1 = $titanium_db->sql_query("SELECT `aid`, `email` FROM `"._AUTHOR_TABLE."` WHERE `radminsuper`='1'");
+        $result1 = $pnt_db->sql_query("SELECT `aid`, `email` FROM `"._AUTHOR_TABLE."` WHERE `radminsuper`='1'");
         $num = 0;
-        while (list($admin, $email) = $titanium_db->sql_fetchrow($result1)) {
+        while (list($admin, $email) = $pnt_db->sql_fetchrow($result1)) {
             $admins[$pnt_module][$num]['aid'] = $admin;
             $admins[$pnt_module][$num]['email'] = $email;
             $num++;
         }
-        $titanium_db->sql_freeresult($result1);
+        $pnt_db->sql_freeresult($result1);
     }
 
     if($pnt_module != 'super') {
-        list($admin) = $titanium_db->sql_ufetchrow("SELECT `admins` FROM `"._MODULES_TABLE."` WHERE `title`='".$pnt_module."'");
+        list($admin) = $pnt_db->sql_ufetchrow("SELECT `admins` FROM `"._MODULES_TABLE."` WHERE `title`='".$pnt_module."'");
         $adminarray = explode(",", $admin);
         $num = ($all !='') ? $num : 0;
         for ($i=0, $maxi=count($adminarray); $i < $maxi; $i++) {
-            $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `aid`, `email` FROM `"._AUTHOR_TABLE."` WHERE `aid`='".$adminarray[$i]."'"));
+            $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `aid`, `email` FROM `"._AUTHOR_TABLE."` WHERE `aid`='".$adminarray[$i]."'"));
             if (!empty($row['aid'])) {
                 $admins[$pnt_module][$num]['aid'] = $row['aid'];
                 $admins[$pnt_module][$num]['email'] = $row['email'];
@@ -224,24 +224,24 @@ function get_mod_admins($pnt_module='super', $all='')
  */
 function load_nuke_titanium_config() 
 {
-    global $titanium_db, $cache, $debugger;
+    global $pnt_db, $cache, $debugger;
     // $nuke_titanium_config is only called once -> mainfile.php
     // mainfile.php is only loaded once. So static makes no sense
     // static $nuke_titanium_config;
     // if(isset($nuke_titanium_config) && is_array($nuke_titanium_config)) { return $nuke_titanium_config; }
     if ((($nuke_titanium_config = $cache->load('php_nuke_titanium_config', 'config')) === false) || empty($nuke_titanium_config)) {
-        $nuke_titanium_config = $titanium_db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE, SQL_ASSOC);
+        $nuke_titanium_config = $pnt_db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE, SQL_ASSOC);
         if (!$nuke_titanium_config) {
-            if ($titanium_prefix != 'nuke') {
-                $nuke_titanium_config = $titanium_db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE, SQL_ASSOC);
+            if ($pnt_prefix != 'nuke') {
+                $nuke_titanium_config = $pnt_db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE, SQL_ASSOC);
                 if(is_array($nuke_titanium_config)) {
-                    die('Please change your $titanium_prefix in config.php to \'nuke\'.  You might have to do the same for the $titanium_user_prefix');
+                    die('Please change your $pnt_prefix in config.php to \'nuke\'.  You might have to do the same for the $pnt_user_prefix');
                 }
             }
         }
         $nuke_titanium_config = str_replace('\\"', '"', $nuke_titanium_config);
         $cache->save('php_nuke_titanium_config', 'config', $nuke_titanium_config);
-        $titanium_db->sql_freeresult($nuke_titanium_config);
+        $pnt_db->sql_freeresult($nuke_titanium_config);
     }
     if(is_array($nuke_titanium_config)) {
         return $nuke_titanium_config;
@@ -261,7 +261,7 @@ function load_nuke_titanium_config()
  */
 function load_phpbb2_board_config() 
 {
-    global $titanium_db, $debugger, $currentlang, $cache;
+    global $pnt_db, $debugger, $currentlang, $cache;
     // load_phpbb2_board_config is only called once -> mainfile.php
     // mainfile.php is only loaded once. So static makes no sense
     //static $phpbb2_board_config;
@@ -270,13 +270,13 @@ function load_phpbb2_board_config()
         $phpbb2_board_config = array();
 
         $sql = "SELECT * FROM " . CONFIG_TABLE;
-        if( !($result = $titanium_db->sql_query($sql, true)) ) {
+        if( !($result = $pnt_db->sql_query($sql, true)) ) {
             $debugger->handle_error("Could not query phpbb config information", 'Error');
         }
-        while ( $row = $titanium_db->sql_fetchrow($result) ) {
+        while ( $row = $pnt_db->sql_fetchrow($result) ) {
             $phpbb2_board_config[$row['config_name']] = $row['config_value'];
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         $cache->save('board_config', 'config', $phpbb2_board_config);
     }
     if(is_array($phpbb2_board_config)) {
@@ -297,39 +297,39 @@ function load_phpbb2_board_config()
  */
 function load_titanium_config() 
 {
-    global $titanium_db, $cache, $debugger;
+    global $pnt_db, $cache, $debugger;
     // load_titanium_config is only called once -> mainfile.php
     // mainfile.php is only loaded once. So static makes no sense
-    //static $titanium_config;
-    //if(isset($titanium_config) && is_array($titanium_config)) { return $titanium_config; }
-    if ((($titanium_config = $cache->load('titanum_config', 'config')) === false) || empty($titanium_config)) {
-        $titanium_config = array();
-        $result = $titanium_db->sql_query('SELECT `evo_field`, `evo_value` FROM '._EVOCONFIG_TABLE.' WHERE `evo_field` != "cache_data"');
-        while(list($evo_field, $evo_value) = $titanium_db->sql_fetchrow($result)) {
+    //static $pnt_config;
+    //if(isset($pnt_config) && is_array($pnt_config)) { return $pnt_config; }
+    if ((($pnt_config = $cache->load('titanum_config', 'config')) === false) || empty($pnt_config)) {
+        $pnt_config = array();
+        $result = $pnt_db->sql_query('SELECT `evo_field`, `evo_value` FROM '._EVOCONFIG_TABLE.' WHERE `evo_field` != "cache_data"');
+        while(list($evo_field, $evo_value) = $pnt_db->sql_fetchrow($result)) {
             if($evo_field != 'cache_data') {
-                $titanium_config[$evo_field] = $evo_value;
+                $pnt_config[$evo_field] = $evo_value;
             }
         }
         $sql = "SELECT `config_value` FROM " . _CNBYA_CONFIG_TABLE . " WHERE `config_name` = 'allowusertheme'";
-        if( !($resultcnbya = $titanium_db->sql_query($sql))) {
+        if( !($resultcnbya = $pnt_db->sql_query($sql))) {
             $debugger->handle_error("Could not query cnbya config information", 'Error');
         }
-        $row = $titanium_db->sql_fetchrow($resultcnbya, SQL_NUM);
-        $titanium_config['allowusertheme'] = $row['config_value'];
+        $row = $pnt_db->sql_fetchrow($resultcnbya, SQL_NUM);
+        $pnt_config['allowusertheme'] = $row['config_value'];
         $sql = 'SELECT `word`, `replacement` FROM `'.WORDS_TABLE.'`';
-        if( !($resultwords = $titanium_db->sql_query($sql))) {
+        if( !($resultwords = $pnt_db->sql_query($sql))) {
             $debugger->handle_error("Could not query bad words information", 'Error');
         }
-        while(list($word, $replacement) = $titanium_db->sql_fetchrow($resultwords)) {
+        while(list($word, $replacement) = $pnt_db->sql_fetchrow($resultwords)) {
             $wordrow[$word] = $replacement;
         }
-        $titanium_config['censor_words'] = $wordrow;
+        $pnt_config['censor_words'] = $wordrow;
 
-        $cache->save('titanium_config', 'config', $titanium_config);
-        $titanium_db->sql_freeresult($result);
+        $cache->save('titanium_config', 'config', $pnt_config);
+        $pnt_db->sql_freeresult($result);
     }
-    if(is_array($titanium_config)) {
-        return $titanium_config;
+    if(is_array($pnt_config)) {
+        return $pnt_config;
     } else {
         $cache->delete('titanium_config', 'config');
         $debugger->handle_error('There is an error in your titanium_config data', 'Error');
@@ -340,11 +340,11 @@ function load_titanium_config()
 // main_module function by Quake
 function main_module_titanium() 
 {
-  global $titanium_db, $cache;
+  global $pnt_db, $cache;
   static $main_module_titanium;
   if (isset($main_module_titanium)) { return $main_module_titanium; }
     if((($main_module_titanium = $cache->load('main_module', 'config')) === false) || empty($main_module_titanium)) {
-        list($main_module_titanium) = $titanium_db->sql_ufetchrow('SELECT main_module FROM '._MAIN_TABLE, SQL_NUM);
+        list($main_module_titanium) = $pnt_db->sql_ufetchrow('SELECT main_module FROM '._MAIN_TABLE, SQL_NUM);
       $cache->save('main_module', 'config', $main_module_titanium);
   }
   return $main_module_titanium;
@@ -354,19 +354,19 @@ function main_module_titanium()
 function update_modules() 
 {
     // New function to add new modules and delete old ones
-    global $titanium_db, $cache;
+    global $pnt_db, $cache;
     static $updated;
     if(isset($updated)) { return $updated; }
     //Here we will pull all currently installed modules from the database
-    $result = $titanium_db->sql_query("SELECT title FROM "._MODULES_TABLE, true);
-    while(list($mtitle) = $titanium_db->sql_fetchrow($result, SQL_NUM)) {
+    $result = $pnt_db->sql_query("SELECT title FROM "._MODULES_TABLE, true);
+    while(list($mtitle) = $pnt_db->sql_fetchrow($result, SQL_NUM)) {
         if(substr($mtitle,0,3) != '~l~') {
-            $titanium_modules[] = $mtitle;
+            $pnt_modules[] = $mtitle;
         }
     }
 	
-    $titanium_db->sql_freeresult($result);
-    sort($titanium_modules);
+    $pnt_db->sql_freeresult($result);
+    sort($pnt_modules);
 
     //Here we will get all current modules uploaded
     $handle=opendir(NUKE_MODULES_DIR);
@@ -381,10 +381,10 @@ function update_modules()
 
     //Now we will run a check to make sure that all uploaded modules are installed
     for($i=0, $maxi=count($modlist);$i<$maxi;$i++) {
-        $titanium_module = $modlist[$i];
-        if (!in_array($titanium_module, $titanium_modules))
+        $pnt_module = $modlist[$i];
+        if (!in_array($pnt_module, $pnt_modules))
         {
-            $titanium_db->sql_uquery("INSERT INTO `"._MODULES_TABLE."` (`mid`, 
+            $pnt_db->sql_uquery("INSERT INTO `"._MODULES_TABLE."` (`mid`, 
 			                                                 `title`, 
 													  `custom_title`, 
 													        `active`, 
@@ -394,33 +394,33 @@ function update_modules()
 															`cat_id`, 
 															`blocks`, 
 															`admins`, 
-															`groups`) VALUES (NULL, '$titanium_module', '".str_replace("_", " ", $titanium_module)."', 0, 0, 1, 0, 7, 1, '', '')");
+															`groups`) VALUES (NULL, '$pnt_module', '".str_replace("_", " ", $pnt_module)."', 0, 0, 1, 0, 7, 1, '', '')");
         }
     }
 
     //Now we will run a check to make sure all installed modules still exist
-    for($i=0, $maxi=count($titanium_modules);$i<$maxi;$i++){
-        $titanium_module = $titanium_modules[$i];
-        if (!in_array($titanium_module, $modlist))
+    for($i=0, $maxi=count($pnt_modules);$i<$maxi;$i++){
+        $pnt_module = $pnt_modules[$i];
+        if (!in_array($pnt_module, $modlist))
         {
-            $titanium_db->sql_uquery("DELETE FROM `"._MODULES_TABLE."` WHERE `title`= '$titanium_module'");
-            $result = $titanium_db->sql_uquery("OPTIMIZE TABLE `"._MODULES_TABLE."`");
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_uquery("DELETE FROM `"._MODULES_TABLE."` WHERE `title`= '$pnt_module'");
+            $result = $pnt_db->sql_uquery("OPTIMIZE TABLE `"._MODULES_TABLE."`");
+            $pnt_db->sql_freeresult($result);
             $cache->delete('active_modules');
         }
     }
 
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     return $updated = true;
 }
 
 function UpdateCookie() 
 {
-    global $titanium_db, $titanium_prefix, $userinfo, $cache, $cookie, $identify;
+    global $pnt_db, $pnt_prefix, $userinfo, $cache, $cookie, $identify;
 
     $ip = $identify->get_ip();
     $uid = $userinfo['user_id'];
-    $titanium_username = $userinfo['username'];
+    $pnt_username = $userinfo['username'];
     $pass = $userinfo['user_password'];
     $blognum = $userinfo['storynum'];
     $umode = $userinfo['umode'];
@@ -443,13 +443,13 @@ function UpdateCookie()
         /*****[END]********************************************
         [ Base:    Caching System                     v3.0.0 ]
         ******************************************************/
-        $configresult = $titanium_db->sql_query("SELECT config_name, config_value FROM ".$titanium_prefix."_cnbya_config", true);
-        while (list($config_name, $config_value) = $titanium_db->sql_fetchrow($configresult, SQL_NUM)) 
+        $configresult = $pnt_db->sql_query("SELECT config_name, config_value FROM ".$pnt_prefix."_cnbya_config", true);
+        while (list($config_name, $config_value) = $pnt_db->sql_fetchrow($configresult, SQL_NUM)) 
         {
             // if (!get_magic_quotes_gpc()) { $config_value = stripslashes($config_value); }
             $ya_config[$config_name] = $config_value;
         }
-        $titanium_db->sql_freeresult($configresult);
+        $pnt_db->sql_freeresult($configresult);
         /*****[BEGIN]******************************************
         [ Base:    Caching System                     v3.0.0 ]
         ******************************************************/
@@ -459,19 +459,19 @@ function UpdateCookie()
         ******************************************************/
     }
 
-    $result = $titanium_db->sql_query("SELECT time FROM ".$titanium_prefix."_session WHERE uname='$titanium_username'", true);
+    $result = $pnt_db->sql_query("SELECT time FROM ".$pnt_prefix."_session WHERE uname='$pnt_username'", true);
     $ctime = time();
-    if (!empty($titanium_username)) {
-        $uname = substr($titanium_username, 0,25);
-        if ($row = $titanium_db->sql_fetchrow($result)) {
-            $titanium_db->sql_query("UPDATE ".$titanium_prefix."_session SET uname='$titanium_username', time='$ctime', host_addr='$ip', guest='$guest' WHERE uname='$uname'");
+    if (!empty($pnt_username)) {
+        $uname = substr($pnt_username, 0,25);
+        if ($row = $pnt_db->sql_fetchrow($result)) {
+            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_session SET uname='$pnt_username', time='$ctime', host_addr='$ip', guest='$guest' WHERE uname='$uname'");
         } else {
-            $titanium_db->sql_query("INSERT INTO ".$titanium_prefix."_session (uname, time, starttime, host_addr, guest) VALUES ('$uname', '$ctime', '$ctime', '$ip', '$guest')");
+            $pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_session (uname, time, starttime, host_addr, guest) VALUES ('$uname', '$ctime', '$ctime', '$ip', '$guest')");
         }
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
 
-    $cookiedata = base64_encode("$uid:$titanium_username:$pass:$blognum:$umode:$uorder:$thold:$noscore:$ublockon:$theme:$commentmax");
+    $cookiedata = base64_encode("$uid:$pnt_username:$pass:$blognum:$umode:$uorder:$thold:$noscore:$ublockon:$theme:$commentmax");
     if ($ya_config['cookietimelife'] != '-') {
         if (trim($ya_config['cookiepath']) != '') {
             @setcookie('user',$cookiedata,time()+$ya_config['cookietimelife'],$ya_config['cookiepath']);
@@ -487,20 +487,20 @@ function UpdateCookie()
 // called by several files - so it makes sense to cache it (ReOrGaNiSaTiOn)
 function GetColorGroups($in_admin = false) 
 {
-    global $titanium_db, $cache;
+    global $pnt_db, $cache;
     static $ColorGroupsCache;
 
     if((($ColorGroupsCache = $cache->load('ColorGroups', 'config')) === false) || empty($ColorGroupsCache)) 
 	{
         $ColorGroupsCache = '';
-        $result = $titanium_db->sql_query("SELECT `group_id`, `group_name`, `group_color`, `group_weight` FROM `".AUC_TABLE."` WHERE `group_id`>'0' ORDER BY `group_weight` ASC");
+        $result = $pnt_db->sql_query("SELECT `group_id`, `group_name`, `group_color`, `group_weight` FROM `".AUC_TABLE."` WHERE `group_id`>'0' ORDER BY `group_weight` ASC");
         $back = ($in_admin) ? '&amp;menu=1' : '';
     
-	    while (list($group_id, $group_name, $group_color, $group_weight) = $titanium_db->sql_fetchrow($result)) 
+	    while (list($group_id, $group_name, $group_color, $group_weight) = $pnt_db->sql_fetchrow($result)) 
 		{
             $ColorGroupsCache .= '&nbsp;[&nbsp;<strong><a href="'. append_titanium_sid('auc_listing.php?id='. $group_id.$back) .'"><span class="genmed" style="color:#'. $group_color .';">'. $group_name .'</span></a></strong>&nbsp;]&nbsp;';
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         $cache->save('ColorGroups', 'config', $ColorGroupsCache);
     }
     return $ColorGroupsCache;
@@ -602,7 +602,7 @@ function EvoDate($format, $gmepoch, $tz)
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-    global $phpbb2_board_config, $lang, $userdata, $titanium_pc_dateTime, $userinfo;
+    global $phpbb2_board_config, $lang, $userdata, $pnt_pc_dateTime, $userinfo;
 	getusrinfo();
 	static $translate;
 	    if ( empty($translate) && $phpbb2_board_config['default_lang'] != 'english' )
@@ -632,24 +632,24 @@ function EvoDate($format, $gmepoch, $tz)
 				return ( !empty($translate) ) ? strtr(@date($format, $gmepoch), $translate) : @date($format, $gmepoch);
 				break;
 			case 4:
-				if ( isset($titanium_pc_dateTime['pc_timezoneOffset']) )
+				if ( isset($pnt_pc_dateTime['pc_timezoneOffset']) )
 				{
-					$tzo_sec = $titanium_pc_dateTime['pc_timezoneOffset'];
+					$tzo_sec = $pnt_pc_dateTime['pc_timezoneOffset'];
 				} else
 				{
-					$titanium_user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
-					$tzo_sec = $titanium_user_pc_timeOffsets[0];
+					$pnt_user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
+					$tzo_sec = $pnt_user_pc_timeOffsets[0];
 				}
 				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
 				break;
 			case 6:
-				if ( isset($titanium_pc_dateTime['pc_timeOffset']) )
+				if ( isset($pnt_pc_dateTime['pc_timeOffset']) )
 				{
-					$tzo_sec = $titanium_pc_dateTime['pc_timeOffset'];
+					$tzo_sec = $pnt_pc_dateTime['pc_timeOffset'];
 				} else
 				{
-					$titanium_user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
-					$tzo_sec = $titanium_user_pc_timeOffsets[1];
+					$pnt_user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
+					$tzo_sec = $pnt_user_pc_timeOffsets[1];
 				}
 				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
 				break;
@@ -673,9 +673,9 @@ function EvoDate($format, $gmepoch, $tz)
 				return ( !empty($translate) ) ? strtr(@date($format, $gmepoch), $translate) : @date($format, $gmepoch);
 				break;
 			case 4:
-				if ( isset($titanium_pc_dateTime['pc_timezoneOffset']) )
+				if ( isset($pnt_pc_dateTime['pc_timezoneOffset']) )
 				{
-					$tzo_sec = $titanium_pc_dateTime['pc_timezoneOffset'];
+					$tzo_sec = $pnt_pc_dateTime['pc_timezoneOffset'];
 				} else
 				{
 					$tzo_sec = 0;
@@ -683,9 +683,9 @@ function EvoDate($format, $gmepoch, $tz)
 				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
 				break;
 			case 6:
-				if ( isset($titanium_pc_dateTime['pc_timeOffset']) )
+				if ( isset($pnt_pc_dateTime['pc_timeOffset']) )
 				{
-					$tzo_sec = $titanium_pc_dateTime['pc_timeOffset'];
+					$tzo_sec = $pnt_pc_dateTime['pc_timeOffset'];
 				} else
 				{
 					$tzo_sec = 0;
@@ -764,10 +764,10 @@ function group_selectbox($fieldname, $current=0, $mvanon=false, $all=true)
     static $groups;
     if (!isset($groups)):
 
-        global $titanium_db, $titanium_prefix, $customlang;
+        global $pnt_db, $pnt_prefix, $customlang;
         
-        $result = $titanium_db->sql_query('SELECT `group_id`, `group_name` FROM `'.GROUPS_TABLE.'` WHERE `group_single_user` = 0', true);
-        while (list($group_ID, $group_name) = $titanium_db->sql_fetchrow($result)):
+        $result = $pnt_db->sql_query('SELECT `group_id`, `group_name` FROM `'.GROUPS_TABLE.'` WHERE `group_single_user` = 0', true);
+        while (list($group_ID, $group_name) = $pnt_db->sql_fetchrow($result)):
             $forum_groups[($group_ID+3)] = $group_name;
         endwhile;
 
@@ -975,9 +975,9 @@ function post_captcha($response)
 }
 	
 	
-function security_code_check($titanium_user_response, $gfxchk) 
+function security_code_check($pnt_user_response, $gfxchk) 
 {
-    global $titanium_config;
+    global $pnt_config;
 
     if ( !get_evo_option('recap_site_key') && !get_evo_option('recap_priv_key') ):
         return true;
@@ -1000,7 +1000,7 @@ function security_code_check($titanium_user_response, $gfxchk)
      *
      * @return array
      */ 
-    $recappassfail = post_captcha($titanium_user_response);
+    $recappassfail = post_captcha($pnt_user_response);
 
     if (!$recappassfail['success']):
 
@@ -1052,29 +1052,29 @@ function Make_TextArea_Ret($name, $text='', $post='', $width='100%', $height='30
 function user_ips() 
 {
     include_once(NUKE_BASE_DIR.'ips.php');
-    global $titanium_users_ips;
-    if(isset($titanium_users_ips)){
-        if(is_array($titanium_users_ips)){
-            for($i=0, $maxi=count($titanium_users_ips); $i < $maxi; $i += 2) {
+    global $pnt_users_ips;
+    if(isset($pnt_users_ips)){
+        if(is_array($pnt_users_ips)){
+            for($i=0, $maxi=count($pnt_users_ips); $i < $maxi; $i += 2) {
                 $i2 = $i + 1;
-                $titanium_userips[strtolower($titanium_users_ips[$i])] = explode(',',$titanium_users_ips[$i2]);
+                $pnt_userips[strtolower($pnt_users_ips[$i])] = explode(',',$pnt_users_ips[$i2]);
             }
-            return $titanium_userips;
+            return $pnt_userips;
         }
     }
     return null;
 }
 
 // compare_ips function by Technocrat
-function compare_ips($titanium_username) 
+function compare_ips($pnt_username) 
 {
 	global $identify;
-    $titanium_userips = user_ips();
-    if(!is_array($titanium_userips)) {
+    $pnt_userips = user_ips();
+    if(!is_array($pnt_userips)) {
         return true;
     }
-    if(isset($titanium_userips[strtolower($titanium_username)])) {
-        $ip_check = implode('|^',$titanium_userips[strtolower($titanium_username)]);
+    if(isset($pnt_userips[strtolower($pnt_username)])) {
+        $ip_check = implode('|^',$pnt_userips[strtolower($pnt_username)]);
         if (!preg_match("/^".$ip_check."/",$identify->get_ip())) {
             return false;
         }
@@ -1085,37 +1085,37 @@ function compare_ips($titanium_username)
 [ Mod:     User IP Lock                       v1.0.0 ]
 ******************************************************/
 
-function GetRank($titanium_user_id) 
+function GetRank($pnt_user_id) 
 {
-    global $titanium_db, $titanium_prefix, $titanium_user_prefix;
+    global $pnt_db, $pnt_prefix, $pnt_user_prefix;
     static $rankData = array();
-    if(is_array($rankData[$titanium_user_id])) { return $rankData[$titanium_user_id]; }
+    if(is_array($rankData[$pnt_user_id])) { return $rankData[$pnt_user_id]; }
 
-    list($titanium_user_rank, $titanium_user_posts) = $titanium_db->sql_ufetchrow("SELECT user_rank, user_posts FROM " 
-	. $titanium_user_prefix . "_users WHERE user_id = '" . $titanium_user_id . "'", SQL_NUM);
+    list($pnt_user_rank, $pnt_user_posts) = $pnt_db->sql_ufetchrow("SELECT user_rank, user_posts FROM " 
+	. $pnt_user_prefix . "_users WHERE user_id = '" . $pnt_user_id . "'", SQL_NUM);
     
-	$ranks = $titanium_db->sql_ufetchrowset("SELECT * FROM " . $titanium_prefix . "_bbranks ORDER BY rank_special, rank_min", SQL_ASSOC);
+	$ranks = $pnt_db->sql_ufetchrowset("SELECT * FROM " . $pnt_prefix . "_bbranks ORDER BY rank_special, rank_min", SQL_ASSOC);
 
-    $rankData[$titanium_user_id] = array();
+    $rankData[$pnt_user_id] = array();
     for($i=0, $maxi=count($ranks);$i<$maxi;$i++) {
-        if ($titanium_user_rank == $ranks[$i]['rank_id'] && $ranks[$i]['rank_special']) {
+        if ($pnt_user_rank == $ranks[$i]['rank_id'] && $ranks[$i]['rank_special']) {
             echo $ranks[$i]['rank_title'];
             
-			$rankData[$titanium_user_id]['image'] = ($ranks[$i]['rank_image']) ? '<img src="'.$ranks[$i]['rank_image'].'" alt="'.$ranks[$i]['rank_title']
+			$rankData[$pnt_user_id]['image'] = ($ranks[$i]['rank_image']) ? '<img src="'.$ranks[$i]['rank_image'].'" alt="'.$ranks[$i]['rank_title']
 			.'" title="'.$ranks[$i]['rank_title'].'" border="0" />' : '';
             
-			$rankData[$titanium_user_id]['title'] = $ranks[$i]['rank_title'];
-            $rankData[$titanium_user_id]['id'] = $ranks[$i]['rank_id'];
-            return $rankData[$titanium_user_id];
+			$rankData[$pnt_user_id]['title'] = $ranks[$i]['rank_title'];
+            $rankData[$pnt_user_id]['id'] = $ranks[$i]['rank_id'];
+            return $rankData[$pnt_user_id];
         } 
-		elseif ($titanium_user_posts >= $ranks[$i]['rank_min'] && !$ranks[$i]['rank_special']) 
+		elseif ($pnt_user_posts >= $ranks[$i]['rank_min'] && !$ranks[$i]['rank_special']) 
 		{
-            $rankData[$titanium_user_id]['image'] = ($ranks[$i]['rank_image']) ? '<img src="'.$ranks[$i]['rank_image'].'" alt="'.$ranks[$i]['rank_title']
+            $rankData[$pnt_user_id]['image'] = ($ranks[$i]['rank_image']) ? '<img src="'.$ranks[$i]['rank_image'].'" alt="'.$ranks[$i]['rank_title']
 			.'" title="'.$ranks[$i]['rank_title'].'" border="0" />' : '';
             
-			$rankData[$titanium_user_id]['title'] = $ranks[$i]['rank_title'];
-            $rankData[$titanium_user_id]['id'] = $ranks[$i]['rank_id'];
-            return $rankData[$titanium_user_id];
+			$rankData[$pnt_user_id]['title'] = $ranks[$i]['rank_title'];
+            $rankData[$pnt_user_id]['id'] = $ranks[$i]['rank_id'];
+            return $rankData[$pnt_user_id];
         }
     }
     return array();
@@ -1124,9 +1124,9 @@ function GetRank($titanium_user_id)
 // redirect function by Quake
 function redirect_titanium($url, $refresh = 0) 
 {
-    global $titanium_db, $cache;
+    global $pnt_db, $cache;
     if(is_object($cache)) $cache->resync();
-    if(is_object($titanium_db)) $titanium_db->sql_close();
+    if(is_object($pnt_db)) $pnt_db->sql_close();
     $type = preg_match('/IIS|Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ? 'Refresh: '.$refresh.'; URL=' : 'Location: ';
 	$url = str_replace('&amp;', "&", $url);
     header($type . $url);
@@ -1152,7 +1152,7 @@ function evo_img_tag_to_resize($text)
 
 function referer() 
 {
-    global $titanium_db, $titanium_prefix,  $nukeurl, $httpref, $httprefmax, $_GETVAR;
+    global $pnt_db, $pnt_prefix,  $nukeurl, $httpref, $httprefmax, $_GETVAR;
 
     if ($httpref == 1 && isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) 
 	{
@@ -1176,17 +1176,17 @@ function referer()
 		if (stristr('$referer', '://') && !stristr('$referer', $nukeurl) && !stristr('$referer', '$no_www')) 
 		{
 
-            if (!$titanium_db->sql_query('UPDATE IGNORE '.$titanium_prefix."_referer SET lasttime=".time()
-			.", link='".$referer_request."' WHERE url='".$referer."'") || !$titanium_db->sql_affectedrows()) 
+            if (!$pnt_db->sql_query('UPDATE IGNORE '.$pnt_prefix."_referer SET lasttime=".time()
+			.", link='".$referer_request."' WHERE url='".$referer."'") || !$pnt_db->sql_affectedrows()) 
 			{
-                $titanium_db->sql_query('INSERT IGNORE INTO '.$titanium_prefix."_referer VALUES ('".$referer."', ".time().",'".$referer_request."')");
+                $pnt_db->sql_query('INSERT IGNORE INTO '.$pnt_prefix."_referer VALUES ('".$referer."', ".time().",'".$referer_request."')");
             }
             
-			list($numrows) = $titanium_db->sql_ufetchrow('SELECT COUNT(*) FROM '.$titanium_prefix.'_referer');
+			list($numrows) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM '.$pnt_prefix.'_referer');
             
 			if ($numrows >= $httprefmax) 
 			{
-                $titanium_db->sql_query('DELETE FROM '.$titanium_prefix.'_referer ORDER BY lasttime LIMIT '.($numrows-($httprefmax/2)));
+                $pnt_db->sql_query('DELETE FROM '.$pnt_prefix.'_referer ORDER BY lasttime LIMIT '.($numrows-($httprefmax/2)));
             }
         }
     }
@@ -1206,27 +1206,27 @@ function ord_crypt_decode($data)
     return $result;
 }
 
-function add_group_attributes($titanium_user_id, $group_id) 
+function add_group_attributes($pnt_user_id, $group_id) 
 {
-    global $titanium_prefix, $titanium_db, $phpbb2_board_config, $cache;
+    global $pnt_prefix, $pnt_db, $phpbb2_board_config, $cache;
 
-    if ($titanium_user_id <= 2) return true;
+    if ($pnt_user_id <= 2) return true;
 
-    $sql_color = "SELECT `group_color` FROM `" . $titanium_prefix . "_bbgroups` WHERE `group_id` = '$group_id'";
-    $result_color = $titanium_db->sql_query($sql_color);
-    $row_color = $titanium_db->sql_fetchrow($result_color);
-    $titanium_db->sql_freeresult($result_color);
+    $sql_color = "SELECT `group_color` FROM `" . $pnt_prefix . "_bbgroups` WHERE `group_id` = '$group_id'";
+    $result_color = $pnt_db->sql_query($sql_color);
+    $row_color = $pnt_db->sql_fetchrow($result_color);
+    $pnt_db->sql_freeresult($result_color);
     $phpbb2_color = $row_color['group_color'];
     if (!empty($phpbb2_color)) {
-        $sql_color = "SELECT `group_color`, `group_id` FROM `" . $titanium_prefix . "_bbadvanced_username_color` WHERE `group_id` = '$phpbb2_color'";
-        $result_color = $titanium_db->sql_query($sql_color);
-        $row_color = $titanium_db->sql_fetchrow($result_color);
-        $titanium_db->sql_freeresult($result_color);
+        $sql_color = "SELECT `group_color`, `group_id` FROM `" . $pnt_prefix . "_bbadvanced_username_color` WHERE `group_id` = '$phpbb2_color'";
+        $result_color = $pnt_db->sql_query($sql_color);
+        $row_color = $pnt_db->sql_fetchrow($result_color);
+        $pnt_db->sql_freeresult($result_color);
     }
-    $sql_rank = "SELECT `group_rank` FROM `" . $titanium_prefix . "_bbgroups` WHERE `group_id` = '$group_id'";
-    $result_rank = $titanium_db->sql_query($sql_rank);
-    $row_rank = $titanium_db->sql_fetchrow($result_rank);
-    $titanium_db->sql_freeresult($result_rank);
+    $sql_rank = "SELECT `group_rank` FROM `" . $pnt_prefix . "_bbgroups` WHERE `group_id` = '$group_id'";
+    $result_rank = $pnt_db->sql_query($sql_rank);
+    $row_rank = $pnt_db->sql_fetchrow($result_rank);
+    $pnt_db->sql_freeresult($result_rank);
     if(isset($row_rank['group_rank']) && !isset($row_color['group_color'])) {
         $sql = "`user_rank` = '".$row_rank['group_rank']."'";
     }elseif(isset($row_color['group_color']) && !isset($row_rank['group_rank'])) {
@@ -1241,10 +1241,10 @@ function add_group_attributes($titanium_user_id, $group_id)
     }
 
     if (!empty($sql)) {
-        $sql = "UPDATE `" . $titanium_prefix . "_users`
+        $sql = "UPDATE `" . $pnt_prefix . "_users`
             SET " . $sql . "
-            WHERE user_id = " . $titanium_user_id;
-        if ( !$titanium_db->sql_query($sql) )
+            WHERE user_id = " . $pnt_user_id;
+        if ( !$pnt_db->sql_query($sql) )
         {
             return false;
         }
@@ -1259,23 +1259,23 @@ function add_group_attributes($titanium_user_id, $group_id)
     return true;
 }
 
-function remove_group_attributes($titanium_user_id, $group_id) 
+function remove_group_attributes($pnt_user_id, $group_id) 
 {
-    global $titanium_prefix, $titanium_db, $phpbb2_board_config, $cache;
-    if (empty($titanium_user_id) && !empty($group_id) && $group_id != 0) {
-        $sql = "SELECT `user_id` FROM `".$titanium_prefix."_bbuser_group` WHERE `group_id`=".$group_id;
-        $result = $titanium_db->sql_query($sql);
-        while ($row = $titanium_db->sql_fetchrow($result)) {
+    global $pnt_prefix, $pnt_db, $phpbb2_board_config, $cache;
+    if (empty($pnt_user_id) && !empty($group_id) && $group_id != 0) {
+        $sql = "SELECT `user_id` FROM `".$pnt_prefix."_bbuser_group` WHERE `group_id`=".$group_id;
+        $result = $pnt_db->sql_query($sql);
+        while ($row = $pnt_db->sql_fetchrow($result)) {
             remove_group_attributes($row['user_id'], '');
         }
         $cache->delete('UserColors', 'config');
-    } else if (!empty($titanium_user_id) && $titanium_user_id >= 3) {
-        $sql = "UPDATE `" . $titanium_prefix . "_users`
+    } else if (!empty($pnt_user_id) && $pnt_user_id >= 3) {
+        $sql = "UPDATE `" . $pnt_prefix . "_users`
                 SET `user_color_gc` = '',
                 `user_color_gi`  = '',
                 `user_rank` = 0
-                WHERE `user_id` = ".$titanium_user_id;
-        $titanium_db->sql_query($sql);
+                WHERE `user_id` = ".$pnt_user_id;
+        $pnt_db->sql_query($sql);
     }
 
 }
@@ -1380,8 +1380,8 @@ function evo_mail_batch($array_recipients)
     if (!is_array($array_recipients)) return '';
 
     $recipients = Swift_Message::newInstance();
-    foreach ($array_recipients as $titanium_username => $email){
-        $recipients->addTo($email, $titanium_username);
+    foreach ($array_recipients as $pnt_username => $email){
+        $recipients->addTo($email, $pnt_username);
     }
     return $recipients;
 }

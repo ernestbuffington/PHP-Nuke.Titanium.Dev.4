@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REQUESTS.': '._NETWORK_REQUESTLIST;
 if(!$page) $page = 1;
@@ -22,7 +22,7 @@ pjadmin_menu(_NETWORK_REQUESTS.': '._NETWORK_REQUESTLIST);
 OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr><td colspan='3' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_REQUESTOPTIONS."</strong></nobr></td></tr>\n";
-$requestrows = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT `request_id` FROM `".$network_prefix."_requests`"));
+$requestrows = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT `request_id` FROM `".$network_prefix."_requests`"));
 $pjimage = pjimage("stats.png", $pnt_module);
 echo "<tr><td><img src='$pjimage'></td><td colspan='2' width='100%'><nobr>"._NETWORK_TOTALREQUESTS.": <strong>$requestrows</strong></nobr></td></tr>\n";
 echo "</table>\n";
@@ -41,12 +41,12 @@ echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_STATUS."</strong
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_TYPE."</strong></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</strong></td></tr>\n";
 if($requestrows > 0){
-    $reviewresult = $titanium_db2->sql_query("SELECT `request_id`, `request_name`, `project_id`, `type_id`, `status_id` FROM `".$network_prefix."_requests` ORDER BY `$column` $direction LIMIT $phpbb2_start_list, $phpbb2_end_list");
-    while(list($request_id, $request_name, $project_id, $type_id, $status_id) = $titanium_db2->sql_fetchrow($reviewresult)){
+    $reviewresult = $pnt_db2->sql_query("SELECT `request_id`, `request_name`, `project_id`, `type_id`, `status_id` FROM `".$network_prefix."_requests` ORDER BY `$column` $direction LIMIT $phpbb2_start_list, $phpbb2_end_list");
+    while(list($request_id, $request_name, $project_id, $type_id, $status_id) = $pnt_db2->sql_fetchrow($reviewresult)){
     $status = pjrequeststatus_info($status_id);
     $project = pjproject_info($project_id);
     $type = pjrequesttype_info($type_id);
-    $members = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_requests_members` WHERE `request_id`='$request_id'"));
+    $members = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_requests_members` WHERE `request_id`='$request_id'"));
     $pjimage = pjimage("request.png", $pnt_module);
     if(empty($request_name)) { $request_name = "----------"; }
     echo "<tr><td><img src='$pjimage'></td><td width='100%'>$request_name</td>\n";

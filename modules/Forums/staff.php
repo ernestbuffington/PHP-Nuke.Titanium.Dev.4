@@ -29,7 +29,7 @@ define('IN_PHPBB2', true);
 include($phpbb2_root_path . 'extension.inc');
 include($phpbb2_root_path . 'common.'.$phpEx);
 
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_STAFF, $session_length);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_STAFF, $session_length);
 titanium_init_userprefs($userdata);
 
 $phpbb2_page_title = $lang['Staff'];
@@ -57,11 +57,11 @@ $uid = (isset($userdata['user_id']) && !empty($userdata['user_id'])) ? $userdata
            WHERE aa.auth_mod = " . TRUE . "
                     AND ug.group_id = aa.group_id
                       AND f.forum_id = aa.forum_id";*/
-if ( !$result = $titanium_db->sql_query($sql) )
+if ( !$result = $pnt_db->sql_query($sql) )
 {
         message_die(GENERAL_ERROR, 'Could not query forums.', '', __LINE__, __FILE__, $sql);
 }
-while( $row = $titanium_db->sql_fetchrow($result) )
+while( $row = $pnt_db->sql_fetchrow($result) )
 {
         $phpbb2_forum_id = $row['forum_id'];
         $staff2[$row['user_id']][$row['forum_id']] = '<a href='.append_titanium_sid("viewforum.$phpEx?f=$phpbb2_forum_id").' class=genmed>'.$row['forum_name'].'</a><br />';
@@ -72,11 +72,11 @@ $sql = "SELECT * FROM ".USERS_TABLE."
            WHERE user_level >= 2
            AND user_active = ".TRUE."
            ORDER BY user_level = 3, user_level = 4";
-if ( !($results = $titanium_db->sql_query($sql)) )
+if ( !($results = $pnt_db->sql_query($sql)) )
 {
         message_die(GENERAL_ERROR, 'Could not obtain user information.', '', __LINE__, __FILE__, $sql);
 }
-while($staff = $titanium_db->sql_fetchrow($results))
+while($staff = $pnt_db->sql_fetchrow($results))
 {
         if ( $staff['user_avatar'] )
         {
@@ -106,20 +106,20 @@ while($staff = $titanium_db->sql_fetchrow($results))
         }
 
         $lvl = $staff['user_level']-1;
-        $result = $titanium_db->sql_query('SELECT group_name FROM '. AUC_TABLE .' WHERE group_id='.$lvl);
-        list($group_name) = $titanium_db->sql_fetchrow($result);
+        $result = $pnt_db->sql_query('SELECT group_name FROM '. AUC_TABLE .' WHERE group_id='.$lvl);
+        list($group_name) = $pnt_db->sql_fetchrow($result);
         $level = GroupColor($group_name);
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         $level .= "<br />\n<hr>\n";
 
         //Groups
-        $result = $titanium_db->sql_query("SELECT group_name FROM " . GROUPS_TABLE . " g LEFT JOIN " . USER_GROUP_TABLE . " ug on ug.group_id=g.group_id WHERE ug.user_id='".$staff['user_id']."' and g.group_description != 'Personal User'");
-	    if ($titanium_db->sql_numrows($result) != 0) {
-	        while(list($group_name) = $titanium_db->sql_fetchrow($result)) {
+        $result = $pnt_db->sql_query("SELECT group_name FROM " . GROUPS_TABLE . " g LEFT JOIN " . USER_GROUP_TABLE . " ug on ug.group_id=g.group_id WHERE ug.user_id='".$staff['user_id']."' and g.group_description != 'Personal User'");
+	    if ($pnt_db->sql_numrows($result) != 0) {
+	        while(list($group_name) = $pnt_db->sql_fetchrow($result)) {
 	            $level .= GroupColor($group_name). "<br />";
 	        }
-	        $titanium_db->sql_freeresult($result);
+	        $pnt_db->sql_freeresult($result);
 	    }
 
 
@@ -142,13 +142,13 @@ while($staff = $titanium_db->sql_fetchrow($results))
         {
                 $percentage = 0;
         }
-        $titanium_user_id = $staff['user_id'];
-        $sql = "SELECT post_time, post_id FROM ".POSTS_TABLE." WHERE poster_id = " . $titanium_user_id . " ORDER BY post_time DESC LIMIT 1";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        $pnt_user_id = $staff['user_id'];
+        $sql = "SELECT post_time, post_id FROM ".POSTS_TABLE." WHERE poster_id = " . $pnt_user_id . " ORDER BY post_time DESC LIMIT 1";
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Error getting user last post time', '', __LINE__, __FILE__, $post_time_sql);
         }
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
         $phpbb2_last_post = ( isset($row['post_time']) ) ? '<a href="'.append_titanium_sid("viewtopic.$phpEx?" . POST_POST_URL . "=$row[post_id]#$row[post_id]").'" class=gensmall>'.create_date($phpbb2_board_config['default_dateformat'], $row['post_time'], $phpbb2_board_config['board_timezone']).'</a>' : $lang['None'];
 
         $mailto = ( $phpbb2_board_config['board_email_form'] ) ? "modules.php?name=Profile&mode=email&amp;" . POST_USERS_URL .'=' . $staff['user_id'] : 'mailto:' . $staff['user_email'];
@@ -165,16 +165,16 @@ while($staff = $titanium_db->sql_fetchrow($results))
         $www = ( $staff['user_website'] ) ? '<a href="' . $staff['user_website'] . '" target="_userwww"><img src="' . $images['icon_www'] . '" alt="' . $lang['Visit_website'] . '" title="' . $lang['Visit_website'] . '" border="0" /></a>' : '';
 
         $sql = "SELECT * FROM " . RANKS_TABLE . " ORDER BY rank_special, rank_min";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, "Could not obtain ranks information.", '', __LINE__, __FILE__, $sql);
         }
         $ranksrow = array();
-        while ( $row = $titanium_db->sql_fetchrow($result) )
+        while ( $row = $pnt_db->sql_fetchrow($result) )
         {
                 $ranksrow[] = $row;
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         $rank = '';
         $rank_image = '';

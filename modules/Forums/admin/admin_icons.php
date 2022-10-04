@@ -23,7 +23,7 @@ define('IN_PHPBB2', true);
 if( !empty($setmodules) )
 {
 	$file = basename(__FILE__);
-	$titanium_module['General']['Icons_settings'] = $file;
+	$pnt_module['General']['Icons_settings'] = $file;
 	return;
 }
 
@@ -228,11 +228,11 @@ if ($mode == 'del')
 			{
 				// replace post icons
 				$sql = "UPDATE " . POSTS_TABLE . " SET post_icon=$replace_icon WHERE post_icon=$phpbb2_icon";
-				if (!$titanium_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to update icon on posts', '', __LINE__, __FILE__, $sql);
+				if (!$pnt_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to update icon on posts', '', __LINE__, __FILE__, $sql);
 
 				// replace topic icons
 				$sql = "UPDATE " . TOPICS_TABLE . " SET topic_icon=$replace_icon WHERE topic_icon=$phpbb2_icon";
-				if (!$titanium_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to update icon on topics', '', __LINE__, __FILE__, $sql);
+				if (!$pnt_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to update icon on topics', '', __LINE__, __FILE__, $sql);
 			}
 		}
 
@@ -255,16 +255,16 @@ if ($mode == 'del')
 			if (!$used)
 			{
 				$sql = "SELECT * FROM " . POSTS_TABLE . " WHERE post_icon=$phpbb2_icon LIMIT 0, 1";
-				if (!$result = $titanium_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to access posts', '', __LINE__, __FILE__, $sql);
-				$used = ($row = $titanium_db->sql_fetchrow($result));
+				if (!$result = $pnt_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to access posts', '', __LINE__, __FILE__, $sql);
+				$used = ($row = $pnt_db->sql_fetchrow($result));
 			}
 
 			// check if topics are using this icon
 			if (!$used)
 			{
 				$sql = "SELECT * FROM " . TOPICS_TABLE . " WHERE topic_icon=$phpbb2_icon LIMIT 0, 1";
-				if (!$result = $titanium_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to access topics', '', __LINE__, __FILE__, $sql);
-				$used = ($row = $titanium_db->sql_fetchrow($result));
+				if (!$result = $pnt_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to access topics', '', __LINE__, __FILE__, $sql);
+				$used = ($row = $pnt_db->sql_fetchrow($result));
 			}
 
 			// some prevent check
@@ -644,9 +644,9 @@ if ($mode == '')
 	$sql = "SELECT post_icon, count(*) as count FROM " . POSTS_TABLE . " 
 			GROUP BY post_icon 
 			ORDER BY post_icon";
-	if (!$result = $titanium_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to count icons on posts', '', __LINE__, __FILE__, $sql);
+	if (!$result = $pnt_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to count icons on posts', '', __LINE__, __FILE__, $sql);
 	$phpbb2_total_posts = 0;
-	while ($row = $titanium_db->sql_fetchrow($result))
+	while ($row = $pnt_db->sql_fetchrow($result))
 	{
 		$phpbb2_total_posts = $phpbb2_total_posts + $row['count'];
 		$row['post_icon'] = intval($row['post_icon']);

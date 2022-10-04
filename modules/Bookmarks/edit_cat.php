@@ -21,15 +21,15 @@ if (!defined('MODULE_FILE'))
    die ("You can't access this file directly...");
 }
 
-global $titanium_prefix, $titanium_db, $cookie, $titanium_user;
+global $pnt_prefix, $pnt_db, $cookie, $pnt_user;
 
-$userinfo = getusrinfo( $titanium_user );
-$titanium_userid = $userinfo["user_id"];
+$userinfo = getusrinfo( $pnt_user );
+$pnt_userid = $userinfo["user_id"];
 $catname=@htmlentities($catname);
 $catcomment=@htmlentities($catcomment);
 
-if (!isset($titanium_userid) || $titanium_userid=="")
-        $titanium_userid=0;
+if (!isset($pnt_userid) || $pnt_userid=="")
+        $pnt_userid=0;
 
 $index = 1;
 require_once("mainfile.php");
@@ -40,14 +40,14 @@ if ($form_done=="yes")
 {
 	if (isset($catid) && $catid!="")
 	{
-		$query = "update ".$titanium_prefix."_bookmarks_cat set name='$catname',description='$catcomment',mod_date=now() where category_id='$catid'";
+		$query = "update ".$pnt_prefix."_bookmarks_cat set name='$catname',description='$catcomment',mod_date=now() where category_id='$catid'";
 	}
 	else
 	{
-		$query = "insert into ".$titanium_prefix."_bookmarks_cat (user_id,name,description,mod_date) values ($titanium_userid,'$catname','$catcomment',now())";
+		$query = "insert into ".$pnt_prefix."_bookmarks_cat (user_id,name,description,mod_date) values ($pnt_userid,'$catname','$catcomment',now())";
 	}
 
-	$titanium_db->sql_query ($query,$titanium_db);
+	$pnt_db->sql_query ($query,$pnt_db);
 
 	header("Location: modules.php?name=$pnt_module");
 }

@@ -226,7 +226,7 @@ function ShowCookies()
 // function DeleteCookies()
 /*************************************************************************************/
 function DeleteCookies() {
-global $ya_config,$pnt_module,$titanium_prefix,$titanium_user,$titanium_username,$CookieArray,$cookie;
+global $ya_config,$pnt_module,$pnt_prefix,$pnt_user,$pnt_username,$CookieArray,$cookie;
 include_once(NUKE_BASE_DIR.'header.php');
 //Show_CNBYA_menu();
 OpenTable();
@@ -235,13 +235,13 @@ OpenTable();
     $r_username    = $cookie[1];
     echo $r_username;
     echo $r_uid;
-    echo $titanium_username;
+    echo $pnt_username;
 
     $CookieArray = $_COOKIE;
-    $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_session WHERE uname='$r_username'");
-    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_session");
-//    $titanium_db->sql_query("DELETE FROM     ".$titanium_prefix."_bbsessions WHERE session_user_id='$r_uid'");
-//    $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_bbsessions");
+    $pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_session WHERE uname='$r_username'");
+    $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_session");
+//    $pnt_db->sql_query("DELETE FROM     ".$pnt_prefix."_bbsessions WHERE session_user_id='$r_uid'");
+//    $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_bbsessions");
 
     echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\"><tr>";
     echo "<form action=\"modules.php?name=$pnt_module&amp;op=ShowCookies\" method=\"post\">";
@@ -270,9 +270,9 @@ OpenTable();
     }
 
 // menelaos: these lines need some more study: which are usefull, which are not
-unset($titanium_user);
+unset($pnt_user);
 unset($cookie);
-$titanium_user="";
+$pnt_user="";
 if(isset($_SESSION)){@session_unset();}
 if(isset($_SESSION)){@session_destroy();} 
 if( isset($_COOKIE[session_name()]))

@@ -10,10 +10,10 @@
     Notes         : N/A
 ************************************************************************/
 
-define('_USERS_TABLE', $titanium_user_prefix.'_users');
-define('_IMAGE_REPOSITORY_SETTINGS', $titanium_prefix.'_image_repository_settings');
-define('_IMAGE_REPOSITORY_UPLOADS', $titanium_prefix.'_image_repository_uploads');
-define('_IMAGE_REPOSITORY_USERS', $titanium_prefix.'_image_repository_users');
+define('_USERS_TABLE', $pnt_user_prefix.'_users');
+define('_IMAGE_REPOSITORY_SETTINGS', $pnt_prefix.'_image_repository_settings');
+define('_IMAGE_REPOSITORY_UPLOADS', $pnt_prefix.'_image_repository_uploads');
+define('_IMAGE_REPOSITORY_USERS', $pnt_prefix.'_image_repository_users');
 
 define('_IREPOSITORY_VERSION', '1.1.0');
 define('_IREPOSITORY_CSS', 'modules/'.$pnt_module.'/includes/css/');
@@ -38,9 +38,9 @@ define('_IREPOSITORY_THUMBWIDTH','240');
 // define('_ENABLE_LYTEBOX', true);
 // define('_ENABLE_HIGHSLIDE', true);
 
-$imagecount = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."'"));
-$mysettings	= $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_USERS."` WHERE `uid`='".$userinfo['user_id']."'"));
-$myimages	= $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."'"));
+$imagecount = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."'"));
+$mysettings	= $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_USERS."` WHERE `uid`='".$userinfo['user_id']."'"));
+$myimages	= $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."'"));
 $quotainfo 	= _quota_percentages($userinfo['user_id']);
 
 
@@ -152,25 +152,25 @@ function formatTimestamp_to_date($format, $gmepoch, $tz)
 
 function image_repo_settings_variables()
 {
-	global $titanium_db, $pnt_module, $cache;
+	global $pnt_db, $pnt_module, $cache;
 	static $settings;
 	
    	if(isset($settings) && is_array($settings)) 
 	{ 
 		return $settings; 
 	}
-	$result = $titanium_db->sql_query('SELECT `config_value`, `config_name` FROM `'._IMAGE_REPOSITORY_SETTINGS.'`');
-	while ($row = $titanium_db->sql_fetchrow($result)) 
+	$result = $pnt_db->sql_query('SELECT `config_value`, `config_name` FROM `'._IMAGE_REPOSITORY_SETTINGS.'`');
+	while ($row = $pnt_db->sql_fetchrow($result)) 
 	{
 		$settings[$row['config_name']] = $row['config_value'];
 	}
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
    	return $settings;
 }
 
 function image_repo_users_preferences()
 {
-	global $titanium_db, $pnt_module, $userinfo, $settings;
+	global $pnt_db, $pnt_module, $userinfo, $settings;
 	$create_directories[] = _IREPOSITORY_DIR;
 	$create_directories[] = _IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER;
 	$create_directories[] = _IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS;
@@ -179,13 +179,13 @@ function image_repo_users_preferences()
 		@mkdir($directory,0755);
 		@copy('images/index.html', $directory.'/index.html');
 	}
-	$checktable = $titanium_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_USERS."` WHERE `uid`='".$userinfo['user_id']."'");
-	$titanium_user_exists = $titanium_db->sql_numrows($checktable);
-	if($titanium_user_exists == 0)
+	$checktable = $pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_USERS."` WHERE `uid`='".$userinfo['user_id']."'");
+	$pnt_user_exists = $pnt_db->sql_numrows($checktable);
+	if($pnt_user_exists == 0)
 	{
 		if($userinfo['user_id'] > 1)
 		{
-			$titanium_db->sql_query("INSERT INTO `"._IMAGE_REPOSITORY_USERS."` (`uid`, `background_color`, `border_color`, `folder`, `percent_color`, `quota`, `quota_request`) VALUES (".$userinfo['user_id'].", 'white', 'black', '"._IREPOSITORY_USER_FOLDER."', 'darkorchid', '".$settings['quota']."', 0)");
+			$pnt_db->sql_query("INSERT INTO `"._IMAGE_REPOSITORY_USERS."` (`uid`, `background_color`, `border_color`, `folder`, `percent_color`, `quota`, `quota_request`) VALUES (".$userinfo['user_id'].", 'white', 'black', '"._IREPOSITORY_USER_FOLDER."', 'darkorchid', '".$settings['quota']."', 0)");
 		}
 	}
 }
@@ -338,7 +338,7 @@ function tablecss($width=FALSE,$align=FALSE,$class=FALSE,$colspan=FALSE,$text_al
 
 function _alphabetlist()
 {
-	global $titanium_db, $admin_file, $pnt_module;	
+	global $pnt_db, $admin_file, $pnt_module;	
 	$alpha_range = array();
 	$alpha_letters = array();
 	$alpha_letters = range('A','Z');
@@ -352,8 +352,8 @@ function _alphabetlist()
 		if($alpha_range[$i] <> 'All') {
 			$alpha_where = ( $alpha_range[$i] == '#' ) ? " WHERE u.user_id = s.uid AND u.`username` NOT RLIKE '^[A-Z]' AND u.`user_id` > 1" : " WHERE u.user_id = s.uid AND u.`username` LIKE '".$alpha_range[$i]."%' AND u.`user_id` > 1";
 		}
-		$result1     = $titanium_db->sql_query("SELECT * FROM ("._IMAGE_REPOSITORY_USERS." s, "._USERS_TABLE." u)".$alpha_where." ORDER BY u.`username` ASC");
-		$total       = $titanium_db->sql_numrows($resultl);
+		$result1     = $pnt_db->sql_query("SELECT * FROM ("._IMAGE_REPOSITORY_USERS." s, "._USERS_TABLE." u)".$alpha_where." ORDER BY u.`username` ASC");
+		$total       = $pnt_db->sql_numrows($resultl);
 		
 		if ($alpha_range[$i] != 'All') {
 			$temp = ($alpha_range[$i] != '#') ? strtolower($alpha_range[$i]) : 'num';
@@ -557,11 +557,11 @@ function _kill_function()
 	die();
 }
 
-function _quota_percentages($titanium_user=FALSE)
+function _quota_percentages($pnt_user=FALSE)
 {
-	global $titanium_db, $userinfo;		
-	list ($quota)      = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `quota` FROM `"._IMAGE_REPOSITORY_USERS."` WHERE `uid`='".$titanium_user."'"));
-	list ($total_phpbb2_size) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT SUM(size) as total_size FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$titanium_user."'"));	
+	global $pnt_db, $userinfo;		
+	list ($quota)      = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `quota` FROM `"._IMAGE_REPOSITORY_USERS."` WHERE `uid`='".$pnt_user."'"));
+	list ($total_phpbb2_size) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT SUM(size) as total_size FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$pnt_user."'"));	
 	if($total_phpbb2_size > 0) {
 		$PercentageResult = ($total_phpbb2_size*100)/$quota;
 		$PercentageResult = round($PercentageResult,1);
@@ -604,9 +604,9 @@ function _string_to_upper($string)
 
 function _submitter($uid)
 {
-	global $titanium_db;
-	list($titanium_username) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `username` FROM `"._USERS_TABLE."` WHERE `user_id`='".$uid."'"));
-	return (function_exists('UsernameColor')) ? UsernameColor($titanium_username) : $titanium_username;
+	global $pnt_db;
+	list($pnt_username) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `username` FROM `"._USERS_TABLE."` WHERE `user_id`='".$uid."'"));
+	return (function_exists('UsernameColor')) ? UsernameColor($pnt_username) : $pnt_username;
 }
 
 function _timestamp($format, $gmepoch, $tz)

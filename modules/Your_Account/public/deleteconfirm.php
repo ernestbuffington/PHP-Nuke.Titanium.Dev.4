@@ -38,8 +38,8 @@ if (!defined('CNBYA')) {
 
     include_once(NUKE_BASE_DIR.'header.php');
     setcookie("user");
-    $result = $titanium_db->sql_query("SELECT user_email, user_website, username, user_password FROM ".$titanium_user_prefix."_users WHERE user_id='$uid'");
-    list($email, $url, $uname, $pass) = $titanium_db->sql_fetchrow($result);
+    $result = $pnt_db->sql_query("SELECT user_email, user_website, username, user_password FROM ".$pnt_user_prefix."_users WHERE user_id='$uid'");
+    list($email, $url, $uname, $pass) = $pnt_db->sql_fetchrow($result);
     if ($code == $pass) {
         if ($ya_config["senddeletemail"] == 1 && $ya_config["servermail"] < 1) {
             
@@ -56,15 +56,15 @@ if (!defined('CNBYA')) {
             evo_phpmailer( $adminmail, $subject, $message, $headers );
             
         }
-        $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET name='"._MEMDEL."', user_email='', user_password='', user_website='', user_sig='', user_regdate='Non 0, 0000', user_level='-1', user_active='0', user_allow_pm='0' WHERE user_id='$uid'");
+        $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET name='"._MEMDEL."', user_email='', user_password='', user_website='', user_sig='', user_regdate='Non 0, 0000', user_level='-1', user_active='0', user_allow_pm='0' WHERE user_id='$uid'");
         global $cookie;
         $r_uid = $cookie[0];
         $r_uname = $cookie[1];
         setcookie("user");
-        $result = $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_session WHERE uname='$r_uname'");
-        $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_session");
-        $result = $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_bbsessions WHERE session_user_id='$r_uid'");
-        $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_bbsessions");
+        $result = $pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_session WHERE uname='$r_uname'");
+        $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_session");
+        $result = $pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_bbsessions WHERE session_user_id='$r_uid'");
+        $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_bbsessions");
         echo "<meta http-equiv=\"refresh\" content=\"2;URL=$nukeurl\">";
         title(_ACCTDELETE);
     } else {

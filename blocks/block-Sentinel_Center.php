@@ -13,13 +13,13 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $titanium_db, $titanium_prefix, $ab_config, $currentlang;
+global $pnt_db, $pnt_prefix, $ab_config, $currentlang;
 
 function block_Sentinel_Center_cache($block_cachetime) 
 {
-    global $titanium_db, $titanium_prefix, $cache;
+    global $pnt_db, $pnt_prefix, $cache;
     if ((($blockcache = titanium_cache_load('sentinel_center', 'blocks')) === false) || empty($blockcache) || intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) {
-        $result = dburow('SELECT COUNT(ip_addr) AS `count` FROM `'.$titanium_prefix.'_nsnst_blocked_ips`');
+        $result = dburow('SELECT COUNT(ip_addr) AS `count` FROM `'.$pnt_prefix.'_nsnst_blocked_ips`');
         $blockcache[1]['count'] = $result['count'];
         dbfree($result);
         $blockcache[0]['stat_created'] = time();

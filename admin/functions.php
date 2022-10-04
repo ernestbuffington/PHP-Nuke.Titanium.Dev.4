@@ -65,7 +65,7 @@ endif;
 
 function login() 
 {
-	global $admin_file, $titanium_db, $titanium_prefix, $admlang;
+	global $admin_file, $pnt_db, $pnt_prefix, $admlang;
 
 	title_and_meta_tags();
 	get_header();
@@ -218,9 +218,9 @@ function login()
 
 function deleteNotice($id) 
 {
-	global $titanium_prefix, $titanium_db, $admin_file, $cache;
+	global $pnt_prefix, $pnt_db, $admin_file, $cache;
 	$id = intval($id);
-	$titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_reviews_add` WHERE `id` = '$id'");
+	$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_reviews_add` WHERE `id` = '$id'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -233,12 +233,12 @@ function deleteNotice($id)
 
 function adminmenu($url, $title, $image) 
 {
-	global $counter, $admingraphic, $admin, $titanium_module_folder_name;
+	global $counter, $admingraphic, $admin, $pnt_module_folder_name;
 
-	if(file_exists('modules/'.$titanium_module_folder_name.'/images/admin/'.$image)):
-		$image = 'modules/'.$titanium_module_folder_name.'/images/admin/'.$image;
-	elseif(file_exists('modules/'.$titanium_module_folder_name.'/images/'.$image)):
-		$image = 'modules/'.$titanium_module_folder_name.'/images/'.$image;
+	if(file_exists('modules/'.$pnt_module_folder_name.'/images/admin/'.$image)):
+		$image = 'modules/'.$pnt_module_folder_name.'/images/admin/'.$image;
+	elseif(file_exists('modules/'.$pnt_module_folder_name.'/images/'.$image)):
+		$image = 'modules/'.$pnt_module_folder_name.'/images/'.$image;
 	else:
 		$image = 'images/admin/'.$image;
 	endif;
@@ -370,14 +370,14 @@ function track_CMS_version()
  ******************************************************/
 function GraphicAdmin($pos=1)
 {
-	global $aid, $admingraphic, $cache, $language, $admin, $titanium_prefix, $titanium_user_prefix, $titanium_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
+	global $aid, $admingraphic, $cache, $language, $admin, $pnt_prefix, $pnt_user_prefix, $pnt_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
 	
 	if ($pos != $admin_pos)
 	return;
 
 	$radminsuper = is_mod_admin();
 
-	list($waiting_users) = $titanium_db->sql_ufetchrow("select count(user_id) from `".USERS_TEMP_TABLE."`");
+	list($waiting_users) = $pnt_db->sql_ufetchrow("select count(user_id) from `".USERS_TEMP_TABLE."`");
 
 	OpenTable();
 	echo '<table style="width: 100%;" border="0" cellpadding="4" cellspacing="1">';
@@ -558,22 +558,22 @@ function GraphicAdmin($pos=1)
 	echo '  </tr>';
 	echo '  <tr>'."\n";
 	update_modules();
-	$result = $titanium_db->sql_query("SELECT `title` FROM `".$titanium_prefix."_modules` ORDER BY `title` ASC");
+	$result = $pnt_db->sql_query("SELECT `title` FROM `".$pnt_prefix."_modules` ORDER BY `title` ASC");
 	$count = 0;
-	while($row = $titanium_db->sql_fetchrow($result)) 
+	while($row = $pnt_db->sql_fetchrow($result)) 
 	{
 		if (is_mod_admin($row['title'])) 
 		{
 			if (file_exists(NUKE_MODULES_DIR.$row['title']."/admin/index.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/links.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/case.php")) 
 			{
-				global $titanium_module_folder_name;
-				$titanium_module_folder_name = $row['title'];
+				global $pnt_module_folder_name;
+				$pnt_module_folder_name = $row['title'];
 				include(NUKE_MODULES_DIR.$row['title'].'/admin/links.php');
 			}
 			$count++;
 		}
 	}
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 	if ($count == 0)
 	{
 		echo '    <td class="row1" style="text-align:center;">';
@@ -589,9 +589,9 @@ function GraphicAdmin($pos=1)
 	/**
 	 * Load up the new theme admin panels
 	 */
-	$result2 = $titanium_db->sql_query("SELECT `theme_name` FROM `".$titanium_prefix."_themes` ORDER BY `theme_name` ASC");
-	$themes_row = $titanium_db->sql_fetchrowset( $result2 );
-	$titanium_db->sql_freeresult($result2);
+	$result2 = $pnt_db->sql_query("SELECT `theme_name` FROM `".$pnt_prefix."_themes` ORDER BY `theme_name` ASC");
+	$themes_row = $pnt_db->sql_fetchrowset( $result2 );
+	$pnt_db->sql_freeresult($result2);
 
 	if (count($themes_row) > 0 ):
 
@@ -631,11 +631,11 @@ function GraphicAdmin($pos=1)
  ******************************************************/
 	global $admin_fc_status, $admin_fc_attempts, $admin_fc_timeout;
 	$ip = $_SERVER['REMOTE_ADDR'];
-	$fc = $titanium_db->sql_ufetchrow("SELECT * FROM `". $titanium_prefix ."_admin_fc` WHERE fc_ip = '$ip'");
+	$fc = $pnt_db->sql_ufetchrow("SELECT * FROM `". $pnt_prefix ."_admin_fc` WHERE fc_ip = '$ip'");
 	if (!empty($fc['fc_ip']))
 	{
-		$titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_admin_fc WHERE fc_ip = '$ip'");
-		$titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_admin_fc");
+		$pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_admin_fc WHERE fc_ip = '$ip'");
+		$pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_admin_fc");
 	}
 /*****[END]********************************************
  [ Mod:     Advanced Security Code Control     v1.0.0 ]
@@ -729,7 +729,7 @@ function track_CMS_version_bs()
 
 function administration_panel( $pos = 1 )
 {
-	global $aid, $admingraphic, $cache, $language, $admin, $titanium_prefix, $titanium_user_prefix, $titanium_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
+	global $aid, $admingraphic, $cache, $language, $admin, $pnt_prefix, $pnt_user_prefix, $pnt_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
 
 	$radminsuper = is_mod_admin();
 
@@ -972,16 +972,16 @@ function administration_panel( $pos = 1 )
 			<?php
 
 			update_modules();
-			$result = $titanium_db->sql_query("SELECT `title` FROM `".$titanium_prefix."_modules` ORDER BY `title` ASC");
+			$result = $pnt_db->sql_query("SELECT `title` FROM `".$pnt_prefix."_modules` ORDER BY `title` ASC");
 			$count = 0;
-			while($row = $titanium_db->sql_fetchrow($result)) 
+			while($row = $pnt_db->sql_fetchrow($result)) 
 			{
 				if (is_mod_admin($row['title'])) 
 				{
 					if (file_exists(NUKE_MODULES_DIR.$row['title']."/admin/index.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/links.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/case.php")) 
 					{
-						// global $titanium_module_folder_name;
-						// $titanium_module_folder_name = $row['title'];
+						// global $pnt_module_folder_name;
+						// $pnt_module_folder_name = $row['title'];
 						?>
 						<div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-2 pl-0 admin-buttons-container">
 							<div class="admin-buttons"><?php include(NUKE_MODULES_DIR.$row['title'].'/admin/links.php'); ?></div>
@@ -991,7 +991,7 @@ function administration_panel( $pos = 1 )
 					$count++;
 				}
 			}
-			$titanium_db->sql_freeresult($result);
+			$pnt_db->sql_freeresult($result);
 
 			?>
 
@@ -1006,9 +1006,9 @@ function administration_panel( $pos = 1 )
 		 */
 		if ( is_mod_admin('super') ): 
 
-			$result2 = $titanium_db->sql_query("SELECT `theme_name` FROM `".$titanium_prefix."_themes` ORDER BY `theme_name` ASC");
-			$themes_row = $titanium_db->sql_fetchrowset( $result2 );
-			$titanium_db->sql_freeresult($result2);
+			$result2 = $pnt_db->sql_query("SELECT `theme_name` FROM `".$pnt_prefix."_themes` ORDER BY `theme_name` ASC");
+			$themes_row = $pnt_db->sql_fetchrowset( $result2 );
+			$pnt_db->sql_freeresult($result2);
 
 			if ( count( $themes_row ) > 0 ): ?>
 
@@ -1042,11 +1042,11 @@ function administration_panel( $pos = 1 )
  [ Mod:     Advanced Security Code Control     v1.0.0 ]
  ******************************************************/
 	$ip = $_SERVER['REMOTE_ADDR'];
-	$fc = $titanium_db->sql_ufetchrow("SELECT * FROM `"._FAILED_LOGIN_INFO_TABLE."` WHERE fc_ip = '$ip'");
+	$fc = $pnt_db->sql_ufetchrow("SELECT * FROM `"._FAILED_LOGIN_INFO_TABLE."` WHERE fc_ip = '$ip'");
 	if (!empty($fc['fc_ip']))
 	{
-		$titanium_db->sql_query("DELETE FROM "._FAILED_LOGIN_INFO_TABLE." WHERE fc_ip = '$ip'");
-		$titanium_db->sql_query("OPTIMIZE TABLE "._FAILED_LOGIN_INFO_TABLE);
+		$pnt_db->sql_query("DELETE FROM "._FAILED_LOGIN_INFO_TABLE." WHERE fc_ip = '$ip'");
+		$pnt_db->sql_query("OPTIMIZE TABLE "._FAILED_LOGIN_INFO_TABLE);
 	}
 /*****[END]********************************************
  [ Mod:     Advanced Security Code Control     v1.0.0 ]

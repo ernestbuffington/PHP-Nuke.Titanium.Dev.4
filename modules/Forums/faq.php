@@ -46,7 +46,7 @@ include($phpbb2_root_path . 'common.'.$phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_FAQ);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_FAQ);
 titanium_init_userprefs($userdata);
 //
 // End session management

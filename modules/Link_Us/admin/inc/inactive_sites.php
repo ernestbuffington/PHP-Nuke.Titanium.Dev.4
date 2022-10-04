@@ -34,8 +34,8 @@ LinkusAdminMain();
 OpenTable();
 
 	$num = 0;
-	$result = $titanium_db->sql_query("SELECT `id`, `site_name`, `site_url`, `site_image`, `site_description`, `site_hits`, `site_status`, `date_added` FROM ".$titanium_prefix."_link_us WHERE `site_status` = '0' AND `button_type` = '1'");
-	$numrows = $titanium_db->sql_numrows($result);
+	$result = $pnt_db->sql_query("SELECT `id`, `site_name`, `site_url`, `site_image`, `site_description`, `site_hits`, `site_status`, `date_added` FROM ".$pnt_prefix."_link_us WHERE `site_status` = '0' AND `button_type` = '1'");
+	$numrows = $pnt_db->sql_numrows($result);
 
 if($numrows == 0){
     echo "<center><font color='red' size='3'>".$lang_new[$pnt_module]['ALL_ACTIVE_SITES']."</font></center>";
@@ -44,7 +44,7 @@ if($numrows == 0){
 	echo "<tr><th width='100%'>".$lang_new[$pnt_module]['STANDARD_BUTTONS']."</th></tr>";
 	echo "</table>";
   	echo "<table border='0' cellpadding='2' cellspacing='5' width='100%'>";
-  	while(list($id, $site_name, $site_url, $site_image, $site_description, $site_hits, $site_status, $date_added) = $titanium_db->sql_fetchrow($result)) {
+  	while(list($id, $site_name, $site_url, $site_image, $site_description, $site_hits, $site_status, $date_added) = $pnt_db->sql_fetchrow($result)) {
 
     if ($num == 0) { echo "<tr>"; }
     echo "<td width='50%' valign='top'>";
@@ -72,8 +72,8 @@ if($numrows == 0){
 }
 
 	$num = 0;
-	$result = $titanium_db->sql_query("SELECT `id`, `site_name`, `site_url`, `site_image`, `site_description`, `site_hits`, `site_status`, `date_added` FROM ".$titanium_prefix."_link_us WHERE `site_status` = '0' AND `button_type` = '2'");
-	$numrows = $titanium_db->sql_numrows($result);
+	$result = $pnt_db->sql_query("SELECT `id`, `site_name`, `site_url`, `site_image`, `site_description`, `site_hits`, `site_status`, `date_added` FROM ".$pnt_prefix."_link_us WHERE `site_status` = '0' AND `button_type` = '2'");
+	$numrows = $pnt_db->sql_numrows($result);
 
 	if ($numrows > 0) {
 	echo "<br /><br />";
@@ -81,7 +81,7 @@ if($numrows == 0){
 	echo "<tr><th width='100%'>".$lang_new[$pnt_module]['BANNER_BUTTONS']."</th></tr>";
 	echo "</table>";
   	echo "<table border='0' cellpadding='2' cellspacing='5' width='100%'>";
-  	while(list($id, $site_name, $site_url, $site_image, $site_description, $site_hits, $site_status, $date_added) = $titanium_db->sql_fetchrow($result)) {
+  	while(list($id, $site_name, $site_url, $site_image, $site_description, $site_hits, $site_status, $date_added) = $pnt_db->sql_fetchrow($result)) {
 
     if ($num == 0) { echo "<tr>"; }
     echo "<td width='50%' valign='top'>";
@@ -109,8 +109,8 @@ if($numrows == 0){
 
 
 	$num = 0;
-	$result = $titanium_db->sql_query("SELECT `id`, `site_name`, `site_url`, `site_image`, `site_description`, `site_hits`, `site_status`, `date_added` FROM ".$titanium_prefix."_link_us WHERE `site_status` = '0' AND `button_type` = '3'");
-	$numrows = $titanium_db->sql_numrows($result);
+	$result = $pnt_db->sql_query("SELECT `id`, `site_name`, `site_url`, `site_image`, `site_description`, `site_hits`, `site_status`, `date_added` FROM ".$pnt_prefix."_link_us WHERE `site_status` = '0' AND `button_type` = '3'");
+	$numrows = $pnt_db->sql_numrows($result);
 
 if ($numrows > 0) {
 	echo "<br /><br />";
@@ -118,7 +118,7 @@ if ($numrows > 0) {
 	echo "<tr><th width='100%'>".$lang_new[$pnt_module]['RESOURCES']."</th></tr>";
 	echo "</table>";
   	echo "<table border='0' cellpadding='2' cellspacing='5' width='100%'>";
-  	while(list($id, $site_name, $site_url, $site_image, $site_description, $site_hits, $site_status, $date_added) = $titanium_db->sql_fetchrow($result)) {
+  	while(list($id, $site_name, $site_url, $site_image, $site_description, $site_hits, $site_status, $date_added) = $pnt_db->sql_fetchrow($result)) {
 
     if ($num == 0) { echo "<tr>"; }
     echo "<td width='50%' valign='top'>";

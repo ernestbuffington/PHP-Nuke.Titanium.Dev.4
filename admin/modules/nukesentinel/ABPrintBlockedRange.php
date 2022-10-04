@@ -21,7 +21,7 @@ include_once("themes/$theme_Sel/theme.php");
 echo "<LINK REL='StyleSheet' HREF='themes/$theme_Sel/style/style.css' TYPE='text/css' MEDIA='screen'>\n";
 echo "</head><body>\n";
 echo "<h1 align='center'>$pagetitle</h1>\n";
-$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges`"));
+$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ranges`"));
 if($totalselected > 0) {
   echo "<table summary='' align='center' border='2' cellpadding='2' cellspacing='2'>\n";
   echo "<tr>\n";
@@ -32,9 +32,9 @@ if($totalselected > 0) {
   echo "<td align='center'><strong>"._AB_EXPIRES."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_REASON."</strong></td>\n";
   echo "</tr>\n";
-  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges` ORDER BY `ip_lo`");
-  while($getIPs = $titanium_db->sql_fetchrow($result)) {
-    list($getIPs['reason']) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `reason` FROM `".$titanium_prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1"));
+  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ranges` ORDER BY `ip_lo`");
+  while($getIPs = $pnt_db->sql_fetchrow($result)) {
+    list($getIPs['reason']) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `reason` FROM `".$pnt_prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1"));
     $getIPs['reason'] = str_replace("Abuse-", "", $getIPs['reason']);
     $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
     $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);

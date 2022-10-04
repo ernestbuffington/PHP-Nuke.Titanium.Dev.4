@@ -39,14 +39,14 @@ exit();
 
 function PrintPage($sid) 
 {
-    global $site_logo, $nukeurl, $sitename, $datetime, $titanium_prefix, $titanium_db, $pnt_module;
+    global $site_logo, $nukeurl, $sitename, $datetime, $pnt_prefix, $pnt_db, $pnt_module;
     
 	// Ernest Buffington 0/31/2022 12:45am Wednesday
 	// I took the image out as this is a print page and wastes ink!!!
 	//<img src=\"images/$site_logo\" alt=\"$sitename\" title=\"$sitename\" /><br /><br />
 
     $sid = intval($sid);
-    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT aid, title, datePublished, dateModified, hometext, bodytext, topic, notes FROM ".$titanium_prefix."_stories WHERE sid='$sid'"));
+    $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT aid, title, datePublished, dateModified, hometext, bodytext, topic, notes FROM ".$pnt_prefix."_stories WHERE sid='$sid'"));
     $title = stripslashes(check_html($row["title"], "nohtml"));
     
 	// START Ernest Buffington 0/31/2022 12:45am Wednesday
@@ -60,7 +60,7 @@ function PrintPage($sid)
     $bodytext = decode_bbcode(set_smilies(stripslashes($row["bodytext"])), 1, true);
     $topic = intval($row["topic"]);
     $notes = stripslashes($row["notes"]);
-    $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT topictext FROM ".$titanium_prefix."_topics WHERE topicid='$topic'"));
+    $row2 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT topictext FROM ".$pnt_prefix."_topics WHERE topicid='$topic'"));
     $topictext = stripslashes($row2["topictext"]);
 
     formatTimestamp($time);

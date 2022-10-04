@@ -78,7 +78,7 @@ $boarddays = max(1, round( ( time() - $phpbb2_board_config['board_startdate'] ) 
 
 $phpbb2_posts_per_day = sprintf('%.2f', $phpbb2_total_posts / $boarddays);
 $phpbb2_topics_per_day = sprintf('%.2f', $total_phpbb2_topics / $boarddays);
-$titanium_users_per_day = sprintf('%.2f', $phpbb2_total_users / $boarddays);
+$pnt_users_per_day = sprintf('%.2f', $phpbb2_total_users / $boarddays);
 
 $avatar_dir_size = 0;
 
@@ -145,9 +145,9 @@ if ($phpbb2_topics_per_day > $total_phpbb2_topics)
     $phpbb2_topics_per_day = $total_phpbb2_topics;
 }
 
-if ($titanium_users_per_day > $phpbb2_total_users)
+if ($pnt_users_per_day > $phpbb2_total_users)
 {
-    $titanium_users_per_day = $phpbb2_total_users;
+    $pnt_users_per_day = $phpbb2_total_users;
 }
 
 //
@@ -156,27 +156,27 @@ if ($titanium_users_per_day > $phpbb2_total_users)
 // This code is heavily influenced by a similar routine
 // in phpMyAdmin 2.2.0
 //
-$titanium_dbsize = 0;
+$pnt_dbsize = 0;
 
 if( preg_match("/^mysql/", SQL_LAYER) )
 {
     $sql = "SELECT VERSION() AS mysql_version";
-    if ($result = $titanium_db->sql_query($sql))
+    if ($result = $pnt_db->sql_query($sql))
     {
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
         $version = $row['mysql_version'];
 
         if( preg_match("/^(3\.23|4\.)/", $version) )
         {
-            $titanium_db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)/", $version) ) ? "`$titanium_dbname`" : $titanium_dbname;
+            $pnt_db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)/", $version) ) ? "`$pnt_dbname`" : $pnt_dbname;
 
             $sql = "SHOW TABLE STATUS
-            FROM " . $titanium_db_name;
-            if($result = $titanium_db->sql_query($sql))
+            FROM " . $pnt_db_name;
+            if($result = $pnt_db->sql_query($sql))
             {
-                $tabledata_ary = $titanium_db->sql_fetchrowset($result);
+                $tabledata_ary = $pnt_db->sql_fetchrowset($result);
 
-                $titanium_dbsize = 0;
+                $pnt_dbsize = 0;
                 for($i = 0; $i < count($tabledata_ary); $i++)
                 {
                     if( $tabledata_ary[$i]['Type'] != "MRG_MyISAM" )
@@ -185,12 +185,12 @@ if( preg_match("/^mysql/", SQL_LAYER) )
                         {
                             if( strstr($tabledata_ary[$i]['Name'], $table_prefix) )
                             {
-                                $titanium_dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
+                                $pnt_dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
                             }
                         }
                         else
                         {
-                            $titanium_dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
+                            $pnt_dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
                         }
                     }
                 }
@@ -199,44 +199,44 @@ if( preg_match("/^mysql/", SQL_LAYER) )
     }
 }
 
-$titanium_dbsize = intval($titanium_dbsize);
+$pnt_dbsize = intval($pnt_dbsize);
 
-if ($titanium_dbsize != 0)
+if ($pnt_dbsize != 0)
 {
     if ($attachment_mod_installed)
     {
-        if( $titanium_dbsize >= 1048576 )
+        if( $pnt_dbsize >= 1048576 )
         {
-            $titanium_dbsize = sprintf('%.2f ' . $lang['MB'], ( $titanium_dbsize / 1048576 ));
+            $pnt_dbsize = sprintf('%.2f ' . $lang['MB'], ( $pnt_dbsize / 1048576 ));
         }
-        else if( $titanium_dbsize >= 1024 )
+        else if( $pnt_dbsize >= 1024 )
         {
-            $titanium_dbsize = sprintf('%.2f ' . $lang['KB'], ( $titanium_dbsize / 1024 ));
+            $pnt_dbsize = sprintf('%.2f ' . $lang['KB'], ( $pnt_dbsize / 1024 ));
         }
         else
         {
-            $titanium_dbsize = sprintf('%.2f ' . $lang['Bytes'], $titanium_dbsize);
+            $pnt_dbsize = sprintf('%.2f ' . $lang['Bytes'], $pnt_dbsize);
         }
     }
     else
     {
-        if( $titanium_dbsize >= 1048576 )
+        if( $pnt_dbsize >= 1048576 )
         {
-            $titanium_dbsize = sprintf('%.2f MB', ( $titanium_dbsize / 1048576 ));
+            $pnt_dbsize = sprintf('%.2f MB', ( $pnt_dbsize / 1048576 ));
         }
-        else if( $titanium_dbsize >= 1024 )
+        else if( $pnt_dbsize >= 1024 )
         {
-            $titanium_dbsize = sprintf('%.2f KB', ( $titanium_dbsize / 1024 ));
+            $pnt_dbsize = sprintf('%.2f KB', ( $pnt_dbsize / 1024 ));
         }
         else
         {
-            $titanium_dbsize = sprintf('%.2f Bytes', $titanium_dbsize);
+            $pnt_dbsize = sprintf('%.2f Bytes', $pnt_dbsize);
         }
     }
 }
 else
 {
-    $titanium_dbsize = $lang['Not_available'];
+    $pnt_dbsize = $lang['Not_available'];
 }
 
 //
@@ -281,7 +281,7 @@ for ($i = 0; $i < count($row); $i++)
 
 $statistic_array = array($lang['Number_posts'], $lang['Posts_per_day'], $lang['Number_topics'], $lang['Topics_per_day'], $lang['Number_users'], $lang['Users_per_day'], $lang['Board_started'], $lang['Board_Up_Days'], $lang['Database_size'], $lang['Avatar_dir_size'], $lang['Latest_Reg_User_Date'], $lang['Latest_Reg_User'], $lang['Most_Ever_Online_Date'], $lang['Most_Ever_Online'], $lang['Gzip_compression']);
 
-$value_array = array($phpbb2_total_posts, $phpbb2_posts_per_day, $total_phpbb2_topics, $phpbb2_topics_per_day, $phpbb2_total_users, $titanium_users_per_day, $phpbb2_start_date, sprintf('%.2f', $boarddays), $titanium_dbsize, $avatar_dir_size, $phpbb2_newest_user_date, sprintf('<a href="' . append_titanium_sid('profile.' . $phpEx . '?mode=viewprofile&amp;' . POST_USERS_URL . '=' . $phpbb2_newest_uid) . '">' . $phpbb2_newest_user . '</a>'), $most_users_date, $most_users, ( $phpbb2_board_config['gzip_compress'] ) ? $lang['Enabled'] : $lang['Disabled']);
+$value_array = array($phpbb2_total_posts, $phpbb2_posts_per_day, $total_phpbb2_topics, $phpbb2_topics_per_day, $phpbb2_total_users, $pnt_users_per_day, $phpbb2_start_date, sprintf('%.2f', $boarddays), $pnt_dbsize, $avatar_dir_size, $phpbb2_newest_user_date, sprintf('<a href="' . append_titanium_sid('profile.' . $phpEx . '?mode=viewprofile&amp;' . POST_USERS_URL . '=' . $phpbb2_newest_uid) . '">' . $phpbb2_newest_user . '</a>'), $most_users_date, $most_users, ( $phpbb2_board_config['gzip_compress'] ) ? $lang['Enabled'] : $lang['Disabled']);
 
 //
 // Disk Usage, if Attachment Mod is installed

@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 $request_id = intval($request_id);
 $request = pjrequest_info($request_id);
@@ -24,9 +24,9 @@ if($project['allowrequests'] > 0) {
   if(empty($stop)) {
     $commenter_name = htmlentities($commenter_name, ENT_QUOTES);
     $comment_description = htmlentities($comment_description, ENT_QUOTES);
-    $titanium_db2->sql_query("INSERT INTO `".$network_prefix."_requests_comments` VALUES (NULL, '$request_id', '$commenter_name', '$commenter_email', '$commenter_ip', '$comment_description', '$date')");
-    $titanium_db2->sql_query("UPDATE `".$network_prefix."_requests` SET `date_commented`='$date' WHERE `request_id`='$request_id'");
-    list($submitter_email) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `submitter_email` FROM `".$network_prefix."_requests` WHERE `request_id`='$request_id'"));
+    $pnt_db2->sql_query("INSERT INTO `".$network_prefix."_requests_comments` VALUES (NULL, '$request_id', '$commenter_name', '$commenter_email', '$commenter_ip', '$comment_description', '$date')");
+    $pnt_db2->sql_query("UPDATE `".$network_prefix."_requests` SET `date_commented`='$date' WHERE `request_id`='$request_id'");
+    list($submitter_email) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `submitter_email` FROM `".$network_prefix."_requests` WHERE `request_id`='$request_id'"));
     $admin_email = $adminmail;
     $subject = _NETWORK_NEWREQUESTCOMMENTS;
     $message = _NETWORK_NEWREQUESTCOMMENT.":\r\n$nukeurl/modules.php?name=$pnt_module&amp;op=Request&amp;request_id=$request_id";

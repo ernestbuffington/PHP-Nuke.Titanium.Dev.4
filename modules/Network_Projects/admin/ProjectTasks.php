@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 get_lang('Network_Projects');
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
@@ -16,12 +16,12 @@ $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_PRO
 
 include_once(NUKE_BASE_DIR.'header.php');
 
-$projectresult = $titanium_db2->sql_query("SELECT `project_name`, `project_description`, `status_id`, `priority_id` FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'");
-list($project_name, $project_description, $status_id, $priority_id) = $titanium_db2->sql_fetchrow($projectresult);
+$projectresult = $pnt_db2->sql_query("SELECT `project_name`, `project_description`, `status_id`, `priority_id` FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'");
+list($project_name, $project_description, $status_id, $priority_id) = $pnt_db2->sql_fetchrow($projectresult);
 pjadmin_menu(_NETWORK_PROJECTS.": "._NETWORK_TASKLIST);
 //echo "<br />\n";
-$taskresult = $titanium_db2->sql_query("SELECT `task_id`, `task_name`, `priority_id`, `status_id` FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id' ORDER BY `task_name`");
-$task_total = $titanium_db2->sql_numrows($taskresult);
+$taskresult = $pnt_db2->sql_query("SELECT `task_id`, `task_name`, `priority_id`, `status_id` FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id' ORDER BY `task_name`");
+$task_total = $pnt_db2->sql_numrows($taskresult);
 OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr><td colspan='2' bgcolor='$bgcolor2' width='100%'><nobr><strong>"._NETWORK_PROJECT."</strong></nobr></td>\n";
@@ -52,7 +52,7 @@ echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr><td colspan='2' bgcolor='$bgcolor2' width='100%'><strong>"._NETWORK_PROJECTTASKS."</strong></a></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_STATUS."</strong></td><td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_PRIORITY."</strong></td><td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</strong></td></tr>\n";
 if($task_total != 0){
-  while(list($task_id, $task_name, $priority_id, $status_id) = $titanium_db2->sql_fetchrow($taskresult)) {
+  while(list($task_id, $task_name, $priority_id, $status_id) = $pnt_db2->sql_fetchrow($taskresult)) {
     $pjimage = pjimage("task.png", $pnt_module);
     echo "<tr><td><img src='$pjimage'></td><td width='100%'>$task_name</td>\n";
     $taskstatus = pjtaskstatus_info($status_id);

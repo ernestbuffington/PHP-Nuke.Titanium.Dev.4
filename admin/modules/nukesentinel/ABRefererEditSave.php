@@ -16,7 +16,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 if(!get_magic_quotes_runtime()) { $referer = addslashes($referer); }
-$testnum1 = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_referers` WHERE `referer`='".$referer."' AND `rid`!='".$rid."'"));
+$testnum1 = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_referers` WHERE `referer`='".$referer."' AND `rid`!='".$rid."'"));
 if($testnum1 > 0) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
@@ -48,8 +48,8 @@ if($testnum1 > 0) {
   CloseTable();
   include_once(NUKE_BASE_DIR.'footer.php');
 } else {
-  $getIPs = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_referers` WHERE `rid`='".$rid."' LIMIT 0,1"));
-  $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_referers` SET `referer`='".$referer."' WHERE `rid`='".$rid."'");
+  $getIPs = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_referers` WHERE `rid`='".$rid."' LIMIT 0,1"));
+  $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_referers` SET `referer`='".$referer."' WHERE `rid`='".$rid."'");
   $list_referer = explode("\r\n", $ab_config['list_referer']);
   $list_referer = str_replace($getIPs['referer'], $referer, $list_referer);
   rsort($list_referer);

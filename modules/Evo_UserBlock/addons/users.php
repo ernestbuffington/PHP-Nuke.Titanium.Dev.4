@@ -25,72 +25,72 @@ global $evouserinfo_addons, $evouserinfo_users;
 
 function evouserinfo_newest_user() 
 {
-    global $titanium_db, $titanium_user_prefix;
+    global $pnt_db, $pnt_user_prefix;
     # do not list the latest user if they are in ghost mode!
-    $sql = "SELECT `user_id`, `username` FROM ".$titanium_user_prefix."_users WHERE user_active = 1 AND user_level > 0 AND user_allow_viewonline = 1 ORDER BY user_id DESC LIMIT 1";
-    $result = $titanium_db->sql_query($sql);
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $sql = "SELECT `user_id`, `username` FROM ".$pnt_user_prefix."_users WHERE user_active = 1 AND user_level > 0 AND user_allow_viewonline = 1 ORDER BY user_id DESC LIMIT 1";
+    $result = $pnt_db->sql_query($sql);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     return (isset($row)) ? $row : '?';
 }
 
 function evouserinfo_new_today() 
 {
-    global $titanium_user_prefix, $titanium_db;
+    global $pnt_user_prefix, $pnt_db;
 
-    $sql = "SELECT COUNT(*) FROM ".$titanium_user_prefix."_users WHERE user_regdate='".date("M d, Y")."'";
-    $result = $titanium_db->sql_query($sql);
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$pnt_user_prefix."_users WHERE user_regdate='".date("M d, Y")."'";
+    $result = $pnt_db->sql_query($sql);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_new_yesterday() 
 {
-    global $titanium_user_prefix, $titanium_db;
+    global $pnt_user_prefix, $pnt_db;
 
-    $sql = "SELECT COUNT(*) FROM ".$titanium_user_prefix."_users WHERE user_regdate='".date("M d, Y", time()-86400)."'";
-    $result = $titanium_db->sql_query($sql);
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$pnt_user_prefix."_users WHERE user_regdate='".date("M d, Y", time()-86400)."'";
+    $result = $pnt_db->sql_query($sql);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_waiting() 
 {
-    global $titanium_user_prefix, $titanium_db;
+    global $pnt_user_prefix, $pnt_db;
 
-    $sql = "SELECT COUNT(*) FROM ".$titanium_user_prefix."_users_temp";
-    $result = $titanium_db->sql_query($sql);
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$pnt_user_prefix."_users_temp";
+    $result = $pnt_db->sql_query($sql);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_total_hidden() 
 {
-    global $titanium_user_prefix, $titanium_db;
+    global $pnt_user_prefix, $pnt_db;
 
-    $sql = "SELECT COUNT(*) FROM ".$titanium_user_prefix."_users WHERE user_id > 1 AND user_allow_viewonline != 1";
-    $result = $titanium_db->sql_query($sql);
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$pnt_user_prefix."_users WHERE user_id > 1 AND user_allow_viewonline != 1";
+    $result = $pnt_db->sql_query($sql);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_total() 
 {
-    global $titanium_user_prefix, $titanium_db;
+    global $pnt_user_prefix, $pnt_db;
 
-    $sql = "SELECT COUNT(*) FROM ".$titanium_user_prefix."_users WHERE user_id > 1";
-    $result = $titanium_db->sql_query($sql);
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$pnt_user_prefix."_users WHERE user_id > 1";
+    $result = $pnt_db->sql_query($sql);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }

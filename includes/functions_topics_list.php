@@ -80,7 +80,7 @@ include_once('includes/bbcode.' . $phpEx);
 //--------------------------------------------------
 function topic_list($box, $tpl='', $topic_rowset, $list_title='', $split_type=false, $display_nav_tree=true, $footer='', $inbox=true, $select_field='', $select_type=0, $select_formname='', $select_values=array())
 {
-    global $titanium_db, $phpbb2_template, $phpbb2_board_config, $userdata, $phpEx, $lang, $images, $HTTP_COOKIE_VARS, $tree;
+    global $pnt_db, $phpbb2_template, $phpbb2_board_config, $userdata, $phpEx, $lang, $images, $HTTP_COOKIE_VARS, $tree;
     static $box_id;
 
     // save template state
@@ -175,7 +175,7 @@ function topic_list($box, $tpl='', $topic_rowset, $list_title='', $split_type=fa
     );
 
     // check if user replied to the topics
-    $titanium_user_topics = array();
+    $pnt_user_topics = array();
     if ($userdata['user_id'] != ANONYMOUS)
     {
         // get all the topic ids to display
@@ -197,13 +197,13 @@ function topic_list($box, $tpl='', $topic_rowset, $list_title='', $split_type=fa
             $sql = "SELECT DISTINCT topic_id FROM " . POSTS_TABLE . " 
                     WHERE topic_id IN ($s_topic_ids)
                         AND poster_id = " . $userdata['user_id'];
-            if ( !($result = $titanium_db->sql_query($sql)) )
+            if ( !($result = $pnt_db->sql_query($sql)) )
             {
                message_die(GENERAL_ERROR, 'Could not obtain post information', '', __LINE__, __FILE__, $sql);
             }
-            while ($row = $titanium_db->sql_fetchrow($result))
+            while ($row = $pnt_db->sql_fetchrow($result))
             {
-                $titanium_user_topics[POST_TOPIC_URL . $row['topic_id']] = true;
+                $pnt_user_topics[POST_TOPIC_URL . $row['topic_id']] = true;
             }
         }
     }
@@ -251,7 +251,7 @@ function topic_list($box, $tpl='', $topic_rowset, $list_title='', $split_type=fa
         $topic_title        = ( count($orig_word) ) ? preg_replace($orig_word, $replacement_word, $topic_rowset[$i]['topic_title']) : $topic_rowset[$i]['topic_title'];
         $replies            = $topic_rowset[$i]['topic_replies'];
         $topic_type            = $topic_rowset[$i]['topic_type'];
-        $titanium_user_replied        = ( !empty($titanium_user_topics) && isset($titanium_user_topics[$topic_rowset[$i]['topic_id']]) );
+        $pnt_user_replied        = ( !empty($pnt_user_topics) && isset($pnt_user_topics[$topic_rowset[$i]['topic_id']]) );
         $force_type_display    = false;
         $phpbb2_forum_id            = $topic_rowset[$i]['forum_id'];
 
@@ -304,35 +304,35 @@ function topic_list($box, $tpl='', $topic_rowset, $list_title='', $split_type=fa
             }
             else if( $topic_rowset[$i]['topic_type'] == POST_GLOBAL_ANNOUNCE )
             {
-                $folder = ($titanium_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_global_announce'] : $images['folder_global_announce'];
-                $folder_new = ($titanium_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_global_announce_new'] : $images['folder_global_announce_new'];
+                $folder = ($pnt_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_global_announce'] : $images['folder_global_announce'];
+                $folder_new = ($pnt_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_global_announce_new'] : $images['folder_global_announce_new'];
             }
             else if( $topic_rowset[$i]['topic_type'] == POST_ANNOUNCE )
             {
-                $folder = ($titanium_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_announce'] : $images['folder_announce'];
-                $folder_new = ($titanium_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_announce_new'] : $images['folder_announce_new'];
+                $folder = ($pnt_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_announce'] : $images['folder_announce'];
+                $folder_new = ($pnt_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_announce_new'] : $images['folder_announce_new'];
             }
             else if( $topic_rowset[$i]['topic_type'] == POST_STICKY )
             {
-                $folder = ($titanium_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_sticky'] : $images['folder_sticky'];
-                $folder_new = ($titanium_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_sticky_new'] : $images['folder_sticky_new'];
+                $folder = ($pnt_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_sticky'] : $images['folder_sticky'];
+                $folder_new = ($pnt_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_sticky_new'] : $images['folder_sticky_new'];
             }
             else if( $topic_rowset[$i]['topic_status'] == TOPIC_LOCKED )
             {
-                $folder = ($titanium_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_locked'] : $images['folder_locked'];
-                $folder_new = ($titanium_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_locked_new'] : $images['folder_locked_new'];
+                $folder = ($pnt_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_locked'] : $images['folder_locked'];
+                $folder_new = ($pnt_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_locked_new'] : $images['folder_locked_new'];
             }
             else
             {
                 if($replies >= $phpbb2_board_config['hot_threshold'])
                 {
-                    $folder = ($titanium_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_hot'] : $images['folder_hot'];
-                    $folder_new = ($titanium_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_hot_new'] : $images['folder_hot_new'];
+                    $folder = ($pnt_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_hot'] : $images['folder_hot'];
+                    $folder_new = ($pnt_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_hot_new'] : $images['folder_hot_new'];
                 }
                 else
                 {
-                    $folder = ($titanium_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder'] : $images['folder'];
-                    $folder_new = ($titanium_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_new'] : $images['folder_new'];
+                    $folder = ($pnt_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder'] : $images['folder'];
+                    $folder_new = ($pnt_user_replied && defined('USER_REPLIED_ICON')) ? $images['folder_new'] : $images['folder_new'];
                 }
             }
             $newest_post_img = '';
@@ -647,7 +647,7 @@ function topic_list($box, $tpl='', $topic_rowset, $list_title='', $split_type=fa
         $phpbb2_color = !$phpbb2_color;
         $phpbb2_template->assign_block_vars( $tpl . '.row', array(
             'ROW_CLASS'                => ($phpbb2_color || !defined('TOPIC_ALTERNATE_ROW_CLASS')) ? 'row1' : 'row2',
-            'ROW_FOLDER_CLASS'        => ($titanium_user_replied && defined('USER_REPLIED_CLASS')) ? USER_REPLIED_CLASS : ( ($phpbb2_color || !defined('TOPIC_ALTERNATE_ROW_CLASS')) ? 'row1' : 'row2' ),
+            'ROW_FOLDER_CLASS'        => ($pnt_user_replied && defined('USER_REPLIED_CLASS')) ? USER_REPLIED_CLASS : ( ($phpbb2_color || !defined('TOPIC_ALTERNATE_ROW_CLASS')) ? 'row1' : 'row2' ),
             'FORUM_ID'                => $phpbb2_forum_id,
             'TOPIC_ID'                => $topic_id,
             'TOPIC_FOLDER_IMG'        => $phpbb2_folder_image,

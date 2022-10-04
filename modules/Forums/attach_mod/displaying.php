@@ -53,7 +53,7 @@ function display_compile_titanium_cache_clear($filename, $phpbb2_template_var)
 */
 function init_complete_extensions_data()
 {
-    global $titanium_db, $allowed_extensions, $phpbb2_display_categories, $download_modes, $upload_icons;
+    global $pnt_db, $allowed_extensions, $phpbb2_display_categories, $download_modes, $upload_icons;
 
     $extension_informations = get_extension_informations();
     $allowed_extensions = array();
@@ -193,7 +193,7 @@ function display_assign_link($post_id)
 */
 function init_display_post_attachments($switch_attachment)
 {
-    global $attach_config, $titanium_db, $phpbb2_is_auth, $phpbb2_template, $lang, $postrow, $phpbb2_total_posts, $attachments, $forum_row, $forum_topic_data;
+    global $attach_config, $pnt_db, $phpbb2_is_auth, $phpbb2_template, $lang, $postrow, $phpbb2_total_posts, $attachments, $forum_row, $forum_topic_data;
 
     if (empty($forum_topic_data) && !empty($forum_row))
     {
@@ -404,7 +404,7 @@ function init_display_review_attachments($phpbb2_is_auth)
 */
 function display_attachments_preview($attachment_list, $attachment_filesize_list, $attachment_filename_list, $attachment_comment_list, $attachment_extension_list, $attachment_thumbnail_list)
 {
-    global $attach_config, $phpbb2_is_auth, $allowed_extensions, $lang, $userdata, $phpbb2_display_categories, $upload_dir, $upload_icons, $phpbb2_template, $titanium_db, $theme;
+    global $attach_config, $phpbb2_is_auth, $allowed_extensions, $lang, $userdata, $phpbb2_display_categories, $upload_dir, $upload_icons, $phpbb2_template, $pnt_db, $theme;
 
 	if (sizeof($attachment_list) != 0)
     {
@@ -616,7 +616,7 @@ function display_attachments_preview($attachment_list, $attachment_filesize_list
 */
 function display_attachments($post_id)
 {
-    global $phpbb2_template, $upload_dir, $userdata, $allowed_extensions, $phpbb2_display_categories, $download_modes, $titanium_db, $lang, $phpEx, $attachments, $upload_icons, $attach_config;
+    global $phpbb2_template, $upload_dir, $userdata, $allowed_extensions, $phpbb2_display_categories, $download_modes, $pnt_db, $lang, $phpEx, $attachments, $upload_icons, $attach_config;
     global $phpbb2_root_path;
 
 	$num_attachments = sizeof($attachments['_' . $post_id]);
@@ -783,7 +783,7 @@ function display_attachments($post_id)
                         SET download_count = download_count + 1
                         WHERE attach_id = ' . (int) $attachments['_' . $post_id][$i]['attach_id'];
 
-                    if ( !($titanium_db->sql_query($sql)) )
+                    if ( !($pnt_db->sql_query($sql)) )
                     {
                         message_die(GENERAL_ERROR, 'Couldn\'t update attachment download count.', '', __LINE__, __FILE__, $sql);
                     }
@@ -851,7 +851,7 @@ function display_attachments($post_id)
                     SET download_count = download_count + 1
                     WHERE attach_id = ' . (int) $attachments['_' . $post_id][$i]['attach_id'];
 
-                if ( !($titanium_db->sql_query($sql)) )
+                if ( !($pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t update attachment download count', '', __LINE__, __FILE__, $sql);
                 }
@@ -881,7 +881,7 @@ function display_attachments($post_id)
                     SET download_count = download_count + 1
                     WHERE attach_id = ' . (int) $attachments['_' . $post_id][$i]['attach_id'];
 
-                if ( !($titanium_db->sql_query($sql)) )
+                if ( !($pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t update attachment download count', '', __LINE__, __FILE__, $sql);
                 }

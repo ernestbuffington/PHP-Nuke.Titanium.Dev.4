@@ -19,16 +19,16 @@
 ************************************************************************/
 defined('NUKE_EVO') or die('Just go away, Shit Head!');
 
-global $titanium_db, $titanium_prefix, $userinfo;
+global $pnt_db, $pnt_prefix, $userinfo;
 global $evouserinfo_avatar, $phpbb2_board_config, $userinfo; 
 
 $max_height = '60';
 $max_width = '';
 
-$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 10");
+$result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 10");
 
 $content  = '<table border="0" cellpadding="0" cellspacing="1" class="col-12">';
-while($whosbeen = $titanium_db->sql_fetchrow($result)):
+while($whosbeen = $pnt_db->sql_fetchrow($result)):
 
 	if($whosbeen['user_from_flag'] ):
 	$whosbeen['user_from_flag'] = str_replace('.png','',$whosbeen['user_from_flag']);
@@ -70,8 +70,8 @@ while($whosbeen = $titanium_db->sql_fetchrow($result)):
 	}
 	
     # testing database lookup <span class="countries '.$whosbeen['user_from_flag'].'"></span>
-	//list($shit) = $titanium_db->sql_ufetchrow("SELECT `user_id` FROM `".$titanium_prefix."_users` WHERE `username`='".$whosbeen['username']."'", SQL_NUM);
-	//list($notes) = $titanium_db->sql_ufetchrow("SELECT `user_admin_notes` FROM `".$titanium_prefix."_users` WHERE `user_id`='".$shit."'", SQL_NUM);
+	//list($shit) = $pnt_db->sql_ufetchrow("SELECT `user_id` FROM `".$pnt_prefix."_users` WHERE `username`='".$whosbeen['username']."'", SQL_NUM);
+	//list($notes) = $pnt_db->sql_ufetchrow("SELECT `user_admin_notes` FROM `".$pnt_prefix."_users` WHERE `user_id`='".$shit."'", SQL_NUM);
 	
 	$content .= '<td width="45px"><a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.$avatar.'</a></td>';
     $content .= '<td><a class="turdball" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">

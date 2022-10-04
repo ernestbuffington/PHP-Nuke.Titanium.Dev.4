@@ -264,28 +264,28 @@ class Template {
 			{
 				$up[] = 'xs_template_time';
 			}
-			global $titanium_db;
-			if(!empty($titanium_db))
+			global $pnt_db;
+			if(!empty($pnt_db))
 			{
 				// adding new config values
 				for($i=0; $i<count($add); $i++)
 				{
-					if (!$titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM " . CONFIG_TABLE . " WHERE config_name='" . $add[$i] . "'"))) {
+					if (!$pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM " . CONFIG_TABLE . " WHERE config_name='" . $add[$i] . "'"))) {
 						$sql = "INSERT INTO " . CONFIG_TABLE . " (config_name, config_value) VALUES ('" . $add[$i] . "', '" . str_replace('\\\'', '\'\'', addslashes($phpbb2_board_config[$add[$i]])) . "')";
-						$titanium_db->sql_query($sql);
+						$pnt_db->sql_query($sql);
 					}
 				}
 				// removing old configuration variables that aren't used
 				for($i=0; $i<count($del); $i++)
 				{
 					$sql = "DELETE FROM " . CONFIG_TABLE . " WHERE config_name='" . $del[$i] . "'";
-					$titanium_db->sql_query($sql);
+					$pnt_db->sql_query($sql);
 				}
 				// updating variables that should be overwritten
 				for($i=0; $i<count($up); $i++)
 				{
 					$sql = "UPDATE " . CONFIG_TABLE . " SET config_value='" . str_replace('\\\'', '\'\'', addslashes($phpbb2_board_config[$up[$i]])) . "' WHERE config_name='" . $up[$i] . "'";
-					$titanium_db->sql_query($sql);
+					$pnt_db->sql_query($sql);
 				}
 				// recache config table for cat_hierarchy 2.1.0
 				global $config;
@@ -422,7 +422,7 @@ class Template {
 
 	function subtemplates_make_filename($filename)
 	{
-		global $HTTP_GET_VARS, $HTTP_POST_VARS, $titanium_db, $phpbb2_board_config, $images, $theme;
+		global $HTTP_GET_VARS, $HTTP_POST_VARS, $pnt_db, $phpbb2_board_config, $images, $theme;
 		global $sub_template_key_image, $sub_templates;
 		global $tree;
 
@@ -500,11 +500,11 @@ class Template {
 				if ($post_id > 0)
 				{
 					$sql = "SELECT * FROM " . POSTS_TABLE . " WHERE post_id=$post_id";			
-					if ( !($result = $titanium_db->sql_query($sql)) )
+					if ( !($result = $pnt_db->sql_query($sql)) )
 					{
 						message_die(GENERAL_ERROR, 'Wasn\'t able to access posts', '', __LINE__, __FILE__, $sql);
 					}
-					if ( $row = $titanium_db->sql_fetchrow($result) )
+					if ( $row = $pnt_db->sql_fetchrow($result) )
 					{
 						$phpbb2_forum_id = $row['forum_id'];
 					}
@@ -513,11 +513,11 @@ class Template {
 				if ($topic_id > 0)
 				{
 					$sql = "SELECT * FROM " . TOPICS_TABLE . " WHERE topic_id=$topic_id";			
-					if ( !($result = $titanium_db->sql_query($sql)) )
+					if ( !($result = $pnt_db->sql_query($sql)) )
 					{
 						message_die(GENERAL_ERROR, 'Wasn\'t able to access topics', '', __LINE__, __FILE__, $sql);
 					}
-					if ( $row = $titanium_db->sql_fetchrow($result) )
+					if ( $row = $pnt_db->sql_fetchrow($result) )
 					{
 						$phpbb2_forum_id = $row['forum_id'];
 					}
@@ -538,11 +538,11 @@ class Template {
 
 					// get the cat_id
 					$sql = "SELECT * FROM " . FORUMS_TABLE . " WHERE forum_id=$phpbb2_forum_id";
-					if ( !($result = $titanium_db->sql_query($sql)) )
+					if ( !($result = $pnt_db->sql_query($sql)) )
 					{
 						message_die(GENERAL_ERROR, 'Wasn\'t able to access forums', '', __LINE__, __FILE__, $sql);
 					}
-					if ( $row = $titanium_db->sql_fetchrow($result) )
+					if ( $row = $pnt_db->sql_fetchrow($result) )
 					{
 						$cat_id = $row['cat_id'];
 					}
@@ -2320,7 +2320,7 @@ class Template {
 			include($phpbb2_root_path . 'templates/' . $tpl . '/xs_config.cfg');
 			if(count($style_config))
 			{
-				global $phpbb2_board_config, $titanium_db;
+				global $phpbb2_board_config, $pnt_db;
 				for($i=0; $i<count($style_config); $i++)
 				{
 					$this->style_config[$style_config[$i]['var']] = $style_config[$i]['default'];
@@ -2333,7 +2333,7 @@ class Template {
 				$config_name = 'xs_style_' . $tpl;
 				$phpbb2_board_config[$config_name] = $str;
 				$sql = "INSERT INTO " . CONFIG_TABLE . " (config_name, config_value) VALUES ('" . str_replace('\\\'', '\'\'', addslashes($config_name)) . "', '" . str_replace('\\\'', '\'\'', addslashes($str)) . "')";
-				$titanium_db->sql_query($sql);
+				$pnt_db->sql_query($sql);
 				// recache config table for cat_hierarchy 2.1.0
 				global $config;
 				if(isset($config->data) && $config->data === $phpbb2_board_config && isset($config->data['mod_cat_hierarchy']))
@@ -2372,7 +2372,7 @@ class Template {
 			include($phpbb2_root_path . 'templates/' . $tpl . '/xs_config.cfg');
 			if(count($style_config))
 			{
-				global $phpbb2_board_config, $titanium_db;
+				global $phpbb2_board_config, $pnt_db;
 				for($i=0; $i<count($style_config); $i++)
 				{
 					if(!isset($this->style_config[$style_config[$i]['var']]))
@@ -2394,7 +2394,7 @@ class Template {
 				{
 					$sql = "INSERT INTO " . CONFIG_TABLE . " (config_name, config_value) VALUES ('" . str_replace('\\\'', '\'\'', addslashes($config_name)) . "', '" . str_replace('\\\'', '\'\'', addslashes($str)) . "')";
 				}
-				$titanium_db->sql_query($sql);
+				$pnt_db->sql_query($sql);
 				$phpbb2_board_config[$config_name] = $str;
 				// recache config table for cat_hierarchy 2.1.0
 				global $config;

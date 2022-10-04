@@ -26,7 +26,7 @@ if(!defined('IN_PHPBB2'))
 
 function get_related_topics($topic_id)
 {
-	global $phpbb2_board_config, $titanium_db, $lang, $phpbb2_template, $theme, $images, $phpEx;
+	global $phpbb2_board_config, $pnt_db, $lang, $phpbb2_template, $theme, $images, $phpEx;
 	global $userdata, $HTTP_COOKIE_VARS;
 
 	//
@@ -35,13 +35,13 @@ function get_related_topics($topic_id)
 	$sql = 'SELECT m.word_id FROM ' . SEARCH_MATCH_TABLE . ' m, ' . TOPICS_TABLE . ' t
 			WHERE m.post_id = t.topic_first_post_id
 				AND t.topic_id = ' . intval($topic_id);
-	if( !$result = $titanium_db->sql_query($sql) )
+	if( !$result = $pnt_db->sql_query($sql) )
 	{
 		message_die(GENERAL_ERROR, 'Could not retrieve word matches', '', __LINE__, __FILE__, $sql);
 	}
 
 	$word_ids = array(0);
-	while( $row = $titanium_db->sql_fetchrow($result) )
+	while( $row = $pnt_db->sql_fetchrow($result) )
 	{
 		$word_ids[] = intval($row['word_id']);
 	}
@@ -73,13 +73,13 @@ function get_related_topics($topic_id)
 				AND m.title_match = 1
 				AND m.word_id IN (' . $word_id_sql . ')
 			LIMIT 0, 5';
-	if( !$result = $titanium_db->sql_query($sql) )
+	if( !$result = $pnt_db->sql_query($sql) )
 	{
 		message_die(GENERAL_ERROR, 'Could not retrieve related topics information', '', __LINE__, __FILE__, $sql);
 	}
 
 	$topic_ids = array();
-	while( $row = $titanium_db->sql_fetchrow($result) )
+	while( $row = $pnt_db->sql_fetchrow($result) )
 	{
 		$topic_ids[] = $row['topic_id'];
 	}
@@ -129,14 +129,14 @@ function get_related_topics($topic_id)
 				AND u2.user_id = p2.poster_id
 			ORDER BY t.topic_type DESC, t.topic_last_post_id DESC';
 
-	if( !$result = $titanium_db->sql_query($sql) )
+	if( !$result = $pnt_db->sql_query($sql) )
 	{
 		message_die(GENERAL_ERROR, 'Could not retrieve topic information', '', __LINE__, __FILE__, $sql);
 	}
 
 	$topic_row = array();
-	$topic_row = $titanium_db->sql_fetchrowset($result);
-	$titanium_db->sql_freeresult($result);
+	$topic_row = $pnt_db->sql_fetchrowset($result);
+	$pnt_db->sql_freeresult($result);
 
 	if( count($topic_row) == 0 )
 	{

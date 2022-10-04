@@ -14,7 +14,7 @@ if (!defined('MODULE_FILE'))
 
 function _most_popular_download_info()
 {
-	global $titanium_db, $lang_new, $pnt_module, $userinfo, $admin, $titanium_user, $settings, $themes;
+	global $pnt_db, $lang_new, $pnt_module, $userinfo, $admin, $pnt_user, $settings, $themes;
 	OpenTable();
 	_index_navigation_header();
 
@@ -24,7 +24,7 @@ function _most_popular_download_info()
 	// $calc           = $perpage * $page;
 	// $phpbb2_start          = $calc - $perpage;
 
-	$count_downloads = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isactive` = 1 && `isbroken` = 0 && `hits` <> 0"));
+	$count_downloads = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isactive` = 1 && `isbroken` = 0 && `hits` <> 0"));
 //-------------------------------------------------------------------------------------
 //	THIS IS THE DEFAULT PAGINATION CLASS THAT COMES WITH EVOLUTION XTREME.
 //-------------------------------------------------------------------------------------
@@ -37,8 +37,8 @@ function _most_popular_download_info()
 //-------------------------------------------------------------------------------------
 
 	$sql 	 = "SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isactive` = 1 && `hits` <> 0 ORDER BY `hits` DESC LIMIT ".$limit1.", ".$limit2;
-	$result  = $titanium_db->sql_query($sql);
-	$numrows = $titanium_db->sql_numrows($result);
+	$result  = $pnt_db->sql_query($sql);
+	$numrows = $pnt_db->sql_numrows($result);
 	echo '<br />';
 	echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
@@ -55,11 +55,11 @@ function _most_popular_download_info()
 			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($lang_new[$pnt_module]['FILE_SIZE']).'</td>'.PHP_EOL;
 			echo '    <td'._tdcss('20%','center',_sh()).'>'._suh($lang_new[$pnt_module]['DATE_ADDED']).'</td>'.PHP_EOL;
 			echo '  </tr>'."\n";
-			while($popular = $titanium_db->sql_fetchrow($result))
+			while($popular = $pnt_db->sql_fetchrow($result))
 			{
 				$v 			= (($popular['version']) ? sprintf($lang_new[$pnt_module]['V'],$popular['version']) : '');
 				$iteminfo 	= _collect_iteminfo($popular['did']);
-				$screen[$items] = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$popular['did']."' ORDER BY RAND()"));
+				$screen[$items] = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$popular['did']."' ORDER BY RAND()"));
 				echo '  <tr'._bgColor(1).'>'."\n";
 				if($screen[$items]['filename'])
 				{
@@ -79,16 +79,16 @@ function _most_popular_download_info()
 				echo '  </tr>'."\n";
 				$items++;
 			}
-			$titanium_db->sql_freeresult($result);
+			$pnt_db->sql_freeresult($result);
 		}
 		else
 		{
 			$items = 0;
-			while($popular = $titanium_db->sql_fetchrow($result))
+			while($popular = $pnt_db->sql_fetchrow($result))
 			{
 				$v 				= (($popular['version']) ? sprintf($lang_new[$pnt_module]['V'],$popular['version']) : '');
 				$iteminfo 		= _collect_iteminfo($popular['did']);
-				$screen[$items] = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$popular['did']."' ORDER BY RAND()"));
+				$screen[$items] = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$popular['did']."' ORDER BY RAND()"));
 				$ustring 		= ($iteminfo['updated'] == '0000-00-00 00:00:00') ? _sut($lang_new[$pnt_module]['DATE_ADDED']) : _sut($lang_new[$pnt_module]['UPDATED']);
 				if($screen[$items]['filename'])
 					$colspan = false;

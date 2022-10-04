@@ -10,16 +10,16 @@
   }
 
   $realname = strip_tags($_POST['realname']);
-  $titanium_username = strip_tags($_POST['username']);
+  $pnt_username = strip_tags($_POST['username']);
   $password = $_POST['password'];
 
   $photo = $_FILES['photo'];
   $extension = end(explode(".", $photo["name"]));
 
   try {
-    createUser($realname, $titanium_username, $password);
-    move_uploaded_file($photo["tmp_name"], $BASE_DIR . "images/users/" . $titanium_username . '.' . $extension); // this is dangerous
-    chmod($BASE_DIR . "images/users/" . $titanium_username . '.' . $extension, 0644);
+    createUser($realname, $pnt_username, $password);
+    move_uploaded_file($photo["tmp_name"], $BASE_DIR . "images/users/" . $pnt_username . '.' . $extension); // this is dangerous
+    chmod($BASE_DIR . "images/users/" . $pnt_username . '.' . $extension, 0644);
   } catch (PDOException $e) {
   
     if (strpos($e->getMessage(), 'users_pkey') !== false) {

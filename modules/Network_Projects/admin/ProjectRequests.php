@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 get_lang('Network_Projects');
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
@@ -16,12 +16,12 @@ $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_PRO
 
 include_once(NUKE_BASE_DIR.'header.php');
 
-$projectresult = $titanium_db2->sql_query("SELECT `project_name`, `project_description`, `status_id`, `priority_id` FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'");
-list($project_name, $project_description, $status_id, $priority_id) = $titanium_db2->sql_fetchrow($projectresult);
+$projectresult = $pnt_db2->sql_query("SELECT `project_name`, `project_description`, `status_id`, `priority_id` FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'");
+list($project_name, $project_description, $status_id, $priority_id) = $pnt_db2->sql_fetchrow($projectresult);
 pjadmin_menu(_NETWORK_PROJECTS.": "._NETWORK_REQUESTLIST);
 //echo "<br />\n";
-$requestresult = $titanium_db2->sql_query("SELECT `request_id`, `request_name`, `type_id`, `status_id` FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id' ORDER BY `request_name`");
-$request_total = $titanium_db2->sql_numrows($requestresult);
+$requestresult = $pnt_db2->sql_query("SELECT `request_id`, `request_name`, `type_id`, `status_id` FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id' ORDER BY `request_name`");
+$request_total = $pnt_db2->sql_numrows($requestresult);
 OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr><td colspan='2' bgcolor='$bgcolor2' width='100%'><nobr><strong>"._NETWORK_PROJECT."</strong></nobr></td>\n";
@@ -54,7 +54,7 @@ echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_STATUS."</strong
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_TYPE."</strong></td>";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</strong></td></tr>";
 if($request_total != 0){
-  while(list($request_id, $request_name, $type_id, $status_id) = $titanium_db2->sql_fetchrow($requestresult)) {
+  while(list($request_id, $request_name, $type_id, $status_id) = $pnt_db2->sql_fetchrow($requestresult)) {
     $pjimage = pjimage("request.png", $pnt_module);
     echo "<tr><td><img src='$pjimage'></td>";
     echo "<td width='100%'>$request_name</td>";

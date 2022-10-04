@@ -52,7 +52,7 @@ include($phpbb2_root_path . 'common.'.$phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
 titanium_init_userprefs($userdata);
 
 // global pgm options
@@ -90,7 +90,7 @@ function get_rank_title($rank_title)
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -107,8 +107,8 @@ if ( $auth_rank_only_logged && !$userdata['session_logged_in'] )
 // special ranks
 $spe_ranks = array();
 $sql = "SELECT * FROM " . RANKS_TABLE . " WHERE rank_special = 1 ORDER BY rank_title";
-if ( !($result = $titanium_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read special ranks', '', __LINE__, __FILE__, $sql);
-while ($row = $titanium_db->sql_fetchrow($result) ) $spe_ranks[] = $row;
+if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read special ranks', '', __LINE__, __FILE__, $sql);
+while ($row = $pnt_db->sql_fetchrow($result) ) $spe_ranks[] = $row;
 for ($i=0; $i < count($spe_ranks); $i++ )
 {
     $rank = $spe_ranks[$i]['rank_id'];
@@ -122,17 +122,17 @@ for ($i=0; $i < count($spe_ranks); $i++ )
 
     // get the number of users having this rank
     $sql = $sql_base;
-    if ( !($result = $titanium_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
-    $spe_ranks[$i]['user_number'] = $titanium_db->sql_numrows($result);
+    if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
+    $spe_ranks[$i]['user_number'] = $pnt_db->sql_numrows($result);
 
     // get the user list
     if ( $spe_rank_max_users != 0 )
     {
         $sql = $sql_base;
         if ( $spe_rank_max_users > 0 ) $sql .= " LIMIT 0, " . ($spe_rank_max_users + 1);
-        if ( !($result = $titanium_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
+        if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
         $j = 0;
-        while ( $row = $titanium_db->sql_fetchrow($result) )
+        while ( $row = $pnt_db->sql_fetchrow($result) )
         {
             $j++;
             if ( ($spe_rank_max_users <= 0) || ( $j <= $spe_rank_max_users ) )
@@ -160,8 +160,8 @@ for ($i=0; $i < count($spe_ranks); $i++ )
 // standard ranks
 $ranks = array();
 $sql = "SELECT * FROM " . RANKS_TABLE . " WHERE rank_special <> 1 ORDER BY rank_min";
-if ( !($result = $titanium_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read standard ranks', '', __LINE__, __FILE__, $sql);
-while ($row = $titanium_db->sql_fetchrow($result) ) $ranks[] = $row;
+if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read standard ranks', '', __LINE__, __FILE__, $sql);
+while ($row = $pnt_db->sql_fetchrow($result) ) $ranks[] = $row;
 
 $rank_max = 99999999;
 for ($i=count($ranks)-1; $i >=0; $i--)
@@ -176,17 +176,17 @@ for ($i=count($ranks)-1; $i >=0; $i--)
 
     // get the number of users having this rank
     $sql = $sql_base;
-    if ( !($result = $titanium_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
-    $ranks[$i]['user_number'] = $titanium_db->sql_numrows($result);
+    if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
+    $ranks[$i]['user_number'] = $pnt_db->sql_numrows($result);
 
     // get the user list
     if ( $std_rank_max_users != 0 )
     {
         $sql = $sql_base;
         if ( $std_rank_max_users > 0 ) $sql .= " LIMIT 0, " . ($std_rank_max_users + 1);
-        if ( !($result = $titanium_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
+        if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
         $j = 0;
-        while ( $row = $titanium_db->sql_fetchrow($result) )
+        while ( $row = $pnt_db->sql_fetchrow($result) )
         {
             $j++;
             if ( ($std_rank_max_users <= 0) || ( $j <= $std_rank_max_users ) )

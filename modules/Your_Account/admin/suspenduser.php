@@ -41,7 +41,7 @@ if (!defined('CNBYA')) {
 
 if(is_mod_admin($pnt_module)) {
 
-    list($hisname) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT username FROM ".$titanium_user_prefix."_users WHERE user_id='$chng_uid'"));
+    list($hisname) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT username FROM ".$pnt_user_prefix."_users WHERE user_id='$chng_uid'"));
     $pagetitle = ": "._USERADMIN." - "._SUSPENDUSER;
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();

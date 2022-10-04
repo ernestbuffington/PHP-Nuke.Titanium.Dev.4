@@ -9,7 +9,7 @@ if ( !defined('ADMIN_FILE') ) die ("Access Denied");
 
 if (!is_mod_admin()) die ("Access Denied");
 
-global $titanium_prefix, $titanium_db, $sitename, $currentlang, $admin_file;
+global $pnt_prefix, $pnt_db, $sitename, $currentlang, $admin_file;
 
 if (file_exists(NUKE_MODULES_DIR.'Google-Site-Map/language/lang-'.$currentlang.'.php')):
     include_once(NUKE_MODULES_DIR.'Google-Site-Map/language/lang-'.$currentlang.'.php');
@@ -18,9 +18,9 @@ else:
 endif;
 
 
-$result = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_jmap");
+$result = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_jmap");
     
-	while ($row=$titanium_db->sql_fetchrow($result)):
+	while ($row=$pnt_db->sql_fetchrow($result)):
         $nametask = $row["name"];
         $value = $row["value"];
         $conf[$nametask]=$value;
@@ -123,13 +123,13 @@ print '<td>';
 
             if( $xml!="" && $nnews!="" && $ntopics!="" && $ndown!="" && $nrev!="" && $nuser!="" )
             {
-            //$titanium_db->sql_query("UPDATE ".$titanium_prefix."_jmap SET xml = ".$xml.", nnews = ".$nnews.", ntopics = ".$ntopics.", ndown = ".$ndown.", nrev = ".$nrev.", nuser = ".$nuser);
-            $titanium_db->sql_query("UPDATE " . $titanium_prefix . "_jmap SET value = '".$xml."' WHERE name = 'xml'");
-            $titanium_db->sql_query("UPDATE " . $titanium_prefix . "_jmap SET value = '".$nnews."' WHERE name = 'nnews'");
-            $titanium_db->sql_query("UPDATE " . $titanium_prefix . "_jmap SET value = '".$ntopics."' WHERE name = 'ntopics'");
-            $titanium_db->sql_query("UPDATE " . $titanium_prefix . "_jmap SET value = '".$ndown."' WHERE name = 'ndown'");
-            $titanium_db->sql_query("UPDATE " . $titanium_prefix . "_jmap SET value = '".$nrev."' WHERE name = 'nrev'");
-            $titanium_db->sql_query("UPDATE " . $titanium_prefix . "_jmap SET value = '".$nuser."' WHERE name = 'nuser'");
+            //$pnt_db->sql_query("UPDATE ".$pnt_prefix."_jmap SET xml = ".$xml.", nnews = ".$nnews.", ntopics = ".$ntopics.", ndown = ".$ndown.", nrev = ".$nrev.", nuser = ".$nuser);
+            $pnt_db->sql_query("UPDATE " . $pnt_prefix . "_jmap SET value = '".$xml."' WHERE name = 'xml'");
+            $pnt_db->sql_query("UPDATE " . $pnt_prefix . "_jmap SET value = '".$nnews."' WHERE name = 'nnews'");
+            $pnt_db->sql_query("UPDATE " . $pnt_prefix . "_jmap SET value = '".$ntopics."' WHERE name = 'ntopics'");
+            $pnt_db->sql_query("UPDATE " . $pnt_prefix . "_jmap SET value = '".$ndown."' WHERE name = 'ndown'");
+            $pnt_db->sql_query("UPDATE " . $pnt_prefix . "_jmap SET value = '".$nrev."' WHERE name = 'nrev'");
+            $pnt_db->sql_query("UPDATE " . $pnt_prefix . "_jmap SET value = '".$nuser."' WHERE name = 'nuser'");
 
             Header("Location: ".$admin_file.".php?op=site_map");
             }

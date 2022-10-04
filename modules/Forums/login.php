@@ -50,7 +50,7 @@ include($phpbb2_root_path . 'common.'.$phpEx);
 //
 // Set page ID for session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_LOGIN);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_LOGIN);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -70,18 +70,18 @@ if( isset($HTTP_POST_VARS['login']) || isset($HTTP_GET_VARS['login']) || isset($
 {
     if( ( isset($HTTP_POST_VARS['login']) || isset($HTTP_GET_VARS['login']) ) && (!$userdata['session_logged_in'] || isset($HTTP_POST_VARS['admin'])) )
     {
-        $titanium_username = isset($HTTP_POST_VARS['username']) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
+        $pnt_username = isset($HTTP_POST_VARS['username']) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
         $password = isset($HTTP_POST_VARS['password']) ? $HTTP_POST_VARS['password'] : '';
 
         $sql = "SELECT user_id, username, user_password, user_active, user_level, user_login_tries, user_last_login_try
             FROM " . USERS_TABLE . "
-            WHERE username = '" . str_replace("\\'", "''", $titanium_username) . "'";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+            WHERE username = '" . str_replace("\\'", "''", $pnt_username) . "'";
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Error in obtaining userdata', '', __LINE__, __FILE__, $sql);
         }
 
-        if( $row = $titanium_db->sql_fetchrow($result) )
+        if( $row = $pnt_db->sql_fetchrow($result) )
         {
             if( $row['user_level'] != ADMIN && $phpbb2_board_config['board_disable'] )
             {
@@ -93,7 +93,7 @@ if( isset($HTTP_POST_VARS['login']) || isset($HTTP_GET_VARS['login']) || isset($
                  // If the last login is more than x minutes ago, then reset the login tries/time
                  if ($row['user_last_login_try'] && $phpbb2_board_config['login_reset_time'] && $row['user_last_login_try'] < (time() - ($phpbb2_board_config['login_reset_time'] * 60)))
                  {
-                    $titanium_db->sql_query('UPDATE ' . USERS_TABLE . ' SET user_login_tries = 0, user_last_login_try = 0 WHERE user_id = ' . $row['user_id']);
+                    $pnt_db->sql_query('UPDATE ' . USERS_TABLE . ' SET user_login_tries = 0, user_last_login_try = 0 WHERE user_id = ' . $row['user_id']);
                     $row['user_last_login_try'] = $row['user_login_tries'] = 0;
                  }
 
@@ -114,11 +114,11 @@ if( isset($HTTP_POST_VARS['login']) || isset($HTTP_GET_VARS['login']) || isset($
                     $autologin = ( isset($HTTP_POST_VARS['autologin']) ) ? TRUE : 0;
 
                     $admin = (isset($HTTP_POST_VARS['admin'])) ? 1 : 0;
-                    $titanium_session_id = session_begin_titanium($row['user_id'], $titanium_user_ip, PAGE_INDEX, FALSE, $autologin, $admin);
+                    $pnt_session_id = session_begin_titanium($row['user_id'], $pnt_user_ip, PAGE_INDEX, FALSE, $autologin, $admin);
                     // Reset login tries
-                    $titanium_db->sql_query('UPDATE ' . USERS_TABLE . ' SET user_login_tries = 0, user_last_login_try = 0 WHERE user_id = ' . $row['user_id']);
+                    $pnt_db->sql_query('UPDATE ' . USERS_TABLE . ' SET user_login_tries = 0, user_last_login_try = 0 WHERE user_id = ' . $row['user_id']);
 
-                    if( $titanium_session_id )
+                    if( $pnt_session_id )
                     {
                         $url = ( !empty($HTTP_POST_VARS['redirect']) ) ? str_replace('&amp;', '&', htmlspecialchars($HTTP_POST_VARS['redirect'])) : "index.$phpEx";
                         redirect_titanium(append_titanium_sid($url, true));
@@ -137,7 +137,7 @@ if( isset($HTTP_POST_VARS['login']) || isset($HTTP_GET_VARS['login']) || isset($
                           $sql = 'UPDATE ' . USERS_TABLE . '
                              SET user_login_tries = user_login_tries + 1, user_last_login_try = ' . time() . '
                              WHERE user_id = ' . $row['user_id'];
-                          $titanium_db->sql_query($sql);
+                          $pnt_db->sql_query($sql);
                        }
                     $redirect = ( !empty($HTTP_POST_VARS['redirect']) ) ? str_replace('&amp;', '&', htmlspecialchars($HTTP_POST_VARS['redirect'])) : '';
                     $redirect = str_replace('?', '&', $redirect);
@@ -255,7 +255,7 @@ else
         }
 
         redirect_titanium("modules.php?name=Your_Account&redirect=$forward_page");
-        $titanium_username = ( $userdata['user_id'] != ANONYMOUS ) ? $userdata['username'] : '';
+        $pnt_username = ( $userdata['user_id'] != ANONYMOUS ) ? $userdata['username'] : '';
 
         $s_hidden_fields = '<input type="hidden" name="redirect" value="' . $forward_page . '" />';
 
@@ -263,7 +263,7 @@ else
 
         make_jumpbox('viewforum.'.$phpEx);
         $phpbb2_template->assign_vars(array(
-            'USERNAME' => $titanium_username,
+            'USERNAME' => $pnt_username,
 
             'L_ENTER_PASSWORD' => (isset($HTTP_GET_VARS['admin'])) ? $lang['Admin_reauthenticate'] : $lang['Enter_password'],
             'L_SEND_PASSWORD' => $lang['Forgotten_password'],

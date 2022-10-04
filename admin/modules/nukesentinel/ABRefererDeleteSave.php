@@ -15,10 +15,10 @@ if (!defined('NUKESENTINEL_ADMIN')) {
    die ('You can\'t access this file directly...');
 }
 
-$getIPs = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_referers` WHERE `rid`='".$rid."' LIMIT 0,1"));
-$titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_referers` WHERE `rid`='".$rid."'");
-$titanium_db->sql_query("ALTER TABLE `".$titanium_prefix."_nsnst_referers` ORDER BY `referer`");
-$titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_referers`");
+$getIPs = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_referers` WHERE `rid`='".$rid."' LIMIT 0,1"));
+$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_referers` WHERE `rid`='".$rid."'");
+$pnt_db->sql_query("ALTER TABLE `".$pnt_prefix."_nsnst_referers` ORDER BY `referer`");
+$pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_referers`");
 $list_referer = explode("\r\n", $ab_config['list_referer']);
 $list_referer = str_replace($getIPs['referer'], "", $list_referer);
 rsort($list_referer);

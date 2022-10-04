@@ -39,7 +39,7 @@ if (!empty($phpbb2_board_config))
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $titanium_module['Statistics']['Stats_configuration'] = $filename . '?mode=config';
+    $pnt_module['Statistics']['Stats_configuration'] = $filename . '?mode=config';
     return;
 }
 
@@ -61,14 +61,14 @@ include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
 
 $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $titanium_db->sql_fetchrow($result))
+while ($row = $pnt_db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
@@ -87,7 +87,7 @@ if ($submit)
     {
         $sql = "UPDATE " . STATS_CONFIG_TABLE . " SET config_value = '" . trim($HTTP_POST_VARS['return_limit']) . "' WHERE config_name = 'return_limit'";
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update statistics config table', '', __LINE__, __FILE__, $sql);
         }
@@ -99,14 +99,14 @@ if ($submit)
     {
         $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
         }
 
         $stats_config = array();
 
-        while ($row = $titanium_db->sql_fetchrow($result))
+        while ($row = $pnt_db->sql_fetchrow($result))
         {
             $stats_config[$row['config_name']] = trim($row['config_value']);
         }
@@ -119,7 +119,7 @@ if ($submit)
     {
         $sql = "UPDATE " . STATS_CONFIG_TABLE . " SET config_value = '0' WHERE config_name = 'page_views'";
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update statistics config table', '', __LINE__, __FILE__, $sql);
         }
@@ -132,21 +132,21 @@ if ($submit)
     {
         $sql = "UPDATE " . STATS_CONFIG_TABLE . " SET config_value = '" . time() . "' WHERE config_name = 'install_date'";
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update statistics config table', '', __LINE__, __FILE__, $sql);
         }
 
         $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
         }
 
         $stats_config = array();
 
-        while ($row = $titanium_db->sql_fetchrow($result))
+        while ($row = $pnt_db->sql_fetchrow($result))
         {
             $stats_config[$row['config_name']] = trim($row['config_value']);
         }
@@ -160,7 +160,7 @@ if ($submit)
         // Clear Module Cache
         $sql = "UPDATE " . CACHE_TABLE . " SET module_cache_time = 0, db_cache = '', priority = 0";
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update cache table', '', __LINE__, __FILE__, $sql);
         }
@@ -168,14 +168,14 @@ if ($submit)
         // Clear the Smilies Cache
         $sql = "DELETE FROM " . SMILIE_INDEX_TABLE;
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update smiley index table', '', __LINE__, __FILE__, $sql);
         }
 
         $sql = "UPDATE " . SMILIE_INFO_TABLE . " SET last_post_id = 0, last_update_time = 0";
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update smiley info table', '', __LINE__, __FILE__, $sql);
         }

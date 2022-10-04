@@ -41,7 +41,7 @@ require_once('includes/bbcode.' . $phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX, $nukeuser);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX, $nukeuser);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -63,13 +63,13 @@ include("includes/page_header.php");
 
     $comments_sql = "SELECT * FROM " . COMMENTS_TABLE . " WHERE comments_value <> '' ";
 
-    if ( !($result_count = $titanium_db->sql_query($comments_sql)) )
+    if ( !($result_count = $pnt_db->sql_query($comments_sql)) )
       {
          // Error if it fails...
          message_die(GENERAL_ERROR, "Couldn't obtain comment count.", "", __LINE__, __FILE__, $sql);
       }
 
-    $count_rows = $titanium_db->sql_fetchrowset($result_count);
+    $count_rows = $pnt_db->sql_fetchrowset($result_count);
     $comments_total= count($count_rows);
 
     $phpbb2_start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
@@ -91,7 +91,7 @@ $phpbb2_template->set_filenames(array(
 
 
 $sql = "SELECT g.*, c.*, u.* FROM " . GAMES_TABLE. " g LEFT JOIN " . COMMENTS_TABLE . " c ON g.game_id = c.game_id LEFT JOIN " . USERS_TABLE ." u  ON g.game_highuser=u.user_id WHERE comments_value <> '' ORDER BY game_name ASC LIMIT $phpbb2_start, $comments_perpage";
-            if( !($result = $titanium_db->sql_query($sql)) )
+            if( !($result = $pnt_db->sql_query($sql)) )
             {
             message_die(GENERAL_ERROR, "Error retrieving high score list", '', __LINE__, __FILE__, $sql);
             }
@@ -103,7 +103,7 @@ $orig_word = array();
 $replacement_word = array();
 obtain_word_list($orig_word, $replacement_word);
 
-while ( $row = $titanium_db->sql_fetchrow($result))
+while ( $row = $pnt_db->sql_fetchrow($result))
             {
 
             if ( count($orig_word) )

@@ -16,9 +16,9 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 $tid = intval($tid);
-$deleterow = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `refered_from` FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
-$titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `refered_from`='".$deleterow['refered_from']."'");
-$titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_tracked_ips`");
+$deleterow = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `refered_from` FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
+$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `refered_from`='".$deleterow['refered_from']."'");
+$pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_tracked_ips`");
 header("Location: ".$admin_file.".php?op=ABTrackedRefersList&min=$min&column=$column&direction=$direction");
 
 ?>

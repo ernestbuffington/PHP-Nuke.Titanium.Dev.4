@@ -137,8 +137,8 @@ class tmhOAuth {
    */
   private function nonce($length=12, $include_time=true) {
     if ($this->config['force_nonce'] === false) {
-      $titanium_prefix = $include_time ? microtime() : '';
-      return md5(substr($titanium_prefix . uniqid(), 0, $length));
+      $pnt_prefix = $include_time ? microtime() : '';
+      return md5(substr($pnt_prefix . uniqid(), 0, $length));
     } else {
       return $this->config['force_nonce'];
     }

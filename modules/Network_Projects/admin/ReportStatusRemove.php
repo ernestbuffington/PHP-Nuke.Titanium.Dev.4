@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REPORTS.': '._NETWORK_DELETESTATUS;
@@ -17,8 +17,8 @@ $status_id = intval($status_id);
 if($status_id < 1) { header("Location: ".$admin_file.".php?op=RequestStatusList"); }
 include_once(NUKE_BASE_DIR.'header.php');
 
-$statusresult = $titanium_db2->sql_query("SELECT `status_name` FROM `".$network_prefix."_reports_status` WHERE `status_id`='$status_id'");
-list($status_name) = $titanium_db2->sql_fetchrow($statusresult);
+$statusresult = $pnt_db2->sql_query("SELECT `status_name` FROM `".$network_prefix."_reports_status` WHERE `status_id`='$status_id'");
+list($status_name) = $pnt_db2->sql_fetchrow($statusresult);
 pjadmin_menu(_NETWORK_REPORTS.": "._NETWORK_DELETESTATUS);
 echo "<br />\n";
 OpenTable();
@@ -29,8 +29,8 @@ echo "<input type='hidden' name='status_id' value='$status_id'>\n";
 echo "<tr><td align='center'><strong>"._NETWORK_SWAPREPORTSTATUS."</strong></td></tr>\n";
 echo "<tr><td align='center'>$status_name -> <select name='swap_status_id'>\n";
 echo "<option value='-1'>"._NETWORK_NA."</option>\n";
-$statuslist = $titanium_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_reports_status` WHERE `status_id` != '$status_id' AND `status_id` > 0 ORDER BY `status_weight`");
-while(list($s_status_id, $s_status_name) = $titanium_db2->sql_fetchrow($statuslist)){
+$statuslist = $pnt_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_reports_status` WHERE `status_id` != '$status_id' AND `status_id` > 0 ORDER BY `status_weight`");
+while(list($s_status_id, $s_status_name) = $pnt_db2->sql_fetchrow($statuslist)){
     echo "<option value='$s_status_id'>$s_status_name</option>\n";
 }
 echo "</select></td></tr>\n";

@@ -40,7 +40,7 @@ define('IN_PHPBB2', 1);
 if ( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $titanium_module['Groups']['Manage'] = $filename;
+    $pnt_module['Groups']['Manage'] = $filename;
     return;
 }
 
@@ -110,12 +110,12 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
                         FROM " . GROUPS_TABLE . "
                         WHERE group_single_user <> " . TRUE . "
                         AND group_id = $group_id";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Error getting group information', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ( !($group_info = $titanium_db->sql_fetchrow($result)) )
+                if ( !($group_info = $pnt_db->sql_fetchrow($result)) )
                 {
                         message_die(GENERAL_MESSAGE, $lang['Group_not_exist']);
                 }
@@ -202,12 +202,12 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
      	if ($group_info['group_moderator'] != '')
       	{
      		$sql = "SELECT `user_id`, `username` FROM `".USERS_TABLE."` WHERE `user_id` = '".$group_info['group_moderator']."'";
-     		if ( !($result = $titanium_db->sql_query($sql)) )
+     		if ( !($result = $pnt_db->sql_query($sql)) )
      		{
      			message_die(GENERAL_ERROR, 'Could not obtain user info for moderator list', '', __LINE__, __FILE__, $sql);
      		}
      
-     		if ( !($row = $titanium_db->sql_fetchrow($result)) )
+     		if ( !($row = $pnt_db->sql_fetchrow($result)) )
      		{
      			message_die(GENERAL_ERROR, $group_info['group_moderator'], '', __LINE__, __FILE__, $sql);
      		}
@@ -429,39 +429,39 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                 // Is Group moderating a forum ?
                 $sql = "SELECT auth_mod FROM " . AUTH_ACCESS_TABLE . "
                         WHERE group_id = " . $group_id;
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not select auth_access', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $titanium_db->sql_fetchrow($result);
+                $row = $pnt_db->sql_fetchrow($result);
                 if (intval($row['auth_mod']) == 1)
                 {
                         // Yes, get the assigned users and update their Permission if they are no longer moderator of one of the forums
                         $sql = "SELECT user_id FROM " . USER_GROUP_TABLE . "
                                 WHERE group_id = " . $group_id;
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not select user_group', '', __LINE__, __FILE__, $sql);
                         }
 
-                        $rows = $titanium_db->sql_fetchrowset($result);
+                        $rows = $pnt_db->sql_fetchrowset($result);
                         for ($i = 0; $i < count($rows); $i++)
                         {
                                 $sql = "SELECT g.group_id FROM " . AUTH_ACCESS_TABLE . " a, " . GROUPS_TABLE . " g, " . USER_GROUP_TABLE . " ug
                                 WHERE (a.auth_mod = 1) AND (g.group_id = a.group_id) AND (a.group_id = ug.group_id) AND (g.group_id = ug.group_id)
                                         AND (ug.user_id = " . intval($rows[$i]['user_id']) . ") AND (ug.group_id <> " . $group_id . ")";
-                                if ( !($result = $titanium_db->sql_query($sql)) )
+                                if ( !($result = $pnt_db->sql_query($sql)) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not obtain moderator permissions', '', __LINE__, __FILE__, $sql);
                                 }
 
-                                if ($titanium_db->sql_numrows($result) == 0)
+                                if ($pnt_db->sql_numrows($result) == 0)
                                 {
                                         $sql = "UPDATE " . USERS_TABLE . " SET user_level = " . USER . "
                                         WHERE user_level = " . MOD . " AND user_id = " . intval($rows[$i]['user_id']);
 
-                                        if ( !$titanium_db->sql_query($sql) )
+                                        if ( !$pnt_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not update moderator permissions', '', __LINE__, __FILE__, $sql);
                                         }
@@ -478,8 +478,8 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                 $sql = "SELECT config_value
                         FROM " . CONFIG_TABLE . "
                         WHERE config_name='initial_group_id'";
-                $result = $titanium_db->sql_query($sql);
-                $row = $titanium_db->sql_fetchrow($result);
+                $result = $pnt_db->sql_query($sql);
+                $row = $pnt_db->sql_fetchrow($result);
                 $initialgroup = $row[0];
 
                 if ($initialgroup == $group_id) {
@@ -488,9 +488,9 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                         " . CONFIG_TABLE . "
                         SET config_value = '0'
                         WHERE config_name ='initial_group_id'";
-                        $result = $titanium_db->sql_query($sql);
+                        $result = $pnt_db->sql_query($sql);
 
-                    if ( !$titanium_db->sql_query($sql) )
+                    if ( !$pnt_db->sql_query($sql) )
                     {
                             message_die(GENERAL_ERROR, 'Could not update group', '', __LINE__, __FILE__, $sql);
                     }
@@ -501,21 +501,21 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
 
                 $sql = "DELETE FROM " . GROUPS_TABLE . "
                         WHERE group_id = " . $group_id;
-                if ( !$titanium_db->sql_query($sql) )
+                if ( !$pnt_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, 'Could not update group', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "DELETE FROM " . USER_GROUP_TABLE . "
                         WHERE group_id = " . $group_id;
-                if ( !$titanium_db->sql_query($sql) )
+                if ( !$pnt_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, 'Could not update user_group', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "DELETE FROM " . AUTH_ACCESS_TABLE . "
                         WHERE group_id = " . $group_id;
-                if ( !$titanium_db->sql_query($sql) )
+                if ( !$pnt_db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, 'Could not update auth_access', '', __LINE__, __FILE__, $sql);
                 }
@@ -595,12 +595,12 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                                 FROM " . GROUPS_TABLE . "
                                 WHERE group_single_user <> " . TRUE . "
                                 AND group_id = " . $group_id;
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Error getting group information', '', __LINE__, __FILE__, $sql);
                         }
 
-                        if( !($group_info = $titanium_db->sql_fetchrow($result)) )
+                        if( !($group_info = $pnt_db->sql_fetchrow($result)) )
                         {
                                 message_die(GENERAL_MESSAGE, $lang['Group_not_exist']);
                         }
@@ -613,9 +613,9 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                                 " . CONFIG_TABLE . "
                                  SET config_value = '".$group_id."'
                                 WHERE config_name ='initial_group_id'";
-                                $result = $titanium_db->sql_query($sql);
+                                $result = $pnt_db->sql_query($sql);
 
-                                if ( !($result = $titanium_db->sql_query($sql)) )
+                                if ( !($result = $pnt_db->sql_query($sql)) )
                                 {
                                     message_die(GENERAL_ERROR, 'Error getting initial group id information', '', __LINE__, __FILE__, $sql);
                                 }
@@ -623,8 +623,8 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                                 $sql = "SELECT config_value
                                         FROM " . CONFIG_TABLE . "
                                         WHERE config_name='initial_group_id'";
-                                $result = $titanium_db->sql_query($sql);
-                                $row = $titanium_db->sql_fetchrow($result);
+                                $result = $pnt_db->sql_query($sql);
+                                $row = $pnt_db->sql_fetchrow($result);
                                 $initialgroup = $row[0];
 
                                 if ($initialgroup == NULL)
@@ -637,9 +637,9 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                                     " . CONFIG_TABLE . "
                                      SET config_value = '0'
                                     WHERE config_name ='initial_group_id'";
-                                    $result = $titanium_db->sql_query($sql);
+                                    $result = $pnt_db->sql_query($sql);
 
-                                    if ( !($result = $titanium_db->sql_query($sql)) )
+                                    if ( !($result = $pnt_db->sql_query($sql)) )
                                     {
                                         message_die(GENERAL_ERROR, 'Error getting initial group id information', '', __LINE__, __FILE__, $sql);
                                     }
@@ -657,7 +657,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                                         $sql = "DELETE FROM " . USER_GROUP_TABLE . "
                                                 WHERE user_id = " . $group_info['group_moderator'] . "
                                                         AND group_id = " . $group_id;
-                                        if ( !$titanium_db->sql_query($sql) )
+                                        if ( !$pnt_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not update group moderator', '', __LINE__, __FILE__, $sql);
                                         }
@@ -667,16 +667,16 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                                         FROM " . USER_GROUP_TABLE . "
                                         WHERE user_id = $group_moderator
                                                 AND group_id = $group_id";
-                                if ( !($result = $titanium_db->sql_query($sql)) )
+                                if ( !($result = $pnt_db->sql_query($sql)) )
                                 {
                                         message_die(GENERAL_ERROR, 'Failed to obtain current group moderator info', '', __LINE__, __FILE__, $sql);
                                 }
 
-                                if ( !($row = $titanium_db->sql_fetchrow($result)) )
+                                if ( !($row = $pnt_db->sql_fetchrow($result)) )
                                 {
                                         $sql = "INSERT INTO " . USER_GROUP_TABLE . " (group_id, user_id, user_pending)
                                                 VALUES (" . $group_id . ", " . $group_moderator . ", 0)";
-                                        if ( !$titanium_db->sql_query($sql) )
+                                        if ( !$pnt_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not update group moderator', '', __LINE__, __FILE__, $sql);
                                         }
@@ -695,7 +695,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
  [ Mod:     Group Ranks                        v1.0.0 ]
  [ Mod:     Enhanced BBGroups                  v1.0.0 ]
  ******************************************************/
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update group', '', __LINE__, __FILE__, $sql);
                         }
@@ -710,11 +710,11 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
         				$sql = "DELETE FROM " . USER_GROUP_TABLE . "
         					WHERE group_id=$group_id 
         					AND user_id NOT IN ('$group_moderator','".ANONYMOUS."')";
-        				if ( !$titanium_db->sql_query($sql) )
+        				if ( !$pnt_db->sql_query($sql) )
         				{
         					message_die(GENERAL_ERROR, 'Could not remove users, group count', '', __LINE__, __FILE__, $sql);
         				}
-        				$group_count_remove=$titanium_db->sql_affectedrows();
+        				$group_count_remove=$pnt_db->sql_affectedrows();
         			}
         			if ( $group_count_update)
         			{
@@ -724,17 +724,17 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
         					WHERE u.user_posts>='$group_count' AND u.user_posts<'$group_count_max'
         					AND ug.group_id is NULL
         					AND u.user_id NOT IN ('$group_moderator','".ANONYMOUS."')";
-        				if ( !($result = $titanium_db->sql_query($sql)) )
+        				if ( !($result = $pnt_db->sql_query($sql)) )
         				{
         					message_die(GENERAL_ERROR, $sql.'Could not select new users, group count', '', __LINE__, __FILE__, $sql);
         				}
         				//inserting new users
         				$group_count_added=0;
-        				while ( ($new_members = $titanium_db->sql_fetchrow($result)) )
+        				while ( ($new_members = $pnt_db->sql_fetchrow($result)) )
         				{
         					$sql = "INSERT INTO " . USER_GROUP_TABLE . " (group_id, user_id, user_pending) 
         						VALUES ($group_id, " . $new_members['user_id'] . ", 0)";
-        					if ( !($result2 = $titanium_db->sql_query($sql)) )
+        					if ( !($result2 = $pnt_db->sql_query($sql)) )
         					{
         						message_die(GENERAL_ERROR, 'Error inserting user group, group count', '', __LINE__, __FILE__, $sql);
         					}
@@ -766,15 +766,15 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
  [ Mod:     Group Ranks                        v1.0.0 ]
  [ Mod:     Enhanced BBGroups                  v1.0.0 ]
  ******************************************************/
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not insert new group', '', __LINE__, __FILE__, $sql);
                         }
-                        $new_group_id = $titanium_db->sql_nextid();
+                        $new_group_id = $pnt_db->sql_nextid();
 
                         $sql = "INSERT INTO " . USER_GROUP_TABLE . " (group_id, user_id, user_pending)
                                 VALUES ($new_group_id, $group_moderator, 0)";
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not insert new user-group info', '', __LINE__, __FILE__, $sql);
                         }
@@ -787,11 +787,11 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                 				$sql = "DELETE FROM " . USER_GROUP_TABLE . "
                 					WHERE group_id=$new_group_id 
                 					AND user_id NOT IN ('$group_moderator','".ANONYMOUS."')";
-                				if ( !$titanium_db->sql_query($sql) )
+                				if ( !$pnt_db->sql_query($sql) )
                 				{
                 					message_die(GENERAL_ERROR, 'Could not remove users, group count', '', __LINE__, __FILE__, $sql);
                 				}
-                				$group_count_remove=$titanium_db->sql_affectedrows();
+                				$group_count_remove=$pnt_db->sql_affectedrows();
                 			}
                 			if ( $group_count_update)
                 			{
@@ -801,17 +801,17 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                 					WHERE u.user_posts>='$group_count' AND u.user_posts<'$group_count_max'
                 					AND ug.group_id is NULL
                 					AND u.user_id NOT IN ('$group_moderator','".ANONYMOUS."')";
-                				if ( !($result = $titanium_db->sql_query($sql)) )
+                				if ( !($result = $pnt_db->sql_query($sql)) )
                 				{
                 					message_die(GENERAL_ERROR, $sql.'Could not select new users, group count', '', __LINE__, __FILE__, $sql);
                 				}
                 				//inserting new users
                 				$group_count_added=0;
-                				while ( ($new_members = $titanium_db->sql_fetchrow($result)) )
+                				while ( ($new_members = $pnt_db->sql_fetchrow($result)) )
                 				{
                 					$sql = "INSERT INTO " . USER_GROUP_TABLE . " (group_id, user_id, user_pending) 
                 						VALUES ($new_group_id, " . $new_members['user_id'] . ", 0)";
-                					if ( !($result2 = $titanium_db->sql_query($sql)) )
+                					if ( !($result2 = $pnt_db->sql_query($sql)) )
                 					{
                 						message_die(GENERAL_ERROR, 'Error inserting user group, group count', '', __LINE__, __FILE__, $sql);
                 					}
@@ -831,9 +831,9 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                             " . CONFIG_TABLE . "
                             SET config_value = '$new_group_id'
                             WHERE config_name ='initial_group_id'";
-                            $result = $titanium_db->sql_query($sql);
+                            $result = $pnt_db->sql_query($sql);
 
-                            if ( !$titanium_db->sql_query($sql) )
+                            if ( !$pnt_db->sql_query($sql) )
                             {
                                     message_die(GENERAL_ERROR, 'Could not insert new user-group info', '', __LINE__, __FILE__, $sql);
                             }
@@ -860,20 +860,20 @@ else
                 FROM " . GROUPS_TABLE . "
                 WHERE group_single_user <> " . TRUE . "
                 ORDER BY group_name";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not obtain group list', '', __LINE__, __FILE__, $sql);
         }
 
         $select_list = '';
-        if ( $row = $titanium_db->sql_fetchrow($result) )
+        if ( $row = $pnt_db->sql_fetchrow($result) )
         {
                 $select_list .= '<select name="' . POST_GROUPS_URL . '">';
                 do
                 {
                         $select_list .= '<option value="' . $row['group_id'] . '">' . $row['group_name'] . '</option>';
                 }
-                while ( $row = $titanium_db->sql_fetchrow($result) );
+                while ( $row = $pnt_db->sql_fetchrow($result) );
                 $select_list .= '</select>';
         }
 

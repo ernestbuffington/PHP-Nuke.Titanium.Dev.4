@@ -14,13 +14,13 @@ if (!defined('MODULE_FILE'))
 
 function _file_repository_submitdownload()
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings, $themes, $userinfo, $admin, $titanium_user;
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $settings, $themes, $userinfo, $admin, $pnt_user;
 	OpenTable();
 	_index_navigation_header();
 
-	$result  = $titanium_db->sql_query( "SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' AND `isallowed`='1' ORDER BY `cname`" );
-	$numrows = $titanium_db->sql_numrows( $result );
-	$categories = $titanium_db->sql_fetchrow( $result );
+	$result  = $pnt_db->sql_query( "SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' AND `isallowed`='1' ORDER BY `cname`" );
+	$numrows = $pnt_db->sql_numrows( $result );
+	$categories = $pnt_db->sql_fetchrow( $result );
 
 	echo '<br />';
 	echo '<form action="modules.php?name='.$pnt_module.'&amp;action=submitdownload_save" method="post" enctype="multipart/form-data">'."\n";
@@ -245,42 +245,42 @@ function _file_repository_get_file_information($upload)
 
 function _file_repository_delete_on_client_error($did)
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings;
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $settings;
 	// merge this query into one.
 
 	$did = ($_GET['did']) ? $_GET['did'] : $_POST['did'];
 
-	$row  = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `did`='".$did."'"));
-	$rowf = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$row['did']."'"));
+	$row  = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `did`='".$did."'"));
+	$rowf = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$row['did']."'"));
 
-	$titanium_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `did`='".$row['did']."'");
-	$titanium_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$row['did']."'");
+	$pnt_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `did`='".$row['did']."'");
+	$pnt_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$row['did']."'");
 
-	$result = $titanium_db->sql_query("SELECT `pid`, `filename` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$row['did']."'");
-	$countShots = $titanium_db->sql_numrows($result);
+	$result = $pnt_db->sql_query("SELECT `pid`, `filename` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$row['did']."'");
+	$countShots = $pnt_db->sql_numrows($result);
 	if($countShots > 0)
 	{
-		while ($row2 = $titanium_db->sql_fetchrow($result))
+		while ($row2 = $pnt_db->sql_fetchrow($result))
 		{
 			@unlink(_FILE_REPOSITORY_SCREENS.'thumbs/thumb_100x100_'.$row2['filename']);
 			@unlink(_FILE_REPOSITORY_SCREENS.'thumbs/thumb_190x120_'.$row2['filename']);
 			@unlink(_FILE_REPOSITORY_SCREENS.$row2['filename']);
-			$titanium_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `pid`='".$row2['pid']."'");
+			$pnt_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `pid`='".$row2['pid']."'");
 		}
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 	}
 	@unlink(_FILE_REPOSITORY_DIR.$rowf['filename']);
 }
 
 function _file_repository_save_submitdownload()
 {
-	global $titanium_db, $admin_file, $pnt_module, $userinfo, $settings;
+	global $pnt_db, $admin_file, $pnt_module, $userinfo, $settings;
 
 	// $_FILES['userfile'] = array();
 
-	$result  = $titanium_db->sql_query( "SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' AND `isallowed`='1' ORDER BY `cname`" );
-	$numrows = $titanium_db->sql_numrows( $result );
-	$categories = $titanium_db->sql_fetchrow( $result );
+	$result  = $pnt_db->sql_query( "SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' AND `isallowed`='1' ORDER BY `cname`" );
+	$numrows = $pnt_db->sql_numrows( $result );
+	$categories = $pnt_db->sql_fetchrow( $result );
 
 	if ($numrows > 0 && $settings['users_can_upload'] == true && _check_users_permissions($settings['group_allowed_to_upload']) == true ):
 
@@ -302,8 +302,8 @@ function _file_repository_save_submitdownload()
 		$version      		= (!empty($_POST['version'])) ? $_POST['version'] : '';
 
 		$sql = "INSERT INTO `"._FILE_REPOSITORY_ITEMS."` (`cid`, `author`, `author_email`, `author_website`, `date`, `description`, `did`, `isapproved`, `preview`, `semail`, `sname`, `suid`, `title`, `version`) VALUES ('".$cid."', '".$author."', '".$author_email."', '".$author_website."', now(), '".$description."', NULL, 0, '".$preview."', '".$semail."', '".$sname."', '".$suid."', '".$title."', '".$version."')";
-		$titanium_db->sql_query($sql);
-		$did = $titanium_db->sql_nextid();
+		$pnt_db->sql_query($sql);
+		$did = $pnt_db->sql_nextid();
 
 		for( $i = 0 ; $i < count($_FILES['userfile']['name']) ; $i++ ):
 
@@ -352,7 +352,7 @@ function _file_repository_save_submitdownload()
 						endif;
 
 						if(count($error_messages) == 0 && $fileupload['name']):
-							$titanium_db->sql_query("INSERT INTO `"._FILE_REPOSITORY_FILES."` (`fid`, `did`, `ftitle`, `filename`, `filesize`) VALUES (NULL, '".$did."', '".$fileupload['desc']."', '".$fileupload['name']."', '".$fileupload['size']."')");
+							$pnt_db->sql_query("INSERT INTO `"._FILE_REPOSITORY_FILES."` (`fid`, `did`, `ftitle`, `filename`, `filesize`) VALUES (NULL, '".$did."', '".$fileupload['desc']."', '".$fileupload['name']."', '".$fileupload['size']."')");
 						endif;
 					} 
 
@@ -366,52 +366,52 @@ function _file_repository_save_submitdownload()
 
 			if($_FILES['userscreen']['name'][$s]):
 
-				$titanium_userscreen['name']   = $_FILES['userscreen']['name'][$s];
-				$titanium_userscreen['name']   = preg_replace('/\s*/m', '', $titanium_userscreen['name']);
+				$pnt_userscreen['name']   = $_FILES['userscreen']['name'][$s];
+				$pnt_userscreen['name']   = preg_replace('/\s*/m', '', $pnt_userscreen['name']);
 
-				$titanium_userscreen['desc']  	= $_POST['userscreen_desc'][$s];
-				$titanium_userscreen['error']  	= $_FILES['userscreen']['error'][$s];
+				$pnt_userscreen['desc']  	= $_POST['userscreen_desc'][$s];
+				$pnt_userscreen['error']  	= $_FILES['userscreen']['error'][$s];
 				$file_parts     		= @pathinfo($_FILES['userscreen']['name'][$s]);
-		    	$titanium_userscreen['ext'] 		= $file_parts['extension'];
-		    	$titanium_userscreen['size']		= $_FILES['userscreen']['size'][$s];
-		    	$titanium_userscreen['temp']   	= $_FILES['userscreen']['tmp_name'][$s];
+		    	$pnt_userscreen['ext'] 		= $file_parts['extension'];
+		    	$pnt_userscreen['size']		= $_FILES['userscreen']['size'][$s];
+		    	$pnt_userscreen['temp']   	= $_FILES['userscreen']['tmp_name'][$s];
 
-				if (!in_array($titanium_userscreen['ext'],explode(',',$image_extensions))):
+				if (!in_array($pnt_userscreen['ext'],explode(',',$image_extensions))):
 					$error_messages[] = 'Invalid Image Type: Image Field '.($s+1);
 				endif;
 
 			endif;
 
-			if (is_uploaded_file($titanium_userscreen['temp']) && $titanium_userscreen['error'] == 0 && count( $error_messages ) == 0):
+			if (is_uploaded_file($pnt_userscreen['temp']) && $pnt_userscreen['error'] == 0 && count( $error_messages ) == 0):
 
 				# If the uploaded file has no size, Do nothing with it.
-				if ($titanium_userscreen['size'] <= 1):
+				if ($pnt_userscreen['size'] <= 1):
 					$error_messages[] = 'File does not have a valid size.';
 				else:
 				
 					# If the user does not submit a file description, simple use the filename itself to fill the in the gap.
-					if($titanium_userscreen['desc']):
-						$titanium_userscreen['name'] = strtolower($titanium_userscreen['desc']).'-'._generate_rand_string().'.'.$titanium_userscreen['ext'];
+					if($pnt_userscreen['desc']):
+						$pnt_userscreen['name'] = strtolower($pnt_userscreen['desc']).'-'._generate_rand_string().'.'.$pnt_userscreen['ext'];
 					else:
-						$titanium_userscreen['name'] = strtolower($titanium_userscreen['name']).'-'._generate_rand_string().'.'.$titanium_userscreen['ext'];
+						$pnt_userscreen['name'] = strtolower($pnt_userscreen['name']).'-'._generate_rand_string().'.'.$pnt_userscreen['ext'];
 					endif;
 
-					if (@move_uploaded_file($titanium_userscreen['temp'], _FILE_REPOSITORY_SCREENS.$titanium_userscreen['name'])):
+					if (@move_uploaded_file($pnt_userscreen['temp'], _FILE_REPOSITORY_SCREENS.$pnt_userscreen['name'])):
 
 						# Generate the thumbnails for this submitted download.
-						_create_thumb_from_image(_FILE_REPOSITORY_SCREENS.$titanium_userscreen['name'], _FILE_REPOSITORY_SCREENS.'thumbs/thumb_100x100_'.$titanium_userscreen['name'], array(
+						_create_thumb_from_image(_FILE_REPOSITORY_SCREENS.$pnt_userscreen['name'], _FILE_REPOSITORY_SCREENS.'thumbs/thumb_100x100_'.$pnt_userscreen['name'], array(
 							'width' => '100',
 			 				'height' => '100',
 							'aspect_ratio' => true
 						));
 
-						_create_thumb_from_image(_FILE_REPOSITORY_SCREENS.$titanium_userscreen['name'], _FILE_REPOSITORY_SCREENS.'thumbs/thumb_190x120_'.$titanium_userscreen['name'], array(
+						_create_thumb_from_image(_FILE_REPOSITORY_SCREENS.$pnt_userscreen['name'], _FILE_REPOSITORY_SCREENS.'thumbs/thumb_190x120_'.$pnt_userscreen['name'], array(
 							'width' => '190',
 							'height' => '120',
 							'aspect_ratio' => true
 						));
 
-						$titanium_db->sql_query("INSERT INTO `"._FILE_REPOSITORY_SCREENSHOTS."` (`pid`, `did`, `active`, `filename`, `size`, `submitter`, `title`) VALUES (NULL, '".$did."', 1, '".$titanium_userscreen['name']."', '".$titanium_userscreen['size']."', '".$userinfo['username']."', '".$titanium_userscreen['desc']."')");
+						$pnt_db->sql_query("INSERT INTO `"._FILE_REPOSITORY_SCREENSHOTS."` (`pid`, `did`, `active`, `filename`, `size`, `submitter`, `title`) VALUES (NULL, '".$did."', 1, '".$pnt_userscreen['name']."', '".$pnt_userscreen['size']."', '".$userinfo['username']."', '".$pnt_userscreen['desc']."')");
 
 					endif;
 

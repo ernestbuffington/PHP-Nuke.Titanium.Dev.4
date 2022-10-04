@@ -26,11 +26,11 @@ if ( !defined('IN_PHPBB2') )
 }
 
 $sql = "SELECT * FROM ". REPUTATION_CONFIG_TABLE;
-if(!$result = $titanium_db->sql_query($sql))
+if(!$result = $pnt_db->sql_query($sql))
 {
   message_die(GENERAL_ERROR, "Could not query reputation config information", "", __LINE__, __FILE__, $sql);
 }
-while( $row = $titanium_db->sql_fetchrow($result) )
+while( $row = $pnt_db->sql_fetchrow($result) )
 {
   $rep_config_name = $row['config_name'];
   $rep_config_value = $row['config_value'];

@@ -101,11 +101,11 @@ $define_theme_xtreme_209e,
 	         $portaladmin,
 $make_xtreme_avatar_small,
 
-             $titanium_db;
+             $pnt_db;
 
     list($portaladminname, 
 	              $avatar, 
-				   $email) = $titanium_db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `titanium_users` WHERE `user_id`=$portaladmin", SQL_NUM);
+				   $email) = $pnt_db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `titanium_users` WHERE `user_id`=$portaladmin", SQL_NUM);
 				   
 $my_welcome_message = '<a class = "welcome" href="'.HTTPS.'">PHP-Nuke Titanium Dev 4 <font color="#FF9900" size="1">(Desktop Version)</font></a>';
 

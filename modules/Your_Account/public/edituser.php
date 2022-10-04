@@ -47,11 +47,11 @@ if(!defined('CNBYA'))die('CNBYA protection');
       nav();
       CloseTable();
 
-      $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field");
+      $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field");
     
-	  while($sqlvalue = $titanium_db->sql_fetchrow($result)):
+	  while($sqlvalue = $pnt_db->sql_fetchrow($result)):
       
-	  list($value) = $titanium_db->sql_fetchrow( $titanium_db->sql_query("SELECT value FROM ".$titanium_user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$userinfo[user_id]'"));
+	  list($value) = $pnt_db->sql_fetchrow( $pnt_db->sql_query("SELECT value FROM ".$pnt_user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$userinfo[user_id]'"));
     
       $userinfo[$sqlvalue['name']] = $value;
       endwhile;
@@ -80,9 +80,9 @@ if(!defined('CNBYA'))die('CNBYA protection');
         echo "<tr><td bgcolor='$bgcolor2'><strong>"._YOURHOMEPAGE.":</strong><br />"._OPTIONAL."</td>";
         echo "<td bgcolor='$bgcolor3'><input type='text' name='user_website' value=\"$userinfo[user_website]\" size='50' maxlength='255'></td></tr>";
         
-        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
+        $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
         
-		while($sqlvalue = $titanium_db->sql_fetchrow($result)): 
+		while($sqlvalue = $pnt_db->sql_fetchrow($result)): 
           $t = $sqlvalue[fid];
           $value2 = explode("::", $sqlvalue[value]);
 		  if(substr($sqlvalue[name],0,1)=='_') 
@@ -329,11 +329,11 @@ if(!defined('CNBYA'))die('CNBYA protection');
         $s_categories .= '</select>';
 
         if($userinfo[user_avatar_type] == 1) 
-            $titanium_user_avatar = $phpbb2_board_config[avatar_path]."/".$userinfo[user_avatar]; 
+            $pnt_user_avatar = $phpbb2_board_config[avatar_path]."/".$userinfo[user_avatar]; 
 		elseif($userinfo[user_avatar_type] == 2) 
-            $titanium_user_avatar = $userinfo[user_avatar]; 
+            $pnt_user_avatar = $userinfo[user_avatar]; 
 		else 
-            $titanium_user_avatar = $phpbb2_board_config[avatar_gallery_path]."/".$userinfo[user_avatar]; 
+            $pnt_user_avatar = $phpbb2_board_config[avatar_gallery_path]."/".$userinfo[user_avatar]; 
         
 		echo "<tr><td bgcolor='$bgcolor3' colspan='2' align='center'>";
         echo "<span class='title'>"._YA_AVCP."</span></strong><br />";
@@ -389,6 +389,6 @@ echo "<td bgcolor='$bgcolor3'><input class=post style=\"WIDTH: 150px\" size='25'
         include_once(NUKE_BASE_DIR.'footer.php');
 
 	else: 
-        mmain($titanium_user);
+        mmain($pnt_user);
     endif;
 ?>

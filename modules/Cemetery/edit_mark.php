@@ -1,17 +1,17 @@
 <?php
 if (!defined('MODULE_FILE')) die ("You can't access this file directly...");
-global $titanium_prefix, $titanium_db, $cookie, $titanium_user;
+global $pnt_prefix, $pnt_db, $cookie, $pnt_user;
 if((isset($_POST['popup']) && !empty($_POST['popup'])) && (isset($_GET['popup']) && !empty($_GET['popup']))) 
 $popup = (isset($_GET['popup']) && !stristr($_GET['popup'],'..') && !stristr($_GET['popup'],'://')) ? addslashes(trim($_GET['popup'])) : false;
 else 
 $popup = (isset($_REQUEST['popup']) && !stristr($_REQUEST['popup'],'..') && !stristr($_REQUEST['popup'],'://')) ? addslashes(trim($_REQUEST['popup'])) : false;
-$userinfo = getusrinfo($titanium_user);
-$titanium_userid = $userinfo["user_id"];
+$userinfo = getusrinfo($pnt_user);
+$pnt_userid = $userinfo["user_id"];
 $markurl=@htmlentities($markurl);
 $markname=@htmlentities($markname);
 $markcomment=@htmlentities($markcomment);
-if (!isset($titanium_userid) || $titanium_userid == "")
-$titanium_userid=0;
+if (!isset($pnt_userid) || $pnt_userid == "")
+$pnt_userid=0;
 $index = 1;
 require_once("mainfile.php");
 $pnt_module = basename(dirname(__FILE__));
@@ -24,12 +24,12 @@ if ($form_done=="yes" && (isset($catid) && $catid != "")):
 	if (!isset($popup))
 		$popup=1;
 	if (isset($markid) && $markid != "")
-		$query = "update ".$titanium_prefix."_cemetery set name='$markname',url='$markurl',category_id=$catid,description='$markcomment',mod_date=now(),popup=$popup where id=$markid";
+		$query = "update ".$pnt_prefix."_cemetery set name='$markname',url='$markurl',category_id=$catid,description='$markcomment',mod_date=now(),popup=$popup where id=$markid";
 	else
-		$query = "insert into ".$titanium_prefix."_cemetery (user_id,category_id,name,url,description,mod_date,popup) values ($titanium_userid,$catid,'$markname','$markurl','$markcomment',now(),$popup)";
-	$titanium_db->sql_query ($query,$titanium_db);
-	$catquery = "update " . $titanium_prefix . "_cemetery_cat set mod_date=now() where category_id=$catid";
-	$titanium_db->sql_query ($catquery,$titanium_db);
+		$query = "insert into ".$pnt_prefix."_cemetery (user_id,category_id,name,url,description,mod_date,popup) values ($pnt_userid,$catid,'$markname','$markurl','$markcomment',now(),$popup)";
+	$pnt_db->sql_query ($query,$pnt_db);
+	$catquery = "update " . $pnt_prefix . "_cemetery_cat set mod_date=now() where category_id=$catid";
+	$pnt_db->sql_query ($catquery,$pnt_db);
 	header("Location: modules.php?name=$pnt_module&file=marks&category=$catid");
 elseif ($form_done=="yes" && (!isset($catid) || $catid=="")):
 	$pagetitle = "My Personal Bookmarks - "._ADDOREDITBOOKMARK;
@@ -56,16 +56,16 @@ OpenTable();
 <table align=center>
 <tr><td><? echo _CATEGORY ?></td><td><select name=catid>
 <?
-$getcatquery = "select * from " . $titanium_prefix . "_cemetery_cat where user_id=$titanium_userid order by name";
-$cat_ret = $titanium_db->sql_query  ($getcatquery,$titanium_db);
-for ($i=0;$i<$titanium_db->sql_numrows ($cat_ret,$titanium_db);$i++):
-	$catrow = $titanium_db->sql_fetchrow($cat_ret);
+$getcatquery = "select * from " . $pnt_prefix . "_cemetery_cat where user_id=$pnt_userid order by name";
+$cat_ret = $pnt_db->sql_query  ($getcatquery,$pnt_db);
+for ($i=0;$i<$pnt_db->sql_numrows ($cat_ret,$pnt_db);$i++):
+	$catrow = $pnt_db->sql_fetchrow($cat_ret);
 	echo "<option value='".$catrow['category_id']."' ";
 	if ($catid == $catrow['category_id'])
 		echo "SELECTED";
 	echo ">".$catrow['name']."\n";
 endfor;
-$titanium_db->sql_freeresult($cat_ret);
+$pnt_db->sql_freeresult($cat_ret);
 ?>
 </select> &nbsp; 
 <?
@@ -76,8 +76,8 @@ echo "<a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEEDGROUP."<
 <tr><td><? echo _NAME ?></td><td><input class=inset size=48 type=text name=markname value="<?=$markname?>"></td></tr>
 <?
 if (!isset($markurl) || $markurl == ""):
- global $titanium_db;
- list($markurl) = $titanium_db->sql_ufetchrow("SELECT `url` FROM `".$titanium_prefix."_cemetery` WHERE `id`='$markid'", SQL_NUM);
+ global $pnt_db;
+ list($markurl) = $pnt_db->sql_ufetchrow("SELECT `url` FROM `".$pnt_prefix."_cemetery` WHERE `id`='$markid'", SQL_NUM);
  $markurl=@htmlentities($markurl);
 	   $popup=1;
 endif;

@@ -8,9 +8,9 @@
     exit;
   }
   
-  $titanium_username = $_GET['username'];
+  $pnt_username = $_GET['username'];
   
-  $tweets = getUserTweets($titanium_username);  
+  $tweets = getUserTweets($pnt_username);  
   
   foreach ($tweets as $key => $tweet) {
     unset($photo);

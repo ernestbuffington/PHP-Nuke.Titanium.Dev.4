@@ -60,15 +60,15 @@ if(is_mod_admin($pnt_module)) {
     if ($query == "-1") { $where = "WHERE user_level = '-1' AND user_id > '1'"; }
     if ($query == "0") { $where = "WHERE user_level = '0' AND user_id > '1'"; }
     if ($query == "1") { $where = "WHERE user_level > '0' AND user_id > '1'"; }
-    $totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users $where"));
+    $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users $where"));
     echo "<table style='margin:auto' cellpadding='2' cellspacing='2' bgcolor='$textcolor1' border='0'>\n";
     echo "<tr bgcolor='$bgcolor2'>\n<td><strong>"._USERNAME." ("._USERID.")</strong></td>\n";
     echo "<td align='center'><strong>"._UREALNAME."</strong></td>\n";
     echo "<td align='center'><strong>"._EMAIL."</strong></td>\n";
     echo "<td align='center'><strong>"._REGDATE."</strong></td>\n";
     echo "<td align='center'><strong>"._FUNCTIONS."</strong></td>\n</tr>\n";
-    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users $where ORDER BY username LIMIT $min,".$ya_config['perpage']."");
-    while($chnginfo = $titanium_db->sql_fetchrow($result)) {
+    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users $where ORDER BY username LIMIT $min,".$ya_config['perpage']."");
+    while($chnginfo = $pnt_db->sql_fetchrow($result)) {
         echo "<tr bgcolor='$bgcolor1'><form method='post' action='modules.php?name=$pnt_module&amp;file=admin'>\n";
         echo "<input type='hidden' name='query' value='$query'>\n";
         echo "<input type='hidden' name='min' value='$min'>\n";

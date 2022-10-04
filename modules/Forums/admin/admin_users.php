@@ -51,7 +51,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $titanium_module['Users']['Manage'] = $filename;
+        $pnt_module['Users']['Manage'] = $filename;
 
         return;
 }
@@ -111,9 +111,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
         //
         if ( ( $mode == 'save' && isset( $HTTP_POST_VARS['submit'] ) ) || isset( $HTTP_POST_VARS['avatargallery'] ) || isset( $HTTP_POST_VARS['submitavatar'] ) || isset( $HTTP_POST_VARS['cancelavatar'] ) )
         {
-                $titanium_user_id = intval($HTTP_POST_VARS['id']);
+                $pnt_user_id = intval($HTTP_POST_VARS['id']);
 
-                if (!($this_userdata = get_userdata($titanium_user_id)))
+                if (!($this_userdata = get_userdata($pnt_user_id)))
                 {
                         message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
                 }
@@ -121,67 +121,67 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
-                $this_userdata['xdata'] = get_user_xdata($titanium_user_id);
+                $this_userdata['xdata'] = get_user_xdata($pnt_user_id);
 /*****[END]********************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
 
-        if( $HTTP_POST_VARS['deleteuser'] && ( $userdata['user_id'] != $titanium_user_id ) )
+        if( $HTTP_POST_VARS['deleteuser'] && ( $userdata['user_id'] != $pnt_user_id ) )
                 {
                         $sql = "SELECT g.group_id
                                 FROM " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE . " g
-                                WHERE ug.user_id = '$titanium_user_id'
+                                WHERE ug.user_id = '$pnt_user_id'
                                         AND g.group_id = ug.group_id
                                         AND g.group_single_user = 1";
-                        if( !($result = $titanium_db->sql_query($sql)) )
+                        if( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not obtain group information for this user', '', __LINE__, __FILE__, $sql);
                         }
 
-                        $row = $titanium_db->sql_fetchrow($result);
+                        $row = $pnt_db->sql_fetchrow($result);
 
                         $sql = "UPDATE " . POSTS_TABLE . "
                                 SET poster_id = " . DELETED . ", post_username = '" . str_replace("\\'", "''", addslashes($this_userdata['username'])) . "'
-                                WHERE poster_id = '$titanium_user_id'";
-                        if( !$titanium_db->sql_query($sql) )
+                                WHERE poster_id = '$pnt_user_id'";
+                        if( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update posts for this user', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "UPDATE " . TOPICS_TABLE . "
                                 SET topic_poster = " . DELETED . "
-                                WHERE topic_poster = '$titanium_user_id'";
-                        if( !$titanium_db->sql_query($sql) )
+                                WHERE topic_poster = '$pnt_user_id'";
+                        if( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update topics for this user', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "UPDATE " . VOTE_USERS_TABLE . "
                                 SET vote_user_id = " . DELETED . "
-                                WHERE vote_user_id = '$titanium_user_id'";
-                        if( !$titanium_db->sql_query($sql) )
+                                WHERE vote_user_id = '$pnt_user_id'";
+                        if( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update votes for this user', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "UPDATE " . GROUPS_TABLE . "
             				SET group_moderator = " . $userdata['user_id'] . "
-            				WHERE group_moderator = $titanium_user_id";
-            			if( !$titanium_db->sql_query($sql) )
+            				WHERE group_moderator = $pnt_user_id";
+            			if( !$pnt_db->sql_query($sql) )
             			{
             				message_die(GENERAL_ERROR, 'Could not update group moderators', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "DELETE FROM " . USERS_TABLE . "
-                                WHERE user_id = '$titanium_user_id'";
-                        if( !$titanium_db->sql_query($sql) )
+                                WHERE user_id = '$pnt_user_id'";
+                        if( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete user', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "DELETE FROM " . USER_GROUP_TABLE . "
-                                WHERE user_id = '$titanium_user_id'";
-                        if( !$titanium_db->sql_query($sql) )
+                                WHERE user_id = '$pnt_user_id'";
+                        if( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete user from user_group table', '', __LINE__, __FILE__, $sql);
                         }
@@ -190,22 +190,22 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         {
                         $sql = "DELETE FROM " . GROUPS_TABLE . "
                                 WHERE group_id = " . $row['group_id'];
-                        if( !$titanium_db->sql_query($sql) )
+                        if( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete group for this user', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "DELETE FROM " . AUTH_ACCESS_TABLE . "
                                 WHERE group_id = " . $row['group_id'];
-                        if( !$titanium_db->sql_query($sql) )
+                        if( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete group for this user', '', __LINE__, __FILE__, $sql);
                           }
                         }
 
                         $sql = "DELETE FROM " . TOPICS_WATCH_TABLE . "
-                                WHERE user_id = '$titanium_user_id'";
-                        if ( !$titanium_db->sql_query($sql) )
+                                WHERE user_id = '$pnt_user_id'";
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete user from topic watch table', '', __LINE__, __FILE__, $sql);
                         }
@@ -213,24 +213,24 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     Arcade                             v3.0.2 ]
  ******************************************************/
-                                                $sql = "DELETE FROM " . SCORES_TABLE . " WHERE user_id = $titanium_user_id";
+                                                $sql = "DELETE FROM " . SCORES_TABLE . " WHERE user_id = $pnt_user_id";
 
-                                                if ( !$titanium_db->sql_query($sql) )
+                                                if ( !$pnt_db->sql_query($sql) )
                                                 {
                                                                 message_die(GENERAL_ERROR, 'Could not delete scores from table', '', __LINE__, __FILE__, $sql);
                                                 }
 
-                                                $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_highuser = $titanium_user_id";
+                                                $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_highuser = $pnt_user_id";
 
-                                                if( !($result = $titanium_db->sql_query($sql)) )
+                                                if( !($result = $pnt_db->sql_query($sql)) )
                                                 {
                                                                 message_die(GENERAL_ERROR, 'Could not read games table', '', __LINE__, __FILE__, $sql);
                                                 }
 
-                                                while ( $row_games = $titanium_db->sql_fetchrow($result) ) {
+                                                while ( $row_games = $pnt_db->sql_fetchrow($result) ) {
                                                                 $sql2 = "SELECT * FROM " . SCORES_TABLE . " WHERE game_id = " . $row_games['game_id'] . " ORDER BY score_game DESC, score_date ASC LIMIT 0,1";
 
-                                                                if( !($result2 = $titanium_db->sql_query($sql2)) )
+                                                                if( !($result2 = $pnt_db->sql_query($sql2)) )
                                                                 {
                                                                                 message_die(GENERAL_ERROR, 'Could not select scores', '', __LINE__, __FILE__, $sql2);
                                                                 }
@@ -239,7 +239,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                                                 $game_highscore = 0 ;
                                                                 $game_highdate = 0 ;
 
-                                                                if ( $row_high = $titanium_db->sql_fetchrow($result2) )
+                                                                if ( $row_high = $pnt_db->sql_fetchrow($result2) )
                                                                 {
                                                                                 $game_highuser = $row_high['user_id'] ;
                                                                                 $game_highscore = $row_high['score_game'] ;
@@ -248,13 +248,13 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                                                                 $sql2 = "UPDATE " . GAMES_TABLE . " SET game_highuser = $game_highuser , game_highdate = $game_highdate , game_highscore = $game_highscore WHERE game_id = " . $row_games['game_id'];
 
-                                                                if ( !$titanium_db->sql_query($sql2) )
+                                                                if ( !$pnt_db->sql_query($sql2) )
                                                                 {
                                                                                 message_die(GENERAL_ERROR, 'Could not update games table', '', __LINE__, __FILE__, $sql2);
                                                                 }
 
                                                                 $sql2 = "UPDATE " . COMMENTS_TABLE. " SET comments_value = '' WHERE game_id = " . $row_games['game_id'];
-                                                                if (!$titanium_db->sql_query($sql2))
+                                                                if (!$pnt_db->sql_query($sql2))
                                                                 {
                                                                                 message_die(GENERAL_ERROR, 'Could not delete from comments table', '', __LINE__, __FILE__, $sql2);
                                                                 }
@@ -264,22 +264,22 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  ******************************************************/
 
                         $sql = "DELETE FROM " . BANLIST_TABLE . "
-                                WHERE ban_userid = '$titanium_user_id'";
-                        if ( !$titanium_db->sql_query($sql) )
+                                WHERE ban_userid = '$pnt_user_id'";
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete user from banlist table', '', __LINE__, __FILE__, $sql);
                         }
 
 						 $sql = "DELETE FROM " . SESSIONS_TABLE . "
-							WHERE session_user_id = $titanium_user_id";
-						 if ( !$titanium_db->sql_query($sql) )
+							WHERE session_user_id = $pnt_user_id";
+						 if ( !$pnt_db->sql_query($sql) )
 						 {
 							message_die(GENERAL_ERROR, 'Could not delete sessions for this user', '', __LINE__, __FILE__, $sql);
 						 }
 
 						 $sql = "DELETE FROM " . SESSIONS_KEYS_TABLE . "
-							WHERE user_id = $titanium_user_id";
-						 if ( !$titanium_db->sql_query($sql) )
+							WHERE user_id = $pnt_user_id";
+						 if ( !$pnt_db->sql_query($sql) )
 						 {
 							message_die(GENERAL_ERROR, 'Could not delete auto-login keys for this user', '', __LINE__, __FILE__, $sql);
 						 }
@@ -287,9 +287,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-                        $sql = "DELETE FROM ".$titanium_prefix."_bbuser_group
-                                WHERE user_id = '$titanium_user_id'";
-                        if ( !$titanium_db->sql_query($sql) )
+                        $sql = "DELETE FROM ".$pnt_prefix."_bbuser_group
+                                WHERE user_id = '$pnt_user_id'";
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete user from inital user group table', '', __LINE__, __FILE__, $sql);
                         }
@@ -299,15 +299,15 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                         $sql = "SELECT privmsgs_id
                                 FROM " . PRIVMSGS_TABLE . "
-                                WHERE privmsgs_from_userid = '$titanium_user_id'
-                                        OR privmsgs_to_userid = '$titanium_user_id'";
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                                WHERE privmsgs_from_userid = '$pnt_user_id'
+                                        OR privmsgs_to_userid = '$pnt_user_id'";
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not select all users private messages', '', __LINE__, __FILE__, $sql);
                         }
 
                         // This little bit of code directly from the private messaging section.
-                        while ( $row_privmsgs = $titanium_db->sql_fetchrow($result) )
+                        while ( $row_privmsgs = $pnt_db->sql_fetchrow($result) )
                         {
                                 $mark_list[] = $row_privmsgs['privmsgs_id'];
                         }
@@ -321,12 +321,12 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                 $delete_sql = "DELETE FROM " . PRIVMSGS_TABLE . "
                                         WHERE privmsgs_id IN ($delete_sql_id)";
 
-                                if ( !$titanium_db->sql_query($delete_sql) )
+                                if ( !$pnt_db->sql_query($delete_sql) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not delete private message info', '', __LINE__, __FILE__, $delete_sql);
                                 }
 
-                                if ( !$titanium_db->sql_query($delete_text_sql) )
+                                if ( !$pnt_db->sql_query($delete_text_sql) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not delete private message text', '', __LINE__, __FILE__, $delete_text_sql);
                                 }
@@ -337,7 +337,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         message_die(GENERAL_MESSAGE, $message);
                 }
 
-                $titanium_username = ( !empty($HTTP_POST_VARS['username']) ) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
+                $pnt_username = ( !empty($HTTP_POST_VARS['username']) ) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
                 $email = ( !empty($HTTP_POST_VARS['email']) ) ? trim(strip_tags(htmlspecialchars( $HTTP_POST_VARS['email'] ) )) : '';
 
                 $password = ( !empty($HTTP_POST_VARS['password']) ) ? trim(strip_tags(htmlspecialchars( $HTTP_POST_VARS['password'] ) )) : '';
@@ -385,7 +385,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
-                $titanium_user_posts = ( !empty($HTTP_POST_VARS['user_posts']) ) ? trim(strip_tags( $HTTP_POST_VARS['user_posts'] ) ) : 0;
+                $pnt_user_posts = ( !empty($HTTP_POST_VARS['user_posts']) ) ? trim(strip_tags( $HTTP_POST_VARS['user_posts'] ) ) : 0;
 /*****[END]********************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
@@ -400,7 +400,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
-                $titanium_user_admin_notes = ( !empty($HTTP_POST_VARS['user_admin_notes']) ) ? trim(str_replace('<br />', "\n", $HTTP_POST_VARS['user_admin_notes'] ) ) : '';
+                $pnt_user_admin_notes = ( !empty($HTTP_POST_VARS['user_admin_notes']) ) ? trim(str_replace('<br />', "\n", $HTTP_POST_VARS['user_admin_notes'] ) ) : '';
 /*****[END]********************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
@@ -442,21 +442,21 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  [ Mod:     View/Disable Avatars/Signatures    v1.1.2 ]
  ******************************************************/
 
-                $titanium_user_style = ( $HTTP_POST_VARS['theme'] ) ?  $HTTP_POST_VARS['theme'] : '';
+                $pnt_user_style = ( $HTTP_POST_VARS['theme'] ) ?  $HTTP_POST_VARS['theme'] : '';
 
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                $titanium_user_wordwrap = ( $HTTP_POST_VARS['user_wordwrap'] ) ? intval( $HTTP_POST_VARS['user_wordwrap'] ) : $phpbb2_board_config['wrap_def'];
+                $pnt_user_wordwrap = ( $HTTP_POST_VARS['user_wordwrap'] ) ? intval( $HTTP_POST_VARS['user_wordwrap'] ) : $phpbb2_board_config['wrap_def'];
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                $titanium_user_lang = ( $HTTP_POST_VARS['language'] ) ? $HTTP_POST_VARS['language'] : $phpbb2_board_config['default_lang'];
-                $titanium_user_timezone = ( isset( $HTTP_POST_VARS['timezone']) ) ? doubleval( $HTTP_POST_VARS['timezone'] ) : $phpbb2_board_config['board_timezone'];
+                $pnt_user_lang = ( $HTTP_POST_VARS['language'] ) ? $HTTP_POST_VARS['language'] : $phpbb2_board_config['default_lang'];
+                $pnt_user_timezone = ( isset( $HTTP_POST_VARS['timezone']) ) ? doubleval( $HTTP_POST_VARS['timezone'] ) : $phpbb2_board_config['board_timezone'];
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
-				$titanium_user_flag = ( !empty($HTTP_POST_VARS['user_flag']) ) ? $HTTP_POST_VARS['user_flag'] : '' ;
+				$pnt_user_flag = ( !empty($HTTP_POST_VARS['user_flag']) ) ? $HTTP_POST_VARS['user_flag'] : '' ;
 /*****[END]********************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
@@ -471,51 +471,51 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-                $titanium_user_template = ( $HTTP_POST_VARS['template'] ) ? $HTTP_POST_VARS['template'] : $phpbb2_board_config['board_template'];
-                $titanium_user_dateformat = ( $HTTP_POST_VARS['dateformat'] ) ? trim( $HTTP_POST_VARS['dateformat'] ) : $phpbb2_board_config['default_dateformat'];
+                $pnt_user_template = ( $HTTP_POST_VARS['template'] ) ? $HTTP_POST_VARS['template'] : $phpbb2_board_config['board_template'];
+                $pnt_user_dateformat = ( $HTTP_POST_VARS['dateformat'] ) ? trim( $HTTP_POST_VARS['dateformat'] ) : $phpbb2_board_config['default_dateformat'];
 
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-                $titanium_user_show_quickreply = ( isset( $HTTP_POST_VARS['show_quickreply'] ) ) ? intval( $HTTP_POST_VARS['show_quickreply'] ) : 1;
-                $titanium_user_quickreply_mode = ( isset( $HTTP_POST_VARS['quickreply_mode'] ) ) ? ( ( $HTTP_POST_VARS['quickreply_mode'] ) ? TRUE : 0 ) : TRUE;
-                $titanium_user_open_quickreply = ( isset( $HTTP_POST_VARS['open_quickreply'] ) ) ? ( ( $HTTP_POST_VARS['open_quickreply'] ) ? TRUE : 0 ) : TRUE;
+                $pnt_user_show_quickreply = ( isset( $HTTP_POST_VARS['show_quickreply'] ) ) ? intval( $HTTP_POST_VARS['show_quickreply'] ) : 1;
+                $pnt_user_quickreply_mode = ( isset( $HTTP_POST_VARS['quickreply_mode'] ) ) ? ( ( $HTTP_POST_VARS['quickreply_mode'] ) ? TRUE : 0 ) : TRUE;
+                $pnt_user_open_quickreply = ( isset( $HTTP_POST_VARS['open_quickreply'] ) ) ? ( ( $HTTP_POST_VARS['open_quickreply'] ) ? TRUE : 0 ) : TRUE;
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
 
-                $titanium_user_avatar_local = ( isset( $HTTP_POST_VARS['avatarselect'] ) && !empty($HTTP_POST_VARS['submitavatar'] ) && $phpbb2_board_config['allow_avatar_local'] ) ? $HTTP_POST_VARS['avatarselect'] : ( ( isset( $HTTP_POST_VARS['avatarlocal'] )  ) ? $HTTP_POST_VARS['avatarlocal'] : '' );
-                $titanium_user_avatar_category = ( isset($HTTP_POST_VARS['avatarcatname']) && $phpbb2_board_config['allow_avatar_local'] ) ? htmlspecialchars($HTTP_POST_VARS['avatarcatname']) : '' ;
+                $pnt_user_avatar_local = ( isset( $HTTP_POST_VARS['avatarselect'] ) && !empty($HTTP_POST_VARS['submitavatar'] ) && $phpbb2_board_config['allow_avatar_local'] ) ? $HTTP_POST_VARS['avatarselect'] : ( ( isset( $HTTP_POST_VARS['avatarlocal'] )  ) ? $HTTP_POST_VARS['avatarlocal'] : '' );
+                $pnt_user_avatar_category = ( isset($HTTP_POST_VARS['avatarcatname']) && $phpbb2_board_config['allow_avatar_local'] ) ? htmlspecialchars($HTTP_POST_VARS['avatarcatname']) : '' ;
 
-                $titanium_user_avatar_remoteurl = ( !empty($HTTP_POST_VARS['avatarremoteurl']) ) ? trim( $HTTP_POST_VARS['avatarremoteurl'] ) : '';
-                $titanium_user_avatar_url = ( !empty($HTTP_POST_VARS['avatarurl']) ) ? trim( $HTTP_POST_VARS['avatarurl'] ) : '';
-                $titanium_user_avatar_loc = ( $HTTP_POST_FILES['avatar']['tmp_name'] != "none") ? $HTTP_POST_FILES['avatar']['tmp_name'] : '';
-                $titanium_user_avatar_name = ( !empty($HTTP_POST_FILES['avatar']['name']) ) ? $HTTP_POST_FILES['avatar']['name'] : '';
-                $titanium_user_avatar_size = ( !empty($HTTP_POST_FILES['avatar']['size']) ) ? $HTTP_POST_FILES['avatar']['size'] : 0;
-                $titanium_user_avatar_filetype = ( !empty($HTTP_POST_FILES['avatar']['type']) ) ? $HTTP_POST_FILES['avatar']['type'] : '';
+                $pnt_user_avatar_remoteurl = ( !empty($HTTP_POST_VARS['avatarremoteurl']) ) ? trim( $HTTP_POST_VARS['avatarremoteurl'] ) : '';
+                $pnt_user_avatar_url = ( !empty($HTTP_POST_VARS['avatarurl']) ) ? trim( $HTTP_POST_VARS['avatarurl'] ) : '';
+                $pnt_user_avatar_loc = ( $HTTP_POST_FILES['avatar']['tmp_name'] != "none") ? $HTTP_POST_FILES['avatar']['tmp_name'] : '';
+                $pnt_user_avatar_name = ( !empty($HTTP_POST_FILES['avatar']['name']) ) ? $HTTP_POST_FILES['avatar']['name'] : '';
+                $pnt_user_avatar_size = ( !empty($HTTP_POST_FILES['avatar']['size']) ) ? $HTTP_POST_FILES['avatar']['size'] : 0;
+                $pnt_user_avatar_filetype = ( !empty($HTTP_POST_FILES['avatar']['type']) ) ? $HTTP_POST_FILES['avatar']['type'] : '';
 
-                $titanium_user_avatar = ( empty($titanium_user_avatar_loc) ) ? $this_userdata['user_avatar'] : '';
-                $titanium_user_avatar_type = ( empty($titanium_user_avatar_loc) ) ? $this_userdata['user_avatar_type'] : '';
+                $pnt_user_avatar = ( empty($pnt_user_avatar_loc) ) ? $this_userdata['user_avatar'] : '';
+                $pnt_user_avatar_type = ( empty($pnt_user_avatar_loc) ) ? $this_userdata['user_avatar_type'] : '';
 
-                $titanium_user_status = ( !empty($HTTP_POST_VARS['user_status']) ) ? intval( $HTTP_POST_VARS['user_status'] ) : 0;
-                $titanium_user_allowpm = ( !empty($HTTP_POST_VARS['user_allowpm']) ) ? intval( $HTTP_POST_VARS['user_allowpm'] ) : 0;
+                $pnt_user_status = ( !empty($HTTP_POST_VARS['user_status']) ) ? intval( $HTTP_POST_VARS['user_status'] ) : 0;
+                $pnt_user_allowpm = ( !empty($HTTP_POST_VARS['user_allowpm']) ) ? intval( $HTTP_POST_VARS['user_allowpm'] ) : 0;
 
-                $titanium_user_rank = ( !empty($HTTP_POST_VARS['user_rank']) ) ? intval( $HTTP_POST_VARS['user_rank'] ) : 0;
+                $pnt_user_rank = ( !empty($HTTP_POST_VARS['user_rank']) ) ? intval( $HTTP_POST_VARS['user_rank'] ) : 0;
 /*****[BEGIN]******************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
-				$titanium_user_rank2 = ( !empty($HTTP_POST_VARS['user_rank2']) ) ? intval( $HTTP_POST_VARS['user_rank2'] ) : 0;
-				$titanium_user_rank3 = ( !empty($HTTP_POST_VARS['user_rank3']) ) ? intval( $HTTP_POST_VARS['user_rank3'] ) : 0;
-				$titanium_user_rank4 = ( !empty($HTTP_POST_VARS['user_rank4']) ) ? intval( $HTTP_POST_VARS['user_rank4'] ) : 0;
-				$titanium_user_rank5 = ( !empty($HTTP_POST_VARS['user_rank5']) ) ? intval( $HTTP_POST_VARS['user_rank5'] ) : 0;
+				$pnt_user_rank2 = ( !empty($HTTP_POST_VARS['user_rank2']) ) ? intval( $HTTP_POST_VARS['user_rank2'] ) : 0;
+				$pnt_user_rank3 = ( !empty($HTTP_POST_VARS['user_rank3']) ) ? intval( $HTTP_POST_VARS['user_rank3'] ) : 0;
+				$pnt_user_rank4 = ( !empty($HTTP_POST_VARS['user_rank4']) ) ? intval( $HTTP_POST_VARS['user_rank4'] ) : 0;
+				$pnt_user_rank5 = ( !empty($HTTP_POST_VARS['user_rank5']) ) ? intval( $HTTP_POST_VARS['user_rank5'] ) : 0;
 /*****[END]********************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
-                $titanium_user_allowavatar = ( !empty($HTTP_POST_VARS['user_allowavatar']) ) ? intval( $HTTP_POST_VARS['user_allowavatar'] ) : 0;
+                $pnt_user_allowavatar = ( !empty($HTTP_POST_VARS['user_allowavatar']) ) ? intval( $HTTP_POST_VARS['user_allowavatar'] ) : 0;
 
                 if( isset( $HTTP_POST_VARS['avatargallery'] ) || isset( $HTTP_POST_VARS['submitavatar'] ) || isset( $HTTP_POST_VARS['cancelavatar'] ) )
                 {
-                        $titanium_username = stripslashes($titanium_username);
+                        $pnt_username = stripslashes($pnt_username);
                         $email = stripslashes($email);
                         $password = '';
                         $password_confirm = '';
@@ -541,7 +541,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
-                        $titanium_user_posts = intval(stripslashes($titanium_user_posts));
+                        $pnt_user_posts = intval(stripslashes($pnt_user_posts));
 /*****[END]********************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
@@ -549,7 +549,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
-                        $titanium_user_admin_notes = htmlspecialchars(stripslashes($titanium_user_admin_notes));
+                        $pnt_user_admin_notes = htmlspecialchars(stripslashes($pnt_user_admin_notes));
 /*****[END]********************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
@@ -563,13 +563,13 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
 
-                        $titanium_user_lang = stripslashes($titanium_user_lang);
-                        $titanium_user_dateformat = htmlspecialchars(stripslashes($titanium_user_dateformat));
+                        $pnt_user_lang = stripslashes($pnt_user_lang);
+                        $pnt_user_dateformat = htmlspecialchars(stripslashes($pnt_user_dateformat));
 
                         if ( !isset($HTTP_POST_VARS['cancelavatar']))
                         {
-                                $titanium_user_avatar = $titanium_user_avatar_category . '/' . $titanium_user_avatar_local;
-                                $titanium_user_avatar_type = USER_AVATAR_GALLERY;
+                                $pnt_user_avatar = $pnt_user_avatar_category . '/' . $pnt_user_avatar_local;
+                                $pnt_user_avatar_type = USER_AVATAR_GALLERY;
                         }
                 }
         }
@@ -580,19 +580,19 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                 $error = FALSE;
 
-                if (stripslashes($titanium_username) != $this_userdata['username'])
+                if (stripslashes($pnt_username) != $this_userdata['username'])
                 {
                         unset($rename_user);
 
-                        if ( stripslashes(strtolower($titanium_username)) != strtolower($this_userdata['username']) )
+                        if ( stripslashes(strtolower($pnt_username)) != strtolower($this_userdata['username']) )
                         {
-                                $result = validate_username($titanium_username);
+                                $result = validate_username($pnt_username);
                                 if ( $result['error'] )
                                 {
                                         $error = TRUE;
                                         $error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $result['error_msg'];
                                 }
-                                else if ( strtolower(str_replace("\\'", "''", $titanium_username)) == strtolower($userdata['username']) )
+                                else if ( strtolower(str_replace("\\'", "''", $pnt_username)) == strtolower($userdata['username']) )
                                 {
                                         $error = TRUE;
                                         $error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Username_taken'];
@@ -601,8 +601,8 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                         if (!$error)
                         {
-                                $titanium_username_sql = "username = '" . str_replace("\\'", "''", $titanium_username) . "', ";
-                                $rename_user = $titanium_username; // Used for renaming usergroup
+                                $pnt_username_sql = "username = '" . str_replace("\\'", "''", $pnt_username) . "', ";
+                                $rename_user = $pnt_username; // Used for renaming usergroup
                         }
                 }
 
@@ -660,8 +660,8 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 						$error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $lang['Birthday_invalid'];
 				}
 		
-				$titanium_user_birthday = sprintf('%02d%02d%04d',$bday_month,$bday_day,$phpbb2_bday_year);
-				$titanium_user_birthday2 = ( $birthday_display != BIRTHDAY_DATE && $birthday_display != BIRTHDAY_NONE && !$empty_month && !$empty_day && !$empty_year ) ? sprintf('%04d%02d%02d',$phpbb2_bday_year,$bday_month,$bday_day) : 'NULL';
+				$pnt_user_birthday = sprintf('%02d%02d%04d',$bday_month,$bday_day,$phpbb2_bday_year);
+				$pnt_user_birthday2 = ( $birthday_display != BIRTHDAY_DATE && $birthday_display != BIRTHDAY_NONE && !$empty_month && !$empty_day && !$empty_year ) ? sprintf('%04d%02d%02d',$phpbb2_bday_year,$bday_month,$bday_day) : 'NULL';
 		
 				if ( $birthday_greeting && !( $phpbb2_board_config['bday_greeting'] & 1<<($birthday_greeting-1) ) )
 				{
@@ -759,13 +759,13 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         }
                         $avatar_sql = ", user_avatar = '', user_avatar_type = " . USER_AVATAR_NONE;
                 }
-                else if( ( $titanium_user_avatar_loc != "" || !empty($titanium_user_avatar_url) ) && !$error )
+                else if( ( $pnt_user_avatar_loc != "" || !empty($pnt_user_avatar_url) ) && !$error )
                 {
                         //
                         // Only allow one type of upload, either a
                         // filename or a URL
                         //
-                        if( !empty($titanium_user_avatar_loc) && !empty($titanium_user_avatar_url) )
+                        if( !empty($pnt_user_avatar_loc) && !empty($pnt_user_avatar_url) )
                         {
                                 $error = TRUE;
                                 if( isset($error_msg) )
@@ -775,21 +775,21 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                 $error_msg .= $lang['Only_one_avatar'];
                         }
 
-                        if( $titanium_user_avatar_loc != "" )
+                        if( $pnt_user_avatar_loc != "" )
                         {
-                                if( file_exists(@phpbb_realpath($titanium_user_avatar_loc)) && preg_match("/\.(jpg|gif|png)$/i", $titanium_user_avatar_name) )
+                                if( file_exists(@phpbb_realpath($pnt_user_avatar_loc)) && preg_match("/\.(jpg|gif|png)$/i", $pnt_user_avatar_name) )
                                 {
-                                        if( $titanium_user_avatar_size <= $phpbb2_board_config['avatar_filesize'] && $titanium_user_avatar_size > 0)
+                                        if( $pnt_user_avatar_size <= $phpbb2_board_config['avatar_filesize'] && $pnt_user_avatar_size > 0)
                                         {
                                                 $error_type = false;
 
                                                 //
                                                 // Opera appends the image name after the type, not big, not clever!
                                                 //
-                                                preg_match("'image\/[x\-]*([a-z]+)'", $titanium_user_avatar_filetype, $titanium_user_avatar_filetype);
-                                                $titanium_user_avatar_filetype = $titanium_user_avatar_filetype[1];
+                                                preg_match("'image\/[x\-]*([a-z]+)'", $pnt_user_avatar_filetype, $pnt_user_avatar_filetype);
+                                                $pnt_user_avatar_filetype = $pnt_user_avatar_filetype[1];
 
-                                                switch( $titanium_user_avatar_filetype )
+                                                switch( $pnt_user_avatar_filetype )
                                                 {
                                                         case "jpeg":
                                                         case "pjpeg":
@@ -810,13 +810,13 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                                                 if( !$error )
                                                 {
-                                                        list($width, $height) = @getimagesize($titanium_user_avatar_loc);
+                                                        list($width, $height) = @getimagesize($pnt_user_avatar_loc);
 
                                                         if( $width <= $phpbb2_board_config['avatar_max_width'] && $height <= $phpbb2_board_config['avatar_max_height'] )
                                                         {
-                                                                $titanium_user_id = $this_userdata['user_id'];
+                                                                $pnt_user_id = $this_userdata['user_id'];
 
-                                                                $avatar_filename = $titanium_user_id . $imgtype;
+                                                                $avatar_filename = $pnt_user_id . $imgtype;
 
                                                                 if( $this_userdata['user_avatar_type'] == USER_AVATAR_UPLOAD && $this_userdata['user_avatar'] != "" )
                                                                 {
@@ -825,7 +825,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                                                                 @unlink("./../" . $phpbb2_board_config['avatar_path'] . "/". $this_userdata['user_avatar']);
                                                                         }
                                                                 }
-                                                                @copy($titanium_user_avatar_loc, "./../" . $phpbb2_board_config['avatar_path'] . "/$avatar_filename");
+                                                                @copy($pnt_user_avatar_loc, "./../" . $phpbb2_board_config['avatar_path'] . "/$avatar_filename");
 
                                                                 $avatar_sql = ", user_avatar = '$avatar_filename', user_avatar_type = " . USER_AVATAR_UPLOAD;
                                                         }
@@ -852,14 +852,14 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                         $error_msg = ( !empty($error_msg) ) ? $error_msg . "<br />" . $lang['Avatar_filetype'] : $lang['Avatar_filetype'];
                                 }
                         }
-                        else if( !empty($titanium_user_avatar_url) )
+                        else if( !empty($pnt_user_avatar_url) )
                         {
                                 //
                                 // First check what port we should connect
                                 // to, look for a :[xxxx]/ or, if that doesn't
                                 // exist assume port 80 (http)
                                 //
-                                preg_match("/^(http:\/\/)?([\w\-\.]+)\:?([0-9]*)\/(.*)$/", $titanium_user_avatar_url, $url_ary);
+                                preg_match("/^(http:\/\/)?([\w\-\.]+)\:?([0-9]*)\/(.*)$/", $pnt_user_avatar_url, $url_ary);
 
                                 if( !empty($url_ary[4]) )
                                 {
@@ -923,9 +923,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                                                                         if( $width <= $phpbb2_board_config['avatar_max_width'] && $height <= $phpbb2_board_config['avatar_max_height'] )
                                                                         {
-                                                                                $titanium_user_id = $this_userdata['user_id'];
+                                                                                $pnt_user_id = $this_userdata['user_id'];
 
-                                                                                $avatar_filename = $titanium_user_id . $imgtype;
+                                                                                $avatar_filename = $pnt_user_id . $imgtype;
 
                                                                                 if( $this_userdata['user_avatar_type'] == USER_AVATAR_UPLOAD && $this_userdata['user_avatar'] != "")
                                                                                 {
@@ -981,7 +981,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                         $error_msg = ( !empty($error_msg) ) ? $error_msg . "<br />" . $lang['Incomplete_URL'] : $lang['Incomplete_URL'];
                                 }
                         }
-                        else if( !empty($titanium_user_avatar_name) )
+                        else if( !empty($pnt_user_avatar_name) )
                         {
                                 $l_avatar_size = sprintf($lang['Avatar_filesize'], round($phpbb2_board_config['avatar_filesize'] / 1024));
 
@@ -990,16 +990,16 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         }
                 }
                 else 
-				if( $titanium_user_avatar_remoteurl != "" && empty($avatar_sql) && !$error )
+				if( $pnt_user_avatar_remoteurl != "" && empty($avatar_sql) && !$error )
                 {
-                        if( !preg_match("#^http:\/\/#i", $titanium_user_avatar_remoteurl) )
+                        if( !preg_match("#^http:\/\/#i", $pnt_user_avatar_remoteurl) )
                         {
-                                $titanium_user_avatar_remoteurl = "http://" . $titanium_user_avatar_remoteurl;
+                                $pnt_user_avatar_remoteurl = "http://" . $pnt_user_avatar_remoteurl;
                         }
 
-                        if( preg_match("#^(http:\/\/[a-z0-9\-]+?\.([a-z0-9\-]+\.)*[a-z]+\/.*?\.(gif|jpg|png)$)#is", $titanium_user_avatar_remoteurl) )
+                        if( preg_match("#^(http:\/\/[a-z0-9\-]+?\.([a-z0-9\-]+\.)*[a-z]+\/.*?\.(gif|jpg|png)$)#is", $pnt_user_avatar_remoteurl) )
                         {
-                                $avatar_sql = ", user_avatar = '" . str_replace("\'", "''", $titanium_user_avatar_remoteurl) . "', user_avatar_type = " . USER_AVATAR_REMOTE;
+                                $avatar_sql = ", user_avatar = '" . str_replace("\'", "''", $pnt_user_avatar_remoteurl) . "', user_avatar_type = " . USER_AVATAR_REMOTE;
                         }
                         else
                         {
@@ -1008,9 +1008,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         }
                 }
                 else 
-				if( $titanium_user_avatar_local != "" && empty($avatar_sql) && !$error )
+				if( $pnt_user_avatar_local != "" && empty($avatar_sql) && !$error )
                 {
-                        $avatar_sql = ", user_avatar = '" . str_replace("\'", "''", phpbb_ltrim(basename($titanium_user_avatar_category), "'") . '/' . phpbb_ltrim(basename($titanium_user_avatar_local), "'")) . "', user_avatar_type = " . USER_AVATAR_GALLERY;
+                        $avatar_sql = ", user_avatar = '" . str_replace("\'", "''", phpbb_ltrim(basename($pnt_user_avatar_category), "'") . '/' . phpbb_ltrim(basename($pnt_user_avatar_local), "'")) . "', user_avatar_type = " . USER_AVATAR_GALLERY;
                 }
 
                 //
@@ -1034,8 +1034,8 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
                         $sql = "UPDATE " . USERS_TABLE . "
-                                SET " . $titanium_username_sql . $passwd_sql . "user_email = '" . str_replace("\'", "''", $email) . "', user_reputation = '" . str_replace("\'", "''", $reputation) . "', user_birthday = $titanium_user_birthday, user_birthday2 = $titanium_user_birthday2, birthday_display = $birthday_display, birthday_greeting = $birthday_greeting, user_website = '" . str_replace("\'", "''", $website) . "', user_occ = '" . str_replace("\'", "''", $occupation) . "', user_from = '" . str_replace("\'", "''", $location) . "', user_from_flag = '$titanium_user_flag', user_interests = '" . str_replace("\'", "''", $interests) . "', user_glance_show = '" . str_replace("\'", "''", $glance_show) . "', user_sig = '" . str_replace("\'", "''", $signature) . "', user_admin_notes = '" . str_replace("\'", "''", $titanium_user_admin_notes) . "', user_viewemail = $viewemail, user_facebook = '" . str_replace("\'", "''", $facebook) . "', user_attachsig = '$attachsig', user_sig_bbcode_uid = '$signature_bbcode_uid', user_allowsmile = '$allowsmilies', user_showavatars = '$showavatars', user_showsignatures = '$showsignatures', user_allowhtml = '$allowhtml', user_allowavatar = '$titanium_user_allowavatar', user_allowbbcode = '$allowbbcode', user_allow_viewonline = '$allowviewonline', user_notify = '$notifyreply', user_allow_pm = '$titanium_user_allowpm', user_notify_pm = '$notifypm', user_popup_pm = '$popuppm', user_wordwrap = '$titanium_user_wordwrap', user_lang = '" . str_replace("\'", "''", $titanium_user_lang) . "', theme = '$titanium_user_style', user_timezone = '$titanium_user_timezone', user_time_mode = '$time_mode', user_dst_time_lag = '$dst_time_lag', user_dateformat = '" . str_replace("\'", "''", $titanium_user_dateformat) . "', user_show_quickreply = '$titanium_user_show_quickreply', user_quickreply_mode = '$titanium_user_quickreply_mode', user_open_quickreply = $titanium_user_open_quickreply, user_active = '$titanium_user_status', user_hide_images = '$hide_images', user_rank = '$titanium_user_rank', user_rank2 = '$titanium_user_rank2', user_rank3 = '$titanium_user_rank3', user_rank4 = '$titanium_user_rank4', user_rank5 = '$titanium_user_rank5', user_gender = '$gender', user_posts='$titanium_user_posts'" . $avatar_sql . "
-                                WHERE user_id = '$titanium_user_id'";
+                                SET " . $pnt_username_sql . $passwd_sql . "user_email = '" . str_replace("\'", "''", $email) . "', user_reputation = '" . str_replace("\'", "''", $reputation) . "', user_birthday = $pnt_user_birthday, user_birthday2 = $pnt_user_birthday2, birthday_display = $birthday_display, birthday_greeting = $birthday_greeting, user_website = '" . str_replace("\'", "''", $website) . "', user_occ = '" . str_replace("\'", "''", $occupation) . "', user_from = '" . str_replace("\'", "''", $location) . "', user_from_flag = '$pnt_user_flag', user_interests = '" . str_replace("\'", "''", $interests) . "', user_glance_show = '" . str_replace("\'", "''", $glance_show) . "', user_sig = '" . str_replace("\'", "''", $signature) . "', user_admin_notes = '" . str_replace("\'", "''", $pnt_user_admin_notes) . "', user_viewemail = $viewemail, user_facebook = '" . str_replace("\'", "''", $facebook) . "', user_attachsig = '$attachsig', user_sig_bbcode_uid = '$signature_bbcode_uid', user_allowsmile = '$allowsmilies', user_showavatars = '$showavatars', user_showsignatures = '$showsignatures', user_allowhtml = '$allowhtml', user_allowavatar = '$pnt_user_allowavatar', user_allowbbcode = '$allowbbcode', user_allow_viewonline = '$allowviewonline', user_notify = '$notifyreply', user_allow_pm = '$pnt_user_allowpm', user_notify_pm = '$notifypm', user_popup_pm = '$popuppm', user_wordwrap = '$pnt_user_wordwrap', user_lang = '" . str_replace("\'", "''", $pnt_user_lang) . "', theme = '$pnt_user_style', user_timezone = '$pnt_user_timezone', user_time_mode = '$time_mode', user_dst_time_lag = '$dst_time_lag', user_dateformat = '" . str_replace("\'", "''", $pnt_user_dateformat) . "', user_show_quickreply = '$pnt_user_show_quickreply', user_quickreply_mode = '$pnt_user_quickreply_mode', user_open_quickreply = $pnt_user_open_quickreply, user_active = '$pnt_user_status', user_hide_images = '$hide_images', user_rank = '$pnt_user_rank', user_rank2 = '$pnt_user_rank2', user_rank3 = '$pnt_user_rank3', user_rank4 = '$pnt_user_rank4', user_rank5 = '$pnt_user_rank5', user_gender = '$gender', user_posts='$pnt_user_posts'" . $avatar_sql . "
+                                WHERE user_id = '$pnt_user_id'";
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  [ Mod:    Gender                              v1.2.6 ]
@@ -1051,26 +1051,26 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  [ Mod:    Users Reputations Systems           v1.0.0 ]
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
-                        if( $result = $titanium_db->sql_query($sql) )
+                        if( $result = $pnt_db->sql_query($sql) )
                         {
                                 if( isset($rename_user) )
                                 {
                                         $sql = "UPDATE " . GROUPS_TABLE . "
                                                 SET group_name = '".str_replace("\'", "''", $rename_user)."'
                                                 WHERE group_name = '".str_replace("'", "''", $this_userdata['username'] )."'";
-                                        if( !$result = $titanium_db->sql_query($sql) )
+                                        if( !$result = $pnt_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not rename users group', '', __LINE__, __FILE__, $sql);
                                         }
                                 }
 
                                 // Delete user session, to prevent the user navigating the forum (if logged in) when disabled
-                                if (!$titanium_user_status)
+                                if (!$pnt_user_status)
                                 {
                                         $sql = "DELETE FROM " . SESSIONS_TABLE . "
-                                                WHERE session_user_id = " . $titanium_user_id;
+                                                WHERE session_user_id = " . $pnt_user_id;
 
-                                        if ( !$titanium_db->sql_query($sql) )
+                                        if ( !$pnt_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Error removing user session', '', __LINE__, __FILE__, $sql);
                                         }
@@ -1085,7 +1085,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                     $xd_value = $xdata[$code_name];
                                     if ( ( in_array($xd_value, $meta['values_array']) || count($meta['values_array']) == 0 ) && $meta['handle_input'] )
                                     {
-                                        set_user_xdata($titanium_user_id, $code_name, $xd_value);
+                                        set_user_xdata($pnt_user_id, $code_name, $xd_value);
                                     }
                                 }
 /*****[END]********************************************
@@ -1095,7 +1095,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                  				// and change the current one (if applicable)
                  				if ( !empty($passwd_sql) )
                  				{
-                 					titanium_session_reset_keys($titanium_user_id, $titanium_user_ip);
+                 					titanium_session_reset_keys($pnt_user_id, $pnt_user_ip);
                  				}
                                 $message .= $lang['Admin_user_updated'];
                         }
@@ -1120,7 +1120,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                         $phpbb2_template->assign_var_from_handle('ERROR_BOX', 'reg_header');
 
-                        $titanium_username = htmlspecialchars(stripslashes($titanium_username));
+                        $pnt_username = htmlspecialchars(stripslashes($pnt_username));
                         $email = stripslashes($email);
                         $password = '';
                         $password_confirm = '';
@@ -1146,7 +1146,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
-                        $titanium_user_posts = intval(stripslashes($titanium_user_posts));
+                        $pnt_user_posts = intval(stripslashes($pnt_user_posts));
 /*****[END]**********77********************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
@@ -1169,16 +1169,16 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
 
-                        $titanium_user_lang = stripslashes($titanium_user_lang);
-                        $titanium_user_dateformat = htmlspecialchars(stripslashes($titanium_user_dateformat));
+                        $pnt_user_lang = stripslashes($pnt_user_lang);
+                        $pnt_user_dateformat = htmlspecialchars(stripslashes($pnt_user_dateformat));
                 }
         }
         else if( !isset( $HTTP_POST_VARS['submit'] ) && $mode != 'save' && !isset( $HTTP_POST_VARS['avatargallery'] ) && !isset( $HTTP_POST_VARS['submitavatar'] ) && !isset( $HTTP_POST_VARS['cancelavatar'] ) )
         {
                 if( isset( $HTTP_GET_VARS[POST_USERS_URL]) || isset( $HTTP_POST_VARS[POST_USERS_URL]) )
                 {
-                        $titanium_user_id = ( isset( $HTTP_POST_VARS[POST_USERS_URL]) ) ? intval( $HTTP_POST_VARS[POST_USERS_URL]) : intval( $HTTP_GET_VARS[POST_USERS_URL]);
-                        $this_userdata = get_userdata($titanium_user_id);
+                        $pnt_user_id = ( isset( $HTTP_POST_VARS[POST_USERS_URL]) ) ? intval( $HTTP_POST_VARS[POST_USERS_URL]) : intval( $HTTP_GET_VARS[POST_USERS_URL]);
+                        $this_userdata = get_userdata($pnt_user_id);
                         if( !$this_userdata )
                         {
                                 message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
@@ -1186,7 +1186,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
-                        $this_userdata['xdata'] = get_user_xdata($titanium_user_id);
+                        $this_userdata['xdata'] = get_user_xdata($pnt_user_id);
 /*****[END]********************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
@@ -1210,8 +1210,8 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 //
                 // Now parse and display it as a template
                 //
-                $titanium_user_id = $this_userdata['user_id'];
-                $titanium_username = $this_userdata['username'];
+                $pnt_user_id = $this_userdata['user_id'];
+                $pnt_username = $this_userdata['username'];
                 $email = $this_userdata['user_email'];
                 $password = '';
                 $password_confirm = '';
@@ -1242,7 +1242,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
-				$titanium_user_flag = htmlspecialchars($this_userdata['user_from_flag']);
+				$pnt_user_flag = htmlspecialchars($this_userdata['user_from_flag']);
 /*****[END]********************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
@@ -1265,7 +1265,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
-                $titanium_user_posts = intval($this_userdata['user_posts']);
+                $pnt_user_posts = intval($this_userdata['user_posts']);
 /*****[END]********************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
@@ -1300,7 +1300,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 $allowhtml = $this_userdata['user_allowhtml'];
                 $allowbbcode = $this_userdata['user_allowbbcode'];
                 $allowsmilies = $this_userdata['user_allowsmile'];
-                $titanium_user_lang = $this_userdata['user_lang'];
+                $pnt_user_lang = $this_userdata['user_lang'];
 /*****[BEGIN]******************************************
  [ Mod:     View/Disable Avatars/Signatures    v1.1.2 ]
  ******************************************************/
@@ -1309,17 +1309,17 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[END]********************************************
  [ Mod:     View/Disable Avatars/Signatures    v1.1.2 ]
  ******************************************************/
-                $titanium_user_timezone = $this_userdata['user_timezone'];
+                $pnt_user_timezone = $this_userdata['user_timezone'];
 
                 $allowviewonline = $this_userdata['user_allow_viewonline'];
 
-                $titanium_user_avatar = $this_userdata['user_avatar'];
-                $titanium_user_avatar_type = $this_userdata['user_avatar_type'];
-                $titanium_user_style = $this_userdata['theme'];
+                $pnt_user_avatar = $this_userdata['user_avatar'];
+                $pnt_user_avatar_type = $this_userdata['user_avatar_type'];
+                $pnt_user_style = $this_userdata['theme'];
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                $titanium_user_wordwrap = $this_userdata['user_wordwrap'];
+                $pnt_user_wordwrap = $this_userdata['user_wordwrap'];
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
@@ -1336,20 +1336,20 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-                $titanium_user_dateformat = htmlspecialchars($this_userdata['user_dateformat']);
+                $pnt_user_dateformat = htmlspecialchars($this_userdata['user_dateformat']);
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-                $titanium_user_show_quickreply = $this_userdata['user_show_quickreply'];
-                $titanium_user_quickreply_mode = $this_userdata['user_quickreply_mode'];
-                $titanium_user_open_quickreply = $this_userdata['user_open_quickreply'];
+                $pnt_user_show_quickreply = $this_userdata['user_show_quickreply'];
+                $pnt_user_quickreply_mode = $this_userdata['user_quickreply_mode'];
+                $pnt_user_open_quickreply = $this_userdata['user_open_quickreply'];
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
 
-                $titanium_user_status = $this_userdata['user_active'];
-                $titanium_user_allowavatar = $this_userdata['user_allowavatar'];
-                $titanium_user_allowpm = $this_userdata['user_allow_pm'];
+                $pnt_user_status = $this_userdata['user_active'];
+                $pnt_user_allowavatar = $this_userdata['user_allowavatar'];
+                $pnt_user_allowpm = $this_userdata['user_allow_pm'];
 /*****[BEGIN]******************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
@@ -1368,7 +1368,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
         {
                 if( !$error )
                 {
-                        $titanium_user_id = intval($HTTP_POST_VARS['id']);
+                        $pnt_user_id = intval($HTTP_POST_VARS['id']);
 
                         $phpbb2_template->set_filenames(array(
                                 "body" => "admin/user_avatar_gallery.tpl")
@@ -1447,9 +1447,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         $coppa = ( ( !$HTTP_POST_VARS['coppa'] && !$HTTP_GET_VARS['coppa'] ) || $mode == "register") ? 0 : TRUE;
 
                         $s_hidden_fields = '<input type="hidden" name="mode" value="edit" /><input type="hidden" name="agreed" value="true" /><input type="hidden" name="coppa" value="' . $coppa . '" /><input type="hidden" name="avatarcatname" value="' . $category . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="id" value="' . $titanium_user_id . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="id" value="' . $pnt_user_id . '" />';
 
-                        $s_hidden_fields .= '<input type="hidden" name="username" value="' . str_replace("\"", "&quot;", $titanium_username) . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="username" value="' . str_replace("\"", "&quot;", $pnt_username) . '" />';
                         $s_hidden_fields .= '<input type="hidden" name="email" value="' . str_replace("\"", "&quot;", $email) . '" />';
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
@@ -1476,7 +1476,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
-						$s_hidden_fields .= '<input type="hidden" name="user_flag" value="' . $titanium_user_flag . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_flag" value="' . $pnt_user_flag . '" />';
 /*****[END]********************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
@@ -1492,7 +1492,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
-                        $s_hidden_fields .= '<input type="hidden" name="user_posts" value="' . $titanium_user_posts . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="user_posts" value="' . $pnt_user_posts . '" />';
 /*****[END]********************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
@@ -1529,16 +1529,16 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  [ Mod:     View/Disable Avatars/Signatures    v1.1.2 ]
  ******************************************************/
                         $s_hidden_fields .= '<input type="hidden" name="hideonline" value="' . !$allowviewonline . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="theme" value="' . $titanium_user_style . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="theme" value="' . $pnt_user_style . '" />';
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                        $s_hidden_fields .= '<input type="hidden" name="wrap" value="' . $titanium_user_wordwrap .'" />';
+                        $s_hidden_fields .= '<input type="hidden" name="wrap" value="' . $pnt_user_wordwrap .'" />';
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                        $s_hidden_fields .= '<input type="hidden" name="language" value="' . $titanium_user_lang . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="timezone" value="' . $titanium_user_timezone . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="language" value="' . $pnt_user_lang . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="timezone" value="' . $pnt_user_timezone . '" />';
 /*****[BEGIN]******************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
@@ -1556,7 +1556,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  ******************************************************/
                         $s_hidden_fields .= '<input type="hidden" name="time_mode" value="' . $time_mode . '" />';
                         $s_hidden_fields .= '<input type="hidden" name="dst_time_lag" value="' . $dst_time_lag . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="dateformat" value="' . str_replace("\"", "&quot;", $titanium_user_dateformat) . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="dateformat" value="' . str_replace("\"", "&quot;", $pnt_user_dateformat) . '" />';
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
@@ -1564,31 +1564,31 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-                        $s_hidden_fields .= '<input type="hidden" name="show_quickreply" value="' . $titanium_user_show_quickreply . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="quickreply_mode" value="' . $titanium_user_quickreply_mode . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="open_quickreply" value="' . $titanium_user_quickreply_mode . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="show_quickreply" value="' . $pnt_user_show_quickreply . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="quickreply_mode" value="' . $pnt_user_quickreply_mode . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="open_quickreply" value="' . $pnt_user_quickreply_mode . '" />';
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
 
-                        $s_hidden_fields .= '<input type="hidden" name="user_status" value="' . $titanium_user_status . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="user_allowpm" value="' . $titanium_user_allowpm . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="user_status" value="' . $pnt_user_status . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="user_allowpm" value="' . $pnt_user_allowpm . '" />';
 /*****[BEGIN]******************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
-                        $s_hidden_fields .= '<input type="hidden" name="user_admin_notes" value="' . $titanium_user_admin_notes . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="user_admin_notes" value="' . $pnt_user_admin_notes . '" />';
 /*****[END]********************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
-                        $s_hidden_fields .= '<input type="hidden" name="user_allowavatar" value="' . $titanium_user_allowavatar . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="user_allowavatar" value="' . $pnt_user_allowavatar . '" />';
 /*****[BEGIN]******************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
-						$s_hidden_fields .= '<input type="hidden" name="user_rank" value="' . $titanium_user_rank . '" />';
-						$s_hidden_fields .= '<input type="hidden" name="user_rank2" value="' . $titanium_user_rank2 . '" />';
-						$s_hidden_fields .= '<input type="hidden" name="user_rank3" value="' . $titanium_user_rank3 . '" />';
-						$s_hidden_fields .= '<input type="hidden" name="user_rank4" value="' . $titanium_user_rank4 . '" />';
-						$s_hidden_fields .= '<input type="hidden" name="user_rank5" value="' . $titanium_user_rank5 . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_rank" value="' . $pnt_user_rank . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_rank2" value="' . $pnt_user_rank2 . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_rank3" value="' . $pnt_user_rank3 . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_rank4" value="' . $pnt_user_rank4 . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_rank5" value="' . $pnt_user_rank5 . '" />';
 /*****[END]********************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
@@ -1614,29 +1614,29 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 $s_hidden_fields = '<input type="hidden" name="mode" value="save" /><input type="hidden" name="agreed" value="true" /><input type="hidden" name="coppa" value="' . $coppa . '" />';
                 $s_hidden_fields .= '<input type="hidden" name="id" value="' . $this_userdata['user_id'] . '" />';
 
-                if( !empty($titanium_user_avatar_local) )
+                if( !empty($pnt_user_avatar_local) )
                 {
-                        $s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $titanium_user_avatar_local . '" /><input type="hidden" name="avatarcatname" value="' . $titanium_user_avatar_category . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $pnt_user_avatar_local . '" /><input type="hidden" name="avatarcatname" value="' . $pnt_user_avatar_category . '" />';
                 }
 
-                if( $titanium_user_avatar_type )
+                if( $pnt_user_avatar_type )
                 {
-                        switch( $titanium_user_avatar_type )
+                        switch( $pnt_user_avatar_type )
                         {
                                 case USER_AVATAR_UPLOAD:
-                                        $avatar = '<img src="../../../' . $phpbb2_board_config['avatar_path'] . '/' . $titanium_user_avatar . '" alt="" />';
+                                        $avatar = '<img src="../../../' . $phpbb2_board_config['avatar_path'] . '/' . $pnt_user_avatar . '" alt="" />';
                                         break;
 /*****[BEGIN]******************************************
  [ Mod:     Remote Avatar Resize               v2.0.0 ]
  ******************************************************/
                                 case USER_AVATAR_REMOTE:
-                                        $avatar = resize_avatar($titanium_user_avatar);
+                                        $avatar = resize_avatar($pnt_user_avatar);
                                         break;
 /*****[END]********************************************
  [ Mod:     Remote Avatar Resize               v2.0.0 ]
  ******************************************************/
                                 case USER_AVATAR_GALLERY:
-                                        $avatar = '<img src="../../../' . $phpbb2_board_config['avatar_gallery_path'] . '/' . $titanium_user_avatar . '" alt="" />';
+                                        $avatar = '<img src="../../../' . $phpbb2_board_config['avatar_gallery_path'] . '/' . $pnt_user_avatar . '" alt="" />';
                                         break;
                         }
                 }
@@ -1648,7 +1648,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 $sql = "SELECT * FROM " . RANKS_TABLE . "
                         WHERE rank_special = '1'
                         ORDER BY rank_title";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not obtain ranks data', '', __LINE__, __FILE__, $sql);
                 }
@@ -1689,7 +1689,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[END]********************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/ 
-                while( $row = $titanium_db->sql_fetchrow($result) )
+                while( $row = $pnt_db->sql_fetchrow($result) )
                 {
                         $rank = $row['rank_title'];
                         $rank_id = $row['rank_id'];
@@ -1904,16 +1904,16 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 				$sql = "SELECT *
 					FROM " . FLAG_TABLE . "
 					ORDER BY flag_id";
-				if(!$flags_result = $titanium_db->sql_query($sql))
+				if(!$flags_result = $pnt_db->sql_query($sql))
 				{
 					message_die(GENERAL_ERROR, "Couldn't obtain flags information.", "", __LINE__, __FILE__, $sql);
 				}
-				$flag_row = $titanium_db->sql_fetchrowset($ranksresult);
-				$num_flags = $titanium_db->sql_numrows($ranksresult) ;
+				$flag_row = $pnt_db->sql_fetchrowset($ranksresult);
+				$num_flags = $pnt_db->sql_numrows($ranksresult) ;
 
 			
 				$flag_start_image = 'blank' ;
-				$selected = ( isset($titanium_user_flag) ) ? '' : ' selected="selected"'  ;
+				$selected = ( isset($pnt_user_flag) ) ? '' : ' selected="selected"'  ;
 				// $flag_select  = '<select name="user_flag" onChange="document.images['user_flag'].src = "../../../images/flags/"+ this.value;">';
                 $flag_select  = '<select class="user_from_flag_select" name="user_flag">';
 				$flag_select .= '  <option value="blank"'.$selected.'>'.$lang['Select_Country'].'</option>';
@@ -1921,9 +1921,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 				{
 					$flag_name = $flag_row[$i]['flag_name'];
 					$flag_image = $flag_row[$i]['flag_image'];
-					$selected = ( isset( $titanium_user_flag) ) ? ((str_replace('.png','',$titanium_user_flag) == str_replace('.png','',$flag_image)) ? 'selected="selected"' : '' ) : '' ;
+					$selected = ( isset( $pnt_user_flag) ) ? ((str_replace('.png','',$pnt_user_flag) == str_replace('.png','',$flag_image)) ? 'selected="selected"' : '' ) : '' ;
 					$flag_select .= '  <option value="'.$flag_image.'"'.$selected.'>'.$flag_name.'</option>';
-					if ( isset($titanium_user_flag) && ($titanium_user_flag == $flag_image))
+					if ( isset($pnt_user_flag) && ($pnt_user_flag == $flag_image))
 					{
 						// $flag_start_image = $flag_image;
                         $flag_start_image = str_replace('.png','',$flag_image);
@@ -1938,7 +1938,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
                 $phpbb2_template->assign_vars(array(
-                        'USERNAME' => $titanium_username,
+                        'USERNAME' => $pnt_username,
                         'EMAIL' => $email,
 /*****[BEGIN]******************************************
  [ Mod:     Users Reputations Systems          v1.0.0 ]
@@ -1971,7 +1971,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
-                        'USER_POSTS' => $titanium_user_posts,
+                        'USER_POSTS' => $pnt_user_posts,
                         'L_USER_POSTS' => $lang['user_posts'],
 /*****[END]********************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
@@ -2053,11 +2053,11 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                        'WRAP_ROW' => $titanium_user_wordwrap,
+                        'WRAP_ROW' => $pnt_user_wordwrap,
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                        'LANGUAGE_SELECT' => language_select($titanium_user_lang, 'language', NUKE_MODULES_DIR.'Forums/language'),
+                        'LANGUAGE_SELECT' => language_select($pnt_user_lang, 'language', NUKE_MODULES_DIR.'Forums/language'),
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
@@ -2067,7 +2067,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-                        'TIMEZONE_SELECT' => tz_select($titanium_user_timezone),
+                        'TIMEZONE_SELECT' => tz_select($pnt_user_timezone),
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
@@ -2089,24 +2089,24 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[END]********************************************
  [ Base:    Theme Management                   v1.0.2 ]
  ******************************************************/
-                        'DATE_FORMAT' => $titanium_user_dateformat,
+                        'DATE_FORMAT' => $pnt_user_dateformat,
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-                        'QUICK_REPLY_SELECT' => quick_reply_select($titanium_user_show_quickreply, 'show_quickreply'),
-                        'QUICK_REPLY_MODE_BASIC' => ( $titanium_user_quickreply_mode==0 ) ? 'checked="checked"' : '',
-                        'QUICK_REPLY_MODE_ADVANCED' => ( $titanium_user_quickreply_mode!=0 ) ? 'checked="checked"' : '',
-                        'OPEN_QUICK_REPLY_YES' => ( $titanium_user_open_quickreply ) ? 'checked="checked"' : '',
-                        'OPEN_QUICK_REPLY_NO' => ( !$titanium_user_open_quickreply ) ? 'checked="checked"' : '',
+                        'QUICK_REPLY_SELECT' => quick_reply_select($pnt_user_show_quickreply, 'show_quickreply'),
+                        'QUICK_REPLY_MODE_BASIC' => ( $pnt_user_quickreply_mode==0 ) ? 'checked="checked"' : '',
+                        'QUICK_REPLY_MODE_ADVANCED' => ( $pnt_user_quickreply_mode!=0 ) ? 'checked="checked"' : '',
+                        'OPEN_QUICK_REPLY_YES' => ( $pnt_user_open_quickreply ) ? 'checked="checked"' : '',
+                        'OPEN_QUICK_REPLY_NO' => ( !$pnt_user_open_quickreply ) ? 'checked="checked"' : '',
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-                        'ALLOW_PM_YES' => ($titanium_user_allowpm) ? 'checked="checked"' : '',
-                        'ALLOW_PM_NO' => (!$titanium_user_allowpm) ? 'checked="checked"' : '',
-                        'ALLOW_AVATAR_YES' => ($titanium_user_allowavatar) ? 'checked="checked"' : '',
-                        'ALLOW_AVATAR_NO' => (!$titanium_user_allowavatar) ? 'checked="checked"' : '',
-                        'USER_ACTIVE_YES' => ($titanium_user_status) ? 'checked="checked"' : '',
-                        'USER_ACTIVE_NO' => (!$titanium_user_status) ? 'checked="checked"' : '',
+                        'ALLOW_PM_YES' => ($pnt_user_allowpm) ? 'checked="checked"' : '',
+                        'ALLOW_PM_NO' => (!$pnt_user_allowpm) ? 'checked="checked"' : '',
+                        'ALLOW_AVATAR_YES' => ($pnt_user_allowavatar) ? 'checked="checked"' : '',
+                        'ALLOW_AVATAR_NO' => (!$pnt_user_allowavatar) ? 'checked="checked"' : '',
+                        'USER_ACTIVE_YES' => ($pnt_user_status) ? 'checked="checked"' : '',
+                        'USER_ACTIVE_NO' => (!$pnt_user_status) ? 'checked="checked"' : '',
 /*****[BEGIN]******************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/

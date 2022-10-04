@@ -40,7 +40,7 @@ include('includes/functions_post.' . $phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_POSTING, $nukeuser);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_POSTING, $nukeuser);
 titanium_init_userprefs($userdata);
 $gen_simple_header = TRUE;
 //
@@ -75,21 +75,21 @@ if($mode == "update")
 			//Checks to make sure the user has privledge to enter highscores.
 			//This query checks the user_id stored in the users cookie and in the database.
 			//If they don't match, the comments is not entered and error message is displayed.
-			$titanium_user_id = $userdata['user_id'];
+			$pnt_user_id = $userdata['user_id'];
 			$sql = "SELECT game_highuser FROM " . GAMES_TABLE. " WHERE game_id = $game_id";
-				if( !($result = $titanium_db->sql_query($sql)))
+				if( !($result = $pnt_db->sql_query($sql)))
 			{
 			message_die(GENERAL_ERROR, "Error Authenticating User", '', __LINE__, __FILE__, $sql);
 			}
-			$row = $titanium_db->sql_fetchrow($result);
+			$row = $pnt_db->sql_fetchrow($result);
 
-			if($row['game_highuser'] != $titanium_user_id)
+			if($row['game_highuser'] != $pnt_user_id)
 			{
 			message_die(GENERAL_ERROR, "Error Authenticating User - Possible hack attempt!", '');
 			}
 			//Enters Comment into the DB
 			$sql = "UPDATE " . COMMENTS_TABLE . " SET comments_value = '$comment_text' WHERE game_id = $game_id";
-			if( !$result = $titanium_db->sql_query($sql) )
+			if( !$result = $pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, "Couldn't insert row in comments table", "", __LINE__, __FILE__, $sql);
 			}
@@ -105,15 +105,15 @@ if($mode == "update")
 	//Checks to make sure the user has privledge to enter highscores.
 	//This query checks the user_id stored in the users cookie and in the database.
 	//If they don't match, the comments is not entered and error message is displayed.
-	$titanium_user_id = $userdata['user_id'];
+	$pnt_user_id = $userdata['user_id'];
 	$sql = "SELECT game_highuser FROM " . GAMES_TABLE. " WHERE game_id = $game_id";
-		if( !($result = $titanium_db->sql_query($sql)))
+		if( !($result = $pnt_db->sql_query($sql)))
 		{
 		message_die(GENERAL_ERROR, "Error Authenticating User", '', __LINE__, __FILE__, $sql);
 		}
-		$row = $titanium_db->sql_fetchrow($result);
+		$row = $pnt_db->sql_fetchrow($result);
 
-		if($row['game_highuser'] != $titanium_user_id)
+		if($row['game_highuser'] != $pnt_user_id)
 		{
 		header($header_location . append_titanium_sid("modules.php?name=Forums&file=games&gid=$game_id", true));
 		exit;
@@ -121,11 +121,11 @@ if($mode == "update")
 
 	//Comment submission Timeout Check
 	$sql = "SELECT game_highdate FROM " . GAMES_TABLE. " WHERE game_id = $game_id";
-	if( !($result = $titanium_db->sql_query($sql)))
+	if( !($result = $pnt_db->sql_query($sql)))
 		{
 		message_die(GENERAL_ERROR, "Error Authenticating User", '', __LINE__, __FILE__, $sql);
 		}
-		$row = $titanium_db->sql_fetchrow($result);
+		$row = $pnt_db->sql_fetchrow($result);
 
 		//Checks the current time and time highscore was recorded.
 		//If they are not within a minute of each other user is refreshed back to game.
@@ -141,12 +141,12 @@ if($mode == "update")
 
 	//Gets comments from database
 	$sql = "SELECT g.game_id, g.game_name, c.* FROM " . GAMES_TABLE. " g LEFT JOIN " . COMMENTS_TABLE . " c ON g.game_id = c.game_id WHERE g.game_id = $game_id";
-	if( !($result = $titanium_db->sql_query($sql)) )
+	if( !($result = $pnt_db->sql_query($sql)) )
 			{
 			message_die(GENERAL_ERROR, "Error retrieving comment list", '', __LINE__, __FILE__, $sql);
 			}
 
-	$row = $titanium_db->sql_fetchrow($result);
+	$row = $pnt_db->sql_fetchrow($result);
 
 	$game_name = '<a href="' . append_titanium_sid("gamespopup.$phpEx?gid=" . $row['game_id']) . '">' . $row['game_name'] . '</a>';
 	$return_arcade = '<a href="' . append_titanium_sid("gamespopup.$phpEx?gid=" . $row['game_id']) . '">here</a>';
@@ -163,29 +163,29 @@ if($mode == "update")
 
 	//Gets Avatar based on user settings and other user stats
 	$sql = "SELECT username, user_avatar_type, user_allowavatar, user_avatar FROM " . USERS_TABLE . " WHERE user_id = " . $userdata['user_id'] ;
-	if( !($result = $titanium_db->sql_query($sql)) )
+	if( !($result = $pnt_db->sql_query($sql)) )
 	{
 		message_die(GENERAL_ERROR, "Cannot access the users table", '', __LINE__, __FILE__, $sql);
 	}
-	$row = $titanium_db->sql_fetchrow($result);
+	$row = $pnt_db->sql_fetchrow($result);
 
-	$titanium_user_avatar_type = $row['user_avatar_type'];
-	$titanium_user_allowavatar = $row['user_allowavatar'];
-	$titanium_user_avatar = $row['user_avatar'];
+	$pnt_user_avatar_type = $row['user_avatar_type'];
+	$pnt_user_allowavatar = $row['user_allowavatar'];
+	$pnt_user_avatar = $row['user_avatar'];
 	$avatar_img = '';
 
-	if ( $titanium_user_avatar_type && $titanium_user_allowavatar )
+	if ( $pnt_user_avatar_type && $pnt_user_allowavatar )
 	{
-	   switch( $titanium_user_avatar_type )
+	   switch( $pnt_user_avatar_type )
 	   {
 	      case USER_AVATAR_UPLOAD:
-	         $avatar_img = ( $phpbb2_board_config['allow_avatar_upload'] ) ? '<img src="' . $phpbb2_board_config['avatar_path'] . '/' . $titanium_user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center"/>' : '';
+	         $avatar_img = ( $phpbb2_board_config['allow_avatar_upload'] ) ? '<img src="' . $phpbb2_board_config['avatar_path'] . '/' . $pnt_user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center"/>' : '';
 	         break;
 	      case USER_AVATAR_REMOTE:
-	         $avatar_img = ( $phpbb2_board_config['allow_avatar_remote'] ) ? '<img src="' . $titanium_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
+	         $avatar_img = ( $phpbb2_board_config['allow_avatar_remote'] ) ? '<img src="' . $pnt_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
 	         break;
 	      case USER_AVATAR_GALLERY:
-	         $avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . $titanium_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
+	         $avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . $pnt_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
 	         break;
 	   }
 

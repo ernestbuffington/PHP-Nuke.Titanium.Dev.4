@@ -18,7 +18,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 if(is_god($admin)) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
-  OpenMenu(_AB_DBOPTIMIZE." - ".$titanium_dbname);
+  OpenMenu(_AB_DBOPTIMIZE." - ".$pnt_dbname);
   mastermenu();
   CarryMenu();
   databasemenu();
@@ -36,19 +36,19 @@ if(is_god($admin)) {
   echo '<td align="right" width="15%"><strong>'._AB_GAINED.'</strong></td>'."\n";
   echo '</tr>'."\n";
   $tot_data = $tot_idx = $tot_all = $tot_records = 0;
-  $result = $titanium_db->sql_query("SHOW TABLE STATUS FROM `".$titanium_dbname."`");
-  $tables = $titanium_db ->sql_numrows($result);
+  $result = $pnt_db->sql_query("SHOW TABLE STATUS FROM `".$pnt_dbname."`");
+  $tables = $pnt_db ->sql_numrows($result);
   if($tables > 0) {
     $total_phpbb2_total = $total_phpbb2_gain = 0;
-    while($row = $titanium_db->sql_fetchrow($result)) {
-      $checkrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("CHECK TABLE $row[0]"));
+    while($row = $pnt_db->sql_fetchrow($result)) {
+      $checkrow = $pnt_db->sql_fetchrow($pnt_db->sql_query("CHECK TABLE $row[0]"));
       $records = $row['Rows'];
       $tot_records += $records;
       $total = ($row['Data_length'] + $row['Index_length']) - $row['Data_free'];
       $total_phpbb2_total += $total;
       $gain = $row['Data_free'];
       if($gain>0) {
-        $optimizerow = $titanium_db->sql_fetchrow($titanium_db->sql_query("OPTIMIZE TABLE $row[0]"));
+        $optimizerow = $pnt_db->sql_fetchrow($pnt_db->sql_query("OPTIMIZE TABLE $row[0]"));
         $status = _AB_OPTIMIZED;
       } else {
         $status = $checkrow['Msg_text'];

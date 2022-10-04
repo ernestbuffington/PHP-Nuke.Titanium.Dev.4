@@ -8,16 +8,16 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REPORTMAP;
 
 include_once(NUKE_BASE_DIR.'header.php');
 
-$projectresult = $titanium_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
+$projectresult = $pnt_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
 
-while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) 
+while(list($project_id) = $pnt_db2->sql_fetchrow($projectresult)) 
 {
   $project = pjproject_info($project_id);
 
@@ -27,7 +27,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 
   if($project['allowreports'] > 0) 
   {
-    $reportresult = $titanium_db2->sql_query("SELECT `report_id`, `report_name`, `status_id`, `type_id` 
+    $reportresult = $pnt_db2->sql_query("SELECT `report_id`, `report_name`, `status_id`, `type_id` 
 	
 	FROM `".$network_prefix."_reports` 
 	
@@ -35,7 +35,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 	
 	ORDER BY `report_name`");
   
-    $report_total = $titanium_db2->sql_numrows($reportresult);
+    $report_total = $pnt_db2->sql_numrows($reportresult);
   
     OpenTable();
     
@@ -109,7 +109,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
     
 	if($report_total > 0)
 	{
-      list($last_date) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `date_submitted` 
+      list($last_date) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `date_submitted` 
 	  
 	  FROM `".$network_prefix."_reports` 
 	  
@@ -139,11 +139,11 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 	if($report_total != 0)
 	{
     
-	  while(list($report_id, $report_name, $status_id, $type_id) = $titanium_db2->sql_fetchrow($reportresult)) 
+	  while(list($report_id, $report_name, $status_id, $type_id) = $pnt_db2->sql_fetchrow($reportresult)) 
 	  {
-        $reportcommentresult = $titanium_db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports_comments` WHERE `report_id`='$report_id'");
+        $reportcommentresult = $pnt_db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports_comments` WHERE `report_id`='$report_id'");
       
-	    $reportcomment_total = $titanium_db2->sql_numrows($reportcommentresult);
+	    $reportcomment_total = $pnt_db2->sql_numrows($reportcommentresult);
       
 	    $reportstatus = pjreportstatus_info($status_id);
       
@@ -174,7 +174,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
         
 		if($reportcomment_total > 0)
 		{
-          list($last_date) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `date_commented` 
+          list($last_date) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `date_commented` 
 		  
 		  FROM `".$network_prefix."_reports_comments` 
 		  

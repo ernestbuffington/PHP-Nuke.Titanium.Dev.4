@@ -41,7 +41,7 @@ $phpbb2_forum_id = get_var('f', 0);
 $privmsg = (!$phpbb2_forum_id) ? true : false;
 
 // Start Session Management
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
 titanium_init_userprefs($userdata);
 
 // Display the allowed Extension Groups and Upload Size
@@ -71,15 +71,15 @@ $sql = 'SELECT group_id, group_name, max_filesize, forum_permissions
     WHERE allow_group = 1
     ORDER BY group_name ASC';
 
-if (!($result = $titanium_db->sql_query($sql)))
+if (!($result = $pnt_db->sql_query($sql)))
 {
     message_die(GENERAL_ERROR, 'Could not query Extension Groups.', '', __LINE__, __FILE__, $sql);
 }
 
 $allowed_filesize = array();
-$rows = $titanium_db->sql_fetchrowset($result);
-$num_rows = $titanium_db->sql_numrows($result);
-$titanium_db->sql_freeresult($result);
+$rows = $pnt_db->sql_fetchrowset($result);
+$num_rows = $pnt_db->sql_numrows($result);
+$pnt_db->sql_freeresult($result);
 
 // Ok, only process those Groups allowed within this forum
 $nothing = true;
@@ -117,14 +117,14 @@ for ($i = 0; $i < $num_rows; $i++)
             WHERE group_id = " . (int) $rows[$i]['group_id'] . "
             ORDER BY extension ASC";
 
-        if (!($result = $titanium_db->sql_query($sql)))
+        if (!($result = $pnt_db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not query Extensions.', '', __LINE__, __FILE__, $sql);
         }
 
-        $e_rows = $titanium_db->sql_fetchrowset($result);
-        $e_num_rows = $titanium_db->sql_numrows($result);
-        $titanium_db->sql_freeresult($result);
+        $e_rows = $pnt_db->sql_fetchrowset($result);
+        $e_num_rows = $pnt_db->sql_numrows($result);
+        $pnt_db->sql_freeresult($result);
 
         for ($j = 0; $j < $e_num_rows; $j++)
         {

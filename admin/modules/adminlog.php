@@ -27,7 +27,7 @@ if (!defined('ADMIN_FILE')) {
     die ('Illegal File Access');
 }
 
-global $titanium_prefix, $titanium_db, $admdata;
+global $pnt_prefix, $pnt_db, $admdata;
 
 //Clear log is fine you have to be an admin to gain access to it
 
@@ -89,7 +89,7 @@ if (is_mod_admin())
 
     function log_clear($file) 
     {
-        global $titanium_db, $titanium_prefix, $admin_file, $cache, $admlang;
+        global $pnt_db, $pnt_prefix, $admin_file, $cache, $admlang;
 
         echo "<div align='center'>";
         echo "".$admlang['logs']['cleared']."<br /><br />";
@@ -102,8 +102,8 @@ if (is_mod_admin())
             } else {
                 fwrite($handle, "");
                 fclose($handle);
-                $sql_log = "UPDATE ".$titanium_prefix."_config SET " . $file . "_log_lines='0'";
-                if(!$titanium_db->sql_query($sql_log)) {
+                $sql_log = "UPDATE ".$pnt_prefix."_config SET " . $file . "_log_lines='0'";
+                if(!$pnt_db->sql_query($sql_log)) {
                    die(mysql_error());
                 }
 /*****[BEGIN]******************************************

@@ -13,8 +13,8 @@ define('IN_PHPBB2', 1);
 	
 if( !empty($setmodules) )
 {
-	$titanium_module['FTR Admin']['FTR: Config']	= append_titanium_sid("admin_ftr.$phpEx?mode=config");
-	$titanium_module['FTR Admin']['FTR: Users']	= append_titanium_sid("admin_ftr.$phpEx?mode=users");
+	$pnt_module['FTR Admin']['FTR: Config']	= append_titanium_sid("admin_ftr.$phpEx?mode=config");
+	$pnt_module['FTR Admin']['FTR: Users']	= append_titanium_sid("admin_ftr.$phpEx?mode=users");
 	return;
 }
 
@@ -26,7 +26,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 	$mode 				= ( isset($HTTP_POST_VARS['mode']) ) ? $HTTP_POST_VARS['mode'] : $HTTP_GET_VARS['mode'];
 	$update 			= ( isset($HTTP_POST_VARS['update']) ) ? $HTTP_POST_VARS['update'] : $HTTP_GET_VARS['update'];
 	$phpbb2_start 				= ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
-	$titanium_user 				= ( isset($HTTP_POST_VARS['user']) ) ? intval($HTTP_POST_VARS['user']) : 0;
+	$pnt_user 				= ( isset($HTTP_POST_VARS['user']) ) ? intval($HTTP_POST_VARS['user']) : 0;
 	$forum_selected 	= ( isset($HTTP_POST_VARS['forum']) ) ? intval($HTTP_POST_VARS['forum']) : 0;
 	$topic_selected 	= ( isset($HTTP_POST_VARS['topic']) ) ? intval($HTTP_POST_VARS['topic']) : 0;				
 
@@ -59,7 +59,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		$q = "UPDATE ". CONFIG_TABLE ."
 			  SET config_value = '". time() ."'
 			  WHERE config_name = 'ftr_installed'";
-		$titanium_db->sql_query($q);	
+		$pnt_db->sql_query($q);	
 	}
 	
 	// Reset All Viewers
@@ -68,7 +68,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		$q = "UPDATE ". USERS_TABLE ."
 			  SET user_ftr = '', user_ftr_time = ''
 			  WHERE user_id > '". ANONYMOUS ."'";
-		$titanium_db->sql_query($q);
+		$pnt_db->sql_query($q);
 		message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_do_reset']);
 	}
 	
@@ -80,7 +80,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		$q = "UPDATE ". CONFIG_TABLE ."
 			  SET config_value = '". $new_msg ."'
 			  WHERE config_name = 'ftr_msg'";
-		$titanium_db->sql_query($q);
+		$pnt_db->sql_query($q);
 		message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_save_msg']);		
 	}
 	
@@ -92,7 +92,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		$q = "UPDATE ". CONFIG_TABLE ."
 			  SET config_value = '". $new_status ."'
 			  WHERE config_name = 'ftr_active'";
-		$titanium_db->sql_query($q);
+		$pnt_db->sql_query($q);
 		message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_save_active']);		
 	}
 	
@@ -104,7 +104,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		$q = "UPDATE ". CONFIG_TABLE ."
 			  SET config_value = '". $new_status ."'
 			  WHERE config_name = 'ftr_who'";
-		$titanium_db->sql_query($q);
+		$pnt_db->sql_query($q);
 		message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_save_who']);		
 	}
 		
@@ -113,14 +113,14 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 	{
 		$q = 'SELECT forum_id, forum_name
 			  FROM '. FORUMS_TABLE;
-		$r 		= $titanium_db->sql_query($q);
-		$frows 	= $titanium_db->sql_fetchrowset($r);
+		$r 		= $pnt_db->sql_query($q);
+		$frows 	= $pnt_db->sql_fetchrowset($r);
 		
 		$q = 'SELECT topic_id, topic_title
 			  FROM '. TOPICS_TABLE .'
 			  WHERE forum_id = "'. $forum_selected .'"';
-		$r 		= $titanium_db->sql_query($q);
-		$trows 	= $titanium_db->sql_fetchrowset($r);			
+		$r 		= $pnt_db->sql_query($q);
+		$trows 	= $pnt_db->sql_fetchrowset($r);			
 		
 		// Process forum listing
 		if (!$forum_selected)
@@ -208,7 +208,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			$q = "UPDATE ". CONFIG_TABLE ."
 				  SET config_value = '". intval($topic_selected) ."'
 				  WHERE config_name = 'ftr_topic'";
-			$titanium_db->sql_query($q);
+			$pnt_db->sql_query($q);
 			message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_save_select']);
 		}
 	}
@@ -234,14 +234,14 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		{
 			$q = 'SELECT forum_id, forum_name
 				  FROM '. FORUMS_TABLE;
-			$r 		= $titanium_db->sql_query($q);
-			$frows 	= $titanium_db->sql_fetchrowset($r);
+			$r 		= $pnt_db->sql_query($q);
+			$frows 	= $pnt_db->sql_fetchrowset($r);
 			
 			$q = 'SELECT topic_id, topic_title, forum_id
 				  FROM '. TOPICS_TABLE .'
 				  WHERE topic_id = "'. intval($phpbb2_board_config['ftr_topic']) .'"';
-			$r 		= $titanium_db->sql_query($q);
-			$trows 	= $titanium_db->sql_fetchrow($r);
+			$r 		= $pnt_db->sql_query($q);
+			$trows 	= $pnt_db->sql_fetchrow($r);
 			
 			for ($x = 0; $x < count($frows); $x++)
 			{
@@ -392,7 +392,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			$q = "UPDATE ". USERS_TABLE ."
 				  SET user_ftr = '', user_ftr_time = ''
 				  WHERE user_id = '". $who ."'";
-			$titanium_db->sql_query($q);
+			$pnt_db->sql_query($q);
 		}
 		
 		$order 		= ($HTTP_GET_VARS['order']) ? $HTTP_GET_VARS['order'] : 'username';
@@ -412,9 +412,9 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			  WHERE user_id <> '". ANONYMOUS ."'
 			  AND user_ftr <> ''
 			  $order_by";
-		if (!$r = $titanium_db->sql_query($q))
+		if (!$r = $pnt_db->sql_query($q))
 			message_die(GENERAL_ERROR, 'Error Grabbing FTR User Info.', '', __LINE__, __FILE__, $q);
-		$rows = $titanium_db->sql_fetchrowset($r);
+		$rows = $pnt_db->sql_fetchrowset($r);
 
 		echo '<table align="center" width="100%" class="forumline">';
 		echo '	<tr>';
@@ -452,9 +452,9 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			  FROM ". USERS_TABLE ."
 			  WHERE user_id <> '". ANONYMOUS ."'
 			  AND user_ftr <> ''";
-		if (!$r = $titanium_db->sql_query($q))
+		if (!$r = $pnt_db->sql_query($q))
 			message_die(GENERAL_ERROR, 'Error Grabbing FTR User Info For Pagination.', '', __LINE__, __FILE__, $q);
-		$rows = $titanium_db->sql_fetchrowset($r);
+		$rows = $pnt_db->sql_fetchrowset($r);
 
 		if ( is_array( $rows ) )
 		{

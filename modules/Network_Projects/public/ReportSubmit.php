@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 $project_id = intval($project_id);
 $project = pjproject_info($project_id);
@@ -35,23 +35,23 @@ if($project['allowreports'] > 0) {
   echo "<tr><td align='center' colspan='2' class='title'>"._NETWORK_INPUTNOTE."</td></tr>\n";
   echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_PROJECT.":</td>\n";
   echo "<td><select name='project_id'>\n";
-  $projectlist = $titanium_db2->sql_query("SELECT `project_id`, `project_name` FROM `".$network_prefix."_projects` ORDER BY `project_name`");
-  while(list($s_project_id, $s_project_name) = $titanium_db2->sql_fetchrow($projectlist)){
+  $projectlist = $pnt_db2->sql_query("SELECT `project_id`, `project_name` FROM `".$network_prefix."_projects` ORDER BY `project_name`");
+  while(list($s_project_id, $s_project_name) = $pnt_db2->sql_fetchrow($projectlist)){
     if($s_project_id == $project_id){ $sel = "selected"; } else { $sel = ""; }
     echo "<option value='$s_project_id' $sel>$s_project_name</option>\n";
   }
   echo "</select></td></tr>\n";        
   echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_TYPE.":</td><td><select name='type_id'>\n";
-  $typelist = $titanium_db2->sql_query("SELECT `type_id`, `type_name` FROM `".$network_prefix."_reports_types` ORDER BY `type_name`");
-  while(list($s_type_id, $s_type_name) = $titanium_db2->sql_fetchrow($typelist)){
+  $typelist = $pnt_db2->sql_query("SELECT `type_id`, `type_name` FROM `".$network_prefix."_reports_types` ORDER BY `type_name`");
+  while(list($s_type_id, $s_type_name) = $pnt_db2->sql_fetchrow($typelist)){
     if($s_type_id == $type_id){ $sel = "selected"; } else { $sel = ""; }
     echo "<option value='$s_type_id' $sel>$s_type_name</option>\n";
   }
   echo "</select></td></tr>\n";
   echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_USERNAME.":</td>\n";
-  echo "<td><input type='text' name='submitter_name' size='30' value='".$titanium_userinfo['username']."'></td></tr>\n";
+  echo "<td><input type='text' name='submitter_name' size='30' value='".$pnt_userinfo['username']."'></td></tr>\n";
   echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_EMAILADDRESS.":</td>\n";
-  echo "<td><input type='text' name='submitter_email' size='30' value='".$titanium_userinfo['user_email']."'></td></tr>\n";
+  echo "<td><input type='text' name='submitter_email' size='30' value='".$pnt_userinfo['user_email']."'></td></tr>\n";
   echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_SUMMARY.":</td>\n";
   echo "<td><input type='text' name='report_name' size='30'></td></tr>\n";
   echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._NETWORK_DESCRIPTION.":</td>\n";

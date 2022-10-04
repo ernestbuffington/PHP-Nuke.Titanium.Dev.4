@@ -39,11 +39,11 @@ if (!defined('IN_PHPBB2'))
 
 function insert_report($post_id, $comments)
 {
-    global $titanium_db, $userdata;
+    global $pnt_db, $userdata;
 
     $sql = "INSERT INTO " . POST_REPORTS_TABLE . " (post_id, reporter_id, report_time, report_status, report_comments)
         VALUES ($post_id, " . $userdata['user_id'] . ", " . time() . ", " . REPORT_POST_NEW . ", '" . str_replace("\'", "''", $comments) . "')";
-    if ( !$titanium_db->sql_query($sql) )
+    if ( !$pnt_db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, 'Could not insert report', '', __LINE__, __FILE__, $sql);
     }
@@ -53,7 +53,7 @@ function insert_report($post_id, $comments)
 
 function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
 {
-    global $titanium_db, $phpEx, $userdata, $phpbb2_board_config, $lang;
+    global $pnt_db, $phpEx, $userdata, $phpbb2_board_config, $lang;
 
     //
     // Obtain list of moderators of each forum
@@ -70,13 +70,13 @@ function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
             AND u.user_report_optout = 0
         GROUP BY u.user_id, u.username
         ORDER BY u.user_id";
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not query forum moderator information', '', __LINE__, __FILE__, $sql);
     }
 
     $moderators = array();
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
         $moderators[] = $row['user_email'];
     }
@@ -91,13 +91,13 @@ function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
             AND g.group_id = aa.group_id
         GROUP BY g.group_id, g.group_name
         ORDER BY g.group_id";
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not query forum group moderator information', '', __LINE__, __FILE__, $sql);
     }
 
     $groups = array();
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
         $groups[] = $row['group_id'];
     }
@@ -111,12 +111,12 @@ function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
                 AND g.group_id IN (" . implode(',', $groups) . ")
                 AND ug.user_id = u.user_id
                 AND u.user_report_optout = 0";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not query forum moderator information', '', __LINE__, __FILE__, $sql);
         }
 
-        while( $row = $titanium_db->sql_fetchrow($result) )
+        while( $row = $pnt_db->sql_fetchrow($result) )
         {
             if ( !in_array($row['user_email'], $moderators) )
             {
@@ -129,12 +129,12 @@ function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
     $sql = "SELECT user_email FROM " . USERS_TABLE . "
         WHERE user_level = " . ADMIN . "
         AND user_report_optout = 0";
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not query forum admin information', '', __LINE__, __FILE__, $sql);
     }
 
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
         if ( !in_array($row['user_email'], $moderators) )
         {
@@ -161,7 +161,7 @@ function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
     // $email_headers = 'X-AntiAbuse: Board servername - ' . $phpbb2_board_config['server_name'] . "\n";
     // $email_headers .= 'X-AntiAbuse: User_id - ' . $userdata['user_id'] . "\n";
     // $email_headers .= 'X-AntiAbuse: Username - ' . $userdata['username'] . "\n";
-    // $email_headers .= 'X-AntiAbuse: User IP - ' . decode_ip($titanium_user_ip) . "\n";
+    // $email_headers .= 'X-AntiAbuse: User IP - ' . decode_ip($pnt_user_ip) . "\n";
     // $emailer->extra_headers($email_headers);
 
     $script_name = preg_replace('/^\/?(.*?)\/?$/', "\\1", trim($phpbb2_board_config['script_path']));
@@ -211,7 +211,7 @@ function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
     $headers[] = 'X-AntiAbuse: Board servername - ' . $phpbb2_board_config['server_name'] . "\n";
     $headers[] = 'X-AntiAbuse: User_id - ' . $userdata['user_id'] . "\n";
     $headers[] = 'X-AntiAbuse: Username - ' . $userdata['username'] . "\n";
-    $headers[] = 'X-AntiAbuse: User IP - ' . decode_ip($titanium_user_ip) . "\n";
+    $headers[] = 'X-AntiAbuse: User IP - ' . decode_ip($pnt_user_ip) . "\n";
 
     foreach($moderators as $email)
     {
@@ -226,7 +226,7 @@ function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
 
 function show_reports($status = REPORT_POST_NEW)
 {
-    global $titanium_db, $phpbb2_board_config, $phpbb2_template, $lang, $phpEx, $userdata;
+    global $pnt_db, $phpbb2_board_config, $phpbb2_template, $lang, $phpEx, $userdata;
 
     // find the forums where the user is a moderator
     $phpbb2_forum_ids = array();
@@ -255,14 +255,14 @@ function show_reports($status = REPORT_POST_NEW)
             $where_sql2
         ORDER BY report_time DESC";
 
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not query reports', '', __LINE__, __FILE__, $sql);
     }
 
     $i = 0;
 
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
 
         $comments_temp = array();
@@ -316,7 +316,7 @@ function show_reports($status = REPORT_POST_NEW)
         $sql = "DELETE FROM " . POST_REPORTS_TABLE . "
             WHERE report_id IN (" . implode(',', $delete_ids) . ")";
 
-        if ( !$titanium_db->sql_query($sql) )
+        if ( !$pnt_db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, 'Could not delete reports', '', __LINE__, __FILE__, $sql);
         }
@@ -336,15 +336,15 @@ function show_reports($status = REPORT_POST_NEW)
 
 function report_flood()
 {
-    global $titanium_db, $phpbb2_board_config, $userdata;
+    global $pnt_db, $phpbb2_board_config, $userdata;
 
     $sql = "SELECT MAX(report_time) AS latest_time FROM " . POST_REPORTS_TABLE . "
         WHERE reporter_id = " . $userdata['user_id'];
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not get most recent report', '', __LINE__, __FILE__, $sql);
     }
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
 
     $current_time = time();
     if ( ($current_time - $row['latest_time']) < $phpbb2_board_config['flood_interval'] )
@@ -360,7 +360,7 @@ function report_flood()
 // get the number of open/closed reports
 function reports_count($status = REPORT_POST_NEW)
 {
-    global $titanium_db;
+    global $pnt_db;
 
     $phpbb2_forum_ids = array();
     $phpbb2_forum_ids = get_forums_auth_mod();
@@ -383,12 +383,12 @@ function reports_count($status = REPORT_POST_NEW)
             AND pr.post_id = p.post_id
             " . $where_sql;
 
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not get reports count', '', __LINE__, __FILE__, $sql);
     }
-    $row = $titanium_db->sql_fetchrow($result);
-    $titanium_db->sql_freeresult($result);
+    $row = $pnt_db->sql_fetchrow($result);
+    $pnt_db->sql_freeresult($result);
 
     return ( $row['total'] ) ? $row['total'] : 0;
 }
@@ -396,18 +396,18 @@ function reports_count($status = REPORT_POST_NEW)
 // check if a post has already been reported
 function report_exists($post_id)
 {
-    global $titanium_db;
+    global $pnt_db;
 
     // maybe we have to check if the report is closed too in order to reopen it after the 2nd report
     $sql = "SELECT report_id FROM " . POST_REPORTS_TABLE . "
         WHERE post_id = $post_id
         AND report_status = " . REPORT_POST_NEW;
 
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not get report', '', __LINE__, __FILE__, $sql);
     }
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
 
     return ( $row ) ? TRUE : FALSE;
 }
@@ -415,16 +415,16 @@ function report_exists($post_id)
 // get the already stored report comments
 function get_report_comments($report_id)
 {
-    global $titanium_db;
+    global $pnt_db;
 
     $sql = "SELECT last_action_comments FROM " . POST_REPORTS_TABLE . "
         WHERE report_id = " . $report_id;
 
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not get report comments', '', __LINE__, __FILE__, $sql);
     }
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
 
     return ( $row['last_action_comments'] && $row['last_action_comments'] != '' ) ? $row['last_action_comments'] : '';
 }
@@ -453,7 +453,7 @@ function get_forums_auth_mod()
 // create the comments from the reports
 function create_comments($row)
 {
-    global $titanium_db, $phpbb2_board_config, $lang, $phpEx;
+    global $pnt_db, $phpbb2_board_config, $lang, $phpEx;
 
         // find if we have a last action user_id and last action time
         if ( $row['last_action_user_id'] != 0 && $row['last_action_time'] != 0 )
@@ -461,12 +461,12 @@ function create_comments($row)
             $sql2 = "SELECT username FROM " . USERS_TABLE . "
                 WHERE user_id = " . $row['last_action_user_id'];
 
-            if ( !($result2 = $titanium_db->sql_query($sql2)) )
+            if ( !($result2 = $pnt_db->sql_query($sql2)) )
             {
                 message_die(GENERAL_ERROR, 'Could not get last action user id information', '', __LINE__, __FILE__, $sql2);
             }
 
-            $row2 = $titanium_db->sql_fetchrow($result2);
+            $row2 = $pnt_db->sql_fetchrow($result2);
 
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -509,19 +509,19 @@ function create_comments($row)
 // find which reports have their posts non-existent
 function get_reports_with_no_posts()
 {
-    global $titanium_db;
+    global $pnt_db;
 
     $sql = "SELECT pr.post_id FROM " . POST_REPORTS_TABLE . ' pr, ' . POSTS_TABLE . " p
         WHERE pr.post_id = p.post_id";
 
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not query reports', '', __LINE__, __FILE__, $sql);
     }
 
     // create an array with all the common post_ids of the reports and posts table
     $common_post_ids = array();
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
         $common_post_ids[] = $row['post_id'];
     }
@@ -530,14 +530,14 @@ function get_reports_with_no_posts()
     $sql = "SELECT report_id, post_id
         FROM " . POST_REPORTS_TABLE ;
 
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not query reports', '', __LINE__, __FILE__, $sql);
     }
 
     // find which reports exist in the reports table but do not exist in the posts table
     $delete_ids = array();
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
         if ( !in_array($row['post_id'], $common_post_ids) )
         {

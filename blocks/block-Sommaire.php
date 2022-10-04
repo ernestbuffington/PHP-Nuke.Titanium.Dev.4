@@ -33,7 +33,7 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $titanium_db, $admin, $titanium_user, $titanium_prefix, $titanium_user_prefix, $cookie, $def_module, $currentlang, $cookie, $cache;
+global $pnt_db, $admin, $pnt_user, $pnt_prefix, $pnt_user_prefix, $cookie, $def_module, $currentlang, $cookie, $cache;
 
 if (file_exists(NUKE_LANGUAGE_DIR.'Sommaire/lang-'.$currentlang.'.php')) {
     include_once(NUKE_LANGUAGE_DIR.'Sommaire/lang-'.$currentlang.'.php');
@@ -55,9 +55,9 @@ if(!($row = $cache->load('sommaire_row', 'block'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-$sql="SELECT t1.invisible, t2.main_module FROM ".$titanium_prefix."_sommaire AS t1, ".$titanium_prefix."_main AS t2 LIMIT 1";
-$result = $titanium_db->sql_query($sql);
-$row = $titanium_db->sql_fetchrow($result);
+$sql="SELECT t1.invisible, t2.main_module FROM ".$pnt_prefix."_sommaire AS t1, ".$pnt_prefix."_main AS t2 LIMIT 1";
+$result = $pnt_db->sql_query($sql);
+$row = $pnt_db->sql_fetchrow($result);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -87,12 +87,12 @@ $imgnew="new.gif";
 ///////////// on récupère les infos pour savoir si le user a des messages privés non lus /////////////////
 if ($is_user==1 && $detectPM==1) {
     $uid=intval($uid); // on sécurise l'appel à la BDD
-     $newpms = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT COUNT(*) FROM " . $titanium_prefix . "_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND (privmsgs_type='5' OR privmsgs_type='1')")); //2 requetes SQL
+     $newpms = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT COUNT(*) FROM " . $pnt_prefix . "_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND (privmsgs_type='5' OR privmsgs_type='1')")); //2 requetes SQL
 }
 // voilà, si $newpms[0]>0 --> il y a des PMs non lus //
 
 
-//////// on va mettre la liste des modules dans la variable $titanium_modules /////////////////////
+//////// on va mettre la liste des modules dans la variable $pnt_modules /////////////////////
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -101,13 +101,13 @@ if(!($tempoA = $cache->load('sommaire_tempo', 'block'))) {
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 if ($gestiongroupe==1) {
-    $sql = "SELECT title, custom_title, view, active, groups FROM ".$titanium_prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";
+    $sql = "SELECT title, custom_title, view, active, groups FROM ".$pnt_prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";
 }
 else {
-    $sql = "SELECT title, custom_title, view, active FROM ".$titanium_prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";
+    $sql = "SELECT title, custom_title, view, active FROM ".$pnt_prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";
 }
-    $titanium_modulesaffiche= $titanium_db->sql_query($sql);
-    while($tempo = $titanium_db->sql_fetchrow($titanium_modulesaffiche)) {
+    $pnt_modulesaffiche= $pnt_db->sql_query($sql);
+    while($tempo = $pnt_db->sql_fetchrow($pnt_modulesaffiche)) {
         $tempoA[] = $tempo;
     }
 /*****[BEGIN]******************************************
@@ -121,7 +121,7 @@ $cache->save('sommaire_tempo', 'block', $tempoA);
     $compteur=0;
     if (is_array($tempoA)) {
         foreach($tempoA as $tempo) {
-            $titanium_module[$compteur]= $tempo['title'];
+            $pnt_module[$compteur]= $tempo['title'];
             $customtitle[$compteur] = $tempo['custom_title'];
             $view[$compteur] = $tempo['view'];
             $active[$row['title']] = $tempo['active'];
@@ -153,9 +153,9 @@ if (!($row2A = $cache->load('sommaire_row2', 'block'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $sql2= "SELECT groupmenu, module, url, url_text, image, new, new_days, class, bold FROM ".$titanium_prefix."_sommaire_categories ORDER BY id ASC";
-    $result2= $titanium_db->sql_query($sql2);
-    while($row2=$titanium_db->sql_fetchrow($result2)) {
+    $sql2= "SELECT groupmenu, module, url, url_text, image, new, new_days, class, bold FROM ".$pnt_prefix."_sommaire_categories ORDER BY id ASC";
+    $result2= $pnt_db->sql_query($sql2);
+    while($row2=$pnt_db->sql_fetchrow($result2)) {
         $row2A[] = $row2;
     } //on récupère la première ligne de la table, et on affecte aux variables.
 /*****[BEGIN]******************************************
@@ -169,7 +169,7 @@ $cache->save('sommaire_row2', 'block', $row2A);
     $compteur=0;
     $totalcompteur=0;
     $categorie=$row2A[0]['groupmenu'];
-    $titanium_moduleinthisgroup[$categorie][$compteur]=$row2A[0]['module'];
+    $pnt_moduleinthisgroup[$categorie][$compteur]=$row2A[0]['module'];
     $linkinthisgroup[$categorie][$compteur]=$row2A[0]['url'];
     $linktextinthisgroup[$categorie][$compteur]=$row2A[0]['url_text'];
     $imageinthisgroup[$categorie][$compteur]=$row2A[0]['image'];
@@ -182,7 +182,7 @@ $cache->save('sommaire_row2', 'block', $row2A);
     $total_phpbb2_actions="sommaire_showhide('sommaire-".$row2A[0]['groupmenu']."','nok','sommaireupdown-".$row2A[0]['groupmenu']."');";
     $totalcompteur=1;
     unset($row2A[0]);
-    //    echo "{$titanium_moduleinthisgroup[$categorie][$compteur]}<br />{$linkinthisgroup[$categorie][$compteur]}<br />{$linktextinthisgroup[$categorie][$compteur]}<br />{$imageinthisgroup[$categorie][$compteur]}<br />";
+    //    echo "{$pnt_moduleinthisgroup[$categorie][$compteur]}<br />{$linkinthisgroup[$categorie][$compteur]}<br />{$linktextinthisgroup[$categorie][$compteur]}<br />{$imageinthisgroup[$categorie][$compteur]}<br />";
     if (is_array($row2A)) {
     foreach($row2A as $row2) { //ensuite on fait la même chose pour toutes les autres lignes.
         $categorie=$row2['groupmenu'];
@@ -196,7 +196,7 @@ $cache->save('sommaire_row2', 'block', $row2A);
             $total_phpbb2_actions=$total_phpbb2_actions."sommaire_showhide('sommaire-".$row2['groupmenu']."','nok','sommaireupdown-".$row2['groupmenu']."');";
             $compteur=0;
         }
-        $titanium_moduleinthisgroup[$categorie][$compteur]=$row2['module'];
+        $pnt_moduleinthisgroup[$categorie][$compteur]=$row2['module'];
         $linkinthisgroup[$categorie][$compteur]=$row2['url'];
         $linktextinthisgroup[$categorie][$compteur]=$row2['url_text'];
         $imageinthisgroup[$categorie][$compteur]=$row2['image'];
@@ -205,7 +205,7 @@ $cache->save('sommaire_row2', 'block', $row2A);
         $classinthisgroup[$categorie][$compteur]=$row2['class'];
         $grasinthisgroup[$categorie][$compteur]=$row2['bold'];
         $compteur2=$categorie;
-    //    echo "{$titanium_moduleinthisgroup[$categorie][$compteur]}<br />{$linkinthisgroup[$categorie][$compteur]}<br />{$linktextinthisgroup[$categorie][$compteur]}<br />{$imageinthisgroup[$categorie][$compteur]}<br />";
+    //    echo "{$pnt_moduleinthisgroup[$categorie][$compteur]}<br />{$linkinthisgroup[$categorie][$compteur]}<br />{$linktextinthisgroup[$categorie][$compteur]}<br />{$imageinthisgroup[$categorie][$compteur]}<br />";
     }
     }
 // --> OK, les variables ont pris la valeur adéquate de la table nuke_sommaire_categories
@@ -239,9 +239,9 @@ if (!($row3 = $cache->load('sommaire_row3', 'block'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $sql = "SELECT groupmenu, name, image, lien, hr, center, bgcolor, invisible, class, bold, new, listbox, dynamic FROM ".$titanium_prefix."_sommaire ORDER BY groupmenu ASC";
-    $result = $titanium_db->sql_query($sql);
-    while ($row = $titanium_db->sql_fetchrow($result)) {  // on va afficher chaque catégorie, puis les modules correspondants//
+    $sql = "SELECT groupmenu, name, image, lien, hr, center, bgcolor, invisible, class, bold, new, listbox, dynamic FROM ".$pnt_prefix."_sommaire ORDER BY groupmenu ASC";
+    $result = $pnt_db->sql_query($sql);
+    while ($row = $pnt_db->sql_fetchrow($result)) {  // on va afficher chaque catégorie, puis les modules correspondants//
         $row3[] = $row;
     }
 /*****[BEGIN]******************************************
@@ -296,7 +296,7 @@ $cache->save('sommaire_row3', 'block', $row3);
 
         if ($som_groupmenu <> 99) {
 
-            if ($dynamic==1 && $detectMozilla!=1 && $titanium_moduleinthisgroup[$som_groupmenu]['0'] && $som_listbox!="on") { // si on a des liens/modules dans cette catégorie (catégorie non vide), et que ce n'est pas une listbox
+            if ($dynamic==1 && $detectMozilla!=1 && $pnt_moduleinthisgroup[$som_groupmenu]['0'] && $som_listbox!="on") { // si on a des liens/modules dans cette catégorie (catégorie non vide), et que ce n'est pas une listbox
                 $reenrouletout=preg_replace("/sommaire_showhide\(\'sommaire-$som_groupmenu\',\'nok\',\'sommaireupdown-$som_groupmenu\'\);/","",$total_phpbb2_actions);
                 $action_somgroupmenu="onclick=\"$reenrouletout sommaire_showhide('sommaire-$som_groupmenu','ok','sommaireupdown-$som_groupmenu')\" style=\"cursor:pointer\""; // menu dynamique
             }
@@ -399,7 +399,7 @@ $cache->save('sommaire_row3', 'block', $row3);
                 $content.="</a>";
             }
 
-            if ($dynamic==1 && $detectMozilla!=1 && $titanium_moduleinthisgroup[$som_groupmenu]['0']) {
+            if ($dynamic==1 && $detectMozilla!=1 && $pnt_moduleinthisgroup[$som_groupmenu]['0']) {
                 $zeimage = ($som_listbox=="on") ? "null.gif" :"down.gif" ;
                 $content.="<img align=\"bottom\" id=\"sommaireupdown-$som_groupmenu\" name=\"sommaireupdown-$som_groupmenu\" src=\"$path_icon/admin/$zeimage\" border=0>";
             }
@@ -411,11 +411,11 @@ $cache->save('sommaire_row3', 'block', $row3);
         }
         $keyinthisgroup=0;
 
-        if ($som_groupmenu!=99 && !$titanium_moduleinthisgroup[$som_groupmenu]['0']) { // 15 mars 2005 : si la catégorie ne contient pas de module/lien, on doit afficher quand même le décalage de 4px !
+        if ($som_groupmenu!=99 && !$pnt_moduleinthisgroup[$som_groupmenu]['0']) { // 15 mars 2005 : si la catégorie ne contient pas de module/lien, on doit afficher quand même le décalage de 4px !
             //$content.="<tr><td bgcolor=\"$som_bgcolor\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td></td></tr></table></td></tr>";
             $content.="<tr height=\"4\" bgcolor=\"$som_bgcolor\"><td></td></tr>";
         }
-        elseif ($som_groupmenu<>99 && $titanium_moduleinthisgroup[$som_groupmenu]['0']) {
+        elseif ($som_groupmenu<>99 && $pnt_moduleinthisgroup[$som_groupmenu]['0']) {
         if ($som_listbox=="on") {// on désactive le réenroulage automatique si le menu est dynamique.
             $content.="<tr><td bgcolor=\"$som_bgcolor\"><span name=\"sommaire-$som_groupmenu\" id=\"sommaire-$som_groupmenu\"></span>";
             $aenlever="sommaire_showhide\('sommaire-".$som_groupmenu."','nok','sommaireupdown-".$som_groupmenu."'\);";
@@ -439,7 +439,7 @@ $cache->save('sommaire_row3', 'block', $row3);
             $catimagesize[0]=1; //2.1.2beta5 : corrige un problème d'affichage avec les middot pour un menu sans image
         }
 
-        while ($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]) { //on va checker si chaque module indiqué dans la catégorie en cours est installé et activé/visible //
+        while ($pnt_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]) { //on va checker si chaque module indiqué dans la catégorie en cours est installé et activé/visible //
             if ($linkinthisgroup[$som_groupmenu][$keyinthisgroup] == 'modules.php?name=wsatourney_main') {
             define('D', true);
             }
@@ -452,7 +452,7 @@ $cache->save('sommaire_row3', 'block', $row3);
             }
 
             if ($som_listbox=="on") { // gestion des listbox
-                if ($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]=="Lien externe") {
+                if ($pnt_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]=="Lien externe") {
                      // gestion multilingue : si le lien commence par 'LANG:_' alors c'est multilingue, donc on va afficher ce qui a été inscrit dans le fichier de langue.
                     if (strpos($linkinthisgroup[$som_groupmenu][$keyinthisgroup],"LANG:_")===0) {
                         $zelink_lang = str_replace("LANG:","",$linkinthisgroup[$som_groupmenu][$keyinthisgroup]);
@@ -482,24 +482,24 @@ $cache->save('sommaire_row3', 'block', $row3);
                     }//fin gestion multilingue
                     $content.= "<option value=\"".$linkinthisgroup[$som_groupmenu][$keyinthisgroup]."".$zelink."\">".$linktextinthisgroup[$som_groupmenu][$keyinthisgroup]."";
                 }
-                elseif($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]!="SOMMAIRE_HR") {
-                    for ($z=0;$z<count($titanium_module);$z++) { //pour chaque module activé et visible on va regarder où on l'affiche
-                        if ($titanium_module[$z]!=$main_module_titanium && (($is_admin===1 AND $view[$z] == 2) OR $view[$z] != 2) && $titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]==$titanium_module[$z]) {
-                            $isin = ($mod_group[$z]==0 || ($titanium_userpoints>0 && $titanium_userpoints>=$pointsneeded[$mod_group[$z]])) ? 1 : 0 ;
+                elseif($pnt_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]!="SOMMAIRE_HR") {
+                    for ($z=0;$z<count($pnt_module);$z++) { //pour chaque module activé et visible on va regarder où on l'affiche
+                        if ($pnt_module[$z]!=$main_module_titanium && (($is_admin===1 AND $view[$z] == 2) OR $view[$z] != 2) && $pnt_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]==$pnt_module[$z]) {
+                            $isin = ($mod_group[$z]==0 || ($pnt_userpoints>0 && $pnt_userpoints>=$pointsneeded[$mod_group[$z]])) ? 1 : 0 ;
                             if ($view[$z]==1 && $is_user==0 && ($invisible[0]==3 || $invisible[0]==5)) { //on n'affiche pas si c'est un visiteur et que l'on a coché 'modules invisbles' dans l'admin du sommaire
                             }
                             elseif ($view[$z]==1 && $is_user==1 && $invisible[0]==5 && $isin==0) {//on n'affiche pas si c'est un membre, qui n'est pas dans le bon groupe et que l'on a coché 'modules invisibles' dans l'admin du sommaire
                             }
                             else {// sinon OK, on affiche le module dans le drop-down.
-                            $customtitle2 = (!empty($customtitle[$z])) ? $customtitle[$z] : str_replace("_", " ", $titanium_module[$z]);
-                            $content.="<option value=\"modules.php?name=".$titanium_module[$z]."\">".$customtitle2."";
+                            $customtitle2 = (!empty($customtitle[$z])) ? $customtitle[$z] : str_replace("_", " ", $pnt_module[$z]);
+                            $content.="<option value=\"modules.php?name=".$pnt_module[$z]."\">".$customtitle2."";
                             }
                         }
                     }
                 }
             }
 			//
-            elseif($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]=="Lien externe" && !preg_match("@modules.php?name=@i", $linkinthisgroup[$som_groupmenu][$keyinthisgroup]) && !preg_match("@((http(s)?)|(ftp(s)?))://".$_SERVER['SERVER_NAME']."/modules.php\?name=@i",$linkinthisgroup[$som_groupmenu][$keyinthisgroup])) { // gestion des liens externes - v2.1.2beta5 : ajout d'un check supplémentaire pour gérer les liens externes (target blank mais sur le serveur)
+            elseif($pnt_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]=="Lien externe" && !preg_match("@modules.php?name=@i", $linkinthisgroup[$som_groupmenu][$keyinthisgroup]) && !preg_match("@((http(s)?)|(ftp(s)?))://".$_SERVER['SERVER_NAME']."/modules.php\?name=@i",$linkinthisgroup[$som_groupmenu][$keyinthisgroup])) { // gestion des liens externes - v2.1.2beta5 : ajout d'un check supplémentaire pour gérer les liens externes (target blank mais sur le serveur)
                      // gestion multilingue : si le lien commence par 'LANG:_' alors c'est multilingue, donc on va afficher ce qui a été inscrit dans le fichier de langue.
                 if (strpos($linkinthisgroup[$som_groupmenu][$keyinthisgroup],"LANG:_")===0) {
                     $zelink_lang = str_replace("LANG:","",$linkinthisgroup[$som_groupmenu][$keyinthisgroup]);
@@ -571,14 +571,14 @@ $cache->save('sommaire_row3', 'block', $row3);
                     $content.="</td></tr>\n";
                 }
             }
-            elseif ($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]=="SOMMAIRE_HR") {
+            elseif ($pnt_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]=="SOMMAIRE_HR") {
                 $content.="<tr><td colspan=2>";
                 $content.="<hr>";
                 $content.="</td></tr>\n";
             }
             else {// un module normal, ou bien un lien interne (lien externe vers une page spécifique d'un module du site)
-                for ($z=0;$z<count($titanium_module);$z++) { //pour chaque module activé et visible on va regarder où on l'affiche
-                    if ($titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]=="Lien externe") { //si c'est un lien externe, il commence par 'modules.php?name=' ==>c'est un lien vers un module du site
+                for ($z=0;$z<count($pnt_module);$z++) { //pour chaque module activé et visible on va regarder où on l'affiche
+                    if ($pnt_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]=="Lien externe") { //si c'est un lien externe, il commence par 'modules.php?name=' ==>c'est un lien vers un module du site
                         $temponomdumodule=preg_split("/&/", $linkinthisgroup[$som_groupmenu][$keyinthisgroup]);
                         if (preg_match("@((http(s)?)|(ftp(s)?))://".$_SERVER['SERVER_NAME']."/modules.php\?name=@i",$linkinthisgroup[$som_groupmenu][$keyinthisgroup])) { // v2.1.2beta5 : les liens externes target blank qui pointent vers le serveur sont traités comme des modules.
                             $nomdumodule = substr(strstr($temponomdumodule[0],'modules.php'),17);
@@ -613,13 +613,13 @@ $cache->save('sommaire_row3', 'block', $row3);
                     else {
                         $temponomdumodule=array(); //beta8 : on vide cette variable car il n'y a aucun paramètre dans l'url.
                         $targetblank="";
-                        $nomdumodule =$titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup];
-                        $customtitle2 = (!empty($customtitle[$z])) ? $customtitle[$z] : str_replace("_", " ", $titanium_module[$z]);
+                        $nomdumodule =$pnt_moduleinthisgroup[$som_groupmenu][$keyinthisgroup];
+                        $customtitle2 = (!empty($customtitle[$z])) ? $customtitle[$z] : str_replace("_", " ", $pnt_module[$z]);
                         $urldumodule = "modules.php?name=$nomdumodule";
                     }
-                    if (!($titanium_module[$z]==$main_module_titanium && $titanium_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]!="Lien externe")) { //on n'affiche pas le module en homepage, sauf s'il est appelé par un lien externe
+                    if (!($pnt_module[$z]==$main_module_titanium && $pnt_moduleinthisgroup[$som_groupmenu][$keyinthisgroup]!="Lien externe")) { //on n'affiche pas le module en homepage, sauf s'il est appelé par un lien externe
                         if (($is_admin===1 AND $view[$z] == 2) OR $view[$z] != 2) { //si on n'est pas admin et que le module est réservé aux admins, il n'apparaît pas
-                            if ($nomdumodule==$titanium_module[$z]) {
+                            if ($nomdumodule==$pnt_module[$z]) {
                                 if ($dynamic==1 && $detectMozilla!=1) {
                                     //détection améliorée de la catégorie à ouvrir
                                     $temprequesturi=preg_split('/&/',$_SERVER['REQUEST_URI']);
@@ -646,7 +646,7 @@ $cache->save('sommaire_row3', 'block', $row3);
                                 //gestion des groupes
                                 $isin=0;
                                 if ($is_user==1 && ($invisible[0]==5 || $invisible[0]==4) && $view[$z]==1){
-                                    $isin = ($mod_group[$z]==0 || ($titanium_userpoints>0 && $titanium_userpoints>=$pointsneeded[$mod_group[$z]])) ? 1 : 0 ;
+                                    $isin = ($mod_group[$z]==0 || ($pnt_userpoints>0 && $pnt_userpoints>=$pointsneeded[$mod_group[$z]])) ? 1 : 0 ;
                                 }
 
                                 if($is_user==1 && $view[$z]==1 && $invisible[0]==4 && $isin==0) {// c'est un membre, qui n'est pas dans le groupe pouvant visualiser ce module
@@ -664,7 +664,7 @@ $cache->save('sommaire_row3', 'block', $row3);
                                 }
                                 else {
 
-                                    if (($newpms[0]) AND ($titanium_module[$z] =="Private_Messages")) {
+                                    if (($newpms[0]) AND ($pnt_module[$z] =="Private_Messages")) {
                                         $disp_pmicon="<img src=\"images/blocks/email-y.gif\" height=\"10\" width=\"14\" alt=\""._SOMNEWPM."\" title=\""._SOMNEWPM."\">";
                                     }
                                     else {
@@ -675,9 +675,9 @@ $cache->save('sommaire_row3', 'block', $row3);
 
                                     if ($nomdumodule=="Downloads" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = (preg_match("/^cid=[0-9]*$/",$temponomdumodule[2])) ? " WHERE $temponomdumodule[2]" : "";
-                                        $sqlimgnew="SELECT date FROM ".$titanium_prefix."_downloads_downloads".$where." ORDER BY date DESC LIMIT 1";
-                                        $resultimgnew=$titanium_db->sql_query($sqlimgnew);
-                                        $rowimgnew = $titanium_db->sql_fetchrow($resultimgnew);
+                                        $sqlimgnew="SELECT date FROM ".$pnt_prefix."_downloads_downloads".$where." ORDER BY date DESC LIMIT 1";
+                                        $resultimgnew=$pnt_db->sql_query($sqlimgnew);
+                                        $rowimgnew = $pnt_db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['date']) {
                                             preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $rowimgnew['date'], $datetime);
                                             $zedate = mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
@@ -689,9 +689,9 @@ $cache->save('sommaire_row3', 'block', $row3);
                                     }
                                     elseif ($nomdumodule=="Web_Links" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = (preg_match("/^cid=[0-9]*$/",$temponomdumodule[2])) ? " WHERE $temponomdumodule[2]" : "";
-                                        $sqlimgnew="SELECT date FROM ".$titanium_prefix."_links_links".$where." ORDER BY date DESC LIMIT 1";
-                                        $resultimgnew=$titanium_db->sql_query($sqlimgnew);
-                                        $rowimgnew = $titanium_db->sql_fetchrow($resultimgnew);
+                                        $sqlimgnew="SELECT date FROM ".$pnt_prefix."_links_links".$where." ORDER BY date DESC LIMIT 1";
+                                        $resultimgnew=$pnt_db->sql_query($sqlimgnew);
+                                        $rowimgnew = $pnt_db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['date']) {
                                             preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $rowimgnew['date'], $datetime);
                                             $zedate = mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
@@ -703,9 +703,9 @@ $cache->save('sommaire_row3', 'block', $row3);
                                     }
                                     elseif ($nomdumodule=="Content" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = (preg_match("/^cid=[0-9]*$/",$temponomdumodule[2])) ? " WHERE $temponomdumodule[2]" : "";
-                                        $sqlimgnew="SELECT date FROM ".$titanium_prefix."_pages".$where." ORDER BY date DESC LIMIT 1";
-                                        $resultimgnew=$titanium_db->sql_query($sqlimgnew);
-                                        $rowimgnew = $titanium_db->sql_fetchrow($resultimgnew);
+                                        $sqlimgnew="SELECT date FROM ".$pnt_prefix."_pages".$where." ORDER BY date DESC LIMIT 1";
+                                        $resultimgnew=$pnt_db->sql_query($sqlimgnew);
+                                        $rowimgnew = $pnt_db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['date']) {
                                             preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $rowimgnew['date'], $datetime);
                                             $zedate = mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
@@ -717,9 +717,9 @@ $cache->save('sommaire_row3', 'block', $row3);
                                     }
                                     elseif ($nomdumodule=="Reviews" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = "";
-                                        $sqlimgnew="SELECT date FROM ".$titanium_prefix."_reviews".$where." ORDER BY date DESC LIMIT 1";
-                                        $resultimgnew=$titanium_db->sql_query($sqlimgnew);
-                                        $rowimgnew = $titanium_db->sql_fetchrow($resultimgnew);
+                                        $sqlimgnew="SELECT date FROM ".$pnt_prefix."_reviews".$where." ORDER BY date DESC LIMIT 1";
+                                        $resultimgnew=$pnt_db->sql_query($sqlimgnew);
+                                        $rowimgnew = $pnt_db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['date']) {
                                             preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})/", $rowimgnew['date'], $datetime);
                                             $zedate = mktime(0,0,0,$datetime[2],$datetime[3],$datetime[1]);
@@ -731,9 +731,9 @@ $cache->save('sommaire_row3', 'block', $row3);
                                     }
                                     elseif ($nomdumodule=="Journal" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = "";
-                                        $sqlimgnew="SELECT mdate FROM ".$titanium_prefix."_journal".$where." ORDER BY mdate DESC LIMIT 1";
-                                        $resultimgnew=$titanium_db->sql_query($sqlimgnew);
-                                        $rowimgnew = $titanium_db->sql_fetchrow($resultimgnew);
+                                        $sqlimgnew="SELECT mdate FROM ".$pnt_prefix."_journal".$where." ORDER BY mdate DESC LIMIT 1";
+                                        $resultimgnew=$pnt_db->sql_query($sqlimgnew);
+                                        $rowimgnew = $pnt_db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['mdate']) {
                                             preg_match ("/([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})/", $rowimgnew['mdate'], $datetime);
                                             $zedate = mktime(0,0,0,$datetime[1],$datetime[2],$datetime[3]);
@@ -745,9 +745,9 @@ $cache->save('sommaire_row3', 'block', $row3);
                                     }
                                     elseif ($nomdumodule=="Blog" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = (preg_match("/^new_topic=[0-9]*$/",$temponomdumodule[1])) ? " WHERE ".str_replace("new_","",$temponomdumodule[1])."" : "";
-                                        $sqlimgnew="SELECT datePublished FROM ".$titanium_prefix."_stories".$where." ORDER BY datePublished DESC LIMIT 1";
-                                        $resultimgnew=$titanium_db->sql_query($sqlimgnew);
-                                        $rowimgnew = $titanium_db->sql_fetchrow($resultimgnew);
+                                        $sqlimgnew="SELECT datePublished FROM ".$pnt_prefix."_stories".$where." ORDER BY datePublished DESC LIMIT 1";
+                                        $resultimgnew=$pnt_db->sql_query($sqlimgnew);
+                                        $rowimgnew = $pnt_db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['datePublished']) {
                                             preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $rowimgnew['datePublished'], $datetime);
                                             $zedate = mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
@@ -797,17 +797,17 @@ $cache->save('sommaire_row3', 'block', $row3);
 
     if ($som_groupmenu == 99 && $is_admin==1) { // si on est à la catégorie 99, on affiche tous les modules installés/activés/visibles qui n'ont pas été affichés dans les catégories.
         $content.="<tr><td>";
-        for ($z=0;$z<count($titanium_module);$z++) {
-            $customtitle2 = str_replace ("_"," ", $titanium_module[$z]);
+        for ($z=0;$z<count($pnt_module);$z++) {
+            $customtitle2 = str_replace ("_"," ", $pnt_module[$z]);
             if (!empty($customtitle[$z])) {
                 $customtitle2 = $customtitle[$z];
             }
-            if ($titanium_module[$z] != $main_module_titanium) {
+            if ($pnt_module[$z] != $main_module_titanium) {
                  if (($is_admin===1 AND $view[$z] == 2) OR $view[$z] != 2) {
 
                     $incategories=0;
                     for ($i=0;$i<count($totalcategorymodules);$i++) {
-                        if ($titanium_module[$z]==$totalcategorymodules[$i]) {
+                        if ($pnt_module[$z]==$totalcategorymodules[$i]) {
                             $incategories=1;
                         }
                     }
@@ -819,7 +819,7 @@ $cache->save('sommaire_row3', 'block', $row3);
                         ."<select width=\"100%\" name=\"somlistboxvisibles\" onchange=\"sommaire_envoielistbox(this.options[this.selectedIndex].value)\">"
                         ."<option value=\"select\">"._SOMSELECTALINK."";
                         }
-                            $content .= "<option value=\"modules.php?name=$titanium_module[$z]\">$customtitle2</option>\n";
+                            $content .= "<option value=\"modules.php?name=$pnt_module[$z]\">$customtitle2</option>\n";
                     }
                 }
             }
@@ -841,7 +841,7 @@ $cache->save('sommaire_row3', 'block', $row3);
 
 if ($is_admin===1) {
 
-    $key=count($titanium_module); // $key va permettre de se positionner dans $titanium_module[] pour rajouter des modules à la fin
+    $key=count($pnt_module); // $key va permettre de se positionner dans $pnt_module[] pour rajouter des modules à la fin
 
     $content .= "<br /><center><strong>"._INVISIBLEMODULES."</strong><br />";
     $content .= "<span class=\"tiny\">"._ACTIVEBUTNOTSEE."</span></center>";
@@ -849,10 +849,10 @@ if ($is_admin===1) {
         $content.="<form action=\"modules.php\" method=\"get\" name=\"sommaireformlistboxinvisibles\">"
                         ."<select name=\"somlistboxinvisibles\" onchange=\"sommaire_envoielistbox(this.options[this.selectedIndex].value)\">"
                         ."<option value=\"select\">"._SOMSELECTALINK."";
-        $sql = "SELECT title, custom_title FROM ".$titanium_prefix."_modules WHERE active='1' AND inmenu='0' AND `title` NOT LIKE '~l~%' ORDER BY title ASC";
-        $result = $titanium_db->sql_query($sql);
-        while ($row = $titanium_db->sql_fetchrow($result)) {
-            $titanium_module[$key]=$row['title'];
+        $sql = "SELECT title, custom_title FROM ".$pnt_prefix."_modules WHERE active='1' AND inmenu='0' AND `title` NOT LIKE '~l~%' ORDER BY title ASC";
+        $result = $pnt_db->sql_query($sql);
+        while ($row = $pnt_db->sql_fetchrow($result)) {
+            $pnt_module[$key]=$row['title'];
             $key++;
             $mn_title = $row['title'];
             $custom_title = $row['custom_title'];
@@ -886,9 +886,9 @@ if (!($row4 = $cache->load('sommaire_row4', 'block'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $sql = "SELECT title, custom_title FROM ".$titanium_prefix."_modules WHERE active='0' AND `title` NOT LIKE '~l~%' ORDER BY title ASC";
-        $result = $titanium_db->sql_query($sql);
-        while ($row = $titanium_db->sql_fetchrow($result)) {
+        $sql = "SELECT title, custom_title FROM ".$pnt_prefix."_modules WHERE active='0' AND `title` NOT LIKE '~l~%' ORDER BY title ASC";
+        $result = $pnt_db->sql_query($sql);
+        while ($row = $pnt_db->sql_fetchrow($result)) {
             $row4[] = $row;
         }
 /*****[BEGIN]******************************************
@@ -901,7 +901,7 @@ $cache->save('sommaire_row4', 'block', $row4);
  ******************************************************/
         if (is_array($row4)) {
         foreach($row4 as $row) {
-            $titanium_module[$key]=$row['title'];
+            $pnt_module[$key]=$row['title'];
             $key++;
             $mn_title = $row['title'];
             $custom_title = $row['custom_title'];

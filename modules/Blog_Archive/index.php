@@ -33,7 +33,7 @@ get_lang($pnt_module);
 
 function select_month() 
 {
-    global $titanium_prefix, $titanium_user_prefix, $titanium_db, $pnt_module;
+    global $pnt_prefix, $pnt_user_prefix, $pnt_db, $pnt_module;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.' '._STORIESARCHIVE);
@@ -42,13 +42,13 @@ function select_month()
 	echo '<div align="center"><span class="title"><strong>'._STORIESARCHIVE.'</strong></span><br /><br /></div>';
 	echo '<div align="center"><span class="content">'._SELECTMONTH2VIEW.'</span><br /><br /></div><br /><br />';
     
-	$result = $titanium_db->sql_query("SELECT datePublished FROM ".$titanium_prefix."_stories ORDER BY datePublished DESC");
+	$result = $pnt_db->sql_query("SELECT datePublished FROM ".$pnt_prefix."_stories ORDER BY datePublished DESC");
     
 	echo "<ul>";
 
     $thismonth = '';
     
-	while(list($time) = $titanium_db->sql_fetchrow($result)) 
+	while(list($time) = $pnt_db->sql_fetchrow($result)) 
 	{
         preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/i", $time, $getdate);
 
@@ -110,7 +110,7 @@ function select_month()
 		    $thismonth = $month;
         }
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     
 	echo "</ul>"
     ."<br /><br /><br /><div align=\"center\">"
@@ -127,7 +127,7 @@ function select_month()
 
 function show_month($year, $month, $month_l) 
 {
-    global $userinfo, $titanium_prefix, $titanium_user_prefix, $titanium_db, $bgcolor1, $bgcolor2, $titanium_user, $cookie, $sitename, $multilingual, $language, $pnt_module, $articlecomm;
+    global $userinfo, $pnt_prefix, $pnt_user_prefix, $pnt_db, $bgcolor1, $bgcolor2, $pnt_user, $cookie, $sitename, $multilingual, $language, $pnt_module, $articlecomm;
     
 	$year = intval($year);
     $month = htmlentities($month);
@@ -172,7 +172,7 @@ function show_month($year, $month, $month_l)
         ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._DATE."</strong></td>"
         ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._ACTIONS."</strong></td></tr>";
     
-	$result = $titanium_db->sql_query("SELECT sid, 
+	$result = $pnt_db->sql_query("SELECT sid, 
 	                               catid, 
 								   title, 
 						   datePublished, 
@@ -183,10 +183,10 @@ function show_month($year, $month, $month_l)
 							   alanguage, 
 							       score, 
 								 ratings 
-	FROM ".$titanium_prefix."_stories 
+	FROM ".$pnt_prefix."_stories 
 	WHERE datePublished >= '$year-$month-01 00:00:00' AND datePublished <= '$year-$month-31 23:59:59' ORDER BY sid DESC");
     
-	while ($row = $titanium_db->sql_fetchrow($result)) 
+	while ($row = $pnt_db->sql_fetchrow($result)) 
 	{
         $sid = intval($row['sid']);
         $catid = intval($row['catid']);
@@ -220,7 +220,7 @@ function show_month($year, $month, $month_l)
         } 
 		elseif ($catid != 0) 
 		{
-            $row_res = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories_cat WHERE catid='$catid'"));
+            $row_res = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT title FROM ".$pnt_prefix."_stories_cat WHERE catid='$catid'"));
             $cat_title = $row_res['title'];
             $title = "<a href=\"modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a href=\"modules.php?name=Blog&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
         }
@@ -254,19 +254,19 @@ function show_month($year, $month, $month_l)
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$time[0]</td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$actions</td></tr>";
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     
 	echo "</table>"
     ."<br /><br /><br /><hr size=\"1\" noshade>"
     ."<span class=\"content\">"._SELECTMONTH2VIEW."</span><br /><br />";
     
-	$result2 = $titanium_db->sql_query("SELECT datePublished FROM ".$titanium_prefix."_stories ORDER BY datePublished DESC");
+	$result2 = $pnt_db->sql_query("SELECT datePublished FROM ".$pnt_prefix."_stories ORDER BY datePublished DESC");
     
 	echo "<ul>";
     
 	$thismonth = '';
     
-	while($row2 = $titanium_db->sql_fetchrow($result2)) 
+	while($row2 = $pnt_db->sql_fetchrow($result2)) 
 	{
         $time = $row2['datePublished'];
         
@@ -328,7 +328,7 @@ function show_month($year, $month, $month_l)
             $thismonth = $month;
         }
     }
-    $titanium_db->sql_freeresult($result2);
+    $pnt_db->sql_freeresult($result2);
     
 	echo "</ul><br /><br /><div align=\"center\">"
     ."<form action=\"modules.php?name=Search\" method=\"post\">"
@@ -344,7 +344,7 @@ function show_month($year, $month, $month_l)
 
 function show_all($min) 
 {
-    global $titanium_prefix, $titanium_user_prefix, $titanium_db, $bgcolor1, $bgcolor2, $titanium_user, $cookie, $sitename, $multilingual, $language, $pnt_module, $userinfo;
+    global $pnt_prefix, $pnt_user_prefix, $pnt_db, $bgcolor1, $bgcolor2, $pnt_user, $cookie, $sitename, $multilingual, $language, $pnt_module, $userinfo;
 
     if (!isset($min) || (!is_numeric($min) || ((int)$min) != $min)) 
 	{
@@ -395,11 +395,11 @@ function show_all($min)
     ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._DATE."</strong></td>"
     ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._ACTIONS."</strong></td></tr>";
     
-	$result = $titanium_db->sql_query("SELECT sid, catid, title, datePublished, dateModified, comments, counter, topic, alanguage, score, ratings FROM ".$titanium_prefix."_stories ORDER BY sid DESC LIMIT $min,$max");
+	$result = $pnt_db->sql_query("SELECT sid, catid, title, datePublished, dateModified, comments, counter, topic, alanguage, score, ratings FROM ".$pnt_prefix."_stories ORDER BY sid DESC LIMIT $min,$max");
     
-	$numrows = $titanium_db->sql_numrows($titanium_db->sql_query("select * FROM ".$titanium_prefix."_stories"));
+	$numrows = $pnt_db->sql_numrows($pnt_db->sql_query("select * FROM ".$pnt_prefix."_stories"));
     
-	while($row = $titanium_db->sql_fetchrow($result)) 
+	while($row = $pnt_db->sql_fetchrow($result)) 
 	{
         $sid = intval($row['sid']);
         $catid = intval($row['catid']);
@@ -432,7 +432,7 @@ function show_all($min)
         } 
 		elseif ($catid != 0) 
 		{
-            $row_res = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories_cat WHERE catid='$catid'"));
+            $row_res = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT title FROM ".$pnt_prefix."_stories_cat WHERE catid='$catid'"));
             $cat_title = stripslashes($row_res['title']);
             $title = "<a href=\"modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a href=\"modules.php?name=Blog&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
         }
@@ -462,7 +462,7 @@ function show_all($min)
         ."<td bgcolor=\"$bgcolor1\" align=\"center\">$time[0]</td>"
         ."<td bgcolor=\"$bgcolor1\" align=\"center\">$actions</td></tr>";
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     
 	echo "</table>"
     ."<br /><br /><br />";
@@ -491,13 +491,13 @@ function show_all($min)
 	echo "<hr size=\"1\" noshade>"
     ."<span class=\"content\">"._SELECTMONTH2VIEW."</span><br /><br />";
    
-    $result2 = $titanium_db->sql_query("SELECT datePublished FROM ".$titanium_prefix."_stories ORDER BY datePublished DESC");
+    $result2 = $pnt_db->sql_query("SELECT datePublished FROM ".$pnt_prefix."_stories ORDER BY datePublished DESC");
    
     echo "<ul>";
    
     $thismonth = "";
    
-    while(list($time) = $titanium_db->sql_fetchrow($result)) 
+    while(list($time) = $pnt_db->sql_fetchrow($result)) 
 	{
         preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/i", $time, $getdate);
     
@@ -557,7 +557,7 @@ function show_all($min)
             $thismonth = $month;
         }
     }
-    $titanium_db->sql_freeresult($result2);
+    $pnt_db->sql_freeresult($result2);
     
 	echo "</ul><br /><br /><div align=\"center\">"
     ."<form action=\"modules.php?name=Search\" method=\"post\">"

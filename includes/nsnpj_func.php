@@ -17,7 +17,7 @@
 
 if(realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])){exit('Access Denied');}
 
-global $titanium_db2;
+global $pnt_db2;
 
 define('NETWORK_SUPPORT_FUNC', true);
 # Load required scripts
@@ -35,11 +35,11 @@ function pjget_configs()
 {
   if(defined('network')):
 
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
 
-  $configresult = $titanium_db2->sql_query("SELECT `config_name`, `config_value` FROM `".$network_prefix."_config`");
+  $configresult = $pnt_db2->sql_query("SELECT `config_name`, `config_value` FROM `".$network_prefix."_config`");
   
-  while(list($config_name, $config_value) = $titanium_db2->sql_fetchrow($configresult)): 
+  while(list($config_name, $config_value) = $pnt_db2->sql_fetchrow($configresult)): 
     $config[$config_name] = $config_value;
   endwhile;
   
@@ -173,81 +173,81 @@ function pjprogress($percent)
 
 function pjmember_info($member_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
   $member_id = intval($member_id);
-  $member = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_members` WHERE `member_id`='$member_id'"));
+  $member = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_members` WHERE `member_id`='$member_id'"));
   return $member;
 }
 
 function pjmemberposition_info($position_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
 
   $position_id = intval($position_id);
-  $position = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_members_positions` WHERE `position_id`='$position_id'"));
+  $position = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_members_positions` WHERE `position_id`='$position_id'"));
 
   return $position;
 }
 
 function pjproject_info($project_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
   $project_id = intval($project_id);
-  $project = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'"));
+  $project = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'"));
   return $project;
 }
 
 function pjprojectpriority_info($priority_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
   $priority_id = intval($priority_id);
-  $priority = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_projects_priorities` WHERE `priority_id`='$priority_id'"));
+  $priority = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_projects_priorities` WHERE `priority_id`='$priority_id'"));
   return $priority;
 }
 
 function pjprojectstatus_info($status_id){
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
   $status_id = intval($status_id);
-  $status = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_projects_status` WHERE `status_id`='$status_id'"));
+  $status = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_projects_status` WHERE `status_id`='$status_id'"));
   return $status;
 }
 
 function pjtask_info($task_id){
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
   $task_id = intval($task_id);
-  $task = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_tasks` WHERE `task_id`='$task_id'"));
+  $task = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_tasks` WHERE `task_id`='$task_id'"));
   return $task;
 }
 
 function pjtaskpriority_info($priority_id){
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
   $priority_id = intval($priority_id);
-  $priority = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_tasks_priorities` WHERE `priority_id`='$priority_id'"));
+  $priority = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_tasks_priorities` WHERE `priority_id`='$priority_id'"));
   return $priority;
 }
 
 function pjtaskstatus_info($status_id){
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
   $status_id = intval($status_id);
-  $status = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_tasks_status` WHERE `status_id`='$status_id'"));
+  $status = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_tasks_status` WHERE `status_id`='$status_id'"));
   return $status;
 }
 
 function pjprojectpercent_info($project_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
 
   $project_id = intval($project_id);
 
-  $project = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'"));
+  $project = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'"));
 
-  $percentresult = $titanium_db2->sql_query("SELECT `task_percent`, `priority_id` FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id'");
+  $percentresult = $pnt_db2->sql_query("SELECT `task_percent`, `priority_id` FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id'");
 
-  $percentnumber = $titanium_db2->sql_numrows($percentresult);
+  $percentnumber = $pnt_db2->sql_numrows($percentresult);
 
   if($project['project_percent'] == 0 AND $percentnumber > 0): 
     $percentoverall = $percentfactor = 0;
-    while(list($task_percent, $priority_id) = $titanium_db2->sql_fetchrow($percentresult)): 
+    while(list($task_percent, $priority_id) = $pnt_db2->sql_fetchrow($percentresult)): 
       $taskpriority = pjtaskpriority_info($priority_id);
 	  if($taskpriority['priority_weight'] > 0): 
         $percentoverall = $percentoverall + ($task_percent * $taskpriority['priority_weight']);
@@ -272,16 +272,16 @@ function pjencode_email($email_address)
 
 function pjsave_config($config_name, $config_value)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
   
-  $resultnum = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_config` WHERE `config_name`='$config_name'"));
+  $resultnum = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_config` WHERE `config_name`='$config_name'"));
   
   if($resultnum < 1) 
-    $titanium_db2->sql_query("INSERT INTO `".$network_prefix."_config` (`config_name`, `config_value`) VALUES ('$config_name', '$config_value')");
+    $pnt_db2->sql_query("INSERT INTO `".$network_prefix."_config` (`config_name`, `config_value`) VALUES ('$config_name', '$config_value')");
   else 
-    $titanium_db2->sql_query("UPDATE `".$network_prefix."_config` SET `config_value`='$config_value' WHERE `config_name`='$config_name'");
+    $pnt_db2->sql_query("UPDATE `".$network_prefix."_config` SET `config_value`='$config_value' WHERE `config_name`='$config_name'");
    
-   $titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_config`");
+   $pnt_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_config`");
 }
 
 function pjunhtmlentities($string) 
@@ -293,78 +293,78 @@ function pjunhtmlentities($string)
 
 function pjreport_info($report_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
   $report_id = intval($report_id);
-  $report = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_reports` WHERE `report_id`='$report_id'"));
+  $report = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_reports` WHERE `report_id`='$report_id'"));
   return $report;
 }
 
 function pjreportcomment_info($comment_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
 
   $comment_id = intval($comment_id);
-  $reportcomment = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_comments` WHERE `comment_id`='$comment_id'"));
+  $reportcomment = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_comments` WHERE `comment_id`='$comment_id'"));
 
   return $reportcomment;
 }
 
 function pjreportstatus_info($status_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
 
   $status_id = intval($status_id);
-  $reportstatus = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_status` WHERE `status_id`='$status_id'"));
+  $reportstatus = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_status` WHERE `status_id`='$status_id'"));
 
   return $reportstatus;
 }
 
 function pjreporttype_info($type_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
 
   $type_id = intval($type_id);
-  $reporttype = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_types` WHERE `type_id`='$type_id'"));
+  $reporttype = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_types` WHERE `type_id`='$type_id'"));
 
   return $reporttype;
 }
 
 function pjrequest_info($request_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
 
   $request_id = intval($request_id);
-  $request = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests` WHERE `request_id`='$request_id'"));
+  $request = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_requests` WHERE `request_id`='$request_id'"));
 
   return $request;
 }
 
 function pjrequestcomment_info($comment_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
 
   $comment_id = intval($comment_id);
-  $requestcomment = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_comments` WHERE `comment_id`='$comment_id'"));
+  $requestcomment = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_comments` WHERE `comment_id`='$comment_id'"));
 
   return $requestcomment;
 }
 
 function pjrequeststatus_info($status_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
 
   $status_id = intval($status_id);
-  $requeststatus = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_status` WHERE `status_id`='$status_id'"));
+  $requeststatus = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_status` WHERE `status_id`='$status_id'"));
 
   return $requeststatus;
 }
 
 function pjrequesttype_info($type_id)
 {
-  global $network_prefix, $titanium_db2;
+  global $network_prefix, $pnt_db2;
 
   $type_id = intval($type_id);
-  $requesttype = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_types` WHERE `type_id`='$type_id'"));
+  $requesttype = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_types` WHERE `type_id`='$type_id'"));
 
   return $requesttype;
 }

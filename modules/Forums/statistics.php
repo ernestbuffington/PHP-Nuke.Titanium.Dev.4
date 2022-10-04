@@ -44,7 +44,7 @@ define('IN_PHPBB2', true);
 include($phpbb2_root_path . 'extension.inc');
 include($phpbb2_root_path . 'common.'.$phpEx);
 
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
 titanium_init_userprefs($userdata);
 
 include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
@@ -64,18 +64,18 @@ if (STATS_DEBUG)
 $sql = 'SELECT *
         FROM ' . STATS_CONFIG_TABLE;
 
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $titanium_db->sql_fetchrow($result))
+while ($row = $pnt_db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 init_core();
 
@@ -91,12 +91,12 @@ else
 if ($preview_module == -1 || $preview_module == 0 || $userdata['user_level'] != ADMIN)
 {
     // Get all module informations about activated modules
-    $titanium_modules = get_modules();
+    $pnt_modules = get_modules();
 }
 else
 {
     // Get all module informations about given module_id (activated or not)
-    $titanium_modules = get_modules(false, $preview_module);
+    $pnt_modules = get_modules(false, $preview_module);
     $core->do_not_use_cache = TRUE;
 }
 
@@ -183,16 +183,16 @@ if ($development)
 }
 
 $iterate_index = 0;
-$iterate_end = count($titanium_modules);
+$iterate_end = count($pnt_modules);
 
 while ($iterate_index < $iterate_end)
 {
     $first_iterate = ($iterate_index == 0 && !$development) ? TRUE : FALSE;
     $last_iterate = ($iterate_index == $iterate_end-1) ? TRUE : FALSE;
 
-    $core->current_module_path = $phpbb2_root_path . 'modules/' . trim($titanium_modules[$iterate_index]['short_name']) . '/';
-    $core->current_module_name = trim($titanium_modules[$iterate_index]['short_name']);
-    $core->current_module_id = intval($titanium_modules[$iterate_index]['module_id']);
+    $core->current_module_path = $phpbb2_root_path . 'modules/' . trim($pnt_modules[$iterate_index]['short_name']) . '/';
+    $core->current_module_name = trim($pnt_modules[$iterate_index]['short_name']);
+    $core->current_module_id = intval($pnt_modules[$iterate_index]['module_id']);
 
     // Set Language
     $keys = array();
@@ -222,7 +222,7 @@ $sql = "UPDATE " . STATS_CONFIG_TABLE . "
 SET config_value = " . (intval($stats_config['page_views']) + 1) . "
 WHERE (config_name = 'page_views')";
 
-if (!$titanium_db->sql_query($sql))
+if (!$pnt_db->sql_query($sql))
 {
     message_die(GENERAL_ERROR, 'Unable to Update View Counter', '', __LINE__, __FILE__, $sql);
 }

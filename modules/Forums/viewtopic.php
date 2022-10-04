@@ -139,12 +139,12 @@ if(isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL])):
    
       if(isset($HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'].'_sid']) || isset($HTTP_GET_VARS['sid'])):
       
-         $titanium_session_id = isset($HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'] . '_sid']) ? $HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'] . '_sid'] : $HTTP_GET_VARS['sid'];
+         $pnt_session_id = isset($HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'] . '_sid']) ? $HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'] . '_sid'] : $HTTP_GET_VARS['sid'];
 
-         if (!preg_match('/^[A-Za-z0-9]*$/', $titanium_session_id))
-         $titanium_session_id = '';
+         if (!preg_match('/^[A-Za-z0-9]*$/', $pnt_session_id))
+         $pnt_session_id = '';
 
-         if($titanium_session_id):
+         if($pnt_session_id):
          
             # Mod: 'View Newest Post'-Fix v1.0.2 START
             $phpbb2_tracking_topics = (isset($HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'].'_t']) ) ? unserialize($HTTP_COOKIE_VARS[$phpbb2_board_config['cookie_name'].'_t']) : array();
@@ -159,21 +159,21 @@ if(isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL])):
 
             $sql = "SELECT p.post_id, p.post_time
             FROM (".POSTS_TABLE." p, ".SESSIONS_TABLE." s,  ".USERS_TABLE." u)
-            WHERE s.session_id = '$titanium_session_id'
+            WHERE s.session_id = '$pnt_session_id'
             AND u.user_id = s.session_user_id
             AND p.topic_id = ".intval($topic_id)."
             AND p.post_time >= ".$topic_last_read."
             LIMIT 1";
 
-            if(!($result = $titanium_db->sql_query($sql)))
+            if(!($result = $pnt_db->sql_query($sql)))
             message_die(GENERAL_ERROR, 'Could not obtain newer/older topic information', '', __LINE__, __FILE__, $sql);
 
-            if(!($row = $titanium_db->sql_fetchrow($result))):
+            if(!($row = $pnt_db->sql_fetchrow($result))):
                $sql = "SELECT topic_last_post_id as post_id FROM ".TOPICS_TABLE." WHERE topic_id = ".intval($topic_id);
-               if(!($result = $titanium_db->sql_query($sql)))
+               if(!($result = $pnt_db->sql_query($sql)))
                message_die(GENERAL_ERROR, 'Could not obtain newer/older topic information', '', __LINE__, __FILE__, $sql);
 
-               if(!($row = $titanium_db->sql_fetchrow($result)))
+               if(!($row = $pnt_db->sql_fetchrow($result)))
                message_die(GENERAL_MESSAGE, 'No_new_posts_last_visit');
             endif;
             # Mod: 'View Newest Post'-Fix v1.0.2 END
@@ -181,7 +181,7 @@ if(isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL])):
             $post_id = $row['post_id'];
 
             if(isset($HTTP_GET_VARS['sid']))
-            redirect_titanium(append_titanium_sid("viewtopic.$phpEx?sid=$titanium_session_id&".POST_POST_URL."=$post_id#$post_id",true));
+            redirect_titanium(append_titanium_sid("viewtopic.$phpEx?sid=$pnt_session_id&".POST_POST_URL."=$post_id#$post_id",true));
             else
             redirect_titanium(append_titanium_sid("viewtopic.$phpEx?".POST_POST_URL ."=$post_id#$post_id",true));
          endif;
@@ -204,10 +204,10 @@ if(isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL])):
       ORDER BY t.topic_last_post_id $sql_ordering
       LIMIT 1";
       
-	  if(!($result = $titanium_db->sql_query($sql)))
+	  if(!($result = $pnt_db->sql_query($sql)))
       message_die(GENERAL_ERROR, "Could not obtain newer/older topic information", '', __LINE__, __FILE__, $sql);
 
-      if ( $row = $titanium_db->sql_fetchrow($result)):
+      if ( $row = $pnt_db->sql_fetchrow($result)):
       $topic_id = intval($row['topic_id']);
       else:
          $message = ( $HTTP_GET_VARS['view'] == 'next' ) ? 'No_newer_topics' : 'No_older_topics';
@@ -279,10 +279,10 @@ $sql = "SELECT t.topic_id,
 attach_setup_viewtopic_auth($order_sql, $sql);
 # Mod: Attachment Mod v2.4.1 END
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 message_die(GENERAL_ERROR, "Could not obtain topic information", '', __LINE__, __FILE__, $sql);
 
-if ( !($forum_topic_data = $titanium_db->sql_fetchrow($result)) )
+if ( !($forum_topic_data = $pnt_db->sql_fetchrow($result)) )
 message_die(GENERAL_MESSAGE, 'Topic_post_not_exist');
 
 $phpbb2_forum_id = intval($forum_topic_data['forum_id']);
@@ -297,10 +297,10 @@ $sql = "SELECT `forum_thank`
 		FROM ".FORUMS_TABLE." 
 		WHERE forum_id = $phpbb2_forum_id";
 		
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 message_die(GENERAL_ERROR, "Could not obtain forum information", '', __LINE__, __FILE__, $sql);
 
-if ( !($forum_thank_result = $titanium_db->sql_fetchrow($result)) )
+if ( !($forum_thank_result = $pnt_db->sql_fetchrow($result)) )
 message_die(GENERAL_MESSAGE, $lang['thank_no_exist']);
 
 # Setting if feature is active or not 
@@ -309,7 +309,7 @@ $show_thanks = ($forum_thank_result['forum_thank'] == FORUM_THANKABLE) ? FORUM_T
 # Mod: Thank You Mod v1.1.8 END
 
 # Start session management
-$userdata = titanium_session_pagestart($titanium_user_ip, $phpbb2_forum_id);
+$userdata = titanium_session_pagestart($pnt_user_ip, $phpbb2_forum_id);
 titanium_init_userprefs($userdata);
 # End session management
 
@@ -338,11 +338,11 @@ endif;
 # auth check END
 
 # Base: Who viewed a topic v1.0.3 START
-$titanium_user_id=$userdata['user_id'];
-$sql='UPDATE '.TOPIC_VIEW_TABLE.' SET topic_id="'.$topic_id.'", view_time="'.time().'", view_count=view_count+1 WHERE topic_id='.$topic_id.' AND user_id='.$titanium_user_id;
-if ( !$titanium_db->sql_query($sql) || !$titanium_db->sql_affectedrows()):
-    $sql = 'INSERT IGNORE INTO '.TOPIC_VIEW_TABLE.' (topic_id, user_id, view_time,view_count) VALUES ('.$topic_id.', "'.$titanium_user_id.'", "'.time().'","1")';
-    if ( !($titanium_db->sql_query($sql)) )
+$pnt_user_id=$userdata['user_id'];
+$sql='UPDATE '.TOPIC_VIEW_TABLE.' SET topic_id="'.$topic_id.'", view_time="'.time().'", view_count=view_count+1 WHERE topic_id='.$topic_id.' AND user_id='.$pnt_user_id;
+if ( !$pnt_db->sql_query($sql) || !$pnt_db->sql_affectedrows()):
+    $sql = 'INSERT IGNORE INTO '.TOPIC_VIEW_TABLE.' (topic_id, user_id, view_time,view_count) VALUES ('.$topic_id.', "'.$pnt_user_id.'", "'.time().'","1")';
+    if ( !($pnt_db->sql_query($sql)) )
     message_die(CRITICAL_ERROR, 'Error create user view topic information ', '', __LINE__, __FILE__, $sql);
 endif;
 # Base: Who viewed a topic v1.0.3 END
@@ -448,10 +448,10 @@ if($userdata['session_logged_in']):
                 WHERE topic_id = '$topic_id'
                 AND user_id = ".$userdata['user_id'];
         
-		if(!($result = $titanium_db->sql_query($sql)))
+		if(!($result = $pnt_db->sql_query($sql)))
         message_die(GENERAL_ERROR, "Could not obtain topic watch information", '', __LINE__, __FILE__, $sql);
 
-        if($row = $titanium_db->sql_fetchrow($result)):
+        if($row = $pnt_db->sql_fetchrow($result)):
         
            if(isset($HTTP_GET_VARS['unwatch'])):
            
@@ -462,7 +462,7 @@ if($userdata['session_logged_in']):
                  WHERE topic_id = '$topic_id'
                  AND user_id = " . $userdata['user_id'];
                  
-				 if(!($result = $titanium_db->sql_query($sql)))
+				 if(!($result = $pnt_db->sql_query($sql)))
                  message_die(GENERAL_ERROR, "Could not delete topic watch information", '', __LINE__, __FILE__, $sql);
               endif;
                  $phpbb2_template->assign_vars(array(
@@ -480,7 +480,7 @@ if($userdata['session_logged_in']):
                  WHERE topic_id = '$topic_id'
                  AND user_id = ".$userdata['user_id'];
                  
-				 if ( !($result = $titanium_db->sql_query($sql)) )
+				 if ( !($result = $pnt_db->sql_query($sql)) )
                  message_die(GENERAL_ERROR, "Could not update topic watch information", '', __LINE__, __FILE__, $sql);
               endif;
            endif;
@@ -491,7 +491,7 @@ if($userdata['session_logged_in']):
                  $sql_priority = (SQL_LAYER == "mysql" || SQL_LAYER == "mysqli") ? "LOW_PRIORITY" : '';
                  $sql = "INSERT $sql_priority INTO ".TOPICS_WATCH_TABLE." (user_id, topic_id, notify_status)
                  VALUES (" . $userdata['user_id'] . ", '$topic_id', '0')";
-		         if(!($result = $titanium_db->sql_query($sql)))
+		         if(!($result = $pnt_db->sql_query($sql)))
                  message_die(GENERAL_ERROR, "Could not insert topic watch information", '', __LINE__, __FILE__, $sql);
               endif;
               $phpbb2_template->assign_vars(array('META' => '<meta http-equiv="refresh" content="3;url='.append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;start=$phpbb2_start").'">'));
@@ -525,8 +525,8 @@ if($userdata['session_logged_in']):
 		FROM " . POSTS_TABLE . " p
 		WHERE p.topic_id = $topic_id
 		AND p.poster_id = " . $userdata['user_id'];
-	$resultat = $titanium_db->sql_query($sql);
-	$valid = $titanium_db->sql_numrows($resultat) ? TRUE : FALSE;
+	$resultat = $pnt_db->sql_query($sql);
+	$valid = $pnt_db->sql_numrows($resultat) ? TRUE : FALSE;
 endif;
 # Mod: Hide Mod v1.2.0 END
 
@@ -543,11 +543,11 @@ if(!empty($HTTP_POST_VARS['postdays']) || !empty($HTTP_GET_VARS['postdays'])):
                 AND p.topic_id = t.topic_id
                 AND p.post_time >= '$min_post_time'";
  
-        if(!($result = $titanium_db->sql_query($sql))):
+        if(!($result = $pnt_db->sql_query($sql))):
         message_die(GENERAL_ERROR, "Could not obtain limited topics count information", '', __LINE__, __FILE__, $sql);
         endif;
        
-	    $total_phpbb2_replies = ($row = $titanium_db->sql_fetchrow($result)) ? intval($row['num_posts']) : 0;
+	    $total_phpbb2_replies = ($row = $pnt_db->sql_fetchrow($result)) ? intval($row['num_posts']) : 0;
 
         $limit_posts_time = "AND p.post_time >= $min_post_time ";
 
@@ -648,17 +648,17 @@ $sql = "SELECT u.username,
  # Mod: Birthdays v3.0.0 END
  # Mod: Users Reputations System v1.0.0 END
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 message_die(GENERAL_ERROR, "Could not obtain post/user information.", '', __LINE__, __FILE__, $sql);
 
 $postrow = array();
 
-if ($row = $titanium_db->sql_fetchrow($result)):
+if ($row = $pnt_db->sql_fetchrow($result)):
         do{
         $postrow[] = $row;
         }
-        while($row = $titanium_db->sql_fetchrow($result));
-        $titanium_db->sql_freeresult($result);
+        while($row = $pnt_db->sql_fetchrow($result));
+        $pnt_db->sql_freeresult($result);
         $phpbb2_total_posts = count($postrow);
 else:
    include("includes/functions_admin.php");
@@ -683,8 +683,8 @@ endif;
 if($resync):
    include("includes/functions_admin.php");
    sync('topic', $topic_id);
-   $result = $titanium_db->sql_query('SELECT COUNT(post_id) AS total FROM '.POSTS_TABLE.' WHERE topic_id = '.$topic_id);
-   $row = $titanium_db->sql_fetchrow($result);
+   $result = $pnt_db->sql_query('SELECT COUNT(post_id) AS total FROM '.POSTS_TABLE.' WHERE topic_id = '.$topic_id);
+   $row = $pnt_db->sql_fetchrow($result);
    $total_phpbb2_replies = $row['total'];
 endif;
 
@@ -741,15 +741,15 @@ $who_has_viewed_topic = append_titanium_sid("viewtopic_whoview.$phpEx?".POST_TOP
 # Base: Who viewed a topic v1.0.3 END
 
 # Mozilla navigation bar
-$titanium_nav_links['prev'] = array(
+$pnt_nav_links['prev'] = array(
           'url' => $view_prev_topic_url,
         'title' => $lang['View_previous_topic']
 );
-$titanium_nav_links['next'] = array(
+$pnt_nav_links['next'] = array(
           'url' => $view_next_topic_url,
         'title' => $lang['View_next_topic']
 );
-$titanium_nav_links['up'] = array(
+$pnt_nav_links['up'] = array(
           'url' => $view_forum_url,
         'title' => $forum_name
 );
@@ -1117,12 +1117,12 @@ if(!empty($forum_topic_data['topic_vote'])):
                         AND vr.vote_id = vd.vote_id
                 ORDER BY vr.vote_option_id ASC";
         
-		if(!($result = $titanium_db->sql_query($sql)))
+		if(!($result = $pnt_db->sql_query($sql)))
         message_die(GENERAL_ERROR, "Could not obtain vote data for this topic", '', __LINE__, __FILE__, $sql);
 
-        if($vote_info = $titanium_db->sql_fetchrowset($result)):
+        if($vote_info = $pnt_db->sql_fetchrowset($result)):
         
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
                 $vote_options = count($vote_info);
 
                 $vote_id = $vote_info[0]['vote_id'];
@@ -1140,11 +1140,11 @@ if(!empty($forum_topic_data['topic_vote'])):
                         WHERE vote_id = '$vote_id'
                         AND vote_user_id = " . intval($userdata['user_id']);
                 
-				if(!($result = $titanium_db->sql_query($sql)))
+				if(!($result = $pnt_db->sql_query($sql)))
                 message_die(GENERAL_ERROR, "Could not obtain user vote data for this topic", '', __LINE__, __FILE__, $sql);
 
-                $titanium_user_voted = ($row = $titanium_db->sql_fetchrow($result)) ? TRUE : 0;
-                $titanium_db->sql_freeresult($result);
+                $pnt_user_voted = ($row = $pnt_db->sql_fetchrow($result)) ? TRUE : 0;
+                $pnt_db->sql_freeresult($result);
 
                 if( isset($HTTP_GET_VARS['vote']) || isset($HTTP_POST_VARS['vote']))
                 $view_result = (((isset($HTTP_GET_VARS['vote'])) ? $HTTP_GET_VARS['vote'] : $HTTP_POST_VARS['vote']) == 'viewresult') ? TRUE : 0;
@@ -1153,11 +1153,11 @@ if(!empty($forum_topic_data['topic_vote'])):
 
                 $poll_expired = ($vote_info[0]['vote_length']) ? (($vote_info[0]['vote_start'] + $vote_info[0]['vote_length'] < time()) ? TRUE : 0) : 0;
 
-                if ($titanium_user_voted || $view_result || $poll_expired || !$phpbb2_is_auth['auth_vote'] || $forum_topic_data['topic_status'] == TOPIC_LOCKED):
+                if ($pnt_user_voted || $view_result || $poll_expired || !$phpbb2_is_auth['auth_vote'] || $forum_topic_data['topic_status'] == TOPIC_LOCKED):
                 
                      # Mod: Must first vote to see Results v1.0.0 START
                      # If poll is over, allow results to be viewed by all.
-                     if (!$titanium_user_voted && !$poll_view_toggle && $view_result && !$poll_expired) 
+                     if (!$pnt_user_voted && !$poll_view_toggle && $view_result && !$poll_expired) 
                      message_die(GENERAL_ERROR, $lang['must_first_vote']);
                      # Mod: Must first vote to see Results v1.0.0 START
 
@@ -1232,7 +1232,7 @@ if(!empty($forum_topic_data['topic_vote'])):
                                 'L_SUBMIT_VOTE' => $lang['Submit_vote'],
 
                                  # Mod: Must first vote to see Results v1.0.0 START
-                                'L_VIEW_RESULTS' => (!$titanium_user_voted && $poll_view_toggle) ? $lang['View_results'] : '',
+                                'L_VIEW_RESULTS' => (!$pnt_user_voted && $poll_view_toggle) ? $lang['View_results'] : '',
                                  # Mod: Must first vote to see Results v1.0.0 END
 
                                 'U_VIEW_RESULTS' => append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;postdays=$post_days&amp;postorder=$post_order&amp;vote=viewresult"))
@@ -1267,7 +1267,7 @@ $sql = "UPDATE ".TOPICS_TABLE."
         SET topic_views = topic_views + 1
         WHERE topic_id = '$topic_id'";
 
-if(!$titanium_db->sql_query($sql))
+if(!$pnt_db->sql_query($sql))
 message_die(GENERAL_ERROR, "Could not update topic views.", '', __LINE__, __FILE__, $sql);
 
 
@@ -1282,15 +1282,15 @@ if ($show_thanks == FORUM_THANKABLE):
 		 WHERE topic_id = $topic_id
 		 AND t.user_id = u.user_id";
 
-	if(!($result = $titanium_db->sql_query($sql)))
+	if(!($result = $pnt_db->sql_query($sql)))
     message_die(GENERAL_ERROR, "Could not obtain thanks information", '', __LINE__, __FILE__, $sql);
 
-	$total_phpbb2_thank = $titanium_db->sql_numrows($result);
+	$total_phpbb2_thank = $pnt_db->sql_numrows($result);
 	$thanksrow = array();
-	$thanksrow = $titanium_db->sql_fetchrowset($result);
+	$thanksrow = $pnt_db->sql_fetchrowset($result);
 
 	for($i = 0; $i < $total_phpbb2_thank; $i++):
-		$topic_thanks = $titanium_db->sql_fetchrow($result);
+		$topic_thanks = $pnt_db->sql_fetchrow($result);
 		$thanker_id[$i] = $thanksrow[$i]['user_id'];
 		$thanker_name[$i] = $thanksrow[$i]['username'];
 		$thanks_date[$i] = $thanksrow[$i]['thanks_time'];
@@ -1311,10 +1311,10 @@ if ($show_thanks == FORUM_THANKABLE):
 			WHERE topic_id = $topic_id
 			AND u.topic_poster = t.user_id";
 
-	if(!($result = $titanium_db->sql_query($sql)))
+	if(!($result = $pnt_db->sql_query($sql)))
     message_die(GENERAL_ERROR, "Could not obtain user information", '', __LINE__, __FILE__, $sql);
 
-	if( !($autor = $titanium_db->sql_fetchrowset($result)) )
+	if( !($autor = $pnt_db->sql_fetchrowset($result)) )
 	message_die(GENERAL_ERROR, "Could not obtain user information", '', __LINE__, __FILE__, $sql);
 
 	$autor_name = $autor[0]['username'];
@@ -1472,17 +1472,17 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
         # Mod: Gender v1.2.6 END
 
         # Mod: Multiple Ranks And Staff View v2.0.3 START
-		$titanium_user_ranks = generate_ranks($postrow[$i], $ranks_sql);
-		$titanium_user_rank_01 = ($titanium_user_ranks['rank_01'] == '') ? '' : ($titanium_user_ranks['rank_01'] . '<br />');
-		$titanium_user_rank_01_img = ($titanium_user_ranks['rank_01_img'] == '') ? '' : ($titanium_user_ranks['rank_01_img'].'<br />');
-		$titanium_user_rank_02 = ($titanium_user_ranks['rank_02'] == '') ? '' : ($titanium_user_ranks['rank_02'] . '<br />');
-		$titanium_user_rank_02_img = ($titanium_user_ranks['rank_02_img'] == '') ? '' : ($titanium_user_ranks['rank_02_img'].'<br />');
-		$titanium_user_rank_03 = ($titanium_user_ranks['rank_03'] == '') ? '' : ($titanium_user_ranks['rank_03'] . '<br />');
-		$titanium_user_rank_03_img = ($titanium_user_ranks['rank_03_img'] == '') ? '' : ($titanium_user_ranks['rank_03_img'].'<br />');
-		$titanium_user_rank_04 = ($titanium_user_ranks['rank_04'] == '') ? '' : ($titanium_user_ranks['rank_04'] . '<br />');
-		$titanium_user_rank_04_img = ($titanium_user_ranks['rank_04_img'] == '') ? '' : ($titanium_user_ranks['rank_04_img'].'<br />');
-		$titanium_user_rank_05 = ($titanium_user_ranks['rank_05'] == '') ? '' : ($titanium_user_ranks['rank_05'] . '<br />');
-		$titanium_user_rank_05_img = ($titanium_user_ranks['rank_05_img'] == '') ? '' : ($titanium_user_ranks['rank_05_img'].'<br />');
+		$pnt_user_ranks = generate_ranks($postrow[$i], $ranks_sql);
+		$pnt_user_rank_01 = ($pnt_user_ranks['rank_01'] == '') ? '' : ($pnt_user_ranks['rank_01'] . '<br />');
+		$pnt_user_rank_01_img = ($pnt_user_ranks['rank_01_img'] == '') ? '' : ($pnt_user_ranks['rank_01_img'].'<br />');
+		$pnt_user_rank_02 = ($pnt_user_ranks['rank_02'] == '') ? '' : ($pnt_user_ranks['rank_02'] . '<br />');
+		$pnt_user_rank_02_img = ($pnt_user_ranks['rank_02_img'] == '') ? '' : ($pnt_user_ranks['rank_02_img'].'<br />');
+		$pnt_user_rank_03 = ($pnt_user_ranks['rank_03'] == '') ? '' : ($pnt_user_ranks['rank_03'] . '<br />');
+		$pnt_user_rank_03_img = ($pnt_user_ranks['rank_03_img'] == '') ? '' : ($pnt_user_ranks['rank_03_img'].'<br />');
+		$pnt_user_rank_04 = ($pnt_user_ranks['rank_04'] == '') ? '' : ($pnt_user_ranks['rank_04'] . '<br />');
+		$pnt_user_rank_04_img = ($pnt_user_ranks['rank_04_img'] == '') ? '' : ($pnt_user_ranks['rank_04_img'].'<br />');
+		$pnt_user_rank_05 = ($pnt_user_ranks['rank_05'] == '') ? '' : ($pnt_user_ranks['rank_05'] . '<br />');
+		$pnt_user_rank_05_img = ($pnt_user_ranks['rank_05_img'] == '') ? '' : ($pnt_user_ranks['rank_05_img'].'<br />');
         # Mod: Multiple Ranks And Staff View v2.0.3 END
 
         {
@@ -1498,7 +1498,7 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
         # Handle anon users posting with usernames
         if ( $poster_id == ANONYMOUS && !empty($postrow[$i]['post_username'])):
                 $poster = $postrow[$i]['post_username'];
-                $titanium_user_rank_01 = $lang['Guest'] . '<br />';
+                $pnt_user_rank_01 = $lang['Guest'] . '<br />';
         endif;
 
         $temp_url = '';
@@ -1698,18 +1698,18 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
 
         # Mod: View/Disable Avatars/Signatures v1.1.2 START
         if($userdata['user_showsignatures'])
-        $titanium_user_sig = ($postrow[$i]['enable_sig'] && !empty($postrow[$i]['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $postrow[$i]['user_sig'] : '';
+        $pnt_user_sig = ($postrow[$i]['enable_sig'] && !empty($postrow[$i]['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $postrow[$i]['user_sig'] : '';
         # Mod: View/Disable Avatars/Signatures v1.1.2 END
 
-        $titanium_user_sig_bbcode_uid = $postrow[$i]['user_sig_bbcode_uid'];
+        $pnt_user_sig_bbcode_uid = $postrow[$i]['user_sig_bbcode_uid'];
 
         # Note! The order used for parsing the message _is_ important, moving things around could break any
         # output
 
         # Mod: Display Poster Information Once v2.0.0 START
 	    if($leave_out['show_sig_once']):
-		  $titanium_user_sig = "&nbsp;";		    # Leaves out signature
-		  $titanium_user_sig_image = "&nbsp;";	# Leaves out sig image (for Signature panel)
+		  $pnt_user_sig = "&nbsp;";		    # Leaves out signature
+		  $pnt_user_sig_image = "&nbsp;";	# Leaves out sig image (for Signature panel)
 	    endif;
 	 
 	    if($leave_out['show_rank_once']): 
@@ -1724,17 +1724,17 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
         # If the board has HTML off but the post has HTML
         # on then we process it, else leave it alone
         if(!$phpbb2_board_config['allow_html'] || !$userdata['user_allowhtml']):
-           if ( !empty($titanium_user_sig) )
-             $titanium_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $titanium_user_sig);
+           if ( !empty($pnt_user_sig) )
+             $pnt_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $pnt_user_sig);
            if ( $postrow[$i]['enable_html'] )
               $message = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $message);
         endif;
 
         # Mod: Hide Mod v1.2.0 START
         # Parse message and/or sig for BBCode if reqd
-        if($titanium_user_sig != '' && $titanium_user_sig_bbcode_uid != ''):
-		  $titanium_user_sig = ($phpbb2_board_config['allow_bbcode']) ? bbencode_second_pass($titanium_user_sig, $titanium_user_sig_bbcode_uid) : preg_replace("/\:$titanium_user_sig_bbcode_uid/si", '', $titanium_user_sig);
-		  $titanium_user_sig = bbencode_third_pass($titanium_user_sig, $titanium_user_sig_bbcode_uid, $valid);
+        if($pnt_user_sig != '' && $pnt_user_sig_bbcode_uid != ''):
+		  $pnt_user_sig = ($phpbb2_board_config['allow_bbcode']) ? bbencode_second_pass($pnt_user_sig, $pnt_user_sig_bbcode_uid) : preg_replace("/\:$pnt_user_sig_bbcode_uid/si", '', $pnt_user_sig);
+		  $pnt_user_sig = bbencode_third_pass($pnt_user_sig, $pnt_user_sig_bbcode_uid, $valid);
 		endif;
 	
 		if($bbcode_uid != ''):
@@ -1743,15 +1743,15 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
 		endif;
         # Mod: Hide Mod v1.2.0 END
 
-        if(!empty($titanium_user_sig))
-        $titanium_user_sig = make_clickable($titanium_user_sig);
+        if(!empty($pnt_user_sig))
+        $pnt_user_sig = make_clickable($pnt_user_sig);
         
         $message = make_clickable($message);
 
         # Parse smilies
         if($phpbb2_board_config['allow_smilies']):
-          if($postrow[$i]['user_allowsmile'] && !empty($titanium_user_sig))
-            $titanium_user_sig = smilies_pass($titanium_user_sig);
+          if($postrow[$i]['user_allowsmile'] && !empty($pnt_user_sig))
+            $pnt_user_sig = smilies_pass($pnt_user_sig);
           if ( $postrow[$i]['enable_smilies'] )
             $message = smilies_pass($message);
         endif;
@@ -1767,9 +1767,9 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
         
           $post_subject = preg_replace($orig_word, $replacement_word, $post_subject);
 
-          if(!empty($titanium_user_sig)):
-             /*$titanium_user_sig = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' 
-			 . $titanium_user_sig . '<'), 1, -1));*/
+          if(!empty($pnt_user_sig)):
+             /*$pnt_user_sig = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' 
+			 . $pnt_user_sig . '<'), 1, -1));*/
           endif;
           
 		  $message = preg_replace($orig_word, $replacement_word, $message);
@@ -1788,17 +1788,17 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
 
         # Replace newlines (we use this rather than nl2br because
         # till recently it wasn't XHTML compliant)
-        if(!empty($titanium_user_sig)):
+        if(!empty($pnt_user_sig)):
           # Mod: Force Word Wrapping v1.0.16 START
-          $titanium_user_sig = word_wrap_pass($titanium_user_sig);
+          $pnt_user_sig = word_wrap_pass($pnt_user_sig);
           # Mod: Force Word Wrapping v1.0.16 END
 
           # Mod: Advance Signature Divider Control v1.0.0 START
           # Mod: Bottom aligned signature v1.2.0 START
           if ($phpbb2_board_config['sig_line'] == "<hr />" || $phpbb2_board_config['sig_line'] == "<hr />") 
-          $titanium_user_sig = '<br />' . $phpbb2_board_config['sig_line']. str_replace("\n", "\n<br />\n", $titanium_user_sig);
+          $pnt_user_sig = '<br />' . $phpbb2_board_config['sig_line']. str_replace("\n", "\n<br />\n", $pnt_user_sig);
 		  else 
-          $titanium_user_sig = $phpbb2_board_config['sig_line'].'<br />' . str_replace("\n", "\n<br />\n", $titanium_user_sig);
+          $pnt_user_sig = $phpbb2_board_config['sig_line'].'<br />' . str_replace("\n", "\n<br />\n", $pnt_user_sig);
           # Mod: Advance Signature Divider Control v1.0.0 END
           # Mod: Bottom aligned signature v1.2.0 END
         endif;
@@ -1855,11 +1855,11 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
                 WHERE r.user_id = " . $postrow[$i]['user_id'] . "
                 GROUP BY user_id";
             
-			if(!($result = $titanium_db->sql_query($sql)))
+			if(!($result = $pnt_db->sql_query($sql)))
             message_die(GENERAL_ERROR, "Could not obtain reputation stats for this user", '', __LINE__, __FILE__, $sql);
             
             
-			$row_rep = $titanium_db->sql_fetchrow($result);
+			$row_rep = $pnt_db->sql_fetchrow($result);
             
 			if($row_rep):
               $reputation .= "<br /><a href=\"".append_titanium_sid("reputation.$phpEx?a=stats&amp;".POST_USERS_URL."=" 
@@ -1909,9 +1909,9 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
               $sql .= " OR group_id=".$ad_no_groups[$a];
               endfor;
               $sql .= ")";
-		      if(!($result = $titanium_db->sql_query($sql)))
+		      if(!($result = $pnt_db->sql_query($sql)))
               message_die(GENERAL_ERROR, 'Could not query ad information', '', __LINE__, __FILE__, $sql);
-		      if ($row = $titanium_db->sql_fetchrow($result))
+		      if ($row = $pnt_db->sql_fetchrow($result))
               $display_ad = false;
           endif;
 		  
@@ -1924,13 +1924,13 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
         if ($display_ad):
           $sql = "SELECT a.ad_code
             FROM " . ADS_TABLE . " a";
-		  if(!($result = $titanium_db->sql_query($sql)))
+		  if(!($result = $pnt_db->sql_query($sql)))
           message_die(GENERAL_ERROR, 'Could not query ad information', '', __LINE__, __FILE__, $sql);
           $adRow = array();
-          $adRow = $titanium_db->sql_fetchrowset($result);
+          $adRow = $pnt_db->sql_fetchrowset($result);
           srand((double)microtime()*1000000);
-          $adindex = rand(1, $titanium_db->sql_numrows($result)) - 1;
-          $titanium_db->sql_freeresult($result);
+          $adindex = rand(1, $pnt_db->sql_numrows($result)) - 1;
+          $pnt_db->sql_freeresult($result);
           $inline_ad_code = $adRow[$adindex]['ad_code'];
         endif;
         # Mod: Inline Banner Ad v1.2.3 START
@@ -1946,7 +1946,7 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
            if(!$meta['allow_html'])
            $value = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $value);
 
-           if($meta['allow_bbcode'] && $titanium_user_sig_bbcode_uid != '')
+           if($meta['allow_bbcode'] && $pnt_user_sig_bbcode_uid != '')
            $value = bbencode_second_pass($value, $profiledata['xdata_bbcode']);
            if($meta['allow_bbcode'])
            $value = make_clickable($value);
@@ -1993,7 +1993,7 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
 			$q = "UPDATE ". USERS_TABLE ."
 				  SET user_ftr = '1', user_ftr_time = '".time()."'
 				  WHERE user_id = '".$userdata['user_id']."'";
-			$titanium_db->sql_query($q);
+			$pnt_db->sql_query($q);
 		  else: # They Have Not Clicked The Link Yet
 			include_once($phpbb2_root_path.'language/lang_'.$phpbb2_board_config['default_lang'].'/lang_ftr.'.$phpEx);		
 			$force_message = $phpbb2_board_config['ftr_msg'];
@@ -2006,8 +2006,8 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
 				$q = "SELECT topic_title
 					  FROM ".TOPICS_TABLE."
 					  WHERE topic_id = '".$topic."'";
-				$r 		= $titanium_db->sql_query($q);
-				$row 	= $titanium_db->sql_fetchrow($r);
+				$r 		= $pnt_db->sql_query($q);
+				$row 	= $pnt_db->sql_fetchrow($r);
 				$topic_title = $row['topic_title'];
 				$msg = str_replace('*u*', $userdata['username'], $force_message);
 				$msg = str_replace('*t*', $topic_title, $msg);
@@ -2045,16 +2045,16 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
                 # Mod: Gender v1.2.6 END
 
                 # Mod: Multiple Ranks And Staff View v2.0.3 START
-        		'USER_RANK_01' => $titanium_user_rank_01,
-        		'USER_RANK_01_IMG' => $titanium_user_rank_01_img,
-        		'USER_RANK_02' => $titanium_user_rank_02,
-        		'USER_RANK_02_IMG' => $titanium_user_rank_02_img,
-        		'USER_RANK_03' => $titanium_user_rank_03,
-        		'USER_RANK_03_IMG' => $titanium_user_rank_03_img,
-        		'USER_RANK_04' => $titanium_user_rank_04,
-        		'USER_RANK_04_IMG' => $titanium_user_rank_04_img,
-        		'USER_RANK_05' => $titanium_user_rank_05,
-        		'USER_RANK_05_IMG' => $titanium_user_rank_05_img,
+        		'USER_RANK_01' => $pnt_user_rank_01,
+        		'USER_RANK_01_IMG' => $pnt_user_rank_01_img,
+        		'USER_RANK_02' => $pnt_user_rank_02,
+        		'USER_RANK_02_IMG' => $pnt_user_rank_02_img,
+        		'USER_RANK_03' => $pnt_user_rank_03,
+        		'USER_RANK_03_IMG' => $pnt_user_rank_03_img,
+        		'USER_RANK_04' => $pnt_user_rank_04,
+        		'USER_RANK_04_IMG' => $pnt_user_rank_04_img,
+        		'USER_RANK_05' => $pnt_user_rank_05,
+        		'USER_RANK_05_IMG' => $pnt_user_rank_05_img,
                 # Mod: Multiple Ranks And Staff View v2.0.3 END
 
                 'POSTER_JOINED' => $poster_joined,
@@ -2091,7 +2091,7 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
                 'POST_SUBJECT' => $post_subject,
                 'MESSAGE' => $message,
                 // 'MESSAGE' => $postrow[$i]['post_text'],
-                'SIGNATURE' => $titanium_user_sig,
+                'SIGNATURE' => $pnt_user_sig,
                 'EDITED_MESSAGE' => $l_edited_by,
 
                 'MINI_POST_IMG' => $mini_post_img,
@@ -2195,10 +2195,10 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
         WHERE last_post_id = '".$postrow[$i]['post_id']."'
         ORDER BY log_id DESC LIMIT 1";
 
-        if(!$result = $titanium_db->sql_query($sql))
+        if(!$result = $pnt_db->sql_query($sql))
         message_die(GENERAL_ERROR, 'Could not get moved type', '', __LINE__, __FILE__, $sql);
         
-		$row = $titanium_db->sql_fetchrow($result);
+		$row = $pnt_db->sql_fetchrow($result);
         $moved_type = $row['mode'];
         $select = '';
 
@@ -2232,9 +2232,9 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
          FROM $from
          WHERE $where
          ORDER BY mv.time DESC LIMIT 1";
-	     if ( !$result = $titanium_db->sql_query($sql) )
+	     if ( !$result = $pnt_db->sql_query($sql) )
           message_die(GENERAL_ERROR, 'Could not get main move information', '', __LINE__, __FILE__, $sql);
-		$moved = $titanium_db->sql_fetchrow($result);
+		$moved = $pnt_db->sql_fetchrow($result);
       endif;
 
       $mini_icon = $images['icon_minipost'];

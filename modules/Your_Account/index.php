@@ -46,13 +46,13 @@ include_once(NUKE_MODULES_DIR.$pnt_module.'/includes/functions.php');
 $ya_config = ya_get_configs();
 
 get_lang($pnt_module);
-$titanium_userpage = 1;
+$pnt_userpage = 1;
 
 global $cookie;
 
-$titanium_username = Fix_Quotes($_REQUEST['username']);
+$pnt_username = Fix_Quotes($_REQUEST['username']);
 $redirect = $_REQUEST['redirect'];
-$titanium_module = $_REQUEST['module'];
+$pnt_module = $_REQUEST['module'];
 $user_password = $_REQUEST['user_password'];
 $mode = $_REQUEST['mode'];
 $t = $_REQUEST['t'];
@@ -63,21 +63,21 @@ include(NUKE_MODULES_DIR.$pnt_module.'/includes/cookiecheck.php');
 
 function ya_expire() 
 {
-    global $ya_config, $titanium_db, $titanium_user_prefix;
+    global $ya_config, $pnt_db, $pnt_user_prefix;
     
 	if ($ya_config['expiring']!=0):
         
 		$past = time()-$ya_config['expiring'];
-        $res = $titanium_db->sql_query("SELECT user_id FROM ".$titanium_user_prefix."_users_temp WHERE time < '$past'");
+        $res = $pnt_db->sql_query("SELECT user_id FROM ".$pnt_user_prefix."_users_temp WHERE time < '$past'");
         
-		while (list($uid) = $titanium_db->sql_fetchrow($res)):
+		while (list($uid) = $pnt_db->sql_fetchrow($res)):
           $uid = intval($uid);
-          $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_users_temp WHERE user_id = $uid");
-          $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE uid = '$uid'");
+          $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_users_temp WHERE user_id = $uid");
+          $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_value_temp WHERE uid = '$uid'");
         endwhile;
         
-        $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_cnbya_value_temp");
-        $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_user_prefix."_users_temp");
+        $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_user_prefix."_cnbya_value_temp");
+        $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_user_prefix."_users_temp");
     
 	endif;
 }
@@ -147,7 +147,7 @@ switch($op):
     break;
     case "login":
         # Base: NukeSentinel v2.5.00 START
-        global $nsnst_const, $titanium_user_prefix;
+        global $nsnst_const, $pnt_user_prefix;
         # Base: NukeSentinel v2.5.00 END
 
        /**
@@ -162,18 +162,18 @@ switch($op):
         # endif;
 
         # Mod: User IP Lock v1.0.0 START
-        if(!compare_ips($titanium_username)):
+        if(!compare_ips($pnt_username)):
             DisplayError('Your IP is not valid for this user');
             exit;
         endif;
         # Mod: User IP Lock v1.0.0 END
 
-        $result  = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users WHERE username='$titanium_username'");
-        $setinfo = $titanium_db->sql_fetchrow($result);
+        $result  = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE username='$pnt_username'");
+        $setinfo = $pnt_db->sql_fetchrow($result);
         
 		# menelaos: check of the member agreed with the TOS and update the database field
         if (($ya_config['tos'] == intval(1)) AND ($_POST['tos_yes'] == intval(1))): 
-        $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET agreedtos='1' WHERE username='$titanium_username'");
+        $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET agreedtos='1' WHERE username='$pnt_username'");
         endif;
 		
 		$forward = str_replace("redirect=", "", "$redirect");
@@ -182,7 +182,7 @@ switch($op):
 		$pm_login = "active";
 		endif; 
         
-   if ($titanium_db->sql_numrows($result) == 0): 
+   if ($pnt_db->sql_numrows($result) == 0): 
           
 		  include_once(NUKE_BASE_DIR.'header.php');
           
@@ -194,14 +194,14 @@ switch($op):
           
 		  include_once(NUKE_BASE_DIR.'footer.php');
          
-          elseif($titanium_db->sql_numrows($result) == 1 
+          elseif($pnt_db->sql_numrows($result) == 1 
 		  AND $setinfo['user_id'] != 1 
 		  AND !empty($setinfo['user_password']) 
 		  AND $setinfo['user_active'] >0 AND $setinfo['user_level'] >0): 
         
-          $titanium_dbpass     = $setinfo['user_password'];
+          $pnt_dbpass     = $setinfo['user_password'];
           $non_crypt_pass = $user_password;
-          $old_crypt_pass = crypt($user_password,substr($titanium_dbpass,0,2));
+          $old_crypt_pass = crypt($user_password,substr($pnt_dbpass,0,2));
           
 		  # Base: Evolution Functions v1.5.0 START
           $new_pass = EvoCrypt($user_password);
@@ -211,27 +211,27 @@ switch($op):
           $evo_crypt = EvoCrypt($user_password);
           
 		  //Reset to md5x1
-          if (($titanium_dbpass == $evo_crypt) 
-		  || (($titanium_dbpass == $non_crypt_pass) 
-		  || ($titanium_dbpass == $old_crypt_pass))): 
+          if (($pnt_dbpass == $evo_crypt) 
+		  || (($pnt_dbpass == $non_crypt_pass) 
+		  || ($pnt_dbpass == $old_crypt_pass))): 
 		  
-            $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_password='$new_pass' WHERE username='$titanium_username'");
-            $result = $titanium_db->sql_query("SELECT user_password FROM ".$titanium_user_prefix."_users WHERE username='$titanium_username'");
-            list($titanium_dbpass) = $titanium_db->sql_fetchrow($result);
+            $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET user_password='$new_pass' WHERE username='$pnt_username'");
+            $result = $pnt_db->sql_query("SELECT user_password FROM ".$pnt_user_prefix."_users WHERE username='$pnt_username'");
+            list($pnt_dbpass) = $pnt_db->sql_fetchrow($result);
           
 		  endif;
           
-		  if ($titanium_dbpass != $new_pass): 
+		  if ($pnt_dbpass != $new_pass): 
             
 			# Does it need another md5?
-        	if (md5($titanium_dbpass) == $new_pass): 
+        	if (md5($pnt_dbpass) == $new_pass): 
 			
-                $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_password='$new_pass' WHERE username='$titanium_username'");
-                $result = $titanium_db->sql_query("SELECT user_password FROM ".$titanium_user_prefix."_users WHERE username='$titanium_username'");
+                $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET user_password='$new_pass' WHERE username='$pnt_username'");
+                $result = $pnt_db->sql_query("SELECT user_password FROM ".$pnt_user_prefix."_users WHERE username='$pnt_username'");
                 
-				list($titanium_dbpass) = $titanium_db->sql_fetchrow($result);
+				list($pnt_dbpass) = $pnt_db->sql_fetchrow($result);
                 
-				if ($titanium_dbpass != $new_pass): 
+				if ($pnt_dbpass != $new_pass): 
                     redirect_titanium("modules.php?name=$pnt_module&stop=1");
                     return;
                 endif;
@@ -276,8 +276,8 @@ switch($op):
        $uname = $nsnst_const['remote_ip'];
        # Base: NukeSentinel v2.5.00 START
       
-	   $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_session WHERE uname='$uname' AND guest='1'");
-       $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET last_ip='$uname' WHERE username='$titanium_username'");
+	   $pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_session WHERE uname='$uname' AND guest='1'");
+       $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET last_ip='$uname' WHERE username='$pnt_username'");
         
 	   endif;
 
@@ -294,12 +294,12 @@ switch($op):
       redirect_titanium("modules.php?name=Forums&file=$forward&mode=$mode&p=$p");
 	  elseif(empty($redirect)): 
 	      if ($phpbb2_board_config['loginpage'] == 1): 
-          redirect_titanium("modules.php?name=Your_Account&op=userinfo&bypass=1&username=$titanium_username");
+          redirect_titanium("modules.php?name=Your_Account&op=userinfo&bypass=1&username=$pnt_username");
           else:
           redirect_titanium("modules.php?name=Forums");
           endif;
- 	  elseif(!empty($titanium_module)): 
-            redirect_titanium("modules.php?name=$titanium_module");
+ 	  elseif(!empty($pnt_module)): 
+            redirect_titanium("modules.php?name=$pnt_module");
 	  elseif(empty($mode)): 
 
           if(!empty($f)) 
@@ -312,7 +312,7 @@ switch($op):
       redirect_titanium("modules.php?name=Forums&file=$forward&mode=$mode&f=$f");
       endif;
 		
-   elseif($titanium_db->sql_numrows($result) == 1 AND ($setinfo['user_level'] < 1 OR $setinfo['user_active'] < 1)):
+   elseif($pnt_db->sql_numrows($result) == 1 AND ($setinfo['user_level'] < 1 OR $setinfo['user_active'] < 1)):
             
 			include_once(NUKE_BASE_DIR.'header.php');
             Show_CNBYA_menu();
@@ -335,7 +335,7 @@ switch($op):
 		
    break;
    case "logout":
-        global $cookie, $titanium_db, $titanium_prefix;
+        global $cookie, $pnt_db, $pnt_prefix;
         
 		$r_uid = $cookie[0];
         $r_username = $cookie[1];
@@ -347,12 +347,12 @@ switch($op):
 		setcookie("user","expired",time()-604800,"$ya_config[cookiepath]"); 
         endif;
 		
-		$titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_session WHERE uname='$r_username'");
-        $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_session");
-        $sql = "SELECT session_id FROM ".$titanium_prefix."_bbsessions WHERE session_user_id='$r_uid'";
-        $row = $titanium_db->sql_fetchrow($titanium_db->sql_query($sql));
-        $titanium_db->sql_query("DELETE FROM ".$titanium_prefix."_bbsessions WHERE session_user_id='$r_uid'");
-        $titanium_db->sql_query("OPTIMIZE TABLE ".$titanium_prefix."_bbsessions");
+		$pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_session WHERE uname='$r_username'");
+        $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_session");
+        $sql = "SELECT session_id FROM ".$pnt_prefix."_bbsessions WHERE session_user_id='$r_uid'";
+        $row = $pnt_db->sql_fetchrow($pnt_db->sql_query($sql));
+        $pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_bbsessions WHERE session_user_id='$r_uid'");
+        $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_bbsessions");
 
         # Mod: Forum Logout v1.0.0 START
         global $phpbb2_board_config;
@@ -367,7 +367,7 @@ switch($op):
         setcookie($cookiename.'_sid','', $current_time - 31536000, $cookiepath, $cookiedomain, $cookiesecure);
         # Mod: Forum Logout v1.0.0 END
 
-        $titanium_user = "";
+        $pnt_user = "";
 
         if (!empty($redirect)): 
             redirect_titanium("modules.php?name=$redirect");
@@ -383,7 +383,7 @@ switch($op):
     break;
     case "new_user":
     if (is_user()): 
-    mmain($titanium_user);
+    mmain($pnt_user);
     else:
 	  # if new user registration is allowed 
       if ($ya_config['allowuserreg']==0):
@@ -428,7 +428,7 @@ switch($op):
     break;
     case "new_confirm":
         if (is_user()): 
-            mmain($titanium_user);
+            mmain($pnt_user);
         else:
             if ($ya_config['allowuserreg']==0):
                 if ($ya_config['requireadmin'] == 1):
@@ -446,7 +446,7 @@ switch($op):
     case "new_finish":
         ya_expire();
 		if (is_user()): 
-        mmain($titanium_user);
+        mmain($pnt_user);
 		else: 
 		    if ($ya_config['allowuserreg']==0): 
                 
@@ -498,7 +498,7 @@ switch($op):
     break;
     case "userinfo":
         # Mod: YA Merge v1.0.0 START
-        list($uid) = $titanium_db->sql_ufetchrow('SELECT user_id FROM '.$titanium_user_prefix.'_users WHERE username="'.$titanium_username.'"', SQL_NUM);
+        list($uid) = $pnt_db->sql_ufetchrow('SELECT user_id FROM '.$pnt_user_prefix.'_users WHERE username="'.$pnt_username.'"', SQL_NUM);
         redirect_titanium("modules.php?name=Profile&mode=viewprofile&u=".$uid);
         exit;
         # Mod: YA Merge v1.0.0 END
@@ -513,7 +513,7 @@ switch($op):
         DeleteCookies();
     break;
     default:
-        mmain($titanium_user);
+        mmain($pnt_user);
     break;
 endswitch;
 ?>

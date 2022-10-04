@@ -10,7 +10,7 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 get_lang('Network_Projects');
 
@@ -83,9 +83,9 @@ echo "<td><select name='allowrequests'><option value='0'$reqn>"._NETWORK_NO."</o
 echo "<option value='1'$reqy>"._NETWORK_YES."</option></select></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_PRIORITY.":</td>\n";
 echo "<td><select name='priority_id'>\n";
-$prioritylist = $titanium_db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_projects_priorities` ORDER BY `priority_weight`");
+$prioritylist = $pnt_db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_projects_priorities` ORDER BY `priority_weight`");
 
-while(list($s_priority_id, $s_priority_name) = $titanium_db2->sql_fetchrow($prioritylist))
+while(list($s_priority_id, $s_priority_name) = $pnt_db2->sql_fetchrow($prioritylist))
 {
   if($s_priority_id == $project['priority_id']){ $sel = "SELECTed"; } else { $sel = ""; }
   echo "<option value='$s_priority_id' $sel>$s_priority_name</option>\n";
@@ -97,9 +97,9 @@ echo "<td><input type='text' name='project_percent' size='4' value='".$project['
 echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_STATUS.":</td>\n";
 echo "<td><select name='status_id'>\n";
 
-$statuslist = $titanium_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_projects_status` ORDER BY `status_weight`");
+$statuslist = $pnt_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_projects_status` ORDER BY `status_weight`");
 
-while(list($s_status_id, $s_status_name) = $titanium_db2->sql_fetchrow($statuslist))
+while(list($s_status_id, $s_status_name) = $pnt_db2->sql_fetchrow($statuslist))
 {
   if($s_status_id == $project['status_id']){ $sel = "SELECTed"; } else { $sel = ""; }
   echo "<option value='$s_status_id' $sel>$s_status_name</option>\n";
@@ -178,12 +178,12 @@ echo "</select><input type=text name='project_finish_year' value='".$fyear."' si
 echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._NETWORK_ASSIGNMEMBERS.":</td>\n";
 echo "<td><select name='member_ids[]' size='10' multiple>\n";
 
-$memberlistresult = $titanium_db2->sql_query("SELECT `member_id`, `member_name` FROM `".$network_prefix."_members` ORDER BY `member_name`");
+$memberlistresult = $pnt_db2->sql_query("SELECT `member_id`, `member_name` FROM `".$network_prefix."_members` ORDER BY `member_name`");
 
-while(list($member_id, $member_name) = $titanium_db2->sql_fetchrow($memberlistresult)) 
+while(list($member_id, $member_name) = $pnt_db2->sql_fetchrow($memberlistresult)) 
 {
-  $memberexresult = $titanium_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_projects_members` WHERE `member_id`='$member_id' AND `project_id`='$project_id'");
-  $numrows = $titanium_db2->sql_numrows($memberexresult);
+  $memberexresult = $pnt_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_projects_members` WHERE `member_id`='$member_id' AND `project_id`='$project_id'");
+  $numrows = $pnt_db2->sql_numrows($memberexresult);
 
   if($numrows < 1)
   {
@@ -207,13 +207,13 @@ echo "<tr><td align='left' bgcolor='$bgcolor2' width='100%' colspan='2'><strong>
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_POSITION."</strong></td>";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_DELETE."</strong></td></tr>";
 
-$membersresult = $titanium_db2->sql_query("SELECT `member_id`, `position_id` FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id'");
+$membersresult = $pnt_db2->sql_query("SELECT `member_id`, `position_id` FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id'");
 
-$numrows = $titanium_db2->sql_numrows($membersresult);
+$numrows = $pnt_db2->sql_numrows($membersresult);
 
 if($numrows > 0)
 {
-  while(list($member_id, $position_id) = $titanium_db2->sql_fetchrow($membersresult))
+  while(list($member_id, $position_id) = $pnt_db2->sql_fetchrow($membersresult))
   {
     $member = pjmember_info($member_id);
     $position = pjmemberposition_info($position_id);
@@ -221,9 +221,9 @@ if($numrows > 0)
     $pjimage = pjimage("member.png", $pnt_module);
     echo "<td><img src='$pjimage'></td><td width='100%'>".$member['member_name']."</td>";
     echo "<td><input type='hidden' name='member_ids[]' VALUE='$member_id'><select name='position_ids[]'>";
-    $positionlistresult = $titanium_db2->sql_query("SELECT `position_id`, `position_name` FROM `".$network_prefix."_members_positions` ORDER BY `position_weight`");
+    $positionlistresult = $pnt_db2->sql_query("SELECT `position_id`, `position_name` FROM `".$network_prefix."_members_positions` ORDER BY `position_weight`");
   
-    while(list($l_position_id, $l_position_name) = $titanium_db2->sql_fetchrow($positionlistresult)) 
+    while(list($l_position_id, $l_position_name) = $pnt_db2->sql_fetchrow($positionlistresult)) 
 	{
       if($l_position_id == $position_id)
 	  { 

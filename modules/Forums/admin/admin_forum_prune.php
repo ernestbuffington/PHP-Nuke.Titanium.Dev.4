@@ -29,7 +29,7 @@ define('IN_PHPBB2', true);
 if ( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $titanium_module['Forums']['Prune'] = $filename;
+        $pnt_module['Forums']['Prune'] = $filename;
 
         return;
 }
@@ -73,13 +73,13 @@ $sql = "SELECT f.*
         WHERE c.cat_id = f.cat_id
         $forum_sql
         ORDER BY c.cat_order ASC, f.forum_order ASC";
-if( !($result = $titanium_db->sql_query($sql)) )
+if( !($result = $pnt_db->sql_query($sql)) )
 {
         message_die(GENERAL_ERROR, 'Could not obtain list of forums for pruning', '', __LINE__, __FILE__, $sql);
 }
 
 $forum_rows = array();
-while( $row = $titanium_db->sql_fetchrow($result) )
+while( $row = $pnt_db->sql_fetchrow($result) )
 {
         $forum_rows[] = $row;
 }

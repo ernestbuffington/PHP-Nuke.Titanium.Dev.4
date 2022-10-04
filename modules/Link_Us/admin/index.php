@@ -37,7 +37,7 @@
 	} 
 	else 
 	{
-		global $titanium_db, $admin_file, $currentlang, $userinfo;
+		global $pnt_db, $admin_file, $currentlang, $userinfo;
 	
 		get_lang($pnt_module);
 		include(NUKE_BASE_DIR.'header.php');
@@ -46,7 +46,7 @@
 		switch($op)
 		{
 		//case 'approve_button':
-			//	$titanium_db->sql_query("UPDATE `". $titanium_prefix ."_link_us` SET `site_status` = '1' WHERE `id` = '".$id."'");
+			//	$pnt_db->sql_query("UPDATE `". $pnt_prefix ."_link_us` SET `site_status` = '1' WHERE `id` = '".$id."'");
 			//	redirect_titanium($admin_file .'.php?op=active_sites');
 			//break;
 			case 'add_button':                include_once(NUKE_MODULES_DIR.$pnt_module.'/admin/inc/button_add.php'); break;		

@@ -1,7 +1,7 @@
 <?php
 if (!defined('MODULE_FILE')) die("You can't access this file directly...");
 
-global $titanium_prefix, $titanium_db, $cookie, $titanium_user, $theme_name;
+global $pnt_prefix, $pnt_db, $cookie, $pnt_user, $theme_name;
 
 $index = 1;
 
@@ -15,20 +15,20 @@ $pagetitle = "86it Developers Network - My "._MARKSTITLE;
 
 include("header.php");
 
-$userinfo = getusrinfo( $titanium_user );
+$userinfo = getusrinfo( $pnt_user );
 
-$titanium_userid = $userinfo["user_id"];
+$pnt_userid = $userinfo["user_id"];
 
 $catname=@htmlentities($catname);
 
-if(!isset($titanium_userid) || $titanium_userid== "")
-$titanium_userid = 0;
+if(!isset($pnt_userid) || $pnt_userid== "")
+$pnt_userid = 0;
 
 # Sometimes we don't know the category name
 if((!isset($catname) || $catname== "") && (isset($category) && $category != "")):
-	$getname="select name from ".$titanium_prefix."_cemetery_cat where category_id='$category'";
-	$getnameres=$titanium_db->sql_query ($getname,$titanium_db);
-	$namerow=@$titanium_db->sql_fetchrow($getnameres,$titanium_db);
+	$getname="select name from ".$pnt_prefix."_cemetery_cat where category_id='$category'";
+	$getnameres=$pnt_db->sql_query ($getname,$pnt_db);
+	$namerow=@$pnt_db->sql_fetchrow($getnameres,$pnt_db);
 	$catname=$namerow['name'];
 endif;
 
@@ -41,8 +41,8 @@ $toes =  '<img class="tooltip-html copyright" alt="" title="" width="30" src="mo
 echo "<center><span class=title><strong><h1>".$headstone." ".$catname." ".$headstone."</h1></strong></span></center><P>\n";
 echo "<center>[ <a href=modules.php?name=".$pnt_module.">"._CATEGORIES."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
 echo "<hr />";
-$marks_query = "SELECT `id`,`name`,`url`,`description`,`mod_date`,`popup` FROM ".$titanium_prefix."_cemetery WHERE user_id=".$titanium_userid." AND category_id='".$category ."' ORDER BY `name`";
-$marks_res = $titanium_db->sql_query ($marks_query,$titanium_db);
+$marks_query = "SELECT `id`,`name`,`url`,`description`,`mod_date`,`popup` FROM ".$pnt_prefix."_cemetery WHERE user_id=".$pnt_userid." AND category_id='".$category ."' ORDER BY `name`";
+$marks_res = $pnt_db->sql_query ($marks_query,$pnt_db);
 echo "<table width=98%>\n<tr class=boxtitle>
       <td width=37%>
 	  <img src=\"themes/".$theme_name."/images/invisible_pixel.gif\" alt=\"\" width=\"25\" height=\"1\" />
@@ -53,10 +53,10 @@ echo "<table width=98%>\n<tr class=boxtitle>
 	  </td><td width=5%><strong>Edit</strong>
 	  </td><td width=8%><strong>Delete</strong>
 	  </td></tr>\n";
-for ($i=0;$i<@$titanium_db->sql_numrows  ($marks_res,$titanium_db);$i++):
-	$marks_row = @$titanium_db->sql_fetchrow($marks_res,$titanium_db);
-    global $titanium_db;
-    list($fixed_markurl) = $titanium_db->sql_ufetchrow("SELECT `url` FROM `".$titanium_prefix."_cemetery` WHERE `id`='".$marks_row['id']."'", SQL_NUM);
+for ($i=0;$i<@$pnt_db->sql_numrows  ($marks_res,$pnt_db);$i++):
+	$marks_row = @$pnt_db->sql_fetchrow($marks_res,$pnt_db);
+    global $pnt_db;
+    list($fixed_markurl) = $pnt_db->sql_ufetchrow("SELECT `url` FROM `".$pnt_prefix."_cemetery` WHERE `id`='".$marks_row['id']."'", SQL_NUM);
 	if ($marks_row['popup']==1):
 		echo "<tr class=\"boxlist\">
 		<td><img src=\"themes/".$theme_name."/images/invisible_pixel.gif\" alt=\"\" width=\"15\" height=\"1\" />
@@ -85,7 +85,7 @@ for ($i=0;$i<@$titanium_db->sql_numrows  ($marks_res,$titanium_db);$i++):
 	endif;
 endfor;
 echo "</table>";
-@$titanium_db->sql_freeresult($marks_res);
+@$pnt_db->sql_freeresult($marks_res);
 echo "<hr />";
 echo "<center>[ <a href=modules.php?name=".$pnt_module.">"._CATEGORIES."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
 CloseTable();

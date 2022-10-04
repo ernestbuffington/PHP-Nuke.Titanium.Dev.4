@@ -27,7 +27,7 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $locale, $oldnum, $blognum, $storyhome, $cookie, $categories, $cat, $titanium_prefix, $multilingual, $currentlang, $titanium_db, $new_topic, $titanium_user_news, $userinfo, $titanium_user;
+global $locale, $oldnum, $blognum, $bloghome, $cookie, $categories, $cat, $pnt_prefix, $multilingual, $currentlang, $pnt_db, $new_topic, $user_blogs, $userinfo, $pnt_user;
 
 if ($multilingual == 1) {
     if ($categories == 1) {
@@ -48,15 +48,15 @@ if ($multilingual == 1) {
     }
     }
 }
-if (isset($userinfo['storynum']) AND $titanium_user_news == 1) {
+if (isset($userinfo['storynum']) AND $user_blogs == 1) {
     $blognum = $userinfo['storynum'];
 } else {
-    $blognum = $storyhome;
+    $blognum = $bloghome;
 }
 $boxstuff = "<table border=\"0\" width=\"100%\">";
 $boxTitle = _PASTARTICLES;
-$sql = "SELECT sid, title, datePublished, comments FROM ".$titanium_prefix."_stories $querylang ORDER BY datePublished DESC LIMIT $blognum, $oldnum";
-$result = $titanium_db->sql_query($sql);
+$sql = "SELECT sid, title, datePublished, comments FROM ".$pnt_prefix."_stories $querylang ORDER BY datePublished DESC LIMIT $blognum, $oldnum";
+$result = $pnt_db->sql_query($sql);
 $vari = 0;
 
 if (!isset($mode) OR empty($mode)) {
@@ -85,7 +85,7 @@ $r_options .= "&amp;mode=".$mode;
 $r_options .= "&amp;order=".$order;
 $r_options .= "&amp;thold=".$thold;
 
-while (list($sid, $title, $time, $comments) = $titanium_db->sql_fetchrow($result)) {
+while (list($sid, $title, $time, $comments) = $pnt_db->sql_fetchrow($result)) {
     $sid = intval($sid);
     $title = stripslashes($title);
     $see = 1;
@@ -115,13 +115,13 @@ while (list($sid, $title, $time, $comments) = $titanium_db->sql_fetchrow($result
     if (isset($userinfo['storyhome'])) {
         $blognum = $userinfo['storyhome'];
     } else {
-        $blognum = $storyhome;
+        $blognum = $bloghome;
     }
     $min = $oldnum + $blognum;
     $dummy = 1;
     }
 }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 if ($dummy == 1 AND is_active("Stories_Archive")) {
     $boxstuff .= "</table><br /><a href=\"modules.php?name=Stories_Archive\"><strong>"._OLDERARTICLES."</strong></a>\n";

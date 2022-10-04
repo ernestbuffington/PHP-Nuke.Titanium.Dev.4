@@ -15,10 +15,10 @@ if (!defined('NUKESENTINEL_ADMIN')) {
    die ('You can\'t access this file directly...');
 }
 
-$getIPs = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_strings` WHERE `sid`='".$sid."' LIMIT 0,1"));
-$titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_strings` WHERE `sid`='".$sid."'");
-$titanium_db->sql_query("ALTER TABLE `".$titanium_prefix."_nsnst_strings` ORDER BY `string`");
-$titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_strings`");
+$getIPs = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_strings` WHERE `sid`='".$sid."' LIMIT 0,1"));
+$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_strings` WHERE `sid`='".$sid."'");
+$pnt_db->sql_query("ALTER TABLE `".$pnt_prefix."_nsnst_strings` ORDER BY `string`");
+$pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_strings`");
 $list_string = explode("\r\n", $ab_config['list_string']);
 $list_string = str_replace($getIPs['string'], "", $list_string);
 rsort($list_string);

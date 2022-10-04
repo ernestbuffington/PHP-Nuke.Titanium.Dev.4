@@ -37,12 +37,12 @@ get_lang($pnt_module);
 
 function defaultDisplay() 
 {
-    global $titanium_prefix, 
+    global $pnt_prefix, 
 	                $cookie, 
 			     $anonymous, 
 			   $currentlang, 
 			  $multilingual, 
-			   $titanium_db, 
+			   $pnt_db, 
 	  $pnt_module;
 
     include_once(NUKE_BASE_DIR.'header.php');
@@ -70,17 +70,17 @@ function defaultDisplay()
         .'<span class="textbold">'._TOPIC.":</span>\n";
     echo "<select name=\"topic\">\n";
 
-    $result = $titanium_db->sql_query("SELECT `topicid`, `topictext` FROM `".$titanium_prefix."_topics` ORDER BY `topictext`");
+    $result = $pnt_db->sql_query("SELECT `topicid`, `topictext` FROM `".$pnt_prefix."_topics` ORDER BY `topictext`");
     
 	echo "<option value=\"\">"._SELECTTOPIC."</option>\n";
 
-    while ($row = $titanium_db->sql_fetchrow($result)): 
+    while ($row = $pnt_db->sql_fetchrow($result)): 
         $topicid = (int)$row['topicid'];
         $phpbb2_topics = stripslashes(check_html($row['topictext'], "nohtml"));
         echo "<option value=\"$topicid\">$phpbb2_topics</option>\n";
     endwhile;
     
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
     
 	echo "</select>\n";
     
@@ -127,15 +127,15 @@ function defaultDisplay()
 
 function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype) 
 {
-    global $titanium_user, 
+    global $pnt_user, 
 	              $cookie, 
 				$bgcolor1, 
 				$bgcolor2, 
 			   $anonymous, 
-	     $titanium_prefix, 
+	     $pnt_prefix, 
 		    $multilingual, 
 		   $AllowableHTML, 
-		     $titanium_db, 
+		     $pnt_db, 
 	$pnt_module, 
 	              $tipath, 
 				$userinfo;
@@ -165,7 +165,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
         $warning = '<div style="font-style: italic; text-align: center;"><blink>'._SELECTTOPIC.'</blink></div>';
 	else: 
         $warning = '';
-        $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `topicimage`, `topictext` FROM `".$titanium_prefix."_topics` WHERE `topicid`='$topic'"));
+        $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `topicimage`, `topictext` FROM `".$pnt_prefix."_topics` WHERE `topicid`='$topic'"));
         $topicimage = stripslashes($row['topicimage']);
         $topictext = stripslashes($row['topictext']);
     endif;
@@ -189,11 +189,11 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
     echo "<input type=\"text\" name=\"subject\" size=\"50\" maxlength=\"80\" value=\"$subject\">\n";
     echo '<br /><br /><div class="textbold">'._TOPIC.": </div><select name=\"topic\">\n";
     
-	$result2 = $titanium_db->sql_query("SELECT `topicid`, `topictext` FROM `".$titanium_prefix."_topics` ORDER BY `topictext`");
+	$result2 = $pnt_db->sql_query("SELECT `topicid`, `topictext` FROM `".$pnt_prefix."_topics` ORDER BY `topictext`");
     
 	echo '<option VALUE="">'._SELECTTOPIC."</option>\n";
     
-	while ($row2 = $titanium_db->sql_fetchrow($result2)): 
+	while ($row2 = $pnt_db->sql_fetchrow($result2)): 
         $topicid = (int)$row2['topicid'];
         $phpbb2_topics = stripslashes(check_html($row2['topictext'], "nohtml"));
 		if ($topicid == $topic) 
@@ -202,7 +202,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
         $sel = '';
     endwhile;
     
-	$titanium_db->sql_freeresult($result2);
+	$pnt_db->sql_freeresult($result2);
 
     echo '</select>';
 
@@ -248,7 +248,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
 
 function submitStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype) 
 {
-    global $titanium_user, 
+    global $pnt_user, 
 	       $EditedMessage, 
 		          $cookie, 
 			   $anonymous, 
@@ -257,8 +257,8 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
 		  $notify_subject, 
 		  $notify_message, 
 		     $notify_from, 
-		 $titanium_prefix, 
-		     $titanium_db, 
+		 $pnt_prefix, 
+		     $pnt_db, 
 			       $cache;
 
     if(is_user()): 
@@ -272,7 +272,7 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
 	$subject = Fix_Quotes(filter_text($subject, "nohtml"));
     $story = Fix_Quotes(nl2br(check_words($story)));
     $storyext = Fix_Quotes(nl2br(check_words($storyext)));
-    $result = $titanium_db->sql_query("INSERT INTO ".$titanium_prefix."_queue VALUES (NULL, '$uid', '$name', '$subject', '$story', '$storyext', now(), '$topic', '$alanguage')");
+    $result = $pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_queue VALUES (NULL, '$uid', '$name', '$subject', '$story', '$storyext', now(), '$topic', '$alanguage')");
     
 	if(!$result): 
         echo _ERROR."<br />";
@@ -283,7 +283,7 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
     $cache->delete('numwaits', 'submissions');
 	# Base: Caching System v3.0.0 END
 
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     
 	if($notify):
         $notify_message = "$notify_message\n\n\n========================================================\n$subject\n\n\n$story\n\n$storyext\n\n$name";
@@ -296,9 +296,9 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
 
     # Base: Caching System v3.0.0 START
     if(($numwaits = $cache->load('numwaits', 'submissions')) === false): 
-        $result = $titanium_db->sql_query("SELECT COUNT(*) AS numrows FROM ".$titanium_prefix."_queue");
-        $numwaits = $titanium_db->sql_fetchrow($result);
-        $titanium_db->sql_freeresult($result);
+        $result = $pnt_db->sql_query("SELECT COUNT(*) AS numrows FROM ".$pnt_prefix."_queue");
+        $numwaits = $pnt_db->sql_fetchrow($result);
+        $pnt_db->sql_freeresult($result);
         $cache->save('numwaits', 'submissions', $numwaits);
     endif;
     # Base: Caching System v3.0.0 END

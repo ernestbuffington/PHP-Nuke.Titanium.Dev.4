@@ -52,13 +52,13 @@ echo "<br />";
 title(_USERADMIN." - "._USERUPDATE);
 amain();
 echo "<br />\n";
-$result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_users WHERE user_id='$chng_uid' OR username='$chng_uid'");
-if($titanium_db->sql_numrows($result) > 0) {
-    $chnginfo = $titanium_db->sql_fetchrow($result);
+$result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE user_id='$chng_uid' OR username='$chng_uid'");
+if($pnt_db->sql_numrows($result) > 0) {
+    $chnginfo = $pnt_db->sql_fetchrow($result);
 
-    $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field");
-    while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
-        list($value) = $titanium_db->sql_fetchrow( $titanium_db->sql_query("SELECT value FROM ".$titanium_user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$chnginfo[user_id]'"));
+    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field");
+    while ($sqlvalue = $pnt_db->sql_fetchrow($result)) {
+        list($value) = $pnt_db->sql_fetchrow( $pnt_db->sql_query("SELECT value FROM ".$pnt_user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$chnginfo[user_id]'"));
         $chnginfo[$sqlvalue[name]] = $value;
     }
 
@@ -72,8 +72,8 @@ if($titanium_db->sql_numrows($result) > 0) {
     echo "<tr><td bgcolor='$bgcolor2'>"._EMAIL.":</td><td><input type='text' name='chng_email' value='".$chnginfo['user_email']."' size='45' maxlength='60'> <span class='tiny'>"._REQUIRED."</span></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._FAKEEMAIL.":</td><td><input type='text' name='chng_femail' value='".$chnginfo['femail']."' size='45' maxlength='60'></td></tr>\n";
 
-        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
-        while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
+        $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
+        while ($sqlvalue = $pnt_db->sql_fetchrow($result)) {
           $t = $sqlvalue['fid'];
           $value2 = explode("::", $sqlvalue[value]);
           if (substr($sqlvalue['name'],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue['name'];

@@ -125,7 +125,7 @@ if ((isset($aid)) && (isset($pwd)) && (isset($op)) && ($op == "login")){
 		
         // Un-evocrypt
         if ($evo_crypt == $rpwd){
-            $titanium_db->sql_query("UPDATE `".$titanium_prefix."_authors` SET `pwd`='".$pwd."' WHERE `aid`='".$aid."'");
+            $pnt_db->sql_query("UPDATE `".$pnt_prefix."_authors` SET `pwd`='".$pwd."' WHERE `aid`='".$aid."'");
             $rpwd = get_admin_field('pwd', $aid);
         }
 		
@@ -157,19 +157,19 @@ if ((isset($aid)) && (isset($pwd)) && (isset($op)) && ($op == "login")){
             log_write('admin', 'Attempted to login with "' . $aid . '"/"' . $txt_pwd . '" but failed', 'Security Breach');
             unset($txt_pwd);
 
-            global $admin_fc_status, $admin_fc_attempts, $admin_fc_timeout, $titanium_prefix;
+            global $admin_fc_status, $admin_fc_attempts, $admin_fc_timeout, $pnt_prefix;
 			if($admin_fc_status == 1):
 
 				$ip = $_SERVER['REMOTE_ADDR'];
 				$fcdate = date("mdYHi");
-				$fc = $titanium_db->sql_ufetchrow("SELECT * FROM `". $titanium_prefix ."_admin_fc` WHERE fc_ip = '$ip'");
+				$fc = $pnt_db->sql_ufetchrow("SELECT * FROM `". $pnt_prefix ."_admin_fc` WHERE fc_ip = '$ip'");
 			
 				if (empty($fc)):
-					$titanium_db->sql_query("INSERT INTO `" . $titanium_prefix . "_admin_fc` VALUES ('$fcdate', '$ip', '1')");
+					$pnt_db->sql_query("INSERT INTO `" . $pnt_prefix . "_admin_fc` VALUES ('$fcdate', '$ip', '1')");
 				else:
 
 					$fc_tries = $fc['fc_attempts'] + 1;
-					$titanium_db->sql_query("UPDATE `" . $titanium_prefix . "_admin_fc` SET `fc_datetime`='$fcdate', `fc_ip`='$ip', `fc_attempts`='$fc_tries' WHERE fc_ip = '$ip'");
+					$pnt_db->sql_query("UPDATE `" . $pnt_prefix . "_admin_fc` SET `fc_datetime`='$fcdate', `fc_ip`='$ip', `fc_attempts`='$fc_tries' WHERE fc_ip = '$ip'");
 
 				endif;
 
@@ -331,13 +331,13 @@ if ($admintest){
             }
             closedir($casedir);
 
-            $result = $titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_modules ORDER BY title ASC");
-            while(list($mod_title) = $titanium_db->sql_fetchrow($result,SQL_BOTH)){
+            $result = $pnt_db->sql_query("SELECT title FROM ".$pnt_prefix."_modules ORDER BY title ASC");
+            while(list($mod_title) = $pnt_db->sql_fetchrow($result,SQL_BOTH)){
                 if (is_mod_admin($mod_title) && (file_exists(NUKE_MODULES_DIR.$mod_title.'/admin/index.php') AND file_exists(NUKE_MODULES_DIR.$mod_title.'/admin/links.php') AND file_exists(NUKE_MODULES_DIR.$mod_title.'/admin/case.php'))){
                      include(NUKE_MODULES_DIR.$mod_title.'/admin/case.php');
                 }
             }
-            $titanium_db->sql_freeresult($result);
+            $pnt_db->sql_freeresult($result);
         break;
     }
 } else {

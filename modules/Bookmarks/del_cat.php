@@ -21,18 +21,18 @@ if (!defined('MODULE_FILE'))
    die ("You can't access this file directly...");
 }
 
-global $titanium_prefix, $titanium_db, $cookie, $titanium_user;
+global $pnt_prefix, $pnt_db, $cookie, $pnt_user;
 $index = 1;
 require_once("mainfile.php");
 $pnt_module = basename(dirname(__FILE__));
 get_lang($pnt_module);
 
-$userinfo = getusrinfo( $titanium_user );
-$titanium_userid = $userinfo["user_id"];
+$userinfo = getusrinfo( $pnt_user );
+$pnt_userid = $userinfo["user_id"];
 $catname=@htmlentities($catname);
 
-if (!isset($titanium_userid) || $titanium_userid=="")
-        $titanium_userid=0;
+if (!isset($pnt_userid) || $pnt_userid=="")
+        $pnt_userid=0;
 
 //If no was pressed
 if (isset($action) && $action==_NO)
@@ -43,11 +43,11 @@ if (isset($action) && $action==_NO)
 //If yes was pressed
 if (isset($action)  && $action==_YES && isset($catid) && $catid!="")
 {
-	$delmarksquery = "delete from ".$titanium_prefix."_bookmarks where category_id=$catid AND user_id=$titanium_userid";
-	$delcatquery   = "delete from ".$titanium_prefix."_bookmarks_cat where category_id=$catid AND user_id=$titanium_userid";
+	$delmarksquery = "delete from ".$pnt_prefix."_bookmarks where category_id=$catid AND user_id=$pnt_userid";
+	$delcatquery   = "delete from ".$pnt_prefix."_bookmarks_cat where category_id=$catid AND user_id=$pnt_userid";
 	
-	$titanium_db->sql_query ($delmarksquery,$titanium_db);
-	$titanium_db->sql_query ($delcatquery,$titanium_db);
+	$pnt_db->sql_query ($delmarksquery,$pnt_db);
+	$pnt_db->sql_query ($delcatquery,$pnt_db);
 	
 	Header("Location: modules.php?name=".$pnt_module);
 }

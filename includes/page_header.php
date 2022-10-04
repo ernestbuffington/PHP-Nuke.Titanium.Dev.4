@@ -51,7 +51,7 @@ exit('ACCESS DENIED');
 
 define('HEADER_INC', TRUE);
 
-global $name, $sitename, $is_inline_review, $titanium_prefix, $titanium_db, $cache, $ThemeSel;
+global $name, $sitename, $is_inline_review, $pnt_prefix, $pnt_db, $cache, $ThemeSel;
 
 OpenTable();
 
@@ -62,8 +62,8 @@ else
 include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_adv_time.' . $phpEx);
 if(($userdata['user_id'] != ANONYMOUS && $userdata['user_time_mode'] >= 4)
 || ($userdata['user_id'] == ANONYMOUS && $phpbb2_board_config['default_time_mode'] >= 4)):
-    global $titanium_pc_dateTime, $HTTP_SESSION_VARS, $HTTP_GET_VARS;
-    if(!isset($titanium_pc_dateTime['pc_timezoneOffset']) && !isset($HTTP_GET_VARS['pc_tzo'])):
+    global $pnt_pc_dateTime, $HTTP_SESSION_VARS, $HTTP_GET_VARS;
+    if(!isset($pnt_pc_dateTime['pc_timezoneOffset']) && !isset($HTTP_GET_VARS['pc_tzo'])):
         $phpbb2_template->assign_block_vars('switch_send_pc_dateTime', array());
 		if($userdata['user_pc_timeOffsets'] != '0'):
         $phpbb2_template->assign_block_vars('switch_valid_time', array());
@@ -105,7 +105,7 @@ $l_online_users = '';
 if(defined('SHOW_ONLINE'))
 {
    # Mod: Online Time v1.0.0 START
-   $titanium_user_forum_sql = (!empty($phpbb2_forum_id)) ? "AND s.session_page = ".intval($phpbb2_forum_id) : '';
+   $pnt_user_forum_sql = (!empty($phpbb2_forum_id)) ? "AND s.session_page = ".intval($phpbb2_forum_id) : '';
    $sql = "SELECT u.username, 
                    u.user_id, 
 	 u.user_allow_viewonline, 
@@ -117,20 +117,20 @@ if(defined('SHOW_ONLINE'))
            WHERE u.user_id = s.session_user_id
            AND s.session_time >= ".(time() - $phpbb2_board_config['online_time'])."
            AND u.user_allow_viewonline = 1
-		   $titanium_user_forum_sql
+		   $pnt_user_forum_sql
            ORDER BY u.username ASC, s.session_ip ASC";
    # Mod: Online Time v1.0.0 END
 
-   if(!($result = $titanium_db->sql_query($sql)))
+   if(!($result = $pnt_db->sql_query($sql)))
    message_die(GENERAL_ERROR, 'Could not obtain user/online information', '', __LINE__, __FILE__, $sql);
 
-   $titanium_userlist_ary = array();
-   $titanium_userlist_visible = array();
+   $pnt_userlist_ary = array();
+   $pnt_userlist_visible = array();
 
    $prev_user_id = 0;
    $prev_user_ip = $prev_session_ip = '';
 
-   while( $row = $titanium_db->sql_fetchrow($result)):
+   while( $row = $pnt_db->sql_fetchrow($result)):
      # User is logged in and therefor not a guest
      if($row['session_logged_in']):
        # Skip multiple sessions for one user
@@ -139,15 +139,15 @@ if(defined('SHOW_ONLINE'))
           $row['username'] = UsernameColor($row['username']);
           # Mod: Advanced Username Color v1.0.5 END
           if($row['user_allow_viewonline']):
-            $titanium_user_online_link = '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id']).'">'.$row['username'].'</a>';
+            $pnt_user_online_link = '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id']).'">'.$row['username'].'</a>';
             $logged_visible_online++;
           else:
-            $titanium_user_online_link = '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id']).'"><i>'.$row['username'].'</i></a>';
+            $pnt_user_online_link = '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id']).'"><i>'.$row['username'].'</i></a>';
             $logged_hidden_online++;
           endif;
           # Mod: Hidden Status Viewing v1.0.0 START
           if($row['user_allow_viewonline'] || $userdata['user_level'] == ADMIN || $userdata['user_id'] == $row['user_id'])
-          $online_userlist .= ( $online_userlist != '' ) ? ', ' . $titanium_user_online_link : $titanium_user_online_link;
+          $online_userlist .= ( $online_userlist != '' ) ? ', ' . $pnt_user_online_link : $pnt_user_online_link;
           # Mod: Hidden Status Viewing v1.0.0 END
        endif;
        $prev_user_id = $row['user_id'];
@@ -158,7 +158,7 @@ if(defined('SHOW_ONLINE'))
      endif;
        $prev_session_ip = $row['session_ip'];
    endwhile;
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         if(empty($online_userlist))
         $online_userlist = $lang['None'];
@@ -172,13 +172,13 @@ if(defined('SHOW_ONLINE'))
            $sql = "UPDATE " . CONFIG_TABLE . "
                    SET config_value = '$total_phpbb2_online_users'
                    WHERE config_name = 'record_online_users'";
-		   if(!$titanium_db->sql_query($sql))
+		   if(!$pnt_db->sql_query($sql))
            message_die(GENERAL_ERROR, 'Could not update online user record (nr of users)', '', __LINE__, __FILE__, $sql);
 
            $sql = "UPDATE ".CONFIG_TABLE."
                    SET config_value = '".$phpbb2_board_config['record_online_date']."'
                    WHERE config_name = 'record_online_date'";
-           if(!$titanium_db->sql_query($sql))
+           if(!$pnt_db->sql_query($sql))
            message_die(GENERAL_ERROR, 'Could not update online user record (date)', '', __LINE__, __FILE__, $sql);
            # Base: Caching System v3.0.0 START
            $cache->delete('board_config', 'config');
@@ -222,7 +222,7 @@ if(defined('SHOW_ONLINE'))
 
 
 # Mod: Users of the day v2.1.0 START
-$titanium_users_list_delay = 24;
+$pnt_users_list_delay = 24;
 
 $sql = "SELECT user_id, 
               username, 
@@ -234,33 +234,33 @@ $sql = "SELECT user_id,
         WHERE user_id > 0
         ORDER BY IF(user_level=1,3,user_level) DESC, username ASC";
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 message_die(GENERAL_ERROR, 'Could not obtain user/day information', '', __LINE__, __FILE__, $sql);
 
 $day_userlist = '';
 
 $day_users = 0;
 
-while($row = $titanium_db->sql_fetchrow($result)):
+while($row = $pnt_db->sql_fetchrow($result)):
 	if($row['user_allow_viewonline']):
       # Mod: Advanced Username Color v1.0.5 START
-	  $titanium_user_day_link = '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id']).'">'.UsernameColor($row['username']).'</a>';
+	  $pnt_user_day_link = '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id']).'">'.UsernameColor($row['username']).'</a>';
       # Mod: Advanced Username Color v1.0.5 END
 	else:
       # Mod: Advanced Username Color v1.0.5 START
-	  $titanium_user_day_link = '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id']).'"><i>'.UsernameColor($row['username']).'</i></a>';
+	  $pnt_user_day_link = '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id']).'"><i>'.UsernameColor($row['username']).'</i></a>';
       # Mod: Advanced Username Color v1.0.5 END
 	endif;
 	
 	if($row['user_allow_viewonline'] || $userdata['user_level'] == ADMIN):
-		if($row['user_session_time'] >= (time() - $titanium_users_list_delay * 3600 )):
-			$day_userlist .= ( $day_userlist <> '' ) ? ', ' . $titanium_user_day_link : $titanium_user_day_link;
+		if($row['user_session_time'] >= (time() - $pnt_users_list_delay * 3600 )):
+			$day_userlist .= ( $day_userlist <> '' ) ? ', ' . $pnt_user_day_link : $pnt_user_day_link;
 			$day_users++;
 		endif;
 	endif;
 endwhile;
 
-$day_userlist = sprintf($lang['day_userlist_users'], $day_users, $titanium_users_list_delay) . ' ' . $day_userlist;
+$day_userlist = sprintf($lang['day_userlist_users'], $day_users, $pnt_users_list_delay) . ' ' . $day_userlist;
 # Mod: Users of the day v2.1.0 END
 
 # Obtain number of new private messages
@@ -273,7 +273,7 @@ if(($userdata['session_logged_in']) && (empty($gen_simple_header))):
          $sql = "UPDATE ".USERS_TABLE."
                  SET user_last_privmsg = ".$userdata['user_lastvisit']."
                  WHERE user_id = ".$userdata['user_id'];
-         if(!$titanium_db->sql_query($sql))
+         if(!$pnt_db->sql_query($sql))
          message_die(GENERAL_ERROR, 'Could not update private message new/read time for user', '', __LINE__, __FILE__, $sql);
          # Mod: Suppress Popup v1.0.0 START
          if(isset($_REQUEST["suppress"]))
@@ -313,20 +313,20 @@ else:
 endif;
 
 # Generate HTML required for Mozilla Navigation bar
-if(!isset($titanium_nav_links))
-$titanium_nav_links = array();
+if(!isset($pnt_nav_links))
+$pnt_nav_links = array();
 
-$titanium_nav_links_html = '';
+$pnt_nav_links_html = '';
 
 $nav_link_proto = '<link rel="%s" href="%s" title="%s" />' . "\n";
 
-  while(list($nav_item, $nav_array) = @each($titanium_nav_links)):
+  while(list($nav_item, $nav_array) = @each($pnt_nav_links)):
     if(!empty($nav_array['url'])):
-      $titanium_nav_links_html .= sprintf($nav_link_proto, $nav_item, append_titanium_sid($nav_array['url']), $nav_array['title']);
+      $pnt_nav_links_html .= sprintf($nav_link_proto, $nav_item, append_titanium_sid($nav_array['url']), $nav_array['title']);
     else:
      # We have a nested array, used for items like <link rel='chapter'> that can occur more than once.
      while( list(,$nested_array) = each($nav_array)):
-       $titanium_nav_links_html .= sprintf($nav_link_proto, $nav_item, $nested_array['url'], $nested_array['title']);
+       $pnt_nav_links_html .= sprintf($nav_link_proto, $nav_item, $nested_array['url'], $nested_array['title']);
      endwhile;
     endif;
   endwhile;
@@ -352,13 +352,13 @@ $phpbb2_template->assign_block_vars('colors',array(
 $sql = "SELECT * FROM ".QUICKSEARCH_TABLE."
         ORDER BY search_name";
 
-if(!$result = $titanium_db->sql_query($sql))
+if(!$result = $pnt_db->sql_query($sql))
 message_die(GENERAL_ERROR, "Couldn't obtain quick search data", "", __LINE__, __FILE__, $sql);
 
-$search_count = $titanium_db->sql_numrows($result);
+$search_count = $pnt_db->sql_numrows($result);
 $search_rows = array();
-$search_rows = $titanium_db->sql_fetchrowset($result);
-$titanium_db->sql_freeresult($result);
+$search_rows = $pnt_db->sql_fetchrowset($result);
+$pnt_db->sql_freeresult($result);
 $search_list = '<option value="forum_search" selected="selected">'.$phpbb2_board_config['sitename'].'</option>';
 $checkSearch = '';
 
@@ -657,7 +657,7 @@ $phpbb2_template->assign_vars(array(
         'T_HIDDEN_COLOR' => '#' . $theme['hidden_color'],
         # Mod: Online/Offline/Hidden v2.2.7 END
 
-        'NAV_LINKS' => $titanium_nav_links_html)
+        'NAV_LINKS' => $pnt_nav_links_html)
 );
 
 # Mod: Disable Board Admin Override v0.1.1 START
@@ -690,7 +690,7 @@ if($userdata['birthday_greeting'] != 0 && ($userdata['user_next_birthday'] < gmd
    $sql = "UPDATE ".USERS_TABLE. "
 		   SET user_next_birthday = ".(gmdate('Y',$current_time)+1)."
 		   WHERE user_id = ".$userdata['user_id'];
-   if(!$titanium_db->sql_query($sql))
+   if(!$pnt_db->sql_query($sql))
    message_die(GENERAL_ERROR, 'Could not update birthday information', '', __LINE__, __FILE__, $sql);
    switch($userdata['birthday_greeting']):
 	  case BIRTHDAY_EMAIL:

@@ -29,12 +29,12 @@ global $admin_file, $currentlang;
 		
 function abget_country($tempip)
 	{
-		global $titanium_prefix, $titanium_db;
+		global $pnt_prefix, $pnt_db;
 		$tempip = str_replace(".*", ".0", $tempip);
 		$tempip = sprintf("%u", ip2long($tempip));
-		$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_ip2country` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip' LIMIT 0,1");
-		$countryinfo = $titanium_db->sql_fetchrow($result);
-		$titanium_db->sql_freeresult($result);
+		$result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_ip2country` WHERE `ip_lo`<='$tempip' AND `ip_hi`>='$tempip' LIMIT 0,1");
+		$countryinfo = $pnt_db->sql_fetchrow($result);
+		$pnt_db->sql_freeresult($result);
 		return $countryinfo;
 	}
 
@@ -47,10 +47,10 @@ function abget_country($tempip)
 //*************************************************************************
 function honeypotstats()
 	{	
-	  	global $titanium_prefix, $titanium_db, $admin_file;
+	  	global $pnt_prefix, $pnt_db, $admin_file;
 
-		$result = $titanium_db->sql_query("SELECT check1, check2, check3, check4, check5, check6, c8opt1, c8opt2, fs9opt1, fs9opt2, headcolor, rowcolor1, rowcolor2, pagebgcolor, pagebordercolor, fontcolor, fontcolor2 FROM ".$titanium_prefix."_honeypot_config");
-		list($check1, $check2, $check3, $check4, $check5, $check6, $c8opt1, $c8opt2, $fs9opt1, $fs9opt2, $headcolor, $rowcolor1, $rowcolor2, $pagebgcolor, $pagebordercolor, $fontcolor, $fontcolor2) = $titanium_db->sql_fetchrow($result);
+		$result = $pnt_db->sql_query("SELECT check1, check2, check3, check4, check5, check6, c8opt1, c8opt2, fs9opt1, fs9opt2, headcolor, rowcolor1, rowcolor2, pagebgcolor, pagebordercolor, fontcolor, fontcolor2 FROM ".$pnt_prefix."_honeypot_config");
+		list($check1, $check2, $check3, $check4, $check5, $check6, $c8opt1, $c8opt2, $fs9opt1, $fs9opt2, $headcolor, $rowcolor1, $rowcolor2, $pagebgcolor, $pagebordercolor, $fontcolor, $fontcolor2) = $pnt_db->sql_fetchrow($result);
 		
 		addCSSToHead('./includes/honeypot/css/honeypot_stats.css','file');
     $hpcss2head .='<style type="text/css">';
@@ -89,27 +89,27 @@ function honeypotstats()
 			
 					include("header.php");	
 					
-					$result1 = $titanium_db->sql_query("SELECT COUNT(potnum) FROM `". $titanium_prefix ."_honeypot` WHERE potnum = '0'");
-list($waitscript) = $titanium_db->sql_fetchrow($result1);
-$titanium_db->sql_freeresult($result1);
-					$result2 = $titanium_db->sql_query("SELECT COUNT(potnum) FROM `". $titanium_prefix ."_honeypot` WHERE potnum = '1'");
-list($textremoval) = $titanium_db->sql_fetchrow($result2);
-$titanium_db->sql_freeresult($result2);
-					$result3 = $titanium_db->sql_query("SELECT COUNT(potnum) FROM `". $titanium_prefix ."_honeypot` WHERE potnum = '2'");
-list($hidden) = $titanium_db->sql_fetchrow($result3);
-$titanium_db->sql_freeresult($result3);
-					$result4 = $titanium_db->sql_query("SELECT COUNT(potnum) FROM `". $titanium_prefix ."_honeypot` WHERE potnum = '3'");
-list($customquestion) = $titanium_db->sql_fetchrow($result4);
-$titanium_db->sql_freeresult($result4);
-					$result5 = $titanium_db->sql_query("SELECT COUNT(potnum) FROM `". $titanium_prefix ."_honeypot` WHERE potnum = '4' OR potnum = '5'");
-list($sfsspam) = $titanium_db->sql_fetchrow($result5);
-$titanium_db->sql_freeresult($result5);
-					$result6 = $titanium_db->sql_query("SELECT COUNT(potnum) FROM `". $titanium_prefix ."_honeypot` WHERE potnum = '6'");
-list($bscheck) = $titanium_db->sql_fetchrow($result6);
-$titanium_db->sql_freeresult($result6);
-					$result7 = $titanium_db->sql_query("SELECT COUNT(potnum) FROM `". $titanium_prefix ."_honeypot` WHERE potnum = '7'");
-list($fscheck) = $titanium_db->sql_fetchrow($result7);
-$titanium_db->sql_freeresult($result7);
+					$result1 = $pnt_db->sql_query("SELECT COUNT(potnum) FROM `". $pnt_prefix ."_honeypot` WHERE potnum = '0'");
+list($waitscript) = $pnt_db->sql_fetchrow($result1);
+$pnt_db->sql_freeresult($result1);
+					$result2 = $pnt_db->sql_query("SELECT COUNT(potnum) FROM `". $pnt_prefix ."_honeypot` WHERE potnum = '1'");
+list($textremoval) = $pnt_db->sql_fetchrow($result2);
+$pnt_db->sql_freeresult($result2);
+					$result3 = $pnt_db->sql_query("SELECT COUNT(potnum) FROM `". $pnt_prefix ."_honeypot` WHERE potnum = '2'");
+list($hidden) = $pnt_db->sql_fetchrow($result3);
+$pnt_db->sql_freeresult($result3);
+					$result4 = $pnt_db->sql_query("SELECT COUNT(potnum) FROM `". $pnt_prefix ."_honeypot` WHERE potnum = '3'");
+list($customquestion) = $pnt_db->sql_fetchrow($result4);
+$pnt_db->sql_freeresult($result4);
+					$result5 = $pnt_db->sql_query("SELECT COUNT(potnum) FROM `". $pnt_prefix ."_honeypot` WHERE potnum = '4' OR potnum = '5'");
+list($sfsspam) = $pnt_db->sql_fetchrow($result5);
+$pnt_db->sql_freeresult($result5);
+					$result6 = $pnt_db->sql_query("SELECT COUNT(potnum) FROM `". $pnt_prefix ."_honeypot` WHERE potnum = '6'");
+list($bscheck) = $pnt_db->sql_fetchrow($result6);
+$pnt_db->sql_freeresult($result6);
+					$result7 = $pnt_db->sql_query("SELECT COUNT(potnum) FROM `". $pnt_prefix ."_honeypot` WHERE potnum = '7'");
+list($fscheck) = $pnt_db->sql_fetchrow($result7);
+$pnt_db->sql_freeresult($result7);
 
 
 	
@@ -156,9 +156,9 @@ $titanium_db->sql_freeresult($result7);
 		
 		OpenTable();
 	
-$result_total = $titanium_db->sql_query("SELECT COUNT(potnum) FROM `". $titanium_prefix ."_honeypot`");
-list($total_phpbb2_blocked) = $titanium_db->sql_fetchrow($result_total);
-$titanium_db->sql_freeresult($result_total);
+$result_total = $pnt_db->sql_query("SELECT COUNT(potnum) FROM `". $pnt_prefix ."_honeypot`");
+list($total_phpbb2_blocked) = $pnt_db->sql_fetchrow($result_total);
+$pnt_db->sql_freeresult($result_total);
 	
 function checkPercentage($total, $check_blocked) {
 	if ($total > 0) {
@@ -303,9 +303,9 @@ function checkPercentage($total, $check_blocked) {
 
 function honeypot()
 	{
-		global $titanium_prefix, $titanium_db, $admin_file;
-		$result1 = $titanium_db->sql_query("SELECT botlisting, perpage, pagenumberpos, headcolor, rowcolor1, rowcolor2, pagebgcolor, pagebordercolor, fontcolor, fontcolor2, usefeedback, email FROM ".$titanium_prefix."_honeypot_config");
-		list($botlisting, $perpage, $pagenumberpos, $headcolor, $rowcolor1, $rowcolor2, $pagebgcolor, $pagebordercolor, $fontcolor, $fontcolor2, $usefeedback, $email) = $titanium_db->sql_fetchrow($result1);
+		global $pnt_prefix, $pnt_db, $admin_file;
+		$result1 = $pnt_db->sql_query("SELECT botlisting, perpage, pagenumberpos, headcolor, rowcolor1, rowcolor2, pagebgcolor, pagebordercolor, fontcolor, fontcolor2, usefeedback, email FROM ".$pnt_prefix."_honeypot_config");
+		list($botlisting, $perpage, $pagenumberpos, $headcolor, $rowcolor1, $rowcolor2, $pagebgcolor, $pagebordercolor, $fontcolor, $fontcolor2, $usefeedback, $email) = $pnt_db->sql_fetchrow($result1);
 		if($pagenumberpos == 0)
 		{
 			$page_numberpos = "top";
@@ -330,14 +330,14 @@ function honeypot()
 		
 		if (isset($_GET['del']) && $_GET['del'] == 'all') 
 		{
-			$titanium_db->sql_query('DELETE FROM `'.$titanium_prefix.'_honeypot`');
-			$titanium_db->sql_query('ALTER TABLE `'.$titanium_prefix.'_honeypot` AUTO_INCREMENT = 1');
-			$titanium_db->sql_query('OPTIMIZE TABLE `'.$titanium_prefix.'_honeypot`');
+			$pnt_db->sql_query('DELETE FROM `'.$pnt_prefix.'_honeypot`');
+			$pnt_db->sql_query('ALTER TABLE `'.$pnt_prefix.'_honeypot` AUTO_INCREMENT = 1');
+			$pnt_db->sql_query('OPTIMIZE TABLE `'.$pnt_prefix.'_honeypot`');
 			Header("Location: admin.php?op=honeypot");
 		} 
 		else 
 		{
-			global $titanium_prefix, $titanium_db, $bgcolor2, $admin_file;
+			global $pnt_prefix, $pnt_db, $bgcolor2, $admin_file;
 			
 			addCSSToHead('./includes/honeypot/css/honeypot.css','file');
 			
@@ -450,7 +450,7 @@ function honeypot()
 	
 		// Number of results per page
 		if(isset($_GET['page'])) {
-				$currentPage = $titanium_db->sql_escapestring($_GET['page']);
+				$currentPage = $pnt_db->sql_escapestring($_GET['page']);
 		}else{
 			$currentPage = 1;
 		}
@@ -460,11 +460,11 @@ function honeypot()
 		
 		// total results
 		if(isset($_GET['search'])){
-			$nameip = $titanium_db->sql_escapestring($_GET['search']);
+			$nameip = $pnt_db->sql_escapestring($_GET['search']);
 			$where = ' WHERE `email` LIKE \'%' . $nameip . '%\' OR `ip` LIKE \'%' . $nameip . '%\'';
-			$num = $titanium_db->sql_numrows($titanium_db->sql_query('SELECT * FROM `' . $titanium_prefix . '_honeypot`' . $where . ''));
+			$num = $pnt_db->sql_numrows($pnt_db->sql_query('SELECT * FROM `' . $pnt_prefix . '_honeypot`' . $where . ''));
 		}else{
-			$num = $titanium_db->sql_numrows($titanium_db->sql_query('SELECT * FROM `' . $titanium_prefix . '_honeypot`'));
+			$num = $pnt_db->sql_numrows($pnt_db->sql_query('SELECT * FROM `' . $pnt_prefix . '_honeypot`'));
 		}
 	
 		// round up total pages from total results
@@ -536,13 +536,13 @@ function honeypot()
 			, '</tr>' , PHP_EOL;
 
 		if(isset($_GET['search'])){
-			$nameip = $titanium_db->sql_escapestring($_GET['search']);
-			$result = $titanium_db->sql_query("SELECT id, username, realname, email, ip, date, potnum, reason FROM ".$titanium_prefix."_honeypot WHERE email LIKE '%$nameip%' OR ip LIKE '%$nameip%' ORDER BY id $orderby $limitQ");
+			$nameip = $pnt_db->sql_escapestring($_GET['search']);
+			$result = $pnt_db->sql_query("SELECT id, username, realname, email, ip, date, potnum, reason FROM ".$pnt_prefix."_honeypot WHERE email LIKE '%$nameip%' OR ip LIKE '%$nameip%' ORDER BY id $orderby $limitQ");
 		}else{
-			$result = $titanium_db->sql_query("SELECT id, username, realname, email, ip, date, potnum, reason FROM ".$titanium_prefix."_honeypot ORDER BY id $orderby $limitQ");
+			$result = $pnt_db->sql_query("SELECT id, username, realname, email, ip, date, potnum, reason FROM ".$pnt_prefix."_honeypot ORDER BY id $orderby $limitQ");
 		}
-		$total_phpbb2_count = $titanium_db->sql_numrows($result);
-		while ($row = $titanium_db->sql_fetchrow($result)) {
+		$total_phpbb2_count = $pnt_db->sql_numrows($result);
+		while ($row = $pnt_db->sql_fetchrow($result)) {
 		$row_color = ( $rowcolor1 != $row_color ) ? $rowcolor1 : $rowcolor2;
 
 		if ($row['potnum'] == 0){
@@ -645,8 +645,8 @@ function honeypot()
 			$id = (int) $checkbox[$i];
 
 				if ($id > 0) {
-					$resultds = $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_honeypot` WHERE id='".$_POST['checkbox'][$i]."'");
-					$titanium_db->sql_query('OPTIMIZE TABLE `'.$titanium_prefix.'_honeypot`');
+					$resultds = $pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_honeypot` WHERE id='".$_POST['checkbox'][$i]."'");
+					$pnt_db->sql_query('OPTIMIZE TABLE `'.$pnt_prefix.'_honeypot`');
 				}
 			if($resultds){
 				Header("Location: admin.php?op=honeypot&search=$nameip");
@@ -675,10 +675,10 @@ function honeypot()
 
 	function honeypotconfig()
 	{
-		global $titanium_prefix, $titanium_db, $admin_file, $bgcolor2;
+		global $pnt_prefix, $pnt_db, $admin_file, $bgcolor2;
 
-		$result2 = $titanium_db->sql_query("SELECT usehp, botlisting, perpage, pagenumberpos, headcolor, rowcolor1, rowcolor2, pagebgcolor, pagebordercolor, fontcolor, fontcolor2, check1, check2, check3, check4, check5, check6, c7opt1, c7opt2, c7amount, c8opt1, c8opt2, usebsapi, c8apikey, fs9opt1, fs9opt2, fs9apikey, check3time, check4question, check4answer, usefeedback, email, version FROM ".$titanium_prefix."_honeypot_config");
-		list($usehp, $botlisting, $perpage, $pagenumberpos, $headcolor, $rowcolor1, $rowcolor2, $pagebgcolor, $pagebordercolor, $fontcolor, $fontcolor2, $check1, $check2, $check3, $check4, $check5, $check6, $c7opt1, $c7opt2, $c7amount, $c8opt1, $c8opt2, $usebsapi, $c8apikey, $fs9opt1, $fs9opt2, $fs9apikey, $check3time, $check4question, $check4answer, $usefeedback, $email, $hpversion) = $titanium_db->sql_fetchrow($result2);
+		$result2 = $pnt_db->sql_query("SELECT usehp, botlisting, perpage, pagenumberpos, headcolor, rowcolor1, rowcolor2, pagebgcolor, pagebordercolor, fontcolor, fontcolor2, check1, check2, check3, check4, check5, check6, c7opt1, c7opt2, c7amount, c8opt1, c8opt2, usebsapi, c8apikey, fs9opt1, fs9opt2, fs9apikey, check3time, check4question, check4answer, usefeedback, email, version FROM ".$pnt_prefix."_honeypot_config");
+		list($usehp, $botlisting, $perpage, $pagenumberpos, $headcolor, $rowcolor1, $rowcolor2, $pagebgcolor, $pagebordercolor, $fontcolor, $fontcolor2, $check1, $check2, $check3, $check4, $check5, $check6, $c7opt1, $c7opt2, $c7amount, $c8opt1, $c8opt2, $usebsapi, $c8apikey, $fs9opt1, $fs9opt2, $fs9apikey, $check3time, $check4question, $check4answer, $usefeedback, $email, $hpversion) = $pnt_db->sql_fetchrow($result2);
 $hpcss2head = '<style type="text/css">'."\n";
 $hpcss2head .= '	.pothead {'."\n";
 $hpcss2head .= '		border:1px solid '.$pagebgcolor .';'."\n";
@@ -1294,7 +1294,7 @@ $hpjs2head .= '  </script>'."\n";
 	//save config start
 	function honeypotconfigsave($usehp, $botlisting, $perpage, $pagenumberpos, $headcolor, $rowcolor1, $rowcolor2, $pagebgcolor, $pagebordercolor, $fontcolor, $fontcolor2, $check1, $check2, $check3, $check4, $check5, $check6, $c7opt1, $c7opt2, $c7amount, $c8opt1, $c8opt2, $usebsapi, $c8apikey, $fs9opt1, $fs9opt2, $fs9apikey, $check3time, $check4question, $check4answer,$usefeedback, $email) {
 	include("header.php");
-	global $titanium_prefix, $titanium_db, $pnt_module;
+	global $pnt_prefix, $pnt_db, $pnt_module;
 
 		$usehp = htmlentities($usehp, ENT_QUOTES);
 		$botlisting = htmlentities($botlisting, ENT_QUOTES);
@@ -1329,7 +1329,7 @@ $hpjs2head .= '  </script>'."\n";
 		$usefeedback = htmlentities($usefeedback, ENT_QUOTES);
 		$email = htmlentities($email, ENT_QUOTES);
 
-		$titanium_db->sql_query("UPDATE ".$titanium_prefix."_honeypot_config SET 
+		$pnt_db->sql_query("UPDATE ".$pnt_prefix."_honeypot_config SET 
 		usehp='$usehp',
 		botlisting='$botlisting',
 		perpage='$perpage',
@@ -1362,7 +1362,7 @@ $hpjs2head .= '  </script>'."\n";
 		check4question='$check4question',
 		check4answer='$check4answer',
 		usefeedback='$usefeedback',
-		email='$email'", $titanium_db);
+		email='$email'", $pnt_db);
 		Header("Location: admin.php?op=honeypotconfig");
 	}
 	//save config end

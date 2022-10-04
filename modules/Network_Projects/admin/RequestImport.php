@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REQUESTS.': '._NETWORK_IMPORTASTASK;
@@ -27,8 +27,8 @@ echo "<input type='hidden' name='request_id' value='$request_id'>\n";
 echo "<input type='hidden' name='project_id' value'".$request['project_id']."'>\n";
 echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_PROJECT.":</td>\n";
 echo "<td><select name='project_id'>\n";
-$projectlist = $titanium_db2->sql_query("SELECT `project_id`, `project_name` FROM `".$network_prefix."_projects` ORDER BY `project_name`");
-while(list($s_project_id, $s_project_name) = $titanium_db2->sql_fetchrow($projectlist)){
+$projectlist = $pnt_db2->sql_query("SELECT `project_id`, `project_name` FROM `".$network_prefix."_projects` ORDER BY `project_name`");
+while(list($s_project_id, $s_project_name) = $pnt_db2->sql_fetchrow($projectlist)){
     if($s_project_id == $request['project_id']){ $sel = "selected"; } else { $sel = ""; }
     echo "<option value='$s_project_id' $sel>$s_project_name</option>\n";
 }
@@ -39,8 +39,8 @@ echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._NETWORK_DESCRIPTION.":</td>\n"
 echo "<td><textarea name='task_description' cols='60' rows='10' wrap='virtual'>".$request['request_description']."</textarea></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_PRIORITY.":</td>\n";
 echo "<td><select name='priority_id'><option value='0'>---------</option>\n";
-$prioritylist = $titanium_db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_tasks_priorities` ORDER BY `priority_weight`");
-while(list($s_priority_id, $s_priority_name) = $titanium_db2->sql_fetchrow($prioritylist)){
+$prioritylist = $pnt_db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_tasks_priorities` ORDER BY `priority_weight`");
+while(list($s_priority_id, $s_priority_name) = $pnt_db2->sql_fetchrow($prioritylist)){
     echo "<option value='$s_priority_id'>$s_priority_name</option>\n";
 }
 echo "</select></td></tr>\n";
@@ -48,8 +48,8 @@ echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_STATUSPERCENT.":</td>\n";
 echo "<td><input type='text' name='task_percent' size='4' value='0'>%</td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_STATUS.":</td>\n";
 echo "<td><select name='status_id'><option value='0'>---------</option>\n";
-$statuslist = $titanium_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_tasks_status` ORDER BY `status_weight`");
-while(list($s_status_id, $s_status_name) = $titanium_db2->sql_fetchrow($statuslist)){
+$statuslist = $pnt_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_tasks_status` ORDER BY `status_weight`");
+while(list($s_status_id, $s_status_name) = $pnt_db2->sql_fetchrow($statuslist)){
     echo "<option value='$s_status_id'>$s_status_name</option>\n";
 }
 echo "</select></td></tr>\n";
@@ -77,8 +77,8 @@ for($i = 1; $i <= 31; $i++){
 echo "</select><input type=text name='task_finish_year' value='0000' size='4' maxlength='4'></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._NETWORK_ASSIGNMEMBERS.":</td>\n";
 echo "<td><select name='member_ids[]' size='10' multiple>\n";
-$memberlistresult = $titanium_db2->sql_query("SELECT `member_id`, `member_name` FROM `".$network_prefix."_members` ORDER BY `member_name`");
-while(list($member_id, $member_name) = $titanium_db2->sql_fetchrow($memberlistresult)) {
+$memberlistresult = $pnt_db2->sql_query("SELECT `member_id`, `member_name` FROM `".$network_prefix."_members` ORDER BY `member_name`");
+while(list($member_id, $member_name) = $pnt_db2->sql_fetchrow($memberlistresult)) {
     echo "<option value='$member_id'>$member_name</option>\n";
 }
 echo "</select></td></tr>\n";

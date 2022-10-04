@@ -381,13 +381,13 @@ class BBCode
 		return BBCode::evo_mention( $matches[1] );
 	}
 
-	public static function evo_mention( $titanium_user )
+	public static function evo_mention( $pnt_user )
 	{
-		global $titanium_db, $customlang;
+		global $pnt_db, $customlang;
 		
 		// modules.php?name=Private_Messages&mode=post&pm_uname=Lonestar
-		// $row = $titanium_db->sql_ufetchrow("SELECT `user_id`, `username` FROM `".USERS_TABLE."` WHERE `username` = '".$titanium_user."'");
-		return '<a href="modules.php?name=Private_Messages&mode=post&pm_uname='.$titanium_user.'" target="_blank" alt="'.$customlang['global']['send_pm'].'" title="'.$customlang['global']['send_pm'].'">'.$titanium_user.'</a>';
+		// $row = $pnt_db->sql_ufetchrow("SELECT `user_id`, `username` FROM `".USERS_TABLE."` WHERE `username` = '".$pnt_user."'");
+		return '<a href="modules.php?name=Private_Messages&mode=post&pm_uname='.$pnt_user.'" target="_blank" alt="'.$customlang['global']['send_pm'].'" title="'.$customlang['global']['send_pm'].'">'.$pnt_user.'</a>';
 	}
 
 	public static function split_bbcodes($text)

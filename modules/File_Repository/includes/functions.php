@@ -15,22 +15,22 @@ if (!defined('IN_FILE_REPOSITORY'))
 //---------------------------------------------------------------------
 //	DEFINE THE STANDARD SQL TABLES
 //---------------------------------------------------------------------
-define('_GROUPS_TABLE', 				$titanium_prefix.'_bbgroups');
-define('_USER_TABLE', 					$titanium_user_prefix.'_users');
-define('_USER_GROUP_TABLE', 			$titanium_prefix.'_bbuser_group');
+define('_GROUPS_TABLE', 				$pnt_prefix.'_bbgroups');
+define('_USER_TABLE', 					$pnt_user_prefix.'_users');
+define('_USER_GROUP_TABLE', 			$pnt_prefix.'_bbuser_group');
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //	DEFINE THE SQL TABLES, MAKES THINGS EASIER IN THE FUTURE IF TABLES,
 //	NEED TO BE RENAMED :)
 //---------------------------------------------------------------------
-define('_FILE_REPOSITORY_CATEGORIES',	$titanium_prefix.'_file_repository_categories');
-define('_FILE_REPOSITORY_COMMENTS',		$titanium_prefix.'_file_repository_comments');
-define('_FILE_REPOSITORY_EXTENSIONS',	$titanium_prefix.'_file_repository_extensions');
-define('_FILE_REPOSITORY_FILES',		$titanium_prefix.'_file_repository_files');
-define('_FILE_REPOSITORY_ITEMS',		$titanium_prefix.'_file_repository_items');
-define('_FILE_REPOSITORY_SCREENSHOTS',	$titanium_prefix.'_file_repository_screenshots');
-define('_FILE_REPOSITORY_SETTINGS',		$titanium_prefix.'_file_repository_settings');
-define('_FILE_REPOSITORY_THEMES',		$titanium_prefix.'_file_repository_themes');
+define('_FILE_REPOSITORY_CATEGORIES',	$pnt_prefix.'_file_repository_categories');
+define('_FILE_REPOSITORY_COMMENTS',		$pnt_prefix.'_file_repository_comments');
+define('_FILE_REPOSITORY_EXTENSIONS',	$pnt_prefix.'_file_repository_extensions');
+define('_FILE_REPOSITORY_FILES',		$pnt_prefix.'_file_repository_files');
+define('_FILE_REPOSITORY_ITEMS',		$pnt_prefix.'_file_repository_items');
+define('_FILE_REPOSITORY_SCREENSHOTS',	$pnt_prefix.'_file_repository_screenshots');
+define('_FILE_REPOSITORY_SETTINGS',		$pnt_prefix.'_file_repository_settings');
+define('_FILE_REPOSITORY_THEMES',		$pnt_prefix.'_file_repository_themes');
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //	DEFINE THE FOLDER PATHS, AGAIN MAKES THINGS ALOT EASIER.
@@ -177,15 +177,15 @@ if($themes[get_theme()]['show_left'] == false)
 
 function _average_rating($did,$decimal=FALSE)
 {
-	global $titanium_db, $lang_new, $pnt_module;
+	global $pnt_db, $lang_new, $pnt_module;
 	
 	$ratingSum   = 0;
 	$ratingCount = 0;
 	
-	$result = $titanium_db->sql_query("SELECT `rating` FROM `"._FILE_REPOSITORY_COMMENTS."` WHERE `did`='$did'");
-	if($titanium_db->sql_numrows($result) > 0)
+	$result = $pnt_db->sql_query("SELECT `rating` FROM `"._FILE_REPOSITORY_COMMENTS."` WHERE `did`='$did'");
+	if($pnt_db->sql_numrows($result) > 0)
 	{
-		while(list($rating) = $titanium_db->sql_fetchrow($result))
+		while(list($rating) = $pnt_db->sql_fetchrow($result))
 		{
 			if($rating <> 0)
 			{
@@ -231,20 +231,20 @@ function _float_left_right($leftFloatLink=false, $leftFloat, $rightFloatLink=fal
 //---------------------------------------------------------------------
 function _admin_navigation_menu()
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings;
-	// $row = $titanium_db->sql_ufetchrow("SELECT count(isbroken) as isbroken FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isbroken`=1");
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $settings;
+	// $row = $pnt_db->sql_ufetchrow("SELECT count(isbroken) as isbroken FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isbroken`=1");
 
 	// count the broken downloads in the database.
 	$sql = "SELECT count(isbroken) as isbroken FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isbroken` = 1";
-	$result = $titanium_db->sql_query($sql);
-	list($isbroken) = $titanium_db->sql_fetchrow($result);
-	$titanium_db->sql_freeresult($result);
+	$result = $pnt_db->sql_query($sql);
+	list($isbroken) = $pnt_db->sql_fetchrow($result);
+	$pnt_db->sql_freeresult($result);
 
 	// count the client uploaded files in the database.
 	$sql = "SELECT count(isapproved) as isapproved FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isapproved` = 0";
-	$result = $titanium_db->sql_query($sql);
-	list($isapproved) = $titanium_db->sql_fetchrow($result);
-	$titanium_db->sql_freeresult($result);
+	$result = $pnt_db->sql_query($sql);
+	list($isapproved) = $pnt_db->sql_fetchrow($result);
+	$pnt_db->sql_freeresult($result);
 
 	echo '<table style="width: 100%;" border="0" cellpadding="3" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
@@ -317,7 +317,7 @@ function _bgColor($bgColor)
 
 function _category_deletion($cid)
 {
-	global $titanium_db;	
+	global $pnt_db;	
 	$catarray  = array();
 	$sql_ary   = '';
 	$physical  = array();
@@ -330,12 +330,12 @@ function _category_deletion($cid)
 		$sql_ary .= $cat . ',';
 	}
 	$sql_ary .= '-1';
-	$result = $titanium_db->sql_query("SELECT `did` FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `cid` IN ($sql_ary)");
-	while(list($did) = $titanium_db->sql_fetchrow($result)) 
+	$result = $pnt_db->sql_query("SELECT `did` FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `cid` IN ($sql_ary)");
+	while(list($did) = $pnt_db->sql_fetchrow($result)) 
 	{
 		$physical[$did]['did'] = $did;
 	}
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 	
 	# FIRST DELETE THE LINKS
 	if ( count($physical) > 0 ) 
@@ -345,74 +345,74 @@ function _category_deletion($cid)
 //---------------------------------------------------------------------
 //	HERE WE CHECK THE DATABASE FOR THE FILES ATTACHED
 //---------------------------------------------------------------------
-			$result = $titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$delete_did['did']."'");
-			if( $titanium_db->sql_numrows($result) > 0 )
+			$result = $pnt_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$delete_did['did']."'");
+			if( $pnt_db->sql_numrows($result) > 0 )
 			{
-				while($row = $titanium_db->sql_fetchrow($result))
+				while($row = $pnt_db->sql_fetchrow($result))
 				{
 					@unlink(_FILE_REPOSITORY_DIR.$row['filename']);
-					$titanium_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$delete_did['did']."'");
+					$pnt_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$delete_did['did']."'");
 				}
 			}
-			$titanium_db->sql_freeresult($result);
+			$pnt_db->sql_freeresult($result);
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //	HERE WE CHECK THE DATABASE FOR THE SCREENSHOTS ATTACHED
 //---------------------------------------------------------------------
-			$result = $titanium_db->sql_query('SELECT * FROM `'._FILE_REPOSITORY_SCREENSHOTS.'` WHERE `did`="'.$delete_did['did'].'"');
-			if( $titanium_db->sql_numrows($result) > 0 )
+			$result = $pnt_db->sql_query('SELECT * FROM `'._FILE_REPOSITORY_SCREENSHOTS.'` WHERE `did`="'.$delete_did['did'].'"');
+			if( $pnt_db->sql_numrows($result) > 0 )
 			{
-				while($row = $titanium_db->sql_fetchrow($result))
+				while($row = $pnt_db->sql_fetchrow($result))
 				{
 					@unlink(_FILE_REPOSITORY_SCREENS.'thumbs/thumb_100x100_'.$row['filename']);
 					@unlink(_FILE_REPOSITORY_SCREENS.'thumbs/thumb_190x120_'.$row['filename']);
 					@unlink(_FILE_REPOSITORY_SCREENS.$row['filename']);
-					$titanium_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$delete_did['did']."'");
+					$pnt_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$delete_did['did']."'");
 				}
 			}
-			$titanium_db->sql_freeresult($result);
+			$pnt_db->sql_freeresult($result);
 //---------------------------------------------------------------------
-			$titanium_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `did`='".$delete_did['did']."'");
+			$pnt_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `did`='".$delete_did['did']."'");
 		}
 	}
 	@arsort($childcats);	
 	foreach ( $childcats as $number => $cat ) 
 	{		
-		$titanium_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `cid`='".$cat."'");
+		$pnt_db->sql_query("DELETE FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `cid`='".$cat."'");
 	}
-	$titanium_db->sql_optimize(_FILE_REPOSITORY_CATEGORIES);
-	$titanium_db->sql_optimize(_FILE_REPOSITORY_FILES);
-	$titanium_db->sql_optimize(_FILE_REPOSITORY_ITEMS);
-	$titanium_db->sql_optimize(_FILE_REPOSITORY_SCREENSHOTS);
+	$pnt_db->sql_optimize(_FILE_REPOSITORY_CATEGORIES);
+	$pnt_db->sql_optimize(_FILE_REPOSITORY_FILES);
+	$pnt_db->sql_optimize(_FILE_REPOSITORY_ITEMS);
+	$pnt_db->sql_optimize(_FILE_REPOSITORY_SCREENSHOTS);
 }
 
 function _category_deletion_scan($catid, $catary) 
 {
-	global $titanium_db;
+	global $pnt_db;
 	static $catary, $counter;
-	$allcats = $titanium_db->sql_query("SELECT `cid`, `parentid` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid` =".$catid);
-	while ( list($catid, $parentid) = $titanium_db->sql_fetchrow($allcats) ) 
+	$allcats = $pnt_db->sql_query("SELECT `cid`, `parentid` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid` =".$catid);
+	while ( list($catid, $parentid) = $pnt_db->sql_fetchrow($allcats) ) 
 	{
 		$counter++;
 		$catary[$counter] = $catid;
 		_category_deletion_scan($catid, $catary);
 	}
-	$titanium_db->sql_freeresult($allcats);
+	$pnt_db->sql_freeresult($allcats);
 	return $catary;
 }
 
 function _categories_from_database($cpID) 
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module;
-    $res = $titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='".$cpID."' ORDER BY `parentid`, `cname` ASC");
-    if (!$titanium_db->sql_numrows($res)) 
+	global $pnt_db, $admin_file, $lang_new, $pnt_module;
+    $res = $pnt_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='".$cpID."' ORDER BY `parentid`, `cname` ASC");
+    if (!$pnt_db->sql_numrows($res)) 
     	return false;
     
-    while($r = $titanium_db->sql_fetchrow($res)) 
+    while($r = $pnt_db->sql_fetchrow($res)) 
     {
         $sub_category 			= _categories_from_database($r['cid']);
-        list($totalSubs) 		= $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT COUNT(cid) FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='".$r['cid']."'"));
-		list($totalDownloads) 	= $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT COUNT(did) FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `cid`='".$r['cid']."'"));
+        list($totalSubs) 		= $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT COUNT(cid) FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='".$r['cid']."'"));
+		list($totalDownloads) 	= $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT COUNT(did) FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `cid`='".$r['cid']."'"));
         if($r['parentid'] == 0)
         {
         	$return .= '  <tr'._bgColor(1).'>';
@@ -459,8 +459,8 @@ function _categories_from_database($cpID)
 
 function _category_parents($name,$value=0)
 {
-	global $titanium_db, $lang_new, $pnt_module, $settings;		
-	$result = $titanium_db->sql_query("SELECT `cid`, `cname`, `parentid`, `color` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' ORDER BY `cname`");
+	global $pnt_db, $lang_new, $pnt_module, $settings;		
+	$result = $pnt_db->sql_query("SELECT `cid`, `cname`, `parentid`, `color` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' ORDER BY `cname`");
 	$category_list = '<select class="glowing-border"';
 	$category_list .= ' style="';
 	$category_list .= 'border: 1px solid; ';
@@ -472,13 +472,13 @@ function _category_parents($name,$value=0)
 	$category_list .= ((!defined('NUKE_EVO')) ? 'padding: 4px; ' : 'padding: 5px; ');
 	$category_list .= 'text-transform: '.(($settings['utext'] == 1) ? 'uppercase' : 'none').';" name="'.$name.'">';
 	$category_list .= '  <option value="'.intval($row['cid']).'">'.$lang_new[$pnt_module]['CATEGORY_PARENT_NEW'].'</option>';
-	if($titanium_db->sql_numrows($result))
+	if($pnt_db->sql_numrows($result))
 	{
-		while($row = $titanium_db->sql_fetchrow($result))
+		while($row = $pnt_db->sql_fetchrow($result))
 		{
 			$category_list .= '  <option'.(($row['color']) ? ' style="color:'.$row['color'].';"' : '').' value="'.intval($row['cid']).'" '.(($value == $row['cid']) ? 'selected="selected"' : '').'>'.stripslashes($row['cname']).'</option>';
 		}
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 	}
 	$category_list .= '</select>';		
 	return $category_list;
@@ -486,8 +486,8 @@ function _category_parents($name,$value=0)
 
 function _category_parents_and_children($name,$value,$search=false,$onlyShowAllowed=false)
 {
-	global $titanium_db, $settings;
-	$result = $titanium_db->sql_query("SELECT `cid`, `cname`, `color`, `isallowed`, `permissions` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' ORDER BY `cname`");
+	global $pnt_db, $settings;
+	$result = $pnt_db->sql_query("SELECT `cid`, `cname`, `color`, `isallowed`, `permissions` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' ORDER BY `cname`");
 	$category_list = '<select class="glowing-border"';
 	$category_list .= ' style="';
 	$category_list .= 'border: 1px solid; ';
@@ -500,15 +500,15 @@ function _category_parents_and_children($name,$value,$search=false,$onlyShowAllo
 	$category_list .= 'text-transform: '.(($settings['utext'] == 1) ? 'uppercase' : 'none').';" name="'.$name.'">';
 	if($search == true)
 		$category_list .= '  <option value="0">'.$lang_new[$pnt_module]['CATEGORY_ALL'].'</option>'."\n";
-	while( $row = $titanium_db->sql_fetchrow($result) ) 
+	while( $row = $pnt_db->sql_fetchrow($result) ) 
 	{
 		// _check_users_permissions($row['permissions']) == true
 
 		// $category_list .= '  <option style="color:'.$row['color'].';" value="'.$row['cid'].'" '.(($row['cid'] == $value) ? 'selected="selected"' : '').'>'.$row['cname'].'</option>'."\n";
 		$category_list .= '  <option style="color:'.$row['color'].';" value="'.$row['cid'].'" '.(($row['cid'] == $value) ? 'selected="selected"' : '').(($onlyShowAllowed == true) ? (($row['isallowed'] == 1 && _check_users_permissions($row['permissions']) == true) ? '' : 'disabled') : '').'>'.$row['cname'].'</option>'."\n";
 
-		$result2 = $titanium_db->sql_query("SELECT `cid`, `cname`, `color`, `parentid`, `permissions`, `isallowed` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='".$row['cid']."' ORDER BY `cname`");
-		while( $row2 = $titanium_db->sql_fetchrow($result2) ) 
+		$result2 = $pnt_db->sql_query("SELECT `cid`, `cname`, `color`, `parentid`, `permissions`, `isallowed` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='".$row['cid']."' ORDER BY `cname`");
+		while( $row2 = $pnt_db->sql_fetchrow($result2) ) 
 		{
 			if($search == true):
 				$category_list .= '<option style="color:'.$row2['color'].';" value="'.$row2['cid'].'" '.(($row2['cid'] == $value) ? 'selected="selected"' : '').'>&nbsp;&nbsp;'._category_parents_name($row2['parentid'], $row2['cname']).'</option>'."\n";
@@ -521,18 +521,18 @@ function _category_parents_and_children($name,$value,$search=false,$onlyShowAllo
 
 			endif;
 		}
-		$titanium_db->sql_freeresult($result2);
+		$pnt_db->sql_freeresult($result2);
 	}
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 	$category_list .= '</select>'."\n";		
 	return $category_list;
 }
 
 function _category_parents_name($parentid,$title='',$did='',$version='',$phpbb2_color=false) 
 {
-	global $titanium_db, $lang_new, $pnt_module;		
+	global $pnt_db, $lang_new, $pnt_module;		
 	$parentid  = intval($parentid);
-	$row       = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `cid`, `color`, `cname`, `parentid` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `cid`=".$parentid));
+	$row       = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `cid`, `color`, `cname`, `parentid` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `cid`=".$parentid));
 	$ptitle    = $row['cname'];
 	$pparentid = intval($row['parentid']);
 	
@@ -550,9 +550,9 @@ function _category_parents_name($parentid,$title='',$did='',$version='',$phpbb2_
 
 function _check_users_permissions($section)
 {
-	global $settings, $admin, $titanium_user;
+	global $settings, $admin, $pnt_user;
 	$priv = $section - 2;
-	if (($section == 0) || ($section == 1 AND is_user($titanium_user)) || ($section == 2 && is_admin($admin)) || ($section > 2 && _check_users_group($priv)) || is_admin($admin)):
+	if (($section == 0) || ($section == 1 AND is_user($pnt_user)) || ($section == 2 && is_admin($admin)) || ($section > 2 && _check_users_group($priv)) || is_admin($admin)):
 		$permission = true;
 	else:
 		$permission = false;
@@ -562,14 +562,14 @@ function _check_users_permissions($section)
 
 function _check_users_group($gid) 
 {
-	global $titanium_prefix, $titanium_db, $userinfo, $pnt_module, $titanium_user;
+	global $pnt_prefix, $pnt_db, $userinfo, $pnt_module, $pnt_user;
 	if (is_mod_admin($pnt_module)) 
 		return true;
-	elseif (is_user($titanium_user)) 
+	elseif (is_user($pnt_user)) 
 	{
 		$guid = $userinfo['user_id'];
-		$result = $titanium_db->sql_query("SELECT COUNT(*) FROM `"._USER_GROUP_TABLE."` WHERE group_id='".$gid."' AND user_id='".$guid."' AND user_pending != '1'");
-		list($ingroup) = $titanium_db->sql_fetchrow($result);
+		$result = $pnt_db->sql_query("SELECT COUNT(*) FROM `"._USER_GROUP_TABLE."` WHERE group_id='".$gid."' AND user_id='".$guid."' AND user_pending != '1'");
+		list($ingroup) = $pnt_db->sql_fetchrow($result);
 		if ($ingroup > 0) 
 			return true; 
 	}
@@ -637,16 +637,16 @@ function _copyright_popup_display()
 
 function _collect_iteminfo($id,$isfile=false)
 {
-	global $titanium_db, $lang_new, $pnt_module, $settings;
+	global $pnt_db, $lang_new, $pnt_module, $settings;
 	$where = ($isfile == false) ? ' WHERE dn.`did`="'.$id.'"' : 'WHERE fl.`fid`="'.$id.'"';
-	$result = $titanium_db->sql_query("
+	$result = $pnt_db->sql_query("
 			SELECT dn.*, fl.*, COUNT(cm.cid) as comments, SUM(filesize) as filesize, COUNT(fl.did) as filecount
 				FROM (`"._FILE_REPOSITORY_ITEMS."` AS dn)
 					LEFT JOIN `"._FILE_REPOSITORY_COMMENTS."` as cm ON (cm.did = dn.did)
 					LEFT JOIN `"._FILE_REPOSITORY_FILES."` as fl ON (fl.did = dn.did)".$where.' GROUP BY dn.cid, dn.did, fl.fid');
-	$row = $titanium_db->sql_fetchrow($result);
+	$row = $pnt_db->sql_fetchrow($result);
 
-	list( $total_phpbb2_attach_files ) = $titanium_db->sql_ufetchrow( "select count(*) from `"._FILE_REPOSITORY_FILES."` where `did`='".$id."'" );
+	list( $total_phpbb2_attach_files ) = $pnt_db->sql_ufetchrow( "select count(*) from `"._FILE_REPOSITORY_FILES."` where `did`='".$id."'" );
 
 	if($row['author'])
 		$iteminfo['author']			= (!defined('NUKE_EVO')) ? $row['author'] : UsernameColor($row['author']);
@@ -963,21 +963,21 @@ function _decode_bbcode_text($text,$parse_smilies=false)
 //---------------------------------------------------------------------
 function _escape_string($query)
 {
-	global $titanium_db;
+	global $pnt_db;
 	return (!defined('NUKE_EVO')) ? FixQuotes($query) : Fix_Quotes($query);
 }
 //---------------------------------------------------------------------
 
 function _grab_the_items_screenshots($did)
 {
-	global $titanium_db, $pnt_module, $settings;
+	global $pnt_db, $pnt_module, $settings;
 	$sql 	= "SELECT * FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$did."'";
-	$result = $titanium_db->sql_query($sql);
-	$count 	= $titanium_db->sql_numrows($result);
+	$result = $pnt_db->sql_query($sql);
+	$count 	= $pnt_db->sql_numrows($result);
 	$jcarousel .= '  <div class="jcarousel-wrapper">'."\n";
 	$jcarousel .= '    <div class="jcarousel thumbnail_border">'."\n";
 	$jcarousel .= '      <ul>'."\n";
-	while($screen = $titanium_db->sql_fetchrow($result))
+	while($screen = $pnt_db->sql_fetchrow($result))
 	{
 		if(file_exists(_FILE_REPOSITORY_SCREENS.$screen['filename']))
 		{
@@ -988,7 +988,7 @@ function _grab_the_items_screenshots($did)
 			$jcarousel .= '</li>'."\n";
 		}
 	}
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 	$jcarousel .= '      </ul>'."\n";
 	$jcarousel .= '    </div>'."\n";
 	if($count > 1)
@@ -1046,7 +1046,7 @@ function _image_viewer($slideshow)
 
 function _index_navigation_header()
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $admin, $settings, $bgcolor, $userinfo;		
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $admin, $settings, $bgcolor, $userinfo;		
 	echo '<table style="width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '	<tr'._bgColor(2).'>'."\n";
 	echo '	  <td'._tdcss(false,'center',_sh(),6).'>'._suh($lang_new[$pnt_module]['MODULE']).'</td>'."\n";
@@ -1106,8 +1106,8 @@ function _index_navigation_header()
 		echo '	              <td'._tdcss(false,'center',_sh(),3).'>'._suh($lang_new[$pnt_module]['LATEST_FILES']).'</td>';
 		echo '              </tr>'."\n";
 		$sql 	 = "SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isactive` = 1 && `isapproved` = 1 && `isbroken` = 0 ORDER BY `date` DESC LIMIT 0,".$settings['overview_count'];
-		$result  = $titanium_db->sql_query($sql);
-		$numrows = $titanium_db->sql_numrows($result);
+		$result  = $pnt_db->sql_query($sql);
+		$numrows = $pnt_db->sql_numrows($result);
 		if($numrows > 0):
 		
 			echo '              <tr'._bgColor(2).'>'."\n";
@@ -1116,7 +1116,7 @@ function _index_navigation_header()
 			echo '	              <td'._tdcss(false,'center',_sh()).'>'._suh($lang_new[$pnt_module]['HITS']).'</td>';
 			echo '              </tr>'."\n";
 			$x = 1;
-			while($lf = $titanium_db->sql_fetchrow($result)):
+			while($lf = $pnt_db->sql_fetchrow($result)):
 			
 				$iteminfo['isnew'] = (($lf['isupdated'] == '0000-00-00 00:00:00') ? $lf['date'] : $lf['isupdated']);
 				echo '              <tr'._bgColor(1).'>'."\n";
@@ -1127,7 +1127,7 @@ function _index_navigation_header()
 				$x++;
 			
 			endwhile;
-			$titanium_db->sql_freeresult($result);
+			$pnt_db->sql_freeresult($result);
 
 		else:
 
@@ -1145,8 +1145,8 @@ function _index_navigation_header()
 		echo '	              <td'._tdcss(false,'center',_sh(),3).'>'._suh($lang_new[$pnt_module]['MOST_DOWNLOADS']).'</td>';
 		echo '              </tr>'."\n";
 		$sql 	 = "SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `hits` <> 0 && `isactive` = 1 && `isapproved` = 1 && `isbroken` = 0 ORDER BY `hits` DESC LIMIT 0,".$settings['overview_count'];
-		$result  = $titanium_db->sql_query($sql);
-		$numrows = $titanium_db->sql_numrows($result);
+		$result  = $pnt_db->sql_query($sql);
+		$numrows = $pnt_db->sql_numrows($result);
 		if($numrows > 0):
 
 			echo '              <tr'._bgColor(2).'>'."\n";
@@ -1155,7 +1155,7 @@ function _index_navigation_header()
 			echo '	              <td'._tdcss(false,'center',_sh()).'>'._suh($lang_new[$pnt_module]['HITS']).'</td>';
 			echo '              </tr>'."\n";
 			$s = 1;
-			while($md = $titanium_db->sql_fetchrow($result)):
+			while($md = $pnt_db->sql_fetchrow($result)):
 
 				$iteminfo['isnew'] = (($md['isupdated'] == '0000-00-00 00:00:00') ? $md['date'] : $md['isupdated']);
 				echo '              <tr'._bgColor(1).'>'."\n";
@@ -1166,7 +1166,7 @@ function _index_navigation_header()
 				$s++;
 
 			endwhile;
-			$titanium_db->sql_freeresult($result);
+			$pnt_db->sql_freeresult($result);
 
 		else:
 
@@ -1189,8 +1189,8 @@ function _index_navigation_header()
 	echo '</table>'."\n";
 
 	$sql 	 = "SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isapproved` = 0 && `isbroken` = 0 && `suid` = '".$userinfo['user_id']."' ORDER BY `date`";
-	$result  = $titanium_db->sql_query($sql);
-	$waiting = $titanium_db->sql_numrows($result);
+	$result  = $pnt_db->sql_query($sql);
+	$waiting = $pnt_db->sql_numrows($result);
 
 	$settings['show_user_awaiting_approval_message'] = true;
 	if($settings['show_user_awaiting_approval_message'] && $waiting > 0):
@@ -1202,7 +1202,7 @@ function _index_navigation_header()
 		echo '  </tr>'."\n";
 
 		$x = 1;
-		while($awaiting = $titanium_db->sql_fetchrow($result)):
+		while($awaiting = $pnt_db->sql_fetchrow($result)):
 
 			echo '  <tr'._bgColor(1).'>'."\n";
 			echo '	  <td'._tdcss('5%','center',_sc()).'>'.$x.'</td>'."\n";
@@ -1270,8 +1270,8 @@ function _sh($view=true)
 
 function _list_available_permission_groups($name, $value)
 {
-	global $titanium_db, $lang_new, $pnt_module, $settings;		
-	$result = $titanium_db->sql_query("SELECT * FROM `"._GROUPS_TABLE."` WHERE `group_single_user` != '1' ORDER BY `group_name`");
+	global $pnt_db, $lang_new, $pnt_module, $settings;		
+	$result = $pnt_db->sql_query("SELECT * FROM `"._GROUPS_TABLE."` WHERE `group_single_user` != '1' ORDER BY `group_name`");
 	$groups  = '<select class="glowing-border"';
 	$groups .= ' style="';
 	$groups .= 'border: 1px solid; ';
@@ -1287,15 +1287,15 @@ function _list_available_permission_groups($name, $value)
 	$groups .= '          <option value="1" '.(($value == 1) ? 'selected="selected"' : '').'>'.$lang_new[$pnt_module]['REGISTERED'].'</option>'."\n";
 	$groups .= '          <option value="2" '.(($value == 2) ? 'selected="selected"' : '').'>'.$lang_new[$pnt_module]['ADMINISTRATORS'].'</option>'."\n";
 	$groups .= '        </optgroup>'."\n";
-	if( $titanium_db->sql_numrows($result) > 0 )
+	if( $pnt_db->sql_numrows($result) > 0 )
 	{
 		$groups .= '    <optgroup label="'.$lang_new[$pnt_module]['FORUM_GROUPS'].'">'."\n";			
-		while($ginfo = $titanium_db->sql_fetchrow($result)) 
+		while($ginfo = $pnt_db->sql_fetchrow($result)) 
 		{
 			$ginfo['group_id'] = $ginfo['group_id'] + 2;
 			$groups .= '  <option value="'.$ginfo['group_id'].'" '.(($value == $ginfo['group_id']) ? 'selected="selected"' : '').'>'._sut($ginfo['group_name']).'</option>'."\n";
 		}
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 	}
 	$groups .= '      </select>'."\n";
 	return $groups;
@@ -1384,22 +1384,22 @@ function _ls()
 
 function _module_themes()
 {
-	global $titanium_db, $pnt_module, $lang_new;
+	global $pnt_db, $pnt_module, $lang_new;
 	static $themes;
     
 	if(isset($themes) && is_array($themes))
 		return $themes;
       
 	$sql 	= "SELECT `cell`, `head`, `per_row`, `show_left`, `theme_name` FROM `"._FILE_REPOSITORY_THEMES."`";    
-	$result = $titanium_db->sql_query($sql);
-	while ($row = $titanium_db->sql_fetchrow($result)) 
+	$result = $pnt_db->sql_query($sql);
+	while ($row = $pnt_db->sql_fetchrow($result)) 
 	{
 		$themes[$row['theme_name']]['per_row']   	= $row['per_row'];
 		$themes[$row['theme_name']]['show_left'] 	= $row['show_left'];
 		$themes[$row['theme_name']]['cell'] 		= $row['cell'];
 		$themes[$row['theme_name']]['head'] 		= $row['head'];
 	}
- 	$titanium_db->sql_freeresult($result);   
+ 	$pnt_db->sql_freeresult($result);   
 	return $themes;
 }
 
@@ -1441,16 +1441,16 @@ function _selectbox($n,$ops,$v,$r=false)
 
 function _settings_variables()
 {
-	global $titanium_db, $pnt_module, $lang_new;
+	global $pnt_db, $pnt_module, $lang_new;
 	static $settings;
 	
    	if(isset($settings) && is_array($settings))
 		return $settings;
 	
-	$result = $titanium_db->sql_query("SELECT `config_value`, `config_name` FROM `"._FILE_REPOSITORY_SETTINGS."`");
-	while ($row = $titanium_db->sql_fetchrow($result))
+	$result = $pnt_db->sql_query("SELECT `config_value`, `config_name` FROM `"._FILE_REPOSITORY_SETTINGS."`");
+	while ($row = $pnt_db->sql_fetchrow($result))
 		$settings[$row['config_name']] = $row['config_value'];
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
    	return $settings;
 }
 
@@ -1541,7 +1541,7 @@ function _timestamp($date,$format='M d, Y g:i a')
 
 function _user_is_within_group_name($gid,$isallowed=true) 
 {
-    global $titanium_db, $lang_new, $pnt_module;
+    global $pnt_db, $lang_new, $pnt_module;
 	
     if($isallowed == 0)
     {
@@ -1558,7 +1558,7 @@ function _user_is_within_group_name($gid,$isallowed=true)
 		elseif ($gid > 2) 
 		{
 			$group_id = ($gid - 2);
-			list($group_name) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `group_name` FROM `"._GROUPS_TABLE."` WHERE `group_id`='$group_id'"));
+			list($group_name) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `group_name` FROM `"._GROUPS_TABLE."` WHERE `group_id`='$group_id'"));
 			$groupname = ((!defined('NUKE_EVO')) ? _sut($group_name) : _sut(GroupColor($group_name)));
 		}
 	}
@@ -1579,7 +1579,7 @@ function _generate_rand_string()
 
 function _client_side_file_upload($type,$upload,$uploaddir,$index)
 {
-	global $titanium_db, $lang_new, $pnt_module, $settings;
+	global $pnt_db, $lang_new, $pnt_module, $settings;
 	if (!empty($upload))
 	{
 		$file_extensions = $settings['allowed_file_extensions'];

@@ -21,8 +21,8 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
 	$filename = basename(__FILE__);
-	$titanium_module['XData']['User_Permissions'] = $filename . '?type=user';
-    	$titanium_module['XData']['Group_Permissions'] = $filename . '?type=group';
+	$pnt_module['XData']['User_Permissions'] = $filename . '?type=user';
+    	$pnt_module['XData']['Group_Permissions'] = $filename . '?type=group';
 
 	return;
 }
@@ -82,11 +82,11 @@ if ($type == 'user')
 			{
 				message_die(GENERAL_MESSAGE, $lang['No_such_user']);
 			}
-			$titanium_user_id = $this_userdata['user_id'];
+			$pnt_user_id = $this_userdata['user_id'];
 		}
 		else
 		{
-			$titanium_user_id = ( isset($HTTP_POST_VARS[POST_USERS_URL]) ) ? intval($HTTP_POST_VARS[POST_USERS_URL]) : intval($HTTP_GET_VARS[POST_USERS_URL]);
+			$pnt_user_id = ( isset($HTTP_POST_VARS[POST_USERS_URL]) ) ? intval($HTTP_POST_VARS[POST_USERS_URL]) : intval($HTTP_GET_VARS[POST_USERS_URL]);
 		}
 
 		if ( ! isset($HTTP_POST_VARS['submit']) )
@@ -116,8 +116,8 @@ if ($type == 'user')
 				'AUTH_DENY' => XD_AUTH_DENY,
 				'AUTH_DEFAULT' => XD_AUTH_DEFAULT,
 
-				'USERNAME' => $titanium_username,
-				'S_HIDDEN_FIELDS' => '<input type="hidden" name="'.POST_USERS_URL.'" value="'.$titanium_user_id.'" /><input type="hidden" name="mode" value="save" /><input type="hidden" name="type" value="user" />',
+				'USERNAME' => $pnt_username,
+				'S_HIDDEN_FIELDS' => '<input type="hidden" name="'.POST_USERS_URL.'" value="'.$pnt_user_id.'" /><input type="hidden" name="mode" value="save" /><input type="hidden" name="type" value="user" />',
 				'S_AUTH_ACTION' => append_titanium_sid('admin_xdata_auth.'.$phpEx)
 				)
 			);
@@ -128,14 +128,14 @@ if ($type == 'user')
 						FROM " . XDATA_AUTH_TABLE . " xa, " . USER_GROUP_TABLE . " ug
 						WHERE xa.field_id = {$meta['field_id']}
 							AND xa.group_id = ug.group_id
-							AND ug.user_id = {$titanium_user_id}";
+							AND ug.user_id = {$pnt_user_id}";
 
-				if ( ! ( $result = $titanium_db->sql_query($sql) ) )
+				if ( ! ( $result = $pnt_db->sql_query($sql) ) )
 				{
 	            	message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_user_auth'], "", __LINE__, __FILE__, $sql);
 				}
 
-				$row = $titanium_db->sql_fetchrow($result);
+				$row = $pnt_db->sql_fetchrow($result);
 
 				$auth = isset($row['auth_value']) ? $row['auth_value'] : XD_AUTH_DEFAULT;
 
@@ -161,13 +161,13 @@ if ($type == 'user')
 
 			$sql = "SELECT g.group_id
 					FROM " . GROUPS_TABLE . " g, " . USER_GROUP_TABLE . " ug
-			        WHERE g.group_id = ug.group_id AND ug.user_id = $titanium_user_id";
+			        WHERE g.group_id = ug.group_id AND ug.user_id = $pnt_user_id";
 
-			if (!($result = $titanium_db->sql_query($sql)))
+			if (!($result = $pnt_db->sql_query($sql)))
 			{
 				message_die(GENERAL_ERROR, $lang['XData_error_obtaining_usergroup'], "", __LINE__, __FILE__, $sql);
 			}
-			$personal_group = $titanium_db->sql_fetchrow($result);
+			$personal_group = $pnt_db->sql_fetchrow($result);
 			$personal_group = $personal_group['group_id'];
 
 			while ( list($code_name, $meta) = each($xd_meta) )
@@ -178,7 +178,7 @@ if ($type == 'user')
 					WHERE group_id = $personal_group
 					AND field_id = {$meta['field_id']}";
 
-	            if (! $titanium_db->sql_query($sql) )
+	            if (! $pnt_db->sql_query($sql) )
 				{
 					message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
 				}
@@ -190,7 +190,7 @@ if ($type == 'user')
 						(group_id, field_id, auth_value)
 						VALUES ({$personal_group}, {$meta['field_id']}, {$auth})";
 
-					if (! $titanium_db->sql_query($sql) )
+					if (! $pnt_db->sql_query($sql) )
 					{
 						message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
 					}
@@ -258,11 +258,11 @@ elseif ($type == 'group')
 			$sql = "SELECT group_name FROM " . GROUPS_TABLE . "
 			        WHERE group_id = {$group_id}";
 
-			if (!($result = $titanium_db->sql_query($sql)))
+			if (!($result = $pnt_db->sql_query($sql)))
 			{
 				message_die(GENERAL_ERROR, $lang['XData_error_obtaining_group_data'], "", __LINE__, __FILE__, $sql);
 			}
-			$group_name = $titanium_db->sql_fetchrow($result);
+			$group_name = $pnt_db->sql_fetchrow($result);
 			$group_name = $group_name['group_name'];
 
 			$phpbb2_template->assign_vars( array(
@@ -293,12 +293,12 @@ elseif ($type == 'group')
 					WHERE xa.field_id = {$meta['field_id']}
 					AND xa.group_id = {$group_id}";
 
-				if ( ! ( $result = $titanium_db->sql_query($sql) ) )
+				if ( ! ( $result = $pnt_db->sql_query($sql) ) )
 				{
 	            	message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_user_auth'], "", __LINE__, __FILE__, $sql);
 				}
 
-				$row = $titanium_db->sql_fetchrow($result);
+				$row = $pnt_db->sql_fetchrow($result);
 
 				$auth = isset($row['auth_value']) ? $row['auth_value'] : XD_AUTH_DEFAULT;
 
@@ -330,7 +330,7 @@ elseif ($type == 'group')
 					WHERE group_id = $group_id
 					AND field_id = {$meta['field_id']}";
 
-	            if (! $titanium_db->sql_query($sql) )
+	            if (! $pnt_db->sql_query($sql) )
 				{
 					message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
 				}
@@ -342,7 +342,7 @@ elseif ($type == 'group')
 						(group_id, field_id, auth_value)
 						VALUES ({$group_id}, {$meta['field_id']}, {$auth})";
 
-					if (! $titanium_db->sql_query($sql) )
+					if (! $pnt_db->sql_query($sql) )
 					{
 						message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
 					}
@@ -366,19 +366,19 @@ elseif ($type == 'group')
 		$sql = "SELECT group_id, group_name
 			FROM " . GROUPS_TABLE . "
 			WHERE group_single_user <> " . TRUE;
-		if ( !($result = $titanium_db->sql_query($sql)) )
+		if ( !($result = $pnt_db->sql_query($sql)) )
 		{
 			message_die(GENERAL_ERROR, $lang['XData_error_obtaining_group_data'], "", __LINE__, __FILE__, $sql);
 		}
 
-		if ( $row = $titanium_db->sql_fetchrow($result) )
+		if ( $row = $pnt_db->sql_fetchrow($result) )
 		{
 			$select_list = '<select name="' . POST_GROUPS_URL . '">';
 			do
 			{
 				$select_list .= '<option value="' . $row['group_id'] . '">' . $row['group_name'] . '</option>';
 			}
-			while ( $row = $titanium_db->sql_fetchrow($result) );
+			while ( $row = $pnt_db->sql_fetchrow($result) );
 			$select_list .= '</select>';
 		}
 

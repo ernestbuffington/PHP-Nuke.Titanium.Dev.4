@@ -10,7 +10,7 @@ if (!defined('MODULE_FILE')) {
    die ("You can't access this file directly...");
 }
 
-global $titanium_db, $titanium_prefix, $phpbb2_root_path, $nuke_root_path, $nuke_file_path, $phpbb2_root_dir, $pnt_module, $name, $file;
+global $pnt_db, $pnt_prefix, $phpbb2_root_path, $nuke_root_path, $nuke_file_path, $phpbb2_root_dir, $pnt_module, $name, $file;
 $pnt_module = basename(dirname(__FILE__));
 $phpbb2_root_path = NUKE_FORUMS_DIR;
 get_lang($pnt_module);

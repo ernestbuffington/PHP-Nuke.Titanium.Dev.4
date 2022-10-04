@@ -10,7 +10,7 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
@@ -20,8 +20,8 @@ include_once(NUKE_BASE_DIR.'header.php');
 
 pjadmin_menu(_NETWORK_MEMBERS.": "._NETWORK_MEMBERLIST);
 
-$memberresult = $titanium_db2->sql_query("SELECT `member_id`, `member_name` FROM `".$network_prefix."_members` ORDER BY `member_name`");
-$member_total = $titanium_db2->sql_numrows($memberresult);
+$memberresult = $pnt_db2->sql_query("SELECT `member_id`, `member_name` FROM `".$network_prefix."_members` ORDER BY `member_name`");
+$member_total = $pnt_db2->sql_numrows($memberresult);
 
 OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
@@ -37,7 +37,7 @@ echo "<tr><td colspan='2' bgcolor='$bgcolor2' width='100%'><strong>"._NETWORK_ME
 
 if($member_total != 0)
 {
-  while(list($member_id, $member_name) = $titanium_db2->sql_fetchrow($memberresult)) 
+  while(list($member_id, $member_name) = $pnt_db2->sql_fetchrow($memberresult)) 
   {
     $pjimage = pjimage("member.png", $pnt_module);
     echo "<tr><td><img src='$pjimage'></td><td width='100%'>$member_name</td>\n";

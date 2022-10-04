@@ -37,7 +37,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $titanium_module['Users']['Userlist'] = $filename;
+    $pnt_module['Users']['Userlist'] = $filename;
 
     return;
 }
@@ -136,7 +136,7 @@ if ( isset($HTTP_GET_VARS['alphanum']) || isset($HTTP_POST_VARS['alphanum']) )
 {
     $alphanum = ( isset($HTTP_POST_VARS['alphanum']) ) ? htmlspecialchars($HTTP_POST_VARS['alphanum']) : htmlspecialchars($HTTP_GET_VARS['alphanum']);
     $alphanum = str_replace("\'", "''", $alphanum);
-    switch( $titanium_dbms )
+    switch( $pnt_dbms )
     {
         case 'postgres':
             $alpha_where = ( $alphanum == 'num' ) ? "AND username !~ '^[A-Z]+'" : "AND username ILIKE '$alphanum%'";
@@ -152,7 +152,7 @@ else
     $alpahnum = '';
     $alpha_where = '';
 }
-$titanium_user_ids = array();
+$pnt_user_ids = array();
 $filter = '';
 $filter_where = '';
 $find_by = 'find_username';
@@ -190,11 +190,11 @@ if ( isset($HTTP_GET_VARS['filter']) || isset($HTTP_POST_VARS['filter']) )
 //
 if ( isset($HTTP_POST_VARS[POST_USERS_URL]) || isset($HTTP_GET_VARS[POST_USERS_URL]) )
 {
-    $titanium_user_ids = ( isset($HTTP_POST_VARS[POST_USERS_URL]) ) ? $HTTP_POST_VARS[POST_USERS_URL] : $HTTP_GET_VARS[POST_USERS_URL];
+    $pnt_user_ids = ( isset($HTTP_POST_VARS[POST_USERS_URL]) ) ? $HTTP_POST_VARS[POST_USERS_URL] : $HTTP_GET_VARS[POST_USERS_URL];
 }
 else
 {
-    unset($titanium_user_ids);
+    unset($pnt_user_ids);
 }
 switch( $mode )
 {
@@ -218,12 +218,12 @@ switch( $mode )
             // show message
             $i = 0;
             $hidden_fields = '';
-            while( $i < count($titanium_user_ids) )
+            while( $i < count($pnt_user_ids) )
             {
-                $titanium_user_id = intval($titanium_user_ids[$i]);
-                $hidden_fields .= '<input type="hidden" name="' . POST_USERS_URL . '[]" value="' . $titanium_user_id . '">';
+                $pnt_user_id = intval($pnt_user_ids[$i]);
+                $hidden_fields .= '<input type="hidden" name="' . POST_USERS_URL . '[]" value="' . $pnt_user_id . '">';
 
-                unset($titanium_user_id);
+                unset($pnt_user_id);
                 $i++;
             }
 
@@ -248,55 +248,55 @@ switch( $mode )
         {
             // delete users
             $i = 0;
-            while( $i < count($titanium_user_ids) )
+            while( $i < count($pnt_user_ids) )
             {
-                $titanium_user_id = intval($titanium_user_ids[$i]);
+                $pnt_user_id = intval($pnt_user_ids[$i]);
 
                 $sql = "SELECT u.username, g.group_id
                     FROM " . USERS_TABLE . " u, " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE . " g
-                    WHERE ug.user_id = '$titanium_user_id'
+                    WHERE ug.user_id = '$pnt_user_id'
                         AND g.group_id = ug.group_id
                         AND g.group_single_user = '1'";
-                if( !($result = $titanium_db->sql_query($sql)) )
+                if( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Could not obtain group information for this user', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $titanium_db->sql_fetchrow($result);
+                $row = $pnt_db->sql_fetchrow($result);
 
                 $sql = "UPDATE " . POSTS_TABLE . "
                     SET poster_id = " . DELETED . ", post_username = '" . $row['username'] . "'
-                    WHERE poster_id = '$titanium_user_id'";
-                if( !$titanium_db->sql_query($sql) )
+                    WHERE poster_id = '$pnt_user_id'";
+                if( !$pnt_db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, 'Could not update posts for this user', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "UPDATE " . TOPICS_TABLE . "
                     SET topic_poster = " . DELETED . "
-                    WHERE topic_poster = '$titanium_user_id'";
-                if( !$titanium_db->sql_query($sql) )
+                    WHERE topic_poster = '$pnt_user_id'";
+                if( !$pnt_db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, 'Could not update topics for this user', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "UPDATE " . VOTE_USERS_TABLE . "
                     SET vote_user_id = " . DELETED . "
-                    WHERE vote_user_id = '$titanium_user_id'";
-                if( !$titanium_db->sql_query($sql) )
+                    WHERE vote_user_id = '$pnt_user_id'";
+                if( !$pnt_db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, 'Could not update votes for this user', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "SELECT group_id
                     FROM " . GROUPS_TABLE . "
-                    WHERE group_moderator = '$titanium_user_id'";
-                if( !($result = $titanium_db->sql_query($sql)) )
+                    WHERE group_moderator = '$pnt_user_id'";
+                if( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Could not select groups where user was moderator', '', __LINE__, __FILE__, $sql);
                 }
 
-                while ( $row_group = $titanium_db->sql_fetchrow($result) )
+                while ( $row_group = $pnt_db->sql_fetchrow($result) )
                 {
                     $group_moderator[] = $row_group['group_id'];
                 }
@@ -308,65 +308,65 @@ switch( $mode )
                     $sql = "UPDATE " . GROUPS_TABLE . "
                         SET group_moderator = " . $userdata['user_id'] . "
                         WHERE group_moderator IN ($update_moderator_id)";
-                    if( !$titanium_db->sql_query($sql) )
+                    if( !$pnt_db->sql_query($sql) )
                     {
                         message_die(GENERAL_ERROR, 'Could not update group moderators', '', __LINE__, __FILE__, $sql);
                     }
                 }
 
                 $sql = "DELETE FROM " . USERS_TABLE . "
-                    WHERE user_id = '$titanium_user_id'";
-                if( !$titanium_db->sql_query($sql) )
+                    WHERE user_id = '$pnt_user_id'";
+                if( !$pnt_db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, 'Could not delete user', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "DELETE FROM " . USER_GROUP_TABLE . "
-                    WHERE user_id = '$titanium_user_id'";
-                if( !$titanium_db->sql_query($sql) )
+                    WHERE user_id = '$pnt_user_id'";
+                if( !$pnt_db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, 'Could not delete user from user_group table', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "DELETE FROM " . GROUPS_TABLE . "
                     WHERE group_id = " . $row['group_id'];
-                if( !$titanium_db->sql_query($sql) )
+                if( !$pnt_db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, 'Could not delete group for this user', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "DELETE FROM " . AUTH_ACCESS_TABLE . "
                     WHERE group_id = " . $row['group_id'];
-                if( !$titanium_db->sql_query($sql) )
+                if( !$pnt_db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, 'Could not delete group for this user', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "DELETE FROM " . TOPICS_WATCH_TABLE . "
-                    WHERE user_id = '$titanium_user_id'";
-                if ( !$titanium_db->sql_query($sql) )
+                    WHERE user_id = '$pnt_user_id'";
+                if ( !$pnt_db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, 'Could not delete user from topic watch table', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "DELETE FROM " . BANLIST_TABLE . "
-                    WHERE ban_userid = '$titanium_user_id'";
-                if ( !$titanium_db->sql_query($sql) )
+                    WHERE ban_userid = '$pnt_user_id'";
+                if ( !$pnt_db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, 'Could not delete user from banlist table', '', __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "SELECT privmsgs_id
                     FROM " . PRIVMSGS_TABLE . "
-                    WHERE privmsgs_from_userid = '$titanium_user_id'
-                        OR privmsgs_to_userid = '$titanium_user_id'";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                    WHERE privmsgs_from_userid = '$pnt_user_id'
+                        OR privmsgs_to_userid = '$pnt_user_id'";
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Could not select all users private messages', '', __LINE__, __FILE__, $sql);
                 }
 
                 // This little bit of code directly from the private messaging section.
-                while ( $row_privmsgs = $titanium_db->sql_fetchrow($result) )
+                while ( $row_privmsgs = $pnt_db->sql_fetchrow($result) )
                 {
                     $mark_list[] = $row_privmsgs['privmsgs_id'];
                 }
@@ -380,18 +380,18 @@ switch( $mode )
                     $delete_sql = "DELETE FROM " . PRIVMSGS_TABLE . "
                         WHERE privmsgs_id IN ($delete_sql_id)";
 
-                    if ( !$titanium_db->sql_query($delete_sql) )
+                    if ( !$pnt_db->sql_query($delete_sql) )
                     {
                         message_die(GENERAL_ERROR, 'Could not delete private message info', '', __LINE__, __FILE__, $delete_sql);
                     }
 
-                    if ( !$titanium_db->sql_query($delete_text_sql) )
+                    if ( !$pnt_db->sql_query($delete_text_sql) )
                     {
                         message_die(GENERAL_ERROR, 'Could not delete private message text', '', __LINE__, __FILE__, $delete_text_sql);
                     }
                 }
 
-                unset($titanium_user_id);
+                unset($pnt_user_id);
                 $i++;
             }
 
@@ -420,12 +420,12 @@ switch( $mode )
         {
             $i = 0;
             $hidden_fields = '';
-            while( $i < count($titanium_user_ids) )
+            while( $i < count($pnt_user_ids) )
             {
-                $titanium_user_id = intval($titanium_user_ids[$i]);
-                $hidden_fields .= '<input type="hidden" name="' . POST_USERS_URL . '[]" value="' . $titanium_user_id . '">';
+                $pnt_user_id = intval($pnt_user_ids[$i]);
+                $hidden_fields .= '<input type="hidden" name="' . POST_USERS_URL . '[]" value="' . $pnt_user_id . '">';
 
-                unset($titanium_user_id);
+                unset($pnt_user_id);
                 $i++;
             }
 
@@ -450,18 +450,18 @@ switch( $mode )
         {
             // ban users
             $i = 0;
-            while( $i < count($titanium_user_ids) )
+            while( $i < count($pnt_user_ids) )
             {
-                $titanium_user_id = intval($titanium_user_ids[$i]);
+                $pnt_user_id = intval($pnt_user_ids[$i]);
 
                 $sql = "INSERT INTO " . BANLIST_TABLE . " ( ban_userid )
-                    VALUES ( '$titanium_user_id' )";
-                if( !($result = $titanium_db->sql_query($sql)) )
+                    VALUES ( '$pnt_user_id' )";
+                if( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Could not obtain ban user', '', __LINE__, __FILE__, $sql);
                 }
 
-                unset($titanium_user_id);
+                unset($pnt_user_id);
                 $i++;
             }
 
@@ -477,17 +477,17 @@ switch( $mode )
         // activate or deactive the seleted users
         //
         $i = 0;
-        while( $i < count($titanium_user_ids) )
+        while( $i < count($pnt_user_ids) )
         {
-            $titanium_user_id = intval($titanium_user_ids[$i]);
+            $pnt_user_id = intval($pnt_user_ids[$i]);
             $sql = "SELECT user_active FROM " . USERS_TABLE . "
-                WHERE user_id = '$titanium_user_id'";
-            if( !($result = $titanium_db->sql_query($sql)) )
+                WHERE user_id = '$pnt_user_id'";
+            if( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not obtain user information', '', __LINE__, __FILE__, $sql);
             }
-            $row = $titanium_db->sql_fetchrow($result);
-            $titanium_db->sql_freeresult($result);
+            $row = $pnt_db->sql_fetchrow($result);
+            $pnt_db->sql_freeresult($result);
 
             $new_status = ( $row['user_active'] ) ? 0 : 1;
             $new_level = ($new_status) ? 1 : -1;
@@ -497,13 +497,13 @@ switch( $mode )
                 SET user_active = '$new_status',
                 user_level = '$new_level',
                 name = '$name'
-                WHERE user_id = '$titanium_user_id'";
-            if( !($result = $titanium_db->sql_query($sql)) )
+                WHERE user_id = '$pnt_user_id'";
+            if( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not update user status', '', __LINE__, __FILE__, $sql);
             }
 
-            unset($titanium_user_id);
+            unset($pnt_user_id);
             $i++;
         }
 
@@ -522,12 +522,12 @@ switch( $mode )
             // show form to select which group to add users to
             $i = 0;
             $hidden_fields = '';
-            while( $i < count($titanium_user_ids) )
+            while( $i < count($pnt_user_ids) )
             {
-                $titanium_user_id = intval($titanium_user_ids[$i]);
-                $hidden_fields .= '<input type="hidden" name="' . POST_USERS_URL . '[]" value="' . $titanium_user_id . '">';
+                $pnt_user_id = intval($pnt_user_ids[$i]);
+                $hidden_fields .= '<input type="hidden" name="' . POST_USERS_URL . '[]" value="' . $pnt_user_id . '">';
 
-                unset($titanium_user_id);
+                unset($pnt_user_id);
                 $i++;
             }
 
@@ -553,13 +553,13 @@ switch( $mode )
                 WHERE group_single_user <> " . TRUE . "
                 ORDER BY group_name";
 
-            if( !($result = $titanium_db->sql_query($sql)) )
+            if( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not query groups', '', __LINE__, __FILE__, $sql);
             }
 
             // loop through groups
-            while ( $row = $titanium_db->sql_fetchrow($result) )
+            while ( $row = $pnt_db->sql_fetchrow($result) )
             {
                 $phpbb2_template->assign_block_vars('grouprow',array(
                     'GROUP_NAME' => $row['group_name'],
@@ -576,9 +576,9 @@ switch( $mode )
             $emailer = new emailer($phpbb2_board_config['smtp_delivery']);
 
             $i = 0;
-            while( $i < count($titanium_user_ids) )
+            while( $i < count($pnt_user_ids) )
             {
-                $titanium_user_id = intval($titanium_user_ids[$i]);
+                $pnt_user_id = intval($pnt_user_ids[$i]);
 
                 //
                 // For security, get the ID of the group moderator.
@@ -616,37 +616,37 @@ switch( $mode )
                             WHERE g.group_id = '$group_id'";
                         break;
                 }
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Could not get moderator information', '', __LINE__, __FILE__, $sql);
                 }
 
-                $group_info = $titanium_db->sql_fetchrow($result);
+                $group_info = $pnt_db->sql_fetchrow($result);
 
                 $sql = "SELECT user_id, user_email, user_lang, user_level
                     FROM " . USERS_TABLE . "
-                    WHERE user_id = '$titanium_user_id'";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                    WHERE user_id = '$pnt_user_id'";
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, "Could not get user information", $lang['Error'], __LINE__, __FILE__, $sql);
                 }
-                $row = $titanium_db->sql_fetchrow($result);
+                $row = $pnt_db->sql_fetchrow($result);
 
                 $sql = "SELECT ug.user_id, u.user_level
                     FROM " . USER_GROUP_TABLE . " ug, " . USERS_TABLE . " u
                     WHERE u.user_id = " . $row['user_id'] . "
                         AND ug.user_id = u.user_id
                         AND ug.group_id = '$group_id'";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Could not get user information', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ( !($titanium_db->sql_fetchrow($result)) )
+                if ( !($pnt_db->sql_fetchrow($result)) )
                 {
                     $sql = "INSERT INTO " . USER_GROUP_TABLE . " (user_id, group_id, user_pending)
                         VALUES (" . $row['user_id'] . ", $group_id, 0)";
-                    if ( !$titanium_db->sql_query($sql) )
+                    if ( !$pnt_db->sql_query($sql) )
                     {
                         message_die(GENERAL_ERROR, 'Could not add user to group', '', __LINE__, __FILE__, $sql);
                     }
@@ -656,7 +656,7 @@ switch( $mode )
                         $sql = "UPDATE " . USERS_TABLE . "
                             SET user_level = " . MOD . "
                             WHERE user_id = " . $row['user_id'];
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                             message_die(GENERAL_ERROR, 'Could not update user level', '', __LINE__, __FILE__, $sql);
                         }
@@ -669,12 +669,12 @@ switch( $mode )
                     $group_sql = "SELECT group_name
                         FROM " . GROUPS_TABLE . "
                         WHERE group_id = '$group_id'";
-                    if ( !($result = $titanium_db->sql_query($group_sql)) )
+                    if ( !($result = $pnt_db->sql_query($group_sql)) )
                     {
                         message_die(GENERAL_ERROR, 'Could not get group information', '', __LINE__, __FILE__, $group_sql);
                     }
 
-                    $group_name_row = $titanium_db->sql_fetchrow($result);
+                    $group_name_row = $pnt_db->sql_fetchrow($result);
 
                     $group_name = $group_name_row['group_name'];
 
@@ -705,7 +705,7 @@ switch( $mode )
 
                 }
 
-                unset($titanium_user_id);
+                unset($pnt_user_id);
                 $i++;
             }
 
@@ -853,14 +853,14 @@ switch( $mode )
             $order_by
             LIMIT $phpbb2_start, $show";
 
-        if( !($result = $titanium_db->sql_query($sql)) )
+        if( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not query users', '', __LINE__, __FILE__, $sql);
         }
 
         // loop through users
         $i = 1;
-        while ( $row = $titanium_db->sql_fetchrow($result) )
+        while ( $row = $pnt_db->sql_fetchrow($result) )
         {
             //
             // users avatar
@@ -894,16 +894,16 @@ switch( $mode )
             $rank_sql = "SELECT *
                 FROM " . RANKS_TABLE . "
                 ORDER BY rank_special, rank_min";
-            if ( !($rank_result = $titanium_db->sql_query($rank_sql)) )
+            if ( !($rank_result = $pnt_db->sql_query($rank_sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not obtain ranks information', '', __LINE__, __FILE__, $sql);
             }
 
-            while ( $rank_row = $titanium_db->sql_fetchrow($rank_result) )
+            while ( $rank_row = $pnt_db->sql_fetchrow($rank_result) )
             {
                 $ranksrow[] = $rank_row;
             }
-            $titanium_db->sql_freeresult($rank_result);
+            $pnt_db->sql_freeresult($rank_result);
 
             $poster_rank = '';
             $rank_image = '';
@@ -996,12 +996,12 @@ switch( $mode )
                  AND g.group_single_user <> 1
                  AND g.group_id = ug.group_id";
 
-            if( !($group_result = $titanium_db->sql_query($group_sql)) )
+            if( !($group_result = $pnt_db->sql_query($group_sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not query groups', '', __LINE__, __FILE__, $group_sql);
             }
             $g = 0;
-            while ( $group_row = $titanium_db->sql_fetchrow($group_result) )
+            while ( $group_row = $pnt_db->sql_fetchrow($group_result) )
             {
                 //
                 // assign the group varibles
@@ -1042,18 +1042,18 @@ switch( $mode )
 
             $i++;
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         $count_sql = "SELECT count(user_id) AS total
             FROM " . USERS_TABLE . "
             WHERE user_id <> " . ANONYMOUS . " $alpha_where";
 
-        if ( !($count_result = $titanium_db->sql_query($count_sql)) )
+        if ( !($count_result = $pnt_db->sql_query($count_sql)) )
         {
             message_die(GENERAL_ERROR, 'Error getting total users', '', __LINE__, __FILE__, $sql);
         }
 
-        if ( $total = $titanium_db->sql_fetchrow($count_result) )
+        if ( $total = $pnt_db->sql_fetchrow($count_result) )
         {
             $total_phpbb2_members = $total['total'];
 

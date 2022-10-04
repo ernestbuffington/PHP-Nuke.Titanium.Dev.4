@@ -71,8 +71,8 @@ class cache
 			$this->zend = Zend_Cache::factory('Core', 'Memcached', $frontendOptions);
 			$this->checkPrefix();
         } elseif($this->type == SQL_CACHE) {
-            global $titanium_db, $titanium_prefix;
-            /*list($saved_cache) = $titanium_db->sql_ufetchrow("SELECT cache_data FROM " . $titanium_prefix . "_config");
+            global $pnt_db, $pnt_prefix;
+            /*list($saved_cache) = $pnt_db->sql_ufetchrow("SELECT cache_data FROM " . $pnt_prefix . "_config");
             @eval($saved_cache);
             $this->saved = $saved_cache;*/
         }

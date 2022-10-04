@@ -96,15 +96,15 @@ GROUP BY SUBSTRING_INDEX(user_regdate,' ',-1), SUBSTRING_INDEX(user_regdate,' ',
 
 $result = $core->sql_query($sql, 'Couldn\'t retrieve users data');
 
-$titanium_user_count = $core->sql_numrows($result);
-$titanium_user_data = $core->sql_fetchrowset($result);
+$pnt_user_count = $core->sql_numrows($result);
+$pnt_user_data = $core->sql_fetchrowset($result);
 
 $month_array = array();
 
-for ($i = 0; $i < $titanium_user_count; $i++)
+for ($i = 0; $i < $pnt_user_count; $i++)
 {
-        $titanium_user_data[$i]['month_regdate'] = DateFixMonth($titanium_user_data[$i]['month_regdate']);
-    $month_array[$titanium_user_data[$i]['year_regdate']][($titanium_user_data[$i]['month_regdate']-1)]['num_user'] = $titanium_user_data[$i]['num_user'];
+        $pnt_user_data[$i]['month_regdate'] = DateFixMonth($pnt_user_data[$i]['month_regdate']);
+    $month_array[$pnt_user_data[$i]['year_regdate']][($pnt_user_data[$i]['month_regdate']-1)]['num_user'] = $pnt_user_data[$i]['num_user'];
 }
 
 @reset($month_array);

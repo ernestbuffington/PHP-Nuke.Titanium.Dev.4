@@ -29,7 +29,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $titanium_module['Users']['Disallow'] = $filename;
+        $pnt_module['Users']['Disallow'] = $filename;
 
         return;
 }
@@ -59,7 +59,7 @@ if( isset($HTTP_POST_VARS['add_name']) )
         {
                 $sql = "INSERT INTO " . DISALLOW_TABLE . " (disallow_username)
                         VALUES('" . str_replace("\'", "''", $disallowed_user) . "')";
-                $result = $titanium_db->sql_query( $sql );
+                $result = $pnt_db->sql_query( $sql );
                 if ( !$result )
                 {
                         message_die(GENERAL_ERROR, "Could not add disallowed user.", "",__LINE__, __FILE__, $sql);
@@ -77,7 +77,7 @@ else if( isset($HTTP_POST_VARS['delete_name']) )
 
         $sql = "DELETE FROM " . DISALLOW_TABLE . "
                 WHERE disallow_id = $disallowed_id";
-        $result = $titanium_db->sql_query($sql);
+        $result = $pnt_db->sql_query($sql);
         if( !$result )
         {
                 message_die(GENERAL_ERROR, "Couldn't removed disallowed user.", "",__LINE__, __FILE__, $sql);
@@ -94,13 +94,13 @@ else if( isset($HTTP_POST_VARS['delete_name']) )
 //
 $sql = "SELECT *
         FROM " . DISALLOW_TABLE;
-$result = $titanium_db->sql_query($sql);
+$result = $pnt_db->sql_query($sql);
 if( !$result )
 {
         message_die(GENERAL_ERROR, "Couldn't get disallowed users.", "", __LINE__, __FILE__, $sql );
 }
 
-$disallowed = $titanium_db->sql_fetchrowset($result);
+$disallowed = $pnt_db->sql_fetchrowset($result);
 
 //
 // Ok now generate the info for the template, which will be put out no matter
@@ -114,7 +114,7 @@ if( empty($disallowed) )
 }
 else
 {
-        $titanium_user = array();
+        $pnt_user = array();
         for( $i = 0; $i < count($disallowed); $i++ )
         {
                 $disallow_select .= '<option value="' . $disallowed[$i]['disallow_id'] . '">' . $disallowed[$i]['disallow_username'] . '</option>';

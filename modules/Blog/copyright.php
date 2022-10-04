@@ -39,9 +39,9 @@ $author_homepage = "http://www.86it.us";
 $author_name = "Ernest Allen Buffington";
 $license = "GNU/GPL";
 $download_location = "http://www.86it.us";
-$titanium_module_version = "3.0.0";
+$pnt_module_version = "3.0.0";
 $release_date = "08/27/2019";
-$titanium_module_description = "PHP-Nuke Titanium Blog Module";
+$pnt_module_description = "PHP-Nuke Titanium Blog Module";
 
-show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $titanium_module_version, $titanium_module_description);
+show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $pnt_module_version, $pnt_module_description);
 ?>

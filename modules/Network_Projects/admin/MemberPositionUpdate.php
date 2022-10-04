@@ -10,7 +10,7 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
@@ -23,9 +23,9 @@ if($position_id < 1)
 
 $position_name = htmlentities($position_name, ENT_QUOTES);
 
-$titanium_db2->sql_query("UPDATE `".$network_prefix."_members_positions` SET `position_name`='$position_name' WHERE `position_id`='$position_id'");
+$pnt_db2->sql_query("UPDATE `".$network_prefix."_members_positions` SET `position_name`='$position_name' WHERE `position_id`='$position_id'");
 
-$titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_members_positions`");
+$pnt_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_members_positions`");
 
 header("Location: ".$admin_file.".php?op=MemberPositionList");
 ?>

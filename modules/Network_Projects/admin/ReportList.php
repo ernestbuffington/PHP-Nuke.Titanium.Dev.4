@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REPORTS.': '._NETWORK_REPORTLIST;
@@ -25,7 +25,7 @@ pjadmin_menu(_NETWORK_REPORTS.": "._NETWORK_REPORTLIST);
 OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr><td colspan='3' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_REPORTOPTIONS."</strong></nobr></td></tr>\n";
-$reportrows = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports`"));
+$reportrows = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports`"));
 $pjimage = pjimage("stats.png", $pnt_module);
 echo "<tr><td><img src='$pjimage'></td><td colspan='2' width='100%'><nobr>"._NETWORK_TOTALREPORTS.": <strong>$reportrows</strong></nobr></td></tr>\n";
 echo "</table>\n";
@@ -44,12 +44,12 @@ echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_STATUS."</strong
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_TYPE."</strong></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</strong></td></tr>\n";
 if($reportrows > 0){
-    $reviewresult = $titanium_db2->sql_query("SELECT `report_id`, `report_name`, `project_id`, `type_id`, `status_id` FROM `".$network_prefix."_reports` ORDER BY `$column` $direction LIMIT $phpbb2_start_list, $phpbb2_end_list");
-    while(list($report_id, $report_name, $project_id, $type_id, $status_id) = $titanium_db2->sql_fetchrow($reviewresult)){
+    $reviewresult = $pnt_db2->sql_query("SELECT `report_id`, `report_name`, `project_id`, `type_id`, `status_id` FROM `".$network_prefix."_reports` ORDER BY `$column` $direction LIMIT $phpbb2_start_list, $phpbb2_end_list");
+    while(list($report_id, $report_name, $project_id, $type_id, $status_id) = $pnt_db2->sql_fetchrow($reviewresult)){
     $status = pjreportstatus_info($status_id);
     $project = pjproject_info($project_id);
     $type = pjreporttype_info($type_id);
-    $members = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_reports_members` WHERE `report_id`='$report_id'"));
+    $members = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_reports_members` WHERE `report_id`='$report_id'"));
     $pjimage = pjimage("report.png", $pnt_module);
     if($report_name == "") { $report_name = "----------"; }
     echo "<tr><td><img src='$pjimage'></td><td width='100%'>$report_name</td>\n";

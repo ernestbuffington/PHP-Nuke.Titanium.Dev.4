@@ -8,10 +8,10 @@ if (!defined('ADMIN_FILE')) {
     die('Access Denied');
 }
 
-global $titanium_prefix, $titanium_db, $admin_file, $admdata;
+global $pnt_prefix, $pnt_db, $admin_file, $admdata;
 $pnt_module = basename(dirname(dirname(__FILE__)));
 
-$row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT title, admins FROM ".$titanium_prefix."_modules WHERE title='$pnt_module'"));
+$row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT title, admins FROM ".$pnt_prefix."_modules WHERE title='$pnt_module'"));
 $admins = explode(",", $row['admins']);
 $auth_user = 0;
 for ($i=0; $i < count($admins); $i++) {

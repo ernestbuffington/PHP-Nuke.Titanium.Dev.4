@@ -60,7 +60,7 @@ include("includes/functions_log.php");
 // function block
 function get_topic_id($topic)
 {
-    global $titanium_db;
+    global $pnt_db;
     $topic_id = 0;
 
     // is this a direct value ?
@@ -87,8 +87,8 @@ function get_topic_id($topic)
             {
                 case POST_POST_URL:
                     $sql = "SELECT topic_id FROM " . POSTS_TABLE . " WHERE post_id=$val";
-                    if ( !($result = $titanium_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get post informations', '', __LINE__, __FILE__, $sql);
-                    if ($row = $titanium_db->sql_fetchrow($result))
+                    if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get post informations', '', __LINE__, __FILE__, $sql);
+                    if ($row = $pnt_db->sql_fetchrow($result))
                     {
                         $val = $row['topic_id'];
                         $found = true;
@@ -111,7 +111,7 @@ function get_topic_id($topic)
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -189,8 +189,8 @@ $from_title = '';
 if (!empty($from_topic_id))
 {
     $sql = "SELECT topic_title FROM " . TOPICS_TABLE . " WHERE topic_id=$from_topic_id";
-    if ( !($result = $titanium_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get from-topic informations', '', __LINE__, __FILE__, $sql);
-    if ($row = $titanium_db->sql_fetchrow($result))
+    if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get from-topic informations', '', __LINE__, __FILE__, $sql);
+    if ($row = $pnt_db->sql_fetchrow($result))
     {
         $from_title = $row['topic_title'];
     }
@@ -199,8 +199,8 @@ $to_title = '';
 if (!empty($to_topic_id))
 {
     $sql = "SELECT topic_title FROM " . TOPICS_TABLE . " WHERE topic_id=$to_topic_id";
-    if ( !($result = $titanium_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get to-topic informations', '', __LINE__, __FILE__, $sql);
-    if ($row = $titanium_db->sql_fetchrow($result))
+    if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get to-topic informations', '', __LINE__, __FILE__, $sql);
+    if ($row = $pnt_db->sql_fetchrow($result))
     {
         $to_title = $row['topic_title'];
     }
@@ -250,11 +250,11 @@ if (($select_from || $select_to) && (!$cancel))
     if ( !empty($phpbb2_forum_id) )
     {
         $sql = $sql_merge;
-        if ( !$result = $titanium_db->sql_query($sql) )
+        if ( !$result = $pnt_db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, 'Could not get topics informations', '', __LINE__, __FILE__, $sql);
         }
-        $nbitems = $titanium_db->sql_numrows($result);
+        $nbitems = $pnt_db->sql_numrows($result);
         $nbpages = floor( ($nbitems-1) / $per_page )+1;
     }
 
@@ -298,11 +298,11 @@ if (($select_from || $select_to) && (!$cancel))
     if ( !empty($phpbb2_forum_id) )
     {
         $sql = $sql_merge . " ORDER BY t.topic_type DESC, t.topic_last_post_id DESC LIMIT $phpbb2_start_topic, $per_page";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not get topics informations', '', __LINE__, __FILE__, $sql);
         }
-        while ($row = $titanium_db->sql_fetchrow($result))
+        while ($row = $pnt_db->sql_fetchrow($result))
         {
             $row['topic_id'] = POST_TOPIC_URL . $row['topic_id'];
             $topic_rowset[] = $row;
@@ -365,8 +365,8 @@ if ($submit)
     if (!empty($from_topic_id))
     {
         $sql = "SELECT forum_id, topic_vote FROM " . TOPICS_TABLE . " WHERE topic_id=$from_topic_id";
-        if ( !($result = $titanium_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get topic informations', '', __LINE__, __FILE__, $sql);
-        if ($row = $titanium_db->sql_fetchrow($result))
+        if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get topic informations', '', __LINE__, __FILE__, $sql);
+        if ($row = $pnt_db->sql_fetchrow($result))
         {
             $from_forum_id = $row['forum_id'];
             $from_poll = $row['topic_vote'];
@@ -386,8 +386,8 @@ if ($submit)
     if (!empty($to_topic_id))
     {
         $sql = "SELECT forum_id, topic_vote FROM " . TOPICS_TABLE . " WHERE topic_id=$to_topic_id";
-        if ( !($result = $titanium_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get topic informations', '', __LINE__, __FILE__, $sql);
-        if ($row = $titanium_db->sql_fetchrow($result))
+        if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get topic informations', '', __LINE__, __FILE__, $sql);
+        if ($row = $pnt_db->sql_fetchrow($result))
         {
             $to_forum_id = $row['forum_id'];
             $to_poll = $row['topic_vote'];
@@ -465,19 +465,19 @@ if ($submit)
                 // delete the vote
                 $vote_id = 0;
                 $sql = "SELECT vote_id FROM " . VOTE_DESC_TABLE . " WHERE topic_id=$from_topic_id";
-                if ( !$result=$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read vote description', '', __LINE__, __FILE__, $sql);
-                if ($row=$titanium_db->sql_fetchrow($result)) $vote_id = $row['vote_id'];
+                if ( !$result=$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read vote description', '', __LINE__, __FILE__, $sql);
+                if ($row=$pnt_db->sql_fetchrow($result)) $vote_id = $row['vote_id'];
                 if (!empty($vote_id))
                 {
                     // delete voters
                     $sql = "DELETE FROM " . VOTE_USERS_TABLE . " WHERE vote_id=$vote_id";
-                    if ( !$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete votes', '', __LINE__, __FILE__, $sql);
+                    if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete votes', '', __LINE__, __FILE__, $sql);
                     // delete results
                     $sql = "DELETE FROM " . VOTE_RESULTS_TABLE . " WHERE vote_id=$vote_id";
-                    if ( !$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete vote results', '', __LINE__, __FILE__, $sql);
+                    if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete vote results', '', __LINE__, __FILE__, $sql);
                     // delete description
                     $sql = "DELETE FROM " . VOTE_DESC_TABLE . " WHERE vote_id=$vote_id";
-                    if ( !$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete vote description', '', __LINE__, __FILE__, $sql);
+                    if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete vote description', '', __LINE__, __FILE__, $sql);
                 }
             }
             else
@@ -486,7 +486,7 @@ if ($submit)
                 $sql = "UPDATE " . VOTE_DESC_TABLE . "
                             SET topic_id=$to_topic_id
                             WHERE topic_id=$from_topic_id";
-                if ( !$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update vote desc information', '', __LINE__, __FILE__, $sql);
+                if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update vote desc information', '', __LINE__, __FILE__, $sql);
             }
         }
 
@@ -494,29 +494,29 @@ if ($submit)
 
         // check if the destination is already watched
         $sql = "SELECT * FROM " . TOPICS_WATCH_TABLE . " WHERE topic_id=$to_topic_id";
-        if ( !$result=$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read topics watch informations', '', __LINE__, __FILE__, $sql);
-        $titanium_user_ids = array();
-        while ($row = $titanium_db->sql_fetchrow($result)) $titanium_user_ids[] = $row['user_id'];
+        if ( !$result=$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read topics watch informations', '', __LINE__, __FILE__, $sql);
+        $pnt_user_ids = array();
+        while ($row = $pnt_db->sql_fetchrow($result)) $pnt_user_ids[] = $row['user_id'];
         $sql_user = '';
-        if (!empty($titanium_user_ids))
+        if (!empty($pnt_user_ids))
         {
-            $sql_user = " AND user_id NOT IN (" . implode(', ', $titanium_user_ids) . ")";
+            $sql_user = " AND user_id NOT IN (" . implode(', ', $pnt_user_ids) . ")";
         }
         // grab the topics watch to the new topic
         $sql = "UPDATE " . TOPICS_WATCH_TABLE . " SET topic_id=$to_topic_id WHERE topic_id=$from_topic_id" . $sql_user;
-        if ( !$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update topics watch table', '', __LINE__, __FILE__, $sql);
+        if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update topics watch table', '', __LINE__, __FILE__, $sql);
         // clean up the old topics watch
         $sql = "DELETE FROM " . TOPICS_WATCH_TABLE . " WHERE topic_id=$from_topic_id";
-        if ( !$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete topics watch table', '', __LINE__, __FILE__, $sql);
+        if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete topics watch table', '', __LINE__, __FILE__, $sql);
 
         // process the posts
         $sql = "UPDATE " . POSTS_TABLE . " SET forum_id=$to_forum_id, topic_id=$to_topic_id WHERE topic_id=$from_topic_id";
-        if ( !$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update posts information', '', __LINE__, __FILE__, $sql);
+        if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update posts information', '', __LINE__, __FILE__, $sql);
 
         // get the old topic data for a shadow
         $sql = "SELECT * FROM " . TOPICS_TABLE . " WHERE topic_id=$from_topic_id";
-        if ( !$result = $titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read from-topic informations', '', __LINE__, __FILE__, $sql);
-        $phpbb2_topic_data = $titanium_db->sql_fetchrow($result);
+        if ( !$result = $pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read from-topic informations', '', __LINE__, __FILE__, $sql);
+        $phpbb2_topic_data = $pnt_db->sql_fetchrow($result);
 
         if ($shadow)
         {
@@ -524,7 +524,7 @@ if ($submit)
             $sql = "UPDATE " . TOPICS_TABLE . " 
                     SET topic_status=" . TOPIC_MOVED . ", topic_type=" . POST_NORMAL . ", topic_moved_id=$to_topic_id
                     WHERE topic_id=$from_topic_id";
-            if ( !$titanium_db->sql_query($sql) )
+            if ( !$pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not set shadow topic', '', __LINE__, __FILE__, $sql);
             }
@@ -533,7 +533,7 @@ if ($submit)
         {
             // delete the old topic
             $sql = "DELETE FROM " . TOPICS_TABLE . " WHERE topic_id=$from_topic_id";
-            if ( !$titanium_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update delete topic merged', '', __LINE__, __FILE__, $sql);
+            if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update delete topic merged', '', __LINE__, __FILE__, $sql);
         }
 
         // build the update request
@@ -554,7 +554,7 @@ if ($submit)
         if ( !empty($sql_update) )
         {
             $sql = " UPDATE " . TOPICS_TABLE . " SET $sql_update WHERE topic_id=$to_topic_id";
-            if ( !$titanium_db->sql_query($sql) )
+            if ( !$pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not update to topic', '', __LINE__, __FILE__, $sql);
             }

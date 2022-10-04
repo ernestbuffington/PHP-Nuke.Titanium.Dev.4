@@ -1900,11 +1900,11 @@ class PHPMailer
                 static::edebug($this->lang('connect_host') . ' ' . $hostentry);
                 continue;
             }
-            $titanium_prefix = '';
+            $pnt_prefix = '';
             $secure = $this->SMTPSecure;
             $tls = ('tls' == $this->SMTPSecure);
             if ('ssl' == $hostinfo[2] or ('' == $hostinfo[2] and 'ssl' == $this->SMTPSecure)) {
-                $titanium_prefix = 'ssl://';
+                $pnt_prefix = 'ssl://';
                 $tls = false; // Can't have SSL and TLS at the same time
                 $secure = 'ssl';
             } elseif ('tls' == $hostinfo[2]) {
@@ -1926,7 +1926,7 @@ class PHPMailer
             if ($tport > 0 and $tport < 65536) {
                 $port = $tport;
             }
-            if ($this->smtp->connect($titanium_prefix . $host, $port, $this->Timeout, $options)) {
+            if ($this->smtp->connect($pnt_prefix . $host, $port, $this->Timeout, $options)) {
                 try {
                     if ($this->Helo) {
                         $hello = $this->Helo;

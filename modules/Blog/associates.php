@@ -38,11 +38,11 @@ get_lang($pnt_module);
 
 $sid = intval($sid);
 
-$query = $titanium_db->sql_query("SELECT associated FROM ".$titanium_prefix."_stories WHERE sid='$sid'");
+$query = $pnt_db->sql_query("SELECT associated FROM ".$pnt_prefix."_stories WHERE sid='$sid'");
 
-list($associated) = $titanium_db->sql_fetchrow($query);
+list($associated) = $pnt_db->sql_fetchrow($query);
 
-$titanium_db->sql_freeresult($query);
+$pnt_db->sql_freeresult($query);
 
 if (!empty($associated)) 
 {
@@ -55,9 +55,9 @@ if (!empty($associated))
 	{
       if (!empty($asso_t[$i])) 
 	  {
-        $query = $titanium_db->sql_query("SELECT topicimage, topictext from ".$titanium_prefix."_topics WHERE topicid='".$asso_t[$i]."'");
-	    list($topicimage, $topictext) = $titanium_db->sql_fetchrow($query);
-	    $titanium_db->sql_freeresult($query);
+        $query = $pnt_db->sql_query("SELECT topicimage, topictext from ".$pnt_prefix."_topics WHERE topicid='".$asso_t[$i]."'");
+	    list($topicimage, $topictext) = $pnt_db->sql_fetchrow($query);
+	    $pnt_db->sql_freeresult($query);
 	    echo "<a href=\"modules.php?name=$pnt_module&new_topic=$asso_t[$i]\"><img src=\"".$tipath.$topicimage."\" border=\"0\" hspace=\"10\" alt=\"".$topictext."\" title=\"".$topictext."\"></a>";
       }
     }

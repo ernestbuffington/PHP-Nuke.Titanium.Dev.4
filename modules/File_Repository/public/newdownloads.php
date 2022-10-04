@@ -14,7 +14,7 @@ if (!defined('MODULE_FILE'))
 
 function _show_list_newdownloads()
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $userinfo, $settings, $admin, $titanium_user;
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $userinfo, $settings, $admin, $pnt_user;
 	
 	$counter = 0;
 	$allweekdownloads = 0;
@@ -22,7 +22,7 @@ function _show_list_newdownloads()
 	{
 		$newdownloaddayRaw = (time()-(86400 * $counter));
 		$newdownloadDB = date('Y-m-d', $newdownloaddayRaw);
-		$totaldownloads = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `date` LIKE '%$newdownloadDB%' AND `isactive` > '0'"));
+		$totaldownloads = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `date` LIKE '%$newdownloadDB%' AND `isactive` > '0'"));
 		$counter++;
 		$allweekdownloads = $allweekdownloads + $totaldownloads;
 	}
@@ -33,7 +33,7 @@ function _show_list_newdownloads()
 	{
 		$newdownloaddayRaw = (time()-(86400 * $counter));
 		$newdownloadDB = date('Y-m-d', $newdownloaddayRaw);
-		$totaldownloads = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `date` LIKE '%$newdownloadDB%' AND `isactive` > '0'"));
+		$totaldownloads = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `date` LIKE '%$newdownloadDB%' AND `isactive` > '0'"));
 		$allmonthdownloads = $allmonthdownloads + $totaldownloads;
 		$counter++;
 	}
@@ -61,7 +61,7 @@ function _show_list_newdownloads()
 	{
 		$newdownloaddayRaw = (time()-(86400 * $counter));
 		$newdownloadDB = Date("Y-m-d", $newdownloaddayRaw);
-		$totaldownloads = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `date` LIKE '%$newdownloadDB%' AND `isactive` > '0'"));
+		$totaldownloads = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `date` LIKE '%$newdownloadDB%' AND `isactive` > '0'"));
 		$counter++;
 		$allweekdownloads = $allweekdownloads + $totaldownloads;
 		echo '<strong><big>&middot;</big></strong> <a href="modules.php?name='.$pnt_module.'&amp;action=newdownloadsdate&amp;selectdate='.$newdownloaddayRaw.'">'.$newdownloadDB.'</a>&nbsp('.$totaldownloads.')<br />'."\n";
@@ -79,7 +79,7 @@ function _show_list_newdownloads()
 
 function _show_list_newdownloads_dates()
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $userinfo, $settings, $themes, $admin, $titanium_user;
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $userinfo, $settings, $themes, $admin, $pnt_user;
 	
 	OpenTable();
 	_index_navigation_header();
@@ -89,8 +89,8 @@ function _show_list_newdownloads_dates()
 	$newdownloadDB    = (date("Y-m-d", $_GET['selectdate']));
 
 	$sql 		= "SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `date` LIKE '%".$newdownloadDB."%' AND `isactive` > '0'";
-	$result  	= $titanium_db->sql_query($sql);
-	$numrows 	= $titanium_db->sql_numrows($result);
+	$result  	= $pnt_db->sql_query($sql);
+	$numrows 	= $pnt_db->sql_numrows($result);
 	echo '<br />';
 	echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
@@ -107,11 +107,11 @@ function _show_list_newdownloads_dates()
 			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($lang_new[$pnt_module]['FILE_SIZE']).'</td>'.PHP_EOL;
 			echo '    <td'._tdcss('20%','center',_sh()).'>'._suh($lang_new[$pnt_module]['DATE_ADDED']).'</td>'.PHP_EOL;
 			echo '  </tr>'."\n";
-			while($popular = $titanium_db->sql_fetchrow($result))
+			while($popular = $pnt_db->sql_fetchrow($result))
 			{
 				$v 			= (($popular['version']) ? sprintf($lang_new[$pnt_module]['V'],$popular['version']) : '');
 				$iteminfo 	= _collect_iteminfo($popular['did']);
-				$screen[$items] = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$popular['did']."' ORDER BY RAND()"));
+				$screen[$items] = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$popular['did']."' ORDER BY RAND()"));
 				echo '  <tr'._bgColor(1).'>'."\n";
 				if($screen[$items]['filename'])
 				{
@@ -131,16 +131,16 @@ function _show_list_newdownloads_dates()
 				echo '  </tr>'."\n";
 				$items++;
 			}
-			$titanium_db->sql_freeresult($result);
+			$pnt_db->sql_freeresult($result);
 		} 
 		else 
 		{
 			$items = 0;
-			while($d = $titanium_db->sql_fetchrow($result))
+			while($d = $pnt_db->sql_fetchrow($result))
 			{
 				$v 				= (($d['version']) ? sprintf($lang_new[$pnt_module]['V'],$d['version']) : '');
 				$iteminfo 		= _collect_iteminfo($d['did']);
-				$screen[$items] = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$d['did']."' ORDER BY RAND()"));
+				$screen[$items] = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$d['did']."' ORDER BY RAND()"));
 				$ustring 		= ($iteminfo['updated'] == '0000-00-00 00:00:00') ? _sut($lang_new[$pnt_module]['DATE_ADDED']) : _sut($lang_new[$pnt_module]['UPDATED']);
 				if($screen[$items]['filename'])
 					$colspan = false;

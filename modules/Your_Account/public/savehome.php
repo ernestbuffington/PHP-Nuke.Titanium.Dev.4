@@ -38,12 +38,12 @@ if (!defined('CNBYA')) {
     global $cookie, $userinfo;
     $check = $cookie[1];
     $check2 = $cookie[2];
-    $result = $titanium_db->sql_query("SELECT user_id, user_password FROM ".$titanium_user_prefix."_users WHERE username='$check'");
-    $row = $titanium_db->sql_fetchrow($result);
+    $result = $pnt_db->sql_query("SELECT user_id, user_password FROM ".$pnt_user_prefix."_users WHERE username='$check'");
+    $row = $pnt_db->sql_fetchrow($result);
     $vuid = $row['user_id'];
     $ccpass = $row['user_password'];
-    if (($titanium_user_id == $vuid) AND ($check2 == $ccpass)) {
-        $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET storynum='$blognum' WHERE user_id='$titanium_user_id'");
+    if (($pnt_user_id == $vuid) AND ($check2 == $ccpass)) {
+        $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET storynum='$blognum' WHERE user_id='$pnt_user_id'");
         yacookie($userinfo[user_id],$userinfo[username],$userinfo[user_password],$userinfo[storynum],$userinfo[umode],$userinfo[uorder],$userinfo[thold],$userinfo[noscore],$userinfo[ublockon],$userinfo[theme],$userinfo[commentmax]);
         redirect_titanium("modules.php?name=$pnt_module");
     }

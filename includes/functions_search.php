@@ -114,7 +114,7 @@ function split_words($entry, $mode = 'post')
 
 function add_search_words($mode, $post_id, $post_text, $post_title = '')
 {
-        global $titanium_db, $phpbb2_root_path, $phpbb2_board_config, $lang;
+        global $pnt_db, $phpbb2_root_path, $phpbb2_board_config, $lang;
 
         $stopword_array = @file($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . "/search_stopwords.txt");
         $synonym_array = @file($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . "/search_synonyms.txt");
@@ -175,12 +175,12 @@ function add_search_words($mode, $post_id, $post_text, $post_title = '')
                                 $sql = "SELECT word_id, word_text
                                         FROM " . SEARCH_WORD_TABLE . "
                                         WHERE word_text IN ($word_text_sql)";
-                                if ( !($result = $titanium_db->sql_query($sql)) )
+                                if ( !($result = $pnt_db->sql_query($sql)) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not select words', '', __LINE__, __FILE__, $sql);
                                 }
 
-                                while ( $row = $titanium_db->sql_fetchrow($result) )
+                                while ( $row = $pnt_db->sql_fetchrow($result) )
                                 {
                                         $check_words[$row['word_text']] = $row['word_id'];
                                 }
@@ -213,7 +213,7 @@ function add_search_words($mode, $post_id, $post_text, $post_title = '')
                                         default:
                                                 $sql = "INSERT INTO " . SEARCH_WORD_TABLE . " (word_text, word_common)
                                                         VALUES ('" . $word[$i] . "', '0')";
-                                                if( !$titanium_db->sql_query($sql) )
+                                                if( !$pnt_db->sql_query($sql) )
                                                 {
                                                         message_die(GENERAL_ERROR, 'Could not insert new word', '', __LINE__, __FILE__, $sql);
                                                 }
@@ -239,7 +239,7 @@ function add_search_words($mode, $post_id, $post_text, $post_title = '')
                                         break;
                         }
 
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not insert new word', '', __LINE__, __FILE__, $sql);
                         }
@@ -258,7 +258,7 @@ function add_search_words($mode, $post_id, $post_text, $post_title = '')
                                         WHERE word_text IN ($match_sql)
 					                    AND word_common <> 1";
 
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not insert new word matches', '', __LINE__, __FILE__, $sql);
                         }
@@ -278,16 +278,16 @@ function add_search_words($mode, $post_id, $post_text, $post_title = '')
 //
 function remove_common($mode, $fraction, $word_id_list = array())
 {
-        global $titanium_db;
+        global $pnt_db;
 
         $sql = "SELECT COUNT(post_id) AS total_posts
                 FROM " . POSTS_TABLE;
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not obtain post count', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
 
         if ( $row['total_posts'] >= 100 )
         {
@@ -316,31 +316,31 @@ function remove_common($mode, $fraction, $word_id_list = array())
                                 HAVING COUNT(word_id) > $common_threshold";
                 }
 
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not obtain common word list', '', __LINE__, __FILE__, $sql);
                 }
 
                 $common_word_id = '';
-                while ( $row = $titanium_db->sql_fetchrow($result) )
+                while ( $row = $pnt_db->sql_fetchrow($result) )
                 {
                         $common_word_id .= ( ( $common_word_id != '' ) ? ', ' : '' ) . $row['word_id'];
                 }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
 
                 if ( $common_word_id != '' )
                 {
                         $sql = "UPDATE " . SEARCH_WORD_TABLE . "
                                 SET word_common = " . TRUE . "
                                 WHERE word_id IN ($common_word_id)";
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete word list entry', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "DELETE FROM " . SEARCH_MATCH_TABLE . "
                                 WHERE word_id IN ($common_word_id)";
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete word match entry', '', __LINE__, __FILE__, $sql);
                         }
@@ -352,7 +352,7 @@ function remove_common($mode, $fraction, $word_id_list = array())
 
 function remove_search_post($post_id_sql)
 {
-        global $titanium_db;
+        global $pnt_db;
 
         $words_removed = false;
 
@@ -365,10 +365,10 @@ function remove_search_post($post_id_sql)
                                 FROM " . SEARCH_MATCH_TABLE . "
                                 WHERE post_id IN ($post_id_sql)
                                 GROUP BY word_id";
-                        if ( $result = $titanium_db->sql_query($sql) )
+                        if ( $result = $pnt_db->sql_query($sql) )
                         {
                                 $word_id_sql = '';
-                                while ( $row = $titanium_db->sql_fetchrow($result) )
+                                while ( $row = $pnt_db->sql_fetchrow($result) )
                                 {
                                         $word_id_sql .= ( $word_id_sql != '' ) ? ', ' . $row['word_id'] : $row['word_id'];
                                 }
@@ -378,10 +378,10 @@ function remove_search_post($post_id_sql)
                                         WHERE word_id IN ($word_id_sql)
                                         GROUP BY word_id
                                         HAVING COUNT(word_id) = 1";
-                                if ( $result = $titanium_db->sql_query($sql) )
+                                if ( $result = $pnt_db->sql_query($sql) )
                                 {
                                         $word_id_sql = '';
-                                        while ( $row = $titanium_db->sql_fetchrow($result) )
+                                        while ( $row = $pnt_db->sql_fetchrow($result) )
                                         {
                                                 $word_id_sql .= ( $word_id_sql != '' ) ? ', ' . $row['word_id'] : $row['word_id'];
                                         }
@@ -390,12 +390,12 @@ function remove_search_post($post_id_sql)
                                         {
                                                 $sql = "DELETE FROM " . SEARCH_WORD_TABLE . "
                                                         WHERE word_id IN ($word_id_sql)";
-                                                if ( !$titanium_db->sql_query($sql) )
+                                                if ( !$pnt_db->sql_query($sql) )
                                                 {
                                                         message_die(GENERAL_ERROR, 'Could not delete word list entry', '', __LINE__, __FILE__, $sql);
                                                 }
 
-                                                $words_removed = $titanium_db->sql_affectedrows();
+                                                $words_removed = $pnt_db->sql_affectedrows();
                                         }
                                 }
                         }
@@ -415,19 +415,19 @@ function remove_search_post($post_id_sql)
                                         GROUP BY word_id
                                         HAVING COUNT(word_id) = 1
                                 )";
-                        if ( !$titanium_db->sql_query($sql) )
+                        if ( !$pnt_db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete old words from word table', '', __LINE__, __FILE__, $sql);
                         }
 
-                        $words_removed = $titanium_db->sql_affectedrows();
+                        $words_removed = $pnt_db->sql_affectedrows();
 
                         break;
         }
 
         $sql = "DELETE FROM " . SEARCH_MATCH_TABLE . "
                 WHERE post_id IN ($post_id_sql)";
-        if ( !$titanium_db->sql_query($sql) )
+        if ( !$pnt_db->sql_query($sql) )
         {
                 message_die(GENERAL_ERROR, 'Error in deleting post', '', __LINE__, __FILE__, $sql);
         }
@@ -440,37 +440,37 @@ function remove_search_post($post_id_sql)
 //
 function username_search($search_match)
 {
-        global $titanium_db, $phpbb2_board_config, $phpbb2_template, $lang, $images, $theme, $phpEx, $phpbb2_root_path, $phpbb2_starttime, $gen_simple_header;
+        global $pnt_db, $phpbb2_board_config, $phpbb2_template, $lang, $images, $theme, $phpEx, $phpbb2_root_path, $phpbb2_starttime, $gen_simple_header;
 
         $gen_simple_header = TRUE;
 
-        $titanium_username_list = '';
+        $pnt_username_list = '';
         if ( !empty($search_match) )
         {
-        $titanium_username_search = preg_replace('/\*/', '%', phpbb_clean_username($search_match));
+        $pnt_username_search = preg_replace('/\*/', '%', phpbb_clean_username($search_match));
 
                 $sql = "SELECT username
                         FROM " . USERS_TABLE . "
-                        WHERE username LIKE '" . str_replace("\'", "''", $titanium_username_search) . "' AND user_id <> " . ANONYMOUS . "
+                        WHERE username LIKE '" . str_replace("\'", "''", $pnt_username_search) . "' AND user_id <> " . ANONYMOUS . "
                         ORDER BY username";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not obtain search results', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ( $row = $titanium_db->sql_fetchrow($result) )
+                if ( $row = $pnt_db->sql_fetchrow($result) )
                 {
                         do
                         {
-                                $titanium_username_list .= '<option value="' . $row['username'] . '">' . $row['username'] . '</option>';
+                                $pnt_username_list .= '<option value="' . $row['username'] . '">' . $row['username'] . '</option>';
                         }
-                        while ( $row = $titanium_db->sql_fetchrow($result) );
+                        while ( $row = $pnt_db->sql_fetchrow($result) );
                 }
                 else
                 {
-                        $titanium_username_list .= '<option>' . $lang['No_match']. '</option>';
+                        $pnt_username_list .= '<option>' . $lang['No_match']. '</option>';
                 }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
         }
 
         $phpbb2_page_title = $lang['Search'];
@@ -491,11 +491,11 @@ function username_search($search_match)
                 'L_SEARCH_EXPLAIN' => $lang['Search_author_explain'],
                 'L_CLOSE_WINDOW' => $lang['Close_window'],
 
-                'S_USERNAME_OPTIONS' => $titanium_username_list,
+                'S_USERNAME_OPTIONS' => $pnt_username_list,
                 'S_SEARCH_ACTION' => append_titanium_sid("search.$phpEx?mode=searchuser&popup=1"))
         );
 
-        if ( $titanium_username_list != '' )
+        if ( $pnt_username_list != '' )
         {
                 $phpbb2_template->assign_block_vars('switch_select_name', array());
         }

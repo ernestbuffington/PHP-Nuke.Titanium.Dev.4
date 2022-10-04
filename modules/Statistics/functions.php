@@ -10,11 +10,11 @@ $nowmonth = $now[1];
 $nowyear = $now[2];
 
 function Stats_Main() {
-    global $titanium_prefix, $titanium_db, $startdate, $sitename, $ThemeSel, $titanium_user_prefix, $pnt_module, $cache;
-    $result  = $titanium_db->sql_query('SELECT `type`, `var`, `count` FROM `'.$titanium_prefix.'_counter` ORDER BY `count` DESC, var');
+    global $pnt_prefix, $pnt_db, $startdate, $sitename, $ThemeSel, $pnt_user_prefix, $pnt_module, $cache;
+    $result  = $pnt_db->sql_query('SELECT `type`, `var`, `count` FROM `'.$pnt_prefix.'_counter` ORDER BY `count` DESC, var');
     $browser = $os = array();
     $totalos = $totalbr = 0;
-    while (list($type, $var, $count) = $titanium_db->sql_fetchrow($result)) {
+    while (list($type, $var, $count) = $pnt_db->sql_fetchrow($result)) {
         if ($type == 'browser') {
             $browser[$var] = $count;
         } elseif ($type == 'os') {
@@ -23,8 +23,8 @@ function Stats_Main() {
             $totalos += $count;
         }
     }
-    list($totalbr) = $titanium_db->sql_fetchrow($titanium_db->sql_query('SELECT SUM(hits) FROM `'.$titanium_prefix.'_stats_hour`'));
-    $titanium_db->sql_freeresult($result);
+    list($totalbr) = $pnt_db->sql_fetchrow($pnt_db->sql_query('SELECT SUM(hits) FROM `'.$pnt_prefix.'_stats_hour`'));
+    $pnt_db->sql_freeresult($result);
     if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
         $cache->save('m_size', 'config', $m_size);
@@ -70,10 +70,10 @@ function Stats_Main() {
         }
     }
 // Miscellaneous Stats
-    list($unum) = $titanium_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$titanium_user_prefix.'_users` WHERE `user_id` > 1');
-    list($snum) = $titanium_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$titanium_prefix.'_stories`');
-    list($cnum) = $titanium_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$titanium_prefix.'_comments`');
-    list($subnum) = $titanium_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$titanium_prefix.'_queue`');
+    list($unum) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$pnt_user_prefix.'_users` WHERE `user_id` > 1');
+    list($snum) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$pnt_prefix.'_stories`');
+    list($cnum) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$pnt_prefix.'_comments`');
+    list($subnum) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$pnt_prefix.'_queue`');
     $evover = ucfirst(EVO_EDITION);
 	$titaniumver = ucfirst(TITANIUM_EDITION);
     echo '<tr>
@@ -84,7 +84,7 @@ function Stats_Main() {
         <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/news.gif" alt="" />&nbsp;'._STORIESPUBLISHED.'</span></td><td class="row3"><span class="gen">'.$snum.'</span></td>
     </tr>';
     if (is_active('Topics')) {
-        list($tnum) = $titanium_db->sql_ufetchrow("SELECT COUNT(*) FROM `".$titanium_prefix."_topics`");
+        list($tnum) = $pnt_db->sql_ufetchrow("SELECT COUNT(*) FROM `".$pnt_prefix."_topics`");
         echo '<tr align="left">
         <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/topics.gif" alt="" />&nbsp;'._SACTIVETOPICS.'</span></td><td class="row3"><span class="gen">'.$tnum.'</span></td>
         </tr>';
@@ -93,8 +93,8 @@ function Stats_Main() {
         <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/comments.gif" alt="" />&nbsp;'._COMMENTSPOSTED.'</span></td><td class="row3"><span class="gen">'.$cnum.'</span></td>
         </tr>';
     if (is_active('Web_Links')) {
-        list($links) = $titanium_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$titanium_prefix.'_links_links`');
-        list($cat) = $titanium_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$titanium_prefix.'_links_categories`');
+        list($links) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$pnt_prefix.'_links_links`');
+        list($cat) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$pnt_prefix.'_links_categories`');
         echo '<tr align="left">
         <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/topics.gif" alt="" />&nbsp;'._LINKSINLINKS.'</span></td><td class="row3"><span class="gen">'.$links.'</span></td>
     </tr><tr align="left">
@@ -117,9 +117,9 @@ function Stats_Main() {
 }
 
 function Stats() {
-    global $nowyear, $nowmonth, $nowdate, $sitename, $startdate, $titanium_prefix, $titanium_db, $now, $pnt_module;
+    global $nowyear, $nowmonth, $nowdate, $sitename, $startdate, $pnt_prefix, $pnt_db, $now, $pnt_module;
 
-    list($total) = $titanium_db->sql_ufetchrow('SELECT SUM(hits) FROM `'.$titanium_prefix."_stats_hour`");
+    list($total) = $pnt_db->sql_ufetchrow('SELECT SUM(hits) FROM `'.$pnt_prefix."_stats_hour`");
     OpenTable();
     echo '<table class="forumline" cellspacing="1" width="100%">
     <tr>
@@ -128,13 +128,13 @@ function Stats() {
         <td class="row1" align="center"><span class="gen">'._WERECEIVED.' <strong>'.$total.'</strong> '._PAGESVIEWS.' '.$startdate.'<br /><br />
         <img src="modules/'.$pnt_module.'/images/logo.png" alt="" /><br /><br />'._TODAYIS.": $now[0]/$now[1]/$now[2]<br />";
 
-    list($year, $month, $hits) = $titanium_db->sql_ufetchrow("SELECT `year`, `month`, SUM(hits) as hits FROM `".$titanium_prefix."_stats_hour` GROUP BY `month`, `year` ORDER BY `hits` DESC LIMIT 0,1");
+    list($year, $month, $hits) = $pnt_db->sql_ufetchrow("SELECT `year`, `month`, SUM(hits) as hits FROM `".$pnt_prefix."_stats_hour` GROUP BY `month`, `year` ORDER BY `hits` DESC LIMIT 0,1");
     echo _MOSTMONTH.": ".getmonth($month)." $year ($hits "._HITS.")<br />";
 
-    list($year, $month, $date, $hits) = $titanium_db->sql_ufetchrow("SELECT `year`, `month`, `date`, SUM(hits) as hits FROM `".$titanium_prefix."_stats_hour` GROUP BY `date`, `month`, `year` ORDER BY `hits` DESC LIMIT 0,1");
+    list($year, $month, $date, $hits) = $pnt_db->sql_ufetchrow("SELECT `year`, `month`, `date`, SUM(hits) as hits FROM `".$pnt_prefix."_stats_hour` GROUP BY `date`, `month`, `year` ORDER BY `hits` DESC LIMIT 0,1");
     echo _MOSTDAY.": $date ".getmonth($month)." $year ($hits "._HITS.")<br />";
 
-    list($year, $month, $date, $hour, $hits) = $titanium_db->sql_ufetchrow("SELECT `year`, `month`, `date`, `hour`, `hits` from `".$titanium_prefix."_stats_hour` ORDER BY `hits` DESC LIMIT 0,1");
+    list($year, $month, $date, $hour, $hits) = $pnt_db->sql_ufetchrow("SELECT `year`, `month`, `date`, `hour`, `hits` from `".$pnt_prefix."_stats_hour` ORDER BY `hits` DESC LIMIT 0,1");
     if ($hour < 10) {
         $hour = "0$hour:00 - 0$hour:59";
     } else {
@@ -181,7 +181,7 @@ function DailyStats($year, $month, $date) {
 }
 
 function showYearStats($nowyear) {
-    global $titanium_prefix, $titanium_db, $ThemeSel, $pnt_module, $cache;
+    global $pnt_prefix, $pnt_db, $ThemeSel, $pnt_module, $cache;
     if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
         $cache->save('m_size', 'config', $m_size);
@@ -194,15 +194,15 @@ function showYearStats($nowyear) {
         $r_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/rightbar.gif');
         $cache->save('r_size', 'config', $r_size);
     }
-    list($TotalHitsYear) = $titanium_db->sql_ufetchrow("SELECT SUM(hits) AS TotalHitsYear FROM `".$titanium_prefix."_stats_hour`");
-    $result = $titanium_db->sql_query("SELECT `year`, SUM(hits) FROM `".$titanium_prefix."_stats_hour` GROUP BY `year` ORDER BY year");
+    list($TotalHitsYear) = $pnt_db->sql_ufetchrow("SELECT SUM(hits) AS TotalHitsYear FROM `".$pnt_prefix."_stats_hour`");
+    $result = $pnt_db->sql_query("SELECT `year`, SUM(hits) FROM `".$pnt_prefix."_stats_hour` GROUP BY `year` ORDER BY year");
     echo '<table class="forumline" cellspacing="1" width="100%">
     <tr>
         <td colspan="3" class="cat"><div class="cattitle" align="center">'._YEARLYSTATS.'</div></td>
     </tr><tr>
         <td width="25%" class="row2"><span class="gen"><strong>'._YEAR.'</strong></span></td><td colspan="2" class="row2"><span class="gen"><strong>'._SPAGESVIEWS.'</strong></span></td>
     </tr>';
-    while (list($year,$hits) = $titanium_db->sql_fetchrow($result)){
+    while (list($year,$hits) = $pnt_db->sql_fetchrow($result)){
         echo '<tr>
         <td class="row1"><span class="gen">';
         if ($year != $nowyear) {
@@ -217,12 +217,12 @@ function showYearStats($nowyear) {
         echo "<img src=\"themes/$ThemeSel/images/rightbar.gif\" alt=\"\" width=\"".$r_size[0]."\" height=\"".$r_size[1]."\" /></td><td class=\"row1\"><span class=\"gen\">$hits</span></td>
     </tr>";
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     echo '</table>';
 }
 
 function showMonthStats($nowyear, $nowmonth) {
-    global $titanium_prefix, $titanium_db, $ThemeSel, $pnt_module, $cache;
+    global $pnt_prefix, $pnt_db, $ThemeSel, $pnt_module, $cache;
     if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
         $cache->save('m_size', 'config', $m_size);
@@ -235,15 +235,15 @@ function showMonthStats($nowyear, $nowmonth) {
         $r_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/rightbar.gif');
         $cache->save('r_size', 'config', $r_size);
     }
-    list($TotalHitsMonth) = $titanium_db->sql_ufetchrow("SELECT sum(hits) AS TotalHitsMonth FROM `".$titanium_prefix."_stats_hour` WHERE `year`='$nowyear'");
+    list($TotalHitsMonth) = $pnt_db->sql_ufetchrow("SELECT sum(hits) AS TotalHitsMonth FROM `".$pnt_prefix."_stats_hour` WHERE `year`='$nowyear'");
     echo '<table class="forumline" cellspacing="1" width="100%">
     <tr>
         <td colspan="3" class="cat"><div class="cattitle" align="center">'._MONTLYSTATS.' '.$nowyear.'</div></td>
     </tr><tr>
         <td width="25%" class="row2"><span class="gen"><strong>'._UMONTH.'</strong></span></td><td class="row2" colspan="2"><span class="gen"><strong>'._SPAGESVIEWS.'</strong></span></td>
     </tr>';
-    $result = $titanium_db->sql_query("SELECT month, SUM(hits) FROM ".$titanium_prefix."_stats_hour WHERE year='$nowyear' GROUP BY month ORDER BY month");
-    while (list($month,$hits) = $titanium_db->sql_fetchrow($result)){
+    $result = $pnt_db->sql_query("SELECT month, SUM(hits) FROM ".$pnt_prefix."_stats_hour WHERE year='$nowyear' GROUP BY month ORDER BY month");
+    while (list($month,$hits) = $pnt_db->sql_fetchrow($result)){
         echo '<tr>
         <td class="row1"><span class="gen">';
         if ($month != $nowmonth) {
@@ -258,12 +258,12 @@ function showMonthStats($nowyear, $nowmonth) {
         echo "<img src=\"themes/$ThemeSel/images/rightbar.gif\" alt=\"\" width=\"".$r_size[0]."\" height=\"".$r_size[1]."\" /></td><td class=\"row1\"><span class=\"gen\">$hits</span></td>
     </tr>";
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     echo '</table>';
 }
 
 function showDailyStats($year, $month, $nowdate) {
-    global $titanium_prefix, $titanium_db, $ThemeSel, $pnt_module, $cache;
+    global $pnt_prefix, $pnt_db, $ThemeSel, $pnt_module, $cache;
     if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
         $cache->save('m_size', 'config', $m_size);
@@ -277,10 +277,10 @@ function showDailyStats($year, $month, $nowdate) {
         $cache->save('r_size', 'config', $r_size);
     }
 
-    $result = $titanium_db->sql_query("SELECT `date`, SUM(hits) as `hits` FROM `".$titanium_prefix."_stats_hour` WHERE `year`='$year' AND `month`='$month' GROUP BY `date` ORDER BY `date`");
+    $result = $pnt_db->sql_query("SELECT `date`, SUM(hits) as `hits` FROM `".$pnt_prefix."_stats_hour` WHERE `year`='$year' AND `month`='$month' GROUP BY `date` ORDER BY `date`");
     $TotalHitsDate = $date = 0;
     $days = array();
-    while ($row = $titanium_db->sql_fetchrow($result)) {
+    while ($row = $pnt_db->sql_fetchrow($result)) {
         $TotalHitsDate = $TotalHitsDate + $row['hits'];
         $date++;
         while ($date < $row['date']) {
@@ -289,7 +289,7 @@ function showDailyStats($year, $month, $nowdate) {
         }
         $days[] = $row;
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     echo '<table class="forumline" cellspacing="1" width="100%">
     <tr>
         <td colspan="3" class="cat"><div class="cattitle" align="center">'._DAILYSTATS.' '.getmonth($month).', '.$year.'</div></td>
@@ -323,7 +323,7 @@ function showDailyStats($year, $month, $nowdate) {
 }
 
 function showHourlyStats($year, $month, $date) {
-    global $titanium_prefix, $titanium_db, $ThemeSel, $pnt_module, $cache;
+    global $pnt_prefix, $pnt_db, $ThemeSel, $pnt_module, $cache;
     if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
         $cache->save('m_size', 'config', $m_size);
@@ -336,7 +336,7 @@ function showHourlyStats($year, $month, $date) {
         $r_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/rightbar.gif');
         $cache->save('r_size', 'config', $r_size);
     }
-    list($TotalHitsHour) = $titanium_db->sql_ufetchrow('SELECT SUM(hits) AS TotalHitsHour FROM `'.$titanium_prefix."_stats_hour` WHERE `year`='$year' AND `month`='$month' AND `date`='$date'");
+    list($TotalHitsHour) = $pnt_db->sql_ufetchrow('SELECT SUM(hits) AS TotalHitsHour FROM `'.$pnt_prefix."_stats_hour` WHERE `year`='$year' AND `month`='$month' AND `date`='$date'");
     $nowdate = date('d-m-Y');
     $nowdate_arr = explode('-', $nowdate);
     echo '<table class="forumline" cellspacing="1" width="100%">
@@ -347,13 +347,13 @@ function showHourlyStats($year, $month, $date) {
         <td class="row2" colspan="2"><span class="gen"><strong>'._SPAGESVIEWS.'</strong></span></td>
     </tr>';
     for ($k = 0;$k<=23;$k++) {
-    $result = $titanium_db->sql_query("SELECT hour, hits FROM ".$titanium_prefix."_stats_hour WHERE year='$year' AND month='$month' AND date='$date' AND hour='$k'");
-    if ($titanium_db->sql_numrows($result) == 0){
+    $result = $pnt_db->sql_query("SELECT hour, hits FROM ".$pnt_prefix."_stats_hour WHERE year='$year' AND month='$month' AND date='$date' AND hour='$k'");
+    if ($pnt_db->sql_numrows($result) == 0){
         $hits=0;
     } else {
-        list($hour,$hits) = $titanium_db->sql_fetchrow($result);
+        list($hour,$hits) = $pnt_db->sql_fetchrow($result);
     }
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     $a = ($k < 10) ? "0$k" : $k;
     echo '<tr>
         <td class="row1"><span class="gen">';

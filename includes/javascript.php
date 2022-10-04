@@ -210,7 +210,7 @@ echo "<!-- NOT LOADED TITANIUM FACEBOOK v5 FROM FROM includes/javascript.php -->
  [ Mod:     Facebook Mod                       v1.0.0 ]
  ******************************************************/
 
-if (isset($titanium_userpage)) {
+if (isset($pnt_userpage)) {
     echo "<script type=\"text/javascript\">\n";
     echo "<!--\n";
     echo "function showimage() {\n";

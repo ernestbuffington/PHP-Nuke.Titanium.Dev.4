@@ -63,7 +63,7 @@ class attach_pm extends attach_parent
     */
     function insert_attachment_pm($a_privmsgs_id)
     {
-        global $titanium_db, $mode, $attach_config, $privmsg_sent_id, $userdata, $to_userdata, $HTTP_POST_VARS;
+        global $pnt_db, $mode, $attach_config, $privmsg_sent_id, $userdata, $to_userdata, $HTTP_POST_VARS;
 
         $a_privmsgs_id = (int) $a_privmsgs_id;
 
@@ -84,7 +84,7 @@ class attach_pm extends attach_parent
                     SET privmsgs_attachment = 1
                     WHERE privmsgs_id = ' . (int) $a_privmsgs_id;
 
-                if (!$titanium_db->sql_query($sql))
+                if (!$pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, 'Unable to update Private Message Table.', '', __LINE__, __FILE__, $sql);
                 }
@@ -97,7 +97,7 @@ class attach_pm extends attach_parent
     */
     function duplicate_attachment_pm($switch_attachment, $original_privmsg_id, $new_privmsg_id)
     {
-        global $titanium_db, $privmsg, $folder;
+        global $pnt_db, $privmsg, $folder;
 
         if (($privmsg['privmsgs_type'] == PRIVMSGS_NEW_MAIL || $privmsg['privmsgs_type'] == PRIVMSGS_UNREAD_MAIL) && $folder == 'inbox' && intval($switch_attachment) == 1)
         {
@@ -105,13 +105,13 @@ class attach_pm extends attach_parent
                 FROM ' . ATTACHMENTS_TABLE . '
                 WHERE privmsgs_id = ' . (int) $original_privmsg_id;
 
-            if (!($result = $titanium_db->sql_query($sql)))
+            if (!($result = $pnt_db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Couldn\'t query Attachment Table', '', __LINE__, __FILE__, $sql);
             }
-            $rows = $titanium_db->sql_fetchrowset($result);
-            $num_rows = $titanium_db->sql_numrows($result);
-            $titanium_db->sql_freeresult($result);
+            $rows = $pnt_db->sql_fetchrowset($result);
+            $num_rows = $pnt_db->sql_numrows($result);
+            $pnt_db->sql_freeresult($result);
 
             if ($num_rows > 0)
             {
@@ -127,7 +127,7 @@ class attach_pm extends attach_parent
 
                     $sql = 'INSERT INTO ' . ATTACHMENTS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-                    if (!($result = $titanium_db->sql_query($sql)))
+                    if (!($result = $pnt_db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Couldn\'t store Attachment for sent Private Message', '', __LINE__, __FILE__, $sql);
                     }
@@ -137,7 +137,7 @@ class attach_pm extends attach_parent
                     SET privmsgs_attachment = 1
                     WHERE privmsgs_id = ' . (int) $new_privmsg_id;
 
-                if (!($titanium_db->sql_query($sql)))
+                if (!($pnt_db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Unable to update Private Message Table.', '', __LINE__, __FILE__, $sql);
                 }
@@ -172,7 +172,7 @@ class attach_pm extends attach_parent
     */
     function display_attach_box_limits()
     {
-        global $folder, $attach_config, $phpbb2_board_config, $phpbb2_template, $lang, $userdata, $titanium_db;
+        global $folder, $attach_config, $phpbb2_board_config, $phpbb2_template, $lang, $userdata, $pnt_db;
 
         if (!$attach_config['allow_pm_attach'] && $userdata['user_level'] != ADMIN)
         {
@@ -207,7 +207,7 @@ class attach_pm extends attach_parent
     */
     function privmsgs_attachment_mod($mode)
     {
-        global $attach_config, $phpbb2_template, $lang, $userdata, $HTTP_POST_VARS, $phpbb2_root_path, $phpEx, $titanium_db;
+        global $attach_config, $phpbb2_template, $lang, $userdata, $HTTP_POST_VARS, $phpbb2_root_path, $phpEx, $pnt_db;
         global $confirm, $delete, $delete_all, $post_id, $privmsgs_id, $privmsg_id, $submit, $refresh, $mark_list, $folder;
 
         if ($folder != 'outbox')

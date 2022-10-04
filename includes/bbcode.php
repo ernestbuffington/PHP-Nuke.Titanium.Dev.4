@@ -88,7 +88,7 @@ function load_bbcode_template()
 # Nathan Codding, Sept 26 2001
 function prepare_bbcode_template($bbcode_tpl)
 {
-    global $lang, $titanium_db;
+    global $lang, $pnt_db;
 
     $bbcode_tpl['olist_open'] = str_replace('{LIST_TYPE}','\\1',$bbcode_tpl['olist_open']);
 
@@ -226,16 +226,16 @@ function replacer($mode, $bb)
     {
         switch($mode) {
           case 'img':
-          $titanium_user_option = $userdata['user_hide_images'];
+          $pnt_user_option = $userdata['user_hide_images'];
           break;
           default:
-          $titanium_user_option = 0;
+          $pnt_user_option = 0;
           break;
         }
             $replacer = '<table width="40%" cellspacing="1" cellpadding="3" border="0"><tr><td class="quote">';
             $replacer .= sprintf($lang['Image_Blocked'], "<a href=\"" . append_titanium_sid('profile.' . $phpEx) . "\">", "</a>");
             $replacer .= '</td></tr></table>';
-        if ($titanium_user_option) {
+        if ($pnt_user_option) {
             return $replacer;
         } else {
             return $bb;
@@ -727,14 +727,14 @@ function bbencode_first_pass($text, $uid)
 
 } // bbencode_first_pass()
 
-function evo_mention($titanium_user)
+function evo_mention($pnt_user)
 {
-	global $titanium_db, $bbcode_tpl, $lang;
+	global $pnt_db, $bbcode_tpl, $lang;
 	
 
-	$row = $titanium_db->sql_ufetchrow("SELECT `user_id`, `username` FROM `".USERS_TABLE."` WHERE `username` = '".$titanium_user."'");
-	// return $titanium_user.' - '.$row['user_id'];
-  return '<a href="modules.php?name=Private_Messages&mode=post&u='.$row['user_id'].'" target="_blank" alt="'.$lang['Send_private_message'].'" title="'.$lang['Send_private_message'].'">'.$titanium_user.'</a>';
+	$row = $pnt_db->sql_ufetchrow("SELECT `user_id`, `username` FROM `".USERS_TABLE."` WHERE `username` = '".$pnt_user."'");
+	// return $pnt_user.' - '.$row['user_id'];
+  return '<a href="modules.php?name=Private_Messages&mode=post&u='.$row['user_id'].'" target="_blank" alt="'.$lang['Send_private_message'].'" title="'.$lang['Send_private_message'].'">'.$pnt_user.'</a>';
 }
 
 function evo_mention_callback($matches)
@@ -1476,7 +1476,7 @@ function smilies_pass($message)
 
     if (!isset($orig))
     {
-        global $titanium_db, $phpbb2_board_config, $cache;
+        global $pnt_db, $phpbb2_board_config, $cache;
         $orig = $repl = array();
 
 /*****[BEGIN]******************************************
@@ -1487,11 +1487,11 @@ function smilies_pass($message)
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
             $sql = 'SELECT * FROM ' . SMILIES_TABLE;
-            if( !$result = $titanium_db->sql_query($sql) )
+            if( !$result = $pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Couldn't obtain smilies data", "", __LINE__, __FILE__, $sql);
             }
-            $smilies = $titanium_db->sql_fetchrowset($result);
+            $smilies = $pnt_db->sql_fetchrowset($result);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

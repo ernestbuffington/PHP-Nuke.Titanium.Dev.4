@@ -14,7 +14,7 @@
 -=[Base]=-
       Nuke Patched                             v3.1.0       10/25/2005
  ************************************************************************/
-global $titanium_prefix, $network_prefix, $titanium_db2, $titanium_db;
+global $pnt_prefix, $network_prefix, $pnt_db2, $pnt_db;
 
 if (!defined('ADMIN_FILE')) {
    die('Access Denied');
@@ -27,8 +27,8 @@ define('INDEX_FILE', true);
 
 $aid = substr($aid, 0,125);
 
-$row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `title`, `admins` FROM `".$titanium_prefix."_modules` WHERE `title`='$pnt_module'"));
-$row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `name`, `radminsuper` FROM `".$titanium_prefix."_authors` WHERE `aid`='$aid'"));
+$row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `title`, `admins` FROM `".$pnt_prefix."_modules` WHERE `title`='$pnt_module'"));
+$row2 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `name`, `radminsuper` FROM `".$pnt_prefix."_authors` WHERE `aid`='$aid'"));
 
 $admins = explode(",", $row['admins']);
 $auth_user = 0;

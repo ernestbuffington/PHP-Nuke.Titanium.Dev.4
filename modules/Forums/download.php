@@ -124,7 +124,7 @@ $thumbnail = get_var('thumb', 0);
 // Send file to browser
 function send_file_to_browser($attachment, $upload_dir)
 {
-    global $_SERVER, $HTTP_USER_AGENT, $HTTP_SERVER_VARS, $lang, $titanium_db, $attach_config;
+    global $_SERVER, $HTTP_USER_AGENT, $HTTP_SERVER_VARS, $lang, $pnt_db, $attach_config;
 
     $filename = ($upload_dir == '') ? $attachment['physical_filename'] : $upload_dir . '/' . $attachment['physical_filename'];
 
@@ -282,7 +282,7 @@ function send_file_to_browser($attachment, $upload_dir)
 //
 // Start Session Management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
 titanium_init_userprefs($userdata);
 
 if (!$download_id)
@@ -299,19 +299,19 @@ $sql = 'SELECT *
     FROM ' . ATTACHMENTS_DESC_TABLE . '
     WHERE attach_id = ' . (int) $download_id;
 
-if (!($result = $titanium_db->sql_query($sql)))
+if (!($result = $pnt_db->sql_query($sql)))
 {
     message_die(GENERAL_ERROR, 'Could not query attachment informations', '', __LINE__, __FILE__, $sql);
 }
 
-if (!($attachment = $titanium_db->sql_fetchrow($result)))
+if (!($attachment = $pnt_db->sql_fetchrow($result)))
 {
     message_die(GENERAL_MESSAGE, $lang['Error_no_attachment']);
 }
 
 $attachment['physical_filename'] = basename($attachment['physical_filename']);
 
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 
 // get forum_id for attachment authorization or private message authorization
 $authorised = false;
@@ -320,13 +320,13 @@ $sql = 'SELECT *
     FROM ' . ATTACHMENTS_TABLE . '
     WHERE attach_id = ' . (int) $attachment['attach_id'];
 
-if (!($result = $titanium_db->sql_query($sql)))
+if (!($result = $pnt_db->sql_query($sql)))
 {
     message_die(GENERAL_ERROR, 'Could not query attachment informations', '', __LINE__, __FILE__, $sql);
 }
 
-$auth_pages = $titanium_db->sql_fetchrowset($result);
-$num_auth_pages = $titanium_db->sql_numrows($result);
+$auth_pages = $pnt_db->sql_fetchrowset($result);
+$num_auth_pages = $pnt_db->sql_numrows($result);
 
 for ($i = 0; $i < $num_auth_pages && $authorised == false; $i++)
 {
@@ -338,12 +338,12 @@ for ($i = 0; $i < $num_auth_pages && $authorised == false; $i++)
             FROM ' . POSTS_TABLE . '
             WHERE post_id = ' . (int) $auth_pages[$i]['post_id'];
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not query post information', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
 
         $phpbb2_forum_id = $row['forum_id'];
 
@@ -375,13 +375,13 @@ $sql = "SELECT e.extension, g.download_mode
 	FROM " . EXTENSION_GROUPS_TABLE . " g, " . EXTENSIONS_TABLE . " e
     WHERE (g.allow_group = 1) AND (g.group_id = e.group_id)";
 
-if ( !($result = $titanium_db->sql_query($sql)) )
+if ( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query Allowed Extensions.', '', __LINE__, __FILE__, $sql);
 }
 
-$rows = $titanium_db->sql_ufetchrowset($sql);
-$num_rows = $titanium_db->sql_numrows($result);
+$rows = $pnt_db->sql_ufetchrowset($sql);
+$num_rows = $pnt_db->sql_numrows($result);
 
 for ($i = 0; $i < $num_rows; $i++)
 {
@@ -410,7 +410,7 @@ if (!$thumbnail)
     SET download_count = download_count + 1
     WHERE attach_id = ' . (int) $attachment['attach_id'];
 
-    if (!$titanium_db->sql_query($sql))
+    if (!$pnt_db->sql_query($sql))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t update attachment download count', '', __LINE__, __FILE__, $sql);
     }

@@ -22,7 +22,7 @@ echo "<LINK REL='StyleSheet' HREF='themes/$theme_Sel/style/style.css' TYPE='text
 echo "</head><body>\n";
 echo "<h1 align='center'>$pagetitle</h1>\n";
 if(!isset($modfilter)) $modfilter='';
-$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`username`) FROM `".$titanium_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1"));
+$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT DISTINCT(`username`) FROM `".$pnt_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1"));
 if($totalselected > 0) {
   echo "<table summary='' align='center' border='2' cellpadding='2' cellspacing='2'>\n";
   echo "<tr>\n";
@@ -30,24 +30,24 @@ if($totalselected > 0) {
   echo "<td align='center'><strong>"._AB_IPSTRACKED."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_LASTVIEWED."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_HITS."</strong></td>\n";
-  $result = $titanium_db->sql_query("SELECT `user_id`, `username`, MAX(`date`), COUNT(*) FROM `".$titanium_prefix."_nsnst_tracked_ips` GROUP BY 2");
-  while(list($titanium_userid,$titanium_username,$lastview,$hits) = $titanium_db->sql_fetchrow($result)){
+  $result = $pnt_db->sql_query("SELECT `user_id`, `username`, MAX(`date`), COUNT(*) FROM `".$pnt_prefix."_nsnst_tracked_ips` GROUP BY 2");
+  while(list($pnt_userid,$pnt_username,$lastview,$hits) = $pnt_db->sql_fetchrow($result)){
     echo "<tr>";
     echo "<td>";
-    if($titanium_userid != 1) {
-      $titanium_username = UsernameColor($titanium_username);
-      echo "$titanium_username";
+    if($pnt_userid != 1) {
+      $pnt_username = UsernameColor($pnt_username);
+      echo "$pnt_username";
     } else {
       echo "$anonymous";
     }
     echo "</td>";
-    $trackedips = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `user_id`='$titanium_userid'"));
+    $trackedips = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `user_id`='$pnt_userid'"));
     echo "<td align='center'>$trackedips</td>\n";
     echo "<td align='center'>".date("Y-m-d \@ H:i:s",$lastview)."</td>";
     echo "<td align='center'>$hits</td>";
     echo "</tr>";
   }
-  $titanium_db->sql_freeresult($result);
+  $pnt_db->sql_freeresult($result);
   // End IP Stats
   echo "</table>";
 } else {

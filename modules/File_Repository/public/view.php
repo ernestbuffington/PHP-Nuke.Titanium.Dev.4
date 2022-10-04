@@ -11,7 +11,7 @@
 
 function _view_downloadinfo()
 {
-	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings, $admin, $titanium_user, $userinfo;
+	global $pnt_db, $admin_file, $lang_new, $pnt_module, $settings, $admin, $pnt_user, $userinfo;
 	OpenTable();
 	_index_navigation_header();
 //------------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ function _view_downloadinfo()
 //------------------------------------------------------------------------------------------------
 //	UPDATE THE ITEM VIEW COUNTER / WILL NOT UPDATE IF YOU ARE THE AUTHOR
 //------------------------------------------------------------------------------------------------
-		$titanium_db->sql_query('UPDATE `'._FILE_REPOSITORY_ITEMS.'` SET `views` = `views` + 1 WHERE `did`="'.$did.'" && `sname`!="'.$userinfo['user_id'].'"');
+		$pnt_db->sql_query('UPDATE `'._FILE_REPOSITORY_ITEMS.'` SET `views` = `views` + 1 WHERE `did`="'.$did.'" && `sname`!="'.$userinfo['user_id'].'"');
 //------------------------------------------------------------------------------------------------
 		$screenshots 	= _grab_the_items_screenshots($_GET['did']);
 		$colspan		= (($screenshots['count'] == 0) ? '2' : '3');
@@ -167,8 +167,8 @@ function _view_downloadinfo()
 			echo '    <td'._tdcss(false,'center',_sh(),2).'>'._sut(sprintf($lang_new[$pnt_module]['COMMENT_FOR'],$iteminfo['title_colored'])).'</td>'."\n";
 			echo '  </tr>'."\n";
 			$sql = "SELECT * FROM `"._FILE_REPOSITORY_COMMENTS."` WHERE `did`='".$iteminfo['did']."' ORDER BY `cid` DESC";
-			$result = $titanium_db->sql_query($sql);
-			while($c = $titanium_db->sql_fetchrow($result))
+			$result = $pnt_db->sql_query($sql);
+			while($c = $pnt_db->sql_fetchrow($result))
 			{
 				echo '  <tr'._bgColor(1).'>'."\n";
 				echo '    <td'._tdcss('20%','center',_sc()).'>';
@@ -224,7 +224,7 @@ function _view_downloadinfo()
 
 function _view_the_mutiple_files()
 {
-	global $titanium_db, $lang_new, $pnt_module, $settings, $admin;
+	global $pnt_db, $lang_new, $pnt_module, $settings, $admin;
 	$did = _escape_string($_GET['did']);
 	$iteminfo 	 = _collect_iteminfo($did);
 	$gfxcheck 	 = (!defined('NUKE_EVO')) ? security_code_check($_POST['gfx_check'],array(2,4,5,7)) : security_code_check($_POST['g-recaptcha-response'],array(0,1,2,3,4,5,6,7));
@@ -254,7 +254,7 @@ function _view_the_mutiple_files()
 		// setcookie('gfx_code-'.$did, 'data', time()+60*2, "/", "", "", TRUE);
 
 		$sql 	= "SELECT * FROM `"._FILE_REPOSITORY_FILES."` WHERE `did`='".$did."'";
-		$result = $titanium_db->sql_query($sql);
+		$result = $pnt_db->sql_query($sql);
 		echo '<br />';
 		echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 		echo '  <tr'._bgColor(2).'>'."\n";
@@ -265,7 +265,7 @@ function _view_the_mutiple_files()
 		echo '    <td'._tdcss('15%','center',_sh()).'>'._sut($lang_new[$pnt_module]['FILE_SIZE']).'</td>';
 		echo '    <td'._tdcss('15%','center',_sh()).'>'._sut($lang_new[$pnt_module]['DOWNLOAD']).'</td>';
 		echo '  </tr>';
-		while( $f = $titanium_db->sql_fetchrow($result) )
+		while( $f = $pnt_db->sql_fetchrow($result) )
 		{
 			echo '  <tr'._bgColor(1).'>';
 			echo '    <td'._tdcss('70%',false,_sc()).'>'.$f['ftitle'].'</td>';
@@ -273,7 +273,7 @@ function _view_the_mutiple_files()
 			echo '    <td'._tdcss('15%','center',_sc()).'><a'._ls().' href="modules.php?name='.$pnt_module.'&amp;action=gogetit&amp;fid='.$f['fid'].'">Download</a></td>';
 			echo '  </tr>';			
 		}
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 		echo '  <tr'._bgColor(2).'>'."\n";
 		echo '    <td'._tdcss(false,'center',_sf(),3).'>[ <a'._ls().' href="modules.php?name='.$pnt_module.'&action=view&did='.$iteminfo['did'].'">'.$lang_new[$pnt_module]['GOBACK'].'</a> ]</td>'."\n";
 		echo '  </tr>'."\n";
@@ -284,7 +284,7 @@ function _view_the_mutiple_files()
 
 function _retrieve_files()
 {
-	global $titanium_db, $lang_new, $pnt_module, $settings, $do_gzip_compress, $admin;
+	global $pnt_db, $lang_new, $pnt_module, $settings, $do_gzip_compress, $admin;
 	$fid 		= _escape_string($_GET['fid']);
 	$iteminfo 	= _collect_iteminfo($fid,true);
 	// $gfxcheck 	= (!defined('NUKE_EVO')) ? security_code_check($_POST['gfx_check'],array(2,4,5,7)) : security_code_check($_POST['g-recaptcha-response'],array(2,4,5,7));
@@ -315,7 +315,7 @@ function _retrieve_files()
 			if(_check_users_permissions($iteminfo['groups']) == true)
 			{
 				# UPDATE THE ITEMS TOTAL HITS
-				$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_ITEMS."` SET `hits` = `hits`+1, `lastdownloaded` = now() WHERE `did`=".$iteminfo['did']);
+				$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_ITEMS."` SET `hits` = `hits`+1, `lastdownloaded` = now() WHERE `did`=".$iteminfo['did']);
 				$cType = (preg_match('#Opera(/| )([0-9].[0-9]{1,2})#i', getenv('HTTP_USER_AGENT'))) ? 'application/octetstream' : 'application/octet-stream';
 				if ($do_gzip_compress = TRUE)
 				{
@@ -357,10 +357,10 @@ function _retrieve_files()
 			OpenTable();
 			_index_navigation_header();
 			if($_GET['fid']):
-				$file = $titanium_db->sql_ufetchrow("SELECT `did` FROM `"._FILE_REPOSITORY_FILES."` WHERE `fid`='".$_GET['fid']."' LIMIT 1");
+				$file = $pnt_db->sql_ufetchrow("SELECT `did` FROM `"._FILE_REPOSITORY_FILES."` WHERE `fid`='".$_GET['fid']."' LIMIT 1");
 				$_POST['did'] = ($_POST['did']) ? $_POST['did'] : $file['did'];
 			endif;			
-			$titanium_db->sql_query("UPDATE `"._FILE_REPOSITORY_ITEMS."` SET `isbroken` = 1, `isactive` = 0 WHERE `did`=".$_POST['did']);
+			$pnt_db->sql_query("UPDATE `"._FILE_REPOSITORY_ITEMS."` SET `isbroken` = 1, `isactive` = 0 WHERE `did`=".$_POST['did']);
 			echo '<br />';
 			echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline" style="table-layout: fixed;">'."\n";
 			echo '  <tr'._bgColor(2).'>'."\n";

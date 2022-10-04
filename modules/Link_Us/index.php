@@ -36,7 +36,7 @@ die ('You can\'t access this file directly...');
 
 
 $pnt_module = basename(dirname(__FILE__));
-global $titanium_db, $currentlang, $_GETVAR, $admin_file;
+global $pnt_db, $currentlang, $_GETVAR, $admin_file;
 
 $lang_path = NUKE_MODULES_DIR . $pnt_module . '/language/';
 
@@ -52,7 +52,7 @@ $pagetitle = "- ".$pnt_module."";
 include(NUKE_BASE_DIR.'header.php');
 include(NUKE_MODULES_DIR.$pnt_module.'/admin/inc/functions.php');
 
-$config = $titanium_db->sql_ufetchrow('SELECT * FROM `'.$titanium_prefix.'_link_us_config` LIMIT 0,1');
+$config = $pnt_db->sql_ufetchrow('SELECT * FROM `'.$pnt_prefix.'_link_us_config` LIMIT 0,1');
 
 $op = $_GETVAR->get('op', '_REQUEST', 'string');
 

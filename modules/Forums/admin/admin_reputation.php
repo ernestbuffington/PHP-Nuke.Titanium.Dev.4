@@ -25,7 +25,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
   $file = basename(__FILE__);
-  $titanium_module['Reputation']['Configuration'] = $file;
+  $pnt_module['Reputation']['Configuration'] = $file;
   return;
 }
 
@@ -40,13 +40,13 @@ require('./pagestart.' . $phpEx);
 // Pull all config data
 //
 $sql = "SELECT * FROM " . REPUTATION_CONFIG_TABLE;
-if(!$result = $titanium_db->sql_query($sql))
+if(!$result = $pnt_db->sql_query($sql))
 {
   message_die(CRITICAL_ERROR, "Could not query config information in admin_board", "", __LINE__, __FILE__, $sql);
 }
 else
 {
-  while( $row = $titanium_db->sql_fetchrow($result) )
+  while( $row = $pnt_db->sql_fetchrow($result) )
   {
     $config_name = $row['config_name'];
     $config_value = $row['config_value'];
@@ -59,7 +59,7 @@ else
       $sql = "UPDATE " . REPUTATION_CONFIG_TABLE . " SET
         config_value = '" . str_replace("\'", "''", $new[$config_name]) . "'
         WHERE config_name = '$config_name'";
-      if( !$titanium_db->sql_query($sql) )
+      if( !$pnt_db->sql_query($sql) )
       {
         message_die(GENERAL_ERROR, "Failed to update general configuration for $config_name", "", __LINE__, __FILE__, $sql);
       }

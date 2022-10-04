@@ -82,20 +82,20 @@ $s_last_visit = ( $userdata['session_logged_in'] ) ? create_date($phpbb2_board_c
 // Get basic (usernames + totals) online
 // situation
 //
-$titanium_user_forum_sql = ( !empty($phpbb2_forum_id) ) ? "AND s.session_page = " . intval($phpbb2_forum_id) : '';
+$pnt_user_forum_sql = ( !empty($phpbb2_forum_id) ) ? "AND s.session_page = " . intval($phpbb2_forum_id) : '';
 $sql = "SELECT u.username, u.user_id, u.user_allow_viewonline, u.user_level, s.session_logged_in, s.session_ip
     FROM ".USERS_TABLE." u, ".SESSIONS_TABLE." s
     WHERE u.user_id = s.session_user_id
         AND s.session_time >= ".( time() - 300 ) . "
-        $titanium_user_forum_sql
+        $pnt_user_forum_sql
     ORDER BY u.username ASC, s.session_ip ASC";
-if( !($result = $titanium_db->sql_query($sql)) )
+if( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not obtain user/online information', '', __LINE__, __FILE__, $sql);
 }
 
-$titanium_userlist_ary = array();
-$titanium_userlist_visible = array();
+$pnt_userlist_ary = array();
+$pnt_userlist_visible = array();
 
 $logged_visible_online = 0;
 $logged_hidden_online = 0;
@@ -105,7 +105,7 @@ $online_userlist = '';
 $prev_user_id = 0;
 $prev_user_ip = '';
 
-while( $row = $titanium_db->sql_fetchrow($result) )
+while( $row = $pnt_db->sql_fetchrow($result) )
 {
     // User is logged in and therefor not a guest
     if ( $row['session_logged_in'] )
@@ -127,18 +127,18 @@ while( $row = $titanium_db->sql_fetchrow($result) )
 
             if ( $row['user_allow_viewonline'] )
             {
-                $titanium_user_online_link = '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'>' . $row['username'] . '</a>';
+                $pnt_user_online_link = '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'>' . $row['username'] . '</a>';
                 $logged_visible_online++;
             }
             else
             {
-                $titanium_user_online_link = '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'><i>' . $row['username'] . '</i></a>';
+                $pnt_user_online_link = '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'><i>' . $row['username'] . '</i></a>';
                 $logged_hidden_online++;
             }
 
             if ( $row['user_allow_viewonline'] || $userdata['user_level'] == ADMIN )
             {
-                $online_userlist .= ( $online_userlist != '' ) ? ', ' . $titanium_user_online_link : $titanium_user_online_link;
+                $online_userlist .= ( $online_userlist != '' ) ? ', ' . $pnt_user_online_link : $pnt_user_online_link;
             }
         }
 
@@ -172,7 +172,7 @@ if ( $total_phpbb2_online_users > $phpbb2_board_config['record_online_users'])
     $sql = "UPDATE " . CONFIG_TABLE . "
         SET config_value = '$total_phpbb2_online_users'
         WHERE config_name = 'record_online_users'";
-    if ( !$titanium_db->sql_query($sql) )
+    if ( !$pnt_db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, 'Could not update online user record (nr of users)', '', __LINE__, __FILE__, $sql);
     }
@@ -180,7 +180,7 @@ if ( $total_phpbb2_online_users > $phpbb2_board_config['record_online_users'])
     $sql = "UPDATE " . CONFIG_TABLE . "
         SET config_value = '" . $phpbb2_board_config['record_online_date'] . "'
         WHERE config_name = 'record_online_date'";
-    if ( !$titanium_db->sql_query($sql) )
+    if ( !$pnt_db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, 'Could not update online user record (date)', '', __LINE__, __FILE__, $sql);
     }
@@ -267,7 +267,7 @@ if ( $userdata['session_logged_in'] )
             $sql = "UPDATE " . USERS_TABLE . "
                 SET user_last_privmsg = " . $userdata['user_lastvisit'] . "
                 WHERE user_id = " . $userdata['user_id'];
-            if ( !$titanium_db->sql_query($sql) )
+            if ( !$pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not update private message new/read time for user', '', __LINE__, __FILE__, $sql);
             }
@@ -310,20 +310,20 @@ else
 //
 // Generate HTML required for Mozilla Navigation bar
 //
-$titanium_nav_links_html = '';
+$pnt_nav_links_html = '';
 $nav_link_proto = '<link rel="%s" href="%s" title="%s" />' . "\n";
-while( list($nav_item, $nav_array) = @each($titanium_nav_links) )
+while( list($nav_item, $nav_array) = @each($pnt_nav_links) )
 {
     if ( !empty($nav_array['url']) )
     {
-        $titanium_nav_links_html .= sprintf($nav_link_proto, $nav_item, $nav_array['url'], $nav_array['title']);
+        $pnt_nav_links_html .= sprintf($nav_link_proto, $nav_item, $nav_array['url'], $nav_array['title']);
     }
     else
     {
         // We have a nested array, used for items like <link rel='chapter'> that can occur more than once.
         while( list(,$nested_array) = each($nav_array) )
         {
-            $titanium_nav_links_html .= sprintf($nav_link_proto, $nav_item, $nested_array['url'], $nested_array['title']);
+            $pnt_nav_links_html .= sprintf($nav_link_proto, $nav_item, $nested_array['url'], $nested_array['title']);
         }
     }
 }
@@ -441,7 +441,7 @@ $phpbb2_template->assign_vars(array(
     'T_SPAN_CLASS2' => $theme['span_class2'],
     'T_SPAN_CLASS3' => $theme['span_class3'],
 
-    'NAV_LINKS' => $titanium_nav_links_html)
+    'NAV_LINKS' => $pnt_nav_links_html)
 );
 
 //

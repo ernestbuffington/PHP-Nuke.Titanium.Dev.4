@@ -10,7 +10,7 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 get_lang('Network_Projects');
 
@@ -47,27 +47,27 @@ if($finish_date == "0000-00-00")
 else 
   $finish_date = strtotime($finish_date); 
 
-$result = $titanium_db2->sql_query("SELECT `weight` FROM `".$network_prefix."_projects` ORDER BY `weight` DESC");
+$result = $pnt_db2->sql_query("SELECT `weight` FROM `".$network_prefix."_projects` ORDER BY `weight` DESC");
 
 if(!$result): 
   $weight = 1;
 else: 
-  list($lweight) = $titanium_db2->sql_fetchrow($result);
+  list($lweight) = $pnt_db2->sql_fetchrow($result);
   $weight = $lweight + 1;
 endif;
 
-$titanium_db2->sql_query("INSERT INTO `".$network_prefix."_projects` VALUES (NULL, '$project_name', '$project_description', '$project_site', '$priority_id', '$status_id', '$project_percent', '$weight', '$featured', '$allowreports', '$allowrequests', '$date', '$phpbb2_start_date', '$finish_date')");
+$pnt_db2->sql_query("INSERT INTO `".$network_prefix."_projects` VALUES (NULL, '$project_name', '$project_description', '$project_site', '$priority_id', '$status_id', '$project_percent', '$weight', '$featured', '$allowreports', '$allowrequests', '$date', '$phpbb2_start_date', '$finish_date')");
 
-$projectresult = $titanium_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` WHERE `date_created`='$date'");
+$projectresult = $pnt_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` WHERE `date_created`='$date'");
 
-list($project_id) = $titanium_db2->sql_fetchrow($projectresult);
+list($project_id) = $pnt_db2->sql_fetchrow($projectresult);
 
 if(implode("", $member_ids) > ""):  
 
   while(list($null, $member_id) = each($member_ids)): 
-    $numrows = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id' AND `member_id`='$member_id'"));
+    $numrows = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id' AND `member_id`='$member_id'"));
 	if($numrows == 0) 
-      $titanium_db2->sql_query("INSERT INTO `".$network_prefix."_projects_members` VALUES ('$project_id', '$member_id', '".$pj_config['new_project_position']."')");        
+      $pnt_db2->sql_query("INSERT INTO `".$network_prefix."_projects_members` VALUES ('$project_id', '$member_id', '".$pj_config['new_project_position']."')");        
   endwhile;
 endif;
 

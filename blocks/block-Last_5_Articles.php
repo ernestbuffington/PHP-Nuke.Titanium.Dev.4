@@ -30,7 +30,7 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $titanium_prefix, $multilingual, $currentlang, $titanium_db;
+global $pnt_prefix, $multilingual, $currentlang, $pnt_db;
 
 if ($multilingual == 1) {
     $querylang = "WHERE (alanguage='$currentlang' OR alanguage='')";
@@ -38,9 +38,9 @@ if ($multilingual == 1) {
     $querylang = '';
 }
 $content = "<table width=\"100%\" border=\"0\">";
-$sql = "SELECT sid, title, comments, counter FROM ".$titanium_prefix."_stories $querylang ORDER BY sid DESC LIMIT 0,5";
-$result = $titanium_db->sql_query($sql);
-while (list($sid, $title, $comments, $counter) = $titanium_db->sql_fetchrow($result)) {
+$sql = "SELECT sid, title, comments, counter FROM ".$pnt_prefix."_stories $querylang ORDER BY sid DESC LIMIT 0,5";
+$result = $pnt_db->sql_query($sql);
+while (list($sid, $title, $comments, $counter) = $pnt_db->sql_fetchrow($result)) {
     $title = stripslashes($title);
     $content .= "<tr><td align=\"left\">";
     $content .= "<strong><big>&middot;</big></strong>";
@@ -49,7 +49,7 @@ while (list($sid, $title, $comments, $counter) = $titanium_db->sql_fetchrow($res
     $content .= "[ $comtotal "._COMMENTS." - $counter "._READS." ]";
     $content .= "</td></tr>";
 }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 $content .= "</table>";
 $content .= "<br /><center>[ <a href=\"modules.php?name=News\">"._MORENEWS."</a> ]</center>";
 

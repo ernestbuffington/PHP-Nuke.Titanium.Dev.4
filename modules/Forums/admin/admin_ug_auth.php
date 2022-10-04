@@ -39,8 +39,8 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $titanium_module['Users']['Permissions'] = $filename . "?mode=user";
-        $titanium_module['Groups']['Permissions'] = $filename . "?mode=group";
+        $pnt_module['Users']['Permissions'] = $filename . "?mode=user";
+        $pnt_module['Groups']['Permissions'] = $filename . "?mode=group";
 
         return;
 }
@@ -68,7 +68,7 @@ while( list($var, $param) = @each($params) )
         }
 }
 
-$titanium_user_id = intval($titanium_user_id);
+$pnt_user_id = intval($pnt_user_id);
 $group_id = intval($group_id);
 $adv = intval($adv);
 $mode = htmlspecialchars($mode);
@@ -170,9 +170,9 @@ function check_auth($type, $key, $u_access, $is_admin)
 // End Functions
 // -------------
 
-if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( $mode == 'group' && $group_id ) ) )
+if ( isset($_POST['submit']) && ( ( $mode == 'user' && $pnt_user_id ) || ( $mode == 'group' && $group_id ) ) )
 {
-        $titanium_user_level = '';
+        $pnt_user_level = '';
         if ( $mode == 'user' )
         {
                 //
@@ -180,38 +180,38 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                 //
                 $sql = "SELECT g.group_id, u.user_level
                         FROM " . USER_GROUP_TABLE . " ug, " . USERS_TABLE . " u, " . GROUPS_TABLE . " g
-                        WHERE u.user_id = '$titanium_user_id'
+                        WHERE u.user_id = '$pnt_user_id'
                                 AND ug.user_id = u.user_id
                                 AND g.group_id = ug.group_id
                                 AND g.group_single_user = " . TRUE;
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not select info from user/user_group table', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $titanium_db->sql_fetchrow($result);
+                $row = $pnt_db->sql_fetchrow($result);
 
                 $group_id = intval($row['group_id']);
-                $titanium_user_level = intval($row['user_level']);
+                $pnt_user_level = intval($row['user_level']);
 
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
         }
 
         //
         // Carry out requests
         //
-        if ( $mode == 'user' && $_POST['userlevel'] == 'admin' && $titanium_user_level != ADMIN )
+        if ( $mode == 'user' && $_POST['userlevel'] == 'admin' && $pnt_user_level != ADMIN )
         {
                 //
                 // Make user an admin (if already user)
                 //
-            if ( $userdata['user_id'] != $titanium_user_id )
+            if ( $userdata['user_id'] != $pnt_user_id )
 
                 {
                         $sql = "UPDATE " . USERS_TABLE . "
                                 SET user_level = " . ADMIN . "
-                                WHERE user_id = '$titanium_user_id'";
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                                WHERE user_id = '$pnt_user_id'";
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update user level', '', __LINE__, __FILE__, $sql);
                         }
@@ -219,7 +219,7 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                         $sql = "DELETE FROM " . AUTH_ACCESS_TABLE . "
                                 WHERE group_id = '$group_id'
                                         AND auth_mod = '0'";
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't delete auth access info", "", __LINE__, __FILE__, $sql);
                         }
@@ -237,7 +237,7 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
 /*****[END]********************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't update auth access", "", __LINE__, __FILE__, $sql);
                         }
@@ -248,13 +248,13 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
         }
         else
         {
-                if ( $mode == 'user' && $_POST['userlevel'] == 'user' && $titanium_user_level == ADMIN )
+                if ( $mode == 'user' && $_POST['userlevel'] == 'user' && $pnt_user_level == ADMIN )
                 {
                         //
                         // Make admin a user (if already admin) ... ignore if you're trying
                         // to change yourself from an admin to user!
                         //
-                        if ( $userdata['user_id'] != $titanium_user_id )
+                        if ( $userdata['user_id'] != $pnt_user_id )
                         {
 /*****[BEGIN]******************************************
  [ Mod:     Global Announcements               v1.2.8 ]
@@ -265,7 +265,7 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
 /*****[END]********************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
-                                if ( !($result = $titanium_db->sql_query($sql)) )
+                                if ( !($result = $pnt_db->sql_query($sql)) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not update auth access', '', __LINE__, __FILE__, $sql);
                                 }
@@ -275,8 +275,8 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                                 //
                                 $sql = "UPDATE " . USERS_TABLE . "
                                         SET user_level = " . USER . "
-                                        WHERE user_id = '$titanium_user_id'";
-                                if ( !($result = $titanium_db->sql_query($sql)) )
+                                        WHERE user_id = '$pnt_user_id'";
+                                if ( !($result = $pnt_db->sql_query($sql)) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not update user level', '', __LINE__, __FILE__, $sql);
                                 }
@@ -295,17 +295,17 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
             					FROM " . FORUMS_TABLE . " f, " . CATEGORIES_TABLE . " c
             					WHERE f.cat_id = c.cat_id
             					ORDER BY c.cat_order, f.forum_order ASC";
-            				if ( !($result = $titanium_db->sql_query($sql)) )
+            				if ( !($result = $pnt_db->sql_query($sql)) )
             				{
             					message_die(GENERAL_ERROR, "Couldn't obtain forum information", "", __LINE__, __FILE__, $sql);
             				}
 
             				$forum_access = $forum_auth_level_fields = array();
-            				while( $row = $titanium_db->sql_fetchrow($result) )
+            				while( $row = $pnt_db->sql_fetchrow($result) )
             				{
             					$forum_access[] = $row;
             				}
-            				$titanium_db->sql_freeresult($result);
+            				$pnt_db->sql_freeresult($result);
 
             				for($i = 0; $i < count($forum_access); $i++)
             				{
@@ -347,30 +347,30 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                 WHERE f.cat_id = c.cat_id
                 ORDER BY c.cat_order, f.forum_order';
 
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't obtain forum information", "", __LINE__, __FILE__, $sql);
                         }
 
                         $forum_access = array();
-                        while( $row = $titanium_db->sql_fetchrow($result) )
+                        while( $row = $pnt_db->sql_fetchrow($result) )
                         {
                                 $forum_access[] = $row;
                         }
-                        $titanium_db->sql_freeresult($result);
+                        $pnt_db->sql_freeresult($result);
 
-                        $sql = ( $mode == 'user' ) ? "SELECT aa.* FROM " . AUTH_ACCESS_TABLE . " aa, " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE. " g WHERE ug.user_id = $titanium_user_id AND g.group_id = ug.group_id AND aa.group_id = ug.group_id AND g.group_single_user = " . TRUE : "SELECT * FROM " . AUTH_ACCESS_TABLE . " WHERE group_id = '$group_id'";
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        $sql = ( $mode == 'user' ) ? "SELECT aa.* FROM " . AUTH_ACCESS_TABLE . " aa, " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE. " g WHERE ug.user_id = $pnt_user_id AND g.group_id = ug.group_id AND aa.group_id = ug.group_id AND g.group_single_user = " . TRUE : "SELECT * FROM " . AUTH_ACCESS_TABLE . " WHERE group_id = '$group_id'";
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't obtain user/group permissions", "", __LINE__, __FILE__, $sql);
                         }
 
                         $auth_access = array();
-                        while( $row = $titanium_db->sql_fetchrow($result) )
+                        while( $row = $pnt_db->sql_fetchrow($result) )
                         {
                                 $auth_access[$row['forum_id']] = $row;
                         }
-                        $titanium_db->sql_freeresult($result);
+                        $pnt_db->sql_freeresult($result);
 
                         $forum_auth_action = array();
                         $update_acl_status = array();
@@ -478,7 +478,7 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                                                         WHERE group_id = '$group_id'
                                                                 AND forum_id = '$phpbb2_forum_id'";
                                         }
-                                        if( !($result = $titanium_db->sql_query($sql)) )
+                                        if( !($result = $pnt_db->sql_query($sql)) )
                                         {
                                                 message_die(GENERAL_ERROR, "Couldn't update private forum permissions", "", __LINE__, __FILE__, $sql);
                                         }
@@ -490,7 +490,7 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                                 $sql = "DELETE FROM " . AUTH_ACCESS_TABLE . "
                                         WHERE group_id = '$group_id'
                                                 AND forum_id IN ($delete_sql)";
-                                if( !($result = $titanium_db->sql_query($sql)) )
+                                if( !($result = $pnt_db->sql_query($sql)) )
                                 {
                                         message_die(GENERAL_ERROR, "Couldn't delete permission entries", "", __LINE__, __FILE__, $sql);
                                 }
@@ -511,17 +511,17 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                                 AND u.user_level NOT IN (" . MOD . ", " . ADMIN . ")
                         GROUP BY u.user_id
                         HAVING SUM(aa.auth_mod) > 0";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, "Couldn't obtain user/group permissions", "", __LINE__, __FILE__, $sql);
                 }
 
                 $set_mod = '';
-                while( $row = $titanium_db->sql_fetchrow($result) )
+                while( $row = $pnt_db->sql_fetchrow($result) )
                 {
                         $set_mod .= ( ( $set_mod != '' ) ? ', ' : '' ) . $row['user_id'];
                 }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
 
                 //
                 // Update user level to user for appropriate users
@@ -568,24 +568,24 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                                         HAVING SUM(aa.auth_mod) = 0";
                                 break;
                 }
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, "Couldn't obtain user/group permissions", "", __LINE__, __FILE__, $sql);
                 }
 
                 $unset_mod = "";
-                while( $row = $titanium_db->sql_fetchrow($result) )
+                while( $row = $pnt_db->sql_fetchrow($result) )
                 {
                         $unset_mod .= ( ( $unset_mod != '' ) ? ', ' : '' ) . $row['user_id'];
                 }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
 
                 if ( $set_mod != '' )
                 {
                         $sql = "UPDATE " . USERS_TABLE . "
                                 SET user_level = " . MOD . "
                                 WHERE user_id IN ($set_mod)";
-                        if( !($result = $titanium_db->sql_query($sql)) )
+                        if( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't update user level", "", __LINE__, __FILE__, $sql);
                         }
@@ -596,7 +596,7 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                         $sql = "UPDATE " . USERS_TABLE . "
                                 SET user_level = " . USER . "
                                 WHERE user_id IN ($unset_mod)";
-                        if( !($result = $titanium_db->sql_query($sql)) )
+                        if( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't update user level", "", __LINE__, __FILE__, $sql);
                         }
@@ -604,14 +604,14 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                 
         $sql = 'SELECT user_id FROM ' . USER_GROUP_TABLE . "
             WHERE group_id = $group_id";
-        $result = $titanium_db->sql_query($sql);
+        $result = $pnt_db->sql_query($sql);
 
         $group_user = array();
-        while ($row = $titanium_db->sql_fetchrow($result))
+        while ($row = $pnt_db->sql_fetchrow($result))
         {
             $group_user[$row['user_id']] = $row['user_id'];
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         $sql = "SELECT ug.user_id, COUNT(auth_mod) AS is_auth_mod
             FROM " . AUTH_ACCESS_TABLE . " aa, " . USER_GROUP_TABLE . " ug
@@ -619,19 +619,19 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                 AND aa.group_id = ug.group_id
                 AND aa.auth_mod = 1
             GROUP BY ug.user_id";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Please add someone to this group, we could not obtain moderator status', '', __LINE__, __FILE__, $sql);
         }
 
-        while ($row = $titanium_db->sql_fetchrow($result))
+        while ($row = $pnt_db->sql_fetchrow($result))
         {
             if ($row['is_auth_mod'])
             {
                 unset($group_user[$row['user_id']]);
             }
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         if (count($group_user))
         {
@@ -644,7 +644,7 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
 /*****[END]********************************************
  [ Base:    Nuke Patched                       v3.1.0 ]
  ******************************************************/
-            if ( !($result = $titanium_db->sql_query($sql)) )
+            if ( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not update user level', '', __LINE__, __FILE__, $sql);
             }
@@ -654,7 +654,7 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                 $cache->delete('forum_moderators', 'config');
         }
 }
-else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id ) ) || ( $mode == 'group' && $group_id ) )
+else if ( ( $mode == 'user' && ( isset($_POST['username']) || $pnt_user_id ) ) || ( $mode == 'group' && $group_id ) )
 {
         if ( isset($_POST['username']) )
         {
@@ -663,7 +663,7 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
                 {
                         message_die(GENERAL_MESSAGE, $lang['No_such_user']);
                 }
-                $titanium_user_id = $this_userdata['user_id'];
+                $pnt_user_id = $this_userdata['user_id'];
         }
 
         //
@@ -673,17 +673,17 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
                 FROM " . FORUMS_TABLE . " f, " . CATEGORIES_TABLE . " c
                 WHERE f.cat_id = c.cat_id
                 ORDER BY c.cat_order, f.forum_order ASC";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, "Couldn't obtain forum information", "", __LINE__, __FILE__, $sql);
         }
 
         $forum_access = array();
-        while( $row = $titanium_db->sql_fetchrow($result) )
+        while( $row = $pnt_db->sql_fetchrow($result) )
         {
                 $forum_access[] = $row;
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         if( empty($adv) )
         {
@@ -708,32 +708,32 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
 //
 // Check if a private user group existis for this user and if not, create one.
 //
-        $sql = "SELECT user_id FROM " . USER_GROUP_TABLE . " WHERE user_id = '$titanium_user_id'";
-        $result = $titanium_db->sql_query($sql);
-        $row = $titanium_db->sql_fetchrow($result);
-        $titanium_user_check = $row['user_id'];
-        if ( $titanium_user_check != $titanium_user_id )
+        $sql = "SELECT user_id FROM " . USER_GROUP_TABLE . " WHERE user_id = '$pnt_user_id'";
+        $result = $pnt_db->sql_query($sql);
+        $row = $pnt_db->sql_fetchrow($result);
+        $pnt_user_check = $row['user_id'];
+        if ( $pnt_user_check != $pnt_user_id )
         {
             $sql = "SELECT MAX(group_id) AS total
                     FROM " . GROUPS_TABLE;
-            if ( !($result = $titanium_db->sql_query($sql)) )
+            if ( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not select last group_id information', '', __LINE__, __FILE__, $sql);
             }
-            if ( !($row = $titanium_db->sql_fetchrow($result)) )
+            if ( !($row = $pnt_db->sql_fetchrow($result)) )
             {
                 message_die(GENERAL_ERROR, 'Could not obtain next group_id information', '', __LINE__, __FILE__, $sql);
             }
             $group_id = $row['total'] + 1;
             $sql = "INSERT INTO " . GROUPS_TABLE . " (group_id, group_name, group_description, group_single_user, group_moderator)
                     VALUES ('$group_id', '', 'Personal User', '1', '0')";
-            if ( !($result = $titanium_db->sql_query($sql)) )
+            if ( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not create private group', '', __LINE__, __FILE__, $sql);
             }
             $sql = "INSERT INTO " . USER_GROUP_TABLE . " (group_id, user_id, user_pending)
-                    VALUES ('$group_id', '$titanium_user_id', '0')";
-            if ( !($result = $titanium_db->sql_query($sql)) )
+                    VALUES ('$group_id', '$pnt_user_id', '0')";
+            if ( !($result = $pnt_db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not create private group', '', __LINE__, __FILE__, $sql);
             }
@@ -742,32 +742,32 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
 //  End Private group check.
 //
         $sql = "SELECT u.user_id, u.username, u.user_level, g.group_id, g.group_name, g.group_single_user, ug.user_pending FROM " . USERS_TABLE . " u, " . GROUPS_TABLE . " g, " . USER_GROUP_TABLE . " ug WHERE ";
-        $sql .= ( $mode == 'user' ) ? "u.user_id = '$titanium_user_id' AND ug.user_id = u.user_id AND g.group_id = ug.group_id" : "g.group_id = '$group_id' AND ug.group_id = g.group_id AND u.user_id = ug.user_id";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        $sql .= ( $mode == 'user' ) ? "u.user_id = '$pnt_user_id' AND ug.user_id = u.user_id AND g.group_id = ug.group_id" : "g.group_id = '$group_id' AND ug.group_id = g.group_id AND u.user_id = ug.user_id";
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, "Couldn't obtain user/group information", "", __LINE__, __FILE__, $sql);
         }
         $ug_info = array();
-        while( $row = $titanium_db->sql_fetchrow($result) )
+        while( $row = $pnt_db->sql_fetchrow($result) )
         {
                 $ug_info[] = $row;
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
-        $sql = ( $mode == 'user' ) ? "SELECT aa.*, g.group_single_user FROM " . AUTH_ACCESS_TABLE . " aa, " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE. " g WHERE ug.user_id = $titanium_user_id AND g.group_id = ug.group_id AND aa.group_id = ug.group_id AND g.group_single_user = 1" : "SELECT * FROM " . AUTH_ACCESS_TABLE . " WHERE group_id = '$group_id'";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        $sql = ( $mode == 'user' ) ? "SELECT aa.*, g.group_single_user FROM " . AUTH_ACCESS_TABLE . " aa, " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE. " g WHERE ug.user_id = $pnt_user_id AND g.group_id = ug.group_id AND aa.group_id = ug.group_id AND g.group_single_user = 1" : "SELECT * FROM " . AUTH_ACCESS_TABLE . " WHERE group_id = '$group_id'";
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, "Couldn't obtain user/group permissions", "", __LINE__, __FILE__, $sql);
         }
 
         $auth_access = array();
         $auth_access_count = array();
-        while( $row = $titanium_db->sql_fetchrow($result) )
+        while( $row = $pnt_db->sql_fetchrow($result) )
         {
                 $auth_access[$row['forum_id']][] = $row;
                 $auth_access_count[$row['forum_id']]++;
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         $is_admin = ( $mode == 'user' ) ? ( ( $ug_info[0]['user_level'] == ADMIN && $ug_info[0]['user_id'] != ANONYMOUS ) ? 1 : 0 ) : 0;
 
@@ -826,7 +826,7 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
 
         $i = 0;
         @reset($auth_ug);
-        while( list($phpbb2_forum_id, $titanium_user_ary) = @each($auth_ug) )
+        while( list($phpbb2_forum_id, $pnt_user_ary) = @each($auth_ug) )
         {
                 if ( empty($adv) )
                 {
@@ -844,7 +844,7 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
 
                                 $optionlist_acl = '<select name="private[' . $phpbb2_forum_id . ']">';
 
-                                if ( $is_admin || $titanium_user_ary['auth_mod'] )
+                                if ( $is_admin || $pnt_user_ary['auth_mod'] )
                                 {
                                         $optionlist_acl .= '<option value="1">' . $lang['Allowed_Access'] . '</option>';
                                 }
@@ -878,7 +878,7 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
                                                 {
                                                         $optionlist_acl_adv[$phpbb2_forum_id][$k] = '<select name="private_' . $field_name . '[' . $phpbb2_forum_id . ']">';
 
-                                                        if( isset($auth_field_acl[$phpbb2_forum_id][$field_name]) && !($is_admin || $titanium_user_ary['auth_mod']) )
+                                                        if( isset($auth_field_acl[$phpbb2_forum_id][$field_name]) && !($is_admin || $pnt_user_ary['auth_mod']) )
                                                         {
                                                                 if( !$auth_field_acl[$phpbb2_forum_id][$field_name] )
                                                                 {
@@ -891,7 +891,7 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
                                                         }
                                                         else
                                                         {
-                                                                if( $is_admin || $titanium_user_ary['auth_mod'] )
+                                                                if( $is_admin || $pnt_user_ary['auth_mod'] )
                                                                 {
                                                                         $optionlist_acl_adv[$phpbb2_forum_id][$k] .= '<option value="1">' . $lang['ON'] . '</option>';
                                                                 }
@@ -910,7 +910,7 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
                 }
 
                 $optionlist_mod = '<select name="moderator[' . $phpbb2_forum_id . ']">';
-                $optionlist_mod .= ( $titanium_user_ary['auth_mod'] ) ? '<option value="1" selected="selected">' . $lang['Is_Moderator'] . '</option><option value="0">' . $lang['Not_Moderator'] . '</option>' : '<option value="1">' . $lang['Is_Moderator'] . '</option><option value="0" selected="selected">' . $lang['Not_Moderator'] . '</option>';
+                $optionlist_mod .= ( $pnt_user_ary['auth_mod'] ) ? '<option value="1" selected="selected">' . $lang['Is_Moderator'] . '</option><option value="0">' . $lang['Not_Moderator'] . '</option>' : '<option value="1">' . $lang['Is_Moderator'] . '</option><option value="0" selected="selected">' . $lang['Not_Moderator'] . '</option>';
                 $optionlist_mod .= '</select>';
 
                 $row_class = ( !( $i % 2 ) ) ? 'row2' : 'row1';
@@ -1023,13 +1023,13 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
         );
 
         $adv_switch = ( empty($adv) ) ? 1 : 0;
-        $u_ug_switch = ( $mode == 'user' ) ? POST_USERS_URL . "=" . $titanium_user_id : POST_GROUPS_URL . "=" . $group_id;
+        $u_ug_switch = ( $mode == 'user' ) ? POST_USERS_URL . "=" . $pnt_user_id : POST_GROUPS_URL . "=" . $group_id;
         $switch_mode = append_titanium_sid("admin_ug_auth.$phpEx?mode=$mode&amp;" . $u_ug_switch . "&amp;adv=$adv_switch");
         $switch_mode_text = ( empty($adv) ) ? $lang['Advanced_mode'] : $lang['Simple_mode'];
         $u_switch_mode = '<a href="' . $switch_mode . '">' . $switch_mode_text . '</a>';
 
         $s_hidden_fields = '<input type="hidden" name="mode" value="' . $mode . '" /><input type="hidden" name="adv" value="' . $adv . '" />';
-        $s_hidden_fields .= ( $mode == 'user' ) ? '<input type="hidden" name="' . POST_USERS_URL . '" value="' . $titanium_user_id . '" />' : '<input type="hidden" name="' . POST_GROUPS_URL . '" value="' . $group_id . '" />';
+        $s_hidden_fields .= ( $mode == 'user' ) ? '<input type="hidden" name="' . POST_USERS_URL . '" value="' . $pnt_user_id . '" />' : '<input type="hidden" name="' . POST_GROUPS_URL . '" value="' . $group_id . '" />';
 
         if ( $mode == 'user' )
         {
@@ -1100,19 +1100,19 @@ else
                 $sql = "SELECT group_id, group_name
                         FROM " . GROUPS_TABLE . "
                         WHERE group_single_user <> " . TRUE;
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, "Couldn't get group list", "", __LINE__, __FILE__, $sql);
                 }
 
-                if ( $row = $titanium_db->sql_fetchrow($result) )
+                if ( $row = $pnt_db->sql_fetchrow($result) )
                 {
                         $select_list = '<select name="' . POST_GROUPS_URL . '">';
                         do
                         {
                                 $select_list .= '<option value="' . $row['group_id'] . '">' . $row['group_name'] . '</option>';
                         }
-                        while ( $row = $titanium_db->sql_fetchrow($result) );
+                        while ( $row = $pnt_db->sql_fetchrow($result) );
                         $select_list .= '</select>';
                 }
 

@@ -76,19 +76,19 @@ global $locked_width,
 		     $slogan, 
 		       $name, 
 		    $banners, 
-		 $titanium_db, 
-$titanium_user_prefix, 
-	 $titanium_prefix, 
+		 $pnt_db, 
+$pnt_user_prefix, 
+	 $pnt_prefix, 
 	      $admin_file, 
             $userinfo, 
 		   $ThemeInfo,
-    $titanium_browser, 
+    $pnt_browser, 
 	      $theme_name;
 
 echo "\n\n<!-- THEME HEADER START -->\n"; # set background here in themes/Inferno/css/maintable.php
 
 # Check if a Registered User is Logged-In
-$titanium_username = is_user() ? $userinfo['username'] : _ANONYMOUS;
+$pnt_username = is_user() ? $userinfo['username'] : _ANONYMOUS;
 
 global $connected;
 

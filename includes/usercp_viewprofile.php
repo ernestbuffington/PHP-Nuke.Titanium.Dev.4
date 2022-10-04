@@ -58,18 +58,18 @@ if(isset($profiledata['user_id']) && !empty($profiledata['user_id'])):
 			LEFT JOIN ".USER_GROUP_TABLE." on ".USER_GROUP_TABLE.".group_id=".GROUPS_TABLE.".group_id 
 			WHERE ".USER_GROUP_TABLE.".user_id=".$profiledata['user_id'];
 			
-    if(!($result = $titanium_db->sql_query($sql))):
+    if(!($result = $pnt_db->sql_query($sql))):
     $groups = "SQL Failed to obtain last visit";
     else: 
-        if($titanium_db->sql_numrows($result) == 0):
+        if($pnt_db->sql_numrows($result) == 0):
         $groups = "None";
          
 		else: 
-            while($row = $titanium_db->sql_fetchrow($result)):
+            while($row = $pnt_db->sql_fetchrow($result)):
                 $groups .= $row['group_name'] . "<br />";
             endwhile;
         endif;
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
     endif;
 endif;
 /*****[END]********************************************
@@ -151,18 +151,18 @@ endif;
 /*****[BEGIN]******************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
-	$titanium_user_ranks = generate_ranks($profiledata, $ranks_sql);
+	$pnt_user_ranks = generate_ranks($profiledata, $ranks_sql);
 
-	$titanium_user_rank_01 = ($titanium_user_ranks['rank_01'] == '') ? '' : ($titanium_user_ranks['rank_01'] . '<br />');
-	$titanium_user_rank_01_img = ($titanium_user_ranks['rank_01_img'] == '') ? '' : ($titanium_user_ranks['rank_01_img'] . '<br />');
-	$titanium_user_rank_02 = ($titanium_user_ranks['rank_02'] == '') ? '' : ($titanium_user_ranks['rank_02'] . '<br />');
-	$titanium_user_rank_02_img = ($titanium_user_ranks['rank_02_img'] == '') ? '' : ($titanium_user_ranks['rank_02_img'] . '<br />');
-	$titanium_user_rank_03 = ($titanium_user_ranks['rank_03'] == '') ? '' : ($titanium_user_ranks['rank_03'] . '<br />');
-	$titanium_user_rank_03_img = ($titanium_user_ranks['rank_03_img'] == '') ? '' : ($titanium_user_ranks['rank_03_img'] . '<br />');
-	$titanium_user_rank_04 = ($titanium_user_ranks['rank_04'] == '') ? '' : ($titanium_user_ranks['rank_04'] . '<br />');
-	$titanium_user_rank_04_img = ($titanium_user_ranks['rank_04_img'] == '') ? '' : ($titanium_user_ranks['rank_04_img'] . '<br />');
-	$titanium_user_rank_05 = ($titanium_user_ranks['rank_05'] == '') ? '' : ($titanium_user_ranks['rank_05'] . '<br />');
-	$titanium_user_rank_05_img = ($titanium_user_ranks['rank_05_img'] == '') ? '' : ($titanium_user_ranks['rank_05_img'] . '<br />');
+	$pnt_user_rank_01 = ($pnt_user_ranks['rank_01'] == '') ? '' : ($pnt_user_ranks['rank_01'] . '<br />');
+	$pnt_user_rank_01_img = ($pnt_user_ranks['rank_01_img'] == '') ? '' : ($pnt_user_ranks['rank_01_img'] . '<br />');
+	$pnt_user_rank_02 = ($pnt_user_ranks['rank_02'] == '') ? '' : ($pnt_user_ranks['rank_02'] . '<br />');
+	$pnt_user_rank_02_img = ($pnt_user_ranks['rank_02_img'] == '') ? '' : ($pnt_user_ranks['rank_02_img'] . '<br />');
+	$pnt_user_rank_03 = ($pnt_user_ranks['rank_03'] == '') ? '' : ($pnt_user_ranks['rank_03'] . '<br />');
+	$pnt_user_rank_03_img = ($pnt_user_ranks['rank_03_img'] == '') ? '' : ($pnt_user_ranks['rank_03_img'] . '<br />');
+	$pnt_user_rank_04 = ($pnt_user_ranks['rank_04'] == '') ? '' : ($pnt_user_ranks['rank_04'] . '<br />');
+	$pnt_user_rank_04_img = ($pnt_user_ranks['rank_04_img'] == '') ? '' : ($pnt_user_ranks['rank_04_img'] . '<br />');
+	$pnt_user_rank_05 = ($pnt_user_ranks['rank_05'] == '') ? '' : ($pnt_user_ranks['rank_05'] . '<br />');
+	$pnt_user_rank_05_img = ($pnt_user_ranks['rank_05_img'] == '') ? '' : ($pnt_user_ranks['rank_05_img'] . '<br />');
 /*****[END]********************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
@@ -266,9 +266,9 @@ if ( !empty($profiledata['user_gender']))
  * @since 2.0.9e
  */
 if ($profiledata['user_lastvisit'] != 0)
-	$titanium_user_last_visit = date($phpbb2_board_config['default_dateformat'],$profiledata['user_lastvisit']);
+	$pnt_user_last_visit = date($phpbb2_board_config['default_dateformat'],$profiledata['user_lastvisit']);
 else
-	$titanium_user_last_visit = $lang['not_available'];
+	$pnt_user_last_visit = $lang['not_available'];
 
 //
 // Generate page
@@ -372,11 +372,11 @@ if ($rep_config['rep_disable'] == 0)
       FROM " . REPUTATION_TABLE . " AS r
       WHERE r.user_id = " . $profiledata['user_id'] . "
       GROUP BY user_id";
-  if ( !($result = $titanium_db->sql_query($sql)) )
+  if ( !($result = $pnt_db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, "Could not obtain reputation stats for this user", '', __LINE__, __FILE__, $sql);
   }
-  $row_rep = $titanium_db->sql_fetchrow($result);
+  $row_rep = $pnt_db->sql_fetchrow($result);
   if ($row_rep)
   {
     $reputation .= " <br />(<a href=\""  . append_titanium_sid("reputation.$phpEx?a=stats&amp;" . POST_USERS_URL . "=" . $profiledata['user_id']) . "\" target=\"_blank\" onClick=\"popupWin = window.open(this.href, '" . $lang['Reputation'] . "', 'location,width=700,height=400,top=0,scrollbars=yes'); popupWin.focus(); return false;\">" . $lang['Votes'] . "</a>: " . $row_rep['count_reps'] . ")";
@@ -389,7 +389,7 @@ if ($rep_config['rep_disable'] == 0)
 /*****[BEGIN]******************************************
  [ Mod:    View Sig                            v1.0.0 ]
  ******************************************************/
-$titanium_user_sig = '';
+$pnt_user_sig = '';
 if(!empty($profiledata['user_sig'])) {
     include_once('includes/bbcode.'.$phpEx);
     include_once('includes/functions_post.'.$phpEx);
@@ -401,24 +401,24 @@ if(!empty($profiledata['user_sig'])) {
     $signature_bbcode_uid = $profiledata['user_sig_bbcode_uid'];
     $signature = ( $signature_bbcode_uid != '' ) ? preg_replace("/:(([a-z0-9]+:)?)$signature_bbcode_uid\]/si", ']', $profiledata['user_sig']) : $profiledata['user_sig'];
     $bbcode_uid = $profiledata['user_sig_bbcode_uid'];
-    $titanium_user_sig = prepare_message($profiledata['user_sig'], $html_on, $bbcode_on, $smilies_on, $bbcode_uid);
+    $pnt_user_sig = prepare_message($profiledata['user_sig'], $html_on, $bbcode_on, $smilies_on, $bbcode_uid);
 
-    if( $titanium_user_sig != '' )
+    if( $pnt_user_sig != '' )
     {
 
-        if ( $bbcode_on  == 1 ) { $titanium_user_sig = bbencode_second_pass($titanium_user_sig, $bbcode_uid); }
-        if ( $bbcode_on  == 1 ) { $titanium_user_sig = bbencode_first_pass($titanium_user_sig, $bbcode_uid); }
-        if ( $bbcode_on  == 1 ) { $titanium_user_sig = make_clickable($titanium_user_sig); }
-        if ( $smilies_on == 1 ) { $titanium_user_sig = smilies_pass($titanium_user_sig); }
+        if ( $bbcode_on  == 1 ) { $pnt_user_sig = bbencode_second_pass($pnt_user_sig, $bbcode_uid); }
+        if ( $bbcode_on  == 1 ) { $pnt_user_sig = bbencode_first_pass($pnt_user_sig, $bbcode_uid); }
+        if ( $bbcode_on  == 1 ) { $pnt_user_sig = make_clickable($pnt_user_sig); }
+        if ( $smilies_on == 1 ) { $pnt_user_sig = smilies_pass($pnt_user_sig); }
 
         $phpbb2_template->assign_block_vars('user_sig', array());
 
-        $titanium_user_sig = nl2br($titanium_user_sig);
-        $titanium_user_sig = html_entity_decode($titanium_user_sig);
+        $pnt_user_sig = nl2br($pnt_user_sig);
+        $pnt_user_sig = html_entity_decode($pnt_user_sig);
     }
     else
     {
-        $titanium_user_sig = '';
+        $pnt_user_sig = '';
     }
 }
 /*****[END]********************************************
@@ -453,16 +453,16 @@ $phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
-	'USER_RANK_01' => $titanium_user_rank_01,
-	'USER_RANK_01_IMG' => $titanium_user_rank_01_img,
-	'USER_RANK_02' => $titanium_user_rank_02,
-	'USER_RANK_02_IMG' => $titanium_user_rank_02_img,
-	'USER_RANK_03' => $titanium_user_rank_03,
-	'USER_RANK_03_IMG' => $titanium_user_rank_03_img,
-	'USER_RANK_04' => $titanium_user_rank_04,
-	'USER_RANK_04_IMG' => $titanium_user_rank_04_img,
-	'USER_RANK_05' => $titanium_user_rank_05,
-	'USER_RANK_05_IMG' => $titanium_user_rank_05_img,
+	'USER_RANK_01' => $pnt_user_rank_01,
+	'USER_RANK_01_IMG' => $pnt_user_rank_01_img,
+	'USER_RANK_02' => $pnt_user_rank_02,
+	'USER_RANK_02_IMG' => $pnt_user_rank_02_img,
+	'USER_RANK_03' => $pnt_user_rank_03,
+	'USER_RANK_03_IMG' => $pnt_user_rank_03_img,
+	'USER_RANK_04' => $pnt_user_rank_04,
+	'USER_RANK_04_IMG' => $pnt_user_rank_04_img,
+	'USER_RANK_05' => $pnt_user_rank_05,
+	'USER_RANK_05_IMG' => $pnt_user_rank_05_img,
 /*****[END]********************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
@@ -502,7 +502,7 @@ $phpbb2_template->assign_vars(array(
  * Mod: Display the users last visit date and time.
  * @since 2.0.9e
  */
-	'USER_LAST_VISIT' => $titanium_user_last_visit,
+	'USER_LAST_VISIT' => $pnt_user_last_visit,
   'EDIT_THIS_USER' => sprintf($lang['Edit_Forum_User_ACP'],'<a href="'.append_titanium_sid("modules/Forums/admin/admin_users.$phpEx?mode=edit&amp;u=" . $profiledata['user_id']).'">','</a>'),
   'BAN_THIS_USER_IP' => sprintf($lang['Ban_Forum_User_IP'],'<a href="'.$admin_file.'.php?op=ABBlockedIPAdd&amp;tip='.$profiledata['last_ip'].'">','</a>'),
   'SUSPEND_THIS_USER' => sprintf($lang['Suspend_This_User'],'<a href="modules.php?name=Your_Account&amp;file=admin&amp;op=suspendUser&amp;chng_uid='.$profiledata['user_id'].'">','</a>'),
@@ -550,7 +550,7 @@ $phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    View Sig                            v1.0.0 ]
  ******************************************************/
-    'USER_SIG' => $titanium_user_sig,
+    'USER_SIG' => $pnt_user_sig,
     'L_SIG' => $lang['Signature'],
 /*****[END]********************************************
  [ Mod:    View Sig                            v1.0.0 ]
@@ -779,7 +779,7 @@ $phpbb2_template->pparse('body');
 // }
 // define_once('CNBYA',true);
 
-// $titanium_username = $profiledata['username'];
+// $pnt_username = $profiledata['username'];
 // $usrinfo = $profiledata;
 // $incsdir = dir(NUKE_MODULES_DIR."Your_Account/includes");
 // $incslist = '';

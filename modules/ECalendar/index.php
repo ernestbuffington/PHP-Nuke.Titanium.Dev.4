@@ -13,7 +13,7 @@ addCSSToHead($style_path.'style.css','file');
 get_lang($pnt_module);
 
 include_once(NUKE_BASE_DIR.'header.php');
-global $titanium_prefix, $titanium_db;
+global $pnt_prefix, $pnt_db;
 title($sitename.' '.'eCalendar');
 OpenTable();
 
@@ -57,22 +57,22 @@ $lcontrol = '<span style="float:left; font-size:11px;"><a href="modules.php?name
       }
  	//Main SQL call for the information for the day and also for the reoccuring event.
 		$sql = 'WHERE `day`= '.$current_day.' AND `month` = '.$month.' AND `year` = '.$year.' AND  `reoccur` = \'0\' OR (`day` = '.$current_day.' AND `reoccur` = \'1\') OR (`day` = '.$current_day.' AND `month` = '.$month.' AND `reoccur` = \'2\')';
-	  	$result = $titanium_db->sql_query("SELECT eid FROM ".$titanium_prefix."_ecalendar ".$sql);
-	    if ($titanium_db->sql_numrows($result) > 0) {
+	  	$result = $pnt_db->sql_query("SELECT eid FROM ".$pnt_prefix."_ecalendar ".$sql);
+	    if ($pnt_db->sql_numrows($result) > 0) {
 	        $et ='<a data-fancybox data-animation-duration="700" data-src="#animatedModalm'.$current_day.'" href="" class="btn btn-primary">' . PHP_EOL;
 			$et .='<div class="eventm">' . PHP_EOL;
 			$et .='<div id="animatedModalm'.$current_day.'" class="animated-modalm">' . PHP_EOL;
          	$et .='<h2>'._TODEVENTS.'</h2><br>' . PHP_EOL;
 			$et .='<div style="overflow-y: auto; overflow-x: hidden; max-height: 300px;">' . PHP_EOL;
 
-			$result = $titanium_db->sql_query("SELECT `eid`, `month`, `day`, `year`, `reoccur`, `time`, `ampm`, `title` FROM ".$titanium_prefix."_ecalendar ".$sql." ORDER by `eid` DESC");
-	        while (list($eid, $emonth, $eday, $eyear, $reoccur, $time, $ampm, $title) = $titanium_db->sql_fetchrow($result)) {
+			$result = $pnt_db->sql_query("SELECT `eid`, `month`, `day`, `year`, `reoccur`, `time`, `ampm`, `title` FROM ".$pnt_prefix."_ecalendar ".$sql." ORDER by `eid` DESC");
+	        while (list($eid, $emonth, $eday, $eyear, $reoccur, $time, $ampm, $title) = $pnt_db->sql_fetchrow($result)) {
 			
 				$date = $eyear.$emonth.$eday;
 			// Remove past events
 				$today = date("Ymd") - 1;
 	 			if (($today > $date) && ($reoccur == 0)){
-					$result = $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_ecalendar` WHERE eid = '$eid'");
+					$result = $pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_ecalendar` WHERE eid = '$eid'");
 	 			}
 			// End				
 				$ampm = ($ampm == 0) ? 'AM' : 'PM';

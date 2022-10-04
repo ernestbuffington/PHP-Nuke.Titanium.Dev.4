@@ -87,14 +87,14 @@ $admin = base64_decode($admin);
 $admin = explode(":", $admin);
 
 $admin_info = get_admin_field(array('name', 'pwd', 'radminsuper'), $admin[0]);
-$titanium_user_info = get_user_field(array('user_id', 'user_password', 'user_level'), $cookie[1], true);
+$pnt_user_info = get_user_field(array('user_id', 'user_password', 'user_level'), $cookie[1], true);
 
 if(!(
 	#Check to see if they are a site administrator with Forum Module access
 	($admin[1] == $admin_info['pwd'] && !empty($admin_info['pwd']) && is_mod_admin('Forums'))
 	OR
 	#Checks to see if they are a standard forum admin
-	(is_user() && ($cookie[2] == $titanium_user_info['user_password']) && !empty($titanium_user_info['user_password']) && ($titanium_user_info['user_level'] == ADMIN))
+	(is_user() && ($cookie[2] == $pnt_user_info['user_password']) && !empty($pnt_user_info['user_password']) && ($pnt_user_info['user_level'] == ADMIN))
 ))
 {
     unset($cookie);
@@ -104,7 +104,7 @@ if(!(
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
 titanium_init_userprefs($userdata);
 //
 // End session management

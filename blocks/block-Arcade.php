@@ -32,16 +32,16 @@ if(!defined('NUKE_EVO')) exit;
 define("_TOPGAMERS", "The Top Players");
 define("_VICTOIRES", "Number Of Wins :");
 
-global $titanium_prefix, $titanium_user_prefix, $titanium_db;
+global $pnt_prefix, $pnt_user_prefix, $pnt_db;
 
-$sql = "SELECT g.* , u.username FROM ".$titanium_prefix."_bbgames g, ".$titanium_user_prefix."_users u WHERE g.game_highuser = u.user_id ORDER BY game_highdate DESC LIMIT 0,1 " ;
+$sql = "SELECT g.* , u.username FROM ".$pnt_prefix."_bbgames g, ".$pnt_user_prefix."_users u WHERE g.game_highuser = u.user_id ORDER BY game_highdate DESC LIMIT 0,1 " ;
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 {
         die("Could not query games user information");
 }
 
-$row = $titanium_db->sql_fetchrow($result);
+$row = $pnt_db->sql_fetchrow($result);
 
 $lastScore = number_format($row['game_highscore']);
 $lastGame = $row['game_name'];
@@ -75,16 +75,16 @@ $content .= "<span color=\"#666666\"><strong>"._TOPGAMERS."</strong><br />";
 
 $content .= "<br />";
 
-$sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, u.user_level FROM ".$titanium_prefix."_bbgames g, ".$titanium_user_prefix."_users u WHERE g.game_highuser = u.user_id AND g.game_highuser <> 0 GROUP BY g.game_highuser ORDER BY nbvictoires DESC";
+$sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, u.user_level FROM ".$pnt_prefix."_bbgames g, ".$pnt_user_prefix."_users u WHERE g.game_highuser = u.user_id AND g.game_highuser <> 0 GROUP BY g.game_highuser ORDER BY nbvictoires DESC";
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 {
         die("Could not query games information");
 }
 
 $place=0;
 $nbvictprec=0;
-while ($row = $titanium_db->sql_fetchrow($result)) {
+while ($row = $pnt_db->sql_fetchrow($result)) {
         if ($nbvictprec <> $row['nbvictoires'])
         {
                 $nbvictprec = $row['nbvictoires'];

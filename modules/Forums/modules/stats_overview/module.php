@@ -25,8 +25,8 @@ $core->start_module(true);
 $core->set_content('values');
  
 // configuration of module: number of columns to use for displaying the links, may be 1..n
-$titanium_user_variables = $core->get_user_defines();
-$use_num_columns = intval($titanium_user_variables['num_columns']);
+$pnt_user_variables = $core->get_user_defines();
+$use_num_columns = intval($pnt_user_variables['num_columns']);
 
 $core->set_view('columns', 1);
 $core->set_view('num_blocks', $use_num_columns);
@@ -47,18 +47,18 @@ $link_array = array();
 
 for ($i = 0; $i < count($current_modules); $i++)
 {
-    $titanium_module_id = intval($current_modules[$i]['module_id']);
-    $titanium_module_short_name = trim($current_modules[$i]['short_name']);
+    $pnt_module_id = intval($current_modules[$i]['module_id']);
+    $pnt_module_short_name = trim($current_modules[$i]['short_name']);
 
-    if ($titanium_module_short_name != $core->current_module_name)
+    if ($pnt_module_short_name != $core->current_module_name)
     {
-        eval('$current_module_name = $' . $titanium_module_short_name . '[\'module_name\'];');
+        eval('$current_module_name = $' . $pnt_module_short_name . '[\'module_name\'];');
         if (empty($current_module_name))
         {
-            $current_module_name = $titanium_module_short_name;
+            $current_module_name = $pnt_module_short_name;
         }
 
-        $link_array[] = '<a href="#' . $titanium_module_id . '">' . $current_module_name . '</a>';
+        $link_array[] = '<a href="#' . $pnt_module_id . '">' . $current_module_name . '</a>';
     }
 }
 

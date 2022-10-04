@@ -10,20 +10,20 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 get_lang('Network_Projects');
 
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
-$result = $titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_projects` ORDER BY `project_id` ASC");
+$result = $pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_projects` ORDER BY `project_id` ASC");
 $weight = 0;
 
-while($row = $titanium_db2->sql_fetchrow($result)) 
+while($row = $pnt_db2->sql_fetchrow($result)) 
 {
   $xid = intval($row['project_id']);
   $weight++;
-  $titanium_db2->sql_query("UPDATE `".$network_prefix."_projects` SET `weight`='$weight' WHERE `project_id`='$xid'");
+  $pnt_db2->sql_query("UPDATE `".$network_prefix."_projects` SET `weight`='$weight' WHERE `project_id`='$xid'");
 }
 
 header("Location: ".$admin_file.".php?op=ProjectList");

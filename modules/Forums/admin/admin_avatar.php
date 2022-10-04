@@ -75,7 +75,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
         $file = basename(__FILE__);
-        $titanium_module['General']['Avatar_Management'] = "$file";
+        $pnt_module['General']['Avatar_Management'] = "$file";
         return;
 }
 
@@ -101,14 +101,14 @@ else
 $sql = "SELECT user_id, username, user_avatar FROM " . USERS_TABLE . "
     WHERE user_avatar_type = " . USER_AVATAR_UPLOAD . " AND user_avatar IS NOT NULL";
 
-if(!$result = $titanium_db->sql_query($sql))
+if(!$result = $pnt_db->sql_query($sql))
 {
-    $error = $titanium_db->sql_error();
+    $error = $pnt_db->sql_error();
     die("Could not get avatar information! $error[code] : $error[message]");
 }
 
 // Create a hash to keep track of all the user that is using the uploaded avatar
-while ($avatar_rowset = $titanium_db->sql_fetchrow($result))
+while ($avatar_rowset = $pnt_db->sql_fetchrow($result))
 {
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -186,12 +186,12 @@ switch( $mode )
                         $av_id = $avatar_usage[$file];
                         $sql = "SELECT user_id FROM " . USERS_TABLE . "
                             WHERE username = '$av_id'";
-                        if(!$result = $titanium_db->sql_query($sql))
+                        if(!$result = $pnt_db->sql_query($sql))
                         {
-                            $error = $titanium_db->sql_error();
+                            $error = $pnt_db->sql_error();
                             die("Could not get user information! $error[code] : $error[message]");
                         }
-                        $av_uid = $titanium_db->sql_fetchrow($result);
+                        $av_uid = $pnt_db->sql_fetchrow($result);
                         $avatar_uid = $av_uid['user_id'];
                         $edit_url = append_titanium_sid("./admin_users.php?mode=edit&u=$avatar_uid");
                         // Bingo, someone is using this avatar

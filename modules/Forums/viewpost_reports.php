@@ -51,7 +51,7 @@ include_once("includes/functions_report.php");
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_INDEX);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -171,7 +171,7 @@ if ( ($mode == 'closereport' || $mode == 'openreport') && $report_id != '' )
             last_action_comments = '" . str_replace("\'", "''", $last_action_comments) . "'
             WHERE report_id = " . $report_id;
 
-        if ( !$titanium_db->sql_query($sql) )
+        if ( !$pnt_db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, 'Could not update status', '', __LINE__, __FILE__, $sql);
         }
@@ -222,7 +222,7 @@ else if ( $mode == 'close' || $mode == 'open' )
     // get the stored comments for the specific reports
     $sql = "SELECT report_id, last_action_comments FROM " . POST_REPORTS_TABLE . "
         WHERE report_id IN (" . implode(',', $report_ids) . ")";
-    if ( !($result = $titanium_db->sql_query($sql)) )
+    if ( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not get report comments', '', __LINE__, __FILE__, $sql);
     }
@@ -230,7 +230,7 @@ else if ( $mode == 'close' || $mode == 'open' )
     // store results into a special array
     // using report_id as a key pointing to the right last_action_comments
     $reports_comments = array();
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
         $reports_comments[$row['report_id']] = $row['last_action_comments'];
     }
@@ -257,7 +257,7 @@ else if ( $mode == 'close' || $mode == 'open' )
                 last_action_comments = '" . str_replace("\'", "''", $last_action_comments) . "'
                 WHERE report_id = " . $key;
 
-            if ( !$titanium_db->sql_query($sql) )
+            if ( !$pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not update status', '', __LINE__, __FILE__, $sql);
             }
@@ -277,7 +277,7 @@ else if ( $mode == 'optout' || $mode == 'optin' )
         user_report_optout = " . (( $mode == 'optout' ) ? 1 : 0) . "
         WHERE user_id = " . $userdata['user_id'];
 
-    if ( !$titanium_db->sql_query($sql) )
+    if ( !$pnt_db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, 'Could not opt status', '', __LINE__, __FILE__, $sql);
     }
@@ -312,7 +312,7 @@ else if ( $mode == 'delete' )
     $sql = "DELETE FROM " . POST_REPORTS_TABLE . "
         WHERE report_id IN (" . implode(',', $report_ids) . ")";
 
-    if ( !$titanium_db->sql_query($sql) )
+    if ( !$pnt_db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, 'Could not delete reports', '', __LINE__, __FILE__, $sql);
     }

@@ -23,7 +23,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
    $filename = basename(__FILE__);
-   $titanium_module['ad_managment']['inline_ad_config'] = $filename;
+   $pnt_module['ad_managment']['inline_ad_config'] = $filename;
 
    return;
 }
@@ -60,13 +60,13 @@ if ( isset($HTTP_POST_VARS['submit']))
   $sql = "SELECT *
   FROM " . CONFIG_TABLE . "
   WHERE config_name LIKE 'ad_%'";
-  if(!$result = $titanium_db->sql_query($sql))
+  if(!$result = $pnt_db->sql_query($sql))
   {
     message_die(CRITICAL_ERROR, "Could not query ad config information", "", __LINE__, __FILE__, $sql);
   }
   else
   {
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
       $config_name = $row['config_name'];
       $config_value = $row['config_value'];
@@ -90,7 +90,7 @@ if ( isset($HTTP_POST_VARS['submit']))
         $sql = "UPDATE " . CONFIG_TABLE . " SET
           config_value = '" . str_replace("\'", "''", htmlspecialchars($new[$config_name])) . "'
           WHERE config_name = '$config_name'";
-        if( !$titanium_db->sql_query($sql) )
+        if( !$pnt_db->sql_query($sql) )
         {
           message_die(GENERAL_ERROR, "Failed to update general configuration for $config_name", "", __LINE__, __FILE__, $sql);
         }
@@ -135,17 +135,17 @@ else
       FROM " . GROUPS_TABLE . "
       WHERE group_single_user = 0";
 
-  if ( !($result = $titanium_db->sql_query($sql)) )
+  if ( !($result = $pnt_db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not query group information', '', __LINE__, __FILE__, $sql);
   }
 
-  while( $row = $titanium_db->sql_fetchrow($result) )
+  while( $row = $pnt_db->sql_fetchrow($result) )
   {
     $is_selected = (in_array($row['group_id'],$ad_no_groups_current)) ? 'selected="selected"' : '';
     $ad_no_groups .= '<option value="' . $row['group_id'] . '" ' . $is_selected . '>' . $row['group_name'] . '</option>';
   }
-  $titanium_db->sql_freeresult($result);
+  $pnt_db->sql_freeresult($result);
 
   //generate forum select box
   $ad_no_forums = '<option>' . $lang['exclude_none'] . '</option>';
@@ -153,17 +153,17 @@ else
   $sql = "SELECT forum_id, forum_name
       FROM " . FORUMS_TABLE;
 
-  if ( !($result = $titanium_db->sql_query($sql)) )
+  if ( !($result = $pnt_db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not query forum information', '', __LINE__, __FILE__, $sql);
   }
 
-  while( $row = $titanium_db->sql_fetchrow($result) )
+  while( $row = $pnt_db->sql_fetchrow($result) )
   {
     $is_selected = (in_array($row['forum_id'],$ad_no_forums_current)) ? 'selected="selected"' : '';
     $ad_no_forums .= '<option value="' . $row['forum_id'] . '" ' . $is_selected . '>' . $row['forum_name'] . '</option>';
   }
-  $titanium_db->sql_freeresult($result);
+  $pnt_db->sql_freeresult($result);
 
   $phpbb2_template->set_filenames(array(
   "body" => "admin/inline_ad_config_body.tpl")

@@ -53,7 +53,7 @@ if (!is_user())
 
 function FriendSend($sid) 
 {
-    global $titanium_user, $cookie, $titanium_prefix, $titanium_db, $titanium_user_prefix, $pnt_module;
+    global $pnt_user, $cookie, $pnt_prefix, $pnt_db, $pnt_user_prefix, $pnt_module;
 
     $sid = intval($sid);
 
@@ -62,7 +62,7 @@ function FriendSend($sid)
     
 	include_once(NUKE_BASE_DIR."header.php");
     
-	$row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories WHERE sid='$sid'"));
+	$row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT title FROM ".$pnt_prefix."_stories WHERE sid='$sid'"));
     $title = stripslashes(check_html($row["title"], "nohtml"));
     
     OpenTable();
@@ -74,7 +74,7 @@ function FriendSend($sid)
     
 	if (is_user()) 
 	{
-        $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT name, username, user_email FROM ".$titanium_user_prefix."_users WHERE user_id = '".intval($cookie[0])."'"));
+        $row2 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT name, username, user_email FROM ".$pnt_user_prefix."_users WHERE user_id = '".intval($cookie[0])."'"));
         $yn = stripslashes($row2["name"]);
         $ye = stripslashes($row2["user_email"]);
     }
@@ -98,7 +98,7 @@ function FriendSend($sid)
 
 function SendEmailVirus($sid, $yname, $ymail, $fname, $fmail) {
     
-	global $sitename, $nukeurl, $titanium_prefix, $titanium_db, $pnt_module;
+	global $sitename, $nukeurl, $pnt_prefix, $pnt_db, $pnt_module;
 
     #recaptcha add Ernest Buffington	
 	if (!security_code_check($_POST['g-recaptcha-response'], array(0,1,2,3,4,5,6,7))):
@@ -120,11 +120,11 @@ function SendEmailVirus($sid, $yname, $ymail, $fname, $fmail) {
     $yname = stripslashes(removecrlf($yname));
     $ymail = stripslashes(removecrlf($ymail));
     $sid = intval($sid);
-    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT title, time, topic FROM ".$titanium_prefix."_stories WHERE sid='$sid'"));
+    $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT title, time, topic FROM ".$pnt_prefix."_stories WHERE sid='$sid'"));
     $title = stripslashes(check_html($row["title"], "nohtml"));
     $time = $row["time"];
     $topic = intval($row["topic"]);
-    $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT topictext FROM ".$titanium_prefix."_topics WHERE topicid='$topic'"));
+    $row2 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT topictext FROM ".$pnt_prefix."_topics WHERE topicid='$topic'"));
     $topictext = stripslashes(check_html($row2["topictext"], "nohtml"));
     $subject = ""._INTERESTING." $sitename";
     $message = ""._HELLO." $fname:\n\n"._YOURFRIEND." $yname "._CONSIDERED."\n\n\n$title\n("._FDATE." $time)\n"._FTOPIC." $topictext\n\n"._URL.": $nukeurl/modules.php?name=$pnt_module&file=article&sid=$sid\n\n"._YOUCANREAD." $sitename\n$nukeurl";
@@ -135,7 +135,7 @@ function SendEmailVirus($sid, $yname, $ymail, $fname, $fmail) {
 }
 
 function SendStory($sid, $yname, $ymail, $fname, $fmail) {
-    global $sitename, $nukeurl, $titanium_prefix, $titanium_db, $pnt_module;
+    global $sitename, $nukeurl, $pnt_prefix, $pnt_db, $pnt_module;
 
     #recaptcha add Ernest Buffington	
 	if (!security_code_check($_POST['g-recaptcha-response'], array(0,1,2,3,4,5,6,7))):
@@ -159,11 +159,11 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail) {
     $yname = stripslashes(removecrlf($yname));
     $ymail = stripslashes(removecrlf($ymail));
     $sid = intval($sid);
-    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT title, datePublished, topic FROM ".$titanium_prefix."_stories WHERE sid='$sid'"));
+    $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT title, datePublished, topic FROM ".$pnt_prefix."_stories WHERE sid='$sid'"));
     $title = stripslashes(check_html($row["title"], "nohtml"));
     $time = $row["datePublished"];
     $topic = intval($row["topic"]);
-    $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT topictext FROM ".$titanium_prefix."_topics WHERE topicid='$topic'"));
+    $row2 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT topictext FROM ".$pnt_prefix."_topics WHERE topicid='$topic'"));
     $topictext = stripslashes(check_html($row2["topictext"], "nohtml"));
     $subject = ""._INTERESTING." $sitename";
     $message = ""._HELLO." $fname:\n\n"._YOURFRIEND." $yname "._CONSIDERED."\n\n\n$title\n("._FDATE." $time)\n"._FTOPIC." $topictext\n\n"._URL.": $nukeurl/modules.php?name=$pnt_module&file=article&sid=$sid\n\n"._YOUCANREAD." $sitename\n$nukeurl";

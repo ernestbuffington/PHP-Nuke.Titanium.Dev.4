@@ -32,19 +32,19 @@ class Swift_Transport_Esmtp_Auth_LoginAuthenticator
   }
   
   /**
-   * Try to authenticate the user with $titanium_username and $password.
+   * Try to authenticate the user with $pnt_username and $password.
    * @param Swift_Transport_SmtpAgent $phpbb2_agent
-   * @param string $titanium_username
+   * @param string $pnt_username
    * @param string $password
    * @return boolean
    */
   public function authenticate(Swift_Transport_SmtpAgent $phpbb2_agent,
-    $titanium_username, $password)
+    $pnt_username, $password)
   {
     try
     {
       $phpbb2_agent->executeCommand("AUTH LOGIN\r\n", array(334));
-      $phpbb2_agent->executeCommand(sprintf("%s\r\n", base64_encode($titanium_username)), array(334));
+      $phpbb2_agent->executeCommand(sprintf("%s\r\n", base64_encode($pnt_username)), array(334));
       $phpbb2_agent->executeCommand(sprintf("%s\r\n", base64_encode($password)), array(235));
       return true;
     }

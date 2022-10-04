@@ -214,7 +214,7 @@ echo '<option value="1"'.$seldos2.'>'._AB_ON.'</option>'."\n";
 echo '</select></td></tr>'."\n";
 echo '<tr><td align="center" colspan="2"><strong>'._AB_ADMINISTRATIVE.'</strong></td></tr>'."\n";
 echo '<tr><td valign="top">'.help_img(_AB_HELP_007).' '._AB_ADMINAUTH.':</td>'."\n";
-$apass = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_admins` WHERE `password_md5`='' OR `password`='' OR `password_crypt`=''"));
+$apass = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_admins` WHERE `password_md5`='' OR `password`='' OR `password_crypt`=''"));
 $sapi_name = strtolower(php_sapi_name());
 $selauth1 = $selauth2 = $selauth3 = "";
 if($ip_sets['http_auth'] == 1) { $selauth2 = ' selected="selected"'; }

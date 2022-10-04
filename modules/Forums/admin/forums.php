@@ -40,7 +40,7 @@ if (!defined('ADMIN_FILE')) {
    die ("Access Denied");
 }
 
-global $titanium_prefix, $titanium_db, $admdata;
+global $pnt_prefix, $pnt_db, $admdata;
 $pnt_module = basename(dirname(dirname(__FILE__)));
 if(is_mod_admin($pnt_module)) {
 

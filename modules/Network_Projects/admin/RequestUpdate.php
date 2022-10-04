@@ -8,23 +8,23 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 $date = time();
 $request_name = htmlentities($request_name, ENT_QUOTES);
 $request_description = htmlentities($request_description, ENT_QUOTES);
 $submitter_name = htmlentities($submitter_name, ENT_QUOTES);
-$titanium_db2->sql_query("UPDATE `".$network_prefix."_requests` SET `project_id`='$project_id', `type_id`='$type_id', `request_name`='$request_name', `request_description`='$request_description', `submitter_name`='$submitter_name', `submitter_email`='$submitter_email', `status_id`='$status_id', `date_modified`='$date' WHERE `request_id`='$request_id'");
-$titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_requests`");
+$pnt_db2->sql_query("UPDATE `".$network_prefix."_requests` SET `project_id`='$project_id', `type_id`='$type_id', `request_name`='$request_name', `request_description`='$request_description', `submitter_name`='$submitter_name', `submitter_email`='$submitter_email', `status_id`='$status_id', `date_modified`='$date' WHERE `request_id`='$request_id'");
+$pnt_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_requests`");
 if(implode("", $member_ids) > "") {
   while(list($null, $member_id) = each($member_ids)) {
-    $numrows = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_members` WHERE `request_id`='$request_id' AND `member_id`='$member_id'"));
+    $numrows = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_members` WHERE `request_id`='$request_id' AND `member_id`='$member_id'"));
     if($numrows == 0) {
-      $titanium_db2->sql_query("INSERT INTO `".$network_prefix."_requests_members` VALUES ('$request_id', '$member_id', '".$pj_config['new_request_position']."')");
+      $pnt_db2->sql_query("INSERT INTO `".$network_prefix."_requests_members` VALUES ('$request_id', '$member_id', '".$pj_config['new_request_position']."')");
     }
   }
 }
-list($submitter_email) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `submitter_email` FROM `".$network_prefix."_requests` WHERE `request_id`='$request_id'"));
+list($submitter_email) = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT `submitter_email` FROM `".$network_prefix."_requests` WHERE `request_id`='$request_id'"));
 $admin_email = $adminmail;
 $subject = _NETWORK_NEWREQUESTUPDATEDS;
 $message = _NETWORK_NEWREQUESTUPDATED.":\r\n$nukeurl/modules.php?name=$pnt_module&amp;op=Request&amp;request_id=$request_id";

@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_REQUESTS.': '._NETWORK_CONFIG;
@@ -33,16 +33,16 @@ echo "<td><select name='notify_request_submitter'><option value='1'$notify_a>"._
 echo "<option value='0'$notify_b>"._NETWORK_NO."</option></select></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'><strong>"._NETWORK_NEWREQUESTSTATUS.":</strong></td>\n";
 echo "<td><select name='new_request_status'>\n";
-$status = $titanium_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_requests_status` ORDER BY `status_weight`");
-while(list($status_id, $status_name) = $titanium_db2->sql_fetchrow($status)) {
+$status = $pnt_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_requests_status` ORDER BY `status_weight`");
+while(list($status_id, $status_name) = $pnt_db2->sql_fetchrow($status)) {
     if($pj_config['new_request_status'] == $status_id) { $sel = " selected"; } else { $sel = ""; }
     echo "<option value='$status_id' $sel>$status_name</option>\n";
 }
 echo "</select></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'><strong>"._NETWORK_NEWREQUESTTYPE.":</strong></td>\n";
 echo "<td><select name='new_request_type'>\n";
-$type = $titanium_db2->sql_query("SELECT `type_id`, `type_name` FROM `".$network_prefix."_requests_types` ORDER BY `type_weight`");
-while(list($type_id, $type_name) = $titanium_db2->sql_fetchrow($type)) {
+$type = $pnt_db2->sql_query("SELECT `type_id`, `type_name` FROM `".$network_prefix."_requests_types` ORDER BY `type_weight`");
+while(list($type_id, $type_name) = $pnt_db2->sql_fetchrow($type)) {
     if($pj_config['new_request_type'] == $type_id) { $sel = " selected"; } else { $sel = ""; }
     echo "<option value='$type_id' $sel>$type_name</option>\n";
 }
@@ -51,8 +51,8 @@ echo "<tr><td bgcolor='$bgcolor2' valign='top'><strong>"._NETWORK_DATEFORMAT.":<
 echo "<td><input type='text' name='request_date_format' value=\"".$pj_config['request_date_format']."\" size='30'><br />("._NETWORK_DATENOTE.")</td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'><strong>"._NETWORK_NEWREQUESTPOSITION.":</strong></td>\n";
 echo "<td><select name='new_request_position'>\n";
-$position = $titanium_db2->sql_query("SELECT `position_id`, `position_name` FROM `".$network_prefix."_members_positions` ORDER BY `position_name`");
-while(list($position_id, $position_name) = $titanium_db2->sql_fetchrow($position)) {
+$position = $pnt_db2->sql_query("SELECT `position_id`, `position_name` FROM `".$network_prefix."_members_positions` ORDER BY `position_name`");
+while(list($position_id, $position_name) = $pnt_db2->sql_fetchrow($position)) {
     if($pj_config['new_request_position'] == $position_id) { $sel = " selected"; } else { $sel = ""; }
     echo "<option value='$position_id' $sel>$position_name</option>\n";
 }

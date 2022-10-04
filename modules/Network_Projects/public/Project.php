@@ -9,7 +9,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_VIEWPROJECT;
@@ -18,11 +18,11 @@ include_once(NUKE_BASE_DIR.'header.php');
 $project_id = intval($project_id);
 $project = pjprojectpercent_info($project_id);
 $projectstatus = pjprojectstatus_info($project['status_id']);
-$memberresult = $titanium_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id' ORDER BY `member_id`");
-$member_total = $titanium_db2->sql_numrows($memberresult);
-$project_reports = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports` WHERE `project_id`='$project_id'"));
-$project_requests = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT `request_id` FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id'"));
-$project_tasks = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT `task_id` FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id'"));
+$memberresult = $pnt_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id' ORDER BY `member_id`");
+$member_total = $pnt_db2->sql_numrows($memberresult);
+$project_reports = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports` WHERE `project_id`='$project_id'"));
+$project_requests = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT `request_id` FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id'"));
+$project_tasks = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT `task_id` FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id'"));
 $projectpriority = pjprojectpriority_info($project['priority_id']);
 OpenTable();
 
@@ -82,10 +82,10 @@ echo "<tr><td align='center'><img src='$pjimage'></td>\n";
 echo "<td width='100%' colspan='5'><nobr>"._NETWORK_FINISHDATE.": <strong>$finish_date</strong></nobr></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2' colspan='4'><nobr><strong>"._NETWORK_PROJECTMEMBERS."</strong></nobr></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2' colspan='2'><nobr><strong>"._NETWORK_POSITION."</strong></nobr></td></tr>\n";
-$memberresult = $titanium_db2->sql_query("SELECT `member_id`, `position_id` FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id' ORDER BY `member_id`");
-$member_total = $titanium_db2->sql_numrows($memberresult);
+$memberresult = $pnt_db2->sql_query("SELECT `member_id`, `position_id` FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id' ORDER BY `member_id`");
+$member_total = $pnt_db2->sql_numrows($memberresult);
 if($member_total != 0){
-  while(list($member_id, $position_id) = $titanium_db2->sql_fetchrow($memberresult)) {
+  while(list($member_id, $position_id) = $pnt_db2->sql_fetchrow($memberresult)) {
     $member = pjmember_info($member_id);
     $position = pjmemberposition_info($position_id);
     $pjimage = pjimage("member.png", $pnt_module);
@@ -115,13 +115,13 @@ echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PRIORITY."
 echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PROGRESSBAR."</strong></nobr></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_MEMBERS."</strong></nobr></td>\n";
 echo "</tr>\n";
-$taskresult = $titanium_db2->sql_query("SELECT `task_id`, `task_name`, `task_percent`, `priority_id`, `status_id` FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id' ORDER BY `$column1` $direction1");
-$task_total = $titanium_db2->sql_numrows($taskresult);
+$taskresult = $pnt_db2->sql_query("SELECT `task_id`, `task_name`, `task_percent`, `priority_id`, `status_id` FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id' ORDER BY `$column1` $direction1");
+$task_total = $pnt_db2->sql_numrows($taskresult);
 if($task_total != 0){
-  while(list($task_id, $task_name, $task_percent, $priority_id, $status_id) = $titanium_db2->sql_fetchrow($taskresult)) {
+  while(list($task_id, $task_name, $task_percent, $priority_id, $status_id) = $pnt_db2->sql_fetchrow($taskresult)) {
     $taskstatus = pjtaskstatus_info($status_id);
-    $memberresult = $titanium_db2->sql_query("SELECT member_id FROM ".$network_prefix."_tasks_members WHERE task_id='$task_id' ORDER BY member_id");
-    $member_total = $titanium_db2->sql_numrows($memberresult);
+    $memberresult = $pnt_db2->sql_query("SELECT member_id FROM ".$network_prefix."_tasks_members WHERE task_id='$task_id' ORDER BY member_id");
+    $member_total = $pnt_db2->sql_numrows($memberresult);
     $taskpriority = pjtaskpriority_info($priority_id);
     echo "<tr>\n";
     $pjimage = pjimage("task.png", $pnt_module);
@@ -176,10 +176,10 @@ if($project['allowreports'] > 0) {
   echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_STATUS."</strong></nobr></td>\n";
   echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_SUBMITTED."</strong></nobr></td>\n";
   echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_COMMENTS."</strong></nobr></td></tr>\n";
-  $reportresult = $titanium_db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports` WHERE `project_id`='$project_id' ORDER BY `$column2` $direction2");
-  $report_total = $titanium_db2->sql_numrows($reportresult);
+  $reportresult = $pnt_db2->sql_query("SELECT `report_id` FROM `".$network_prefix."_reports` WHERE `project_id`='$project_id' ORDER BY `$column2` $direction2");
+  $report_total = $pnt_db2->sql_numrows($reportresult);
   if($report_total != 0){
-    while(list($report_id) = $titanium_db2->sql_fetchrow($reportresult)) {
+    while(list($report_id) = $pnt_db2->sql_fetchrow($reportresult)) {
       $report = pjreport_info($report_id);
       $reporttype = pjreporttype_info($report['type_id']);
       $reportstatus = pjreportstatus_info($report['status_id']);
@@ -187,7 +187,7 @@ if($project['allowreports'] > 0) {
       if(empty($reporttype['type_name'])) { $reporttype['type_name'] = _NETWORK_NA; }
       if(empty($reportstatus['status_name'])) { $reportstatus['status_name'] = _NETWORK_NA; }
       $last_date = date($pj_config['report_date_format'], $report['date_submitted']);    
-      $comments = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_comments` WHERE `report_id`='$report_id'"));
+      $comments = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_comments` WHERE `report_id`='$report_id'"));
       $pjimage = pjimage("report.png", $pnt_module);
       echo "<tr><td><img src='$pjimage'></td>\n";
       echo "<td width='100%'><a href='modules.php?name=$pnt_module&amp;op=Report&amp;report_id=$report_id'>".$report['report_name']."</a></td>\n";
@@ -238,10 +238,10 @@ if($project['allowrequests'] > 0) {
   echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_STATUS."</strong></nobr></td>\n";
   echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_SUBMITTED."</strong></nobr></td>\n";
   echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_COMMENTS."</strong></nobr></td></tr>\n";
-  $requestresult = $titanium_db2->sql_query("SELECT `request_id` FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id' ORDER BY `$column3` $direction3");
-  $request_total = $titanium_db2->sql_numrows($requestresult);
+  $requestresult = $pnt_db2->sql_query("SELECT `request_id` FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id' ORDER BY `$column3` $direction3");
+  $request_total = $pnt_db2->sql_numrows($requestresult);
   if($request_total != 0){
-    while(list($request_id) = $titanium_db2->sql_fetchrow($requestresult)) {
+    while(list($request_id) = $pnt_db2->sql_fetchrow($requestresult)) {
       $request = pjrequest_info($request_id);
       $requesttype = pjrequesttype_info($request['type_id']);
       $requeststatus = pjrequeststatus_info($request['status_id']);
@@ -249,7 +249,7 @@ if($project['allowrequests'] > 0) {
       if(empty($requesttype['type_name'])) { $requesttype['type_name'] = _NETWORK_NA; }
       if(empty($requeststatus['status_name'])) { $requeststatus['status_name'] = _NETWORK_NA; }
       $last_date = date($pj_config['request_date_format'], $request['date_submitted']);
-      $comments = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_comments` WHERE `request_id`='$request_id'"));
+      $comments = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_comments` WHERE `request_id`='$request_id'"));
       $pjimage = pjimage("request.png", $pnt_module);
       echo "<tr><td><img src='$pjimage'></td>\n";
       echo "<td width='100%'><a href='modules.php?name=$pnt_module&amp;op=Request&amp;request_id=$request_id'>".$request['request_name']."</a></td>\n";

@@ -16,7 +16,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 if(!get_magic_quotes_runtime()) { $harvester = addslashes($harvester); }
-$testnum1 = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_harvesters` WHERE `harvester`='$harvester'"));
+$testnum1 = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_harvesters` WHERE `harvester`='$harvester'"));
 if($testnum1 > 0) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
@@ -48,9 +48,9 @@ if($testnum1 > 0) {
   CloseTable();
   include_once(NUKE_BASE_DIR.'footer.php');
 } else {
-  $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_nsnst_harvesters` (`harvester`) VALUES ('$harvester')");
-  $titanium_db->sql_query("ALTER TABLE `".$titanium_prefix."_nsnst_harvesters` ORDER BY `harvester`");
-  $titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_harvesters`");
+  $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_nsnst_harvesters` (`harvester`) VALUES ('$harvester')");
+  $pnt_db->sql_query("ALTER TABLE `".$pnt_prefix."_nsnst_harvesters` ORDER BY `harvester`");
+  $pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_harvesters`");
   $list_harvester = $ab_config['list_harvester']."\r\n".$harvester;
   $list_harvester = explode("\r\n", $list_harvester);
   rsort($list_harvester);

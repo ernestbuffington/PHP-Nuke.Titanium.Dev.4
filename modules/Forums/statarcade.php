@@ -49,7 +49,7 @@ $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOF
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_STATARCADES, $nukeuser);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_STATARCADES, $nukeuser);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -77,11 +77,11 @@ $arcade_config = read_arcade_config();
 
 $sql = "SELECT username, user_avatar_type, user_allowavatar, user_avatar FROM " . USERS_TABLE . " WHERE user_id = " . $uid ;
 
-if (!($result = $titanium_db->sql_query($sql))) {
+if (!($result = $pnt_db->sql_query($sql))) {
         message_die(GENERAL_ERROR, "Could not read the users table", '', __LINE__, __FILE__, $sql);
 }
 
-$row = $titanium_db->sql_fetchrow($result);
+$row = $pnt_db->sql_fetchrow($result);
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -89,23 +89,23 @@ $statuser = UsernameColor($row['username']);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-$titanium_user_avatar_type = $row['user_avatar_type'];
-$titanium_user_allowavatar = $row['user_allowavatar'];
-$titanium_user_avatar = $row['user_avatar'];
+$pnt_user_avatar_type = $row['user_avatar_type'];
+$pnt_user_allowavatar = $row['user_allowavatar'];
+$pnt_user_avatar = $row['user_avatar'];
 $avatar_img = '';
 
-if ( $titanium_user_avatar_type && $titanium_user_allowavatar )
+if ( $pnt_user_avatar_type && $pnt_user_allowavatar )
 {
-   switch( $titanium_user_avatar_type )
+   switch( $pnt_user_avatar_type )
    {
       case USER_AVATAR_UPLOAD:
-         $avatar_img = ( $phpbb2_board_config['allow_avatar_upload'] ) ? '<img src="' . $phpbb2_board_config['avatar_path'] . '/' . $titanium_user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center"/>' : '';
+         $avatar_img = ( $phpbb2_board_config['allow_avatar_upload'] ) ? '<img src="' . $phpbb2_board_config['avatar_path'] . '/' . $pnt_user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center"/>' : '';
          break;
       case USER_AVATAR_REMOTE:
-         $avatar_img = ( $phpbb2_board_config['allow_avatar_remote'] ) ? '<img src="' . $titanium_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
+         $avatar_img = ( $phpbb2_board_config['allow_avatar_remote'] ) ? '<img src="' . $pnt_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
          break;
       case USER_AVATAR_GALLERY:
-         $avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . $titanium_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
+         $avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . $pnt_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
          break;
    }
 
@@ -120,11 +120,11 @@ if (empty($liste_cat_auth)) {
 
 $sql = "SELECT COUNT(*) AS nbtot FROM " . SCORES_TABLE . " s, " . GAMES_TABLE . " g  WHERE s.game_id = g.game_id AND g.arcade_catid IN ($liste_cat_auth) AND user_id = " . $uid;
 
-if (!($result = $titanium_db->sql_query($sql))) {
+if (!($result = $pnt_db->sql_query($sql))) {
         message_die(GENERAL_ERROR, "Could not read the scores table", '', __LINE__, __FILE__, $sql);
 }
 
-if ($row=$titanium_db->sql_fetchrow($result)) {
+if ($row=$pnt_db->sql_fetchrow($result)) {
         $total_phpbb2_games = $row['nbtot'];
 } else {
         $total_phpbb2_games = 0;
@@ -135,14 +135,14 @@ $limit_sql = (intval($arcade_config['stat_par_page']) > 0) ? " LIMIT $phpbb2_sta
 
 $sql = "SELECT s.*, g.* FROM " . SCORES_TABLE . " s LEFT JOIN " . GAMES_TABLE . " g ON g.game_id = s.game_id WHERE g.arcade_catid IN ($liste_cat_auth) AND s.user_id = " . $uid . " ORDER BY g.game_name ASC $limit_sql";
 
-if (!($result = $titanium_db->sql_query($sql))) {
+if (!($result = $pnt_db->sql_query($sql))) {
         message_die(GENERAL_ERROR, "Could not read the users/scores/games table", '', __LINE__, __FILE__, $sql);
 }
 
 $gamelist = array();
 $liste_id = '';
 
-while ($row=$titanium_db->sql_fetchrow($result)) {
+while ($row=$pnt_db->sql_fetchrow($result)) {
         $gamelist[] = $row;
         $liste_id .= (!empty($liste_id)) ? ', ' : '';
         $liste_id .= "'" . $row['game_id'] . "'";
@@ -152,21 +152,21 @@ $games_par_page = intval($arcade_config['stat_par_page']);
 $where_sql = (!empty($liste_id)) ? " AND s1.game_id IN ($liste_id)" : '';
 
 $sql = "SET OPTION SQL_BIG_SELECTS=1 ";
-$titanium_db->sql_query($sql);
+$pnt_db->sql_query($sql);
 $sql = "SELECT count(*) AS pos, s1.game_id , g.game_highuser, g.game_name FROM " . SCORES_TABLE . " s1 LEFT JOIN " . SCORES_TABLE . " s2 ON s1.score_game >= s2.score_game AND s1.game_id = s2.game_id LEFT JOIN " . GAMES_TABLE . " g ON g.game_id = s1.game_id WHERE s2.user_id = $uid AND ((s1.score_game > s2.score_game) OR (s1.user_id = $uid)) $where_sql GROUP BY s1.game_id";
 
-if (!($result = $titanium_db->sql_query($sql))) {
+if (!($result = $pnt_db->sql_query($sql))) {
         message_die(GENERAL_ERROR, "Could not read the scores table", '', __LINE__, __FILE__, $sql);
 }
 
-while ($row = $titanium_db->sql_fetchrow($result)) {
+while ($row = $pnt_db->sql_fetchrow($result)) {
         $tbpos[ $row['game_id'] ] = $row['pos'];
         $tbhighuser[ $row['game_id'] ] = $row['game_highuser'];
 }
 
 $fini = false;
 
-if (!$row = $titanium_db->sql_fetchrow($result)) {
+if (!$row = $pnt_db->sql_fetchrow($result)) {
         $fini=true;
 }
 

@@ -49,7 +49,7 @@ $phpbb2_start = (isset($HTTP_GET_VARS['start'])) ? intval($HTTP_GET_VARS['start'
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_PROFILE);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_PROFILE);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -65,12 +65,12 @@ if(!$userdata['session_logged_in'])
 
 // Check if the specified ID('s) exist
 $sql = ($post_id) ? 'SELECT t.topic_id, t.topic_title, t.forum_id, p.post_id FROM ' . TOPICS_TABLE . ' t, ' . POSTS_TABLE . ' p WHERE p.post_id = ' . $post_id . ' AND t.topic_id = p.topic_id' : 'SELECT topic_id, topic_title, forum_id FROM ' . TOPICS_TABLE . ' WHERE topic_id = ' . $topic_id;
-if(!$result = $titanium_db->sql_query($sql))
+if(!$result = $pnt_db->sql_query($sql))
 {
   message_die(GENERAL_ERROR, 'Could not obtain topic information', __LINE__, __FILE__, $sql);
 }
-$row = $titanium_db->sql_fetchrow($result);
-$titanium_db->sql_freeresult($result);
+$row = $pnt_db->sql_fetchrow($result);
+$pnt_db->sql_freeresult($result);
 
 $topic_title = $row['topic_title'];
 $topic_id = $row['topic_id'];
@@ -98,13 +98,13 @@ $sql = 'SELECT COUNT(user_id) AS total
     FROM ' . TOPICS_EMAIL_TABLE . '
     WHERE user_id = ' . $userdata['user_id'] . '
     AND time >= ' . ($current_time - ($email_time * 3600));
-if(!$result = $titanium_db->sql_query($sql))
+if(!$result = $pnt_db->sql_query($sql))
 {
   message_die(GENERAL_ERROR, 'Could not obtain user\'s email informaton', __LINE__, __FILE__, $sql);
 }
 
-$row = $titanium_db->sql_fetchrow($result);
-$titanium_db->sql_freeresult($result);
+$row = $pnt_db->sql_fetchrow($result);
+$pnt_db->sql_freeresult($result);
 if($row['total'] >= $email_limit)
 {
   message_die(GENERAL_MESSAGE, sprintf($lang['Email_max_exceeded'], $email_limit, $email_time));
@@ -167,7 +167,7 @@ if(isset($_POST['submit']))
   // Add record to database
   $current_time = time();
   $sql = "INSERT INTO " . TOPICS_EMAIL_TABLE . " (user_id, friend_name, friend_email, message, topic_id, time) VALUES (" . $userdata['user_id'] . ", '" . str_replace("\'", "''", $friend_name) . "', '" . str_replace ("\'", "''", $friend_email) . "', '" . str_replace ("\'", "''", $message) . "', $topic_id, $current_time)";
-  if(!$result = $titanium_db->sql_query($sql))
+  if(!$result = $pnt_db->sql_query($sql))
   {
     message_die(GENERAL_ERROR, 'Could not insert topic email data', __LINE__, __FILE__, $sql);
   }

@@ -105,7 +105,7 @@ class StatisticsFUNCTIONS
     //
     function forum_auth($userdata, $auth = AUTH_VIEW)
     {
-        global $titanium_db;
+        global $pnt_db;
 
         if (($this->auth_loaded) && ($this->previous_auth == $auth))
         {
@@ -119,12 +119,12 @@ class StatisticsFUNCTIONS
         $sql = 'SELECT forum_id 
         FROM ' . FORUMS_TABLE;
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Couldn\'t retrieve forum_id data', '', __LINE__, __FILE__, $sql);
         }
 
-        while ( $row = $titanium_db->sql_fetchrow($result)) 
+        while ( $row = $pnt_db->sql_fetchrow($result)) 
         {
             if ($phpbb2_is_auth_ary[$row['forum_id']]['auth_view'])
             {
@@ -142,7 +142,7 @@ class StatisticsFUNCTIONS
     //
     function init_auth_settings($userdata)
     {
-        global $titanium_db;
+        global $pnt_db;
 
         $this->auth_data_sql = array();
 

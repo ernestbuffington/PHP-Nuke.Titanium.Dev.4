@@ -13,7 +13,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
 	$file = basename(__FILE__);
-	$titanium_module['XData']['Manage_Fields'] = $file;
+	$pnt_module['XData']['Manage_Fields'] = $file;
 	return;
 }
 
@@ -86,12 +86,12 @@ switch ($mode)
 			ORDER BY field_order " . ( ($mode == 'up') ? 'DESC' : 'ASC' ) . "
 			LIMIT 1";
 
-		if ( !( $result = $titanium_db->sql_query($sql) ) )
+		if ( !( $result = $pnt_db->sql_query($sql) ) )
 		{
 			message_die(GENERAL_ERROR, $lang['XData_unable_to_switch_fields'], '', __LINE__, __FILE__, $sql);
 		}
 
-		$swap2 = $titanium_db->sql_fetchrow($result);
+		$swap2 = $pnt_db->sql_fetchrow($result);
 
 		if ($swap1 && $swap2)
 		{
@@ -99,7 +99,7 @@ switch ($mode)
 				SET field_order = " . $swap2['field_order'] . "
 				WHERE field_id = " . $swap1['field_id'];
 
-			if ( ! $titanium_db->sql_query($sql) )
+			if ( ! $pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_unable_to_switch_fields'], '', __LINE__, __FILE__, $sql);
 			}
@@ -108,7 +108,7 @@ switch ($mode)
 				SET field_order = " . $swap1['field_order'] . "
 				WHERE field_id = " . $swap2['field_id'];
 
-			if ( ! $titanium_db->sql_query($sql) )
+			if ( ! $pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_unable_to_switch_fields'], '', __LINE__, __FILE__, $sql);
 			}
@@ -375,7 +375,7 @@ switch ($mode)
 				. "'
 				WHERE code_name = '" . $code_name . "'";
 
-			if ( ! $titanium_db->sql_query($sql) )
+			if ( ! $pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_error_updating_fields'], '', __LINE__, __FILE__, $sql);
 			}
@@ -519,12 +519,12 @@ switch ($mode)
 			$sql = "SELECT MAX(field_id)+1 AS field_id, MAX(field_order)+1 AS field_order
 			        FROM " . XDATA_FIELDS_TABLE;
 
-			if ( !($result = $titanium_db->sql_query($sql)) )
+			if ( !($result = $pnt_db->sql_query($sql)) )
 			{
             			message_die(GENERAL_ERROR, $lang['XData_error_obtaining_new_field_info'], '', __LINE__, __FILE__, $sql);
 			}
 
-			$new_info = $titanium_db->sql_fetchrow($result);
+			$new_info = $pnt_db->sql_fetchrow($result);
 			$field_id = $new_info['field_id'];
 			$field_order = $new_info['field_order'];
 
@@ -540,7 +540,7 @@ switch ($mode)
 				VALUES
 				($field_id, '$field_name', '$field_desc', '$field_type', $field_length, '$field_values', '$field_regexp', $field_order, '$code_name', $default_auth, $display_register, $display_viewprofile, $display_posting, $handle_input, $allow_bbcode, $allow_smilies, $allow_html, $manditory, $viewtopic, $signup)";
 
-			if ( ! $titanium_db->sql_query($sql) )
+			if ( ! $pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_failure_inserting_data'], '', __LINE__, __FILE__, $sql);
 			}
@@ -615,7 +615,7 @@ switch ($mode)
 			$sql = "DELETE FROM " . XDATA_DATA_TABLE . "
 				WHERE field_id = " . $xd_meta[$code_name]['field_id'];
 
-			if ( ! $titanium_db->sql_query($sql) )
+			if ( ! $pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_failure_removing_data'], "", __LINE__, __FILE__, $sql);
 			}
@@ -623,7 +623,7 @@ switch ($mode)
           		  $sql = "DELETE FROM " . XDATA_AUTH_TABLE . "
 				WHERE field_id = " . $xd_meta[$code_name]['field_id'];
 
-			if ( ! $titanium_db->sql_query($sql) )
+			if ( ! $pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_failure_removing_data'], "", __LINE__, __FILE__, $sql);
 			}
@@ -631,7 +631,7 @@ switch ($mode)
 			$sql = "DELETE FROM " . XDATA_FIELDS_TABLE . "
 				WHERE code_name = '" . $code_name . "'";
 
-			if ( ! $titanium_db->sql_query($sql) )
+			if ( ! $pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_failure_removing_data'], "", __LINE__, __FILE__, $sql);
 			}

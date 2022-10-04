@@ -433,7 +433,7 @@ class SimplePie
 	 * @see SimplePie::set_useragent()
 	 * @access private
 	 */
-	var $titanium_useragent = SIMPLEPIE_USERAGENT;
+	var $pnt_useragent = SIMPLEPIE_USERAGENT;
 
 	/**
 	 * @var string Feed URL
@@ -7596,7 +7596,7 @@ class SimplePie_Restriction
 class SimplePie_File
 {
 	var $url;
-	var $titanium_useragent;
+	var $pnt_useragent;
 	var $success = true;
 	var $headers = array();
 	var $body;
@@ -7605,7 +7605,7 @@ class SimplePie_File
 	var $error;
 	var $method = SIMPLEPIE_FILE_SOURCE_NONE;
 
-	function SimplePie_File($url, $timeout = 10, $redirects = 5, $headers = null, $titanium_useragent = null, $force_fsockopen = false)
+	function SimplePie_File($url, $timeout = 10, $redirects = 5, $headers = null, $pnt_useragent = null, $force_fsockopen = false)
 	{
 		if (class_exists('idna_convert'))
 		{
@@ -7614,13 +7614,13 @@ class SimplePie_File
 			$url = SimplePie_Misc::compress_parse_url($parsed['scheme'], $idn->encode($parsed['authority']), $parsed['path'], $parsed['query'], $parsed['fragment']);
 		}
 		$this->url = $url;
-		$this->useragent = $titanium_useragent;
+		$this->useragent = $pnt_useragent;
 		if (preg_match('/^http(s)?:\/\//i', $url))
 		{
-			if ($titanium_useragent === null)
+			if ($pnt_useragent === null)
 			{
-				$titanium_useragent = ini_get('user_agent');
-				$this->useragent = $titanium_useragent;
+				$pnt_useragent = ini_get('user_agent');
+				$this->useragent = $pnt_useragent;
 			}
 			if (!is_array($headers))
 			{
@@ -7645,7 +7645,7 @@ class SimplePie_File
 				curl_setopt($fp, CURLOPT_TIMEOUT, $timeout);
 				curl_setopt($fp, CURLOPT_CONNECTTIMEOUT, $timeout);
 				curl_setopt($fp, CURLOPT_REFERER, $url);
-				curl_setopt($fp, CURLOPT_USERAGENT, $titanium_useragent);
+				curl_setopt($fp, CURLOPT_USERAGENT, $pnt_useragent);
 				curl_setopt($fp, CURLOPT_HTTPHEADER, $headers2);
 				if (!ini_get('open_basedir') && !ini_get('safe_mode') && version_compare(SimplePie_Misc::get_curl_version(), '7.15.2', '>='))
 				{
@@ -7680,7 +7680,7 @@ class SimplePie_File
 						{
 							$this->redirects++;
 							$location = SimplePie_Misc::absolutize_url($this->headers['location'], $url);
-							return $this->SimplePie_File($location, $timeout, $redirects, $headers, $titanium_useragent, $force_fsockopen);
+							return $this->SimplePie_File($location, $timeout, $redirects, $headers, $pnt_useragent, $force_fsockopen);
 						}
 					}
 				}
@@ -7724,7 +7724,7 @@ class SimplePie_File
 					}
 					$out = "GET $get HTTP/1.0\r\n";
 					$out .= "Host: $url_parts[host]\r\n";
-					$out .= "User-Agent: $titanium_useragent\r\n";
+					$out .= "User-Agent: $pnt_useragent\r\n";
 					if (function_exists('gzinflate'))
 					{
 						$out .= "Accept-Encoding: gzip,deflate\r\n";
@@ -7761,7 +7761,7 @@ class SimplePie_File
 							{
 								$this->redirects++;
 								$location = SimplePie_Misc::absolutize_url($this->headers['location'], $url);
-								return $this->SimplePie_File($location, $timeout, $redirects, $headers, $titanium_useragent, $force_fsockopen);
+								return $this->SimplePie_File($location, $timeout, $redirects, $headers, $pnt_useragent, $force_fsockopen);
 							}
 							if (isset($this->headers['content-encoding']) && ($this->headers['content-encoding'] == 'gzip' || $this->headers['content-encoding'] == 'deflate'))
 							{
@@ -11398,7 +11398,7 @@ class SimplePie_Parse_Date
 	 * @access private
 	 * @var array
 	 */
-	var $titanium_user = array();
+	var $pnt_user = array();
 
 	/**
 	 * Create new SimplePie_Parse_Date object, and set self::day_pcre,
@@ -12456,7 +12456,7 @@ class SimplePie_XML_Declaration_Parser
 
 class SimplePie_Locator
 {
-	var $titanium_useragent;
+	var $pnt_useragent;
 	var $timeout;
 	var $file;
 	var $local = array();
@@ -12470,11 +12470,11 @@ class SimplePie_Locator
 	var $max_checked_feeds = 10;
 	var $content_type_sniffer_class = 'SimplePie_Content_Type_Sniffer';
 
-	function SimplePie_Locator(&$file, $timeout = 10, $titanium_useragent = null, $file_class = 'SimplePie_File', $max_checked_feeds = 10, $content_type_sniffer_class = 'SimplePie_Content_Type_Sniffer')
+	function SimplePie_Locator(&$file, $timeout = 10, $pnt_useragent = null, $file_class = 'SimplePie_File', $max_checked_feeds = 10, $content_type_sniffer_class = 'SimplePie_Content_Type_Sniffer')
 	{
 		$this->file =& $file;
 		$this->file_class = $file_class;
-		$this->useragent = $titanium_useragent;
+		$this->useragent = $pnt_useragent;
 		$this->timeout = $timeout;
 		$this->max_checked_feeds = $max_checked_feeds;
 		$this->content_type_sniffer_class = $content_type_sniffer_class;
@@ -13009,7 +13009,7 @@ class SimplePie_Sanitize
 	var $cache_class = 'SimplePie_Cache';
 	var $file_class = 'SimplePie_File';
 	var $timeout = 10;
-	var $titanium_useragent = '';
+	var $pnt_useragent = '';
 	var $force_fsockopen = false;
 
 	var $replace_url_attributes = array(
@@ -13064,7 +13064,7 @@ class SimplePie_Sanitize
 		}
 	}
 
-	function pass_file_data($file_class = 'SimplePie_File', $timeout = 10, $titanium_useragent = '', $force_fsockopen = false)
+	function pass_file_data($file_class = 'SimplePie_File', $timeout = 10, $pnt_useragent = '', $force_fsockopen = false)
 	{
 		if ($file_class)
 		{
@@ -13076,9 +13076,9 @@ class SimplePie_Sanitize
 			$this->timeout = (string) $timeout;
 		}
 
-		if ($titanium_useragent)
+		if ($pnt_useragent)
 		{
-			$this->useragent = (string) $titanium_useragent;
+			$this->useragent = (string) $pnt_useragent;
 		}
 
 		if ($force_fsockopen)

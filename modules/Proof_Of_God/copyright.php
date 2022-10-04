@@ -19,9 +19,9 @@ $author_name = "Truman ScottyBcoder Buffington";
 $license = "";
 $based_on = "";
 $download_location = "";
-$titanium_module_version = "v1.0";
+$pnt_module_version = "v1.0";
 $release_date = "9/09/2012";
-$titanium_module_description = "DNA Intelligence vs Natural Selection";
+$pnt_module_description = "DNA Intelligence vs Natural Selection";
 $mod_cost = "";
-show_copyright($author_name, $author_email, $author_homepage, $based_on, $license, $download_location, $titanium_module_version, $titanium_module_description, $release_date, $mod_cost);
+show_copyright($author_name, $author_email, $author_homepage, $based_on, $license, $download_location, $pnt_module_version, $pnt_module_description, $release_date, $mod_cost);
 ?>

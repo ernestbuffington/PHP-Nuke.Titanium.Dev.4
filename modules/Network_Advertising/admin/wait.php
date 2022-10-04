@@ -22,16 +22,16 @@ if(!defined('NUKE_EVO')) {
     exit;
 }
 
-global $admin_file, $titanium_db2, $network_prefix, $banners, $cache;
+global $admin_file, $pnt_db2, $network_prefix, $banners, $cache;
 
 if($banners && is_mod_admin('Advertising')) {
     $content .= "<div align=\"left\"><strong><u><span class=\"content\">"._ABAN."</span>:</u></strong></div>";
     if (!$active = $cache->load('numbanact', 'submissions')) {
-        list($active) = $titanium_db2->sql_ufetchrow("SELECT COUNT(*) FROM " . $network_prefix . "_banner WHERE active='1'", SQL_NUM);
+        list($active) = $pnt_db2->sql_ufetchrow("SELECT COUNT(*) FROM " . $network_prefix . "_banner WHERE active='1'", SQL_NUM);
         $cache->save('numbanact', 'submissions', $active);
     }
     if (!$inactive = $cache->load('numbandea', 'submissions')) {
-        list($inactive) = $titanium_db2->sql_ufetchrow("SELECT COUNT(*) FROM " . $network_prefix . "_banner WHERE active='0'", SQL_NUM);
+        list($inactive) = $pnt_db2->sql_ufetchrow("SELECT COUNT(*) FROM " . $network_prefix . "_banner WHERE active='0'", SQL_NUM);
         $cache->save('numbandea', 'submissions', $inactive);
     }
     $content .= "<img src=\"images/arrow.gif\" border=\"0\" alt=\"\">&nbsp;<a href=\"".$admin_file.".php?op=NetworkBannersAdmin\">"._ABANNERS."</a>:&nbsp;<strong>$active</strong><br />";

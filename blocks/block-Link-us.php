@@ -21,13 +21,13 @@
  ************************************************************************/
 if(!defined('NUKE_EVO')) exit;
 
-global $titanium_prefix, $titanium_db, $sitename, $nukeurl;
+global $pnt_prefix, $pnt_db, $sitename, $nukeurl;
 
-$config = dburow("SELECT * FROM ".$titanium_prefix."_link_us_config LIMIT 1");
+$config = dburow("SELECT * FROM ".$pnt_prefix."_link_us_config LIMIT 1");
 	
 function block_Link_Us_cache($block_cachetime) 
 {
-	global $titanium_prefix;
+	global $pnt_prefix;
 	if ((($blockcache = titanium_cache_load('link_us', 'blocks')) === false) 
 	|| empty($blockcache) 
 	|| intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) 
@@ -36,7 +36,7 @@ function block_Link_Us_cache($block_cachetime)
 		        `site_name`, 
 				 `site_url`, 
 			   `site_image`, 
-			    `site_hits` FROM `".$titanium_prefix."_link_us` WHERE `site_status` = 1 ORDER BY `id` DESC";
+			    `site_hits` FROM `".$pnt_prefix."_link_us` WHERE `site_status` = 1 ORDER BY `id` DESC";
 		
 		$result = dbquery($sql);
 		$blockcache = dbrowset($result);

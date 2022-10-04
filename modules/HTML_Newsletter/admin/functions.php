@@ -69,7 +69,7 @@ if ( !defined( 'MSNL_LOADED' ) ) { die( "Illegal File Access" ); }
 
 $msnl_asPHPBBCfg = array();
 
-$sql = "SELECT `config_name`, `config_value` FROM `".$titanium_prefix."_bbconfig`";
+$sql = "SELECT `config_name`, `config_value` FROM `".$pnt_prefix."_bbconfig`";
 
 $result		= msnl_fSQLCall( $sql );
 
@@ -79,7 +79,7 @@ if ( !$result ) { //Bad SQL call
 
 } else { //Successful SQL call
 
-	while ( $row = $titanium_db->sql_fetchrow( $result ) )	{
+	while ( $row = $pnt_db->sql_fetchrow( $result ) )	{
 
 		$msnl_asPHPBBCfg[ $row['config_name'] ] = $row['config_value'];
 
@@ -175,26 +175,26 @@ function msnl_fMenuAdm() {
 
 function msnl_fGetNbrRecipients( $msnl_op, $gid ) {
 
-	global $titanium_prefix, $titanium_db;
+	global $pnt_prefix, $pnt_db;
 
 	$gid = intval( $gid );
 
 	switch( $msnl_op ) {
 
 		case "newsletter": //Newsletter subscribers
-			$sql = "SELECT count(`newsletter`) AS r_cnt FROM `".$titanium_prefix."_users` WHERE `newsletter` = '1'";
+			$sql = "SELECT count(`newsletter`) AS r_cnt FROM `".$pnt_prefix."_users` WHERE `newsletter` = '1'";
 			break;
 
 		case "massmail":  //All registered users
-			$sql = "SELECT count(`user_email`) AS r_cnt FROM `".$titanium_prefix."_users` WHERE `user_email` > ''";
+			$sql = "SELECT count(`user_email`) AS r_cnt FROM `".$pnt_prefix."_users` WHERE `user_email` > ''";
 			break;
 
 		case "paidsubscribers":  //Only paid subscribers to the web site
-			$sql = "SELECT count(`userid`) AS r_cnt FROM `".$titanium_prefix."_subscriptions`";
+			$sql = "SELECT count(`userid`) AS r_cnt FROM `".$pnt_prefix."_subscriptions`";
 			break;
 
 		case "nsngroups":  //For a particular NSN Group
-			$sql = "SELECT count(`uid`) AS r_cnt FROM `".$titanium_prefix."_nsngr_users` WHERE `gid` = '$gid'";
+			$sql = "SELECT count(`uid`) AS r_cnt FROM `".$pnt_prefix."_nsngr_users` WHERE `gid` = '$gid'";
 			break;
 
 		default:
@@ -211,7 +211,7 @@ function msnl_fGetNbrRecipients( $msnl_op, $gid ) {
 
 	} else { //Successful SQL call
 
-		$row = $titanium_db->sql_fetchrow( $result );
+		$row = $pnt_db->sql_fetchrow( $result );
 
 		$nbrusers = intval( $row['r_cnt'] );
 
@@ -230,7 +230,7 @@ function msnl_fGetNbrRecipients( $msnl_op, $gid ) {
 
 function msnl_fGetSendTo() {
 
-	global $titanium_prefix, $titanium_db, $msnl_gasModCfg, $msnl_asCSS, $msnl_asHTML;
+	global $pnt_prefix, $pnt_db, $msnl_gasModCfg, $msnl_asCSS, $msnl_asHTML;
 
 	$sHTML	= "<div id='msnl_div_sendto'>\n"
 							."<br />"
@@ -353,7 +353,7 @@ function msnl_fGetSendTo() {
 
 function msnl_fGetNSNGroups() {
 
-	global $titanium_prefix, $titanium_db, $msnl_gasModCfg, $msnl_nsngroupid, $msnl_asHTML, $msnl_asCSS;
+	global $pnt_prefix, $pnt_db, $msnl_gasModCfg, $msnl_nsngroupid, $msnl_asHTML, $msnl_asCSS;
 
 	$asNSNGroups	= array();
 
@@ -386,7 +386,7 @@ function msnl_fGetNSNGroups() {
 
 		$i = 0;
 
-		$sql = "SELECT `gid`, `gname` FROM `".$titanium_prefix."_nsngr_groups` ORDER BY `gname`";
+		$sql = "SELECT `gid`, `gname` FROM `".$pnt_prefix."_nsngr_groups` ORDER BY `gname`";
 
 		$result	= msnl_fSQLCall( $sql );
 
@@ -396,7 +396,7 @@ function msnl_fGetNSNGroups() {
 
 		} else { //Successful SQL call
 
-			while ( $row = $titanium_db->sql_fetchrow( $result ) ) {
+			while ( $row = $pnt_db->sql_fetchrow( $result ) ) {
 
 				$gid 			= intval( $row['gid'] );
 
@@ -441,11 +441,11 @@ function msnl_fGetNSNGroups() {
 function msnl_fAddNls( $msnl_iCID, $msnl_sTopic, $msnl_sSender, $msnl_sFilename, 
 											$msnl_sDatesent, $msnl_iView, $msnl_sGroups ) {
 
-	global $titanium_prefix, $titanium_db;
+	global $pnt_prefix, $pnt_db;
 
 	$nid = 0;
 
-	$sql = "INSERT INTO `". $titanium_prefix ."_hnl_newsletters` "
+	$sql = "INSERT INTO `". $pnt_prefix ."_hnl_newsletters` "
 				."VALUES ("
 					."NULL, "
 					."'$msnl_iCID', "
@@ -468,7 +468,7 @@ function msnl_fAddNls( $msnl_iCID, $msnl_sTopic, $msnl_sSender, $msnl_sFilename,
 
 		//Now get the nid of the newsletter that was just inserted (for batch send purposes)
 
-		$sql = "SELECT MAX(`nid`) AS nid FROM `". $titanium_prefix ."_hnl_newsletters`";
+		$sql = "SELECT MAX(`nid`) AS nid FROM `". $pnt_prefix ."_hnl_newsletters`";
 
 		$result1 = msnl_fSQLCall( $sql );
 
@@ -478,7 +478,7 @@ function msnl_fAddNls( $msnl_iCID, $msnl_sTopic, $msnl_sSender, $msnl_sFilename,
 
 		} else { //Successful SQL call
 
-			$row = $titanium_db->sql_fetchrow( $result1 );
+			$row = $pnt_db->sql_fetchrow( $result1 );
 
 			$nid = intval( $row['nid'] );
 			
@@ -502,7 +502,7 @@ function msnl_fAddNls( $msnl_iCID, $msnl_sTopic, $msnl_sSender, $msnl_sFilename,
 
 function msnl_fSendNls( $emailfile, $msnl_sSender, $sql, $msnl_sEmailaddresses ) {
 
-	global $sitename, $adminmail, $REMOTE_ADDR, $titanium_prefix, $titanium_db, $admin_file, $msnl_gasModCfg;
+	global $sitename, $adminmail, $REMOTE_ADDR, $pnt_prefix, $pnt_db, $admin_file, $msnl_gasModCfg;
 
 	//Define the email headers once since they are the same for each send option.
 
@@ -542,15 +542,15 @@ function msnl_fSendNls( $emailfile, $msnl_sSender, $sql, $msnl_sEmailaddresses )
 
 		$msnl_asEmailaddresses	= explode( ",", $msnl_sEmailaddresses );
 		
-		foreach ( $msnl_asEmailaddresses as $titanium_user_email ) { //Cycle through each ad-hoc email address
+		foreach ( $msnl_asEmailaddresses as $pnt_user_email ) { //Cycle through each ad-hoc email address
 
-			msnl_fDebugMsg( $titanium_user_email );
+			msnl_fDebugMsg( $pnt_user_email );
 
 			if ( $msnl_gasModCfg['debug_mode'] != MSNL_VERBOSE ) {  //Do not mail if in verbose debug mode
 
-				if ( !@mail( $titanium_user_email, $emailtitle, $emailfile, $headers ) ) { //Mail and test if successful
+				if ( !@mail( $pnt_user_email, $emailtitle, $emailfile, $headers ) ) { //Mail and test if successful
 
-					msnl_fRaiseAppError( _MSNL_ADM_SEND_ERR_MAIL." ".$titanium_user_email );	//MSNL_010301_02
+					msnl_fRaiseAppError( _MSNL_ADM_SEND_ERR_MAIL." ".$pnt_user_email );	//MSNL_010301_02
 
 				}
 
@@ -563,7 +563,7 @@ function msnl_fSendNls( $emailfile, $msnl_sSender, $sql, $msnl_sEmailaddresses )
 	} else { //Actually sending to a selected list of recipients
 
 		$result				= msnl_fSQLCall( $sql );
-		$numofusers		= $titanium_db->sql_numrows( $result );
+		$numofusers		= $pnt_db->sql_numrows( $result );
 		$numofusers		= intval( $numofusers );
 
 		if ( $numofusers > MSNL_MAX_BATCH_SIZE ) {
@@ -581,21 +581,21 @@ function msnl_fSendNls( $emailfile, $msnl_sSender, $sql, $msnl_sEmailaddresses )
 
 		$prev_user_id = 1;
 
-		while( $row = $titanium_db->sql_fetchrow( $result ) ) { //Cycle through the recipients and send
+		while( $row = $pnt_db->sql_fetchrow( $result ) ) { //Cycle through the recipients and send
 
-			$titanium_user_id			= intval( $row['user_id'] );
+			$pnt_user_id			= intval( $row['user_id'] );
 
-			$titanium_user_email		= stripslashes( $row['user_email'] );
+			$pnt_user_email		= stripslashes( $row['user_email'] );
 
-			$prev_user_id = $titanium_user_id;
+			$prev_user_id = $pnt_user_id;
 
-			msnl_fDebugMsg( $titanium_user_email );
+			msnl_fDebugMsg( $pnt_user_email );
 
 			if ( $msnl_gasModCfg['debug_mode'] != MSNL_VERBOSE ) {  //Do not mail if in verbose debug mode
 
-				if ( !@mail( $titanium_user_email, $emailtitle, $emailfile, $headers ) ) { //Mail and test if successful
+				if ( !@mail( $pnt_user_email, $emailtitle, $emailfile, $headers ) ) { //Mail and test if successful
 
-					msnl_fRaiseAppError( _MSNL_ADM_SEND_ERR_MAIL." ".$titanium_user_email );	//MSNL_010301_02
+					msnl_fRaiseAppError( _MSNL_ADM_SEND_ERR_MAIL." ".$pnt_user_email );	//MSNL_010301_02
 
 				}
 
@@ -621,9 +621,9 @@ function msnl_fSendNls( $emailfile, $msnl_sSender, $sql, $msnl_sEmailaddresses )
 
 function msnl_fGetCategories( $iCatID=0, $iInclAll=MSNL_SHOW_ALL_OFF ) {
 
-	global $titanium_prefix, $titanium_db;
+	global $pnt_prefix, $pnt_db;
 
-	$sql		= "SELECT `cid`, `ctitle` FROM `".$titanium_prefix."_hnl_categories` ORDER BY `ctitle`";
+	$sql		= "SELECT `cid`, `ctitle` FROM `".$pnt_prefix."_hnl_categories` ORDER BY `ctitle`";
 
 	$result	= msnl_fSQLCall( $sql );
 
@@ -653,7 +653,7 @@ function msnl_fGetCategories( $iCatID=0, $iInclAll=MSNL_SHOW_ALL_OFF ) {
 
 		//Now build the options
 
-		while (	$row = $titanium_db->sql_fetchrow( $result ) ) { 
+		while (	$row = $pnt_db->sql_fetchrow( $result ) ) { 
 
 			$iLstCID		= intval( $row['cid'] );
 			$sLstTitle	= stripslashes( $row['ctitle'] );

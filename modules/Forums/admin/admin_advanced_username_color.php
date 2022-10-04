@@ -19,7 +19,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $titanium_module['AUC']['Configuration']     = $file;
+    $pnt_module['AUC']['Configuration']     = $file;
     return;
 }
 
@@ -38,22 +38,22 @@ include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
     $mode = '';
         }
 
-    global $titanium_prefix;
-    define('COLORS', $titanium_prefix .'_bbadvanced_username_color');    
+    global $pnt_prefix;
+    define('COLORS', $pnt_prefix .'_bbadvanced_username_color');    
     $link = append_titanium_sid("admin_advanced_username_color.". $phpEx);
     
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_weight = '0'";
-    $r = $titanium_db->sql_query($q);
-    while ($rows = $titanium_db->sql_fetchrow($r))
+    $r = $pnt_db->sql_query($q);
+    while ($rows = $pnt_db->sql_fetchrow($r))
         {
         if ($rows['group_id'])
             {
         $q1 = "UPDATE ". COLORS ."
                SET group_weight = '". $rows['group_id'] ."'
                WHERE group_id = '". $rows['group_id'] ."'";
-        $titanium_db->sql_query($q1);
+        $pnt_db->sql_query($q1);
             }
         }
         
@@ -65,16 +65,16 @@ include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id = '". intval($group) ."'";
-    $r = $titanium_db->sql_query($q);
-    $group_one = $titanium_db->sql_fetchrow($r);
+    $r = $pnt_db->sql_query($q);
+    $group_one = $pnt_db->sql_fetchrow($r);
     
     $above_it = $group_one['group_weight'] - 1;
     
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_weight = '". intval($above_it) ."'";
-    $r = $titanium_db->sql_query($q);
-    $group_two = $titanium_db->sql_fetchrow($r);
+    $r = $pnt_db->sql_query($q);
+    $group_two = $pnt_db->sql_fetchrow($r);
     
     $group_one_id         = $group_one['group_id'];    
     $group_one_weight     = $group_one['group_weight'];
@@ -85,12 +85,12 @@ include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
     $q = "UPDATE ". COLORS ."
           SET group_weight = '". $group_two_weight ."'
           WHERE group_id = '". $group_one_id ."'";
-    $titanium_db->sql_query($q);
+    $pnt_db->sql_query($q);
     
     $q = "UPDATE ". COLORS ."
           SET group_weight = '". $group_one_weight ."'
           WHERE group_id = '". $group_two_id ."'";
-    $titanium_db->sql_query($q);
+    $pnt_db->sql_query($q);
     
     message_die(GENERAL_MESSAGE, 'Saved');
         }
@@ -103,16 +103,16 @@ include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id = '". intval($group) ."'";
-    $r = $titanium_db->sql_query($q);
-    $group_one = $titanium_db->sql_fetchrow($r);
+    $r = $pnt_db->sql_query($q);
+    $group_one = $pnt_db->sql_fetchrow($r);
     
     $below_it = $group_one['group_weight'] + 1;
     
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_weight = '". intval($below_it) ."'";
-    $r = $titanium_db->sql_query($q);
-    $group_two = $titanium_db->sql_fetchrow($r);
+    $r = $pnt_db->sql_query($q);
+    $group_two = $pnt_db->sql_fetchrow($r);
     
     $group_one_id         = $group_one['group_id'];    
     $group_one_weight     = $group_one['group_weight'];
@@ -123,12 +123,12 @@ include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
     $q = "UPDATE ". COLORS ."
           SET group_weight = '". $group_two_weight ."'
           WHERE group_id = '". $group_one_id ."'";
-    $titanium_db->sql_query($q);
+    $pnt_db->sql_query($q);
     
     $q = "UPDATE ". COLORS ."
           SET group_weight = '". $group_one_weight ."'
           WHERE group_id = '". $group_two_id ."'";
-    $titanium_db->sql_query($q);
+    $pnt_db->sql_query($q);
     
     message_die(GENERAL_MESSAGE, 'Saved');
         }
@@ -160,16 +160,16 @@ if($mode == "main" || !$mode)
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id > '0'";
-    $r        = $titanium_db -> sql_query($q);
-    $total    = $titanium_db->sql_numrows($r);    
+    $r        = $pnt_db -> sql_query($q);
+    $total    = $pnt_db->sql_numrows($r);    
     
     $w = 1;
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id > '0'
           ORDER BY group_weight ASC";
-    $r            = $titanium_db -> sql_query($q);
-    while($row     = $titanium_db -> sql_fetchrow($r))
+    $r            = $pnt_db -> sql_query($q);
+    while($row     = $pnt_db -> sql_fetchrow($r))
         {    
         if ($w != 1)
             $links = '&nbsp;&nbsp;<a href="admin_advanced_username_color.'. $phpEx .'?mode=move_up&amp;id='. $row['group_id'] .'&amp;sid='. $userdata['session_id'] .'">Up</a>';
@@ -271,8 +271,8 @@ if($mode == "main" || !$mode)
           FROM ". COLORS ."
           WHERE group_id > '0'
           ORDER BY group_name ASC";
-    $r            = $titanium_db -> sql_query($q);
-    while($row     = $titanium_db -> sql_fetchrow($r))
+    $r            = $pnt_db -> sql_query($q);
+    while($row     = $pnt_db -> sql_fetchrow($r))
         {    
     $name     = $row['group_name'];
     $id     = $row['group_id'];    
@@ -320,8 +320,8 @@ if($mode == "main" || !$mode)
           FROM ". COLORS ."
           WHERE group_id > '0'
           ORDER BY group_name ASC";
-    $r            = $titanium_db -> sql_query($q);
-    while($row     = $titanium_db -> sql_fetchrow($r))
+    $r            = $pnt_db -> sql_query($q);
+    while($row     = $pnt_db -> sql_fetchrow($r))
         {    
     $name     = $row['group_name'];
     $id     = $row['group_id'];    
@@ -446,14 +446,14 @@ if($mode == "main" || !$mode)
     
     $q = "DELETE FROM ". COLORS ."
           WHERE group_id = '". $to_delete ."'";
-    $r = $titanium_db -> sql_query($q);
+    $r = $pnt_db -> sql_query($q);
     
     #==== Update all users for this group
     $q = "SELECT user_color_gi, user_id
           FROM ". USERS_TABLE ."
           WHERE user_color_gi <> '0'";
-    $r         = $titanium_db->sql_query($q);
-    $row     = $titanium_db->sql_fetchrowset($r);
+    $r         = $pnt_db->sql_query($q);
+    $row     = $pnt_db->sql_fetchrowset($r);
     
         for ($a = 0; $a < count($row); $a++)
             {
@@ -470,8 +470,8 @@ if($mode == "main" || !$mode)
                     {
                 $q = "SELECT group_color, group_id
                       FROM ". COLORS ."";
-                $r = $titanium_db->sql_query($q);
-                $groups_info = $titanium_db->sql_fetchrowset($r);
+                $r = $pnt_db->sql_query($q);
+                $groups_info = $pnt_db->sql_fetchrowset($r);
                 
                     for ($b = 0; $b < count($groups_info); $b++)
                         {
@@ -495,7 +495,7 @@ if($mode == "main" || !$mode)
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $titanium_db->sql_query($q1);                        
+                $pnt_db->sql_query($q1);                        
             break;
                 }
             }
@@ -511,8 +511,8 @@ if($mode == "main" || !$mode)
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id = '". $phpbb2_color ."'";
-    $r            = $titanium_db -> sql_query($q);
-    $row         = $titanium_db -> sql_fetchrow($r);
+    $r            = $pnt_db -> sql_query($q);
+    $row         = $pnt_db -> sql_fetchrow($r);
     
     echo "<table width='100%' border='0' class='forumline' cellspacing='2' align='center' valign='middle'>";
     echo "    <tr>";
@@ -582,8 +582,8 @@ if($mode == "main" || !$mode)
     $q = "SELECT group_name
           FROM ". COLORS ."
           WHERE group_name = '". $new_name ."'";
-    $r            = $titanium_db -> sql_query($q);
-    $row         = $titanium_db -> sql_fetchrow($r);
+    $r            = $pnt_db -> sql_query($q);
+    $row         = $pnt_db -> sql_fetchrow($r);
     $exists = $row['group_name'];
     
         if($new_name != $old_name)
@@ -594,19 +594,19 @@ if($mode == "main" || !$mode)
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id = '". $id ."'";
-    $r            = $titanium_db -> sql_query($q);
-    $row         = $titanium_db -> sql_fetchrow($r);
+    $r            = $pnt_db -> sql_query($q);
+    $row         = $pnt_db -> sql_fetchrow($r);
     $current_c     = $row['group_color'];
                     
     $q = "UPDATE ". COLORS ."
           SET group_name = '". $new_name ."', group_color = '". $new_color ."'
           WHERE group_id = '". $id ."'";
-    $r = $titanium_db -> sql_query($q);
+    $r = $pnt_db -> sql_query($q);
     
     $q = "UPDATE ". USERS_TABLE ."
           SET user_color_gc = '". $new_color ."'
           WHERE user_color_gc = '". $current_c ."'";
-    $r = $titanium_db -> sql_query($q);    
+    $r = $pnt_db -> sql_query($q);    
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -628,22 +628,22 @@ if($mode == "main" || !$mode)
     $q = "SELECT group_name
           FROM ". COLORS ."
           WHERE group_name = '". $phpbb2_color_name ."'";
-    $r            = $titanium_db -> sql_query($q);
-    $row         = $titanium_db -> sql_fetchrow($r);
+    $r            = $pnt_db -> sql_query($q);
+    $row         = $pnt_db -> sql_fetchrow($r);
     
     if($row['group_name']) 
         message_die(GENERAL_ERROR, $lang['add_error_2'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
 
     $q = "SELECT MAX(group_weight) AS max_weight
           FROM ". COLORS ."";
-    $r        = $titanium_db -> sql_query($q);
-    $next    = $titanium_db -> sql_fetchrow($r);
+    $r        = $pnt_db -> sql_query($q);
+    $next    = $pnt_db -> sql_fetchrow($r);
         
     $weight = $next['max_weight'] + 1;
     
     $q = "INSERT INTO ". COLORS ."
           VALUES (NULL, '". $phpbb2_color_name ."', '". $phpbb2_color_color ."', '". $weight ."')";
-    $r = $titanium_db -> sql_query($q);
+    $r = $pnt_db -> sql_query($q);
                 
     message_die(GENERAL_MESSAGE, $lang['add_success'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['success']);        
         }

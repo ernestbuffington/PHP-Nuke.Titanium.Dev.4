@@ -46,7 +46,7 @@ $set_mode = 'today';      // set default mode ('today', 'yesterday', 'last24', '
 $set_days = '3';          // set default days (used for lastXdays mode)
 // ############         Edit above         ########################################
 
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_RECENT);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_RECENT);
 titanium_init_userprefs($userdata);
 
 $phpbb2_start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
@@ -73,16 +73,16 @@ $phpbb2_page_title = $lang['Recent_topics'];
 include("includes/page_header.php");
 
 $sql_auth = "SELECT * FROM ". FORUMS_TABLE;
-if( !$result_auth = $titanium_db->sql_query($sql_auth) )
+if( !$result_auth = $pnt_db->sql_query($sql_auth) )
 {
     message_die(GENERAL_ERROR, 'could not query forums information.', '', __LINE__, __FILE__, $sql_auth);
 }
 $forums = array();
-while( $row_auth = $titanium_db->sql_fetchrow($result_auth) )
+while( $row_auth = $pnt_db->sql_fetchrow($result_auth) )
 {
     $forums[] = $row_auth;
 }
-$titanium_db->sql_freeresult($result_auth);
+$pnt_db->sql_freeresult($result_auth);
 
 $phpbb2_is_auth_ary = array();
 $phpbb2_is_auth_ary = auth(AUTH_ALL, AUTH_LIST_ALL, $userdata);
@@ -165,16 +165,16 @@ switch( $mode )
         message_die(GENERAL_MESSAGE, $message);
         break;
 }
-if( !$result = $titanium_db->sql_query($sql) )
+if( !$result = $pnt_db->sql_query($sql) )
 {
     message_die(GENERAL_ERROR, 'could not obtain main information.', '', __LINE__, __FILE__, $sql);
 }
 $line = array();
-while( $row = $titanium_db->sql_fetchrow($result) )
+while( $row = $pnt_db->sql_fetchrow($result) )
 {
     $line[] = $row;
 }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
         
 $phpbb2_template->set_filenames(array('body' => 'recent_body.tpl'));
 
@@ -378,11 +378,11 @@ for( $i = 0; $i < count($line); $i++ )
 
 $sql = "SELECT count(t.topic_id) AS total_topics FROM ". TOPICS_TABLE ." t , ". POSTS_TABLE ." p
            WHERE $where_count AND p.post_id = t.topic_last_post_id";
-if( !($result = $titanium_db->sql_query($sql)) )
+if( !($result = $pnt_db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'error getting total topics.', '', __LINE__, __FILE__, $sql);
 }
-if( $total = $titanium_db->sql_fetchrow($result) )
+if( $total = $pnt_db->sql_fetchrow($result) )
 {
     $total_phpbb2_topics = $total['total_topics'];
     $pagination = generate_pagination("recent.$phpEx?amount_days=$amount_days&amp;mode=$mode", $total_phpbb2_topics, $topic_limit, $phpbb2_start) .'&nbsp;';

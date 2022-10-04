@@ -25,7 +25,7 @@ if (!defined('ADMIN_FILE')) {
     die('Access Denied');
 }
 
-global $network_prefix, $titanium_db2, $admin_file;
+global $network_prefix, $pnt_db2, $admin_file;
 $pnt_module = basename(dirname(dirname(__FILE__)));
 
 if(is_mod_admin($pnt_module)) {
@@ -36,7 +36,7 @@ if(is_mod_admin($pnt_module)) {
     /* Banners Administration Functions                      */
     /*********************************************************/
 
-    list($c_num) = $titanium_db2->sql_ufetchrow("SELECT COUNT(*) FROM ".$network_prefix."_banner_clients", SQL_NUM);
+    list($c_num) = $pnt_db2->sql_ufetchrow("SELECT COUNT(*) FROM ".$network_prefix."_banner_clients", SQL_NUM);
     if ($c_num == 0) {
         $cli = "<i>"._ADDNEWBANNER."</i>";
     } else {
@@ -51,7 +51,7 @@ if(is_mod_admin($pnt_module)) {
     $ad_admin_menu = "<center><span class=\"title\"><strong>" . _BANNERSADMIN . "</strong></span><br /><br />[ <a href=\"".$admin_file.".php?op=NetworkBannersAdmin\">"._BANNERS."</a> - <a href=\"".$admin_file.".php?op=ad_network_positions\">"._ADPOSITIONS."</a> - $cli - <a href=\"".$admin_file.".php?op=add_network_client\">"._ADDCLIENT."</a> - <a href=\"".$admin_file.".php?op=ad_network_terms\">"._TERMS."</a> - <a href=\"".$admin_file.".php?op=ad_network_plans\">"._PLANSPRICES."</a> ]</center>$act";
 
     function NetworkBannersAdmin() {
-        global $network_prefix, $titanium_db2, $bgcolor2, $banners, $admin_file, $ad_admin_menu_main, $bgcolor1;
+        global $network_prefix, $pnt_db2, $bgcolor2, $banners, $admin_file, $ad_admin_menu_main, $bgcolor1;
 
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
@@ -76,15 +76,15 @@ if(is_mod_admin($pnt_module)) {
         ."<td align=\"center\"><strong>" . _POSITION . "</strong></td>"
         ."<td align=\"center\"><strong>" . _CLASS . "</strong></td>"
         ."<td align=\"center\"><strong>" . _FUNCTIONS . "</strong></td><tr>";
-        $result = $titanium_db2->sql_query("SELECT bid, cid, name, imptotal, impmade, clicks, imageurl, date, position, active, ad_class, type FROM " . $network_prefix . "_banner WHERE active='1' ORDER BY position,bid", true);
-        while (list($bid, $cid, $name, $imptotal, $impmade, $clicks, $imageurl, $date, $type, $active, $ad_class) = $titanium_db2->sql_fetchrow($result)) {
+        $result = $pnt_db2->sql_query("SELECT bid, cid, name, imptotal, impmade, clicks, imageurl, date, position, active, ad_class, type FROM " . $network_prefix . "_banner WHERE active='1' ORDER BY position,bid", true);
+        while (list($bid, $cid, $name, $imptotal, $impmade, $clicks, $imageurl, $date, $type, $active, $ad_class) = $pnt_db2->sql_fetchrow($result)) {
             $bid = intval($bid);
             $cid = intval($cid);
             $imptotal = intval($imptotal);
             $impmade = intval($impmade);
             $clicks = intval($clicks);
             $active = intval($active);
-            list($cid, $client_name) = $titanium_db2->sql_ufetchrow("SELECT cid, name FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'");
+            list($cid, $client_name) = $pnt_db2->sql_ufetchrow("SELECT cid, name FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'");
             $cid = intval($cid);
             $name = trim($name);
             if (empty($name)) {
@@ -113,7 +113,7 @@ if(is_mod_admin($pnt_module)) {
                 $clicks = "N/A";
                 $percent = "N/A";
             }
-            $row2 = $titanium_db2->sql_ufetchrow("SELECT apid, position_name FROM ".$network_prefix."_banner_positions WHERE position_number='$type'");
+            $row2 = $pnt_db2->sql_ufetchrow("SELECT apid, position_name FROM ".$network_prefix."_banner_positions WHERE position_number='$type'");
             $type = "<a href=\"".$admin_file.".php?op=position_network_edit&amp;apid=".$row2['apid'] . "\">".$row2['position_name']."</a>";
             if ($active == 1) {
                 $t_active = get_evo_icon('evo-sprite ok');
@@ -132,7 +132,7 @@ if(is_mod_admin($pnt_module)) {
                 ."<td bgcolor=\"$bgcolor1\" align=center>$ad_class</td>"
                 ."<td bgcolor=\"$bgcolor1\" align=center>&nbsp;<a href=\"".$admin_file.".php?op=NetworkBannerEdit&amp;bid=$bid\">".get_evo_icon('evo-sprite edit')."</a>  <a href=\"".$admin_file.".php?op=NetworkBannerStatus&amp;bid=$bid&amp;status=$active\">$c_active</a>  <a href=\"".$admin_file.".php?op=NetworkBannerDelete&amp;bid=$bid&amp;ok=0\">".get_evo_icon('evo-sprite delete')."</a>&nbsp;</td><tr>";
         }
-        $titanium_db2->sql_freeresult($result);
+        $pnt_db2->sql_freeresult($result);
         echo "</td></tr></table><br />"
         ."<center><span class=\"option\"><strong>" . _INACTIVEBANNERS . "</strong></span></center><br />"
         ."<table width=\"100%\" border=\"1\"><tr>"
@@ -145,8 +145,8 @@ if(is_mod_admin($pnt_module)) {
         ."<td align=\"center\"><strong>" . _POSITION . "</strong></td>"
         ."<td align=\"center\"><strong>" . _CLASS . "</strong></td>"
         ."<td align=\"center\"><strong>" . _FUNCTIONS . "</strong></td><tr>";
-        $result = $titanium_db2->sql_query("SELECT bid, cid, name, imptotal, impmade, clicks, imageurl, date, position, active, ad_class FROM " . $network_prefix . "_banner WHERE active='0' ORDER BY position,bid");
-        while ($row = $titanium_db2->sql_fetchrow($result)) {
+        $result = $pnt_db2->sql_query("SELECT bid, cid, name, imptotal, impmade, clicks, imageurl, date, position, active, ad_class FROM " . $network_prefix . "_banner WHERE active='0' ORDER BY position,bid");
+        while ($row = $pnt_db2->sql_fetchrow($result)) {
             $bid = intval($row['bid']);
             $cid = intval($row['cid']);
             $imptotal = intval($row['imptotal']);
@@ -156,7 +156,7 @@ if(is_mod_admin($pnt_module)) {
             $date = $row['date'];
             $type = $row['position'];
             $active = intval($row['active']);
-            $row2 = $titanium_db2->sql_ufetchrow("SELECT cid, name FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'");
+            $row2 = $pnt_db2->sql_ufetchrow("SELECT cid, name FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'");
             $cid = intval($row2['cid']);
             $name = trim($row2['name']);
             $ad_class = $row['ad_class'];
@@ -186,7 +186,7 @@ if(is_mod_admin($pnt_module)) {
                 $clicks = 'N/A';
                 $percent = 'N/A';
             }
-            $row2 = $titanium_db2->sql_ufetchrow("SELECT apid, position_name FROM ".$network_prefix."_banner_positions WHERE position_number='$type'");
+            $row2 = $pnt_db2->sql_ufetchrow("SELECT apid, position_name FROM ".$network_prefix."_banner_positions WHERE position_number='$type'");
             $type = "<a href=\"".$admin_file.".php?op=position_network_edit&amp;apid=".$row2['apid'] . "\">".$row2['position_name']."</a>";
             if ($active == 1) {
                 $t_active = get_evo_icon('evo-sprite ok');
@@ -206,7 +206,7 @@ if(is_mod_admin($pnt_module)) {
                 ."<td bgcolor=\"$bgcolor1\" align=center>$ad_class</td>"
                 ."<td bgcolor=\"$bgcolor1\" align=center>&nbsp;<a href=\"".$admin_file.".php?op=NetworkBannerEdit&amp;bid=$bid\">".get_evo_icon('evo-sprite edit')."</a>  <a href=\"".$admin_file.".php?op=NetworkBannerStatus&amp;bid=$bid&amp;status=$active\">$c_active</a>  <a href=\"".$admin_file.".php?op=NetworkBannerDelete&amp;bid=$bid&amp;ok=0\">".get_evo_icon('evo-sprite delete')."</a>&nbsp;</td><tr>";
         }
-        $titanium_db2->sql_freeresult($result);
+        $pnt_db2->sql_freeresult($result);
         echo "</td></tr></table>";
         CloseTable();
         echo "<br />";
@@ -220,18 +220,18 @@ if(is_mod_admin($pnt_module)) {
         ."<td align=\"center\"><strong>" . _CONTACTNAME . "</strong></td>"
         ."<td align=\"center\"><strong>" . _CONTACTEMAIL . "</strong></td>"
         ."<td align=\"center\"><strong>" . _FUNCTIONS . "</strong></td><tr>";
-        $result3 = $titanium_db2->sql_query("SELECT cid, name, contact, email FROM " . $network_prefix . "_banner_clients ORDER BY cid");
-        while ($row3 = $titanium_db2->sql_fetchrow($result3)) {
+        $result3 = $pnt_db2->sql_query("SELECT cid, name, contact, email FROM " . $network_prefix . "_banner_clients ORDER BY cid");
+        while ($row3 = $pnt_db2->sql_fetchrow($result3)) {
             $cid = intval($row3['cid']);
             $name = $row3['name'];
             $contact = $row3['contact'];
             $email = $row3['email'];
-            $result4 = $titanium_db2->sql_query("SELECT cid FROM " . $network_prefix . "_banner WHERE cid='$cid' AND active='1'");
-            $numrows = $titanium_db2->sql_numrows($result4);
-            $row4 = $titanium_db2->sql_fetchrow($result4);
-            $titanium_db2->sql_freeresult($result4);
+            $result4 = $pnt_db2->sql_query("SELECT cid FROM " . $network_prefix . "_banner WHERE cid='$cid' AND active='1'");
+            $numrows = $pnt_db2->sql_numrows($result4);
+            $row4 = $pnt_db2->sql_fetchrow($result4);
+            $pnt_db2->sql_freeresult($result4);
             $rcid = intval($row4['cid']);
-            list($numrows2) = $titanium_db2->sql_ufetchrow("SELECT COUNT(*) FROM " . $network_prefix . "_banner WHERE cid='$cid' AND active='0'");
+            list($numrows2) = $pnt_db2->sql_ufetchrow("SELECT COUNT(*) FROM " . $network_prefix . "_banner WHERE cid='$cid' AND active='0'");
             echo "<td bgcolor=\"$bgcolor1\" align=\"center\">$name</td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$numrows</td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$numrows2</td>"
@@ -239,14 +239,14 @@ if(is_mod_admin($pnt_module)) {
             ."<td bgcolor=\"$bgcolor1\" align=\"center\"><a href=\"mailto:$email\">$email</a></td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\" nowrap=\"nowrap\">&nbsp;<a href=\"".$admin_file.".php?op=NetworkBannerClientEdit&amp;cid=$cid\">".get_evo_icon('evo-sprite edit')."</a>  <a href=\"".$admin_file.".php?op=NetworkBannerClientDelete&amp;cid=$cid\">".get_evo_icon('evo-sprite delete')."</a>&nbsp;</td><tr>";
         }
-        $titanium_db2->sql_freeresult($result3);
+        $pnt_db2->sql_freeresult($result3);
         echo "</td></tr></table>";
         CloseTable();
         include_once(NUKE_BASE_DIR.'footer.php');
     }
 
     function add_network_banner() {
-        global $network_prefix, $titanium_db2, $banners, $admin_file, $ad_admin_menu;
+        global $network_prefix, $pnt_db2, $banners, $admin_file, $ad_admin_menu;
 
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
@@ -260,19 +260,19 @@ if(is_mod_admin($pnt_module)) {
         CloseTable();
         echo "<br />";
         OpenTable();
-        $result = $titanium_db2->sql_query("select * FROM ".$network_prefix."_banner_clients");
-        if($titanium_db2->sql_numrows($result) > 0) {
+        $result = $pnt_db2->sql_query("select * FROM ".$network_prefix."_banner_clients");
+        if($pnt_db2->sql_numrows($result) > 0) {
             echo "<center><span class=\"title\"><strong>" . _ADDNEWBANNER . "</strong></span></center><br /><br />"
             ."<table border=\"0\"><tr><td>"
             ."<form action=\"".$admin_file.".php?op=NetworkBannersAdd\" method=\"post\">"
             ."" . _CLIENTNAME . ":</td>"
             ."<td><select name=\"cid\">";
-            while ($row = $titanium_db2->sql_fetchrow($result)) {
+            while ($row = $pnt_db2->sql_fetchrow($result)) {
                 $cid = intval($row['cid']);
                 $name = $row['name'];
                 echo "<option value=\"$cid\">$name</option>";
             }
-            $titanium_db2->sql_freeresult($result);
+            $pnt_db2->sql_freeresult($result);
             echo "</select></td></tr>"
             ."<tr><td nowrap>" . _BANNERNAME . ":</td><td><input type=\"text\" name=\"adname\" size=\"12\" maxlength=\"50\"></td></tr>"
             ."<tr><td nowrap>" . _PURCHASEDIMPRESSIONS . ":</td><td><input type=\"text\" name=\"imptotal\" size=\"12\" maxlength=\"11\"> 0 = " . _UNLIMITED . "</td></tr>"
@@ -288,11 +288,11 @@ if(is_mod_admin($pnt_module)) {
             ."<tr><td>" . _ALTTEXT . ":</td><td><input type=\"text\" name=\"alttext\" size=\"50\" maxlength=\"255\"></td></tr>"
             ."<tr><td>" . _ADCODE . ":</td><td><textarea name=\"ad_code\" rows=\"15\" cols=\"70\"></textarea></td></tr>"
             ."<tr><td>" . _TYPE . ":</td><td><select name=\"position\">";
-            $result = $titanium_db2->sql_query("SELECT position_number, position_name FROM ".$network_prefix."_banner_positions ORDER BY position_number");
-            while ($row = $titanium_db2->sql_fetchrow($result)) {
+            $result = $pnt_db2->sql_query("SELECT position_number, position_name FROM ".$network_prefix."_banner_positions ORDER BY position_number");
+            while ($row = $pnt_db2->sql_fetchrow($result)) {
                 echo "<option name=\"position\" value=\"".$row['position_number']."\">".$row['position_number']." - ".$row['position_name']."</option>";
             }
-            $titanium_db2->sql_freeresult($result);
+            $pnt_db2->sql_freeresult($result);
             echo "</select></td></tr><tr><td>&nbsp;</td><td>"._POSITIONNOTE."</td></tr>"
                 ."<tr><td>" . _ACTIVATE . ":</td><td><input type=\"radio\" name=\"active\" value=\"1\" checked>" . _YES . "&nbsp;&nbsp;<input type=\"radio\" name=\"active\" value=\"0\">" . _NO . "</td></tr>"
                 ."<tr><td>&nbsp;</td><td><input type=\"hidden\" name=\"op\" value=\"NetworkBannersAdd\">"
@@ -307,7 +307,7 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function add_network_client() {
-        global $network_prefix, $titanium_db2, $banners, $admin_file, $ad_admin_menu;
+        global $network_prefix, $pnt_db2, $banners, $admin_file, $ad_admin_menu;
 
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
@@ -339,7 +339,7 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function NetworkBannerStatus($bid, $status) {
-        global $network_prefix, $titanium_db2, $admin_file;
+        global $network_prefix, $pnt_db2, $admin_file;
 
         if ($status == 1) {
             $active = 0;
@@ -347,12 +347,12 @@ if(is_mod_admin($pnt_module)) {
             $active = 1;
         }
         $bid = intval($bid);
-        $titanium_db2->sql_query("UPDATE " . $network_prefix . "_banner SET active='$active' WHERE bid='$bid'");
+        $pnt_db2->sql_query("UPDATE " . $network_prefix . "_banner SET active='$active' WHERE bid='$bid'");
         redirect_titanium($admin_file.'.php?op=NetworkBannersAdmin');
     }
 
     function NetworkBannersAdd($name, $cid, $adname, $imptotal, $imageurl, $clickurl, $alttext, $position, $active, $ad_class, $ad_code, $ad_width, $ad_height) {
-        global $network_prefix, $titanium_db2, $admin_file, $ad_admin_menu;
+        global $network_prefix, $pnt_db2, $admin_file, $ad_admin_menu;
 
         $alttext = str_replace("\"", "", $alttext);
         $alttext = str_replace("'", "", $alttext);
@@ -381,21 +381,21 @@ if(is_mod_admin($pnt_module)) {
             include_once(NUKE_BASE_DIR.'footer.php');
             exit;
         }
-        $titanium_db2->sql_query("insert into " . $network_prefix . "_banner VALUES (NULL, '$cid', '$adname', '$imptotal', '1', '0', '$imageurl', '$clickurl', '$alttext', now(), '0000-00-00 00:00:00', '$position', '$active', '$ad_class', '$ad_code', '$ad_width', '$ad_height', '')");
+        $pnt_db2->sql_query("insert into " . $network_prefix . "_banner VALUES (NULL, '$cid', '$adname', '$imptotal', '1', '0', '$imageurl', '$clickurl', '$alttext', now(), '0000-00-00 00:00:00', '$position', '$active', '$ad_class', '$ad_code', '$ad_width', '$ad_height', '')");
         redirect_titanium($admin_file.'.php?op=NetworkBannersAdmin');
     }
 
     function NetworkBannerAddClient($name, $contact, $email, $login, $passwd, $extrainfo) {
-        global $network_prefix, $titanium_db2, $admin_file;
-        $titanium_db2->sql_query("insert into " . $network_prefix . "_banner_clients VALUES (NULL, '$name', '$contact', '$email', '$login', '$passwd', '$extrainfo')");
+        global $network_prefix, $pnt_db2, $admin_file;
+        $pnt_db2->sql_query("insert into " . $network_prefix . "_banner_clients VALUES (NULL, '$name', '$contact', '$email', '$login', '$passwd', '$extrainfo')");
         redirect_titanium($admin_file.'.php?op=NetworkBannersAdmin');
     }
 
     function NetworkBannerDelete($bid, $ok=0) {
-        global $network_prefix, $titanium_db2, $admin_file, $bgcolor1, $bgcolor2, $ad_admin_menu;
+        global $network_prefix, $pnt_db2, $admin_file, $bgcolor1, $bgcolor2, $ad_admin_menu;
         $bid = intval($bid);
         if ($ok == 1) {
-            $titanium_db2->sql_query("DELETE FROM " . $network_prefix . "_banner WHERE bid='$bid'");
+            $pnt_db2->sql_query("DELETE FROM " . $network_prefix . "_banner WHERE bid='$bid'");
             redirect_titanium($admin_file.".php?op=NetworkBannersAdmin");
         } else {
             include_once(NUKE_BASE_DIR.'header.php');
@@ -409,7 +409,7 @@ if(is_mod_admin($pnt_module)) {
             echo $ad_admin_menu;
             CloseTable();
             echo "<br />";
-            $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT cid, name, imptotal, impmade, clicks, imageurl, clickurl, ad_class, ad_code, ad_width, ad_height FROM " . $network_prefix . "_banner WHERE bid='$bid'"));
+            $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT cid, name, imptotal, impmade, clicks, imageurl, clickurl, ad_class, ad_code, ad_width, ad_height FROM " . $network_prefix . "_banner WHERE bid='$bid'"));
             $cid = intval($row['cid']);
             $imptotal = intval($row['imptotal']);
             $impmade = intval($row['impmade']);
@@ -451,7 +451,7 @@ if(is_mod_admin($pnt_module)) {
                 ."<td align=\"center\"><strong>" . _CLICKS . "<strong></td>"
                 ."<td align=\"center\"><strong>" . _CLICKSPERCENT . "<strong></td>"
                 ."<td align=\"center\"><strong>" . _CLIENTNAME . "<strong></td><tr>";
-            $row2 = $titanium_db2->sql_ufetchrow("SELECT cid, name FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'");
+            $row2 = $pnt_db2->sql_ufetchrow("SELECT cid, name FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'");
             $cid = intval($row2['cid']);
             $name = $row2['name'];
             $percent = substr(100 * $clicks / $impmade, 0, 5);
@@ -475,7 +475,7 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function NetworkBannerEdit($bid) {
-        global $network_prefix, $titanium_db2, $admin_file, $ad_admin_menu, $admlang;
+        global $network_prefix, $pnt_db2, $admin_file, $ad_admin_menu, $admlang;
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
 	    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=NetworkBannersAdmin\">" . _BANNERS_ADMIN_HEADER . "</a></div>\n";
@@ -488,7 +488,7 @@ if(is_mod_admin($pnt_module)) {
         CloseTable();
         echo "<br />";
         $bid = intval($bid);
-        $row = $titanium_db2->sql_ufetchrow("SELECT cid, name, imptotal, impmade, clicks, imageurl, clickurl, alttext, date, position, active, ad_class, ad_code, ad_width, ad_height FROM " . $network_prefix . "_banner WHERE bid='$bid'");
+        $row = $pnt_db2->sql_ufetchrow("SELECT cid, name, imptotal, impmade, clicks, imageurl, clickurl, alttext, date, position, active, ad_class, ad_code, ad_width, ad_height FROM " . $network_prefix . "_banner WHERE bid='$bid'");
         $cid = intval($row['cid']);
         $imptotal = intval($row['imptotal']);
         $impmade = intval($row['impmade']);
@@ -531,19 +531,19 @@ if(is_mod_admin($pnt_module)) {
             ."<form action=\"".$admin_file.".php?op=NetworkBannerChange\" method=\"post\">"
             ."" . _CLIENTNAME . ":</td><td>"
             ."<select name=\"cid\">";
-        $row2 = $titanium_db2->sql_ufetchrow("SELECT cid, name FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'");
+        $row2 = $pnt_db2->sql_ufetchrow("SELECT cid, name FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'");
         $cid = intval($row2['cid']);
         $name = $row2['name'];
         echo "<option value=\"$cid\" selected>$name</option>";
-        $result3 = $titanium_db2->sql_query("SELECT cid, name FROM " . $network_prefix . "_banner_clients");
-        while ($row3 = $titanium_db2->sql_fetchrow($result3)) {
+        $result3 = $pnt_db2->sql_query("SELECT cid, name FROM " . $network_prefix . "_banner_clients");
+        while ($row3 = $pnt_db2->sql_fetchrow($result3)) {
             $ccid = intval($row3['cid']);
             $name = $row3['name'];
             if($cid!=$ccid) {
                 echo "<option value=\"$ccid\">$name</option>";
             }
         }
-        $titanium_db2->sql_freeresult($result3);
+        $pnt_db2->sql_freeresult($result3);
         echo "</select></td></tr>";
         if($imptotal==0) {
             $impressions = _UNLIMITED;
@@ -588,8 +588,8 @@ if(is_mod_admin($pnt_module)) {
                 ."<input type=\"hidden\" name=\"ad_code\" value=\"$ad_code\"></td></tr>";
         }
         echo "<tr><td>" . _TYPE . ":</td><td><select name=\"position\">";
-        $result4 = $titanium_db2->sql_query("SELECT position_number, position_name FROM ".$network_prefix."_banner_positions ORDER BY position_number");
-        while ($row4 = $titanium_db2->sql_fetchrow($result4)) {
+        $result4 = $pnt_db2->sql_query("SELECT position_number, position_name FROM ".$network_prefix."_banner_positions ORDER BY position_number");
+        while ($row4 = $pnt_db2->sql_fetchrow($result4)) {
             if ($position == $row4['position_number']) {
                 $sel = "selected";
             } else {
@@ -597,7 +597,7 @@ if(is_mod_admin($pnt_module)) {
             }
             echo "<option name=\"position\" value=\"".$row4['position_number']."\" $sel>".$row4['position_number']." - ".$row4['position_name']."</option>";
         }
-        $titanium_db2->sql_freeresult($result4);
+        $pnt_db2->sql_freeresult($result4);
         echo "</select></td></tr>"
             ."<tr><td>" . _ACTIVATE . ":</td><td><input type=\"radio\" name=\"active\" value=\"1\" $check1>" . _YES . "&nbsp;&nbsp;<input type=\"radio\" name=\"active\" value=\"0\" $check2>" . _NO . "</td></tr>"
             ."<tr><td>&nbsp;</td><td><input type=\"hidden\" name=\"bid\" value=\"$bid\">"
@@ -611,7 +611,7 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function NetworkBannerChange($bid, $cid, $adname, $imptotal, $impadded, $imageurl, $clickurl, $alttext, $position, $active, $ad_code, $ad_width, $ad_height, $impmade) {
-        global $network_prefix, $titanium_db2, $admin_file;
+        global $network_prefix, $pnt_db2, $admin_file;
         if (!is_numeric($impadded)) {
             $impadded = strtoupper($impadded);
             if ($impadded == "X") {
@@ -634,16 +634,16 @@ if(is_mod_admin($pnt_module)) {
         $imp = intval($imp);
         $active = intval($active);
         $bid = intval($bid);
-        $titanium_db2->sql_query("UPDATE " . $network_prefix . "_banner SET cid='$cid', name='$adname', imptotal='$imp', imageurl='$imageurl', clickurl='$clickurl', alttext='$alttext', position='$position', active='$active', ad_code='$ad_code', ad_width='$ad_width', ad_height='$ad_height' WHERE bid='$bid'");
+        $pnt_db2->sql_query("UPDATE " . $network_prefix . "_banner SET cid='$cid', name='$adname', imptotal='$imp', imageurl='$imageurl', clickurl='$clickurl', alttext='$alttext', position='$position', active='$active', ad_code='$ad_code', ad_width='$ad_width', ad_height='$ad_height' WHERE bid='$bid'");
         redirect_titanium($admin_file.".php?op=NetworkBannersAdmin");
     }
 
     function NetworkBannerClientDelete($cid, $ok=0) {
-        global $network_prefix, $titanium_db2, $admin_file, $ad_admin_menu;
+        global $network_prefix, $pnt_db2, $admin_file, $ad_admin_menu;
         $cid = intval($cid);
         if ($ok==1) {
-            $titanium_db2->sql_query("DELETE FROM " . $network_prefix . "_banner WHERE cid='$cid'");
-            $titanium_db2->sql_query("DELETE FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'");
+            $pnt_db2->sql_query("DELETE FROM " . $network_prefix . "_banner WHERE cid='$cid'");
+            $pnt_db2->sql_query("DELETE FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'");
             redirect_titanium($admin_file.".php?op=NetworkBannersAdmin");
         } else {
             include_once(NUKE_BASE_DIR.'header.php');
@@ -657,28 +657,28 @@ if(is_mod_admin($pnt_module)) {
             echo $ad_admin_menu;
             CloseTable();
             echo "<br />";
-            $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT cid, name FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'"));
+            $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT cid, name FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'"));
             $cid = intval($row['cid']);
             $name = $row['name'];
             OpenTable();
             echo "<center><strong>" . _DELETECLIENT . ": $name</strong><br /><br />
                 " . _SURETODELCLIENT . "<br /><br />";
-            $result2 = $titanium_db2->sql_query("SELECT imageurl, clickurl FROM " . $network_prefix . "_banner WHERE cid='$cid'");
-            $numrows = $titanium_db2->sql_numrows($result2);
-            $titanium_db2->sql_freeresult($result2);
+            $result2 = $pnt_db2->sql_query("SELECT imageurl, clickurl FROM " . $network_prefix . "_banner WHERE cid='$cid'");
+            $numrows = $pnt_db2->sql_numrows($result2);
+            $pnt_db2->sql_freeresult($result2);
             if($numrows==0) {
                 echo "" . _CLIENTWITHOUTBANNERS . "<br /><br />";
             } else {
                 echo "<strong>" . _WARNING . "!!!</strong><br />
                     " . _DELCLIENTHASBANNERS . ":<br /><br />";
             }
-            while ($row2 = $titanium_db2->sql_fetchrow($result2)) {
+            while ($row2 = $pnt_db2->sql_fetchrow($result2)) {
                 $imageurl = $row2['imageurl'];
                 $clickurl = $row2['clickurl'];
                 echo "<a href=\"$clickurl\"><img src=\"$imageurl\" border=\"1\" alt=\"\"></a><br />
                     <a href=\"$clickurl\">$clickurl</a><br /><br />";
             }
-            $titanium_db2->sql_freeresult($result2);
+            $pnt_db2->sql_freeresult($result2);
         }
         echo "" . _SURETODELCLIENT . "<br /><br />
             [ <a href=\"".$admin_file.".php?op=NetworkBannersAdmin#top\">" . _NO . "</a> | <a href=\"".$admin_file.".php?op=NetworkBannerClientDelete&amp;cid=$cid&amp;ok=1\">" . _YES . "</a> ]</center><br /><br /></center>";
@@ -687,7 +687,7 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function NetworkBannerClientEdit($cid) {
-        global $network_prefix, $titanium_db2, $admin_file, $ad_admin_menu, $admlang;
+        global $network_prefix, $pnt_db2, $admin_file, $ad_admin_menu, $admlang;
 
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
@@ -701,7 +701,7 @@ if(is_mod_admin($pnt_module)) {
         CloseTable();
         echo "<br />";
         $cid = intval($cid);
-        $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT name, contact, email, login, passwd, extrainfo FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'"));
+        $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT name, contact, email, login, passwd, extrainfo FROM " . $network_prefix . "_banner_clients WHERE cid='$cid'"));
         $name = $row['name'];
         $contact = $row['contact'];
         $email = $row['email'];
@@ -726,15 +726,15 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function NetworkBannerClientChange($cid, $name, $contact, $email, $extrainfo, $login, $passwd) {
-        global $network_prefix, $titanium_db2, $admin_file;
+        global $network_prefix, $pnt_db2, $admin_file;
 
         $cid = intval($cid);
-        $titanium_db2->sql_query("UPDATE ".$network_prefix."_banner_clients SET name='$name', contact='$contact', email='$email', login='$login', passwd='$passwd', extrainfo='$extrainfo' WHERE cid='$cid'");
+        $pnt_db2->sql_query("UPDATE ".$network_prefix."_banner_clients SET name='$name', contact='$contact', email='$email', login='$login', passwd='$passwd', extrainfo='$extrainfo' WHERE cid='$cid'");
         redirect_titanium($admin_file.".php?op=NetworkBannersAdmin#top");
     }
 
     function ad_network_positions() {
-        global $network_prefix, $titanium_db2, $banners, $admin_file, $ad_admin_menu, $bgcolor1, $bgcolor2;
+        global $network_prefix, $pnt_db2, $banners, $admin_file, $ad_admin_menu, $bgcolor1, $bgcolor2;
 
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
@@ -753,24 +753,24 @@ if(is_mod_admin($pnt_module)) {
             ."<td align=\"center\"><strong>" . _POSITIONNUMBER . "<strong></td>"
             ."<td align=\"center\"><strong>" . _ASSIGNEDADS . "<strong></td>"
             ."<td align=\"center\"><strong>" . _FUNCTIONS . "<strong></td>";
-        $result = $titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions ORDER BY apid");
-        while ($row = $titanium_db2->sql_fetchrow($result)) {
-            $ban_num = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner WHERE position='".$row['position_number']."'"));
+        $result = $pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions ORDER BY apid");
+        while ($row = $pnt_db2->sql_fetchrow($result)) {
+            $ban_num = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner WHERE position='".$row['position_number']."'"));
             echo "<tr><td bgcolor=\"$bgcolor1\" align=\"center\">".$row['position_name']."</td>"
                 ."<td bgcolor=\"$bgcolor1\" align=\"center\">".$row['position_number']."</td>"
                 ."<td bgcolor=\"$bgcolor1\" align=\"center\">$ban_num</td>"
                 ."<td bgcolor=\"$bgcolor1\" align=\"center\">&nbsp;<a href=\"".$admin_file.".php?op=position_network_edit&amp;apid=".$row['apid']."\">".get_evo_icon('evo-sprite edit')."</a>  <a href=\"".$admin_file.".php?op=position_delete&amp;apid=".$row['apid']."\">".get_evo_icon('evo-sprite delete')."</a>&nbsp;</td></tr>";
         }
-        $titanium_db2->sql_freeresult($result);
+        $pnt_db2->sql_freeresult($result);
         echo "</table><br />";
         CloseTable();
         echo "<br />";
         OpenTable();
-        $numrows = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions"));
+        $numrows = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions"));
         if ($numrows == 0) {
             $pos_num = 0;
         } else {
-            $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT position_number FROM ".$network_prefix."_banner_positions ORDER BY position_number DESC LIMIT 0,1"));
+            $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT position_number FROM ".$network_prefix."_banner_positions ORDER BY position_number DESC LIMIT 0,1"));
             $pos_num = $row['position_number']+1;
         }
         echo "<center><span class=\"title\"><strong>"._ADDNEWPOSITION."</strong></span><br /><br />"
@@ -786,7 +786,7 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function position_network_save($apid=0, $ad_position_number, $ad_position_name, $position_new=0) {
-        global $network_prefix, $titanium_db2, $admin_file, $ad_admin_menu;
+        global $network_prefix, $pnt_db2, $admin_file, $ad_admin_menu;
 
         if (empty($ad_position_name)) {
             include_once(NUKE_BASE_DIR.'header.php');
@@ -810,16 +810,16 @@ if(is_mod_admin($pnt_module)) {
         $ad_position_name = Fix_Quotes(filter_text($ad_position_name, "nohtml"));
         $ad_position_number = intval($ad_position_number);
         if ($position_new == 1) {
-            $titanium_db2->sql_query("INSERT INTO ".$network_prefix."_banner_positions VALUES (NULL, '$ad_position_number', '$ad_position_name')");
+            $pnt_db2->sql_query("INSERT INTO ".$network_prefix."_banner_positions VALUES (NULL, '$ad_position_number', '$ad_position_name')");
         } else {
             $apid = intval($apid);
-            $titanium_db2->sql_query("UPDATE ".$network_prefix."_banner_positions SET position_name='$ad_position_name' WHERE apid='$apid'");
+            $pnt_db2->sql_query("UPDATE ".$network_prefix."_banner_positions SET position_name='$ad_position_name' WHERE apid='$apid'");
         }
         redirect_titanium($admin_file.'.php?op=ad_network_positions');
     }
 
     function position_network_edit($apid) {
-        global $network_prefix, $titanium_db2, $banners, $admin_file, $ad_admin_menu;
+        global $network_prefix, $pnt_db2, $banners, $admin_file, $ad_admin_menu;
         $apid = intval($apid);
         if (empty($apid) && $apid == 0) {
             redirect_titanium($admin_file.'.php?op=ad_network_positions');
@@ -837,7 +837,7 @@ if(is_mod_admin($pnt_module)) {
         CloseTable();
         echo "<br />";
         OpenTable();
-        $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid='$apid'"));
+        $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid='$apid'"));
         echo "<center><span class=\"title\"><strong>"._EDITPOSITION."</strong></span><br /><br />"
             ."<form method=\"POST\" action=\"".$admin_file.".php\">"
             .""._POSITIONNAME.": <input type=\"text\" name=\"ad_position_name\" value=\"".$row['position_name']."\"> "._POSITIONNUMBER.": <strong>".$row['position_number']."</strong><input type=\"hidden\" name=\"ad_position_number\" value=\"".$row['position_number']."\"><input type=\"hidden\" name=\"apid\" value=\"$apid\"><input type=\"hidden\" name=\"op\" value=\"position_network_save\"><br /><br /><input type=\"submit\" value=\""._SAVEPOSITION."\">"
@@ -847,9 +847,9 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function position_delete($apid, $ok=0, $active=0, $new_pos=x) {
-        global $network_prefix, $titanium_db2, $admin_file, $ad_admin_menu;
+        global $network_prefix, $pnt_db2, $admin_file, $ad_admin_menu;
 
-        $numrows = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions"));
+        $numrows = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions"));
         if ($numrows == 1) {
             include_once(NUKE_BASE_DIR.'header.php');
             OpenTable();
@@ -871,36 +871,36 @@ if(is_mod_admin($pnt_module)) {
         }
         if ($ok == 1) {
             if ($new_pos == "x" || empty($new_post)) {
-                $titanium_db2->sql_query("DELETE FROM ".$network_prefix."_banner_positions WHERE apid='$apid'");
+                $pnt_db2->sql_query("DELETE FROM ".$network_prefix."_banner_positions WHERE apid='$apid'");
             } else {
                 if ($active == "same") {
-                    $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid='$apid'"));
-                    $result = $titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner WHERE position='".$row['position_number']."'");
-                    while($row2 = $titanium_db2->sql_fetchrow($result)) {
-                        $titanium_db2->sql_query("UPDATE ".$network_prefix."_banner SET position='$new_pos' WHERE bid='".$row2['bid']."'");
+                    $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid='$apid'"));
+                    $result = $pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner WHERE position='".$row['position_number']."'");
+                    while($row2 = $pnt_db2->sql_fetchrow($result)) {
+                        $pnt_db2->sql_query("UPDATE ".$network_prefix."_banner SET position='$new_pos' WHERE bid='".$row2['bid']."'");
                     }
-                    $titanium_db2->sql_freeresult($result);
-                    $titanium_db2->sql_query("DELETE FROM ".$network_prefix."_banner_positions WHERE apid='$apid'");
+                    $pnt_db2->sql_freeresult($result);
+                    $pnt_db2->sql_query("DELETE FROM ".$network_prefix."_banner_positions WHERE apid='$apid'");
                 } elseif ($active == "active") {
-                    $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid='$apid'"));
-                    $result = $titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner WHERE position='".$row['position_number']."'");
-                    while($row2 = $titanium_db2->sql_fetchrow($result)) {
-                        $titanium_db2->sql_query("UPDATE ".$network_prefix."_banner SET position='$new_pos', active='1' WHERE bid='".$row2['bid']."'");
+                    $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid='$apid'"));
+                    $result = $pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner WHERE position='".$row['position_number']."'");
+                    while($row2 = $pnt_db2->sql_fetchrow($result)) {
+                        $pnt_db2->sql_query("UPDATE ".$network_prefix."_banner SET position='$new_pos', active='1' WHERE bid='".$row2['bid']."'");
                     }
-                    $titanium_db2->sql_freeresult($result);
-                    $titanium_db2->sql_query("DELETE FROM ".$network_prefix."_banner_positions WHERE apid='$apid'");
+                    $pnt_db2->sql_freeresult($result);
+                    $pnt_db2->sql_query("DELETE FROM ".$network_prefix."_banner_positions WHERE apid='$apid'");
                 } elseif ($active == "inactive") {
-                    $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid='$apid'"));
-                    $result = $titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner WHERE position='".$row['position_number']."'");
-                    while($row2 = $titanium_db2->sql_fetchrow($result)) {
-                        $titanium_db2->sql_query("UPDATE ".$network_prefix."_banner SET position='$new_pos', active='0' WHERE bid='".$row2['bid']."'");
+                    $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid='$apid'"));
+                    $result = $pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner WHERE position='".$row['position_number']."'");
+                    while($row2 = $pnt_db2->sql_fetchrow($result)) {
+                        $pnt_db2->sql_query("UPDATE ".$network_prefix."_banner SET position='$new_pos', active='0' WHERE bid='".$row2['bid']."'");
                     }
-                    $titanium_db2->sql_freeresult($result);
-                    $titanium_db2->sql_query("DELETE FROM ".$network_prefix."_banner_positions WHERE apid='$apid'");
+                    $pnt_db2->sql_freeresult($result);
+                    $pnt_db2->sql_query("DELETE FROM ".$network_prefix."_banner_positions WHERE apid='$apid'");
                 } elseif ($active == "delete_all") {
-                    $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid='$apid'"));
-                    $titanium_db2->sql_query("DELETE FROM ".$network_prefix."_banner WHERE position='".$row['position_number']."'");
-                    $titanium_db2->sql_query("DELETE FROM ".$network_prefix."_banner_positions WHERE apid='$apid'");
+                    $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid='$apid'"));
+                    $pnt_db2->sql_query("DELETE FROM ".$network_prefix."_banner WHERE position='".$row['position_number']."'");
+                    $pnt_db2->sql_query("DELETE FROM ".$network_prefix."_banner_positions WHERE apid='$apid'");
                 }
             }
             redirect_titanium($admin_file.'.php?op=ad_network_positions');
@@ -918,19 +918,19 @@ if(is_mod_admin($pnt_module)) {
             CloseTable();
             echo "<br />";
             OpenTable();
-            $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid='$apid'"));
+            $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid='$apid'"));
             echo "<br /><center><strong>"._DELETEPOSITION.": ".$row['position_name']."</strong><br /><br />
                 "._SURETODELPOSITION."<br /><br />";
-            $numrows = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner WHERE position='".$row['position_number']."'"));
+            $numrows = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner WHERE position='".$row['position_number']."'"));
             if($numrows != 0) {
                 echo ""._POSITIONHASADS."<br /><br />";
                 echo "<form action=\"".$admin_file.".php\" method=\"POST\">";
                 echo ""._MOVEADS.": <select name=\"new_pos\">";
-                $result = $titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid!='$apid'");
-                while($row = $titanium_db2->sql_fetchrow($result)) {
+                $result = $pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_positions WHERE apid!='$apid'");
+                while($row = $pnt_db2->sql_fetchrow($result)) {
                     echo "<option value=\"".$row['position_number']."\">".$row['position_number'].": ".$row['position_name']."</option>";
                 }
-                $titanium_db2->sql_freeresult($result);
+                $pnt_db2->sql_freeresult($result);
                 echo "</select><br /><br />";
                 echo ""._MOVEDADSSTATUS.": <select name=\"active\">";
                 echo "<option value=\"same\">"._NOCHANGES."</option>";
@@ -949,9 +949,9 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function ad_network_terms($save=0, $terms_body=0, $country=0) {
-        global $network_prefix, $titanium_db2, $banners, $admin_file, $ad_admin_menu, $admlang;
+        global $network_prefix, $pnt_db2, $banners, $admin_file, $ad_admin_menu, $admlang;
         if ($save != 0) {
-            $titanium_db2->sql_query("UPDATE ".$network_prefix."_banner_terms SET terms_body='".Fix_Quotes($terms_body)."', country='$country'");
+            $pnt_db2->sql_query("UPDATE ".$network_prefix."_banner_terms SET terms_body='".Fix_Quotes($terms_body)."', country='$country'");
             redirect_titanium($admin_file.".php?op=ad_network_terms");
             exit;
         }
@@ -967,14 +967,14 @@ if(is_mod_admin($pnt_module)) {
         CloseTable();
         echo "<br />";
         OpenTable();
-        $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_terms"));
+        $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_terms"));
         echo "<center><span class=\"title\"><strong>"._EDITTERMS."</strong></span><br /><br /><i>"._SITENAMEADS."</i><br /><br />"
             ."<form method=\"POST\" name=\"termspost\" action=\"".$admin_file.".php\">"
             .""._TERMSOFSERVICEBODY.":<br /><br />";
 			Make_TextArea('terms_body', $row['terms_body'], 'termspost');
             echo ""._COUNTRYNAME.":<br /><br /><select name=\"country\">";
-        $result = $titanium_db2->sql_query("SELECT `flag_name` FROM `".$network_prefix."_bbflags` ORDER BY `flag_name`");
-        while ($row2 = $titanium_db2->sql_fetchrow($result)) {
+        $result = $pnt_db2->sql_query("SELECT `flag_name` FROM `".$network_prefix."_bbflags` ORDER BY `flag_name`");
+        while ($row2 = $pnt_db2->sql_fetchrow($result)) {
             if ($row['country'] == $row2['flag_name']) {
                 $sel = "selected";
             } else {
@@ -982,7 +982,7 @@ if(is_mod_admin($pnt_module)) {
             }
             echo "<option value=\"".$row2['flag_name']."\" $sel>".ucwords(strtolower($row2['flag_name']))."</option>";
         }
-        $titanium_db2->sql_freeresult($result);
+        $pnt_db2->sql_freeresult($result);
         echo "</select><br /><br />"
             ."<input type=\"hidden\" name=\"save\" value=\"1\"><input type=\"hidden\" name=\"op\" value=\"ad_network_terms\"><br /><br /><input type=\"submit\" value=\"".$admlang['global']['save_changes']."\">"
             ."</form></center><br /><table border=\"0\" width=\"80%\" align=\"center\"><tr><td align=\"center\"><i>"._TERMSNOTE."</i></td></tr></table>";
@@ -991,7 +991,7 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function ad_network_plans() {
-        global $network_prefix, $titanium_db2, $admin_file, $ad_admin_menu, $bgcolor1, $bgcolor2;
+        global $network_prefix, $pnt_db2, $admin_file, $ad_admin_menu, $bgcolor1, $bgcolor2;
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
 	    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=NetworkBannersAdmin\">" . _BANNERS_ADMIN_HEADER . "</a></div>\n";
@@ -1003,13 +1003,13 @@ if(is_mod_admin($pnt_module)) {
         echo $ad_admin_menu;
         CloseTable();
         echo "<br />";
-        $numrows = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_plans"));
+        $numrows = $pnt_db2->sql_numrows($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_plans"));
         if ($numrows != 0) {
             OpenTable();
-            $result = $titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_plans");
+            $result = $pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_plans");
             echo "<center><span class=\"title\"><strong>"._ADVERTISINGPLANS."</strong></span></center><br />";
             echo "<table border=\"1\" width=\"100%\"><tr><td><strong>&nbsp;"._PLANNAME."</strong></td><td align=\"center\"><strong>"._DELIVERY."</strong></td><td align=\"center\"><strong>"._STATUS."</strong></td><td align=\"center\"><strong>"._PRICE."</strong></td><td align=\"center\"><strong>"._FUNCTIONS."</strong></td></tr>";
-            while ($row = $titanium_db2->sql_fetchrow($result)) {
+            while ($row = $pnt_db2->sql_fetchrow($result)) {
                 if ($row['delivery_type'] == 0) {
                     $type = _IMPRESSIONS;
                 } elseif ($row['delivery_type'] == 1) {
@@ -1035,7 +1035,7 @@ if(is_mod_admin($pnt_module)) {
                     ."<td align=\"center\" bgcolor=\"$bgcolor1\">".$row['price']."</td>"
                     ."<td align=\"center\" bgcolor=\"$bgcolor1\">&nbsp;<a href=\"".$admin_file.".php?op=ad_network_plans_edit&amp;pid=".$row['pid']."\">".get_evo_icon('evo-sprite edit')."</a>  <a href=\"".$admin_file.".php?op=ad_network_plans_status&amp;pid=".$row['pid']."&status=$active\">$c_active</a>  <a href=\"".$admin_file.".php?op=ad_network_plans_delete&amp;pid=".$row['pid']."&amp;ok=0\">".get_evo_icon('evo-sprite delete')."</a>&nbsp;</td></tr>";
             }
-            $titanium_db2->sql_freeresult($result);
+            $pnt_db2->sql_freeresult($result);
             echo "</table>";
             CloseTable();
             echo "<br />";
@@ -1063,10 +1063,10 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function ad_network_plans_add($name, $description, $delivery, $type, $price, $buy_links, $status) {
-        global $network_prefix, $titanium_db2, $banners, $admin_file, $ad_admin_menu;
+        global $network_prefix, $pnt_db2, $banners, $admin_file, $ad_admin_menu;
 
         if (!empty($name) AND !empty($description) AND !empty($delivery) AND (isset($type) AND is_numeric($type)) AND !empty($price) AND !empty($buy_links) AND !empty($status)) {
-            $titanium_db2->sql_query("INSERT INTO ".$network_prefix."_banner_plans VALUES (NULL, '$status', '$name', '$description', '$delivery', '$type', '$price', '$buy_links')");
+            $pnt_db2->sql_query("INSERT INTO ".$network_prefix."_banner_plans VALUES (NULL, '$status', '$name', '$description', '$delivery', '$type', '$price', '$buy_links')");
             redirect_titanium($admin_file.'.php?op=ad_network_plans');
             exit;
         } else {
@@ -1089,7 +1089,7 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function ad_network_plans_edit($pid) {
-        global $network_prefix, $titanium_db2, $banners, $admin_file, $ad_admin_menu, $admlang;
+        global $network_prefix, $pnt_db2, $banners, $admin_file, $ad_admin_menu, $admlang;
 
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
@@ -1103,7 +1103,7 @@ if(is_mod_admin($pnt_module)) {
         CloseTable();
         echo "<br />";
         OpenTable();
-        $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_plans WHERE pid='$pid'"));
+        $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_plans WHERE pid='$pid'"));
         echo "<center><span class=\"title\"><strong>"._ADVERTISINGPLANEDIT."</strong></span></center><br /><br />";
         echo "<table border=\"0\"><tr><td>";
         echo "<form method=\"POST\" action=\"".$admin_file.".php\">";
@@ -1148,10 +1148,10 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function ad_network_plans_save($pid, $name, $description, $delivery, $type, $price, $buy_links, $status) {
-        global $network_prefix, $titanium_db2, $banners, $admin_file, $ad_admin_menu;
+        global $network_prefix, $pnt_db2, $banners, $admin_file, $ad_admin_menu;
 
         if (!empty($name) AND !empty($description) AND !empty($delivery) AND (isset($type) AND is_numeric($type)) AND !empty($price) AND !empty($buy_links) AND !empty($status)) {
-            $titanium_db2->sql_query("UPDATE ".$network_prefix."_banner_plans SET active='$status', name='$name', description='$description', delivery='$delivery', delivery_type='$type', buy_links='$buy_links', price='$price' WHERE pid='$pid'");
+            $pnt_db2->sql_query("UPDATE ".$network_prefix."_banner_plans SET active='$status', name='$name', description='$description', delivery='$delivery', delivery_type='$type', buy_links='$buy_links', price='$price' WHERE pid='$pid'");
             redirect_titanium($admin_file.'.php?op=ad_network_plans');
             exit;
         } else {
@@ -1174,10 +1174,10 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function ad_network_plans_delete($pid, $ok=0) {
-        global $network_prefix, $titanium_db2, $admin_file, $ad_admin_menu;
+        global $network_prefix, $pnt_db2, $admin_file, $ad_admin_menu;
 
         if ($ok == 1) {
-            $titanium_db2->sql_query("DELETE FROM ".$network_prefix."_banner_plans WHERE pid='$pid'");
+            $pnt_db2->sql_query("DELETE FROM ".$network_prefix."_banner_plans WHERE pid='$pid'");
             redirect_titanium($admin_file.'.php?op=ad_network_plans');
             exit;
         } else {
@@ -1193,7 +1193,7 @@ if(is_mod_admin($pnt_module)) {
             CloseTable();
             echo "<br />";
             OpenTable();
-            $row = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_plans WHERE pid='$pid'"));
+            $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_plans WHERE pid='$pid'"));
             echo "<center><strong>"._DELETEPLAN.": ".$row['name']."</strong><br /><br />"
                 .""._SURETODELPLAN."<br /><br />"
                 ."[ <a href=\"".$admin_file.".php?op=ad_network_plans\">"._NO."</a> | <a href=\"".$admin_file.".php?op=ad_network_plans_delete&amp;pid=$pid&amp;ok=1\">"._YES."</a> ]</center>";
@@ -1203,7 +1203,7 @@ if(is_mod_admin($pnt_module)) {
     }
 
     function ad_network_plans_status($pid, $status) {
-        global $network_prefix, $titanium_db2, $admin_file;
+        global $network_prefix, $pnt_db2, $admin_file;
 
         if ($status == 1) {
             $active = 0;
@@ -1211,7 +1211,7 @@ if(is_mod_admin($pnt_module)) {
             $active = 1;
         }
         $pid = intval($pid);
-        $titanium_db2->sql_query("UPDATE ".$network_prefix."_banner_plans SET active='$active' WHERE pid='$pid'");
+        $pnt_db2->sql_query("UPDATE ".$network_prefix."_banner_plans SET active='$active' WHERE pid='$pid'");
         redirect_titanium($admin_file.'.php?op=ad_network_plans');
     }
 

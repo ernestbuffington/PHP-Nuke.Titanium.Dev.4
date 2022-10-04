@@ -107,9 +107,9 @@ $nsnst_const['remote_ip'] = "none";
 if (!nsnst_valid_ip($nsnst_const['remote_addr'])) 
 $nsnst_const['remote_addr'] = "none"; 
 
-if(isset($titanium_user) && is_array($titanium_user)): 
-  $titanium_user = implode(":", $titanium_user);
-  $titanium_user = base64_encode($titanium_user);
+if(isset($pnt_user) && is_array($pnt_user)): 
+  $pnt_user = implode(":", $pnt_user);
+  $pnt_user = base64_encode($pnt_user);
 endif;
 
 $uinfo = (isset($userinfo)) ? $userinfo : null;
@@ -131,14 +131,14 @@ endif;
 
 // Load Blocker Arrays
 if(($blocker_array = $cache->load('blockers', 'sentinel')) === false):
-	$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blockers` ORDER BY `blocker`");
-	$num_rows = $titanium_db->sql_numrows($result);
+	$result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blockers` ORDER BY `blocker`");
+	$num_rows = $pnt_db->sql_numrows($result);
 	for ($i = 0; $i < $num_rows; $i++):
-		$row = $titanium_db->sql_fetchrow($result);
+		$row = $pnt_db->sql_fetchrow($result);
 		$blockernametemp = $row['block_name'];
 		$blocker_array[$blockernametemp] = $row;
 	endfor;
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 	$cache->save('blockers', 'sentinel', $blocker_array);
 endif;
 
@@ -207,9 +207,9 @@ $cleartime = strtotime(date("Y-m-d 23:59:59", $nsnst_const['ban_time'])) - 86400
 
 if($ab_config['self_expire'] == 1 AND $ab_config['blocked_clear'] < $cleartime):
   
-  $clearresult = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE (`expires`<'$clearedtime' AND `expires`!='0')");
+  $clearresult = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE (`expires`<'$clearedtime' AND `expires`!='0')");
   
-  while($clearblock = $titanium_db->sql_fetchrow($clearresult)):
+  while($clearblock = $pnt_db->sql_fetchrow($clearresult)):
 	
 	if(!empty($ab_config['htaccess_path'])):
 	  $ipfile = file($ab_config['htaccess_path']);
@@ -229,15 +229,15 @@ if($ab_config['self_expire'] == 1 AND $ab_config['blocked_clear'] < $cleartime):
 	  @fclose($doit);
 	endif;
 	
-	$titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='".$clearblock['ip_addr']."'");
-	$titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_blocked_ips`");
+	$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='".$clearblock['ip_addr']."'");
+	$pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_blocked_ips`");
   
   endwhile;
   
-  $titanium_db->sql_freeresult($clearblock);
-  $clearresult = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges` WHERE (`expires`<'$clearedtime' AND `expires`!='0')");
+  $pnt_db->sql_freeresult($clearblock);
+  $clearresult = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ranges` WHERE (`expires`<'$clearedtime' AND `expires`!='0')");
   
-  while($clearblock = $titanium_db->sql_fetchrow($clearresult)):
+  while($clearblock = $pnt_db->sql_fetchrow($clearresult)):
 	
 	$old_masscidr = ABGetCIDRs($clearblock['ip_lo'], $clearblock['ip_hi']);
 	
@@ -259,13 +259,13 @@ if($ab_config['self_expire'] == 1 AND $ab_config['blocked_clear'] < $cleartime):
 	  @fclose($doit);
 	endif;
 
-	$titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_blocked_ranges` WHERE `ip_lo`='".$clearblock['ip_lo']."' AND `ip_hi`='".$clearblock['ip_hi']."'");
-	$titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_blocked_ranges`");
+	$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_blocked_ranges` WHERE `ip_lo`='".$clearblock['ip_lo']."' AND `ip_hi`='".$clearblock['ip_hi']."'");
+	$pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_blocked_ranges`");
   
   endwhile;
   
-  $titanium_db->sql_freeresult($clearblock);
-  $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_config` SET `config_value`='$clearedtime' WHERE `config_name`='blocked_clear'");
+  $pnt_db->sql_freeresult($clearblock);
+  $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_config` SET `config_value`='$clearedtime' WHERE `config_name`='blocked_clear'");
 
 endif;
 
@@ -498,16 +498,16 @@ if($ab_config['track_active'] == 1 AND !is_excluded($nsnst_const['remote_ip'])):
 
   if($pg != "/rss.php" AND $pg != '/modules.php' AND !stristr($pg, "op=gfx")): 
   
-	$result = $titanium_db->sql_query("SELECT ip_lo FROM `".$titanium_prefix."_nsnst_ip2country` LIMIT 0,1");
-	$checkrow = $titanium_db->sql_numrows($result);
-	$titanium_db->sql_freeresult($result);
+	$result = $pnt_db->sql_query("SELECT ip_lo FROM `".$pnt_prefix."_nsnst_ip2country` LIMIT 0,1");
+	$checkrow = $pnt_db->sql_numrows($result);
+	$pnt_db->sql_freeresult($result);
 	
 	if($checkrow > 0): 
-	  $tresult = $titanium_db->sql_query("SELECT `c2c` FROM `".$titanium_prefix."_nsnst_ip2country` WHERE `ip_lo`<='".$nsnst_const['remote_long']."' AND `ip_hi`>='".$nsnst_const['remote_long']."'");
-	  $checkrow = $titanium_db->sql_numrows($tresult);
+	  $tresult = $pnt_db->sql_query("SELECT `c2c` FROM `".$pnt_prefix."_nsnst_ip2country` WHERE `ip_lo`<='".$nsnst_const['remote_long']."' AND `ip_hi`>='".$nsnst_const['remote_long']."'");
+	  $checkrow = $pnt_db->sql_numrows($tresult);
 	  if($checkrow > 0) 
-		list($c2c) = $titanium_db->sql_fetchrow($tresult);
-	   $titanium_db->sql_freeresult($tresult);
+		list($c2c) = $pnt_db->sql_fetchrow($tresult);
+	   $pnt_db->sql_freeresult($tresult);
 	endif;
 	
 	if(!isset($c2c)) $c2c = "00"; 
@@ -520,10 +520,10 @@ if($ab_config['track_active'] == 1 AND !is_excluded($nsnst_const['remote_ip'])):
 		$ban_username2 = $nsnst_const['ban_username'];
 	endif;
 
-	$titanium_user_agent = $nsnst_const['user_agent'];
+	$pnt_user_agent = $nsnst_const['user_agent'];
 
 	$refered_from = htmlentities ($nsnst_const['referer'], ENT_QUOTES);
-	$titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_nsnst_tracked_ips` (`user_id`, 
+	$pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_nsnst_tracked_ips` (`user_id`, 
 	                                                            `username`, 
 																    `date`, 
 																 `ip_addr`, 
@@ -542,7 +542,7 @@ if($ab_config['track_active'] == 1 AND !is_excluded($nsnst_const['remote_ip'])):
 										   '".addslashes($nsnst_const['ban_time'])."', 
 										  '".addslashes($nsnst_const['remote_ip'])."', 
 										'".addslashes($nsnst_const['remote_long'])."', 
-								 '".addslashes($pg)."', '".addslashes($titanium_user_agent)."', 
+								 '".addslashes($pg)."', '".addslashes($pnt_user_agent)."', 
 								                                      '$refered_from', 
 										 '".addslashes($nsnst_const['forward_ip'])."', 
 										  '".addslashes($nsnst_const['client_ip'])."', 
@@ -550,16 +550,16 @@ if($ab_config['track_active'] == 1 AND !is_excluded($nsnst_const['remote_ip'])):
 										'".addslashes($nsnst_const['remote_port'])."', 
 									 '".addslashes($nsnst_const['request_method'])."', 
 									                                        '$c2c')");
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
 	$clearedtime = strtotime(date("Y-m-d", $nsnst_const['ban_time']));
 	$cleartime = strtotime(date("Y-m-d", $nsnst_const['ban_time']));
 	
 	if($ab_config['track_max'] > 0 AND $ab_config['track_clear'] < $cleartime): 
 	  $ab_config['track_del'] = $cleartime - $ab_config['track_max'];
-	  $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `date` < ".$ab_config['track_del']);
-	  $result = $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_config` SET `config_value`='".$clearedtime."' WHERE `config_name`='track_clear'");
-	  $titanium_db->sql_freeresult($result);
-	  $titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_tracked_ips`");
+	  $pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `date` < ".$ab_config['track_del']);
+	  $result = $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_config` SET `config_value`='".$clearedtime."' WHERE `config_name`='track_clear'");
+	  $pnt_db->sql_freeresult($result);
+	  $pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_tracked_ips`");
 	endif;
   endif;
 endif;
@@ -1069,58 +1069,58 @@ function get_remote_addr ()
 
 function clear_session()
 {
-  global $titanium_prefix, $titanium_db, $nsnst_const;
+  global $pnt_prefix, $pnt_db, $nsnst_const;
   // Clear nuke_session location
   $x_forwarded = $nsnst_const['forward_ip'];
-  $titanium_client_ip = $nsnst_const['client_ip'];
+  $pnt_client_ip = $nsnst_const['client_ip'];
   $remote_addr = $nsnst_const['remote_addr'];
-  $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_session` WHERE `host_addr`='$x_forwarded' OR `host_addr`='$titanium_client_ip' OR `host_addr`='$remote_addr'");
+  $pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_session` WHERE `host_addr`='$x_forwarded' OR `host_addr`='$pnt_client_ip' OR `host_addr`='$remote_addr'");
   // Clear nuke_bbsessions location
   $x_f = explode(".", $x_forwarded);
   $x_forwarded = str_pad(dechex($x_f[0]), 2, "0", STR_PAD_LEFT).str_pad(dechex($x_f[1]), 2, "0", STR_PAD_LEFT).str_pad(dechex($x_f[2]), 2, "0", STR_PAD_LEFT).str_pad(dechex($x_f[3]), 2, "0", STR_PAD_LEFT);
-  $c_p = explode(".", $titanium_client_ip);
-  $titanium_client_ip = str_pad(dechex($c_p[0]), 2, "0", STR_PAD_LEFT).str_pad(dechex($c_p[1]), 2, "0", STR_PAD_LEFT).str_pad(dechex($c_p[2]), 2, "0", STR_PAD_LEFT).str_pad(dechex($c_p[3]), 2, "0", STR_PAD_LEFT);
+  $c_p = explode(".", $pnt_client_ip);
+  $pnt_client_ip = str_pad(dechex($c_p[0]), 2, "0", STR_PAD_LEFT).str_pad(dechex($c_p[1]), 2, "0", STR_PAD_LEFT).str_pad(dechex($c_p[2]), 2, "0", STR_PAD_LEFT).str_pad(dechex($c_p[3]), 2, "0", STR_PAD_LEFT);
   $r_a = explode(".", $remote_addr);
   $remote_addr = str_pad(dechex($r_a[0]), 2, "0", STR_PAD_LEFT).str_pad(dechex($r_a[1]), 2, "0", STR_PAD_LEFT).str_pad(dechex($r_a[2]), 2, "0", STR_PAD_LEFT).str_pad(dechex($r_a[3]), 2, "0", STR_PAD_LEFT);
-  $titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_bbsessions` WHERE `session_ip`='$x_forwarded' OR `session_ip`='$titanium_client_ip' OR `session_ip`='$remote_addr'");
+  $pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_bbsessions` WHERE `session_ip`='$x_forwarded' OR `session_ip`='$pnt_client_ip' OR `session_ip`='$remote_addr'");
 }
 
 function is_excluded($rangeip)
 {
-  global $titanium_prefix, $titanium_db;
+  global $pnt_prefix, $pnt_db;
   $longip = sprintf("%u", ip2long($rangeip));
-  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_excluded_ranges` WHERE `ip_lo`<='$longip' AND `ip_hi`>='$longip'");
-  $excludenum = $titanium_db->sql_fetchrow($result);
-  $titanium_db->sql_freeresult($result);
+  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_excluded_ranges` WHERE `ip_lo`<='$longip' AND `ip_hi`>='$longip'");
+  $excludenum = $pnt_db->sql_fetchrow($result);
+  $pnt_db->sql_freeresult($result);
   if($excludenum > 0) { return 1; } else { return 0; }
   return 0;
 }
 
 function is_protected($rangeip)
 {
-  global $titanium_prefix, $titanium_db;
+  global $pnt_prefix, $pnt_db;
   $longip = sprintf("%u", ip2long($rangeip));
-  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_protected_ranges` WHERE `ip_lo`<='$longip' AND `ip_hi`>='$longip'");
-  $protectnum = $titanium_db->sql_fetchrow($result);
-  $titanium_db->sql_freeresult($result);
+  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_protected_ranges` WHERE `ip_lo`<='$longip' AND `ip_hi`>='$longip'");
+  $protectnum = $pnt_db->sql_fetchrow($result);
+  $pnt_db->sql_freeresult($result);
   if($protectnum > 0) { return 1; } else { return 0; }
   return 0;
 }
 
 function is_reserved($rangeip) 
 {
-  global $titanium_db, $titanium_prefix;
+  global $pnt_db, $pnt_prefix;
   $rangelong = sprintf("%u", ip2long($rangeip));
-  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_ip2country` WHERE (`ip_lo`<='$rangelong' AND `ip_hi`>='$rangelong') AND `c2c`='01'");
-  $rangenum = $titanium_db->sql_numrows($result);
-  $titanium_db->sql_freeresult($result);
+  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_ip2country` WHERE (`ip_lo`<='$rangelong' AND `ip_hi`>='$rangelong') AND `c2c`='01'");
+  $rangenum = $pnt_db->sql_numrows($result);
+  $pnt_db->sql_freeresult($result);
   if($rangenum > 0) { return 1; } else { return 0; }
   return 0;
 }
 
 function abget_blocked($remoteip)
 {
-  global $titanium_prefix, $titanium_db;
+  global $pnt_prefix, $pnt_db;
   static $blocked_row;
   if(isset($blocked_row)) { return $blocked_row; }
   $ip = explode(".", '$remoteip');
@@ -1132,37 +1132,37 @@ function abget_blocked($remoteip)
   $testip2 = "$ip[0].$ip[1].*.*";
   $testip3 = "$ip[0].$ip[1].$ip[2].*";
   $testip4 = "$ip[0].$ip[1].$ip[2].$ip[3]";
-  $blocked_result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_addr` = '$testip1' OR `ip_addr` = '$testip2' OR `ip_addr` = '$testip3' OR `ip_addr` = '$testip4'");
-  $blocked_row = $titanium_db->sql_fetchrow($blocked_result);
-  $titanium_db->sql_freeresult($blocked_result);
+  $blocked_result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE `ip_addr` = '$testip1' OR `ip_addr` = '$testip2' OR `ip_addr` = '$testip3' OR `ip_addr` = '$testip4'");
+  $blocked_row = $pnt_db->sql_fetchrow($blocked_result);
+  $pnt_db->sql_freeresult($blocked_result);
   return $blocked_row;
 }
 
 function abget_blockedrange($remoteip)
 {
-  global $titanium_prefix, $titanium_db;
+  global $pnt_prefix, $pnt_db;
   static $blockedrange_row;
   if (isset($blockedrange_row)) 
   return $blockedrange_row; 
   $longip = sprintf("%u", ip2long($remoteip));
-  $blockedrange_result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ranges` WHERE `ip_lo`<='$longip' AND `ip_hi`>='$longip'");
-  $blockedrange_row = $titanium_db->sql_fetchrow($blockedrange_result);
-  $titanium_db->sql_freeresult($blockedrange_result);
+  $blockedrange_result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ranges` WHERE `ip_lo`<='$longip' AND `ip_hi`>='$longip'");
+  $blockedrange_row = $pnt_db->sql_fetchrow($blockedrange_result);
+  $pnt_db->sql_freeresult($blockedrange_result);
   return $blockedrange_row;
 }
 
 function abget_blocker($blocker_name)
 {
-	global $titanium_prefix, $titanium_db, $cache;
+	global $pnt_prefix, $pnt_db, $cache;
 	if(($blocker_array = $cache->load('blockers', 'sentinel')) === false):
-		$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blockers` ORDER BY `blocker`");
-		$num_rows = $titanium_db->sql_numrows($result);
+		$result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blockers` ORDER BY `blocker`");
+		$num_rows = $pnt_db->sql_numrows($result);
 		for ($i = 0; $i < $num_rows; $i++):
-			$row = $titanium_db->sql_fetchrow($result);
+			$row = $pnt_db->sql_fetchrow($result);
 			$blockernametemp = $row['block_name'];
 			$blocker_array[$blockernametemp] = $row;
 		endfor;
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
 		$cache->save('blockers', 'sentinel', $blocker_array);
 	endif;
 	return $blocker_array[$blocker_name];
@@ -1170,44 +1170,44 @@ function abget_blocker($blocker_name)
 
 function abget_blockerrow($reason)
 {
-  global $titanium_prefix, $titanium_db, $cache;
+  global $pnt_prefix, $pnt_db, $cache;
   if(($blocker_row = $cache->load($reason, 'sentinel')) === false):
-	  $blockerresult = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blockers` WHERE `blocker`='$reason'");
-	  $blocker_row = $titanium_db->sql_fetchrow($blockerresult);
+	  $blockerresult = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blockers` WHERE `blocker`='$reason'");
+	  $blocker_row = $pnt_db->sql_fetchrow($blockerresult);
 	  $cache->save($reason, 'sentinel', $blocker_row);
-	  $titanium_db->sql_freeresult($blockerresult);
+	  $pnt_db->sql_freeresult($blockerresult);
   endif;
   return $blocker_row;
 }
 
 function abget_admin($author)
 {
-  global $titanium_prefix, $titanium_db;
+  global $pnt_prefix, $pnt_db;
   if (preg_match(REGEX_UNION, $author)) 
   block_ip($blocker_array[1]); 
   if (preg_match(REGEX_UNION, base64_decode($author))) 
   block_ip($blocker_array[1]); 
-  $author = $titanium_db->sql_escapestring($author);
-  $adminresult = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_admins` WHERE `aid`='$author'");
-  $admin_row = $titanium_db->sql_fetchrow($adminresult);
-  $titanium_db->sql_freeresult($adminresult);
+  $author = $pnt_db->sql_escapestring($author);
+  $adminresult = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_admins` WHERE `aid`='$author'");
+  $admin_row = $pnt_db->sql_fetchrow($adminresult);
+  $pnt_db->sql_freeresult($adminresult);
   return $admin_row;
 }
 
 function abget_config($config_name)
 {
-  global $titanium_prefix, $titanium_db;
+  global $pnt_prefix, $pnt_db;
   static $abget_config;
   if (isset($abget_config)) { return $abget_config; }
-  $configresult = $titanium_db->sql_query("SELECT `config_value` FROM `".$titanium_prefix."_nsnst_config` WHERE `config_name`='$config_name'");
-  list($abget_config) = $titanium_db->sql_fetchrow($configresult);
-  $titanium_db->sql_freeresult($configresult);
+  $configresult = $pnt_db->sql_query("SELECT `config_value` FROM `".$pnt_prefix."_nsnst_config` WHERE `config_name`='$config_name'");
+  list($abget_config) = $pnt_db->sql_fetchrow($configresult);
+  $pnt_db->sql_freeresult($configresult);
   return $abget_config;
 }
 
 function abget_configs()
 {
-  global $titanium_prefix, $titanium_db, $cache;
+  global $pnt_prefix, $pnt_db, $cache;
   static $sentinel;
   if(isset($sentinel)) return $sentinel;
 /*****[BEGIN]******************************************
@@ -1217,11 +1217,11 @@ function abget_configs()
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-	  $configresult = $titanium_db->sql_query("SELECT `config_name`, `config_value` FROM `".$titanium_prefix."_nsnst_config`");
-	  while (list($config_name, $config_value) = $titanium_db->sql_fetchrow($configresult)):
+	  $configresult = $pnt_db->sql_query("SELECT `config_name`, `config_value` FROM `".$pnt_prefix."_nsnst_config`");
+	  while (list($config_name, $config_value) = $pnt_db->sql_fetchrow($configresult)):
 		$sentinel[$config_name] = $config_value;
 	  endwhile;
-	  $titanium_db->sql_freeresult($configresult);
+	  $pnt_db->sql_freeresult($configresult);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -1235,16 +1235,16 @@ function abget_configs()
 
 function abget_reason($reason_id)
 {
-  global $titanium_prefix, $titanium_db;
-  $reasonresult = $titanium_db->sql_query("SELECT `reason` FROM `".$titanium_prefix."_nsnst_blockers` WHERE `blocker`='$reason_id'");
-  list($reason) = $titanium_db->sql_fetchrow($reasonresult);
-  $titanium_db->sql_freeresult($reasonresult);
+  global $pnt_prefix, $pnt_db;
+  $reasonresult = $pnt_db->sql_query("SELECT `reason` FROM `".$pnt_prefix."_nsnst_blockers` WHERE `blocker`='$reason_id'");
+  list($reason) = $pnt_db->sql_fetchrow($reasonresult);
+  $pnt_db->sql_freeresult($reasonresult);
   return $reason;
 }
 
 function write_ban($banip, $htip, $blocker_row) 
 {
-  global $ab_config, $titanium_db, $titanium_prefix, $admin, $nsnst_const;
+  global $ab_config, $pnt_db, $pnt_prefix, $admin, $nsnst_const;
   if(isset($admin) && !empty($admin)):
 	  $abadmin = st_clean_string(base64_decode($admin));
 	  if (preg_match(REGEX_UNION, $abadmin)) 
@@ -1285,9 +1285,9 @@ function write_ban($banip, $htip, $blocker_row)
 	  $querystring = base64_encode($query_url);
 	  $getstring = base64_encode($get_url);
 	  $phpbb2_poststring = base64_encode($post_url);
-	  $checkrow = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_ip2country`"));
+	  $checkrow = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_ip2country`"));
 	  if($checkrow > 0):
-		 list($c2c) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `c2c` FROM `".$titanium_prefix."_nsnst_ip2country` WHERE `ip_lo`<='".$nsnst_const['remote_long']."' AND `ip_hi`>='".$nsnst_const['remote_long']."'"));
+		 list($c2c) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `c2c` FROM `".$pnt_prefix."_nsnst_ip2country` WHERE `ip_lo`<='".$nsnst_const['remote_long']."' AND `ip_hi`>='".$nsnst_const['remote_long']."'"));
 	  endif;
 	 
 	  if(!$c2c) 
@@ -1295,7 +1295,7 @@ function write_ban($banip, $htip, $blocker_row)
 	  
 	  $bantemp = str_replace("*", "0", $banip);
 	  $banlong = sprintf("%u", ip2long($bantemp));
-	  $titanium_db->sql_query("INSERT INTO `".$titanium_prefix."_nsnst_blocked_ips` VALUES ('$banip', '$banlong', '".addslashes($nsnst_const['ban_user_id'])."', '$ban_username', '".addslashes($titanium_user_agent)."', '".addslashes($nsnst_const['ban_time'])."', '$addby', '".addslashes($blocker_row['blocker'])."', '$querystring', '$getstring', '$phpbb2_poststring', '".addslashes($nsnst_const['forward_ip'])."', '".addslashes($nsnst_const['client_ip'])."', '".addslashes($nsnst_const['remote_addr'])."', '".addslashes($nsnst_const['remote_port'])."', '".addslashes($nsnst_const['request_method'])."', '$abexpires', '$c2c')");
+	  $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_nsnst_blocked_ips` VALUES ('$banip', '$banlong', '".addslashes($nsnst_const['ban_user_id'])."', '$ban_username', '".addslashes($pnt_user_agent)."', '".addslashes($nsnst_const['ban_time'])."', '$addby', '".addslashes($blocker_row['blocker'])."', '$querystring', '$getstring', '$phpbb2_poststring', '".addslashes($nsnst_const['forward_ip'])."', '".addslashes($nsnst_const['client_ip'])."', '".addslashes($nsnst_const['remote_addr'])."', '".addslashes($nsnst_const['remote_port'])."', '".addslashes($nsnst_const['request_method'])."', '$abexpires', '$c2c')");
 	  if (!empty($ab_config['htaccess_path']) AND $blocker_row['htaccess'] > 0 AND file_exists($ab_config['htaccess_path'])): 
 		$ipfile = file($ab_config['htaccess_path']);
 		$ipfile = implode("", $ipfile);
@@ -1311,7 +1311,7 @@ function write_ban($banip, $htip, $blocker_row)
 
 function write_mail($banip, $blocker_row, $abmatch="") 
 {
-  global $ab_config, $nuke_config, $titanium_db, $titanium_prefix, $titanium_user_prefix, $nsnst_const;
+  global $ab_config, $nuke_config, $pnt_db, $pnt_prefix, $pnt_user_prefix, $nsnst_const;
 
   if($blocker_row['activate'] > 0 AND $blocker_row['activate'] < 6): 
   
@@ -1400,15 +1400,15 @@ function write_mail($banip, $blocker_row, $abmatch="")
 
 function block_ip($blocker_row, $abmatch="") 
 {
-  global $ab_config, $nuke_config, $titanium_db, $titanium_prefix, $titanium_user_prefix, $nsnst_const;
+  global $ab_config, $nuke_config, $pnt_db, $pnt_prefix, $pnt_user_prefix, $nsnst_const;
   if(!is_protected($nsnst_const['remote_ip'])):
 	$ip = explode(".", $nsnst_const['remote_ip']);
 	clear_session();
 	$nsnst_const['ban_ip'] = "$ip[0].$ip[1].$ip[2].$ip[3]";
 	$testip1 = "$ip[0].*.*.*";
 	$testip1p = "deny from $ip[0]\n";
-	$resultag1 = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$testip1'");
-	$numag1 = $titanium_db->sql_numrows($resultag1);
+	$resultag1 = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$testip1'");
+	$numag1 = $pnt_db->sql_numrows($resultag1);
 	if ($numag1 == 0 AND $blocker_row['block_type'] == 3):
 	  write_mail($testip1, $blocker_row, $abmatch);
 	  write_ban($testip1, $testip1p, $blocker_row);
@@ -1416,8 +1416,8 @@ function block_ip($blocker_row, $abmatch="")
 	elseif ($numag1 == 0 AND $blocker_row['block_type'] < 3):
 	  $testip2 = "$ip[0].$ip[1].*.*";
 	  $testip2p = "deny from $ip[0].$ip[1]\n";
-	  $resultag2 = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$testip2'");
-	  $numag2 = $titanium_db->sql_numrows($resultag2);
+	  $resultag2 = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$testip2'");
+	  $numag2 = $pnt_db->sql_numrows($resultag2);
 	  if ($numag2 == 0 AND $blocker_row['block_type'] == 2):
 		write_mail($testip2, $blocker_row, $abmatch);
 		write_ban($testip2, $testip2p, $blocker_row);
@@ -1425,8 +1425,8 @@ function block_ip($blocker_row, $abmatch="")
 	  elseif ($numag2 == 0 AND $blocker_row['block_type'] < 2):
 		$testip3 = "$ip[0].$ip[1].$ip[2].*";
 		$testip3p = "deny from $ip[0].$ip[1].$ip[2]\n";
-		$resultag3 = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$testip3'");
-		$numag3 = $titanium_db->sql_numrows($resultag3);
+		$resultag3 = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$testip3'");
+		$numag3 = $pnt_db->sql_numrows($resultag3);
 		if ($numag3 == 0 AND $blocker_row['block_type'] == 1):
 		  write_mail($testip3, $blocker_row, $abmatch);
 		  write_ban($testip3, $testip3p, $blocker_row);
@@ -1434,8 +1434,8 @@ function block_ip($blocker_row, $abmatch="")
 		elseif ($numag3 == 0 AND $blocker_row['block_type'] < 1):
 		  $testip4 = "$ip[0].$ip[1].$ip[2].$ip[3]";
 		  $testip4p = "deny from $ip[0].$ip[1].$ip[2].$ip[3]\n";
-		  $resultag4 = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$testip4'");
-		  $numag4 = $titanium_db->sql_numrows($resultag4);
+		  $resultag4 = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$testip4'");
+		  $numag4 = $pnt_db->sql_numrows($resultag4);
 		  if ($numag4 == 0 AND $blocker_row['block_type'] == 0):
 			write_mail($testip4, $blocker_row, $abmatch);
 			write_ban($testip4, $testip4p, $blocker_row);
@@ -1454,7 +1454,7 @@ function block_ip($blocker_row, $abmatch="")
 
 function is_god($admin) 
 {
-  global $titanium_db, $titanium_prefix, $aname;
+  global $pnt_db, $pnt_prefix, $aname;
   static $GodSave;
   if(isset($GodSave)) return $GodSave;
   $tmpadm = st_clean_string(base64_decode($admin));
@@ -1478,7 +1478,7 @@ function is_god($admin)
 	$aname = trim($aname);
 	$apwd = trim($apwd);
 	$aname = Fix_Quotes($aname);
-	$admrow = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_authors` WHERE `aid`='$aname'"));
+	$admrow = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_authors` WHERE `aid`='$aname'"));
 	//if((strtolower($admrow['name']) == "god" OR $admrow['radminsuper'] == 1) AND $admrow['pwd']==$apwd) { return $GodSave = 1; }
 	if(strtolower($admrow['name']) == "god" AND $admrow['pwd']==$apwd) { return $GodSave = 1; }
   endif;
@@ -1488,7 +1488,7 @@ function is_god($admin)
 
 function abget_template($phpbb2_template="") 
 {
-  global $sitename, $adminmail, $ab_config, $nsnst_const, $titanium_db, $titanium_prefix, $ip, $abmatch;
+  global $sitename, $adminmail, $ab_config, $nsnst_const, $pnt_db, $pnt_prefix, $ip, $abmatch;
   if (!empty($phpbb2_template) && preg_match('/\.php/', $phpbb2_template)) $phpbb2_template = '';
   if(empty($phpbb2_template)) { $phpbb2_template = "abuse_default.tpl"; }
   //$sitename = $nuke_config['sitename'];
@@ -1531,7 +1531,7 @@ function abget_template($phpbb2_template="")
 
 function blocked($blocked_row="", $blocker_row="") 
 {
-  global $nuke_config, $ab_config, $nsnst_const, $titanium_db, $titanium_prefix;
+  global $nuke_config, $ab_config, $nsnst_const, $pnt_db, $pnt_prefix;
   $ip = explode(".", $nsnst_const['remote_ip']);
   if(!$nsnst_const['ban_time'] OR empty($nsnst_const['ban_time'])) 
   $nsnst_const['ban_time'] = time(); 
@@ -1579,7 +1579,7 @@ function blocked($blocked_row="", $blocker_row="")
 
 function blockedrange($blockedrange_row="") 
 {
-  global $nuke_config, $ab_config, $nsnst_const, $titanium_db, $titanium_prefix;
+  global $nuke_config, $ab_config, $nsnst_const, $pnt_db, $pnt_prefix;
   $ip = explode(".", $nsnst_const['remote_ip']);
   
   if(!$nsnst_const['ban_time'] OR empty($nsnst_const['ban_time'])) 
@@ -1621,11 +1621,11 @@ function blockedrange($blockedrange_row="")
 
 function ABGetCIDRs($long_lo, $long_hi) 
 {
-  global $masscidr, $titanium_prefix, $titanium_db;
+  global $masscidr, $pnt_prefix, $pnt_db;
   $chosts = ($long_hi - $long_lo) + 1;
-  $testrst = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_cidrs` ORDER BY `hosts` DESC");
+  $testrst = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_cidrs` ORDER BY `hosts` DESC");
   $cidrs = $hosts = $masks = "";
-  while($test = $titanium_db->sql_fetchrow($testrst)):
+  while($test = $pnt_db->sql_fetchrow($testrst)):
 	if($chosts >= $test['hosts']):
 	  $cidrs = $test['cidr']."||".$cidrs;
 	  $hosts = $test['hosts']."||".$hosts;
@@ -1776,17 +1776,17 @@ function PMA_auth_check()
 /*********************************************************************************************/
 if(ini_get("register_globals")):
   $sapi_name = strtolower(php_sapi_name());
-  $apass = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_admins` WHERE `password_md5`=''"));
+  $apass = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_admins` WHERE `password_md5`=''"));
   if($apass > 0 AND $ab_config['http_auth'] == 1):
 	require_once(NUKE_ADMIN_MODULE_DIR."nukesentinel/functions.php");
 	absave_config("http_auth",'0');
-	$titanium_db->sql_freeresult($apass);
+	$pnt_db->sql_freeresult($apass);
   endif;
   if($ab_config['http_auth'] == 1 AND strpos($sapi_name,"cgi")===FALSE):
 	if (basename($_SERVER['PHP_SELF'], '.php')==$admin_file):
 	  $allowPassageToAdmin = FALSE;
-	  $authresult = $titanium_db->sql_query("SELECT `login`, `password_md5` FROM `".$titanium_prefix."_nsnst_admins`");
-	  while ($getauth = $titanium_db->sql_fetchrow($authresult)):
+	  $authresult = $pnt_db->sql_query("SELECT `login`, `password_md5` FROM `".$pnt_prefix."_nsnst_admins`");
+	  while ($getauth = $pnt_db->sql_fetchrow($authresult)):
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/

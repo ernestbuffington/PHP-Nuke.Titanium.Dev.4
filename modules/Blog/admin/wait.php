@@ -32,7 +32,7 @@
  ************************************************************************/
 if(!defined('NUKE_EVO')) exit;
 
-global $admin_file, $titanium_db, $titanium_prefix, $cache;
+global $admin_file, $pnt_db, $pnt_prefix, $cache;
 
 if(is_active('Submit_Blog')) 
 {
@@ -40,7 +40,7 @@ if(is_active('Submit_Blog'))
 
     if(($numwaits = $cache->load('numwaits', 'submissions')) === false) 
 	{
-        list($numwaits) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT COUNT(*) FROM ".$titanium_prefix."_queue"), SQL_NUM);
+        list($numwaits) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT COUNT(*) FROM ".$pnt_prefix."_queue"), SQL_NUM);
         $cache->save('numwaits', 'submissions', $numwaits);
     }
     

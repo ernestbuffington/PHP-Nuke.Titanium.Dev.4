@@ -39,7 +39,7 @@ include('includes/functions_post.'. $phpEx);
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_POSTING, $nukeuser);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_POSTING, $nukeuser);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -63,10 +63,10 @@ $mode = $HTTP_GET_VARS['mode'];
 
 if($mode == "z")
 {
-$titanium_user_allow_arcadepm = intval($HTTP_POST_VARS['user_allow_arcadepm']);
+$pnt_user_allow_arcadepm = intval($HTTP_POST_VARS['user_allow_arcadepm']);
 
-$sql = "UPDATE " . USERS_TABLE. " SET user_allow_arcadepm = '$titanium_user_allow_arcadepm' WHERE user_id =  " . $userdata['user_id'];
-        if( !($result = $titanium_db->sql_query($sql)))
+$sql = "UPDATE " . USERS_TABLE. " SET user_allow_arcadepm = '$pnt_user_allow_arcadepm' WHERE user_id =  " . $userdata['user_id'];
+        if( !($result = $pnt_db->sql_query($sql)))
             {
             message_die(GENERAL_ERROR, "Error updating selection", '', __LINE__, __FILE__, $sql);
             }
@@ -85,22 +85,22 @@ if($mode == "update")
             //Checks to make sure the user has privledge to enter highscores.
             //This query checks the user_id stored in the users cookie and in the database.
             //If they don't match, the comments is not entered and error message is displayed.
-            $titanium_user_id = $userdata['user_id'];
+            $pnt_user_id = $userdata['user_id'];
             $sql = "SELECT game_highuser FROM " . GAMES_TABLE. " WHERE game_id = $game_id";
 
-                if( !($result = $titanium_db->sql_query($sql)))
+                if( !($result = $pnt_db->sql_query($sql)))
             {
             message_die(GENERAL_ERROR, "Error Authenticating User", '', __LINE__, __FILE__, $sql);
             }
-            $row = $titanium_db->sql_fetchrow($result);
+            $row = $pnt_db->sql_fetchrow($result);
 
-            if($row['game_highuser'] != $titanium_user_id)
+            if($row['game_highuser'] != $pnt_user_id)
             {
             message_die(GENERAL_ERROR, "Error Authenticating User - Possible hack attempt!", '');
             }
             //Enters Comment into the DB
             $sql = "UPDATE " . COMMENTS_TABLE . " SET comments_value = '$comment_text' WHERE game_id = $game_id";
-            if( !$result = $titanium_db->sql_query($sql) )
+            if( !$result = $pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Couldn't insert row in comments table", "", __LINE__, __FILE__, $sql);
             }
@@ -122,12 +122,12 @@ if($mode == "submit")
 
     //Gets comments from database
     $sql = "SELECT g.game_id, g.game_name, c.* FROM " . GAMES_TABLE. " g LEFT JOIN " . COMMENTS_TABLE . " c ON g.game_id = c.game_id WHERE g.game_id = $game_id";
-    if( !($result = $titanium_db->sql_query($sql)) )
+    if( !($result = $pnt_db->sql_query($sql)) )
             {
             message_die(GENERAL_ERROR, "Error retrieving comment list", '', __LINE__, __FILE__, $sql);
             }
 
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
 
     $phpbb2_template->assign_vars(array(
             'L_ADD_EDIT_COMMENTS' => $lang['add_edit_comments'],
@@ -142,29 +142,29 @@ if($mode == "submit")
 
     //Gets Avatar based on user settings and other user stats
     $sql = "SELECT username, user_avatar_type, user_allowavatar, user_avatar FROM " . USERS_TABLE . " WHERE user_id = " . $userdata['user_id'] ;
-    if( !($result = $titanium_db->sql_query($sql)) )
+    if( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Cannot access the users table", '', __LINE__, __FILE__, $sql);
     }
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
 
-    $titanium_user_avatar_type = $row['user_avatar_type'];
-    $titanium_user_allowavatar = $row['user_allowavatar'];
-    $titanium_user_avatar = $row['user_avatar'];
+    $pnt_user_avatar_type = $row['user_avatar_type'];
+    $pnt_user_allowavatar = $row['user_allowavatar'];
+    $pnt_user_avatar = $row['user_avatar'];
     $avatar_img = '';
 
-    if ( $titanium_user_avatar_type && $titanium_user_allowavatar )
+    if ( $pnt_user_avatar_type && $pnt_user_allowavatar )
     {
-       switch( $titanium_user_avatar_type )
+       switch( $pnt_user_avatar_type )
        {
           case USER_AVATAR_UPLOAD:
-             $avatar_img = ( $phpbb2_board_config['allow_avatar_upload'] ) ? '<img src="' . $phpbb2_board_config['avatar_path'] . '/' . $titanium_user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center"/>' : '';
+             $avatar_img = ( $phpbb2_board_config['allow_avatar_upload'] ) ? '<img src="' . $phpbb2_board_config['avatar_path'] . '/' . $pnt_user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center"/>' : '';
              break;
           case USER_AVATAR_REMOTE:
-             $avatar_img = ( $phpbb2_board_config['allow_avatar_remote'] ) ? '<img src="' . $titanium_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
+             $avatar_img = ( $phpbb2_board_config['allow_avatar_remote'] ) ? '<img src="' . $pnt_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
              break;
           case USER_AVATAR_GALLERY:
-             $avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . $titanium_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
+             $avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . $pnt_user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
              break;
        }
 
@@ -178,23 +178,23 @@ if($mode == "submit")
     //Gets some user stats to display on the comment submission page
     $sql ="SELECT s.score_set, s.game_id, g.game_name FROM " . SCORES_TABLE. " s LEFT JOIN " . USERS_TABLE. " u ON s.user_id = u.user_id LEFT JOIN " . GAMES_TABLE. " g ON s.game_id = g.game_id WHERE s.user_id = " . $userdata['user_id'] . " ORDER BY score_set DESC LIMIT 1";
 
-    if( !($result = $titanium_db->sql_query($sql)) )
+    if( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Cannot access user stats to display", '', __LINE__, __FILE__, $sql);
     }
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
 
         $times_played = $row['score_set'];
         $fav_game_name = '<a href="' . append_titanium_sid("games.$phpEx?gid=" . $row['game_id']) . '">' . $row['game_name'] . '</a>';
 
 
     $sql="SELECT * FROM " .GAMES_TABLE ." WHERE game_highuser = " . $userdata['user_id'] . " ORDER BY game_highdate DESC";
-    if( !($result = $titanium_db->sql_query($sql)) )
+    if( !($result = $pnt_db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Cannot access last high score data", '', __LINE__, __FILE__, $sql);
     }
-    $score_count = $titanium_db->sql_numrows( $result ); //Gets the number of highscores for the current user
-    $row = $titanium_db->sql_fetchrow($result);
+    $score_count = $pnt_db->sql_numrows( $result ); //Gets the number of highscores for the current user
+    $row = $pnt_db->sql_fetchrow($result);
 
     $highscore_date = create_date( $phpbb2_board_config['default_dateformat'] , $row['game_highdate'] , $phpbb2_board_config['board_timezone'] );
     $highscore_game_name = '<a href="' . append_titanium_sid("games.$phpEx?gid=" . $row['game_id']) . '">' . $row['game_name'] . '</a>';
@@ -219,13 +219,13 @@ $submit = append_titanium_sid($link."?mode=submit");
 $z = append_titanium_sid($link."?mode=z");
 
         $sql = "SELECT g.*, c.* FROM " . GAMES_TABLE. " g LEFT JOIN " . COMMENTS_TABLE . " c ON g.game_id = c.game_id WHERE game_highuser = $uid ORDER BY game_name ASC";
-            if( !($result = $titanium_db->sql_query($sql)) )
+            if( !($result = $pnt_db->sql_query($sql)) )
             {
             message_die(GENERAL_ERROR, "Error retrieving high score list", '', __LINE__, __FILE__, $sql);
             }
-        $score_count = $titanium_db->sql_numrows( $result );
+        $score_count = $pnt_db->sql_numrows( $result );
                 $select_highscore = "<select name='comment_id' class='post'>";
-        while ( $row = $titanium_db->sql_fetchrow($result))
+        while ( $row = $pnt_db->sql_fetchrow($result))
             {
 
                 $select_highscore .= "<option value='" . $row['game_id'] . "' >" . $row['game_name'] . "</option>";
@@ -234,15 +234,15 @@ $z = append_titanium_sid($link."?mode=z");
                  $select_highscore .= '</select>';
 //User Options for PM
 $sql = "SELECT user_allow_arcadepm FROM " . USERS_TABLE . " WHERE user_id = $uid";
-            if( !($result = $titanium_db->sql_query($sql)) )
+            if( !($result = $pnt_db->sql_query($sql)) )
             {
             message_die(GENERAL_ERROR, "Error retrieving user arcade pm preference", '', __LINE__, __FILE__, $sql);
             }
 
-$row = $titanium_db->sql_fetchrow($result);
+$row = $pnt_db->sql_fetchrow($result);
 
-$titanium_user_allow_arcadepm_yes = ( $row['user_allow_arcadepm'] ) ? "checked=\"checked\"" : "";
-$titanium_user_allow_arcadepm_no = ( !$row['user_allow_arcadepm'] ) ? "checked=\"checked\"" : "";
+$pnt_user_allow_arcadepm_yes = ( $row['user_allow_arcadepm'] ) ? "checked=\"checked\"" : "";
+$pnt_user_allow_arcadepm_no = ( !$row['user_allow_arcadepm'] ) ? "checked=\"checked\"" : "";
 
 $phpbb2_template->assign_vars(array(
             'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $lang['arcade'] . '</a> '
@@ -262,8 +262,8 @@ $phpbb2_template->assign_block_vars('comment_settings',array(
             'S_ACTION_PM' => $z,
             'L_YES' => $lang['Yes'],
             'L_NO' => $lang['No'],
-            'USER_ALLOW_ARCADEPM_YES' => $titanium_user_allow_arcadepm_yes,
-            'USER_ALLOW_ARCADEPM_NO' => $titanium_user_allow_arcadepm_no
+            'USER_ALLOW_ARCADEPM_YES' => $pnt_user_allow_arcadepm_yes,
+            'USER_ALLOW_ARCADEPM_NO' => $pnt_user_allow_arcadepm_no
             ));
 
 //

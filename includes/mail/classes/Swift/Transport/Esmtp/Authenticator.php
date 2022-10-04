@@ -26,13 +26,13 @@ interface Swift_Transport_Esmtp_Authenticator
   public function getAuthKeyword();
   
   /**
-   * Try to authenticate the user with $titanium_username and $password.
+   * Try to authenticate the user with $pnt_username and $password.
    * @param Swift_Transport_SmtpAgent $phpbb2_agent
-   * @param string $titanium_username
+   * @param string $pnt_username
    * @param string $password
    * @return boolean
    */
   public function authenticate(Swift_Transport_SmtpAgent $phpbb2_agent,
-    $titanium_username, $password);
+    $pnt_username, $password);
   
 }

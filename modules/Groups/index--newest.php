@@ -152,7 +152,7 @@ global $cache;
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($titanium_user_ip, PAGE_GROUPCP);
+$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_GROUPCP);
 titanium_init_userprefs($userdata);
 //
 // End session management
@@ -194,10 +194,10 @@ if ( isset($_POST['groupstatus']) && $group_id ) {
                 redirect_titanium(append_titanium_sid("login.$phpEx?redirect=groupcp.$phpEx&" . POST_GROUPS_URL . "=$group_id", true));
         }
         $sql = "SELECT group_moderator FROM " . GROUPS_TABLE . " WHERE group_id = '$group_id'";
-        if ( !($result = $titanium_db->sql_query($sql)) ) {
+        if ( !($result = $pnt_db->sql_query($sql)) ) {
                 message_die(GENERAL_ERROR, 'Could not obtain user and group information', '', __LINE__, __FILE__, $sql);
         }
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
         if ( $row['group_moderator'] != $userdata['user_id'] && $userdata['user_level'] != ADMIN ) {
                 $phpbb2_template->assign_vars(array(
                         'META' => '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("index.$phpEx") . '">')
@@ -206,7 +206,7 @@ if ( isset($_POST['groupstatus']) && $group_id ) {
                 message_die(GENERAL_MESSAGE, $message);
         }
         $sql = "UPDATE " . GROUPS_TABLE . " SET group_type = " . intval($_POST['group_type']) . " WHERE group_id = '$group_id'";
-        if ( !($result = $titanium_db->sql_query($sql)) ) {
+        if ( !($result = $pnt_db->sql_query($sql)) ) {
                 message_die(GENERAL_ERROR, 'Could not obtain user and group information', '', __LINE__, __FILE__, $sql);
         }
         $phpbb2_template->assign_vars(array(
@@ -227,15 +227,15 @@ if ( isset($_POST['groupstatus']) && $group_id ) {
     	}
 
         $sql = "SELECT ug.user_id, g.group_type, group_count, group_count_max FROM (" . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE . " g) WHERE g.group_id = '$group_id' AND ( g.group_type <> " . GROUP_HIDDEN . " OR (g.group_count <= '".$userdata['user_posts']."' AND g.group_count_max > '".$userdata['user_posts']."')) AND ug.group_id = g.group_id";
-        if ( !($result = $titanium_db->sql_query($sql)) ) {
+        if ( !($result = $pnt_db->sql_query($sql)) ) {
                 message_die(GENERAL_ERROR, 'Could not obtain user and group information', '', __LINE__, __FILE__, $sql);
         }
 /*****[BEGIN]******************************************
  [ Mod:    Auto Group                          v1.2.2 ]
  ******************************************************/
-        //if ( $row = $titanium_db->sql_fetchrow($result) ) {
+        //if ( $row = $pnt_db->sql_fetchrow($result) ) {
                 //if ( $row['group_type'] == GROUP_OPEN ) {
-        if (	$row = $titanium_db->sql_fetchrow($result) )
+        if (	$row = $pnt_db->sql_fetchrow($result) )
         {
             $is_autogroup_enable = ($row['group_count'] <= $userdata['user_posts'] && $row['group_count_max'] > $userdata['user_posts']) ? true : false;
                 if ( $row['group_type'] == GROUP_OPEN || $is_autogroup_enable)
@@ -251,7 +251,7 @@ if ( isset($_POST['groupstatus']) && $group_id ) {
                                         $message = $lang['Already_member_group'] . '<br /><br />' . sprintf($lang['Click_return_group'], '<a href="' . append_titanium_sid("groupcp.$phpEx?" . POST_GROUPS_URL . "=$group_id") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
                                         message_die(GENERAL_MESSAGE, $message);
                                 }
-                        } while ( $row = $titanium_db->sql_fetchrow($result) );
+                        } while ( $row = $pnt_db->sql_fetchrow($result) );
                 } else {
                         $phpbb2_template->assign_vars(array(
                                 'META' => '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("index.$phpEx") . '">')
@@ -263,14 +263,14 @@ if ( isset($_POST['groupstatus']) && $group_id ) {
                 message_die(GENERAL_MESSAGE, $lang['No_groups_exist']);
         }
         $sql = "INSERT INTO " . USER_GROUP_TABLE . " (group_id, user_id, user_pending) VALUES ('$group_id', " . $userdata['user_id'] . ",'".(($is_autogroup_enable)? 0 : 1)."')";
-        if ( !($result = $titanium_db->sql_query($sql)) ) {
+        if ( !($result = $pnt_db->sql_query($sql)) ) {
                 message_die(GENERAL_ERROR, "Error inserting user group subscription", "", __LINE__, __FILE__, $sql);
         }
         $sql = "SELECT u.user_email, u.username, u.user_lang, g.group_name FROM (".USERS_TABLE . " u, " . GROUPS_TABLE . " g) WHERE u.user_id = g.group_moderator AND g.group_id = '$group_id'";
-        if ( !($result = $titanium_db->sql_query($sql)) ) {
+        if ( !($result = $pnt_db->sql_query($sql)) ) {
                 message_die(GENERAL_ERROR, "Error getting group moderator data", "", __LINE__, __FILE__, $sql);
         }
-        $moderator = $titanium_db->sql_fetchrow($result);
+        $moderator = $pnt_db->sql_fetchrow($result);
 /*****[BEGIN]******************************************
  [ Mod:    Auto Group                          v1.2.2 ]
  ******************************************************/
@@ -323,7 +323,7 @@ if ( isset($_POST['groupstatus']) && $group_id ) {
                     user_color_gi  = '',
                     user_rank = 0
                     WHERE user_id = " . $userdata['user_id'];
-            if ( !$titanium_db->sql_query($sql) ) {
+            if ( !$pnt_db->sql_query($sql) ) {
                     message_die(GENERAL_ERROR, 'Could not remove color from user', '', __LINE__, __FILE__, $sql);
             }
 /*****[BEGIN]******************************************
@@ -339,7 +339,7 @@ if ( isset($_POST['groupstatus']) && $group_id ) {
                 $sql = "DELETE FROM " . USER_GROUP_TABLE . "
                         WHERE user_id = " . $userdata['user_id'] . "
                 AND group_id = '$group_id'";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not delete group memebership data', '', __LINE__, __FILE__, $sql);
                 }
@@ -351,17 +351,17 @@ if ( isset($_POST['groupstatus']) && $group_id ) {
                                 WHERE ug.user_id = " . $userdata['user_id'] . "
                                         AND aa.group_id = ug.group_id
                                         AND aa.auth_mod = '1'";
-                        if ( !($result = $titanium_db->sql_query($sql)) )
+                        if ( !($result = $pnt_db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not obtain moderator status', '', __LINE__, __FILE__, $sql);
                         }
 
-                        if ( !($row = $titanium_db->sql_fetchrow($result)) || $row['is_auth_mod'] == 0 )
+                        if ( !($row = $pnt_db->sql_fetchrow($result)) || $row['is_auth_mod'] == 0 )
                         {
                                 $sql = "UPDATE " . USERS_TABLE . "
                                         SET user_level = " . USER . "
                                         WHERE user_id = " . $userdata['user_id'];
-                                if ( !($result = $titanium_db->sql_query($sql)) )
+                                if ( !($result = $pnt_db->sql_query($sql)) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not update user level', '', __LINE__, __FILE__, $sql);
                                 }
@@ -428,12 +428,12 @@ else if ( $group_id )
                 LEFT JOIN " . AUTH_ACCESS_TABLE . " aa ON aa.group_id = g.group_id )
                 WHERE g.group_id = '$group_id'";
 
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not get moderator information', '', __LINE__, __FILE__, $sql);
         }
 
-        if ( $group_info = $titanium_db->sql_fetchrow($result) )
+        if ( $group_info = $pnt_db->sql_fetchrow($result) )
         {
                 $group_moderator = $group_info['group_moderator'];
 
@@ -468,17 +468,17 @@ else if ( $group_id )
 
                         if ( isset($_POST['add']) )
                         {
-                $titanium_username = ( isset($_POST['username']) ) ? phpbb_clean_username($_POST['username']) : '';
+                $pnt_username = ( isset($_POST['username']) ) ? phpbb_clean_username($_POST['username']) : '';
 
                                 $sql = "SELECT user_id, user_email, user_lang, user_level
                                         FROM " . USERS_TABLE . "
-                                        WHERE username = '" . str_replace("\'", "''", $titanium_username) . "'";
-                                if ( !($result = $titanium_db->sql_query($sql)) )
+                                        WHERE username = '" . str_replace("\'", "''", $pnt_username) . "'";
+                                if ( !($result = $pnt_db->sql_query($sql)) )
                                 {
                                         message_die(GENERAL_ERROR, "Could not get user information", $lang['Error'], __LINE__, __FILE__, $sql);
                                 }
 
-                                if ( !($row = $titanium_db->sql_fetchrow($result)) )
+                                if ( !($row = $pnt_db->sql_fetchrow($result)) )
                                 {
                                         $phpbb2_template->assign_vars(array(
                                                 'META' => '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("groupcp.$phpEx?" . POST_GROUPS_URL . "=$group_id") . '">')
@@ -505,16 +505,16 @@ else if ( $group_id )
                                         WHERE u.user_id = " . $row['user_id'] . "
                                                 AND ug.user_id = u.user_id
                                                 AND ug.group_id = '$group_id'";
-                                if ( !($result = $titanium_db->sql_query($sql)) )
+                                if ( !($result = $pnt_db->sql_query($sql)) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not get user information', '', __LINE__, __FILE__, $sql);
                                 }
 
-                                if ( !($titanium_db->sql_fetchrow($result)) )
+                                if ( !($pnt_db->sql_fetchrow($result)) )
                                 {
                                         $sql = "INSERT INTO " . USER_GROUP_TABLE . " (user_id, group_id, user_pending)
                                                 VALUES (" . $row['user_id'] . ", '$group_id', '0')";
-                                        if ( !$titanium_db->sql_query($sql) )
+                                        if ( !$pnt_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not add user to group', '', __LINE__, __FILE__, $sql);
                                         }
@@ -524,7 +524,7 @@ else if ( $group_id )
                                                 $sql = "UPDATE " . USERS_TABLE . "
                                                         SET user_level = " . MOD . "
                                                         WHERE user_id = " . $row['user_id'];
-                                                if ( !$titanium_db->sql_query($sql) )
+                                                if ( !$pnt_db->sql_query($sql) )
                                                 {
                                                         message_die(GENERAL_ERROR, 'Could not update user level', '', __LINE__, __FILE__, $sql);
                                                 }
@@ -537,12 +537,12 @@ else if ( $group_id )
                                         $group_sql = "SELECT group_name
                                                 FROM " . GROUPS_TABLE . "
                                                 WHERE group_id = '$group_id'";
-                                        if ( !($result = $titanium_db->sql_query($group_sql)) )
+                                        if ( !($result = $pnt_db->sql_query($group_sql)) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not get group information', '', __LINE__, __FILE__, $group_sql);
                                         }
 
-                                        $group_name_row = $titanium_db->sql_fetchrow($result);
+                                        $group_name_row = $pnt_db->sql_fetchrow($result);
 
                                         $group_name = $group_name_row['group_name'];
 
@@ -607,7 +607,7 @@ else if ( $group_id )
                                                                 WHERE user_id IN ($sql_in)
                                                                         AND user_level NOT IN (" . MOD . ", " . ADMIN . ")";
 
-                                                        if ( !$titanium_db->sql_query($sql) )
+                                                        if ( !$pnt_db->sql_query($sql) )
                                                         {
                                                                 message_die(GENERAL_ERROR, 'Could not update user level', '', __LINE__, __FILE__, $sql);
                                                         }
@@ -615,31 +615,31 @@ else if ( $group_id )
 /*****[BEGIN]******************************************
  [ Mod:     Group Colors and Ranks             v1.0.0 ]
  ******************************************************/
-                                        global $titanium_prefix;
+                                        global $pnt_prefix;
                                         $sql_color = "SELECT group_color FROM " . GROUPS_TABLE . " WHERE group_id = '$group_id'";
-                                        if (!$result_color = $titanium_db->sql_query($sql_color))
+                                        if (!$result_color = $pnt_db->sql_query($sql_color))
                                         {
                                                     message_die(GENERAL_ERROR, 'Could not gather group color', '', __LINE__, __FILE__, $sql);
                                         }
-                                        $row_color = $titanium_db->sql_fetchrow($result_color);
-                                        $titanium_db->sql_freeresult($result_color);
+                                        $row_color = $pnt_db->sql_fetchrow($result_color);
+                                        $pnt_db->sql_freeresult($result_color);
                                         $phpbb2_color = $row_color['group_color'];
                                         if ($phpbb2_color) {
-                                            $sql_color = "SELECT group_color, group_id FROM " . $titanium_prefix . "_bbadvanced_username_color WHERE group_id = '$phpbb2_color'";
-                                            if (!$result_color = $titanium_db->sql_query($sql_color))
+                                            $sql_color = "SELECT group_color, group_id FROM " . $pnt_prefix . "_bbadvanced_username_color WHERE group_id = '$phpbb2_color'";
+                                            if (!$result_color = $pnt_db->sql_query($sql_color))
                                             {
                                                         message_die(GENERAL_ERROR, 'Could not gather group color', '', __LINE__, __FILE__, $sql);
                                             }
-                                            $row_color = $titanium_db->sql_fetchrow($result_color);
-                                            $titanium_db->sql_freeresult($result_color);
+                                            $row_color = $pnt_db->sql_fetchrow($result_color);
+                                            $pnt_db->sql_freeresult($result_color);
                                         }
                                         $sql_rank = "SELECT group_rank FROM " . GROUPS_TABLE . " WHERE group_id = '$group_id'";
-                                        if (!$result_rank = $titanium_db->sql_query($sql_rank))
+                                        if (!$result_rank = $pnt_db->sql_query($sql_rank))
                                         {
                                                     message_die(GENERAL_ERROR, 'Could not gather group rank', '', __LINE__, __FILE__, $sql);
                                         }
-                                        $row_rank = $titanium_db->sql_fetchrow($result_rank);
-                                        $titanium_db->sql_freeresult($result_rank);
+                                        $row_rank = $pnt_db->sql_fetchrow($result_rank);
+                                        $pnt_db->sql_freeresult($result_rank);
                                         if($row_rank['group_rank'] && !$row_color['group_color']) {
                                             $sql = "user_rank = '".$row_rank['group_rank']."'";
                                         }elseif($row_color["group_color"] && !$row_rank['group_rank']) {
@@ -658,7 +658,7 @@ else if ( $group_id )
                                             $sql = "UPDATE " . USERS_TABLE . "
                                                     SET " . $sql . "
                                                     WHERE user_id IN ($sql_in)";
-                                            if ( !$titanium_db->sql_query($sql) )
+                                            if ( !$pnt_db->sql_query($sql) )
                                             {
                                                     message_die(GENERAL_ERROR, 'Could not add color to user', '', __LINE__, __FILE__, $sql);
                                             }
@@ -693,12 +693,12 @@ else if ( $group_id )
                                                                         AND aa.auth_mod = '1'
                                                                 GROUP BY ug.user_id, ug.group_id
                                                                 ORDER BY ug.user_id, ug.group_id";
-                                                        if ( !($result = $titanium_db->sql_query($sql)) )
+                                                        if ( !($result = $pnt_db->sql_query($sql)) )
                                                         {
                                                                 message_die(GENERAL_ERROR, 'Could not obtain moderator status', '', __LINE__, __FILE__, $sql);
                                                         }
 
-                                                        if ( $row = $titanium_db->sql_fetchrow($result) )
+                                                        if ( $row = $pnt_db->sql_fetchrow($result) )
                                                         {
                                                                 $group_check = array();
                                                                 $remove_mod_sql = '';
@@ -707,13 +707,13 @@ else if ( $group_id )
                                                                 {
                                                                         $group_check[$row['user_id']][] = $row['group_id'];
                                                                 }
-                                                                while ( $row = $titanium_db->sql_fetchrow($result) );
+                                                                while ( $row = $pnt_db->sql_fetchrow($result) );
 
-                                                                while( list($titanium_user_id, $group_list) = @each($group_check) )
+                                                                while( list($pnt_user_id, $group_list) = @each($group_check) )
                                                                 {
                                                                         if ( count($group_list) == 1 )
                                                                         {
-                                                                                $remove_mod_sql .= ( ( $remove_mod_sql != '' ) ? ', ' : '' ) . $titanium_user_id;
+                                                                                $remove_mod_sql .= ( ( $remove_mod_sql != '' ) ? ', ' : '' ) . $pnt_user_id;
                                                                         }
                                                                 }
 
@@ -723,7 +723,7 @@ else if ( $group_id )
                                                                                 SET user_level = " . USER . "
                                                                                 WHERE user_id IN ($remove_mod_sql)
                                                                                         AND user_level NOT IN (" . ADMIN . ")";
-                                                                        if ( !$titanium_db->sql_query($sql) )
+                                                                        if ( !$pnt_db->sql_query($sql) )
                                                                         {
                                                                                 message_die(GENERAL_ERROR, 'Could not update user level', '', __LINE__, __FILE__, $sql);
                                                                         }
@@ -738,7 +738,7 @@ else if ( $group_id )
                                                         user_color_gi  = '',
                                                         user_rank = 0
                                                         WHERE user_id IN ($sql_in)";
-                                                if ( !$titanium_db->sql_query($sql) )
+                                                if ( !$pnt_db->sql_query($sql) )
                                                 {
                                                                 message_die(GENERAL_ERROR, 'Could not remove color from user', '', __LINE__, __FILE__, $sql);
                                                 }
@@ -758,7 +758,7 @@ else if ( $group_id )
                                                                 AND group_id = '$group_id'";
                                         }
 
-                                        if ( !$titanium_db->sql_query($sql) )
+                                        if ( !$pnt_db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not update user group table', '', __LINE__, __FILE__, $sql);
                                         }
@@ -768,13 +768,13 @@ else if ( $group_id )
                                         //
                                         if ( isset($_POST['approve']) )
                                         {
-                                                if ( !($result = $titanium_db->sql_query($sql_select)) )
+                                                if ( !($result = $pnt_db->sql_query($sql_select)) )
                                                 {
                                                         message_die(GENERAL_ERROR, 'Could not get user email information', '', __LINE__, __FILE__, $sql);
                                                 }
 
                                                 $bcc_list = array();
-                                                while ($row = $titanium_db->sql_fetchrow($result))
+                                                while ($row = $pnt_db->sql_fetchrow($result))
                                                 {
                                                         $bcc_list[] = $row['user_email'];
                                                 }
@@ -785,12 +785,12 @@ else if ( $group_id )
                                                 $group_sql = "SELECT group_name
                                                         FROM " . GROUPS_TABLE . "
                                                         WHERE group_id = '$group_id'";
-                                                if ( !($result = $titanium_db->sql_query($group_sql)) )
+                                                if ( !($result = $pnt_db->sql_query($group_sql)) )
                                                 {
                                                         message_die(GENERAL_ERROR, 'Could not get group information', '', __LINE__, __FILE__, $group_sql);
                                                 }
 
-                                                $group_name_row = $titanium_db->sql_fetchrow($result);
+                                                $group_name_row = $pnt_db->sql_fetchrow($result);
                                                 $group_name = $group_name_row['group_name'];
 
                                                 include(NUKE_INCLUDE_DIR.'emailer.php');
@@ -832,12 +832,12 @@ else if ( $group_id )
         // Get group details
         //
         $sql = "SELECT * FROM " . GROUPS_TABLE . " WHERE group_id = '$group_id' AND group_single_user = '0'";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Error getting group information', '', __LINE__, __FILE__, $sql);
         }
 
-        if ( !($group_info = $titanium_db->sql_fetchrow($result)) )
+        if ( !($group_info = $pnt_db->sql_fetchrow($result)) )
         {
                 message_die(GENERAL_MESSAGE, $lang['Group_not_exist']);
         }
@@ -852,12 +852,12 @@ else if ( $group_id )
 /*****[END]********************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Error getting user list for group', '', __LINE__, __FILE__, $sql);
         }
 
-        $group_moderator = $titanium_db->sql_fetchrow($result);
+        $group_moderator = $pnt_db->sql_fetchrow($result);
 
       if(!$group_moderator) {
                 message_die(GENERAL_ERROR, var_dump($_POST, true)); // shaun
@@ -879,17 +879,17 @@ else if ( $group_id )
 /*****[END]********************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Error getting user list for group', '', __LINE__, __FILE__, $sql);
         }
 
-        $group_members = $titanium_db->sql_fetchrowset($result);
+        $group_members = $pnt_db->sql_fetchrowset($result);
 
         $group_members = array();
 
         $members_count = count($group_members);
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 /*****[BEGIN]******************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
@@ -903,15 +903,15 @@ else if ( $group_id )
 /*****[END]********************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Error getting user pending information', '', __LINE__, __FILE__, $sql);
         }
 
-        $modgroup_pending_list = $titanium_db->sql_fetchrowset($result);
+        $modgroup_pending_list = $pnt_db->sql_fetchrowset($result);
         $modgroup_pending_list = array();
         $modgroup_pending_count = count($modgroup_pending_list);
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         $is_group_member = 0;
         if ( $members_count )
@@ -1043,11 +1043,11 @@ else if ( $group_id )
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-        $titanium_username = UsernameColor($group_moderator['username']);
+        $pnt_username = UsernameColor($group_moderator['username']);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-        $titanium_user_id = $group_moderator['user_id'];
+        $pnt_user_id = $group_moderator['user_id'];
 		$flag    = $group_moderator['user_from_flag'];
 
 /*****[BEGIN]******************************************
@@ -1096,7 +1096,7 @@ else if ( $group_id )
                 'GROUP_DETAILS' => $group_details,
                 'MOD_ROW_COLOR' => '#' . $theme['td_color1'],
                 'MOD_ROW_CLASS' => $theme['td_class1'],
-                'MOD_USERNAME' => $titanium_username,
+                'MOD_USERNAME' => $pnt_username,
                 'MOD_FROM' => $from,
 /*****[BEGIN]******************************************
  [ Mod:     Country Flags                      v2.0.7 ]
@@ -1128,7 +1128,7 @@ else if ( $group_id )
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
 
-                'U_MOD_VIEWPROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$titanium_user_id"),
+                'U_MOD_VIEWPROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$pnt_user_id"),
                 'U_SEARCH_USER' => append_titanium_sid("search.$phpEx?mode=searchuser&popup=1"),
 
                 'S_GROUP_OPEN_TYPE' => GROUP_OPEN,
@@ -1151,11 +1151,11 @@ else if ( $group_id )
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                $titanium_username = UsernameColor($group_members[$i]['username']);
+                $pnt_username = UsernameColor($group_members[$i]['username']);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                $titanium_user_id = $group_members[$i]['user_id'];
+                $pnt_user_id = $group_members[$i]['user_id'];
 
 /*****[BEGIN]******************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
@@ -1173,7 +1173,7 @@ else if ( $group_id )
                         $phpbb2_template->assign_block_vars('member_row', array(
                                 'ROW_COLOR' => '#' . $row_color,
                                 'ROW_CLASS' => $row_class,
-                                'USERNAME' => $titanium_username,
+                                'USERNAME' => $pnt_username,
                                 'FROM' => $from,
 /*****[BEGIN]******************************************
  [ Mod:     Country Flags                      v2.0.7 ]
@@ -1184,7 +1184,7 @@ else if ( $group_id )
  ******************************************************/
                                 'JOINED' => $joined,
                                 'POSTS' => $phpbb2_posts,
-                                'USER_ID' => $titanium_user_id,
+                                'USER_ID' => $pnt_user_id,
                                 'AVATAR_IMG' => $phpbb2_poster_avatar,
                                 'PROFILE_IMG' => $profile_img,
                                 'PROFILE' => $profile,
@@ -1205,7 +1205,7 @@ else if ( $group_id )
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
 
-                                'U_VIEWPROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$titanium_user_id"))
+                                'U_VIEWPROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$pnt_user_id"))
                         );
 
                         if ( $is_moderator )
@@ -1262,11 +1262,11 @@ else if ( $group_id )
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                                $titanium_username = UsernameColor($modgroup_pending_list[$i]['username']);
+                                $pnt_username = UsernameColor($modgroup_pending_list[$i]['username']);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                                $titanium_user_id = $modgroup_pending_list[$i]['user_id'];
+                                $pnt_user_id = $modgroup_pending_list[$i]['user_id'];
 
 /*****[BEGIN]******************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
@@ -1279,12 +1279,12 @@ else if ( $group_id )
                                 $row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
                                 $row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];
 
-                                $titanium_user_select = '<input type="checkbox" name="member[]" value="' . $titanium_user_id . '">';
+                                $pnt_user_select = '<input type="checkbox" name="member[]" value="' . $pnt_user_id . '">';
 
                                 $phpbb2_template->assign_block_vars('pending_members_row', array(
                                         'ROW_CLASS' => $row_class,
                                         'ROW_COLOR' => '#' . $row_color,
-                                        'USERNAME' => $titanium_username,
+                                        'USERNAME' => $pnt_username,
                                         'FROM' => $from,
 /*****[BEGIN]******************************************
  [ Mod:     Country Flags                      v2.0.7 ]
@@ -1295,7 +1295,7 @@ else if ( $group_id )
  ******************************************************/
                                         'JOINED' => $joined,
                                         'POSTS' => $phpbb2_posts,
-                                        'USER_ID' => $titanium_user_id,
+                                        'USER_ID' => $pnt_user_id,
                                         'AVATAR_IMG' => $phpbb2_poster_avatar,
                                         'PROFILE_IMG' => $profile_img,
                                         'PROFILE' => $profile,
@@ -1316,7 +1316,7 @@ else if ( $group_id )
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/
 
-                                        'U_VIEWPROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$titanium_user_id"))
+                                        'U_VIEWPROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$pnt_user_id"))
                                 );
                         }
 
@@ -1358,12 +1358,12 @@ else
                                 AND ug.group_id = g.group_id
                                 AND g.group_single_user <> " . TRUE . "
                         ORDER BY g.group_name, ug.user_id";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Error getting group information', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ( $row = $titanium_db->sql_fetchrow($result) )
+                if ( $row = $pnt_db->sql_fetchrow($result) )
                 {
                         $in_group = array();
                         $s_member_groups_opt = '';
@@ -1381,7 +1381,7 @@ else
                                         $s_member_groups_opt .= '<option value="' . $row['group_id'] . '">' . $row['group_name'] . '</option>';
                                 }
                         }
-                        while( $row = $titanium_db->sql_fetchrow($result) );
+                        while( $row = $pnt_db->sql_fetchrow($result) );
 
                         $s_pending_groups = '<select name="' . POST_GROUPS_URL . '">' . $s_pending_groups_opt . "</select>";
                         $s_member_groups = '<select name="' . POST_GROUPS_URL . '">' . $s_member_groups_opt . "</select>";
@@ -1397,13 +1397,13 @@ else
                 WHERE group_single_user <> " . TRUE . "
                         $ignore_group_sql
                 ORDER BY g.group_name";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Error getting group information', '', __LINE__, __FILE__, $sql);
         }
 
         $s_group_list_opt = '';
-        while( $row = $titanium_db->sql_fetchrow($result) )
+        while( $row = $pnt_db->sql_fetchrow($result) )
         {
 /*****[BEGIN]******************************************
  [ Mod:    Auto Group                          v1.2.2 ]

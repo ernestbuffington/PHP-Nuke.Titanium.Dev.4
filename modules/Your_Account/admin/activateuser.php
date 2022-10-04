@@ -47,7 +47,7 @@ if (is_mod_admin($pnt_module)) {
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _USER_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
 	echo "<br />";
-    list($titanium_username, $realname, $email, $check_num) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT username, realname, user_email, check_num FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$act_uid'"));
+    list($pnt_username, $realname, $email, $check_num) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT username, realname, user_email, check_num FROM ".$pnt_user_prefix."_users_temp WHERE user_id='$act_uid'"));
     $pagetitle = ": "._USERADMIN." - "._YA_ACTIVATEUSER;
     
     title(_USERADMIN." - "._YA_ACTIVATEUSER);
@@ -59,7 +59,7 @@ if (is_mod_admin($pnt_module)) {
 
     OpenTable();
         echo "<table align='center' border='0' align=\"center\">";
-        echo "<tr><td width=\"50%\"><strong>"._USERNAME.":</strong></td><td align=\"left\">$titanium_username<br /></td></tr>";
+        echo "<tr><td width=\"50%\"><strong>"._USERNAME.":</strong></td><td align=\"left\">$pnt_username<br /></td></tr>";
         echo "<tr><td width=\"50%\"><strong>"._UREALNAME.":</strong></td><td align=\"left\">$realname<br /></td></tr>";
         echo "<tr><td width=\"50%\"><strong>"._EMAIL.":</strong></td><td align=\"left\">$email</td></tr>";
         echo "</table>";

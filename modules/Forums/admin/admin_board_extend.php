@@ -24,7 +24,7 @@ define('IN_PHPBB2', true);
 if( !empty($setmodules) )
 {
 	$file = basename(__FILE__);
-	$titanium_module['General']['Configuration_extend'] = $file;
+	$pnt_module['General']['Configuration_extend'] = $file;
 	return;
 }
 
@@ -213,9 +213,9 @@ $submit = isset($HTTP_POST_VARS['submit']);
 
 // get the real value of board_config
 $sql = "SELECT * FROM " . CONFIG_TABLE;
-if ( !$result = $titanium_db->sql_query($sql) ) message_die(CRITICAL_ERROR, 'Could not query config information', '', __LINE__, __FILE__, $sql);
+if ( !$result = $pnt_db->sql_query($sql) ) message_die(CRITICAL_ERROR, 'Could not query config information', '', __LINE__, __FILE__, $sql);
 $config = array();
-while ($row = $titanium_db->sql_fetchrow($result))
+while ($row = $pnt_db->sql_fetchrow($result))
 {
 	$config[ $row['config_name'] ] = $row['config_value'];
 }
@@ -290,7 +290,7 @@ if ($submit)
 			$sql = "UPDATE " . CONFIG_TABLE . " 
 					SET config_value = '" . $$field_name . "'
 					WHERE config_name = '" . $field_name . "'";
-			if ( !$titanium_db->sql_query($sql) )
+			if ( !$pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, 'Failed to update general configuration for ' . $field_name, '', __LINE__, __FILE__, $sql);
 			}
@@ -301,7 +301,7 @@ if ($submit)
 			$sql = "UPDATE " . CONFIG_TABLE . " 
 					SET config_value = '" . intval($HTTP_POST_VARS[$field_name . '_over']) . "'
 					WHERE config_name = '$field_name" . "_over'";
-			if ( !$titanium_db->sql_query($sql) )
+			if ( !$pnt_db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, 'Failed to update general configuration for ' . $field_name, '', __LINE__, __FILE__, $sql);
 			}

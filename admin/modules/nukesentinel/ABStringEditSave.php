@@ -16,7 +16,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 if(!get_magic_quotes_runtime()) { $string = addslashes($string); }
-$testnum1 = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_strings` WHERE `string`='".$string."' AND `sid`!='".$sid."'"));
+$testnum1 = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_strings` WHERE `string`='".$string."' AND `sid`!='".$sid."'"));
 if($testnum1 > 0) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
@@ -48,8 +48,8 @@ if($testnum1 > 0) {
   CloseTable();
   include_once(NUKE_BASE_DIR.'footer.php');
 } else {
-  $getIPs = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_strings` WHERE `sid`='".$sid."' LIMIT 0,1"));
-  $titanium_db->sql_query("UPDATE `".$titanium_prefix."_nsnst_strings` SET `string`='".$string."' WHERE `sid`='".$sid."'");
+  $getIPs = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_strings` WHERE `sid`='".$sid."' LIMIT 0,1"));
+  $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_strings` SET `string`='".$string."' WHERE `sid`='".$sid."'");
   $list_string = explode("\r\n", $ab_config['list_string']);
   $list_string = str_replace($getIPs['string'], $string, $list_string);
   rsort($list_string);

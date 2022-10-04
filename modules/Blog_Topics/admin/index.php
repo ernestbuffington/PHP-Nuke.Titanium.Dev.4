@@ -30,7 +30,7 @@ if (!defined('ADMIN_FILE'))
    exit ("Access Denied");
 
 
-global $titanium_prefix, $titanium_db, $admdata;
+global $pnt_prefix, $pnt_db, $admdata;
 $pnt_module = basename(dirname(dirname(__FILE__)));
 if(is_mod_admin($pnt_module)) {
 
@@ -43,7 +43,7 @@ $blog_config = blog_get_configs();
 
 function topicsmanager() 
 {
-    global $titanium_prefix, $titanium_db, $admin_file, $tipath;
+    global $pnt_prefix, $pnt_db, $admin_file, $tipath;
 
     include(NUKE_BASE_DIR."header.php");
 
@@ -57,8 +57,8 @@ function topicsmanager()
     echo "<center><span class=\"option\"><strong>"._CURRENTTOPICS . "</strong></span><br />"._CLICK2EDIT . "</span></center><br />"
         ."<table border=\"0\" width=\"100%\" align=\"center\" cellpadding=\"2\">";
     $count = 0;
-    $result = $titanium_db->sql_query("SELECT topicid, topicname, topicimage, topictext from " . $titanium_prefix . "_topics order by topicname");
-    while ($row = $titanium_db->sql_fetchrow($result)):
+    $result = $pnt_db->sql_query("SELECT topicid, topicname, topicimage, topictext from " . $pnt_prefix . "_topics order by topicname");
+    while ($row = $pnt_db->sql_fetchrow($result)):
         $topicid = intval($row['topicid']);
         $topicname = $row['topicname'];
         $topicimage = $row['topicimage'];
@@ -137,7 +137,7 @@ function topicsmanager()
 
 function topicedit($topicid) 
 {
-    global $titanium_prefix, $titanium_db, $admin_file, $tipath;
+    global $pnt_prefix, $pnt_db, $admin_file, $tipath;
 
     include(NUKE_BASE_DIR."header.php");
 
@@ -153,8 +153,8 @@ function topicedit($topicid)
     echo '<div align="center" style="padding-top:6px;">';
     echo '</div>';
 
-    $query = $titanium_db->sql_query("SELECT topicid, topicname, topicimage, topictext from ".$titanium_prefix . "_topics where topicid='$topicid'");
-    list($topicid, $topicname, $topicimage, $topictext) = $titanium_db->sql_fetchrow($query);
+    $query = $pnt_db->sql_query("SELECT topicid, topicname, topicimage, topictext from ".$pnt_prefix . "_topics where topicid='$topicid'");
+    list($topicid, $topicname, $topicimage, $topictext) = $pnt_db->sql_fetchrow($query);
     $topicid = intval($topicid);
     echo "<img src=\"$tipath$topicimage\" align=\"right\" alt=\"$topictext\" />";
     echo "<span class=\"option\"><strong><span class=\"over-ride\">"._EDITTOPIC.": $topictext</span></strong></span>";
@@ -222,13 +222,13 @@ function topicedit($topicid)
 	echo ""._URL . ": <input type=\"text\" name=\"url\" value=\"http://\" size=\"50\" maxlength=\"200\"><br /><br />";
     echo "<strong>"._ACTIVERELATEDLINKS . ":</strong><br />";
     echo "<table width=\"100%\" border=\"0\">";
-    $res = $titanium_db->sql_query("SELECT rid, name, url from ".$titanium_prefix . "_related where tid='$topicid'");
-    $num = $titanium_db->sql_numrows($res);
+    $res = $pnt_db->sql_query("SELECT rid, name, url from ".$pnt_prefix . "_related where tid='$topicid'");
+    $num = $pnt_db->sql_numrows($res);
     
 	if ($num == 0) 
     echo "<tr><td><span class=\"tiny\">"._NORELATED . "</span></td></tr>";
     
-        while($row2 = $titanium_db->sql_fetchrow($res)):
+        while($row2 = $pnt_db->sql_fetchrow($res)):
             $rid = intval($row2['rid']);
             $name = $row2['name'];
             $url = stripslashes($row2['url']);
@@ -255,7 +255,7 @@ function topicedit($topicid)
 }
 
 function relatededit($tid, $rid) {
-    global $titanium_prefix, $titanium_db, $admin_file;
+    global $pnt_prefix, $pnt_db, $admin_file;
     include(NUKE_BASE_DIR."header.php");
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=topicsmanager\">" . _TOPICS_ADMIN_HEADER . "</a></div>\n";
@@ -269,10 +269,10 @@ function relatededit($tid, $rid) {
    
     $rid = intval($rid);
     $tid = intval($tid);
-    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT name, url from ".$titanium_prefix . "_related where rid='$rid'"));
+    $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT name, url from ".$pnt_prefix . "_related where rid='$rid'"));
         $name = $row['name'];
         $url = $row['url'];
-    $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT topictext, topicimage from ".$titanium_prefix . "_topics where topicid='$tid'"));
+    $row2 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT topictext, topicimage from ".$pnt_prefix . "_topics where topicid='$tid'"));
         $topictext = $row2['topictext'];
         $topicimage = $row2['topicimage'];
     OpenTable();
@@ -293,59 +293,59 @@ function relatededit($tid, $rid) {
 }
 
 function relatedsave($tid, $rid, $name, $url) {
-    global $titanium_prefix, $titanium_db, $admin_file;
+    global $pnt_prefix, $pnt_db, $admin_file;
     $rid = intval($rid);
-    $titanium_db->sql_query("update ".$titanium_prefix . "_related set name='$name', url='$url' where rid='$rid'");
+    $pnt_db->sql_query("update ".$pnt_prefix . "_related set name='$name', url='$url' where rid='$rid'");
     redirect_titanium($admin_file.".php?op=topicedit&topicid=$tid");
 }
 
 function relateddelete($tid, $rid) {
-    global $titanium_prefix, $titanium_db, $admin_file;
+    global $pnt_prefix, $pnt_db, $admin_file;
     $rid = intval($rid);
-    $titanium_db->sql_query("delete from ".$titanium_prefix . "_related where rid='$rid'");
+    $pnt_db->sql_query("delete from ".$pnt_prefix . "_related where rid='$rid'");
     redirect_titanium($admin_file.".php?op=topicedit&topicid=$tid");
 }
 
 function topicmake($topicname, $topicimage, $topictext) {
-    global $titanium_prefix, $titanium_db, $admin_file;
+    global $pnt_prefix, $pnt_db, $admin_file;
     $topicname = Fix_Quotes($topicname);
     $topicimage = Fix_Quotes($topicimage);
     $topictext = Fix_Quotes($topictext);
-    $titanium_db->sql_query("INSERT INTO ".$titanium_prefix . "_topics VALUES (NULL,'$topicname','$topicimage','$topictext','0')");
+    $pnt_db->sql_query("INSERT INTO ".$pnt_prefix . "_topics VALUES (NULL,'$topicname','$topicimage','$topictext','0')");
     redirect_titanium($admin_file.".php?op=topicsmanager#Add");
 }
 
 function topicchange($topicid, $topicname, $topicimage, $topictext, $name, $url) {
-    global $titanium_prefix, $titanium_db, $admin_file;
+    global $pnt_prefix, $pnt_db, $admin_file;
     $topicname = Fix_Quotes($topicname);
     $topicimage = Fix_Quotes($topicimage);
     $topictext = Fix_Quotes($topictext);
     $name = Fix_Quotes($name);
     $url = Fix_Quotes($url);
     $topicid = intval($topicid);
-    $titanium_db->sql_query("update ".$titanium_prefix . "_topics set topicname='$topicname', topicimage='$topicimage', topictext='$topictext' where topicid='$topicid'");
+    $pnt_db->sql_query("update ".$pnt_prefix . "_topics set topicname='$topicname', topicimage='$topicimage', topictext='$topictext' where topicid='$topicid'");
     if (!$name) {
     } else {
-        $titanium_db->sql_query("insert into ".$titanium_prefix . "_related VALUES (NULL, '$topicid','$name','$url')");
+        $pnt_db->sql_query("insert into ".$pnt_prefix . "_related VALUES (NULL, '$topicid','$name','$url')");
     }
     redirect_titanium($admin_file.".php?op=topicedit&topicid=$topicid");
 }
 
 function topicdelete($topicid, $ok=0) {
-    global $titanium_prefix, $titanium_db, $blog_config, $admin_file;
+    global $pnt_prefix, $pnt_db, $blog_config, $admin_file;
     $topicid = intval($topicid);
     if ($ok==1) {
-    $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT sid from " . $titanium_prefix . "_stories where topic='$topicid'"));
+    $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT sid from " . $pnt_prefix . "_stories where topic='$topicid'"));
         $sid = intval($row['sid']);
         // Copyright (c) 2000-2005 by NukeScripts Network
         if($blog_config['hometopic'] == $topicid) { blogs_save_config("hometopic", "0"); }
         // Copyright (c) 2000-2005 by NukeScripts Network
-        $titanium_db->sql_query("delete from " . $titanium_prefix . "_stories where topic='$topicid'");
-        $titanium_db->sql_query("delete from " . $titanium_prefix . "_topics where topicid='$topicid'");
-        $titanium_db->sql_query("delete from " . $titanium_prefix . "_related where tid='$topicid'");
-    $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT sid from " . $titanium_prefix . "_comments where sid='$sid'"));
+        $pnt_db->sql_query("delete from " . $pnt_prefix . "_stories where topic='$topicid'");
+        $pnt_db->sql_query("delete from " . $pnt_prefix . "_topics where topicid='$topicid'");
+        $pnt_db->sql_query("delete from " . $pnt_prefix . "_related where tid='$topicid'");
+    $row2 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT sid from " . $pnt_prefix . "_comments where sid='$sid'"));
         $sid = intval($row2['sid']);
-        $titanium_db->sql_query("delete from " . $titanium_prefix . "_comments where sid='$sid'");
+        $pnt_db->sql_query("delete from " . $pnt_prefix . "_comments where sid='$sid'");
         redirect_titanium($admin_file.".php?op=topicsmanager");
     } else {
         global $topicimage;
@@ -360,7 +360,7 @@ function topicdelete($topicid, $ok=0) {
         echo "<center><span class=\"title\"><strong>" . _TOPICSMANAGER . "</strong></span></center>";
         CloseTable();
        
-    $row3 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT topicimage, topictext from " . $titanium_prefix . "_topics where topicid='$topicid'"));
+    $row3 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT topicimage, topictext from " . $pnt_prefix . "_topics where topicid='$topicid'"));
         $topicimage = $row3['topicimage'];
         $topictext = $row3['topictext'];
         OpenTable();

@@ -8,16 +8,16 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $titanium_db2;
+global $pnt_db2;
 if(!defined('SUPPORT_NETWORK')) { die("Illegal Access Detected!!!"); }
 
 $pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_TASKMAP;
 
 include_once(NUKE_BASE_DIR.'header.php');
 
-$projectresult = $titanium_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
+$projectresult = $pnt_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
 
-while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
+while(list($project_id) = $pnt_db2->sql_fetchrow($projectresult)) {
 
   $project = pjprojectpercent_info($project_id);
   
@@ -25,9 +25,9 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
   
   $projectpriority = pjprojectpriority_info($project['priority_id']);
   
-  $memberresult = $titanium_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id' ORDER BY `member_id`");
+  $memberresult = $pnt_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_projects_members` WHERE `project_id`='$project_id' ORDER BY `member_id`");
   
-  $member_total = $titanium_db2->sql_numrows($membersresult);
+  $member_total = $pnt_db2->sql_numrows($membersresult);
 
   OpenTable();
   
@@ -133,7 +133,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
   
   echo "<tr><td class='row1' width='100%' bgcolor='$bgcolor2' colspan='7'><strong>"._NETWORK_PROJECTTASKS."</strong></td></tr>\n";
   
-  $taskresult = $titanium_db2->sql_query("SELECT `task_id`, 
+  $taskresult = $pnt_db2->sql_query("SELECT `task_id`, 
                                                `task_name`, 
 											`task_percent`, 
 											 `priority_id`, 
@@ -143,15 +143,15 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
   
   WHERE `project_id`='$project_id' ORDER BY `task_name`");
   
-  $task_total = $titanium_db2->sql_numrows($taskresult);
+  $task_total = $pnt_db2->sql_numrows($taskresult);
   
   if($task_total != 0)
   {
-    while(list($task_id, $task_name, $task_percent, $priority_id, $status_id) = $titanium_db2->sql_fetchrow($taskresult)) 
+    while(list($task_id, $task_name, $task_percent, $priority_id, $status_id) = $pnt_db2->sql_fetchrow($taskresult)) 
 	{
-      $memberresult = $titanium_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_tasks_members` WHERE `task_id`='$task_id' ORDER BY `member_id`");
+      $memberresult = $pnt_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_tasks_members` WHERE `task_id`='$task_id' ORDER BY `member_id`");
     
-	  $member_total = $titanium_db2->sql_numrows($membersresult);
+	  $member_total = $pnt_db2->sql_numrows($membersresult);
     
 	  $taskstatus = pjtaskstatus_info($status_id);
     

@@ -25,7 +25,7 @@ CloseMenu();
 CloseTable();
 echo '<br />'."\n";
 OpenTable();
-$getIPs = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_harvesters` WHERE `hid`='".$hid."' LIMIT 0,1"));
+$getIPs = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_harvesters` WHERE `hid`='".$hid."' LIMIT 0,1"));
 echo '<form action="'.$admin_file.'.php" method="post">'."\n";
 echo '<input type="hidden" name="op" value="ABHarvesterDeleteSave" />'."\n";
 echo '<input type="hidden" name="xop" value="'.$xop.'" />'."\n";

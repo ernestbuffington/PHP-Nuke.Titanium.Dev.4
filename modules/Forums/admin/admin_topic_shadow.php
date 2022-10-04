@@ -38,7 +38,7 @@ if( !empty($setmodules) )
 {
     include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_topic_shadow.' . $phpEx);
     $filename = basename(__FILE__);
-    $titanium_module['Forums']['Topic_Shadow'] = $filename;
+    $pnt_module['Forums']['Topic_Shadow'] = $filename;
     
     return;
 }
@@ -90,13 +90,13 @@ $status_message = '';
 /****************************************************************************
 /** Functions
 /***************************************************************************/
-function topic_shadow_make_drop_box($titanium_prefix = 'mode')
+function topic_shadow_make_drop_box($pnt_prefix = 'mode')
 {
     global $mode_types, $lang, $mode, $order_types, $order;
     
-    $rval = '<select name="'.$titanium_prefix.'">';
+    $rval = '<select name="'.$pnt_prefix.'">';
     
-    switch($titanium_prefix)
+    switch($pnt_prefix)
     {
         case 'mode':
         {
@@ -123,7 +123,7 @@ function topic_shadow_make_drop_box($titanium_prefix = 'mode')
 }
 function ts_id_2_name($id, $mode = 'user')
 {
-    global $titanium_db;
+    global $pnt_db;
     
     if ($id == '')
     {
@@ -137,11 +137,11 @@ function ts_id_2_name($id, $mode = 'user')
             $sql = 'SELECT username FROM ' . USERS_TABLE . "
                    WHERE user_id = $id";
             
-            if(!$result = $titanium_db->sql_query($sql))
+            if(!$result = $pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, 'Err', '', __LINE__, __FILE__, $sql);
             }
-            $row = $titanium_db->sql_fetchrow($result);
+            $row = $pnt_db->sql_fetchrow($result);
             return $row['username'];
             break;
         }
@@ -151,11 +151,11 @@ function ts_id_2_name($id, $mode = 'user')
                   WHERE t.topic_id = $id
                AND t.forum_id = f.forum_id";
             
-            if(!$result = $titanium_db->sql_query($sql))
+            if(!$result = $pnt_db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, 'Err', '', __LINE__, __FILE__, $sql);
             }
-            $row = $titanium_db->sql_fetchrow($result);
+            $row = $pnt_db->sql_fetchrow($result);
             return $row['forum_name'];
             break;
         }
@@ -203,14 +203,14 @@ if ($delete_all_before_date)
        WHERE topic_status = ' . TOPIC_MOVED . "
        AND topic_time < $set_time";
     
-    if(!$titanium_db->sql_query($sql))
+    if(!$pnt_db->sql_query($sql))
     {
         message_die(GENERAL_ERROR, $lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
     }
     else
     {
         $status_message .= sprintf($lang['Del_Before_Date'], date("M-d-Y", $set_time));
-        $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($lang['Affected_Rows'], $titanium_db->sql_affectedrows()) : '';
+        $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($lang['Affected_Rows'], $pnt_db->sql_affectedrows()) : '';
         sync('all_forums');
         $status_message .= sprintf($lang['Resync_Ran_On'], $lang['All_Forums']);
     }
@@ -229,16 +229,16 @@ else
                 $sql = 'SELECT f.forum_id, f.forum_name, t.topic_title FROM ' . TOPICS_TABLE . ' t, ' . FORUMS_TABLE . " f
                           WHERE t.topic_id = $topic_id
                           AND t.forum_id = f.forum_id";
-                if (!$result = $titanium_db->sql_query($sql))
+                if (!$result = $pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, $lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
                 }
-                $phpbb2_forum_data_row = $titanium_db->sql_fetchrow($result);
+                $phpbb2_forum_data_row = $pnt_db->sql_fetchrow($result);
                 
                 $sql = 'DELETE FROM ' . TOPICS_TABLE . '
                           WHERE topic_status = ' . TOPIC_MOVED . "
                        AND topic_id = $topic_id";
-                if(!$titanium_db->sql_query($sql))
+                if(!$pnt_db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, $lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
                 }
@@ -304,11 +304,11 @@ $phpbb2_template->assign_vars(array(
 $sql = 'SELECT COUNT(topic_status) as count FROM ' . TOPICS_TABLE . '
    WHERE topic_status = ' . TOPIC_MOVED;
 
-if(!$result = $titanium_db->sql_query($sql))
+if(!$result = $pnt_db->sql_query($sql))
 {
     message_die(GENERAL_ERROR, $lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
 }
-$row = $titanium_db->sql_fetchrow($result);
+$row = $pnt_db->sql_fetchrow($result);
 if ($row['count'] <= 0)
 {
     $phpbb2_template->assign_block_vars('emptyrow', array());
@@ -320,13 +320,13 @@ else
    WHERE topic_status = ' . TOPIC_MOVED . "
    ORDER BY $mode $order";
     
-    if(!$result = $titanium_db->sql_query($sql))
+    if(!$result = $pnt_db->sql_query($sql))
     {
         message_die(GENERAL_ERROR, $lang['Error_Topics_Table'], '', __LINE__, __FILE__, $sql);
     }
     
     $i = 0;
-    while ($messages = $titanium_db->sql_fetchrow($result))
+    while ($messages = $pnt_db->sql_fetchrow($result))
     {
         $phpbb2_template->assign_block_vars('topicrow', array(
         'ROW_CLASS' => (!($i % 2)) ? $theme['td_class1'] : $theme['td_class2'],

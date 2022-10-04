@@ -72,19 +72,19 @@ function inarray($needle, $haystack)
  ******************************************************/
     $q = "SELECT forum_id, forum_name
           FROM ". FORUMS_TABLE ."";
-    $forums_data = $titanium_db->sql_ufetchrowset($q);
+    $forums_data = $pnt_db->sql_ufetchrowset($q);
 
     $q = "SELECT username, user_id
           FROM ". USERS_TABLE ."";
-    $titanium_users_data = $titanium_db->sql_ufetchrowset($q);
+    $pnt_users_data = $pnt_db->sql_ufetchrowset($q);
 
     $q = "SELECT topic_id, topic_title
           FROM ". TOPICS_TABLE ."";
-    $phpbb2_topics_data = $titanium_db->sql_ufetchrowset($q);
+    $phpbb2_topics_data = $pnt_db->sql_ufetchrowset($q);
 
     $q = "SELECT cat_id, cat_title
           FROM ". CATEGORIES_TABLE ."";
-    $cats_data = $titanium_db->sql_ufetchrowset($q);
+    $cats_data = $pnt_db->sql_ufetchrowset($q);
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
@@ -158,7 +158,7 @@ if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
 
         );
 
-        ksort($titanium_module);
+        ksort($pnt_module);
 
 /*****[BEGIN]******************************************
  [ Mod:     DHTML Slide Menu for ACP           v1.0.0 ]
@@ -167,7 +167,7 @@ if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
 /*****[END]********************************************
  [ Mod:     DHTML Slide Menu for ACP           v1.0.0 ]
  ******************************************************/
- while( list($cat, $action_array) = each($titanium_module) )
+ while( list($cat, $action_array) = each($pnt_module) )
 {
     $cat = ( !empty($lang[$cat]) ) ? $lang[$cat] : preg_replace("/_/", " ", $cat);
 
@@ -310,11 +310,11 @@ $sql = "SELECT COUNT(user_id) AS total
                     FROM " . USERS_TABLE . "
                     WHERE user_active = 0
                         AND user_id <> " . ANONYMOUS;
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                if ( $row = $titanium_db->sql_fetchrow($result) )
+                if ( $row = $pnt_db->sql_fetchrow($result) )
             {
                     $total_phpbb2_deactivated_users = $row['total'];
             }
@@ -322,31 +322,31 @@ $sql = "SELECT COUNT(user_id) AS total
             {
                     message_die(GENERAL_ERROR,"Couldn't update pending information!", __LINE__, __FILE__, $sql);
             }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
                 $deactivated_names = '';
             $sql = "SELECT username
                     FROM " . USERS_TABLE . "
                     WHERE user_active = 0
                         AND user_id <> " . ANONYMOUS . "
                     ORDER BY username";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                while ( $row = $titanium_db->sql_fetchrow($result) )
+                while ( $row = $pnt_db->sql_fetchrow($result) )
             {
                     $deactivated_names .= (($deactivated_names == '') ? '' : ', ') . UsernameColor($row['username']);
             }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
 $sql = "SELECT COUNT(user_id) AS total
                     FROM " . USERS_TABLE . "
                     WHERE user_level = " . MOD . "
                         AND user_id <> " . ANONYMOUS;
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                if ( $row = $titanium_db->sql_fetchrow($result) )
+                if ( $row = $pnt_db->sql_fetchrow($result) )
             {
                     $total_phpbb2_moderators = $row['total'];
             }
@@ -354,31 +354,31 @@ $sql = "SELECT COUNT(user_id) AS total
             {
                     message_die(GENERAL_ERROR,"Couldn't update pending information!", __LINE__, __FILE__, $sql);
             }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
                 $moderator_names = '';
             $sql = "SELECT username
                     FROM " . USERS_TABLE . "
                     WHERE user_level = " . MOD . "
                         AND user_id <> " . ANONYMOUS . "
                     ORDER BY username";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                while ( $row = $titanium_db->sql_fetchrow($result) )
+                while ( $row = $pnt_db->sql_fetchrow($result) )
             {
                     $moderator_names .= (($moderator_names == '') ? '' : ', ') . UsernameColor($row['username']);
             }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
 $sql = "SELECT COUNT(user_id) AS total
                     FROM " . USERS_TABLE . "
                     WHERE user_level = " . ADMIN . "
                         AND user_id <> " . ANONYMOUS;
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                if ( $row = $titanium_db->sql_fetchrow($result) )
+                if ( $row = $pnt_db->sql_fetchrow($result) )
             {
                     $total_phpbb2_administrators = $row['total'];
             }
@@ -386,18 +386,18 @@ $sql = "SELECT COUNT(user_id) AS total
             {
                     message_die(GENERAL_ERROR,"Couldn't update pending information!", __LINE__, __FILE__, $sql);
             }
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
                 $administrator_names = '';
             $sql = "SELECT username
                     FROM " . USERS_TABLE . "
                     WHERE user_level = " . ADMIN . "
                         AND user_id <> " . ANONYMOUS . "
                     ORDER BY username";
-                if ( !($result = $titanium_db->sql_query($sql)) )
+                if ( !($result = $pnt_db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                while ( $row = $titanium_db->sql_fetchrow($result) )
+                while ( $row = $pnt_db->sql_fetchrow($result) )
             {
                     $administrator_names .= (($administrator_names == '') ? '' : ', ') . UsernameColor($row['username']);
             }
@@ -410,7 +410,7 @@ $sql = "SELECT COUNT(user_id) AS total
 
         $phpbb2_posts_per_day = sprintf("%.2f", $phpbb2_total_posts / $boarddays);
         $phpbb2_topics_per_day = sprintf("%.2f", $total_phpbb2_topics / $boarddays);
-        $titanium_users_per_day = sprintf("%.2f", $phpbb2_total_users / $boarddays);
+        $pnt_users_per_day = sprintf("%.2f", $phpbb2_total_users / $boarddays);
 
         $avatar_dir_size = 0;
 
@@ -460,9 +460,9 @@ $sql = "SELECT COUNT(user_id) AS total
                 $phpbb2_topics_per_day = $total_phpbb2_topics;
         }
 
-        if($titanium_users_per_day > $phpbb2_total_users)
+        if($pnt_users_per_day > $phpbb2_total_users)
         {
-                $titanium_users_per_day = $phpbb2_total_users;
+                $pnt_users_per_day = $phpbb2_total_users;
         }
 
         //
@@ -474,22 +474,22 @@ $sql = "SELECT COUNT(user_id) AS total
         if( preg_match("/^mysql/", SQL_LAYER) )
         {
                 $sql = "SELECT VERSION() AS mysql_version";
-                if($result = $titanium_db->sql_query($sql))
+                if($result = $pnt_db->sql_query($sql))
                 {
-                        $row = $titanium_db->sql_fetchrow($result);
+                        $row = $pnt_db->sql_fetchrow($result);
                         $version = $row['mysql_version'];
 
                         if( preg_match("/^(3\.23|4\.|5\.)/", $version) )
                         {
-                                $titanium_db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)|(5\.)/", $version) ) ? "`$titanium_dbname`" : $titanium_dbname;
+                                $pnt_db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)|(5\.)/", $version) ) ? "`$pnt_dbname`" : $pnt_dbname;
 
                                 $sql = "SHOW TABLE STATUS
-                                        FROM " . $titanium_db_name;
-                                if($result = $titanium_db->sql_query($sql))
+                                        FROM " . $pnt_db_name;
+                                if($result = $pnt_db->sql_query($sql))
                                 {
-                                        $tabledata_ary = $titanium_db->sql_fetchrowset($result);
+                                        $tabledata_ary = $pnt_db->sql_fetchrowset($result);
 
-                                        $titanium_dbsize = 0;
+                                        $pnt_dbsize = 0;
                                         for($i = 0; $i < count($tabledata_ary); $i++)
                                         {
                                                 if( $tabledata_ary[$i]['Type'] != "MRG_MyISAM" )
@@ -498,12 +498,12 @@ $sql = "SELECT COUNT(user_id) AS total
                                                         {
                                                                 if( strstr($tabledata_ary[$i]['Name'], $table_prefix) )
                                                                 {
-                                                                        $titanium_dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
+                                                                        $pnt_dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
                                                                 }
                                                         }
                                                         else
                                                         {
-                                                                $titanium_dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
+                                                                $pnt_dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
                                                         }
                                                 }
                                         }
@@ -511,59 +511,59 @@ $sql = "SELECT COUNT(user_id) AS total
                         }
                         else
                         {
-                                $titanium_dbsize = $lang['Not_available'];
+                                $pnt_dbsize = $lang['Not_available'];
                         }
                 }
                 else
                 {
-                        $titanium_dbsize = $lang['Not_available'];
+                        $pnt_dbsize = $lang['Not_available'];
                 }
         }
         else if( preg_match("/^mssql/", SQL_LAYER) )
         {
                 $sql = "SELECT ((SUM(size) * 8.0) * 1024.0) as dbsize
                         FROM sysfiles";
-                if( $result = $titanium_db->sql_query($sql) )
+                if( $result = $pnt_db->sql_query($sql) )
                 {
-                        $titanium_dbsize = ( $row = $titanium_db->sql_fetchrow($result) ) ? intval($row['dbsize']) : $lang['Not_available'];
+                        $pnt_dbsize = ( $row = $pnt_db->sql_fetchrow($result) ) ? intval($row['dbsize']) : $lang['Not_available'];
                 }
                 else
                 {
-                        $titanium_dbsize = $lang['Not_available'];
+                        $pnt_dbsize = $lang['Not_available'];
                 }
         }
         else
         {
-                $titanium_dbsize = $lang['Not_available'];
+                $pnt_dbsize = $lang['Not_available'];
         }
 
-        if ( is_integer($titanium_dbsize) )
+        if ( is_integer($pnt_dbsize) )
         {
-                if( $titanium_dbsize >= 1048576 )
+                if( $pnt_dbsize >= 1048576 )
                 {
-                        $titanium_dbsize = sprintf("%.2f MB", ( $titanium_dbsize / 1048576 ));
+                        $pnt_dbsize = sprintf("%.2f MB", ( $pnt_dbsize / 1048576 ));
                 }
-                else if( $titanium_dbsize >= 1024 )
+                else if( $pnt_dbsize >= 1024 )
                 {
-                        $titanium_dbsize = sprintf("%.2f KB", ( $titanium_dbsize / 1024 ));
+                        $pnt_dbsize = sprintf("%.2f KB", ( $pnt_dbsize / 1024 ));
                 }
                 else
                 {
-                        $titanium_dbsize = sprintf("%.2f Bytes", $titanium_dbsize);
+                        $pnt_dbsize = sprintf("%.2f Bytes", $pnt_dbsize);
                 }
         }
 /*****[BEGIN]******************************************
  [ Mod:    Advance Admin Index Stats           v1.0.0 ]
  ******************************************************/
 $sql = "SELECT VERSION() AS mysql_version";
-                $result = $titanium_db->sql_query($sql);
+                $result = $pnt_db->sql_query($sql);
                 if ( !$result )
             {
                     message_die(GENERAL_ERROR,"Couldn't obtain MySQL Version", __LINE__, __FILE__, $sql);
             }
-                $row = $titanium_db->sql_fetchrow($result);
+                $row = $pnt_db->sql_fetchrow($result);
                 $mysql_version = $row['mysql_version'];
-                $titanium_db->sql_freeresult($result);
+                $pnt_db->sql_freeresult($result);
 /*****[END]********************************************
  [ Mod:    Advance Admin Index Stats           v1.0.0 ]
  ******************************************************/
@@ -574,9 +574,9 @@ $sql = "SELECT VERSION() AS mysql_version";
                 "START_DATE" => $phpbb2_start_date,
                 "POSTS_PER_DAY" => $phpbb2_posts_per_day,
                 "TOPICS_PER_DAY" => $phpbb2_topics_per_day,
-                "USERS_PER_DAY" => $titanium_users_per_day,
+                "USERS_PER_DAY" => $pnt_users_per_day,
                 "AVATAR_DIR_SIZE" => $avatar_dir_size,
-                "DB_SIZE" => $titanium_dbsize,
+                "DB_SIZE" => $pnt_dbsize,
 /*****[BEGIN]******************************************
  [ Mod:    Advance Admin Index Stats           v1.0.0 ]
  ******************************************************/
@@ -616,7 +616,7 @@ $sql = "SELECT VERSION() AS mysql_version";
  [ Mod:    Online Time                         v1.0.0 ]
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-        $onlinerow_reg = $titanium_db->sql_ufetchrowset($sql);
+        $onlinerow_reg = $pnt_db->sql_ufetchrowset($sql);
 /*****[BEGIN]******************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
@@ -628,13 +628,13 @@ $sql = "SELECT VERSION() AS mysql_version";
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-        $onlinerow_guest = $titanium_db->sql_ufetchrowset($sql);
+        $onlinerow_guest = $pnt_db->sql_ufetchrowset($sql);
 
         $sql = "SELECT forum_name, forum_id
                 FROM " . FORUMS_TABLE;
-        if($forums_result = $titanium_db->sql_query($sql))
+        if($forums_result = $pnt_db->sql_query($sql))
         {
-                while($forumsrow = $titanium_db->sql_fetchrow($forums_result))
+                while($forumsrow = $pnt_db->sql_fetchrow($forums_result))
                 {
                         $phpbb2_forum_data[$forumsrow['forum_id']] = $forumsrow['forum_name'];
                 }
@@ -659,7 +659,7 @@ $sql = "SELECT VERSION() AS mysql_version";
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                                $titanium_username = UsernameColor($onlinerow_reg[$i]['username']);
+                                $pnt_username = UsernameColor($onlinerow_reg[$i]['username']);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -786,7 +786,7 @@ $sql = "SELECT VERSION() AS mysql_version";
 /*****[BEGIN]******************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-                                $TITANIUM_SESSION_HANDLING = select_titanium_session_url($onlinerow_reg[$i]['session_page'], $onlinerow_reg[$i]['session_url_qs'], $onlinerow_reg[$i]['session_url_ps'], $onlinerow_reg[$i]['session_url_specific'], $userdata['user_level'], $onlinerow_reg[$i]['user_id'], $forums_data, $phpbb2_topics_data, $titanium_users_data, $cats_data);
+                                $TITANIUM_SESSION_HANDLING = select_titanium_session_url($onlinerow_reg[$i]['session_page'], $onlinerow_reg[$i]['session_url_qs'], $onlinerow_reg[$i]['session_url_ps'], $onlinerow_reg[$i]['session_url_specific'], $userdata['user_level'], $onlinerow_reg[$i]['user_id'], $forums_data, $phpbb2_topics_data, $pnt_users_data, $cats_data);
                                 $location = $TITANIUM_SESSION_HANDLING;
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
@@ -800,7 +800,7 @@ $sql = "SELECT VERSION() AS mysql_version";
                                 $phpbb2_template->assign_block_vars("reg_user_row", array(
                                         "ROW_COLOR" => "#" . $row_color,
                                         "ROW_CLASS" => $row_class,
-                                        "USERNAME" => $titanium_username,
+                                        "USERNAME" => $pnt_username,
                                         "STARTED" => create_date($phpbb2_board_config['default_dateformat'], $onlinerow_reg[$i]['session_start'], $phpbb2_board_config['board_timezone']),
                                         "LASTUPDATE" => create_date($phpbb2_board_config['default_dateformat'], $onlinerow_reg[$i]['user_session_time'], $phpbb2_board_config['board_timezone']),
                                         "FORUM_LOCATION" => $location,
@@ -946,7 +946,7 @@ $sql = "SELECT VERSION() AS mysql_version";
 /*****[BEGIN]******************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-                        $TITANIUM_SESSION_HANDLING = select_titanium_session_url($onlinerow_guest[$i]['session_page'], $onlinerow_guest[$i]['session_url_qs'], $onlinerow_guest[$i]['session_url_ps'], $onlinerow_guest[$i]['session_url_specific'], $userdata['user_level'], $onlinerow_guest[$i]['user_id'], $forums_data, $phpbb2_topics_data, $titanium_users_data, $cats_data);
+                        $TITANIUM_SESSION_HANDLING = select_titanium_session_url($onlinerow_guest[$i]['session_page'], $onlinerow_guest[$i]['session_url_qs'], $onlinerow_guest[$i]['session_url_ps'], $onlinerow_guest[$i]['session_url_specific'], $userdata['user_level'], $onlinerow_guest[$i]['user_id'], $forums_data, $phpbb2_topics_data, $pnt_users_data, $cats_data);
                         $location = $TITANIUM_SESSION_HANDLING;
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
@@ -1002,7 +1002,7 @@ $sql = "SELECT VERSION() AS mysql_version";
             $sql = 'INSERT INTO ' . CONFIG_TABLE . '(config_name, config_value)
                         VALUES(\'version_check_delay\', ' . $now . ')';
         }
-        $titanium_db->sql_query($sql);
+        $pnt_db->sql_query($sql);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -1121,7 +1121,7 @@ else
 /*****[END]********************************************
  [ Mod:     Log Moderator Actions              v1.1.6 ]
  ******************************************************/
-        $titanium_db->sql_close();
+        $pnt_db->sql_close();
         exit;
 
 }

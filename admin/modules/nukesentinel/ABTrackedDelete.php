@@ -27,9 +27,9 @@ if(preg_match("#All.*Modules#", $showmodule) || !$showmodule ) {
 } else {
   $modfilter="AND page LIKE '%name=$showmodule%'";
 }
-$deleterow = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `user_id`, `ip_addr` FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
-$titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `user_id`='".$deleterow['user_id']."' AND `ip_addr`='".$deleterow['ip_addr']."' $modfilter");
-$titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_tracked_ips`");
+$deleterow = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `user_id`, `ip_addr` FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
+$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `user_id`='".$deleterow['user_id']."' AND `ip_addr`='".$deleterow['ip_addr']."' $modfilter");
+$pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_tracked_ips`");
 header("Location: ".$admin_file.".php?op=$xop&min=$min&column=$column&direction=$direction&showmodule=$showmodule&sip=$sip");
 
 ?>

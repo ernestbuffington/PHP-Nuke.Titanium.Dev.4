@@ -37,7 +37,7 @@ if(preg_match("#All(.*)Countries#", $showcountry) || !$showcountry) {
 } else {
   $modfilter="WHERE `c2c` = '$showcountry'";
 }
-$totalselected = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_ip2country` $modfilter"));
+$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_ip2country` $modfilter"));
 if($totalselected > 0) {
   $selcolumn1 = $selcolumn2 = $selcolumn3 = $seldirection1 = $seldirection2 = "";
   if($column == "c2c") { $selcolumn2 = ' selected="selected"'; }
@@ -55,8 +55,8 @@ if($totalselected > 0) {
   echo '<option value="&nbsp;All&nbsp;Countries" ';
   if($showcountry=="&nbsp;All&nbsp;Countries") { echo ' selected="selected"'; }
   echo '>All Countries</option>'."\n";
-  $countries = $titanium_db->sql_query("SELECT `c2c`, `country` FROM `".$titanium_prefix."_nsnst_countries` ORDER BY `c2c`");;
-  while(list($xc2c, $xcountry) = $titanium_db->sql_fetchrow($countries)) {
+  $countries = $pnt_db->sql_query("SELECT `c2c`, `country` FROM `".$pnt_prefix."_nsnst_countries` ORDER BY `c2c`");;
+  while(list($xc2c, $xcountry) = $pnt_db->sql_fetchrow($countries)) {
     echo '<option value="'.$xc2c.'" ';
     if($showcountry == $xc2c) { echo ' selected="selected"'; }
     echo '>'.strtoupper($xc2c).' - '.$xcountry.'</option>'."\n";
@@ -88,8 +88,8 @@ if($totalselected > 0) {
   echo '<td align="center" width="25%"><strong>'._AB_CIDRS.'</strong></td>'."\n";
   echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_nsnst_ip2country` $modfilter ORDER BY $column $direction LIMIT $min,$perpage");
-  while($getIPs = $titanium_db->sql_fetchrow($result)) {
+  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_ip2country` $modfilter ORDER BY $column $direction LIMIT $min,$perpage");
+  while($getIPs = $pnt_db->sql_fetchrow($result)) {
     $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
     $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
     $getIPs1 = abget_countrytitle($getIPs['c2c']);

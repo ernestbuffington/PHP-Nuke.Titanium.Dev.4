@@ -18,21 +18,21 @@ OpenTable();
 ================================================================================================*/
 function username() 
 {
-    global $titanium_db, $titanium_user_prefix;
+    global $pnt_db, $pnt_user_prefix;
     $in[] = array('value' => 'N/A', 'text' => _NONE);
-    $sql = 'SELECT username FROM `'.$titanium_user_prefix.'_users` WHERE user_id > 1 ORDER BY username ASC';
+    $sql = 'SELECT username FROM `'.$pnt_user_prefix.'_users` WHERE user_id > 1 ORDER BY username ASC';
 
-    if(!$result = $titanium_db->sql_query($sql)) 
+    if(!$result = $pnt_db->sql_query($sql)) 
 	{
         DonateError($lang_donate['UNAMES_NF']);
     }
     
-	while($row = $titanium_db->sql_fetchrow($result)) 
+	while($row = $pnt_db->sql_fetchrow($result)) 
 	{
         $in[] = array('value' => $row[0], 'text' => $row[0]);
     }
     
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
     
 	return  donate_combo('uname', $in, 'None');
 }
@@ -45,17 +45,17 @@ function username()
 ================================================================================================*/
 function types() 
 {
-    global $titanium_db, $titanium_prefix, $lang_donate;
-    $sql = 'SELECT config_value, config_name FROM `'.$titanium_prefix.'_donators_config` WHERE config_name="gen_type_private"';
+    global $pnt_db, $pnt_prefix, $lang_donate;
+    $sql = 'SELECT config_value, config_name FROM `'.$pnt_prefix.'_donators_config` WHERE config_name="gen_type_private"';
 
-    if(!$result = $titanium_db->sql_query($sql)) 
+    if(!$result = $pnt_db->sql_query($sql)) 
 	{
         DonateError($lang_donate['TYPES_NF']);
     }
     
-	$row = $titanium_db->sql_fetchrow($result);
+	$row = $pnt_db->sql_fetchrow($result);
     $type[$row['config_name']] = $row[0];
-    $titanium_db->sql_freeresult($result);
+    $pnt_db->sql_freeresult($result);
     
 	if ($type['gen_type_private'] == 'yes') 
 	{
@@ -79,20 +79,20 @@ function types()
 ================================================================================================*/
 function make_codes () 
 {
-    global $titanium_db, $titanium_prefix, $lang_donate;
-    $sql = 'SELECT config_value, config_name FROM `'.$titanium_prefix.'_donators_config`';
+    global $pnt_db, $pnt_prefix, $lang_donate;
+    $sql = 'SELECT config_value, config_name FROM `'.$pnt_prefix.'_donators_config`';
 
-    if(!$result = $titanium_db->sql_query($sql)) 
+    if(!$result = $pnt_db->sql_query($sql)) 
 	{
         DonateError($lang_donate['TYPES_NF']);
     }
     
-	while ($row = $titanium_db->sql_fetchrow($result)) 
+	while ($row = $pnt_db->sql_fetchrow($result)) 
 	{
         $gen_configs[$row['config_name']] = $row[0];
     }
     
-	$titanium_db->sql_freeresult($result);
+	$pnt_db->sql_freeresult($result);
     
 	if (empty($gen_configs['gen_codes'])) 
 	{
@@ -195,28 +195,28 @@ function check_donation()
 ================================================================================================*/
 function write_donation() 
 {
-    global $lang_donate, $titanium_db, $titanium_user_prefix, $titanium_prefix, $cache;
+    global $lang_donate, $pnt_db, $pnt_user_prefix, $pnt_prefix, $cache;
 
     if ($_POST['uname'] != 'N/A') 
 	{
         $_POST['uname'] = Fix_Quotes(check_html($_POST['uname'], 'nohtml'));
-        $sql = 'SELECT * FROM `'.$titanium_user_prefix.'_users` WHERE username="'.$_POST['uname'].'"';
+        $sql = 'SELECT * FROM `'.$pnt_user_prefix.'_users` WHERE username="'.$_POST['uname'].'"';
     
-	    if(!$result = $titanium_db->sql_query($sql)) 
+	    if(!$result = $pnt_db->sql_query($sql)) 
 		{
             DonateError($lang_donate['UINFO_NF']);
         }
         
-		$titanium_user = $titanium_db->sql_fetchrow($result);
+		$pnt_user = $pnt_db->sql_fetchrow($result);
         
-		if(!is_array($titanium_user)) 
+		if(!is_array($pnt_user)) 
 		{
             DonateError($lang_donate['UINFO_NF']);
         }
         
-		$titanium_db->sql_freeresult($result);
+		$pnt_db->sql_freeresult($result);
         $uname = $_POST['uname'];
-        $uid = $titanium_user['user_id'];
+        $uid = $pnt_user['user_id'];
         
 		if (!empty($_POST['fname'])) 
 		{
@@ -225,20 +225,20 @@ function write_donation()
         } 
 		else 
 		{
-            if (substr_count($titanium_user['name'], ' ') == 1) 
+            if (substr_count($pnt_user['name'], ' ') == 1) 
 			{
-                list($fname, $lname) = split(' ',$titanium_user['name']);
+                list($fname, $lname) = split(' ',$pnt_user['name']);
             } 
 			else 
 			{
-                $fname = $titanium_user['name'];
+                $fname = $pnt_user['name'];
                 $lname = '';
             }
         }
         
 		if (empty($_POST['email'])) 
 		{
-            $email = $titanium_user['user_email'];
+            $email = $pnt_user['user_email'];
         } 
 		else 
 		{
@@ -258,11 +258,11 @@ function write_donation()
     
 	$donated = Fix_Quotes(check_html($_POST['donated'], 'nohtml'));
     $donshow = ($_POST['donshow'] == 'type_regular') ? '1' : '2';
-    $sql = 'INSERT INTO `'.$titanium_prefix.'_donators` 
+    $sql = 'INSERT INTO `'.$pnt_prefix.'_donators` 
 	
 	VALUES("","'.$uid.'","'.$uname.'","'.$fname.'","'.$lname.'","'.$email.'","'.$donated.'",'.time().',"'.$donshow.'","","","","'.$donto.'")';
     
-	$titanium_db->sql_query($sql);
+	$pnt_db->sql_query($sql);
     
 	# Clear the cache
     $cache->delete('donations', 'donations');

@@ -19,14 +19,14 @@ donation_title();
     Notes:       Checks all the values and writes them to the donation table
 ================================================================================================*/
 function thank_values ($option_selection1, $option_selection2, $first_name, $last_name, $payer_email, $payment_gross, $item_name, $uid, $uname) {
-    global $gen_configs, $lang_donate, $titanium_db, $titanium_prefix, $nsnst_const, $cache;
+    global $gen_configs, $lang_donate, $pnt_db, $pnt_prefix, $nsnst_const, $cache;
 
     //Look for the type of donation
     if (isset($option_selection1) && !empty($option_selection1)) {
         //If its anonomyous
         if ($option_selection1 == $lang_donate['TYPE_ANON']) {
-            $sql = 'INSERT INTO '.$titanium_prefix.'_donators VALUES("","","","","","","'.$payment_gross.'",'.time().',"'.$donshow.'","","","", "'.$item_name.'")';
-            $ok = ($titanium_db->sql_query($sql)) ? true : false;
+            $sql = 'INSERT INTO '.$pnt_prefix.'_donators VALUES("","","","","","","'.$payment_gross.'",'.time().',"'.$donshow.'","","","", "'.$item_name.'")';
+            $ok = ($pnt_db->sql_query($sql)) ? true : false;
             return $ok;
         } else {
             $donshow = ($option_selection1 == $lang_donate['TYPE_REGULAR']) ? '1' : '0';
@@ -40,8 +40,8 @@ function thank_values ($option_selection1, $option_selection2, $first_name, $las
         $message = Fix_Quotes($option_selection2, true);
     }
     //Insert donation into DB
-    $sql = 'INSERT INTO '.$titanium_prefix.'_donators VALUES("","'.$uid.'","'.$uname.'","'.$first_name.'","'.$last_name.'","'.$payer_email.'","'.$payment_gross.'",'.time().',"'.$donshow.'","'.$nsnst_const['remote_ip'].'","", "'.$message.'","'.$item_name.'")';
-    $ok = ($titanium_db->sql_query($sql)) ? true : false;
+    $sql = 'INSERT INTO '.$pnt_prefix.'_donators VALUES("","'.$uid.'","'.$uname.'","'.$first_name.'","'.$last_name.'","'.$payer_email.'","'.$payment_gross.'",'.time().',"'.$donshow.'","'.$nsnst_const['remote_ip'].'","", "'.$message.'","'.$item_name.'")';
+    $ok = ($pnt_db->sql_query($sql)) ? true : false;
     //Clear cache
     $cache->delete('block', 'donations');
     $cache->delete('general', 'donations');

@@ -15,8 +15,8 @@ if (!defined('NUKESENTINEL_ADMIN')) {
    die ('You can\'t access this file directly...');
 }
 
-$titanium_db->sql_query("DELETE FROM `".$titanium_prefix."_nsnst_tracked_ips` WHERE `user_id`='$titanium_user_id'");
-$titanium_db->sql_query("OPTIMIZE TABLE `".$titanium_prefix."_nsnst_tracked_ips`");
-header("Location: ".$admin_file.".php?op=$xop&user_id=$titanium_user_id&column=$column&direction=$direction&min=$min&showmodule=$showmodule");
+$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `user_id`='$pnt_user_id'");
+$pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_tracked_ips`");
+header("Location: ".$admin_file.".php?op=$xop&user_id=$pnt_user_id&column=$column&direction=$direction&min=$min&showmodule=$showmodule");
 
 ?>

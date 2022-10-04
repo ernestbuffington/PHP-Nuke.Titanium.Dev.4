@@ -84,18 +84,18 @@ function include_attach_lang()
 */
 function get_config()
 {
-    global $titanium_db, $phpbb2_board_config;
+    global $pnt_db, $phpbb2_board_config;
 
     $attach_config = array();
 
     $sql = 'SELECT *
         FROM ' . ATTACH_CONFIG_TABLE;
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not query attachment information', '', __LINE__, __FILE__, $sql);
     }
 
-    while ($row = $titanium_db->sql_fetchrow($result))
+    while ($row = $pnt_db->sql_fetchrow($result))
     {
         $attach_config[$row['config_name']] = trim($row['config_value']);
     }

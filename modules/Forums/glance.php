@@ -76,7 +76,7 @@ include('includes/posting_icons.'. $phpEx);
     //
     if ( $glance_num_news )
     {
-        $news_data = $titanium_db->sql_fetchrow($result);
+        $news_data = $pnt_db->sql_fetchrow($result);
          $sql = "
             SELECT
                 f.forum_id, f.forum_name, f.forum_color" . $sql_title . ", t.topic_id, t.topic_last_post_id, t.topic_poster, t.topic_views, t.topic_replies, t.topic_type, t.topic_status, t.topic_icon,
@@ -103,28 +103,28 @@ include('includes/posting_icons.'. $phpEx);
 
         $sql .= ($glance_news_offset) ? " LIMIT " . $glance_news_offset . ", " . $glance_num_news : " LIMIT " . $glance_num_news;
 
-        if( !($result = $titanium_db->sql_query($sql)) )
+        if( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, "Could not query new news information", "", __LINE__, __FILE__, $sql);
         }
         $latest_news = array();
-        while ( $topic_row = $titanium_db->sql_fetchrow($result) )
+        while ( $topic_row = $pnt_db->sql_fetchrow($result) )
         {
             $topic_row['topic_title'] = ( count($orig_word) ) ? preg_replace($orig_word, $replacement_word, $topic_row['topic_title']) : $topic_row['topic_title'];
             $latest_news[] = $topic_row;
         }
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         // MOD NAV BEGIN
         // obtain the total number of topic for our news topic navigation bit
         $sql = "SELECT SUM(forum_topics) as topic_total FROM " . FORUMS_TABLE . " f WHERE f.forum_id IN (" . $glance_news_forum_id . ")";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, "Could not query total topics information", "", __LINE__, __FILE__, $sql);
         }
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
         $overall_news_topics = $row['topic_total'];
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         // MOD NAV END
     }
 
@@ -186,14 +186,14 @@ include('includes/posting_icons.'. $phpEx);
 
         $sql .= ($glance_recent_offset) ? " LIMIT " . $glance_recent_offset . ", " . $glance_num_recent : " LIMIT " . $glance_num_recent;
 
-        if( !($result = $titanium_db->sql_query($sql)) )
+        if( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, "Could not query latest topic information", "", __LINE__, __FILE__, $sql);
         }
         $latest_topics = array();
         $latest_anns = array();
         $latest_stickys = array();
-        while ( $topic_row = $titanium_db->sql_fetchrow($result) )
+        while ( $topic_row = $pnt_db->sql_fetchrow($result) )
         {
             $topic_row['topic_title'] = ( count($orig_word) ) ? preg_replace($orig_word, $replacement_word, $topic_row['topic_title']) : $topic_row['topic_title'];
             switch ($topic_row['topic_type'])
@@ -211,18 +211,18 @@ include('includes/posting_icons.'. $phpEx);
                 }
         }
         $latest_topics = array_merge($latest_anns, $latest_stickys, $latest_topics);
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
 
         // MOD NAV BEGIN
         // obtain the total number of topic for our recent topic navigation bit
         $sql = "SELECT SUM(forum_topics) as topic_total FROM " . FORUMS_TABLE . " f WHERE f.forum_id NOT IN (" . $forumsignore . $glance_recent_ignore . $glance_news_forum_id . ")";
-        if ( !($result = $titanium_db->sql_query($sql)) )
+        if ( !($result = $pnt_db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, "Could not query total topics information", "", __LINE__, __FILE__, $sql);
         }
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
         $overall_total_topics = $row['topic_total'];
-        $titanium_db->sql_freeresult($result);
+        $pnt_db->sql_freeresult($result);
         // MOD NAV END
     }
 

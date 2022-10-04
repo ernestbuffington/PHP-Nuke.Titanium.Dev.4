@@ -43,15 +43,15 @@ $num = (isset($num) && is_integer(intval($num)) && intval($num) > 0) ? 'LIMIT '.
 
 $cat = intval($cat);
 if (!empty($cat)) {
-    $catid = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT catid FROM ".$titanium_prefix."_links_categories WHERE title LIKE '%$cat%' LIMIT 1"));
+    $catid = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT catid FROM ".$pnt_prefix."_links_categories WHERE title LIKE '%$cat%' LIMIT 1"));
     if (empty($catid)) {
-        $result = $titanium_db->sql_query("SELECT lid, title, description, date, submitter FROM ".$titanium_prefix."_links_links ORDER BY lid DESC ".$num);
+        $result = $pnt_db->sql_query("SELECT lid, title, description, date, submitter FROM ".$pnt_prefix."_links_links ORDER BY lid DESC ".$num);
     } else {
         $catid = intval($catid);
-        $result = $titanium_db->sql_query("SELECT lid, title, description, date, submitter FROM ".$titanium_prefix."_links_links WHERE catid='$catid' ORDER BY lid DESC ".$num);
+        $result = $pnt_db->sql_query("SELECT lid, title, description, date, submitter FROM ".$pnt_prefix."_links_links WHERE catid='$catid' ORDER BY lid DESC ".$num);
     }
 } else {
-    $result = $titanium_db->sql_query("SELECT lid, title, description, date, submitter FROM ".$titanium_prefix."_links_links ORDER BY lid DESC ".$num);
+    $result = $pnt_db->sql_query("SELECT lid, title, description, date, submitter FROM ".$pnt_prefix."_links_links ORDER BY lid DESC ".$num);
 }
 
 header("Content-Type: text/xml");
@@ -85,7 +85,7 @@ echo "<sy:updatePeriod>hourly</sy:updatePeriod>\n";
 echo "<sy:updateFrequency>1</sy:updateFrequency>\n";
 echo "<sy:updateBase>".$now."</sy:updateBase>\n\n";
 
-while(list($lid, $title, $description, $date) = $titanium_db->sql_fetchrow($result)) {
+while(list($lid, $title, $description, $date) = $pnt_db->sql_fetchrow($result)) {
     $title = stripslashes($title);
     $title = entity_to_hex_value($title);
     $title2 = preg_replace("/ /", "_", $title);

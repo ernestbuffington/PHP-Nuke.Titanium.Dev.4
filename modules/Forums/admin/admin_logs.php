@@ -29,7 +29,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $titanium_module['Logs']['Logs Actions'] = "$file";
+    $pnt_module['Logs']['Logs Actions'] = "$file";
     return;
 }
 
@@ -68,11 +68,11 @@ $sql = "SELECT config_value AS all_admin
 FROM " . LOGS_CONFIG_TABLE . "
 WHERE config_name = 'all_admin' ";
 
-if(!$result = $titanium_db->sql_query($sql)) 
+if(!$result = $pnt_db->sql_query($sql)) 
 { 
    message_die(CRITICAL_ERROR, "Could not query log config informations", "", __LINE__, __FILE__, $sql); 
 }
-$row = $titanium_db->sql_fetchrow($result);
+$row = $pnt_db->sql_fetchrow($result);
 $all_admin_authorized = $row['all_admin'];
 if ( $all_admin_authorized == '0' && $userdata['user_id'] <> '2' && !is_mod_admin($pnt_module) && $userdata['user_view_log'] <> '1' )
 {
@@ -160,31 +160,31 @@ else
 $sql = "SELECT * 
     FROM " . LOGS_TABLE . "
     ORDER BY $order_by "; 
-    if(!$result = $titanium_db->sql_query($sql)) 
+    if(!$result = $pnt_db->sql_query($sql)) 
     { 
        message_die(CRITICAL_ERROR, "Could not query log informations", "", __LINE__, __FILE__, $sql); 
     } 
-    $rows = $titanium_db->sql_fetchrowset($result); 
-    $numrows = $titanium_db->sql_numrows($result); 
+    $rows = $pnt_db->sql_fetchrowset($result); 
+    $numrows = $pnt_db->sql_numrows($result); 
     for ($i = 0; $i < $numrows; $i++) 
     {
         $id_log = $rows[$i]['log_id'];
         $action = ucfirst($rows[$i]['mode']); 
         $topic = $rows[$i]['topic_id']; 
-        $titanium_user_id = $rows[$i]['user_id']; 
-        $titanium_username = $rows[$i]['username'];
-        $titanium_user_ip = decode_ip($rows[$i]['user_ip']);
+        $pnt_user_id = $rows[$i]['user_id']; 
+        $pnt_username = $rows[$i]['username'];
+        $pnt_user_ip = decode_ip($rows[$i]['user_ip']);
         $date = $rows[$i]['time']; 
 
         $sql = "SELECT topic_title 
             FROM " . TOPICS_TABLE . "
             WHERE topic_id = '$topic'";
-        if(!$result = $titanium_db->sql_query($sql)) 
+        if(!$result = $pnt_db->sql_query($sql)) 
         { 
            message_die(CRITICAL_ERROR, "Could not query topic_title informations", "", __LINE__, __FILE__, $sql); 
         }
-        $topic_title = $titanium_db->sql_fetchrow($result);
-        $temp_url = append_titanium_sid('admin_users.'.$phpEx.'?mode=edit&u=' . $titanium_user_id); 
+        $topic_title = $pnt_db->sql_fetchrow($result);
+        $temp_url = append_titanium_sid('admin_users.'.$phpEx.'?mode=edit&u=' . $pnt_user_id); 
         $temp2_url = ('./../../../modules.php?name=Forums&file=viewtopic&t=' . $topic);
 
         if ($topic_title['topic_title']) {
@@ -196,27 +196,27 @@ $sql = "SELECT *
         
         $sql = "SELECT user_level
             FROM " . USERS_TABLE . "
-            WHERE user_id = $titanium_user_id";
+            WHERE user_id = $pnt_user_id";
         
-        if(!$result = $titanium_db->sql_query($sql)) 
+        if(!$result = $pnt_db->sql_query($sql)) 
         { 
            message_die(CRITICAL_ERROR, "Could not query user_level informations", "", __LINE__, __FILE__, $sql); 
         } 
-        $row = $titanium_db->sql_fetchrow($result);
+        $row = $pnt_db->sql_fetchrow($result);
         $level = $row['user_level'];
 
          $phpbb2_template->assign_block_vars('record_row', array( 
             'ID_LOG' => $id_log,
             'ACTION' => $action,
             'TOPIC' => $topic_title,
-            'USER_ID' => $titanium_user_id,
-            'USERNAME' => '<a href="' . $temp_url . '" target=_new>' . UsernameColor($titanium_username) . '</a>', 
-            'USER_IP' => $titanium_user_ip,
-            'U_WHOIS_IP' => 'http://network-tools.com/default.asp?prog=express&Netnic=whois.arin.net&host=' . $titanium_user_ip, 
+            'USER_ID' => $pnt_user_id,
+            'USERNAME' => '<a href="' . $temp_url . '" target=_new>' . UsernameColor($pnt_username) . '</a>', 
+            'USER_IP' => $pnt_user_ip,
+            'U_WHOIS_IP' => 'http://network-tools.com/default.asp?prog=express&Netnic=whois.arin.net&host=' . $pnt_user_ip, 
             'DATE' => create_date($phpbb2_board_config['default_dateformat'], $date, $phpbb2_board_config['board_timezone'])) 
          );
     }
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
 $log_list = ( isset($HTTP_POST_VARS['log_list']) ) ?  $HTTP_POST_VARS['log_list'] : array();
 $delete = ( isset($HTTP_POST_VARS['delete']) ) ?  TRUE : FALSE ;
 
@@ -230,7 +230,7 @@ if ( $log_list_sql != '' )
         FROM " . LOGS_TABLE . " 
         WHERE log_id IN (" . $log_list_sql . ")";
 
-        if( !$result = $titanium_db->sql_query($sql) )
+        if( !$result = $pnt_db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, 'Could not delete Logs', '', __LINE__, __FILE__, $sql);
         }
@@ -247,12 +247,12 @@ if ( $phpbb2_board_config['topics_per_page'] > 10 )
 {
     $sql = "SELECT count(*) AS total
         FROM " . LOGS_TABLE;
-        if ( !($result = $titanium_db->sql_query($sql)) ) 
+        if ( !($result = $pnt_db->sql_query($sql)) ) 
        { 
           message_die(GENERAL_ERROR, 'Error getting total informations for logs', '', __LINE__, __FILE__, $sql); 
        }
 
-       if ( $total = $titanium_db->sql_fetchrow($result) ) 
+       if ( $total = $pnt_db->sql_fetchrow($result) ) 
        { 
           $total_phpbb2_records = $total['total']; 
     

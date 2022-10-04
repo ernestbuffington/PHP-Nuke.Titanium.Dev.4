@@ -10,15 +10,15 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 
 $position_name = htmlentities($position_name, ENT_QUOTES);
 
-$result = $titanium_db2->sql_query("SELECT `position_weight` FROM `".$network_prefix."_members_positions` ORDER BY `position_weight` DESC");
+$result = $pnt_db2->sql_query("SELECT `position_weight` FROM `".$network_prefix."_members_positions` ORDER BY `position_weight` DESC");
 
-list($lweight) = $titanium_db2->sql_fetchrow($result);
+list($lweight) = $pnt_db2->sql_fetchrow($result);
 
 $weight = $lweight + 1;
 
@@ -27,7 +27,7 @@ if($weight < 1)
   $weight = 1; 
 }
 
-$titanium_db2->sql_query("INSERT INTO `".$network_prefix."_members_positions` VALUES (NULL, '$position_name', '$weight')");
+$pnt_db2->sql_query("INSERT INTO `".$network_prefix."_members_positions` VALUES (NULL, '$position_name', '$weight')");
 
 header("Location: ".$admin_file.".php?op=MemberPositionList");
 ?>

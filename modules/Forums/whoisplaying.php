@@ -53,10 +53,10 @@ $sql = "SELECT u.username,
 				IN ($liste_cat_auth) 
 				ORDER BY gh.hash_date DESC";
 
-if(!($result = $titanium_db->sql_query($sql))) 
+if(!($result = $pnt_db->sql_query($sql))) 
 message_die(CRITICAL_ERROR, "Could not query games information", "", __LINE__, __FILE__, $sql);
 
-while($row = $titanium_db->sql_fetchrow($result)):
+while($row = $pnt_db->sql_fetchrow($result)):
 $players[] = $row;
 endwhile;
 

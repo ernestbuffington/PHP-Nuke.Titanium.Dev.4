@@ -68,10 +68,10 @@ if(isset($HTTP_GET_VARS['view'])):
 
     $sql = "SELECT topic_id, post_time FROM " . POSTS_TABLE . " WHERE post_id = " . $post_id . " LIMIT 1";
 
-    if (!($result = $titanium_db->sql_query($sql)))
+    if (!($result = $pnt_db->sql_query($sql)))
     message_die(GENERAL_ERROR, "Could not obtain newer/older post information", '', __LINE__, __FILE__, $sql);
 
-    $row = $titanium_db->sql_fetchrow($result);
+    $row = $pnt_db->sql_fetchrow($result);
 
     $topic_id = $row['topic_id'];
     $post_time = $row['post_time'];
@@ -82,10 +82,10 @@ if(isset($HTTP_GET_VARS['view'])):
             ORDER BY post_time $sql_ordering
             LIMIT 1";
         
-    if(!($result = $titanium_db->sql_query($sql)))
+    if(!($result = $pnt_db->sql_query($sql)))
     message_die(GENERAL_ERROR, "Could not obtain newer/older post information", '', __LINE__, __FILE__, $sql);
         
-        if($row = $titanium_db->sql_fetchrow($result)):
+        if($row = $pnt_db->sql_fetchrow($result)):
             $post_id = $row['post_id'];
         else:
             $message = ( $HTTP_GET_VARS['view'] == 'next' ) ? 'No_newer_posts' : 'No_older_posts';
@@ -128,17 +128,17 @@ $tmp = '';
 
 # Mod: Attachment Mod v2.4.1 END
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 message_die(GENERAL_ERROR, 'Could not obtain topic information', '', __LINE__, __FILE__, $sql);
 
-if(!($forum_row = $titanium_db->sql_fetchrow($result)))
+if(!($forum_row = $pnt_db->sql_fetchrow($result)))
 message_die(GENERAL_MESSAGE, 'Topic_post_not_exist');
 
 $phpbb2_forum_id = $forum_row['forum_id'];
 $topic_title = $forum_row['topic_title'];
 
 # Start session management
-$userdata = titanium_session_pagestart($titanium_user_ip, $phpbb2_forum_id);
+$userdata = titanium_session_pagestart($pnt_user_ip, $phpbb2_forum_id);
 titanium_init_userprefs($userdata);
 # End session management
 
@@ -188,15 +188,15 @@ $sql = "SELECT *
         FROM " . RANKS_TABLE . "
         ORDER BY rank_special, rank_min";
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 message_die(GENERAL_ERROR, "Could not obtain ranks information.", '', __LINE__, __FILE__, $sql);
 
 $ranksrow = array();
 
-while($row = $titanium_db->sql_fetchrow($result)):
+while($row = $pnt_db->sql_fetchrow($result)):
     $ranksrow[] = $row;
 endwhile;
-$titanium_db->sql_freeresult($result);
+$pnt_db->sql_freeresult($result);
     
 
 # Go ahead and pull all data for this topic
@@ -209,7 +209,7 @@ $sql = "SELECT u.*, p.*, u.user_allow_viewonline, u.user_session_time, pt.post_t
         LIMIT 1";
 # Mod: Online/Offline/Hidden v2.2.7 END
 
-if(!($result = $titanium_db->sql_query($sql)))
+if(!($result = $pnt_db->sql_query($sql)))
 message_die(GENERAL_ERROR, 'Could not obtain post/user information', '', __LINE__, __FILE__, $sql);
 
 # Mod: Attachment Mod v2.4.1 START
@@ -223,7 +223,7 @@ message_die(GENERAL_ERROR, 'Could not obtain post/user information', '', __LINE_
 
 # Okay, let's do the loop, yeah come on baby let's do the loop
 # and it goes like this ...
-if($row = $titanium_db->sql_fetchrow($result)):
+if($row = $pnt_db->sql_fetchrow($result)):
 
     $mini_post_img = $images['icon_minipost'];
     $mini_post_alt = $lang['Post'];
@@ -425,10 +425,10 @@ if($row = $titanium_db->sql_fetchrow($result)):
         
 		# Mod: View/Disable Avatars/Signatures v1.1.2 START
         if($userdata['user_showsignatures'])
-        $titanium_user_sig = ( $row['enable_sig'] && !empty($row['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $row['user_sig'] : '';
+        $pnt_user_sig = ( $row['enable_sig'] && !empty($row['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $row['user_sig'] : '';
 		# Mod: View/Disable Avatars/Signatures v1.1.2 END
 
-        $titanium_user_sig_bbcode_uid = $row['user_sig_bbcode_uid'];
+        $pnt_user_sig_bbcode_uid = $row['user_sig_bbcode_uid'];
 
         # Note! The order used for parsing the message _is_ important, moving things around could break any 
         # output
@@ -436,8 +436,8 @@ if($row = $titanium_db->sql_fetchrow($result)):
         # If the board has HTML off but the post has HTML
         # on then we process it, else leave it alone
         if(!$phpbb2_board_config['allow_html'] || !$userdata['user_allowhtml']):
-            if(!empty($titanium_user_sig))
-            $titanium_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $titanium_user_sig);
+            if(!empty($pnt_user_sig))
+            $pnt_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $pnt_user_sig);
 
             if($row['enable_html'])
             $message = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $message);
@@ -445,22 +445,22 @@ if($row = $titanium_db->sql_fetchrow($result)):
 
         # Parse message and/or sig for BBCode if reqd
         if($phpbb2_board_config['allow_bbcode']):
-            if(!empty($titanium_user_sig) && !empty($titanium_user_sig_bbcode_uid))
-            $titanium_user_sig = ( $phpbb2_board_config['allow_bbcode'] ) ? bbencode_second_pass($titanium_user_sig, $titanium_user_sig_bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $titanium_user_sig);
+            if(!empty($pnt_user_sig) && !empty($pnt_user_sig_bbcode_uid))
+            $pnt_user_sig = ( $phpbb2_board_config['allow_bbcode'] ) ? bbencode_second_pass($pnt_user_sig, $pnt_user_sig_bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $pnt_user_sig);
 
             if(!empty($bbcode_uid))
             $message = ( $phpbb2_board_config['allow_bbcode'] ) ? bbencode_second_pass($message, $bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $message);
         endif;
 
-        if(!empty($titanium_user_sig))
-        $titanium_user_sig = make_clickable($titanium_user_sig);
+        if(!empty($pnt_user_sig))
+        $pnt_user_sig = make_clickable($pnt_user_sig);
 
         $message = make_clickable($message);
 
         # Parse smilies
         if($phpbb2_board_config['allow_smilies']):
-            if($row['user_allowsmile'] && !empty($titanium_user_sig))
-            $titanium_user_sig = smilies_pass($titanium_user_sig);
+            if($row['user_allowsmile'] && !empty($pnt_user_sig))
+            $pnt_user_sig = smilies_pass($pnt_user_sig);
 
             if ( $row['enable_smilies'] )
             $message = smilies_pass($message);
@@ -470,22 +470,22 @@ if($row = $titanium_db->sql_fetchrow($result)):
         if (count($orig_word)):
             $post_subject = preg_replace($orig_word, $replacement_word, $post_subject);
 
-            if (!empty($titanium_user_sig))
-            $titanium_user_sig = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' . $titanium_user_sig . '<'), 1, -1));
+            if (!empty($pnt_user_sig))
+            $pnt_user_sig = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' . $pnt_user_sig . '<'), 1, -1));
 
             $message = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' . $message . '<'), 1, -1));
         endif;
 
         # Replace newlines (we use this rather than nl2br because
         # till recently it wasn't XHTML compliant)
-        if(!empty($titanium_user_sig)):
+        if(!empty($pnt_user_sig)):
           # Mod: Force Word Wrapping v1.0.16 START
-          $titanium_user_sig = word_wrap_pass($titanium_user_sig);
+          $pnt_user_sig = word_wrap_pass($pnt_user_sig);
           # Mod: Force Word Wrapping v1.0.16 END
 
           # Mod: Advance Signature Divider Control v1.0.0 START
           # Mod: Bottom aligned signature v1.2.0 START
-          $titanium_user_sig = '<br />' . $phpbb2_board_config['sig_line'] . '<br />' . str_replace("\n", "\n<br />\n", $titanium_user_sig);
+          $pnt_user_sig = '<br />' . $phpbb2_board_config['sig_line'] . '<br />' . str_replace("\n", "\n<br />\n", $pnt_user_sig);
           # Mod: Advance Signature Divider Control v1.0.0 END
           # Mod: Bottom aligned signature v1.2.0 END
         endif;
@@ -542,7 +542,7 @@ if($row = $titanium_db->sql_fetchrow($result)):
             'POST_DATE' => $post_date,
             'POST_SUBJECT' => $post_subject,
             'MESSAGE' => $message, 
-            'SIGNATURE' => $titanium_user_sig, 
+            'SIGNATURE' => $pnt_user_sig, 
             'EDITED_MESSAGE' => $l_edited_by, 
 
             'MINI_POST_IMG' => $mini_post_img, 
@@ -586,7 +586,7 @@ if($row = $titanium_db->sql_fetchrow($result)):
 
       $i++;
     }
-    while($row = $titanium_db->sql_fetchrow($result));
+    while($row = $pnt_db->sql_fetchrow($result));
 
 else:
     message_die(GENERAL_MESSAGE, 'Topic_post_not_exist', '', __LINE__, __FILE__, $sql);

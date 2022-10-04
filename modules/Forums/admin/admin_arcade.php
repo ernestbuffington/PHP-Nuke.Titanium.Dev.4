@@ -18,7 +18,7 @@ define('IN_PHPBB2', 1);
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $titanium_module['Arcade_Admin']['Configuration'] = $file;
+    $pnt_module['Arcade_Admin']['Configuration'] = $file;
     return;
 }
 
@@ -37,13 +37,13 @@ require($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
 //
 $sql = "SELECT *
     FROM " . ARCADE_TABLE;
-if(!$result = $titanium_db->sql_query($sql))
+if(!$result = $pnt_db->sql_query($sql))
 {
     message_die(CRITICAL_ERROR, "Could not query config information in admin_arcade", "", __LINE__, __FILE__, $sql);
 }
 else
 {
-    while( $row = $titanium_db->sql_fetchrow($result) )
+    while( $row = $pnt_db->sql_fetchrow($result) )
     {
         $arcade_name = $row['arcade_name'];
         $arcade_value = $row['arcade_value'];
@@ -56,7 +56,7 @@ else
             $sql = "UPDATE " . ARCADE_TABLE . "
                 SET arcade_value = '" . str_replace("\'", "''", $new[$arcade_name]) . "'
                 WHERE arcade_name = '$arcade_name'";
-            if( !$titanium_db->sql_query($sql) )
+            if( !$pnt_db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Failed to update arcade configuration for $arcade_name", "", __LINE__, __FILE__, $sql);
             }

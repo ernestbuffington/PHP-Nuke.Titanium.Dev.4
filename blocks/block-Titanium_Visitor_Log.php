@@ -19,13 +19,13 @@
 ************************************************************************/
 defined('NUKE_EVO') or die('Just go away, Shit Head!');
 
-global $titanium_db, $titanium_prefix, $userinfo;
+global $pnt_db, $pnt_prefix, $userinfo;
 global $evouserinfo_avatar, $phpbb2_board_config, $userinfo; 
 
 $max_height = '60';
 $max_width = '60';
 
-$result = $titanium_db->sql_query("SELECT * FROM `".$titanium_prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 10");
+$result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 10");
 
 $content   = '<div align="center">';
 $content  .= '<table border="0" width="200">';
@@ -34,7 +34,7 @@ $content  .= '<td align="center">';
 
 $content  .= '<table border="1" cellpadding="0" cellspacing="1" class="visitorlog">';
 
-while($whosbeen = $titanium_db->sql_fetchrow($result)):
+while($whosbeen = $pnt_db->sql_fetchrow($result)):
 
 	if($whosbeen['user_from_flag'] ):
 	$whosbeen['user_from_flag'] = str_replace('.png','',$whosbeen['user_from_flag']);

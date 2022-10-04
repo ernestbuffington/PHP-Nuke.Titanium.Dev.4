@@ -40,38 +40,38 @@ if (!defined('CNBYA')) {
     global $cookie;
     $check = $cookie[1];
     $check2 = $cookie[2];
-    $result = $titanium_db->sql_query("SELECT user_id, user_password, user_email FROM ".$titanium_user_prefix."_users WHERE username='$check'");
-    $row = $titanium_db->sql_fetchrow($result);
+    $result = $pnt_db->sql_query("SELECT user_id, user_password, user_email FROM ".$pnt_user_prefix."_users WHERE username='$check'");
+    $row = $pnt_db->sql_fetchrow($result);
     $vuid = $row['user_id'];
     $ccpass = $row['user_password'];
     $tuemail = strtolower($row['user_email']);
-    $titanium_user_sig = str_replace("<br />", "\r\n", $titanium_user_sig);
-    $titanium_user_sig = ya_fixtext($titanium_user_sig);
-    $titanium_user_email = strtolower($titanium_user_email);
-    $titanium_user_email = ya_fixtext($titanium_user_email);
+    $pnt_user_sig = str_replace("<br />", "\r\n", $pnt_user_sig);
+    $pnt_user_sig = ya_fixtext($pnt_user_sig);
+    $pnt_user_email = strtolower($pnt_user_email);
+    $pnt_user_email = ya_fixtext($pnt_user_email);
     $femail = ya_fixtext($femail);
-    $titanium_user_website = ya_fixtext($titanium_user_website);
+    $pnt_user_website = ya_fixtext($pnt_user_website);
     $bio = ya_fixtext($bio);
-    $titanium_user_icq = ya_fixtext($titanium_user_icq);
-    $titanium_user_aim = ya_fixtext($titanium_user_aim);
-    $titanium_user_yim = ya_fixtext($titanium_user_yim);
-    $titanium_user_msnm = ya_fixtext($titanium_user_msnm);
-    $titanium_user_occ = ya_fixtext($titanium_user_occ);
-    $titanium_user_from = ya_fixtext($titanium_user_from);
-    $titanium_user_interests = ya_fixtext($titanium_user_interests);
+    $pnt_user_icq = ya_fixtext($pnt_user_icq);
+    $pnt_user_aim = ya_fixtext($pnt_user_aim);
+    $pnt_user_yim = ya_fixtext($pnt_user_yim);
+    $pnt_user_msnm = ya_fixtext($pnt_user_msnm);
+    $pnt_user_occ = ya_fixtext($pnt_user_occ);
+    $pnt_user_from = ya_fixtext($pnt_user_from);
+    $pnt_user_interests = ya_fixtext($pnt_user_interests);
     $realname = ya_fixtext($realname);
-    $titanium_user_dateformat = ya_fixtext($titanium_user_dateformat);
+    $pnt_user_dateformat = ya_fixtext($pnt_user_dateformat);
     $newsletter = intval($newsletter);
-    $titanium_user_viewemail = intval($titanium_user_viewemail);
-    $titanium_user_allow_viewonline = intval($titanium_user_allow_viewonline);
-    $titanium_user_timezone = intval($titanium_user_timezone);
+    $pnt_user_viewemail = intval($pnt_user_viewemail);
+    $pnt_user_allow_viewonline = intval($pnt_user_allow_viewonline);
+    $pnt_user_timezone = intval($pnt_user_timezone);
     if ($ya_config['allowmailchange'] < 1) {
-        if ($tuemail != $titanium_user_email) { ya_mailCheck($titanium_user_email); }
+        if ($tuemail != $pnt_user_email) { ya_mailCheck($pnt_user_email); }
     }
     if ($user_password > "" OR $vpass > "") { ya_passCheck($user_password, $vpass); }
 
-        $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need = '3' ORDER BY pos");
-        while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
+        $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field WHERE need = '3' ORDER BY pos");
+        while ($sqlvalue = $pnt_db->sql_fetchrow($result)) {
           $t = $sqlvalue[fid];
           if (empty($nfield[$t])) {
             include_once(NUKE_BASE_DIR.'header.php');
@@ -85,14 +85,14 @@ if (!defined('CNBYA')) {
           };
         }
 
-    if (empty($stop) AND ($titanium_user_id == $vuid) AND ($check2 == $ccpass)) {
-        if (!preg_match("#http://#i", $titanium_user_website) AND !empty($titanium_user_website)) {
-            $titanium_user_website = "http://$titanium_user_website";
+    if (empty($stop) AND ($pnt_user_id == $vuid) AND ($check2 == $ccpass)) {
+        if (!preg_match("#http://#i", $pnt_user_website) AND !empty($pnt_user_website)) {
+            $pnt_user_website = "http://$pnt_user_website";
         }
         if ($bio) { filter_text($bio); $bio = $EditedMessage; $bio = Fix_Quotes($bio); }
         if (!empty($user_password)) {
             global $cookie;
-            $titanium_db->sql_query("LOCK TABLES ".$titanium_user_prefix."_users, ".$titanium_user_prefix."_cnbya_value WRITE");
+            $pnt_db->sql_query("LOCK TABLES ".$pnt_user_prefix."_users, ".$pnt_user_prefix."_cnbya_value WRITE");
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
@@ -101,72 +101,72 @@ if (!defined('CNBYA')) {
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
 
-            if ( ($ya_config['emailvalidate'] == '0') OR ($tuemail == $titanium_user_email) ) {
-                $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET name='$realname', user_email='$titanium_user_email', femail='$femail', user_website='$titanium_user_website', user_password='$user_password', bio='$bio', user_icq='$titanium_user_icq', user_occ='$titanium_user_occ', user_from='$titanium_user_from', user_interests='$titanium_user_interests', user_sig='$titanium_user_sig', user_aim='$titanium_user_aim', user_yim='$titanium_user_yim', user_msnm='$titanium_user_msnm', newsletter='$newsletter', user_viewemail='$titanium_user_viewemail', user_allow_viewonline='$titanium_user_allow_viewonline', user_notify='$titanium_user_notify', user_notify_pm='$titanium_user_notify_pm', user_popup_pm='$titanium_user_popup_pm', user_attachsig='$titanium_user_attachsig', user_allowbbcode='$titanium_user_allowbbcode', user_allowhtml='$titanium_user_allowhtml', user_allowsmile='$titanium_user_allowsmile', user_timezone='$titanium_user_timezone', user_dateformat='$titanium_user_dateformat' WHERE user_id='$titanium_user_id'");
+            if ( ($ya_config['emailvalidate'] == '0') OR ($tuemail == $pnt_user_email) ) {
+                $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET name='$realname', user_email='$pnt_user_email', femail='$femail', user_website='$pnt_user_website', user_password='$user_password', bio='$bio', user_icq='$pnt_user_icq', user_occ='$pnt_user_occ', user_from='$pnt_user_from', user_interests='$pnt_user_interests', user_sig='$pnt_user_sig', user_aim='$pnt_user_aim', user_yim='$pnt_user_yim', user_msnm='$pnt_user_msnm', newsletter='$newsletter', user_viewemail='$pnt_user_viewemail', user_allow_viewonline='$pnt_user_allow_viewonline', user_notify='$pnt_user_notify', user_notify_pm='$pnt_user_notify_pm', user_popup_pm='$pnt_user_popup_pm', user_attachsig='$pnt_user_attachsig', user_allowbbcode='$pnt_user_allowbbcode', user_allowhtml='$pnt_user_allowhtml', user_allowsmile='$pnt_user_allowsmile', user_timezone='$pnt_user_timezone', user_dateformat='$pnt_user_dateformat' WHERE user_id='$pnt_user_id'");
             } else {
-                $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET name='$realname', femail='$femail', user_website='$titanium_user_website', user_password='$user_password', bio='$bio', user_icq='$titanium_user_icq', user_occ='$titanium_user_occ', user_from='$titanium_user_from', user_interests='$titanium_user_interests', user_sig='$titanium_user_sig', user_aim='$titanium_user_aim', user_yim='$titanium_user_yim', user_msnm='$titanium_user_msnm', newsletter='$newsletter', user_viewemail='$titanium_user_viewemail', user_allow_viewonline='$titanium_user_allow_viewonline', user_notify='$titanium_user_notify', user_notify_pm='$titanium_user_notify_pm', user_popup_pm='$titanium_user_popup_pm', user_attachsig='$titanium_user_attachsig', user_allowbbcode='$titanium_user_allowbbcode', user_allowhtml='$titanium_user_allowhtml', user_allowsmile='$titanium_user_allowsmile', user_timezone='$titanium_user_timezone', user_dateformat='$titanium_user_dateformat' WHERE user_id='$titanium_user_id'");
+                $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET name='$realname', femail='$femail', user_website='$pnt_user_website', user_password='$user_password', bio='$bio', user_icq='$pnt_user_icq', user_occ='$pnt_user_occ', user_from='$pnt_user_from', user_interests='$pnt_user_interests', user_sig='$pnt_user_sig', user_aim='$pnt_user_aim', user_yim='$pnt_user_yim', user_msnm='$pnt_user_msnm', newsletter='$newsletter', user_viewemail='$pnt_user_viewemail', user_allow_viewonline='$pnt_user_allow_viewonline', user_notify='$pnt_user_notify', user_notify_pm='$pnt_user_notify_pm', user_popup_pm='$pnt_user_popup_pm', user_attachsig='$pnt_user_attachsig', user_allowbbcode='$pnt_user_allowbbcode', user_allowhtml='$pnt_user_allowhtml', user_allowsmile='$pnt_user_allowsmile', user_timezone='$pnt_user_timezone', user_dateformat='$pnt_user_dateformat' WHERE user_id='$pnt_user_id'");
                 $datekey = date("F Y");
-                $check_num = substr(md5(hexdec($datekey) * hexdec($cookie[2]) * hexdec($sitekey) * hexdec($titanium_user_email) * hexdec($tuemail)), 2, 10);
-                $finishlink = "$nukeurl/modules.php?name=$pnt_module&op=changemail&id=$titanium_user_id&mail=$titanium_user_email&check_num=$check_num";
-                $message .= _CHANGEMAIL1." $tuemail "._CHANGEMAIL2." $titanium_user_email"._CHANGEMAIL3." $sitename.<br /><br />";
+                $check_num = substr(md5(hexdec($datekey) * hexdec($cookie[2]) * hexdec($sitekey) * hexdec($pnt_user_email) * hexdec($tuemail)), 2, 10);
+                $finishlink = "$nukeurl/modules.php?name=$pnt_module&op=changemail&id=$pnt_user_id&mail=$pnt_user_email&check_num=$check_num";
+                $message .= _CHANGEMAIL1." $tuemail "._CHANGEMAIL2." $pnt_user_email"._CHANGEMAIL3." $sitename.<br /><br />";
                 $message .= _CHANGEMAILFIN."<br /><br />$finishlink<br /><br />";
                 $subject = _CHANGEMAILSUB;
-                ya_mail($titanium_user_email, $subject, $message, '');
+                ya_mail($pnt_user_email, $subject, $message, '');
             }
 
             if (count($nfield) > 0) {
               foreach ($nfield as $key => $var) {
-                  if (($titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_value WHERE fid='$key' AND uid = '$titanium_user_id'"))) == 0) {
-                  $sql = "INSERT INTO ".$titanium_user_prefix."_cnbya_value (uid, fid, value) VALUES ('$titanium_user_id', '$key','$nfield[$key]')";
-                  $titanium_db->sql_query($sql);
+                  if (($pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_value WHERE fid='$key' AND uid = '$pnt_user_id'"))) == 0) {
+                  $sql = "INSERT INTO ".$pnt_user_prefix."_cnbya_value (uid, fid, value) VALUES ('$pnt_user_id', '$key','$nfield[$key]')";
+                  $pnt_db->sql_query($sql);
                 }
                 else {
-                $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_cnbya_value SET value='$nfield[$key]' WHERE fid='$key' AND uid = '$titanium_user_id'");
+                $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_cnbya_value SET value='$nfield[$key]' WHERE fid='$key' AND uid = '$pnt_user_id'");
                 }
               }
             }
 
-            $sql = "SELECT * FROM ".$titanium_user_prefix."_users WHERE username='$titanium_username' AND user_password='$user_password'";
-            $result = $titanium_db->sql_query($sql);
-            if ($titanium_db->sql_numrows($result) == 1) {
-                $userinfo = $titanium_db->sql_fetchrow($result);
+            $sql = "SELECT * FROM ".$pnt_user_prefix."_users WHERE username='$pnt_username' AND user_password='$user_password'";
+            $result = $pnt_db->sql_query($sql);
+            if ($pnt_db->sql_numrows($result) == 1) {
+                $userinfo = $pnt_db->sql_fetchrow($result);
                 yacookie($userinfo[user_id],$userinfo[username],$userinfo[user_password],$userinfo[storynum],$userinfo[umode],$userinfo[uorder],$userinfo[thold],$userinfo[noscore],$userinfo[ublockon],$userinfo[theme],$userinfo[commentmax]);
             } else {
                 echo "<center>"._SOMETHINGWRONG."</center><br />";
             }
-            $titanium_db->sql_query("UNLOCK TABLES");
+            $pnt_db->sql_query("UNLOCK TABLES");
         } else {
-            $titanium_db->sql_query("LOCK TABLES ".$titanium_user_prefix."_users,".$titanium_user_prefix."_cnbya_value WRITE");
+            $pnt_db->sql_query("LOCK TABLES ".$pnt_user_prefix."_users,".$pnt_user_prefix."_cnbya_value WRITE");
 
-        if ( ($ya_config['emailvalidate'] == '0') OR ($tuemail == $titanium_user_email) ) {
-            $q = "UPDATE ".$titanium_user_prefix."_users SET name='$realname', user_email='$titanium_user_email', femail='$femail', user_website='$titanium_user_website', bio='$bio', user_icq='$titanium_user_icq', user_occ='$titanium_user_occ', user_from='$titanium_user_from', user_interests='$titanium_user_interests', user_sig='$titanium_user_sig', user_aim='$titanium_user_aim', user_yim='$titanium_user_yim', user_msnm='$titanium_user_msnm', newsletter='$newsletter', user_viewemail='$titanium_user_viewemail', user_allow_viewonline='$titanium_user_allow_viewonline', user_notify='$titanium_user_notify', user_notify_pm='$titanium_user_notify_pm', user_popup_pm='$titanium_user_popup_pm', user_attachsig='$titanium_user_attachsig', user_allowbbcode='$titanium_user_allowbbcode', user_allowhtml='$titanium_user_allowhtml', user_allowsmile='$titanium_user_allowsmile', user_timezone='$titanium_user_timezone', user_dateformat='$titanium_user_dateformat' WHERE user_id='$titanium_user_id'";
-                $titanium_db->sql_query($q);
+        if ( ($ya_config['emailvalidate'] == '0') OR ($tuemail == $pnt_user_email) ) {
+            $q = "UPDATE ".$pnt_user_prefix."_users SET name='$realname', user_email='$pnt_user_email', femail='$femail', user_website='$pnt_user_website', bio='$bio', user_icq='$pnt_user_icq', user_occ='$pnt_user_occ', user_from='$pnt_user_from', user_interests='$pnt_user_interests', user_sig='$pnt_user_sig', user_aim='$pnt_user_aim', user_yim='$pnt_user_yim', user_msnm='$pnt_user_msnm', newsletter='$newsletter', user_viewemail='$pnt_user_viewemail', user_allow_viewonline='$pnt_user_allow_viewonline', user_notify='$pnt_user_notify', user_notify_pm='$pnt_user_notify_pm', user_popup_pm='$pnt_user_popup_pm', user_attachsig='$pnt_user_attachsig', user_allowbbcode='$pnt_user_allowbbcode', user_allowhtml='$pnt_user_allowhtml', user_allowsmile='$pnt_user_allowsmile', user_timezone='$pnt_user_timezone', user_dateformat='$pnt_user_dateformat' WHERE user_id='$pnt_user_id'";
+                $pnt_db->sql_query($q);
             } else {
 
-                $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET name='$realname', femail='$femail', user_website='$titanium_user_website', bio='$bio', user_icq='$titanium_user_icq', user_occ='$titanium_user_occ', user_from='$titanium_user_from', user_interests='$titanium_user_interests', user_sig='$titanium_user_sig', user_aim='$titanium_user_aim', user_yim='$titanium_user_yim', user_msnm='$titanium_user_msnm', newsletter='$newsletter', user_viewemail='$titanium_user_viewemail', user_allow_viewonline='$titanium_user_allow_viewonline', user_notify='$titanium_user_notify', user_notify_pm='$titanium_user_notify_pm', user_popup_pm='$titanium_user_popup_pm', user_attachsig='$titanium_user_attachsig', user_allowbbcode='$titanium_user_allowbbcode', user_allowhtml='$titanium_user_allowhtml', user_allowsmile='$titanium_user_allowsmile', user_timezone='$titanium_user_timezone', user_dateformat='$titanium_user_dateformat' WHERE user_id='$titanium_user_id'");
+                $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET name='$realname', femail='$femail', user_website='$pnt_user_website', bio='$bio', user_icq='$pnt_user_icq', user_occ='$pnt_user_occ', user_from='$pnt_user_from', user_interests='$pnt_user_interests', user_sig='$pnt_user_sig', user_aim='$pnt_user_aim', user_yim='$pnt_user_yim', user_msnm='$pnt_user_msnm', newsletter='$newsletter', user_viewemail='$pnt_user_viewemail', user_allow_viewonline='$pnt_user_allow_viewonline', user_notify='$pnt_user_notify', user_notify_pm='$pnt_user_notify_pm', user_popup_pm='$pnt_user_popup_pm', user_attachsig='$pnt_user_attachsig', user_allowbbcode='$pnt_user_allowbbcode', user_allowhtml='$pnt_user_allowhtml', user_allowsmile='$pnt_user_allowsmile', user_timezone='$pnt_user_timezone', user_dateformat='$pnt_user_dateformat' WHERE user_id='$pnt_user_id'");
                 $datekey = date("F Y");
-                $check_num = substr(md5(hexdec($datekey) * hexdec($cookie[2]) * hexdec($sitekey) * hexdec($titanium_user_email) * hexdec($tuemail)), 2, 10);
+                $check_num = substr(md5(hexdec($datekey) * hexdec($cookie[2]) * hexdec($sitekey) * hexdec($pnt_user_email) * hexdec($tuemail)), 2, 10);
 
-                $finishlink = "$nukeurl/modules.php?name=$pnt_module&op=changemail&id=$titanium_user_id&mail=$titanium_user_email&check_num=$check_num";
-                $message .= _CHANGEMAIL1." $tuemail "._CHANGEMAIL2." $titanium_user_email"._CHANGEMAIL3." $sitename.<br /><br />";
+                $finishlink = "$nukeurl/modules.php?name=$pnt_module&op=changemail&id=$pnt_user_id&mail=$pnt_user_email&check_num=$check_num";
+                $message .= _CHANGEMAIL1." $tuemail "._CHANGEMAIL2." $pnt_user_email"._CHANGEMAIL3." $sitename.<br /><br />";
                 $message .= _CHANGEMAILFIN."<br /><br />$finishlink<br /><br />";
                 $subject = _CHANGEMAILSUB;
-                ya_mail($titanium_user_email, $subject, $message, '');
+                ya_mail($pnt_user_email, $subject, $message, '');
         }
 
         if (count($nfield) > 0) {
                  foreach ($nfield as $key => $var) {
-                  if (($titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_value WHERE fid='$key' AND uid = '$titanium_user_id'"))) == 0) {
-                      $sql = "INSERT INTO ".$titanium_user_prefix."_cnbya_value (uid, fid, value) VALUES ('$titanium_user_id', '$key','$nfield[$key]')";
-                      $titanium_db->sql_query($sql);
+                  if (($pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_value WHERE fid='$key' AND uid = '$pnt_user_id'"))) == 0) {
+                      $sql = "INSERT INTO ".$pnt_user_prefix."_cnbya_value (uid, fid, value) VALUES ('$pnt_user_id', '$key','$nfield[$key]')";
+                      $pnt_db->sql_query($sql);
                   }
                   else {
-                  $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_cnbya_value SET value='$nfield[$key]' WHERE fid='$key' AND uid = '$titanium_user_id'");
+                  $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_cnbya_value SET value='$nfield[$key]' WHERE fid='$key' AND uid = '$pnt_user_id'");
                   }
               }
         }
 
-            $titanium_db->sql_query("UNLOCK TABLES");
+            $pnt_db->sql_query("UNLOCK TABLES");
         }
         redirect_titanium("modules.php?name=$pnt_module");
     } else {

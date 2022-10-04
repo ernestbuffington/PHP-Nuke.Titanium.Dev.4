@@ -10,7 +10,7 @@
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
-global $titanium_db2;
+global $pnt_db2;
 
 get_lang('Network_Projects');
 
@@ -22,9 +22,9 @@ include_once(NUKE_BASE_DIR.'header.php');
 
 pjadmin_menu(_NETWORK_PROJECTS.": "._NETWORK_PROJECTLIST);
 
-$projectresult = $titanium_db2->sql_query("SELECT `project_id`, `project_name`, `weight`, `featured`, `status_id`, `priority_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
+$projectresult = $pnt_db2->sql_query("SELECT `project_id`, `project_name`, `weight`, `featured`, `status_id`, `priority_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
 
-$project_total = $titanium_db2->sql_numrows($projectresult);
+$project_total = $pnt_db2->sql_numrows($projectresult);
 
 OpenTable();
 
@@ -61,19 +61,19 @@ echo "<td class='projects_row1' align='center' bgcolor='$bgcolor2'><strong>"._NE
 
 if($project_total != 0):
 
-  while(list($project_id, $project_name, $weight, $featured, $status_id, $priority_id) = $titanium_db2->sql_fetchrow($projectresult)): 
+  while(list($project_id, $project_name, $weight, $featured, $status_id, $priority_id) = $pnt_db2->sql_fetchrow($projectresult)): 
   
-    $tasksresult = $titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id'");
+    $tasksresult = $pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_tasks` WHERE `project_id`='$project_id'");
 
-    $tasks = $titanium_db2->sql_numrows($tasksresult);
+    $tasks = $pnt_db2->sql_numrows($tasksresult);
 
-    $reportsresult = $titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_reports` WHERE `project_id`='$project_id'");
+    $reportsresult = $pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_reports` WHERE `project_id`='$project_id'");
 
-    $reports = $titanium_db2->sql_numrows($reportsresult);
+    $reports = $pnt_db2->sql_numrows($reportsresult);
 
-    $requestsresult = $titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id'");
+    $requestsresult = $pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id'");
 
-    $requests = $titanium_db2->sql_numrows($requestsresult);
+    $requests = $pnt_db2->sql_numrows($requestsresult);
 
     $projectstatus = pjprojectstatus_info($status_id);
 
@@ -88,14 +88,14 @@ if($project_total != 0):
 
     $weight1 = $weight - 1;
     $weight3 = $weight + 1;
-    $res = $titanium_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` WHERE `weight`='$weight1'");
+    $res = $pnt_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` WHERE `weight`='$weight1'");
 
-    list($pid1) = $titanium_db2->sql_fetchrow($res);
+    list($pid1) = $pnt_db2->sql_fetchrow($res);
 
     $con1 = "$pid1";
-    $res2 = $titanium_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` WHERE `weight`='$weight3'");
+    $res2 = $pnt_db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` WHERE `weight`='$weight3'");
 
-    list($pid2) = $titanium_db2->sql_fetchrow($res2);
+    list($pid2) = $pnt_db2->sql_fetchrow($res2);
     $con2 = "$pid2";
 
     echo "<td class='projects_row1' align='center'><nobr>";
