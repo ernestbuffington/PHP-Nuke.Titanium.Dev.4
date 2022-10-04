@@ -19,7 +19,7 @@ if($project['allowreports'] > 0) {
   OpenTable();
   echo '<div align="center"><strong>'._NETWORK_TITLE." v".$pj_config['version_number']." ::: "._NETWORK_COMMENTADD." ::: ".'</strong></div><br />';
   echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-  echo "<form action='modules.php?name=$titanium_module_name' method='post'>\n";
+  echo "<form action='modules.php?name=$pnt_module' method='post'>\n";
   echo "<input type='hidden' name='op' value='ReportCommentInsert'>\n";
   echo "<input type='hidden' name='report_id' value='$report_id'>\n";
   echo "<tr><td align='center' colspan='2' class='title'>"._NETWORK_INPUTNOTE."</td></tr>\n";
@@ -35,7 +35,7 @@ if($project['allowreports'] > 0) {
   CloseTable();
   include_once(NUKE_BASE_DIR.'footer.php');
 } else {
-  header("Location: modules.php?name=$titanium_module_name");
+  header("Location: modules.php?name=$pnt_module");
 }
 
 ?>

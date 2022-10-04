@@ -197,7 +197,7 @@ function is_forum_authed($auth_cache, $check_forum_id)
 */
 function attach_init_ftp($mode = false)
 {
-    global $titanium_lang, $attach_config;
+    global $lang, $attach_config;
 
     $server = (trim($attach_config['ftp_server']) == '') ? 'localhost' : trim($attach_config['ftp_server']);
     
@@ -207,26 +207,26 @@ function attach_init_ftp($mode = false)
 
     if (!$conn_id)
     {
-        message_die(GENERAL_ERROR, sprintf($titanium_lang['Ftp_error_connect'], $server));
+        message_die(GENERAL_ERROR, sprintf($lang['Ftp_error_connect'], $server));
     }
 
     $login_result = @ftp_login($conn_id, $attach_config['ftp_user'], $attach_config['ftp_pass']);
 
     if (!$login_result)
     {
-        message_die(GENERAL_ERROR, sprintf($titanium_lang['Ftp_error_login'], $attach_config['ftp_user']));
+        message_die(GENERAL_ERROR, sprintf($lang['Ftp_error_login'], $attach_config['ftp_user']));
     }
         
     if (!@ftp_pasv($conn_id, intval($attach_config['ftp_pasv_mode'])))
     {
-        message_die(GENERAL_ERROR, $titanium_lang['Ftp_error_pasv_mode']);
+        message_die(GENERAL_ERROR, $lang['Ftp_error_pasv_mode']);
     }
     
     $result = @ftp_chdir($conn_id, $ftp_path);
 
     if (!$result)
     {
-        message_die(GENERAL_ERROR, sprintf($titanium_lang['Ftp_error_path'], $ftp_path));
+        message_die(GENERAL_ERROR, sprintf($lang['Ftp_error_path'], $ftp_path));
     }
 
     return $conn_id;
@@ -237,7 +237,7 @@ function attach_init_ftp($mode = false)
 */
 function unlink_attach($filename, $mode = false)
 {
-    global $upload_dir, $attach_config, $titanium_lang;
+    global $upload_dir, $attach_config, $lang;
 
     $filename = basename($filename);
     
@@ -269,7 +269,7 @@ function unlink_attach($filename, $mode = false)
             if (ATTACH_DEBUG)
             {
                 $add = ($mode == MODE_THUMBNAIL) ? '/' . THUMB_DIR : ''; 
-                message_die(GENERAL_ERROR, sprintf($titanium_lang['Ftp_error_delete'], $attach_config['ftp_path'] . $add));
+                message_die(GENERAL_ERROR, sprintf($lang['Ftp_error_delete'], $attach_config['ftp_path'] . $add));
             }
 
             return $deleted;
@@ -288,7 +288,7 @@ function unlink_attach($filename, $mode = false)
 */
 function ftp_file($source_file, $dest_file, $mimetype, $disable_error_mode = false)
 {
-    global $file_mode, $attach_config, $titanium_lang, $error, $error_msg;
+    global $file_mode, $attach_config, $lang, $error, $error_msg;
 
     $conn_id = attach_init_ftp();
 
@@ -308,7 +308,7 @@ function ftp_file($source_file, $dest_file, $mimetype, $disable_error_mode = fal
         {
             $error_msg .= '<br />';
         }
-        $error_msg = sprintf($titanium_lang['Ftp_error_upload'], $attach_config['ftp_path']) . '<br />';
+        $error_msg = sprintf($lang['Ftp_error_upload'], $attach_config['ftp_path']) . '<br />';
         @ftp_quit($conn_id);
         return false;
     }

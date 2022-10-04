@@ -23,8 +23,8 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -251,7 +251,7 @@ if (($row = $titanium_db->sql_fetchrow($result)) && ($row['game_highscore']< $sc
 
                                                                 $privmsgs_date = date("U");
 
-                                $sql = "INSERT INTO " . PRIVMSGS_TABLE . " (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date, privmsgs_enable_html, privmsgs_enable_bbcode, privmsgs_enable_smilies, privmsgs_attach_sig) VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", addslashes(sprintf($titanium_lang['register_pm_subject'],$row[0]['game_name']))) . "', '2', " . $titanium_user_id . ", " . $privmsgs_date . ", '0', '1', '1', '0')";
+                                $sql = "INSERT INTO " . PRIVMSGS_TABLE . " (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date, privmsgs_enable_html, privmsgs_enable_bbcode, privmsgs_enable_smilies, privmsgs_attach_sig) VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", addslashes(sprintf($lang['register_pm_subject'],$row[0]['game_name']))) . "', '2', " . $titanium_user_id . ", " . $privmsgs_date . ", '0', '1', '1', '0')";
 
                                 if (!$titanium_db->sql_query($sql)) {
                                         message_die(GENERAL_ERROR, 'Could not insert private message sent info', '', __LINE__, __FILE__, $sql);
@@ -259,7 +259,7 @@ if (($row = $titanium_db->sql_fetchrow($result)) && ($row['game_highscore']< $sc
 
                                 $privmsg_sent_id = $titanium_db->sql_nextid();
 
-                                $sql = "INSERT INTO " . PRIVMSGS_TEXT_TABLE . " (privmsgs_text_id, privmsgs_text) VALUES ($privmsg_sent_id, '" . str_replace("\'", "''", addslashes(sprintf($titanium_lang['register_pm'],$row[1]['score_game'],$row[0]['game_name'],$row[0]['username'],$row[0]['score_game'],$link))) . "')";
+                                $sql = "INSERT INTO " . PRIVMSGS_TEXT_TABLE . " (privmsgs_text_id, privmsgs_text) VALUES ($privmsg_sent_id, '" . str_replace("\'", "''", addslashes(sprintf($lang['register_pm'],$row[1]['score_game'],$row[0]['game_name'],$row[0]['username'],$row[0]['score_game'],$link))) . "')";
 
                                 if (!$titanium_db->sql_query($sql)) {
                                         message_die(GENERAL_ERROR, 'Could not insert private message sent text', '', __LINE__, __FILE__, $sql);

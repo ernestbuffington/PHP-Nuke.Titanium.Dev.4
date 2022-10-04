@@ -20,10 +20,10 @@ $addJStoBody .= '</script>'."\n";
 addJSToBody($addJStoBody,'inline');
 addCSSToHead('./modules/ECalendar/css/astyle.css','file');
 global $titanium_prefix, $titanium_db, $admdata;
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
 /*===================================================
 | Main Admin Calendar section
@@ -394,7 +394,7 @@ switch ($op){
 }
 
 } else {
-    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$titanium_module_name\"");
+    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$pnt_module\"");
 }
 
 ?>

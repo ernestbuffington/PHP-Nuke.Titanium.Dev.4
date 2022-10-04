@@ -8,9 +8,9 @@
 if (!defined('MODULE_FILE')) 
 die ("You can't access this file directly...");
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-global $domain, $nukeurl, $titanium_prefix, $titanium_db, $sitename, $currentlang, $admin, $multilingual, $titanium_module_name, $admin_file, $titanium_user_prefix;
+global $domain, $nukeurl, $titanium_prefix, $titanium_db, $sitename, $currentlang, $admin, $multilingual, $pnt_module, $admin_file, $titanium_user_prefix;
 
 @require_once(NUKE_CLASSES_DIR.'class.sitemap.php');
 use SitemapPHP\Sitemap;
@@ -49,10 +49,10 @@ else:
 endif;
 //---------------------- Do some XML Shit  XML END -----------------
 
-if (file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$currentlang.'.php')):
-	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$currentlang.'.php');
+if (file_exists(NUKE_MODULES_DIR.$pnt_module.'/language/lang-'.$currentlang.'.php')):
+	include_once(NUKE_MODULES_DIR.$pnt_module.'/language/lang-'.$currentlang.'.php');
 else:
-	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-english.php');
+	include_once(NUKE_MODULES_DIR.$pnt_module.'/language/lang-english.php');
 endif;
 
 function downloads_subs($cid, $spaces, $xml) 

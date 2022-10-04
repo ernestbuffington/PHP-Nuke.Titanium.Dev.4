@@ -29,109 +29,109 @@
 -=[Mod]=-
  ************************************************************************/
 
-$titanium_lang_new[$titanium_module_name]['link_us_link'] = 'Link to Us';
+$lang_new[$pnt_module]['link_us_link'] = 'Link to Us';
 
 //Index
-$titanium_lang_new[$titanium_module_name]['ADD_LINK_BUTTON'] = 'Add Link Button';
-$titanium_lang_new[$titanium_module_name]['ADMIN_CONFIG'] = 'Admin Config';
-$titanium_lang_new[$titanium_module_name]['ADMINISTRATION'] = 'Link-Us :: Modules Admin Panel';
-$titanium_lang_new[$titanium_module_name]['MAIN_ADMINISTRATION'] = 'Main Administration';
-$titanium_lang_new[$titanium_module_name]['CONFIG_ERROR'] = 'Cannot read Configuration Table';
-$titanium_lang_new[$titanium_module_name]['MODULE_CONFIG'] ='Module Config';
-$titanium_lang_new[$titanium_module_name]['VIEW_ACTIVE_SITES'] = 'View Active Sites';
-$titanium_lang_new[$titanium_module_name]['VIEW_INACTIVE_SITES'] = 'View Inactive Sites';
-$titanium_lang_new[$titanium_module_name]['EDIT'] = 'Edit';
-$titanium_lang_new[$titanium_module_name]['DELETE'] = 'Delete';
-$titanium_lang_new[$titanium_module_name]['APPROVE'] = 'Approve';
+$lang_new[$pnt_module]['ADD_LINK_BUTTON'] = 'Add Link Button';
+$lang_new[$pnt_module]['ADMIN_CONFIG'] = 'Admin Config';
+$lang_new[$pnt_module]['ADMINISTRATION'] = 'Link-Us :: Modules Admin Panel';
+$lang_new[$pnt_module]['MAIN_ADMINISTRATION'] = 'Main Administration';
+$lang_new[$pnt_module]['CONFIG_ERROR'] = 'Cannot read Configuration Table';
+$lang_new[$pnt_module]['MODULE_CONFIG'] ='Module Config';
+$lang_new[$pnt_module]['VIEW_ACTIVE_SITES'] = 'View Active Sites';
+$lang_new[$pnt_module]['VIEW_INACTIVE_SITES'] = 'View Inactive Sites';
+$lang_new[$pnt_module]['EDIT'] = 'Edit';
+$lang_new[$pnt_module]['DELETE'] = 'Delete';
+$lang_new[$pnt_module]['APPROVE'] = 'Approve';
 
 //Block Config
-$titanium_lang_new[$titanium_module_name]['BLOCK_CONFIG'] = 'Block Configuration';
-$titanium_lang_new[$titanium_module_name]['LINK_US_IMAGE'] = 'My Link Us Image';
-$titanium_lang_new[$titanium_module_name]['EXAMPLE'] = 'Example';
-$titanium_lang_new[$titanium_module_name]['ENABLE_FADE'] = 'Enable Fade Effect';
-$titanium_lang_new[$titanium_module_name]['ENABLE_MARQUEE'] = 'Enable Marquee';
-$titanium_lang_new[$titanium_module_name]['MARQUEE_DIRECTION'] = 'Marquee Direction';
-$titanium_lang_new[$titanium_module_name]['MARQUEE_SCROLL'] = 'Marquee Scroll Amount';
-$titanium_lang_new[$titanium_module_name]['UP'] = 'Up';
-$titanium_lang_new[$titanium_module_name]['DOWN'] = 'Down';
-$titanium_lang_new[$titanium_module_name]['LEFT'] = 'Left';
-$titanium_lang_new[$titanium_module_name]['RIGHT'] = 'Right';
-$titanium_lang_new[$titanium_module_name]['FAST'] = 'Fast';
-$titanium_lang_new[$titanium_module_name]['SLOW'] = 'Slow';
-$titanium_lang_new[$titanium_module_name]['BLOCK_HEIGHT'] = 'Block Height';
-$titanium_lang_new[$titanium_module_name]['SHOW_CLICK_COUNTER'] = 'Show Click Counter';
-$titanium_lang_new[$titanium_module_name]['BUTTON_SEPARATION'] = 'Button Separation';
-$titanium_lang_new[$titanium_module_name]['HORIZONTAL'] = 'Horizontal Line';
-$titanium_lang_new[$titanium_module_name]['DOTTED'] = 'Dotted Line';
-$titanium_lang_new[$titanium_module_name]['NO_SEPARATION'] = 'No Separation';
+$lang_new[$pnt_module]['BLOCK_CONFIG'] = 'Block Configuration';
+$lang_new[$pnt_module]['LINK_US_IMAGE'] = 'My Link Us Image';
+$lang_new[$pnt_module]['EXAMPLE'] = 'Example';
+$lang_new[$pnt_module]['ENABLE_FADE'] = 'Enable Fade Effect';
+$lang_new[$pnt_module]['ENABLE_MARQUEE'] = 'Enable Marquee';
+$lang_new[$pnt_module]['MARQUEE_DIRECTION'] = 'Marquee Direction';
+$lang_new[$pnt_module]['MARQUEE_SCROLL'] = 'Marquee Scroll Amount';
+$lang_new[$pnt_module]['UP'] = 'Up';
+$lang_new[$pnt_module]['DOWN'] = 'Down';
+$lang_new[$pnt_module]['LEFT'] = 'Left';
+$lang_new[$pnt_module]['RIGHT'] = 'Right';
+$lang_new[$pnt_module]['FAST'] = 'Fast';
+$lang_new[$pnt_module]['SLOW'] = 'Slow';
+$lang_new[$pnt_module]['BLOCK_HEIGHT'] = 'Block Height';
+$lang_new[$pnt_module]['SHOW_CLICK_COUNTER'] = 'Show Click Counter';
+$lang_new[$pnt_module]['BUTTON_SEPARATION'] = 'Button Separation';
+$lang_new[$pnt_module]['HORIZONTAL'] = 'Horizontal Line';
+$lang_new[$pnt_module]['DOTTED'] = 'Dotted Line';
+$lang_new[$pnt_module]['NO_SEPARATION'] = 'No Separation';
 
 //Active/Inactive
-$titanium_lang_new[$titanium_module_name]['ADDED'] = 'Added';
-$titanium_lang_new[$titanium_module_name]['VISITS'] = 'Visits';
-$titanium_lang_new[$titanium_module_name]['CLICKS'] = 'Clicks';
-$titanium_lang_new[$titanium_module_name]['DESCRIPTION'] = 'Description';
-$titanium_lang_new[$titanium_module_name]['STANDARD_BUTTONS'] = 'Standard Size Buttons are witdth=88 height=31';
-$titanium_lang_new[$titanium_module_name]['BANNER_BUTTONS'] = 'Banner Size Buttons';
-$titanium_lang_new[$titanium_module_name]['RESOURCE_BUTTONS'] = 'Resource Buttons';
-$titanium_lang_new[$titanium_module_name]['NO_ACTIVE_SITES'] = 'No Active Sites';
-$titanium_lang_new[$titanium_module_name]['RESOURCES'] = 'Resources';
-$titanium_lang_new[$titanium_module_name]['ALL_ACTIVE_SITES'] = 'All Sites are Active';
+$lang_new[$pnt_module]['ADDED'] = 'Added';
+$lang_new[$pnt_module]['VISITS'] = 'Visits';
+$lang_new[$pnt_module]['CLICKS'] = 'Clicks';
+$lang_new[$pnt_module]['DESCRIPTION'] = 'Description';
+$lang_new[$pnt_module]['STANDARD_BUTTONS'] = 'Standard Size Buttons are witdth=88 height=31';
+$lang_new[$pnt_module]['BANNER_BUTTONS'] = 'Banner Size Buttons';
+$lang_new[$pnt_module]['RESOURCE_BUTTONS'] = 'Resource Buttons';
+$lang_new[$pnt_module]['NO_ACTIVE_SITES'] = 'No Active Sites';
+$lang_new[$pnt_module]['RESOURCES'] = 'Resources';
+$lang_new[$pnt_module]['ALL_ACTIVE_SITES'] = 'All Sites are Active';
 
 //Admin Config
-$titanium_lang_new[$titanium_module_name]['LINK_US_CONFIG'] = 'Main Link Us Configuration';
-$titanium_lang_new[$titanium_module_name]['BUTTON_BANNER_SIZE'] = 'Banner Button Size';
-$titanium_lang_new[$titanium_module_name]['BUTTON_RESSOURCE_SIZE'] = 'Ressource Button Size';
-$titanium_lang_new[$titanium_module_name]['WIDTH'] = 'Width';
-$titanium_lang_new[$titanium_module_name]['HEIGHT'] = 'Height';
-$titanium_lang_new[$titanium_module_name]['LINK'] = 'Link';
-$titanium_lang_new[$titanium_module_name]['UPLOAD'] = 'Upload';
-$titanium_lang_new[$titanium_module_name]['FOLDER_UPLOAD_LOCATION'] = 'Folder Upload Location';
-$titanium_lang_new[$titanium_module_name]['USERS_SUBMIT_BUTTON'] = 'Users Can Submit Site Button';
-$titanium_lang_new[$titanium_module_name]['BUTTON_SUBMIT_METHOD'] = 'Button Submit Method';
-$titanium_lang_new[$titanium_module_name]['BUTTON_SIZE'] = 'Button Size';
+$lang_new[$pnt_module]['LINK_US_CONFIG'] = 'Main Link Us Configuration';
+$lang_new[$pnt_module]['BUTTON_BANNER_SIZE'] = 'Banner Button Size';
+$lang_new[$pnt_module]['BUTTON_RESSOURCE_SIZE'] = 'Ressource Button Size';
+$lang_new[$pnt_module]['WIDTH'] = 'Width';
+$lang_new[$pnt_module]['HEIGHT'] = 'Height';
+$lang_new[$pnt_module]['LINK'] = 'Link';
+$lang_new[$pnt_module]['UPLOAD'] = 'Upload';
+$lang_new[$pnt_module]['FOLDER_UPLOAD_LOCATION'] = 'Folder Upload Location';
+$lang_new[$pnt_module]['USERS_SUBMIT_BUTTON'] = 'Users Can Submit Site Button';
+$lang_new[$pnt_module]['BUTTON_SUBMIT_METHOD'] = 'Button Submit Method';
+$lang_new[$pnt_module]['BUTTON_SIZE'] = 'Button Size';
 
 //Buttons
-$titanium_lang_new[$titanium_module_name]['ACTIVE'] = 'Active';
-$titanium_lang_new[$titanium_module_name]['DEACTIVATED'] = 'Deactivated';
-$titanium_lang_new[$titanium_module_name]['ADD_BUTTON'] = 'Add Another Button';
-$titanium_lang_new[$titanium_module_name]['IMAGE_TYPES'] = 'Available Image Types';
-$titanium_lang_new[$titanium_module_name]['ADD_SITE_LINK'] = 'Add Site Link Button';
-$titanium_lang_new[$titanium_module_name]['SITE_ID'] = 'Site ID';
-$titanium_lang_new[$titanium_module_name]['SITE_NAME'] = 'Site Name';
-$titanium_lang_new[$titanium_module_name]['SITE_URL'] = 'Site URL';
-$titanium_lang_new[$titanium_module_name]['SITE_IMAGE'] = 'Site Image';
-$titanium_lang_new[$titanium_module_name]['SITE_DESCRIPTION'] = 'Site Description';
-$titanium_lang_new[$titanium_module_name]['DATE_ADDED'] = 'Date Added';
-$titanium_lang_new[$titanium_module_name]['BUTTON_TYPE'] = 'Button Type';
-$titanium_lang_new[$titanium_module_name]['SITE_STATUS'] = 'Site Status';
-$titanium_lang_new[$titanium_module_name]['ERROR'] = 'ERROR! Unknown image format';
-$titanium_lang_new[$titanium_module_name]['EDIT_SUCCESSFUL'] = 'Button Edit Successful';
-$titanium_lang_new[$titanium_module_name]['EDIT_UNSUCCESSFUL'] = 'Edit Unsuccessful';
-$titanium_lang_new[$titanium_module_name]['SAVE_EDIT_LINK_BUTTON'] = 'Save edited Link Button';
-$titanium_lang_new[$titanium_module_name]['UPDATE_MAIN_CONFIG'] = 'Update Main Configuration';
-$titanium_lang_new[$titanium_module_name]['UPDATE_BLOCK_CONFIG'] = 'Update Block Configuration';
-$titanium_lang_new[$titanium_module_name]['UPDATE_MODULE_CONFIG'] = 'Update Module Configuration';
+$lang_new[$pnt_module]['ACTIVE'] = 'Active';
+$lang_new[$pnt_module]['DEACTIVATED'] = 'Deactivated';
+$lang_new[$pnt_module]['ADD_BUTTON'] = 'Add Another Button';
+$lang_new[$pnt_module]['IMAGE_TYPES'] = 'Available Image Types';
+$lang_new[$pnt_module]['ADD_SITE_LINK'] = 'Add Site Link Button';
+$lang_new[$pnt_module]['SITE_ID'] = 'Site ID';
+$lang_new[$pnt_module]['SITE_NAME'] = 'Site Name';
+$lang_new[$pnt_module]['SITE_URL'] = 'Site URL';
+$lang_new[$pnt_module]['SITE_IMAGE'] = 'Site Image';
+$lang_new[$pnt_module]['SITE_DESCRIPTION'] = 'Site Description';
+$lang_new[$pnt_module]['DATE_ADDED'] = 'Date Added';
+$lang_new[$pnt_module]['BUTTON_TYPE'] = 'Button Type';
+$lang_new[$pnt_module]['SITE_STATUS'] = 'Site Status';
+$lang_new[$pnt_module]['ERROR'] = 'ERROR! Unknown image format';
+$lang_new[$pnt_module]['EDIT_SUCCESSFUL'] = 'Button Edit Successful';
+$lang_new[$pnt_module]['EDIT_UNSUCCESSFUL'] = 'Edit Unsuccessful';
+$lang_new[$pnt_module]['SAVE_EDIT_LINK_BUTTON'] = 'Save edited Link Button';
+$lang_new[$pnt_module]['UPDATE_MAIN_CONFIG'] = 'Update Main Configuration';
+$lang_new[$pnt_module]['UPDATE_BLOCK_CONFIG'] = 'Update Block Configuration';
+$lang_new[$pnt_module]['UPDATE_MODULE_CONFIG'] = 'Update Module Configuration';
 
 //Module Config
-$titanium_lang_new[$titanium_module_name]['SHOW_BANNER'] = 'Show Banner Button';
-$titanium_lang_new[$titanium_module_name]['SHOW_RESOURCES'] = 'Show My Resources Button';
-$titanium_lang_new[$titanium_module_name]['SHOW_STANDARD'] = 'Show Standard Button';
+$lang_new[$pnt_module]['SHOW_BANNER'] = 'Show Banner Button';
+$lang_new[$pnt_module]['SHOW_RESOURCES'] = 'Show My Resources Button';
+$lang_new[$pnt_module]['SHOW_STANDARD'] = 'Show Standard Button';
 
 //User Submit Button
-$titanium_lang_new[$titanium_module_name]['SUB_ADD_BUTTON'] = 'Add A Button';
-$titanium_lang_new[$titanium_module_name]['SUB_ALL_FIELDS'] = 'All Fields Are Required';
-$titanium_lang_new[$titanium_module_name]['SUB_ADMINISTRATION'] = 'Link Us Administration';
-$titanium_lang_new[$titanium_module_name]['SUB_YOUR_ID'] = 'User ID';
-$titanium_lang_new[$titanium_module_name]['SUB_YOUR_NAME'] = 'Your Name';
-$titanium_lang_new[$titanium_module_name]['SUB_YOUR_EMAIL'] = 'Your Email';
-$titanium_lang_new[$titanium_module_name]['SUB_YOUR_IP'] = 'Your IP';
-$titanium_lang_new[$titanium_module_name]['SUB_YOUR_SITE'] = 'Submit Site';
-$titanium_lang_new[$titanium_module_name]['SUB_MISSINGDATA'] = 'All Required Fields Were Not Filled';
-$titanium_lang_new[$titanium_module_name]['SUB_ERROR'] = 'ERROR: Failed to write to database';
-$titanium_lang_new[$titanium_module_name]['SUB_USERNAME'] = 'User Name';
-$titanium_lang_new[$titanium_module_name]['SUB_EMAIL'] = 'User Email';
-$titanium_lang_new[$titanium_module_name]['SUB_IP'] = 'User IP';
-$titanium_lang_new[$titanium_module_name]['SUB_ADDED'] = 'User IP';
-$titanium_lang_new[$titanium_module_name]['SUB_NONE'] = 'There are no Submitted Sites.';
+$lang_new[$pnt_module]['SUB_ADD_BUTTON'] = 'Add A Button';
+$lang_new[$pnt_module]['SUB_ALL_FIELDS'] = 'All Fields Are Required';
+$lang_new[$pnt_module]['SUB_ADMINISTRATION'] = 'Link Us Administration';
+$lang_new[$pnt_module]['SUB_YOUR_ID'] = 'User ID';
+$lang_new[$pnt_module]['SUB_YOUR_NAME'] = 'Your Name';
+$lang_new[$pnt_module]['SUB_YOUR_EMAIL'] = 'Your Email';
+$lang_new[$pnt_module]['SUB_YOUR_IP'] = 'Your IP';
+$lang_new[$pnt_module]['SUB_YOUR_SITE'] = 'Submit Site';
+$lang_new[$pnt_module]['SUB_MISSINGDATA'] = 'All Required Fields Were Not Filled';
+$lang_new[$pnt_module]['SUB_ERROR'] = 'ERROR: Failed to write to database';
+$lang_new[$pnt_module]['SUB_USERNAME'] = 'User Name';
+$lang_new[$pnt_module]['SUB_EMAIL'] = 'User Email';
+$lang_new[$pnt_module]['SUB_IP'] = 'User IP';
+$lang_new[$pnt_module]['SUB_ADDED'] = 'User IP';
+$lang_new[$pnt_module]['SUB_NONE'] = 'There are no Submitted Sites.';
 
 ?>

@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
 $pagetitle = ": "._USERADMIN." - "._USERUPDATE;
 include_once(NUKE_BASE_DIR.'header.php');
@@ -64,7 +64,7 @@ if($titanium_db->sql_numrows($result) > 0) {
 
     OpenTable();
     echo "<center><table border='0'>\n";
-    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._USERID.":</td><td><strong>".$chnginfo['user_id']."</strong></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._NICKNAME.":</td><td><input type='text' name='chng_uname' value='".$chnginfo['username']."' size='20'><br /><strong>"._YA_CHNGRISK."</strong></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._UREALNAME.":</td><td><input type='text' name='chng_name' value='".$chnginfo['name']."' size='45' maxlength='60'></td></tr>\n";
@@ -111,7 +111,7 @@ if($titanium_db->sql_numrows($result) > 0) {
     if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
     echo "<tr><td align='center' colspan='2'><input type='submit' value='"._SAVECHANGES."'></td></tr>\n";
     echo "</form>\n";
-    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }

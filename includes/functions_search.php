@@ -114,7 +114,7 @@ function split_words($entry, $mode = 'post')
 
 function add_search_words($mode, $post_id, $post_text, $post_title = '')
 {
-        global $titanium_db, $phpbb2_root_path, $phpbb2_board_config, $titanium_lang;
+        global $titanium_db, $phpbb2_root_path, $phpbb2_board_config, $lang;
 
         $stopword_array = @file($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . "/search_stopwords.txt");
         $synonym_array = @file($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . "/search_synonyms.txt");
@@ -440,7 +440,7 @@ function remove_search_post($post_id_sql)
 //
 function username_search($search_match)
 {
-        global $titanium_db, $phpbb2_board_config, $phpbb2_template, $titanium_lang, $images, $theme, $phpEx, $phpbb2_root_path, $phpbb2_starttime, $gen_simple_header;
+        global $titanium_db, $phpbb2_board_config, $phpbb2_template, $lang, $images, $theme, $phpEx, $phpbb2_root_path, $phpbb2_starttime, $gen_simple_header;
 
         $gen_simple_header = TRUE;
 
@@ -468,12 +468,12 @@ function username_search($search_match)
                 }
                 else
                 {
-                        $titanium_username_list .= '<option>' . $titanium_lang['No_match']. '</option>';
+                        $titanium_username_list .= '<option>' . $lang['No_match']. '</option>';
                 }
                 $titanium_db->sql_freeresult($result);
         }
 
-        $phpbb2_page_title = $titanium_lang['Search'];
+        $phpbb2_page_title = $lang['Search'];
         include("includes/page_header_review.php");
 
         $phpbb2_template->set_filenames(array(
@@ -483,13 +483,13 @@ function username_search($search_match)
         $phpbb2_template->assign_vars(array(
                 'USERNAME' => (!empty($search_match)) ? phpbb_clean_username($search_match) : '',
 
-                'L_CLOSE_WINDOW' => $titanium_lang['Close_window'],
-                'L_SEARCH_USERNAME' => $titanium_lang['Find_username'],
-                'L_UPDATE_USERNAME' => $titanium_lang['Select_username'],
-                'L_SELECT' => $titanium_lang['Select'],
-                'L_SEARCH' => $titanium_lang['Search'],
-                'L_SEARCH_EXPLAIN' => $titanium_lang['Search_author_explain'],
-                'L_CLOSE_WINDOW' => $titanium_lang['Close_window'],
+                'L_CLOSE_WINDOW' => $lang['Close_window'],
+                'L_SEARCH_USERNAME' => $lang['Find_username'],
+                'L_UPDATE_USERNAME' => $lang['Select_username'],
+                'L_SELECT' => $lang['Select'],
+                'L_SEARCH' => $lang['Search'],
+                'L_SEARCH_EXPLAIN' => $lang['Search_author_explain'],
+                'L_CLOSE_WINDOW' => $lang['Close_window'],
 
                 'S_USERNAME_OPTIONS' => $titanium_username_list,
                 'S_SEARCH_ACTION' => append_titanium_sid("search.$phpEx?mode=searchuser&popup=1"))

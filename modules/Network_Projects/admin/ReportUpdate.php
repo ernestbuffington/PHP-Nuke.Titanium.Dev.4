@@ -27,7 +27,7 @@ if(implode("", $member_ids) > "") {
 list($submitter_email) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `submitter_email` FROM `".$network_prefix."_reports` WHERE `report_id`='$report_id'"));
 $admin_email = $adminmail;
 $subject = _NETWORK_NEWREPORTUPDATEDS;
-$message = _NETWORK_NEWREPORTUPDATED.":\r\n$nukeurl/modules.php?name=$titanium_module_name&op=Report&amp;report_id=$report_id";
+$message = _NETWORK_NEWREPORTUPDATED.":\r\n$nukeurl/modules.php?name=$pnt_module&op=Report&amp;report_id=$report_id";
 $from  = "From: $admin_email\r\n";
 $from .= "Reply-To: $admin_email\r\n";
 $from .= "Return-Path: $admin_email\r\n";

@@ -5,9 +5,9 @@ $pagetitle = 'CSS Hex Color Chart v5.4';
 
 require_once("mainfile.php");
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 include("header.php");
 

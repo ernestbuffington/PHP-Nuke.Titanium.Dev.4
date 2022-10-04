@@ -196,7 +196,7 @@ class emailer
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
         {
-                global $phpbb2_board_config, $titanium_lang, $phpEx, $phpbb2_root_path, $titanium_db, $cache;
+                global $phpbb2_board_config, $lang, $phpEx, $phpbb2_root_path, $titanium_db, $cache;
 
             // Escape all quotes, else the eval will fail.
                 $this->msg = str_replace ("'", "\'", $this->msg);
@@ -234,12 +234,12 @@ class emailer
 
                 if (preg_match('#^(Charset:(.*?))$#m', $this->msg, $match))
                 {
-                        $this->encoding = (trim($match[2]) != '') ? trim($match[2]) : trim($titanium_lang['ENCODING']);
+                        $this->encoding = (trim($match[2]) != '') ? trim($match[2]) : trim($lang['ENCODING']);
                         $drop_header .= '[\r\n]*?' . preg_quote($match[1], '#');
                 }
                 else
                 {
-                        $this->encoding = trim($titanium_lang['ENCODING']);
+                        $this->encoding = trim($lang['ENCODING']);
                 }
 
                 if ($drop_header != '')
@@ -356,10 +356,10 @@ class emailer
         //
         function attachFile($filename, $mimetype = "application/octet-stream", $szFromAddress, $szFilenameToDisplay)
         {
-                global $titanium_lang;
+                global $lang;
                 $mime_boundary = "--==================_846811060==_";
 
-                $this->msg = '--' . $mime_boundary . "\nContent-Type: text/plain;\n\tcharset=\"" . $titanium_lang['ENCODING'] . "\"\n\n" . $this->msg;
+                $this->msg = '--' . $mime_boundary . "\nContent-Type: text/plain;\n\tcharset=\"" . $lang['ENCODING'] . "\"\n\n" . $this->msg;
 
                 if ($mime_filename)
                 {

@@ -126,7 +126,7 @@ class Content_values
 
     function iterate_values()
     {
-        global $core, $stats_template, $phpbb2_root_path, $phpEx, $stat_functions, $titanium_lang;
+        global $core, $stats_template, $phpbb2_root_path, $phpEx, $stat_functions, $lang;
 
         // make global...
         if (count($core->global_array) > 0)

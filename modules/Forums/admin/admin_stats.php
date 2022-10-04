@@ -111,7 +111,7 @@ if ($submit)
             $stats_config[$row['config_name']] = trim($row['config_value']);
         }
 
-        $message = ($message == '') ? $message . $titanium_lang['Msg_config_updated'] : $message . '<br />' . $titanium_lang['Msg_config_updated'];
+        $message = ($message == '') ? $message . $lang['Msg_config_updated'] : $message . '<br />' . $lang['Msg_config_updated'];
     }
 
     // Reset Settings
@@ -124,7 +124,7 @@ if ($submit)
             message_die(GENERAL_ERROR, 'Unable to update statistics config table', '', __LINE__, __FILE__, $sql);
         }
 
-        $message = ($message == '') ? $message . $titanium_lang['Msg_reset_view_count'] : $message . '<br />' . $titanium_lang['Msg_reset_view_count'];
+        $message = ($message == '') ? $message . $lang['Msg_reset_view_count'] : $message . '<br />' . $lang['Msg_reset_view_count'];
     }
 
     // Reset Settings
@@ -151,7 +151,7 @@ if ($submit)
             $stats_config[$row['config_name']] = trim($row['config_value']);
         }
 
-        $message = ($message == '') ? $message . $titanium_lang['Msg_reset_install_date'] : $message . '<br />' . $titanium_lang['Msg_reset_install_date'];
+        $message = ($message == '') ? $message . $lang['Msg_reset_install_date'] : $message . '<br />' . $lang['Msg_reset_install_date'];
     }
 
     // Reset Cache
@@ -183,7 +183,7 @@ if ($submit)
         // Clear Cache Directory
         clear_directory('modules/cache');
 
-        $message = ($message == '') ? $message . $titanium_lang['Msg_reset_cache'] : $message . '<br />' . $titanium_lang['Msg_reset_cache'];
+        $message = ($message == '') ? $message . $lang['Msg_reset_cache'] : $message . '<br />' . $lang['Msg_reset_cache'];
     }
 
     // Delete Module Directory
@@ -191,7 +191,7 @@ if ($submit)
     {
         clear_directory('modules');
 
-        $message = ($message == '') ? $message . $titanium_lang['Msg_purge_modules'] : $message . '<br />' . $titanium_lang['Msg_purge_modules'];
+        $message = ($message == '') ? $message . $lang['Msg_purge_modules'] : $message . '<br />' . $lang['Msg_purge_modules'];
     }
 
 }
@@ -203,23 +203,23 @@ if ($mode == 'config')
     );
 
     $phpbb2_template->assign_vars(array(
-        'L_SUBMIT' => $titanium_lang['Submit'],
-        'L_RESET' => $titanium_lang['Reset'],
-        'L_MESSAGES' => $titanium_lang['Messages'],
-        'L_CONFIGURATION' => $titanium_lang['Stats_configuration'],
-        'L_CONFIG_TITLE' => $titanium_lang['Config_title'],
-        'L_CONFIG_EXPLAIN' => $titanium_lang['Config_explain'],
-        'L_RETURN_LIMIT' => $titanium_lang['Return_limit'],
-        'L_PURGE_MODULE_DIRECTORY' => $titanium_lang['Purge_module_dir'],
-        'L_PURGE_MODULE_DIRECTORY_EXPLAIN' => $titanium_lang['Purge_module_dir_explain'],
-        'L_RETURN_LIMIT_EXPLAIN' => $titanium_lang['Return_limit_explain'],
-        'L_RESET_SETTINGS_TITLE' => $titanium_lang['Reset_settings_title'],
-        'L_RESET_VIEW_COUNT' => $titanium_lang['Reset_view_count'],
-        'L_RESET_VIEW_COUNT_EXPLAIN' => $titanium_lang['Reset_view_count_explain'],
-        'L_RESET_INSTALL_DATE' => $titanium_lang['Reset_install_date'],
-        'L_RESET_INSTALL_DATE_EXPLAIN' => $titanium_lang['Reset_install_date_explain'],
-        'L_RESET_CACHE' => $titanium_lang['Reset_cache'],
-        'L_RESET_CACHE_EXPLAIN' => $titanium_lang['Reset_cache_explain'],
+        'L_SUBMIT' => $lang['Submit'],
+        'L_RESET' => $lang['Reset'],
+        'L_MESSAGES' => $lang['Messages'],
+        'L_CONFIGURATION' => $lang['Stats_configuration'],
+        'L_CONFIG_TITLE' => $lang['Config_title'],
+        'L_CONFIG_EXPLAIN' => $lang['Config_explain'],
+        'L_RETURN_LIMIT' => $lang['Return_limit'],
+        'L_PURGE_MODULE_DIRECTORY' => $lang['Purge_module_dir'],
+        'L_PURGE_MODULE_DIRECTORY_EXPLAIN' => $lang['Purge_module_dir_explain'],
+        'L_RETURN_LIMIT_EXPLAIN' => $lang['Return_limit_explain'],
+        'L_RESET_SETTINGS_TITLE' => $lang['Reset_settings_title'],
+        'L_RESET_VIEW_COUNT' => $lang['Reset_view_count'],
+        'L_RESET_VIEW_COUNT_EXPLAIN' => $lang['Reset_view_count_explain'],
+        'L_RESET_INSTALL_DATE' => $lang['Reset_install_date'],
+        'L_RESET_INSTALL_DATE_EXPLAIN' => $lang['Reset_install_date_explain'],
+        'L_RESET_CACHE' => $lang['Reset_cache'],
+        'L_RESET_CACHE_EXPLAIN' => $lang['Reset_cache_explain'],
     
         'RETURN_LIMIT' => $stats_config['return_limit'],
         'MODULE_PAGINATION' => $stats_config['modules_per_page'],
@@ -229,9 +229,9 @@ if ($mode == 'config')
 }
 
 $phpbb2_template->assign_vars(array(
-    'VIEWED_INFO' => sprintf($titanium_lang['Viewed_info'], $stats_config['page_views']),
-    'INSTALL_INFO' => sprintf($titanium_lang['Install_info'], create_date($phpbb2_board_config['default_dateformat'], $stats_config['install_date'], $phpbb2_board_config['board_timezone'])),
-    'VERSION_INFO' => sprintf($titanium_lang['Version_info'], $stats_config['version']))
+    'VIEWED_INFO' => sprintf($lang['Viewed_info'], $stats_config['page_views']),
+    'INSTALL_INFO' => sprintf($lang['Install_info'], create_date($phpbb2_board_config['default_dateformat'], $stats_config['install_date'], $phpbb2_board_config['board_timezone'])),
+    'VERSION_INFO' => sprintf($lang['Version_info'], $stats_config['version']))
 );
 
 $phpbb2_template->pparse('body');

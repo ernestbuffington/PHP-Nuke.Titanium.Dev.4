@@ -35,11 +35,11 @@ $core->set_view('columns', 3);
 
 $core->define_view('set_columns', array(
     $core->pre_defined('rank'),
-    'replies' => $titanium_lang['Replies'],
-    'topic' => $titanium_lang['Topic'])
+    'replies' => $lang['Replies'],
+    'topic' => $lang['Topic'])
 );
 
-$core->set_header($titanium_lang['module_name']);
+$core->set_header($lang['module_name']);
 
 $core->assign_defined_view('align_rows', array(
     'left',
@@ -85,7 +85,7 @@ $core->define_view('set_rows', array(
         '$core->data(\'forum_id\')', 'auth_view AND auth_read', 'forum', array(
             '',
             '$core->data(\'topic_replies\')',
-            '$titanium_lang[\'Hidden_from_public_view\']'
+            '$lang[\'Hidden_from_public_view\']'
         )
     )
 );

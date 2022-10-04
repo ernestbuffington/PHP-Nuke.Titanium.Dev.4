@@ -7,17 +7,17 @@ $title = 'Proof Of God v1.0';
 
 require_once("mainfile.php");
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 include("header.php");
 
 $index = 0;
 
-global $domain, $facebook_plugin_width, $facebookappid, $titanium_module_name, $ThemeSel, $name; //globals 
+global $domain, $facebook_plugin_width, $facebookappid, $pnt_module, $ThemeSel, $name; //globals 
 
-include (TITANIUM_MODULES_DIR.$titanium_module_name.'/includes/isNumber.php');
+include (TITANIUM_MODULES_DIR.$pnt_module.'/includes/isNumber.php');
 
 define('ALLOWED_MIN', '3');
 define('ALLOWED_MAX', '999999');

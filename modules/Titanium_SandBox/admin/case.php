@@ -3,24 +3,24 @@ if (!defined('ADMIN_FILE')) {
    exit('THIS FILE WAS NOT CALLED WITHIN ADMINISTRATION');
 }
 
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(dirname(__FILE__)));
+get_lang($pnt_module);
 
 $op = $_GETVAR->get('op', 'request', 'string');
 
 switch($op) 
 {
     case 'TitaniumSandboxMenu';
-	include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
+	include(NUKE_MODULES_DIR.$pnt_module.'/admin/index.php');
 	break;
     case 'step1';
-	include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
+	include(NUKE_MODULES_DIR.$pnt_module.'/admin/index.php');
 	break;
     case 'step2';
-	include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
+	include(NUKE_MODULES_DIR.$pnt_module.'/admin/index.php');
 	break;
     case 'step3';
-	include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
+	include(NUKE_MODULES_DIR.$pnt_module.'/admin/index.php');
 	break;
 	case 'a':
     case 'b':
@@ -47,7 +47,7 @@ switch($op)
     case 'x':
     case 'y':
     case 'z':
-        include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
+        include(NUKE_MODULES_DIR.$pnt_module.'/admin/index.php');
     break;
 }
 

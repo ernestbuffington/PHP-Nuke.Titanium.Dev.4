@@ -4,9 +4,9 @@ if (!defined('ADMIN_FILE')) {
 }
 
 global $titanium_prefix, $titanium_db, $admin_file, $admdata;
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
+$pnt_module = basename(dirname(dirname(__FILE__)));
 
-if (!is_mod_admin($titanium_module_name)) {
+if (!is_mod_admin($pnt_module)) {
     echo "Access Denied";
     die();
 }
@@ -26,7 +26,7 @@ include_once(PHP_NUKE_SANDBOX_ADMIN_INCLUDES . 'functions.php');
 
 include(NUKE_BASE_DIR.'header.php');
 
-if(is_mod_admin($titanium_module_name)) 
+if(is_mod_admin($pnt_module)) 
 {
 
   switch ($op) 
@@ -250,7 +250,7 @@ if(is_mod_admin($titanium_module_name))
 } 
 else 
 {
-  DisplayError('<strong>Some Bad Shit Just Happened</strong><br /><br />' . _NO_ADMIN_RIGHTS . $titanium_module_name);
+  DisplayError('<strong>Some Bad Shit Just Happened</strong><br /><br />' . _NO_ADMIN_RIGHTS . $pnt_module);
 }
 
 ?>

@@ -22,8 +22,8 @@ if (!defined('MODULE_FILE')) {
 if (is_admin())
 {
     if ($popup != "1"){
-        $titanium_module_name = basename(dirname(__FILE__));
-        require("modules/".$titanium_module_name."/nukebb.php");
+        $pnt_module = basename(dirname(__FILE__));
+        require("modules/".$pnt_module."/nukebb.php");
     }
     else
     {

@@ -46,7 +46,7 @@ if (!defined('CNBYA')) {
         if(isset($noscore)) $noscore=1; else $noscore=0;
         $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET umode='$umode', uorder='$uorder', thold='$thold', noscore='$noscore', commentmax='$commentmax' WHERE user_id='$titanium_user_id'");
         yacookie($userinfo[user_id],$userinfo[username],$userinfo[user_password],$userinfo[storynum],$userinfo[umode],$userinfo[uorder],$userinfo[thold],$userinfo[noscore],$userinfo[ublockon],$userinfo[theme],$userinfo[commentmax]);
-        redirect_titanium("modules.php?name=$titanium_module_name");
+        redirect_titanium("modules.php?name=$pnt_module");
     }
 
 ?>

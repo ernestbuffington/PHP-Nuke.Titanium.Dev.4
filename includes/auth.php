@@ -104,7 +104,7 @@ exit('ACCESS DENIED');
 
 function auth($type, $phpbb2_forum_id, $userdata, $f_access = '')
 {
-   global $titanium_db, $titanium_lang;
+   global $titanium_db, $lang;
 
 switch($type):
      case AUTH_ALL:
@@ -262,23 +262,23 @@ endswitch;
              switch($value):
                  case AUTH_ALL:
                  $auth_user[$key] = TRUE;
-                 $auth_user[$key.'_type'] = $titanium_lang['Auth_Anonymous_Users'];
+                 $auth_user[$key.'_type'] = $lang['Auth_Anonymous_Users'];
                  break;
                  case AUTH_REG:
                  $auth_user[$key] = ( $userdata['session_logged_in'] ) ? TRUE : 0;
-                 $auth_user[$key.'_type'] = $titanium_lang['Auth_Registered_Users'];
+                 $auth_user[$key.'_type'] = $lang['Auth_Registered_Users'];
                  break;
                  case AUTH_ACL:
                  $auth_user[$key] = ( $userdata['session_logged_in'] ) ? auth_check_user(AUTH_ACL, $key, $u_access, $is_admin) : 0;
-                 $auth_user[$key.'_type'] = $titanium_lang['Auth_Users_granted_access'];
+                 $auth_user[$key.'_type'] = $lang['Auth_Users_granted_access'];
                  break;
                  case AUTH_MOD:
                  $auth_user[$key] = ( $userdata['session_logged_in'] ) ? auth_check_user(AUTH_MOD, 'auth_mod', $u_access, $is_admin) : 0;
-                 $auth_user[$key.'_type'] = $titanium_lang['Auth_Moderators'];
+                 $auth_user[$key.'_type'] = $lang['Auth_Moderators'];
                  break;
                  case AUTH_ADMIN:
                  $auth_user[$key] = $is_admin;
-                 $auth_user[$key.'_type'] = $titanium_lang['Auth_Administrators'];
+                 $auth_user[$key.'_type'] = $lang['Auth_Administrators'];
                  break;
                  default:
                  $auth_user[$key] = 0;
@@ -294,23 +294,23 @@ endswitch;
                  switch($value):
                     case AUTH_ALL:
                     $auth_user[$f_forum_id][$key] = TRUE;
-                    $auth_user[$f_forum_id][$key.'_type'] = $titanium_lang['Auth_Anonymous_Users'];
+                    $auth_user[$f_forum_id][$key.'_type'] = $lang['Auth_Anonymous_Users'];
                     break;
                     case AUTH_REG:
                     $auth_user[$f_forum_id][$key] = ( $userdata['session_logged_in'] ) ? TRUE : 0;
-                    $auth_user[$f_forum_id][$key.'_type'] = $titanium_lang['Auth_Registered_Users'];
+                    $auth_user[$f_forum_id][$key.'_type'] = $lang['Auth_Registered_Users'];
                     break;
                     case AUTH_ACL:
                     $auth_user[$f_forum_id][$key] = ( $userdata['session_logged_in'] ) ? auth_check_user(AUTH_ACL, $key, $u_access[$f_forum_id], $is_admin) : 0;
-                    $auth_user[$f_forum_id][$key.'_type'] = $titanium_lang['Auth_Users_granted_access'];
+                    $auth_user[$f_forum_id][$key.'_type'] = $lang['Auth_Users_granted_access'];
                     break;
                     case AUTH_MOD:
                     $auth_user[$f_forum_id][$key] = ( $userdata['session_logged_in'] ) ? auth_check_user(AUTH_MOD, 'auth_mod', $u_access[$f_forum_id], $is_admin) : 0;
-                    $auth_user[$f_forum_id][$key.'_type'] = $titanium_lang['Auth_Moderators'];
+                    $auth_user[$f_forum_id][$key.'_type'] = $lang['Auth_Moderators'];
                     break;
                     case AUTH_ADMIN:
                     $auth_user[$f_forum_id][$key] = $is_admin;
-                    $auth_user[$f_forum_id][$key.'_type'] = $titanium_lang['Auth_Administrators'];
+                    $auth_user[$f_forum_id][$key.'_type'] = $lang['Auth_Administrators'];
                     break;
                     default:
                     $auth_user[$f_forum_id][$key] = 0;

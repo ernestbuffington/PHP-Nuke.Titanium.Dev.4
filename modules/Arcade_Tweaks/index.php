@@ -63,7 +63,7 @@ require_once(NUKE_BASE_MODULES.'mainfile.php');
 
 $ArcadeTweaksVersion = "1.0 RC2";
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 // First security check... Module allowed only to administrator.
 global $admin;
 
@@ -93,20 +93,20 @@ if (!is_admin()) {
 // Menu at the top of each page
 function menu()
 {
-    global $titanium_module_name, $ArcadeTweaksVersion;
+    global $pnt_module, $ArcadeTweaksVersion;
 
     OpenTable2();
     title("Arcade Tweaks $ArcadeTweaksVersion");
     echo "<center><span class=\"content\">[&nbsp;";
-    echo "<a href=\"modules.php?name=$titanium_module_name\">Main Page</a>"
+    echo "<a href=\"modules.php?name=$pnt_module\">Main Page</a>"
      . "&nbsp;|&nbsp;<a href=\"modules/Forums/admin/admin_arcade_games.php\"><i>Arcade Admin</i></a>";
     echo "&nbsp;]<br />\n";
     echo "[&nbsp;";
-    echo "<a href=\"modules.php?name=$titanium_module_name&amp;m_op=checkswf\">All SWF</a>"
-     . "&nbsp;|&nbsp;<a href=\"modules.php?name=$titanium_module_name&amp;m_op=checkswf&amp;filefilter=unreferenced\">Unreferenced SWF</a>"
-     . "&nbsp;|&nbsp;<a href=\"modules.php?name=$titanium_module_name&amp;m_op=checkDB\">Check DB</a>"; 
-    echo "&nbsp;|&nbsp;<a href=\"modules.php?name=$titanium_module_name&amp;m_op=category\">Category</a>";
-    echo "&nbsp;|&nbsp;<a href=\"modules.php?name=$titanium_module_name&amp;m_op=tools\">Tools</a>";
+    echo "<a href=\"modules.php?name=$pnt_module&amp;m_op=checkswf\">All SWF</a>"
+     . "&nbsp;|&nbsp;<a href=\"modules.php?name=$pnt_module&amp;m_op=checkswf&amp;filefilter=unreferenced\">Unreferenced SWF</a>"
+     . "&nbsp;|&nbsp;<a href=\"modules.php?name=$pnt_module&amp;m_op=checkDB\">Check DB</a>"; 
+    echo "&nbsp;|&nbsp;<a href=\"modules.php?name=$pnt_module&amp;m_op=category\">Category</a>";
+    echo "&nbsp;|&nbsp;<a href=\"modules.php?name=$pnt_module&amp;m_op=tools\">Tools</a>";
     echo "&nbsp;]</span></center>";
     CloseTable2();
     echo "<br />";
@@ -115,16 +115,16 @@ function menu()
 // Tools: Few "solos" function .. Where could I put them... hmm here !!! :)
 function Tools()
 {
-    global $titanium_module_name;
+    global $pnt_module;
     include_once(NUKE_BASE_DIR.'header.php');
     menu();
     title("Arcade Tweaks Tools");
     OpenTable();
     echo "<ol>";
-    echo "<li> <a href='modules.php?name=$titanium_module_name&amp;m_op=checkDB&amp;type012=1'> Select Games of type 0,1 and 2 for processing </a>";
-    echo "<li> <a href='modules.php?name=$titanium_module_name&amp;m_op=viewpictures'> View pictures in 'games/pics'</a>";
-    echo "<li> <a target=\"_blank\" href='modules.php?name=$titanium_module_name&amp;m_op=viewpictures'> View pictures in 'games/pics' in a  new window</a>";
-    echo "<li> <a href='modules.php?name=$titanium_module_name&amp;m_op=dbcoherence'> Check Database Coherence</a>";
+    echo "<li> <a href='modules.php?name=$pnt_module&amp;m_op=checkDB&amp;type012=1'> Select Games of type 0,1 and 2 for processing </a>";
+    echo "<li> <a href='modules.php?name=$pnt_module&amp;m_op=viewpictures'> View pictures in 'games/pics'</a>";
+    echo "<li> <a target=\"_blank\" href='modules.php?name=$pnt_module&amp;m_op=viewpictures'> View pictures in 'games/pics' in a  new window</a>";
+    echo "<li> <a href='modules.php?name=$pnt_module&amp;m_op=dbcoherence'> Check Database Coherence</a>";
     echo "</ol>";
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
@@ -287,9 +287,9 @@ function IntelliAdd()
 } 
 function MakeIntelliAddForm($basename)
 {
-    global $titanium_module_name, $_categoryArray;
+    global $pnt_module, $_categoryArray;
     CategoryTable(0);
-    $content = "\n<form name=\"frm$basename\" action=\"modules.php?name=$titanium_module_name&amp;m_op=intelliad\" method=\"post\">\n";
+    $content = "\n<form name=\"frm$basename\" action=\"modules.php?name=$pnt_module&amp;m_op=intelliad\" method=\"post\">\n";
     $content .= "    <input type=\"hidden\" name=\"gamebasename\" value=\"$basename\">\n";
     $content .= "    title: <input type=\"text\" class=\"select\" name=\"gametitle\" size=\"12\" value=\"$basename\">\n";
     $content .= "    <select name=\"arcadetype\">\n";
@@ -308,7 +308,7 @@ function MakeIntelliAddForm($basename)
 function checkSwfDir()
 {
     global $swfdirectory, $titanium_db, $picdirectory, $titanium_prefix;
-    global $cstart, $cend, $filesbypage, $titanium_module_name, $filefilter;
+    global $cstart, $cend, $filesbypage, $pnt_module, $filefilter;
 
     $swfOK = 0; //swf found in directory and in database
     $swfNotInDB = 0; // swf found in directory and NOT in database
@@ -376,7 +376,7 @@ function checkSwfDir()
         } else {
             if ($count > 0) {
                 // game referenced without pic
-                $content .= "<td width=32 align=center height=32><a href='modules.php?name=Forums&amp;file=games&amp;gid=" . $row['game_id'] . "'><img src=\"modules/$titanium_module_name/images/nopic.gif\" width=32 height=32 border=0></a></td>\n";
+                $content .= "<td width=32 align=center height=32><a href='modules.php?name=Forums&amp;file=games&amp;gid=" . $row['game_id'] . "'><img src=\"modules/$pnt_module/images/nopic.gif\" width=32 height=32 border=0></a></td>\n";
             } else { // game not referenced
                 $content .= "<td width=32 align=center height=32>X</td>\n";
             } 
@@ -388,7 +388,7 @@ function checkSwfDir()
             case 0:
                 $filenamewithoutext = substr($swffile, 0, strrpos($swffile, '.'));
                 $content .= "<td>"
-                 . MakeIntelliAddForm($filenamewithoutext) . "</td>" // "<a href=\"modules.php?name=$titanium_module_name&amp;m_op=intelliad&amp;gamebasename=$filenamewithoutext&amp;cstart=$cstart\">IntelliAdd</a></td>\n"
+                 . MakeIntelliAddForm($filenamewithoutext) . "</td>" // "<a href=\"modules.php?name=$pnt_module&amp;m_op=intelliad&amp;gamebasename=$filenamewithoutext&amp;cstart=$cstart\">IntelliAdd</a></td>\n"
                 . "<td align=center>[&nbsp;<a href='modules/Forums/admin/arcade_elmt.php?mode=create&amp;game_name=$filenamewithoutext'>Add</a>&nbsp;]</big></td>\n";
                 $swfNotInDB++;
                 break;
@@ -424,13 +424,13 @@ function checkSwfDir()
 // Format Data for a line of game's information
 function GamesDBRow($row, $showcheckbox = true)
 {
-    global $picdirectory, $titanium_module_name;
+    global $picdirectory, $pnt_module;
     echo "<tr>";
 
     if (isset($row['game_pic']) and !empty($row['game_pic'])) {
         echo "        <td align=\"center\" width=\"32\"><a href='modules.php?name=Forums&amp;file=games&amp;gid=" . $row['game_id'] . "'><img src=\"" . $picdirectory . $row['game_pic'] . "\" width=32 height=32 border=0></a></td>\n";
     } else {
-        echo "<td align=\"center\" width=\"32\" align=center height=32><a href='modules.php?name=Forums&amp;file=games&amp;gid=" . $row['game_id'] . "'><img src=\"modules/$titanium_module_name/images/nopic.gif\" width=32 height=32 border=0></a></td>\n";
+        echo "<td align=\"center\" width=\"32\" align=center height=32><a href='modules.php?name=Forums&amp;file=games&amp;gid=" . $row['game_id'] . "'><img src=\"modules/$pnt_module/images/nopic.gif\" width=32 height=32 border=0></a></td>\n";
     } 
 
     echo "<td>";
@@ -484,7 +484,7 @@ function FromGameID($GameID, $field = "game_name")
 
 function SearchDB()
 {
-    global $titanium_module_name, $srchstring, $searchin, $titanium_prefix, $titanium_db, $titanium_user_prefix, $picdirectory;
+    global $pnt_module, $srchstring, $searchin, $titanium_prefix, $titanium_db, $titanium_user_prefix, $picdirectory;
     include_once(NUKE_BASE_DIR.'header.php');
     menu();
     title("Game's database search");
@@ -518,7 +518,7 @@ function SearchDB()
             if (!$titanium_db->sql_numrows()) {
                 echo "No matches.<br /><br />" . SearchDBForm();
             } else {
-                echo "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=submitchange\" name=\"gameselection\"method=\"post\">";
+                echo "<form action=\"modules.php?name=$pnt_module&amp;m_op=submitchange\" name=\"gameselection\"method=\"post\">";
                 echo "<table width=\"100%\" border=\"1\">";
                 while ($row = $titanium_db->sql_fetchrow($result)) {
                     GamesDBRow($row, true);
@@ -552,7 +552,7 @@ function SearchDB()
                 while ($row = $titanium_db->sql_fetchrow($result)) {
                     echo "<tr><td width='32'><img src='$picdirectory" . $row['game_pic'] . "' width='32' height='32'><td><a href=''>" . $row['game_name'] . "</a><br />by <a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=" . $row['game_highuser'] . "\">" . $row['username'] . "</a></td>";
                     echo "<td>" . $row['comments_value'] . "</td>"
-                     . "<td>[&nbsp;<a href='modules.php?name=$titanium_module_name&amp;m_op=editcomment&amp;gameid=" . $row['game_id'] . "'>Edit</a>&nbsp;|&nbsp;<a href=''>Delete</a>&nbsp;]</td></tr>";
+                     . "<td>[&nbsp;<a href='modules.php?name=$pnt_module&amp;m_op=editcomment&amp;gameid=" . $row['game_id'] . "'>Edit</a>&nbsp;|&nbsp;<a href=''>Delete</a>&nbsp;]</td></tr>";
                 } 
                 echo "</table>";
             } else {
@@ -585,7 +585,7 @@ function EditComment()
     menu();
     title("Comment Edition");
     OpenTable();
-    global $titanium_db, $gameid,$titanium_prefix,$titanium_user_prefix,$titanium_module_name;
+    global $titanium_db, $gameid,$titanium_prefix,$titanium_user_prefix,$pnt_module;
     if (!isset($gameid)) {
         die("Error : No valid game id. Unable to edit comment.");
     } 
@@ -604,7 +604,7 @@ function EditComment()
     if ($row) {
         echo "<table width=\"100%\" border=1>\n";
         GamesDBRow($row,false);
-        echo "<form method=\"post\" action=\"modules.php?name=$titanium_module_name&amp;m_op=changecomment&amp;gameid=$gameid\">\n";
+        echo "<form method=\"post\" action=\"modules.php?name=$pnt_module&amp;m_op=changecomment&amp;gameid=$gameid\">\n";
         echo "<tr><td></td><td width=150 align=center><strong>Highscore: </strong> ".$row['game_highscore']
             ."<br /><a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['user_id']."\">".$row['username']."</a>"
             ."<br />".date( "D M d, Y g:i a" , $row['game_highdate'] )."</td>\n"
@@ -618,8 +618,8 @@ function EditComment()
 } 
 function SearchDBForm()
 {
-    global $titanium_module_name, $srchstring;
-    $content = "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=searchdb\" method=\"post\">\n";
+    global $pnt_module, $srchstring;
+    $content = "<form action=\"modules.php?name=$pnt_module&amp;m_op=searchdb\" method=\"post\">\n";
     $content .= "<strong>Search:<strong>&nbsp;<input type=\"text\" class=\"select\" name=\"srchstring\" value=\"$srchstring\" size=\"10\" title=\"Use Wildcards * and ? such AS 'yeti*'\">\n";
     $content .= "&nbsp;<strong>in</strong>&nbsp;<select name=\"searchin\">\n";
     $content .= "    <option selected value=\"name\">Game's Name</option>\n";
@@ -634,7 +634,7 @@ function SearchDBForm()
 // Main function to read and check Games Database
 function CheckDB()
 {
-    global $titanium_db, $titanium_prefix, $swfdirectory, $picdirectory, $titanium_module_name, $filesbypage;
+    global $titanium_db, $titanium_prefix, $swfdirectory, $picdirectory, $pnt_module, $filesbypage;
     global $cend, $cstart;
 
     $gamesdata = &ReadAllGames();
@@ -649,7 +649,7 @@ function CheckDB()
     foreach($gamesdata AS $row) {
         if (!file_exists($swfdirectory . $row['game_swf'])) {
             $filenotindir++;
-            $filemissing .= "<tr><td>" . $row['game_swf'] . "</td><td>[&nbsp;<a href=\"modules.php?name=$titanium_module_name&amp;m_op=submitchange&amp;selectaction=removefromdb&amp;gameid[]=" . $row['game_id'] . "\">Remove</a>"
+            $filemissing .= "<tr><td>" . $row['game_swf'] . "</td><td>[&nbsp;<a href=\"modules.php?name=$pnt_module&amp;m_op=submitchange&amp;selectaction=removefromdb&amp;gameid[]=" . $row['game_id'] . "\">Remove</a>"
              . "&nbsp|&nbsp;<a href='modules/Forums/admin/arcade_elmt.php?mode=edit&amp;game_id=" . $row['game_id'] . "'>Edit</a>&nbsp;]</td></tr>";
         } 
         if (!empty($row['game_pic'])) {
@@ -735,7 +735,7 @@ function setCheckboxes(do_check)
     echo "<li>$gameswithscore games with High-Score" ;
     echo "<li>$gameswithoutscore games without High-Score" ;
     echo "</ul><br /></td><td colspan=5>" . SearchDBForm() . "</td></tr>";
-    echo "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=submitchange\" name=\"gameselection\"method=\"post\">"; 
+    echo "<form action=\"modules.php?name=$pnt_module&amp;m_op=submitchange\" name=\"gameselection\"method=\"post\">"; 
     // Let's show Games
     echo "<tr><th>&nbsp;</th><th>name</th><th>screen</th><th>Cat.</th><th>Type</th><th>Played</th><th>Actions</th></tr>";
 
@@ -765,9 +765,9 @@ function setCheckboxes(do_check)
 
 function SubmitChange()
 {
-    global $titanium_db, $titanium_prefix, $selectaction, $gameid, $titanium_module_name, $_categoryArray;
+    global $titanium_db, $titanium_prefix, $selectaction, $gameid, $pnt_module, $_categoryArray;
     if (!is_array($gameid) or count($gameid) == 0 or !isset($selectaction) or empty($selectaction)) {
-        Header("Location: modules.php?name=$titanium_module_name&m_op=checkDB");
+        Header("Location: modules.php?name=$pnt_module&m_op=checkDB");
     } 
     switch ($selectaction) {
         case "changecat":
@@ -775,7 +775,7 @@ function SubmitChange()
             menu();
             title("Change games category");
             OpenTable();
-            echo "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=applychange\" method=\"post\"><ul>";
+            echo "<form action=\"modules.php?name=$pnt_module&amp;m_op=applychange\" method=\"post\"><ul>";
             foreach($gameid AS $gid) {
                 echo "<input type=\"hidden\" name=\"gameid[]\" value=\"$gid\"><li>" . FromGameID($gid);
             } 
@@ -797,7 +797,7 @@ function SubmitChange()
             menu();
             title("Flash Game Window Size");
             OpenTable();
-            echo "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=applychange\" method=\"post\"><ul>";
+            echo "<form action=\"modules.php?name=$pnt_module&amp;m_op=applychange\" method=\"post\"><ul>";
             foreach($gameid AS $gid) {
                 echo "<input type=\"hidden\" name=\"gameid[]\" value=\"$gid\"><li>" . FromGameID($gid);
             } 
@@ -815,7 +815,7 @@ function SubmitChange()
             menu();
             title("Removing Scores");
             OpenTable();
-            echo "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=applychange\" method=\"post\"><ul>";
+            echo "<form action=\"modules.php?name=$pnt_module&amp;m_op=applychange\" method=\"post\"><ul>";
             foreach($gameid AS $gid) {
                 echo "<input type=\"hidden\" name=\"gameid[]\" value=\"$gid\"><li>" . FromGameID($gid);
             } 
@@ -823,7 +823,7 @@ function SubmitChange()
             echo "Please Confirm you want to remove ALL Scores for this games: ";
             echo "<input type=\"hidden\" name=\"selectaction\" value=\"removescore\">";
             echo "<br /><input type=\"submit\" class=\"titaniumbutton\" value=\"I Confirm\"></form>";
-            echo "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=checkDB\" name=\"dontconfirm\" method=\"post\">";
+            echo "<form action=\"modules.php?name=$pnt_module&amp;m_op=checkDB\" name=\"dontconfirm\" method=\"post\">";
             echo "<input type=\"submit\" class=\"titaniumbutton\" value=\"No,Dont Remove scores\"></form>";
             CloseTable();
             include_once(NUKE_BASE_DIR.'footer.php');
@@ -833,7 +833,7 @@ function SubmitChange()
             menu();
             title("Removing Games from database");
             OpenTable();
-            echo "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=applychange\" method=\"post\"><ul>";
+            echo "<form action=\"modules.php?name=$pnt_module&amp;m_op=applychange\" method=\"post\"><ul>";
             foreach($gameid AS $gid) {
                 echo "<input type=\"hidden\" name=\"gameid[]\" value=\"$gid\"><li>" . FromGameID($gid);
             } 
@@ -841,7 +841,7 @@ function SubmitChange()
             echo "Please Confirm you want to <strong><big>remove this " . count($gameid) . " game(s) from DB</big></strong> (Files will stay in your games directory.): ";
             echo "<input type=\"hidden\" name=\"selectaction\" value=\"removefromdb\">";
             echo "<br /><input type=\"submit\" class=\"titaniumbutton\" value=\"I Confirm\"></form>";
-            echo "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=checkDB\" name=\"dontconfirm\" method=\"post\">";
+            echo "<form action=\"modules.php?name=$pnt_module&amp;m_op=checkDB\" name=\"dontconfirm\" method=\"post\">";
             echo "<input type=\"submit\" class=\"titaniumbutton\" value=\"No,Dont Remove this games\"></form>";
             CloseTable();
             include_once(NUKE_BASE_DIR.'footer.php');
@@ -850,16 +850,16 @@ function SubmitChange()
             echo "Sooooooorrry... Removing files is not implemented yet.";
             break;
         default:
-            Header("Location: modules.php?name=$titanium_module_name&m_op=checkDB"); ;
+            Header("Location: modules.php?name=$pnt_module&m_op=checkDB"); ;
     } // switch( ) 
     // print_r($gameid);
 } 
 
 function ApplyChange()
 {
-    global $titanium_db, $titanium_prefix, $selectaction, $gameid, $titanium_module_name, $_categoryArray;
+    global $titanium_db, $titanium_prefix, $selectaction, $gameid, $pnt_module, $_categoryArray;
     if (!is_array($gameid) or count($gameid) == 0 or !isset($selectaction) or empty($selectaction)) {
-        Header("Location: modules.php?name=$titanium_module_name&m_op=checkDB");
+        Header("Location: modules.php?name=$pnt_module&m_op=checkDB");
     } 
     switch ($selectaction) {
         case "changecat":
@@ -958,44 +958,44 @@ function ApplyChange()
             include_once(NUKE_BASE_DIR.'footer.php');
             break;
         default:
-            Header("Location: modules.php?name=$titanium_module_name&m_op=checkDB"); ;
+            Header("Location: modules.php?name=$pnt_module&m_op=checkDB"); ;
     } // switch( ) 
 } 
 function MakePageDBLinks($phpbb2_start, $phpbb2_end, $delta, $currentpos = null)
 {
-    global $titanium_module_name, $type012;
+    global $pnt_module, $type012;
     $content = "<span class='content'><strong>Goto Pages:&nbsp;&nbsp;</strong>";
     $loccount = $phpbb2_start;
     $page = 1;
     $addfilter = isset($type012)?"&amp;type012=1":"";
     while ($loccount < $phpbb2_end) {
         if ($currentpos == null or $currentpos <> $loccount) {
-            $content .= "<a href='modules.php?name=$titanium_module_name&amp;m_op=checkDB&amp;cstart=$loccount&amp;cend=" . ($loccount + $delta) . "$addfilter'>$page</a> ";
+            $content .= "<a href='modules.php?name=$pnt_module&amp;m_op=checkDB&amp;cstart=$loccount&amp;cend=" . ($loccount + $delta) . "$addfilter'>$page</a> ";
         } else $content .= "<em>$page</em>&nbsp;";
 
         $loccount += $delta + 1;
         $page ++;
     } // while
-    $content .= "<a href='modules.php?name=$titanium_module_name&amp;m_op=checkDB&amp;cstart=$phpbb2_start&amp;cend=$phpbb2_end'> ALL</a>";
+    $content .= "<a href='modules.php?name=$pnt_module&amp;m_op=checkDB&amp;cstart=$phpbb2_start&amp;cend=$phpbb2_end'> ALL</a>";
     $content .= "</span>";
     echo $content;
 } 
 function MakePageLinks($phpbb2_start, $phpbb2_end, $delta, $currentpos = null)
 {
-    global $titanium_module_name, $filefilter;
+    global $pnt_module, $filefilter;
     $content = "<span class='content'><strong>Goto Pages:&nbsp;&nbsp;</strong>";
     $loccount = $phpbb2_start;
     $page = 1;
     $addfilter = isset($filefilter)?"&amp;filefilter=$filefilter":"";
     while ($loccount < $phpbb2_end) {
         if ($currentpos == null or $currentpos <> $loccount) {
-            $content .= "<a href='modules.php?name=$titanium_module_name&amp;m_op=checkswf$addfilter&amp;cstart=$loccount&amp;cend=" . ($loccount + $delta) . "'>$page</a> ";
+            $content .= "<a href='modules.php?name=$pnt_module&amp;m_op=checkswf$addfilter&amp;cstart=$loccount&amp;cend=" . ($loccount + $delta) . "'>$page</a> ";
         } else $content .= "<em>$page</em>&nbsp;";
 
         $loccount += $delta + 1;
         $page ++;
     } // while
-    $content .= "<a href='modules.php?name=$titanium_module_name&amp;m_op=checkswf$addfilter&amp;cstart=$phpbb2_start&amp;cend=$phpbb2_end'> ALL</a>";
+    $content .= "<a href='modules.php?name=$pnt_module&amp;m_op=checkswf$addfilter&amp;cstart=$phpbb2_start&amp;cend=$phpbb2_end'> ALL</a>";
     $content .= "</span>";
     return $content;
 } 
@@ -1061,7 +1061,7 @@ function CreateCategory($arcade_cattitle)
 } 
 function ShowCategory()
 {
-    global $titanium_db, $titanium_prefix, $titanium_module_name, $_categoryArray, $catid;
+    global $titanium_db, $titanium_prefix, $pnt_module, $_categoryArray, $catid;
     include_once(NUKE_BASE_DIR.'header.php');
     menu();
     echo "<br />";
@@ -1073,25 +1073,25 @@ function ShowCategory()
     foreach($_categoryArray AS $row) {
         echo "<tr>";
         echo "<td><a href=\"modules/Forums/admin/admin_arcade_games.php?mode=edit&amp;arcade_catid=" . $row['arcade_catid'] . "\">" . $row['arcade_cattitle'] . "</a></td><td align=\"center\">" . $row['arcade_catid'] . "</td>";
-        echo "<td><a href=\"modules.php?name=$titanium_module_name&amp;m_op=category&amp;catid=" . $row['arcade_catid'] . "\">" . $row['arcade_nbelmt'] . " games recorded</a></td>";
+        echo "<td><a href=\"modules.php?name=$pnt_module&amp;m_op=category&amp;catid=" . $row['arcade_catid'] . "\">" . $row['arcade_nbelmt'] . " games recorded</a></td>";
         $result = $titanium_db->sql_query("SELECT COUNT(*) AS count FROM " . $titanium_prefix . "_bbgames WHERE `arcade_catid`=" . $row['arcade_catid'])
         or die("Cannot read games table.");
         $count = $titanium_db->sql_fetchrow($result);
         echo "<td>Counted " . $count['count'];
         if ($count['count'] <> $row['arcade_nbelmt']) {
-            echo " [ Not Matching - <a href=\"modules.php?name=$titanium_module_name&amp;m_op=resynccat&amp;catid=" . $row['arcade_catid'] . "\">Re-Sync</a> ]";
+            echo " [ Not Matching - <a href=\"modules.php?name=$pnt_module&amp;m_op=resynccat&amp;catid=" . $row['arcade_catid'] . "\">Re-Sync</a> ]";
         } 
         echo "</td>";
         echo "</tr>\n";
     } 
     echo "</table>";
     echo "<br /><hr width='40%'>";
-    echo "<center><form action=\"modules.php?name=$titanium_module_name&amp;m_op=addcategory\" method=\"post\">Add a Category:&nbsp;";
+    echo "<center><form action=\"modules.php?name=$pnt_module&amp;m_op=addcategory\" method=\"post\">Add a Category:&nbsp;";
     echo "<input type=\"text\" class=\"select\" name=\"title\" value=\"\" length=\"15\" maxlength=\"100\">&nbsp;";
     echo "<input type=\"submit\" class=\"titaniumbutton\" value=\"Add\">";
     echo "</form></center>";
     if (isset($catid)) {
-        echo "<form action=\"modules.php?name=$titanium_module_name&amp;m_op=submitchange\" name=\"gameselection\"method=\"post\">";
+        echo "<form action=\"modules.php?name=$pnt_module&amp;m_op=submitchange\" name=\"gameselection\"method=\"post\">";
 
         ?>
 <script language="Javascript">
@@ -1149,7 +1149,7 @@ function setCheckboxes(do_check)
 
 function FixDB()
 {
-    global $titanium_db, $titanium_prefix, $titanium_module_name;
+    global $titanium_db, $titanium_prefix, $pnt_module;
     include_once(NUKE_BASE_DIR.'header.php');
     menu();
     OpenTable();
@@ -1184,7 +1184,7 @@ function FixDB()
 // check for some database incohrence
 function DBCoherence()
 {
-    global $titanium_db, $titanium_prefix, $titanium_module_name;
+    global $titanium_db, $titanium_prefix, $pnt_module;
 
     include_once(NUKE_BASE_DIR.'header.php');
     menu();
@@ -1192,7 +1192,7 @@ function DBCoherence()
     OpenTable();
     echo "<ul>"; 
     // Checking of number of games in categories compared to the number stored in category table
-    echo "<li> <strong>Category Checking</strong><br /><img src='modules/$titanium_module_name/images/icon_query.gif' border=0 width=16 height=16> Check if the number of games in category table match the count of games<br /><br />";
+    echo "<li> <strong>Category Checking</strong><br /><img src='modules/$pnt_module/images/icon_query.gif' border=0 width=16 height=16> Check if the number of games in category table match the count of games<br /><br />";
     CategoryTable(0); // read the category table;
     global $_categoryArray;
     $CategoryNotSynchronized = 0;
@@ -1202,14 +1202,14 @@ function DBCoherence()
         or die("Cannot read games table.");
         $count = $titanium_db->sql_fetchrow($result);
         if ($count['count'] <> $row['arcade_nbelmt']) {
-            echo "<strong>" . $row['arcade_cattitle'] . "</strong> not synchronized. [ Not Matching - <a href=\"modules.php?name=$titanium_module_name&amp;m_op=resynccat&amp;catid=" . $row['arcade_catid'] . "\">Re-Sync</a> ]<br />";
+            echo "<strong>" . $row['arcade_cattitle'] . "</strong> not synchronized. [ Not Matching - <a href=\"modules.php?name=$pnt_module&amp;m_op=resynccat&amp;catid=" . $row['arcade_catid'] . "\">Re-Sync</a> ]<br />";
             $CategoryNotSynchronized++;
         } 
     } 
     if ($CategoryNotSynchronized) {
-        echo "<img src='modules/$titanium_module_name/images/icon_warn.gif' border=0 width=16 height=16><strong>$CategoryNotSynchronized</strong> don\'t match. [ <a href='modules.php?name=$titanium_module_name&amp;m_op=syncallcat'>Resync All Categories</a> ]";
+        echo "<img src='modules/$pnt_module/images/icon_warn.gif' border=0 width=16 height=16><strong>$CategoryNotSynchronized</strong> don\'t match. [ <a href='modules.php?name=$pnt_module&amp;m_op=syncallcat'>Resync All Categories</a> ]";
     } else {
-        echo "<img src='modules/$titanium_module_name/images/icon_info.gif' border=0 width=16 height=16><strong>All categories are synchronized.</strong>";
+        echo "<img src='modules/$pnt_module/images/icon_info.gif' border=0 width=16 height=16><strong>All categories are synchronized.</strong>";
     } 
     echo "<br /><br />"; 
     // let see if the comment mod is installed and if all games have their "comments"
@@ -1217,7 +1217,7 @@ function DBCoherence()
     $commenttableexist = $titanium_db->sql_query("SELECT * FROM `" . $titanium_prefix . "_bbarcade_comments` LIMIT 0,1");
 
     if ($commenttableexist) {
-        echo "<li><strong>Comments Module</strong> found.<br /><img src='modules/$titanium_module_name/images/icon_query.gif' border=0 width=16 height=16> Checking if all games have their comments in comments tables.<br /><br />";
+        echo "<li><strong>Comments Module</strong> found.<br /><img src='modules/$pnt_module/images/icon_query.gif' border=0 width=16 height=16> Checking if all games have their comments in comments tables.<br /><br />";
         $sql = "SELECT * FROM " . $titanium_prefix . "_bbgames ";
         if (!$result = $titanium_db->sql_query($sql)) {
             die("Cannot Open Games Table");
@@ -1231,10 +1231,10 @@ function DBCoherence()
             } 
         } 
 
-        echo $missingcomment? "<br /><br /><img src='modules/$titanium_module_name/images/icon_warn.gif' border=0 width=16 height=16><strong>" . $missingcomment . " games don\'t have comments</strong> [ <a href='modules.php?name=$titanium_module_name&amp;m_op=fixdb&amp;fix=commentstable'>Fix Comments Table</a> ]<br />"
-        : "<img src='modules/$titanium_module_name/images/icon_info.gif' border=0 width=16 height=16><strong>All games have their comments rows.</strong><br />";
+        echo $missingcomment? "<br /><br /><img src='modules/$pnt_module/images/icon_warn.gif' border=0 width=16 height=16><strong>" . $missingcomment . " games don\'t have comments</strong> [ <a href='modules.php?name=$pnt_module&amp;m_op=fixdb&amp;fix=commentstable'>Fix Comments Table</a> ]<br />"
+        : "<img src='modules/$pnt_module/images/icon_info.gif' border=0 width=16 height=16><strong>All games have their comments rows.</strong><br />";
     } else
-        echo "<li><img src='modules/$titanium_module_name/images/icon_info.gif' border=0 width=16 height=16> <strong>Comments Module</strong> not found.";
+        echo "<li><img src='modules/$pnt_module/images/icon_info.gif' border=0 width=16 height=16> <strong>Comments Module</strong> not found.";
 
     echo "</ul>";
     CloseTable();
@@ -1242,7 +1242,7 @@ function DBCoherence()
 } 
 function ShowDefault()
 {
-    global $titanium_module_name;
+    global $pnt_module;
     include_once(NUKE_BASE_DIR.'header.php');
     menu();
     echo "<br />";
@@ -1251,21 +1251,21 @@ function ShowDefault()
     echo "<strong>Thanks to test Arcade Tweaks RC2.</strong><br />";
     echo "Note that this module is <u>still</u> on Test Mode."
          ."<br />It has been tested succesfully on Nuke 6.8 and 7.6 with Arcade Mod V3."
-         ."<br /> If you did installed the ATRC1 ,have already installed the Comments Mod and added some Games with it, check the <a href='modules.php?name=$titanium_module_name&amp;m_op=tools'>Tools functions</a> "
+         ."<br /> If you did installed the ATRC1 ,have already installed the Comments Mod and added some Games with it, check the <a href='modules.php?name=$pnt_module&amp;m_op=tools'>Tools functions</a> "
          ." (in particular the 'Database Coherence checking').<br /> ";
     echo "<br /><br />";
     echo "Please , Come to <a href=\"http://www.nukearcade.com/\">http://www.nukearcade.com</a> or <a href=\"http://www.thehorde.be/modules.php?name=Downloads&amp;d_op=viewdownload&amp;cid=5\">http://www.thehorde.be</a> for update and comments.";
     echo "<br />Rica<br /><span class='content'><ul>\n";
-    echo "<li><a href='modules.php?name=$titanium_module_name&amp;m_op=checkswf'><strong>All SWF</strong></a>:<br />\n";
+    echo "<li><a href='modules.php?name=$pnt_module&amp;m_op=checkswf'><strong>All SWF</strong></a>:<br />\n";
     echo "Browse your game directory and search unreferenced flash games.<br />Allow you to add them with a single click.(NB: Type 3 by default)" . "<br />Search for a picture with a similar base name in the picture directory.";
-    echo "<br /><li><a href='modules.php?name=$titanium_module_name&amp;m_op=checkswf&amp;filefilter=unreferenced'><strong>Unreferenced SWF</strong></a>:<br />\n";
+    echo "<br /><li><a href='modules.php?name=$pnt_module&amp;m_op=checkswf&amp;filefilter=unreferenced'><strong>Unreferenced SWF</strong></a>:<br />\n";
     echo "Same than above but only show unreferenced SWF";
-    echo "<br /><li><a href='modules.php?name=$titanium_module_name&amp;m_op=checkDB'><strong>Check DB</strong></a>:<br />\n";
+    echo "<br /><li><a href='modules.php?name=$pnt_module&amp;m_op=checkDB'><strong>Check DB</strong></a>:<br />\n";
     echo "Analyse your games database.<br />Search for missing swf and pictures files.<br />Search for games without pics.<br />";
     echo "Change category, Flash Window Size, Reset Score";
-    echo "<br /><li><a href='modules.php?name=$titanium_module_name&amp;m_op=category'><strong>Category</strong></a>:<br />\n";
+    echo "<br /><li><a href='modules.php?name=$pnt_module&amp;m_op=category'><strong>Category</strong></a>:<br />\n";
     echo "Add , resync and check games categories";
-    echo "<br /><li><a href='modules.php?name=$titanium_module_name&amp;m_op=tools'><strong>Tools</strong></a>:<br />\n";
+    echo "<br /><li><a href='modules.php?name=$pnt_module&amp;m_op=tools'><strong>Tools</strong></a>:<br />\n";
     echo "Function added to process (remove , edit , etc) type 0,1,2 for the new arcade mod coming up.<br />";
     echo "Browser your pictures directory<br />";
     echo "</ul></span>\n";

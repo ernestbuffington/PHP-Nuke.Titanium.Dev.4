@@ -49,7 +49,7 @@ if (!defined('CNBYA')) {
 
         if (GDSUPPORT AND $code != $gfx_check AND ($ya_config['usegfxcheck'] == 3 OR $ya_config['usegfxcheck'] == 4 OR $ya_config['usegfxcheck'] == 6)) {
 
-            redirect_titanium("modules.php?name=$titanium_module_name");
+            redirect_titanium("modules.php?name=$pnt_module");
             exit;
         }
         mt_srand ((double)microtime()*1000000);

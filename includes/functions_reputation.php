@@ -31,7 +31,7 @@ if (!defined('IN_PHPBB2'))
 //
 function get_reputation_medals($rep)
 {
-  global $rep_config, $reputation, $titanium_lang, $phpbb2_root_path;
+  global $rep_config, $reputation, $lang, $phpbb2_root_path;
 
   if ($rep > 0)
   {
@@ -40,7 +40,7 @@ function get_reputation_medals($rep)
     {
       for ($k=1; $k<=round($temp); $k++)
       {
-        $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_1.gif" alt="' . $titanium_lang['Reputation'] . ': ' .  round($rep,1) . '" title="' . $titanium_lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
+        $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_1.gif" alt="' . $lang['Reputation'] . ': ' .  round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
       }
     }
     else if ($temp < 1)
@@ -50,7 +50,7 @@ function get_reputation_medals($rep)
       {
         for ($k=1; $k<=round($temp); $k++)
         {
-          $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_2.gif" alt="' . $titanium_lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $titanium_lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
+          $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_2.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
         }
       } else if ($temp < 1)
       {
@@ -59,7 +59,7 @@ function get_reputation_medals($rep)
         {
           for ($k=1; $k<=round($temp); $k++)
           {
-            $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_3.gif" alt="' . $titanium_lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $titanium_lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
+            $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_3.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
           }
         } else if ($temp < 1)
         {
@@ -68,20 +68,20 @@ function get_reputation_medals($rep)
           {
             for ($k=1; $k<=round($temp); $k++)
             {
-              $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_4.gif" alt="' . $titanium_lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $titanium_lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
+              $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_4.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
             }
           } else if ($temp < 1)
           {
             for ($k=1; $k<=$rep; $k++)
             {
-              $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_5.gif" alt="' . $titanium_lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $titanium_lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
+              $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_5.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
             }
           }
         }
       }
     }
   } else if ($rep < 0)
-  $reputation = '<img src="' . $phpbb2_root_path . 'images/reputation_medal_neg.gif" alt="' . $titanium_lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $titanium_lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
+  $reputation = '<img src="' . $phpbb2_root_path . 'images/reputation_medal_neg.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
 
   return $reputation;
 }
@@ -93,11 +93,11 @@ function get_reputation_medals($rep)
 //
 function r_send_pm(&$titanium_user_id, &$titanium_user_2id, &$rep_sum, &$titanium_user_ip)
 {
-  global $titanium_lang, $titanium_db;
+  global $lang, $titanium_db;
 
   $msg_time = time();
   $sql_info = "INSERT INTO " . PRIVMSGS_TABLE . " (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date, privmsgs_ip, privmsgs_enable_html, privmsgs_enable_bbcode, privmsgs_enable_smilies, privmsgs_attach_sig)
-        VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", $titanium_lang['PM_notify_subj']) . "' , " . $titanium_user_id . ", " . $titanium_user_2id . ", $msg_time, '$titanium_user_ip', 0, 1, 0, 0)";
+        VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", $lang['PM_notify_subj']) . "' , " . $titanium_user_id . ", " . $titanium_user_2id . ", $msg_time, '$titanium_user_ip', 0, 1, 0, 0)";
   if ( !($result = $titanium_db->sql_query($sql_info, BEGIN_TRANSACTION)) )
   {
     message_die(GENERAL_ERROR, "Could not insert/update private message sent info.", "", __LINE__, __FILE__, $sql_info);
@@ -106,7 +106,7 @@ function r_send_pm(&$titanium_user_id, &$titanium_user_2id, &$rep_sum, &$titaniu
   $next_id = $titanium_db->sql_nextid();
   $bbcode_uid = make_bbcode_uid();
 
-  $privmsg_message = sprintf($titanium_lang['PM_notify_text'], $rep_sum);
+  $privmsg_message = sprintf($lang['PM_notify_text'], $rep_sum);
   $sql = "INSERT INTO " . PRIVMSGS_TEXT_TABLE . " (privmsgs_text_id, privmsgs_bbcode_uid, privmsgs_text)
     VALUES ($next_id, '" . $bbcode_uid . "', '" . str_replace("\'", "''", $privmsg_message) . "')";
   if ( !$titanium_db->sql_query($sql, END_TRANSACTION) )

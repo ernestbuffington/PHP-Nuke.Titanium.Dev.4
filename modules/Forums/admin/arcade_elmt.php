@@ -61,7 +61,7 @@ if( !empty($mode) )
         case 'edit':
             if ($mode == 'edit')
             {
-                $l_title = $titanium_lang['Edit_game'];
+                $l_title = $lang['Edit_game'];
                 $newmode = 'editsave';
                 $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_id = '$game_id' ORDER BY game_order ASC";
                 if( !($result = $titanium_db->sql_query($sql)) )
@@ -107,7 +107,7 @@ if( !empty($mode) )
             }
             else
             {
-                $l_title = $titanium_lang['Create_game'];
+                $l_title = $lang['Create_game'];
                 $newmode = 'createsave';
 
                 $game_desc = "";
@@ -141,29 +141,29 @@ if( !empty($mode) )
 
           $phpbb2_template->assign_vars(array(
             "L_EDIT_GAME" => $l_title,
-            "L_EDIT_GAME_EXPLAIN" => $titanium_lang['Edit_game_explain'],
-            "L_GAME_SETTINGS" => $titanium_lang['Game_settings'],
-            "L_GAME_NAME" => $titanium_lang['Game_name'],
-            "L_GAME_NAME_EXPLAIN" => $titanium_lang['Game_name_explain'],
-            "L_DESCRIPTION" => $titanium_lang['Game_description'],
-            "L_DESCRIPTION_EXPLAIN" => $titanium_lang['Game_description_explain'],
-            "L_VIGNETTE" => $titanium_lang['Game_thumbail'],
-            "L_VIGNETTE_EXPLAIN" => $titanium_lang['Game_thumbail_explain'],
-            "L_SWF" => $titanium_lang['Game_swf'],
-            "L_SWF_EXPLAIN" => $titanium_lang['Game_swf_explain'],
-            "L_WIDTH" => $titanium_lang['Game_width'],
-            "L_WIDTH_EXPLAIN" => $titanium_lang['Game_width_explain'],
-            "L_HEIGHT" => $titanium_lang['Game_height'],
-            "L_HEIGHT_EXPLAIN" => $titanium_lang['Game_height_explain'],
-            "L_CATEGORIE" => $titanium_lang['Game_category'],
-            "L_CATEGORIE_EXPLAIN" => $titanium_lang['Game_category_explain'],
-            "L_SCORE_SETTINGS" => $titanium_lang['Score_settings'],
-            "L_SCORE_SETTINGS_EXPLAIN" => $titanium_lang['Score_settings_explain'],
-            "L_SCOREVARIABLE" => $titanium_lang['Game_scorevariable'],
-            "L_SCOREVARIABLE_EXPLAIN" => $titanium_lang['Game_scorevariable_explain'],
-            "L_GESTION_SCORE" => $titanium_lang['Game_typescore'],
-            "L_GESTION_SCORE_EXPLAIN" => $titanium_lang['Game_typescore_explain'],
-            "L_SUBMIT" => $titanium_lang['Submit'],
+            "L_EDIT_GAME_EXPLAIN" => $lang['Edit_game_explain'],
+            "L_GAME_SETTINGS" => $lang['Game_settings'],
+            "L_GAME_NAME" => $lang['Game_name'],
+            "L_GAME_NAME_EXPLAIN" => $lang['Game_name_explain'],
+            "L_DESCRIPTION" => $lang['Game_description'],
+            "L_DESCRIPTION_EXPLAIN" => $lang['Game_description_explain'],
+            "L_VIGNETTE" => $lang['Game_thumbail'],
+            "L_VIGNETTE_EXPLAIN" => $lang['Game_thumbail_explain'],
+            "L_SWF" => $lang['Game_swf'],
+            "L_SWF_EXPLAIN" => $lang['Game_swf_explain'],
+            "L_WIDTH" => $lang['Game_width'],
+            "L_WIDTH_EXPLAIN" => $lang['Game_width_explain'],
+            "L_HEIGHT" => $lang['Game_height'],
+            "L_HEIGHT_EXPLAIN" => $lang['Game_height_explain'],
+            "L_CATEGORIE" => $lang['Game_category'],
+            "L_CATEGORIE_EXPLAIN" => $lang['Game_category_explain'],
+            "L_SCORE_SETTINGS" => $lang['Score_settings'],
+            "L_SCORE_SETTINGS_EXPLAIN" => $lang['Score_settings_explain'],
+            "L_SCOREVARIABLE" => $lang['Game_scorevariable'],
+            "L_SCOREVARIABLE_EXPLAIN" => $lang['Game_scorevariable_explain'],
+            "L_GESTION_SCORE" => $lang['Game_typescore'],
+            "L_GESTION_SCORE_EXPLAIN" => $lang['Game_typescore_explain'],
+            "L_SUBMIT" => $lang['Submit'],
 
             "S_ACTION" => "arcade_elmt.$phpEx",
             "S_MODE" => $newmode,
@@ -240,7 +240,7 @@ if( !empty($mode) )
             //Comments Mod End
 
 
-            $message = $titanium_lang['Games_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_gameadmin'], "<a href=\"arcade_elmt.$phpEx?arcade_catid=$arcade_catid\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+            $message = $lang['Games_updated'] . "<br /><br />" . sprintf($lang['Click_return_gameadmin'], "<a href=\"arcade_elmt.$phpEx?arcade_catid=$arcade_catid\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
             message_die(GENERAL_MESSAGE, $message);
             break;
 
@@ -277,7 +277,7 @@ if( !empty($mode) )
                 }
             }
 
-            $message = $titanium_lang['Games_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_gameadmin'], "<a href=\"arcade_elmt.$phpEx?arcade_catid=$last_catid\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+            $message = $lang['Games_updated'] . "<br /><br />" . sprintf($lang['Click_return_gameadmin'], "<a href=\"arcade_elmt.$phpEx?arcade_catid=$last_catid\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
             message_die(GENERAL_MESSAGE, $message);
             break;
     }                
@@ -378,24 +378,24 @@ $phpbb2_template->set_filenames(array(
     );
 
   $phpbb2_template->assign_vars(array(
-        "L_MANAGE_GAME" => $titanium_lang['Manage_game'],
-        "ADD_GAME" => $titanium_lang['Add_new'],
-        "INITIAL_SCORE" => $titanium_lang['Initialize_score'],
-        "DELETE_GAME" => $titanium_lang['Delete_game'],
-        "SYNCHRO_GAME_SET" => $titanium_lang['Synchro_game_set'],
-        "L_PATH_NEW_LOGO" => $titanium_lang['Path_new_logo'],
-        "L_ACTION" => $titanium_lang['Action'],
-        "L_EDIT" => $titanium_lang['Edit'],
-        "L_DEPLACE" => $titanium_lang['Deplace'],
-        "L_GAME" => $titanium_lang['Arcade_game'],
-        "L_HIGHSCORE" => $titanium_lang['Arcade_highscore'],
+        "L_MANAGE_GAME" => $lang['Manage_game'],
+        "ADD_GAME" => $lang['Add_new'],
+        "INITIAL_SCORE" => $lang['Initialize_score'],
+        "DELETE_GAME" => $lang['Delete_game'],
+        "SYNCHRO_GAME_SET" => $lang['Synchro_game_set'],
+        "L_PATH_NEW_LOGO" => $lang['Path_new_logo'],
+        "L_ACTION" => $lang['Action'],
+        "L_EDIT" => $lang['Edit'],
+        "L_DEPLACE" => $lang['Deplace'],
+        "L_GAME" => $lang['Arcade_game'],
+        "L_HIGHSCORE" => $lang['Arcade_highscore'],
         'HIDDEN_FIELDS' => $hidden_fields,
-        "L_SETS" => $titanium_lang['Arcade_sets'],
-        "L_SCORES" => $titanium_lang['Arcade_scores'],
-        "L_FOR_GAME_SELECTION" => $titanium_lang['For_game_selection'],
-        "L_MANAGE_GAME_EXPLAIN" => $titanium_lang['Manage_game_explain'],
-        "ALL_CHECKED" => $titanium_lang['All_checked'],
-        "NOTHING_CHECKED" => $titanium_lang['Nothing_checked'],
+        "L_SETS" => $lang['Arcade_sets'],
+        "L_SCORES" => $lang['Arcade_scores'],
+        "L_FOR_GAME_SELECTION" => $lang['For_game_selection'],
+        "L_MANAGE_GAME_EXPLAIN" => $lang['Manage_game_explain'],
+        "ALL_CHECKED" => $lang['All_checked'],
+        "NOTHING_CHECKED" => $lang['Nothing_checked'],
         "S_ACTION" => "arcade_elmt.$phpEx")
         );
 
@@ -422,8 +422,8 @@ for( $i=0 ; $i<$cg; $i++)
         'NB_SCORES' => $liste_jeux[$i]['nbset'],
         'RECORD_JEU' => $liste_jeux[$i]['game_highscore'],
         'CHECK' => $liste_jeux[$i]['game_id'],
-        'L_UP' => ( $i > 0) ? $titanium_lang['Up_arcade_cat'] . '<br />' : '',
-        'L_DOWN' => ( $i < $cg-1 ) ? $titanium_lang['Down_arcade_cat'] : '',
+        'L_UP' => ( $i > 0) ? $lang['Up_arcade_cat'] . '<br />' : '',
+        'L_DOWN' => ( $i < $cg-1 ) ? $lang['Down_arcade_cat'] : '',
         'U_UP' => ( $i > 0) ? "arcade_elmt.$phpEx?mode=move&amp;arcade_catid=$arcade_catid&amp;game_id=" . $liste_jeux[ $i ]['game_id'] . "&amp;gid2=" . $liste_jeux[ $i - 1 ]['game_id'] . 
                                     "&amp;game_order=" .  $liste_jeux[ $i ]['game_order'] . "&amp;gorder2=" . $liste_jeux[ $i - 1 ]['game_order'] : '',
         'U_DOWN' => ( $i < $cg-1) ? "arcade_elmt.$phpEx?mode=move&amp;arcade_catid=$arcade_catid&amp;game_id=" . $liste_jeux[ $i ]['game_id'] . "&amp;gid2=" . $liste_jeux[ $i + 1 ]['game_id'] . 

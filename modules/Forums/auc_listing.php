@@ -19,8 +19,8 @@ exit("You can't access this file directly...");
 
 if ($popup != "1")
 {
-  $titanium_module_name = basename(dirname(__FILE__));
-  require("modules/".$titanium_module_name."/nukebb.php");
+  $pnt_module = basename(dirname(__FILE__));
+  require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -45,20 +45,20 @@ $phpbb2_template->set_filenames(array('body' => 'auc_listing_body.tpl') );
 if($exist):
 
   if($exist == "admins"): 
-     $group_name = str_replace("%s", "", $titanium_lang['Admin_online_color']);        
+     $group_name = str_replace("%s", "", $lang['Admin_online_color']);        
      $g = ADMIN;
   elseif($exist == "mods"): 
-     $group_name = str_replace("%s", "", $titanium_lang['Mod_online_color']);
+     $group_name = str_replace("%s", "", $lang['Mod_online_color']);
      $g = MOD;
   elseif($exist == "less_admins"): 
-     $group_name = str_replace("%s", "", $titanium_lang['Super_Mod_online_color']);    
+     $group_name = str_replace("%s", "", $lang['Super_Mod_online_color']);    
      $g = LESS_ADMIN;
   endif;
                                     
   $phpbb2_template->assign_vars(array(
-  "T_L" => $titanium_lang['listing_left'], 
+  "T_L" => $lang['listing_left'], 
   "T_C_2" => $group_name, 
-  "T_R" => $titanium_lang['listing_right'])
+  "T_R" => $lang['listing_right'])
   ); 
              
   $i = 1;
@@ -74,18 +74,18 @@ if($exist):
      $row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2']; 
      $row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2']; 
 
-     $www = ($row1['user_website']) ? '<a href="'.$row1['user_website'].'" target="_userwww"><img src="'.$images['icon_www'].'" alt="'.$titanium_lang['Visit_website'].'" title="'
-	 .$titanium_lang['Visit_website'].'" border="0" /></a>' : '';
+     $www = ($row1['user_website']) ? '<a href="'.$row1['user_website'].'" target="_userwww"><img src="'.$images['icon_www'].'" alt="'.$lang['Visit_website'].'" title="'
+	 .$lang['Visit_website'].'" border="0" /></a>' : '';
         
 	 $mailto = ($phpbb2_board_config['board_email_form']) ? append_titanium_sid("profile.$phpEx?mode=email&amp;".POST_USERS_URL.'='.$row1['user_id']) : 'mailto:'.$row1['user_email'];            
      
-	 $mail = ($row1['user_email']) ? '<a href="'.$mailto.'"><img src="'.$images['icon_email'].'" alt="'.$titanium_lang['Send_email'].'" title="'.$titanium_lang['Send_email']
+	 $mail = ($row1['user_email']) ? '<a href="'.$mailto.'"><img src="'.$images['icon_email'].'" alt="'.$lang['Send_email'].'" title="'.$lang['Send_email']
 	 .'" border="0" /></a>' : '';
         
 	 $pmto = append_titanium_sid("privmsg.$phpEx?mode=post&amp;". POST_USERS_URL ."=$row1[user_id]");
-     $pm = '<a href="'.$pmto.'"><img src="'.$images['icon_pm'] .'" alt="'.$titanium_lang['Send_private_message'].'" title="'.$titanium_lang['Send_private_message'].'" border="0" /></a>';
+     $pm = '<a href="'.$pmto.'"><img src="'.$images['icon_pm'] .'" alt="'.$lang['Send_private_message'].'" title="'.$lang['Send_private_message'].'" border="0" /></a>';
      $pro = append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$row1[user_id]");
-     $profile = '<a href="'.$pro.'"><img src="'.$images['icon_profile'].'" alt="'.$titanium_lang['Profile'].'" title="'.$titanium_lang['Profile'].'" border="0" /></a>';        
+     $profile = '<a href="'.$pro.'"><img src="'.$images['icon_profile'].'" alt="'.$lang['Profile'].'" title="'.$lang['Profile'].'" border="0" /></a>';        
         
      $info = $profile." ".$pm;
      
@@ -138,19 +138,19 @@ elseif($group):
        $row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];  
        $row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2']; 
                       
-       $www = ($row1[$a]['user_website']) ? '<a href="'.$row1[$a]['user_website'].'" target="_userwww"><img src="'.$images['icon_www'].'" alt="'.$titanium_lang['Visit_website'] 
-	   .'" title="'.$titanium_lang['Visit_website'].'" border="0" /></a>' : '';
+       $www = ($row1[$a]['user_website']) ? '<a href="'.$row1[$a]['user_website'].'" target="_userwww"><img src="'.$images['icon_www'].'" alt="'.$lang['Visit_website'] 
+	   .'" title="'.$lang['Visit_website'].'" border="0" /></a>' : '';
 	   
        $mailto = ($phpbb2_board_config['board_email_form']) ? append_titanium_sid("profile.$phpEx?mode=email&amp;".POST_USERS_URL.'='.$row1[$a]['user_id']) : 'mailto:'.$row1[$a]['user_email'];            
-       $mail = ($row1[$a]['user_email']) ? '<a href="'.$mailto.'"><img src="'.$images['icon_email'].'" alt="'.$titanium_lang['Send_email'].'" title="'.$titanium_lang['Send_email'] 
+       $mail = ($row1[$a]['user_email']) ? '<a href="'.$mailto.'"><img src="'.$images['icon_email'].'" alt="'.$lang['Send_email'].'" title="'.$lang['Send_email'] 
 	   .'" border="0" /></a>' : '';
        
 	   $pmto = append_titanium_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=".$row1[$a]['user_id']);
-       $pm = '<a href="'.$pmto.'"><img src="'.$images['icon_pm'].'" alt="'.$titanium_lang['Send_private_message'].'" title="'.$titanium_lang['Send_private_message'].'" border="0" /></a>';
+       $pm = '<a href="'.$pmto.'"><img src="'.$images['icon_pm'].'" alt="'.$lang['Send_private_message'].'" title="'.$lang['Send_private_message'].'" border="0" /></a>';
 	   
        $pro = append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row1[$a]['user_id']);
 	   
-       $profile = '<a href="'.$pro.'"><img src="'.$images['icon_profile'].'" alt="'.$titanium_lang['Profile'].'" title="'.$titanium_lang['Profile'].'" border="0" /></a>';
+       $profile = '<a href="'.$pro.'"><img src="'.$images['icon_profile'].'" alt="'.$lang['Profile'].'" title="'.$lang['Profile'].'" border="0" /></a>';
 	                   
        $info = $profile .' '. $pm;
                 
@@ -174,12 +174,12 @@ else:
 endif;        
    
    if($i == 1)
-   message_die(GENERAL_MESSAGE, sprintf($titanium_lang['listing_none'], '<strong>'. $row['group_name'] .'</strong>'));
+   message_die(GENERAL_MESSAGE, sprintf($lang['listing_none'], '<strong>'. $row['group_name'] .'</strong>'));
                 
    $phpbb2_template->assign_vars(array(
-   "T_L" => $titanium_lang['listing_left'], 
+   "T_L" => $lang['listing_left'], 
    "T_C_2" => $row['group_name'], 
-   "T_R" => $titanium_lang['listing_right'])
+   "T_R" => $lang['listing_right'])
    ); 
                             
 // Generate page

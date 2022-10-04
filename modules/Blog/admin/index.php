@@ -40,9 +40,9 @@ if (!defined('ADMIN_FILE')) die('Access Denied');
 
 global $titanium_prefix, $titanium_db, $admdata;
 
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
+$pnt_module = basename(dirname(dirname(__FILE__)));
 
-if(is_mod_admin($titanium_module_name)) 
+if(is_mod_admin($pnt_module)) 
 {
   include_once(NUKE_INCLUDE_DIR.'nsnne_func.php');
 
@@ -501,7 +501,7 @@ function autodelete($anid)
 
 function autoEdit($anid) 
 {
-    global $aid, $bgcolor1, $bgcolor2, $titanium_prefix, $titanium_db, $multilingual, $admin_file, $titanium_module_name;
+    global $aid, $bgcolor1, $bgcolor2, $titanium_prefix, $titanium_db, $multilingual, $admin_file, $pnt_module;
 
     $sid = intval($sid);
     $aid = substr($aid, 0,25);
@@ -510,7 +510,7 @@ function autoEdit($anid)
     
 	$aaid = substr($aaid, 0,25);
 
-    if (is_mod_admin($titanium_module_name)) 
+    if (is_mod_admin($pnt_module)) 
 	{
       include(NUKE_BASE_DIR.'header.php');
 
@@ -663,14 +663,14 @@ function autoEdit($anid)
         echo "<br /><strong>"._LANGUAGE.": </strong>"
             ."<select name=\"alanguage\">";
         
-		$titanium_languages = lang_list();
+		$languages = lang_list();
         
 		echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
     
-	    for ($i=0, $j = count($titanium_languages); $i < $j; $i++) 
+	    for ($i=0, $j = count($languages); $i < $j; $i++) 
 		{
-            if ($titanium_languages[$i] != '') 
-            echo '<option value="'.$titanium_languages[$i].'"'.(($alanguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+            if ($languages[$i] != '') 
+            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
         }
 
         echo '</select>';
@@ -811,7 +811,7 @@ function autoEdit($anid)
 
 function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes) 
 {
-    global $aid, $ultramode, $titanium_prefix, $titanium_db, $admin_file, $titanium_module_name;
+    global $aid, $ultramode, $titanium_prefix, $titanium_db, $admin_file, $pnt_module;
 
     $sid = intval($sid);
     $aid = substr($aid, 0,25);
@@ -820,7 +820,7 @@ function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext
     
 	$aaid = substr($aaid, 0,25);
 
-    if (is_mod_admin($titanium_module_name)) 
+    if (is_mod_admin($pnt_module)) 
 	{
 	  if ($day < 10) 
       $day = "0$day";
@@ -1052,14 +1052,14 @@ function displayStory($qid)
 	{
         echo "<br /><strong>"._LANGUAGE.": </strong>"
             ."<select name=\"alanguage\">";
-        $titanium_languages = lang_list();
+        $languages = lang_list();
 
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
     
-	    for ($i=0, $j = count($titanium_languages); $i < $j; $i++) 
+	    for ($i=0, $j = count($languages); $i < $j; $i++) 
 		{
-            if ($titanium_languages[$i] != '') 
-            echo '<option value="'.$titanium_languages[$i].'"'.(($alanguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+            if ($languages[$i] != '') 
+            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
         }
         
 		echo '</select>';
@@ -1363,18 +1363,18 @@ function previewStory($automated,
 	{
         echo "<br /><strong>"._LANGUAGE.": </strong>"
             ."<select name=\"alanguage\">";
-        $titanium_languages = lang_list();
+        $languages = lang_list();
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
     
-	    for ($i=0, $j = count($titanium_languages); $i < $j; $i++) 
+	    for ($i=0, $j = count($languages); $i < $j; $i++) 
 		{
-            if ($titanium_languages[$i] != '') 
-            echo '<option value="'.$titanium_languages[$i].'"'.(($alanguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+            if ($languages[$i] != '') 
+            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
         }
         echo '</select>';
     } 
 	else 
-    echo "<input type=\"hidden\" name=\"alanguage\" value=\"$titanium_language\">";
+    echo "<input type=\"hidden\" name=\"alanguage\" value=\"$language\">";
 
 /*****[BEGIN]******************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
@@ -1760,7 +1760,7 @@ function postStory($automated,
 
 function editStory($sid) 
 {
-    global $titanium_user, $admin_file, $bgcolor1, $bgcolor2, $aid, $titanium_prefix, $titanium_db, $multilingual, $Version_Num, $titanium_module_name;
+    global $titanium_user, $admin_file, $bgcolor1, $bgcolor2, $aid, $titanium_prefix, $titanium_db, $multilingual, $Version_Num, $pnt_module;
 
     $aid = substr($aid, 0,25);
     $sid = intval($sid);
@@ -1769,7 +1769,7 @@ function editStory($sid)
     
 	$aaid = substr($aaid, 0,25);
 
-    if (is_mod_admin($titanium_module_name)) 
+    if (is_mod_admin($pnt_module)) 
 	{
         include(NUKE_BASE_DIR.'header.php');
     
@@ -1933,14 +1933,14 @@ function editStory($sid)
             echo "<br /><strong>"._LANGUAGE.": </strong>"
                 ."<select name=\"alanguage\">";
    
-            $titanium_languages = lang_list();
+            $languages = lang_list();
    
             echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
         
-		    for ($i=0, $j = count($titanium_languages); $i < $j; $i++) 
+		    for ($i=0, $j = count($languages); $i < $j; $i++) 
 			{
-                if ($titanium_languages[$i] != '') 
-                echo '<option value="'.$titanium_languages[$i].'"'.(($alanguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+                if ($languages[$i] != '') 
+                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
             }
             
 			echo '</select>';
@@ -1995,7 +1995,7 @@ function editStory($sid)
 
 function removeStory($sid, $ok=0) 
 {
-    global $ultramode, $aid, $titanium_prefix, $titanium_db, $admin_file, $titanium_module_name;
+    global $ultramode, $aid, $titanium_prefix, $titanium_db, $admin_file, $pnt_module;
     
 	$sid = intval($sid);
     $aid = substr($aid, 0,25);
@@ -2004,7 +2004,7 @@ function removeStory($sid, $ok=0)
     
 	$aaid = substr($aaid, 0,25);
 
-    if (is_mod_admin($titanium_module_name)) 
+    if (is_mod_admin($pnt_module)) 
 	{
         if($ok) 
 		{
@@ -2061,7 +2061,7 @@ function removeStory($sid, $ok=0)
 function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $assotop) 
 {
 
-    global $aid, $ultramode, $titanium_prefix, $titanium_db, $Version_Num, $admin_file, $titanium_module_name;
+    global $aid, $ultramode, $titanium_prefix, $titanium_db, $Version_Num, $admin_file, $pnt_module;
     
 	// Copyright (c) 2000-2005 by NukeScripts Network
     if($version_Num >= 6.6) 
@@ -2078,7 +2078,7 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
     
 	$aaid = substr($aaid, 0,25);
     
-	if (is_mod_admin($titanium_module_name)) 
+	if (is_mod_admin($pnt_module)) 
 	{
         $subject = Fix_Quotes($subject);
         $hometext = Fix_Quotes($hometext);
@@ -2111,7 +2111,7 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
 
 function lastTwenty()
 {
-    global $titanium_prefix, $titanium_db, $titanium_language, $multilingual, $Version_Num, $admin_file, $aid, $titanium_module_name, $bgcolor1;
+    global $titanium_prefix, $titanium_db, $language, $multilingual, $Version_Num, $admin_file, $aid, $pnt_module, $bgcolor1;
 
     include(NUKE_BASE_DIR.'header.php');
 /*****[BEGIN]******************************************
@@ -2183,7 +2183,7 @@ function lastTwenty()
 
     echo "</table></div>";
 
-    if (is_mod_admin($titanium_module_name)) 
+    if (is_mod_admin($pnt_module)) 
 	{
       echo "<br /><div align=\"center\">"
           ."<form action=\"".$admin_file.".php\" method=\"post\">"
@@ -2203,7 +2203,7 @@ function lastTwenty()
 
 function programmedBlogs()
 {
-    global $titanium_prefix, $titanium_db, $titanium_language, $multilingual, $Version_Num, $admin_file, $aid, $titanium_module_name, $bgcolor1;
+    global $titanium_prefix, $titanium_db, $language, $multilingual, $Version_Num, $admin_file, $aid, $pnt_module, $bgcolor1;
     include(NUKE_BASE_DIR.'header.php');
 
     if (!empty($admlanguage)) 
@@ -2274,7 +2274,7 @@ function programmedBlogs()
 
 function adminStory() 
 {
-    global $titanium_prefix, $titanium_db, $titanium_language, $multilingual, $Version_Num, $admin_file, $aid, $titanium_module_name, $bgcolor1;
+    global $titanium_prefix, $titanium_db, $language, $multilingual, $Version_Num, $admin_file, $aid, $pnt_module, $bgcolor1;
 
     include(NUKE_BASE_DIR.'header.php');
 
@@ -2389,20 +2389,20 @@ function adminStory()
         echo "<br /><strong>"._LANGUAGE.": </strong>"
             ."<select name=\"alanguage\">";
 
-        $titanium_languages = lang_list();
+        $languages = lang_list();
 
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
     
-	    for ($i=0, $j = count($titanium_languages); $i < $j; $i++) 
+	    for ($i=0, $j = count($languages); $i < $j; $i++) 
 		{
-            if ($titanium_languages[$i] != '') 
-            echo '<option value="'.$titanium_languages[$i].'"'.(($alanguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+            if ($languages[$i] != '') 
+            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
         }
 
         echo '</select>';
     } 
 	else 
-    echo "<input type=\"hidden\" name=\"alanguage\" value=\"$titanium_language\">";
+    echo "<input type=\"hidden\" name=\"alanguage\" value=\"$language\">";
 
     echo "<br /><br /><strong>"._STORYTEXT."</strong>";
 
@@ -2682,20 +2682,20 @@ function previewAdminStory($automated,
         echo "<br /><strong>"._LANGUAGE.": </strong>"
             ."<select name=\"alanguage\">";
     
-	    $titanium_languages = lang_list();
+	    $languages = lang_list();
     
 	    echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
     
-	    for ($i=0, $j = count($titanium_languages); $i < $j; $i++) 
+	    for ($i=0, $j = count($languages); $i < $j; $i++) 
 		{
-            if ($titanium_languages[$i] != '') 
-            echo '<option value="'.$titanium_languages[$i].'"'.(($alanguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+            if ($languages[$i] != '') 
+            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
         }
         
 		echo '</select>';
     } 
 	else 
-    echo "<input type=\"hidden\" name=\"alanguage\" value=\"$titanium_language\">";
+    echo "<input type=\"hidden\" name=\"alanguage\" value=\"$language\">";
 
     echo "<br /><br /><strong>"._STORYTEXT."</strong>";
 
@@ -3004,7 +3004,7 @@ function postAdminStory($automated,
 
 function submissions() 
 {
-    global $admin, $admin_file, $bgcolor1, $bgcolor2, $titanium_prefix, $titanium_db, $anonymous, $multilingual, $titanium_module_name;
+    global $admin, $admin_file, $bgcolor1, $bgcolor2, $titanium_prefix, $titanium_db, $anonymous, $multilingual, $pnt_module;
 
     $dummy = 0;
 
@@ -3073,7 +3073,7 @@ function submissions()
             echo "</table></form>\n";
         }
        
-	      if (is_mod_admin($titanium_module_name)) 
+	      if (is_mod_admin($pnt_module)) 
 		  {
              echo "<br /><center>"
             ."[ <a href=\"".$admin_file.".php?op=subdelete\">"._DELETE."</a> ]"
@@ -3390,6 +3390,6 @@ switch($op)
   }
 } 
 else 
-DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$titanium_module_name\"");
+DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$pnt_module\"");
 ?>
 

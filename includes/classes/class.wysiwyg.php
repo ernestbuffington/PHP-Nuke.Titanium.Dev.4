@@ -130,7 +130,7 @@ class Wysiwyg
 
 	function getHTML()
 	{
-		global $phpbb2_board_config, $name, $titanium_lang, $userinfo;
+		global $phpbb2_board_config, $name, $lang, $userinfo;
 
 		# FORM CHECKING HAS BEEN MOVED TO HERE, AS THERE IS NOW MORE THAN ONE EDITOR TO USE
 		# FORM CHECKING SHOULD BE LEFT HERE, SO THAT IT CAN BE USED FOR BOTH THE BBCODE TABLE AND THE STANDARD TABLE

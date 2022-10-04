@@ -37,13 +37,13 @@ if(!defined('MODULE_FILE')) die('You can\'t access this file directly...');
 
 define('INDEX_FILE', true);
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
 include_once(NUKE_INCLUDE_DIR.'nsnne_func.php');
 
 $blog_config = blog_get_configs();
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
     global $titanium_db, 
              $storyhome, 
@@ -65,7 +65,7 @@ get_lang($titanium_module_name);
 automated_blogs();
 
 if(isset($new_topic)) 
-redirect_titanium("modules.php?name=$titanium_module_name&file=topics&topic=$new_topic"); 
+redirect_titanium("modules.php?name=$pnt_module&file=topics&topic=$new_topic"); 
 
 $main_module_titanium = main_module_titanium();
 
@@ -200,20 +200,20 @@ switch($op):
 
             # show the user buttons
 			if(is_user()): 
-                $the_icons .= ' | <a href="modules.php?name='.$titanium_module_name.'&amp;file=print&amp;sid='.$artinfo["sid"].'"><i class="fa fa-print"></i></a>'.PHP_EOL;
-                $the_icons .= '&nbsp;<a href="modules.php?name='.$titanium_module_name.'&amp;file=friend&amp;op=FriendSend&amp;sid='.$artinfo["sid"].'"><i class="fa fa-envelope"></i></a>';
+                $the_icons .= ' | <a href="modules.php?name='.$pnt_module.'&amp;file=print&amp;sid='.$artinfo["sid"].'"><i class="fa fa-print"></i></a>'.PHP_EOL;
+                $the_icons .= '&nbsp;<a href="modules.php?name='.$pnt_module.'&amp;file=friend&amp;op=FriendSend&amp;sid='.$artinfo["sid"].'"><i class="fa fa-envelope"></i></a>';
             endif;
 			
             # show thw admin buttons
-			if(is_mod_admin($titanium_module_name)): 
+			if(is_mod_admin($pnt_module)): 
                 $the_icons .= ' | <a href="'.$admin_file.'.php?op=EditStory&amp;sid='.$artinfo["sid"].'"><i class="fa fa-pen"></i></a>'.PHP_EOL;
                 $the_icons .= '&nbsp;<a href="'.$admin_file.'.php?op=RemoveStory&amp;sid='.$artinfo["sid"].'"><i class="fa fa-times-circle"></i></a>';
             endif;
 
-            $read_link = "<a href='modules.php?name=$titanium_module_name&amp;file=read_article&amp;sid="
+            $read_link = "<a href='modules.php?name=$pnt_module&amp;file=read_article&amp;sid="
 			.$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
             
-			$story_link = "<a href='modules.php?name=$titanium_module_name&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
+			$story_link = "<a href='modules.php?name=$pnt_module&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
             			
             $seperator = " )&nbsp;( ";
 			$morelink = "( "; # added a space here as that is how it belongs!  Ernest Buffington 08/09/2019
@@ -265,7 +265,7 @@ switch($op):
                 $result3 = $titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
                 $catinfo = $titanium_db->sql_fetchrow($result3);
                 $titanium_db->sql_freeresult($result3);
-                $morelink .= " | <a href='modules.php?name=$titanium_module_name&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
+                $morelink .= " | <a href='modules.php?name=$pnt_module&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
             endif;
             
 			if($artinfo["score"] != 0): 
@@ -363,7 +363,7 @@ switch($op):
             
 			$currentpage = ($max / $blognum);
         
-		    echo "<div align=\"center\"><form action='modules.php?name=$titanium_module_name' method='post'>\n";
+		    echo "<div align=\"center\"><form action='modules.php?name=$pnt_module' method='post'>\n";
             echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
             echo "<tr>\n<td><strong>"._NE_SELECT." </strong><select name='min' onChange='top.location.href=this.options[this.selectedIndex].value'>\n";
         
@@ -374,10 +374,10 @@ switch($op):
 			    if($counter == $currentpage): 
                   echo "<option selected>$counter</option>\n";
 				else: 
-                    if($titanium_module_name == $main_module_titanium) 
+                    if($pnt_module == $main_module_titanium) 
                       echo "<option value='index.php?min=$mintemp'>$counter</option>\n";
 					else 
-                      echo "<option value='modules.php?name=$titanium_module_name&amp;min=$mintemp'>$counter</option>\n";
+                      echo "<option value='modules.php?name=$pnt_module&amp;min=$mintemp'>$counter</option>\n";
                 endif;
 				$counter++;
             endwhile;
@@ -415,7 +415,7 @@ switch($op):
 			   $a = 1; 
 		    endfor;
 			if($a == 1): 
-                redirect_titanium("modules.php?name=$titanium_module_name&op=rate_complete&sid=$sid&rated=1");
+                redirect_titanium("modules.php?name=$pnt_module&op=rate_complete&sid=$sid&rated=1");
 			else: 
                 $result = $titanium_db->sql_query("update ".$titanium_prefix."_stories set score=score+$score, ratings=ratings+1 where sid='$sid'");
                 $titanium_db->sql_freeresult($result);
@@ -453,10 +453,10 @@ switch($op):
         
 		if($rated == 0): 
             echo "<br /><br /><div align=\"center\"><strong>"._THANKSVOTEARTICLE."</strong><br /><br />";
-            echo "[ <a href='modules.php?name=$titanium_module_name&amp;file=article&amp;sid=$sid$r_options'>"._BACKTOARTICLEPAGE."</a> ]</div><br /><br />";
+            echo "[ <a href='modules.php?name=$pnt_module&amp;file=article&amp;sid=$sid$r_options'>"._BACKTOARTICLEPAGE."</a> ]</div><br /><br />";
 		elseif ($rated == 1): 
             echo "<br /><br /><div align=\"center\"><strong>"._ALREADYVOTEDARTICLE."</strong><br /><br />";
-            echo "[ <a href='modules.php?name=$titanium_module_name&amp;file=article&amp;sid=$sid$r_options'>"._BACKTOARTICLEPAGE."</a> ]</div><br /><br />";
+            echo "[ <a href='modules.php?name=$pnt_module&amp;file=article&amp;sid=$sid$r_options'>"._BACKTOARTICLEPAGE."</a> ]</div><br /><br />";
         endif;
         
 		CloseTable();

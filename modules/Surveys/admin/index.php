@@ -36,8 +36,8 @@ if (!defined('ADMIN_FILE')) {
 }
 
 global $titanium_prefix, $titanium_db, $admdata, $titanium_config;
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
-if(is_mod_admin($titanium_module_name)) {
+$pnt_module = basename(dirname(dirname(__FILE__)));
+if(is_mod_admin($pnt_module)) {
 
 /*********************************************************/
 /* Surveys Functions                                */
@@ -223,7 +223,7 @@ if(is_mod_admin($titanium_module_name)) {
     }
 
     function poll_createPoll() {
-        global $titanium_language, $admin, $multilingual, $titanium_prefix, $titanium_db, $admin_file;
+        global $language, $admin, $multilingual, $titanium_prefix, $titanium_db, $admin_file;
         include_once(NUKE_BASE_DIR.'header.php');
         LoadJS();
         OpenTable();
@@ -247,16 +247,16 @@ if(is_mod_admin($titanium_module_name)) {
         if ($multilingual == 1) {
             echo "<br />" . _LANGUAGE . ": "
                 ."<select name=\"planguage\">";
-            $titanium_languages = lang_list();
-            echo '<option value=""'.(($titanium_language == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-            for ($i=0, $j = count($titanium_languages); $i < $j; $i++) {
-                if ($titanium_languages[$i] != '') {
-                    echo '<option value="'.$titanium_languages[$i].'"'.(($titanium_language == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+            $languages = lang_list();
+            echo '<option value=""'.(($language == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
+            for ($i=0, $j = count($languages); $i < $j; $i++) {
+                if ($languages[$i] != '') {
+                    echo '<option value="'.$languages[$i].'"'.(($language == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
                 }
             }
             echo '</select><br /><br />';
         } else {
-            echo "<input type=\"hidden\" name=\"planguage\" value=\"$titanium_language\"><br /><br />";
+            echo "<input type=\"hidden\" name=\"planguage\" value=\"$language\"><br /><br />";
         }
         echo "<span class=\"content\"><i>" . _POLLEACHFIELD . "</i></span><br />"
         ."<table border=\"0\">";
@@ -497,11 +497,11 @@ if(is_mod_admin($titanium_module_name)) {
         if ($multilingual == 1) {
             echo "<tr><td><strong>" . _LANGUAGE . ":</strong></td><td>"
                 ."<select name=\"planguage\">";
-            $titanium_languages = lang_list();
+            $languages = lang_list();
             echo '<option value=""'.(($planguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-            for ($i=0, $j = count($titanium_languages); $i < $j; $i++) {
-                if ($titanium_languages[$i] != '') {
-                    echo '<option value="'.$titanium_languages[$i].'"'.(($planguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+            for ($i=0, $j = count($languages); $i < $j; $i++) {
+                if ($languages[$i] != '') {
+                    echo '<option value="'.$languages[$i].'"'.(($planguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
                 }
             }
             echo '</select><br /><br />';
@@ -614,7 +614,7 @@ if(is_mod_admin($titanium_module_name)) {
     }
 
 } else {
-    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$titanium_module_name\"");
+    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$pnt_module\"");
 }
 
 ?>

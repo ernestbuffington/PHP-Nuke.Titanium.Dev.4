@@ -16,9 +16,9 @@ if (!defined('IN_PHPBB2'))
 }
 
 // get the board & user settings ...
-$html_status    = ( $userdata['user_allowhtml'] && $phpbb2_board_config['allow_html'] ) ? $titanium_lang['HTML_is_ON'] : $titanium_lang['HTML_is_OFF'];
-$bbcode_status  = ( $userdata['user_allowbbcode'] && $phpbb2_board_config['allow_bbcode']  ) ? $titanium_lang['BBCode_is_ON'] : $titanium_lang['BBCode_is_OFF'];
-$smilies_status = ( $userdata['user_allowsmile'] && $phpbb2_board_config['allow_smilies']  ) ? $titanium_lang['Smilies_are_ON'] : $titanium_lang['Smilies_are_OFF'];
+$html_status    = ( $userdata['user_allowhtml'] && $phpbb2_board_config['allow_html'] ) ? $lang['HTML_is_ON'] : $lang['HTML_is_OFF'];
+$bbcode_status  = ( $userdata['user_allowbbcode'] && $phpbb2_board_config['allow_bbcode']  ) ? $lang['BBCode_is_ON'] : $lang['BBCode_is_OFF'];
+$smilies_status = ( $userdata['user_allowsmile'] && $phpbb2_board_config['allow_smilies']  ) ? $lang['Smilies_are_ON'] : $lang['Smilies_are_OFF'];
 
 $html_on    = ( $userdata['user_allowhtml'] && $phpbb2_board_config['allow_html'] ) ? 1 : 0 ;
 $bbcode_on  = ( $userdata['user_allowbbcode'] && $phpbb2_board_config['allow_bbcode']  ) ? 1 : 0 ;
@@ -64,7 +64,7 @@ if ( isset($HTTP_POST_VARS['cancel']) )
 
 }
 
-$phpbb2_page_title = $titanium_lang['Signature'];
+$phpbb2_page_title = $lang['Signature'];
 
 include('includes/bbcode.'.$phpEx);
 include('includes/functions_post.'.$phpEx);
@@ -80,7 +80,7 @@ if ($submit)
 
         if ( strlen( $signature ) > $phpbb2_board_config['max_sig_chars'] )
         {
-            $save_message = $titanium_lang['Signature_too_long'];
+            $save_message = $lang['Signature_too_long'];
         }
 
         else
@@ -100,7 +100,7 @@ if ($submit)
 
             else
             {
-                $save_message = $titanium_lang['sig_save_message'];
+                $save_message = $lang['sig_save_message'];
             }
         }
     }
@@ -122,7 +122,7 @@ else if ($preview)
 
         if ( strlen( $preview_sig ) > $phpbb2_board_config['max_sig_chars'] )
         {
-            $preview_sig = $titanium_lang['Signature_too_long'];
+            $preview_sig = $lang['Signature_too_long'];
         }
 
     else
@@ -149,7 +149,7 @@ else if ($preview)
 
         else
             { 
-            $preview_sig = $titanium_lang['sig_none']; 
+            $preview_sig = $lang['sig_none']; 
             }
     }
     }
@@ -188,7 +188,7 @@ else if ($mode)
     }
     else 
     { 
-        $titanium_user_sig = $titanium_lang['sig_none']; 
+        $titanium_user_sig = $lang['sig_none']; 
     }
 
 }
@@ -202,24 +202,24 @@ else if ($mode)
     $phpbb2_template->assign_vars(array( 
 
         // added some pic´s for a better preview ;)
-        'PROFIL_IMG' => '<img src="' . $images['icon_profile'] . '" alt="' . $titanium_lang['Read_profile'] . '" title="' . $titanium_lang['Read_profile'] . '" border="0" />',
-        'EMAIL_IMG'  => '<img src="' . $images['icon_email'] . '" alt="' . $titanium_lang['Send_email'] . '" title="' . $titanium_lang['Send_email'] . '" border="0" />',
-        'PM_IMG'     => '<img src="' . $images['icon_pm'] . '" alt="' . $titanium_lang['Send_private_message'] . '" title="' . $titanium_lang['Send_private_message'] . '" border="0" />',
-        'WWW_IMG'    => '<img src="' . $images['icon_www'] . '" alt="' . $titanium_lang['Visit_website'] . '" title="' . $titanium_lang['Visit_website'] . '" border="0" />',
-        // 'AIM_IMG'    => '<img src="' . $images['icon_aim'] . '" alt="' . $titanium_lang['AIM'] . '" title="' . $titanium_lang['AIM'] . '" border="0" />',
-        // 'YIM_IMG'    => '<img src="' . $images['icon_yim'] . '" alt="' . $titanium_lang['YIM'] . '" title="' . $titanium_lang['YIM'] . '" border="0" />',
-        // 'MSN_IMG'    => '<img src="' . $images['icon_msnm'] . '" alt="' . $titanium_lang['MSNM'] . '" title="' . $titanium_lang['MSNM'] . '" border="0" />',
-        // 'ICQ_IMG'    => '<img src="' . $images['icon_icq'] . '" alt="' . $titanium_lang['ICQ'] . '" title="' . $titanium_lang['ICQ'] . '" border="0" />',
+        'PROFIL_IMG' => '<img src="' . $images['icon_profile'] . '" alt="' . $lang['Read_profile'] . '" title="' . $lang['Read_profile'] . '" border="0" />',
+        'EMAIL_IMG'  => '<img src="' . $images['icon_email'] . '" alt="' . $lang['Send_email'] . '" title="' . $lang['Send_email'] . '" border="0" />',
+        'PM_IMG'     => '<img src="' . $images['icon_pm'] . '" alt="' . $lang['Send_private_message'] . '" title="' . $lang['Send_private_message'] . '" border="0" />',
+        'WWW_IMG'    => '<img src="' . $images['icon_www'] . '" alt="' . $lang['Visit_website'] . '" title="' . $lang['Visit_website'] . '" border="0" />',
+        // 'AIM_IMG'    => '<img src="' . $images['icon_aim'] . '" alt="' . $lang['AIM'] . '" title="' . $lang['AIM'] . '" border="0" />',
+        // 'YIM_IMG'    => '<img src="' . $images['icon_yim'] . '" alt="' . $lang['YIM'] . '" title="' . $lang['YIM'] . '" border="0" />',
+        // 'MSN_IMG'    => '<img src="' . $images['icon_msnm'] . '" alt="' . $lang['MSNM'] . '" title="' . $lang['MSNM'] . '" border="0" />',
+        // 'ICQ_IMG'    => '<img src="' . $images['icon_icq'] . '" alt="' . $lang['ICQ'] . '" title="' . $lang['ICQ'] . '" border="0" />',
 
-        'SIG_SAVE' => $titanium_lang['sig_save'],
-        'SIG_CANCEL' => $titanium_lang['Cancel'],
-        'SIG_PREVIEW' => $titanium_lang['Preview'],
-        'SIG_EDIT' => $titanium_lang['sig_edit'],
-        'SIG_CURRENT' => $titanium_lang['sig_current'],
+        'SIG_SAVE' => $lang['sig_save'],
+        'SIG_CANCEL' => $lang['Cancel'],
+        'SIG_PREVIEW' => $lang['Preview'],
+        'SIG_EDIT' => $lang['sig_edit'],
+        'SIG_CURRENT' => $lang['sig_current'],
         'SIG_LINK' => append_titanium_sid("profile.$phpEx?mode=signature"),
 
-        'L_SIGNATURE' => $titanium_lang['Signature'],
-        'L_SIGNATURE_EXPLAIN' => sprintf($titanium_lang['Signature_explain'], $phpbb2_board_config['max_sig_chars']),
+        'L_SIGNATURE' => $lang['Signature'],
+        'L_SIGNATURE_EXPLAIN' => sprintf($lang['Signature_explain'], $phpbb2_board_config['max_sig_chars']),
         'HTML_STATUS' => $html_status,
         'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="' . append_titanium_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'), 
         'SMILIES_STATUS' => $smilies_status,

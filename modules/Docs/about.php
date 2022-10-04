@@ -32,25 +32,25 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
-include(NUKE_MODULES_DIR.$titanium_module_name.'/doc_config.php');
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
+include(NUKE_MODULES_DIR.$pnt_module.'/doc_config.php');
 
 define('INDEX_FILE', true);
 
 function about() {
-    global $sitename, $adminmail, $aboutus, $questions, $titanium_module_name, $currentlang;
+    global $sitename, $adminmail, $aboutus, $questions, $pnt_module, $currentlang;
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.': '._NSABOUTUS);
-    if (file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/copyright.php')) {
+    if (file_exists(NUKE_MODULES_DIR.$pnt_module.'/copyright.php')) {
         OpenTable();
         echo "<table width=\"95%\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\" align=\"center\">";
         echo "<tr><td valign=\"top\"><br />";
         echo "<div align=\"justify\"><span class=\"content\">";
-        if (file_exists(NUKE_MODULES_DIR.$titanium_module_name."/about-".$currentlang.".txt")) {
-            include(NUKE_MODULES_DIR.$titanium_module_name.'/about-'.$currentlang.'.txt');
+        if (file_exists(NUKE_MODULES_DIR.$pnt_module."/about-".$currentlang.".txt")) {
+            include(NUKE_MODULES_DIR.$pnt_module.'/about-'.$currentlang.'.txt');
         } else {
-            include(NUKE_MODULES_DIR.$titanium_module_name.'/about-english.txt');
+            include(NUKE_MODULES_DIR.$pnt_module.'/about-english.txt');
         }
         echo "</span></div>";
         ns_doc_questions();

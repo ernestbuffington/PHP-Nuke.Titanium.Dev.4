@@ -68,7 +68,7 @@ $simple_auth_ary = array(
  ******************************************************/
 );
 
-$simple_auth_types = array($titanium_lang['Public'], $titanium_lang['Registered'], $titanium_lang['Registered'] . ' [' . $titanium_lang['Hidden'] . ']', $titanium_lang['Private'], $titanium_lang['Private'] . ' [' . $titanium_lang['Hidden'] . ']', $titanium_lang['Moderators'], $titanium_lang['Moderators'] . ' [' . $titanium_lang['Hidden'] . ']');
+$simple_auth_types = array($lang['Public'], $lang['Registered'], $lang['Registered'] . ' [' . $lang['Hidden'] . ']', $lang['Private'], $lang['Private'] . ' [' . $lang['Hidden'] . ']', $lang['Moderators'], $lang['Moderators'] . ' [' . $lang['Hidden'] . ']');
 
 /*****[BEGIN]******************************************
  [ Mod:     Global Announcements               v1.2.8 ]
@@ -79,21 +79,21 @@ $forum_auth_fields = array('auth_view', 'auth_read', 'auth_post', 'auth_reply', 
  ******************************************************/
 
 $field_names = array(
-        'auth_view' => $titanium_lang['View'],
-        'auth_read' => $titanium_lang['Read'],
-        'auth_post' => $titanium_lang['Post'],
+        'auth_view' => $lang['View'],
+        'auth_read' => $lang['Read'],
+        'auth_post' => $lang['Post'],
         /*--FNA--*/
-        'auth_reply' => $titanium_lang['Reply'],
-        'auth_edit' => $titanium_lang['Edit'],
-        'auth_delete' => $titanium_lang['Delete'],
-        'auth_sticky' => $titanium_lang['Sticky'],
-        'auth_announce' => $titanium_lang['Announce'],
-        'auth_vote' => $titanium_lang['Vote'],
-        'auth_pollcreate' => $titanium_lang['Pollcreate'],
+        'auth_reply' => $lang['Reply'],
+        'auth_edit' => $lang['Edit'],
+        'auth_delete' => $lang['Delete'],
+        'auth_sticky' => $lang['Sticky'],
+        'auth_announce' => $lang['Announce'],
+        'auth_vote' => $lang['Vote'],
+        'auth_pollcreate' => $lang['Pollcreate'],
 /*****[BEGIN]******************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
-        'auth_globalannounce' => $titanium_lang['Globalannounce']);
+        'auth_globalannounce' => $lang['Globalannounce']);
 /*****[END]********************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
@@ -187,7 +187,7 @@ if( isset($HTTP_POST_VARS['submit']) )
         $phpbb2_template->assign_vars(array(
                 'META' => '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("admin_forumauth.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">')
         );
-        $message = $titanium_lang['Forum_auth_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_forumauth'],  '<a href="' . append_titanium_sid("admin_forumauth.$phpEx") . '">', "</a>");
+        $message = $lang['Forum_auth_updated'] . '<br /><br />' . sprintf($lang['Click_return_forumauth'],  '<a href="' . append_titanium_sid("admin_forumauth.$phpEx") . '">', "</a>");
         message_die(GENERAL_MESSAGE, $message);
 
 } // End of submit
@@ -251,10 +251,10 @@ if( empty($phpbb2_forum_id) )
         $select_list .= '</select>';
 
         $phpbb2_template->assign_vars(array(
-                'L_AUTH_TITLE' => $titanium_lang['Auth_Control_Forum'],
-                'L_AUTH_EXPLAIN' => $titanium_lang['Forum_auth_explain'],
-                'L_AUTH_SELECT' => $titanium_lang['Select_a_Forum'],
-                'L_LOOK_UP' => $titanium_lang['Look_up_Forum'],
+                'L_AUTH_TITLE' => $lang['Auth_Control_Forum'],
+                'L_AUTH_EXPLAIN' => $lang['Forum_auth_explain'],
+                'L_AUTH_SELECT' => $lang['Select_a_Forum'],
+                'L_LOOK_UP' => $lang['Look_up_Forum'],
 
                 'S_AUTH_ACTION' => append_titanium_sid("admin_forumauth.$phpEx"),
                 'S_AUTH_SELECT' => $select_list)
@@ -317,7 +317,7 @@ else
                 $simple_auth .= '</select>';
 
                 $phpbb2_template->assign_block_vars('forum_auth_titles', array(
-                        'CELL_TITLE' => $titanium_lang['Simple_mode'])
+                        'CELL_TITLE' => $lang['Simple_mode'])
                 );
                 $phpbb2_template->assign_block_vars('forum_auth_data', array(
                         'S_AUTH_LEVELS_SELECT' => $simple_auth)
@@ -338,7 +338,7 @@ else
                         for($k = 0; $k < count($forum_auth_levels); $k++)
                         {
                                 $selected = ( $forum_rows[0][$forum_auth_fields[$j]] == $forum_auth_const[$k] ) ? ' selected="selected"' : '';
-                                $custom_auth[$j] .= '<option value="' . $forum_auth_const[$k] . '"' . $selected . '>' . $titanium_lang['Forum_' . $forum_auth_levels[$k]] . '</option>';
+                                $custom_auth[$j] .= '<option value="' . $forum_auth_const[$k] . '"' . $selected . '>' . $lang['Forum_' . $forum_auth_levels[$k]] . '</option>';
                         }
                         $custom_auth[$j] .= '</select>&nbsp;';
 
@@ -357,7 +357,7 @@ else
 
         $adv_mode = ( empty($adv) ) ? '1' : '0';
         $switch_mode = append_titanium_sid("admin_forumauth.$phpEx?" . POST_FORUM_URL . "=" . $phpbb2_forum_id . "&adv=". $adv_mode);
-        $switch_mode_text = ( empty($adv) ) ? $titanium_lang['Advanced_mode'] : $titanium_lang['Simple_mode'];
+        $switch_mode_text = ( empty($adv) ) ? $lang['Advanced_mode'] : $lang['Simple_mode'];
         $u_switch_mode = '<a href="' . $switch_mode . '">' . $switch_mode_text . '</a>';
 
         $s_hidden_fields = '<input type="hidden" name="' . POST_FORUM_URL . '" value="' . $phpbb2_forum_id . '">';
@@ -365,11 +365,11 @@ else
         $phpbb2_template->assign_vars(array(
                 'FORUM_NAME' => $forum_name,
 
-                'L_FORUM' => $titanium_lang['Forum'],
-                'L_AUTH_TITLE' => $titanium_lang['Auth_Control_Forum'],
-                'L_AUTH_EXPLAIN' => $titanium_lang['Forum_auth_explain'],
-                'L_SUBMIT' => $titanium_lang['Submit'],
-                'L_RESET' => $titanium_lang['Reset'],
+                'L_FORUM' => $lang['Forum'],
+                'L_AUTH_TITLE' => $lang['Auth_Control_Forum'],
+                'L_AUTH_EXPLAIN' => $lang['Forum_auth_explain'],
+                'L_SUBMIT' => $lang['Submit'],
+                'L_RESET' => $lang['Reset'],
 
                 'U_SWITCH_MODE' => $u_switch_mode,
 

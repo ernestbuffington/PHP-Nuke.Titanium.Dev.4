@@ -26,8 +26,8 @@ if (!defined('ADMIN_FILE')) {
 }
 
 global $titanium_prefix, $titanium_db, $admdata;
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
-if(is_mod_admin($titanium_module_name)) {
+$pnt_module = basename(dirname(dirname(__FILE__)));
+if(is_mod_admin($pnt_module)) {
 
 /*********************************************************/
 /* REVIEWS Block Functions                               */
@@ -87,16 +87,16 @@ function reviews() {
             if ($multilingual == 1) {
                 echo "<tr><td>"._LANGUAGE.":</td><td>"
                     ."<select name=\"rlanguage\">";
-                $titanium_languages = lang_list();
+                $languages = lang_list();
                 echo '<option value=""'.(($rlanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-                for ($i=0, $j = count($titanium_languages); $i < $j; $i++) {
-                    if ($titanium_languages[$i] != '') {
-                        echo '<option value="'.$titanium_languages[$i].'"'.(($rlanguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+                for ($i=0, $j = count($languages); $i < $j; $i++) {
+                    if ($languages[$i] != '') {
+                        echo '<option value="'.$languages[$i].'"'.(($rlanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
                     }
                 }
                 echo '</select></td></tr>';
             } else {
-                echo "<input type=\"hidden\" name=\"rlanguage\" value=\"$titanium_language\">";
+                echo "<input type=\"hidden\" name=\"rlanguage\" value=\"$language\">";
             }
             echo "<tr><td>"._TEXT.":</td><td><textarea name=\"text\" rows=\"6\" wrap=\"virtual\" cols=\"40\">$text</textarea></td></tr>"
             ."<tr><td>"._REVIEWER."</td><td><input type=\"text\" name=\"reviewer\" value=\"$reviewer\" size=\"41\" maxlength=\"40\"></td></tr>"
@@ -161,7 +161,7 @@ switch ($op){
 }
 
 } else {
-    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$titanium_module_name\"");
+    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$pnt_module\"");
 }
 
 ?>

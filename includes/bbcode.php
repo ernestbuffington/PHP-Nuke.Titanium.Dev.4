@@ -88,7 +88,7 @@ function load_bbcode_template()
 # Nathan Codding, Sept 26 2001
 function prepare_bbcode_template($bbcode_tpl)
 {
-    global $titanium_lang, $titanium_db;
+    global $lang, $titanium_db;
 
     $bbcode_tpl['olist_open'] = str_replace('{LIST_TYPE}','\\1',$bbcode_tpl['olist_open']);
 
@@ -98,25 +98,25 @@ function prepare_bbcode_template($bbcode_tpl)
     # ----- new bbcode addition to v3 ----- END
 
     // $bbcode_tpl['size_open'] = str_replace('{SIZE}', '\\1', $bbcode_tpl['size_open']);
-    // $bbcode_tpl['quote_open'] = str_replace('{L_QUOTE}', $titanium_lang['Quote'], $bbcode_tpl['quote_open']);
-    $bbcode_tpl['quote_username_open'] = str_replace('{L_QUOTE}',$titanium_lang['Quote'],$bbcode_tpl['quote_username_open']);
-    $bbcode_tpl['quote_username_open'] = str_replace('{L_WROTE}',$titanium_lang['wrote'],$bbcode_tpl['quote_username_open']);
+    // $bbcode_tpl['quote_open'] = str_replace('{L_QUOTE}', $lang['Quote'], $bbcode_tpl['quote_open']);
+    $bbcode_tpl['quote_username_open'] = str_replace('{L_QUOTE}',$lang['Quote'],$bbcode_tpl['quote_username_open']);
+    $bbcode_tpl['quote_username_open'] = str_replace('{L_WROTE}',$lang['wrote'],$bbcode_tpl['quote_username_open']);
     $bbcode_tpl['quote_username_open'] = str_replace('{USERNAME}',UsernameColor('\\1'),$bbcode_tpl['quote_username_open']);
     // $bbcode_tpl['quote_close'] = str_replace('{USERNAME}', UsernameColor('\\1'), $bbcode_tpl['quote_close']);
 
     # Mod: Extended Quote Tag v1.0.0 START
-    $bbcode_tpl['quote_post_open'] = str_replace('{L_QUOTE}',$titanium_lang['Quote'],$bbcode_tpl['quote_post_open']);
+    $bbcode_tpl['quote_post_open'] = str_replace('{L_QUOTE}',$lang['Quote'],$bbcode_tpl['quote_post_open']);
     $temp_url = append_titanium_sid('show_post.php?p=\\1');
     
 	$bbcode_tpl['quote_post_open'] = str_replace('{U_VIEW_POST}', '<a href="'.$temp_url.'" onClick=
-	"javascript:open_postreview( \''.$temp_url.'\' );">'.$titanium_lang['View_post'].'</a>', $bbcode_tpl['quote_post_open']);
+	"javascript:open_postreview( \''.$temp_url.'\' );">'.$lang['View_post'].'</a>', $bbcode_tpl['quote_post_open']);
 
-    $bbcode_tpl['quote_username_post_open'] = str_replace('{L_QUOTE}',$titanium_lang['Quote'],$bbcode_tpl['quote_username_post_open']);
-    $bbcode_tpl['quote_username_post_open'] = str_replace('{L_WROTE}', $titanium_lang['wrote'],$bbcode_tpl['quote_username_post_open']);
+    $bbcode_tpl['quote_username_post_open'] = str_replace('{L_QUOTE}',$lang['Quote'],$bbcode_tpl['quote_username_post_open']);
+    $bbcode_tpl['quote_username_post_open'] = str_replace('{L_WROTE}', $lang['wrote'],$bbcode_tpl['quote_username_post_open']);
     $bbcode_tpl['quote_username_post_open'] = str_replace('{USERNAME}','\\1',$bbcode_tpl['quote_username_post_open']);
     $temp_url = append_titanium_sid('show_post.php?p=\\2');
     $bbcode_tpl['quote_username_post_open'] = str_replace('{U_VIEW_POST}', '<a href="'.$temp_url.'" onClick=
-	"javascript:open_postreview( \''.$temp_url.'\' );">'.$titanium_lang['View_post'] . '</a>',$bbcode_tpl['quote_username_post_open']);
+	"javascript:open_postreview( \''.$temp_url.'\' );">'.$lang['View_post'] . '</a>',$bbcode_tpl['quote_username_post_open']);
 
     # Mod: Advanced Username Color v1.0.5 START
     $bbcode_tpl['quote_username_post_open'] = str_replace('{USERNAME}', UsernameColor('\\1'), $bbcode_tpl['quote_username_post_open']);
@@ -124,15 +124,15 @@ function prepare_bbcode_template($bbcode_tpl)
 
     $temp_url = append_titanium_sid('show_post.php?p=\\2');
     $bbcode_tpl['quote_username_post_open'] = str_replace('{U_VIEW_POST}', '<a href="#_somewhat" onClick=
-	"javascript:open_postreview( \''.$temp_url.'\' );">'.$titanium_lang['View_post'].'</a>', $bbcode_tpl['quote_username_post_open']);
+	"javascript:open_postreview( \''.$temp_url.'\' );">'.$lang['View_post'].'</a>', $bbcode_tpl['quote_username_post_open']);
     # Mod: Extended Quote Tag v1.0.0 END
 
-    $bbcode_tpl['code_open'] = str_replace('{L_CODE}', $titanium_lang['Code'], $bbcode_tpl['code_open']);
+    $bbcode_tpl['code_open'] = str_replace('{L_CODE}', $lang['Code'], $bbcode_tpl['code_open']);
 
 /*****[BEGIN]******************************************
  [ Mod:     PHP Syntax Highlighter BBCode      v3.0.7 ]
  ******************************************************/
-    $bbcode_tpl['php_open'] = str_replace('{L_PHP}', $titanium_lang['PHPCode'], $bbcode_tpl['php_open']); // PHP MOD
+    $bbcode_tpl['php_open'] = str_replace('{L_PHP}', $lang['PHPCode'], $bbcode_tpl['php_open']); // PHP MOD
 /*****[END]********************************************
  [ Mod:     PHP Syntax Highlighter BBCode      v3.0.7 ]
  ******************************************************/
@@ -178,9 +178,9 @@ function prepare_bbcode_template($bbcode_tpl)
 /*****[BEGIN]******************************************
  [ Mod:     Advanced BBCode Box               v5.0.0a ]
  ******************************************************/
-    $bbcode_tpl['spoil_open'] = str_replace('{L_BBCODEBOX_HIDDEN}', $titanium_lang['BBCode_box_hidden'], $bbcode_tpl['spoil_open']);
-    $bbcode_tpl['spoil_open'] = str_replace('{L_BBCODEBOX_VIEW}', $titanium_lang['BBcode_box_view'], $bbcode_tpl['spoil_open']);
-    $bbcode_tpl['spoil_open'] = str_replace('{L_BBCODEBOX_HIDE}', $titanium_lang['BBcode_box_hide'], $bbcode_tpl['spoil_open']);
+    $bbcode_tpl['spoil_open'] = str_replace('{L_BBCODEBOX_HIDDEN}', $lang['BBCode_box_hidden'], $bbcode_tpl['spoil_open']);
+    $bbcode_tpl['spoil_open'] = str_replace('{L_BBCODEBOX_VIEW}', $lang['BBcode_box_view'], $bbcode_tpl['spoil_open']);
+    $bbcode_tpl['spoil_open'] = str_replace('{L_BBCODEBOX_HIDE}', $lang['BBcode_box_hide'], $bbcode_tpl['spoil_open']);
     $bbcode_tpl['align_open'] = str_replace('{ALIGN}', '\\1', $bbcode_tpl['align_open']);
     // $bbcode_tpl['marq_open'] = str_replace('{MARQ}', '\\1', $bbcode_tpl['marq_open']);
     // $bbcode_tpl['table_open'] = str_replace('{TABLE}', '\\1', $bbcode_tpl['table_open']);
@@ -202,24 +202,24 @@ function prepare_bbcode_template($bbcode_tpl)
  ******************************************************/
 function replacer($mode, $bb)
 {
-    global $userdata, $titanium_lang, $phpbb2_board_config, $phpEx;
+    global $userdata, $lang, $phpbb2_board_config, $phpEx;
     switch($mode) 
     {
       case 'img':
-          $message = $titanium_lang['Images_Allowed_For_Registered_Only'];
+          $message = $lang['Images_Allowed_For_Registered_Only'];
           break;
       case 'link':
-          $message = $titanium_lang['Links_Allowed_For_Registered_Only'];
+          $message = $lang['Links_Allowed_For_Registered_Only'];
           break;
       case 'email':
-          $message = $titanium_lang['Emails_Allowed_For_Registered_Only'];
+          $message = $lang['Emails_Allowed_For_Registered_Only'];
           break;
     }
 
     $replacer = '<table width="40%" cellspacing="1" cellpadding="3" border="0"><tr><td class="quote">';
     $replacer .= $message . '<br />';
-    $replacer .= sprintf($titanium_lang['Get_Registered'], "<a href=\"" . append_titanium_sid('profile.' . $phpEx . '?mode=register') . "\">", "</a>");
-    $replacer .= "<a href=\"modules.php?name=Forums&amp;file=login\">" . $titanium_lang['Login'] . "</a>";
+    $replacer .= sprintf($lang['Get_Registered'], "<a href=\"" . append_titanium_sid('profile.' . $phpEx . '?mode=register') . "\">", "</a>");
+    $replacer .= "<a href=\"modules.php?name=Forums&amp;file=login\">" . $lang['Login'] . "</a>";
     $replacer .= '</td></tr></table>';
 
     if ($userdata['session_logged_in'])
@@ -233,7 +233,7 @@ function replacer($mode, $bb)
           break;
         }
             $replacer = '<table width="40%" cellspacing="1" cellpadding="3" border="0"><tr><td class="quote">';
-            $replacer .= sprintf($titanium_lang['Image_Blocked'], "<a href=\"" . append_titanium_sid('profile.' . $phpEx) . "\">", "</a>");
+            $replacer .= sprintf($lang['Image_Blocked'], "<a href=\"" . append_titanium_sid('profile.' . $phpEx) . "\">", "</a>");
             $replacer .= '</td></tr></table>';
         if ($titanium_user_option) {
             return $replacer;
@@ -323,7 +323,7 @@ function bbencode_third_pass($text, $uid, $deprotect)
  */
 function bbencode_second_pass($text, $uid)
 {
-    global $titanium_lang, $bbcode_tpl, $userdata, $phpbb2_board_config;
+    global $lang, $bbcode_tpl, $userdata, $phpbb2_board_config;
 
     $text = preg_replace('#(script|about|applet|activex|chrome):#is', "\\1&#058;", $text);
 
@@ -729,12 +729,12 @@ function bbencode_first_pass($text, $uid)
 
 function evo_mention($titanium_user)
 {
-	global $titanium_db, $bbcode_tpl, $titanium_lang;
+	global $titanium_db, $bbcode_tpl, $lang;
 	
 
 	$row = $titanium_db->sql_ufetchrow("SELECT `user_id`, `username` FROM `".USERS_TABLE."` WHERE `username` = '".$titanium_user."'");
 	// return $titanium_user.' - '.$row['user_id'];
-  return '<a href="modules.php?name=Private_Messages&mode=post&u='.$row['user_id'].'" target="_blank" alt="'.$titanium_lang['Send_private_message'].'" title="'.$titanium_lang['Send_private_message'].'">'.$titanium_user.'</a>';
+  return '<a href="modules.php?name=Private_Messages&mode=post&u='.$row['user_id'].'" target="_blank" alt="'.$lang['Send_private_message'].'" title="'.$lang['Send_private_message'].'">'.$titanium_user.'</a>';
 }
 
 function evo_mention_callback($matches)
@@ -1153,7 +1153,7 @@ function bbencode_first_pass_pda($text, $uid, $open_tag, $close_tag, $close_tag_
  */
 function bbencode_second_pass_code($text, $uid, $bbcode_tpl)
 {
-    global $titanium_lang;
+    global $lang;
 
     $code_start_html = $bbcode_tpl['code_open'];
     $code_end_html =  $bbcode_tpl['code_close'];
@@ -1337,7 +1337,7 @@ function bbencode_second_pass_php($text, $uid, $bbcode_tpl)
  */
 function make_clickable($text)
 {
-    global $userdata, $titanium_lang, $phpEx, $u_login_logout, $phpbb2_board_config;
+    global $userdata, $lang, $phpEx, $u_login_logout, $phpbb2_board_config;
 
     $text = preg_replace('#(script|about|applet|activex|chrome):#is', "\\1&#058;", $text);
 

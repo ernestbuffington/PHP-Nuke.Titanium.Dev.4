@@ -80,7 +80,7 @@ if (!defined('IN_PHPBB2'))
 
 function make_forum_select($box_name, $ignore_forum = false, $select_forum = '')
 {
-        global $titanium_db, $userdata, $titanium_lang;
+        global $titanium_db, $userdata, $lang;
 
         $phpbb2_is_auth_ary = auth(AUTH_READ, AUTH_LIST_ALL, $userdata);
 
@@ -152,7 +152,7 @@ function make_forum_select($box_name, $ignore_forum = false, $select_forum = '')
         }
         $titanium_db->sql_freeresult($result);
 
-        $forum_list = ( $forum_list == '' ) ? $titanium_lang['No_forums'] : '<select name="' . $box_name . '">' . $forum_list . '</select>';
+        $forum_list = ( $forum_list == '' ) ? $lang['No_forums'] : '<select name="' . $box_name . '">' . $forum_list . '</select>';
 
         return $forum_list;
 }

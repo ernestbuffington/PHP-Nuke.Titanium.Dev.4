@@ -29,14 +29,14 @@
 //
 
 // mod specific
-$titanium_lang['printertopic_button'] = 'printer-friendly view'; // Printer button alternate text
-$titanium_lang['printertopic_Select_messages_from'] = 'Select messages from';
-$titanium_lang['printertopic_through'] = 'through';
-$titanium_lang['printertopic_box1_desc'] = 'number of the first message to display';
-$titanium_lang['printertopic_box2_desc'] = 'number of the last message to display; if negative - specifies a range';
-$titanium_lang['printertopic_Show'] = 'Show'; // "Show" button label in the printable topic view
-$titanium_lang['printertopic_Print'] = 'Print'; // "Print" button label in the printable topic view
-$titanium_lang['printertopic_Print_desc'] = 'print this page'; // Description for the "Print" button on the printable topic view
-$titanium_lang['printertopic_cancel_pagination_desc'] = 'cancel pagination'; // Description for the "Cancel Pagination" button in the printable topic view
+$lang['printertopic_button'] = 'printer-friendly view'; // Printer button alternate text
+$lang['printertopic_Select_messages_from'] = 'Select messages from';
+$lang['printertopic_through'] = 'through';
+$lang['printertopic_box1_desc'] = 'number of the first message to display';
+$lang['printertopic_box2_desc'] = 'number of the last message to display; if negative - specifies a range';
+$lang['printertopic_Show'] = 'Show'; // "Show" button label in the printable topic view
+$lang['printertopic_Print'] = 'Print'; // "Print" button label in the printable topic view
+$lang['printertopic_Print_desc'] = 'print this page'; // Description for the "Print" button on the printable topic view
+$lang['printertopic_cancel_pagination_desc'] = 'cancel pagination'; // Description for the "Cancel Pagination" button in the printable topic view
 
 ?>

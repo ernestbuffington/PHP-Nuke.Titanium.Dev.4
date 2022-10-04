@@ -25,8 +25,8 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -132,7 +132,7 @@ $tbauth_play = explode(',',$liste_cat_auth_play);
 
 if (!in_array($row['arcade_catid'],$tbauth_play))
 {
-        message_die(GENERAL_MESSAGE, $titanium_lang['game_forbidden']);
+        message_die(GENERAL_MESSAGE, $lang['game_forbidden']);
 }
 
 
@@ -200,18 +200,18 @@ $cat_title = $ourrow['arcade_cattitle'];
 $phpbb2_template->assign_vars(array(
         'MAXSIZE_AVATAR' => intval($arcade_config['maxsize_avatar']),
         'CAT_TITLE' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx&amp;cid=") . $row['arcade_catid'] .'">' . $cat_title . '</a> ' ,
-        'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $titanium_lang['arcade'] . '</a> ' ,
+        'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $lang['arcade'] . '</a> ' ,
         'SWF_GAME' => $row['game_swf'] ,
         'GAME_WIDTH' => $row['game_width'] ,
         'GAME_HEIGHT' => $row['game_height'] ,
         'L_GAME' => $row['game_name'] ,
         'GAMEHASH' => $gamehash_id,
-        'L_TOP' => $titanium_lang['best_scores_game'] ,
+        'L_TOP' => $lang['best_scores_game'] ,
         'HIGHSCORE' => number_format($row['highscore']),
-        'URL_ARCADE' => '<nobr><a class="cattitle" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $titanium_lang['lib_arcade'] . '</a></nobr> ',
-        'MANAGE_COMMENTS' => '<nobr><a class="cattitle" href="' . append_titanium_sid("comments_list.$phpEx") . '">' . $titanium_lang['comments'] . '</a></nobr> ',
-        'URL_BESTSCORES' => '<nobr><a class="cattitle" href="' . append_titanium_sid("toparcade.$phpEx") . '">' . $titanium_lang['best_scores'] . '</a></nobr> ',
-        'URL_SCOREBOARD' => '<nobr><a class="cattitle" href="' . append_titanium_sid("scoreboard.$phpEx?gid=$gid") . '">' . $titanium_lang['scoreboard'] . '</a></nobr> ')
+        'URL_ARCADE' => '<nobr><a class="cattitle" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $lang['lib_arcade'] . '</a></nobr> ',
+        'MANAGE_COMMENTS' => '<nobr><a class="cattitle" href="' . append_titanium_sid("comments_list.$phpEx") . '">' . $lang['comments'] . '</a></nobr> ',
+        'URL_BESTSCORES' => '<nobr><a class="cattitle" href="' . append_titanium_sid("toparcade.$phpEx") . '">' . $lang['best_scores'] . '</a></nobr> ',
+        'URL_SCOREBOARD' => '<nobr><a class="cattitle" href="' . append_titanium_sid("scoreboard.$phpEx?gid=$gid") . '">' . $lang['scoreboard'] . '</a></nobr> ')
 );
 
 $sql = "SELECT s.* , u.username, u.user_avatar_type, u.user_allowavatar, u.user_avatar FROM " . SCORES_TABLE . " s LEFT JOIN " . USERS_TABLE . " u ON s.user_id = u.user_id WHERE game_id = $gid ORDER BY s.score_game DESC, s.score_date ASC LIMIT 0,15 ";
@@ -287,7 +287,7 @@ while ($row = $titanium_db->sql_fetchrow($result)) {
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                'URL_STATS' => '<nobr><a class="cattitle" href="' . append_titanium_sid("statarcade.$phpEx?uid=" . $row['user_id']) . '">' . "<img src='modules/Forums/templates/" . $theme['template_name'] . "/images/loupe.gif' align='absmiddle' border='0' alt='" . $titanium_lang['statuser'] . " " . $row['username'] . "'>" . '</a></nobr> ',
+                'URL_STATS' => '<nobr><a class="cattitle" href="' . append_titanium_sid("statarcade.$phpEx?uid=" . $row['user_id']) . '">' . "<img src='modules/Forums/templates/" . $theme['template_name'] . "/images/loupe.gif' align='absmiddle' border='0' alt='" . $lang['statuser'] . " " . $row['username'] . "'>" . '</a></nobr> ',
                 'GAMEDESC' => $row['game_desc'],
                 'SCORE' => number_format($row['score_game']),
                 'DATEHIGH' => create_date($phpbb2_board_config['default_dateformat'] , $row['score_date'] , $phpbb2_board_config['board_timezone']))
@@ -319,12 +319,12 @@ if ($arcade_config['display_winner_avatar']) {
         }
 
         $phpbb2_template->assign_vars(array(
-           'L_ACTUAL_WINNER' => $titanium_lang['Actual_winner'],
+           'L_ACTUAL_WINNER' => $lang['Actual_winner'],
            'BEST_USER_NAME' => $best_user,
-           'BEST_USER_DATE' => sprintf($titanium_lang['hi_score_on'], $best_date),
-           'BEST_TIME' => sprintf($titanium_lang['played_time_total'], $best_time),
+           'BEST_USER_DATE' => sprintf($lang['hi_score_on'], $best_date),
+           'BEST_TIME' => sprintf($lang['played_time_total'], $best_time),
            'COMMENTS' => smilies_pass($comment),
-           'GAMES_PLAYED' => sprintf($titanium_lang['played_times'], $games_played),
+           'GAMES_PLAYED' => sprintf($lang['played_times'], $games_played),
            'FIRST_AVATAR' => $avatar_img)
        );
 
@@ -334,7 +334,7 @@ include($phpbb2_root_path . 'whoisplaying.'.$phpEx);
 
 //
 // Output page header
-$phpbb2_page_title = $titanium_lang['arcade_game'];
+$phpbb2_page_title = $lang['arcade_game'];
 include('includes/page_header.'.$phpEx);
 $phpbb2_template->pparse('body');
 include('includes/page_tail.'.$phpEx);

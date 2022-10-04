@@ -35,22 +35,22 @@ if (!defined('MODULE_FILE'))
 die ('You can\'t access this file directly...');
 
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 global $titanium_db, $currentlang, $_GETVAR, $admin_file;
 
-$titanium_lang_path = NUKE_MODULES_DIR . $titanium_module_name . '/language/';
+$lang_path = NUKE_MODULES_DIR . $pnt_module . '/language/';
 
-if (@file_exists($titanium_lang_path . 'lang-' . $currentlang . '.php'))
-    @include_once($titanium_lang_path . 'lang-' . $currentlang . '.php');
-elseif (@file_exists($titanium_lang_path . 'lang-' . $phpbb2_board_config['default_lang'] . '.php'))
-    @include_once($titanium_lang_path . 'lang-' . $phpbb2_board_config['default_lang'] . '.php');
+if (@file_exists($lang_path . 'lang-' . $currentlang . '.php'))
+    @include_once($lang_path . 'lang-' . $currentlang . '.php');
+elseif (@file_exists($lang_path . 'lang-' . $phpbb2_board_config['default_lang'] . '.php'))
+    @include_once($lang_path . 'lang-' . $phpbb2_board_config['default_lang'] . '.php');
 else
-    DisplayError(_NO_ADMIN_MODULE_LANGUAGE_FOUND . $titanium_module_name);
+    DisplayError(_NO_ADMIN_MODULE_LANGUAGE_FOUND . $pnt_module);
 
-$pagetitle = "- ".$titanium_module_name."";
+$pagetitle = "- ".$pnt_module."";
 
 include(NUKE_BASE_DIR.'header.php');
-include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/inc/functions.php');
+include(NUKE_MODULES_DIR.$pnt_module.'/admin/inc/functions.php');
 
 $config = $titanium_db->sql_ufetchrow('SELECT * FROM `'.$titanium_prefix.'_link_us_config` LIMIT 0,1');
 
@@ -58,15 +58,15 @@ $op = $_GETVAR->get('op', '_REQUEST', 'string');
 
 switch($op):
   	case 'visit':        
-	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/public/visit.php'); 
+	include_once(NUKE_MODULES_DIR.$pnt_module.'/public/visit.php'); 
 	break;  
   	case 'submitbutton': 
-	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/public/submit.php'); 
+	include_once(NUKE_MODULES_DIR.$pnt_module.'/public/submit.php'); 
 	break;
 	case 'submit_save':  
-	include_once(NUKE_MODULES_DIR.$titanium_module_name.'/public/submitsave.php'); 
+	include_once(NUKE_MODULES_DIR.$pnt_module.'/public/submitsave.php'); 
 	break;
-	default: include_once(NUKE_MODULES_DIR.$titanium_module_name.'/public/index.php'); 
+	default: include_once(NUKE_MODULES_DIR.$pnt_module.'/public/index.php'); 
 	break;
 endswitch;
 

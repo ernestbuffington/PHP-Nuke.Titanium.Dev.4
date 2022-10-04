@@ -116,11 +116,11 @@ if( isset($HTTP_POST_VARS['doprune']) )
         }
 
         $phpbb2_template->assign_vars(array(
-                'L_FORUM_PRUNE' => $titanium_lang['Forum_Prune'],
-                'L_FORUM' => $titanium_lang['Forum'],
-                'L_TOPICS_PRUNED' => $titanium_lang['Topics_pruned'],
-                'L_POSTS_PRUNED' => $titanium_lang['Posts_pruned'],
-                'L_PRUNE_RESULT' => $titanium_lang['Prune_success'])
+                'L_FORUM_PRUNE' => $lang['Forum_Prune'],
+                'L_FORUM' => $lang['Forum'],
+                'L_TOPICS_PRUNED' => $lang['Topics_pruned'],
+                'L_POSTS_PRUNED' => $lang['Posts_pruned'],
+                'L_PRUNE_RESULT' => $lang['Prune_success'])
         );
 }
 else
@@ -139,7 +139,7 @@ else
                 );
 
                 $select_list = '<select name="' . POST_FORUM_URL . '">';
-                $select_list .= '<option value="-1">' . $titanium_lang['All_Forums'] . '</option>';
+                $select_list .= '<option value="-1">' . $lang['All_Forums'] . '</option>';
 
                 for($i = 0; $i < count($forum_rows); $i++)
                 {
@@ -151,9 +151,9 @@ else
                 // Assign the template variables.
                 //
                 $phpbb2_template->assign_vars(array(
-                        'L_FORUM_PRUNE' => $titanium_lang['Forum_Prune'],
-                        'L_SELECT_FORUM' => $titanium_lang['Select_a_Forum'],
-                        'L_LOOK_UP' => $titanium_lang['Look_up_Forum'],
+                        'L_FORUM_PRUNE' => $lang['Forum_Prune'],
+                        'L_SELECT_FORUM' => $lang['Select_a_Forum'],
+                        'L_LOOK_UP' => $lang['Look_up_Forum'],
 
                         'S_FORUMPRUNE_ACTION' => append_titanium_sid("admin_forum_prune.$phpEx"),
                         'S_FORUMS_SELECT' => $select_list)
@@ -170,10 +170,10 @@ else
                         'body' => 'admin/forum_prune_body.tpl')
                 );
 
-                $forum_name = ( $phpbb2_forum_id == -1 ) ? $titanium_lang['All_Forums'] : $forum_rows[0]['forum_name'];
+                $forum_name = ( $phpbb2_forum_id == -1 ) ? $lang['All_Forums'] : $forum_rows[0]['forum_name'];
 
-                $prune_data = $titanium_lang['Prune_topics_not_posted'] . " ";
-                $prune_data .= '<input class="post" type="text" name="prunedays" size="4"> ' . $titanium_lang['Days'];
+                $prune_data = $lang['Prune_topics_not_posted'] . " ";
+                $prune_data .= '<input class="post" type="text" name="prunedays" size="4"> ' . $lang['Days'];
 
                 $hidden_input = '<input type="hidden" name="' . POST_FORUM_URL . '" value="' . $phpbb2_forum_id . '">';
 
@@ -183,10 +183,10 @@ else
                 $phpbb2_template->assign_vars(array(
                         'FORUM_NAME' => $forum_name,
 
-                        'L_FORUM' => $titanium_lang['Forum'],
-                        'L_FORUM_PRUNE' => $titanium_lang['Forum_Prune'],
-                        'L_FORUM_PRUNE_EXPLAIN' => $titanium_lang['Forum_Prune_explain'],
-                        'L_DO_PRUNE' => $titanium_lang['Do_Prune'],
+                        'L_FORUM' => $lang['Forum'],
+                        'L_FORUM_PRUNE' => $lang['Forum_Prune'],
+                        'L_FORUM_PRUNE_EXPLAIN' => $lang['Forum_Prune_explain'],
+                        'L_DO_PRUNE' => $lang['Do_Prune'],
 
                         'S_FORUMPRUNE_ACTION' => append_titanium_sid("admin_forum_prune.$phpEx"),
                         'S_PRUNE_DATA' => $prune_data,

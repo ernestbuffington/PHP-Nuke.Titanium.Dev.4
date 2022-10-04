@@ -17,9 +17,9 @@ $index = 1;
 
 require_once("mainfile.php");
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 $pagetitle = "86it Developers Network - My ". _MARKSTITLE;
 

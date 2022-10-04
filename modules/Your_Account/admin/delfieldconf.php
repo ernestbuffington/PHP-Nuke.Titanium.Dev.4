@@ -39,12 +39,12 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) 
+if(is_mod_admin($pnt_module)) 
 {
     $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_field WHERE fid='$fid'");
     $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_value WHERE fid='$fid'");
     $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_cnbya_value_temp WHERE fid='$fid'");
-    header("Location:modules.php?name=$titanium_module_name&file=admin&op=addField");
+    header("Location:modules.php?name=$pnt_module&file=admin&op=addField");
 }
 
 ?>

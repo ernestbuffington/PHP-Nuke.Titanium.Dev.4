@@ -44,8 +44,8 @@ if (!defined('MODULE_FILE'))
     die ("You can't access this file directly...");
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
-require("modules/".$titanium_module_name."/nukebb.php");
+$pnt_module = basename(dirname(__FILE__));
+require("modules/".$pnt_module."/nukebb.php");
 define('IN_PHPBB2', true);
 include($phpbb2_root_path . 'extension.inc');
 include($phpbb2_root_path . 'common.'.$phpEx);
@@ -62,7 +62,7 @@ titanium_init_userprefs($userdata);
 //
 // Output page header and load viewonline template
 //
-$phpbb2_page_title = $titanium_lang['Who_is_online'];
+$phpbb2_page_title = $lang['Who_is_online'];
 
 include("includes/page_header.php");
 
@@ -72,11 +72,11 @@ $phpbb2_template->set_filenames(array(
 
 make_jumpbox('viewforum.'.$phpEx);
 $phpbb2_template->assign_vars(array(
-        'L_WHOSONLINE' => $titanium_lang['Who_is_Online'],
-        'L_ONLINE_EXPLAIN' => $titanium_lang['Online_explain'],
-        'L_USERNAME' => $titanium_lang['Username'],
-        'L_FORUM_LOCATION' => $titanium_lang['Forum_Location'],
-        'L_LAST_UPDATE' => $titanium_lang['Last_updated'])
+        'L_WHOSONLINE' => $lang['Who_is_Online'],
+        'L_ONLINE_EXPLAIN' => $lang['Online_explain'],
+        'L_USERNAME' => $lang['Username'],
+        'L_FORUM_LOCATION' => $lang['Forum_Location'],
+        'L_LAST_UPDATE' => $lang['Last_updated'])
 );
 
 /*****[BEGIN]******************************************
@@ -210,7 +210,7 @@ while ( $row = $titanium_db->sql_fetchrow($result) )
     {
         if ( $row['session_ip'] != $prev_ip )
         {
-            $titanium_username = $titanium_lang['Guest'];
+            $titanium_username = $lang['Guest'];
             $view_online = true;
             $guest_users++;
             $which_counter = 'guest_counter';
@@ -226,54 +226,54 @@ while ( $row = $titanium_db->sql_fetchrow($result) )
             switch( $row['session_page'] )
             {
                 case PAGE_INDEX:
-                    $location = $titanium_lang['Forum_index'];
+                    $location = $lang['Forum_index'];
                     $location_url = "modules.php?name=Forums&amp;file=index";
                     break;
 
                 case PAGE_POSTING:
-                    $location = $titanium_lang['Posting_message'];
+                    $location = $lang['Posting_message'];
                     $location_url = "modules.php?name=Forums&amp;file=index";
                     break;
 
                 case PAGE_LOGIN:
-                    $location = $titanium_lang['Logging_on'];
+                    $location = $lang['Logging_on'];
                     $location_url = "modules.php?name=Forums&amp;file=index";
                     break;
 
                 case TITANIUM_PAGE_SEARCH:
-                    $location = $titanium_lang['Searching_forums'];
+                    $location = $lang['Searching_forums'];
                     $location_url = "modules.php?name=Forums&amp;file=search";
                     break;
 
                 case PAGE_PROFILE:
-                    $location = $titanium_lang['Viewing_profile'];
+                    $location = $lang['Viewing_profile'];
                     $location_url = "modules.php?name=Forums&amp;file=index";
                     break;
 
                 case PAGE_VIEWONLINE:
-                    $location = $titanium_lang['Viewing_online'];
+                    $location = $lang['Viewing_online'];
                     $location_url = "modules.php?name=Forums&amp;file=viewonline";
                     break;
 
                 case PAGE_VIEWMEMBERS:
-                    $location = $titanium_lang['Viewing_member_list'];
+                    $location = $lang['Viewing_member_list'];
                     $location_url = "modules.php?name=Memberlist";
                     break;
 
                 case PAGE_PRIVMSGS:
-                    $location = $titanium_lang['Viewing_priv_msgs'];
+                    $location = $lang['Viewing_priv_msgs'];
                     $location_url = "modules.php?name=Private_Messages";
                     break;
 
                 case PAGE_FAQ:
-                    $location = $titanium_lang['Viewing_FAQ'];
+                    $location = $lang['Viewing_FAQ'];
                     $location_url = "modules.php?name=Forums&file=faq";
                     break;                                
 /*****[BEGIN]******************************************
  [ Mod:     Users Reputations Systems          v1.0.0 ]
  ******************************************************/
                 case PAGE_REPUTATION:
-                    $location = $titanium_lang['Reputation'];
+                    $location = $lang['Reputation'];
                     $location_url = "reputation.$phpEx";
                     break;
 /*****[END]********************************************
@@ -284,27 +284,27 @@ while ( $row = $titanium_db->sql_fetchrow($result) )
  [ Mod:     Arcade                             v3.0.2 ]
  ******************************************************/
                 case PAGE_GAME: 
-                    $location = $titanium_lang['Playing_game']; 
+                    $location = $lang['Playing_game']; 
                     $location_url = "arcade.$phpEx"; 
                     break; 
 
                 case PAGE_ARCADES: 
-                    $location = $titanium_lang['Viewing_arcades']; 
+                    $location = $lang['Viewing_arcades']; 
                     $location_url = "arcade.$phpEx"; 
                     break; 
 
                 case PAGE_TOPARCADES: 
-                    $location = $titanium_lang['Viewing_toparcades']; 
+                    $location = $lang['Viewing_toparcades']; 
                     $location_url = "toparcade.$phpEx"; 
                     break; 
 
                 case PAGE_STATARCADES: 
-                    $location = $titanium_lang['watchingstats']; 
+                    $location = $lang['watchingstats']; 
                     $location_url = "statarcade.$phpEx"; 
                     break; 
 
                 case PAGE_SCOREBOARD: 
-                    $location = $titanium_lang['watchingboard']; 
+                    $location = $lang['watchingboard']; 
                     $location_url = "arcade.$phpEx"; 
                     break;
 /*****[END]********************************************
@@ -315,7 +315,7 @@ while ( $row = $titanium_db->sql_fetchrow($result) )
  [ Mod:     Staff Site                         v2.0.3 ]
  ******************************************************/
                 case PAGE_STAFF:
-                    $location = $titanium_lang['Staff'];
+                    $location = $lang['Staff'];
                     $location_url = "modules.php?name=Forums&file=staff";
                     break;
 /*****[END]********************************************
@@ -326,7 +326,7 @@ while ( $row = $titanium_db->sql_fetchrow($result) )
  [ Base:    Recent Topics                      v1.2.4 ]
  ******************************************************/
                 case PAGE_RECENT:
-                    $location = $titanium_lang['Recent_topics'];
+                    $location = $lang['Recent_topics'];
                     $location_url = "modules.php?name=Forums&file=recent";
                     break;
 /*****[END]********************************************
@@ -337,7 +337,7 @@ while ( $row = $titanium_db->sql_fetchrow($result) )
  [ Base:    Who viewed a topic                 v1.0.3 ]
  ******************************************************/
                 case PAGE_TOPIC_VIEW: 
-                    $location = $titanium_lang['Topic_view_count']; 
+                    $location = $lang['Topic_view_count']; 
                     $location_url = "viewtopic_whoview.$phpEx"; 
                     break;
 /*****[END]********************************************
@@ -345,7 +345,7 @@ while ( $row = $titanium_db->sql_fetchrow($result) )
  ******************************************************/
 
                 default:
-                    $location = $titanium_lang['Forum_index'];
+                    $location = $lang['Forum_index'];
                     $location_url = "modules.php?name=Forums&file=index";
             }
         }
@@ -382,25 +382,25 @@ while ( $row = $titanium_db->sql_fetchrow($result) )
 }
 
 if( $registered_users == 0 )
-    $l_r_user_s = $titanium_lang['Reg_users_zero_online'];
+    $l_r_user_s = $lang['Reg_users_zero_online'];
 else if( $registered_users == 1 )
-    $l_r_user_s = $titanium_lang['Reg_user_online'];
+    $l_r_user_s = $lang['Reg_user_online'];
 else
-    $l_r_user_s = $titanium_lang['Reg_users_online'];
+    $l_r_user_s = $lang['Reg_users_online'];
 
 if( $hidden_users == 0 )
-    $l_h_user_s = $titanium_lang['Hidden_users_zero_online'];
+    $l_h_user_s = $lang['Hidden_users_zero_online'];
 else if( $hidden_users == 1 )
-    $l_h_user_s = $titanium_lang['Hidden_user_online'];
+    $l_h_user_s = $lang['Hidden_user_online'];
 else
-    $l_h_user_s = $titanium_lang['Hidden_users_online'];
+    $l_h_user_s = $lang['Hidden_users_online'];
 
 if( $guest_users == 0 )
-    $l_g_user_s = $titanium_lang['Guest_users_zero_online'];
+    $l_g_user_s = $lang['Guest_users_zero_online'];
 else if( $guest_users == 1 )
-    $l_g_user_s = $titanium_lang['Guest_user_online'];
+    $l_g_user_s = $lang['Guest_user_online'];
 else
-    $l_g_user_s = $titanium_lang['Guest_users_online'];
+    $l_g_user_s = $lang['Guest_users_online'];
 
 $phpbb2_template->assign_vars(array(
     'TOTAL_REGISTERED_USERS_ONLINE' => sprintf($l_r_user_s, $registered_users) . sprintf($l_h_user_s, $hidden_users),
@@ -410,14 +410,14 @@ $phpbb2_template->assign_vars(array(
 if ( $registered_users + $hidden_users == 0 )
 {
     $phpbb2_template->assign_vars(array(
-        'L_NO_REGISTERED_USERS_BROWSING' => $titanium_lang['No_users_browsing'])
+        'L_NO_REGISTERED_USERS_BROWSING' => $lang['No_users_browsing'])
     );
 }
 
 if ( $guest_users == 0 )
 {
     $phpbb2_template->assign_vars(array(
-        'L_NO_GUESTS_BROWSING' => $titanium_lang['No_users_browsing'])
+        'L_NO_GUESTS_BROWSING' => $lang['No_users_browsing'])
     );
 }
 

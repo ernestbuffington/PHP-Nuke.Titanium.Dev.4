@@ -242,7 +242,7 @@ if ($submit)
 					{
 						$error = true;
 						$msg = mods_settings_get_lang( $mods[$menu_name]['data'][$mod_name]['data'][$sub_name]['data'][$field_name]['lang_key'] );
-						$error_msg = (empty($error_msg) ? '' : '<br />') . $titanium_lang['Error'] . ':&nbsp;' . $msg;
+						$error_msg = (empty($error_msg) ? '' : '<br />') . $lang['Error'] . ':&nbsp;' . $msg;
 					}
 					break;
 				case 'TINYINT':
@@ -274,7 +274,7 @@ if ($submit)
 			}
 			if ($error)
 			{
-				$message = $error_msg . '<br /><br />' . sprintf($titanium_lang['Click_return_config'], '<a href="' . append_titanium_sid("./admin_board_extend.$phpEx?menu=$menu_id&mod=$mod_id&msub=$sub_id") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("./index.$phpEx?pane=right") . '">', '</a>');
+				$message = $error_msg . '<br /><br />' . sprintf($lang['Click_return_config'], '<a href="' . append_titanium_sid("./admin_board_extend.$phpEx?menu=$menu_id&mod=$mod_id&msub=$sub_id") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("./index.$phpEx?pane=right") . '">', '</a>');
 				message_die(GENERAL_MESSAGE, $message);
 			}
 		}
@@ -309,7 +309,7 @@ if ($submit)
 	}
 
 	// send an update message
-	$message = $titanium_lang['Config_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_config'], '<a href="' . append_titanium_sid("./admin_board_extend.$phpEx?menu=$menu_id&mod=$mod_id&msub=$sub_id") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("./index.$phpEx?pane=right") . '">', '</a>');
+	$message = $lang['Config_updated'] . '<br /><br />' . sprintf($lang['Click_return_config'], '<a href="' . append_titanium_sid("./admin_board_extend.$phpEx?menu=$menu_id&mod=$mod_id&msub=$sub_id") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("./index.$phpEx?pane=right") . '">', '</a>');
 	message_die(GENERAL_MESSAGE, $message);
 }
 
@@ -321,11 +321,11 @@ $phpbb2_template->set_filenames(array(
 
 // header
 $phpbb2_template->assign_vars(array(
-	'L_TITLE'			=> $titanium_lang['Configuration_extend'],
-	'L_TITLE_EXPLAIN'	=> $titanium_lang['Config_explain'],
+	'L_TITLE'			=> $lang['Configuration_extend'],
+	'L_TITLE_EXPLAIN'	=> $lang['Config_explain'],
 	'L_MOD_NAME'		=> mods_settings_get_lang($menu_name) . ' - ' . mods_settings_get_lang($mod_name) . ( !empty($sub_name) ? ' - ' . mods_settings_get_lang($sub_name) : '' ),
-	'L_SUBMIT'			=> $titanium_lang['Submit'],
-	'L_RESET'			=> $titanium_lang['Reset'],
+	'L_SUBMIT'			=> $lang['Submit'],
+	'L_RESET'			=> $lang['Reset'],
 	)
 );
 
@@ -462,7 +462,7 @@ while ( list($field_name, $field) = @each($mods[$menu_name]['data'][$mod_name]['
 			$l_key = mods_settings_get_lang($key);
 			$override .= '<input type="radio" name="' . $field_name . '_over' . '" value="' . $val . '"' . $selected . ' />' . $l_key . '&nbsp;&nbsp;';
 		}
-		$override = '<hr />' . $titanium_lang['Override_user_choices'] . ':&nbsp;'. $override;
+		$override = '<hr />' . $lang['Override_user_choices'] . ':&nbsp;'. $override;
 	}
 
 	// dump to template

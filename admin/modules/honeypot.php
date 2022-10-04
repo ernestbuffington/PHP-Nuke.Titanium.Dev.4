@@ -1294,7 +1294,7 @@ $hpjs2head .= '  </script>'."\n";
 	//save config start
 	function honeypotconfigsave($usehp, $botlisting, $perpage, $pagenumberpos, $headcolor, $rowcolor1, $rowcolor2, $pagebgcolor, $pagebordercolor, $fontcolor, $fontcolor2, $check1, $check2, $check3, $check4, $check5, $check6, $c7opt1, $c7opt2, $c7amount, $c8opt1, $c8opt2, $usebsapi, $c8apikey, $fs9opt1, $fs9opt2, $fs9apikey, $check3time, $check4question, $check4answer,$usefeedback, $email) {
 	include("header.php");
-	global $titanium_prefix, $titanium_db, $titanium_module_name;
+	global $titanium_prefix, $titanium_db, $pnt_module;
 
 		$usehp = htmlentities($usehp, ENT_QUOTES);
 		$botlisting = htmlentities($botlisting, ENT_QUOTES);

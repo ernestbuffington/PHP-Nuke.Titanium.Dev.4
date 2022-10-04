@@ -56,19 +56,19 @@ $phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:   At a Glance Option                   v1.0.0 ]
  ******************************************************/
-    "L_GLANCE_SHOW" => $titanium_lang['glance_show'],
-    "L_GLANCE_TITLE" => $titanium_lang['glance_title'],
-    "L_GLANCE_OVERRIDE_TITLE" => $titanium_lang['glance_override_title'],
-    "L_GLANCE_NEWS_EXPLAIN" => $titanium_lang['glance_news_explain'],
-    "L_GLANCE_NUM_NEWS_EXPLAIN" => $titanium_lang['glance_num_news_explain'],
-    "L_GLANCE_NUM_EXPLAIN" => $titanium_lang['glance_num_explain'],
-    "L_GLANCE_IGNORE_FORUMS" => $titanium_lang['glance_ignore_forums_explain'],
-    "L_GLANCE_TABLE_WIDTH" => $titanium_lang['glance_table_width_explain'],
-    "L_GLANCE_AUTH_READ_EXPLAIN" => $titanium_lang['glance_auth_read_explain'],
-    "L_GLANCE_TOPIC_LENGTH_EXPLAIN" => $titanium_lang['glance_topic_length_explain'],
+    "L_GLANCE_SHOW" => $lang['glance_show'],
+    "L_GLANCE_TITLE" => $lang['glance_title'],
+    "L_GLANCE_OVERRIDE_TITLE" => $lang['glance_override_title'],
+    "L_GLANCE_NEWS_EXPLAIN" => $lang['glance_news_explain'],
+    "L_GLANCE_NUM_NEWS_EXPLAIN" => $lang['glance_num_news_explain'],
+    "L_GLANCE_NUM_EXPLAIN" => $lang['glance_num_explain'],
+    "L_GLANCE_IGNORE_FORUMS" => $lang['glance_ignore_forums_explain'],
+    "L_GLANCE_TABLE_WIDTH" => $lang['glance_table_width_explain'],
+    "L_GLANCE_AUTH_READ_EXPLAIN" => $lang['glance_auth_read_explain'],
+    "L_GLANCE_TOPIC_LENGTH_EXPLAIN" => $lang['glance_topic_length_explain'],
 
-    "L_GLANCE_ALTERNATE_ROW" => $titanium_lang['glance_alternate_row'],
-    "L_GLANCE_ALTERNATE_ROW_EXPLAIN" => $titanium_lang['glance_alternate_row_explain'],
+    "L_GLANCE_ALTERNATE_ROW" => $lang['glance_alternate_row'],
+    "L_GLANCE_ALTERNATE_ROW_EXPLAIN" => $lang['glance_alternate_row_explain'],
 /*****[END]********************************************
  [ Mod:   At a Glance Option                   v1.0.0 ]
  ******************************************************/

@@ -31,8 +31,8 @@ if (!defined('ADMIN_FILE'))
 
 
 global $titanium_prefix, $titanium_db, $admdata;
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
-if(is_mod_admin($titanium_module_name)) {
+$pnt_module = basename(dirname(dirname(__FILE__)));
+if(is_mod_admin($pnt_module)) {
 
 include_once(NUKE_INCLUDE_DIR.'nsnne_func.php');
 $blog_config = blog_get_configs();
@@ -421,7 +421,7 @@ else
 	   // CloseTable();
 
        // OpenTable();
-        echo "<center><strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$titanium_module_name\"</center>";
+        echo "<center><strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$pnt_module\"</center>";
         CloseTable();
         include(NUKE_BASE_DIR."footer.php");
 }

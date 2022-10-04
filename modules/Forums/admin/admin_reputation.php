@@ -68,7 +68,7 @@ else
 
   if( isset($HTTP_POST_VARS['submit']) )
   {
-    $message = $titanium_lang['Rep_config_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_rep_config'], "<a href=\"" . append_titanium_sid("admin_reputation.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+    $message = $lang['Rep_config_updated'] . "<br /><br />" . sprintf($lang['Click_return_rep_config'], "<a href=\"" . append_titanium_sid("admin_reputation.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
     message_die(GENERAL_MESSAGE, $message);
   }
@@ -104,27 +104,27 @@ $phpbb2_template->assign_vars(array(
   "S_PM_NOTIFY_YES" => $pm_notify_yes,
   "S_PM_NOTIFY_NO" => $pm_notify_no,
 
-  "L_DISABLE_REP_SYSTEM" => $titanium_lang['Disable_rep'],
-  "L_POSTS_TO_EARN" => $titanium_lang['Posts_to_earn'],
-  "L_DAYS_TO_EARN" => $titanium_lang['Days_to_earn'],
-  "L_FLOOD_CONTROL_TIME" => $titanium_lang['Flood_control_time'],
-  "L_SHOW_STATS_TO_MODS" => $titanium_lang['Show_stats_to_mods'],
-  "L_GRAPHIC_VERSION" => $titanium_lang['Graphic_version'],
-  "L_MEDAL1_TO_EARN" => $titanium_lang['Medal1_to_earn'],
-  "L_MEDAL2_TO_EARN" => $titanium_lang['Medal2_to_earn'],
-  "L_MEDAL3_TO_EARN" => $titanium_lang['Medal3_to_earn'],
-  "L_MEDAL4_TO_EARN" => $titanium_lang['Medal4_to_earn'],
-  "L_GIVEN_REP_TO_EARN" => $titanium_lang['Given_rep_to_earn'],
-  "L_REPSUM_LIMIT" => $titanium_lang['Repsum_limit'],
-  "L_PM_NOTIFY" => $titanium_lang['PM_notify'],
-  "L_DEFAULT_AMOUNT" => $titanium_lang['Default_amount'],
+  "L_DISABLE_REP_SYSTEM" => $lang['Disable_rep'],
+  "L_POSTS_TO_EARN" => $lang['Posts_to_earn'],
+  "L_DAYS_TO_EARN" => $lang['Days_to_earn'],
+  "L_FLOOD_CONTROL_TIME" => $lang['Flood_control_time'],
+  "L_SHOW_STATS_TO_MODS" => $lang['Show_stats_to_mods'],
+  "L_GRAPHIC_VERSION" => $lang['Graphic_version'],
+  "L_MEDAL1_TO_EARN" => $lang['Medal1_to_earn'],
+  "L_MEDAL2_TO_EARN" => $lang['Medal2_to_earn'],
+  "L_MEDAL3_TO_EARN" => $lang['Medal3_to_earn'],
+  "L_MEDAL4_TO_EARN" => $lang['Medal4_to_earn'],
+  "L_GIVEN_REP_TO_EARN" => $lang['Given_rep_to_earn'],
+  "L_REPSUM_LIMIT" => $lang['Repsum_limit'],
+  "L_PM_NOTIFY" => $lang['PM_notify'],
+  "L_DEFAULT_AMOUNT" => $lang['Default_amount'],
 
-  "L_YES" => $titanium_lang['Yes'],
-  "L_NO" => $titanium_lang['No'],
-  "L_REPUTATION_CONFIG_TITLE" => $titanium_lang['Reputation_Config_Title'],
-  "L_REPUTATION_CONFIG_EXPLAIN" => $titanium_lang['Reputation_Config_Explain'],
-  "L_SUBMIT" => $titanium_lang['Submit'],
-  "L_RESET" => $titanium_lang['Reset'],
+  "L_YES" => $lang['Yes'],
+  "L_NO" => $lang['No'],
+  "L_REPUTATION_CONFIG_TITLE" => $lang['Reputation_Config_Title'],
+  "L_REPUTATION_CONFIG_EXPLAIN" => $lang['Reputation_Config_Explain'],
+  "L_SUBMIT" => $lang['Submit'],
+  "L_RESET" => $lang['Reset'],
 
   "POSTS_TO_EARN" => $new['posts_to_earn'],
   "DAYS_TO_EARN" => $new['days_to_earn'],

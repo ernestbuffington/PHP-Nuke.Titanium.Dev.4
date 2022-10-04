@@ -25,8 +25,8 @@ if (!defined('ADMIN_FILE')) {
 }
 
 global $admin_file;
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(dirname(__FILE__)));
+get_lang($pnt_module);
 adminmenu($admin_file.'.php?op=BannersAdmin', _BANNERS, 'icon.png');
 
 ?>

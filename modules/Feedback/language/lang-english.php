@@ -21,23 +21,23 @@
 /* And, if you use HTML code, please double check it.                     */
 /**************************************************************************/
 
-global $titanium_lang_new;
+global $lang_new;
 
-$titanium_lang_new[$titanium_module_name]['back'] 			= "%sGo Back%s";
-$titanium_lang_new[$titanium_module_name]['email'] 			= "Your Email Address";
-$titanium_lang_new[$titanium_module_name]['email_error'] 		= "ERROR: Please enter your e-mail address!";
-$titanium_lang_new[$titanium_module_name]['email_sent'] 		= "Mail has been sent!";
-$titanium_lang_new[$titanium_module_name]['ip'] 				= "IP Address";
-$titanium_lang_new[$titanium_module_name]['message'] 			= "Message";
-$titanium_lang_new[$titanium_module_name]['message_error'] 	= "ERROR: Please enter a message!";
-$titanium_lang_new[$titanium_module_name]['name'] 			= "Your Name";
-$titanium_lang_new[$titanium_module_name]['name_error'] 		= "ERROR: Please enter your name!";
-$titanium_lang_new[$titanium_module_name]['note'] 			= "All comments and suggestions about this web site are very welcome and a valuable source of information for us. Thanks!";
-$titanium_lang_new[$titanium_module_name]['reCaptcha'] 		= "You failed the reCaptcha, Please go back and try again.";
-$titanium_lang_new[$titanium_module_name]['send'] 			= "Send";
-$titanium_lang_new[$titanium_module_name]['sender'] 			= "Sender's Name";
-$titanium_lang_new[$titanium_module_name]['sender_email'] 	= "Sender's Email";
-$titanium_lang_new[$titanium_module_name]['thanks'] 			= "Thank you for contacting us";
-$titanium_lang_new[$titanium_module_name]['title'] 			= "%s: Feedback Form";
+$lang_new[$pnt_module]['back'] 			= "%sGo Back%s";
+$lang_new[$pnt_module]['email'] 			= "Your Email Address";
+$lang_new[$pnt_module]['email_error'] 		= "ERROR: Please enter your e-mail address!";
+$lang_new[$pnt_module]['email_sent'] 		= "Mail has been sent!";
+$lang_new[$pnt_module]['ip'] 				= "IP Address";
+$lang_new[$pnt_module]['message'] 			= "Message";
+$lang_new[$pnt_module]['message_error'] 	= "ERROR: Please enter a message!";
+$lang_new[$pnt_module]['name'] 			= "Your Name";
+$lang_new[$pnt_module]['name_error'] 		= "ERROR: Please enter your name!";
+$lang_new[$pnt_module]['note'] 			= "All comments and suggestions about this web site are very welcome and a valuable source of information for us. Thanks!";
+$lang_new[$pnt_module]['reCaptcha'] 		= "You failed the reCaptcha, Please go back and try again.";
+$lang_new[$pnt_module]['send'] 			= "Send";
+$lang_new[$pnt_module]['sender'] 			= "Sender's Name";
+$lang_new[$pnt_module]['sender_email'] 	= "Sender's Email";
+$lang_new[$pnt_module]['thanks'] 			= "Thank you for contacting us";
+$lang_new[$pnt_module]['title'] 			= "%s: Feedback Form";
 
 ?>

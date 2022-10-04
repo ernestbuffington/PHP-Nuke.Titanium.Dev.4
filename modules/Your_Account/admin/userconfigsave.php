@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
     $tmp_nick = explode("\r\n",$xbad_nick);
     rsort($tmp_nick);
@@ -95,7 +95,7 @@ if(is_mod_admin($titanium_module_name)) {
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 
-//    echo "<META HTTP-EQUIV=\"refresh\" content=\"2;URL=modules.php?name=$titanium_module_name&famp;ile=admin&amp;op=UsersConfig\">";
+//    echo "<META HTTP-EQUIV=\"refresh\" content=\"2;URL=modules.php?name=$pnt_module&famp;ile=admin&amp;op=UsersConfig\">";
 
     $pagetitle = ": "._USERADMIN." - "._YA_USERS;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -110,7 +110,7 @@ if(is_mod_admin($titanium_module_name)) {
     echo "<br />\n";
     OpenTable();
     echo "<center><h4>"._YACONFIGSAVED."</h4></center>";
-    echo "<table align=\"center\"><tr><td><form><input type=\"button\" value=\""._USERSCONFIG."\" onclick=\"javascript:location='modules.php?name=".$titanium_module_name."&amp;file=admin&amp;op=UsersConfig';\"></form></td></tr></table>";
+    echo "<table align=\"center\"><tr><td><form><input type=\"button\" value=\""._USERSCONFIG."\" onclick=\"javascript:location='modules.php?name=".$pnt_module."&amp;file=admin&amp;op=UsersConfig';\"></form></td></tr></table>";
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 

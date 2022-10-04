@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
     $pagetitle = ": "._USERADMIN." - "._SEARCHUSERS;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -71,7 +71,7 @@ if(is_mod_admin($titanium_module_name)) {
     echo "<td align='center'><strong>"._FUNCTIONS."</strong></td>\n</tr>\n";
     $result = $titanium_db->sql_query("SELECT * FROM $titanium_usertable WHERE $what $sign ORDER BY username LIMIT $min,".$ya_config['perpage']."");
     while($chnginfo = $titanium_db->sql_fetchrow($result)) {
-        echo "<tr bgcolor='$bgcolor1'><form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+        echo "<tr bgcolor='$bgcolor1'><form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
         echo "<input type='hidden' name='query' value='$query'>\n";
         echo "<input type='hidden' name='find' value='$find'>\n";
         echo "<input type='hidden' name='what' value='$what'>\n";

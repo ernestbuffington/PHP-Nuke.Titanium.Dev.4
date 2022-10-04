@@ -3,14 +3,14 @@
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
 $ThemeSel = get_theme();
 $themepath = './themes/'.$ThemeSel.'/style/ECalendar/style.css';
-$style_path = (!file_exists($themepath)) ? './modules/'.$titanium_module_name.'/css/' : './themes/'.$ThemeSel.'/style/ECalendar/';
+$style_path = (!file_exists($themepath)) ? './modules/'.$pnt_module.'/css/' : './themes/'.$ThemeSel.'/style/ECalendar/';
 
 addCSSToHead($style_path.'style.css','file');
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 include_once(NUKE_BASE_DIR.'header.php');
 global $titanium_prefix, $titanium_db;

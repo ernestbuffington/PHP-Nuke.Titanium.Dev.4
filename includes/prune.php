@@ -82,7 +82,7 @@ if (defined('FORUM_ADMIN')) {
 
 function prune($phpbb2_forum_id, $prune_date, $prune_all = false)
 {
-        global $titanium_db, $titanium_lang;
+        global $titanium_db, $lang;
         
      	// Before pruning, lets try to clean up the invalid topic entries
      	$sql = 'SELECT topic_id FROM ' . TOPICS_TABLE . '
@@ -201,7 +201,7 @@ function prune($phpbb2_forum_id, $prune_date, $prune_all = false)
 //
 function auto_prune($phpbb2_forum_id = 0)
 {
-        global $titanium_db, $titanium_lang;
+        global $titanium_db, $lang;
 
         $sql = "SELECT *
                 FROM " . PRUNE_TABLE . "

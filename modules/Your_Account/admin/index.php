@@ -32,8 +32,8 @@ if (!defined('ADMIN_FILE')) {
 }
 
 global $titanium_prefix, $titanium_db, $admdata;
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
-if(is_mod_admin($titanium_module_name)) {
+$pnt_module = basename(dirname(dirname(__FILE__)));
+if(is_mod_admin($pnt_module)) {
 
     switch($op) {
         case "mod_users":

@@ -29,7 +29,7 @@ function evouserinfo_parse_data($data) {
 }
 
 function evouserinfo_getactive () {
-    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock, $cache;
+    global $titanium_prefix, $titanium_db, $lang_evo_userblock, $cache;
     static $active;
     if(isset($active) && is_array($active)) return $active;
     
@@ -46,7 +46,7 @@ function evouserinfo_getactive () {
 }
 
 function evouserinfo_getinactive () {
-    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock, $cache;
+    global $titanium_prefix, $titanium_db, $lang_evo_userblock, $cache;
     static $inactive;
     if(isset($inactive) && is_array($inactive)) return $inactive;
     
@@ -63,7 +63,7 @@ function evouserinfo_getinactive () {
 }
 
 function evouserinfo_write_addon ($ext, $values) {
-    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock;
+    global $titanium_prefix, $titanium_db, $lang_evo_userblock;
     foreach ($values as $key => $value) {
         $sql = 'UPDATE `'.$titanium_prefix.'_evo_userinfo_addons` SET `value` = "'.$value.'" WHERE `name` = "'.$ext.'_'.$key.'"';
         $titanium_db->sql_query($sql);

@@ -38,7 +38,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 // function Show_CNBYA_menu(){ [added by menelaos dot hetnet dot nl']
 /*************************************************************************************/
 function Show_CNBYA_menu(){
-    global $stop, $titanium_module_name, $redirect, $mode, $t, $f, $ya_config;
+    global $stop, $pnt_module, $redirect, $mode, $t, $f, $ya_config;
     OpenTable();
     if ($stop) {
         echo "<center><span class=\"title\"><strong>"._LOGININCOR."</strong></span></center>\n";
@@ -47,11 +47,11 @@ function Show_CNBYA_menu(){
     }
 
     echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td align=\"left\"><span class=\"content\">\n";
-    echo "[ <a href=\"modules.php?name=$titanium_module_name\">"._LOGIN."</a> \n";
-    echo "| <a href=\"modules.php?name=$titanium_module_name&amp;op=new_user\">"._REGNEWUSER."</a> ]\n";
+    echo "[ <a href=\"modules.php?name=$pnt_module\">"._LOGIN."</a> \n";
+    echo "| <a href=\"modules.php?name=$pnt_module&amp;op=new_user\">"._REGNEWUSER."</a> ]\n";
     echo "</td><td align=\"right\"><span class=\"content\">\n";
-    echo "[ <span class=\"content\"><a href=\"modules.php?name=$titanium_module_name&amp;op=pass_lost\">"._PASSWORDLOST."</a> \n";
-    echo "| <a href=\"modules.php?name=$titanium_module_name&amp;op=ShowCookiesRedirect\">"._YA_COOKIEDELALL."</a> ]</span>\n";
+    echo "[ <span class=\"content\"><a href=\"modules.php?name=$pnt_module&amp;op=pass_lost\">"._PASSWORDLOST."</a> \n";
+    echo "| <a href=\"modules.php?name=$pnt_module&amp;op=ShowCookiesRedirect\">"._YA_COOKIEDELALL."</a> ]</span>\n";
     echo "</td></tr></table>\n";
     CloseTable();
 }
@@ -258,7 +258,7 @@ function YA_MakePass() {
 }
 
 function amain() {
-    global $ya_config, $titanium_module_name, $titanium_db, $titanium_user_prefix, $bgcolor2, $bgcolor1, $textcolor1, $find, $what, $match, $query, $admin_file;
+    global $ya_config, $pnt_module, $titanium_db, $titanium_user_prefix, $bgcolor2, $bgcolor1, $textcolor1, $find, $what, $match, $query, $admin_file;
     $cnbyaversion = $ya_config['version'];
 
     OpenTable();
@@ -274,34 +274,34 @@ function amain() {
     //echo "<td align='center' colspan='4'><a href='" . $admin_file . ".php'>"._YA_ADMINISTRATION."</a></td>\n";
     echo "</tr>\n";
     echo "<tr>\n";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=addUser'>"._ADDUSER."</a></td>\n";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=UsersConfig'>"._USERSCONFIG."</a></td>\n";
-    echo "<td align='right'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=listnormal&amp;query=1'>"._ACTIVEUSERS.":</a>";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=addUser'>"._ADDUSER."</a></td>\n";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=UsersConfig'>"._USERSCONFIG."</a></td>\n";
+    echo "<td align='right'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=listnormal&amp;query=1'>"._ACTIVEUSERS.":</a>";
     echo "<td align='left'>($act)</td>\n";
     echo "</tr>\n";
     echo "<tr>";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=addField'>"._YA_ADDFIELD."</a></td>\n";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=CookieConfig'>"._COOKIECONFIG."</a></td>\n";
-    echo "<td align='right'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=listnormal&amp;query=a'>"._NORMALUSERS.":</a>";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=addField'>"._YA_ADDFIELD."</a></td>\n";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=CookieConfig'>"._COOKIECONFIG."</a></td>\n";
+    echo "<td align='right'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=listnormal&amp;query=a'>"._NORMALUSERS.":</a>";
     echo "<td align='left'>($nor)</td>\n";
     echo "</tr>\n";
     echo "<tr>\n";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=searchUser'>"._SEARCHUSERS."</a></td>\n";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=editTOS'>"._EDITTOS."</a></td>\n";
-    echo "<td align='right'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=listnormal&amp;query=-1'>"._DELETEUSERS.":</a>";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=searchUser'>"._SEARCHUSERS."</a></td>\n";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=editTOS'>"._EDITTOS."</a></td>\n";
+    echo "<td align='right'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=listnormal&amp;query=-1'>"._DELETEUSERS.":</a>";
     echo "<td align='left'>($del)</td>\n";
     echo "</tr>\n";
     echo "<tr>\n";
     echo "<td align='center' width='33%'>&nbsp;</td>\n";
     echo "<td align='center' width='33%'>&nbsp;</td>\n";
-    echo "<td align='right'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=listnormal&amp;query=0'>"._SUSPENDUSERS.":</a>";
+    echo "<td align='right'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=listnormal&amp;query=0'>"._SUSPENDUSERS.":</a>";
     echo "<td align='left'>($sus)</td>\n";
     echo "</tr>\n";
     echo "<tr>\n";
-//  echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=autoSuspend'>"._YA_CHKAUTOSUS."</a></td>";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=credits'>"._CREDITS."</a></td>\n";
+//  echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=autoSuspend'>"._YA_CHKAUTOSUS."</a></td>";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=credits'>"._CREDITS."</a></td>\n";
     echo "<td align='center' width='33%'>[CNB Your Account $cnbyaversion]</td>\n";
-    echo "<td align='right'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=listpending'>"._WAITINGUSERS.":</a>";
+    echo "<td align='right'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=listpending'>"._WAITINGUSERS.":</a>";
     echo "<td align='left'>($pen)</td>\n";
     echo "</tr>\n";
 
@@ -310,10 +310,10 @@ function amain() {
 }
 
 function asearch() {
-    global $titanium_module_name, $bgcolor2, $bgcolor1, $textcolor1, $find, $what, $match, $query, $titanium_db, $titanium_user_prefix;
+    global $pnt_module, $bgcolor2, $bgcolor1, $textcolor1, $find, $what, $match, $query, $titanium_db, $titanium_user_prefix;
     OpenTable();
     echo "<table style='margin:auto' cellpadding='2' cellspacing='2' border='0'>\n";
-    echo "<form method='post' action='modules.php?name=$titanium_module_name&amp;file=admin'>\n";
+    echo "<form method='post' action='modules.php?name=$pnt_module&amp;file=admin'>\n";
     echo "<input type='hidden' name='op' value='listresults'>\n";
     echo "<tr>\n";
     echo "<td align='center'><strong>"._YA_FIND.":</strong></td>\n";
@@ -349,7 +349,7 @@ function asearch() {
 }
 
 function mmain($titanium_user) {
-    global $stop, $titanium_module_name, $redirect, $mode, $t, $f, $ya_config, $titanium_user, $p;
+    global $stop, $pnt_module, $redirect, $mode, $t, $f, $ya_config, $titanium_user, $p;
     if(!is_user()) {
         include_once(NUKE_BASE_DIR.'header.php');
         mt_srand ((double)microtime()*1000000);
@@ -376,7 +376,7 @@ function mmain($titanium_user) {
 		# align this motherfucker
 		echo '<div align="center">';
 		
-		echo "<form action=\"modules.php?name=".$titanium_module_name."\" method=\"post\">\n";
+		echo "<form action=\"modules.php?name=".$pnt_module."\" method=\"post\">\n";
         echo "<table border=\"0\">\n";
         
 		echo "<tr><td>"._NICKNAME.":</td><td><input type=\"text\" name=\"username\" size=\"25\" maxlength=\"25\"></td></tr>\n";
@@ -418,12 +418,12 @@ function mmain($titanium_user) {
         include_once(NUKE_BASE_DIR.'footer.php');
     } elseif (is_user()) {
         global $cookie;
-        redirect_titanium("modules.php?name=$titanium_module_name&op=userinfo&username=$cookie[1]");
+        redirect_titanium("modules.php?name=$pnt_module&op=userinfo&username=$cookie[1]");
     }
 }
 
 function yapagenums($op, $totalselected, $perpage, $max, $find, $what, $match, $query) {
-    global $titanium_module_name;
+    global $pnt_module;
     $pagesint = ($totalselected / $perpage);
     $pageremainder = ($totalselected % $perpage);
     if ($pageremainder != 0) {
@@ -436,7 +436,7 @@ function yapagenums($op, $totalselected, $perpage, $max, $find, $what, $match, $
         $counter = 1;
         $currentpage = ($max / $perpage);
         echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-        echo "<tr><form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+        echo "<tr><form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
         echo "<input type='hidden' name='op' value='$op'>\n";
         if ($what > "")    { echo "<input type='hidden' name='what' value='$what'>\n"; }
         if ($find > "")    { echo "<input type='hidden' name='find' value='$find'>\n"; }

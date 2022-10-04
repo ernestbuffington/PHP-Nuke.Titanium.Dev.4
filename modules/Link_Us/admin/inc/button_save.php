@@ -40,7 +40,7 @@ if($config['button_method'] == 0){
       }
     }
 		
-		if (check_image_type($_FILES['site_image']['type']) == false){ echo $titanium_lang_new[$titanium_module_name]['ERROR']; }
+		if (check_image_type($_FILES['site_image']['type']) == false){ echo $lang_new[$pnt_module]['ERROR']; }
 		if (move_uploaded_file($_FILES['site_image']['tmp_name'], $config['upload_file'] . $_FILES['site_image']['name'])) {
 			$img_upload = $config['upload_file'].$_FILES['site_image']['name'];
 		}

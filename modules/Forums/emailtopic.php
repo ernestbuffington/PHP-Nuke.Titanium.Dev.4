@@ -25,8 +25,8 @@ if (!defined('MODULE_FILE')) {
 
 if ($popup != "1")
 {
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -107,7 +107,7 @@ $row = $titanium_db->sql_fetchrow($result);
 $titanium_db->sql_freeresult($result);
 if($row['total'] >= $email_limit)
 {
-  message_die(GENERAL_MESSAGE, sprintf($titanium_lang['Email_max_exceeded'], $email_limit, $email_time));
+  message_die(GENERAL_MESSAGE, sprintf($lang['Email_max_exceeded'], $email_limit, $email_time));
 }
 */
 
@@ -121,17 +121,17 @@ if(isset($_POST['submit']))
 
   if(strlen($friend_name) < 3 || strlen($friend_email) < 3)
   {
-    message_die(GENERAL_MESSAGE, $titanium_lang['No_friend_specified']);
+    message_die(GENERAL_MESSAGE, $lang['No_friend_specified']);
   }
 
   if(strlen($friend_name) > 100)
   {
-    message_die(GENERAL_MESSAGE, $titanium_lang['Friend_name_too_long']);
+    message_die(GENERAL_MESSAGE, $lang['Friend_name_too_long']);
   }
 
   if(strlen($message) > 255)
   {
-    message_die(GENERAL_MESSAGE, $titanium_lang['Message_too_long']);
+    message_die(GENERAL_MESSAGE, $lang['Message_too_long']);
   }
 
 
@@ -147,7 +147,7 @@ if(isset($_POST['submit']))
   $emailer = new emailer($phpbb2_board_config['smtp_delivery']);
   $emailer->use_template('email_topic', $userdata['user_lang']);
   $emailer->email_address($friend_email);
-  $emailer->set_subject($titanium_lang['Email_topic']);
+  $emailer->set_subject($lang['Email_topic']);
   $emailer->assign_vars(array(
     'SITENAME'    => $phpbb2_board_config['sitename'],
     'USERNAME'    => $userdata['username'],
@@ -177,7 +177,7 @@ if(isset($_POST['submit']))
   $redirect = ($post_id) ? POST_POST_URL . "=$post_id" : POST_TOPIC_URL . "=$topic_id&amp;start=$phpbb2_start";
   $phpbb2_template->assign_var('META', '<meta http-equiv="refresh" content="3; url=' . append_titanium_sid("viewtopic.$phpEx?$redirect") . (($post_id) ? "#$post_id" : '') . '" />');
 
-  $msg = $titanium_lang['Email_sent'] . '<br /><br />' . sprintf($titanium_lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?$redirect") . (($post_id) ? "#$post_id" : '') . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
+  $msg = $lang['Email_sent'] . '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?$redirect") . (($post_id) ? "#$post_id" : '') . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
   message_die(GENERAL_MESSAGE, $msg);
 }
 
@@ -191,7 +191,7 @@ $s_hidden_fields .= '<input type="hidden" name="start" value="' . $phpbb2_start 
 
 
 // Output page to template
-$phpbb2_page_title = $titanium_lang['Email_topic'];
+$phpbb2_page_title = $lang['Email_topic'];
 include('includes/page_header.'.$phpEx);
 
 $phpbb2_template->set_filenames(array('body' => 'email_topic_body.tpl'));
@@ -199,14 +199,14 @@ $phpbb2_template->set_filenames(array('body' => 'email_topic_body.tpl'));
 make_jumpbox('viewforum.'.$phpEx, $phpbb2_forum_id);
 
 $phpbb2_template->assign_vars(array(
-  'L_TITLE'     => $titanium_lang['Email_topic_settings'],
+  'L_TITLE'     => $lang['Email_topic_settings'],
 
-  'L_FRIEND_NAME'   => $titanium_lang['Friend_name'],
-  'L_FRIEND_EMAIL'  => $titanium_lang['Friend_email'],
-  'L_MESSAGE'     => $titanium_lang['Message'],
-  'L_MESSAGE_EXPLAIN' => $titanium_lang['Message_explain'],
-  'L_SUBJECT'     => $titanium_lang['Subject'],
-  'L_SUBMIT'      => $titanium_lang['Submit'],
+  'L_FRIEND_NAME'   => $lang['Friend_name'],
+  'L_FRIEND_EMAIL'  => $lang['Friend_email'],
+  'L_MESSAGE'     => $lang['Message'],
+  'L_MESSAGE_EXPLAIN' => $lang['Message_explain'],
+  'L_SUBJECT'     => $lang['Subject'],
+  'L_SUBMIT'      => $lang['Submit'],
 
   'TOPIC_TITLE'   => $topic_title,
 

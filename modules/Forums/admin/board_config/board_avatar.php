@@ -54,31 +54,31 @@ $phpbb2_template->assign_vars(array(
     
 //Language Template variables
 $phpbb2_template->assign_vars(array(
-    "L_AVATAR_SETTINGS" => $titanium_lang['Avatar_settings'],
+    "L_AVATAR_SETTINGS" => $lang['Avatar_settings'],
 /*****[BEGIN]******************************************
  [ Mod:     Default avatar                     v1.1.0 ]
  ******************************************************/
-    "L_DEFAULT_AVATAR" => $titanium_lang['Default_avatar'],
-    "L_DEFAULT_AVATAR_EXPLAIN" => $titanium_lang['Default_avatar_explain'],
-    "L_DEFAULT_AVATAR_GUESTS" => $titanium_lang['Default_avatar_guests'],
-    "L_DEFAULT_AVATAR_USERS" => $titanium_lang['Default_avatar_users'],
-    "L_DEFAULT_AVATAR_BOTH" => $titanium_lang['Default_avatar_both'],
-    "L_DEFAULT_AVATAR_NONE" => $titanium_lang['Default_avatar_none'],
+    "L_DEFAULT_AVATAR" => $lang['Default_avatar'],
+    "L_DEFAULT_AVATAR_EXPLAIN" => $lang['Default_avatar_explain'],
+    "L_DEFAULT_AVATAR_GUESTS" => $lang['Default_avatar_guests'],
+    "L_DEFAULT_AVATAR_USERS" => $lang['Default_avatar_users'],
+    "L_DEFAULT_AVATAR_BOTH" => $lang['Default_avatar_both'],
+    "L_DEFAULT_AVATAR_NONE" => $lang['Default_avatar_none'],
 /*****[END]********************************************
  [ Mod:     Default avatar                     v1.1.0 ]
  ******************************************************/
-    "L_ALLOW_LOCAL" => $titanium_lang['Allow_local'],
-    "L_ALLOW_REMOTE" => $titanium_lang['Allow_remote'],
-    "L_ALLOW_REMOTE_EXPLAIN" => $titanium_lang['Allow_remote_explain'],
-    "L_ALLOW_UPLOAD" => $titanium_lang['Allow_upload'],
-    "L_MAX_FILESIZE" => $titanium_lang['Max_filesize'],
-    "L_MAX_FILESIZE_EXPLAIN" => $titanium_lang['Max_filesize_explain'],
-    "L_MAX_AVATAR_SIZE" => $titanium_lang['Max_avatar_size'],
-    "L_MAX_AVATAR_SIZE_EXPLAIN" => $titanium_lang['Max_avatar_size_explain'],
-    "L_AVATAR_STORAGE_PATH" => $titanium_lang['Avatar_storage_path'],
-    "L_AVATAR_STORAGE_PATH_EXPLAIN" => $titanium_lang['Avatar_storage_path_explain'],
-    "L_AVATAR_GALLERY_PATH" => $titanium_lang['Avatar_gallery_path'],
-    "L_AVATAR_GALLERY_PATH_EXPLAIN" => $titanium_lang['Avatar_gallery_path_explain'],
+    "L_ALLOW_LOCAL" => $lang['Allow_local'],
+    "L_ALLOW_REMOTE" => $lang['Allow_remote'],
+    "L_ALLOW_REMOTE_EXPLAIN" => $lang['Allow_remote_explain'],
+    "L_ALLOW_UPLOAD" => $lang['Allow_upload'],
+    "L_MAX_FILESIZE" => $lang['Max_filesize'],
+    "L_MAX_FILESIZE_EXPLAIN" => $lang['Max_filesize_explain'],
+    "L_MAX_AVATAR_SIZE" => $lang['Max_avatar_size'],
+    "L_MAX_AVATAR_SIZE_EXPLAIN" => $lang['Max_avatar_size_explain'],
+    "L_AVATAR_STORAGE_PATH" => $lang['Avatar_storage_path'],
+    "L_AVATAR_STORAGE_PATH_EXPLAIN" => $lang['Avatar_storage_path_explain'],
+    "L_AVATAR_GALLERY_PATH" => $lang['Avatar_gallery_path'],
+    "L_AVATAR_GALLERY_PATH_EXPLAIN" => $lang['Avatar_gallery_path_explain'],
 ));
 
 //Data Template Variables

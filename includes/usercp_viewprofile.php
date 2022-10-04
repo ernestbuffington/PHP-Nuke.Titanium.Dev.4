@@ -46,7 +46,7 @@ if (!defined('IN_PHPBB2'))
 exit('ACCESS DENIED');
 
 if(empty($HTTP_GET_VARS[POST_USERS_URL]) || $HTTP_GET_VARS[POST_USERS_URL] == ANONYMOUS)
-message_die(GENERAL_MESSAGE, $titanium_lang['No_user_id_specified']);
+message_die(GENERAL_MESSAGE, $lang['No_user_id_specified']);
 
 $profiledata = get_userdata($HTTP_GET_VARS[POST_USERS_URL]);
 /*****[BEGIN]******************************************
@@ -77,7 +77,7 @@ endif;
  ******************************************************/
 
 if(!$profiledata)
-message_die(GENERAL_MESSAGE, $titanium_lang['No_user_id_specified']);
+message_die(GENERAL_MESSAGE, $lang['No_user_id_specified']);
 
 /*****[BEGIN]******************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
@@ -171,9 +171,9 @@ $temp_url = append_titanium_sid("privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL
 
 if(is_active("Private_Messages")) 
 {
-	$pm_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_pm'] . '" alt="' . $titanium_lang['Send_private_message'] . '" title="' . $titanium_lang['Send_private_message'] . '" border="0" /></a>';
-	// $pm = '<a href="' . $temp_url . '">' . $titanium_lang['Send_private_message'] . '</a>';
-	$pm = '<a href="' . $temp_url . '">' . sprintf($titanium_lang['Send_private_message'], $profiledata['username']) . '</a>';
+	$pm_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_pm'] . '" alt="' . $lang['Send_private_message'] . '" title="' . $lang['Send_private_message'] . '" border="0" /></a>';
+	// $pm = '<a href="' . $temp_url . '">' . $lang['Send_private_message'] . '</a>';
+	$pm = '<a href="' . $temp_url . '">' . sprintf($lang['Send_private_message'], $profiledata['username']) . '</a>';
 }
 
 /*****[BEGIN]******************************************
@@ -189,8 +189,8 @@ if (!empty($profiledata['user_viewemail']) || ($profiledata['username'] == $user
 {
     $email_uri = ( $phpbb2_board_config['board_email_form'] ) ? append_titanium_sid("profile.$phpEx?mode=email&amp;".POST_USERS_URL
 	.'='.$profiledata['user_id']) : 'mailto:' .$profiledata['user_email'];
-    $email_img = '<a href="' . $email_uri . '"><img src="' . $images['icon_email'] . '" alt="' . $titanium_lang['Send_email'] . '" title="' . $titanium_lang['Send_email'] . '" border="0" /></a>';
-    $email = '<a href="' . $email_uri . '">' . sprintf($titanium_lang['Send_email'], $profiledata['username']) . '</a>';
+    $email_img = '<a href="' . $email_uri . '"><img src="' . $images['icon_email'] . '" alt="' . $lang['Send_email'] . '" title="' . $lang['Send_email'] . '" border="0" /></a>';
+    $email = '<a href="' . $email_uri . '">' . sprintf($lang['Send_email'], $profiledata['username']) . '</a>';
 }
 else
 {
@@ -209,7 +209,7 @@ if(isset($profiledata['user-website']))
     }
 }
 
-$www_img = ( $profiledata['user_website'] ) ? '<a href="' . $profiledata['user_website'] . '" target="_userwww"><img src="' . $images['icon_www'] . '" alt="' . $titanium_lang['Visit_website'] . '" title="' . $titanium_lang['Visit_website'] . '" border="0" /></a>' : '&nbsp;';
+$www_img = ( $profiledata['user_website'] ) ? '<a href="' . $profiledata['user_website'] . '" target="_userwww"><img src="' . $images['icon_www'] . '" alt="' . $lang['Visit_website'] . '" title="' . $lang['Visit_website'] . '" border="0" /></a>' : '&nbsp;';
 $www = ( $profiledata['user_website'] ) ? '<a href="' . $profiledata['user_website'] . '" target="_userwww">' . $profiledata['user_website'] . '</a>' : '';
 
 /*****[BEGIN]******************************************
@@ -224,7 +224,7 @@ if ( !empty($profiledata['user_birthday']) && $profiledata['birthday_display'] <
 	$bday_day = $bday_parts[2];
 	//$phpbb2_bday_year = ( $profiledata['birthday_display'] != BIRTHDAY_DATE ) ? $bday_parts[3] : 0;
 	$phpbb2_bday_year = ( $profiledata['birthday_display'] <> 1 ) ? $bday_parts[3] : 0;
-	$birthday_format = ($phpbb2_bday_year != 0) ? str_replace(array('y','Y'), array($phpbb2_bday_year % 100,$phpbb2_bday_year), $titanium_lang['DATE_FORMAT']) : preg_replace('#[^djFmMnYy]*[Yy]#','',$titanium_lang['DATE_FORMAT']);
+	$birthday_format = ($phpbb2_bday_year != 0) ? str_replace(array('y','Y'), array($phpbb2_bday_year % 100,$phpbb2_bday_year), $lang['DATE_FORMAT']) : preg_replace('#[^djFmMnYy]*[Yy]#','',$lang['DATE_FORMAT']);
 	$birthday = create_date($birthday_format, gmmktime(12,0,0,$bday_month,$bday_day,2000), 0);
 }
 elseif( $profiledata['birthday_display'] == 2 )
@@ -238,12 +238,12 @@ elseif( $profiledata['birthday_display'] == 2 )
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
 
-$facebook_img = ( $profiledata['user_facebook'] ) ? '<a href="http://www.facebook.com/profile.php?id=' . $profiledata['user_facebook'] . '" target="_userwww"><img src="' . $images['icon_facebook'] . '" alt="' . $titanium_lang['Visit_facebook'] . '" title="' . $titanium_lang['Visit_facebook'] . '" border="0" /></a>' : '&nbsp;';
+$facebook_img = ( $profiledata['user_facebook'] ) ? '<a href="http://www.facebook.com/profile.php?id=' . $profiledata['user_facebook'] . '" target="_userwww"><img src="' . $images['icon_facebook'] . '" alt="' . $lang['Visit_facebook'] . '" title="' . $lang['Visit_facebook'] . '" border="0" /></a>' : '&nbsp;';
 $facebook = ( $profiledata['user_facebook'] ) ? '<a href="' . $temp_url . '" target="_userwww">' . $profiledata['user_facebook'] . '</a>' : '&nbsp;';
 
 $temp_url = append_titanium_sid("search.$phpEx?search_author=" . urlencode($profiledata['username']) . "&amp;showresults=posts");
-$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . sprintf($titanium_lang['Search_user_posts'], $profiledata['username']) . '" title="' . sprintf($titanium_lang['Search_user_posts'], $profiledata['username']) . '" border="0" /></a>';
-$search = '<a href="' . $temp_url . '">' . sprintf($titanium_lang['Search_user_posts'], $profiledata['username']) . '</a>';
+$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . sprintf($lang['Search_user_posts'], $profiledata['username']) . '" title="' . sprintf($lang['Search_user_posts'], $profiledata['username']) . '" border="0" /></a>';
+$search = '<a href="' . $temp_url . '">' . sprintf($lang['Search_user_posts'], $profiledata['username']) . '</a>';
 
 /*****[BEGIN]******************************************
  [ Mod:    Gender                              v1.2.6 ]
@@ -252,11 +252,11 @@ if ( !empty($profiledata['user_gender']))
 { 
     switch ($profiledata['user_gender']) 
     { 
-        case 1: $gender=$titanium_lang['Male'];break; 
-        case 2: $gender=$titanium_lang['Female'];break; 
-        default:$gender=$titanium_lang['No_gender_specify']; 
+        case 1: $gender=$lang['Male'];break; 
+        case 2: $gender=$lang['Female'];break; 
+        default:$gender=$lang['No_gender_specify']; 
     } 
-} else $gender=$titanium_lang['No_gender_specify'];
+} else $gender=$lang['No_gender_specify'];
 /*****[END]********************************************
  [ Mod:    Gender                              v1.2.6 ]
  ******************************************************/
@@ -268,7 +268,7 @@ if ( !empty($profiledata['user_gender']))
 if ($profiledata['user_lastvisit'] != 0)
 	$titanium_user_last_visit = date($phpbb2_board_config['default_dateformat'],$profiledata['user_lastvisit']);
 else
-	$titanium_user_last_visit = $titanium_lang['not_available'];
+	$titanium_user_last_visit = $lang['not_available'];
 
 //
 // Generate page
@@ -279,7 +279,7 @@ else
 if($userdata['user_level'] == ADMIN)
 {
     $phpbb2_template->assign_vars(array(
-        "L_USER_ADMIN_FOR" => $titanium_lang['User_admin_for'],
+        "L_USER_ADMIN_FOR" => $lang['User_admin_for'],
         "U_ADMIN_PROFILE" => append_titanium_sid("modules/Forums/admin/admin_users.$phpEx?mode=edit&amp;u=" . $profiledata['user_id']))
     );
     $phpbb2_template->assign_block_vars("switch_user_admin", array());
@@ -287,7 +287,7 @@ if($userdata['user_level'] == ADMIN)
 /*****[END]********************************************
  [ Mod:    User Administration Link on Profile v1.0.0 ]
  ******************************************************/
-$phpbb2_page_title = $titanium_lang['Viewing_profile'];
+$phpbb2_page_title = $lang['Viewing_profile'];
 include("includes/page_header.php");
 /*****[BEGIN]******************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
@@ -295,15 +295,15 @@ include("includes/page_header.php");
 if ($profiledata['user_session_time'] >= (time()-$phpbb2_board_config['online_time'])):
 
     if ($profiledata['user_allow_viewonline']):
-        $online_status = '<a href="'.append_titanium_sid("viewonline.$phpEx").'" title="'.sprintf($titanium_lang['is_online'], $profiledata['username']).'"'.$online_color.'>'.$titanium_lang['Online'].'</a>';
+        $online_status = '<a href="'.append_titanium_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'], $profiledata['username']).'"'.$online_color.'>'.$lang['Online'].'</a>';
     elseif ( $userdata['user_level'] == ADMIN || $userdata['user_id'] == $profiledata['user_id'] ):
-        $online_status = '<em><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' . sprintf($titanium_lang['is_hidden'], $profiledata['username']) . '"' . $hidden_color . '>' . $titanium_lang['Hidden'] . '</a></em>';
+        $online_status = '<em><a href="' . append_titanium_sid("viewonline.$phpEx") . '" title="' . sprintf($lang['is_hidden'], $profiledata['username']) . '"' . $hidden_color . '>' . $lang['Hidden'] . '</a></em>';
     else:
-        $online_status = '<span title="' . sprintf($titanium_lang['is_offline'], $profiledata['username']) . '"' . $offline_color . '>' . $titanium_lang['Offline'] . '</span>';
+        $online_status = '<span title="' . sprintf($lang['is_offline'], $profiledata['username']) . '"' . $offline_color . '>' . $lang['Offline'] . '</span>';
     endif;
 
 else:
-    $online_status = '<span title="' . sprintf($titanium_lang['is_offline'], $profiledata['username']) . '"' . $offline_color . '>' . $titanium_lang['Offline'] . '</span>';
+    $online_status = '<span title="' . sprintf($lang['is_offline'], $profiledata['username']) . '"' . $offline_color . '>' . $lang['Offline'] . '</span>';
 endif;
 /*****[END]********************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
@@ -349,7 +349,7 @@ if ($rep_config['rep_disable'] == 0)
 {
   if ($profiledata['user_reputation'] == 0)
   {
-    $reputation = $titanium_lang['Zero_reputation'];
+    $reputation = $lang['Zero_reputation'];
   } else
   {
     if ($rep_config['graphic_version'] == 0)
@@ -379,7 +379,7 @@ if ($rep_config['rep_disable'] == 0)
   $row_rep = $titanium_db->sql_fetchrow($result);
   if ($row_rep)
   {
-    $reputation .= " <br />(<a href=\""  . append_titanium_sid("reputation.$phpEx?a=stats&amp;" . POST_USERS_URL . "=" . $profiledata['user_id']) . "\" target=\"_blank\" onClick=\"popupWin = window.open(this.href, '" . $titanium_lang['Reputation'] . "', 'location,width=700,height=400,top=0,scrollbars=yes'); popupWin.focus(); return false;\">" . $titanium_lang['Votes'] . "</a>: " . $row_rep['count_reps'] . ")";
+    $reputation .= " <br />(<a href=\""  . append_titanium_sid("reputation.$phpEx?a=stats&amp;" . POST_USERS_URL . "=" . $profiledata['user_id']) . "\" target=\"_blank\" onClick=\"popupWin = window.open(this.href, '" . $lang['Reputation'] . "', 'location,width=700,height=400,top=0,scrollbars=yes'); popupWin.focus(); return false;\">" . $lang['Votes'] . "</a>: " . $row_rep['count_reps'] . ")";
   }
 }
 /*****[END]********************************************
@@ -469,8 +469,8 @@ $phpbb2_template->assign_vars(array(
     'POSTS_PER_DAY' => $phpbb2_posts_per_day,
     'POSTS' => $profiledata['user_posts'],
     'PERCENTAGE' => $percentage . '%',
-    'POST_DAY_STATS' => sprintf($titanium_lang['User_post_day_stats'], $phpbb2_posts_per_day),
-    'POST_PERCENT_STATS' => sprintf($titanium_lang['User_post_pct_stats'], $percentage),
+    'POST_DAY_STATS' => sprintf($lang['User_post_day_stats'], $phpbb2_posts_per_day),
+    'POST_PERCENT_STATS' => sprintf($lang['User_post_pct_stats'], $percentage),
 /*****[BEGIN]******************************************
  [ Mod:     Users Reputations Systems          v1.0.0 ]
  ******************************************************/
@@ -503,10 +503,10 @@ $phpbb2_template->assign_vars(array(
  * @since 2.0.9e
  */
 	'USER_LAST_VISIT' => $titanium_user_last_visit,
-  'EDIT_THIS_USER' => sprintf($titanium_lang['Edit_Forum_User_ACP'],'<a href="'.append_titanium_sid("modules/Forums/admin/admin_users.$phpEx?mode=edit&amp;u=" . $profiledata['user_id']).'">','</a>'),
-  'BAN_THIS_USER_IP' => sprintf($titanium_lang['Ban_Forum_User_IP'],'<a href="'.$admin_file.'.php?op=ABBlockedIPAdd&amp;tip='.$profiledata['last_ip'].'">','</a>'),
-  'SUSPEND_THIS_USER' => sprintf($titanium_lang['Suspend_This_User'],'<a href="modules.php?name=Your_Account&amp;file=admin&amp;op=suspendUser&amp;chng_uid='.$profiledata['user_id'].'">','</a>'),
-  'DELETE_THIS_USER' => sprintf($titanium_lang['Delete_This_User'],'<a href="modules.php?name=Your_Account&amp;file=admin&amp;op=deleteUser&amp;chng_uid='.$profiledata['user_id'].'">','</a>'),
+  'EDIT_THIS_USER' => sprintf($lang['Edit_Forum_User_ACP'],'<a href="'.append_titanium_sid("modules/Forums/admin/admin_users.$phpEx?mode=edit&amp;u=" . $profiledata['user_id']).'">','</a>'),
+  'BAN_THIS_USER_IP' => sprintf($lang['Ban_Forum_User_IP'],'<a href="'.$admin_file.'.php?op=ABBlockedIPAdd&amp;tip='.$profiledata['last_ip'].'">','</a>'),
+  'SUSPEND_THIS_USER' => sprintf($lang['Suspend_This_User'],'<a href="modules.php?name=Your_Account&amp;file=admin&amp;op=suspendUser&amp;chng_uid='.$profiledata['user_id'].'">','</a>'),
+  'DELETE_THIS_USER' => sprintf($lang['Delete_This_User'],'<a href="modules.php?name=Your_Account&amp;file=admin&amp;op=deleteUser&amp;chng_uid='.$profiledata['user_id'].'">','</a>'),
 
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
@@ -543,7 +543,7 @@ $phpbb2_template->assign_vars(array(
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
     'ADMIN_NOTES' => $profiledata['user_admin_notes'],
-    'L_ADMIN_NOTES' => $titanium_lang['Admin_notes'],
+    'L_ADMIN_NOTES' => $lang['Admin_notes'],
 /*****[END]********************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/	
@@ -551,77 +551,77 @@ $phpbb2_template->assign_vars(array(
  [ Mod:    View Sig                            v1.0.0 ]
  ******************************************************/
     'USER_SIG' => $titanium_user_sig,
-    'L_SIG' => $titanium_lang['Signature'],
+    'L_SIG' => $lang['Signature'],
 /*****[END]********************************************
  [ Mod:    View Sig                            v1.0.0 ]
  ******************************************************/
 
- 	'L_CONTACT_DETAILS' => sprintf($titanium_lang['User_contact_details'], $profiledata['username']),
- 	'L_FORUM_INFO' => sprintf($titanium_lang['Forum_Info'], $profiledata['username']),
- 	'L_ADDITIONAL_INFO' => sprintf($titanium_lang['Additional_info'], $profiledata['username']),
- 	'L_USERS_SIGNATURE' => sprintf($titanium_lang['Users_signature'], $profiledata['username']),
+ 	'L_CONTACT_DETAILS' => sprintf($lang['User_contact_details'], $profiledata['username']),
+ 	'L_FORUM_INFO' => sprintf($lang['Forum_Info'], $profiledata['username']),
+ 	'L_ADDITIONAL_INFO' => sprintf($lang['Additional_info'], $profiledata['username']),
+ 	'L_USERS_SIGNATURE' => sprintf($lang['Users_signature'], $profiledata['username']),
 
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-    'L_VIEWING_PROFILE' => sprintf($titanium_lang['Viewing_user_profile'], UsernameColor($profiledata['username'])),
-    'L_ABOUT_USER' => sprintf($titanium_lang['About_user'], UsernameColor($profiledata['username'])),
+    'L_VIEWING_PROFILE' => sprintf($lang['Viewing_user_profile'], UsernameColor($profiledata['username'])),
+    'L_ABOUT_USER' => sprintf($lang['About_user'], UsernameColor($profiledata['username'])),
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-    'L_AVATAR' => $titanium_lang['Avatar'],
-    'L_POSTER_RANK' => $titanium_lang['Poster_rank'],
-    'L_JOINED' => $titanium_lang['Joined'],
+    'L_AVATAR' => $lang['Avatar'],
+    'L_POSTER_RANK' => $lang['Poster_rank'],
+    'L_JOINED' => $lang['Joined'],
 /*****[BEGIN]******************************************
  [ Mod:    Show Groups                         v1.0.1 ]
  ******************************************************/
-    'L_GROUPS' => $titanium_lang['Groups'],
+    'L_GROUPS' => $lang['Groups'],
 /*****[END]********************************************
  [ Mod:    Show Groups                         v1.0.1 ]
  ******************************************************/
-    'L_TOTAL_POSTS' => $titanium_lang['Total_posts'],
+    'L_TOTAL_POSTS' => $lang['Total_posts'],
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-    'L_SEARCH_USER_POSTS' => sprintf($titanium_lang['Search_user_posts'], UsernameColor($profiledata['username'])),
+    'L_SEARCH_USER_POSTS' => sprintf($lang['Search_user_posts'], UsernameColor($profiledata['username'])),
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-    'L_CONTACT' => $titanium_lang['Contact'],
-    'L_EMAIL_ADDRESS' => $titanium_lang['Email_address'],
-    'L_EMAIL' => $titanium_lang['Email'],
-    'L_PM' => $titanium_lang['Private_Message'],
-	'L_FACEBOOK_PROFILE' => $titanium_lang['FACEBOOK_PROFILE'],
-	'L_VISIT_FACEBOOK' => $titanium_lang['Visit_facebook'],
+    'L_CONTACT' => $lang['Contact'],
+    'L_EMAIL_ADDRESS' => $lang['Email_address'],
+    'L_EMAIL' => $lang['Email'],
+    'L_PM' => $lang['Private_Message'],
+	'L_FACEBOOK_PROFILE' => $lang['FACEBOOK_PROFILE'],
+	'L_VISIT_FACEBOOK' => $lang['Visit_facebook'],
 
 /**
  * Mod: Display the users last visit date and time.
  * @since 2.0.9e
  */
-	'L_USER_LAST_VISIT' => $titanium_lang['User_last_visit'],
+	'L_USER_LAST_VISIT' => $lang['User_last_visit'],
 
-    'L_WEBSITE' => $titanium_lang['Website'],
+    'L_WEBSITE' => $lang['Website'],
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-	'L_BIRTHDAY' => $titanium_lang['Birthday'],
+	'L_BIRTHDAY' => $lang['Birthday'],
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-    'L_LOCATION' => $titanium_lang['Location'],
-    'L_OCCUPATION' => $titanium_lang['Occupation'],
-    'L_INTERESTS' => $titanium_lang['Interests'],
+    'L_LOCATION' => $lang['Location'],
+    'L_OCCUPATION' => $lang['Occupation'],
+    'L_INTERESTS' => $lang['Interests'],
 /*****[BEGIN]******************************************
  [ Mod:    Gender                              v1.2.6 ]
  ******************************************************/
-    'L_GENDER' => $titanium_lang['Gender'], 
+    'L_GENDER' => $lang['Gender'], 
 /*****[END]********************************************
  [ Mod:    Gender                              v1.2.6 ]
  ******************************************************/
 /*****[BEGIN]******************************************
  [ Mod:    YA Merge                            v1.0.0 ]
  ******************************************************/
-    'L_EXTRA_INFO' => $titanium_lang['Extra_Info'],
+    'L_EXTRA_INFO' => $lang['Extra_Info'],
 /*****[END]********************************************
  [ Mod:    YA Merge                            v1.0.0 ]
  ******************************************************/
@@ -629,8 +629,8 @@ $phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     Arcade                             v3.0.2 ]
  ******************************************************/
-    'L_ARCADE' => $titanium_lang['lib_arcade'],
-    'URL_STATS' => '<a href="' . append_titanium_sid("statarcade.$phpEx?uid=" . $profiledata['user_id'] ) . '">' . $titanium_lang['statuser'] . '</a>',
+    'L_ARCADE' => $lang['lib_arcade'],
+    'URL_STATS' => '<a href="' . append_titanium_sid("statarcade.$phpEx?uid=" . $profiledata['user_id'] ) . '">' . $lang['statuser'] . '</a>',
 /*****[END]********************************************
  [ Mod:     Arcade                             v3.0.2 ]
  ******************************************************/
@@ -640,7 +640,7 @@ $phpbb2_template->assign_vars(array(
  ******************************************************/
     'ONLINE_STATUS_IMG' => $online_status_img,
     'ONLINE_STATUS' => $online_status,
-    'L_ONLINE_STATUS' => $titanium_lang['Online_status'],
+    'L_ONLINE_STATUS' => $lang['Online_status'],
 /*****[END]********************************************
  [ Mod:    Online/Offline/Hidden               v2.2.7 ]
  ******************************************************/

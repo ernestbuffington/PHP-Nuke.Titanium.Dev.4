@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
     $pagetitle = ": "._USERADMIN." - "._DETUSER;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -81,19 +81,19 @@ if(is_mod_admin($titanium_module_name)) {
     echo "<tr><td colspan=\"2\" align=\"left\"><br />\n";
 
         echo "<table cellspacing=\"0\" cellpadding=\"0\" border='0'><tr>\n";
-        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td>\n";
+        echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'><td>\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
         echo "<input type='submit' value='"._RETURN."'></td></form>\n";
         echo "<td width=\"3\"></td>\n";
-        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td>\n";
+        echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'><td>\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
         echo "<input type='hidden' name='op' value='modifyTemp'>\n";
         echo "<input type='hidden' name='chng_uid' value='".$chnginfo['user_id']."'>\n";
         echo "<input type='submit' value='"._MODIFY."'></td></form>\n";
         echo "<td width=\"3\"></td>\n";
-        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td>\n";
+        echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'><td>\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
         echo "<input type='hidden' name='op' value='denyUser'>\n";
@@ -101,14 +101,14 @@ if(is_mod_admin($titanium_module_name)) {
         echo "<input type='submit' value='"._DENY."'></td></form>\n";
         echo "<td width=\"3\"></td>\n";
             if ($ya_config['useactivate'] == 0) {
-                echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td valign=\"top\">\n";
+                echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'><td valign=\"top\">\n";
                 if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
                 if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
                 echo "<input type='hidden' name='op' value='approveUserConf'>\n";
                 echo "<input type='hidden' name='apr_uid' value='".$chnginfo['user_id']."'>\n";
                 echo "<input type='submit' value='"._YA_APPROVE."'></td></form>\n";
             } else {
-                echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td>\n";
+                echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'><td>\n";
                 if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
                 if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
                 echo "<input type='hidden' name='op' value='activateUser'>\n";

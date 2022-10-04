@@ -104,7 +104,7 @@ if( $mode != "" )
                         }
                         else
                         {
-                                message_die(GENERAL_MESSAGE, $titanium_lang['No_word_selected']);
+                                message_die(GENERAL_MESSAGE, $lang['No_word_selected']);
                         }
                 }
 
@@ -112,12 +112,12 @@ if( $mode != "" )
                         "WORD" => htmlspecialchars($word_info['word']),
 			            "REPLACEMENT" => htmlspecialchars($word_info['replacement']),
 
-                        "L_WORDS_TITLE" => $titanium_lang['Words_title'],
-                        "L_WORDS_TEXT" => $titanium_lang['Words_explain'],
-                        "L_WORD_CENSOR" => $titanium_lang['Edit_word_censor'],
-                        "L_WORD" => $titanium_lang['Word'],
-                        "L_REPLACEMENT" => $titanium_lang['Replacement'],
-                        "L_SUBMIT" => $titanium_lang['Submit'],
+                        "L_WORDS_TITLE" => $lang['Words_title'],
+                        "L_WORDS_TEXT" => $lang['Words_explain'],
+                        "L_WORD_CENSOR" => $lang['Edit_word_censor'],
+                        "L_WORD" => $lang['Word'],
+                        "L_REPLACEMENT" => $lang['Replacement'],
+                        "L_SUBMIT" => $lang['Submit'],
 
                         "S_WORDS_ACTION" => append_titanium_sid("admin_words.$phpEx"),
                         "S_HIDDEN_FIELDS" => $s_hidden_fields)
@@ -135,7 +135,7 @@ if( $mode != "" )
 
                 if(empty($word) || empty($replacement))
                 {
-                        message_die(GENERAL_MESSAGE, $titanium_lang['Must_enter_word']);
+                        message_die(GENERAL_MESSAGE, $lang['Must_enter_word']);
                 }
 
                 if( $word_id )
@@ -143,21 +143,21 @@ if( $mode != "" )
                         $sql = "UPDATE " . WORDS_TABLE . "
                                 SET word = '" . str_replace("\'", "''", $word) . "', replacement = '" . str_replace("\'", "''", $replacement) . "'
                                 WHERE word_id = $word_id";
-                        $message = $titanium_lang['Word_updated'];
+                        $message = $lang['Word_updated'];
                 }
                 else
                 {
                         $sql = "INSERT INTO " . WORDS_TABLE . " (word, replacement)
                                 VALUES ('" . str_replace("\'", "''", $word) . "', '" . str_replace("\'", "''", $replacement) . "')";
-                        $message = $titanium_lang['Word_added'];
+                        $message = $lang['Word_added'];
                 }
 
                 if(!$result = $titanium_db->sql_query($sql))
                 {
-                        message_die(GENERAL_ERROR, "Could not insert data into words table", $titanium_lang['Error'], __LINE__, __FILE__, $sql);
+                        message_die(GENERAL_ERROR, "Could not insert data into words table", $lang['Error'], __LINE__, __FILE__, $sql);
                 }
 
-                $message .= "<br /><br />" . sprintf($titanium_lang['Click_return_wordadmin'], "<a href=\"" . append_titanium_sid("admin_words.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                $message .= "<br /><br />" . sprintf($lang['Click_return_wordadmin'], "<a href=\"" . append_titanium_sid("admin_words.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                 message_die(GENERAL_MESSAGE, $message);
         }
@@ -180,10 +180,10 @@ if( $mode != "" )
 
                         if(!$result = $titanium_db->sql_query($sql))
                         {
-                                message_die(GENERAL_ERROR, "Could not remove data from words table", $titanium_lang['Error'], __LINE__, __FILE__, $sql);
+                                message_die(GENERAL_ERROR, "Could not remove data from words table", $lang['Error'], __LINE__, __FILE__, $sql);
                         }
 
-                        $message = $titanium_lang['Word_removed'] . "<br /><br />" . sprintf($titanium_lang['Click_return_wordadmin'], "<a href=\"" . append_titanium_sid("admin_words.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $lang['Word_removed'] . "<br /><br />" . sprintf($lang['Click_return_wordadmin'], "<a href=\"" . append_titanium_sid("admin_words.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                         message_die(GENERAL_MESSAGE, $message);
                 }
@@ -197,11 +197,11 @@ if( $mode != "" )
          			$hidden_fields = '<input type="hidden" name="mode" value="delete" /><input type="hidden" name="id" value="' . $word_id . '" />';
 
          			$phpbb2_template->assign_vars(array(
-         				'MESSAGE_TITLE' => $titanium_lang['Confirm'],
-         				'MESSAGE_TEXT' => $titanium_lang['Confirm_delete_word'],
+         				'MESSAGE_TITLE' => $lang['Confirm'],
+         				'MESSAGE_TEXT' => $lang['Confirm_delete_word'],
 
-         				'L_YES' => $titanium_lang['Yes'],
-         				'L_NO' => $titanium_lang['No'],
+         				'L_YES' => $lang['Yes'],
+         				'L_NO' => $lang['No'],
 
          				'S_CONFIRM_ACTION' => append_titanium_sid("admin_words.$phpEx"),
          				'S_HIDDEN_FIELDS' => $hidden_fields)
@@ -209,7 +209,7 @@ if( $mode != "" )
          		}
                 else
                 {
-                        message_die(GENERAL_MESSAGE, $titanium_lang['No_word_selected']);
+                        message_die(GENERAL_MESSAGE, $lang['No_word_selected']);
                 }
         }
 }
@@ -224,7 +224,7 @@ else
                 ORDER BY word";
         if( !$result = $titanium_db->sql_query($sql) )
         {
-                message_die(GENERAL_ERROR, "Could not query words table", $titanium_lang['Error'], __LINE__, __FILE__, $sql);
+                message_die(GENERAL_ERROR, "Could not query words table", $lang['Error'], __LINE__, __FILE__, $sql);
         }
 
         $word_rows = $titanium_db->sql_fetchrowset($result);
@@ -232,14 +232,14 @@ else
         $word_count = count($word_rows);
 
         $phpbb2_template->assign_vars(array(
-                "L_WORDS_TITLE" => $titanium_lang['Words_title'],
-                "L_WORDS_TEXT" => $titanium_lang['Words_explain'],
-                "L_WORD" => $titanium_lang['Word'],
-                "L_REPLACEMENT" => $titanium_lang['Replacement'],
-                "L_EDIT" => $titanium_lang['Edit'],
-                "L_DELETE" => $titanium_lang['Delete'],
-                "L_ADD_WORD" => $titanium_lang['Add_new_word'],
-                "L_ACTION" => $titanium_lang['Action'],
+                "L_WORDS_TITLE" => $lang['Words_title'],
+                "L_WORDS_TEXT" => $lang['Words_explain'],
+                "L_WORD" => $lang['Word'],
+                "L_REPLACEMENT" => $lang['Replacement'],
+                "L_EDIT" => $lang['Edit'],
+                "L_DELETE" => $lang['Delete'],
+                "L_ADD_WORD" => $lang['Add_new_word'],
+                "L_ACTION" => $lang['Action'],
 
                 "S_WORDS_ACTION" => append_titanium_sid("admin_words.$phpEx"),
                 "S_HIDDEN_FIELDS" => '')

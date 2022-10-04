@@ -16,6 +16,6 @@ $titanium_db2->sql_query("DELETE FROM `".$network_prefix."_tasks` WHERE `task_id
 $titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_tasks`");
 $titanium_db2->sql_query("DELETE FROM `".$network_prefix."_tasks_members` WHERE `task_id`='$task_id'");
 $titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_tasks_members`");
-header("Location: modules.php?name=$titanium_module_name&op=Project&project_id=".$task['project_id']);
+header("Location: modules.php?name=$pnt_module&op=Project&project_id=".$task['project_id']);
 
 ?>

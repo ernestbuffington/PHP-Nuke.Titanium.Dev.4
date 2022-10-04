@@ -195,7 +195,7 @@ if( isset($HTTP_GET_VARS['import_pack']) || isset($HTTP_POST_VARS['import_pack']
                         }
                 }
 
-                $message = $titanium_lang['smiley_import_success'] . "<br /><br />" . sprintf($titanium_lang['Click_return_smileadmin'], "<a href=\"" . append_titanium_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                $message = $lang['smiley_import_success'] . "<br /><br />" . sprintf($lang['Click_return_smileadmin'], "<a href=\"" . append_titanium_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                 message_die(GENERAL_MESSAGE, $message);
 
@@ -205,7 +205,7 @@ if( isset($HTTP_GET_VARS['import_pack']) || isset($HTTP_POST_VARS['import_pack']
                 //
                 // Display the script to get the smile_pak cfg file...
                 //
-                $smile_paks_select = "<select name='smile_pak'><option value=''>" . $titanium_lang['Select_pak'] . "</option>";
+                $smile_paks_select = "<select name='smile_pak'><option value=''>" . $lang['Select_pak'] . "</option>";
                 while( list($key, $value) = @each($smiley_paks) )
                 {
                         if ( !empty($value) )
@@ -222,15 +222,15 @@ if( isset($HTTP_GET_VARS['import_pack']) || isset($HTTP_POST_VARS['import_pack']
                 );
 
                 $phpbb2_template->assign_vars(array(
-                        "L_SMILEY_TITLE" => $titanium_lang['smiley_title'],
-                        "L_SMILEY_EXPLAIN" => $titanium_lang['smiley_import_inst'],
-                        "L_SMILEY_IMPORT" => $titanium_lang['smiley_import'],
-                        "L_SELECT_LBL" => $titanium_lang['choose_smile_pak'],
-                        "L_IMPORT" => $titanium_lang['import'],
-                        "L_CONFLICTS" => $titanium_lang['smile_conflicts'],
-                        "L_DEL_EXISTING" => $titanium_lang['del_existing_smileys'],
-                        "L_REPLACE_EXISTING" => $titanium_lang['replace_existing'],
-                        "L_KEEP_EXISTING" => $titanium_lang['keep_existing'],
+                        "L_SMILEY_TITLE" => $lang['smiley_title'],
+                        "L_SMILEY_EXPLAIN" => $lang['smiley_import_inst'],
+                        "L_SMILEY_IMPORT" => $lang['smiley_import'],
+                        "L_SELECT_LBL" => $lang['choose_smile_pak'],
+                        "L_IMPORT" => $lang['import'],
+                        "L_CONFLICTS" => $lang['smile_conflicts'],
+                        "L_DEL_EXISTING" => $lang['del_existing_smileys'],
+                        "L_REPLACE_EXISTING" => $lang['replace_existing'],
+                        "L_KEEP_EXISTING" => $lang['keep_existing'],
 
                         "S_SMILEY_ACTION" => append_titanium_sid("admin_smilies.$phpEx"),
                         "S_SMILE_SELECT" => $smile_paks_select,
@@ -272,7 +272,7 @@ else if( isset($HTTP_POST_VARS['export_pack']) || isset($HTTP_GET_VARS['export_p
                 exit;
         }
 
-        $message = sprintf($titanium_lang['export_smiles'], "<a href=\"" . append_titanium_sid("admin_smilies.$phpEx?export_pack=send", true) . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_smileadmin'], "<a href=\"" . append_titanium_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message = sprintf($lang['export_smiles'], "<a href=\"" . append_titanium_sid("admin_smilies.$phpEx?export_pack=send", true) . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_smileadmin'], "<a href=\"" . append_titanium_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
 
@@ -296,14 +296,14 @@ else if( isset($HTTP_POST_VARS['add']) || isset($HTTP_GET_VARS['add']) )
         $s_hidden_fields = '<input type="hidden" name="mode" value="savenew" />';
 
         $phpbb2_template->assign_vars(array(
-                "L_SMILEY_TITLE" => $titanium_lang['smiley_title'],
-                "L_SMILEY_CONFIG" => $titanium_lang['smiley_config'],
-                "L_SMILEY_EXPLAIN" => $titanium_lang['smile_desc'],
-                "L_SMILEY_CODE" => $titanium_lang['smiley_code'],
-                "L_SMILEY_URL" => $titanium_lang['smiley_url'],
-                "L_SMILEY_EMOTION" => $titanium_lang['smiley_emot'],
-                "L_SUBMIT" => $titanium_lang['Submit'],
-                "L_RESET" => $titanium_lang['Reset'],
+                "L_SMILEY_TITLE" => $lang['smiley_title'],
+                "L_SMILEY_CONFIG" => $lang['smiley_config'],
+                "L_SMILEY_EXPLAIN" => $lang['smile_desc'],
+                "L_SMILEY_CODE" => $lang['smiley_code'],
+                "L_SMILEY_URL" => $lang['smiley_url'],
+                "L_SMILEY_EMOTION" => $lang['smiley_emot'],
+                "L_SUBMIT" => $lang['Submit'],
+                "L_RESET" => $lang['Reset'],
 
                 "SMILEY_IMG" => $phpbb2_root_path . $phpbb2_board_config['smilies_path'] . '/' . $smiley_images[0],
 
@@ -339,7 +339,7 @@ else if ( $mode != "" )
      					message_die(GENERAL_ERROR, "Couldn't delete smiley", "", __LINE__, __FILE__, $sql);
      				}
 
-     				$message = $titanium_lang['smiley_del_success'] . "<br /><br />" . sprintf($titanium_lang['Click_return_smileadmin'], "<a href=\"" . append_titanium_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+     				$message = $lang['smiley_del_success'] . "<br /><br />" . sprintf($lang['Click_return_smileadmin'], "<a href=\"" . append_titanium_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
      				message_die(GENERAL_MESSAGE, $message);
      			}
@@ -353,11 +353,11 @@ else if ( $mode != "" )
      				$hidden_fields = '<input type="hidden" name="mode" value="delete" /><input type="hidden" name="id" value="' . $smiley_id . '" />';
 
      				$phpbb2_template->assign_vars(array(
-     					'MESSAGE_TITLE' => $titanium_lang['Confirm'],
-     					'MESSAGE_TEXT' => $titanium_lang['Confirm_delete_smiley'],
+     					'MESSAGE_TITLE' => $lang['Confirm'],
+     					'MESSAGE_TEXT' => $lang['Confirm_delete_smiley'],
 
-     					'L_YES' => $titanium_lang['Yes'],
-     					'L_NO' => $titanium_lang['No'],
+     					'L_YES' => $lang['Yes'],
+     					'L_NO' => $lang['No'],
 
      					'S_CONFIRM_ACTION' => append_titanium_sid("admin_smilies.$phpEx"),
      					'S_HIDDEN_FIELDS' => $hidden_fields)
@@ -409,14 +409,14 @@ else if ( $mode != "" )
                                 "SMILEY_CODE" => $smile_data['code'],
                                 "SMILEY_EMOTICON" => $smile_data['emoticon'],
 
-                                "L_SMILEY_TITLE" => $titanium_lang['smiley_title'],
-                                "L_SMILEY_CONFIG" => $titanium_lang['smiley_config'],
-                                "L_SMILEY_EXPLAIN" => $titanium_lang['smile_desc'],
-                                "L_SMILEY_CODE" => $titanium_lang['smiley_code'],
-                                "L_SMILEY_URL" => $titanium_lang['smiley_url'],
-                                "L_SMILEY_EMOTION" => $titanium_lang['smiley_emot'],
-                                "L_SUBMIT" => $titanium_lang['Submit'],
-                                "L_RESET" => $titanium_lang['Reset'],
+                                "L_SMILEY_TITLE" => $lang['smiley_title'],
+                                "L_SMILEY_CONFIG" => $lang['smiley_config'],
+                                "L_SMILEY_EXPLAIN" => $lang['smile_desc'],
+                                "L_SMILEY_CODE" => $lang['smiley_code'],
+                                "L_SMILEY_URL" => $lang['smiley_url'],
+                                "L_SMILEY_EMOTION" => $lang['smiley_emot'],
+                                "L_SUBMIT" => $lang['Submit'],
+                                "L_RESET" => $lang['Reset'],
 
                                 "SMILEY_IMG" => $phpbb2_root_path . $phpbb2_board_config['smilies_path'] . '/' . $smiley_edit_img,
 
@@ -449,7 +449,7 @@ else if ( $mode != "" )
                         // If no code was entered complain ...
                         if ($smile_code == '' || $smile_url == '')
                         {
-                                message_die(GENERAL_MESSAGE, $titanium_lang['Fields_empty']);
+                                message_die(GENERAL_MESSAGE, $lang['Fields_empty']);
                         }
 
                         //
@@ -469,7 +469,7 @@ else if ( $mode != "" )
                                 message_die(GENERAL_ERROR, "Couldn't update smilies info", "", __LINE__, __FILE__, $sql);
                         }
 
-                        $message = $titanium_lang['smiley_edit_success'] . "<br /><br />" . sprintf($titanium_lang['Click_return_smileadmin'], "<a href=\"" . append_titanium_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $lang['smiley_edit_success'] . "<br /><br />" . sprintf($lang['Click_return_smileadmin'], "<a href=\"" . append_titanium_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                         message_die(GENERAL_MESSAGE, $message);
                         break;
@@ -493,7 +493,7 @@ else if ( $mode != "" )
                         // If no code was entered complain ...
                         if ($smile_code == '' || $smile_url == '')
                         {
-                                message_die(GENERAL_MESSAGE, $titanium_lang['Fields_empty']);
+                                message_die(GENERAL_MESSAGE, $lang['Fields_empty']);
                         }
 
                         //
@@ -513,7 +513,7 @@ else if ( $mode != "" )
                                 message_die(GENERAL_ERROR, "Couldn't insert new smiley", "", __LINE__, __FILE__, $sql);
                         }
 
-                        $message = $titanium_lang['smiley_add_success'] . "<br /><br />" . sprintf($titanium_lang['Click_return_smileadmin'], "<a href=\"" . append_titanium_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $lang['smiley_add_success'] . "<br /><br />" . sprintf($lang['Click_return_smileadmin'], "<a href=\"" . append_titanium_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                         message_die(GENERAL_MESSAGE, $message);
                         break;
@@ -541,17 +541,17 @@ else
         );
 
         $phpbb2_template->assign_vars(array(
-                "L_ACTION" => $titanium_lang['Action'],
-                "L_SMILEY_TITLE" => $titanium_lang['smiley_title'],
-                "L_SMILEY_TEXT" => $titanium_lang['smile_desc'],
-                "L_DELETE" => $titanium_lang['Delete'],
-                "L_EDIT" => $titanium_lang['Edit'],
-                "L_SMILEY_ADD" => $titanium_lang['smile_add'],
-                "L_CODE" => $titanium_lang['Code'],
-                "L_EMOT" => $titanium_lang['Emotion'],
-                "L_SMILE" => $titanium_lang['Smile'],
-                "L_IMPORT_PACK" => $titanium_lang['import_smile_pack'],
-                "L_EXPORT_PACK" => $titanium_lang['export_smile_pack'],
+                "L_ACTION" => $lang['Action'],
+                "L_SMILEY_TITLE" => $lang['smiley_title'],
+                "L_SMILEY_TEXT" => $lang['smile_desc'],
+                "L_DELETE" => $lang['Delete'],
+                "L_EDIT" => $lang['Edit'],
+                "L_SMILEY_ADD" => $lang['smile_add'],
+                "L_CODE" => $lang['Code'],
+                "L_EMOT" => $lang['Emotion'],
+                "L_SMILE" => $lang['Smile'],
+                "L_IMPORT_PACK" => $lang['import_smile_pack'],
+                "L_EXPORT_PACK" => $lang['export_smile_pack'],
 
                 "S_HIDDEN_FIELDS" => $s_hidden_fields,
                 "S_SMILEY_ACTION" => append_titanium_sid("admin_smilies.$phpEx"))

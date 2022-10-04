@@ -57,18 +57,18 @@ $phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     Customized Topic Status            v1.0.0 ]
  ******************************************************/
-    "L_TOPIC_VIEW_SETTINGS" => $titanium_lang['topic_view_settings'],
-    "L_TOPIC_EXPLAIN" => $titanium_lang['topic_explain'],
-    "L_MOVED" => $titanium_lang['moved'],
-    "L_LOCKED" => $titanium_lang['locked'],
-    "L_STICKY" => $titanium_lang['sticky'],
-    "L_GLOBAL" => $titanium_lang['global'],
-    "L_ANNOUNCE" => $titanium_lang['announce'],
-    "L_CURRENT" => $titanium_lang['current'],
-    "L_CURRENT_EXPLAIN" => $titanium_lang['current_explain'],
-    "L_TAG" => $titanium_lang['tag'],
-    "L_TAG_EXPLAIN" => $titanium_lang['tag_explain'],
-    "L_TOPIC_TITLE" => $titanium_lang['topic_title'],
+    "L_TOPIC_VIEW_SETTINGS" => $lang['topic_view_settings'],
+    "L_TOPIC_EXPLAIN" => $lang['topic_explain'],
+    "L_MOVED" => $lang['moved'],
+    "L_LOCKED" => $lang['locked'],
+    "L_STICKY" => $lang['sticky'],
+    "L_GLOBAL" => $lang['global'],
+    "L_ANNOUNCE" => $lang['announce'],
+    "L_CURRENT" => $lang['current'],
+    "L_CURRENT_EXPLAIN" => $lang['current_explain'],
+    "L_TAG" => $lang['tag'],
+    "L_TAG_EXPLAIN" => $lang['tag_explain'],
+    "L_TOPIC_TITLE" => $lang['topic_title'],
 /*****[END]********************************************
  [ Mod:     Customized Topic Status            v1.0.0 ]
  ******************************************************/
@@ -89,15 +89,15 @@ $phpbb2_template->assign_vars(array(
     "ANNOUNCE_VIEW_CLOSE" => $new['announce_view_close'],
     "STICKY_VIEW_CLOSE" => $new['sticky_view_close'],
     "STICKY_VIEW_OPEN" => $new['sticky_view_open'],
-    "LOCKED_CURRENT_HTML" => "<xmp>".$locked_html_open. " " . $titanium_lang['locked'] . $locked_html_close."</xmp>",
-    "STICKY_CURRENT_HTML" => "<xmp>".$sticky_html_open. " " . $titanium_lang['sticky'] .$sticky_html_close."</xmp>",
-    "ANNOUNCE_CURRENT_HTML" => "<xmp>".$announce_html_open. " " . $titanium_lang['announce'] .$announce_html_close."</xmp>",
-    "GLOBAL_CURRENT_HTML" => "<xmp>".$global_html_open. " " . $titanium_lang['global'] .$global_html_close."</xmp>",
-    "LOCKED_CURRENT" => "".$new['locked_view_open']. " " . $titanium_lang['locked'] .$new['locked_view_close']."",
-    "STICKY_CURRENT" => "".$new['sticky_view_open']. " " . $titanium_lang['sticky'] .$new['sticky_view_close']."",
-    "ANNOUNCE_CURRENT" => "".$new['announce_view_open']. " " . $titanium_lang['announce'] .$new['announce_view_close']."",
-    "GLOBAL_CURRENT" => "".$new['global_view_open']. " " . $titanium_lang['global'] .$new['global_view_close']."",
-    "MOVED_CURRENT" => "".$new['moved_view_open']. " " . $titanium_lang['moved'] .$new['moved_view_close']."",
+    "LOCKED_CURRENT_HTML" => "<xmp>".$locked_html_open. " " . $lang['locked'] . $locked_html_close."</xmp>",
+    "STICKY_CURRENT_HTML" => "<xmp>".$sticky_html_open. " " . $lang['sticky'] .$sticky_html_close."</xmp>",
+    "ANNOUNCE_CURRENT_HTML" => "<xmp>".$announce_html_open. " " . $lang['announce'] .$announce_html_close."</xmp>",
+    "GLOBAL_CURRENT_HTML" => "<xmp>".$global_html_open. " " . $lang['global'] .$global_html_close."</xmp>",
+    "LOCKED_CURRENT" => "".$new['locked_view_open']. " " . $lang['locked'] .$new['locked_view_close']."",
+    "STICKY_CURRENT" => "".$new['sticky_view_open']. " " . $lang['sticky'] .$new['sticky_view_close']."",
+    "ANNOUNCE_CURRENT" => "".$new['announce_view_open']. " " . $lang['announce'] .$new['announce_view_close']."",
+    "GLOBAL_CURRENT" => "".$new['global_view_open']. " " . $lang['global'] .$new['global_view_close']."",
+    "MOVED_CURRENT" => "".$new['moved_view_open']. " " . $lang['moved'] .$new['moved_view_close']."",
 /*****[END]********************************************
  [ Mod:     Customized Topic Status            v1.0.0 ]
  ******************************************************/

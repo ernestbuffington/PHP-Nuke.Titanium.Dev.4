@@ -45,7 +45,7 @@ if (!defined('CNBYA')) {
     block_vpn_proxy_user();
     title(_USERREGLOGIN);
     OpenTable();
-    echo "<form action='modules.php?name=$titanium_module_name' method='post' name='newuser'>\n";
+    echo "<form action='modules.php?name=$pnt_module' method='post' name='newuser'>\n";
     echo "<table style='margin:auto' cellpadding='3' cellspacing='3' border='0'>\n";
     echo "<tr><td align='center' bgcolor='$bgcolor1' colspan='2'><div class=\"textbold\">"._REGNEWUSER."</div></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._NICKNAME.":</div><span class='tiny'>"._REQUIRED."</span></td><td bgcolor='$bgcolor1'><input type='text' name='ya_username' size='15' id='username_input' maxlength='".$ya_config['nick_max']."'>&nbsp;<span id=\"username_check_result\"></span><br /><span class='tiny'>("._YA_NICKLENGTH.")</span></td></tr>\n";
@@ -151,7 +151,7 @@ if (!defined('CNBYA')) {
     echo "</ul>\n";
     echo _REGISTERNOW."<br />\n";
     echo _WEDONTGIVE."<br /><br />\n";
-    echo "<center><span class='content'>[ <a href='modules.php?name=$titanium_module_name'>"._USERLOGIN."</a> | <a href='modules.php?name=$titanium_module_name&amp;op=pass_lost'>"._PASSWORDLOST."</a> ]</span></center>\n";
+    echo "<center><span class='content'>[ <a href='modules.php?name=$pnt_module'>"._USERLOGIN."</a> | <a href='modules.php?name=$pnt_module&amp;op=pass_lost'>"._PASSWORDLOST."</a> ]</span></center>\n";
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 

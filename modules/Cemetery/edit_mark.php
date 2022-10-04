@@ -14,8 +14,8 @@ if (!isset($titanium_userid) || $titanium_userid == "")
 $titanium_userid=0;
 $index = 1;
 require_once("mainfile.php");
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
 if ((isset($_POST['markid']) && !empty($_POST['markid'])) && (isset($_GET['markid']) && !empty($_GET['markid']))) 
 $markid = (isset($_GET['markid']) && !stristr($_GET['markid'],'..') && !stristr($_GET['markid'],'://')) ? addslashes(trim($_GET['markid'])) : false;
 else 
@@ -30,7 +30,7 @@ if ($form_done=="yes" && (isset($catid) && $catid != "")):
 	$titanium_db->sql_query ($query,$titanium_db);
 	$catquery = "update " . $titanium_prefix . "_cemetery_cat set mod_date=now() where category_id=$catid";
 	$titanium_db->sql_query ($catquery,$titanium_db);
-	header("Location: modules.php?name=$titanium_module_name&file=marks&category=$catid");
+	header("Location: modules.php?name=$pnt_module&file=marks&category=$catid");
 elseif ($form_done=="yes" && (!isset($catid) || $catid=="")):
 	$pagetitle = "My Personal Bookmarks - "._ADDOREDITBOOKMARK;
 	include("header.php");
@@ -44,12 +44,12 @@ $pagetitle = "My Personal Bookmarks - " . _ADDOREDITBOOKMARK;
 include("header.php");
 OpenTable();
 echo "<span class=\"boxtitle\"><center><strong>" .  _ADDOREDITBOOKMARK . "</strong></center></span><p>";
-echo "<center>[ <a href=modules.php?name=".$titanium_module_name.">"._CATEGORIES."</a> | <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$pnt_module.">"._CATEGORIES."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
 CloseTable();
 OpenTable();
 ?>
 <form method=post action=modules.php>
-<input type=hidden name=name value='<?=$titanium_module_name?>'>
+<input type=hidden name=name value='<?=$pnt_module?>'>
 <input type=hidden name=file value='edit_mark'>
 <input type=hidden name=form_done value='yes'>
 <input type=hidden name=markid value='<?=$markid?>'>
@@ -70,7 +70,7 @@ $titanium_db->sql_freeresult($cat_ret);
 </select> &nbsp; 
 <?
 if ($i==0)
-echo "<a href=modules.php?name=".$titanium_module_name."&amp;file=edit_cat>"._NEEDGROUP."</a>";
+echo "<a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEEDGROUP."</a>";
 ?>
 </td></tr>
 <tr><td><? echo _NAME ?></td><td><input class=inset size=48 type=text name=markname value="<?=$markname?>"></td></tr>

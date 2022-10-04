@@ -40,9 +40,9 @@
 
 	global $titanium_prefix, $titanium_db, $admdata, $admin_file;
 	
-	$titanium_module_name = basename(dirname(dirname(__FILE__)));
+	$pnt_module = basename(dirname(dirname(__FILE__)));
 	
-	if(is_mod_admin($titanium_module_name)) 
+	if(is_mod_admin($pnt_module)) 
 	{
 		function weblinks_parent($parentid, $title) 
 		{
@@ -566,7 +566,7 @@ function LinksDelVote($lid, $rid) {
     $titanium_db->sql_query("delete FROM " . $titanium_prefix . "_links_votedata WHERE ratingdbid=$rid");
     $voteresult = $titanium_db->sql_query("SELECT rating, ratinguser, ratingcomments FROM " . $titanium_prefix . "_links_votedata WHERE ratinglid = '$lid'");
     $totalvotesDB = $titanium_db->sql_numrows($voteresult);
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/voteinclude.php');
+    include(NUKE_MODULES_DIR.$pnt_module.'/voteinclude.php');
     $titanium_db->sql_query("UPDATE " . $titanium_prefix . "_links_links SET linkratingsummary='$finalrating', totalvotes='$totalvotesDB', totalcomments='$truecomments' WHERE lid = '$lid'");
     redirect_titanium($admin_file.".php?op=LinksModLink&lid=$lid");
 }
@@ -891,7 +891,7 @@ function LinksCleanVotes() {
     $lid = intval($row['ratinglid']);
     $voteresult = $titanium_db->sql_query("SELECT rating, ratinguser, ratingcomments FROM " . $titanium_prefix . "_links_votedata WHERE ratinglid = '$lid'");
     $totalvotesDB = $titanium_db->sql_numrows($voteresult);
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/voteinclude.php');
+    include(NUKE_MODULES_DIR.$pnt_module.'/voteinclude.php');
         $titanium_db->sql_query("UPDATE " . $titanium_prefix . "_links_links SET linkratingsummary='$finalrating', totalvotes='$totalvotesDB', totalcomments='$truecomments' WHERE lid = '$lid'");
     }
     redirect_titanium($admin_file.".php?op=Links");
@@ -1524,7 +1524,7 @@ switch ($op) {
 }
 
 } else {
-    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$titanium_module_name\"");
+    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$pnt_module\"");
 }
 
 ?>

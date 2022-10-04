@@ -70,7 +70,7 @@ if (!defined('CNBYA')) {
         if ($latest_uid == "-1") { $new_uid = 1; } else { $new_uid = $latest_uid+1; }
         $lv = time();
         $titanium_db->sql_query("LOCK TABLES ".$titanium_user_prefix."_users WRITE");
-        $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_users (user_id, user_avatar, user_avatar_type, user_lang, user_lastvisit, umode) VALUES ($new_uid, 'gallery/blank.png', '3', '$titanium_language', '$lv', 'nested')");
+        $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_users (user_id, user_avatar, user_avatar_type, user_lang, user_lastvisit, umode) VALUES ($new_uid, 'gallery/blank.png', '3', '$language', '$lv', 'nested')");
         $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET username='$titanium_username', name='$realname', user_email='$titanium_user_email', femail='$femail', user_website='$titanium_user_website', user_from='$titanium_user_from', user_occ='$titanium_user_occ', user_interests='$titanium_user_interests', newsletter='$newsletter', user_viewemail='$titanium_user_viewemail', user_allow_viewonline='$titanium_user_allow_viewonline', user_timezone='$titanium_user_timezone', user_dateformat='$titanium_user_dateformat', user_sig='$titanium_user_sig', bio='$bio', user_password='$user_password', user_regdate='$titanium_user_regdate' WHERE user_id='$new_uid'");
         $titanium_db->sql_query("UNLOCK TABLES");
         $titanium_db->sql_query("DELETE FROM ".$titanium_user_prefix."_users_temp WHERE username='$titanium_username'");

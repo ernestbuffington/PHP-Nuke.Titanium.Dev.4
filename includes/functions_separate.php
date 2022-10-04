@@ -34,7 +34,7 @@ if (!defined('IN_PHPBB2'))
 //
 function get_dividers($phpbb2_topics)
 {
-    global $titanium_lang;
+    global $lang;
 
     $dividers = array();
     $total_phpbb2_topics = count($phpbb2_topics);
@@ -49,18 +49,18 @@ function get_dividers($phpbb2_topics)
     {
         $count_topics = 0;
         
-        $dividers[$count_topics] = $titanium_lang['Global_Announcements'];
+        $dividers[$count_topics] = $lang['Global_Announcements'];
         $count_topics += $total_phpbb2_by_type[POST_GLOBAL_ANNOUNCE];
 
-        $dividers[$count_topics] = $titanium_lang['Announcements'];
+        $dividers[$count_topics] = $lang['Announcements'];
         $count_topics += $total_phpbb2_by_type[POST_ANNOUNCE];
 
-        $dividers[$count_topics] = $titanium_lang['Sticky_Topics'];
+        $dividers[$count_topics] = $lang['Sticky_Topics'];
         $count_topics += $total_phpbb2_by_type[POST_STICKY];
 
         if ( $count_topics < $total_phpbb2_topics )
         {
-            $dividers[$count_topics] = $titanium_lang['Topics'];
+            $dividers[$count_topics] = $lang['Topics'];
         }
     }
 

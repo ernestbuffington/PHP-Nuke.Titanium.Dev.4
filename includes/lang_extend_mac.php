@@ -43,7 +43,7 @@ if (!defined('IN_PHPBB2'))
 if ( !defined('LANG_EXTEND_DONE') )
 {
     // check for admin part
-    $titanium_lang_extend_admin = defined('IN_ADMIN');
+    $lang_extend_admin = defined('IN_ADMIN');
 
     // get the english settings
     if ( $phpbb2_board_config['default_lang'] != 'english' )

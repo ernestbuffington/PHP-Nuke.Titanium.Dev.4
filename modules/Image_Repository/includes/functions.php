@@ -16,11 +16,11 @@ define('_IMAGE_REPOSITORY_UPLOADS', $titanium_prefix.'_image_repository_uploads'
 define('_IMAGE_REPOSITORY_USERS', $titanium_prefix.'_image_repository_users');
 
 define('_IREPOSITORY_VERSION', '1.1.0');
-define('_IREPOSITORY_CSS', 'modules/'.$titanium_module_name.'/includes/css/');
-define('_IREPOSITORY_DIR', 'modules/'.$titanium_module_name.'/files/');
-define('_IREPOSITORY_IMGS', 'modules/'.$titanium_module_name.'/images/');
-define('_IREPOSITORY_INCLUDES', 'modules/'.$titanium_module_name.'/admin/inc/');
-define('_IREPOSITORY_JS', 'modules/'.$titanium_module_name.'/includes/js/');
+define('_IREPOSITORY_CSS', 'modules/'.$pnt_module.'/includes/css/');
+define('_IREPOSITORY_DIR', 'modules/'.$pnt_module.'/files/');
+define('_IREPOSITORY_IMGS', 'modules/'.$pnt_module.'/images/');
+define('_IREPOSITORY_INCLUDES', 'modules/'.$pnt_module.'/admin/inc/');
+define('_IREPOSITORY_JS', 'modules/'.$pnt_module.'/includes/js/');
 //define('_IREPOSITORY_USER_FOLDER', ($userinfo['user_id']+10000));
 define('_IREPOSITORY_USER_FOLDER', ((($_POST['user']) ? $_POST['user'] : $userinfo['user_id'])+10000));
 define('_IREPOSITORY_USER_FOLDER_THUMBS', ($userinfo['user_id']+10000).'/thumbs');
@@ -46,7 +46,7 @@ $quotainfo 	= _quota_percentages($userinfo['user_id']);
 
 $JStoHead  = '<script type="text/javascript">';
 $JStoHead .= '	var jquery_prefix				= '.((defined('NUKE_EVO')) ? 'nuke_jq' : '$').';'."\n";
-$JStoHead .= '	var module_name 				= "'.$titanium_module_name.'";'."\n";
+$JStoHead .= '	var module_name 				= "'.$pnt_module.'";'."\n";
 $JStoHead .= '	var version_installed			= "'._IREPOSITORY_VERSION.'";'."\n";
 $JStoHead .= '	var upload_dir					= "'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'"'."\n";
 $JStoHead .= '	var nukeurl						= "'.$nukeurl.'";'."\n";
@@ -57,17 +57,17 @@ $JStoHead .= '	var background_color_default	= "'.$mysettings['background_color']
 $JStoHead .= '	var border_color_default		= "'.$mysettings['border_color'].'";'."\n";
 $JStoHead .= '	var custom_color_default		= "'.$mysettings['custom_color'].'";'."\n";
 $JStoHead .= '	var percent_color_default		= "'.$mysettings['percent_color'].'";'."\n";
-$JStoHead .= '	var lang_not_supported			= "'.$titanium_lang_new[$titanium_module_name]['NOTSUPPORTED'].'";'."\n";
-$JStoHead .= '	var lang_attention 				= "'._string_to_upper(addslashes($titanium_lang_new[$titanium_module_name]['ATTENTION'])).'";'."\n";
-$JStoHead .= '	var lang_imagelist				= "'._string_to_upper(addslashes($titanium_lang_new[$titanium_module_name]['MYIMAGES'])).'";'."\n";
-$JStoHead .= '	var lang_directlink				= "'.$titanium_lang_new[$titanium_module_name]['DIRECT'].'";'."\n";
-$JStoHead .= '	var lang_bbcode					= "'.$titanium_lang_new[$titanium_module_name]['BBCODE'].'";'."\n";
-$JStoHead .= '	var lang_full					= "'.$titanium_lang_new[$titanium_module_name]['FULL'].'";'."\n";
-$JStoHead .= '	var lang_html					= "'.$titanium_lang_new[$titanium_module_name]['HTML'].'";'."\n";
-$JStoHead .= '	var lang_options				= "'.$titanium_lang_new[$titanium_module_name]['OPTIONS'].'";'."\n";
-$JStoHead .= '	var lang_view					= "'.$titanium_lang_new[$titanium_module_name]['VIEW'].'";'."\n";
-$JStoHead .= '	var lang_delete					= "'.$titanium_lang_new[$titanium_module_name]['DELETE'].'";'."\n";
-$JStoHead .= '	var lang_more_codes				= "'.$titanium_lang_new[$titanium_module_name]['CODES_PLUS'].'";'."\n";
+$JStoHead .= '	var lang_not_supported			= "'.$lang_new[$pnt_module]['NOTSUPPORTED'].'";'."\n";
+$JStoHead .= '	var lang_attention 				= "'._string_to_upper(addslashes($lang_new[$pnt_module]['ATTENTION'])).'";'."\n";
+$JStoHead .= '	var lang_imagelist				= "'._string_to_upper(addslashes($lang_new[$pnt_module]['MYIMAGES'])).'";'."\n";
+$JStoHead .= '	var lang_directlink				= "'.$lang_new[$pnt_module]['DIRECT'].'";'."\n";
+$JStoHead .= '	var lang_bbcode					= "'.$lang_new[$pnt_module]['BBCODE'].'";'."\n";
+$JStoHead .= '	var lang_full					= "'.$lang_new[$pnt_module]['FULL'].'";'."\n";
+$JStoHead .= '	var lang_html					= "'.$lang_new[$pnt_module]['HTML'].'";'."\n";
+$JStoHead .= '	var lang_options				= "'.$lang_new[$pnt_module]['OPTIONS'].'";'."\n";
+$JStoHead .= '	var lang_view					= "'.$lang_new[$pnt_module]['VIEW'].'";'."\n";
+$JStoHead .= '	var lang_delete					= "'.$lang_new[$pnt_module]['DELETE'].'";'."\n";
+$JStoHead .= '	var lang_more_codes				= "'.$lang_new[$pnt_module]['CODES_PLUS'].'";'."\n";
 $JStoHead .= '	var module_page					= "'.$_GET['op'].'";'."\n";
 $JStoHead .= '	var image_viewer 				= "'.addslashes(get_image_viewer('screens')).'";'."\n";
 $JStoHead .= '</script>'."\n";
@@ -87,72 +87,72 @@ addJSToBody(_IREPOSITORY_JS.'jquery.modal.js','file');
 //-------------------------------------------------------------------------
 function color_selection($name,$default,$allow_custom=FALSE,$allow_transparent=FALSE,$width=FALSE)
 {
-	global $titanium_lang_new, $titanium_module_name, $settings;	
-	$custom 		= array('custom' 			=> $titanium_lang_new[$titanium_module_name]['CUSTOM_COLOR']);
+	global $lang_new, $pnt_module, $settings;	
+	$custom 		= array('custom' 			=> $lang_new[$pnt_module]['CUSTOM_COLOR']);
 	$transparent 	= array('nocolor' 			=> 'Transparent');
-	$phpbb2_colorOptions 	= array('aqua' 				=> $titanium_lang_new[$titanium_module_name]['AQUA'], 
-							'aquamarine' 		=> $titanium_lang_new[$titanium_module_name]['AQUAMARINE'], 
-							'black' 			=> (($name == 'border_color') ? $titanium_lang_new[$titanium_module_name]['BLACK_DEFAULT'] : $titanium_lang_new[$titanium_module_name]['BLACK']), 
-							'blue' 				=> $titanium_lang_new[$titanium_module_name]['BLUE'], 
-							'brown' 			=> $titanium_lang_new[$titanium_module_name]['BROWN'], 
-							'cadetblue' 		=> $titanium_lang_new[$titanium_module_name]['CADETBLUE'], 
-							'chocolate' 		=> $titanium_lang_new[$titanium_module_name]['CHOCOLATE'], 
-							'chartreuse' 		=> $titanium_lang_new[$titanium_module_name]['CHARTREUSE'], 
-							'crimson' 			=> $titanium_lang_new[$titanium_module_name]['CRIMSON'], 
-							'cyan' 				=> $titanium_lang_new[$titanium_module_name]['CYAN'], 
-							'darkblue' 			=> $titanium_lang_new[$titanium_module_name]['DARKBLUE'], 
-							'darkgoldenrod' 	=> $titanium_lang_new[$titanium_module_name]['DARKGOLDEN'], 
-							'darkgreen' 		=> $titanium_lang_new[$titanium_module_name]['DARKGREEN'], 
-							'darkmagenta' 		=> $titanium_lang_new[$titanium_module_name]['DARKMAGENTA'], 
-							'darkorchid' 		=> $titanium_lang_new[$titanium_module_name]['DARKORCHID'], 
-							'darkred' 			=> $titanium_lang_new[$titanium_module_name]['DARKRED'], 
-							'deepskyblue' 		=> $titanium_lang_new[$titanium_module_name]['DARKSKY'], 
-							'dodgerblue' 		=> $titanium_lang_new[$titanium_module_name]['DODGERBLUE'], 
-							'firebrick' 		=> $titanium_lang_new[$titanium_module_name]['FIREBRICK'], 
-							'fuchsia' 			=> $titanium_lang_new[$titanium_module_name]['FUCHSIA'], 
-							'gold' 				=> $titanium_lang_new[$titanium_module_name]['GOLD'], 
-							'goldenrod' 		=> $titanium_lang_new[$titanium_module_name]['GOLDROD'], 
-							'grey' 				=> $titanium_lang_new[$titanium_module_name]['GREY'], 
-							'green' 			=> (($name == 'percent_color') ? $titanium_lang_new[$titanium_module_name]['GREEN_DEFAULT'] : $titanium_lang_new[$titanium_module_name]['GREEN']), 
-							'indigo' 			=> $titanium_lang_new[$titanium_module_name]['INDIGO'], 
-							'lawngreen' 		=> $titanium_lang_new[$titanium_module_name]['LAWNGREEN'], 
+	$phpbb2_colorOptions 	= array('aqua' 				=> $lang_new[$pnt_module]['AQUA'], 
+							'aquamarine' 		=> $lang_new[$pnt_module]['AQUAMARINE'], 
+							'black' 			=> (($name == 'border_color') ? $lang_new[$pnt_module]['BLACK_DEFAULT'] : $lang_new[$pnt_module]['BLACK']), 
+							'blue' 				=> $lang_new[$pnt_module]['BLUE'], 
+							'brown' 			=> $lang_new[$pnt_module]['BROWN'], 
+							'cadetblue' 		=> $lang_new[$pnt_module]['CADETBLUE'], 
+							'chocolate' 		=> $lang_new[$pnt_module]['CHOCOLATE'], 
+							'chartreuse' 		=> $lang_new[$pnt_module]['CHARTREUSE'], 
+							'crimson' 			=> $lang_new[$pnt_module]['CRIMSON'], 
+							'cyan' 				=> $lang_new[$pnt_module]['CYAN'], 
+							'darkblue' 			=> $lang_new[$pnt_module]['DARKBLUE'], 
+							'darkgoldenrod' 	=> $lang_new[$pnt_module]['DARKGOLDEN'], 
+							'darkgreen' 		=> $lang_new[$pnt_module]['DARKGREEN'], 
+							'darkmagenta' 		=> $lang_new[$pnt_module]['DARKMAGENTA'], 
+							'darkorchid' 		=> $lang_new[$pnt_module]['DARKORCHID'], 
+							'darkred' 			=> $lang_new[$pnt_module]['DARKRED'], 
+							'deepskyblue' 		=> $lang_new[$pnt_module]['DARKSKY'], 
+							'dodgerblue' 		=> $lang_new[$pnt_module]['DODGERBLUE'], 
+							'firebrick' 		=> $lang_new[$pnt_module]['FIREBRICK'], 
+							'fuchsia' 			=> $lang_new[$pnt_module]['FUCHSIA'], 
+							'gold' 				=> $lang_new[$pnt_module]['GOLD'], 
+							'goldenrod' 		=> $lang_new[$pnt_module]['GOLDROD'], 
+							'grey' 				=> $lang_new[$pnt_module]['GREY'], 
+							'green' 			=> (($name == 'percent_color') ? $lang_new[$pnt_module]['GREEN_DEFAULT'] : $lang_new[$pnt_module]['GREEN']), 
+							'indigo' 			=> $lang_new[$pnt_module]['INDIGO'], 
+							'lawngreen' 		=> $lang_new[$pnt_module]['LAWNGREEN'], 
 //-------------------------------------------------------------------------
 //	JUST FOR YOU coRpSE :) - http://headshotdomain.net
 //-------------------------------------------------------------------------
-							'lime' 				=> $titanium_lang_new[$titanium_module_name]['LIME'], 
-							'limegreen' 		=> $titanium_lang_new[$titanium_module_name]['LIMEGREEN'], 
+							'lime' 				=> $lang_new[$pnt_module]['LIME'], 
+							'limegreen' 		=> $lang_new[$pnt_module]['LIMEGREEN'], 
 //-------------------------------------------------------------------------
 //	JUST FOR YOU coRpSE :) - http://headshotdomain.net
 //-------------------------------------------------------------------------
-							'magenta' 			=> $titanium_lang_new[$titanium_module_name]['MAGENTA'], 
-							'midnightblue' 		=> $titanium_lang_new[$titanium_module_name]['MIDNIGHTBLUE'], 
-							'olive' 			=> $titanium_lang_new[$titanium_module_name]['OLIVE'], 
-							'orange' 			=> $titanium_lang_new[$titanium_module_name]['ORANGE'], 
-							'orangered' 		=> $titanium_lang_new[$titanium_module_name]['ORANGERED'], 
-							'plum' 				=> $titanium_lang_new[$titanium_module_name]['PLUM'], 
-							'purple' 			=> $titanium_lang_new[$titanium_module_name]['PURPLE'], 
-							'red' 				=> $titanium_lang_new[$titanium_module_name]['RED'], 
-							'saddlebrown' 		=> $titanium_lang_new[$titanium_module_name]['SADDLE'], 
-							'salmon' 			=> $titanium_lang_new[$titanium_module_name]['SALMON'], 
-							'seagreen' 			=> $titanium_lang_new[$titanium_module_name]['SEAGREEN'], 
-							'slateblue' 		=> $titanium_lang_new[$titanium_module_name]['BLUESLATE'], 
-							'teal' 				=> $titanium_lang_new[$titanium_module_name]['TEAL'], 
-							'tomato' 			=> $titanium_lang_new[$titanium_module_name]['TOMATO'], 
-							'violet' 			=> $titanium_lang_new[$titanium_module_name]['VIOLET'], 
-							'white' 			=> (($name == 'background_color') ? $titanium_lang_new[$titanium_module_name]['WHITE_DEFAULT'] : $titanium_lang_new[$titanium_module_name]['WHITE']), 
-							'yellow' 			=> $titanium_lang_new[$titanium_module_name]['YELLOW']);
+							'magenta' 			=> $lang_new[$pnt_module]['MAGENTA'], 
+							'midnightblue' 		=> $lang_new[$pnt_module]['MIDNIGHTBLUE'], 
+							'olive' 			=> $lang_new[$pnt_module]['OLIVE'], 
+							'orange' 			=> $lang_new[$pnt_module]['ORANGE'], 
+							'orangered' 		=> $lang_new[$pnt_module]['ORANGERED'], 
+							'plum' 				=> $lang_new[$pnt_module]['PLUM'], 
+							'purple' 			=> $lang_new[$pnt_module]['PURPLE'], 
+							'red' 				=> $lang_new[$pnt_module]['RED'], 
+							'saddlebrown' 		=> $lang_new[$pnt_module]['SADDLE'], 
+							'salmon' 			=> $lang_new[$pnt_module]['SALMON'], 
+							'seagreen' 			=> $lang_new[$pnt_module]['SEAGREEN'], 
+							'slateblue' 		=> $lang_new[$pnt_module]['BLUESLATE'], 
+							'teal' 				=> $lang_new[$pnt_module]['TEAL'], 
+							'tomato' 			=> $lang_new[$pnt_module]['TOMATO'], 
+							'violet' 			=> $lang_new[$pnt_module]['VIOLET'], 
+							'white' 			=> (($name == 'background_color') ? $lang_new[$pnt_module]['WHITE_DEFAULT'] : $lang_new[$pnt_module]['WHITE']), 
+							'yellow' 			=> $lang_new[$pnt_module]['YELLOW']);
 	return selectbox($name,$default,(($allow_custom == TRUE) ? (($allow_transparent == TRUE) ? array_merge($phpbb2_colorOptions,$transparent) : array_merge($phpbb2_colorOptions,$custom)) : $phpbb2_colorOptions),FALSE,$width);
 }
 
 function formatTimestamp_to_date($format, $gmepoch, $tz)
 {
-  global $phpbb2_board_config, $titanium_lang;
+  global $phpbb2_board_config, $lang;
   return @gmdate($format, $gmepoch + (3600 * $tz));
 }
 
 function image_repo_settings_variables()
 {
-	global $titanium_db, $titanium_module_name, $cache;
+	global $titanium_db, $pnt_module, $cache;
 	static $settings;
 	
    	if(isset($settings) && is_array($settings)) 
@@ -170,7 +170,7 @@ function image_repo_settings_variables()
 
 function image_repo_users_preferences()
 {
-	global $titanium_db, $titanium_module_name, $userinfo, $settings;
+	global $titanium_db, $pnt_module, $userinfo, $settings;
 	$create_directories[] = _IREPOSITORY_DIR;
 	$create_directories[] = _IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER;
 	$create_directories[] = _IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS;
@@ -192,16 +192,16 @@ function image_repo_users_preferences()
 
 function index_navigation_header()
 {
-	global $titanium_lang_new, $titanium_module_name;
+	global $lang_new, $pnt_module;
 	echo '<table style="width:100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','catHead',4).'>'._string_to_upper($titanium_lang_new[$titanium_module_name]['MODULE_NAME']).'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','catHead',4).'>'._string_to_upper($lang_new[$pnt_module]['MODULE_NAME']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '  <tr>'."\n";
 	echo '    <td'.tablecss('33.333%',FALSE,'row1').'>'."\n";	
 	echo '      <table style="width:100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '        <tr>'."\n";
-	echo '          <td'.tablecss('25%','center','row1').'><a'.linkcss().' href="modules.php?name='.$titanium_module_name.'">'.$titanium_lang_new[$titanium_module_name]['MAIN'].'</a></td>'."\n";
+	echo '          <td'.tablecss('25%','center','row1').'><a'.linkcss().' href="modules.php?name='.$pnt_module.'">'.$lang_new[$pnt_module]['MAIN'].'</a></td>'."\n";
 	echo '        </tr>'."\n";
 	echo '        <tr>'."\n";
 	echo '          <td'.tablecss('25%','center','row1').'><span style="text-decoration: line-through;">FAQ</span></td>'."\n";
@@ -212,16 +212,16 @@ function index_navigation_header()
 	echo '    <td'.tablecss('33.333%',FALSE,'row1').'>'."\n";	
 	echo '      <table style="width:100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '        <tr>'."\n";
-	echo '          <td'.tablecss('25%','center','row1').'><a'.linkcss().' href="modules.php?name='.$titanium_module_name.'&amp;op=quota">'.$titanium_lang_new[$titanium_module_name]['QUOTA'].'</a></td>'."\n";
+	echo '          <td'.tablecss('25%','center','row1').'><a'.linkcss().' href="modules.php?name='.$pnt_module.'&amp;op=quota">'.$lang_new[$pnt_module]['QUOTA'].'</a></td>'."\n";
 	echo '        </tr>'."\n";
 	echo '        <tr>'."\n";
-	echo '          <td'.tablecss('25%','center','row1').'><a'.linkcss().' href="modules.php?name='.$titanium_module_name.'&amp;op=settings">'.$titanium_lang_new[$titanium_module_name]['SETTINGS'].'</a></td>'."\n";
+	echo '          <td'.tablecss('25%','center','row1').'><a'.linkcss().' href="modules.php?name='.$pnt_module.'&amp;op=settings">'.$lang_new[$pnt_module]['SETTINGS'].'</a></td>'."\n";
 	echo '        </tr>'."\n";
 	echo '      </table>'."\n";	
 	echo '    </td>'."\n";		
 	echo '  </tr>'."\n";
 	echo '  <tr>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','catBottom',4).'>'.((is_admin()) ? '[ <a'.linkcss().' href="modules.php?name='.$titanium_module_name.'&amp;op=users">'._string_to_upper($titanium_lang_new[$titanium_module_name]['USER_ADMINISTRATION']).'</a> ]' : '').'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','catBottom',4).'>'.((is_admin()) ? '[ <a'.linkcss().' href="modules.php?name='.$pnt_module.'&amp;op=users">'._string_to_upper($lang_new[$pnt_module]['USER_ADMINISTRATION']).'</a> ]' : '').'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '</table>'."\n";
 	echo '<br'.(($_GET['page']) ? (($_GET['page'] == 1 || $_GET['op'] == 'users') ? '' : ' style="display:none;"') : '').' />';
@@ -291,12 +291,12 @@ function linkcss($help=FALSE,$fontsize=FALSE)
 
 function selectbox($name,$default,$options,$background_color=FALSE,$width=FALSE) 
 {
-	global $titanium_lang_new, $titanium_module_name, $settings;	
+	global $lang_new, $pnt_module, $settings;	
 	$select = '<select class="glowing-border select-style" align="absmiddle" style="'.(($width<>FALSE) ? 'width:'.$width.'; ' : '').'letter-spacing:'.$settings['spacing'].'px; padding:.3em;/.4em; vertical-align:middle;" name="'.$name.'" id="'.$name.'">'."\n";
 	foreach($options as $value => $title) 
 	{
 		if($value === 'custom' || $value === 'nocolor')
-			$select .= '<optgroup style="letter-spacing:'.$settings['spacing'].'px;" label="'.$titanium_lang_new[$titanium_module_name]['CUSTOM'].'">';			
+			$select .= '<optgroup style="letter-spacing:'.$settings['spacing'].'px;" label="'.$lang_new[$pnt_module]['CUSTOM'].'">';			
 		$select .= '<option'.(($background_color == TRUE) ? ' style="background-color:'.$value.';"' : '').' value="'.$value.'" '.(($value == $default) ? 'selected="selected"' : '').'>'.$title.'</option>'."\n";		
 		if($value === 'custom' || $value === 'nocolor')
 			$select .= '</optgroup>';
@@ -317,8 +317,8 @@ function selectbox_range($name, $default, $phpbb2_start, $limit, $step)
 
 function submitbuttoncss($disabled=FALSE,$value=FALSE)
 {
-	global $titanium_module_name, $titanium_lang_new, $settings; // class="btn btn-primary" 
-	return '<input type="submit" id="submit" name="submit" value="'.(($value == FALSE) ? $titanium_lang_new[$titanium_module_name]['SAVE'] : $value).'" '. (($disabled == true) ? 'disabled' : '') .'>';
+	global $pnt_module, $lang_new, $settings; // class="btn btn-primary" 
+	return '<input type="submit" id="submit" name="submit" value="'.(($value == FALSE) ? $lang_new[$pnt_module]['SAVE'] : $value).'" '. (($disabled == true) ? 'disabled' : '') .'>';
 }
 
 function tablecss($width=FALSE,$align=FALSE,$class=FALSE,$colspan=FALSE,$text_align=FALSE,$disable=FALSE)
@@ -338,7 +338,7 @@ function tablecss($width=FALSE,$align=FALSE,$class=FALSE,$colspan=FALSE,$text_al
 
 function _alphabetlist()
 {
-	global $titanium_db, $admin_file, $titanium_module_name;	
+	global $titanium_db, $admin_file, $pnt_module;	
 	$alpha_range = array();
 	$alpha_letters = array();
 	$alpha_letters = range('A','Z');
@@ -357,9 +357,9 @@ function _alphabetlist()
 		
 		if ($alpha_range[$i] != 'All') {
 			$temp = ($alpha_range[$i] != '#') ? strtolower($alpha_range[$i]) : 'num';
-			$alphanum_search_url = 'modules.php?name='.$titanium_module_name.'&amp;op=users&amp;alphanum='.$temp;
+			$alphanum_search_url = 'modules.php?name='.$pnt_module.'&amp;op=users&amp;alphanum='.$temp;
 		} else {
-			$alphanum_search_url = 'modules.php?name='.$titanium_module_name.'&amp;op=users';
+			$alphanum_search_url = 'modules.php?name='.$pnt_module.'&amp;op=users';
 		}
 		
 		$alphalist_table .= '    <td'.tablecss('3%','center','row1').'>'.(($total > 0) ? '<a style="color: red; font-size: 14px; font-weight: bold;" href="'.$alphanum_search_url.'">'.$alpha_range[$i].'</a>' : (($alpha_range[$i] == 'All') ? '<a style="font-size: 14px;" href="'.$alphanum_search_url.'">'.$alpha_range[$i].'</a>' : '<span style="font-size:14px;">'.$alpha_range[$i].'</span>')).'</td>'."\n";
@@ -404,34 +404,34 @@ function _calculate_size($size)
 
 function _copyright_modal()
 {
-	global $titanium_lang_new, $titanium_module_name;
+	global $lang_new, $pnt_module;
 	// echo '<div id="copyright-popup" style="display:none;">';
 	// echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	// echo '	<tr>'."\n";
-	// echo '    <td'.tablecss(FALSE,'center','catBottom font-family',2).'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_INFORMATION'].'</td>'."\n";
+	// echo '    <td'.tablecss(FALSE,'center','catBottom font-family',2).'>'.$lang_new[$pnt_module]['COPYRIGHT_INFORMATION'].'</td>'."\n";
 	// echo '  </tr>'."\n";
 	// echo '  </tr>'."\n".'<tr>'."\n";
-	// echo '	  <td'.tablecss(FALSE,'center','row1 font-family',2).'>'.$titanium_lang_new[$titanium_module_name]['MODULE_NAME'].' '.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_FOR'].' '.((function_exists('redirect')) ? $titanium_lang_new[$titanium_module_name]['COPYRIGHT_EVOLUTION_XTREME'] : $titanium_lang_new[$titanium_module_name]['COPYRIGHT_RAVEN_CMS']).'</td>'."\n";
+	// echo '	  <td'.tablecss(FALSE,'center','row1 font-family',2).'>'.$lang_new[$pnt_module]['MODULE_NAME'].' '.$lang_new[$pnt_module]['COPYRIGHT_FOR'].' '.((function_exists('redirect')) ? $lang_new[$pnt_module]['COPYRIGHT_EVOLUTION_XTREME'] : $lang_new[$pnt_module]['COPYRIGHT_RAVEN_CMS']).'</td>'."\n";
 	// echo '  </tr>'."\n".'<tr>'."\n";
 	// echo '    <td'.tablecss(FALSE,'center','catBottom',2).'>&nbsp;</td>'."\n";
 	// echo '  </tr>'."\n".'<tr>'."\n";
-	// echo '    <td'.tablecss('30%','right','row1 font-family').'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE'].'</td>'."\n";
-	// echo '    <td'.tablecss('70%',FALSE,'row1').'>'.$titanium_lang_new[$titanium_module_name]['MOUDLE_NAME_COPYRIGHT'].'</td>'."\n";
+	// echo '    <td'.tablecss('30%','right','row1 font-family').'>'.$lang_new[$pnt_module]['COPYRIGHT_MODULE'].'</td>'."\n";
+	// echo '    <td'.tablecss('70%',FALSE,'row1').'>'.$lang_new[$pnt_module]['MOUDLE_NAME_COPYRIGHT'].'</td>'."\n";
 	// echo '  </tr>'."\n".'<tr>'."\n";
-	// echo '    <td'.tablecss('30%','right','row1 font-family').'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_VERSION'].'</td>'."\n";
+	// echo '    <td'.tablecss('30%','right','row1 font-family').'>'.$lang_new[$pnt_module]['COPYRIGHT_MODULE_VERSION'].'</td>'."\n";
 	// echo '    <td'.tablecss('70%',FALSE,'row1').'>'._IREPOSITORY_VERSION.'</td>'."\n";
 	// echo '  </tr>'."\n".'<tr>'."\n";
-	// echo '    <td'.tablecss('30%','right','row1 font-family').'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_DESCRIPTION'].'</td>'."\n";
-	// echo '    <td'.tablecss('70%',FALSE,'row1').'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_TEXT'].'</td>'."\n";
+	// echo '    <td'.tablecss('30%','right','row1 font-family').'>'.$lang_new[$pnt_module]['COPYRIGHT_MODULE_DESCRIPTION'].'</td>'."\n";
+	// echo '    <td'.tablecss('70%',FALSE,'row1').'>'.$lang_new[$pnt_module]['COPYRIGHT_MODULE_TEXT'].'</td>'."\n";
 	// echo '  </tr>'."\n".'<tr>'."\n";
-	// echo '    <td'.tablecss('30%','right','row1 font-family').'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_LICENSE'].'</td>'."\n";
+	// echo '    <td'.tablecss('30%','right','row1 font-family').'>'.$lang_new[$pnt_module]['COPYRIGHT_LICENSE'].'</td>'."\n";
 	// echo '    <td'.tablecss('70%',FALSE,'row1').'>GNU/GPL</td>'."\n";
 	// echo '  </tr>'."\n".'<tr>'."\n";
-	// echo '    <td'.tablecss('30%','right','row1 font-family').'>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_AUTHOR'].'</td>'."\n";
+	// echo '    <td'.tablecss('30%','right','row1 font-family').'>'.$lang_new[$pnt_module]['COPYRIGHT_MODULE_AUTHOR'].'</td>'."\n";
 	// echo '    <td'.tablecss('70%',FALSE,'row1').'>Lonestar</td>'."\n";
 	// echo '  </tr>'."\n";
 	// echo '  <tr>'."\n";
-	// echo '    <td'.tablecss('30%','right','row1 font-family').'><strong>'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_EMAIL'].'</strong></td>'."\n";
+	// echo '    <td'.tablecss('30%','right','row1 font-family').'><strong>'.$lang_new[$pnt_module]['COPYRIGHT_MODULE_EMAIL'].'</strong></td>'."\n";
 	// echo '    <td'.tablecss('70%',FALSE,'row1').'>crazycoder@live.co.uk</td>'."\n";
 	// echo '  </tr>'."\n";
 	// echo '  <tr>'."\n";
@@ -439,11 +439,11 @@ function _copyright_modal()
 	// echo '    <td'.tablecss('70%',FALSE,'row1').'><a'.linkcss().' href="http://lonestar-modules.com">lonestar-modules</a></td>'."\n";
 	// echo '  </tr>'."\n";
 	// echo '  <tr>'."\n";
-	// echo '	  <td'.tablecss(FALSE,'center','catBottom',2).'>[ <a'.linkcss().' class="font-family" href="http://lonestar-modules.com" target="_blank">'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_HOME'].'</a> | <a'.linkcss().' class="font-family" href="http://lonestar-modules.com/modules.php?name=Download_Repository&amp;op=view&amp;did=1" target="_blank">'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_MODULE_DOWNLOAD'].'</a> | <a'.linkcss().' class="font-family" href="javascript:void(0);" rel="modal:close">'.$titanium_lang_new[$titanium_module_name]['COPYRIGHT_CLOSE'].'</a> ]</td>'."\n";
+	// echo '	  <td'.tablecss(FALSE,'center','catBottom',2).'>[ <a'.linkcss().' class="font-family" href="http://lonestar-modules.com" target="_blank">'.$lang_new[$pnt_module]['COPYRIGHT_MODULE_HOME'].'</a> | <a'.linkcss().' class="font-family" href="http://lonestar-modules.com/modules.php?name=Download_Repository&amp;op=view&amp;did=1" target="_blank">'.$lang_new[$pnt_module]['COPYRIGHT_MODULE_DOWNLOAD'].'</a> | <a'.linkcss().' class="font-family" href="javascript:void(0);" rel="modal:close">'.$lang_new[$pnt_module]['COPYRIGHT_CLOSE'].'</a> ]</td>'."\n";
 	// echo '  </tr>'."\n";
 	// echo '</table>'."\n";
 	// echo '</div>';
-	echo '<span style="float:right; padding-right:5px;"><a'.linkcss().' class="font-family" href="#module-copyright-popup" rel="modal:open">'.$titanium_lang_new[$titanium_module_name]['MOUDLE_NAME_COPYRIGHT'].'</a></span>';	
+	echo '<span style="float:right; padding-right:5px;"><a'.linkcss().' class="font-family" href="#module-copyright-popup" rel="modal:open">'.$lang_new[$pnt_module]['MOUDLE_NAME_COPYRIGHT'].'</a></span>';	
 }
 
 function _createthumb($ini_path,$dest_path,$params=array())
@@ -611,7 +611,7 @@ function _submitter($uid)
 
 function _timestamp($format, $gmepoch, $tz)
 {
-  global $phpbb2_board_config, $titanium_lang;
+  global $phpbb2_board_config, $lang;
   return @gmdate($format, $gmepoch + (3600 * $tz));
 }
 

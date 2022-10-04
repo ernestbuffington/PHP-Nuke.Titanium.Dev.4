@@ -28,12 +28,12 @@ $phpbb2_template->set_filenames(array(
 );
 
 $phpbb2_template->assign_vars(array(
-                'L_RANK' => $titanium_lang['boardrank'],
-                'L_GAME' => $titanium_lang['game'],
-                'L_ARCADE_USER' => $titanium_lang['arcade_user'],
-                'L_SCORE' => $titanium_lang['boardscore'],
-                'L_HELD_TIME' => $titanium_lang['held_time'],
-                'L_DATE' => $titanium_lang['boarddate'],
+                'L_RANK' => $lang['boardrank'],
+                'L_GAME' => $lang['game'],
+                'L_ARCADE_USER' => $lang['arcade_user'],
+                'L_SCORE' => $lang['boardscore'],
+                'L_HELD_TIME' => $lang['held_time'],
+                'L_DATE' => $lang['boarddate'],
                 'L_LONGEST_SCORE' => 'Longest Running Highscores')
 );
 

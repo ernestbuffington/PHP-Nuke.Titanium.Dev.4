@@ -28,6 +28,6 @@ if(implode("", $member_ids) > "") {
     }
   }
 }
-header("Location: modules.php?name=$titanium_module_name&op=Report&report_id=$report_id");
+header("Location: modules.php?name=$pnt_module&op=Report&report_id=$report_id");
 
 ?>

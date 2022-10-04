@@ -61,17 +61,17 @@ $unhtml_specialchars_replace = array('>', '<', '"', '&');
 # agreed to registration conditions/coppa
 function show_coppa()
 {
-	global $userdata, $phpbb2_template, $titanium_lang, $phpbb2_root_path, $phpEx;
+	global $userdata, $phpbb2_template, $lang, $phpbb2_root_path, $phpEx;
 
 	$phpbb2_template->set_filenames(array(
 			'body' => 'agreement.tpl')
 	);
 	$phpbb2_template->assign_vars(array(
-		'REGISTRATION' => $titanium_lang['Registration'],
-		'AGREEMENT' => $titanium_lang['Reg_agreement'],
-		"AGREE_OVER_13" => $titanium_lang['Agree_over_13'],
-		"AGREE_UNDER_13" => $titanium_lang['Agree_under_13'],
-		'DO_NOT_AGREE' => $titanium_lang['Agree_not'],
+		'REGISTRATION' => $lang['Registration'],
+		'AGREEMENT' => $lang['Reg_agreement'],
+		"AGREE_OVER_13" => $lang['Agree_over_13'],
+		"AGREE_UNDER_13" => $lang['Agree_under_13'],
+		'DO_NOT_AGREE' => $lang['Agree_not'],
 
 		"U_AGREE_OVER13" => append_titanium_sid("profile.$phpEx?mode=register&amp;agreed=true"),
 		"U_AGREE_UNDER13" => append_titanium_sid("profile.$phpEx?mode=register&amp;agreed=true&amp;coppa=true"))
@@ -82,7 +82,7 @@ function show_coppa()
 
 $error = FALSE;
 $error_msg = '';
-$phpbb2_page_title = ( $mode == 'editprofile' ) ? $titanium_lang['Edit_profile'] : $titanium_lang['Register'];
+$phpbb2_page_title = ( $mode == 'editprofile' ) ? $lang['Edit_profile'] : $lang['Register'];
 $verification = null;
 
  # Mod: YA Merge v1.0.0 START
@@ -99,7 +99,7 @@ $verification = null;
 				 WHERE check_num = "%s"', $titanium_user_prefix, $titanium_db->sql_escapestring($check_num)));
 				 
 	if(!$verified || $titanium_db->sql_numrows($verified) === 0) 
-	message_die(GENERAL_ERROR, sprintf($titanium_lang['Error_Check_Num'], append_titanium_sid('modules.php?name=Your_Account&op=new_user')));
+	message_die(GENERAL_ERROR, sprintf($lang['Error_Check_Num'], append_titanium_sid('modules.php?name=Your_Account&op=new_user')));
 	# The user exists, lets keep moving on
 	$verification = $titanium_db->sql_fetchrow($verified);
 	$phpbb2_template->assign_block_vars('switch_silent_password', array());
@@ -340,7 +340,7 @@ $mode == 'register' ):
 		$titanium_user_lang = htmlspecialchars($HTTP_POST_VARS['language']);
 		else:
 		$error = true;
-		$error_msg = $titanium_lang['Fields_empty'];
+		$error_msg = $lang['Fields_empty'];
 		endif;
 	else:
 		$titanium_user_lang = $phpbb2_board_config['default_lang'];
@@ -358,7 +358,7 @@ $mode == 'register' ):
 	if(preg_match("/[^0-9]/i",$HTTP_POST_VARS['dst_time_lag']) || $dst_time_lag<0 || $dst_time_lag>120):
 	
 		$error = TRUE;
-		$error_msg .= ((isset($error_msg)) ? '<br />' : '' ).$titanium_lang['dst_time_lag_error'];
+		$error_msg .= ((isset($error_msg)) ? '<br />' : '' ).$lang['dst_time_lag_error'];
 	
 	else:
 	
@@ -443,7 +443,7 @@ endif;
 # and ensure that they were trying to register a second time
 # (Prevents double registrations)
 if($verification !== null && ($userdata['session_logged_in'] || $titanium_username === $userdata['username'])) 
-message_die(GENERAL_MESSAGE, $titanium_lang['Username_taken'], '', __LINE__, __FILE__);
+message_die(GENERAL_MESSAGE, $lang['Username_taken'], '', __LINE__, __FILE__);
 
 # Did the user submit? In this case build a query to update the users profile in the DB
 if(isset($HTTP_POST_VARS['submit'])):
@@ -454,13 +454,13 @@ if(isset($HTTP_POST_VARS['submit'])):
 	if($mode == 'editprofile'):
 		if($titanium_user_id != $userdata['user_id']):
 			$error = TRUE;
-			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $titanium_lang['Wrong_Profile'];
+			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Wrong_Profile'];
 		endif;
 	elseif($mode == 'register'):
 		if(empty($titanium_username) || empty($new_password) || empty($password_confirm) || empty($email)):
 		
 			$error = TRUE;
-			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $titanium_lang['Fields_empty'];
+			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Fields_empty'];
 		endif;
 	endif;
 
@@ -469,7 +469,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 		if(empty($HTTP_POST_VARS['confirm_id'])):
 		
 			$error = TRUE;
-			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $titanium_lang['Confirm_code_wrong'];
+			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Confirm_code_wrong'];
 		
 		else:
 		
@@ -489,7 +489,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 			if($row = $titanium_db->sql_fetchrow($result)):
 				if($row['code'] != $confirm_code):
 					$error = TRUE;
-					$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $titanium_lang['Confirm_code_wrong'];
+					$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Confirm_code_wrong'];
 				else:
 					$sql = 'DELETE FROM ' . CONFIRM_TABLE . "
 						WHERE confirm_id = '$confirm_id'
@@ -499,7 +499,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 				endif;
 			else:
 				$error = TRUE;
-				$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $titanium_lang['Confirm_code_wrong'];
+				$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Confirm_code_wrong'];
 			endif;
 			$titanium_db->sql_freeresult($result);
 		endif;
@@ -511,12 +511,12 @@ if(isset($HTTP_POST_VARS['submit'])):
 		if($new_password != $password_confirm):
 		
 			$error = TRUE;
-			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $titanium_lang['Password_mismatch'];
+			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Password_mismatch'];
 		
 		elseif(strlen($new_password) > 32):
 		
 			$error = TRUE;
-			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $titanium_lang['Password_long'];
+			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Password_long'];
 		
 		else:
 		
@@ -535,7 +535,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 				# Base: Evolution Functions v1.5.0 START
 				if($row['user_password'] != md5($cur_password)):
 					$error = TRUE;
-					$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $titanium_lang['Current_password_mismatch'];
+					$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Current_password_mismatch'];
 				endif;
 				# Base: Evolution Functions v1.5.0 END
 			endif;
@@ -550,7 +550,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 	
 	elseif((empty($new_password) && !empty($password_confirm)) || (!empty($new_password) && empty($password_confirm))):
 		$error = TRUE;
-		$error_msg .= (( isset($error_msg)) ? '<br />' : '' ).$titanium_lang['Password_mismatch'];
+		$error_msg .= (( isset($error_msg)) ? '<br />' : '' ).$lang['Password_mismatch'];
 	endif;
 
 	# Do a ban check on this email address
@@ -578,7 +578,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 			if($row['user_password'] != md5($cur_password)):
 				$email = $userdata['user_email'];
 				$error = TRUE;
-				$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $titanium_lang['Current_password_mismatch'];
+				$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Current_password_mismatch'];
 			endif;
 			# Base: Evolution Functions v1.5.0 END
 		endif;
@@ -608,9 +608,9 @@ if(isset($HTTP_POST_VARS['submit'])):
 	$bday_locked = $phpbb2_board_config['bday_lock'] && $userdata['user_birthday'] != 0;
 
 	if(!$bday_locked):
-		$empty_month = empty($bday_month) || $bday_month == $titanium_lang['Default_Month'];
-		$empty_day = empty($bday_day) || $bday_day == $titanium_lang['Default_Day'];
-		$empty_year = empty($phpbb2_bday_year) || $phpbb2_bday_year == $titanium_lang['Default_Year'];
+		$empty_month = empty($bday_month) || $bday_month == $lang['Default_Month'];
+		$empty_day = empty($bday_day) || $bday_day == $lang['Default_Day'];
+		$empty_year = empty($phpbb2_bday_year) || $phpbb2_bday_year == $lang['Default_Year'];
 	else:
 		$empty_month = false;
 		$empty_day = false;
@@ -630,13 +630,13 @@ if(isset($HTTP_POST_VARS['submit'])):
 		case !$phpbb2_board_config['bday_require'] && !$phpbb2_board_config['bday_year'] && (($empty_month != $empty_day) || ($empty_day && !$empty_year)):
 		case !@checkdate( $temp_month, $temp_day, $temp_year ):
 			$error = TRUE;
-			$error_msg .= ((!empty($error_msg)) ? '<br />' : '' ).$titanium_lang['Birthday_invalid'];
+			$error_msg .= ((!empty($error_msg)) ? '<br />' : '' ).$lang['Birthday_invalid'];
 			break;
 		case !$empty_month && !$empty_day && !$empty_year && !$bday_locked:
 			$phpbb2_age = gmdate('Y') - $phpbb2_bday_year - ( sprintf('%02d%02d',$bday_month,$bday_day) > gmdate('md',time()) );
 			if($phpbb2_board_config['bday_min'] > $phpbb2_age || $phpbb2_age > $phpbb2_board_config['bday_max']):
 				$error = TRUE;
-				$error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . sprintf($titanium_lang['Birthday_range'],$phpbb2_board_config['bday_min'],$phpbb2_board_config['bday_max']);
+				$error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . sprintf($lang['Birthday_range'],$phpbb2_board_config['bday_min'],$phpbb2_board_config['bday_max']);
 			endif;
 	endswitch;
 
@@ -658,7 +658,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 	if($signature != ''):
 		if(strlen($signature) > $phpbb2_board_config['max_sig_chars']):
 			$error = TRUE;
-			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ).$titanium_lang['Signature_too_long'];
+			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ).$lang['Signature_too_long'];
 		endif;
 		if(!isset($signature_bbcode_uid) || $signature_bbcode_uid == '')
 		$signature_bbcode_uid = ( $allowbbcode ) ? make_bbcode_uid() : '';
@@ -679,22 +679,22 @@ if(isset($HTTP_POST_VARS['submit'])):
 			
 				if(($meta['field_length'] > 0) && (strlen($xdata[$code_name]) > $meta['field_length'])):
 					$error = TRUE;
-					$error_msg .=  ( ( isset($error_msg) ) ? '<br />' : '' ) . sprintf($titanium_lang['XData_too_long'], $meta['field_name']);
+					$error_msg .=  ( ( isset($error_msg) ) ? '<br />' : '' ) . sprintf($lang['XData_too_long'], $meta['field_name']);
 				endif;
 
 				if((count($meta['values_array']) > 0) && (! in_array($xdata[$code_name], $meta['values_array']))):
 					$error = TRUE;
-					$error_msg .=  ((isset($error_msg)) ? '<br />' : '' ).sprintf($titanium_lang['XData_invalid'], $meta['field_name']);
+					$error_msg .=  ((isset($error_msg)) ? '<br />' : '' ).sprintf($lang['XData_invalid'], $meta['field_name']);
 				endif;
 
 				if($meta['manditory'] && (strlen($xdata[$code_name]) < 1)):
 					$error = TRUE;
-					$error_msg .=  ((isset($error_msg)) ? '<br />' : '').sprintf($titanium_lang['XData_invalid'],$meta['field_name']);
+					$error_msg .=  ((isset($error_msg)) ? '<br />' : '').sprintf($lang['XData_invalid'],$meta['field_name']);
 				endif;
 
 				if((strlen($meta['field_regexp']) > 0) && (! preg_match($meta['field_regexp'],$xdata[$code_name])) && (strlen($xdata[$code_name]) > 0)):
 					$error = TRUE;
-					$error_msg .=  ( ( isset($error_msg) ) ? '<br />' : '' ) . sprintf($titanium_lang['XData_invalid'], $meta['field_name']);
+					$error_msg .=  ( ( isset($error_msg) ) ? '<br />' : '' ) . sprintf($lang['XData_invalid'], $meta['field_name']);
 				endif;
 
 				if($meta['allow_bbcode']):
@@ -718,7 +718,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 	if ( $titanium_user_wordwrap < $phpbb2_board_config['wrap_min'] || $titanium_user_wordwrap > $phpbb2_board_config['wrap_max'] )
 	{
 		$error = TRUE;
-		$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $titanium_lang['Word_Wrap_Error'];
+		$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Word_Wrap_Error'];
 	}
     # Mod: Force Word Wrapping - Configurator v1.0.16 END
 
@@ -746,7 +746,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 							 $titanium_user_avatar_filetype);
 		
 		elseif(!empty($titanium_user_avatar_name)):
-			$l_avatar_size = sprintf($titanium_lang['Avatar_filesize'], round($phpbb2_board_config['avatar_filesize'] / 1024));
+			$l_avatar_size = sprintf($lang['Avatar_filesize'], round($phpbb2_board_config['avatar_filesize'] / 1024));
 			$error = true;
 			$error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $l_avatar_size;
 		endif;
@@ -863,7 +863,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 
 					 $emailer->use_template('user_activate', stripslashes($titanium_user_lang));
 					 $emailer->email_address($email);
-					 $emailer->set_subject($titanium_lang['Reactivate']);
+					 $emailer->set_subject($lang['Reactivate']);
 
 					 $emailer->assign_vars(array(
 						 'SITENAME' => $phpbb2_board_config['sitename'],
@@ -893,7 +893,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 
 						 $emailer->email_address(trim($row['user_email']));
 						 $emailer->use_template("admin_activate", $row['user_lang']);
-						 $emailer->set_subject($titanium_lang['Reactivate']);
+						 $emailer->set_subject($lang['Reactivate']);
 
 						 $emailer->assign_vars(array(
 							 'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $titanium_username), 0, 25)),
@@ -916,17 +916,17 @@ if(isset($HTTP_POST_VARS['submit'])):
 				$titanium_user = "";
 				//fine evcz mod=>logout
 				if (is_active("Forums")) 
-				$message = $titanium_lang['Profile_updated_inactive'].'<br /><br />'.sprintf($titanium_lang['Click_return_index'],  '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
+				$message = $lang['Profile_updated_inactive'].'<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
 				else 
-				$message = $titanium_lang['Profile_updated_inactive'].'<br /><br />'.sprintf($titanium_lang['Click_return_index'],  '<a href="index.php">', '</a>');
+				$message = $lang['Profile_updated_inactive'].'<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="index.php">', '</a>');
 			
 			else:
 				if(is_active("Forums")): 
-					$message = $titanium_lang['Profile_updated'] . '<br /><br />'.sprintf($titanium_lang['Click_return_index'],  '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
-					$message .= '<br /><br />'.sprintf($titanium_lang['Click_return_profile'],  '<a href='
+					$message = $lang['Profile_updated'] . '<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
+					$message .= '<br /><br />'.sprintf($lang['Click_return_profile'],  '<a href='
 					.append_titanium_sid('profile.php?mode=viewprofile&amp;u='.$userdata['user_id']).'>', '</a>');
 				else:
-					$message = $titanium_lang['Profile_updated'].'<br /><br />'.sprintf($titanium_lang['Click_return_index'],  '<a href="index.php">', '</a>');
+					$message = $lang['Profile_updated'].'<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="index.php">', '</a>');
 				endif;
 				# redirect_titanium(append_titanium_sid('profile.php?mode=viewprofile&amp;u='.$userdata['user_id']));
 			endif;
@@ -934,7 +934,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 			
 			# Coding added for use with the responsive theme breadcrumb navigation.
 			if ( defined( 'BOOTSTRAP' ) ):
-				$message_title = $titanium_lang['Profile'];
+				$message_title = $lang['Profile'];
 			else:
 				$message_title = '';
 			endif;
@@ -1147,22 +1147,22 @@ if(isset($HTTP_POST_VARS['submit'])):
 
 			if ( $coppa )
 			{
-				$message = $titanium_lang['COPPA'];
+				$message = $lang['COPPA'];
 				$email_template = 'coppa_welcome_inactive';
 			}
 			else if ( $phpbb2_board_config['require_activation'] == USER_ACTIVATION_SELF )
 			{
-				$message = $titanium_lang['Account_inactive'];
+				$message = $lang['Account_inactive'];
 				$email_template = 'user_welcome_inactive';
 			}
 			else if ( $phpbb2_board_config['require_activation'] == USER_ACTIVATION_ADMIN )
 			{
-				$message = $titanium_lang['Account_inactive_admin'];
+				$message = $lang['Account_inactive_admin'];
 				$email_template = 'admin_welcome_inactive';
 			}
 			else
 			{
-				$message = $titanium_lang['Account_added'];
+				$message = $lang['Account_added'];
 				$email_template = 'user_welcome';
 			}
 
@@ -1184,7 +1184,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 
 					$emailer->email_address(trim($row['user_email']));
 					$emailer->use_template("admin_activate", $row['user_lang']);
-					$emailer->set_subject($titanium_lang['New_account_subject']);
+					$emailer->set_subject($lang['New_account_subject']);
 
 					$emailer->assign_vars(array(
 					'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $titanium_username), 0, 25)),
@@ -1197,7 +1197,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 				}
 				$titanium_db->sql_freeresult($result);
 			}
-			$message = $message . '<br /><br />' . sprintf($titanium_lang['Click_return_index'],  '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
+			$message = $message . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
 			message_die(GENERAL_MESSAGE, $message);
 		} // if mode == register
 	}
@@ -1431,7 +1431,7 @@ if ( $mode == 'editprofile' )
 	if ( $titanium_user_id != $userdata['user_id'] )
 	{
 		$error = TRUE;
-		$error_msg = $titanium_lang['Wrong_Profile'];
+		$error_msg = $lang['Wrong_Profile'];
 	}
 }
 
@@ -1533,9 +1533,9 @@ else
 		$s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $titanium_user_avatar_local . '" /><input type="hidden" name="avatarcatname" value="' . $titanium_user_avatar_category . '" />';
 	}
 
-	$html_status =  ( $userdata['user_allowhtml'] && $phpbb2_board_config['allow_html'] ) ? $titanium_lang['HTML_is_ON'] : $titanium_lang['HTML_is_OFF'];
-	$bbcode_status = ( $userdata['user_allowbbcode'] && $phpbb2_board_config['allow_bbcode']  ) ? $titanium_lang['BBCode_is_ON'] : $titanium_lang['BBCode_is_OFF'];
-	$smilies_status = ( $userdata['user_allowsmile'] && $phpbb2_board_config['allow_smilies']  ) ? $titanium_lang['Smilies_are_ON'] : $titanium_lang['Smilies_are_OFF'];
+	$html_status =  ( $userdata['user_allowhtml'] && $phpbb2_board_config['allow_html'] ) ? $lang['HTML_is_ON'] : $lang['HTML_is_OFF'];
+	$bbcode_status = ( $userdata['user_allowbbcode'] && $phpbb2_board_config['allow_bbcode']  ) ? $lang['BBCode_is_ON'] : $lang['BBCode_is_OFF'];
+	$smilies_status = ( $userdata['user_allowsmile'] && $phpbb2_board_config['allow_smilies']  ) ? $lang['Smilies_are_ON'] : $lang['Smilies_are_OFF'];
 
 /*****[BEGIN]******************************************
  [ Mod:    Gender                              v1.2.6 ]
@@ -1558,10 +1558,10 @@ else
  ******************************************************/
 	$l_time_mode_0 = "";
 	$l_time_mode_1 = "";
-	$l_time_mode_2 = $titanium_lang['time_mode_dst_server'];
-	$l_time_mode_3 = $titanium_lang['time_mode_full_server'];
-	$l_time_mode_4 = $titanium_lang['time_mode_server_pc'];
-	$l_time_mode_6 = $titanium_lang['time_mode_full_pc'];
+	$l_time_mode_2 = $lang['time_mode_dst_server'];
+	$l_time_mode_3 = $lang['time_mode_full_server'];
+	$l_time_mode_4 = $lang['time_mode_server_pc'];
+	$l_time_mode_6 = $lang['time_mode_full_pc'];
 
 	switch ($phpbb2_board_config['default_time_mode'])
 	{
@@ -1701,7 +1701,7 @@ else
 	$selected = ( isset($titanium_user_flag) ) ? '' : ' selected';
 
 	$flag_select  = '<select class="user_from_flag_select" name="user_flag">';
-	$flag_select .= '	<option value="blank"'.$selected.'>'.$titanium_lang['Select_Country'].'</option>';
+	$flag_select .= '	<option value="blank"'.$selected.'>'.$lang['Select_Country'].'</option>';
 	while ( $flag_row = $titanium_db->sql_fetchrow($flags_result) ):
 
 		/**
@@ -1823,7 +1823,7 @@ else
 				switch ($info['field_type'])
 				{
 					case 'checkbox':
-						$phpbb2_template->assign_block_vars('xdata.switch_type_checkbox', array( 'CHECKED' => ($xdata[$code_name] == $titanium_lang['true']) ? ' checked="checked"' : ''  ));
+						$phpbb2_template->assign_block_vars('xdata.switch_type_checkbox', array( 'CHECKED' => ($xdata[$code_name] == $lang['true']) ? ' checked="checked"' : ''  ));
 						break;
 
 					case 'radio':
@@ -1898,7 +1898,7 @@ else
 		{
 			if ($row['attempts'] > 3)
 			{
-				message_die(GENERAL_MESSAGE, $titanium_lang['Too_many_registers']);
+				message_die(GENERAL_MESSAGE, $lang['Too_many_registers']);
 			}
 		}
 		$titanium_db->sql_freeresult($result);
@@ -1953,8 +1953,8 @@ else
  [ Mod:     Signature Editor/Preview Deluxe    v1.0.0 ]
  ******************************************************/
 				'SIG_EDIT_LINK' => append_titanium_sid("profile.$phpEx?mode=signature"),
-				'SIG_DESC' => $titanium_lang['sig_description'],
-				'SIG_BUTTON_DESC' => $titanium_lang['sig_edit'],
+				'SIG_DESC' => $lang['sig_description'],
+				'SIG_BUTTON_DESC' => $lang['sig_edit'],
 /*****[END]********************************************
  [ Mod:     Signature Editor/Preview Deluxe    v1.0.0 ]
  ******************************************************/
@@ -1962,9 +1962,9 @@ else
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-				// 'BDAY_MONTH' => ($bday_month != 0) ? $bday_month : $titanium_lang['Default_Month'],
-				// 'BDAY_DAY' => ($bday_day != 0) ? $bday_day : $titanium_lang['Default_Day'],
-				// 'BDAY_YEAR' => ($phpbb2_bday_year != 0) ? $phpbb2_bday_year : $titanium_lang['Default_Year'],
+				// 'BDAY_MONTH' => ($bday_month != 0) ? $bday_month : $lang['Default_Month'],
+				// 'BDAY_DAY' => ($bday_day != 0) ? $bday_day : $lang['Default_Day'],
+				// 'BDAY_YEAR' => ($phpbb2_bday_year != 0) ? $phpbb2_bday_year : $lang['Default_Year'],
 
  				'BDAY_MONTH' => ($bday_month != 0) ? $bday_month : '',
 				'BDAY_DAY' => ($bday_day != 0) ? $bday_day : '',
@@ -2011,7 +2011,7 @@ else
  [ Mod:    At a Glance Options                 v1.0.0 ]
  *****************************************************/
 				 'GLANCE_SHOW' => glance_option_select($glance_show, 'glance_show'),
-				'L_GLANCE_SHOW' => $titanium_lang['glance_show'],
+				'L_GLANCE_SHOW' => $lang['glance_show'],
 /*****[END]********************************************
  [ Mod:    At a Glance Options                 v1.0.0 ]
  *****************************************************/
@@ -2026,7 +2026,7 @@ else
 				 */
 				'HIDE_IMAGES_YES_SELECTED' => ( $hide_images ) ? ' selected' : '',
 				'HIDE_IMAGES_NO_SELECTED' => ( !$hide_images ) ? ' selected' : '',
-				'L_HIDE_IMAGES' => $titanium_lang['user_hide_images'],
+				'L_HIDE_IMAGES' => $lang['user_hide_images'],
 /*****[END]********************************************
  [ Mod:    Hide Images                         v1.0.0 ]
  ******************************************************/
@@ -2034,20 +2034,20 @@ else
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
-				'L_FLAG' => $titanium_lang['Country_Flag'],
+				'L_FLAG' => $lang['Country_Flag'],
 				/**
 				 *	New changes for use with responsive themes
 				 */
-				'L_FLAG_SELECT' => $titanium_lang['Select_Country'],
+				'L_FLAG_SELECT' => $lang['Select_Country'],
 				'FLAG_SELECT' => $flag_select,
 				'FLAG_START' => $flag_start_image,
 /*****[END]********************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
 
- 				'L_SCEDITOR_PANEL' => $titanium_lang['sceditor_options'],
-				'L_SCEDITOR_STATE' => $titanium_lang['sceditor_state'],
-				'SCEDITOR_SELECT' => select_box('sceditor_in_source', $userinfo['sceditor_in_source'], array('0' => $titanium_lang['sceditor_display_mode'], '1' => $titanium_lang['sceditor_editor_mode'])),
+ 				'L_SCEDITOR_PANEL' => $lang['sceditor_options'],
+				'L_SCEDITOR_STATE' => $lang['sceditor_state'],
+				'SCEDITOR_SELECT' => select_box('sceditor_in_source', $userinfo['sceditor_in_source'], array('0' => $lang['sceditor_display_mode'], '1' => $lang['sceditor_editor_mode'])),
 				'SCEDITOR_STATE' => $wysiwyg,
 
 				'WEBSITE' => $website,
@@ -2151,13 +2151,13 @@ else
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-				'L_WORD_WRAP' => $titanium_lang['Word_Wrap'],
-				'L_WORD_WRAP_EXPLAIN' => $titanium_lang['Word_Wrap_Explain'],
-				'L_WORD_WRAP_EXTRA' => strtr($titanium_lang['Word_Wrap_Extra'],array('%min%' => $phpbb2_board_config['wrap_min'], '%max%' => $phpbb2_board_config['wrap_max'])),
+				'L_WORD_WRAP' => $lang['Word_Wrap'],
+				'L_WORD_WRAP_EXPLAIN' => $lang['Word_Wrap_Explain'],
+				'L_WORD_WRAP_EXTRA' => strtr($lang['Word_Wrap_Extra'],array('%min%' => $phpbb2_board_config['wrap_min'], '%max%' => $phpbb2_board_config['wrap_max'])),
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-				'L_BOARD_LANGUAGE' => $titanium_lang['Board_lang'],
+				'L_BOARD_LANGUAGE' => $lang['Board_lang'],
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
@@ -2263,168 +2263,168 @@ else
 				'SMILIES_STATUS' => $smilies_status,
 				'L_PAGE_TITLE' => $phpbb2_page_title,
 
-				'L_CURRENT_PASSWORD' => $titanium_lang['Current_password'],
-				'L_NEW_PASSWORD' => ( $mode == 'register' ) ? $titanium_lang['Password'] : $titanium_lang['New_password'],
-				'L_CONFIRM_PASSWORD' => $titanium_lang['Confirm_password'],
-				'L_CONFIRM_PASSWORD_EXPLAIN' => ( $mode == 'editprofile' ) ? $titanium_lang['Confirm_password_explain'] : '',
-				'L_PASSWORD_IF_CHANGED' => ( $mode == 'editprofile' ) ? $titanium_lang['password_if_changed'] : '',
-				'L_PASSWORD_CONFIRM_IF_CHANGED' => ( $mode == 'editprofile' ) ? $titanium_lang['password_confirm_if_changed'] : '',
+				'L_CURRENT_PASSWORD' => $lang['Current_password'],
+				'L_NEW_PASSWORD' => ( $mode == 'register' ) ? $lang['Password'] : $lang['New_password'],
+				'L_CONFIRM_PASSWORD' => $lang['Confirm_password'],
+				'L_CONFIRM_PASSWORD_EXPLAIN' => ( $mode == 'editprofile' ) ? $lang['Confirm_password_explain'] : '',
+				'L_PASSWORD_IF_CHANGED' => ( $mode == 'editprofile' ) ? $lang['password_if_changed'] : '',
+				'L_PASSWORD_CONFIRM_IF_CHANGED' => ( $mode == 'editprofile' ) ? $lang['password_confirm_if_changed'] : '',
 /*****[BEGIN]******************************************
  [ Mod:    Password security                   v1.1.0 ]
  ******************************************************/
-				 'L_PASSWORD_SECURITY_LEVEL1' => $titanium_lang['password_security_level1'],
-				 'L_PASSWORD_SECURITY_LEVEL2' => $titanium_lang['password_security_level2'],
-				 'L_PASSWORD_SECURITY_LEVEL3' => $titanium_lang['password_security_level3'],
-				 'L_PASSWORD_SECURITY_LEVEL4' => $titanium_lang['password_security_level4'],
-				 'L_PASSWORD_SECURITY_LEVEL5' => $titanium_lang['password_security_level5'],
-				 'L_PASSWORD_SECURITY_EXPLAIN' => $titanium_lang['password_security_explain'],
+				 'L_PASSWORD_SECURITY_LEVEL1' => $lang['password_security_level1'],
+				 'L_PASSWORD_SECURITY_LEVEL2' => $lang['password_security_level2'],
+				 'L_PASSWORD_SECURITY_LEVEL3' => $lang['password_security_level3'],
+				 'L_PASSWORD_SECURITY_LEVEL4' => $lang['password_security_level4'],
+				 'L_PASSWORD_SECURITY_LEVEL5' => $lang['password_security_level5'],
+				 'L_PASSWORD_SECURITY_EXPLAIN' => $lang['password_security_explain'],
 /*****[END]********************************************
  [ Mod:    Password security                   v1.1.0 ]
  ******************************************************/
-				'L_SUBMIT' => $titanium_lang['Submit'],
-				'L_RESET' => $titanium_lang['Reset'],
+				'L_SUBMIT' => $lang['Submit'],
+				'L_RESET' => $lang['Reset'],
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-				'L_CLEAR' => $titanium_lang['Clear'],
-				'L_BIRTHDAY' => $titanium_lang['Birthday'],
-				'L_MONTH' => $titanium_lang['Month'],
-				'L_DAY' => $titanium_lang['Day'],
-				'L_YEAR' => ( $phpbb2_board_config['bday_year'] ) ? $titanium_lang['Year'] : $titanium_lang['Year_Optional'],
-				'L_OPTIONAL' => ( $phpbb2_board_config['bday_year'] ) ? '' : $titanium_lang['Optional'],
-				'L_BIRTHDAY_DISPLAY' => $titanium_lang['Birthday_Display'],
-				'L_BIRTHDAY_ALL' => $titanium_lang['Display_all'],
-				'L_BIRTHDAY_YEAR' => $titanium_lang['Display_day_and_month'],
-				'L_BIRTHDAY_AGE' => $titanium_lang['Display_age'],
-				'L_BIRTHDAY_NONE' => $titanium_lang['Display_nothing'],
-				'L_BDAY_SEND_GREETING' => $titanium_lang['bday_send_greeting'],
-				'L_BDAY_SEND_GREETING_EXPLAIN' => $titanium_lang['bday_send_greeting_user_explain'],
-				'L_NONE' => $titanium_lang['Do_not_send'],
-				'L_EMAIL' => $titanium_lang['Email'],
-				'L_PM' => $titanium_lang['PM'],
-				'L_POPUP' => $titanium_lang['Popup'],
+				'L_CLEAR' => $lang['Clear'],
+				'L_BIRTHDAY' => $lang['Birthday'],
+				'L_MONTH' => $lang['Month'],
+				'L_DAY' => $lang['Day'],
+				'L_YEAR' => ( $phpbb2_board_config['bday_year'] ) ? $lang['Year'] : $lang['Year_Optional'],
+				'L_OPTIONAL' => ( $phpbb2_board_config['bday_year'] ) ? '' : $lang['Optional'],
+				'L_BIRTHDAY_DISPLAY' => $lang['Birthday_Display'],
+				'L_BIRTHDAY_ALL' => $lang['Display_all'],
+				'L_BIRTHDAY_YEAR' => $lang['Display_day_and_month'],
+				'L_BIRTHDAY_AGE' => $lang['Display_age'],
+				'L_BIRTHDAY_NONE' => $lang['Display_nothing'],
+				'L_BDAY_SEND_GREETING' => $lang['bday_send_greeting'],
+				'L_BDAY_SEND_GREETING_EXPLAIN' => $lang['bday_send_greeting_user_explain'],
+				'L_NONE' => $lang['Do_not_send'],
+				'L_EMAIL' => $lang['Email'],
+				'L_PM' => $lang['PM'],
+				'L_POPUP' => $lang['Popup'],
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-				'L_WEBSITE' => $titanium_lang['Website'],
-				'L_FACEBOOK' => $titanium_lang['facebook'],
-				'L_FACEBOOK_EXPLAIN' => $titanium_lang['facebook_explain'],
-				'L_LOCATION' => $titanium_lang['Location'],
-				'L_OCCUPATION' => $titanium_lang['Occupation'],
-				//'L_BOARD_LANGUAGE' => $titanium_lang['Board_lang'],
-				'L_BOARD_STYLE' => $titanium_lang['Theme'],
-				'L_TIMEZONE' => $titanium_lang['Timezone'],
+				'L_WEBSITE' => $lang['Website'],
+				'L_FACEBOOK' => $lang['facebook'],
+				'L_FACEBOOK_EXPLAIN' => $lang['facebook_explain'],
+				'L_LOCATION' => $lang['Location'],
+				'L_OCCUPATION' => $lang['Occupation'],
+				//'L_BOARD_LANGUAGE' => $lang['Board_lang'],
+				'L_BOARD_STYLE' => $lang['Theme'],
+				'L_TIMEZONE' => $lang['Timezone'],
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-				'L_TIME_MODE' => $titanium_lang['time_mode'],
-				'L_TIME_MODE_TEXT' => $titanium_lang['time_mode_text'],
-				'L_TIME_MODE_MANUAL' => $titanium_lang['time_mode_manual'],
-				'L_TIME_MODE_DST' => $titanium_lang['time_mode_dst'],
+				'L_TIME_MODE' => $lang['time_mode'],
+				'L_TIME_MODE_TEXT' => $lang['time_mode_text'],
+				'L_TIME_MODE_MANUAL' => $lang['time_mode_manual'],
+				'L_TIME_MODE_DST' => $lang['time_mode_dst'],
 				'L_TIME_MODE_DST_OFF' => $l_time_mode_0,
 				'L_TIME_MODE_DST_ON' => $l_time_mode_1,
 				'L_TIME_MODE_DST_SERVER' => $l_time_mode_2,
-				'L_TIME_MODE_DST_TIME_LAG' => $titanium_lang['time_mode_dst_time_lag'],
-				'L_TIME_MODE_DST_MN' => $titanium_lang['time_mode_dst_mn'],
-				'L_TIME_MODE_TIMEZONE' => $titanium_lang['time_mode_timezone'],
-				'L_TIME_MODE_AUTO' => $titanium_lang['time_mode_auto'],
+				'L_TIME_MODE_DST_TIME_LAG' => $lang['time_mode_dst_time_lag'],
+				'L_TIME_MODE_DST_MN' => $lang['time_mode_dst_mn'],
+				'L_TIME_MODE_TIMEZONE' => $lang['time_mode_timezone'],
+				'L_TIME_MODE_AUTO' => $lang['time_mode_auto'],
 				'L_TIME_MODE_FULL_SERVER' => $l_time_mode_3,
 				'L_TIME_MODE_SERVER_PC' => $l_time_mode_4,
 				'L_TIME_MODE_FULL_PC' => $l_time_mode_6,
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-				'L_DATE_FORMAT' => $titanium_lang['Date_format'],
-				'L_DATE_FORMAT_EXPLAIN' => $titanium_lang['Date_format_explain'],
+				'L_DATE_FORMAT' => $lang['Date_format'],
+				'L_DATE_FORMAT_EXPLAIN' => $lang['Date_format_explain'],
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-				'L_QUICK_REPLY_PANEL' => $titanium_lang['Quick_reply_panel'],
-				'L_SHOW_QUICK_REPLY' => $titanium_lang['Show_quick_reply'],
-				'L_QUICK_REPLY_MODE' => $titanium_lang['Quick_reply_mode'],
-				'L_QUICK_REPLY_MODE_BASIC' => $titanium_lang['Quick_reply_mode_basic'],
-				'L_QUICK_REPLY_MODE_ADVANCED' => $titanium_lang['Quick_reply_mode_advanced'],
-				'L_OPEN_QUICK_REPLY' => $titanium_lang['Open_quick_reply'],
+				'L_QUICK_REPLY_PANEL' => $lang['Quick_reply_panel'],
+				'L_SHOW_QUICK_REPLY' => $lang['Show_quick_reply'],
+				'L_QUICK_REPLY_MODE' => $lang['Quick_reply_mode'],
+				'L_QUICK_REPLY_MODE_BASIC' => $lang['Quick_reply_mode_basic'],
+				'L_QUICK_REPLY_MODE_ADVANCED' => $lang['Quick_reply_mode_advanced'],
+				'L_OPEN_QUICK_REPLY' => $lang['Open_quick_reply'],
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
 /*****[BEGIN]******************************************
  [ Mod:    YA Merge                            v1.0.0 ]
  ******************************************************/
-				 'L_NAME' => $titanium_lang['Real_Name'],
-				 'L_NEWSLETTER' => $titanium_lang['Newsletter'],
-				 'L_EXTRA_INFO' => $titanium_lang['Extra_Info'],
+				 'L_NAME' => $lang['Real_Name'],
+				 'L_NEWSLETTER' => $lang['Newsletter'],
+				 'L_EXTRA_INFO' => $lang['Extra_Info'],
 /*****[END]********************************************
  [ Mod:    YA Merge                            v1.0.0 ]
  ******************************************************/
-				'L_YES' => $titanium_lang['Yes'],
-				'L_NO' => $titanium_lang['No'],
-				'L_INTERESTS' => $titanium_lang['Interests'],
+				'L_YES' => $lang['Yes'],
+				'L_NO' => $lang['No'],
+				'L_INTERESTS' => $lang['Interests'],
 
 /*****[BEGIN]******************************************
  [ Mod:    Gender                              v1.2.6 ]
  ******************************************************/
-				'L_GENDER' =>$titanium_lang['Gender'],
-				'L_GENDER_MALE' =>$titanium_lang['Male'],
-				'L_GENDER_FEMALE' =>$titanium_lang['Female'],
-				'L_GENDER_NOT_SPECIFY' =>$titanium_lang['No_gender_specify'],
+				'L_GENDER' =>$lang['Gender'],
+				'L_GENDER_MALE' =>$lang['Male'],
+				'L_GENDER_FEMALE' =>$lang['Female'],
+				'L_GENDER_NOT_SPECIFY' =>$lang['No_gender_specify'],
 /*****[END]********************************************
  [ Mod:    Gender                              v1.2.6 ]
  ******************************************************/
 /*****[BEGIN]******************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
-				'L_ENABLE_MASS_PM' =>$titanium_lang['Enable_mass_pm'],
-				'L_ENABLE_MASS_PM_EXPLAIN' =>$titanium_lang['Enable_mass_pm_explain'],
-				'L_NO_MASS_PM' => $titanium_lang['No_mass_pm'],
+				'L_ENABLE_MASS_PM' =>$lang['Enable_mass_pm'],
+				'L_ENABLE_MASS_PM_EXPLAIN' =>$lang['Enable_mass_pm_explain'],
+				'L_NO_MASS_PM' => $lang['No_mass_pm'],
 /*****[END]********************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
-				'L_ALWAYS_ALLOW_SMILIES' => $titanium_lang['Always_smile'],
-				'L_ALWAYS_ALLOW_BBCODE' => $titanium_lang['Always_bbcode'],
-				'L_ALWAYS_ALLOW_HTML' => $titanium_lang['Always_html'],
-				'L_HIDE_USER' => $titanium_lang['Hide_user'],
-				'L_ALWAYS_ADD_SIGNATURE' => $titanium_lang['Always_add_sig'],
+				'L_ALWAYS_ALLOW_SMILIES' => $lang['Always_smile'],
+				'L_ALWAYS_ALLOW_BBCODE' => $lang['Always_bbcode'],
+				'L_ALWAYS_ALLOW_HTML' => $lang['Always_html'],
+				'L_HIDE_USER' => $lang['Hide_user'],
+				'L_ALWAYS_ADD_SIGNATURE' => $lang['Always_add_sig'],
 /*****[BEGIN]******************************************
  [ Mod:     View/Disable Avatars/Signatures    v1.1.2 ]
  ******************************************************/
-				'L_SHOW_AVATARS' => $titanium_lang['Show_avatars'],
-				'L_SHOW_SIGNATURES' => $titanium_lang['Show_signatures'],
+				'L_SHOW_AVATARS' => $lang['Show_avatars'],
+				'L_SHOW_SIGNATURES' => $lang['Show_signatures'],
 /*****[END]********************************************
  [ Mod:     View/Disable Avatars/Signatures    v1.1.2 ]
  ******************************************************/
 
-				'L_AVATAR_PANEL' => $titanium_lang['Avatar_panel'],
-				'L_AVATAR_EXPLAIN' => sprintf($titanium_lang['Avatar_explain'], $phpbb2_board_config['avatar_max_width'], $phpbb2_board_config['avatar_max_height'], (round($phpbb2_board_config['avatar_filesize'] / 1024))),
-				'L_UPLOAD_AVATAR_FILE' => $titanium_lang['Upload_Avatar_file'],
-				'L_UPLOAD_AVATAR_URL' => $titanium_lang['Upload_Avatar_URL'],
-				'L_UPLOAD_AVATAR_URL_EXPLAIN' => $titanium_lang['Upload_Avatar_URL_explain'],
-				'L_AVATAR_GALLERY' => $titanium_lang['Select_from_gallery'],
-				'L_SHOW_GALLERY' => $titanium_lang['View_avatar_gallery'],
-				'L_LINK_REMOTE_AVATAR' => $titanium_lang['Link_remote_Avatar'],
-				'L_LINK_REMOTE_AVATAR_EXPLAIN' => $titanium_lang['Link_remote_Avatar_explain'],
-				'L_DELETE_AVATAR' => $titanium_lang['Delete_Image'],
-				'L_CURRENT_IMAGE' => $titanium_lang['Current_Image'],
+				'L_AVATAR_PANEL' => $lang['Avatar_panel'],
+				'L_AVATAR_EXPLAIN' => sprintf($lang['Avatar_explain'], $phpbb2_board_config['avatar_max_width'], $phpbb2_board_config['avatar_max_height'], (round($phpbb2_board_config['avatar_filesize'] / 1024))),
+				'L_UPLOAD_AVATAR_FILE' => $lang['Upload_Avatar_file'],
+				'L_UPLOAD_AVATAR_URL' => $lang['Upload_Avatar_URL'],
+				'L_UPLOAD_AVATAR_URL_EXPLAIN' => $lang['Upload_Avatar_URL_explain'],
+				'L_AVATAR_GALLERY' => $lang['Select_from_gallery'],
+				'L_SHOW_GALLERY' => $lang['View_avatar_gallery'],
+				'L_LINK_REMOTE_AVATAR' => $lang['Link_remote_Avatar'],
+				'L_LINK_REMOTE_AVATAR_EXPLAIN' => $lang['Link_remote_Avatar_explain'],
+				'L_DELETE_AVATAR' => $lang['Delete_Image'],
+				'L_CURRENT_IMAGE' => $lang['Current_Image'],
 
-		'L_SIGNATURE' => $titanium_lang['Signature'],
-				'L_SIGNATURE_EXPLAIN' => sprintf($titanium_lang['Signature_explain'], $phpbb2_board_config['max_sig_chars']),
-				'L_NOTIFY_ON_REPLY' => $titanium_lang['Always_notify'],
-				'L_NOTIFY_ON_REPLY_EXPLAIN' => $titanium_lang['Always_notify_explain'],
-				'L_NOTIFY_ON_PRIVMSG' => $titanium_lang['Notify_on_privmsg'],
-				'L_POPUP_ON_PRIVMSG' => $titanium_lang['Popup_on_privmsg'],
-				'L_POPUP_ON_PRIVMSG_EXPLAIN' => $titanium_lang['Popup_on_privmsg_explain'],
-				'L_PREFERENCES' => $titanium_lang['Preferences'],
-				'L_PUBLIC_VIEW_EMAIL' => $titanium_lang['Public_view_email'],
-				'L_ITEMS_REQUIRED' => $titanium_lang['Items_required'],
-				'L_REGISTRATION_INFO' => $titanium_lang['Registration_info'],
-				'L_PROFILE_INFO' => $titanium_lang['Profile_info'],
-				'L_PROFILE_INFO_NOTICE' => $titanium_lang['Profile_info_warn'],
-				'L_PROFILE_PASSWORD' => $titanium_lang['Password_change'],
-				'L_EMAIL_ADDRESS' => $titanium_lang['Email_address'],
+		'L_SIGNATURE' => $lang['Signature'],
+				'L_SIGNATURE_EXPLAIN' => sprintf($lang['Signature_explain'], $phpbb2_board_config['max_sig_chars']),
+				'L_NOTIFY_ON_REPLY' => $lang['Always_notify'],
+				'L_NOTIFY_ON_REPLY_EXPLAIN' => $lang['Always_notify_explain'],
+				'L_NOTIFY_ON_PRIVMSG' => $lang['Notify_on_privmsg'],
+				'L_POPUP_ON_PRIVMSG' => $lang['Popup_on_privmsg'],
+				'L_POPUP_ON_PRIVMSG_EXPLAIN' => $lang['Popup_on_privmsg_explain'],
+				'L_PREFERENCES' => $lang['Preferences'],
+				'L_PUBLIC_VIEW_EMAIL' => $lang['Public_view_email'],
+				'L_ITEMS_REQUIRED' => $lang['Items_required'],
+				'L_REGISTRATION_INFO' => $lang['Registration_info'],
+				'L_PROFILE_INFO' => $lang['Profile_info'],
+				'L_PROFILE_INFO_NOTICE' => $lang['Profile_info_warn'],
+				'L_PROFILE_PASSWORD' => $lang['Password_change'],
+				'L_EMAIL_ADDRESS' => $lang['Email_address'],
 
-				'L_CONFIRM_CODE_IMPAIRED' => sprintf($titanium_lang['Confirm_code_impaired'], '<a href="mailto:' . $phpbb2_board_config['board_email'] . '">', '</a>'),
-				'L_CONFIRM_CODE' => $titanium_lang['Confirm_code'],
-				'L_CONFIRM_CODE_EXPLAIN' => $titanium_lang['Confirm_code_explain'],
+				'L_CONFIRM_CODE_IMPAIRED' => sprintf($lang['Confirm_code_impaired'], '<a href="mailto:' . $phpbb2_board_config['board_email'] . '">', '</a>'),
+				'L_CONFIRM_CODE' => $lang['Confirm_code'],
+				'L_CONFIRM_CODE_EXPLAIN' => $lang['Confirm_code_explain'],
 
 				'S_ALLOW_AVATAR_UPLOAD' => $phpbb2_board_config['allow_avatar_upload'],
 				'S_ALLOW_AVATAR_LOCAL' => $phpbb2_board_config['allow_avatar_local'],

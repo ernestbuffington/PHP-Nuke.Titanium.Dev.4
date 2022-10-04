@@ -295,8 +295,8 @@ function get_admin_filename()
  */
 function the_module()
 {
-	global $titanium_module_name;
-	return $titanium_module_name;
+	global $pnt_module;
+	return $pnt_module;
 }
 
 /**
@@ -930,19 +930,19 @@ function get_mod_admin_uri()
  *
  * @global $admlang, $customlang
  *
- * @param string    $titanium_lang         Language define you wish to have translated.
+ * @param string    $lang         Language define you wish to have translated.
  * @param string    $var          Variable name of the language locale.
  * @return string   Translated string.
  */
 if( !function_exists('__') ):
 
-	function __( $titanium_lang, $var = 'customlang', $titanium_module_name = '' ) 
+	function __( $lang, $var = 'customlang', $pnt_module = '' ) 
 	{
 		global $$var;
-		if ( empty($titanium_module_name) ):
-			return $$var[the_module()][$titanium_lang];
+		if ( empty($pnt_module) ):
+			return $$var[the_module()][$lang];
 		else:
-			return $$var[$titanium_module_name][$titanium_lang];
+			return $$var[$pnt_module][$lang];
 		endif;
 	}
 
@@ -954,20 +954,20 @@ endif;
  * @param string $text Text to be translated.
  * @return string
  */
-function _e( $titanium_lang, $var = 'customlang', $titanium_module_name = '' )
+function _e( $lang, $var = 'customlang', $pnt_module = '' )
 {
-	echo __( $titanium_lang, $var, $titanium_module_name );
+	echo __( $lang, $var, $pnt_module );
 }
 
-function sprintf__( $titanium_lang, $var = 'customlang', $titanium_module_name = '', $replacement='' )
+function sprintf__( $lang, $var = 'customlang', $pnt_module = '', $replacement='' )
 {
-	$sprintf__ = vsprintf( __( $titanium_lang, $var, $titanium_module_name ), $replacement );
+	$sprintf__ = vsprintf( __( $lang, $var, $pnt_module ), $replacement );
 	return $sprintf__;
 }
 
-function sprintf_e( $titanium_lang, $var = 'customlang', $titanium_module_name = '', $replacement='' )
+function sprintf_e( $lang, $var = 'customlang', $pnt_module = '', $replacement='' )
 {
-	$sprintf__ = vsprintf( __( $titanium_lang, $var, $titanium_module_name ), $replacement );
+	$sprintf__ = vsprintf( __( $lang, $var, $pnt_module ), $replacement );
 	echo $sprintf__;
 }
 

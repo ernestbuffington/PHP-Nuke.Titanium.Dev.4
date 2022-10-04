@@ -69,8 +69,8 @@
 if (!defined('MODULE_FILE')) die ("You can't access this file directly...");
 
 if((!(isset($popup)) OR ($popup != "1")) && !isset($HTTP_GET_VARS['printertopic'])):
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 else:
     $phpbb2_root_path = NUKE_FORUMS_DIR;
 endif;
@@ -301,7 +301,7 @@ if ( !($result = $titanium_db->sql_query($sql)) )
 message_die(GENERAL_ERROR, "Could not obtain forum information", '', __LINE__, __FILE__, $sql);
 
 if ( !($forum_thank_result = $titanium_db->sql_fetchrow($result)) )
-message_die(GENERAL_MESSAGE, $titanium_lang['thank_no_exist']);
+message_die(GENERAL_MESSAGE, $lang['thank_no_exist']);
 
 # Setting if feature is active or not 
 
@@ -332,7 +332,7 @@ if( !$phpbb2_is_auth['auth_view'] || !$phpbb2_is_auth['auth_read']):
      redirect_titanium(append_titanium_sid("modules.php?name=Your_Account&redirect=viewtopic&$redirect", true));
      exit;
   endif;
-        $message = ( !$phpbb2_is_auth['auth_view'] ) ? $titanium_lang['Topic_post_not_exist'] : sprintf($titanium_lang['Sorry_auth_read'], $phpbb2_is_auth['auth_read_type']);
+        $message = ( !$phpbb2_is_auth['auth_view'] ) ? $lang['Topic_post_not_exist'] : sprintf($lang['Sorry_auth_read'], $phpbb2_is_auth['auth_read_type']);
         message_die(GENERAL_MESSAGE, $message);
 endif;
 # auth check END
@@ -401,7 +401,7 @@ if($userdata['session_logged_in']):
 
         if(empty($comments)):
             # show form to add comments about topic
-            $phpbb2_page_title = $titanium_lang['Report_post'] . ' - ' . $topic_title;
+            $phpbb2_page_title = $lang['Report_post'] . ' - ' . $topic_title;
             include("includes/page_header.php");
 
             $phpbb2_template->set_filenames(array(
@@ -412,9 +412,9 @@ if($userdata['session_logged_in']):
             'TOPIC_TITLE'    => $topic_title,
             'POST_ID'        => $post_id,
             'U_VIEW_TOPIC'   => append_titanium_sid('viewtopic.'.$phpEx.'?'.POST_TOPIC_URL.'='.$topic_id),
-            'L_REPORT_POST'  => $titanium_lang['Report_post'],
-            'L_COMMENTS'     => $titanium_lang['Comments'],
-            'L_SUBMIT'       => $titanium_lang['Submit'],
+            'L_REPORT_POST'  => $lang['Report_post'],
+            'L_COMMENTS'     => $lang['Comments'],
+            'L_SUBMIT'       => $lang['Submit'],
             'S_ACTION'       => append_titanium_sid('viewtopic.'.$phpEx.'?report=true&amp;'.POST_POST_URL.'='.$post_id))
             );
 
@@ -424,7 +424,7 @@ if($userdata['session_logged_in']):
             exit;
         else:
             if(!report_flood())
-            message_die(GENERAL_MESSAGE, $titanium_lang['Flood_Error']);
+            message_die(GENERAL_MESSAGE, $lang['Flood_Error']);
             # insert the report
             insert_report($post_id, $comments);
             # email the report if need to
@@ -435,7 +435,7 @@ if($userdata['session_logged_in']):
                 'META' => '<meta http-equiv="refresh" content="3;url='.append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id").'">')
             );
 
-            $message =  $titanium_lang['Post_reported'] . '<br /><br />'.sprintf($titanium_lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id").'">', '</a>');
+            $message =  $lang['Post_reported'] . '<br /><br />'.sprintf($lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id").'">', '</a>');
             message_die(GENERAL_MESSAGE, $message);
         endif;
     endif;
@@ -468,7 +468,7 @@ if($userdata['session_logged_in']):
                  $phpbb2_template->assign_vars(array(
                  'META' => '<meta http-equiv="refresh" content="3;url='.append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;start=$phpbb2_start").'">'));
 
-                 $message = $titanium_lang['No_longer_watching'].'<br /><br />'.sprintf($titanium_lang['Click_return_topic'], '<a 
+                 $message = $lang['No_longer_watching'].'<br /><br />'.sprintf($lang['Click_return_topic'], '<a 
 				 href="' . append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;start=$phpbb2_start") . '">', '</a>');
                  message_die(GENERAL_MESSAGE, $message);
            else:
@@ -495,7 +495,7 @@ if($userdata['session_logged_in']):
                  message_die(GENERAL_ERROR, "Could not insert topic watch information", '', __LINE__, __FILE__, $sql);
               endif;
               $phpbb2_template->assign_vars(array('META' => '<meta http-equiv="refresh" content="3;url='.append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;start=$phpbb2_start").'">'));
-              $message = $titanium_lang['You_are_watching'].'<br /><br />'.sprintf($titanium_lang['Click_return_topic'], '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;start=$phpbb2_start").'">', '</a>');
+              $message = $lang['You_are_watching'].'<br /><br />'.sprintf($lang['Click_return_topic'], '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;start=$phpbb2_start").'">', '</a>');
                message_die(GENERAL_MESSAGE, $message);
            else:
                $is_watching_topic = 0;
@@ -531,7 +531,7 @@ endif;
 # Mod: Hide Mod v1.2.0 END
 
 $previous_days = array(0, 1, 7, 14, 30, 90, 180, 364);
-$previous_days_text = array($titanium_lang['All_Posts'], $titanium_lang['1_Day'], $titanium_lang['7_Days'], $titanium_lang['2_Weeks'], $titanium_lang['1_Month'], $titanium_lang['3_Months'], $titanium_lang['6_Months'], $titanium_lang['1_Year']);
+$previous_days_text = array($lang['All_Posts'], $lang['1_Day'], $lang['7_Days'], $lang['2_Weeks'], $lang['1_Month'], $lang['3_Months'], $lang['6_Months'], $lang['1_Year']);
 
 if(!empty($HTTP_POST_VARS['postdays']) || !empty($HTTP_GET_VARS['postdays'])):
         $post_days = ( !empty($HTTP_POST_VARS['postdays']) ) ? intval($HTTP_POST_VARS['postdays']) : intval($HTTP_GET_VARS['postdays']);
@@ -586,9 +586,9 @@ endif;
 $select_post_order = '<select name="postorder">';
 
 if($post_time_order == 'ASC')
-$select_post_order .= '<option value="asc" selected="selected">'.$titanium_lang['Oldest_First'].'</option><option value="desc">'.$titanium_lang['Newest_First'].'</option>';
+$select_post_order .= '<option value="asc" selected="selected">'.$lang['Oldest_First'].'</option><option value="desc">'.$lang['Newest_First'].'</option>';
 else
-$select_post_order .= '<option value="asc">'.$titanium_lang['Oldest_First'].'</option><option value="desc" selected="selected">'.$titanium_lang['Newest_First'].'</option>';
+$select_post_order .= '<option value="asc">'.$lang['Oldest_First'].'</option><option value="desc" selected="selected">'.$lang['Newest_First'].'</option>';
 
 $select_post_order .= '</select>';
 
@@ -664,7 +664,7 @@ else:
    include("includes/functions_admin.php");
    sync('topic', $topic_id);
 
-   message_die(GENERAL_MESSAGE, $titanium_lang['No_posts_topic']);
+   message_die(GENERAL_MESSAGE, $lang['No_posts_topic']);
 endif;
 
 $resync = FALSE;
@@ -743,11 +743,11 @@ $who_has_viewed_topic = append_titanium_sid("viewtopic_whoview.$phpEx?".POST_TOP
 # Mozilla navigation bar
 $titanium_nav_links['prev'] = array(
           'url' => $view_prev_topic_url,
-        'title' => $titanium_lang['View_previous_topic']
+        'title' => $lang['View_previous_topic']
 );
 $titanium_nav_links['next'] = array(
           'url' => $view_next_topic_url,
-        'title' => $titanium_lang['View_next_topic']
+        'title' => $lang['View_next_topic']
 );
 $titanium_nav_links['up'] = array(
           'url' => $view_forum_url,
@@ -755,20 +755,20 @@ $titanium_nav_links['up'] = array(
 );
 
 $reply_img = ($forum_topic_data['forum_status'] == FORUM_LOCKED || $forum_topic_data['topic_status'] == TOPIC_LOCKED) ? $images['reply_locked'] : $images['reply_new'];
-$reply_alt = ($forum_topic_data['forum_status'] == FORUM_LOCKED || $forum_topic_data['topic_status'] == TOPIC_LOCKED) ? $titanium_lang['Topic_locked'] : $titanium_lang['Reply_to_topic'];
+$reply_alt = ($forum_topic_data['forum_status'] == FORUM_LOCKED || $forum_topic_data['topic_status'] == TOPIC_LOCKED) ? $lang['Topic_locked'] : $lang['Reply_to_topic'];
 $post_img = ($forum_topic_data['forum_status'] == FORUM_LOCKED) ? $images['post_locked'] : $images['post_new'];
-$post_alt = ($forum_topic_data['forum_status'] == FORUM_LOCKED) ? $titanium_lang['Forum_locked'] : $titanium_lang['Post_new_topic'];
+$post_alt = ($forum_topic_data['forum_status'] == FORUM_LOCKED) ? $lang['Forum_locked'] : $lang['Post_new_topic'];
 $whoview_img = $images['icon_view'];
-$whoview_alt = $titanium_lang['Topic_view_users'];
+$whoview_alt = $lang['Topic_view_users'];
 
 # Mod: Thank You Mod v1.1.8 START
 $thank_img = $images['thanks'];
-$thank_alt = $titanium_lang['thanks_alt'];
+$thank_alt = $lang['thanks_alt'];
 # Mod: Thank You Mod v1.1.8 END
 
 # Mod: Printer Topic v1.0.8 START
 $printer_img = $images['printer'];
-$printer_alt = $titanium_lang['printertopic_button'];
+$printer_alt = $lang['printertopic_button'];
 # Mod: Printer Topic v1.0.8 END
 
 # Set a cookie for this topic
@@ -836,7 +836,7 @@ if( $phpbb2_parent_id )
 # Mod: Simple Subforums v1.0.1 END
 
 # Output page header
-$phpbb2_page_title = $titanium_lang['View_topic'] .' - ' . $topic_title;
+$phpbb2_page_title = $lang['View_topic'] .' - ' . $topic_title;
 
 # Mod: Printer Topic v1.0.8 START
 if(isset($HTTP_GET_VARS['printertopic']))
@@ -852,11 +852,11 @@ $topic_title = ($phpbb2_board_config['smilies_in_titles']) ? smilies_pass($topic
 # Mod: Smilies in Topic Titles Toggle v1.0.0 END
 
 # User authorisation levels output
-$s_auth_can = (($phpbb2_is_auth['auth_post']) ? $titanium_lang['Rules_post_can'] : $titanium_lang['Rules_post_cannot']) . '<br />';
-$s_auth_can .= (($phpbb2_is_auth['auth_reply']) ? $titanium_lang['Rules_reply_can'] : $titanium_lang['Rules_reply_cannot']) . '<br />';
-$s_auth_can .= (($phpbb2_is_auth['auth_edit']) ? $titanium_lang['Rules_edit_can'] : $titanium_lang['Rules_edit_cannot']) . '<br />';
-$s_auth_can .= (($phpbb2_is_auth['auth_delete']) ? $titanium_lang['Rules_delete_can'] : $titanium_lang['Rules_delete_cannot'] ) . '<br />';
-$s_auth_can .= (($phpbb2_is_auth['auth_vote']) ? $titanium_lang['Rules_vote_can'] : $titanium_lang['Rules_vote_cannot']) . '<br />';
+$s_auth_can = (($phpbb2_is_auth['auth_post']) ? $lang['Rules_post_can'] : $lang['Rules_post_cannot']) . '<br />';
+$s_auth_can .= (($phpbb2_is_auth['auth_reply']) ? $lang['Rules_reply_can'] : $lang['Rules_reply_cannot']) . '<br />';
+$s_auth_can .= (($phpbb2_is_auth['auth_edit']) ? $lang['Rules_edit_can'] : $lang['Rules_edit_cannot']) . '<br />';
+$s_auth_can .= (($phpbb2_is_auth['auth_delete']) ? $lang['Rules_delete_can'] : $lang['Rules_delete_cannot'] ) . '<br />';
+$s_auth_can .= (($phpbb2_is_auth['auth_vote']) ? $lang['Rules_vote_can'] : $lang['Rules_vote_cannot']) . '<br />';
 
 # Mod: Attachment Mod v2.4.1 START
 attach_build_auth_levels($phpbb2_is_auth, $s_auth_can);
@@ -871,47 +871,47 @@ $merge_topic_url = $merge_topic_btn = '';
 
 if($phpbb2_is_auth['auth_mod']):
 
-        $s_auth_can .= sprintf($titanium_lang['Rules_moderate'], '<a href="'.append_titanium_sid("modcp.$phpEx?".POST_FORUM_URL."=$phpbb2_forum_id").'">', '</a>');
+        $s_auth_can .= sprintf($lang['Rules_moderate'], '<a href="'.append_titanium_sid("modcp.$phpEx?".POST_FORUM_URL."=$phpbb2_forum_id").'">', '</a>');
 
         $topic_mod .= '<a href="'.append_titanium_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=delete").'"><img 
-		src="'.$images['topic_mod_delete'].'" alt="'.$titanium_lang['Delete_topic'].'" title="'. $titanium_lang['Delete_topic'].'" border="0" /></a>&nbsp;';
+		src="'.$images['topic_mod_delete'].'" alt="'.$lang['Delete_topic'].'" title="'. $lang['Delete_topic'].'" border="0" /></a>&nbsp;';
 		
         $delete_topic_url = append_titanium_sid("modcp.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;mode=delete");
-        $delete_topic_btn = $titanium_lang['Delete_topic'];
+        $delete_topic_btn = $lang['Delete_topic'];
 
         $topic_mod .= '<a href="'.append_titanium_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=move").'"><img 
-		src="'.$images['topic_mod_move'].'" alt="'.$titanium_lang['Move_topic'].'" title="'.$titanium_lang['Move_topic'].'" border="0" /></a>&nbsp;';
+		src="'.$images['topic_mod_move'].'" alt="'.$lang['Move_topic'].'" title="'.$lang['Move_topic'].'" border="0" /></a>&nbsp;';
         
 		$move_topic_url = append_titanium_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=move");
-        $move_topic_btn = $titanium_lang['Move_topic'];
+        $move_topic_btn = $lang['Move_topic'];
 
         $topic_mod .= ($forum_topic_data['topic_status'] == TOPIC_UNLOCKED ) ? '<a href="'.append_titanium_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=lock").'"><img 
-		src="'.$images['topic_mod_lock'].'" alt="'.$titanium_lang['Lock_topic'].'" title="'.$titanium_lang['Lock_topic'].'" border="0" /></a>&nbsp;' : '<a 
+		src="'.$images['topic_mod_lock'].'" alt="'.$lang['Lock_topic'].'" title="'.$lang['Lock_topic'].'" border="0" /></a>&nbsp;' : '<a 
 		href="'.append_titanium_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=unlock").'"><img 
-		src="'.$images['topic_mod_unlock'].'" alt="'.$titanium_lang['Unlock_topic'].'" title="'.$titanium_lang['Unlock_topic'].'" border="0" /></a>&nbsp;';
+		src="'.$images['topic_mod_unlock'].'" alt="'.$lang['Unlock_topic'].'" title="'.$lang['Unlock_topic'].'" border="0" /></a>&nbsp;';
         
 		if($forum_topic_data['topic_status'] == TOPIC_UNLOCKED):
         	$lock_topic_url = append_titanium_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=lock");
-        	$lock_topic_btn = $titanium_lang['Lock_topic'];
+        	$lock_topic_btn = $lang['Lock_topic'];
         	$lock_topic_status = 0;
         else:
         	$lock_topic_url = append_titanium_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=unlock");
-        	$lock_topic_btn = $titanium_lang['Unlock_topic'];
+        	$lock_topic_btn = $lang['Unlock_topic'];
         	$lock_topic_status = 1;
         endif;
 
         $topic_mod .= '<a href="'.append_titanium_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=split").'"><img 
-		src="'.$images['topic_mod_split'].'" alt="'.$titanium_lang['Split_topic'].'" title="'. $titanium_lang['Split_topic'].'" border="0" /></a>&nbsp;';
+		src="'.$images['topic_mod_split'].'" alt="'.$lang['Split_topic'].'" title="'. $lang['Split_topic'].'" border="0" /></a>&nbsp;';
         
 		$split_topic_url = append_titanium_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=split");
-        $split_topic_btn = $titanium_lang['Split_topic'];
+        $split_topic_btn = $lang['Split_topic'];
 		
         # Mod: Simply Merge Threads v1.0.1 START
         $topic_mod .= '<a href="' . append_titanium_sid("merge.$phpEx?" . POST_TOPIC_URL . '=' . $topic_id) . '"><img 
-		src="' . $images['topic_mod_merge'] . '" alt="' . $titanium_lang['Merge_topics'] . '" title="' . $titanium_lang['Merge_topics'] . '" border="0" /></a>&nbsp;';
+		src="' . $images['topic_mod_merge'] . '" alt="' . $lang['Merge_topics'] . '" title="' . $lang['Merge_topics'] . '" border="0" /></a>&nbsp;';
         
 		$merge_topic_url = append_titanium_sid("merge.$phpEx?" . POST_TOPIC_URL . '=' . $topic_id);
-        $merge_topic_btn = $titanium_lang['Merge_topics'];
+        $merge_topic_btn = $lang['Merge_topics'];
         # Mod: Simply Merge Threads v1.0.1 END 
 endif;
 
@@ -920,23 +920,23 @@ endif;
 $s_watching_topic = $s_watching_topic_url = $s_watching_topic_text = $s_watching_topic_state = '';
 if($can_watch_topic):
   if($is_watching_topic):
-     $s_watching_topic = '<a href="' . append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;unwatch=topic&amp;start=$phpbb2_start").'">'.$titanium_lang['Stop_watching_topic'].'</a>';
+     $s_watching_topic = '<a href="' . append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;unwatch=topic&amp;start=$phpbb2_start").'">'.$lang['Stop_watching_topic'].'</a>';
      
 	 $s_watching_topic_img = (isset($images['Topic_un_watch']) ) ? '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;unwatch=topic&amp;start=$phpbb2_start").'"><img 
-	 src="'.$images['Topic_un_watch'].'" alt="'.$titanium_lang['Stop_watching_topic'].'" title="'.$titanium_lang['Stop_watching_topic'].'" border="0"></a>' : '';
+	 src="'.$images['Topic_un_watch'].'" alt="'.$lang['Stop_watching_topic'].'" title="'.$lang['Stop_watching_topic'].'" border="0"></a>' : '';
 
      $s_watching_topic_url = append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;unwatch=topic&amp;page=$phpbb2_start");
-     $s_watching_topic_text = $titanium_lang['Stop_watching_topic'];
+     $s_watching_topic_text = $lang['Stop_watching_topic'];
      $s_watching_topic_state = 1;
         
   else:
         
-  $s_watching_topic = '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;watch=topic&amp;start=$phpbb2_start").'">'.$titanium_lang['Start_watching_topic'].'</a>';
+  $s_watching_topic = '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;watch=topic&amp;start=$phpbb2_start").'">'.$lang['Start_watching_topic'].'</a>';
   $s_watching_topic_img = ( isset($images['Topic_watch']) ) ? '<a href="' . append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;watch=topic&amp;start=$phpbb2_start").'"><img 
-  src="'.$images['Topic_watch'].'" alt="'.$titanium_lang['Stop_watching_topic'].'" title="'.$titanium_lang['Start_watching_topic'].'" border="0"></a>' : '';
+  src="'.$images['Topic_watch'].'" alt="'.$lang['Stop_watching_topic'].'" title="'.$lang['Start_watching_topic'].'" border="0"></a>' : '';
 
   $s_watching_topic_url = append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;watch=topic&amp;page=$phpbb2_start");
-  $s_watching_topic_text = $titanium_lang['Start_watching_topic'];
+  $s_watching_topic_text = $lang['Start_watching_topic'];
   $s_watching_topic_state = 0;
   endif;
 endif;
@@ -945,9 +945,9 @@ endif;
 $s_email_topic = $s_email_url = $s_email_text = '';
 if($userdata['session_logged_in']):
   $action = ($post_id) ? POST_POST_URL."=$post_id" : POST_TOPIC_URL."=$topic_id&amp;start=$phpbb2_start";
-  $s_email_topic = '<a href="'.append_titanium_sid("emailtopic.$phpEx?$action").'">'.$titanium_lang['Email_topic'].'</a>';
+  $s_email_topic = '<a href="'.append_titanium_sid("emailtopic.$phpEx?$action").'">'.$lang['Email_topic'].'</a>';
   $s_email_url = append_titanium_sid("emailtopic.$phpEx?$action");
-  $s_email_text = $titanium_lang['Email_topic'];
+  $s_email_text = $lang['Email_topic'];
 endif;
 # Mod: Email topic to friend v1.0.0 END
 
@@ -977,7 +977,7 @@ $current_page = get_page($total_phpbb2_replies, $phpbb2_board_config['posts_per_
 # Mod: Thank You Mod v1.1.8 END
 
 if($pagination != '' && !empty($pagination_printertopic)):
-$pagination .= " &nbsp;<a href=\"modules.php?name=Forums&amp;file=viewtopic&amp;".$pagination_printertopic.POST_TOPIC_URL."=$topic_id&amp;postdays=$post_days&amp;postorder=$post_order&amp;".$pagination_highlight. "start=0&amp;finish_rel=-10000\" title=\"".$titanium_lang['printertopic_cancel_pagination_desc']."\">:|&nbsp;|:</a>";
+$pagination .= " &nbsp;<a href=\"modules.php?name=Forums&amp;file=viewtopic&amp;".$pagination_printertopic.POST_TOPIC_URL."=$topic_id&amp;postdays=$post_days&amp;postorder=$post_order&amp;".$pagination_highlight. "start=0&amp;finish_rel=-10000\" title=\"".$lang['printertopic_cancel_pagination_desc']."\">:|&nbsp;|:</a>";
 endif;
 
 # Mod: Printer Topic v1.0.8 START
@@ -1011,7 +1011,7 @@ $phpbb2_template->assign_vars(array(
         'PAGINATION_BOOTSTRAP' => get_bootstrap_pagination($pagination_variables),
         
 		# Mod: Printer Topic v1.0.8 START
-        'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], (floor($phpbb2_start / $pagination_ppp ) + 1 ), ceil($total_phpbb2_replies / $pagination_ppp)),
+        'PAGE_NUMBER' => sprintf($lang['Page_of'], (floor($phpbb2_start / $pagination_ppp ) + 1 ), ceil($total_phpbb2_replies / $pagination_ppp)),
 		# Mod: Printer Topic v1.0.8 END
 
         'POST_IMG' => $post_img,
@@ -1026,20 +1026,20 @@ $phpbb2_template->assign_vars(array(
         'L_WHOVIEW_ALT' => $whoview_alt,
          # Base: Who viewed a topic v1.0.3 START
 
-        'L_RANK_TITLE' => $titanium_lang['rank_title'],
+        'L_RANK_TITLE' => $lang['rank_title'],
 
-        'L_POST_COUNT' => $titanium_lang['Posts'],
+        'L_POST_COUNT' => $lang['Posts'],
 
-        'L_BY' => $titanium_lang['By'],
-        'L_IN' => $titanium_lang['In'],
-        'L_ON' => $titanium_lang['On'],
+        'L_BY' => $lang['By'],
+        'L_IN' => $lang['In'],
+        'L_ON' => $lang['On'],
 
-        'L_AUTHOR' => $titanium_lang['Author'],
-        'L_MESSAGE' => $titanium_lang['Message'],
-        'L_POSTED' => $titanium_lang['Posted'],
-        'L_POST_SUBJECT' => $titanium_lang['Post_subject'],
-        'L_VIEW_NEXT_TOPIC' => $titanium_lang['View_next_topic'],
-        'L_VIEW_PREVIOUS_TOPIC' => $titanium_lang['View_previous_topic'],
+        'L_AUTHOR' => $lang['Author'],
+        'L_MESSAGE' => $lang['Message'],
+        'L_POSTED' => $lang['Posted'],
+        'L_POST_SUBJECT' => $lang['Post_subject'],
+        'L_VIEW_NEXT_TOPIC' => $lang['View_next_topic'],
+        'L_VIEW_PREVIOUS_TOPIC' => $lang['View_previous_topic'],
         'L_POST_NEW_TOPIC' => $post_alt,
         'L_POST_REPLY_TOPIC' => $reply_alt,
          
@@ -1047,14 +1047,14 @@ $phpbb2_template->assign_vars(array(
         'L_PRINTER_TOPIC' => $printer_alt,
 		 # Mod: Printer Topic v1.0.8 END
 
-        'L_BACK_TO_TOP' => $titanium_lang['Back_to_top'],
-        'L_DISPLAY_POSTS' => $titanium_lang['Display_posts'],
-        'L_LOCK_TOPIC' => $titanium_lang['Lock_topic'],
-        'L_UNLOCK_TOPIC' => $titanium_lang['Unlock_topic'],
-        'L_MOVE_TOPIC' => $titanium_lang['Move_topic'],
-        'L_SPLIT_TOPIC' => $titanium_lang['Split_topic'],
-        'L_DELETE_TOPIC' => $titanium_lang['Delete_topic'],
-        'L_GOTO_PAGE' => $titanium_lang['Goto_page'],
+        'L_BACK_TO_TOP' => $lang['Back_to_top'],
+        'L_DISPLAY_POSTS' => $lang['Display_posts'],
+        'L_LOCK_TOPIC' => $lang['Lock_topic'],
+        'L_UNLOCK_TOPIC' => $lang['Unlock_topic'],
+        'L_MOVE_TOPIC' => $lang['Move_topic'],
+        'L_SPLIT_TOPIC' => $lang['Split_topic'],
+        'L_DELETE_TOPIC' => $lang['Delete_topic'],
+        'L_GOTO_PAGE' => $lang['Goto_page'],
 
         'S_TOPIC_LINK' => POST_TOPIC_URL,
         'S_SELECT_POST_DAYS' => $select_post_days,
@@ -1158,7 +1158,7 @@ if(!empty($forum_topic_data['topic_vote'])):
                      # Mod: Must first vote to see Results v1.0.0 START
                      # If poll is over, allow results to be viewed by all.
                      if (!$titanium_user_voted && !$poll_view_toggle && $view_result && !$poll_expired) 
-                     message_die(GENERAL_ERROR, $titanium_lang['must_first_vote']);
+                     message_die(GENERAL_ERROR, $lang['must_first_vote']);
                      # Mod: Must first vote to see Results v1.0.0 START
 
                      $phpbb2_template->set_filenames(array(
@@ -1207,7 +1207,7 @@ if(!empty($forum_topic_data['topic_vote'])):
                     endfor;
 
                         $phpbb2_template->assign_vars(array(
-                                'L_TOTAL_VOTES' => $titanium_lang['Total_votes'],
+                                'L_TOTAL_VOTES' => $lang['Total_votes'],
                                 'TOTAL_VOTES' => $vote_results_sum)
                         );
 
@@ -1229,10 +1229,10 @@ if(!empty($forum_topic_data['topic_vote'])):
                         endfor;
 
                         $phpbb2_template->assign_vars(array(
-                                'L_SUBMIT_VOTE' => $titanium_lang['Submit_vote'],
+                                'L_SUBMIT_VOTE' => $lang['Submit_vote'],
 
                                  # Mod: Must first vote to see Results v1.0.0 START
-                                'L_VIEW_RESULTS' => (!$titanium_user_voted && $poll_view_toggle) ? $titanium_lang['View_results'] : '',
+                                'L_VIEW_RESULTS' => (!$titanium_user_voted && $poll_view_toggle) ? $lang['View_results'] : '',
                                  # Mod: Must first vote to see Results v1.0.0 END
 
                                 'U_VIEW_RESULTS' => append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;postdays=$post_days&amp;postorder=$post_order&amp;vote=viewresult"))
@@ -1318,7 +1318,7 @@ if ($show_thanks == FORUM_THANKABLE):
 	message_die(GENERAL_ERROR, "Could not obtain user information", '', __LINE__, __FILE__, $sql);
 
 	$autor_name = $autor[0]['username'];
-	$thanks .= '<br /><br />'.$titanium_lang['thanks_to'].' '.UsernameColor($autor_name).' '.$titanium_lang['thanks_end'];
+	$thanks .= '<br /><br />'.$lang['thanks_to'].' '.UsernameColor($autor_name).' '.$lang['thanks_end'];
 
 	# Create button switch
 	if ($userdata['user_id'] != $autor['0']['user_id'] && !$thanked):
@@ -1384,13 +1384,13 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
  endif;
     # Mod: Display Poster Information Once v2.0.0 START
     $poster_id = $postrow[$i]['user_id'];
-    $poster = ( $poster_id == ANONYMOUS ) ? $titanium_lang['Guest'] : $postrow[$i]['username'];
+    $poster = ( $poster_id == ANONYMOUS ) ? $lang['Guest'] : $postrow[$i]['username'];
 
     $post_date = create_date($phpbb2_board_config['default_dateformat'], $postrow[$i]['post_time'], $phpbb2_board_config['board_timezone']);
 
     $poster_posts = ( $postrow[$i]['user_id'] != ANONYMOUS ) ? $postrow[$i]['user_posts'] : '';
 
-    $poster_from = ( $postrow[$i]['user_from'] && $postrow[$i]['user_id'] != ANONYMOUS ) ? $titanium_lang['Location'] . ': '.$postrow[$i]['user_from'] : '';
+    $poster_from = ( $postrow[$i]['user_from'] && $postrow[$i]['user_id'] != ANONYMOUS ) ? $lang['Location'] . ': '.$postrow[$i]['user_from'] : '';
     // $poster_from = str_replace(".gif", "", $poster_from);
     
 	# Mod: Member Country Flags               v2.0.7 START
@@ -1459,10 +1459,10 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
         # Define the little post icon
         if($userdata['session_logged_in'] && $postrow[$i]['post_time'] > $userdata['user_lastvisit'] && $postrow[$i]['post_time'] > $topic_last_read):
             $mini_post_img = $images['icon_minipost_new'];
-            $mini_post_alt = $titanium_lang['New_post'];
+            $mini_post_alt = $lang['New_post'];
         else:
             $mini_post_img = $images['icon_minipost'];
-            $mini_post_alt = $titanium_lang['Post'];
+            $mini_post_alt = $lang['Post'];
         endif;
 
         $mini_post_url = append_titanium_sid("viewtopic.$phpEx?".POST_POST_URL.'='.$postrow[$i]['post_id']).'#'.$postrow[$i]['post_id'];
@@ -1498,7 +1498,7 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
         # Handle anon users posting with usernames
         if ( $poster_id == ANONYMOUS && !empty($postrow[$i]['post_username'])):
                 $poster = $postrow[$i]['post_username'];
-                $titanium_user_rank_01 = $titanium_lang['Guest'] . '<br />';
+                $titanium_user_rank_01 = $lang['Guest'] . '<br />';
         endif;
 
         $temp_url = '';
@@ -1506,26 +1506,26 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
         if($poster_id != ANONYMOUS):
           $temp_url = "modules.php?name=Profile&amp;mode=viewprofile&amp;".POST_USERS_URL."=$poster_id";
           $profile_url = $temp_url;
-          $profile_lang = $titanium_lang['Read_profile'];
-          $profile_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_profile'].'" alt="'.$titanium_lang['Read_profile'].'" title="'.$titanium_lang['Read_profile'].'" border="0" /></a>';
-          $profile = '<a href="'.$temp_url.'">'.$titanium_lang['Read_profile'].'</a>';
+          $profile_lang = $lang['Read_profile'];
+          $profile_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_profile'].'" alt="'.$lang['Read_profile'].'" title="'.$lang['Read_profile'].'" border="0" /></a>';
+          $profile = '<a href="'.$temp_url.'">'.$lang['Read_profile'].'</a>';
 
           $temp_url = append_titanium_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=$poster_id");
           
 		  if (is_active("Private_Messages")): 
            	 $pm_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_pm'].'" 
-			 alt="'.sprintf($titanium_lang['Send_private_message'],$postrow[$i]['username']).'" title="'.sprintf($titanium_lang['Send_private_message'],$postrow[$i]['username']).'" border="0" /></a>';
-                	$pm = '<a href="'.$temp_url.'">'.$titanium_lang['Send_private_message'].'</a>';
-                  $pm_alt = sprintf($titanium_lang['Send_private_message'],$postrow[$i]['username']);
+			 alt="'.sprintf($lang['Send_private_message'],$postrow[$i]['username']).'" title="'.sprintf($lang['Send_private_message'],$postrow[$i]['username']).'" border="0" /></a>';
+                	$pm = '<a href="'.$temp_url.'">'.$lang['Send_private_message'].'</a>';
+                  $pm_alt = sprintf($lang['Send_private_message'],$postrow[$i]['username']);
           endif;
 				
           # Mod: Gender v1.2.6 START
           switch ($postrow[$i]['user_gender']):
             case 1:
-            $gender_image = $titanium_lang['Male'];
+            $gender_image = $lang['Male'];
             break;
             case 2:
-            $gender_image = $titanium_lang['Female'];
+            $gender_image = $lang['Female'];
             break;
             default : 
             $gender_image = '';
@@ -1535,9 +1535,9 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
          if(!empty($postrow[$i]['user_viewemail']) || $phpbb2_is_auth['auth_mod']):
            $email_uri = ($phpbb2_board_config['board_email_form']) ? "modules.php?name=Profile&mode=email&amp;".POST_USERS_URL.'='.$poster_id : 'mailto:'.$postrow[$i]['user_email'];
            $email_img = '<a href="'.$email_uri.'"><img src="'.$images['icon_email'].'" 
-		   alt="'.sprintf($titanium_lang['Send_email'],$postrow[$i]['username']).'" title="'.sprintf($titanium_lang['Send_email'],$postrow[$i]['username']).'" border="0" /></a>';
-           $email = '<a href="'.$email_uri.'">'.$titanium_lang['Send_email'].'</a>';
-           $email_alt = sprintf($titanium_lang['Send_email'],$postrow[$i]['username']);
+		   alt="'.sprintf($lang['Send_email'],$postrow[$i]['username']).'" title="'.sprintf($lang['Send_email'],$postrow[$i]['username']).'" border="0" /></a>';
+           $email = '<a href="'.$email_uri.'">'.$lang['Send_email'].'</a>';
+           $email_alt = sprintf($lang['Send_email'],$postrow[$i]['username']);
          else:
             $email_img = '';
             $email = '';
@@ -1552,9 +1552,9 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
            // }
 
            $www_img = ($postrow[$i]['user_website']) ? '<a href="'.$postrow[$i]['user_website'].'" target="_userwww"><img 
-		   src="'.$images['icon_www'].'" alt="'.$titanium_lang['Visit_website'].'" title="'.$titanium_lang['Visit_website'].'" border="0" /></a>' : '';
+		   src="'.$images['icon_www'].'" alt="'.$lang['Visit_website'].'" title="'.$lang['Visit_website'].'" border="0" /></a>' : '';
            
-		   $www = ($postrow[$i]['user_website']) ? '<a href="'.$postrow[$i]['user_website'].'" target="_userwww">'.$titanium_lang['Visit_website'].'</a>' : '';
+		   $www = ($postrow[$i]['user_website']) ? '<a href="'.$postrow[$i]['user_website'].'" target="_userwww">'.$lang['Visit_website'].'</a>' : '';
 				
            # Mod: Birthdays v3.0.0 START
 	       $phpbb2_bday_month_day = floor($postrow[$i]['user_birthday'] / 10000);
@@ -1565,10 +1565,10 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
 		
 		   # Mod: Facebook v1.0.0 START		
            $facebook_img = ($postrow[$i]['user_facebook']) ? '<a href="http://www.facebook.com/'.$postrow[$i]['user_facebook'].'" target="_userwww"><img 
-		   src="'.$images['icon_facebook'].'" alt="'.$titanium_lang['Visit_facebook'].': '. 
+		   src="'.$images['icon_facebook'].'" alt="'.$lang['Visit_facebook'].': '. 
 			
-		   $postrow[$i]['user_facebook'].'" title="'.$titanium_lang['Visit_facebook'].'" border="0" /></a>' : '';
-		   $facebook = ( $postrow[$i]['user_facebook'] ) ? '<a href="'.$temp_url.'">'.$titanium_lang['FACEBOOK'].'</a>' : '';
+		   $postrow[$i]['user_facebook'].'" title="'.$lang['Visit_facebook'].'" border="0" /></a>' : '';
+		   $facebook = ( $postrow[$i]['user_facebook'] ) ? '<a href="'.$temp_url.'">'.$lang['FACEBOOK'].'</a>' : '';
 		   # Mod: Facebook v1.0.0 END		
            
 		   # Mod: Online/Offline/Hidden v2.2.7 START
@@ -1580,21 +1580,21 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
 
               if($postrow[$i]['user_allow_viewonline']):
                   $online_status_img = '<a href="'.append_titanium_sid("viewonline.$phpEx").'"><img 
-				  src="'.$images['icon_online'].'" alt="'.sprintf($titanium_lang['is_online'], $poster).'" title="'.sprintf($titanium_lang['is_online'], $poster).'" /></a>&nbsp;';
+				  src="'.$images['icon_online'].'" alt="'.sprintf($lang['is_online'], $poster).'" title="'.sprintf($lang['is_online'], $poster).'" /></a>&nbsp;';
                   
-				  $online_status = '<a href="'.append_titanium_sid("viewonline.$phpEx").'" title="'.sprintf($titanium_lang['is_online'], $poster).'"'.$online_color.'>'.$titanium_lang['Online'].'</a>';
+				  $online_status = '<a href="'.append_titanium_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'], $poster).'"'.$online_color.'>'.$lang['Online'].'</a>';
               elseif($phpbb2_is_auth['auth_mod'] || $userdata['user_id'] == $poster_id):
                 $online_status_img = '<a href="'.append_titanium_sid("viewonline.$phpEx").'"><img 
-				src="'.$images['icon_hidden'].'" alt="'.sprintf($titanium_lang['is_hidden'], $poster).'" title="'.sprintf($titanium_lang['is_hidden'], $poster).'" /></a>&nbsp;';
+				src="'.$images['icon_hidden'].'" alt="'.sprintf($lang['is_hidden'], $poster).'" title="'.sprintf($lang['is_hidden'], $poster).'" /></a>&nbsp;';
                 
-				$online_status = '<em><a href="'.append_titanium_sid("viewonline.$phpEx").'" title="'.sprintf($titanium_lang['is_hidden'], $poster).'"'.$hidden_color.'>'.$titanium_lang['Hidden'].'</a></em>';
+				$online_status = '<em><a href="'.append_titanium_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_hidden'], $poster).'"'.$hidden_color.'>'.$lang['Hidden'].'</a></em>';
               else:
-                 $online_status_img = '<img src="'.$images['icon_offline'].'" alt="'.sprintf($titanium_lang['is_offline'], $poster).'" title="'.sprintf($titanium_lang['is_offline'], $poster).'" />&nbsp;';
-                 $online_status = '<span title="'.sprintf($titanium_lang['is_offline'], $poster).'"'.$offline_color.'>'.$titanium_lang['Offline'].'</span>';
+                 $online_status_img = '<img src="'.$images['icon_offline'].'" alt="'.sprintf($lang['is_offline'], $poster).'" title="'.sprintf($lang['is_offline'], $poster).'" />&nbsp;';
+                 $online_status = '<span title="'.sprintf($lang['is_offline'], $poster).'"'.$offline_color.'>'.$lang['Offline'].'</span>';
               endif;
            else:
-             $online_status_img = '<img src="'.$images['icon_offline'].'" alt="'.sprintf($titanium_lang['is_offline'], $poster).'" title="'.sprintf($titanium_lang['is_offline'], $poster).'" />&nbsp;';
-             $online_status = '<span title="'.sprintf($titanium_lang['is_offline'], $poster).'"'.$offline_color.'>'.$titanium_lang['Offline'].'</span>';
+             $online_status_img = '<img src="'.$images['icon_offline'].'" alt="'.sprintf($lang['is_offline'], $poster).'" title="'.sprintf($lang['is_offline'], $poster).'" />&nbsp;';
+             $online_status = '<span title="'.sprintf($lang['is_offline'], $poster).'"'.$offline_color.'>'.$lang['Offline'].'</span>';
            endif;
 		   # Mod: Online/Offline/Hidden v2.2.7 END
         
@@ -1628,24 +1628,24 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
 		endif;
 
         $temp_url = append_titanium_sid("posting.$phpEx?mode=quote&amp;".POST_POST_URL."=".$postrow[$i]['post_id']);
-        $quote_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_quote'].'" alt="'.$titanium_lang['Reply_with_quote'].'" title="'.$titanium_lang['Reply_with_quote'].'" border="0" /></a>';
-        $quote = '<a href="'.$temp_url.'">'.$titanium_lang['Reply_with_quote'].'</a>';
+        $quote_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_quote'].'" alt="'.$lang['Reply_with_quote'].'" title="'.$lang['Reply_with_quote'].'" border="0" /></a>';
+        $quote = '<a href="'.$temp_url.'">'.$lang['Reply_with_quote'].'</a>';
 
         // $temp_url = "modules.php?name=Search&search_author=" . urlencode($postrow[$i]['username'] . "&amp;showresults=posts");
         $temp_url = "modules.php?name=Forums&file=search&search_author=".urlencode($postrow[$i]['username']);
         
-		$search_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_search'].'" alt="'.sprintf($titanium_lang['Search_user_posts'], $postrow[$i]['username']).'" 
-		title="'.sprintf($titanium_lang['Search_user_posts'], $postrow[$i]['username']).'" border="0" /></a>';
+		$search_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_search'].'" alt="'.sprintf($lang['Search_user_posts'], $postrow[$i]['username']).'" 
+		title="'.sprintf($lang['Search_user_posts'], $postrow[$i]['username']).'" border="0" /></a>';
         
-		$search = '<a href="'.$temp_url.'">'.sprintf($titanium_lang['Search_user_posts'], $postrow[$i]['username']).'</a>';
-        $search_alt = sprintf($titanium_lang['Search_user_posts'], $postrow[$i]['username']);
+		$search = '<a href="'.$temp_url.'">'.sprintf($lang['Search_user_posts'], $postrow[$i]['username']).'</a>';
+        $search_alt = sprintf($lang['Search_user_posts'], $postrow[$i]['username']);
 
         if(($userdata['user_id'] == $poster_id && $phpbb2_is_auth['auth_edit']) || $phpbb2_is_auth['auth_mod']):
           $temp_url = append_titanium_sid("posting.$phpEx?mode=editpost&amp;".POST_POST_URL."=".$postrow[$i]['post_id']);
           $edit_url = $temp_url;
-          $edit_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_edit'].'" alt="'.$titanium_lang['Edit_delete_post'].'" title="'.$titanium_lang['Edit_delete_post'].'" border="0" /></a>';
-          $edit = '<a href="'.$temp_url.'">'.$titanium_lang['Edit_delete_post'].'</a>';
-          $edit_alt = $titanium_lang['Edit_delete_post']; 
+          $edit_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_edit'].'" alt="'.$lang['Edit_delete_post'].'" title="'.$lang['Edit_delete_post'].'" border="0" /></a>';
+          $edit = '<a href="'.$temp_url.'">'.$lang['Edit_delete_post'].'</a>';
+          $edit_alt = $lang['Edit_delete_post']; 
         else:
           $edit_url = '';
           $edit_img = '';
@@ -1656,14 +1656,14 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
         if($phpbb2_is_auth['auth_mod']):
           $temp_url = append_titanium_sid("modcp.$phpEx?mode=ip&amp;".POST_POST_URL."=".$postrow[$i]['post_id']."&amp;".POST_TOPIC_URL."=".$topic_id);
           $ip_url = $temp_url;
-          $ip_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_ip'].'" alt="'.$titanium_lang['View_IP'].'" title="'.$titanium_lang['View_IP'].'" border="0" /></a>';
-          $ip = '<a href="'.$temp_url.'">'.$titanium_lang['View_IP'].'</a>';
-          $ip_alt = $titanium_lang['View_IP'];
+          $ip_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_ip'].'" alt="'.$lang['View_IP'].'" title="'.$lang['View_IP'].'" border="0" /></a>';
+          $ip = '<a href="'.$temp_url.'">'.$lang['View_IP'].'</a>';
+          $ip_alt = $lang['View_IP'];
           $temp_url = append_titanium_sid("posting.$phpEx?mode=delete&amp;".POST_POST_URL."=".$postrow[$i]['post_id']);
           $delpost_url = $temp_url;
-          $delpost_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_delpost'].'" alt="'.$titanium_lang['Delete_post'].'" title="'.$titanium_lang['Delete_post'].'" border="0" /></a>';
-          $delpost = '<a href="'.$temp_url.'">'.$titanium_lang['Delete_post'].'</a>';
-          $delpost_alt = $titanium_lang['Delete_post'];
+          $delpost_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_delpost'].'" alt="'.$lang['Delete_post'].'" title="'.$lang['Delete_post'].'" border="0" /></a>';
+          $delpost = '<a href="'.$temp_url.'">'.$lang['Delete_post'].'</a>';
+          $delpost_alt = $lang['Delete_post'];
         else:
           $ip_url = '';
           $ip_img = '';
@@ -1673,9 +1673,9 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
            if($userdata['user_id'] == $poster_id && $phpbb2_is_auth['auth_delete'] && $forum_topic_data['topic_last_post_id'] == $postrow[$i]['post_id']):
              $temp_url = append_titanium_sid("posting.$phpEx?mode=delete&amp;".POST_POST_URL."=".$postrow[$i]['post_id']);
              $delpost_url = $temp_url;
-             $delpost_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_delpost'].'" alt="'.$titanium_lang['Delete_post'].'" title="'.$titanium_lang['Delete_post'].'" border="0" /></a>';
-             $delpost = '<a href="'.$temp_url.'">'.$titanium_lang['Delete_post'].'</a>';
-             $delpost_alt = $titanium_lang['Delete_post'];
+             $delpost_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_delpost'].'" alt="'.$lang['Delete_post'].'" title="'.$lang['Delete_post'].'" border="0" /></a>';
+             $delpost = '<a href="'.$temp_url.'">'.$lang['Delete_post'].'</a>';
+             $delpost_alt = $lang['Delete_post'];
            else:
              $delpost_url = '';
              $delpost_img = '';
@@ -1812,7 +1812,7 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
 
         # Editing information
         if($postrow[$i]['post_edit_count']):
-          $l_edit_time_total = ($postrow[$i]['post_edit_count'] == 1) ? $titanium_lang['Edited_time_total'] : $titanium_lang['Edited_times_total'];
+          $l_edit_time_total = ($postrow[$i]['post_edit_count'] == 1) ? $lang['Edited_time_total'] : $lang['Edited_times_total'];
           $l_edited_by = sprintf($l_edit_time_total, $poster, create_date($phpbb2_board_config['default_dateformat'], 
 		  $postrow[$i]['post_edit_time'], $phpbb2_board_config['board_timezone']), $postrow[$i]['post_edit_count']);
 		else: 
@@ -1827,11 +1827,11 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
           if($rep_config['rep_disable'] == 0):
           
             if($postrow[$i]['user_reputation'] == 0):
-              $reputation = $titanium_lang['Zero_reputation'];
+              $reputation = $lang['Zero_reputation'];
 			else:
               if($rep_config['graphic_version'] == 0):
                 # Text version
-                $reputation = $titanium_lang['Reputation'].": ";
+                $reputation = $lang['Reputation'].": ";
                 
 				if($postrow[$i]['user_reputation'] > 0)
                   $reputation .= "<strong><font color=\"green\">" . round($postrow[$i]['user_reputation'],1) . "</font></strong>";
@@ -1847,7 +1847,7 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
             
 			$reputation .=  " <a href=\"".append_titanium_sid("reputation.$phpEx?a=add&amp;".POST_USERS_URL."=".$postrow[$i]['user_id'])."&"
 			.POST_POST_URL."=".$postrow[$i]['post_id']."&c=".substr(md5($bbcode_uid),0,8)."\" target=\"_blank\" onClick=\"popupWin = 
-			window.open(this.href, '".$titanium_lang['Reputation']."', 'location,width=700,height=400,top=0,scrollbars=yes'); popupWin.focus(); 
+			window.open(this.href, '".$lang['Reputation']."', 'location,width=700,height=400,top=0,scrollbars=yes'); popupWin.focus(); 
 			return false;\"><img src=\"modules/Forums/images/reputation_add_plus.gif\" alt=\"\" border=\"0\"><img src=\"modules/Forums/images/reputation_add_minus.gif\" alt=\"\" border=\"0\"></a>";
             
 			$sql = "SELECT COUNT(user_id) AS count_reps
@@ -1863,8 +1863,8 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
             
 			if($row_rep):
               $reputation .= "<br /><a href=\"".append_titanium_sid("reputation.$phpEx?a=stats&amp;".POST_USERS_URL."=" 
-			  .$postrow[$i]['user_id'])."\" target=\"_blank\" onClick=\"popupWin = window.open(this.href, '".$titanium_lang['Reputation']."', 'location,width=700,
-			  height=400,top=0,scrollbars=yes'); popupWin.focus(); return false;\">".$titanium_lang['Votes']."</a>: ".$row_rep['count_reps'];
+			  .$postrow[$i]['user_id'])."\" target=\"_blank\" onClick=\"popupWin = window.open(this.href, '".$lang['Reputation']."', 'location,width=700,
+			  height=400,top=0,scrollbars=yes'); popupWin.focus(); return false;\">".$lang['Votes']."</a>: ".$row_rep['count_reps'];
 			endif;
           endif;
         endif; 
@@ -1978,8 +1978,8 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
        if($userdata['session_logged_in']):
           $report_url = append_titanium_sid('viewtopic.'.$phpEx.'?report=true&amp;'.POST_POST_URL.'='.$postrow[$i]['post_id']);
           $report_img = '<a href="'.append_titanium_sid('viewtopic.'.$phpEx.'?report=true&amp;'.POST_POST_URL.'='.$postrow[$i]['post_id']).'"><img 
-		  src="'.$images['icon_report'].'" border="0" alt="'.$titanium_lang['Report_post'].'" title="'.$titanium_lang['Report_post'].'" /></a>';
-          $report_alt = $titanium_lang['Report_post'];
+		  src="'.$images['icon_report'].'" border="0" alt="'.$lang['Report_post'].'" title="'.$lang['Report_post'].'" /></a>';
+          $report_alt = $lang['Report_post'];
        else:
           $report_url = '';
           $report_img = '';
@@ -2011,7 +2011,7 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
 				$topic_title = $row['topic_title'];
 				$msg = str_replace('*u*', $userdata['username'], $force_message);
 				$msg = str_replace('*t*', $topic_title, $msg);
-				$msg = str_replace('*l*', '<a href="'.append_titanium_sid('viewtopic.'.$phpEx.'?'.POST_TOPIC_URL.'='.$topic.'&amp;directed=ftr').'" target="_self">'.$titanium_lang['ftr_here'].'</a>', $msg);
+				$msg = str_replace('*l*', '<a href="'.append_titanium_sid('viewtopic.'.$phpEx.'?'.POST_TOPIC_URL.'='.$topic.'&amp;directed=ftr').'" target="_self">'.$lang['ftr_here'].'</a>', $msg);
 				# New Only
 				if($who == 1):
 					# They Have Joined Since FTR Was Installed
@@ -2060,7 +2060,7 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
                 'POSTER_JOINED' => $poster_joined,
                 
 				# Mod: Birthdays v3.0.0 START
-				'POSTER_AGE' => ($phpbb2_age !== false) ? sprintf($titanium_lang['Age'], $phpbb2_age) : '',
+				'POSTER_AGE' => ($phpbb2_age !== false) ? sprintf($lang['Age'], $phpbb2_age) : '',
 				# Mod: Birthdays v3.0.0 END
 
                 'POSTER_POSTS' => $poster_posts,
@@ -2125,7 +2125,7 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
                 'EDIT' => $edit,
                 'QUOTE_URL' => append_titanium_sid("posting.$phpEx?mode=quote&amp;".POST_POST_URL."=".$postrow[$i]['post_id']),
                 'QUOTE_IMG' => $quote_img,
-                'QUOTE_ALT' => $titanium_lang['Reply_with_quote'],
+                'QUOTE_ALT' => $lang['Reply_with_quote'],
                 'QUOTE' => $quote,
                 'IP_URL' => $ip_url,
                 'IP_IMG' => $ip_img,
@@ -2142,12 +2142,12 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
                 'DELETE' => $delpost,
 			
                 # Mod: Inline Banner Ad v1.2.3 START
-                'L_SPONSOR' => $titanium_lang['Sponsor'],
+                'L_SPONSOR' => $lang['Sponsor'],
                 'INLINE_AD' => $inline_ad_code,
                 # Mod: Inline Banner Ad v1.2.3 END
 				
                 # Mod: Gender v1.2.6 START
-                'L_GENDER' => $titanium_lang['Gender'],
+                'L_GENDER' => $lang['Gender'],
                 # Mod: Gender v1.2.6 END
 
                 'L_MINI_POST_ALT' => $mini_post_alt,
@@ -2171,9 +2171,9 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
         # Mod: Thank You Mod v1.1.8 START
 		if(($show_thanks == FORUM_THANKABLE) && ($i == 0) && ($current_page == 1) && ($total_phpbb2_thank > 0)):
 			$phpbb2_template->assign_block_vars('postrow.thanks', array(
-			'THANKFUL' => $titanium_lang['thankful'],
-			'THANKED' => $titanium_lang['thanked'],
-			'HIDE' => $titanium_lang['hide'],
+			'THANKFUL' => $lang['thankful'],
+			'THANKED' => $lang['thanked'],
+			'HIDE' => $lang['hide'],
 			'THANKS_TOTAL' => $total_phpbb2_thank,
 			'THANKS' => $thanks
 			)
@@ -2250,15 +2250,15 @@ for($i = 0; $i < $phpbb2_total_posts; $i++):
 
       if(allow_log_view($userdata['user_level'])): 
         if($moved_type == 'move')
-            $move_message = sprintf($titanium_lang['Move_move_message'], $move_date, $mover, $parent_forum, $target_forum);
+            $move_message = sprintf($lang['Move_move_message'], $move_date, $mover, $parent_forum, $target_forum);
 	    if($moved_type == 'lock')
-            $move_message = sprintf($titanium_lang['Move_lock_message'], $move_date, $mover);
+            $move_message = sprintf($lang['Move_lock_message'], $move_date, $mover);
 	    if($moved_type == 'unlock')
-            $move_message = sprintf($titanium_lang['Move_unlock_message'], $move_date, $mover);
+            $move_message = sprintf($lang['Move_unlock_message'], $move_date, $mover);
 	    if($moved_type == 'split')
-            $move_message = sprintf($titanium_lang['Move_split_message'], $move_date, $mover, $parent_topic, $parent_forum);
+            $move_message = sprintf($lang['Move_split_message'], $move_date, $mover, $parent_topic, $parent_forum);
 	    if($moved_type == 'edit')
-            $move_message = sprintf($titanium_lang['Move_edit_message'], $move_date, $mover);
+            $move_message = sprintf($lang['Move_edit_message'], $move_date, $mover);
 	    if(isset($moved) && ($moved['last_post_id'] == $postrow[$i]['post_id'] && show_log($moved_type)))
             $phpbb2_template->assign_block_vars('postrow.move_message', array(
                 'MOVE_MESSAGE' => $move_message)

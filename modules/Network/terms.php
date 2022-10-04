@@ -36,21 +36,21 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
-include(NUKE_MODULES_DIR.$titanium_module_name.'/doc_config.php');
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
+include(NUKE_MODULES_DIR.$pnt_module.'/doc_config.php');
 
 define('INDEX_FILE', true);
 
 function terms() 
 {
-    global $sitename, $titanium_module_name, $adminmail;
+    global $sitename, $pnt_module, $adminmail;
 
     include_once(NUKE_BASE_DIR.'header.php');
 
     title($sitename.': '._NSTERMS);
 
-    if (file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/copyright.php')) 
+    if (file_exists(NUKE_MODULES_DIR.$pnt_module.'/copyright.php')) 
 	{
         OpenTable();
     
@@ -65,7 +65,7 @@ function terms()
         echo "<div align=\"justify\"><span class=\"content\">";
         echo "<strong>"._NSTERMSUSE1."</strong><br />";
         echo ""._NSTERMSUSE1a." ";
-        echo "<a href=\"modules.php?name=$titanium_module_name&amp;file=privacy\" target=\"_blank\">";
+        echo "<a href=\"modules.php?name=$pnt_module&amp;file=privacy\" target=\"_blank\">";
         echo ""._NSPRIVACY."</a>, "._NSTERMSUSE1b."";
         echo "<br /><br />";
         echo "<strong>"._NSTERMSUSE2."</strong><br />";
@@ -76,7 +76,7 @@ function terms()
         echo "<br /><br />";
         echo "<strong>"._NSTERMSUSE4."</strong><br />";
         echo ""._NSTERMSUSE4a." ";
-        echo "<a href=\"modules.php?name=$titanium_module_name&amp;file=privacy\" target=\"_blank\">";
+        echo "<a href=\"modules.php?name=$pnt_module&amp;file=privacy\" target=\"_blank\">";
         echo ""._NSPRIVACY."</a>.";
         echo "<br /><br />";
         echo "<strong>"._NSTERMSUSE5."</strong><br />";

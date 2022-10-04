@@ -139,8 +139,8 @@ while ( $row = $titanium_db->sql_fetchrow($result))
 
 $phpbb2_template->assign_vars(array(
                 'PAGINATION' => generate_pagination("admin_arcade_comments.$phpEx?", $comments_total, $comments_perpage, $phpbb2_start),
-                'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], ( floor( $phpbb2_start / $comments_perpage) + 1 ), ceil( $comments_total / $comments_perpage )),
-                'L_GOTO_PAGE' => $titanium_lang['Goto_page'])
+                'PAGE_NUMBER' => sprintf($lang['Page_of'], ( floor( $phpbb2_start / $comments_perpage) + 1 ), ceil( $comments_total / $comments_perpage )),
+                'L_GOTO_PAGE' => $lang['Goto_page'])
         );
 
 //

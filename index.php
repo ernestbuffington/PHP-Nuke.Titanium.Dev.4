@@ -113,13 +113,13 @@ endif;
 if (isset($_GET['url']) && is_admin())
 redirect_titanium($_GET['url']);
 
-$titanium_module_name = main_module_titanium();
+$pnt_module = main_module_titanium();
 
 /*****[BEGIN]******************************************
  [ Mod:     Lock Modules                       v1.0.0 ]
  ******************************************************/
 global $lock_titanium_modules;
-if(($lock_titanium_modules && $titanium_module_name != 'Your_Account') && !is_admin() && !is_user()) 
+if(($lock_titanium_modules && $pnt_module != 'Your_Account') && !is_admin() && !is_user()) 
 include(NUKE_MODULES_DIR.'Your_Account/index.php');
 /*****[END]********************************************
  [ Mod:     Lock Modules                       v1.0.0 ]
@@ -142,8 +142,8 @@ if (stristr($file,"..") || stristr($mod_file,"..") || stristr($mop,"..")):
  ******************************************************/
     die("You are so cool...");
 else:
-    $titanium_module = $titanium_db->sql_ufetchrow('SELECT `blocks` FROM `'.$titanium_prefix.'_modules` WHERE `title`="'.$titanium_module_name.'"');
-	$modpath = NUKE_MODULES_DIR.$titanium_module_name."/$file.php";
+    $titanium_module = $titanium_db->sql_ufetchrow('SELECT `blocks` FROM `'.$titanium_prefix.'_modules` WHERE `title`="'.$pnt_module.'"');
+	$modpath = NUKE_MODULES_DIR.$pnt_module."/$file.php";
 	if (file_exists($modpath)):
 		$showblocks = $titanium_module['blocks'];
 		unset($titanium_module, $error);

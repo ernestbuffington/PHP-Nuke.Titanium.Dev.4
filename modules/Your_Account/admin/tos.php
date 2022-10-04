@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
     $pagetitle = ": "._EDITTOS;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -61,7 +61,7 @@ if(is_mod_admin($titanium_module_name)) {
     CloseTable();
     } else {
     OpenTable();
-    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post' name=\"tos\">\n";
+    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post' name=\"tos\">\n";
     echo "<table border=\"0\" width=\"100%\" height=\"195\">";
     echo "<tr>";
     echo "<td width=\"50%\" height=\"195\"><p align=\"center\">" . _EDITTOS2 . "</p></td>\n";

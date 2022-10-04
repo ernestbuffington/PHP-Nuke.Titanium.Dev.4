@@ -24,8 +24,8 @@ if (!defined('MODULE_FILE')) {
 
 if ($popup != "1")
 {
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -95,7 +95,7 @@ for ($i = 0; $i < $num_rows; $i++)
         $group_name = $rows[$i]['group_name'];
         $f_size = intval(trim($rows[$i]['max_filesize']));
         $det_filesize = (!$f_size) ? $_max_filesize : $f_size;
-        $size_lang = ($det_filesize >= 1048576) ? $titanium_lang['MB'] : (($det_filesize >= 1024) ? $titanium_lang['KB'] : $titanium_lang['Bytes']);
+        $size_lang = ($det_filesize >= 1048576) ? $lang['MB'] : (($det_filesize >= 1024) ? $lang['KB'] : $lang['Bytes']);
 
         if ($det_filesize >= 1048576)
         {
@@ -106,10 +106,10 @@ for ($i = 0; $i < $num_rows; $i++)
             $det_filesize = round($det_filesize / 1024 * 100) / 100;
         }
 
-        $max_filesize = ($det_filesize == 0) ? $titanium_lang['Unlimited'] : $det_filesize . ' ' . $size_lang;
+        $max_filesize = ($det_filesize == 0) ? $lang['Unlimited'] : $det_filesize . ' ' . $size_lang;
 
         $phpbb2_template->assign_block_vars('group_row', array(
-            'GROUP_RULE_HEADER' => sprintf($titanium_lang['Group_rule_header'], $group_name, $max_filesize))
+            'GROUP_RULE_HEADER' => sprintf($lang['Group_rule_header'], $group_name, $max_filesize))
         );
 
         $sql = 'SELECT extension
@@ -136,13 +136,13 @@ for ($i = 0; $i < $num_rows; $i++)
 }
 
 $gen_simple_header = TRUE;
-$phpbb2_page_title = $titanium_lang['Attach_rules_title'];
+$phpbb2_page_title = $lang['Attach_rules_title'];
 include('includes/page_header.' . $phpEx);
 
 $phpbb2_template->assign_vars(array(
-    'L_RULES_TITLE'            => $titanium_lang['Attach_rules_title'],
-    'L_CLOSE_WINDOW'        => $titanium_lang['Close_window'],
-    'L_EMPTY_GROUP_PERMS'    => $titanium_lang['Note_user_empty_group_permissions'])
+    'L_RULES_TITLE'            => $lang['Attach_rules_title'],
+    'L_CLOSE_WINDOW'        => $lang['Close_window'],
+    'L_EMPTY_GROUP_PERMS'    => $lang['Note_user_empty_group_permissions'])
 );
 
 if ($nothing)

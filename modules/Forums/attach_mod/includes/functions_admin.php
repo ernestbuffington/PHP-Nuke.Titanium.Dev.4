@@ -310,7 +310,7 @@ function collect_attachments()
 */
 function get_formatted_dirsize()
 {
-    global $attach_config, $upload_dir, $titanium_lang;
+    global $attach_config, $upload_dir, $lang;
 
     $upload_dir_size = 0;
 
@@ -329,7 +329,7 @@ function get_formatted_dirsize()
         }
         else
         {
-            $upload_dir_size = $titanium_lang['Not_available'];
+            $upload_dir_size = $lang['Not_available'];
             return $upload_dir_size;
         }
     }
@@ -343,7 +343,7 @@ function get_formatted_dirsize()
 
         if (!$file_listing)
         {
-            $upload_dir_size = $titanium_lang['Not_available'];
+            $upload_dir_size = $lang['Not_available'];
             return $upload_dir_size;
         }
 
@@ -372,15 +372,15 @@ function get_formatted_dirsize()
 
     if ($upload_dir_size >= 1048576)
     {
-        $upload_dir_size = round($upload_dir_size / 1048576 * 100) / 100 . ' ' . $titanium_lang['MB'];
+        $upload_dir_size = round($upload_dir_size / 1048576 * 100) / 100 . ' ' . $lang['MB'];
     }
     else if ($upload_dir_size >= 1024)
     {
-        $upload_dir_size = round($upload_dir_size / 1024 * 100) / 100 . ' ' . $titanium_lang['KB'];
+        $upload_dir_size = round($upload_dir_size / 1024 * 100) / 100 . ' ' . $lang['KB'];
     }
     else
     {
-        $upload_dir_size = $upload_dir_size . ' ' . $titanium_lang['Bytes'];
+        $upload_dir_size = $upload_dir_size . ' ' . $lang['Bytes'];
     }
 
     return $upload_dir_size;
@@ -391,7 +391,7 @@ function get_formatted_dirsize()
 */
 function search_attachments($order_by, &$total_phpbb2_rows)
 {
-    global $titanium_db, $HTTP_POST_VARS, $HTTP_GET_VARS, $titanium_lang;
+    global $titanium_db, $HTTP_POST_VARS, $HTTP_GET_VARS, $lang;
     
     $where_sql = array();
 
@@ -436,7 +436,7 @@ function search_attachments($order_by, &$total_phpbb2_rows)
         }
         else
         {
-            message_die(GENERAL_MESSAGE, $titanium_lang['No_attach_search_match']);
+            message_die(GENERAL_MESSAGE, $lang['No_attach_search_match']);
         }
 
         $where_sql[] = ' (t.user_id_1 IN (' . $matching_userids . ')) ';
@@ -520,7 +520,7 @@ function search_attachments($order_by, &$total_phpbb2_rows)
 
     if ($num_attach == 0)
     {
-        message_die(GENERAL_MESSAGE, $titanium_lang['No_attach_search_match']);
+        message_die(GENERAL_MESSAGE, $lang['No_attach_search_match']);
     }
 
     if (!($result = $titanium_db->sql_query($total_phpbb2_rows_sql)))

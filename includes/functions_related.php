@@ -26,7 +26,7 @@ if(!defined('IN_PHPBB2'))
 
 function get_related_topics($topic_id)
 {
-	global $phpbb2_board_config, $titanium_db, $titanium_lang, $phpbb2_template, $theme, $images, $phpEx;
+	global $phpbb2_board_config, $titanium_db, $lang, $phpbb2_template, $theme, $images, $phpEx;
 	global $userdata, $HTTP_COOKIE_VARS;
 
 	//
@@ -101,13 +101,13 @@ function get_related_topics($topic_id)
 	));
 
 	$phpbb2_template->assign_vars(array(
-		'L_RELATED_TOPICS' => $titanium_lang['Related_topics'],
+		'L_RELATED_TOPICS' => $lang['Related_topics'],
 
-		'L_AUTHOR' => $titanium_lang['Author'],
-		'L_TOPICS' => $titanium_lang['Topics'],
-		'L_REPLIES' => $titanium_lang['Replies'],
-		'L_VIEWS' => $titanium_lang['Views'],
-		'L_LASTPOST' => $titanium_lang['Last_Post'], 
+		'L_AUTHOR' => $lang['Author'],
+		'L_TOPICS' => $lang['Topics'],
+		'L_REPLIES' => $lang['Replies'],
+		'L_VIEWS' => $lang['Views'],
+		'L_LASTPOST' => $lang['Last_Post'], 
 	));
 
 	//
@@ -162,10 +162,10 @@ function get_related_topics($topic_id)
 		switch( $topic_type )
 		{
 			case POST_ANNOUNCE:
-				$topic_type = $titanium_lang['Topic_Announcement'] . ' ';
+				$topic_type = $lang['Topic_Announcement'] . ' ';
 				break;
 			case POST_STICKY:
-				$topic_type = $titanium_lang['Topic_Sticky'] . ' ';
+				$topic_type = $lang['Topic_Sticky'] . ' ';
 				break;
 			default:
 				$topic_type = '';
@@ -174,7 +174,7 @@ function get_related_topics($topic_id)
 
 		if( $row['topic_vote'] )
 		{
-			$topic_type .= $titanium_lang['Topic_Poll'] . ' ';
+			$topic_type .= $lang['Topic_Poll'] . ' ';
 		}
 
 		if( $row['topic_type'] == POST_ANNOUNCE )
@@ -245,14 +245,14 @@ function get_related_topics($topic_id)
 					if( $phpbb2_unread_topics )
 					{
 						$phpbb2_folder_image = $folder_new;
-						$phpbb2_folder_alt = $titanium_lang['New_posts'];
+						$phpbb2_folder_alt = $lang['New_posts'];
 
-						$newest_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;view=newest") . '"><img src="' . $images['icon_newest_reply'] . '" alt="' . $titanium_lang['View_newest_post'] . '" title="' . $titanium_lang['View_newest_post'] . '" border="0" /></a> ';
+						$newest_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;view=newest") . '"><img src="' . $images['icon_newest_reply'] . '" alt="' . $lang['View_newest_post'] . '" title="' . $lang['View_newest_post'] . '" border="0" /></a> ';
 					}
 					else
 					{
 						$phpbb2_folder_image = $folder;
-						$phpbb2_folder_alt = ( $row['topic_status'] == TOPIC_LOCKED ) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+						$phpbb2_folder_alt = ( $row['topic_status'] == TOPIC_LOCKED ) ? $lang['Topic_locked'] : $lang['No_new_posts'];
 
 						$newest_post_img = '';
 					}
@@ -260,15 +260,15 @@ function get_related_topics($topic_id)
 				else
 				{
 					$phpbb2_folder_image = $folder_new;
-					$phpbb2_folder_alt = ( $row['topic_status'] == TOPIC_LOCKED ) ? $titanium_lang['Topic_locked'] : $titanium_lang['New_posts'];
+					$phpbb2_folder_alt = ( $row['topic_status'] == TOPIC_LOCKED ) ? $lang['Topic_locked'] : $lang['New_posts'];
 
-					$newest_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;view=newest") . '"><img src="' . $images['icon_newest_reply'] . '" alt="' . $titanium_lang['View_newest_post'] . '" title="' . $titanium_lang['View_newest_post'] . '" border="0" /></a> ';
+					$newest_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;view=newest") . '"><img src="' . $images['icon_newest_reply'] . '" alt="' . $lang['View_newest_post'] . '" title="' . $lang['View_newest_post'] . '" border="0" /></a> ';
 				}
 			}
 			else 
 			{
 				$phpbb2_folder_image = $folder;
-				$phpbb2_folder_alt = ( $row['topic_status'] == TOPIC_LOCKED ) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+				$phpbb2_folder_alt = ( $row['topic_status'] == TOPIC_LOCKED ) ? $lang['Topic_locked'] : $lang['No_new_posts'];
 
 				$newest_post_img = '';
 			}
@@ -276,19 +276,19 @@ function get_related_topics($topic_id)
 		else
 		{
 			$phpbb2_folder_image = $folder;
-			$phpbb2_folder_alt = ( $row['topic_status'] == TOPIC_LOCKED ) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+			$phpbb2_folder_alt = ( $row['topic_status'] == TOPIC_LOCKED ) ? $lang['Topic_locked'] : $lang['No_new_posts'];
 
 			$newest_post_img = '';
 		}
 
 		$topic_author = ( $row['user_id'] != ANONYMOUS ) ? '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id']) . '">' : '';
-		$topic_author .= ( $row['user_id'] != ANONYMOUS ) ? $row['username'] : ( ( $row['post_username'] != '' ) ? $row['post_username'] : $titanium_lang['Guest'] );
+		$topic_author .= ( $row['user_id'] != ANONYMOUS ) ? $row['username'] : ( ( $row['post_username'] != '' ) ? $row['post_username'] : $lang['Guest'] );
 		$topic_author .= ( $row['user_id'] != ANONYMOUS ) ? '</a>' : '';
 
 		$first_post_time = create_date($phpbb2_board_config['default_dateformat'], $row['topic_time'], $phpbb2_board_config['board_timezone']);
 		$phpbb2_last_post_time = create_date($phpbb2_board_config['default_dateformat'], $row['post_time'], $phpbb2_board_config['board_timezone']);
-		$phpbb2_last_post_author = ( $row['id2'] == ANONYMOUS ) ? ( ($row['post_username2'] != '' ) ? $row['post_username2'] . ' ' : $titanium_lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $row['id2']) . '">' . $row['user2'] . '</a>';
-		$phpbb2_last_post_url = '<a href="' . append_titanium_sid("viewtopic.$phpEx?"  . POST_POST_URL . '=' . $row['topic_last_post_id']) . '#' . $row['topic_last_post_id'] . '"><img src="' . $images['icon_latest_reply'] . '" alt="' . $titanium_lang['View_latest_post'] . '" title="' . $titanium_lang['View_latest_post'] . '" border="0" /></a>';
+		$phpbb2_last_post_author = ( $row['id2'] == ANONYMOUS ) ? ( ($row['post_username2'] != '' ) ? $row['post_username2'] . ' ' : $lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $row['id2']) . '">' . $row['user2'] . '</a>';
+		$phpbb2_last_post_url = '<a href="' . append_titanium_sid("viewtopic.$phpEx?"  . POST_POST_URL . '=' . $row['topic_last_post_id']) . '#' . $row['topic_last_post_id'] . '"><img src="' . $images['icon_latest_reply'] . '" alt="' . $lang['View_latest_post'] . '" title="' . $lang['View_latest_post'] . '" border="0" /></a>';
 
 		$row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
 		$row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];

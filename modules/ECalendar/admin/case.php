@@ -3,8 +3,8 @@ if (!defined('ADMIN_FILE')) {
    die('Access Denied');
 }
 
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
-include_once(NUKE_MODULES_DIR.$titanium_module_name.'/language/lang-'.$currentlang.'.php');
+$pnt_module = basename(dirname(dirname(__FILE__)));
+include_once(NUKE_MODULES_DIR.$pnt_module.'/language/lang-'.$currentlang.'.php');
 
 switch($op) {
 	case "ecalendar":
@@ -12,7 +12,7 @@ switch($op) {
 	case "ecalendar_edit":
     case "ecalendar_add":
 	case "ecalendar_update":
-        include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
+        include(NUKE_MODULES_DIR.$pnt_module.'/admin/index.php');
     break;
 
 }

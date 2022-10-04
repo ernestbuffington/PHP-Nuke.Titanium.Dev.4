@@ -46,8 +46,8 @@ if (!defined('MODULE_FILE')) {
 
 if ($popup != "1") 
     {
-        $titanium_module_name = basename(dirname(__FILE__));
-        require("modules/".$titanium_module_name."/nukebb.php");
+        $pnt_module = basename(dirname(__FILE__));
+        require("modules/".$pnt_module."/nukebb.php");
     }
     else
     {
@@ -129,7 +129,7 @@ if( $phpbb2_mark_read == 'forums' )
                 "META" => '<meta http-equiv="refresh" content="3;url='  .append_titanium_sid("index.$phpEx") . '">')
         );
 
-        $message = $titanium_lang['Forums_marked_read'] . '<br /><br />' . sprintf($titanium_lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a> ');
+        $message = $lang['Forums_marked_read'] . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a> ');
 
         message_die(GENERAL_MESSAGE, $message);
 }
@@ -152,28 +152,28 @@ $phpbb2_newest_uid = $phpbb2_newest_userdata['user_id'];
 
 if( $phpbb2_total_posts == 0 )
 {
-        $phpbb2_l_total_post_s = $titanium_lang['Posted_articles_zero_total'];
+        $phpbb2_l_total_post_s = $lang['Posted_articles_zero_total'];
 }
 else if( $phpbb2_total_posts == 1 )
 {
-        $phpbb2_l_total_post_s = $titanium_lang['Posted_article_total'];
+        $phpbb2_l_total_post_s = $lang['Posted_article_total'];
 }
 else
 {
-        $phpbb2_l_total_post_s = $titanium_lang['Posted_articles_total'];
+        $phpbb2_l_total_post_s = $lang['Posted_articles_total'];
 }
 
 if( $phpbb2_total_users == 0 )
 {
-        $phpbb2_l_total_user_s = $titanium_lang['Registered_users_zero_total'];
+        $phpbb2_l_total_user_s = $lang['Registered_users_zero_total'];
 }
 else if( $phpbb2_total_users == 1 )
 {
-        $phpbb2_l_total_user_s = $titanium_lang['Registered_user_total'];
+        $phpbb2_l_total_user_s = $lang['Registered_user_total'];
 }
 else
 {
-        $phpbb2_l_total_user_s = $titanium_lang['Registered_users_total'];
+        $phpbb2_l_total_user_s = $lang['Registered_users_total'];
 }
 
 /*****[BEGIN]******************************************
@@ -244,7 +244,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 
         if ( !($total_phpbb2_forums = count($phpbb2_forum_data)) )
         {
-                message_die(GENERAL_MESSAGE, $titanium_lang['No_forums']);
+                message_die(GENERAL_MESSAGE, $lang['No_forums']);
         }
 
     //
@@ -370,8 +370,8 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 			$titanium_db->sql_freeresult($result);
 	
 			$phpbb2_birthdays = (!empty($phpbb2_user_birthdays)) ?
-				sprintf($titanium_lang['Congratulations'],implode(', ',$phpbb2_user_birthdays)) :
-				$titanium_lang['No_birthdays'];
+				sprintf($lang['Congratulations'],implode(', ',$phpbb2_user_birthdays)) :
+				$lang['No_birthdays'];
 	
 			if ( $phpbb2_board_config['bday_lookahead'] != -1 )
 			{
@@ -411,8 +411,8 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 				}
 	
 				$phpbb2_upcoming = (!empty($phpbb2_upcoming_birthdays)) ?
-					sprintf($titanium_lang['Upcoming_birthdays'],$phpbb2_board_config['bday_lookahead'],implode(', ',$phpbb2_upcoming_birthdays)) :
-					sprintf($titanium_lang['No_upcoming'],$phpbb2_board_config['bday_lookahead']);
+					sprintf($lang['Upcoming_birthdays'],$phpbb2_board_config['bday_lookahead'],implode(', ',$phpbb2_upcoming_birthdays)) :
+					sprintf($lang['No_upcoming'],$phpbb2_board_config['bday_lookahead']);
 			}
 	
 			if ( !empty($phpbb2_user_birthdays) || !empty($phpbb2_upcoming_birthdays) || $phpbb2_board_config['bday_show'] )
@@ -438,7 +438,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
         // Start output of page
         //
         define('SHOW_ONLINE', true);
-        $phpbb2_page_title = $titanium_lang['Index'];
+        $phpbb2_page_title = $lang['Index'];
         include("includes/page_header.php");
 
         $phpbb2_template->set_filenames(array(
@@ -457,7 +457,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
  [ Mod:     Number Format Total Posts          v1.0.4 ]
  ******************************************************/
                 'TOTAL_USERS' => sprintf($phpbb2_l_total_user_s, $phpbb2_total_users),
-                'NEWEST_USER' => sprintf($titanium_lang['Newest_user'], '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$phpbb2_newest_uid") . '">', $phpbb2_newest_user, '</a>'),
+                'NEWEST_USER' => sprintf($lang['Newest_user'], '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$phpbb2_newest_uid") . '">', $phpbb2_newest_user, '</a>'),
 				
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
@@ -487,14 +487,14 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 		'COOKIE_PATH'			=> $phpbb2_board_config['cookie_path'],
 		'COOKIE_DOMAIN'			=> $phpbb2_board_config['cookie_domain'],
 		'COOKIE_SECURE'			=> $phpbb2_board_config['cookie_secure'],
-		'L_CFI_OPTIONS'			=> str_replace(array("'",' '), array("\'",'&nbsp;'), $titanium_lang['CFI_options']),
-		'L_CFI_OPTIONS_EX'		=> str_replace(array("'",' '), array("\'",'&nbsp;'), $titanium_lang['CFI_options_ex']),
-		'L_CFI_CLOSE'			=> str_replace(array("'",' '), array("\'",'&nbsp;'), $titanium_lang['CFI_close']),
-		'L_CFI_DELETE'			=> str_replace(array("'",' '), array("\'",'&nbsp;'), $titanium_lang['CFI_delete']),
-		'L_CFI_RESTORE'			=> str_replace(array("'",' '), array("\'",'&nbsp;'), $titanium_lang['CFI_restore']),
-		'L_CFI_SAVE'			=> str_replace(array("'",' '), array("\'",'&nbsp;'), $titanium_lang['CFI_save']),
-		'L_CFI_EXPAND_ALL'		=> str_replace(array("'",' '), array("\'",'&nbsp;'), $titanium_lang['CFI_Expand_all']),
-		'L_CFI_COLLAPSE_ALL'	=> str_replace(array("'",' '), array("\'",'&nbsp;'), $titanium_lang['CFI_Collapse_all']),
+		'L_CFI_OPTIONS'			=> str_replace(array("'",' '), array("\'",'&nbsp;'), $lang['CFI_options']),
+		'L_CFI_OPTIONS_EX'		=> str_replace(array("'",' '), array("\'",'&nbsp;'), $lang['CFI_options_ex']),
+		'L_CFI_CLOSE'			=> str_replace(array("'",' '), array("\'",'&nbsp;'), $lang['CFI_close']),
+		'L_CFI_DELETE'			=> str_replace(array("'",' '), array("\'",'&nbsp;'), $lang['CFI_delete']),
+		'L_CFI_RESTORE'			=> str_replace(array("'",' '), array("\'",'&nbsp;'), $lang['CFI_restore']),
+		'L_CFI_SAVE'			=> str_replace(array("'",' '), array("\'",'&nbsp;'), $lang['CFI_save']),
+		'L_CFI_EXPAND_ALL'		=> str_replace(array("'",' '), array("\'",'&nbsp;'), $lang['CFI_Expand_all']),
+		'L_CFI_COLLAPSE_ALL'	=> str_replace(array("'",' '), array("\'",'&nbsp;'), $lang['CFI_Collapse_all']),
 		'IMG_UP_ARROW'			=> $images['up_arrow'],
 		'IMG_DW_ARROW'			=> $images['down_arrow'],
 		'IMG_PLUS'				=> $images['icon_sign_plus'],
@@ -511,34 +511,34 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-				'L_TODAYS_BIRTHDAYS' => $titanium_lang['Todays_Birthdays'],
-				'L_VIEW_BIRTHDAYS' => $titanium_lang['View_Birthdays'],
+				'L_TODAYS_BIRTHDAYS' => $lang['Todays_Birthdays'],
+				'L_VIEW_BIRTHDAYS' => $lang['View_Birthdays'],
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
 
-                'L_FORUM' => $titanium_lang['Forum'],
+                'L_FORUM' => $lang['Forum'],
 /*****[BEGIN]******************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
-		        'L_SUBFORUMS' => $titanium_lang['Subforums'],
+		        'L_SUBFORUMS' => $lang['Subforums'],
 /*****[END]********************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
-                'L_TOPICS' => $titanium_lang['Topics'],
-                'L_REPLIES' => $titanium_lang['Replies'],
-                'L_VIEWS' => $titanium_lang['Views'],
-                'L_POSTS' => $titanium_lang['Posts'],
-                'L_LASTPOST' => $titanium_lang['Last_Post'],
-                'L_NO_NEW_POSTS' => $titanium_lang['No_new_posts'],
-                'L_NEW_POSTS' => $titanium_lang['New_posts'],
-                'L_NO_NEW_POSTS_LOCKED' => $titanium_lang['No_new_posts_locked'],
-                'L_NEW_POSTS_LOCKED' => $titanium_lang['New_posts_locked'],
-                'L_ONLINE_EXPLAIN' => $titanium_lang['Online_explain'],
+                'L_TOPICS' => $lang['Topics'],
+                'L_REPLIES' => $lang['Replies'],
+                'L_VIEWS' => $lang['Views'],
+                'L_POSTS' => $lang['Posts'],
+                'L_LASTPOST' => $lang['Last_Post'],
+                'L_NO_NEW_POSTS' => $lang['No_new_posts'],
+                'L_NEW_POSTS' => $lang['New_posts'],
+                'L_NO_NEW_POSTS_LOCKED' => $lang['No_new_posts_locked'],
+                'L_NEW_POSTS_LOCKED' => $lang['New_posts_locked'],
+                'L_ONLINE_EXPLAIN' => $lang['Online_explain'],
 
-                'L_MODERATOR' => $titanium_lang['Moderators'],
-                'L_FORUM_LOCKED' => $titanium_lang['Forum_is_locked'],
-                'L_MARK_FORUMS_READ' => $titanium_lang['Mark_all_forums'],
+                'L_MODERATOR' => $lang['Moderators'],
+                'L_FORUM_LOCKED' => $lang['Forum_is_locked'],
+                'L_MARK_FORUMS_READ' => $lang['Mark_all_forums'],
 
                 'U_MARK_READ' => append_titanium_sid("index.$phpEx?mark=forums"))
         );
@@ -616,7 +616,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
                                                         if ( $phpbb2_forum_data[$j]['forum_status'] == FORUM_LOCKED )
                                                         {
                                                                 $phpbb2_folder_image = $images['forum_locked'];
-                                                               $phpbb2_folder_alt = $titanium_lang['Forum_locked'];
+                                                               $phpbb2_folder_alt = $lang['Forum_locked'];
 /*****[BEGIN]******************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
@@ -626,8 +626,8 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 																	'new'		=> $images['forum_locked'],
 																	'sub'		=> ( isset($images['forums_locked']) ) ? $images['forums_locked'] : $images['forum_locked'],
 																	'subnew'	=> ( isset($images['forums_locked']) ) ? $images['forums_locked'] : $images['forum_locked'],
-																	'subalt'	=> $titanium_lang['Forum_locked'],
-																	'subaltnew'	=> $titanium_lang['Forum_locked'],
+																	'subalt'	=> $lang['Forum_locked'],
+																	'subaltnew'	=> $lang['Forum_locked'],
 																	);
 /*****[END]********************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
@@ -680,7 +680,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
                                                                 }
 
                                                                 $phpbb2_folder_image = ( $phpbb2_unread_topics ) ? $images['forum_new'] : $images['forum'];
-                                                                $phpbb2_folder_alt = ( $phpbb2_unread_topics ) ? $titanium_lang['New_posts'] : $titanium_lang['No_new_posts'];
+                                                                $phpbb2_folder_alt = ( $phpbb2_unread_topics ) ? $lang['New_posts'] : $lang['No_new_posts'];
 /*****[BEGIN]******************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
@@ -689,8 +689,8 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 																	'new'		=> $images['forum_new'],
 																	'sub'		=> ( isset($images['forums']) ) ? $images['forums'] : $images['forum'],
 																	'subnew'	=> ( isset($images['forums_new']) ) ? $images['forums_new'] : $images['forum_new'],
-																	'subalt'	=> $titanium_lang['No_new_posts'],
-																	'subaltnew'	=> $titanium_lang['New_posts'],
+																	'subalt'	=> $lang['No_new_posts'],
+																	'subaltnew'	=> $lang['New_posts'],
 																	);
 /*****[END]********************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
@@ -717,15 +717,15 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                                                                $phpbb2_last_post_username = ( $phpbb2_forum_data[$j]['user_id'] == ANONYMOUS ) ? ( ($phpbb2_forum_data[$j]['post_username'] != '' ) ? $phpbb2_forum_data[$j]['post_username'] . ' ' : $titanium_lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $phpbb2_forum_data[$j]['user_id']) . '">' . UsernameColor($phpbb2_forum_data[$j]['username']) . '</a> ';
+                                                                $phpbb2_last_post_username = ( $phpbb2_forum_data[$j]['user_id'] == ANONYMOUS ) ? ( ($phpbb2_forum_data[$j]['post_username'] != '' ) ? $phpbb2_forum_data[$j]['post_username'] . ' ' : $lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $phpbb2_forum_data[$j]['user_id']) . '">' . UsernameColor($phpbb2_forum_data[$j]['username']) . '</a> ';
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                                                                $phpbb2_last_post = '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_POST_URL.'='.$phpbb2_forum_data[$j]['forum_last_post_id']).'#'.$phpbb2_forum_data[$j]['forum_last_post_id'].'"><i class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$titanium_lang['View_latest_post'].'"></i></a>';
+                                                                $phpbb2_last_post = '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_POST_URL.'='.$phpbb2_forum_data[$j]['forum_last_post_id']).'#'.$phpbb2_forum_data[$j]['forum_last_post_id'].'"><i class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$lang['View_latest_post'].'"></i></a>';
 /*****[BEGIN]******************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
-																$phpbb2_last_post_sub = '<a href="' . append_titanium_sid("viewtopic.$phpEx?"  . POST_POST_URL . '=' . $phpbb2_forum_data[$j]['forum_last_post_id']) . '#' . $phpbb2_forum_data[$j]['forum_last_post_id'] . '"><img src="' . ($phpbb2_unread_topics ? $images['icon_miniforum_new'] : $images['icon_miniforum']) . '" border="0" alt="' . $titanium_lang['View_latest_post'] . '" title="' . $titanium_lang['View_latest_post'] . '" /></a>';
+																$phpbb2_last_post_sub = '<a href="' . append_titanium_sid("viewtopic.$phpEx?"  . POST_POST_URL . '=' . $phpbb2_forum_data[$j]['forum_last_post_id']) . '#' . $phpbb2_forum_data[$j]['forum_last_post_id'] . '"><img src="' . ($phpbb2_unread_topics ? $images['icon_miniforum_new'] : $images['icon_miniforum']) . '" border="0" alt="' . $lang['View_latest_post'] . '" title="' . $lang['View_latest_post'] . '" /></a>';
 /*****[END]********************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
@@ -733,11 +733,11 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
                                                         else
                                                         {
                                                             $phpbb2_last_post_username = '';
-                                                            $phpbb2_last_post = $titanium_lang['No_Posts'];
+                                                            $phpbb2_last_post = $lang['No_Posts'];
 /*****[BEGIN]******************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
-															$phpbb2_last_post_sub = '<img src="' . $images['icon_miniforum'] . '" border="0" alt="' . $titanium_lang['No_Posts'] . '" title="' . $titanium_lang['No_Posts'] . '" />';
+															$phpbb2_last_post_sub = '<img src="' . $images['icon_miniforum'] . '" border="0" alt="' . $lang['No_Posts'] . '" title="' . $lang['No_Posts'] . '" />';
 															$phpbb2_last_post_time = '';
 /*****[END]********************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
@@ -747,7 +747,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
                                                         if (isset($phpbb2_forum_moderators[$phpbb2_forum_id])) {
                                                             if ( count($phpbb2_forum_moderators[$phpbb2_forum_id]) > 0 )
                                                             {
-                                                                    $l_phpbb2_moderators = ( count($phpbb2_forum_moderators[$phpbb2_forum_id]) == 1 ) ? $titanium_lang['Moderator'] : $titanium_lang['Moderators'];
+                                                                    $l_phpbb2_moderators = ( count($phpbb2_forum_moderators[$phpbb2_forum_id]) == 1 ) ? $lang['Moderator'] : $lang['Moderators'];
                                                                     $phpbb2_moderator_list = implode(', ', $phpbb2_forum_moderators[$phpbb2_forum_id]);
                                                             }
                                                             else
@@ -795,7 +795,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 ############################################################################################################################################
 
 								                                
-																'FORUM_LINK_COUNT' => ( $phpbb2_forum_data[$j]['title_is_link'] == 1 ) ? sprintf($titanium_lang['Forum_link_count'], $phpbb2_forum_data[$j]['forum_link_count']) : '',
+																'FORUM_LINK_COUNT' => ( $phpbb2_forum_data[$j]['title_is_link'] == 1 ) ? sprintf($lang['Forum_link_count'], $phpbb2_forum_data[$j]['forum_link_count']) : '',
 								                                'FORUM_LINK_TARGET' => ($phpbb2_forum_data[$j]['forum_link_target']) ? 'target="_blank"' : '',
 /*****[END]********************************************
  [ Mod:    Forum Icons                         v1.0.4 ]
@@ -813,7 +813,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
                                                                 'POSTS' => $phpbb2_forum_data[$j]['forum_posts'],
                                                                 'TOPICS' => $phpbb2_forum_data[$j]['forum_topics'],
                                                                 'LAST_POST' => $phpbb2_last_post,
-                                                                'LAST_POST_USERNAME' => ($phpbb2_last_post_username) ? sprintf(trim($titanium_lang['Recent_first_poster']),$phpbb2_last_post_username) : $phpbb2_last_post_username,
+                                                                'LAST_POST_USERNAME' => ($phpbb2_last_post_username) ? sprintf(trim($lang['Recent_first_poster']),$phpbb2_last_post_username) : $phpbb2_last_post_username,
                                                                 'LAST_POSTTIME' => $phpbb2_last_post_time,
                                                                 'MODERATORS' => $phpbb2_moderator_list,
                                                                 'L_MODERATOR' => $l_phpbb2_moderators,
@@ -900,7 +900,7 @@ if( ( $total_phpbb2_categories = count($category_rows) ) )
 }// if ... total_categories
 else
 {
-        message_die(GENERAL_MESSAGE, $titanium_lang['No_forums']);
+        message_die(GENERAL_MESSAGE, $lang['No_forums']);
 }
 
 /*****[BEGIN]******************************************

@@ -24,8 +24,8 @@ if (!defined('MODULE_FILE'))
 global $titanium_prefix, $titanium_db, $cookie, $titanium_user, $theme_name;
 $index = 1;
 require_once("mainfile.php");
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
 $pagetitle = "86it Developers Network - My " . _MARKSTITLE;
 include("header.php");
 
@@ -46,7 +46,7 @@ if ((!isset($catname) || $catname=="") && (isset($category) && $category!=""))
 }
 OpenTable();
 echo "<center><span class=title><strong>$catname</strong></span></center><P>\n";
-echo "<center>[ <a href=modules.php?name=".$titanium_module_name.">"._CATEGORIES."</a> | <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$pnt_module.">"._CATEGORIES."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
 //CloseTable();
 echo "<hr />";
 
@@ -85,9 +85,9 @@ for ($i=0;$i<@$titanium_db->sql_numrows  ($marks_res,$titanium_db);$i++)
 		</td>
 		<td>".$marks_row['description']."</td>
 		<td><div align=\"center\">".$marks_row['mod_date']."<div></td>
-		<td>&nbsp;<a href=modules.php?name=".$titanium_module_name."&amp;file=edit_mark&amp;catid=$category&amp;markname=".urlencode($marks_row['name'])."&amp;markcomment=".urlencode($marks_row['description'])."&amp;markid=".$marks_row['id']."&amp;popup=".$marks_row['popup']."><img src='modules/".$titanium_module_name."/images/pencil.gif' width=12 height=12 border=0></a>
+		<td>&nbsp;<a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category&amp;markname=".urlencode($marks_row['name'])."&amp;markcomment=".urlencode($marks_row['description'])."&amp;markid=".$marks_row['id']."&amp;popup=".$marks_row['popup']."><img src='modules/".$pnt_module."/images/pencil.gif' width=12 height=12 border=0></a>
 		</td>
-		<td>&nbsp;&nbsp;&nbsp;<a href=modules.php?name=".$titanium_module_name."&amp;file=del_mark&amp;catid=".$category."&amp;markname=".urlencode($marks_row['name'])."&amp;markid=".$marks_row['id']."&amp;catname=".$catname."><img src=modules/".$titanium_module_name."/admin/trash.png width=12 height=12 border=0></a>
+		<td>&nbsp;&nbsp;&nbsp;<a href=modules.php?name=".$pnt_module."&amp;file=del_mark&amp;catid=".$category."&amp;markname=".urlencode($marks_row['name'])."&amp;markid=".$marks_row['id']."&amp;catname=".$catname."><img src=modules/".$pnt_module."/admin/trash.png width=12 height=12 border=0></a>
 		</td>
 		</tr>\n";
 	}
@@ -99,10 +99,10 @@ for ($i=0;$i<@$titanium_db->sql_numrows  ($marks_res,$titanium_db);$i++)
 		</td><td>".$marks_row['description']."</td>
 		<td><div align=\"center\">".$marks_row['mod_date']."<div></td>
 		<td>&nbsp;
-		<a href=modules.php?name=".$titanium_module_name."&amp;file=edit_mark&amp;catid=$category&amp;markname=".urlencode($marks_row['name'])."&amp;markcomment=".urlencode($marks_row['description'])."&amp;markid=".$marks_row['id']."&amp;popup=".$marks_row['popup']."><img src='modules/".$titanium_module_name."/images/pencil.gif' width=12 height=12 border=0></a>
+		<a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category&amp;markname=".urlencode($marks_row['name'])."&amp;markcomment=".urlencode($marks_row['description'])."&amp;markid=".$marks_row['id']."&amp;popup=".$marks_row['popup']."><img src='modules/".$pnt_module."/images/pencil.gif' width=12 height=12 border=0></a>
 		</td>
 		<td>&nbsp;&nbsp;&nbsp;
-		<a href=modules.php?name=".$titanium_module_name."&amp;file=del_mark&amp;catid=".$category."&amp;markname=".urlencode($marks_row['name'])."&amp;markid=".$marks_row['id']."&amp;catname=".$catname."><img src=modules/".$titanium_module_name."/admin/trash.png width=12 height=12 border=0></a>
+		<a href=modules.php?name=".$pnt_module."&amp;file=del_mark&amp;catid=".$category."&amp;markname=".urlencode($marks_row['name'])."&amp;markid=".$marks_row['id']."&amp;catname=".$catname."><img src=modules/".$pnt_module."/admin/trash.png width=12 height=12 border=0></a>
 		</td>
 		</tr>\n";
 	}
@@ -117,7 +117,7 @@ echo "</table>";
 echo "<hr />";
 
 //OpenTable();
-echo "<center>[ <a href=modules.php?name=".$titanium_module_name.">"._CATEGORIES."</a> | <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$pnt_module.">"._CATEGORIES."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
 CloseTable();
 include("footer.php");
 ?> 

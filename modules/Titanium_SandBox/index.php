@@ -26,9 +26,9 @@ $title = 'Titanium SandBox Module '.NUKE_TITANIUM;
 
 require_once("mainfile.php");
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 include("header.php");
 
@@ -45,7 +45,7 @@ else
 $mode = '0';
 
 # these globals are almost always needed 
-global $domain, $facebookappid, $titanium_module_name, $ThemeSel, $name; 
+global $domain, $facebookappid, $pnt_module, $ThemeSel, $name; 
 
 # this must be loaded for facebook purposes
 include (MODULES.'Titanium_SandBox/includes/functions.php'); 
@@ -194,7 +194,7 @@ if (defined('DEV_ENVIRONMENT'))
 ######################################################################################################################################################################################
 ## 0 (x-clean_slate_template.php)
 echo '<fieldset style="border-color: white; border-width: '.$fieldset_border_width.'; border-style: solid;">'; 
-echo  "This files can be found in the folder: <strong>$domain/modules/$titanium_module_name/x-clean_slate_template.php<strong></br>";
+echo  "This files can be found in the folder: <strong>$domain/modules/$pnt_module/x-clean_slate_template.php<strong></br>";
 echo  $fpr_img.' <a href="modules.php?name=Titanium_SandBox&mode=0"> [ CLEAN SLATE TEMPLATE ]</a> <font color="orange">Written by Ernest Allen Buffington</font> 9/15/2017</br>';
 echo "</fieldset><br />";
 ######################################################################################################################################################################################

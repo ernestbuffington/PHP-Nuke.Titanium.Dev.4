@@ -81,9 +81,9 @@ if( !empty($setmodules) )
 
     // Assign sort fields
         $sort_fields_text = array(
-                        $titanium_lang['Sort_vote_id'],
-                        $titanium_lang['Sort_poll_topic'],
-                        $titanium_lang['Sort_vote_start']
+                        $lang['Sort_vote_id'],
+                        $lang['Sort_poll_topic'],
+                        $lang['Sort_vote_start']
                         );
 
         $sort_fields = array(
@@ -116,11 +116,11 @@ if( !empty($setmodules) )
                 $select_sort_order = '<select name="order">';
                 if($sort_order == 'ASC')
                     {
-                        $select_sort_order .= '<option value="ASC" selected="selected">' . $titanium_lang['Sort_ascending'] . '</option><option value="DESC">' . $titanium_lang['Sort_descending'] . '</option>';
+                        $select_sort_order .= '<option value="ASC" selected="selected">' . $lang['Sort_ascending'] . '</option><option value="DESC">' . $lang['Sort_descending'] . '</option>';
                     }
                 else
                     {
-                        $select_sort_order .= '<option value="ASC">' . $titanium_lang['Sort_ascending'] . '</option><option value="DESC" selected="selected">' . $titanium_lang['Sort_descending'] . '</option>';
+                        $select_sort_order .= '<option value="ASC">' . $lang['Sort_ascending'] . '</option><option value="DESC" selected="selected">' . $lang['Sort_descending'] . '</option>';
                     }
                         $select_sort_order .= '</select>';
             }
@@ -158,15 +158,15 @@ if( !empty($setmodules) )
 
     // Assign labels
         $phpbb2_template->assign_vars(array(
-            'L_ADMIN_VOTE_EXPLAIN' => $titanium_lang['Admin_Vote_Explain'],
-            'L_ADMIN_VOTE_TITLE' => $titanium_lang['Admin_Vote_Title'],
-            'L_VOTE_ID' => $titanium_lang['Vote_id'], 
-            'L_POLL_TOPIC' => $titanium_lang['Poll_topic'],
-            'L_VOTE_USERNAME' => $titanium_lang['Vote_username'],
-            'L_VOTE_END_DATE' => $titanium_lang['Vote_end_date'],
-            'L_SUBMIT' => $titanium_lang['Submit'],
-            'L_SELECT_SORT_FIELD' => $titanium_lang['Select_sort_field'],
-            'L_SORT_ORDER' => $titanium_lang['Sort_order'],
+            'L_ADMIN_VOTE_EXPLAIN' => $lang['Admin_Vote_Explain'],
+            'L_ADMIN_VOTE_TITLE' => $lang['Admin_Vote_Title'],
+            'L_VOTE_ID' => $lang['Vote_id'], 
+            'L_POLL_TOPIC' => $lang['Poll_topic'],
+            'L_VOTE_USERNAME' => $lang['Vote_username'],
+            'L_VOTE_END_DATE' => $lang['Vote_end_date'],
+            'L_SUBMIT' => $lang['Submit'],
+            'L_SELECT_SORT_FIELD' => $lang['Select_sort_field'],
+            'L_SORT_ORDER' => $lang['Sort_order'],
 
             'S_FIELD_SELECT' => $select_sort_field,
             'S_ORDER_SELECT' => $select_sort_order,
@@ -334,9 +334,9 @@ if( !empty($setmodules) )
 
     $phpbb2_template->assign_vars(array(
         'PAGINATION' => $pagination,
-        'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], ( floor( $phpbb2_start / $phpbb2_board_config['topics_per_page'] ) + 1 ), ceil( $total_phpbb2_polls / $phpbb2_board_config['topics_per_page'] )), 
+        'PAGE_NUMBER' => sprintf($lang['Page_of'], ( floor( $phpbb2_start / $phpbb2_board_config['topics_per_page'] ) + 1 ), ceil( $total_phpbb2_polls / $phpbb2_board_config['topics_per_page'] )), 
 
-        'L_GOTO_PAGE' => $titanium_lang['Goto_page'])
+        'L_GOTO_PAGE' => $lang['Goto_page'])
         );
 
 // I'm the boss...need the info...

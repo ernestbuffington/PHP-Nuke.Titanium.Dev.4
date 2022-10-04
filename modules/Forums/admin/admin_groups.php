@@ -117,7 +117,7 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
 
                 if ( !($group_info = $titanium_db->sql_fetchrow($result)) )
                 {
-                        message_die(GENERAL_MESSAGE, $titanium_lang['Group_not_exist']);
+                        message_die(GENERAL_MESSAGE, $lang['Group_not_exist']);
                 }
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                 v1.0.1  ]
@@ -289,12 +289,12 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
                 'GROUP_COUNT_MAX' => $group_info['group_count_max'], 
                 'GROUP_COUNT_ENABLE_CHECKED' => $group_count_enable_checked,
 
-                'L_GROUP_COUNT' => $titanium_lang['group_count'],
-                'L_GROUP_COUNT_MAX' => $titanium_lang['group_count_max'],
-                'L_GROUP_COUNT_EXPLAIN' => $titanium_lang['group_count_explain'],
-                'L_GROUP_COUNT_ENABLE' => $titanium_lang['Group_count_enable'],
-                'L_GROUP_COUNT_UPDATE' => $titanium_lang['Group_count_update'],
-                'L_GROUP_COUNT_DELETE' => $titanium_lang['Group_count_delete'],
+                'L_GROUP_COUNT' => $lang['group_count'],
+                'L_GROUP_COUNT_MAX' => $lang['group_count_max'],
+                'L_GROUP_COUNT_EXPLAIN' => $lang['group_count_explain'],
+                'L_GROUP_COUNT_ENABLE' => $lang['Group_count_enable'],
+                'L_GROUP_COUNT_UPDATE' => $lang['Group_count_update'],
+                'L_GROUP_COUNT_DELETE' => $lang['Group_count_delete'],
 /*****[END]********************************************
  [ Mod:    Auto Group                          v1.2.2 ]
  ******************************************************/
@@ -304,22 +304,22 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
  [ Mod:     Group Ranks                        v1.0.0 ]
  ******************************************************/
                 'GROUP_COLOR' => $group_color,
-                'L_GROUP_COLOR' => $titanium_lang['group_color'],
+                'L_GROUP_COLOR' => $lang['group_color'],
                 'GROUP_RANK' => $group_rank,
-                'L_GROUP_RANK' => $titanium_lang['group_rank'],
+                'L_GROUP_RANK' => $lang['group_rank'],
 /*****[END]********************************************
  [ Mod:     Group Colors                       v1.0.0 ]
  [ Mod:     Group Ranks                        v1.0.0 ]
  ******************************************************/
                 'GROUP_ALLOW_PM' => $group_info['group_allow_pm'],
 
-                'L_GROUP_ALLOW_PM' => $titanium_lang['group_allow_pm'],
-                'L_GROUP_ALLOW_PM_EXPLAIN' => $titanium_lang['group_allow_pm_explain'],
-                'L_GROUP_ALL_ALLOW_PM' => ucfirst(strtolower($titanium_lang['Forum_ALL'])),
-                'L_GROUP_REG_ALLOW_PM' => ucfirst(strtolower($titanium_lang['Forum_REG'])),
-                'L_GROUP_PRIVATE_ALLOW_PM' => ucfirst(strtolower($titanium_lang['Forum_PRIVATE'])),
-                'L_GROUP_MOD_ALLOW_PM' => ucfirst(strtolower($titanium_lang['Forum_MOD'])),
-                'L_GROUP_ADMIN_ALLOW_PM' => ucfirst(strtolower($titanium_lang['Forum_ADMIN'])),
+                'L_GROUP_ALLOW_PM' => $lang['group_allow_pm'],
+                'L_GROUP_ALLOW_PM_EXPLAIN' => $lang['group_allow_pm_explain'],
+                'L_GROUP_ALL_ALLOW_PM' => ucfirst(strtolower($lang['Forum_ALL'])),
+                'L_GROUP_REG_ALLOW_PM' => ucfirst(strtolower($lang['Forum_REG'])),
+                'L_GROUP_PRIVATE_ALLOW_PM' => ucfirst(strtolower($lang['Forum_PRIVATE'])),
+                'L_GROUP_MOD_ALLOW_PM' => ucfirst(strtolower($lang['Forum_MOD'])),
+                'L_GROUP_ADMIN_ALLOW_PM' => ucfirst(strtolower($lang['Forum_ADMIN'])),
 
                 'S_GROUP_ALL_ALLOW_PM_CHECKED' => $group_allow_pm_all,
                 'S_GROUP_REG_ALLOW_PM_CHECKED' => $group_allow_pm_reg,
@@ -335,51 +335,51 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
 
-                'L_GROUP_TITLE' => $titanium_lang['Group_administration'],
-                'L_GROUP_EDIT_DELETE' => ( isset($HTTP_POST_VARS['new']) ) ? $titanium_lang['New_group'] : $titanium_lang['Edit_group'],
-                'L_GROUP_NAME' => $titanium_lang['group_name'],
-                'L_GROUP_DESCRIPTION' => $titanium_lang['group_description'],
-                'L_GROUP_MODERATOR' => $titanium_lang['group_moderator'],
-                'L_FIND_USERNAME' => $titanium_lang['Find_username'],
-                'L_GROUP_STATUS' => $titanium_lang['group_status'],
+                'L_GROUP_TITLE' => $lang['Group_administration'],
+                'L_GROUP_EDIT_DELETE' => ( isset($HTTP_POST_VARS['new']) ) ? $lang['New_group'] : $lang['Edit_group'],
+                'L_GROUP_NAME' => $lang['group_name'],
+                'L_GROUP_DESCRIPTION' => $lang['group_description'],
+                'L_GROUP_MODERATOR' => $lang['group_moderator'],
+                'L_FIND_USERNAME' => $lang['Find_username'],
+                'L_GROUP_STATUS' => $lang['group_status'],
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-                'L_GROUP_INITIAL' => $titanium_lang['Initial_user_group'],
-                'L_GROUP_INITIAL_EXPLAIN' => $titanium_lang['Initial_user_group_explain'],
+                'L_GROUP_INITIAL' => $lang['Initial_user_group'],
+                'L_GROUP_INITIAL_EXPLAIN' => $lang['Initial_user_group_explain'],
 /*****[END]********************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-                'L_GROUP_OPEN' => $titanium_lang['group_open'],
-                'L_GROUP_CLOSED' => $titanium_lang['group_closed'],
-                'L_GROUP_HIDDEN' => $titanium_lang['group_hidden'],
-                'L_GROUP_DELETE' => $titanium_lang['group_delete'],
-                'L_GROUP_DELETE_CHECK' => $titanium_lang['group_delete_check'],
-                'L_SUBMIT' => $titanium_lang['Submit'],
-                'L_RESET' => $titanium_lang['Reset'],
-                'L_DELETE_MODERATOR' => $titanium_lang['delete_group_moderator'],
-                'L_DELETE_MODERATOR_EXPLAIN' => $titanium_lang['delete_moderator_explain'],
+                'L_GROUP_OPEN' => $lang['group_open'],
+                'L_GROUP_CLOSED' => $lang['group_closed'],
+                'L_GROUP_HIDDEN' => $lang['group_hidden'],
+                'L_GROUP_DELETE' => $lang['group_delete'],
+                'L_GROUP_DELETE_CHECK' => $lang['group_delete_check'],
+                'L_SUBMIT' => $lang['Submit'],
+                'L_RESET' => $lang['Reset'],
+                'L_DELETE_MODERATOR' => $lang['delete_group_moderator'],
+                'L_DELETE_MODERATOR_EXPLAIN' => $lang['delete_moderator_explain'],
 /*****[BEGIN]******************************************
  [ Mod:     Enhanced BBGroups                  v1.0.0 ]
  ******************************************************/
-                'L_MAX_INBOX' => $titanium_lang['max_inbox'],
-                'L_MAX_SENTBOX' => $titanium_lang['max_sentbox'],
-                'L_MAX_SAVEBOX' => $titanium_lang['max_savebox'],
+                'L_MAX_INBOX' => $lang['max_inbox'],
+                'L_MAX_SENTBOX' => $lang['max_sentbox'],
+                'L_MAX_SAVEBOX' => $lang['max_savebox'],
                 'MAX_INBOX' => $max_inbox,
                 'MAX_SENTBOX' => $max_sentbox,
                 'MAX_SAVEBOX' => $max_savebox,
-                'L_OVERRIDE_MAX' => $titanium_lang['override_max'],
+                'L_OVERRIDE_MAX' => $lang['override_max'],
                 'OVERRIDE_MAX_INBOX' => $override_max_inbox,
                 'OVERRIDE_MAX_SENTBOX' => $override_max_sentbox,
                 'OVERRIDE_MAX_SAVEBOX' => $override_max_savebox,
 /*****[END]********************************************
  [ Mod:     Enhanced BBGroups                  v1.0.0 ]
  ******************************************************/
-                'L_YES' => $titanium_lang['Yes'],
+                'L_YES' => $lang['Yes'],
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-                'L_NO' => $titanium_lang['No'],
+                'L_NO' => $lang['No'],
 /*****[END]********************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
@@ -520,7 +520,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                         message_die(GENERAL_ERROR, 'Could not update auth_access', '', __LINE__, __FILE__, $sql);
                 }
 
-                $message = $titanium_lang['Deleted_group'] . '<br /><br />' . sprintf($titanium_lang['Click_return_groupsadmin'], '<a href="' . append_titanium_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+                $message = $lang['Deleted_group'] . '<br /><br />' . sprintf($lang['Click_return_groupsadmin'], '<a href="' . append_titanium_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
 
                 message_die(GENERAL_MESSAGE, $message);
         }
@@ -574,11 +574,11 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
 
                 if ( $group_name == '' )
                 {
-                        message_die(GENERAL_MESSAGE, $titanium_lang['No_group_name']);
+                        message_die(GENERAL_MESSAGE, $lang['No_group_name']);
                 }
                 else if ( $group_moderator == '' )
                 {
-                        message_die(GENERAL_MESSAGE, $titanium_lang['No_group_moderator']);
+                        message_die(GENERAL_MESSAGE, $lang['No_group_moderator']);
                 }
 
                 $this_userdata = get_userdata($group_moderator, true);
@@ -586,7 +586,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
 
                 if ( !$group_moderator )
                 {
-                        message_die(GENERAL_MESSAGE, $titanium_lang['No_group_moderator']);
+                        message_die(GENERAL_MESSAGE, $lang['No_group_moderator']);
                 }
 
                 if( $mode == "editgroup" )
@@ -602,7 +602,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
 
                         if( !($group_info = $titanium_db->sql_fetchrow($result)) )
                         {
-                                message_die(GENERAL_MESSAGE, $titanium_lang['Group_not_exist']);
+                                message_die(GENERAL_MESSAGE, $lang['Group_not_exist']);
                         }
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                 v1.0.1 ]
@@ -746,7 +746,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
  [ Mod:    Auto Group                          v1.2.2 ]
  ******************************************************/
                         
-                        $message = $titanium_lang['Updated_group'] .'<br />'.sprintf($titanium_lang['group_count_updated'],$group_count_remove,$group_count_added). '<br /><br />' . sprintf($titanium_lang['Click_return_groupsadmin'], '<a href="' . append_titanium_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');;
+                        $message = $lang['Updated_group'] .'<br />'.sprintf($lang['group_count_updated'],$group_count_remove,$group_count_added). '<br /><br />' . sprintf($lang['Click_return_groupsadmin'], '<a href="' . append_titanium_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');;
 
                         message_die(GENERAL_MESSAGE, $message);
                 }
@@ -843,14 +843,14 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
 
-                        $message = $titanium_lang['Added_new_group'] .'<br />'.sprintf($titanium_lang['group_count_updated'],$group_count_remove,$group_count_added). '<br /><br />' . sprintf($titanium_lang['Click_return_groupsadmin'], '<a href="' . append_titanium_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');;
+                        $message = $lang['Added_new_group'] .'<br />'.sprintf($lang['group_count_updated'],$group_count_remove,$group_count_added). '<br /><br />' . sprintf($lang['Click_return_groupsadmin'], '<a href="' . append_titanium_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');;
 
                         message_die(GENERAL_MESSAGE, $message);
 
                 }
                 else
                 {
-                        message_die(GENERAL_MESSAGE, $titanium_lang['No_group_action']);
+                        message_die(GENERAL_MESSAGE, $lang['No_group_action']);
                 }
         }
 }
@@ -882,11 +882,11 @@ else
         );
 
         $phpbb2_template->assign_vars(array(
-                'L_GROUP_TITLE' => $titanium_lang['Group_administration'],
-                'L_GROUP_EXPLAIN' => $titanium_lang['Group_admin_explain'],
-                'L_GROUP_SELECT' => $titanium_lang['Select_group'],
-                'L_LOOK_UP' => $titanium_lang['Look_up_group'],
-                'L_CREATE_NEW_GROUP' => $titanium_lang['New_group'],
+                'L_GROUP_TITLE' => $lang['Group_administration'],
+                'L_GROUP_EXPLAIN' => $lang['Group_admin_explain'],
+                'L_GROUP_SELECT' => $lang['Select_group'],
+                'L_LOOK_UP' => $lang['Look_up_group'],
+                'L_CREATE_NEW_GROUP' => $lang['New_group'],
 
                 'S_GROUP_ACTION' => append_titanium_sid("admin_groups.$phpEx"),
                 'S_GROUP_SELECT' => $select_list)

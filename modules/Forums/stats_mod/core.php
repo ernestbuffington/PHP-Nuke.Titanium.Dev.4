@@ -353,19 +353,19 @@ class StatisticsCORE
     // Those pre-defined variables are for special conditions and content related output
     function pre_defined($variable = '')
     {
-        global $titanium_lang;
+        global $lang;
 
         if ($variable == 'rank')
         {
-            return (array('__PRE_DEFINE_RANK__' => $titanium_lang['Rank']));
+            return (array('__PRE_DEFINE_RANK__' => $lang['Rank']));
         }
         else if ($variable == 'percent')
         {
-            return (array('__PRE_DEFINE_PERCENT__' => $titanium_lang['Percent']));
+            return (array('__PRE_DEFINE_PERCENT__' => $lang['Percent']));
         }
         else if ($variable == 'graph')
         {
-            return (array('__PRE_DEFINE_GRAPH__' => $titanium_lang['Graph']));
+            return (array('__PRE_DEFINE_GRAPH__' => $lang['Graph']));
         }
         else
         {

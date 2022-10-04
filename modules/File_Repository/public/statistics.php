@@ -14,7 +14,7 @@ if (!defined('MODULE_FILE'))
 
 function _general_statistics()
 {
-	global $titanium_db, $titanium_lang_new, $titanium_module_name, $settings;
+	global $titanium_db, $lang_new, $pnt_module, $settings;
 	OpenTable();
 	_index_navigation_header();
 	# TOTAL CATEGORY COUNT
@@ -38,17 +38,17 @@ function _general_statistics()
 	echo '<br />';
 	echo '<table style="width: 100%; table-layout:fixed;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
-	echo '    <td'._tdcss(false,'center',_sh(),2).'>'._suh($titanium_lang_new[$titanium_module_name]['STATISTICS_HEADER']).'</td>'."\n";
+	echo '    <td'._tdcss(false,'center',_sh(),2).'>'._suh($lang_new[$pnt_module]['STATISTICS_HEADER']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '  <tr'._bgColor(1).'>'."\n";
 	echo '    <td'._tdcss(false,false,_sc()).'>';
 	echo '      <table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '        <tr'._bgColor(1).'>';
-	echo '          <td'._tdcss('70%',false,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['TOTAL_CATEGORIES']).'</td>';
+	echo '          <td'._tdcss('70%',false,_sc()).'>'._sut($lang_new[$pnt_module]['TOTAL_CATEGORIES']).'</td>';
 	echo '          <td'._tdcss('30%','center',_sc()).'>'.$totalcategories.'</td>';
 	echo '        </tr>';
 	echo '        <tr'._bgColor(1).'>';
-	echo '          <td'._tdcss('70%',false,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['TOTAL_FILES']).'</td>';
+	echo '          <td'._tdcss('70%',false,_sc()).'>'._sut($lang_new[$pnt_module]['TOTAL_FILES']).'</td>';
 	echo '          <td'._tdcss('30%','center',_sc()).'>'.$totaldownloads.'</td>';
 	echo '        </tr>';
 	echo '      </table>'."\n";
@@ -56,11 +56,11 @@ function _general_statistics()
 	echo '    <td'._tdcss(false,false,_sc()).'>';
 	echo '      <table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '        <tr'._bgColor(1).'>';
-	echo '          <td'._tdcss('70%',false,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['TOTAL_DOWNLOADS']).'</td>';
+	echo '          <td'._tdcss('70%',false,_sc()).'>'._sut($lang_new[$pnt_module]['TOTAL_DOWNLOADS']).'</td>';
 	echo '          <td'._tdcss('30%','center',_sc()).'>'.(($statistic['totalhits']) ? $statistic['totalhits'] : '0').'</td>';
 	echo '        </tr>';
 	echo '        <tr'._bgColor(1).'>';
-	echo '          <td'._tdcss('70%',false,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['TOTAL_DATABASE_SIZE']).'</td>';
+	echo '          <td'._tdcss('70%',false,_sc()).'>'._sut($lang_new[$pnt_module]['TOTAL_DATABASE_SIZE']).'</td>';
 	echo '          <td'._tdcss('30%','center',_sc()).'>'.(($statistic2['totalsize']) ? _convertsize($statistic2['totalsize']) : 0).'</td>';
 	echo '        </tr>';
 	echo '      </table>'."\n";
@@ -68,8 +68,8 @@ function _general_statistics()
 	echo '  </tr>'."\n";
 	# TOP 5 POPULAR FILES
 	echo '  <tr'._bgColor(2).'>'."\n";
-	echo '	  <td'._tdcss('50%',false,_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['TOPFIVE']).'</td>'."\n";
-	echo '	  <td'._tdcss('50%',false,_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['LATEST_FILES']).'</td>'."\n";
+	echo '	  <td'._tdcss('50%',false,_sh()).'>'._suh($lang_new[$pnt_module]['TOPFIVE']).'</td>'."\n";
+	echo '	  <td'._tdcss('50%',false,_sh()).'>'._suh($lang_new[$pnt_module]['LATEST_FILES']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '  <tr'._bgColor(1).'>'."\n";
 	echo '	  <td'._tdcss('50%',false,_sc()).' valign="top">';
@@ -77,21 +77,21 @@ function _general_statistics()
 	if($totalpopular > 0)
 	{
 		echo '        <tr'._bgColor(2).'>'."\n";
-		echo '          <td'._tdcss('70%',false,_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['TITLE']).'</td>'."\n";
-		echo '          <td'._tdcss('30%','center',_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['HITS']).'</td>'."\n";
+		echo '          <td'._tdcss('70%',false,_sh()).'>'._suh($lang_new[$pnt_module]['TITLE']).'</td>'."\n";
+		echo '          <td'._tdcss('30%','center',_sh()).'>'._suh($lang_new[$pnt_module]['HITS']).'</td>'."\n";
 		echo '        </tr>'."\n";
 		while($popular = $titanium_db->sql_fetchrow($presult))
 		{
 			$iteminfo['isnew'] = (($popular['isupdated'] == '0000-00-00 00:00:00') ? $popular['date'] : $popular['isupdated']);
 			echo '        <tr'._bgColor(1).'>'."\n";
-			echo '	        <td'._tdcss('70%',false,_sc()).'><a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=view&amp;did='.$popular['did'].'">'._colorization($popular['title'],$popular['color']).'</a>'._item_is_new($iteminfo['isnew'],$popular['isupdated'])._mostpopular($popular['hits']).'</td>';
+			echo '	        <td'._tdcss('70%',false,_sc()).'><a'._ls().' href="modules.php?name='.$pnt_module.'&amp;action=view&amp;did='.$popular['did'].'">'._colorization($popular['title'],$popular['color']).'</a>'._item_is_new($iteminfo['isnew'],$popular['isupdated'])._mostpopular($popular['hits']).'</td>';
 			echo '	        <td'._tdcss('30%','center',_sc()).'>'.$popular['hits'].'</td>';
 			echo '        </tr>';
 		}
 		$titanium_db->sql_freeresult($presult);
 	} else {
 		echo '        <tr'._bgColor(1).'>'."\n";
-		echo '	        <td'._tdcss(false,'center',_sc(),2).'>'.$titanium_lang_new[$titanium_module_name]['NOINFO'].'</td>';
+		echo '	        <td'._tdcss(false,'center',_sc(),2).'>'.$lang_new[$pnt_module]['NOINFO'].'</td>';
 		echo '        </tr>';
 	}
 	echo '      </table>'."\n";
@@ -101,21 +101,21 @@ function _general_statistics()
 	if($totaldownloads > 0)
 	{
 		echo '        <tr'._bgColor(2).'>'."\n";
-		echo '          <td'._tdcss('70%',false,_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['TITLE']).'</td>'."\n";
-		echo '          <td'._tdcss('30%','center',_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['DATE_ADDED']).'</td>'."\n";
+		echo '          <td'._tdcss('70%',false,_sh()).'>'._suh($lang_new[$pnt_module]['TITLE']).'</td>'."\n";
+		echo '          <td'._tdcss('30%','center',_sh()).'>'._suh($lang_new[$pnt_module]['DATE_ADDED']).'</td>'."\n";
 		echo '        </tr>'."\n";
 		while($latest = $titanium_db->sql_fetchrow($lresult))
 		{
 			$iteminfo['isnew'] = (($latest['isupdated'] == '0000-00-00 00:00:00') ? $latest['date'] : $latest['isupdated']);
 			echo '        <tr'._bgColor(1).'>'."\n";
-			echo '	        <td'._tdcss('70%',false,_sc()).'><a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=view&amp;did='.$latest['did'].'">'._colorization($latest['title'],$latest['color']).'</a>'._item_is_new($iteminfo['isnew'],$latest['isupdated'])._mostpopular($latest['hits']).'</td>';
+			echo '	        <td'._tdcss('70%',false,_sc()).'><a'._ls().' href="modules.php?name='.$pnt_module.'&amp;action=view&amp;did='.$latest['did'].'">'._colorization($latest['title'],$latest['color']).'</a>'._item_is_new($iteminfo['isnew'],$latest['isupdated'])._mostpopular($latest['hits']).'</td>';
 			echo '	        <td'._tdcss('30%','center',_sc()).'>'._timestamp($latest['date']).'</td>';
 			echo '        </tr>';
 		}
 		$titanium_db->sql_freeresult($lresult);
 	} else {
 		echo '        <tr'._bgColor(1).'>'."\n";
-		echo '	        <td'._tdcss(false,'center',_sc(),2).'>'.$titanium_lang_new[$titanium_module_name]['NOINFO'].'</td>';
+		echo '	        <td'._tdcss(false,'center',_sc(),2).'>'.$lang_new[$pnt_module]['NOINFO'].'</td>';
 		echo '        </tr>';
 	}
 	echo '      </table>'."\n";

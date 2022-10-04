@@ -22,7 +22,7 @@
 */
 function group_select($select_name, $default_group = 0)
 {
-    global $titanium_db, $titanium_lang;
+    global $titanium_db, $lang;
 
     $sql = 'SELECT group_id, group_name
         FROM ' . EXTENSION_GROUPS_TABLE . '
@@ -42,7 +42,7 @@ function group_select($select_name, $default_group = 0)
     if ($num_rows > 0)
     {
         $group_name[$num_rows]['group_id'] = 0;
-        $group_name[$num_rows]['group_name'] = $titanium_lang['Not_assigned'];
+        $group_name[$num_rows]['group_name'] = $lang['Not_assigned'];
 
         for ($i = 0; $i < sizeof($group_name); $i++)
         {
@@ -180,9 +180,9 @@ function category_select($select_name, $group_id = 0)
 */
 function size_select($select_name, $size_compare)
 {
-    global $titanium_lang;
+    global $lang;
 
-    $size_types_text = array($titanium_lang['Bytes'], $titanium_lang['KB'], $titanium_lang['MB']);
+    $size_types_text = array($lang['Bytes'], $lang['KB'], $lang['MB']);
     $size_types = array('b', 'kb', 'mb');
 
     $select_field = '<select name="' . $select_name . '">';
@@ -203,7 +203,7 @@ function size_select($select_name, $size_compare)
 */
 function quota_limit_select($select_name, $default_quota = 0)
 {
-    global $titanium_db, $titanium_lang;
+    global $titanium_db, $lang;
 
     $sql = 'SELECT quota_limit_id, quota_desc
         FROM ' . QUOTA_LIMITS_TABLE . '
@@ -216,7 +216,7 @@ function quota_limit_select($select_name, $default_quota = 0)
 
     $quota_select = '<select name="' . $select_name . '">';
     $quota_name[0]['quota_limit_id'] = 0;
-    $quota_name[0]['quota_desc'] = $titanium_lang['Not_assigned'];
+    $quota_name[0]['quota_desc'] = $lang['Not_assigned'];
 
     while ($row = $titanium_db->sql_fetchrow($result))
     {
@@ -239,7 +239,7 @@ function quota_limit_select($select_name, $default_quota = 0)
 */
 function default_quota_limit_select($select_name, $default_quota = 0)
 {
-    global $titanium_db, $titanium_lang;
+    global $titanium_db, $lang;
 
     $sql = 'SELECT quota_limit_id, quota_desc
         FROM ' . QUOTA_LIMITS_TABLE . '
@@ -252,7 +252,7 @@ function default_quota_limit_select($select_name, $default_quota = 0)
 
     $quota_select = '<select name="' . $select_name . '">';
     $quota_name[0]['quota_limit_id'] = 0;
-    $quota_name[0]['quota_desc'] = $titanium_lang['No_quota_limit'];
+    $quota_name[0]['quota_desc'] = $lang['No_quota_limit'];
 
     while ($row = $titanium_db->sql_fetchrow($result))
     {

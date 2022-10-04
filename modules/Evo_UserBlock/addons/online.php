@@ -23,7 +23,7 @@ global $evouserinfo_addons, $evouserinfo_online;
 
 function evouserinfo_get_members_online() 
 {
-    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock, $evouserinfo_addons, $titanium_user_prefix, $userinfo, $phpbb2_board_config, $Default_Theme;
+    global $titanium_prefix, $titanium_db, $lang_evo_userblock, $evouserinfo_addons, $titanium_user_prefix, $userinfo, $phpbb2_board_config, $Default_Theme;
 
     $sql = "SELECT w.uname, 
 	              w.module, 
@@ -104,38 +104,38 @@ function evouserinfo_get_members_online()
 	        $tooltip_userinfo_overlay  = '<div style="width: 300px;">';
 	        
 			# user name in tool tip
-			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$titanium_lang_evo_userblock['BLOCK']['LOGIN']['USERNAME'].'<span>'.$uname_color.'</span></div>';
+			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['LOGIN']['USERNAME'].'<span>'.$uname_color.'</span></div>';
 	        
 	         # admins can always see what someones email address is
 			 if (is_admin()):
-			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['EMAIL'].'<span>'.(($session['user_viewemail'] == 0) 
-			? '<a href="mailto:'.$session['user_email'].'">'.$session['user_email'].'</a>' : $titanium_lang_evo_userblock['BLOCK']['ONLINE']['HIDDEN']).'</span></div>';
+			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['EMAIL'].'<span>'.(($session['user_viewemail'] == 0) 
+			? '<a href="mailto:'.$session['user_email'].'">'.$session['user_email'].'</a>' : $lang_evo_userblock['BLOCK']['ONLINE']['HIDDEN']).'</span></div>';
              else: 
-			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['EMAIL'].'<span>'.(($session['user_viewemail'] == 1) 
-			? '<a href="mailto:'.$session['user_email'].'">'.$session['user_email'].'</a>' : $titanium_lang_evo_userblock['BLOCK']['ONLINE']['HIDDEN']).'</span></div>';
+			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['EMAIL'].'<span>'.(($session['user_viewemail'] == 1) 
+			? '<a href="mailto:'.$session['user_email'].'">'.$session['user_email'].'</a>' : $lang_evo_userblock['BLOCK']['ONLINE']['HIDDEN']).'</span></div>';
 	         endif;
 	        
 			# member since in tool tip view
-			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['SINCE'].'<span>'.$session['user_regdate'].'</span></div>';
+			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['SINCE'].'<span>'.$session['user_regdate'].'</span></div>';
 	        
 			# post count in tooltip view
-			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['POST_COUNT'].'<span>
+			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['POST_COUNT'].'<span>
 			<a href="modules.php?name=Forums&amp;file=search&amp;search_author='.$uname.'">'.$session['user_posts'].'</a></span></div>';
 	        
 			# current users theme in tooltip view
-			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['THEME'].'<span>'.(($session['theme']) 
+			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['THEME'].'<span>'.(($session['theme']) 
 			? $session['theme'] : $Default_Theme).'</span></div>';
 	        
 			# what the person in the online list are viewing at the moment - should only be available for admins
 			if (is_admin()):
-			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['VIEWING'].'<span>'.(($session['module']) 
+			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['VIEWING'].'<span>'.(($session['module']) 
 			? '<a href="'.$session['url'].'">'.str_replace('_',' ',$session['module']).'</a>' : 
-			'<a href="'.$session['url'].'">'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['HOME'].'</a>').'</span></div>';
+			'<a href="'.$session['url'].'">'.$lang_evo_userblock['BLOCK']['ONLINE']['HOME'].'</a>').'</span></div>';
 	         endif;
 			 
 			 # ip address in tooltips for the person visting the website
 			 if (is_admin()):
-	         $tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['IP'].'<span>'.$session['host_addr'].'</span></div>';
+	         $tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['IP'].'<span>'.$session['host_addr'].'</span></div>';
 	         endif;
 	        $tooltip_userinfo_overlay .= '</div>';
 
@@ -143,7 +143,7 @@ function evouserinfo_get_members_online()
 			$tooltip_userinfo = ' class="tooltip-html-side-interact" title="'.str_replace('"','\'',$tooltip_userinfo_overlay).'"';
 
 	    else:
-	    	$tooltip_userinfo = ' title="'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['VIEW'].'&nbsp;'.$uname.'\'s '.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['PROFILE'].'"';
+	    	$tooltip_userinfo = ' title="'.$lang_evo_userblock['BLOCK']['ONLINE']['VIEW'].'&nbsp;'.$uname.'\'s '.$lang_evo_userblock['BLOCK']['ONLINE']['PROFILE'].'"';
 	    endif;
 
         if ($session['user_allow_viewonline']):
@@ -198,7 +198,7 @@ function evouserinfo_get_members_online()
 
 function evouserinfo_get_guests_online($phpbb2_start) 
 {
-    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock, $identify;
+    global $titanium_prefix, $titanium_db, $lang_evo_userblock, $identify;
     $result = $titanium_db->sql_query("SELECT uname, url, module, host_addr FROM ".$titanium_prefix."_session WHERE guest='1' OR guest='3'");
     $out['total'] = $titanium_db->sql_numrows($result);
     $out['text'] = '';
@@ -217,7 +217,7 @@ function evouserinfo_get_guests_online($phpbb2_start)
         $where 			= (is_admin()) ? $where : '&nbsp;&nbsp;'.$num.'.&nbsp;';
         
 		if(!is_admin()):
-            $out['text'] .= $where.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['GUEST']."</a><br />\n";
+            $out['text'] .= $where.$lang_evo_userblock['BLOCK']['ONLINE']['GUEST']."</a><br />\n";
         else:
         
             $titanium_user_agent = $identify->identify_agent();
@@ -238,39 +238,39 @@ function evouserinfo_get_guests_online($phpbb2_start)
 
 function evouserinfo_online_display($members, $guests) 
 {
-    global $titanium_lang_evo_userblock, $evouserinfo_addons, $userinfo;
+    global $lang_evo_userblock, $evouserinfo_addons, $userinfo;
     $out = '';
     if($evouserinfo_addons['online_show_members'] == 'yes'):
     
-        $out .= '<div style="font-weight: bold">'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['STATS'].'</div>';
+        $out .= '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['ONLINE']['STATS'].'</div>';
 
         $out .= '<div style="padding-left: 10px;">';
         $out .= '<font color="gold"><i class="fa fa-pie-chart" aria-hidden="true"></i>
-</font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['MEMBERS'].'<span style="float:right">'.$members['total'].'&nbsp;&nbsp;</span>';
+</font>&nbsp;'.$lang_evo_userblock['BLOCK']['ONLINE']['MEMBERS'].'<span style="float:right">'.$members['total'].'&nbsp;&nbsp;</span>';
         $out .= '</div>'; 
 
         if($evouserinfo_addons['online_show_hv'] == 'yes'):
 
             $out .= '<div style="padding-left: 10px;">';
             $out .= '<font color="#FF3300"><i class="fa fa-pie-chart" aria-hidden="true"></i>
-</font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['VISIBLE'].'<span style="float:right">'.$members['visible'].'&nbsp;&nbsp;</span>';
+</font>&nbsp;'.$lang_evo_userblock['BLOCK']['ONLINE']['VISIBLE'].'<span style="float:right">'.$members['visible'].'&nbsp;&nbsp;</span>';
             $out .= '</div>';
 
             $out .= '<div style="padding-left: 10px;">';
             $out .= '<font color="gold"><i class="fa fa-pie-chart" aria-hidden="true"></i>
-</font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['HIDDEN'].'<span style="float:right">'.$members['hidden'].'&nbsp;&nbsp;</span>';
+</font>&nbsp;'.$lang_evo_userblock['BLOCK']['ONLINE']['HIDDEN'].'<span style="float:right">'.$members['hidden'].'&nbsp;&nbsp;</span>';
             $out .= '</div>';
 
         endif;
 
         $out .= '<div style="padding-left: 10px;">';
         $out .= '<font color="#FF3300"><i class="fa fa-pie-chart" aria-hidden="true"></i>
-</font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['GUESTS'].'<span style="float:right">'.$guests['total'].'&nbsp;&nbsp;</span>';
+</font>&nbsp;'.$lang_evo_userblock['BLOCK']['ONLINE']['GUESTS'].'<span style="float:right">'.$guests['total'].'&nbsp;&nbsp;</span>';
         $out .= '</div>';
 
         $out .= '<div style="padding-left: 10px;">';
         $out .= '<font color="pink"><i class="fa fa-pie-chart" aria-hidden="true"></i>
-</font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['TOTAL'].'<span style="float:right">'.($guests['total']+$members['total']).'&nbsp;&nbsp;</span><hr />';
+</font>&nbsp;'.$lang_evo_userblock['BLOCK']['ONLINE']['TOTAL'].'<span style="float:right">'.($guests['total']+$members['total']).'&nbsp;&nbsp;</span><hr />';
         $out .= '</div>';
     
     endif;
@@ -280,21 +280,21 @@ function evouserinfo_online_display($members, $guests)
     if($evouserinfo_addons['online_scroll'] == 'yes'):
     
         $out .= '<div style="overflow:auto; max-height:150px; width:100%">';
-        $out .= $titanium_lang_evo_userblock['BLOCK']['ONLINE']['MEMBERS'].$titanium_lang_evo_userblock['BLOCK']['BREAK'].'<br />'.$members['text'].'<br />'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['GUESTS'].$titanium_lang_evo_userblock['BLOCK']['BREAK'].'<br />'.$guests['text'];
+        $out .= $lang_evo_userblock['BLOCK']['ONLINE']['MEMBERS'].$lang_evo_userblock['BLOCK']['BREAK'].'<br />'.$members['text'].'<br />'.$lang_evo_userblock['BLOCK']['ONLINE']['GUESTS'].$lang_evo_userblock['BLOCK']['BREAK'].'<br />'.$guests['text'];
         $out .= '</div>';
      
     else:
     
         if ($members['total'] > 0):
 
-            //$out .= '<div style="font-weight: bold">&nbsp;&nbsp;Portal '.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['MEMBERS'].'</div>';
+            //$out .= '<div style="font-weight: bold">&nbsp;&nbsp;Portal '.$lang_evo_userblock['BLOCK']['ONLINE']['MEMBERS'].'</div>';
             $out .= '<div>'.$members['text'].'</div>';
 
         endif;
 
         if ($guests['total'] > 0):
 
-            $out .= '<br/><div style="font-weight: bold">&nbsp;&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['ONLINE']['GUESTS'].'</div>';
+            $out .= '<br/><div style="font-weight: bold">&nbsp;&nbsp;'.$lang_evo_userblock['BLOCK']['ONLINE']['GUESTS'].'</div>';
             $out .= '<div>'.$guests['text'].'</div>';
 
         endif;

@@ -38,9 +38,9 @@ if (!defined('CNBYA')) {
 }
 
 if (is_user()) {
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
-include_once(NUKE_MODULES_DIR.$titanium_module_name.'/includes/functions.php');
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
+include_once(NUKE_MODULES_DIR.$pnt_module.'/includes/functions.php');
 
 global $titanium_prefix, $titanium_db, $titanium_user_prefix, $ya_config, $thmcount;
 
@@ -87,7 +87,7 @@ $ya_config = ya_get_configs();
 
     function nav($main_up=0) 
 	{
-        global $titanium_module_name, $admin, $ya_config, $thmcount, $tdwidth, $articlecomm;
+        global $pnt_module, $admin, $ya_config, $thmcount, $tdwidth, $articlecomm;
         echo "<table border=\"0\" width=\"100%\" align=\"center\"><tr>\n";
 
         $menuimg = menuimg("info.png");

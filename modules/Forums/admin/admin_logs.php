@@ -36,7 +36,7 @@ if( !empty($setmodules) )
 //
 // Load default header
 //
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
+$pnt_module = basename(dirname(dirname(__FILE__)));
 $phpbb2_root_path = './../';
 require($phpbb2_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
@@ -61,7 +61,7 @@ else
 
 if ( file_exists($phpbb2_root_path . 'log_actions_db_update.' . $phpEx) )
 {
-    message_die(GENERAL_MESSAGE, $titanium_lang['File_not_deleted']);
+    message_die(GENERAL_MESSAGE, $lang['File_not_deleted']);
 }
 
 $sql = "SELECT config_value AS all_admin
@@ -74,16 +74,16 @@ if(!$result = $titanium_db->sql_query($sql))
 }
 $row = $titanium_db->sql_fetchrow($result);
 $all_admin_authorized = $row['all_admin'];
-if ( $all_admin_authorized == '0' && $userdata['user_id'] <> '2' && !is_mod_admin($titanium_module_name) && $userdata['user_view_log'] <> '1' )
+if ( $all_admin_authorized == '0' && $userdata['user_id'] <> '2' && !is_mod_admin($pnt_module) && $userdata['user_view_log'] <> '1' )
 {
-    message_die(GENERAL_MESSAGE, $titanium_lang['Admin_not_authorized']);
+    message_die(GENERAL_MESSAGE, $lang['Admin_not_authorized']);
 }
 
 //
 // Logs sorting
 //
 
-$mode_types_text = array($titanium_lang['Time'], $titanium_lang['Member'], $titanium_lang['Action'], $titanium_lang['Id_log']);
+$mode_types_text = array($lang['Time'], $lang['Member'], $lang['Action'], $lang['Id_log']);
 $mode_types = array('time', 'username', 'mode', 'id');
     
 $select_sort_mode = '<select name="mode">';
@@ -97,32 +97,32 @@ $select_sort_mode .= '</select>';
 $select_sort_order = '<select name="order">';
 if($sort_order == 'ASC')
     {
-        $select_sort_order .= '<option value="ASC" selected="selected">' . $titanium_lang['Sort_Ascending'] . '</option><option value="DESC">' . $titanium_lang['Sort_Descending'] . '</option>';
+        $select_sort_order .= '<option value="ASC" selected="selected">' . $lang['Sort_Ascending'] . '</option><option value="DESC">' . $lang['Sort_Descending'] . '</option>';
     }
 else
     {
-        $select_sort_order .= '<option value="ASC">' . $titanium_lang['Sort_Ascending'] . '</option><option value="DESC" selected="selected">' . $titanium_lang['Sort_Descending'] . '</option>';
+        $select_sort_order .= '<option value="ASC">' . $lang['Sort_Ascending'] . '</option><option value="DESC" selected="selected">' . $lang['Sort_Descending'] . '</option>';
     }
 $select_sort_order .= '</select>';
     
 
 $phpbb2_template->assign_vars(array(
-    'L_LOG_ACTIONS_TITLE' => $titanium_lang['Log_action_title'],
-    'L_LOG_ACTION_EXPLAIN' => $titanium_lang['Log_action_explain'],
-    'L_CHOOSE_SORT' => $titanium_lang['Choose_sort_method'],
-    'L_ORDER' => $titanium_lang['Order'],
-    'L_GO' => $titanium_lang['Go'],
-    'L_CANCEL' => $titanium_lang['Cancel'],
-    'L_DELETE' => $titanium_lang['Delete'], 
-    'L_DELETE_LOG' => $titanium_lang['Choose_log'],
-    'L_ID_LOG' => $titanium_lang['Id_log'],
-    'L_ACTION' => $titanium_lang['Action'],
-    'L_TOPIC' => $titanium_lang['Topic'],
-    'L_DONE_BY' => $titanium_lang['Done_by'],
-    'L_USER_IP' => $titanium_lang['User_ip'],
-    'L_DATE' => $titanium_lang['Date'],
-    'L_MARK_ALL' => $titanium_lang['Select_all'],
-    'L_UNMARK_ALL' => $titanium_lang['Unselect_all'],
+    'L_LOG_ACTIONS_TITLE' => $lang['Log_action_title'],
+    'L_LOG_ACTION_EXPLAIN' => $lang['Log_action_explain'],
+    'L_CHOOSE_SORT' => $lang['Choose_sort_method'],
+    'L_ORDER' => $lang['Order'],
+    'L_GO' => $lang['Go'],
+    'L_CANCEL' => $lang['Cancel'],
+    'L_DELETE' => $lang['Delete'], 
+    'L_DELETE_LOG' => $lang['Choose_log'],
+    'L_ID_LOG' => $lang['Id_log'],
+    'L_ACTION' => $lang['Action'],
+    'L_TOPIC' => $lang['Topic'],
+    'L_DONE_BY' => $lang['Done_by'],
+    'L_USER_IP' => $lang['User_ip'],
+    'L_DATE' => $lang['Date'],
+    'L_MARK_ALL' => $lang['Select_all'],
+    'L_UNMARK_ALL' => $lang['Unselect_all'],
 
     'S_MODE_SELECT' => $select_sort_mode,
     'S_ORDER_SELECT' => $select_sort_order,
@@ -237,9 +237,9 @@ if ( $log_list_sql != '' )
         else
         {
             $redirect_page = append_titanium_sid("admin_logs.$phpEx");
-            $l_redirect = sprintf($titanium_lang['Click_return_admin_log'], '<a href="' . $redirect_page . '">', '</a>');
+            $l_redirect = sprintf($lang['Click_return_admin_log'], '<a href="' . $redirect_page . '">', '</a>');
 
-            message_die(GENERAL_MESSAGE, $titanium_lang['Log_delete'] . '<br /><br />' . $l_redirect);
+            message_die(GENERAL_MESSAGE, $lang['Log_delete'] . '<br /><br />' . $l_redirect);
         }
     }
 }
@@ -267,8 +267,8 @@ else
     
     $phpbb2_template->assign_vars(array(
         'PAGINATION' => $pagination,
-        'PAGE_NUMBER' => ( $total_phpbb2_records == '0' ) ? '&nbsp;' : sprintf($titanium_lang['Page_of'], ( floor( $phpbb2_start / $phpbb2_board_config['topics_per_page'] ) + 1 ), ceil( $total_phpbb2_records / $phpbb2_board_config['topics_per_page'] )),     
-        'L_GOTO_PAGE' => $titanium_lang['Goto_page'],
+        'PAGE_NUMBER' => ( $total_phpbb2_records == '0' ) ? '&nbsp;' : sprintf($lang['Page_of'], ( floor( $phpbb2_start / $phpbb2_board_config['topics_per_page'] ) + 1 ), ceil( $total_phpbb2_records / $phpbb2_board_config['topics_per_page'] )),     
+        'L_GOTO_PAGE' => $lang['Goto_page'],
         'GROUPS' => GetColorGroups(1))
     );
 

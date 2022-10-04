@@ -117,22 +117,22 @@ if ($avatar_dir = @opendir($phpbb2_board_config['avatar_path']))
     {
         if($avatar_dir_size >= 1048576)
         {
-            $avatar_dir_size = round($avatar_dir_size / 1048576 * 100) / 100 . ' ' . $titanium_lang['MB'];
+            $avatar_dir_size = round($avatar_dir_size / 1048576 * 100) / 100 . ' ' . $lang['MB'];
         }
         else if($avatar_dir_size >= 1024)
         {
-            $avatar_dir_size = round($avatar_dir_size / 1024 * 100) / 100 . ' ' . $titanium_lang['KB'];
+            $avatar_dir_size = round($avatar_dir_size / 1024 * 100) / 100 . ' ' . $lang['KB'];
         }
         else
         {
-            $avatar_dir_size = $avatar_dir_size . ' ' . $titanium_lang['Bytes'];
+            $avatar_dir_size = $avatar_dir_size . ' ' . $lang['Bytes'];
         }
     }
 
 }
 else
 {
-    $avatar_dir_size = $titanium_lang['Not_available'];
+    $avatar_dir_size = $lang['Not_available'];
 }
 
 if ($phpbb2_posts_per_day > $phpbb2_total_posts)
@@ -207,15 +207,15 @@ if ($titanium_dbsize != 0)
     {
         if( $titanium_dbsize >= 1048576 )
         {
-            $titanium_dbsize = sprintf('%.2f ' . $titanium_lang['MB'], ( $titanium_dbsize / 1048576 ));
+            $titanium_dbsize = sprintf('%.2f ' . $lang['MB'], ( $titanium_dbsize / 1048576 ));
         }
         else if( $titanium_dbsize >= 1024 )
         {
-            $titanium_dbsize = sprintf('%.2f ' . $titanium_lang['KB'], ( $titanium_dbsize / 1024 ));
+            $titanium_dbsize = sprintf('%.2f ' . $lang['KB'], ( $titanium_dbsize / 1024 ));
         }
         else
         {
-            $titanium_dbsize = sprintf('%.2f ' . $titanium_lang['Bytes'], $titanium_dbsize);
+            $titanium_dbsize = sprintf('%.2f ' . $lang['Bytes'], $titanium_dbsize);
         }
     }
     else
@@ -236,7 +236,7 @@ if ($titanium_dbsize != 0)
 }
 else
 {
-    $titanium_dbsize = $titanium_lang['Not_available'];
+    $titanium_dbsize = $lang['Not_available'];
 }
 
 //
@@ -264,8 +264,8 @@ WHERE config_name = 'record_online_users' OR config_name = 'record_online_date'"
 $result = $core->sql_query($sql, 'Couldn\'t retrieve configuration data');
 
 $row = $core->sql_fetchrowset($result);
-$most_users_date = $titanium_lang['Not_available'];
-$most_users = $titanium_lang['Not_available'];
+$most_users_date = $lang['Not_available'];
+$most_users = $lang['Not_available'];
 
 for ($i = 0; $i < count($row); $i++)
 {
@@ -279,9 +279,9 @@ for ($i = 0; $i < count($row); $i++)
     }
 }
 
-$statistic_array = array($titanium_lang['Number_posts'], $titanium_lang['Posts_per_day'], $titanium_lang['Number_topics'], $titanium_lang['Topics_per_day'], $titanium_lang['Number_users'], $titanium_lang['Users_per_day'], $titanium_lang['Board_started'], $titanium_lang['Board_Up_Days'], $titanium_lang['Database_size'], $titanium_lang['Avatar_dir_size'], $titanium_lang['Latest_Reg_User_Date'], $titanium_lang['Latest_Reg_User'], $titanium_lang['Most_Ever_Online_Date'], $titanium_lang['Most_Ever_Online'], $titanium_lang['Gzip_compression']);
+$statistic_array = array($lang['Number_posts'], $lang['Posts_per_day'], $lang['Number_topics'], $lang['Topics_per_day'], $lang['Number_users'], $lang['Users_per_day'], $lang['Board_started'], $lang['Board_Up_Days'], $lang['Database_size'], $lang['Avatar_dir_size'], $lang['Latest_Reg_User_Date'], $lang['Latest_Reg_User'], $lang['Most_Ever_Online_Date'], $lang['Most_Ever_Online'], $lang['Gzip_compression']);
 
-$value_array = array($phpbb2_total_posts, $phpbb2_posts_per_day, $total_phpbb2_topics, $phpbb2_topics_per_day, $phpbb2_total_users, $titanium_users_per_day, $phpbb2_start_date, sprintf('%.2f', $boarddays), $titanium_dbsize, $avatar_dir_size, $phpbb2_newest_user_date, sprintf('<a href="' . append_titanium_sid('profile.' . $phpEx . '?mode=viewprofile&amp;' . POST_USERS_URL . '=' . $phpbb2_newest_uid) . '">' . $phpbb2_newest_user . '</a>'), $most_users_date, $most_users, ( $phpbb2_board_config['gzip_compress'] ) ? $titanium_lang['Enabled'] : $titanium_lang['Disabled']);
+$value_array = array($phpbb2_total_posts, $phpbb2_posts_per_day, $total_phpbb2_topics, $phpbb2_topics_per_day, $phpbb2_total_users, $titanium_users_per_day, $phpbb2_start_date, sprintf('%.2f', $boarddays), $titanium_dbsize, $avatar_dir_size, $phpbb2_newest_user_date, sprintf('<a href="' . append_titanium_sid('profile.' . $phpEx . '?mode=viewprofile&amp;' . POST_USERS_URL . '=' . $phpbb2_newest_uid) . '">' . $phpbb2_newest_user . '</a>'), $most_users_date, $most_users, ( $phpbb2_board_config['gzip_compress'] ) ? $lang['Enabled'] : $lang['Disabled']);
 
 //
 // Disk Usage, if Attachment Mod is installed
@@ -290,7 +290,7 @@ if ( $attachment_mod_installed )
 {
     $disk_usage = get_formatted_dirsize();
 
-    $statistic_array[] = $titanium_lang['Disk_usage'];
+    $statistic_array[] = $lang['Disk_usage'];
     $value_array[] = $disk_usage;
 }
 
@@ -300,11 +300,11 @@ $core->set_view('value_order', 'left_right');
 //$core->set_view('value_order', 'up_down');
 
 $core->define_view('set_columns', array(
-    'stats' => $titanium_lang['Statistic'],
-    'value' => $titanium_lang['Value'])
+    'stats' => $lang['Statistic'],
+    'value' => $lang['Value'])
 );
 
-$core->set_header($titanium_lang['module_name']);
+$core->set_header($lang['module_name']);
 
 $data = $core->assign_defined_view('value_array', array($statistic_array, $value_array));
 

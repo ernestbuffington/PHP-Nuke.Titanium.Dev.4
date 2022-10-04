@@ -50,7 +50,7 @@ if (!defined('CNBYA')) {
 if ($Version_Num >= 7.5) { 
     OpenTable();
     echo "<center><table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
     echo "<input type='hidden' name='op' value='promoteUserConf'>\n";
@@ -83,7 +83,7 @@ if ($Version_Num >= 7.5) {
     echo "</table></td></tr>";
     echo "<tr><td align=center><input type='submit' value='"._PROMOTEUSER."'></td><tr>\n";
     echo "</form>\n";
-    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
@@ -95,7 +95,7 @@ if ($Version_Num >= 7.5) {
 } elseif($Version_Num == 7.4) { 
  OpenTable();
     echo "<center><span class=\"option\"><strong>" . _SURE2PROMOTE . "</strong></span></center>"
-    ."<form action=\"modules.php?name=$titanium_module_name&amp;file=admin\" method=\"post\">"
+    ."<form action=\"modules.php?name=$pnt_module&amp;file=admin\" method=\"post\">"
     ."<table border=\"0\">"
     ."<tr><td>" . _NAME . ":</td>"
     ."<td colspan=\"3\"><input type=\"text\" name=\"add_name\" size=\"30\" maxlength=\"50\" value='$rname'> <span class=\"tiny\">" . _REQUIREDNOCHANGE . "</span></td></tr>"
@@ -114,18 +114,18 @@ if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     $handle=opendir('language');
     while ($file = readdir($handle)) {
         if (preg_match("/^lang\-(.+)\.php/", $file, $matches)) {
-            $titanium_langFound = $matches[1];
-            $titanium_languageslist .= "$titanium_langFound ";
+            $langFound = $matches[1];
+            $languageslist .= "$langFound ";
         }
     }
     closedir($handle);
-    $titanium_languageslist = explode(" ", $titanium_languageslist);
-    sort($titanium_languageslist);
-    for ($i=0; $i < count($titanium_languageslist); $i++) {
-        if($titanium_languageslist[$i]!="") {
-        echo "<option value=\"$titanium_languageslist[$i]\" ";
-        if($titanium_languageslist[$i]==$titanium_language) echo "selected";
-        echo ">".ucfirst($titanium_languageslist[$i])."</option>\n";
+    $languageslist = explode(" ", $languageslist);
+    sort($languageslist);
+    for ($i=0; $i < count($languageslist); $i++) {
+        if($languageslist[$i]!="") {
+        echo "<option value=\"$languageslist[$i]\" ";
+        if($languageslist[$i]==$language) echo "selected";
+        echo ">".ucfirst($languageslist[$i])."</option>\n";
         }
     }
     echo "<option value=\"\">" . _ALL . "</option></select></td></tr>";
@@ -158,7 +158,7 @@ if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
 } else { # 7.3 to?
 OpenTable();
     echo "<center><span class=\"option\"><strong>" . _SURE2PROMOTE . "</strong></span></center>"
-    ."<form action=\"modules.php?name=$titanium_module_name&amp;file=admin\" method=\"post\">"
+    ."<form action=\"modules.php?name=$pnt_module&amp;file=admin\" method=\"post\">"
     ."<table border=\"0\">"
     ."<tr><td>" . _NAME . ":</td>"
     ."<td colspan=\"3\"><input type=\"text\" name=\"add_name\" size=\"30\" maxlength=\"50\"> <span class=\"tiny\">" . _REQUIREDNOCHANGE . "</span></td></tr>"
@@ -177,18 +177,18 @@ if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     $handle=opendir('language');
     while ($file = readdir($handle)) {
         if (preg_match("/^lang\-(.+)\.php/", $file, $matches)) {
-            $titanium_langFound = $matches[1];
-            $titanium_languageslist .= "$titanium_langFound ";
+            $langFound = $matches[1];
+            $languageslist .= "$langFound ";
         }
     }
     closedir($handle);
-    $titanium_languageslist = explode(" ", $titanium_languageslist);
-    sort($titanium_languageslist);
-    for ($i=0; $i < count($titanium_languageslist); $i++) {
-        if($titanium_languageslist[$i]!="") {
-        echo "<option value=\"$titanium_languageslist[$i]\" ";
-        if($titanium_languageslist[$i]==$titanium_language) echo "selected";
-        echo ">".ucfirst($titanium_languageslist[$i])."</option>\n";
+    $languageslist = explode(" ", $languageslist);
+    sort($languageslist);
+    for ($i=0; $i < count($languageslist); $i++) {
+        if($languageslist[$i]!="") {
+        echo "<option value=\"$languageslist[$i]\" ";
+        if($languageslist[$i]==$language) echo "selected";
+        echo ">".ucfirst($languageslist[$i])."</option>\n";
         }
     }
     echo "<option value=\"\">" . _ALL . "</option></select></td></tr>";

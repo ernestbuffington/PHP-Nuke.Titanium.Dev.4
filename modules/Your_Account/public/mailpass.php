@@ -84,8 +84,8 @@ if (!defined('CNBYA')) {
                 if ($areyou == $code) 
                 {
                     $newpass = YA_MakePass();
-                    $titanium_language_define_for_user_pass_subject = "User Password for for %s";
-                    $titanium_language_define_for_user_pass = "The user account {USERNAME} at {SITENAME} has this email associated with it.<br /><br />A Web user from {IP_ADDRESS} has just requested that password be sent.<br /><br />Your new Password is {NEW_PASSWORD}<br /><br />You can change it after you login at<br />{MODULE_URL}<br /><br />If you didn't ask for this, don't worry. You are seeing this message, not 'them'. If this was an error just login with your new password.<br /><br />{EMAIL_SIG}";
+                    $language_define_for_user_pass_subject = "User Password for for %s";
+                    $language_define_for_user_pass = "The user account {USERNAME} at {SITENAME} has this email associated with it.<br /><br />A Web user from {IP_ADDRESS} has just requested that password be sent.<br /><br />Your new Password is {NEW_PASSWORD}<br /><br />You can change it after you login at<br />{MODULE_URL}<br /><br />If you didn't ask for this, don't worry. You are seeing this message, not 'them'. If this was an error just login with your new password.<br /><br />{EMAIL_SIG}";
 
                     $email_data = array(
                         'sitename'      => $sitename,
@@ -94,14 +94,14 @@ if (!defined('CNBYA')) {
                         'password'      => $newpass,
 
                         'email'         => $titanium_user_email,
-                        'subject'       => sprintf($titanium_language_define_for_user_pass_subject, ((!empty($titanium_username)) ? $titanium_user_name : $titanium_user_email)),
+                        'subject'       => sprintf($language_define_for_user_pass_subject, ((!empty($titanium_username)) ? $titanium_user_name : $titanium_user_email)),
                         'reply_to'      => $adminmail,
                         'from'          => $adminmail,
-                        'module_url'    => $nukeurl.'/modules.php?name='.$titanium_module_name,
+                        'module_url'    => $nukeurl.'/modules.php?name='.$pnt_module,
                         'signature'     => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : ''
                     );
 
-                    $content = str_replace( '{USERNAME}', $email_data['username'], $titanium_language_define_for_user_pass );
+                    $content = str_replace( '{USERNAME}', $email_data['username'], $language_define_for_user_pass );
                     $content = str_replace( '{SITENAME}', $email_data['sitename'], $content );                    
                     $content = str_replace( '{IP_ADDRESS}', $email_data['ip_address'], $content );
                     $content = str_replace( '{NEW_PASSWORD}', $email_data['password'], $content );
@@ -136,8 +136,8 @@ if (!defined('CNBYA')) {
                     CloseTable();
                     include_once(NUKE_BASE_DIR.'footer.php');
                 } else {
-                    $titanium_language_define_for_pass_lost_subject = "Confirmation Code for %s";
-                    $titanium_language_define_for_pass_lost = "The user account {USERNAME} at {SITENAME} has this email associated with it.<br /><br />A Web user from {IP_ADDRESS} has just requested a Confirmation Code to change the password.<br /><br />Your Confirmation Code is: {CODE}<br /><br />With this code you can now assign a new password at<br />{PASSWORD_LOST_URL}<br /><br />If you didn't ask for this, don't worry. Just delete this Email.<br /><br />{EMAIL_SIG}";
+                    $language_define_for_pass_lost_subject = "Confirmation Code for %s";
+                    $language_define_for_pass_lost = "The user account {USERNAME} at {SITENAME} has this email associated with it.<br /><br />A Web user from {IP_ADDRESS} has just requested a Confirmation Code to change the password.<br /><br />Your Confirmation Code is: {CODE}<br /><br />With this code you can now assign a new password at<br />{PASSWORD_LOST_URL}<br /><br />If you didn't ask for this, don't worry. Just delete this Email.<br /><br />{EMAIL_SIG}";
 
                     $email_data = array(
                         'sitename'      => $sitename,
@@ -146,14 +146,14 @@ if (!defined('CNBYA')) {
                         'code'          => substr($user_password, 0, 10),
 
                         'email'         => $titanium_user_email,
-                        'subject'       => sprintf($titanium_language_define_for_pass_lost_subject, ((!empty($titanium_username)) ? $titanium_user_name : $titanium_user_email)),
+                        'subject'       => sprintf($language_define_for_pass_lost_subject, ((!empty($titanium_username)) ? $titanium_user_name : $titanium_user_email)),
                         'reply_to'      => $adminmail,
                         'from'          => $adminmail,
-                        'password_url'  => $nukeurl."/modules.php?name=$titanium_module_name&op=pass_lost",
+                        'password_url'  => $nukeurl."/modules.php?name=$pnt_module&op=pass_lost",
                         'signature'     => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : ''
                     );
 
-                    $content = str_replace( '{USERNAME}', $email_data['username'], $titanium_language_define_for_pass_lost );
+                    $content = str_replace( '{USERNAME}', $email_data['username'], $language_define_for_pass_lost );
                     $content = str_replace( '{SITENAME}', $email_data['sitename'], $content );                    
                     $content = str_replace( '{IP_ADDRESS}', $email_data['ip_address'], $content );
                     $content = str_replace( '{CODE}', $email_data['code'], $content );

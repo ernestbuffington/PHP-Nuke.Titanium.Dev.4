@@ -370,7 +370,7 @@ function track_CMS_version()
  ******************************************************/
 function GraphicAdmin($pos=1)
 {
-	global $aid, $admingraphic, $cache, $titanium_language, $admin, $titanium_prefix, $titanium_user_prefix, $titanium_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
+	global $aid, $admingraphic, $cache, $language, $admin, $titanium_prefix, $titanium_user_prefix, $titanium_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
 	
 	if ($pos != $admin_pos)
 	return;
@@ -729,7 +729,7 @@ function track_CMS_version_bs()
 
 function administration_panel( $pos = 1 )
 {
-	global $aid, $admingraphic, $cache, $titanium_language, $admin, $titanium_prefix, $titanium_user_prefix, $titanium_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
+	global $aid, $admingraphic, $cache, $language, $admin, $titanium_prefix, $titanium_user_prefix, $titanium_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
 
 	$radminsuper = is_mod_admin();
 

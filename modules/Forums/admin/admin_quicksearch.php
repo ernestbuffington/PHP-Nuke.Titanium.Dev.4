@@ -88,7 +88,7 @@ if( !empty($mode) )
         {
             if( empty($search_id) )
             {
-                message_die(GENERAL_MESSAGE, $titanium_lang['Must_select_search']);
+                message_die(GENERAL_MESSAGE, $lang['Must_select_search']);
             }
 
             $sql = "SELECT * FROM " . QUICKSEARCH_TABLE . "
@@ -115,16 +115,16 @@ if( !empty($mode) )
             "SEARCH_URL1" => $search_info['search_url1'],
             "SEARCH_URL2" => $search_info['search_url2'],
             
-            "L_SEARCHS_TITLE" => $titanium_lang['Search_title'],
-            "L_SEARCHS_TEXT" => $titanium_lang['Search_explain'],
-            "L_SEARCH_NMAE" => $titanium_lang['Search_name'],
-            "L_SEARCH_NMAE_EXPLAIN" => $titanium_lang['Search_name_explain'],
-            "L_SEARCH_URL" => $titanium_lang['Search_url'],
-            "L_SEARCH_URL_EXPLAIN" => $titanium_lang['Search_url_explain'],
-            "L_SUBMIT" => $titanium_lang['Submit'],
-            "L_RESET" => $titanium_lang['Reset'],
-            "L_YES" => $titanium_lang['Yes'],
-            "L_NO" => $titanium_lang['No'],
+            "L_SEARCHS_TITLE" => $lang['Search_title'],
+            "L_SEARCHS_TEXT" => $lang['Search_explain'],
+            "L_SEARCH_NMAE" => $lang['Search_name'],
+            "L_SEARCH_NMAE_EXPLAIN" => $lang['Search_name_explain'],
+            "L_SEARCH_URL" => $lang['Search_url'],
+            "L_SEARCH_URL_EXPLAIN" => $lang['Search_url_explain'],
+            "L_SUBMIT" => $lang['Submit'],
+            "L_RESET" => $lang['Reset'],
+            "L_YES" => $lang['Yes'],
+            "L_NO" => $lang['No'],
             
             "S_SEARCH_ACTION" => append_titanium_sid("admin_quicksearch.$phpEx"),
             "S_HIDDEN_FIELDS" => $s_hidden_fields)
@@ -144,7 +144,7 @@ if( !empty($mode) )
 
         if( empty($search_name) )
         {
-            message_die(GENERAL_MESSAGE, $titanium_lang['Must_enter_search_name']);
+            message_die(GENERAL_MESSAGE, $lang['Must_enter_search_name']);
         }
 
         if ($search_id)
@@ -153,14 +153,14 @@ if( !empty($mode) )
                 SET search_name = '" . str_replace("\'", "''", $search_name) . "', search_url1 = '" . str_replace("\'", "''", $search_url1) . "', search_url2 = '" . str_replace("\'", "''", $search_url2) . "'
                 WHERE search_id = $search_id";
 
-            $message = $titanium_lang['Search_updated'];
+            $message = $lang['Search_updated'];
         }
         else
         {
             $sql = "INSERT INTO " . QUICKSEARCH_TABLE . " (search_name, search_url1, search_url2)
                 VALUES ('" . str_replace("\'", "''", $search_name) . "', '" . str_replace("\'", "''", $search_url1) . "', '" . str_replace("\'", "''", $search_url2) . "')";
 
-            $message = $titanium_lang['Search_added'];
+            $message = $lang['Search_added'];
         }
         
         if( !$result = $titanium_db->sql_query($sql) )
@@ -168,7 +168,7 @@ if( !empty($mode) )
             message_die(GENERAL_ERROR, "Couldn't update quick search table", "", __LINE__, __FILE__, $sql);
         }
 
-        $message .= "<br /><br />" . sprintf($titanium_lang['Click_return_addsearchadmin'], "<a href=\"" . append_titanium_sid("admin_quicksearch.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message .= "<br /><br />" . sprintf($lang['Click_return_addsearchadmin'], "<a href=\"" . append_titanium_sid("admin_quicksearch.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
 
@@ -194,14 +194,14 @@ if( !empty($mode) )
                 message_die(GENERAL_ERROR, "Couldn't delete quick search data", "", __LINE__, __FILE__, $sql);
             }
 
-            $message = $titanium_lang['Search_removed'] . "<br /><br />" . sprintf($titanium_lang['Click_return_addsearchadmin'], "<a href=\"" . append_titanium_sid("admin_quicksearch.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+            $message = $lang['Search_removed'] . "<br /><br />" . sprintf($lang['Click_return_addsearchadmin'], "<a href=\"" . append_titanium_sid("admin_quicksearch.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
             message_die(GENERAL_MESSAGE, $message);
 
         }
         else
         {
-            message_die(GENERAL_MESSAGE, $titanium_lang['Must_select_page']);
+            message_die(GENERAL_MESSAGE, $lang['Must_select_page']);
         }
     }
     else
@@ -222,13 +222,13 @@ if( !empty($mode) )
         $search_count = count($search_rows);
         
         $phpbb2_template->assign_vars(array(
-            "L_SEARCHS_TITLE" => $titanium_lang['Search_title'],
-            "L_SEARCHS_TEXT" => $titanium_lang['Search_explain'],
-            "L_SEARCH_NAME" => $titanium_lang['Search_name'],
-            "L_EDIT" => $titanium_lang['Edit'],
-            "L_DELETE" => $titanium_lang['Delete'],
-            "L_ADD_SEARCH" => $titanium_lang['Add_new_search'],
-            "L_ACTION" => $titanium_lang['Action'],
+            "L_SEARCHS_TITLE" => $lang['Search_title'],
+            "L_SEARCHS_TEXT" => $lang['Search_explain'],
+            "L_SEARCH_NAME" => $lang['Search_name'],
+            "L_EDIT" => $lang['Edit'],
+            "L_DELETE" => $lang['Delete'],
+            "L_ADD_SEARCH" => $lang['Add_new_search'],
+            "L_ACTION" => $lang['Action'],
             
             "S_SEARCHS_ACTION" => append_titanium_sid("admin_quicksearch.$phpEx"))
         );
@@ -273,13 +273,13 @@ else
     $search_rows = $titanium_db->sql_fetchrowset($result);
     
     $phpbb2_template->assign_vars(array(
-        "L_SEARCHS_TITLE" => $titanium_lang['Search_title'],
-        "L_SEARCHS_TEXT" => $titanium_lang['Search_explain'],
-        "L_SEARCH_NAME" => $titanium_lang['Search_name'],
-        "L_EDIT" => $titanium_lang['Edit'],
-        "L_DELETE" => $titanium_lang['Delete'],
-        "L_ADD_SEARCH" => $titanium_lang['Add_new_search'],
-        "L_ACTION" => $titanium_lang['Action'],
+        "L_SEARCHS_TITLE" => $lang['Search_title'],
+        "L_SEARCHS_TEXT" => $lang['Search_explain'],
+        "L_SEARCH_NAME" => $lang['Search_name'],
+        "L_EDIT" => $lang['Edit'],
+        "L_DELETE" => $lang['Delete'],
+        "L_ADD_SEARCH" => $lang['Add_new_search'],
+        "L_ACTION" => $lang['Action'],
         
         "S_SEARCHS_ACTION" => append_titanium_sid("admin_quicksearch.$phpEx"))
     );

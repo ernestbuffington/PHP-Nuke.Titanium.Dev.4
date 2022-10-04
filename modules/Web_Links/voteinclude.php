@@ -33,8 +33,8 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
-require(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+$pnt_module = basename(dirname(__FILE__));
+require(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
 $outsidevotes = 0;
 $anonvotes = 0;
 $outsidevoteval = 0;

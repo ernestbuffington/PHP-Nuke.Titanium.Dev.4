@@ -35,8 +35,8 @@ if (!defined('MODULE_FILE')) {
 }
 global $directory_mode;
 
-$titanium_module_name = basename(dirname(__FILE__));
-require("modules/".$titanium_module_name."/nukebb.php");
+$pnt_module = basename(dirname(__FILE__));
+require("modules/".$pnt_module."/nukebb.php");
 
 define('IN_PHPBB2', true);
 //$phpbb2_root_path = "./";
@@ -109,28 +109,28 @@ $default_board_lang = trim($phpbb2_board_config['default_lang']);
  ******************************************************/
 
 // Include Language
-$titanium_lang_failover = array($phpbb2_board_config['default_lang'], $default_board_lang, 'english');
-$titanium_languages_to_include = array(
+$lang_failover = array($phpbb2_board_config['default_lang'], $default_board_lang, 'english');
+$languages_to_include = array(
     'language/lang_xxx/lang_admin.' . $phpEx,
     'language/lang_xxx/lang_statistics.' . $phpEx,
     'modules/language/lang_xxx/lang_modules.' . $phpEx
 );
 
-for ($i = 0; $i < count($titanium_languages_to_include); $i++)
+for ($i = 0; $i < count($languages_to_include); $i++)
 {
     $found = FALSE;
 
-    for ($j = 0; $j < count($titanium_lang_failover) && !$found; $j++)
+    for ($j = 0; $j < count($lang_failover) && !$found; $j++)
     {
-        $titanium_language_file = $phpbb2_root_path . str_replace('xxx', $titanium_lang_failover[$j], $titanium_languages_to_include[$i]);
+        $language_file = $phpbb2_root_path . str_replace('xxx', $lang_failover[$j], $languages_to_include[$i]);
 
-        if (file_exists($titanium_language_file))
+        if (file_exists($language_file))
         {
-            @include_once($titanium_language_file);
+            @include_once($language_file);
             $found = TRUE;
-            if (strstr($titanium_languages_to_include[$i], 'lang_modules'))
+            if (strstr($languages_to_include[$i], 'lang_modules'))
             {
-                $core->used_language = $titanium_lang_failover[$j];
+                $core->used_language = $lang_failover[$j];
             }
         }
     }
@@ -141,7 +141,7 @@ if (trim($core->used_language) == '')
     $core->used_language = $default_board_lang;
 }
 
-$phpbb2_page_title = $titanium_lang['Board_statistics'];
+$phpbb2_page_title = $lang['Board_statistics'];
 include('includes/page_header.'.$phpEx);
 
 $development = FALSE;
@@ -167,17 +167,17 @@ if ($development)
     $core->do_not_use_cache = TRUE;
 
     // Include Language File
-    $titanium_language = $phpbb2_board_config['default_lang'];
-    $titanium_language_file = $phpbb2_root_path . $dev_module['lang_path'] . '/lang_' . $titanium_language . '/lang_modules.' . $phpEx;
+    $language = $phpbb2_board_config['default_lang'];
+    $language_file = $phpbb2_root_path . $dev_module['lang_path'] . '/lang_' . $language . '/lang_modules.' . $phpEx;
 
-    if (!file_exists($titanium_language_file))
+    if (!file_exists($language_file))
     {
-        $titanium_language = $default_board_lang;
+        $language = $default_board_lang;
     }
 
-    $titanium_language_file = $phpbb2_root_path . $dev_module['lang_path'] . '/lang_' . $titanium_language . '/lang_modules.' . $phpEx;
+    $language_file = $phpbb2_root_path . $dev_module['lang_path'] . '/lang_' . $language . '/lang_modules.' . $phpEx;
 
-    include($titanium_language_file);
+    include($language_file);
 
     include($core->current_module_path . "module.$phpEx");
 }
@@ -202,7 +202,7 @@ while ($iterate_index < $iterate_end)
     {
         foreach ($current_lang as $key => $value)
         {
-            $titanium_lang[$key] = $value;
+            $lang[$key] = $value;
             $keys[] = $key;
         }
     }
@@ -214,7 +214,7 @@ while ($iterate_index < $iterate_end)
   // Unset the language keys
     for ($i = 0; $i < count($keys); $i++)
     {
-        unset($titanium_lang[$keys[$i]]);
+        unset($lang[$keys[$i]]);
     }
 }
 

@@ -29,8 +29,8 @@ define('BOARD_ADMIN', 98);
 //---------------------------------------------------------------
 function mods_settings_get_lang($key)
 {
-	global $titanium_lang;
-	return ( (!empty($key) && isset($titanium_lang[$key])) ? $titanium_lang[$key] : $key );
+	global $lang;
+	return ( (!empty($key) && isset($lang[$key])) ? $lang[$key] : $key );
 }
 
 //---------------------------------------------------------------

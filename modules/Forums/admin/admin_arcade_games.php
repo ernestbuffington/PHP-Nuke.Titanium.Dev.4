@@ -140,14 +140,14 @@ if ( $mode == 'delete')
         $phpbb2_template->assign_vars(array(
             "S_ACTION" => append_titanium_sid("admin_arcade_games.$phpEx"),
             "S_HIDDEN_FIELDS" => $hidden_fields,
-            "L_TITLE" => $titanium_lang['arcade_cat_delete'],
-            "L_EXPLAIN" => $titanium_lang['arcade_delete_cat_explain'],
-            "L_ARCADE_CAT_DELETE" => $titanium_lang['arcade_cat_delete'],
-            "L_ARCADE_CAT_TITLE" => $titanium_lang['arcade_cat_title'],
-            "L_MOVE_CONTENTS" => $titanium_lang['arcade_cat_move_elmt'],
+            "L_TITLE" => $lang['arcade_cat_delete'],
+            "L_EXPLAIN" => $lang['arcade_delete_cat_explain'],
+            "L_ARCADE_CAT_DELETE" => $lang['arcade_cat_delete'],
+            "L_ARCADE_CAT_TITLE" => $lang['arcade_cat_title'],
+            "L_MOVE_CONTENTS" => $lang['arcade_cat_move_elmt'],
             "S_SELECT_TO" => $liste_cat,
             "CATTITLE" => $cattitle,
-            "S_SUBMIT_VALUE" => $titanium_lang['arcade_cat_move_and_del'])
+            "S_SUBMIT_VALUE" => $lang['arcade_cat_move_and_del'])
         );
 
         $phpbb2_template->pparse("body");
@@ -251,13 +251,13 @@ if ( $mode == 'edit')
     $selected6 = ( $row['arcade_catauth']==6 ) ? "selected='selected'" : "";
 
     $liste_auth = '';
-    $liste_auth .= "<option value='0' $selected0 >" . $titanium_lang['arcade_auth_0']. '</options>';
-    $liste_auth .= "<option value='1' $selected1 >" . $titanium_lang['arcade_auth_1']. '</options>';
-    $liste_auth .= "<option value='2' $selected2 >" . $titanium_lang['arcade_auth_2']. '</options>';
-    $liste_auth .= "<option value='3' $selected3 >" . $titanium_lang['arcade_auth_3']. '</options>';
-    $liste_auth .= "<option value='4' $selected4 >" . $titanium_lang['arcade_auth_4']. '</options>';
-    $liste_auth .= "<option value='5' $selected5 >" . $titanium_lang['arcade_auth_5']. '</options>';
-    $liste_auth .= "<option value='6' $selected6 >" . $titanium_lang['arcade_auth_6']. '</options>';
+    $liste_auth .= "<option value='0' $selected0 >" . $lang['arcade_auth_0']. '</options>';
+    $liste_auth .= "<option value='1' $selected1 >" . $lang['arcade_auth_1']. '</options>';
+    $liste_auth .= "<option value='2' $selected2 >" . $lang['arcade_auth_2']. '</options>';
+    $liste_auth .= "<option value='3' $selected3 >" . $lang['arcade_auth_3']. '</options>';
+    $liste_auth .= "<option value='4' $selected4 >" . $lang['arcade_auth_4']. '</options>';
+    $liste_auth .= "<option value='5' $selected5 >" . $lang['arcade_auth_5']. '</options>';
+    $liste_auth .= "<option value='6' $selected6 >" . $lang['arcade_auth_6']. '</options>';
 
     
     $hidden_fields = '<input type="hidden" name="mode" value="editsave" />';
@@ -266,14 +266,14 @@ if ( $mode == 'edit')
     $phpbb2_template->assign_vars(array(
         "S_ACTION" => append_titanium_sid("admin_arcade_games.$phpEx"),
         "S_HIDDEN_FIELDS" => $hidden_fields,
-        "L_TITLE" => $titanium_lang['Admin_arcade_cat'],
-        "L_EXPLAIN" => $titanium_lang['Admin_arcade_editcat_explain'],
-        "L_SETTINGS" => $titanium_lang['arcade_categorie_settings'],
-        "L_CAT_TITRE" => $titanium_lang['arcade_cat_titre'],
-        "L_CAT_AUTH" => $titanium_lang['arcade_cat_auth'],
+        "L_TITLE" => $lang['Admin_arcade_cat'],
+        "L_EXPLAIN" => $lang['Admin_arcade_editcat_explain'],
+        "L_SETTINGS" => $lang['arcade_categorie_settings'],
+        "L_CAT_TITRE" => $lang['arcade_cat_titre'],
+        "L_CAT_AUTH" => $lang['arcade_cat_auth'],
         'CAT_TITLE' => strip_htmlchars( $row['arcade_cattitle']),
         'S_AUTH' => $liste_auth,
-        "L_SUBMIT" => $titanium_lang['Submit'])
+        "L_SUBMIT" => $lang['Submit'])
     );
 
     $phpbb2_template->pparse("body");
@@ -289,24 +289,24 @@ if ( $mode == 'new' )
     );
 
     $liste_auth = '';
-    $liste_auth .= "<option value='0' selected='selected'>" . $titanium_lang['arcade_auth_0']. '</options>';
-    $liste_auth .= "<option value='1' >" . $titanium_lang['arcade_auth_1']. '</options>';
-    $liste_auth .= "<option value='2' >" . $titanium_lang['arcade_auth_2']. '</options>';
-    $liste_auth .= "<option value='3' >" . $titanium_lang['arcade_auth_3']. '</options>';
-    $liste_auth .= "<option value='4' >" . $titanium_lang['arcade_auth_4']. '</options>';
-    $liste_auth .= "<option value='5' >" . $titanium_lang['arcade_auth_5']. '</options>';
-    $liste_auth .= "<option value='6' >" . $titanium_lang['arcade_auth_6']. '</options>';
+    $liste_auth .= "<option value='0' selected='selected'>" . $lang['arcade_auth_0']. '</options>';
+    $liste_auth .= "<option value='1' >" . $lang['arcade_auth_1']. '</options>';
+    $liste_auth .= "<option value='2' >" . $lang['arcade_auth_2']. '</options>';
+    $liste_auth .= "<option value='3' >" . $lang['arcade_auth_3']. '</options>';
+    $liste_auth .= "<option value='4' >" . $lang['arcade_auth_4']. '</options>';
+    $liste_auth .= "<option value='5' >" . $lang['arcade_auth_5']. '</options>';
+    $liste_auth .= "<option value='6' >" . $lang['arcade_auth_6']. '</options>';
 
     $hidden_fields = '<input type="hidden" name="mode" value="editcreate" />';
     $phpbb2_template->assign_vars(array(
         "S_ACTION" => append_titanium_sid("admin_arcade_games.$phpEx"),
         "S_HIDDEN_FIELDS" => $hidden_fields,
         'S_AUTH' => $liste_auth,
-        "L_TITLE" => $titanium_lang['Admin_arcade_cat'],
-        "L_EXPLAIN" => $titanium_lang['Admin_arcade_editcat_explain'],
-        "L_SETTINGS" => $titanium_lang['arcade_categorie_settings'],
-        "L_CAT_TITRE" => $titanium_lang['arcade_cat_titre'],
-        "L_SUBMIT" => $titanium_lang['Submit'])
+        "L_TITLE" => $lang['Admin_arcade_cat'],
+        "L_EXPLAIN" => $lang['Admin_arcade_editcat_explain'],
+        "L_SETTINGS" => $lang['arcade_categorie_settings'],
+        "L_CAT_TITRE" => $lang['arcade_cat_titre'],
+        "L_SUBMIT" => $lang['Submit'])
     );
 
     $phpbb2_template->pparse("body");
@@ -339,18 +339,18 @@ $hidden_fields = '<input type="hidden" name="mode" value="new" />';
 $phpbb2_template->assign_vars(array(
     "S_ACTION" => append_titanium_sid("admin_arcade_games.$phpEx"),
     "S_HIDDEN_FIELDS" => $hidden_fields,
-    "L_TITLE" => $titanium_lang['Admin_arcade_cat'],
-    "L_EXPLAIN" => $titanium_lang['Admin_arcade_cat_explain'],
-    "L_DESCRIPTION" => $titanium_lang['Description'],
-    "L_ACTION" => $titanium_lang['Action'],
-    "L_EDIT" => $titanium_lang['Edit'],
-    "L_MANAGE" => $titanium_lang['Manage'],
-    "L_DELETE" => $titanium_lang['Delete'],
-    "L_DEPLACE" => $titanium_lang['Deplace'],
-    "L_SYNCHRO" => $titanium_lang['Resynch'],
-    "L_NEWCAT" => $titanium_lang['New_category'],
-    "L_SUBMIT" => $titanium_lang['Submit'], 
-    "L_RESET" => $titanium_lang['Reset'])
+    "L_TITLE" => $lang['Admin_arcade_cat'],
+    "L_EXPLAIN" => $lang['Admin_arcade_cat_explain'],
+    "L_DESCRIPTION" => $lang['Description'],
+    "L_ACTION" => $lang['Action'],
+    "L_EDIT" => $lang['Edit'],
+    "L_MANAGE" => $lang['Manage'],
+    "L_DELETE" => $lang['Delete'],
+    "L_DEPLACE" => $lang['Deplace'],
+    "L_SYNCHRO" => $lang['Resynch'],
+    "L_NEWCAT" => $lang['New_category'],
+    "L_SUBMIT" => $lang['Submit'], 
+    "L_RESET" => $lang['Reset'])
 );
 
 $liste_cat = array();
@@ -366,8 +366,8 @@ for ( $i = 0 ; $i < $nbcat ; $i++ )
 
    $phpbb2_template->assign_block_vars('arcade_catrow', array(
       'TD_ROW' => $td_row,
-      'L_UP' => ( $i > 0) ? $titanium_lang['Up_arcade_cat'] . '<br />' : '',
-      'L_DOWN' => ( $i < $nbcat-1 ) ? $titanium_lang['Down_arcade_cat'] : '',
+      'L_UP' => ( $i > 0) ? $lang['Up_arcade_cat'] . '<br />' : '',
+      'L_DOWN' => ( $i < $nbcat-1 ) ? $lang['Down_arcade_cat'] : '',
       'ARCADE_CATID' => $liste_cat[$i]['arcade_catid'],
       'ARCADE_CATTITLE' => $liste_cat[$i]['arcade_cattitle'],
       'U_EDIT' =>  append_titanium_sid("admin_arcade_games.$phpEx?mode=edit&amp;arcade_catid=" . $liste_cat[$i]['arcade_catid']),

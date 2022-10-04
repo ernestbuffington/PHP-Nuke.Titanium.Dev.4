@@ -100,7 +100,7 @@ if ( isset($HTTP_POST_VARS['submit']))
 
     if( isset($HTTP_POST_VARS['submit']) )
     {
-      $message = $titanium_lang['Config_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_firstpost'], "<a href=\"" . append_titanium_sid("admin_inline_ad.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+      $message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_firstpost'], "<a href=\"" . append_titanium_sid("admin_inline_ad.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
       message_die(GENERAL_MESSAGE, $message);
     }
@@ -129,7 +129,7 @@ else
   }
 
   //generate group select box
-  $ad_no_groups = '<option>' . $titanium_lang['exclude_none'] . '</option>';
+  $ad_no_groups = '<option>' . $lang['exclude_none'] . '</option>';
   $ad_no_groups_current = explode(",", $phpbb2_board_config['ad_no_groups']);
   $sql = "SELECT group_id, group_name
       FROM " . GROUPS_TABLE . "
@@ -148,7 +148,7 @@ else
   $titanium_db->sql_freeresult($result);
 
   //generate forum select box
-  $ad_no_forums = '<option>' . $titanium_lang['exclude_none'] . '</option>';
+  $ad_no_forums = '<option>' . $lang['exclude_none'] . '</option>';
   $ad_no_forums_current = explode(",", $phpbb2_board_config['ad_no_forums']);
   $sql = "SELECT forum_id, forum_name
       FROM " . FORUMS_TABLE;
@@ -179,22 +179,22 @@ else
   "AD_GUEST" => $who_guest,
   "AD_OLD_STYLE" => $ad_old_style,
   "AD_NEW_STYLE" => $ad_new_style,
-  "L_CONFIGURATION_TITLE" => $titanium_lang['inline_ad_config'],
-  "L_AD_AFTER_POST" => $titanium_lang['ad_after_post'],
-  "L_AD_EVERY_POST" => $titanium_lang['ad_every_post'],
-  "L_AD_DISPLAY" => $titanium_lang['ad_display'],
-  "L_AD_ALL" => $titanium_lang['ad_all'],
-  "L_AD_REG" => $titanium_lang['ad_reg'],
-  "L_AD_GUEST" => $titanium_lang['ad_guest'],
-  "L_AD_EXCLUDE" => $titanium_lang['ad_exclude'],
-  "L_AD_FORUMS" => $titanium_lang['ad_forums'],
+  "L_CONFIGURATION_TITLE" => $lang['inline_ad_config'],
+  "L_AD_AFTER_POST" => $lang['ad_after_post'],
+  "L_AD_EVERY_POST" => $lang['ad_every_post'],
+  "L_AD_DISPLAY" => $lang['ad_display'],
+  "L_AD_ALL" => $lang['ad_all'],
+  "L_AD_REG" => $lang['ad_reg'],
+  "L_AD_GUEST" => $lang['ad_guest'],
+  "L_AD_EXCLUDE" => $lang['ad_exclude'],
+  "L_AD_FORUMS" => $lang['ad_forums'],
   "S_CONFIG_ACTION" => append_titanium_sid("admin_inline_ad.$phpEx"),
-  "L_SUBMIT" => $titanium_lang['Submit'],
-  "L_AD_STYLE" => $titanium_lang['ad_style'],
-  "L_AD_NEW_STYLE" => $titanium_lang['ad_new_style'],
-  "L_AD_OLD_STYLE" => $titanium_lang['ad_old_style'],
-  "L_AD_POST_THRESHOLD" => $titanium_lang['ad_post_threshold'],
-  "L_RESET" => $titanium_lang['Reset'])
+  "L_SUBMIT" => $lang['Submit'],
+  "L_AD_STYLE" => $lang['ad_style'],
+  "L_AD_NEW_STYLE" => $lang['ad_new_style'],
+  "L_AD_OLD_STYLE" => $lang['ad_old_style'],
+  "L_AD_POST_THRESHOLD" => $lang['ad_post_threshold'],
+  "L_RESET" => $lang['Reset'])
   );
   $phpbb2_template->pparse("body");
 

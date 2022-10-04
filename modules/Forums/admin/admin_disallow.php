@@ -49,11 +49,11 @@ if( isset($HTTP_POST_VARS['add_name']) )
 
         if ($disallowed_user == '')
         {
-                message_die(GENERAL_MESSAGE, $titanium_lang['Fields_empty']);
+                message_die(GENERAL_MESSAGE, $lang['Fields_empty']);
         }
         if( !validate_username($disallowed_user) )
         {
-                $message = $titanium_lang['Disallowed_already'];
+                $message = $lang['Disallowed_already'];
         }
         else
         {
@@ -64,10 +64,10 @@ if( isset($HTTP_POST_VARS['add_name']) )
                 {
                         message_die(GENERAL_ERROR, "Could not add disallowed user.", "",__LINE__, __FILE__, $sql);
                 }
-                $message = $titanium_lang['Disallow_successful'];
+                $message = $lang['Disallow_successful'];
         }
 
-        $message .= "<br /><br />" . sprintf($titanium_lang['Click_return_disallowadmin'], "<a href=\"" . append_titanium_sid("admin_disallow.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message .= "<br /><br />" . sprintf($lang['Click_return_disallowadmin'], "<a href=\"" . append_titanium_sid("admin_disallow.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
 }
@@ -83,7 +83,7 @@ else if( isset($HTTP_POST_VARS['delete_name']) )
                 message_die(GENERAL_ERROR, "Couldn't removed disallowed user.", "",__LINE__, __FILE__, $sql);
         }
 
-        $message .= $titanium_lang['Disallowed_deleted'] . "<br /><br />" . sprintf($titanium_lang['Click_return_disallowadmin'], "<a href=\"" . append_titanium_sid("admin_disallow.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message .= $lang['Disallowed_deleted'] . "<br /><br />" . sprintf($lang['Click_return_disallowadmin'], "<a href=\"" . append_titanium_sid("admin_disallow.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
 
@@ -110,7 +110,7 @@ $disallow_select = '<select name="disallowed_id">';
 
 if( empty($disallowed) )
 {
-        $disallow_select .= '<option value="">' . $titanium_lang['no_disallowed'] . '</option>';
+        $disallow_select .= '<option value="">' . $lang['no_disallowed'] . '</option>';
 }
 else
 {
@@ -132,15 +132,15 @@ $phpbb2_template->assign_vars(array(
         "S_FORM_ACTION" => append_titanium_sid("admin_disallow.$phpEx"),
 
         "L_INFO" => $output_info,
-        "L_DISALLOW_TITLE" => $titanium_lang['Disallow_control'],
-        "L_DISALLOW_EXPLAIN" => $titanium_lang['Disallow_explain'],
-        "L_DELETE" => $titanium_lang['Delete_disallow'],
-        "L_DELETE_DISALLOW" => $titanium_lang['Delete_disallow_title'],
-        "L_DELETE_EXPLAIN" => $titanium_lang['Delete_disallow_explain'],
-        "L_ADD" => $titanium_lang['Add_disallow'],
-        "L_ADD_DISALLOW" => $titanium_lang['Add_disallow_title'],
-        "L_ADD_EXPLAIN" => $titanium_lang['Add_disallow_explain'],
-        "L_USERNAME" => $titanium_lang['Username'])
+        "L_DISALLOW_TITLE" => $lang['Disallow_control'],
+        "L_DISALLOW_EXPLAIN" => $lang['Disallow_explain'],
+        "L_DELETE" => $lang['Delete_disallow'],
+        "L_DELETE_DISALLOW" => $lang['Delete_disallow_title'],
+        "L_DELETE_EXPLAIN" => $lang['Delete_disallow_explain'],
+        "L_ADD" => $lang['Add_disallow'],
+        "L_ADD_DISALLOW" => $lang['Add_disallow_title'],
+        "L_ADD_EXPLAIN" => $lang['Add_disallow_explain'],
+        "L_USERNAME" => $lang['Username'])
 );
 
 $phpbb2_template->pparse("body");

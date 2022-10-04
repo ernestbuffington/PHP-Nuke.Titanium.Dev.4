@@ -35,14 +35,14 @@ $phpbb2_template->assign_vars(array(
     
 //Language Template variables
 $phpbb2_template->assign_vars(array(
-    "L_COOKIE_SETTINGS" => $titanium_lang['Cookie_settings'],
-    "L_COOKIE_SETTINGS_EXPLAIN" => $titanium_lang['Cookie_settings_explain'],
-    "L_COOKIE_DOMAIN" => $titanium_lang['Cookie_domain'],
-    "L_COOKIE_NAME" => $titanium_lang['Cookie_name'],
-    "L_COOKIE_PATH" => $titanium_lang['Cookie_path'],
-    "L_COOKIE_SECURE" => $titanium_lang['Cookie_secure'],
-    "L_COOKIE_SECURE_EXPLAIN" => $titanium_lang['Cookie_secure_explain'],
-    "L_SESSION_LENGTH" => $titanium_lang['Session_length'],
+    "L_COOKIE_SETTINGS" => $lang['Cookie_settings'],
+    "L_COOKIE_SETTINGS_EXPLAIN" => $lang['Cookie_settings_explain'],
+    "L_COOKIE_DOMAIN" => $lang['Cookie_domain'],
+    "L_COOKIE_NAME" => $lang['Cookie_name'],
+    "L_COOKIE_PATH" => $lang['Cookie_path'],
+    "L_COOKIE_SECURE" => $lang['Cookie_secure'],
+    "L_COOKIE_SECURE_EXPLAIN" => $lang['Cookie_secure_explain'],
+    "L_SESSION_LENGTH" => $lang['Session_length'],
 ));
 
 //Data Template Variables

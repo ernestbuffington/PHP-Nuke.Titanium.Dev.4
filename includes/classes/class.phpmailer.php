@@ -644,7 +644,7 @@ class PHPMailer
      *
      * @var array
      */
-    protected $titanium_language = [];
+    protected $language = [];
 
     /**
      * The number of errors encountered.
@@ -1998,12 +1998,12 @@ class PHPMailer
      * Returns false if it cannot load the language file.
      * The default language is English.
      *
-     * @param string $titanium_langcode  ISO 639-1 2-character language code (e.g. French is "fr")
-     * @param string $titanium_lang_path Path to the language file directory, with trailing separator (slash)
+     * @param string $langcode  ISO 639-1 2-character language code (e.g. French is "fr")
+     * @param string $lang_path Path to the language file directory, with trailing separator (slash)
      *
      * @return bool
      */
-    public function setLanguage($titanium_langcode = 'en', $titanium_lang_path = '')
+    public function setLanguage($langcode = 'en', $lang_path = '')
     {
         // Backwards compatibility for renamed language codes
         $renamed_langcodes = [
@@ -2016,8 +2016,8 @@ class PHPMailer
             'tg' => 'tl',
         ];
 
-        if (isset($renamed_langcodes[$titanium_langcode])) {
-            $titanium_langcode = $renamed_langcodes[$titanium_langcode];
+        if (isset($renamed_langcodes[$langcode])) {
+            $langcode = $renamed_langcodes[$langcode];
         }
 
         // Define full set of translatable strings in English
@@ -2042,25 +2042,25 @@ class PHPMailer
             'variable_set' => 'Cannot set or reset variable: ',
             'extension_missing' => 'Extension missing: ',
         ];
-        if (empty($titanium_lang_path)) {
+        if (empty($lang_path)) {
             // Calculate an absolute path so it can work if CWD is not here
-            $titanium_lang_path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR;
+            $lang_path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR;
         }
-        //Validate $titanium_langcode
-        if (!preg_match('/^[a-z]{2}(?:_[a-zA-Z]{2})?$/', $titanium_langcode)) {
-            $titanium_langcode = 'en';
+        //Validate $langcode
+        if (!preg_match('/^[a-z]{2}(?:_[a-zA-Z]{2})?$/', $langcode)) {
+            $langcode = 'en';
         }
         $foundlang = true;
-        $titanium_lang_file = $titanium_lang_path . 'phpmailer.lang-' . $titanium_langcode . '.php';
+        $lang_file = $lang_path . 'phpmailer.lang-' . $langcode . '.php';
         // There is no English translation file
-        if ('en' != $titanium_langcode) {
+        if ('en' != $langcode) {
             // Make sure language file path is readable
-            if (!static::isPermittedPath($titanium_lang_file) || !file_exists($titanium_lang_file)) {
+            if (!static::isPermittedPath($lang_file) || !file_exists($lang_file)) {
                 $foundlang = false;
             } else {
                 // Overwrite language-specific strings.
                 // This way we'll never have missing translation keys.
-                $foundlang = include $titanium_lang_file;
+                $foundlang = include $lang_file;
             }
         }
         $this->language = $PHPMAILER_LANG;

@@ -29,23 +29,23 @@
 
 if(!defined('MODULE_FILE')){die('You can\'t access this file directly...');}
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
-include(NUKE_MODULES_DIR.$titanium_module_name.'/doc_config.php');
+include(NUKE_MODULES_DIR.$pnt_module.'/doc_config.php');
 
 define('INDEX_FILE', true);
 
 function main() 
 {
-    global $sitename, $titanium_module_name, $questions;
+    global $sitename, $pnt_module, $questions;
     
 	include_once(NUKE_BASE_DIR.'header.php');
     
 	title($sitename.': '._NSINDEXLEGAL);
 
-    if (file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/copyright.php')) 
+    if (file_exists(NUKE_MODULES_DIR.$pnt_module.'/copyright.php')) 
 	{
         OpenTable();
         echo "<br /><br /><div align=\"justify\">";

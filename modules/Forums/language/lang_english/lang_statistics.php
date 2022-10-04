@@ -25,17 +25,17 @@
  ***************************************************************************/
 
 // Statistics Informations
-$titanium_lang['Version_info'] = 'Statistics Mod Version %s'; //%s = Version Number (string)
-$titanium_lang['Install_info'] = 'Installed on %s'; //%s = date
-$titanium_lang['Viewed_info'] = 'Statistics Page Loaded %d Times'; //%d = count
+$lang['Version_info'] = 'Statistics Mod Version %s'; //%s = Version Number (string)
+$lang['Install_info'] = 'Installed on %s'; //%s = date
+$lang['Viewed_info'] = 'Statistics Page Loaded %d Times'; //%d = count
 
 // Statistics Mod Language File
-$titanium_lang['Board_statistics'] = 'Board Statistics'; // Page Title
+$lang['Board_statistics'] = 'Board Statistics'; // Page Title
 
 // Module specific Language Variables
-$titanium_lang['Uses'] = 'Uses';
-$titanium_lang['Rank'] = 'Rank';
-$titanium_lang['Percent'] = 'Percent';
-$titanium_lang['Graph'] = 'Graph';
+$lang['Uses'] = 'Uses';
+$lang['Rank'] = 'Rank';
+$lang['Percent'] = 'Percent';
+$lang['Graph'] = 'Graph';
 
 ?>

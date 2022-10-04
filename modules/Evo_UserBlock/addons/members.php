@@ -25,9 +25,9 @@ global $evouserinfo_addons, $evouserinfo_members;
 # group memberships
 function evouserinfo_members () 
 {
-    global $userinfo, $titanium_db, $titanium_prefix, $titanium_user_prefix, $evouserinfo_members, $titanium_lang_evo_userblock;
+    global $userinfo, $titanium_db, $titanium_prefix, $titanium_user_prefix, $evouserinfo_members, $lang_evo_userblock;
     
-    $evouserinfo_members = '<div style="font-weight: bold">'.$titanium_lang_evo_userblock['BLOCK']['MEMBERS']['MEMBERS'].'</div>';
+    $evouserinfo_members = '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['MEMBERS']['MEMBERS'].'</div>';
 
     $in_group = array();
     
@@ -78,7 +78,7 @@ function evouserinfo_members ()
 	   if ($titanium_db->sql_numrows($result)) 
 	   {
 
-	      $evouserinfo_members .= '<div style="font-weight: bold">'.$titanium_lang_evo_userblock['BLOCK']['MEMBERS']['PENDING'].'</div>'; 
+	      $evouserinfo_members .= '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['MEMBERS']['PENDING'].'</div>'; 
        
 	      while( $row = $titanium_db->sql_fetchrow($result) ) 
 		  {

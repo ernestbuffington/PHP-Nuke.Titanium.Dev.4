@@ -25,8 +25,8 @@
  ************************************************************************/
 if (!defined('MODULE_FILE')) die('You can\'t access this file directly...');
 
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
 
 function format_url($comment) 
 {
@@ -76,8 +76,8 @@ function format_url($comment)
 }
 
 function modone() {
-    global $admin, $titanium_moderate, $titanium_module_name;
-    if(((isset($admin)) && ($titanium_moderate == 1)) || ($titanium_moderate==2)) echo "<form action=\"modules.php?name=$titanium_module_name&file=comments\" method=\"post\">";
+    global $admin, $titanium_moderate, $pnt_module;
+    if(((isset($admin)) && ($titanium_moderate == 1)) || ($titanium_moderate==2)) echo "<form action=\"modules.php?name=$pnt_module&file=comments\" method=\"post\">";
 }
 
 function modtwo($tid, $score, $reason) {
@@ -106,7 +106,7 @@ function nocomm() {
 
 function navbar($sid, $title, $thold, $mode, $order) 
 {
-    global $titanium_user, $bgcolor1, $bgcolor2, $textcolor1, $textcolor2, $anonpost, $titanium_prefix, $titanium_db, $titanium_module_name;
+    global $titanium_user, $bgcolor1, $bgcolor2, $textcolor1, $textcolor2, $anonpost, $titanium_prefix, $titanium_db, $pnt_module;
 
     $query = $titanium_db->sql_query("SELECT * FROM ".$titanium_prefix."_comments WHERE sid='$sid'");
 
@@ -151,8 +151,8 @@ function navbar($sid, $title, $thold, $mode, $order)
     echo "</font></td></tr>\n";
     }
     echo "<tr><td bgcolor=\"$bgcolor1\" align=\"center\" width=\"100%\">\n";
-    if ($anonpost==1 OR is_mod_admin($titanium_module_name) OR is_user()) {
-        echo "<form action=\"modules.php?name=$titanium_module_name&amp;file=comments\" method=\"post\">"
+    if ($anonpost==1 OR is_mod_admin($pnt_module) OR is_user()) {
+        echo "<form action=\"modules.php?name=$pnt_module&amp;file=comments\" method=\"post\">"
             ."<input type=\"hidden\" name=\"pid\" value=\"$pid\">"
             ."<input type=\"hidden\" name=\"sid\" value=\"$sid\">"
             ."<input type=\"hidden\" name=\"op\" value=\"Reply\">"
@@ -171,7 +171,7 @@ function navbar($sid, $title, $thold, $mode, $order)
 
 function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblwidth=99) {
     
-	global $datetime, $titanium_user, $cookie, $bgcolor1, $reasons, $anonymous, $anonpost, $commentlimit, $titanium_prefix, $textcolor2, $titanium_db, $titanium_module_name, $titanium_user_prefix, $userinfo;
+	global $datetime, $titanium_user, $cookie, $bgcolor1, $reasons, $anonymous, $anonpost, $commentlimit, $titanium_prefix, $textcolor2, $titanium_db, $pnt_module, $titanium_user_prefix, $userinfo;
     
 	$comments = 0;
     
@@ -263,12 +263,12 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
         $url = stripslashes($row_url["user_website"]);
         if ($url != "http://" AND $url != "" AND preg_match("#http://#i", $url)) { echo "<a href=\"$url\" target=\"new\">$url</a> "; }
         echo "</font></td></tr><tr><td>";
-        if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) echo substr("$r_comment", 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
-        elseif(strlen($r_comment) > $commentlimit) echo substr("$r_comment", 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+        if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) echo substr("$r_comment", 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+        elseif(strlen($r_comment) > $commentlimit) echo substr("$r_comment", 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
         else echo $r_comment;
         echo "</td></tr></table><br /><br />";
-        if ($anonpost==1 OR is_mod_admin($titanium_module_name) OR is_user()) {
-            echo "<font class=\"content\" color=\"$textcolor2\"> [ <a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;op=Reply&amp;pid=$r_tid&amp;sid=$r_sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
+        if ($anonpost==1 OR is_mod_admin($pnt_module) OR is_user()) {
+            echo "<font class=\"content\" color=\"$textcolor2\"> [ <a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;op=Reply&amp;pid=$r_tid&amp;sid=$r_sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
         }
         modtwo($r_tid, $r_score, $r_reason);
         echo " ]</font><br /><br />";
@@ -326,12 +326,12 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
             $url = stripslashes($row_url2["user_website"]);
             if ($url != "http://" AND $url != "" AND preg_match("#http://#i", $url)) { echo "<a href=\"$url\" target=\"new\">$url</a> "; }
             echo "</font></td></tr><tr><td>";
-            if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) echo substr("$r_comment", 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
-            elseif(strlen($r_comment) > $commentlimit) echo substr("$r_comment", 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+            if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) echo substr("$r_comment", 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+            elseif(strlen($r_comment) > $commentlimit) echo substr("$r_comment", 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
             else echo $r_comment;
             echo "</td></tr></table><br /><br />";
-            if ($anonpost==1 OR is_mod_admin($titanium_module_name) OR is_user()) {
-            echo "<font class=\"content\" color=\"$textcolor2\"> [ <a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;op=Reply&amp;pid=$r_tid&amp;sid=$r_sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
+            if ($anonpost==1 OR is_mod_admin($pnt_module) OR is_user()) {
+            echo "<font class=\"content\" color=\"$textcolor2\"> [ <a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;op=Reply&amp;pid=$r_tid&amp;sid=$r_sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
             }
             modtwo($r_tid, $r_score, $r_reason);
             echo " ]</font><br /><br />";
@@ -368,7 +368,7 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 			formatTimestamp($r_date);
             formatTimestamp($r_modified);
 			
-			echo "<li><font class=\"content\" color=\"$textcolor2\"><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;op=showreply&amp;tid=$r_tid&amp;sid=$r_sid&amp;pid=$r_pid&amp;mode=$mode&amp;order=$order&amp;thold=$thold#$r_tid\">$r_subject</a> "._BY." $r_name "._ON." $r_date</font><br />";
+			echo "<li><font class=\"content\" color=\"$textcolor2\"><a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;op=showreply&amp;tid=$r_tid&amp;sid=$r_sid&amp;pid=$r_pid&amp;mode=$mode&amp;order=$order&amp;thold=$thold#$r_tid\">$r_subject</a> "._BY." $r_name "._ON." $r_date</font><br />";
             DisplayKids($r_tid, $mode, $order, $thold, $level+1, $dummy+1);
         }
         }
@@ -379,7 +379,7 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 }
 
 function DisplayBabies ($tid, $level=0, $dummy=0) {
-    global $datetime, $anonymous, $titanium_prefix, $titanium_db, $titanium_module_name;
+    global $datetime, $anonymous, $titanium_prefix, $titanium_db, $pnt_module;
     $comments = 0;
                          $result = $titanium_db->sql_query("SELECT `tid`, 
 	                                                      `pid`, 
@@ -423,7 +423,7 @@ function DisplayBabies ($tid, $level=0, $dummy=0) {
 	formatTimestamp($r_date);
     formatTimestamp($r_modified);
 	
-	echo "<a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;op=showreply&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">$r_subject</a></font><font class=\"content\"> "._BY." $r_name "._ON." $r_date<br />";
+	echo "<a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;op=showreply&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">$r_subject</a></font><font class=\"content\"> "._BY." $r_name "._ON." $r_date<br />";
     DisplayBabies($r_tid, $level+1, $dummy+1);
     }
     $titanium_db->sql_freeresult($result);
@@ -437,7 +437,7 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
     
 	global $hr, $titanium_user, $datetime, $cookie, $mainfile, $admin, $commentlimit, 
 	$anonymous, $reasons, $anonpost, $foot1, $foot2, $foot3, $foot4, $titanium_prefix, 
-	$acomm, $articlecomm, $titanium_db, $titanium_module_name, $nukeurl, $admin_file, $titanium_user_prefix, $userinfo, $cookie;
+	$acomm, $articlecomm, $titanium_db, $pnt_module, $nukeurl, $admin_file, $titanium_user_prefix, $userinfo, $cookie;
     
 	if(defined('NUKE_FILE')) 
 	{
@@ -566,29 +566,29 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
     $url = stripslashes($row_url["user_website"]);
     if ($url != "http://" AND $url != "" AND preg_match("#http://#i", $url)) { echo "<a href=\"$url\" target=\"new\">$url</a> "; }
 
-    if(is_mod_admin($titanium_module_name)) {
+    if(is_mod_admin($pnt_module)) {
         $row3 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT host_name FROM ".$titanium_prefix."_comments WHERE tid='$tid'"));
         $host_name = $row3["host_name"];
         echo "<br /><strong>(IP: $host_name)</strong>";
     }
     echo "</font></td></tr><tr><td>";
-    if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) echo substr("$r_comment", 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
-    elseif(strlen($comment) > $commentlimit) echo substr("$comment", 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;sid=$sid&tid=$tid&mode=$mode&order=$order&thold=$thold\">"._READREST."</a></strong>";
+    if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) echo substr("$r_comment", 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+    elseif(strlen($comment) > $commentlimit) echo substr("$comment", 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;sid=$sid&tid=$tid&mode=$mode&order=$order&thold=$thold\">"._READREST."</a></strong>";
     else echo $comment;
     echo "</td></tr></table><br /><br />";
-    if ($anonpost==1 OR is_mod_admin($titanium_module_name) OR is_user()) {
-        echo "<font class=\"content\"> [ <a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;op=Reply&amp;pid=$tid&amp;sid=$sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
+    if ($anonpost==1 OR is_mod_admin($pnt_module) OR is_user()) {
+        echo "<font class=\"content\"> [ <a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;op=Reply&amp;pid=$tid&amp;sid=$sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
     }
     if ($pid != 0) {
         $row4 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT pid FROM ".$titanium_prefix."_comments WHERE tid='$pid'"));
         $erin = intval($row4["pid"]);
-        echo " | <a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;sid=$sid&amp;pid=$erin&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._PARENT."</a>";
+        echo " | <a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;sid=$sid&amp;pid=$erin&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._PARENT."</a>";
     }
     modtwo($tid, $score, $reason);
 
-    if(is_mod_admin($titanium_module_name)) {
+    if(is_mod_admin($pnt_module)) {
         echo " | <a href=\"".$admin_file.".php?op=RemoveComment&amp;tid=$tid&amp;sid=$sid\">"._DELETE."</a> ]</font><br /><br />";
-    } elseif ($anonpost != 0 OR is_mod_admin($titanium_module_name) OR is_user()) {
+    } elseif ($anonpost != 0 OR is_mod_admin($pnt_module) OR is_user()) {
         echo " ]</font><br /><br />";
     }
 
@@ -613,7 +613,7 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
 
 function singlecomment($tid, $sid, $mode, $order, $thold) 
 {
-    global $titanium_module_name, $titanium_user, $cookie, $datetime, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $admin, $anonpost, $titanium_prefix, $textcolor2, $titanium_db;
+    global $pnt_module, $titanium_user, $cookie, $datetime, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $admin, $anonpost, $titanium_prefix, $textcolor2, $titanium_db;
 
     include_once(NUKE_BASE_DIR."header.php");
 
@@ -641,8 +641,8 @@ function singlecomment($tid, $sid, $mode, $order, $thold)
     if($email) echo "<strong>$subject</strong> <font class=\"content\" color=\"$textcolor2\">("._SCORE." $score)<br />"._BY." <a href=\"mailto:$email\"><font color=\"$bgcolor2\">$name</font></a> <font class=content><strong>($email)</strong></font> "._ON." $date";
     else echo "<strong>$subject</strong> <font class=content>("._SCORE." $score)<br />"._BY." $name "._ON." $date";
     echo "</td></tr><tr><td>$comment</td></tr></table><br /><br />";
-    if ($anonpost==1 OR is_mod_admin($titanium_module_name) OR is_user()) {
-    echo "<font class=content> [ <a href=\"modules.php?name=$titanium_module_name&amp;file=comments&amp;op=Reply&amp;pid=$tid&amp;sid=$sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a> | <a href=\"modules.php?name=$titanium_module_name&amp;file=article&amp;sid=$sid&mode=$mode&order=$order&thold=$thold\">"._ROOT."</a>";
+    if ($anonpost==1 OR is_mod_admin($pnt_module) OR is_user()) {
+    echo "<font class=content> [ <a href=\"modules.php?name=$pnt_module&amp;file=comments&amp;op=Reply&amp;pid=$tid&amp;sid=$sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a> | <a href=\"modules.php?name=$pnt_module&amp;file=article&amp;sid=$sid&mode=$mode&order=$order&thold=$thold\">"._ROOT."</a>";
     }
     modtwo($tid, $score, $reason);
     echo " ]";
@@ -655,9 +655,9 @@ function reply($pid, $sid, $mode, $order, $thold)
 {
     include_once(NUKE_BASE_DIR."header.php");
 
-    global $titanium_module_name, $titanium_user, $cookie, $bgcolor1, $bgcolor2, $bgcolor3, $titanium_db, $anonpost, $anonymous, $admin, $AllowableHTML;
+    global $pnt_module, $titanium_user, $cookie, $bgcolor1, $bgcolor2, $bgcolor3, $titanium_db, $anonpost, $anonymous, $admin, $AllowableHTML;
 
-    if ($anonpost == 0 AND !is_user() AND !is_mod_admin($titanium_module_name)) {
+    if ($anonpost == 0 AND !is_user() AND !is_mod_admin($pnt_module)) {
 
     OpenTable();
     echo "<div align=\"center\"><font class=\"title\"><strong>"._COMMENTREPLY."</strong></font></div>";
@@ -747,7 +747,7 @@ function reply($pid, $sid, $mode, $order, $thold)
     //echo "<br />";
 
     OpenTable();
-    echo "<form action=\"modules.php?name=$titanium_module_name&amp;file=comments\" method=\"post\">";
+    echo "<form action=\"modules.php?name=$pnt_module&amp;file=comments\" method=\"post\">";
     echo "<font class=option><strong>"._YOURNAME.":</strong></font> ";
     if (is_user()) {
         echo "<a href=\"modules.php?name=Your_Account\">$cookie[1]</a> <font class=\"content\">[ <a href=\"modules.php?name=Your_Account&amp;op=logout\">"._LOGOUT."</a> ]</font><br /><br />";
@@ -785,7 +785,7 @@ function replyPreview ($pid, $sid, $subject, $comment, $xanonpost, $mode, $order
 {
     include_once(NUKE_BASE_DIR."header.php");
 
-    global $titanium_module_name, $titanium_user, $cookie, $AllowableHTML, $anonymous, $anonpost;
+    global $pnt_module, $titanium_user, $cookie, $AllowableHTML, $anonymous, $anonpost;
 
     OpenTable();
     echo "<center><font class=\"title\"><strong>"._COMREPLYPRE."</strong></font></center>";
@@ -816,7 +816,7 @@ function replyPreview ($pid, $sid, $subject, $comment, $xanonpost, $mode, $order
     CloseTable();
     //echo "<br />";
     OpenTable();
-    echo "<form action=\"modules.php?name=$titanium_module_name&amp;file=comments\" method=\"post\"><font class=\"option\"><strong>"._YOURNAME.":</strong></font> ";
+    echo "<form action=\"modules.php?name=$pnt_module&amp;file=comments\" method=\"post\"><font class=\"option\"><strong>"._YOURNAME.":</strong></font> ";
     if (is_user()) {
         echo "<a href=\"modules.php?name=Your_Account\">$cookie[1]</a> <font class=\"content\">[ <a href=\"modules.php?name=Your_Account&amp;op=logout\">"._LOGOUT."</a> ]</font><br /><br />";
     } else {
@@ -863,7 +863,7 @@ function replyPreview ($pid, $sid, $subject, $comment, $xanonpost, $mode, $order
 function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $mode, $order, $thold, $posttype) 
 {
     
-	global $titanium_module_name, $titanium_user, $userinfo, $EditedMessage, $cookie, $AllowableHTML, $ultramode, $titanium_prefix, $anonpost, $articlecomm, $titanium_db;
+	global $pnt_module, $titanium_user, $userinfo, $EditedMessage, $cookie, $AllowableHTML, $ultramode, $titanium_prefix, $anonpost, $articlecomm, $titanium_db;
     
 	$author = Fix_Quotes($author);
     
@@ -977,7 +977,7 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
     if (isset($cookie[4])) { $options .= "&mode=$cookie[4]"; } else { $options .= "&mode=thread"; }
     if (isset($cookie[5])) { $options .= "&order=$cookie[5]"; } else { $options .= "&order=0"; }
     if (isset($cookie[6])) { $options .= "&thold=$cookie[6]"; } else { $options .= "&thold=0"; }
-    redirect_titanium("modules.php?name=$titanium_module_name&file=article&sid=$sid$options");
+    redirect_titanium("modules.php?name=$pnt_module&file=article&sid=$sid$options");
 }
 
 switch($op) {
@@ -995,7 +995,7 @@ switch($op) {
     break;
 
     case "moderate":
-    if(!is_mod_admin($titanium_module_name)) {
+    if(!is_mod_admin($pnt_module)) {
        @include_once(dirname(__FILE__)."/mainfile.php");
     }
    
@@ -1027,7 +1027,7 @@ switch($op) {
         }
     }
 
-    redirect_titanium("modules.php?name=$titanium_module_name&file=article&sid=$sid&mode=$mode&order=$order&thold=$thold");
+    redirect_titanium("modules.php?name=$pnt_module&file=article&sid=$sid&mode=$mode&order=$order&thold=$thold");
     break;
 
     case "showreply":

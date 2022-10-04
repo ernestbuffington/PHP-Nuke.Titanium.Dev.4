@@ -16,7 +16,7 @@
    Notes         : Titanium/Evo User Block PMs Module
 ************************************************************************/
 if(!defined('NUKE_EVO')){die("Illegal File Access");}
-global $evouserinfo_addons, $evouserinfo_pms, $titanium_lang_evo_userblock;
+global $evouserinfo_addons, $evouserinfo_pms, $lang_evo_userblock;
 $one = "<i style=\"font-size: 17px; color: white\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='white'\" class=\"fas fa-envelope\"></i>";
 if(has_new_or_unread_private_messages() > 0):
 $two = " <a class='modules' href='modules.php?name=Private_Messages' target='_self'> $one My InBox (".has_new_or_unread_private_messages().")</a>";

@@ -25,8 +25,8 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -172,11 +172,11 @@ if (!$row = $titanium_db->sql_fetchrow($result)) {
 
 $phpbb2_template->assign_vars(array(
         'PAGINATION' => generate_pagination(append_titanium_sid("statarcade.$phpEx?uid=$uid"), $total_phpbb2_games, $games_par_page, $phpbb2_start),
-        'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], (floor($phpbb2_start / $games_par_page) + 1), ceil($total_phpbb2_games / $games_par_page)),
-        'URL_ARCADE' => '<nobr><a class="cattitle" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $titanium_lang['lib_arcade'] . '</a></nobr> ',
-        'URL_BESTSCORES' => '<nobr><a class="cattitle" href="' . append_titanium_sid("toparcade.$phpEx") . '">' . $titanium_lang['best_scores'] . '</a></nobr> ',
+        'PAGE_NUMBER' => sprintf($lang['Page_of'], (floor($phpbb2_start / $games_par_page) + 1), ceil($total_phpbb2_games / $games_par_page)),
+        'URL_ARCADE' => '<nobr><a class="cattitle" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $lang['lib_arcade'] . '</a></nobr> ',
+        'URL_BESTSCORES' => '<nobr><a class="cattitle" href="' . append_titanium_sid("toparcade.$phpEx") . '">' . $lang['best_scores'] . '</a></nobr> ',
         'USER_AVATAR' => '<a href="modules.php?name=Forums&file=profile&mode=viewprofile&u=' . $uid . '">' . $avatar_img . '</a>',
-        'L_STATS' => $titanium_lang['statuser'] . ' ' . $statuser)
+        'L_STATS' => $lang['statuser'] . ' ' . $statuser)
 );
 
 
@@ -203,18 +203,18 @@ while(!$fini) {
 
                         $phpbb2_template->assign_block_vars('blkligne.blkcolonne.blkgame', array(
                                 'GAMENAME' => '<nobr><a class="cattitle" href="' . append_titanium_sid("games.$phpEx?gid=" . $gamelist[$i]['game_id']) . '">' . $gamelist[$i]['game_name'] . '</a></nobr> ',
-                                'L_NBSET' => $titanium_lang['statnbset'],
+                                'L_NBSET' => $lang['statnbset'],
                                 'NBSET' =>  ($gamelist[$i]['score_set'] == 0) ? "n/a" : $gamelist[$i]['score_set'],
-                                'L_TPSSET' => $titanium_lang['stattottime'],
+                                'L_TPSSET' => $lang['stattottime'],
                                 'TPSSET' => ($gamelist[$i]['score_set'] == 0) ? "n/a" : $total_phpbb2_time,
-                                'L_HIGHSCR' => $titanium_lang['stathighscore'],
+                                'L_HIGHSCR' => $lang['stathighscore'],
                                 'HIGHSCR' => number_format($gamelist[$i]['score_game']),
-                                'L_DATHIGHSCR' => $titanium_lang['statdatehigh'],
+                                'L_DATHIGHSCR' => $lang['statdatehigh'],
                                 'DATHIGHSCR' => create_date($phpbb2_board_config['default_dateformat'] , $gamelist[$i]['score_date'] , $phpbb2_board_config['board_timezone']),
-                                'L_POSGAME' => $titanium_lang['statposition'],
+                                'L_POSGAME' => $lang['statposition'],
                                 'POSGAME' => ( $pos == 1 ) ? $pos . "st" : ( ( $pos == 2 ) ? $pos . "nd" : ( ( $pos == 3 ) ? $pos . "rd" : $pos . "th" ) ),
                                 'IMGFIRST' => ( $tbhighuser[ $gamelist[$i]['game_id'] ] == $uid ) ? "<img src='".$phpbb2_root_path . "templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
-                                'L_TPSMOY' => $titanium_lang['statmedtime'],
+                                'L_TPSMOY' => $lang['statmedtime'],
                                 'TPSMOY' =>  ($gamelist[$i]['score_set'] == 0) ? "n/a" : $avgtime)
                         );
 
@@ -227,7 +227,7 @@ while(!$fini) {
 
 //
 // Output page header
-$phpbb2_page_title = $titanium_lang['statarcade_user'];
+$phpbb2_page_title = $lang['statarcade_user'];
 include('includes/page_header.'.$phpEx);
 $phpbb2_template->pparse('body');
 include('includes/page_tail.'.$phpEx);

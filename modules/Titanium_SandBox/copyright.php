@@ -11,7 +11,7 @@
 define('CP_INCLUDE_DIR', dirname(dirname(dirname(__FILE__))));
 require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 $mod_name = "facebook SandBox";
 $author_email = "";
 $author_homepage = "";

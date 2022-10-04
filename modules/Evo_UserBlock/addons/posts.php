@@ -57,29 +57,29 @@ function evouserinfo_ur_total_topics()
 
 function evouserinfo_posts() 
 {
-    global $evouserinfo_posts, $titanium_lang_evo_userblock, $userinfo;
+    global $evouserinfo_posts, $lang_evo_userblock, $userinfo;
     
     $phpbb2_topics = evouserinfo_total_topics();
     $phpbb2_posts = evouserinfo_total_posts();
     
-    $evouserinfo_posts = '<div style="font-weight: bold">'.$titanium_lang_evo_userblock['BLOCK']['POSTS']['FORUMS'].'</div>';
+    $evouserinfo_posts = '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['POSTS']['FORUMS'].'</div>';
 
     $evouserinfo_posts .= '<div style="padding-left: 10px;">';
-    $evouserinfo_posts .= '  <font color="red"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['POSTS']['POSTS'].'<span style="float:right">'.number_format($phpbb2_posts).'&nbsp;&nbsp;</span>';
+    $evouserinfo_posts .= '  <font color="red"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['POSTS']['POSTS'].'<span style="float:right">'.number_format($phpbb2_posts).'&nbsp;&nbsp;</span>';
     $evouserinfo_posts .= '</div>';
 
     $evouserinfo_posts .= '<div style="padding-left: 10px;">';
-    $evouserinfo_posts .= '  <font color="yellow"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['POSTS']['TOPICS'].'<span style="float:right">'.number_format($phpbb2_topics).'&nbsp;&nbsp;</span>';
+    $evouserinfo_posts .= '  <font color="yellow"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['POSTS']['TOPICS'].'<span style="float:right">'.number_format($phpbb2_topics).'&nbsp;&nbsp;</span>';
     $evouserinfo_posts .= '</div>';
 
     if (is_user()):
 
       $evouserinfo_posts .= '<div style="padding-left: 10px;">';
-      $evouserinfo_posts .= '  <font color="lime"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;'.$titanium_lang_evo_userblock['BLOCK']['POSTS']['UR_TOPICS'].'<span style="float:right">'.evouserinfo_ur_total_topics().'&nbsp;&nbsp;</span>';
+      $evouserinfo_posts .= '  <font color="lime"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['POSTS']['UR_TOPICS'].'<span style="float:right">'.evouserinfo_ur_total_topics().'&nbsp;&nbsp;</span>';
       $evouserinfo_posts .= '</div>';
 
       $evouserinfo_posts .= '<div style="padding-left: 10px;">';
-      $evouserinfo_posts .= '  <font color="orange"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;<a href="modules.php?name=Forums&file=search&search_id=egosearch">'.$titanium_lang_evo_userblock['BLOCK']['POSTS']['UR_POSTS'].
+      $evouserinfo_posts .= '  <font color="orange"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;<a href="modules.php?name=Forums&file=search&search_id=egosearch">'.$lang_evo_userblock['BLOCK']['POSTS']['UR_POSTS'].
 	  '</a><span style="float:right">'.number_format($userinfo['user_posts']).'&nbsp;&nbsp;</span>';
       $evouserinfo_posts .= '</div>';
 

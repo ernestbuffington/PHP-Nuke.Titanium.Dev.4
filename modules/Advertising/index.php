@@ -35,8 +35,8 @@ if (!defined('MODULE_FILE')) {
     die('You can\'t access this file directly...');
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
 
 function is_client($client) {
     global $titanium_prefix, $titanium_db;
@@ -62,20 +62,20 @@ function is_client($client) {
 }
 
 function themenu() {
-    global $titanium_module_name, $titanium_prefix, $titanium_db, $client, $op;
+    global $pnt_module, $titanium_prefix, $titanium_db, $client, $op;
 
     echo "<br />";
     if (is_client($client)) {
         if ($op == "client_home") {
             $client_opt = "My Ads";
         } else {
-            $client_opt = "<a href=\"modules.php?name=$titanium_module_name&amp;op=client_home\">"._MYADS."</a>";
+            $client_opt = "<a href=\"modules.php?name=$pnt_module&amp;op=client_home\">"._MYADS."</a>";
         }
     } else {
-        $client_opt = "<a href=\"modules.php?name=$titanium_module_name&amp;op=client\">"._CLIENTLOGIN."</a>";
+        $client_opt = "<a href=\"modules.php?name=$pnt_module&amp;op=client\">"._CLIENTLOGIN."</a>";
     }
     OpenTable();
-    echo "<center><strong>"._ADSMENU."</strong><br /><br />[ <a href=\"modules.php?name=$titanium_module_name\">"._MAINPAGE."</a> | " . (is_active('Statistics') ? "<a href=\"modules.php?name=Statistics\">"._SITESTATS."</a> |" : "") . "  <a href=\"modules.php?name=$titanium_module_name&amp;op=terms\">"._TERMS."</a> | <a href=\"modules.php?name=$titanium_module_name&amp;op=plans\">"._PLANSPRICES."</a> | $client_opt ]</center>";
+    echo "<center><strong>"._ADSMENU."</strong><br /><br />[ <a href=\"modules.php?name=$pnt_module\">"._MAINPAGE."</a> | " . (is_active('Statistics') ? "<a href=\"modules.php?name=Statistics\">"._SITESTATS."</a> |" : "") . "  <a href=\"modules.php?name=$pnt_module&amp;op=terms\">"._TERMS."</a> | <a href=\"modules.php?name=$pnt_module&amp;op=plans\">"._PLANSPRICES."</a> | $client_opt ]</center>";
     CloseTable();
 }
 
@@ -92,7 +92,7 @@ function theindex() {
 }
 
 function plans() {
-    global $titanium_module_name, $titanium_prefix, $titanium_db, $bgcolor2, $sitename;
+    global $pnt_module, $titanium_prefix, $titanium_db, $bgcolor2, $sitename;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.': '._PLANSPRICES);
@@ -127,7 +127,7 @@ function plans() {
 }
 
 function terms() {
-    global $titanium_module_name, $titanium_prefix, $titanium_db, $sitename;
+    global $pnt_module, $titanium_prefix, $titanium_db, $sitename;
 
     $today = getdate();
     $month = $today['mon'];
@@ -149,16 +149,16 @@ function terms() {
 }
 
 function client() {
-    global $titanium_module_name, $titanium_prefix, $titanium_db, $sitename, $client;
+    global $pnt_module, $titanium_prefix, $titanium_db, $sitename, $client;
 
     if (is_client($client)) {
-        redirect_titanium("modules.php?name=$titanium_module_name&op=client_home");
+        redirect_titanium("modules.php?name=$pnt_module&op=client_home");
     } else {
         include_once(NUKE_BASE_DIR.'header.php');
         title($sitename.': '._ADSYSTEM);
         OpenTable();
         echo "<center><span class=\"title\"><strong>"._CLIENTLOGIN."</strong></span></center><br />";
-        echo "<form method=\"post\" onsubmit=\"this.submit.disabled = true\" action=\"modules.php?name=$titanium_module_name\"><table border=\"0\" align=\"center\" cellpadding=\"3\"><tr>";
+        echo "<form method=\"post\" onsubmit=\"this.submit.disabled = true\" action=\"modules.php?name=$pnt_module\"><table border=\"0\" align=\"center\" cellpadding=\"3\"><tr>";
         echo "<td align=\"right\">"._LOGIN.":</td><td><input type=\"text\" name=\"login\" size=\"15\"></td></tr>";
         echo "<td align=\"right\">"._PASSWORD.":</td><td><input type=\"password\" name=\"pass\" size=\"15\"></td></tr>";
         echo "<td>&nbsp;</td><td><input type=\"hidden\" name=\"op\" value=\"client_valid\"><input name=\"submit\" type=\"submit\" value=\""._ENTER."\"></tr></td></table></form>";
@@ -182,14 +182,14 @@ function zeroFill($a, $b) {
 }
 
 function client_logout() {
-    global $titanium_module_name;
+    global $pnt_module;
     $client = "";
     setcookie("client");
-    redirect_titanium("modules.php?name=$titanium_module_name&op=client");
+    redirect_titanium("modules.php?name=$pnt_module&op=client");
 }
 
 function client_valid($login, $pass) {
-    global $titanium_prefix, $titanium_db, $titanium_module_name, $sitename;
+    global $titanium_prefix, $titanium_db, $pnt_module, $sitename;
     $result = $titanium_db->sql_query("SELECT cid FROM ".$titanium_prefix."_banner_clients WHERE login='$login' AND passwd='$pass'");
     if ($titanium_db->sql_numrows($result) != 1) {
         include_once(NUKE_BASE_DIR.'header.php');
@@ -205,15 +205,15 @@ function client_valid($login, $pass) {
         $cid = $row['cid'];
         $info = base64_encode("$cid:$login:$pass");
         setcookie("client",$info,time()+3600);
-        redirect_titanium("modules.php?name=$titanium_module_name&op=client_home");
+        redirect_titanium("modules.php?name=$pnt_module&op=client_home");
     }
 }
 
 function client_home() {
-    global $titanium_prefix, $titanium_db, $sitename, $bgcolor2, $titanium_module_name, $client;
+    global $titanium_prefix, $titanium_db, $sitename, $bgcolor2, $pnt_module, $client;
 
     if (!is_client($client)) {
-        redirect_titanium("modules.php?name=$titanium_module_name&op=client");
+        redirect_titanium("modules.php?name=$pnt_module&op=client");
     } else {
         include_once(NUKE_BASE_DIR.'header.php');
         title($sitename.' '._ADSYSTEM);
@@ -271,7 +271,7 @@ function client_home() {
                 ."<td align=\"center\">$clicks</td>"
                 ."<td align=\"center\">$percent</td>"
                 ."<td align=\"center\">".ucfirst($row['ad_class'])."</td>"
-                ."<td align=\"center\"><a href=\"modules.php?name=$titanium_module_name&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EMAILSTATS."\" title=\""._EMAILSTATS."\"></a>  <a href=\"modules.php?name=$titanium_module_name&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/view.gif\" border=\"0\" alt=\""._VIEWBANNER."\" title=\""._VIEWBANNER."\"></a></td><tr>";
+                ."<td align=\"center\"><a href=\"modules.php?name=$pnt_module&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EMAILSTATS."\" title=\""._EMAILSTATS."\"></a>  <a href=\"modules.php?name=$pnt_module&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/view.gif\" border=\"0\" alt=\""._VIEWBANNER."\" title=\""._VIEWBANNER."\"></a></td><tr>";
         }
         $titanium_db->sql_freeresult($result);
         echo "</table>";
@@ -324,14 +324,14 @@ function client_home() {
                 ."<td align=\"center\">$clicks</td>"
                 ."<td align=\"center\">$percent</td>"
                 ."<td align=\"center\">".ucfirst($row['ad_class'])."</td>"
-                ."<td align=\"center\"><a href=\"modules.php?name=$titanium_module_name&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EMAILSTATS."\" title=\""._EMAILSTATS."\"></a>  <a href=\"modules.php?name=$titanium_module_name&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/view.gif\" border=\"0\" alt=\""._VIEWBANNER."\" title=\""._VIEWBANNER."\"></a></td><tr>";
+                ."<td align=\"center\"><a href=\"modules.php?name=$pnt_module&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EMAILSTATS."\" title=\""._EMAILSTATS."\"></a>  <a href=\"modules.php?name=$pnt_module&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/view.gif\" border=\"0\" alt=\""._VIEWBANNER."\" title=\""._VIEWBANNER."\"></a></td><tr>";
             $a = 1;
         }
         $titanium_db->sql_freeresult($result);
         if ($a != 1) {
             echo "<td align=\"center\" colspan=\"8\"><i>"._NOCONTENT."</i></td></tr>";
         }
-        echo "</table><br /><br /><center>[ <a href=\"modules.php?name=$titanium_module_name&amp;op=client_logout\">"._LOGOUT."</a> ]</center>";
+        echo "</table><br /><br /><center>[ <a href=\"modules.php?name=$pnt_module&amp;op=client_logout\">"._LOGOUT."</a> ]</center>";
         CloseTable();
         themenu();
         include_once(NUKE_BASE_DIR.'footer.php');
@@ -339,10 +339,10 @@ function client_home() {
 }
 
 function view_banner($cid, $bid) {
-    global $titanium_prefix, $titanium_db, $titanium_module_name, $client, $bgcolor2, $sitename;
+    global $titanium_prefix, $titanium_db, $pnt_module, $client, $bgcolor2, $sitename;
 
     if (!is_client($client)) {
-        redirect_titanium("modules.php?name=$titanium_module_name&amp;op=client");
+        redirect_titanium("modules.php?name=$pnt_module&amp;op=client");
     } else {
         $client = base64_decode($client);
         $client = addslashes($client);
@@ -444,7 +444,7 @@ function view_banner($cid, $bid) {
                 ."<td align=\"center\">".ucFirst($row['ad_class'])."</td></tr><tr>"
                 ."<td align=\"center\" colspan=\"7\">"._CURRENTSTATUS." $status</td></tr>"
                 ."</table><br /><br />"
-                ."[ <a href=\"modules.php?name=$titanium_module_name&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\">"._EMAILSTATS."</a> | <a href=\"modules.php?name=$titanium_module_name&amp;op=logout\">"._LOGOUT."</a> ]";
+                ."[ <a href=\"modules.php?name=$pnt_module&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\">"._EMAILSTATS."</a> | <a href=\"modules.php?name=$pnt_module&amp;op=logout\">"._LOGOUT."</a> ]";
             CloseTable();
             themenu();
             include_once(NUKE_BASE_DIR.'footer.php');
@@ -453,10 +453,10 @@ function view_banner($cid, $bid) {
 }
 
 function client_report($cid, $bid) {
-    global $titanium_prefix, $titanium_db, $titanium_module_name, $client, $sitename;
+    global $titanium_prefix, $titanium_db, $pnt_module, $client, $sitename;
 
     if (!is_client($client)) {
-        redirect_titanium("modules.php?name=$titanium_module_name&op=client");
+        redirect_titanium("modules.php?name=$pnt_module&op=client");
     } else {
         $client = base64_decode($client);
         $client = addslashes($client);

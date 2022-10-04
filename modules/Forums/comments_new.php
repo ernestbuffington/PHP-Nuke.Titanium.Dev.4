@@ -23,8 +23,8 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -154,12 +154,12 @@ if($mode == "update")
         $game_name = '<a href="' . append_titanium_sid("games.$phpEx?gid=" . $row['game_id']) . '">' . $row['game_name'] . '</a>';
     $return_arcade = '<a href="' . append_titanium_sid("games.$phpEx?gid=" . $row['game_id']) . '">here</a>';
         $phpbb2_template->assign_vars(array(
-            'L_ARCADE_COMMENTS' => $titanium_lang['arcade_comments'],
-            'L_CONGRATS' => $titanium_lang['congrats'],
-            'L_COMMENTS_CHAMPION' => sprintf($titanium_lang['comments_champion'], $game_name),
-                        'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $titanium_lang['arcade'] . '</a> ' ,
+            'L_ARCADE_COMMENTS' => $lang['arcade_comments'],
+            'L_CONGRATS' => $lang['congrats'],
+            'L_COMMENTS_CHAMPION' => sprintf($lang['comments_champion'], $game_name),
+                        'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $lang['arcade'] . '</a> ' ,
                         'GAME_ID' => $row['game_id'],
-            'L_NO_COMMENT' => sprintf($titanium_lang['no_comment'], $return_arcade),
+            'L_NO_COMMENT' => sprintf($lang['no_comment'], $return_arcade),
             'COMMENTS' => $row['comments_value'],
             'S_ACTION' => append_titanium_sid("comments_new?mode=update"),
             ));
@@ -194,7 +194,7 @@ if($mode == "update")
 
     }
         $phpbb2_template->assign_vars(array(
-                'L_QUICK_STATS' => $titanium_lang['quick_stats'],
+                'L_QUICK_STATS' => $lang['quick_stats'],
             'USER_AVATAR' => '<a href="modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=' . $userdata['user_id'] . '">' . $avatar_img . '</a>',
             'USERNAME' => '<a href="' . append_titanium_sid("statarcade.$phpEx?uid=" . $userdata['user_id'] ) . '" class="genmed">' . $row['username'] . '</a> ',
             ));
@@ -223,7 +223,7 @@ if($mode == "update")
     $highscore_game_name = '<a href="' . append_titanium_sid("games.$phpEx?gid=" . $row['game_id']) . '">' . $row['game_name'] . '</a>';
 
         $phpbb2_template->assign_vars(array(
-                    'L_QUICK_STATS_MESSAGE' => sprintf($titanium_lang['quick_stats_message'], $score_count, $fav_game_name, $times_played, $highscore_date, $highscore_game_name),
+                    'L_QUICK_STATS_MESSAGE' => sprintf($lang['quick_stats_message'], $score_count, $fav_game_name, $times_played, $highscore_date, $highscore_game_name),
             ));
 
 //

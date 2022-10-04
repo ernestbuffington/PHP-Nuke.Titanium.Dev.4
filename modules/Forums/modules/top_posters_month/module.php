@@ -35,8 +35,8 @@ $core->set_view('columns', 5);
 
 $core->define_view('set_columns', array(
     $core->pre_defined('rank'),
-    'username' => $titanium_lang['Username'],
-    'posts' => $titanium_lang['Posts'],
+    'username' => $lang['Username'],
+    'posts' => $lang['Posts'],
     $core->pre_defined('percent'),
     $core->pre_defined('graph'))
 );
@@ -66,7 +66,7 @@ $time_thismonth = $month[$arr_num];
 
 $l_this_month = date('F', $time_thismonth);
 
-$core->set_header($titanium_lang['module_name'] . ' [' . $l_this_month . ' ' . date('Y', $time_thismonth) . ']');
+$core->set_header($lang['module_name'] . ' [' . $l_this_month . ' ' . date('Y', $time_thismonth) . ']');
 
 $core->assign_defined_view('align_rows', array(
     'left',

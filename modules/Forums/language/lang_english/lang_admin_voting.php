@@ -25,19 +25,19 @@
  ***************************************************************************/
 
 // Admin Voting MOD
-$titanium_lang['Admin_Vote_Explain'] = 'Poll Results (who voted and how they voted).';
-$titanium_lang['Admin_Vote_Title'] = 'Poll Administration';
-$titanium_lang['Vote_id'] = '#';
-$titanium_lang['Poll_topic'] = 'Poll Topic';
-$titanium_lang['Vote_username'] = 'Voter(s)';
-$titanium_lang['Vote_end_date'] = 'Vote Duration';
-$titanium_lang['Sort_vote_id'] = 'Poll Number';
-$titanium_lang['Sort_poll_topic'] = 'Poll Topic';
-$titanium_lang['Sort_vote_start'] = 'Start Date';
-$titanium_lang['Submit'] = 'Submit';
-$titanium_lang['Select_sort_field'] = 'Select sort field';
-$titanium_lang['Sort_order'] = 'Order';
-$titanium_lang['Sort_ascending'] = 'Ascending';
-$titanium_lang['Sort_descending'] = 'Descending';
+$lang['Admin_Vote_Explain'] = 'Poll Results (who voted and how they voted).';
+$lang['Admin_Vote_Title'] = 'Poll Administration';
+$lang['Vote_id'] = '#';
+$lang['Poll_topic'] = 'Poll Topic';
+$lang['Vote_username'] = 'Voter(s)';
+$lang['Vote_end_date'] = 'Vote Duration';
+$lang['Sort_vote_id'] = 'Poll Number';
+$lang['Sort_poll_topic'] = 'Poll Topic';
+$lang['Sort_vote_start'] = 'Start Date';
+$lang['Submit'] = 'Submit';
+$lang['Select_sort_field'] = 'Select sort field';
+$lang['Sort_order'] = 'Order';
+$lang['Sort_ascending'] = 'Ascending';
+$lang['Sort_descending'] = 'Descending';
 
 ?>

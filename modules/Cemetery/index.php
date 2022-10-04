@@ -19,8 +19,8 @@ if (!defined('MODULE_FILE'))die ("You can't access this file directly...");
 global $titanium_prefix, $titanium_db, $cookie, $titanium_user, $theme_name;
 $index = 1;
 require_once("mainfile.php");
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
 $pagetitle = "My ". _MARKSTITLE;
 include("header.php");
 $userinfo = getusrinfo( $titanium_user );
@@ -34,7 +34,7 @@ echo '</div>';
 $headstone =  '<img class="tooltip-html copyright absmiddle" alt="" title="" width="40" src="modules/Cemetery/images/icons8-cemetery-30.png" />';
 $toes =  '<img class="tooltip-html copyright" alt="" title="" width="30" src="modules/Cemetery/images/icons8-death-96.png" />';
 echo "<div align=\"center\"><span class=title><strong><h1>".$headstone." "._CEMETERY." ".$headstone."</h1></strong></span></div>\n";
-echo "<center>[ <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
 echo "";
 echo "<hr />";
 $cat_query = "select category_id,name,description,mod_date from " . $titanium_prefix."_cemetery_cat  where user_id=" . $titanium_userid . " order by name";
@@ -50,12 +50,12 @@ echo "<table align=center width=98%>
 for ($i=0; $i<$titanium_db->sql_numrows  ($categories_res,$titanium_db);$i++):
 	$cat = $titanium_db->sql_fetchrow($categories_res,$titanium_db);
 	echo "<tr class=boxlist><td><img src=\"themes/".$theme_name."/images/invisible_pixel.gif\" alt=\"\" width=\"15\" height=\"1\" />
-	<a href=modules.php?name=".$titanium_module_name."&amp;file=marks&amp;category=".$cat['category_id']."&amp;catname=".urlencode($cat['name']).">" . $cat['name'] . "</a></td>
+	<a href=modules.php?name=".$pnt_module."&amp;file=marks&amp;category=".$cat['category_id']."&amp;catname=".urlencode($cat['name']).">" . $cat['name'] . "</a></td>
 	<td>" . $cat['description'] . "</td>
 	<td><div align=\"center\">" . $cat['mod_date'] . "</div></td>
-	<td>&nbsp;<a href=modules.php?name=".$titanium_module_name."&amp;file=edit_cat&amp;catid=".$cat['category_id']."&amp;catname=".urlencode($cat['name'])."&amp;catcomment=".urlencode($cat['description'])."><img src=modules/".$titanium_module_name."/images/pencil.gif width=12 height=12 border=0></a>
+	<td>&nbsp;<a href=modules.php?name=".$pnt_module."&amp;file=edit_cat&amp;catid=".$cat['category_id']."&amp;catname=".urlencode($cat['name'])."&amp;catcomment=".urlencode($cat['description'])."><img src=modules/".$pnt_module."/images/pencil.gif width=12 height=12 border=0></a>
 	</td>
-	<td>&nbsp;&nbsp;&nbsp;<a href=modules.php?name=".$titanium_module_name."&amp;file=del_cat&amp;catid=".$cat['category_id']."&amp;catname=".urlencode($cat['name'])."><img src=modules/".$titanium_module_name."/admin/trash.png width=12 height=12 border=0></a>
+	<td>&nbsp;&nbsp;&nbsp;<a href=modules.php?name=".$pnt_module."&amp;file=del_cat&amp;catid=".$cat['category_id']."&amp;catname=".urlencode($cat['name'])."><img src=modules/".$pnt_module."/admin/trash.png width=12 height=12 border=0></a>
 	</td>
 	</tr>\n";
 endfor;

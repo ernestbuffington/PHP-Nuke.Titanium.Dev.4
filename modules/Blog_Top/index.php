@@ -25,9 +25,9 @@ if (!defined('MODULE_FILE'))
 
 exit('You can\'t access this file directly...');
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 include_once(NUKE_BASE_DIR.'header.php');
 

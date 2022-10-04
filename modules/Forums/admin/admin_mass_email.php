@@ -65,13 +65,13 @@ if ( isset($HTTP_POST_VARS['submit']) )
         if ( empty($subject) )
         {
                 $error = true;
-                $error_msg .= ( !empty($error_msg) ) ? '<br />' . $titanium_lang['Empty_subject'] : $titanium_lang['Empty_subject'];
+                $error_msg .= ( !empty($error_msg) ) ? '<br />' . $lang['Empty_subject'] : $lang['Empty_subject'];
         }
 
         if ( empty($message) )
         {
                 $error = true;
-                $error_msg .= ( !empty($error_msg) ) ? '<br />' . $titanium_lang['Empty_message'] : $titanium_lang['Empty_message'];
+                $error_msg .= ( !empty($error_msg) ) ? '<br />' . $lang['Empty_message'] : $lang['Empty_message'];
         }
 
         $group_id = intval($HTTP_POST_VARS[POST_GROUPS_URL]);
@@ -95,7 +95,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
         }
         else
         {
-                $message = ( $group_id != -1 ) ? $titanium_lang['Group_not_exist'] : $titanium_lang['No_such_user'];
+                $message = ( $group_id != -1 ) ? $lang['Group_not_exist'] : $lang['No_such_user'];
 
                 $error = true;
                 $error_msg .= ( !empty($error_msg) ) ? '<br />' . $message : $message;
@@ -147,7 +147,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                 $emailer->send();
                 $emailer->reset();
 
-                message_die(GENERAL_MESSAGE, $titanium_lang['Email_sent'] . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'],  '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>'));
+                message_die(GENERAL_MESSAGE, $lang['Email_sent'] . '<br /><br />' . sprintf($lang['Click_return_admin_index'],  '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>'));
         }
 }
 
@@ -174,7 +174,7 @@ if ( !($result = $titanium_db->sql_query($sql)) )
         message_die(GENERAL_ERROR, 'Could not obtain list of groups', '', __LINE__, __FILE__, $sql);
 }
 
-$select_list = '<select name = "' . POST_GROUPS_URL . '"><option value = "-1">' . $titanium_lang['All_users'] . '</option>';
+$select_list = '<select name = "' . POST_GROUPS_URL . '"><option value = "-1">' . $lang['All_users'] . '</option>';
 if ( $row = $titanium_db->sql_fetchrow($result) )
 {
         do
@@ -198,13 +198,13 @@ $phpbb2_template->assign_vars(array(
         'MESSAGE' => $message,
         'SUBJECT' => $subject,
 
-        'L_EMAIL_TITLE' => $titanium_lang['Email'],
-        'L_EMAIL_EXPLAIN' => $titanium_lang['Mass_email_explain'],
-        'L_COMPOSE' => $titanium_lang['Compose'],
-        'L_RECIPIENTS' => $titanium_lang['Recipients'],
-        'L_EMAIL_SUBJECT' => $titanium_lang['Subject'],
-        'L_EMAIL_MSG' => $titanium_lang['Message'],
-        'L_EMAIL' => $titanium_lang['Email'],
+        'L_EMAIL_TITLE' => $lang['Email'],
+        'L_EMAIL_EXPLAIN' => $lang['Mass_email_explain'],
+        'L_COMPOSE' => $lang['Compose'],
+        'L_RECIPIENTS' => $lang['Recipients'],
+        'L_EMAIL_SUBJECT' => $lang['Subject'],
+        'L_EMAIL_MSG' => $lang['Message'],
+        'L_EMAIL' => $lang['Email'],
         'L_NOTICE' => $notice,
 
         'S_USER_ACTION' => append_titanium_sid('admin_mass_email.'.$phpEx),

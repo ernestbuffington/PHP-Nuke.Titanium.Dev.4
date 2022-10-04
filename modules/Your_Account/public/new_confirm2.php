@@ -131,7 +131,7 @@ if (!defined('CNBYA')) {
 //      echo "<tr><td><strong>"._YA_PASSWORD.":</strong> $user_password<br /></td></tr>";
         echo "</table><br /><br />";
         echo "<center><strong>"._NOTE."</strong> "._YOUWILLRECEIVE."";
-        echo "<form action='modules.php?name=$titanium_module_name' method='post'>";
+        echo "<form action='modules.php?name=$pnt_module' method='post'>";
 
         if (is_array($nfield)):
 

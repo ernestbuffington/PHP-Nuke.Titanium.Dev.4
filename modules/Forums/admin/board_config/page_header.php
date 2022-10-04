@@ -47,13 +47,13 @@ $phpbb2_template->assign_vars(array(
  ******************************************************/
     "S_CONFIG_ACTION" => append_titanium_sid('admin_board.php'),
 
-    "L_YES" => $titanium_lang['Yes'],
-    "L_NO" => $titanium_lang['No'],
-    "L_ENABLED" => $titanium_lang['Enabled'],
-    "L_DISABLED" => $titanium_lang['Disabled'],
+    "L_YES" => $lang['Yes'],
+    "L_NO" => $lang['No'],
+    "L_ENABLED" => $lang['Enabled'],
+    "L_DISABLED" => $lang['Disabled'],
 
-    "L_CONFIGURATION_TITLE" => $titanium_lang['General_Config'],
-    "L_CONFIGURATION_EXPLAIN" => $titanium_lang['Config_explain'])
+    "L_CONFIGURATION_TITLE" => $lang['General_Config'],
+    "L_CONFIGURATION_EXPLAIN" => $lang['Config_explain'])
 );
 
 $phpbb2_template->pparse("head");

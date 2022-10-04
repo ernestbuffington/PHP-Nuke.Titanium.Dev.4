@@ -150,7 +150,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
  [ Mod:    Must first vote to see results      v1.0.0 ]
  ******************************************************/
 {
-        global $phpbb2_board_config, $userdata, $titanium_lang, $phpEx, $phpbb2_root_path;
+        global $phpbb2_board_config, $userdata, $lang, $phpEx, $phpbb2_root_path;
 
         // Check username
         if (!empty($titanium_username))
@@ -180,7 +180,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
         if (substr_count(smilies_pass($message), '<img src="'. $phpbb2_board_config['smilies_path']) > $phpbb2_board_config['max_smilies'] )
         {
             $to_much_smilies = substr_count(smilies_pass($message), '<img src="'. $phpbb2_board_config['smilies_path']) - $phpbb2_board_config['max_smilies'];
-            $to_many_smilies = sprintf($titanium_lang['Max_smilies_per_post'], $phpbb2_board_config['max_smilies'], $to_much_smilies);
+            $to_many_smilies = sprintf($lang['Max_smilies_per_post'], $phpbb2_board_config['max_smilies'], $to_much_smilies);
             $error_msg .= ( !empty($error_msg) ) ? '<br />' . $to_many_smilies : $to_many_smilies;
         }
 /*****[END]********************************************
@@ -192,7 +192,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
         }
         else if ($mode == 'newtopic' || ($mode == 'editpost' && $post_data['first_post']))
         {
-                $error_msg .= (!empty($error_msg)) ? '<br />' . $titanium_lang['Empty_subject'] : $titanium_lang['Empty_subject'];
+                $error_msg .= (!empty($error_msg)) ? '<br />' . $lang['Empty_subject'] : $lang['Empty_subject'];
         }
 
         // Check message
@@ -203,7 +203,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
         }
         else if ($mode != 'delete' && $mode != 'poll_delete')
         {
-                $error_msg .= (!empty($error_msg)) ? '<br />' . $titanium_lang['Empty_message'] : $titanium_lang['Empty_message'];
+                $error_msg .= (!empty($error_msg)) ? '<br />' . $lang['Empty_message'] : $lang['Empty_message'];
         }
 
         //
@@ -233,15 +233,15 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
 
                         if (count($poll_options) < 2)
                         {
-                                $error_msg .= (!empty($error_msg)) ? '<br />' . $titanium_lang['To_few_poll_options'] : $titanium_lang['To_few_poll_options'];
+                                $error_msg .= (!empty($error_msg)) ? '<br />' . $lang['To_few_poll_options'] : $lang['To_few_poll_options'];
                         }
                         else if (count($poll_options) > $phpbb2_board_config['max_poll_options'])
                         {
-                                $error_msg .= (!empty($error_msg)) ? '<br />' . $titanium_lang['To_many_poll_options'] : $titanium_lang['To_many_poll_options'];
+                                $error_msg .= (!empty($error_msg)) ? '<br />' . $lang['To_many_poll_options'] : $lang['To_many_poll_options'];
                         }
                         else if ($poll_title == '')
                         {
-                                $error_msg .= (!empty($error_msg)) ? '<br />' . $titanium_lang['Empty_poll_title'] : $titanium_lang['Empty_poll_title'];
+                                $error_msg .= (!empty($error_msg)) ? '<br />' . $lang['Empty_poll_title'] : $lang['Empty_poll_title'];
                         }
                 }
         }
@@ -271,7 +271,7 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$phpbb2_forum_id, &
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        global $phpbb2_board_config, $titanium_lang, $titanium_db, $phpbb2_root_path, $phpEx, $userdata, $titanium_user_ip;
+        global $phpbb2_board_config, $lang, $titanium_db, $phpbb2_root_path, $phpEx, $userdata, $titanium_user_ip;
 
             /*--FNA--*/
 
@@ -306,7 +306,7 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$phpbb2_forum_id, &
                         {
                                 if (intval($row['last_post_time']) > 0 && ($current_time - intval($row['last_post_time'])) < intval($phpbb2_board_config['flood_interval']))
                                 {
-                                        message_die(GENERAL_MESSAGE, $titanium_lang['Flood_Error']);
+                                        message_die(GENERAL_MESSAGE, $lang['Flood_Error']);
                                 }
                         }
                 }
@@ -455,7 +455,7 @@ if ($mode == 'newtopic')
         }
 
         $meta = '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("viewtopic.$phpEx?" . POST_POST_URL . "=" . $post_id) . '#' . $post_id . '">';
-        $message = $titanium_lang['Stored'] . '<br /><br />' . sprintf($titanium_lang['Click_view_message'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_POST_URL . "=" . $post_id) . '#' . $post_id . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
+        $message = $lang['Stored'] . '<br /><br />' . sprintf($lang['Click_view_message'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_POST_URL . "=" . $post_id) . '#' . $post_id . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
 
         return false;
 }
@@ -642,7 +642,7 @@ function delete_post($mode, &$post_data, &$message, &$meta, &$phpbb2_forum_id, &
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        global $phpbb2_board_config, $titanium_lang, $titanium_db, $phpbb2_root_path, $phpEx, $userdata, $titanium_user_ip;
+        global $phpbb2_board_config, $lang, $titanium_db, $phpbb2_root_path, $phpEx, $userdata, $titanium_user_ip;
 
         if ($mode != 'poll_delete')
         {
@@ -727,15 +727,15 @@ function delete_post($mode, &$post_data, &$message, &$meta, &$phpbb2_forum_id, &
         if ($mode == 'delete' && $post_data['first_post'] && $post_data['last_post'])
         {
                 $meta = '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . '=' . $phpbb2_forum_id) . '">';
-                $message = $titanium_lang['Deleted'];
+                $message = $lang['Deleted'];
         }
         else
         {
                 $meta = '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . '=' . $topic_id) . '">';
-                $message = (($mode == 'poll_delete') ? $titanium_lang['Poll_delete'] : $titanium_lang['Deleted']) . '<br /><br />' . sprintf($titanium_lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
+                $message = (($mode == 'poll_delete') ? $lang['Poll_delete'] : $lang['Deleted']) . '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
         }
 
-        $message .=  '<br /><br />' . sprintf($titanium_lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
+        $message .=  '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
 
         return;
 }
@@ -745,7 +745,7 @@ function delete_post($mode, &$post_data, &$message, &$meta, &$phpbb2_forum_id, &
 //
 function user_notification($mode, &$post_data, &$topic_title, &$phpbb2_forum_id, &$topic_id, &$post_id, &$notify_user)
 {
-        global $phpbb2_board_config, $titanium_lang, $titanium_db, $phpbb2_root_path, $phpEx, $userdata, $titanium_user_ip;
+        global $phpbb2_board_config, $lang, $titanium_db, $phpbb2_root_path, $phpEx, $userdata, $titanium_user_ip;
 
         $current_time = time();
 
@@ -878,7 +878,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$phpbb2_forum_id,
                                     );
 
                                     $notify_body_replace    = array(
-                                        $titanium_lang['From'].' '.$phpbb2_board_config['sitename'],
+                                        $lang['From'].' '.$phpbb2_board_config['sitename'],
                                         $topic_title,
                                         $phpbb2_board_config['sitename'],
                                         $server_protocol . $server_name . $server_port . $script_name . '&' . POST_POST_URL . "=$post_id#$post_id",
@@ -893,12 +893,12 @@ function user_notification($mode, &$post_data, &$topic_title, &$phpbb2_forum_id,
                                         'email'         => $row['user_email'],
                                         'from'          => $phpbb2_board_config['board_email'],
                                         'reply_to'      => $phpbb2_board_config['board_email'],
-                                        'subject'       => $titanium_lang['Topic_reply_notification'],
+                                        'subject'       => $lang['Topic_reply_notification'],
                                         'signature'     => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : '',
                                         'content_type'  => 'text/html',
                                         'charset'       => 'UTF-8',
 
-                                        'username'      => $titanium_lang['From'].' '.$phpbb2_board_config['sitename'],
+                                        'username'      => $lang['From'].' '.$phpbb2_board_config['sitename'],
                                         'topic_title'   => $topic_title,
                                         'sitename'      => $phpbb2_board_config['sitename'],
                                         'topic_link'    => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_POST_URL . "=$post_id#$post_id",
@@ -909,7 +909,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$phpbb2_forum_id,
                                         'signature'     => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : ''
                                     );
 
-                                    $content = str_replace( '{USERNAME}', $email_data['username'], $titanium_lang['topic_notify'] );
+                                    $content = str_replace( '{USERNAME}', $email_data['username'], $lang['topic_notify'] );
                                     $content = str_replace( '{TOPIC_TITLE}', $email_data['topic_title'], $content );
                                     $content = str_replace( '{SITENAME}', $email_data['sitename'], $content );
                                     $content = str_replace( '{U_TOPIC}', '<a href="'.$email_data['topic_link'].'">'.$email_data['topic_link'].'</a>', $content );
@@ -985,7 +985,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$phpbb2_forum_id,
 //
 function generate_smilies($mode, $page_id)
 {
-        global $titanium_db, $phpbb2_board_config, $phpbb2_template, $titanium_lang, $images, $theme, $phpEx, $phpbb2_root_path, $titanium_user_ip, $session_length, $phpbb2_starttime, $userdata;
+        global $titanium_db, $phpbb2_board_config, $phpbb2_template, $lang, $images, $theme, $phpEx, $phpbb2_root_path, $titanium_user_ip, $session_length, $phpbb2_starttime, $userdata;
 
         $inline_columns = 4;
         $inline_rows = 5;
@@ -998,7 +998,7 @@ function generate_smilies($mode, $page_id)
 
                 $gen_simple_header = TRUE;
 
-                $phpbb2_page_title = $titanium_lang['Emoticons'];
+                $phpbb2_page_title = $lang['Emoticons'];
         if ( defined('IN_ADMIN') )
         {
             include("./page_header_admin.php");
@@ -1075,14 +1075,14 @@ function generate_smilies($mode, $page_id)
                                 $phpbb2_template->assign_block_vars('switch_smilies_extra', array());
 
                                 $phpbb2_template->assign_vars(array(
-                                        'L_MORE_SMILIES' => $titanium_lang['More_emoticons'],
+                                        'L_MORE_SMILIES' => $lang['More_emoticons'],
                                         'U_MORE_SMILIES' => append_titanium_sid("posting.$phpEx?mode=smilies&popup=1"))
                                 );
                         }
 
                         $phpbb2_template->assign_vars(array(
-                                'L_EMOTICONS' => $titanium_lang['Emoticons'],
-                                'L_CLOSE_WINDOW' => $titanium_lang['Close_window'],
+                                'L_EMOTICONS' => $lang['Emoticons'],
+                                'L_CLOSE_WINDOW' => $lang['Close_window'],
                                 'S_SMILIES_COLSPAN' => $s_colspan)
                         );
                 }

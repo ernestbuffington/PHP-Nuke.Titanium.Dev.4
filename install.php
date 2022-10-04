@@ -78,13 +78,13 @@ if ($step >= 5){
 
 if ($step == 1){
     include('install/header.php');
-    $titanium_lang_select = language_select('english', "language", dirname(__FILE__) . '/install/language');
+    $lang_select = language_select('english', "language", dirname(__FILE__) . '/install/language');
 	echo '<form action="" method="post">';
 	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
 	echo '<fieldset><legend>'.$install_lang['lang_stitle'].'</legend>';
 	echo '  <dl>';
 	echo '    <dt><label>'.$install_lang['lang_select'].'</label></dt>';
-	echo '    <dd>'.$titanium_lang_select.'</dd>';
+	echo '    <dd>'.$lang_select.'</dd>';
 	echo '  </dl>';
 	echo '</fieldset>';
 	echo '<center>'.$continue_button.'</center>';

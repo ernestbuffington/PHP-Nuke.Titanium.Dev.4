@@ -89,27 +89,27 @@ $phpbb2_template->assign_vars(array(
 
 $phpbb2_template->assign_vars(array(
 
-    "L_BIRTHDAYS" => $titanium_lang['Birthdays'],
-	"L_BDAY_SHOW" => $titanium_lang['bday_show'],
-	"L_UNCONDITIONAL" => $titanium_lang['Unconditional'],
-	"L_CONDITIONAL" => $titanium_lang['Conditional'],
-	"L_BDAY_SHOW_EXPLAIN" => $titanium_lang['bday_show_explain'],
-	"L_BDAY_REQUIRE" => $titanium_lang['bday_require'],
-	"L_BDAY_REQUIRE_EXPLAIN" => $titanium_lang['bday_require_explain'],
-	"L_BDAY_YEAR" => $titanium_lang['bday_year'],
-	"L_BDAY_YEAR_EXPLAIN" => $titanium_lang['bday_year_explain'],
-	"L_BDAY_LOCK" => $titanium_lang['bday_lock'],
-	"L_BDAY_LOCK_EXPLAIN" => $titanium_lang['bday_lock_explain'],
-	"L_BDAY_LOOKAHEAD" => $titanium_lang['bday_lookahead'],
-	"L_BDAY_LOOKAHEAD_EXPLAIN" => $titanium_lang['bday_lookahead_explain'],
-	"L_BDAY_AGE_RANGE" => $titanium_lang['bday_age_range'],
-	"L_TO" => $titanium_lang['To'],
-	"L_BDAY_HIDE" => $titanium_lang['bday_hide'],
-	"L_BDAY_SEND_GREETING" => $titanium_lang['bday_send_greeting'],
-	"L_BDAY_SEND_GREETING_EXPLAIN" => $titanium_lang['bday_send_greeting_admin_explain'],
-	"L_EMAIL" => $titanium_lang['Email'],
-	"L_PM" => $titanium_lang['PM'],
-	"L_POPUP" => $titanium_lang['Popup']
+    "L_BIRTHDAYS" => $lang['Birthdays'],
+	"L_BDAY_SHOW" => $lang['bday_show'],
+	"L_UNCONDITIONAL" => $lang['Unconditional'],
+	"L_CONDITIONAL" => $lang['Conditional'],
+	"L_BDAY_SHOW_EXPLAIN" => $lang['bday_show_explain'],
+	"L_BDAY_REQUIRE" => $lang['bday_require'],
+	"L_BDAY_REQUIRE_EXPLAIN" => $lang['bday_require_explain'],
+	"L_BDAY_YEAR" => $lang['bday_year'],
+	"L_BDAY_YEAR_EXPLAIN" => $lang['bday_year_explain'],
+	"L_BDAY_LOCK" => $lang['bday_lock'],
+	"L_BDAY_LOCK_EXPLAIN" => $lang['bday_lock_explain'],
+	"L_BDAY_LOOKAHEAD" => $lang['bday_lookahead'],
+	"L_BDAY_LOOKAHEAD_EXPLAIN" => $lang['bday_lookahead_explain'],
+	"L_BDAY_AGE_RANGE" => $lang['bday_age_range'],
+	"L_TO" => $lang['To'],
+	"L_BDAY_HIDE" => $lang['bday_hide'],
+	"L_BDAY_SEND_GREETING" => $lang['bday_send_greeting'],
+	"L_BDAY_SEND_GREETING_EXPLAIN" => $lang['bday_send_greeting_admin_explain'],
+	"L_EMAIL" => $lang['Email'],
+	"L_PM" => $lang['PM'],
+	"L_POPUP" => $lang['Popup']
 
 ));
 

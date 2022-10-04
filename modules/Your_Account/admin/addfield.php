@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
 redirect_titanium("modules/Forums/admin/admin_xdata_fields.php?mode=add");
 
@@ -57,7 +57,7 @@ redirect_titanium("modules/Forums/admin/admin_xdata_fields.php?mode=add");
     OpenTable();
 
     echo "<center><table border='0'>\n";
-    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
     echo "<tr><td bgcolor='$bgcolor2'>ID</td><td bgcolor='$bgcolor2'>"._FIELDNAME."*</td><td bgcolor='$bgcolor2'>"._FIELDVALUE."**</td><td bgcolor='$bgcolor2'>"._FIELDSIZE."</td><td bgcolor='$bgcolor2'>"._FIELDNEED."</td><td bgcolor='$bgcolor2'>"._FIELDVPOS."</td><td bgcolor='$bgcolor2'>"._YA_PUBLIC."</td><td bgcolor='$bgcolor2'>"._FIELDDEL."</td></tr>\n";
     $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field ORDER BY pos");
     while ($sqlvalue = $titanium_db->sql_fetchrow($result)) {
@@ -80,7 +80,7 @@ redirect_titanium("modules/Forums/admin/admin_xdata_fields.php?mode=add");
         if ($sqlvalue['public'] == '0') $sel = "selected"; else $sel = "";
     echo "<option value=0 $sel>"._YA_PRIVATE."</option>\n";
     echo "</select></td>\n";
-    echo "<td bgcolor='$bgcolor2'><a href='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=delField&amp;fid=$t'>"._FIELDDEL."</a></td></tr>\n";
+    echo "<td bgcolor='$bgcolor2'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=delField&amp;fid=$t'>"._FIELDDEL."</a></td></tr>\n";
     }
     echo "<tr><td bgcolor='$bgcolor2'>&nbsp;</td><td bgcolor='$bgcolor2'><input type='text' name='mfield_name' size='20' maxlength='20'></td><td bgcolor='$bgcolor2'><input type='text' name='mfield_value' size='20' maxlength='255'></td><td bgcolor='$bgcolor2'><input type='text' name='mfield_size' size='4' maxlength='4'></td><td bgcolor='$bgcolor2'>";
     echo "<select name='mfield_need'>\n";
@@ -104,7 +104,7 @@ redirect_titanium("modules/Forums/admin/admin_xdata_fields.php?mode=add");
     echo "<input type='submit' value='"._ADDFIELD."'>\n";
     echo "<input type='hidden' name='op' value='saveaddField'>\n";
     echo "</td></tr></form>\n";
-//    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+//    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
     echo "<tr><td align='center' colspan='8'><input type='submit' value='"._CANCEL."'></td></tr>\n";
     echo "</form>\n";
     echo "</table>\n";

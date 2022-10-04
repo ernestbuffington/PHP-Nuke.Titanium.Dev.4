@@ -69,7 +69,7 @@ function ThemeError($error_message){
 }
 
 function InstallTheme(){
-	global $admin_file, $titanium_db, $titanium_prefix, $titanium_module_name, $userinfo, $HTTP_POST_FILES, $HTTP_POST_VARS;
+	global $admin_file, $titanium_db, $titanium_prefix, $pnt_module, $userinfo, $HTTP_POST_FILES, $HTTP_POST_VARS;
 	
 	$filename   = $HTTP_POST_FILES['file']['name'];
 	$path_parts = pathinfo($filename);
@@ -125,7 +125,7 @@ function InstallTheme(){
 
 function downloadTheme($theme)
 {
-	global $admin_file, $aid, $titanium_db, $titanium_prefix, $titanium_module_name, $userinfo, $admin, $directory_mode;
+	global $admin_file, $aid, $titanium_db, $titanium_prefix, $pnt_module, $userinfo, $admin, $directory_mode;
 	
 	function RandomNumber($length=10){
 		$random = "";

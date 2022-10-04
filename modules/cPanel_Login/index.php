@@ -12,7 +12,7 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
 if ( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
 {
@@ -25,11 +25,11 @@ else
 //
 // Generate page
 //
-global $titanium_module_name;
-if(!isset($titanium_module_name) || empty($titanium_module_name)){
-    $titanium_module_name = basename(dirname(__FILE__));
+global $pnt_module;
+if(!isset($pnt_module) || empty($pnt_module)){
+    $pnt_module = basename(dirname(__FILE__));
 }
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 global $domain;
 $titanium_title = 'cPanel Login';

@@ -7,9 +7,9 @@ $index = 1;
 
 require_once("mainfile.php");
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 $pagetitle = "86it Developers Network - My "._MARKSTITLE;
 
@@ -39,7 +39,7 @@ echo '</div>';
 $headstone =  '<img class="tooltip-html copyright absmiddle" alt="" title="" width="40" src="modules/Cemetery/images/icons8-cemetery-30.png" />';
 $toes =  '<img class="tooltip-html copyright" alt="" title="" width="30" src="modules/Cemetery/images/icons8-death-96.png" />';
 echo "<center><span class=title><strong><h1>".$headstone." ".$catname." ".$headstone."</h1></strong></span></center><P>\n";
-echo "<center>[ <a href=modules.php?name=".$titanium_module_name.">"._CATEGORIES."</a> | <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$pnt_module.">"._CATEGORIES."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
 echo "<hr />";
 $marks_query = "SELECT `id`,`name`,`url`,`description`,`mod_date`,`popup` FROM ".$titanium_prefix."_cemetery WHERE user_id=".$titanium_userid." AND category_id='".$category ."' ORDER BY `name`";
 $marks_res = $titanium_db->sql_query ($marks_query,$titanium_db);
@@ -64,9 +64,9 @@ for ($i=0;$i<@$titanium_db->sql_numrows  ($marks_res,$titanium_db);$i++):
 		</td>
 		<td>".$marks_row['description']."</td>
 		<td><div align=\"center\">".$marks_row['mod_date']."<div></td>
-		<td>&nbsp;<a class=\"title\" href=modules.php?name=".$titanium_module_name."&amp;file=edit_mark&amp;catid=$category&amp;markname=".urlencode($marks_row['name'])."&amp;markcomment=".urlencode($marks_row['description'])."&amp;markid=".$marks_row['id']."&amp;popup=".$marks_row['popup']."><img src='modules/".$titanium_module_name."/images/pencil.gif' width=12 height=12 border=0></a>
+		<td>&nbsp;<a class=\"title\" href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category&amp;markname=".urlencode($marks_row['name'])."&amp;markcomment=".urlencode($marks_row['description'])."&amp;markid=".$marks_row['id']."&amp;popup=".$marks_row['popup']."><img src='modules/".$pnt_module."/images/pencil.gif' width=12 height=12 border=0></a>
 		</td>
-		<td>&nbsp;&nbsp;&nbsp;<a href=modules.php?name=".$titanium_module_name."&amp;file=del_mark&amp;catid=".$category."&amp;markname=".urlencode($marks_row['name'])."&amp;markid=".$marks_row['id']."&amp;catname=".$catname."><img src=modules/".$titanium_module_name."/admin/trash.png width=12 height=12 border=0></a>
+		<td>&nbsp;&nbsp;&nbsp;<a href=modules.php?name=".$pnt_module."&amp;file=del_mark&amp;catid=".$category."&amp;markname=".urlencode($marks_row['name'])."&amp;markid=".$marks_row['id']."&amp;catname=".$catname."><img src=modules/".$pnt_module."/admin/trash.png width=12 height=12 border=0></a>
 		</td>
 		</tr>\n";
 	else:
@@ -76,10 +76,10 @@ for ($i=0;$i<@$titanium_db->sql_numrows  ($marks_res,$titanium_db);$i++):
 		</td><td>".$marks_row['description']."</td>
 		<td><div align=\"center\">".$marks_row['mod_date']."<div></td>
 		<td>&nbsp;
-		<a href=modules.php?name=".$titanium_module_name."&amp;file=edit_mark&amp;catid=$category&amp;markname=".urlencode($marks_row['name'])."&amp;markcomment=".urlencode($marks_row['description'])."&amp;markid=".$marks_row['id']."&amp;popup=".$marks_row['popup']."><img src='modules/".$titanium_module_name."/images/pencil.gif' width=12 height=12 border=0></a>
+		<a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category&amp;markname=".urlencode($marks_row['name'])."&amp;markcomment=".urlencode($marks_row['description'])."&amp;markid=".$marks_row['id']."&amp;popup=".$marks_row['popup']."><img src='modules/".$pnt_module."/images/pencil.gif' width=12 height=12 border=0></a>
 		</td>
 		<td>&nbsp;&nbsp;&nbsp;
-		<a href=modules.php?name=".$titanium_module_name."&amp;file=del_mark&amp;catid=".$category."&amp;markname=".urlencode($marks_row['name'])."&amp;markid=".$marks_row['id']."&amp;catname=".$catname."><img src=modules/".$titanium_module_name."/admin/trash.png width=12 height=12 border=0></a>
+		<a href=modules.php?name=".$pnt_module."&amp;file=del_mark&amp;catid=".$category."&amp;markname=".urlencode($marks_row['name'])."&amp;markid=".$marks_row['id']."&amp;catname=".$catname."><img src=modules/".$pnt_module."/admin/trash.png width=12 height=12 border=0></a>
 		</td>
 		</tr>\n";
 	endif;
@@ -87,7 +87,7 @@ endfor;
 echo "</table>";
 @$titanium_db->sql_freeresult($marks_res);
 echo "<hr />";
-echo "<center>[ <a href=modules.php?name=".$titanium_module_name.">"._CATEGORIES."</a> | <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$pnt_module.">"._CATEGORIES."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
 CloseTable();
 include("footer.php");
 ?> 

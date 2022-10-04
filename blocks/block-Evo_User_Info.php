@@ -23,11 +23,11 @@ if(!defined('NUKE_EVO')) exit;
 
 include_once(NUKE_MODULES_DIR .'Evo_UserBlock/addons/core.php');
 
-global $titanium_lang_evo_userblock;
+global $lang_evo_userblock;
 
 function evouserinfo_block_getactive() 
 {
-    global $titanium_prefix, $titanium_db, $titanium_lang_evo_userblock, $cache;
+    global $titanium_prefix, $titanium_db, $lang_evo_userblock, $cache;
 
     if(isset($active) && is_array($active)) return $active;
     
@@ -53,7 +53,7 @@ function evouserinfo_block_display()
 {
     define('EVO_BLOCK', true);
 
-    global $titanium_lang_evo_userblock;
+    global $lang_evo_userblock;
 
     $active = evouserinfo_block_getactive();
     $content = "";

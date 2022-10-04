@@ -33,15 +33,15 @@ $core->set_view('columns', 5);
 
 $core->define_view('set_columns', array(
     $core->pre_defined('rank'),
-    'username' => $titanium_lang['Username'],
-    'posts' => $titanium_lang['Topics'],
+    'username' => $lang['Username'],
+    'posts' => $lang['Topics'],
     $core->pre_defined('percent'),
     $core->pre_defined('graph'))
 );
 
 $content->percentage_sign = TRUE;
 
-$core->set_header($titanium_lang['module_name']);
+$core->set_header($lang['module_name']);
 
 $core->assign_defined_view('align_rows', array(
     'left',

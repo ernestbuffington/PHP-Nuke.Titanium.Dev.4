@@ -57,7 +57,7 @@ if ( isset($HTTP_POST_VARS['submit']))
       message_die(GENERAL_ERROR, "Failed to update first post ad settings", "", __LINE__, __FILE__, $sql);
     }
   }
-  $message = $titanium_lang['Config_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_inline_code'], "<a href=\"" . append_titanium_sid("admin_inline_ad_code.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+  $message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_inline_code'], "<a href=\"" . append_titanium_sid("admin_inline_ad_code.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
     message_die(GENERAL_MESSAGE, $message);
 }
@@ -80,11 +80,11 @@ if ($HTTP_GET_VARS['action'] == "edit")
   "body" => "admin/inline_ad_code_edit.tpl")
   );
   $phpbb2_template->assign_vars(array(
-  "L_CONFIGURATION_TITLE" => $titanium_lang['ad_managment'],
-  "L_SUBMIT" => $titanium_lang['Submit'],
-  "L_RESET" => $titanium_lang['Reset'],
-  "L_NAME" => $titanium_lang['ad_name'],
-  "L_CODE" => $titanium_lang['ad_code'],
+  "L_CONFIGURATION_TITLE" => $lang['ad_managment'],
+  "L_SUBMIT" => $lang['Submit'],
+  "L_RESET" => $lang['Reset'],
+  "L_NAME" => $lang['ad_name'],
+  "L_CODE" => $lang['ad_code'],
   "AD_CODE" => $adRow['ad_code'],
   "AD_NAME" => $adRow['ad_name'],
   "S_HIDDEN_FIELDS" => '<input type="hidden" name="action" value="edit" /><input type="hidden" name="ad_id" value="' . $adRow['ad_id'] . '" />',
@@ -101,7 +101,7 @@ elseif ($HTTP_GET_VARS['action'] == "delete")
   {
     message_die(GENERAL_ERROR, 'Could not query ad information', '', __LINE__, __FILE__, $sql);
   }
-  $message = $titanium_lang['Config_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_inline_code'], "<a href=\"" . append_titanium_sid("admin_inline_ad_code.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+  $message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_inline_code'], "<a href=\"" . append_titanium_sid("admin_inline_ad_code.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
     message_die(GENERAL_MESSAGE, $message);
 }
@@ -111,11 +111,11 @@ elseif ($HTTP_GET_VARS['action'] == "add")
   "body" => "admin/inline_ad_code_edit.tpl")
   );
   $phpbb2_template->assign_vars(array(
-  "L_CONFIGURATION_TITLE" => $titanium_lang['ad_managment'],
-  "L_SUBMIT" => $titanium_lang['Submit'],
-  "L_RESET" => $titanium_lang['Reset'],
-  "L_NAME" => $titanium_lang['ad_name'],
-  "L_CODE" => $titanium_lang['ad_code'],
+  "L_CONFIGURATION_TITLE" => $lang['ad_managment'],
+  "L_SUBMIT" => $lang['Submit'],
+  "L_RESET" => $lang['Reset'],
+  "L_NAME" => $lang['ad_name'],
+  "L_CODE" => $lang['ad_code'],
   "AD_CODE" => '',
   "AD_NAME" => '',
   "S_HIDDEN_FIELDS" => '',
@@ -143,11 +143,11 @@ else
   "body" => "admin/inline_ad_code_body.tpl")
   );
   $phpbb2_template->assign_vars(array(
-  "L_CONFIGURATION_TITLE" => $titanium_lang['inline_ads'],
-  "L_CONFIGURATION_EXPLAIN" => $titanium_lang['ad_code_about'],
-  "L_EDIT" => $titanium_lang['Edit'],
-  "L_DELETE" => $titanium_lang['Delete'],
-  "L_ADD" => $titanium_lang['ad_add'],
+  "L_CONFIGURATION_TITLE" => $lang['inline_ads'],
+  "L_CONFIGURATION_EXPLAIN" => $lang['ad_code_about'],
+  "L_EDIT" => $lang['Edit'],
+  "L_DELETE" => $lang['Delete'],
+  "L_ADD" => $lang['ad_add'],
   "S_ADD_ACTION" => append_titanium_sid("admin_inline_ad_code.$phpEx?action=add"))
   );
 

@@ -30,14 +30,14 @@ if (!defined('IN_PHPBB2'))
 }
 
 // admin part
-if ( $titanium_lang_extend_admin )
+if ( $lang_extend_admin )
 {
-    $titanium_lang['Lang_extend_ranks'] = 'Ranks';
+    $lang['Lang_extend_ranks'] = 'Ranks';
 }
 
-$titanium_lang['Ranks'] = 'Ranks';
-$titanium_lang['Special_ranks'] = 'Special ranks';
-$titanium_lang['Rank_minimum'] = 'Minimum Posts';
-$titanium_lang['Total_users'] = 'Total of users';
+$lang['Ranks'] = 'Ranks';
+$lang['Special_ranks'] = 'Special ranks';
+$lang['Rank_minimum'] = 'Minimum Posts';
+$lang['Total_users'] = 'Total of users';
 
 ?>

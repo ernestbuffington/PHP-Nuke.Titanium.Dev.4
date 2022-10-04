@@ -41,8 +41,8 @@ include('includes/posting_icons.'. $phpEx);
     $glance_num_news = intval($phpbb2_board_config['glance_num_news']);
     $glance_num_recent = intval($phpbb2_board_config['glance_num']);
     $glance_recent_ignore = $phpbb2_board_config['glance_ignore_forums'];
-    $glance_news_heading = $titanium_lang['glance_news_heading'];
-    $glance_recent_heading = $titanium_lang['glance_recent_heading'];
+    $glance_news_heading = $lang['glance_news_heading'];
+    $glance_recent_heading = $lang['glance_recent_heading'];
     $glance_table_width = $phpbb2_board_config['glance_table_width'];
     $glance_show_new_bullets = true;
     $glance_track = true;
@@ -282,11 +282,11 @@ include('includes/posting_icons.'. $phpEx);
                 //
                 //if ( $phpbb2_board_config['time_today'] < $latest_news[$i]['post_time'])
                 //{
-                //    $phpbb2_last_post_time = sprintf($titanium_lang['Today_at'], create_date($phpbb2_board_config['default_timeformat'], $latest_news[$i]['post_time'], $phpbb2_board_config['board_timezone']));
+                //    $phpbb2_last_post_time = sprintf($lang['Today_at'], create_date($phpbb2_board_config['default_timeformat'], $latest_news[$i]['post_time'], $phpbb2_board_config['board_timezone']));
                 //}
                 //else if ( $phpbb2_board_config['time_yesterday'] < $latest_topics[$i]['post_time'])
                 //{
-                //    $phpbb2_last_post_time = sprintf($titanium_lang['Yesterday_at'], create_date($phpbb2_board_config['default_timeformat'], $latest_news[$i]['post_time'], $phpbb2_board_config['board_timezone']));
+                //    $phpbb2_last_post_time = sprintf($lang['Yesterday_at'], create_date($phpbb2_board_config['default_timeformat'], $latest_news[$i]['post_time'], $phpbb2_board_config['board_timezone']));
                 //}
                 // MOD TODAY AT END
 
@@ -294,11 +294,11 @@ include('includes/posting_icons.'. $phpEx);
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
                  $guest = (!empty($latest_topics[$i]['post_username'])) ? $latest_topics[$i]['post_username'] : $latest_topics[$i]['last_username'] . ' ';
-                $phpbb2_last_poster = ($latest_news[$i]['poster_id'] == ANONYMOUS ) ? ( ($latest_news[$i]['last_username'] != '' ) ? $guest : $titanium_lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_news[$i]['poster_id']) . '">' . UsernameColor($latest_news[$i]['last_username']) . '</a> ';
+                $phpbb2_last_poster = ($latest_news[$i]['poster_id'] == ANONYMOUS ) ? ( ($latest_news[$i]['last_username'] != '' ) ? $guest : $lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_news[$i]['poster_id']) . '">' . UsernameColor($latest_news[$i]['last_username']) . '</a> ';
 
-                $phpbb2_last_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?"  . POST_POST_URL . '=' . $latest_news[$i]['topic_last_post_id']) . '#' . $latest_news[$i]['topic_last_post_id'] . '"><i class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$titanium_lang['View_latest_post'].'"></i></a>';
+                $phpbb2_last_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?"  . POST_POST_URL . '=' . $latest_news[$i]['topic_last_post_id']) . '#' . $latest_news[$i]['topic_last_post_id'] . '"><i class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$lang['View_latest_post'].'"></i></a>';
 
-                $topic_poster = ($latest_news[$i]['topic_poster'] == ANONYMOUS ) ? ( ($latest_news[$i]['author_username'] != '' ) ? $guest : $titanium_lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_news[$i]['topic_poster']) . '">' . UsernameColor($latest_news[$i]['author_username']) . '</a> ';
+                $topic_poster = ($latest_news[$i]['topic_poster'] == ANONYMOUS ) ? ( ($latest_news[$i]['author_username'] != '' ) ? $guest : $lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_news[$i]['topic_poster']) . '">' . UsernameColor($latest_news[$i]['author_username']) . '</a> ';
 
                 $phpbb2_last_post_time = create_date($phpbb2_board_config['default_dateformat'], $latest_news[$i]['post_time'], $phpbb2_board_config['board_timezone']);
 /*****[END]********************************************
@@ -330,10 +330,10 @@ include('includes/posting_icons.'. $phpEx);
 /*****[END]********************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
-                    'TOPIC_POSTER' => sprintf($titanium_lang['Recent_started_by'],$topic_poster),
+                    'TOPIC_POSTER' => sprintf($lang['Recent_started_by'],$topic_poster),
                     'TOPIC_VIEWS' => $latest_news[$i]['topic_views'],
                     'TOPIC_REPLIES' => $latest_news[$i]['topic_replies'],
-                    'LAST_POSTER' => sprintf(trim($titanium_lang['Recent_first_poster']),$phpbb2_last_poster),
+                    'LAST_POSTER' => sprintf(trim($lang['Recent_first_poster']),$phpbb2_last_poster),
                     'LAST_POST_IMG' => $phpbb2_last_post_img,
                     'FORUM_TITLE' => $latest_news[$i]['forum_name'],
                     'FORUM_COLOR' => ' style="color: #'.$latest_news[$i]['forum_color'].';"',
@@ -448,26 +448,26 @@ include('includes/posting_icons.'. $phpEx);
  ******************************************************/
                 $guest = (!empty($latest_topics[$i]['post_username'])) ? $latest_topics[$i]['post_username'] : $latest_topics[$i]['last_username'] . ' ';
 
-                $topic_poster = ($latest_topics[$i]['topic_poster'] == ANONYMOUS ) ? ( ($latest_topics[$i]['author_username'] != '' ) ? $guest : $titanium_lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_topics[$i]['topic_poster']) . '">' . UsernameColor($latest_topics[$i]['author_username']) . '</a> ';
+                $topic_poster = ($latest_topics[$i]['topic_poster'] == ANONYMOUS ) ? ( ($latest_topics[$i]['author_username'] != '' ) ? $guest : $lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_topics[$i]['topic_poster']) . '">' . UsernameColor($latest_topics[$i]['author_username']) . '</a> ';
 
                 $phpbb2_last_post_time = create_date($phpbb2_board_config['default_dateformat'], $latest_topics[$i]['post_time'], $phpbb2_board_config['board_timezone']);
-                $phpbb2_last_poster = ($latest_topics[$i]['poster_id'] == ANONYMOUS ) ? ( ($latest_topics[$i]['last_username'] != '' ) ? $guest : $titanium_lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_topics[$i]['poster_id']) . '">' . UsernameColor($latest_topics[$i]['last_username']) . '</a> ';
+                $phpbb2_last_poster = ($latest_topics[$i]['poster_id'] == ANONYMOUS ) ? ( ($latest_topics[$i]['last_username'] != '' ) ? $guest : $lang['Guest'] . ' ' ) : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $latest_topics[$i]['poster_id']) . '">' . UsernameColor($latest_topics[$i]['last_username']) . '</a> ';
 
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                $phpbb2_last_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?"  . POST_POST_URL . '=' . $latest_topics[$i]['topic_last_post_id']) . '#' . $latest_topics[$i]['topic_last_post_id'] . '"><i class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$titanium_lang['View_latest_post'].'"></i></a>';
+                $phpbb2_last_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?"  . POST_POST_URL . '=' . $latest_topics[$i]['topic_last_post_id']) . '#' . $latest_topics[$i]['topic_last_post_id'] . '"><i class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$lang['View_latest_post'].'"></i></a>';
 
                 //
                 // MOD TODAY AT BEGIN
                 //
                 //if ( $phpbb2_board_config['time_today'] < $latest_topics[$i]['post_time'])
                 //{
-                //    $phpbb2_last_post_time = sprintf($titanium_lang['Today_at'], create_date($phpbb2_board_config['default_timeformat'], $latest_topics[$i]['post_time'], $phpbb2_board_config['board_timezone']));
+                //    $phpbb2_last_post_time = sprintf($lang['Today_at'], create_date($phpbb2_board_config['default_timeformat'], $latest_topics[$i]['post_time'], $phpbb2_board_config['board_timezone']));
                 //}
                 //else if ( $phpbb2_board_config['time_yesterday'] < $latest_topics[$i]['post_time'])
                 //{
-                //    $phpbb2_last_post_time = sprintf($titanium_lang['Yesterday_at'], create_date($phpbb2_board_config['default_timeformat'], $latest_topics[$i]['post_time'], $phpbb2_board_config['board_timezone']));
+                //    $phpbb2_last_post_time = sprintf($lang['Yesterday_at'], create_date($phpbb2_board_config['default_timeformat'], $latest_topics[$i]['post_time'], $phpbb2_board_config['board_timezone']));
                 //}
                 // MOD TODAY AT END
 
@@ -504,11 +504,11 @@ include('includes/posting_icons.'. $phpEx);
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
                     // 'TOPIC_POSTER' => $topic_poster,
-                    'TOPIC_POSTER' => sprintf($titanium_lang['Recent_started_by'],$topic_poster),
+                    'TOPIC_POSTER' => sprintf($lang['Recent_started_by'],$topic_poster),
                     'TOPIC_VIEWS' => $latest_topics[$i]['topic_views'],
                     'TOPIC_REPLIES' => $latest_topics[$i]['topic_replies'],
                     'LAST_POST_TIME' => $phpbb2_last_post_time,
-                    'LAST_POSTER' => sprintf(trim($titanium_lang['Recent_first_poster']),$phpbb2_last_poster),
+                    'LAST_POSTER' => sprintf(trim($lang['Recent_first_poster']),$phpbb2_last_poster),
                     'LAST_POST_IMG' => $phpbb2_last_post_img,
                     'FORUM_TITLE' => $latest_topics[$i]['forum_name'],
                     'FORUM_COLOR' => ' style="color: #'.$latest_topics[$i]['forum_color'].';"',
@@ -593,12 +593,12 @@ include('includes/posting_icons.'. $phpEx);
         'RECENT_HEADING' => $glance_recent_heading,
         'NEWS_HEADING' => $glance_news_heading,
 
-        'L_TOPICS' => $titanium_lang['Topics'],
-        'L_REPLIES' => $titanium_lang['Replies'],
-        'L_VIEWS' => $titanium_lang['Views'],
-        'L_LASTPOST' => $titanium_lang['Last_Post'],
-        'L_FORUM' => $titanium_lang['Forum'],
-        'L_AUTHOR' => $titanium_lang['Author'])
+        'L_TOPICS' => $lang['Topics'],
+        'L_REPLIES' => $lang['Replies'],
+        'L_VIEWS' => $lang['Views'],
+        'L_LASTPOST' => $lang['Last_Post'],
+        'L_FORUM' => $lang['Forum'],
+        'L_AUTHOR' => $lang['Author'])
         );
 
     $phpbb2_template->assign_var_from_handle('GLANCE_OUTPUT', 'glance_output');

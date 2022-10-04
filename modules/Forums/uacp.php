@@ -36,8 +36,8 @@ if (!defined('MODULE_FILE')) {
 
 if ($popup != "1")
     {
-        $titanium_module_name = basename(dirname(__FILE__));
-        require("modules/".$titanium_module_name."/nukebb.php");
+        $pnt_module = basename(dirname(__FILE__));
+        require("modules/".$pnt_module."/nukebb.php");
     }
     else
     {
@@ -66,34 +66,34 @@ $titanium_user_id = get_var(POST_USERS_URL, 0);
 
 if (!$titanium_user_id)
 {
-    message_die(GENERAL_MESSAGE, $titanium_lang['No_user_id_specified']);
+    message_die(GENERAL_MESSAGE, $lang['No_user_id_specified']);
 }
 
 $profiledata = get_userdata($titanium_user_id);
 
 if ($profiledata['user_id'] != $userdata['user_id'] && $userdata['user_level'] != ADMIN)
 {
-    message_die(GENERAL_MESSAGE, $titanium_lang['Not_Authorised']);
+    message_die(GENERAL_MESSAGE, $lang['Not_Authorised']);
 }
 
-$phpbb2_page_title = $titanium_lang['User_acp_title'];
+$phpbb2_page_title = $lang['User_acp_title'];
 include('includes/page_header.'.$phpEx);
 
-$titanium_language = $phpbb2_board_config['default_lang'];
+$language = $phpbb2_board_config['default_lang'];
 
-if (!file_exists($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_admin_attach.'.$phpEx))
+if (!file_exists($phpbb2_root_path . 'language/lang_' . $language . '/lang_admin_attach.'.$phpEx))
 {
-    $titanium_language = $attach_config['board_lang'];
+    $language = $attach_config['board_lang'];
 }
 
-include($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_admin_attach.' . $phpEx);
+include($phpbb2_root_path . 'language/lang_' . $language . '/lang_admin_attach.' . $phpEx);
 
 $phpbb2_start = get_var('start', 0);
 $sort_order = get_var('order', 'ASC');
 $sort_order = ($sort_order == 'ASC') ? 'ASC' : 'DESC';
 $mode = get_var('mode', '');
 
-$mode_types_text = array($titanium_lang['Sort_Filename'], $titanium_lang['Sort_Comment'], $titanium_lang['Sort_Extension'], $titanium_lang['Sort_Size'], $titanium_lang['Sort_Downloads'], $titanium_lang['Sort_Posttime'], /*$titanium_lang['Sort_Posts']*/);
+$mode_types_text = array($lang['Sort_Filename'], $lang['Sort_Comment'], $lang['Sort_Extension'], $lang['Sort_Size'], $lang['Sort_Downloads'], $lang['Sort_Posttime'], /*$lang['Sort_Posts']*/);
 $mode_types = array('real_filename', 'comment', 'extension', 'filesize', 'downloads', 'post_time'/*, 'posts'*/);
 
 if (!$mode)
@@ -153,11 +153,11 @@ if (sizeof($mode_types_text) > 0)
 $select_sort_order = '<select name="order">';
 if ($sort_order == 'ASC')
 {
-    $select_sort_order .= '<option value="ASC" selected="selected">' . $titanium_lang['Sort_Ascending'] . '</option><option value="DESC">' . $titanium_lang['Sort_Descending'] . '</option>';
+    $select_sort_order .= '<option value="ASC" selected="selected">' . $lang['Sort_Ascending'] . '</option><option value="DESC">' . $lang['Sort_Descending'] . '</option>';
 }
 else
 {
-    $select_sort_order .= '<option value="ASC">' . $titanium_lang['Sort_Ascending'] . '</option><option value="DESC" selected="selected">' . $titanium_lang['Sort_Descending'] . '</option>';
+    $select_sort_order .= '<option value="ASC">' . $lang['Sort_Ascending'] . '</option><option value="DESC" selected="selected">' . $lang['Sort_Descending'] . '</option>';
 }
 $select_sort_order .= '</select>';
 
@@ -214,11 +214,11 @@ else if ($delete && sizeof($delete_id_list) > 0)
     );
 
     $phpbb2_template->assign_vars(array(
-        'MESSAGE_TITLE' => $titanium_lang['Confirm'],
-        'MESSAGE_TEXT'    => $titanium_lang['Confirm_delete_attachments'],
+        'MESSAGE_TITLE' => $lang['Confirm'],
+        'MESSAGE_TEXT'    => $lang['Confirm_delete_attachments'],
 
-        'L_YES'            => $titanium_lang['Yes'],
-        'L_NO'            => $titanium_lang['No'],
+        'L_YES'            => $lang['Yes'],
+        'L_NO'            => $lang['No'],
 
         'S_CONFIRM_ACTION'    => 'modules.php?name=Forums&file=uacp',
         'S_HIDDEN_FIELDS'    => $hidden_fields)
@@ -246,21 +246,21 @@ $s_hidden .= '<input type="hidden" name="sid" value="' . $userdata['session_id']
 
 // Assign Template Vars
 $phpbb2_template->assign_vars(array(
-    'L_SUBMIT'                => $titanium_lang['Submit'],
-    'L_UACP'                => $titanium_lang['UACP'],
-    'L_SELECT_SORT_METHOD'    => $titanium_lang['Select_sort_method'],
-    'L_ORDER'                => $titanium_lang['Order'],
-    'L_FILENAME'            => $titanium_lang['File_name'],
-    'L_FILECOMMENT'            => $titanium_lang['File_comment_cp'],
-    'L_EXTENSION'            => $titanium_lang['Extension'],
-    'L_SIZE'                => $titanium_lang['Size_in_kb'],
-    'L_DOWNLOADS'            => $titanium_lang['Downloads'],
-    'L_POST_TIME'            => $titanium_lang['Post_time'],
-    'L_POSTED_IN_TOPIC'        => $titanium_lang['Posted_in_topic'],
-    'L_DELETE'                => $titanium_lang['Delete'],
-    'L_DELETE_MARKED'        => $titanium_lang['Delete_marked'],
-    'L_MARK_ALL'            => $titanium_lang['Mark_all'],
-    'L_UNMARK_ALL'            => $titanium_lang['Unmark_all'],
+    'L_SUBMIT'                => $lang['Submit'],
+    'L_UACP'                => $lang['UACP'],
+    'L_SELECT_SORT_METHOD'    => $lang['Select_sort_method'],
+    'L_ORDER'                => $lang['Order'],
+    'L_FILENAME'            => $lang['File_name'],
+    'L_FILECOMMENT'            => $lang['File_comment_cp'],
+    'L_EXTENSION'            => $lang['Extension'],
+    'L_SIZE'                => $lang['Size_in_kb'],
+    'L_DOWNLOADS'            => $lang['Downloads'],
+    'L_POST_TIME'            => $lang['Post_time'],
+    'L_POSTED_IN_TOPIC'        => $lang['Posted_in_topic'],
+    'L_DELETE'                => $lang['Delete'],
+    'L_DELETE_MARKED'        => $lang['Delete_marked'],
+    'L_MARK_ALL'            => $lang['Mark_all'],
+    'L_UNMARK_ALL'            => $lang['Unmark_all'],
 
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -393,28 +393,28 @@ if (sizeof($attachments) > 0)
                     {
                         if ($row['privmsgs_to_userid'] == $profiledata['user_id'])
                         {
-                            $desc = $titanium_lang['Private_Message'] . ' (' . $titanium_lang['Inbox'] . ')';
+                            $desc = $lang['Private_Message'] . ' (' . $lang['Inbox'] . ')';
                         }
                     }
                     else if ($privmsgs_type == PRIVMSGS_SENT_MAIL)
                     {
                         if ($row['privmsgs_from_userid'] == $profiledata['user_id'])
                         {
-                            $desc = $titanium_lang['Private_Message'] . ' (' . $titanium_lang['Sentbox'] . ')';
+                            $desc = $lang['Private_Message'] . ' (' . $lang['Sentbox'] . ')';
                         }
                     }
                     else if ($privmsgs_type == PRIVMSGS_SAVED_OUT_MAIL)
                     {
                         if ($row['privmsgs_from_userid'] == $profiledata['user_id'])
                         {
-                            $desc = $titanium_lang['Private_Message'] . ' (' . $titanium_lang['Savebox'] . ')';
+                            $desc = $lang['Private_Message'] . ' (' . $lang['Savebox'] . ')';
                         }
                     }
                     else if ($privmsgs_type == PRIVMSGS_SAVED_IN_MAIL)
                     {
                         if ($row['privmsgs_to_userid'] == $profiledata['user_id'])
                         {
-                            $desc = $titanium_lang['Private_Message'] . ' (' . $titanium_lang['Savebox'] . ')';
+                            $desc = $lang['Private_Message'] . ' (' . $lang['Savebox'] . ')';
                         }
                     }
 
@@ -477,9 +477,9 @@ if ($do_pagination && $total_phpbb2_rows > $phpbb2_board_config['topics_per_page
 
     $phpbb2_template->assign_vars(array(
         'PAGINATION'    => $pagination,
-        'PAGE_NUMBER'    => sprintf($titanium_lang['Page_of'], (floor($phpbb2_start / $phpbb2_board_config['topics_per_page']) + 1), ceil($total_phpbb2_rows / $phpbb2_board_config['topics_per_page'])), 
+        'PAGE_NUMBER'    => sprintf($lang['Page_of'], (floor($phpbb2_start / $phpbb2_board_config['topics_per_page']) + 1), ceil($total_phpbb2_rows / $phpbb2_board_config['topics_per_page'])), 
 
-        'L_GOTO_PAGE'    => $titanium_lang['Goto_page'])
+        'L_GOTO_PAGE'    => $lang['Goto_page'])
     );
 }
 

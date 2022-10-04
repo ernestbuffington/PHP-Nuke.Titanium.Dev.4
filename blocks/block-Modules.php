@@ -254,7 +254,7 @@ function moduleblock_display_inactive() {
     $content .= "</div>\n";
 }
 
-global $titanium_prefix, $titanium_db, $titanium_language, $currentlang, $nukeurl, $content, $titanium_moduleblock_active, $titanium_moduleblock_cats;
+global $titanium_prefix, $titanium_db, $language, $currentlang, $nukeurl, $content, $titanium_moduleblock_active, $titanium_moduleblock_cats;
 
 $content = '';
 $main_module_titanium = main_module_titanium();

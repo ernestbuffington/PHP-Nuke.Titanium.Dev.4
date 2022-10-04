@@ -13,7 +13,7 @@ if(!defined('NUKE_EVO')) exit;
     Notes:       Will toss a DonateError if the values are not found
 ================================================================================================*/
 function donation_block_get_values() {
-    global $titanium_db, $titanium_prefix, $titanium_lang_donate, $cache;
+    global $titanium_db, $titanium_prefix, $lang_donate, $cache;
     static $block;
     if(isset($block) && is_array($block)) { return $block; }
     if (!$block = $cache->load('block', 'donations')) {
@@ -35,7 +35,7 @@ function donation_block_get_values() {
     Notes:       N/A
 ================================================================================================*/
 function donation_block_gen_configs () {
-    global $titanium_db, $titanium_prefix, $titanium_lang_donate, $cache;
+    global $titanium_db, $titanium_prefix, $lang_donate, $cache;
     static $gen;
     if(isset($gen) && is_array($gen)) { return $gen; }
     if (!$gen = $cache->load('general', 'donations')) {

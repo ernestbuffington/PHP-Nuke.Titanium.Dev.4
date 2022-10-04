@@ -38,10 +38,10 @@ $debug = False;
 if ( $debug || $phpbb2_board_config['ropm_quick_reply'])
 //if ( $phpbb2_board_config['ropm_quick_reply'])
 {
-$titanium_language = $phpbb2_board_config['default_lang'];
-if ( !file_exists($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_main_pmqr.'.$phpEx) )
-$titanium_language = 'english';
-include($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_main_pmqr.' . $phpEx);
+$language = $phpbb2_board_config['default_lang'];
+if ( !file_exists($phpbb2_root_path . 'language/lang_' . $language . '/lang_main_pmqr.'.$phpEx) )
+$language = 'english';
+include($phpbb2_root_path . 'language/lang_' . $language . '/lang_main_pmqr.' . $phpEx);
 
 $phpbb2_template->set_filenames(array(
    'ropm_quick_reply_output' => 'ropm_quick_reply.tpl')
@@ -88,46 +88,46 @@ if ( $phpbb2_board_config['allow_smilies'] )
 }
    $phpbb2_template->assign_vars(array(
       'U_MORE_SMILIES' => append_titanium_sid("posting.$phpEx?mode=smilies"),
-      'L_EMPTY_MESSAGE' => $titanium_lang['Empty_message'],
-      'L_PREVIEW' => $titanium_lang['Preview'],
-      'L_SUBMIT' => $titanium_lang['Submit'],
-      'L_CANCEL' => $titanium_lang['Cancel'],
-      'L_SUBJECT' => $titanium_lang['PMQR_Subject'],
-      'L_MESSAGE' => $titanium_lang['Message'],
-      'L_OPTIONS' => $titanium_lang['Options'],
-      'L_ATTACH_SIGNATURE' => $titanium_lang['Attach_signature'],
-      'L_DISABLE_HTML' => $titanium_lang['Disable_HTML_post'],
-      'L_DISABLE_BBCODE' => $titanium_lang['Disable_BBCode_post'],
-      'L_DISABLE_SMILIES' => $titanium_lang['Disable_Smilies_post'],
-      'L_ALL_SMILIES' => $titanium_lang['PMQR_smilies'],
-      'L_QUOTE_SELECTED' => $titanium_lang['PMQR_QuoteSelelected'],
-      'L_NO_TEXT_SELECTED' => $titanium_lang['PMQR_QuoteSelelectedEmpty'],
-      'L_EMPTY_MESSAGE' => $titanium_lang['Empty_message'],
-      'L_EMPTY_SUBJECT' => $titanium_lang['Empty_subject'],
-      'L_ENTER_URL' => $titanium_lang['PMQR_enter_url'],
-      'L_ENTER_TITLE' => $titanium_lang['PMQR_enter_title'],
-      'L_TITLE' => $titanium_lang['PMQR_title'],
-      'L_EMPTY_URL' => $titanium_lang['PMQR_empty_url'],
-      'L_EMPTY_TITLE' => $titanium_lang['PMQR_empty_title'],
-      'L_ENTER_IMG_URL' => $titanium_lang['PMQR_enter_img_url'],
-      'L_EMPTY_IMG_URL' => $titanium_lang['PMQR_empty_img_url'],
-      'L_ERROR' => $titanium_lang['Error'],
-      'L_QUOTE_LAST_MESSAGE' => $titanium_lang['PMQR_Quick_quote'],
-      'L_QUICK_REPLY' => $titanium_lang['PMQR_Quick_Reply'],
-      'L_CUT' => $titanium_lang['PMQR_cut'],
-      'L_COPY' => $titanium_lang['PMQR_copy'],
-      'L_PASTE' => $titanium_lang['PMQR_paste'],
-      'L_MARKALL' => $titanium_lang['PMQR_markall'],
-      'L_BOLD' => $titanium_lang['PMQR_bold'],
-      'L_ITALIC' => $titanium_lang['PMQR_italic'],
-      'L_UNDERLINE' => $titanium_lang['PMQR_underline'],
-      'L_QUOTE' => $titanium_lang['PMQR_quote'],
-      'L_CODE' => $titanium_lang['PMQR_code'],
-      'L_IMAGE' => $titanium_lang['PMQR_image'],
-      'L_URL' => $titanium_lang['PMQR_url'],
-      'L_B' => $titanium_lang['PMQR_b'],
-      'L_I' => $titanium_lang['PMQR_i'],
-      'L_U' => $titanium_lang['PMQR_u'],
+      'L_EMPTY_MESSAGE' => $lang['Empty_message'],
+      'L_PREVIEW' => $lang['Preview'],
+      'L_SUBMIT' => $lang['Submit'],
+      'L_CANCEL' => $lang['Cancel'],
+      'L_SUBJECT' => $lang['PMQR_Subject'],
+      'L_MESSAGE' => $lang['Message'],
+      'L_OPTIONS' => $lang['Options'],
+      'L_ATTACH_SIGNATURE' => $lang['Attach_signature'],
+      'L_DISABLE_HTML' => $lang['Disable_HTML_post'],
+      'L_DISABLE_BBCODE' => $lang['Disable_BBCode_post'],
+      'L_DISABLE_SMILIES' => $lang['Disable_Smilies_post'],
+      'L_ALL_SMILIES' => $lang['PMQR_smilies'],
+      'L_QUOTE_SELECTED' => $lang['PMQR_QuoteSelelected'],
+      'L_NO_TEXT_SELECTED' => $lang['PMQR_QuoteSelelectedEmpty'],
+      'L_EMPTY_MESSAGE' => $lang['Empty_message'],
+      'L_EMPTY_SUBJECT' => $lang['Empty_subject'],
+      'L_ENTER_URL' => $lang['PMQR_enter_url'],
+      'L_ENTER_TITLE' => $lang['PMQR_enter_title'],
+      'L_TITLE' => $lang['PMQR_title'],
+      'L_EMPTY_URL' => $lang['PMQR_empty_url'],
+      'L_EMPTY_TITLE' => $lang['PMQR_empty_title'],
+      'L_ENTER_IMG_URL' => $lang['PMQR_enter_img_url'],
+      'L_EMPTY_IMG_URL' => $lang['PMQR_empty_img_url'],
+      'L_ERROR' => $lang['Error'],
+      'L_QUOTE_LAST_MESSAGE' => $lang['PMQR_Quick_quote'],
+      'L_QUICK_REPLY' => $lang['PMQR_Quick_Reply'],
+      'L_CUT' => $lang['PMQR_cut'],
+      'L_COPY' => $lang['PMQR_copy'],
+      'L_PASTE' => $lang['PMQR_paste'],
+      'L_MARKALL' => $lang['PMQR_markall'],
+      'L_BOLD' => $lang['PMQR_bold'],
+      'L_ITALIC' => $lang['PMQR_italic'],
+      'L_UNDERLINE' => $lang['PMQR_underline'],
+      'L_QUOTE' => $lang['PMQR_quote'],
+      'L_CODE' => $lang['PMQR_code'],
+      'L_IMAGE' => $lang['PMQR_image'],
+      'L_URL' => $lang['PMQR_url'],
+      'L_B' => $lang['PMQR_b'],
+      'L_I' => $lang['PMQR_i'],
+      'L_U' => $lang['PMQR_u'],
       'IMG_CUT' => $images['bbc_cut'],
       'IMG_COPY' => $images['bbc_copy'],
       'IMG_PASTE' => $images['bbc_paste'],
@@ -141,7 +141,7 @@ if ( $phpbb2_board_config['allow_smilies'] )
       'IMG_IMAGE' => $images['bbc_image'],
       'IMG_URL' => $images['bbc_url']
 ));
-$titanium_lang['TRANSLATION_INFO'] .= '<br />PM Quick Reply &copy; by <a href="http://www.rondom.gu2.info" target="rondom">Rondom</a> 2003-2004' . (( $titanium_lang['PMQR_TRANSLATION'] )?' :: '.$titanium_lang['PMQR_TRANSLATION'] : '') . (($debug)?'&nbsp;&nbsp;<span style="font-weight:bolder;font-size:20px;">Rondom\'s Debug Mode enabled!</span>':'');
+$lang['TRANSLATION_INFO'] .= '<br />PM Quick Reply &copy; by <a href="http://www.rondom.gu2.info" target="rondom">Rondom</a> 2003-2004' . (( $lang['PMQR_TRANSLATION'] )?' :: '.$lang['PMQR_TRANSLATION'] : '') . (($debug)?'&nbsp;&nbsp;<span style="font-weight:bolder;font-size:20px;">Rondom\'s Debug Mode enabled!</span>':'');
 $phpbb2_template->assign_var_from_handle('ROPM_QUICKREPLY_OUTPUT', 'ropm_quick_reply_output');
 }
 

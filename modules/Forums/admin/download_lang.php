@@ -76,9 +76,9 @@ include($phpbb2_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
 if ($mode == 'export_module')
 {
     $titanium_module_id = (isset($HTTP_GET_VARS['module'])) ? intval($HTTP_GET_VARS['module']) : -1;
-    $titanium_language = (isset($HTTP_GET_VARS['lang'])) ? trim($HTTP_GET_VARS['lang']) : '';
+    $language = (isset($HTTP_GET_VARS['lang'])) ? trim($HTTP_GET_VARS['lang']) : '';
         
-    if (($titanium_language == '') || ($titanium_module_id == -1))
+    if (($language == '') || ($titanium_module_id == -1))
     {
         message_die(GENERAL_MESSAGE, 'Invalid Call, Hacking Attempt ?');
     }
@@ -103,7 +103,7 @@ if ($mode == 'export_module')
         message_die(GENERAL_ERROR, 'Unable to write Package File to cache.');
     }
 
-    $titanium_language_content = get_lang_entries($short_name, $titanium_language);
+    $language_content = get_lang_entries($short_name, $language);
 
     fwrite($fp, pack("C*", 0xFF, 0xFC, 0xCC), 3);
     fwrite($fp, 'LANGPACK', 8);
@@ -114,16 +114,16 @@ if ($mode == 'export_module')
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 ' . "\n\n";
-    $content .= '// [' . $titanium_language . ']' . "\n";
+    $content .= '// [' . $language . ']' . "\n";
     $content .= '// [module:' . $short_name . ']' . "\n";
 
-    for ($i = 0; $i < count($titanium_language_content); $i++)
+    for ($i = 0; $i < count($language_content); $i++)
     {
-        $content .= '$titanium_lang[\'' . $titanium_language_content[$i]['key'] . '\'] = \'' . $titanium_language_content[$i]['value'] . '\';' . "\n";
+        $content .= '$lang[\'' . $language_content[$i]['key'] . '\'] = \'' . $language_content[$i]['value'] . '\';' . "\n";
     }
 
     $content .= '// [/module:' . $short_name . ']' . "\n";
-    $content .= '// [/' . $titanium_language . ']' . "\n\n";
+    $content .= '// [/' . $language . ']' . "\n\n";
     $content .= '?>';
 
     $size = strlen($content);
@@ -139,7 +139,7 @@ if ($mode == 'export_module')
     @chmod($phpbb2_root_path . 'modules/cache/temp.pak', $file_mode);
     @unlink($phpbb2_root_path . 'modules/cache/temp.pak');
 
-    $filename = $short_name . '_' . str_replace('lang_', '', $titanium_language) . '.pak';
+    $filename = $short_name . '_' . str_replace('lang_', '', $language) . '.pak';
     
     header("Content-Type: text/x-delimtext; name=\"" . $filename . "\"");
     header("Content-disposition: attachment; filename=" . $filename);
@@ -148,9 +148,9 @@ if ($mode == 'export_module')
 }
 else if ($mode == 'export_lang')
 {
-    $titanium_language = (isset($HTTP_GET_VARS['lang'])) ? trim($HTTP_GET_VARS['lang']) : '';
+    $language = (isset($HTTP_GET_VARS['lang'])) ? trim($HTTP_GET_VARS['lang']) : '';
         
-    if ($titanium_language == '')
+    if ($language == '')
     {
         message_die(GENERAL_MESSAGE, 'Invalid Call, Hacking Attempt ?');
     }
@@ -183,24 +183,24 @@ else if ($mode == 'export_lang')
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 ' . "\n\n";
-    $content .= '// [' . $titanium_language . ']' . "\n";
+    $content .= '// [' . $language . ']' . "\n";
 
     for ($i = 0; $i < $num_rows; $i++)
     {
         $short_name = trim($rows[$i]['short_name']);
-        $titanium_language_content = get_lang_entries($short_name, $titanium_language);
+        $language_content = get_lang_entries($short_name, $language);
     
         $content .= '// [module:' . $short_name . ']' . "\n";
 
-        for ($j = 0; $j < count($titanium_language_content); $j++)
+        for ($j = 0; $j < count($language_content); $j++)
         {
-            $content .= '$titanium_lang[\'' . $titanium_language_content[$j]['key'] . '\'] = \'' . $titanium_language_content[$j]['value'] . '\';' . "\n";
+            $content .= '$lang[\'' . $language_content[$j]['key'] . '\'] = \'' . $language_content[$j]['value'] . '\';' . "\n";
         }
 
         $content .= '// [/module:' . $short_name . ']' . "\n\n";
     }
 
-    $content .= '// [/' . $titanium_language . ']' . "\n\n";
+    $content .= '// [/' . $language . ']' . "\n\n";
     $content .= '?>';
 
     $size = strlen($content);
@@ -216,7 +216,7 @@ else if ($mode == 'export_lang')
     @chmod($phpbb2_root_path . 'modules/cache/temp.pak', $file_mode);
     @unlink($phpbb2_root_path . 'modules/cache/temp.pak');
 
-    $filename = $titanium_language . '.pak';
+    $filename = $language . '.pak';
     
     header("Content-Type: text/x-delimtext; name=\"" . $filename . "\"");
     header("Content-disposition: attachment; filename=" . $filename);
@@ -240,7 +240,7 @@ else if ($mode == 'export_everything')
     $rows = $titanium_db->sql_fetchrowset($result);
     $num_rows = $titanium_db->sql_numrows($result);
     
-    $titanium_languages = get_all_installed_languages();
+    $languages = get_all_installed_languages();
         
     if (!($fp = fopen($phpbb2_root_path . 'modules/cache/temp.pak', 'wb')))
     {
@@ -256,26 +256,26 @@ else if ($mode == 'export_everything')
  =======================================================================*/
 ' . "\n\n";
     
-    foreach ($titanium_languages as $titanium_language)
+    foreach ($languages as $language)
     {
-        $content .= '// [' . $titanium_language . ']' . "\n";
+        $content .= '// [' . $language . ']' . "\n";
 
         for ($i = 0; $i < $num_rows; $i++)
         {
             $short_name = trim($rows[$i]['short_name']);
-            $titanium_language_content = get_lang_entries($short_name, $titanium_language);
+            $language_content = get_lang_entries($short_name, $language);
     
             $content .= '// [module:' . $short_name . ']' . "\n";
 
-            for ($j = 0; $j < count($titanium_language_content); $j++)
+            for ($j = 0; $j < count($language_content); $j++)
             {
-                $content .= '$titanium_lang[\'' . $titanium_language_content[$j]['key'] . '\'] = \'' . $titanium_language_content[$j]['value'] . '\';' . "\n";
+                $content .= '$lang[\'' . $language_content[$j]['key'] . '\'] = \'' . $language_content[$j]['value'] . '\';' . "\n";
             }
 
             $content .= '// [/module:' . $short_name . ']' . "\n\n";
         }
 
-        $content .= '// [/' . $titanium_language . ']' . "\n\n";
+        $content .= '// [/' . $language . ']' . "\n\n";
     }
     
     $content .= '?>';

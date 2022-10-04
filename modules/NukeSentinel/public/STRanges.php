@@ -30,7 +30,7 @@ if ($totalselected > 0) {
   echo '<table summary="" align="center" border="0" cellpadding="2" cellspacing="2" width="100%">'."\n";
   echo '<tr>'."\n";
   echo '<td align="right" colspan="3">'."\n";
-  echo '<form method="post" action="modules.php?name='.$titanium_module_name.'" style="padding: 0px; margin: 0px;">'."\n";
+  echo '<form method="post" action="modules.php?name='.$pnt_module.'" style="padding: 0px; margin: 0px;">'."\n";
   echo '<input type="hidden" name="op" value="STRanges" />'."\n";
   echo '<input type="hidden" name="min" value="'.$min.'" />'."\n";
   echo '<strong>'._AB_SORT.':</strong> ';

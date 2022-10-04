@@ -45,7 +45,7 @@ if (!defined('CNBYA')) {
     if (($titanium_user_id == $vuid) AND ($check2 == $ccpass)) {
         $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET storynum='$blognum' WHERE user_id='$titanium_user_id'");
         yacookie($userinfo[user_id],$userinfo[username],$userinfo[user_password],$userinfo[storynum],$userinfo[umode],$userinfo[uorder],$userinfo[thold],$userinfo[noscore],$userinfo[ublockon],$userinfo[theme],$userinfo[commentmax]);
-        redirect_titanium("modules.php?name=$titanium_module_name");
+        redirect_titanium("modules.php?name=$pnt_module");
     }
 
 ?>

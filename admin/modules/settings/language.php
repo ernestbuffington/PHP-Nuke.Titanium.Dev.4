@@ -29,8 +29,8 @@ if(!defined('IN_SETTINGS')) {
   exit('Access Denied');
 }
 
-global $multilingual, $useflags, $titanium_language, $admlang;
-$titanium_languageslist = lang_list();
+global $multilingual, $useflags, $language, $admlang;
+$languageslist = lang_list();
 echo '  <tr>'.PHP_EOL;
 echo '    <td class="catHead" colspan="3" style="font-weight: bold; text-align: center; text-transform: uppercase;">'.$admlang['preferences']['language_opts'].'</td>'.PHP_EOL;
 echo '  </tr>'.PHP_EOL;
@@ -41,11 +41,11 @@ echo '        <tr>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.$admlang['language']['select'].'</td>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.PHP_EOL;
 echo '            <select name="xlanguage">';
-for ($i=0, $maxi=count($titanium_languageslist); $i < $maxi; $i++) 
+for ($i=0, $maxi=count($languageslist); $i < $maxi; $i++) 
 {
-    if(!empty($titanium_languageslist[$i])) 
+    if(!empty($languageslist[$i])) 
     {
-        echo '              <option name="xlanguage" value="'.$titanium_languageslist[$i].'"'.(($titanium_languageslist[$i]==$titanium_language) ? ' selected="selected"' : '').'>'.ucwords($titanium_languageslist[$i]).'</option>';     
+        echo '              <option name="xlanguage" value="'.$languageslist[$i].'"'.(($languageslist[$i]==$language) ? ' selected="selected"' : '').'>'.ucwords($languageslist[$i]).'</option>';     
     }
 }
 echo '            </select>';

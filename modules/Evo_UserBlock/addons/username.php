@@ -25,8 +25,8 @@ if(is_user()):
     global $userinfo;
     $evouserinfo_uname = UsernameColor($userinfo['username']);
 else: 
-    global $titanium_lang_evo_userblock;
-    $evouserinfo_uname = $titanium_lang_evo_userblock['BLOCK']['ANON'];
+    global $lang_evo_userblock;
+    $evouserinfo_uname = $lang_evo_userblock['BLOCK']['ANON'];
 endif;
 
 if($evouserinfo_addons['username_center'] == 'yes'):

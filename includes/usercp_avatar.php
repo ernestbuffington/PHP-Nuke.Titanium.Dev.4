@@ -45,7 +45,7 @@ if (!defined('IN_PHPBB2'))
 
 function check_image_type(&$type, &$error, &$error_msg)
 {
-		global $titanium_lang;
+		global $lang;
 
 		switch( $type )
 		{
@@ -62,7 +62,7 @@ function check_image_type(&$type, &$error, &$error_msg)
 						break;
 				default:
 						$error = true;
-						$error_msg = (!empty($error_msg)) ? $error_msg . '<br />' . $titanium_lang['Avatar_filetype'] : $titanium_lang['Avatar_filetype'];
+						$error_msg = (!empty($error_msg)) ? $error_msg . '<br />' . $lang['Avatar_filetype'] : $lang['Avatar_filetype'];
 						break;
 		}
 
@@ -115,7 +115,7 @@ function user_avatar_gallery($mode, &$error, &$error_msg, $avatar_filename, $ava
 
 function user_avatar_url($mode, &$error, &$error_msg, $avatar_filename)
 {
-	global $titanium_lang;
+	global $lang;
 
 		if ( !preg_match('#^(http)|(ftp):\/\/#i', $avatar_filename) )
 		{
@@ -127,7 +127,7 @@ function user_avatar_url($mode, &$error, &$error_msg, $avatar_filename)
 		 if ( !preg_match("#^((ht|f)tp://)([^ \?&=\#\"\n\r\t<]*?(\.(jpg|jpeg|gif|png))$)#is", $avatar_filename) )
 		{
 				$error = true;
-				$error_msg = ( !empty($error_msg) ) ? $error_msg . '<br />' . $titanium_lang['Wrong_remote_avatar_format'] : $titanium_lang['Wrong_remote_avatar_format'];
+				$error_msg = ( !empty($error_msg) ) ? $error_msg . '<br />' . $lang['Wrong_remote_avatar_format'] : $lang['Wrong_remote_avatar_format'];
 				return;
 		}
 
@@ -137,7 +137,7 @@ function user_avatar_url($mode, &$error, &$error_msg, $avatar_filename)
 
 function user_avatar_upload($mode, $avatar_mode, &$current_avatar, &$current_type, &$error, &$error_msg, $avatar_filename, $avatar_realname, $avatar_filesize, $avatar_filetype)
 {
-	global $phpbb2_board_config, $titanium_lang;
+	global $phpbb2_board_config, $lang;
 
 	function getimg($url) 
 	{         
@@ -198,7 +198,7 @@ function user_avatar_upload($mode, $avatar_mode, &$current_avatar, &$current_typ
 
 			else:
 
-				$l_avatar_size = sprintf($titanium_lang['Avatar_imagesize'], $phpbb2_board_config['avatar_max_width'], $phpbb2_board_config['avatar_max_height']);
+				$l_avatar_size = sprintf($lang['Avatar_imagesize'], $phpbb2_board_config['avatar_max_width'], $phpbb2_board_config['avatar_max_height']);
 				$error = true;
 				$error_msg = ( !empty($error_msg) ) ? $error_msg . '<br />' . $l_avatar_size : $l_avatar_size;
 
@@ -218,7 +218,7 @@ function user_avatar_upload($mode, $avatar_mode, &$current_avatar, &$current_typ
 	}
 	else
 	{
-		$l_avatar_size = sprintf($titanium_lang['Avatar_filesize'], round($phpbb2_board_config['avatar_filesize'] / 1024));
+		$l_avatar_size = sprintf($lang['Avatar_filesize'], round($phpbb2_board_config['avatar_filesize'] / 1024));
 		$error = true;
 		$error_msg = ( !empty($error_msg) ) ? $error_msg . '<br />' . $l_avatar_size : $l_avatar_size;
 		return;
@@ -242,7 +242,7 @@ function user_avatar_upload($mode, $avatar_mode, &$current_avatar, &$current_typ
  [ Mod:     Gender                             v1.2.6 ]
  [ Mod:     Birthdays                          v3.0.0 ]
  ******************************************************/
-function display_avatar_gallery($mode, $category, $titanium_user_id, $email, $current_email, $coppa, $titanium_username, $new_password, $cur_password, $password_confirm, $website, $location, $titanium_user_flag, $occupation, $interests, $glance_show, $signature, $viewemail, $notifypm, $allow_mass_pm, $popup_pm, $notifyreply, $attachsig, $allowhtml, $allowbbcode, $allowsmilies, $showavatars, $showsignatures, $hideonline, $style, $wrap, $titanium_language, $bday_month, $bday_day, $phpbb2_bday_year, $birthday_display, $birthday_greeting, $timezone, $time_mode, $dst_time_lag, $dateformat, $show_quickreply, $quickreply_mode, $titanium_user_open_quickreply, $titanium_session_id, $xdata = false, $rname, $extra_info, $newsletter, $hide_images, $gender, $facebook)
+function display_avatar_gallery($mode, $category, $titanium_user_id, $email, $current_email, $coppa, $titanium_username, $new_password, $cur_password, $password_confirm, $website, $location, $titanium_user_flag, $occupation, $interests, $glance_show, $signature, $viewemail, $notifypm, $allow_mass_pm, $popup_pm, $notifyreply, $attachsig, $allowhtml, $allowbbcode, $allowsmilies, $showavatars, $showsignatures, $hideonline, $style, $wrap, $language, $bday_month, $bday_day, $phpbb2_bday_year, $birthday_display, $birthday_greeting, $timezone, $time_mode, $dst_time_lag, $dateformat, $show_quickreply, $quickreply_mode, $titanium_user_open_quickreply, $titanium_session_id, $xdata = false, $rname, $extra_info, $newsletter, $hide_images, $gender, $facebook)
 /*****[END]********************************************
  [ Mod:     Birthdays                          v3.0.0 ]
  [ Mod:     Gender                             v1.2.6 ]
@@ -258,7 +258,7 @@ function display_avatar_gallery($mode, $category, $titanium_user_id, $email, $cu
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
 {
-		global $phpbb2_board_config, $titanium_db, $phpbb2_template, $titanium_lang, $images, $theme, $phpbb2_root_path, $phpEx, $userdata;
+		global $phpbb2_board_config, $titanium_db, $phpbb2_template, $lang, $images, $theme, $phpbb2_root_path, $phpEx, $userdata;
 
 		$dir = @opendir($phpbb2_board_config['avatar_gallery_path']);
 
@@ -390,10 +390,10 @@ function display_avatar_gallery($mode, $category, $titanium_user_id, $email, $cu
 
 		$phpbb2_template->assign_vars(array(
 				'L_USERID' => $s_hidden_vars,
-				'L_AVATAR_GALLERY' => $titanium_lang['Avatar_gallery'],
-				'L_SELECT_AVATAR' => $titanium_lang['Select_avatar'],
-				'L_RETURN_PROFILE' => $titanium_lang['Return_profile'],
-				'L_CATEGORY' => $titanium_lang['Select_category'],
+				'L_AVATAR_GALLERY' => $lang['Avatar_gallery'],
+				'L_SELECT_AVATAR' => $lang['Select_avatar'],
+				'L_RETURN_PROFILE' => $lang['Return_profile'],
+				'L_CATEGORY' => $lang['Select_category'],
 
 				'S_CATEGORY_SELECT' => $s_categories,
 				'S_COLSPAN' => $s_colspan,

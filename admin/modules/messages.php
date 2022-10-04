@@ -49,7 +49,7 @@ function MsgDeactive($mid) {
 }
 
 function messages() {
-    global $admin, $admlanguage, $titanium_language, $titanium_prefix, $titanium_db, $multilingual, $admin_file, $admlang;
+    global $admin, $admlanguage, $language, $titanium_prefix, $titanium_db, $multilingual, $admin_file, $admlang;
     include(NUKE_BASE_DIR.'header.php');
     OpenTable();
     echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=messages\">" . $admlang['messages']['header'] . "</a></div>\n";
@@ -58,7 +58,7 @@ function messages() {
     CloseTable();
     echo "<br />";
     if (empty($admlanguage)) {
-        $admlanguage = $titanium_language; /* This to make sure some language is pre-selected */
+        $admlanguage = $language; /* This to make sure some language is pre-selected */
     }
     OpenTable();
     echo "<center><span class=\"title\"><strong>" . $admlang['messages']['all'] . "</strong></span><br /><br /><table border=\"1\" width=\"100%\">"
@@ -141,18 +141,18 @@ function messages() {
     $handle=opendir('language');
     while ($file = readdir($handle)) {
         if (preg_match("/^lang\-(.+)\.php/", $file, $matches)) {
-            $titanium_langFound = $matches[1];
-            $titanium_languageslist .= $titanium_langFound.' ';
+            $langFound = $matches[1];
+            $languageslist .= $langFound.' ';
         }
     }
     closedir($handle);
-    $titanium_languageslist = explode(" ", $titanium_languageslist);
-    sort($titanium_languageslist);
-    for ($i=0; $i < count($titanium_languageslist); $i++) {
-        if($titanium_languageslist[$i]!="") {
-        echo "<option value=\"$titanium_languageslist[$i]\" ";
-        if($titanium_languageslist[$i]==$titanium_language) echo "selected";
-        echo ">".ucfirst($titanium_languageslist[$i])."</option>\n";
+    $languageslist = explode(" ", $languageslist);
+    sort($languageslist);
+    for ($i=0; $i < count($languageslist); $i++) {
+        if($languageslist[$i]!="") {
+        echo "<option value=\"$languageslist[$i]\" ";
+        if($languageslist[$i]==$language) echo "selected";
+        echo ">".ucfirst($languageslist[$i])."</option>\n";
         }
     }
     echo "<option value=\"\">" . _ALL . "</option></select><br /><br />";
@@ -280,18 +280,18 @@ function editmsg($mid) {
     $handle=opendir('language');
     while ($file = readdir($handle)) {
         if (preg_match("/^lang\-(.+)\.php/", $file, $matches)) {
-            $titanium_langFound = $matches[1];
-            $titanium_languageslist .= "$titanium_langFound ";
+            $langFound = $matches[1];
+            $languageslist .= "$langFound ";
         }
     }
     closedir($handle);
-    $titanium_languageslist = explode(" ", $titanium_languageslist);
-    sort($titanium_languageslist);
-    for ($i=0; $i < count($titanium_languageslist); $i++) {
-        if(!empty($titanium_languageslist[$i])) {
-        echo "<option value=\"$titanium_languageslist[$i]\" ";
-        if($titanium_languageslist[$i]==$mlanguage) echo "selected";
-        echo ">".ucfirst($titanium_languageslist[$i])."</option>\n";
+    $languageslist = explode(" ", $languageslist);
+    sort($languageslist);
+    for ($i=0; $i < count($languageslist); $i++) {
+        if(!empty($languageslist[$i])) {
+        echo "<option value=\"$languageslist[$i]\" ";
+        if($languageslist[$i]==$mlanguage) echo "selected";
+        echo ">".ucfirst($languageslist[$i])."</option>\n";
         }
     }
     if (empty($mlanguage)) {

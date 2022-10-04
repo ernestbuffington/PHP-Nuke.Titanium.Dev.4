@@ -43,7 +43,7 @@ if (!defined('IN_PHPBB2'))
 
 function topic_review($topic_id, $is_inline_review)
 {
-        global $titanium_db, $phpbb2_board_config, $phpbb2_template, $titanium_lang, $images, $theme, $phpEx, $phpbb2_root_path, $userdata, $titanium_user_ip, $orig_word, $replacement_word, $phpbb2_starttime;
+        global $titanium_db, $phpbb2_board_config, $phpbb2_template, $lang, $images, $theme, $phpEx, $phpbb2_root_path, $userdata, $titanium_user_ip, $orig_word, $replacement_word, $phpbb2_starttime;
 /*****[BEGIN]******************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
@@ -102,7 +102,7 @@ function topic_review($topic_id, $is_inline_review)
 
                 if ( !$phpbb2_is_auth['auth_read'] )
                 {
-                        message_die(GENERAL_MESSAGE, sprintf($titanium_lang['Sorry_auth_read'], $phpbb2_is_auth['auth_read_type']));
+                        message_die(GENERAL_MESSAGE, sprintf($lang['Sorry_auth_read'], $phpbb2_is_auth['auth_read_type']));
                 }
         }
 
@@ -124,7 +124,7 @@ function topic_review($topic_id, $is_inline_review)
         {
                 $gen_simple_header = TRUE;
 
-                $phpbb2_page_title = $titanium_lang['Topic_review'] . ' - ' . $topic_title;
+                $phpbb2_page_title = $lang['Topic_review'] . ' - ' . $topic_title;
                 include("includes/page_header_review.php");
 
                 $phpbb2_template->set_filenames(array(
@@ -181,7 +181,7 @@ function topic_review($topic_id, $is_inline_review)
  [ Mod:    Hide Mod                            v1.2.0 ]
  ******************************************************/
                 $mini_post_img = $images['icon_minipost'];
-                $mini_post_alt = $titanium_lang['Post'];
+                $mini_post_alt = $lang['Post'];
 
                 $i = 0;
                 do
@@ -207,11 +207,11 @@ function topic_review($topic_id, $is_inline_review)
                         if( $poster_id == ANONYMOUS && $row['post_username'] != '' )
                         {
                                 $poster = $row['post_username'];
-                                $poster_rank = $titanium_lang['Guest'];
+                                $poster_rank = $lang['Guest'];
                         }
                         elseif ( $poster_id == ANONYMOUS )
                         {
-                                $poster = $titanium_lang['Guest'];
+                                $poster = $lang['Guest'];
                                 $poster_rank = '';
                         }
 
@@ -359,11 +359,11 @@ function topic_review($topic_id, $is_inline_review)
     $titanium_db->sql_freeresult($result);
 
         $phpbb2_template->assign_vars(array(
-                'L_AUTHOR' => $titanium_lang['Author'],
-                'L_MESSAGE' => $titanium_lang['Message'],
-                'L_POSTED' => $titanium_lang['Posted'],
-                'L_POST_SUBJECT' => $titanium_lang['Post_subject'],
-                'L_TOPIC_REVIEW' => $titanium_lang['Topic_review'])
+                'L_AUTHOR' => $lang['Author'],
+                'L_MESSAGE' => $lang['Message'],
+                'L_POSTED' => $lang['Posted'],
+                'L_POST_SUBJECT' => $lang['Post_subject'],
+                'L_TOPIC_REVIEW' => $lang['Topic_review'])
         );
 
         if ( !$is_inline_review )

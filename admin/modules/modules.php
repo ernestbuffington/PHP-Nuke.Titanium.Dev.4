@@ -432,7 +432,7 @@ function modadmin_ajax_header ()
 
 function modadmin_block () 
 {
-    global $titanium_lang_evo_userblock, $admin_file, $titanium_module_collapse, $Default_Theme, $titanium_module_name, $phpbb2_board_config, $userinfo, $modadmin_module_cats, $bgcolor2, $admlang;
+    global $lang_evo_userblock, $admin_file, $titanium_module_collapse, $Default_Theme, $pnt_module, $phpbb2_board_config, $userinfo, $modadmin_module_cats, $bgcolor2, $admlang;
 
     $inactive = modadmin_get_inactive();
 

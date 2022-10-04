@@ -47,7 +47,7 @@
  ************************************************************************/
 if (!defined('MODULE_FILE'))die('You can\'t access this file directly...');
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 require(NUKE_FORUMS_DIR.'/nukebb.php');
 
 define('IN_PHPBB2', true);
@@ -79,7 +79,7 @@ $mode = get_query_var('mode', '_REQUEST', 'string', 'joined');
 $sort_order = get_query_var('order', '_REQUEST', 'string');
 $sort_order = ($sort_order == 'DESC') ? $sort_order : 'ASC';
 
-$phpbb2_page_title = $titanium_lang['Memberlist'];
+$phpbb2_page_title = $lang['Memberlist'];
 include(NUKE_INCLUDE_DIR.'page_header.php');
 
 $phpbb2_template->set_filenames(array(
@@ -87,39 +87,39 @@ $phpbb2_template->set_filenames(array(
 );
 
 $phpbb2_template->assign_vars(array(
-	'L_PAGE_TITLE' => $titanium_lang['Memberlist'],
-	'L_SELECT_SORT_METHOD' => $titanium_lang['Select_sort_method'],
-	'L_EMAIL' => $titanium_lang['Email'],
-	'L_WEBSITE' => $titanium_lang['Website'],
-	'L_FROM' => $titanium_lang['Location'],
-	'L_ORDER' => $titanium_lang['Order'],
-	'L_LOOK_UP' => $titanium_lang['Look_up_User'],
-	'L_FIND_USERNAME' => $titanium_lang['Find_username'],
+	'L_PAGE_TITLE' => $lang['Memberlist'],
+	'L_SELECT_SORT_METHOD' => $lang['Select_sort_method'],
+	'L_EMAIL' => $lang['Email'],
+	'L_WEBSITE' => $lang['Website'],
+	'L_FROM' => $lang['Location'],
+	'L_ORDER' => $lang['Order'],
+	'L_LOOK_UP' => $lang['Look_up_User'],
+	'L_FIND_USERNAME' => $lang['Find_username'],
 	'U_SEARCH_USER' => "modules.php?name=Forums&amp;file=search&amp;mode=searchuser&amp;popup=1", 
-	'U_SEARCH_EXPLAIN' => $titanium_lang['Search_author_explain'],
-	'L_GO' => $titanium_lang['Sort_Go'],
-	'L_JOINED' => $titanium_lang['Joined'],
-	'L_AGE' => $titanium_lang['Sort_Age'],
-	'L_POSTS' => $titanium_lang['Posts'],
-	'L_ONLINE_STATUS' => $titanium_lang['Online_status'],
-	'L_LAST_VISIT' => $titanium_lang['User_last_visit'],
+	'U_SEARCH_EXPLAIN' => $lang['Search_author_explain'],
+	'L_GO' => $lang['Sort_Go'],
+	'L_JOINED' => $lang['Joined'],
+	'L_AGE' => $lang['Sort_Age'],
+	'L_POSTS' => $lang['Posts'],
+	'L_ONLINE_STATUS' => $lang['Online_status'],
+	'L_LAST_VISIT' => $lang['User_last_visit'],
     
 	# Mod: Selection Order v1.0.0 START
     # Mod: Birthdays v3.0.0 START
 	'S_MODE_SELECT' => select_box('mode',$mode,array('joined' => 
-	                          $titanium_lang['Sort_Joined'],'username' => 
-						   $titanium_lang['Sort_Username'], 'location' => 
-						      $titanium_lang['Sort_Location'], 'posts' => 
-							       $titanium_lang['Sort_Posts'], 'age' => 
-								   $titanium_lang['Sort_Age'], 'email' => 
-							   $titanium_lang['Sort_Email'], 'website' => 
-							  $titanium_lang['Sort_Website'], 'topten' => 
-							  $titanium_lang['Sort_Top_Ten'], 'online' => 
-							           $titanium_lang['Current_status'])),
+	                          $lang['Sort_Joined'],'username' => 
+						   $lang['Sort_Username'], 'location' => 
+						      $lang['Sort_Location'], 'posts' => 
+							       $lang['Sort_Posts'], 'age' => 
+								   $lang['Sort_Age'], 'email' => 
+							   $lang['Sort_Email'], 'website' => 
+							  $lang['Sort_Website'], 'topten' => 
+							  $lang['Sort_Top_Ten'], 'online' => 
+							           $lang['Current_status'])),
 	# Mod: Selection Order v1.0.0 END
     # Mod: Birthdays v3.0.0 END
 
-	'S_ORDER_SELECT' 		=> select_box('order',$sort_order,array('ASC' => $titanium_lang['Sort_Ascending'], 'DESC' => $titanium_lang['Sort_Descending'])),
+	'S_ORDER_SELECT' 		=> select_box('order',$sort_order,array('ASC' => $lang['Sort_Ascending'], 'DESC' => $lang['Sort_Descending'])),
 	'S_MODE_ACTION' 		=> append_titanium_sid("memberlist.$phpEx"))
 );
 
@@ -363,10 +363,10 @@ if($row = $titanium_db->sql_fetchrow($result)):
    
 	   elseif($row['user_session_time'] >= (time()-$phpbb2_board_config['online_time'])):
 	   $theme_name = get_theme();
-	   $online_status = '<a class="tooltip-html copyright" href="'.append_titanium_sid("viewonline.$phpEx").'" title="'.sprintf($titanium_lang['is_online'],$row['username']).'"'.$online_color.'><img 
+	   $online_status = '<a class="tooltip-html copyright" href="'.append_titanium_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'],$row['username']).'"'.$online_color.'><img 
 	   alt="online" src="themes/'.$theme_name.'/forums/images/status/online_bgcolor_one.gif" /></a>';
 	   else:
-       $online_status = '<span class="tooltip-html copyright" title="'.sprintf($titanium_lang['is_offline'],$row['username']).'"'.$offline_color.'><img 
+       $online_status = '<span class="tooltip-html copyright" title="'.sprintf($lang['is_offline'],$row['username']).'"'.$offline_color.'><img 
 	   alt="online" src="themes/'.$theme_name.'/forums/images/status/offline_bgcolor_one.gif" /></span>';
        endif;
        # Mod: Online/Offline/Hidden v2.2.7 END
@@ -405,7 +405,7 @@ if($row = $titanium_db->sql_fetchrow($result)):
 
 else:
 	$phpbb2_template->assign_block_vars('no_username', array(
-		'NO_USER_ID_SPECIFIED' => $titanium_lang['No_user_id_specified'])
+		'NO_USER_ID_SPECIFIED' => $lang['No_user_id_specified'])
 	);
 endif;
 
@@ -465,16 +465,16 @@ if($total['total'] > $phpbb2_board_config['topics_per_page'] && $mode != 'topten
 			endfor;
 		endif;
 		if($page <= 1):
-			$pagination = '<span>'.$titanium_lang['Goto_page_prev'].'</span>&nbsp;'.$pagination.'&nbsp';
+			$pagination = '<span>'.$lang['Goto_page_prev'].'</span>&nbsp;'.$pagination.'&nbsp';
 		else:
 			$j = $page - 1;
-			$pagination = '<span><a href="'.$redirect.'&amp;page='.$j.'">'.$titanium_lang['Goto_page_prev'].'</a></span>&nbsp;'.$pagination.'&nbsp;';
+			$pagination = '<span><a href="'.$redirect.'&amp;page='.$j.'">'.$lang['Goto_page_prev'].'</a></span>&nbsp;'.$pagination.'&nbsp;';
 		endif;
 		if($page == $totalPages):
-			$pagination .= '<span>'.$titanium_lang['Goto_page_next'].'</span>';
+			$pagination .= '<span>'.$lang['Goto_page_next'].'</span>';
 		else:
 			$j = $page + 1;
-			$pagination .= '<a href="'.$redirect.'&amp;page='.$j.'">'.$titanium_lang['Goto_page_next'].'</a>';
+			$pagination .= '<a href="'.$redirect.'&amp;page='.$j.'">'.$lang['Goto_page_next'].'</a>';
 		endif;
 	endif;
 	$phpbb2_template->assign_block_vars('pagination', array(

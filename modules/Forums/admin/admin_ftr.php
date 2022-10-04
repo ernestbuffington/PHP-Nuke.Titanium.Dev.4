@@ -35,7 +35,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '<table align="center" width="100%" class="forumline">';
 		echo '	<tr>';
 		echo '		<th class="thTop" width="100%">';
-		echo 			$titanium_lang['admin_ftr_config_title'];
+		echo 			$lang['admin_ftr_config_title'];
 		echo '		</th>';
 		echo '	</tr>';
 		echo '</table>';
@@ -46,7 +46,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '<table align="center" width="100%" class="forumline">';
 		echo '	<tr>';
 		echo '		<th class="thTop" width="100%">';
-		echo 			$titanium_lang['admin_ftr_users_title'];
+		echo 			$lang['admin_ftr_users_title'];
 		echo '		</th>';
 		echo '	</tr>';
 		echo '</table>';
@@ -69,7 +69,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			  SET user_ftr = '', user_ftr_time = ''
 			  WHERE user_id > '". ANONYMOUS ."'";
 		$titanium_db->sql_query($q);
-		message_die(GENERAL_MESSAGE, $titanium_lang['admin_ftr_config_do_reset']);
+		message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_do_reset']);
 	}
 	
 	// Change Message
@@ -81,7 +81,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			  SET config_value = '". $new_msg ."'
 			  WHERE config_name = 'ftr_msg'";
 		$titanium_db->sql_query($q);
-		message_die(GENERAL_MESSAGE, $titanium_lang['admin_ftr_config_save_msg']);		
+		message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_save_msg']);		
 	}
 	
 	// Change Active Status
@@ -93,7 +93,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			  SET config_value = '". $new_status ."'
 			  WHERE config_name = 'ftr_active'";
 		$titanium_db->sql_query($q);
-		message_die(GENERAL_MESSAGE, $titanium_lang['admin_ftr_config_save_active']);		
+		message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_save_active']);		
 	}
 	
 	// Change Whos Forced Status
@@ -105,7 +105,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			  SET config_value = '". $new_status ."'
 			  WHERE config_name = 'ftr_who'";
 		$titanium_db->sql_query($q);
-		message_die(GENERAL_MESSAGE, $titanium_lang['admin_ftr_config_save_who']);		
+		message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_save_who']);		
 	}
 		
 	// Change Selected Topic
@@ -130,7 +130,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			echo '	<tr>';
 			echo '		<td class="row2" align="left" width="40%">';
 			echo '			<span class="genmed">';
-			echo 				$titanium_lang['admin_ftr_config_select_f'];
+			echo 				$lang['admin_ftr_config_select_f'];
 			echo '			</span>';
 			echo '		</td>';			
 			echo '		<td align="center" class="row2" width="60%">';
@@ -146,7 +146,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			echo '	</tr>';
 			echo '	<tr>';
 			echo '		<td class="row2" align="center" width="100%" colspan="2">';
-			echo '			<input type="submit" class="mainoption" value="'. $titanium_lang['admin_ftr_config_save'] .'">';
+			echo '			<input type="submit" class="mainoption" value="'. $lang['admin_ftr_config_save'] .'">';
 			echo '		</td>';
 			echo '	</tr>';			
 			echo '</table>';
@@ -168,7 +168,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			echo '	<tr>';
 			echo '		<td class="row2" align="left" width="40%">';
 			echo '			<span class="genmed">';			
-			echo 				$titanium_lang['admin_ftr_config_select_f'];
+			echo 				$lang['admin_ftr_config_select_f'];
 			echo '			</span>';
 			echo '		</td>';			
 			echo '		<td align="center" class="row2" width="60%">';
@@ -180,7 +180,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			echo '	<tr>';
 			echo '		<td class="row2" align="left" width="40%">';
 			echo '			<span class="genmed">';
-			echo 				$titanium_lang['admin_ftr_config_select_t'];
+			echo 				$lang['admin_ftr_config_select_t'];
 			echo '			</span>';
 			echo '		</td>';			
 			echo '		<td align="center" class="row2" width="60%">';
@@ -196,7 +196,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			echo '	</tr>';
 			echo '	<tr>';
 			echo '		<td class="row2" align="center" width="100%" colspan="2">';
-			echo '			<input type="submit" class="mainoption" value="'. $titanium_lang['admin_ftr_config_save'] .'">';
+			echo '			<input type="submit" class="mainoption" value="'. $lang['admin_ftr_config_save'] .'">';
 			echo '		</td>';
 			echo '	</tr>';			
 			echo '</table>';
@@ -209,7 +209,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 				  SET config_value = '". intval($topic_selected) ."'
 				  WHERE config_name = 'ftr_topic'";
 			$titanium_db->sql_query($q);
-			message_die(GENERAL_MESSAGE, $titanium_lang['admin_ftr_config_save_select']);
+			message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_save_select']);
 		}
 	}
 	
@@ -221,7 +221,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '	<tr>';
 		echo '		<td align="left" width="100%" class="row2">';
 		echo '			<span class="genmed">';
-		echo '				<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=reset") .'">'. $titanium_lang['admin_ftr_config_reset'] .'</a>';
+		echo '				<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=reset") .'">'. $lang['admin_ftr_config_reset'] .'</a>';
 		echo '			</span>';
 		echo '		</td>';
 		echo '	</tr>';
@@ -258,25 +258,25 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '<table align="center" width="100%" class="forumline">';
 		echo '	<tr>';
 		echo '		<th class="thTop" align="center" width="100%" colspan="2">';
-		echo 			$titanium_lang['admin_ftr_config_status3'];
+		echo 			$lang['admin_ftr_config_status3'];
 		echo '		</th>';
 		echo '	</tr>';
 		echo '	<tr>';
 		echo '		<td class="row2" align="left" width="80%">';
 		echo '			<span class="genmed">';
-		echo 				(!$phpbb2_board_config['ftr_topic']) ? sprintf($titanium_lang['admin_ftr_config_status3_f'], $titanium_lang['admin_ftr_config_none']) : sprintf($titanium_lang['admin_ftr_config_status3_f'], $forum);
+		echo 				(!$phpbb2_board_config['ftr_topic']) ? sprintf($lang['admin_ftr_config_status3_f'], $lang['admin_ftr_config_none']) : sprintf($lang['admin_ftr_config_status3_f'], $forum);
 		echo '			</span>';
 		echo '		</td>';
 		echo '		<td class="row2" align="center" width="20%" rowspan="2">';
 		echo '			<span class="genmed">';
-		echo '				<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_post") .'">'. $titanium_lang['admin_ftr_config_change'] .'</a>';
+		echo '				<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_post") .'">'. $lang['admin_ftr_config_change'] .'</a>';
 		echo '			</span>';
 		echo '		</td>';				
 		echo '	</tr>';
 		echo '	<tr>';
 		echo '		<td class="row2" align="left" width="80%">';
 		echo '			<span class="genmed">';
-		echo 				(!$phpbb2_board_config['ftr_topic']) ? sprintf($titanium_lang['admin_ftr_config_status3_t'], $titanium_lang['admin_ftr_config_none']) : sprintf($titanium_lang['admin_ftr_config_status3_t'], $topic);
+		echo 				(!$phpbb2_board_config['ftr_topic']) ? sprintf($lang['admin_ftr_config_status3_t'], $lang['admin_ftr_config_none']) : sprintf($lang['admin_ftr_config_status3_t'], $topic);
 		echo '			</span>';
 		echo '		</td>';				
 		echo '	</tr>';
@@ -290,7 +290,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '<table align="center" width="100%" class="forumline">';
 		echo '	<tr>';
 		echo '		<th class="thTop" align="center" width="100%" colspan="2">';
-		echo 			($phpbb2_board_config['ftr_active']) ? sprintf($titanium_lang['admin_ftr_config_status'], $titanium_lang['admin_ftr_config_status_y']) : sprintf($titanium_lang['admin_ftr_config_status'], $titanium_lang['admin_ftr_config_status_n']);
+		echo 			($phpbb2_board_config['ftr_active']) ? sprintf($lang['admin_ftr_config_status'], $lang['admin_ftr_config_status_y']) : sprintf($lang['admin_ftr_config_status'], $lang['admin_ftr_config_status_n']);
 		echo '		</th>';
 		echo '	</tr>';
 		if ($phpbb2_board_config['ftr_active'])
@@ -298,7 +298,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			echo '<tr>';
 			echo '	<td align="left" width="100%" class="row2">';
 			echo '		<span class="genmed">';
-			echo '			<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_active") .'">'. $titanium_lang['admin_ftr_config_status_n2'] .'</a>';
+			echo '			<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_active") .'">'. $lang['admin_ftr_config_status_n2'] .'</a>';
 			echo '		</span>';
 			echo '	</td>';
 			echo '</tr>';
@@ -308,7 +308,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			echo '<tr>';
 			echo '	<td align="left" width="100%" class="row2">';
 			echo '		<span class="genmed">';
-			echo '			<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_active") .'">'. $titanium_lang['admin_ftr_config_status_y2'] .'</a>';
+			echo '			<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_active") .'">'. $lang['admin_ftr_config_status_y2'] .'</a>';
 			echo '		</span>';
 			echo '	</td>';
 			echo '</tr>';		
@@ -323,7 +323,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '<table align="center" width="100%" class="forumline">';
 		echo '	<tr>';
 		echo '		<th class="thTop" align="center" width="100%" colspan="2">';
-		echo 			($phpbb2_board_config['ftr_who'] == 1) ? sprintf($titanium_lang['admin_ftr_config_status2'], $titanium_lang['admin_ftr_config_status2_y']) : sprintf($titanium_lang['admin_ftr_config_status2'], $titanium_lang['admin_ftr_config_status2_n']);
+		echo 			($phpbb2_board_config['ftr_who'] == 1) ? sprintf($lang['admin_ftr_config_status2'], $lang['admin_ftr_config_status2_y']) : sprintf($lang['admin_ftr_config_status2'], $lang['admin_ftr_config_status2_n']);
 		echo '		</th>';
 		echo '	</tr>';
 		if ($phpbb2_board_config['ftr_who'] == 1)
@@ -331,7 +331,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			echo '<tr>';
 			echo '	<td align="left" width="100%" class="row2">';
 			echo '		<span class="genmed">';
-			echo '			<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_who") .'">'. $titanium_lang['admin_ftr_config_status2_n2'] .'</a>';
+			echo '			<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_who") .'">'. $lang['admin_ftr_config_status2_n2'] .'</a>';
 			echo '		</span>';
 			echo '	</td>';
 			echo '</tr>';
@@ -341,7 +341,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			echo '<tr>';
 			echo '	<td align="left" width="100%" class="row2">';
 			echo '		<span class="genmed">';
-			echo '			<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_who") .'">'. $titanium_lang['admin_ftr_config_status2_y2'] .'</a>';
+			echo '			<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_who") .'">'. $lang['admin_ftr_config_status2_y2'] .'</a>';
 			echo '		</span>';
 			echo '	</td>';
 			echo '</tr>';		
@@ -357,13 +357,13 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '<table align="center" width="100%" class="forumline">';
 		echo '	<tr>';
 		echo '		<th class="thTop" align="center" width="100%" colspan="2">';
-		echo 			$titanium_lang['admin_ftr_config_msg'];
+		echo 			$lang['admin_ftr_config_msg'];
 		echo '		</th>';
 		echo '	</tr>';
 		echo '	<tr>';
 		echo '		<td class="row2" align="left" width="40%">';
 		echo '			<span class="genmed">';
-		echo 				$titanium_lang['admin_ftr_config_msg_exp'];
+		echo 				$lang['admin_ftr_config_msg_exp'];
 		echo '			</span>';
 		echo '		</td>';
 		echo '		<td class="row2" valign="top" align="center" width="60%">';
@@ -372,7 +372,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '	</tr>';
 		echo '	<tr>';
 		echo '		<td class="row2" align="center" width="100%" colspan="2">';
-		echo '			<input type="submit" class="mainoption" value="'. $titanium_lang['admin_ftr_config_save'] .'">';
+		echo '			<input type="submit" class="mainoption" value="'. $lang['admin_ftr_config_save'] .'">';
 		echo '		</td>';
 		echo '	</tr>';			
 		echo '	<tr>';
@@ -419,13 +419,13 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '<table align="center" width="100%" class="forumline">';
 		echo '	<tr>';
 		echo '		<th class="thTop" align="center" width="25%">#</th>';
-		echo '		<th class="thTop" align="center" width="25%">'. $titanium_lang['admin_ftr_users_username'] .'</th>';
-		echo '		<th class="thTop" align="center" width="50%">'. $titanium_lang['admin_ftr_users_viewed'] .'</th>';				
+		echo '		<th class="thTop" align="center" width="25%">'. $lang['admin_ftr_users_username'] .'</th>';
+		echo '		<th class="thTop" align="center" width="50%">'. $lang['admin_ftr_users_viewed'] .'</th>';				
 		echo '	</tr>';
 		echo '	<tr>';
-		echo '		<td class="row1" align="center" width="25%">'. $titanium_lang['admin_ftr_users_order'] .'</td>';
-		echo '		<td class="row1" align="center" width="25%">'. sprintf($titanium_lang['admin_ftr_users_asc_desc'], '<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&order=username&dir=asc") .'">', '</a>', '<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&order=username&dir=desc") .'">', '</a>') .'</td>';
-		echo '		<td class="row1" align="center" width="50%">'. sprintf($titanium_lang['admin_ftr_users_asc_desc'], '<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&order=time&dir=asc") .'">', '</a>', '<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&order=time&dir=desc") .'">', '</a>') .'</td>';				
+		echo '		<td class="row1" align="center" width="25%">'. $lang['admin_ftr_users_order'] .'</td>';
+		echo '		<td class="row1" align="center" width="25%">'. sprintf($lang['admin_ftr_users_asc_desc'], '<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&order=username&dir=asc") .'">', '</a>', '<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&order=username&dir=desc") .'">', '</a>') .'</td>';
+		echo '		<td class="row1" align="center" width="50%">'. sprintf($lang['admin_ftr_users_asc_desc'], '<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&order=time&dir=asc") .'">', '</a>', '<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&order=time&dir=desc") .'">', '</a>') .'</td>';				
 		echo '	</tr>';		
 			
 		// var_dump(count($rows));
@@ -466,7 +466,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		}
 		
 		$pagination 	= generate_pagination(append_titanium_sid("admin_ftr.$phpEx?mode=users&order=$order&dir=$dir"), $rows_counted, 100, $phpbb2_start). '&nbsp;';
-		$page_number 	= sprintf($titanium_lang['Page_of'], ( floor( $phpbb2_start / 100 ) + 1 ), ceil( $rows_counted / 100 ) );				
+		$page_number 	= sprintf($lang['Page_of'], ( floor( $phpbb2_start / 100 ) + 1 ), ceil( $rows_counted / 100 ) );				
 
 		echo '	<tr>';
 		echo '		<td class="row1" align="left" width="50%" colspan="2">'. $page_number .'</td>';

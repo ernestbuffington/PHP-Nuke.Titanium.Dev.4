@@ -49,7 +49,7 @@ include($phpbb2_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
 include($phpbb2_root_path . 'attach_mod/includes/functions_admin.' . $phpEx);
 
 // Check if the language got included
-if (!isset($titanium_lang['Test_settings_successful']))
+if (!isset($lang['Test_settings_successful']))
 {
     // include_once is used within the function
     include_attach_lang();
@@ -68,7 +68,7 @@ $view = (isset($HTTP_POST_VARS['search']) && $HTTP_POST_VARS['search']) ? 'attac
 // process modes based on view
 if ($view == 'username')
 {
-    $mode_types_text = array($titanium_lang['Sort_Username'], $titanium_lang['Sort_Attachments'], $titanium_lang['Sort_Size']);
+    $mode_types_text = array($lang['Sort_Username'], $lang['Sort_Attachments'], $lang['Sort_Size']);
     $mode_types = array('username', 'attachments', 'filesize');
 
     if (!$mode)
@@ -79,7 +79,7 @@ if ($view == 'username')
 }
 else if ($view == 'attachments')
 {
-    $mode_types_text = array($titanium_lang['Sort_Filename'], $titanium_lang['Sort_Comment'], $titanium_lang['Sort_Extension'], $titanium_lang['Sort_Size'], $titanium_lang['Sort_Downloads'], $titanium_lang['Sort_Posttime'], /*$titanium_lang['Sort_Posts']*/);
+    $mode_types_text = array($lang['Sort_Filename'], $lang['Sort_Comment'], $lang['Sort_Extension'], $lang['Sort_Size'], $lang['Sort_Downloads'], $lang['Sort_Posttime'], /*$lang['Sort_Posts']*/);
     $mode_types = array('real_filename', 'comment', 'extension', 'filesize', 'downloads', 'post_time'/*, 'posts'*/);
 
     if (!$mode)
@@ -90,7 +90,7 @@ else if ($view == 'attachments')
 }
 else if ($view == 'search')
 {
-    $mode_types_text = array($titanium_lang['Sort_Filename'], $titanium_lang['Sort_Comment'], $titanium_lang['Sort_Extension'], $titanium_lang['Sort_Size'], $titanium_lang['Sort_Downloads'], $titanium_lang['Sort_Posttime'], /*$titanium_lang['Sort_Posts']*/);
+    $mode_types_text = array($lang['Sort_Filename'], $lang['Sort_Comment'], $lang['Sort_Extension'], $lang['Sort_Size'], $lang['Sort_Downloads'], $lang['Sort_Posttime'], /*$lang['Sort_Posts']*/);
     $mode_types = array('real_filename', 'comment', 'extension', 'filesize', 'downloads', 'post_time'/*, 'posts'*/);
 
     $sort_order = 'DESC';
@@ -167,7 +167,7 @@ else if ($view == 'attachments')
 }
 
 // Set select fields
-$view_types_text = array($titanium_lang['View_Statistic'], $titanium_lang['View_Search'], $titanium_lang['View_Username'], $titanium_lang['View_Attachments']);
+$view_types_text = array($lang['View_Statistic'], $lang['View_Search'], $lang['View_Username'], $lang['View_Attachments']);
 $view_types = array('stats', 'search', 'username', 'attachments');
 
 $select_view = '<select name="view">';
@@ -194,11 +194,11 @@ if (count($mode_types_text) > 0)
 $select_sort_order = '<select name="order">';
 if ($sort_order == 'ASC')
 {
-    $select_sort_order .= '<option value="ASC" selected="selected">' . $titanium_lang['Sort_Ascending'] . '</option><option value="DESC">' . $titanium_lang['Sort_Descending'] . '</option>';
+    $select_sort_order .= '<option value="ASC" selected="selected">' . $lang['Sort_Ascending'] . '</option><option value="DESC">' . $lang['Sort_Descending'] . '</option>';
 }
 else
 {
-    $select_sort_order .= '<option value="ASC">' . $titanium_lang['Sort_Ascending'] . '</option><option value="DESC" selected="selected">' . $titanium_lang['Sort_Descending'] . '</option>';
+    $select_sort_order .= '<option value="ASC">' . $lang['Sort_Ascending'] . '</option><option value="DESC" selected="selected">' . $lang['Sort_Descending'] . '</option>';
 }
 $select_sort_order .= '</select>';
 
@@ -233,11 +233,11 @@ else if ($delete && sizeof($delete_id_list) > 0)
     );
 
     $phpbb2_template->assign_vars(array(
-        'MESSAGE_TITLE'        => $titanium_lang['Confirm'],
-        'MESSAGE_TEXT'        => $titanium_lang['Confirm_delete_attachments'],
+        'MESSAGE_TITLE'        => $lang['Confirm'],
+        'MESSAGE_TEXT'        => $lang['Confirm_delete_attachments'],
 
-        'L_YES'                => $titanium_lang['Yes'],
-        'L_NO'                => $titanium_lang['No'],
+        'L_YES'                => $lang['Yes'],
+        'L_NO'                => $lang['No'],
 
         'S_CONFIRM_ACTION'    => append_titanium_sid('admin_attach_cp.' . $phpEx),
         'S_HIDDEN_FIELDS'    => $hidden_fields)
@@ -252,10 +252,10 @@ else if ($delete && sizeof($delete_id_list) > 0)
 
 // Assign Default Template Vars
 $phpbb2_template->assign_vars(array(
-    'L_VIEW'                    => $titanium_lang['View'],
-    'L_SUBMIT'                    => $titanium_lang['Submit'],
-    'L_CONTROL_PANEL_TITLE'        => $titanium_lang['Control_panel_title'],
-    'L_CONTROL_PANEL_EXPLAIN'    => $titanium_lang['Control_panel_explain'],
+    'L_VIEW'                    => $lang['View'],
+    'L_SUBMIT'                    => $lang['Submit'],
+    'L_CONTROL_PANEL_TITLE'        => $lang['Control_panel_title'],
+    'L_CONTROL_PANEL_EXPLAIN'    => $lang['Control_panel_explain'],
 
     'S_VIEW_SELECT'    => $select_view,
     'S_MODE_ACTION'    => append_titanium_sid('admin_attach_cp.' . $phpEx))
@@ -316,15 +316,15 @@ if ($view == 'stats')
 
     if ($attach_config['attachment_quota'] >= 1048576)
     {
-        $attachment_quota = round($attach_config['attachment_quota'] / 1048576 * 100) / 100 . ' ' . $titanium_lang['MB'];
+        $attachment_quota = round($attach_config['attachment_quota'] / 1048576 * 100) / 100 . ' ' . $lang['MB'];
     }
     else if ($attach_config['attachment_quota'] >= 1024)
     {
-        $attachment_quota = round($attach_config['attachment_quota'] / 1024 * 100) / 100 . ' ' . $titanium_lang['KB'];
+        $attachment_quota = round($attach_config['attachment_quota'] / 1024 * 100) / 100 . ' ' . $lang['KB'];
     }
     else
     {
-        $attachment_quota = $attach_config['attachment_quota'] . ' ' . $titanium_lang['Bytes'];
+        $attachment_quota = $attach_config['attachment_quota'] . ' ' . $lang['Bytes'];
     }
 
     $sql = "SELECT count(*) AS total
@@ -393,15 +393,15 @@ if ($view == 'stats')
     $titanium_db->sql_freeresult($result);
 
     $phpbb2_template->assign_vars(array(
-        'L_STATISTIC'                => $titanium_lang['Statistic'],
-        'L_VALUE'                    => $titanium_lang['Value'],
-        'L_NUMBER_OF_ATTACHMENTS'    => $titanium_lang['Number_of_attachments'],
-        'L_TOTAL_FILESIZE'            => $titanium_lang['Total_filesize'],
-        'L_ATTACH_QUOTA'            => $titanium_lang['Attach_quota'],
-        'L_NUMBER_OF_POSTS'            => $titanium_lang['Number_posts_attach'],
-        'L_NUMBER_OF_PMS'            => $titanium_lang['Number_pms_attach'],
-        'L_NUMBER_OF_TOPICS'        => $titanium_lang['Number_topics_attach'],
-        'L_NUMBER_OF_USERS'            => $titanium_lang['Number_users_attach'],
+        'L_STATISTIC'                => $lang['Statistic'],
+        'L_VALUE'                    => $lang['Value'],
+        'L_NUMBER_OF_ATTACHMENTS'    => $lang['Number_of_attachments'],
+        'L_TOTAL_FILESIZE'            => $lang['Total_filesize'],
+        'L_ATTACH_QUOTA'            => $lang['Attach_quota'],
+        'L_NUMBER_OF_POSTS'            => $lang['Number_posts_attach'],
+        'L_NUMBER_OF_PMS'            => $lang['Number_pms_attach'],
+        'L_NUMBER_OF_TOPICS'        => $lang['Number_topics_attach'],
+        'L_NUMBER_OF_USERS'            => $lang['Number_users_attach'],
         
         'TOTAL_FILESIZE'            => $upload_dir_size,
         'ATTACH_QUOTA'                => $attachment_quota,
@@ -441,10 +441,10 @@ if ($view == 'search')
 
     if ($s_forums != '')
     {
-        $s_forums = '<option value="0">' . $titanium_lang['All_available'] . '</option>' . $s_forums;
+        $s_forums = '<option value="0">' . $lang['All_available'] . '</option>' . $s_forums;
 
         // Category to search
-        $s_categories = '<option value="0">' . $titanium_lang['All_available'] . '</option>';
+        $s_categories = '<option value="0">' . $lang['All_available'] . '</option>';
 
         foreach ($list_cat as $cat_id => $cat_title)
         {
@@ -453,7 +453,7 @@ if ($view == 'search')
     }
     else
     {
-        message_die(GENERAL_MESSAGE, $titanium_lang['No_searchable_forums']);
+        message_die(GENERAL_MESSAGE, $lang['No_searchable_forums']);
     }
     
     $phpbb2_template->set_filenames(array(
@@ -461,22 +461,22 @@ if ($view == 'search')
     );
 
     $phpbb2_template->assign_vars(array(
-        'L_ATTACH_SEARCH_QUERY'        => $titanium_lang['Attach_search_query'],
-        'L_FILENAME'                => $titanium_lang['File_name'],
-        'L_COMMENT'                    => $titanium_lang['File_comment'],
-        'L_SEARCH_OPTIONS'            => $titanium_lang['Search_options'],
-        'L_SEARCH_AUTHOR'            => $titanium_lang['Search_author'],
-        'L_WILDCARD_EXPLAIN'        => $titanium_lang['Search_wildcard_explain'],
-        'L_SIZE_SMALLER_THAN'        => $titanium_lang['Size_smaller_than'],        
-        'L_SIZE_GREATER_THAN'        => $titanium_lang['Size_greater_than'],
-        'L_COUNT_SMALLER_THAN'        => $titanium_lang['Count_smaller_than'],        
-        'L_COUNT_GREATER_THAN'        => $titanium_lang['Count_greater_than'],
-        'L_MORE_DAYS_OLD'            => $titanium_lang['More_days_old'],
-        'L_CATEGORY'                => $titanium_lang['Category'], 
-        'L_ORDER'                    => $titanium_lang['Order'],
-        'L_SORT_BY'                    => $titanium_lang['Select_sort_method'],
-        'L_FORUM'                    => $titanium_lang['Forum'],
-        'L_SEARCH'                    => $titanium_lang['Search'],
+        'L_ATTACH_SEARCH_QUERY'        => $lang['Attach_search_query'],
+        'L_FILENAME'                => $lang['File_name'],
+        'L_COMMENT'                    => $lang['File_comment'],
+        'L_SEARCH_OPTIONS'            => $lang['Search_options'],
+        'L_SEARCH_AUTHOR'            => $lang['Search_author'],
+        'L_WILDCARD_EXPLAIN'        => $lang['Search_wildcard_explain'],
+        'L_SIZE_SMALLER_THAN'        => $lang['Size_smaller_than'],        
+        'L_SIZE_GREATER_THAN'        => $lang['Size_greater_than'],
+        'L_COUNT_SMALLER_THAN'        => $lang['Count_smaller_than'],        
+        'L_COUNT_GREATER_THAN'        => $lang['Count_greater_than'],
+        'L_MORE_DAYS_OLD'            => $lang['More_days_old'],
+        'L_CATEGORY'                => $lang['Category'], 
+        'L_ORDER'                    => $lang['Order'],
+        'L_SORT_BY'                    => $lang['Select_sort_method'],
+        'L_FORUM'                    => $lang['Forum'],
+        'L_SEARCH'                    => $lang['Search'],
 
         'S_FORUM_OPTIONS'            => $s_forums, 
         'S_CATEGORY_OPTIONS'        => $s_categories,
@@ -493,11 +493,11 @@ if ($view == 'username')
     );
 
     $phpbb2_template->assign_vars(array(
-        'L_SELECT_SORT_METHOD'    => $titanium_lang['Select_sort_method'],
-        'L_ORDER'                => $titanium_lang['Order'],
-        'L_USERNAME'            => $titanium_lang['Username'],
-        'L_TOTAL_SIZE'            => $titanium_lang['Size_in_kb'],
-        'L_ATTACHMENTS'            => $titanium_lang['Attachments'],
+        'L_SELECT_SORT_METHOD'    => $lang['Select_sort_method'],
+        'L_ORDER'                => $lang['Order'],
+        'L_USERNAME'            => $lang['Username'],
+        'L_TOTAL_SIZE'            => $lang['Size_in_kb'],
+        'L_ATTACHMENTS'            => $lang['Attachments'],
 
         'S_MODE_SELECT'            => $select_sort_mode,
         'S_ORDER_SELECT'        => $select_sort_order)
@@ -620,21 +620,21 @@ if ($view == 'attachments')
     );
 
     $phpbb2_template->assign_vars(array(
-        'L_SELECT_SORT_METHOD'    => $titanium_lang['Select_sort_method'],
-        'L_ORDER'                => $titanium_lang['Order'],
+        'L_SELECT_SORT_METHOD'    => $lang['Select_sort_method'],
+        'L_ORDER'                => $lang['Order'],
 
-        'L_FILENAME'            => $titanium_lang['File_name'],
-        'L_FILECOMMENT'            => $titanium_lang['File_comment_cp'],
-        'L_EXTENSION'            => $titanium_lang['Extension'],
-        'L_SIZE'                => $titanium_lang['Size_in_kb'],
-        'L_DOWNLOADS'            => $titanium_lang['Downloads'],
-        'L_POST_TIME'            => $titanium_lang['Post_time'],
-        'L_POSTED_IN_TOPIC'        => $titanium_lang['Posted_in_topic'],
-        'L_DELETE'                => $titanium_lang['Delete'],
-        'L_DELETE_MARKED'        => $titanium_lang['Delete_marked'],
-        'L_SUBMIT_CHANGES'        => $titanium_lang['Submit_changes'],
-        'L_MARK_ALL'            => $titanium_lang['Mark_all'],
-        'L_UNMARK_ALL'            => $titanium_lang['Unmark_all'],
+        'L_FILENAME'            => $lang['File_name'],
+        'L_FILECOMMENT'            => $lang['File_comment_cp'],
+        'L_EXTENSION'            => $lang['Extension'],
+        'L_SIZE'                => $lang['Size_in_kb'],
+        'L_DOWNLOADS'            => $lang['Downloads'],
+        'L_POST_TIME'            => $lang['Post_time'],
+        'L_POSTED_IN_TOPIC'        => $lang['Posted_in_topic'],
+        'L_DELETE'                => $lang['Delete'],
+        'L_DELETE_MARKED'        => $lang['Delete_marked'],
+        'L_SUBMIT_CHANGES'        => $lang['Submit_changes'],
+        'L_MARK_ALL'            => $lang['Mark_all'],
+        'L_UNMARK_ALL'            => $lang['Unmark_all'],
 
         'S_MODE_SELECT'            => $select_sort_mode,
         'S_ORDER_SELECT'        => $select_sort_order)
@@ -665,7 +665,7 @@ if ($view == 'attachments')
 
         $phpbb2_template->assign_vars(array(
             'S_USER_HIDDEN'            => $s_hidden,
-            'L_STATISTICS_FOR_USER'    => sprintf($titanium_lang['Statistics_for_user'], $titanium_username))
+            'L_STATISTICS_FOR_USER'    => sprintf($lang['Statistics_for_user'], $titanium_username))
         );
 
         $sql = "SELECT attach_id 
@@ -791,7 +791,7 @@ if ($view == 'attachments')
                 }
                 else
                 {
-                    $post_titles[] = $titanium_lang['Private_Message'];
+                    $post_titles[] = $lang['Private_Message'];
                 }
             }
 
@@ -845,14 +845,14 @@ if ($do_pagination && $total_phpbb2_rows > $phpbb2_board_config['topics_per_page
 
     $phpbb2_template->assign_vars(array(
         'PAGINATION'    => $pagination,
-        'PAGE_NUMBER'    => sprintf($titanium_lang['Page_of'], ( floor( $phpbb2_start / $phpbb2_board_config['topics_per_page'] ) + 1 ), ceil( $total_phpbb2_rows / $phpbb2_board_config['topics_per_page'] )), 
+        'PAGE_NUMBER'    => sprintf($lang['Page_of'], ( floor( $phpbb2_start / $phpbb2_board_config['topics_per_page'] ) + 1 ), ceil( $total_phpbb2_rows / $phpbb2_board_config['topics_per_page'] )), 
 
-        'L_GOTO_PAGE'    => $titanium_lang['Goto_page'])
+        'L_GOTO_PAGE'    => $lang['Goto_page'])
     );
 }
 
 $phpbb2_template->assign_vars(array(
-    'ATTACH_VERSION' => sprintf($titanium_lang['Attachment_version'], $attach_config['attach_version']))
+    'ATTACH_VERSION' => sprintf($lang['Attachment_version'], $attach_config['attach_version']))
 );
 
 $phpbb2_template->pparse('body');

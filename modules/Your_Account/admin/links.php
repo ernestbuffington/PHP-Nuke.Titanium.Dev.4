@@ -31,8 +31,8 @@ if (!defined('ADMIN_FILE')) {
    die('Access Denied');
 }
 
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
-get_lang($titanium_module_name);
-adminmenu("modules.php?name=$titanium_module_name&amp;file=admin", _EDITUSERS, "users.png");
+$pnt_module = basename(dirname(dirname(__FILE__)));
+get_lang($pnt_module);
+adminmenu("modules.php?name=$pnt_module&amp;file=admin", _EDITUSERS, "users.png");
 
 ?>

@@ -231,14 +231,14 @@ switch( $mode )
                 'body' => 'confirm_body.tpl')
             );
             $phpbb2_template->assign_vars(array(
-                'MESSAGE_TITLE' => $titanium_lang['Delete'],
-                'MESSAGE_TEXT' => $titanium_lang['Confirm_user_deleted'],
+                'MESSAGE_TITLE' => $lang['Delete'],
+                'MESSAGE_TEXT' => $lang['Confirm_user_deleted'],
 
                 'U_INDEX' => '',
                 'L_INDEX' => '',
 
-                'L_YES' => $titanium_lang['Yes'],
-                'L_NO' => $titanium_lang['No'],
+                'L_YES' => $lang['Yes'],
+                'L_NO' => $lang['No'],
 
                 'S_CONFIRM_ACTION' => append_titanium_sid('admin_userlist.'.$phpEx.'?mode=delete'),
                 'S_HIDDEN_FIELDS' => $hidden_fields)
@@ -395,7 +395,7 @@ switch( $mode )
                 $i++;
             }
 
-            $message = $titanium_lang['User_deleted_successfully'] . "<br /><br />" . sprintf($titanium_lang['Click_return_userlist'], "<a href=\"" . append_titanium_sid("admin_userlist.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+            $message = $lang['User_deleted_successfully'] . "<br /><br />" . sprintf($lang['Click_return_userlist'], "<a href=\"" . append_titanium_sid("admin_userlist.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
             message_die(GENERAL_MESSAGE, $message);
         }
@@ -433,14 +433,14 @@ switch( $mode )
                 'body' => 'confirm_body.tpl')
             );
             $phpbb2_template->assign_vars(array(
-                'MESSAGE_TITLE' => $titanium_lang['Ban'],
-                'MESSAGE_TEXT' => $titanium_lang['Confirm_user_ban'],
+                'MESSAGE_TITLE' => $lang['Ban'],
+                'MESSAGE_TEXT' => $lang['Confirm_user_ban'],
 
                 'U_INDEX' => '',
                 'L_INDEX' => '',
 
-                'L_YES' => $titanium_lang['Yes'],
-                'L_NO' => $titanium_lang['No'],
+                'L_YES' => $lang['Yes'],
+                'L_NO' => $lang['No'],
 
                 'S_CONFIRM_ACTION' => append_titanium_sid('admin_userlist.'.$phpEx.'?mode=ban'),
                 'S_HIDDEN_FIELDS' => $hidden_fields)
@@ -465,7 +465,7 @@ switch( $mode )
                 $i++;
             }
 
-            $message = $titanium_lang['User_banned_successfully'] . "<br /><br />" . sprintf($titanium_lang['Click_return_userlist'], "<a href=\"" . append_titanium_sid("admin_userlist.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+            $message = $lang['User_banned_successfully'] . "<br /><br />" . sprintf($lang['Click_return_userlist'], "<a href=\"" . append_titanium_sid("admin_userlist.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
             message_die(GENERAL_MESSAGE, $message);
         }
@@ -507,7 +507,7 @@ switch( $mode )
             $i++;
         }
 
-        $message = $titanium_lang['User_status_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_userlist'], "<a href=\"" . append_titanium_sid("admin_userlist.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message = $lang['User_status_updated'] . "<br /><br />" . sprintf($lang['Click_return_userlist'], "<a href=\"" . append_titanium_sid("admin_userlist.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
         break;
@@ -536,16 +536,16 @@ switch( $mode )
             );
 
             $phpbb2_template->assign_vars(array(
-                'MESSAGE_TITLE' => $titanium_lang['Add_group'],
-                'MESSAGE_TEXT' => $titanium_lang['Add_group_explain'],
+                'MESSAGE_TITLE' => $lang['Add_group'],
+                'MESSAGE_TEXT' => $lang['Add_group_explain'],
 
-                'L_GROUP' => $titanium_lang['Group'],
+                'L_GROUP' => $lang['Group'],
 
                 'S_GROUP_VARIABLE' => POST_GROUPS_URL,
                 'S_ACTION' => append_titanium_sid($phpbb2_root_path . 'admin/admin_userlist.'.$phpEx.'?mode=group'),
-                'L_GO' => $titanium_lang['Go'],
-                'L_CANCEL' => $titanium_lang['Cancel'],
-                'L_SELECT' => $titanium_lang['Select_one'],
+                'L_GO' => $lang['Go'],
+                'L_CANCEL' => $lang['Cancel'],
+                'L_SELECT' => $lang['Select_one'],
                 'S_HIDDEN_FIELDS' => $hidden_fields)
             );
 
@@ -628,7 +628,7 @@ switch( $mode )
                     WHERE user_id = '$titanium_user_id'";
                 if ( !($result = $titanium_db->sql_query($sql)) )
                 {
-                    message_die(GENERAL_ERROR, "Could not get user information", $titanium_lang['Error'], __LINE__, __FILE__, $sql);
+                    message_die(GENERAL_ERROR, "Could not get user information", $lang['Error'], __LINE__, __FILE__, $sql);
                 }
                 $row = $titanium_db->sql_fetchrow($result);
 
@@ -691,7 +691,7 @@ switch( $mode )
 
                     $emailer->use_template('group_added', $row['user_lang']);
                     $emailer->email_address($row['user_email']);
-                    $emailer->set_subject($titanium_lang['Group_added']);
+                    $emailer->set_subject($lang['Group_added']);
 
                     $emailer->assign_vars(array(
                         'SITENAME' => $phpbb2_board_config['sitename'],
@@ -709,7 +709,7 @@ switch( $mode )
                 $i++;
             }
 
-            $message = $titanium_lang['User_add_group_successfully'] . "<br /><br />" . sprintf($titanium_lang['Click_return_userlist'], "<a href=\"" . append_titanium_sid("admin_userlist.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+            $message = $lang['User_add_group_successfully'] . "<br /><br />" . sprintf($lang['Click_return_userlist'], "<a href=\"" . append_titanium_sid("admin_userlist.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
             message_die(GENERAL_MESSAGE, $message);
         }
@@ -730,14 +730,14 @@ switch( $mode )
         $alpha_range = array();
         $alpha_letters = array();
         $alpha_letters = range('A','Z');
-        $alpha_start = array($titanium_lang['All'], '#');
+        $alpha_start = array($lang['All'], '#');
         $alpha_range = array_merge($alpha_start, $alpha_letters);
 
         $i = 0;
         while( $i < count($alpha_range) )
         {
 
-            if ( $alpha_range[$i] != $titanium_lang['All'] )
+            if ( $alpha_range[$i] != $lang['All'] )
             {
                 if ( $alpha_range[$i] != '#' )
                 {
@@ -754,7 +754,7 @@ switch( $mode )
                 $alphanum_search_url = append_titanium_sid($phpbb2_root_path . "admin/admin_userlist.$phpEx?sort=$sort&amp;order=$sort_order&amp;show=$show");
             }
 
-            if ( ( $alphanum == $temp ) || ( $alpha_range[$i] == $titanium_lang['All'] && empty($alphanum) ) )
+            if ( ( $alphanum == $temp ) || ( $alpha_range[$i] == $lang['All'] && empty($alphanum) ) )
             {
                 $alpha_range[$i] = '<strong>' . $alpha_range[$i] . '</strong>';
             }
@@ -775,53 +775,53 @@ switch( $mode )
         // set up template varibles
         //
         $phpbb2_template->assign_vars(array(
-            'L_TITLE' => $titanium_lang['Userlist'],
-            'L_DESCRIPTION' => $titanium_lang['Userlist_description'],
+            'L_TITLE' => $lang['Userlist'],
+            'L_DESCRIPTION' => $lang['Userlist_description'],
 
-            'L_OPEN_CLOSE' => $titanium_lang['Open_close'],
-            'L_ACTIVE' => $titanium_lang['Active'],
-            'L_USERNAME' => $titanium_lang['Username'],
-            'L_GROUP' => $titanium_lang['Group'],
-            'L_RANK' => $titanium_lang['Rank'],
-            'L_POSTS' => $titanium_lang['Posts'],
-            'L_FIND_ALL_POSTS' => $titanium_lang['Find_all_posts'],
-            'L_JOINED' => $titanium_lang['Joined'],
-            'L_ACTIVTY' => $titanium_lang['Last_activity'],
-            'L_MANAGE' => $titanium_lang['User_manage'],
-            'L_PERMISSIONS' => $titanium_lang['Permissions'],
-            'L_EMAIL' => $titanium_lang['Email'],
-            'L_PM' => $titanium_lang['Private_Message'],
-            'L_WEBSITE' => $titanium_lang['Website'],
+            'L_OPEN_CLOSE' => $lang['Open_close'],
+            'L_ACTIVE' => $lang['Active'],
+            'L_USERNAME' => $lang['Username'],
+            'L_GROUP' => $lang['Group'],
+            'L_RANK' => $lang['Rank'],
+            'L_POSTS' => $lang['Posts'],
+            'L_FIND_ALL_POSTS' => $lang['Find_all_posts'],
+            'L_JOINED' => $lang['Joined'],
+            'L_ACTIVTY' => $lang['Last_activity'],
+            'L_MANAGE' => $lang['User_manage'],
+            'L_PERMISSIONS' => $lang['Permissions'],
+            'L_EMAIL' => $lang['Email'],
+            'L_PM' => $lang['Private_Message'],
+            'L_WEBSITE' => $lang['Website'],
 
             'S_USER_VARIABLE' => POST_USERS_URL,
             'S_ACTION' => append_titanium_sid($phpbb2_root_path . 'admin/admin_userlist.'.$phpEx),
-            'L_GO' => $titanium_lang['Go'],
-            'L_SELECT' => $titanium_lang['Select_one'],
-            'L_DELETE' => $titanium_lang['Delete'],
-            'L_BAN' => $titanium_lang['Ban'],
-            'L_ACTIVATE_DEACTIVATE' => $titanium_lang['Activate_deactivate'],
-            'L_ADD_GROUP' => $titanium_lang['Add_group'],
+            'L_GO' => $lang['Go'],
+            'L_SELECT' => $lang['Select_one'],
+            'L_DELETE' => $lang['Delete'],
+            'L_BAN' => $lang['Ban'],
+            'L_ACTIVATE_DEACTIVATE' => $lang['Activate_deactivate'],
+            'L_ADD_GROUP' => $lang['Add_group'],
 
             'S_SHOW' => $show,
-			'L_FILTER' => $titanium_lang['Filter'],
-			'L_SORT_BY' => $titanium_lang['Select_sort_method'],
-			'L_SORT_USER_ID' => $titanium_lang['Sort_User_id'],
-			'L_SORT_ACTIVE' => $titanium_lang['Sort_Active'],
-			'L_SORT_USERNAME' => $titanium_lang['Sort_Username'],
-			'L_SORT_JOINED' => $titanium_lang['Sort_Joined'],
-			'L_SORT_ACTIVTY' => $titanium_lang['Sort_Last_Activity'],
-			'L_SORT_USER_LEVEL' => $titanium_lang['Sort_User_Level'],
-			'L_SORT_POSTS' => $titanium_lang['Sort_Posts'],
-			'L_SORT_RANK' => $titanium_lang['Sort_Rank'],
-			'L_SORT_EMAIL' => $titanium_lang['Sort_Email'],
-			'L_SORT_WEBSITE' => $titanium_lang['Sort_Website'],
-			'L_ASCENDING' => $titanium_lang['Sort_Ascending'],
-			'L_DESCENDING' => $titanium_lang['Sort_Descending'],
-            'L_SORT_BY' => $titanium_lang['Sort_by'],
-            'L_USER_ID' => $titanium_lang['User_id'],
-            'L_USER_LEVEL' => $titanium_lang['User_level'],
-            'L_SHOW' => $titanium_lang['Show'],
-            'S_SORT' => $titanium_lang['Sort'],
+			'L_FILTER' => $lang['Filter'],
+			'L_SORT_BY' => $lang['Select_sort_method'],
+			'L_SORT_USER_ID' => $lang['Sort_User_id'],
+			'L_SORT_ACTIVE' => $lang['Sort_Active'],
+			'L_SORT_USERNAME' => $lang['Sort_Username'],
+			'L_SORT_JOINED' => $lang['Sort_Joined'],
+			'L_SORT_ACTIVTY' => $lang['Sort_Last_Activity'],
+			'L_SORT_USER_LEVEL' => $lang['Sort_User_Level'],
+			'L_SORT_POSTS' => $lang['Sort_Posts'],
+			'L_SORT_RANK' => $lang['Sort_Rank'],
+			'L_SORT_EMAIL' => $lang['Sort_Email'],
+			'L_SORT_WEBSITE' => $lang['Sort_Website'],
+			'L_ASCENDING' => $lang['Sort_Ascending'],
+			'L_DESCENDING' => $lang['Sort_Descending'],
+            'L_SORT_BY' => $lang['Sort_by'],
+            'L_USER_ID' => $lang['User_id'],
+            'L_USER_LEVEL' => $lang['User_level'],
+            'L_SHOW' => $lang['Show'],
+            'S_SORT' => $lang['Sort'],
 			'S_HIDDEN_FIELDS' => $hidden_fields,
 			'SELECTED_ASCENDING'  => ($sort_order=="ASC") ? " selected" : "",
 			'SELECTED_DESCENDING' => ($sort_order=="DESC") ? " selected" : "",
@@ -959,7 +959,7 @@ switch( $mode )
                 'ROW_CLASS' => ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'],
 
                 'USER_ID' => $row['user_id'],
-                'ACTIVE' => ( $row['user_active'] == TRUE ) ? $titanium_lang['Yes'] : $titanium_lang['No'],
+                'ACTIVE' => ( $row['user_active'] == TRUE ) ? $lang['Yes'] : $lang['No'],
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -975,7 +975,7 @@ switch( $mode )
                 'I_AVATAR' => $avatar_img,
 
                 'JOINED' => $row['user_regdate'],
-                'LAST_ACTIVITY' => ( !empty($row['user_session_time']) ) ? create_date('d M Y', $row['user_session_time'], $phpbb2_board_config['board_timezone']) : $titanium_lang['Never'],
+                'LAST_ACTIVITY' => ( !empty($row['user_session_time']) ) ? create_date('d M Y', $row['user_session_time'], $phpbb2_board_config['board_timezone']) : $lang['Never'],
 
                 'POSTS' => ( $row['user_posts'] ) ? $row['user_posts'] : 0,
                 'U_SEARCH' => ("../../../modules.php?name=Forums&amp;file=search&amp;search_author=" . urlencode(strip_tags($row['username'])) . ""),
@@ -1008,15 +1008,15 @@ switch( $mode )
                 //
                 if ( $group_row['group_moderator'] == $row['user_id'] )
                 {
-                    $group_status = $titanium_lang['Moderator'];
+                    $group_status = $lang['Moderator'];
                 }
                 else if ( $group_row['user_pending'] == true )
                 {
-                    $group_status = $titanium_lang['Pending'];
+                    $group_status = $lang['Pending'];
                 }
                 else
                 {
-                    $group_status = $titanium_lang['Member'];
+                    $group_status = $lang['Member'];
                 }
 
                 $phpbb2_template->assign_block_vars('user_row.group_row', array(
@@ -1036,7 +1036,7 @@ switch( $mode )
             if ( $g == 0 )
             {
                 $phpbb2_template->assign_block_vars('user_row.no_group_row', array(
-                    'L_NONE' => $titanium_lang['None'])
+                    'L_NONE' => $lang['None'])
                 );
             }
 
@@ -1062,7 +1062,7 @@ switch( $mode )
 
         $phpbb2_template->assign_vars(array(
             'PAGINATION' => $pagination,
-            'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], ( floor( $phpbb2_start / $show ) + 1 ), ceil( $total_phpbb2_members / $show )))
+            'PAGE_NUMBER' => sprintf($lang['Page_of'], ( floor( $phpbb2_start / $show ) + 1 ), ceil( $total_phpbb2_members / $show )))
         );
 
         break;

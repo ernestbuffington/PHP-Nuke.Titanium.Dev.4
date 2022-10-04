@@ -33,22 +33,22 @@ if($project['allowreports'] > 0) {
 
   echo "<center><table border='1' cellpadding='2' cellspacing='0' width='100%'>\n";
   echo "<tr><td bgcolor='$bgcolor2' colspan='4' width='100%'><nobr><strong>"._NETWORK_PROJECTNAME."</strong></nobr></td></tr>\n";
-  $pjimage = pjimage("project.png", $titanium_module_name);
+  $pjimage = pjimage("project.png", $pnt_module);
   echo "<tr><td align='center'><img src='$pjimage'></td>\n";
-  echo "<td colspan='3' width='100%'><nobr><a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project['project_id']."'>".$project['project_name']."</a></nobr></td></tr>\n";
+  echo "<td colspan='3' width='100%'><nobr><a href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=".$project['project_id']."'>".$project['project_name']."</a></nobr></td></tr>\n";
   echo "<tr><td bgcolor='$bgcolor2' colspan='2' width='100%'><nobr><strong>"._NETWORK_REPORTINFO."</strong></nobr></td>\n";
   echo "<td bgcolor='$bgcolor2' align='center'><strong>"._NETWORK_STATUS."</strong></td>\n";
   echo "<td bgcolor='$bgcolor2' align='center'><strong>"._NETWORK_TYPE."</strong></td></tr>\n";
-  $pjimage = pjimage("report.png", $titanium_module_name);
+  $pjimage = pjimage("report.png", $pnt_module);
   echo "<tr><td align='center'><img src='$pjimage'></td><td width='100%'><nobr>".$report['report_name']."</nobr></td>\n";
   echo "<td align='center'><nobr>".$reportstatus['status_name']."</nobr></td>\n";
   echo "<td align='center'><nobr>".$reporttype['type_name']."</nobr></td></tr>\n";
   if($report['report_description'] != ""){
-    $pjimage = pjimage("description.png", $titanium_module_name);
+    $pjimage = pjimage("description.png", $pnt_module);
     echo "<tr><td align='center' valign='top'><img src='$pjimage'></td>\n";
     echo "<td colspan='3' width='100%'>".nl2br($report['report_description'])."</td></tr>\n";
   }
-  $pjimage = pjimage("reporter.png", $titanium_module_name);
+  $pjimage = pjimage("reporter.png", $pnt_module);
   echo "<tr><td align='center'><img src='$pjimage'></td>\n";
   echo "<td colspan='3' width='100%'><nobr>"._NETWORK_REPORTEDBY.": <strong><a href='mailto:".pjencode_email($report['submitter_email'])."'>".$report['submitter_name']."</a></strong></nobr></td></tr>\n";
   if($report['date_submitted'] != '0'){
@@ -56,7 +56,7 @@ if($project['allowreports'] > 0) {
   } else {
     $submit_date = _NETWORK_NA;
   }
-  $pjimage = pjimage("date.png", $titanium_module_name);
+  $pjimage = pjimage("date.png", $pnt_module);
   echo "<tr><td align='center'><img src='$pjimage'></td>\n";
   echo "<td colspan='3' width='100%'><nobr>"._NETWORK_SUBMITTED.": <strong>$submit_date</strong></nobr></td></tr>\n";
   if($report['date_modified'] != '0'){
@@ -64,7 +64,7 @@ if($project['allowreports'] > 0) {
   } else {
     $modify_date = _NETWORK_NA;    
   }
-  $pjimage = pjimage("date.png", $titanium_module_name);
+  $pjimage = pjimage("date.png", $pnt_module);
   echo "<tr><td align='center'><img src='$pjimage'></td>\n";
   echo "<td colspan='3' width='100%'><nobr>"._NETWORK_MODIFIED.": <strong>$modify_date</strong></nobr></td></tr>\n";
   echo "<tr><td bgcolor='$bgcolor2' colspan='3' width='100%'><nobr><strong>"._NETWORK_REPORTMEMBERS."</strong></nobr></td>";
@@ -73,7 +73,7 @@ if($project['allowreports'] > 0) {
   $member_total = $titanium_db2->sql_numrows($memberresult);
   if($member_total != 0) {
     while(list($member_id, $position_id) = $titanium_db2->sql_fetchrow($memberresult)) {
-      $pjimage = pjimage("member.png", $titanium_module_name);
+      $pjimage = pjimage("member.png", $pnt_module);
       $member = pjmember_info($member_id);
       $position = pjmemberposition_info($position_id);
       echo "<tr><td><img src='$pjimage'></td><td colspan='2' width='100%'><a href='mailto:".pjencode_email($member['member_email'])."'>".$member['member_name']."</a></td>\n";
@@ -85,7 +85,7 @@ if($project['allowreports'] > 0) {
   }
   if(is_admin()) {
     echo "<tr><td bgcolor='$bgcolor2' colspan='4' width='100%'><nobr><strong>"._NETWORK_ADMINFUNCTIONS."</strong></nobr></td></tr>\n";
-    $pjimage = pjimage("options.png", $titanium_module_name);
+    $pjimage = pjimage("options.png", $pnt_module);
     echo "<tr><td align='center'><img src='$pjimage'></td>\n";
     echo "<td colspan='3' width='100%'><nobr><a href='".$admin_file.".php?op=ReportEdit&amp;report_id=$report_id'>"._NETWORK_REPORTEDIT."</a>";
     echo ", <a href='".$admin_file.".php?op=ReportRemove&amp;report_id=$report_id'>"._NETWORK_DELETEREPORT."</a>";
@@ -99,7 +99,7 @@ if($project['allowreports'] > 0) {
   $comment_total = $titanium_db2->sql_numrows($commentresult);
   OpenTable();
   echo "<table border='1' cellpadding='2' cellspacing='0' width='100%'>\n";
-  echo "<tr><td bgcolor='$bgcolor2' width='100%'><nobr><strong>"._NETWORK_COMMENTS."</strong> <strong>(</strong> <a href='modules.php?name=$titanium_module_name&amp;op=ReportCommentSubmit&amp;report_id=$report_id'>"._NETWORK_COMMENTADD."</a> <strong>)</strong></nobr></td><tr>\n";
+  echo "<tr><td bgcolor='$bgcolor2' width='100%'><nobr><strong>"._NETWORK_COMMENTS."</strong> <strong>(</strong> <a href='modules.php?name=$pnt_module&amp;op=ReportCommentSubmit&amp;report_id=$report_id'>"._NETWORK_COMMENTADD."</a> <strong>)</strong></nobr></td><tr>\n";
   if($comment_total > 0){
     while(list($comment_id) = $titanium_db2->sql_fetchrow($commentresult)) {
       $comment = pjreportcomment_info($comment_id);
@@ -118,7 +118,7 @@ if($project['allowreports'] > 0) {
   CloseTable();
   include_once(NUKE_BASE_DIR.'footer.php');
 } else {
-  header("Location: modules.php?name=$titanium_module_name");
+  header("Location: modules.php?name=$pnt_module");
 }
 
 ?>

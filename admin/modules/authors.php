@@ -37,7 +37,7 @@ if (is_mod_admin())
 /*********************************************************/
 function displayadmins() 
 {
-    global $admin, $titanium_prefix, $titanium_db, $titanium_language, $multilingual, $admin_file, $admlang;
+    global $admin, $titanium_prefix, $titanium_db, $language, $multilingual, $admin_file, $admlang;
     if (is_admin()) {
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
@@ -145,18 +145,18 @@ function displayadmins()
 		# Author Language selection
         if ($multilingual == 1) 
         {
-            $titanium_languageslist = lang_list();
+            $languageslist = lang_list();
             echo '<tr>'."\n";
             echo '<td class="row1" style="width: 30%;">'.$admlang['global']['language'].'</td>'."\n";
             echo '<td class="row1" style="width: 30%;">';
             echo '<select name="add_admlanguage">';
             
-			for ($i = 0, $maxi = count($titanium_languageslist); $i < $maxi; $i++) 
+			for ($i = 0, $maxi = count($languageslist); $i < $maxi; $i++) 
             {
-                if(!empty($titanium_languageslist[$i])) 
+                if(!empty($languageslist[$i])) 
                 {
-                    echo '<option name="xlanguage" value="'.$titanium_languageslist[$i].'"'
-					.(($titanium_languageslist[$i]==$titanium_language) ? ' selected="selected"' : '').'>'.ucwords($titanium_languageslist[$i]).'</option>';     
+                    echo '<option name="xlanguage" value="'.$languageslist[$i].'"'
+					.(($languageslist[$i]==$language) ? ' selected="selected"' : '').'>'.ucwords($languageslist[$i]).'</option>';     
                 }
             }            
             echo '      </select>';
@@ -296,12 +296,12 @@ function modifyadmin($chng_aid)
             echo '    <td class="row1" style="width:50%">'.$admlang['global']['language'].'</td>';
             echo '    <td class="row1" style="width:50%">';
             echo "<select name=\"chng_admlanguage\">";
-            $titanium_languageslist = lang_list();
-            for ($i=0, $maxi = count($titanium_languageslist); $i < $maxi; $i++) {
-                if(!empty($titanium_languageslist[$i])) {
-                    echo "<option name='xlanguage' value='".$titanium_languageslist[$i]."' ";
-                    if($titanium_languageslist[$i]==$titanium_language) echo "selected";
-                    echo ">".ucwords($titanium_languageslist[$i])."\n";
+            $languageslist = lang_list();
+            for ($i=0, $maxi = count($languageslist); $i < $maxi; $i++) {
+                if(!empty($languageslist[$i])) {
+                    echo "<option name='xlanguage' value='".$languageslist[$i]."' ";
+                    if($languageslist[$i]==$language) echo "selected";
+                    echo ">".ucwords($languageslist[$i])."\n";
                 }
             }
             if (empty($chng_admlanguage)) {

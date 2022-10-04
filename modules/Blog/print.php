@@ -30,16 +30,16 @@
  ************************************************************************/
 if (!defined('MODULE_FILE')) { die('You can\'t access this file directly...'); }
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 if(!isset($sid)) 
 exit();
 
 function PrintPage($sid) 
 {
-    global $site_logo, $nukeurl, $sitename, $datetime, $titanium_prefix, $titanium_db, $titanium_module_name;
+    global $site_logo, $nukeurl, $sitename, $datetime, $titanium_prefix, $titanium_db, $pnt_module;
     
 	// Ernest Buffington 0/31/2022 12:45am Wednesday
 	// I took the image out as this is a print page and wastes ink!!!
@@ -102,7 +102,7 @@ function PrintPage($sid)
         "._COMESFROM." $sitename<br />
         <a href=\"https://$nukeurl\">$nukeurl</a><br /><br />
         "._THEURL."<br />
-        <a href=\"$nukeurl/modules.php?name=$titanium_module_name&amp;file=article&amp;sid=$sid\">$nukeurl/modules.php?name=$titanium_module_name&amp;file=article&amp;sid=$sid</a>
+        <a href=\"$nukeurl/modules.php?name=$pnt_module&amp;file=article&amp;sid=$sid\">$nukeurl/modules.php?name=$pnt_module&amp;file=article&amp;sid=$sid</a>
         </span></center>
         </td></tr></table>
         </body>

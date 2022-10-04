@@ -26,8 +26,8 @@ $phpbb2_template->set_filenames(array(
 );
 
 $phpbb2_template->assign_vars(array(
-    "L_SUBMIT" => $titanium_lang['Submit'],
-    "L_RESET" => $titanium_lang['Reset'],
+    "L_SUBMIT" => $lang['Submit'],
+    "L_RESET" => $lang['Reset'],
 ));
 
 $phpbb2_template->pparse("footer");

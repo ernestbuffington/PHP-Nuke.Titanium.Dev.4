@@ -55,7 +55,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
     echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_REQUESTS."</strong></nobr></td>\n";
     echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_LASTSUBMISSION."</strong></nobr></td>\n</tr>\n";
     
-	$pjimage = pjimage("project.png", $titanium_module_name);
+	$pjimage = pjimage("project.png", $pnt_module);
     
 	if($project['featured'] > 0) 
 	{ 
@@ -63,7 +63,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 	}
     
 	echo "<tr>\n<td align='center'><img src='$pjimage'></td>\n";
-    echo "<td width='100%'><a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+    echo "<td width='100%'><a href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
     
 	if($project['project_site'] > "") 
 	{
@@ -130,9 +130,9 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 		  $request_name = "----------"; 
 		}
         
-		$pjimage = pjimage("request.png", $titanium_module_name);
+		$pjimage = pjimage("request.png", $pnt_module);
         echo "<tr>\n<td><img src='$pjimage'></td>\n";
-        echo "<td width='100%' colspan='2'><a href='modules.php?name=$titanium_module_name&amp;op=Request&amp;request_id=$request_id'>$request_name</a></td>\n";
+        echo "<td width='100%' colspan='2'><a href='modules.php?name=$pnt_module&amp;op=Request&amp;request_id=$request_id'>$request_name</a></td>\n";
         
 		if(empty($requeststatus['status_name']))
 		{ 

@@ -146,7 +146,7 @@ $phpbb2_is_auth = array();
 $phpbb2_is_auth = auth(AUTH_ALL, $phpbb2_forum_id, $userdata, $forum_row);
 
 if(!$phpbb2_is_auth['auth_read'])
-message_die(GENERAL_MESSAGE, sprintf($titanium_lang['Sorry_auth_read'], $phpbb2_is_auth['auth_read_type']));
+message_die(GENERAL_MESSAGE, sprintf($lang['Sorry_auth_read'], $phpbb2_is_auth['auth_read_type']));
 
 # Define censored word matches
 if(empty($orig_word) && empty($replacement_word)):
@@ -162,7 +162,7 @@ $topic_title = preg_replace($orig_word, $replacement_word, $topic_title);
 # Dump out the page header and load viewtopic body template
 $gen_simple_header = TRUE;
 
-$phpbb2_page_title = $titanium_lang['Post_review'] . ' - ' . $topic_title;
+$phpbb2_page_title = $lang['Post_review'] . ' - ' . $topic_title;
 include('includes/page_header.'.$phpEx);
 
 $phpbb2_template->set_filenames(array(
@@ -173,12 +173,12 @@ $view_prev_post_url = append_titanium_sid("show_post.$phpEx?p=$post_id&amp;view=
 $view_next_post_url = append_titanium_sid("show_post.$phpEx?p=$post_id&amp;view=next");
 
 $phpbb2_template->assign_vars(array(
-    'L_AUTHOR' => $titanium_lang['Author'],
-    'L_MESSAGE' => $titanium_lang['Message'],
-    'L_POSTED' => $titanium_lang['Posted'], 
-    'L_POST_SUBJECT' => $titanium_lang['Post_subject'],
-    'L_VIEW_NEXT_POST' => $titanium_lang['View_next_post'],
-    'L_VIEW_PREVIOUS_POST' => $titanium_lang['View_previous_post'],
+    'L_AUTHOR' => $lang['Author'],
+    'L_MESSAGE' => $lang['Message'],
+    'L_POSTED' => $lang['Posted'], 
+    'L_POST_SUBJECT' => $lang['Post_subject'],
+    'L_VIEW_NEXT_POST' => $lang['View_next_post'],
+    'L_VIEW_PREVIOUS_POST' => $lang['View_previous_post'],
     # next topic and previous topic 
     'U_VIEW_OLDER_POST' => $view_prev_post_url,
     'U_VIEW_NEWER_POST' => $view_next_post_url)
@@ -226,21 +226,21 @@ message_die(GENERAL_ERROR, 'Could not obtain post/user information', '', __LINE_
 if($row = $titanium_db->sql_fetchrow($result)):
 
     $mini_post_img = $images['icon_minipost'];
-    $mini_post_alt = $titanium_lang['Post'];
+    $mini_post_alt = $lang['Post'];
 
     $i = 0;
     do
     {
         $poster_id = $row['user_id'];
-        $poster = ( $poster_id == ANONYMOUS ) ? $titanium_lang['Guest'] : $row['username'];
+        $poster = ( $poster_id == ANONYMOUS ) ? $lang['Guest'] : $row['username'];
 
         $post_date = create_date($phpbb2_board_config['default_dateformat'], $row['post_time'], $phpbb2_board_config['board_timezone']);
 
-        $poster_posts = ( $row['user_id'] != ANONYMOUS ) ? $titanium_lang['Posts'] . ': ' . $row['user_posts'] : '';
+        $poster_posts = ( $row['user_id'] != ANONYMOUS ) ? $lang['Posts'] . ': ' . $row['user_posts'] : '';
 
-        $poster_from = ( $row['user_from'] && $row['user_id'] != ANONYMOUS ) ? $titanium_lang['Location'] . ': ' . $row['user_from'] : '';
+        $poster_from = ( $row['user_from'] && $row['user_id'] != ANONYMOUS ) ? $lang['Location'] . ': ' . $row['user_from'] : '';
         $poster_from = str_replace(".gif", "", $poster_from);
-        $poster_joined = ( $row['user_id'] != ANONYMOUS ) ? $titanium_lang['Joined'] . ': ' . $row['user_regdate'] : '';
+        $poster_joined = ( $row['user_id'] != ANONYMOUS ) ? $lang['Joined'] . ': ' . $row['user_regdate'] : '';
 
         $phpbb2_poster_avatar = '';
         
@@ -287,7 +287,7 @@ if($row = $titanium_db->sql_fetchrow($result)):
         # Handle anon users posting with usernames
         if($poster_id == ANONYMOUS && !empty($row['post_username'])):
             $poster = $row['post_username'];
-            $poster_rank = $titanium_lang['Guest'];
+            $poster_rank = $lang['Guest'];
         endif;
 
         $temp_url = '';
@@ -295,20 +295,20 @@ if($row = $titanium_db->sql_fetchrow($result)):
         if($poster_id != ANONYMOUS):
         
             $temp_url = append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$poster_id");
-            $profile_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_profile'].'" alt="'.$titanium_lang['Read_profile'].'" title="'.$titanium_lang['Read_profile'].'" border="0" /></a>';
-            $profile = '<a href="'.$temp_url.'">'.$titanium_lang['Read_profile'].'</a>';
+            $profile_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_profile'].'" alt="'.$lang['Read_profile'].'" title="'.$lang['Read_profile'].'" border="0" /></a>';
+            $profile = '<a href="'.$temp_url.'">'.$lang['Read_profile'].'</a>';
 
             $temp_url = append_titanium_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=$poster_id");
 
             if(is_active("Private_Messages")): 
-              $pm_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_pm'].'" alt="'.$titanium_lang['Send_private_message'].'" title="'.$titanium_lang['Send_private_message'].'" border="0" /></a>';
-              $pm = '<a href="'.$temp_url.'">'.$titanium_lang['Send_private_message'].'</a>';
+              $pm_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_pm'].'" alt="'.$lang['Send_private_message'].'" title="'.$lang['Send_private_message'].'" border="0" /></a>';
+              $pm = '<a href="'.$temp_url.'">'.$lang['Send_private_message'].'</a>';
             endif;
 
             if(!empty($row['user_viewemail']) || $phpbb2_is_auth['auth_mod']):
                 $email_uri = ($phpbb2_board_config['board_email_form']) ? append_titanium_sid("profile.$phpEx?mode=email&amp;".POST_USERS_URL.'='.$poster_id) : 'mailto:'.$row['user_email'];
-                $email_img = '<a href="'.$email_uri.'"><img src="'.$images['icon_email'].'" alt="'.$titanium_lang['Send_email'].'" title="'.$titanium_lang['Send_email'].'" border="0" /></a>';
-                $email = '<a href="'.$email_uri.'">'.$titanium_lang['Send_email'].'</a>';
+                $email_img = '<a href="'.$email_uri.'"><img src="'.$images['icon_email'].'" alt="'.$lang['Send_email'].'" title="'.$lang['Send_email'].'" border="0" /></a>';
+                $email = '<a href="'.$email_uri.'">'.$lang['Send_email'].'</a>';
             else:
                 $email_img = '';
                 $email = '';
@@ -321,18 +321,18 @@ if($row = $titanium_db->sql_fetchrow($result)):
             $row['user_website'] = "http://".$row['user_website'];
 
             $www_img = ($row['user_website']) ? '<a href="'.$row['user_website'].'" target="_userwww"><img 
-			src="'.$images['icon_www'].'" alt="'.$titanium_lang['Visit_website'].'" title="'.$titanium_lang['Visit_website'].'" border="0" /></a>' : '';
+			src="'.$images['icon_www'].'" alt="'.$lang['Visit_website'].'" title="'.$lang['Visit_website'].'" border="0" /></a>' : '';
             
-			$www = ( $row['user_website'] ) ? '<a href="' . $row['user_website'] . '" target="_userwww">' . $titanium_lang['Visit_website'] . '</a>' : '';
+			$www = ( $row['user_website'] ) ? '<a href="' . $row['user_website'] . '" target="_userwww">' . $lang['Visit_website'] . '</a>' : '';
 
             if(!empty($row['user_icq'])):
                $icq_status_img = '<a href="http://wwp.icq.com/'.$row['user_icq'].'#pager"><img 
 			   src="http://web.icq.com/whitepages/online?icq='.$row['user_icq'].'&amp;img=5" width="18" height="18" border="0" /></a>';
                
 			   $icq_img = '<a href="http://wwp.icq.com/scripts/search.dll?to='.$row['user_icq'].'"><img 
-			   src="'.$images['icon_icq'].'" alt="'.$titanium_lang['ICQ'].'" title="'.$titanium_lang['ICQ'].'" border="0" /></a>';
+			   src="'.$images['icon_icq'].'" alt="'.$lang['ICQ'].'" title="'.$lang['ICQ'].'" border="0" /></a>';
                
-			   $icq =  '<a href="http://wwp.icq.com/scripts/search.dll?to=' . $row['user_icq'] . '">' . $titanium_lang['ICQ'] . '</a>';
+			   $icq =  '<a href="http://wwp.icq.com/scripts/search.dll?to=' . $row['user_icq'] . '">' . $lang['ICQ'] . '</a>';
             else:
                 $icq_status_img = '';
                 $icq_img = '';
@@ -340,44 +340,44 @@ if($row = $titanium_db->sql_fetchrow($result)):
             endif;
 
             $aim_img = ($row['user_aim']) ? '<a href="aim:goim?screenname='.$row['user_aim'].'&amp;message=Hello+Are+you+there?"><img 
-			src="'.$images['icon_aim'].'" alt="'.$titanium_lang['AIM'].'" title="'.$titanium_lang['AIM'].'" border="0" /></a>' : '';
+			src="'.$images['icon_aim'].'" alt="'.$lang['AIM'].'" title="'.$lang['AIM'].'" border="0" /></a>' : '';
             
-			$aim = ( $row['user_aim'] ) ? '<a href="aim:goim?screenname='.$row['user_aim'].'&amp;message=Hello+Are+you+there?">'.$titanium_lang['AIM'].'</a>' : '';
+			$aim = ( $row['user_aim'] ) ? '<a href="aim:goim?screenname='.$row['user_aim'].'&amp;message=Hello+Are+you+there?">'.$lang['AIM'].'</a>' : '';
 
             $temp_url = append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$poster_id");
-            $msn_img = ($row['user_msnm']) ? '<a href="'.$temp_url.'"><img src="'.$images['icon_msnm'].'" alt="'.$titanium_lang['MSNM'].'" title="'.$titanium_lang['MSNM'].'" border="0" /></a>' : '';
-            $msn = ($row['user_msnm']) ? '<a href="'.$temp_url.'">'.$titanium_lang['MSNM'].'</a>' : '';
+            $msn_img = ($row['user_msnm']) ? '<a href="'.$temp_url.'"><img src="'.$images['icon_msnm'].'" alt="'.$lang['MSNM'].'" title="'.$lang['MSNM'].'" border="0" /></a>' : '';
+            $msn = ($row['user_msnm']) ? '<a href="'.$temp_url.'">'.$lang['MSNM'].'</a>' : '';
 
             $yim_img = ($row['user_yim']) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target='.$row['user_yim'].'&amp;.src=pg"><img 
-			src="'.$images['icon_yim'].'" alt="'.$titanium_lang['YIM'].'" title="'.$titanium_lang['YIM'].'" border="0" /></a>' : '';
+			src="'.$images['icon_yim'].'" alt="'.$lang['YIM'].'" title="'.$lang['YIM'].'" border="0" /></a>' : '';
             
-			$yim = ( $row['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $row['user_yim'] . '&amp;.src=pg">' . $titanium_lang['YIM'] . '</a>' : '';
+			$yim = ( $row['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $row['user_yim'] . '&amp;.src=pg">' . $lang['YIM'] . '</a>' : '';
 
             # Mod: Online/Offline/Hidden v2.2.7 START
             if($row['user_session_time'] >= (time()-$phpbb2_board_config['online_time'])):
             
                if($row['user_allow_viewonline']):
                    $online_status_img = '<a href="'.append_titanium_sid("viewonline.$phpEx").'"><img 
-				   src="'.$images['icon_online'].'" alt="'.sprintf($titanium_lang['is_online'], $poster).'" title="'.sprintf($titanium_lang['is_online'], $poster).'" /></a>&nbsp;';
+				   src="'.$images['icon_online'].'" alt="'.sprintf($lang['is_online'], $poster).'" title="'.sprintf($lang['is_online'], $poster).'" /></a>&nbsp;';
                    
-				   $online_status = '<br />'.$titanium_lang['Online_status'].': <strong><a href="'.append_titanium_sid("viewonline.$phpEx").'" 
-				   title="'.sprintf($titanium_lang['is_online'], $poster).'"'.$online_color.'>'.$titanium_lang['Online'].'</a></strong>';
+				   $online_status = '<br />'.$lang['Online_status'].': <strong><a href="'.append_titanium_sid("viewonline.$phpEx").'" 
+				   title="'.sprintf($lang['is_online'], $poster).'"'.$online_color.'>'.$lang['Online'].'</a></strong>';
                elseif($phpbb2_is_auth['auth_mod'] || $userdata['user_id'] == $poster_id):
                    $online_status_img = '<a href="'.append_titanium_sid("viewonline.$phpEx").'"><img 
-				   src="'.$images['icon_hidden'].'" alt="'.sprintf($titanium_lang['is_hidden'], $poster).'" title="'.sprintf($titanium_lang['is_hidden'], $poster).'" /></a>&nbsp;';
+				   src="'.$images['icon_hidden'].'" alt="'.sprintf($lang['is_hidden'], $poster).'" title="'.sprintf($lang['is_hidden'], $poster).'" /></a>&nbsp;';
                    
-				   $online_status = '<br />'.$titanium_lang['Online_status'].': <strong><em><a href="'.append_titanium_sid("viewonline.$phpEx").'" 
-				   title="'.sprintf($titanium_lang['is_hidden'], $poster) .'"'. $hidden_color.'>'.$titanium_lang['Hidden'].'</a></em></strong>';
+				   $online_status = '<br />'.$lang['Online_status'].': <strong><em><a href="'.append_titanium_sid("viewonline.$phpEx").'" 
+				   title="'.sprintf($lang['is_hidden'], $poster) .'"'. $hidden_color.'>'.$lang['Hidden'].'</a></em></strong>';
                else:
                    $online_status_img = '<img src="'.$images['icon_offline'].'" 
-				   alt="'.sprintf($titanium_lang['is_offline'], $poster).'" title="'.sprintf($titanium_lang['is_offline'], $poster).'" />&nbsp;';
+				   alt="'.sprintf($lang['is_offline'], $poster).'" title="'.sprintf($lang['is_offline'], $poster).'" />&nbsp;';
                    
-				   $online_status = '<br />'.$titanium_lang['Online_status'].': <span title="'.sprintf($titanium_lang['is_offline'], $poster).'"'.$offline_color.'><strong>'.$titanium_lang['Offline'].'</strong></span>';
+				   $online_status = '<br />'.$lang['Online_status'].': <span title="'.sprintf($lang['is_offline'], $poster).'"'.$offline_color.'><strong>'.$lang['Offline'].'</strong></span>';
                endif;
             
             else:
-              $online_status_img = '<img src="'.$images['icon_offline'].'" alt="'.sprintf($titanium_lang['is_offline'], $poster).'" title="'.sprintf($titanium_lang['is_offline'], $poster).'" />&nbsp;';
-              $online_status = '<br />'.$titanium_lang['Online_status'].': <span title="'.sprintf($titanium_lang['is_offline'], $poster).'"'.$offline_color.'><strong>'.$titanium_lang['Offline'].'</strong></span>';
+              $online_status_img = '<img src="'.$images['icon_offline'].'" alt="'.sprintf($lang['is_offline'], $poster).'" title="'.sprintf($lang['is_offline'], $poster).'" />&nbsp;';
+              $online_status = '<br />'.$lang['Online_status'].': <span title="'.sprintf($lang['is_offline'], $poster).'"'.$offline_color.'><strong>'.$lang['Offline'].'</strong></span>';
             endif;
             # Mod: Online/Offline/Hidden v2.2.7 END
         
@@ -408,8 +408,8 @@ if($row = $titanium_db->sql_fetchrow($result)):
         endif;
 
         $temp_url = append_titanium_sid("posting.$phpEx?mode=quote&amp;".POST_POST_URL."=".$row['post_id']);
-        $quote_img = '<a href="'.$temp_url.'" target="_parent"><img src="'.$images['icon_quote'].'" alt="'.$titanium_lang['Reply_with_quote'].'" title="'.$titanium_lang['Reply_with_quote'].'" border="0" /></a>';
-        $quote = '<a href="'.$temp_url.'" target="_parent">'.$titanium_lang['Reply_with_quote'].'</a>';
+        $quote_img = '<a href="'.$temp_url.'" target="_parent"><img src="'.$images['icon_quote'].'" alt="'.$lang['Reply_with_quote'].'" title="'.$lang['Reply_with_quote'].'" border="0" /></a>';
+        $quote = '<a href="'.$temp_url.'" target="_parent">'.$lang['Reply_with_quote'].'</a>';
 
         # Mod: Smilies in Topic Titles v1.0.0 START
         # Mod: Smilies in Topic Titles Toggle v1.0.0 START
@@ -498,7 +498,7 @@ if($row = $titanium_db->sql_fetchrow($result)):
         
         # Editing information
         if($row['post_edit_count']):
-            $l_edit_time_total = ($row['post_edit_count'] == 1) ? $titanium_lang['Edited_time_total'] : $titanium_lang['Edited_times_total'];
+            $l_edit_time_total = ($row['post_edit_count'] == 1) ? $lang['Edited_time_total'] : $lang['Edited_times_total'];
             $l_edited_by = '<br /><br />'.sprintf($l_edit_time_total, 
 			$poster, create_date($phpbb2_board_config['default_dateformat'], $row['post_edit_time'], $phpbb2_board_config['board_timezone']), $row['post_edit_count']);
         else:
@@ -508,7 +508,7 @@ if($row = $titanium_db->sql_fetchrow($result)):
         # Mod: Report Post v1.0.0 START
         if($userdata['session_logged_in']):
           $report_img = '<a href="'.append_titanium_sid('viewtopic.'.$phpEx.'?report=true&amp;'.POST_POST_URL.'='.$post_id).'"><img 
-		  src="'.$images['icon_report'].'" border="0" width="16" height="18" alt="'.$titanium_lang['Report_post'].'" title="'.$titanium_lang['Report_post'].'" /></a>';
+		  src="'.$images['icon_report'].'" border="0" width="16" height="18" alt="'.$lang['Report_post'].'" title="'.$lang['Report_post'].'" /></a>';
         else:
           $report_img = '';
         endif;

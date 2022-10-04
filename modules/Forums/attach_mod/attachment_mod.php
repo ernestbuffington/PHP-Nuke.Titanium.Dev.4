@@ -36,28 +36,28 @@ if (defined('ATTACH_INSTALL'))
 /**
 * wrapper function for determining the correct language directory
 */
-function attach_mod_get_lang($titanium_language_file)
+function attach_mod_get_lang($language_file)
 {
     global $phpbb2_root_path, $phpEx, $attach_config, $phpbb2_board_config;
 
-    $titanium_language = $phpbb2_board_config['default_lang'];
+    $language = $phpbb2_board_config['default_lang'];
 
-    if (!file_exists($phpbb2_root_path . 'language/lang_' . $titanium_language . '/' . $titanium_language_file . '.' . $phpEx))
+    if (!file_exists($phpbb2_root_path . 'language/lang_' . $language . '/' . $language_file . '.' . $phpEx))
     {
-        $titanium_language = $attach_config['board_lang'];
+        $language = $attach_config['board_lang'];
         
-        if (!file_exists($phpbb2_root_path . 'language/lang_' . $titanium_language . '/' . $titanium_language_file . '.' . $phpEx))
+        if (!file_exists($phpbb2_root_path . 'language/lang_' . $language . '/' . $language_file . '.' . $phpEx))
         {
-            message_die(GENERAL_MESSAGE, 'Attachment Mod language file does not exist: language/lang_' . $titanium_language . '/' . $titanium_language_file . '.' . $phpEx);
+            message_die(GENERAL_MESSAGE, 'Attachment Mod language file does not exist: language/lang_' . $language . '/' . $language_file . '.' . $phpEx);
         }
         else
         {
-            return $titanium_language;
+            return $language;
         }
     }
     else
     {
-        return $titanium_language;
+        return $language;
     }
 }
 
@@ -66,16 +66,16 @@ function attach_mod_get_lang($titanium_language_file)
 */
 function include_attach_lang()
 {
-    global $phpbb2_root_path, $phpEx, $titanium_lang, $phpbb2_board_config, $attach_config;
+    global $phpbb2_root_path, $phpEx, $lang, $phpbb2_board_config, $attach_config;
     
     // Include Language
-    $titanium_language = attach_mod_get_lang('lang_main_attach');
-    include_once($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_main_attach.' . $phpEx);
+    $language = attach_mod_get_lang('lang_main_attach');
+    include_once($phpbb2_root_path . 'language/lang_' . $language . '/lang_main_attach.' . $phpEx);
 
     if (defined('IN_ADMIN'))
     {
-        $titanium_language = attach_mod_get_lang('lang_admin_attach');
-        include_once($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_admin_attach.' . $phpEx);
+        $language = attach_mod_get_lang('lang_admin_attach');
+        include_once($phpbb2_root_path . 'language/lang_' . $language . '/lang_admin_attach.' . $phpEx);
     }
 }
 

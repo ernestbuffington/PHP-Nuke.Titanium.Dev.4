@@ -6,12 +6,12 @@ print_r($back);
 #################################################[ SandBox Example Source Code ]###########################################################################################
 
                                                                             ######################################################################################################
-                                                                            # $titanium_module_name is defined in the module index.php file and can be found in modules/SandBox/index.php #
+                                                                            # $pnt_module is defined in the module index.php file and can be found in modules/SandBox/index.php #
 # set the current file name!                                                ########################################################## ###########################################
 $current_file_name = basename(__FILE__, '.php');                                                                                     # #
                                                                                                                                      # #
 $page_header  = '<div align="center"><h2>Loading JQuery and Bootstrap into the current module for editing and testing...</h2></div>';# #
-$page_header .= '<div align="center"><h1>If you are logged in via FTP the current file location is: /public_html/modules/'.$titanium_module_name.'/'.$current_file_name.'.php<h1></div>';
+$page_header .= '<div align="center"><h1>If you are logged in via FTP the current file location is: /public_html/modules/'.$pnt_module.'/'.$current_file_name.'.php<h1></div>';
 $page_header .= '<div align="center">It is always a great idea to leave yourself notes like this, it will help you find the file you need!</div>';
 
 $page_header .= "<a class=\"sourceview\" href=\"#\" onClick = \"tag=this.nextElementSibling; tag.style.display=tag.style.display == 'none' ? 'block':'none'\"><strong>Click here to show | hide source code</strong></a>";

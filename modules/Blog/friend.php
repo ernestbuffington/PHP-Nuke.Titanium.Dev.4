@@ -39,21 +39,21 @@ if (!file_exists("includes/nukesentinel.php"))
    redirect_titanium("index.php");
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 $pagetitle = "- "._RECOMMEND."";
 
 if (!is_user()) 
 {
-    redirect_titanium("modules.php?name=$titanium_module_name&file=article&sid=$sid");
+    redirect_titanium("modules.php?name=$pnt_module&file=article&sid=$sid");
     exit;
 }
 
 function FriendSend($sid) 
 {
-    global $titanium_user, $cookie, $titanium_prefix, $titanium_db, $titanium_user_prefix, $titanium_module_name;
+    global $titanium_user, $cookie, $titanium_prefix, $titanium_db, $titanium_user_prefix, $pnt_module;
 
     $sid = intval($sid);
 
@@ -69,7 +69,7 @@ function FriendSend($sid)
     
 	echo "<div align=\"center\"><span class=\"content\"><strong>"._FRIEND."</strong></span></div><br /><br />"
         .""._YOUSENDSTORY." <strong>$title</strong> "._TOAFRIEND."<br /><br />"
-        ."<form action=\"modules.php?name=$titanium_module_name&amp;file=friend\" method=\"post\">"
+        ."<form action=\"modules.php?name=$pnt_module&amp;file=friend\" method=\"post\">"
         ."<input type=\"hidden\" name=\"sid\" value=\"$sid\">";
     
 	if (is_user()) 
@@ -98,7 +98,7 @@ function FriendSend($sid)
 
 function SendEmailVirus($sid, $yname, $ymail, $fname, $fmail) {
     
-	global $sitename, $nukeurl, $titanium_prefix, $titanium_db, $titanium_module_name;
+	global $sitename, $nukeurl, $titanium_prefix, $titanium_db, $pnt_module;
 
     #recaptcha add Ernest Buffington	
 	if (!security_code_check($_POST['g-recaptcha-response'], array(0,1,2,3,4,5,6,7))):
@@ -106,7 +106,7 @@ function SendEmailVirus($sid, $yname, $ymail, $fname, $fmail) {
         OpenTable();
 
         echo '<div align="center"><strong>reCaptcha Security Check Failed</strong></div>';
-		echo "<div align=\"center\"><strong>[ <a href=\"$nukeurl/modules.php?name=$titanium_module_name&file=article&sid=$sid\">Back To Blog</a> ]</strong></div>";
+		echo "<div align=\"center\"><strong>[ <a href=\"$nukeurl/modules.php?name=$pnt_module&file=article&sid=$sid\">Back To Blog</a> ]</strong></div>";
 		echo "<div align=\"center\"><strong>[ <a href=\"javascript:history.go(-1)\">Go Back</a> ]</strong></div>";
 
         CloseTable();
@@ -127,15 +127,15 @@ function SendEmailVirus($sid, $yname, $ymail, $fname, $fmail) {
     $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT topictext FROM ".$titanium_prefix."_topics WHERE topicid='$topic'"));
     $topictext = stripslashes(check_html($row2["topictext"], "nohtml"));
     $subject = ""._INTERESTING." $sitename";
-    $message = ""._HELLO." $fname:\n\n"._YOURFRIEND." $yname "._CONSIDERED."\n\n\n$title\n("._FDATE." $time)\n"._FTOPIC." $topictext\n\n"._URL.": $nukeurl/modules.php?name=$titanium_module_name&file=article&sid=$sid\n\n"._YOUCANREAD." $sitename\n$nukeurl";
+    $message = ""._HELLO." $fname:\n\n"._YOURFRIEND." $yname "._CONSIDERED."\n\n\n$title\n("._FDATE." $time)\n"._FTOPIC." $topictext\n\n"._URL.": $nukeurl/modules.php?name=$pnt_module&file=article&sid=$sid\n\n"._YOUCANREAD." $sitename\n$nukeurl";
     evo_mail($fmail, $subject, $message, "From: \"$yname\" <$ymail>\nX-Mailer: PHP/" . phpversion());
     $title = urlencode($title);
     $fname = urlencode($fname);
-    redirect_titanium("modules.php?name=$titanium_module_name&file=friend&op=StorySent&title=$title&fname=$fname");
+    redirect_titanium("modules.php?name=$pnt_module&file=friend&op=StorySent&title=$title&fname=$fname");
 }
 
 function SendStory($sid, $yname, $ymail, $fname, $fmail) {
-    global $sitename, $nukeurl, $titanium_prefix, $titanium_db, $titanium_module_name;
+    global $sitename, $nukeurl, $titanium_prefix, $titanium_db, $pnt_module;
 
     #recaptcha add Ernest Buffington	
 	if (!security_code_check($_POST['g-recaptcha-response'], array(0,1,2,3,4,5,6,7))):
@@ -143,7 +143,7 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail) {
         OpenTable();
         echo '<div align="center"><strong>reCaptcha Security Check Failed</strong></div>';
         
-		echo "<div align=\"center\"><strong>[ <a href=\"$nukeurl/modules.php?name=$titanium_module_name&file=article&sid=$sid\">Back To Blog</a> ]</strong></div>";
+		echo "<div align=\"center\"><strong>[ <a href=\"$nukeurl/modules.php?name=$pnt_module&file=article&sid=$sid\">Back To Blog</a> ]</strong></div>";
 		
 		echo "<div align=\"center\"><strong>[ <a href=\"javascript:history.go(-1)\">Go Back</a> ]</strong></div>";
 		
@@ -166,11 +166,11 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail) {
     $row2 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT topictext FROM ".$titanium_prefix."_topics WHERE topicid='$topic'"));
     $topictext = stripslashes(check_html($row2["topictext"], "nohtml"));
     $subject = ""._INTERESTING." $sitename";
-    $message = ""._HELLO." $fname:\n\n"._YOURFRIEND." $yname "._CONSIDERED."\n\n\n$title\n("._FDATE." $time)\n"._FTOPIC." $topictext\n\n"._URL.": $nukeurl/modules.php?name=$titanium_module_name&file=article&sid=$sid\n\n"._YOUCANREAD." $sitename\n$nukeurl";
+    $message = ""._HELLO." $fname:\n\n"._YOURFRIEND." $yname "._CONSIDERED."\n\n\n$title\n("._FDATE." $time)\n"._FTOPIC." $topictext\n\n"._URL.": $nukeurl/modules.php?name=$pnt_module&file=article&sid=$sid\n\n"._YOUCANREAD." $sitename\n$nukeurl";
     evo_mail($fmail, $subject, $message, "From: \"$yname\" <$ymail>\nX-Mailer: PHP/" . phpversion());
     $title = urlencode($title);
     $fname = urlencode($fname);
-    redirect_titanium("modules.php?name=$titanium_module_name&file=friend&op=StorySent&title=$title&fname=$fname");
+    redirect_titanium("modules.php?name=$pnt_module&file=friend&op=StorySent&title=$title&fname=$fname");
 }
 
 function StorySent($title, $fname) 

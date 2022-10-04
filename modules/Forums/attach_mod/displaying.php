@@ -193,7 +193,7 @@ function display_assign_link($post_id)
 */
 function init_display_post_attachments($switch_attachment)
 {
-    global $attach_config, $titanium_db, $phpbb2_is_auth, $phpbb2_template, $titanium_lang, $postrow, $phpbb2_total_posts, $attachments, $forum_row, $forum_topic_data;
+    global $attach_config, $titanium_db, $phpbb2_is_auth, $phpbb2_template, $lang, $postrow, $phpbb2_total_posts, $attachments, $forum_row, $forum_topic_data;
 
     if (empty($forum_topic_data) && !empty($forum_row))
     {
@@ -240,8 +240,8 @@ function init_display_post_attachments($switch_attachment)
     init_complete_extensions_data();
 
     $phpbb2_template->assign_vars(array(
-        'L_POSTED_ATTACHMENTS'        => $titanium_lang['Posted_attachments'],
-        'L_KILOBYTE'                => $titanium_lang['KB'])
+        'L_POSTED_ATTACHMENTS'        => $lang['Posted_attachments'],
+        'L_KILOBYTE'                => $lang['KB'])
     );
 }
 
@@ -277,7 +277,7 @@ function privmsgs_attachment_image($privmsg_id)
 */
 function display_pm_attachments($privmsgs_id, $switch_attachment)
 {
-    global $attach_config, $userdata, $phpbb2_template, $titanium_lang;
+    global $attach_config, $userdata, $phpbb2_template, $lang;
 
     if ($userdata['user_level'] == ADMIN)
     {
@@ -297,7 +297,7 @@ function display_pm_attachments($privmsgs_id, $switch_attachment)
 
     $phpbb2_template->assign_block_vars('switch_attachments', array());
     $phpbb2_template->assign_vars(array(
-        'L_DELETE_ATTACHMENTS'    => $titanium_lang['Delete_attachments'])
+        'L_DELETE_ATTACHMENTS'    => $lang['Delete_attachments'])
     );
 }
 
@@ -306,7 +306,7 @@ function display_pm_attachments($privmsgs_id, $switch_attachment)
 */
 function init_display_pm_attachments($switch_attachment)
 {
-    global $attach_config, $phpbb2_template, $userdata, $titanium_lang, $attachments, $privmsg;
+    global $attach_config, $phpbb2_template, $userdata, $lang, $attachments, $privmsg;
 
     if ($userdata['user_level'] == ADMIN)
     {
@@ -339,8 +339,8 @@ function init_display_pm_attachments($switch_attachment)
     init_complete_extensions_data();
 
     $phpbb2_template->assign_vars(array(
-        'L_POSTED_ATTACHMENTS'    => $titanium_lang['Posted_attachments'],
-        'L_KILOBYTE'            => $titanium_lang['KB'])
+        'L_POSTED_ATTACHMENTS'    => $lang['Posted_attachments'],
+        'L_KILOBYTE'            => $lang['KB'])
     );
 
     display_pm_attachments($privmsgs_id, $switch_attachment);
@@ -404,7 +404,7 @@ function init_display_review_attachments($phpbb2_is_auth)
 */
 function display_attachments_preview($attachment_list, $attachment_filesize_list, $attachment_filename_list, $attachment_comment_list, $attachment_extension_list, $attachment_thumbnail_list)
 {
-    global $attach_config, $phpbb2_is_auth, $allowed_extensions, $titanium_lang, $userdata, $phpbb2_display_categories, $upload_dir, $upload_icons, $phpbb2_template, $titanium_db, $theme;
+    global $attach_config, $phpbb2_is_auth, $allowed_extensions, $lang, $userdata, $phpbb2_display_categories, $upload_dir, $upload_icons, $phpbb2_template, $titanium_db, $theme;
 
 	if (sizeof($attachment_list) != 0)
     {
@@ -426,7 +426,7 @@ function display_attachments_preview($attachment_list, $attachment_filesize_list
             $thumb_filename = $upload_dir . '/' . THUMB_DIR . '/t_' . basename($attachment_list[$i]);
 
             $filesize = $attachment_filesize_list[$i];
-            $size_lang = ($filesize >= 1048576) ? $titanium_lang['MB'] : ( ($filesize >= 1024) ? $titanium_lang['KB'] : $titanium_lang['Bytes'] );
+            $size_lang = ($filesize >= 1048576) ? $lang['MB'] : ( ($filesize >= 1024) ? $lang['KB'] : $lang['Bytes'] );
 
             if ($filesize >= 1048576)
             {
@@ -451,7 +451,7 @@ function display_attachments_preview($attachment_list, $attachment_filesize_list
                 $denied = true;
 
                 $phpbb2_template->assign_block_vars('postrow.attach.denyrow', array(
-                    'L_DENIED'        => sprintf($titanium_lang['Extension_disabled_after_posting'], $extension))
+                    'L_DENIED'        => sprintf($lang['Extension_disabled_after_posting'], $extension))
                 );
             }
 
@@ -459,10 +459,10 @@ function display_attachments_preview($attachment_list, $attachment_filesize_list
             {
                 // Some basic Template Vars
                 $phpbb2_template->assign_vars(array(
-                    'L_DESCRIPTION'        => $titanium_lang['Description'],
-                    'L_DOWNLOAD'        => $titanium_lang['Download'],
-                    'L_FILENAME'        => $titanium_lang['File_name'],
-                    'L_FILESIZE'        => $titanium_lang['Filesize'])
+                    'L_DESCRIPTION'        => $lang['Description'],
+                    'L_DOWNLOAD'        => $lang['Download'],
+                    'L_FILENAME'        => $lang['File_name'],
+                    'L_FILESIZE'        => $lang['Filesize'])
                 );
 
                 // define category
@@ -524,7 +524,7 @@ function display_attachments_preview($attachment_list, $attachment_filesize_list
                         'FILESIZE'            => $filesize,
                         'SIZE_VAR'            => $size_lang,
                         'COMMENT'            => $comment,
-                        'L_DOWNLOADED_VIEWED'    => $titanium_lang['Viewed'])
+                        'L_DOWNLOADED_VIEWED'    => $lang['Viewed'])
                     );
                 }
 
@@ -538,7 +538,7 @@ function display_attachments_preview($attachment_list, $attachment_filesize_list
                         'FILESIZE'            => $filesize,
                         'SIZE_VAR'            => $size_lang,
                         'COMMENT'            => $comment,
-                        'L_DOWNLOADED_VIEWED'    => $titanium_lang['Viewed'])
+                        'L_DOWNLOADED_VIEWED'    => $lang['Viewed'])
                     );
                 }
 
@@ -551,7 +551,7 @@ function display_attachments_preview($attachment_list, $attachment_filesize_list
                         'FILESIZE'            => $filesize,
                         'SIZE_VAR'            => $size_lang,
                         'COMMENT'            => $comment,
-                        'L_DOWNLOADED_VIEWED'    => $titanium_lang['Viewed'])
+                        'L_DOWNLOADED_VIEWED'    => $lang['Viewed'])
                     );
                 }
 
@@ -566,7 +566,7 @@ function display_attachments_preview($attachment_list, $attachment_filesize_list
                         'FILESIZE'                => $filesize,
                         'SIZE_VAR'                => $size_lang,
                         'COMMENT'                => $comment,
-                        'L_DOWNLOADED_VIEWED'    => $titanium_lang['Viewed'],
+                        'L_DOWNLOADED_VIEWED'    => $lang['Viewed'],
                         'WIDTH'                    => $width,
                         'HEIGHT'                => $height)
                     );
@@ -596,7 +596,7 @@ function display_attachments_preview($attachment_list, $attachment_filesize_list
                         'FILESIZE'                => $filesize,
                         'SIZE_VAR'                => $size_lang,
                         'COMMENT'                => $comment,
-                        'L_DOWNLOADED_VIEWED'    => $titanium_lang['Downloaded'],
+                        'L_DOWNLOADED_VIEWED'    => $lang['Downloaded'],
                         'TARGET_BLANK'            => $target_blank)
                     );
                 }
@@ -616,7 +616,7 @@ function display_attachments_preview($attachment_list, $attachment_filesize_list
 */
 function display_attachments($post_id)
 {
-    global $phpbb2_template, $upload_dir, $userdata, $allowed_extensions, $phpbb2_display_categories, $download_modes, $titanium_db, $titanium_lang, $phpEx, $attachments, $upload_icons, $attach_config;
+    global $phpbb2_template, $upload_dir, $userdata, $allowed_extensions, $phpbb2_display_categories, $download_modes, $titanium_db, $lang, $phpEx, $attachments, $upload_icons, $attach_config;
     global $phpbb2_root_path;
 
 	$num_attachments = sizeof($attachments['_' . $post_id]);
@@ -646,7 +646,7 @@ function display_attachments($post_id)
         }
 
         $filesize = $attachments['_' . $post_id][$i]['filesize'];
-        $size_lang = ($filesize >= 1048576) ? $titanium_lang['MB'] : ( ($filesize >= 1024) ? $titanium_lang['KB'] : $titanium_lang['Bytes'] );
+        $size_lang = ($filesize >= 1048576) ? $lang['MB'] : ( ($filesize >= 1024) ? $lang['KB'] : $lang['Bytes'] );
 
         if ($filesize >= 1048576)
         {
@@ -669,7 +669,7 @@ function display_attachments($post_id)
             $denied = true;
 
             $phpbb2_template->assign_block_vars('postrow.attach.denyrow', array(
-                'L_DENIED'    => sprintf($titanium_lang['Extension_disabled_after_posting'], $attachments['_' . $post_id][$i]['extension']))
+                'L_DENIED'    => sprintf($lang['Extension_disabled_after_posting'], $attachments['_' . $post_id][$i]['extension']))
             );
         }
 
@@ -677,10 +677,10 @@ function display_attachments($post_id)
         {
             // Some basic Template Vars
             $phpbb2_template->assign_vars(array(
-                'L_DESCRIPTION'        => $titanium_lang['Description'],
-                'L_DOWNLOAD'        => $titanium_lang['Download'],
-                'L_FILENAME'        => $titanium_lang['File_name'],
-                'L_FILESIZE'        => $titanium_lang['Filesize'])
+                'L_DESCRIPTION'        => $lang['Description'],
+                'L_DOWNLOAD'        => $lang['Download'],
+                'L_FILENAME'        => $lang['File_name'],
+                'L_FILESIZE'        => $lang['Filesize'])
             );
 
             // define category
@@ -772,8 +772,8 @@ function display_attachments($post_id)
                     'FILESIZE'            => $filesize,
                     'SIZE_VAR'            => $size_lang,
                     'COMMENT'            => $comment,
-                    'L_DOWNLOADED_VIEWED'    => $titanium_lang['Viewed'],
-                    'L_DOWNLOAD_COUNT'        => sprintf($titanium_lang['Download_number'], $attachments['_' . $post_id][$i]['download_count']))
+                    'L_DOWNLOADED_VIEWED'    => $lang['Viewed'],
+                    'L_DOWNLOAD_COUNT'        => sprintf($lang['Download_number'], $attachments['_' . $post_id][$i]['download_count']))
                 );
 
                 // Directly Viewed Image ... update the download count
@@ -825,8 +825,8 @@ function display_attachments($post_id)
                     'FILESIZE'                => $filesize,
                     'SIZE_VAR'                => $size_lang,
                     'COMMENT'                => $comment,
-                    'L_DOWNLOADED_VIEWED'    => $titanium_lang['Viewed'],
-                    'L_DOWNLOAD_COUNT'        => sprintf($titanium_lang['Download_number'], $attachments['_' . $post_id][$i]['download_count']))
+                    'L_DOWNLOADED_VIEWED'    => $lang['Viewed'],
+                    'L_DOWNLOAD_COUNT'        => sprintf($lang['Download_number'], $attachments['_' . $post_id][$i]['download_count']))
                 );
             }
 
@@ -842,8 +842,8 @@ function display_attachments($post_id)
                     'FILESIZE'                => $filesize,
                     'SIZE_VAR'                => $size_lang,
                     'COMMENT'                => $comment,
-                    'L_DOWNLOADED_VIEWED'    => $titanium_lang['Viewed'],
-                    'L_DOWNLOAD_COUNT'        => sprintf($titanium_lang['Download_number'], $attachments['_' . $post_id][$i]['download_count']))
+                    'L_DOWNLOADED_VIEWED'    => $lang['Viewed'],
+                    'L_DOWNLOAD_COUNT'        => sprintf($lang['Download_number'], $attachments['_' . $post_id][$i]['download_count']))
                 );
 
                 // Viewed/Heared File ... update the download count (download.php is not called here)
@@ -870,8 +870,8 @@ function display_attachments($post_id)
                     'FILESIZE'                => $filesize,
                     'SIZE_VAR'                => $size_lang,
                     'COMMENT'                => $comment,
-                    'L_DOWNLOADED_VIEWED'    => $titanium_lang['Viewed'],
-                    'L_DOWNLOAD_COUNT'        => sprintf($titanium_lang['Download_number'], $attachments['_' . $post_id][$i]['download_count']),
+                    'L_DOWNLOADED_VIEWED'    => $lang['Viewed'],
+                    'L_DOWNLOAD_COUNT'        => sprintf($lang['Download_number'], $attachments['_' . $post_id][$i]['download_count']),
                     'WIDTH'                    => $width,
                     'HEIGHT'                => $height)
                 );
@@ -902,8 +902,8 @@ function display_attachments($post_id)
                     'COMMENT'            => $comment,
                     'TARGET_BLANK'        => $target_blank,
 
-                    'L_DOWNLOADED_VIEWED'    => $titanium_lang['Downloaded'],
-                    'L_DOWNLOAD_COUNT'        => sprintf($titanium_lang['Download_number'], $attachments['_' . $post_id][$i]['download_count']))
+                    'L_DOWNLOADED_VIEWED'    => $lang['Downloaded'],
+                    'L_DOWNLOAD_COUNT'        => sprintf($lang['Download_number'], $attachments['_' . $post_id][$i]['download_count']))
                 );
 
             }

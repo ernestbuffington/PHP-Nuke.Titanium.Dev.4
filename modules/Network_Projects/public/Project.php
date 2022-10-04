@@ -42,7 +42,7 @@ echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PRIORITY."
 echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PROGRESSBAR."</strong></nobr></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_MEMBERS."</strong></nobr></td></tr>\n";
 if($project['featured'] > 0) { $project['project_name'] = "<strong>".$project['project_name']."</strong>"; }
-$pjimage = pjimage("project.png", $titanium_module_name);
+$pjimage = pjimage("project.png", $pnt_module);
 echo "<tr><td align='center'><img src='$pjimage'></td>\n";
 echo "<td width='100%'><nobr>".$project['project_name']."</nobr></td>\n";
 if(empty($projectstatus['status_name'])){ $projectstatus['status_name'] = _NETWORK_NA; }
@@ -53,23 +53,23 @@ $wbprogress = pjprogress($project['project_percent']);
 echo "<td align='center'><nobr>$wbprogress</nobr></td>\n";
 echo "<td align='center'><nobr>$member_total</nobr></td></tr>\n";
 if($project['project_site'] != ""){
-  $pjimage = pjimage("demo.png", $titanium_module_name);
+  $pjimage = pjimage("demo.png", $pnt_module);
   echo "<tr><td align='center' valign='top'><img src='$pjimage'></td>";
   echo "<td width='100%' colspan='5'><a href='".$project['project_site']."' target='_blank'>".$project['project_site']."</a></td></tr>";
 }
 if($project['project_description'] != ""){
-  $pjimage = pjimage("description.png", $titanium_module_name);
+  $pjimage = pjimage("description.png", $pnt_module);
   echo "<tr><td align='center' valign='top'><img src='$pjimage'></td>";
   echo "<td width='100%' colspan='5'>".nl2br($project['project_description'])."</td></tr>";
 }
-$pjimage = pjimage("stats.png", $titanium_module_name);
+$pjimage = pjimage("stats.png", $pnt_module);
 echo "<tr><td align='center'><img src='$pjimage'></td><td width='100%' colspan='5'><nobr>"._NETWORK_TASKS.": <strong>$project_tasks</strong>&nbsp;&nbsp;/&nbsp;&nbsp;"._NETWORK_REPORTS.": <strong>$project_reports</strong>&nbsp;&nbsp;/&nbsp;&nbsp;"._NETWORK_REQUESTS.": <strong>$project_requests</strong></nobr></td></tr>";
 if($project['date_started'] > 0){
   $phpbb2_start_date = date($pj_config['project_date_format'], $project['date_started']);
 } else {
   $phpbb2_start_date = _NETWORK_NA;
 }
-$pjimage = pjimage("date.png", $titanium_module_name);
+$pjimage = pjimage("date.png", $pnt_module);
 echo "<tr><td align='center'><img src='$pjimage'></td>\n";
 echo "<td width='100%' colspan='5'><nobr>"._NETWORK_STARTDATE.": <strong>$phpbb2_start_date</strong></nobr></td></tr>\n";
 if($project['date_finished'] > 0){
@@ -77,7 +77,7 @@ if($project['date_finished'] > 0){
 } else {
   $finish_date = _NETWORK_NA;
 }
-$pjimage = pjimage("date.png", $titanium_module_name);
+$pjimage = pjimage("date.png", $pnt_module);
 echo "<tr><td align='center'><img src='$pjimage'></td>\n";
 echo "<td width='100%' colspan='5'><nobr>"._NETWORK_FINISHDATE.": <strong>$finish_date</strong></nobr></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2' colspan='4'><nobr><strong>"._NETWORK_PROJECTMEMBERS."</strong></nobr></td>\n";
@@ -88,7 +88,7 @@ if($member_total != 0){
   while(list($member_id, $position_id) = $titanium_db2->sql_fetchrow($memberresult)) {
     $member = pjmember_info($member_id);
     $position = pjmemberposition_info($position_id);
-    $pjimage = pjimage("member.png", $titanium_module_name);
+    $pjimage = pjimage("member.png", $pnt_module);
     echo "<tr><td><img src='$pjimage'></td><td width='100%' colspan='3'><a href='mailto:".pjencode_email($member['member_email'])."'>".$member['member_name']."</a></td>\n";
     if(empty($position['position_name'])){ $position['position_name'] = "----------"; }
     echo "<td align='center' colspan='2'><nobr>".$position['position_name']."</nobr></td></tr>\n";
@@ -98,7 +98,7 @@ if($member_total != 0){
 }
 if(is_admin()) {
   echo "<tr><td bgcolor='$bgcolor2' colspan='6' width='100%'><nobr><strong>"._NETWORK_ADMINFUNCTIONS."</strong></nobr></td></tr>\n";
-  $pjimage = pjimage("options.png", $titanium_module_name);
+  $pjimage = pjimage("options.png", $pnt_module);
   echo "<tr><td align='center'><img src='$pjimage'></td>\n";
   echo "<td colspan='5' width='100%'><nobr><a href='".$admin_file.".php?op=ProjectEdit&amp;project_id=$project_id'>"._NETWORK_EDITPROJECT."</a>";
   echo ", <a href='".$admin_file.".php?op=ProjectRemove&amp;project_id=$project_id'>"._NETWORK_DELETEPROJECT."</a></nobr></td></tr>\n";
@@ -124,9 +124,9 @@ if($task_total != 0){
     $member_total = $titanium_db2->sql_numrows($memberresult);
     $taskpriority = pjtaskpriority_info($priority_id);
     echo "<tr>\n";
-    $pjimage = pjimage("task.png", $titanium_module_name);
+    $pjimage = pjimage("task.png", $pnt_module);
     echo "<td><img src='$pjimage'></td>\n";
-    echo "<td width='100%'><a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id'>$task_name</a></td>\n";
+    echo "<td width='100%'><a href='modules.php?name=$pnt_module&amp;op=Task&amp;task_id=$task_id'>$task_name</a></td>\n";
     if(empty($taskstatus['status_name'])){ $taskstatus['status_name'] = _NETWORK_NA; }
     echo "<td align='center'><nobr>".$taskstatus['status_name']."</nobr></td>\n";
     if(empty($taskpriority['priority_name'])){ $taskpriority['priority_name'] = _NETWORK_NA; }
@@ -138,7 +138,7 @@ if($task_total != 0){
   }
   echo "<tr>\n";
   echo "<form method='post' action='modules.php'>\n";
-  echo "<input type='hidden' name='name' value='$titanium_module_name'>\n";
+  echo "<input type='hidden' name='name' value='$pnt_module'>\n";
   echo "<input type='hidden' name='op' value='Project'>\n";
   echo "<input type='hidden' name='project_id' value='$project_id'>\n";
   echo "<td align='right' bgcolor='$bgcolor2' width='100%' colspan='6'><strong>"._NETWORK_SORT.":</strong> ";
@@ -169,7 +169,7 @@ if($project['allowreports'] > 0) {
   if(!$direction2) $direction2 = "asc";
   echo "<table border='1' cellpadding='2' cellspacing='0' width='100%'>\n";
   
-  echo "<tr><td colspan='6'><nobr><a class='titaniumbutton' href='modules.php?name=$titanium_module_name&amp;op=ReportSubmit&amp;project_id=$project_id'>"._NETWORK_SUBMITAREPORT."</a></nobr></td></tr>\n";
+  echo "<tr><td colspan='6'><nobr><a class='titaniumbutton' href='modules.php?name=$pnt_module&amp;op=ReportSubmit&amp;project_id=$project_id'>"._NETWORK_SUBMITAREPORT."</a></nobr></td></tr>\n";
   
   echo "<tr><td bgcolor='$bgcolor2' colspan='2' width='100%'><nobr><strong>"._NETWORK_REPORTS."</strong></nobr></td>\n";
   echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_TYPE."</strong></nobr></td>\n";
@@ -188,16 +188,16 @@ if($project['allowreports'] > 0) {
       if(empty($reportstatus['status_name'])) { $reportstatus['status_name'] = _NETWORK_NA; }
       $last_date = date($pj_config['report_date_format'], $report['date_submitted']);    
       $comments = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_reports_comments` WHERE `report_id`='$report_id'"));
-      $pjimage = pjimage("report.png", $titanium_module_name);
+      $pjimage = pjimage("report.png", $pnt_module);
       echo "<tr><td><img src='$pjimage'></td>\n";
-      echo "<td width='100%'><a href='modules.php?name=$titanium_module_name&amp;op=Report&amp;report_id=$report_id'>".$report['report_name']."</a></td>\n";
+      echo "<td width='100%'><a href='modules.php?name=$pnt_module&amp;op=Report&amp;report_id=$report_id'>".$report['report_name']."</a></td>\n";
       echo "<td align='center'><nobr>".$reporttype['type_name']."</nobr></td>\n";
       echo "<td align='center'><nobr>".$reportstatus['status_name']."</nobr></td>\n";
       echo "<td align='center'><nobr>$last_date</nobr></td>\n";
       echo "<td align='center'><nobr>$comments</nobr></td></tr>\n";
     }
     echo "<form method='post' action='modules.php'>\n";
-    echo "<input type='hidden' name='name' value='$titanium_module_name'>\n";
+    echo "<input type='hidden' name='name' value='$pnt_module'>\n";
     echo "<input type='hidden' name='op' value='Project'>\n";
     echo "<input type='hidden' name='project_id' value='$project_id'>\n";
     echo "<td align='right' bgcolor='$bgcolor2' width='100%' colspan='6'><strong>"._NETWORK_SORT.":</strong> ";
@@ -231,7 +231,7 @@ if($project['allowrequests'] > 0) {
   if(!$direction3) $direction3 = "asc";
   echo "<table border='1' cellpadding='2' cellspacing='0' width='100%'>\n";
   
-  echo "<tr><td colspan='6'><nobr><a class='titaniumbutton' href='modules.php?name=$titanium_module_name&amp;op=RequestSubmit&amp;project_id=$project_id'>"._NETWORK_SUBMITAREQUEST."</a></nobr></td></tr>\n";
+  echo "<tr><td colspan='6'><nobr><a class='titaniumbutton' href='modules.php?name=$pnt_module&amp;op=RequestSubmit&amp;project_id=$project_id'>"._NETWORK_SUBMITAREQUEST."</a></nobr></td></tr>\n";
   
   echo "<tr><td bgcolor='$bgcolor2' colspan='2' width='100%'><nobr><strong>"._NETWORK_REQUESTS."</strong></nobr></td>\n";
   echo "<td align='center' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_TYPE."</strong></nobr></td>\n";
@@ -250,16 +250,16 @@ if($project['allowrequests'] > 0) {
       if(empty($requeststatus['status_name'])) { $requeststatus['status_name'] = _NETWORK_NA; }
       $last_date = date($pj_config['request_date_format'], $request['date_submitted']);
       $comments = $titanium_db2->sql_numrows($titanium_db2->sql_query("SELECT * FROM `".$network_prefix."_requests_comments` WHERE `request_id`='$request_id'"));
-      $pjimage = pjimage("request.png", $titanium_module_name);
+      $pjimage = pjimage("request.png", $pnt_module);
       echo "<tr><td><img src='$pjimage'></td>\n";
-      echo "<td width='100%'><a href='modules.php?name=$titanium_module_name&amp;op=Request&amp;request_id=$request_id'>".$request['request_name']."</a></td>\n";
+      echo "<td width='100%'><a href='modules.php?name=$pnt_module&amp;op=Request&amp;request_id=$request_id'>".$request['request_name']."</a></td>\n";
       echo "<td align='center'><nobr>".$requesttype['type_name']."</nobr></td>\n";
       echo "<td align='center'><nobr>".$requeststatus['status_name']."</nobr></td>\n";
       echo "<td align='center'><nobr>$last_date</nobr></td>\n";
       echo "<td align='center'><nobr>$comments</nobr></td></tr>\n";
     }
     echo "<form method='post' action='modules.php'>\n";
-    echo "<input type='hidden' name='name' value='$titanium_module_name'>\n";
+    echo "<input type='hidden' name='name' value='$pnt_module'>\n";
     echo "<input type='hidden' name='op' value='Project'>\n";
     echo "<input type='hidden' name='project_id' value='$project_id'>\n";
     echo "<td align='right' bgcolor='$bgcolor2' width='100%' colspan='6'><strong>"._NETWORK_SORT.":</strong> ";

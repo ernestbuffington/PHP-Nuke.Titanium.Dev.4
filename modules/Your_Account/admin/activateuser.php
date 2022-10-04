@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if (is_mod_admin($titanium_module_name)) {
+if (is_mod_admin($pnt_module)) {
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();
 	echo "<div align=\"center\">\n<a href=\"modules.php?name=Your_Account&file=admin\">" . _USER_ADMIN_HEADER . "</a></div>\n";
@@ -70,14 +70,14 @@ if (is_mod_admin($titanium_module_name)) {
     echo "<tr><td colspan=\"2\" align=\"center\">\n";
 
         echo "<table cellspacing=\"0\" cellpadding=\"0\" border='0' align=\"center\"><tr>\n";
-        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td width=\"49%\" align=\"right\">\n";
+        echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'><td width=\"49%\" align=\"right\">\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
         echo "<input type='hidden' name='op' value='activateUserConf'>\n";
         echo "<input type='hidden' name='act_uid' value='$act_uid'>\n";
         echo "<input type='submit' value='"._YES."'></td></form>\n";
         echo "<td width=\"10\"></td>\n";
-        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td width=\"49%\" align=\"left\">\n";
+        echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'><td width=\"49%\" align=\"left\">\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
         echo "<input type='submit' value='"._NO."'></td></form>\n";
@@ -85,7 +85,7 @@ if (is_mod_admin($titanium_module_name)) {
         echo "<br /><strong>"._YA_ACTIVATEWARN1."</strong>\n";
         echo "<br /><strong>"._YA_ACTIVATEWARN2."</strong>\n";
         echo "</td></tr><tr>\n";
-        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'><td colspan=\"3\" align=\"center\">\n";
+        echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'><td colspan=\"3\" align=\"center\">\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
         echo "<input type='hidden' name='op' value='approveUserConf'>\n";

@@ -110,12 +110,12 @@ else
                     echo "<br /><br />";
                     echo "<table width=\"100%\" cellpadding=\"4\" cellspacing=\"1\" border=\"0\" class=\"forumline\">";
                     echo "<tr>";
-                    echo "<th class=\"thHead\" align=\"center\">".$titanium_lang['General_Error']."</th>";
+                    echo "<th class=\"thHead\" align=\"center\">".$lang['General_Error']."</th>";
                     echo "</tr>";
                     echo "<tr>";
-                    echo "<td class=\"row1\" width=\"100%\" align=\"center\"><span class=\"gen\">". sprintf($titanium_lang['URL_server_error'],$HTTP_POST_VARS["server_name"],$server_url) ."</span></td>";
+                    echo "<td class=\"row1\" width=\"100%\" align=\"center\"><span class=\"gen\">". sprintf($lang['URL_server_error'],$HTTP_POST_VARS["server_name"],$server_url) ."</span></td>";
                     echo "</tr><tr>";
-                    echo "<td class=\"row1\" width=\"100%\" align=\"center\"><span class=\"gen\">".$titanium_lang['URL_error_confirm']."<br /><br /><input type='submit' value='Yes'></form>";
+                    echo "<td class=\"row1\" width=\"100%\" align=\"center\"><span class=\"gen\">".$lang['URL_error_confirm']."<br /><br /><input type='submit' value='Yes'></form>";
                     echo "<form action='javascript:history.back()' method='post'><input type='submit' value='No'></form></span></td>";
                     echo "</tr>";
                     echo "</table>";
@@ -201,7 +201,7 @@ else
 
     if( isset($HTTP_POST_VARS['submit']) )
     {
-        $message = $titanium_lang['Config_updated'] . "<br /><br />" . sprintf($titanium_lang['Click_return_config'], "<a href=\"" . append_titanium_sid("admin_board.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_config'], "<a href=\"" . append_titanium_sid("admin_board.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
     }

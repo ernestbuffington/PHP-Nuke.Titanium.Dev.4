@@ -759,7 +759,7 @@ class Template {
  ******************************************************/
 	function birthday_interface()
 	{
-		global $titanium_lang;
+		global $lang;
 
 		// the following was adapted from bbcode.php's load_bbcode_template function.
 		$bday_filename = $this->make_filename('birthday_interface.tpl');
@@ -776,7 +776,7 @@ class Template {
 
 		eval($temp);
 
-		$bday_format = preg_replace('#\\\\.|[^djFmMnYy]#','',$titanium_lang['DATE_FORMAT']);
+		$bday_format = preg_replace('#\\\\.|[^djFmMnYy]#','',$lang['DATE_FORMAT']);
 		$bday_format = substr(chunk_split($bday_format,1,'.'),0,-1);
 
 		$bday_template = isset($bday_tpls['bday_start']) ? $bday_tpls['bday_start'] : '';
@@ -814,7 +814,7 @@ class Template {
 		// or other files bearing some sort of semblance to either of those.  on phpBB's not using those MODs, these lines
 		// don't do much of anything.
 
-		// also, if you're using cache/template_file_cache.php and you change $titanium_lang['DATE_FORMAT'], you'll need to delete
+		// also, if you're using cache/template_file_cache.php and you change $lang['DATE_FORMAT'], you'll need to delete
 		// the appropriate *.php file in the birthday_interface directory.
 
 		$this->files['bday_interface'] = $this->make_filename('birthday_interface.tpl');
@@ -986,7 +986,7 @@ class Template {
 	 */
 	function execute($filename, $code, $handle)
 	{
-		global $titanium_lang, $theme, $phpbb2_board_config;
+		global $lang, $theme, $phpbb2_board_config;
 		$phpbb2_template = $theme['template_name'];
 		global $$phpbb2_template;
 		$theme_info = &$$phpbb2_template;
@@ -2218,25 +2218,25 @@ class Template {
 	 */
 	function lang($var)
 	{
-		global $titanium_lang;
+		global $lang;
 		if(substr($var, 0, 2) === 'L_')
 		{
 			$var = substr($var, 2);
 			// check variable as it is
-			if(isset($titanium_lang[$var]))
+			if(isset($lang[$var]))
 			{
-				return $titanium_lang[$var];
+				return $lang[$var];
 			}
 			// check variable in lower case
-			if(isset($titanium_lang[strtolower($var)]))
+			if(isset($lang[strtolower($var)]))
 			{
-				return $titanium_lang[strtolower($var)];
+				return $lang[strtolower($var)];
 			}
 			// check variable with first letter in upper case
 			$str = ucfirst(strtolower($var));
-			if(isset($titanium_lang[$str]))
+			if(isset($lang[$str]))
 			{
-				return $titanium_lang[$str];
+				return $lang[$str];
 			}
 			return ''; //str_replace('_', ' ', $var);
 		}

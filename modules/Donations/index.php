@@ -13,9 +13,9 @@ global $_GETVAR;
 
 $_GETVAR->unsetVariables();
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 define('NUKE_DONATIONS', dirname(__FILE__) . '/');
 define('NUKE_DONATIONS_INCLUDES', NUKE_DONATIONS . 'includes/');
@@ -24,14 +24,14 @@ include_once(NUKE_DONATIONS_INCLUDES . 'base.php');
 
 function donation_index() 
 {
-    global $titanium_lang_donate;
+    global $lang_donate;
     
 	donation_title();
     
 	OpenTable();
     echo "<div class=\"acenter\">\n";
-    echo "<a href=\"modules.php?name=Donations&op=view\"><img src=\"images/donations/view.png\" border=\"0\" alt=\"".$titanium_lang_donate['VIEW_DONATIONS']."\"><br />".$titanium_lang_donate['VIEW_DONATIONS']."</a><br /><br />";
-    echo "<a href=\"modules.php?name=Donations&op=make\"><img src=\"images/donations/money.png\" border=\"0\" alt=\"".$titanium_lang_donate['MAKE_DONATIONS']."\"><br />".$titanium_lang_donate['MAKE_DONATIONS']."</a>";
+    echo "<a href=\"modules.php?name=Donations&op=view\"><img src=\"images/donations/view.png\" border=\"0\" alt=\"".$lang_donate['VIEW_DONATIONS']."\"><br />".$lang_donate['VIEW_DONATIONS']."</a><br /><br />";
+    echo "<a href=\"modules.php?name=Donations&op=make\"><img src=\"images/donations/money.png\" border=\"0\" alt=\"".$lang_donate['MAKE_DONATIONS']."\"><br />".$lang_donate['MAKE_DONATIONS']."</a>";
 
     echo "</div>\n";
     CloseTable();

@@ -53,7 +53,7 @@ function insert_report($post_id, $comments)
 
 function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
 {
-    global $titanium_db, $phpEx, $userdata, $phpbb2_board_config, $titanium_lang;
+    global $titanium_db, $phpEx, $userdata, $phpbb2_board_config, $lang;
 
     //
     // Obtain list of moderators of each forum
@@ -156,7 +156,7 @@ function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
 
     // $emailer->use_template('report_post');
     // $emailer->email_address($phpbb2_board_config['board_email']);
-    // $emailer->set_subject($titanium_lang['Report_post'] . ' - ' . $topic_title);
+    // $emailer->set_subject($lang['Report_post'] . ' - ' . $topic_title);
 
     // $email_headers = 'X-AntiAbuse: Board servername - ' . $phpbb2_board_config['server_name'] . "\n";
     // $email_headers .= 'X-AntiAbuse: User_id - ' . $userdata['user_id'] . "\n";
@@ -190,7 +190,7 @@ function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
     $server_url = $server_protocol . $server_name . $server_port . $script_name;
     $report_url = $server_protocol . $server_name . $server_port . 'modules.php?name=Forums&file=viewpost_reports';
 
-    $content = str_replace( '{SITENAME}', $phpbb2_board_config['sitename'], $titanium_lang['report_post_template'] );
+    $content = str_replace( '{SITENAME}', $phpbb2_board_config['sitename'], $lang['report_post_template'] );
     $content = str_replace( '{USERNAME}', $userdata['username'], $content );
     $content = str_replace( '{POST_ID}', $post_id, $content );
     $content = str_replace( '{TOPIC_TITLE}', $topic_title, $content );
@@ -201,7 +201,7 @@ function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
 
     // $headers = array( 'Content-Type: text/html; charset=UTF-8', 'From: '.$phpbb2_board_config['board_email'], 'Reply-To: '.$phpbb2_board_config['board_email'], 'Return-Path: '.$phpbb2_board_config['board_email'] );
 
-    $subject = $titanium_lang['Report_post'] . ' - ' . $topic_title;
+    $subject = $lang['Report_post'] . ' - ' . $topic_title;
 
     $headers[] = 'Content-Type: text/html; charset=UTF-8';
     $headers[] = 'From: '.$phpbb2_board_config['board_email'];
@@ -226,7 +226,7 @@ function email_report($phpbb2_forum_id, $post_id, $topic_title, $comments)
 
 function show_reports($status = REPORT_POST_NEW)
 {
-    global $titanium_db, $phpbb2_board_config, $phpbb2_template, $titanium_lang, $phpEx, $userdata;
+    global $titanium_db, $phpbb2_board_config, $phpbb2_template, $lang, $phpEx, $userdata;
 
     // find the forums where the user is a moderator
     $phpbb2_forum_ids = array();
@@ -293,7 +293,7 @@ function show_reports($status = REPORT_POST_NEW)
             'LAST_ACTION'                => $last_action,
             'LAST_ACTION_COMMENTS'  => $last_action_comments,
 
-            'L_CLOSE_REPORT'    => ( $row['report_status'] == REPORT_POST_NEW ) ? $titanium_lang['Close'] : $titanium_lang['Open'],
+            'L_CLOSE_REPORT'    => ( $row['report_status'] == REPORT_POST_NEW ) ? $lang['Close'] : $lang['Open'],
 
             'U_VIEW_POST'        => append_titanium_sid('viewtopic.' . $phpEx . '?' . POST_POST_URL . '=' . $row['post_id'] . '#' . $row['post_id']),
             'U_CLOSE_REPORT'    => ( $row['report_status'] == REPORT_POST_NEW ) ? append_titanium_sid('viewpost_reports.' . $phpEx . '?mode=closereport&amp;report=' . $row['report_id']) : append_titanium_sid('viewpost_reports.' . $phpEx . '?mode=openreport&amp;report=' . $row['report_id']))
@@ -320,7 +320,7 @@ function show_reports($status = REPORT_POST_NEW)
         {
             message_die(GENERAL_ERROR, 'Could not delete reports', '', __LINE__, __FILE__, $sql);
         }
-        $deleted_reports = sprintf($titanium_lang['Non_existent_posts'], count($delete_ids));
+        $deleted_reports = sprintf($lang['Non_existent_posts'], count($delete_ids));
     }
     else
     {
@@ -453,7 +453,7 @@ function get_forums_auth_mod()
 // create the comments from the reports
 function create_comments($row)
 {
-    global $titanium_db, $phpbb2_board_config, $titanium_lang, $phpEx;
+    global $titanium_db, $phpbb2_board_config, $lang, $phpEx;
 
         // find if we have a last action user_id and last action time
         if ( $row['last_action_user_id'] != 0 && $row['last_action_time'] != 0 )
@@ -479,18 +479,18 @@ function create_comments($row)
 
             if ( $row['report_status'] == REPORT_POST_NEW )
             {
-                $last_action = sprintf($titanium_lang['Opened_by_user_on_date'], $last_action_user, $last_action_date);
+                $last_action = sprintf($lang['Opened_by_user_on_date'], $last_action_user, $last_action_date);
             }
             else
             {
-                $last_action = sprintf($titanium_lang['Closed_by_user_on_date'], $last_action_user, $last_action_date);
+                $last_action = sprintf($lang['Closed_by_user_on_date'], $last_action_user, $last_action_date);
             }
 
             $last_action_comments = $row['last_action_comments'];
         }
         else
         {
-            $last_action = ( $row['report_status'] == REPORT_POST_NEW ) ? $titanium_lang['Opened'] : $titanium_lang['Closed'];
+            $last_action = ( $row['report_status'] == REPORT_POST_NEW ) ? $lang['Opened'] : $lang['Closed'];
             $last_action_comments = '';
         }
 

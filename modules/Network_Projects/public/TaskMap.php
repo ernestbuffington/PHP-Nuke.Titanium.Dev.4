@@ -58,21 +58,21 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
 
        # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
        $pjimage = "<i style=\"font-size: 25px; color: gold\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='gold'\" class=\"bi bi-server\"></i>";
-       $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+       $demo = " <a href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
        # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
 	}
     else
 	{
        # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
        $pjimage = "<i style=\"font-size: 25px; color: grey\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='white'\" class=\"bi bi-server\"></i>";
-       $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+       $demo = " <a href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
        # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
 		
 	}
 
     echo "<tr>\n<td align='center'>$demo</td>\n";
 
-    echo "<td  class='row1' width='100%'>&nbsp;<a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+    echo "<td  class='row1' width='100%'>&nbsp;<a href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
     
 	if($project['project_site'] > "") 
 	{
@@ -162,7 +162,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
       $color1 = 'grey';
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
       $pjimage = "<i style=\"font-size: 25px; color: ".$color1."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color1."'\" class=\"bi bi-calendar-check\"></i>";
-      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+      $demo = " <a href='modules.php?name=$pnt_module&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
       $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color1.">".$taskstatus['status_name']."</font></nobr></td>\n";
 	  
@@ -170,7 +170,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
       $color2 = 'red';
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
       $pjimage = "<i style=\"font-size: 25px; color: ".$color2."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color2."'\" class=\"bi bi-calendar-x\"></i>";
-      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+      $demo = " <a href='modules.php?name=$pnt_module&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
       $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color2.">".$taskstatus['status_name']."</font></nobr></td>\n";
       
@@ -178,7 +178,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
       $color3 = '#66FFFF';
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
       $pjimage = "<i style=\"font-size: 25px; color: ".$color3."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color3."'\" class=\"bi bi-calendar-check\"></i>";
-      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+      $demo = " <a href='modules.php?name=$pnt_module&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
       $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color3.">".$taskstatus['status_name']."</font></nobr></td>\n";
       
@@ -187,7 +187,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
       $color4 = 'orange';
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
       $pjimage = "<i style=\"font-size: 25px; color: ".$color4."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color4."'\" class=\"bi bi-calendar-x\"></i>";
-      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+      $demo = " <a href='modules.php?name=$pnt_module&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
       $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color4.">".$taskstatus['status_name']."</font></nobr></td>\n";
       
@@ -196,7 +196,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
       $color5 = 'green';
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
       $pjimage = "<i style=\"font-size: 25px; color: ".$color5."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color5."'\" class=\"bi bi-calendar-check\"></i>";
-      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+      $demo = " <a href='modules.php?name=$pnt_module&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
       $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color5.">".$taskstatus['status_name']."</font></nobr></td>\n";
       
@@ -205,7 +205,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
       $color6 = 'grey';
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
       $pjimage = "<i style=\"font-size: 25px; color: ".$color6."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color6."'\" class=\"bi bi-calendar2-x\"></i>";
-      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+      $demo = " <a href='modules.php?name=$pnt_module&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
       $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color6.">".$taskstatus['status_name']."</font></nobr></td>\n";
       
@@ -214,7 +214,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
       $color7 = 'red';
  	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
       $pjimage = "<i style=\"font-size: 25px; color: ".$color7."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color7."'\" class=\"bi bi-calendar-x\"></i>";
-      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+      $demo = " <a href='modules.php?name=$pnt_module&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
       $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color7.">".$taskstatus['status_name']."</font></nobr></td>\n";
       
@@ -223,7 +223,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
       $color8 = 'grey';
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
       $pjimage = "<i style=\"font-size: 25px; color: ".$color8."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color8 ."'\" class=\"bi bi-x-square\"></i>";
-      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+      $demo = " <a href='modules.php?name=$pnt_module&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
       $task_status_name = "<td class='row1' align='center'><nobr><font class=\"blink-one\" color=".$color8.">".$taskstatus['status_name']."</font></nobr></td>\n";
       
@@ -232,7 +232,7 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
       $color9 = 'green';
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
       $pjimage = "<i style=\"font-size: 25px; color: ".$color9."\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color9."'\" class=\"bi bi-calendar-check\"></i>";
-      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+      $demo = " <a href='modules.php?name=$pnt_module&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
       $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color9.">".$taskstatus['status_name']."</font></nobr></td>\n";
 
@@ -240,14 +240,14 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult)) {
       $color10 = 'white';
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
       $pjimage = "<i style=\"font-size: 25px; color: '".$color10."'\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='".$color10."'\" class=\"bi bi-calendar-check\"></i>";
-      $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
+      $demo = " <a href='modules.php?name=$pnt_module&amp;op=Task&amp;task_id=$task_id' target='_blank'>$pjimage</a>";
 	  # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
       $task_status_name = "<td class='row1' align='center'><nobr><font color=".$color10.">".$taskstatus['status_name']."</font></nobr></td>\n";
 
 	  endif;
 
       echo "<tr><td class='row1' >$demo</td>\n";
-      echo "<td colspan='2' width='100%'><a href='modules.php?name=$titanium_module_name&amp;op=Task&amp;task_id=$task_id'>$task_name</a></td>\n";
+      echo "<td colspan='2' width='100%'><a href='modules.php?name=$pnt_module&amp;op=Task&amp;task_id=$task_id'>$task_name</a></td>\n";
     
 	  
 	  if(empty($taskstatus['status_name']))

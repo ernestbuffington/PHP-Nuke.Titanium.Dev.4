@@ -56,7 +56,7 @@ class myubrowse
         }
 
         
-		function myubrowse($admin, $network_prefix, $titanium_db2, $titanium_module_name, $titanium_user_prefix) 
+		function myubrowse($admin, $network_prefix, $titanium_db2, $pnt_module, $titanium_user_prefix) 
 		{
                 global $admin_file;
                 
@@ -64,7 +64,7 @@ class myubrowse
                 $this->prefix = $network_prefix;
                 $this->user_prefix = $network_prefix;
                 $this->db = $titanium_db2;
-                $this->module_name = $titanium_module_name;
+                $this->module_name = $pnt_module;
                 $this->pagetitle = " - ".MYU_MYUPLOADS;
                 
 				$sql = "SELECT * FROM ".$this->prefix."_uploads";

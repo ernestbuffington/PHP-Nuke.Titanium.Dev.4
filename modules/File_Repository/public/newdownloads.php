@@ -14,7 +14,7 @@ if (!defined('MODULE_FILE'))
 
 function _show_list_newdownloads()
 {
-	global $titanium_db, $admin_file, $titanium_lang_new, $titanium_module_name, $userinfo, $settings, $admin, $titanium_user;
+	global $titanium_db, $admin_file, $lang_new, $pnt_module, $userinfo, $settings, $admin, $titanium_user;
 	
 	$counter = 0;
 	$allweekdownloads = 0;
@@ -45,16 +45,16 @@ function _show_list_newdownloads()
 	echo '<br />';
 	echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '	<tr'._bgColor(2).'>'."\n";
-	echo '	  <td'._tdcss(false,'center',_sh(),2).'>'._suh($titanium_lang_new[$titanium_module_name]['NEW_DOWNLOADS']).'</td>'."\n";
+	echo '	  <td'._tdcss(false,'center',_sh(),2).'>'._suh($lang_new[$pnt_module]['NEW_DOWNLOADS']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '	<tr'._bgColor(1).'>'."\n";
-	echo '	  <td'._tdcss(false,'center',_sc(),2).'>'._sut($titanium_lang_new[$titanium_module_name]['NEW_DOWNLOADS_TOTALS']).': '._sut($titanium_lang_new[$titanium_module_name]['LASTWEEK']).' - '.$allweekdownloads.' \ '._sut($titanium_lang_new[$titanium_module_name]['LAST30']).' - '.$allmonthdownloads.'</td>'."\n";
+	echo '	  <td'._tdcss(false,'center',_sc(),2).'>'._sut($lang_new[$pnt_module]['NEW_DOWNLOADS_TOTALS']).': '._sut($lang_new[$pnt_module]['LASTWEEK']).' - '.$allweekdownloads.' \ '._sut($lang_new[$pnt_module]['LAST30']).' - '.$allmonthdownloads.'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '	<tr'._bgColor(2).'>'."\n";
-	echo '	  <td'._tdcss(false,'center',_sh(),2).'><a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=newdownloads&amp;newdownloadshowdays=7">'._suh($titanium_lang_new[$titanium_module_name]['1WEEK']).'</a> - <a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=newdownloads&amp;newdownloadshowdays=14">'._suh($titanium_lang_new[$titanium_module_name]['2WEEKS']).'</a> - <a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=newdownloads&amp;newdownloadshowdays=30">'._suh($titanium_lang_new[$titanium_module_name]['30DAYS']).'</a></td>'."\n";
+	echo '	  <td'._tdcss(false,'center',_sh(),2).'><a'._ls().' href="modules.php?name='.$pnt_module.'&amp;action=newdownloads&amp;newdownloadshowdays=7">'._suh($lang_new[$pnt_module]['1WEEK']).'</a> - <a'._ls().' href="modules.php?name='.$pnt_module.'&amp;action=newdownloads&amp;newdownloadshowdays=14">'._suh($lang_new[$pnt_module]['2WEEKS']).'</a> - <a'._ls().' href="modules.php?name='.$pnt_module.'&amp;action=newdownloads&amp;newdownloadshowdays=30">'._suh($lang_new[$pnt_module]['30DAYS']).'</a></td>'."\n";
 	echo '  </tr>'."\n";		
 	echo '	<tr'._bgColor(1).'>'."\n";
-	echo '	  <td'._tdcss(false,'center',_sc(),2).'>'._sut(sprintf($titanium_lang_new[$titanium_module_name]['NEW_DOWNLOADS_LAST'],$newdownloadshowdays)).':<br /><br />';		
+	echo '	  <td'._tdcss(false,'center',_sc(),2).'>'._sut(sprintf($lang_new[$pnt_module]['NEW_DOWNLOADS_LAST'],$newdownloadshowdays)).':<br /><br />';		
 	$counter = 0;
 	$allweekdownloads = 0;
 	while ($counter <= $newdownloadshowdays-1) 
@@ -64,7 +64,7 @@ function _show_list_newdownloads()
 		$totaldownloads = $titanium_db->sql_numrows($titanium_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `date` LIKE '%$newdownloadDB%' AND `isactive` > '0'"));
 		$counter++;
 		$allweekdownloads = $allweekdownloads + $totaldownloads;
-		echo '<strong><big>&middot;</big></strong> <a href="modules.php?name='.$titanium_module_name.'&amp;action=newdownloadsdate&amp;selectdate='.$newdownloaddayRaw.'">'.$newdownloadDB.'</a>&nbsp('.$totaldownloads.')<br />'."\n";
+		echo '<strong><big>&middot;</big></strong> <a href="modules.php?name='.$pnt_module.'&amp;action=newdownloadsdate&amp;selectdate='.$newdownloaddayRaw.'">'.$newdownloadDB.'</a>&nbsp('.$totaldownloads.')<br />'."\n";
 	}
 	$counter = 0;
 	$allmonthdownloads = 0;		
@@ -79,7 +79,7 @@ function _show_list_newdownloads()
 
 function _show_list_newdownloads_dates()
 {
-	global $titanium_db, $admin_file, $titanium_lang_new, $titanium_module_name, $userinfo, $settings, $themes, $admin, $titanium_user;
+	global $titanium_db, $admin_file, $lang_new, $pnt_module, $userinfo, $settings, $themes, $admin, $titanium_user;
 	
 	OpenTable();
 	_index_navigation_header();
@@ -94,34 +94,34 @@ function _show_list_newdownloads_dates()
 	echo '<br />';
 	echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
-	echo '	  <td'._tdcss(false,'center',_sh(),(($settings['download_view'] == 0) ? '6' : $themes[get_theme()]['per_row'])).'>'._timestamp($dateView,'M jS, Y').' - '._suh($titanium_lang_new[$titanium_module_name]['NEW_DOWNLOADS']).'</td>'."\n";
+	echo '	  <td'._tdcss(false,'center',_sh(),(($settings['download_view'] == 0) ? '6' : $themes[get_theme()]['per_row'])).'>'._timestamp($dateView,'M jS, Y').' - '._suh($lang_new[$pnt_module]['NEW_DOWNLOADS']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	if($numrows > 0)
 	{
 		if($settings['download_view'] == 0)
 		{
 			echo '  <tr'._bgColor(2).'>'."\n";
-			echo '    <td'._tdcss(false,false,_sh(),2).'>'._suh($titanium_lang_new[$titanium_module_name]['TITLE']).'</td>'.PHP_EOL;
-			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['VIEWS']).'</td>'.PHP_EOL;
-			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['DOWNLOADS']).'</td>'.PHP_EOL;
-			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['FILE_SIZE']).'</td>'.PHP_EOL;
-			echo '    <td'._tdcss('20%','center',_sh()).'>'._suh($titanium_lang_new[$titanium_module_name]['DATE_ADDED']).'</td>'.PHP_EOL;
+			echo '    <td'._tdcss(false,false,_sh(),2).'>'._suh($lang_new[$pnt_module]['TITLE']).'</td>'.PHP_EOL;
+			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($lang_new[$pnt_module]['VIEWS']).'</td>'.PHP_EOL;
+			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($lang_new[$pnt_module]['DOWNLOADS']).'</td>'.PHP_EOL;
+			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($lang_new[$pnt_module]['FILE_SIZE']).'</td>'.PHP_EOL;
+			echo '    <td'._tdcss('20%','center',_sh()).'>'._suh($lang_new[$pnt_module]['DATE_ADDED']).'</td>'.PHP_EOL;
 			echo '  </tr>'."\n";
 			while($popular = $titanium_db->sql_fetchrow($result))
 			{
-				$v 			= (($popular['version']) ? sprintf($titanium_lang_new[$titanium_module_name]['V'],$popular['version']) : '');
+				$v 			= (($popular['version']) ? sprintf($lang_new[$pnt_module]['V'],$popular['version']) : '');
 				$iteminfo 	= _collect_iteminfo($popular['did']);
 				$screen[$items] = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$popular['did']."' ORDER BY RAND()"));
 				echo '  <tr'._bgColor(1).'>'."\n";
 				if($screen[$items]['filename'])
 				{
-					echo '    <td'._tdcss('5%','center',_sc()).'><a'._image_viewer($screen[$items]['filename'],'item-'.$popular['did']).' href="'._FILE_REPOSITORY_SCREENS.$screen[$items]['filename'].'" title="'.$screen[$items]['title'].'"><img style="border: 1px solid white; height: 28px; width: 30px;" src="modules/'.$titanium_module_name.'/files/screenshots/'.$screen[$items]['filename'].'" border="0" /></a></td>';
+					echo '    <td'._tdcss('5%','center',_sc()).'><a'._image_viewer($screen[$items]['filename'],'item-'.$popular['did']).' href="'._FILE_REPOSITORY_SCREENS.$screen[$items]['filename'].'" title="'.$screen[$items]['title'].'"><img style="border: 1px solid white; height: 28px; width: 30px;" src="modules/'.$pnt_module.'/files/screenshots/'.$screen[$items]['filename'].'" border="0" /></a></td>';
 					echo '    <td'._tdcss('45%',false,_sc()).'>';
-					echo '      <a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=view&amp;did='.$popular['did'].'">'._colorization($iteminfo['title'],$iteminfo['color']).$v.'</a>'._item_is_new($iteminfo['isnew'],$iteminfo['updated'])._mostpopular($iteminfo['hits']);
+					echo '      <a'._ls().' href="modules.php?name='.$pnt_module.'&amp;action=view&amp;did='.$popular['did'].'">'._colorization($iteminfo['title'],$iteminfo['color']).$v.'</a>'._item_is_new($iteminfo['isnew'],$iteminfo['updated'])._mostpopular($iteminfo['hits']);
 					echo '    </td>';
 				} else {
 					echo '    <td'._tdcss(false,false,_sc(),2).'>';
-					echo '      <a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=view&amp;did='.$popular['did'].'">'._colorization($iteminfo['title'],$iteminfo['color']).$v.'</a>'._item_is_new($iteminfo['isnew'],$iteminfo['updated'])._mostpopular($iteminfo['hits']);
+					echo '      <a'._ls().' href="modules.php?name='.$pnt_module.'&amp;action=view&amp;did='.$popular['did'].'">'._colorization($iteminfo['title'],$iteminfo['color']).$v.'</a>'._item_is_new($iteminfo['isnew'],$iteminfo['updated'])._mostpopular($iteminfo['hits']);
 					echo '    </td>';
 				}
 				echo '    <td'._tdcss('10%','center',_sc()).'>'.$iteminfo['views'].'</td>';
@@ -138,10 +138,10 @@ function _show_list_newdownloads_dates()
 			$items = 0;
 			while($d = $titanium_db->sql_fetchrow($result))
 			{
-				$v 				= (($d['version']) ? sprintf($titanium_lang_new[$titanium_module_name]['V'],$d['version']) : '');
+				$v 				= (($d['version']) ? sprintf($lang_new[$pnt_module]['V'],$d['version']) : '');
 				$iteminfo 		= _collect_iteminfo($d['did']);
 				$screen[$items] = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$d['did']."' ORDER BY RAND()"));
-				$ustring 		= ($iteminfo['updated'] == '0000-00-00 00:00:00') ? _sut($titanium_lang_new[$titanium_module_name]['DATE_ADDED']) : _sut($titanium_lang_new[$titanium_module_name]['UPDATED']);
+				$ustring 		= ($iteminfo['updated'] == '0000-00-00 00:00:00') ? _sut($lang_new[$pnt_module]['DATE_ADDED']) : _sut($lang_new[$pnt_module]['UPDATED']);
 				if($screen[$items]['filename'])
 					$colspan = false;
 				else 
@@ -166,20 +166,20 @@ function _show_list_newdownloads_dates()
 				echo '            <table width="100%" border="0" cellpadding="4" cellspacing="1">'."\n";
 				echo '              <tr>'."\n";
 				echo '                <td'._tdcss(false,false,false,false,true).'>';
-				echo '                  '._sut($titanium_lang_new[$titanium_module_name]['DOWNLOAD']).' : <a'._ls().' href="modules.php?name='.$titanium_module_name.'&amp;action=view&amp;did='.$d['did'].'">'._colorization($iteminfo['title'],$iteminfo['color']).'</a>'._item_is_new($iteminfo['isnew'],$iteminfo['updated'])._mostpopular($iteminfo['hits']);
+				echo '                  '._sut($lang_new[$pnt_module]['DOWNLOAD']).' : <a'._ls().' href="modules.php?name='.$pnt_module.'&amp;action=view&amp;did='.$d['did'].'">'._colorization($iteminfo['title'],$iteminfo['color']).'</a>'._item_is_new($iteminfo['isnew'],$iteminfo['updated'])._mostpopular($iteminfo['hits']);
 				echo '                </td>'."\n";
 				echo '              </tr>'."\n";
 				echo '              <tr>'."\n";
-				echo '                <td'._tdcss(false,false,false,false,true).'>'._sut($titanium_lang_new[$titanium_module_name]['PERMISSIONS']).' : '.$iteminfo['whocan'].'</td>';
+				echo '                <td'._tdcss(false,false,false,false,true).'>'._sut($lang_new[$pnt_module]['PERMISSIONS']).' : '.$iteminfo['whocan'].'</td>';
 				echo '              </tr>'."\n";
 				echo '              <tr>'."\n";
-				echo '                <td'._tdcss(false,false,false,false,true).'>'._sut($titanium_lang_new[$titanium_module_name]['FILE_VERSION']).' : '.(($iteminfo['version']) ? $iteminfo['version'] : $titanium_lang_new[$titanium_module_name]['NA']).'</td>';
+				echo '                <td'._tdcss(false,false,false,false,true).'>'._sut($lang_new[$pnt_module]['FILE_VERSION']).' : '.(($iteminfo['version']) ? $iteminfo['version'] : $lang_new[$pnt_module]['NA']).'</td>';
 				echo '              </tr>'."\n";
 				echo '              <tr>'."\n";
 				echo '                <td'._tdcss(false,false,false,false,true).'>'.$ustring.' : '.$iteminfo['isupdated'].'</td>';
 				echo '              </tr>'."\n";
 				echo '              <tr>'."\n";
-				echo '                <td'._tdcss(false,false,false,false,true).'>'._sut($titanium_lang_new[$titanium_module_name]['DOWNLOADS']).' : '.$iteminfo['hits'].'</td>';
+				echo '                <td'._tdcss(false,false,false,false,true).'>'._sut($lang_new[$pnt_module]['DOWNLOADS']).' : '.$iteminfo['hits'].'</td>';
 				echo '              </tr>'."\n";
 				echo '            </table>'."\n";
 				echo '          </td>';
@@ -201,7 +201,7 @@ function _show_list_newdownloads_dates()
 		}
 	} else {
 		echo '  <tr'._bgColor(1).'>'."\n";
-		echo '	  <td'._tdcss(false,'center',_sc(),(($settings['download_view'] == 0) ? '6' : $themes[get_theme()]['per_row'])).'>'._sut($titanium_lang_new[$titanium_module_name]['NOINFO']).'</td>'."\n";
+		echo '	  <td'._tdcss(false,'center',_sc(),(($settings['download_view'] == 0) ? '6' : $themes[get_theme()]['per_row'])).'>'._sut($lang_new[$pnt_module]['NOINFO']).'</td>'."\n";
 		echo '  </tr>'."\n";
 	}
 	echo '  <tr'._bgColor(2).'>'."\n";

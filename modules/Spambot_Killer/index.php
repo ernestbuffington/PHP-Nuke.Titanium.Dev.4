@@ -43,9 +43,9 @@ if (!defined('MODULE_FILE')) {
 
 global $bgcolor2;
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 include_once(NUKE_BASE_DIR.'header.php');
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 title(_SBK);
 define('INDEX_FILE', true);
 

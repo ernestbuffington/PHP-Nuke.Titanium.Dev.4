@@ -93,7 +93,7 @@ $sort_order = 'ASC';
 endif;
 
 # Memberlist sorting
-$mode_types_text = array($titanium_lang['Sort_User_ID'], $titanium_lang['Sort_Username'], $titanium_lang['Sort_Joined'], $titanium_lang['Topic_time'], $titanium_lang['Topic_count']);
+$mode_types_text = array($lang['Sort_User_ID'], $lang['Sort_Username'], $lang['Sort_Joined'], $lang['Topic_time'], $lang['Topic_count']);
 $mode_types = array('user_id', 'username', 'joindate', 'topic_time', 'topic_count');
 $select_sort_mode = '<select name="mode">';
 for($i = 0; $i < count($mode_types_text); $i++):
@@ -103,14 +103,14 @@ endfor;
 $select_sort_mode .= '</select>';
 $select_sort_order = '<select name="order">';
 if($sort_order == 'ASC')
-$select_sort_order .= '<option value="ASC" selected="selected">'.$titanium_lang['Sort_Ascending'].'</option><option value="DESC">'.$titanium_lang['Sort_Descending'].'</option>';
+$select_sort_order .= '<option value="ASC" selected="selected">'.$lang['Sort_Ascending'].'</option><option value="DESC">'.$lang['Sort_Descending'].'</option>';
 else
-$select_sort_order .= '<option value="ASC">'.$titanium_lang['Sort_Ascending'].'</option><option value="DESC" selected="selected">'.$titanium_lang['Sort_Descending'].'</option>';
+$select_sort_order .= '<option value="ASC">'.$lang['Sort_Ascending'].'</option><option value="DESC" selected="selected">'.$lang['Sort_Descending'].'</option>';
 $select_sort_order .= '</select>';
 $select_sort_order .= '<input type="hidden" name="'.POST_TOPIC_URL.'" value="'.$topic_id.'"/>';
 
 # Generate page
-$phpbb2_page_title = $titanium_lang['Memberlist'];
+$phpbb2_page_title = $lang['Memberlist'];
 include("includes/page_header.php");
 
 $phpbb2_template->set_filenames(array(
@@ -121,12 +121,12 @@ make_jumpbox('viewforum.'.$phpEx);
 $phpbb2_template->assign_vars(
 	array(
 	    'L_ACTUAL_TIME' => $actual_time,
-	    'L_LAST_VIEWED_TOPIC_LINK_PREFIX' => $titanium_lang['WhoIsViewingThisTopic'],
+	    'L_LAST_VIEWED_TOPIC_LINK_PREFIX' => $lang['WhoIsViewingThisTopic'],
 	    'L_LAST_VIEWED_TOPIC_LINK' => $topic_link,
-		'L_LAST_VIEWED_TITLE' => $titanium_lang['WhoViewedMemberlist'],
-		'L_LAST_VIEWED' => $titanium_lang['Topic_time'],
-		'L_TOPIC_COUNT' => $titanium_lang['Topic_count'],
-		'L_AGE' => $titanium_lang['Sort_Age'], 
+		'L_LAST_VIEWED_TITLE' => $lang['WhoViewedMemberlist'],
+		'L_LAST_VIEWED' => $lang['Topic_time'],
+		'L_TOPIC_COUNT' => $lang['Topic_count'],
+		'L_AGE' => $lang['Sort_Age'], 
 		'S_MODE_SELECT' => $select_sort_mode,
 		'S_ORDER_SELECT' => $select_sort_order,
 		'S_MODE_ACTION' => append_titanium_sid("viewtopic_whoview.$phpEx")
@@ -206,14 +206,14 @@ if($row = $titanium_db->sql_fetchrow($result)):
          ******************************************************/
 		
 		# Get the date and time the user last viewed the topic.
-		$view_time = ($row['view_time']) ? create_date($phpbb2_board_config['default_dateformat'],$row['view_time'], $phpbb2_board_config['board_timezone']) : $titanium_lang['Never_last_logon'];
+		$view_time = ($row['view_time']) ? create_date($phpbb2_board_config['default_dateformat'],$row['view_time'], $phpbb2_board_config['board_timezone']) : $lang['Never_last_logon'];
 		
 		# Get the amount of times the user has viewed.
 		$view_count	= ($row['view_count']) ? $row['view_count'] : 0;
 		
 		# Get the users Facebook link.
 		$facebook = (($row['user_facebook']) ? '<a href="https://www.facebook.com/'.$row['user_facebook'].'" 
-		target="_blank">'.get_evo_icon('evo-sprite facebook tooltip', $titanium_lang['Visit_facebook']).'</a>&nbsp;' : '');
+		target="_blank">'.get_evo_icon('evo-sprite facebook tooltip', $lang['Visit_facebook']).'</a>&nbsp;' : '');
 		
 		# Display the users country of origin.
 		$titanium_user_flag = (!empty($row['user_from_flag'])) ? 
@@ -221,27 +221,27 @@ if($row = $titanium_db->sql_fetchrow($result)):
 		
 		# Send user a private message.
 		$pm	= '<a href="'.append_titanium_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=$titanium_user_id").'">'.get_evo_icon('evo-sprite 
-		mail tooltip', sprintf($titanium_lang['Send_private_message'],$titanium_username)).'</a>';
+		mail tooltip', sprintf($lang['Send_private_message'],$titanium_username)).'</a>';
 		
 		# Website URL
-		$www = ($row['user_website']) ? '<a href="'.$row['user_website'].'" target="_userwww">'.get_evo_icon('evo-sprite globe tooltip', $titanium_lang['Visit_website']).'</a>&nbsp;' : '';
+		$www = ($row['user_website']) ? '<a href="'.$row['user_website'].'" target="_userwww">'.get_evo_icon('evo-sprite globe tooltip', $lang['Visit_website']).'</a>&nbsp;' : '';
 
        # This is broken in UK version
 	   # Mod: Online/Offline/Hidden v2.2.7 START
        if($row['user_session_time'] >= (time()-$phpbb2_board_config['online_time'])):
          $theme_name = get_theme();
 		 if($row['user_allow_viewonline']):
-         $online_status = '<a href="'.append_titanium_sid("viewonline.$phpEx").'" title="'.sprintf($titanium_lang['is_online'],$row['username']).'"'.$online_color.'><img alt="online" src="themes/'.$theme_name.'/forums/images/status/online_bgcolor_one.gif" /></a>';
+         $online_status = '<a href="'.append_titanium_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'],$row['username']).'"'.$online_color.'><img alt="online" src="themes/'.$theme_name.'/forums/images/status/online_bgcolor_one.gif" /></a>';
          
 		 elseif($userdata['user_level'] == ADMIN || $userdata['user_id'] == $row['user_id'] ):
-         $online_status = '<em><a href="'.append_titanium_sid("viewonline.$phpEx").'" title="'.sprintf($titanium_lang['is_hidden'],$profiledata['username']).'"'.$hidden_color.'>'.$titanium_lang['Hidden'].'</a></em>';
+         $online_status = '<em><a href="'.append_titanium_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_hidden'],$profiledata['username']).'"'.$hidden_color.'>'.$lang['Hidden'].'</a></em>';
          
 		 else:
-         $online_status = '<span title="'.sprintf($titanium_lang['is_offline'], $row['username']).'"'.$offline_color.'><strong>'.$titanium_lang['Offline'].'</strong></span>';
+         $online_status = '<span title="'.sprintf($lang['is_offline'], $row['username']).'"'.$offline_color.'><strong>'.$lang['Offline'].'</strong></span>';
          endif;
 
        else:
-       $online_status = '<span title="'.sprintf($titanium_lang['is_offline'], $row['username']) . '"' . $offline_color . '><img alt="online" src="themes/'.$theme_name.'/forums/images/status/offline_bgcolor_one.gif" /></span>';
+       $online_status = '<span title="'.sprintf($lang['is_offline'], $row['username']) . '"' . $offline_color . '><img alt="online" src="themes/'.$theme_name.'/forums/images/status/offline_bgcolor_one.gif" /></span>';
        endif;
        # Mod: Online/Offline/Hidden v2.2.7 END
  		if(strlen($titanium_user_from) == 6)
@@ -299,8 +299,8 @@ endif;
 
 $phpbb2_template->assign_vars(array(
 	'PAGINATION' => $pagination,
-	'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], (floor($phpbb2_start / $phpbb2_board_config['topics_per_page']) + 1), ceil($total_phpbb2_members / $phpbb2_board_config['topics_per_page'])), 
-	'L_GOTO_PAGE' => $titanium_lang['Goto_page'])
+	'PAGE_NUMBER' => sprintf($lang['Page_of'], (floor($phpbb2_start / $phpbb2_board_config['topics_per_page']) + 1), ceil($total_phpbb2_members / $phpbb2_board_config['topics_per_page'])), 
+	'L_GOTO_PAGE' => $lang['Goto_page'])
 );
 $phpbb2_template->pparse('body');
 include("includes/page_tail.$phpEx");

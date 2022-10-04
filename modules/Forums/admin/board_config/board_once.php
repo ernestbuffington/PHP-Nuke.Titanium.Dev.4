@@ -43,10 +43,10 @@ $phpbb2_template->assign_vars(array(
     
 //Language Template variables
 $phpbb2_template->assign_vars(array(
-    "L_ONCE_SETTINGS" => $titanium_lang['once_settings'],
-    "L_SHOW_SIG_ONCE" => $titanium_lang['show_sig_once'],
-    "L_SHOW_AVATAR_ONCE" => $titanium_lang['show_avatar_once'],
-    "L_SHOW_RANK_ONCE" => $titanium_lang['show_rank_once']
+    "L_ONCE_SETTINGS" => $lang['once_settings'],
+    "L_SHOW_SIG_ONCE" => $lang['show_sig_once'],
+    "L_SHOW_AVATAR_ONCE" => $lang['show_avatar_once'],
+    "L_SHOW_RANK_ONCE" => $lang['show_rank_once']
 ));
 
 //Data Template Variables

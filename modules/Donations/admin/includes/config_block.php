@@ -21,30 +21,30 @@ OpenTable();
     Notes:       Creates the radio buttons using the donate_radio() function
 ================================================================================================*/
 function get_radios() {
-    global $titanium_lang_donate, $block_values;
+    global $lang_donate, $block_values;
     $out = array();
-    $radio[] = array('value' => 'yes', 'text' => $titanium_lang_donate['YES'], 'name' => 'show_amount', 'checked' => ($block_values['show_amount'] == 'yes') ? 'CHECKED' : '');
-    $radio[] = array('value' => 'no', 'text' => $titanium_lang_donate['NO'], 'name' => 'show_amount', 'checked' => ($block_values['show_amount'] == 'yes') ? '' : 'CHECKED');
+    $radio[] = array('value' => 'yes', 'text' => $lang_donate['YES'], 'name' => 'show_amount', 'checked' => ($block_values['show_amount'] == 'yes') ? 'CHECKED' : '');
+    $radio[] = array('value' => 'no', 'text' => $lang_donate['NO'], 'name' => 'show_amount', 'checked' => ($block_values['show_amount'] == 'yes') ? '' : 'CHECKED');
     $out['show_amount'] = donate_radio($radio);
     unset($radio);
-    $radio[] = array('value' => 'yes', 'text' => $titanium_lang_donate['YES'], 'name' => 'show_anon_amount', 'checked' => ($block_values['show_anon_amount'] == 'yes') ? 'CHECKED' : '');
-    $radio[] = array('value' => 'no', 'text' => $titanium_lang_donate['NO'], 'name' => 'show_anon_amount', 'checked' => ($block_values['show_anon_amount'] == 'yes') ? '' : 'CHECKED');
+    $radio[] = array('value' => 'yes', 'text' => $lang_donate['YES'], 'name' => 'show_anon_amount', 'checked' => ($block_values['show_anon_amount'] == 'yes') ? 'CHECKED' : '');
+    $radio[] = array('value' => 'no', 'text' => $lang_donate['NO'], 'name' => 'show_anon_amount', 'checked' => ($block_values['show_anon_amount'] == 'yes') ? '' : 'CHECKED');
     $out['show_ann_amount'] = donate_radio($radio);
     unset($radio);
-    $radio[] = array('value' => 'yes', 'text' => $titanium_lang_donate['YES'], 'name' => 'show_dates', 'checked' => ($block_values['show_dates'] == 'yes') ? 'CHECKED' : '');
-    $radio[] = array('value' => 'no', 'text' => $titanium_lang_donate['NO'], 'name' => 'show_dates', 'checked' => ($block_values['show_dates'] == 'yes') ? '' : 'CHECKED');
+    $radio[] = array('value' => 'yes', 'text' => $lang_donate['YES'], 'name' => 'show_dates', 'checked' => ($block_values['show_dates'] == 'yes') ? 'CHECKED' : '');
+    $radio[] = array('value' => 'no', 'text' => $lang_donate['NO'], 'name' => 'show_dates', 'checked' => ($block_values['show_dates'] == 'yes') ? '' : 'CHECKED');
     $out['show_dates'] = donate_radio($radio);
     unset($radio);
-    $radio[] = array('value' => 'yes', 'text' => $titanium_lang_donate['YES'], 'name' => 'show_goal', 'checked' => ($block_values['show_goal'] == 'yes') ? 'CHECKED' : '');
-    $radio[] = array('value' => 'no', 'text' => $titanium_lang_donate['NO'], 'name' => 'show_goal', 'checked' => ($block_values['show_goal'] == 'yes') ? '' : 'CHECKED');
+    $radio[] = array('value' => 'yes', 'text' => $lang_donate['YES'], 'name' => 'show_goal', 'checked' => ($block_values['show_goal'] == 'yes') ? 'CHECKED' : '');
+    $radio[] = array('value' => 'no', 'text' => $lang_donate['NO'], 'name' => 'show_goal', 'checked' => ($block_values['show_goal'] == 'yes') ? '' : 'CHECKED');
     $out['show_goal'] = donate_radio($radio);
     unset($radio);
-    $radio[] = array('value' => 'yes', 'text' => $titanium_lang_donate['YES'], 'name' => 'scroll', 'checked' => ($block_values['scroll'] == 'yes') ? 'CHECKED' : '');
-    $radio[] = array('value' => 'no', 'text' => $titanium_lang_donate['NO'], 'name' => 'scroll', 'checked' => ($block_values['scroll'] == 'yes') ? '' : 'CHECKED');
+    $radio[] = array('value' => 'yes', 'text' => $lang_donate['YES'], 'name' => 'scroll', 'checked' => ($block_values['scroll'] == 'yes') ? 'CHECKED' : '');
+    $radio[] = array('value' => 'no', 'text' => $lang_donate['NO'], 'name' => 'scroll', 'checked' => ($block_values['scroll'] == 'yes') ? '' : 'CHECKED');
     $out['scroll'] = donate_radio($radio);
     unset($radio);
-    $radio[] = array('value' => 'yes', 'text' => $titanium_lang_donate['YES'], 'name' => 'numbers', 'checked' => ($block_values['numbers'] == 'yes') ? 'CHECKED' : '');
-    $radio[] = array('value' => 'no', 'text' => $titanium_lang_donate['NO'], 'name' => 'numbers', 'checked' => ($block_values['numbers'] == 'yes') ? '' : 'CHECKED');
+    $radio[] = array('value' => 'yes', 'text' => $lang_donate['YES'], 'name' => 'numbers', 'checked' => ($block_values['numbers'] == 'yes') ? 'CHECKED' : '');
+    $radio[] = array('value' => 'no', 'text' => $lang_donate['NO'], 'name' => 'numbers', 'checked' => ($block_values['numbers'] == 'yes') ? '' : 'CHECKED');
     $out['numbers'] = donate_radio($radio);
     return $out;
 }
@@ -56,51 +56,51 @@ function get_radios() {
     Notes:       Displays the on screen config choices
 ================================================================================================*/
 function display_config() {
-    global $titanium_lang_donate, $block_values, $admin_file;
+    global $lang_donate, $block_values, $admin_file;
     $show = get_radios();
     echo "<form id=\"values\" method=\"post\" action=\"".$admin_file.".php?op=".the_module()."&amp;file=config_block\">\n";
     echo '<table style="width: 50%; margin: auto" cellpadding="4" cellspacing="1" border="0" class="forumline">';
     echo '  <tr>';
-    echo '    <td class="catHead" colspan="2" style="text-align: center; font-weight: bold; font-size: 14px">'.$titanium_lang_donate['CONFIG_BLOCK'].'</td>';
+    echo '    <td class="catHead" colspan="2" style="text-align: center; font-weight: bold; font-size: 14px">'.$lang_donate['CONFIG_BLOCK'].'</td>';
     echo '  </tr>';
-    // echo "<caption><span style=\"font-weight: bold; font-size: 20px;\">".$titanium_lang_donate['CONFIG_BLOCK']."</span></caption>";
+    // echo "<caption><span style=\"font-weight: bold; font-size: 20px;\">".$lang_donate['CONFIG_BLOCK']."</span></caption>";
     echo "<tr>\n
-            <td class=\"row1\" width=\"55%\" align=\"right\">".$titanium_lang_donate['SHOW_AMOUNTS'].$titanium_lang_donate['BREAK']."</td>\n
+            <td class=\"row1\" width=\"55%\" align=\"right\">".$lang_donate['SHOW_AMOUNTS'].$lang_donate['BREAK']."</td>\n
             <td class=\"row1\" width=\"45%\">".$show['show_amount']."</td>\n
           </tr>\n
           <tr>\n
-            <td class=\"row1\" align=\"right\">".$titanium_lang_donate['SHOW_ANON_AMNTS'].$titanium_lang_donate['BREAK']."</td>\n
+            <td class=\"row1\" align=\"right\">".$lang_donate['SHOW_ANON_AMNTS'].$lang_donate['BREAK']."</td>\n
             <td class=\"row1\">".$show['show_ann_amount']."</td>\n
           </tr>\n
           <tr>\n
-            <td class=\"row1\" align=\"right\">".$titanium_lang_donate['SHOW_GOAL'].$titanium_lang_donate['BREAK']."</td>\n
+            <td class=\"row1\" align=\"right\">".$lang_donate['SHOW_GOAL'].$lang_donate['BREAK']."</td>\n
             <td class=\"row1\">".$show['show_goal']."</td>\n
           </tr>\n
           <tr>\n
-            <td class=\"row1\" align=\"right\">".$titanium_lang_donate['BUTTON_IMAGE'].$titanium_lang_donate['BREAK']."</td>\n
+            <td class=\"row1\" align=\"right\">".$lang_donate['BUTTON_IMAGE'].$lang_donate['BREAK']."</td>\n
             <td class=\"row1\">".donate_text('button_image', $block_values['button_image'])."</td>\n
           </tr>\n
           <tr>\n
-            <td class=\"row1\" align=\"right\">".$titanium_lang_donate['NUM_DONATIONS'].$titanium_lang_donate['BREAK']."</td>\n
+            <td class=\"row1\" align=\"right\">".$lang_donate['NUM_DONATIONS'].$lang_donate['BREAK']."</td>\n
             <td class=\"row1\">".donate_text('num_donations', $block_values['num_donations'], 2, 2)."</td>\n
           </tr>\n
           <tr>\n
-            <td class=\"row1\" align=\"right\">".$titanium_lang_donate['SHOW_DATES'].$titanium_lang_donate['BREAK']."</td>\n
+            <td class=\"row1\" align=\"right\">".$lang_donate['SHOW_DATES'].$lang_donate['BREAK']."</td>\n
             <td class=\"row1\">".$show['show_dates']."</td>\n
           </tr>\n
           <tr>\n
-            <td class=\"row1\" align=\"right\">".$titanium_lang_donate['SCROLL'].$titanium_lang_donate['BREAK']."</td>\n
+            <td class=\"row1\" align=\"right\">".$lang_donate['SCROLL'].$lang_donate['BREAK']."</td>\n
             <td class=\"row1\">".$show['scroll']."</td>\n
           </tr>\n
           <tr>\n
-            <td class=\"row1\" align=\"right\">".$titanium_lang_donate['NUMBERS'].$titanium_lang_donate['BREAK']."</td>\n
+            <td class=\"row1\" align=\"right\">".$lang_donate['NUMBERS'].$lang_donate['BREAK']."</td>\n
             <td class=\"row1\">".$show['numbers']."</td>\n
           </tr>\n
            <tr>\n
-            <td class=\"row1\" align=\"right\">".$titanium_lang_donate['MESSAGE'].$titanium_lang_donate['BREAK']."</td>\n
+            <td class=\"row1\" align=\"right\">".$lang_donate['MESSAGE'].$lang_donate['BREAK']."</td>\n
             <td class=\"row1\">".donate_text_area('message', br2nl($block_values['message']))."</td>\n
          </tr>\n";
-    echo '<tr><td colspan="2" class="catBottom"><div align="center"><input type="submit" value="'.$titanium_lang_donate['DONATION_SUBMIT'].'"></div></td></tr>';
+    echo '<tr><td colspan="2" class="catBottom"><div align="center"><input type="submit" value="'.$lang_donate['DONATION_SUBMIT'].'"></div></td></tr>';
     echo "</table></form>\n";
 }
 
@@ -157,13 +157,13 @@ function set_values() {
     Notes:       Will toss a DonateError if the values are not found
 ================================================================================================*/
 function get_values() {
-    global $titanium_db, $titanium_prefix, $titanium_lang_donate, $cache;
+    global $titanium_db, $titanium_prefix, $lang_donate, $cache;
     static $block;
     if(isset($block) && is_array($block)) { return $block; }
     if (!$block = $cache->load('block', 'donations')) {
         $sql = 'SELECT config_value, config_name from '.$titanium_prefix.'_donators_config WHERE config_name LIKE "block_%"';
         if(!$result = $titanium_db->sql_query($sql)) {
-            DonateError($titanium_lang_donate['VALUES_NF']);
+            DonateError($lang_donate['VALUES_NF']);
         }
         while ($row = $titanium_db->sql_fetchrow($result)) {
             $block[str_replace('block_', '', $row['config_name'])] = $row['config_value'];

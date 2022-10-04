@@ -35,11 +35,11 @@ OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>";
 echo "<tr><td colspan='3' width='100%' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_TYPEOPTIONS."</strong></nobr></td></tr>";
 
-$pjimage = pjimage("options.png", $titanium_module_name);
+$pjimage = pjimage("options.png", $pnt_module);
 
 echo "<tr><td><img src='$pjimage'></td><td colspan='2' width='100%'><nobr><a href='".$admin_file.".php?op=RequestTypeAdd'>"._NETWORK_TYPEADD."</a></nobr></td></tr>";
 
-$pjimage = pjimage("stats.png", $titanium_module_name);
+$pjimage = pjimage("stats.png", $pnt_module);
 
 echo "<tr><td><img src='$pjimage'></td><td colspan='2' width='100%'><nobr>"._NETWORK_TOTALTYPES.": <strong>$type_total</strong></nobr></td></tr>";
 echo "</table>";
@@ -55,7 +55,7 @@ if($type_total != 0)
 {
   while($type_row = $titanium_db2->sql_fetchrow($typeresult)) 
   {
-    $pjimage = pjimage("type.png", $titanium_module_name);
+    $pjimage = pjimage("type.png", $pnt_module);
   
     echo "<tr><td><img src='$pjimage'></td><td width='100%'>".$type_row['type_name']."</td>";
     
@@ -70,20 +70,20 @@ if($type_total != 0)
   
     if($pid1 AND $pid1 > 0) 
 	{
-      echo "<a href='".$admin_file.".php?op=RequestTypeOrder&amp;weight=".$type_row['type_weight']."&amp;pid=".$type_row['type_id']."&amp;weightrep=$weight1&amp;pidrep=$pid1'><img src='modules/$titanium_module_name/images/weight_up.png' border='0' hspace='3' alt='"._NETWORK_UP."' title='"._NETWORK_UP."'></a>";
+      echo "<a href='".$admin_file.".php?op=RequestTypeOrder&amp;weight=".$type_row['type_weight']."&amp;pid=".$type_row['type_id']."&amp;weightrep=$weight1&amp;pidrep=$pid1'><img src='modules/$pnt_module/images/weight_up.png' border='0' hspace='3' alt='"._NETWORK_UP."' title='"._NETWORK_UP."'></a>";
     } 
 	else 
 	{
-      echo "<img src='modules/$titanium_module_name/images/weight_up_no.png' border='0' hspace='3' alt='' title=''>";
+      echo "<img src='modules/$pnt_module/images/weight_up_no.png' border='0' hspace='3' alt='' title=''>";
     }
     
 	if($pid2) 
 	{
-      echo "<a href='".$admin_file.".php?op=RequestTypeOrder&amp;weight=".$type_row['type_weight']."&amp;pid=".$type_row['type_id']."&amp;weightrep=$weight3&amp;pidrep=$pid2'><img src='modules/$titanium_module_name/images/weight_dn.png' border='0' hspace='3' alt='"._NETWORKDOWN."' title='"._NETWORK_DOWN."'></a>";
+      echo "<a href='".$admin_file.".php?op=RequestTypeOrder&amp;weight=".$type_row['type_weight']."&amp;pid=".$type_row['type_id']."&amp;weightrep=$weight3&amp;pidrep=$pid2'><img src='modules/$pnt_module/images/weight_dn.png' border='0' hspace='3' alt='"._NETWORKDOWN."' title='"._NETWORK_DOWN."'></a>";
     } 
 	else 
 	{
-      echo "<img src='modules/$titanium_module_name/images/weight_dn_no.png' border='0' hspace='3' alt='' title=''>";
+      echo "<img src='modules/$pnt_module/images/weight_dn_no.png' border='0' hspace='3' alt='' title=''>";
     }
     echo"</nobr></td>\n";
     echo "<td align='center'><nobr>[ <a href='".$admin_file.".php?op=RequestTypeEdit&amp;type_id=".$type_row['type_id']."'>"._NETWORK_EDIT."</a>";

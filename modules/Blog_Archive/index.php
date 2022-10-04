@@ -28,12 +28,12 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
 
 function select_month() 
 {
-    global $titanium_prefix, $titanium_user_prefix, $titanium_db, $titanium_module_name;
+    global $titanium_prefix, $titanium_user_prefix, $titanium_db, $pnt_module;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.' '._STORIESARCHIVE);
@@ -105,7 +105,7 @@ function select_month()
 		{
             $year = $getdate[1];
         
-		    echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
+		    echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$pnt_module&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
         
 		    $thismonth = $month;
         }
@@ -118,7 +118,7 @@ function select_month()
     ."<input type=\"text\" name=\"query\" size=\"30\"> "
     ."<input type=\"submit\" value=\""._SEARCH."\">"
     ."</form><br /><br />"
-    ."[ <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
+    ."[ <a href=\"modules.php?name=$pnt_module&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
     
 	CloseTable();
     
@@ -127,7 +127,7 @@ function select_month()
 
 function show_month($year, $month, $month_l) 
 {
-    global $userinfo, $titanium_prefix, $titanium_user_prefix, $titanium_db, $bgcolor1, $bgcolor2, $titanium_user, $cookie, $sitename, $multilingual, $titanium_language, $titanium_module_name, $articlecomm;
+    global $userinfo, $titanium_prefix, $titanium_user_prefix, $titanium_db, $bgcolor1, $bgcolor2, $titanium_user, $cookie, $sitename, $multilingual, $language, $pnt_module, $articlecomm;
     
 	$year = intval($year);
     $month = htmlentities($month);
@@ -229,16 +229,16 @@ function show_month($year, $month, $month_l)
 		 {
             if (empty($alanguage)) 
 			{
-			  $alanguage = $titanium_language;
+			  $alanguage = $language;
             }
 
             $alt_language = ucfirst($alanguage);
-            //$titanium_lang_img = "<img src=\"images/language/flag-$alanguage.png\" border=\"0\" hspace=\"2\" alt=\"$alt_language\" title=\"$alt_language\">";
-            $titanium_lang_img = 'Language: '.$alanguage.' -';
+            //$lang_img = "<img src=\"images/language/flag-$alanguage.png\" border=\"0\" hspace=\"2\" alt=\"$alt_language\" title=\"$alt_language\">";
+            $lang_img = 'Language: '.$alanguage.' -';
         } 
 		else 
 		{
-            $titanium_lang_img = "<strong><big><strong>&middot;</strong></big></strong>";
+            $lang_img = "<strong><big><strong>&middot;</strong></big></strong>";
         }
         
 		if ($articlecomm == 0) 
@@ -247,7 +247,7 @@ function show_month($year, $month, $month_l)
         }
         
 		echo "<tr>"
-            ."<td bgcolor=\"$bgcolor1\" align=\"left\">$titanium_lang_img $title</td>"
+            ."<td bgcolor=\"$bgcolor1\" align=\"left\">$lang_img $title</td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$comments</td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$counter</td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$rated</td>"
@@ -324,7 +324,7 @@ function show_month($year, $month, $month_l)
 	    if ($month != $thismonth) 
 		{
             $year = $getdate[1];
-            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
+            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$pnt_module&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
             $thismonth = $month;
         }
     }
@@ -335,7 +335,7 @@ function show_month($year, $month, $month_l)
     ."<input type=\"text\" name=\"query\" size=\"30\"> "
     ."<input type=\"submit\" value=\""._SEARCH."\">"
     ."</form><br />"
-    ."[ <a href=\"modules.php?name=$titanium_module_name\">"._ARCHIVESINDEX."</a> | <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
+    ."[ <a href=\"modules.php?name=$pnt_module\">"._ARCHIVESINDEX."</a> | <a href=\"modules.php?name=$pnt_module&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
     
 	CloseTable();
     
@@ -344,7 +344,7 @@ function show_month($year, $month, $month_l)
 
 function show_all($min) 
 {
-    global $titanium_prefix, $titanium_user_prefix, $titanium_db, $bgcolor1, $bgcolor2, $titanium_user, $cookie, $sitename, $multilingual, $titanium_language, $titanium_module_name, $userinfo;
+    global $titanium_prefix, $titanium_user_prefix, $titanium_db, $bgcolor1, $bgcolor2, $titanium_user, $cookie, $sitename, $multilingual, $language, $pnt_module, $userinfo;
 
     if (!isset($min) || (!is_numeric($min) || ((int)$min) != $min)) 
 	{
@@ -441,21 +441,21 @@ function show_all($min)
 		{
             if (empty($alanguage)) 
 			{
-                $alanguage = $titanium_language;
+                $alanguage = $language;
             }
             
             $alt_language = ucfirst($alanguage);
-            //$titanium_lang_img = "<img src=\"images/language/flag-$alanguage.png\" border=\"0\" hspace=\"2\" alt=\"$alt_language\" title=\"$alt_language\">";
-            $titanium_lang_img = 'Language: '.$alanguage.' -';
+            //$lang_img = "<img src=\"images/language/flag-$alanguage.png\" border=\"0\" hspace=\"2\" alt=\"$alt_language\" title=\"$alt_language\">";
+            $lang_img = 'Language: '.$alanguage.' -';
             
         } 
 		else 
 		{
-            $titanium_lang_img = "<strong><big><strong>&middot;</strong></big></strong>";
+            $lang_img = "<strong><big><strong>&middot;</strong></big></strong>";
         }
         
 		echo "<tr>"
-        ."<td bgcolor=\"$bgcolor1\" align=\"left\">$titanium_lang_img $title</td>"
+        ."<td bgcolor=\"$bgcolor1\" align=\"left\">$lang_img $title</td>"
         ."<td bgcolor=\"$bgcolor1\" align=\"center\">$comments</td>"
         ."<td bgcolor=\"$bgcolor1\" align=\"center\">$counter</td>"
         ."<td bgcolor=\"$bgcolor1\" align=\"center\">$rated</td>"
@@ -471,7 +471,7 @@ function show_all($min)
 	{
         $min = $min+250;
         $a++;
-        echo "<div align=\"center\">[ <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
+        echo "<div align=\"center\">[ <a href=\"modules.php?name=$pnt_module&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
     }
     
 	if (($numrows > 250) && ($min >= 250) && ($a != 1)) 
@@ -479,13 +479,13 @@ function show_all($min)
         $pmin = $min-250;
         $min = $min+250;
         $a++;
-        echo "<div align=\"center\">[ <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> | <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
+        echo "<div align=\"center\">[ <a href=\"modules.php?name=$pnt_module&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> | <a href=\"modules.php?name=$pnt_module&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
     }
     
 	if (($numrows <= 250) && ($a != 1) && ($min != 0)) 
 	{
         $pmin = $min-250;
-        echo "<div align=\"center\">[ <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> ]</div><br />";
+        echo "<div align=\"center\">[ <a href=\"modules.php?name=$pnt_module&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> ]</div><br />";
     }
     
 	echo "<hr size=\"1\" noshade>"
@@ -553,7 +553,7 @@ function show_all($min)
 		if ($month != $thismonth) 
 		{
             $year = $getdate[1];
-            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$titanium_module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
+            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$pnt_module&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
             $thismonth = $month;
         }
     }
@@ -564,7 +564,7 @@ function show_all($min)
     ."<input type=\"text\" name=\"query\" size=\"30\"> "
     ."<input type=\"submit\" value=\""._SEARCH."\">"
     ."</form><br />"
-    ."[ <a href=\"modules.php?name=$titanium_module_name\">"._ARCHIVESINDEX."</a> ]</div><br />";
+    ."[ <a href=\"modules.php?name=$pnt_module\">"._ARCHIVESINDEX."</a> ]</div><br />";
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 }

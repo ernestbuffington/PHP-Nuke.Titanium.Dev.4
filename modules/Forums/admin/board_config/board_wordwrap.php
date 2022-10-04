@@ -50,12 +50,12 @@ $phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-    "L_WRAP_TITLE" => $titanium_lang['wrap_title'],
-    "L_ENABLE_WRAP" => $titanium_lang['wrap_enable'],
-    "L_WRAP_MIN" => $titanium_lang['wrap_min'],
-    "L_WRAP_MAX" => $titanium_lang['wrap_max'],
-    "L_WRAP_DEF" => $titanium_lang['wrap_def'],
-    "L_WRAP_UNITS" => $titanium_lang['wrap_units'],
+    "L_WRAP_TITLE" => $lang['wrap_title'],
+    "L_ENABLE_WRAP" => $lang['wrap_enable'],
+    "L_WRAP_MIN" => $lang['wrap_min'],
+    "L_WRAP_MAX" => $lang['wrap_max'],
+    "L_WRAP_DEF" => $lang['wrap_def'],
+    "L_WRAP_UNITS" => $lang['wrap_units'],
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/

@@ -26,9 +26,9 @@ $index = 1;
 
 require_once("mainfile.php");
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 $pagetitle = "86it Developers Network - My ". _MARKSTITLE;
 
@@ -45,7 +45,7 @@ if (!isset($titanium_userid) || $titanium_userid=="")
 
 OpenTable();
 echo "<center><span class=title><strong>My Bookmark Vault</strong></span></center><br />\n";
-echo "<center>[ <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
 
 echo "<br>";
 
@@ -68,12 +68,12 @@ for ($i=0; $i<$titanium_db->sql_numrows  ($categories_res,$titanium_db);$i++)
 	$cat = $titanium_db->sql_fetchrow($categories_res,$titanium_db);
 
 	echo "<tr class=boxlist><td><img src=\"themes/".$theme_name."/images/invisible_pixel.gif\" alt=\"\" width=\"15\" height=\"1\" />
-	<a href=modules.php?name=".$titanium_module_name."&amp;file=marks&amp;category=".$cat['category_id']."&amp;catname=".urlencode($cat['name']).">" . $cat['name'] . "</a></td>
+	<a href=modules.php?name=".$pnt_module."&amp;file=marks&amp;category=".$cat['category_id']."&amp;catname=".urlencode($cat['name']).">" . $cat['name'] . "</a></td>
 	<td>" . $cat['description'] . "</td>
 	<td><div align=\"center\">" . $cat['mod_date'] . "</div></td>
-	<td>&nbsp;<a href=modules.php?name=".$titanium_module_name."&amp;file=edit_cat&amp;catid=".$cat['category_id']."&amp;catname=".urlencode($cat['name'])."&amp;catcomment=".urlencode($cat['description'])."><img src=modules/".$titanium_module_name."/images/pencil.gif width=12 height=12 border=0></a>
+	<td>&nbsp;<a href=modules.php?name=".$pnt_module."&amp;file=edit_cat&amp;catid=".$cat['category_id']."&amp;catname=".urlencode($cat['name'])."&amp;catcomment=".urlencode($cat['description'])."><img src=modules/".$pnt_module."/images/pencil.gif width=12 height=12 border=0></a>
 	</td>
-	<td>&nbsp;&nbsp;&nbsp;<a href=modules.php?name=".$titanium_module_name."&amp;file=del_cat&amp;catid=".$cat['category_id']."&amp;catname=".urlencode($cat['name'])."><img src=modules/".$titanium_module_name."/admin/trash.png width=12 height=12 border=0></a>
+	<td>&nbsp;&nbsp;&nbsp;<a href=modules.php?name=".$pnt_module."&amp;file=del_cat&amp;catid=".$cat['category_id']."&amp;catname=".urlencode($cat['name'])."><img src=modules/".$pnt_module."/admin/trash.png width=12 height=12 border=0></a>
 	</td>
 	</tr>\n";
 }
@@ -85,7 +85,7 @@ $titanium_db->sql_freeresult($categories_res);
 //CloseTable();
 echo "<br>";
 
-echo "<center>[ <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$titanium_module_name."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
 echo "<br /><center><span class=storytitle><strong>My Bookmark Vault</strong></span></center>\n";
 CloseTable();
 

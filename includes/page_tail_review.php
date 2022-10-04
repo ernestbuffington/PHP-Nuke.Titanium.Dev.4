@@ -51,7 +51,7 @@ if (!defined('IN_PHPBB2'))
 // Show the overall footer.
 //
 global $popup, $admin_file;
-$admin_link = ( $userdata['user_level'] == ADMIN ) ? '<a href="'.$admin_file.'.php?op=forums">' . $titanium_lang['Admin_panel'] . '</a><br /><br />' : '';
+$admin_link = ( $userdata['user_level'] == ADMIN ) ? '<a href="'.$admin_file.'.php?op=forums">' . $lang['Admin_panel'] . '</a><br /><br />' : '';
 
 $phpbb2_template->set_filenames(array(
     'overall_footer' => ( empty($gen_simple_header) ) ? 'overall_footer.tpl' : 'simple_footer.tpl')
@@ -59,7 +59,7 @@ $phpbb2_template->set_filenames(array(
 
 $phpbb2_template->assign_vars(array(
     'PHPBB_VERSION' => '2' . $phpbb2_board_config['version'],
-    'TRANSLATION_INFO' => ( isset($titanium_lang['TRANSLATION_INFO']) ) ? $titanium_lang['TRANSLATION_INFO'] : '',
+    'TRANSLATION_INFO' => ( isset($lang['TRANSLATION_INFO']) ) ? $lang['TRANSLATION_INFO'] : '',
     'ADMIN_LINK' => $admin_link)
 );
 

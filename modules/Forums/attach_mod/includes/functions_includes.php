@@ -20,7 +20,7 @@
 /**
 * Include the FAQ-File (faq.php)
 */
-function attach_faq_include($titanium_lang_file)
+function attach_faq_include($lang_file)
 {
     global $phpbb2_root_path, $phpbb2_board_config, $phpEx, $faq, $attach_config;
 
@@ -29,10 +29,10 @@ function attach_faq_include($titanium_lang_file)
         return;
     }
 
-    if ($titanium_lang_file == 'lang_faq')
+    if ($lang_file == 'lang_faq')
     {
-        $titanium_language = attach_mod_get_lang('lang_faq_attach');
-        include($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_faq_attach.'.$phpEx);
+        $language = attach_mod_get_lang('lang_faq_attach');
+        include($phpbb2_root_path . 'language/lang_' . $language . '/lang_faq_attach.'.$phpEx);
     }
 }
 
@@ -69,7 +69,7 @@ function attach_setup_basic_auth($type, &$auth_fields, &$a_sql)
 */
 function attach_setup_forum_auth(&$simple_auth_ary, &$forum_auth_fields, &$field_names)
 {
-    global $titanium_lang;
+    global $lang;
 
     // Add Attachment Auth
     //                    Post Attachments
@@ -91,10 +91,10 @@ function attach_setup_forum_auth(&$simple_auth_ary, &$forum_auth_fields, &$field
     $simple_auth_ary[6][] = AUTH_MOD;
 
     $forum_auth_fields[] = 'auth_attachments';
-    $field_names['auth_attachments'] = $titanium_lang['Auth_attach'];
+    $field_names['auth_attachments'] = $lang['Auth_attach'];
 
     $forum_auth_fields[] = 'auth_download';
-    $field_names['auth_download'] = $titanium_lang['Auth_download'];
+    $field_names['auth_download'] = $lang['Auth_download'];
 }
 
 /**
@@ -102,17 +102,17 @@ function attach_setup_forum_auth(&$simple_auth_ary, &$forum_auth_fields, &$field
 */
 function attach_setup_usergroup_auth(&$forum_auth_fields, &$auth_field_match, &$field_names)
 {
-    global $titanium_lang;
+    global $lang;
 
     // Post Attachments
     $forum_auth_fields[] = 'auth_attachments';
     $auth_field_match['auth_attachments'] = AUTH_ATTACH;
-    $field_names['auth_attachments'] = $titanium_lang['Auth_attach'];
+    $field_names['auth_attachments'] = $lang['Auth_attach'];
 
     // Download Attachments
     $forum_auth_fields[] = 'auth_download';
     $auth_field_match['auth_download'] = AUTH_DOWNLOAD;
-    $field_names['auth_download'] = $titanium_lang['Auth_download'];
+    $field_names['auth_download'] = $lang['Auth_download'];
 }
 
 /**
@@ -129,7 +129,7 @@ function attach_setup_viewtopic_auth(&$order_sql, &$sql)
 */
 function attach_build_auth_levels($phpbb2_is_auth, &$s_auth_can)
 {
-    global $titanium_lang, $attach_config, $phpEx, $phpbb2_forum_id;
+    global $lang, $attach_config, $phpEx, $phpbb2_forum_id;
 
     if (intval($attach_config['disable_mod']))
     {
@@ -138,10 +138,10 @@ function attach_build_auth_levels($phpbb2_is_auth, &$s_auth_can)
 
     // If you want to have the rules window link within the forum view too, comment out the two lines, and comment the third line
 //    $rules_link = '(<a href="' . $phpbb2_root_path . 'attach_rules.' . $phpEx . '?f=' . $phpbb2_forum_id . '" target="_blank">Rules</a>)';
-//    $s_auth_can .= ( ( $phpbb2_is_auth['auth_attachments'] ) ? $rules_link . ' ' . $titanium_lang['Rules_attach_can'] : $titanium_lang['Rules_attach_cannot'] ) . '<br />';
-    $s_auth_can .= (($phpbb2_is_auth['auth_attachments']) ? $titanium_lang['Rules_attach_can'] : $titanium_lang['Rules_attach_cannot'] ) . '<br />';
+//    $s_auth_can .= ( ( $phpbb2_is_auth['auth_attachments'] ) ? $rules_link . ' ' . $lang['Rules_attach_can'] : $lang['Rules_attach_cannot'] ) . '<br />';
+    $s_auth_can .= (($phpbb2_is_auth['auth_attachments']) ? $lang['Rules_attach_can'] : $lang['Rules_attach_cannot'] ) . '<br />';
 
-    $s_auth_can .= (($phpbb2_is_auth['auth_download']) ? $titanium_lang['Rules_download_can'] : $titanium_lang['Rules_download_cannot'] ) . '<br />';
+    $s_auth_can .= (($phpbb2_is_auth['auth_download']) ? $lang['Rules_download_can'] : $lang['Rules_download_cannot'] ) . '<br />';
 }
 
 /**
@@ -149,7 +149,7 @@ function attach_build_auth_levels($phpbb2_is_auth, &$s_auth_can)
 */
 function attachment_quota_settings($admin_mode, $submit = false, $mode)
 {
-    global $phpbb2_template, $titanium_db, $HTTP_POST_VARS, $HTTP_GET_VARS, $titanium_lang, $titanium_lang, $phpbb2_root_path, $phpEx, $attach_config;
+    global $phpbb2_template, $titanium_db, $HTTP_POST_VARS, $HTTP_GET_VARS, $lang, $lang, $phpbb2_root_path, $phpEx, $attach_config;
 
     // Make sure constants got included
     include_once($phpbb2_root_path . 'attach_mod/includes/constants.'.$phpEx);
@@ -187,7 +187,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 
             if (!$titanium_user_id && !$u_name)
             {
-                message_die(GENERAL_MESSAGE, $titanium_lang['No_user_id_specified'] );
+                message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
             }
 
             if ($titanium_user_id)
@@ -208,7 +208,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 
             if (!$titanium_user_id)
             {
-                message_die(GENERAL_MESSAGE, $titanium_lang['No_user_id_specified'] );
+                message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
             }
         }
     }
@@ -252,8 +252,8 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
         $phpbb2_template->assign_vars(array(
             'S_SELECT_UPLOAD_QUOTA'        => quota_limit_select('user_upload_quota', $upload_quota),
             'S_SELECT_PM_QUOTA'            => quota_limit_select('user_pm_quota', $pm_quota),
-            'L_UPLOAD_QUOTA'            => $titanium_lang['Upload_quota'],
-            'L_PM_QUOTA'                => $titanium_lang['Pm_quota'])
+            'L_UPLOAD_QUOTA'            => $lang['Upload_quota'],
+            'L_PM_QUOTA'                => $lang['Pm_quota'])
         );
     }
 
@@ -319,8 +319,8 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
         $phpbb2_template->assign_vars(array(
             'S_SELECT_UPLOAD_QUOTA'    => quota_limit_select('group_upload_quota', $upload_quota),
             'S_SELECT_PM_QUOTA'        => quota_limit_select('group_pm_quota', $pm_quota),
-            'L_UPLOAD_QUOTA'        => $titanium_lang['Upload_quota'],
-            'L_PM_QUOTA'            => $titanium_lang['Pm_quota'])
+            'L_UPLOAD_QUOTA'        => $lang['Upload_quota'],
+            'L_PM_QUOTA'            => $lang['Pm_quota'])
         );
     }
 
@@ -352,7 +352,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 */
 function display_upload_attach_box_limits($titanium_user_id, $group_id = 0)
 {
-    global $attach_config, $phpbb2_board_config, $phpbb2_root_path, $titanium_lang, $titanium_db, $phpbb2_template, $phpEx, $userdata, $profiledata;
+    global $attach_config, $phpbb2_board_config, $phpbb2_root_path, $lang, $titanium_db, $phpbb2_template, $phpEx, $userdata, $profiledata;
 
     if (intval($attach_config['disable_mod']))
     {
@@ -464,11 +464,11 @@ function display_upload_attach_box_limits($titanium_user_id, $group_id = 0)
 
     if ($upload_filesize_limit == 0)
     {
-        $titanium_user_quota = $titanium_lang['Unlimited'];
+        $titanium_user_quota = $lang['Unlimited'];
     }
     else
     {
-        $size_lang = ($upload_filesize_limit >= 1048576) ? $titanium_lang['MB'] : ( ($upload_filesize_limit >= 1024) ? $titanium_lang['KB'] : $titanium_lang['Bytes'] );
+        $size_lang = ($upload_filesize_limit >= 1048576) ? $lang['MB'] : ( ($upload_filesize_limit >= 1024) ? $lang['KB'] : $lang['Bytes'] );
 
         if ($upload_filesize_limit >= 1048576)
         {
@@ -508,7 +508,7 @@ function display_upload_attach_box_limits($titanium_user_id, $group_id = 0)
 
 	$upload_filesize = (sizeof($attach_id) > 0) ? get_total_attach_filesize($attach_id) : 0;
 
-    $size_lang = ($upload_filesize >= 1048576) ? $titanium_lang['MB'] : ( ($upload_filesize >= 1024) ? $titanium_lang['KB'] : $titanium_lang['Bytes'] );
+    $size_lang = ($upload_filesize >= 1048576) ? $lang['MB'] : ( ($upload_filesize >= 1024) ? $lang['KB'] : $lang['Bytes'] );
 
     if ($upload_filesize >= 1048576)
     {
@@ -531,17 +531,17 @@ function display_upload_attach_box_limits($titanium_user_id, $group_id = 0)
     }
     $upload_limit_remain = ( $upload_filesize_limit > 0 ) ? $upload_filesize_limit - $upload_filesize : 100;
 
-    $l_box_size_status = sprintf($titanium_lang['Upload_percent_profile'], $upload_limit_pct);
+    $l_box_size_status = sprintf($lang['Upload_percent_profile'], $upload_limit_pct);
 
     $phpbb2_template->assign_block_vars('switch_upload_limits', array());
 
     $phpbb2_template->assign_vars(array(
-        'L_UACP'            => $titanium_lang['UACP'],
-        'L_UPLOAD_QUOTA'    => $titanium_lang['Upload_quota'],
+        'L_UACP'            => $lang['UACP'],
+        'L_UPLOAD_QUOTA'    => $lang['Upload_quota'],
         //'U_UACP'            => $phpbb2_root_path . 'uacp.' . $phpEx . '?u=' . $titanium_user_id . '&amp;sid=' . $userdata['session_id'],
         'U_UACP' => append_titanium_sid('uacp.' . $phpEx . '?u=' . $titanium_user_id . '&amp;sid=' . $userdata['session_id']),
-        'UPLOADED'            => sprintf($titanium_lang['User_uploaded_profile'], $titanium_user_uploaded),
-        'QUOTA'                => sprintf($titanium_lang['User_quota_profile'], $titanium_user_quota),
+        'UPLOADED'            => sprintf($lang['User_uploaded_profile'], $titanium_user_uploaded),
+        'QUOTA'                => sprintf($lang['User_quota_profile'], $titanium_user_quota),
         'UPLOAD_LIMIT_IMG_WIDTH'    => $upload_limit_img_length,
         'UPLOAD_LIMIT_PERCENT'        => $upload_limit_pct,
         'PERCENT_FULL'                => $l_box_size_status)
@@ -570,17 +570,17 @@ function prune_attachments($sql_post)
 */
 function perform_attach_pageregister($session_page, $in_admin = false)
 {
-    global $location, $location_url, $titanium_lang;
+    global $location, $location_url, $lang;
 
     switch ($session_page)
     {
         case (PAGE_UACP):
-            $location = $titanium_lang['User_acp_title'];
+            $location = $lang['User_acp_title'];
             $location_url = ($in_admin) ? "index.$phpEx?pane=right" : "index.$phpEx";
         break;
 
         case (PAGE_RULES):
-            $location = $titanium_lang['Rules_page'];
+            $location = $lang['Rules_page'];
             $location_url = ($in_admin) ? "index.$phpEx?pane=right" : "index.$phpEx";
         break;
     }

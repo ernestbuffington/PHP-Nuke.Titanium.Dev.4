@@ -25,24 +25,24 @@
  *
  ***************************************************************************/
 
-$titanium_lang['time_mode'] = 'Time management';
-$titanium_lang['time_mode_text'] = 'Forum settings ignored when set to an automatic mode (JavaScript is required for the first two).<br />For the manual mode, the DST difference is the difference between Daylight Saving Time and normal time for your country (from 0 to 120 minutes, typically 60).<br /><br />* The mode marked by the asterisk is used by default on this board and is recommended by its administrator.';
-$titanium_lang['time_mode_auto'] = 'Automatic modes...';
-$titanium_lang['time_mode_full_pc'] = 'Your computer time';
-$titanium_lang['time_mode_server_pc'] = 'Server universal time, Timezone/DST<br /><span STYLE="margin-left: 25">from your computer</span>';
-$titanium_lang['time_mode_full_server'] = 'Server local time';
-$titanium_lang['time_mode_manual'] = 'Manual mode...';
-$titanium_lang['time_mode_dst'] = 'DST enable';
-$titanium_lang['time_mode_dst_server'] = 'By the server';
-$titanium_lang['time_mode_dst_time_lag'] = 'DST difference';
-$titanium_lang['time_mode_dst_mn'] = 'min';
-$titanium_lang['time_mode_timezone'] = 'Timezone';
+$lang['time_mode'] = 'Time management';
+$lang['time_mode_text'] = 'Forum settings ignored when set to an automatic mode (JavaScript is required for the first two).<br />For the manual mode, the DST difference is the difference between Daylight Saving Time and normal time for your country (from 0 to 120 minutes, typically 60).<br /><br />* The mode marked by the asterisk is used by default on this board and is recommended by its administrator.';
+$lang['time_mode_auto'] = 'Automatic modes...';
+$lang['time_mode_full_pc'] = 'Your computer time';
+$lang['time_mode_server_pc'] = 'Server universal time, Timezone/DST<br /><span STYLE="margin-left: 25">from your computer</span>';
+$lang['time_mode_full_server'] = 'Server local time';
+$lang['time_mode_manual'] = 'Manual mode...';
+$lang['time_mode_dst'] = 'DST enable';
+$lang['time_mode_dst_server'] = 'By the server';
+$lang['time_mode_dst_time_lag'] = 'DST difference';
+$lang['time_mode_dst_mn'] = 'min';
+$lang['time_mode_timezone'] = 'Timezone';
 
-$titanium_lang['dst_time_lag_error'] = 'DST difference value error. You must type a number of minutes between 0 and 120.';
+$lang['dst_time_lag_error'] = 'DST difference value error. You must type a number of minutes between 0 and 120.';
 
-$titanium_lang['dst_enabled_mode'] = ' [DST enabled]';
-$titanium_lang['full_server_mode'] = 'Time synchronized with the forum server time';
-$titanium_lang['server_pc_mode'] = 'Time synchro. with the server - Timezone/DST with your computer';
-$titanium_lang['full_pc_mode'] = 'Time synchronized with your computer time';
+$lang['dst_enabled_mode'] = ' [DST enabled]';
+$lang['full_server_mode'] = 'Time synchronized with the forum server time';
+$lang['server_pc_mode'] = 'Time synchro. with the server - Timezone/DST with your computer';
+$lang['full_pc_mode'] = 'Time synchronized with your computer time';
 
 ?>

@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
 if (count($field_name) > 0) {
   foreach ($field_name as $key => $var) { 
@@ -61,7 +61,7 @@ if (!empty($mfield_name)) {
     //$num = $titanium_db -> sql_numrows($result);
     $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_cnbya_field (name, value, size, need, pos, public) VALUES ('$mfield_name','$mfield_value','$mfield_size','$mfield_need','$mfield_pos','$mfield_public')");
 }
-    redirect_titanium("modules.php?name=$titanium_module_name&file=admin&op=addField");
+    redirect_titanium("modules.php?name=$pnt_module&file=admin&op=addField");
 }
 
 ?>

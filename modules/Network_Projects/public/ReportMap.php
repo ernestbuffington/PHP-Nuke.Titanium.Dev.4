@@ -64,20 +64,20 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 
        # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
        $pjimage = "<i style=\"font-size: 25px; color: gold\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='gold'\" class=\"bi bi-server\"></i>";
-       $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+       $demo = " <a href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
        # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
 	}
     else
 	{
        # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff START
        $pjimage = "<i style=\"font-size: 25px; color: white\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='white'\" class=\"bi bi-server\"></i>";
-       $demo = " <a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+       $demo = " <a href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
        # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
 		
 	}
 
     echo "<tr>\n<td align='center'>$demo</td>\n";
-    echo "<td width='100%'>&nbsp;<a href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+    echo "<td width='100%'>&nbsp;<a href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
     
 	if($project['project_site'] > "") 
 	{
@@ -154,9 +154,9 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
 		  $report_name = "----------"; 
 		}
         
-		$pjimage = pjimage("report.png", $titanium_module_name);
+		$pjimage = pjimage("report.png", $pnt_module);
         echo "<tr>\n<td><img src='$pjimage'></td>\n";
-        echo "<td width='100%' colspan='2'><a href='modules.php?name=$titanium_module_name&amp;op=Report&amp;report_id=$report_id'>$report_name</a></td>\n";
+        echo "<td width='100%' colspan='2'><a href='modules.php?name=$pnt_module&amp;op=Report&amp;report_id=$report_id'>$report_name</a></td>\n";
         
 		if(empty($reportstatus['status_name']))
 		{ 

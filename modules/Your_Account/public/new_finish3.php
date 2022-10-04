@@ -47,7 +47,7 @@ if(!isset($_SESSION)) { session_start(); }
 if (!isset($_SESSION['YA1']) || !isset($_SESSION['YA2'])) {
     global $debugger;
     $debugger->handle_error('Session not valid for user: Name - '.Fix_Quotes($ya_username).' Email - '.Fix_Quotes($femail), 'Error');
-    redirect_titanium('modules.php?name='.$titanium_module_name.'&op=new_user');
+    redirect_titanium('modules.php?name='.$pnt_module.'&op=new_user');
 }
 unset($_SESSION['YA1']);
 unset($_SESSION['YA2']);
@@ -82,7 +82,7 @@ include(NUKE_BASE_DIR. 'header.php');
             if ($row = $titanium_db->sql_fetchrow($result)) {
                 if (isset($row['username']) || isset($row['user_email'])) {
                     if ($row['username'] ==  $ya_username || $row['user_email'] == $ya_user_email) {
-                        redirect_titanium("modules.php?name=$titanium_module_name");
+                        redirect_titanium("modules.php?name=$pnt_module");
                         exit;
                     }
                 }
@@ -130,7 +130,7 @@ include(NUKE_BASE_DIR. 'header.php');
         list($phpbb2_newest_uid) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT max(user_id) AS newest_uid FROM ".$titanium_user_prefix."_users"));
         if ($phpbb2_newest_uid == "-1") { $new_uid = 1; } else { $new_uid = $phpbb2_newest_uid+1; }
         $lv = time();
-        $result = $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_users (user_id, name, username, user_email, user_avatar, user_regdate, user_viewemail, user_password, user_lang, user_lastvisit) VALUES ($new_uid, '$ya_username', '$ya_username', '$ya_user_email', 'gallery/blank.png', '$titanium_user_regdate', '0', '$new_password', '$titanium_language', '$lv')");
+        $result = $titanium_db->sql_query("INSERT INTO ".$titanium_user_prefix."_users (user_id, name, username, user_email, user_avatar, user_regdate, user_viewemail, user_password, user_lang, user_lastvisit) VALUES ($new_uid, '$ya_username', '$ya_username', '$ya_user_email', 'gallery/blank.png', '$titanium_user_regdate', '0', '$new_password', '$language', '$lv')");
 
         if ((count($nfield) > 0) AND ($result)) {
           foreach ($nfield as $key => $var) {
@@ -139,7 +139,7 @@ include(NUKE_BASE_DIR. 'header.php');
         }
 
     $titanium_db->sql_query("LOCK TABLES ".$titanium_user_prefix."_users WRITE");
-    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_avatar='gallery/blank.png', user_avatar_type='3', user_lang='$titanium_language', user_lastvisit='$lv', umode='nested' WHERE user_id='$new_uid'");
+    $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_avatar='gallery/blank.png', user_avatar_type='3', user_lang='$language', user_lastvisit='$lv', umode='nested' WHERE user_id='$new_uid'");
 
     $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET username='$ya_username', name='$realname', user_email='$ya_user_email', femail='$femail', user_website='$titanium_user_website', user_from='$titanium_user_from', user_occ='$titanium_user_occ', user_interests='$titanium_user_interests', newsletter='$newsletter', user_viewemail='$titanium_user_viewemail', user_allow_viewonline='$titanium_user_allow_viewonline', user_timezone='$titanium_user_timezone', user_dateformat='$titanium_user_dateformat', user_sig='$titanium_user_sig', bio='$bio', user_password='$new_password', user_regdate='$titanium_user_regdate' WHERE user_id='$new_uid'");
 
@@ -204,7 +204,7 @@ include(NUKE_BASE_DIR. 'header.php');
                 yacookie($userinfo['user_id'],$userinfo['username'],$userinfo['user_password'],$userinfo['storynum'],$userinfo['umode'],$userinfo['uorder'],$userinfo['thold'],$userinfo['noscore'],$userinfo['ublockon'],$userinfo['theme'],$userinfo['commentmax']);
 // menelaos: i wonder if this cookie is set correctly
 // menelaos: refresh of location? The next line causes multiple accounts to be loaded into the database, this has to be fixed
-//              echo "<META HTTP-EQUIV=\"refresh\" content=\"2;URL=/modules.php?name=$titanium_module_name\">";
+//              echo "<META HTTP-EQUIV=\"refresh\" content=\"2;URL=/modules.php?name=$pnt_module\">";
                 echo "<center><strong>$userinfo[username]:</strong> "._ACTMSG2."</center>";
 /*****[BEGIN]******************************************
  [ Mod:     Finished Redirection               v1.0.0 ]

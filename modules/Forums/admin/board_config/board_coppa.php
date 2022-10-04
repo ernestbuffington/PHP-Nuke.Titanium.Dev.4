@@ -32,10 +32,10 @@ $phpbb2_template->assign_vars(array(
     
 //Language Template variables
 $phpbb2_template->assign_vars(array(
-    "L_COPPA_SETTINGS" => $titanium_lang['COPPA_settings'],
-    "L_COPPA_FAX" => $titanium_lang['COPPA_fax'],
-    "L_COPPA_MAIL" => $titanium_lang['COPPA_mail'],
-    "L_COPPA_MAIL_EXPLAIN" => $titanium_lang['COPPA_mail_explain'],
+    "L_COPPA_SETTINGS" => $lang['COPPA_settings'],
+    "L_COPPA_FAX" => $lang['COPPA_fax'],
+    "L_COPPA_MAIL" => $lang['COPPA_mail'],
+    "L_COPPA_MAIL_EXPLAIN" => $lang['COPPA_mail_explain'],
 ));
 
 //Data Template Variables

@@ -40,24 +40,24 @@ echo "<br />\n";
 OpenTable();
 echo "<table border='0' width='70%' cellpadding='5' cellspacing='5' style='margin: auto;'>";
 echo "<form action='".$admin_file.".php?op=edit_button_save' name='edit_button' method='post'>";
-echo "<tr><td><strong>".$titanium_lang_new[$titanium_module_name]['SITE_ID'].":</strong></td><td><strong>".$row['id']."</strong></tr></td>";
-echo "<tr><td><strong>".$titanium_lang_new[$titanium_module_name]['SITE_NAME'].":</strong></td><td><input type='text' name='site_name' size='30' value='".$row['site_name']."' /></tr></td>";
-echo "<tr><td><strong>".$titanium_lang_new[$titanium_module_name]['SITE_URL'].":</strong></td><td><input type='text' name='site_url' size='60' value='".$row['site_url']."' /></tr></td>";
-echo "<tr><td><strong>".$titanium_lang_new[$titanium_module_name]['SITE_IMAGE'].":</strong></td><td><input type='text' name='site_image' size='30' value='".$row['site_image']."' /></tr></td>";
-echo "<tr><td><strong>".$titanium_lang_new[$titanium_module_name]['DATE_ADDED'].":</strong></td><td>".formatTimestamp($row['date_added'])."</tr></td>";
-echo "<tr><td valign='top'><strong>".$titanium_lang_new[$titanium_module_name]['SITE_DESCRIPTION'].":</strong></td></tr><tr><td colspan='2'>";
+echo "<tr><td><strong>".$lang_new[$pnt_module]['SITE_ID'].":</strong></td><td><strong>".$row['id']."</strong></tr></td>";
+echo "<tr><td><strong>".$lang_new[$pnt_module]['SITE_NAME'].":</strong></td><td><input type='text' name='site_name' size='30' value='".$row['site_name']."' /></tr></td>";
+echo "<tr><td><strong>".$lang_new[$pnt_module]['SITE_URL'].":</strong></td><td><input type='text' name='site_url' size='60' value='".$row['site_url']."' /></tr></td>";
+echo "<tr><td><strong>".$lang_new[$pnt_module]['SITE_IMAGE'].":</strong></td><td><input type='text' name='site_image' size='30' value='".$row['site_image']."' /></tr></td>";
+echo "<tr><td><strong>".$lang_new[$pnt_module]['DATE_ADDED'].":</strong></td><td>".formatTimestamp($row['date_added'])."</tr></td>";
+echo "<tr><td valign='top'><strong>".$lang_new[$pnt_module]['SITE_DESCRIPTION'].":</strong></td></tr><tr><td colspan='2'>";
 echo Make_TextArea('site_description', $row['site_description'],'edit_button', '100%', '300px');
 echo "</tr></td>";
 	
 if($row['site_status'] == 1){
-    echo "<tr><td><strong>".$titanium_lang_new[$titanium_module_name]['SITE_STATUS'].":</strong></td><td><input name='site_status' type='radio' value='1' checked />".$titanium_lang_new[$titanium_module_name]['ACTIVE']."&nbsp;<input name='site_status' type='radio' value='0' />".$titanium_lang_new[$titanium_module_name]['DEACTIVATED']."</td></tr>";
+    echo "<tr><td><strong>".$lang_new[$pnt_module]['SITE_STATUS'].":</strong></td><td><input name='site_status' type='radio' value='1' checked />".$lang_new[$pnt_module]['ACTIVE']."&nbsp;<input name='site_status' type='radio' value='0' />".$lang_new[$pnt_module]['DEACTIVATED']."</td></tr>";
 } else {
-    echo "<tr><td><strong>".$titanium_lang_new[$titanium_module_name]['SITE_STATUS'].":</strong></td><td>".$titanium_lang_new[$titanium_module_name]['ACTIVE'].":<input name='site_status' type='radio' value='1' />&nbsp;".$titanium_lang_new[$titanium_module_name]['DEACTIVATED'].":<input name='site_status' type='radio' value='0' checked /></td></tr>";
+    echo "<tr><td><strong>".$lang_new[$pnt_module]['SITE_STATUS'].":</strong></td><td>".$lang_new[$pnt_module]['ACTIVE'].":<input name='site_status' type='radio' value='1' />&nbsp;".$lang_new[$pnt_module]['DEACTIVATED'].":<input name='site_status' type='radio' value='0' checked /></td></tr>";
 }
 
 echo "</table></center>";
 //echo "<input type='hidden' name='id' value='".$row['id']."' />";
-echo "<center><input type='submit' value='".$titanium_lang_new[$titanium_module_name]['SAVE_EDIT_LINK_BUTTON']."' />";
+echo "<center><input type='submit' value='".$lang_new[$pnt_module]['SAVE_EDIT_LINK_BUTTON']."' />";
 echo "</form>";
 CloseTable();
 

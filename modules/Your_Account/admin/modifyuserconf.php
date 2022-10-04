@@ -40,7 +40,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
     $stop = '';
     if ($chng_uname != $old_uname) { ya_userCheck($chng_uname); }
@@ -111,7 +111,7 @@ if(is_mod_admin($titanium_module_name)) {
         echo "<br />\n";
         OpenTable();
         echo "<center><table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+        echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
         if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }

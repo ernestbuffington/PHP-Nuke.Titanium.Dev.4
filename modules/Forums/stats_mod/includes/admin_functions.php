@@ -30,9 +30,9 @@ if (!defined('IN_PHPBB2'))
 }
 
 // Build and install Module
-function build_module($info_array, $titanium_lang_array, $php_file, $titanium_module_id = -1)
+function build_module($info_array, $lang_array, $php_file, $titanium_module_id = -1)
 {
-    global $directory_mode, $file_mode, $phpbb2_root_path, $titanium_db, $titanium_lang;
+    global $directory_mode, $file_mode, $phpbb2_root_path, $titanium_db, $lang;
     
     if ($titanium_module_id == -1)
     {
@@ -45,7 +45,7 @@ function build_module($info_array, $titanium_lang_array, $php_file, $titanium_mo
     
         if ($titanium_db->sql_numrows($result) > 0)
         {
-            message_die(GENERAL_ERROR, sprintf($titanium_lang['Inst_module_already_exist'], trim($info_array['short_name'])));
+            message_die(GENERAL_ERROR, sprintf($lang['Inst_module_already_exist'], trim($info_array['short_name'])));
         }
     }
     else
@@ -66,7 +66,7 @@ function build_module($info_array, $titanium_lang_array, $php_file, $titanium_mo
 
         if (trim($update_module_row['short_name']) != trim($info_array['short_name']))
         {
-            message_die(GENERAL_ERROR, $titanium_lang['Incorrect_update_module']);
+            message_die(GENERAL_ERROR, $lang['Incorrect_update_module']);
         }
     }
 
@@ -106,34 +106,34 @@ function build_module($info_array, $titanium_lang_array, $php_file, $titanium_mo
     $short_name = trim($info_array['short_name']);
 
     // Write Language File
-    @reset($titanium_lang_array);
-    while (list($key, $data) = @each($titanium_lang_array))
+    @reset($lang_array);
+    while (list($key, $data) = @each($lang_array))
     {
-        $titanium_language = trim($key);
-        $titanium_language_dir = $phpbb2_root_path . 'modules/language';
-        $titanium_language_file = $phpbb2_root_path . 'modules/language/' . $titanium_language . '/lang_modules.php';
+        $language = trim($key);
+        $language_dir = $phpbb2_root_path . 'modules/language';
+        $language_file = $phpbb2_root_path . 'modules/language/' . $language . '/lang_modules.php';
 
-        if (!file_exists($titanium_language_dir))
+        if (!file_exists($language_dir))
         {
             @umask(0);
-            mkdir($titanium_language_dir, $directory_mode);
+            mkdir($language_dir, $directory_mode);
         }
         else
         {
-            chmod($titanium_language_dir, $directory_mode);
+            chmod($language_dir, $directory_mode);
         }
         
-        if (!file_exists($titanium_language_dir . '/' . $titanium_language))
+        if (!file_exists($language_dir . '/' . $language))
         {
             @umask(0);
-            mkdir($titanium_language_dir . '/' . $titanium_language, $directory_mode);
+            mkdir($language_dir . '/' . $language, $directory_mode);
         }
         else
         {
-            chmod($titanium_language_dir . '/' . $titanium_language, $directory_mode);
+            chmod($language_dir . '/' . $language, $directory_mode);
         }
         
-        if (!file_exists($titanium_language_file))
+        if (!file_exists($language_file))
         {
             $contents = "<?php
 /*======================================================================= 
@@ -143,8 +143,8 @@ function build_module($info_array, $titanium_lang_array, $php_file, $titanium_mo
         }
         else
         {
-            chmod($titanium_language_file, $file_mode);
-            $contents = implode('', @file($titanium_language_file));
+            chmod($language_file, $file_mode);
+            $contents = implode('', @file($language_file));
             
             if ($titanium_module_id != -1)
             {
@@ -159,22 +159,22 @@ function build_module($info_array, $titanium_lang_array, $php_file, $titanium_mo
         $contents .= "\n// [" . $short_name . "]\n";
         $contents .= "\$" . $short_name . " = array();\n\n";
         // add the language file
-        $contents = $contents . str_replace('$titanium_lang', '$' . $short_name, $data) . "\n";
+        $contents = $contents . str_replace('$lang', '$' . $short_name, $data) . "\n";
         // add the END and closing tag
         $contents .= "// [/" . $short_name . "]\n\n";
         $contents .= "?>";
 
-        if (!($fp = fopen($titanium_language_file, 'wt')))
+        if (!($fp = fopen($language_file, 'wt')))
         {
-            message_die(GENERAL_ERROR, 'Unable to write to: ' . $titanium_language_file);
+            message_die(GENERAL_ERROR, 'Unable to write to: ' . $language_file);
         }
 
         fwrite($fp, $contents, strlen($contents));
         fclose($fp);
 
-        chmod($titanium_language_file, $file_mode);
-        chmod($titanium_language_dir . '/' . $titanium_language, $directory_mode);
-        chmod($titanium_language_dir, $directory_mode);
+        chmod($language_file, $file_mode);
+        chmod($language_dir . '/' . $language, $directory_mode);
+        chmod($language_dir, $directory_mode);
     }
 
     // If we have not quit yet, let us add the info to the database too. ;)

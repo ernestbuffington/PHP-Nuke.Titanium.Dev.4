@@ -25,8 +25,8 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -67,9 +67,9 @@ $phpbb2_template->set_filenames(array(
 );
 
 $phpbb2_template->assign_vars(array(
-        'L_TOPARCADE_FIVE' => $titanium_lang['toparcade_five'],
-        'L_ARCADE' => $titanium_lang['toparcade_players'],
-        'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $titanium_lang['arcade'] . '</a>'
+        'L_TOPARCADE_FIVE' => $lang['toparcade_five'],
+        'L_ARCADE' => $lang['toparcade_players'],
+        'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $lang['arcade'] . '</a>'
 )
 );
 
@@ -158,14 +158,14 @@ while ((!$fini) ) {
 
 $phpbb2_template->assign_vars(array(
         'PAGINATION' => generate_pagination(append_titanium_sid("toparcade.$phpEx?uid=$uid"), $total_phpbb2_games, $games_par_page, $phpbb2_start),
-        'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], (floor($phpbb2_start / $games_par_page) + 1), ceil($total_phpbb2_games / $games_par_page)))
+        'PAGE_NUMBER' => sprintf($lang['Page_of'], (floor($phpbb2_start / $games_par_page) + 1), ceil($total_phpbb2_games / $games_par_page)))
 );
 
 include($phpbb2_root_path . 'hall_of_fame.'.$phpEx);
 
 //
 // Output page header
-$phpbb2_page_title = $titanium_lang['toparcade'];
+$phpbb2_page_title = $lang['toparcade'];
 include('includes/page_header.'.$phpEx);
 $phpbb2_template->pparse('body');
 include('includes/page_tail.'.$phpEx);

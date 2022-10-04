@@ -25,11 +25,11 @@ if (!defined('ADMIN_FILE')) {
 }
 
 global $titanium_prefix, $titanium_db, $admin_file;
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
+$pnt_module = basename(dirname(dirname(__FILE__)));
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
-    get_lang($titanium_module_name);
+    get_lang($pnt_module);
 
     /*********************************************************/
     /* Banners Administration Functions                      */
@@ -41,7 +41,7 @@ if(is_mod_admin($titanium_module_name)) {
     } else {
         $cli = "<a href=\"".$admin_file.".php?op=add_banner\">"._ADDNEWBANNER."</a>";
     }
-    if (!is_active($titanium_module_name)) {
+    if (!is_active($pnt_module)) {
         $act = "<br /><center>"._ADSMODULEINACTIVE."</center>";
     } else {
         $act = "";
@@ -1317,7 +1317,7 @@ if(is_mod_admin($titanium_module_name)) {
     }
 
 } else {
-    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$titanium_module_name\"");
+    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$pnt_module\"");
 }
 
 ?>

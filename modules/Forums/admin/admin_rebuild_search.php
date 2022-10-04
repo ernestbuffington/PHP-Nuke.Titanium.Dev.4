@@ -146,7 +146,7 @@ if ( isset($HTTP_GET_VARS['cancel_button']) || isset($HTTP_POST_VARS['cancel_but
     message_die(GENERAL_ERROR, 'Could not update rebuild session status', '', __LINE__, __FILE__, $sql);
   }
 
-  $message =  sprintf($titanium_lang['Rebuild_search_aborted'], $phpbb2_end_post_id).'<br /><br />'.sprintf($titanium_lang['Click_return_rebuild_search'], '<a href="'.append_titanium_sid("admin_rebuild_search.$phpEx").'">', '</a>');
+  $message =  sprintf($lang['Rebuild_search_aborted'], $phpbb2_end_post_id).'<br /><br />'.sprintf($lang['Click_return_rebuild_search'], '<a href="'.append_titanium_sid("admin_rebuild_search.$phpEx").'">', '</a>');
   message_die(GENERAL_MESSAGE, $message);
 }
 
@@ -227,14 +227,14 @@ if ( isset($HTTP_GET_VARS['time_limit']) || isset($HTTP_POST_VARS['time_limit'])
 else
 {
   $time_limit = $def_time_limit;
-    $time_limit_explain = $titanium_lang['Time_limit_explain'];
+    $time_limit_explain = $lang['Time_limit_explain'];
 
   // check for safe mode timeout
   if ( ini_get('safe_mode') )
   {
     // get execution time
     $max_execution_time = ini_get('max_execution_time');
-    $time_limit_explain .= '<br />' . sprintf($titanium_lang['Time_limit_explain_safe'], $max_execution_time);
+    $time_limit_explain .= '<br />' . sprintf($lang['Time_limit_explain_safe'], $max_execution_time);
 
     if ( $time_limit > $max_execution_time )
     {
@@ -247,7 +247,7 @@ else
   {
     // get webserver timeout
     $webserver_timeout = intval($HTTP_SERVER_VARS["HTTP_KEEP_ALIVE"]);
-    $time_limit_explain .= '<br />' . sprintf($titanium_lang['Time_limit_explain_webserver'], $webserver_timeout);
+    $time_limit_explain .= '<br />' . sprintf($lang['Time_limit_explain_webserver'], $webserver_timeout);
 
     if ( $time_limit > $webserver_timeout )
     {
@@ -271,7 +271,7 @@ if ( $mode == 'submit' )
 {
   if ( $session_posts_processing <= 0 || $post_limit <= 0 || $refresh_rate < 0 || $time_limit <=0 )
   {
-    $message =  $titanium_lang['Wrong_input'].'<br /><br />'.sprintf($titanium_lang['Click_return_rebuild_search'], '<a href="'.append_titanium_sid("admin_rebuild_search.$phpEx").'">', '</a>');
+    $message =  $lang['Wrong_input'].'<br /><br />'.sprintf($lang['Click_return_rebuild_search'], '<a href="'.append_titanium_sid("admin_rebuild_search.$phpEx").'">', '</a>');
     message_die(GENERAL_MESSAGE, $message);
   }
 }
@@ -421,8 +421,8 @@ if ( $mode == 'submit' || $mode == 'refresh' )
   );
 
   $processing_messages = '';
-  $processing_messages .= ( $timer_expired ) ? sprintf($titanium_lang['Timer_expired'], $timer_expired_secs) : '';
-  $processing_messages .= ( $phpbb2_start == 0 && $clear_search ) ? $titanium_lang['Cleared_search_tables'] : '';
+  $processing_messages .= ( $timer_expired ) ? sprintf($lang['Timer_expired'], $timer_expired_secs) : '';
+  $processing_messages .= ( $phpbb2_start == 0 && $clear_search ) ? $lang['Cleared_search_tables'] : '';
 
   // check if we have reached the end of our post processing
   $session_posts_processed = get_processed_posts('session');
@@ -442,10 +442,10 @@ if ( $mode == 'submit' || $mode == 'refresh' )
 
     $form_action = append_titanium_sid('admin_rebuild_search.'.$phpEx.'?mode=refresh'.$form_parameters);
 
-    $next_button = $titanium_lang['Next'];
+    $next_button = $lang['Next'];
     $progress_bar_img = $images['progress_bar'];
 
-    $processing_messages .= sprintf($titanium_lang['Processing_next_posts'], $post_limit);
+    $processing_messages .= sprintf($lang['Processing_next_posts'], $post_limit);
 
     // show the cancel button when refreshing
     $phpbb2_template->assign_block_vars("cancel_button", array(
@@ -461,11 +461,11 @@ if ( $mode == 'submit' || $mode == 'refresh' )
   {
     $form_action = append_titanium_sid("admin_rebuild_search.$phpEx");
 
-    $next_button = $titanium_lang['Finished'];
+    $next_button = $lang['Finished'];
     $progress_bar_img = $images['progress_bar_full'];
 
-    $processing_messages .= ( $session_posts_processed < $session_posts_processing ) ? sprintf($titanium_lang['Deleted_posts'], $session_posts_processing - $session_posts_processed) : '';
-    $processing_messages .= ( $phpbb2_total_posts_processed == $phpbb2_total_posts ) ? $titanium_lang['All_posts_processed'] : $titanium_lang['All_session_posts_processed'];
+    $processing_messages .= ( $session_posts_processed < $session_posts_processing ) ? sprintf($lang['Deleted_posts'], $session_posts_processing - $session_posts_processed) : '';
+    $processing_messages .= ( $phpbb2_total_posts_processed == $phpbb2_total_posts ) ? $lang['All_posts_processed'] : $lang['All_session_posts_processed'];
 
     // if we have processed all the db posts, we need to update the rebuild_session_status
     $sql = "UPDATE " . SEARCH_REBUILD_TABLE . "
@@ -491,7 +491,7 @@ if ( $mode == 'submit' || $mode == 'refresh' )
       }
     }
 
-    $processing_messages .= '<br />' . $titanium_lang['All_tables_optimized'];
+    $processing_messages .= '<br />' . $lang['All_tables_optimized'];
 
     // check if we should enable the board
     if ( $disable_board == 1 )
@@ -528,7 +528,7 @@ if ( $mode == 'submit' || $mode == 'refresh' )
   $session_estimated_time = round($session_time * (100 / $session_percent)) - $session_time;
 
   // create the output of page
-  $phpbb2_page_title = $titanium_lang['Page_title'];
+  $phpbb2_page_title = $lang['Page_title'];
   include('./page_header_admin.'.$phpEx);
 
   // create the percent boxes
@@ -536,49 +536,49 @@ if ( $mode == 'submit' || $mode == 'refresh' )
   create_percent_box('total', create_percent_color($total_phpbb2_percent), $total_phpbb2_percent);
 
   $phpbb2_template->assign_vars(array(
-    'L_REBUILD_SEARCH_PROGRESS' => $titanium_lang['Rebuild_search_progress'],
-    'L_REBUILD_SEARCH'        => $titanium_lang['Rebuild_search'],
+    'L_REBUILD_SEARCH_PROGRESS' => $lang['Rebuild_search_progress'],
+    'L_REBUILD_SEARCH'        => $lang['Rebuild_search'],
     'L_NEXT'                => $next_button,
-    'L_PROCESSING'            => $titanium_lang['Processing'],
-    'L_CANCEL'              => $titanium_lang['Cancel'],
+    'L_PROCESSING'            => $lang['Processing'],
+    'L_CANCEL'              => $lang['Cancel'],
 
-    'L_PROCESSING_POST_DETAILS' => $titanium_lang['Processing_post_details'],
-    'L_PROCESSED_POSTS'       => $titanium_lang['Processed_posts'],
-    'L_PERCENT'             => $titanium_lang['Percent'],
-    'L_CURRENT_SESSION'       => $titanium_lang['Current_session'],
-    'L_TOTAL'             => $titanium_lang['Total'],
+    'L_PROCESSING_POST_DETAILS' => $lang['Processing_post_details'],
+    'L_PROCESSED_POSTS'       => $lang['Processed_posts'],
+    'L_PERCENT'             => $lang['Percent'],
+    'L_CURRENT_SESSION'       => $lang['Current_session'],
+    'L_TOTAL'             => $lang['Total'],
 
-    'L_PROCESSING_TIME_DETAILS' => $titanium_lang['Processing_time_details'],
-    'L_PROCESSING_TIME'       => $titanium_lang['Processing_time'],
-    'L_TIME_LAST_POSTS'       => sprintf($titanium_lang['Time_last_posts'], $num_rows),
-    'L_TIME_BEGINNING'        => $titanium_lang['Time_from_the_beginning'],
-    'L_TIME_AVERAGE'          => $titanium_lang['Time_average'],
-    'L_TIME_ESTIMATED'        => $titanium_lang['Time_estimated'],
+    'L_PROCESSING_TIME_DETAILS' => $lang['Processing_time_details'],
+    'L_PROCESSING_TIME'       => $lang['Processing_time'],
+    'L_TIME_LAST_POSTS'       => sprintf($lang['Time_last_posts'], $num_rows),
+    'L_TIME_BEGINNING'        => $lang['Time_from_the_beginning'],
+    'L_TIME_AVERAGE'          => $lang['Time_average'],
+    'L_TIME_ESTIMATED'        => $lang['Time_estimated'],
 
-    'L_DATABASE_SIZE_DETAILS'   => $titanium_lang['Database_size_details'],
-    'L_SIZE_CURRENT'          => $titanium_lang['Size_current'],
-    'L_SIZE_ESTIMATED'        => $titanium_lang['Size_estimated'],
-    'L_SIZE_SEARCH_TABLES'      => $titanium_lang['Size_search_tables'],
-    'L_SIZE_DATABASE'         => $titanium_lang['Size_database'],
+    'L_DATABASE_SIZE_DETAILS'   => $lang['Database_size_details'],
+    'L_SIZE_CURRENT'          => $lang['Size_current'],
+    'L_SIZE_ESTIMATED'        => $lang['Size_estimated'],
+    'L_SIZE_SEARCH_TABLES'      => $lang['Size_search_tables'],
+    'L_SIZE_DATABASE'         => $lang['Size_database'],
 
-    'L_ACTIVE_PARAMETERS'     => $titanium_lang['Active_parameters'],
-    'L_STARTING_POST_ID'        => $titanium_lang['Starting_post_id'],
-    'L_POSTS_LAST_CYCLE'        => $titanium_lang['Posts_last_cycle'],
-    'L_TIME_LIMIT'            => $titanium_lang['Time_limit'],
-    'L_BOARD_STATUS'          => $titanium_lang['Board_status'],
-    'L_FAST_MODE'           => $titanium_lang['Fast_mode'],
+    'L_ACTIVE_PARAMETERS'     => $lang['Active_parameters'],
+    'L_STARTING_POST_ID'        => $lang['Starting_post_id'],
+    'L_POSTS_LAST_CYCLE'        => $lang['Posts_last_cycle'],
+    'L_TIME_LIMIT'            => $lang['Time_limit'],
+    'L_BOARD_STATUS'          => $lang['Board_status'],
+    'L_FAST_MODE'           => $lang['Fast_mode'],
 
-    'L_ESTIMATED_VALUES'        => $titanium_lang['Info_estimated_values'],
+    'L_ESTIMATED_VALUES'        => $lang['Info_estimated_values'],
 
-    'PROCESSING_POSTS'      => sprintf($titanium_lang['Processed_post_ids'], $phpbb2_start_post_id, $phpbb2_end_post_id),
+    'PROCESSING_POSTS'      => sprintf($lang['Processed_post_ids'], $phpbb2_start_post_id, $phpbb2_end_post_id),
     'PROCESSING_MESSAGES'   => $processing_messages,
     'PROGRESS_BAR_IMG'      => $progress_bar_img,
 
-    'SESSION_DETAILS'     => sprintf($titanium_lang['Process_details'], $session_posts_processed - $num_rows + 1, $session_posts_processed, $session_posts_processing),
-    'SESSION_PERCENT'     => sprintf($titanium_lang['Percent_completed'], round($session_percent, 2)),
+    'SESSION_DETAILS'     => sprintf($lang['Process_details'], $session_posts_processed - $num_rows + 1, $session_posts_processed, $session_posts_processing),
+    'SESSION_PERCENT'     => sprintf($lang['Percent_completed'], round($session_percent, 2)),
 
-    'TOTAL_DETAILS'     => sprintf($titanium_lang['Process_details'], $phpbb2_total_posts_processed - $num_rows + 1, $phpbb2_total_posts_processed, $phpbb2_total_posts),
-    'TOTAL_PERCENT'       => sprintf($titanium_lang['Percent_completed'], round($total_phpbb2_percent, 2)),
+    'TOTAL_DETAILS'     => sprintf($lang['Process_details'], $phpbb2_total_posts_processed - $num_rows + 1, $phpbb2_total_posts_processed, $phpbb2_total_posts),
+    'TOTAL_PERCENT'       => sprintf($lang['Percent_completed'], round($total_phpbb2_percent, 2)),
 
     'LAST_CYCLE_TIME'         => create_time($last_cycle_time),
     'SESSION_TIME'            => create_time($session_time),
@@ -594,8 +594,8 @@ if ( $mode == 'submit' || $mode == 'refresh' )
     'POST_LIMIT'    => $num_rows,
     'TIME_LIMIT'    => $time_limit,
     'REFRESH_RATE'    => $refresh_rate,
-    'BOARD_STATUS'    => ( $disable_board != 0 ) ? $titanium_lang['Board_disabled'] : $titanium_lang['Board_enabled'],
-    'FAST_MODE'     => ( !$fast_mode ) ? $titanium_lang['Board_disabled'] : $titanium_lang['Board_enabled'],
+    'BOARD_STATUS'    => ( $disable_board != 0 ) ? $lang['Board_disabled'] : $lang['Board_enabled'],
+    'FAST_MODE'     => ( !$fast_mode ) ? $lang['Board_disabled'] : $lang['Board_enabled'],
 
     'REBUILD_SEARCH_VERSION'  => REBUILD_SEARCH_VERSION,
 
@@ -605,7 +605,7 @@ if ( $mode == 'submit' || $mode == 'refresh' )
 else  // show the input page
 {
   // create the page
-  $phpbb2_page_title = $titanium_lang['Page_title'];
+  $phpbb2_page_title = $lang['Page_title'];
   include('./page_header_admin.'.$phpEx);
 
   $phpbb2_template->set_filenames(array(
@@ -635,18 +635,18 @@ else  // show the input page
     // check our last status
     if ( $last_session_details['rebuild_session_status'] == REBUILD_SEARCH_PROCESSED )
     {
-      $last_saved_processing = sprintf($titanium_lang['Info_processing_stopped'], $last_saved_post_id, $phpbb2_total_posts_processed, $last_saved_date);
+      $last_saved_processing = sprintf($lang['Info_processing_stopped'], $last_saved_post_id, $phpbb2_total_posts_processed, $last_saved_date);
       $clear_search_disabled = 'disabled="disabled"';
 
       $phpbb2_template->assign_block_vars("start_select_input", array());
     }
     elseif ( $last_session_details['rebuild_session_status'] == REBUILD_SEARCH_ABORTED )
     {
-      $last_saved_processing = sprintf($titanium_lang['Info_processing_aborted'], $last_saved_post_id, $phpbb2_total_posts_processed, $last_saved_date);
+      $last_saved_processing = sprintf($lang['Info_processing_aborted'], $last_saved_post_id, $phpbb2_total_posts_processed, $last_saved_date);
       // check if the interrupted cycle has finished
       if ( time() - $last_session_details['end_time'] < $last_session_details['last_cycle_time'] )
       {
-        $last_saved_processing .= '<br />'.$titanium_lang['Info_processing_aborted_soon'];
+        $last_saved_processing .= '<br />'.$lang['Info_processing_aborted_soon'];
       }
       $clear_search_disabled = 'disabled="disabled"';
 
@@ -656,14 +656,14 @@ else  // show the input page
     {
       if ( $last_session_details['end_post_id'] < get_latest_post_id() )
       {
-        $last_saved_processing = sprintf($titanium_lang['Info_processing_finished_new'], $last_saved_post_id, $phpbb2_total_posts_processed, $last_saved_date, ($phpbb2_total_posts - $phpbb2_total_posts_processed));
+        $last_saved_processing = sprintf($lang['Info_processing_finished_new'], $last_saved_post_id, $phpbb2_total_posts_processed, $last_saved_date, ($phpbb2_total_posts - $phpbb2_total_posts_processed));
         $clear_search_disabled = 'disabled="disabled"';
 
         $phpbb2_template->assign_block_vars("start_select_input", array());
       }
       else
       {
-        $last_saved_processing = sprintf($titanium_lang['Info_processing_finished'], $phpbb2_total_posts, $last_saved_date);
+        $last_saved_processing = sprintf($lang['Info_processing_finished'], $phpbb2_total_posts, $last_saved_date);
 
         $phpbb2_template->assign_block_vars("start_text_input", array());
       }
@@ -678,41 +678,41 @@ else  // show the input page
 
   // create the output of page
   $phpbb2_template->assign_vars(array(
-    'L_REBUILD_SEARCH'    => $titanium_lang['Rebuild_search'],
-    'L_REBUILD_SEARCH_DESC' => $titanium_lang['Rebuild_search_desc'],
+    'L_REBUILD_SEARCH'    => $lang['Rebuild_search'],
+    'L_REBUILD_SEARCH_DESC' => $lang['Rebuild_search_desc'],
 
-    'L_STARTING_POST_ID'        => $titanium_lang['Starting_post_id'],
-    'L_STARTING_POST_ID_EXPLAIN'  => $titanium_lang['Starting_post_id_explain'],
+    'L_STARTING_POST_ID'        => $lang['Starting_post_id'],
+    'L_STARTING_POST_ID_EXPLAIN'  => $lang['Starting_post_id_explain'],
 
-    'L_START_OPTION_BEGINNING'  => $titanium_lang['Start_option_beginning'],
-    'L_START_OPTION_CONTINUE' => $titanium_lang['Start_option_continue'],
+    'L_START_OPTION_BEGINNING'  => $lang['Start_option_beginning'],
+    'L_START_OPTION_CONTINUE' => $lang['Start_option_continue'],
 
-    'L_CLEAR_SEARCH_TABLES'       => $titanium_lang['Clear_search_tables'],
-    'L_CLEAR_SEARCH_TABLES_EXPLAIN' => $titanium_lang['Clear_search_tables_explain'],
+    'L_CLEAR_SEARCH_TABLES'       => $lang['Clear_search_tables'],
+    'L_CLEAR_SEARCH_TABLES_EXPLAIN' => $lang['Clear_search_tables_explain'],
 
-    'L_CLEAR_SEARCH_NO'     =>  $titanium_lang['Clear_search_no'],
-    'L_CLEAR_SEARCH_DELETE'   =>  $titanium_lang['Clear_search_delete'],
-    'L_CLEAR_SEARCH_TRUNCATE' =>  $titanium_lang['Clear_search_truncate'],
+    'L_CLEAR_SEARCH_NO'     =>  $lang['Clear_search_no'],
+    'L_CLEAR_SEARCH_DELETE'   =>  $lang['Clear_search_delete'],
+    'L_CLEAR_SEARCH_TRUNCATE' =>  $lang['Clear_search_truncate'],
 
-    'L_NUM_OF_POSTS'        => $titanium_lang['Num_of_posts'],
-    'L_NUM_OF_POSTS_EXPLAIN'  => $titanium_lang['Num_of_posts_explain'],
+    'L_NUM_OF_POSTS'        => $lang['Num_of_posts'],
+    'L_NUM_OF_POSTS_EXPLAIN'  => $lang['Num_of_posts_explain'],
 
-    'L_POSTS_PER_CYCLE'       => $titanium_lang['Posts_per_cycle'],
-    'L_POSTS_PER_CYCLE_EXPLAIN' => $titanium_lang['Posts_per_cycle_explain'],
+    'L_POSTS_PER_CYCLE'       => $lang['Posts_per_cycle'],
+    'L_POSTS_PER_CYCLE_EXPLAIN' => $lang['Posts_per_cycle_explain'],
 
-    'L_REFRESH_RATE'        => $titanium_lang['Refresh_rate'],
-    'L_REFRESH_RATE_EXPLAIN'  => $titanium_lang['Refresh_rate_explain'],
+    'L_REFRESH_RATE'        => $lang['Refresh_rate'],
+    'L_REFRESH_RATE_EXPLAIN'  => $lang['Refresh_rate_explain'],
 
-    'L_TIME_LIMIT'        => $titanium_lang['Time_limit'],
+    'L_TIME_LIMIT'        => $lang['Time_limit'],
     'L_TIME_LIMIT_EXPLAIN'  => $time_limit_explain,
 
-    'L_DISABLE_BOARD'       => $titanium_lang['Disable_board'],
-    'L_DISABLE_BOARD_EXPLAIN' => $titanium_lang['Disable_board_explain'].'<br />'.(( $disable_board == 2 ) ? $titanium_lang['Disable_board_explain_already'] : $titanium_lang['Disable_board_explain_enabled']),
+    'L_DISABLE_BOARD'       => $lang['Disable_board'],
+    'L_DISABLE_BOARD_EXPLAIN' => $lang['Disable_board_explain'].'<br />'.(( $disable_board == 2 ) ? $lang['Disable_board_explain_already'] : $lang['Disable_board_explain_enabled']),
 
-    'L_FAST_MODE'       => $titanium_lang['Fast_mode'],
-    'L_FAST_MODE_EXPLAIN' => $titanium_lang['Fast_mode_explain'],
+    'L_FAST_MODE'       => $lang['Fast_mode'],
+    'L_FAST_MODE_EXPLAIN' => $lang['Fast_mode_explain'],
 
-    'L_PROCESSING'          => $titanium_lang['Processing'],
+    'L_PROCESSING'          => $lang['Processing'],
 
     'TOTAL_POSTS'         => $phpbb2_total_posts,
     'POST_LIMIT_MAX'        => $post_limit_max,

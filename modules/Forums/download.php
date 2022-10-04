@@ -24,8 +24,8 @@ if (!defined('MODULE_FILE')) {
 
 if ($popup != "1")
 {
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -80,7 +80,7 @@ $sites = array(
 );
 
 // This is the message displayed, if someone links to this site...
-$titanium_lang['Denied_Message'] = 'You are not authorized to view, download or link to this Site.';
+$lang['Denied_Message'] = 'You are not authorized to view, download or link to this Site.';
 
 // End of editable area
 
@@ -112,7 +112,7 @@ else
 
 if ($allowed == FALSE)
 {
-    message_die(GENERAL_MESSAGE, $titanium_lang['Denied_Message']);
+    message_die(GENERAL_MESSAGE, $lang['Denied_Message']);
 }
 
 // Delete the following line, to uncomment this block
@@ -124,7 +124,7 @@ $thumbnail = get_var('thumb', 0);
 // Send file to browser
 function send_file_to_browser($attachment, $upload_dir)
 {
-    global $_SERVER, $HTTP_USER_AGENT, $HTTP_SERVER_VARS, $titanium_lang, $titanium_db, $attach_config;
+    global $_SERVER, $HTTP_USER_AGENT, $HTTP_SERVER_VARS, $lang, $titanium_db, $attach_config;
 
     $filename = ($upload_dir == '') ? $attachment['physical_filename'] : $upload_dir . '/' . $attachment['physical_filename'];
 
@@ -134,7 +134,7 @@ function send_file_to_browser($attachment, $upload_dir)
     {
         if (@!file_exists(@amod_realpath($filename)))
         {
-            message_die(GENERAL_ERROR, $titanium_lang['Error_no_attachment'] . "<br /><br /><strong>404 File Not Found:</strong> The File <i>" . $filename . "</i> does not exist.");
+            message_die(GENERAL_ERROR, $lang['Error_no_attachment'] . "<br /><br /><strong>404 File Not Found:</strong> The File <i>" . $filename . "</i> does not exist.");
         }
         else
         {
@@ -255,7 +255,7 @@ function send_file_to_browser($attachment, $upload_dir)
 
         if (!$result)
         {
-            message_die(GENERAL_ERROR, $titanium_lang['Error_no_attachment'] . "<br /><br /><strong>404 File Not Found:</strong> The File <i>" . $filename . "</i> does not exist.");
+            message_die(GENERAL_ERROR, $lang['Error_no_attachment'] . "<br /><br /><strong>404 File Not Found:</strong> The File <i>" . $filename . "</i> does not exist.");
         }
 
         @ftp_quit($conn_id);
@@ -270,7 +270,7 @@ function send_file_to_browser($attachment, $upload_dir)
     }
     else
     {
-        message_die(GENERAL_ERROR, $titanium_lang['Error_no_attachment'] . "<br /><br /><strong>404 File Not Found:</strong> The File <i>" . $filename . "</i> does not exist.");
+        message_die(GENERAL_ERROR, $lang['Error_no_attachment'] . "<br /><br /><strong>404 File Not Found:</strong> The File <i>" . $filename . "</i> does not exist.");
     }
 
     exit;
@@ -287,12 +287,12 @@ titanium_init_userprefs($userdata);
 
 if (!$download_id)
 {
-    message_die(GENERAL_ERROR, $titanium_lang['No_attachment_selected']);
+    message_die(GENERAL_ERROR, $lang['No_attachment_selected']);
 }
 
 if ($attach_config['disable_mod'] && $userdata['user_level'] != ADMIN)
 {
-    message_die(GENERAL_MESSAGE, $titanium_lang['Attachment_feature_disabled']);
+    message_die(GENERAL_MESSAGE, $lang['Attachment_feature_disabled']);
 }
 
 $sql = 'SELECT *
@@ -306,7 +306,7 @@ if (!($result = $titanium_db->sql_query($sql)))
 
 if (!($attachment = $titanium_db->sql_fetchrow($result)))
 {
-    message_die(GENERAL_MESSAGE, $titanium_lang['Error_no_attachment']);
+    message_die(GENERAL_MESSAGE, $lang['Error_no_attachment']);
 }
 
 $attachment['physical_filename'] = basename($attachment['physical_filename']);
@@ -365,7 +365,7 @@ for ($i = 0; $i < $num_auth_pages && $authorised == false; $i++)
 }
 if (!$authorised)
 {
-    message_die(GENERAL_MESSAGE, $titanium_lang['Sorry_auth_view_attach']);
+    message_die(GENERAL_MESSAGE, $lang['Sorry_auth_view_attach']);
 }
 
 //
@@ -393,7 +393,7 @@ for ($i = 0; $i < $num_rows; $i++)
 // disallowed ?
 if (!in_array($attachment['extension'], $allowed_extensions) && $userdata['user_level'] != ADMIN)
 {
-    message_die(GENERAL_MESSAGE, sprintf($titanium_lang['Extension_disabled_after_posting'], $attachment['extension']));
+    message_die(GENERAL_MESSAGE, sprintf($lang['Extension_disabled_after_posting'], $attachment['extension']));
 }
 
 $download_mode = intval($download_mode[$attachment['extension']]);

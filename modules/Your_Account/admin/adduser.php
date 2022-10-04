@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
     $pagetitle = ": "._USERADMIN." - "._ADDUSER;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -54,7 +54,7 @@ if(is_mod_admin($titanium_module_name)) {
     echo "<br />\n";
     OpenTable();
     echo "<center><table border='0'>\n";
-    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._NICKNAME.":</td><td bgcolor='$bgcolor1'><input type='text' name='add_uname' size='30' maxlength='".$ya_config['nick_max']."'>&nbsp;<span class='tiny'>"._REQUIRED."</span></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._UREALNAME.":</td><td bgcolor='$bgcolor1'><input type='text' name='add_name' size='30' maxlength='50'></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._EMAIL.":</td><td bgcolor='$bgcolor1'><input type='text' name='add_email' size='30' maxlength='60'>&nbsp;<span class='tiny'>"._REQUIRED."</span></td></tr>\n";
@@ -100,7 +100,7 @@ if(is_mod_admin($titanium_module_name)) {
     if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
     echo "<tr><td align='center' colspan='2'><input type='submit' value='"._ADDUSERBUT."'></td></tr>\n";
     echo "</form>\n";
-    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
     echo "<tr><td align='center' colspan='2'><input type='submit' value='"._CANCEL."'></td></tr>\n";

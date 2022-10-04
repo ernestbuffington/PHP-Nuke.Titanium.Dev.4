@@ -18,6 +18,6 @@ $titanium_db2->sql_query("DELETE FROM `".$network_prefix."_reports_comments` WHE
 $titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_reports_comments`");
 $titanium_db2->sql_query("DELETE FROM `".$network_prefix."_reports_members` WHERE `report_id`='$report_id'");
 $titanium_db2->sql_query("OPTIMIZE TABLE `".$network_prefix."_reports_members`");
-header("Location: modules.php?name=$titanium_module_name&op=Project&project_id=".$report['project_id']);
+header("Location: modules.php?name=$pnt_module&op=Project&project_id=".$report['project_id']);
 
 ?>

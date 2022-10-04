@@ -32,11 +32,11 @@
  ************************************************************************/
 if (!defined('MODULE_FILE')) die('You can\'t access this file directly...');
 
-global $storyhome, $topicname, $topicimage, $topictext, $datetime, $titanium_user, $cookie, $titanium_prefix, $multilingual, $currentlang, $titanium_db, $articlecomm, $titanium_module_name, $userinfo;
+global $storyhome, $topicname, $topicimage, $topictext, $datetime, $titanium_user, $cookie, $titanium_prefix, $multilingual, $currentlang, $titanium_db, $articlecomm, $pnt_module, $userinfo;
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 @include_once(NUKE_INCLUDE_DIR."nsnne_func.php");
 
@@ -49,7 +49,7 @@ $categories = 1;
 automated_blogs();
 
 if ($catid == 0 OR empty($catid)) 
-redirect_titanium("modules.php?name=$titanium_module_name"); 
+redirect_titanium("modules.php?name=$pnt_module"); 
 
 switch ($op) 
 {
@@ -164,18 +164,18 @@ switch ($op)
             
 	        if (is_user()) 
             {
-              $the_icons .= ' | <a href="modules.php?name='.$titanium_module_name.'&amp;file=print&amp;sid='.$artinfo["sid"].'"><i class="fa fa-print"></i></a>'.PHP_EOL;
-              $the_icons .= '&nbsp;<a href="modules.php?name='.$titanium_module_name.'&amp;file=friend&amp;op=FriendSend&amp;sid='.$artinfo["sid"].'"><i class="fa fa-envelope"></i></a>';
+              $the_icons .= ' | <a href="modules.php?name='.$pnt_module.'&amp;file=print&amp;sid='.$artinfo["sid"].'"><i class="fa fa-print"></i></a>'.PHP_EOL;
+              $the_icons .= '&nbsp;<a href="modules.php?name='.$pnt_module.'&amp;file=friend&amp;op=FriendSend&amp;sid='.$artinfo["sid"].'"><i class="fa fa-envelope"></i></a>';
             }
             
-		    if (is_mod_admin($titanium_module_name)) 
+		    if (is_mod_admin($pnt_module)) 
             {
               $the_icons .= ' | <a href="'.$admin_file.'.php?op=EditStory&amp;sid='.$artinfo["sid"].'"><i class="fa fa-pen"></i></a>'.PHP_EOL;
               $the_icons .= '&nbsp;<a href="'.$admin_file.'.php?op=RemoveStory&amp;sid='.$artinfo["sid"].'"><i class="fa fa-times-circle"></i></a>';
             }
 			
-			$read_link = "<a href='modules.php?name=$titanium_module_name&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
-            $story_link = "<a href='modules.php?name=$titanium_module_name&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
+			$read_link = "<a href='modules.php?name=$pnt_module&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
+            $story_link = "<a href='modules.php?name=$pnt_module&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
             $morelink = "( ";
 
             if($blog_config["texttype"] == 0) 
@@ -231,7 +231,7 @@ switch ($op)
 			{
                 $result3 = $titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
                 $catinfo = $titanium_db->sql_fetchrow($result3);
-                $morelink .= " | <a href='modules.php?name=$titanium_module_name&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
+                $morelink .= " | <a href='modules.php?name=$pnt_module&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
             }
             
 			if ($artinfo["score"] != 0) 
@@ -305,7 +305,7 @@ switch ($op)
             
 			$currentpage = ($max / $blognum);
             
-			echo "<form action='modules.php?name=$titanium_module_name' method='post'>\n";
+			echo "<form action='modules.php?name=$pnt_module' method='post'>\n";
             echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
             echo "<tr>\n<td><strong>"._NE_SELECT." </strong><select name='min' onChange='top.location.href=this.options[this.selectedIndex].value'>\n";
             
@@ -317,7 +317,7 @@ switch ($op)
 			    if ($counter == $currentpage) 
                 echo "<option selected>$counter</option>\n";
 				else 
-                echo "<option value='modules.php?name=$titanium_module_name&amp;min=$mintemp&amp;file=categories&amp;catid=$catid'>$counter</option>\n";
+                echo "<option value='modules.php?name=$pnt_module&amp;min=$mintemp&amp;file=categories&amp;catid=$catid'>$counter</option>\n";
                 
 				$counter++;
             }

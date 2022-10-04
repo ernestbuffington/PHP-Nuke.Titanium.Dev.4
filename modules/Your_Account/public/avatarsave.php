@@ -51,10 +51,10 @@ if (!defined('CNBYA')) {
     echo "<center><span class=\"content\">"._YA_AVATARFOR." ".$cookie[1]." "._YA_SAVED."</span></center><br />";
     if (preg_match("/(http)/", $newavatar)) {
       echo "<center>"._YA_NEWAVATAR.":<br /><img alt=\"\" src=\"$newavatar\"><br />";
-      echo "[ <a href=\"modules.php?name=$titanium_module_name&amp;op=edituser\">"._YA_BACKPROFILE."</a> | <a href=\"modules.php?name=$titanium_module_name\">"._YA_DONE."</a> ]</center>";
+      echo "[ <a href=\"modules.php?name=$pnt_module&amp;op=edituser\">"._YA_BACKPROFILE."</a> | <a href=\"modules.php?name=$pnt_module\">"._YA_DONE."</a> ]</center>";
     } elseif ($newavatar) {
       echo "<center>"._YA_NEWAVATAR.":<br /><img alt=\"\" src=\"$direktori/$newavatar\"><br />";
-        echo "[ <a href=\"modules.php?name=$titanium_module_name&amp;op=edituser\">"._YA_BACKPROFILE."</a> | <a href=\"modules.php?name=$titanium_module_name\">"._YA_DONE."</a> ]</center>";
+        echo "[ <a href=\"modules.php?name=$pnt_module&amp;op=edituser\">"._YA_BACKPROFILE."</a> | <a href=\"modules.php?name=$pnt_module\">"._YA_DONE."</a> ]</center>";
     }
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');

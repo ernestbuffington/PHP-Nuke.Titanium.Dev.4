@@ -66,7 +66,7 @@ switch ($mode)
 
 		if ( ! isset($HTTP_GET_VARS['name']) )
 		{
-			message_die(GENERAL_ERROR, $titanium_lang['XData_no_field_selected']);
+			message_die(GENERAL_ERROR, $lang['XData_no_field_selected']);
 		}
 		else
 		{
@@ -74,7 +74,7 @@ switch ($mode)
 
 			if ( ! isset($xd_meta[$name]) )
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XData_field_non_existant']);
+				message_die(GENERAL_ERROR, $lang['XData_field_non_existant']);
 			}
 		}
 
@@ -88,7 +88,7 @@ switch ($mode)
 
 		if ( !( $result = $titanium_db->sql_query($sql) ) )
 		{
-			message_die(GENERAL_ERROR, $titanium_lang['XData_unable_to_switch_fields'], '', __LINE__, __FILE__, $sql);
+			message_die(GENERAL_ERROR, $lang['XData_unable_to_switch_fields'], '', __LINE__, __FILE__, $sql);
 		}
 
 		$swap2 = $titanium_db->sql_fetchrow($result);
@@ -101,7 +101,7 @@ switch ($mode)
 
 			if ( ! $titanium_db->sql_query($sql) )
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XData_unable_to_switch_fields'], '', __LINE__, __FILE__, $sql);
+				message_die(GENERAL_ERROR, $lang['XData_unable_to_switch_fields'], '', __LINE__, __FILE__, $sql);
 			}
 
 		    $sql = "UPDATE " . XDATA_FIELDS_TABLE . "
@@ -110,7 +110,7 @@ switch ($mode)
 
 			if ( ! $titanium_db->sql_query($sql) )
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XData_unable_to_switch_fields'], '', __LINE__, __FILE__, $sql);
+				message_die(GENERAL_ERROR, $lang['XData_unable_to_switch_fields'], '', __LINE__, __FILE__, $sql);
 			}
 		}
 
@@ -235,58 +235,58 @@ switch ($mode)
 			);
 
 			$phpbb2_template->assign_vars(array(
-				'L_BASIC_OPTIONS' => $titanium_lang['Basic_Options'],
-				'L_ADVANCED_OPTIONS' => $titanium_lang['Advanced_Options'],
-				'L_ADVANCED_NOTICE' => $titanium_lang['Advanced_warning'],
-				'L_XDATA_ADMIN' => $titanium_lang['edit_xdata_field'],
-				'L_NAME' => $titanium_lang['Name'],
-				'L_DESCRIPTION' => $titanium_lang['xd_description'],
-				'L_TYPE' => $titanium_lang['type'],
-				'L_TEXT' => $titanium_lang['Text'],
-				'L_TEXTAREA' => $titanium_lang['Text_area'],
-				'L_SELECT' => $titanium_lang['Select'],
-				'L_RADIO' => $titanium_lang['Radio'],
-'L_DATE' => $titanium_lang['Date'],
-				'L_CHECKBOX' => $titanium_lang['Checkbox'],
-				'L_CUSTOM' => $titanium_lang['Custom'],
-				'L_LENGTH' => $titanium_lang['Length'],
-				'L_LENGTH_EXPLAIN' => $titanium_lang['Length_explain'],
-				'L_VALUES' => $titanium_lang['Values'],
-				'L_VALUES_EXPLAIN' => $titanium_lang['Values_explain'],
-				'L_DEFAULT_AUTH' => $titanium_lang['Default_auth'],
-				'L_DEFAULT_AUTH_EXPLAIN' => $titanium_lang['Default_auth_explain'],
+				'L_BASIC_OPTIONS' => $lang['Basic_Options'],
+				'L_ADVANCED_OPTIONS' => $lang['Advanced_Options'],
+				'L_ADVANCED_NOTICE' => $lang['Advanced_warning'],
+				'L_XDATA_ADMIN' => $lang['edit_xdata_field'],
+				'L_NAME' => $lang['Name'],
+				'L_DESCRIPTION' => $lang['xd_description'],
+				'L_TYPE' => $lang['type'],
+				'L_TEXT' => $lang['Text'],
+				'L_TEXTAREA' => $lang['Text_area'],
+				'L_SELECT' => $lang['Select'],
+				'L_RADIO' => $lang['Radio'],
+'L_DATE' => $lang['Date'],
+				'L_CHECKBOX' => $lang['Checkbox'],
+				'L_CUSTOM' => $lang['Custom'],
+				'L_LENGTH' => $lang['Length'],
+				'L_LENGTH_EXPLAIN' => $lang['Length_explain'],
+				'L_VALUES' => $lang['Values'],
+				'L_VALUES_EXPLAIN' => $lang['Values_explain'],
+				'L_DEFAULT_AUTH' => $lang['Default_auth'],
+				'L_DEFAULT_AUTH_EXPLAIN' => $lang['Default_auth_explain'],
 
-				'L_ALLOW_BBCODE' => $titanium_lang['Allow_BBCode'],
-				'L_ALLOW_SMILIES' => $titanium_lang['Allow_smilies'],
-                		'L_ALLOW_HTML' => $titanium_lang['Allow_html'],
+				'L_ALLOW_BBCODE' => $lang['Allow_BBCode'],
+				'L_ALLOW_SMILIES' => $lang['Allow_smilies'],
+                		'L_ALLOW_HTML' => $lang['Allow_html'],
 
-				'L_DISPLAY_TYPE' => $titanium_lang['Display_type'],
-				'L_DISPLAY_REGISTER_EXPLAIN' => $titanium_lang['Display_register_explain'],
-				'L_DISPLAY_PROFILE_EXPLAIN' => $titanium_lang['Display_viewprofile_explain'],
-				'L_DISPLAY_POSTING_EXPLAIN' => $titanium_lang['Display_viewtopic_explain'],
-                'L_SIGNUP' => $titanium_lang['Signup'],
-                'L_VIEWTOPIC' => $titanium_lang['Viewtopic'],
-				'L_NORMAL' => $titanium_lang['Display_normal'],
-				'L_NONE' => $titanium_lang['Display_none'],
-				'L_ROOT' => $titanium_lang['Display_root'],
-				'L_CODE_NAME' => $titanium_lang['Code_name'],
-				'L_CODE_NAME_EXPLAIN' => $titanium_lang['Code_name_explain'],
-				'L_REGEXP' => $titanium_lang['Regexp'],
-				'L_REGEXP_EXPLAIN' => $titanium_lang['Regexp_explain'],
-				'L_HANDLE_INPUT' => $titanium_lang['handle_input'],
-				'L_HANDLE_INPUT_EXPLAIN' => $titanium_lang['handle_input_explain'],
-				'L_SUBMIT' => $titanium_lang['Submit'],
-				'L_RESET' => $titanium_lang['Reset'],
-				'L_ALLOW' => $titanium_lang['Allow'],
-				'L_DENY' => $titanium_lang['Deny'],
-				'L_YES' => $titanium_lang['Yes'],
-				'L_NO' => $titanium_lang['No'],
+				'L_DISPLAY_TYPE' => $lang['Display_type'],
+				'L_DISPLAY_REGISTER_EXPLAIN' => $lang['Display_register_explain'],
+				'L_DISPLAY_PROFILE_EXPLAIN' => $lang['Display_viewprofile_explain'],
+				'L_DISPLAY_POSTING_EXPLAIN' => $lang['Display_viewtopic_explain'],
+                'L_SIGNUP' => $lang['Signup'],
+                'L_VIEWTOPIC' => $lang['Viewtopic'],
+				'L_NORMAL' => $lang['Display_normal'],
+				'L_NONE' => $lang['Display_none'],
+				'L_ROOT' => $lang['Display_root'],
+				'L_CODE_NAME' => $lang['Code_name'],
+				'L_CODE_NAME_EXPLAIN' => $lang['Code_name_explain'],
+				'L_REGEXP' => $lang['Regexp'],
+				'L_REGEXP_EXPLAIN' => $lang['Regexp_explain'],
+				'L_HANDLE_INPUT' => $lang['handle_input'],
+				'L_HANDLE_INPUT_EXPLAIN' => $lang['handle_input_explain'],
+				'L_SUBMIT' => $lang['Submit'],
+				'L_RESET' => $lang['Reset'],
+				'L_ALLOW' => $lang['Allow'],
+				'L_DENY' => $lang['Deny'],
+				'L_YES' => $lang['Yes'],
+				'L_NO' => $lang['No'],
 
-				'L_NONE' => $titanium_lang['none'],
-				'L_MANDITORY' => $titanium_lang['manditory'],
-				'L_NUMBERS' => $titanium_lang['numbers'],
-				'L_LETTERS' => $titanium_lang['letters'],
-				'L_CUSTOM' => $titanium_lang['custom']
+				'L_NONE' => $lang['none'],
+				'L_MANDITORY' => $lang['manditory'],
+				'L_NUMBERS' => $lang['numbers'],
+				'L_LETTERS' => $lang['letters'],
+				'L_CUSTOM' => $lang['custom']
 				)
 			);
 
@@ -377,10 +377,10 @@ switch ($mode)
 
 			if ( ! $titanium_db->sql_query($sql) )
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XData_error_updating_fields'], '', __LINE__, __FILE__, $sql);
+				message_die(GENERAL_ERROR, $lang['XData_error_updating_fields'], '', __LINE__, __FILE__, $sql);
 			}
 
-           	 $message = $titanium_lang['Edit_success'] . "<br /><br />" . sprintf($titanium_lang['Click_return_fields'], "<a href=\"" . append_titanium_sid("admin_xdata_fields.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+           	 $message = $lang['Edit_success'] . "<br /><br />" . sprintf($lang['Click_return_fields'], "<a href=\"" . append_titanium_sid("admin_xdata_fields.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 		}
 
@@ -411,56 +411,56 @@ switch ($mode)
 				'REGEXP_NONE_CHECKED' => ' checked="checked"',
 				'VIEWTOPIC_NO_CHECKED' => ' checked="checked"',
                 'SIGNUP_NO_CHECKED' => ' checked="checked"',
-				'L_BASIC_OPTIONS' => $titanium_lang['Basic_Options'],
-				'L_ADVANCED_OPTIONS' => $titanium_lang['Advanced_Options'],
-				'L_ADVANCED_NOTICE' => $titanium_lang['Advanced_warning'],
-				'L_XDATA_ADMIN' => $titanium_lang['add_xdata_field'],
-				'L_NAME' => $titanium_lang['Name'],
-				'L_DESCRIPTION' => $titanium_lang['xd_description'],
-				'L_TYPE' => $titanium_lang['type'],
-				'L_TEXT' => $titanium_lang['Text'],
-				'L_TEXTAREA' => $titanium_lang['Text_area'],
-				'L_SELECT' => $titanium_lang['Select'],
-				'L_RADIO' => $titanium_lang['Radio'],
-'L_DATE' => $titanium_lang['Date'],
-				'L_CHECKBOX' => $titanium_lang['Checkbox'],
-				'L_CUSTOM' => $titanium_lang['Custom'],
-				'L_LENGTH' => $titanium_lang['Length'],
-				'L_LENGTH_EXPLAIN' => $titanium_lang['Length_explain'],
-				'L_VALUES' => $titanium_lang['Values'],
-				'L_VALUES_EXPLAIN' => $titanium_lang['Values_explain'],
-				'L_DEFAULT_AUTH' => $titanium_lang['Default_auth'],
-				'L_DEFAULT_AUTH_EXPLAIN' => $titanium_lang['Default_auth_explain'],
-				'L_ALLOW_BBCODE' => $titanium_lang['Allow_BBCode'],
-				'L_ALLOW_SMILIES' => $titanium_lang['Allow_smilies'],
-				'L_ALLOW_HTML' => $titanium_lang['Allow_html'],
-				'L_DISPLAY_TYPE' => $titanium_lang['Display_type'],
-				'L_DISPLAY_REGISTER_EXPLAIN' => $titanium_lang['Display_register_explain'],
-				'L_DISPLAY_PROFILE_EXPLAIN' => $titanium_lang['Display_viewprofile_explain'],
-				'L_DISPLAY_POSTING_EXPLAIN' => $titanium_lang['Display_viewtopic_explain'],
-				'L_VIEWTOPIC' => $titanium_lang['Viewtopic'],
-                'L_SIGNUP' => $titanium_lang['Signup'],
-				'L_NORMAL' => $titanium_lang['Display_normal'],
-				'L_NONE' => $titanium_lang['Display_none'],
-				'L_ROOT' => $titanium_lang['Display_root'],
-				'L_CODE_NAME' => $titanium_lang['Code_name'],
-				'L_CODE_NAME_EXPLAIN' => $titanium_lang['Code_name_explain'],
-				'L_REGEXP' => $titanium_lang['Regexp'],
-				'L_REGEXP_EXPLAIN' => $titanium_lang['Regexp_explain'],
-				'L_HANDLE_INPUT' => $titanium_lang['handle_input'],
-				'L_HANDLE_INPUT_EXPLAIN' => $titanium_lang['handle_input_explain'],
-				'L_SUBMIT' => $titanium_lang['Submit'],
-				'L_RESET' => $titanium_lang['Reset'],
-				'L_ALLOW' => $titanium_lang['Allow'],
-				'L_DENY' => $titanium_lang['Deny'],
-				'L_YES' => $titanium_lang['Yes'],
-				'L_NO' => $titanium_lang['No'],
+				'L_BASIC_OPTIONS' => $lang['Basic_Options'],
+				'L_ADVANCED_OPTIONS' => $lang['Advanced_Options'],
+				'L_ADVANCED_NOTICE' => $lang['Advanced_warning'],
+				'L_XDATA_ADMIN' => $lang['add_xdata_field'],
+				'L_NAME' => $lang['Name'],
+				'L_DESCRIPTION' => $lang['xd_description'],
+				'L_TYPE' => $lang['type'],
+				'L_TEXT' => $lang['Text'],
+				'L_TEXTAREA' => $lang['Text_area'],
+				'L_SELECT' => $lang['Select'],
+				'L_RADIO' => $lang['Radio'],
+'L_DATE' => $lang['Date'],
+				'L_CHECKBOX' => $lang['Checkbox'],
+				'L_CUSTOM' => $lang['Custom'],
+				'L_LENGTH' => $lang['Length'],
+				'L_LENGTH_EXPLAIN' => $lang['Length_explain'],
+				'L_VALUES' => $lang['Values'],
+				'L_VALUES_EXPLAIN' => $lang['Values_explain'],
+				'L_DEFAULT_AUTH' => $lang['Default_auth'],
+				'L_DEFAULT_AUTH_EXPLAIN' => $lang['Default_auth_explain'],
+				'L_ALLOW_BBCODE' => $lang['Allow_BBCode'],
+				'L_ALLOW_SMILIES' => $lang['Allow_smilies'],
+				'L_ALLOW_HTML' => $lang['Allow_html'],
+				'L_DISPLAY_TYPE' => $lang['Display_type'],
+				'L_DISPLAY_REGISTER_EXPLAIN' => $lang['Display_register_explain'],
+				'L_DISPLAY_PROFILE_EXPLAIN' => $lang['Display_viewprofile_explain'],
+				'L_DISPLAY_POSTING_EXPLAIN' => $lang['Display_viewtopic_explain'],
+				'L_VIEWTOPIC' => $lang['Viewtopic'],
+                'L_SIGNUP' => $lang['Signup'],
+				'L_NORMAL' => $lang['Display_normal'],
+				'L_NONE' => $lang['Display_none'],
+				'L_ROOT' => $lang['Display_root'],
+				'L_CODE_NAME' => $lang['Code_name'],
+				'L_CODE_NAME_EXPLAIN' => $lang['Code_name_explain'],
+				'L_REGEXP' => $lang['Regexp'],
+				'L_REGEXP_EXPLAIN' => $lang['Regexp_explain'],
+				'L_HANDLE_INPUT' => $lang['handle_input'],
+				'L_HANDLE_INPUT_EXPLAIN' => $lang['handle_input_explain'],
+				'L_SUBMIT' => $lang['Submit'],
+				'L_RESET' => $lang['Reset'],
+				'L_ALLOW' => $lang['Allow'],
+				'L_DENY' => $lang['Deny'],
+				'L_YES' => $lang['Yes'],
+				'L_NO' => $lang['No'],
 
-				'L_NONE' => $titanium_lang['none'],
-				'L_MANDITORY' => $titanium_lang['manditory'],
-				'L_NUMBERS' => $titanium_lang['numbers'],
-				'L_LETTERS' => $titanium_lang['letters'],
-				'L_CUSTOM' => $titanium_lang['custom']
+				'L_NONE' => $lang['none'],
+				'L_MANDITORY' => $lang['manditory'],
+				'L_NUMBERS' => $lang['numbers'],
+				'L_LETTERS' => $lang['letters'],
+				'L_CUSTOM' => $lang['custom']
 
 				)
 			);
@@ -510,7 +510,7 @@ switch ($mode)
 
 			if ( strlen($field_regexp) > 0 )
 			{
-				$check = create_function('$errno, $errstr, $errfile, $errline', 'message_die("GENERAL_ERROR", $titanium_lang[\'Regexp_error\']."<br /><br />$errstr");');
+				$check = create_function('$errno, $errstr, $errfile, $errline', 'message_die("GENERAL_ERROR", $lang[\'Regexp_error\']."<br /><br />$errstr");');
 				set_error_handler($check);
 				$test = preg_match($field_regexp, 'this is a test to see whether the regexp will compile properly');
 				restore_error_handler();
@@ -521,7 +521,7 @@ switch ($mode)
 
 			if ( !($result = $titanium_db->sql_query($sql)) )
 			{
-            			message_die(GENERAL_ERROR, $titanium_lang['XData_error_obtaining_new_field_info'], '', __LINE__, __FILE__, $sql);
+            			message_die(GENERAL_ERROR, $lang['XData_error_obtaining_new_field_info'], '', __LINE__, __FILE__, $sql);
 			}
 
 			$new_info = $titanium_db->sql_fetchrow($result);
@@ -532,7 +532,7 @@ switch ($mode)
 
             		if ( isset($xd_meta[$new_code_name]) )
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XD_duplicate_name']);
+				message_die(GENERAL_ERROR, $lang['XD_duplicate_name']);
 			}
 
 			$sql = "INSERT INTO " . XDATA_FIELDS_TABLE . "
@@ -542,10 +542,10 @@ switch ($mode)
 
 			if ( ! $titanium_db->sql_query($sql) )
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XData_failure_inserting_data'], '', __LINE__, __FILE__, $sql);
+				message_die(GENERAL_ERROR, $lang['XData_failure_inserting_data'], '', __LINE__, __FILE__, $sql);
 			}
 
-           		 $message = $titanium_lang['Add_success'] . "<br /><br />" . sprintf($titanium_lang['Click_return_fields'], "<a href=\"" . append_titanium_sid("admin_xdata_fields.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+           		 $message = $lang['Add_success'] . "<br /><br />" . sprintf($lang['Click_return_fields'], "<a href=\"" . append_titanium_sid("admin_xdata_fields.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 		}
 
@@ -566,12 +566,12 @@ switch ($mode)
 			}
 			else
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XData_no_field_selected'] );
+				message_die(GENERAL_ERROR, $lang['XData_no_field_selected'] );
 			}
 
             if ( ! isset($xd_meta[$code_name]) )
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XData_field_non_existant']);
+				message_die(GENERAL_ERROR, $lang['XData_field_non_existant']);
 			}
 
 			$phpbb2_template->set_filenames( array( 'body' => 'admin/xd_confirm_delete.tpl' ) );
@@ -583,10 +583,10 @@ switch ($mode)
 			);
 
 			$phpbb2_template->assign_vars( array(
-				'L_CONFIRM' => $titanium_lang['Confirm'],
-				'L_ARE_YOU_SURE' => sprintf($titanium_lang['Are_you_sure'], $xd_meta[$name]['field_name']),
-				'L_YES' => $titanium_lang['Yes'],
-				'L_NO' => $titanium_lang['No']
+				'L_CONFIRM' => $lang['Confirm'],
+				'L_ARE_YOU_SURE' => sprintf($lang['Are_you_sure'], $xd_meta[$name]['field_name']),
+				'L_YES' => $lang['Yes'],
+				'L_NO' => $lang['No']
 				)
 			);
 
@@ -604,12 +604,12 @@ switch ($mode)
 			}
 			else
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XData_no_field_selected']);
+				message_die(GENERAL_ERROR, $lang['XData_no_field_selected']);
 			}
 
             		if ( ! isset($xd_meta[$code_name]) )
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XData_field_non_existant']);
+				message_die(GENERAL_ERROR, $lang['XData_field_non_existant']);
 			}
 
 			$sql = "DELETE FROM " . XDATA_DATA_TABLE . "
@@ -617,7 +617,7 @@ switch ($mode)
 
 			if ( ! $titanium_db->sql_query($sql) )
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XData_failure_removing_data'], "", __LINE__, __FILE__, $sql);
+				message_die(GENERAL_ERROR, $lang['XData_failure_removing_data'], "", __LINE__, __FILE__, $sql);
 			}
 
           		  $sql = "DELETE FROM " . XDATA_AUTH_TABLE . "
@@ -625,7 +625,7 @@ switch ($mode)
 
 			if ( ! $titanium_db->sql_query($sql) )
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XData_failure_removing_data'], "", __LINE__, __FILE__, $sql);
+				message_die(GENERAL_ERROR, $lang['XData_failure_removing_data'], "", __LINE__, __FILE__, $sql);
 			}
 
 			$sql = "DELETE FROM " . XDATA_FIELDS_TABLE . "
@@ -633,10 +633,10 @@ switch ($mode)
 
 			if ( ! $titanium_db->sql_query($sql) )
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['XData_failure_removing_data'], "", __LINE__, __FILE__, $sql);
+				message_die(GENERAL_ERROR, $lang['XData_failure_removing_data'], "", __LINE__, __FILE__, $sql);
 			}
 
-			$message = $titanium_lang['Delete_success'] . "<br /><br />" . sprintf($titanium_lang['Click_return_fields'], "<a href=\"" . append_titanium_sid("admin_xdata_fields.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['Delete_success'] . "<br /><br />" . sprintf($lang['Click_return_fields'], "<a href=\"" . append_titanium_sid("admin_xdata_fields.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 
 		}
@@ -680,18 +680,18 @@ if ($mode == 'view')
 	}
 
 	$phpbb2_template->assign_vars(array(
-		'L_XDATA_ADMIN' => $titanium_lang['Profile_admin'],
-		'L_FORM_DESCRIPTION' => $titanium_lang['Xdata_view_description'],
-		'L_FIELD_NAME' => $titanium_lang['Name'],
-		'L_FIELD_TYPE' => $titanium_lang['type'],
-		'L_MOVE' => $titanium_lang['xd_move'],
-		'L_OPERATIONS' => $titanium_lang['xd_operations'],
-		'L_MOVE_UP' => $titanium_lang['xd_move_up'],
-		'L_MOVE_DOWN' => $titanium_lang['xd_move_down'],
-		'L_EDIT' => $titanium_lang['Edit_field'],
-		'L_DELETE' => $titanium_lang['Delete_field'],
-		'L_NO_FIELDS' => $titanium_lang['No_fields'],
-		'L_ADD_FIELD' => $titanium_lang['Add_field'],
+		'L_XDATA_ADMIN' => $lang['Profile_admin'],
+		'L_FORM_DESCRIPTION' => $lang['Xdata_view_description'],
+		'L_FIELD_NAME' => $lang['Name'],
+		'L_FIELD_TYPE' => $lang['type'],
+		'L_MOVE' => $lang['xd_move'],
+		'L_OPERATIONS' => $lang['xd_operations'],
+		'L_MOVE_UP' => $lang['xd_move_up'],
+		'L_MOVE_DOWN' => $lang['xd_move_down'],
+		'L_EDIT' => $lang['Edit_field'],
+		'L_DELETE' => $lang['Delete_field'],
+		'L_NO_FIELDS' => $lang['No_fields'],
+		'L_ADD_FIELD' => $lang['Add_field'],
 
 		'U_ADD_FIELD' => append_titanium_sid("admin_xdata_fields.$phpEx?mode=add")
 		)

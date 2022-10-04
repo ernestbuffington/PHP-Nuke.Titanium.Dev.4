@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
     $pagetitle = ": "._USERADMIN." - "._DETUSER;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -91,14 +91,14 @@ if(is_mod_admin($titanium_module_name)) {
         echo "<tr><td bgcolor='$bgcolor2'>"._NEWSLETTER.":</td><td><strong>$cnl</strong></td></tr>\n";
         $chnginfo['user_sig'] = str_replace("\r\n", "<br />", $chnginfo['user_sig']);
         echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._SIGNATURE.":</td><td><strong><xmp>".$chnginfo['user_sig']."</xmp></strong></td></tr>\n";
-        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+        echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
         echo "<input type='hidden' name='op' value='modifyUser'>\n";
         echo "<input type='hidden' name='chng_uid' value='".$chnginfo['user_id']."'>\n";
         echo "<tr><td align='center' colspan='2'><input type='submit' value='"._MODIFY."'></td></tr>\n";
         echo "</form>\n";
-        echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+        echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
         if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
         if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }
         echo "<tr><td align='center' colspan='2'><input type='submit' value='"._RETURN."'></td></tr>\n";

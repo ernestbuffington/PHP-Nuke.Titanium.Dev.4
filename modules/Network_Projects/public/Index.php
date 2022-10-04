@@ -140,34 +140,34 @@ while(list($project_id) = $titanium_db2->sql_fetchrow($projectresult))
   .$color_project_icon."'\" class=\"bi bi-palette\"></i>";
 
   if($projectstatus['status_name'] === 'Active'):
-  $demo = " <a class='projectlinkactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  $demo = " <a class='projectlinkactive' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
-  echo "<td class='projects_row1' align='center'><a class='projectlinkactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  echo "<td class='projects_row1' align='center'><a class='projectlinkactive' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkactive' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
   elseif($projectstatus['status_name'] === 'Inactive'):
-  $demo = " <a class='projectlinkinactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  $demo = " <a class='projectlinkinactive' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
-  echo "<td class='projects_row1' align='center'><a class='projectlinkinactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkinactive' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  echo "<td class='projects_row1' align='center'><a class='projectlinkinactive' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkinactive' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
   elseif($projectstatus['status_name'] === 'Pending'):
-  $demo = " <a class='projectlinkpending' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  $demo = " <a class='projectlinkpending' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
-  echo "<td class='projects_row1' align='center'><a class='projectlinkpending' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkpending' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  echo "<td class='projects_row1' align='center'><a class='projectlinkpending' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkpending' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
   elseif($projectstatus['status_name'] === 'Released'):
-  $demo = " <a class='projectlinkreleased' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  $demo = " <a class='projectlinkreleased' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
-  echo "<td class='projects_row1' align='center'><a class='projectlinkreleased' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkreleased' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  echo "<td class='projects_row1' align='center'><a class='projectlinkreleased' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkreleased' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
   elseif($projectstatus['status_name'] === 'N/A'):
-  $demo = " <a class='projectlinkna' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  $demo = " <a class='projectlinkna' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
-  echo "<td class='projects_row1' align='center'><a class='projectlinkna' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkna' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  echo "<td class='projects_row1' align='center'><a class='projectlinkna' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlinkna' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   
   else:
-  $demo = " <a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
+  $demo = " <a class='projectlink' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=".$project_id." target='_blank'>".$pjimage."</a> ";
   # got rid of the image and used in inline style to create a button effect! 09/27/2022 Bob Marion aka NukeSheriff END
-  echo "<td class='projects_row1' align='center'><a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlink' href='modules.php?name=$titanium_module_name&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
+  echo "<td class='projects_row1' align='center'><a class='projectlink' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>$pjimage</a></td><td class='projects_row1' width='100%'><a class='projectlink' href='modules.php?name=$pnt_module&amp;op=Project&amp;project_id=$project_id'>".$project['project_name']."</a></td>\n";
   endif;
   
   $pjimage = "<i style=\"font-size: 25px; color: #45B39D\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#45B39D'\" class=\"bi bi-server\"></i>";

@@ -34,9 +34,9 @@ if (!defined('ADMIN_FILE')) die('Access Denied');
 
 global $admin_file;
 
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
+$pnt_module = basename(dirname(dirname(__FILE__)));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 adminmenu($admin_file.'.php?op=adminStory', _NEWS, 'logo_red.png');
 adminmenu($admin_file.'.php?op=submissions', _SUBMISSIONS, 'logo_blue2.png');

@@ -32,9 +32,9 @@ if (!defined('MODULE_FILE')) {
 
 require_once(NUKE_BASE_DIR.'mainfile.php');
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 $pagetitle = "- "._ACTIVETOPICS."";
 

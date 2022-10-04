@@ -4370,7 +4370,7 @@ class SimplePie_Item
 			$framerate = null;
 			$height = null;
 			$javascript = null;
-			$titanium_lang = null;
+			$lang = null;
 			$length = null;
 			$medium = null;
 			$samplingrate = null;
@@ -4408,7 +4408,7 @@ class SimplePie_Item
 						$framerate = null;
 						$height = null;
 						$javascript = null;
-						$titanium_lang = null;
+						$lang = null;
 						$length = null;
 						$medium = null;
 						$samplingrate = null;
@@ -4461,7 +4461,7 @@ class SimplePie_Item
 						}
 						if (isset($content['attribs']['']['lang']))
 						{
-							$titanium_lang = $this->sanitize($content['attribs']['']['lang'], SIMPLEPIE_CONSTRUCT_TEXT);
+							$lang = $this->sanitize($content['attribs']['']['lang'], SIMPLEPIE_CONSTRUCT_TEXT);
 						}
 						if (isset($content['attribs']['']['fileSize']))
 						{
@@ -5009,7 +5009,7 @@ class SimplePie_Item
 							$title = $title_parent;
 						}
 
-						$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions, $categories, $channels, $copyrights, $credits, $description, $duration, $expression, $framerate, $hashes, $height, $keywords, $titanium_lang, $medium, $player, $ratings, $restrictions, $samplingrate, $thumbnails, $title, $width);
+						$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions, $categories, $channels, $copyrights, $credits, $description, $duration, $expression, $framerate, $hashes, $height, $keywords, $lang, $medium, $player, $ratings, $restrictions, $samplingrate, $thumbnails, $title, $width);
 					}
 				}
 			}
@@ -5029,7 +5029,7 @@ class SimplePie_Item
 						$framerate = null;
 						$height = null;
 						$javascript = null;
-						$titanium_lang = null;
+						$lang = null;
 						$length = null;
 						$medium = null;
 						$samplingrate = null;
@@ -5082,7 +5082,7 @@ class SimplePie_Item
 						}
 						if (isset($content['attribs']['']['lang']))
 						{
-							$titanium_lang = $this->sanitize($content['attribs']['']['lang'], SIMPLEPIE_CONSTRUCT_TEXT);
+							$lang = $this->sanitize($content['attribs']['']['lang'], SIMPLEPIE_CONSTRUCT_TEXT);
 						}
 						if (isset($content['attribs']['']['fileSize']))
 						{
@@ -5413,7 +5413,7 @@ class SimplePie_Item
 							$title = $title_parent;
 						}
 
-						$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions, $categories, $channels, $copyrights, $credits, $description, $duration, $expression, $framerate, $hashes, $height, $keywords, $titanium_lang, $medium, $player, $ratings, $restrictions, $samplingrate, $thumbnails, $title, $width);
+						$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions, $categories, $channels, $copyrights, $credits, $description, $duration, $expression, $framerate, $hashes, $height, $keywords, $lang, $medium, $player, $ratings, $restrictions, $samplingrate, $thumbnails, $title, $width);
 					}
 				}
 			}
@@ -5430,7 +5430,7 @@ class SimplePie_Item
 					$framerate = null;
 					$height = null;
 					$javascript = null;
-					$titanium_lang = null;
+					$lang = null;
 					$length = null;
 					$medium = null;
 					$samplingrate = null;
@@ -5449,7 +5449,7 @@ class SimplePie_Item
 					}
 
 					// Since we don't have group or content for these, we'll just pass the '*_parent' variables directly to the constructor
-					$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $titanium_lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
+					$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
 				}
 			}
 
@@ -5465,7 +5465,7 @@ class SimplePie_Item
 					$framerate = null;
 					$height = null;
 					$javascript = null;
-					$titanium_lang = null;
+					$lang = null;
 					$length = null;
 					$medium = null;
 					$samplingrate = null;
@@ -5484,7 +5484,7 @@ class SimplePie_Item
 					}
 
 					// Since we don't have group or content for these, we'll just pass the '*_parent' variables directly to the constructor
-					$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $titanium_lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
+					$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
 				}
 			}
 
@@ -5500,7 +5500,7 @@ class SimplePie_Item
 					$framerate = null;
 					$height = null;
 					$javascript = null;
-					$titanium_lang = null;
+					$lang = null;
 					$length = null;
 					$medium = null;
 					$samplingrate = null;
@@ -5519,14 +5519,14 @@ class SimplePie_Item
 					}
 
 					// Since we don't have group or content for these, we'll just pass the '*_parent' variables directly to the constructor
-					$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $titanium_lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
+					$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
 				}
 			}
 
-			if (sizeof($this->data['enclosures']) == 0 && ($url || $type || $length || $bitrate || $captions_parent || $categories_parent || $channels || $copyrights_parent || $credits_parent || $description_parent || $duration_parent || $expression || $framerate || $hashes_parent || $height || $keywords_parent || $titanium_lang || $medium || $player_parent || $ratings_parent || $restrictions_parent || $samplingrate || $thumbnails_parent || $title_parent || $width))
+			if (sizeof($this->data['enclosures']) == 0 && ($url || $type || $length || $bitrate || $captions_parent || $categories_parent || $channels || $copyrights_parent || $credits_parent || $description_parent || $duration_parent || $expression || $framerate || $hashes_parent || $height || $keywords_parent || $lang || $medium || $player_parent || $ratings_parent || $restrictions_parent || $samplingrate || $thumbnails_parent || $title_parent || $width))
 			{
 				// Since we don't have group or content for these, we'll just pass the '*_parent' variables directly to the constructor
-				$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $titanium_lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
+				$this->data['enclosures'][] = new $this->feed->enclosure_class($url, $type, $length, $this->feed->javascript, $bitrate, $captions_parent, $categories_parent, $channels, $copyrights_parent, $credits_parent, $description_parent, $duration_parent, $expression, $framerate, $hashes_parent, $height, $keywords_parent, $lang, $medium, $player_parent, $ratings_parent, $restrictions_parent, $samplingrate, $thumbnails_parent, $title_parent, $width);
 			}
 
 			$this->data['enclosures'] = array_values(SimplePie_Misc::array_unique($this->data['enclosures']));
@@ -6369,7 +6369,7 @@ class SimplePie_Enclosure
 	var $height;
 	var $javascript;
 	var $keywords;
-	var $titanium_lang;
+	var $lang;
 	var $length;
 	var $link;
 	var $medium;
@@ -6383,7 +6383,7 @@ class SimplePie_Enclosure
 	var $width;
 
 	// Constructor, used to input the data
-	function SimplePie_Enclosure($link = null, $type = null, $length = null, $javascript = null, $bitrate = null, $captions = null, $categories = null, $channels = null, $copyright = null, $credits = null, $description = null, $duration = null, $expression = null, $framerate = null, $hashes = null, $height = null, $keywords = null, $titanium_lang = null, $medium = null, $player = null, $ratings = null, $restrictions = null, $samplingrate = null, $thumbnails = null, $title = null, $width = null)
+	function SimplePie_Enclosure($link = null, $type = null, $length = null, $javascript = null, $bitrate = null, $captions = null, $categories = null, $channels = null, $copyright = null, $credits = null, $description = null, $duration = null, $expression = null, $framerate = null, $hashes = null, $height = null, $keywords = null, $lang = null, $medium = null, $player = null, $ratings = null, $restrictions = null, $samplingrate = null, $thumbnails = null, $title = null, $width = null)
 	{
 		$this->bitrate = $bitrate;
 		$this->captions = $captions;
@@ -6399,7 +6399,7 @@ class SimplePie_Enclosure
 		$this->height = $height;
 		$this->javascript = $javascript;
 		$this->keywords = $keywords;
-		$this->lang = $titanium_lang;
+		$this->lang = $lang;
 		$this->length = $length;
 		$this->link = $link;
 		$this->medium = $medium;
@@ -7308,16 +7308,16 @@ class SimplePie_Enclosure
 class SimplePie_Caption
 {
 	var $type;
-	var $titanium_lang;
+	var $lang;
 	var $phpbb2_startTime;
 	var $phpbb2_endTime;
 	var $text;
 
 	// Constructor, used to input the data
-	function SimplePie_Caption($type = null, $titanium_lang = null, $phpbb2_startTime = null, $phpbb2_endTime = null, $text = null)
+	function SimplePie_Caption($type = null, $lang = null, $phpbb2_startTime = null, $phpbb2_endTime = null, $text = null)
 	{
 		$this->type = $type;
-		$this->lang = $titanium_lang;
+		$this->lang = $lang;
 		$this->startTime = $phpbb2_startTime;
 		$this->endTime = $phpbb2_endTime;
 		$this->text = $text;

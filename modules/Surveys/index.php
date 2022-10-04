@@ -32,8 +32,8 @@ if (!defined('MODULE_FILE')) {
     die('You can\'t access this file directly...');
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
 
 if(isset($pollID)) $pollID = intval($pollID);
 if(isset($voteID)) $voteID = intval($voteID);
@@ -64,16 +64,16 @@ if(!isset($pollID)) {
         if ($pollID == $plid) {
             echo "<img src=\"images/arrow.gif\" border=\"0\">&nbsp;$pltitle ($plvoters "._LVOTES.")<br /><br />";
         } else {
-            echo "<img src=\"images/arrow.gif\" border=\"0\">&nbsp;<a href=\"modules.php?name=$titanium_module_name&amp;op=results&amp;pollID=$plid$r_options\">$pltitle</a> ($plvoters "._LVOTES.")<br /><br />";
+            echo "<img src=\"images/arrow.gif\" border=\"0\">&nbsp;<a href=\"modules.php?name=$pnt_module&amp;op=results&amp;pollID=$plid$r_options\">$pltitle</a> ($plvoters "._LVOTES.")<br /><br />";
         }
     }
     $titanium_db->sql_freeresult($resu);
-    echo "<a href=\"modules.php?name=$titanium_module_name\"><strong>"._MOREPOLLS."</strong></a>";
+    echo "<a href=\"modules.php?name=$pnt_module\"><strong>"._MOREPOLLS."</strong></a>";
     CloseTable();
     echo "</td></tr></table>";
     if ($pollcomm && $mode != "nocomments") {
         echo "<br /><br />";
-        include(NUKE_MODULES_DIR.$titanium_module_name."/comments.php");
+        include(NUKE_MODULES_DIR.$pnt_module."/comments.php");
     }
     include_once(NUKE_BASE_DIR.'footer.php');
 } elseif($voteID > 0) {
@@ -103,9 +103,9 @@ if(!isset($pollID)) {
 /*********************************************************/
 
 function pollMain($pollID) {
-    global $boxTitle, $boxContent, $pollcomm, $titanium_user, $titanium_prefix, $titanium_db, $titanium_module_name;
+    global $boxTitle, $boxContent, $pollcomm, $titanium_user, $titanium_prefix, $titanium_db, $pnt_module;
     if(!isset($pollID)) $pollID = 1;
-    include_once(NUKE_MODULES_DIR.$titanium_module_name.'/includes/pollblock.php');
+    include_once(NUKE_MODULES_DIR.$pnt_module.'/includes/pollblock.php');
     global $content;
     themesidebox(_SURVEY, $content, "poll1");
 }
@@ -142,7 +142,7 @@ function pollCollector($pollID, $voteID, $forwarder) {
 }
 
 function pollList() {
-    global $titanium_user, $titanium_prefix, $multilingual, $currentlang, $admin, $titanium_db, $titanium_module_name, $admin_file;
+    global $titanium_user, $titanium_prefix, $multilingual, $currentlang, $admin, $titanium_db, $pnt_module, $admin_file;
 
     $r_options = '';
     if (isset($userinfo['umode'])) { $r_options .= "&amp;mode=$userinfo[umode]"; }
@@ -157,9 +157,9 @@ function pollList() {
     if ($multilingual) { $querylang = "AND planguage='$currentlang' OR planguage=''"; }
     $result = $titanium_db->sql_query("SELECT pollID, pollTitle, voters FROM ".$titanium_prefix."_poll_desc WHERE artid='0' $querylang ORDER BY timeStamp DESC");
     while(list($plID, $plTitle, $voters) = $titanium_db->sql_fetchrow($result)) {
-        if (is_mod_admin($titanium_module_name)) { $editing = ' - <a href="'.$admin_file.'.php?op=PollEdit&amp;pollID='.$plID.'">Edit</a>'; }
-        echo "<img src=\"images/arrow.gif\" border=\"0\" alt=\"\" title=\"\" width=\"9\" height=\"9\">&nbsp;<a href=\"modules.php?name=$titanium_module_name&amp;pollID=$plID\">$plTitle</a> ";
-        echo "(<a href=\"modules.php?name=$titanium_module_name&amp;op=results&amp;pollID=$plID$r_options\">"._RESULTS."</a> - $voters "._LVOTES."$editing)<br />\n";
+        if (is_mod_admin($pnt_module)) { $editing = ' - <a href="'.$admin_file.'.php?op=PollEdit&amp;pollID='.$plID.'">Edit</a>'; }
+        echo "<img src=\"images/arrow.gif\" border=\"0\" alt=\"\" title=\"\" width=\"9\" height=\"9\">&nbsp;<a href=\"modules.php?name=$pnt_module&amp;pollID=$plID\">$plTitle</a> ";
+        echo "(<a href=\"modules.php?name=$pnt_module&amp;op=results&amp;pollID=$plID$r_options\">"._RESULTS."</a> - $voters "._LVOTES."$editing)<br />\n";
     }
     $titanium_db->sql_freeresult($result);
     echo "</td></tr></table><br />";
@@ -167,7 +167,7 @@ function pollList() {
 }
 
 function pollResults($pollID) {
-    global $resultTableBgColor, $resultBarFile, $Default_Theme, $titanium_user, $titanium_prefix, $titanium_db, $admin, $titanium_module_name, $admin_file;
+    global $resultTableBgColor, $resultBarFile, $Default_Theme, $titanium_user, $titanium_prefix, $titanium_db, $admin, $pnt_module, $admin_file;
 
     if(!isset($pollID)) $pollID = 1;
     $result = $titanium_db->sql_query("SELECT pollID, pollTitle, artid FROM ".$titanium_prefix."_poll_desc WHERE pollID='$pollID'");
@@ -260,9 +260,9 @@ function pollResults($pollID) {
     echo "<br /><br />";
     $article = "";
     if ($holdtitle[3] > 0) { $article = "<br /><br />"._GOBACK; }
-    echo "[ <a href=\"modules.php?name=$titanium_module_name&amp;pollID=$pollID\">"._VOTING."</a> | "
-        ."<a href=\"modules.php?name=$titanium_module_name\">"._OTHERPOLLS."</a> ] $article </span></center>";
-    if (is_mod_admin($titanium_module_name)) {
+    echo "[ <a href=\"modules.php?name=$pnt_module&amp;pollID=$pollID\">"._VOTING."</a> | "
+        ."<a href=\"modules.php?name=$pnt_module\">"._OTHERPOLLS."</a> ] $article </span></center>";
+    if (is_mod_admin($pnt_module)) {
         echo '<br /><center>[ <a href="'.$admin_file.'.php?op=CreatePoll">'._ADD.'</a> | <a href="'.$admin_file.'.php?op=PollEdit&amp;pollID='.$pollID.'">'._EDIT.'</a> ]</center>';
     }
     return(1);

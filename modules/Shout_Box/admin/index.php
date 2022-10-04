@@ -30,17 +30,17 @@ if (!defined('ADMIN_FILE')) {
 }
 
 global $titanium_prefix, $titanium_db, $cache;
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
-if (!is_mod_admin($titanium_module_name)) {
+$pnt_module = basename(dirname(dirname(__FILE__)));
+if (!is_mod_admin($pnt_module)) {
     die("Access Denied");
 }
 
 global $currentlang, $sbURL;
 
 if ($currentlang) {
-    include_once(NUKE_MODULES_DIR.$titanium_module_name.'/lang-admin/lang-'.$currentlang.'.php');
+    include_once(NUKE_MODULES_DIR.$pnt_module.'/lang-admin/lang-'.$currentlang.'.php');
 } else {
-    include_once(NUKE_MODULES_DIR.$titanium_module_name.'/lang-admin/lang-english.php');
+    include_once(NUKE_MODULES_DIR.$pnt_module.'/lang-admin/lang-english.php');
 }
 
 include_once(NUKE_MODULES_DIR.'Shout_Box/shout.php');
@@ -158,7 +158,7 @@ function ShoutBoxAdminMenu($ShoutMenuOptionActive) {
 // Start 'Manage Shouts' code (Default page)
 
 function manageShouts($page, $pruned) {
-    global $titanium_prefix, $titanium_db, $admin, $admin_file, $sbURL, $titanium_module_name, $shout_conf, $rowColor, $userinfo, $board_config;
+    global $titanium_prefix, $titanium_db, $admin, $admin_file, $sbURL, $pnt_module, $shout_conf, $rowColor, $userinfo, $board_config;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $ShoutMenuOptionActive = 1;
@@ -387,7 +387,7 @@ function manageShouts($page, $pruned) {
     <input type=\"hidden\" name=\"item_name\" value=\"Donation to ourscripts.86it.us\" />
     <input type=\"hidden\" name=\"no_shipping\" value=\"1\" />
     <input type=\"hidden\" name=\"cn\" value=\"Comments\" /><p align=\"center\">
-    <input type=\"image\" src=\"modules/$titanium_module_name/images/paypal.gif\" alt=\"Please donate. Thank you!\" name=\"submit\" title=\"Please donate. Thank you!\" /></p></form><p align=\"center\" class=\"content\">Our community appreciates your monitary support!</p><p align=\"center\" class=\"content\">Released under the <a target=\"_blank\" href=\"".$sbURL."http://www.gnu.org\">GNU/GPL license</a> and distributed by <a target=\"_blank\" href=\"".$sbURL."https://ourscripts.86it.us\">OurScripts.net</a>.<br />Copyright &copy; 2002-2005 by SuiteSoft Solutions. All rights reserved.</p>";
+    <input type=\"image\" src=\"modules/$pnt_module/images/paypal.gif\" alt=\"Please donate. Thank you!\" name=\"submit\" title=\"Please donate. Thank you!\" /></p></form><p align=\"center\" class=\"content\">Our community appreciates your monitary support!</p><p align=\"center\" class=\"content\">Released under the <a target=\"_blank\" href=\"".$sbURL."http://www.gnu.org\">GNU/GPL license</a> and distributed by <a target=\"_blank\" href=\"".$sbURL."https://ourscripts.86it.us\">OurScripts.net</a>.<br />Copyright &copy; 2002-2005 by SuiteSoft Solutions. All rights reserved.</p>";
     CloseTable();
     // END OF COPYRIGHT.
     include_once(NUKE_BASE_DIR.'footer.php');
@@ -787,20 +787,20 @@ function ShoutBoxLayoutSet($daten, $numbern, $heightn, $textboxwidth, $smiliespe
 }
 
 function ShoutBoxAdminMonitor() {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_module_name, $cache;
+    global $titanium_prefix, $titanium_db, $admin_file, $pnt_module, $cache;
     OpenTable();
     // Warnings to admins if something isn't set right.
     echo "<p align=\"center\" class=\"content\"><strong>"._SETUPANDSECURITY."</strong></p>";
     $SBhealthCount = 0;
 
     // Level 1 checks (Marginal)
-    $filename = "modules/$titanium_module_name/language/index.html";
+    $filename = "modules/$pnt_module/language/index.html";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
-    $filename = "modules/$titanium_module_name/images/down/Black.gif";
+    $filename = "modules/$pnt_module/images/down/Black.gif";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
-    $filename = "modules/$titanium_module_name/images/up/Black.gif";
+    $filename = "modules/$pnt_module/images/up/Black.gif";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
-    $filename = "modules/$titanium_module_name/images/pause/Black.gif";
+    $filename = "modules/$pnt_module/images/pause/Black.gif";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
     $filename = "images/blocks/shout_box/index.html";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
@@ -810,19 +810,19 @@ function ShoutBoxAdminMonitor() {
     // $_SERVER["SERVER_SOFTWARE"]
 
     // Level 2 checks (Critical)
-    $filename = "modules/$titanium_module_name";
+    $filename = "modules/$pnt_module";
     if (is_dir($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "modules/$titanium_module_name/copyright.php";
+    $filename = "modules/$pnt_module/copyright.php";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
     $filename = "includes/shoutbox.js";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "modules/$titanium_module_name/index.php";
+    $filename = "modules/$pnt_module/index.php";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "modules/$titanium_module_name/language/lang-english.php";
+    $filename = "modules/$pnt_module/language/lang-english.php";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "blocks/block-$titanium_module_name.php";
+    $filename = "blocks/block-$pnt_module.php";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "modules/$titanium_module_name/images/paypal.gif";
+    $filename = "modules/$pnt_module/images/paypal.gif";
     if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
     $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_shouts";
     $result = $titanium_db->sql_query($sql);
@@ -857,14 +857,14 @@ function ShoutBoxAdminMonitor() {
     if (file_exists($filename) == TRUE) { $SBhealthCount = 2; }
     $filename = "shout3.01to3.5.php";
     if (file_exists($filename) == TRUE) { $SBhealthCount = 2; }
-    $sqlCheck = "SELECT * FROM ".$titanium_prefix."_blocks WHERE blockfile='block-$titanium_module_name.php'";
+    $sqlCheck = "SELECT * FROM ".$titanium_prefix."_blocks WHERE blockfile='block-$pnt_module.php'";
     $resultCheck = $titanium_db->sql_query($sqlCheck);
     $numrowsCheck = $titanium_db->sql_numrows($resultCheck);
     if ($numrowsCheck != 1) { $SBhealthCount = 2; }
     $rowCheck = $titanium_db->sql_fetchrow($resultCheck);
     if ($rowCheck['active'] != 1) { $SBhealthCount = 2; }
     if (($rowCheck['view'] != 0) AND ($rowCheck['view'] != 1)) { $SBhealthCount = 2; }
-    $sqlCheck = "SELECT * FROM ".$titanium_prefix."_modules WHERE title='$titanium_module_name'";
+    $sqlCheck = "SELECT * FROM ".$titanium_prefix."_modules WHERE title='$pnt_module'";
     $resultCheck = $titanium_db->sql_query($sqlCheck);
     $numrowsCheck = $titanium_db->sql_numrows($resultCheck);
     if ($numrowsCheck != 1) { $SBhealthCount = 2; }
@@ -883,7 +883,7 @@ function ShoutBoxAdminMonitor() {
 }
 
 function shoutHealth($SBhealthCount) {
-    global $titanium_prefix, $titanium_db, $admin_file, $titanium_module_name;
+    global $titanium_prefix, $titanium_db, $admin_file, $pnt_module;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $ShoutMenuOptionActive = 2;
@@ -897,13 +897,13 @@ function shoutHealth($SBhealthCount) {
     elseif ($SBhealthCount == 2) { echo _SBEXCELLENT."/"._SBMARGINAL."/<strong>"._SBCRITICAL."</strong></p>"; }
 
     // Level 1 checks (Marginal)
-    $filename = "modules/$titanium_module_name/language/index.html";
+    $filename = "modules/$pnt_module/language/index.html";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing security file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This security file is used to keep individuals from browsing the backend of your website. Its a 0 byte size file, which gives them a blank screen if they try to browse the directory it is in. You can usually find this file within another directory of your installation of PHP-Nuke and just copy it into this directory.</p>"; }
-    $filename = "modules/$titanium_module_name/images/down/Black.gif";
+    $filename = "modules/$pnt_module/images/down/Black.gif";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing image file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image file is used in the Shout Box block in case you don't have the themed image installed in all your themes. It is a good idea to have this uploaded, even if you are only using the themed images, because you may install another theme in the future and forget to upload the themed images. You can obtain this image from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$titanium_module_name/images/up/Black.gif";
+    $filename = "modules/$pnt_module/images/up/Black.gif";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing image file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image file is used in the Shout Box block in case you don't have the themed image installed in all your themes. It is a good idea to have this uploaded, even if you are only using the themed images, because you may install another theme in the future and forget to upload the themed images. You can obtain this image from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$titanium_module_name/images/pause/Black.gif";
+    $filename = "modules/$pnt_module/images/pause/Black.gif";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing image file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image file is used in the Shout Box block in case you don't have the themed image installed in all your themes. It is a good idea to have this uploaded, even if you are only using the themed images, because you may install another theme in the future and forget to upload the themed images. You can obtain this image from the Shout Box installation zip file.</p>"; }
     $filename = "images/blocks/shout_box/index.html";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing security file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This security file is used to keep individuals from browsing the backend of your website. Its a 0 byte size file, which gives them a blank screen if they try to browse the directory it is in. You can usually find this file within another directory of your installation of PHP-Nuke and just copy it into this directory.</p>"; }
@@ -911,19 +911,19 @@ function shoutHealth($SBhealthCount) {
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing image file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image file is used in the PHP-Nuke admin area. It is a good idea to have this uploaded, even if you are using the admin area without images, because you may change your mind later and use admin images. You can obtain this image from the Shout Box installation zip file.</p>"; }
 
     // Level 2 checks (Critical)
-    $filename = "modules/$titanium_module_name";
+    $filename = "modules/$pnt_module";
     if (is_dir($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical directory:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This directory contains the Shout Box module files. Without it, half of the Shout Box is unavailable for use by the people on your website. Create this directory using cpanel, FTP, or other method.</p>"; }
     $filename = "includes/shoutbox.js";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file contains the Shout Box JavaScript code. It is critical to the operation of this Shout Box. You can obtain this file from the Shout Box installation zip file. Then install it into your PHP-Nuke root folder where mainfile.php is.</p>"; }
-    $filename = "modules/$titanium_module_name/copyright.php";
+    $filename = "modules/$pnt_module/copyright.php";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file contains the Shout Box copyright information. It is both legally required and critical to the success of this Shout Box and OurScripts.net. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$titanium_module_name/index.php";
+    $filename = "modules/$pnt_module/index.php";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file contains the Shout Box shout history. Without it, half of the Shout Box features are unavailable for use by the people on your website. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$titanium_module_name/language/lang-english.php";
+    $filename = "modules/$pnt_module/language/lang-english.php";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file contains the Shout Box shout history english language definitions. Even if you are not using them at this time, in the future, you may go multi-lingual. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $filename = "blocks/block-$titanium_module_name.php";
+    $filename = "blocks/block-$pnt_module.php";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file is the core of the Shout Box. Without it, the users on your site will not be able to shout. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$titanium_module_name/images/paypal.gif";
+    $filename = "modules/$pnt_module/images/paypal.gif";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical image:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image is part of the Shout Box copyright. It is both legally required and critical to the success of this Shout Box and OurScripts.net. You can obtain this file from the Shout Box installation zip file.</p>"; }
     $sql = "SELECT * FROM ".$titanium_prefix."_shoutbox_shouts";
     $result = $titanium_db->sql_query($sql);
@@ -958,31 +958,31 @@ function shoutHealth($SBhealthCount) {
     if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, delete this SQL installer from your server. It is no longer used.</p>"; }
     $filename = 'shout3.01to3.5.php';
     if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, delete this SQL installer from your server. It is no longer used.</p>"; }
-    $sqlCheck = "SELECT * FROM ".$titanium_prefix."_blocks WHERE blockfile='block-$titanium_module_name.php'";
+    $sqlCheck = "SELECT * FROM ".$titanium_prefix."_blocks WHERE blockfile='block-$pnt_module.php'";
     $resultCheck = $titanium_db->sql_query($sqlCheck);
     $numrowsCheck = $titanium_db->sql_numrows($resultCheck);
     if ($numrowsCheck != 1) {
-        echo "<p class=\"content\"><strong>Shout Box block not added:</strong> block-$titanium_module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> You have not added the Shout Box block into PHP-Nuke. Click the Blocks icon in the admin area, scroll down the 'Add a new block' area. In the filename drop down, choose block-$titanium_module_name.php. Set 'Who can view this' as 'All Visitors', and click the 'Create Block' button.</p>";
+        echo "<p class=\"content\"><strong>Shout Box block not added:</strong> block-$pnt_module.php&nbsp;&nbsp;<strong>Recommendation:</strong> You have not added the Shout Box block into PHP-Nuke. Click the Blocks icon in the admin area, scroll down the 'Add a new block' area. In the filename drop down, choose block-$pnt_module.php. Set 'Who can view this' as 'All Visitors', and click the 'Create Block' button.</p>";
     }
     $rowCheck = $titanium_db->sql_fetchrow($resultCheck);
     if ($rowCheck['active'] != '1') {
-        echo "<p class=\"content\"><strong>Shout Box block not active:</strong> block-$titanium_module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Blocks icon in the admin area, scroll down to the 'Blocks Administration' area. In the Functions column and Shout Box row, choose 'Activate'. In the following page, choose 'Yes' to activate the block.</p>";
+        echo "<p class=\"content\"><strong>Shout Box block not active:</strong> block-$pnt_module.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Blocks icon in the admin area, scroll down to the 'Blocks Administration' area. In the Functions column and Shout Box row, choose 'Activate'. In the following page, choose 'Yes' to activate the block.</p>";
     }
     if (($rowCheck['view'] != 0) && ($rowCheck['view'] != 1)) {
-        echo "<p class=\"content\"><strong>Shout Box block not publicly viewable:</strong> block-$titanium_module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Blocks icon in the admin area, scroll down to the 'Blocks Administration' area. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Block' button.</p>";
+        echo "<p class=\"content\"><strong>Shout Box block not publicly viewable:</strong> block-$pnt_module.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Blocks icon in the admin area, scroll down to the 'Blocks Administration' area. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Block' button.</p>";
     }
-    $sqlCheck = "SELECT * FROM ".$titanium_prefix."_modules WHERE title='$titanium_module_name'";
+    $sqlCheck = "SELECT * FROM ".$titanium_prefix."_modules WHERE title='$pnt_module'";
     $resultCheck = $titanium_db->sql_query($sqlCheck);
     $numrowsCheck = $titanium_db->sql_numrows($resultCheck);
     if ($numrowsCheck != 1) {
-        echo "<p class=\"content\"><strong>Shout Box module not added:</strong> $titanium_module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> You have not added the Shout Box module into PHP-Nuke. Upload the files into the modules directory. You can obtain the files from the Shout Box installation zip file. Once they are uploaded, Click the Modules icon in PHP-Nuke administration. In the Functions column and Shout Box row, choose 'Activate'. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Changes' button.</p>";
+        echo "<p class=\"content\"><strong>Shout Box module not added:</strong> $pnt_module.php&nbsp;&nbsp;<strong>Recommendation:</strong> You have not added the Shout Box module into PHP-Nuke. Upload the files into the modules directory. You can obtain the files from the Shout Box installation zip file. Once they are uploaded, Click the Modules icon in PHP-Nuke administration. In the Functions column and Shout Box row, choose 'Activate'. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Changes' button.</p>";
     }
     $rowCheck = $titanium_db->sql_fetchrow($resultCheck);
     if ($rowCheck['active'] != 1) {
-        echo "<p class=\"content\"><strong>Shout Box module not active:</strong> $titanium_module_name&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Modules icon in PHP-Nuke administration. In the Functions column and Shout Box row, choose 'Activate'.</p>";
+        echo "<p class=\"content\"><strong>Shout Box module not active:</strong> $pnt_module&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Modules icon in PHP-Nuke administration. In the Functions column and Shout Box row, choose 'Activate'.</p>";
     }
     if (($rowCheck['view'] != 0) AND ($rowCheck['view'] != 1)) {
-        echo "<p class=\"content\"><strong>Shout Box module not publicly viewable:</strong> block-$titanium_module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Modules icon in PHP-Nuke administration. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Changes' button.</p>";
+        echo "<p class=\"content\"><strong>Shout Box module not publicly viewable:</strong> block-$pnt_module.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Modules icon in PHP-Nuke administration. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Changes' button.</p>";
     }
 
     CloseTable();
@@ -995,7 +995,7 @@ function shoutHealth($SBhealthCount) {
 // Start Themeing code
 
 function ShoutBoxThemeing() {
-    global $titanium_prefix, $titanium_db, $admin_file, $sbURL, $titanium_module_name, $rowColor;
+    global $titanium_prefix, $titanium_db, $admin_file, $sbURL, $pnt_module, $rowColor;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $ShoutMenuOptionActive = 3;
@@ -1055,10 +1055,10 @@ function ShoutBoxThemeing() {
 
     echo "<tr style=\"background-color: ".$rowColor['menuColor1'].";\"><td align=\"center\" width=\"15%\" nowrap=\"nowrap\"><strong>"._SB_THEME."</strong></td><td align=\"center\" nowrap=\"nowrap\" width=\"17%\"><strong>"._SB_BOXARROWS."</strong></td><td align=\"center\" nowrap=\"nowrap\" width=\"17%\"><strong>"._SB_BOXBACKGROUND."</strong></td><td>&nbsp;</td></tr>";
 
-    $imagesDir = dir(NUKE_MODULES_DIR.$titanium_module_name."/images/up");
+    $imagesDir = dir(NUKE_MODULES_DIR.$pnt_module."/images/up");
     $imageList = '';
     while ($image=$imagesDir->read()) {
-        if (!empty($image) && $image != '.' && $image != '..' && $image != 'index.html' && file_exists(NUKE_MODULES_DIR.$titanium_module_name."/images/down/$image") && file_exists(NUKE_MODULES_DIR.$titanium_module_name."/images/pause/$image")) {
+        if (!empty($image) && $image != '.' && $image != '..' && $image != 'index.html' && file_exists(NUKE_MODULES_DIR.$pnt_module."/images/down/$image") && file_exists(NUKE_MODULES_DIR.$pnt_module."/images/pause/$image")) {
             $imageList .= "$image ";
         }
     }
@@ -1066,7 +1066,7 @@ function ShoutBoxThemeing() {
     $imageList = explode(" ", $imageList);
     sort($imageList);
 
-    $backgroundDir = dir(NUKE_MODULES_DIR.$titanium_module_name."/images/background");
+    $backgroundDir = dir(NUKE_MODULES_DIR.$pnt_module."/images/background");
     $backImageList = '';
     while ($backImage=$backgroundDir->read()) {
         if (!empty($backImage) && $backImage != '.' && $backImage != '..' && $backImage != 'index.html') {

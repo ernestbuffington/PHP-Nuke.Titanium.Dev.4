@@ -195,7 +195,7 @@ class Content_bars
 
     function set_rows($data)
     {
-        global $core, $stats_template, $phpbb2_root_path, $phpEx, $stat_functions, $titanium_lang;
+        global $core, $stats_template, $phpbb2_root_path, $phpEx, $stat_functions, $lang;
 
         $core->calculation_data = array();
 
@@ -276,7 +276,7 @@ class Content_bars
                         {
                             eval('$result = ' . $auth_array['auth_replacement'][$j] . ';');
                             $auth_replace[$j]['replace'] = TRUE;
-                            if ( (is_string($auth_array['auth_replacement'][$j])) && (strstr($auth_array['auth_replacement'][$j], '$titanium_lang')) )
+                            if ( (is_string($auth_array['auth_replacement'][$j])) && (strstr($auth_array['auth_replacement'][$j], '$lang')) )
                             {
                                 $auth_replace[$j]['lang'] = TRUE;
                             }

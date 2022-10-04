@@ -32,9 +32,9 @@
  ************************************************************************/
 if (!defined('MODULE_FILE')) die('You can\'t access this file directly...');
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 $sid = intval($sid);
 
@@ -58,7 +58,7 @@ if (!empty($associated))
         $query = $titanium_db->sql_query("SELECT topicimage, topictext from ".$titanium_prefix."_topics WHERE topicid='".$asso_t[$i]."'");
 	    list($topicimage, $topictext) = $titanium_db->sql_fetchrow($query);
 	    $titanium_db->sql_freeresult($query);
-	    echo "<a href=\"modules.php?name=$titanium_module_name&new_topic=$asso_t[$i]\"><img src=\"".$tipath.$topicimage."\" border=\"0\" hspace=\"10\" alt=\"".$topictext."\" title=\"".$topictext."\"></a>";
+	    echo "<a href=\"modules.php?name=$pnt_module&new_topic=$asso_t[$i]\"><img src=\"".$tipath.$topicimage."\" border=\"0\" hspace=\"10\" alt=\"".$topictext."\" title=\"".$topictext."\"></a>";
       }
     }
     echo "</div>";

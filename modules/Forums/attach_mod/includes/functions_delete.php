@@ -244,7 +244,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 
         if ( !($titanium_db->sql_query($sql)) )   
         {
-            message_die(GENERAL_ERROR, $titanium_lang['Error_deleted_attachments'], '', __LINE__, __FILE__, $sql);   
+            message_die(GENERAL_ERROR, $lang['Error_deleted_attachments'], '', __LINE__, __FILE__, $sql);   
         } 
     
 		for ($i = 0; $i < sizeof($attach_id_array); $i++)
@@ -295,7 +295,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 
                         if ( !($titanium_db->sql_query($sql)) )
                         {
-                            message_die(GENERAL_ERROR, $titanium_lang['Error_deleted_attachments'], '', __LINE__, __FILE__, $sql);
+                            message_die(GENERAL_ERROR, $lang['Error_deleted_attachments'], '', __LINE__, __FILE__, $sql);
                         }
                     }
                 }

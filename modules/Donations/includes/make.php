@@ -18,12 +18,12 @@ donation_title();
     Notes:       N/A
 ================================================================================================*/
 function make_get_values () {
-    global $titanium_db, $titanium_prefix, $titanium_lang_donate;
+    global $titanium_db, $titanium_prefix, $lang_donate;
     //Get the donation values
     $sql = 'SELECT config_value from '.$titanium_prefix.'_donators_config WHERE config_name="values"';
     //If not
     if(!$result = $titanium_db->sql_query($sql)) {
-        DonateError($titanium_lang_donate['VALUES_NF'],0);
+        DonateError($lang_donate['VALUES_NF'],0);
     }
     $row = $titanium_db->sql_fetchrow($result);
     $titanium_db->sql_freeresult($result);
@@ -61,7 +61,7 @@ function make_get_currency_code () {
             return "&yen;";
         break;
         default:
-            DonateError($titanium_lang_donate['CURRENCY_NF'],0);
+            DonateError($lang_donate['CURRENCY_NF'],0);
         break;
     }
 }
@@ -101,9 +101,9 @@ function make_display_values () {
     Notes:       N/A
 ================================================================================================*/
 function make_image_button () {
-    global $gen_configs, $titanium_lang_donate;
+    global $gen_configs, $lang_donate;
     if (empty($gen_configs['button_image'])) {
-        return "<tr><td class=\"row1\" colspan=\"2\"><div class=\"acenter\"><input type=\"submit\" value=\"".$titanium_lang_donate['DONATE']."\"></div></td></tr>\n";
+        return "<tr><td class=\"row1\" colspan=\"2\"><div class=\"acenter\"><input type=\"submit\" value=\"".$lang_donate['DONATE']."\"></div></td></tr>\n";
     } else {
         return "<tr><td class=\"row1\" colspan=\"2\"><div class=\"acenter\"><input type=\"image\" src=\"".$gen_configs['button_image']."\" name=\"submit\"></div></td></tr>\n";
     }
@@ -116,16 +116,16 @@ function make_image_button () {
     Notes:       If there are no others on it will just return blank
 ================================================================================================*/
 function make_type () {
-    global $gen_configs, $titanium_lang_donate;
+    global $gen_configs, $lang_donate;
     if ($gen_configs['type_private'] == 'no' && $gen_configs['type_anon'] == 'no') {
         return '';
     }
-    $radio[] = array('value' => $titanium_lang_donate['TYPE_REGULAR'], 'text' => $titanium_lang_donate['TYPE_REGULAR'], 'name' => 'os0', 'checked' => 'CHECKED', 'help' => make_help_popup($titanium_lang_donate['HELP_DONATION_REGULAR'], $titanium_lang_donate['TYPE_REGULAR']));
+    $radio[] = array('value' => $lang_donate['TYPE_REGULAR'], 'text' => $lang_donate['TYPE_REGULAR'], 'name' => 'os0', 'checked' => 'CHECKED', 'help' => make_help_popup($lang_donate['HELP_DONATION_REGULAR'], $lang_donate['TYPE_REGULAR']));
     if($gen_configs['type_private'] == 'yes'){
-        $radio[] = array('value' => $titanium_lang_donate['TYPE_PRIVATE'], 'text' => $titanium_lang_donate['TYPE_PRIVATE'], 'name' => 'os0', 'checked' => '', 'help' => make_help_popup($titanium_lang_donate['HELP_DONATION_PRIVATE'], $titanium_lang_donate['TYPE_PRIVATE']));
+        $radio[] = array('value' => $lang_donate['TYPE_PRIVATE'], 'text' => $lang_donate['TYPE_PRIVATE'], 'name' => 'os0', 'checked' => '', 'help' => make_help_popup($lang_donate['HELP_DONATION_PRIVATE'], $lang_donate['TYPE_PRIVATE']));
     }
     if($gen_configs['type_anon'] == 'yes'){
-        $radio[] = array('value' => $titanium_lang_donate['TYPE_ANON'], 'text' => $titanium_lang_donate['TYPE_ANON'], 'name' => 'os0', 'checked' => '', 'help' => make_help_popup($titanium_lang_donate['HELP_DONATION_ANON'], $titanium_lang_donate['TYPE_ANON']));
+        $radio[] = array('value' => $lang_donate['TYPE_ANON'], 'text' => $lang_donate['TYPE_ANON'], 'name' => 'os0', 'checked' => '', 'help' => make_help_popup($lang_donate['HELP_DONATION_ANON'], $lang_donate['TYPE_ANON']));
     }
     return donate_radio($radio,1);
 }
@@ -137,13 +137,13 @@ function make_type () {
     Notes:       N/A
 ================================================================================================*/
 function make_message () {
-    global $gen_configs, $titanium_lang_donate;
+    global $gen_configs, $lang_donate;
 
     if ($gen_configs['message'] == 'no') {
         return "<input type=\"hidden\" name=\"os1\" value=\"\">\n";
     }
     $out = "<tr>\n<td class=\"row1 aright\">\n";
-    $out .= $titanium_lang_donate['MESSAGE'].$titanium_lang_donate['BREAK'];
+    $out .= $lang_donate['MESSAGE'].$lang_donate['BREAK'];
     $out .= "</td>\n<td class=\"row1\">\n";
     $out .= donate_text_area('os1', '')."</td>\n</tr>\n";
     return $out;
@@ -156,7 +156,7 @@ function make_message () {
     Notes:       N/A
 ================================================================================================*/
 function make_codes () {
-    global $gen_configs, $titanium_lang_donate;
+    global $gen_configs, $lang_donate;
 
     if (empty($gen_configs['codes'])) {
         return '';
@@ -179,7 +179,7 @@ function make_codes () {
     Notes:       Makes the donation screen
 ================================================================================================*/
 function make_donation () {
-    global $gen_configs, $titanium_lang_donate, $titanium_module_name, $nukeurl;
+    global $gen_configs, $lang_donate, $pnt_module, $nukeurl;
 
     OpenTable();
     if(!empty($gen_configs['page_image'])) {
@@ -194,15 +194,15 @@ function make_donation () {
     $url = (substr($url,-1) == '/') ? substr($url,0, -1) : $url;
 
     //Use this line if you want to use the sandbox
-	echo '<form action="modules.php?name='.$titanium_module_name.'&op=confirm" method="post">';
+	echo '<form action="modules.php?name='.$pnt_module.'&op=confirm" method="post">';
 	echo "<input type=\"hidden\" name=\"currency_code\" value=\"".$gen_configs['currency']."\">\n";
 	echo "<input type=\"hidden\" name=\"cmd\" value=\"_ext-enter\">\n";
 	echo "<input type=\"hidden\" name=\"cmd\" value=\"_xclick\">\n";
 	echo "<input type=\"hidden\" name=\"business\" value=\"".$gen_configs['pp_email']."\">\n";
-    echo "<input type=\"hidden\" name=\"notify_url\" value=\"http://".$url."/modules.php?name=".$titanium_module_name."&amp;op=thankyou\">\n";
+    echo "<input type=\"hidden\" name=\"notify_url\" value=\"http://".$url."/modules.php?name=".$pnt_module."&amp;op=thankyou\">\n";
 	echo "<input type=\"hidden\" name=\"no_shipping\" value=\"1\">\n";
-	echo "<input type=\"hidden\" name=\"return\" value=\"http://".$url."/modules.php?name=".$titanium_module_name."&amp;op=thankyou\">\n";
-	echo "<input type=\"hidden\" name=\"cancel_return\" value=\"http://".$url."/modules.php?name=".$titanium_module_name."&amp;op=cancel\">\n";
+	echo "<input type=\"hidden\" name=\"return\" value=\"http://".$url."/modules.php?name=".$pnt_module."&amp;op=thankyou\">\n";
+	echo "<input type=\"hidden\" name=\"cancel_return\" value=\"http://".$url."/modules.php?name=".$pnt_module."&amp;op=cancel\">\n";
 	echo "<input type=\"hidden\" name=\"rm\" value=\"2\">\n";
 	echo "<input type=\"hidden\" name=\"no_note\" value=\"1\">\n";
 	echo "<input type=\"hidden\" name=\"on0\" value=\"Info\">\n";
@@ -219,22 +219,22 @@ function make_donation () {
 	}
 	echo "<table width=\"50%\" border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"forumline\" style=\"margin:auto\">\n";
     //Values
-    echo "<tr>\n<td class=\"row1 aright\">\n".$titanium_lang_donate['AMOUNT'].$titanium_lang_donate['BREAK']."\n</td>\n<td class=\"row1\">\n";
+    echo "<tr>\n<td class=\"row1 aright\">\n".$lang_donate['AMOUNT'].$lang_donate['BREAK']."\n</td>\n<td class=\"row1\">\n";
     echo make_other_value().make_display_values()."</td>\n</tr>\n";
     //Type
     $type = make_type();
     if (!empty($type)) {
         echo "<tr>\n<td class=\"row1 aright\">\n";
-        echo $titanium_lang_donate['TYPE'].$titanium_lang_donate['BREAK'];
+        echo $lang_donate['TYPE'].$lang_donate['BREAK'];
         echo "</td>\n<td class=\"row1\">\n";
         echo $type;
         echo "</td>\n</tr>\n";
     } else {
-        echo "<input type=\"hidden\" name=\"os0\" value=\"".$titanium_lang_donate['TYPE_REGULAR']."\">\n";
+        echo "<input type=\"hidden\" name=\"os0\" value=\"".$lang_donate['TYPE_REGULAR']."\">\n";
     }
     if (!empty($gen_configs['codes'])) {
         echo "<tr>\n<td class=\"row1 aright\">\n";
-        echo $titanium_lang_donate['DONATE_TO'].$titanium_lang_donate['BREAK'];
+        echo $lang_donate['DONATE_TO'].$lang_donate['BREAK'];
         echo "</td>\n<td class=\"row1\">\n";
         echo make_codes();
         echo "</td>\n</tr>\n";
@@ -261,7 +261,7 @@ global $gen_configs;
 $gen_configs = get_gen_configs();
 if (empty($gen_configs['pp_email'])) {
     OpenTable();
-    DonateError($titanium_lang_donate['NO_PP_ADD'],1);
+    DonateError($lang_donate['NO_PP_ADD'],1);
 }
 make_donation();
 ?>

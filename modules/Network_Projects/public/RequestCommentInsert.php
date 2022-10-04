@@ -29,13 +29,13 @@ if($project['allowrequests'] > 0) {
     list($submitter_email) = $titanium_db2->sql_fetchrow($titanium_db2->sql_query("SELECT `submitter_email` FROM `".$network_prefix."_requests` WHERE `request_id`='$request_id'"));
     $admin_email = $adminmail;
     $subject = _NETWORK_NEWREQUESTCOMMENTS;
-    $message = _NETWORK_NEWREQUESTCOMMENT.":\r\n$nukeurl/modules.php?name=$titanium_module_name&amp;op=Request&amp;request_id=$request_id";
+    $message = _NETWORK_NEWREQUESTCOMMENT.":\r\n$nukeurl/modules.php?name=$pnt_module&amp;op=Request&amp;request_id=$request_id";
     $from  = "From: $admin_email\r\n";
     $from .= "Reply-To: $admin_email\r\n";
     $from .= "Return-Path: $admin_email\r\n";
     if($pj_config['notify_request_admin'] == 1) { evo_mail($admin_email, $subject, $message, $from); }
     if($pj_config['notify_request_submitter'] == 1) { evo_mail($submitter_email, $subject, $message, $from); }
-    header("Location: modules.php?name=$titanium_module_name&op=Request&request_id=$request_id");
+    header("Location: modules.php?name=$pnt_module&op=Request&request_id=$request_id");
   } else {
     $pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']." ::: "._NETWORK_COMMENTADD." ::: ";
     include_once(NUKE_BASE_DIR.'header.php');
@@ -56,7 +56,7 @@ if($project['allowrequests'] > 0) {
     include_once(NUKE_BASE_DIR.'footer.php');
   }
 } else {
-  header("Location: modules.php?name=$titanium_module_name");
+  header("Location: modules.php?name=$pnt_module");
 }
 
 ?>

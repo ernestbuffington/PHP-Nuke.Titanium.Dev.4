@@ -51,7 +51,7 @@ include($phpbb2_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
 include($phpbb2_root_path . 'attach_mod/includes/functions_admin.' . $phpEx);
 
 // Check if the language got included
-if (!isset($titanium_lang['Test_settings_successful']))
+if (!isset($lang['Test_settings_successful']))
 {
     // include_once is used within the function
     include_attach_lang();
@@ -62,7 +62,7 @@ $types_download = array(INLINE_LINK, PHYSICAL_LINK);
 $modes_download = array('inline', 'physical');
 
 $types_category = array(IMAGE_CAT, STREAM_CAT, SWF_CAT);
-$modes_category = array($titanium_lang['Category_images'], $titanium_lang['Category_stream_files'], $titanium_lang['Category_swf_files']);
+$modes_category = array($lang['Category_images'], $lang['Category_stream_files'], $lang['Category_swf_files']);
 
 $size = get_var('size', '');
 $mode = get_var('mode', '');
@@ -195,7 +195,7 @@ if ($submit && $mode == 'extensions')
                         {
                             $error_msg .= '<br />';
                         }
-                        $error_msg .= sprintf($titanium_lang['Extension_exist'], strtolower(trim($extension)));
+                        $error_msg .= sprintf($lang['Extension_exist'], strtolower(trim($extension)));
                     }
                 }
             }
@@ -226,7 +226,7 @@ if ($submit && $mode == 'extensions')
                             {
                                 $error_msg .= '<br />';
                             }
-                            $error_msg .= sprintf($titanium_lang['Unable_add_forbidden_extension'], strtolower(trim($extension)));
+                            $error_msg .= sprintf($lang['Unable_add_forbidden_extension'], strtolower(trim($extension)));
                         }
                     }
                 }
@@ -254,7 +254,7 @@ if ($submit && $mode == 'extensions')
 
     if (!$error)
     {
-        $message = $titanium_lang['Attach_config_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_extensions.$phpEx?mode=extensions") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_extensions.$phpEx?mode=extensions") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -268,16 +268,16 @@ if ($mode == 'extensions')
     );
 
     $phpbb2_template->assign_vars(array(
-        'L_EXTENSIONS_TITLE'        => $titanium_lang['Manage_extensions'],
-        'L_EXTENSIONS_EXPLAIN'        => $titanium_lang['Manage_extensions_explain'],
-        'L_SELECT'                    => $titanium_lang['Select'],
-        'L_EXPLANATION'                => $titanium_lang['Explanation'],
-        'L_EXTENSION'                => $titanium_lang['Extension'],
-        'L_EXTENSION_GROUP'            => $titanium_lang['Extension_group'],
-        'L_ADD_NEW'                    => $titanium_lang['Add_new'],
-        'L_DELETE'                    => $titanium_lang['Delete'],
-        'L_CANCEL'                    => $titanium_lang['Cancel'],
-        'L_SUBMIT'                    => $titanium_lang['Submit'],
+        'L_EXTENSIONS_TITLE'        => $lang['Manage_extensions'],
+        'L_EXTENSIONS_EXPLAIN'        => $lang['Manage_extensions_explain'],
+        'L_SELECT'                    => $lang['Select'],
+        'L_EXPLANATION'                => $lang['Explanation'],
+        'L_EXTENSION'                => $lang['Extension'],
+        'L_EXTENSION_GROUP'            => $lang['Extension_group'],
+        'L_ADD_NEW'                    => $lang['Add_new'],
+        'L_DELETE'                    => $lang['Delete'],
+        'L_CANCEL'                    => $lang['Cancel'],
+        'L_SUBMIT'                    => $lang['Submit'],
 
         'S_CANCEL_ACTION'            => append_titanium_sid("admin_extensions.$phpEx?mode=extensions"),
         'S_ATTACH_ACTION'            => append_titanium_sid("admin_extensions.$phpEx?mode=extensions"))
@@ -452,7 +452,7 @@ if ($submit && $mode == 'groups')
                     {
                         $error_msg .= '<br />';
                     }
-                    $error_msg .= sprintf($titanium_lang['Extension_group_exist'], $extension_group);
+                    $error_msg .= sprintf($lang['Extension_group_exist'], $extension_group);
                 }
             }
         }
@@ -482,7 +482,7 @@ if ($submit && $mode == 'groups')
 
     if (!$error)
     {
-        $message = $titanium_lang['Attach_config_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_extensions.$phpEx?mode=groups") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_extensions.$phpEx?mode=groups") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -514,20 +514,20 @@ if ($mode == 'groups')
     $viewgroup = get_var(POST_GROUPS_URL, 0);
 
     $phpbb2_template->assign_vars(array(
-        'L_EXTENSION_GROUPS_TITLE'        => $titanium_lang['Manage_extension_groups'],
-        'L_EXTENSION_GROUPS_EXPLAIN'    => $titanium_lang['Manage_extension_groups_explain'],
-        'L_EXTENSION_GROUP'                => $titanium_lang['Extension_group'],
-        'L_ADD_NEW'                        => $titanium_lang['Add_new'],
-        'L_ALLOWED'                        => $titanium_lang['Allowed'],
-        'L_DELETE'                        => $titanium_lang['Delete'],
-        'L_CANCEL'                        => $titanium_lang['Cancel'],
-        'L_SUBMIT'                        => $titanium_lang['Submit'],
-        'L_SPECIAL_CATEGORY'            => $titanium_lang['Special_category'],
-        'L_DOWNLOAD_MODE'                => $titanium_lang['Download_mode'],
-        'L_UPLOAD_ICON'                    => $titanium_lang['Upload_icon'],
-        'L_MAX_FILESIZE'                => $titanium_lang['Max_groups_filesize'],
-        'L_ALLOWED_FORUMS'                => $titanium_lang['Allowed_forums'],
-        'L_FORUM_PERMISSIONS'            => $titanium_lang['Ext_group_permissions'],
+        'L_EXTENSION_GROUPS_TITLE'        => $lang['Manage_extension_groups'],
+        'L_EXTENSION_GROUPS_EXPLAIN'    => $lang['Manage_extension_groups_explain'],
+        'L_EXTENSION_GROUP'                => $lang['Extension_group'],
+        'L_ADD_NEW'                        => $lang['Add_new'],
+        'L_ALLOWED'                        => $lang['Allowed'],
+        'L_DELETE'                        => $lang['Delete'],
+        'L_CANCEL'                        => $lang['Cancel'],
+        'L_SUBMIT'                        => $lang['Submit'],
+        'L_SPECIAL_CATEGORY'            => $lang['Special_category'],
+        'L_DOWNLOAD_MODE'                => $lang['Download_mode'],
+        'L_UPLOAD_ICON'                    => $lang['Upload_icon'],
+        'L_MAX_FILESIZE'                => $lang['Max_groups_filesize'],
+        'L_ALLOWED_FORUMS'                => $lang['Allowed_forums'],
+        'L_FORUM_PERMISSIONS'            => $lang['Ext_group_permissions'],
 
         'ADD_GROUP_NAME'                => (isset($submit)) ? $extension_group : '',
         'MAX_FILESIZE'                    => $max_add_filesize,
@@ -583,7 +583,7 @@ if ($mode == 'groups')
             'S_FILESIZE'        => size_select('size_select_list[]', $size_format),
 
             'MAX_FILESIZE'        => $extension_group[$i]['max_filesize'],
-            'CAT_BOX'            => ($viewgroup == $extension_group[$i]['group_id']) ? $titanium_lang['Decollapse'] : $titanium_lang['Collapse'],
+            'CAT_BOX'            => ($viewgroup == $extension_group[$i]['group_id']) ? $lang['Decollapse'] : $lang['Collapse'],
             'U_VIEWGROUP'        => ($viewgroup == $extension_group[$i]['group_id']) ? append_titanium_sid("admin_extensions.$phpEx?mode=groups") : append_titanium_sid("admin_extensions.$phpEx?mode=groups&amp;" . POST_GROUPS_URL . "=" . $extension_group[$i]['group_id']),
             'U_FORUM_PERMISSIONS'    => append_titanium_sid("admin_extensions.$phpEx?mode=$mode&amp;e_mode=perm&amp;e_group=" . $extension_group[$i]['group_id']))
         );
@@ -663,7 +663,7 @@ if ($submit && $mode == 'forbidden')
                     {
                         $error_msg .= '<br />';
                     }
-                    $error_msg .= sprintf($titanium_lang['Forbidden_extension_exist'], $extension);
+                    $error_msg .= sprintf($lang['Forbidden_extension_exist'], $extension);
                 }
             }
         }
@@ -694,7 +694,7 @@ if ($submit && $mode == 'forbidden')
                         {
                             $error_msg .= '<br />';
                         }
-                        $error_msg .= sprintf($titanium_lang['Extension_exist_forbidden'], $extension);
+                        $error_msg .= sprintf($lang['Extension_exist_forbidden'], $extension);
                     }
                 }
             }
@@ -715,7 +715,7 @@ if ($submit && $mode == 'forbidden')
 
     if (!$error)
     {
-        $message = $titanium_lang['Attach_config_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_extensions.$phpEx?mode=forbidden") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_extensions.$phpEx?mode=forbidden") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -731,12 +731,12 @@ if ($mode == 'forbidden')
     $phpbb2_template->assign_vars(array(
         'S_ATTACH_ACTION'        => append_titanium_sid('admin_extensions.' . $phpEx . '?mode=forbidden'),
 
-        'L_EXTENSIONS_TITLE'    => $titanium_lang['Manage_forbidden_extensions'],
-        'L_EXTENSIONS_EXPLAIN'    => $titanium_lang['Manage_forbidden_extensions_explain'],
-        'L_EXTENSION'            => $titanium_lang['Extension'],
-        'L_ADD_NEW'                => $titanium_lang['Add_new'],
-        'L_SUBMIT'                => $titanium_lang['Submit'],
-        'L_DELETE'                => $titanium_lang['Delete'])
+        'L_EXTENSIONS_TITLE'    => $lang['Manage_forbidden_extensions'],
+        'L_EXTENSIONS_EXPLAIN'    => $lang['Manage_forbidden_extensions_explain'],
+        'L_EXTENSION'            => $lang['Extension'],
+        'L_ADD_NEW'                => $lang['Add_new'],
+        'L_SUBMIT'                => $lang['Submit'],
+        'L_DELETE'                => $lang['Delete'])
     );
 
     $sql = 'SELECT *
@@ -916,7 +916,7 @@ if ($e_mode == 'perm' && $group)
     if ($allowed_forums == '')
     {
         $forum_perm[0]['forum_id'] = 0;
-        $forum_perm[0]['forum_name'] = $titanium_lang['Perm_all_forums'];
+        $forum_perm[0]['forum_name'] = $lang['Perm_all_forums'];
     }
     else
     {
@@ -947,17 +947,17 @@ if ($e_mode == 'perm' && $group)
     }
 
     $phpbb2_template->assign_vars(array(
-        'L_GROUP_PERMISSIONS_TITLE'        => sprintf($titanium_lang['Group_permissions_title'], trim($group_name)),
-        'L_GROUP_PERMISSIONS_EXPLAIN'    => $titanium_lang['Group_permissions_explain'],
-        'L_REMOVE_SELECTED'                => $titanium_lang['Remove_selected'],
-        'L_CLOSE_WINDOW'                => $titanium_lang['Close_window'],
-        'L_ADD_FORUMS'                    => $titanium_lang['Add_forums'],
-        'L_ADD_SELECTED'                => $titanium_lang['Add_selected'],
-        'L_RESET'                        => $titanium_lang['Reset'],
+        'L_GROUP_PERMISSIONS_TITLE'        => sprintf($lang['Group_permissions_title'], trim($group_name)),
+        'L_GROUP_PERMISSIONS_EXPLAIN'    => $lang['Group_permissions_explain'],
+        'L_REMOVE_SELECTED'                => $lang['Remove_selected'],
+        'L_CLOSE_WINDOW'                => $lang['Close_window'],
+        'L_ADD_FORUMS'                    => $lang['Add_forums'],
+        'L_ADD_SELECTED'                => $lang['Add_selected'],
+        'L_RESET'                        => $lang['Reset'],
         'A_PERM_ACTION'                    => append_titanium_sid("admin_extensions.$phpEx?mode=groups&amp;e_mode=perm&amp;e_group=$group"))
     );
 
-    $forum_option_values = array(GPERM_ALL => $titanium_lang['Perm_all_forums']);
+    $forum_option_values = array(GPERM_ALL => $lang['Perm_all_forums']);
 
     $sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE;
 
@@ -1041,7 +1041,7 @@ if ($e_mode == 'perm' && $group)
         );
 
         $phpbb2_template->assign_vars(array(
-            'ERROR_MESSAGE' => $titanium_lang['Note_admin_empty_group_permissions'] . $message)
+            'ERROR_MESSAGE' => $lang['Note_admin_empty_group_permissions'] . $message)
         );
 
         $phpbb2_template->assign_var_from_handle('PERM_ERROR_BOX', 'perm_reg_header');
@@ -1062,7 +1062,7 @@ if ($error)
 }
 
 $phpbb2_template->assign_vars(array(
-    'ATTACH_VERSION' => sprintf($titanium_lang['Attachment_version'], $attach_config['attach_version']))
+    'ATTACH_VERSION' => sprintf($lang['Attachment_version'], $attach_config['attach_version']))
 );
 
 $phpbb2_template->pparse('body');

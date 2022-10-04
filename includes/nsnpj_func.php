@@ -23,11 +23,11 @@ define('NETWORK_SUPPORT_FUNC', true);
 # Load required scripts
 
 # Load required lang file
-if(!isset($titanium_lang)) 
-  $titanium_lang = $nuke_config['language']; 
+if(!isset($lang)) 
+  $lang = $nuke_config['language']; 
 
-if(!stristr("$titanium_lang", ".") AND file_exists(NUKE_LANGUAGE_DIR."nukeproject/lang-$titanium_lang.php"))
-  @require_once(NUKE_LANGUAGE_DIR."nukeproject/lang-$titanium_lang.php");
+if(!stristr("$lang", ".") AND file_exists(NUKE_LANGUAGE_DIR."nukeproject/lang-$lang.php"))
+  @require_once(NUKE_LANGUAGE_DIR."nukeproject/lang-$lang.php");
 else 
   @require_once(NUKE_LANGUAGE_DIR."nukeproject/lang-english.php");
 
@@ -130,42 +130,42 @@ function pjadmin_menu($pjtitle="")
   CloseTable();
 }
 
-function pjimage($imgfile,$titanium_module_name) 
+function pjimage($imgfile,$pnt_module) 
 {
   $ThemeSel = get_theme();
-  if(file_exists("themes/$ThemeSel/images/$titanium_module_name/$imgfile")) 
-    $pjimage = "themes/$ThemeSel/images/$titanium_module_name/$imgfile";
+  if(file_exists("themes/$ThemeSel/images/$pnt_module/$imgfile")) 
+    $pjimage = "themes/$ThemeSel/images/$pnt_module/$imgfile";
   else 
-    $pjimage = "modules/$titanium_module_name/images/$imgfile";
+    $pjimage = "modules/$pnt_module/images/$imgfile";
   return($pjimage);
 }
 
 function pjprogress($percent) 
 {
-  global $titanium_module_name;
+  global $pnt_module;
 
-  $pjimage = pjimage("bar_left.png", $titanium_module_name);
+  $pjimage = pjimage("bar_left.png", $pnt_module);
 
   $wbprogress  = "<img src='$pjimage' width='1' height='7'>";
 
   if($percent == 0):
-    $pjimage = pjimage("bar_center_red.png", $titanium_module_name);
+    $pjimage = pjimage("bar_center_red.png", $pnt_module);
     $wbprogress .= "<img src='$pjimage' width='100' height='7' alt='0"._NETWORK_PERCENT." "._NETWORK_COMPLETED."' title='0"._NETWORK_PERCENT." "._NETWORK_COMPLETED."'>";
   else: 
     if($percent > 100)
 	  $progress = 100; 
 	else 
 	$progress = $percent; 
-	$pjimage = pjimage("bar_center_grn.png", $titanium_module_name);
+	$pjimage = pjimage("bar_center_grn.png", $pnt_module);
     $wbprogress .= "<img src='$pjimage' width='".$progress."' height=7 alt='".$progress.""._NETWORK_PERCENT." "._NETWORK_COMPLETED."' title='".$progress.""._NETWORK_PERCENT." "._NETWORK_COMPLETED."'>";
     if($progress < 100):
       $incomplete = 100 - $progress;
-      $pjimage = pjimage("bar_center_red.png", $titanium_module_name);
+      $pjimage = pjimage("bar_center_red.png", $pnt_module);
       $wbprogress .= "<img src='$pjimage' width='".$incomplete."' height=7 alt='".$progress.""._NETWORK_PERCENT." "._NETWORK_COMPLETED."' title='".$progress.""._NETWORK_PERCENT." "._NETWORK_COMPLETED."'>";
     endif;
   endif;
   
-  $pjimage = pjimage("bar_right.png", $titanium_module_name);
+  $pjimage = pjimage("bar_right.png", $pnt_module);
   $wbprogress .= "<img src='$pjimage' width='1' height='7'>";
   
   return($wbprogress);

@@ -25,15 +25,15 @@ if (!defined('ADMIN_FILE')) {
    die('Access Denied');
 }
 
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
-include_once(NUKE_MODULES_DIR.$titanium_module_name.'/admin/language/lang-'.$currentlang.'.php');
+$pnt_module = basename(dirname(dirname(__FILE__)));
+include_once(NUKE_MODULES_DIR.$pnt_module.'/admin/language/lang-'.$currentlang.'.php');
 
 switch($op) {
 
     case "reviews":
     case "mod_main":
     case "add_review":
-        include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
+        include(NUKE_MODULES_DIR.$pnt_module.'/admin/index.php');
     break;
 
 }

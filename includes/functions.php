@@ -131,7 +131,7 @@ function request_var($var_name, $default, $multibyte = false)
  ******************************************************/
 function get_forum_display_sort_option($selected_row=0, $action='list', $list='sort')
 {
-    global $titanium_lang;
+    global $lang;
 
     $forum_display_sort = array(
         'lang_key'    => array('Last_Post', 'Sort_Topic_Title', 'Sort_Time', 'Sort_Author'),
@@ -159,7 +159,7 @@ function get_forum_display_sort_option($selected_row=0, $action='list', $list='s
         for ($i=0; $i < count($listrow['lang_key']); $i++)
         {
             $selected = ($i==$selected_row) ? ' selected="selected"' : '';
-            $l_value = (isset($titanium_lang[$listrow['lang_key'][$i]])) ? $titanium_lang[$listrow['lang_key'][$i]] : $listrow['lang_key'][$i];
+            $l_value = (isset($lang[$listrow['lang_key'][$i]])) ? $lang[$listrow['lang_key'][$i]] : $listrow['lang_key'][$i];
             $res .= '<option value="' . $i . '"' . $selected . '>' . $l_value . '</option>';
         }
     }
@@ -179,7 +179,7 @@ function get_forum_display_sort_option($selected_row=0, $action='list', $list='s
  ******************************************************/
 function get_icon_title($phpbb2_icon, $empty=0, $topic_type=-1, $admin=false)
 {
-	global $titanium_lang, $images, $phpEx, $phpbb2_root_path;
+	global $lang, $images, $phpEx, $phpbb2_root_path;
 
 	// get icons parameters
 	include(NUKE_INCLUDE_DIR . 'posting_icons.' . $phpEx);
@@ -277,13 +277,13 @@ function get_icon_title($phpbb2_icon, $empty=0, $topic_type=-1, $admin=false)
 				$res = '<img width="20" align="' . $align . '" src="' . $admin_path . $images['spacer'] . '" alt="" border="0">';
 				break;
 			case 2:
-				$res = isset($titanium_lang[ $phpbb2_icones[$phpbb2_icon_map]['alt'] ]) ? $titanium_lang[ $phpbb2_icones[$phpbb2_icon_map]['alt'] ] : $phpbb2_icones[$phpbb2_icon_map]['alt'];
+				$res = isset($lang[ $phpbb2_icones[$phpbb2_icon_map]['alt'] ]) ? $lang[ $phpbb2_icones[$phpbb2_icon_map]['alt'] ] : $phpbb2_icones[$phpbb2_icon_map]['alt'];
 				break;
 		}
 	}
 	else
 	{
-		$res = '<img align="' . $align . '" src="' . ( isset($images[ $phpbb2_icones[$phpbb2_icon_map]['img'] ]) ? $admin_path . $images[ $phpbb2_icones[$phpbb2_icon_map]['img'] ] : $admin_path . $phpbb2_icones[$phpbb2_icon_map]['img'] ) . '" alt="' . ( isset($titanium_lang[ $phpbb2_icones[$phpbb2_icon_map]['alt'] ]) ? $titanium_lang[ $phpbb2_icones[$phpbb2_icon_map]['alt'] ] : $phpbb2_icones[$phpbb2_icon_map]['alt'] ) . '" border="0">';
+		$res = '<img align="' . $align . '" src="' . ( isset($images[ $phpbb2_icones[$phpbb2_icon_map]['img'] ]) ? $admin_path . $images[ $phpbb2_icones[$phpbb2_icon_map]['img'] ] : $admin_path . $phpbb2_icones[$phpbb2_icon_map]['img'] ) . '" alt="' . ( isset($lang[ $phpbb2_icones[$phpbb2_icon_map]['alt'] ]) ? $lang[ $phpbb2_icones[$phpbb2_icon_map]['alt'] ] : $phpbb2_icones[$phpbb2_icon_map]['alt'] ) . '" border="0">';
 	}
 
 	return $res;
@@ -497,7 +497,7 @@ function set_user_xdata($titanium_user, $which_xdata, $value)
 
     if(!($result = $titanium_db->sql_query($sql)))
     {
-        message_die(GENERAL_ERROR, $titanium_lang['XData_error_obtaining_userdata'], '', __LINE__, __FILE__, $sql);
+        message_die(GENERAL_ERROR, $lang['XData_error_obtaining_userdata'], '', __LINE__, __FILE__, $sql);
     }
 
      $row = $titanium_db->sql_fetchrow($result);
@@ -508,7 +508,7 @@ function set_user_xdata($titanium_user, $which_xdata, $value)
 
     if(!($titanium_db->sql_query($sql)))
     {
-        message_die(GENERAL_ERROR, $titanium_lang['XData_failure_removing_data'], '', __LINE__, __FILE__, $sql);
+        message_die(GENERAL_ERROR, $lang['XData_failure_removing_data'], '', __LINE__, __FILE__, $sql);
     }
 
     if($value !== '')
@@ -519,7 +519,7 @@ function set_user_xdata($titanium_user, $which_xdata, $value)
 
         if(!($titanium_db->sql_query($sql)))
         {
-               message_die(GENERAL_ERROR, $titanium_lang['XData_failure_inserting_data'], '', __LINE__, __FILE__, $sql);
+               message_die(GENERAL_ERROR, $lang['XData_failure_inserting_data'], '', __LINE__, __FILE__, $sql);
         }
     }
 }
@@ -533,7 +533,7 @@ function set_user_xdata($titanium_user, $which_xdata, $value)
  * @param int|string $titanium_user
  * @param bool $force_str
  * @global class $titanium_db
- * @global array $titanium_lang
+ * @global array $lang
  * @return array $data
  */
 function get_user_xdata($titanium_user, $force_str = false)
@@ -564,13 +564,13 @@ function get_user_xdata($titanium_user, $force_str = false)
 
     if(!($result = $titanium_db->sql_query($sql)))
     {
-        message_die(GENERAL_ERROR, $titanium_lang['XData_error_obtaining_user_xdata'], '', __LINE__, __FILE__, $sql);
+        message_die(GENERAL_ERROR, $lang['XData_error_obtaining_user_xdata'], '', __LINE__, __FILE__, $sql);
     }
 
     $data = array();
     while($row = $titanium_db->sql_fetchrow($result))
     {
-        $data[$row['code_name']] = ($row['field_type'] != 'checkbox') ? $row['xdata_value'] : (($row['xdata_value'] == 1) ? $titanium_lang['true'] : $titanium_lang['false']);
+        $data[$row['code_name']] = ($row['field_type'] != 'checkbox') ? $row['xdata_value'] : (($row['xdata_value'] == 1) ? $lang['true'] : $lang['false']);
     }
     $titanium_db->sql_freeresult($result);
 
@@ -619,7 +619,7 @@ function get_xd_metadata($force_refresh = false)
 
         if(!($result = $titanium_db->sql_query($sql)))
         {
-            message_die(GENERAL_ERROR, $titanium_lang['XData_failure_obtaining_field_data'], '', __LINE__, __FILE__, $sql);
+            message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_field_data'], '', __LINE__, __FILE__, $sql);
         }
 
         $data = array();
@@ -672,7 +672,7 @@ function xdata_auth($fields, $titanium_userid, $meta = false)
 				WHERE $field_sql";
         if(!($result = $titanium_db->sql_query($sql)))
         {
-            message_die(GENERAL_ERROR, $titanium_lang['XData_failure_obtaining_field_data'], '', __LINE__, __FILE__, $sql);
+            message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_field_data'], '', __LINE__, __FILE__, $sql);
         }
 
         $meta = array();
@@ -693,7 +693,7 @@ function xdata_auth($fields, $titanium_userid, $meta = false)
 
    if(!($result = $titanium_db->sql_query($sql)))
    {
-        message_die(GENERAL_ERROR, $titanium_lang['XData_failure_obtaining_field_auth'], '', __LINE__, __FILE__, $sql);
+        message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_field_auth'], '', __LINE__, __FILE__, $sql);
    }
 
    $auth = array();
@@ -734,7 +734,7 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
 /*****[BEGIN]******************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
-    global $phpbb2_template, $userdata, $titanium_lang, $titanium_db, $titanium_nav_links, $phpEx, $SID;
+    global $phpbb2_template, $userdata, $lang, $titanium_db, $titanium_nav_links, $phpEx, $SID;
 /*****[END]********************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
@@ -774,7 +774,7 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
         }
 
         $boxstring = '<select name="'.POST_FORUM_URL.'" onchange="if(this.options[this.selectedIndex].value 
-		!= -1){ forms[\'jumpbox\'].submit() }"><option value="-1">'.$titanium_lang['Select_forum'].'</option>';
+		!= -1){ forms[\'jumpbox\'].submit() }"><option value="-1">'.$lang['Select_forum'].'</option>';
 
         $forum_rows = array();
         while($row = $titanium_db->sql_fetchrow($result))
@@ -877,9 +877,9 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
         'jumpbox' => 'jumpbox.tpl')
     );
     $phpbb2_template->assign_vars(array(
-        'L_GO' => $titanium_lang['Go'],
-        'L_JUMP_TO' => $titanium_lang['Jump_to'],
-        'L_SELECT_FORUM' => $titanium_lang['Select_forum'],
+        'L_GO' => $lang['Go'],
+        'L_JUMP_TO' => $lang['Jump_to'],
+        'L_SELECT_FORUM' => $lang['Select_forum'],
 
         'S_JUMPBOX_SELECT' => $boxstring,
         'S_JUMPBOX_ACTION' => append_titanium_sid($action))
@@ -893,7 +893,7 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
 // Initialise user settings on page load
 function titanium_init_userprefs($userdata)
 {
-    global $phpbb2_board_config, $theme, $images, $phpbb2_template, $titanium_lang, $phpEx, $phpbb2_root_path, $titanium_db, $titanium_nav_links;
+    global $phpbb2_board_config, $theme, $images, $phpbb2_template, $lang, $phpEx, $phpbb2_root_path, $titanium_db, $titanium_nav_links;
 
 /*****[BEGIN]******************************************
  [ Mod:     Post Icons                         v1.0.1 ]
@@ -1044,19 +1044,19 @@ function titanium_init_userprefs($userdata)
     //
         $titanium_nav_links['top'] = array (
         'url' => append_titanium_sid("index.$phpEx"),
-        'title' => sprintf($titanium_lang['Forum_Index'], $phpbb2_board_config['sitename'])
+        'title' => sprintf($lang['Forum_Index'], $phpbb2_board_config['sitename'])
     );
         $titanium_nav_links['search'] = array (
         'url' => append_titanium_sid("search.$phpEx"),
-        'title' => $titanium_lang['Search']
+        'title' => $lang['Search']
     );
         $titanium_nav_links['help'] = array (
         'url' => append_titanium_sid("faq.$phpEx"),
-        'title' => $titanium_lang['FAQ']
+        'title' => $lang['FAQ']
     );
         $titanium_nav_links['author'] = array (
         'url' => append_titanium_sid("memberlist.$phpEx"),
-        'title' => $titanium_lang['Memberlist']
+        'title' => $lang['Memberlist']
     );
 
     return;
@@ -1179,7 +1179,7 @@ function create_date($format, $gmepoch, $tz)
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-    global $phpbb2_board_config, $titanium_lang, $userdata, $titanium_pc_dateTime;
+    global $phpbb2_board_config, $lang, $userdata, $titanium_pc_dateTime;
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
@@ -1187,8 +1187,8 @@ function create_date($format, $gmepoch, $tz)
 
     if ( empty($translate) && $phpbb2_board_config['default_lang'] != 'english' )
     {
-        @reset($titanium_lang['datetime']);
-        while ( list($match, $replace) = @each($titanium_lang['datetime']) )
+        @reset($lang['datetime']);
+        while ( list($match, $replace) = @each($lang['datetime']) )
         {
             $translate[$match] = $replace;
         }
@@ -1328,7 +1328,7 @@ function get_page($num_items, $per_page, $phpbb2_start_item)
 //
 function generate_pagination($base_url, $num_items, $per_page, $phpbb2_start_item, $add_prevnext_text = TRUE)
 {
-    global $titanium_lang;
+    global $lang;
 
     $total_phpbb2_pages = ceil($num_items/$per_page);
 
@@ -1412,7 +1412,7 @@ function generate_pagination($base_url, $num_items, $per_page, $phpbb2_start_ite
             {
                 if( $on_page > 1 )
                 {
-                    $page_string = ' <a href="' . append_titanium_sid($base_url . "&amp;start=" . ( ( $on_page - 2 ) * $per_page ) ) . '">' . $titanium_lang['Previous'] . '</a>&nbsp;&nbsp;' . $page_string;
+                    $page_string = ' <a href="' . append_titanium_sid($base_url . "&amp;start=" . ( ( $on_page - 2 ) * $per_page ) ) . '">' . $lang['Previous'] . '</a>&nbsp;&nbsp;' . $page_string;
                 }
             } else {
                 $page_string = '  <a class="page-link'.(( $on_page == 1 ) ? ' disabled' : '').'" href="' . append_titanium_sid($base_url . "&amp;start=" . ( ( $on_page - 2 ) * $per_page ) ) . '">&lt;</a>' . $page_string;
@@ -1425,7 +1425,7 @@ function generate_pagination($base_url, $num_items, $per_page, $phpbb2_start_ite
             {
                 if( $on_page < $total_phpbb2_pages )
                 {
-                    $page_string .= '&nbsp;&nbsp;<a href="' . append_titanium_sid($base_url . "&amp;start=" . ( $on_page * $per_page ) ) . '">' . $titanium_lang['Next'] . '</a>';
+                    $page_string .= '&nbsp;&nbsp;<a href="' . append_titanium_sid($base_url . "&amp;start=" . ( $on_page * $per_page ) ) . '">' . $lang['Next'] . '</a>';
                 }
             } else {
                 $page_string .= '  <a class="page-link'.(( $on_page == $total_phpbb2_pages ) ? ' disabled' : '').'" href="' . append_titanium_sid($base_url . "&amp;start=" . ( $on_page * $per_page ) ) . '">&gt;</a>';
@@ -1449,7 +1449,7 @@ function generate_pagination($base_url, $num_items, $per_page, $phpbb2_start_ite
     else
         $select_page = '';
 
-    // $page_string = $titanium_lang['Goto_page'] . $select_page . ' ' . $page_string;
+    // $page_string = $lang['Goto_page'] . $select_page . ' ' . $page_string;
 /*****[END]********************************************
  [ Mod:    Goto specific page                  v1.0.0 ]
  ******************************************************/
@@ -1523,7 +1523,7 @@ function obtain_word_list(&$orig_word, &$replacement_word)
 //
 function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '', $err_file = '', $sql = '')
 {
-    global $titanium_db, $phpbb2_template, $phpbb2_board_config, $theme, $titanium_lang, $phpEx, $phpbb2_root_path, $titanium_nav_links, $gen_simple_header, $images, $userdata, $titanium_user_ip, $session_length, $phpbb2_starttime;
+    global $titanium_db, $phpbb2_template, $phpbb2_board_config, $theme, $lang, $phpEx, $phpbb2_root_path, $titanium_nav_links, $gen_simple_header, $images, $userdata, $titanium_user_ip, $session_length, $phpbb2_starttime;
     static $has_died, $msg_history;
 	
 	if ( !isset($msg_history) || ( isset($msg_history) && !is_array($msg_history) ) )
@@ -1644,7 +1644,7 @@ function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '',
     //
     if ( !defined('HEADER_INC') && $msg_code != CRITICAL_ERROR )
     {
-        if ( empty($titanium_lang) )
+        if ( empty($lang) )
         {
             if ( !empty($phpbb2_board_config['default_lang']) )
             {
@@ -1700,26 +1700,26 @@ function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '',
         case GENERAL_MESSAGE:
             if ( empty($msg_title) )
             {
-                $msg_title = $titanium_lang['Information'];
+                $msg_title = $lang['Information'];
             }
             break;
 
         case CRITICAL_MESSAGE:
             if ( empty($msg_title) )
             {
-                $msg_title = $titanium_lang['Critical_Information'];
+                $msg_title = $lang['Critical_Information'];
             }
             break;
 
         case GENERAL_ERROR:
             if ( empty($msg_text) )
             {
-                $msg_text = $titanium_lang['An_error_occured'];
+                $msg_text = $lang['An_error_occured'];
             }
 
             if ( empty($msg_title) )
             {
-                $msg_title = $titanium_lang['General_Error'];
+                $msg_title = $lang['General_Error'];
             }
             break;
 
@@ -1728,9 +1728,9 @@ function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '',
             // Critical errors mean we cannot rely on _ANY_ DB information being
             // available so we're going to dump out a simple echo'd statement
             //
-            if (file_exists($phpbb2_root_path . 'language/lang_' . $titanium_lang . 'lang_main.' . $phpEx))
+            if (file_exists($phpbb2_root_path . 'language/lang_' . $lang . 'lang_main.' . $phpEx))
             {
-                include($phpbb2_root_path . 'language/lang_' . $titanium_lang . 'lang_main.' . $phpEx);
+                include($phpbb2_root_path . 'language/lang_' . $lang . 'lang_main.' . $phpEx);
             }
             else
             {
@@ -1741,12 +1741,12 @@ function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '',
 
             if ( empty($msg_text) )
             {
-                $msg_text = $titanium_lang['A_critical_error'];
+                $msg_text = $lang['A_critical_error'];
             }
 
             if ( empty($msg_title) )
             {
-                $msg_title = 'phpBB : <strong>' . $titanium_lang['Critical_Error'] . '</strong>';
+                $msg_title = 'phpBB : <strong>' . $lang['Critical_Error'] . '</strong>';
             }
             break;
     }
@@ -1766,9 +1766,9 @@ function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '',
 
     if ( $msg_code != CRITICAL_ERROR )
     {
-        if ( !empty($titanium_lang[$msg_text]) )
+        if ( !empty($lang[$msg_text]) )
         {
-            $msg_text = $titanium_lang[$msg_text];
+            $msg_text = $lang[$msg_text];
         }
 
         if ( !defined('IN_ADMIN') )
@@ -1860,12 +1860,12 @@ function bblogin($titanium_session_id) {
                         } else {
                         }
                     } else {
-                        $message = $titanium_lang['Error_login'] . "<br /><br />" . sprintf($titanium_lang['Click_return_login'], "<a href=\"" . append_titanium_sid("login.$phpEx?$redirect") . "\">", "</a> ") . "<br /><br />" .  sprintf($titanium_lang['Click_return_index'], "<a href=\"" . append_titanium_sid("index.$phpEx") . "\">", "</a> ");
+                        $message = $lang['Error_login'] . "<br /><br />" . sprintf($lang['Click_return_login'], "<a href=\"" . append_titanium_sid("login.$phpEx?$redirect") . "\">", "</a> ") . "<br /><br />" .  sprintf($lang['Click_return_index'], "<a href=\"" . append_titanium_sid("index.$phpEx") . "\">", "</a> ");
                         message_die(GENERAL_MESSAGE, $message);
                     }
                 }
             } else {
-                $message = $titanium_lang['Error_login'] . "<br /><br />" . sprintf($titanium_lang['Click_return_login'], "<a href=\"" . append_titanium_sid("login.$phpEx?$redirect") . "\">", "</a> ") . "<br /><br />" .  sprintf($titanium_lang['Click_return_index'], "<a href=\"" . append_titanium_sid("index.$phpEx") . "\">", "</a> ");
+                $message = $lang['Error_login'] . "<br /><br />" . sprintf($lang['Click_return_login'], "<a href=\"" . append_titanium_sid("login.$phpEx?$redirect") . "\">", "</a> ") . "<br /><br />" .  sprintf($lang['Click_return_index'], "<a href=\"" . append_titanium_sid("index.$phpEx") . "\">", "</a> ");
                 message_die(GENERAL_MESSAGE, $message);
             }
         }
@@ -2002,7 +2002,7 @@ function is_category_collapsed($cat_id)
 //
 function password_check ($mode, $id, $password, $redirect)
 {
-	global $titanium_db, $phpbb2_template, $theme, $phpbb2_board_config, $titanium_lang, $phpEx, $phpbb2_root_path, $gen_simple_header;
+	global $titanium_db, $phpbb2_template, $theme, $phpbb2_board_config, $lang, $phpEx, $phpbb2_root_path, $gen_simple_header;
 	global $userdata;
 	global $HTTP_COOKIE_VARS;
 	$cookie_name = $phpbb2_board_config['cookie_name'];
@@ -2032,7 +2032,7 @@ function password_check ($mode, $id, $password, $redirect)
 	$row = $titanium_db->sql_fetchrow($result);
 	if( $password != $row['password'] )
 	{
-		$message = ( $mode == 'topic' ) ? $titanium_lang['Incorrect_topic_password'] : $titanium_lang['Incorrect_forum_password'];
+		$message = ( $mode == 'topic' ) ? $lang['Incorrect_topic_password'] : $lang['Incorrect_forum_password'];
 		message_die(GENERAL_MESSAGE, $message);
 	}
 	$passdata[$id] = md5($password);
@@ -2041,14 +2041,14 @@ function password_check ($mode, $id, $password, $redirect)
 		'META' => '<meta http-equiv="refresh" content="3; url="' . $redirect . '" />'
 		)
 	);
-	$message = $titanium_lang['Password_login_success'] . '<br /><br />' . sprintf($titanium_lang['Click_return_page'], '<a href="' . $redirect . '">', '</a>');
+	$message = $lang['Password_login_success'] . '<br /><br />' . sprintf($lang['Click_return_page'], '<a href="' . $redirect . '">', '</a>');
 	message_die(GENERAL_MESSAGE, $message);
 }
 function password_box ($mode, $s_form_action)
 {
-	global $titanium_db, $phpbb2_template, $theme, $phpbb2_board_config, $titanium_lang, $phpEx, $phpbb2_root_path, $gen_simple_header;
+	global $titanium_db, $phpbb2_template, $theme, $phpbb2_board_config, $lang, $phpEx, $phpbb2_root_path, $gen_simple_header;
 	global $userdata;
-	$l_enter_password = ( $mode == 'topic' ) ? $titanium_lang['Enter_topic_password'] : $titanium_lang['Enter_forum_password'];
+	$l_enter_password = ( $mode == 'topic' ) ? $lang['Enter_topic_password'] : $lang['Enter_forum_password'];
 	$phpbb2_page_title = $l_enter_password;
 	include('includes/page_header.php');
 	$phpbb2_template->set_filenames(array(
@@ -2057,8 +2057,8 @@ function password_box ($mode, $s_form_action)
 	);
 	$phpbb2_template->assign_vars(array(
 		'L_ENTER_PASSWORD' => $l_enter_password,
-		'L_SUBMIT' => $titanium_lang['Submit'],
-		'L_CANCEL' => $titanium_lang['Cancel'],
+		'L_SUBMIT' => $lang['Submit'],
+		'L_CANCEL' => $lang['Cancel'],
 		'S_FORM_ACTION' => $s_form_action
 		)
 	);

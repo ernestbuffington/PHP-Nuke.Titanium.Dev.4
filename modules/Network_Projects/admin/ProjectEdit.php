@@ -218,7 +218,7 @@ if($numrows > 0)
     $member = pjmember_info($member_id);
     $position = pjmemberposition_info($position_id);
     echo "<tr>";
-    $pjimage = pjimage("member.png", $titanium_module_name);
+    $pjimage = pjimage("member.png", $pnt_module);
     echo "<td><img src='$pjimage'></td><td width='100%'>".$member['member_name']."</td>";
     echo "<td><input type='hidden' name='member_ids[]' VALUE='$member_id'><select name='position_ids[]'>";
     $positionlistresult = $titanium_db2->sql_query("SELECT `position_id`, `position_name` FROM `".$network_prefix."_members_positions` ORDER BY `position_weight`");

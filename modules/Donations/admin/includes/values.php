@@ -21,12 +21,12 @@ OpenTable();
     Notes:       Will toss a DonateError if the values are not found
 ================================================================================================*/
 function get_values() {
-    global $titanium_db, $titanium_prefix, $titanium_lang_donate;
+    global $titanium_db, $titanium_prefix, $lang_donate;
     $sql = 'SELECT config_value from `'.$titanium_prefix.'_donators_config` WHERE config_name="values"';
     $result = $titanium_db->sql_query($sql);
     $row = $titanium_db->sql_fetchrow($result);
     $titanium_db->sql_freeresult($result);
-    $values = ($row['config_value']) ? explode(',',$row['config_value']) : DonateError($titanium_lang_donate['VALUES_NF']);
+    $values = ($row['config_value']) ? explode(',',$row['config_value']) : DonateError($lang_donate['VALUES_NF']);
     return $values;
 }
 
@@ -38,11 +38,11 @@ function get_values() {
     Notes:       Will display all the values in the form/table
 ================================================================================================*/
 function display_values($values) {
-    global $titanium_lang_donate, $admin_file;
+    global $lang_donate, $admin_file;
     if (!is_array($values)) {
-        DonateError($titanium_lang_donate['VALUES_ND']);
+        DonateError($lang_donate['VALUES_ND']);
     }
-    echo '<p class="acenter" style="font-size: large; font-weight: bold;">'.$titanium_lang_donate['DONATION_VALUES'].' </p>';
+    echo '<p class="acenter" style="font-size: large; font-weight: bold;">'.$lang_donate['DONATION_VALUES'].' </p>';
     echo '<form id="values" method="post" action="'.$admin_file.'.php?op=Donations&amp;file=values"><table width="7%" border="1" style="margin: auto">';
     for ($i = 1; $i <= 5; $i++) {
         echo '<tr>';
@@ -55,7 +55,7 @@ function display_values($values) {
             echo '</td>';
         echo '</tr>';
     }
-    echo '<td colspan="2"><div align="center"><input type="submit" value="'.$titanium_lang_donate['DONATION_SUBMIT'].'"></div></td>';
+    echo '<td colspan="2"><div align="center"><input type="submit" value="'.$lang_donate['DONATION_SUBMIT'].'"></div></td>';
     echo '</table></form>';
 }
 
@@ -82,7 +82,7 @@ function strip_values() {
     Notes:       Writes new values to the DB
 ================================================================================================*/
 function write_values($values) {
-    global $titanium_db, $titanium_prefix, $titanium_lang_donate;
+    global $titanium_db, $titanium_prefix, $lang_donate;
     $sql = 'UPDATE `'.$titanium_prefix.'_donators_config` SET config_value="'.$values.'" WHERE config_name="values"';
     $titanium_db->sql_query($sql);
 }

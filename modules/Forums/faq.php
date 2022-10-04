@@ -36,8 +36,8 @@ if (!defined('MODULE_FILE')) {
    die ("You can't access this file directly...");
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
-require("modules/".$titanium_module_name."/nukebb.php");
+$pnt_module = basename(dirname(__FILE__));
+require("modules/".$pnt_module."/nukebb.php");
 
 define('IN_PHPBB2', true);
 include($phpbb2_root_path . 'extension.inc');
@@ -62,40 +62,40 @@ $mode = request_var('mode', '');
         switch( $HTTP_GET_VARS['mode'] )
         {
                 case 'bbcode':
-                        $titanium_lang_file = 'lang_bbcode';
-                        $l_title = $titanium_lang['BBCode_guide'];
+                        $lang_file = 'lang_bbcode';
+                        $l_title = $lang['BBCode_guide'];
                         break;
 /*****[BEGIN]******************************************
  [ Mod:    FAQ Admin Addon                     v1.0.0 ]
  ******************************************************/
                 case 'faq_attach':
-                        $titanium_lang_file = 'lang_faq_attach';
-                        $l_title = $titanium_lang['BBCode_attach'];
+                        $lang_file = 'lang_faq_attach';
+                        $l_title = $lang['BBCode_attach'];
                         break;
                 case 'rules':
-                        $titanium_lang_file = 'lang_rules';
-                        $l_title = $titanium_lang['BBCode_rules'];
+                        $lang_file = 'lang_rules';
+                        $l_title = $lang['BBCode_rules'];
                         break;
 /*****[END]********************************************
  [ Mod:    FAQ Admin Addon                     v1.0.0 ]
  ******************************************************/
                 default:
-                        $titanium_lang_file = 'lang_faq';
-                        $l_title = $titanium_lang['FAQ'];
+                        $lang_file = 'lang_faq';
+                        $l_title = $lang['FAQ'];
                         break;
         }
 /*}
 else
 {
-        $titanium_lang_file = 'lang_faq';
-        $l_title = $titanium_lang['FAQ'];
+        $lang_file = 'lang_faq';
+        $l_title = $lang['FAQ'];
 }*/
-include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/' . $titanium_lang_file . '.' . $phpEx);
+include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/' . $lang_file . '.' . $phpEx);
 
 /*****[BEGIN]******************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
-attach_faq_include($titanium_lang_file);
+attach_faq_include($lang_file);
 /*****[END]********************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
@@ -143,7 +143,7 @@ make_jumpbox('viewforum.'.$phpEx);
 
 $phpbb2_template->assign_vars(array(
         'L_FAQ_TITLE' => $l_title,
-        'L_BACK_TO_TOP' => $titanium_lang['Back_to_top'])
+        'L_BACK_TO_TOP' => $lang['Back_to_top'])
 );
 
 for($i = 0; $i < count($faq_block); $i++)

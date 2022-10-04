@@ -47,12 +47,12 @@ $show = intval($show);
 
 define('INDEX_FILE', true);
 
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
 
 $pagetitle = '- '._WEBLINKS;
 
-require_once(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+require_once(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
 
 function weblinks_parent($parentid,$title) 
 {
@@ -73,7 +73,7 @@ function weblinks_parent($parentid,$title)
 
 function weblinks_parentlink($parentid,$title) 
 {
-    global $titanium_prefix, $titanium_db, $titanium_module_name;
+    global $titanium_prefix, $titanium_db, $pnt_module;
     
 	$parentid = intval($parentid);
     $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `cid`, `title`, `parentid` FROM ".$titanium_prefix."_links_categories WHERE cid='$parentid'"));
@@ -81,7 +81,7 @@ function weblinks_parentlink($parentid,$title)
     $ptitle = stripslashes(check_html($row['title'], "nohtml"));
     $pparentid = intval($row['parentid']);
 	if (!empty($ptitle)) 
-	$title="<a href=modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid>$ptitle</a>/".$title;
+	$title="<a href=modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid>$ptitle</a>/".$title;
 	if ($pparentid!=0) 
     $title=weblinks_parentlink($pparentid,$ptitle);
     return $title;
@@ -89,7 +89,7 @@ function weblinks_parentlink($parentid,$title)
 
 function menu($mainlink) 
 {
-    global $titanium_module_name, $query;
+    global $pnt_module, $query;
     
 	OpenTable();
     
@@ -100,28 +100,28 @@ function menu($mainlink)
 	$ThemeSel = get_theme();
     
 	if (file_exists("themes/".$ThemeSel."/images/Web_links/Web_Links.png")):
-    echo "<div align=\"center\"><a href=\"modules.php?name=".$titanium_module_name."\"><img style=\"max-height: 50px;\" src=\"themes/".$ThemeSel."/images/Web_links/Web_Links.png\" border=\"0\" alt=\"\"></a><br /><br />";
+    echo "<div align=\"center\"><a href=\"modules.php?name=".$pnt_module."\"><img style=\"max-height: 50px;\" src=\"themes/".$ThemeSel."/images/Web_links/Web_Links.png\" border=\"0\" alt=\"\"></a><br /><br />";
      
 	else: 
 	
-    echo "<div align=\"center\"><a href=\"modules.php?name=".$titanium_module_name."\"><img style=\"max-height: 50px;\" src=\"modules/".$titanium_module_name."/images/Web_Links.png\" border=\"0\" alt=\"\"></a><br /><br />";
+    echo "<div align=\"center\"><a href=\"modules.php?name=".$pnt_module."\"><img style=\"max-height: 50px;\" src=\"modules/".$pnt_module."/images/Web_Links.png\" border=\"0\" alt=\"\"></a><br /><br />";
     endif;
     
-	echo "<form action=\"modules.php?name=".$titanium_module_name."&amp;l_op=search&amp;query=".$query."\" method=\"post\">"
+	echo "<form action=\"modules.php?name=".$pnt_module."&amp;l_op=search&amp;query=".$query."\" method=\"post\">"
     ."<span class=\"content\"><input class=\"titaniumbutton\" type=\"text\" size=\"25\" name=\"query\"> <input class=\"titaniumbutton\" type=\"submit\" value=\""._SEARCH."\"></span>"
     ."</form>";
     
 	echo "<br /><strong><span class=\"content\"> ";
     
 	if ($mainlink>0): 
-    echo "<a href=\"modules.php?name=".$titanium_module_name."\"><i class=\"bi bi-link\"></i> "._LINKSMAIN."</a>  ";
+    echo "<a href=\"modules.php?name=".$pnt_module."\"><i class=\"bi bi-link\"></i> "._LINKSMAIN."</a>  ";
     endif;
     
-	echo " <a href=\"modules.php?name=".$titanium_module_name."&amp;l_op=AddLink\"><i class=\"bi bi-link\"></i> "._ADDLINK."</a>"
-        ." <a href=\"modules.php?name=".$titanium_module_name."&amp;l_op=NewLinks\"><i class=\"bi bi-link\"></i> "._NEW."</a>"
-        ." <a href=\"modules.php?name=".$titanium_module_name."&amp;l_op=MostPopular\"><i class=\"bi bi-link\"></i> "._POPULAR."</a>"
-        ." <a href=\"modules.php?name=".$titanium_module_name,"&amp;l_op=TopRated\"><i class=\"bi bi-link\"></i> "._TOPRATED."</a>"
-       #."<a href=\"modules.php?name=$titanium_module_name&amp;l_op=RandomLink\"><i class=\"bi bi-link\"></i> "._RANDOM."</a> " <- This is garbage
+	echo " <a href=\"modules.php?name=".$pnt_module."&amp;l_op=AddLink\"><i class=\"bi bi-link\"></i> "._ADDLINK."</a>"
+        ." <a href=\"modules.php?name=".$pnt_module."&amp;l_op=NewLinks\"><i class=\"bi bi-link\"></i> "._NEW."</a>"
+        ." <a href=\"modules.php?name=".$pnt_module."&amp;l_op=MostPopular\"><i class=\"bi bi-link\"></i> "._POPULAR."</a>"
+        ." <a href=\"modules.php?name=".$pnt_module,"&amp;l_op=TopRated\"><i class=\"bi bi-link\"></i> "._TOPRATED."</a>"
+       #."<a href=\"modules.php?name=$pnt_module&amp;l_op=RandomLink\"><i class=\"bi bi-link\"></i> "._RANDOM."</a> " <- This is garbage
         ."</strong>"
 	    ."</span></div>";
 
@@ -133,9 +133,9 @@ function menu($mainlink)
 
 function SearchForm() 
 {
-	global $titanium_module_name, $query;
+	global $pnt_module, $query;
 	
-    echo "<form action=\"modules.php?name=".$titanium_module_name,"&amp;l_op=search&amp;query=".$query."\" method=\"post\">"
+    echo "<form action=\"modules.php?name=".$pnt_module,"&amp;l_op=search&amp;query=".$query."\" method=\"post\">"
     ."<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">"
     ."<tr><td><span class=\"content\"><input class=\"titaniumbutton\" type=\"text\" size=\"25\" name=\"query\"> <input class=\"titaniumbutton\" type=\"submit\" value=\""._SEARCH."\"></td></tr>"
     ."</table>"
@@ -144,16 +144,16 @@ function SearchForm()
 
 function linkinfomenu($lid, $ttitle) 
 {
-    global $titanium_module_name, $titanium_user;
+    global $pnt_module, $titanium_user;
     
 	echo "<span class=\"content\"><strong>"
-    ."<i class=\"bi bi-person-square\"></i>&nbsp;<a href=\"modules.php?name=".$titanium_module_name."&amp;l_op=viewlinkcomments&amp;lid=".$lid."&amp;ttitle=".$ttitle."\">"._LINKCOMMENTS."</a>&nbsp;&nbsp;"
-    ."<i class=\"bi bi-info-square\"></i>&nbsp;<a href=\"modules.php?name=".$titanium_module_name."&amp;l_op=viewlinkdetails&amp;lid=".$lid."&amp;ttitle=".$ttitle."\">"._ADDITIONALDET."</a>&nbsp;&nbsp;"
-    ."<i class=\"bi bi-clipboard-data\"></i>&nbsp;<a href=\"modules.php?name=".$titanium_module_name."&amp;l_op=viewlinkeditorial&amp;lid=".$lid."&amp;ttitle=".$ttitle."\">"._EDITORREVIEW."</a>&nbsp;&nbsp;"
-    ."<i class=\"bi bi-pencil-square\"></i>&nbsp;<a href=\"modules.php?name=".$titanium_module_name."&amp;l_op=modifylinkrequest&amp;lid=".$lid."\">"._MODIFY."</a>&nbsp;&nbsp;";
+    ."<i class=\"bi bi-person-square\"></i>&nbsp;<a href=\"modules.php?name=".$pnt_module."&amp;l_op=viewlinkcomments&amp;lid=".$lid."&amp;ttitle=".$ttitle."\">"._LINKCOMMENTS."</a>&nbsp;&nbsp;"
+    ."<i class=\"bi bi-info-square\"></i>&nbsp;<a href=\"modules.php?name=".$pnt_module."&amp;l_op=viewlinkdetails&amp;lid=".$lid."&amp;ttitle=".$ttitle."\">"._ADDITIONALDET."</a>&nbsp;&nbsp;"
+    ."<i class=\"bi bi-clipboard-data\"></i>&nbsp;<a href=\"modules.php?name=".$pnt_module."&amp;l_op=viewlinkeditorial&amp;lid=".$lid."&amp;ttitle=".$ttitle."\">"._EDITORREVIEW."</a>&nbsp;&nbsp;"
+    ."<i class=\"bi bi-pencil-square\"></i>&nbsp;<a href=\"modules.php?name=".$pnt_module."&amp;l_op=modifylinkrequest&amp;lid=".$lid."\">"._MODIFY."</a>&nbsp;&nbsp;";
     
 	if (is_user()):
-    echo "<i class=\"bi bi-backspace-reverse\"></i>&nbsp;<a href=\"modules.php?name=".$titanium_module_name."&amp;l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>&nbsp;&nbsp;";
+    echo "<i class=\"bi bi-backspace-reverse\"></i>&nbsp;<a href=\"modules.php?name=".$pnt_module."&amp;l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>&nbsp;&nbsp;";
     endif;
     echo " </span></strong>";
 }
@@ -262,7 +262,7 @@ function index()
 
 function AddLink() 
 {
-    global $titanium_prefix, $titanium_db, $titanium_user, $links_anonaddlinklock, $titanium_module_name;
+    global $titanium_prefix, $titanium_db, $titanium_user, $links_anonaddlinklock, $pnt_module;
     include_once(NUKE_BASE_DIR.'header.php');
     $mainlink = 1;
     menu(1);
@@ -281,7 +281,7 @@ function AddLink()
         ."<strong><big><i class=\"bi bi-check2-square\"></i></big></strong> "._POSTPENDING."<br />"
         ."<strong><big><i class=\"bi bi-person-bounding-box\"></i></big></strong> "._USERANDIP."<br /><br />"
 		
-            ."<form method=\"post\" action=\"modules.php?name=$titanium_module_name&amp;l_op=Add\">"
+            ."<form method=\"post\" action=\"modules.php?name=$pnt_module&amp;l_op=Add\">"
             ."<i class=\"bi bi-info-square\"></i> "._PAGETITLE.": <input type=\"text\" name=\"title\" size=\"50\" maxlength=\"100\"><br />"
 			."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -354,7 +354,7 @@ function Add($title, $url, $auth_name, $cat, $description, $email) {
 	if (!security_code_check($_POST['g-recaptcha-response'], array(0,1,2,3,4,5,6,7))):
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();
-	$error_message[] = $titanium_lang_new[$titanium_module_name]['reCaptcha'];
+	$error_message[] = $lang_new[$pnt_module]['reCaptcha'];
 	CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 	endif;
@@ -452,7 +452,7 @@ function Add($title, $url, $auth_name, $cat, $description, $email) {
 
 function NewLinks($newlinkshowdays) 
 {
-    global $titanium_prefix, $titanium_db, $titanium_module_name;
+    global $titanium_prefix, $titanium_db, $pnt_module;
     include_once(NUKE_BASE_DIR.'header.php');
     $newlinkshowdays = intval(trim($newlinkshowdays));
     menu(1);
@@ -488,7 +488,7 @@ function NewLinks($newlinkshowdays)
     endwhile;
 	
     echo "<div align=\"center\"><strong>"._TOTALNEWLINKS.":</strong> "._LASTWEEK." - $allweeklinks \ "._LAST30DAYS." - $allmonthlinks<br />"
-    .""._SHOW.": <a href=\"modules.php?name=$titanium_module_name&amp;l_op=NewLinks&amp;newlinkshowdays=7\">"._1WEEK."</a> - <a href=\"modules.php?name=$titanium_module_name&amp;l_op=NewLinks&amp;newlinkshowdays=14\">"._2WEEKS."</a> - <a href=\"modules.php?name=$titanium_module_name&amp;l_op=NewLinks&amp;newlinkshowdays=30\">"._30DAYS."</a>"
+    .""._SHOW.": <a href=\"modules.php?name=$pnt_module&amp;l_op=NewLinks&amp;newlinkshowdays=7\">"._1WEEK."</a> - <a href=\"modules.php?name=$pnt_module&amp;l_op=NewLinks&amp;newlinkshowdays=14\">"._2WEEKS."</a> - <a href=\"modules.php?name=$pnt_module&amp;l_op=NewLinks&amp;newlinkshowdays=30\">"._30DAYS."</a>"
     ."</div><br />";
     
 	/* List Last VARIABLE Days of Links */
@@ -527,7 +527,7 @@ function NewLinks($newlinkshowdays)
 
 function NewLinksDate($selectdate) 
 {
-    global $titanium_prefix, $titanium_db, $titanium_module_name, $admin, $titanium_user, $admin_file, $locale, $mainvotedecimal, $datetime;
+    global $titanium_prefix, $titanium_db, $pnt_module, $admin, $titanium_user, $admin_file, $locale, $mainvotedecimal, $datetime;
     $dateDB = (date("d-M-Y", $selectdate));
     $dateView = (date("F d, Y", $selectdate));
     include_once(NUKE_BASE_DIR.'header.php');
@@ -571,7 +571,7 @@ function NewLinksDate($selectdate)
       $totalvotes = intval($row2['totalvotes']);
       $totalcomments = $row2['totalcomments'];
       $linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
-      echo "<font size=\"4\"><i class=\"bi bi-link\"></i></font> <a href=\"modules.php?name=$titanium_module_name&amp;l_op=visit&amp;lid=$lid\" target=\"new\">$title</a>";
+      echo "<font size=\"4\"><i class=\"bi bi-link\"></i></font> <a href=\"modules.php?name=$pnt_module&amp;l_op=visit&amp;lid=$lid\" target=\"new\">$title</a>";
       newlinkgraphic($datetime, $time);
       popgraphic($hits);
       echo "<br /><i class=\"bi bi-info-square\"></i> $description<br />";
@@ -590,15 +590,15 @@ function NewLinksDate($selectdate)
         if ($linkratingsummary!="0" || $linkratingsummary!="0.0") 
         echo " "._RATING.": $linkratingsummary ($totalvotes $votestring)";
         echo "<br />";
-        if (is_mod_admin($titanium_module_name)) 
+        if (is_mod_admin($pnt_module)) 
         echo "<a href=\"".$admin_file.".php?op=LinksModLink&amp;lid=$lid\">"._EDIT."</a> | ";
-        echo "<a href=\"modules.php?name=$titanium_module_name&amp;l_op=ratelink&amp;lid=$lid&amp;ttitle=$transfertitle\">"._RATESITE."</a>";
+        echo "<a href=\"modules.php?name=$pnt_module&amp;l_op=ratelink&amp;lid=$lid&amp;ttitle=$transfertitle\">"._RATESITE."</a>";
         if (is_user()) 
-        echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=brokenlink&amp;lid=$lid\">"._REPORTBROKEN."</a>";
+        echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=brokenlink&amp;lid=$lid\">"._REPORTBROKEN."</a>";
         if ($totalvotes != 0) 
-        echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlinkdetails&amp;lid=$lid&amp;ttitle=$transfertitle\">"._DETAILS."</a>";
+        echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlinkdetails&amp;lid=$lid&amp;ttitle=$transfertitle\">"._DETAILS."</a>";
         if ($totalcomments != 0) 
-        echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlinkcomments&amp;lid=$lid&amp;ttitle=$transfertitle\">"._SCOMMENTS." ($totalcomments)</a>";
+        echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlinkcomments&amp;lid=$lid&amp;ttitle=$transfertitle\">"._SCOMMENTS." ($totalcomments)</a>";
 	  detecteditorial($lid, $transfertitle);
       echo "<br />";
       $row3 = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT title from ".$titanium_prefix."_links_categories where cid='$cid'"));
@@ -618,10 +618,10 @@ function NewLinksDate($selectdate)
 
 function TopRated($ratenum, $ratetype) 
 {
-    global $titanium_prefix, $titanium_db, $admin, $titanium_module_name, $titanium_user, $locale, $mainvotedecimal, $datetime;
+    global $titanium_prefix, $titanium_db, $admin, $pnt_module, $titanium_user, $locale, $mainvotedecimal, $datetime;
     
 	include_once(NUKE_BASE_DIR.'header.php');
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
 	menu(1);
     OpenTable();
 	
@@ -652,12 +652,12 @@ function TopRated($ratenum, $ratetype)
     
     echo "</td></tr>"
     ."<tr><td><div align=\"center\">"._NOTE." $linkvotemin "._TVOTESREQ."<br />"
-    .""._SHOWTOP.":  [ <a href=\"modules.php?name=$titanium_module_name&amp;l_op=TopRated&amp;ratenum=10&amp;ratetype=num\">10</a> - "
-    ."<a href=\"modules.php?name=$titanium_module_name&amp;l_op=TopRated&amp;ratenum=25&amp;ratetype=num\">25</a> - "
-        ."<a href=\"modules.php?name=$titanium_module_name&amp;l_op=TopRated&amp;ratenum=50&amp;ratetype=num\">50</a> | "
-        ."<a href=\"modules.php?name=$titanium_module_name&amp;l_op=TopRated&amp;ratenum=1&amp;ratetype=percent\">1%</a> - "
-        ."<a href=\"modules.php?name=$titanium_module_name&amp;l_op=TopRated&amp;ratenum=5&amp;ratetype=percent\">5%</a> - "
-        ."<a href=\"modules.php?name=$titanium_module_name&amp;l_op=TopRated&amp;ratenum=10&amp;ratetype=percent\">10%</a> ]</div><br /><br /></td></tr>";
+    .""._SHOWTOP.":  [ <a href=\"modules.php?name=$pnt_module&amp;l_op=TopRated&amp;ratenum=10&amp;ratetype=num\">10</a> - "
+    ."<a href=\"modules.php?name=$pnt_module&amp;l_op=TopRated&amp;ratenum=25&amp;ratetype=num\">25</a> - "
+        ."<a href=\"modules.php?name=$pnt_module&amp;l_op=TopRated&amp;ratenum=50&amp;ratetype=num\">50</a> | "
+        ."<a href=\"modules.php?name=$pnt_module&amp;l_op=TopRated&amp;ratenum=1&amp;ratetype=percent\">1%</a> - "
+        ."<a href=\"modules.php?name=$pnt_module&amp;l_op=TopRated&amp;ratenum=5&amp;ratetype=percent\">5%</a> - "
+        ."<a href=\"modules.php?name=$pnt_module&amp;l_op=TopRated&amp;ratenum=10&amp;ratetype=percent\">10%</a> ]</div><br /><br /></td></tr>";
     
 	$result = $titanium_db->sql_query("SELECT `lid`, 
 	                                 `cid`, 
@@ -686,7 +686,7 @@ function TopRated($ratenum, $ratetype)
       $totalvotes = intval($row['totalvotes']);
       $totalcomments = $row['totalcomments'];
       $linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
-      echo "<a href=\"modules.php?name=$titanium_module_name&amp;l_op=visit&amp;lid=$lid\" target=\"new\">$title</a>";
+      echo "<a href=\"modules.php?name=$pnt_module&amp;l_op=visit&amp;lid=$lid\" target=\"new\">$title</a>";
       newlinkgraphic($datetime, $time);
       popgraphic($hits);
       echo "<br />";
@@ -707,16 +707,16 @@ function TopRated($ratenum, $ratetype)
       if($linkratingsummary != "0" || $linkratingsummary != "0.0") 
       echo " "._RATING.": <strong> $linkratingsummary </strong> ($totalvotes $votestring)";
     
-      echo "<br /><a href=\"modules.php?name=$titanium_module_name&amp;l_op=ratelink&amp;lid=$lid&amp;ttitle=$transfertitle\">"._RATESITE."</a>";
+      echo "<br /><a href=\"modules.php?name=$pnt_module&amp;l_op=ratelink&amp;lid=$lid&amp;ttitle=$transfertitle\">"._RATESITE."</a>";
     
 	  if(is_user()) 
-      echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=brokenlink&amp;lid=$lid\">"._REPORTBROKEN."</a>";
+      echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=brokenlink&amp;lid=$lid\">"._REPORTBROKEN."</a>";
     
       if($totalvotes != 0) 
-      echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlinkdetails&amp;lid=$lid&amp;ttitle=$transfertitle\">"._DETAILS."</a>";
+      echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlinkdetails&amp;lid=$lid&amp;ttitle=$transfertitle\">"._DETAILS."</a>";
     
       if($totalcomments != 0) 
-      echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlinkcomments&amp;lid=$lid&amp;ttitle=$transfertitle\">"._SCOMMENTS." ($totalcomments)</a>";
+      echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlinkcomments&amp;lid=$lid&amp;ttitle=$transfertitle\">"._SCOMMENTS." ($totalcomments)</a>";
     
       detecteditorial($lid, $transfertitle);
     
@@ -741,9 +741,9 @@ function TopRated($ratenum, $ratetype)
 
 function MostPopular($ratenum, $ratetype) 
 {
-    global $titanium_prefix, $titanium_db, $admin, $titanium_module_name, $titanium_user, $admin_file, $locale, $mainvotedecimal, $datetime;
+    global $titanium_prefix, $titanium_db, $admin, $pnt_module, $titanium_user, $admin_file, $locale, $mainvotedecimal, $datetime;
     include_once(NUKE_BASE_DIR.'header.php');
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
     menu(1);
 
     OpenTable();
@@ -774,12 +774,12 @@ function MostPopular($ratenum, $ratetype)
 	else 
     echo "<center><span class=\"option\"><strong><h1>"._MOSTPOPULAR." ".htmlentities($mostpoplinks)."</h1></strong></span></center>";
     
-	echo "<tr><td><center>"._SHOWTOP.": [ <a href=\"modules.php?name=$titanium_module_name&amp;l_op=MostPopular&amp;ratenum=10&amp;ratetype=num\">10</a> - "
-    ."<a href=\"modules.php?name=$titanium_module_name&amp;l_op=MostPopular&amp;ratenum=25&amp;ratetype=num\">25</a> - "
-        ."<a href=\"modules.php?name=$titanium_module_name&amp;l_op=MostPopular&amp;ratenum=50&amp;ratetype=num\">50</a> | "
-        ."<a href=\"modules.php?name=$titanium_module_name&amp;l_op=MostPopular&amp;ratenum=1&amp;ratetype=percent\">1%</a> - "
-        ."<a href=\"modules.php?name=$titanium_module_name&amp;l_op=MostPopular&amp;ratenum=5&amp;ratetype=percent\">5%</a> - "
-        ."<a href=\"modules.php?name=$titanium_module_name&amp;l_op=MostPopular&amp;ratenum=10&amp;ratetype=percent\">10%</a> ]</center><br /><br /></td></tr>";
+	echo "<tr><td><center>"._SHOWTOP.": [ <a href=\"modules.php?name=$pnt_module&amp;l_op=MostPopular&amp;ratenum=10&amp;ratetype=num\">10</a> - "
+    ."<a href=\"modules.php?name=$pnt_module&amp;l_op=MostPopular&amp;ratenum=25&amp;ratetype=num\">25</a> - "
+        ."<a href=\"modules.php?name=$pnt_module&amp;l_op=MostPopular&amp;ratenum=50&amp;ratetype=num\">50</a> | "
+        ."<a href=\"modules.php?name=$pnt_module&amp;l_op=MostPopular&amp;ratenum=1&amp;ratetype=percent\">1%</a> - "
+        ."<a href=\"modules.php?name=$pnt_module&amp;l_op=MostPopular&amp;ratenum=5&amp;ratetype=percent\">5%</a> - "
+        ."<a href=\"modules.php?name=$pnt_module&amp;l_op=MostPopular&amp;ratenum=10&amp;ratetype=percent\">10%</a> ]</center><br /><br /></td></tr>";
     
 	if(!is_numeric($mostpoplinks)) 
     $mostpoplinks=10;
@@ -815,7 +815,7 @@ function MostPopular($ratenum, $ratetype)
     $linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
     
 	echo "<span class=\"content\"><font size=\"4\"><i class=\"bi bi-link-45deg\"></i></font> <a 
-	href=\"modules.php?name=$titanium_module_name&amp;l_op=visit&amp;lid=$lid\" target=\"new\">$title</a>";
+	href=\"modules.php?name=$pnt_module&amp;l_op=visit&amp;lid=$lid\" target=\"new\">$title</a>";
     
 	newlinkgraphic($datetime, $time);
     popgraphic($hits);
@@ -839,19 +839,19 @@ function MostPopular($ratenum, $ratetype)
     
     echo "<br />";
     
-	if (is_mod_admin($titanium_module_name)) 
+	if (is_mod_admin($pnt_module)) 
     echo "<a href=\"".$admin_file.".php?op=LinksModLink&amp;lid=$lid\">"._EDIT."</a> | ";
     
-    echo "<a href=\"modules.php?name=$titanium_module_name&amp;l_op=ratelink&amp;lid=$lid&amp;ttitle=$transfertitle\">"._RATESITE."</a>";
+    echo "<a href=\"modules.php?name=$pnt_module&amp;l_op=ratelink&amp;lid=$lid&amp;ttitle=$transfertitle\">"._RATESITE."</a>";
     
 	if (is_user()) 
-    echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=brokenlink&amp;lid=$lid\">"._REPORTBROKEN."</a>";
+    echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=brokenlink&amp;lid=$lid\">"._REPORTBROKEN."</a>";
     
     if ($totalvotes != 0) 
-    echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlinkdetails&amp;lid=$lid&amp;ttitle=$transfertitle\">"._DETAILS."</a>";
+    echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlinkdetails&amp;lid=$lid&amp;ttitle=$transfertitle\">"._DETAILS."</a>";
     
     if ($totalcomments != 0) 
-    echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlinkcomments&amp;lid=$lid&amp;ttitle=$transfertitle\">"._SCOMMENTS." ($totalcomments)</a>";
+    echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlinkcomments&amp;lid=$lid&amp;ttitle=$transfertitle\">"._SCOMMENTS." ($totalcomments)</a>";
     
     detecteditorial($lid, $transfertitle);
     
@@ -881,7 +881,7 @@ function RandomLink()
 
 function viewlink($cid, $min, $orderby, $show) 
 {
-    global $titanium_prefix, $titanium_db, $admin, $perpage, $titanium_module_name, $titanium_user, $admin_file, $locale, $mainvotedecimal, $datetime;
+    global $titanium_prefix, $titanium_db, $admin, $perpage, $pnt_module, $titanium_user, $admin_file, $locale, $mainvotedecimal, $datetime;
     
 	$show = intval($show);
 	$max = intval($max);
@@ -925,7 +925,7 @@ function viewlink($cid, $min, $orderby, $show)
     
 	$title=weblinks_parentlink($parentid,$title);
     
-	$title="<a href=modules.php?name=$titanium_module_name>"._MAIN."</a>/$title";
+	$title="<a href=modules.php?name=$pnt_module>"._MAIN."</a>/$title";
     echo "<center><span class=\"option\"><strong><h1>$title</h1></strong></span></center><br />";
     
 	echo "<table border=\"0\" cellspacing=\"10\" cellpadding=\"0\" align=\"center\"><tr>";
@@ -956,7 +956,7 @@ function viewlink($cid, $min, $orderby, $show)
         $title3 = stripslashes(check_html($row3['title'], "nohtml"));
         if ($space>0) 
         echo ",&nbsp;";
-        echo "<span class=\"content\"><a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid3\">$title3</a></span>";
+        echo "<span class=\"content\"><a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid3\">$title3</a></span>";
         $space++;
     endwhile;
     
@@ -985,10 +985,10 @@ function viewlink($cid, $min, $orderby, $show)
 	$orderbyTrans = convertorderbytrans($orderby);
     
 	echo "<center><span class=\"content\">"._SORTLINKSBY.": "
-        .""._TITLE." (<a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=titleA\">A</a>\<a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=titleD\">D</a>) "
-        .""._DATE." (<a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=dateA\">A</a>\<a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=dateD\">D</a>) "
-        .""._RATING." (<a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=ratingA\">A</a>\<a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=ratingD\">D</a>) "
-        .""._POPULARITY." (<a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=hitsA\">A</a>\<a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=hitsD\">D</a>)"
+        .""._TITLE." (<a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=titleA\">A</a>\<a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=titleD\">D</a>) "
+        .""._DATE." (<a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=dateA\">A</a>\<a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=dateD\">D</a>) "
+        .""._RATING." (<a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=ratingA\">A</a>\<a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=ratingD\">D</a>) "
+        .""._POPULARITY." (<a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=hitsA\">A</a>\<a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid&amp;orderby=hitsD\">D</a>)"
     ."<br /><strong>"._SITESSORTED.": $orderbyTrans</strong></span></center><br /><br />";
     
 	if(!is_numeric($min))
@@ -1030,7 +1030,7 @@ function viewlink($cid, $min, $orderby, $show)
         $totalvotes = intval($row4['totalvotes']);
         $totalcomments = intval($row4['totalcomments']);
     $linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
-        echo "<font size=\"4\"><i class=\"bi bi-link\"></i></font> <a href=\"modules.php?name=$titanium_module_name&amp;l_op=visit&amp;lid=$lid\" target=\"new\"><strong>$title</strong></a>";
+        echo "<font size=\"4\"><i class=\"bi bi-link\"></i></font> <a href=\"modules.php?name=$pnt_module&amp;l_op=visit&amp;lid=$lid\" target=\"new\"><strong>$title</strong></a>";
     newlinkgraphic($datetime, $time);
     popgraphic($hits);
     
@@ -1056,19 +1056,19 @@ function viewlink($cid, $min, $orderby, $show)
     
     echo "<br />";
     
-	if (is_mod_admin($titanium_module_name)) 
+	if (is_mod_admin($pnt_module)) 
     echo "<a href=\"".$admin_file.".php?op=LinksModLink&amp;lid=$lid\">"._EDIT."</a> | ";
     
-    echo "<a href=\"modules.php?name=$titanium_module_name&amp;l_op=ratelink&amp;lid=$lid&amp;ttitle=$transfertitle\">"._RATESITE."</a>";
+    echo "<a href=\"modules.php?name=$pnt_module&amp;l_op=ratelink&amp;lid=$lid&amp;ttitle=$transfertitle\">"._RATESITE."</a>";
     
 	if (is_user()) 
-    echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=brokenlink&amp;lid=$lid\">"._REPORTBROKEN."</a>";
+    echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=brokenlink&amp;lid=$lid\">"._REPORTBROKEN."</a>";
     
     if ($totalvotes != 0) 
-    echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlinkdetails&amp;lid=$lid&amp;ttitle=$transfertitle\">"._DETAILS."</a>";
+    echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlinkdetails&amp;lid=$lid&amp;ttitle=$transfertitle\">"._DETAILS."</a>";
     
     if ($totalcomments != 0) 
-    echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlinkcomments&amp;lid=$lid&amp;ttitle=$transfertitle\">"._SCOMMENTS." ($totalcomments)</a>";
+    echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlinkcomments&amp;lid=$lid&amp;ttitle=$transfertitle\">"._SCOMMENTS." ($totalcomments)</a>";
     
     detecteditorial($lid, $transfertitle);
     
@@ -1100,7 +1100,7 @@ function viewlink($cid, $min, $orderby, $show)
         $prev=$min-$perpage;
       
 	     if ($prev>=0): 
-            echo "&nbsp;&nbsp;<strong>[ <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid&amp;min=$prev&amp;orderby=$orderby&amp;show=$show\">";
+            echo "&nbsp;&nbsp;<strong>[ <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid&amp;min=$prev&amp;orderby=$orderby&amp;show=$show\">";
             echo " &lt;&lt; "._PREVIOUS."</a> ]</strong> ";
          endif;
 		 
@@ -1113,14 +1113,14 @@ function viewlink($cid, $min, $orderby, $show)
  		      if ($counter == $currentpage) 
               echo "<strong>$counter</strong>&nbsp;";
 		      else 
-              echo "<a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid&amp;min=$mintemp&amp;orderby=$orderby&amp;show=$show\">$counter</a> ";
+              echo "<a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid&amp;min=$mintemp&amp;orderby=$orderby&amp;show=$show\">$counter</a> ";
               $counter++;
            endwhile;
          
 		 $next=$min+$perpage;
          
 		 if ($x>=$perpage):
-            echo "&nbsp;&nbsp;<strong>[ <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid&amp;min=$max&amp;orderby=$orderby&amp;show=$show\">";
+            echo "&nbsp;&nbsp;<strong>[ <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid&amp;min=$max&amp;orderby=$orderby&amp;show=$show\">";
             echo " "._NEXT." &gt;&gt;</a> ]</strong> ";
          endif;
 		 
@@ -1139,7 +1139,7 @@ function viewlink($cid, $min, $orderby, $show)
 
 function newlinkgraphic($datetime, $time) 
 {
-    global $titanium_module_name, $locale;
+    global $pnt_module, $locale;
 
     echo "&nbsp;";
 
@@ -1154,11 +1154,11 @@ function newlinkgraphic($datetime, $time)
     $daysold = date("d-M-Y", $startdate);
         if ("$daysold" == "$datetime"): 
             if ($count<=1) 
-              echo "<img src=\"modules/$titanium_module_name/images/new_01.png\" alt=\""._NEWTODAY."\">";
+              echo "<img src=\"modules/$pnt_module/images/new_01.png\" alt=\""._NEWTODAY."\">";
             if ($count<=3 && $count>1) 
-               echo "<img src=\"modules/$titanium_module_name/images/new_03.png\" alt=\""._NEWLAST3DAYS."\">";
+               echo "<img src=\"modules/$pnt_module/images/new_03.png\" alt=\""._NEWLAST3DAYS."\">";
             if ($count<=7 && $count>3) 
-              echo "<img src=\"modules/$titanium_module_name/images/new_07.png\" alt=\""._NEWTHISWEEK."\">";
+              echo "<img src=\"modules/$pnt_module/images/new_07.png\" alt=\""._NEWTHISWEEK."\">";
        endif;
         $count++;
         $startdate = (time()-(86400 * $count));
@@ -1167,7 +1167,7 @@ function newlinkgraphic($datetime, $time)
 
 function categorynewlinkgraphic($cat) 
 {
-    global $titanium_prefix, $titanium_db, $titanium_module_name, $locale;
+    global $titanium_prefix, $titanium_db, $pnt_module, $locale;
     $cat = intval(trim($cat));
     $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT date from ".$titanium_prefix."_links_links where cid='$cat' order by date desc limit 1"));
     $time = $row['date'];
@@ -1185,11 +1185,11 @@ function categorynewlinkgraphic($cat)
     $daysold = date("d-M-Y", $startdate);
         if ("$daysold" == "$datetime"):
         if ($count<=1) 
-        echo "<img src=\"modules/$titanium_module_name/images/new_01.png\" alt=\""._CATNEWTODAY."\">";
+        echo "<img src=\"modules/$pnt_module/images/new_01.png\" alt=\""._CATNEWTODAY."\">";
         if ($count<=3 && $count>1) 
-        echo "<img src=\"modules/$titanium_module_name/images/new_03.png\" alt=\""._CATLAST3DAYS."\">";
+        echo "<img src=\"modules/$pnt_module/images/new_03.png\" alt=\""._CATLAST3DAYS."\">";
         if ($count<=7 && $count>3) 
-        echo "<img src=\"modules/$titanium_module_name/images/new_07.png\" alt=\""._CATTHISWEEK."\">";
+        echo "<img src=\"modules/$pnt_module/images/new_07.png\" alt=\""._CATTHISWEEK."\">";
     endif;
         $count++;
         $startdate = (time()-(86400 * $count));
@@ -1198,10 +1198,10 @@ function categorynewlinkgraphic($cat)
 
 function popgraphic($hits) 
 {
-    global $titanium_module_name;
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    global $pnt_module;
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
     if ($hits>=$popular) 
-    echo "&nbsp;<img src=\"modules/$titanium_module_name/images/pop.gif\" alt=\""._POPULAR."\">";
+    echo "&nbsp;<img src=\"modules/$pnt_module/images/pop.gif\" alt=\""._POPULAR."\">";
 }
 
 function convertorderbyin($orderby) 
@@ -1315,8 +1315,8 @@ function visit($lid)
 
 function search($query, $min, $orderby, $show) 
 {
-    global $titanium_prefix, $titanium_db, $admin, $bgcolor2, $titanium_module_name, $locale, $mainvotedecimal, $datetime;
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    global $titanium_prefix, $titanium_db, $admin, $bgcolor2, $pnt_module, $locale, $mainvotedecimal, $datetime;
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
     include_once(NUKE_BASE_DIR.'header.php');
 
     if (!isset($min)) 
@@ -1397,16 +1397,16 @@ function search($query, $min, $orderby, $show)
                 $parentid3 = intval($row3['parentid']);
             if ($parentid3>0) $title3 = weblinks_parent($parentid3,$title3);
             $title3 = str_replace($query, "<strong>$query</strong>", $title3);
-            echo "<strong><big>&middot;</big></strong>&nbsp;<a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlink&amp;cid=$cid\">$title3</a> ($numrows)<br />";
+            echo "<strong><big>&middot;</big></strong>&nbsp;<a href=\"modules.php?name=$pnt_module&amp;l_op=viewlink&amp;cid=$cid\">$title3</a> ($numrows)<br />";
         endwhile;
     
 	    echo "<br /><table width=\"100%\" bgcolor=\"$bgcolor2\"><tr><td><span class=\"option\"><strong>"._LINKS."</strong></span></td></tr></table>";
         $orderbyTrans = convertorderbytrans($orderby);
         echo "<br /><span class=\"content\">"._SORTLINKSBY.": "
-            .""._TITLE." (<a href=\"modules.php?name=$titanium_module_name&amp;l_op=search&amp;query=$the_query&amp;orderby=titleA\">A</a>\<a href=\"modules.php?name=$titanium_module_name&amp;l_op=search&amp;query=$the_query&amp;orderby=titleD\">D</a>)"
-            .""._DATE." (<a href=\"modules.php?name=$titanium_module_name&amp;l_op=search&amp;query=$the_query&amp;orderby=dateA\">A</a>\<a href=\"modules.php?name=$titanium_module_name&amp;l_op=search&amp;query=$the_query&amp;orderby=dateD\">D</a>)"
-            .""._RATING." (<a href=\"modules.php?name=$titanium_module_name&amp;l_op=search&amp;query=$the_query&amp;orderby=ratingA\">A</a>\<a href=\"modules.php?name=$titanium_module_name&amp;l_op=search&amp;query=$the_query&amp;orderby=ratingD\">D</a>)"
-            .""._POPULARITY." (<a href=\"modules.php?name=$titanium_module_name&amp;l_op=search&amp;query=$the_query&amp;orderby=hitsA\">A</a>\<a href=\"modules.php?name=$titanium_module_name&amp;l_op=search&amp;query=$the_query&amp;orderby=hitsD\">D</a>)"
+            .""._TITLE." (<a href=\"modules.php?name=$pnt_module&amp;l_op=search&amp;query=$the_query&amp;orderby=titleA\">A</a>\<a href=\"modules.php?name=$pnt_module&amp;l_op=search&amp;query=$the_query&amp;orderby=titleD\">D</a>)"
+            .""._DATE." (<a href=\"modules.php?name=$pnt_module&amp;l_op=search&amp;query=$the_query&amp;orderby=dateA\">A</a>\<a href=\"modules.php?name=$pnt_module&amp;l_op=search&amp;query=$the_query&amp;orderby=dateD\">D</a>)"
+            .""._RATING." (<a href=\"modules.php?name=$pnt_module&amp;l_op=search&amp;query=$the_query&amp;orderby=ratingA\">A</a>\<a href=\"modules.php?name=$pnt_module&amp;l_op=search&amp;query=$the_query&amp;orderby=ratingD\">D</a>)"
+            .""._POPULARITY." (<a href=\"modules.php?name=$pnt_module&amp;l_op=search&amp;query=$the_query&amp;orderby=hitsA\">A</a>\<a href=\"modules.php?name=$pnt_module&amp;l_op=search&amp;query=$the_query&amp;orderby=hitsD\">D</a>)"
             ."<br />"._SITESSORTED.": $orderbyTrans<br /><br />";
         
 		while($row = $titanium_db->sql_fetchrow($result)):
@@ -1426,7 +1426,7 @@ function search($query, $min, $orderby, $show)
         $transfertitle = str_replace (" ", "_", $title);
         $title = str_replace($query, "<strong>$query</strong>", $title);
         
-		echo "<a href=\"modules.php?name=$titanium_module_name&amp;l_op=visit&amp;lid=$lid\" target=\"new\">$title</a>";
+		echo "<a href=\"modules.php?name=$pnt_module&amp;l_op=visit&amp;lid=$lid\" target=\"new\">$title</a>";
         
 		newlinkgraphic($datetime, $time);
             popgraphic($hits);
@@ -1452,13 +1452,13 @@ function search($query, $min, $orderby, $show)
         if ($linkratingsummary!="0" || $linkratingsummary!="0.0") 
         echo " "._RATING.": $linkratingsummary ($totalvotes $votestring)";
         
-        echo "<br /><a href=\"modules.php?name=$titanium_module_name&amp;l_op=ratelink&amp;lid=$lid&amp;ttitle=$transfertitle\">"._RATESITE."</a>";
+        echo "<br /><a href=\"modules.php?name=$pnt_module&amp;l_op=ratelink&amp;lid=$lid&amp;ttitle=$transfertitle\">"._RATESITE."</a>";
         
 		if ($totalvotes != 0) 
-        echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlinkdetails&amp;lid=$lid&amp;ttitle=$transfertitle\">"._DETAILS."</a>";
+        echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlinkdetails&amp;lid=$lid&amp;ttitle=$transfertitle\">"._DETAILS."</a>";
         
         if ($totalcomments != 0) 
-        echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlinkcomments&amp;lid=$lid&amp;ttitle=$transfertitle>"._SCOMMENTS." ($totalcomments)</a>";
+        echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlinkcomments&amp;lid=$lid&amp;ttitle=$transfertitle>"._SCOMMENTS." ($totalcomments)</a>";
         
         detecteditorial($lid, $transfertitle);
         
@@ -1502,7 +1502,7 @@ function search($query, $min, $orderby, $show)
         .""._SELECTPAGE.": ";
     $prev=$min-$linksresults;
     if ($prev>=0)
-            echo "&nbsp;&nbsp;<strong>[ <a href=\"modules.php?name=$titanium_module_name&amp;l_op=search&amp;query=$the_query&amp;min=$prev&amp;orderby=$orderby&amp;show=$show\">"
+            echo "&nbsp;&nbsp;<strong>[ <a href=\"modules.php?name=$pnt_module&amp;l_op=search&amp;query=$the_query&amp;min=$prev&amp;orderby=$orderby&amp;show=$show\">"
             ." &lt;&lt; "._PREVIOUS."</a> ]</strong> ";
           
     $counter = 1;
@@ -1514,14 +1514,14 @@ function search($query, $min, $orderby, $show)
          if ($counter == $currentpage) 
          echo "<strong>$counter</strong>&nbsp;";
          else 
-         echo "<a href=\"modules.php?name=$titanium_module_name&amp;l_op=search&amp;query=$the_query&amp;min=$mintemp&amp;orderby=$orderby&amp;show=$show\">$counter</a> ";
+         echo "<a href=\"modules.php?name=$pnt_module&amp;l_op=search&amp;query=$the_query&amp;min=$mintemp&amp;orderby=$orderby&amp;show=$show\">$counter</a> ";
          $counter++;
         endwhile;
 
         $next=$min+$linksresults;
 
         if ($x>=$perpage) 
-            echo "&nbsp;&nbsp;<strong>[ <a href=\"modules.php?name=$titanium_module_name&amp;l_op=search&amp;query=$the_query&amp;min=$max&amp;orderby=$orderby&amp;show=$show\">"
+            echo "&nbsp;&nbsp;<strong>[ <a href=\"modules.php?name=$pnt_module&amp;l_op=search&amp;query=$the_query&amp;min=$max&amp;orderby=$orderby&amp;show=$show\">"
             ." "._NEXT." &gt;&gt;</a> ]</strong>";
     endif;
 
@@ -1545,10 +1545,10 @@ function search($query, $min, $orderby, $show)
 
 function viewlinkeditorial($lid, $ttitle) 
 {
-    global $titanium_prefix, $titanium_db, $admin, $titanium_module_name;
+    global $titanium_prefix, $titanium_db, $admin, $pnt_module;
 
     include_once(NUKE_BASE_DIR.'header.php');
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
     menu(1);
     $lid = intval(trim($lid));
     
@@ -1611,21 +1611,21 @@ function viewlinkeditorial($lid, $ttitle)
 
 function detecteditorial($lid, $ttitle) 
 {
-    global $titanium_prefix, $titanium_db, $titanium_module_name;
+    global $titanium_prefix, $titanium_db, $pnt_module;
     $lid = intval($lid);
     $resulted2 = $titanium_db->sql_query("SELECT adminid FROM ".$titanium_prefix."_links_editorials WHERE linkid='$lid'");
     $recordexist = $titanium_db->sql_numrows($resulted2);
     
 	if ($recordexist != 0) 
-    echo " | <a href=\"modules.php?name=$titanium_module_name&amp;l_op=viewlinkeditorial&amp;lid=$lid&amp;ttitle=$ttitle\">"._EDITORIAL."</a>";
+    echo " | <a href=\"modules.php?name=$pnt_module&amp;l_op=viewlinkeditorial&amp;lid=$lid&amp;ttitle=$ttitle\">"._EDITORIAL."</a>";
     
 }
 
 function viewlinkcomments($lid, $ttitle) 
 {
-    global $titanium_prefix, $titanium_db, $admin, $bgcolor2, $titanium_module_name, $admin_file;
+    global $titanium_prefix, $titanium_db, $admin, $bgcolor2, $pnt_module, $admin_file;
     include_once(NUKE_BASE_DIR.'header.php');
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
     menu(1);
     $lid = intval(trim($lid));
 
@@ -1703,8 +1703,8 @@ function viewlinkcomments($lid, $ttitle)
             ."<td colspan=\"3\">"
             ."<span class=\"content\">";
     
-	    if (is_mod_admin($titanium_module_name)) 
-        echo "<a href=\"".$admin_file.".php?op=LinksModLink&amp;lid=$lid\"><img src=\"modules/$titanium_module_name/images/editicon.gif\" border=\"0\" alt=\""._EDITTHISLINK."\"></a>";
+	    if (is_mod_admin($pnt_module)) 
+        echo "<a href=\"".$admin_file.".php?op=LinksModLink&amp;lid=$lid\"><img src=\"modules/$pnt_module/images/editicon.gif\" border=\"0\" alt=\""._EDITTHISLINK."\"></a>";
         
     echo " $ratingcomments</span>"
         ."<br /><br /><br /></td></tr>";
@@ -1729,10 +1729,10 @@ function viewlinkcomments($lid, $ttitle)
 
 function viewlinkdetails($lid, $ttitle) 
 {
-    global $titanium_prefix, $titanium_db, $admin, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $titanium_module_name, $anonymous;
+    global $titanium_prefix, $titanium_db, $admin, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $pnt_module, $anonymous;
 
     include_once(NUKE_BASE_DIR.'header.php');
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
 
     menu(1);
 
@@ -2146,26 +2146,26 @@ endif;
 
 function linkfooter($lid,$ttitle) 
 {
-    global $titanium_module_name;
+    global $pnt_module;
 
-    echo "<span class=\"content\"> <i class=\"bi bi-globe2\"></i> <a href=\"modules.php?name=$titanium_module_name&amp;l_op=visit&amp;lid=$lid\" target=\"_blank\">"._VISITTHISSITE."</a>&nbsp;&nbsp;<i class=\"bi bi-check-square\"></i> <a href=\"modules.php?name=$titanium_module_name&amp;l_op=ratelink&amp;lid=$lid&amp;ttitle=$ttitle\">"._RATETHISSITE."</a> </span><br /><br />";
+    echo "<span class=\"content\"> <i class=\"bi bi-globe2\"></i> <a href=\"modules.php?name=$pnt_module&amp;l_op=visit&amp;lid=$lid\" target=\"_blank\">"._VISITTHISSITE."</a>&nbsp;&nbsp;<i class=\"bi bi-check-square\"></i> <a href=\"modules.php?name=$pnt_module&amp;l_op=ratelink&amp;lid=$lid&amp;ttitle=$ttitle\">"._RATETHISSITE."</a> </span><br /><br />";
 
     linkfooterchild($lid);
 }
 
 function linkfooterchild($lid) 
 {
-    global $titanium_module_name;
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    global $pnt_module;
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
     if ($useoutsidevoting = 1) 
-    echo "<br /><span class=\"content\">"._ISTHISYOURSITE." <a href=\"modules.php?name=$titanium_module_name&amp;l_op=outsidelinksetup&amp;lid=$lid\">"._ALLOWTORATE."</a></span>";
+    echo "<br /><span class=\"content\">"._ISTHISYOURSITE." <a href=\"modules.php?name=$pnt_module&amp;l_op=outsidelinksetup&amp;lid=$lid\">"._ALLOWTORATE."</a></span>";
 }
 
 function outsidelinksetup($lid) 
 {
-    global $titanium_module_name, $sitename, $nukeurl;
+    global $pnt_module, $sitename, $nukeurl;
     include_once(NUKE_BASE_DIR.'header.php');
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
     menu(1);
 
     OpenTable();
@@ -2182,15 +2182,15 @@ function outsidelinksetup($lid)
 
     echo ''._PROMOTE02.'<br /><br />';
 	
-	echo '<div align="center"><a class=\"titaniumbutton\" href="'.$nukeurl.'/modules.php?name='.$titanium_module_name.'&amp;l_op=ratelink&amp;lid='.$lid.'">'._RATETHISSITE.' @ '.$sitename.'</a></div><br />';
+	echo '<div align="center"><a class=\"titaniumbutton\" href="'.$nukeurl.'/modules.php?name='.$pnt_module.'&amp;l_op=ratelink&amp;lid='.$lid.'">'._RATETHISSITE.' @ '.$sitename.'</a></div><br />';
 
 
     echo '<div align="center">'._HTMLCODE1.'</div><br />';
 
-    echo '<div align="center"><textarea rows="4" cols="50"><a href="'.$nukeurl.'/modules.php?name='.$titanium_module_name.'&amp;l_op=ratelink&amp;lid='.$lid.'">'._RATETHISSITE.' @ '.$sitename.'</a></textarea></div><br /><hr>';
+    echo '<div align="center"><textarea rows="4" cols="50"><a href="'.$nukeurl.'/modules.php?name='.$pnt_module.'&amp;l_op=ratelink&amp;lid='.$lid.'">'._RATETHISSITE.' @ '.$sitename.'</a></textarea></div><br /><hr>';
 
     echo '<div align="center">
-    <form action="modules.php?name='.$titanium_module_name.'" method="post">
+    <form action="modules.php?name='.$pnt_module.'" method="post">
     <input type="hidden" name="lid" value="'.$lid.'">
     <input type="hidden" name="l_op" value="ratelink">
     <input type="submit" value="'._RATEIT.'">
@@ -2201,7 +2201,7 @@ function outsidelinksetup($lid)
 
 
     echo '<div align="center"><textarea rows="6" cols="56">
-    <form action="modules.php?name='.$titanium_module_name.'" method="post">
+    <form action="modules.php?name='.$pnt_module.'" method="post">
     <input type="hidden" name="lid" value="'.$lid.'">
     <input type="hidden" name="l_op" value="ratelink">
     <input type="submit" value="'._RATEIT.'">
@@ -2215,7 +2215,7 @@ function outsidelinksetup($lid)
     echo "<strong>3) "._REMOTEFORM."</strong><br /><br />"; 
 
     echo '<div align="center">';
-    echo '<form method="post" action="'.$nukeurl.'/modules.php?name='.$titanium_module_name.'">';
+    echo '<form method="post" action="'.$nukeurl.'/modules.php?name='.$pnt_module.'">';
     echo '<div align="center"><table align="center" border="0" width="175" cellspacing="0" cellpadding="0">';
     echo '<tr><td align="center"><strong>'._VOTE4THISSITE.'</strong></a></td></tr>';
     echo '<tr><td>';
@@ -2247,7 +2247,7 @@ function outsidelinksetup($lid)
  
     echo '<div align="center"><textarea rows="16" cols="56">';
     echo '<div align="center">';
-    echo '<form method="post" action="'.$nukeurl.'/modules.php?name='.$titanium_module_name.'">';
+    echo '<form method="post" action="'.$nukeurl.'/modules.php?name='.$pnt_module.'">';
     echo '<div align="center"><table align="center" border="0" width="175" cellspacing="0" cellpadding="0">';
     echo '<tr><td align="center"><strong>'._VOTE4THISSITE.'</strong></a></td></tr>';
     echo '<tr><td>';
@@ -2287,11 +2287,11 @@ function outsidelinksetup($lid)
 
 function brokenlink($lid) 
 {
-    global $titanium_prefix, $titanium_db, $titanium_user, $cookie, $titanium_module_name;
+    global $titanium_prefix, $titanium_db, $titanium_user, $cookie, $pnt_module;
 
     if (is_user()): 
     include_once(NUKE_BASE_DIR.'header.php');
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
     $ratinguser = $cookie[1];
     menu(1);
     $lid = intval($lid);
@@ -2308,7 +2308,7 @@ function brokenlink($lid)
     print '</div>'."\n";
 
     echo "<div align=\"center\"><span class=\"option\"><strong><h1>"._REPORTBROKEN."</h1></strong></span><br /><span class=\"content\">";
-    echo "<form action=\"modules.php?name=$titanium_module_name\" method=\"post\">";
+    echo "<form action=\"modules.php?name=$pnt_module\" method=\"post\">";
     echo "<input type=\"hidden\" name=\"lid\" value=\"$lid\">";
     echo "<input type=\"hidden\" name=\"cid\" value=\"$cid\">";
     echo "<input type=\"hidden\" name=\"title\" value=\"$title\">";
@@ -2326,18 +2326,18 @@ function brokenlink($lid)
     include_once(NUKE_BASE_DIR.'footer.php');
      
 	else: 
-    redirect_titanium("modules.php?name=$titanium_module_name");
+    redirect_titanium("modules.php?name=$pnt_module");
 	endif;
 }
 
 function brokenlinkS($lid,$cid, $title, $url, $description, $modifysubmitter) 
 {
 
-    global $titanium_prefix, $titanium_db, $titanium_user, $anonymous, $cookie, $titanium_module_name, $titanium_user, $cache;
+    global $titanium_prefix, $titanium_db, $titanium_user, $anonymous, $cookie, $pnt_module, $titanium_user, $cache;
 
     if (is_user()): 
 	
-        include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+        include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
         $ratinguser = $cookie[1];
         $lid = intval($lid);
         $cid = intval($cid);
@@ -2376,15 +2376,15 @@ function brokenlinkS($lid,$cid, $title, $url, $description, $modifysubmitter)
 		CloseTable();
         include_once(NUKE_BASE_DIR.'footer.php');
     else:
-        redirect_titanium("modules.php?name=$titanium_module_name");
+        redirect_titanium("modules.php?name=$pnt_module");
     endif;
 }
 
 function modifylinkrequest($lid) 
 {
-    global $titanium_prefix, $titanium_db, $titanium_user, $titanium_module_name, $anonymous, $cookie;
+    global $titanium_prefix, $titanium_db, $titanium_user, $pnt_module, $anonymous, $cookie;
     include_once(NUKE_BASE_DIR.'header.php');
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
 
     if(is_user())
     $ratinguser = $cookie[1];
@@ -2420,7 +2420,7 @@ function modifylinkrequest($lid)
             $url = stripslashes($row['url']);
             $description = stripslashes($row['description']);
         
-		    echo "<form action=\"modules.php?name=$titanium_module_name\" method=\"post\">"
+		    echo "<form action=\"modules.php?name=$pnt_module\" method=\"post\">"
             .""._LINKID.": <strong>$lid</strong></center><br /><br />"
             .""._LINKTITLE.":<br /><input type=\"text\" name=\"title\" value=\"$title\" size=\"50\" maxlength=\"100\"><br /><br />"
             .""._URL.":<br /><input type=\"text\" name=\"url\" value=\"$url\" size=\"50\" maxlength=\"100\"><br /><br />"
@@ -2464,8 +2464,8 @@ function modifylinkrequest($lid)
 
 function modifylinkrequestS($lid, $cat, $title, $url, $description, $modifysubmitter) 
 {
-    global $titanium_prefix, $titanium_db, $titanium_user, $titanium_module_name, $cookie, $cache;
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    global $titanium_prefix, $titanium_db, $titanium_user, $pnt_module, $cookie, $cache;
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
 
     if(is_user()) 
     $ratinguser = $cookie[1];
@@ -2562,10 +2562,10 @@ function rateinfo($lid)
 
 function addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments) 
 {
-    global $titanium_prefix, $titanium_db, $cookie, $titanium_user, $titanium_module_name, $anonymous;
+    global $titanium_prefix, $titanium_db, $cookie, $titanium_user, $pnt_module, $anonymous;
     $passtest = "yes";
     include_once(NUKE_BASE_DIR.'header.php');
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
     $ratinglid = intval($ratinglid);
     completevoteheader();
 
@@ -2673,7 +2673,7 @@ function addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingco
         $rating = intval($rating);
     
 	    if ($rating > 10 || $rating < 1):
-          redirect_titanium("modules.php?name=$titanium_module_name&d_op=ratedownload&lid=$ratinglid");
+          redirect_titanium("modules.php?name=$pnt_module&d_op=ratedownload&lid=$ratinglid");
           exit;
         endif;
 		
@@ -2683,7 +2683,7 @@ function addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingco
           /*     Running a SQL statement with your modded calc for ALL links will accomplish this. */
           $voteresult = $titanium_db->sql_query("SELECT rating, ratinguser, ratingcomments FROM ".$titanium_prefix."_links_votedata WHERE ratinglid = '$ratinglid'");
           $totalvotesDB = $titanium_db->sql_numrows($voteresult);
-          include(NUKE_MODULES_DIR.$titanium_module_name.'/voteinclude.php');
+          include(NUKE_MODULES_DIR.$pnt_module.'/voteinclude.php');
           $lid = intval($lid);
           $titanium_db->sql_query("UPDATE ".$titanium_prefix."_links_links SET linkratingsummary='$finalrating',totalvotes='$totalvotesDB',totalcomments='$truecomments' WHERE lid = '$ratinglid'");
           $error = "none";
@@ -2707,9 +2707,9 @@ function completevoteheader(){
 
 function completevotefooter($lid, $ttitle, $ratinguser) 
 {
-    global $titanium_prefix, $titanium_db, $sitename, $titanium_module_name;
+    global $titanium_prefix, $titanium_db, $sitename, $pnt_module;
     
-	include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+	include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
     
 	$lid = intval($lid);
     $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `url` FROM ".$titanium_prefix."_links_links WHERE lid='$lid'"));
@@ -2737,8 +2737,8 @@ function completevotefooter($lid, $ttitle, $ratinguser)
 
 function completevote($error) 
 {
-    global $titanium_module_name;
-    include(NUKE_MODULES_DIR.$titanium_module_name.'/l_config.php');
+    global $pnt_module;
+    include(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
     if ($error == "none") 
 	echo "<div align=\"center\"><span class=\"content\"><strong><h1>"._COMPLETEVOTE1."</h1></strong></span></div>";
     if ($error == "anonflood") 
@@ -2755,7 +2755,7 @@ function completevote($error)
 
 function ratelink($lid, $titanium_user, $ttitle) 
 {
-    global $titanium_prefix, $cookie, $datetime, $titanium_module_name, $identify;
+    global $titanium_prefix, $cookie, $datetime, $pnt_module, $identify;
     include_once(NUKE_BASE_DIR.'header.php');
     menu(1);
 
@@ -2789,7 +2789,7 @@ function ratelink($lid, $titanium_user, $ttitle)
     endif;
     
     echo "</ul>"
-        ."<br /><form method=\"post\" action=\"modules.php?name=$titanium_module_name\">"
+        ."<br /><form method=\"post\" action=\"modules.php?name=$pnt_module\">"
         ."<table border=\"0\" cellpadding=\"1\" cellspacing=\"0\" width=\"100%\">"
         ."<tr><td width=\"25\" nowrap></td>"
         ."<tr><td width=\"25\" nowrap></td><td width=\"550\">"

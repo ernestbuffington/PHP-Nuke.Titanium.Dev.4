@@ -37,8 +37,8 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1") {
-        $titanium_module_name = basename(dirname(__FILE__));
-        require("modules/".$titanium_module_name."/nukebb.php");
+        $pnt_module = basename(dirname(__FILE__));
+        require("modules/".$pnt_module."/nukebb.php");
 } else {
         $phpbb2_root_path = NUKE_FORUMS_DIR;
 }
@@ -120,7 +120,7 @@ titanium_init_userprefs($userdata);
 // check if user is a moderator or an admin
 if (($userdata['user_level'] != MOD) && ($userdata['user_level'] != ADMIN))
 {
-    message_die(GENERAL_MESSAGE, $titanium_lang['Not_Authorised']);
+    message_die(GENERAL_MESSAGE, $lang['Not_Authorised']);
 }
 
 // from topic
@@ -269,7 +269,7 @@ if (($select_from || $select_to) && (!$cancel))
         {
             $pagination .= '<input type="submit" name="page_prec" value="&laquo;" class="titaniumbutton" />&nbsp;';
         }
-        $pagination .= sprintf($titanium_lang['Page_of'], ($phpbb2_start+1), $nbpages) . '&nbsp;';
+        $pagination .= sprintf($lang['Page_of'], ($phpbb2_start+1), $nbpages) . '&nbsp;';
         if ( $phpbb2_start < ($nbpages-1) )
         {
             $pagination .= '<input type="submit" name="page_next" value="&raquo;" class="titaniumbutton" />';
@@ -277,7 +277,7 @@ if (($select_from || $select_to) && (!$cancel))
     }
 
     // set the page title and include the page header
-    $phpbb2_page_title = $titanium_lang['Merge_topics'];
+    $phpbb2_page_title = $lang['Merge_topics'];
     include ('includes/page_header.'.$phpEx);
 
     // template name
@@ -286,7 +286,7 @@ if (($select_from || $select_to) && (!$cancel))
     );
     // header
     $phpbb2_template->assign_vars(array(
-        'L_GO'            => $titanium_lang['Go'],
+        'L_GO'            => $lang['Go'],
         'S_LIST_FORUMS'    => $list_forums,
         'PAGINATION'    => $pagination,
         )
@@ -312,11 +312,11 @@ if (($select_from || $select_to) && (!$cancel))
     // topics list parameters
     $box = 'MERGE_BOX';
     $tpl = '';
-    $list_title = ($select_from) ? $titanium_lang['Merge_topic_from'] : $titanium_lang['Merge_topic_to'];
+    $list_title = ($select_from) ? $lang['Merge_topic_from'] : $lang['Merge_topic_to'];
     $split_type = true;
     $display_nav_tree = false;
-    $footer = '<input type="submit" name="submit" value="' . $titanium_lang['Select'] . '" class="mainoption" />';
-    $footer .= '&nbsp;<input type="submit" name="cancel" value="' . $titanium_lang['Cancel'] . '" class="titaniumbutton" />';
+    $footer = '<input type="submit" name="submit" value="' . $lang['Select'] . '" class="mainoption" />';
+    $footer .= '&nbsp;<input type="submit" name="cancel" value="' . $lang['Cancel'] . '" class="titaniumbutton" />';
     $inbox = false;
     $select_field = 'topic_selected';
     $select_type = 2;
@@ -376,7 +376,7 @@ if ($submit)
     if (!$found)
     {
         $error = true;
-        $error_msg .= (($error_msg != '') ? '<br />' : '') . $titanium_lang['Merge_from_not_found'];
+        $error_msg .= (($error_msg != '') ? '<br />' : '') . $lang['Merge_from_not_found'];
     }
 
     // check if the from topic exists and get the forum_id
@@ -397,7 +397,7 @@ if ($submit)
     if (!$found)
     {
         $error = true;
-        $error_msg .= (($error_msg != '') ? '<br />' : '') . $titanium_lang['Merge_to_not_found'];
+        $error_msg .= (($error_msg != '') ? '<br />' : '') . $lang['Merge_to_not_found'];
     }
 
     // verify the topics are not the same
@@ -406,7 +406,7 @@ if ($submit)
         if ($from_topic_id == $to_topic_id)
         {
             $error = true;
-            $error_msg .= (($error_msg != '') ? '<br />' : '') . $titanium_lang['Merge_topics_equals'];
+            $error_msg .= (($error_msg != '') ? '<br />' : '') . $lang['Merge_topics_equals'];
         }
     }
 
@@ -417,7 +417,7 @@ if ($submit)
         if ( !$phpbb2_is_auth['auth_mod'] )
         {
             $error = true;
-            $error_msg .= (($error_msg != '') ? '<br />' : '') . $titanium_lang['Merge_from_not_authorized'];
+            $error_msg .= (($error_msg != '') ? '<br />' : '') . $lang['Merge_from_not_authorized'];
         }
     }
     if (!empty($to_forum_id))
@@ -426,7 +426,7 @@ if ($submit)
         if ( !$phpbb2_is_auth['auth_mod'] )
         {
             $error = true;
-            $error_msg .= (($error_msg != '') ? '<br />' : '') . $titanium_lang['Merge_to_not_authorized'];
+            $error_msg .= (($error_msg != '') ? '<br />' : '') . $lang['Merge_to_not_authorized'];
         }
     }
 
@@ -440,11 +440,11 @@ if ($submit)
     {
         if ($to_poll)
         {
-            $message .= (($message != '') ? '<br />' : '') . $titanium_lang['Merge_poll_from_and_to'];
+            $message .= (($message != '') ? '<br />' : '') . $lang['Merge_poll_from_and_to'];
         }
         else
         {
-            $message .= (($message != '') ? '<br />' : '') . $titanium_lang['Merge_poll_from'];
+            $message .= (($message != '') ? '<br />' : '') . $lang['Merge_poll_from'];
         }
     }
 
@@ -577,15 +577,15 @@ if ($submit)
         $phpbb2_template->assign_vars(array(
             'META' => '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$to_topic_id") . '">')
         );
-        message_die(GENERAL_MESSAGE, $titanium_lang['Merge_topic_done'] . '<br /><br />' . sprintf($titanium_lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$to_topic_id") . '" class="gen">', '</a>')  . '<br /><br />' . sprintf($titanium_lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '" class="gen">', '</a>'));
+        message_die(GENERAL_MESSAGE, $lang['Merge_topic_done'] . '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$to_topic_id") . '" class="gen">', '</a>')  . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '" class="gen">', '</a>'));
         exit;
     }
     else
     {
         // ask for confirmation
-        $message .= (($message != '') ? '<br />' : '') . sprintf($titanium_lang['Merge_confirm_process'], $from_title, $to_title);
+        $message .= (($message != '') ? '<br />' : '') . sprintf($lang['Merge_confirm_process'], $from_title, $to_title);
 
-        $phpbb2_page_title = $titanium_lang['Merge_topics'];
+        $phpbb2_page_title = $lang['Merge_topics'];
         include ('includes/page_header.'.$phpEx);
         $phpbb2_template->set_filenames(array(
             'body' => 'confirm_body.tpl')
@@ -602,8 +602,8 @@ if ($submit)
         $phpbb2_template->assign_vars(array(
             'MESSAGE_TITLE'        => $phpbb2_page_title,
             'MESSAGE_TEXT'        => $message,
-            'L_YES'                => $titanium_lang['Yes'],
-            'L_NO'                => $titanium_lang['No'],
+            'L_YES'                => $lang['Yes'],
+            'L_NO'                => $lang['No'],
             'S_CONFIRM_ACTION'    => append_titanium_sid("merge.$phpEx"),
             'S_HIDDEN_FIELDS'    => $s_hidden_fields,
             )
@@ -618,7 +618,7 @@ if ($submit)
 //
 // set the page title and include the page header
 //
-$phpbb2_page_title = $titanium_lang['Merge_topics'];
+$phpbb2_page_title = $lang['Merge_topics'];
 include ('includes/page_header.'.$phpEx);
 //
 // template name
@@ -631,17 +631,17 @@ $phpbb2_template->set_filenames(array(
 //
 $phpbb2_template->assign_vars(array(
     'L_TITLE'                => $phpbb2_page_title,
-    'L_TOPIC_TITLE'            => $titanium_lang['Merge_title'],
-    'L_TOPIC_TITLE_EXPLAIN'    => $titanium_lang['Merge_title_explain'],
-    'L_FROM_TOPIC'            => $titanium_lang['Merge_topic_from'],
-    'L_FROM_TOPIC_EXPLAIN'    => $titanium_lang['Merge_topic_from_explain'],
-    'L_TO_TOPIC'            => $titanium_lang['Merge_topic_to'],
-    'L_TO_TOPIC_EXPLAIN'    => $titanium_lang['Merge_topic_to_explain'],
-    'L_SHADOW'                => $titanium_lang['Leave_shadow_topic'],
-    'L_SUBMIT'                => $titanium_lang['Submit'],
-    'L_CANCEL'                => $titanium_lang['Cancel'],
-    'L_REFRESH'                => $titanium_lang['Refresh'],
-    'L_SEARCH'                => $titanium_lang['Select'],
+    'L_TOPIC_TITLE'            => $lang['Merge_title'],
+    'L_TOPIC_TITLE_EXPLAIN'    => $lang['Merge_title_explain'],
+    'L_FROM_TOPIC'            => $lang['Merge_topic_from'],
+    'L_FROM_TOPIC_EXPLAIN'    => $lang['Merge_topic_from_explain'],
+    'L_TO_TOPIC'            => $lang['Merge_topic_to'],
+    'L_TO_TOPIC_EXPLAIN'    => $lang['Merge_topic_to_explain'],
+    'L_SHADOW'                => $lang['Leave_shadow_topic'],
+    'L_SUBMIT'                => $lang['Submit'],
+    'L_CANCEL'                => $lang['Cancel'],
+    'L_REFRESH'                => $lang['Refresh'],
+    'L_SEARCH'                => $lang['Select'],
     )
 );
 if (!empty($to_title) && empty($topic_title))

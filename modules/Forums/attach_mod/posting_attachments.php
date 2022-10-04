@@ -249,7 +249,7 @@ class attach_parent
     */
     function handle_attachments($mode)
     {
-        global $phpbb2_is_auth, $attach_config, $refresh, $HTTP_POST_VARS, $post_id, $submit, $preview, $error, $error_msg, $titanium_lang, $phpbb2_template, $userdata, $titanium_db;
+        global $phpbb2_is_auth, $attach_config, $refresh, $HTTP_POST_VARS, $post_id, $submit, $preview, $error, $error_msg, $lang, $phpbb2_template, $userdata, $titanium_db;
 
         //
         // ok, what shall we do ;)
@@ -387,7 +387,7 @@ class attach_parent
                 $phpbb2_template->assign_block_vars('switch_attachments',array());
 
                 $phpbb2_template->assign_vars(array(
-                    'L_DELETE_ATTACHMENTS'        => $titanium_lang['Delete_attachment'])
+                    'L_DELETE_ATTACHMENTS'        => $lang['Delete_attachment'])
                 );
             }
 			else if (sizeof($attachments) > 0)
@@ -395,7 +395,7 @@ class attach_parent
                 $phpbb2_template->assign_block_vars('switch_attachments',array());
 
                 $phpbb2_template->assign_vars(array(
-                    'L_DELETE_ATTACHMENTS'        => $titanium_lang['Delete_attachments'])
+                    'L_DELETE_ATTACHMENTS'        => $lang['Delete_attachments'])
                 );
             }
         }
@@ -467,7 +467,7 @@ class attach_parent
                         {
                             $error_msg .= '<br />';
                         }
-                        $error_msg .= sprintf($titanium_lang['Too_many_attachments'], intval($max_attachments));
+                        $error_msg .= sprintf($lang['Too_many_attachments'], intval($max_attachments));
                     }
                 }
             }
@@ -620,7 +620,7 @@ class attach_parent
                         {
                             $error_msg .= '<br />';
                         }
-                        $error_msg .= $titanium_lang['Error_empty_add_attachbox'];
+                        $error_msg .= $lang['Error_empty_add_attachbox'];
                     }
 
                     $this->upload_attachment($this->page);
@@ -659,7 +659,7 @@ class attach_parent
                             {
                                 $error_msg .= '<br />';
                             }
-                            $error_msg .= $titanium_lang['Error_missing_old_entry'];
+                            $error_msg .= $lang['Error_missing_old_entry'];
                         }
 
                         $row = $titanium_db->sql_fetchrow($result);
@@ -737,7 +737,7 @@ class attach_parent
                         {
                             $error_msg .= '<br />';
                         }
-                        $error_msg .= sprintf($titanium_lang['Too_many_attachments'], intval($max_attachments));
+                        $error_msg .= sprintf($lang['Too_many_attachments'], intval($max_attachments));
                     }
                 }
             }
@@ -911,7 +911,7 @@ class attach_parent
     */
     function display_attachment_bodies()
     {
-        global $attach_config, $titanium_db, $phpbb2_is_auth, $titanium_lang, $mode, $phpEx, $phpbb2_template, $upload_dir, $userdata, $HTTP_POST_VARS, $phpbb2_forum_id;
+        global $attach_config, $titanium_db, $phpbb2_is_auth, $lang, $mode, $phpEx, $phpbb2_template, $upload_dir, $userdata, $HTTP_POST_VARS, $phpbb2_forum_id;
         global $phpbb2_root_path;
 
         // Choose what to display
@@ -965,15 +965,15 @@ class attach_parent
         }
 
         $phpbb2_template->assign_vars(array(
-            'L_ATTACH_POSTING_CP'           => $titanium_lang['Attach_posting_cp'],
-            'L_ATTACH_POSTING_CP_EXPLAIN'   => $titanium_lang['Attach_posting_cp_explain'],
-            'L_OPTIONS'                     => $titanium_lang['Options'],
-            'L_ADD_ATTACHMENT_TITLE'        => $titanium_lang['Add_attachment_title'],
-            'L_POSTED_ATTACHMENTS'          => $titanium_lang['Posted_attachments'],
-            'L_FILE_NAME'                   => $titanium_lang['File_name'],
-            'L_FILE_COMMENT'                => $titanium_lang['File_comment'],
-            // 'RULES'                         => '<a href="' . append_titanium_sid($phpbb2_root_path . "attach_rules.$phpEx?f=$u_rules_id") . '" target="_blank">' . $titanium_lang['Allowed_extensions_and_sizes'] . '</a>',
-            'RULES'                         => '<a href="' . append_titanium_sid("attach_rules.$phpEx?f=$u_rules_id") . '" target="_blank">' . $titanium_lang['Allowed_extensions_and_sizes'] . '</a>',
+            'L_ATTACH_POSTING_CP'           => $lang['Attach_posting_cp'],
+            'L_ATTACH_POSTING_CP_EXPLAIN'   => $lang['Attach_posting_cp_explain'],
+            'L_OPTIONS'                     => $lang['Options'],
+            'L_ADD_ATTACHMENT_TITLE'        => $lang['Add_attachment_title'],
+            'L_POSTED_ATTACHMENTS'          => $lang['Posted_attachments'],
+            'L_FILE_NAME'                   => $lang['File_name'],
+            'L_FILE_COMMENT'                => $lang['File_comment'],
+            // 'RULES'                         => '<a href="' . append_titanium_sid($phpbb2_root_path . "attach_rules.$phpEx?f=$u_rules_id") . '" target="_blank">' . $lang['Allowed_extensions_and_sizes'] . '</a>',
+            'RULES'                         => '<a href="' . append_titanium_sid("attach_rules.$phpEx?f=$u_rules_id") . '" target="_blank">' . $lang['Allowed_extensions_and_sizes'] . '</a>',
 
             'S_HIDDEN' => $s_hidden)
         );
@@ -1016,9 +1016,9 @@ class attach_parent
             $form_enctype = 'enctype="multipart/form-data"';
 
             $phpbb2_template->assign_vars(array(
-                'L_ADD_ATTACH_TITLE'    => $titanium_lang['Add_attachment_title'],
-                'L_ADD_ATTACH_EXPLAIN'    => $titanium_lang['Add_attachment_explain'],
-                'L_ADD_ATTACHMENT'        => $titanium_lang['Add_attachment'],
+                'L_ADD_ATTACH_TITLE'    => $lang['Add_attachment_title'],
+                'L_ADD_ATTACH_EXPLAIN'    => $lang['Add_attachment_explain'],
+                'L_ADD_ATTACHMENT'        => $lang['Add_attachment'],
 
                 'FILE_COMMENT'            => $this->file_comment,
                 'FILESIZE'                => $attach_config['max_filesize'],
@@ -1033,12 +1033,12 @@ class attach_parent
             init_display_template('attachbody', '{POSTED_ATTACHMENTS_BODY}', 'posted_attachments_body.tpl');
 
             $phpbb2_template->assign_vars(array(
-                'L_POSTED_ATTACHMENTS'    => $titanium_lang['Posted_attachments'],
-                'L_UPDATE_COMMENT'        => $titanium_lang['Update_comment'],
-                'L_UPLOAD_NEW_VERSION'    => $titanium_lang['Upload_new_version'],
-                'L_DELETE_ATTACHMENT'    => $titanium_lang['Delete_attachment'],
-                'L_DELETE_THUMBNAIL'    => $titanium_lang['Delete_thumbnail'],
-                'L_OPTIONS'                => $titanium_lang['Options'])
+                'L_POSTED_ATTACHMENTS'    => $lang['Posted_attachments'],
+                'L_UPDATE_COMMENT'        => $lang['Update_comment'],
+                'L_UPLOAD_NEW_VERSION'    => $lang['Upload_new_version'],
+                'L_DELETE_ATTACHMENT'    => $lang['Delete_attachment'],
+                'L_DELETE_THUMBNAIL'    => $lang['Delete_thumbnail'],
+                'L_OPTIONS'                => $lang['Options'])
             );
 
 			for ($i = 0; $i < sizeof($this->attachment_list); $i++)
@@ -1082,7 +1082,7 @@ class attach_parent
     */
     function upload_attachment()
     {
-        global $HTTP_POST_FILES, $titanium_db, $HTTP_POST_VARS, $error, $error_msg, $titanium_lang, $attach_config, $userdata, $upload_dir, $phpbb2_forum_id;
+        global $HTTP_POST_FILES, $titanium_db, $HTTP_POST_VARS, $error, $error_msg, $lang, $attach_config, $userdata, $upload_dir, $phpbb2_forum_id;
 
         $this->post_attach = ($this->filename != '') ? TRUE : FALSE;
 
@@ -1131,7 +1131,7 @@ class attach_parent
                 {
                     $error_msg .= '<br />';
                 }
-				$error_msg .= sprintf($titanium_lang['Invalid_filename'], htmlspecialchars($this->filename));
+				$error_msg .= sprintf($lang['Invalid_filename'], htmlspecialchars($this->filename));
             }
 
             // check php upload-size
@@ -1148,11 +1148,11 @@ class attach_parent
 
                 if ($max_size == '')
                 {
-                    $error_msg .= $titanium_lang['Attachment_php_size_na'];
+                    $error_msg .= $lang['Attachment_php_size_na'];
                 }
                 else
                 {
-                    $error_msg .= sprintf($titanium_lang['Attachment_php_size_overrun'], $max_size);
+                    $error_msg .= sprintf($lang['Attachment_php_size_overrun'], $max_size);
                 }
             }
 
@@ -1164,7 +1164,7 @@ class attach_parent
                 {
                     $error_msg .= '<br />';
                 }
-				$error_msg .= sprintf($titanium_lang['Disallowed_extension'], htmlspecialchars($this->extension));
+				$error_msg .= sprintf($lang['Disallowed_extension'], htmlspecialchars($this->extension));
             }
 
             // Check Forum Permissions
@@ -1175,7 +1175,7 @@ class attach_parent
                 {
                     $error_msg .= '<br />';
                 }
-				$error_msg .= sprintf($titanium_lang['Disallowed_extension_within_forum'], htmlspecialchars($this->extension));
+				$error_msg .= sprintf($lang['Disallowed_extension_within_forum'], htmlspecialchars($this->extension));
             }
 
             // Upload File
@@ -1307,7 +1307,7 @@ class attach_parent
 					{
 						$error_msg .= '<br />';
 					}
-					$error_msg .= sprintf($titanium_lang['General_upload_error'], './' . $upload_dir . '/' . $this->attach_filename);
+					$error_msg .= sprintf($lang['General_upload_error'], './' . $upload_dir . '/' . $this->attach_filename);
 				}
 				else
 				{
@@ -1338,7 +1338,7 @@ class attach_parent
 						{
 							$error_msg .= '<br />';
 						}
-						$error_msg .= sprintf($titanium_lang['General_upload_error'], './' . $upload_dir . '/' . $this->attach_filename);
+						$error_msg .= sprintf($lang['General_upload_error'], './' . $upload_dir . '/' . $this->attach_filename);
 					}
 					else if (!in_array($this->extension, $types[$img_info[2]]))
 					{
@@ -1347,7 +1347,7 @@ class attach_parent
 						{
 							$error_msg .= '<br />';
 						}
-						$error_msg .= sprintf($titanium_lang['General_upload_error'], './' . $upload_dir . '/' . $this->attach_filename);
+						$error_msg .= sprintf($lang['General_upload_error'], './' . $upload_dir . '/' . $this->attach_filename);
 						$error_msg .= "<br />Filetype mismatch: expected {$types[$img_info[2]][0]} but {$this->extension} given.";
 					}
 				}
@@ -1365,7 +1365,7 @@ class attach_parent
                         {
                             $error_msg .= '<br />';
                         }
-                        $error_msg .= sprintf($titanium_lang['Error_imagesize'], intval($attach_config['img_max_width']), intval($attach_config['img_max_height']));
+                        $error_msg .= sprintf($lang['Error_imagesize'], intval($attach_config['img_max_width']), intval($attach_config['img_max_height']));
                     }
                 }
             }
@@ -1373,7 +1373,7 @@ class attach_parent
             // check Filesize
             if (!$error && $allowed_filesize != 0 && $this->filesize > $allowed_filesize && $userdata['user_level'] != ADMIN)
             {
-                $size_lang = ($allowed_filesize >= 1048576) ? $titanium_lang['MB'] : ( ($allowed_filesize >= 1024) ? $titanium_lang['KB'] : $titanium_lang['Bytes'] );
+                $size_lang = ($allowed_filesize >= 1048576) ? $lang['MB'] : ( ($allowed_filesize >= 1024) ? $lang['KB'] : $lang['Bytes'] );
 
                 if ($allowed_filesize >= 1048576)
                 {
@@ -1389,7 +1389,7 @@ class attach_parent
                 {
                     $error_msg .= '<br />';
                 }
-                $error_msg .= sprintf($titanium_lang['Attachment_too_big'], $allowed_filesize, $size_lang);
+                $error_msg .= sprintf($lang['Attachment_too_big'], $allowed_filesize, $size_lang);
             }
 
             // Check our complete quota
@@ -1414,7 +1414,7 @@ class attach_parent
                     {
                         $error_msg .= '<br />';
                     }
-                    $error_msg .= $titanium_lang['Attach_quota_reached'];
+                    $error_msg .= $lang['Attach_quota_reached'];
                 }
 
             }
@@ -1472,7 +1472,7 @@ class attach_parent
                     if (($total_phpbb2_filesize + $this->filesize) > $attach_config['upload_filesize_limit'])
                     {
                         $upload_filesize_limit = $attach_config['upload_filesize_limit'];
-                        $size_lang = ($upload_filesize_limit >= 1048576) ? $titanium_lang['MB'] : ( ($upload_filesize_limit >= 1024) ? $titanium_lang['KB'] : $titanium_lang['Bytes'] );
+                        $size_lang = ($upload_filesize_limit >= 1048576) ? $lang['MB'] : ( ($upload_filesize_limit >= 1024) ? $lang['KB'] : $lang['Bytes'] );
 
                         if ($upload_filesize_limit >= 1048576)
                         {
@@ -1488,7 +1488,7 @@ class attach_parent
                         {
                             $error_msg .= '<br />';
                         }
-                        $error_msg .= sprintf($titanium_lang['User_upload_quota_reached'], $upload_filesize_limit, $size_lang);
+                        $error_msg .= sprintf($lang['User_upload_quota_reached'], $upload_filesize_limit, $size_lang);
                     }
                 }
             }
@@ -1507,7 +1507,7 @@ class attach_parent
                         {
                             $error_msg .= '<br />';
                         }
-                        $error_msg .= $titanium_lang['Attach_quota_sender_pm_reached'];
+                        $error_msg .= $lang['Attach_quota_sender_pm_reached'];
                     }
                 }
 
@@ -1532,7 +1532,7 @@ class attach_parent
                             {
                                 $error_msg .= '<br />';
                             }
-                            $error_msg .= sprintf($titanium_lang['Attach_quota_receiver_pm_reached'], $to_user);
+                            $error_msg .= sprintf($lang['Attach_quota_receiver_pm_reached'], $to_user);
                         }
                     }
                 }
@@ -1550,7 +1550,7 @@ class attach_parent
     // Copy the temporary attachment to the right location (copy, move_uploaded_file or ftp)
     function move_uploaded_attachment($upload_mode, $file)
     {
-        global $file_mode, $error, $error_msg, $titanium_lang, $upload_dir;
+        global $file_mode, $error, $error_msg, $lang, $upload_dir;
 
         if (!is_uploaded_file($file))
         {
@@ -1570,7 +1570,7 @@ class attach_parent
                         {
                             $error_msg .= '<br />';
                         }
-                        $error_msg .= sprintf($titanium_lang['General_upload_error'], './' . $upload_dir . '/' . $this->attach_filename);
+                        $error_msg .= sprintf($lang['General_upload_error'], './' . $upload_dir . '/' . $this->attach_filename);
                         return;
                     }
                 }
@@ -1589,7 +1589,7 @@ class attach_parent
                         {
                             $error_msg .= '<br />';
                         }
-                        $error_msg .= sprintf($titanium_lang['General_upload_error'], './' . $upload_dir . '/' . $this->attach_filename);
+                        $error_msg .= sprintf($lang['General_upload_error'], './' . $upload_dir . '/' . $this->attach_filename);
                         return;
                     }
                 }

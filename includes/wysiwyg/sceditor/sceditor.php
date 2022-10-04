@@ -55,7 +55,7 @@ class sceditor
 	
 	function getHtml($name)
 	{
-		global $phpbb2_board_config, $titanium_db, $titanium_prefix, $titanium_lang, $titanium_userinfo;
+		global $phpbb2_board_config, $titanium_db, $titanium_prefix, $lang, $titanium_userinfo;
 		$allowed = true;
 		if($_GET['name'] == 'Profile')
 			$allowed = false;

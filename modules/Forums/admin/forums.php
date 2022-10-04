@@ -41,17 +41,17 @@ if (!defined('ADMIN_FILE')) {
 }
 
 global $titanium_prefix, $titanium_db, $admdata;
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
-if(is_mod_admin($titanium_module_name)) {
+$pnt_module = basename(dirname(dirname(__FILE__)));
+if(is_mod_admin($pnt_module)) {
 
     switch($op) {
     
         case "forums":
-        redirect_titanium("modules/$titanium_module_name/admin/index.php");
+        redirect_titanium("modules/$pnt_module/admin/index.php");
     }
 
 } else {
-    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$titanium_module_name\"");
+    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$pnt_module\"");
 }
 
 ?>

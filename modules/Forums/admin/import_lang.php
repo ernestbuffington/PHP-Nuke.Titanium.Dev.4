@@ -125,19 +125,19 @@ if ($mode == 'import_new_lang' && $submit)
         }
 
         $stream = implode('', @file($filename));
-        $titanium_lang_file = read_pak_file($stream, 'LANGPACK');
+        $lang_file = read_pak_file($stream, 'LANGPACK');
 
         // Prepare the Data
-        $titanium_lang_array = parse_lang_file($titanium_lang_file);
+        $lang_array = parse_lang_file($lang_file);
 
-        $titanium_languages = get_all_installed_languages();
+        $languages = get_all_installed_languages();
         $inst_langs = array();
-        @reset($titanium_lang_array);
-        while (list($titanium_language, $content) = each($titanium_lang_array))
+        @reset($lang_array);
+        while (list($language, $content) = each($lang_array))
         {
-            if (!in_array($titanium_language, $titanium_languages))
+            if (!in_array($language, $languages))
             {
-                $inst_langs[$titanium_language] = $content;
+                $inst_langs[$language] = $content;
             }
         }
 
@@ -146,16 +146,16 @@ if ($mode == 'import_new_lang' && $submit)
             message_die(GENERAL_ERROR, 'All Languages enclosed within this Language Pack are already installed.');
         }
 
-        $titanium_lang_array = $inst_langs;
+        $lang_array = $inst_langs;
 
-        @reset($titanium_lang_array);
-        while (list($key, $data) = @each($titanium_lang_array))
+        @reset($lang_array);
+        while (list($key, $data) = @each($lang_array))
         {
             $titanium_modules = get_modules_from_lang_block($data);
             add_new_language_predefined($key, $titanium_modules);
         }
         
-        message_die(GENERAL_MESSAGE, $titanium_lang['Language_pak_installed']);
+        message_die(GENERAL_MESSAGE, $lang['Language_pak_installed']);
     }
 
     if ( isset($HTTP_POST_VARS['fileselect']) )
@@ -209,21 +209,21 @@ if ($mode == 'import_new_lang' && $submit)
     fclose($fp);
 
     $stream = implode('', @file($filename));
-    $titanium_lang_file = read_pak_file($stream, 'LANGPACK');
+    $lang_file = read_pak_file($stream, 'LANGPACK');
 
     $s_hidden_fields = '<input type="hidden" name="filename" value="' . $filename . '">';
 
     // Prepare the Data
-    $titanium_lang_array = parse_lang_file($titanium_lang_file);
+    $lang_array = parse_lang_file($lang_file);
 
-    $titanium_languages = get_all_installed_languages();
+    $languages = get_all_installed_languages();
     $inst_langs = array();
-    @reset($titanium_lang_array);
-    while (list($titanium_language, $content) = each($titanium_lang_array))
+    @reset($lang_array);
+    while (list($language, $content) = each($lang_array))
     {
-        if (!in_array($titanium_language, $titanium_languages))
+        if (!in_array($language, $languages))
         {
-            $inst_langs[$titanium_language] = $content;
+            $inst_langs[$language] = $content;
         }
     }
 
@@ -232,35 +232,35 @@ if ($mode == 'import_new_lang' && $submit)
         message_die(GENERAL_ERROR, 'All Languages enclosed within this Language Pack are already installed.');
     }
 
-    $titanium_lang_array = $inst_langs;
+    $lang_array = $inst_langs;
 
     // Prepare Template
     $phpbb2_template->assign_block_vars('switch_install_language', array());
 
     $phpbb2_template->assign_vars(array(
-        'L_IMPORT_LANGUAGE' => $titanium_lang['Import_new_language'],
-        'L_IMPORT_LANGUAGE_EXPLAIN' => $titanium_lang['Import_new_language_explain'],
-        'L_INSTALL_LANGUAGE' => $titanium_lang['Install_language'],
-        'L_INSTALL' => $titanium_lang['Install'],
-        'L_LANGUAGE' => $titanium_lang['Language'],
-        'L_MODULES' => $titanium_lang['Modules'])
+        'L_IMPORT_LANGUAGE' => $lang['Import_new_language'],
+        'L_IMPORT_LANGUAGE_EXPLAIN' => $lang['Import_new_language_explain'],
+        'L_INSTALL_LANGUAGE' => $lang['Install_language'],
+        'L_INSTALL' => $lang['Install'],
+        'L_LANGUAGE' => $lang['Language'],
+        'L_MODULES' => $lang['Modules'])
     );
 
-    @reset($titanium_lang_array);
-    while (list($key, $data) = @each($titanium_lang_array))
+    @reset($lang_array);
+    while (list($key, $data) = @each($lang_array))
     {
-        $titanium_language = str_replace('lang_', '', $key);
+        $language = str_replace('lang_', '', $key);
 
         $phpbb2_template->assign_block_vars('languages', array(
-            'LANGUAGE' => $titanium_language)
+            'LANGUAGE' => $language)
         );
 
         $titanium_modules = get_modules_from_lang_block($data);
         @reset($titanium_modules);
-        while (list($titanium_module_name, $titanium_module_data) = each($titanium_modules))
+        while (list($pnt_module, $titanium_module_data) = each($titanium_modules))
         {
             $phpbb2_template->assign_block_vars('languages.modules', array(
-                'MODULE' => $titanium_module_name)
+                'MODULE' => $pnt_module)
             );
         }
     }
@@ -280,7 +280,7 @@ if (($mode == 'import_new_lang') && (!$submit))
 
     if ( (!isset($HTTP_POST_VARS['fileupload'])) && (!isset($HTTP_POST_VARS['fileselect'])) )
     {
-        $titanium_lang_paks = array();
+        $lang_paks = array();
     
         $dir = @opendir($phpbb2_root_path . 'modules/pakfiles');
 
@@ -290,14 +290,14 @@ if (($mode == 'import_new_lang') && (!$submit))
             {
                 if ( preg_match('/\.pak$/i', $file) )
                 {
-                    $titanium_lang_paks[] = $file;
+                    $lang_paks[] = $file;
                 }
             }
         }
 
         @closedir($dir);
 
-        if (count($titanium_lang_paks) > 0)
+        if (count($lang_paks) > 0)
         {
             $phpbb2_template->assign_block_vars('switch_select_lang', array());
 
@@ -307,7 +307,7 @@ if (($mode == 'import_new_lang') && (!$submit))
             {
                 $selected = ($i == 0) ? ' selected="selected"' : '';
 
-                $titanium_module_select_field .= '<option value="' . $titanium_lang_paks[$i] . '"' . $selected . '>' . $titanium_lang_paks[$i] . '</option>';
+                $titanium_module_select_field .= '<option value="' . $lang_paks[$i] . '"' . $selected . '>' . $lang_paks[$i] . '</option>';
             }
     
             $titanium_module_select_field .= '</select>';
@@ -315,7 +315,7 @@ if (($mode == 'import_new_lang') && (!$submit))
             $s_hidden_fields = '<input type="hidden" name="fileselect" value="1">';
 
             $phpbb2_template->assign_vars(array(
-                'L_SELECT_LANGUAGE' => $titanium_lang['Select_language_pak'],
+                'L_SELECT_LANGUAGE' => $lang['Select_language_pak'],
                 'S_SELECT_LANGUAGE' => $titanium_module_select_field,
                 'S_SELECT_HIDDEN_FIELDS' => $s_hidden_fields)
             );
@@ -327,10 +327,10 @@ if (($mode == 'import_new_lang') && (!$submit))
         $s_hidden_fields = '<input type="hidden" name="fileupload" value="1">';
 
         $phpbb2_template->assign_vars(array(
-            'L_IMPORT_LANGUAGE' => $titanium_lang['Import_new_language'],
-            'L_IMPORT_LANGUAGE_EXPLAIN' => $titanium_lang['Import_new_language_explain'],
-            'L_UPLOAD_LANGUAGE' => $titanium_lang['Upload_language_pak'],
-            'L_SUBMIT' => $titanium_lang['Submit'],
+            'L_IMPORT_LANGUAGE' => $lang['Import_new_language'],
+            'L_IMPORT_LANGUAGE_EXPLAIN' => $lang['Import_new_language_explain'],
+            'L_UPLOAD_LANGUAGE' => $lang['Upload_language_pak'],
+            'L_SUBMIT' => $lang['Submit'],
             'S_ACTION' => append_titanium_sid($phpbb2_root_path . 'admin/import_lang.'.$phpEx.'?mode='.$mode),
             'S_UPLOAD_HIDDEN_FIELDS' => $s_hidden_fields)
         );

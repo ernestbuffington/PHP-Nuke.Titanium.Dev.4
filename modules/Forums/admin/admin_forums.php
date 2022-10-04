@@ -364,7 +364,7 @@ if( !empty($HTTP_POST_VARS['password']) )
 {
 	if( !preg_match("#^[A-Za-z0-9]{3,20}$#si", $HTTP_POST_VARS['password']) )
 	{
-		message_die(GENERAL_MESSAGE, $titanium_lang['Only_alpha_num_chars']);
+		message_die(GENERAL_MESSAGE, $lang['Only_alpha_num_chars']);
 	}
 }
 
@@ -379,11 +379,11 @@ if( !empty($mode) )
                         if ($mode == 'editforum')
                         {
                                 # $newmode determines if we are going to INSERT or UPDATE after posting?
-                                $l_title = $titanium_lang['Edit_forum'];
+                                $l_title = $lang['Edit_forum'];
 
                                 $newmode = 'modforum';
 
-                                $buttonvalue = $titanium_lang['Update'];
+                                $buttonvalue = $lang['Update'];
 
                                 $phpbb2_forum_id = intval($HTTP_GET_VARS[POST_FORUM_URL]);
 
@@ -475,11 +475,11 @@ if( !empty($mode) )
                         }
                         else
                         {
-                                $l_title = $titanium_lang['Create_forum'];
+                                $l_title = $lang['Create_forum'];
 
                                 $newmode = 'createforum';
 
-                                $buttonvalue = $titanium_lang['Create_forum'];
+                                $buttonvalue = $lang['Create_forum'];
 
                                 $forumdesc = '';
 /*****[BEGIN]******************************************
@@ -543,16 +543,16 @@ if( !empty($mode) )
 /*****[END]********************************************
  [ Mod:    Colorize Forumtitle                 v1.0.0 ]
  ******************************************************/
-                        # These two options ($titanium_lang['Status_unlocked'] and $titanium_lang['Status_locked']) seem to be missing from
+                        # These two options ($lang['Status_unlocked'] and $lang['Status_locked']) seem to be missing from
                         # the language files.
 
-                        $titanium_lang['Status_unlocked'] = isset($titanium_lang['Status_unlocked']) ? $titanium_lang['Status_unlocked'] : 'Unlocked';
+                        $lang['Status_unlocked'] = isset($lang['Status_unlocked']) ? $lang['Status_unlocked'] : 'Unlocked';
 
-                        $titanium_lang['Status_locked'] = isset($titanium_lang['Status_locked']) ? $titanium_lang['Status_locked'] : 'Locked';
+                        $lang['Status_locked'] = isset($lang['Status_locked']) ? $lang['Status_locked'] : 'Locked';
 
-                        $statuslist = "<option value=\"" . FORUM_UNLOCKED . "\" $forumunlocked>" . $titanium_lang['Status_unlocked'] . "</option>\n";
+                        $statuslist = "<option value=\"" . FORUM_UNLOCKED . "\" $forumunlocked>" . $lang['Status_unlocked'] . "</option>\n";
 
-                        $statuslist .= "<option value=\"" . FORUM_LOCKED . "\" $forumlocked>" . $titanium_lang['Status_locked'] . "</option>\n";
+                        $statuslist .= "<option value=\"" . FORUM_LOCKED . "\" $forumlocked>" . $lang['Status_locked'] . "</option>\n";
 /*****[BEGIN]******************************************
  [ Mod:    Thank You Mod                       v1.1.8 ]
  ******************************************************/
@@ -580,7 +580,7 @@ if( !empty($mode) )
 /*****[BEGIN]******************************************
  [ Mod:    Topic display order                 v1.0.2 ]
  ******************************************************/
-                                'L_FORUM_DISPLAY_SORT' => $titanium_lang['Sort_by'],
+                                'L_FORUM_DISPLAY_SORT' => $lang['Sort_by'],
 
                                 'S_FORUM_DISPLAY_SORT_LIST' => $forum_display_sort_list,
 
@@ -612,11 +612,11 @@ if( !empty($mode) )
 /*****[BEGIN]******************************************
  [ Mod:    Forumtitle as Weblink               v1.2.2 ]
  ******************************************************/ 
-								'L_FORUM_IS_LINK' => $titanium_lang['Forum_is_link'],
+								'L_FORUM_IS_LINK' => $lang['Forum_is_link'],
 
-								'L_FORUM_WEBLINK' => $titanium_lang['Forum_weblink'],
+								'L_FORUM_WEBLINK' => $lang['Forum_weblink'],
 
-								'L_FORUM_LINK_ICON' => $titanium_lang['Forum_link_icon'],
+								'L_FORUM_LINK_ICON' => $lang['Forum_link_icon'],
 /*****[END]********************************************
  [ Mod:    Forumtitle as Weblink               v1.2.2 ]
  ******************************************************/ 
@@ -624,38 +624,38 @@ if( !empty($mode) )
 /*****[BEGIN]******************************************
  [ Mod:    Colorize Forumtitle                 v1.0.0 ]
  ******************************************************/
-                                'L_FORUM_COLOR' => $titanium_lang['Forum_color'],
+                                'L_FORUM_COLOR' => $lang['Forum_color'],
 
-                                'L_FORUM_COLOR_EXPLAIN' => $titanium_lang['Forum_color_explain'],
+                                'L_FORUM_COLOR_EXPLAIN' => $lang['Forum_color_explain'],
 /*****[END]********************************************
  [ Mod:    Colorize Forumtitle                 v1.0.0 ]
  ******************************************************/
-                                'L_FORUM_EXPLAIN' => $titanium_lang['Forum_edit_delete_explain'],
+                                'L_FORUM_EXPLAIN' => $lang['Forum_edit_delete_explain'],
 
-                                'L_FORUM_SETTINGS' => $titanium_lang['Forum_settings'],
+                                'L_FORUM_SETTINGS' => $lang['Forum_settings'],
 
-                                'L_FORUM_NAME' => $titanium_lang['Forum_name'],
+                                'L_FORUM_NAME' => $lang['Forum_name'],
 /*****[BEGIN]******************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
-								//'L_CATEGORY' => $titanium_lang['Category'],
+								//'L_CATEGORY' => $lang['Category'],
 
-								'L_CATEGORY' => $titanium_lang['Category'] . ' / ' . $titanium_lang['Forum'],
+								'L_CATEGORY' => $lang['Category'] . ' / ' . $lang['Forum'],
 /*****[END]********************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
-                                'L_FORUM_DESCRIPTION' => $titanium_lang['Forum_desc'],
+                                'L_FORUM_DESCRIPTION' => $lang['Forum_desc'],
 
-                                'L_FORUM_STATUS' => $titanium_lang['Forum_status'],
-								'L_PASSWORD' => $titanium_lang['Forum_password'],
+                                'L_FORUM_STATUS' => $lang['Forum_status'],
+								'L_PASSWORD' => $lang['Forum_password'],
 /*****[BEGIN]******************************************
  [ Mod:    Thank You Mod                       v1.1.8 ]
  ******************************************************/
-								'L_FORUM_THANK' => $titanium_lang['use_thank'],
+								'L_FORUM_THANK' => $lang['use_thank'],
 
-								'L_YES' => $titanium_lang['Yes'],
+								'L_YES' => $lang['Yes'],
 
-								'L_NO' => $titanium_lang['No'],
+								'L_NO' => $lang['No'],
 /*****[END]********************************************
  [ Mod:    Thank You Mod                       v1.1.8 ]
  ******************************************************/
@@ -663,19 +663,19 @@ if( !empty($mode) )
 /*****[BEGIN]******************************************
  [ Mod:     Forum Icons                        v1.0.4 ]
  ******************************************************/
-								'L_FORUM_ICON' => $titanium_lang['Forum_icon'],
+								'L_FORUM_ICON' => $lang['Forum_icon'],
 /*****[END]********************************************
  [ Mod:     Forum Icons                        v1.0.4 ]
  ******************************************************/
-                                'L_AUTO_PRUNE' => $titanium_lang['Forum_pruning'],
+                                'L_AUTO_PRUNE' => $lang['Forum_pruning'],
 
-                                'L_ENABLED' => $titanium_lang['Enabled'],
+                                'L_ENABLED' => $lang['Enabled'],
 
-                                'L_PRUNE_DAYS' => $titanium_lang['prune_days'],
+                                'L_PRUNE_DAYS' => $lang['prune_days'],
 
-                                'L_PRUNE_FREQ' => $titanium_lang['prune_freq'],
+                                'L_PRUNE_FREQ' => $lang['prune_freq'],
 
-                                'L_DAYS' => $titanium_lang['Days'],
+                                'L_DAYS' => $lang['Days'],
 
                                 'PRUNE_DAYS' => ( isset($pr_row['prune_days']) ) ? $pr_row['prune_days'] : 7,
 
@@ -846,7 +846,7 @@ if( !empty($mode) )
                         {
                                 if( empty($HTTP_POST_VARS['prune_days']) || empty($HTTP_POST_VARS['prune_freq']) )
                                 {
-                                        message_die(GENERAL_MESSAGE, $titanium_lang['Set_prune_data']);
+                                        message_die(GENERAL_MESSAGE, $lang['Set_prune_data']);
                                 }
 
                                 $sql = "INSERT INTO " . PRUNE_TABLE . " (forum_id, prune_days, prune_freq)
@@ -860,9 +860,9 @@ if( !empty($mode) )
                         }
 
 
-                        $message = $titanium_lang['Forums_updated'] . "<br /><br />" 
-						. sprintf($titanium_lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" 
-						. sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $lang['Forums_updated'] . "<br /><br />" 
+						. sprintf($lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" 
+						. sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                         message_die(GENERAL_MESSAGE, $message);
 
@@ -940,7 +940,7 @@ if( !empty($mode) )
                         {
                                 if( empty($HTTP_POST_VARS['prune_days']) || empty($HTTP_POST_VARS['prune_freq']) )
                                 {
-                                        message_die(GENERAL_MESSAGE, $titanium_lang['Set_prune_data']);
+                                        message_die(GENERAL_MESSAGE, $lang['Set_prune_data']);
                                 }
 
                                 $sql = "SELECT *
@@ -975,9 +975,9 @@ if( !empty($mode) )
                                 }
                         }
 
-                        $message = $titanium_lang['Forums_updated'] . "<br /><br />" 
-						. sprintf($titanium_lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" 
-						. sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $lang['Forums_updated'] . "<br /><br />" 
+						. sprintf($lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" 
+						. sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                         message_die(GENERAL_MESSAGE, $message);
                         break;
@@ -1021,9 +1021,9 @@ if( !empty($mode) )
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                        $message = $titanium_lang['Forums_updated'] . "<br /><br />" 
-						. sprintf($titanium_lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" 
-						. sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $lang['Forums_updated'] . "<br /><br />" 
+						. sprintf($lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" 
+						. sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                         message_die(GENERAL_MESSAGE, $message);
                         break;
@@ -1031,7 +1031,7 @@ if( !empty($mode) )
                         # Show form to edit a category
                         $newmode = 'modcat';
 
-                        $buttonvalue = $titanium_lang['Update'];
+                        $buttonvalue = $lang['Update'];
 
                         $cat_id = intval($HTTP_GET_VARS[POST_CAT_URL]);
 
@@ -1049,11 +1049,11 @@ if( !empty($mode) )
 
                                 'CAT_TITLE' => $cat_title,
 
-                                'L_EDIT_CATEGORY' => $titanium_lang['Edit_Category'],
+                                'L_EDIT_CATEGORY' => $lang['Edit_Category'],
 
-                                'L_EDIT_CATEGORY_EXPLAIN' => $titanium_lang['Edit_Category_explain'],
+                                'L_EDIT_CATEGORY_EXPLAIN' => $lang['Edit_Category_explain'],
 
-                                'L_CATEGORY' => $titanium_lang['Category'],
+                                'L_CATEGORY' => $lang['Category'],
 
                                 'S_HIDDEN_FIELDS' => $s_hidden_fields,
 
@@ -1085,9 +1085,9 @@ if( !empty($mode) )
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                        $message = $titanium_lang['Forums_updated'] . "<br /><br />" 
-						. sprintf($titanium_lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" 
-						. sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $lang['Forums_updated'] . "<br /><br />" 
+						. sprintf($lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" 
+						. sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                         message_die(GENERAL_MESSAGE, $message);
                         break;
@@ -1097,13 +1097,13 @@ if( !empty($mode) )
 
                         $select_to = '<select name="to_id">';
 
-                        $select_to .= "<option value=\"-1\"$s>" . $titanium_lang['Delete_all_posts'] . "</option>\n";
+                        $select_to .= "<option value=\"-1\"$s>" . $lang['Delete_all_posts'] . "</option>\n";
 
                         $select_to .= get_list('forum', $phpbb2_forum_id, 0);
 
                         $select_to .= '</select>';
 
-                        $buttonvalue = $titanium_lang['Move_and_Delete'];
+                        $buttonvalue = $lang['Move_and_Delete'];
 
                         $newmode = 'movedelforum';
 
@@ -1121,13 +1121,13 @@ if( !empty($mode) )
 
                                 'NAME' => $name,
 
-                                'L_FORUM_DELETE' => $titanium_lang['Forum_delete'],
+                                'L_FORUM_DELETE' => $lang['Forum_delete'],
 
-                                'L_FORUM_DELETE_EXPLAIN' => $titanium_lang['Forum_delete_explain'],
+                                'L_FORUM_DELETE_EXPLAIN' => $lang['Forum_delete_explain'],
 
-                                'L_MOVE_CONTENTS' => $titanium_lang['Move_contents'],
+                                'L_MOVE_CONTENTS' => $lang['Move_contents'],
 
-                                'L_FORUM_NAME' => $titanium_lang['Forum_name'],
+                                'L_FORUM_NAME' => $lang['Forum_name'],
 
                                 "S_HIDDEN_FIELDS" => $s_hidden_fields,
 
@@ -1352,9 +1352,9 @@ if( !empty($mode) )
                                 message_die(GENERAL_ERROR, "Couldn't delete forum prune information!", "", __LINE__, __FILE__, $sql);
                         }
 
-                        $message = $titanium_lang['Forums_updated'] . "<br /><br />" 
-						. sprintf($titanium_lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" 
-						. sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $lang['Forums_updated'] . "<br /><br />" 
+						. sprintf($lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" 
+						. sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                         message_die(GENERAL_MESSAGE, $message);
                         break;
@@ -1362,7 +1362,7 @@ if( !empty($mode) )
                         // Show form to delete a category
                         $cat_id = intval($HTTP_GET_VARS[POST_CAT_URL]);
 
-                        $buttonvalue = $titanium_lang['Move_and_Delete'];
+                        $buttonvalue = $lang['Move_and_Delete'];
 
                         $newmode = 'movedelcat';
 
@@ -1387,11 +1387,11 @@ if( !empty($mode) )
 
                                 if ($count > 0)
                                 {
-                                        message_die(GENERAL_ERROR, $titanium_lang['Must_delete_forums']);
+                                        message_die(GENERAL_ERROR, $lang['Must_delete_forums']);
                                 }
                                 else
                                 {
-                                        $select_to = $titanium_lang['Nowhere_to_move'];
+                                        $select_to = $lang['Nowhere_to_move'];
                                 }
                         }
                         else
@@ -1413,13 +1413,13 @@ if( !empty($mode) )
 
                                 'NAME' => $name,
 
-                                'L_FORUM_DELETE' => $titanium_lang['Forum_delete'],
+                                'L_FORUM_DELETE' => $lang['Forum_delete'],
 
-                                'L_FORUM_DELETE_EXPLAIN' => $titanium_lang['Forum_delete_explain'],
+                                'L_FORUM_DELETE_EXPLAIN' => $lang['Forum_delete_explain'],
 
-                                'L_MOVE_CONTENTS' => $titanium_lang['Move_contents'],
+                                'L_MOVE_CONTENTS' => $lang['Move_contents'],
 
-                                'L_FORUM_NAME' => $titanium_lang['Forum_name'],
+                                'L_FORUM_NAME' => $lang['Forum_name'],
 
                                 'S_HIDDEN_FIELDS' => $s_hidden_fields,
 
@@ -1484,9 +1484,9 @@ if( !empty($mode) )
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                        $message = $titanium_lang['Forums_updated'] . "<br /><br />" 
-						. sprintf($titanium_lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" 
-						. sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $lang['Forums_updated'] . "<br /><br />" 
+						. sprintf($lang['Click_return_forumadmin'], "<a href=\"" . append_titanium_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" 
+						. sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                         message_die(GENERAL_MESSAGE, $message);
                         break;
@@ -1612,7 +1612,7 @@ if( !empty($mode) )
                         $show_index = TRUE;
                         break;
                 default:
-                        message_die(GENERAL_MESSAGE, $titanium_lang['No_mode']);
+                        message_die(GENERAL_MESSAGE, $lang['No_mode']);
                         break;
         }
 
@@ -1632,23 +1632,23 @@ $phpbb2_template->assign_vars(array(
 
         'S_FORUM_ACTION' => append_titanium_sid("admin_forums.$phpEx"),
 
-        'L_FORUM_TITLE' => $titanium_lang['Forum_admin'],
+        'L_FORUM_TITLE' => $lang['Forum_admin'],
 
-        'L_FORUM_EXPLAIN' => $titanium_lang['Forum_admin_explain'],
+        'L_FORUM_EXPLAIN' => $lang['Forum_admin_explain'],
 
-        'L_CREATE_FORUM' => $titanium_lang['Create_forum'],
+        'L_CREATE_FORUM' => $lang['Create_forum'],
 
-        'L_CREATE_CATEGORY' => $titanium_lang['Create_category'],
+        'L_CREATE_CATEGORY' => $lang['Create_category'],
 
-        'L_EDIT' => $titanium_lang['Edit'],
+        'L_EDIT' => $lang['Edit'],
 
-        'L_DELETE' => $titanium_lang['Delete'],
+        'L_DELETE' => $lang['Delete'],
 
-        'L_MOVE_UP' => $titanium_lang['Move_up'],
+        'L_MOVE_UP' => $lang['Move_up'],
 
-        'L_MOVE_DOWN' => $titanium_lang['Move_down'],
+        'L_MOVE_DOWN' => $lang['Move_down'],
 
-        'L_RESYNC' => $titanium_lang['Resync'])
+        'L_RESYNC' => $lang['Resync'])
 );
 
 $sql = "SELECT cat_id, cat_title, cat_order

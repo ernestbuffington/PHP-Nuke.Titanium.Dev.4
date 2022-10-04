@@ -14,7 +14,7 @@ if (!defined('MODULE_FILE'))
 
 function _file_repository_submitdownload()
 {
-	global $titanium_db, $admin_file, $titanium_lang_new, $titanium_module_name, $settings, $themes, $userinfo, $admin, $titanium_user;
+	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings, $themes, $userinfo, $admin, $titanium_user;
 	OpenTable();
 	_index_navigation_header();
 
@@ -23,10 +23,10 @@ function _file_repository_submitdownload()
 	$categories = $titanium_db->sql_fetchrow( $result );
 
 	echo '<br />';
-	echo '<form action="modules.php?name='.$titanium_module_name.'&amp;action=submitdownload_save" method="post" enctype="multipart/form-data">'."\n";
+	echo '<form action="modules.php?name='.$pnt_module.'&amp;action=submitdownload_save" method="post" enctype="multipart/form-data">'."\n";
 	echo '<table style="width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
-	echo '    <td'._tdcss(false,'center',_sh(),2).'>'._suh($titanium_lang_new[$titanium_module_name]['SUBMITDOWNLOAD_HEADER']).'</td>'."\n";
+	echo '    <td'._tdcss(false,'center',_sh(),2).'>'._suh($lang_new[$pnt_module]['SUBMITDOWNLOAD_HEADER']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	if ($numrows > 0 && $settings['users_can_upload'] == true && _check_users_permissions($settings['group_allowed_to_upload']) == true ):
 
@@ -34,30 +34,30 @@ function _file_repository_submitdownload()
 		echo '    <td'._tdcss(false,'center',_sc(),2).'>Information on how the system works will be posted here.</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
-		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['FILE_TITLE']).'</td>'."\n";
+		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($lang_new[$pnt_module]['FILE_TITLE']).'</td>'."\n";
 		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._input('text','title','250px',$row['title'],false,false,true).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
-		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['PREVIEW']).'</td>'."\n";
+		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($lang_new[$pnt_module]['PREVIEW']).'</td>'."\n";
 		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._input('text','preview','250px',$row['preview']).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
-		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['FILE_VERSION']).'</td>'."\n";
+		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($lang_new[$pnt_module]['FILE_VERSION']).'</td>'."\n";
 		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._input('text','version','100px',$row['version']).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
-		echo '    <td'._tdcss('50%',false,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['CATEGORY']).'</td>'."\n";
+		echo '    <td'._tdcss('50%',false,_sc()).'>'._sut($lang_new[$pnt_module]['CATEGORY']).'</td>'."\n";
 		echo '    <td'._tdcss('50%',false,_sc()).'>'._category_parents_and_children('cid',0,false,true).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '    <td'._tdcss(false,false,_sh(),2).'>'._sut($titanium_lang_new[$titanium_module_name]['FILES']).'</td>'."\n";
+		echo '    <td'._tdcss(false,false,_sh(),2).'>'._sut($lang_new[$pnt_module]['FILES']).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
 		echo '    <td'._tdcss(false,false,_sc(),2).'>';
 		echo '      <table style="width: 100%; white-space: nowrap;" cellpadding="0" cellspacing="0" border="0">';
 		echo '        <tr>';
-		echo '          <td'._tdcss('25%').'>'._sut($titanium_lang_new[$titanium_module_name]['FILE_TITLE']).'</td>'."\n";
-		echo '          <td'._tdcss('75%').'>'._sut($titanium_lang_new[$titanium_module_name]['FILE']).'</td>'."\n";
+		echo '          <td'._tdcss('25%').'>'._sut($lang_new[$pnt_module]['FILE_TITLE']).'</td>'."\n";
+		echo '          <td'._tdcss('75%').'>'._sut($lang_new[$pnt_module]['FILE']).'</td>'."\n";
 		echo '        </tr>';
 		if($settings['users_file_upload_amount'] >= 1):
 
@@ -103,14 +103,14 @@ function _file_repository_submitdownload()
 		echo '    </td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '    <td'._tdcss(false,false,_sh(),2).'>'._sut($titanium_lang_new[$titanium_module_name]['SCREENSHOTS']).'</td>'."\n";
+		echo '    <td'._tdcss(false,false,_sh(),2).'>'._sut($lang_new[$pnt_module]['SCREENSHOTS']).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
 		echo '    <td'._tdcss(false,false,_sc(),2).'>'."\n";
 		echo '      <table style="width: 100%; white-space: nowrap;" cellpadding="0" cellspacing="0" border="0">'."\n";
 		echo '        <tr>'."\n";
-		echo '          <td'._tdcss('25%').'>'._sut($titanium_lang_new[$titanium_module_name]['FILE_TITLE']).'</td>'."\n";
-		echo '          <td'._tdcss('75%').'>'._sut($titanium_lang_new[$titanium_module_name]['FILE']).'</td>'."\n";
+		echo '          <td'._tdcss('25%').'>'._sut($lang_new[$pnt_module]['FILE_TITLE']).'</td>'."\n";
+		echo '          <td'._tdcss('75%').'>'._sut($lang_new[$pnt_module]['FILE']).'</td>'."\n";
 		echo '        <tr>'."\n";
 		if($settings['users_screens_upload_amount'] >= 1):
 
@@ -156,50 +156,50 @@ function _file_repository_submitdownload()
 		echo '    </td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '	  <td'._tdcss(FALSE,FALSE,_sh(),2).'>'._suh($titanium_lang_new[$titanium_module_name]['DESCRIPTION']).'</td>'."\n";
+		echo '	  <td'._tdcss(FALSE,FALSE,_sh(),2).'>'._suh($lang_new[$pnt_module]['DESCRIPTION']).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
 		echo '    <td'._tdcss(FALSE,FALSE,_sc(),2).'>'._textarea('submit_description','').'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '	  <td'._tdcss(FALSE,FALSE,_sh(),2).'>'._suh($titanium_lang_new[$titanium_module_name]['AUTHOR_DETAILS']).'</td>'."\n";
+		echo '	  <td'._tdcss(FALSE,FALSE,_sh(),2).'>'._suh($lang_new[$pnt_module]['AUTHOR_DETAILS']).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
-		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['AUTHOR']).'</td>'."\n";
+		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($lang_new[$pnt_module]['AUTHOR']).'</td>'."\n";
 		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._input('text','author','250px',$row['author'],false,false,false).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
-		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['EMAIL']).'</td>'."\n";
+		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($lang_new[$pnt_module]['EMAIL']).'</td>'."\n";
 		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._input('email','author_email','250px',$row['author_email'],false,false,false).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
-		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['WEBSITE']).'</td>'."\n";
+		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($lang_new[$pnt_module]['WEBSITE']).'</td>'."\n";
 		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._input('text','author_website','250px',$row['author_website']).'</td>'."\n";
 		echo '  </tr>'."\n";
 		// display the submitters information.
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '	  <td'._tdcss(FALSE,FALSE,_sh(),2).'>'._suh($titanium_lang_new[$titanium_module_name]['SUBMITTER_DETAILS']).'</td>'."\n";
+		echo '	  <td'._tdcss(FALSE,FALSE,_sh(),2).'>'._suh($lang_new[$pnt_module]['SUBMITTER_DETAILS']).'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
-		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['SUBMITTER_USERNAME']).'</td>'."\n";
+		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($lang_new[$pnt_module]['SUBMITTER_USERNAME']).'</td>'."\n";
 		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'.$userinfo['username'].'</td>'."\n";
 		echo '  </tr>'."\n";
 		echo '  <tr'._bgColor(1).'>'."\n";
-		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($titanium_lang_new[$titanium_module_name]['SUBMITTER_EMAIL']).'</td>'."\n";
+		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'._sut($lang_new[$pnt_module]['SUBMITTER_EMAIL']).'</td>'."\n";
 		echo '    <td'._tdcss('50%',FALSE,_sc()).'>'.$userinfo['user_email'].'</td>'."\n";
 		echo '  </tr>'."\n";
 
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '    <td'._tdcss(FALSE,'center',_sf(),2).'>'._submit($titanium_lang_new[$titanium_module_name]['SAVE']).'</td>'."\n";
+		echo '    <td'._tdcss(FALSE,'center',_sf(),2).'>'._submit($lang_new[$pnt_module]['SAVE']).'</td>'."\n";
 		echo '  </tr>'."\n";
 
 	else:
 
 		if($settings['users_can_upload'] == false):
 
-			// echo $titanium_lang_new[$titanium_module_name]['USER_UPLOAD_DISABLED'];
+			// echo $lang_new[$pnt_module]['USER_UPLOAD_DISABLED'];
 			echo '  <tr'._bgColor(1).'>'."\n";
-			echo '    <td'._tdcss(false,'center',_sc(),2).'>'.$titanium_lang_new[$titanium_module_name]['USER_UPLOAD_DISABLED'].'</td>'."\n";
+			echo '    <td'._tdcss(false,'center',_sc(),2).'>'.$lang_new[$pnt_module]['USER_UPLOAD_DISABLED'].'</td>'."\n";
 			echo '  </tr>'."\n";
 
 		elseif($numrows == 0):
@@ -245,7 +245,7 @@ function _file_repository_get_file_information($upload)
 
 function _file_repository_delete_on_client_error($did)
 {
-	global $titanium_db, $admin_file, $titanium_lang_new, $titanium_module_name, $settings;
+	global $titanium_db, $admin_file, $lang_new, $pnt_module, $settings;
 	// merge this query into one.
 
 	$did = ($_GET['did']) ? $_GET['did'] : $_POST['did'];
@@ -274,7 +274,7 @@ function _file_repository_delete_on_client_error($did)
 
 function _file_repository_save_submitdownload()
 {
-	global $titanium_db, $admin_file, $titanium_module_name, $userinfo, $settings;
+	global $titanium_db, $admin_file, $pnt_module, $userinfo, $settings;
 
 	// $_FILES['userfile'] = array();
 
@@ -424,17 +424,17 @@ function _file_repository_save_submitdownload()
 		if (count( $error_messages ) > 0):
 			_file_respotiroy_error_messages( $error_messages );
 		else:
-			_redirect_titanium('modules.php?name='.$titanium_module_name.'&action=submitdownload_success');
+			_redirect_titanium('modules.php?name='.$pnt_module.'&action=submitdownload_success');
 		endif;
 
 	else:
-		_redirect_titanium('modules.php?name='.$titanium_module_name);
+		_redirect_titanium('modules.php?name='.$pnt_module);
 	endif;
 }
 
 function _file_respotiroy_error_messages( $error_messages )
 {
-	global $titanium_lang_new, $titanium_module_name, $settings, $userinfo;
+	global $lang_new, $pnt_module, $settings, $userinfo;
 	OpenTable();
 	echo '<div style="text-align: center;">';
 	echo '<h2>There seems to have been a problem '.$userinfo['username'].'</h2>';
@@ -454,10 +454,10 @@ function _file_respotiroy_error_messages( $error_messages )
 
 function _file_repository_success_submitdownload()
 {
-	global $titanium_lang_new, $titanium_module_name, $settings, $userinfo;
+	global $lang_new, $pnt_module, $settings, $userinfo;
 	OpenTable();
 	echo '<div style="text-align: center;">';
-	echo '<p>'.sprintf($titanium_lang_new[$titanium_module_name]['SUBMITDOWNLOAD_SUCCESS'], $userinfo['username']).'</p>';
+	echo '<p>'.sprintf($lang_new[$pnt_module]['SUBMITDOWNLOAD_SUCCESS'], $userinfo['username']).'</p>';
 	echo '</div>';
 	CloseTable();
 }
@@ -481,7 +481,7 @@ endswitch;
 		// 	echo '        <tr>'."\n";
 		// 	echo '          <td'._tdcss('25%').'><input name="screenshot_title[]" type="text" style="border: 1px solid; width:96%" /></td>'."\n";
 		// 	echo '          <td'._tdcss('65%').'><input name="screenshot[]" type="file" style="border: 1px solid; width:96%" accept="image/*" /></td>'."\n";
-		// 	echo '          <td'._tdcss('10%','center').'><span id="add-screen-field" class="dm-sprite attachment" alt="'.$titanium_lang_new[$titanium_module_name]['SCREENSHOT_ANOTHER'].'" title="'.$titanium_lang_new[$titanium_module_name]['SCREENSHOT_ANOTHER'].'"></span></td>'."\n";
+		// 	echo '          <td'._tdcss('10%','center').'><span id="add-screen-field" class="dm-sprite attachment" alt="'.$lang_new[$pnt_module]['SCREENSHOT_ANOTHER'].'" title="'.$lang_new[$pnt_module]['SCREENSHOT_ANOTHER'].'"></span></td>'."\n";
 		// 	echo '        <tr>'."\n";
 		// 	# below the comment is a placeholder for the mulitple screenshots.
 		// 	echo '        <tr id="text_screen" style="display: none;">'."\n";

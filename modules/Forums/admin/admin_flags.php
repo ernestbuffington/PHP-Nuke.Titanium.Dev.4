@@ -82,7 +82,7 @@ if( $mode != "" )
 		{
 			if( empty($flag_id) )
 			{
-				message_die(GENERAL_MESSAGE, $titanium_lang['Must_select_flag']);
+				message_die(GENERAL_MESSAGE, $lang['Must_select_flag']);
 			}
 
 			$sql = "SELECT * FROM " . FLAG_TABLE . "
@@ -109,13 +109,13 @@ if( $mode != "" )
 			// "IMAGE_DISPLAY" => ( $flag_info['flag_image'] != "" ) ? '<img src="../../../images/flags/' . $flag_info['flag_image'] . '" />' : "",
 			"IMAGE_DISPLAY" => str_replace(array('.png',' '),array('','_'),$flag_rows[$i]['flag_image']),
 			
-			"L_FLAGS_TITLE" => $titanium_lang['Flags_title'],
-			"L_FLAGS_TEXT" => $titanium_lang['Flags_explain'],
-			"L_FLAG_NAME" => $titanium_lang['Flag_name'],
-			"L_FLAG_IMAGE" => $titanium_lang['Flag_image'],
-			"L_FLAG_IMAGE_EXPLAIN" => $titanium_lang['Flag_image_explain'],
-			"L_SUBMIT" => $titanium_lang['Submit'],
-			"L_RESET" => $titanium_lang['Reset'],
+			"L_FLAGS_TITLE" => $lang['Flags_title'],
+			"L_FLAGS_TEXT" => $lang['Flags_explain'],
+			"L_FLAG_NAME" => $lang['Flag_name'],
+			"L_FLAG_IMAGE" => $lang['Flag_image'],
+			"L_FLAG_IMAGE_EXPLAIN" => $lang['Flag_image_explain'],
+			"L_SUBMIT" => $lang['Submit'],
+			"L_RESET" => $lang['Reset'],
 			
 			"S_FLAG_ACTION" => append_titanium_sid("admin_flags.$phpEx"),
 			"S_HIDDEN_FIELDS" => $s_hidden_fields)
@@ -134,7 +134,7 @@ if( $mode != "" )
 
 		if( $flag_name == "" )
 		{
-			message_die(GENERAL_MESSAGE, $titanium_lang['Must_select_flag']);
+			message_die(GENERAL_MESSAGE, $lang['Must_select_flag']);
 		}
 
 		//
@@ -154,14 +154,14 @@ if( $mode != "" )
 				SET flag_name = '" . str_replace("\'", "''", $flag_name) . "', flag_image = '" . str_replace("\'", "''", $flag_image) . "'
 				WHERE flag_id = $flag_id";
 
-			$message = $titanium_lang['Flag_updated'];
+			$message = $lang['Flag_updated'];
 		}
 		else
 		{
 			$sql = "INSERT INTO " . FLAG_TABLE . " (flag_name, flag_image)
 				VALUES ('" . str_replace("\'", "''", $flag_name) . "', '" . str_replace("\'", "''", $flag_image) . "')";
 
-			$message = $titanium_lang['Flag_added'];
+			$message = $lang['Flag_added'];
 		}
 		
 		if( !$result = $titanium_db->sql_query($sql) )
@@ -169,7 +169,7 @@ if( $mode != "" )
 			message_die(GENERAL_ERROR, "Couldn't update/insert into flags table", "", __LINE__, __FILE__, $sql);
 		}
 
-		$message .= "<br /><br />" . sprintf($titanium_lang['Click_return_flagadmin'], "<a href=\"" . append_titanium_sid("admin_flags.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+		$message .= "<br /><br />" . sprintf($lang['Click_return_flagadmin'], "<a href=\"" . append_titanium_sid("admin_flags.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
 		message_die(GENERAL_MESSAGE, $message);
 
@@ -194,11 +194,11 @@ if( $mode != "" )
 		);
 
 		$phpbb2_template->assign_vars(array(
-			'MESSAGE_TITLE' => $titanium_lang['Flag_confirm'],
-			'MESSAGE_TEXT' => $titanium_lang['Confirm_delete_flag'],
+			'MESSAGE_TITLE' => $lang['Flag_confirm'],
+			'MESSAGE_TEXT' => $lang['Confirm_delete_flag'],
 
-			'L_YES' => $titanium_lang['Yes'],
-			'L_NO' => $titanium_lang['No'],
+			'L_YES' => $lang['Yes'],
+			'L_NO' => $lang['No'],
 
 			'S_CONFIRM_ACTION' => append_titanium_sid("admin_flags.$phpEx"),
 			'S_HIDDEN_FIELDS' => $hidden_fields)
@@ -250,17 +250,17 @@ if( $mode != "" )
 				WHERE user_from_flag = '$flag_image'";
 			if( !$result = $titanium_db->sql_query($sql) ) 
 			{
-				message_die(GENERAL_ERROR, $titanium_lang['No_update_flags'], "", __LINE__, __FILE__, $sql);
+				message_die(GENERAL_ERROR, $lang['No_update_flags'], "", __LINE__, __FILE__, $sql);
 			}
 
-			$message = $titanium_lang['Flag_removed'] . "<br /><br />" . sprintf($titanium_lang['Click_return_flagadmin'], "<a href=\"" . append_titanium_sid("admin_flags.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['Flag_removed'] . "<br /><br />" . sprintf($lang['Click_return_flagadmin'], "<a href=\"" . append_titanium_sid("admin_flags.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
 			message_die(GENERAL_MESSAGE, $message);
 
 		}
 		else
 		{
-			message_die(GENERAL_MESSAGE, $titanium_lang['Must_select_flag']);
+			message_die(GENERAL_MESSAGE, $lang['Must_select_flag']);
 		}
 	}
 	else
@@ -284,14 +284,14 @@ if( $mode != "" )
 		$flag_count = count($flag_rows);
 		
 		$phpbb2_template->assign_vars(array(
-			"L_FLAGS_TITLE" => $titanium_lang['Flags_title'],
-			"L_FLAGS_TEXT" => $titanium_lang['Flags_explain'],
-			"L_FLAG" => $titanium_lang['Flag_name'],
+			"L_FLAGS_TITLE" => $lang['Flags_title'],
+			"L_FLAGS_TEXT" => $lang['Flags_explain'],
+			"L_FLAG" => $lang['Flag_name'],
 
-			"L_EDIT" => $titanium_lang['Edit'],
-			"L_DELETE" => $titanium_lang['Delete'],
-			"L_ADD_FLAG" => $titanium_lang['Add_new_flag'],
-			"L_ACTION" => $titanium_lang['Action'],
+			"L_EDIT" => $lang['Edit'],
+			"L_DELETE" => $lang['Delete'],
+			"L_ADD_FLAG" => $lang['Add_new_flag'],
+			"L_ACTION" => $lang['Action'],
 			
 			"S_FLAGS_ACTION" => append_titanium_sid("admin_flags.$phpEx"))
 		);
@@ -338,14 +338,14 @@ else
 	$flag_rows = $titanium_db->sql_fetchrowset($result);
 	
 	$phpbb2_template->assign_vars(array(
-		"L_FLAGS_TITLE" => $titanium_lang['Flags_title'],
-		"L_FLAGS_TEXT" => $titanium_lang['Flags_explain'],
-		"L_FLAG" => $titanium_lang['Flag_name'],
-		"L_FLAG_PIC" => $titanium_lang['Flag_pic'],
-		"L_EDIT" => $titanium_lang['Edit'],
-		"L_DELETE" => $titanium_lang['Delete'],
-		"L_ADD_FLAG" => $titanium_lang['Add_new_flag'],
-		"L_ACTION" => $titanium_lang['Action'],
+		"L_FLAGS_TITLE" => $lang['Flags_title'],
+		"L_FLAGS_TEXT" => $lang['Flags_explain'],
+		"L_FLAG" => $lang['Flag_name'],
+		"L_FLAG_PIC" => $lang['Flag_pic'],
+		"L_EDIT" => $lang['Edit'],
+		"L_DELETE" => $lang['Delete'],
+		"L_ADD_FLAG" => $lang['Add_new_flag'],
+		"L_ACTION" => $lang['Action'],
 		
 		"S_FLAGS_ACTION" => append_titanium_sid("admin_flags.$phpEx"))
 	);

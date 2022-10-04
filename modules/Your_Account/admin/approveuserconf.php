@@ -43,20 +43,20 @@ if (!defined('CNBYA')) {
  [ Mod:     Welcome PM                         v2.0.0 ]
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-include_once(NUKE_MODULES_DIR.$titanium_module_name.'/public/functions_welcome_pm.php');
-include_once(NUKE_MODULES_DIR.$titanium_module_name.'/public/custom_functions.php');
+include_once(NUKE_MODULES_DIR.$pnt_module.'/public/functions_welcome_pm.php');
+include_once(NUKE_MODULES_DIR.$pnt_module.'/public/custom_functions.php');
 include_once(NUKE_INCLUDE_DIR. 'constants.php');
 /*****[END]********************************************
  [ Mod:     Welcome PM                         v2.0.0 ]
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
     list($titanium_username, $email, $check_num) = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT username, user_email, check_num FROM ".$titanium_user_prefix."_users_temp WHERE user_id='$apr_uid'"));
     if ($ya_config['servermail'] == 0) {
         $time     = time();
-        $finishlink     = "$nukeurl/modules.php?name=$titanium_module_name&op=activate&username=$titanium_username&check_num=$check_num";
+        $finishlink     = "$nukeurl/modules.php?name=$pnt_module&op=activate&username=$titanium_username&check_num=$check_num";
         $message     = _WELCOMETO." $sitename!<br /><br />";
         $message    .= _YOUUSEDEMAIL." ($email) "._TOREGISTER." $sitename.<br /><br />";
         $message    .= _TOFINISHUSER."<br /><br /><a href=\"$finishlink\">$finishlink</a>";
@@ -93,7 +93,7 @@ if(is_mod_admin($titanium_module_name)) {
     echo "<br />\n";
     OpenTable();
     echo "<center><table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }

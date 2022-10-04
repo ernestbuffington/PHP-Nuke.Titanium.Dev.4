@@ -14,14 +14,14 @@ require_once("mainfile.php");
 $this_title = 'The 30/360 US Rule';
 //panacure c kills cancer
 //1366 x 768
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name); 
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module); 
 $index = 0;
-include (TITANIUM_MODULES_DIR.$titanium_module_name.'/includes/Array-Months.php');
-include (TITANIUM_MODULES_DIR.$titanium_module_name.'/includes/func-isNumber.php');
-include (TITANIUM_MODULES_DIR.$titanium_module_name.'/includes/func-makeSeperator.php'); 
-include (TITANIUM_MODULES_DIR.$titanium_module_name.'/includes/func-padMe.php');
-include (TITANIUM_MODULES_DIR.$titanium_module_name.'/includes/objLoan.php');  
+include (TITANIUM_MODULES_DIR.$pnt_module.'/includes/Array-Months.php');
+include (TITANIUM_MODULES_DIR.$pnt_module.'/includes/func-isNumber.php');
+include (TITANIUM_MODULES_DIR.$pnt_module.'/includes/func-makeSeperator.php'); 
+include (TITANIUM_MODULES_DIR.$pnt_module.'/includes/func-padMe.php');
+include (TITANIUM_MODULES_DIR.$pnt_module.'/includes/objLoan.php');  
 
 $ins =& $_POST;
 
@@ -346,7 +346,7 @@ background-color:#DDDDDD;
  BEGIN CASE 3  Builds a thank you page, Posts: step = 1 
 /***************************************************************************************************************************************************************/ 
    case 3: 
-   //include (TITANIUM_MODULES_DIR.$titanium_module_name.'/includes/LoanNdxScroll.php');
+   //include (TITANIUM_MODULES_DIR.$pnt_module.'/includes/LoanNdxScroll.php');
    include("header.php"); 
    $pagetitle = 'PHP-Nuke Titanium :: Loan Calculator';
    $title = 'Thank You';

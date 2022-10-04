@@ -44,7 +44,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
         {
             if ( !$row['user_active'] )
             {
-                message_die(GENERAL_MESSAGE, $titanium_lang['No_send_account_inactive']);
+                message_die(GENERAL_MESSAGE, $lang['No_send_account_inactive']);
             }
 
             $titanium_username = $row['username'];
@@ -77,7 +77,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
             $emailer->use_template('user_activate_passwd', $row['user_lang']);
             $emailer->email_address($row['user_email']);
-            $emailer->set_subject($titanium_lang['New_password_activation']);
+            $emailer->set_subject($lang['New_password_activation']);
 
             $emailer->assign_vars(array(
                 'SITENAME' => $phpbb2_board_config['sitename'], 
@@ -94,13 +94,13 @@ if ( isset($HTTP_POST_VARS['submit']) )
                 'META' => '<meta http-equiv="refresh" content="15;url=' . append_titanium_sid("index.$phpEx") . '">')
             );
 
-            $message = $titanium_lang['Password_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_index'],  '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
+            $message = $lang['Password_updated'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
 
             message_die(GENERAL_MESSAGE, $message);
         }
         else
         {
-            message_die(GENERAL_MESSAGE, $titanium_lang['No_email_match']);
+            message_die(GENERAL_MESSAGE, $lang['No_email_match']);
         }
     }
     else
@@ -128,11 +128,11 @@ $phpbb2_template->assign_vars(array(
     'USERNAME' => $titanium_username,
     'EMAIL' => $email,
 
-        'L_SEND_PASSWORD' => $titanium_lang['Send_password'],
-    'L_ITEMS_REQUIRED' => $titanium_lang['Items_required'],
-    'L_EMAIL_ADDRESS' => $titanium_lang['Email_address'],
-    'L_SUBMIT' => $titanium_lang['Submit'],
-    'L_RESET' => $titanium_lang['Reset'],
+        'L_SEND_PASSWORD' => $lang['Send_password'],
+    'L_ITEMS_REQUIRED' => $lang['Items_required'],
+    'L_EMAIL_ADDRESS' => $lang['Email_address'],
+    'L_SUBMIT' => $lang['Submit'],
+    'L_RESET' => $lang['Reset'],
 
         'S_HIDDEN_FIELDS' => '',
     'S_PROFILE_ACTION' => append_titanium_sid("profile.$phpEx?mode=sendpassword"))

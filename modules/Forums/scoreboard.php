@@ -25,8 +25,8 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -71,7 +71,7 @@ $tbauth_view = array();
 $tbauth_view = explode(',',$liste_cat_auth_view);
 
 if (!in_array($row['arcade_catid'],$tbauth_view)) {
-        message_die(GENERAL_MESSAGE, $titanium_lang['game_forbidden']);
+        message_die(GENERAL_MESSAGE, $lang['game_forbidden']);
 }
 
 $phpbb2_start = (isset($HTTP_GET_VARS['start'])) ? intval($HTTP_GET_VARS['start']) : 0;
@@ -116,8 +116,8 @@ $titanium_db->sql_freeresult($result);
 // Post URL generation for templating vars
 //
 $phpbb2_template->assign_vars(array(
-        'URL_ARCADE' => '<nobr><a class="cattitle" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $titanium_lang['lib_arcade'] . '</a></nobr> ',
-        'URL_BESTSCORES' => '<nobr><a class="cattitle" href="' . append_titanium_sid("toparcade.$phpEx") . '">' . $titanium_lang['best_scores'] . '</a></nobr> ',
+        'URL_ARCADE' => '<nobr><a class="cattitle" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $lang['lib_arcade'] . '</a></nobr> ',
+        'URL_BESTSCORES' => '<nobr><a class="cattitle" href="' . append_titanium_sid("toparcade.$phpEx") . '">' . $lang['best_scores'] . '</a></nobr> ',
         'GAMENAME' => '<nobr><a class="cattitle" href="' . append_titanium_sid("games.$phpEx?gid=" . $gid) . '">' . $gamename . '</a></nobr> ')
 );
 
@@ -126,13 +126,13 @@ $phpbb2_template->assign_vars(array(
 //
 $titanium_nav_links['up'] = array(
         'url' => append_titanium_sid('index.'.$phpEx),
-        'title' => sprintf($titanium_lang['Forum_Index'], $phpbb2_board_config['sitename'])
+        'title' => sprintf($lang['Forum_Index'], $phpbb2_board_config['sitename'])
 );
 
 //
 // Dump out the page header AND load viewforum template
 //
-$phpbb2_page_title = $titanium_lang['scoreboard'] ;
+$phpbb2_page_title = $lang['scoreboard'] ;
 
 include('includes/page_header.'.$phpEx);
 
@@ -141,10 +141,10 @@ $phpbb2_template->set_filenames(array(
 );
 
 $phpbb2_template->assign_vars(array(
-        'L_POS' => $titanium_lang['boardrank'],
-        'L_SCORE' => $titanium_lang['boardscore'],
-        'L_DATE' => $titanium_lang['boarddate'],
-        'L_USER' => $titanium_lang['boardplayer'])
+        'L_POS' => $lang['boardrank'],
+        'L_SCORE' => $lang['boardscore'],
+        'L_DATE' => $lang['boarddate'],
+        'L_USER' => $lang['boardplayer'])
 );
 //
 // End header
@@ -170,7 +170,7 @@ if ($total_phpbb2_score) {
                         'POS' =>  $score_rowset[$i]['num'],
                         'SCORE' =>  number_format($score_rowset[$i]['score_game']),
                         'PLAYER' => $score_rowset[$i]['username'],
-                        'URL_STATS' => '<nobr><a class="cattitle" href="' . append_titanium_sid("statarcade.$phpEx?uid=" . $score_rowset[$i]['user_id']) . '">' . "<img src='modules/Forums/templates/" . $theme['template_name'] . "/images/loupe.gif ' align='absmiddle' border='0' alt='" . $titanium_lang['statuser'] . " " . $score_rowset[$i]['username'] . "'>" . '</a></nobr> ',
+                        'URL_STATS' => '<nobr><a class="cattitle" href="' . append_titanium_sid("statarcade.$phpEx?uid=" . $score_rowset[$i]['user_id']) . '">' . "<img src='modules/Forums/templates/" . $theme['template_name'] . "/images/loupe.gif ' align='absmiddle' border='0' alt='" . $lang['statuser'] . " " . $score_rowset[$i]['username'] . "'>" . '</a></nobr> ',
                         'GOTO_PAGE' => $goto_page,
                         'DATE' => create_date($phpbb2_board_config['default_dateformat'] , $score_rowset[$i]['score_date'] , $phpbb2_board_config['board_timezone']))
                 );
@@ -178,8 +178,8 @@ if ($total_phpbb2_score) {
 
         $phpbb2_template->assign_vars(array(
                 'PAGINATION' => generate_pagination("scoreboard.$phpEx?gid=$gid", $score_count, $phpbb2_board_config['topics_per_page'], $phpbb2_start),
-                'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], (floor($phpbb2_start / $phpbb2_board_config['topics_per_page']) + 1), ceil($score_count / $phpbb2_board_config['topics_per_page'])),
-                'L_GOTO_PAGE' => $titanium_lang['Goto_page'])
+                'PAGE_NUMBER' => sprintf($lang['Page_of'], (floor($phpbb2_start / $phpbb2_board_config['topics_per_page']) + 1), ceil($score_count / $phpbb2_board_config['topics_per_page'])),
+                'L_GOTO_PAGE' => $lang['Goto_page'])
         );
 }
 

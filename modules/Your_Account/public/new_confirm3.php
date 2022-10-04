@@ -43,7 +43,7 @@ if(!isset($_SESSION)) { session_start(); }
 if (!isset($_SESSION['YA1']) || isset($_SESSION['YA2'])) {
     global $debugger;
     $debugger->handle_error('Session not valid for user: Name - '.Fix_Quotes($ya_username).' Email - '.Fix_Quotes($femail), 'Error');
-    redirect_titanium('modules.php?name='.$titanium_module_name.'&op=new_user');
+    redirect_titanium('modules.php?name='.$pnt_module.'&op=new_user');
 }
 
 $_SESSION['YA2'] = true;
@@ -149,7 +149,7 @@ $_SESSION['YA2'] = true;
 // menelaos: removed display of the user password here. It is mailed to the user
 //      echo "<tr><td><strong>"._YA_PASSWORD.":</strong> $user_password<br /></td></tr>";
         echo "</table>";
-        echo "<center><form action='modules.php?name=$titanium_module_name' method='post'>";
+        echo "<center><form action='modules.php?name=$pnt_module' method='post'>";
 
         if (is_array($nfield))
         {

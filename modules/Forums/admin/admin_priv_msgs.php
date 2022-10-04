@@ -84,7 +84,7 @@ $status_message = '';
 $aprvmUtil->init();
 
 $phpbb2_topics_per_pg = max(1, $phpbb2_board_config['aprvmRows']); //Just in case someone manually changes it to be some crazy number, we'll show 1 row always
-$phpbb2_page_title = $titanium_lang['Private_Messages'];
+$phpbb2_page_title = $lang['Private_Messages'];
 $order_types = array('DESC', 'ASC');
 $sort_types = array('privmsgs_date', 'privmsgs_subject', 'privmsgs_from_userid', 'privmsgs_to_userid', 'privmsgs_type');
 $pmtypes = array(PRIVMSGS_ALL_MAIL, PRIVMSGS_READ_MAIL, PRIVMSGS_NEW_MAIL, PRIVMSGS_SENT_MAIL, PRIVMSGS_SAVED_IN_MAIL, PRIVMSGS_SAVED_OUT_MAIL, PRIVMSGS_UNREAD_MAIL);
@@ -146,7 +146,7 @@ switch($pmaction)
     {
         if ($view_id == '')
         {
-            message_die(GENERAL_ERROR, $titanium_lang['No_Message_ID'], '', __LINE__, __FILE__);
+            message_die(GENERAL_ERROR, $lang['No_Message_ID'], '', __LINE__, __FILE__);
         }
         $sql = 'SELECT pm.*, pmt.*
            FROM ' . PRIVMSGS_TABLE . "$archive_text pm, " . PRIVMSGS_TEXT_TABLE . " pmt
@@ -154,7 +154,7 @@ switch($pmaction)
            AND pmt.privmsgs_text_id = $view_id";
         if(!$result = $titanium_db->sql_query($sql))
         {
-            message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__);
+            message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__);
         }
         $privmsg = $titanium_db->sql_fetchrow($result);
         /************************/
@@ -180,10 +180,10 @@ switch($pmaction)
         'viewmsg_body' => 'admin/admin_priv_msgs_view_body.tpl')
         );
         $phpbb2_template->assign_vars(array(
-        'L_SUBJECT' => $titanium_lang['Subject'],
-        'L_TO' => $titanium_lang['To'],
-        'L_FROM' => $titanium_lang['From'],
-        'L_SENT_DATE' => $titanium_lang['Sent_Date'],
+        'L_SUBJECT' => $lang['Subject'],
+        'L_TO' => $lang['To'],
+        'L_FROM' => $lang['From'],
+        'L_SENT_DATE' => $lang['Sent_Date'],
         'L_PRIVATE_MESSAGES' => $aprvmUtil->modName)
         );
         $phpbb2_template->assign_vars(array(
@@ -191,7 +191,7 @@ switch($pmaction)
         'FROM' => $aprvmUtil->id_2_name($privmsg['privmsgs_from_userid']),
         'FROM_IP' => ($phpbb2_board_config['aprvmIP']) ? ' : ('.decode_ip($privmsg['privmsgs_ip']).')' : '',
         'TO' => $aprvmUtil->id_2_name($privmsg['privmsgs_to_userid']),
-        'DATE' => create_date($titanium_lang['DATE_FORMAT'], $privmsg['privmsgs_date'], $phpbb2_board_config['board_timezone']),
+        'DATE' => create_date($lang['DATE_FORMAT'], $privmsg['privmsgs_date'], $phpbb2_board_config['board_timezone']),
         'MESSAGE' => $private_message)
         );
         
@@ -217,7 +217,7 @@ switch($pmaction)
                WHERE user_id <> '. ANONYMOUS;
             if(!$result = $titanium_db->sql_query($sql))
             {
-                message_die(GENERAL_ERROR, $titanium_lang['Error_Other_Table'], '', __LINE__, __FILE__);
+                message_die(GENERAL_ERROR, $lang['Error_Other_Table'], '', __LINE__, __FILE__);
             }
             while($row = $titanium_db->sql_fetchrow($result))
             {
@@ -231,7 +231,7 @@ switch($pmaction)
             //print $sql;
             if(!$result = $titanium_db->sql_query($sql))
             {
-                message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+                message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
             while ($row = $titanium_db->sql_fetchrow($result))
             {
@@ -244,7 +244,7 @@ switch($pmaction)
                 //print $sql;
                 if(!$titanium_db->sql_query($sql))
                 {
-                    message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+                    message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
                 }
                 
                 $sql = "DELETE FROM " . PRIVMSGS_TABLE . "$archive_text
@@ -252,12 +252,12 @@ switch($pmaction)
                 //print $sql;
                 if(!$titanium_db->sql_query($sql))
                 {
-                    message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+                    message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
                 }
             }
             
-            $status_message .= $titanium_lang['Removed_Old'];
-            $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($titanium_lang['Affected_Rows'], $titanium_db->sql_affectedrows()) : '';
+            $status_message .= $lang['Removed_Old'];
+            $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($lang['Affected_Rows'], $titanium_db->sql_affectedrows()) : '';
         }
     }
     case 'remove_sent':
@@ -270,7 +270,7 @@ switch($pmaction)
                 WHERE privmsgs_type = ". PRIVMSGS_SENT_MAIL;
             if(!$result = $titanium_db->sql_query($sql))
             {
-                message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+                message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
             while ($row = $titanium_db->sql_fetchrow($result))
             {
@@ -283,7 +283,7 @@ switch($pmaction)
                 //print $sql;
                 if(!$titanium_db->sql_query($sql))
                 {
-                    message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+                    message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
                 }
                 
                 $sql = "DELETE FROM " . PRIVMSGS_TABLE . "$archive_text
@@ -291,12 +291,12 @@ switch($pmaction)
                 //print $sql;
                 if(!$titanium_db->sql_query($sql))
                 {
-                    message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+                    message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
                 }
             }
             
-            $status_message .= $titanium_lang['Removed_Sent'];
-            $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($titanium_lang['Affected_Rows'], $titanium_db->sql_affectedrows()) : '';
+            $status_message .= $lang['Removed_Sent'];
+            $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($lang['Affected_Rows'], $titanium_db->sql_affectedrows()) : '';
         }
     }
     case 'remove_all':
@@ -306,17 +306,17 @@ switch($pmaction)
             $sql = "DELETE FROM " . PRIVMSGS_TEXT_TABLE;
             if(!$titanium_db->sql_query($sql))
             {
-                message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+                message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
             
             $sql = "DELETE FROM " . PRIVMSGS_TABLE;
             if(!$titanium_db->sql_query($sql))
             {
-                message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+                message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
             
-            $status_message .= $titanium_lang['Removed_All'];
-            $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($titanium_lang['Affected_Rows'], $titanium_db->sql_affectedrows()) : '';
+            $status_message .= $lang['Removed_All'];
+            $status_message .= (SQL_LAYER == 'db2' || SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' || SQL_LAYER == 'mysql4') ? sprintf($lang['Affected_Rows'], $titanium_db->sql_affectedrows()) : '';
         }
     }
     default:
@@ -331,7 +331,7 @@ switch($pmaction)
         
         if(!$result = $titanium_db->sql_query($sql))
         {
-            message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Archive_Table'], '', __LINE__, __FILE__);
+            message_die(GENERAL_ERROR, $lang['Error_Posts_Archive_Table'], '', __LINE__, __FILE__);
         }
         
         $i = 0;
@@ -343,14 +343,14 @@ switch($pmaction)
             'ROW_CLASS' => (!(++$i% 2)) ? $theme['td_class1'] : $theme['td_class2'],
             'ATTACHMENT_INFO' => (defined('ATTACH_VERSION')) ? 'Not Here Yet' : '',
             'PM_ID' => $row['privmsgs_id'],
-            'PM_TYPE' => $titanium_lang['PM_' . $row['privmsgs_type']],
+            'PM_TYPE' => $lang['PM_' . $row['privmsgs_type']],
             'SUBJECT' => $row['privmsgs_subject'],
             'FROM' => UsernameColor($aprvmUtil->id_2_name($row['privmsgs_from_userid'])),
             'TO' => UsernameColor($aprvmUtil->id_2_name($row['privmsgs_to_userid'])),
             'FROM_IP' => ($phpbb2_board_config['aprvmIP']) ? '<br />('.decode_ip($row['privmsgs_ip']).')' : '',
             'U_VIEWMSG' => $onclick_url,
             'U_INLINE_VIEWMSG' => $view_url,
-            'DATE' => create_date($titanium_lang['DATE_FORMAT'], $row['privmsgs_date'], $phpbb2_board_config['board_timezone']))
+            'DATE' => create_date($lang['DATE_FORMAT'], $row['privmsgs_date'], $phpbb2_board_config['board_timezone']))
             );
             if ($mode != 'archive' && $phpbb2_board_config['aprvmArchive'])
             {
@@ -361,7 +361,7 @@ switch($pmaction)
         if ($i == 0)
         {
             $phpbb2_template->assign_block_vars('empty_switch', array());
-            $phpbb2_template->assign_var('L_NO_PMS', $titanium_lang['No_PMS']);
+            $phpbb2_template->assign_var('L_NO_PMS', $lang['No_PMS']);
         }
         
         $aprvmUtil->do_pagination();
@@ -382,47 +382,47 @@ switch($pmaction)
         );
         
         $phpbb2_template->assign_vars(array(
-        "L_SELECT_SORT_METHOD" => $titanium_lang['Select_sort_method'],
-        "L_SUBJECT" => $titanium_lang['Subject'],
-        "L_TO" => $titanium_lang['To'],
-        "L_FROM" => $titanium_lang['From'],
-        "L_SENT_DATE" => $titanium_lang['Sent_Date'],
+        "L_SELECT_SORT_METHOD" => $lang['Select_sort_method'],
+        "L_SUBJECT" => $lang['Subject'],
+        "L_TO" => $lang['To'],
+        "L_FROM" => $lang['From'],
+        "L_SENT_DATE" => $lang['Sent_Date'],
         'L_PAGE_NAME' => $aprvmUtil->modName,
-        "L_ORDER" => $titanium_lang['Order'],
-        "L_SORT" => $titanium_lang['Sort'],
-        "L_SUBMIT" => $titanium_lang['Submit'],
-        "L_DELETE" => $titanium_lang['Delete'],
-        'L_PM_TYPE' => $titanium_lang['PM_Type'],
-        'L_FILTER_BY' => $titanium_lang['Filter_By'],
-        'L_RESET' => $titanium_lang['Reset'],
-        'L_ARCHIVE' => $titanium_lang['Archive'],
-        'L_PAGE_DESC' => ($mode == 'archive') ? $titanium_lang['Archive_Desc'] : $titanium_lang['Normal_Desc'],
-        'L_VERSION' => $titanium_lang['Version'],
+        "L_ORDER" => $lang['Order'],
+        "L_SORT" => $lang['Sort'],
+        "L_SUBMIT" => $lang['Submit'],
+        "L_DELETE" => $lang['Delete'],
+        'L_PM_TYPE' => $lang['PM_Type'],
+        'L_FILTER_BY' => $lang['Filter_By'],
+        'L_RESET' => $lang['Reset'],
+        'L_ARCHIVE' => $lang['Archive'],
+        'L_PAGE_DESC' => ($mode == 'archive') ? $lang['Archive_Desc'] : $lang['Normal_Desc'],
+        'L_VERSION' => $lang['Version'],
         'VERSION' => $aprvmUtil->modVersion,
-        'L_CURRENT' => $titanium_lang['Current'],
+        'L_CURRENT' => $lang['Current'],
         'CURRENT_ROWS' => $phpbb2_board_config['aprvmRows'],
-        'L_REMOVE_OLD' => $titanium_lang['Remove_Old'],
-        'L_REMOVE_SENT' => $titanium_lang['Remove_Sent'],
-        'L_REMOVE_ALL' => $titanium_lang['Remove_All'],
-        'L_UTILS' => $titanium_lang['Utilities'],
-        'L_PM_VIEW_TYPE' =>$titanium_lang['PM_View_Type'],
-        'L_SHOW_IP' =>$titanium_lang['Show_IP'],
-        'L_ROWS_PER_PAGE' =>$titanium_lang['Rows_Per_Page'],
-        'L_ARCHIVE_FEATURE' =>$titanium_lang['Archive_Feature'],
-        'L_OPTIONS' => $titanium_lang['Options'],
+        'L_REMOVE_OLD' => $lang['Remove_Old'],
+        'L_REMOVE_SENT' => $lang['Remove_Sent'],
+        'L_REMOVE_ALL' => $lang['Remove_All'],
+        'L_UTILS' => $lang['Utilities'],
+        'L_PM_VIEW_TYPE' =>$lang['PM_View_Type'],
+        'L_SHOW_IP' =>$lang['Show_IP'],
+        'L_ROWS_PER_PAGE' =>$lang['Rows_Per_Page'],
+        'L_ARCHIVE_FEATURE' =>$lang['Archive_Feature'],
+        'L_OPTIONS' => $lang['Options'],
         
         'URL_ORPHAN' => append_titanium_sid($aprvmUtil->urlStart . '&pmaction=remove_old'),
         'URL_SENT' => append_titanium_sid($aprvmUtil->urlStart . '&pmaction=remove_sent'),
         'URL_ALL' => append_titanium_sid($aprvmUtil->urlStart . '&pmaction=remove_all'),
-        'URL_INLINE_MESSAGE_TYPE' => ($phpbb2_board_config['aprvmView'] == 1) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmView&config_value=0') . "\">{$titanium_lang['Inline']}</a>" : $titanium_lang['Inline'],
-        'URL_POPUP_MESSAGE_TYPE' => ($phpbb2_board_config['aprvmView'] == 0) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmView&config_value=1') . "\">{$titanium_lang['Pop_up']}</a>" : $titanium_lang['Pop_up'],
-        'URL_ROWS_PLUS_5' => '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmRows&config_value='.strval($phpbb2_board_config['aprvmRows']+5)) . "\">{$titanium_lang['Rows_Plus_5']}</a>",
-        'URL_ROWS_MINUS_5' => ($phpbb2_board_config['aprvmRows'] > 5) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmRows&config_value='.strval($phpbb2_board_config['aprvmRows']-5)) . "\">{$titanium_lang['Rows_Minus_5']}</a>" : $titanium_lang['Rows_Minus_5'],
-        'URL_SHOW_IP_ON' => ($phpbb2_board_config['aprvmIP'] == 0) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmIP&config_value=1') . "\">{$titanium_lang['Enable']}</a>" : $titanium_lang['Enable'],
-        'URL_SHOW_IP_OFF' => ($phpbb2_board_config['aprvmIP'] == 1) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmIP&config_value=0') . "\">{$titanium_lang['Disable']}</a>" : $titanium_lang['Disable'],
-        'URL_ARCHIVE_ENABLE_LINK' => ($phpbb2_board_config['aprvmArchive'] == 0) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmArchive&config_value=1') . "\">{$titanium_lang['Enable']}</a>" : $titanium_lang['Enable'],
-        'URL_ARCHIVE_DISABLE_LINK' => ($phpbb2_board_config['aprvmArchive'] == 1) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmArchive&config_value=0') . "\">{$titanium_lang['Disable']}</a>" : $titanium_lang['Disable'],
-        'URL_SWITCH_MODE' => ($phpbb2_board_config['aprvmArchive'] == 1) ? ($mode == 'archive') ? '<strong><a class="gen" href="' . append_titanium_sid($aprvmUtil->urlBase . '&mode=normal') . "\">{$titanium_lang['Switch_Normal']}</a></strong>" :'<strong><a class="gen" href="' . append_titanium_sid($aprvmUtil->urlBase . '&mode=archive') . "\">{$titanium_lang['Switch_Archive']}</a></strong>" : '',
+        'URL_INLINE_MESSAGE_TYPE' => ($phpbb2_board_config['aprvmView'] == 1) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmView&config_value=0') . "\">{$lang['Inline']}</a>" : $lang['Inline'],
+        'URL_POPUP_MESSAGE_TYPE' => ($phpbb2_board_config['aprvmView'] == 0) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmView&config_value=1') . "\">{$lang['Pop_up']}</a>" : $lang['Pop_up'],
+        'URL_ROWS_PLUS_5' => '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmRows&config_value='.strval($phpbb2_board_config['aprvmRows']+5)) . "\">{$lang['Rows_Plus_5']}</a>",
+        'URL_ROWS_MINUS_5' => ($phpbb2_board_config['aprvmRows'] > 5) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmRows&config_value='.strval($phpbb2_board_config['aprvmRows']-5)) . "\">{$lang['Rows_Minus_5']}</a>" : $lang['Rows_Minus_5'],
+        'URL_SHOW_IP_ON' => ($phpbb2_board_config['aprvmIP'] == 0) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmIP&config_value=1') . "\">{$lang['Enable']}</a>" : $lang['Enable'],
+        'URL_SHOW_IP_OFF' => ($phpbb2_board_config['aprvmIP'] == 1) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmIP&config_value=0') . "\">{$lang['Disable']}</a>" : $lang['Disable'],
+        'URL_ARCHIVE_ENABLE_LINK' => ($phpbb2_board_config['aprvmArchive'] == 0) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmArchive&config_value=1') . "\">{$lang['Enable']}</a>" : $lang['Enable'],
+        'URL_ARCHIVE_DISABLE_LINK' => ($phpbb2_board_config['aprvmArchive'] == 1) ? '<a href="' . append_titanium_sid($aprvmUtil->urlStart . '&config_name=aprvmArchive&config_value=0') . "\">{$lang['Disable']}</a>" : $lang['Disable'],
+        'URL_SWITCH_MODE' => ($phpbb2_board_config['aprvmArchive'] == 1) ? ($mode == 'archive') ? '<strong><a class="gen" href="' . append_titanium_sid($aprvmUtil->urlBase . '&mode=normal') . "\">{$lang['Switch_Normal']}</a></strong>" :'<strong><a class="gen" href="' . append_titanium_sid($aprvmUtil->urlBase . '&mode=archive') . "\">{$lang['Switch_Archive']}</a></strong>" : '',
         
         'S_MODE' => $mode,
         'S_PMTYPE' => $pmtype,
@@ -440,7 +440,7 @@ switch($pmaction)
         {
             $phpbb2_template->assign_block_vars('statusrow', array());
             $phpbb2_template->assign_vars(array(
-            'L_STATUS' => $titanium_lang['Status'],
+            'L_STATUS' => $lang['Status'],
             'I_STATUS_MESSAGE' => $status_message)
             );
         }
@@ -474,9 +474,9 @@ class aprvmUtils
     
     function init()
     {
-        global $titanium_lang, $mode, $phpbb2_board_config;
+        global $lang, $mode, $phpbb2_board_config;
         
-        $this->modName = ($phpbb2_board_config['aprvmArchive'] && $mode == 'archive') ? $titanium_lang['Private_Messages_Archive'] : $titanium_lang['Private_Messages'];
+        $this->modName = ($phpbb2_board_config['aprvmArchive'] && $mode == 'archive') ? $lang['Private_Messages_Archive'] : $lang['Private_Messages'];
         $this->setupConfig();
         $this->makeURLStart();
         $this->inArchiveText = ($mode == 'archive') ? '_archive' : '';
@@ -495,14 +495,14 @@ class aprvmUtils
     
     function setupConfig()
     {
-        global $phpbb2_board_config, $titanium_db, $HTTP_GET_VARS, $status_message, $titanium_lang, $cache;
+        global $phpbb2_board_config, $titanium_db, $HTTP_GET_VARS, $status_message, $lang, $cache;
 
         $configList = array('aprvmArchive', 'aprvmVersion', 'aprvmView', 'aprvmRows', 'aprvmIP');
-        $configLangs = array('aprvmArchive' => $titanium_lang['Archive_Feature'],
-                            'aprvmVersion' => $titanium_lang['Version'],
-                            'aprvmView' => $titanium_lang['PM_View_Type'],
-                            'aprvmRows' => $titanium_lang['Rows_Per_Page'],
-                            'aprvmIP' => $titanium_lang['Show_IP']);
+        $configLangs = array('aprvmArchive' => $lang['Archive_Feature'],
+                            'aprvmVersion' => $lang['Version'],
+                            'aprvmView' => $lang['PM_View_Type'],
+                            'aprvmRows' => $lang['Rows_Per_Page'],
+                            'aprvmIP' => $lang['Show_IP']);
         $configDefaults = array('0', $this->modVersion, '0', '25', '1');
                                 //off, version, inline, 25, yes
         //Check for an update config command
@@ -522,7 +522,7 @@ class aprvmUtils
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $status_message .= sprintf($titanium_lang['Updated_Config'], $configLangs[$HTTP_GET_VARS['config_name']]);
+            $status_message .= sprintf($lang['Updated_Config'], $configLangs[$HTTP_GET_VARS['config_name']]);
         }            
         
         //Loop through and see if a config name is set, if not set up a default
@@ -543,7 +543,7 @@ class aprvmUtils
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $status_message .= sprintf($titanium_lang['Inserted_Default_Value'], $configLangs[$HTTP_GET_VARS['config_name']]);
+                $status_message .= sprintf($lang['Inserted_Default_Value'], $configLangs[$HTTP_GET_VARS['config_name']]);
             }
 
         }
@@ -578,7 +578,7 @@ class aprvmUtils
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $status_message .= sprintf($titanium_lang['Updated_Config'], $configLangs['aprvmVersion']);
+            $status_message .= sprintf($lang['Updated_Config'], $configLangs['aprvmVersion']);
         }
     }
 
@@ -604,14 +604,14 @@ class aprvmUtils
                 WHERE user_id = $titanium_user_id";
             if ( !$titanium_db->sql_query($sql) )
             {
-                message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+                message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
         }
     }
 
     function make_drop_box($titanium_prefix = 'sort')
     {
-        global $sort_types, $order_types, $pmtypes, $titanium_lang, $sort, $order, $pmtype, $phpbb2_page_title;
+        global $sort_types, $order_types, $pmtypes, $lang, $sort, $order, $pmtype, $phpbb2_page_title;
 
         $rval = '<select name="'.$titanium_prefix.'">';
 
@@ -621,21 +621,21 @@ class aprvmUtils
             foreach($sort_types as $val)
             {
                 $selected = ($sort == $val) ? 'selected="selected"' : '';
-                $rval .= "<option value=\"$val\" $selected>" . $titanium_lang[$val] . '</option>';
+                $rval .= "<option value=\"$val\" $selected>" . $lang[$val] . '</option>';
             }
             break;
             case 'order':
             foreach($order_types as $val)
             {
                 $selected = ($order == $val) ? 'selected="selected"' : '';
-                $rval .= "<option value=\"$val\" $selected>" . $titanium_lang[$val] . '</option>';
+                $rval .= "<option value=\"$val\" $selected>" . $lang[$val] . '</option>';
             }
             break;
             case 'pmtype':
             foreach($pmtypes as $val)
             {
                 $selected = ($pmtype == $val) ? 'selected="selected"' : '';
-                $rval .= "<option value=\"$val\" $selected>" . $titanium_lang['PM_' . $val] . '</option>';
+                $rval .= "<option value=\"$val\" $selected>" . $lang['PM_' . $val] . '</option>';
             }
             break;
         }
@@ -672,7 +672,7 @@ class aprvmUtils
 
                 if(!$result = $titanium_db->sql_query($sql))
                 {
-                    message_die(GENERAL_ERROR, $titanium_lang['Error_Other_Table'], '', __LINE__, __FILE__, $sql);
+                    message_die(GENERAL_ERROR, $lang['Error_Other_Table'], '', __LINE__, __FILE__, $sql);
                 }
                 $row = $titanium_db->sql_fetchrow($result);
                 //Setupcache
@@ -692,7 +692,7 @@ class aprvmUtils
 
                 if(!$result = $titanium_db->sql_query($sql))
                 {
-                    message_die(GENERAL_ERROR, $titanium_lang['Error_Other_Table'], '', __LINE__, __FILE__, $sql);
+                    message_die(GENERAL_ERROR, $lang['Error_Other_Table'], '', __LINE__, __FILE__, $sql);
                 }
                 $row = $titanium_db->sql_fetchrow($result);
                 if (empty($row['user_id']))
@@ -713,7 +713,7 @@ class aprvmUtils
     
     function do_pagination($mode = 'normal')
     {
-        global $titanium_db, $filter_from_text, $filter_to_text, $filter_from, $filter_to, $titanium_lang, $phpbb2_template, $order;
+        global $titanium_db, $filter_from_text, $filter_to_text, $filter_from, $filter_to, $lang, $phpbb2_template, $order;
         global $mode, $pmtype, $sort, $pmtype_text, $archive_text, $phpbb2_start, $archive_start, $phpbb2_topics_per_pg, $phpEx;
 
         $sql = 'SELECT count(*) AS total FROM ' . PRIVMSGS_TABLE . $this->inArchiveText." pm
@@ -724,7 +724,7 @@ class aprvmUtils
 
         if(!$result = $titanium_db->sql_query($sql))
         {
-            message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+            message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
         }
         $total = $titanium_db->sql_fetchrow($result);
         $total_phpbb2_pms = ($total['total'] > 0) ? $total['total'] : 1;
@@ -733,9 +733,9 @@ class aprvmUtils
 
         $phpbb2_template->assign_vars(array(
             "PAGINATION" => $pagination,
-            "PAGE_NUMBER" => sprintf($titanium_lang['Page_of'], ( floor( $phpbb2_start / $phpbb2_topics_per_pg ) + 1 ), ceil( $total_phpbb2_pms / $phpbb2_topics_per_pg )),
+            "PAGE_NUMBER" => sprintf($lang['Page_of'], ( floor( $phpbb2_start / $phpbb2_topics_per_pg ) + 1 ), ceil( $total_phpbb2_pms / $phpbb2_topics_per_pg )),
 
-            "L_GOTO_PAGE" => $titanium_lang['Goto_page'])
+            "L_GOTO_PAGE" => $lang['Goto_page'])
         );
     }
     
@@ -746,7 +746,7 @@ class aprvmUtils
     */
     function find_lang_file($filename)
     {
-        global $titanium_lang, $phpbb2_root_path, $phpbb2_board_config, $phpEx;
+        global $lang, $phpbb2_root_path, $phpbb2_board_config, $phpEx;
         
         if (file_exists($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . "/$filename.$phpEx"))
         {
@@ -779,7 +779,7 @@ class aprvmUtils
     
     function doArchiveTable()
     {
-        global $titanium_db, $status_message, $titanium_lang, $titanium_prefix;
+        global $titanium_db, $status_message, $lang, $titanium_prefix;
         
         switch (SQL_LAYER)
         {
@@ -811,10 +811,10 @@ class aprvmUtils
         {
             if(!$result = $titanium_db->sql_query($sql))
             {
-                message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Archive_Table'], '', __LINE__, __FILE__);
+                message_die(GENERAL_ERROR, $lang['Error_Posts_Archive_Table'], '', __LINE__, __FILE__);
             }
         }
-        $status_message .= $titanium_lang['Archive_Table_Inserted'];
+        $status_message .= $lang['Archive_Table_Inserted'];
     }
 }
 
@@ -840,7 +840,7 @@ class aprvmManager
 
     function doArchive()
     {
-        global $titanium_lang, $titanium_db, $status_message, $aprvmUtil;
+        global $lang, $titanium_db, $status_message, $aprvmUtil;
         
         if (!count($this->archiveQueue)) return;
         
@@ -854,7 +854,7 @@ class aprvmManager
                WHERE privmsgs_id IN ($postList)";
         if(!$result = $titanium_db->sql_query($sql))
         {
-            message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+            message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
         }
         while ($row = $titanium_db->sql_fetchrow($result))
         {
@@ -865,11 +865,11 @@ class aprvmManager
                 $row['privmsgs_enable_smilies'] . ', ' . $row['privmsgs_attach_sig'] . ')';
             if(!$titanium_db->sql_query($sql))
             {
-                message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Text_Table'], '', __LINE__, __FILE__, $sql);
+                message_die(GENERAL_ERROR, $lang['Error_Posts_Text_Table'], '', __LINE__, __FILE__, $sql);
             }
             else
             {
-                $status_message .= sprintf($titanium_lang['Archived_Message'], $row['privmsgs_subject']);
+                $status_message .= sprintf($lang['Archived_Message'], $row['privmsgs_subject']);
                 $this->syncNums[$row['privmsgs_to_userid']][$row['privmsgs_type']]++;
             }
         }
@@ -877,14 +877,14 @@ class aprvmManager
                   WHERE privmsgs_id IN ($postList)";
         if(!$titanium_db->sql_query($sql))
         {
-            message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Text_Table'], '', __LINE__, __FILE__, $sql);
+            message_die(GENERAL_ERROR, $lang['Error_Posts_Text_Table'], '', __LINE__, __FILE__, $sql);
         }
 
     }
     
     function doDelete()
     {
-        global $phpbb2_board_config, $HTTP_POST_VARS, $titanium_db, $titanium_lang, $status_message, $aprvmUtil, $mode;
+        global $phpbb2_board_config, $HTTP_POST_VARS, $titanium_db, $lang, $status_message, $aprvmUtil, $mode;
         
         if (!count($this->deleteQueue)) return;
 
@@ -898,10 +898,10 @@ class aprvmManager
                        WHERE privmsgs_id = $post_id";
                 if(!$result = $titanium_db->sql_query($sql))
                 {
-                    message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Archive_Table'], '', __LINE__, __FILE__, $sql);
+                    message_die(GENERAL_ERROR, $lang['Error_Posts_Archive_Table'], '', __LINE__, __FILE__, $sql);
                 }
                 $row = $titanium_db->sql_fetchrow($result);
-                $status_message .= sprintf($titanium_lang['Archived_Message_No_Delete'], $row['privmsgs_subject']);
+                $status_message .= sprintf($lang['Archived_Message_No_Delete'], $row['privmsgs_subject']);
             }
             else
             {
@@ -913,11 +913,11 @@ class aprvmManager
                WHERE privmsgs_id IN ($postList)";
             if(!$result = $titanium_db->sql_query($sql))
             {
-                message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+                message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
             while ($row = $titanium_db->sql_fetchrow($result))
             {
-                $status_message .= sprintf($titanium_lang['Deleted_Message'], $row['privmsgs_subject']);
+                $status_message .= sprintf($lang['Deleted_Message'], $row['privmsgs_subject']);
 
                 if (!$phpbb2_board_config['aprvmArchive'] || $mode != 'archive')
                 {
@@ -929,14 +929,14 @@ class aprvmManager
                       WHERE privmsgs_text_id IN ($postList)";
             if(!$titanium_db->sql_query($sql))
             {
-                message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+                message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
 
             $sql = "DELETE FROM " . PRIVMSGS_TABLE . $aprvmUtil->inArchiveText." 
                       WHERE privmsgs_id IN ($postList)";
             if(!$titanium_db->sql_query($sql))
             {
-                message_die(GENERAL_ERROR, $titanium_lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
+                message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__, $sql);
             }
     }
 

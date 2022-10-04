@@ -57,9 +57,9 @@ if (!defined('MODULE_FILE')) {
 
 
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-require("modules/".$titanium_module_name."/nukebb.php");
+require("modules/".$pnt_module."/nukebb.php");
 
 
 
@@ -459,7 +459,7 @@ if ( !$phpbb2_is_auth['auth_mod'] )
 
 {
 
-        message_die(GENERAL_MESSAGE, $titanium_lang['Not_Moderator'], $titanium_lang['Not_Authorised']);
+        message_die(GENERAL_MESSAGE, $lang['Not_Moderator'], $lang['Not_Authorised']);
 
 }
 
@@ -487,13 +487,13 @@ switch( $mode )
 
                 {
 
-                        message_die(GENERAL_MESSAGE, sprintf($titanium_lang['Sorry_auth_delete'], $phpbb2_is_auth['auth_delete_type']));
+                        message_die(GENERAL_MESSAGE, sprintf($lang['Sorry_auth_delete'], $phpbb2_is_auth['auth_delete_type']));
 
                 }
 
 
 
-                $phpbb2_page_title = $titanium_lang['Mod_CP'];
+                $phpbb2_page_title = $lang['Mod_CP'];
 
                 include("includes/page_header.$phpEx");
 
@@ -509,7 +509,7 @@ switch( $mode )
 
             			{
 
-             				message_die(GENERAL_MESSAGE, $titanium_lang['None_selected']);
+             				message_die(GENERAL_MESSAGE, $lang['None_selected']);
 
              			}
 
@@ -569,7 +569,7 @@ switch( $mode )
 
              			{
 
-             				message_die(GENERAL_MESSAGE, $titanium_lang['None_selected']);
+             				message_die(GENERAL_MESSAGE, $lang['None_selected']);
 
              			}
 
@@ -1023,19 +1023,19 @@ switch( $mode )
                         if ( !empty($topic_id) )
                         {
                                 $redirect_page = append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id");
-                                $l_redirect = sprintf($titanium_lang['Click_return_forum'], '<a href="' . $redirect_page . '">', '</a>');
+                                $l_redirect = sprintf($lang['Click_return_forum'], '<a href="' . $redirect_page . '">', '</a>');
                         }
                         else
                         {
                                 $redirect_page = append_titanium_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id");
-                                $l_redirect = sprintf($titanium_lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
+                                $l_redirect = sprintf($lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
                         }
 
                         $phpbb2_template->assign_vars(array(
                                 'META' => '<meta http-equiv="refresh" content="3;url=' . $redirect_page . '">')
                         );
 
-                        message_die(GENERAL_MESSAGE, $titanium_lang['Topics_Removed'] . '<br /><br />' . $l_redirect);
+                        message_die(GENERAL_MESSAGE, $lang['Topics_Removed'] . '<br /><br />' . $l_redirect);
                 }
                 else
                 {
@@ -1046,7 +1046,7 @@ switch( $mode )
 
                         {
 
-                                message_die(GENERAL_MESSAGE, $titanium_lang['None_selected']);
+                                message_die(GENERAL_MESSAGE, $lang['None_selected']);
 
                         }
 
@@ -1164,15 +1164,15 @@ switch( $mode )
 
                         $phpbb2_template->assign_vars(array(
 
-                                'MESSAGE_TITLE' => $titanium_lang['Confirm'],
+                                'MESSAGE_TITLE' => $lang['Confirm'],
 
-                                'MESSAGE_TEXT' => $titanium_lang['Confirm_delete_topic'],
+                                'MESSAGE_TEXT' => $lang['Confirm_delete_topic'],
 
 
 
-                                'L_YES' => $titanium_lang['Yes'],
+                                'L_YES' => $lang['Yes'],
 
-                                'L_NO' => $titanium_lang['No'],
+                                'L_NO' => $lang['No'],
 
 
 
@@ -1198,7 +1198,7 @@ switch( $mode )
 
         case 'move':
 
-                $phpbb2_page_title = $titanium_lang['Mod_CP'];
+                $phpbb2_page_title = $lang['Mod_CP'];
 
                 include("includes/page_header.$phpEx");
 
@@ -1212,7 +1212,7 @@ switch( $mode )
 
                         {
 
-                                message_die(GENERAL_MESSAGE, $titanium_lang['None_selected']);
+                                message_die(GENERAL_MESSAGE, $lang['None_selected']);
 
                         }
 
@@ -1386,7 +1386,7 @@ switch( $mode )
 
 
 
-                                $message = $titanium_lang['Topics_Moved'] . '<br /><br />';
+                                $message = $lang['Topics_Moved'] . '<br /><br />';
 
 
 
@@ -1396,7 +1396,7 @@ switch( $mode )
 
                         {
 
-                                $message = $titanium_lang['No_Topics_Moved'] . '<br /><br />';
+                                $message = $lang['No_Topics_Moved'] . '<br /><br />';
 
                         }
 
@@ -1408,7 +1408,7 @@ switch( $mode )
 
                                 $redirect_page = append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id");
 
-                                $message .= sprintf($titanium_lang['Click_return_topic'], '<a href="' . $redirect_page . '">', '</a>');
+                                $message .= sprintf($lang['Click_return_topic'], '<a href="' . $redirect_page . '">', '</a>');
 
                         }
 
@@ -1418,13 +1418,13 @@ switch( $mode )
 
                                 $redirect_page = append_titanium_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id");
 
-                                $message .= sprintf($titanium_lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
+                                $message .= sprintf($lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
 
                         }
 
 
 
-                        $message = $message . '<br /><br />' . sprintf($titanium_lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$old_forum_id") . '">', '</a>');
+                        $message = $message . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$old_forum_id") . '">', '</a>');
 
 
 
@@ -1448,7 +1448,7 @@ switch( $mode )
 
                         {
 
-                                message_die(GENERAL_MESSAGE, $titanium_lang['None_selected']);
+                                message_die(GENERAL_MESSAGE, $lang['None_selected']);
 
                         }
 
@@ -1502,19 +1502,19 @@ switch( $mode )
 
                         $phpbb2_template->assign_vars(array(
 
-                                'MESSAGE_TITLE' => $titanium_lang['Confirm'],
+                                'MESSAGE_TITLE' => $lang['Confirm'],
 
-                                'MESSAGE_TEXT' => $titanium_lang['Confirm_move_topic'],
+                                'MESSAGE_TEXT' => $lang['Confirm_move_topic'],
 
 
 
-                                'L_MOVE_TO_FORUM' => $titanium_lang['Move_to_forum'],
+                                'L_MOVE_TO_FORUM' => $lang['Move_to_forum'],
 
-                                'L_LEAVESHADOW' => $titanium_lang['Leave_shadow_topic'],
+                                'L_LEAVESHADOW' => $lang['Leave_shadow_topic'],
 
-                                'L_YES' => $titanium_lang['Yes'],
+                                'L_YES' => $lang['Yes'],
 
-                                'L_NO' => $titanium_lang['No'],
+                                'L_NO' => $lang['No'],
 
 
 
@@ -1546,7 +1546,7 @@ switch( $mode )
 
                 {
 
-                        message_die(GENERAL_MESSAGE, $titanium_lang['None_selected']);
+                        message_die(GENERAL_MESSAGE, $lang['None_selected']);
 
                 }
 
@@ -1610,7 +1610,7 @@ switch( $mode )
 
                         $redirect_page = append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id");
 
-                        $message = sprintf($titanium_lang['Click_return_topic'], '<a href="' . $redirect_page . '">', '</a>');
+                        $message = sprintf($lang['Click_return_topic'], '<a href="' . $redirect_page . '">', '</a>');
 
                 }
 
@@ -1620,13 +1620,13 @@ switch( $mode )
 
                         $redirect_page = append_titanium_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id");
 
-                        $message = sprintf($titanium_lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
+                        $message = sprintf($lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
 
                 }
 
 
 
-                $message = $message . '<br /><br />' . sprintf($titanium_lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
+                $message = $message . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
 
 
 
@@ -1638,7 +1638,7 @@ switch( $mode )
 
 
 
-                message_die(GENERAL_MESSAGE, $titanium_lang['Topics_Locked'] . '<br /><br />' . $message);
+                message_die(GENERAL_MESSAGE, $lang['Topics_Locked'] . '<br /><br />' . $message);
 
 
 
@@ -1652,7 +1652,7 @@ switch( $mode )
 
                 {
 
-                        message_die(GENERAL_MESSAGE, $titanium_lang['None_selected']);
+                        message_die(GENERAL_MESSAGE, $lang['None_selected']);
 
                 }
 
@@ -1716,7 +1716,7 @@ switch( $mode )
 
                         $redirect_page = append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id");
 
-                        $message = sprintf($titanium_lang['Click_return_topic'], '<a href="' . $redirect_page . '">', '</a>');
+                        $message = sprintf($lang['Click_return_topic'], '<a href="' . $redirect_page . '">', '</a>');
 
                 }
 
@@ -1726,13 +1726,13 @@ switch( $mode )
 
                         $redirect_page = append_titanium_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id");
 
-                        $message = sprintf($titanium_lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
+                        $message = sprintf($lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
 
                 }
 
 
 
-                $message = $message . '<br /><br />' . sprintf($titanium_lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
+                $message = $message . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
 
 
 
@@ -1744,7 +1744,7 @@ switch( $mode )
 
 
 
-                message_die(GENERAL_MESSAGE, $titanium_lang['Topics_Unlocked'] . '<br /><br />' . $message);
+                message_die(GENERAL_MESSAGE, $lang['Topics_Unlocked'] . '<br /><br />' . $message);
 
 
 
@@ -1754,7 +1754,7 @@ switch( $mode )
 
         case 'split':
 
-                $phpbb2_page_title = $titanium_lang['Mod_CP'];
+                $phpbb2_page_title = $lang['Mod_CP'];
 
                 include("includes/page_header.$phpEx");
 
@@ -1822,7 +1822,7 @@ switch( $mode )
 
              			{
 
-             				message_die(GENERAL_MESSAGE, $titanium_lang['None_selected']);
+             				message_die(GENERAL_MESSAGE, $lang['None_selected']);
 
              			}
 
@@ -1882,7 +1882,7 @@ switch( $mode )
 
                                 {
 
-                                        message_die(GENERAL_MESSAGE, $titanium_lang['Empty_subject']);
+                                        message_die(GENERAL_MESSAGE, $lang['Empty_subject']);
 
                                 }
 
@@ -2016,7 +2016,7 @@ switch( $mode )
 
 
 
-                        $message = $titanium_lang['Topic_split'] . '<br /><br />' . sprintf($titanium_lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
+                        $message = $lang['Topic_split'] . '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
 
                                 message_die(GENERAL_MESSAGE, $message);
 
@@ -2080,35 +2080,35 @@ switch( $mode )
 
                                 $phpbb2_template->assign_vars(array(
 
-                                        'L_SPLIT_TOPIC' => $titanium_lang['Split_Topic'],
+                                        'L_SPLIT_TOPIC' => $lang['Split_Topic'],
 
-                                        'L_SPLIT_TOPIC_EXPLAIN' => $titanium_lang['Split_Topic_explain'],
+                                        'L_SPLIT_TOPIC_EXPLAIN' => $lang['Split_Topic_explain'],
 
-                                        'L_AUTHOR' => $titanium_lang['Author'],
+                                        'L_AUTHOR' => $lang['Author'],
 
-                                        'L_MESSAGE' => $titanium_lang['Message'],
+                                        'L_MESSAGE' => $lang['Message'],
 
-                                        'L_SELECT' => $titanium_lang['Select'],
+                                        'L_SELECT' => $lang['Select'],
 
-                                        'L_SPLIT_SUBJECT' => $titanium_lang['Split_title'],
+                                        'L_SPLIT_SUBJECT' => $lang['Split_title'],
 
-                                        'L_SPLIT_FORUM' => $titanium_lang['Split_forum'],
+                                        'L_SPLIT_FORUM' => $lang['Split_forum'],
 
-                                        'L_POSTED' => $titanium_lang['Posted'],
+                                        'L_POSTED' => $lang['Posted'],
 
-                                        'L_SPLIT_POSTS' => $titanium_lang['Split_posts'],
+                                        'L_SPLIT_POSTS' => $lang['Split_posts'],
 
-                                        'L_SUBMIT' => $titanium_lang['Submit'],
+                                        'L_SUBMIT' => $lang['Submit'],
 
-                                        'L_SPLIT_AFTER' => $titanium_lang['Split_after'],
+                                        'L_SPLIT_AFTER' => $lang['Split_after'],
 
-                                        'L_POST_SUBJECT' => $titanium_lang['Post_subject'],
+                                        'L_POST_SUBJECT' => $lang['Post_subject'],
 
-                                        'L_MARK_ALL' => $titanium_lang['Mark_all'],
+                                        'L_MARK_ALL' => $lang['Mark_all'],
 
-                                        'L_UNMARK_ALL' => $titanium_lang['Unmark_all'],
+                                        'L_UNMARK_ALL' => $lang['Unmark_all'],
 
-                                        'L_POST' => $titanium_lang['Post'],
+                                        'L_POST' => $lang['Post'],
 
 
 
@@ -2288,7 +2288,7 @@ switch( $mode )
 
         case 'ip':
 
-                $phpbb2_page_title = $titanium_lang['Mod_CP'];
+                $phpbb2_page_title = $lang['Mod_CP'];
 
                 include("includes/page_header.$phpEx");
 
@@ -2302,7 +2302,7 @@ switch( $mode )
 
                 {
 
-                        message_die(GENERAL_MESSAGE, $titanium_lang['No_such_post']);
+                        message_die(GENERAL_MESSAGE, $lang['No_such_post']);
 
                 }
 
@@ -2346,7 +2346,7 @@ switch( $mode )
 
                 {
 
-                        message_die(GENERAL_MESSAGE, $titanium_lang['No_such_post']);
+                        message_die(GENERAL_MESSAGE, $lang['No_such_post']);
 
                 }
 
@@ -2364,17 +2364,17 @@ switch( $mode )
 
                 $phpbb2_template->assign_vars(array(
 
-                        'L_IP_INFO' => $titanium_lang['IP_info'],
+                        'L_IP_INFO' => $lang['IP_info'],
 
-                        'L_THIS_POST_IP' => $titanium_lang['This_posts_IP'],
+                        'L_THIS_POST_IP' => $lang['This_posts_IP'],
 
-                        'L_OTHER_IPS' => $titanium_lang['Other_IP_this_user'],
+                        'L_OTHER_IPS' => $lang['Other_IP_this_user'],
 
-                        'L_OTHER_USERS' => $titanium_lang['Users_this_IP'],
+                        'L_OTHER_USERS' => $lang['Users_this_IP'],
 
-                        'L_LOOKUP_IP' => $titanium_lang['Lookup_IP'],
+                        'L_LOOKUP_IP' => $lang['Lookup_IP'],
 
-                        'L_SEARCH' => $titanium_lang['Search'],
+                        'L_SEARCH' => $lang['Search'],
 
 
 
@@ -2434,7 +2434,7 @@ switch( $mode )
 
                                         $phpbb2_template->assign_vars(array(
 
-                                                'POSTS' => $row['postings'] . ' ' . ( ( $row['postings'] == 1 ) ? $titanium_lang['Post'] : $titanium_lang['Posts'] ))
+                                                'POSTS' => $row['postings'] . ' ' . ( ( $row['postings'] == 1 ) ? $lang['Post'] : $lang['Posts'] ))
 
                                         );
 
@@ -2464,7 +2464,7 @@ switch( $mode )
 
                                         'IP' => $ip,
 
-                                        'POSTS' => $row['postings'] . ' ' . ( ( $row['postings'] == 1 ) ? $titanium_lang['Post'] : $titanium_lang['Posts'] ),
+                                        'POSTS' => $row['postings'] . ' ' . ( ( $row['postings'] == 1 ) ? $lang['Post'] : $lang['Posts'] ),
 
 
 
@@ -2524,7 +2524,7 @@ switch( $mode )
 
                                 $id = $row['user_id'];
 
-                                $titanium_username = ( $id == ANONYMOUS ) ? $titanium_lang['Guest'] : $row['username'];
+                                $titanium_username = ( $id == ANONYMOUS ) ? $lang['Guest'] : $row['username'];
 
 
 
@@ -2542,9 +2542,9 @@ switch( $mode )
 
                                         'USERNAME' => $titanium_username,
 
-                                        'POSTS' => $row['postings'] . ' ' . ( ( $row['postings'] == 1 ) ? $titanium_lang['Post'] : $titanium_lang['Posts'] ),
+                                        'POSTS' => $row['postings'] . ' ' . ( ( $row['postings'] == 1 ) ? $lang['Post'] : $lang['Posts'] ),
 
-                                        'L_SEARCH_POSTS' => sprintf($titanium_lang['Search_user_posts'], $titanium_username),
+                                        'L_SEARCH_POSTS' => sprintf($lang['Search_user_posts'], $titanium_username),
 
 
 
@@ -2584,7 +2584,7 @@ switch( $mode )
 
         {
 
-            message_die(GENERAL_MESSAGE, $titanium_lang['None_selected']);
+            message_die(GENERAL_MESSAGE, $lang['None_selected']);
 
         }
 
@@ -2634,7 +2634,7 @@ switch( $mode )
 
             $redirect_page = append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id");
 
-            $message = sprintf($titanium_lang['Click_return_topic'], '<a href="' . $redirect_page . '">', '</a>');
+            $message = sprintf($lang['Click_return_topic'], '<a href="' . $redirect_page . '">', '</a>');
 
         }
 
@@ -2648,7 +2648,7 @@ switch( $mode )
 
             $redirect_page = append_titanium_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id");
 
-            $message = sprintf($titanium_lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
+            $message = sprintf($lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
 
         }
 
@@ -2656,9 +2656,9 @@ switch( $mode )
 
         // And also here. Also notice the two WRONG <br /> and the '  . "modules.php which is totally wrong
 
-        //$message = $message . '<br /><br />' . sprintf($titanium_lang['Click_return_forum'], '<a href="' . "modules.php?name=Forums&file=viewtopic&" . POST_FORUM_URL . "=$phpbb2_forum_id&amp;sid=" . $userdata['session_id'] . '">', '</a>');
+        //$message = $message . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . "modules.php?name=Forums&file=viewtopic&" . POST_FORUM_URL . "=$phpbb2_forum_id&amp;sid=" . $userdata['session_id'] . '">', '</a>');
 
-        $message .= '<br /><br />' . sprintf($titanium_lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
+        $message .= '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
 
 
 
@@ -2670,7 +2670,7 @@ switch( $mode )
 
 
 
-        message_die(GENERAL_MESSAGE, $titanium_lang['Topics_Prioritized'] . '<br /><br />' . $message);
+        message_die(GENERAL_MESSAGE, $lang['Topics_Prioritized'] . '<br /><br />' . $message);
 
 
 
@@ -2686,7 +2686,7 @@ switch( $mode )
 
         default:
 
-                $phpbb2_page_title = $titanium_lang['Mod_CP'];
+                $phpbb2_page_title = $lang['Mod_CP'];
 
                 include("includes/page_header.$phpEx");
 
@@ -2698,11 +2698,11 @@ switch( $mode )
 
 
 
-                        'L_MOD_CP' => $titanium_lang['Mod_CP'],
+                        'L_MOD_CP' => $lang['Mod_CP'],
 
-                        'L_MOD_CP_EXPLAIN' => $titanium_lang['Mod_CP_explain'],
+                        'L_MOD_CP_EXPLAIN' => $lang['Mod_CP_explain'],
 
-                        'L_SELECT' => $titanium_lang['Select'],
+                        'L_SELECT' => $lang['Select'],
 
 /*****[BEGIN]******************************************
 
@@ -2710,9 +2710,9 @@ switch( $mode )
 
  ******************************************************/
 
-                        'L_PRIORITY' =>   $titanium_lang['Priority'],
+                        'L_PRIORITY' =>   $lang['Priority'],
 
-                        'L_PRIORITIZE' => $titanium_lang['Prioritize'],
+                        'L_PRIORITIZE' => $lang['Prioritize'],
 
 /*****[END]********************************************
 
@@ -2720,21 +2720,21 @@ switch( $mode )
 
  ******************************************************/
 
-                        'L_DELETE' => $titanium_lang['Delete'],
+                        'L_DELETE' => $lang['Delete'],
 
-                        'L_MOVE' => $titanium_lang['Move'],
+                        'L_MOVE' => $lang['Move'],
 
-                        'L_LOCK' => $titanium_lang['Lock'],
+                        'L_LOCK' => $lang['Lock'],
 
-                        'L_UNLOCK' => $titanium_lang['Unlock'],
+                        'L_UNLOCK' => $lang['Unlock'],
 
-                        'L_TOPICS' => $titanium_lang['Topics'],
+                        'L_TOPICS' => $lang['Topics'],
 
-                        'L_REPLIES' => $titanium_lang['Replies'],
+                        'L_REPLIES' => $lang['Replies'],
 
-                        'L_LASTPOST' => $titanium_lang['Last_Post'],
+                        'L_LASTPOST' => $lang['Last_Post'],
 
-                        'L_SELECT' => $titanium_lang['Select'],
+                        'L_SELECT' => $lang['Select'],
 
 
 
@@ -2886,7 +2886,7 @@ switch( $mode )
 
                                 $folder_img = $images['folder_locked'];
 
-                                $phpbb2_folder_alt = $titanium_lang['Topic_locked'];
+                                $phpbb2_folder_alt = $lang['Topic_locked'];
 
                         }
 
@@ -2906,7 +2906,7 @@ switch( $mode )
 
                            $folder_img = $images['folder_global_announce'];
 
-                           $phpbb2_folder_alt = $titanium_lang['Global_announcement'];
+                           $phpbb2_folder_alt = $lang['Global_announcement'];
 
                         } else
 
@@ -2922,7 +2922,7 @@ switch( $mode )
 
                                         $folder_img = $images['folder_announce'];
 
-                                        $phpbb2_folder_alt = $titanium_lang['Topic_Announcement'];
+                                        $phpbb2_folder_alt = $lang['Topic_Announcement'];
 
                                 }
 
@@ -2932,7 +2932,7 @@ switch( $mode )
 
                                         $folder_img = $images['folder_sticky'];
 
-                                        $phpbb2_folder_alt = $titanium_lang['Topic_Sticky'];
+                                        $phpbb2_folder_alt = $lang['Topic_Sticky'];
 
                                 }
 
@@ -2942,7 +2942,7 @@ switch( $mode )
 
                                         $folder_img = $images['folder'];
 
-                                        $phpbb2_folder_alt = $titanium_lang['No_new_posts'];
+                                        $phpbb2_folder_alt = $lang['No_new_posts'];
 
                                 }
 
@@ -2982,7 +2982,7 @@ switch( $mode )
 
                         {
 
-                           $topic_type = $titanium_lang['Topic_global_announcement'] . ' ';
+                           $topic_type = $lang['Topic_global_announcement'] . ' ';
 
                         } else
 
@@ -2996,7 +2996,7 @@ switch( $mode )
 
                         {
 
-                                $topic_type = $titanium_lang['Topic_Announcement'] . ' ';
+                                $topic_type = $lang['Topic_Announcement'] . ' ';
 
                         }
 
@@ -3004,7 +3004,7 @@ switch( $mode )
 
                         {
 
-                                $topic_type = $titanium_lang['Topic_Sticky'] . ' ';
+                                $topic_type = $lang['Topic_Sticky'] . ' ';
 
                         }
 
@@ -3012,7 +3012,7 @@ switch( $mode )
 
                         {
 
-                                $topic_type = $titanium_lang['Topic_Moved'] . ' ';
+                                $topic_type = $lang['Topic_Moved'] . ' ';
 
                         }
 
@@ -3030,7 +3030,7 @@ switch( $mode )
 
                         {
 
-                                $topic_type .= $titanium_lang['Topic_Poll'] . ' ';
+                                $topic_type .= $lang['Topic_Poll'] . ' ';
 
                         }
 
@@ -3134,9 +3134,9 @@ switch( $mode )
 
                         'PAGINATION' => generate_pagination("modcp.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id&amp;sid=" . $userdata['session_id'], $forum_topics, $phpbb2_board_config['topics_per_page'], $phpbb2_start),
 
-                        'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], ( floor( $phpbb2_start / $phpbb2_board_config['topics_per_page'] ) + 1 ), ceil( $forum_topics / $phpbb2_board_config['topics_per_page'] )),
+                        'PAGE_NUMBER' => sprintf($lang['Page_of'], ( floor( $phpbb2_start / $phpbb2_board_config['topics_per_page'] ) + 1 ), ceil( $forum_topics / $phpbb2_board_config['topics_per_page'] )),
 
-                        'L_GOTO_PAGE' => $titanium_lang['Goto_page'])
+                        'L_GOTO_PAGE' => $lang['Goto_page'])
 
                 );
 

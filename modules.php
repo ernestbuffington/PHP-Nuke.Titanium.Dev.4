@@ -59,17 +59,17 @@ if($name):
 
     $titanium_module = $titanium_db->sql_ufetchrow('SELECT `title`, `active`, `view`, `blocks`, `custom_title`, `groups` FROM `'.$titanium_prefix.'_modules` WHERE `title`="'.Fix_Quotes($name).'"');
 	
-	$titanium_module_name = $titanium_module['title'];
+	$pnt_module = $titanium_module['title'];
 	
-	if ($titanium_module_name == 'Your_Account' 
-	|| $titanium_module_name == main_module_titanium()): 
+	if ($pnt_module == 'Your_Account' 
+	|| $pnt_module == main_module_titanium()): 
 		$titanium_module['active'] = true;
 		$view = 0;
 	else: 
 		$view = $titanium_module['view'];
 	endif;
 	
-	if($titanium_module['active'] || is_mod_admin($titanium_module_name)):
+	if($titanium_module['active'] || is_mod_admin($pnt_module)):
       if (!isset($file) OR $file != $_REQUEST['file']) 
 		$file='index';
 	     if (isset($open)) 
@@ -85,7 +85,7 @@ if($name):
 		die('You are so cool...');
 		
 		$showblocks = $titanium_module['blocks'];
-		$titanium_module_title = ($titanium_module['custom_title'] != '') ? $titanium_module['custom_title'] : str_replace('_', ' ', $titanium_module_name);
+		$titanium_module_title = ($titanium_module['custom_title'] != '') ? $titanium_module['custom_title'] : str_replace('_', ' ', $pnt_module);
         $modpath = isset($titanium_module['title']) ? NUKE_MODULES_DIR.$titanium_module['title']."/$file.php" : NUKE_MODULES_DIR.$name."/$file.php";
         $groups = (!empty($titanium_module['groups'])) ? $groups = explode('-', $titanium_module['groups']) : '';
         

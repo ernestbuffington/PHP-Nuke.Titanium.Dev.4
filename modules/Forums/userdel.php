@@ -19,8 +19,8 @@ if (!defined('MODULE_FILE')) {
 
 if ((!(isset($popup)) OR ($popup != "1")) && !isset($HTTP_GET_VARS['printertopic']))
 {
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -52,7 +52,7 @@ titanium_init_userprefs($userdata);
 $if_admin = ($userdata['user_level'] == ADMIN );
 if ( !$if_admin )
 {
-	message_die(GENERAL_MESSAGE, $titanium_lang['Not_Authorised']);
+	message_die(GENERAL_MESSAGE, $lang['Not_Authorised']);
 }
 //
 include($phpbb2_root_path.'language/lang_' . $userdata['user_lang'] . '/lang_user_delete.'.$phpEx);
@@ -77,26 +77,26 @@ switch( $mode )
 {
 	case 1:
 		$mode_quest = '';
-        $final_anno = $titanium_lang['user_is_deleted'];
+        $final_anno = $lang['user_is_deleted'];
 		break;
 	case 2:
-		$mode_quest = $titanium_lang['with_all_topics'];
-        $final_anno = $titanium_lang['user_with_topics_deleted'];
+		$mode_quest = $lang['with_all_topics'];
+        $final_anno = $lang['user_with_topics_deleted'];
 		break;
 	case 3:
-		$mode_quest = $titanium_lang['with_all_postings'];
-        $final_anno = $titanium_lang['user_deleted_with_all_postings'];
+		$mode_quest = $lang['with_all_postings'];
+        $final_anno = $lang['user_deleted_with_all_postings'];
 		break;
 
         //<!---1
 	case 4:
-		$mode_quest = $titanium_lang['with_all_postings'];
-        $final_anno = $titanium_lang['only_user_postings_deleted'];
+		$mode_quest = $lang['with_all_postings'];
+        $final_anno = $lang['only_user_postings_deleted'];
 		break;
         //--->
 
 	default:
-		message_die(GENERAL_MESSAGE, $titanium_lang['No_post_mode']);
+		message_die(GENERAL_MESSAGE, $lang['No_post_mode']);
 		break;
 }
 
@@ -133,7 +133,7 @@ $sql = "SELECT user_id, user_level, username
 	$row = $titanium_db->sql_fetchrow($result);
 	if ($row['user_id'] == '')
 	{
-	    message_die(GENERAL_MESSAGE, $titanium_lang['User_not_exist']);
+	    message_die(GENERAL_MESSAGE, $lang['User_not_exist']);
 	}
     $titanium_user_name = $row['username'];
 
@@ -174,21 +174,21 @@ if ( ($titanium_user_deleted_id) && !$confirm )
 	$s_hidden_fields .= '<input type="hidden" name="delete_mode" value="' . $mode . '" />';
     if ($mode != 4)
     {
-	$l_confirm = ($titanium_user_deleted_id) ? sprintf($titanium_lang['You_sure'], $total_phpbb2_topics, $phpbb2_total_posts ) . ' '. $titanium_user_name . '</b> ' . $mode_quest . '?' : $titanium_lang['No_user_specified'];
+	$l_confirm = ($titanium_user_deleted_id) ? sprintf($lang['You_sure'], $total_phpbb2_topics, $phpbb2_total_posts ) . ' '. $titanium_user_name . '</b> ' . $mode_quest . '?' : $lang['No_user_specified'];
     }
     else
     {
-	$l_confirm = ($titanium_user_deleted_id) ? sprintf($titanium_lang['Sure_delete_only_postings'], $total_phpbb2_topics, $phpbb2_total_posts ) . ' '. $titanium_user_name . '</b>?' : $titanium_lang['No_user_specified'];
+	$l_confirm = ($titanium_user_deleted_id) ? sprintf($lang['Sure_delete_only_postings'], $total_phpbb2_topics, $phpbb2_total_posts ) . ' '. $titanium_user_name . '</b>?' : $lang['No_user_specified'];
     }
 	// Output confirmation page
 include("includes/page_header.php");
 	$phpbb2_template->set_filenames(array(
 		'confirm_body' => 'confirm_body.tpl'));
 	$phpbb2_template->assign_vars(array(
-		'MESSAGE_TITLE' => $titanium_lang['Information'],
+		'MESSAGE_TITLE' => $lang['Information'],
 		'MESSAGE_TEXT' => $l_confirm,
-		'L_YES' => $titanium_lang['Yes'],
-		'L_NO' => $titanium_lang['No'],
+		'L_YES' => $lang['Yes'],
+		'L_NO' => $lang['No'],
 		'S_CONFIRM_ACTION' => append_titanium_sid("userdel.$phpEx"),
 		'S_HIDDEN_FIELDS' => $s_hidden_fields)
 	);
@@ -246,7 +246,7 @@ if ((($mode == 2) || ($mode == 3) || ($mode == 4)) && ($total_phpbb2_topics > 0)
 
          $phpbb2_template->assign_block_vars('deleted_user_topics', array(
 	  	 	'TOPIC_TITLES' => $titanium_user_topic_titles,
-            'L_TOPIC_TITLES' => $titanium_lang['Deleted_u_topics']
+            'L_TOPIC_TITLES' => $lang['Deleted_u_topics']
          	));
 
          //
@@ -273,7 +273,7 @@ if ((($mode == 2) || ($mode == 3) || ($mode == 4)) && ($total_phpbb2_topics > 0)
             // Output
             $phpbb2_template->assign_block_vars('deleted_posts_in_user_topics', array(
 	  	 		'DELETED_POSTS_IN_U_TOPICS' => $deleted_posts_in_u_topics_id,
-            	'L_DELETED_POSTS_IN_U_TOPICS' => $titanium_lang['deleted_posts_in_user_topics']
+            	'L_DELETED_POSTS_IN_U_TOPICS' => $lang['deleted_posts_in_user_topics']
          		));
 
             // Get IDs of users, whose posts are deleted in User Topics
@@ -304,7 +304,7 @@ if ((($mode == 2) || ($mode == 3) || ($mode == 4)) && ($total_phpbb2_topics > 0)
 
             $phpbb2_template->assign_block_vars('num_deleted_posts_in_usertopics', array(
                 'NUM_DELETED_POSTS_IN_U_TOPICS' => $deleted_posts_in_usertopics,
-                'L_NUM_DELETED_POSTS_IN_U_TOPICS' => $titanium_lang['num_deleted_posts_in_usertopics']
+                'L_NUM_DELETED_POSTS_IN_U_TOPICS' => $lang['num_deleted_posts_in_usertopics']
                 ));
 
             $sql = 'DELETE FROM ' . TOPICS_TABLE . '
@@ -315,7 +315,7 @@ if ((($mode == 2) || ($mode == 3) || ($mode == 4)) && ($total_phpbb2_topics > 0)
 
 	        $phpbb2_template->assign_block_vars('num_of_deleted_user_topics', array(
 	        	'NUM_OF_DELETED_TOPICS' => $deleted_user_topics,
-	            'L_NUM_OF_DELETED_TOPICS' => $titanium_lang['num_of_deleted_user_topics']
+	            'L_NUM_OF_DELETED_TOPICS' => $lang['num_of_deleted_user_topics']
 	            ));
 
             //
@@ -341,8 +341,8 @@ if ((($mode == 2) || ($mode == 3) || ($mode == 4)) && ($total_phpbb2_topics > 0)
 
 	            $phpbb2_template->assign_block_vars('forums_with_new_last_posts1', array(
 	              'LIST_FORUMS_WHERE_SET_NEW_LASTPOST' => $recynced_forums1,
-	              'L_FORUMS_WHERE_SET_NEW_LASTPOST' => $titanium_lang['forums_with_new_last_posts'],
-	              'L_NUM_FORUMS_WHERE_SET_NEW_LASTPOST' => $titanium_lang['num_forums_where_deleted_lastpost'],
+	              'L_FORUMS_WHERE_SET_NEW_LASTPOST' => $lang['forums_with_new_last_posts'],
+	              'L_NUM_FORUMS_WHERE_SET_NEW_LASTPOST' => $lang['num_forums_where_deleted_lastpost'],
 	              'NUM_FORUMS_WHERE_SET_NEW_LASTPOST' => $num_of_recync_forums
 	              ));
             }
@@ -382,8 +382,8 @@ if ((($mode == 2) || ($mode == 3) || ($mode == 4)) && ($total_phpbb2_topics > 0)
                 // Number of users
                	$phpbb2_template->assign_block_vars('recynced_users_in_usertopics', array(
                 	'LIST_RECYNCED_USERS_IN_U_TOPICS' => $recynced_users1,
-                	'L_RECYNCED_USERS_IN_U_TOPICS' => $titanium_lang['recynced_users_in_usertopics'],
-                    'L_TOTAL_USERS_IN_U_TOPICS' => $titanium_lang['num_of_other_users_in_u_topics'],
+                	'L_RECYNCED_USERS_IN_U_TOPICS' => $lang['recynced_users_in_usertopics'],
+                    'L_TOTAL_USERS_IN_U_TOPICS' => $lang['num_of_other_users_in_u_topics'],
                     'TOTAL_USERS_IN_U_TOPICS' => $num_users
                 	));
             }
@@ -511,14 +511,14 @@ if (($mode == 3) || ($mode == 4))
                 $deleted_user_topics2 = $titanium_db->sql_affectedrows();
 
                 $phpbb2_template->assign_block_vars('topics_where_only_this_user_posts', array(
-                    'L_DELETED_TOPICS2' => $titanium_lang['deleted_user_topics2'],
+                    'L_DELETED_TOPICS2' => $lang['deleted_user_topics2'],
                     'LIST_DELETED_TOPICS2' => $deleted_topics2_titles,
                     'TOTAL_DELETED_TOPICS2' => $deleted_user_topics2,
-                    'L_TOTAL' => $titanium_lang['Total'],
+                    'L_TOTAL' => $lang['Total'],
 
                     'LIST_DELETED_POSTS_IN_U_TOPICS2' => $deleted_posts_in_u_topics2,
                     'TOTAL_DELETED_POSTS_IN_U_TOPICS2' => $num_deleted_posts_in_usertopics2,
-                    'L_DELETED_POSTS_IN_U_TOPICS2' => $titanium_lang['deleted_posts_in_usertopics2']
+                    'L_DELETED_POSTS_IN_U_TOPICS2' => $lang['deleted_posts_in_usertopics2']
                     ));
 
                 //
@@ -541,8 +541,8 @@ if (($mode == 3) || ($mode == 4))
                           $recynced_forums2 .= '• '. $val['forum_name'] . '<br>';
                     }
                    $phpbb2_template->assign_block_vars('forums_with_new_last_posts2', array(
-                        'L_FORUMS_WHERE_SET_NEW_LASTPOST2' => $titanium_lang['forums_with_new_last_posts'],
-                        'L_NUM_FORUMS_WHERE_SET_NEW_LASTPOST2' => $titanium_lang['num_forums_where_deleted_lastpost'],
+                        'L_FORUMS_WHERE_SET_NEW_LASTPOST2' => $lang['forums_with_new_last_posts'],
+                        'L_NUM_FORUMS_WHERE_SET_NEW_LASTPOST2' => $lang['num_forums_where_deleted_lastpost'],
                         'NUM_FORUMS_WHERE_SET_NEW_LASTPOST2' => $num_of_recync_forums2,
 	                    'LIST_FORUMS_WHERE_SET_NEW_LASTPOST2' => $recynced_forums2,
 	                    ));
@@ -592,10 +592,10 @@ if (($mode == 3) || ($mode == 4))
 	        $deleted_user_poståxts = $titanium_db->sql_affectedrows();
 
 	        $phpbb2_template->assign_block_vars('all_other_user_posts_in_other_topics', array(
-                'L_OTHER_POSTS' => $titanium_lang['all_other_uposts'],
+                'L_OTHER_POSTS' => $lang['all_other_uposts'],
                 'LIST_DELETED_OTHER_POSTS' => $deleted_posts_in_other_topics_list,
 
-                'L_TOTAL' => $titanium_lang['Total'],
+                'L_TOTAL' => $lang['Total'],
 	            'NUM_OF_OTHER_POSTS' => $deleted_userposts
 	            ));
 
@@ -620,10 +620,10 @@ if (($mode == 3) || ($mode == 4))
 	               topic_min_post_recync($val['topic_id']);
                }
 	           $phpbb2_template->assign_block_vars('topics_to_recync_first_or_lastpost', array(
-                    'L_TOPIC_TO_RECYNK_FIRST_LAST_POSTS' => $titanium_lang['topics_to_recync_first_or_lastpost'],
+                    'L_TOPIC_TO_RECYNK_FIRST_LAST_POSTS' => $lang['topics_to_recync_first_or_lastpost'],
                     'LIST_TOPICS_TO_RECYNK_FIRST_LAST_POSTS' => $phpbb2_topics_recynced_first_or_last_posts_list,
 	                'NUM_TOPICS_TO_RECYNK_FIRST_LAST_POSTS' => $num_topics_with_deleted_fl_posts,
-	                'TOTAL' => $titanium_lang['Total']
+	                'TOTAL' => $lang['Total']
 	                ));
 	        }
 
@@ -648,18 +648,18 @@ if (($mode == 3) || ($mode == 4))
 	            }
 
 	          $phpbb2_template->assign_block_vars('forums_where_deleted_lastpost3', array(
-                'L_FORUMS_WHERE_SET_NEW_LASTPOST3' => $titanium_lang['forums_with_new_last_posts'],
+                'L_FORUMS_WHERE_SET_NEW_LASTPOST3' => $lang['forums_with_new_last_posts'],
 	            'LIST_FORUMS_WHERE_SET_NEW_LASTPOST3' => $recynced_forums3,
 
 	            'NUM_FORUMS_WHERE_SET_NEW_LASTPOST3' => $num_of_recync_forums3,
-                'L_NUM_FORUMS_WHERE_SET_NEW_LASTPOST3' => $titanium_lang['num_forums_where_deleted_lastpost']
+                'L_NUM_FORUMS_WHERE_SET_NEW_LASTPOST3' => $lang['num_forums_where_deleted_lastpost']
 	            ));
 	         }
    }
   else // no User posts in other topics
    {
         $phpbb2_template->assign_block_vars('no_other_uposts_in_other_topics', array(
-            'L_NO_OTHER_UPOSTS_IN_OTHERTOPICS' => $titanium_lang['No_other_uposts_in_other_topics']
+            'L_NO_OTHER_UPOSTS_IN_OTHERTOPICS' => $lang['No_other_uposts_in_other_topics']
             ));
    }
 }
@@ -840,14 +840,14 @@ if ($mode != 4)
 $phpbb2_template->assign_vars(array(
 	'L_DELETION_TITLE' => sprintf($final_anno, $titanium_user_name),
 
-    'RETURN_TO_INDEX' => sprintf($titanium_lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>'),
-    'RETURN_TO_MEMBERLIST' => sprintf($titanium_lang['Click_return_to_authors'], '<a href="' . append_titanium_sid("memberlist.$phpEx") . '">', '</a>')
+    'RETURN_TO_INDEX' => sprintf($lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>'),
+    'RETURN_TO_MEMBERLIST' => sprintf($lang['Click_return_to_authors'], '<a href="' . append_titanium_sid("memberlist.$phpEx") . '">', '</a>')
 	));
 
 if ($mode == 1)
 {
    $phpbb2_template->assign_block_vars('resume_to_simple_deletion', array(
-	 'RESUME_TO_SIMPLE_DELETION'=> sprintf($titanium_lang['Resume_to_simple_user_deletion'], $total_phpbb2_topics, $phpbb2_total_posts)
+	 'RESUME_TO_SIMPLE_DELETION'=> sprintf($lang['Resume_to_simple_user_deletion'], $total_phpbb2_topics, $phpbb2_total_posts)
        ));
 }
 

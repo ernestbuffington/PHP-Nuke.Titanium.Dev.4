@@ -32,13 +32,13 @@ $phpbb2_template->set_filenames(array(
 
     $phpbb2_template->assign_block_vars('arcaderow2',array(
            'U_TOPARCADE' => append_titanium_sid("toparcade.$phpEx"),
-           'BEST_SCORES' => $titanium_lang['best_scores'])
+           'BEST_SCORES' => $lang['best_scores'])
            );
 
     $phpbb2_template->assign_block_vars('arcaderow3',array(
            'CLASS' => $class,
            'U_TOPARCADE' => append_titanium_sid("toparcade.$phpEx"),
-           'BEST_SCORES' => $titanium_lang['best_scores'])
+           'BEST_SCORES' => $lang['best_scores'])
            );
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -48,24 +48,24 @@ $phpbb2_template->set_filenames(array(
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
     $phpbb2_template->assign_vars(array(
-            'L_AVATAR' => $titanium_lang['Avatar'],
-            'L_TOP' => $titanium_lang['heading_top'],
-            'L_RECENT' => $titanium_lang['heading_recent'],
-            'L_USER_INFO' => $titanium_lang['heading_user'],
-            'L_POSTER_RANK' => $titanium_lang['Poster_rank'],
-            'L_ARCADE_USER' => $titanium_lang['arcade_user'],
-            'L_WINS' => $titanium_lang['heading_wins'],
-            'L_SEARCH_ARCADE' => $titanium_lang['search_arcade'],
-            'L_GAME_NAME' => $titanium_lang['search_game_name'],
-            'L_GAME_DESCRIPTION' => $titanium_lang['search_game_desc'],
-            'L_SEARCH_DESCRIPTION' => $titanium_lang['search_desc'],
-            'L_NO_PLAY' =>$titanium_lang['games_no_play'],
-            'L_GAMES_NEWEST' =>$titanium_lang['games_newest'],
-            'L_LAST_FIVE' => $titanium_lang['heading_last_five'],
-            'L_LAST_RECORDED' => $titanium_lang['heading_last_recorded'],
-            'TOP_PLAYER' => $titanium_lang['Topgamers'],
-            'PLAYER' => $titanium_lang['Player'],
-            'VICTOIRES' => $titanium_lang['Victoires'],
+            'L_AVATAR' => $lang['Avatar'],
+            'L_TOP' => $lang['heading_top'],
+            'L_RECENT' => $lang['heading_recent'],
+            'L_USER_INFO' => $lang['heading_user'],
+            'L_POSTER_RANK' => $lang['Poster_rank'],
+            'L_ARCADE_USER' => $lang['arcade_user'],
+            'L_WINS' => $lang['heading_wins'],
+            'L_SEARCH_ARCADE' => $lang['search_arcade'],
+            'L_GAME_NAME' => $lang['search_game_name'],
+            'L_GAME_DESCRIPTION' => $lang['search_game_desc'],
+            'L_SEARCH_DESCRIPTION' => $lang['search_desc'],
+            'L_NO_PLAY' =>$lang['games_no_play'],
+            'L_GAMES_NEWEST' =>$lang['games_newest'],
+            'L_LAST_FIVE' => $lang['heading_last_five'],
+            'L_LAST_RECORDED' => $lang['heading_last_recorded'],
+            'TOP_PLAYER' => $lang['Topgamers'],
+            'PLAYER' => $lang['Player'],
+            'VICTOIRES' => $lang['Victoires'],
             'ARCADE_VICTOIRES' => $nbvictoires,
             'AVATAR_IMG' => $avatar_img,
             'USERNAME' => '<a href="' . append_titanium_sid("statarcade.$phpEx?uid=" . $userdata['user_id'] ) . '" class="genmed">' . $phpbb2_color_name . '</a> ',
@@ -148,7 +148,7 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
 
         $phpbb2_template->assign_block_vars('arcaderow2.bestscore2',array(
     'CLASS' => $class,
-    'L_HEADING_CHAMP' => sprintf($titanium_lang['heading_champ'], $last_scoreuser, $last_scoregame, $last_score),
+    'L_HEADING_CHAMP' => sprintf($lang['heading_champ'], $last_scoreuser, $last_scoregame, $last_score),
         'LAST_SCOREDATE' => create_date($phpbb2_board_config['default_dateformat'], $rowArcade['game_highdate'] , $phpbb2_board_config['board_timezone']))
       );
     }
@@ -177,7 +177,7 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
       $last_score = number_format($rowScore['score_game']);
 
       $phpbb2_template->assign_block_vars('arcaderow3.score3',array(
-      'L_LAST_SCORE' => sprintf($titanium_lang['heading_last_score'], $last_scoreuser, $last_score, $last_scoregame, $last_scoredate ))
+      'L_LAST_SCORE' => sprintf($lang['heading_last_score'], $last_scoreuser, $last_score, $last_scoregame, $last_scoredate ))
       );
     }
 // End Last Recorded Score
@@ -281,22 +281,22 @@ $games_time = sec2hms($row['games_time']);
 
             $phpbb2_template->assign_block_vars('arcaderow2',array(
                    'U_TOPARCADE' => append_titanium_sid("toparcade.$phpEx"),
-                   'BEST_SCORES' => $titanium_lang['best_scores'])
+                   'BEST_SCORES' => $lang['best_scores'])
                );
 
             $phpbb2_template->assign_block_vars('arcaderow3',array(
                    'U_TOPARCADE' => append_titanium_sid("toparcade.$phpEx"),
-                   'BEST_SCORES' => $titanium_lang['best_scores'])
+                   'BEST_SCORES' => $lang['best_scores'])
                );
 
             $phpbb2_template->assign_vars(array(
                 "AVATAR_IMG" => $avatar_img,
                 "POSTER_RANK" => $poster_rank,
                 "RANK_IMG" => $rank_image,
-                "ARCADE_VICTOIRES" => sprintf($titanium_lang['heading_stats'], $nbvictoires),
-                "L_ARCADE_TOTAL_PLAYS" => $titanium_lang['heading_plays'],
+                "ARCADE_VICTOIRES" => sprintf($lang['heading_stats'], $nbvictoires),
+                "L_ARCADE_TOTAL_PLAYS" => $lang['heading_plays'],
                 "ARCADE_TOTAL_PLAYS" => $games_played,
-                "L_ARCADE_TOTAL_TIME" => $titanium_lang['heading_time'],
+                "L_ARCADE_TOTAL_TIME" => $lang['heading_time'],
                 "ARCADE_TOTAL_TIME" => $games_time
             )
             );

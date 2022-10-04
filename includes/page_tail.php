@@ -38,7 +38,7 @@ if (!defined('IN_PHPBB2'))
 // Show the overall footer.
 //
 global $popup, $admin_file, $cache;
-$admin_link = ( $userdata['user_level'] == ADMIN ) ? '<a href="modules/Forums/admin/index.php">' . $titanium_lang['Admin_panel'] . '</a><br /><br />' : '';
+$admin_link = ( $userdata['user_level'] == ADMIN ) ? '<a href="modules/Forums/admin/index.php">' . $lang['Admin_panel'] . '</a><br /><br />' : '';
 
 /*****[BEGIN]******************************************
  [ Mod:     Report Posts                       v1.2.3 ]
@@ -50,11 +50,11 @@ if ( $userdata['user_level'] >= ADMIN )
     $open_reports = reports_count();
     if ( $open_reports == 0 )
     {
-        $open_reports = sprintf($titanium_lang['Post_reports_none_cp'],$open_reports);
+        $open_reports = sprintf($lang['Post_reports_none_cp'],$open_reports);
     }
     else 
     {
-        $open_reports = sprintf(( ($open_reports == 1) ? $titanium_lang['Post_reports_one_cp'] : $titanium_lang['Post_reports_many_cp']), $open_reports);
+        $open_reports = sprintf(( ($open_reports == 1) ? $lang['Post_reports_one_cp'] : $lang['Post_reports_many_cp']), $open_reports);
         $open_reports = '<span style="color:#' . $theme['fontcolor2'] . '">' . $open_reports . '</span>';
     }
 
@@ -73,7 +73,7 @@ $phpbb2_template->set_filenames(array(
 );
 
 $phpbb2_template->assign_vars(array(
-        'TRANSLATION_INFO' => (isset($titanium_lang['TRANSLATION_INFO'])) ? $titanium_lang['TRANSLATION_INFO'] : ((isset($titanium_lang['TRANSLATION'])) ? $titanium_lang['TRANSLATION'] : ''),
+        'TRANSLATION_INFO' => (isset($lang['TRANSLATION_INFO'])) ? $lang['TRANSLATION_INFO'] : ((isset($lang['TRANSLATION'])) ? $lang['TRANSLATION'] : ''),
 /*****[BEGIN]******************************************
  [ Mod:     Report Posts                       v1.2.3 ]
  ******************************************************/

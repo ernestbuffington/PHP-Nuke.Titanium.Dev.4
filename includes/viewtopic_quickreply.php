@@ -106,12 +106,12 @@ if ( (($userdata['user_quickreply_mode']==1) && ($userdata['user_id'] != ANONYMO
     //
     if ( $phpbb2_board_config['allow_html'] )
     {
-        $html_status = $titanium_lang['HTML_is_ON'];
+        $html_status = $lang['HTML_is_ON'];
         $phpbb2_template->assign_block_vars('switch_advanced_qr.switch_html_checkbox', array());
     }
     else
     {
-        $html_status = $titanium_lang['HTML_is_OFF'];
+        $html_status = $lang['HTML_is_OFF'];
     }
 
     //
@@ -119,12 +119,12 @@ if ( (($userdata['user_quickreply_mode']==1) && ($userdata['user_id'] != ANONYMO
     //
     if ( $phpbb2_board_config['allow_bbcode'] )
     {
-        $bbcode_status = $titanium_lang['BBCode_is_ON'];
+        $bbcode_status = $lang['BBCode_is_ON'];
         $phpbb2_template->assign_block_vars('switch_advanced_qr.switch_bbcode_checkbox', array());
     }
     else
     {
-        $bbcode_status = $titanium_lang['BBCode_is_OFF'];
+        $bbcode_status = $lang['BBCode_is_OFF'];
     }
 
     //
@@ -132,12 +132,12 @@ if ( (($userdata['user_quickreply_mode']==1) && ($userdata['user_id'] != ANONYMO
     //
     if ( $phpbb2_board_config['allow_smilies'] )
     {
-        $smilies_status = $titanium_lang['Smilies_are_ON'];
+        $smilies_status = $lang['Smilies_are_ON'];
         $phpbb2_template->assign_block_vars('switch_advanced_qr.switch_smilies_checkbox', array());
     }
     else
     {
-        $smilies_status = $titanium_lang['Smilies_are_OFF'];
+        $smilies_status = $lang['Smilies_are_OFF'];
     }
 
     //
@@ -168,7 +168,7 @@ if (  $phpbb2_is_auth['auth_mod'] )
         $phpbb2_template->assign_block_vars('switch_advanced_qr.switch_unlock_topic', array());
 
         $phpbb2_template->assign_vars(array(
-            'L_UNLOCK_TOPIC' => $titanium_lang['Unlock_topic'],
+            'L_UNLOCK_TOPIC' => $lang['Unlock_topic'],
             'S_UNLOCK_CHECKED' => ( $unlock ) ? 'checked="checked"' : '')
         );
     }
@@ -177,7 +177,7 @@ if (  $phpbb2_is_auth['auth_mod'] )
         $phpbb2_template->assign_block_vars('switch_advanced_qr.switch_lock_topic', array());
 
         $phpbb2_template->assign_vars(array(
-            'L_LOCK_TOPIC' => $titanium_lang['Lock_topic'],
+            'L_LOCK_TOPIC' => $lang['Lock_topic'],
             'S_LOCK_CHECKED' => ( $lock ) ? 'checked="checked"' : '')
         );
     }
@@ -195,12 +195,12 @@ if (  $phpbb2_is_auth['auth_mod'] )
         'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="' . append_titanium_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
         'SMILIES_STATUS' => $smilies_status,
         'BB_BOX' => Make_TextArea_Ret('message', '', 'post', '99.4%', '200px', true),
-        'L_OPTIONS' => $titanium_lang['Options'],
-        'L_DISABLE_HTML' => $titanium_lang['Disable_HTML_post'],
-        'L_DISABLE_BBCODE' => $titanium_lang['Disable_BBCode_post'],
-        'L_DISABLE_SMILIES' => $titanium_lang['Disable_Smilies_post'],
-        'L_ATTACH_SIGNATURE' => $titanium_lang['Attach_signature'],
-        'L_NOTIFY_ON_REPLY' => $titanium_lang['Notify'],
+        'L_OPTIONS' => $lang['Options'],
+        'L_DISABLE_HTML' => $lang['Disable_HTML_post'],
+        'L_DISABLE_BBCODE' => $lang['Disable_BBCode_post'],
+        'L_DISABLE_SMILIES' => $lang['Disable_Smilies_post'],
+        'L_ATTACH_SIGNATURE' => $lang['Attach_signature'],
+        'L_NOTIFY_ON_REPLY' => $lang['Notify'],
         'S_HTML_CHECKED' => ( !$html_on ) ? 'checked="checked"' : '',
         'S_BBCODE_CHECKED' => ( !$bbcode_on ) ? 'checked="checked"' : '',
         'S_SMILIES_CHECKED' => ( !$smilies_on ) ? 'checked="checked"' : '',
@@ -253,14 +253,14 @@ else
 $phpbb2_template->assign_vars(array(
     'U_POST_SQR_TOPIC' => 'javascript:sqr_show_hide();',
     'SQR_IMG' => $images['quickreply'],
-    'L_POST_SQR_TOPIC' => $titanium_lang['Show_hide_quick_reply_form'],
+    'L_POST_SQR_TOPIC' => $lang['Show_hide_quick_reply_form'],
 
     'BB_BOX' => ( $userdata['user_quickreply_mode'] == 1 ) ? Make_TextArea_Ret('message', '', 'post', '99.4%', '200px', true) : '<textarea data-autoresize id="message" name="message" style="resize: none; width: 100% !important; height: 200px; min-height: 200px;"></textarea>',
 
-    'L_EMPTY_MESSAGE' => $titanium_lang['Empty_message'],
-    'L_QUICK_REPLY' => $titanium_lang['Quick_Reply'],
-    'L_USERNAME' => $titanium_lang['Username'],
-    'L_SUBJECT' => $titanium_lang['Subject'],
+    'L_EMPTY_MESSAGE' => $lang['Empty_message'],
+    'L_QUICK_REPLY' => $lang['Quick_Reply'],
+    'L_USERNAME' => $lang['Username'],
+    'L_SUBJECT' => $lang['Subject'],
 /*****[BEGIN]******************************************
  [ Mod:     Automatic Subject on Reply         v1.0.0 ]
  ******************************************************/
@@ -268,9 +268,9 @@ $phpbb2_template->assign_vars(array(
 /*****[END]********************************************
  [ Mod:     Automatic Subject on Reply         v1.0.0 ]
  ******************************************************/
-    'L_MESSAGE_BODY' => $titanium_lang['Message_body'],
-    'L_PREVIEW' => $titanium_lang['Preview'],
-    'L_SUBMIT' => $titanium_lang['Submit'],
+    'L_MESSAGE_BODY' => $lang['Message_body'],
+    'L_PREVIEW' => $lang['Preview'],
+    'L_SUBMIT' => $lang['Submit'],
     'S_POST_ACTION' => append_titanium_sid("posting.$phpEx"),
     'S_HIDDEN_FORM_FIELDS' => $hidden_form_fields)
 );

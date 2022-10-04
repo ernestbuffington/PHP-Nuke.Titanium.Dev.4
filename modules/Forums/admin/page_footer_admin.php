@@ -29,7 +29,7 @@ if (!defined('IN_PHPBB2'))
     die('ACCESS DENIED');
 }
 
-global $do_gzip_compress, $phpbb2_template, $cache, $userdata, $titanium_db, $titanium_lang, $phpbb2_board_config;
+global $do_gzip_compress, $phpbb2_template, $cache, $userdata, $titanium_db, $lang, $phpbb2_board_config;
 //
 // Show the overall footer.
 //
@@ -39,7 +39,7 @@ $phpbb2_template->set_filenames(array(
 
 $phpbb2_template->assign_vars(array(
     'PHPBB_VERSION' => ($userdata['user_level'] == ADMIN && $userdata['user_id'] != ANONYMOUS) ? '2' . $phpbb2_board_config['version'] : '',
-        'TRANSLATION_INFO' => (isset($titanium_lang['TRANSLATION_INFO'])) ? $titanium_lang['TRANSLATION_INFO'] : ((isset($titanium_lang['TRANSLATION'])) ? $titanium_lang['TRANSLATION'] : ''))
+        'TRANSLATION_INFO' => (isset($lang['TRANSLATION_INFO'])) ? $lang['TRANSLATION_INFO'] : ((isset($lang['TRANSLATION'])) ? $lang['TRANSLATION'] : ''))
 );
 
 $phpbb2_template->pparse('page_footer');

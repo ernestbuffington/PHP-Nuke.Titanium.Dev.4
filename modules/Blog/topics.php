@@ -31,8 +31,8 @@
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
 @include_once(NUKE_INCLUDE_DIR.'nsnne_func.php');
 $blog_config = blog_get_configs();
 
@@ -40,7 +40,7 @@ define('INDEX_FILE', true);
 
 $phpbb2_topics = 1;
 automated_blogs();
-if ($topic == 0 OR empty($topic)) { redirect_titanium("modules.php?name=$titanium_module_name"); }
+if ($topic == 0 OR empty($topic)) { redirect_titanium("modules.php?name=$pnt_module"); }
 
 switch ($op) {
 
@@ -110,26 +110,26 @@ switch ($op) {
             $the_icons = "";
             
 			//if (is_user()) {
-            //    $the_icons .= " | <a href='modules.php?name=$titanium_module_name&amp;file=print&amp;sid=".$artinfo["sid"]."'><img src='images/print.gif' border='0' alt='"._PRINTER."' title='"._PRINTER."' width='11' height='11'></a>&nbsp;<a href='modules.php?name=$titanium_module_name&amp;file=friend&amp;op=FriendSend&amp;sid=".$artinfo["sid"]."'><img src='images/friend.gif' border='0' alt='"._FRIEND."' title='"._FRIEND."' width='11' height='11'></a>\n";
+            //    $the_icons .= " | <a href='modules.php?name=$pnt_module&amp;file=print&amp;sid=".$artinfo["sid"]."'><img src='images/print.gif' border='0' alt='"._PRINTER."' title='"._PRINTER."' width='11' height='11'></a>&nbsp;<a href='modules.php?name=$pnt_module&amp;file=friend&amp;op=FriendSend&amp;sid=".$artinfo["sid"]."'><img src='images/friend.gif' border='0' alt='"._FRIEND."' title='"._FRIEND."' width='11' height='11'></a>\n";
             //}
-            //if (is_mod_admin($titanium_module_name)) {
+            //if (is_mod_admin($pnt_module)) {
             //    $the_icons .= " | <a href=\"".$admin_file.".php?op=EditStory&amp;sid=".$artinfo["sid"]."\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EDIT."\" title=\""._EDIT."\" width=\"11\" height=\"11\"></a>&nbsp;<a href=\"".$admin_file.".php?op=RemoveStory&amp;sid=".$artinfo["sid"]."\"><img src=\"images/delete.gif\" border=\"0\" alt=\""._DELETE."\" title=\""._DELETE."\" width=\"11\" height=\"11\"></a>\n";
             //}
 			
 	        if (is_user()) 
             {
-              $the_icons .= ' | <a href="modules.php?name='.$titanium_module_name.'&amp;file=print&amp;sid='.$artinfo["sid"].'"><i class="fa fa-print"></i></a>'.PHP_EOL;
-              $the_icons .= '&nbsp;<a href="modules.php?name='.$titanium_module_name.'&amp;file=friend&amp;op=FriendSend&amp;sid='.$artinfo["sid"].'"><i class="fa fa-envelope"></i></a>';
+              $the_icons .= ' | <a href="modules.php?name='.$pnt_module.'&amp;file=print&amp;sid='.$artinfo["sid"].'"><i class="fa fa-print"></i></a>'.PHP_EOL;
+              $the_icons .= '&nbsp;<a href="modules.php?name='.$pnt_module.'&amp;file=friend&amp;op=FriendSend&amp;sid='.$artinfo["sid"].'"><i class="fa fa-envelope"></i></a>';
             }
             
-		    if (is_mod_admin($titanium_module_name)) 
+		    if (is_mod_admin($pnt_module)) 
             {
               $the_icons .= ' | <a href="'.$admin_file.'.php?op=EditStory&amp;sid='.$artinfo["sid"].'"><i class="fa fa-pen"></i></a>'.PHP_EOL;
               $the_icons .= '&nbsp;<a href="'.$admin_file.'.php?op=RemoveStory&amp;sid='.$artinfo["sid"].'"><i class="fa fa-times-circle"></i></a>';
             }
 			
-            $read_link = "<a href='modules.php?name=$titanium_module_name&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
-            $story_link = "<a href='modules.php?name=$titanium_module_name&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
+            $read_link = "<a href='modules.php?name=$pnt_module&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
+            $story_link = "<a href='modules.php?name=$pnt_module&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
             $morelink = "( ";
 
             if($blog_config["texttype"] == 0) {
@@ -169,7 +169,7 @@ switch ($op) {
             if ($artinfo["catid"] != 0) {
                 $result3 = $titanium_db->sql_query("SELECT title FROM ".$titanium_prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
                 $catinfo = $titanium_db->sql_fetchrow($result3);
-                $morelink .= " | <a href='modules.php?name=$titanium_module_name&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
+                $morelink .= " | <a href='modules.php?name=$pnt_module&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
             }
             if ($artinfo["score"] != 0) {
                 $rated = substr($artinfo["score"] / $artinfo["ratings"], 0, 4);
@@ -220,7 +220,7 @@ switch ($op) {
             OpenTable();
             $counter = 1;
             $currentpage = ($max / $blognum);
-            echo "<form action='modules.php?name=$titanium_module_name' method='post'>\n";
+            echo "<form action='modules.php?name=$pnt_module' method='post'>\n";
             echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
             echo "<tr>\n<td><strong>"._NE_SELECT." </strong><select name='min' onChange='top.location.href=this.options[this.selectedIndex].value'>\n";
             while ($counter <= $articlepages ) {
@@ -229,7 +229,7 @@ switch ($op) {
                 if ($counter == $currentpage) {
                     echo "<option selected>$counter</option>\n";
                 } else {
-                    echo "<option value='modules.php?name=$titanium_module_name&amp;min=$mintemp&amp;file=topics&amp;topic=$topic'>$counter</option>\n";
+                    echo "<option value='modules.php?name=$pnt_module&amp;min=$mintemp&amp;file=topics&amp;topic=$topic'>$counter</option>\n";
                 }
                 $counter++;
             }

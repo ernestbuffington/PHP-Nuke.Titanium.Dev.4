@@ -30,8 +30,8 @@ if (!defined('MODULE_FILE')) {
    die ("You can't access this file directly...");
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name);
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module);
 
 $pagetitle = "- "._SHOUTHISTORY;
 

@@ -24,9 +24,9 @@ if(!defined('NUKE_EVO')) {
 
 global $admin_file, $titanium_db, $titanium_prefix, $cache;
 
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
+$pnt_module = basename(dirname(dirname(__FILE__)));
 
-if(is_active($titanium_module_name)) {
+if(is_active($pnt_module)) {
     $content .= "<div align=\"left\"><strong><u><span class=\"content\">"._AWL."</span>:</u></strong></div>";
     if(($numbrokenl = $cache->load('numbrokenl', 'submissions')) === false) {
         $result = $titanium_db->sql_query("SELECT COUNT(*) FROM ".$titanium_prefix."_links_modrequest WHERE brokenlink='1'");

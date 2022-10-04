@@ -14,7 +14,7 @@ if (!defined('MODULE_FILE')) {
 }
 
 function changemail() {
-    global $titanium_db, $titanium_user_prefix, $titanium_module_name, $sitekey, $titanium_user, $stop, $cookie, $userinfo;
+    global $titanium_db, $titanium_user_prefix, $pnt_module, $sitekey, $titanium_user, $stop, $cookie, $userinfo;
 
     $get_id = $_GET['id'];
     $check_num = $_GET['check_num'];

@@ -17,8 +17,8 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -32,7 +32,7 @@ include($phpbb2_root_path . 'common.'.$phpEx);
 $userdata = titanium_session_pagestart($titanium_user_ip, PAGE_STAFF, $session_length);
 titanium_init_userprefs($userdata);
 
-$phpbb2_page_title = $titanium_lang['Staff'];
+$phpbb2_page_title = $lang['Staff'];
 include('includes/page_header.'.$phpEx);
 
         $phpbb2_template->set_filenames(array(
@@ -149,20 +149,20 @@ while($staff = $titanium_db->sql_fetchrow($results))
                 message_die(GENERAL_ERROR, 'Error getting user last post time', '', __LINE__, __FILE__, $post_time_sql);
         }
         $row = $titanium_db->sql_fetchrow($result);
-        $phpbb2_last_post = ( isset($row['post_time']) ) ? '<a href="'.append_titanium_sid("viewtopic.$phpEx?" . POST_POST_URL . "=$row[post_id]#$row[post_id]").'" class=gensmall>'.create_date($phpbb2_board_config['default_dateformat'], $row['post_time'], $phpbb2_board_config['board_timezone']).'</a>' : $titanium_lang['None'];
+        $phpbb2_last_post = ( isset($row['post_time']) ) ? '<a href="'.append_titanium_sid("viewtopic.$phpEx?" . POST_POST_URL . "=$row[post_id]#$row[post_id]").'" class=gensmall>'.create_date($phpbb2_board_config['default_dateformat'], $row['post_time'], $phpbb2_board_config['board_timezone']).'</a>' : $lang['None'];
 
         $mailto = ( $phpbb2_board_config['board_email_form'] ) ? "modules.php?name=Profile&mode=email&amp;" . POST_USERS_URL .'=' . $staff['user_id'] : 'mailto:' . $staff['user_email'];
-        $mail = ( $staff['user_email'] ) ? '<a href="' . $mailto . '"><img src="' . $images['icon_email'] . '" alt="' . $titanium_lang['Send_email'] . '" title="' . $titanium_lang['Send_email'] . '" border="0" /></a>' : '';
+        $mail = ( $staff['user_email'] ) ? '<a href="' . $mailto . '"><img src="' . $images['icon_email'] . '" alt="' . $lang['Send_email'] . '" title="' . $lang['Send_email'] . '" border="0" /></a>' : '';
 
         $pmto = append_titanium_sid("privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . "=$staff[user_id]");
-        $pm = '<a href="' . $pmto . '"><img src="' . $images['icon_pm'] . '" alt="' . $titanium_lang['Send_private_message'] . '" title="' . $titanium_lang['Send_private_message'] . '" border="0" /></a>';
+        $pm = '<a href="' . $pmto . '"><img src="' . $images['icon_pm'] . '" alt="' . $lang['Send_private_message'] . '" title="' . $lang['Send_private_message'] . '" border="0" /></a>';
 
-        $msn = ( $staff['user_msnm'] ) ? '<a href="mailto: '.$staff['user_msnm'].'"><img src="' . $images['icon_msnm'] . '" alt="' . $titanium_lang['MSNM'] . '" title="' . $titanium_lang['MSNM'] . '" border="0" /></a>' : '';
-        $yim = ( $staff['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $staff['user_yim'] . '&amp;.src=pg"><img src="' . $images['icon_yim'] . '" alt="' . $titanium_lang['YIM'] . '" title="' . $titanium_lang['YIM'] . '" border="0" /></a>' : '';
-        $aim = ( $staff['user_aim'] ) ? '<a href="aim:goim?screenname=' . $staff['user_aim'] . '&amp;message=Hello+Are+you+there?"><img src="' . $images['icon_aim'] . '" alt="' . $titanium_lang['AIM'] . '" title="' . $titanium_lang['AIM'] . '" border="0" /></a>' : '';
-        $icq = ( $staff['user_icq'] ) ? '<a href="http://wwp.icq.com/scripts/contact.dll?msgto=' . $staff['user_icq'] . '"><img src="' . $images['icon_icq'] . '" alt="' . $titanium_lang['ICQ'] . '" title="' . $titanium_lang['ICQ'] . '" border="0" /></a>' : '';
+        $msn = ( $staff['user_msnm'] ) ? '<a href="mailto: '.$staff['user_msnm'].'"><img src="' . $images['icon_msnm'] . '" alt="' . $lang['MSNM'] . '" title="' . $lang['MSNM'] . '" border="0" /></a>' : '';
+        $yim = ( $staff['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $staff['user_yim'] . '&amp;.src=pg"><img src="' . $images['icon_yim'] . '" alt="' . $lang['YIM'] . '" title="' . $lang['YIM'] . '" border="0" /></a>' : '';
+        $aim = ( $staff['user_aim'] ) ? '<a href="aim:goim?screenname=' . $staff['user_aim'] . '&amp;message=Hello+Are+you+there?"><img src="' . $images['icon_aim'] . '" alt="' . $lang['AIM'] . '" title="' . $lang['AIM'] . '" border="0" /></a>' : '';
+        $icq = ( $staff['user_icq'] ) ? '<a href="http://wwp.icq.com/scripts/contact.dll?msgto=' . $staff['user_icq'] . '"><img src="' . $images['icon_icq'] . '" alt="' . $lang['ICQ'] . '" title="' . $lang['ICQ'] . '" border="0" /></a>' : '';
 
-        $www = ( $staff['user_website'] ) ? '<a href="' . $staff['user_website'] . '" target="_userwww"><img src="' . $images['icon_www'] . '" alt="' . $titanium_lang['Visit_website'] . '" title="' . $titanium_lang['Visit_website'] . '" border="0" /></a>' : '';
+        $www = ( $staff['user_website'] ) ? '<a href="' . $staff['user_website'] . '" target="_userwww"><img src="' . $images['icon_www'] . '" alt="' . $lang['Visit_website'] . '" title="' . $lang['Visit_website'] . '" border="0" /></a>' : '';
 
         $sql = "SELECT * FROM " . RANKS_TABLE . " ORDER BY rank_special, rank_min";
         if ( !($result = $titanium_db->sql_query($sql)) )
@@ -216,10 +216,10 @@ while($staff = $titanium_db->sql_fetchrow($results))
                 'LEVEL' => $level,
                 'FORUMS' => $forums,
                 'JOINED' => $staff['user_regdate'],
-                'PERIOD' => sprintf($titanium_lang['Period'], $memberdays),
+                'PERIOD' => sprintf($lang['Period'], $memberdays),
                 'POSTS' => $staff['user_posts'],
-                'POST_DAY' => sprintf($titanium_lang['User_post_day_stats'], $phpbb2_posts_per_day),
-                'POST_PERCENT' => sprintf($titanium_lang['User_post_pct_stats'], $percentage),
+                'POST_DAY' => sprintf($lang['User_post_day_stats'], $phpbb2_posts_per_day),
+                'POST_PERCENT' => sprintf($lang['User_post_pct_stats'], $percentage),
                 'LAST_POST' => $phpbb2_last_post,
                 'MAIL' => $mail,
                 'PM' => $pm,
@@ -231,15 +231,15 @@ while($staff = $titanium_db->sql_fetchrow($results))
         );
 }
         $phpbb2_template->assign_vars(array(
-                'L_AVATAR' => $titanium_lang['Avatar'],
-                'L_USERNAME' => $titanium_lang['Username'],
-                'L_FORUMS' => $titanium_lang['Forums'],
-                'L_POSTS' => $titanium_lang['Posts'],
-                'L_JOINED' => $titanium_lang['Joined'],
-                'L_EMAIL' => $titanium_lang['Email'],
-                'L_PM' => $titanium_lang['Private_Message'],
-                'L_MESSENGER' => $titanium_lang['Messenger'],
-                'L_WWW' => $titanium_lang['Website'])
+                'L_AVATAR' => $lang['Avatar'],
+                'L_USERNAME' => $lang['Username'],
+                'L_FORUMS' => $lang['Forums'],
+                'L_POSTS' => $lang['Posts'],
+                'L_JOINED' => $lang['Joined'],
+                'L_EMAIL' => $lang['Email'],
+                'L_PM' => $lang['Private_Message'],
+                'L_MESSENGER' => $lang['Messenger'],
+                'L_WWW' => $lang['Website'])
         );
 
         $phpbb2_template->pparse('body');

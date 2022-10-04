@@ -98,7 +98,7 @@ if ($num > 0):
 			else 
             $titanium_userwebsite = "<a href=\"https://$usrinfo[user_website]\" target=\"new\">$usrinfo[user_website]</a>";
             
-			if (is_mod_admin($titanium_module_name) || $usrinfo['user_viewemail'] == 1) 
+			if (is_mod_admin($pnt_module) || $usrinfo['user_viewemail'] == 1) 
             $titanium_user_email = "<a href='mailto:$usrinfo[user_email]'>$usrinfo[user_email]</a>";
 			else 
             $titanium_user_email = _YA_NA;
@@ -115,7 +115,7 @@ if ($num > 0):
             echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._EMAIL."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$titanium_user_email</strong></td>\n</tr>\n";
             echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._WEBSITE."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$titanium_userwebsite</strong></td>\n</tr>\n";
 
-            if(is_mod_admin($titanium_module_name) OR is_user() AND $usrinfo['username'] == $titanium_username) 
+            if(is_mod_admin($pnt_module) OR is_user() AND $usrinfo['username'] == $titanium_username) 
             $result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
 			else 
 			$result = $titanium_db->sql_query("SELECT * FROM ".$titanium_user_prefix."_cnbya_field WHERE need <> '0' AND public='1' ORDER BY pos");
@@ -151,14 +151,14 @@ if ($num > 0):
 			echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._USERSTATUS."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$online</strong></td>\n</tr>\n";
             
 			if ($Version_Num > 6.9): 
-                if (is_user() AND $cookie[1] == "$titanium_username" OR is_mod_admin($titanium_module_name)) 
+                if (is_user() AND $cookie[1] == "$titanium_username" OR is_mod_admin($pnt_module)) 
                     echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._YA_POINTS."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>$usrinfo[points]</strong></td>\n</tr>\n";
             endif;
             
 			if (($usrinfo['newsletter'] == 1) 
 			AND ($titanium_username == $cookie[1]) 
 			AND ($usrinfo['user_password'] == $cookie[2]) 
-			OR (is_mod_admin($titanium_module_name) 
+			OR (is_mod_admin($pnt_module) 
 			AND ($usrinfo['newsletter'] == 1))): 
 			
                 echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._NEWSLETTER."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>"._SUBSCRIBED."</strong></td>\n</tr>\n";
@@ -166,7 +166,7 @@ if ($num > 0):
 			elseif (($usrinfo['newsletter'] == 0) 
 			AND ($titanium_username == $cookie[1]) 
 			AND ($usrinfo['user_password'] == $cookie[2]) 
-			OR (is_mod_admin($titanium_module_name) 
+			OR (is_mod_admin($pnt_module) 
 			AND ($usrinfo['newsletter'] == 0))): 
 			
                 echo "<tr>\n<td width='30%' bgcolor='$bgcolor1'>"._NEWSLETTER."</td>\n<td width='70%' bgcolor='$bgcolor1'><strong>"._NOTSUBSCRIBED."</strong></td>\n</tr>\n";
@@ -188,7 +188,7 @@ if ($num > 0):
             
 			endif;
             
-			if (is_mod_admin($titanium_module_name)): 
+			if (is_mod_admin($pnt_module)): 
             
                 if ($usrinfo['last_ip'] != 0): 
 				
@@ -197,19 +197,19 @@ if ($num > 0):
                 # Mod: CNBYA Modifications v1.0.0 START
                 echo "[ <a href='".$admin_file.".php?
 				op=ABBlockedIPAdd&amp;tip=".$usrinfo['last_ip']."'>"._BANTHIS."</a> | <a 
-				href=\"modules.php?name=$titanium_module_name&amp;file=admin&amp;op=modifyUser&amp;chng_uid=".$usrinfo['username']."\">"._EDITUSER."</a> ]</div>";
+				href=\"modules.php?name=$pnt_module&amp;file=admin&amp;op=modifyUser&amp;chng_uid=".$usrinfo['username']."\">"._EDITUSER."</a> ]</div>";
                 # Base: NukeSentinel v2.5.00      END
                 # Mod: CNBYA Modifications v1.0.0 END
                 endif;
 				
-                echo "[ <a href=\"modules.php?name=$titanium_module_name&amp;file=admin&amp;op=modifyUser&amp;chng_uid=$usrinfo[user_id]\">"._EDITUSER."</a> ] ";
-                echo "[ <a href=\"modules.php?name=$titanium_module_name&amp;file=admin&amp;op=suspendUser&amp;chng_uid=$usrinfo[user_id]\">"._SUSPENDUSER."</a> ] ";
-                echo "[ <a href=\"modules.php?name=$titanium_module_name&amp;file=admin&amp;op=deleteUser&amp;chng_uid=$usrinfo[user_id]\">"._DELETEUSER."</a> ]<br />";
+                echo "[ <a href=\"modules.php?name=$pnt_module&amp;file=admin&amp;op=modifyUser&amp;chng_uid=$usrinfo[user_id]\">"._EDITUSER."</a> ] ";
+                echo "[ <a href=\"modules.php?name=$pnt_module&amp;file=admin&amp;op=suspendUser&amp;chng_uid=$usrinfo[user_id]\">"._SUSPENDUSER."</a> ] ";
+                echo "[ <a href=\"modules.php?name=$pnt_module&amp;file=admin&amp;op=deleteUser&amp;chng_uid=$usrinfo[user_id]\">"._DELETEUSER."</a> ]<br />";
             
 			endif;
             
 			if (((is_user() AND $cookie[1] != $titanium_username) 
-			OR is_mod_admin($titanium_module_name)) 
+			OR is_mod_admin($pnt_module)) 
 			AND is_active("Private_Messages")): 
 			  echo "<br />[ <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$usrinfo[user_id]\">"._USENDPRIVATEMSG." $usrinfo[username]</a> ]<br />\n"; 
 			endif;
@@ -221,7 +221,7 @@ if ($num > 0):
         
 		CloseTable();
 
-        $incsdir = dir("modules/$titanium_module_name/includes");
+        $incsdir = dir("modules/$pnt_module/includes");
         
 		while($func=$incsdir->read()):
 

@@ -44,15 +44,15 @@ if (!defined('CNBYA')) {
  [ Mod:     Welcome PM                         v2.0.0 ]
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-include(NUKE_MODULES_DIR.$titanium_module_name.'/public/functions_welcome_pm.php');
-include(NUKE_MODULES_DIR.$titanium_module_name.'/public/custom_functions.php');
+include(NUKE_MODULES_DIR.$pnt_module.'/public/functions_welcome_pm.php');
+include(NUKE_MODULES_DIR.$pnt_module.'/public/custom_functions.php');
 include(NUKE_INCLUDE_DIR. 'constants.php');
 /*****[END]********************************************
  [ Mod:     Welcome PM                         v2.0.0 ]
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
     if ($add_email != $add_email2) {
         include_once(NUKE_BASE_DIR.'header.php');
@@ -160,7 +160,7 @@ if(is_mod_admin($titanium_module_name)) {
             }
             if (isset($min)) { $xmin = "&min=$min"; }
             if (isset($xop)) { $xxop = "&op=$xop"; }
-            redirect_titanium("modules.php?name=$titanium_module_name&file=admin"."$xxop"."$xmin");
+            redirect_titanium("modules.php?name=$pnt_module&file=admin"."$xxop"."$xmin");
         }
     } else {
         $pagetitle = ": "._USERADMIN;

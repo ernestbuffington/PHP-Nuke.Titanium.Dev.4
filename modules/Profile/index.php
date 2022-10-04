@@ -31,7 +31,7 @@ if (!defined('MODULE_FILE'))
 exit('You can\'t access this file directly...');
 
 if ($popup != "1"){
-    $titanium_module_name = basename(dirname(__FILE__));
+    $pnt_module = basename(dirname(__FILE__));
     require(NUKE_FORUMS_DIR.'nukebb.php');
 }
 else
@@ -199,7 +199,7 @@ function gen_rand_string($hash)
 		{
 			$gen_simple_header = TRUE;
 
-			$phpbb2_page_title = $titanium_lang['View_Birthdays'];
+			$phpbb2_page_title = $lang['View_Birthdays'];
 			include('includes/page_header.'.$phpEx);
 
 			// reuse the pm popup box template
@@ -208,8 +208,8 @@ function gen_rand_string($hash)
 			);
 
 			$phpbb2_template->assign_vars(array(
-				'L_CLOSE_WINDOW' => $titanium_lang['Close_window'],
-				'L_MESSAGE' => sprintf($titanium_lang['Birthday_popup'],$phpbb2_board_config['sitename']))
+				'L_CLOSE_WINDOW' => $lang['Close_window'],
+				'L_MESSAGE' => sprintf($lang['Birthday_popup'],$phpbb2_board_config['sitename']))
 			);
 
 			$phpbb2_template->pparse('body');

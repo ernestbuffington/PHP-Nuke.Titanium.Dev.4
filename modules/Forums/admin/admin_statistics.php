@@ -138,7 +138,7 @@ if (($mode == 'mod_install') && ($submit))
 
         $stream = implode('', @file($filename));
         $info_file = read_pak_file($stream, 'INFO');
-        $titanium_lang_file = read_pak_file($stream, 'LANG');
+        $lang_file = read_pak_file($stream, 'LANG');
         $php_file = read_pak_file($stream, 'MOD');
         
         $info_array = parse_info_file($info_file);
@@ -149,17 +149,17 @@ if (($mode == 'mod_install') && ($submit))
             $install_languages[$i] = 'lang_' . trim($install_languages[$i]);
         }
         
-        $titanium_lang_array = parse_lang_file($titanium_lang_file, $install_languages);
+        $lang_array = parse_lang_file($lang_file, $install_languages);
         
-        build_module($info_array, $titanium_lang_array, $php_file, $update_id);
+        build_module($info_array, $lang_array, $php_file, $update_id);
 
         if ($update_id == -1)
         {
-            message_die(GENERAL_MESSAGE, $titanium_lang['Module_installed']);
+            message_die(GENERAL_MESSAGE, $lang['Module_installed']);
         }
         else
         {
-            message_die(GENERAL_MESSAGE, $titanium_lang['Module_updated']);
+            message_die(GENERAL_MESSAGE, $lang['Module_updated']);
         }
     }
 
@@ -215,13 +215,13 @@ if (($mode == 'mod_install') && ($submit))
 
     $stream = implode('', @file($filename));
     $info_file = read_pak_file($stream, 'INFO');
-    $titanium_lang_file = read_pak_file($stream, 'LANG');
+    $lang_file = read_pak_file($stream, 'LANG');
 
     $s_hidden_fields = '<input type="hidden" name="filename" value="' . $filename . '">';
 
     // Prepare the Data
     $info_array = parse_info_file($info_file);
-    $titanium_lang_array = parse_lang_file($titanium_lang_file);
+    $lang_array = parse_lang_file($lang_file);
 
     if (trim($info_array['short_name']) == '')
     {
@@ -239,7 +239,7 @@ if (($mode == 'mod_install') && ($submit))
     
         if ($titanium_db->sql_numrows($result) > 0)
         {
-            message_die(GENERAL_ERROR, sprintf($titanium_lang['Inst_module_already_exist'], $info_array['short_name']));
+            message_die(GENERAL_ERROR, sprintf($lang['Inst_module_already_exist'], $info_array['short_name']));
         }
     }
     else
@@ -260,7 +260,7 @@ if (($mode == 'mod_install') && ($submit))
 
         if (trim($row['short_name']) != trim($info_array['short_name']))
         {
-            message_die(GENERAL_ERROR, $titanium_lang['Incorrect_update_module']);
+            message_die(GENERAL_ERROR, $lang['Incorrect_update_module']);
         }
     }
 
@@ -269,20 +269,20 @@ if (($mode == 'mod_install') && ($submit))
 
     // Info Array
     $phpbb2_template->assign_vars(array(
-        'L_INSTALL_MODULE' => $titanium_lang['Install_module'],
-        'L_INSTALL_MODULE_EXPLAIN' => $titanium_lang['Install_module_explain'],
-        'L_MODULE_NAME' => $titanium_lang['Module_name'],
-        'L_MODULE_DESCRIPTION' => $titanium_lang['Module_description'],
-        'L_MODULE_VERSION' => $titanium_lang['Module_version'],
-        'L_REQUIRED_STATS_VERSION' => $titanium_lang['Required_stats_version'],
-        'L_INSTALLED_STATS_VERSION' => $titanium_lang['Installed_stats_version'],
-        'L_MODULE_AUTHOR' => $titanium_lang['Module_author'],
-        'L_AUTHOR_EMAIL' => $titanium_lang['Author_email'],
-        'L_MODULE_URL' => $titanium_lang['Module_url'],
-        'L_UPDATE_URL' => $titanium_lang['Update_url'],
-        'L_PROVIDED_LANGUAGE' => $titanium_lang['Provided_language'],
-        'L_INSTALL_LANGUAGE' => $titanium_lang['Install_language'],
-        'L_INSTALL' => $titanium_lang['Install'],
+        'L_INSTALL_MODULE' => $lang['Install_module'],
+        'L_INSTALL_MODULE_EXPLAIN' => $lang['Install_module_explain'],
+        'L_MODULE_NAME' => $lang['Module_name'],
+        'L_MODULE_DESCRIPTION' => $lang['Module_description'],
+        'L_MODULE_VERSION' => $lang['Module_version'],
+        'L_REQUIRED_STATS_VERSION' => $lang['Required_stats_version'],
+        'L_INSTALLED_STATS_VERSION' => $lang['Installed_stats_version'],
+        'L_MODULE_AUTHOR' => $lang['Module_author'],
+        'L_AUTHOR_EMAIL' => $lang['Author_email'],
+        'L_MODULE_URL' => $lang['Module_url'],
+        'L_UPDATE_URL' => $lang['Update_url'],
+        'L_PROVIDED_LANGUAGE' => $lang['Provided_language'],
+        'L_INSTALL_LANGUAGE' => $lang['Install_language'],
+        'L_INSTALL' => $lang['Install'],
         
         'MODULE_NAME' => nl2br($info_array['name']),
         'MODULE_DESCRIPTION' => nl2br($info_array['extra_info']),
@@ -295,13 +295,13 @@ if (($mode == 'mod_install') && ($submit))
         'UPDATE_URL' => nl2br($info_array['check_update_site']))
     );
 
-    @reset($titanium_lang_array);
-    while (list($key, $data) = @each($titanium_lang_array))
+    @reset($lang_array);
+    while (list($key, $data) = @each($lang_array))
     {
-        $titanium_language = str_replace('lang_', '', $key);
+        $language = str_replace('lang_', '', $key);
 
         $phpbb2_template->assign_block_vars('languages', array(
-            'MODULE_LANGUAGE' => $titanium_language)
+            'MODULE_LANGUAGE' => $language)
         );
 
     }
@@ -361,7 +361,7 @@ if (($mode == 'mod_install') && (!$submit))
             $s_hidden_fields = '<input type="hidden" name="fileselect" value="1">';
 
             $phpbb2_template->assign_vars(array(
-                'L_SELECT_MODULE' => $titanium_lang['Select_module_pak'],
+                'L_SELECT_MODULE' => $lang['Select_module_pak'],
                 'S_SELECT_MODULE' => $titanium_module_select_field,
                 'S_SELECT_HIDDEN_FIELDS' => $s_hidden_fields)
             );
@@ -373,10 +373,10 @@ if (($mode == 'mod_install') && (!$submit))
         $s_hidden_fields = '<input type="hidden" name="fileupload" value="1">';
 
         $phpbb2_template->assign_vars(array(
-            'L_INSTALL_MODULE' => $titanium_lang['Install_module'],
-            'L_INSTALL_MODULE_EXPLAIN' => $titanium_lang['Install_module_explain'],
-            'L_UPLOAD_MODULE' => $titanium_lang['Upload_module_pak'],
-            'L_SUBMIT' => $titanium_lang['Submit'],
+            'L_INSTALL_MODULE' => $lang['Install_module'],
+            'L_INSTALL_MODULE_EXPLAIN' => $lang['Install_module_explain'],
+            'L_UPLOAD_MODULE' => $lang['Upload_module_pak'],
+            'L_SUBMIT' => $lang['Submit'],
             'S_ACTION' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode),
             'S_UPLOAD_HIDDEN_FIELDS' => $s_hidden_fields)
         );
@@ -426,12 +426,12 @@ if ($mode == 'mod_manage')
     }
 
     $phpbb2_template->assign_vars(array(
-        'L_EDIT' => $titanium_lang['Edit'],
-        'L_DELETE' => $titanium_lang['Delete'],
-        'L_MOVE_UP' => $titanium_lang['Move_up'],
-        'L_MOVE_DOWN' => $titanium_lang['Move_down'],
-        'L_MANAGE_MODULES' => $titanium_lang['Manage_modules'],
-        'L_MANAGE_MODULES_EXPLAIN' => $titanium_lang['Manage_modules_explain'])
+        'L_EDIT' => $lang['Edit'],
+        'L_DELETE' => $lang['Delete'],
+        'L_MOVE_UP' => $lang['Move_up'],
+        'L_MOVE_DOWN' => $lang['Move_down'],
+        'L_MANAGE_MODULES' => $lang['Manage_modules'],
+        'L_MANAGE_MODULES_EXPLAIN' => $lang['Manage_modules_explain'])
     );
 
     while ($row = $titanium_db->sql_fetchrow($result))
@@ -449,7 +449,7 @@ if ($mode == 'mod_manage')
             'U_MODULE_MOVE_UP' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;move_up='.$titanium_module_id),
             'U_MODULE_MOVE_DOWN' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;move_down='.$titanium_module_id),
             'U_MODULE_ACTIVATE' => ($titanium_module_active) ? append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;deactivate='.$titanium_module_id) : append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;activate='.$titanium_module_id),
-            'ACTIVATE' => ($titanium_module_active) ? $titanium_lang['Deactivate'] : $titanium_lang['Activate'])
+            'ACTIVATE' => ($titanium_module_active) ? $lang['Deactivate'] : $lang['Activate'])
         );
     }
 }
@@ -478,11 +478,11 @@ if ($mode == 'mod_delete')
         );
 
         $phpbb2_template->assign_vars(array(
-            'MESSAGE_TITLE' => $titanium_lang['Confirm'],
-            'MESSAGE_TEXT' => $titanium_lang['Confirm_delete_module'],
+            'MESSAGE_TITLE' => $lang['Confirm'],
+            'MESSAGE_TEXT' => $lang['Confirm_delete_module'],
 
-            'L_YES' => $titanium_lang['Yes'],
-            'L_NO' => $titanium_lang['No'],
+            'L_YES' => $lang['Yes'],
+            'L_NO' => $lang['No'],
 
             'S_CONFIRM_ACTION' => append_titanium_sid($phpbb2_root_path . "admin/admin_statistics.$phpEx"),
             'S_HIDDEN_FIELDS' => $hidden_fields)
@@ -516,23 +516,23 @@ if ($mode == 'mod_delete')
         $short_name = trim($row['short_name']);
         
         // Ok, collect the Informations for deleting the Language Variables
-        $titanium_language_directory = $phpbb2_root_path . 'modules/language';
-        $titanium_languages = array();
+        $language_directory = $phpbb2_root_path . 'modules/language';
+        $languages = array();
 
-        if (!file_exists($titanium_language_directory))
+        if (!file_exists($language_directory))
         {
             message_die(GENERAL_ERROR, 'Unable to find Language Directory');
         }
 
-        if( $dir = @opendir($titanium_language_directory) )
+        if( $dir = @opendir($language_directory) )
         {
             while( $sub_dir = @readdir($dir) )
             {
-                if( !is_file($titanium_language_directory . '/' . $sub_dir) && !is_link($titanium_language_directory . '/' . $sub_dir) && $sub_dir != "." && $sub_dir != ".." && $sub_dir != "CVS" )
+                if( !is_file($language_directory . '/' . $sub_dir) && !is_link($language_directory . '/' . $sub_dir) && $sub_dir != "." && $sub_dir != ".." && $sub_dir != "CVS" )
                 {
                     if (strstr($sub_dir, 'lang_'))
                     {
-                        $titanium_languages[] = trim($sub_dir);
+                        $languages[] = trim($sub_dir);
                     }
                 }
             }
@@ -543,20 +543,20 @@ if ($mode == 'mod_delete')
         $new_language_data = array();
 
         // Ok, go through all Languages and generate new Language Files
-        for ($i = 0; $i < count($titanium_languages); $i++)
+        for ($i = 0; $i < count($languages); $i++)
         {
-            $titanium_language_file = $phpbb2_root_path . 'modules/language/' . $titanium_languages[$i] . '/lang_modules.php';
-            $file_content = implode('', file($titanium_language_file));
+            $language_file = $phpbb2_root_path . 'modules/language/' . $languages[$i] . '/lang_modules.php';
+            $file_content = implode('', file($language_file));
             if (trim($file_content) != '')
             {
                 $file_content = delete_language_block($file_content, $short_name);
             }
 /*            else 
             {
-                message_die(GENERAL_ERROR, 'ERROR: Empty Language File ? -> ' . $titanium_language_file);
+                message_die(GENERAL_ERROR, 'ERROR: Empty Language File ? -> ' . $language_file);
             }*/
 
-            $new_language_data[$titanium_languages[$i]] = trim($file_content);
+            $new_language_data[$languages[$i]] = trim($file_content);
         }
 
         // Now begin the Transaction
@@ -601,72 +601,72 @@ if ($mode == 'mod_delete')
         // We are through successfully ? hmm... this was not intended. anyway, delete the Language Variables
         if ($delete_language_folder)
         {
-            for ($i = 0; $i < count($titanium_languages); $i++)
+            for ($i = 0; $i < count($languages); $i++)
             {
-                $titanium_language = trim($titanium_languages[$i]);
-                $titanium_language_dir = $phpbb2_root_path . 'modules/language';
-                $titanium_language_file = $phpbb2_root_path . 'modules/language/' . $titanium_language . '/lang_modules.php';
+                $language = trim($languages[$i]);
+                $language_dir = $phpbb2_root_path . 'modules/language';
+                $language_file = $phpbb2_root_path . 'modules/language/' . $language . '/lang_modules.php';
 
-                if (file_exists($titanium_language_file))
+                if (file_exists($language_file))
                 {
-                    chmod($titanium_language_file, $file_mode);
-                    unlink($titanium_language_file);
+                    chmod($language_file, $file_mode);
+                    unlink($language_file);
                 }
 
-                if (file_exists($titanium_language_dir . '/' . $titanium_language))
+                if (file_exists($language_dir . '/' . $language))
                 {
-                    chmod($titanium_language_dir . '/' . $titanium_language, $directory_mode);
-                    rmdir($titanium_language_dir . '/' . $titanium_language);
+                    chmod($language_dir . '/' . $language, $directory_mode);
+                    rmdir($language_dir . '/' . $language);
                 }
             }
 
-            chmod($titanium_language_dir, $directory_mode);
-            rmdir($titanium_language_dir);
+            chmod($language_dir, $directory_mode);
+            rmdir($language_dir);
         }
         else
         {
-            for ($i = 0; $i < count($titanium_languages); $i++)
+            for ($i = 0; $i < count($languages); $i++)
             {
-                $titanium_language = trim($titanium_languages[$i]);
-                $titanium_language_dir = $phpbb2_root_path . 'modules/language';
-                $titanium_language_file = $phpbb2_root_path . 'modules/language/' . $titanium_language . '/lang_modules.php';
+                $language = trim($languages[$i]);
+                $language_dir = $phpbb2_root_path . 'modules/language';
+                $language_file = $phpbb2_root_path . 'modules/language/' . $language . '/lang_modules.php';
 
-                if (!file_exists($titanium_language_dir))
+                if (!file_exists($language_dir))
                 {
                     @umask(0);
-                    mkdir($titanium_language_dir, $directory_mode);
+                    mkdir($language_dir, $directory_mode);
                 }
                 else
                 {
-                    chmod($titanium_language_dir, $directory_mode);
+                    chmod($language_dir, $directory_mode);
                 }
         
-                if (!file_exists($titanium_language_dir . '/' . $titanium_language))
+                if (!file_exists($language_dir . '/' . $language))
                 {
                     @umask(0);
-                    mkdir($titanium_language_dir . '/' . $titanium_language, $directory_mode);
+                    mkdir($language_dir . '/' . $language, $directory_mode);
                 }
                 else
                 {
-                    chmod($titanium_language_dir . '/' . $titanium_language, $directory_mode);
+                    chmod($language_dir . '/' . $language, $directory_mode);
                 }
         
-                if (file_exists($titanium_language_file))
+                if (file_exists($language_file))
                 {
-                    chmod($titanium_language_file, $directory_mode);
+                    chmod($language_file, $directory_mode);
                 }
         
-                if (!($fp = fopen($titanium_language_file, 'wt')))
+                if (!($fp = fopen($language_file, 'wt')))
                 {
-                    message_die(GENERAL_ERROR, 'Unable to write to: ' . $titanium_language_file);
+                    message_die(GENERAL_ERROR, 'Unable to write to: ' . $language_file);
                 }
 
-                fwrite($fp, $new_language_data[$titanium_language], strlen($new_language_data[$titanium_language]));
+                fwrite($fp, $new_language_data[$language], strlen($new_language_data[$language]));
                 fclose($fp);
 
-                chmod($titanium_language_file, $file_mode);
-                chmod($titanium_language_dir . '/' . $titanium_language, $directory_mode);
-                chmod($titanium_language_dir, $directory_mode);
+                chmod($language_file, $file_mode);
+                chmod($language_dir . '/' . $language, $directory_mode);
+                chmod($language_dir, $directory_mode);
             }
         }
     

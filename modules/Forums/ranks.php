@@ -38,8 +38,8 @@ if (!defined('MODULE_FILE')) {
 
 if ($popup != "1")
     {
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
     }
     else
     {
@@ -73,16 +73,16 @@ if ($profilcp)
 
 function get_rank_title($rank_title)
 {
-    global $rank_extended, $profilcp, $titanium_lang;
+    global $rank_extended, $profilcp, $lang;
 
     $res = $rank_title;
     if ($rank_extended || $profilcp)
     {
         $ranks = explode( "|", $rank_title);
         $res = '';
-        $res .= (isset($ranks[1]) && !empty($ranks[1])) ? '<strong>' . $titanium_lang['Male'] . ': </strong>' . $ranks[1] . '<br />': '';
-        $res .= (isset($ranks[1]) && !empty($ranks[2])) ? '<strong>' . $titanium_lang['Female'] . ': </strong>' . $ranks[2] . '<br />' : '';
-        $res .= '<strong>' . $titanium_lang['No_gender_specify'] . ': </strong>' . $ranks[0];
+        $res .= (isset($ranks[1]) && !empty($ranks[1])) ? '<strong>' . $lang['Male'] . ': </strong>' . $ranks[1] . '<br />': '';
+        $res .= (isset($ranks[1]) && !empty($ranks[2])) ? '<strong>' . $lang['Female'] . ': </strong>' . $ranks[2] . '<br />' : '';
+        $res .= '<strong>' . $lang['No_gender_specify'] . ': </strong>' . $ranks[0];
     }
     return $res;
 }
@@ -218,7 +218,7 @@ for ($i=count($ranks)-1; $i >=0; $i--)
 //
 // set the page title and include the page header
 //
-$phpbb2_page_title = $titanium_lang['Ranks'];
+$phpbb2_page_title = $lang['Ranks'];
 include ('includes/page_header.'.$phpEx);
 //
 // template setting
@@ -229,11 +229,11 @@ $phpbb2_template->set_filenames(array(
 
 // constants
 $phpbb2_template->assign_vars(array(
-    'L_SPECIAL_RANKS' => $titanium_lang['Special_ranks'],
-    'L_USERS_LIST' => $titanium_lang['Memberlist'],
-    'L_RANKS' => $titanium_lang['Ranks'],
-    'L_MINI' => $titanium_lang['Rank_minimum'],
-    'L_TOTAL_USERS' => $titanium_lang['Total_users'],
+    'L_SPECIAL_RANKS' => $lang['Special_ranks'],
+    'L_USERS_LIST' => $lang['Memberlist'],
+    'L_RANKS' => $lang['Ranks'],
+    'L_MINI' => $lang['Rank_minimum'],
+    'L_TOTAL_USERS' => $lang['Total_users'],
     'SPAN_USERLIST_STD' => ($std_rank_max_users != 0) ? 2 : 1,
     'S_HIDDEN_FIELDS' => '',
     )

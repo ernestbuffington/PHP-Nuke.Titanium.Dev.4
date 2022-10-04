@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
 
     if ($ya_config['autosuspend'] > 0){
         $st = time() - $ya_config['autosuspend'];
@@ -48,7 +48,7 @@ if(is_mod_admin($titanium_module_name)) {
             $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET user_level='0', user_active='0' WHERE user_id='$sus_uid'");
         }
     }
-    redirect_titanium("modules.php?name=$titanium_module_name&file=admin");
+    redirect_titanium("modules.php?name=$pnt_module&file=admin");
 
 }
 

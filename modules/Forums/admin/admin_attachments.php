@@ -56,7 +56,7 @@ include($phpbb2_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
 include($phpbb2_root_path . 'attach_mod/includes/functions_admin.' . $phpEx);
 
 // Check if the language got included
-if (!isset($titanium_lang['Test_settings_successful']))
+if (!isset($lang['Test_settings_successful']))
 {
     // include_once is used within the function
     include_attach_lang();
@@ -296,13 +296,13 @@ if ($check_upload)
         if (!@file_exists(@amod_realpath($upload_dir)))
         {
             $error = true;
-            $error_msg = sprintf($titanium_lang['Directory_does_not_exist'], $attach_config['upload_dir']) . '<br />';
+            $error_msg = sprintf($lang['Directory_does_not_exist'], $attach_config['upload_dir']) . '<br />';
         }
 
         if (!$error && !is_dir($upload_dir))
         {
             $error = TRUE;
-            $error_msg = sprintf($titanium_lang['Directory_is_not_a_dir'], $attach_config['upload_dir']) . '<br />';
+            $error_msg = sprintf($lang['Directory_is_not_a_dir'], $attach_config['upload_dir']) . '<br />';
         }
 
         if (!$error)
@@ -310,7 +310,7 @@ if ($check_upload)
             if ( !($fp = @fopen($upload_dir . '/0_000000.000', 'w')) )
             {
                 $error = TRUE;
-                $error_msg = sprintf($titanium_lang['Directory_not_writeable'], $attach_config['upload_dir']) . '<br />';
+                $error_msg = sprintf($lang['Directory_not_writeable'], $attach_config['upload_dir']) . '<br />';
             }
             else
             {
@@ -329,7 +329,7 @@ if ($check_upload)
         if (!$conn_id)
         {
             $error = TRUE;
-            $error_msg = sprintf($titanium_lang['Ftp_error_connect'], $server) . '<br />';
+            $error_msg = sprintf($lang['Ftp_error_connect'], $server) . '<br />';
         }
 
         $login_result = @ftp_login($conn_id, $attach_config['ftp_user'], $attach_config['ftp_pass']);
@@ -337,13 +337,13 @@ if ($check_upload)
         if ( (!$login_result) && (!$error) )
         {
             $error = TRUE;
-            $error_msg = sprintf($titanium_lang['Ftp_error_login'], $attach_config['ftp_user']) . '<br />';
+            $error_msg = sprintf($lang['Ftp_error_login'], $attach_config['ftp_user']) . '<br />';
         }
 
         if (!@ftp_pasv($conn_id, intval($attach_config['ftp_pasv_mode'])))
         {
             $error = TRUE;
-            $error_msg = $titanium_lang['Ftp_error_pasv_mode'];
+            $error_msg = $lang['Ftp_error_pasv_mode'];
         }
 
         if (!$error)
@@ -364,7 +364,7 @@ if ($check_upload)
             if (!$result)
             {
                 $error = TRUE;
-                $error_msg = sprintf($titanium_lang['Ftp_error_path'], $attach_config['ftp_path']) . '<br />';
+                $error_msg = sprintf($lang['Ftp_error_path'], $attach_config['ftp_path']) . '<br />';
             }
             else
             {
@@ -373,7 +373,7 @@ if ($check_upload)
                 if (!$res)
                 {
                     $error = TRUE;
-                    $error_msg = sprintf($titanium_lang['Ftp_error_upload'], $attach_config['ftp_path']) . '<br />';
+                    $error_msg = sprintf($lang['Ftp_error_upload'], $attach_config['ftp_path']) . '<br />';
                 }
                 else
                 {
@@ -382,7 +382,7 @@ if ($check_upload)
                     if (!$res)
                     {
                         $error = TRUE;
-                        $error_msg = sprintf($titanium_lang['Ftp_error_delete'], $attach_config['ftp_path']) . '<br />';
+                        $error_msg = sprintf($lang['Ftp_error_delete'], $attach_config['ftp_path']) . '<br />';
                     }
                 }
             }
@@ -395,7 +395,7 @@ if ($check_upload)
 
     if (!$error)
     {
-        message_die(GENERAL_MESSAGE, $titanium_lang['Test_settings_successful'] . '<br /><br />' . sprintf($titanium_lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_attachments.$phpEx?mode=manage") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>'));
+        message_die(GENERAL_MESSAGE, $lang['Test_settings_successful'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_attachments.$phpEx?mode=manage") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>'));
     }
 }
 
@@ -404,7 +404,7 @@ if ($submit && $mode == 'manage')
 {
     if (!$error)
     {
-        message_die(GENERAL_MESSAGE, $titanium_lang['Attach_config_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_attachments.$phpEx?mode=manage") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>'));
+        message_die(GENERAL_MESSAGE, $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_attachments.$phpEx?mode=manage") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>'));
     }
 }
 
@@ -432,61 +432,61 @@ if ($mode == 'manage')
     }
 
     $phpbb2_template->assign_vars(array(
-        'L_MANAGE_TITLE'                => $titanium_lang['Attach_settings'],
-        'L_MANAGE_EXPLAIN'                => $titanium_lang['Manage_attachments_explain'],
-        'L_ATTACHMENT_SETTINGS'            => $titanium_lang['Attach_settings'],
-        'L_ATTACHMENT_FILESIZE_SETTINGS'=> $titanium_lang['Attach_filesize_settings'],
-        'L_ATTACHMENT_NUMBER_SETTINGS'    => $titanium_lang['Attach_number_settings'],
-        'L_ATTACHMENT_OPTIONS_SETTINGS'    => $titanium_lang['Attach_options_settings'],
-        'L_ATTACHMENT_FTP_SETTINGS'        => $titanium_lang['ftp_info'],
-        'L_NO_FTP_EXTENSIONS'            => $titanium_lang['No_ftp_extensions_installed'],
-        'L_UPLOAD_DIR'                    => $titanium_lang['Upload_directory'],
-        'L_UPLOAD_DIR_EXPLAIN'            => $titanium_lang['Upload_directory_explain'],
-        'L_ATTACHMENT_IMG_PATH'            => $titanium_lang['Attach_img_path'],
-        'L_IMG_PATH_EXPLAIN'            => $titanium_lang['Attach_img_path_explain'],
-        'L_ATTACHMENT_TOPIC_ICON'        => $titanium_lang['Attach_topic_icon'],
-        'L_TOPIC_ICON_EXPLAIN'            => $titanium_lang['Attach_topic_icon_explain'],
-        'L_DISPLAY_ORDER'                => $titanium_lang['Attach_display_order'],
-        'L_DISPLAY_ORDER_EXPLAIN'        => $titanium_lang['Attach_display_order_explain'],
-        'L_YES'                            => $titanium_lang['Yes'],
-        'L_NO'                            => $titanium_lang['No'],
-        'L_DESC'                        => $titanium_lang['Sort_Descending'],
-        'L_ASC'                            => $titanium_lang['Sort_Ascending'],
-        'L_SUBMIT'                        => $titanium_lang['Submit'],
-        'L_RESET'                        => $titanium_lang['Reset'],
-        'L_MAX_FILESIZE'                => $titanium_lang['Max_filesize_attach'],
-        'L_MAX_FILESIZE_EXPLAIN'        => $titanium_lang['Max_filesize_attach_explain'],
-        'L_ATTACH_QUOTA'                => $titanium_lang['Attach_quota'],
-        'L_ATTACH_QUOTA_EXPLAIN'        => $titanium_lang['Attach_quota_explain'],
-        'L_DEFAULT_QUOTA_LIMIT'            => $titanium_lang['Default_quota_limit'],
-        'L_DEFAULT_QUOTA_LIMIT_EXPLAIN'    => $titanium_lang['Default_quota_limit_explain'],
-        'L_MAX_FILESIZE_PM'                => $titanium_lang['Max_filesize_pm'],
-        'L_MAX_FILESIZE_PM_EXPLAIN'        => $titanium_lang['Max_filesize_pm_explain'],
-        'L_MAX_ATTACHMENTS'                => $titanium_lang['Max_attachments'],
-        'L_MAX_ATTACHMENTS_EXPLAIN'        => $titanium_lang['Max_attachments_explain'],
-        'L_MAX_ATTACHMENTS_PM'            => $titanium_lang['Max_attachments_pm'],
-        'L_MAX_ATTACHMENTS_PM_EXPLAIN'    => $titanium_lang['Max_attachments_pm_explain'],
-        'L_DISABLE_MOD'                    => $titanium_lang['Disable_mod'],
-        'L_DISABLE_MOD_EXPLAIN'            => $titanium_lang['Disable_mod_explain'],
-        'L_PM_ATTACH'                    => $titanium_lang['PM_Attachments'],
-        'L_PM_ATTACH_EXPLAIN'            => $titanium_lang['PM_Attachments_explain'],
-        'L_FTP_UPLOAD'                    => $titanium_lang['Ftp_upload'],
-        'L_FTP_UPLOAD_EXPLAIN'            => $titanium_lang['Ftp_upload_explain'],
-        'L_ATTACHMENT_TOPIC_REVIEW'        => $titanium_lang['Attachment_topic_review'],
-        'L_ATTACHMENT_TOPIC_REVIEW_EXPLAIN'    => $titanium_lang['Attachment_topic_review_explain'],
-        'L_ATTACHMENT_FTP_PATH'            => $titanium_lang['Attach_ftp_path'],
-        'L_ATTACHMENT_FTP_USER'            => $titanium_lang['ftp_username'],
-        'L_ATTACHMENT_FTP_PASS'            => $titanium_lang['ftp_password'],
-        'L_ATTACHMENT_FTP_PATH_EXPLAIN'    => $titanium_lang['Attach_ftp_path_explain'],
-        'L_ATTACHMENT_FTP_SERVER'        => $titanium_lang['Ftp_server'],
-        'L_ATTACHMENT_FTP_SERVER_EXPLAIN'    => $titanium_lang['Ftp_server_explain'],
-        'L_FTP_PASSIVE_MODE'            => $titanium_lang['Ftp_passive_mode'],
-        'L_FTP_PASSIVE_MODE_EXPLAIN'    => $titanium_lang['Ftp_passive_mode_explain'],
-        'L_DOWNLOAD_PATH'                => $titanium_lang['Ftp_download_path'],
-        'L_DOWNLOAD_PATH_EXPLAIN'        => $titanium_lang['Ftp_download_path_explain'],
-        'L_SHOW_APCP'                    => $titanium_lang['Show_apcp'],
-        'L_SHOW_APCP_EXPLAIN'            => $titanium_lang['Show_apcp_explain'],
-        'L_TEST_SETTINGS'                => $titanium_lang['Test_settings'],
+        'L_MANAGE_TITLE'                => $lang['Attach_settings'],
+        'L_MANAGE_EXPLAIN'                => $lang['Manage_attachments_explain'],
+        'L_ATTACHMENT_SETTINGS'            => $lang['Attach_settings'],
+        'L_ATTACHMENT_FILESIZE_SETTINGS'=> $lang['Attach_filesize_settings'],
+        'L_ATTACHMENT_NUMBER_SETTINGS'    => $lang['Attach_number_settings'],
+        'L_ATTACHMENT_OPTIONS_SETTINGS'    => $lang['Attach_options_settings'],
+        'L_ATTACHMENT_FTP_SETTINGS'        => $lang['ftp_info'],
+        'L_NO_FTP_EXTENSIONS'            => $lang['No_ftp_extensions_installed'],
+        'L_UPLOAD_DIR'                    => $lang['Upload_directory'],
+        'L_UPLOAD_DIR_EXPLAIN'            => $lang['Upload_directory_explain'],
+        'L_ATTACHMENT_IMG_PATH'            => $lang['Attach_img_path'],
+        'L_IMG_PATH_EXPLAIN'            => $lang['Attach_img_path_explain'],
+        'L_ATTACHMENT_TOPIC_ICON'        => $lang['Attach_topic_icon'],
+        'L_TOPIC_ICON_EXPLAIN'            => $lang['Attach_topic_icon_explain'],
+        'L_DISPLAY_ORDER'                => $lang['Attach_display_order'],
+        'L_DISPLAY_ORDER_EXPLAIN'        => $lang['Attach_display_order_explain'],
+        'L_YES'                            => $lang['Yes'],
+        'L_NO'                            => $lang['No'],
+        'L_DESC'                        => $lang['Sort_Descending'],
+        'L_ASC'                            => $lang['Sort_Ascending'],
+        'L_SUBMIT'                        => $lang['Submit'],
+        'L_RESET'                        => $lang['Reset'],
+        'L_MAX_FILESIZE'                => $lang['Max_filesize_attach'],
+        'L_MAX_FILESIZE_EXPLAIN'        => $lang['Max_filesize_attach_explain'],
+        'L_ATTACH_QUOTA'                => $lang['Attach_quota'],
+        'L_ATTACH_QUOTA_EXPLAIN'        => $lang['Attach_quota_explain'],
+        'L_DEFAULT_QUOTA_LIMIT'            => $lang['Default_quota_limit'],
+        'L_DEFAULT_QUOTA_LIMIT_EXPLAIN'    => $lang['Default_quota_limit_explain'],
+        'L_MAX_FILESIZE_PM'                => $lang['Max_filesize_pm'],
+        'L_MAX_FILESIZE_PM_EXPLAIN'        => $lang['Max_filesize_pm_explain'],
+        'L_MAX_ATTACHMENTS'                => $lang['Max_attachments'],
+        'L_MAX_ATTACHMENTS_EXPLAIN'        => $lang['Max_attachments_explain'],
+        'L_MAX_ATTACHMENTS_PM'            => $lang['Max_attachments_pm'],
+        'L_MAX_ATTACHMENTS_PM_EXPLAIN'    => $lang['Max_attachments_pm_explain'],
+        'L_DISABLE_MOD'                    => $lang['Disable_mod'],
+        'L_DISABLE_MOD_EXPLAIN'            => $lang['Disable_mod_explain'],
+        'L_PM_ATTACH'                    => $lang['PM_Attachments'],
+        'L_PM_ATTACH_EXPLAIN'            => $lang['PM_Attachments_explain'],
+        'L_FTP_UPLOAD'                    => $lang['Ftp_upload'],
+        'L_FTP_UPLOAD_EXPLAIN'            => $lang['Ftp_upload_explain'],
+        'L_ATTACHMENT_TOPIC_REVIEW'        => $lang['Attachment_topic_review'],
+        'L_ATTACHMENT_TOPIC_REVIEW_EXPLAIN'    => $lang['Attachment_topic_review_explain'],
+        'L_ATTACHMENT_FTP_PATH'            => $lang['Attach_ftp_path'],
+        'L_ATTACHMENT_FTP_USER'            => $lang['ftp_username'],
+        'L_ATTACHMENT_FTP_PASS'            => $lang['ftp_password'],
+        'L_ATTACHMENT_FTP_PATH_EXPLAIN'    => $lang['Attach_ftp_path_explain'],
+        'L_ATTACHMENT_FTP_SERVER'        => $lang['Ftp_server'],
+        'L_ATTACHMENT_FTP_SERVER_EXPLAIN'    => $lang['Ftp_server_explain'],
+        'L_FTP_PASSIVE_MODE'            => $lang['Ftp_passive_mode'],
+        'L_FTP_PASSIVE_MODE_EXPLAIN'    => $lang['Ftp_passive_mode_explain'],
+        'L_DOWNLOAD_PATH'                => $lang['Ftp_download_path'],
+        'L_DOWNLOAD_PATH_EXPLAIN'        => $lang['Ftp_download_path_explain'],
+        'L_SHOW_APCP'                    => $lang['Show_apcp'],
+        'L_SHOW_APCP_EXPLAIN'            => $lang['Show_apcp_explain'],
+        'L_TEST_SETTINGS'                => $lang['Test_settings'],
 
         'S_ATTACH_ACTION'        => append_titanium_sid('admin_attachments.' . $phpEx . '?mode=manage'),
         'S_FILESIZE'            => $select_size_mode,
@@ -494,8 +494,8 @@ if ($mode == 'manage')
         'S_FILESIZE_PM'            => $select_pm_size_mode,
         'S_DEFAULT_UPLOAD_LIMIT'=> default_quota_limit_select('default_upload_quota', intval(trim($new_attach['default_upload_quota']))),
         'S_DEFAULT_PM_LIMIT'    => default_quota_limit_select('default_pm_quota', intval(trim($new_attach['default_pm_quota']))),
-        'L_UPLOAD_QUOTA'        => $titanium_lang['Upload_quota'],
-        'L_PM_QUOTA'            => $titanium_lang['Pm_quota'],
+        'L_UPLOAD_QUOTA'        => $lang['Upload_quota'],
+        'L_PM_QUOTA'            => $lang['Pm_quota'],
 
         'UPLOAD_DIR'            => $new_attach['upload_dir'],
         'ATTACHMENT_IMG_PATH'    => $new_attach['upload_img'],
@@ -565,7 +565,7 @@ if ($submit && $mode == 'shadow')
         }
     }
 
-    $message = $titanium_lang['Attach_config_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_attachments.$phpEx?mode=shadow") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+    $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_attachments.$phpEx?mode=shadow") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
 
     message_die(GENERAL_MESSAGE, $message);
 }
@@ -583,16 +583,16 @@ if ($mode == 'shadow')
     $shadow_row = array();
 
     $phpbb2_template->assign_vars(array(
-        'L_SHADOW_TITLE'    => $titanium_lang['Shadow_attachments'],
-        'L_SHADOW_EXPLAIN'    => $titanium_lang['Shadow_attachments_explain'],
-        'L_EXPLAIN_FILE'    => $titanium_lang['Shadow_attachments_file_explain'],
-        'L_EXPLAIN_ROW'        => $titanium_lang['Shadow_attachments_row_explain'],
-        'L_ATTACHMENT'        => $titanium_lang['Attachment'],
-        'L_COMMENT'            => $titanium_lang['File_comment'],
-        'L_DELETE'            => $titanium_lang['Delete'],
-        'L_DELETE_MARKED'    => $titanium_lang['Delete_marked'],
-        'L_MARK_ALL'        => $titanium_lang['Mark_all'],
-        'L_UNMARK_ALL'        => $titanium_lang['Unmark_all'],
+        'L_SHADOW_TITLE'    => $lang['Shadow_attachments'],
+        'L_SHADOW_EXPLAIN'    => $lang['Shadow_attachments_explain'],
+        'L_EXPLAIN_FILE'    => $lang['Shadow_attachments_file_explain'],
+        'L_EXPLAIN_ROW'        => $lang['Shadow_attachments_row_explain'],
+        'L_ATTACHMENT'        => $lang['Attachment'],
+        'L_COMMENT'            => $lang['File_comment'],
+        'L_DELETE'            => $lang['Delete'],
+        'L_DELETE_MARKED'    => $lang['Delete_marked'],
+        'L_MARK_ALL'        => $lang['Mark_all'],
+        'L_UNMARK_ALL'        => $lang['Unmark_all'],
 
         'S_HIDDEN'            => $hidden,
         'S_ATTACH_ACTION'    => append_titanium_sid('admin_attachments.' . $phpEx . '?mode=shadow'))
@@ -677,7 +677,7 @@ if ($mode == 'shadow')
 		{
 			$shadow_row['attach_id'][] = $assign_attachments[$i];
 			$shadow_row['physical_filename'][] = $assign_attachments[$i];
-			$shadow_row['comment'][] = $titanium_lang['Empty_file_entry'];
+			$shadow_row['comment'][] = $lang['Empty_file_entry'];
 		}
 	}
 	
@@ -725,7 +725,7 @@ if ($mode == 'shadow')
         $phpbb2_template->assign_block_vars('file_shadow_row', array(
             'ATTACH_ID'            => $shadow_attachments[$i],
             'ATTACH_FILENAME'    => $shadow_attachments[$i],
-            'ATTACH_COMMENT'    => $titanium_lang['No_file_comment_available'],
+            'ATTACH_COMMENT'    => $lang['No_file_comment_available'],
             'U_ATTACHMENT'        => $upload_dir . '/' . basename($shadow_attachments[$i]))
         );
     }
@@ -737,7 +737,7 @@ if ($mode == 'shadow')
             $phpbb2_template->assign_block_vars('table_shadow_row', array(
                 'ATTACH_ID'            => $shadow_row['attach_id'][$i],
                 'ATTACH_FILENAME'    => basename($shadow_row['physical_filename'][$i]),
-                'ATTACH_COMMENT'    => (trim($shadow_row['comment'][$i]) == '') ? $titanium_lang['No_file_comment_available'] : trim($shadow_row['comment'][$i]))
+                'ATTACH_COMMENT'    => (trim($shadow_row['comment'][$i]) == '') ? $lang['No_file_comment_available'] : trim($shadow_row['comment'][$i]))
             );
         }
     }
@@ -747,7 +747,7 @@ if ($submit && $mode == 'cats')
 {
     if (!$error)
     {
-        message_die(GENERAL_MESSAGE, $titanium_lang['Attach_config_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_attachments.$phpEx?mode=cats") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>'));
+        message_die(GENERAL_MESSAGE, $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_attachments.$phpEx?mode=cats") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>'));
     }
 }
 
@@ -757,9 +757,9 @@ if ($mode == 'cats')
         'body' => 'admin/attach_cat_body.tpl')
     );
 
-    $s_assigned_group_images = $titanium_lang['None'];
-    $s_assigned_group_streams = $titanium_lang['None'];
-    $s_assigned_group_flash = $titanium_lang['None'];
+    $s_assigned_group_images = $lang['None'];
+    $s_assigned_group_streams = $lang['None'];
+    $s_assigned_group_flash = $lang['None'];
 
     $sql = 'SELECT group_name, cat_id
         FROM ' . EXTENSION_GROUPS_TABLE . '
@@ -814,34 +814,34 @@ if ($mode == 'cats')
     }
 
     $phpbb2_template->assign_vars(array(
-        'L_MANAGE_CAT_TITLE'    => $titanium_lang['Manage_categories'],
-        'L_MANAGE_CAT_EXPLAIN'    => $titanium_lang['Manage_categories_explain'],
-        'L_SETTINGS_CAT_IMAGES'    => $titanium_lang['Settings_cat_images'],
-        'L_SETTINGS_CAT_STREAM'    => $titanium_lang['Settings_cat_streams'],
-        'L_SETTINGS_CAT_FLASH'    => $titanium_lang['Settings_cat_flash'],
-        'L_ASSIGNED_GROUP'        => $titanium_lang['Assigned_group'],
+        'L_MANAGE_CAT_TITLE'    => $lang['Manage_categories'],
+        'L_MANAGE_CAT_EXPLAIN'    => $lang['Manage_categories_explain'],
+        'L_SETTINGS_CAT_IMAGES'    => $lang['Settings_cat_images'],
+        'L_SETTINGS_CAT_STREAM'    => $lang['Settings_cat_streams'],
+        'L_SETTINGS_CAT_FLASH'    => $lang['Settings_cat_flash'],
+        'L_ASSIGNED_GROUP'        => $lang['Assigned_group'],
 
-        'L_DISPLAY_INLINED'                => $titanium_lang['Display_inlined'],
-        'L_DISPLAY_INLINED_EXPLAIN'        => $titanium_lang['Display_inlined_explain'],
-        'L_MAX_IMAGE_SIZE'                => $titanium_lang['Max_image_size'],
-        'L_MAX_IMAGE_SIZE_EXPLAIN'        => $titanium_lang['Max_image_size_explain'],
-        'L_IMAGE_LINK_SIZE'                => $titanium_lang['Image_link_size'],
-        'L_IMAGE_LINK_SIZE_EXPLAIN'        => $titanium_lang['Image_link_size_explain'],
-        'L_CREATE_THUMBNAIL'            => $titanium_lang['Image_create_thumbnail'],
-        'L_CREATE_THUMBNAIL_EXPLAIN'    => $titanium_lang['Image_create_thumbnail_explain'],
-        'L_MIN_THUMB_FILESIZE'            => $titanium_lang['Image_min_thumb_filesize'],
-        'L_MIN_THUMB_FILESIZE_EXPLAIN'    => $titanium_lang['Image_min_thumb_filesize_explain'],
-        'L_IMAGICK_PATH'                => $titanium_lang['Image_imagick_path'],
-        'L_IMAGICK_PATH_EXPLAIN'        => $titanium_lang['Image_imagick_path_explain'],
-        'L_SEARCH_IMAGICK'                => $titanium_lang['Image_search_imagick'],
-        'L_BYTES'                        => $titanium_lang['Bytes'],
-        'L_TEST_SETTINGS'                => $titanium_lang['Test_settings'],
-        'L_YES'                            => $titanium_lang['Yes'],
-        'L_NO'                            => $titanium_lang['No'],
-        'L_SUBMIT'                        => $titanium_lang['Submit'],
-        'L_RESET'                        => $titanium_lang['Reset'],
-        'L_USE_GD2'                        => $titanium_lang['Use_gd2'],
-        'L_USE_GD2_EXPLAIN'                => $titanium_lang['Use_gd2_explain'],
+        'L_DISPLAY_INLINED'                => $lang['Display_inlined'],
+        'L_DISPLAY_INLINED_EXPLAIN'        => $lang['Display_inlined_explain'],
+        'L_MAX_IMAGE_SIZE'                => $lang['Max_image_size'],
+        'L_MAX_IMAGE_SIZE_EXPLAIN'        => $lang['Max_image_size_explain'],
+        'L_IMAGE_LINK_SIZE'                => $lang['Image_link_size'],
+        'L_IMAGE_LINK_SIZE_EXPLAIN'        => $lang['Image_link_size_explain'],
+        'L_CREATE_THUMBNAIL'            => $lang['Image_create_thumbnail'],
+        'L_CREATE_THUMBNAIL_EXPLAIN'    => $lang['Image_create_thumbnail_explain'],
+        'L_MIN_THUMB_FILESIZE'            => $lang['Image_min_thumb_filesize'],
+        'L_MIN_THUMB_FILESIZE_EXPLAIN'    => $lang['Image_min_thumb_filesize_explain'],
+        'L_IMAGICK_PATH'                => $lang['Image_imagick_path'],
+        'L_IMAGICK_PATH_EXPLAIN'        => $lang['Image_imagick_path_explain'],
+        'L_SEARCH_IMAGICK'                => $lang['Image_search_imagick'],
+        'L_BYTES'                        => $lang['Bytes'],
+        'L_TEST_SETTINGS'                => $lang['Test_settings'],
+        'L_YES'                            => $lang['Yes'],
+        'L_NO'                            => $lang['No'],
+        'L_SUBMIT'                        => $lang['Submit'],
+        'L_RESET'                        => $lang['Reset'],
+        'L_USE_GD2'                        => $lang['Use_gd2'],
+        'L_USE_GD2_EXPLAIN'                => $lang['Use_gd2_explain'],
 
         'IMAGE_MAX_HEIGHT'            => $new_attach['img_max_height'],
         'IMAGE_MAX_WIDTH'            => $new_attach['img_max_width'],
@@ -912,7 +912,7 @@ if ($check_image_cat)
             if (!@file_exists(@amod_realpath($upload_dir)))
             {
                 $error = TRUE;
-                $error_msg = sprintf($titanium_lang['Directory_does_not_exist'], $upload_dir) . '<br />';
+                $error_msg = sprintf($lang['Directory_does_not_exist'], $upload_dir) . '<br />';
             }
 
         }
@@ -920,7 +920,7 @@ if ($check_image_cat)
         if (!$error && !is_dir($upload_dir))
         {
             $error = TRUE;
-            $error_msg = sprintf($titanium_lang['Directory_is_not_a_dir'], $upload_dir) . '<br />';
+            $error_msg = sprintf($lang['Directory_is_not_a_dir'], $upload_dir) . '<br />';
         }
 
         if (!$error)
@@ -928,7 +928,7 @@ if ($check_image_cat)
             if ( !($fp = @fopen($upload_dir . '/0_000000.000', 'w')) )
             {
                 $error = TRUE;
-                $error_msg = sprintf($titanium_lang['Directory_not_writeable'], $upload_dir) . '<br />';
+                $error_msg = sprintf($lang['Directory_not_writeable'], $upload_dir) . '<br />';
             }
             else
             {
@@ -947,7 +947,7 @@ if ($check_image_cat)
         if (!$conn_id)
         {
             $error = TRUE;
-            $error_msg = sprintf($titanium_lang['Ftp_error_connect'], $server) . '<br />';
+            $error_msg = sprintf($lang['Ftp_error_connect'], $server) . '<br />';
         }
 
         $login_result = @ftp_login($conn_id, $attach_config['ftp_user'], $attach_config['ftp_pass']);
@@ -955,13 +955,13 @@ if ($check_image_cat)
         if (!$login_result && !$error)
         {
             $error = TRUE;
-            $error_msg = sprintf($titanium_lang['Ftp_error_login'], $attach_config['ftp_user']) . '<br />';
+            $error_msg = sprintf($lang['Ftp_error_login'], $attach_config['ftp_user']) . '<br />';
         }
 
         if (!@ftp_pasv($conn_id, intval($attach_config['ftp_pasv_mode'])))
         {
             $error = TRUE;
-            $error_msg = $titanium_lang['Ftp_error_pasv_mode'];
+            $error_msg = $lang['Ftp_error_pasv_mode'];
         }
 
         if (!$error)
@@ -989,7 +989,7 @@ if ($check_image_cat)
             if (!$result)
             {
                 $error = TRUE;
-                $error_msg = sprintf($titanium_lang['Ftp_error_path'], $attach_config['ftp_path'] . '/' . THUMB_DIR) . '<br />';
+                $error_msg = sprintf($lang['Ftp_error_path'], $attach_config['ftp_path'] . '/' . THUMB_DIR) . '<br />';
             }
             else
             {
@@ -998,7 +998,7 @@ if ($check_image_cat)
                 if (!$res)
                 {
                     $error = TRUE;
-                    $error_msg = sprintf($titanium_lang['Ftp_error_upload'], $attach_config['ftp_path'] . '/' . THUMB_DIR) . '<br />';
+                    $error_msg = sprintf($lang['Ftp_error_upload'], $attach_config['ftp_path'] . '/' . THUMB_DIR) . '<br />';
                 }
                 else
                 {
@@ -1007,7 +1007,7 @@ if ($check_image_cat)
                     if (!$res)
                     {
                         $error = TRUE;
-                        $error_msg = sprintf($titanium_lang['Ftp_error_delete'], $attach_config['ftp_path'] . '/' . THUMB_DIR) . '<br />';
+                        $error_msg = sprintf($lang['Ftp_error_delete'], $attach_config['ftp_path'] . '/' . THUMB_DIR) . '<br />';
                     }
                 }
             }
@@ -1020,7 +1020,7 @@ if ($check_image_cat)
 
     if (!$error)
     {
-        message_die(GENERAL_MESSAGE, $titanium_lang['Test_settings_successful'] . '<br /><br />' . sprintf($titanium_lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_attachments.$phpEx?mode=cats") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>'));
+        message_die(GENERAL_MESSAGE, $lang['Test_settings_successful'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_attachments.$phpEx?mode=cats") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>'));
     }
 }
 
@@ -1029,7 +1029,7 @@ if ($mode == 'sync')
     $info = '';
     @set_time_limit(0);
 
-    echo (isset($titanium_lang['Sync_topics'])) ? $titanium_lang['Sync_topics'] : 'Sync Topics';
+    echo (isset($lang['Sync_topics'])) ? $lang['Sync_topics'] : 'Sync Topics';
 
     $sql = "SELECT topic_id    FROM " . TOPICS_TABLE;
     if (!($result = $titanium_db->sql_query($sql)))
@@ -1054,7 +1054,7 @@ if ($mode == 'sync')
     $titanium_db->sql_freeresult($result);
 
     echo '<br /><br />';
-    echo (isset($titanium_lang['Sync_posts'])) ? $titanium_lang['Sync_posts'] : 'Sync Posts';
+    echo (isset($lang['Sync_posts'])) ? $lang['Sync_posts'] : 'Sync Posts';
 
     // Reassign Attachments to the Poster ID
     $sql = 'SELECT a.attach_id, a.post_id, a.user_id_1, p.poster_id
@@ -1090,7 +1090,7 @@ if ($mode == 'sync')
     }
 
     echo '<br /><br />';
-    echo (isset($titanium_lang['Sync_thumbnails'])) ? $titanium_lang['Sync_thumbnails'] : 'Sync Thumbnails';
+    echo (isset($lang['Sync_thumbnails'])) ? $lang['Sync_thumbnails'] : 'Sync Thumbnails';
 
     // Sync Thumbnails (if a thumbnail is no longer there, delete it)
     // Get all Posts/PM's with the Thumbnail Flag set
@@ -1116,7 +1116,7 @@ if ($mode == 'sync')
 
         if (!thumbnail_exists(basename($row['physical_filename'])))
         {
-            $info .= sprintf($titanium_lang['Sync_thumbnail_resetted'], $row['physical_filename']) . '<br />';
+            $info .= sprintf($lang['Sync_thumbnail_resetted'], $row['physical_filename']) . '<br />';
             $sql = "UPDATE " . ATTACHMENTS_DESC_TABLE . " SET thumbnail = 0 WHERE attach_id = " . (int) $row['attach_id'];
             if (!($titanium_db->sql_query($sql)))
             {
@@ -1152,7 +1152,7 @@ if ($mode == 'sync')
 
         if (thumbnail_exists(basename($row['physical_filename'])))
         {
-            $info .= sprintf($titanium_lang['Sync_thumbnail_resetted'], $row['physical_filename']) . '<br />';
+            $info .= sprintf($lang['Sync_thumbnail_resetted'], $row['physical_filename']) . '<br />';
             unlink_attach(basename($row['physical_filename']), MODE_THUMBNAIL);
         }
         $i++;
@@ -1160,7 +1160,7 @@ if ($mode == 'sync')
     $titanium_db->sql_freeresult($result);
 
     @flush();
-    die('<br /><br /><br />' . $titanium_lang['Attach_sync_finished'] . '<br /><br />' . $info);
+    die('<br /><br /><br />' . $lang['Attach_sync_finished'] . '<br /><br />' . $info);
 
     exit;
 }
@@ -1249,7 +1249,7 @@ if ($submit && $mode == 'quota')
                     {
                         $error_msg .= '<br />';
                     }
-                    $error_msg .= sprintf($titanium_lang['Quota_limit_exist'], $extension_group);
+                    $error_msg .= sprintf($lang['Quota_limit_exist'], $extension_group);
                 }
             }
         }
@@ -1271,7 +1271,7 @@ if ($submit && $mode == 'quota')
 
     if (!$error)
     {
-        $message = $titanium_lang['Attach_config_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_attachments.$phpEx?mode=quota") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_attachments.$phpEx?mode=quota") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -1297,20 +1297,20 @@ if ($mode == 'quota')
     }
 
     $phpbb2_template->assign_vars(array(
-        'L_MANAGE_QUOTAS_TITLE'        => $titanium_lang['Manage_quotas'],
-        'L_MANAGE_QUOTAS_EXPLAIN'    => $titanium_lang['Manage_quotas_explain'],
-        'L_SUBMIT'                    => $titanium_lang['Submit'],
-        'L_RESET'                    => $titanium_lang['Reset'],
-        'L_EDIT'                    => $titanium_lang['Edit'],
-        'L_VIEW'                    => $titanium_lang['View'],
-        'L_DESCRIPTION'                => $titanium_lang['Description'],
-        'L_SIZE'                    => $titanium_lang['Max_filesize_attach'],
-        'L_ADD_NEW'                    => $titanium_lang['Add_new'],
-        'L_DELETE'                    => $titanium_lang['Delete'],
+        'L_MANAGE_QUOTAS_TITLE'        => $lang['Manage_quotas'],
+        'L_MANAGE_QUOTAS_EXPLAIN'    => $lang['Manage_quotas_explain'],
+        'L_SUBMIT'                    => $lang['Submit'],
+        'L_RESET'                    => $lang['Reset'],
+        'L_EDIT'                    => $lang['Edit'],
+        'L_VIEW'                    => $lang['View'],
+        'L_DESCRIPTION'                => $lang['Description'],
+        'L_SIZE'                    => $lang['Max_filesize_attach'],
+        'L_ADD_NEW'                    => $lang['Add_new'],
+        'L_DELETE'                    => $lang['Delete'],
         'MAX_FILESIZE'                => $max_add_filesize,
 
         'S_FILESIZE'            => size_select('add_size_select', $size),
-        'L_REMOVE_SELECTED'        => $titanium_lang['Remove_selected'],
+        'L_REMOVE_SELECTED'        => $lang['Remove_selected'],
 
         'S_ATTACH_ACTION'        => append_titanium_sid('admin_attachments.' . $phpEx . '?mode=quota'))
     );
@@ -1371,10 +1371,10 @@ if ($mode == 'quota' && $e_mode == 'view_quota')
 
     $phpbb2_template->assign_vars(array(
         'L_QUOTA_LIMIT_DESC'    => $row['quota_desc'],
-        'L_ASSIGNED_USERS'        => $titanium_lang['Assigned_users'],
-        'L_ASSIGNED_GROUPS'        => $titanium_lang['Assigned_groups'],
-        'L_UPLOAD_QUOTA'        => $titanium_lang['Upload_quota'],
-        'L_PM_QUOTA'            => $titanium_lang['Pm_quota'])
+        'L_ASSIGNED_USERS'        => $lang['Assigned_users'],
+        'L_ASSIGNED_GROUPS'        => $lang['Assigned_groups'],
+        'L_UPLOAD_QUOTA'        => $lang['Upload_quota'],
+        'L_PM_QUOTA'            => $lang['Pm_quota'])
     );
 
     $sql = 'SELECT q.user_id, u.username, q.quota_type
@@ -1457,7 +1457,7 @@ if ($error)
 }
 
 $phpbb2_template->assign_vars(array(
-    'ATTACH_VERSION' => sprintf($titanium_lang['Attachment_version'], $attach_config['attach_version']))
+    'ATTACH_VERSION' => sprintf($lang['Attachment_version'], $attach_config['attach_version']))
 );
 
 $phpbb2_template->pparse('body');

@@ -130,17 +130,17 @@ function get_admin_field($field_name, $admin)
  *
  * @author Quake
  *
- * @param string $titanium_module_name Module name
+ * @param string $pnt_module Module name
  * @return bool
  */
-function is_mod_admin($titanium_module_name='super') 
+function is_mod_admin($pnt_module='super') 
 {
 
     global $titanium_db, $aid, $admin;
     static $auth = array();
 
     if(!is_admin()) return 0;
-    if(isset($auth[$titanium_module_name])) return $auth[$titanium_module_name];
+    if(isset($auth[$pnt_module])) return $auth[$pnt_module];
 
     if(!isset($aid)) {
         if(!is_array($admin)) {
@@ -153,8 +153,8 @@ function is_mod_admin($titanium_module_name='super')
     }
     $admdata = get_admin_field('*', $aid);
     $auth_user = 0;
-    if($titanium_module_name != 'super') {
-        list($admins) = $titanium_db->sql_ufetchrow("SELECT `admins` FROM "._MODULES_TABLE." WHERE `title`='$titanium_module_name'");
+    if($pnt_module != 'super') {
+        list($admins) = $titanium_db->sql_ufetchrow("SELECT `admins` FROM "._MODULES_TABLE." WHERE `title`='$pnt_module'");
         $adminarray = explode(",", $admins);
         for ($i=0, $maxi=count($adminarray); $i < $maxi; $i++) {
             if ($admdata['aid'] == $adminarray[$i] && !empty($admins)) {
@@ -162,8 +162,8 @@ function is_mod_admin($titanium_module_name='super')
             }
         }
     }
-    $auth[$titanium_module_name] = ($admdata['radminsuper'] == 1 || $auth_user == 1);
-    return $auth[$titanium_module_name];
+    $auth[$pnt_module] = ($admdata['radminsuper'] == 1 || $auth_user == 1);
+    return $auth[$pnt_module];
 
 }
 
@@ -172,47 +172,47 @@ function is_mod_admin($titanium_module_name='super')
  *
  * @author ReOrGaNiSaTiOn (based on is_mod_admin from Quake)
  *
- * @param string $titanium_module_name Module name
+ * @param string $pnt_module Module name
  * super = only Superuser
  * module_name = only Admins with privileges for this module
  * all with module_name = Superuser + Module-Admins
  * @return array of admin-names with email-address by default only Superuser
  */
-function get_mod_admins($titanium_module_name='super', $all='') 
+function get_mod_admins($pnt_module='super', $all='') 
 {
 
     global $titanium_db;
     static $admins = array();
 
     if ( $all =='') {
-        if(isset($admins[$titanium_module_name])) {return $admins[$titanium_module_name];}
+        if(isset($admins[$pnt_module])) {return $admins[$pnt_module];}
     }
 
-    if($titanium_module_name == 'super' || $all != '') {
+    if($pnt_module == 'super' || $all != '') {
         $result1 = $titanium_db->sql_query("SELECT `aid`, `email` FROM `"._AUTHOR_TABLE."` WHERE `radminsuper`='1'");
         $num = 0;
         while (list($admin, $email) = $titanium_db->sql_fetchrow($result1)) {
-            $admins[$titanium_module_name][$num]['aid'] = $admin;
-            $admins[$titanium_module_name][$num]['email'] = $email;
+            $admins[$pnt_module][$num]['aid'] = $admin;
+            $admins[$pnt_module][$num]['email'] = $email;
             $num++;
         }
         $titanium_db->sql_freeresult($result1);
     }
 
-    if($titanium_module_name != 'super') {
-        list($admin) = $titanium_db->sql_ufetchrow("SELECT `admins` FROM `"._MODULES_TABLE."` WHERE `title`='".$titanium_module_name."'");
+    if($pnt_module != 'super') {
+        list($admin) = $titanium_db->sql_ufetchrow("SELECT `admins` FROM `"._MODULES_TABLE."` WHERE `title`='".$pnt_module."'");
         $adminarray = explode(",", $admin);
         $num = ($all !='') ? $num : 0;
         for ($i=0, $maxi=count($adminarray); $i < $maxi; $i++) {
             $row = $titanium_db->sql_fetchrow($titanium_db->sql_query("SELECT `aid`, `email` FROM `"._AUTHOR_TABLE."` WHERE `aid`='".$adminarray[$i]."'"));
             if (!empty($row['aid'])) {
-                $admins[$titanium_module_name][$num]['aid'] = $row['aid'];
-                $admins[$titanium_module_name][$num]['email'] = $row['email'];
+                $admins[$pnt_module][$num]['aid'] = $row['aid'];
+                $admins[$pnt_module][$num]['email'] = $row['email'];
             }
             $num++;
         }
     }
-    return $admins[$titanium_module_name];
+    return $admins[$pnt_module];
 }
 
 /**
@@ -602,15 +602,15 @@ function EvoDate($format, $gmepoch, $tz)
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-    global $phpbb2_board_config, $titanium_lang, $userdata, $titanium_pc_dateTime, $userinfo;
+    global $phpbb2_board_config, $lang, $userdata, $titanium_pc_dateTime, $userinfo;
 	getusrinfo();
 	static $translate;
 	    if ( empty($translate) && $phpbb2_board_config['default_lang'] != 'english' )
     {
-    		@include(NUKE_FORUMS_DIR.'language/lang_'.$titanium_lang.'/lang_time.php');
-    		if (!(empty($titanium_langtime['datetime'])))
+    		@include(NUKE_FORUMS_DIR.'language/lang_'.$lang.'/lang_time.php');
+    		if (!(empty($langtime['datetime'])))
     		{
-        	while ( list($match, $replace) = @each($titanium_langtime['datetime']) )
+        	while ( list($match, $replace) = @each($langtime['datetime']) )
         	{
             $translate[$match] = $replace;
         	}

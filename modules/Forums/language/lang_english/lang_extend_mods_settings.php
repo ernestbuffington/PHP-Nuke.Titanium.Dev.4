@@ -25,12 +25,12 @@ if ( !defined('IN_PHPBB2') )
 }
 
 // admin part
-if ( $titanium_lang_extend_admin )
+if ( $lang_extend_admin )
 {
-	$titanium_lang['Lang_extend_mods_settings'] = 'Mods settings language pack';
-	$titanium_lang['Configuration_extend']	= 'Configuration +';
-	$titanium_lang['Override_user_choices']	= 'Override user choices';
+	$lang['Lang_extend_mods_settings'] = 'Mods settings language pack';
+	$lang['Configuration_extend']	= 'Configuration +';
+	$lang['Override_user_choices']	= 'Override user choices';
 }
-$titanium_lang['Click_return_preferences'] = 'Click %sHere%s to return to preferences';
+$lang['Click_return_preferences'] = 'Click %sHere%s to return to preferences';
 
 ?>

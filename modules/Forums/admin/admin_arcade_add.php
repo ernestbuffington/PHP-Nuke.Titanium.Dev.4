@@ -92,14 +92,14 @@ if( isset($HTTP_POST_VARS['submit']) )
         unset($HTTP_POST_VARS['submit']);
         
                 $game_name = str_replace("\'", "'", $game_name);
-        $message = $game_name . $titanium_lang['Arcade_game_added'] . "<br /><br />" . sprintf($titanium_lang['Click_return_add_game'], "<a href=\"" . append_titanium_sid("admin_arcade_add.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message = $game_name . $lang['Arcade_game_added'] . "<br /><br />" . sprintf($lang['Click_return_add_game'], "<a href=\"" . append_titanium_sid("admin_arcade_add.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
 
     }
     else
     {
-        $message = "Not all forms have been filled out!  Unable to add the game!" . "<br /><br />" . sprintf($titanium_lang['Click_return_add_game'], "<a href=\"" . append_titanium_sid("admin_arcade_add.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($titanium_lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message = "Not all forms have been filled out!  Unable to add the game!" . "<br /><br />" . sprintf($lang['Click_return_add_game'], "<a href=\"" . append_titanium_sid("admin_arcade_add.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -122,38 +122,38 @@ while ( $row = $titanium_db->sql_fetchrow($result))
 
 
 $phpbb2_template->assign_vars(array(
-    "L_ADD_TITLE" => $titanium_lang['Add_title'],
+    "L_ADD_TITLE" => $lang['Add_title'],
 
-    "L_NAME" => $titanium_lang['Add_game_name'],
-    "L_NAME_DESC" => $titanium_lang['Add_game_name_desc'],
+    "L_NAME" => $lang['Add_game_name'],
+    "L_NAME_DESC" => $lang['Add_game_name_desc'],
 
-    "L_DESC" => $titanium_lang['Add_game_desc'],
-    "L_DESC_DESC" => $titanium_lang['Add_game_desc_desc'],
+    "L_DESC" => $lang['Add_game_desc'],
+    "L_DESC_DESC" => $lang['Add_game_desc_desc'],
 
-    "L_SCOREVAR" => $titanium_lang['Add_score_var'],
-    "L_SCOREVAR_DESC" => $titanium_lang['Add_scorevar_desc'],
+    "L_SCOREVAR" => $lang['Add_score_var'],
+    "L_SCOREVAR_DESC" => $lang['Add_scorevar_desc'],
 
-    "L_GAMEFILE" => $titanium_lang['Add_game_file'],
-    "L_GAMEFILE_DESC" => $titanium_lang['Add_game_file_desc'],
+    "L_GAMEFILE" => $lang['Add_game_file'],
+    "L_GAMEFILE_DESC" => $lang['Add_game_file_desc'],
 
-    "L_PICFILE" => $titanium_lang['Add_pic_file'],
-    "L_PICFILE_DESC" => $titanium_lang['Add_pic_file_desc'],
+    "L_PICFILE" => $lang['Add_pic_file'],
+    "L_PICFILE_DESC" => $lang['Add_pic_file_desc'],
 
-    "L_CAT" => $titanium_lang['Add_cat'],
-    "L_CAT_DESC" => $titanium_lang['Add_cat_desc'],
+    "L_CAT" => $lang['Add_cat'],
+    "L_CAT_DESC" => $lang['Add_cat_desc'],
 
-    "L_TYPE" => $titanium_lang['Add_type'],
-    "L_TYPE_DESC" => $titanium_lang['Add_type_desc'],
+    "L_TYPE" => $lang['Add_type'],
+    "L_TYPE_DESC" => $lang['Add_type_desc'],
 
-    "L_WIDTH" => $titanium_lang['Add_width'],
-    "L_WIDTH_DESC" => $titanium_lang['Add_width_desc'],
+    "L_WIDTH" => $lang['Add_width'],
+    "L_WIDTH_DESC" => $lang['Add_width_desc'],
 
-    "L_HEIGHT" => $titanium_lang['Add_height'],
-    "L_HEIGHT_DESC" => $titanium_lang['Add_height_desc'],
+    "L_HEIGHT" => $lang['Add_height'],
+    "L_HEIGHT_DESC" => $lang['Add_height_desc'],
 
     "CATEGORIES" => $cats,
 
-    "L_SUBMIT" => $titanium_lang['Submit'])
+    "L_SUBMIT" => $lang['Submit'])
 );
 
 // Generate The Page

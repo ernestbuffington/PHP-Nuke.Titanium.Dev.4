@@ -131,7 +131,7 @@ if ($submit && $mode == 'mod_edit')
             }
     
             $mod_info_changed = TRUE;
-            $message = ($message == '') ? $message . $titanium_lang['Msg_changed_update_time'] : $message . '<br />' . $titanium_lang['Msg_changed_update_time'];
+            $message = ($message == '') ? $message . $lang['Msg_changed_update_time'] : $message . '<br />' . $lang['Msg_changed_update_time'];
         }
     }
 
@@ -144,7 +144,7 @@ if ($submit && $mode == 'mod_edit')
             message_die(GENERAL_ERROR, 'Unable to update modules cache table', '', __LINE__, __FILE__, $sql);
         }
     
-        $message = ($message == '') ? $message . $titanium_lang['Msg_cleared_module_cache'] : $message . '<br />' . $titanium_lang['Msg_cleared_module_cache'];
+        $message = ($message == '') ? $message . $lang['Msg_cleared_module_cache'] : $message . '<br />' . $lang['Msg_cleared_module_cache'];
     }
 
     // Permission Updates
@@ -172,7 +172,7 @@ if ($submit && $mode == 'mod_edit')
             message_die(GENERAL_ERROR, 'Unable to update Permissions', '', __LINE__, __FILE__, $sql);
         }
 
-        $message = ($message == '') ? $message . $titanium_lang['Msg_permissions_updated'] : $message . '<br />' . $titanium_lang['Msg_permissions_updated'];
+        $message = ($message == '') ? $message . $lang['Msg_permissions_updated'] : $message . '<br />' . $lang['Msg_permissions_updated'];
         $mod_info_changed = TRUE;
     }
     
@@ -210,7 +210,7 @@ if ($submit && $mode == 'mod_edit')
 
     if ($admin_update)
     {
-        $message = ($message == '') ? $message . $titanium_lang['Msg_module_fields_updated'] : $message . '<br />' . $titanium_lang['Msg_module_fields_updated'];
+        $message = ($message == '') ? $message . $lang['Msg_module_fields_updated'] : $message . '<br />' . $lang['Msg_module_fields_updated'];
     }
 }
 
@@ -402,7 +402,7 @@ if ($mode == 'mod_edit')
     
     if ($act_group == 0)
     {
-        $group_select = $titanium_lang['No_groups_to_add'];
+        $group_select = $lang['No_groups_to_add'];
     }
     else
     {
@@ -411,7 +411,7 @@ if ($mode == 'mod_edit')
 
     if (count($added_groups['group_id']) == 0)
     {
-        $group_added_select = $titanium_lang['No_groups_selected'];
+        $group_added_select = $lang['No_groups_selected'];
     }
     else
     {
@@ -427,41 +427,41 @@ if ($mode == 'mod_edit')
     }
     // Module Edit Panel
     $phpbb2_template->assign_vars(array(
-        'L_EDIT_MODULE' => $titanium_lang['Edit_module'],
-        'L_EDIT_MODULE_EXPLAIN' => $titanium_lang['Edit_module_explain'],
-        'L_MODULE_INFORMATIONS' => $titanium_lang['Module_informations'],
-        'L_MODULE_NAME' => $titanium_lang['Module_name'],
-        'L_MODULE_DESCRIPTION' => $titanium_lang['Module_description'],
-        'L_MODULE_VERSION' => $titanium_lang['Module_version'],
-        'L_MODULE_AUTHOR' => $titanium_lang['Module_author'],
-        'L_AUTHOR_EMAIL' => $titanium_lang['Author_email'],
-        'L_MODULE_URL' => $titanium_lang['Module_url'],
-        'L_UPDATE_URL' => $titanium_lang['Update_url'],
-        'L_MODULE_LANGUAGES' => $titanium_lang['Module_languages'],
-        'L_MODULE_STATUS' => $titanium_lang['Module_status'],
-        'L_MESSAGES' => $titanium_lang['Messages'],
-        'L_PREVIEW_MODULE' => $titanium_lang['Preview_module'],
-        'L_CONFIGURATION' => $titanium_lang['Module_configuration'],
-        'L_UPDATE_TIME' => $titanium_lang['Update_time'],
-        'L_UPDATE_TIME_EXPLAIN' => $titanium_lang['Update_time_explain'],
-        'L_UPDATE_MODULE' => $titanium_lang['Update_module'],
-        'L_CLEAR_MODULE_CACHE' => $titanium_lang['Clear_module_cache'],
-        'L_CLEAR_MODULE_CACHE_EXPLAIN' => $titanium_lang['Clear_module_cache_explain'],
-        'L_SUBMIT' => $titanium_lang['Submit'],
-        'L_RESET' => $titanium_lang['Reset'],
-        'L_UPDATE' => $titanium_lang['Update'],
+        'L_EDIT_MODULE' => $lang['Edit_module'],
+        'L_EDIT_MODULE_EXPLAIN' => $lang['Edit_module_explain'],
+        'L_MODULE_INFORMATIONS' => $lang['Module_informations'],
+        'L_MODULE_NAME' => $lang['Module_name'],
+        'L_MODULE_DESCRIPTION' => $lang['Module_description'],
+        'L_MODULE_VERSION' => $lang['Module_version'],
+        'L_MODULE_AUTHOR' => $lang['Module_author'],
+        'L_AUTHOR_EMAIL' => $lang['Author_email'],
+        'L_MODULE_URL' => $lang['Module_url'],
+        'L_UPDATE_URL' => $lang['Update_url'],
+        'L_MODULE_LANGUAGES' => $lang['Module_languages'],
+        'L_MODULE_STATUS' => $lang['Module_status'],
+        'L_MESSAGES' => $lang['Messages'],
+        'L_PREVIEW_MODULE' => $lang['Preview_module'],
+        'L_CONFIGURATION' => $lang['Module_configuration'],
+        'L_UPDATE_TIME' => $lang['Update_time'],
+        'L_UPDATE_TIME_EXPLAIN' => $lang['Update_time_explain'],
+        'L_UPDATE_MODULE' => $lang['Update_module'],
+        'L_CLEAR_MODULE_CACHE' => $lang['Clear_module_cache'],
+        'L_CLEAR_MODULE_CACHE_EXPLAIN' => $lang['Clear_module_cache_explain'],
+        'L_SUBMIT' => $lang['Submit'],
+        'L_RESET' => $lang['Reset'],
+        'L_UPDATE' => $lang['Update'],
     
-        'L_PERMISSIONS' => $titanium_lang['Permissions'],
-        'L_PERMISSIONS_TITLE' => $titanium_lang['Set_permissions_title'],
-        'L_PERM_ALL' => $titanium_lang['Perm_all'],
-        'L_PERM_REG' => $titanium_lang['Perm_reg'],
-        'L_PERM_MOD' => $titanium_lang['Perm_mod'],
-        'L_PERM_ADMIN' => $titanium_lang['Perm_admin'],
-        'L_GROUPS' => $titanium_lang['Perm_group'],
-        'L_ADDED_GROUPS' => $titanium_lang['Added_groups'],
-        'L_GROUPS_TITLE' => $titanium_lang['Perm_groups_title'],
-        'L_ADD' => $titanium_lang['Perm_add_group'],
-        'L_REMOVE' => $titanium_lang['Perm_remove_group'],
+        'L_PERMISSIONS' => $lang['Permissions'],
+        'L_PERMISSIONS_TITLE' => $lang['Set_permissions_title'],
+        'L_PERM_ALL' => $lang['Perm_all'],
+        'L_PERM_REG' => $lang['Perm_reg'],
+        'L_PERM_MOD' => $lang['Perm_mod'],
+        'L_PERM_ADMIN' => $lang['Perm_admin'],
+        'L_GROUPS' => $lang['Perm_group'],
+        'L_ADDED_GROUPS' => $lang['Added_groups'],
+        'L_GROUPS_TITLE' => $lang['Perm_groups_title'],
+        'L_ADD' => $lang['Perm_add_group'],
+        'L_REMOVE' => $lang['Perm_remove_group'],
         
         'PERM_ALL' => $perm_all,
         'PERM_REG' => $perm_reg,
@@ -476,7 +476,7 @@ if ($mode == 'mod_edit')
         'MODULE_VERSION' => trim($mod_info['version']),
         'AUTHOR_EMAIL' => trim($mod_info['email']),
         'MODULE_URL' => trim($mod_info['url']),
-        'MODULE_STATUS' => (intval($mod_info['active']) == 1) ? $titanium_lang['Active'] : $titanium_lang['Not_active'],
+        'MODULE_STATUS' => (intval($mod_info['active']) == 1) ? $lang['Active'] : $lang['Not_active'],
         'U_MODULE_URL' => trim($mod_info['url']),
         'UPDATE_URL' => trim($mod_info['update_site']),
         'U_UPDATE_URL' => trim($mod_info['update_site']),
@@ -510,17 +510,17 @@ if ($mode == 'mod_edit')
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
 
-        $titanium_language = $phpbb2_board_config['default_lang'];
-        $titanium_language_file = $phpbb2_root_path . 'modules/language/lang_' . $titanium_language . '/lang_modules.' . $phpEx;
+        $language = $phpbb2_board_config['default_lang'];
+        $language_file = $phpbb2_root_path . 'modules/language/lang_' . $language . '/lang_modules.' . $phpEx;
 
-        if ( !@file_exists(@realpath($titanium_language_file)) )
+        if ( !@file_exists(@realpath($language_file)) )
         {
-            $titanium_language = $default_board_lang;
+            $language = $default_board_lang;
         }
 
-        $titanium_language_file = $phpbb2_root_path . 'modules/language/lang_' . $titanium_language . '/lang_modules.' . $phpEx;
+        $language_file = $phpbb2_root_path . 'modules/language/lang_' . $language . '/lang_modules.' . $phpEx;
 
-        include($titanium_language_file);
+        include($language_file);
 
         // Set Language
         $keys = array();
@@ -530,7 +530,7 @@ if ($mode == 'mod_edit')
         {
             foreach ($current_lang as $key => $value)
             {
-                $titanium_lang[$key] = $value;
+                $lang[$key] = $value;
                 $keys[] = $key;
             }
         }
@@ -538,8 +538,8 @@ if ($mode == 'mod_edit')
 
     for ($i = 0; $i < $num_rows; $i++)
     {
-        $titanium_lang_title = $titanium_lang[trim($rows[$i]['config_title'])];
-        $titanium_lang_explain = (isset($titanium_lang[trim($rows[$i]['config_explain'])])) ? $titanium_lang[trim($rows[$i]['config_explain'])] : '';
+        $lang_title = $lang[trim($rows[$i]['config_title'])];
+        $lang_explain = (isset($lang[trim($rows[$i]['config_explain'])])) ? $lang[trim($rows[$i]['config_explain'])] : '';
 
         switch (trim($rows[$i]['config_trigger']))
         {
@@ -549,12 +549,12 @@ if ($mode == 'mod_edit')
                 {
                     $option_field .= 'checked=\"checked\" ';
                 }
-                $option_field .= ' /> ' . $titanium_lang['Yes'] . '&nbsp;&nbsp;<input type="radio" name="' . trim($rows[$i]['config_name']) . '" value="0" ';
+                $option_field .= ' /> ' . $lang['Yes'] . '&nbsp;&nbsp;<input type="radio" name="' . trim($rows[$i]['config_name']) . '" value="0" ';
                 if (intval($rows[$i]['config_value']) == 0)
                 {
                     $option_field .= 'checked=\"checked\" ';
                 }
-                $option_field .= ' /> ' . $titanium_lang['No'];
+                $option_field .= ' /> ' . $lang['No'];
                 break;
             case 'integer':
                 $option_field = '<input type="text" name="' . trim($rows[$i]['config_name']) . '" value="' . intval($rows[$i]['config_value']) . '" />';
@@ -562,8 +562,8 @@ if ($mode == 'mod_edit')
         }
 
         $phpbb2_template->assign_block_vars('module_admin_fields', array(
-            'L_TITLE' => $titanium_lang_title,
-            'L_EXPLAIN' => $titanium_lang_explain,
+            'L_TITLE' => $lang_title,
+            'L_EXPLAIN' => $lang_explain,
             'S_OPTION_FIELD' => $option_field)
         );
     }
@@ -604,12 +604,12 @@ if ($mode == 'mod_edit')
         }
         else
         {
-            $titanium_module_select_field = $titanium_lang['No_module_packages_found'];
+            $titanium_module_select_field = $lang['No_module_packages_found'];
             $s_hidden_fields = '';
         }
 
         $phpbb2_template->assign_vars(array(
-            'L_SELECT_MODULE' => $titanium_lang['Select_module_pak'],
+            'L_SELECT_MODULE' => $lang['Select_module_pak'],
             'S_SELECT_MODULE' => $titanium_module_select_field,
             'S_SELECT_HIDDEN_FIELDS' => $s_hidden_fields)
         );
@@ -617,10 +617,10 @@ if ($mode == 'mod_edit')
         $s_hidden_fields = '<input type="hidden" name="fileupload" value="1" /><input type="hidden" name="update_id" value="' . $titanium_module_id . '" />';
 
         $phpbb2_template->assign_vars(array(
-            'L_INSTALL_MODULE' => $titanium_lang['Install_module'],
-            'L_INSTALL_MODULE_EXPLAIN' => $titanium_lang['Install_module_explain'],
-            'L_UPLOAD_MODULE' => $titanium_lang['Upload_module_pak'],
-            'L_SUBMIT' => $titanium_lang['Submit'],
+            'L_INSTALL_MODULE' => $lang['Install_module'],
+            'L_INSTALL_MODULE_EXPLAIN' => $lang['Install_module_explain'],
+            'L_UPLOAD_MODULE' => $lang['Upload_module_pak'],
+            'L_SUBMIT' => $lang['Submit'],
             'S_ACTION_UPDATE' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode=mod_install'),
             'S_UPLOAD_HIDDEN_FIELDS' => $s_hidden_fields)
         );
@@ -660,10 +660,10 @@ else if ($mode == 'select_module')
     $titanium_module_select_field .= '</select>';
     
     $phpbb2_template->assign_vars(array(
-        'L_SELECT_MODULE_TITLE' => $titanium_lang['Module_select_title'],
-        'L_SELECT_MODULE_EXPLAIN' => $titanium_lang['Module_select_explain'],
-        'L_MODULE_SELECT' => $titanium_lang['Module_select_title'],
-        'L_EDIT' => $titanium_lang['Edit'],
+        'L_SELECT_MODULE_TITLE' => $lang['Module_select_title'],
+        'L_SELECT_MODULE_EXPLAIN' => $lang['Module_select_explain'],
+        'L_MODULE_SELECT' => $lang['Module_select_title'],
+        'L_EDIT' => $lang['Edit'],
         'S_ACTION' => append_titanium_sid('admin_edit_module.'.$phpEx.'?mode=mod_edit'),
         'S_MODULE_SELECT' => $titanium_module_select_field)
     );

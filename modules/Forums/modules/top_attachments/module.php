@@ -35,15 +35,15 @@ $core->set_view('columns', 7);
 
 $core->define_view('set_columns', array(
     $core->pre_defined('rank'),
-    'filename' => $titanium_lang['Filename'],
-    'filecomment' => $titanium_lang['Filecomment'],
-    'size' => $titanium_lang['Size'],
-    'downloads' => $titanium_lang['Downloads'],
-    'posttime' => $titanium_lang['Posttime'],
-    'posttopic' => $titanium_lang['Posted_in_topic'])
+    'filename' => $lang['Filename'],
+    'filecomment' => $lang['Filecomment'],
+    'size' => $lang['Size'],
+    'downloads' => $lang['Downloads'],
+    'posttime' => $lang['Posttime'],
+    'posttopic' => $lang['Posted_in_topic'])
 );
 
-$core->set_header($titanium_lang['module_name']);
+$core->set_header($lang['module_name']);
 
 $core->assign_defined_view('width_rows', array(
     '10%',
@@ -72,14 +72,14 @@ if ( (!strstr($attachment_version, '2.4.')) )
     message_die(GENERAL_MESSAGE, 'Wrong Attachment Mod Version detected.<br />Please update your Attachment Mod (V' . $attachment_version . ') to at least Version 2.3.0.');
 }
 
-$titanium_language = $phpbb2_board_config['default_lang'];
+$language = $phpbb2_board_config['default_lang'];
 
-if( !file_exists($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_admin_attach.'.$phpEx) )
+if( !file_exists($phpbb2_root_path . 'language/lang_' . $language . '/lang_admin_attach.'.$phpEx) )
 {
-    $titanium_language = $attach_config['board_lang'];
+    $language = $attach_config['board_lang'];
 }
 
-include($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_admin_attach.' . $phpEx);
+include($phpbb2_root_path . 'language/lang_' . $language . '/lang_admin_attach.' . $phpEx);
 
 $order_by = 'download_count DESC LIMIT ' . $core->return_limit;
 
@@ -135,15 +135,15 @@ for ($i = 0; $i < $num_attachments; $i++)
 
     if ($data[$i]['size'] >= 1048576)
     {
-        $data[$i]['size'] = round($data[$i]['size'] / 1048576 * 100) / 100 . ' ' . $titanium_lang['MB'];
+        $data[$i]['size'] = round($data[$i]['size'] / 1048576 * 100) / 100 . ' ' . $lang['MB'];
     }
     else if ($data[$i]['size'] >= 1024)
     {
-        $data[$i]['size'] = round($data[$i]['size'] / 1024 * 100) / 100 . ' ' . $titanium_lang['KB'];
+        $data[$i]['size'] = round($data[$i]['size'] / 1024 * 100) / 100 . ' ' . $lang['KB'];
     }
     else
     {
-        $data[$i]['size'] = $data[$i]['size'] . ' ' . $titanium_lang['Bytes'];
+        $data[$i]['size'] = $data[$i]['size'] . ' ' . $lang['Bytes'];
     }
 
     // Download Count
@@ -184,12 +184,12 @@ $core->define_view('set_rows', array(
     array(
         '$core->data(\'forum_id\')', 'auth_read AND auth_download', 'forum', array(
             '',
-            '$titanium_lang[\'Not_available\']',
-            '$titanium_lang[\'Not_available\']',
+            '$lang[\'Not_available\']',
+            '$lang[\'Not_available\']',
             '$core->data(\'size\')',
             '$core->data(\'download_count\')',
             '$core->data(\'post_time\')',
-            '$titanium_lang[\'Hidden_from_public_view\']'
+            '$lang[\'Hidden_from_public_view\']'
         )
     )
 );

@@ -48,13 +48,13 @@ function show_copyright($author_name = "",
 
     if (empty($titanium_module_description)) { $titanium_module_description = "N/A"; }
 
-    $titanium_module_name = basename(dirname($_SERVER['PHP_SELF']));
-    $titanium_module_name = str_replace("_", " ", $titanium_module_name);
+    $pnt_module = basename(dirname($_SERVER['PHP_SELF']));
+    $pnt_module = str_replace("_", " ", $pnt_module);
 
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
         ."<html>\n"
         ."<head>\n"
-        ."<title>$titanium_module_name: Copyright Information</title>\n"
+        ."<title>$pnt_module: Copyright Information</title>\n"
         ."<meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1' />\n"
         ."<style type='text/css'>\n"
         ."<!--";
@@ -77,9 +77,9 @@ a {
         ."<body>\n"
         
 		."<div align='center'><strong>Module Copyright &copy; Information</strong><br />"
-		."$titanium_module_name module for <a href='http://www.php-nuke-titanium.86it.us' target='_blank'>PHP-Nuke Titanium</a><br /><br /></div>\n"
+		."$pnt_module module for <a href='http://www.php-nuke-titanium.86it.us' target='_blank'>PHP-Nuke Titanium</a><br /><br /></div>\n"
         
-		."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>Module's Name:</strong> $titanium_module_name<br />\n"
+		."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>Module's Name:</strong> $pnt_module<br />\n"
         ."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>Module's Version:</strong> $titanium_module_version<br />\n"
         ."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>Module's Description:</strong> $titanium_module_description<br />\n"
         ."<img src='../../images/menu/orange.png' border='0' alt='' />&nbsp;<strong>License:</strong> $license<br />\n"

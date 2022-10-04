@@ -105,7 +105,7 @@ if ( !empty($group_id) )
         $result = $titanium_db->sql_query($sql);
         if( !$result = $titanium_db->sql_query($sql) )
             message_die(GENERAL_ERROR, "Could not select group name!", __LINE__, __FILE__, $sql);
-        if( ! $titanium_db->sql_numrows($result)) message_die(GENERAL_ERROR, $titanium_lang['Not_Authorised']);
+        if( ! $titanium_db->sql_numrows($result)) message_die(GENERAL_ERROR, $lang['Not_Authorised']);
         $group = $titanium_db->sql_fetchrow($result);
         $group_name=$group['group_name'];
         $sql = "SELECT distinct u.user_id, u.user_lang, u.user_email, u.username, u.user_notify_pm,u.user_active,u.user_allow_mass_pm
@@ -118,27 +118,27 @@ if ( !empty($group_id) )
     }
     elseif ($group_id == 'users')
     {
-        if( $userdata['user_level']!=ADMIN ) message_die(GENERAL_ERROR, $titanium_lang['Not_Authorised']);
+        if( $userdata['user_level']!=ADMIN ) message_die(GENERAL_ERROR, $lang['Not_Authorised']);
         $sql = "SELECT distinct user_id, user_lang, user_email, username, user_notify_pm,user_active,user_allow_mass_pm
             FROM " . USERS_TABLE." WHERE user_allow_mass_pm > 1
                     AND user_id <> " . ANONYMOUS." ORDER BY user_lang";
-        $group_name=$titanium_lang['All_users'];
+        $group_name=$lang['All_users'];
     }
     elseif ($group_id == 'admins')
     {
-        if( $userdata['user_level']!=ADMIN ) message_die(GENERAL_ERROR, $titanium_lang['Not_Authorised']);
+        if( $userdata['user_level']!=ADMIN ) message_die(GENERAL_ERROR, $lang['Not_Authorised']);
         $sql = "SELECT distinct user_id, user_lang, user_email, username, user_notify_pm,user_active,user_allow_mass_pm
             FROM " . USERS_TABLE." WHERE user_allow_mass_pm > 1
                     AND user_level = '2' ORDER BY user_lang";
-        $group_name=$titanium_lang['All_admins'];
+        $group_name=$lang['All_admins'];
     }
     elseif ($group_id == 'moderators')
     {
-        if( $userdata['user_level']!=ADMIN ) message_die(GENERAL_ERROR, $titanium_lang['Not_Authorised']);
+        if( $userdata['user_level']!=ADMIN ) message_die(GENERAL_ERROR, $lang['Not_Authorised']);
         $sql = "SELECT distinct user_id, user_lang, user_email, username, user_notify_pm,user_active,user_allow_mass_pm
             FROM " . USERS_TABLE." WHERE user_allow_mass_pm > 1
                     AND user_level = '3' ORDER BY user_lang";
-        $group_name=$titanium_lang['All_mods'];
+        $group_name=$lang['All_mods'];
     }
     if( !$result = $titanium_db->sql_query($sql) )
     {
@@ -152,7 +152,7 @@ if ( !empty($group_id) )
         // not existing
         //
         $error = TRUE;
-        $error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $titanium_lang['No_to_user'];
+        $error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $lang['No_to_user'];
     }
     $PM_list = $titanium_db->sql_fetchrowset($result);
     $PM_count=$titanium_db->sql_numrows($result);
@@ -224,7 +224,7 @@ $error = FALSE;
 
             if ( ( $current_time - $phpbb2_last_post_time ) < $phpbb2_board_config['flood_interval'])
             {
-                message_die(GENERAL_MESSAGE, $titanium_lang['Flood_Error']);
+                message_die(GENERAL_MESSAGE, $lang['Flood_Error']);
             }
         }
         //
@@ -233,14 +233,14 @@ $error = FALSE;
         if ( empty($group_id) )
         {
             $error = TRUE;
-            $error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $titanium_lang['No_to_user'];
+            $error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $lang['No_to_user'];
         }
 
         $privmsg_subject = trim(strip_tags($HTTP_POST_VARS['subject']));
         if ( empty($privmsg_subject) )
         {
             $error = TRUE;
-            $error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $titanium_lang['Empty_subject'];
+            $error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $lang['Empty_subject'];
         }
         if ( !empty($HTTP_POST_VARS['message']) )
         {
@@ -258,7 +258,7 @@ $error = FALSE;
         else
         {
             $error = TRUE;
-            $error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $titanium_lang['Empty_message'];
+            $error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $lang['Empty_message'];
         }
     }
 
@@ -283,7 +283,7 @@ $error = FALSE;
                     AND privmsgs_to_userid = " . $to_userdata['user_id'];
             if ( !($result = $titanium_db->sql_query($sql)) )
             {
-                message_die(GENERAL_MESSAGE, $titanium_lang['No_such_user']);
+                message_die(GENERAL_MESSAGE, $lang['No_such_user']);
             }
 
             $sql_priority = ( SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli') ? 'LOW_PRIORITY' : '';
@@ -348,7 +348,7 @@ $error = FALSE;
                 $emailer->use_template('privmsg_notify', $to_userdata['user_lang']);
                 $emailer->extra_headers($email_headers);
                 $emailer->email_address($to_userdata['user_email']);
-                $emailer->set_subject(); //$titanium_lang['Notification_subject']
+                $emailer->set_subject(); //$lang['Notification_subject']
 
             $emailer->assign_vars(array(
                     'USERNAME' => $to_userdata['username'],
@@ -382,7 +382,7 @@ $error = FALSE;
         $phpbb2_template->assign_vars(array(
             'META' => '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '">')
         );
-        $msg = $titanium_lang['PM_delivered'] . '<br /><br />'.sprintf($titanium_lang['Mass_pm_count'],$i,$n).'<br />' . sprintf($titanium_lang['Click_return_inbox'], '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '">', '</a> ') . '<br /><br />' . sprintf($titanium_lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
+        $msg = $lang['PM_delivered'] . '<br /><br />'.sprintf($lang['Mass_pm_count'],$i,$n).'<br />' . sprintf($lang['Click_return_inbox'], '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '">', '</a> ') . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
         message_die(GENERAL_MESSAGE, $msg);
     }
     else if ( $preview || $error )
@@ -393,7 +393,7 @@ $error = FALSE;
         // where neccessary, etc.
         //
 
-        $to_username = ($PM_count)? sprintf($titanium_lang['Pm_mass_users'],$group_name,$PM_count): sprintf($titanium_lang['No_mass_pm_users'],$group_name);
+        $to_username = ($PM_count)? sprintf($lang['Pm_mass_users'],$group_name,$PM_count): sprintf($lang['No_mass_pm_users'],$group_name);
         $privmsg_subject = ( isset($HTTP_POST_VARS['subject']) ) ? trim(strip_tags(stripslashes($HTTP_POST_VARS['subject']))) : '';
         $privmsg_message = ( isset($HTTP_POST_VARS['message']) ) ? trim($HTTP_POST_VARS['message']) : '';
         $privmsg_message = preg_replace('#<textarea>#si', '&lt;textarea&gt;', $privmsg_message);
@@ -407,7 +407,7 @@ $error = FALSE;
         //
         if ( $mode == 'post' )
         {
-            $phpbb2_page_title = $titanium_lang['Send_mass_pm'];
+            $phpbb2_page_title = $lang['Send_mass_pm'];
             $titanium_user_sig = ( $userdata['user_sig'] != '' && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
 
         }
@@ -415,7 +415,7 @@ $error = FALSE;
     //
     // Start output, first preview, then errors then post form
     //
-    $phpbb2_page_title = $titanium_lang['Send_mass_pm'];
+    $phpbb2_page_title = $lang['Send_mass_pm'];
     include('includes/page_header.'.$phpEx);
 
     if ( $preview && !$error )
@@ -486,12 +486,12 @@ $error = FALSE;
             'MESSAGE_FROM' => $userdata['username'],
             'POST_DATE' => create_date($phpbb2_board_config['default_dateformat'], time(), $phpbb2_board_config['board_timezone']),
             'MESSAGE' => $preview_message,
-            'L_SUBJECT' => $titanium_lang['Subject'],
-            'L_DATE' => $titanium_lang['Date'],
-            'L_FROM' => $titanium_lang['From'],
-            'L_TO' => $titanium_lang['To_group'],
-            'L_PREVIEW' => $titanium_lang['Preview'],
-            'L_POSTED' => $titanium_lang['Posted'])
+            'L_SUBJECT' => $lang['Subject'],
+            'L_DATE' => $lang['Date'],
+            'L_FROM' => $lang['From'],
+            'L_TO' => $lang['To_group'],
+            'L_PREVIEW' => $lang['Preview'],
+            'L_POSTED' => $lang['Posted'])
         );
 
         $phpbb2_template->assign_var_from_handle('POST_PREVIEW_BOX', 'preview');
@@ -529,12 +529,12 @@ $error = FALSE;
     //
     if ( $phpbb2_board_config['allow_html'] )
     {
-        $html_status = $titanium_lang['HTML_is_ON'];
+        $html_status = $lang['HTML_is_ON'];
         $phpbb2_template->assign_block_vars('switch_html_checkbox', array());
     }
     else
     {
-        $html_status = $titanium_lang['HTML_is_OFF'];
+        $html_status = $lang['HTML_is_OFF'];
     }
 
     //
@@ -542,12 +542,12 @@ $error = FALSE;
     //
     if ( $phpbb2_board_config['allow_bbcode'] )
     {
-        $bbcode_status = $titanium_lang['BBCode_is_ON'];
+        $bbcode_status = $lang['BBCode_is_ON'];
         $phpbb2_template->assign_block_vars('switch_bbcode_checkbox', array());
     }
     else
     {
-        $bbcode_status = $titanium_lang['BBCode_is_OFF'];
+        $bbcode_status = $lang['BBCode_is_OFF'];
     }
 
     //
@@ -555,12 +555,12 @@ $error = FALSE;
     //
     if ( $phpbb2_board_config['allow_smilies'] )
     {
-        $smilies_status = $titanium_lang['Smilies_are_ON'];
+        $smilies_status = $lang['Smilies_are_ON'];
         $phpbb2_template->assign_block_vars('switch_smilies_checkbox', array());
     }
     else
     {
-        $smilies_status = $titanium_lang['Smilies_are_OFF'];
+        $smilies_status = $lang['Smilies_are_OFF'];
     }
 
     //
@@ -574,7 +574,7 @@ $error = FALSE;
 
     if ( $mode == 'post' )
     {
-        $post_a = $titanium_lang['Send_mass_pm'];
+        $post_a = $lang['Send_mass_pm'];
     }
 
     $sql = "SELECT DISTINCT g.group_id, g.group_name
@@ -590,12 +590,12 @@ $error = FALSE;
     if( !$g_result = $titanium_db->sql_query($sql) )
     message_die(GENERAL_ERROR, "Could not select group names!", __LINE__, __FILE__, $sql);
     $group_list = $titanium_db->sql_fetchrowset($g_result);
-    if( $userdata['user_level']!=ADMIN && empty($group_list)) message_die(GENERAL_ERROR, $titanium_lang['Mass_pm_not_allowed']);
+    if( $userdata['user_level']!=ADMIN && empty($group_list)) message_die(GENERAL_ERROR, $lang['Mass_pm_not_allowed']);
     $groupname = $_REQUEST[POST_GROUPS_URL];
     $select_list = '<select name = "' . POST_GROUPS_URL . '">';
-    $select_list .= ($userdata['user_level']==ADMIN) ? '<option value = "users" '. (($groupname=='users') ? ' SELECTED ' : '' ).'>' . $titanium_lang['All_users'] .'</option>':'';
-    $select_list .= ($userdata['user_level']==ADMIN) ? '<option value = "admins" '. (($groupname=='admins') ? ' SELECTED ' : '' ).'>' . $titanium_lang['All_admins'] .'</option>':'';
-    $select_list .= ($userdata['user_level']==ADMIN) ? '<option value = "moderators" '. (($groupname=='moderators') ? ' SELECTED ' : '' ).'>' . $titanium_lang['All_mods'] .'</option>':'';
+    $select_list .= ($userdata['user_level']==ADMIN) ? '<option value = "users" '. (($groupname=='users') ? ' SELECTED ' : '' ).'>' . $lang['All_users'] .'</option>':'';
+    $select_list .= ($userdata['user_level']==ADMIN) ? '<option value = "admins" '. (($groupname=='admins') ? ' SELECTED ' : '' ).'>' . $lang['All_admins'] .'</option>':'';
+    $select_list .= ($userdata['user_level']==ADMIN) ? '<option value = "moderators" '. (($groupname=='moderators') ? ' SELECTED ' : '' ).'>' . $lang['All_mods'] .'</option>':'';
     for($i = 0;$i < count($group_list); $i++)
     {
         $select_list .= '<option value = "' . $group_list[$i]['group_id'].'"'. (($group_list[$i]['group_id']==$groupname) ? ' SELECTED ' : '').'>'.$group_list[$i]['group_name'] .'</option>';
@@ -615,61 +615,61 @@ $error = FALSE;
         'HTML_STATUS' => $html_status,
         'SMILIES_STATUS' => $smilies_status,
         'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="' . append_titanium_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
-        'FORUM_NAME' => $titanium_lang['Private_message'],
+        'FORUM_NAME' => $lang['Private_message'],
 
-        'L_SUBJECT' => $titanium_lang['Subject'],
-        'L_MESSAGE_BODY' => $titanium_lang['Message_body'],
-        'L_OPTIONS' => $titanium_lang['Options'],
-        'L_SPELLCHECK' => $titanium_lang['Spellcheck'],
-        'L_PREVIEW' => $titanium_lang['Preview'],
-        'L_SUBMIT' => $titanium_lang['Submit'],
-        'L_CANCEL' => $titanium_lang['Cancel'],
+        'L_SUBJECT' => $lang['Subject'],
+        'L_MESSAGE_BODY' => $lang['Message_body'],
+        'L_OPTIONS' => $lang['Options'],
+        'L_SPELLCHECK' => $lang['Spellcheck'],
+        'L_PREVIEW' => $lang['Preview'],
+        'L_SUBMIT' => $lang['Submit'],
+        'L_CANCEL' => $lang['Cancel'],
         'L_POST_A' => $post_a,
-        'L_DISABLE_HTML' => $titanium_lang['Disable_HTML_pm'],
-        'L_DISABLE_BBCODE' => $titanium_lang['Disable_BBCode_pm'],
-        'L_DISABLE_SMILIES' => $titanium_lang['Disable_Smilies_pm'],
-        'L_ATTACH_SIGNATURE' => $titanium_lang['Attach_signature'],
+        'L_DISABLE_HTML' => $lang['Disable_HTML_pm'],
+        'L_DISABLE_BBCODE' => $lang['Disable_BBCode_pm'],
+        'L_DISABLE_SMILIES' => $lang['Disable_Smilies_pm'],
+        'L_ATTACH_SIGNATURE' => $lang['Attach_signature'],
 
-        'L_BBCODE_B_HELP' => $titanium_lang['bbcode_b_help'],
-        'L_BBCODE_I_HELP' => $titanium_lang['bbcode_i_help'],
-        'L_BBCODE_U_HELP' => $titanium_lang['bbcode_u_help'],
-        'L_BBCODE_Q_HELP' => $titanium_lang['bbcode_q_help'],
-        'L_BBCODE_C_HELP' => $titanium_lang['bbcode_c_help'],
-        'L_BBCODE_L_HELP' => $titanium_lang['bbcode_l_help'],
-        'L_BBCODE_O_HELP' => $titanium_lang['bbcode_o_help'],
-        'L_BBCODE_P_HELP' => $titanium_lang['bbcode_p_help'],
-        'L_BBCODE_W_HELP' => $titanium_lang['bbcode_w_help'],
-        'L_BBCODE_A_HELP' => $titanium_lang['bbcode_a_help'],
-        'L_BBCODE_S_HELP' => $titanium_lang['bbcode_s_help'],
-        'L_BBCODE_F_HELP' => $titanium_lang['bbcode_f_help'],
-        'L_EMPTY_MESSAGE' => $titanium_lang['Empty_message'],
+        'L_BBCODE_B_HELP' => $lang['bbcode_b_help'],
+        'L_BBCODE_I_HELP' => $lang['bbcode_i_help'],
+        'L_BBCODE_U_HELP' => $lang['bbcode_u_help'],
+        'L_BBCODE_Q_HELP' => $lang['bbcode_q_help'],
+        'L_BBCODE_C_HELP' => $lang['bbcode_c_help'],
+        'L_BBCODE_L_HELP' => $lang['bbcode_l_help'],
+        'L_BBCODE_O_HELP' => $lang['bbcode_o_help'],
+        'L_BBCODE_P_HELP' => $lang['bbcode_p_help'],
+        'L_BBCODE_W_HELP' => $lang['bbcode_w_help'],
+        'L_BBCODE_A_HELP' => $lang['bbcode_a_help'],
+        'L_BBCODE_S_HELP' => $lang['bbcode_s_help'],
+        'L_BBCODE_F_HELP' => $lang['bbcode_f_help'],
+        'L_EMPTY_MESSAGE' => $lang['Empty_message'],
 
-        'L_FONT_COLOR' => $titanium_lang['Font_color'],
-        'L_COLOR_DEFAULT' => $titanium_lang['color_default'],
-        'L_COLOR_DARK_RED' => $titanium_lang['color_dark_red'],
-        'L_COLOR_RED' => $titanium_lang['color_red'],
-        'L_COLOR_ORANGE' => $titanium_lang['color_orange'],
-        'L_COLOR_BROWN' => $titanium_lang['color_brown'],
-        'L_COLOR_YELLOW' => $titanium_lang['color_yellow'],
-        'L_COLOR_GREEN' => $titanium_lang['color_green'],
-        'L_COLOR_OLIVE' => $titanium_lang['color_olive'],
-        'L_COLOR_CYAN' => $titanium_lang['color_cyan'],
-        'L_COLOR_BLUE' => $titanium_lang['color_blue'],
-        'L_COLOR_DARK_BLUE' => $titanium_lang['color_dark_blue'],
-        'L_COLOR_INDIGO' => $titanium_lang['color_indigo'],
-        'L_COLOR_VIOLET' => $titanium_lang['color_violet'],
-        'L_COLOR_WHITE' => $titanium_lang['color_white'],
-        'L_COLOR_BLACK' => $titanium_lang['color_black'],
+        'L_FONT_COLOR' => $lang['Font_color'],
+        'L_COLOR_DEFAULT' => $lang['color_default'],
+        'L_COLOR_DARK_RED' => $lang['color_dark_red'],
+        'L_COLOR_RED' => $lang['color_red'],
+        'L_COLOR_ORANGE' => $lang['color_orange'],
+        'L_COLOR_BROWN' => $lang['color_brown'],
+        'L_COLOR_YELLOW' => $lang['color_yellow'],
+        'L_COLOR_GREEN' => $lang['color_green'],
+        'L_COLOR_OLIVE' => $lang['color_olive'],
+        'L_COLOR_CYAN' => $lang['color_cyan'],
+        'L_COLOR_BLUE' => $lang['color_blue'],
+        'L_COLOR_DARK_BLUE' => $lang['color_dark_blue'],
+        'L_COLOR_INDIGO' => $lang['color_indigo'],
+        'L_COLOR_VIOLET' => $lang['color_violet'],
+        'L_COLOR_WHITE' => $lang['color_white'],
+        'L_COLOR_BLACK' => $lang['color_black'],
 
-        'L_FONT_SIZE' => $titanium_lang['Font_size'],
-        'L_FONT_TINY' => $titanium_lang['font_tiny'],
-        'L_FONT_SMALL' => $titanium_lang['font_small'],
-        'L_FONT_NORMAL' => $titanium_lang['font_normal'],
-        'L_FONT_LARGE' => $titanium_lang['font_large'],
-        'L_FONT_HUGE' => $titanium_lang['font_huge'],
+        'L_FONT_SIZE' => $lang['Font_size'],
+        'L_FONT_TINY' => $lang['font_tiny'],
+        'L_FONT_SMALL' => $lang['font_small'],
+        'L_FONT_NORMAL' => $lang['font_normal'],
+        'L_FONT_LARGE' => $lang['font_large'],
+        'L_FONT_HUGE' => $lang['font_huge'],
 
-        'L_BBCODE_CLOSE_TAGS' => $titanium_lang['Close_Tags'],
-        'L_STYLES_TIP' => $titanium_lang['Styles_tip'],
+        'L_BBCODE_CLOSE_TAGS' => $lang['Close_Tags'],
+        'L_STYLES_TIP' => $lang['Styles_tip'],
 
         'S_HTML_CHECKED' => ( !$html_on ) ? ' checked="checked"' : '',
         'S_BBCODE_CHECKED' => ( !$bbcode_on ) ? ' checked="checked"' : '',
@@ -693,7 +693,7 @@ $error = FALSE;
 //
 // Generate page
 //
-$phpbb2_page_title = $titanium_lang['Private_Messaging'];
+$phpbb2_page_title = $lang['Private_Messaging'];
 
 include('includes/page_header.'.$phpEx);
 
@@ -709,10 +709,10 @@ make_jumpbox('viewforum.'.$phpEx);
 // Dump vars to template
 //
 $phpbb2_template->assign_vars(array(
-    'L_SUBJECT' => $titanium_lang['Subject'],
-    'L_DATE' => $titanium_lang['Date'],
-    'L_DISPLAY_MESSAGES' => $titanium_lang['Display_messages'],
-    'L_FROM_OR_TO' => $titanium_lang['To_group'],
+    'L_SUBJECT' => $lang['Subject'],
+    'L_DATE' => $lang['Date'],
+    'L_DISPLAY_MESSAGES' => $lang['Display_messages'],
+    'L_FROM_OR_TO' => $lang['To_group'],
 
     'S_PRIVMSGS_ACTION' => append_titanium_sid("groupmsg.$phpEx?folder=$folder"),
 )

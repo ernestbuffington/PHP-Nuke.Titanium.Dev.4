@@ -28,9 +28,9 @@ if (!defined('MODULE_FILE'))
   die ("You can't access this file directly..."); 
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 define('SUPPORT_NETWORK', true);
 
@@ -49,55 +49,55 @@ if(!isset($op))
 switch($op) 
 {
   case "Index":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/Index.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/Index.php");
   break;
   case "LoadError":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/LoadError.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/LoadError.php");
   break;
   case "Project":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/Project.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/Project.php");
   break;
   case "Report":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/Report.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/Report.php");
   break;
   case "ReportCommentInsert":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/ReportCommentInsert.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/ReportCommentInsert.php");
   break;
   case "ReportCommentSubmit":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/ReportCommentSubmit.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/ReportCommentSubmit.php");
   break;
   case "ReportInsert":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/ReportInsert.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/ReportInsert.php");
   break;
   case "ReportMap":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/ReportMap.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/ReportMap.php");
   break;
   case "ReportSubmit":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/ReportSubmit.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/ReportSubmit.php");
   break;
   case "Request":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/Request.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/Request.php");
   break;
   case "RequestCommentInsert":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/RequestCommentInsert.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/RequestCommentInsert.php");
   break;
   case "RequestCommentSubmit":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/RequestCommentSubmit.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/RequestCommentSubmit.php");
   break;
   case "RequestInsert":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/RequestInsert.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/RequestInsert.php");
   break;
   case "RequestMap":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/RequestMap.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/RequestMap.php");
   break;
   case "RequestSubmit":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/RequestSubmit.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/RequestSubmit.php");
   break;
   case "Task":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/Task.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/Task.php");
   break;
   case "TaskMap":
-  include_once(NUKE_MODULES_DIR.$titanium_module_name."/public/TaskMap.php");
+  include_once(NUKE_MODULES_DIR.$pnt_module."/public/TaskMap.php");
   break;
 }
 ?>

@@ -106,7 +106,7 @@ function phpBB_whoisonline($force=FALSE)
  ******************************************************/
 function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific, $level, $id, $phpbb2_forum_data, $phpbb2_topic_data, $titanium_user_data, $cat_data)
 {
-    global $titanium_lang, $phpEx, $userdata, $phpbb2_root_path;
+    global $lang, $phpEx, $userdata, $phpbb2_root_path;
     include_once(NUKE_INCLUDE_DIR.'constants.'. $phpEx);
     unset($location);
 
@@ -130,7 +130,7 @@ function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific,
                 break;
                     }
                 }
-        $location = str_replace('%f%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $forum_name .'</a>', $titanium_lang['BSH_Viewing_Forums']);
+        $location = str_replace('%f%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $forum_name .'</a>', $lang['BSH_Viewing_Forums']);
             }
 
         if ( (@strstr($url_qs, POST_TOPIC_URL .'=')) && (@strstr($url_ps, 'viewtopic.')) )
@@ -146,7 +146,7 @@ function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific,
                 break;
                     }
                 }
-        $location = str_replace('%t%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $topic_name .'</a>', $titanium_lang['BSH_Viewing_Topic']);
+        $location = str_replace('%t%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $topic_name .'</a>', $lang['BSH_Viewing_Topic']);
             }
 
         if ( (@strstr($url_qs, POST_USERS_URL .'=')) && (@strstr($url_ps, 'profile.')) )
@@ -162,7 +162,7 @@ function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific,
                 break;
                     }
                 }
-        $location = str_replace('%u%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $titanium_username .'</a>', $titanium_lang['BSH_Viewing_Profile']);
+        $location = str_replace('%u%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $titanium_username .'</a>', $lang['BSH_Viewing_Profile']);
             }
 
         if ( (@strstr($url_qs, POST_CAT_URL .'=')) && (@strstr($url_ps, 'index.')) )
@@ -178,47 +178,47 @@ function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific,
                 break;
                     }
                 }
-        //$location = str_replace('%c%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $cat_name .'</a>', $titanium_lang['BSH_Viewing_Category']);
+        //$location = str_replace('%c%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $cat_name .'</a>', $lang['BSH_Viewing_Category']);
             }
 
         if (!$location)
             {
             if ( (@strstr($url_qs, POST_POST_URL .'=')) && (@strstr($url_ps, 'viewtopic.')) )
-                $location = sprintf($titanium_lang['BSH_Viewing_Post'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
+                $location = sprintf($lang['BSH_Viewing_Post'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
             elseif (@strstr($url_ps, 'groupcp.'))
-                $location = sprintf($titanium_lang['BSH_Viewing_Groups'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
+                $location = sprintf($lang['BSH_Viewing_Groups'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
             elseif (@strstr($url_ps, 'search.'))
-                $location = sprintf($titanium_lang['BSH_Searching_Forums'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
+                $location = sprintf($lang['BSH_Searching_Forums'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
             elseif (@strstr($url_ps, 'viewonline.'))
-                $location = sprintf($titanium_lang['BSH_Viewing_Onlinelist'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
+                $location = sprintf($lang['BSH_Viewing_Onlinelist'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
             elseif ( (@strstr($url_ps, 'privmsg.')) && ($userdata['user_id'] != ANONYMOUS) )
-                $location = sprintf($titanium_lang['BSH_Viewing_Messages'], '<a href="privmsg.'. $phpEx .'?mode=inbox" class="copyright">', '</a>');
+                $location = sprintf($lang['BSH_Viewing_Messages'], '<a href="privmsg.'. $phpEx .'?mode=inbox" class="copyright">', '</a>');
             elseif ( (@strstr($url_ps, 'privmsg.')) && ($userdata['user_id'] == ANONYMOUS) )
-                $location = sprintf($titanium_lang['BSH_Viewing_Messages'], '', '');
+                $location = sprintf($lang['BSH_Viewing_Messages'], '', '');
             elseif (@strstr($url_ps, 'memberlist.'))
-                $location = sprintf($titanium_lang['BSH_Viewing_Memberlist'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
+                $location = sprintf($lang['BSH_Viewing_Memberlist'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
             elseif ( (@strstr($url_ps, 'profile.')) && (@strstr($url_qs, 'mode=editprofile')) )
-                $location = sprintf($titanium_lang['BSH_Editing_Profile'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
+                $location = sprintf($lang['BSH_Editing_Profile'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
             elseif ( (@strstr($url_ps, 'login.')) && ($userdata['user_id'] != ANONYMOUS) )
-                $location = sprintf($titanium_lang['BSH_Login'], '', '');
+                $location = sprintf($lang['BSH_Login'], '', '');
             elseif ( (@strstr($url_ps, 'login.')) && ($userdata['user_id'] == ANONYMOUS) )
-                $location = sprintf($titanium_lang['BSH_Logout'], '', '');
+                $location = sprintf($lang['BSH_Logout'], '', '');
             elseif (@strstr($url_ps, 'admin/'))
-                $location = sprintf($titanium_lang['BSH_Viewing_ACP'], '', '');
+                $location = sprintf($lang['BSH_Viewing_ACP'], '', '');
             elseif ( (@strstr($url_ps, 'modcp.')) && ($userdata['user_level'] != ADMIN) )
-                $location = sprintf($titanium_lang['BSH_Moderating_Forum'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
+                $location = sprintf($lang['BSH_Moderating_Forum'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
             elseif ( (@strstr($url_ps, 'modcp.')) && ($userdata['user_level'] != ADMIN) )
-                $location = sprintf($titanium_lang['BSH_Moderating_Forum'], '', '');
+                $location = sprintf($lang['BSH_Moderating_Forum'], '', '');
             elseif (@strstr($url_ps, 'faq.'))
-                $location = sprintf($titanium_lang['BSH_Viewing_FAQ'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
+                $location = sprintf($lang['BSH_Viewing_FAQ'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
 
             #==== Start: Integrations For Other Mods
             elseif ( (@strstr($url_ps, 'index.')) && (@strstr($url_qs, 'mode=tree')) )
-                $location = sprintf($titanium_lang['BSH_Viewing_Tree'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
+                $location = sprintf($lang['BSH_Viewing_Tree'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
             elseif ( (@strstr($url_ps, 'index.')) && (@strstr($url_qs, 'mode=spiders')) )
-                $location = sprintf($titanium_lang['BSH_Viewing_Spiders'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
+                $location = sprintf($lang['BSH_Viewing_Spiders'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
             elseif (@strstr($url_ps, 'BlendAdmin/'))
-                $location = sprintf($titanium_lang['BSH_Viewing_BACP'], '', '');
+                $location = sprintf($lang['BSH_Viewing_BACP'], '', '');
 
             $new_url     = explode('.', $url_ps);
             $page        = str_replace('/', '', $new_url[0]);
@@ -232,7 +232,7 @@ function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific,
             $url_ps     = trim($url_ps);
             
 			if (!$location || ( (!$url_qs) && (!$url_ps) ) )
-            $location = sprintf($titanium_lang['BSH_Index'], '<a href="index.'. $phpEx .'" class="copyright">', '</a>');
+            $location = sprintf($lang['BSH_Index'], '<a href="index.'. $phpEx .'" class="copyright">', '</a>');
 
             return '<span class="gensmall">'. $location .'</span>';
         }
@@ -583,7 +583,7 @@ function titanium_session_pagestart($titanium_user_ip, $thispage_id, $trash=0)
  ******************************************************/
     @ini_set('arg_separator.output', '&amp;');
     session_start();
-    global $titanium_db, $titanium_lang, $phpbb2_board_config, $titanium_session_id, $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID, $titanium_pc_dateTime, $HTTP_SESSION_VARS, $cookie;
+    global $titanium_db, $lang, $phpbb2_board_config, $titanium_session_id, $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID, $titanium_pc_dateTime, $HTTP_SESSION_VARS, $cookie;
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
@@ -792,7 +792,7 @@ if ( isset($HTTP_GET_VARS['pc_tzo']) )
 */
 function titanium_session_end($titanium_session_id, $titanium_user_id)
 {
-    global $titanium_db, $titanium_lang, $phpbb2_board_config, $userdata;
+    global $titanium_db, $lang, $phpbb2_board_config, $userdata;
     global $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID;
 
     $cookiename = $phpbb2_board_config['cookie_name'];

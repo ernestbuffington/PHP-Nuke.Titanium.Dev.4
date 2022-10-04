@@ -116,7 +116,7 @@ function get_db_sizes()
 // convert numeric value to x Bytes string
 function create_db_size($titanium_db_size)
 {
-  global $titanium_lang;
+  global $lang;
 
   if ( $titanium_db_size != '' && is_numeric($titanium_db_size) )
   {
@@ -130,12 +130,12 @@ function create_db_size($titanium_db_size)
     }
     else
     {
-      $titanium_db_size = sprintf("%.2f ".$titanium_lang['Bytes'], $titanium_db_size);
+      $titanium_db_size = sprintf("%.2f ".$lang['Bytes'], $titanium_db_size);
     }
   }
   else
   {
-    $titanium_db_size = $titanium_lang['Not_available'];
+    $titanium_db_size = $lang['Not_available'];
   }
 
   return $titanium_db_size;
@@ -144,7 +144,7 @@ function create_db_size($titanium_db_size)
 // convert time values (seconds) to "number of days, hours, minutes and seconds"
 function create_time($seconds)
 {
-  global $titanium_lang;
+  global $lang;
 
   $days = 0;
   $hours = 0;
@@ -171,7 +171,7 @@ function create_time($seconds)
     }
   }
 
-  return sprintf("%02d", $days).' '.$titanium_lang['days'].', '.sprintf("%02d", $hours).' '.$titanium_lang['hours'].', '.sprintf("%02d", $minutes).' '.$titanium_lang['minutes'].', '.sprintf("%02d", $seconds).' '.$titanium_lang['seconds'];
+  return sprintf("%02d", $days).' '.$lang['days'].', '.sprintf("%02d", $hours).' '.$lang['hours'].', '.sprintf("%02d", $minutes).' '.$lang['minutes'].', '.sprintf("%02d", $seconds).' '.$lang['seconds'];
 }
 
 // get the latest post_id in the forum

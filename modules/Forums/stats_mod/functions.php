@@ -170,7 +170,7 @@ class StatisticsFUNCTIONS
         $auth_return['auth_key'] = $auth_data[0]; // '$core->data(\'forum_id\')'
         $auth_condition = $auth_data[1]; // 'auth_view AND auth_read'
         $auth_type = trim($auth_data[2]); // 'forum'
-        $auth_return['auth_replacement'] = $auth_data[3]; // array('', '$core->data(\'topic_replies\')', '$titanium_lang[\'Hidden_from_public_view\']')
+        $auth_return['auth_replacement'] = $auth_data[3]; // array('', '$core->data(\'topic_replies\')', '$lang[\'Hidden_from_public_view\']')
 
         $auth_return['auth_check'] = array();
         if ($auth_type == 'forum')

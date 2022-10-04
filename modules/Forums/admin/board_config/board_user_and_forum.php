@@ -95,61 +95,61 @@ $phpbb2_template->assign_vars(array(
     
 //Language Template variables
 $phpbb2_template->assign_vars(array(
-    "L_ABILITIES_SETTINGS" => $titanium_lang['Abilities_settings'],
-    "L_MAX_POLL_OPTIONS" => $titanium_lang['Max_poll_options'],
-    "L_ALLOW_HTML" => $titanium_lang['Allow_HTML'],
-    "L_ALLOW_BBCODE" => $titanium_lang['Allow_BBCode'],
-    "L_ALLOWED_TAGS" => $titanium_lang['Allowed_tags'],
-    "L_ALLOWED_TAGS_EXPLAIN" => $titanium_lang['Allowed_tags_explain'],
-    "L_ALLOW_SMILIES" => $titanium_lang['Allow_smilies'],
-    "L_ALLOW_AUTOLOGIN" => $titanium_lang['Allow_autologin'],
-    "L_ALLOW_AUTOLOGIN_EXPLAIN" => $titanium_lang['Allow_autologin_explain'],
-    "L_AUTOLOGIN_TIME" => $titanium_lang['Autologin_time'],
-    "L_AUTOLOGIN_TIME_EXPLAIN" => $titanium_lang['Autologin_time_explain'],
-    "L_LOGIN_PAGE" => $titanium_lang['Login_page'],
-    "L_LOGIN_PAGE_EXPLAIN" => $titanium_lang['Login_page_explain'],      
+    "L_ABILITIES_SETTINGS" => $lang['Abilities_settings'],
+    "L_MAX_POLL_OPTIONS" => $lang['Max_poll_options'],
+    "L_ALLOW_HTML" => $lang['Allow_HTML'],
+    "L_ALLOW_BBCODE" => $lang['Allow_BBCode'],
+    "L_ALLOWED_TAGS" => $lang['Allowed_tags'],
+    "L_ALLOWED_TAGS_EXPLAIN" => $lang['Allowed_tags_explain'],
+    "L_ALLOW_SMILIES" => $lang['Allow_smilies'],
+    "L_ALLOW_AUTOLOGIN" => $lang['Allow_autologin'],
+    "L_ALLOW_AUTOLOGIN_EXPLAIN" => $lang['Allow_autologin_explain'],
+    "L_AUTOLOGIN_TIME" => $lang['Autologin_time'],
+    "L_AUTOLOGIN_TIME_EXPLAIN" => $lang['Autologin_time_explain'],
+    "L_LOGIN_PAGE" => $lang['Login_page'],
+    "L_LOGIN_PAGE_EXPLAIN" => $lang['Login_page_explain'],      
 /*****[BEGIN]******************************************
  [ Mod:     Smilies in Topic Titles Toggle     v1.0.0 ]
  ******************************************************/
-    "L_SMILIES_IN_TITLES" => $titanium_lang['smilies_in_titles'],
+    "L_SMILIES_IN_TITLES" => $lang['smilies_in_titles'],
 /*****[END]********************************************
  [ Mod:     Smilies in Topic Titles Toggle     v1.0.0 ]
  ******************************************************/
 /*****[BEGIN]******************************************
  [ Mod:    Forum Index Avatar Mod                 v1.0]
  ******************************************************/
-    "L_LAST_POSTER_AVATAR" => $titanium_lang['last_poster_avatar'],
+    "L_LAST_POSTER_AVATAR" => $lang['last_poster_avatar'],
 /*****[END]********************************************
  [ Mod:    Forum Index Avatar Mod                 v1.0]
  ******************************************************/
 /*****[BEGIN]******************************************
  [ Mod:  Hide Images and Links                 v1.0.0 ]
  ******************************************************/
-    "L_HIDE_IMAGES" => $titanium_lang['hide_images'],
-    "L_HIDE_LINKS" => $titanium_lang['hide_links'],
-    "L_HIDE_EMAILS" => $titanium_lang['hide_emails'],
+    "L_HIDE_IMAGES" => $lang['hide_images'],
+    "L_HIDE_LINKS" => $lang['hide_links'],
+    "L_HIDE_EMAILS" => $lang['hide_emails'],
 /*****[END]********************************************
  [ Mod:  Hide Images and Links                 v1.0.0 ]
  ******************************************************/
 /*****[BEGIN]******************************************
  [ Mod:   Log Actions Mod - Topic View         v2.0.0 ]
  ******************************************************/
-    "L_SHOW_EDITED_LOGS" => $titanium_lang['show_edited_logs'],
-    "L_SHOW_LOCKED_LOGS" => $titanium_lang['show_locked_logs'],
-    "L_SHOW_UNLOCKED_LOGS" => $titanium_lang['show_unlocked_logs'],
-    "L_SHOW_SPLITTED_LOGS" => $titanium_lang['show_splitted_logs'],
-    "L_SHOW_MOVED_LOGS" => $titanium_lang['show_moved_logs'],
-    "L_ALLOW_VIEW" => $titanium_lang['allow_logs_view'],
+    "L_SHOW_EDITED_LOGS" => $lang['show_edited_logs'],
+    "L_SHOW_LOCKED_LOGS" => $lang['show_locked_logs'],
+    "L_SHOW_UNLOCKED_LOGS" => $lang['show_unlocked_logs'],
+    "L_SHOW_SPLITTED_LOGS" => $lang['show_splitted_logs'],
+    "L_SHOW_MOVED_LOGS" => $lang['show_moved_logs'],
+    "L_ALLOW_VIEW" => $lang['allow_logs_view'],
 /*****[END]********************************************
  [ Mod:   Log Actions Mod - Topic View         v2.0.0 ]
  ******************************************************/
-    "L_SMILIES_PATH" => $titanium_lang['Smilies_path'],
-    "L_SMILIES_PATH_EXPLAIN" => $titanium_lang['Smilies_path_explain'],
+    "L_SMILIES_PATH" => $lang['Smilies_path'],
+    "L_SMILIES_PATH_EXPLAIN" => $lang['Smilies_path_explain'],
 /*****[BEGIN]******************************************
  [ Mod:   Resize Posted Images                 v2.4.5 ]
  ******************************************************/
-    "L_IMAGE_RESIZE_WIDTH" => $titanium_lang['image_resize_width'],
-    "L_IMAGE_RESIZE_HEIGHT" => $titanium_lang['image_resize_height'],
+    "L_IMAGE_RESIZE_WIDTH" => $lang['image_resize_width'],
+    "L_IMAGE_RESIZE_HEIGHT" => $lang['image_resize_height'],
 /*****[END]********************************************
  [ Mod:   Resize Posted Images                 v2.4.5 ]
  ******************************************************/

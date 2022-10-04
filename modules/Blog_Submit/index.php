@@ -31,9 +31,9 @@
 
 if(!defined('MODULE_FILE')){die('You can\'t access this file directly...');}
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 function defaultDisplay() 
 {
@@ -43,7 +43,7 @@ function defaultDisplay()
 			   $currentlang, 
 			  $multilingual, 
 			   $titanium_db, 
-	  $titanium_module_name;
+	  $pnt_module;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename. '._SUBMITNEWS.');
@@ -52,7 +52,7 @@ function defaultDisplay()
 	echo '<div align="center" class="title"><strong>'._SUBMITNEWS.'</strong></div><br /><br />'; 
 
     # Mod: News BBCodes v1.0.0 START
-    echo "<p><form name=\"postnews\" action=\"modules.php?name=$titanium_module_name\" method=\"post\">\n";
+    echo "<p><form name=\"postnews\" action=\"modules.php?name=$pnt_module\" method=\"post\">\n";
     # Mod: News BBCodes v1.0.0 END
 
     echo '<div class="textbold">'._YOURNAME.':</div> ';
@@ -88,13 +88,13 @@ function defaultDisplay()
         echo '<br /><br /><strong>'._LANGUAGE.": </strong>\n";
         echo "<select name=\"alanguage\">\n";
     
-	    $titanium_languages = lang_list();
+	    $languages = lang_list();
     
 	    echo '<option value=""'.(($currentlang == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
     
-	    for ($i=0, $j = count($titanium_languages); $i < $j; $i++):
-            if ($titanium_languages[$i] != '') 
-             echo '<option value="'.$titanium_languages[$i].'"'.(($currentlang == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+	    for ($i=0, $j = count($languages); $i < $j; $i++):
+            if ($languages[$i] != '') 
+             echo '<option value="'.$languages[$i].'"'.(($currentlang == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
         endfor;
 
         echo '</select>';
@@ -136,7 +136,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
 		    $multilingual, 
 		   $AllowableHTML, 
 		     $titanium_db, 
-	$titanium_module_name, 
+	$pnt_module, 
 	              $tipath, 
 				$userinfo;
 
@@ -153,7 +153,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
     DisplayError(_ERROR_SUBJECT);
 
     $story2 = $story.'<br /><br />'.$storyext;
-    Validate($topic, 'int', $titanium_module_name, 0, 0, 0, 0, 'topic');
+    Validate($topic, 'int', $pnt_module, 0, 0, 0, 0, 'topic');
     
 	# Mod: News BBCodes v1.0.0 START
     $story2 = decode_bbcode(set_smilies(stripslashes($story2)), 1, true);
@@ -176,7 +176,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
     OpenTable();
 
     # Mod: News BBCodes v1.0.0 START
-    echo "<p><form name=\"postnews\" action=\"modules.php?name=$titanium_module_name\" method=\"post\">\n";
+    echo "<p><form name=\"postnews\" action=\"modules.php?name=$pnt_module\" method=\"post\">\n";
     echo '<strong>'._YOURNAME.':</strong> ';
     # Mod: News BBCodes v1.0.0 END
 
@@ -210,13 +210,13 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
         echo '<br /><br /><strong>'._LANGUAGE.": </strong>\n";
         echo "<select name=\"alanguage\">\n";
     
-	    $titanium_languages = lang_list();
+	    $languages = lang_list();
     
 	    echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
     
-	    for ($i=0, $j = count($titanium_languages); $i < $j; $i++): 
-            if ($titanium_languages[$i] != '') 
-                echo '<option value="'.$titanium_languages[$i].'"'.(($alanguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+	    for ($i=0, $j = count($languages); $i < $j; $i++): 
+            if ($languages[$i] != '') 
+                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
         endfor;
 
         echo '</select>';

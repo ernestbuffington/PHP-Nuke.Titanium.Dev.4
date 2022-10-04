@@ -8,16 +8,16 @@ if (!defined('MODULE_FILE')) {
        require_once(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript_body_facebook.php');   #facebook Mod v4.6
     }                                                                                      #Oct 10th 2012
 ############################################################################################	
-global $domain, $facebook_plugin_width, $facebookappid, $titanium_module_name, $ThemeSel, $name; //globals 
-include (TITANIUM_MODULES_DIR.$titanium_module_name.'/includes/facebook_connector.php'); //loaded for facebook purposes
+global $domain, $facebook_plugin_width, $facebookappid, $pnt_module, $ThemeSel, $name; //globals 
+include (TITANIUM_MODULES_DIR.$pnt_module.'/includes/facebook_connector.php'); //loaded for facebook purposes
 require_once("mainfile.php");
-$titanium_module_name = basename(dirname(__FILE__));
-get_lang($titanium_module_name); 
+$pnt_module = basename(dirname(__FILE__));
+get_lang($pnt_module); 
 $index = 0;
 
 echo "<link rel=\"StyleSheet\" href=\"modules/ArrangeItems/styles/buttons-layers.css\" type=\"text/css\">";
 
-include (TITANIUM_MODULES_DIR.$titanium_module_name.'/includes/isNumber.php');
+include (TITANIUM_MODULES_DIR.$pnt_module.'/includes/isNumber.php');
 
    include("header.php"); 
    $pagetitle = 'Arrange Items';

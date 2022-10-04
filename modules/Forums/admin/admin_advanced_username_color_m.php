@@ -47,7 +47,7 @@ if ($mode == "main" || !$mode)
     echo "<table width='100%' border='0' class='forumline' cellspacing='2' align='center' valign='middle'>";
     echo "    <tr>";
     echo "        <th class='thHead' colspan='2'>";
-    echo "            ". $titanium_lang['admin_main_header_m'];
+    echo "            ". $lang['admin_main_header_m'];
     echo "        </th>";
     echo "    </tr>";
     echo "</table>";
@@ -57,7 +57,7 @@ if ($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='center' valign='top' width='100%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $titanium_lang['choose_group'];
+    echo "                ". $lang['choose_group'];
     echo "            </span>";
     echo "        </td>";
     echo "    </tr>";
@@ -67,12 +67,12 @@ if ($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='left' valign='top' width='50%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $titanium_lang['choose_group_2'];
+    echo "                ". $lang['choose_group_2'];
     echo "            </span>";
     echo "        </td>";
     echo "        <td align='center' valign='top' width='50%' class='row2'>";
     echo "            <select name='group'>";
-    echo "                <option selected value=''>". $titanium_lang['choose_group_3'] ."</option>";
+    echo "                <option selected value=''>". $lang['choose_group_3'] ."</option>";
 
     $q = "SELECT *
           FROM ". COLORS ."
@@ -95,7 +95,7 @@ if ($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='center' valign='middle' width='100%' class='row2'>";
     echo "            <input type='hidden' name='mode' value='select_group'>";
-    echo "            <input type='submit' class='mainoption' value='". $titanium_lang['choose_group_4'] ."' onchange='document.choose_group.submit()'>";
+    echo "            <input type='submit' class='mainoption' value='". $lang['choose_group_4'] ."' onchange='document.choose_group.submit()'>";
     echo "        </td>";
     echo "    </tr>";
     echo "</table>";
@@ -119,7 +119,7 @@ if ($mode == "main" || !$mode)
     echo "<table width='100%' border='0' class='forumline' cellspacing='2' align='center' valign='middle'>";
     echo "    <tr>";
     echo "        <th class='thHead' colspan='2'>";
-    echo "            ". $titanium_lang['admin_main_header_m'];
+    echo "            ". $lang['admin_main_header_m'];
     echo "        </th>";
     echo "    </tr>";
     echo "</table>";
@@ -128,7 +128,7 @@ if ($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='center' valign='top' width='100%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". str_replace("%G%", $name, $titanium_lang['group_selected']);
+    echo "                ". str_replace("%G%", $name, $lang['group_selected']);
     echo "            </span>";
     echo "        </td>";
     echo "    </tr>";
@@ -138,7 +138,7 @@ if ($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='center' valign='top' width='33%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $titanium_lang['group_already_assigned'];
+    echo "                ". $lang['group_already_assigned'];
     echo "            </span>";
     echo "        </td>";
     echo "        <td align='center' valign='top' width='33%' class='row2' colspan='2'>";
@@ -167,7 +167,7 @@ if ($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='center' valign='top' width='33%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $titanium_lang['goup_group'];
+    echo "                ". $lang['goup_group'];
     echo "            </span>";
     echo "        </td>";
     echo "        <td align='center' valign='top' width='33%' class='row2' colspan='2'>";
@@ -192,7 +192,7 @@ if ($mode == "main" || !$mode)
     echo "            <input type='hidden' name='mode' value='add_group'>";
     echo "            <input type='hidden' name='group' value='". $id ."'>";
     echo "            <input type='hidden' name='color' value='". $phpbb2_color ."'>";
-    echo "            <input type='submit' class='mainoption' value='". $titanium_lang['group_assign_1'] ."' onchange='document.add_group.submit()'>";
+    echo "            <input type='submit' class='mainoption' value='". $lang['group_assign_1'] ."' onchange='document.add_group.submit()'>";
     echo "        </td>";
     echo "</form>";
 /*****[END]********************************************
@@ -202,7 +202,7 @@ if ($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='center' valign='top' width='33%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $titanium_lang['group_assign'];
+    echo "                ". $lang['group_assign'];
     echo "            </span>";
     echo "        </td>";
     echo "        <td align='center' valign='top' width='33%' class='row2' colspan='2'>";
@@ -224,7 +224,7 @@ if ($mode == "main" || !$mode)
     echo '    <tr>';
     echo '        <td align="left" class="row2">';
     echo '            <span class="genmed">';
-    echo '                '. $titanium_lang['group_assign_2'];
+    echo '                '. $lang['group_assign_2'];
     echo '            </span>';
     echo '        </td>';
     echo '        <td align="center" class="row2" colspan="2">';
@@ -238,7 +238,7 @@ if ($mode == "main" || !$mode)
     echo "            <input type='hidden' name='mode' value='add_user'>";
     echo "            <input type='hidden' name='group' value='". $id ."'>";
     echo "            <input type='hidden' name='color' value='". $phpbb2_color ."'>";
-    echo "            <input type='submit' class='mainoption' value='". $titanium_lang['group_assign_1'] ."' onchange='document.add_to_group.submit()'>";
+    echo "            <input type='submit' class='mainoption' value='". $lang['group_assign_1'] ."' onchange='document.add_to_group.submit()'>";
     echo "        </td>";
     echo "    </tr>";
     echo "</form>";
@@ -246,7 +246,7 @@ if ($mode == "main" || !$mode)
     echo "    <tr>";
     echo "        <td align='center' valign='top' width='33%' class='row2'>";
     echo "            <span class='genmed'>";
-    echo "                ". $titanium_lang['group_delete_user'];
+    echo "                ". $lang['group_delete_user'];
     echo "            </span>";
     echo "        </td>";
     echo "        <td align='center' valign='top' width='33%' class='row2'>";
@@ -268,7 +268,7 @@ if ($mode == "main" || !$mode)
     echo "        <td align='center' valign='middle' width='100%' class='row2'>";
     echo "            <input type='hidden' name='mode' value='del_user'>";
     echo "            <input type='hidden' name='group' value='". $id ."'>";
-    echo "            <input type='submit' class='mainoption' value='". $titanium_lang['group_delete_user_1'] ."' onchange='document.delete_from_group.submit()'>";
+    echo "            <input type='submit' class='mainoption' value='". $lang['group_delete_user_1'] ."' onchange='document.delete_from_group.submit()'>";
     echo "        </td>";
     echo "    </tr>";
     echo "</form>";
@@ -322,7 +322,7 @@ if ($mode == "main" || !$mode)
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    message_die(GENERAL_MESSAGE, $titanium_lang['group_delete_user_2'] . "<br /><br />" . sprintf($titanium_lang['Return_to_management'], "<a href=admin_advanced_username_color_m.php>", "</a>"), $titanium_lang['success']);
+    message_die(GENERAL_MESSAGE, $lang['group_delete_user_2'] . "<br /><br />" . sprintf($lang['Return_to_management'], "<a href=admin_advanced_username_color_m.php>", "</a>"), $lang['success']);
         }
 
     if ($mode == "add_user")
@@ -337,7 +337,7 @@ if ($mode == "main" || !$mode)
         if ($multi)
             $who = '';
         if ( (!$who) && (!$multi) )
-            message_die(GENERAL_ERROR, $titanium_lang['choose_user_id_error'] . "<br /><br />" . sprintf($titanium_lang['Return_to_management'], "<a href=admin_advanced_username_color_m.php>", "</a>"));
+            message_die(GENERAL_ERROR, $lang['choose_user_id_error'] . "<br /><br />" . sprintf($lang['Return_to_management'], "<a href=admin_advanced_username_color_m.php>", "</a>"));
 
         if ($multi)
             {
@@ -397,7 +397,7 @@ if ($mode == "main" || !$mode)
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    message_die(GENERAL_MESSAGE, $titanium_lang['group_user_added'] . "<br /><br />" . sprintf($titanium_lang['Return_to_management'], "<a href=admin_advanced_username_color_m.php>", "</a>"), $titanium_lang['success']);
+    message_die(GENERAL_MESSAGE, $lang['group_user_added'] . "<br /><br />" . sprintf($lang['Return_to_management'], "<a href=admin_advanced_username_color_m.php>", "</a>"), $lang['success']);
         }
 /*****[BEGIN]******************************************
  [ Mod:    AUC Group                           v1.0.0 ]
@@ -444,7 +444,7 @@ if ($mode == "main" || !$mode)
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
         }
-        message_die(GENERAL_MESSAGE, $titanium_lang['group_user_added'] . "<br /><br />" . sprintf($titanium_lang['Return_to_management'], "<a href=admin_advanced_username_color_m.php>", "</a>"), $titanium_lang['success']);
+        message_die(GENERAL_MESSAGE, $lang['group_user_added'] . "<br /><br />" . sprintf($lang['Return_to_management'], "<a href=admin_advanced_username_color_m.php>", "</a>"), $lang['success']);
       }
 /*****[END]********************************************
  [ Mod:    AUC Group                           v1.0.0 ]

@@ -25,8 +25,8 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -80,13 +80,13 @@ $phpbb2_template->set_filenames(array(
    'body' => 'comments_list_body.tpl'));
 
             $phpbb2_template->assign_vars(array(
-                        'L_ARCADE_COMMENTS_FULL' => $titanium_lang['arcade_comments_full'],
-                        'L_ARCADE_COMMENTS' => $titanium_lang['arcade_comments'],
-                        'L_GAME' => $titanium_lang['game'],
-                        'L_COMMENTS' => $titanium_lang['comments'],
-                        'L_ARCADE_USER' => $titanium_lang['arcade_user'],
-                        'L_SCORE' => $titanium_lang['boardscore'],
-                        'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $titanium_lang['arcade'] . '</a> ' ,
+                        'L_ARCADE_COMMENTS_FULL' => $lang['arcade_comments_full'],
+                        'L_ARCADE_COMMENTS' => $lang['arcade_comments'],
+                        'L_GAME' => $lang['game'],
+                        'L_COMMENTS' => $lang['comments'],
+                        'L_ARCADE_USER' => $lang['arcade_user'],
+                        'L_SCORE' => $lang['boardscore'],
+                        'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $lang['arcade'] . '</a> ' ,
             ));
 
 
@@ -127,10 +127,10 @@ while ( $row = $titanium_db->sql_fetchrow($result))
             }
 
 $phpbb2_template->assign_vars(array(
-                'MANAGE_COMMENTS' => '<nobr><a class="cattitle" href="' . append_titanium_sid("comments.$phpEx") . '">' . $titanium_lang['manage_comments'] . '</a></nobr> ',
+                'MANAGE_COMMENTS' => '<nobr><a class="cattitle" href="' . append_titanium_sid("comments.$phpEx") . '">' . $lang['manage_comments'] . '</a></nobr> ',
                 'PAGINATION' => generate_pagination("comments_list.$phpEx?", $comments_total, $comments_perpage, $phpbb2_start),
-                'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], ( floor( $phpbb2_start / $comments_perpage) + 1 ), ceil( $comments_total / $comments_perpage )),
-                'L_GOTO_PAGE' => $titanium_lang['Goto_page'])
+                'PAGE_NUMBER' => sprintf($lang['Page_of'], ( floor( $phpbb2_start / $comments_perpage) + 1 ), ceil( $comments_total / $comments_perpage )),
+                'L_GOTO_PAGE' => $lang['Goto_page'])
         );
 
 //

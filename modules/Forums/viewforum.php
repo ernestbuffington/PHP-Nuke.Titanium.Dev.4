@@ -90,8 +90,8 @@ if (!defined('MODULE_FILE'))
 exit("You can't access this file directly...");
 
 if($popup != "1"):
- $titanium_module_name = basename(dirname(__FILE__));
- require("modules/".$titanium_module_name."/nukebb.php");
+ $pnt_module = basename(dirname(__FILE__));
+ require("modules/".$pnt_module."/nukebb.php");
 else:
  $phpbb2_root_path = NUKE_FORUMS_DIR;
 endif;
@@ -160,7 +160,7 @@ if(!$phpbb2_is_auth['auth_read'] || !$phpbb2_is_auth['auth_view']):
                 redirect_titanium(append_titanium_sid("login.$phpEx?redirect=viewforum.$phpEx&$redirect", true));
         endif;
         # The user is not authed to read this forum ...
-        $message = ( !$phpbb2_is_auth['auth_view'] ) ? $titanium_lang['Forum_not_exist'] : sprintf($titanium_lang['Sorry_auth_read'], $phpbb2_is_auth['auth_read_type']);
+        $message = ( !$phpbb2_is_auth['auth_view'] ) ? $lang['Forum_not_exist'] : sprintf($lang['Sorry_auth_read'], $phpbb2_is_auth['auth_read_type']);
         message_die(GENERAL_MESSAGE, $message);
 endif;
 # End of auth check
@@ -230,7 +230,7 @@ if($phpbb2_mark_read == 'topics'):
                 );
         endif;
 
-        $message = $titanium_lang['Topics_marked_read'].'<br /><br />'.sprintf($titanium_lang['Click_return_forum'],'<a href="'.append_titanium_sid("viewforum.$phpEx?".POST_FORUM_URL."=$phpbb2_forum_id").'">','</a>');
+        $message = $lang['Topics_marked_read'].'<br /><br />'.sprintf($lang['Click_return_forum'],'<a href="'.append_titanium_sid("viewforum.$phpEx?".POST_FORUM_URL."=$phpbb2_forum_id").'">','</a>');
         message_die(GENERAL_MESSAGE, $message);
 endif;
 # End handle marking posts
@@ -292,15 +292,15 @@ while($row = $titanium_db->sql_fetchrow($result)):
   $moderators[] = '<a href="'.append_titanium_sid("groupcp.$phpEx?".POST_GROUPS_URL."=".$row['group_id']).'">'.GroupColor($row['group_name']).'</a>';
 endwhile;
 
-$l_phpbb2_moderators = (count($moderators) == 1) ? $titanium_lang['Moderator'] : $titanium_lang['Moderators'];
-$phpbb2_forum_moderators = (count($moderators)) ? implode(', ', $moderators) : $titanium_lang['None'];
+$l_phpbb2_moderators = (count($moderators) == 1) ? $lang['Moderator'] : $lang['Moderators'];
+$phpbb2_forum_moderators = (count($moderators)) ? implode(', ', $moderators) : $lang['None'];
 unset($moderators);
 
 # Generate a 'Show topics in previous x days' select box. If the topicsdays var is sent
 # then get it's value, find the number of topics with dates newer than it (to properly
 # handle pagination) and alter the main query
 $previous_days = array(0, 1, 7, 14, 30, 90, 180, 364);
-$previous_days_text = array($titanium_lang['All_Topics'], $titanium_lang['1_Day'], $titanium_lang['7_Days'], $titanium_lang['2_Weeks'], $titanium_lang['1_Month'], $titanium_lang['3_Months'], $titanium_lang['6_Months'], $titanium_lang['1_Year']);
+$previous_days_text = array($lang['All_Topics'], $lang['1_Day'], $lang['7_Days'], $lang['2_Weeks'], $lang['1_Month'], $lang['3_Months'], $lang['6_Months'], $lang['1_Year']);
 
 if(!empty($HTTP_POST_VARS['topicdays']) || !empty($HTTP_GET_VARS['topicdays'])):
         $topic_days = (!empty($HTTP_POST_VARS['topicdays'])) ? intval($HTTP_POST_VARS['topicdays']) : intval($HTTP_GET_VARS['topicdays']);
@@ -411,7 +411,7 @@ $order_value = isset($HTTP_GET_VARS['order']) ? intval($HTTP_GET_VARS['order']) 
 $order_list = '<select name="order">'.get_forum_display_sort_option($order_value,'list','order').'</select>';
 
 # display
-$s_display_order = '&nbsp;'.$titanium_lang['Sort_by'].':&nbsp;'.$sort_list.$order_list.'&nbsp;';
+$s_display_order = '&nbsp;'.$lang['Sort_by'].':&nbsp;'.$sort_list.$order_list.'&nbsp;';
 
 # selected method
 $sort_method = get_forum_display_sort_option($sort_value,'field','sort');
@@ -462,35 +462,35 @@ obtain_word_list($orig_word, $replacement_word);
 
 # Post URL generation for templating vars
 $phpbb2_template->assign_vars(array(
-    'L_DISPLAY_TOPICS' => $titanium_lang['Display_topics'],
+    'L_DISPLAY_TOPICS' => $lang['Display_topics'],
     'U_POST_NEW_TOPIC' => append_titanium_sid("posting.$phpEx?mode=newtopic&amp;".POST_FORUM_URL."=$phpbb2_forum_id"),
     'S_SELECT_TOPIC_DAYS' => $select_topic_days,
     'S_POST_DAYS_ACTION' => append_titanium_sid("viewforum.$phpEx?".POST_FORUM_URL."=".$phpbb2_forum_id."&amp;start=$phpbb2_start"))
 );
 
 # User authorisation levels output
-$s_auth_can = (($phpbb2_is_auth['auth_post']) ? $titanium_lang['Rules_post_can'] : $titanium_lang['Rules_post_cannot']).'<br />';
-$s_auth_can .= (($phpbb2_is_auth['auth_reply']) ? $titanium_lang['Rules_reply_can'] : $titanium_lang['Rules_reply_cannot']).'<br />';
-$s_auth_can .= (($phpbb2_is_auth['auth_edit']) ? $titanium_lang['Rules_edit_can'] : $titanium_lang['Rules_edit_cannot']).'<br />';
-$s_auth_can .= (($phpbb2_is_auth['auth_delete']) ? $titanium_lang['Rules_delete_can'] : $titanium_lang['Rules_delete_cannot']).'<br />';
-$s_auth_can .= (($phpbb2_is_auth['auth_vote']) ? $titanium_lang['Rules_vote_can'] : $titanium_lang['Rules_vote_cannot'] ).'<br />';
+$s_auth_can = (($phpbb2_is_auth['auth_post']) ? $lang['Rules_post_can'] : $lang['Rules_post_cannot']).'<br />';
+$s_auth_can .= (($phpbb2_is_auth['auth_reply']) ? $lang['Rules_reply_can'] : $lang['Rules_reply_cannot']).'<br />';
+$s_auth_can .= (($phpbb2_is_auth['auth_edit']) ? $lang['Rules_edit_can'] : $lang['Rules_edit_cannot']).'<br />';
+$s_auth_can .= (($phpbb2_is_auth['auth_delete']) ? $lang['Rules_delete_can'] : $lang['Rules_delete_cannot']).'<br />';
+$s_auth_can .= (($phpbb2_is_auth['auth_vote']) ? $lang['Rules_vote_can'] : $lang['Rules_vote_cannot'] ).'<br />';
 
 # Mod: Attachment Mod v2.4.1 START
 attach_build_auth_levels($phpbb2_is_auth, $s_auth_can);
 # Mod: Attachment Mod v2.4.1 END
 
 if($phpbb2_is_auth['auth_mod'])
-$s_auth_can .= sprintf($titanium_lang['Rules_moderate'], '<a href="'.append_titanium_sid("modcp.$phpEx?".POST_FORUM_URL."=$phpbb2_forum_id").'">', '</a>');
+$s_auth_can .= sprintf($lang['Rules_moderate'], '<a href="'.append_titanium_sid("modcp.$phpEx?".POST_FORUM_URL."=$phpbb2_forum_id").'">', '</a>');
 
 # Mozilla navigation bar
 $titanium_nav_links['up'] = array(
         'url' => append_titanium_sid('index.'.$phpEx),
-        'title' => sprintf($titanium_lang['Forum_Index'], $phpbb2_board_config['sitename'])
+        'title' => sprintf($lang['Forum_Index'], $phpbb2_board_config['sitename'])
 );
 
 # Dump out the page header and load viewforum template
 define('SHOW_ONLINE', true);
-$phpbb2_page_title = $titanium_lang['View_forum'].' - '.$forum_row['forum_name'];
+$phpbb2_page_title = $lang['View_forum'].' - '.$forum_row['forum_name'];
 include("includes/page_header.$phpEx");
 $phpbb2_template->set_filenames(array(
     'body' => 'viewforum_body.tpl') 
@@ -530,30 +530,30 @@ $phpbb2_template->assign_vars(array(
         'FOLDER_GLOBAL_ANNOUNCE_NEW_IMG' => $images['folder_global_announce_new'],
         # Mod: Global Announcements v1.2.8 END
 
-        'L_TOPICS' => $titanium_lang['Topics'],
-        'L_REPLIES' => $titanium_lang['Replies'],
-        'L_VIEWS' => $titanium_lang['Views'],
-        'L_POSTS' => $titanium_lang['Posts'],
-        'L_LASTPOST' => $titanium_lang['Last_Post'],
+        'L_TOPICS' => $lang['Topics'],
+        'L_REPLIES' => $lang['Replies'],
+        'L_VIEWS' => $lang['Views'],
+        'L_POSTS' => $lang['Posts'],
+        'L_LASTPOST' => $lang['Last_Post'],
         'L_MODERATOR' => $l_phpbb2_moderators,
-        'L_MARK_TOPICS_READ' => $titanium_lang['Mark_all_topics'],
-        'L_POST_NEW_TOPIC' => ( $forum_row['forum_status'] == FORUM_LOCKED ) ? $titanium_lang['Forum_locked'] : $titanium_lang['Post_new_topic'],
-        'L_NO_NEW_POSTS' => $titanium_lang['No_new_posts'],
-        'L_NEW_POSTS' => $titanium_lang['New_posts'],
-        'L_NO_NEW_POSTS_LOCKED' => $titanium_lang['No_new_posts_locked'],
-        'L_NEW_POSTS_LOCKED' => $titanium_lang['New_posts_locked'],
-        'L_NO_NEW_POSTS_HOT' => $titanium_lang['No_new_posts_hot'],
-        'L_NEW_POSTS_HOT' => $titanium_lang['New_posts_hot'],
-        'L_ANNOUNCEMENT' => $titanium_lang['Post_Announcement'],
+        'L_MARK_TOPICS_READ' => $lang['Mark_all_topics'],
+        'L_POST_NEW_TOPIC' => ( $forum_row['forum_status'] == FORUM_LOCKED ) ? $lang['Forum_locked'] : $lang['Post_new_topic'],
+        'L_NO_NEW_POSTS' => $lang['No_new_posts'],
+        'L_NEW_POSTS' => $lang['New_posts'],
+        'L_NO_NEW_POSTS_LOCKED' => $lang['No_new_posts_locked'],
+        'L_NEW_POSTS_LOCKED' => $lang['New_posts_locked'],
+        'L_NO_NEW_POSTS_HOT' => $lang['No_new_posts_hot'],
+        'L_NEW_POSTS_HOT' => $lang['New_posts_hot'],
+        'L_ANNOUNCEMENT' => $lang['Post_Announcement'],
 
         # Mod: Global Announcements v1.2.8 START
-        'L_GLOBAL_ANNOUNCEMENT' => $titanium_lang['Post_global_announcement'],
+        'L_GLOBAL_ANNOUNCEMENT' => $lang['Post_global_announcement'],
         # Mod: Global Announcements v1.2.8 END
 
-        'L_STICKY' => $titanium_lang['Post_Sticky'],
-        'L_POSTED' => $titanium_lang['Posted'],
-        'L_JOINED' => $titanium_lang['Joined'],
-        'L_AUTHOR' => $titanium_lang['Author'],
+        'L_STICKY' => $lang['Post_Sticky'],
+        'L_POSTED' => $lang['Posted'],
+        'L_JOINED' => $lang['Joined'],
+        'L_AUTHOR' => $lang['Author'],
         'S_AUTH_LIST' => $s_auth_can,
         'U_VIEW_FORUM' => append_titanium_sid("viewforum.$phpEx?".POST_FORUM_URL."=$phpbb2_forum_id"),
         'U_MARK_READ' => append_titanium_sid("viewforum.$phpEx?".POST_FORUM_URL."=$phpbb2_forum_id&amp;mark=topics"))
@@ -588,7 +588,7 @@ endif;
 $phpbb2_template->assign_vars(array(
 	'NUM_TOPICS' => $forum_row['forum_topics'],
 	'CAN_POST' => $phpbb2_is_auth['auth_post'] ? 1 : 0,
-	'L_FORUM' => $titanium_lang['Forum'],
+	'L_FORUM' => $lang['Forum'],
 ));
 # Mod: Simple Subforums v1.0.1 END
 # End header
@@ -634,7 +634,7 @@ if($total_phpbb2_topics):
     $topic_type = '';
 
     if($topic_rowset[$i]['topic_vote'])
-    $topic_type .= $titanium_lang['Topic_Poll'].' ';
+    $topic_type .= $lang['Topic_Poll'].' ';
 
     if($topic_rowset[$i]['topic_status'] == TOPIC_MOVED):
        $topic_id = $topic_rowset[$i]['topic_moved_id'];
@@ -644,7 +644,7 @@ if($total_phpbb2_topics):
 	   # Mod: Customized Topic Status v1.0.0 END
        
 	   $phpbb2_folder_image =  $images['folder'];
-       $phpbb2_folder_alt = $titanium_lang['Topics_Moved'];
+       $phpbb2_folder_alt = $lang['Topics_Moved'];
        $newest_post_img = '';
     else:
        # Mod: Global Announcements v1.2.8 START
@@ -704,29 +704,29 @@ if($total_phpbb2_topics):
 
                   if($phpbb2_unread_topics):
                     $phpbb2_folder_image = $folder_new;
-                    $phpbb2_folder_alt = $titanium_lang['New_posts'];
+                    $phpbb2_folder_alt = $lang['New_posts'];
                     $newest_post_img = '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;view=newest").'"><img 
-					src="'.$images['icon_newest_reply'].'" alt="'.$titanium_lang['View_newest_post'].'" title="'.$titanium_lang['View_newest_post'].'" border="0" /></a> ';
+					src="'.$images['icon_newest_reply'].'" alt="'.$lang['View_newest_post'].'" title="'.$lang['View_newest_post'].'" border="0" /></a> ';
                   else:
                     $phpbb2_folder_image = $folder;
-                    $phpbb2_folder_alt = ($topic_rowset[$i]['topic_status'] == TOPIC_LOCKED ) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+                    $phpbb2_folder_alt = ($topic_rowset[$i]['topic_status'] == TOPIC_LOCKED ) ? $lang['Topic_locked'] : $lang['No_new_posts'];
                     $newest_post_img = '';
                   endif;
             else:
             
                $phpbb2_folder_image = $folder_new;
-               $phpbb2_folder_alt = ($topic_rowset[$i]['topic_status'] == TOPIC_LOCKED ) ? $titanium_lang['Topic_locked'] : $titanium_lang['New_posts'];
+               $phpbb2_folder_alt = ($topic_rowset[$i]['topic_status'] == TOPIC_LOCKED ) ? $lang['Topic_locked'] : $lang['New_posts'];
                $newest_post_img = '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;view=newest").'"><img 
-			   src="'.$images['icon_newest_reply'].'" alt="'.$titanium_lang['View_newest_post'].'" title="'.$titanium_lang['View_newest_post'].'" border="0" /></a> ';
+			   src="'.$images['icon_newest_reply'].'" alt="'.$lang['View_newest_post'].'" title="'.$lang['View_newest_post'].'" border="0" /></a> ';
             endif;
         else:
           $phpbb2_folder_image = $folder;
-          $phpbb2_folder_alt = ($topic_rowset[$i]['topic_status'] == TOPIC_LOCKED) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+          $phpbb2_folder_alt = ($topic_rowset[$i]['topic_status'] == TOPIC_LOCKED) ? $lang['Topic_locked'] : $lang['No_new_posts'];
           $newest_post_img = '';
         endif;
       else:
         $phpbb2_folder_image = $folder;
-        $phpbb2_folder_alt = ($topic_rowset[$i]['topic_status'] == TOPIC_LOCKED) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+        $phpbb2_folder_alt = ($topic_rowset[$i]['topic_status'] == TOPIC_LOCKED) ? $lang['Topic_locked'] : $lang['No_new_posts'];
         $newest_post_img = '';
       endif;
     endif;
@@ -734,7 +734,7 @@ if($total_phpbb2_topics):
     if(($replies + 1) > $phpbb2_board_config['posts_per_page']):
     
        $total_phpbb2_pages = ceil(($replies + 1) / $phpbb2_board_config['posts_per_page']);
-       $goto_page = ' [ <img src="'.$images['icon_gotopost'].'" alt="'.$titanium_lang['Goto_page'].'" title="'.$titanium_lang['Goto_page'].'" />'.$titanium_lang['Goto_page'].': ';
+       $goto_page = ' [ <img src="'.$images['icon_gotopost'].'" alt="'.$lang['Goto_page'].'" title="'.$lang['Goto_page'].'" />'.$lang['Goto_page'].': ';
        $times = 1;
 
        for($j = 0; $j < $replies + 1; $j += $phpbb2_board_config['posts_per_page']):
@@ -765,18 +765,18 @@ if($total_phpbb2_topics):
     $topic_author = ($topic_rowset[$i]['user_id'] != ANONYMOUS) ? '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL.'='.$topic_rowset[$i]['user_id']).'">' : '';
     
 	$topic_author .= ($topic_rowset[$i]['user_id'] != ANONYMOUS) ? $topic_rowset[$i]['username'] : (($topic_rowset[$i]['post_username'] != '') 
-	? $topic_rowset[$i]['post_username'] : $titanium_lang['Guest']);
+	? $topic_rowset[$i]['post_username'] : $lang['Guest']);
     
 	$topic_author .= ($topic_rowset[$i]['user_id'] != ANONYMOUS) ? '</a>' : '';
     $first_post_time = create_date($phpbb2_board_config['default_dateformat'], $topic_rowset[$i]['topic_time'], $phpbb2_board_config['board_timezone']);
     $phpbb2_last_post_time = create_date($phpbb2_board_config['default_dateformat'], $topic_rowset[$i]['post_time'], $phpbb2_board_config['board_timezone']);
     
 	$phpbb2_last_post_author = ($topic_rowset[$i]['id2'] == ANONYMOUS) ? (($topic_rowset[$i]['post_username2'] != '') 
-	? $topic_rowset[$i]['post_username2'].' ' : $titanium_lang['Guest'].' ' ) : '<a 
+	? $topic_rowset[$i]['post_username2'].' ' : $lang['Guest'].' ' ) : '<a 
 	href="'. append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL.'='.$topic_rowset[$i]['id2']).'">'.$topic_rowset[$i]['user2'].'</a>';
     
 	$phpbb2_last_post_url = '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_POST_URL.'='.$topic_rowset[$i]['topic_last_post_id']).'#'.$topic_rowset[$i]['topic_last_post_id'].'"><i 
-	class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$titanium_lang['View_latest_post'].'"></i></a>';
+	class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$lang['View_latest_post'].'"></i></a>';
     
 	$views = $topic_rowset[$i]['topic_views'];
     $row_color = (!($i % 2)) ? $theme['td_color1'] : $theme['td_color2'];
@@ -808,7 +808,7 @@ if($total_phpbb2_topics):
        'FIRST_POST_TIME' => $first_post_time,
        'LAST_POST_TIME' => $phpbb2_last_post_time,
        // 'LAST_POST_AUTHOR' => $phpbb2_last_post_author,
-       'LAST_POST_AUTHOR' => sprintf(trim($titanium_lang['Recent_first_poster']),$phpbb2_last_post_author),
+       'LAST_POST_AUTHOR' => sprintf(trim($lang['Recent_first_poster']),$phpbb2_last_post_author),
        'LAST_POST_IMG' => $phpbb2_last_post_url,
        'L_TOPIC_FOLDER_ALT' => $phpbb2_folder_alt,
        'U_VIEW_TOPIC' => $view_topic_url)
@@ -831,13 +831,13 @@ if($total_phpbb2_topics):
           'PAGINATION' => generate_pagination("viewforum.$phpEx?".POST_FORUM_URL."=$phpbb2_forum_id&amp;
 		  topicdays=$topic_days&amp;sort=$sort_value&amp;order=$order_value", $phpbb2_topics_count, $phpbb2_board_config['topics_per_page'], $phpbb2_start),
        # Mod: Topic display order v1.0.2 START
-          'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], (floor($phpbb2_start / $phpbb2_board_config['topics_per_page']) + 1), ceil($phpbb2_topics_count / $phpbb2_board_config['topics_per_page'] )),
-          'L_GOTO_PAGE' => $titanium_lang['Goto_page'])
+          'PAGE_NUMBER' => sprintf($lang['Page_of'], (floor($phpbb2_start / $phpbb2_board_config['topics_per_page']) + 1), ceil($phpbb2_topics_count / $phpbb2_board_config['topics_per_page'] )),
+          'L_GOTO_PAGE' => $lang['Goto_page'])
         );
 
 else:
     # No topics
-    $no_topics_msg = ($forum_row['forum_status'] == FORUM_LOCKED) ? $titanium_lang['Forum_locked'] : $titanium_lang['No_topics_post_one'];
+    $no_topics_msg = ($forum_row['forum_status'] == FORUM_LOCKED) ? $lang['Forum_locked'] : $lang['No_topics_post_one'];
     $phpbb2_template->assign_vars(array(
         'L_NO_TOPICS' => $no_topics_msg)
     );
@@ -982,7 +982,7 @@ if($total_phpbb2_forums)
 
 			if($subforum_data[$j]['forum_status'] == FORUM_LOCKED):
 				$phpbb2_folder_image = $images['forum_locked']; 
-				$phpbb2_folder_alt = $titanium_lang['Forum_locked'];
+				$phpbb2_folder_alt = $lang['Forum_locked'];
 			else:
 				if($userdata['session_logged_in']):
 					if(!empty($new_phpbb2_topic_data[$subforum_id])):
@@ -1012,7 +1012,7 @@ if($total_phpbb2_forums)
 					endif;
 				endif;
 				$phpbb2_folder_image = ( $phpbb2_unread_topics ) ? $images['forum_new'] : $images['forum']; 
-				$phpbb2_folder_alt = ( $phpbb2_unread_topics ) ? $titanium_lang['New_posts'] : $titanium_lang['No_new_posts']; 
+				$phpbb2_folder_alt = ( $phpbb2_unread_topics ) ? $lang['New_posts'] : $lang['No_new_posts']; 
 			endif;
 
 			$phpbb2_posts = $subforum_data[$j]['forum_posts'];
@@ -1023,19 +1023,19 @@ if($total_phpbb2_forums)
 				$phpbb2_last_post = $phpbb2_last_post_time . '<br />';
 				
 				$phpbb2_last_post .= ($subforum_data[$j]['user_id'] == ANONYMOUS) ? (($subforum_data[$j]['post_username'] != '') 
-				? $subforum_data[$j]['post_username'].' ' : $titanium_lang['Guest'].' ' ) : '<a 
+				? $subforum_data[$j]['post_username'].' ' : $lang['Guest'].' ' ) : '<a 
 				href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL.'='.$subforum_data[$j]['user_id']).'">'.UsernameColor($subforum_data[$j]['username']).'</a> ';
 				
 				$phpbb2_last_post .= '<a href="'.append_titanium_sid("viewtopic.$phpEx?".POST_POST_URL.'='.$subforum_data[$j]['forum_last_post_id']).'#'.$subforum_data[$j]['forum_last_post_id'].'"><img 
-				src="'.$images['icon_latest_reply'].'" border="0" alt="'.$titanium_lang['View_latest_post'].'" title="'.$titanium_lang['View_latest_post'].'" /></a>';
+				src="'.$images['icon_latest_reply'].'" border="0" alt="'.$lang['View_latest_post'].'" title="'.$lang['View_latest_post'].'" /></a>';
 			
 			else:
-				$phpbb2_last_post = $titanium_lang['No_Posts'];
+				$phpbb2_last_post = $lang['No_Posts'];
 			endif;
 
 			// if(count($subforum_moderators[$subforum_id]) > 0)                                                               whO? WHY?
 			// {                                                                                                               whO? WHY?
-			// 	$l_phpbb2_moderators = (count($subforum_moderators[$subforum_id]) == 1 ) ? $titanium_lang['Moderator'] : $titanium_lang['Moderators'];  whO? WHY?
+			// 	$l_phpbb2_moderators = (count($subforum_moderators[$subforum_id]) == 1 ) ? $lang['Moderator'] : $lang['Moderators'];  whO? WHY?
 			// 	$phpbb2_moderator_list = implode(', ', $subforum_moderators[$subforum_id]);                                           whO? WHY?
 			// }                                                                                                               whO? WHY?
 			// else                                                                                                            whO? WHY?

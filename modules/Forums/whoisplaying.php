@@ -25,7 +25,7 @@ $phpbb2_template->set_filenames(array(
 );
 
 $phpbb2_template->assign_vars(array(
-        "L_WHOISPLAYING" => $titanium_lang['whoisplaying'])
+        "L_WHOISPLAYING" => $lang['whoisplaying'])
 );
 
 if(!isset($liste_cat_auth)):

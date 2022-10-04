@@ -14,7 +14,7 @@ if (!defined('MODULE_FILE')) {
 
 
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
 if ( isset($HTTP_GET_VARS['name']) || isset($HTTP_POST_VARS['name']) )
 {
@@ -36,17 +36,17 @@ else
 //
 // Generate page
 //
-global $titanium_module_name;
+global $pnt_module;
 
 $titanium_title = 'Live Change Log v11.1';
 $pagetitle = 'PHP-Nuke Titanium &raquo; '.$titanium_title;
 
-if(!isset($titanium_module_name) || empty($titanium_module_name)){
-    $titanium_module_name = basename(dirname(__FILE__));
+if(!isset($pnt_module) || empty($pnt_module)){
+    $pnt_module = basename(dirname(__FILE__));
 }
-get_lang($titanium_module_name);
+get_lang($pnt_module);
  
-include_once(NUKE_MODULES_DIR.$titanium_module_name.'/includes/functions.php');
+include_once(NUKE_MODULES_DIR.$pnt_module.'/includes/functions.php');
 include_once(NUKE_INCLUDE_DIR.'titanium_base_dir.php');
 
 define(CUR_TITANIUM, strtolower(TITANIUM_EDITION));
@@ -75,7 +75,7 @@ echo "<br />";
 global $myappid, $secret;
     
 		
-$style = "<link rel=\"stylesheet\" href=\"modules/$titanium_module_name/style/style.css\" type=\"text/css\">\n";
+$style = "<link rel=\"stylesheet\" href=\"modules/$pnt_module/style/style.css\" type=\"text/css\">\n";
 echo $style;
 
 $favicon = img('chrome_logo.png', 'CHANGELOG'); 

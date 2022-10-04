@@ -78,10 +78,10 @@ switch ( $mode )
     case 'confirm_all':?>
         <table class="forumline" width="100%" cellspacing="1" cellpadding="3" border="0">
             <tr>
-                <th class="thHead" height="25" valign="middle"><span class="tableTitle"><?php echo $titanium_lang['sig_reset'];?></span></th>
+                <th class="thHead" height="25" valign="middle"><span class="tableTitle"><?php echo $lang['sig_reset'];?></span></th>
             </tr>
             <tr>
-                <td class="row1" align="center"><form action="<?php echo "sig_reset.$phpEx?mode=all"?>" method="post"><span class="gen"><br /><?php echo $titanium_lang['sig_reset_confirm'];?><br /><br /><input type="submit" name="confirm" value="<?php echo $titanium_lang['Yes'];?>" class="titaniumbutton" />&nbsp;&nbsp;<input type="submit" name="cancel" value="<?php echo $titanium_lang['No'];?>" class="mainoption" onclick="javascript:window.close();" /></span></form></td>
+                <td class="row1" align="center"><form action="<?php echo "sig_reset.$phpEx?mode=all"?>" method="post"><span class="gen"><br /><?php echo $lang['sig_reset_confirm'];?><br /><br /><input type="submit" name="confirm" value="<?php echo $lang['Yes'];?>" class="titaniumbutton" />&nbsp;&nbsp;<input type="submit" name="cancel" value="<?php echo $lang['No'];?>" class="mainoption" onclick="javascript:window.close();" /></span></form></td>
             </tr>
         </table><?php
         break; 
@@ -91,18 +91,18 @@ switch ( $mode )
 
         if ( $result = $titanium_db->sql_query($sql) )
         {
-            $result_msg = $titanium_lang['sig_reset_successful'];
+            $result_msg = $lang['sig_reset_successful'];
         } else
         {
-            $result_msg = $titanium_lang['sig_reset_failed'];
+            $result_msg = $lang['sig_reset_failed'];
         }?>
 
         <table class="forumline" width="100%" cellspacing="1" cellpadding="3" border="0">
             <tr>
-                <th class="thHead" height="25" valign="middle"><span class="tableTitle"><?php echo $titanium_lang['sig_reset'];?></span></th>
+                <th class="thHead" height="25" valign="middle"><span class="tableTitle"><?php echo $lang['sig_reset'];?></span></th>
             </tr>
             <tr>
-                <td class="row1" align="center"><br /><span class="gen"><br /><?php echo $result_msg;?></span><br /><br /><br /><span class="gensmall"><a href="javascript:window.close();" class="gensmall"><?php echo $titanium_lang['Close_window'];?></a></span></td>
+                <td class="row1" align="center"><br /><span class="gen"><br /><?php echo $result_msg;?></span><br /><br /><br /><span class="gensmall"><a href="javascript:window.close();" class="gensmall"><?php echo $lang['Close_window'];?></a></span></td>
             </tr>
         </table><?php
         break; 

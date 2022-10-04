@@ -99,16 +99,16 @@ if ( !$result ) { //Bad SQL call
 
 function msnl_fFormatDate( $format, $gmepoch, $tz ) {
 
-	global $msnl_asPHPBBCfg, $titanium_lang;
+	global $msnl_asPHPBBCfg, $lang;
 
 	static $translate;
 
 /* MSNL_010301_06
 	if ( empty( $translate ) && $msnl_asPHPBBCfg['default_lang'] != 'english' ) {
 
-		@reset( $titanium_lang['datetime'] );
+		@reset( $lang['datetime'] );
 
-		while ( list( $match, $replace ) = @each( $titanium_lang['datetime'] ) ) {
+		while ( list( $match, $replace ) = @each( $lang['datetime'] ) ) {
 
 			$translate[$match] = $replace;
 

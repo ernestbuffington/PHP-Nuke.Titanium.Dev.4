@@ -38,21 +38,21 @@ foreach($_GET as $var => $value) {
 }
 $qs .= 'newlang=';
 
-$titanium_langlist = lang_list();
+$langlist = lang_list();
 
 $menulist = '';
 $content = '<div align="center">'._SELECTGUILANG.'<br /><br />';
 if ($useflags) {
-    for ($i = 0, $maxi = count($titanium_langlist); $i < $maxi; $i++) {
-        if ($titanium_langlist[$i]!='') {
-            $imge = 'images/language/flag-'.$titanium_langlist[$i].'.png';
-            $altlang = ucwords($titanium_langlist[$i]);
+    for ($i = 0, $maxi = count($langlist); $i < $maxi; $i++) {
+        if ($langlist[$i]!='') {
+            $imge = 'images/language/flag-'.$langlist[$i].'.png';
+            $altlang = ucwords($langlist[$i]);
             if (defined('ADMIN_FILE')) {
-                $content .= '<a href="'.$qs.$titanium_langlist[$i].'">';
+                $content .= '<a href="'.$qs.$langlist[$i].'">';
             } elseif (!$name) {
-                $content .= '<a href="index.php?newlang='.$titanium_langlist[$i]."\">";
+                $content .= '<a href="index.php?newlang='.$langlist[$i]."\">";
             } else {
-                $content .= '<a href="modules.php?name='.$qs.$titanium_langlist[$i].'">';
+                $content .= '<a href="modules.php?name='.$qs.$langlist[$i].'">';
             }
             $content .= (file_exists($imge)) ? "<img src=\"$imge\" align=\"middle\" border=\"0\" alt=\"$altlang\" title=\"$altlang\" hspace=\"3\" vspace=\"3\" />" : $altlang;
             $content .= '</a> ';
@@ -61,17 +61,17 @@ if ($useflags) {
 } else {
     $content .= '<form action="" method="get">
     <select name="newlanguage" onchange="top.location.href=this.options[this.selectedIndex].value">';
-    for ($i=0, $maxi=count($titanium_langlist); $i < $maxi; $i++) {
-        if ($titanium_langlist[$i]!='') {
+    for ($i=0, $maxi=count($langlist); $i < $maxi; $i++) {
+        if ($langlist[$i]!='') {
             if (defined('ADMIN_FILE')) {
-                $content .= '<option value="'.$qs.$titanium_langlist[$i].'"';
+                $content .= '<option value="'.$qs.$langlist[$i].'"';
             } elseif (!$name) {
-                $content .= '<option value="index.php?newlang='.$titanium_langlist[$i]."\"";
+                $content .= '<option value="index.php?newlang='.$langlist[$i]."\"";
             } else {
-                $content .= '<option value="modules.php?name='.$qs.$titanium_langlist[$i].'"';
+                $content .= '<option value="modules.php?name='.$qs.$langlist[$i].'"';
             }
-            if ($titanium_langlist[$i]==$currentlang) $content .= ' selected="selected"';
-            $content .= '>'.ucwords($titanium_langlist[$i])."</option>\n";
+            if ($langlist[$i]==$currentlang) $content .= ' selected="selected"';
+            $content .= '>'.ucwords($langlist[$i])."</option>\n";
         }
     }
     $content .= '</select></form>';

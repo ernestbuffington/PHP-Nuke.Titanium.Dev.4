@@ -30,10 +30,10 @@ if(!defined('NUKE_EVO')) {
 define("NSNCBLOCKS_IS_LOADED", TRUE);
 
 // Load required lang file
-global $titanium_language;
-if(!isset($titanium_lang)) { $titanium_lang = $titanium_language; }
-if(!preg_match("/\./","$titanium_lang") AND file_exists(NUKE_LANGUAGE_DIR.'cblocks/lang-'.$titanium_lang.'.php')) {
-  require_once(NUKE_LANGUAGE_DIR.'cblocks/lang-'.$titanium_lang.'.php');
+global $language;
+if(!isset($lang)) { $lang = $language; }
+if(!preg_match("/\./","$lang") AND file_exists(NUKE_LANGUAGE_DIR.'cblocks/lang-'.$lang.'.php')) {
+  require_once(NUKE_LANGUAGE_DIR.'cblocks/lang-'.$lang.'.php');
 } else {
   require_once(NUKE_LANGUAGE_DIR.'cblocks/lang-english.php');
 }

@@ -20,12 +20,12 @@ if(!defined('NUKE_EVO')) {
    die ("Illegal File Access");
 }
 
-global $evouserinfo_addons, $evouserinfo_good_afternoon, $titanium_lang_evo_userblock;
+global $evouserinfo_addons, $evouserinfo_good_afternoon, $lang_evo_userblock;
 
 
 function evouserinfo_create_date($format, $gmepoch, $tz)
 {
-    global $phpbb2_board_config, $titanium_lang, $userdata, $titanium_pc_dateTime;
+    global $phpbb2_board_config, $lang, $userdata, $titanium_pc_dateTime;
     
 	static $translate;
     
@@ -39,11 +39,11 @@ function evouserinfo_create_date($format, $gmepoch, $tz)
         define('FULL_PC', 6);
     }
 
-    if ( empty($translate) && $phpbb2_board_config['default_lang'] != 'english' && is_array($titanium_lang['datetime']))
+    if ( empty($translate) && $phpbb2_board_config['default_lang'] != 'english' && is_array($lang['datetime']))
     {
-        @reset($titanium_lang['datetime']);
+        @reset($lang['datetime']);
     
-	    while ( list($match, $replace) = @each($titanium_lang['datetime']) )
+	    while ( list($match, $replace) = @each($lang['datetime']) )
         {
             $translate[$match] = $replace;
         }
@@ -141,7 +141,7 @@ if(is_user())
 } 
 else 
 {
-    $uname = $titanium_lang_evo_userblock['BLOCK']['ANON'];
+    $uname = $lang_evo_userblock['BLOCK']['ANON'];
 }
 
 global $userinfo;
@@ -161,17 +161,17 @@ $evouserinfo_good_afternoon = "<div align=\"center\">";
 //Morning
 if ($evouserinfo_time >= 0 && $evouserinfo_time <= 11) 
 {
-    $evouserinfo_good_afternoon .= $titanium_lang_evo_userblock['BLOCK']['AFTERNOON']['MORNING']."&nbsp;";
+    $evouserinfo_good_afternoon .= $lang_evo_userblock['BLOCK']['AFTERNOON']['MORNING']."&nbsp;";
 //Afternoon
 } 
 else 
 if ($evouserinfo_time >= 12 && $evouserinfo_time <= 17) {
-    $evouserinfo_good_afternoon .= $titanium_lang_evo_userblock['BLOCK']['AFTERNOON']['AFTERNOON']."&nbsp;";
+    $evouserinfo_good_afternoon .= $lang_evo_userblock['BLOCK']['AFTERNOON']['AFTERNOON']."&nbsp;";
 //Evening
 } 
 else 
 if ($evouserinfo_time >= 18 && $evouserinfo_time <= 23) {
-    $evouserinfo_good_afternoon .= $titanium_lang_evo_userblock['BLOCK']['AFTERNOON']['EVENING']."&nbsp;";
+    $evouserinfo_good_afternoon .= $lang_evo_userblock['BLOCK']['AFTERNOON']['EVENING']."&nbsp;";
 }
 //Username
 $evouserinfo_good_afternoon .= "<br /><strong>".$uname."</strong></div>";

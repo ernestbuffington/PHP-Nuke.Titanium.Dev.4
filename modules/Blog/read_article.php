@@ -34,14 +34,14 @@ global $cookie, $userinfo;
 
 @include_once(NUKE_INCLUDE_DIR.'counter.php');
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 $sid = (int) $sid;
 
 if (stristr($REQUEST_URI,"mainfile")) 
-redirect_titanium("modules.php?name=$titanium_module_name&file=read_article&sid=$sid");
+redirect_titanium("modules.php?name=$pnt_module&file=read_article&sid=$sid");
 else
 if (!isset($sid) && !isset($tid)) 
 redirect_titanium("index.php");
@@ -54,7 +54,7 @@ if ($save AND is_user())
 }
 
 if ($op == "Reply") 
-redirect_titanium("modules.php?name=$titanium_module_name&file=comments&op=Reply&pid=0&sid=$sid&mode=$mode&order=$order&thold=$thold");
+redirect_titanium("modules.php?name=$pnt_module&file=comments&op=Reply&pid=0&sid=$sid&mode=$mode&order=$order&thold=$thold");
 
 $sql = "select catid, aid, datePublished, dateModified, title, counter, hometext, bodytext, topic, informant, notes, acomm, haspoll, pollID, score, ratings FROM ".$titanium_prefix."_stories where sid='$sid'";
 $result = $titanium_db->sql_query($sql);
@@ -104,7 +104,7 @@ $score = $row["score"];
 $ratings = $row["ratings"];
 
 if (empty($aid['name'])) 
-redirect_titanium("modules.php?name=$titanium_module_name"); 
+redirect_titanium("modules.php?name=$pnt_module"); 
 
 $titanium_db->sql_query("UPDATE ".$titanium_prefix."_stories SET counter=counter+1 where sid=$sid");
 
@@ -157,7 +157,7 @@ if($catid != 0)
     $result = $titanium_db->sql_query($sql);
     $row = $titanium_db->sql_fetchrow($result);
     $title1 = $row["title"];
-    $title = "<a href=\"modules.php?name=$titanium_module_name&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><font class=\"storycat\">$title1</font></a>: $title";
+    $title = "<a href=\"modules.php?name=$pnt_module&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><font class=\"storycat\">$title1</font></a>: $title";
 }
 
 echo "<table width=\"100%\" border=\"0\"><tr><td valign=\"top\" width=\"100%\">\n";

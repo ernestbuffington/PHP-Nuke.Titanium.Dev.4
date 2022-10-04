@@ -104,21 +104,21 @@ $auth_field_match = array(
  ******************************************************/
 
 $field_names = array(
-        'auth_view' => $titanium_lang['View'],
-        'auth_read' => $titanium_lang['Read'],
-        'auth_post' => $titanium_lang['Post'],
+        'auth_view' => $lang['View'],
+        'auth_read' => $lang['Read'],
+        'auth_post' => $lang['Post'],
         /*--FNA--*/
-        'auth_reply' => $titanium_lang['Reply'],
-        'auth_edit' => $titanium_lang['Edit'],
-        'auth_delete' => $titanium_lang['Delete'],
-        'auth_sticky' => $titanium_lang['Sticky'],
-        'auth_announce' => $titanium_lang['Announce'],
-        'auth_vote' => $titanium_lang['Vote'],
-        'auth_pollcreate' => $titanium_lang['Pollcreate'],
+        'auth_reply' => $lang['Reply'],
+        'auth_edit' => $lang['Edit'],
+        'auth_delete' => $lang['Delete'],
+        'auth_sticky' => $lang['Sticky'],
+        'auth_announce' => $lang['Announce'],
+        'auth_vote' => $lang['Vote'],
+        'auth_pollcreate' => $lang['Pollcreate'],
 /*****[BEGIN]******************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
-        'auth_globalannounce' => $titanium_lang['Globalannounce']);
+        'auth_globalannounce' => $lang['Globalannounce']);
 /*****[END]********************************************
  [ Mod:     Global Announcements               v1.2.8 ]
  ******************************************************/
@@ -243,7 +243,7 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                         }
                 }
 
-                $message = $titanium_lang['Auth_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_userauth'], '<a href="' . append_titanium_sid("admin_ug_auth.$phpEx?mode=$mode") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+                $message = $lang['Auth_updated'] . '<br /><br />' . sprintf($lang['Click_return_userauth'], '<a href="' . append_titanium_sid("admin_ug_auth.$phpEx?mode=$mode") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
                 message_die(GENERAL_MESSAGE, $message);
         }
         else
@@ -282,7 +282,7 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                                 }
                         }
 
-                        $message = $titanium_lang['Auth_updated'] . '<br /><br />' . sprintf($titanium_lang['Click_return_userauth'], '<a href="' . append_titanium_sid("admin_ug_auth.$phpEx?mode=$mode") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+                        $message = $lang['Auth_updated'] . '<br /><br />' . sprintf($lang['Click_return_userauth'], '<a href="' . append_titanium_sid("admin_ug_auth.$phpEx?mode=$mode") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
                 }
                 else
                 {
@@ -496,8 +496,8 @@ if ( isset($_POST['submit']) && ( ( $mode == 'user' && $titanium_user_id ) || ( 
                                 }
                         }
 
-                        $l_auth_return = ( $mode == 'user' ) ? $titanium_lang['Click_return_userauth'] : $titanium_lang['Click_return_groupauth'];
-                        $message = $titanium_lang['Auth_updated'] . '<br /><br />' . sprintf($l_auth_return, '<a href="' . append_titanium_sid("admin_ug_auth.$phpEx?mode=$mode") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+                        $l_auth_return = ( $mode == 'user' ) ? $lang['Click_return_userauth'] : $lang['Click_return_groupauth'];
+                        $message = $lang['Auth_updated'] . '<br /><br />' . sprintf($l_auth_return, '<a href="' . append_titanium_sid("admin_ug_auth.$phpEx?mode=$mode") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
                 }
 
                 //
@@ -661,7 +661,7 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
                 $this_userdata = get_userdata($_POST['username'], true);
                 if ( !is_array($this_userdata) )
                 {
-                        message_die(GENERAL_MESSAGE, $titanium_lang['No_such_user']);
+                        message_die(GENERAL_MESSAGE, $lang['No_such_user']);
                 }
                 $titanium_user_id = $this_userdata['user_id'];
         }
@@ -846,15 +846,15 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
 
                                 if ( $is_admin || $titanium_user_ary['auth_mod'] )
                                 {
-                                        $optionlist_acl .= '<option value="1">' . $titanium_lang['Allowed_Access'] . '</option>';
+                                        $optionlist_acl .= '<option value="1">' . $lang['Allowed_Access'] . '</option>';
                                 }
                                 else if ( $allowed )
                                 {
-                                        $optionlist_acl .= '<option value="1" selected="selected">' . $titanium_lang['Allowed_Access'] . '</option><option value="0">'. $titanium_lang['Disallowed_Access'] . '</option>';
+                                        $optionlist_acl .= '<option value="1" selected="selected">' . $lang['Allowed_Access'] . '</option><option value="0">'. $lang['Disallowed_Access'] . '</option>';
                                 }
                                 else
                                 {
-                                        $optionlist_acl .= '<option value="1">' . $titanium_lang['Allowed_Access'] . '</option><option value="0" selected="selected">' . $titanium_lang['Disallowed_Access'] . '</option>';
+                                        $optionlist_acl .= '<option value="1">' . $lang['Allowed_Access'] . '</option><option value="0" selected="selected">' . $lang['Disallowed_Access'] . '</option>';
                                 }
 
                                 $optionlist_acl .= '</select>';
@@ -882,22 +882,22 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
                                                         {
                                                                 if( !$auth_field_acl[$phpbb2_forum_id][$field_name] )
                                                                 {
-                                                                        $optionlist_acl_adv[$phpbb2_forum_id][$k] .= '<option value="1">' . $titanium_lang['ON'] . '</option><option value="0" selected="selected">' . $titanium_lang['OFF'] . '</option>';
+                                                                        $optionlist_acl_adv[$phpbb2_forum_id][$k] .= '<option value="1">' . $lang['ON'] . '</option><option value="0" selected="selected">' . $lang['OFF'] . '</option>';
                                                                 }
                                                                 else
                                                                 {
-                                                                        $optionlist_acl_adv[$phpbb2_forum_id][$k] .= '<option value="1" selected="selected">' . $titanium_lang['ON'] . '</option><option value="0">' . $titanium_lang['OFF'] . '</option>';
+                                                                        $optionlist_acl_adv[$phpbb2_forum_id][$k] .= '<option value="1" selected="selected">' . $lang['ON'] . '</option><option value="0">' . $lang['OFF'] . '</option>';
                                                                 }
                                                         }
                                                         else
                                                         {
                                                                 if( $is_admin || $titanium_user_ary['auth_mod'] )
                                                                 {
-                                                                        $optionlist_acl_adv[$phpbb2_forum_id][$k] .= '<option value="1">' . $titanium_lang['ON'] . '</option>';
+                                                                        $optionlist_acl_adv[$phpbb2_forum_id][$k] .= '<option value="1">' . $lang['ON'] . '</option>';
                                                                 }
                                                                 else
                                                                 {
-                                                                        $optionlist_acl_adv[$phpbb2_forum_id][$k] .= '<option value="1">' . $titanium_lang['ON'] . '</option><option value="0" selected="selected">' . $titanium_lang['OFF'] . '</option>';
+                                                                        $optionlist_acl_adv[$phpbb2_forum_id][$k] .= '<option value="1">' . $lang['ON'] . '</option><option value="0" selected="selected">' . $lang['OFF'] . '</option>';
                                                                 }
                                                         }
 
@@ -910,7 +910,7 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
                 }
 
                 $optionlist_mod = '<select name="moderator[' . $phpbb2_forum_id . ']">';
-                $optionlist_mod .= ( $titanium_user_ary['auth_mod'] ) ? '<option value="1" selected="selected">' . $titanium_lang['Is_Moderator'] . '</option><option value="0">' . $titanium_lang['Not_Moderator'] . '</option>' : '<option value="1">' . $titanium_lang['Is_Moderator'] . '</option><option value="0" selected="selected">' . $titanium_lang['Not_Moderator'] . '</option>';
+                $optionlist_mod .= ( $titanium_user_ary['auth_mod'] ) ? '<option value="1" selected="selected">' . $lang['Is_Moderator'] . '</option><option value="0">' . $lang['Not_Moderator'] . '</option>' : '<option value="1">' . $lang['Is_Moderator'] . '</option><option value="0" selected="selected">' . $lang['Not_Moderator'] . '</option>';
                 $optionlist_mod .= '</select>';
 
                 $row_class = ( !( $i % 2 ) ) ? 'row2' : 'row1';
@@ -949,7 +949,7 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
         if ( $mode == 'user' )
         {
                 $t_username = $ug_info[0]['username'];
-                $s_user_type = ( $is_admin ) ? '<select name="userlevel"><option value="admin" selected="selected">' . $titanium_lang['Auth_Admin'] . '</option><option value="user">' . $titanium_lang['Auth_User'] . '</option></select>' : '<select name="userlevel"><option value="admin">' . $titanium_lang['Auth_Admin'] . '</option><option value="user" selected="selected">' . $titanium_lang['Auth_User'] . '</option></select>';
+                $s_user_type = ( $is_admin ) ? '<select name="userlevel"><option value="admin" selected="selected">' . $lang['Auth_Admin'] . '</option><option value="user">' . $lang['Auth_User'] . '</option></select>' : '<select name="userlevel"><option value="admin">' . $lang['Auth_Admin'] . '</option><option value="user" selected="selected">' . $lang['Auth_User'] . '</option></select>';
         }
         else
         {
@@ -990,13 +990,13 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
                }
         }
         }
-    $t_usergroup_list = ($t_usergroup_list == '') ? $titanium_lang['None'] : $t_usergroup_list;
-    $t_pending_list = ($t_pending_list == '') ? $titanium_lang['None'] : $t_pending_list;
+    $t_usergroup_list = ($t_usergroup_list == '') ? $lang['None'] : $t_usergroup_list;
+    $t_pending_list = ($t_pending_list == '') ? $lang['None'] : $t_pending_list;
         $s_column_span = 2; // Two columns always present
         if( !$adv )
         {
                 $phpbb2_template->assign_block_vars('acltype', array(
-                        'L_UG_ACL_TYPE' => $titanium_lang['Simple_Permission'])
+                        'L_UG_ACL_TYPE' => $lang['Simple_Permission'])
                 );
                 $s_column_span++;
         }
@@ -1025,7 +1025,7 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
         $adv_switch = ( empty($adv) ) ? 1 : 0;
         $u_ug_switch = ( $mode == 'user' ) ? POST_USERS_URL . "=" . $titanium_user_id : POST_GROUPS_URL . "=" . $group_id;
         $switch_mode = append_titanium_sid("admin_ug_auth.$phpEx?mode=$mode&amp;" . $u_ug_switch . "&amp;adv=$adv_switch");
-        $switch_mode_text = ( empty($adv) ) ? $titanium_lang['Advanced_mode'] : $titanium_lang['Simple_mode'];
+        $switch_mode_text = ( empty($adv) ) ? $lang['Advanced_mode'] : $lang['Simple_mode'];
         $u_switch_mode = '<a href="' . $switch_mode . '">' . $switch_mode_text . '</a>';
 
         $s_hidden_fields = '<input type="hidden" name="mode" value="' . $mode . '" /><input type="hidden" name="adv" value="' . $adv . '" />';
@@ -1037,8 +1037,8 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
 
                 $phpbb2_template->assign_vars(array(
                         'USERNAME' => $t_username,
-                        'USER_LEVEL' => $titanium_lang['User_Level'] . " : " . $s_user_type,
-                        'USER_GROUP_MEMBERSHIPS' => $titanium_lang['Group_memberships'] . ' : ' . $t_usergroup_list)
+                        'USER_LEVEL' => $lang['User_Level'] . " : " . $s_user_type,
+                        'USER_GROUP_MEMBERSHIPS' => $lang['Group_memberships'] . ' : ' . $t_usergroup_list)
                 );
         }
         else
@@ -1053,20 +1053,20 @@ else if ( ( $mode == 'user' && ( isset($_POST['username']) || $titanium_user_id 
 /*****[END]********************************************
  [ Mod:    Group Colors                        v1.0.0 ]
  ******************************************************/
-                        'GROUP_MEMBERSHIP' => $titanium_lang['Usergroup_members'] . ' : ' . $t_usergroup_list . '<br />' . $titanium_lang['Pending_members'] . ' : ' . $t_pending_list)
+                        'GROUP_MEMBERSHIP' => $lang['Usergroup_members'] . ' : ' . $t_usergroup_list . '<br />' . $lang['Pending_members'] . ' : ' . $t_pending_list)
                 );
         }
 
         $phpbb2_template->assign_vars(array(
-                'L_USER_OR_GROUPNAME' => ( $mode == 'user' ) ? $titanium_lang['Username'] : $titanium_lang['Group_name'],
+                'L_USER_OR_GROUPNAME' => ( $mode == 'user' ) ? $lang['Username'] : $lang['Group_name'],
 
-                'L_AUTH_TITLE' => ( $mode == 'user' ) ? $titanium_lang['Auth_Control_User'] : $titanium_lang['Auth_Control_Group'],
-                'L_AUTH_EXPLAIN' => ( $mode == 'user' ) ? $titanium_lang['User_auth_explain'] : $titanium_lang['Group_auth_explain'],
-                'L_MODERATOR_STATUS' => $titanium_lang['Moderator_status'],
-                'L_PERMISSIONS' => $titanium_lang['Permissions'],
-                'L_SUBMIT' => $titanium_lang['Submit'],
-                'L_RESET' => $titanium_lang['Reset'],
-                'L_FORUM' => $titanium_lang['Forum'],
+                'L_AUTH_TITLE' => ( $mode == 'user' ) ? $lang['Auth_Control_User'] : $lang['Auth_Control_Group'],
+                'L_AUTH_EXPLAIN' => ( $mode == 'user' ) ? $lang['User_auth_explain'] : $lang['Group_auth_explain'],
+                'L_MODERATOR_STATUS' => $lang['Moderator_status'],
+                'L_PERMISSIONS' => $lang['Permissions'],
+                'L_SUBMIT' => $lang['Submit'],
+                'L_RESET' => $lang['Reset'],
+                'L_FORUM' => $lang['Forum'],
 
                 'U_USER_OR_GROUP' => append_titanium_sid("admin_ug_auth.$phpEx"),
                 'U_SWITCH_MODE' => $u_switch_mode,
@@ -1090,7 +1090,7 @@ else
         if ( $mode == 'user' )
         {
                 $phpbb2_template->assign_vars(array(
-                        'L_FIND_USERNAME' => $titanium_lang['Find_username'],
+                        'L_FIND_USERNAME' => $lang['Find_username'],
 
                         'U_SEARCH_USER' => append_titanium_sid("search.$phpEx?mode=searchuser&popup=1&menu=1"))
                 );
@@ -1126,10 +1126,10 @@ else
         $l_type = ( $mode == 'user' ) ? 'USER' : 'AUTH';
 
         $phpbb2_template->assign_vars(array(
-                'L_' . $l_type . '_TITLE' => ( $mode == 'user' ) ? $titanium_lang['Auth_Control_User'] : $titanium_lang['Auth_Control_Group'],
-                'L_' . $l_type . '_EXPLAIN' => ( $mode == 'user' ) ? $titanium_lang['User_auth_explain'] : $titanium_lang['Group_auth_explain'],
-                'L_' . $l_type . '_SELECT' => ( $mode == 'user' ) ? $titanium_lang['Select_a_User'] : $titanium_lang['Select_a_Group'],
-                'L_LOOK_UP' => ( $mode == 'user' ) ? $titanium_lang['Look_up_User'] : $titanium_lang['Look_up_Group'],
+                'L_' . $l_type . '_TITLE' => ( $mode == 'user' ) ? $lang['Auth_Control_User'] : $lang['Auth_Control_Group'],
+                'L_' . $l_type . '_EXPLAIN' => ( $mode == 'user' ) ? $lang['User_auth_explain'] : $lang['Group_auth_explain'],
+                'L_' . $l_type . '_SELECT' => ( $mode == 'user' ) ? $lang['Select_a_User'] : $lang['Select_a_Group'],
+                'L_LOOK_UP' => ( $mode == 'user' ) ? $lang['Look_up_User'] : $lang['Look_up_Group'],
 
                 'S_HIDDEN_FIELDS' => $s_hidden_fields,
                 'S_' . $l_type . '_ACTION' => append_titanium_sid("admin_ug_auth.$phpEx"))

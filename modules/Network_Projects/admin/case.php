@@ -19,10 +19,10 @@ if (!defined('ADMIN_FILE')) {
    die('Access Denied');
 }
 global $titanium_prefix, $network_prefix, $titanium_db2, $titanium_db;
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
+$pnt_module = basename(dirname(dirname(__FILE__)));
 $aid = substr($aid, 0,125);
 
-$query = $titanium_db->sql_query("SELECT `title`, `admins` FROM `".$titanium_prefix."_modules` WHERE `title`='$titanium_module_name'");
+$query = $titanium_db->sql_query("SELECT `title`, `admins` FROM `".$titanium_prefix."_modules` WHERE `title`='$pnt_module'");
 list($mod_title, $admins) = $titanium_db->sql_fetchrow($query);
 $titanium_db->sql_freeresult($query);
 
@@ -183,7 +183,7 @@ if($radminsuper == 1 || $auth_user == 1) {
     case "TaskStatusUpdate":
     case "TaskUpdate":
     	$title = $mod_title;
-        include(NUKE_MODULES_DIR.$titanium_module_name.'/admin/index.php');
+        include(NUKE_MODULES_DIR.$pnt_module.'/admin/index.php');
     break;
   }
 }

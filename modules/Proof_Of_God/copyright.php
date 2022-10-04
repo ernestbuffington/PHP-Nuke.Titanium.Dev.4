@@ -11,7 +11,7 @@
 define('CP_INCLUDE_DIR', dirname(dirname(dirname(__FILE__))));
 require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 $mod_name = "Proof Of God";
 $author_email = "scottybcoder@gmail.com";
 $author_homepage = "http://www.scottybcoder.com";

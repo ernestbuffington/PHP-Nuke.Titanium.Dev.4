@@ -18,8 +18,8 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -69,7 +69,7 @@ else
     $amount_days = $set_days;
 }
 
-$phpbb2_page_title = $titanium_lang['Recent_topics'];
+$phpbb2_page_title = $lang['Recent_topics'];
 include("includes/page_header.php");
 
 $sql_auth = "SELECT * FROM ". FORUMS_TABLE;
@@ -122,46 +122,46 @@ switch( $mode )
 {
     case 'today':
         $sql = $sql_start ."FROM_UNIXTIME(p.post_time,'%Y%m%d') - FROM_UNIXTIME(unix_timestamp(NOW()),'%Y%m%d') = 0". $sql_end;
-        $phpbb2_template->assign_vars(array('STATUS' => $titanium_lang['Recent_today']));
+        $phpbb2_template->assign_vars(array('STATUS' => $lang['Recent_today']));
         $where_count = "$where_forums AND FROM_UNIXTIME(p.post_time,'%Y%m%d') - FROM_UNIXTIME(unix_timestamp(NOW()),'%Y%m%d') = 0";
-        $l_mode = $titanium_lang['Recent_title_today'];
+        $l_mode = $lang['Recent_title_today'];
         break;
 
     case 'yesterday':
         $sql = $sql_start ."FROM_UNIXTIME(p.post_time,'%Y%m%d') - FROM_UNIXTIME(unix_timestamp(NOW()),'%Y%m%d') = -1". $sql_end;
-        $phpbb2_template->assign_vars(array('STATUS' => $titanium_lang['Recent_yesterday']));
+        $phpbb2_template->assign_vars(array('STATUS' => $lang['Recent_yesterday']));
         $where_count = "$where_forums AND FROM_UNIXTIME(p.post_time,'%Y%m%d') - FROM_UNIXTIME(unix_timestamp(NOW()),'%Y%m%d') = -1";
-        $l_mode = $titanium_lang['Recent_title_yesterday'];
+        $l_mode = $lang['Recent_title_yesterday'];
         break;
 
     case 'last24':
         $sql = $sql_start ."UNIX_TIMESTAMP(NOW()) - p.post_time < 86400". $sql_end;
-        $phpbb2_template->assign_vars(array('STATUS' => $titanium_lang['Recent_last24']));
+        $phpbb2_template->assign_vars(array('STATUS' => $lang['Recent_last24']));
         $where_count = "$where_forums AND UNIX_TIMESTAMP(NOW()) - p.post_time < 86400";
-        $l_mode = $titanium_lang['Recent_title_last24'];
+        $l_mode = $lang['Recent_title_last24'];
         break;
 
     case 'lastweek':
         $sql = $sql_start ."UNIX_TIMESTAMP(NOW()) - p.post_time < 691200". $sql_end;
-        $phpbb2_template->assign_vars(array('STATUS' => $titanium_lang['Recent_lastweek']));
+        $phpbb2_template->assign_vars(array('STATUS' => $lang['Recent_lastweek']));
         $where_count = "$where_forums AND UNIX_TIMESTAMP(NOW()) - p.post_time < 691200";
-        $l_mode = $titanium_lang['Recent_title_lastweek'];
+        $l_mode = $lang['Recent_title_lastweek'];
         break;
 
     case 'lastXdays':
         if(!$amount_days || !ctype_digit($amount_days)) {
-            $message = 'You must enter a valid day<br /><br />'. sprintf($titanium_lang['Recent_click_return'], '<a href="'. append_titanium_sid("recent.$phpEx") .'">', '</a>') .'<br />'. sprintf($titanium_lang['Click_return_index'], '<a href="'. append_titanium_sid("index.$phpEx") .'">', '</a>');
+            $message = 'You must enter a valid day<br /><br />'. sprintf($lang['Recent_click_return'], '<a href="'. append_titanium_sid("recent.$phpEx") .'">', '</a>') .'<br />'. sprintf($lang['Click_return_index'], '<a href="'. append_titanium_sid("index.$phpEx") .'">', '</a>');
             message_die(GENERAL_MESSAGE, $message);
             break;
         }
         $sql = $sql_start ."UNIX_TIMESTAMP(NOW()) - p.post_time < 86400 * $amount_days". $sql_end;
-        $phpbb2_template->assign_vars(array('STATUS' => sprintf($titanium_lang['Recent_lastXdays'], $amount_days)));
+        $phpbb2_template->assign_vars(array('STATUS' => sprintf($lang['Recent_lastXdays'], $amount_days)));
         $where_count = "$where_forums AND UNIX_TIMESTAMP(NOW()) - p.post_time < 86400 * $amount_days";
-        $l_mode = sprintf($titanium_lang['Recent_title_lastXdays'], $amount_days);
+        $l_mode = sprintf($lang['Recent_title_lastXdays'], $amount_days);
         break;
 
     default:
-        $message = $titanium_lang['Recent_wrong_mode'] .'<br /><br />'. sprintf($titanium_lang['Recent_click_return'], '<a href="'. append_titanium_sid("recent.$phpEx") .'">', '</a>') .'<br />'. sprintf($titanium_lang['Click_return_index'], '<a href="'. append_titanium_sid("index.$phpEx") .'">', '</a>');
+        $message = $lang['Recent_wrong_mode'] .'<br /><br />'. sprintf($lang['Recent_click_return'], '<a href="'. append_titanium_sid("recent.$phpEx") .'">', '</a>') .'<br />'. sprintf($lang['Click_return_index'], '<a href="'. append_titanium_sid("index.$phpEx") .'">', '</a>');
         message_die(GENERAL_MESSAGE, $message);
         break;
 }
@@ -203,10 +203,10 @@ for( $i = 0; $i < count($line); $i++ )
  [ Mod:     Smilies in Topic Titles            v1.0.0 ]
  ******************************************************/
 
-    $topic_type =  ( $line[$i]['topic_type'] == POST_ANNOUNCE ) ? $titanium_lang['Topic_Announcement'] .' ': '';
-    $topic_type .= ( $line[$i]['topic_type'] == POST_GLOBAL_ANNOUNCE ) ? $titanium_lang['Topic_global_announcement'] .' ': '';
-    $topic_type .= ( $line[$i]['topic_type'] == POST_STICKY ) ? $titanium_lang['Topic_Sticky'] .' ': '';
-    $topic_type .= ( $line[$i]['topic_vote'] ) ? $titanium_lang['Topic_Poll'] .' ': '';
+    $topic_type =  ( $line[$i]['topic_type'] == POST_ANNOUNCE ) ? $lang['Topic_Announcement'] .' ': '';
+    $topic_type .= ( $line[$i]['topic_type'] == POST_GLOBAL_ANNOUNCE ) ? $lang['Topic_global_announcement'] .' ': '';
+    $topic_type .= ( $line[$i]['topic_type'] == POST_STICKY ) ? $lang['Topic_Sticky'] .' ': '';
+    $topic_type .= ( $line[$i]['topic_vote'] ) ? $lang['Topic_Poll'] .' ': '';
 
     $views = $line[$i]['topic_views'];
     $replies = $line[$i]['topic_replies'];
@@ -304,34 +304,34 @@ for( $i = 0; $i < count($line); $i++ )
                 if( $phpbb2_unread_topics )
                 {
                     $phpbb2_folder_image = $folder_new;
-                    $phpbb2_folder_alt = $titanium_lang['New_posts'];
-                    $newest_img = '<a href="'. append_titanium_sid("viewtopic.$phpEx?". POST_TOPIC_URL ."=$topic_id&amp;view=newest") .'"><img src="'. $images['icon_newest_reply'] .'" alt="'. $titanium_lang['View_newest_post'] .'" title="'. $titanium_lang['View_newest_post'] .'" border="0" /></a> ';
+                    $phpbb2_folder_alt = $lang['New_posts'];
+                    $newest_img = '<a href="'. append_titanium_sid("viewtopic.$phpEx?". POST_TOPIC_URL ."=$topic_id&amp;view=newest") .'"><img src="'. $images['icon_newest_reply'] .'" alt="'. $lang['View_newest_post'] .'" title="'. $lang['View_newest_post'] .'" border="0" /></a> ';
                 }
                 else
                 {
                     $phpbb2_folder_image = $folder;
-                    $phpbb2_folder_alt = ( $line[$i]['topic_status'] == TOPIC_LOCKED ) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+                    $phpbb2_folder_alt = ( $line[$i]['topic_status'] == TOPIC_LOCKED ) ? $lang['Topic_locked'] : $lang['No_new_posts'];
                     $newest_img = '';
                 }
             }
             else
             {
                 $phpbb2_folder_image = $folder_new;
-                $phpbb2_folder_alt = ( $line[$i]['topic_status'] == TOPIC_LOCKED ) ? $titanium_lang['Topic_locked'] : $titanium_lang['New_posts'];
-                $newest_img = '<a href="'. append_titanium_sid("viewtopic.$phpEx?". POST_TOPIC_URL ."=$topic_id&amp;view=newest") .'"><img src="'. $images['icon_newest_reply'] .'" alt="'. $titanium_lang['View_newest_post'] .'" title="'. $titanium_lang['View_newest_post'] .'" border="0" /></a> ';
+                $phpbb2_folder_alt = ( $line[$i]['topic_status'] == TOPIC_LOCKED ) ? $lang['Topic_locked'] : $lang['New_posts'];
+                $newest_img = '<a href="'. append_titanium_sid("viewtopic.$phpEx?". POST_TOPIC_URL ."=$topic_id&amp;view=newest") .'"><img src="'. $images['icon_newest_reply'] .'" alt="'. $lang['View_newest_post'] .'" title="'. $lang['View_newest_post'] .'" border="0" /></a> ';
             }
         }
         else 
         {
             $phpbb2_folder_image = $folder;
-            $phpbb2_folder_alt = ( $line[$i]['topic_status'] == TOPIC_LOCKED ) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+            $phpbb2_folder_alt = ( $line[$i]['topic_status'] == TOPIC_LOCKED ) ? $lang['Topic_locked'] : $lang['No_new_posts'];
             $newest_img = '';
         }
     }
     else
     {
         $phpbb2_folder_image = $folder;
-        $phpbb2_folder_alt = ( $line[$i]['topic_status'] == TOPIC_LOCKED ) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+        $phpbb2_folder_alt = ( $line[$i]['topic_status'] == TOPIC_LOCKED ) ? $lang['Topic_locked'] : $lang['No_new_posts'];
         $newest_img = '';
     }
             
@@ -339,7 +339,7 @@ for( $i = 0; $i < count($line); $i++ )
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-    $first_author = ( $line[$i]['first_poster_id'] != ANONYMOUS ) ? '<a href="'. append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;". POST_USERS_URL .'='. $line[$i]['first_poster_id']) .'">' . UsernameColor($line[$i]['first_poster']) .'</a>' : ( ($line[$i]['first_poster_name'] != '' ) ? $line[$i]['first_poster_name'] : $titanium_lang['Guest'] );
+    $first_author = ( $line[$i]['first_poster_id'] != ANONYMOUS ) ? '<a href="'. append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;". POST_USERS_URL .'='. $line[$i]['first_poster_id']) .'">' . UsernameColor($line[$i]['first_poster']) .'</a>' : ( ($line[$i]['first_poster_name'] != '' ) ? $line[$i]['first_poster_name'] : $lang['Guest'] );
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -347,26 +347,26 @@ for( $i = 0; $i < count($line); $i++ )
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-    $last_author = ( $line[$i]['last_poster_id'] != ANONYMOUS ) ? '<a href="'. append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;". POST_USERS_URL .'='. $line[$i]['last_poster_id']) .'">' . UsernameColor($line[$i]['last_poster']) .'</a>' : ( ($line[$i]['last_poster_name'] != '' ) ? $line[$i]['last_poster_name'] : $titanium_lang['Guest'] );
+    $last_author = ( $line[$i]['last_poster_id'] != ANONYMOUS ) ? '<a href="'. append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;". POST_USERS_URL .'='. $line[$i]['last_poster_id']) .'">' . UsernameColor($line[$i]['last_poster']) .'</a>' : ( ($line[$i]['last_poster_name'] != '' ) ? $line[$i]['last_poster_name'] : $lang['Guest'] );
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-    $last_url = '<a href="'. append_titanium_sid("viewtopic.$phpEx?". POST_POST_URL .'='. $line[$i]['topic_last_post_id']) .'#'. $line[$i]['topic_last_post_id'] .'"><img src="'. $images['icon_latest_reply'] .'" alt="'. $titanium_lang['View_latest_post'] .'" title="'. $titanium_lang['View_latest_post'] .'" border="0" /></a>';
+    $last_url = '<a href="'. append_titanium_sid("viewtopic.$phpEx?". POST_POST_URL .'='. $line[$i]['topic_last_post_id']) .'#'. $line[$i]['topic_last_post_id'] .'"><img src="'. $images['icon_latest_reply'] .'" alt="'. $lang['View_latest_post'] .'" title="'. $lang['View_latest_post'] .'" border="0" /></a>';
 
     $phpbb2_template->assign_block_vars('recent', array(
         'ROW_CLASS' => ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'],
         'TOPIC_TITLE' => $topic_title,
         'TOPIC_TYPE' => $topic_type,
         'GOTO_PAGE' => $goto_page,
-        'L_VIEWS' => $titanium_lang['Views'],
+        'L_VIEWS' => $lang['Views'],
         'VIEWS' => $views,
-        'L_REPLIES' => $titanium_lang['Replies'],
+        'L_REPLIES' => $lang['Replies'],
         'REPLIES' => $replies,
         'NEWEST_IMG' => $newest_img,
         'TOPIC_FOLDER_IMG' => $phpbb2_folder_image,
         'TOPIC_FOLDER_ALT' => $phpbb2_folder_alt,
-        'FIRST_TIME' => sprintf($titanium_lang['Recent_first'], $first_time),
-        'FIRST_AUTHOR' => sprintf($titanium_lang['Recent_first_poster'], $first_author),
+        'FIRST_TIME' => sprintf($lang['Recent_first'], $first_time),
+        'FIRST_AUTHOR' => sprintf($lang['Recent_first_poster'], $first_author),
         'LAST_TIME' => $last_time,
         'LAST_AUTHOR' => $last_author,
         'LAST_URL' => $last_url,
@@ -394,20 +394,20 @@ if( $total_phpbb2_topics == '0' )
 }
 
 $phpbb2_template->assign_vars(array(
-    'L_RECENT_TITLE' => ( $total_phpbb2_topics == '1' ) ? sprintf($titanium_lang['Recent_title_one'], $total_phpbb2_topics, $l_mode) : sprintf($titanium_lang['Recent_title_more'], $total_phpbb2_topics, $l_mode),
-    'L_TODAY' => $titanium_lang['Recent_today'],
-    'L_YESTERDAY' => $titanium_lang['Recent_yesterday'],
-    'L_LAST24' => $titanium_lang['Recent_last24'],
-    'L_LASTWEEK' => $titanium_lang['Recent_lastweek'],
-    'L_LAST' => $titanium_lang['Recent_last'],
-    'L_DAYS' => $titanium_lang['Recent_days'],
-    'L_SELECT_MODE' => $titanium_lang['Recent_select_mode'],
-    'L_SHOWING_POSTS' => $titanium_lang['Recent_showing_posts'],
-    'L_NO_TOPICS' => $titanium_lang['Recent_no_topics'],
+    'L_RECENT_TITLE' => ( $total_phpbb2_topics == '1' ) ? sprintf($lang['Recent_title_one'], $total_phpbb2_topics, $l_mode) : sprintf($lang['Recent_title_more'], $total_phpbb2_topics, $l_mode),
+    'L_TODAY' => $lang['Recent_today'],
+    'L_YESTERDAY' => $lang['Recent_yesterday'],
+    'L_LAST24' => $lang['Recent_last24'],
+    'L_LASTWEEK' => $lang['Recent_lastweek'],
+    'L_LAST' => $lang['Recent_last'],
+    'L_DAYS' => $lang['Recent_days'],
+    'L_SELECT_MODE' => $lang['Recent_select_mode'],
+    'L_SHOWING_POSTS' => $lang['Recent_showing_posts'],
+    'L_NO_TOPICS' => $lang['Recent_no_topics'],
     'AMOUNT_DAYS' => $amount_days,
     'FORM_ACTION' => append_titanium_sid("recent.$phpEx"),
     'PAGINATION' => ( $total_phpbb2_topics != '0' ) ? $pagination : '',
-    'PAGE_NUMBER' => ( $total_phpbb2_topics != '0' ) ? sprintf($titanium_lang['Page_of'], ( floor( $phpbb2_start / $topic_limit ) + 1 ), ceil( $total_phpbb2_topics / $topic_limit )) : '',
+    'PAGE_NUMBER' => ( $total_phpbb2_topics != '0' ) ? sprintf($lang['Page_of'], ( floor( $phpbb2_start / $topic_limit ) + 1 ), ceil( $total_phpbb2_topics / $topic_limit )) : '',
 ));
 
 $phpbb2_template->pparse('body');

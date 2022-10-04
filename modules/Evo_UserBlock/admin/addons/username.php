@@ -22,29 +22,29 @@ if (!defined('ADMIN_FILE')) {
 
 include_once(NUKE_BASE_DIR.'header.php');
 OpenTable();
-echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=evo-userinfo\">" .$titanium_lang_evo_userblock['ADMIN']['ADMIN_HEADER']. "</a></div>\n";
+echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=evo-userinfo\">" .$lang_evo_userblock['ADMIN']['ADMIN_HEADER']. "</a></div>\n";
 echo "<br /><br />";
-echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" .$titanium_lang_evo_userblock['ADMIN']['ADMIN_RETURN']. "</a> ]</div>\n";
+echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" .$lang_evo_userblock['ADMIN']['ADMIN_RETURN']. "</a> ]</div>\n";
 CloseTable();
 echo "<br />";
-title(_EVO_USERINFO. "&nbsp;-&nbsp;" .$titanium_lang_evo_userblock['USERNAME']['USERNAME']);
+title(_EVO_USERINFO. "&nbsp;-&nbsp;" .$lang_evo_userblock['USERNAME']['USERNAME']);
 OpenTable();
 if(!empty($_POST['center'])) {
     $values = array('center' => Fix_Quotes($_POST['center']));
     evouserinfo_write_addon('username', $values);
     echo "<div align=\"center\">\n";
-    echo $titanium_lang_evo_userblock['ADMIN']['SAVED'];
+    echo $lang_evo_userblock['ADMIN']['SAVED'];
     echo "</div>";
     global $admin_file;
     echo "<meta http-equiv=\"refresh\" content=\"3;url=$admin_file.php?op=evo-userinfo\">";
 } else {
     echo "<div align=\"center\">\n";
     echo "<form name=\"good_afternoon\" method=\"post\" action=\"".$admin_file.".php?op=evo-userinfo&amp;file=username\">";
-    $radio[] = array('value' => 'yes', 'text' => $titanium_lang_evo_userblock['YES'], 'name' => 'center', 'checked' => ($evouserinfo_addons['username_center'] == 'yes') ? 'CHECKED' : '');
-    $radio[] = array('value' => 'no', 'text' => $titanium_lang_evo_userblock['NO'], 'name' => 'center', 'checked' => ($evouserinfo_addons['username_center'] == 'yes') ? '' : 'CHECKED');
-    echo $titanium_lang_evo_userblock['USERNAME']['CENTER']."<br />";
+    $radio[] = array('value' => 'yes', 'text' => $lang_evo_userblock['YES'], 'name' => 'center', 'checked' => ($evouserinfo_addons['username_center'] == 'yes') ? 'CHECKED' : '');
+    $radio[] = array('value' => 'no', 'text' => $lang_evo_userblock['NO'], 'name' => 'center', 'checked' => ($evouserinfo_addons['username_center'] == 'yes') ? '' : 'CHECKED');
+    echo $lang_evo_userblock['USERNAME']['CENTER']."<br />";
     echo evouserinfo_radio($radio);
-    echo "<br /><input type=\"submit\" value=\"".$titanium_lang_evo_userblock['ADMIN']['SAVE']."\">";
+    echo "<br /><input type=\"submit\" value=\"".$lang_evo_userblock['ADMIN']['SAVE']."\">";
     echo "</form>";
     echo "</div>";
 }

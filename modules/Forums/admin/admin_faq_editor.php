@@ -166,12 +166,12 @@ if( !isset($HTTP_GET_VARS['language']) && !isset($HTTP_POST_VARS['language']) )
     );
 
     $phpbb2_template->assign_vars(array(
-        'L_LANGUAGE' => $titanium_lang['faq_select_language'],
+        'L_LANGUAGE' => $lang['faq_select_language'],
         'LANGUAGE_SELECT' => language_select($phpbb2_board_config['default_lang'], 'language', $phpbb2_root_path.'language'),
         'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file"),
-        'L_SUBMIT' => $titanium_lang['faq_retrieve'],
-        'L_TITLE' => $titanium_lang['faq_editor'],
-        'L_EXPLAIN' => $titanium_lang['faq_editor_explain']
+        'L_SUBMIT' => $lang['faq_retrieve'],
+        'L_TITLE' => $lang['faq_editor'],
+        'L_EXPLAIN' => $lang['faq_editor_explain']
     ));
 
     $phpbb2_template->pparse("body");
@@ -180,10 +180,10 @@ if( !isset($HTTP_GET_VARS['language']) && !isset($HTTP_POST_VARS['language']) )
 }
 
 // get the language we want to edit
-$titanium_language = isset($HTTP_GET_VARS['language']) ? $HTTP_GET_VARS['language'] : $HTTP_POST_VARS['language'];
+$language = isset($HTTP_GET_VARS['language']) ? $HTTP_GET_VARS['language'] : $HTTP_POST_VARS['language'];
 
 // the FAQ which will generate our $faq array
-include($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_' . $file . '.' . $phpEx);
+include($phpbb2_root_path . 'language/lang_' . $language . '/lang_' . $file . '.' . $phpEx);
 
 // change into our array
 list($blocks, $quests) = faq_to_array($faq);
@@ -214,13 +214,13 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
             $s_hidden_fields .= '<input type="hidden" name="block" value="'.$block_no.'" />';
 
             $phpbb2_template->assign_vars(array(
-                "MESSAGE_TITLE" => $titanium_lang['Confirm'],
-                "MESSAGE_TEXT" => $titanium_lang['faq_block_delete'],
+                "MESSAGE_TITLE" => $lang['Confirm'],
+                "MESSAGE_TEXT" => $lang['faq_block_delete'],
 
-                "L_YES" => $titanium_lang['Yes'],
-                "L_NO" => $titanium_lang['No'],
+                "L_YES" => $lang['Yes'],
+                "L_NO" => $lang['No'],
 
-                "S_CONFIRM_ACTION" => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$titanium_language"),
+                "S_CONFIRM_ACTION" => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
                 "S_HIDDEN_FIELDS" => $s_hidden_fields
             ));
 
@@ -254,15 +254,15 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
             );
 
             $phpbb2_template->assign_vars(array(
-                'L_TITLE' => $titanium_lang['faq_block_rename'],
-                'L_EXPLAIN' => $titanium_lang['faq_block_rename_explain'],
-                'L_SUBMIT' => $titanium_lang['Submit'],
-                'L_BLOCK_NAME' => $titanium_lang['faq_block_name'],
+                'L_TITLE' => $lang['faq_block_rename'],
+                'L_EXPLAIN' => $lang['faq_block_rename_explain'],
+                'L_SUBMIT' => $lang['Submit'],
+                'L_BLOCK_NAME' => $lang['faq_block_name'],
 
                 'BLOCK_TITLE' => $blocks[$block_no],
 
                 'S_HIDDEN_FIELDS' => '<input type="hidden" name="mode" value="block_do_edit"><input type="hidden" name="block" value="'.$block_no.'">',
-                'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$titanium_language")
+                'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language")
             ));
 
             $phpbb2_template->pparse("body");
@@ -329,18 +329,18 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
             }
 
             $phpbb2_template->assign_vars(array(
-                'L_TITLE' => $titanium_lang['faq_quest_create'],
-                'L_EXPLAIN' => $titanium_lang['faq_quest_create_explain'],
-                'L_BLOCK' => $titanium_lang['faq_block'],
-                'L_QUESTION' => $titanium_lang['faq_quest'],
-                'L_ANSWER' => $titanium_lang['faq_answer'],
-                'L_SUBMIT' => $titanium_lang['Submit'],
+                'L_TITLE' => $lang['faq_quest_create'],
+                'L_EXPLAIN' => $lang['faq_quest_create_explain'],
+                'L_BLOCK' => $lang['faq_block'],
+                'L_QUESTION' => $lang['faq_quest'],
+                'L_ANSWER' => $lang['faq_answer'],
+                'L_SUBMIT' => $lang['Submit'],
 
                 'QUESTION' => htmlspecialchars(stripslashes(isset($HTTP_GET_VARS['quest_title']) ? $HTTP_GET_VARS['quest_title'] : $HTTP_POST_VARS['quest_title'])),
                 'ANSWER' => '',
 
                 'S_BLOCK_LIST' => $s_block_list,
-                'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$titanium_language"),
+                'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
                 'S_HIDDEN_FIELDS' => '<input name="mode" type="hidden" value="quest_create">'
             ));
 
@@ -377,18 +377,18 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
             }
 
             $phpbb2_template->assign_vars(array(
-                'L_TITLE' => $titanium_lang['faq_quest_edit'],
-                'L_EXPLAIN' => $titanium_lang['faq_quest_edit_explain'],
-                'L_BLOCK' => $titanium_lang['faq_block'],
-                'L_QUESTION' => $titanium_lang['faq_quest'],
-                'L_ANSWER' => $titanium_lang['faq_answer'],
-                'L_SUBMIT' => $titanium_lang['Submit'],
+                'L_TITLE' => $lang['faq_quest_edit'],
+                'L_EXPLAIN' => $lang['faq_quest_edit_explain'],
+                'L_BLOCK' => $lang['faq_block'],
+                'L_QUESTION' => $lang['faq_quest'],
+                'L_ANSWER' => $lang['faq_answer'],
+                'L_SUBMIT' => $lang['Submit'],
 
                 'QUESTION' => htmlspecialchars($quests[$block_no][$quest_no][Q]),
                 'ANSWER' => htmlspecialchars(str_replace("<br />", "\n", $quests[$block_no][$quest_no][A])),
 
                 'S_BLOCK_LIST' => $s_block_list,
-                'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$titanium_language"),
+                'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
                 'S_HIDDEN_FIELDS' => '<input name="quest" type="hidden" value="'.$quest_no.'"><input name="old_block" type="hidden" value="'.$block_no.'"><input name="mode" type="hidden" value="quest_do_edit">'
             ));
 
@@ -440,13 +440,13 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
             $s_hidden_fields .= '<input type="hidden" name="quest" value="'.$quest_no.'" />';
 
             $phpbb2_template->assign_vars(array(
-                "MESSAGE_TITLE" => $titanium_lang['Confirm'],
-                "MESSAGE_TEXT" => $titanium_lang['faq_quest_delete'],
+                "MESSAGE_TITLE" => $lang['Confirm'],
+                "MESSAGE_TEXT" => $lang['faq_quest_delete'],
 
-                "L_YES" => $titanium_lang['Yes'],
-                "L_NO" => $titanium_lang['No'],
+                "L_YES" => $lang['Yes'],
+                "L_NO" => $lang['No'],
 
-                "S_CONFIRM_ACTION" => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$titanium_language"),
+                "S_CONFIRM_ACTION" => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
                 "S_HIDDEN_FIELDS" => $s_hidden_fields
             ));
 
@@ -496,7 +496,7 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
 
     // write these changes back to the FAQ file
 
-    $fp = fopen($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_' . $file . '.' . $phpEx, 'w');
+    $fp = fopen($phpbb2_root_path . 'language/lang_' . $language . '/lang_' . $file . '.' . $phpEx, 'w');
 
     if($fp)
     {
@@ -513,7 +513,7 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
     }
     else
     {
-        message_die(GENERAL_ERROR, $titanium_lang['faq_write_file_explain'], $titanium_lang['faq_write_file'], __LINE__, __FILE__);
+        message_die(GENERAL_ERROR, $lang['faq_write_file_explain'], $lang['faq_write_file'], __LINE__, __FILE__);
     }
 }
 
@@ -524,21 +524,21 @@ $phpbb2_template->set_filenames(array(
 );
 
 $phpbb2_template->assign_vars(array(
-    'L_TITLE' => $titanium_lang['faq_editor'],
-    'L_EXPLAIN' => $titanium_lang['faq_editor_explain'],
+    'L_TITLE' => $lang['faq_editor'],
+    'L_EXPLAIN' => $lang['faq_editor_explain'],
 
-    'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$titanium_language"),
+    'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
 
-    'L_ADD_BLOCK' => $titanium_lang['faq_block_add'],
-    'L_ADD_QUESTION' => $titanium_lang['faq_quest_add'],
+    'L_ADD_BLOCK' => $lang['faq_block_add'],
+    'L_ADD_QUESTION' => $lang['faq_quest_add'],
 
-    'L_EDIT' => $titanium_lang['Edit'], 
-    'L_DELETE' => $titanium_lang['Delete'], 
-    'L_MOVE_UP' => $titanium_lang['Move_up'], 
-    'L_MOVE_DOWN' => $titanium_lang['Move_down'], 
+    'L_EDIT' => $lang['Edit'], 
+    'L_DELETE' => $lang['Delete'], 
+    'L_MOVE_UP' => $lang['Move_up'], 
+    'L_MOVE_DOWN' => $lang['Move_down'], 
 
-    'L_NO_QUESTIONS' => $titanium_lang['faq_no_quests'],
-    'L_NO_BLOCKS' => $titanium_lang['faq_no_blocks']
+    'L_NO_QUESTIONS' => $lang['faq_no_quests'],
+    'L_NO_BLOCKS' => $lang['faq_no_blocks']
 ));
 
 $k = 0;
@@ -552,10 +552,10 @@ if(count($blocks) > 0)
             'BLOCK_NUMBER' => "$i",
             'BLOCK_ANCHOR' => $anchor_code,
 
-            'U_BLOCK_EDIT' => append_titanium_sid("admin_faq_editor.$phpEx?mode=block_edit&amp;block=$i&amp;file=$file&amp;language=$titanium_language"),
-            'U_BLOCK_MOVE_UP' => append_titanium_sid("admin_faq_editor.$phpEx?mode=block_up&amp;block=$i&amp;file=$file&amp;language=$titanium_language"),
-            'U_BLOCK_MOVE_DOWN' => append_titanium_sid("admin_faq_editor.$phpEx?mode=block_dn&amp;block=$i&amp;file=$file&amp;language=$titanium_language"),
-            'U_BLOCK_DELETE' => append_titanium_sid("admin_faq_editor.$phpEx?mode=block_del&amp;block=$i&amp;file=$file&amp;language=$titanium_language")
+            'U_BLOCK_EDIT' => append_titanium_sid("admin_faq_editor.$phpEx?mode=block_edit&amp;block=$i&amp;file=$file&amp;language=$language"),
+            'U_BLOCK_MOVE_UP' => append_titanium_sid("admin_faq_editor.$phpEx?mode=block_up&amp;block=$i&amp;file=$file&amp;language=$language"),
+            'U_BLOCK_MOVE_DOWN' => append_titanium_sid("admin_faq_editor.$phpEx?mode=block_dn&amp;block=$i&amp;file=$file&amp;language=$language"),
+            'U_BLOCK_DELETE' => append_titanium_sid("admin_faq_editor.$phpEx?mode=block_del&amp;block=$i&amp;file=$file&amp;language=$language")
         ));
 
         if(count($quests[$i]) > 0)
@@ -566,10 +566,10 @@ if(count($blocks) > 0)
                     'QUEST_TITLE' => $quests[$i][$j][Q],
                     'U_QUEST' => ("../../../modules.php?name=Forums&amp;file=faq&amp;mode=$file")."#$k",
 
-                    'U_QUEST_EDIT' => append_titanium_sid("admin_faq_editor.$phpEx?mode=quest_edit&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$titanium_language"),
-                    'U_QUEST_MOVE_UP' => append_titanium_sid("admin_faq_editor.$phpEx?mode=quest_up&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$titanium_language"),
-                    'U_QUEST_MOVE_DOWN' => append_titanium_sid("admin_faq_editor.$phpEx?mode=quest_dn&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$titanium_language"),
-                    'U_QUEST_DELETE' => append_titanium_sid("admin_faq_editor.$phpEx?mode=quest_del&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$titanium_language")
+                    'U_QUEST_EDIT' => append_titanium_sid("admin_faq_editor.$phpEx?mode=quest_edit&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$language"),
+                    'U_QUEST_MOVE_UP' => append_titanium_sid("admin_faq_editor.$phpEx?mode=quest_up&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$language"),
+                    'U_QUEST_MOVE_DOWN' => append_titanium_sid("admin_faq_editor.$phpEx?mode=quest_dn&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$language"),
+                    'U_QUEST_DELETE' => append_titanium_sid("admin_faq_editor.$phpEx?mode=quest_del&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$language")
                 ));
 
                 $k++;

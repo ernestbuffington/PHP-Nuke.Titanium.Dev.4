@@ -17,10 +17,10 @@
 if(!defined('NUKE_EVO')) 
 exit ("Illegal File Access");
 
-global $evouserinfo_login, $titanium_lang_evo_userblock, $appID;
+global $evouserinfo_login, $lang_evo_userblock, $appID;
 
 function evouserinfo_login () {
-   global $titanium_lang_evo_userblock, $evouserinfo_login;
+   global $lang_evo_userblock, $evouserinfo_login;
    
     mt_srand ((double)microtime()*1000000);
     $maxran = 1000000;
@@ -29,16 +29,16 @@ function evouserinfo_login () {
     $evouserinfo_login .= "<table border=\"0\" style=\"margin: auto\">";
     $evouserinfo_login .= "<tr><td>\n";
     $evouserinfo_login .= "<i class=\"fa fa-angle-double-right fa-right-arrows\" aria-hidden=\"true\"></i>&nbsp;";
-    $evouserinfo_login .= "<a href=\"modules.php?name=Your_Account&amp;op=new_user\">".$titanium_lang_evo_userblock['BLOCK']['LOGIN']['REG']."</a><br />\n";
+    $evouserinfo_login .= "<a href=\"modules.php?name=Your_Account&amp;op=new_user\">".$lang_evo_userblock['BLOCK']['LOGIN']['REG']."</a><br />\n";
     $evouserinfo_login .= "<i class=\"fa fa-angle-double-right fa-right-arrows\" aria-hidden=\"true\"></i>&nbsp;";
-    $evouserinfo_login .= "<a href=\"modules.php?name=Your_Account&amp;op=pass_lost\">".$titanium_lang_evo_userblock['BLOCK']['LOGIN']['LOST']."</a>\n";
+    $evouserinfo_login .= "<a href=\"modules.php?name=Your_Account&amp;op=pass_lost\">".$lang_evo_userblock['BLOCK']['LOGIN']['LOST']."</a>\n";
     $evouserinfo_login .= "</td></tr>\n<tr><td align=\"center\">\n";
     
     //Login
-    $evouserinfo_login .= $titanium_lang_evo_userblock['BLOCK']['LOGIN']['USERNAME']."<br /><input class=\"evo-login-username-field\" 
+    $evouserinfo_login .= $lang_evo_userblock['BLOCK']['LOGIN']['USERNAME']."<br /><input class=\"evo-login-username-field\" 
 	type=\"text\" name=\"username\" size=\"15\" maxlength=\"25\"></td></tr>\n";
     
-	$evouserinfo_login .= "<tr><td align=\"center\">".$titanium_lang_evo_userblock['BLOCK']['LOGIN']['PASSWORD']."<br /><input 
+	$evouserinfo_login .= "<tr><td align=\"center\">".$lang_evo_userblock['BLOCK']['LOGIN']['PASSWORD']."<br /><input 
 	class=\"evo-login-password-field\" type=\"password\" name=\"user_password\" size=\"15\" maxlength=\"20\" autocomplete=\"on\">\n";
     /*****[BEGIN]******************************************
     [ Mod:     Advanced Security Code Control     v1.0.0 ]
@@ -62,7 +62,7 @@ function evouserinfo_login () {
        $evouserinfo_login .= "<input type=\"hidden\" name=\"t\" value=\"$t\">\n";
     }
     $evouserinfo_login .= "<input type=\"hidden\" name=\"op\" value=\"login\"></td></tr>\n";
-    $evouserinfo_login .= "<tr><td align=\"center\"><input class=\"titaniumbutton evo-login-submit\" type=\"submit\" value=\"".$titanium_lang_evo_userblock['BLOCK']['LOGIN']['LOGIN']."\"></td></tr></table></form>\n";
+    $evouserinfo_login .= "<tr><td align=\"center\"><input class=\"titaniumbutton evo-login-submit\" type=\"submit\" value=\"".$lang_evo_userblock['BLOCK']['LOGIN']['LOGIN']."\"></td></tr></table></form>\n";
 }
 
 ?>

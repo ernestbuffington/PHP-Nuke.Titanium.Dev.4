@@ -41,11 +41,11 @@ titanium_init_userprefs($userdata);
 
 if ( empty($HTTP_GET_VARS["a"]) )
 {
-  message_die(GENERAL_MESSAGE, $titanium_lang['No_action_specified']);
+  message_die(GENERAL_MESSAGE, $lang['No_action_specified']);
 }
 $action = $HTTP_GET_VARS["a"];
 
-$phpbb2_page_title = $titanium_lang['Reputation'];
+$phpbb2_page_title = $lang['Reputation'];
 $gen_simple_header = TRUE;
 include('includes/page_header.'.$phpEx);
 include('includes/functions_reputation.'.$phpEx);
@@ -57,7 +57,7 @@ $phpbb2_template->set_filenames(array(
 
 if ( !$userdata['session_logged_in'] )
 {
-  $message = $titanium_lang['Guests_cant_view_history'];
+  $message = $lang['Guests_cant_view_history'];
   message_die(GENERAL_MESSAGE, $message);
 }
 
@@ -66,19 +66,19 @@ switch( $action  )
   case 'post':
     if ( empty($HTTP_POST_VARS['user_id_to_give']) || !isset($HTTP_POST_VARS['user_id_to_give']) )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['No_user']);
+      message_die(GENERAL_MESSAGE, $lang['No_user']);
     }
     if ( empty($HTTP_POST_VARS['post_id_to_give']) || !isset($HTTP_POST_VARS['post_id_to_give']) )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['No_post']);
+      message_die(GENERAL_MESSAGE, $lang['No_post']);
     }
     if ( empty($HTTP_POST_VARS['submit']) || !isset($HTTP_POST_VARS['submit']) )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['No_action_specified']);
+      message_die(GENERAL_MESSAGE, $lang['No_action_specified']);
     }
     if ( empty($HTTP_POST_VARS['ccode']) || !isset($HTTP_POST_VARS['ccode']) )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['No_check_code']);
+      message_die(GENERAL_MESSAGE, $lang['No_check_code']);
     }
 
     $titanium_userid = intval($HTTP_POST_VARS['user_id_to_give']);
@@ -91,17 +91,17 @@ switch( $action  )
 
     if ($repsum > $userdata['user_reputation'])
     {
-      message_die(GENERAL_ERROR, $titanium_lang['Cant_give_more_than_have']);
+      message_die(GENERAL_ERROR, $lang['Cant_give_more_than_have']);
     }
     if ($repsum == 0)
     {
-      message_die(GENERAL_ERROR, $titanium_lang['Cant_give_zero']);
+      message_die(GENERAL_ERROR, $lang['Cant_give_zero']);
     } else if ($repsum < 0) {
-      message_die(GENERAL_ERROR, $titanium_lang['Cant_give_subzero']);
+      message_die(GENERAL_ERROR, $lang['Cant_give_subzero']);
     }
     if (($repsum > $rep_config['repsum_limit']) && ($rep_config['repsum_limit'] != 0))
     {
-      message_die(GENERAL_ERROR, sprintf($titanium_lang['No_more_than_limit'], $rep_config['repsum_limit']));
+      message_die(GENERAL_ERROR, sprintf($lang['No_more_than_limit'], $rep_config['repsum_limit']));
     }
 
     // Check "ccode" of the post
@@ -115,7 +115,7 @@ switch( $action  )
     $row = $titanium_db->sql_fetchrow($result);
     if ( !(substr(md5($row['bbcode_uid']),0,8) == $ccode) )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['Wrong_check_code']);
+      message_die(GENERAL_MESSAGE, $lang['Wrong_check_code']);
     }
 
     if ( $userdata['user_level'] != ADMIN && $userdata['user_level'] != MOD )
@@ -133,11 +133,11 @@ switch( $action  )
       $row = $titanium_db->sql_fetchrow($result);
       if ($row['user_id'] == $titanium_userid)
       {
-        message_die(GENERAL_MESSAGE, $titanium_lang['Cant_give_the_same_user']);
+        message_die(GENERAL_MESSAGE, $lang['Cant_give_the_same_user']);
       }
       if ( ((time() - $row['rep_time']) / 60) < ($rep_config['flood_control_time']) )
       {
-        message_die(GENERAL_MESSAGE, sprintf($titanium_lang['Too_little_time'], $rep_config['flood_control_time']));
+        message_die(GENERAL_MESSAGE, sprintf($lang['Too_little_time'], $rep_config['flood_control_time']));
       }
     }
 
@@ -203,22 +203,22 @@ switch( $action  )
       r_send_pm($userdata['user_id'], $titanium_userid, $repsum_mul, $titanium_user_ip);
     }
 
-    $msg = $titanium_lang['Reputation_has_given'] . '<br /><br />' . sprintf($titanium_lang['Click_here_return_rep'], '<a href="' . append_titanium_sid("reputation.$phpEx?a=stats&amp;u=".$titanium_userid) . '">', '</a> ') . '<br /><br />' . sprintf('%s'.$titanium_lang['Close_window'].'%s', '<a href="javascript:self.close();void(0);">', '</a>');
-    //$msg = $titanium_lang['Reputation_has_given'] . '<br /><br />' . sprintf($titanium_lang['Click_here_return_rep'], '<a href="modules.php?name=Forums&amp;file=reputation&amp;a=stats&amp;u=$titanium_userid)">', '</a> ') . '<br /><br />' . sprintf('%s'.$titanium_lang['Close_window'].'%s', '<a href="javascript:self.close();void(0);">', '</a>');
+    $msg = $lang['Reputation_has_given'] . '<br /><br />' . sprintf($lang['Click_here_return_rep'], '<a href="' . append_titanium_sid("reputation.$phpEx?a=stats&amp;u=".$titanium_userid) . '">', '</a> ') . '<br /><br />' . sprintf('%s'.$lang['Close_window'].'%s', '<a href="javascript:self.close();void(0);">', '</a>');
+    //$msg = $lang['Reputation_has_given'] . '<br /><br />' . sprintf($lang['Click_here_return_rep'], '<a href="modules.php?name=Forums&amp;file=reputation&amp;a=stats&amp;u=$titanium_userid)">', '</a> ') . '<br /><br />' . sprintf('%s'.$lang['Close_window'].'%s', '<a href="javascript:self.close();void(0);">', '</a>');
     message_die(GENERAL_MESSAGE, $msg);
     break;
 
   case 'add':
     if ($userdata['user_reputation'] == 0)
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['You_have_zero_rep']);
+      message_die(GENERAL_MESSAGE, $lang['You_have_zero_rep']);
     } else if ($userdata['user_reputation'] < 0)
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['You_have_neg_rep']);
+      message_die(GENERAL_MESSAGE, $lang['You_have_neg_rep']);
     }
     if ( empty($HTTP_GET_VARS[POST_USERS_URL]) || $HTTP_GET_VARS[POST_USERS_URL] == ANONYMOUS )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['No_user_id_specified']);
+      message_die(GENERAL_MESSAGE, $lang['No_user_id_specified']);
     }
     $titanium_userid = intval($HTTP_GET_VARS[POST_USERS_URL]);
     $sql = "SELECT u.user_id, u.username
@@ -230,21 +230,21 @@ switch( $action  )
     }
     if ( !($row = $titanium_db->sql_fetchrow($result)) )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['No_such_user']);
+      message_die(GENERAL_MESSAGE, $lang['No_such_user']);
     } else {
       $titanium_username = $row['username'];
     }
     if ( empty($HTTP_GET_VARS[POST_POST_URL]) )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['No_post_id_specified']);
+      message_die(GENERAL_MESSAGE, $lang['No_post_id_specified']);
     }
     if ( empty($HTTP_GET_VARS["c"]) )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['No_check_code']);
+      message_die(GENERAL_MESSAGE, $lang['No_check_code']);
     }
     if ($row['user_id'] == $userdata['user_id'])
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['Cant_give_yourself']);
+      message_die(GENERAL_MESSAGE, $lang['Cant_give_yourself']);
     }
     $ccode = $HTTP_GET_VARS["c"];
     $postid = intval($HTTP_GET_VARS[POST_POST_URL]);
@@ -264,11 +264,11 @@ switch( $action  )
       $row = $titanium_db->sql_fetchrow($result);
       if ($row['user_id'] == $titanium_userid)
       {
-        message_die(GENERAL_MESSAGE, $titanium_lang['Cant_give_the_same_user']);
+        message_die(GENERAL_MESSAGE, $lang['Cant_give_the_same_user']);
       }
       if ( ((time() - $row['rep_time']) / 60) < ($rep_config['flood_control_time']) )
       {
-        message_die(GENERAL_MESSAGE, sprintf($titanium_lang['Too_little_time'], $rep_config['flood_control_time']));
+        message_die(GENERAL_MESSAGE, sprintf($lang['Too_little_time'], $rep_config['flood_control_time']));
       }
     }
 
@@ -283,7 +283,7 @@ switch( $action  )
     $row = $titanium_db->sql_fetchrow($result);
     if ( !(substr(md5($row['bbcode_uid']),0,8) == $ccode) )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['Wrong_check_code']);
+      message_die(GENERAL_MESSAGE, $lang['Wrong_check_code']);
     }
 
     $phpbb2_template->assign_block_vars("rep_add", array(
@@ -300,17 +300,17 @@ switch( $action  )
       "USER_ID_TO_GIVE" => $titanium_userid,
       "POST_ID_TO_GIVE" => $postid,
 
-      "L_REPUTATIONGIVING" => $titanium_lang['Rep_giving'],
-      "L_YOUHAVEPOINTS" => $titanium_lang['You_have_points'],
-      "L_DESCR" => $titanium_lang['Description'],
-      "L_FORM" => $titanium_lang['Form'],
-      "L_ENTERREPSUM" => $titanium_lang['Enter_repsum'],
-      "L_ENTERREPSUM_EXPLAIN" => $titanium_lang['Enter_repsum_explain'],
-      "L_CHOOSEDIR" => $titanium_lang['Choose_dir'],
-      "L_CHOOSEDIR_EXPLAIN" => $titanium_lang['Choose_dir_explain'],
-      "L_ENTERCOMMENT" => $titanium_lang['Enter_comment'],
-      "L_ENTERCOMMENT_EXPLAIN" => $titanium_lang['Enter_comment_explain'],
-      "L_GIVE" => $titanium_lang['Give'],
+      "L_REPUTATIONGIVING" => $lang['Rep_giving'],
+      "L_YOUHAVEPOINTS" => $lang['You_have_points'],
+      "L_DESCR" => $lang['Description'],
+      "L_FORM" => $lang['Form'],
+      "L_ENTERREPSUM" => $lang['Enter_repsum'],
+      "L_ENTERREPSUM_EXPLAIN" => $lang['Enter_repsum_explain'],
+      "L_CHOOSEDIR" => $lang['Choose_dir'],
+      "L_CHOOSEDIR_EXPLAIN" => $lang['Choose_dir_explain'],
+      "L_ENTERCOMMENT" => $lang['Enter_comment'],
+      "L_ENTERCOMMENT_EXPLAIN" => $lang['Enter_comment_explain'],
+      "L_GIVE" => $lang['Give'],
       "CCODE" => $ccode,
     ));
 
@@ -403,24 +403,24 @@ switch( $action  )
 
     $pagination = generate_pagination("reputation.$phpEx?a=globalstats", $total_phpbb2_count, 15, $phpbb2_start). '&nbsp;';
     $phpbb2_template->assign_block_vars("rep_globalstats", array(
-      "L_WHO" => $titanium_lang['Who'],
-      "L_WHOM" => $titanium_lang['Whom'],
-      "L_DIR" => $titanium_lang['Dir'],
-      "L_HOWMUCH" => $titanium_lang['How_much'],
-      "L_POST" => $titanium_lang['Post'],
-      "L_COMMENT" => $titanium_lang['Comment'],
-      "L_DATE" => $titanium_lang['Date'],
-      "L_REPUTATION" => $titanium_lang['Reputation'],
-      "L_RECEIVEDREPUTATION" => $titanium_lang['Received_rep'],
-      "L_GIVENREPUTATION" => $titanium_lang['Given_rep'],
-      "L_GLOBALSTATS" => $titanium_lang['Global_stats'],
-      "L_TOTAL_GIVEN_BY_USERS" => $titanium_lang['Total_given_by_users'],
-      "L_ACTIVE_USER" => $titanium_lang['Active_user'],
-      "L_BEST_REP_USER" => $titanium_lang['Best_rep_user'],
-      "L_WORST_REP_USER" => $titanium_lang['Worst_rep_user'],
-      "L_MAX_GIVEN_SUM" => $titanium_lang['Max_given_sum'],
+      "L_WHO" => $lang['Who'],
+      "L_WHOM" => $lang['Whom'],
+      "L_DIR" => $lang['Dir'],
+      "L_HOWMUCH" => $lang['How_much'],
+      "L_POST" => $lang['Post'],
+      "L_COMMENT" => $lang['Comment'],
+      "L_DATE" => $lang['Date'],
+      "L_REPUTATION" => $lang['Reputation'],
+      "L_RECEIVEDREPUTATION" => $lang['Received_rep'],
+      "L_GIVENREPUTATION" => $lang['Given_rep'],
+      "L_GLOBALSTATS" => $lang['Global_stats'],
+      "L_TOTAL_GIVEN_BY_USERS" => $lang['Total_given_by_users'],
+      "L_ACTIVE_USER" => $lang['Active_user'],
+      "L_BEST_REP_USER" => $lang['Best_rep_user'],
+      "L_WORST_REP_USER" => $lang['Worst_rep_user'],
+      "L_MAX_GIVEN_SUM" => $lang['Max_given_sum'],
 
-      "TOTAL_GIVEN_BY_USERS" => sprintf($titanium_lang['Points_in_givings'],$total_phpbb2_sum,$total_phpbb2_count),
+      "TOTAL_GIVEN_BY_USERS" => sprintf($lang['Points_in_givings'],$total_phpbb2_sum,$total_phpbb2_count),
       "MAX_USERREP" => $max_userrep,
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -429,7 +429,7 @@ switch( $action  )
       "MIN_USERREP" => $min_userrep,
       "MIN_USERREP_USERNAME" => UsernameColor($min_userrep_username),
       "ACTIVE_USER" => $active_user,
-      "TOTAL_GIVEN_BY_ACTIVE_USER" => sprintf($titanium_lang['Points_in_givings'],$active_user_repsum,$active_user_count_sum),
+      "TOTAL_GIVEN_BY_ACTIVE_USER" => sprintf($lang['Points_in_givings'],$active_user_repsum,$active_user_count_sum),
       "MAX_USERNAME" => UsernameColor($max_username),
       "MAX_REPSUM" => $max_repsum,
       "MAX_REPSUM_USERNAME" => UsernameColor($max_repsum_username),
@@ -489,7 +489,7 @@ switch( $action  )
       if( !$phpbb2_is_auth['auth_view'] || !$phpbb2_is_auth['auth_read'] )
       {
         $u_post = '';
-        $post = $titanium_lang['Hidden_post'];
+        $post = $lang['Hidden_post'];
       }
       //
       // End auth check
@@ -521,11 +521,11 @@ switch( $action  )
   default:
     if ( $rep_config['show_stats_to_mods'] == 1 && $userdata['user_level'] != ADMIN && $userdata['user_level'] != MOD )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['Stats_only_for_admins']);
+      message_die(GENERAL_MESSAGE, $lang['Stats_only_for_admins']);
     }
     if ( empty($HTTP_GET_VARS[POST_USERS_URL]) || $HTTP_GET_VARS[POST_USERS_URL] == ANONYMOUS )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['No_user_id_specified']);
+      message_die(GENERAL_MESSAGE, $lang['No_user_id_specified']);
     }
     $phpbb2_start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
     $titanium_userid = intval($HTTP_GET_VARS[POST_USERS_URL]);
@@ -539,7 +539,7 @@ switch( $action  )
     }
     if ( !($row = $titanium_db->sql_fetchrow($result)) )
     {
-      message_die(GENERAL_MESSAGE, $titanium_lang['No_such_user']);
+      message_die(GENERAL_MESSAGE, $lang['No_such_user']);
     } else {
       $titanium_username = $row['username'];
       $rep_sum = round($row['user_reputation'],1);
@@ -602,23 +602,23 @@ switch( $action  )
       "STATREP_SUMPOS_GIVEN" => $rep_given_poss,
       "STATREP_SUMNEG_GIVEN" => $rep_given_negs,
 
-      "L_REPUTATION" => $titanium_lang['Reputation'],
-      "L_REPUTATION2" => $titanium_lang['Reputation2'],
-      "L_TOTALRECEIVED" => $titanium_lang['Total_received'],
-      "L_POSITIVE" => $titanium_lang['Positive'],
-      "L_NEGATIVE" => $titanium_lang['Negative'],
-      "L_TOTALGIVEN" => $titanium_lang['Total_given'],
-      "L_VOTES" => $titanium_lang['Votes'],
-      "L_WHO" => $titanium_lang['Who'],
-      "L_WHOM" => $titanium_lang['Whom'],
-      "L_DIR" => $titanium_lang['Dir'],
-      "L_HOWMUCH" => $titanium_lang['How_much'],
-      "L_POST" => $titanium_lang['Post'],
-      "L_COMMENT" => $titanium_lang['Comment'],
-      "L_DATE" => $titanium_lang['Date'],
-      "L_RECEIVEDREPUTATION" => $titanium_lang['Received_rep'],
-      "L_GIVENREPUTATION" => $titanium_lang['Given_rep'],
-      "L_GLOBALSTATS" => $titanium_lang['Global_stats'],
+      "L_REPUTATION" => $lang['Reputation'],
+      "L_REPUTATION2" => $lang['Reputation2'],
+      "L_TOTALRECEIVED" => $lang['Total_received'],
+      "L_POSITIVE" => $lang['Positive'],
+      "L_NEGATIVE" => $lang['Negative'],
+      "L_TOTALGIVEN" => $lang['Total_given'],
+      "L_VOTES" => $lang['Votes'],
+      "L_WHO" => $lang['Who'],
+      "L_WHOM" => $lang['Whom'],
+      "L_DIR" => $lang['Dir'],
+      "L_HOWMUCH" => $lang['How_much'],
+      "L_POST" => $lang['Post'],
+      "L_COMMENT" => $lang['Comment'],
+      "L_DATE" => $lang['Date'],
+      "L_RECEIVEDREPUTATION" => $lang['Received_rep'],
+      "L_GIVENREPUTATION" => $lang['Given_rep'],
+      "L_GLOBALSTATS" => $lang['Global_stats'],
       "U_GLOBALSTATS" => append_titanium_sid("reputation.$phpEx?a=globalstats"),
 
       "PAGINATION" => $pagination,
@@ -671,7 +671,7 @@ switch( $action  )
       if( !$phpbb2_is_auth['auth_view'] || !$phpbb2_is_auth['auth_read'] )
       {
         $u_post = '';
-        $post = $titanium_lang['Hidden_post'];
+        $post = $lang['Hidden_post'];
       }
       //
       // End auth check
@@ -699,7 +699,7 @@ switch( $action  )
 }
 
 $phpbb2_template->assign_vars(array(
-  "L_CLOSEWINDOW" => $titanium_lang['Close_window'],
+  "L_CLOSEWINDOW" => $lang['Close_window'],
 ));
 
 $phpbb2_template->pparse('body');

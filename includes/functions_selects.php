@@ -90,7 +90,7 @@ function language_select($default, $select_name = "language", $dirname="modules/
 
         $dir = @opendir($dirname);
 
-        $titanium_lang = array();
+        $lang = array();
         while ( $file = @readdir($dir) )
         {
                 if ( preg_match("/^lang_/i", $file) && !is_file($dirname . "/" . $file) && !is_link($dirname . "/" . $file) )
@@ -98,24 +98,24 @@ function language_select($default, $select_name = "language", $dirname="modules/
                         $filename = trim(str_replace("lang_", "", $file));
                         $displayname = preg_replace("/^(.*?)_(.*)$/", "\\1 [ \\2 ]", $filename);
                         $displayname = preg_replace("/\[(.*?)_(.*)\]/", "[ \\1 - \\2 ]", $displayname);
-                        $titanium_lang[$displayname] = $filename;
+                        $lang[$displayname] = $filename;
                 }
         }
 
         @closedir($dir);
 
-        @asort($titanium_lang);
-        @reset($titanium_lang);
+        @asort($lang);
+        @reset($lang);
 
-        $titanium_lang_select = '<select class="form-control" name="' . $select_name . '" id="'.$select_name.'">';
-        while ( list($displayname, $filename) = @each($titanium_lang) )
+        $lang_select = '<select class="form-control" name="' . $select_name . '" id="'.$select_name.'">';
+        while ( list($displayname, $filename) = @each($lang) )
         {
                 $selected = ( strtolower($default) == strtolower($filename) ) ? ' selected="selected"' : '';
-                $titanium_lang_select .= '<option value="' . $filename . '"' . $selected . '>' . ucwords($displayname) . '</option>';
+                $lang_select .= '<option value="' . $filename . '"' . $selected . '>' . ucwords($displayname) . '</option>';
         }
-        $titanium_lang_select .= '</select>';
+        $lang_select .= '</select>';
 
-        return $titanium_lang_select;
+        return $lang_select;
 }
 
 //
@@ -146,7 +146,7 @@ function style_select($name="default_Theme")
 //
 function tz_select($default, $select_name = 'timezone')
 {
-        global $sys_timezone, $titanium_lang;
+        global $sys_timezone, $lang;
 
         if ( !isset($default) )
         {
@@ -154,7 +154,7 @@ function tz_select($default, $select_name = 'timezone')
         }
         $tz_select = '<select class="form-control" name="' . $select_name . '" id="' . $select_name . '">';
 
-        while( list($offset, $zone) = @each($titanium_lang['tz']) )
+        while( list($offset, $zone) = @each($lang['tz']) )
         {
                 $selected = ( $offset == $default ) ? ' selected="selected"' : '';
 /*****[BEGIN]******************************************
@@ -175,11 +175,11 @@ function tz_select($default, $select_name = 'timezone')
  ******************************************************/
 function quick_reply_select($default, $select_name = "show_quickreply")
 {
-    global $titanium_lang;
+    global $lang;
 
     $sqr_select = '<select class="form-control" name="' . $select_name . '" id="' . $select_name . '">';
 
-    while( list($value, $mode) = @each($titanium_lang['sqr']) )
+    while( list($value, $mode) = @each($lang['sqr']) )
     {
         $selected = ( $value == $default ) ? ' selected="selected"' : '';
         $sqr_select .= '<option value="' . $value . '"' . $selected . '>' . $mode . '</option>';
@@ -199,11 +199,11 @@ function quick_reply_select($default, $select_name = "show_quickreply")
  ******************************************************/
 function glance_option_select($default, $select_name = "glance_show")
 {
-global $titanium_lang;
+global $lang;
 
     $g_select = '<select class="form-control" name="' . $select_name . '" id="' . $select_name . '">';
 
-    while( list($value, $text) = @each($titanium_lang['show_glance_option']) )
+    while( list($value, $text) = @each($lang['show_glance_option']) )
     {
         $selected = ( $value == $default ) ? ' selected="selected"' : '';
         $g_select .= '<option value="' . $value . '"' . $selected . '>' . $text . '</option>';
@@ -274,11 +274,11 @@ function ranks_select($default, $select_name = "ranks", $value = "rank_id")
  ******************************************************/
 function allow_view_select($default)
 {
-global $titanium_lang;
+global $lang;
 
     $g_select = '<select class="form-control" name="logs_view_level" id="logs_view_level">';
 
-    while( list($value, $text) = @each($titanium_lang['logs_view_level']) )
+    while( list($value, $text) = @each($lang['logs_view_level']) )
     {
         $selected = ( $value == $default ) ? ' selected="selected"' : '';
         $g_select .= '<option value="' . $value . '"' . $selected . '>' . $text . '</option>';
@@ -297,25 +297,25 @@ global $titanium_lang;
  ******************************************************/
 function bday_month_select($default, $select_name = 'bday_month')
 {
-	global $titanium_lang;
+	global $lang;
 	static $translate = array();
 
 	if ( empty($translate) )
 	{
 		$translate = array(
-			$titanium_lang['Default_Month'],
-			$titanium_lang['datetime']['January'],
-			$titanium_lang['datetime']['February'],
-			$titanium_lang['datetime']['March'],
-			$titanium_lang['datetime']['April'],
-			$titanium_lang['datetime']['May'],
-			$titanium_lang['datetime']['June'],
-			$titanium_lang['datetime']['July'],
-			$titanium_lang['datetime']['August'],
-			$titanium_lang['datetime']['September'],
-			$titanium_lang['datetime']['October'],
-			$titanium_lang['datetime']['November'],
-			$titanium_lang['datetime']['December']
+			$lang['Default_Month'],
+			$lang['datetime']['January'],
+			$lang['datetime']['February'],
+			$lang['datetime']['March'],
+			$lang['datetime']['April'],
+			$lang['datetime']['May'],
+			$lang['datetime']['June'],
+			$lang['datetime']['July'],
+			$lang['datetime']['August'],
+			$lang['datetime']['September'],
+			$lang['datetime']['October'],
+			$lang['datetime']['November'],
+			$lang['datetime']['December']
 		);
 	}
 
@@ -337,12 +337,12 @@ function bday_month_select($default, $select_name = 'bday_month')
 
 function bday_day_select($default, $select_name = 'bday_day')
 {
-	global $titanium_lang;
+	global $lang;
 	static $options;
 
 	if ( empty($options) )
 	{
-		$options = array($titanium_lang['Default_Day']);
+		$options = array($lang['Default_Day']);
 		for ($i=0; $i<31; $i++)
 		{
 			$options[] = $i + 1;
@@ -367,7 +367,7 @@ function bday_day_select($default, $select_name = 'bday_day')
 
 function bday_year_select($default, $select_name = 'bday_year')
 {
-	global $phpbb2_board_config, $titanium_lang;
+	global $phpbb2_board_config, $lang;
 
 	if ( !isset($default) )
 	{
@@ -379,7 +379,7 @@ function bday_year_select($default, $select_name = 'bday_year')
 	$phpbb2_start = gmdate('Y') - $phpbb2_board_config['bday_max'] - 1;
 
 	$selected = ( !$default ) ? ' selected="selected"' : '';
-	$phpbb2_bday_year_select .= '<option value="0"' . $selected . '>' . $titanium_lang['Default_Year'] . '</option>';
+	$phpbb2_bday_year_select .= '<option value="0"' . $selected . '>' . $lang['Default_Year'] . '</option>';
 
 	for ($i=$phpbb2_end;$i>=$phpbb2_start;$i--)
 	{

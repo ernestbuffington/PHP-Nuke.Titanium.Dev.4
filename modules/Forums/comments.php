@@ -23,8 +23,8 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -130,12 +130,12 @@ if($mode == "submit")
     $row = $titanium_db->sql_fetchrow($result);
 
     $phpbb2_template->assign_vars(array(
-            'L_ADD_EDIT_COMMENTS' => $titanium_lang['add_edit_comments'],
-            'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $titanium_lang['arcade'] . '</a> ' ,
+            'L_ADD_EDIT_COMMENTS' => $lang['add_edit_comments'],
+            'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $lang['arcade'] . '</a> ' ,
             'GAME_ID' => $row['game_id'],
-            'L_GAME_NAME' => $titanium_lang['game_name'],
+            'L_GAME_NAME' => $lang['game_name'],
             'GAME_NAME' => '<a href="' . append_titanium_sid("games.$phpEx?gid=" . $row['game_id']) . '">' . $row['game_name'] . '</a>',
-            'L_ENTER_COMMENT' => $titanium_lang['enter_comment'],
+            'L_ENTER_COMMENT' => $lang['enter_comment'],
             'COMMENTS' => $row['comments_value'],
             'S_ACTION' => append_titanium_sid("comments?mode=update"),
             ));
@@ -170,7 +170,7 @@ if($mode == "submit")
 
     }
         $phpbb2_template->assign_vars(array(
-                'L_QUICK_STATS' => $titanium_lang['quick_stats'],
+                'L_QUICK_STATS' => $lang['quick_stats'],
             'USER_AVATAR' => '<a href="modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=' . $userdata['user_id'] . '">' . $avatar_img . '</a>',
             'USERNAME' => '<a href="' . append_titanium_sid("statarcade.$phpEx?uid=" . $userdata['user_id'] ) . '" class="genmed">' . $row['username'] . '</a> ',
             ));
@@ -200,7 +200,7 @@ if($mode == "submit")
     $highscore_game_name = '<a href="' . append_titanium_sid("games.$phpEx?gid=" . $row['game_id']) . '">' . $row['game_name'] . '</a>';
 
         $phpbb2_template->assign_vars(array(
-                    'L_QUICK_STATS_MESSAGE' => sprintf($titanium_lang['quick_stats_message'], $score_count, $fav_game_name, $times_played, $highscore_date, $highscore_game_name),
+                    'L_QUICK_STATS_MESSAGE' => sprintf($lang['quick_stats_message'], $score_count, $fav_game_name, $times_played, $highscore_date, $highscore_game_name),
             ));
 
 //
@@ -245,12 +245,12 @@ $titanium_user_allow_arcadepm_yes = ( $row['user_allow_arcadepm'] ) ? "checked=\
 $titanium_user_allow_arcadepm_no = ( !$row['user_allow_arcadepm'] ) ? "checked=\"checked\"" : "";
 
 $phpbb2_template->assign_vars(array(
-            'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $titanium_lang['arcade'] . '</a> '
+            'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $lang['arcade'] . '</a> '
             ));
 if ($score_count != 0)
 {
 $phpbb2_template->assign_block_vars('comment_select',array(
-            'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $titanium_lang['arcade'] . '</a> ' ,
+            'NAV_DESC' => '<a class="nav" href="' . append_titanium_sid("arcade.$phpEx") . '">' . $lang['arcade'] . '</a> ' ,
             'HIGHSCORE_COUNT' => $score_count,
             'HIGHSCORE_SELECT' => $select_highscore,
             'S_ACTION' => $submit,
@@ -260,8 +260,8 @@ $phpbb2_template->assign_block_vars('comment_select',array(
 
 $phpbb2_template->assign_block_vars('comment_settings',array(
             'S_ACTION_PM' => $z,
-            'L_YES' => $titanium_lang['Yes'],
-            'L_NO' => $titanium_lang['No'],
+            'L_YES' => $lang['Yes'],
+            'L_NO' => $lang['No'],
             'USER_ALLOW_ARCADEPM_YES' => $titanium_user_allow_arcadepm_yes,
             'USER_ALLOW_ARCADEPM_NO' => $titanium_user_allow_arcadepm_no
             ));

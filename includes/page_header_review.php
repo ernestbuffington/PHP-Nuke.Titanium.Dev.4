@@ -68,12 +68,12 @@ $phpbb2_template->set_filenames(array(
 if ( $userdata['session_logged_in'] )
 {
         $u_login_logout = 'modules.php?name=Your_Account&op=logout&redirect=Forums';
-        $l_login_logout = $titanium_lang['Logout'] . ' [ ' . $userdata['username'] . ' ]';
+        $l_login_logout = $lang['Logout'] . ' [ ' . $userdata['username'] . ' ]';
 }
 else
 {
         $u_login_logout = 'modules.php?name=Your_Account&redirect=index';
-        $l_login_logout = $titanium_lang['Login'];
+        $l_login_logout = $lang['Login'];
 }
 
 $s_last_visit = ( $userdata['session_logged_in'] ) ? create_date($phpbb2_board_config['default_dateformat'], $userdata['user_lastvisit'], $phpbb2_board_config['board_timezone']) : '';
@@ -158,9 +158,9 @@ while( $row = $titanium_db->sql_fetchrow($result) )
 
 if ( empty($online_userlist) )
 {
-    $online_userlist = $titanium_lang['None'];
+    $online_userlist = $lang['None'];
 }
-$online_userlist = ( ( isset($phpbb2_forum_id) ) ? $titanium_lang['Browsing_forum'] : $titanium_lang['Registered_users'] ) . ' ' . $online_userlist;
+$online_userlist = ( ( isset($phpbb2_forum_id) ) ? $lang['Browsing_forum'] : $lang['Registered_users'] ) . ' ' . $online_userlist;
 
 $total_phpbb2_online_users = $logged_visible_online + $logged_hidden_online + $guests_online;
 
@@ -196,54 +196,54 @@ if ( $total_phpbb2_online_users > $phpbb2_board_config['record_online_users'])
 
 if ( $total_phpbb2_online_users == 0 )
 {
-    $l_t_user_s = $titanium_lang['Online_users_zero_total'];
+    $l_t_user_s = $lang['Online_users_zero_total'];
 }
 else if ( $total_phpbb2_online_users == 1 )
 {
-    $l_t_user_s = $titanium_lang['Online_user_total'];
+    $l_t_user_s = $lang['Online_user_total'];
 }
 else
 {
-    $l_t_user_s = $titanium_lang['Online_users_total'];
+    $l_t_user_s = $lang['Online_users_total'];
 }
 
 if ( $logged_visible_online == 0 )
 {
-    $l_r_user_s = $titanium_lang['Reg_users_zero_total'];
+    $l_r_user_s = $lang['Reg_users_zero_total'];
 }
 else if ( $logged_visible_online == 1 )
 {
-    $l_r_user_s = $titanium_lang['Reg_user_total'];
+    $l_r_user_s = $lang['Reg_user_total'];
 }
 else
 {
-    $l_r_user_s = $titanium_lang['Reg_users_total'];
+    $l_r_user_s = $lang['Reg_users_total'];
 }
 
 if ( $logged_hidden_online == 0 )
 {
-    $l_h_user_s = $titanium_lang['Hidden_users_zero_total'];
+    $l_h_user_s = $lang['Hidden_users_zero_total'];
 }
 else if ( $logged_hidden_online == 1 )
 {
-    $l_h_user_s = $titanium_lang['Hidden_user_total'];
+    $l_h_user_s = $lang['Hidden_user_total'];
 }
 else
 {
-    $l_h_user_s = $titanium_lang['Hidden_users_total'];
+    $l_h_user_s = $lang['Hidden_users_total'];
 }
 
 if ( $guests_online == 0 )
 {
-    $l_g_user_s = $titanium_lang['Guest_users_zero_total'];
+    $l_g_user_s = $lang['Guest_users_zero_total'];
 }
 else if ( $guests_online == 1 )
 {
-    $l_g_user_s = $titanium_lang['Guest_user_total'];
+    $l_g_user_s = $lang['Guest_user_total'];
 }
 else
 {
-    $l_g_user_s = $titanium_lang['Guest_users_total'];
+    $l_g_user_s = $lang['Guest_users_total'];
 }
 
 $l_online_users = sprintf($l_t_user_s, $total_phpbb2_online_users);
@@ -259,7 +259,7 @@ if ( $userdata['session_logged_in'] )
 {
     if ( $userdata['user_new_privmsg'] )
     {
-        $l_message_new = ( $userdata['user_new_privmsg'] == 1 ) ? $titanium_lang['New_pm'] : $titanium_lang['New_pms'];
+        $l_message_new = ( $userdata['user_new_privmsg'] == 1 ) ? $lang['New_pm'] : $lang['New_pms'];
         $l_privmsgs_text = sprintf($l_message_new, $userdata['user_new_privmsg']);
 
         if ( $userdata['user_last_privmsg'] > $userdata['user_lastvisit'] )
@@ -283,7 +283,7 @@ if ( $userdata['session_logged_in'] )
     }
     else
     {
-        $l_privmsgs_text = $titanium_lang['No_new_pm'];
+        $l_privmsgs_text = $lang['No_new_pm'];
 
         $s_privmsg_new = 0;
         $phpbb2_icon_pm = $images['pm_no_new_msg'];
@@ -291,18 +291,18 @@ if ( $userdata['session_logged_in'] )
 
     if ( $userdata['user_unread_privmsg'] )
     {
-        $l_message_unread = ( $userdata['user_unread_privmsg'] == 1 ) ? $titanium_lang['Unread_pm'] : $titanium_lang['Unread_pms'];
+        $l_message_unread = ( $userdata['user_unread_privmsg'] == 1 ) ? $lang['Unread_pm'] : $lang['Unread_pms'];
         $l_privmsgs_text_unread = sprintf($l_message_unread, $userdata['user_unread_privmsg']);
     }
     else
     {
-        $l_privmsgs_text_unread = $titanium_lang['No_unread_pm'];
+        $l_privmsgs_text_unread = $lang['No_unread_pm'];
     }
 }
 else
 {
     $phpbb2_icon_pm = $images['pm_no_new_msg'];
-    $l_privmsgs_text = $titanium_lang['Login_check_pm'];
+    $l_privmsgs_text = $lang['Login_check_pm'];
     $l_privmsgs_text_unread = '';
     $s_privmsg_new = 0;
 }
@@ -336,40 +336,40 @@ $phpbb2_template->assign_vars(array(
     'SITENAME' => $phpbb2_board_config['sitename'],
     'SITE_DESCRIPTION' => $phpbb2_board_config['site_desc'],
     'PAGE_TITLE' => $phpbb2_page_title,
-    'LAST_VISIT_DATE' => sprintf($titanium_lang['You_last_visit'], $s_last_visit),
-    'CURRENT_TIME' => sprintf($titanium_lang['Current_time'], create_date($phpbb2_board_config['default_dateformat'], time(), $phpbb2_board_config['board_timezone'])),
+    'LAST_VISIT_DATE' => sprintf($lang['You_last_visit'], $s_last_visit),
+    'CURRENT_TIME' => sprintf($lang['Current_time'], create_date($phpbb2_board_config['default_dateformat'], time(), $phpbb2_board_config['board_timezone'])),
     'TOTAL_USERS_ONLINE' => $l_online_users,
     'LOGGED_IN_USER_LIST' => $online_userlist,
-    'RECORD_USERS' => sprintf($titanium_lang['Record_online_users'], $phpbb2_board_config['record_online_users'], create_date($phpbb2_board_config['default_dateformat'], $phpbb2_board_config['record_online_date'], $phpbb2_board_config['board_timezone'])),
+    'RECORD_USERS' => sprintf($lang['Record_online_users'], $phpbb2_board_config['record_online_users'], create_date($phpbb2_board_config['default_dateformat'], $phpbb2_board_config['record_online_date'], $phpbb2_board_config['board_timezone'])),
     'PRIVATE_MESSAGE_INFO' => $l_privmsgs_text,
     'PRIVATE_MESSAGE_INFO_UNREAD' => $l_privmsgs_text_unread,
     'PRIVATE_MESSAGE_NEW_FLAG' => $s_privmsg_new,
 
     'PRIVMSG_IMG' => $phpbb2_icon_pm,
 
-    'L_USERNAME' => $titanium_lang['Username'],
-    'L_PASSWORD' => $titanium_lang['Password'],
+    'L_USERNAME' => $lang['Username'],
+    'L_PASSWORD' => $lang['Password'],
     'L_LOGIN_LOGOUT' => $l_login_logout,
-    'L_LOGIN' => $titanium_lang['Login'],
-    'L_LOG_ME_IN' => $titanium_lang['Log_me_in'],
-    'L_AUTO_LOGIN' => $titanium_lang['Log_me_in'],
+    'L_LOGIN' => $lang['Login'],
+    'L_LOG_ME_IN' => $lang['Log_me_in'],
+    'L_AUTO_LOGIN' => $lang['Log_me_in'],
     
-	'L_INDEX' => sprintf($titanium_lang['Forum_Index'], $phpbb2_board_config['sitename']),
-    'L_INDEXHOME' => $titanium_lang['Home_Index'],'index.php',
+	'L_INDEX' => sprintf($lang['Forum_Index'], $phpbb2_board_config['sitename']),
+    'L_INDEXHOME' => $lang['Home_Index'],'index.php',
     
-	'L_REGISTER' => $titanium_lang['Register'],
-    'L_PROFILE' => $titanium_lang['Profile'],
-    'L_SEARCH' => $titanium_lang['Search'],
-    'L_PRIVATEMSGS' => $titanium_lang['Private_Messages'],
-    'L_WHO_IS_ONLINE' => $titanium_lang['Who_is_Online'],
-    'L_MEMBERLIST' => $titanium_lang['Memberlist'],
-    'L_FAQ' => $titanium_lang['FAQ'],
-    'L_USERGROUPS' => $titanium_lang['Usergroups'],
-    'L_SEARCH_NEW' => $titanium_lang['Search_new'],
-    'L_SEARCH_UNANSWERED' => $titanium_lang['Search_unanswered'],
-    'L_SEARCH_SELF' => $titanium_lang['Search_your_posts'],
-    'L_WHOSONLINE_ADMIN' => sprintf($titanium_lang['Admin_online_color'], '<span style="color:#' . $theme['fontcolor3'] . '">', '</span>'),
-    'L_WHOSONLINE_MOD' => sprintf($titanium_lang['Mod_online_color'], '<span style="color:#' . $theme['fontcolor2'] . '">', '</span>'),
+	'L_REGISTER' => $lang['Register'],
+    'L_PROFILE' => $lang['Profile'],
+    'L_SEARCH' => $lang['Search'],
+    'L_PRIVATEMSGS' => $lang['Private_Messages'],
+    'L_WHO_IS_ONLINE' => $lang['Who_is_Online'],
+    'L_MEMBERLIST' => $lang['Memberlist'],
+    'L_FAQ' => $lang['FAQ'],
+    'L_USERGROUPS' => $lang['Usergroups'],
+    'L_SEARCH_NEW' => $lang['Search_new'],
+    'L_SEARCH_UNANSWERED' => $lang['Search_unanswered'],
+    'L_SEARCH_SELF' => $lang['Search_your_posts'],
+    'L_WHOSONLINE_ADMIN' => sprintf($lang['Admin_online_color'], '<span style="color:#' . $theme['fontcolor3'] . '">', '</span>'),
+    'L_WHOSONLINE_MOD' => sprintf($lang['Mod_online_color'], '<span style="color:#' . $theme['fontcolor2'] . '">', '</span>'),
 
     'U_SEARCH_UNANSWERED' => append_titanium_sid('search.'.$phpEx.'?search_id=unanswered'),
     'U_SEARCH_SELF' => append_titanium_sid('search.'.$phpEx.'?search_id=egosearch'),
@@ -393,11 +393,11 @@ $phpbb2_template->assign_vars(array(
     'U_MEMBERSLIST' => append_titanium_sid('memberlist.'.$phpEx),
     'U_GROUP_CP' => append_titanium_sid('groupcp.'.$phpEx),
 
-    'S_CONTENT_DIRECTION' => $titanium_lang['DIRECTION'],
-    'S_CONTENT_ENCODING' => $titanium_lang['ENCODING'],
-    'S_CONTENT_DIR_LEFT' => $titanium_lang['LEFT'],
-    'S_CONTENT_DIR_RIGHT' => $titanium_lang['RIGHT'],
-    'S_TIMEZONE' => sprintf($titanium_lang['All_times'], $titanium_lang[number_format($phpbb2_board_config['board_timezone'])]),
+    'S_CONTENT_DIRECTION' => $lang['DIRECTION'],
+    'S_CONTENT_ENCODING' => $lang['ENCODING'],
+    'S_CONTENT_DIR_LEFT' => $lang['LEFT'],
+    'S_CONTENT_DIR_RIGHT' => $lang['RIGHT'],
+    'S_TIMEZONE' => sprintf($lang['All_times'], $lang[number_format($phpbb2_board_config['board_timezone'])]),
     'S_LOGIN_ACTION' => append_titanium_sid('login.'.$phpEx),
 
     'T_HEAD_STYLESHEET' => $theme['head_stylesheet'],

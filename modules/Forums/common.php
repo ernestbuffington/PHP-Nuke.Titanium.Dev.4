@@ -196,7 +196,7 @@ if ($_POST != $HTTP_POST_VARS) {
 $userdata = array();
 $theme = array();
 $images = array();
-$titanium_lang = array();
+$lang = array();
 $titanium_nav_links = array();
 $titanium_dss_seeded = false;
 /*****[BEGIN]******************************************

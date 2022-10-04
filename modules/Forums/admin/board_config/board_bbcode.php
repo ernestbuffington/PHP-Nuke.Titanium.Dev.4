@@ -16,9 +16,9 @@ $phpbb2_template->assign_vars(array(
 //Language Template variables
 $phpbb2_template->assign_vars(array(
 
-	"L_YOUTUBE_DIMENSIONS" => $titanium_lang['youtube_dimensions'],
-	"L_TWITCH_DIMENSIONS" => $titanium_lang['twitch_dimensions'],
-	"L_FACEBOOK_DIMENSIONS" => $titanium_lang['facebook_dimensions'],
+	"L_YOUTUBE_DIMENSIONS" => $lang['youtube_dimensions'],
+	"L_TWITCH_DIMENSIONS" => $lang['twitch_dimensions'],
+	"L_FACEBOOK_DIMENSIONS" => $lang['facebook_dimensions'],
 
 	"YOUTUBE_WIDTH" => $new['youtube_width'],
 	"YOUTUBE_HEIGHT" => $new['youtube_height'],

@@ -81,7 +81,7 @@ if (!defined('IN_PHPBB2'))
 //
 function validate_username($titanium_username)
 {
-        global $titanium_db, $titanium_lang, $userdata;
+        global $titanium_db, $lang, $userdata;
 
         // Remove doubled up spaces
         $titanium_username = preg_replace('#\s+#', ' ', trim($titanium_username));
@@ -97,7 +97,7 @@ function validate_username($titanium_username)
                         if (($userdata['session_logged_in'] && $row['username'] != $userdata['username']) || !$userdata['session_logged_in'])
                         {
                                 $titanium_db->sql_freeresult($result);
-                                return array('error' => true, 'error_msg' => $titanium_lang['Username_taken']);
+                                return array('error' => true, 'error_msg' => $lang['Username_taken']);
                         }
                 }
         }
@@ -111,7 +111,7 @@ function validate_username($titanium_username)
                 if ($row = $titanium_db->sql_fetchrow($result))
                 {
                         $titanium_db->sql_freeresult($result);
-                        return array('error' => true, 'error_msg' => $titanium_lang['Username_taken']);
+                        return array('error' => true, 'error_msg' => $lang['Username_taken']);
                 }
         }
         $titanium_db->sql_freeresult($result);
@@ -126,7 +126,7 @@ function validate_username($titanium_username)
             if(!empty($BadNickList[$i])) {
                 if (preg_match("#\b(" . str_replace("\*", ".*?", preg_quote($BadNickList[$i], '#')) . ")\b#i", $titanium_username))
                 {
-                        return array('error' => true, 'error_msg' => $titanium_lang['Username_disallowed']);
+                        return array('error' => true, 'error_msg' => $lang['Username_disallowed']);
                 }
             }
         }
@@ -142,7 +142,7 @@ function validate_username($titanium_username)
                                 if (preg_match("#\b(" . str_replace("\*", ".*?", preg_quote($row['disallow_username'], '#')) . ")\b#i", $titanium_username))
                                 {
                                         $titanium_db->sql_freeresult($result);
-                                        return array('error' => true, 'error_msg' => $titanium_lang['Username_disallowed']);
+                                        return array('error' => true, 'error_msg' => $lang['Username_disallowed']);
                                 }
                         }
                         while($row = $titanium_db->sql_fetchrow($result));
@@ -161,7 +161,7 @@ function validate_username($titanium_username)
                                 if (preg_match("#\b(" . str_replace("\*", ".*?", preg_quote($row['word'], '#')) . ")\b#i", $titanium_username))
                                 {
                                         $titanium_db->sql_freeresult($result);
-                                        return array('error' => true, 'error_msg' => $titanium_lang['Username_disallowed']);
+                                        return array('error' => true, 'error_msg' => $lang['Username_disallowed']);
                                 }
                         }
                         while ($row = $titanium_db->sql_fetchrow($result));
@@ -178,7 +178,7 @@ function validate_username($titanium_username)
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
         {
-                return array('error' => true, 'error_msg' => $titanium_lang['Username_invalid']);
+                return array('error' => true, 'error_msg' => $lang['Username_invalid']);
         }
 
         return array('error' => false, 'error_msg' => '');
@@ -190,7 +190,7 @@ function validate_username($titanium_username)
 //
 function validate_email($email)
 {
-        global $titanium_db, $titanium_lang;
+        global $titanium_db, $lang;
 
         if (!empty($email))
         {
@@ -208,7 +208,7 @@ function validate_email($email)
                                                 if (preg_match('/^' . $match_email . '$/is', $email))
                                                 {
                                                         $titanium_db->sql_freeresult($result);
-                                                        return array('error' => true, 'error_msg' => $titanium_lang['Email_banned']);
+                                                        return array('error' => true, 'error_msg' => $lang['Email_banned']);
                                                 }
                                         }
                                         while($row = $titanium_db->sql_fetchrow($result));
@@ -226,7 +226,7 @@ function validate_email($email)
 
                         if ($row = $titanium_db->sql_fetchrow($result))
                         {
-                                return array('error' => true, 'error_msg' => $titanium_lang['Email_taken']);
+                                return array('error' => true, 'error_msg' => $lang['Email_taken']);
                         }
                         $titanium_db->sql_freeresult($result);
 
@@ -234,7 +234,7 @@ function validate_email($email)
                 }
         }
 
-        return array('error' => true, 'error_msg' => $titanium_lang['Email_invalid']);
+        return array('error' => true, 'error_msg' => $lang['Email_invalid']);
 }
 
 //

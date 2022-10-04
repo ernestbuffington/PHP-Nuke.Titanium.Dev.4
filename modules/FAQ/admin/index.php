@@ -39,8 +39,8 @@ if (!defined('ADMIN_FILE')) {
 }
 
 global $titanium_prefix, $titanium_db, $admdata;
-$titanium_module_name = basename(dirname(dirname(__FILE__)));
-if(is_mod_admin($titanium_module_name)) {
+$pnt_module = basename(dirname(dirname(__FILE__)));
+if(is_mod_admin($pnt_module)) {
 
 /*********************************************************/
 /* Faq Admin Function                                    */
@@ -91,11 +91,11 @@ if(is_mod_admin($titanium_module_name)) {
         if ($multilingual == 1) {
             echo "<tr><td>" . _LANGUAGE . ":</td><td>"
                 ."<select name=\"flanguage\">";
-            $titanium_languages = lang_list();
+            $languages = lang_list();
             echo '<option value=""'.(($currentlang == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-            for ($i=0, $j = count($titanium_languages); $i < $j; $i++) {
-                if ($titanium_languages[$i] != '') {
-                    echo '<option value="'.$titanium_languages[$i].'"'.(($currentlang == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+            for ($i=0, $j = count($languages); $i < $j; $i++) {
+                if ($languages[$i] != '') {
+                    echo '<option value="'.$languages[$i].'"'.(($currentlang == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
                 }
             }
             echo '</select></td></tr>';
@@ -194,11 +194,11 @@ if(is_mod_admin($titanium_module_name)) {
         if ($multilingual == 1) {
             echo "<tr><td>" . _LANGUAGE . ":</td><td>"
                 ."<select name=\"flanguage\">";
-            $titanium_languages = lang_list();
+            $languages = lang_list();
             echo '<option value=""'.(($flanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-            for ($i=0, $j = count($titanium_languages); $i < $j; $i++) {
-                if ($titanium_languages[$i] != '') {
-                    echo '<option value="'.$titanium_languages[$i].'"'.(($flanguage == $titanium_languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($titanium_languages[$i])."</option>\n";
+            for ($i=0, $j = count($languages); $i < $j; $i++) {
+                if ($languages[$i] != '') {
+                    echo '<option value="'.$languages[$i].'"'.(($flanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
                 }
             }
             echo '</select></td>';
@@ -386,7 +386,7 @@ if(is_mod_admin($titanium_module_name)) {
         break;
     }
 } else {
-    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$titanium_module_name\"");
+    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$pnt_module\"");
 }
 
 ?>

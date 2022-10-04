@@ -149,22 +149,22 @@ $core->set_view('num_blocks', 1);
 $core->set_view('value_order', 'left_right');
 
 $core->define_view('set_columns', array(
-    'year' => $titanium_lang['Year'],
-    '1' => $titanium_lang['Month_jan'],
-    '2' => $titanium_lang['Month_feb'],
-    '3' => $titanium_lang['Month_mar'],
-    '4' => $titanium_lang['Month_apr'],
-    '5' => $titanium_lang['Month_may'],
-    '6' => $titanium_lang['Month_jun'],
-    '7' => $titanium_lang['Month_jul'],
-    '8' => $titanium_lang['Month_aug'],
-    '9' => $titanium_lang['Month_sep'],
-    '10' => $titanium_lang['Month_oct'],
-    '11' => $titanium_lang['Month_nov'],
-    '12' => $titanium_lang['Month_dec'])
+    'year' => $lang['Year'],
+    '1' => $lang['Month_jan'],
+    '2' => $lang['Month_feb'],
+    '3' => $lang['Month_mar'],
+    '4' => $lang['Month_apr'],
+    '5' => $lang['Month_may'],
+    '6' => $lang['Month_jun'],
+    '7' => $lang['Month_jul'],
+    '8' => $lang['Month_aug'],
+    '9' => $lang['Month_sep'],
+    '10' => $lang['Month_oct'],
+    '11' => $lang['Month_nov'],
+    '12' => $lang['Month_dec'])
 );
 
-$core->set_header($titanium_lang['module_name']);
+$core->set_header($lang['module_name']);
 
 $data = $core->assign_defined_view('value_array', array(
     $year_ar, 

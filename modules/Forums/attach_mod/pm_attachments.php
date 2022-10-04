@@ -172,7 +172,7 @@ class attach_pm extends attach_parent
     */
     function display_attach_box_limits()
     {
-        global $folder, $attach_config, $phpbb2_board_config, $phpbb2_template, $titanium_lang, $userdata, $titanium_db;
+        global $folder, $attach_config, $phpbb2_board_config, $phpbb2_template, $lang, $userdata, $titanium_db;
 
         if (!$attach_config['allow_pm_attach'] && $userdata['user_level'] != ADMIN)
         {
@@ -193,7 +193,7 @@ class attach_pm extends attach_parent
         }
         $attach_limit_remain = ( $pm_filesize_limit > 0 ) ? $pm_filesize_limit - $pm_filesize_total : 100;
 
-        $l_box_size_status = sprintf($titanium_lang['Attachbox_limit'], $attach_limit_pct);
+        $l_box_size_status = sprintf($lang['Attachbox_limit'], $attach_limit_pct);
 
         $phpbb2_template->assign_vars(array(
             'ATTACHBOX_LIMIT_IMG_WIDTH'    => $attach_limit_img_length,
@@ -207,7 +207,7 @@ class attach_pm extends attach_parent
     */
     function privmsgs_attachment_mod($mode)
     {
-        global $attach_config, $phpbb2_template, $titanium_lang, $userdata, $HTTP_POST_VARS, $phpbb2_root_path, $phpEx, $titanium_db;
+        global $attach_config, $phpbb2_template, $lang, $userdata, $HTTP_POST_VARS, $phpbb2_root_path, $phpEx, $titanium_db;
         global $confirm, $delete, $delete_all, $post_id, $privmsgs_id, $privmsg_id, $submit, $refresh, $mark_list, $folder;
 
         if ($folder != 'outbox')

@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($titanium_module_name)) {
+if(is_mod_admin($pnt_module)) {
     $pagetitle = ": "._USERADMIN." - "._DELFIELD;
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();
@@ -53,12 +53,12 @@ if(is_mod_admin($titanium_module_name)) {
     echo "<br />\n";
     OpenTable();
       echo "<center><table border='0'>\n";
-    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=delFieldConf' method='post'>\n";
+    echo "<form action='modules.php?name=$pnt_module&amp;file=admin&amp;op=delFieldConf' method='post'>\n";
     echo "<tr><td>"._CONFIRMDELLFIELD." $fid?</td></tr>";
     echo "\n";
     echo "<tr><td align='center'><input type='hidden' name='fid' value='$fid'><input type='submit' value='"._DELFIELD."'></td></tr>\n";
     echo "</form>\n";
-    echo "<form action='modules.php?name=$titanium_module_name&amp;file=admin&amp;op=addField' method='post'>\n";
+    echo "<form action='modules.php?name=$pnt_module&amp;file=admin&amp;op=addField' method='post'>\n";
     echo "<tr><td align='center'><input type='submit' value='"._CANCEL."'></td></tr>\n";
     echo "</form>\n";
     echo "</table>\n";

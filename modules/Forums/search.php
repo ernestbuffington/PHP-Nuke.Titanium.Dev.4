@@ -62,8 +62,8 @@ if (!defined('MODULE_FILE')) {
     die("You can't access this file directly...");
 }
 if ($popup != "1") {
-    $titanium_module_name = basename(dirname(__FILE__));
-    require ("modules/" . $titanium_module_name . "/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require ("modules/" . $pnt_module . "/nukebb.php");
 } else {
     $phpbb2_root_path = NUKE_FORUMS_DIR;
 }
@@ -130,7 +130,7 @@ if (!empty($HTTP_POST_VARS['search_time']) || !empty($HTTP_GET_VARS['search_time
 }
 $phpbb2_start = (isset($HTTP_GET_VARS['start'])) ? intval($HTTP_GET_VARS['start']) : 0;
 $phpbb2_start = ($phpbb2_start < 0) ? 0 : $phpbb2_start;
-$sort_by_types = array($titanium_lang['Sort_Time'], $titanium_lang['Sort_Post_Subject'], $titanium_lang['Sort_Topic_Title'], $titanium_lang['Sort_Author'], $titanium_lang['Sort_Forum']);
+$sort_by_types = array($lang['Sort_Time'], $lang['Sort_Post_Subject'], $lang['Sort_Topic_Title'], $lang['Sort_Author'], $lang['Sort_Forum']);
 //
 // encoding match for workaround
 //
@@ -176,7 +176,7 @@ if ($mode == 'searchuser') {
         if ($result = $titanium_db->sql_query($sql)) {
             if ($row = $titanium_db->sql_fetchrow($result)) {
                 if (intval($row['last_search_time']) > 0 && ($current_time - intval($row['last_search_time'])) < intval($phpbb2_board_config['search_flood_interval'])) {
-                    message_die(GENERAL_MESSAGE, $titanium_lang['Search_Flood_Error']);
+                    message_die(GENERAL_MESSAGE, $lang['Search_Flood_Error']);
                 }
             }
         }
@@ -226,7 +226,7 @@ if ($mode == 'searchuser') {
                         $matching_userids.= (($matching_userids != '') ? ', ' : '') . $row['user_id'];
                     } while ($row = $titanium_db->sql_fetchrow($result));
                 } else {
-                    message_die(GENERAL_MESSAGE, $titanium_lang['No_search_match']);
+                    message_die(GENERAL_MESSAGE, $lang['No_search_match']);
                 }
                 $sql = "SELECT post_id
 
@@ -250,7 +250,7 @@ if ($mode == 'searchuser') {
             $synonym_array = @file($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/search_synonyms.txt');
             $split_search = array();
             $stripped_keywords = stripslashes($search_keywords);
-            $split_search = (!strstr($multibyte_charset, $titanium_lang['ENCODING'])) ? split_words(clean_words('search', $stripped_keywords, $stopword_array, $synonym_array), 'search') : split(' ', $search_keywords);
+            $split_search = (!strstr($multibyte_charset, $lang['ENCODING'])) ? split_words(clean_words('search', $stripped_keywords, $stopword_array, $synonym_array), 'search') : split(' ', $search_keywords);
             unset($stripped_keywords);
             /*****[BEGIN]******************************************
             
@@ -299,7 +299,7 @@ if ($mode == 'searchuser') {
                         if (!empty($search_terms)) {
                             $current_match_type = 'and';
                         }
-                        if (!strstr($multibyte_charset, $titanium_lang['ENCODING'])) {
+                        if (!strstr($multibyte_charset, $lang['ENCODING'])) {
                             $match_word = str_replace('*', '%', $split_search[$i]);
                             $sql = "SELECT m.post_id
 
@@ -382,7 +382,7 @@ if ($mode == 'searchuser') {
                 }
             }
             if (!$phpbb2_is_auth['auth_read'] || !$has_access) {
-                message_die(GENERAL_MESSAGE, $titanium_lang['No_searchable_forums']);
+                message_die(GENERAL_MESSAGE, $lang['No_searchable_forums']);
             }
             $auth_sql = "f.forum_id = $search_forum";
         } else {
@@ -571,7 +571,7 @@ if ($mode == 'searchuser') {
             $sort_by = 0;
             $sort_dir = 'DESC';
         } else {
-            message_die(GENERAL_MESSAGE, $titanium_lang['No_search_match']);
+            message_die(GENERAL_MESSAGE, $lang['No_search_match']);
         }
         //
         // Delete old data from the search result table
@@ -746,7 +746,7 @@ if ($mode == 'searchuser') {
         //
         // Output header
         //
-        $phpbb2_page_title = $titanium_lang['Search'];
+        $phpbb2_page_title = $lang['Search'];
         include ("includes/page_header.$phpEx");
         if ($show_results == 'posts') {
             $phpbb2_template->set_filenames(array('body' => 'search_results_posts.tpl'));
@@ -754,8 +754,8 @@ if ($mode == 'searchuser') {
             $phpbb2_template->set_filenames(array('body' => 'search_results_topics.tpl'));
         }
         make_jumpbox('viewforum.' . $phpEx);
-        $l_search_matches = ($total_phpbb2_match_count == 1) ? sprintf($titanium_lang['Found_search_match'], $total_phpbb2_match_count) : sprintf($titanium_lang['Found_search_matches'], $total_phpbb2_match_count);
-        $phpbb2_template->assign_vars(array('L_SEARCH_MATCHES' => $l_search_matches, 'L_TOPIC' => $titanium_lang['Topic']));
+        $l_search_matches = ($total_phpbb2_match_count == 1) ? sprintf($lang['Found_search_match'], $total_phpbb2_match_count) : sprintf($lang['Found_search_matches'], $total_phpbb2_match_count);
+        $phpbb2_template->assign_vars(array('L_SEARCH_MATCHES' => $l_search_matches, 'L_TOPIC' => $lang['Topic']));
         $highlight_active = '';
         $highlight_match = array();
 
@@ -915,7 +915,7 @@ if ($mode == 'searchuser') {
                 /*****[BEGIN]******************************************                
                 [ Mod:    Advanced Username Color             v1.0.5 ]                
                 ******************************************************/
-                $poster.= ($searchset[$i]['user_id'] != ANONYMOUS) ? UsernameColor($searchset[$i]['user_color_gc'], $searchset[$i]['username']) : ((UsernameColor($searchset[$i]['user_color_gc'], $searchset[$i]['post_username']) != "") ? UsernameColor($searchset[$i]['user_color_gc'], $searchset[$i]['post_username']) : $titanium_lang['Guest']);
+                $poster.= ($searchset[$i]['user_id'] != ANONYMOUS) ? UsernameColor($searchset[$i]['user_color_gc'], $searchset[$i]['username']) : ((UsernameColor($searchset[$i]['user_color_gc'], $searchset[$i]['post_username']) != "") ? UsernameColor($searchset[$i]['user_color_gc'], $searchset[$i]['post_username']) : $lang['Guest']);
                 /*****[END]********************************************                
                 [ Mod:    Advanced Username Color             v1.0.5 ]                
                 ******************************************************/
@@ -928,14 +928,14 @@ if ($mode == 'searchuser') {
                     }
                     if ($searchset[$i]['post_time'] > $topic_last_read) {
                         $mini_post_img = $images['icon_minipost_new'];
-                        $mini_post_alt = $titanium_lang['New_post'];
+                        $mini_post_alt = $lang['New_post'];
                     } else {
                         $mini_post_img = $images['icon_minipost'];
-                        $mini_post_alt = $titanium_lang['Post'];
+                        $mini_post_alt = $lang['Post'];
                     }
                 } else {
                     $mini_post_img = $images['icon_minipost'];
-                    $mini_post_alt = $titanium_lang['Post'];
+                    $mini_post_alt = $lang['Post'];
                 }
 
                 $phpbb2_folder_image = $images['icon_minipost'];
@@ -970,7 +970,7 @@ if ($mode == 'searchuser') {
                 
                 ******************************************************/
                 if ($topic_type == POST_GLOBAL_ANNOUNCE) {
-                    $topic_type = $titanium_lang['Topic_global_announcement'] . " ";
+                    $topic_type = $lang['Topic_global_announcement'] . " ";
                 } else
                 /*****[END]********************************************
                 
@@ -978,20 +978,20 @@ if ($mode == 'searchuser') {
                 
                 ******************************************************/
                 if ($topic_type == POST_ANNOUNCE) {
-                    $topic_type = $titanium_lang['Topic_Announcement'] . ' ';
+                    $topic_type = $lang['Topic_Announcement'] . ' ';
                 } else if ($topic_type == POST_STICKY) {
-                    $topic_type = $titanium_lang['Topic_Sticky'] . ' ';
+                    $topic_type = $lang['Topic_Sticky'] . ' ';
                 } else {
                     $topic_type = '';
                 }
                 if ($searchset[$i]['topic_vote']) {
-                    $topic_type.= $titanium_lang['Topic_Poll'] . ' ';
+                    $topic_type.= $lang['Topic_Poll'] . ' ';
                 }
                 $views = $searchset[$i]['topic_views'];
                 $replies = $searchset[$i]['topic_replies'];
                 if (($replies + 1) > $phpbb2_board_config['posts_per_page']) {
                     $total_phpbb2_pages = ceil(($replies + 1) / $phpbb2_board_config['posts_per_page']);
-                    $goto_page = ' [ <img src="' . $images['icon_gotopost'] . '" alt="' . $titanium_lang['Goto_page'] . '" title="' . $titanium_lang['Goto_page'] . '" />' . $titanium_lang['Goto_page'] . ': ';
+                    $goto_page = ' [ <img src="' . $images['icon_gotopost'] . '" alt="' . $lang['Goto_page'] . '" title="' . $lang['Goto_page'] . '" />' . $lang['Goto_page'] . ': ';
                     $times = 1;
                     for ($j = 0;$j < $replies + 1;$j+= $phpbb2_board_config['posts_per_page']) {
                         $goto_page.= '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=" . $topic_id . "&amp;start=$j") . '">' . $times . '</a>';
@@ -1009,9 +1009,9 @@ if ($mode == 'searchuser') {
                     $goto_page = '';
                 }
                 if ($searchset[$i]['topic_status'] == TOPIC_MOVED) {
-                    $topic_type = $titanium_lang['Topic_Moved'] . ' ';
+                    $topic_type = $lang['Topic_Moved'] . ' ';
                     $topic_id = $searchset[$i]['topic_moved_id'];
-                    $phpbb2_folder_image = '<img src="' . $images['folder'] . '" alt="' . $titanium_lang['No_new_posts'] . '" />';
+                    $phpbb2_folder_image = '<img src="' . $images['folder'] . '" alt="' . $lang['No_new_posts'] . '" />';
                     $newest_post_img = '';
                 } else {
                     if ($searchset[$i]['topic_status'] == TOPIC_LOCKED) {
@@ -1068,31 +1068,31 @@ if ($mode == 'searchuser') {
                                 }
                                 if ($phpbb2_unread_topics) {
                                     $phpbb2_folder_image = $folder_new;
-                                    $phpbb2_folder_alt = $titanium_lang['New_posts'];
-                                    $newest_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;view=newest") . '"><img src="' . $images['icon_newest_reply'] . '" alt="' . $titanium_lang['View_newest_post'] . '" title="' . $titanium_lang['View_newest_post'] . '" border="0" /></a> ';
+                                    $phpbb2_folder_alt = $lang['New_posts'];
+                                    $newest_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;view=newest") . '"><img src="' . $images['icon_newest_reply'] . '" alt="' . $lang['View_newest_post'] . '" title="' . $lang['View_newest_post'] . '" border="0" /></a> ';
                                 } else {
-                                    $phpbb2_folder_alt = ($searchset[$i]['topic_status'] == TOPIC_LOCKED) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+                                    $phpbb2_folder_alt = ($searchset[$i]['topic_status'] == TOPIC_LOCKED) ? $lang['Topic_locked'] : $lang['No_new_posts'];
                                     $phpbb2_folder_image = $folder;
                                     $phpbb2_folder_alt = $phpbb2_folder_alt;
                                     $newest_post_img = '';
                                 }
                             } else if ($searchset[$i]['post_time'] > $userdata['user_lastvisit']) {
                                 $phpbb2_folder_image = $folder_new;
-                                $phpbb2_folder_alt = $titanium_lang['New_posts'];
-                                $newest_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;view=newest") . '"><img src="' . $images['icon_newest_reply'] . '" alt="' . $titanium_lang['View_newest_post'] . '" title="' . $titanium_lang['View_newest_post'] . '" border="0" /></a> ';
+                                $phpbb2_folder_alt = $lang['New_posts'];
+                                $newest_post_img = '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;view=newest") . '"><img src="' . $images['icon_newest_reply'] . '" alt="' . $lang['View_newest_post'] . '" title="' . $lang['View_newest_post'] . '" border="0" /></a> ';
                             } else {
                                 $phpbb2_folder_image = $folder;
-                                $phpbb2_folder_alt = ($searchset[$i]['topic_status'] == TOPIC_LOCKED) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+                                $phpbb2_folder_alt = ($searchset[$i]['topic_status'] == TOPIC_LOCKED) ? $lang['Topic_locked'] : $lang['No_new_posts'];
                                 $newest_post_img = '';
                             }
                         } else {
                             $phpbb2_folder_image = $folder;
-                            $phpbb2_folder_alt = ($searchset[$i]['topic_status'] == TOPIC_LOCKED) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+                            $phpbb2_folder_alt = ($searchset[$i]['topic_status'] == TOPIC_LOCKED) ? $lang['Topic_locked'] : $lang['No_new_posts'];
                             $newest_post_img = '';
                         }
                     } else {
                         $phpbb2_folder_image = $folder;
-                        $phpbb2_folder_alt = ($searchset[$i]['topic_status'] == TOPIC_LOCKED) ? $titanium_lang['Topic_locked'] : $titanium_lang['No_new_posts'];
+                        $phpbb2_folder_alt = ($searchset[$i]['topic_status'] == TOPIC_LOCKED) ? $lang['Topic_locked'] : $lang['No_new_posts'];
                         $newest_post_img = '';
                     }
                 }
@@ -1102,7 +1102,7 @@ if ($mode == 'searchuser') {
                 [ Mod:    Advanced Username Color             v1.0.5 ]
                 
                 ******************************************************/
-                $topic_author.= ($searchset[$i]['user_id'] != ANONYMOUS) ? UsernameColor($searchset[$i]['color1'], $searchset[$i]['username']) : ((UsernameColor($searchset[$i]['color1'], $searchset[$i]['post_username']) != '') ? UsernameColor($searchset[$i]['color1'], $searchset[$i]['post_username']) : $titanium_lang['Guest']);
+                $topic_author.= ($searchset[$i]['user_id'] != ANONYMOUS) ? UsernameColor($searchset[$i]['color1'], $searchset[$i]['username']) : ((UsernameColor($searchset[$i]['color1'], $searchset[$i]['post_username']) != '') ? UsernameColor($searchset[$i]['color1'], $searchset[$i]['post_username']) : $lang['Guest']);
                 /*****[END]********************************************
                 
                 [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -1116,23 +1116,23 @@ if ($mode == 'searchuser') {
                 [ Mod:    Advanced Username Color             v1.0.5 ]
                 
                 ******************************************************/
-                $phpbb2_last_post_author = ($searchset[$i]['id2'] == ANONYMOUS) ? (($searchset[$i]['post_username2'] != '') ? $searchset[$i]['post_username2'] . ' ' : $titanium_lang['Guest'] . ' ') : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $searchset[$i]['id2']) . '">' . UsernameColor($searchset[$i]['color2'], $searchset[$i]['user2']) . '</a>';
+                $phpbb2_last_post_author = ($searchset[$i]['id2'] == ANONYMOUS) ? (($searchset[$i]['post_username2'] != '') ? $searchset[$i]['post_username2'] . ' ' : $lang['Guest'] . ' ') : '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $searchset[$i]['id2']) . '">' . UsernameColor($searchset[$i]['color2'], $searchset[$i]['user2']) . '</a>';
                 /*****[END]********************************************
                 
                 [ Mod:    Advanced Username Color             v1.0.5 ]
                 
                 ******************************************************/
-                $phpbb2_last_post_url = '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_POST_URL . '=' . $searchset[$i]['topic_last_post_id']) . '#' . $searchset[$i]['topic_last_post_id'] . '"><img src="' . $images['icon_latest_reply'] . '" alt="' . $titanium_lang['View_latest_post'] . '" title="' . $titanium_lang['View_latest_post'] . '" border="0" /></a>';
+                $phpbb2_last_post_url = '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_POST_URL . '=' . $searchset[$i]['topic_last_post_id']) . '#' . $searchset[$i]['topic_last_post_id'] . '"><img src="' . $images['icon_latest_reply'] . '" alt="' . $lang['View_latest_post'] . '" title="' . $lang['View_latest_post'] . '" border="0" /></a>';
                 /*--FNA #2--*/
                 $phpbb2_template->assign_block_vars('searchresults', array('FORUM_NAME' => $searchset[$i]['forum_name'], 'FORUM_ID' => $phpbb2_forum_id, 'TOPIC_ID' => $topic_id, 'FOLDER' => $phpbb2_folder_image, 'NEWEST_POST_IMG' => $newest_post_img, 'TOPIC_FOLDER_IMG' => $phpbb2_folder_image, 'GOTO_PAGE' => $goto_page, 'REPLIES' => $replies, 'TOPIC_TITLE' => $topic_title, 'TOPIC_TYPE' => $topic_type, 'VIEWS' => $views, 'TOPIC_AUTHOR' => $topic_author, 'FIRST_POST_TIME' => $first_post_time, 'LAST_POST_TIME' => $phpbb2_last_post_time, 'LAST_POST_AUTHOR' => $phpbb2_last_post_author, 'LAST_POST_IMG' => $phpbb2_last_post_url, 'L_TOPIC_FOLDER_ALT' => $phpbb2_folder_alt, 'U_VIEW_FORUM' => $forum_url, 'U_VIEW_TOPIC' => $topic_url));
             }
         }
         $base_url = "search.$phpEx?search_id=$search_id";
-        $phpbb2_template->assign_vars(array('PAGINATION' => generate_pagination($base_url, $total_phpbb2_match_count, $per_page, $phpbb2_start), 'PAGE_NUMBER' => sprintf($titanium_lang['Page_of'], (floor($phpbb2_start / $per_page) + 1), ceil($total_phpbb2_match_count / $per_page)), 'L_AUTHOR' => $titanium_lang['Author'], 'L_MESSAGE' => $titanium_lang['Message'], 'L_FORUM' => $titanium_lang['Forum'], 'L_TOPICS' => $titanium_lang['Topics'], 'L_REPLIES' => $titanium_lang['Replies'], 'L_VIEWS' => $titanium_lang['Views'], 'L_POSTS' => $titanium_lang['Posts'], 'L_LASTPOST' => $titanium_lang['Last_Post'], 'L_POSTED' => $titanium_lang['Posted'], 'L_SUBJECT' => $titanium_lang['Subject'], 'L_GOTO_PAGE' => $titanium_lang['Goto_page']));
+        $phpbb2_template->assign_vars(array('PAGINATION' => generate_pagination($base_url, $total_phpbb2_match_count, $per_page, $phpbb2_start), 'PAGE_NUMBER' => sprintf($lang['Page_of'], (floor($phpbb2_start / $per_page) + 1), ceil($total_phpbb2_match_count / $per_page)), 'L_AUTHOR' => $lang['Author'], 'L_MESSAGE' => $lang['Message'], 'L_FORUM' => $lang['Forum'], 'L_TOPICS' => $lang['Topics'], 'L_REPLIES' => $lang['Replies'], 'L_VIEWS' => $lang['Views'], 'L_POSTS' => $lang['Posts'], 'L_LASTPOST' => $lang['Last_Post'], 'L_POSTED' => $lang['Posted'], 'L_SUBJECT' => $lang['Subject'], 'L_GOTO_PAGE' => $lang['Goto_page']));
         $phpbb2_template->pparse('body');
         include ("includes/page_tail.$phpEx");
     } else {
-        message_die(GENERAL_MESSAGE, $titanium_lang['No_search_match']);
+        message_die(GENERAL_MESSAGE, $lang['No_search_match']);
     }
 }
 //
@@ -1207,21 +1207,21 @@ for ($i = 0;$i < count($list);$i++) {
 }
 $titanium_db->sql_freeresult($result);
 if ($s_forums != '') {
-    $s_forums = '<option value="-1">' . $titanium_lang['All_available'] . '</option>' . $s_forums;
+    $s_forums = '<option value="-1">' . $lang['All_available'] . '</option>' . $s_forums;
     //
     // Category to search
     //
-    $s_categories = '<option value="-1">' . $titanium_lang['All_available'] . '</option>';
+    $s_categories = '<option value="-1">' . $lang['All_available'] . '</option>';
     while (list($cat_id, $cat_title) = @each($list_cat)) {
         $s_categories.= '<option value="' . $cat_id . '">' . $cat_title . '</option>';
     }
 } else {
-    message_die(GENERAL_MESSAGE, $titanium_lang['No_searchable_forums']);
+    message_die(GENERAL_MESSAGE, $lang['No_searchable_forums']);
 }
 //
 // Number of chars returned
 //
-$s_characters = '<option value="-1">' . $titanium_lang['All_available'] . '</option>';
+$s_characters = '<option value="-1">' . $lang['All_available'] . '</option>';
 $s_characters.= '<option value="0">0</option>';
 $s_characters.= '<option value="25">25</option>';
 $s_characters.= '<option value="50">50</option>';
@@ -1240,7 +1240,7 @@ for ($i = 0;$i < count($sort_by_types);$i++) {
 // Search time
 //
 $previous_days = array(0, 1, 7, 14, 30, 90, 180, 364);
-$previous_days_text = array($titanium_lang['All_Posts'], $titanium_lang['1_Day'], $titanium_lang['7_Days'], $titanium_lang['2_Weeks'], $titanium_lang['1_Month'], $titanium_lang['3_Months'], $titanium_lang['6_Months'], $titanium_lang['1_Year']);
+$previous_days_text = array($lang['All_Posts'], $lang['1_Day'], $lang['7_Days'], $lang['2_Weeks'], $lang['1_Month'], $lang['3_Months'], $lang['6_Months'], $lang['1_Year']);
 $s_time = '';
 for ($i = 0;$i < count($previous_days);$i++) {
     $selected = ($topic_days == $previous_days[$i]) ? ' selected="selected"' : '';
@@ -1249,23 +1249,23 @@ for ($i = 0;$i < count($previous_days);$i++) {
 //
 // Output the basic page
 //
-$phpbb2_page_title = $titanium_lang['Search'];
+$phpbb2_page_title = $lang['Search'];
 include ("includes/page_header.$phpEx");
 $phpbb2_template->set_filenames(array('body' => 'search_body.tpl'));
 make_jumpbox('viewforum.' . $phpEx);
-$phpbb2_template->assign_vars(array('L_SEARCH_QUERY' => $titanium_lang['Search_query'], 'L_SEARCH_OPTIONS' => $titanium_lang['Search_options'], 'L_SEARCH_KEYWORDS' => $titanium_lang['Search_keywords'], 'L_SEARCH_KEYWORDS_EXPLAIN' => $titanium_lang['Search_keywords_explain'], 'L_SEARCH_AUTHOR' => $titanium_lang['Search_author'], 'L_SEARCH_AUTHOR_EXPLAIN' => $titanium_lang['Search_author_explain'], 'L_SEARCH_ANY_TERMS' => $titanium_lang['Search_for_any'], 'L_SEARCH_ALL_TERMS' => $titanium_lang['Search_for_all'], 'L_SEARCH_MESSAGE_ONLY' => $titanium_lang['Search_msg_only'],
+$phpbb2_template->assign_vars(array('L_SEARCH_QUERY' => $lang['Search_query'], 'L_SEARCH_OPTIONS' => $lang['Search_options'], 'L_SEARCH_KEYWORDS' => $lang['Search_keywords'], 'L_SEARCH_KEYWORDS_EXPLAIN' => $lang['Search_keywords_explain'], 'L_SEARCH_AUTHOR' => $lang['Search_author'], 'L_SEARCH_AUTHOR_EXPLAIN' => $lang['Search_author_explain'], 'L_SEARCH_ANY_TERMS' => $lang['Search_for_any'], 'L_SEARCH_ALL_TERMS' => $lang['Search_for_all'], 'L_SEARCH_MESSAGE_ONLY' => $lang['Search_msg_only'],
 /*****[BEGIN]******************************************
 
      [ Mod:    Search Only Subject                 v0.9.1 ]
 
      ******************************************************/
-'L_SEARCH_MESSAGE_SUBJECT_ONLY' => $titanium_lang['Search_subject_only'],
+'L_SEARCH_MESSAGE_SUBJECT_ONLY' => $lang['Search_subject_only'],
 /*****[END]********************************************
 
      [ Mod:    Search Only Subject                 v0.9.1 ]
 
      ******************************************************/
-'L_SEARCH_MESSAGE_TITLE' => $titanium_lang['Search_title_msg'], 'L_CATEGORY' => $titanium_lang['Category'], 'L_RETURN_FIRST' => $titanium_lang['Return_first'], 'L_CHARACTERS' => $titanium_lang['characters_posts'], 'L_SORT_BY' => $titanium_lang['Sort_by'], 'L_SORT_ASCENDING' => $titanium_lang['Sort_Ascending'], 'L_SORT_DESCENDING' => $titanium_lang['Sort_Descending'], 'L_SEARCH_PREVIOUS' => $titanium_lang['Search_previous'], 'L_DISPLAY_RESULTS' => $titanium_lang['Display_results'], 'L_FORUM' => $titanium_lang['Forum'], 'L_TOPICS' => $titanium_lang['Topics'], 'L_POSTS' => $titanium_lang['Posts'], 'S_SEARCH_ACTION' => append_titanium_sid("search.$phpEx?mode=results"), 'S_CHARACTER_OPTIONS' => $s_characters, 'S_FORUM_OPTIONS' => $s_forums, 'S_CATEGORY_OPTIONS' => $s_categories, 'S_TIME_OPTIONS' => $s_time, 'S_SORT_OPTIONS' => $s_sort_by, 'S_HIDDEN_FIELDS' => ''));
+'L_SEARCH_MESSAGE_TITLE' => $lang['Search_title_msg'], 'L_CATEGORY' => $lang['Category'], 'L_RETURN_FIRST' => $lang['Return_first'], 'L_CHARACTERS' => $lang['characters_posts'], 'L_SORT_BY' => $lang['Sort_by'], 'L_SORT_ASCENDING' => $lang['Sort_Ascending'], 'L_SORT_DESCENDING' => $lang['Sort_Descending'], 'L_SEARCH_PREVIOUS' => $lang['Search_previous'], 'L_DISPLAY_RESULTS' => $lang['Display_results'], 'L_FORUM' => $lang['Forum'], 'L_TOPICS' => $lang['Topics'], 'L_POSTS' => $lang['Posts'], 'S_SEARCH_ACTION' => append_titanium_sid("search.$phpEx?mode=results"), 'S_CHARACTER_OPTIONS' => $s_characters, 'S_FORUM_OPTIONS' => $s_forums, 'S_CATEGORY_OPTIONS' => $s_categories, 'S_TIME_OPTIONS' => $s_time, 'S_SORT_OPTIONS' => $s_sort_by, 'S_HIDDEN_FIELDS' => ''));
 $phpbb2_template->pparse('body');
 include ("includes/page_tail.$phpEx");
 ?>

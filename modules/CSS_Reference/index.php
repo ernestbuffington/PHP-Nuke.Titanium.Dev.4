@@ -1,7 +1,7 @@
 <?php
 if(!defined('MODULE_FILE')) die('You can\'t access this file directly...');
 
-$titanium_module_name = basename(dirname(__FILE__));
+$pnt_module = basename(dirname(__FILE__));
 
 if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
  $mode = ( isset($HTTP_POST_VARS['mode']) ) ? htmlspecialchars($HTTP_POST_VARS['mode']) : htmlspecialchars($HTTP_GET_VARS['mode']);
@@ -9,12 +9,12 @@ else
  $mode = '';
 
 # Generate page
-global $titanium_module_name, $bgcolor2;
+global $pnt_module, $bgcolor2;
 
-if(!isset($titanium_module_name) || empty($titanium_module_name))
-$titanium_module_name = basename(dirname(__FILE__));
+if(!isset($pnt_module) || empty($pnt_module))
+$pnt_module = basename(dirname(__FILE__));
 
-get_lang($titanium_module_name);
+get_lang($pnt_module);
 
 $pagetitle = 'Complete CSS Reference';
 

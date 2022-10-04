@@ -36,8 +36,8 @@ if (!defined('MODULE_FILE')) {
 
 if ($popup != "1")
     {
-        $titanium_module_name = basename(dirname(__FILE__));
-        require("modules/".$titanium_module_name."/nukebb.php");
+        $pnt_module = basename(dirname(__FILE__));
+        require("modules/".$pnt_module."/nukebb.php");
     }
     else
     {
@@ -64,7 +64,7 @@ if( !$userdata['session_logged_in'] )
 
 if ( $userdata['user_level'] < ADMIN )
 {
-    message_die(GENERAL_MESSAGE, $titanium_lang['Not_Moderator'], $titanium_lang['Not_Authorised']);
+    message_die(GENERAL_MESSAGE, $lang['Not_Moderator'], $lang['Not_Authorised']);
 }
 
 if ( isset($HTTP_POST_VARS['status']) || isset($HTTP_GET_VARS['status']) )
@@ -108,7 +108,7 @@ if ( ($mode == 'closereport' || $mode == 'openreport') && $report_id != '' )
         $report_comments = str_replace("\n", "\n<br />\n", get_report_comments($report_id));
 
         // show form to add comments about report
-        $phpbb2_page_title = $titanium_lang['Report_post'] . ' - ' . $topic_title;
+        $phpbb2_page_title = $lang['Report_post'] . ' - ' . $topic_title;
         include('includes/page_header.'.$phpEx);
 
         $phpbb2_template->set_filenames(array(
@@ -120,13 +120,13 @@ if ( ($mode == 'closereport' || $mode == 'openreport') && $report_id != '' )
             'POST_ID' => $post_id,
             'REPORT_COMMENTS' => $report_comments,
             'U_VIEW_TOPIC' => append_titanium_sid('viewtopic.'.$phpEx.'?' . POST_POST_URL . '=' . $post_id . '#' . $post_id),
-            'L_REPORT_COMMENT' => $titanium_lang['Report_comment'],
-            'L_ACTION' => $titanium_lang['Action'],
-            'L_COMMENTS' => $titanium_lang['Comments'],
-            'L_LAST_ACTION_COMMENTS' => $titanium_lang['Last_action_comments'],
-            'L_LAST_ACTION_COMMENTS_EXPLAIN' => $titanium_lang['Last_action_comments_explain'],
-            'L_SUBMIT' => $titanium_lang['Submit'],
-            'L_PREVIOUS_COMMENTS' => $titanium_lang['Previous_comments'],
+            'L_REPORT_COMMENT' => $lang['Report_comment'],
+            'L_ACTION' => $lang['Action'],
+            'L_COMMENTS' => $lang['Comments'],
+            'L_LAST_ACTION_COMMENTS' => $lang['Last_action_comments'],
+            'L_LAST_ACTION_COMMENTS_EXPLAIN' => $lang['Last_action_comments_explain'],
+            'L_SUBMIT' => $lang['Submit'],
+            'L_PREVIOUS_COMMENTS' => $lang['Previous_comments'],
             'S_ACTION' => append_titanium_sid('viewpost_reports.'.$phpEx.'?mode='.$mode.'&amp;report='.$report_id))
         );
 
@@ -149,11 +149,11 @@ if ( ($mode == 'closereport' || $mode == 'openreport') && $report_id != '' )
 
         if ( $mode == 'closereport' )
         {
-            $last_action = sprintf($titanium_lang['Closed_by_user_on_date'], $last_action_user, $last_action_date);
+            $last_action = sprintf($lang['Closed_by_user_on_date'], $last_action_user, $last_action_date);
         }
         else
         {
-            $last_action = sprintf($titanium_lang['Opened_by_user_on_date'], $last_action_user, $last_action_date);
+            $last_action = sprintf($lang['Opened_by_user_on_date'], $last_action_user, $last_action_date);
         }
 
         $last_action_comments = '<strong>' . $last_action . '</strong>' . "\n" . $last_action_comments;
@@ -176,7 +176,7 @@ if ( ($mode == 'closereport' || $mode == 'openreport') && $report_id != '' )
             message_die(GENERAL_ERROR, 'Could not update status', '', __LINE__, __FILE__, $sql);
         }
 
-        $message =  $titanium_lang['Close_success'] . '<br /><br />' . sprintf($titanium_lang['Click_return_reports'], '<a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">', '</a>');
+        $message =  $lang['Close_success'] . '<br /><br />' . sprintf($lang['Click_return_reports'], '<a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">', '</a>');
         message_die(GENERAL_MESSAGE, $message);
     }
 }
@@ -192,14 +192,14 @@ else if ( $mode == 'close' || $mode == 'open' )
 
     if ( $mode == 'close' )
     {
-        $last_action = sprintf($titanium_lang['Closed_by_user_on_date'], $last_action_user, $last_action_date);
+        $last_action = sprintf($lang['Closed_by_user_on_date'], $last_action_user, $last_action_date);
     }
     else
     {
-        $last_action = sprintf($titanium_lang['Opened_by_user_on_date'], $last_action_user, $last_action_date);
+        $last_action = sprintf($lang['Opened_by_user_on_date'], $last_action_user, $last_action_date);
     }
 
-    $mass_action_comments = '<strong>' . $last_action . '</strong>' . "\n" . $titanium_lang['Last_action_checkbox'];
+    $mass_action_comments = '<strong>' . $last_action . '</strong>' . "\n" . $lang['Last_action_checkbox'];
 
       //replace single quotes
     $mass_action_comments = str_replace("'", "&#039;", $mass_action_comments);
@@ -209,7 +209,7 @@ else if ( $mode == 'close' || $mode == 'open' )
 
     if ( empty($reports) )
     {
-        $message =  $titanium_lang['Report_not_selected'] . '<br /><br />' . sprintf($titanium_lang['Click_return_reports'], '<a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">', '</a>');
+        $message =  $lang['Report_not_selected'] . '<br /><br />' . sprintf($lang['Click_return_reports'], '<a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">', '</a>');
         message_die(GENERAL_MESSAGE, $message);
     }
 
@@ -268,7 +268,7 @@ else if ( $mode == 'close' || $mode == 'open' )
         message_die(GENERAL_ERROR, 'Could not find any reports','');
     }
 
-    $message =  $titanium_lang['Close_success'] . '<br /><br />' . sprintf($titanium_lang['Click_return_reports'], '<a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">', '</a>');
+    $message =  $lang['Close_success'] . '<br /><br />' . sprintf($lang['Click_return_reports'], '<a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">', '</a>');
     message_die(GENERAL_MESSAGE, $message);
 }
 else if ( $mode == 'optout' || $mode == 'optin' )
@@ -282,7 +282,7 @@ else if ( $mode == 'optout' || $mode == 'optin' )
         message_die(GENERAL_ERROR, 'Could not opt status', '', __LINE__, __FILE__, $sql);
     }
 
-    $message = $titanium_lang['Opt_success'] . '<br /><br />' . sprintf($titanium_lang['Click_return_reports'], '<a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">', '</a>');
+    $message = $lang['Opt_success'] . '<br /><br />' . sprintf($lang['Click_return_reports'], '<a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">', '</a>');
     message_die(GENERAL_MESSAGE, $message);
 }
 else if ( $mode == 'delete' )
@@ -290,7 +290,7 @@ else if ( $mode == 'delete' )
     // check if the user is an admin
     if ( $userdata['user_level'] != ADMIN )
     {
-        message_die(GENERAL_MESSAGE, $titanium_lang['Not_Authorised']);
+        message_die(GENERAL_MESSAGE, $lang['Not_Authorised']);
     }
 
     // get the selected reports
@@ -298,7 +298,7 @@ else if ( $mode == 'delete' )
 
     if ( empty($reports) )
     {
-        $message =  $titanium_lang['Report_not_selected'] . '<br /><br />' . sprintf($titanium_lang['Click_return_reports'], '<a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">', '</a>');
+        $message =  $lang['Report_not_selected'] . '<br /><br />' . sprintf($lang['Click_return_reports'], '<a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">', '</a>');
         message_die(GENERAL_MESSAGE, $message);
     }
 
@@ -317,10 +317,10 @@ else if ( $mode == 'delete' )
         message_die(GENERAL_ERROR, 'Could not delete reports', '', __LINE__, __FILE__, $sql);
     }
 
-    $message =  $titanium_lang['Delete_success'] . '<br /><br />' . sprintf($titanium_lang['Click_return_reports'], '<a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">', '</a>');
+    $message =  $lang['Delete_success'] . '<br /><br />' . sprintf($lang['Click_return_reports'], '<a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">', '</a>');
     message_die(GENERAL_MESSAGE, $message);
 }
-$phpbb2_page_title = $titanium_lang['View_post_reports'];
+$phpbb2_page_title = $lang['View_post_reports'];
 include('includes/page_header.'.$phpEx);
 
 $phpbb2_template->set_filenames(array(
@@ -328,24 +328,24 @@ $phpbb2_template->set_filenames(array(
 );
 
 $phpbb2_template->assign_vars(array(
-    'L_DISPLAY'        => $titanium_lang['Display'],
-    'L_OPEN'            => $titanium_lang['Open'],
-    'L_CLOSE'        => $titanium_lang['Close'],
-    'L_DELETE'        => $titanium_lang['Delete'],
-    'L_CLOSED'        => $titanium_lang['Closed'],
-    'L_OPENED'        => $titanium_lang['Opened'],
-    'L_ALL'            => $titanium_lang['All'],
-    'L_POST'            => $titanium_lang['Post'],
-    'L_REPORTER'    => $titanium_lang['Reporter'],
-    'L_COMMENTS'    => $titanium_lang['Comments'],
-    'L_STATUS'        => $titanium_lang['Status'],
+    'L_DISPLAY'        => $lang['Display'],
+    'L_OPEN'            => $lang['Open'],
+    'L_CLOSE'        => $lang['Close'],
+    'L_DELETE'        => $lang['Delete'],
+    'L_CLOSED'        => $lang['Closed'],
+    'L_OPENED'        => $lang['Opened'],
+    'L_ALL'            => $lang['All'],
+    'L_POST'            => $lang['Post'],
+    'L_REPORTER'    => $lang['Reporter'],
+    'L_COMMENTS'    => $lang['Comments'],
+    'L_STATUS'        => $lang['Status'],
 
-    'L_ACTION'     => $titanium_lang['Action'],
-    'L_LAST_ACTION_COMMENTS' => $titanium_lang['Last_action_comments'],
+    'L_ACTION'     => $lang['Action'],
+    'L_LAST_ACTION_COMMENTS' => $lang['Last_action_comments'],
 
-    'L_SELECT_ONE'    => $titanium_lang['Select_one'],
-    'L_SUBMIT'        => $titanium_lang['Submit'],
-    'L_OPT_OUT'        => ( $userdata['user_report_optout'] ) ? $titanium_lang['Opt_in'] : $titanium_lang['Opt_out'],
+    'L_SELECT_ONE'    => $lang['Select_one'],
+    'L_SUBMIT'        => $lang['Submit'],
+    'L_OPT_OUT'        => ( $userdata['user_report_optout'] ) ? $lang['Opt_in'] : $lang['Opt_out'],
 
     'U_OPT_OUT'        => ( $userdata['user_report_optout'] ) ? append_titanium_sid('viewpost_reports.' . $phpEx . '?mode=optin') : append_titanium_sid('viewpost_reports.' . $phpEx . '?mode=optout'),
 

@@ -49,13 +49,13 @@ titanium_init_userprefs($userdata);
 //
 // Load the appropriate Rules file
 //
-$titanium_lang_file = 'lang_rules';
-$l_title = $titanium_lang['rules'];
+$lang_file = 'lang_rules';
+$l_title = $lang['rules'];
 
 //
 // Include the rules settings
 //
-include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/' . $titanium_lang_file . '.' . $phpEx);
+include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/' . $lang_file . '.' . $phpEx);
 
 //
 // Pull the array data from the lang pack
@@ -100,7 +100,7 @@ make_jumpbox('viewforum.'.$phpEx, $phpbb2_forum_id);
 
 $phpbb2_template->assign_vars(array(
     'L_FAQ_TITLE' => $l_title, 
-    'L_BACK_TO_TOP' => $titanium_lang['Back_to_top'])
+    'L_BACK_TO_TOP' => $lang['Back_to_top'])
 );
 
 for($i = 0; $i < count($faq_block); $i++)

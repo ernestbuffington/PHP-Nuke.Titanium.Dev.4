@@ -34,8 +34,8 @@ function title_and_meta_tags()
 	
 	$ThemeSel           = get_theme();
 	$item_delim         = "&raquo;";
-	$titanium_module_name 		= get_query_var( 'name', 'get', 'string', '' );
-	$titanium_module_name_str    = str_replace(array('-','_'),' ',$titanium_module_name);
+	$pnt_module 		= get_query_var( 'name', 'get', 'string', '' );
+	$pnt_module_str    = str_replace(array('-','_'),' ',$pnt_module);
 
 	# if the user is in the administration panel, simply change the page title to administration.
 	if (defined('ADMIN_FILE')):
@@ -50,12 +50,12 @@ function title_and_meta_tags()
 		  if(!defined('HOME_FILE')):
 
 	        # PHP-Nuke Titanium Shout Box Module v1.0 -------------------------------------------------------------------------------------------------
-			if($titanium_module_name == "Shout_Box"):
+			if($pnt_module == "Shout_Box"):
 			
 			# each module has a logo image file START
-			if (@file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/images/logo.png')): 
-		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
-	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
+			if (@file_exists(NUKE_MODULES_DIR.$pnt_module.'/images/logo.png')): 
+		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$pnt_module.'/images/logo.png" />'."\n";
+	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$pnt_module.'/images/logo.png" />'."\n";
 			else:
 		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
 	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
@@ -76,12 +76,12 @@ function title_and_meta_tags()
 			
 			
 			# PHP-Nuke Titanium Google Site Map Module v1.0 --------------------------------------------------------------------------------------------
-			elseif($titanium_module_name == "Google-Site-Map"):
+			elseif($pnt_module == "Google-Site-Map"):
 			
 			# each module has a logo image file START
-			if (@file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/images/logo.png')): 
-		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
-	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
+			if (@file_exists(NUKE_MODULES_DIR.$pnt_module.'/images/logo.png')): 
+		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$pnt_module.'/images/logo.png" />'."\n";
+	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$pnt_module.'/images/logo.png" />'."\n";
 			else:
 		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
 	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
@@ -103,9 +103,9 @@ function title_and_meta_tags()
 
 		else:
 			
-			if (@file_exists(NUKE_MODULES_DIR.$titanium_module_name.'/images/logo.png')): 
-		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
-	              $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
+			if (@file_exists(NUKE_MODULES_DIR.$pnt_module.'/images/logo.png')): 
+		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$pnt_module.'/images/logo.png" />'."\n";
+	              $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$pnt_module.'/images/logo.png" />'."\n";
 			else:
 		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
 	              $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
@@ -136,8 +136,8 @@ function title_and_meta_tags()
 				  $facebook_og_title = '<meta property="og:title" content="'.$newpagetitle.'" />'."\n";
                  endif;
 	             
-		    $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
-	               $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$titanium_module_name.'/images/logo.png" />'."\n";
+		    $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$pnt_module.'/images/logo.png" />'."\n";
+	               $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$pnt_module.'/images/logo.png" />'."\n";
                  
 				     $facebook_ogurl = "<meta property=\"og:url\" content=\"".HTTPS."modules.php?name=$name&file=article&sid=$sid\" />\n";
              $facebook_ia_markup_url = "<meta property=\"ia:markup_url\" content=\"".HTTPS."modules.php?name=$name&file=article&sid=$sid\" />\n";
@@ -159,7 +159,7 @@ function title_and_meta_tags()
 				 
 				   $structured_data .= '  "mainEntityOfPage": {'."\n";
                    $structured_data .= '  "@type": "WebPage",'."\n";
-                   $structured_data .= '  "@id": "'.HTTPS.'modules.php?name='.$titanium_module_name.'&file=article&sid='.$sid.'"'."\n";
+                   $structured_data .= '  "@id": "'.HTTPS.'modules.php?name='.$pnt_module.'&file=article&sid='.$sid.'"'."\n";
                    $structured_data .= '  },'."\n\n";
 				 
 				   $structured_data .= '  "headline": "'.$art.'",'."\n\n";
@@ -199,8 +199,8 @@ function title_and_meta_tags()
 			
 			endif; 			
 			   
-			   if (@file_exists(TITANIUM_THEMES_DIR.'/includes/facebook/'.$titanium_module_name.'/'.$titanium_module_name.'.php')): # Added by Ernest Buffington
-	           include(TITANIUM_THEMES_DIR.'/includes/facebook/'.$titanium_module_name.'/'.$titanium_module_name.'.php');           # Load extra meta settings from each module
+			   if (@file_exists(TITANIUM_THEMES_DIR.'/includes/facebook/'.$pnt_module.'/'.$pnt_module.'.php')): # Added by Ernest Buffington
+	           include(TITANIUM_THEMES_DIR.'/includes/facebook/'.$pnt_module.'/'.$pnt_module.'.php');           # Load extra meta settings from each module
 		       endif;
 	      
 		  # do all this shit if you are on the index.php page
@@ -279,7 +279,7 @@ function title_and_meta_tags()
 		    endif;
 		  endif;
 	   
-	   $newpagetitle = ($titanium_module_name) ? $item_delim .' '.$titanium_module_name_str : '';
+	   $newpagetitle = ($pnt_module) ? $item_delim .' '.$pnt_module_str : '';
     endif;
 	
 	if ($appID > 0):

@@ -38,10 +38,10 @@ require('./pagestart.' . $phpEx);
 // constants
 //
 $auths = array(
-	AUTH_ALL	=> $titanium_lang['Forum_ALL'],
-	AUTH_REG	=> $titanium_lang['Forum_REG'],
-	AUTH_MOD	=> $titanium_lang['Forum_MOD'],
-	AUTH_ADMIN	=> $titanium_lang['Forum_ADMIN'],
+	AUTH_ALL	=> $lang['Forum_ALL'],
+	AUTH_REG	=> $lang['Forum_REG'],
+	AUTH_MOD	=> $lang['Forum_MOD'],
+	AUTH_ADMIN	=> $lang['Forum_ADMIN'],
 );
 
 if (!isset($nav_separator)) $nav_separator = '&nbsp;->&nbsp;';
@@ -275,7 +275,7 @@ if ($mode == 'del')
 			if ($phpbb2_icon == 0)
 			{
 				$error = true;
-				$error_msg = (empty($error_msg) ? '' : '<br />') . $titanium_lang['Icons_error_del_0'];
+				$error_msg = (empty($error_msg) ? '' : '<br />') . $lang['Icons_error_del_0'];
 			}
 
 			// send error messages
@@ -291,18 +291,18 @@ if ($mode == 'del')
 
 			// header
 			$phpbb2_template->assign_vars(array(
-				'L_TITLE'					=> $titanium_lang['Icon'],
-				'L_TITLE_EXPLAIN'			=> $titanium_lang['Icons_settings_explain'],
-				'L_TITLE_DELETE'			=> $titanium_lang['Icons_delete'],
+				'L_TITLE'					=> $lang['Icon'],
+				'L_TITLE_EXPLAIN'			=> $lang['Icons_settings_explain'],
+				'L_TITLE_DELETE'			=> $lang['Icons_delete'],
 
-				'L_CONFIRM'					=> $titanium_lang['Confirm'],
-				'L_CANCEL'					=> $titanium_lang['Cancel'],
+				'L_CONFIRM'					=> $lang['Confirm'],
+				'L_CANCEL'					=> $lang['Cancel'],
 				)
 			);
 
 			// vars
 			$phpbb2_template->assign_vars(array(
-				'MESSAGE'	=> ($used ? $titanium_lang['Icons_delete_explain'] : $titanium_lang['Icons_confirm_delete']),
+				'MESSAGE'	=> ($used ? $lang['Icons_delete_explain'] : $lang['Icons_confirm_delete']),
 				'ICON'		=> get_icon_title($phpbb2_icon, 2, -1, true),
 				)
 			);
@@ -413,7 +413,7 @@ if ($mode == 'edit')
 		@reset($phpbb2_icon_defined_special);
 		while (list($key, $data) = @each($phpbb2_icon_defined_special))
 		{
-			if (isset($titanium_lang[ $data['lang_key'] ]))
+			if (isset($lang[ $data['lang_key'] ]))
 			{
 				if ($phpbb2_icon_defined_special[$key]['icon'] == $phpbb2_icon)
 				{
@@ -450,7 +450,7 @@ if ($mode == 'edit')
 		if (empty($phpbb2_icon_title))
 		{
 			$error = true;
-			$error_msg = (empty($error_msg) ? '' : '<br />') . $titanium_lang['Icons_error_title'];
+			$error_msg = (empty($error_msg) ? '' : '<br />') . $lang['Icons_error_title'];
 		}
 
 		// error found, send message
@@ -490,7 +490,7 @@ if ($mode == 'edit')
 		@reset($phpbb2_icon_defined_special);
 		while (list($key, $data) = @each($phpbb2_icon_defined_special))
 		{
-			if (isset($titanium_lang[ $data['lang_key'] ]))
+			if (isset($lang[ $data['lang_key'] ]))
 			{
 				// reset a prec value
 				if ($phpbb2_icon_defined_special[$key]['icon'] == $phpbb2_icon)
@@ -525,22 +525,22 @@ if ($mode == 'edit')
 
 		// header
 		$phpbb2_template->assign_vars(array(
-			'L_TITLE'			=> $titanium_lang['Icon'],
-			'L_TITLE_KEY'		=> $titanium_lang['Icon_key'],
-			'L_TITLE_EXPLAIN'	=> $titanium_lang['Icons_settings_explain'],
+			'L_TITLE'			=> $lang['Icon'],
+			'L_TITLE_KEY'		=> $lang['Icon_key'],
+			'L_TITLE_EXPLAIN'	=> $lang['Icons_settings_explain'],
 
-			'L_LANG'			=> $titanium_lang['Icons_lang_key'],
-			'L_LANG_EXPLAIN'	=> $titanium_lang['Icons_lang_key_explain'],
-			'L_ICON'			=> $titanium_lang['Icons_icon_key'],
-			'L_ICON_EXPLAIN'	=> $titanium_lang['Icons_icon_key_explain'],
-			'L_AUTH'			=> $titanium_lang['Icons_auth'],
-			'L_AUTH_EXPLAIN'	=> $titanium_lang['Icons_auth_explain'],
-			'L_DEFAULT'			=> $titanium_lang['Icons_defaults'],
-			'L_DEFAULT_EXPLAIN'	=> $titanium_lang['Icons_defaults_explain'],
+			'L_LANG'			=> $lang['Icons_lang_key'],
+			'L_LANG_EXPLAIN'	=> $lang['Icons_lang_key_explain'],
+			'L_ICON'			=> $lang['Icons_icon_key'],
+			'L_ICON_EXPLAIN'	=> $lang['Icons_icon_key_explain'],
+			'L_AUTH'			=> $lang['Icons_auth'],
+			'L_AUTH_EXPLAIN'	=> $lang['Icons_auth_explain'],
+			'L_DEFAULT'			=> $lang['Icons_defaults'],
+			'L_DEFAULT_EXPLAIN'	=> $lang['Icons_defaults_explain'],
 
-			'L_SUBMIT'			=> $titanium_lang['Submit'],
-			'L_REFRESH'			=> $titanium_lang['Refresh'],
-			'L_CANCEL'			=> $titanium_lang['Cancel'],
+			'L_SUBMIT'			=> $lang['Submit'],
+			'L_REFRESH'			=> $lang['Refresh'],
+			'L_CANCEL'			=> $lang['Cancel'],
 			)
 		);
 
@@ -553,7 +553,7 @@ if ($mode == 'edit')
 		$pic = '';
 		if (!empty($url))
 		{
-			$pic = '<img src="../../../' . $url . '" align="middle" alt="' . (isset($titanium_lang[$phpbb2_icon_title]) ? $titanium_lang[$phpbb2_icon_title] : '') . '" border="0" />&nbsp;';
+			$pic = '<img src="../../../' . $url . '" align="middle" alt="' . (isset($lang[$phpbb2_icon_title]) ? $lang[$phpbb2_icon_title] : '') . '" border="0" />&nbsp;';
 		}
 
 		// prepare auth level list
@@ -567,7 +567,7 @@ if ($mode == 'edit')
 		$s_auths = sprintf('<select name="icon_auth">%s</select>', $s_auths);
 
 		// images list
-		$s_icons = '<option value="" selected="selected">' . $titanium_lang['Image_key_pick_up'] . '</option>';
+		$s_icons = '<option value="" selected="selected">' . $lang['Image_key_pick_up'] . '</option>';
 		@ksort($images);
 		@reset($images);
 		while ( list($image_key, $image_url) = @each($images) )
@@ -580,14 +580,14 @@ if ($mode == 'edit')
 		$s_icons = '<select name="icon_url_pickup_list" onChange="javascript:icon_url.value=this.options[this.selectedIndex].value; this.selectedIndex=0;">' . $s_icons . '</select>';
 
 		// lang keys list
-		$s_langs = '<option value="" selected="selected">' . $titanium_lang['Lang_key_pick_up'] . '</option>';
-		@ksort($titanium_lang);
-		@reset($titanium_lang);
-		while ( list($titanium_lang_key, $titanium_lang_data) = @each($titanium_lang) )
+		$s_langs = '<option value="" selected="selected">' . $lang['Lang_key_pick_up'] . '</option>';
+		@ksort($lang);
+		@reset($lang);
+		while ( list($lang_key, $lang_data) = @each($lang) )
 		{
-			if ( !is_array($titanium_lang_data) )
+			if ( !is_array($lang_data) )
 			{
-				$s_langs .= '<option value="' . $titanium_lang_key . '">' . $titanium_lang_key . '</option>';
+				$s_langs .= '<option value="' . $lang_key . '">' . $lang_key . '</option>';
 			}
 		}
 		$s_langs = '<select name="lang_key_pickup_list" onChange="javascript:icon_title.value=this.options[this.selectedIndex].value; this.selectedIndex=0;">' . $s_langs . '</select>';
@@ -595,7 +595,7 @@ if ($mode == 'edit')
 		// vars
 		$phpbb2_template->assign_vars(array(
 			'ICON_TITLE_KEY'	=> $phpbb2_icon_title,
-			'ICON_TITLE'		=> isset($titanium_lang[$phpbb2_icon_title]) ? '<br />' . $titanium_lang[$phpbb2_icon_title] : '',
+			'ICON_TITLE'		=> isset($lang[$phpbb2_icon_title]) ? '<br />' . $lang[$phpbb2_icon_title] : '',
 			'ICON'				=> $pic,
 			'ICON_URL'			=> $phpbb2_icon_url,
 			'S_AUTHS'			=> $s_auths,
@@ -608,10 +608,10 @@ if ($mode == 'edit')
 		@reset($phpbb2_icon_defined_special);
 		while (list($key, $data) = @each($phpbb2_icon_defined_special))
 		{
-			if (isset($titanium_lang[ $data['lang_key'] ]))
+			if (isset($lang[ $data['lang_key'] ]))
 			{
 				$phpbb2_template->assign_block_vars('defaults', array(
-					'NAME'		=> $titanium_lang[ $data['lang_key'] ],
+					'NAME'		=> $lang[ $data['lang_key'] ],
 					'ID'		=> $key,
 					'CHECKED'	=> @in_array($key, $phpbb2_icon_ids) ? ' checked="checked"' : '',
 					)
@@ -664,22 +664,22 @@ if ($mode == '')
 
 	// header
 	$phpbb2_template->assign_vars(array(
-		'L_TITLE'			=> $titanium_lang['Icon'],
-		'L_TITLE_KEY'		=> $titanium_lang['Icon_key'],
-		'L_TITLE_KEY'		=> $titanium_lang['Icon_key'],
-		'L_TITLE_EXPLAIN'	=> $titanium_lang['Icons_settings_explain'],
+		'L_TITLE'			=> $lang['Icon'],
+		'L_TITLE_KEY'		=> $lang['Icon_key'],
+		'L_TITLE_KEY'		=> $lang['Icon_key'],
+		'L_TITLE_EXPLAIN'	=> $lang['Icons_settings_explain'],
 
-		'L_PERMISSIONS'		=> $titanium_lang['Icons_auth'],
-		'L_DEFAULT'			=> $titanium_lang['Icons_defaults'],
-		'L_USAGE'			=> $titanium_lang['Usage'],
-		'L_ACTION'			=> $titanium_lang['Action'],
+		'L_PERMISSIONS'		=> $lang['Icons_auth'],
+		'L_DEFAULT'			=> $lang['Icons_defaults'],
+		'L_USAGE'			=> $lang['Usage'],
+		'L_ACTION'			=> $lang['Action'],
 
-		'L_EDIT'			=> $titanium_lang['Edit'],
-		'L_DELETE'			=> $titanium_lang['Delete'],
-		'L_MOVEUP'			=> $titanium_lang['Move_up'],
-		'L_MOVEDW'			=> $titanium_lang['Move_down'],
+		'L_EDIT'			=> $lang['Edit'],
+		'L_DELETE'			=> $lang['Delete'],
+		'L_MOVEUP'			=> $lang['Move_up'],
+		'L_MOVEDW'			=> $lang['Move_down'],
 
-		'L_CREATE'			=> $titanium_lang['Create_new'],
+		'L_CREATE'			=> $lang['Create_new'],
 		)
 	);
 
@@ -689,8 +689,8 @@ if ($mode == '')
 		$phpbb2_template->assign_block_vars('row', array(
 			'ICON'		=> get_icon_title($phpbb2_icones[$i]['ind'], 1, -1, true),
 			'ICON_KEY'	=> $phpbb2_icones[$i]['img'],
-			'L_LANG'	=> isset($titanium_lang[ $phpbb2_icones[$i]['alt'] ]) ? $titanium_lang[ $phpbb2_icones[$i]['alt'] ] : $phpbb2_icones[$i]['alt'],
-			'LANG_KEY'	=> isset($titanium_lang[ $phpbb2_icones[$i]['alt'] ]) ? '&nbsp;&nbsp;(' . $phpbb2_icones[$i]['alt'] . ')' : '',
+			'L_LANG'	=> isset($lang[ $phpbb2_icones[$i]['alt'] ]) ? $lang[ $phpbb2_icones[$i]['alt'] ] : $phpbb2_icones[$i]['alt'],
+			'LANG_KEY'	=> isset($lang[ $phpbb2_icones[$i]['alt'] ]) ? '&nbsp;&nbsp;(' . $phpbb2_icones[$i]['alt'] . ')' : '',
 			'L_AUTH'	=> $auths[ $phpbb2_icones[$i]['auth'] ],
 			'USAGE'		=> (intval($phpbb2_icones[$i]['usage']) > 0) ? $phpbb2_icones[$i]['usage'] . '&nbsp;(' . ( round( ($phpbb2_icones[$i]['usage'] * 100 )/ $phpbb2_total_posts ) ) . '%)' : '',
 			'U_EDIT'	=> append_titanium_sid("./admin_icons.$phpEx?mode=edit&icon=" . $phpbb2_icones[$i]['ind']),
@@ -704,10 +704,10 @@ if ($mode == '')
 		@reset($phpbb2_icon_defined_special);
 		while (list($key, $data) = @each($phpbb2_icon_defined_special))
 		{
-			if ( ($data['icon'] == $phpbb2_icones[$i]['ind']) && isset($titanium_lang[ $data['lang_key'] ]) )
+			if ( ($data['icon'] == $phpbb2_icones[$i]['ind']) && isset($lang[ $data['lang_key'] ]) )
 			{
 				$phpbb2_template->assign_block_vars('row.default', array(
-					'L_DEFAULT' => $titanium_lang[ $data['lang_key'] ],
+					'L_DEFAULT' => $lang[ $data['lang_key'] ],
 					)
 				);
 			}

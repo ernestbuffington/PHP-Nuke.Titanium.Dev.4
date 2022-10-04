@@ -63,7 +63,7 @@ if (!defined('CNBYA')) {
         OpenTable();
         echo "<table class='forumline' cellpadding=\"3\" cellspacing=\"3\" border=\"0\" width='100%'>\n";
         echo "<tr><td align=\"center\" bgcolor='$bgcolor2' colspan=\"2\"><strong>"._FORACTIVATION."</strong>:</td></tr>\n";
-        echo "<form name=\"Register\" action=\"modules.php?name=$titanium_module_name\" method=\"post\">\n";
+        echo "<form name=\"Register\" action=\"modules.php?name=$pnt_module\" method=\"post\">\n";
         echo "<tr><td bgcolor='$bgcolor2'>"._USRNICKNAME.":</td><td bgcolor='$bgcolor1'>$ya_username</td></tr>\n";
         echo "<tr><td bgcolor='$bgcolor2'>"._UREALNAME.":<br />"._REQUIRED."</td><td bgcolor='$bgcolor1'>";
         echo "<input type=\"text\" name=\"realname\" value=\"$ya_realname\" size=\"50\" maxlength=\"60\"></td></tr>\n";

@@ -28,15 +28,15 @@ $core->set_view('columns', 5);
 
 $core->define_view('set_columns', array(
     $core->pre_defined('rank'),
-    'word' => $titanium_lang['Word'],
-    'count' => $titanium_lang['Count'],
+    'word' => $lang['Word'],
+    'count' => $lang['Count'],
     $core->pre_defined('percent'),
     $core->pre_defined('graph'))
 );
 
 $content->percentage_sign = TRUE;
 
-$core->set_header($titanium_lang['module_name']);
+$core->set_header($lang['module_name']);
 
 $core->assign_defined_view('align_rows', array(
     'left',

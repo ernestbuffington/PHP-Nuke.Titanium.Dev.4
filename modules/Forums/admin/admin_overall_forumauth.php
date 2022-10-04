@@ -53,24 +53,24 @@ $simple_auth_ary = array(
 	6  => array(AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD, AUTH_MOD),
 );
 
-$simple_auth_types = array($titanium_lang['Public'], $titanium_lang['Registered'], $titanium_lang['Registered'] . ' [' . $titanium_lang['Hidden'] . ']', $titanium_lang['Private'], $titanium_lang['Private'] . ' [' . $titanium_lang['Hidden'] . ']', $titanium_lang['Moderators'], $titanium_lang['Moderators'] . ' [' . $titanium_lang['Hidden'] . ']');
+$simple_auth_types = array($lang['Public'], $lang['Registered'], $lang['Registered'] . ' [' . $lang['Hidden'] . ']', $lang['Private'], $lang['Private'] . ' [' . $lang['Hidden'] . ']', $lang['Moderators'], $lang['Moderators'] . ' [' . $lang['Hidden'] . ']');
 
 $forum_auth_fields = array('auth_view', 'auth_read', 'auth_post', 'auth_reply', 'auth_edit', 'auth_delete', 'auth_sticky', 'auth_announce', 'auth_vote', 'auth_pollcreate', 'auth_globalannounce', 'auth_attachments', 'auth_download');
 
 $field_names = array(
-	'auth_view' => $titanium_lang['View'],
-	'auth_read' => $titanium_lang['Read'],
-	'auth_post' => $titanium_lang['Post'],
-	'auth_reply' => $titanium_lang['Reply'],
-	'auth_edit' => $titanium_lang['Edit'],
-	'auth_delete' => $titanium_lang['Delete'],
-	'auth_sticky' => $titanium_lang['Sticky'],
-	'auth_announce' => $titanium_lang['Announce'], 
-	'auth_vote' => $titanium_lang['Vote'], 
-	'auth_pollcreate' => $titanium_lang['Pollcreate'],
-	'auth_globalannounce' => $titanium_lang['Globalannounce'],
-	'auth_attachments' => $titanium_lang['Auth_attach'],
-	'auth_download' => $titanium_lang['Auth_download']
+	'auth_view' => $lang['View'],
+	'auth_read' => $lang['Read'],
+	'auth_post' => $lang['Post'],
+	'auth_reply' => $lang['Reply'],
+	'auth_edit' => $lang['Edit'],
+	'auth_delete' => $lang['Delete'],
+	'auth_sticky' => $lang['Sticky'],
+	'auth_announce' => $lang['Announce'], 
+	'auth_vote' => $lang['Vote'], 
+	'auth_pollcreate' => $lang['Pollcreate'],
+	'auth_globalannounce' => $lang['Globalannounce'],
+	'auth_attachments' => $lang['Auth_attach'],
+	'auth_download' => $lang['Auth_download']
 	);
 
 $forum_auth_levels = array('ALL', 'REG', 'PRIVATE', 'MOD', 'ADMIN');
@@ -216,12 +216,12 @@ if( $total_phpbb2_categories = $titanium_db->sql_numrows($q_categories) )
 }// if ... total_categories
 
 $phpbb2_template->assign_vars(array(
-	'L_FORUM_TITLE' => $titanium_lang['Auth_Control_Forum'],
-	'L_FORUM_EXPLAIN' => $titanium_lang['Forum_auth_explain_overall'],
-	'L_FORUM_EXPLAIN_EDIT' => $titanium_lang['Forum_auth_explain_overall_edit'],
-	'L_FORUM_OVERALL_RESTORE' => $titanium_lang['Forum_auth_overall_restore'],
-	'L_FORUM_OVERALL_STOP' => $titanium_lang['Forum_auth_overall_stop'],
-	'L_SUBMIT' => $titanium_lang['Submit'],
+	'L_FORUM_TITLE' => $lang['Auth_Control_Forum'],
+	'L_FORUM_EXPLAIN' => $lang['Forum_auth_explain_overall'],
+	'L_FORUM_EXPLAIN_EDIT' => $lang['Forum_auth_explain_overall_edit'],
+	'L_FORUM_OVERALL_RESTORE' => $lang['Forum_auth_overall_restore'],
+	'L_FORUM_OVERALL_STOP' => $lang['Forum_auth_overall_stop'],
+	'L_SUBMIT' => $lang['Submit'],
 	'AUTH_KEY' => $auth_key,
 ));
 

@@ -107,7 +107,7 @@ if (!defined('CNBYA')) {
                 $titanium_db->sql_query("UPDATE ".$titanium_user_prefix."_users SET name='$realname', femail='$femail', user_website='$titanium_user_website', user_password='$user_password', bio='$bio', user_icq='$titanium_user_icq', user_occ='$titanium_user_occ', user_from='$titanium_user_from', user_interests='$titanium_user_interests', user_sig='$titanium_user_sig', user_aim='$titanium_user_aim', user_yim='$titanium_user_yim', user_msnm='$titanium_user_msnm', newsletter='$newsletter', user_viewemail='$titanium_user_viewemail', user_allow_viewonline='$titanium_user_allow_viewonline', user_notify='$titanium_user_notify', user_notify_pm='$titanium_user_notify_pm', user_popup_pm='$titanium_user_popup_pm', user_attachsig='$titanium_user_attachsig', user_allowbbcode='$titanium_user_allowbbcode', user_allowhtml='$titanium_user_allowhtml', user_allowsmile='$titanium_user_allowsmile', user_timezone='$titanium_user_timezone', user_dateformat='$titanium_user_dateformat' WHERE user_id='$titanium_user_id'");
                 $datekey = date("F Y");
                 $check_num = substr(md5(hexdec($datekey) * hexdec($cookie[2]) * hexdec($sitekey) * hexdec($titanium_user_email) * hexdec($tuemail)), 2, 10);
-                $finishlink = "$nukeurl/modules.php?name=$titanium_module_name&op=changemail&id=$titanium_user_id&mail=$titanium_user_email&check_num=$check_num";
+                $finishlink = "$nukeurl/modules.php?name=$pnt_module&op=changemail&id=$titanium_user_id&mail=$titanium_user_email&check_num=$check_num";
                 $message .= _CHANGEMAIL1." $tuemail "._CHANGEMAIL2." $titanium_user_email"._CHANGEMAIL3." $sitename.<br /><br />";
                 $message .= _CHANGEMAILFIN."<br /><br />$finishlink<br /><br />";
                 $subject = _CHANGEMAILSUB;
@@ -147,7 +147,7 @@ if (!defined('CNBYA')) {
                 $datekey = date("F Y");
                 $check_num = substr(md5(hexdec($datekey) * hexdec($cookie[2]) * hexdec($sitekey) * hexdec($titanium_user_email) * hexdec($tuemail)), 2, 10);
 
-                $finishlink = "$nukeurl/modules.php?name=$titanium_module_name&op=changemail&id=$titanium_user_id&mail=$titanium_user_email&check_num=$check_num";
+                $finishlink = "$nukeurl/modules.php?name=$pnt_module&op=changemail&id=$titanium_user_id&mail=$titanium_user_email&check_num=$check_num";
                 $message .= _CHANGEMAIL1." $tuemail "._CHANGEMAIL2." $titanium_user_email"._CHANGEMAIL3." $sitename.<br /><br />";
                 $message .= _CHANGEMAILFIN."<br /><br />$finishlink<br /><br />";
                 $subject = _CHANGEMAILSUB;
@@ -168,7 +168,7 @@ if (!defined('CNBYA')) {
 
             $titanium_db->sql_query("UNLOCK TABLES");
         }
-        redirect_titanium("modules.php?name=$titanium_module_name");
+        redirect_titanium("modules.php?name=$pnt_module");
     } else {
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();

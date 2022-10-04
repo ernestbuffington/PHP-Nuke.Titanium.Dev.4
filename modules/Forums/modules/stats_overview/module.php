@@ -36,7 +36,7 @@ $core->define_view('set_columns', array(
     'stats' => '')
 );
 
-$core->set_header($titanium_lang['module_name']);
+$core->set_header($lang['module_name']);
 
 //
 // Use internal Functions to get an array of installed and activated Modules (and their Names)

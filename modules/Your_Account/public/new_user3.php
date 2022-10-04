@@ -47,38 +47,38 @@ $_SESSION['YA1'] = true;
 
 function tz_select($default, $select_name = 'timezone')
 {
-        $titanium_lang['tz']['-12'] = 'GMT - 12 Hours';
-        $titanium_lang['tz']['-11'] = 'GMT - 11 Hours';
-        $titanium_lang['tz']['-10'] = 'GMT - 10 Hours';
-        $titanium_lang['tz']['-9'] = 'GMT - 9 Hours';
-        $titanium_lang['tz']['-8'] = 'GMT - 8 Hours';
-        $titanium_lang['tz']['-7'] = 'GMT - 7 Hours';
-        $titanium_lang['tz']['-6'] = 'GMT - 6 Hours';
-        $titanium_lang['tz']['-5'] = 'GMT - 5 Hours';
-        $titanium_lang['tz']['-4'] = 'GMT - 4 Hours';
-        $titanium_lang['tz']['-3.5'] = 'GMT - 3.5 Hours';
-        $titanium_lang['tz']['-3'] = 'GMT - 3 Hours';
-        $titanium_lang['tz']['-2'] = 'GMT - 2 Hours';
-        $titanium_lang['tz']['-1'] = 'GMT - 1 Hours';
-        $titanium_lang['tz']['0'] = 'GMT';
-        $titanium_lang['tz']['1'] = 'GMT + 1 Hour';
-        $titanium_lang['tz']['2'] = 'GMT + 2 Hours';
-        $titanium_lang['tz']['3'] = 'GMT + 3 Hours';
-        $titanium_lang['tz']['3.5'] = 'GMT + 3.5 Hours';
-        $titanium_lang['tz']['4'] = 'GMT + 4 Hours';
-        $titanium_lang['tz']['4.5'] = 'GMT + 4.5 Hours';
-        $titanium_lang['tz']['5'] = 'GMT + 5 Hours';
-        $titanium_lang['tz']['5.5'] = 'GMT + 5.5 Hours';
-        $titanium_lang['tz']['6'] = 'GMT + 6 Hours';
-        $titanium_lang['tz']['6.5'] = 'GMT + 6.5 Hours';
-        $titanium_lang['tz']['7'] = 'GMT + 7 Hours';
-        $titanium_lang['tz']['8'] = 'GMT + 8 Hours';
-        $titanium_lang['tz']['9'] = 'GMT + 9 Hours';
-        $titanium_lang['tz']['9.5'] = 'GMT + 9.5 Hours';
-        $titanium_lang['tz']['10'] = 'GMT + 10 Hours';
-        $titanium_lang['tz']['11'] = 'GMT + 11 Hours';
-        $titanium_lang['tz']['12'] = 'GMT + 12 Hours';
-        $titanium_lang['tz']['13'] = 'GMT + 13 Hours';
+        $lang['tz']['-12'] = 'GMT - 12 Hours';
+        $lang['tz']['-11'] = 'GMT - 11 Hours';
+        $lang['tz']['-10'] = 'GMT - 10 Hours';
+        $lang['tz']['-9'] = 'GMT - 9 Hours';
+        $lang['tz']['-8'] = 'GMT - 8 Hours';
+        $lang['tz']['-7'] = 'GMT - 7 Hours';
+        $lang['tz']['-6'] = 'GMT - 6 Hours';
+        $lang['tz']['-5'] = 'GMT - 5 Hours';
+        $lang['tz']['-4'] = 'GMT - 4 Hours';
+        $lang['tz']['-3.5'] = 'GMT - 3.5 Hours';
+        $lang['tz']['-3'] = 'GMT - 3 Hours';
+        $lang['tz']['-2'] = 'GMT - 2 Hours';
+        $lang['tz']['-1'] = 'GMT - 1 Hours';
+        $lang['tz']['0'] = 'GMT';
+        $lang['tz']['1'] = 'GMT + 1 Hour';
+        $lang['tz']['2'] = 'GMT + 2 Hours';
+        $lang['tz']['3'] = 'GMT + 3 Hours';
+        $lang['tz']['3.5'] = 'GMT + 3.5 Hours';
+        $lang['tz']['4'] = 'GMT + 4 Hours';
+        $lang['tz']['4.5'] = 'GMT + 4.5 Hours';
+        $lang['tz']['5'] = 'GMT + 5 Hours';
+        $lang['tz']['5.5'] = 'GMT + 5.5 Hours';
+        $lang['tz']['6'] = 'GMT + 6 Hours';
+        $lang['tz']['6.5'] = 'GMT + 6.5 Hours';
+        $lang['tz']['7'] = 'GMT + 7 Hours';
+        $lang['tz']['8'] = 'GMT + 8 Hours';
+        $lang['tz']['9'] = 'GMT + 9 Hours';
+        $lang['tz']['9.5'] = 'GMT + 9.5 Hours';
+        $lang['tz']['10'] = 'GMT + 10 Hours';
+        $lang['tz']['11'] = 'GMT + 11 Hours';
+        $lang['tz']['12'] = 'GMT + 12 Hours';
+        $lang['tz']['13'] = 'GMT + 13 Hours';
 
         if ( !isset($default) )
         {
@@ -86,7 +86,7 @@ function tz_select($default, $select_name = 'timezone')
         }
         $tz_select = '<select name="user_timezone">';
 
-        while( list($offset, $zone) = @each($titanium_lang['tz']) )
+        while( list($offset, $zone) = @each($lang['tz']) )
         {
                 $selected = ( $offset == $default ) ? ' selected="selected"' : '';
                 $tz_select .= '<option value="' . $offset . '"' . $selected . '>' . str_replace('GMT', 'UTC', $zone) . '</option>';
@@ -114,7 +114,7 @@ function tz_select($default, $select_name = 'timezone')
 
     title(_USERREGLOGIN);
     OpenTable();
-    echo "<form action='modules.php?name=$titanium_module_name' method='post' name='newuser'>\n";
+    echo "<form action='modules.php?name=$pnt_module' method='post' name='newuser'>\n";
     echo "<table style='margin:auto' cellpadding='3' cellspacing='3' border='0'>\n";
     echo "<tr><td align='center' bgcolor='$bgcolor1' colspan='2'><div class=\"textbold\">"._REGNEWUSER."</div></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._NICKNAME.":</div>"._REQUIRED."</td><td bgcolor='$bgcolor1'><input type='text' name='ya_username' size='15' id='username_input' maxlength='".$ya_config['nick_max']."'>&nbsp;<span id=\"username_check_result\"></span>&nbsp;<span class='tiny'>"._REQUIRED."</span><br /><span class='tiny'>("._YA_NICKLENGTH.")</span></td></tr>\n";

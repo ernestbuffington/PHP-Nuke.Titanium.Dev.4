@@ -20,13 +20,13 @@ include_once(NUKE_DONATIONS_ADMIN_INCLUDES . 'base.php');
     Notes:       N/A
 ================================================================================================*/
 function get_gen_configs () {
-    global $titanium_db, $titanium_prefix, $titanium_lang_donate, $cache;
+    global $titanium_db, $titanium_prefix, $lang_donate, $cache;
     static $gen;
     if(isset($gen) && is_array($gen)) { return $gen; }
     if (!$gen = $cache->load('general', 'donations')) {
         $sql = 'SELECT config_value, config_name from '.$titanium_prefix.'_donators_config WHERE config_name LIKE "gen_%"';
         if(!$result = $titanium_db->sql_query($sql)) {
-            DonateError($titanium_lang_donate['GEN_NF'],0);
+            DonateError($lang_donate['GEN_NF'],0);
         }
         while ($row = $titanium_db->sql_fetchrow($result)) {
             $gen[str_replace('gen_', '', $row['config_name'])] = $row['config_value'];
@@ -44,13 +44,13 @@ function get_gen_configs () {
     Notes:       N/A
 ================================================================================================*/
 function get_page_configs () {
-    global $titanium_db, $titanium_prefix, $titanium_lang_donate, $cache;
+    global $titanium_db, $titanium_prefix, $lang_donate, $cache;
     static $page;
     if(isset($page) && is_array($page)) { return $page; }
     if (!$page = $cache->load('page', 'donations')) {
         $sql = 'SELECT config_value, config_name from '.$titanium_prefix.'_donators_config WHERE config_name LIKE "page_%"';
         if(!$result = $titanium_db->sql_query($sql)) {
-            DonateError($titanium_lang_donate['PAGE_NF'],0);
+            DonateError($lang_donate['PAGE_NF'],0);
         }
         while ($row = $titanium_db->sql_fetchrow($result)) {
             $page[str_replace('page_', '', $row['config_name'])] = $row['config_value'];
@@ -68,7 +68,7 @@ function get_page_configs () {
     Notes:       N/A
 ================================================================================================*/
 function get_donations ($type='') {
-    global $titanium_db, $titanium_prefix, $titanium_lang_donate, $cache;
+    global $titanium_db, $titanium_prefix, $lang_donate, $cache;
     
     if(empty($type)) {
         $clear = $cache->load('donations_clear', 'donations');
@@ -81,7 +81,7 @@ function get_donations ($type='') {
         if (!$don = $cache->load('donations', 'donations')) {
             $sql = 'SELECT * FROM `'.$titanium_prefix.'_donators` ORDER BY `id` DESC';
             if(!$result = $titanium_db->sql_query($sql)) {
-                DonateError($titanium_lang_donate['DON_NF'],0);
+                DonateError($lang_donate['DON_NF'],0);
             }
             $don = $titanium_db->sql_fetchrowset($result);
             $titanium_db->sql_freeresult($result);
@@ -90,7 +90,7 @@ function get_donations ($type='') {
     } else {
         $sql = 'SELECT * FROM `'.$titanium_prefix.'_donators` WHERE `donto`="'.$type.'" ORDER BY `id` DESC';
         if(!$result = $titanium_db->sql_query($sql)) {
-            DonateError($titanium_lang_donate['DON_NF'],0);
+            DonateError($lang_donate['DON_NF'],0);
         }
         $don = $titanium_db->sql_fetchrowset($result);
         $titanium_db->sql_freeresult($result);
@@ -105,7 +105,7 @@ function get_donations ($type='') {
     Notes:       N/A
 ================================================================================================*/
 function get_donations_no_anon ($type='') {
-    global $titanium_db, $titanium_prefix, $titanium_lang_donate, $cache;
+    global $titanium_db, $titanium_prefix, $lang_donate, $cache;
     
     if(empty($type)) {
         $clear = $cache->load('donations_clear', 'donations');
@@ -118,7 +118,7 @@ function get_donations_no_anon ($type='') {
         if (!$don = $cache->load('donations', 'donations')) {
             $sql = 'SELECT * FROM `'.$titanium_prefix.'_donators` WHERE donshow <> 0 AND uname <> "" ORDER BY `id` DESC';
             if(!$result = $titanium_db->sql_query($sql)) {
-                DonateError($titanium_lang_donate['DON_NF'],0);
+                DonateError($lang_donate['DON_NF'],0);
             }
             $don_no_anon = $titanium_db->sql_fetchrowset($result);
             $titanium_db->sql_freeresult($result);
@@ -127,7 +127,7 @@ function get_donations_no_anon ($type='') {
     } else {
         $sql = 'SELECT * FROM `'.$titanium_prefix.'_donators` WHERE donshow <> 0 AND uname <> "" AND `donto`="'.$type.'" ORDER BY `id` DESC';
         if(!$result = $titanium_db->sql_query($sql)) {
-            DonateError($titanium_lang_donate['DON_NF'],0);
+            DonateError($lang_donate['DON_NF'],0);
         }
         $don_no_anon = $titanium_db->sql_fetchrowset($result);
         $titanium_db->sql_freeresult($result);
@@ -194,11 +194,11 @@ function get_donations_goal_no_anon () {
     Notes:       Displays the page title
 ================================================================================================*/
 function donation_title() {
-    global $titanium_lang_donate;
+    global $lang_donate;
     OpenTable();
     echo "<div class=\"acenter\">\n";
     echo "<span style=\"font-size: large; font-weight: bold;\">\n";
-    echo $titanium_lang_donate['DONATIONS'];
+    echo $lang_donate['DONATIONS'];
     echo "</span>\n";
     echo "</div>";
     CloseTable();

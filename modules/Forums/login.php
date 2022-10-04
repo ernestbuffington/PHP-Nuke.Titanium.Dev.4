@@ -34,8 +34,8 @@ if (!defined('MODULE_FILE')) {
    die ("You can't access this file directly...");
 }
 
-$titanium_module_name = basename(dirname(__FILE__));
-require("modules/".$titanium_module_name."/nukebb.php");
+$pnt_module = basename(dirname(__FILE__));
+require("modules/".$pnt_module."/nukebb.php");
 
 //
 // Allow people to reach login page if
@@ -101,7 +101,7 @@ if( isset($HTTP_POST_VARS['login']) || isset($HTTP_GET_VARS['login']) || isset($
                  if ($row['user_last_login_try'] && $phpbb2_board_config['login_reset_time'] && $phpbb2_board_config['max_login_attempts'] &&
                     $row['user_last_login_try'] >= (time() - ($phpbb2_board_config['login_reset_time'] * 60)) && $row['user_login_tries'] >= $phpbb2_board_config['max_login_attempts'] && $userdata['user_level'] != ADMIN)
                  {
-                    message_die(GENERAL_MESSAGE, sprintf($titanium_lang['Login_attempts_exceeded'], $phpbb2_board_config['max_login_attempts'], $phpbb2_board_config['login_reset_time']));
+                    message_die(GENERAL_MESSAGE, sprintf($lang['Login_attempts_exceeded'], $phpbb2_board_config['max_login_attempts'], $phpbb2_board_config['login_reset_time']));
                 }
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
@@ -151,7 +151,7 @@ if( isset($HTTP_POST_VARS['login']) || isset($HTTP_GET_VARS['login']) || isset($
                         'META' => '<meta http-equiv=\"refresh\" content=\"3;url=' . append_titanium_sid("login.$phpEx?redirect=$redirect") . '\">')
                     );
 
-                    $message = $titanium_lang['Error_login'] . '<br /><br />' . sprintf($titanium_lang['Click_return_login'], '<a href=\"' . append_titanium_sid("login.$phpEx?redirect=$redirect") . '\">', '</a>') . '<br /><br />' .  sprintf($titanium_lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
+                    $message = $lang['Error_login'] . '<br /><br />' . sprintf($lang['Click_return_login'], '<a href=\"' . append_titanium_sid("login.$phpEx?redirect=$redirect") . '\">', '</a>') . '<br /><br />' .  sprintf($lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
 
                     message_die(GENERAL_MESSAGE, $message);
                 }
@@ -172,7 +172,7 @@ if( isset($HTTP_POST_VARS['login']) || isset($HTTP_GET_VARS['login']) || isset($
 					'META' => "<meta http-equiv=\"refresh\" content=\"3;url=login.$phpEx?redirect=$redirect\">")
 				);
 
-				$message = $titanium_lang['Error_login'] . '<br /><br />' . sprintf($titanium_lang['Click_return_login'], "<a href=\"login.$phpEx?redirect=$redirect\">", '</a>') . '<br /><br />' .  sprintf($titanium_lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
+				$message = $lang['Error_login'] . '<br /><br />' . sprintf($lang['Click_return_login'], "<a href=\"login.$phpEx?redirect=$redirect\">", '</a>') . '<br /><br />' .  sprintf($lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
 
 				message_die(GENERAL_MESSAGE, $message);
         }
@@ -214,7 +214,7 @@ else
     //
     if( !$userdata['session_logged_in'] || (isset($HTTP_GET_VARS['admin']) && $userdata['session_logged_in'] && $userdata['user_level'] == ADMIN))
     {
-        $phpbb2_page_title = $titanium_lang['Login'];
+        $phpbb2_page_title = $lang['Login'];
                 include("includes/page_header.php");
 
         $phpbb2_template->set_filenames(array(
@@ -265,8 +265,8 @@ else
         $phpbb2_template->assign_vars(array(
             'USERNAME' => $titanium_username,
 
-            'L_ENTER_PASSWORD' => (isset($HTTP_GET_VARS['admin'])) ? $titanium_lang['Admin_reauthenticate'] : $titanium_lang['Enter_password'],
-            'L_SEND_PASSWORD' => $titanium_lang['Forgotten_password'],
+            'L_ENTER_PASSWORD' => (isset($HTTP_GET_VARS['admin'])) ? $lang['Admin_reauthenticate'] : $lang['Enter_password'],
+            'L_SEND_PASSWORD' => $lang['Forgotten_password'],
 
             'U_SEND_PASSWORD' => append_titanium_sid("profile.$phpEx?mode=sendpassword"),
 

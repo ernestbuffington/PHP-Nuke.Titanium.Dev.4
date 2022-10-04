@@ -26,8 +26,8 @@ if (!defined('MODULE_FILE')) {
 
 $popup = 1;
 if ($popup != "1"){
-    $titanium_module_name = basename(dirname(__FILE__));
-    require("modules/".$titanium_module_name."/nukebb.php");
+    $pnt_module = basename(dirname(__FILE__));
+    require("modules/".$pnt_module."/nukebb.php");
 }
 else
 {
@@ -171,7 +171,7 @@ if($mode == "done")
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                'URL_STATS' => '<nobr><a class="cattitle" href="' . append_titanium_sid("statarcade.$phpEx?uid=" . $row['user_id']) . '">' . "<img src='modules/Forums/templates/" . $theme['template_name'] . "/images/loupe.gif' align='absmiddle' border='0' alt='" . $titanium_lang['statuser'] . " " . $row['username'] . "'>" . '</a></nobr>',
+                'URL_STATS' => '<nobr><a class="cattitle" href="' . append_titanium_sid("statarcade.$phpEx?uid=" . $row['user_id']) . '">' . "<img src='modules/Forums/templates/" . $theme['template_name'] . "/images/loupe.gif' align='absmiddle' border='0' alt='" . $lang['statuser'] . " " . $row['username'] . "'>" . '</a></nobr>',
                 'SCORE' => number_format($row['score_game']),
                 'DATEHIGH' => create_date($phpbb2_board_config['default_dateformat'] , $row['score_date'] , $phpbb2_board_config['board_timezone']))
                         );
@@ -192,7 +192,7 @@ $tbauth_play = array();
 $tbauth_play = explode(',',$liste_cat_auth_play);
 
 if (!in_array($row['arcade_catid'],$tbauth_play)) {
-        message_die(GENERAL_MESSAGE, $titanium_lang['game_forbidden']);
+        message_die(GENERAL_MESSAGE, $lang['game_forbidden']);
 }
 
 
@@ -268,7 +268,7 @@ $phpbb2_template->assign_vars(array(
 
 //
 // Output page header
-$phpbb2_page_title = $titanium_lang['arcade_game'];
+$phpbb2_page_title = $lang['arcade_game'];
 $phpbb2_template->pparse('body');
 
 ?>

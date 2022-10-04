@@ -56,7 +56,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                 $this_userdata = get_userdata($HTTP_POST_VARS['username'], true);
                 if( !$this_userdata )
                 {
-                        message_die(GENERAL_MESSAGE, $titanium_lang['No_user_id_specified'] );
+                        message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
                 }
 
                 $titanium_user_list[] = $this_userdata['user_id'];
@@ -322,7 +322,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                 }
         }
 
-        $message = $titanium_lang['Ban_update_sucessful'] . '<br /><br />' . sprintf($titanium_lang['Click_return_banadmin'], '<a href="' . append_titanium_sid("admin_user_ban.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($titanium_lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $lang['Ban_update_sucessful'] . '<br /><br />' . sprintf($lang['Click_return_banadmin'], '<a href="' . append_titanium_sid("admin_user_ban.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
 
@@ -334,24 +334,24 @@ else
         );
 
         $phpbb2_template->assign_vars(array(
-                'L_BAN_TITLE' => $titanium_lang['Ban_control'],
-                'L_BAN_EXPLAIN' => $titanium_lang['Ban_explain'],
-                'L_BAN_EXPLAIN_WARN' => $titanium_lang['Ban_explain_warn'],
-                'L_IP_OR_HOSTNAME' => $titanium_lang['IP_hostname'],
-                'L_EMAIL_ADDRESS' => $titanium_lang['Email_address'],
-                'L_SUBMIT' => $titanium_lang['Submit'],
-                'L_RESET' => $titanium_lang['Reset'],
+                'L_BAN_TITLE' => $lang['Ban_control'],
+                'L_BAN_EXPLAIN' => $lang['Ban_explain'],
+                'L_BAN_EXPLAIN_WARN' => $lang['Ban_explain_warn'],
+                'L_IP_OR_HOSTNAME' => $lang['IP_hostname'],
+                'L_EMAIL_ADDRESS' => $lang['Email_address'],
+                'L_SUBMIT' => $lang['Submit'],
+                'L_RESET' => $lang['Reset'],
 
                 'S_BANLIST_ACTION' => append_titanium_sid("admin_user_ban.$phpEx"))
         );
 
         $phpbb2_template->assign_vars(array(
-                'L_BAN_USER' => $titanium_lang['Ban_username'],
-                'L_BAN_USER_EXPLAIN' => $titanium_lang['Ban_username_explain'],
-                'L_BAN_IP' => $titanium_lang['Ban_IP'],
-                'L_BAN_IP_EXPLAIN' => $titanium_lang['Ban_IP_explain'],
-                'L_BAN_EMAIL' => $titanium_lang['Ban_email'],
-                'L_BAN_EMAIL_EXPLAIN' => $titanium_lang['Ban_email_explain'])
+                'L_BAN_USER' => $lang['Ban_username'],
+                'L_BAN_USER_EXPLAIN' => $lang['Ban_username_explain'],
+                'L_BAN_IP' => $lang['Ban_IP'],
+                'L_BAN_IP_EXPLAIN' => $lang['Ban_IP_explain'],
+                'L_BAN_EMAIL' => $lang['Ban_email'],
+                'L_BAN_EMAIL_EXPLAIN' => $lang['Ban_email_explain'])
         );
 
         $titanium_userban_count = 0;
@@ -381,7 +381,7 @@ else
 
         if( $select_userlist == '' )
         {
-                $select_userlist = '<option value="-1">' . $titanium_lang['No_banned_users'] . '</option>';
+                $select_userlist = '<option value="-1">' . $lang['No_banned_users'] . '</option>';
         }
 
         $select_userlist = '<select name="unban_user[]" multiple="multiple" size="5">' . $select_userlist . '</select>';
@@ -419,27 +419,27 @@ else
 
         if ( $select_iplist == '' )
         {
-                $select_iplist = '<option value="-1">' . $titanium_lang['No_banned_ip'] . '</option>';
+                $select_iplist = '<option value="-1">' . $lang['No_banned_ip'] . '</option>';
         }
 
         if ( $select_emaillist == '' )
         {
-                $select_emaillist = '<option value="-1">' . $titanium_lang['No_banned_email'] . '</option>';
+                $select_emaillist = '<option value="-1">' . $lang['No_banned_email'] . '</option>';
         }
 
         $select_iplist = '<select name="unban_ip[]" multiple="multiple" size="5">' . $select_iplist . '</select>';
         $select_emaillist = '<select name="unban_email[]" multiple="multiple" size="5">' . $select_emaillist . '</select>';
 
         $phpbb2_template->assign_vars(array(
-                'L_UNBAN_USER' => $titanium_lang['Unban_username'],
-                'L_UNBAN_USER_EXPLAIN' => $titanium_lang['Unban_username_explain'],
-                'L_UNBAN_IP' => $titanium_lang['Unban_IP'],
-                'L_UNBAN_IP_EXPLAIN' => $titanium_lang['Unban_IP_explain'],
-                'L_UNBAN_EMAIL' => $titanium_lang['Unban_email'],
-                'L_UNBAN_EMAIL_EXPLAIN' => $titanium_lang['Unban_email_explain'],
-                'L_USERNAME' => $titanium_lang['Username'],
-                'L_LOOK_UP' => $titanium_lang['Look_up_User'],
-                'L_FIND_USERNAME' => $titanium_lang['Find_username'],
+                'L_UNBAN_USER' => $lang['Unban_username'],
+                'L_UNBAN_USER_EXPLAIN' => $lang['Unban_username_explain'],
+                'L_UNBAN_IP' => $lang['Unban_IP'],
+                'L_UNBAN_IP_EXPLAIN' => $lang['Unban_IP_explain'],
+                'L_UNBAN_EMAIL' => $lang['Unban_email'],
+                'L_UNBAN_EMAIL_EXPLAIN' => $lang['Unban_email_explain'],
+                'L_USERNAME' => $lang['Username'],
+                'L_LOOK_UP' => $lang['Look_up_User'],
+                'L_FIND_USERNAME' => $lang['Find_username'],
 
                 'U_SEARCH_USER' => append_titanium_sid("search.$phpEx?mode=searchuser&popup=1&menu=1"),
                 'S_UNBAN_USERLIST_SELECT' => $select_userlist,

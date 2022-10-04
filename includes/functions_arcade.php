@@ -24,13 +24,13 @@ $message = "Only the Administrator will see this message. <br /><br /> You MUST 
 message_die(GENERAL_ERROR, $message);
 }
 
-$titanium_language = $phpbb2_board_config['default_lang'];
-if ( !file_exists($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_main_arcade.'.$phpEx) )
+$language = $phpbb2_board_config['default_lang'];
+if ( !file_exists($phpbb2_root_path . 'language/lang_' . $language . '/lang_main_arcade.'.$phpEx) )
 {
-    $titanium_language = 'english';
+    $language = 'english';
 }
 
-include($phpbb2_root_path . 'language/lang_' . $titanium_language . '/lang_main_arcade.' . $phpEx);
+include($phpbb2_root_path . 'language/lang_' . $language . '/lang_main_arcade.' . $phpEx);
 
 function read_arcade_config() {
         global $titanium_db;

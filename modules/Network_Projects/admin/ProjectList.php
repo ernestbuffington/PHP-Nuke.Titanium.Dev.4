@@ -32,7 +32,7 @@ echo "<table class='projects_row1' width='100%' border='1' cellspacing='0' cellp
 
 echo "<tr><td class='projects_row1' colspan='3' width='100%' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PROJECTOPTIONS."</strong></nobr></td></tr>\n";
 
-$pjimage = pjimage("options.png", $titanium_module_name);
+$pjimage = pjimage("options.png", $pnt_module);
 
 echo "<tr>";
 
@@ -44,7 +44,7 @@ echo "<a class=\"titaniumbutton\" href='".$admin_file.".php?op=ProjectAdd'>"._NE
 
 echo "</td></tr>\n";
 
-$pjimage = pjimage("stats.png", $titanium_module_name);
+$pjimage = pjimage("stats.png", $pnt_module);
 
 echo "<tr><td align='center' class='projects_row1'><img width='30' height='30' src='$pjimage'></td><td class='projects_row1' colspan='3' width='100%'><nobr>"._NETWORK_TOTALPROJECTS.": <strong>$project_total</strong></nobr></td></tr>\n";
 echo "</table>\n";
@@ -80,9 +80,9 @@ if($project_total != 0):
     $projectpriority = pjprojectpriority_info($priority_id);
   
     if($featured > 0) 
-      $pjimage = pjimage("project_featured.png", $titanium_module_name);
+      $pjimage = pjimage("project_featured.png", $pnt_module);
 	else 
-      $pjimage = pjimage("project.png", $titanium_module_name);
+      $pjimage = pjimage("project.png", $pnt_module);
     
 	echo "<tr><td class='projects_row1'><img src='$pjimage'></td><td class='projects_row1' width='100%'>$project_name</td>\n";
 
@@ -102,16 +102,16 @@ if($project_total != 0):
 
     if($con1): 
       echo"<a href='".$admin_file.".php?op=ProjectOrder&amp;weight=$weight&amp;pid=$project_id&amp;weightrep=$weight1&amp;pidrep=$con1'>";
-	  echo"<img src='modules/$titanium_module_name/images/weight_up.png' border='0' hspace='3' alt='"._NETWORKUP."' title='"._NETWORK_UP."'></a>";
+	  echo"<img src='modules/$pnt_module/images/weight_up.png' border='0' hspace='3' alt='"._NETWORKUP."' title='"._NETWORK_UP."'></a>";
 	else: 
-      echo "<img src='modules/$titanium_module_name/images/weight_up_no.png' border='0' hspace='3' alt='' title=''>";
+      echo "<img src='modules/$pnt_module/images/weight_up_no.png' border='0' hspace='3' alt='' title=''>";
 	endif;
     
 	if($con2): 
       echo "<a href='".$admin_file.".php?op=ProjectOrder&amp;weight=$weight&amp;pid=$project_id&amp;weightrep=$weight3&amp;pidrep=$con2'>";
-	  echo "<img src='modules/$titanium_module_name/images/weight_dn.png' border='0' hspace='3' alt='"._NETWORKDOWN."' title='"._NETWORK_DOWN."'></a>";
+	  echo "<img src='modules/$pnt_module/images/weight_dn.png' border='0' hspace='3' alt='"._NETWORKDOWN."' title='"._NETWORK_DOWN."'></a>";
 	else: 
-      echo "<img src='modules/$titanium_module_name/images/weight_dn_no.png' border='0' hspace='3' alt='' title=''>";
+      echo "<img src='modules/$pnt_module/images/weight_dn_no.png' border='0' hspace='3' alt='' title=''>";
     endif;
     
 	echo"</nobr></td>\n";

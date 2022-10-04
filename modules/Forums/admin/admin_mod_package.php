@@ -84,7 +84,7 @@ include($phpbb2_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
 if (($mode == 'mod_pak') && ($submit))
 {
     $info_file = trim($HTTP_POST_VARS['info_file']);
-    $titanium_lang_file = trim($HTTP_POST_VARS['lang_file']);
+    $lang_file = trim($HTTP_POST_VARS['lang_file']);
     $php_file = trim($HTTP_POST_VARS['php_file']);
 
     $pak_name = (trim($HTTP_POST_VARS['pak_name']) != '') ? trim($HTTP_POST_VARS['pak_name']) . '.pak' : 'module.pak';
@@ -112,7 +112,7 @@ if (($mode == 'mod_pak') && ($submit))
     fwrite($fp, pack("C*", 0xFF, 0xFC, 0xCC), 3);
     fwrite($fp, 'LANG', 4);
     fwrite($fp, pack("C*", 0xCC, 0xFC, 0xFF), 3);
-    $content = implode('', file($phpbb2_root_path . 'modules/pakfiles/' . $titanium_lang_file));
+    $content = implode('', file($phpbb2_root_path . 'modules/pakfiles/' . $lang_file));
     $size = strlen($content);
     fwrite($fp, $content, $size);
     fwrite($fp, pack("C*", 0xCC, 0xCC, 0xFF), 3);
@@ -151,7 +151,7 @@ if (($mode == 'mod_pak') && (!$submit))
     );
     
     $info_files = array();
-    $titanium_lang_files = array();
+    $lang_files = array();
     $php_files = array();
     
     $dir = @opendir($phpbb2_root_path . 'modules/pakfiles');
@@ -166,7 +166,7 @@ if (($mode == 'mod_pak') && (!$submit))
             }
             else if ( preg_match('/\.lang$/i', $file) )
             {
-                $titanium_lang_files[] = $file;
+                $lang_files[] = $file;
             }
             else if ( preg_match('/\.php$/i', $file) )
             {
@@ -177,13 +177,13 @@ if (($mode == 'mod_pak') && (!$submit))
 
     @closedir($dir);
 
-    if ((count($info_files) == 0) || (count($titanium_lang_files) == 0) || (count($php_files) == 0))
+    if ((count($info_files) == 0) || (count($lang_files) == 0) || (count($php_files) == 0))
     {
         message_die(GENERAL_MESSAGE, 'Found no files to package up. Info/Lang/PHP Files have to be placed into \'modules/pakfiles\'.');
     }
     
     sort($info_files, SORT_STRING);
-    sort($titanium_lang_files, SORT_STRING);
+    sort($lang_files, SORT_STRING);
     sort($php_files, SORT_STRING);
     
     $info_select_field = '<select name="info_file">';
@@ -197,16 +197,16 @@ if (($mode == 'mod_pak') && (!$submit))
     
     $info_select_field .= '</select>';
 
-    $titanium_lang_select_field = '<select name="lang_file">';
+    $lang_select_field = '<select name="lang_file">';
 
-    for ($i = 0; $i < count($titanium_lang_files); $i++)
+    for ($i = 0; $i < count($lang_files); $i++)
     {
         $selected = ($i == 0) ? ' selected="selected"' : '';
 
-        $titanium_lang_select_field .= '<option value="' . $titanium_lang_files[$i] . '"' . $selected . '>' . $titanium_lang_files[$i] . '</option>';
+        $lang_select_field .= '<option value="' . $lang_files[$i] . '"' . $selected . '>' . $lang_files[$i] . '</option>';
     }
     
-    $titanium_lang_select_field .= '</select>';
+    $lang_select_field .= '</select>';
 
     $php_select_field = '<select name="php_file">';
 
@@ -220,16 +220,16 @@ if (($mode == 'mod_pak') && (!$submit))
     $php_select_field .= '</select>';
         
     $phpbb2_template->assign_vars(array(
-        'L_PACKAGE_MODULE' => $titanium_lang['Package_module'],
-        'L_PACKAGE_MODULE_EXPLAIN' => $titanium_lang['Package_module_explain'],
-        'L_SELECT_INFO_FILE' => $titanium_lang['Select_info_file'],
-        'L_SELECT_LANG_FILE' => $titanium_lang['Select_lang_file'],
-        'L_SELECT_MODULE_FILE' => $titanium_lang['Select_module_file'],
-        'L_PACKAGE_NAME' => $titanium_lang['Package_name'],
-        'L_CREATE' => $titanium_lang['Create'],
+        'L_PACKAGE_MODULE' => $lang['Package_module'],
+        'L_PACKAGE_MODULE_EXPLAIN' => $lang['Package_module_explain'],
+        'L_SELECT_INFO_FILE' => $lang['Select_info_file'],
+        'L_SELECT_LANG_FILE' => $lang['Select_lang_file'],
+        'L_SELECT_MODULE_FILE' => $lang['Select_module_file'],
+        'L_PACKAGE_NAME' => $lang['Package_name'],
+        'L_CREATE' => $lang['Create'],
     
         'S_ACTION' => append_titanium_sid($phpbb2_root_path . 'admin/admin_mod_package.' . $phpEx . '?mode=' . $mode),
-        'S_LANG_FILE' => $titanium_lang_select_field,
+        'S_LANG_FILE' => $lang_select_field,
         'S_INFO_FILE' => $info_select_field,
         'S_PHP_FILE' => $php_select_field)
     );
