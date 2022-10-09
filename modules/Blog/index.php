@@ -432,7 +432,8 @@ switch ($op)
                 $r_cookie = explode(":", $rcookie);
             }
             
-			for ($i=0; $i < count($r_cookie); $i++) 
+			//for ($i=0; $i < count($r_cookie); $i++) <-- This was going to cause problems in future version of PHP
+			for($i=0; $i < count(array($r_cookie)); $i++) 
 			{ 
 			   if ($r_cookie[$i] == $sid) 
 			   $a = 1; 
