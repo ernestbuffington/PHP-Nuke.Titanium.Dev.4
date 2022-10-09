@@ -47,7 +47,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) exit('Access De
 function need_delete($file, $dir=false) 
 {
 # will be uncommented for release
-if (!is_Admin): 
+if (!is_admin): 
   if (!$dir): 
 	if(!is_file($file)) 
 	return;
