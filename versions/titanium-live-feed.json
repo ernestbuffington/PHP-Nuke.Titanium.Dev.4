@@ -2,71 +2,16 @@
     "1": {
         "feedid": 2,
         "color": "#ffa500",
-        "timestamp": "Jan 11th, 2019",
-        "title": "New Default theme Completed",
-        "message": "The new default theme has been completed, Thanks to TheMortal of <a href=\"https:\/\/www.realmdesignz.com\/index.php\">Realm Designz<\/a>. The theme is available in 3 color variations, Default is [Grey], Other two colors are [Blue] and [Green].\n\nThe Grey version will come with the new install package, The other two will be available for download once the CMS update has been released.",
+        "timestamp": "Jan 1st, 2020",
+        "title": "Json Live Feed was overkill and has been disontinued",
+        "message": "PHP and cURL has taken the place of Json live feed",
         "author": {
-            "username": "Lonestar",
+            "username": "TheGhost",
             "user_id": "2"
-        }
-    },
-    "2": {
-        "feedid": 3,
-        "color": "#ffa500",
-        "timestamp": "Mar 5th, 2019",
-        "title": "Nuke Evolution Xtreme 2.0.9e update Released",
-        "message": "We have released the new update for Nuke Evolution Xtreme, This update will get you right back up to date with all the new PHP 7.x changes.\n\nThere is still a lot we want to get done, So there will be patch update released in the near future with further changes.\n\nIf you have a trouble updating or installing this new update, please visit the Evolution Xtreme website and let us know, We will be glad to help you.",
-        "author": {
-            "username": "Lonestar",
-            "user_id": "13"
         }
     },
     "3": {
         "feedid": 4,
-        "color": "#0000ff",
-        "timestamp": "Mar 7th, 2019",
-        "title": "Xtremev3 Blue",
-        "message": "TheMortal has released the blue version of the new default theme that comes with Nuke Evolution Xtreme 2.0.9e. This color variant can be downloaded -> <a href=\"https:\/\/evolution-xtreme.co.uk\/modules.php?name=File_Repository&action=view&did=12#12\" target=\"_blank\">here<\/a> <-",
-        "author": {
-            "username": "Lonestar",
-            "user_id": "13"
-        }
-    },
-    "6": {
-        "feedid": 7,
-        "color": "#0000ff",
-        "timestamp": "Mar 7th, 2019",
-        "title": "Xtremev3 Green",
-        "message": "TheMortal has released the green version of the new default theme that comes with Nuke Evolution Xtreme 2.0.9e. This color variant can be downloaded -> <a href=\"https:\/\/evolution-xtreme.co.uk\/modules.php?name=File_Repository&action=view&did=15#15\" target=\"_blank\">here<\/a> <-",
-        "author": {
-            "username": "Lonestar",
-            "user_id": "13"
-        }
-    },
-    "9": {
-        "feedid": 10,
-        "color": "#0000ff",
-        "timestamp": "Mar 10th, 2019",
-        "title": "Steam Profile Mod",
-        "message": "Script has been released. Available to download -> <a href=\"https:\/\/www.headshotdomain.net\/modules.php?name=File_Repository&action=view&did=62\" target=\"_blank\" >here<\/a> <-",
-        "author": {
-            "username": "Lonestar",
-            "user_id": "13"
-        }
-    },
-    "11": {
-        "feedid": 12,
-        "color": "#0000ff",
-        "timestamp": "Apr 11th, 2020",
-        "title": "Evo Lotto Module",
-        "message": "Evo Lotto module created by coRpSE has been released on Evo Xtremes site for download. Original release date of the module was Feb 18th, 2020.<br> Available to download -> <a href=\"https:\/\/evolution-xtreme.co.uk\/modules.php?name=File_Repository&action=view&did=28\" target=\"_blank\" >here<\/a> <-<br>Download from Authors site -> <a href=\"https:\/\/www.headshotdomain.net\/modules.php?name=File_Repository&action=view&did=71#71\" target=\"_blank\" >here<\/a> <-",
-        "author": {
-            "username": "coRpSE",
-            "user_id": "126"
-        }
-    },
-    "12": {
-        "feedid": 13,
         "color": "#0000ff",
         "timestamp": "Jul 15th, 2020",
         "title": "2.0.9F update released.",
