@@ -9,6 +9,11 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Oct 9th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Changed _titnaium db prefix back to nuke_<br />
+<strong><i class="bi bi-calendar3"></i> Oct 9th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Changed $pnt_user_prefix back to $user_prefix<br />
+<strong><i class="bi bi-calendar3"></i> Oct 9th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Changed $pnt_prefix back to $prefix<br />
+<strong><i class="bi bi-calendar3"></i> Oct 9th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added sqr_show_hide.js back to CMS<br />
+<hr>
 <strong><i class="bi bi-calendar3"></i> Oct 2nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Evo User Block<br />
 <strong><i class="bi bi-calendar3"></i> Oct 2nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
 <hr>
