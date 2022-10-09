@@ -334,7 +334,7 @@ function track_sql_errors()
 	return $return;
 }
 
-function track_evo_version() 
+function track_titanium_current_version() 
 {
 	global $admin_file, $admlang;
 	/**
@@ -343,10 +343,10 @@ function track_evo_version()
 	$version_refresh = get_query_var( 'check-version', 'get', 'string', false );
 	$version_check_cache = cache_json_data('https://php-nuke-titanium.86it.us/versions/titanium-version.json', dirname(__FILE__).'/version.cache', $version_refresh); 
 
-	if($version_check_cache['version'] == NUKE_EVO):
+	if($version_check_cache['version'] == NUKE_TITANIUM):
 
 		$version_desc = $admlang['admin']['version_is_current'];
-		$new_version_number = NUKE_EVO;
+		$new_version_number = NUKE_TITANIUM;
 		$update_url = $admin_file.'.php?check-version=true';
 
 	else:
@@ -454,7 +454,7 @@ function GraphicAdmin($pos=1)
 	echo track_sql_errors();
 	
 	# check evo version
-	echo track_evo_version();
+	echo track_titanium_current_version();
 
     # admin ip lock enabled/disabled
 	echo '<tr>';
@@ -693,7 +693,7 @@ function track_sql_errors_bs()
 	return $errorlog;
 }
 
-function track_evo_version_bs() 
+function track_titanium_current_version_bs() 
 {
 	global $admin_file, $admlang;
 	/**
@@ -702,12 +702,12 @@ function track_evo_version_bs()
 	$version_refresh = get_query_var( 'check-version', 'get', 'string', false );
 	$version_check_cache = cache_json_data('https://php-nuke-titanium.86it.us/versions/titanium-version.json', dirname(__FILE__).'/version.cache', $version_refresh); 
 
-	if ( $version_check_cache['version'] == NUKE_EVO ):
+	if ( $version_check_cache['version'] == NUKE_TITANIUM):
 
 		$version_desc = $admlang['admin']['version_is_current'];
 		$class = 'bg-dark';
 		$update_available = false;
-		$new_version_number = NUKE_EVO;
+		$new_version_number = NUKE_TITANIUM;
 		$update_url = $admin_file.'.php?check-version=true';
 
 	else:
@@ -715,7 +715,7 @@ function track_evo_version_bs()
 		$version_desc = $admlang['admin']['version_is_out-of-date'];
 		$class = 'bg-warning';
 		$update_available = true;
-		$new_version_number = NUKE_EVO;
+		$new_version_number = NUKE_TITANIUM;
 		$update_url = $version_check_cache['download'];
 
 	endif;
@@ -748,7 +748,7 @@ function administration_panel( $pos = 1 )
 
 	$adminlog = track_admin_intrusions_bs();
 	$errorlog = track_sql_errors_bs();
-	$versioncheck = track_evo_version_bs();
+	$versioncheck = track_titanium_current_version_bs();
 
 	$refresh_feed = get_query_var('refresh-feed', 'get', 'bool');
 

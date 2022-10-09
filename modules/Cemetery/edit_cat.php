@@ -1,6 +1,6 @@
 <?php
 if (!defined('MODULE_FILE')) die ("You can't access this file directly...");
-global $network_prefix, $db, $cookie, $user;
+global $prefix, $db, $cookie, $user;
 $userinfo = getusrinfo( $user );
 $userid = $userinfo["user_id"];
 $catname=@htmlentities($catname);
@@ -13,9 +13,9 @@ $module_name = basename(dirname(__FILE__));
 get_lang($module_name);
 if ($form_done=="yes"):
 	if (isset($catid) && $catid!="")
-		$query = "update ".$network_prefix."_cemetery_cat set name='$catname',description='$catcomment',mod_date=now() where category_id='$catid'";
+		$query = "update ".$prefix."_cemetery_cat set name='$catname',description='$catcomment',mod_date=now() where category_id='$catid'";
 	else
-		$query = "insert into ".$network_prefix."_cemetery_cat (user_id,name,description,mod_date) values ($userid,'$catname','$catcomment',now())";
+		$query = "insert into ".$prefix."_cemetery_cat (user_id,name,description,mod_date) values ($userid,'$catname','$catcomment',now())";
 	$db->sql_query ($query,$db);
 	header("Location: modules.php?name=$module_name");
 endif;

@@ -1,6 +1,6 @@
 <?php
 if (!defined('MODULE_FILE')) die ("You can't access this file directly...");
-global $network_prefix, $db, $cookie, $user;
+global $prefix, $db, $cookie, $user;
 $index = 1;
 require_once("mainfile.php");
 $module_name = basename(dirname(__FILE__));
@@ -15,9 +15,9 @@ if (isset($action) && $action==_NO)
 Header("Location: modules.php?name=".$module_name."&file=marks&category=".$catid."&catname=".$catname);
 # If yes was pressed
 if(isset($action) && $action==_YES && isset($catid) && $catid != ""):
-	$delmarksquery = "delete from ".$network_prefix."_cemetery where id=$markid AND user_id=$userid";	
+	$delmarksquery = "delete from ".$prefix."_cemetery where id=$markid AND user_id=$userid";	
 	$db->sql_query ($delmarksquery,$db);
-	$updatecatquery = "update ".$network_prefix."_cemetery_cat set mod_date=now() where category_id=$catid";
+	$updatecatquery = "update ".$prefix."_cemetery_cat set mod_date=now() where category_id=$catid";
 	$db->sql_query ($updatecatquery,$db);
 	Header("Location: modules.php?name=".$module_name."&file=marks&category=".$catid."&catname=".$catname);
 endif;

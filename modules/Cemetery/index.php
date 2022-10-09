@@ -1,6 +1,6 @@
 <?php
 if (!defined('MODULE_FILE'))die ("You can't access this file directly...");
-global $network_prefix, $db, $cookie, $user, $theme_name;
+global $prefix, $db, $cookie, $user, $theme_name;
 $index = 1;
 require_once("mainfile.php");
 $module_name = basename(dirname(__FILE__));
@@ -21,7 +21,7 @@ echo "<div align=\"center\"><span class=title><strong><h1>".$headstone." "._CEME
 echo "<center>[ <a href=modules.php?name=".$module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
 echo "";
 echo "<hr />";
-$cat_query = "select category_id,name,description,mod_date from " . $network_prefix."_cemetery_cat  where user_id=" . $userid . " order by name";
+$cat_query = "select category_id,name,description,mod_date from " . $prefix."_cemetery_cat  where user_id=" . $userid . " order by name";
 $categories_res = $db->sql_query ($cat_query, $db);
 echo "<table align=center width=98%>
       <tr class=\"boxtitle\">

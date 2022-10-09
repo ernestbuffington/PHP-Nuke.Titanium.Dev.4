@@ -59,7 +59,7 @@ global $locked_width, $theme_business, $theme_title, $theme_author, $theme_date,
 $locked_width = "1840px";
 $theme_business = 'Brandon Maintenance Management, LLC';
 # Theme Name
-$theme_title = '<u>PHP-Nuke Titanium Template Theme v1.3 &copy; 2021</u>';
+$theme_title = '<u>PHP-Nuke Titanium Template Theme v2.0 &copy; 2022</u>';
 define('THEME', $theme_title);
 # Theme Author
 $theme_author = 'Ernest Allen Buffington';

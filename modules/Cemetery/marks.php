@@ -1,6 +1,6 @@
 <?php
 if (!defined('MODULE_FILE')) die("You can't access this file directly...");
-global $network_prefix, $db, $cookie, $user, $theme_name;
+global $prefix, $db, $cookie, $user, $theme_name;
 $index = 1;
 require_once("mainfile.php");
 $module_name = basename(dirname(__FILE__));
@@ -14,7 +14,7 @@ if(!isset($userid) || $userid== "")
 $userid = 0;
 # Sometimes we don't know the category name
 if((!isset($catname) || $catname== "") && (isset($category) && $category != "")):
-	$getname="select name from ".$network_prefix."_cemetery_cat where category_id='$category'";
+	$getname="select name from ".$prefix."_cemetery_cat where category_id='$category'";
 	$getnameres=$db->sql_query ($getname,$db);
 	$namerow=@$db->sql_fetchrow($getnameres,$db);
 	$catname=$namerow['name'];
@@ -28,7 +28,7 @@ $toes =  '<img class="tooltip-html copyright" alt="" title="" width="30" src="mo
 echo "<center><span class=title><strong><h1>".$headstone." ".$catname." ".$headstone."</h1></strong></span></center><P>\n";
 echo "<center>[ <a href=modules.php?name=".$module_name.">"._CATEGORIES."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
 echo "<hr />";
-$marks_query = "SELECT `id`,`name`,`url`,`description`,`mod_date`,`popup` FROM ".$network_prefix."_cemetery WHERE user_id=".$userid." AND category_id='".$category ."' ORDER BY `name`";
+$marks_query = "SELECT `id`,`name`,`url`,`description`,`mod_date`,`popup` FROM ".$prefix."_cemetery WHERE user_id=".$userid." AND category_id='".$category ."' ORDER BY `name`";
 $marks_res = $db->sql_query ($marks_query,$db);
 echo "<table width=98%>\n<tr class=boxtitle>
       <td width=37%>
@@ -43,7 +43,7 @@ echo "<table width=98%>\n<tr class=boxtitle>
 for ($i=0;$i<@$db->sql_numrows  ($marks_res,$db);$i++):
 	$marks_row = @$db->sql_fetchrow($marks_res,$db);
     global $db;
-    list($fixed_markurl) = $db->sql_ufetchrow("SELECT `url` FROM `".$network_prefix."_cemetery` WHERE `id`='".$marks_row['id']."'", SQL_NUM);
+    list($fixed_markurl) = $db->sql_ufetchrow("SELECT `url` FROM `".$prefix."_cemetery` WHERE `id`='".$marks_row['id']."'", SQL_NUM);
 	if ($marks_row['popup']==1):
 		echo "<tr class=\"boxlist\">
 		<td><img src=\"themes/".$theme_name."/images/invisible_pixel.gif\" alt=\"\" width=\"15\" height=\"1\" />

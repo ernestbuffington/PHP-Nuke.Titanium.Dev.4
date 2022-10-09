@@ -1,6 +1,6 @@
 <?php
 if (!defined('MODULE_FILE')) die ("You can't access this file directly...");
-global $network_prefix, $db, $cookie, $user;
+global $prefix, $db, $cookie, $user;
 if((isset($_POST['popup']) && !empty($_POST['popup'])) && (isset($_GET['popup']) && !empty($_GET['popup']))) 
 $popup = (isset($_GET['popup']) && !stristr($_GET['popup'],'..') && !stristr($_GET['popup'],'://')) ? addslashes(trim($_GET['popup'])) : false;
 else 
@@ -24,11 +24,11 @@ if ($form_done=="yes" && (isset($catid) && $catid != "")):
 	if (!isset($popup))
 		$popup=1;
 	if (isset($markid) && $markid != "")
-		$query = "update ".$network_prefix."_cemetery set name='$markname',url='$markurl',category_id=$catid,description='$markcomment',mod_date=now(),popup=$popup where id=$markid";
+		$query = "update ".$prefix."_cemetery set name='$markname',url='$markurl',category_id=$catid,description='$markcomment',mod_date=now(),popup=$popup where id=$markid";
 	else
-		$query = "insert into ".$network_prefix."_cemetery (user_id,category_id,name,url,description,mod_date,popup) values ($userid,$catid,'$markname','$markurl','$markcomment',now(),$popup)";
+		$query = "insert into ".$prefix."_cemetery (user_id,category_id,name,url,description,mod_date,popup) values ($userid,$catid,'$markname','$markurl','$markcomment',now(),$popup)";
 	$db->sql_query ($query,$db);
-	$catquery = "update " . $network_prefix . "_cemetery_cat set mod_date=now() where category_id=$catid";
+	$catquery = "update " . $prefix . "_cemetery_cat set mod_date=now() where category_id=$catid";
 	$db->sql_query ($catquery,$db);
 	header("Location: modules.php?name=$module_name&file=marks&category=$catid");
 elseif ($form_done=="yes" && (!isset($catid) || $catid=="")):
@@ -56,7 +56,7 @@ OpenTable();
 <table align=center>
 <tr><td><? echo _CATEGORY ?></td><td><select name=catid>
 <?
-$getcatquery = "select * from " . $network_prefix . "_cemetery_cat where user_id=$userid order by name";
+$getcatquery = "select * from " . $prefix . "_cemetery_cat where user_id=$userid order by name";
 $cat_ret = $db->sql_query  ($getcatquery,$db);
 for ($i=0;$i<$db->sql_numrows ($cat_ret,$db);$i++):
 	$catrow = $db->sql_fetchrow($cat_ret);
@@ -77,7 +77,7 @@ echo "<a href=modules.php?name=".$module_name."&amp;file=edit_cat>"._NEEDGROUP."
 <?
 if (!isset($markurl) || $markurl == ""):
  global $db;
- list($markurl) = $db->sql_ufetchrow("SELECT `url` FROM `".$network_prefix."_cemetery` WHERE `id`='$markid'", SQL_NUM);
+ list($markurl) = $db->sql_ufetchrow("SELECT `url` FROM `".$prefix."_cemetery` WHERE `id`='$markid'", SQL_NUM);
  $markurl=@htmlentities($markurl);
 	   $popup=1;
 endif;
