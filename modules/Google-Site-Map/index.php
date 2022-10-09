@@ -705,11 +705,11 @@ while ($row2 = $db->sql_fetchrow($result2)):
 			   while ($row11 = $db->sql_fetchrow($result11)): 
 				if(($row11['user_allow_viewonline'] == 0) OR ($row11['username'] == 'Anonymous'))
 			    continue;
-				$pnt_user=$row11['username'];
+				$user=$row11['username'];
 				$ciduser=$row11['user_id'];
 				print '<tr><td></td><td><font color="green"><i style="vertical-align: absmiddle;" 
 				class="fa fa-unlock-alt"></i></font> <a 
-				href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$ciduser.'">PHP-Nuke Titanium &#187; User Profile &#187; '.$pnt_user.'</a></td>';
+				href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$ciduser.'">PHP-Nuke Titanium &#187; User Profile &#187; '.$user.'</a></td>';
 				if($xml):
                 $sitemap->addItem('/modules.php?name=Profile&mode=viewprofile&u='.$ciduser.'', '0.8', 'daily', 'Today');
                 endif;

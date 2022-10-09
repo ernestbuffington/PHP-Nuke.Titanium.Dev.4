@@ -8,9 +8,9 @@
     exit;
   }
   
-  $pnt_username = $_GET['username'];
+  $username = $_GET['username'];
   
-  $tweets = getUserTweets($pnt_username);  
+  $tweets = getUserTweets($username);  
   
   foreach ($tweets as $key => $tweet) {
     unset($photo);

@@ -19,7 +19,7 @@
 
               </div>
               <h4>Bibliography</h4>
-              <textarea class="form-control" rows="5"> {$pnt_user.bibliography}</textarea>
+              <textarea class="form-control" rows="5"> {$user.bibliography}</textarea>
 
               </div>
               <div class="col-md-6 text-justify">
@@ -30,25 +30,25 @@
                   <div class="form-group">
                     <label class="col-lg-3 control-label">First name:</label>
                     <div class="col-lg-8">
-                      <input class="form-control" name="name" value="{$pnt_user.name}" type="text">
+                      <input class="form-control" name="name" value="{$user.name}" type="text">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-lg-3 control-label">Last name:</label>
                     <div class="col-lg-8">
-                      <input class="form-control" value="{$pnt_user.surname}" type="text">
+                      <input class="form-control" value="{$user.surname}" type="text">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-lg-3 control-label">Company:</label>
                     <div class="col-lg-8">
-                      <input class="form-control" value="{$pnt_user.company}" type="text">
+                      <input class="form-control" value="{$user.company}" type="text">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-lg-3 control-label">Email:</label>
                     <div class="col-lg-8">
-                      <input class="form-control" value="{$pnt_user.email}" type="text">
+                      <input class="form-control" value="{$user.email}" type="text">
                     </div>
                   </div>
                   <div class="form-group">

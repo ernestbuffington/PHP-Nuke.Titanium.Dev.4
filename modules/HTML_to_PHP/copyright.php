@@ -28,8 +28,8 @@ $author_email = "ernestb@itechnologies.in";
 $author_homepage = "http://www.undergroun51.com";
 $license = "Lifetime";
 $download_location = "http://www.undergroun51.com/modules.php?name=Downloads";
-$pnt_module_version = "1.0";
-$pnt_module_description = "HTML to PHP conversion module";
+$module_version = "1.0";
+$module_description = "HTML to PHP conversion module";
 
 // DO NOT TOUCH THE FOLLOWING COPYRIGHT CODE. YOU'RE JUST ALLOWED TO CHANGE YOUR "OWN"
 // MODULE'S DATA (SEE ABOVE) SO THE SYSTEM CAN BE ABLE TO SHOW THE COPYRIGHT NOTICE
@@ -38,6 +38,6 @@ $pnt_module_description = "HTML to PHP conversion module";
 // AND YOU ARE NOT ALLOWED TO DELETE THIS FILE NOR TO CHANGE ANYTHING FROM THIS FILE IF
 // YOU'RE NOT THIS MODULE'S AUTHOR.
 
-show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $pnt_module_version, $pnt_module_description);
+show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $module_version, $module_description);
 
 ?>

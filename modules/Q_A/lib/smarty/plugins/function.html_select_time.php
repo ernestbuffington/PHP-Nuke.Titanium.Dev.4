@@ -33,7 +33,7 @@ require_once(SMARTY_PLUGINS_DIR . 'shared.make_timestamp.php');
  */
 function smarty_function_html_select_time($params, $phpbb2_template)
 {
-    $pnt_prefix = "Time_";
+    $prefix = "Time_";
     $field_array = null;
     $field_separator = "\n";
     $option_separator = "\n";
@@ -149,29 +149,29 @@ function smarty_function_html_select_time($params, $phpbb2_template)
     }
 
     if (isset($params['time']) && is_array($params['time'])) {
-        if (isset($params['time'][$pnt_prefix . 'Hour'])) {
+        if (isset($params['time'][$prefix . 'Hour'])) {
             // $_REQUEST[$field_array] given
             foreach (array('H' => 'Hour',  'i' => 'Minute', 's' => 'Second') as $_elementKey => $_elementName) {
                 $_variableName = '_' . strtolower($_elementName);
-                $$_variableName = isset($params['time'][$pnt_prefix . $_elementName])
-                    ? $params['time'][$pnt_prefix . $_elementName]
+                $$_variableName = isset($params['time'][$prefix . $_elementName])
+                    ? $params['time'][$prefix . $_elementName]
                     : date($_elementKey);
             }
-            $_meridian = isset($params['time'][$pnt_prefix . 'Meridian'])
-                ? (' ' . $params['time'][$pnt_prefix . 'Meridian'])
+            $_meridian = isset($params['time'][$prefix . 'Meridian'])
+                ? (' ' . $params['time'][$prefix . 'Meridian'])
                 : '';
             $time = strtotime( $_hour . ':' . $_minute . ':' . $_second . $_meridian );
             list($_hour, $_minute, $_second) = $time = explode('-', date('H-i-s', $time));
-        } elseif (isset($params['time'][$field_array][$pnt_prefix . 'Hour'])) {
+        } elseif (isset($params['time'][$field_array][$prefix . 'Hour'])) {
             // $_REQUEST given
             foreach (array('H' => 'Hour',  'i' => 'Minute', 's' => 'Second') as $_elementKey => $_elementName) {
                 $_variableName = '_' . strtolower($_elementName);
-                $$_variableName = isset($params['time'][$field_array][$pnt_prefix . $_elementName])
-                    ? $params['time'][$field_array][$pnt_prefix . $_elementName]
+                $$_variableName = isset($params['time'][$field_array][$prefix . $_elementName])
+                    ? $params['time'][$field_array][$prefix . $_elementName]
                     : date($_elementKey);
             }
-            $_meridian = isset($params['time'][$field_array][$pnt_prefix . 'Meridian'])
-                ? (' ' . $params['time'][$field_array][$pnt_prefix . 'Meridian'])
+            $_meridian = isset($params['time'][$field_array][$prefix . 'Meridian'])
+                ? (' ' . $params['time'][$field_array][$prefix . 'Meridian'])
                 : '';
             $time = strtotime( $_hour . ':' . $_minute . ':' . $_second . $_meridian );
             list($_hour, $_minute, $_second) = $time = explode('-', date('H-i-s', $time));
@@ -193,7 +193,7 @@ function smarty_function_html_select_time($params, $phpbb2_template)
     if ($display_hours) {
         $_html_hours = '';
         $_extra = '';
-        $_name = $field_array ? ($field_array . '[' . $pnt_prefix . 'Hour]') : ($pnt_prefix . 'Hour');
+        $_name = $field_array ? ($field_array . '[' . $prefix . 'Hour]') : ($prefix . 'Hour');
         if ($all_extra) {
             $_extra .= ' ' . $all_extra;
         }
@@ -242,7 +242,7 @@ function smarty_function_html_select_time($params, $phpbb2_template)
     if ($display_minutes) {
         $_html_minutes = '';
         $_extra = '';
-        $_name = $field_array ? ($field_array . '[' . $pnt_prefix . 'Minute]') : ($pnt_prefix . 'Minute');
+        $_name = $field_array ? ($field_array . '[' . $prefix . 'Minute]') : ($prefix . 'Minute');
         if ($all_extra) {
             $_extra .= ' ' . $all_extra;
         }
@@ -282,7 +282,7 @@ function smarty_function_html_select_time($params, $phpbb2_template)
     if ($display_seconds) {
         $_html_seconds = '';
         $_extra = '';
-        $_name = $field_array ? ($field_array . '[' . $pnt_prefix . 'Second]') : ($pnt_prefix . 'Second');
+        $_name = $field_array ? ($field_array . '[' . $prefix . 'Second]') : ($prefix . 'Second');
         if ($all_extra) {
             $_extra .= ' ' . $all_extra;
         }
@@ -322,7 +322,7 @@ function smarty_function_html_select_time($params, $phpbb2_template)
     if ($display_meridian && !$use_24_hours) {
         $_html_meridian = '';
         $_extra = '';
-        $_name = $field_array ? ($field_array . '[' . $pnt_prefix . 'Meridian]') : ($pnt_prefix . 'Meridian');
+        $_name = $field_array ? ($field_array . '[' . $prefix . 'Meridian]') : ($prefix . 'Meridian');
         if ($all_extra) {
             $_extra .= ' ' . $all_extra;
         }

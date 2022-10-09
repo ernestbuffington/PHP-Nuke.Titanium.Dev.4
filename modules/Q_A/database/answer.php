@@ -1,9 +1,9 @@
 <?php
 
-function createAnswer($questionid, $pnt_userid, $content){
+function createAnswer($questionid, $userid, $content){
 	global $conn;
 	$stmt = $conn->prepare('INSERT INTO answer(question, createdby, content) VALUES (?, ? ,?)');
-	$stmt->execute(array($questionid, $pnt_userid, $content));
+	$stmt->execute(array($questionid, $userid, $content));
 	return $conn->lastInsertId('answer_answerid_seq');
 };
 

@@ -117,14 +117,14 @@ function titanium_get_version() {
 }
 
 function titanium_compare() {
-    global $pnt_db, $pnt_prefix, $cache;
+    global $db, $prefix, $cache;
 
     $check = titanium_check_version();
     
 	if($check == 0) 
 	{
-        $sql_ver = "UPDATE ".$pnt_prefix."_titanium SET titanium_value = '0' WHERE titanium_field='ver_previous'";
-        $pnt_db->sql_query($sql_ver);
+        $sql_ver = "UPDATE ".$prefix."_titanium SET titanium_value = '0' WHERE titanium_field='ver_previous'";
+        $db->sql_query($sql_ver);
         $cache->delete('titaniumconfig');
         return "<strong><span style='color:green'>"._ADMIN_VER_CUR."</span></strong>";
     }
@@ -316,7 +316,7 @@ function titanium_get_download() {
 }
 
 function titanium_version() {
-    global $pnt_db, $pnt_prefix, $admin_file, $title ;
+    global $db, $prefix, $admin_file, $title ;
     
 	$title = "Live Change Log";
 	OpenChangeLogHeaderTable();

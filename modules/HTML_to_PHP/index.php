@@ -7,11 +7,11 @@ if (!defined('MODULE_FILE')) {
 $pagetitle = 'HTML to PHP';
 
 require_once("mainfile.php");
-$pnt_module = basename(dirname(__FILE__));
-get_lang($pnt_module);
+$module = basename(dirname(__FILE__));
+get_lang($module);
 include("header.php");
 $index = 0;
-include("modules/$pnt_module/js/HTMLPHP.js");
+include("modules/$module/js/HTMLPHP.js");
 title("$sitename: "._PNTINDEX."");
 OpenTable();
   echo " <TABLE borderColor=blue cellSpacing=0 cellPadding=0 width=\"100%\" border=0>"

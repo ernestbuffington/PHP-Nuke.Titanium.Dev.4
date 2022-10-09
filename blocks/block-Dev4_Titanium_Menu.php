@@ -33,7 +33,7 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $pnt_db, $admin, $user, $pnt_prefix, $pnt_user_prefix, $cookie, $def_module, $currentlang, $cookie, $cache;
+global $db, $admin, $user, $prefix, $user_prefix, $cookie, $def_module, $currentlang, $cookie, $cache;
 
 if (file_exists(NUKE_LANGUAGE_DIR.'Sommaire/lang-'.$currentlang.'.php')) {
     include_once(NUKE_LANGUAGE_DIR.'Sommaire/lang-'.$currentlang.'.php');
@@ -55,9 +55,9 @@ if(!($row = $cache->load('sommaire_row', 'block'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-$sql="SELECT t1.invisible, t2.main_module FROM ".$pnt_prefix."_sommaire AS t1, ".$pnt_prefix."_main AS t2 LIMIT 1";
-$result = $pnt_db->sql_query($sql);
-$row = $pnt_db->sql_fetchrow($result);
+$sql="SELECT t1.invisible, t2.main_module FROM ".$prefix."_sommaire AS t1, ".$prefix."_main AS t2 LIMIT 1";
+$result = $db->sql_query($sql);
+$row = $db->sql_fetchrow($result);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -87,7 +87,7 @@ $imgnew="new.gif";
 ///////////// we retrieve the information to know if the user has unread private messages /////////////////
 if ($is_user==1 && $detectPM==1) {
     $uid=intval($uid); // on sécurise l'appel à la BDD
-     $newpms = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT COUNT(*) FROM " . $prefix . "_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND (privmsgs_type='5' OR privmsgs_type='1')")); //2 requetes SQL
+     $newpms = $db->sql_fetchrow($db->sql_query("SELECT COUNT(*) FROM " . $prefix . "_bbprivmsgs WHERE privmsgs_to_userid='$uid' AND (privmsgs_type='5' OR privmsgs_type='1')")); //2 requetes SQL
 }
 // here, if $newpms[0]>0 --> there are unread PMs //
 
@@ -101,13 +101,13 @@ if(!($tempoA = $cache->load('sommaire_tempo', 'block'))) {
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 if ($gestiongroupe==1) {
-    $sql = "SELECT title, custom_title, view, active, groups FROM ".$pnt_prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";
+    $sql = "SELECT title, custom_title, view, active, groups FROM ".$prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";
 }
 else {
-    $sql = "SELECT title, custom_title, view, active FROM ".$pnt_prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";
+    $sql = "SELECT title, custom_title, view, active FROM ".$prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";
 }
-    $modulesaffiche= $pnt_db->sql_query($sql);
-    while($tempo = $pnt_db->sql_fetchrow($modulesaffiche)) {
+    $modulesaffiche= $db->sql_query($sql);
+    while($tempo = $db->sql_fetchrow($modulesaffiche)) {
         $tempoA[] = $tempo;
     }
 /*****[BEGIN]******************************************
@@ -153,9 +153,9 @@ if (!($row2A = $cache->load('sommaire_row2', 'block'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $sql2= "SELECT groupmenu, module, url, url_text, image, new, new_days, class, bold FROM ".$pnt_prefix."_sommaire_categories ORDER BY id ASC";
-    $result2= $pnt_db->sql_query($sql2);
-    while($row2=$pnt_db->sql_fetchrow($result2)) {
+    $sql2= "SELECT groupmenu, module, url, url_text, image, new, new_days, class, bold FROM ".$prefix."_sommaire_categories ORDER BY id ASC";
+    $result2= $db->sql_query($sql2);
+    while($row2=$db->sql_fetchrow($result2)) {
         $row2A[] = $row2;
     } //on récupère la première ligne de la table, et on affecte aux variables.
 /*****[BEGIN]******************************************
@@ -251,10 +251,10 @@ if (!($row3 = $cache->load('sommaire_row3', 'block'))) {
 					    bold, 
 						 new, 
 					 listbox, 
-					 dynamic FROM ".$pnt_prefix."_sommaire ORDER BY groupmenu ASC";
+					 dynamic FROM ".$prefix."_sommaire ORDER BY groupmenu ASC";
 					 
-    $result = $pnt_db->sql_query($sql);
-    while ($row = $pnt_db->sql_fetchrow($result)) {  // we will display each category, then the corresponding modules //
+    $result = $db->sql_query($sql);
+    while ($row = $db->sql_fetchrow($result)) {  // we will display each category, then the corresponding modules //
         $row3[] = $row;
     }
 /*****[BEGIN]******************************************
@@ -688,9 +688,9 @@ $cache->save('sommaire_row3', 'block', $row3);
 
                                     if ($nomdumodule=="Downloads" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = (preg_match("/^cid=[0-9]*$/",$temponomdumodule[2])) ? " WHERE $temponomdumodule[2]" : "";
-                                        $sqlimgnew="SELECT date FROM ".$pnt_prefix."_downloads_downloads".$where." ORDER BY date DESC LIMIT 1";
-                                        $resultimgnew=$pnt_db->sql_query($sqlimgnew);
-                                        $rowimgnew = $pnt_db->sql_fetchrow($resultimgnew);
+                                        $sqlimgnew="SELECT date FROM ".$prefix."_downloads_downloads".$where." ORDER BY date DESC LIMIT 1";
+                                        $resultimgnew=$db->sql_query($sqlimgnew);
+                                        $rowimgnew = $db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['date']) {
                                             preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $rowimgnew['date'], $datetime);
                                             $zedate = mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
@@ -702,9 +702,9 @@ $cache->save('sommaire_row3', 'block', $row3);
                                     }
                                     elseif ($nomdumodule=="Web_Links" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = (preg_match("/^cid=[0-9]*$/",$temponomdumodule[2])) ? " WHERE $temponomdumodule[2]" : "";
-                                        $sqlimgnew="SELECT date FROM ".$pnt_prefix."_links_links".$where." ORDER BY date DESC LIMIT 1";
-                                        $resultimgnew=$pnt_db->sql_query($sqlimgnew);
-                                        $rowimgnew = $pnt_db->sql_fetchrow($resultimgnew);
+                                        $sqlimgnew="SELECT date FROM ".$prefix."_links_links".$where." ORDER BY date DESC LIMIT 1";
+                                        $resultimgnew=$db->sql_query($sqlimgnew);
+                                        $rowimgnew = $db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['date']) {
                                             preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $rowimgnew['date'], $datetime);
                                             $zedate = mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
@@ -716,9 +716,9 @@ $cache->save('sommaire_row3', 'block', $row3);
                                     }
                                     elseif ($nomdumodule=="Content" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = (preg_match("/^cid=[0-9]*$/",$temponomdumodule[2])) ? " WHERE $temponomdumodule[2]" : "";
-                                        $sqlimgnew="SELECT date FROM ".$pnt_prefix."_pages".$where." ORDER BY date DESC LIMIT 1";
-                                        $resultimgnew=$pnt_db->sql_query($sqlimgnew);
-                                        $rowimgnew = $pnt_db->sql_fetchrow($resultimgnew);
+                                        $sqlimgnew="SELECT date FROM ".$prefix."_pages".$where." ORDER BY date DESC LIMIT 1";
+                                        $resultimgnew=$db->sql_query($sqlimgnew);
+                                        $rowimgnew = $db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['date']) {
                                             preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $rowimgnew['date'], $datetime);
                                             $zedate = mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
@@ -730,9 +730,9 @@ $cache->save('sommaire_row3', 'block', $row3);
                                     }
                                     elseif ($nomdumodule=="Reviews" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = "";
-                                        $sqlimgnew="SELECT date FROM ".$pnt_prefix."_reviews".$where." ORDER BY date DESC LIMIT 1";
-                                        $resultimgnew=$pnt_db->sql_query($sqlimgnew);
-                                        $rowimgnew = $pnt_db->sql_fetchrow($resultimgnew);
+                                        $sqlimgnew="SELECT date FROM ".$prefix."_reviews".$where." ORDER BY date DESC LIMIT 1";
+                                        $resultimgnew=$db->sql_query($sqlimgnew);
+                                        $rowimgnew = $db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['date']) {
                                             preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})/", $rowimgnew['date'], $datetime);
                                             $zedate = mktime(0,0,0,$datetime[2],$datetime[3],$datetime[1]);
@@ -744,9 +744,9 @@ $cache->save('sommaire_row3', 'block', $row3);
                                     }
                                     elseif ($nomdumodule=="Journal" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = "";
-                                        $sqlimgnew="SELECT mdate FROM ".$pnt_prefix."_journal".$where." ORDER BY mdate DESC LIMIT 1";
-                                        $resultimgnew=$pnt_db->sql_query($sqlimgnew);
-                                        $rowimgnew = $pnt_db->sql_fetchrow($resultimgnew);
+                                        $sqlimgnew="SELECT mdate FROM ".$prefix."_journal".$where." ORDER BY mdate DESC LIMIT 1";
+                                        $resultimgnew=$db->sql_query($sqlimgnew);
+                                        $rowimgnew = $db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['mdate']) {
                                             preg_match ("/([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})/", $rowimgnew['mdate'], $datetime);
                                             $zedate = mktime(0,0,0,$datetime[1],$datetime[2],$datetime[3]);
@@ -758,9 +758,9 @@ $cache->save('sommaire_row3', 'block', $row3);
                                     }
                                     elseif ($nomdumodule=="Blog" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = (preg_match("/^new_topic=[0-9]*$/",$temponomdumodule[1])) ? " WHERE ".str_replace("new_","",$temponomdumodule[1])."" : "";
-                                        $sqlimgnew="SELECT datePublished FROM ".$pnt_prefix."_stories".$where." ORDER BY datePublished DESC LIMIT 1";
-                                        $resultimgnew=$pnt_db->sql_query($sqlimgnew);
-                                        $rowimgnew = $pnt_db->sql_fetchrow($resultimgnew);
+                                        $sqlimgnew="SELECT datePublished FROM ".$prefix."_stories".$where." ORDER BY datePublished DESC LIMIT 1";
+                                        $resultimgnew=$db->sql_query($sqlimgnew);
+                                        $rowimgnew = $db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['datePublished']) {
                                             preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $rowimgnew['datePublished'], $datetime);
                                             $zedate = mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
@@ -862,9 +862,9 @@ if ($is_admin===1) {
         $content.="<form action=\"modules.php\" method=\"get\" name=\"sommaireformlistboxinvisibles\">"
                         ."<select name=\"somlistboxinvisibles\" onchange=\"sommaire_envoielistbox(this.options[this.selectedIndex].value)\">"
                         ."<option value=\"select\">"._SOMSELECTALINK."";
-        $sql = "SELECT title, custom_title FROM ".$pnt_prefix."_modules WHERE active='1' AND inmenu='0' AND `title` NOT LIKE '~l~%' ORDER BY title ASC";
-        $result = $pnt_db->sql_query($sql);
-        while ($row = $pnt_db->sql_fetchrow($result)) {
+        $sql = "SELECT title, custom_title FROM ".$prefix."_modules WHERE active='1' AND inmenu='0' AND `title` NOT LIKE '~l~%' ORDER BY title ASC";
+        $result = $db->sql_query($sql);
+        while ($row = $db->sql_fetchrow($result)) {
             $module[$key]=$row['title'];
             $key++;
             $mn_title = $row['title'];
@@ -899,9 +899,9 @@ if (!($row4 = $cache->load('sommaire_row4', 'block'))) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $sql = "SELECT title, custom_title FROM ".$pnt_prefix."_modules WHERE active='0' AND `title` NOT LIKE '~l~%' ORDER BY title ASC";
-        $result = $pnt_db->sql_query($sql);
-        while ($row = $pnt_db->sql_fetchrow($result)) {
+        $sql = "SELECT title, custom_title FROM ".$prefix."_modules WHERE active='0' AND `title` NOT LIKE '~l~%' ORDER BY title ASC";
+        $result = $db->sql_query($sql);
+        while ($row = $db->sql_fetchrow($result)) {
             $row4[] = $row;
         }
 /*****[BEGIN]******************************************

@@ -72,11 +72,11 @@ global $customlang,
 echo '<!-- FOOTER START -->';
 global 
 	   $index, 
-	    $pnt_user, 
+	    $user, 
 	 $banners, 
 	  $cookie, 
-         $pnt_dbi, 
-		  $pnt_db, 
+         $dbi, 
+		  $db, 
 	   $admin, 
    $adminmail, 
   $total_phpbb2_time, 
@@ -91,7 +91,7 @@ global
   $theme_name, 
    $ThemeInfo,
     $bgcolor4,
-      $pnt_prefix;
+      $prefix;
 
 
 if(blocks_visible('right')) 

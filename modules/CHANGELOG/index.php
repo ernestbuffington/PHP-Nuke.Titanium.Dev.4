@@ -14,7 +14,7 @@ if (!defined('MODULE_FILE')) {
 
 
 
-$pnt_module = basename(dirname(__FILE__));
+$module = basename(dirname(__FILE__));
 
 if ( isset($HTTP_GET_VARS['name']) || isset($HTTP_POST_VARS['name']) )
 {
@@ -36,17 +36,17 @@ else
 //
 // Generate page
 //
-global $pnt_module;
+global $module;
 
 $pnt_title = 'Live Change Log v11.1';
 $pagetitle = 'PHP-Nuke Titanium &raquo; '.$pnt_title;
 
-if(!isset($pnt_module) || empty($pnt_module)){
-    $pnt_module = basename(dirname(__FILE__));
+if(!isset($module) || empty($module)){
+    $module = basename(dirname(__FILE__));
 }
-get_lang($pnt_module);
+get_lang($module);
  
-include_once(NUKE_MODULES_DIR.$pnt_module.'/includes/functions.php');
+include_once(NUKE_MODULES_DIR.$module.'/includes/functions.php');
 include_once(NUKE_INCLUDE_DIR.'titanium_base_dir.php');
 
 define(CUR_TITANIUM, strtolower(TITANIUM_EDITION));
@@ -75,7 +75,7 @@ echo "<br />";
 global $myappid, $secret;
     
 		
-$style = "<link rel=\"stylesheet\" href=\"modules/$pnt_module/style/style.css\" type=\"text/css\">\n";
+$style = "<link rel=\"stylesheet\" href=\"modules/$module/style/style.css\" type=\"text/css\">\n";
 echo $style;
 
 $favicon = img('chrome_logo.png', 'CHANGELOG'); 
@@ -106,7 +106,7 @@ $favicon = img('chrome_logo.png', 'CHANGELOG');
 
 
 
-if ($pnt_user) 
+if ($user) 
 {
 //echo "<hr>";
 //echo "<b><font color=\"#3b5998\">facebook</font></b> currently has over <font color=red>350,000</font> developers and entrepreneurs from <font color=red>225</font> countries."; 

@@ -9,11 +9,11 @@
     exit;
   }
 
-  $pnt_username = $_POST['username'];
+  $username = $_POST['username'];
   $password = $_POST['password'];
   
-  if (isLoginCorrect($pnt_username, $password)) {
-    $_SESSION['username'] = $pnt_username;
+  if (isLoginCorrect($username, $password)) {
+    $_SESSION['username'] = $username;
     $_SESSION['success_messages'][] = 'Login successful';  
   } else {
     $_SESSION['error_messages'][] = 'Login failed';  

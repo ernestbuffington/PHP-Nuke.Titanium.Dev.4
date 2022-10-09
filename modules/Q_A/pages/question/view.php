@@ -26,9 +26,9 @@ if(!$questionId){
 
   if(isset($loggedUser)){
     foreach ($answers as $key => $answer) {
-      $pnt_userRating = getAnswerRating($answer['answerid'], $loggedUser['userid'])['rating'];
-      if(!$pnt_userRating) $pnt_userRating = 0;
-      $answers[$key]['userRating'] = $pnt_userRating;
+      $userRating = getAnswerRating($answer['answerid'], $loggedUser['userid'])['rating'];
+      if(!$userRating) $userRating = 0;
+      $answers[$key]['userRating'] = $userRating;
     }
   }
 

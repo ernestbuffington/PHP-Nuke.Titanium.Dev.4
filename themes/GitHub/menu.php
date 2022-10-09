@@ -61,7 +61,7 @@
 
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])){ exit('Access Denied');}
 
-global $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $pnt_user, $cookie, $pnt_prefix, $sitekey, $pnt_db, $name, $banners, $pnt_user_prefix, $userinfo, $admin, $admin_file, $ThemeInfo;
+global $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $user, $cookie, $prefix, $sitekey, $db, $name, $banners, $user_prefix, $userinfo, $admin, $admin_file, $ThemeInfo;
 
 global $headeruserinfo_avatar, $avatar_overide_size, $make_xtreme_avatar_small, $phpbb2_board_config, $userinfo;
 # START - this was added for the very whimpy small themes that have no block width! by Ernest Buffington 08/06/2019

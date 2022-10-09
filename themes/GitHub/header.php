@@ -76,9 +76,9 @@ global $locked_width,
 		     $slogan, 
 		       $name, 
 		    $banners, 
-		 $pnt_db, 
-$pnt_user_prefix, 
-	 $pnt_prefix, 
+		 $db, 
+$user_prefix, 
+	 $prefix, 
 	      $admin_file, 
             $userinfo, 
 		   $ThemeInfo,
@@ -88,7 +88,7 @@ $pnt_user_prefix,
 echo "\n\n<!-- THEME HEADER START -->\n"; # set background here in themes/Inferno/css/maintable.php
 
 # Check if a Registered User is Logged-In
-$pnt_username = is_user() ? $userinfo['username'] : _ANONYMOUS;
+$username = is_user() ? $userinfo['username'] : _ANONYMOUS;
 
 global $connected;
 

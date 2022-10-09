@@ -22,10 +22,10 @@ foreach($arguments as $argument){
 $title = $_POST['title'];
 $content = $_POST['content'];
 $tags = explode(',', $_POST['tags']);
-$pnt_user = getUserByUsername($USERNAME);
+$user = getUserByUsername($USERNAME);
 
 
-$questionId = createQuestion($title, $content, $pnt_user['userid'], $tags);
+$questionId = createQuestion($title, $content, $user['userid'], $tags);
 
 
 if($questionId != 0){

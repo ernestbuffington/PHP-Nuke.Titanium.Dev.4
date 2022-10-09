@@ -1,29 +1,29 @@
 <?
 
-function createQuestionRating($questionid, $pnt_userid, $up){
+function createQuestionRating($questionid, $userid, $up){
 	if($up){
 		$rating = 1;
 	}else $rating = -1;
 
 	global $conn;
 	$stmt = $conn->prepare('INSERT INTO question_rating(question, createdby, rating) VALUES (?, ?, ?)');
-	return $stmt->execute(array($questionid, $pnt_userid, $rating));
+	return $stmt->execute(array($questionid, $userid, $rating));
 }
 
-function updateQuestionRating($questionid, $pnt_userid, $up){
+function updateQuestionRating($questionid, $userid, $up){
 	if($up){
 		$rating = 1;
 	}else $rating = -1;
 	
 	global $conn;
 	$stmt = $conn->prepare('UPDATE question_rating SET rating = ? WHERE question = ? AND createdby = ?');
-	return $stmt->execute(array($rating, $questionid, $pnt_userid));
+	return $stmt->execute(array($rating, $questionid, $userid));
 }
 
-function getQuestionRating($questionid, $pnt_userid){
+function getQuestionRating($questionid, $userid){
 	global $conn;
 	$stmt = $conn->prepare('SELECT * FROM question_rating WHERE question = ? AND createdby = ?');
-	$stmt->execute(array($questionid, $pnt_userid));
+	$stmt->execute(array($questionid, $userid));
 	return $stmt->fetch();
 }
 

@@ -8,10 +8,10 @@ function isLoginCorrect($email, $password) {
 		return $stmt->fetch() == true;
 	}
 
-	function createUser($name, $surname, $email, $pnt_username, $password, $company){
+	function createUser($name, $surname, $email, $username, $password, $company){
 		global $conn;
 		$stmt = $conn->prepare("INSERT INTO registered_user(name, surname, email, username, password, company) VALUES (?,?,?,?,?,?)");
-		$stmt->execute(array($name, $surname, $email, $pnt_username, sha1($password), $company));
+		$stmt->execute(array($name, $surname, $email, $username, sha1($password), $company));
 		return $stmt->fetch() == true;
 	}
 
@@ -22,10 +22,10 @@ function isLoginCorrect($email, $password) {
 		return $stmt->fetch();
 	}
 
-	function getUserByUsername($pnt_username){
+	function getUserByUsername($username){
 		global $conn;
 		$stmt = $conn->prepare("SELECT userid, name, surname, company, email, username FROM registered_user WHERE username = ?");
-		$stmt->execute(array($pnt_username));
+		$stmt->execute(array($username));
 		return $stmt->fetch();
 	}
 

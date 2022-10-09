@@ -11,15 +11,15 @@ if (!defined('MODULE_FILE'))
    die ("You can't access this file directly...");
 }
 
-global $network_prefix, $pnt_db, $cookie, $pnt_user, $theme_name;
+global $network_prefix, $db, $cookie, $user, $theme_name;
 
 $index = 1;
 
 require_once("mainfile.php");
 
-$pnt_module = basename(dirname(__FILE__));
+$module = basename(dirname(__FILE__));
 
-get_lang($pnt_module);
+get_lang($module);
 
 $pagetitle = "86it Developers Network - My ". _MARKSTITLE;
 
