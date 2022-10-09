@@ -3,33 +3,22 @@
 # THEME CONFIG FILE                                                                     #
 #---------------------------------------------------------------------------------------#
 # THEME INFO                                                                            #
-# Universal Theme v1.0 (Fixed & Full Width)                                             #
+# Titanium Core Theme v2.0 (Fixed & Full Width)                                         #
 #                                                                                       #
-# Final Build Date 03/16/2021 Tuesday 12:54am                                           #
+# Final Build Date 10/09/2022 Tuesday 12:54am                                           #
 #                                                                                       #
-# A Very Nice Fire and Brimstone Theme Design.                                          #
-# Copyright © 2021 By: TheGhost AKA EABuffington                                        #
-# e-Mail : ernest.buffington@gmail.com                                                  #
+# A Very Nice Gold Template Theme                                                       #
+# Copyright © 2021 : Brandon Maintenance Management                                     #
+# e-Mail : brandon.maintenance.management@gmail.com                                     #
 #---------------------------------------------------------------------------------------#
-# CREATION INFO                                                                         #
-# Created On: 03/16/2021 Tuesday 12:54am (v1.0)                                         #
-#                                                                                       #
-# Credit goes to Lonestar On: 1st August, 2019 (v3.0)                                   #
-# HTML5 Theme Code By: Lonestar (Lonestar-Modules.com)                                  #
-#                                                                                       #
-# Credit goes to TheMortal                                                              #
-# For his CSS MENU                                                                      #
-#                                                                                       #
-# Read CHANGELOG File for Updates & Upgrades Info                                       #
-#                                                                                       #
-# Designed By: TheGhost & Sebastian                                                     #
-# Web Site: https://www.86it.us                                                         #
-# Purpose: PHP-Nuke Titanium | Nuke Evolution Xtreme                                    #
+# Designed By: Ernest Buffington                                                        #
+# Web Site: https://www.theghost.86it.us                                                #
+# Purpose: PHP-Nuke Titanium v4.0.2                                                     #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
-# PHP-Nuke Copyright (c) 2006 by Francisco Burzi phpnuke.org                            #
+# PHP-Nuke Copyright (c) 2002    : Francisco Burzi phpnuke.org                          #
 # Nuke Evolution Xtreme (c) 2010 : Enhanced PHP-Nuke Web Portal System                  #
-# PHP-Nuke Titanium (c) 2021     : Enhanced PHP-Nuke Web Portal System                  #
+# PHP-Nuke Titanium (c) 2022     : Enhanced and Advanced PHP-Nuke Web Portal System     #
 #---------------------------------------------------------------------------------------#
 #                                                                                       #
 # Special Honorable Mentions                                                            #

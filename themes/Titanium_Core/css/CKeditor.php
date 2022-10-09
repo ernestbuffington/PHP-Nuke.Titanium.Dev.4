@@ -1,7 +1,7 @@
 <?php
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
-# PHP-Nuke Copyright (c) 2006 by Francisco Burzi phpnuke.org                            #
+# PHP-Nuke Copyright (c) 2002 by Francisco Burzi phpnuke.org                            #
 # PHP-Nuke Titanium (c) 2019 : Enhanced PHP-Nuke Web Portal System                      #
 #---------------------------------------------------------------------------------------#
 global $theme_name;
