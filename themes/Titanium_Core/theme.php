@@ -65,7 +65,7 @@ define('THEME', $theme_title);
 $theme_author = 'Ernest Allen Buffington';
 define('THEME_AUTHOR', $theme_author);
 # Theme creation date
-$theme_date = '05/04/2021';
+$theme_date = '10/09/2022';
 define('THEME_DATE', $theme_date);
 $theme_download_link = '#myCopyRight';
 define('THEME_DOWNLOAD_LINK', $theme_download_link);
@@ -99,10 +99,7 @@ $make_xtreme_avatar_small,
 	              $avatar, 
 				   $email) = $db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `nuke_users` WHERE `user_id`=$portaladmin", SQL_NUM);
 				   
-# be sure and set your user number in the config.php file.
-//$my_welcome_message = '<a class = "welcome" href="'.$domain.'">Welcome to The 86it Developers Network</a>';
-//$my_welcome_message = '<a class = "welcome" href="'.$domain.'">Welcome to '.$portaladminname.'\'s 86it Portal</a>';
-$my_welcome_message = '<a class = "welcome" href="'.HTTPS.'">PHP-Nuke Titanium Dev 4 <font color="#FF9900" size="1">(US Version)</font></a>';
+$my_welcome_message = '<a class = "welcome" href="'.HTTPS.'">PHP-Nuke Titanium <font color="#FF9900" size="1">(Desktop Version)</font></a>';
 
 # This is to tell the main portal menu to look for the images
 # in the theme dir "theme_name/images/menu"
