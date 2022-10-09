@@ -31,31 +31,31 @@
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
-$pnt_module = basename(dirname(__FILE__));
-get_lang($pnt_module);
+$module_name = basename(dirname(__FILE__));
+get_lang($module_name);
 @include_once(NUKE_INCLUDE_DIR.'nsnne_func.php');
-$blog_config = blog_get_configs();
+$neconfig = ne_get_configs();
 
 define('INDEX_FILE', true);
 
-$phpbb2_topics = 1;
-automated_blogs();
-if ($topic == 0 OR empty($topic)) { redirect_titanium("modules.php?name=$pnt_module"); }
+$topics = 1;
+automated_news();
+if ($topic == 0 OR empty($topic)) { redirect("modules.php?name=$module_name"); }
 
 switch ($op) {
 
     default:
     case "newindex":
-        if($blog_config["homenumber"] == 0) {
-            if (isset($cookie[3])) { $blognum = $cookie[3]; } else { $blognum = $bloghome; }
+        if($neconfig["homenumber"] == 0) {
+            if (isset($cookie[3])) { $storynum = $cookie[3]; } else { $storynum = $storyhome; }
         } else {
-            $blognum = $blog_config["homenumber"];
+            $storynum = $neconfig["homenumber"];
         }
         if (!isset($min)) { $min = 0; }
-        if (!isset($max)) { $max = $min + $blognum; }
+        if (!isset($max)) { $max = $min + $storynum; }
         if ($multilingual == 1) { $querylang = "AND (alanguage='$currentlang' OR alanguage='')"; } else { $querylang = ""; }
         include_once(NUKE_BASE_DIR."header.php");
-        if($blog_config["readmore"] == 1) {
+        if($neconfig["readmore"] == 1) {
             echo "<script language='JavaScript' type='text/javascript'>\n";
             echo "<!-- Begin\n";
             echo "function NewsReadWindow(mypage, myname, w, h, scroll) {\n";
@@ -68,15 +68,15 @@ switch ($op) {
             echo "//  End -->\n";
             echo "</script>\n";
         }
-        $pnt_db->sql_query("UPDATE ".$pnt_prefix."_topics SET counter=counter+1 WHERE topicid='$topic'");
-        $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_stories WHERE topic='$topic' $querylang");
-        $totalarticles = $pnt_db->sql_numrows($result);
-        $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_stories WHERE topic='$topic' $querylang ORDER BY sid DESC LIMIT $min,$blognum");
-        if($blog_config["columns"] == 1) { // DUAL
+        $db->sql_query("UPDATE ".$prefix."_topics SET counter=counter+1 WHERE topicid='$topic'");
+        $result = $db->sql_query("SELECT * FROM ".$prefix."_stories WHERE topic='$topic' $querylang");
+        $totalarticles = $db->sql_numrows($result);
+        $result = $db->sql_query("SELECT * FROM ".$prefix."_stories WHERE topic='$topic' $querylang ORDER BY sid DESC LIMIT $min,$storynum");
+        if($neconfig["columns"] == 1) { // DUAL
             echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
         }
         $a = 0;
-        while ($artinfo = $pnt_db->sql_fetchrow($result)) {
+        while ($artinfo = $db->sql_fetchrow($result)) {
             formatTimestamp($artinfo["time"]);
             $subject = stripslashes(check_html($subject, "nohtml"));
             $artinfo["hometext"] = decode_bbcode(set_smilies(stripslashes($artinfo["hometext"])), 1, true);
@@ -94,7 +94,7 @@ switch ($op) {
             $artinfo["ratings"] = intval($artinfo["ratings"]);
             getTopics($artinfo["sid"]);
 
-            if($blog_config["texttype"] == 0) {
+            if($neconfig["texttype"] == 0) {
                 $introcount = strlen($artinfo["hometext"]);
                 $fullcount = strlen($artinfo["bodytext"]);
             } else {
@@ -110,31 +110,31 @@ switch ($op) {
             $the_icons = "";
             
 			//if (is_user()) {
-            //    $the_icons .= " | <a href='modules.php?name=$pnt_module&amp;file=print&amp;sid=".$artinfo["sid"]."'><img src='images/print.gif' border='0' alt='"._PRINTER."' title='"._PRINTER."' width='11' height='11'></a>&nbsp;<a href='modules.php?name=$pnt_module&amp;file=friend&amp;op=FriendSend&amp;sid=".$artinfo["sid"]."'><img src='images/friend.gif' border='0' alt='"._FRIEND."' title='"._FRIEND."' width='11' height='11'></a>\n";
+            //    $the_icons .= " | <a href='modules.php?name=$module_name&amp;file=print&amp;sid=".$artinfo["sid"]."'><img src='images/print.gif' border='0' alt='"._PRINTER."' title='"._PRINTER."' width='11' height='11'></a>&nbsp;<a href='modules.php?name=$module_name&amp;file=friend&amp;op=FriendSend&amp;sid=".$artinfo["sid"]."'><img src='images/friend.gif' border='0' alt='"._FRIEND."' title='"._FRIEND."' width='11' height='11'></a>\n";
             //}
-            //if (is_mod_admin($pnt_module)) {
+            //if (is_mod_admin($module_name)) {
             //    $the_icons .= " | <a href=\"".$admin_file.".php?op=EditStory&amp;sid=".$artinfo["sid"]."\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EDIT."\" title=\""._EDIT."\" width=\"11\" height=\"11\"></a>&nbsp;<a href=\"".$admin_file.".php?op=RemoveStory&amp;sid=".$artinfo["sid"]."\"><img src=\"images/delete.gif\" border=\"0\" alt=\""._DELETE."\" title=\""._DELETE."\" width=\"11\" height=\"11\"></a>\n";
             //}
 			
 	        if (is_user()) 
             {
-              $the_icons .= ' | <a href="modules.php?name='.$pnt_module.'&amp;file=print&amp;sid='.$artinfo["sid"].'"><i class="fa fa-print"></i></a>'.PHP_EOL;
-              $the_icons .= '&nbsp;<a href="modules.php?name='.$pnt_module.'&amp;file=friend&amp;op=FriendSend&amp;sid='.$artinfo["sid"].'"><i class="fa fa-envelope"></i></a>';
+              $the_icons .= ' | <a href="modules.php?name='.$module_name.'&amp;file=print&amp;sid='.$artinfo["sid"].'"><i class="fa fa-print"></i></a>'.PHP_EOL;
+              $the_icons .= '&nbsp;<a href="modules.php?name='.$module_name.'&amp;file=friend&amp;op=FriendSend&amp;sid='.$artinfo["sid"].'"><i class="fa fa-envelope"></i></a>';
             }
             
-		    if (is_mod_admin($pnt_module)) 
+		    if (is_mod_admin($module_name)) 
             {
               $the_icons .= ' | <a href="'.$admin_file.'.php?op=EditStory&amp;sid='.$artinfo["sid"].'"><i class="fa fa-pen"></i></a>'.PHP_EOL;
               $the_icons .= '&nbsp;<a href="'.$admin_file.'.php?op=RemoveStory&amp;sid='.$artinfo["sid"].'"><i class="fa fa-times-circle"></i></a>';
             }
 			
-            $read_link = "<a href='modules.php?name=$pnt_module&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
-            $story_link = "<a href='modules.php?name=$pnt_module&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
+            $read_link = "<a href='modules.php?name=$module_name&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
+            $story_link = "<a href='modules.php?name=$module_name&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
             $morelink = "( ";
 
-            if($blog_config["texttype"] == 0) {
+            if($neconfig["texttype"] == 0) {
                 if ($fullcount > 0 OR $artinfo["comments"] > 0 OR $articlecomm == 0 OR $artinfo["acomm"] == 1) {
-                    if($blog_config["readmore"] == 1) {
+                    if($neconfig["readmore"] == 1) {
                         $morelink .= "$read_link<strong>"._READMORE."</strong></a> | ";
                     } else {
                         $morelink .= "$story_link<strong>"._READMORE."</strong></a> | ";
@@ -142,7 +142,7 @@ switch ($op) {
                 } else { $morelink .= ""; }
             } else {
                 if ($introcount > 255 OR $fullcount > 0 OR $artinfo["comments"] > 0 OR $articlecomm == 0 OR $artinfo["acomm"] == 1) {
-                    if($blog_config["readmore"] == 1) {
+                    if($neconfig["readmore"] == 1) {
                         $morelink .= "$read_link<strong>"._READMORE."</strong></a> | ";
                     } else {
                         $morelink .= "$story_link<strong>"._READMORE."</strong></a> | ";
@@ -167,9 +167,9 @@ switch ($op) {
             $morelink .= "$the_icons";
             $sid = $artinfo["sid"];
             if ($artinfo["catid"] != 0) {
-                $result3 = $pnt_db->sql_query("SELECT title FROM ".$pnt_prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
-                $catinfo = $pnt_db->sql_fetchrow($result3);
-                $morelink .= " | <a href='modules.php?name=$pnt_module&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
+                $result3 = $db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
+                $catinfo = $db->sql_fetchrow($result3);
+                $morelink .= " | <a href='modules.php?name=$module_name&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
             }
             if ($artinfo["score"] != 0) {
                 $rated = substr($artinfo["score"] / $artinfo["ratings"], 0, 4);
@@ -178,7 +178,7 @@ switch ($op) {
             $morelink .= " )";
             $morelink = str_replace(" |  | ", " | ", $morelink);
             $informant =  $artinfo["informant"];
-            if($blog_config["columns"] == 1) { // DUAL
+            if($neconfig["columns"] == 1) { // DUAL
                 if ($a == 0) { echo "<tr>"; }
                 echo "<td valign='top' width='50%'>";
 /*****[BEGIN]******************************************
@@ -201,17 +201,17 @@ switch ($op) {
  ******************************************************/
             }
         }
-        $pnt_db->sql_freeresult($result);
-        if($blog_config["columns"] == 1) { // DUAL
+        $db->sql_freeresult($result);
+        if($neconfig["columns"] == 1) { // DUAL
             if ($a ==1) { echo "<td width='50%'>&nbsp;</td></tr>\n"; } else { echo "</tr>\n"; }
             echo "</table>\n";
         }
         echo "\n<!-- PAGING -->\n";
-        $articlepagesint = ($totalarticles / $blognum);
-        $articlepageremain = ($totalarticles % $blognum);
+        $articlepagesint = ($totalarticles / $storynum);
+        $articlepageremain = ($totalarticles % $storynum);
         if ($articlepageremain != 0) {
             $articlepages = ceil($articlepagesint);
-            if ($totalarticles < $blognum) { $articlepageremain = 0; }
+            if ($totalarticles < $storynum) { $articlepageremain = 0; }
         } else {
             $articlepages = $articlepagesint;
         }
@@ -219,17 +219,17 @@ switch ($op) {
             echo "<br />\n";
             OpenTable();
             $counter = 1;
-            $currentpage = ($max / $blognum);
-            echo "<form action='modules.php?name=$pnt_module' method='post'>\n";
+            $currentpage = ($max / $storynum);
+            echo "<form action='modules.php?name=$module_name' method='post'>\n";
             echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
             echo "<tr>\n<td><strong>"._NE_SELECT." </strong><select name='min' onChange='top.location.href=this.options[this.selectedIndex].value'>\n";
             while ($counter <= $articlepages ) {
                 $cpage = $counter;
-                $mintemp = ($blognum * $counter) - $blognum;
+                $mintemp = ($storynum * $counter) - $storynum;
                 if ($counter == $currentpage) {
                     echo "<option selected>$counter</option>\n";
                 } else {
-                    echo "<option value='modules.php?name=$pnt_module&amp;min=$mintemp&amp;file=topics&amp;topic=$topic'>$counter</option>\n";
+                    echo "<option value='modules.php?name=$module_name&amp;min=$mintemp&amp;file=topics&amp;topic=$topic'>$counter</option>\n";
                 }
                 $counter++;
             }

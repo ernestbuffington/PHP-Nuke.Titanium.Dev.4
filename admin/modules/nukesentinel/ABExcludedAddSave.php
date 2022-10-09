@@ -55,14 +55,14 @@ if($longip_hi < $longip_lo) {
   include_once(NUKE_BASE_DIR.'footer.php');
   die();
 }
-$test1 = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_excluded_ranges` WHERE `ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo'");
-$test2 = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_excluded_ranges` WHERE `ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi'");
-$test3 = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_excluded_ranges` WHERE `ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi'");
-$test4 = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_excluded_ranges` WHERE `ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi'");
-$testnum1 = $pnt_db->sql_numrows($test1);
-$testnum2 = $pnt_db->sql_numrows($test2);
-$testnum3 = $pnt_db->sql_numrows($test3);
-$testnum4 = $pnt_db->sql_numrows($test4);
+$test1 = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_excluded_ranges` WHERE `ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo'");
+$test2 = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_excluded_ranges` WHERE `ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi'");
+$test3 = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_excluded_ranges` WHERE `ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi'");
+$test4 = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_excluded_ranges` WHERE `ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi'");
+$testnum1 = $db->sql_numrows($test1);
+$testnum2 = $db->sql_numrows($test2);
+$testnum3 = $db->sql_numrows($test3);
+$testnum4 = $db->sql_numrows($test4);
 if($testnum1 > 0 OR $testnum2 >0 OR $testnum3 >0 OR $testnum4 >0) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
@@ -84,7 +84,7 @@ if($testnum1 > 0 OR $testnum2 >0 OR $testnum3 >0 OR $testnum4 >0) {
     $testmessage .= '<td align="center" width="15%"><strong>'._AB_CODE.'</strong></td>'."\n";
     $testmessage .= '<td align="center" width="20%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     $testmessage .= '</tr>'."\n";
-    while($testrow1 = $pnt_db->sql_fetchrow($test1)) {
+    while($testrow1 = $db->sql_fetchrow($test1)) {
       $testrow1['ip_lo_ip'] = long2ip($testrow1['ip_lo']);
       $testrow1['ip_hi_ip'] = long2ip($testrow1['ip_hi']);
       $testrow1['c2c'] = strtoupper($testrow1['c2c']);
@@ -111,7 +111,7 @@ if($testnum1 > 0 OR $testnum2 >0 OR $testnum3 >0 OR $testnum4 >0) {
     $testmessage .= '<td align="center" width="15%"><strong>'._AB_CODE.'</strong></td>'."\n";
     $testmessage .= '<td align="center" width="20%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     $testmessage .= '</tr>'."\n";
-    while($testrow2 = $pnt_db->sql_fetchrow($test2)) {
+    while($testrow2 = $db->sql_fetchrow($test2)) {
       $testrow2['ip_lo_ip'] = long2ip($testrow2['ip_lo']);
       $testrow2['ip_hi_ip'] = long2ip($testrow2['ip_hi']);
       $testrow2['c2c'] = strtoupper($testrow2['c2c']);
@@ -138,7 +138,7 @@ if($testnum1 > 0 OR $testnum2 >0 OR $testnum3 >0 OR $testnum4 >0) {
     $testmessage .= '<td align="center" width="15%"><strong>'._AB_CODE.'</strong></td>'."\n";
     $testmessage .= '<td align="center" width="20%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     $testmessage .= '</tr>'."\n";
-    while($testrow3 = $pnt_db->sql_fetchrow($test3)) {
+    while($testrow3 = $db->sql_fetchrow($test3)) {
       $testrow3['ip_lo_ip'] = long2ip($testrow3['ip_lo']);
       $testrow3['ip_hi_ip'] = long2ip($testrow3['ip_hi']);
       $testrow3['c2c'] = strtoupper($testrow3['c2c']);
@@ -165,7 +165,7 @@ if($testnum1 > 0 OR $testnum2 >0 OR $testnum3 >0 OR $testnum4 >0) {
     $testmessage .= '<td align="center" width="15%"><strong>'._AB_CODE.'</strong></td>'."\n";
     $testmessage .= '<td align="center" width="20%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
     $testmessage .= '</tr>'."\n";
-    while($testrow4 = $pnt_db->sql_fetchrow($test4)) {
+    while($testrow4 = $db->sql_fetchrow($test4)) {
       $testrow4['ip_lo_ip'] = long2ip($testrow4['ip_lo']);
       $testrow4['ip_hi_ip'] = long2ip($testrow4['ip_hi']);
       $testrow4['c2c'] = strtoupper($testrow4['c2c']);
@@ -194,7 +194,7 @@ if($testnum1 > 0 OR $testnum2 >0 OR $testnum3 >0 OR $testnum4 >0) {
     $xnotes = addslashes($xnotes);
   }
   $xtime = time();
-  $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_nsnst_excluded_ranges` VALUES ('$longip_lo', '$longip_hi', '$xtime', '$xnotes', '$xc2c')");
+  $db->sql_query("INSERT INTO `".$prefix."_nsnst_excluded_ranges` VALUES ('$longip_lo', '$longip_hi', '$xtime', '$xnotes', '$xc2c')");
   if($another == 1) {
     header("Location: ".$admin_file.".php?op=ABExcludedAdd");
   }else {

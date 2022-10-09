@@ -18,12 +18,12 @@
 *
 ***************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
    $filename = basename(__FILE__);
-   $pnt_module['ad_managment']['inline_ad_config'] = $filename;
+   $module['ad_managment']['inline_ad_config'] = $filename;
 
    return;
 }
@@ -31,8 +31,8 @@ if( !empty($setmodules) )
 //
 // Load default header
 //
-$phpbb2_root_path = './../';
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 
 if ( isset($HTTP_POST_VARS['submit']))
@@ -60,13 +60,13 @@ if ( isset($HTTP_POST_VARS['submit']))
   $sql = "SELECT *
   FROM " . CONFIG_TABLE . "
   WHERE config_name LIKE 'ad_%'";
-  if(!$result = $pnt_db->sql_query($sql))
+  if(!$result = $db->sql_query($sql))
   {
     message_die(CRITICAL_ERROR, "Could not query ad config information", "", __LINE__, __FILE__, $sql);
   }
   else
   {
-    while( $row = $pnt_db->sql_fetchrow($result) )
+    while( $row = $db->sql_fetchrow($result) )
     {
       $config_name = $row['config_name'];
       $config_value = $row['config_value'];
@@ -90,7 +90,7 @@ if ( isset($HTTP_POST_VARS['submit']))
         $sql = "UPDATE " . CONFIG_TABLE . " SET
           config_value = '" . str_replace("\'", "''", htmlspecialchars($new[$config_name])) . "'
           WHERE config_name = '$config_name'";
-        if( !$pnt_db->sql_query($sql) )
+        if( !$db->sql_query($sql) )
         {
           message_die(GENERAL_ERROR, "Failed to update general configuration for $config_name", "", __LINE__, __FILE__, $sql);
         }
@@ -100,7 +100,7 @@ if ( isset($HTTP_POST_VARS['submit']))
 
     if( isset($HTTP_POST_VARS['submit']) )
     {
-      $message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_firstpost'], "<a href=\"" . append_titanium_sid("admin_inline_ad.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+      $message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_firstpost'], "<a href=\"" . append_sid("admin_inline_ad.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
       message_die(GENERAL_MESSAGE, $message);
     }
@@ -113,16 +113,16 @@ else
   $who_all = '';
   $who_reg = '';
   $who_guest = '';
-  if ($phpbb2_board_config['ad_who'] == ALL){
+  if ($board_config['ad_who'] == ALL){
     $who_all = 'checked="checked"';
-  }elseif ($phpbb2_board_config['ad_who'] == USER){
+  }elseif ($board_config['ad_who'] == USER){
     $who_reg = 'checked="checked"';
   }else{
     $who_guest = 'checked="checked"';
   }
   $ad_new_style = '';
   $ad_old_style = '';
-  if ($phpbb2_board_config['ad_old_style']){
+  if ($board_config['ad_old_style']){
     $ad_old_style = 'checked="checked"';
   }else{
     $ad_new_style = 'checked="checked"';
@@ -130,50 +130,50 @@ else
 
   //generate group select box
   $ad_no_groups = '<option>' . $lang['exclude_none'] . '</option>';
-  $ad_no_groups_current = explode(",", $phpbb2_board_config['ad_no_groups']);
+  $ad_no_groups_current = explode(",", $board_config['ad_no_groups']);
   $sql = "SELECT group_id, group_name
       FROM " . GROUPS_TABLE . "
       WHERE group_single_user = 0";
 
-  if ( !($result = $pnt_db->sql_query($sql)) )
+  if ( !($result = $db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not query group information', '', __LINE__, __FILE__, $sql);
   }
 
-  while( $row = $pnt_db->sql_fetchrow($result) )
+  while( $row = $db->sql_fetchrow($result) )
   {
     $is_selected = (in_array($row['group_id'],$ad_no_groups_current)) ? 'selected="selected"' : '';
     $ad_no_groups .= '<option value="' . $row['group_id'] . '" ' . $is_selected . '>' . $row['group_name'] . '</option>';
   }
-  $pnt_db->sql_freeresult($result);
+  $db->sql_freeresult($result);
 
   //generate forum select box
   $ad_no_forums = '<option>' . $lang['exclude_none'] . '</option>';
-  $ad_no_forums_current = explode(",", $phpbb2_board_config['ad_no_forums']);
+  $ad_no_forums_current = explode(",", $board_config['ad_no_forums']);
   $sql = "SELECT forum_id, forum_name
       FROM " . FORUMS_TABLE;
 
-  if ( !($result = $pnt_db->sql_query($sql)) )
+  if ( !($result = $db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not query forum information', '', __LINE__, __FILE__, $sql);
   }
 
-  while( $row = $pnt_db->sql_fetchrow($result) )
+  while( $row = $db->sql_fetchrow($result) )
   {
     $is_selected = (in_array($row['forum_id'],$ad_no_forums_current)) ? 'selected="selected"' : '';
     $ad_no_forums .= '<option value="' . $row['forum_id'] . '" ' . $is_selected . '>' . $row['forum_name'] . '</option>';
   }
-  $pnt_db->sql_freeresult($result);
+  $db->sql_freeresult($result);
 
-  $phpbb2_template->set_filenames(array(
+  $template->set_filenames(array(
   "body" => "admin/inline_ad_config_body.tpl")
   );
-  $phpbb2_template->assign_vars(array(
-  "AD_AFTER_POST" => $phpbb2_board_config['ad_after_post'],
-  "AD_EVERY_POST" => $phpbb2_board_config['ad_every_post'],
+  $template->assign_vars(array(
+  "AD_AFTER_POST" => $board_config['ad_after_post'],
+  "AD_EVERY_POST" => $board_config['ad_every_post'],
   "AD_FORUMS" => $ad_no_forums,
   "AD_NO_GROUPS" => $ad_no_groups,
-  "AD_POST_THRESHOLD" => $phpbb2_board_config['ad_post_threshold'],
+  "AD_POST_THRESHOLD" => $board_config['ad_post_threshold'],
   "AD_ALL" => $who_all,
   "AD_REG" => $who_reg,
   "AD_GUEST" => $who_guest,
@@ -188,7 +188,7 @@ else
   "L_AD_GUEST" => $lang['ad_guest'],
   "L_AD_EXCLUDE" => $lang['ad_exclude'],
   "L_AD_FORUMS" => $lang['ad_forums'],
-  "S_CONFIG_ACTION" => append_titanium_sid("admin_inline_ad.$phpEx"),
+  "S_CONFIG_ACTION" => append_sid("admin_inline_ad.$phpEx"),
   "L_SUBMIT" => $lang['Submit'],
   "L_AD_STYLE" => $lang['ad_style'],
   "L_AD_NEW_STYLE" => $lang['ad_new_style'],
@@ -196,7 +196,7 @@ else
   "L_AD_POST_THRESHOLD" => $lang['ad_post_threshold'],
   "L_RESET" => $lang['Reset'])
   );
-  $phpbb2_template->pparse("body");
+  $template->pparse("body");
 
   include('./page_footer_admin.'.$phpEx);
 }

@@ -34,7 +34,7 @@ if (!defined('ADMIN_FILE')) {
    die ("Illegal File Access");
 }
 
-global $pnt_prefix, $pnt_db, $admdata;
+global $prefix, $db, $admdata;
 if ($admdata['radminsuper'] == 1) {
 
 /*********************************************************/
@@ -42,14 +42,14 @@ if ($admdata['radminsuper'] == 1) {
 /*********************************************************/
 
 function MsgDeactive($mid) {
-    global $pnt_prefix, $pnt_db, $admin_file;
+    global $prefix, $db, $admin_file;
     $mid = intval($mid);
-    $pnt_db->sql_query("update " . $pnt_prefix . "_message set active='0' WHERE mid='$mid'");
+    $db->sql_query("update " . $prefix . "_message set active='0' WHERE mid='$mid'");
     Header("Location: ".$admin_file.".php?op=messages");
 }
 
 function messages() {
-    global $admin, $admlanguage, $language, $pnt_prefix, $pnt_db, $multilingual, $admin_file, $admlang;
+    global $admin, $admlanguage, $language, $prefix, $db, $multilingual, $admin_file, $admlang;
     include(NUKE_BASE_DIR.'header.php');
     OpenTable();
     echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=messages\">" . $admlang['messages']['header'] . "</a></div>\n";
@@ -71,8 +71,8 @@ function messages() {
 /*****[BEGIN]******************************************
  [ Mod:    phpBB User Groups Integration       v1.0.0 ]
  ******************************************************/
-    $result = $pnt_db->sql_query("SELECT * from " . $pnt_prefix . "_message");
-    while ($row = $pnt_db->sql_fetchrow($result)) {
+    $result = $db->sql_query("SELECT * from " . $prefix . "_message");
+    while ($row = $db->sql_fetchrow($result)) {
     $groups = $row['groups'];
 /*****[END]********************************************
  [ Mod:    phpBB User Groups Integration       v1.0.0 ]
@@ -181,8 +181,8 @@ function messages() {
     ."<option value=\"6\">".$admlang['global']['groups_only']."</option>"
      ."</select><br /><br />"
     ."<span class='tiny'>"._WHATGRDESC."</span><br /><strong>"._WHATGROUPS."</strong> <select name='add_groups[]' multiple size='5'>\n";
-     $groupsResult = $pnt_db->sql_query("select group_id, group_name from ".$pnt_prefix."_bbgroups where group_description <> 'Personal User'");
-     while(list($gid, $gname) = $pnt_db->sql_fetchrow($groupsResult)) { echo "<OPTION VALUE='$gid'>$gname</option>\n"; }
+     $groupsResult = $db->sql_query("select group_id, group_name from ".$prefix."_bbgroups where group_description <> 'Personal User'");
+     while(list($gid, $gname) = $db->sql_fetchrow($groupsResult)) { echo "<OPTION VALUE='$gid'>$gname</option>\n"; }
      echo "</select><br /><br />\n"
 /*****[END]********************************************
  [ Mod:    phpBB User Groups Integration       v1.0.0 ]
@@ -196,7 +196,7 @@ function messages() {
 }
 
 function editmsg($mid) {
-    global $admin, $pnt_prefix, $pnt_db, $multilingual, $admin_file, $admlang;
+    global $admin, $prefix, $db, $multilingual, $admin_file, $admlang;
     include(NUKE_BASE_DIR.'header.php');
     $mid = intval($mid);
     OpenTable();
@@ -208,7 +208,7 @@ function editmsg($mid) {
 /*****[BEGIN]******************************************
  [ Mod:    phpBB User Groups Integration       v1.0.0 ]
  ******************************************************/
-    $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * from " . $pnt_prefix . "_message WHERE mid='$mid'"));
+    $row = $db->sql_fetchrow($db->sql_query("SELECT * from " . $prefix . "_message WHERE mid='$mid'"));
     $groups = $row['groups'];
 /*****[END]********************************************
  [ Mod:    phpBB User Groups Integration       v1.0.0 ]
@@ -333,8 +333,8 @@ function editmsg($mid) {
     ."</select><br /><br />"
         ."<span class='tiny'>"._WHATGRDESC."</span><br /><strong>"._WHATGROUPS."</strong> <select name='groups[]' multiple size='5'>";
     $ingroups = explode("-",$groups);
-    $groupsResult = $pnt_db->sql_query("select group_id, group_name from ".$pnt_prefix."_bbgroups where group_description <> 'Personal User'");
-    while(list($gid, $gname) = $pnt_db->sql_fetchrow($groupsResult)) {
+    $groupsResult = $db->sql_query("select group_id, group_name from ".$prefix."_bbgroups where group_description <> 'Personal User'");
+    while(list($gid, $gname) = $db->sql_fetchrow($groupsResult)) {
         if(in_array($gid,$ingroups) AND $view > 5) { $sel = " selected"; } else { $sel = ""; }
         echo "<OPTION VALUE='$gid'$sel>$gname</option>";
     }
@@ -356,7 +356,7 @@ function editmsg($mid) {
  ******************************************************/
 function savemsg($mid, $title, $content, $mdate, $expire, $active, $view, $groups, $chng_date, $mlanguage) 
 {
-    global $pnt_prefix, $pnt_db, $admin_file;
+    global $prefix, $db, $admin_file;
 
     if($view == 6) 
 	{ 
@@ -381,7 +381,7 @@ function savemsg($mid, $title, $content, $mdate, $expire, $active, $view, $group
         $newdate = $mdate;
     }
 
-    $result = $pnt_db->sql_query("UPDATE ".$pnt_prefix."_message SET title='$title', 
+    $result = $db->sql_query("UPDATE ".$prefix."_message SET title='$title', 
 	                                                     content='$content', 
 														    date='$newdate', 
 														   expire='$expire', 
@@ -399,12 +399,12 @@ function savemsg($mid, $title, $content, $mdate, $expire, $active, $view, $group
  [ Mod:    phpBB User Groups Integration       v1.0.0 ]
  ******************************************************/
 function addmsg($add_title, $add_content, $add_mdate, $add_expire, $add_active, $add_view, $add_groups, $add_mlanguage) {
-    global $pnt_prefix, $pnt_db, $admin_file;
+    global $prefix, $db, $admin_file;
     if($add_view == 6) { $ingroups = implode("-",$add_groups); }
     if($add_view < 6) { $ingroups = ""; }
     $title = Fix_Quotes($add_title);
     $content = Fix_Quotes($add_content);
-    $result = $pnt_db->sql_query("insert into " . $pnt_prefix . "_message values (NULL, '$add_title', '$add_content', '$add_mdate', '$add_expire', '$add_active', '$add_view', '$ingroups', '$add_mlanguage')");
+    $result = $db->sql_query("insert into " . $prefix . "_message values (NULL, '$add_title', '$add_content', '$add_mdate', '$add_expire', '$add_active', '$add_view', '$ingroups', '$add_mlanguage')");
 /*****[END]********************************************
  [ Mod:    phpBB User Groups Integration       v1.0.0 ]
  ******************************************************/
@@ -415,9 +415,9 @@ function addmsg($add_title, $add_content, $add_mdate, $add_expire, $add_active, 
 }
 
 function deletemsg($mid, $ok=0) {
-    global $pnt_prefix, $pnt_db, $admin_file, $admlang;
+    global $prefix, $db, $admin_file, $admlang;
     if($ok) {
-    $result = $pnt_db->sql_query("delete from " . $pnt_prefix . "_message where mid='$mid'");
+    $result = $db->sql_query("delete from " . $prefix . "_message where mid='$mid'");
         if (!$result) {
         return;
         }

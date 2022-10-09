@@ -13,9 +13,9 @@
 *
 */
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 /**
@@ -73,9 +73,9 @@ class attach_parent
     /**
     * Get Quota Limits
     */
-    function get_quota_limits($userdata_quota, $pnt_user_id = 0)
+    function get_quota_limits($userdata_quota, $user_id = 0)
     {
-        global $attach_config, $pnt_db;
+        global $attach_config, $db;
 
         //
         // Define Filesize Limits (Prepare Quota Settings)
@@ -111,9 +111,9 @@ class attach_parent
             $default = 'attachment_quota';
         }
 
-        if (!$pnt_user_id)
+        if (!$user_id)
         {
-            $pnt_user_id = intval($userdata_quota['user_id']);
+            $user_id = intval($userdata_quota['user_id']);
         }
 
         $priority = explode(';', $priority);
@@ -129,16 +129,16 @@ class attach_parent
                     WHERE g.group_single_user = 0
 						AND u.user_pending = 0
                         AND u.group_id = g.group_id
-                        AND u.user_id = ' . $pnt_user_id;
+                        AND u.user_id = ' . $user_id;
 
-                if (!($result = $pnt_db->sql_query($sql)))
+                if (!($result = $db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Could not get User Group', '', __LINE__, __FILE__, $sql);
                 }
 
-                $rows = $pnt_db->sql_fetchrowset($result);
-                $num_rows = $pnt_db->sql_numrows($result);
-                $pnt_db->sql_freeresult($result);
+                $rows = $db->sql_fetchrowset($result);
+                $num_rows = $db->sql_numrows($result);
+                $db->sql_freeresult($result);
 
                 if ($num_rows > 0)
                 {
@@ -158,18 +158,18 @@ class attach_parent
                         ORDER BY l.quota_limit DESC
                         LIMIT 1';
 
-                    if (!($result = $pnt_db->sql_query($sql)))
+                    if (!($result = $db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Could not get Group Quota', '', __LINE__, __FILE__, $sql);
                     }
 
-                    if ($pnt_db->sql_numrows($result) > 0)
+                    if ($db->sql_numrows($result) > 0)
                     {
-                        $row = $pnt_db->sql_fetchrow($result);
+                        $row = $db->sql_fetchrow($result);
                         $attach_config[$limit_type] = $row['quota_limit'];
                         $found = TRUE;
                     }
-                    $pnt_db->sql_freeresult($result);
+                    $db->sql_freeresult($result);
                 }
             }
 
@@ -178,24 +178,24 @@ class attach_parent
                 // Get User Quota, if the user is not in a group or the group has no quotas
                 $sql = 'SELECT l.quota_limit
 					FROM ' . QUOTA_TABLE . ' q, ' . QUOTA_LIMITS_TABLE . ' l
-                    WHERE q.user_id = ' . $pnt_user_id . '
+                    WHERE q.user_id = ' . $user_id . '
                         AND q.user_id <> 0
                         AND q.quota_type = ' . $quota_type . '
                         AND q.quota_limit_id = l.quota_limit_id
                     LIMIT 1';
 
-                if (!($result = $pnt_db->sql_query($sql)))
+                if (!($result = $db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Could not get User Quota', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ($pnt_db->sql_numrows($result) > 0)
+                if ($db->sql_numrows($result) > 0)
                 {
-                    $row = $pnt_db->sql_fetchrow($result);
+                    $row = $db->sql_fetchrow($result);
                     $attach_config[$limit_type] = $row['quota_limit'];
                     $found = TRUE;
                 }
-                $pnt_db->sql_freeresult($result);
+                $db->sql_freeresult($result);
             }
         }
 
@@ -215,21 +215,21 @@ class attach_parent
                     WHERE quota_limit_id = ' . (int) $quota_id . '
                     LIMIT 1';
 
-                if (!($result = $pnt_db->sql_query($sql)))
+                if (!($result = $db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Could not get Default Quota Limit', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ($pnt_db->sql_numrows($result) > 0)
+                if ($db->sql_numrows($result) > 0)
                 {
-                    $row = $pnt_db->sql_fetchrow($result);
+                    $row = $db->sql_fetchrow($result);
                     $attach_config[$limit_type] = $row['quota_limit'];
                 }
                 else
                 {
                     $attach_config[$limit_type] = $attach_config[$default];
                 }
-                $pnt_db->sql_freeresult($result);
+                $db->sql_freeresult($result);
             }
         }
 
@@ -249,7 +249,7 @@ class attach_parent
     */
     function handle_attachments($mode)
     {
-        global $phpbb2_is_auth, $attach_config, $refresh, $HTTP_POST_VARS, $post_id, $submit, $preview, $error, $error_msg, $lang, $phpbb2_template, $userdata, $pnt_db;
+        global $is_auth, $attach_config, $refresh, $HTTP_POST_VARS, $post_id, $submit, $preview, $error, $error_msg, $lang, $template, $userdata, $db;
 
         //
         // ok, what shall we do ;)
@@ -273,12 +273,12 @@ class attach_parent
 
             if ($userdata['user_level'] == ADMIN)
             {
-                $phpbb2_is_auth['auth_attachments'] = 1;
+                $is_auth['auth_attachments'] = 1;
                 $max_attachments = ADMIN_MAX_ATTACHMENTS;
             }
             else
             {
-                $phpbb2_is_auth['auth_attachments'] = intval($attach_config['allow_pm_attach']);
+                $is_auth['auth_attachments'] = intval($attach_config['allow_pm_attach']);
                 $max_attachments = intval($attach_config['max_attachments_pm']);
             }
 			$sql_id = 'privmsgs_id';
@@ -297,7 +297,7 @@ class attach_parent
         }
 
         // nothing, if the user is not authorized or attachment mod disabled
-        if (intval($attach_config['disable_mod']) || !$phpbb2_is_auth['auth_attachments'])
+        if (intval($attach_config['disable_mod']) || !$is_auth['auth_attachments'])
         {
             return false;
         }
@@ -309,18 +309,18 @@ class attach_parent
 			$sql = 'SELECT attach_id
 				FROM ' . ATTACHMENTS_TABLE . '
 				WHERE ' . $sql_id . ' = ' . $post_id;
-			$result = $pnt_db->sql_query($sql);
+			$result = $db->sql_query($sql);
 
 			if (!$result)
 			{
 				message_die(GENERAL_ERROR, 'Unable to get attachment information.', '', __LINE__, __FILE__, $sql);
 			}
 
-			while ($_row = $pnt_db->sql_fetchrow($result))
+			while ($_row = $db->sql_fetchrow($result))
 			{
 				$allowed_attach_ids[] = $_row['attach_id'];
 			}
-			$pnt_db->sql_freeresult($result);
+			$db->sql_freeresult($result);
 		}
 
 		// Check the submitted variables - do not allow wrong values
@@ -384,24 +384,24 @@ class attach_parent
 
 			if (sizeof($attachments) == 1)
             {
-                $phpbb2_template->assign_block_vars('switch_attachments',array());
+                $template->assign_block_vars('switch_attachments',array());
 
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
                     'L_DELETE_ATTACHMENTS'        => $lang['Delete_attachment'])
                 );
             }
 			else if (sizeof($attachments) > 0)
             {
-                $phpbb2_template->assign_block_vars('switch_attachments',array());
+                $template->assign_block_vars('switch_attachments',array());
 
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
                     'L_DELETE_ATTACHMENTS'        => $lang['Delete_attachments'])
                 );
             }
         }
         else
         {
-            $auth = ($phpbb2_is_auth['auth_edit'] || $phpbb2_is_auth['auth_mod']) ? TRUE : FALSE;
+            $auth = ($is_auth['auth_edit'] || $is_auth['auth_mod']) ? TRUE : FALSE;
         }
 
         if (!$submit && $mode == 'editpost' && $auth)
@@ -588,7 +588,7 @@ class attach_parent
                                     SET thumbnail = 0
                                     WHERE attach_id = ' . (int) $actual_id_list[$i];
 
-                                if (!($pnt_db->sql_query($sql)))
+                                if (!($db->sql_query($sql)))
                                 {
                                     message_die(GENERAL_ERROR, 'Unable to update ' . ATTACHMENTS_DESC_TABLE . ' Table.', '', __LINE__, __FILE__, $sql);
                                 }
@@ -647,12 +647,12 @@ class attach_parent
                             FROM ' . ATTACHMENTS_DESC_TABLE . '
                             WHERE attach_id = ' . (int) $attachment_id;
 
-                        if (!($result = $pnt_db->sql_query($sql)))
+                        if (!($result = $db->sql_query($sql)))
                         {
                             message_die(GENERAL_ERROR, 'Unable to select old Attachment Entry.', '', __LINE__, __FILE__, $sql);
                         }
 
-                        if ($pnt_db->sql_numrows($result) != 1)
+                        if ($db->sql_numrows($result) != 1)
                         {
                             $error = TRUE;
                             if(!empty($error_msg))
@@ -662,8 +662,8 @@ class attach_parent
                             $error_msg .= $lang['Error_missing_old_entry'];
                         }
 
-                        $row = $pnt_db->sql_fetchrow($result);
-                        $pnt_db->sql_freeresult($result);
+                        $row = $db->sql_fetchrow($result);
+                        $db->sql_freeresult($result);
 
                         $comment = (trim($this->file_comment) == '') ? trim($row['comment']) : trim($this->file_comment);
 
@@ -682,7 +682,7 @@ class attach_parent
                         $sql = 'UPDATE ' . ATTACHMENTS_DESC_TABLE . ' SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
                             WHERE attach_id = ' . (int) $attachment_id;
 
-                        if (!($pnt_db->sql_query($sql)))
+                        if (!($db->sql_query($sql)))
                         {
                             message_die(GENERAL_ERROR, 'Unable to update the Attachment.', '', __LINE__, __FILE__, $sql);
                         }
@@ -751,7 +751,7 @@ class attach_parent
     */
     function do_insert_attachment($mode, $message_type, $message_id)
     {
-        global $pnt_db, $upload_dir;
+        global $db, $upload_dir;
 
         if (intval($message_id) < 0)
         {
@@ -764,8 +764,8 @@ class attach_parent
 
             $post_id = 0;
             $privmsgs_id = (int) $message_id;
-            $pnt_user_id_1 = (int) $userdata['user_id'];
-            $pnt_user_id_2 = (int) $to_userdata['user_id'];
+            $user_id_1 = (int) $userdata['user_id'];
+            $user_id_2 = (int) $to_userdata['user_id'];
 			$sql_id = 'privmsgs_id';
         }
         else if ($message_type = 'post')
@@ -774,13 +774,13 @@ class attach_parent
 
             $post_id = (int) $message_id;
             $privmsgs_id = 0;
-            $pnt_user_id_1 = (isset($post_info['poster_id'])) ? (int) $post_info['poster_id'] : 0;
-            $pnt_user_id_2 = 0;
+            $user_id_1 = (isset($post_info['poster_id'])) ? (int) $post_info['poster_id'] : 0;
+            $user_id_2 = 0;
 			$sql_id = 'post_id';
 
-            if (!$pnt_user_id_1)
+            if (!$user_id_1)
             {
-                $pnt_user_id_1 = (int) $userdata['user_id'];
+                $user_id_1 = (int) $userdata['user_id'];
             }
         }
 
@@ -795,15 +795,15 @@ class attach_parent
 						FROM ' . ATTACHMENTS_TABLE . '
 						WHERE ' . $sql_id . ' = ' . $$sql_id . '
 							AND attach_id = ' . $this->attachment_id_list[$i];
-					$result = $pnt_db->sql_query($sql);
+					$result = $db->sql_query($sql);
 
 					if (!$result)
 					{
 						message_die(GENERAL_ERROR, 'Unable to get attachment information.', '', __LINE__, __FILE__, $sql);
 					}
 
-					$row = $pnt_db->sql_fetchrow($result);
-					$pnt_db->sql_freeresult($result);
+					$row = $db->sql_fetchrow($result);
+					$db->sql_freeresult($result);
 
 					if (!$row)
 					{
@@ -813,7 +813,7 @@ class attach_parent
                         SET comment = '" . attach_mod_sql_escape($this->attachment_comment_list[$i]) . "'
                         WHERE attach_id = " . $this->attachment_id_list[$i];
 
-                    if (!($pnt_db->sql_query($sql)))
+                    if (!($db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Unable to update the File Comment.', '', __LINE__, __FILE__, $sql);
                     }
@@ -834,24 +834,24 @@ class attach_parent
 
                     $sql = 'INSERT INTO ' . ATTACHMENTS_DESC_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-                    if (!($pnt_db->sql_query($sql)))
+                    if (!($db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Couldn\'t store Attachment.<br />Your ' . $message_type . ' has been stored.', '', __LINE__, __FILE__, $sql);
                     }
 
-                    $attach_id = $pnt_db->sql_nextid();
+                    $attach_id = $db->sql_nextid();
 
                     $sql_ary = array(
                         'attach_id'        => (int) $attach_id,
                         'post_id'        => (int) $post_id,
                         'privmsgs_id'    => (int) $privmsgs_id,
-                        'user_id_1'        => (int) $pnt_user_id_1,
-                        'user_id_2'        => (int) $pnt_user_id_2
+                        'user_id_1'        => (int) $user_id_1,
+                        'user_id_2'        => (int) $user_id_2
                     );
 
                     $sql = 'INSERT INTO ' . ATTACHMENTS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-                    if (!($pnt_db->sql_query($sql)))
+                    if (!($db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Couldn\'t store Attachment.<br />Your ' . $message_type . ' has been stored.', '', __LINE__, __FILE__, $sql);
                     }
@@ -880,24 +880,24 @@ class attach_parent
                 $sql = 'INSERT INTO ' . ATTACHMENTS_DESC_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
                 // Inform the user that his post has been created, but nothing is attached
-                if (!($pnt_db->sql_query($sql)))
+                if (!($db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t store Attachment.<br />Your ' . $message_type . ' has been stored.', '', __LINE__, __FILE__, $sql);
                 }
 
-                $attach_id = $pnt_db->sql_nextid();
+                $attach_id = $db->sql_nextid();
 
                 $sql_ary = array(
                     'attach_id'        => (int) $attach_id,
                     'post_id'        => (int) $post_id,
                     'privmsgs_id'    => (int) $privmsgs_id,
-                    'user_id_1'        => (int) $pnt_user_id_1,
-                    'user_id_2'        => (int) $pnt_user_id_2
+                    'user_id_1'        => (int) $user_id_1,
+                    'user_id_2'        => (int) $user_id_2
                 );
 
                 $sql = 'INSERT INTO ' . ATTACHMENTS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-                if (!($pnt_db->sql_query($sql)))
+                if (!($db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t store Attachment.<br />Your ' . $message_type . ' has been stored.', '', __LINE__, __FILE__, $sql);
                 }
@@ -911,8 +911,8 @@ class attach_parent
     */
     function display_attachment_bodies()
     {
-        global $attach_config, $pnt_db, $phpbb2_is_auth, $lang, $mode, $phpEx, $phpbb2_template, $upload_dir, $userdata, $HTTP_POST_VARS, $phpbb2_forum_id;
-        global $phpbb2_root_path;
+        global $attach_config, $db, $is_auth, $lang, $mode, $phpEx, $template, $upload_dir, $userdata, $HTTP_POST_VARS, $forum_id;
+        global $phpbb_root_path;
 
         // Choose what to display
         $value_add = $value_posted = 0;
@@ -938,7 +938,7 @@ class attach_parent
             {
                 $value_posted = ($this->posted_attachments_body == 0) ? 0 : 1;
             }
-            $phpbb2_template->assign_block_vars('show_apcp', array());
+            $template->assign_block_vars('show_apcp', array());
         }
         else
         {
@@ -946,11 +946,11 @@ class attach_parent
             $this->posted_attachments_body = 1;
         }
 
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
             'attachbody' => 'posting_attach_body.tpl')
         );
 
-        display_compile_titanium_cache_clear($phpbb2_template->files['attachbody'], 'attachbody');
+        display_compile_cache_clear($template->files['attachbody'], 'attachbody');
 
         $s_hidden = '<input type="hidden" name="add_attachment_body" value="' . $value_add . '" />';
         $s_hidden .= '<input type="hidden" name="posted_attachments_body" value="' . $value_posted . '" />';
@@ -961,10 +961,10 @@ class attach_parent
         }
         else
         {
-            $u_rules_id = $phpbb2_forum_id;
+            $u_rules_id = $forum_id;
         }
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'L_ATTACH_POSTING_CP'           => $lang['Attach_posting_cp'],
             'L_ATTACH_POSTING_CP_EXPLAIN'   => $lang['Attach_posting_cp_explain'],
             'L_OPTIONS'                     => $lang['Options'],
@@ -972,8 +972,8 @@ class attach_parent
             'L_POSTED_ATTACHMENTS'          => $lang['Posted_attachments'],
             'L_FILE_NAME'                   => $lang['File_name'],
             'L_FILE_COMMENT'                => $lang['File_comment'],
-            // 'RULES'                         => '<a href="' . append_titanium_sid($phpbb2_root_path . "attach_rules.$phpEx?f=$u_rules_id") . '" target="_blank">' . $lang['Allowed_extensions_and_sizes'] . '</a>',
-            'RULES'                         => '<a href="' . append_titanium_sid("attach_rules.$phpEx?f=$u_rules_id") . '" target="_blank">' . $lang['Allowed_extensions_and_sizes'] . '</a>',
+            // 'RULES'                         => '<a href="' . append_sid($phpbb_root_path . "attach_rules.$phpEx?f=$u_rules_id") . '" target="_blank">' . $lang['Allowed_extensions_and_sizes'] . '</a>',
+            'RULES'                         => '<a href="' . append_sid("attach_rules.$phpEx?f=$u_rules_id") . '" target="_blank">' . $lang['Allowed_extensions_and_sizes'] . '</a>',
 
             'S_HIDDEN' => $s_hidden)
         );
@@ -984,7 +984,7 @@ class attach_parent
         {
             if (intval($attach_config['show_apcp']))
             {
-                $phpbb2_template->assign_block_vars('switch_posted_attachments', array());
+                $template->assign_block_vars('switch_posted_attachments', array());
             }
 
 			for ($i = 0; $i < sizeof($this->attachment_list); $i++)
@@ -1003,7 +1003,7 @@ class attach_parent
                     $hidden .= '<input type="hidden" name="comment_list[]" value="' . $this->attachment_comment_list[$i] . '" />';
                 }
 
-                $phpbb2_template->assign_block_vars('hidden_row', array(
+                $template->assign_block_vars('hidden_row', array(
                     'S_HIDDEN' => $hidden)
                 );
             }
@@ -1015,7 +1015,7 @@ class attach_parent
 
             $form_enctype = 'enctype="multipart/form-data"';
 
-            $phpbb2_template->assign_vars(array(
+            $template->assign_vars(array(
                 'L_ADD_ATTACH_TITLE'    => $lang['Add_attachment_title'],
                 'L_ADD_ATTACH_EXPLAIN'    => $lang['Add_attachment_explain'],
                 'L_ADD_ATTACHMENT'        => $lang['Add_attachment'],
@@ -1032,7 +1032,7 @@ class attach_parent
         {
             init_display_template('attachbody', '{POSTED_ATTACHMENTS_BODY}', 'posted_attachments_body.tpl');
 
-            $phpbb2_template->assign_vars(array(
+            $template->assign_vars(array(
                 'L_POSTED_ATTACHMENTS'    => $lang['Posted_attachments'],
                 'L_UPDATE_COMMENT'        => $lang['Update_comment'],
                 'L_UPLOAD_NEW_VERSION'    => $lang['Upload_new_version'],
@@ -1049,10 +1049,10 @@ class attach_parent
                 }
                 else
                 {
-                    $download_link = append_titanium_sid('download.' . $phpEx . '?id=' . $this->attachment_id_list[$i]);
+                    $download_link = append_sid('download.' . $phpEx . '?id=' . $this->attachment_id_list[$i]);
                 }
 
-                $phpbb2_template->assign_block_vars('attach_row', array(
+                $template->assign_block_vars('attach_row', array(
                     'FILE_NAME'            => $this->attachment_filename_list[$i],
                     'ATTACH_FILENAME'    => $this->attachment_list[$i],
                     'FILE_COMMENT'        => $this->attachment_comment_list[$i],
@@ -1062,19 +1062,19 @@ class attach_parent
                 );
 
                 // Thumbnail there ? And is the User Admin or Mod ? Then present the 'Delete Thumbnail' Button
-                if (intval($this->attachment_thumbnail_list[$i]) == 1 && ((isset($phpbb2_is_auth['auth_mod']) && $phpbb2_is_auth['auth_mod']) || $userdata['user_level'] == ADMIN))
+                if (intval($this->attachment_thumbnail_list[$i]) == 1 && ((isset($is_auth['auth_mod']) && $is_auth['auth_mod']) || $userdata['user_level'] == ADMIN))
                 {
-                    $phpbb2_template->assign_block_vars('attach_row.switch_thumbnail', array());
+                    $template->assign_block_vars('attach_row.switch_thumbnail', array());
                 }
 
                 if ($this->attachment_id_list[$i])
                 {
-                    $phpbb2_template->assign_block_vars('attach_row.switch_update_attachment', array());
+                    $template->assign_block_vars('attach_row.switch_update_attachment', array());
                 }
             }
         }
 
-        $phpbb2_template->assign_var_from_handle('ATTACHBOX', 'attachbody');
+        $template->assign_var_from_handle('ATTACHBOX', 'attachbody');
     }
 
     /**
@@ -1082,7 +1082,7 @@ class attach_parent
     */
     function upload_attachment()
     {
-        global $HTTP_POST_FILES, $pnt_db, $HTTP_POST_VARS, $error, $error_msg, $lang, $attach_config, $userdata, $upload_dir, $phpbb2_forum_id;
+        global $HTTP_POST_FILES, $db, $HTTP_POST_VARS, $error, $error_msg, $lang, $attach_config, $userdata, $upload_dir, $forum_id;
 
         $this->post_attach = ($this->filename != '') ? TRUE : FALSE;
 
@@ -1111,13 +1111,13 @@ class attach_parent
                     AND e.extension = '" . attach_mod_sql_escape($this->extension) . "'
                 LIMIT 1";
 
-            if (!($result = $pnt_db->sql_query($sql)))
+            if (!($result = $db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not query Extensions.', '', __LINE__, __FILE__, $sql);
             }
 
-            $row = $pnt_db->sql_fetchrow($result);
-            $pnt_db->sql_freeresult($result);
+            $row = $db->sql_fetchrow($result);
+            $db->sql_freeresult($result);
 
             $allowed_filesize = ($row['max_filesize']) ? $row['max_filesize'] : $attach_config['max_filesize'];
             $cat_id = intval($row['cat_id']);
@@ -1168,7 +1168,7 @@ class attach_parent
             }
 
             // Check Forum Permissions
-            if (!$error && $this->page != PAGE_PRIVMSGS && $userdata['user_level'] != ADMIN && !is_forum_authed($auth_cache, $phpbb2_forum_id) && trim($auth_cache) != '')
+            if (!$error && $this->page != PAGE_PRIVMSGS && $userdata['user_level'] != ADMIN && !is_forum_authed($auth_cache, $forum_id) && trim($auth_cache) != '')
             {
                 $error = TRUE;
                 if(!empty($error_msg))
@@ -1397,17 +1397,17 @@ class attach_parent
             {
                 $sql = 'SELECT sum(filesize) as total FROM ' . ATTACHMENTS_DESC_TABLE;
 
-                if (!($result = $pnt_db->sql_query($sql)))
+                if (!($result = $db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Could not query total filesize', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $pnt_db->sql_fetchrow($result);
-                $pnt_db->sql_freeresult($result);
+                $row = $db->sql_fetchrow($result);
+                $db->sql_freeresult($result);
 
-                $total_phpbb2_filesize = $row['total'];
+                $total_filesize = $row['total'];
 
-                if (($total_phpbb2_filesize + $this->filesize) > $attach_config['attachment_quota'])
+                if (($total_filesize + $this->filesize) > $attach_config['attachment_quota'])
                 {
                     $error = TRUE;
                     if(!empty($error_msg))
@@ -1432,14 +1432,14 @@ class attach_parent
                             AND privmsgs_id = 0
                         GROUP BY attach_id';
 
-                    if (!($result = $pnt_db->sql_query($sql)))
+                    if (!($result = $db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
                     }
 
-                    $attach_ids = $pnt_db->sql_fetchrowset($result);
-                    $num_attach_ids = $pnt_db->sql_numrows($result);
-                    $pnt_db->sql_freeresult($result);
+                    $attach_ids = $db->sql_fetchrowset($result);
+                    $num_attach_ids = $db->sql_numrows($result);
+                    $db->sql_freeresult($result);
 
                     $attach_id = array();
 
@@ -1455,21 +1455,21 @@ class attach_parent
                             FROM ' . ATTACHMENTS_DESC_TABLE . '
                             WHERE attach_id IN (' . implode(', ', $attach_id) . ')';
 
-                        if (!($result = $pnt_db->sql_query($sql)))
+                        if (!($result = $db->sql_query($sql)))
                         {
                             message_die(GENERAL_ERROR, 'Could not query total filesize', '', __LINE__, __FILE__, $sql);
                         }
 
-                        $row = $pnt_db->sql_fetchrow($result);
-                        $pnt_db->sql_freeresult($result);
-                        $total_phpbb2_filesize = $row['total'];
+                        $row = $db->sql_fetchrow($result);
+                        $db->sql_freeresult($result);
+                        $total_filesize = $row['total'];
                     }
                     else
                     {
-                        $total_phpbb2_filesize = 0;
+                        $total_filesize = 0;
                     }
 
-                    if (($total_phpbb2_filesize + $this->filesize) > $attach_config['upload_filesize_limit'])
+                    if (($total_filesize + $this->filesize) > $attach_config['upload_filesize_limit'])
                     {
                         $upload_filesize_limit = $attach_config['upload_filesize_limit'];
                         $size_lang = ($upload_filesize_limit >= 1048576) ? $lang['MB'] : ( ($upload_filesize_limit >= 1024) ? $lang['KB'] : $lang['Bytes'] );
@@ -1498,9 +1498,9 @@ class attach_parent
             {
                 if ($attach_config['pm_filesize_limit'])
                 {
-                    $total_phpbb2_filesize = get_total_attach_pm_filesize('from_user', $userdata['user_id']);
+                    $total_filesize = get_total_attach_pm_filesize('from_user', $userdata['user_id']);
 
-                    if (($total_phpbb2_filesize + $this->filesize) > $attach_config['pm_filesize_limit'])
+                    if (($total_filesize + $this->filesize) > $attach_config['pm_filesize_limit'])
                     {
                         $error = TRUE;
                         if(!empty($error_msg))
@@ -1518,14 +1518,14 @@ class attach_parent
                 {
                     $u_data = get_userdata($to_user, true);
 
-                    $pnt_user_id = (int) $u_data['user_id'];
-                    $this->get_quota_limits($u_data, $pnt_user_id);
+                    $user_id = (int) $u_data['user_id'];
+                    $this->get_quota_limits($u_data, $user_id);
 
                     if ($attach_config['pm_filesize_limit'])
                     {
-                        $total_phpbb2_filesize = get_total_attach_pm_filesize('to_user', $pnt_user_id);
+                        $total_filesize = get_total_attach_pm_filesize('to_user', $user_id);
 
-                        if (($total_phpbb2_filesize + $this->filesize) > $attach_config['pm_filesize_limit'])
+                        if (($total_filesize + $this->filesize) > $attach_config['pm_filesize_limit'])
                         {
                             $error = TRUE;
                             if(!empty($error_msg))
@@ -1652,9 +1652,9 @@ class attach_posting extends attach_parent
     */
     function preview_attachments()
     {
-        global $attach_config, $phpbb2_is_auth, $userdata;
+        global $attach_config, $is_auth, $userdata;
 
-        if (intval($attach_config['disable_mod']) || !$phpbb2_is_auth['auth_attachments'])
+        if (intval($attach_config['disable_mod']) || !$is_auth['auth_attachments'])
         {
             return FALSE;
         }
@@ -1667,10 +1667,10 @@ class attach_posting extends attach_parent
     */
     function insert_attachment($post_id)
     {
-        global $pnt_db, $phpbb2_is_auth, $mode, $userdata, $error, $error_msg;
+        global $db, $is_auth, $mode, $userdata, $error, $error_msg;
 
         // Insert Attachment ?
-        if (!empty($post_id) && ($mode == 'newtopic' || $mode == 'reply' || $mode == 'editpost') && $phpbb2_is_auth['auth_attachments'])
+        if (!empty($post_id) && ($mode == 'newtopic' || $mode == 'reply' || $mode == 'editpost') && $is_auth['auth_attachments'])
         {
             $this->do_insert_attachment('attach_list', 'post', $post_id);
             $this->do_insert_attachment('last_attachment', 'post', $post_id);
@@ -1681,7 +1681,7 @@ class attach_posting extends attach_parent
                     SET post_attachment = 1
                     WHERE post_id = ' . (int) $post_id;
 
-                if (!($pnt_db->sql_query($sql)))
+                if (!($db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Unable to update Posts Table.', '', __LINE__, __FILE__, $sql);
                 }
@@ -1690,19 +1690,19 @@ class attach_posting extends attach_parent
                     FROM ' . POSTS_TABLE . '
                     WHERE post_id = ' . (int) $post_id;
 
-                if (!($result = $pnt_db->sql_query($sql)))
+                if (!($result = $db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Unable to select Posts Table.', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $pnt_db->sql_fetchrow($result);
-                $pnt_db->sql_freeresult($result);
+                $row = $db->sql_fetchrow($result);
+                $db->sql_freeresult($result);
 
                 $sql = 'UPDATE ' . TOPICS_TABLE . '
                     SET topic_attachment = 1
                     WHERE topic_id = ' . (int) $row['topic_id'];
 
-                if (!($pnt_db->sql_query($sql)))
+                if (!($db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Unable to update Topics Table.', '', __LINE__, __FILE__, $sql);
                 }
@@ -1715,7 +1715,7 @@ class attach_posting extends attach_parent
     */
     function posting_attachment_mod()
     {
-        global $mode, $confirm, $phpbb2_is_auth, $post_id, $delete, $refresh, $HTTP_POST_VARS;
+        global $mode, $confirm, $is_auth, $post_id, $delete, $refresh, $HTTP_POST_VARS;
 
         if (!$refresh)
         {
@@ -1733,7 +1733,7 @@ class attach_posting extends attach_parent
             return;
         }
 
-        if ($confirm && ($delete || $mode == 'delete' || $mode == 'editpost') && ($phpbb2_is_auth['auth_delete'] || $phpbb2_is_auth['auth_mod']))
+        if ($confirm && ($delete || $mode == 'delete' || $mode == 'editpost') && ($is_auth['auth_delete'] || $is_auth['auth_mod']))
         {
             if ($post_id)
             {

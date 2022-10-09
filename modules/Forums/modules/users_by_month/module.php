@@ -13,9 +13,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
     function DateFixMonth($regdate)
@@ -96,15 +96,15 @@ GROUP BY SUBSTRING_INDEX(user_regdate,' ',-1), SUBSTRING_INDEX(user_regdate,' ',
 
 $result = $core->sql_query($sql, 'Couldn\'t retrieve users data');
 
-$pnt_user_count = $core->sql_numrows($result);
-$pnt_user_data = $core->sql_fetchrowset($result);
+$user_count = $core->sql_numrows($result);
+$user_data = $core->sql_fetchrowset($result);
 
 $month_array = array();
 
-for ($i = 0; $i < $pnt_user_count; $i++)
+for ($i = 0; $i < $user_count; $i++)
 {
-        $pnt_user_data[$i]['month_regdate'] = DateFixMonth($pnt_user_data[$i]['month_regdate']);
-    $month_array[$pnt_user_data[$i]['year_regdate']][($pnt_user_data[$i]['month_regdate']-1)]['num_user'] = $pnt_user_data[$i]['num_user'];
+        $user_data[$i]['month_regdate'] = DateFixMonth($user_data[$i]['month_regdate']);
+    $month_array[$user_data[$i]['year_regdate']][($user_data[$i]['month_regdate']-1)]['num_user'] = $user_data[$i]['num_user'];
 }
 
 @reset($month_array);

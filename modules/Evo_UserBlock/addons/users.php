@@ -25,72 +25,72 @@ global $evouserinfo_addons, $evouserinfo_users;
 
 function evouserinfo_newest_user() 
 {
-    global $pnt_db, $pnt_user_prefix;
+    global $db, $user_prefix;
     # do not list the latest user if they are in ghost mode!
-    $sql = "SELECT `user_id`, `username` FROM ".$pnt_user_prefix."_users WHERE user_active = 1 AND user_level > 0 AND user_allow_viewonline = 1 ORDER BY user_id DESC LIMIT 1";
-    $result = $pnt_db->sql_query($sql);
-    $row = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    $sql = "SELECT `user_id`, `username` FROM ".$user_prefix."_users WHERE user_active = 1 AND user_level > 0 AND user_allow_viewonline = 1 ORDER BY user_id DESC LIMIT 1";
+    $result = $db->sql_query($sql);
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
 
     return (isset($row)) ? $row : '?';
 }
 
 function evouserinfo_new_today() 
 {
-    global $pnt_user_prefix, $pnt_db;
+    global $user_prefix, $db;
 
-    $sql = "SELECT COUNT(*) FROM ".$pnt_user_prefix."_users WHERE user_regdate='".date("M d, Y")."'";
-    $result = $pnt_db->sql_query($sql);
-    $row = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$user_prefix."_users WHERE user_regdate='".date("M d, Y")."'";
+    $result = $db->sql_query($sql);
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_new_yesterday() 
 {
-    global $pnt_user_prefix, $pnt_db;
+    global $user_prefix, $db;
 
-    $sql = "SELECT COUNT(*) FROM ".$pnt_user_prefix."_users WHERE user_regdate='".date("M d, Y", time()-86400)."'";
-    $result = $pnt_db->sql_query($sql);
-    $row = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$user_prefix."_users WHERE user_regdate='".date("M d, Y", time()-86400)."'";
+    $result = $db->sql_query($sql);
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_waiting() 
 {
-    global $pnt_user_prefix, $pnt_db;
+    global $user_prefix, $db;
 
-    $sql = "SELECT COUNT(*) FROM ".$pnt_user_prefix."_users_temp";
-    $result = $pnt_db->sql_query($sql);
-    $row = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$user_prefix."_users_temp";
+    $result = $db->sql_query($sql);
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_total_hidden() 
 {
-    global $pnt_user_prefix, $pnt_db;
+    global $user_prefix, $db;
 
-    $sql = "SELECT COUNT(*) FROM ".$pnt_user_prefix."_users WHERE user_id > 1 AND user_allow_viewonline != 1";
-    $result = $pnt_db->sql_query($sql);
-    $row = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$user_prefix."_users WHERE user_id > 1 AND user_allow_viewonline != 1";
+    $result = $db->sql_query($sql);
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
 
 function evouserinfo_total() 
 {
-    global $pnt_user_prefix, $pnt_db;
+    global $user_prefix, $db;
 
-    $sql = "SELECT COUNT(*) FROM ".$pnt_user_prefix."_users WHERE user_id > 1";
-    $result = $pnt_db->sql_query($sql);
-    $row = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    $sql = "SELECT COUNT(*) FROM ".$user_prefix."_users WHERE user_id > 1";
+    $result = $db->sql_query($sql);
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
 
     return (isset($row[0])) ? $row[0] : '?';
 }
@@ -125,7 +125,7 @@ function evouserinfo_users()
     $evouserinfo_users .= '</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="white"><i class="fa fa-snapchat-ghost" aria-hidden="true"></i>
+    $evouserinfo_users .= '<font color="white"><img width="16" height="16" src = "images/ico/snapchat-002.ico" alt="My Happy SVG"/>
 </font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['HIDDEN'].'<span style="float:right">'.number_format($hidden).'&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 

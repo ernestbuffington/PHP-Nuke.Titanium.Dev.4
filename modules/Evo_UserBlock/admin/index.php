@@ -33,10 +33,10 @@ define('NUKE_EVO_USERBLOCK_ADMIN', dirname(__FILE__) . '/');
 define('NUKE_EVO_USERBLOCK_ADMIN_INCLUDES', NUKE_EVO_USERBLOCK_ADMIN . 'includes/');
 define('NUKE_EVO_USERBLOCK_ADMIN_ADDONS', NUKE_EVO_USERBLOCK_ADMIN . 'addons/');
 
-global $pnt_prefix, $pnt_db, $admin_file, $admdata, $lang_evo_userblock;
-$pnt_module = basename(dirname(dirname(__FILE__)));
+global $prefix, $db, $admin_file, $admdata, $lang_evo_userblock;
+$module_name = basename(dirname(dirname(__FILE__)));
 
-if (!is_mod_admin($pnt_module)) {
+if (!is_mod_admin($module_name)) {
     echo "Access Denied";
     die();
 }
@@ -52,7 +52,7 @@ $Sajax->sajax_export("sajax_update");
 $Sajax->sajax_handle_client_request();
 
 function evouserinfo_drawlists () {
-    global $lang_evo_userblock, $admin_file, $Default_Theme, $pnt_module, $phpbb2_board_config, $userinfo, $evouserinfo_ec, $admlang;
+    global $lang_evo_userblock, $admin_file, $Default_Theme, $module_name, $board_config, $userinfo, $evouserinfo_ec, $admlang;
 
     $active = evouserinfo_getactive();
     $inactive = evouserinfo_getinactive();
@@ -86,7 +86,7 @@ function evouserinfo_drawlists () {
     echo "<tr><td>\n";
     echo "<ul id=\"left_col\" class=\"sortable boxy\">\n";
     if(is_array($inactive)) {
-        global $phpbb2_board_config;
+        global $board_config;
         foreach ($inactive as $element) {
             if(!empty($element['image'])) {
                 echo "<li id=\"".$element['filename']."\" ondblclick=\"window.location.href='".$admin_file.".php?op=evo-userinfo&amp;file=".$element['filename']."'\"><center><img src=\"images/".$element['image']."\"></center></li>\n";
@@ -101,7 +101,7 @@ function evouserinfo_drawlists () {
         }
     }
     //Breaks
-    $phpbb2_end = count($active);
+    $end = count($active);
     for ($i = 0; $i < 5; $i++) {
         echo "<li id=\"".$lang_evo_userblock['ADMIN']['BREAK'].$i."\"><hr /></li>\n";
     }
@@ -118,7 +118,7 @@ function evouserinfo_drawlists () {
     if(is_array($active)) {
         foreach ($active as $element) {
             if(!empty($element['image'])) {
-                $content .= "<li id=\"".$element['filename']."\" ondblclick=\"window.location.href='".$admin_file.".php?op=evo-userinfo&amp;file=".$element['filename']."'\"><center><img src=\"".$phpbb2_board_config['avatar_gallery_path']."/".$userinfo['user_avatar']."\"></center></li>\n";
+                $content .= "<li id=\"".$element['filename']."\" ondblclick=\"window.location.href='".$admin_file.".php?op=evo-userinfo&amp;file=".$element['filename']."'\"><center><img src=\"".$board_config['avatar_gallery_path']."/".$userinfo['user_avatar']."\"></center></li>\n";
             } else {
                 if($element['filename'] != 'Break') {
                     $addon = evouserinfo_load_addon($element['filename']);
@@ -186,10 +186,10 @@ function evouserinfo_drawlists () {
 }
 
 function evouserinfo_write ($data){
-    global $pnt_prefix, $pnt_db, $lang_evo_userblock, $cache;
+    global $prefix, $db, $lang_evo_userblock, $cache;
     
     //Clear All Previous Breaks
-    $pnt_db->sql_query('DELETE FROM `'.$pnt_prefix.'_evo_userinfo` WHERE `name`="Break"');
+    $db->sql_query('DELETE FROM `'.$prefix.'_evo_userinfo` WHERE `name`="Break"');
     //Write Data
     if(is_array($data)) {
         foreach ($data as $type => $sub) {
@@ -197,8 +197,8 @@ function evouserinfo_write ($data){
                 $i = 1;
                 foreach ($sub as $element) {
                     if (!preg_match('#'.$lang_evo_userblock['ADMIN']['BREAK'].'#',$element)) {
-                        $sql = 'UPDATE `'.$pnt_prefix.'_evo_userinfo` SET `position`='.$i.', `active`=0 WHERE `filename`="'.$element.'";';
-                        $pnt_db->sql_query($sql);
+                        $sql = 'UPDATE `'.$prefix.'_evo_userinfo` SET `position`='.$i.', `active`=0 WHERE `filename`="'.$element.'";';
+                        $db->sql_query($sql);
                         $i++;
                     } else {
                         $i++;
@@ -208,12 +208,12 @@ function evouserinfo_write ($data){
                 $i = 1;
                 foreach ($sub as $element) {
                     if (!preg_match('#'.$lang_evo_userblock['ADMIN']['BREAK'].'#',$element)) {
-                        $sql = 'UPDATE `'.$pnt_prefix.'_evo_userinfo` SET `position`='.$i.', `active`=1 WHERE `filename`="'.$element.'"';
-                        $pnt_db->sql_query($sql);
+                        $sql = 'UPDATE `'.$prefix.'_evo_userinfo` SET `position`='.$i.', `active`=1 WHERE `filename`="'.$element.'"';
+                        $db->sql_query($sql);
                         $i++;
                     } else {
-                        $sql = 'INSERT INTO `'.$pnt_prefix.'_evo_userinfo` values ("Break", "Break", 1, '.$i.', "")';
-                        $pnt_db->sql_query($sql);
+                        $sql = 'INSERT INTO `'.$prefix.'_evo_userinfo` values ("Break", "Break", 1, '.$i.', "")';
+                        $db->sql_query($sql);
                         $i++;
                     }
                 }
@@ -260,12 +260,12 @@ if (isset($_POST['order']))
   $data = evouserinfo_parse_data($_POST['order']);
   evouserinfo_write($data);
   // redirect so refresh doesnt reset order to last save
-  redirect_titanium($admin_file.".php?op=evo-userinfo");
+  redirect($admin_file.".php?op=evo-userinfo");
 }
 if (isset($_POST['evouserinfo_ec']) && is_int(intval($_POST['evouserinfo_ec']))) {
-    global $pnt_db, $pnt_prefix, $cache, $evouserinfo_ec;
-    $pnt_db->sql_query("UPDATE ".$pnt_prefix."_evolution SET evo_value='".$_POST['evouserinfo_ec']."' WHERE evo_field='evouserinfo_ec'");
-    $cache->delete('titanium_config', 'config');
+    global $db, $prefix, $cache, $evouserinfo_ec;
+    $db->sql_query("UPDATE ".$prefix."_evolution SET evo_value='".$_POST['evouserinfo_ec']."' WHERE evo_field='evouserinfo_ec'");
+    $cache->delete('evoconfig', 'config');
     $cache->resync();
     $evouserinfo_ec = intval($_POST['evouserinfo_ec']);
 }
@@ -274,7 +274,7 @@ if (!empty($file)){
     if(file_exists(NUKE_EVO_USERBLOCK_ADMIN_ADDONS . $file . '.php')) {
         include_once(NUKE_EVO_USERBLOCK_ADMIN_ADDONS . $file . '.php');
     } else {
-        redirect_titanium($admin_file.".php?op=evo-userinfo");
+        redirect($admin_file.".php?op=evo-userinfo");
     }
 } else {
     global $element_ids;

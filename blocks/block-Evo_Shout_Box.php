@@ -28,7 +28,7 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $pnt_prefix, $ShoutSubmit, $ShoutComment, $pnt_db, $user, $cookie, $shoutuid, $top_content, $mid_content, $bottom_content, $ShoutMarqueewidth, $ShoutMarqueeheight, $currentlang;
+global $prefix, $ShoutSubmit, $ShoutComment, $db, $user, $cookie, $shoutuid, $top_content, $mid_content, $bottom_content, $ShoutMarqueewidth, $ShoutMarqueeheight, $currentlang;
 
 switch($ShoutSubmit) {
     default:

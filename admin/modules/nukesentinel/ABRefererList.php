@@ -30,15 +30,15 @@ if($perpage == 0) { $perpage = 25; }
 if(!isset($min) or !$min or $min=="") $min=0;
 if(!isset($max)) $max=$min+$perpage;
 if(!isset($direction) or !$direction or $direction=="") $direction = "asc";
-$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_referers`"));
+$totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_referers`"));
 if($totalselected > 0) {
   echo '<table summary="" align="center" border="0" cellpadding="2" cellspacing="2" bgcolor="'.$bgcolor2.'" width="100%">'."\n";
   echo '<tr bgcolor="'.$bgcolor2.'">'."\n";
   echo '<td width="90%"><strong>'._AB_REFERER.'</strong></td>'."\n";
   echo '<td align="center" width="10%"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_referers` ORDER BY `referer` $direction LIMIT $min,$perpage");
-  while($getIPs = $pnt_db->sql_fetchrow($result)) {
+  $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_referers` ORDER BY `referer` $direction LIMIT $min,$perpage");
+  while($getIPs = $db->sql_fetchrow($result)) {
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
     echo '<td>'.$getIPs['referer'].'</a></td>'."\n";
     echo '<td align="center" nowrap="nowrap"><a href="'.$admin_file.'.php?op=ABRefererEdit&amp;rid='.$getIPs['rid'].'&amp;direction='.$direction.'&amp;xop='.$op.'&amp;min='.$min.'"><img src="images/nukesentinel/edit.png" border="0" alt="'._AB_EDIT.'" title="'._AB_EDIT.'" height="16" width="16" /></a>'."\n";

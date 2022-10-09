@@ -26,16 +26,16 @@
 
 global $directory_mode;
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = './../';
-require($phpbb2_root_path . 'extension.inc');
-if (!empty($phpbb2_board_config))
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
+if (!empty($board_config))
 {
-    @include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
+    @include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
 }
 
 require('pagestart.' . $phpEx);
@@ -57,35 +57,35 @@ if ($cancel)
     $no_page_header = TRUE;
 }
 
-@include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
+@include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
+include($phpbb_root_path . 'stats_mod/includes/constants.'.$phpEx);
 
 $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-if ( !($result = $pnt_db->sql_query($sql)) )
+if ( !($result = $db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $pnt_db->sql_fetchrow($result))
+while ($row = $db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
 
-include($phpbb2_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
 
 if ($cancel)
 {
-    $url = 'admin/' . append_titanium_sid("admin_stats_lang.$phpEx?mode=select", true);
+    $url = 'admin/' . append_sid("admin_stats_lang.$phpEx?mode=select", true);
     
-    /*$server_protocol = ($phpbb2_board_config['cookie_secure']) ? 'https://' : 'http://';
-    $server_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($phpbb2_board_config['server_name']));
-    $server_port = ($phpbb2_board_config['server_port'] <> 80) ? ':' . trim($phpbb2_board_config['server_port']) . '/' : '/';
-    $script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($phpbb2_board_config['script_path']));*/
+    /*$server_protocol = ($board_config['cookie_secure']) ? 'https://' : 'http://';
+    $server_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['server_name']));
+    $server_port = ($board_config['server_port'] <> 80) ? ':' . trim($board_config['server_port']) . '/' : '/';
+    $script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['script_path']));*/
     $url = preg_replace('/^\/?(.*?)\/?$/', '/\1', trim($url));
 
     // Redirect via an HTML form for PITA webservers
@@ -97,13 +97,13 @@ if ($cancel)
     }
 
     // Behave as per HTTP/1.1 spec for others
-    redirect_titanium($url);
+    redirect($url);
     exit;
 }
 
 if ($mode == 'import_new_lang' && $submit)
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/stat_import_language.tpl')
     );
 
@@ -151,8 +151,8 @@ if ($mode == 'import_new_lang' && $submit)
         @reset($lang_array);
         while (list($key, $data) = @each($lang_array))
         {
-            $pnt_modules = get_modules_from_lang_block($data);
-            add_new_language_predefined($key, $pnt_modules);
+            $modules = get_modules_from_lang_block($data);
+            add_new_language_predefined($key, $modules);
         }
         
         message_die(GENERAL_MESSAGE, $lang['Language_pak_installed']);
@@ -160,7 +160,7 @@ if ($mode == 'import_new_lang' && $submit)
 
     if ( isset($HTTP_POST_VARS['fileselect']) )
     {
-        $filename = $phpbb2_root_path . 'modules/pakfiles/' . trim($HTTP_POST_VARS['selected_pak_file']);
+        $filename = $phpbb_root_path . 'modules/pakfiles/' . trim($HTTP_POST_VARS['selected_pak_file']);
     }
     else if (isset($HTTP_POST_VARS['fileupload']))
     {
@@ -179,13 +179,13 @@ if ($mode == 'import_new_lang' && $submit)
             message_die(GENERAL_ERROR, 'Unable to upload file, please use the pak file selector');
         }
 
-        if (!file_exists($phpbb2_root_path . 'modules/cache'))
+        if (!file_exists($phpbb_root_path . 'modules/cache'))
         {
             @umask(0);
-            mkdir($phpbb2_root_path . 'modules/cache', $directory_mode);
+            mkdir($phpbb_root_path . 'modules/cache', $directory_mode);
         }
         
-        if (!($fp = fopen($phpbb2_root_path . 'modules/cache/temp.pak', 'wt')))
+        if (!($fp = fopen($phpbb_root_path . 'modules/cache/temp.pak', 'wt')))
         {
             message_die(GENERAL_ERROR, 'Unable to write temp file');
         }
@@ -193,7 +193,7 @@ if ($mode == 'import_new_lang' && $submit)
         fwrite($fp, $contents, strlen($contents));
         fclose($fp);
 
-        $filename = $phpbb2_root_path . 'modules/cache/temp.pak';
+        $filename = $phpbb_root_path . 'modules/cache/temp.pak';
     }
     else
     {
@@ -235,9 +235,9 @@ if ($mode == 'import_new_lang' && $submit)
     $lang_array = $inst_langs;
 
     // Prepare Template
-    $phpbb2_template->assign_block_vars('switch_install_language', array());
+    $template->assign_block_vars('switch_install_language', array());
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_IMPORT_LANGUAGE' => $lang['Import_new_language'],
         'L_IMPORT_LANGUAGE_EXPLAIN' => $lang['Import_new_language_explain'],
         'L_INSTALL_LANGUAGE' => $lang['Install_language'],
@@ -251,30 +251,30 @@ if ($mode == 'import_new_lang' && $submit)
     {
         $language = str_replace('lang_', '', $key);
 
-        $phpbb2_template->assign_block_vars('languages', array(
+        $template->assign_block_vars('languages', array(
             'LANGUAGE' => $language)
         );
 
-        $pnt_modules = get_modules_from_lang_block($data);
-        @reset($pnt_modules);
-        while (list($pnt_module, $pnt_module_data) = each($pnt_modules))
+        $modules = get_modules_from_lang_block($data);
+        @reset($modules);
+        while (list($module_name, $module_data) = each($modules))
         {
-            $phpbb2_template->assign_block_vars('languages.modules', array(
-                'MODULE' => $pnt_module)
+            $template->assign_block_vars('languages.modules', array(
+                'MODULE' => $module_name)
             );
         }
     }
 
     $s_hidden_fields .= '<input type="hidden" name="install_language" value="1">';
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'S_HIDDEN_FIELDS' => $s_hidden_fields)
     );
 }
 
 if (($mode == 'import_new_lang') && (!$submit))
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/stat_import_language.tpl')
     );
 
@@ -282,11 +282,11 @@ if (($mode == 'import_new_lang') && (!$submit))
     {
         $lang_paks = array();
     
-        $dir = @opendir($phpbb2_root_path . 'modules/pakfiles');
+        $dir = @opendir($phpbb_root_path . 'modules/pakfiles');
 
         while($file = @readdir($dir))
         {
-            if( !@is_dir($phpbb2_root_path . 'modules/pakfiles' . '/' . $file) )
+            if( !@is_dir($phpbb_root_path . 'modules/pakfiles' . '/' . $file) )
             {
                 if ( preg_match('/\.pak$/i', $file) )
                 {
@@ -299,46 +299,46 @@ if (($mode == 'import_new_lang') && (!$submit))
 
         if (count($lang_paks) > 0)
         {
-            $phpbb2_template->assign_block_vars('switch_select_lang', array());
+            $template->assign_block_vars('switch_select_lang', array());
 
-            $pnt_module_select_field = '<select name="selected_pak_file">';
+            $module_select_field = '<select name="selected_pak_file">';
 
-            for ($i = 0; $i < count($pnt_module_paks); $i++)
+            for ($i = 0; $i < count($module_paks); $i++)
             {
                 $selected = ($i == 0) ? ' selected="selected"' : '';
 
-                $pnt_module_select_field .= '<option value="' . $lang_paks[$i] . '"' . $selected . '>' . $lang_paks[$i] . '</option>';
+                $module_select_field .= '<option value="' . $lang_paks[$i] . '"' . $selected . '>' . $lang_paks[$i] . '</option>';
             }
     
-            $pnt_module_select_field .= '</select>';
+            $module_select_field .= '</select>';
             
             $s_hidden_fields = '<input type="hidden" name="fileselect" value="1">';
 
-            $phpbb2_template->assign_vars(array(
+            $template->assign_vars(array(
                 'L_SELECT_LANGUAGE' => $lang['Select_language_pak'],
-                'S_SELECT_LANGUAGE' => $pnt_module_select_field,
+                'S_SELECT_LANGUAGE' => $module_select_field,
                 'S_SELECT_HIDDEN_FIELDS' => $s_hidden_fields)
             );
         
         }
 
-        $phpbb2_template->assign_block_vars('switch_upload_lang', array());
+        $template->assign_block_vars('switch_upload_lang', array());
 
         $s_hidden_fields = '<input type="hidden" name="fileupload" value="1">';
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'L_IMPORT_LANGUAGE' => $lang['Import_new_language'],
             'L_IMPORT_LANGUAGE_EXPLAIN' => $lang['Import_new_language_explain'],
             'L_UPLOAD_LANGUAGE' => $lang['Upload_language_pak'],
             'L_SUBMIT' => $lang['Submit'],
-            'S_ACTION' => append_titanium_sid($phpbb2_root_path . 'admin/import_lang.'.$phpEx.'?mode='.$mode),
+            'S_ACTION' => append_sid($phpbb_root_path . 'admin/import_lang.'.$phpEx.'?mode='.$mode),
             'S_UPLOAD_HIDDEN_FIELDS' => $s_hidden_fields)
         );
 
     }
 }
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 //
 // Page Footer

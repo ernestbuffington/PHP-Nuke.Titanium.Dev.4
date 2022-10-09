@@ -24,12 +24,12 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if ( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $pnt_module['Users']['Ban_Management'] = $filename;
+        $module['Users']['Ban_Management'] = $filename;
 
         return;
 }
@@ -37,8 +37,8 @@ if ( !empty($setmodules) )
 //
 // Load default header
 //
-$phpbb2_root_path = './../';
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 
 //
@@ -46,11 +46,11 @@ require('./pagestart.' . $phpEx);
 //
 if ( isset($HTTP_POST_VARS['submit']) )
 {
-        $pnt_user_bansql = '';
+        $user_bansql = '';
         $email_bansql = '';
         $ip_bansql = '';
 
-        $pnt_user_list = array();
+        $user_list = array();
         if ( !empty($HTTP_POST_VARS['username']) )
         {
                 $this_userdata = get_userdata($HTTP_POST_VARS['username'], true);
@@ -59,7 +59,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                         message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
                 }
 
-                $pnt_user_list[] = $this_userdata['user_id'];
+                $user_list[] = $this_userdata['user_id'];
         }
 
         $ip_list = array();
@@ -168,21 +168,21 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
         $sql = "SELECT *
                 FROM " . BANLIST_TABLE;
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, "Couldn't obtain banlist information", "", __LINE__, __FILE__, $sql);
         }
 
-        $current_banlist = $pnt_db->sql_fetchrowset($result);
-        $pnt_db->sql_freeresult($result);
+        $current_banlist = $db->sql_fetchrowset($result);
+        $db->sql_freeresult($result);
 
         $kill_session_sql = '';
-        for($i = 0; $i < count($pnt_user_list); $i++)
+        for($i = 0; $i < count($user_list); $i++)
         {
                 $in_banlist = false;
                 for($j = 0; $j < count($current_banlist); $j++)
                 {
-                        if ( $pnt_user_list[$i] == $current_banlist[$j]['ban_userid'] )
+                        if ( $user_list[$i] == $current_banlist[$j]['ban_userid'] )
                         {
                                 $in_banlist = true;
                         }
@@ -190,11 +190,11 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
                 if ( !$in_banlist )
                 {
-                        $kill_session_sql .= ( ( $kill_session_sql != '' ) ? ' OR ' : '' ) . "session_user_id = " . $pnt_user_list[$i];
+                        $kill_session_sql .= ( ( $kill_session_sql != '' ) ? ' OR ' : '' ) . "session_user_id = " . $user_list[$i];
 
                         $sql = "INSERT INTO " . BANLIST_TABLE . " (ban_userid)
-                                VALUES (" . $pnt_user_list[$i] . ")";
-                        if ( !$pnt_db->sql_query($sql) )
+                                VALUES (" . $user_list[$i] . ")";
+                        if ( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't insert ban_userid info into database", "", __LINE__, __FILE__, $sql);
                         }
@@ -227,7 +227,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
                         $sql = "INSERT INTO " . BANLIST_TABLE . " (ban_ip)
                                 VALUES ('" . $ip_list[$i] . "')";
-                        if ( !$pnt_db->sql_query($sql) )
+                        if ( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't insert ban_ip info into database", "", __LINE__, __FILE__, $sql);
                         }
@@ -243,7 +243,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
         {
                 $sql = "DELETE FROM " . SESSIONS_TABLE . "
                         WHERE $kill_session_sql";
-                if ( !$pnt_db->sql_query($sql) )
+                if ( !$db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, "Couldn't delete banned sessions from database", "", __LINE__, __FILE__, $sql);
                 }
@@ -264,7 +264,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                 {
                         $sql = "INSERT INTO " . BANLIST_TABLE . " (ban_email)
                                 VALUES ('" . str_replace("\'", "''", $email_list[$i]) . "')";
-                        if ( !$pnt_db->sql_query($sql) )
+                        if ( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't insert ban_email info into database", "", __LINE__, __FILE__, $sql);
                         }
@@ -275,13 +275,13 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
         if ( isset($HTTP_POST_VARS['unban_user']) )
         {
-                $pnt_user_list = $HTTP_POST_VARS['unban_user'];
+                $user_list = $HTTP_POST_VARS['unban_user'];
 
-                for($i = 0; $i < count($pnt_user_list); $i++)
+                for($i = 0; $i < count($user_list); $i++)
                 {
-                        if ( $pnt_user_list[$i] != -1 )
+                        if ( $user_list[$i] != -1 )
                         {
-                                $where_sql .= ( ( $where_sql != '' ) ? ', ' : '' ) . intval($pnt_user_list[$i]);
+                                $where_sql .= ( ( $where_sql != '' ) ? ', ' : '' ) . intval($user_list[$i]);
                         }
                 }
         }
@@ -316,24 +316,24 @@ if ( isset($HTTP_POST_VARS['submit']) )
         {
                 $sql = "DELETE FROM " . BANLIST_TABLE . "
                         WHERE ban_id IN ($where_sql)";
-                if ( !$pnt_db->sql_query($sql) )
+                if ( !$db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, "Couldn't delete ban info from database", "", __LINE__, __FILE__, $sql);
                 }
         }
 
-        $message = $lang['Ban_update_sucessful'] . '<br /><br />' . sprintf($lang['Click_return_banadmin'], '<a href="' . append_titanium_sid("admin_user_ban.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $lang['Ban_update_sucessful'] . '<br /><br />' . sprintf($lang['Click_return_banadmin'], '<a href="' . append_sid("admin_user_ban.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
 
 }
 else
 {
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
                 'body' => 'admin/user_ban_body.tpl')
         );
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
                 'L_BAN_TITLE' => $lang['Ban_control'],
                 'L_BAN_EXPLAIN' => $lang['Ban_explain'],
                 'L_BAN_EXPLAIN_WARN' => $lang['Ban_explain_warn'],
@@ -342,10 +342,10 @@ else
                 'L_SUBMIT' => $lang['Submit'],
                 'L_RESET' => $lang['Reset'],
 
-                'S_BANLIST_ACTION' => append_titanium_sid("admin_user_ban.$phpEx"))
+                'S_BANLIST_ACTION' => append_sid("admin_user_ban.$phpEx"))
         );
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
                 'L_BAN_USER' => $lang['Ban_username'],
                 'L_BAN_USER_EXPLAIN' => $lang['Ban_username_explain'],
                 'L_BAN_IP' => $lang['Ban_IP'],
@@ -354,7 +354,7 @@ else
                 'L_BAN_EMAIL_EXPLAIN' => $lang['Ban_email_explain'])
         );
 
-        $pnt_userban_count = 0;
+        $userban_count = 0;
         $ipban_count = 0;
         $emailban_count = 0;
 
@@ -364,19 +364,19 @@ else
                         AND b.ban_userid <> 0
                         AND u.user_id <> " . ANONYMOUS . "
                 ORDER BY u.user_id ASC";
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not select current user_id ban list', '', __LINE__, __FILE__, $sql);
         }
 
-        $pnt_user_list = $pnt_db->sql_fetchrowset($result);
-        $pnt_db->sql_freeresult($result);
+        $user_list = $db->sql_fetchrowset($result);
+        $db->sql_freeresult($result);
 
         $select_userlist = '';
-        for($i = 0; $i < count($pnt_user_list); $i++)
+        for($i = 0; $i < count($user_list); $i++)
         {
-                $select_userlist .= '<option value="' . $pnt_user_list[$i]['ban_id'] . '">' . $pnt_user_list[$i]['username'] . '</option>';
-                $pnt_userban_count++;
+                $select_userlist .= '<option value="' . $user_list[$i]['ban_id'] . '">' . $user_list[$i]['username'] . '</option>';
+                $userban_count++;
         }
 
         if( $select_userlist == '' )
@@ -388,13 +388,13 @@ else
 
         $sql = "SELECT ban_id, ban_ip, ban_email
                 FROM " . BANLIST_TABLE;
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
                 message_die(GENERAL_ERROR, 'Could not select current ip ban list', '', __LINE__, __FILE__, $sql);
         }
 
-        $banlist = $pnt_db->sql_fetchrowset($result);
-        $pnt_db->sql_freeresult($result);
+        $banlist = $db->sql_fetchrowset($result);
+        $db->sql_freeresult($result);
 
         $select_iplist = '';
         $select_emaillist = '';
@@ -430,7 +430,7 @@ else
         $select_iplist = '<select name="unban_ip[]" multiple="multiple" size="5">' . $select_iplist . '</select>';
         $select_emaillist = '<select name="unban_email[]" multiple="multiple" size="5">' . $select_emaillist . '</select>';
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
                 'L_UNBAN_USER' => $lang['Unban_username'],
                 'L_UNBAN_USER_EXPLAIN' => $lang['Unban_username_explain'],
                 'L_UNBAN_IP' => $lang['Unban_IP'],
@@ -441,15 +441,15 @@ else
                 'L_LOOK_UP' => $lang['Look_up_User'],
                 'L_FIND_USERNAME' => $lang['Find_username'],
 
-                'U_SEARCH_USER' => append_titanium_sid("search.$phpEx?mode=searchuser&popup=1&menu=1"),
+                'U_SEARCH_USER' => append_sid("search.$phpEx?mode=searchuser&popup=1&menu=1"),
                 'S_UNBAN_USERLIST_SELECT' => $select_userlist,
                 'S_UNBAN_IPLIST_SELECT' => $select_iplist,
                 'S_UNBAN_EMAILLIST_SELECT' => $select_emaillist,
-                'S_BAN_ACTION' => append_titanium_sid("admin_user_ban.$phpEx"))
+                'S_BAN_ACTION' => append_sid("admin_user_ban.$phpEx"))
         );
 }
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 include('./page_footer_admin.'.$phpEx);
 

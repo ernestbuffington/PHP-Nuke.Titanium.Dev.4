@@ -21,11 +21,11 @@ OpenTable();
     Notes:       Will toss a DonateError if the values are not found
 ================================================================================================*/
 function get_values() {
-    global $pnt_db, $pnt_prefix, $lang_donate;
-    $sql = 'SELECT config_value from `'.$pnt_prefix.'_donators_config` WHERE config_name="values"';
-    $result = $pnt_db->sql_query($sql);
-    $row = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    global $db, $prefix, $lang_donate;
+    $sql = 'SELECT config_value from `'.$prefix.'_donators_config` WHERE config_name="values"';
+    $result = $db->sql_query($sql);
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
     $values = ($row['config_value']) ? explode(',',$row['config_value']) : DonateError($lang_donate['VALUES_NF']);
     return $values;
 }
@@ -82,9 +82,9 @@ function strip_values() {
     Notes:       Writes new values to the DB
 ================================================================================================*/
 function write_values($values) {
-    global $pnt_db, $pnt_prefix, $lang_donate;
-    $sql = 'UPDATE `'.$pnt_prefix.'_donators_config` SET config_value="'.$values.'" WHERE config_name="values"';
-    $pnt_db->sql_query($sql);
+    global $db, $prefix, $lang_donate;
+    $sql = 'UPDATE `'.$prefix.'_donators_config` SET config_value="'.$values.'" WHERE config_name="values"';
+    $db->sql_query($sql);
 }
 
 /*~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-*/

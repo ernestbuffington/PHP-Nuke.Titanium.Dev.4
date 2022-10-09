@@ -3,6 +3,7 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System  
  =======================================================================*/
 
+
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
@@ -28,14 +29,12 @@ if(!defined('NUKE_EVO')) exit;
 
 # we tell the block loader that we do not want tables
 # drawn arounf out block by setting this to TRUE
-global $page_id, $invisble_facebook_block;
+global $invisble_facebook_block;
 $invisble_facebook_block = true;
 
 // Now show it
-$content = '<div class="fb-customerchat"
-  attribution=setup_tool
-  page_id="'.$page_id.'"
-  logged_in_greeting="Hello. How we can help you?"
-  logged_out_greeting="Hello. How we can help you?">
-</div>';
+$content  = '<div class="fb-customerchat"';
+$content .= 'attribution="page_inbox"';
+$content .= 'page_id="">';
+$content .= '</div>';
 ?> 

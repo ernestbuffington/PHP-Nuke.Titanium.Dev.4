@@ -18,7 +18,7 @@ class Paginator {
 					var $current;
 					var $next;
 					var $page;
-					var $total_phpbb2_pages;
+					var $total_pages;
 					var $link_arr;
 					var $range1;
 					var $range2;
@@ -31,7 +31,7 @@ class Paginator {
 					var $prev_next;
 					var $base_page_num;
 					var $extra_page_num;
-					var $total_phpbb2_items;
+					var $total_items;
 					var $pagename;
 			//Constructor for Paginator.  Takes the current page and the number of items
 			//in the source data and sets the current page ($this->page) and the total

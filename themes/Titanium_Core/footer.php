@@ -2,15 +2,13 @@
 #---------------------------------------------------------------------------------------#
 # FOOTER                                                                                #
 #---------------------------------------------------------------------------------------#
-# THEME SYSTEM FILE                                                                     #
-#---------------------------------------------------------------------------------------#
 # THEME INFO                                                                            #
-# Titanium_Core Theme v2.0 (Fixed & Full Width)                                         #
+# Universal Theme v1.0 (Fixed & Full Width)                                             #
 #                                                                                       #
 # Final Build Date 03/16/2021 Tuesday 12:54am                                           #
 #                                                                                       #
-# A Very Nice Gold Theme Design.                                                        #
-# Copyright © 2021 By: TheGhost AKA EA Buffington                                       #
+# A Very Nice Fire and Brimstone Theme Design.                                          #
+# Copyright © 2021 By: TheGhost AKA EABuffington                                        #
 # e-Mail : ernest.buffington@gmail.com                                                  #
 #---------------------------------------------------------------------------------------#
 # CREATION INFO                                                                         #
@@ -26,7 +24,7 @@
 #                                                                                       #
 # Designed By: TheGhost & Sebastian                                                     #
 # Web Site: https://www.86it.us                                                         #
-# Purpose: PHP-Nuke Titanium                                                            #
+# Purpose: PHP-Nuke Titanium | Nuke Evolution Xtreme                                    #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
 # PHP-Nuke Copyright (c) 2006 by Francisco Burzi phpnuke.org                            #
@@ -56,8 +54,10 @@
 # Wolfstar                                                                              # 
 # -[04/17/2010] Updated Nuke Evolution to XHTML 1.0 Transitional                        #
 #---------------------------------------------------------------------------------------#
-# Titanium Core Footer Section      #
-#-----------------------------------#
+
+#-----------------------------#
+# Inferno Footer Section      #
+#-----------------------------#
 # Fixed & Full Width Style    #
 #-----------------------------#
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) exit('Access Denied');
@@ -72,15 +72,15 @@ global $customlang,
 echo '<!-- FOOTER START -->';
 global 
 	   $index, 
-	    $pnt_user, 
+	    $user, 
 	 $banners, 
 	  $cookie, 
-         $pnt_dbi, 
-		  $pnt_db, 
+         $dbi, 
+		  $db, 
 	   $admin, 
    $adminmail, 
-  $total_phpbb2_time, 
-  $phpbb2_start_time, 
+  $total_time, 
+  $start_time, 
        $foot1, 
 	   $foot2, 
 	   $foot3, 
@@ -91,7 +91,7 @@ global
   $theme_name, 
    $ThemeInfo,
     $bgcolor4,
-      $pnt_prefix;
+      $prefix;
 
 
 if(blocks_visible('right')) 

@@ -12,11 +12,11 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-global $pnt_module;
+global $module_name;
 
-if(!isset($pnt_module) || empty($pnt_module))
+if(!isset($module_name) || empty($module_name))
 {
-  $pnt_module = basename(dirname(__FILE__));
+  $module_name = basename(dirname(__FILE__));
 }
 
 error_reporting(E_ALL ^ E_NOTICE);

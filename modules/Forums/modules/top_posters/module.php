@@ -18,9 +18,9 @@
        Advanced Username Color                  v1.0.5       08/08/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 // true == use db cache
@@ -56,7 +56,7 @@ $sql = "SELECT SUM(user_posts) as total_posts FROM " . USERS_TABLE . " WHERE use
 $result = $core->sql_query($sql, 'Unable to retrieve users data');
 $row = $core->sql_fetchrow($result);
 
-$phpbb2_total_posts = $row['total_posts'];
+$total_posts = $row['total_posts'];
 
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -72,12 +72,12 @@ LIMIT " . $core->return_limit;
 
 $result = $core->sql_query($sql, 'Unable to retrieve users data');
 $data = $core->sql_fetchrowset($result);
-$content->init_math('user_posts', $data[0]['user_posts'], $phpbb2_total_posts);
+$content->init_math('user_posts', $data[0]['user_posts'], $total_posts);
 $core->set_data($data);
 
 $core->define_view('set_rows', array(
     '$core->pre_defined()',
-    '$core->generate_link(append_titanium_sid(\'profile.php?mode=viewprofile&amp;u=\' . $core->data(\'user_id\')), $core->data(\'username\'), \'target="_blank"\')',
+    '$core->generate_link(append_sid(\'profile.php?mode=viewprofile&amp;u=\' . $core->data(\'user_id\')), $core->data(\'username\'), \'target="_blank"\')',
     '$core->data(\'user_posts\')',
     '$core->pre_defined()',
     '$core->pre_defined()')

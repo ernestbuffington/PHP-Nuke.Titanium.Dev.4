@@ -21,49 +21,49 @@ if (!defined('MODULE_FILE'))
    die ("You can't access this file directly...");
 }
 
-global $pnt_prefix, $pnt_db, $cookie, $pnt_user;
+global $prefix, $db, $cookie, $user;
 
-$userinfo = getusrinfo( $pnt_user );
-$pnt_userid = $userinfo["user_id"];
+$userinfo = getusrinfo( $user );
+$userid = $userinfo["user_id"];
 $catname=@htmlentities($catname);
 $catcomment=@htmlentities($catcomment);
 
-if (!isset($pnt_userid) || $pnt_userid=="")
-        $pnt_userid=0;
+if (!isset($userid) || $userid=="")
+        $userid=0;
 
 $index = 1;
 require_once("mainfile.php");
-$pnt_module = basename(dirname(__FILE__));
-get_lang($pnt_module);
+$module_name = basename(dirname(__FILE__));
+get_lang($module_name);
 
 if ($form_done=="yes")
 {
 	if (isset($catid) && $catid!="")
 	{
-		$query = "update ".$pnt_prefix."_bookmarks_cat set name='$catname',description='$catcomment',mod_date=now() where category_id='$catid'";
+		$query = "update ".$prefix."_bookmarks_cat set name='$catname',description='$catcomment',mod_date=now() where category_id='$catid'";
 	}
 	else
 	{
-		$query = "insert into ".$pnt_prefix."_bookmarks_cat (user_id,name,description,mod_date) values ($pnt_userid,'$catname','$catcomment',now())";
+		$query = "insert into ".$prefix."_bookmarks_cat (user_id,name,description,mod_date) values ($userid,'$catname','$catcomment',now())";
 	}
 
-	$pnt_db->sql_query ($query,$pnt_db);
+	$db->sql_query ($query,$db);
 
-	header("Location: modules.php?name=$pnt_module");
+	header("Location: modules.php?name=$module_name");
 }
 
 $pagetitle = "My Personal Bookmarks - " . _ADDOREDITCATEGORY;
 include("header.php");
 OpenTable();
 echo "<span class=boxtitle><center><strong>" . _ADDOREDITCATEGORY . "</strong></center></span><p>";
-echo "<center>[ <a href=modules.php?name=".$pnt_module.">". _CATEGORIES ."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$module_name.">". _CATEGORIES ."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
 CloseTable();
 echo "<br>";
 OpenTable();
 ?>
 
 <form method=post action=modules.php>
-<input type=hidden name=name value='<?=$pnt_module?>'>
+<input type=hidden name=name value='<?=$module_name?>'>
 <input type=hidden name=file value='edit_cat'>
 <input type=hidden name=form_done value='yes'>
 <input type=hidden name=catid value='<?=$catid?>'>

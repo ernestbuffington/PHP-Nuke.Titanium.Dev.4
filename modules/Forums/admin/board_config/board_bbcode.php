@@ -4,17 +4,17 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "bbcode_options" => "admin/board_config/board_bbcode.tpl")
 );
 
 //General Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
 
 //Language Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 
 	"L_YOUTUBE_DIMENSIONS" => $lang['youtube_dimensions'],
 	"L_TWITCH_DIMENSIONS" => $lang['twitch_dimensions'],
@@ -29,6 +29,6 @@ $phpbb2_template->assign_vars(array(
 
 ));
 
-$phpbb2_template->pparse("bbcode_options");
+$template->pparse("bbcode_options");
 
 ?>

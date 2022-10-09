@@ -27,23 +27,23 @@
 if( !empty($setmodules) )
 {
 	$file = basename(__FILE__);
-	$pnt_module['Users']['Ranks'] = $file;
+	$module['Users']['Ranks'] = $file;
 	return;
 }
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 $cancel = ( isset($HTTP_POST_VARS['cancel']) || isset($_POST['cancel']) ) ? true : false;
 $no_page_header = $cancel;
 require('./pagestart.' . $phpEx);
 if ($cancel)
 {
-	redirect_titanium(append_titanium_sid("admin_ranks.$phpEx", true));
+	redirect(append_sid("admin_ranks.$phpEx", true));
 }
 
 if( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
@@ -91,12 +91,12 @@ if( $mode != "" )
 
                         $sql = "SELECT * FROM " . RANKS_TABLE . "
                                 WHERE rank_id = $rank_id";
-                        if(!$result = $pnt_db->sql_query($sql))
+                        if(!$result = $db->sql_query($sql))
                         {
                                 message_die(GENERAL_ERROR, "Couldn't obtain rank data", "", __LINE__, __FILE__, $sql);
                         }
 
-                        $rank_info = $pnt_db->sql_fetchrow($result);
+                        $rank_info = $db->sql_fetchrow($result);
                         $s_hidden_fields .= '<input type="hidden" name="id" value="' . $rank_id . '" />';
 
                 }
@@ -171,11 +171,11 @@ if( $mode != "" )
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
 
-                $phpbb2_template->set_filenames(array(
+                $template->set_filenames(array(
                         "body" => "admin/ranks_edit_body.tpl")
                 );
 
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
@@ -216,7 +216,7 @@ if( $mode != "" )
                         "L_YES" => $lang['Yes'],
                         "L_NO" => $lang['No'],
 
-                        "S_RANK_ACTION" => append_titanium_sid("admin_ranks.$phpEx"),
+                        "S_RANK_ACTION" => append_sid("admin_ranks.$phpEx"),
                         "S_HIDDEN_FIELDS" => $s_hidden_fields)
                 );
 
@@ -281,7 +281,7 @@ if( $mode != "" )
                                         SET user_rank = 0
                                         WHERE user_rank = $rank_id";
 
-                                if( !$result = $pnt_db->sql_query($sql) )
+                                if( !$result = $db->sql_query($sql) )
                                 {
                                         message_die(GENERAL_ERROR, $lang['No_update_ranks'], "", __LINE__, __FILE__, $sql);
                                 }
@@ -300,12 +300,12 @@ if( $mode != "" )
                         $message = $lang['Rank_added'];
                 }
 
-                if( !$result = $pnt_db->sql_query($sql) )
+                if( !$result = $db->sql_query($sql) )
                 {
                         message_die(GENERAL_ERROR, "Couldn't update/insert into ranks table", "", __LINE__, __FILE__, $sql);
                 }
 
-                $message .= "<br /><br />" . sprintf($lang['Click_return_rankadmin'], "<a href=\"" . append_titanium_sid("admin_ranks.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                $message .= "<br /><br />" . sprintf($lang['Click_return_rankadmin'], "<a href=\"" . append_sid("admin_ranks.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                 message_die(GENERAL_MESSAGE, $message);
 
@@ -330,7 +330,7 @@ if( $mode != "" )
                         $sql = "DELETE FROM " . RANKS_TABLE . "
                                 WHERE rank_id = $rank_id";
 
-                        if( !$result = $pnt_db->sql_query($sql) )
+                        if( !$result = $db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, "Couldn't delete rank data", "", __LINE__, __FILE__, $sql);
                         }
@@ -339,12 +339,12 @@ if( $mode != "" )
                                 SET user_rank = 0
                                 WHERE user_rank = $rank_id";
 
-                        if( !$result = $pnt_db->sql_query($sql) )
+                        if( !$result = $db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, $lang['No_update_ranks'], "", __LINE__, __FILE__, $sql);
                         }
 
-                        $message = $lang['Rank_removed'] . "<br /><br />" . sprintf($lang['Click_return_rankadmin'], "<a href=\"" . append_titanium_sid("admin_ranks.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $lang['Rank_removed'] . "<br /><br />" . sprintf($lang['Click_return_rankadmin'], "<a href=\"" . append_sid("admin_ranks.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                         message_die(GENERAL_MESSAGE, $message);
 
@@ -352,20 +352,20 @@ if( $mode != "" )
  		elseif( $rank_id && !$confirm)
   		{
  			// Present the confirmation screen to the user
- 			$phpbb2_template->set_filenames(array(
+ 			$template->set_filenames(array(
  				'body' => 'admin/confirm_body.tpl')
  			);
 
  			$hidden_fields = '<input type="hidden" name="mode" value="delete" /><input type="hidden" name="id" value="' . $rank_id . '" />';
 
- 			$phpbb2_template->assign_vars(array(
+ 			$template->assign_vars(array(
  				'MESSAGE_TITLE' => $lang['Confirm'],
  				'MESSAGE_TEXT' => $lang['Confirm_delete_rank'],
 
  				'L_YES' => $lang['Yes'],
  				'L_NO' => $lang['No'],
 
- 				'S_CONFIRM_ACTION' => append_titanium_sid("admin_ranks.$phpEx"),
+ 				'S_CONFIRM_ACTION' => append_sid("admin_ranks.$phpEx"),
  				'S_HIDDEN_FIELDS' => $hidden_fields)
  			);
  		}
@@ -375,7 +375,7 @@ if( $mode != "" )
  		}
  	}
 
- 	$phpbb2_template->pparse("body");
+ 	$template->pparse("body");
 
  	include('./page_footer_admin.'.$phpEx);
  }
@@ -383,21 +383,21 @@ if( $mode != "" )
  //
  // Show the default page
  //
- $phpbb2_template->set_filenames(array(
+ $template->set_filenames(array(
  	"body" => "admin/ranks_list_body.tpl")
  );
 
  $sql = "SELECT * FROM " . RANKS_TABLE . "
  	ORDER BY rank_min ASC, rank_special ASC";
- if( !$result = $pnt_db->sql_query($sql) )
+ if( !$result = $db->sql_query($sql) )
  {
  	message_die(GENERAL_ERROR, "Couldn't obtain ranks data", "", __LINE__, __FILE__, $sql);
  }
- $rank_count = $pnt_db->sql_numrows($result);
+ $rank_count = $db->sql_numrows($result);
 
- $rank_rows = $pnt_db->sql_fetchrowset($result);
+ $rank_rows = $db->sql_fetchrowset($result);
 
- $phpbb2_template->assign_vars(array(
+ $template->assign_vars(array(
  	"L_RANKS_TITLE" => $lang['Ranks_title'],
  	"L_RANKS_TEXT" => $lang['Ranks_explain'],
  	"L_RANK" => $lang['Rank_title'],
@@ -408,7 +408,7 @@ if( $mode != "" )
  	"L_ADD_RANK" => $lang['Add_new_rank'],
  	"L_ACTION" => $lang['Action'],
 
- 	"S_RANKS_ACTION" => append_titanium_sid("admin_ranks.$phpEx"))
+ 	"S_RANKS_ACTION" => append_sid("admin_ranks.$phpEx"))
  );
 
  for($i = 0; $i < $rank_count; $i++)
@@ -443,19 +443,19 @@ if( $mode != "" )
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
 
- 	$phpbb2_template->assign_block_vars("ranks", array(
+ 	$template->assign_block_vars("ranks", array(
  		"ROW_COLOR" => "#" . $row_color,
  		"ROW_CLASS" => $row_class,
  		"RANK" => $rank,
  		"SPECIAL_RANK" => $rank_is_special,
  		"RANK_MIN" => $rank_min,
 
- 		"U_RANK_EDIT" => append_titanium_sid("admin_ranks.$phpEx?mode=edit&amp;id=$rank_id"),
- 		"U_RANK_DELETE" => append_titanium_sid("admin_ranks.$phpEx?mode=delete&amp;id=$rank_id"))
+ 		"U_RANK_EDIT" => append_sid("admin_ranks.$phpEx?mode=edit&amp;id=$rank_id"),
+ 		"U_RANK_DELETE" => append_sid("admin_ranks.$phpEx?mode=delete&amp;id=$rank_id"))
  	);
  }
 
- $phpbb2_template->pparse("body");
+ $template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

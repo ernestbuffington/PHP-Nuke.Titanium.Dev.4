@@ -20,7 +20,7 @@ if (!defined('MODULE_FILE')) {
    die ("You can't access this file directly...");
 }
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
 include_once(NUKE_INCLUDE_DIR."bbcode.php");
 include_once(NUKE_INCLUDE_DIR."functions_post.php");
@@ -35,19 +35,19 @@ function change_post_msg($message,$ya_username)
 //PM Sign Up
 function send_pm($new_uid,$ya_username)
 {
-    global $pnt_db, $pnt_prefix, $pnt_user_prefix, $phpbb2_board_config;
+    global $db, $prefix, $user_prefix, $board_config;
 
-    if($phpbb2_board_config['welcome_pm'] != '1') { return; }
+    if($board_config['welcome_pm'] != '1') { return; }
 
     $privmsgs_date = time();
 
-    $sql = "SELECT * FROM ".$pnt_prefix."_welcome_pm";
+    $sql = "SELECT * FROM ".$prefix."_welcome_pm";
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
            echo "Could not obtain private message";
     }
-    $row = $pnt_db->sql_fetchrow($result);
+    $row = $db->sql_fetchrow($result);
     $message = $row['msg'];
     $subject = $row['subject'];
     if(empty($message) || empty($subject)) {
@@ -58,28 +58,28 @@ function send_pm($new_uid,$ya_username)
     $bbcode_uid 		= make_bbcode_uid();
     $privmsg_message 	= prepare_message($message, 1, 1, 1, $bbcode_uid);
 
-    $from_userid = (!$phpbb2_board_config['welcome_pm_username']) ? 2 : 1;
+    $from_userid = (!$board_config['welcome_pm_username']) ? 2 : 1;
 
-    $sql = "INSERT INTO " . $pnt_prefix . "_bbprivmsgs (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date ) VALUES ('1', '".$subject."', '".$from_userid."', '".$new_uid."', ".$privmsgs_date.")";
-    if ( !$pnt_db->sql_query($sql) )
+    $sql = "INSERT INTO " . $prefix . "_bbprivmsgs (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date ) VALUES ('1', '".$subject."', '".$from_userid."', '".$new_uid."', ".$privmsgs_date.")";
+    if ( !$db->sql_query($sql) )
     {
        echo "Could not insert private message sent info";
     }
 
-    $privmsg_sent_id = $pnt_db->sql_nextid();
+    $privmsg_sent_id = $db->sql_nextid();
     $privmsg_message = addslashes($privmsg_message);
 
-    $sql = "INSERT INTO " . $pnt_prefix . "_bbprivmsgs_text (privmsgs_text_id, privmsgs_bbcode_uid, privmsgs_text) VALUES ('".$privmsg_sent_id."', '".$bbcode_uid."', '".$privmsg_message."')";
+    $sql = "INSERT INTO " . $prefix . "_bbprivmsgs_text (privmsgs_text_id, privmsgs_bbcode_uid, privmsgs_text) VALUES ('".$privmsg_sent_id."', '".$bbcode_uid."', '".$privmsg_message."')";
 
-    if ( !$pnt_db->sql_query($sql) )
+    if ( !$db->sql_query($sql) )
     {
        echo "Could not insert private message sent text";
     }
 
-    $sql = "UPDATE " . $pnt_user_prefix . "_users
+    $sql = "UPDATE " . $user_prefix . "_users
             SET user_new_privmsg = user_new_privmsg + 1,  user_last_privmsg = '" . time() . "'
             WHERE user_id = $new_uid";
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
          echo "Could not update users table";
     }

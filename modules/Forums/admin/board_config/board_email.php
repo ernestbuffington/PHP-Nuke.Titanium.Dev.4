@@ -21,7 +21,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "email" => "admin/board_config/board_email.tpl")
 );
 
@@ -38,12 +38,12 @@ $smtp_auth_no       = ( $new['smtp_auth'] == 0 ) ? 'checked="checked"' : '';
 $smtp_auth_view     = ( $new['smtp_auth'] == 1 ) ? '' : ' style="display:none"';
 
 //General Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
     
 //Language Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "L_EMAIL_SETTINGS"        => $lang['Email_settings'],
     "L_ADMIN_EMAIL"           => $lang['Admin_email'],
     "L_EMAIL_SIG"             => $lang['Email_sig'],
@@ -64,7 +64,7 @@ $phpbb2_template->assign_vars(array(
 ));
 
 //Data Template Variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "EMAIL_FROM"            => $new['board_email'],
     "EMAIL_SIG"             => $new['board_email_sig'],
     "SMTP_YES"              => $smtp_yes,
@@ -81,6 +81,6 @@ $phpbb2_template->assign_vars(array(
     "SMTP_AUTH_NO"          => $smtp_auth_no,
     "SMTP_AUTH_VIEW"        => $smtp_auth_view,
  ));
-$phpbb2_template->pparse("email");
+$template->pparse("email");
 
 ?>

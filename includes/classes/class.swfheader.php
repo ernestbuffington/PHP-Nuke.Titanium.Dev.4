@@ -234,7 +234,7 @@ class swfheader {
 	function display($trans = true, $qlty = "best", $bgcolor = "#cecece", $name = "") 
 	{
 
-	   $phpbb2_endl = chr(13) ;
+	   $endl = chr(13) ;
 	
 	
 		

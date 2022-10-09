@@ -13,9 +13,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 //
@@ -72,7 +72,7 @@ $sql = "SELECT * FROM " . SMILIE_INFO_TABLE;
 $result = $core->sql_query($sql, 'Unable to determine last_post_id');
 $smilie_info_row = $core->sql_fetchrow($result);
 
-$phpbb2_last_post_id = $smilie_info_row['last_post_id'];
+$last_post_id = $smilie_info_row['last_post_id'];
 
 if ((intval($smilie_info_row['last_update_time']) + (intval($smilie_info_row['update_time']) * 60)) <= time())
 {
@@ -82,7 +82,7 @@ if ((intval($smilie_info_row['last_update_time']) + (intval($smilie_info_row['up
 
     $sql = "UPDATE " . SMILIE_INFO_TABLE . " SET last_post_id = 0, last_update_time = " . time();
     $core->sql_query($sql, 'Could not reset Smilies Info Table');
-    $phpbb2_last_post_id = 0;
+    $last_post_id = 0;
 }
 
 // Query Index
@@ -104,7 +104,7 @@ $sql = "SELECT max(post_id) as total FROM " . POSTS_TABLE;
 $result = $core->sql_query($sql, 'Unable to determine last_post_id');
 $row = $core->sql_fetchrow($result);
 
-$phpbb2_last_post = $row['total'];
+$last_post = $row['total'];
 
 $sql = "SELECT COUNT(post_id) as total FROM " . POSTS_TABLE;
 $result = $core->sql_query($sql, 'Unable to determine last_post_id');
@@ -112,21 +112,21 @@ $row = $core->sql_fetchrow($result);
 
 $num_posts = $row['total'];
 
-if ($phpbb2_last_post > $phpbb2_last_post_id)
+if ($last_post > $last_post_id)
 {
-    $phpbb2_last_post_update = "UPDATE " . SMILIE_INFO_TABLE . " SET last_post_id = " . intval($phpbb2_last_post);
-    $phpbb2_last_post_index = $phpbb2_last_post_id;
+    $last_post_update = "UPDATE " . SMILIE_INFO_TABLE . " SET last_post_id = " . intval($last_post);
+    $last_post_index = $last_post_id;
 }
 else
 {
-    $phpbb2_last_post_index = -1;
+    $last_post_index = -1;
 }
 
 $sql = 'SELECT smile_url FROM ' . SMILIES_TABLE . ' GROUP BY smile_url'; 
 $result = $core->sql_query($sql, 'Couldn\'t retrieve smilies data');
 
 $all_smilies = array(); 
-$total_phpbb2_smilies = 0; 
+$total_smilies = 0; 
 $num_smilie_rows = $core->sql_numrows($result);
 
 // New Smilie Limit, calculate on posts - every 5000 posts one smilie got decremented
@@ -170,7 +170,7 @@ if ($num_smilie_rows > 0)
             $build_new_smilie = true;
         }
 
-        if ((!$build_new_smilie) && ($phpbb2_last_post_index != -1))
+        if ((!$build_new_smilie) && ($last_post_index != -1))
         {
             $update_smilie = true;
         }
@@ -207,7 +207,7 @@ if ($num_smilie_rows > 0)
 
             for ($j = 0; $j < count($smile_codes); $j++) 
             {
-                $plus_where = ($phpbb2_last_post_index == -1) ? '' : ' AND post_id > ' . $phpbb2_last_post_index;
+                $plus_where = ($last_post_index == -1) ? '' : ' AND post_id > ' . $last_post_index;
 
                 $sql = "SELECT post_id, post_text 
                 FROM " . POSTS_TEXT_TABLE . " 
@@ -232,7 +232,7 @@ if ($num_smilie_rows > 0)
             $all_smilies[$i]['count'] = $count;
             $all_smilies[$i]['code'] = ($update_smilie) ? trim($index_s[$smilies[$i]['smile_url']]['code']) : $smile_codes[0]['code']; 
             $all_smilies[$i]['smile_url'] = ($update_smilie) ? trim($smilies[$i]['smile_url']) : $smile_codes[0]['smile_url']; 
-            $total_phpbb2_smilies = $total_phpbb2_smilies + $count; 
+            $total_smilies = $total_smilies + $count; 
         } 
         else
         {
@@ -240,7 +240,7 @@ if ($num_smilie_rows > 0)
             $all_smilies[$i]['count'] = intval($index_s[$smilies[$i]['smile_url']]['count']); 
             $all_smilies[$i]['code'] = trim($index_s[$smilies[$i]['smile_url']]['code']); 
             $all_smilies[$i]['smile_url'] = trim($smilies[$i]['smile_url']); 
-            $total_phpbb2_smilies = $total_phpbb2_smilies + intval($all_smilies[$i]['count']);
+            $total_smilies = $total_smilies + intval($all_smilies[$i]['count']);
         }
     }
 } 
@@ -261,26 +261,26 @@ for ($i = 0; $i < count($all_smilies); $i++)
     }
 }
 
-if ( ($phpbb2_last_post_index != -1) && (!empty($phpbb2_last_post_update)) )
+if ( ($last_post_index != -1) && (!empty($last_post_update)) )
 {
-    $core->sql_query($phpbb2_last_post_update, 'Could not update last_post_id');
+    $core->sql_query($last_post_update, 'Could not update last_post_id');
 }
 
 // Sort array 
 $all_smilies = $core->sort_data($all_smilies, 'count', 'DESC');
 $limit = ( $core->return_limit > count($all_smilies) ) ? count($all_smilies) : $core->return_limit; 
 
-$content->init_math('count', $all_smilies[0]['count'], $total_phpbb2_smilies);
+$content->init_math('count', $all_smilies[0]['count'], $total_smilies);
 $core->set_data($all_smilies, $limit);
 
 $core->make_global(array(
-    '$phpbb2_board_config')
+    '$board_config')
 );
 
 $core->define_view('set_rows', array(
     '$core->pre_defined()',
     '$core->data(\'count\')',
-    '$core->generate_image_link($phpbb2_board_config[\'smilies_path\'] . \'/\' . $core->data(\'smile_url\'), $core->data(\'smile_url\'), \'border="0"\')',
+    '$core->generate_image_link($board_config[\'smilies_path\'] . \'/\' . $core->data(\'smile_url\'), $core->data(\'smile_url\'), \'border="0"\')',
     '$core->data(\'code\')',
     '$core->pre_defined()',
     '$core->pre_defined()')

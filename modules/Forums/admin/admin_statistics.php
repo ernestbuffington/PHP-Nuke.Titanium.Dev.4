@@ -26,23 +26,23 @@
 
 global $directory_mode, $file_mode;
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = './../';
-require($phpbb2_root_path . 'extension.inc');
-if (!empty($phpbb2_board_config))
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
+if (!empty($board_config))
 {
-    @include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
+    @include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
 }
 
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $pnt_module['Statistics']['Install_module'] = $filename . '?mode=mod_install';
-    $pnt_module['Statistics']['Manage_modules'] = $filename . '?mode=mod_manage';
+    $module['Statistics']['Install_module'] = $filename . '?mode=mod_install';
+    $module['Statistics']['Manage_modules'] = $filename . '?mode=mod_manage';
     return;
 }
 $submit = (isset($HTTP_POST_VARS['submit'])) ? TRUE : FALSE;
@@ -66,35 +66,35 @@ else
 {
     $mode = '';
 }
-@include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
+@include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
+include($phpbb_root_path . 'stats_mod/includes/constants.'.$phpEx);
 
 $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-if ( !($result = $pnt_db->sql_query($sql)) )
+if ( !($result = $db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $pnt_db->sql_fetchrow($result))
+while ($row = $db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
 
-include($phpbb2_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
 
 if ($cancel)
 {
-    $url = 'admin/' . append_titanium_sid("admin_statistics.$phpEx?mode=mod_manage", true);
+    $url = 'admin/' . append_sid("admin_statistics.$phpEx?mode=mod_manage", true);
     
-    $server_protocol = ($phpbb2_board_config['cookie_secure']) ? 'https://' : 'http://';
-    $server_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($phpbb2_board_config['server_name']));
-    $server_port = ($phpbb2_board_config['server_port'] <> 80) ? ':' . trim($phpbb2_board_config['server_port']) . '/' : '/';
-    $script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($phpbb2_board_config['script_path']));
+    $server_protocol = ($board_config['cookie_secure']) ? 'https://' : 'http://';
+    $server_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['server_name']));
+    $server_port = ($board_config['server_port'] <> 80) ? ':' . trim($board_config['server_port']) . '/' : '/';
+    $script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['script_path']));
     $url = preg_replace('/^\/?(.*?)\/?$/', '/\1', trim($url));
 
     // Redirect via an HTML form for PITA webservers
@@ -106,14 +106,14 @@ if ($cancel)
     }
 
     // Behave as per HTTP/1.1 spec for others
-    redirect_titanium($server_protocol . $server_name . $server_port . $script_name . $url);
+    redirect($server_protocol . $server_name . $server_port . $script_name . $url);
     exit;
 }
 
 // BEGIN Install Module
 if (($mode == 'mod_install') && ($submit))
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/stat_install_module.tpl')
     );
 
@@ -165,7 +165,7 @@ if (($mode == 'mod_install') && ($submit))
 
     if ( isset($HTTP_POST_VARS['fileselect']) )
     {
-        $filename = $phpbb2_root_path . 'modules/pakfiles/' . trim($HTTP_POST_VARS['selected_pak_file']);
+        $filename = $phpbb_root_path . 'modules/pakfiles/' . trim($HTTP_POST_VARS['selected_pak_file']);
     }
     else if (isset($HTTP_POST_VARS['fileupload']))
     {
@@ -184,13 +184,13 @@ if (($mode == 'mod_install') && ($submit))
             message_die(GENERAL_ERROR, 'Unable to upload file, please use the pak file selector');
         }
 
-        if (!file_exists($phpbb2_root_path . 'modules/cache'))
+        if (!file_exists($phpbb_root_path . 'modules/cache'))
         {
             @umask(0);
-            mkdir($phpbb2_root_path . 'modules/cache', $directory_mode);
+            mkdir($phpbb_root_path . 'modules/cache', $directory_mode);
         }
         
-        if (!($fp = fopen($phpbb2_root_path . 'modules/cache/temp.pak', 'wt')))
+        if (!($fp = fopen($phpbb_root_path . 'modules/cache/temp.pak', 'wt')))
         {
             message_die(GENERAL_ERROR, 'Unable to write temp file');
         }
@@ -198,7 +198,7 @@ if (($mode == 'mod_install') && ($submit))
         fwrite($fp, $contents, strlen($contents));
         fclose($fp);
 
-        $filename = $phpbb2_root_path . 'modules/cache/temp.pak';
+        $filename = $phpbb_root_path . 'modules/cache/temp.pak';
     }
     else
     {
@@ -232,12 +232,12 @@ if (($mode == 'mod_install') && ($submit))
     {
         $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE short_name = '" . trim($info_array['short_name']) . "'";
 
-        if (!($result = $pnt_db->sql_query($sql)) )
+        if (!($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
         }
     
-        if ($pnt_db->sql_numrows($result) > 0)
+        if ($db->sql_numrows($result) > 0)
         {
             message_die(GENERAL_ERROR, sprintf($lang['Inst_module_already_exist'], $info_array['short_name']));
         }
@@ -246,17 +246,17 @@ if (($mode == 'mod_install') && ($submit))
     {
         $sql = "SELECT * FROM " . MODULES_TABLE . " WHERE module_id = " . $update_id;
 
-        if (!($result = $pnt_db->sql_query($sql)) )
+        if (!($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
         }
     
-        if ($pnt_db->sql_numrows($result) == 0)
+        if ($db->sql_numrows($result) == 0)
         {
             message_die(GENERAL_ERROR, 'Unable to get Module ' . $update_id);
         }
         
-        $row = $pnt_db->sql_fetchrow($result);
+        $row = $db->sql_fetchrow($result);
 
         if (trim($row['short_name']) != trim($info_array['short_name']))
         {
@@ -265,10 +265,10 @@ if (($mode == 'mod_install') && ($submit))
     }
 
     // Prepare Template
-    $phpbb2_template->assign_block_vars('switch_install_module', array());
+    $template->assign_block_vars('switch_install_module', array());
 
     // Info Array
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_INSTALL_MODULE' => $lang['Install_module'],
         'L_INSTALL_MODULE_EXPLAIN' => $lang['Install_module_explain'],
         'L_MODULE_NAME' => $lang['Module_name'],
@@ -300,7 +300,7 @@ if (($mode == 'mod_install') && ($submit))
     {
         $language = str_replace('lang_', '', $key);
 
-        $phpbb2_template->assign_block_vars('languages', array(
+        $template->assign_block_vars('languages', array(
             'MODULE_LANGUAGE' => $language)
         );
 
@@ -312,72 +312,72 @@ if (($mode == 'mod_install') && ($submit))
         $s_hidden_fields .= '<input type="hidden" name="update_id" value="' . $update_id . '">';
     }
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'S_HIDDEN_FIELDS' => $s_hidden_fields)
     );
 }
 
 if (($mode == 'mod_install') && (!$submit))
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/stat_install_module.tpl')
     );
 
     // erst mal package auswhlen... oder hochladen
     if ( (!isset($HTTP_POST_VARS['fileupload'])) && (!isset($HTTP_POST_VARS['fileselect'])) )
     {
-        $pnt_module_paks = array();
+        $module_paks = array();
     
-        $dir = @opendir($phpbb2_root_path . 'modules/pakfiles');
+        $dir = @opendir($phpbb_root_path . 'modules/pakfiles');
 
         while($file = @readdir($dir))
         {
-            if( !@is_dir($phpbb2_root_path . 'modules/pakfiles' . '/' . $file) )
+            if( !@is_dir($phpbb_root_path . 'modules/pakfiles' . '/' . $file) )
             {
                 if ( preg_match('/\.pak$/i', $file) )
                 {
-                    $pnt_module_paks[] = $file;
+                    $module_paks[] = $file;
                 }
             }
         }
 
         @closedir($dir);
 
-        if (count($pnt_module_paks) > 0)
+        if (count($module_paks) > 0)
         {
-            $phpbb2_template->assign_block_vars('switch_select_module', array());
+            $template->assign_block_vars('switch_select_module', array());
 
-            $pnt_module_select_field = '<select name="selected_pak_file">';
+            $module_select_field = '<select name="selected_pak_file">';
 
-            for ($i = 0; $i < count($pnt_module_paks); $i++)
+            for ($i = 0; $i < count($module_paks); $i++)
             {
                 $selected = ($i == 0) ? ' selected="selected"' : '';
 
-                $pnt_module_select_field .= '<option value="' . $pnt_module_paks[$i] . '"' . $selected . '>' . $pnt_module_paks[$i] . '</option>';
+                $module_select_field .= '<option value="' . $module_paks[$i] . '"' . $selected . '>' . $module_paks[$i] . '</option>';
             }
     
-            $pnt_module_select_field .= '</select>';
+            $module_select_field .= '</select>';
             
             $s_hidden_fields = '<input type="hidden" name="fileselect" value="1">';
 
-            $phpbb2_template->assign_vars(array(
+            $template->assign_vars(array(
                 'L_SELECT_MODULE' => $lang['Select_module_pak'],
-                'S_SELECT_MODULE' => $pnt_module_select_field,
+                'S_SELECT_MODULE' => $module_select_field,
                 'S_SELECT_HIDDEN_FIELDS' => $s_hidden_fields)
             );
         
         }
 
-        $phpbb2_template->assign_block_vars('switch_upload_module', array());
+        $template->assign_block_vars('switch_upload_module', array());
 
         $s_hidden_fields = '<input type="hidden" name="fileupload" value="1">';
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'L_INSTALL_MODULE' => $lang['Install_module'],
             'L_INSTALL_MODULE_EXPLAIN' => $lang['Install_module_explain'],
             'L_UPLOAD_MODULE' => $lang['Upload_module_pak'],
             'L_SUBMIT' => $lang['Submit'],
-            'S_ACTION' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode),
+            'S_ACTION' => append_sid($phpbb_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode),
             'S_UPLOAD_HIDDEN_FIELDS' => $s_hidden_fields)
         );
 
@@ -390,42 +390,42 @@ if ($mode == 'mod_manage')
 {
     if (isset($HTTP_GET_VARS['move_up']))
     {
-        $pnt_module_id = intval($HTTP_GET_VARS['move_up']);
-        move_up($pnt_module_id);
+        $module_id = intval($HTTP_GET_VARS['move_up']);
+        move_up($module_id);
     }
     else if (isset($HTTP_GET_VARS['move_down']))
     {
-        $pnt_module_id = intval($HTTP_GET_VARS['move_down']);
-        move_down($pnt_module_id);
+        $module_id = intval($HTTP_GET_VARS['move_down']);
+        move_down($module_id);
     }
     else if (isset($HTTP_GET_VARS['activate']))
     {
-        $pnt_module_id = intval($HTTP_GET_VARS['activate']);
-        activate($pnt_module_id);
+        $module_id = intval($HTTP_GET_VARS['activate']);
+        activate($module_id);
     }
     else if (isset($HTTP_GET_VARS['deactivate']))
     {
-        $pnt_module_id = intval($HTTP_GET_VARS['deactivate']);
-        deactivate($pnt_module_id);
+        $module_id = intval($HTTP_GET_VARS['deactivate']);
+        deactivate($module_id);
     }
     
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/stat_manage_body.tpl')
     );
 
     $sql = "SELECT m.*, i.* FROM " . MODULES_TABLE . " m, " . MODULE_INFO_TABLE . " i WHERE i.module_id = m.module_id ORDER BY module_order ASC";
 
-    if (!($result = $pnt_db->sql_query($sql)) )
+    if (!($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get Module Informations', '', __LINE__, __FILE__, $sql);
     }
 
-    if ($pnt_db->sql_numrows($result) == 0)
+    if ($db->sql_numrows($result) == 0)
     {
         message_die(GENERAL_MESSAGE, 'No installed Modules found.');
     }
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_EDIT' => $lang['Edit'],
         'L_DELETE' => $lang['Delete'],
         'L_MOVE_UP' => $lang['Move_up'],
@@ -434,22 +434,22 @@ if ($mode == 'mod_manage')
         'L_MANAGE_MODULES_EXPLAIN' => $lang['Manage_modules_explain'])
     );
 
-    while ($row = $pnt_db->sql_fetchrow($result))
+    while ($row = $db->sql_fetchrow($result))
     {
-        $pnt_module_id = intval($row['module_id']);
-        $pnt_module_active = (intval($row['active'])) ? TRUE : FALSE;
+        $module_id = intval($row['module_id']);
+        $module_active = (intval($row['active'])) ? TRUE : FALSE;
 
-        $phpbb2_template->assign_block_vars('modulerow', array(
+        $template->assign_block_vars('modulerow', array(
             'MODULE_NAME' => trim($row['long_name']),
             'MODULE_DESC' => trim(nl2br($row['extra_info'])),
 
-            'U_VIEW_MODULE' => '../../../modules.php?name=Forums&amp;file=statistics&amp;preview='.$pnt_module_id,
-            'U_MODULE_EDIT' => append_titanium_sid($phpbb2_root_path . 'admin/admin_edit_module.'.$phpEx.'?mode=mod_edit&amp;module='.$pnt_module_id),
-            'U_MODULE_DELETE' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode=mod_delete&amp;module='.$pnt_module_id),
-            'U_MODULE_MOVE_UP' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;move_up='.$pnt_module_id),
-            'U_MODULE_MOVE_DOWN' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;move_down='.$pnt_module_id),
-            'U_MODULE_ACTIVATE' => ($pnt_module_active) ? append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;deactivate='.$pnt_module_id) : append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;activate='.$pnt_module_id),
-            'ACTIVATE' => ($pnt_module_active) ? $lang['Deactivate'] : $lang['Activate'])
+            'U_VIEW_MODULE' => '../../../modules.php?name=Forums&amp;file=statistics&amp;preview='.$module_id,
+            'U_MODULE_EDIT' => append_sid($phpbb_root_path . 'admin/admin_edit_module.'.$phpEx.'?mode=mod_edit&amp;module='.$module_id),
+            'U_MODULE_DELETE' => append_sid($phpbb_root_path . 'admin/admin_statistics.'.$phpEx.'?mode=mod_delete&amp;module='.$module_id),
+            'U_MODULE_MOVE_UP' => append_sid($phpbb_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;move_up='.$module_id),
+            'U_MODULE_MOVE_DOWN' => append_sid($phpbb_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;move_down='.$module_id),
+            'U_MODULE_ACTIVATE' => ($module_active) ? append_sid($phpbb_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;deactivate='.$module_id) : append_sid($phpbb_root_path . 'admin/admin_statistics.'.$phpEx.'?mode='.$mode.'&amp;activate='.$module_id),
+            'ACTIVATE' => ($module_active) ? $lang['Deactivate'] : $lang['Activate'])
         );
     }
 }
@@ -464,27 +464,27 @@ if ($mode == 'mod_delete')
     {
         if (isset($HTTP_GET_VARS['module']))
         {
-            $pnt_module_id = intval($HTTP_GET_VARS['module']);
+            $module_id = intval($HTTP_GET_VARS['module']);
         }
         else
         {
             message_die(GENERAL_ERROR, 'Unable to delete Module.');
         }
 
-        $hidden_fields = '<input type="hidden" name="mode" value="'.$mode.'" /><input type="hidden" name="module_id" value="'.$pnt_module_id.'" />';
+        $hidden_fields = '<input type="hidden" name="mode" value="'.$mode.'" /><input type="hidden" name="module_id" value="'.$module_id.'" />';
             
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
             'body' => 'confirm_body.tpl')
         );
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'MESSAGE_TITLE' => $lang['Confirm'],
             'MESSAGE_TEXT' => $lang['Confirm_delete_module'],
 
             'L_YES' => $lang['Yes'],
             'L_NO' => $lang['No'],
 
-            'S_CONFIRM_ACTION' => append_titanium_sid($phpbb2_root_path . "admin/admin_statistics.$phpEx"),
+            'S_CONFIRM_ACTION' => append_sid($phpbb_root_path . "admin/admin_statistics.$phpEx"),
             'S_HIDDEN_FIELDS' => $hidden_fields)
         );
     }
@@ -492,7 +492,7 @@ if ($mode == 'mod_delete')
     {
         if (isset($HTTP_POST_VARS['module_id']))
         {
-            $pnt_module_id = intval($HTTP_POST_VARS['module_id']);
+            $module_id = intval($HTTP_POST_VARS['module_id']);
         }
         else
         {
@@ -500,23 +500,23 @@ if ($mode == 'mod_delete')
         }
     
         // Firstly, we need the Module Informations ;)
-        $sql = "SELECT * FROM " . MODULES_TABLE . " WHERE module_id = " . $pnt_module_id;
+        $sql = "SELECT * FROM " . MODULES_TABLE . " WHERE module_id = " . $module_id;
         
-        if (!($result = $pnt_db->sql_query($sql)) )
+        if (!($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to get Module Informations', '', __LINE__, __FILE__, $sql);
         }
 
-        if ($pnt_db->sql_numrows($result) == 0)
+        if ($db->sql_numrows($result) == 0)
         {
             message_die(GENERAL_MESSAGE, 'No Module Data found... unable to delete Module.');
         }
 
-        $row = $pnt_db->sql_fetchrow($result);
+        $row = $db->sql_fetchrow($result);
         $short_name = trim($row['short_name']);
         
         // Ok, collect the Informations for deleting the Language Variables
-        $language_directory = $phpbb2_root_path . 'modules/language';
+        $language_directory = $phpbb_root_path . 'modules/language';
         $languages = array();
 
         if (!file_exists($language_directory))
@@ -545,7 +545,7 @@ if ($mode == 'mod_delete')
         // Ok, go through all Languages and generate new Language Files
         for ($i = 0; $i < count($languages); $i++)
         {
-            $language_file = $phpbb2_root_path . 'modules/language/' . $languages[$i] . '/lang_modules.php';
+            $language_file = $phpbb_root_path . 'modules/language/' . $languages[$i] . '/lang_modules.php';
             $file_content = implode('', file($language_file));
             if (trim($file_content) != '')
             {
@@ -560,23 +560,23 @@ if ($mode == 'mod_delete')
         }
 
         // Now begin the Transaction
-        $sql = "DELETE FROM " . MODULES_TABLE . " WHERE module_id = " . $pnt_module_id;
+        $sql = "DELETE FROM " . MODULES_TABLE . " WHERE module_id = " . $module_id;
 
-        if (!($result = $pnt_db->sql_query($sql)) )
+        if (!($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to delete Module', '', __LINE__, __FILE__, $sql);
         }
 
-        $sql = "DELETE FROM " . MODULE_INFO_TABLE . " WHERE module_id = " . $pnt_module_id;
+        $sql = "DELETE FROM " . MODULE_INFO_TABLE . " WHERE module_id = " . $module_id;
 
-        if (!($result = $pnt_db->sql_query($sql)) )
+        if (!($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to delete Module', '', __LINE__, __FILE__, $sql);
         }
         
-        $sql = "DELETE FROM " . CACHE_TABLE . " WHERE module_id = " . $pnt_module_id;
+        $sql = "DELETE FROM " . CACHE_TABLE . " WHERE module_id = " . $module_id;
 
-        if (!($result = $pnt_db->sql_query($sql)) )
+        if (!($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to delete Module', '', __LINE__, __FILE__, $sql);
         }
@@ -584,12 +584,12 @@ if ($mode == 'mod_delete')
         // was this the last module ?
         $sql = "SELECT * FROM " . MODULES_TABLE;
 
-        if (!($result = $pnt_db->sql_query($sql)) )
+        if (!($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to select Modules', '', __LINE__, __FILE__, $sql);
         }
         
-        if ($pnt_db->sql_numrows($result) == 0)
+        if ($db->sql_numrows($result) == 0)
         {
             $delete_language_folder = TRUE;
         }
@@ -604,8 +604,8 @@ if ($mode == 'mod_delete')
             for ($i = 0; $i < count($languages); $i++)
             {
                 $language = trim($languages[$i]);
-                $language_dir = $phpbb2_root_path . 'modules/language';
-                $language_file = $phpbb2_root_path . 'modules/language/' . $language . '/lang_modules.php';
+                $language_dir = $phpbb_root_path . 'modules/language';
+                $language_file = $phpbb_root_path . 'modules/language/' . $language . '/lang_modules.php';
 
                 if (file_exists($language_file))
                 {
@@ -628,8 +628,8 @@ if ($mode == 'mod_delete')
             for ($i = 0; $i < count($languages); $i++)
             {
                 $language = trim($languages[$i]);
-                $language_dir = $phpbb2_root_path . 'modules/language';
-                $language_file = $phpbb2_root_path . 'modules/language/' . $language . '/lang_modules.php';
+                $language_dir = $phpbb_root_path . 'modules/language';
+                $language_file = $phpbb_root_path . 'modules/language/' . $language . '/lang_modules.php';
 
                 if (!file_exists($language_dir))
                 {
@@ -671,13 +671,13 @@ if ($mode == 'mod_delete')
         }
     
         // Delete the Module Files
-        $directory = $phpbb2_root_path . 'modules/' . $short_name;
-        $pnt_module_file = $phpbb2_root_path . 'modules/' . $short_name . '/module.php';
+        $directory = $phpbb_root_path . 'modules/' . $short_name;
+        $module_file = $phpbb_root_path . 'modules/' . $short_name . '/module.php';
 
-        if (file_exists($pnt_module_file))
+        if (file_exists($module_file))
         {
-            chmod($pnt_module_file, $file_mode);
-            unlink($pnt_module_file);
+            chmod($module_file, $file_mode);
+            unlink($module_file);
         }
 
         if (file_exists($directory))
@@ -694,7 +694,7 @@ if ($mode == 'mod_delete')
     }
 }
 // END Delete Module
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 //
 // Page Footer

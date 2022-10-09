@@ -39,9 +39,9 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($pnt_module)) {
+if(is_mod_admin($module_name)) {
 
-    list($uname) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT username FROM ".$pnt_user_prefix."_users WHERE user_id='$chng_uid'"));
+    list($uname) = $db->sql_fetchrow($db->sql_query("SELECT username FROM ".$user_prefix."_users WHERE user_id='$chng_uid'"));
     $pagetitle = ": "._USERADMIN." - "._REMOVEUSER;
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();
@@ -55,7 +55,7 @@ if(is_mod_admin($pnt_module)) {
     echo "<br />\n";
     OpenTable();
     echo "<center><table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
@@ -64,7 +64,7 @@ if(is_mod_admin($pnt_module)) {
     echo "<tr><td align=center>"._SURE2REMOVE." <strong>$uname<i>($chng_uid)</i></strong>?</td></tr>\n";
     echo "<tr><td align=center><input type='submit' value='"._REMOVEUSER."'></td><tr>\n";
     echo "</form>\n";
-    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }

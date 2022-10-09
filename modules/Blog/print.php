@@ -30,23 +30,23 @@
  ************************************************************************/
 if (!defined('MODULE_FILE')) { die('You can\'t access this file directly...'); }
 
-$pnt_module = basename(dirname(__FILE__));
+$module_name = basename(dirname(__FILE__));
 
-get_lang($pnt_module);
+get_lang($module_name);
 
 if(!isset($sid)) 
 exit();
 
 function PrintPage($sid) 
 {
-    global $site_logo, $nukeurl, $sitename, $datetime, $pnt_prefix, $pnt_db, $pnt_module;
+    global $site_logo, $nukeurl, $sitename, $datetime, $prefix, $db, $module_name;
     
 	// Ernest Buffington 0/31/2022 12:45am Wednesday
 	// I took the image out as this is a print page and wastes ink!!!
 	//<img src=\"images/$site_logo\" alt=\"$sitename\" title=\"$sitename\" /><br /><br />
 
     $sid = intval($sid);
-    $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT aid, title, datePublished, dateModified, hometext, bodytext, topic, notes FROM ".$pnt_prefix."_stories WHERE sid='$sid'"));
+    $row = $db->sql_fetchrow($db->sql_query("SELECT aid, title, datePublished, dateModified, hometext, bodytext, topic, notes FROM ".$prefix."_stories WHERE sid='$sid'"));
     $title = stripslashes(check_html($row["title"], "nohtml"));
     
 	// START Ernest Buffington 0/31/2022 12:45am Wednesday
@@ -60,7 +60,7 @@ function PrintPage($sid)
     $bodytext = decode_bbcode(set_smilies(stripslashes($row["bodytext"])), 1, true);
     $topic = intval($row["topic"]);
     $notes = stripslashes($row["notes"]);
-    $row2 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT topictext FROM ".$pnt_prefix."_topics WHERE topicid='$topic'"));
+    $row2 = $db->sql_fetchrow($db->sql_query("SELECT topictext FROM ".$prefix."_topics WHERE topicid='$topic'"));
     $topictext = stripslashes($row2["topictext"]);
 
     formatTimestamp($time);
@@ -100,9 +100,9 @@ function PrintPage($sid)
         <br /><br /><center>
         <span class=\"content\">
         "._COMESFROM." $sitename<br />
-        <a href=\"https://$nukeurl\">$nukeurl</a><br /><br />
+        <a href=\"https://$nukeurl\">https://$nukeurl</a><br /><br />
         "._THEURL."<br />
-        <a href=\"$nukeurl/modules.php?name=$pnt_module&amp;file=article&amp;sid=$sid\">$nukeurl/modules.php?name=$pnt_module&amp;file=article&amp;sid=$sid</a>
+        <a href=\"https://$nukeurl/modules.php?name=$module_name&amp;file=article&amp;sid=$sid\">https://$nukeurl/modules.php?name=$module_name&amp;file=article&amp;sid=$sid</a>
         </span></center>
         </td></tr></table>
         </body>

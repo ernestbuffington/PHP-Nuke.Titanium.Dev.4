@@ -24,18 +24,18 @@
 *
 ***************************************************************************/
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
 global $file_mode;
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = './../';
-require($phpbb2_root_path . 'extension.inc');
-if (!empty($phpbb2_board_config))
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
+if (!empty($board_config))
 {
-    @include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
+    @include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
 }
 
 require('pagestart.' . $phpEx);
@@ -51,54 +51,54 @@ else
 
 $no_page_header = true;
 
-@include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
-@include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_statistics.' . $phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
+@include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
+@include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_statistics.' . $phpEx);
+include($phpbb_root_path . 'stats_mod/includes/constants.'.$phpEx);
 
 $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-if ( !($result = $pnt_db->sql_query($sql)) )
+if ( !($result = $db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $pnt_db->sql_fetchrow($result))
+while ($row = $db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
 
-include($phpbb2_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
 
 if ($mode == 'export_module')
 {
-    $pnt_module_id = (isset($HTTP_GET_VARS['module'])) ? intval($HTTP_GET_VARS['module']) : -1;
+    $module_id = (isset($HTTP_GET_VARS['module'])) ? intval($HTTP_GET_VARS['module']) : -1;
     $language = (isset($HTTP_GET_VARS['lang'])) ? trim($HTTP_GET_VARS['lang']) : '';
         
-    if (($language == '') || ($pnt_module_id == -1))
+    if (($language == '') || ($module_id == -1))
     {
         message_die(GENERAL_MESSAGE, 'Invalid Call, Hacking Attempt ?');
     }
         
-    $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE module_id = " . $pnt_module_id;
+    $sql = "SELECT short_name FROM " . MODULES_TABLE . " WHERE module_id = " . $module_id;
 
-    if (!($result = $pnt_db->sql_query($sql)) )
+    if (!($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
     }
     
-    if ($pnt_db->sql_numrows($result) == 0)
+    if ($db->sql_numrows($result) == 0)
     {
-        message_die(GENERAL_ERROR, 'Unable to get Module ' . $pnt_module_id);
+        message_die(GENERAL_ERROR, 'Unable to get Module ' . $module_id);
     }
         
-    $row = $pnt_db->sql_fetchrow($result);
+    $row = $db->sql_fetchrow($result);
     $short_name = trim($row['short_name']);
     
-    if (!($fp = fopen($phpbb2_root_path . 'modules/cache/temp.pak', 'wb')))
+    if (!($fp = fopen($phpbb_root_path . 'modules/cache/temp.pak', 'wb')))
     {
         message_die(GENERAL_ERROR, 'Unable to write Package File to cache.');
     }
@@ -134,10 +134,10 @@ if ($mode == 'export_module')
 
     fclose($fp);
 
-    $content = implode('', file($phpbb2_root_path . 'modules/cache/temp.pak'));
+    $content = implode('', file($phpbb_root_path . 'modules/cache/temp.pak'));
     
-    @chmod($phpbb2_root_path . 'modules/cache/temp.pak', $file_mode);
-    @unlink($phpbb2_root_path . 'modules/cache/temp.pak');
+    @chmod($phpbb_root_path . 'modules/cache/temp.pak', $file_mode);
+    @unlink($phpbb_root_path . 'modules/cache/temp.pak');
 
     $filename = $short_name . '_' . str_replace('lang_', '', $language) . '.pak';
     
@@ -157,20 +157,20 @@ else if ($mode == 'export_lang')
         
     $sql = "SELECT short_name FROM " . MODULES_TABLE;
 
-    if (!($result = $pnt_db->sql_query($sql)) )
+    if (!($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
     }
     
-    if ($pnt_db->sql_numrows($result) == 0)
+    if ($db->sql_numrows($result) == 0)
     {
         message_die(GENERAL_ERROR, 'Unable to get Modules.');
     }
         
-    $rows = $pnt_db->sql_fetchrowset($result);
-    $num_rows = $pnt_db->sql_numrows($result);
+    $rows = $db->sql_fetchrowset($result);
+    $num_rows = $db->sql_numrows($result);
     
-    if (!($fp = fopen($phpbb2_root_path . 'modules/cache/temp.pak', 'wb')))
+    if (!($fp = fopen($phpbb_root_path . 'modules/cache/temp.pak', 'wb')))
     {
         message_die(GENERAL_ERROR, 'Unable to write Package File to cache.');
     }
@@ -211,10 +211,10 @@ else if ($mode == 'export_lang')
 
     fclose($fp);
 
-    $content = implode('', file($phpbb2_root_path . 'modules/cache/temp.pak'));
+    $content = implode('', file($phpbb_root_path . 'modules/cache/temp.pak'));
     
-    @chmod($phpbb2_root_path . 'modules/cache/temp.pak', $file_mode);
-    @unlink($phpbb2_root_path . 'modules/cache/temp.pak');
+    @chmod($phpbb_root_path . 'modules/cache/temp.pak', $file_mode);
+    @unlink($phpbb_root_path . 'modules/cache/temp.pak');
 
     $filename = $language . '.pak';
     
@@ -227,22 +227,22 @@ else if ($mode == 'export_everything')
 {
     $sql = "SELECT short_name FROM " . MODULES_TABLE;
 
-    if (!($result = $pnt_db->sql_query($sql)) )
+    if (!($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get short name', "", __LINE__, __FILE__, $sql);
     }
     
-    if ($pnt_db->sql_numrows($result) == 0)
+    if ($db->sql_numrows($result) == 0)
     {
         message_die(GENERAL_ERROR, 'Unable to get Modules.');
     }
         
-    $rows = $pnt_db->sql_fetchrowset($result);
-    $num_rows = $pnt_db->sql_numrows($result);
+    $rows = $db->sql_fetchrowset($result);
+    $num_rows = $db->sql_numrows($result);
     
     $languages = get_all_installed_languages();
         
-    if (!($fp = fopen($phpbb2_root_path . 'modules/cache/temp.pak', 'wb')))
+    if (!($fp = fopen($phpbb_root_path . 'modules/cache/temp.pak', 'wb')))
     {
         message_die(GENERAL_ERROR, 'Unable to write Package File to cache.');
     }
@@ -288,10 +288,10 @@ else if ($mode == 'export_everything')
 
     fclose($fp);
 
-    $content = implode('', file($phpbb2_root_path . 'modules/cache/temp.pak'));
+    $content = implode('', file($phpbb_root_path . 'modules/cache/temp.pak'));
     
-    @chmod($phpbb2_root_path . 'modules/cache/temp.pak', $file_mode);
-    @unlink($phpbb2_root_path . 'modules/cache/temp.pak');
+    @chmod($phpbb_root_path . 'modules/cache/temp.pak', $file_mode);
+    @unlink($phpbb_root_path . 'modules/cache/temp.pak');
 
     $filename = 'statsv3_lang.pak';
     

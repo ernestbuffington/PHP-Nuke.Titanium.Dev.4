@@ -19,11 +19,11 @@ $xblocker_row['list'] = str_replace($xblocker_row['listdelete'], "", $xblocker_r
 $xblocker_row['list'] = str_replace("\r\n\r\n", "\r\n", $xblocker_row['list']);
 $block_list = explode("\r\n", $xblocker_row['list']);
 rsort($block_list);
-$phpbb2_endlist = count($block_list)-1;
-if(empty($block_list[$phpbb2_endlist])) { array_pop($block_list); }
+$endlist = count($block_list)-1;
+if(empty($block_list[$endlist])) { array_pop($block_list); }
 sort($block_list);
 $xblocker_row['list'] = implode("\r\n", $block_list);
-$pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsnst_blockers` SET `list`='".$xblocker_row['list']."' WHERE `block_name`='".$xblocker_row['block_name']."'");
+$db->sql_query("UPDATE `".$prefix."_nsnst_blockers` SET `list`='".$xblocker_row['list']."' WHERE `block_name`='".$xblocker_row['block_name']."'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

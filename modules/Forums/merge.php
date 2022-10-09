@@ -37,15 +37,15 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1") {
-        $pnt_module = basename(dirname(__FILE__));
-        require("modules/".$pnt_module."/nukebb.php");
+        $module_name = basename(dirname(__FILE__));
+        require("modules/".$module_name."/nukebb.php");
 } else {
-        $phpbb2_root_path = NUKE_FORUMS_DIR;
+        $phpbb_root_path = NUKE_FORUMS_DIR;
 }
 
-define('IN_PHPBB2', true);
-include($phpbb2_root_path . 'extension.inc');
-include($phpbb2_root_path . 'common.'.$phpEx);
+define('IN_PHPBB', true);
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.'.$phpEx);
 include('includes/functions_admin.'.$phpEx);
 include_once('includes/functions_topics_list.' . $phpEx);
 
@@ -60,7 +60,7 @@ include("includes/functions_log.php");
 // function block
 function get_topic_id($topic)
 {
-    global $pnt_db;
+    global $db;
     $topic_id = 0;
 
     // is this a direct value ?
@@ -87,8 +87,8 @@ function get_topic_id($topic)
             {
                 case POST_POST_URL:
                     $sql = "SELECT topic_id FROM " . POSTS_TABLE . " WHERE post_id=$val";
-                    if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get post informations', '', __LINE__, __FILE__, $sql);
-                    if ($row = $pnt_db->sql_fetchrow($result))
+                    if ( !($result = $db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get post informations', '', __LINE__, __FILE__, $sql);
+                    if ($row = $db->sql_fetchrow($result))
                     {
                         $val = $row['topic_id'];
                         $found = true;
@@ -111,8 +111,8 @@ function get_topic_id($topic)
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
-titanium_init_userprefs($userdata);
+$userdata = session_pagestart($user_ip, PAGE_INDEX);
+init_userprefs($userdata);
 //
 // End session management
 //
@@ -140,7 +140,7 @@ $topic_title = '';
 if (isset($HTTP_POST_VARS['topic_title'])) $topic_title = htmlspecialchars(trim(stripslashes($HTTP_POST_VARS['topic_title'])));
 
 // start
-if (isset($HTTP_POST_VARS['start'])) $phpbb2_start = intval($phpbb2_start);
+if (isset($HTTP_POST_VARS['start'])) $start = intval($start);
 
 // buttons
 $submit = isset($HTTP_POST_VARS['submit']);
@@ -189,8 +189,8 @@ $from_title = '';
 if (!empty($from_topic_id))
 {
     $sql = "SELECT topic_title FROM " . TOPICS_TABLE . " WHERE topic_id=$from_topic_id";
-    if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get from-topic informations', '', __LINE__, __FILE__, $sql);
-    if ($row = $pnt_db->sql_fetchrow($result))
+    if ( !($result = $db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get from-topic informations', '', __LINE__, __FILE__, $sql);
+    if ($row = $db->sql_fetchrow($result))
     {
         $from_title = $row['topic_title'];
     }
@@ -199,25 +199,25 @@ $to_title = '';
 if (!empty($to_topic_id))
 {
     $sql = "SELECT topic_title FROM " . TOPICS_TABLE . " WHERE topic_id=$to_topic_id";
-    if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get to-topic informations', '', __LINE__, __FILE__, $sql);
-    if ($row = $pnt_db->sql_fetchrow($result))
+    if ( !($result = $db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get to-topic informations', '', __LINE__, __FILE__, $sql);
+    if ($row = $db->sql_fetchrow($result))
     {
         $to_title = $row['topic_title'];
     }
 }
 
 // forum_id
-$phpbb2_forum_id = 0;
+$forum_id = 0;
 if (isset($HTTP_POST_VARS[POST_FORUM_URL]) || isset($HTTP_GET_VARS[POST_FORUM_URL]))
 {
-    $phpbb2_forum_id = (isset($HTTP_POST_VARS[POST_FORUM_URL])) ? intval($HTTP_POST_VARS[POST_FORUM_URL]) : intval($HTTP_GET_VARS[POST_FORUM_URL]);
+    $forum_id = (isset($HTTP_POST_VARS[POST_FORUM_URL])) ? intval($HTTP_POST_VARS[POST_FORUM_URL]) : intval($HTTP_GET_VARS[POST_FORUM_URL]);
 }
 if (isset($HTTP_POST_VARS['fid']) || isset($HTTP_GET_VARS['fid']))
 {
     $fid = (isset($HTTP_POST_VARS['fid'])) ? $HTTP_POST_VARS['fid'] : $HTTP_GET_VARS['fid'];
     if (substr($fid, 0, 1) == POST_FORUM_URL)
     {
-        $phpbb2_forum_id = intval(substr($fid, 1));
+        $forum_id = intval(substr($fid, 1));
     }
 }
 
@@ -227,65 +227,65 @@ if (($select_from || $select_to) && (!$cancel))
     // get the list of forums
     if (function_exists(selectbox))
     {
-        $list_forums = selectbox('fid', false, POST_FORUM_URL . $phpbb2_forum_id);
+        $list_forums = selectbox('fid', false, POST_FORUM_URL . $forum_id);
     }
     else
     {
-        $list_forums = make_forum_select(POST_FORUM_URL, false, $phpbb2_forum_id);
+        $list_forums = make_forum_select(POST_FORUM_URL, false, $forum_id);
     }
 
     // how many record in the forum
     $nbpages = 0;
-    $per_page = intval($phpbb2_board_config['topics_per_page']);
+    $per_page = intval($board_config['topics_per_page']);
 
     $sql_merge = "SELECT t.*, u.username, u.user_id, u2.username as user2, u2.user_id as id2, p.post_username, p2.post_username AS post_username2, p2.post_time 
         FROM " . TOPICS_TABLE . " t, " . USERS_TABLE . " u, " . POSTS_TABLE . " p, " . POSTS_TABLE . " p2, " . USERS_TABLE . " u2
-        WHERE t.forum_id = $phpbb2_forum_id
+        WHERE t.forum_id = $forum_id
             AND t.topic_poster = u.user_id
             AND p.post_id = t.topic_first_post_id
             AND p2.post_id = t.topic_last_post_id
             AND u2.user_id = p2.poster_id 
             AND topic_status <> " . TOPIC_MOVED;
 
-    if ( !empty($phpbb2_forum_id) )
+    if ( !empty($forum_id) )
     {
         $sql = $sql_merge;
-        if ( !$result = $pnt_db->sql_query($sql) )
+        if ( !$result = $db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, 'Could not get topics informations', '', __LINE__, __FILE__, $sql);
         }
-        $nbitems = $pnt_db->sql_numrows($result);
+        $nbitems = $db->sql_numrows($result);
         $nbpages = floor( ($nbitems-1) / $per_page )+1;
     }
 
     // change current page
-    if ($page_prec && ($phpbb2_start > 0)) $phpbb2_start--;
-    if ($page_next && ( $phpbb2_start < ($nbpages-1) )) $phpbb2_start++;
+    if ($page_prec && ($start > 0)) $start--;
+    if ($page_next && ( $start < ($nbpages-1) )) $start++;
 
     $pagination = '';
     if ($nbpages > 1)
     {
-        if ( $phpbb2_start > 0 )
+        if ( $start > 0 )
         {
-            $pagination .= '<input type="submit" name="page_prec" value="&laquo;" class="titaniumbutton" />&nbsp;';
+            $pagination .= '<input type="submit" name="page_prec" value="&laquo;" class="liteoption" />&nbsp;';
         }
-        $pagination .= sprintf($lang['Page_of'], ($phpbb2_start+1), $nbpages) . '&nbsp;';
-        if ( $phpbb2_start < ($nbpages-1) )
+        $pagination .= sprintf($lang['Page_of'], ($start+1), $nbpages) . '&nbsp;';
+        if ( $start < ($nbpages-1) )
         {
-            $pagination .= '<input type="submit" name="page_next" value="&raquo;" class="titaniumbutton" />';
+            $pagination .= '<input type="submit" name="page_next" value="&raquo;" class="liteoption" />';
         }
     }
 
     // set the page title and include the page header
-    $phpbb2_page_title = $lang['Merge_topics'];
+    $page_title = $lang['Merge_topics'];
     include ('includes/page_header.'.$phpEx);
 
     // template name
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'merge_select_body.tpl')
     );
     // header
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_GO'            => $lang['Go'],
         'S_LIST_FORUMS'    => $list_forums,
         'PAGINATION'    => $pagination,
@@ -293,16 +293,16 @@ if (($select_from || $select_to) && (!$cancel))
     );
 
     // read the forum
-    $phpbb2_start_topic = $phpbb2_start * $per_page;
+    $start_topic = $start * $per_page;
     $topic_rowset = array();
-    if ( !empty($phpbb2_forum_id) )
+    if ( !empty($forum_id) )
     {
-        $sql = $sql_merge . " ORDER BY t.topic_type DESC, t.topic_last_post_id DESC LIMIT $phpbb2_start_topic, $per_page";
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        $sql = $sql_merge . " ORDER BY t.topic_type DESC, t.topic_last_post_id DESC LIMIT $start_topic, $per_page";
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not get topics informations', '', __LINE__, __FILE__, $sql);
         }
-        while ($row = $pnt_db->sql_fetchrow($result))
+        while ($row = $db->sql_fetchrow($result))
         {
             $row['topic_id'] = POST_TOPIC_URL . $row['topic_id'];
             $topic_rowset[] = $row;
@@ -316,7 +316,7 @@ if (($select_from || $select_to) && (!$cancel))
     $split_type = true;
     $display_nav_tree = false;
     $footer = '<input type="submit" name="submit" value="' . $lang['Select'] . '" class="mainoption" />';
-    $footer .= '&nbsp;<input type="submit" name="cancel" value="' . $lang['Cancel'] . '" class="titaniumbutton" />';
+    $footer .= '&nbsp;<input type="submit" name="cancel" value="' . $lang['Cancel'] . '" class="liteoption" />';
     $inbox = false;
     $select_field = 'topic_selected';
     $select_type = 2;
@@ -332,14 +332,14 @@ if (($select_from || $select_to) && (!$cancel))
     if ($shadow) $s_hidden_fields .= '<input type="hidden" name="shadow" value="1" />';
     if ($select_from) $s_hidden_fields .= '<input type="hidden" name="select_from" value="1" />';
     if ($select_to) $s_hidden_fields .= '<input type="hidden" name="select_to" value="1" />';
-    $s_hidden_fields .= '<input type="hidden" name="start" value="' . $phpbb2_start . '" />';
-    $phpbb2_template->assign_vars(array(
-        'S_ACTION'            => append_titanium_sid("merge.$phpEx"),
+    $s_hidden_fields .= '<input type="hidden" name="start" value="' . $start . '" />';
+    $template->assign_vars(array(
+        'S_ACTION'            => append_sid("merge.$phpEx"),
         'S_HIDDEN_FIELDS'    => $s_hidden_fields,
         )
     );
     // footer
-    $phpbb2_template->pparse('body');
+    $template->pparse('body');
     include('includes/page_tail.'.$phpEx);
     exit;
 }
@@ -365,8 +365,8 @@ if ($submit)
     if (!empty($from_topic_id))
     {
         $sql = "SELECT forum_id, topic_vote FROM " . TOPICS_TABLE . " WHERE topic_id=$from_topic_id";
-        if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get topic informations', '', __LINE__, __FILE__, $sql);
-        if ($row = $pnt_db->sql_fetchrow($result))
+        if ( !($result = $db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get topic informations', '', __LINE__, __FILE__, $sql);
+        if ($row = $db->sql_fetchrow($result))
         {
             $from_forum_id = $row['forum_id'];
             $from_poll = $row['topic_vote'];
@@ -386,8 +386,8 @@ if ($submit)
     if (!empty($to_topic_id))
     {
         $sql = "SELECT forum_id, topic_vote FROM " . TOPICS_TABLE . " WHERE topic_id=$to_topic_id";
-        if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get topic informations', '', __LINE__, __FILE__, $sql);
-        if ($row = $pnt_db->sql_fetchrow($result))
+        if ( !($result = $db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get topic informations', '', __LINE__, __FILE__, $sql);
+        if ($row = $db->sql_fetchrow($result))
         {
             $to_forum_id = $row['forum_id'];
             $to_poll = $row['topic_vote'];
@@ -413,8 +413,8 @@ if ($submit)
     // check authorizations
     if (!empty($from_forum_id))
     {
-        $phpbb2_is_auth = auth(AUTH_ALL, $from_forum_id, $userdata);
-        if ( !$phpbb2_is_auth['auth_mod'] )
+        $is_auth = auth(AUTH_ALL, $from_forum_id, $userdata);
+        if ( !$is_auth['auth_mod'] )
         {
             $error = true;
             $error_msg .= (($error_msg != '') ? '<br />' : '') . $lang['Merge_from_not_authorized'];
@@ -422,8 +422,8 @@ if ($submit)
     }
     if (!empty($to_forum_id))
     {
-        $phpbb2_is_auth = auth(AUTH_ALL, $to_forum_id, $userdata);
-        if ( !$phpbb2_is_auth['auth_mod'] )
+        $is_auth = auth(AUTH_ALL, $to_forum_id, $userdata);
+        if ( !$is_auth['auth_mod'] )
         {
             $error = true;
             $error_msg .= (($error_msg != '') ? '<br />' : '') . $lang['Merge_to_not_authorized'];
@@ -465,19 +465,19 @@ if ($submit)
                 // delete the vote
                 $vote_id = 0;
                 $sql = "SELECT vote_id FROM " . VOTE_DESC_TABLE . " WHERE topic_id=$from_topic_id";
-                if ( !$result=$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read vote description', '', __LINE__, __FILE__, $sql);
-                if ($row=$pnt_db->sql_fetchrow($result)) $vote_id = $row['vote_id'];
+                if ( !$result=$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read vote description', '', __LINE__, __FILE__, $sql);
+                if ($row=$db->sql_fetchrow($result)) $vote_id = $row['vote_id'];
                 if (!empty($vote_id))
                 {
                     // delete voters
                     $sql = "DELETE FROM " . VOTE_USERS_TABLE . " WHERE vote_id=$vote_id";
-                    if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete votes', '', __LINE__, __FILE__, $sql);
+                    if ( !$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete votes', '', __LINE__, __FILE__, $sql);
                     // delete results
                     $sql = "DELETE FROM " . VOTE_RESULTS_TABLE . " WHERE vote_id=$vote_id";
-                    if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete vote results', '', __LINE__, __FILE__, $sql);
+                    if ( !$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete vote results', '', __LINE__, __FILE__, $sql);
                     // delete description
                     $sql = "DELETE FROM " . VOTE_DESC_TABLE . " WHERE vote_id=$vote_id";
-                    if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete vote description', '', __LINE__, __FILE__, $sql);
+                    if ( !$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete vote description', '', __LINE__, __FILE__, $sql);
                 }
             }
             else
@@ -486,7 +486,7 @@ if ($submit)
                 $sql = "UPDATE " . VOTE_DESC_TABLE . "
                             SET topic_id=$to_topic_id
                             WHERE topic_id=$from_topic_id";
-                if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update vote desc information', '', __LINE__, __FILE__, $sql);
+                if ( !$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update vote desc information', '', __LINE__, __FILE__, $sql);
             }
         }
 
@@ -494,29 +494,29 @@ if ($submit)
 
         // check if the destination is already watched
         $sql = "SELECT * FROM " . TOPICS_WATCH_TABLE . " WHERE topic_id=$to_topic_id";
-        if ( !$result=$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read topics watch informations', '', __LINE__, __FILE__, $sql);
-        $pnt_user_ids = array();
-        while ($row = $pnt_db->sql_fetchrow($result)) $pnt_user_ids[] = $row['user_id'];
+        if ( !$result=$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read topics watch informations', '', __LINE__, __FILE__, $sql);
+        $user_ids = array();
+        while ($row = $db->sql_fetchrow($result)) $user_ids[] = $row['user_id'];
         $sql_user = '';
-        if (!empty($pnt_user_ids))
+        if (!empty($user_ids))
         {
-            $sql_user = " AND user_id NOT IN (" . implode(', ', $pnt_user_ids) . ")";
+            $sql_user = " AND user_id NOT IN (" . implode(', ', $user_ids) . ")";
         }
         // grab the topics watch to the new topic
         $sql = "UPDATE " . TOPICS_WATCH_TABLE . " SET topic_id=$to_topic_id WHERE topic_id=$from_topic_id" . $sql_user;
-        if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update topics watch table', '', __LINE__, __FILE__, $sql);
+        if ( !$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update topics watch table', '', __LINE__, __FILE__, $sql);
         // clean up the old topics watch
         $sql = "DELETE FROM " . TOPICS_WATCH_TABLE . " WHERE topic_id=$from_topic_id";
-        if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete topics watch table', '', __LINE__, __FILE__, $sql);
+        if ( !$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not delete topics watch table', '', __LINE__, __FILE__, $sql);
 
         // process the posts
         $sql = "UPDATE " . POSTS_TABLE . " SET forum_id=$to_forum_id, topic_id=$to_topic_id WHERE topic_id=$from_topic_id";
-        if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update posts information', '', __LINE__, __FILE__, $sql);
+        if ( !$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update posts information', '', __LINE__, __FILE__, $sql);
 
         // get the old topic data for a shadow
         $sql = "SELECT * FROM " . TOPICS_TABLE . " WHERE topic_id=$from_topic_id";
-        if ( !$result = $pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read from-topic informations', '', __LINE__, __FILE__, $sql);
-        $phpbb2_topic_data = $pnt_db->sql_fetchrow($result);
+        if ( !$result = $db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read from-topic informations', '', __LINE__, __FILE__, $sql);
+        $topic_data = $db->sql_fetchrow($result);
 
         if ($shadow)
         {
@@ -524,7 +524,7 @@ if ($submit)
             $sql = "UPDATE " . TOPICS_TABLE . " 
                     SET topic_status=" . TOPIC_MOVED . ", topic_type=" . POST_NORMAL . ", topic_moved_id=$to_topic_id
                     WHERE topic_id=$from_topic_id";
-            if ( !$pnt_db->sql_query($sql) )
+            if ( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not set shadow topic', '', __LINE__, __FILE__, $sql);
             }
@@ -533,7 +533,7 @@ if ($submit)
         {
             // delete the old topic
             $sql = "DELETE FROM " . TOPICS_TABLE . " WHERE topic_id=$from_topic_id";
-            if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update delete topic merged', '', __LINE__, __FILE__, $sql);
+            if ( !$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not update delete topic merged', '', __LINE__, __FILE__, $sql);
         }
 
         // build the update request
@@ -554,7 +554,7 @@ if ($submit)
         if ( !empty($sql_update) )
         {
             $sql = " UPDATE " . TOPICS_TABLE . " SET $sql_update WHERE topic_id=$to_topic_id";
-            if ( !$pnt_db->sql_query($sql) )
+            if ( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not update to topic', '', __LINE__, __FILE__, $sql);
             }
@@ -574,10 +574,10 @@ if ($submit)
         sync('forum', $to_forum_id);
         
         // send end message
-        $phpbb2_template->assign_vars(array(
-            'META' => '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$to_topic_id") . '">')
+        $template->assign_vars(array(
+            'META' => '<meta http-equiv="refresh" content="3;url=' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$to_topic_id") . '">')
         );
-        message_die(GENERAL_MESSAGE, $lang['Merge_topic_done'] . '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$to_topic_id") . '" class="gen">', '</a>')  . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '" class="gen">', '</a>'));
+        message_die(GENERAL_MESSAGE, $lang['Merge_topic_done'] . '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$to_topic_id") . '" class="gen">', '</a>')  . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' . append_sid("index.$phpEx") . '" class="gen">', '</a>'));
         exit;
     }
     else
@@ -585,9 +585,9 @@ if ($submit)
         // ask for confirmation
         $message .= (($message != '') ? '<br />' : '') . sprintf($lang['Merge_confirm_process'], $from_title, $to_title);
 
-        $phpbb2_page_title = $lang['Merge_topics'];
+        $page_title = $lang['Merge_topics'];
         include ('includes/page_header.'.$phpEx);
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
             'body' => 'confirm_body.tpl')
         );
 
@@ -599,17 +599,17 @@ if ($submit)
         if ($shadow) $s_hidden_fields .= '<input type="hidden" name="shadow" value="1" />';
 
         // header
-        $phpbb2_template->assign_vars(array(
-            'MESSAGE_TITLE'        => $phpbb2_page_title,
+        $template->assign_vars(array(
+            'MESSAGE_TITLE'        => $page_title,
             'MESSAGE_TEXT'        => $message,
             'L_YES'                => $lang['Yes'],
             'L_NO'                => $lang['No'],
-            'S_CONFIRM_ACTION'    => append_titanium_sid("merge.$phpEx"),
+            'S_CONFIRM_ACTION'    => append_sid("merge.$phpEx"),
             'S_HIDDEN_FIELDS'    => $s_hidden_fields,
             )
         );
         // footer
-        $phpbb2_template->pparse('body');
+        $template->pparse('body');
         include('includes/page_tail.'.$phpEx);
         exit;
     }
@@ -618,19 +618,19 @@ if ($submit)
 //
 // set the page title and include the page header
 //
-$phpbb2_page_title = $lang['Merge_topics'];
+$page_title = $lang['Merge_topics'];
 include ('includes/page_header.'.$phpEx);
 //
 // template name
 //
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     'body' => 'merge_body.tpl')
 );
 //
 // header
 //
-$phpbb2_template->assign_vars(array(
-    'L_TITLE'                => $phpbb2_page_title,
+$template->assign_vars(array(
+    'L_TITLE'                => $page_title,
     'L_TOPIC_TITLE'            => $lang['Merge_title'],
     'L_TOPIC_TITLE_EXPLAIN'    => $lang['Merge_title_explain'],
     'L_FROM_TOPIC'            => $lang['Merge_topic_from'],
@@ -649,7 +649,7 @@ if (!empty($to_title) && empty($topic_title))
     $topic_title = $to_title;
 }
 // values
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'TOPIC_TITLE'    => $topic_title,
     'FROM_TOPIC'    => $from_topic,
     'TO_TOPIC'        => $to_topic,
@@ -659,15 +659,15 @@ $phpbb2_template->assign_vars(array(
 
 // system
 $s_hidden_fields  = '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" />';
-$phpbb2_template->assign_vars(array(
-    'S_ACTION'            => append_titanium_sid("merge.$phpEx"),
+$template->assign_vars(array(
+    'S_ACTION'            => append_sid("merge.$phpEx"),
     'S_HIDDEN_FIELDS'    => $s_hidden_fields,
     )
 );
 //
 // footer
 //
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 include('includes/page_tail.'.$phpEx);
 
 ?>

@@ -21,40 +21,40 @@ if (!defined('MODULE_FILE'))
    die ("You can't access this file directly...");
 }
 
-global $pnt_prefix, $pnt_db, $cookie, $pnt_user, $theme_name;
+global $prefix, $db, $cookie, $user, $theme_name;
 $index = 1;
 require_once("mainfile.php");
-$pnt_module = basename(dirname(__FILE__));
-get_lang($pnt_module);
-$pagetitle = "86it Developers Network - My " . _MARKSTITLE;
+$module_name = basename(dirname(__FILE__));
+get_lang($module_name);
+$pagetitle = "My " . _MARKSTITLE;
 include("header.php");
 
-$userinfo = getusrinfo( $pnt_user );
-$pnt_userid = $userinfo["user_id"];
+$userinfo = getusrinfo( $user );
+$userid = $userinfo["user_id"];
 $catname=@htmlentities($catname);
 
-if (!isset($pnt_userid) || $pnt_userid=="")
-        $pnt_userid=0;
+if (!isset($userid) || $userid=="")
+        $userid=0;
 
 //Sometimes we don't know the category name
 if ((!isset($catname) || $catname=="") && (isset($category) && $category!=""))
 {
-	$getname="select name from ".$pnt_prefix."_bookmarks_cat where category_id='$category'";
-	$getnameres=$pnt_db->sql_query ($getname,$pnt_db);
-	$namerow=@$pnt_db->sql_fetchrow($getnameres,$pnt_db);
+	$getname="select name from ".$prefix."_bookmarks_cat where category_id='$category'";
+	$getnameres=$db->sql_query ($getname,$db);
+	$namerow=@$db->sql_fetchrow($getnameres,$db);
 	$catname=$namerow['name'];
 }
 OpenTable();
 echo "<center><span class=title><strong>$catname</strong></span></center><P>\n";
-echo "<center>[ <a href=modules.php?name=".$pnt_module.">"._CATEGORIES."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$module_name.">"._CATEGORIES."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
 //CloseTable();
 echo "<hr />";
 
 //OpenTable();
 
-$marks_query = "select id,name,url,description,mod_date,popup from " . $pnt_prefix . "_bookmarks where user_id=" . $pnt_userid . " and category_id='" . $category . "' order by name";
+$marks_query = "select id,name,url,description,mod_date,popup from " . $prefix . "_bookmarks where user_id=" . $userid . " and category_id='" . $category . "' order by name";
 
-$marks_res = $pnt_db->sql_query ($marks_query,$pnt_db);
+$marks_res = $db->sql_query ($marks_query,$db);
 
 echo "<table width=98%>\n<tr class=boxtitle>
       <td width=37%>
@@ -70,12 +70,12 @@ echo "<table width=98%>\n<tr class=boxtitle>
 
 
 
-for ($i=0;$i<@$pnt_db->sql_numrows  ($marks_res,$pnt_db);$i++)
+for ($i=0;$i<@$db->sql_numrows  ($marks_res,$db);$i++)
 {
-	$marks_row = @$pnt_db->sql_fetchrow($marks_res,$pnt_db);
+	$marks_row = @$db->sql_fetchrow($marks_res,$db);
 
-    global $pnt_db;
-    list($fixed_markurl) = $pnt_db->sql_ufetchrow("SELECT `url` FROM `".$pnt_prefix."_bookmarks` WHERE `id`='".$marks_row['id']."'", SQL_NUM);
+    global $db;
+    list($fixed_markurl) = $db->sql_ufetchrow("SELECT `url` FROM `".$prefix."_bookmarks` WHERE `id`='".$marks_row['id']."'", SQL_NUM);
 
 	if ($marks_row['popup']==1)
 	{
@@ -85,9 +85,9 @@ for ($i=0;$i<@$pnt_db->sql_numrows  ($marks_res,$pnt_db);$i++)
 		</td>
 		<td>".$marks_row['description']."</td>
 		<td><div align=\"center\">".$marks_row['mod_date']."<div></td>
-		<td>&nbsp;<a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category&amp;markname=".urlencode($marks_row['name'])."&amp;markcomment=".urlencode($marks_row['description'])."&amp;markid=".$marks_row['id']."&amp;popup=".$marks_row['popup']."><img src='modules/".$pnt_module."/images/pencil.gif' width=12 height=12 border=0></a>
+		<td>&nbsp;<a href=modules.php?name=".$module_name."&amp;file=edit_mark&amp;catid=$category&amp;markname=".urlencode($marks_row['name'])."&amp;markcomment=".urlencode($marks_row['description'])."&amp;markid=".$marks_row['id']."&amp;popup=".$marks_row['popup']."><img src='modules/".$module_name."/images/pencil.gif' width=12 height=12 border=0></a>
 		</td>
-		<td>&nbsp;&nbsp;&nbsp;<a href=modules.php?name=".$pnt_module."&amp;file=del_mark&amp;catid=".$category."&amp;markname=".urlencode($marks_row['name'])."&amp;markid=".$marks_row['id']."&amp;catname=".$catname."><img src=modules/".$pnt_module."/admin/trash.png width=12 height=12 border=0></a>
+		<td>&nbsp;&nbsp;&nbsp;<a href=modules.php?name=".$module_name."&amp;file=del_mark&amp;catid=".$category."&amp;markname=".urlencode($marks_row['name'])."&amp;markid=".$marks_row['id']."&amp;catname=".$catname."><img src=modules/".$module_name."/admin/trash.png width=12 height=12 border=0></a>
 		</td>
 		</tr>\n";
 	}
@@ -99,10 +99,10 @@ for ($i=0;$i<@$pnt_db->sql_numrows  ($marks_res,$pnt_db);$i++)
 		</td><td>".$marks_row['description']."</td>
 		<td><div align=\"center\">".$marks_row['mod_date']."<div></td>
 		<td>&nbsp;
-		<a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category&amp;markname=".urlencode($marks_row['name'])."&amp;markcomment=".urlencode($marks_row['description'])."&amp;markid=".$marks_row['id']."&amp;popup=".$marks_row['popup']."><img src='modules/".$pnt_module."/images/pencil.gif' width=12 height=12 border=0></a>
+		<a href=modules.php?name=".$module_name."&amp;file=edit_mark&amp;catid=$category&amp;markname=".urlencode($marks_row['name'])."&amp;markcomment=".urlencode($marks_row['description'])."&amp;markid=".$marks_row['id']."&amp;popup=".$marks_row['popup']."><img src='modules/".$module_name."/images/pencil.gif' width=12 height=12 border=0></a>
 		</td>
 		<td>&nbsp;&nbsp;&nbsp;
-		<a href=modules.php?name=".$pnt_module."&amp;file=del_mark&amp;catid=".$category."&amp;markname=".urlencode($marks_row['name'])."&amp;markid=".$marks_row['id']."&amp;catname=".$catname."><img src=modules/".$pnt_module."/admin/trash.png width=12 height=12 border=0></a>
+		<a href=modules.php?name=".$module_name."&amp;file=del_mark&amp;catid=".$category."&amp;markname=".urlencode($marks_row['name'])."&amp;markid=".$marks_row['id']."&amp;catname=".$catname."><img src=modules/".$module_name."/admin/trash.png width=12 height=12 border=0></a>
 		</td>
 		</tr>\n";
 	}
@@ -110,14 +110,14 @@ for ($i=0;$i<@$pnt_db->sql_numrows  ($marks_res,$pnt_db);$i++)
 	
 }
 echo "</table>";
-@$pnt_db->sql_freeresult($marks_res);
+@$db->sql_freeresult($marks_res);
 
 //CloseTable();
 
 echo "<hr />";
 
 //OpenTable();
-echo "<center>[ <a href=modules.php?name=".$pnt_module.">"._CATEGORIES."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$module_name.">"._CATEGORIES."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_mark&amp;catid=$category>"._NEWBOOKMARK."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
 CloseTable();
 include("footer.php");
 ?> 

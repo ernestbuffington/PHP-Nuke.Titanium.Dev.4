@@ -19,38 +19,25 @@
 /* And, if you use HTML code, please double check it.                     */
 /**************************************************************************/
 define("BLOG_COMMENTS","Comments");
-
 define("BLOG_POST_READS","Reads");
-
-define("_BLOG_POST_CATEGORY","Blogs Post Category");
-
+define("_BLOG_POST_CATEGORY","Blog Post Category");
 define("_LVOTES","Votes");
-
 define("_HITS","Hits");
-
-define("_TOPWELCOME","Welcome to the TOP 10 page for");
-
+define("_TOPWELCOME","Welcome to the TOP page for");
 define("_MOST_READ_BLOG_POSTS","Most Read Blog Posts");
-
-define("_MOST_COMMENTED_ON_BLOG_POSTS","Most Commented Blog Posts");
-
-define("_MOST_ACTIVE_BLOG_POST_CATEGORIES","Most Active Blog Post Categories");
-
+define("_MOST_COMMENTED_ON_BLOG_POSTS","Most Commented On Blog Posts");
+define("_MOST_ACTIVE_BLOG_POST_CATEGORIES","Most Active Blog Posts Categories");
 define("_READSECTION","Most Read Blog Posts in Special Sections");
-
-define("_MOST_ACTIVE_BLOG_AUTHORS","Most Active Blog Post Submitters");
-
+define("_MOST_ACTIVE_BLOG_AUTHORS","Most Active Blog Posts Submitters");
 define("_BLOG_POSTS_SENT","Blog Post Sent");
-
-define("_MOST_ACTIVE_BLOG_AUTHORS","Most Active Blog Posters");
-
-define("_NEWSPUBLISHED","Blogs Published");
-
+define("_VOTEDPOLLS","Most Voted Polls");
+define("_MOST_ACTIVE_BLOG_AUTHORS","Most Active Blog Post Authors");
+define("_NEWSPUBLISHED","Blog Posts Published");
+define("_READREVIEWS","Most Read Reviews");
+define("_DOWNLOADEDFILES","Most Downloaded Files");
+define("_LDOWNLOADS","Downloads");
 define("_MOSTREADPAGES","Most Read Pages");
-
-define("_MOST_VOTED_ON_BLOG_POSTS","Most Voted On Blogs");
-
+define("_MOST_VOTED_ON_BLOG_POSTS","Most Voted On Blog Posts");
 define("_POINTS","Points");
-
-define("_BEST_RATED_BLOG_POSTS","Best Rated Blog Posts (Out of 5 Maximum Points)");
+define("_BEST_RATED_BLOG_POSTS","Best Rated Blog Posts (based on 5 maximum points)");
 ?>

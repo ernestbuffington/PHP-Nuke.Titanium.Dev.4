@@ -113,11 +113,11 @@ class Swift_Plugins_PopBeforeSmtpPlugin
   /**
    * Set the username to use when connecting (if needed).
    * 
-   * @param string $pnt_username
+   * @param string $username
    */
-  public function setUsername($pnt_username)
+  public function setUsername($username)
   {
-    $this->_username = $pnt_username;
+    $this->_username = $username;
     return $this;
   }
   

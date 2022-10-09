@@ -17,42 +17,42 @@
 #########################################################################
 if (!defined('MODULE_FILE')) 
 {
-   exit("You can't access this file directly...");
+   die ("You can't access this file directly...");
 }
 
-global $pnt_prefix, $pnt_db, $cookie, $pnt_user, $theme_name;
+global $prefix, $db, $cookie, $user, $theme_name;
 
 $index = 1;
 
 require_once("mainfile.php");
 
-$pnt_module = basename(dirname(__FILE__));
+$module_name = basename(dirname(__FILE__));
 
-get_lang($pnt_module);
+get_lang($module_name);
 
-$pagetitle = "86it Developers Network - My ". _MARKSTITLE;
+$pagetitle = "My ". _MARKSTITLE;
 
 include("header.php");
 
-$userinfo = getusrinfo( $pnt_user );
-$pnt_userid = $userinfo["user_id"];
+$userinfo = getusrinfo( $user );
+$userid = $userinfo["user_id"];
 
-if (!isset($pnt_userid) || $pnt_userid=="")
+if (!isset($userid) || $userid=="")
 {
-  $pnt_userid=0;
+  $userid=0;
 }
 
 
 OpenTable();
 echo "<center><span class=title><strong>My Bookmark Vault</strong></span></center><br />\n";
-echo "<center>[ <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
 
 echo "<br>";
 
 //OpenTable();
 echo "<hr />";
-$cat_query = "select category_id,name,description,mod_date from " . $pnt_prefix."_bookmarks_cat  where user_id=" . $pnt_userid . " order by name";
-$categories_res = $pnt_db->sql_query ($cat_query, $pnt_db);
+$cat_query = "select category_id,name,description,mod_date from " . $prefix."_bookmarks_cat  where user_id=" . $userid . " order by name";
+$categories_res = $db->sql_query ($cat_query, $db);
 
 echo "<table align=center width=98%>
       <tr class=boxtitle>
@@ -63,29 +63,29 @@ echo "<table align=center width=98%>
 	  <td width=5%><strong>Edit</strong></td>
 	  <td width=8%><strong>Delete</strong></td></tr>\n";
 
-for ($i=0; $i<$pnt_db->sql_numrows  ($categories_res,$pnt_db);$i++)
+for ($i=0; $i<$db->sql_numrows  ($categories_res,$db);$i++)
 {
-	$cat = $pnt_db->sql_fetchrow($categories_res,$pnt_db);
+	$cat = $db->sql_fetchrow($categories_res,$db);
 
 	echo "<tr class=boxlist><td><img src=\"themes/".$theme_name."/images/invisible_pixel.gif\" alt=\"\" width=\"15\" height=\"1\" />
-	<a href=modules.php?name=".$pnt_module."&amp;file=marks&amp;category=".$cat['category_id']."&amp;catname=".urlencode($cat['name']).">" . $cat['name'] . "</a></td>
+	<a href=modules.php?name=".$module_name."&amp;file=marks&amp;category=".$cat['category_id']."&amp;catname=".urlencode($cat['name']).">" . $cat['name'] . "</a></td>
 	<td>" . $cat['description'] . "</td>
 	<td><div align=\"center\">" . $cat['mod_date'] . "</div></td>
-	<td>&nbsp;<a href=modules.php?name=".$pnt_module."&amp;file=edit_cat&amp;catid=".$cat['category_id']."&amp;catname=".urlencode($cat['name'])."&amp;catcomment=".urlencode($cat['description'])."><img src=modules/".$pnt_module."/images/pencil.gif width=12 height=12 border=0></a>
+	<td>&nbsp;<a href=modules.php?name=".$module_name."&amp;file=edit_cat&amp;catid=".$cat['category_id']."&amp;catname=".urlencode($cat['name'])."&amp;catcomment=".urlencode($cat['description'])."><img src=modules/".$module_name."/images/pencil.gif width=12 height=12 border=0></a>
 	</td>
-	<td>&nbsp;&nbsp;&nbsp;<a href=modules.php?name=".$pnt_module."&amp;file=del_cat&amp;catid=".$cat['category_id']."&amp;catname=".urlencode($cat['name'])."><img src=modules/".$pnt_module."/admin/trash.png width=12 height=12 border=0></a>
+	<td>&nbsp;&nbsp;&nbsp;<a href=modules.php?name=".$module_name."&amp;file=del_cat&amp;catid=".$cat['category_id']."&amp;catname=".urlencode($cat['name'])."><img src=modules/".$module_name."/admin/trash.png width=12 height=12 border=0></a>
 	</td>
 	</tr>\n";
 }
 echo "</table>";
 echo "<hr />";
 
-$pnt_db->sql_freeresult($categories_res);
+$db->sql_freeresult($categories_res);
 
 //CloseTable();
 echo "<br>";
 
-echo "<center>[ <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_mark>"._NEWBOOKMARK."</a> ]</center>";
 echo "<br /><center><span class=storytitle><strong>My Bookmark Vault</strong></span></center>\n";
 CloseTable();
 

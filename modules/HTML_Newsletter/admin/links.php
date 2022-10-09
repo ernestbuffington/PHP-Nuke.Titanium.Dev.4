@@ -37,10 +37,10 @@ if ( !defined('ADMIN_FILE') ) { die("Illegal File Access"); }
 
 global $currentlang, $language, $admin_file;
 
-if ( @file_exists( "modules/$pnt_module/admin/language/lang-".$currentlang.".php" ) ) {
-   @include_once( "modules/$pnt_module/admin/language/lang-".$currentlang.".php" );
+if ( @file_exists( "modules/$module_name/admin/language/lang-".$currentlang.".php" ) ) {
+   @include_once( "modules/$module_name/admin/language/lang-".$currentlang.".php" );
 } else {
-   @include_once( "modules/$pnt_module/admin/language/lang-".$language.".php" );
+   @include_once( "modules/$module_name/admin/language/lang-".$language.".php" );
 }
 
 adminmenu( $admin_file.".php?op=msnl_admin", 'HTML Newsletter', "HTMLnl.png" );

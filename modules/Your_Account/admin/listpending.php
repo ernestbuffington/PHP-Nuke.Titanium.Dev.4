@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($pnt_module)) {
+if(is_mod_admin($module_name)) {
 
     $pagetitle = ": "._USERADMIN." - "._WAITINGUSERS;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -55,16 +55,16 @@ if(is_mod_admin($pnt_module)) {
     OpenTable();
     if (!isset($min)) $min=0;
     if (!isset($max)) $max=$min+$ya_config['perpage'];
-    $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users_temp"));
+    $totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM ".$user_prefix."_users_temp"));
     echo "<table style='margin:auto' cellpadding='2' cellspacing='2' bgcolor='$textcolor1' border='0'>\n";
     echo "<tr bgcolor='$bgcolor2'>\n<td><strong>"._USERNAME." ("._USERID.")</strong></td>\n";
     echo "<td align='center'><strong>"._UREALNAME."</strong></td>\n";
     echo "<td align='center'><strong>"._EMAIL."</strong></td>\n";
     echo "<td align='center'><strong>"._REGDATE."</strong></td>\n";
     echo "<td align='center'><strong>"._FUNCTIONS."</strong></td>\n</tr>\n";
-    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users_temp ORDER BY username LIMIT $min,".$ya_config['perpage']."");
-    while($chnginfo = $pnt_db->sql_fetchrow($result)) {
-        echo "<tr bgcolor='$bgcolor1'>\n<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
+    $result = $db->sql_query("SELECT * FROM ".$user_prefix."_users_temp ORDER BY username LIMIT $min,".$ya_config['perpage']."");
+    while($chnginfo = $db->sql_fetchrow($result)) {
+        echo "<tr bgcolor='$bgcolor1'>\n<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
         echo "<input type='hidden' name='min' value='$min'>\n";
         echo "<input type='hidden' name='xop' value='$op'>\n";
         echo "<input type='hidden' name='apr_uid' value='".$chnginfo['user_id']."'>\n";

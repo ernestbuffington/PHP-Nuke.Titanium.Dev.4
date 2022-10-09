@@ -3,17 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-/************************************************************************
-   PHP-Nuke Titanium: 4nWhoIsOnline
-   ============================================
-   Copyright (c) 2022 by The 86it Develepors - www.86it.us
-   Filename      : admin\modules\who.php
-   Author        : See below
-
-   Improved by   : Ernest Buffington (TheGhost) (www.86it.us)
-   Version       : 2.0.0 (Based on 4nWhoIsOnline Version 1.0.5)
-   Date          : 09.27.202 (mm.dd.yyyy)
-*************************************************************************/
 
 /************************************************************************
    Nuke-Evolution: 4nWhoIsOnline
@@ -28,7 +17,6 @@
 
    Description   : 4nWhoIsOnline shows the current visitors online with
                    their resolved DNS name and country.
-				   
 *************************************************************************/
 /* Based on 4nWhoIsOnline Version 0.91 (german & english)               */
 /* for phpNUKE Version 6.5 - 6.7 (www.phpnuke.org)                      */
@@ -54,51 +42,33 @@
       CNBYA Modifications                      v1.0.0       07/05/2005
       Advanced Username Color                  v1.0.5       10/28/2005
  ************************************************************************/
-if (!defined('ADMIN_FILE'))
-die ("Illegal File Access");
 
-global $pnt_prefix, 
-           $pnt_db, 
-		      $bgcolor2, 
-			  $sitename, 
-			  $bgcolor1, 
-	   $pnt_prefix, 
-	 $language, 
-	      $multilingual, 
-		 $pnt_user, 
-	   $admin, $bgcolor, 
-	        $admin_file, 
-  $pnt_user_prefix, 
-               $admdata, 
-		   $nsnst_const;
+if (!defined('ADMIN_FILE')) {
+   die ("Illegal File Access");
+}
 
-if (is_mod_admin()): 
+global $prefix, $db, $bgcolor2, $sitename, $bgcolor1, $prefix, $language, $multilingual, $user, $admin, $bgcolor, $admin_file, $user_prefix, $admdata, $nsnst_const;
+
+if (is_mod_admin()) {
 
 include(NUKE_BASE_DIR.'header.php');
-
 OpenTable();
+$serverdate = EvoDate($board_config['default_dateformat'], time(), $board_config['board_timezone']);
+echo("<p align=\"center\"><strong>$sitename</strong> - " . _4nwho00 . "<br /><br />" . _4nwho01 . "<a href=\"" . $admin_file . ".php\">".$admlang['global']['header_return']."</a><br /><br />" . _4nwho02 . "$serverdate</p>");
+echo ("<center><img src=\"images/4nwho/group-3.gif\" valign=\"middle\" height=\"14\" width=\"17\" alt=\"" . _4nwho03 . "\">" . _4nwho03 . "</center><br />");
+    CloseTable();
+echo ("<br />");
+    OpenTable();
+echo ("<center><img src=\"images/4nwho/info.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho13 . "\">&nbsp;=&nbsp;" . _4nwho13 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"images/4nwho/edit.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho08 . "\">&nbsp;=&nbsp;" . _4nwho08 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"images/4nwho/delete.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho20 . "\">&nbsp;=&nbsp;" . _4nwho20 . "</center>");
+echo ("<br /><table width=\"100%\" border=\"1\" cellspacing=\"2\" cellpadding=\"2\"><tr><td><strong>" . _4nwho04 . "</strong></td><td><strong>" . _4nwho05 . "</strong></td><td><strong>" . _4nwho06 . "</strong></td><td><strong>" . _4nwho10 . "</strong></td><td><strong>" . _4nwho07 . "</strong></td></tr>");
+$result3 = $db->sql_query("SELECT uname, host_addr, starttime, guest FROM " . $prefix . "_session");
+while (list($uname, $host_addr, $time, $guest) = $db->sql_fetchrow($result3)) {
+if($guest == 0 || $guest == 2) {
 
-$serverdate = EvoDate($phpbb2_board_config['default_dateformat'], time(), $phpbb2_board_config['board_timezone']);
-
-print("<div align=\"center\"><h1>4n Who is Online v1.00</h1></div></br>");
-
-print("<p align=\"center\"><a class=\"titaniumbutton\" href=\"" . $admin_file . ".php\">".$admlang['global']['header_return']."</a><br /><br />" . _4nwho02 . "$serverdate</p>");
-
-print ("<center><img src=\"images/4nwho/group-3.gif\" valign=\"middle\" height=\"14\" width=\"17\" alt=\"" . _4nwho03 . "\">" . _4nwho03 . "</center><br />");
-
-print ("<center><img src=\"images/4nwho/info.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho13 . "\">&nbsp;=&nbsp;" . _4nwho13 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"images/4nwho/edit.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho08 . "\">&nbsp;=&nbsp;" . _4nwho08 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"images/4nwho/delete.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho20 . "\">&nbsp;=&nbsp;" . _4nwho20 . "</center>");
-
-print ("<br /><table width=\"100%\" border=\"1\" cellspacing=\"2\" cellpadding=\"2\"><tr><td><strong>" . _4nwho04 . "</strong></td><td><strong>" . _4nwho05 . "</strong></td><td><strong>" . _4nwho06 . "</strong></td><td><strong>" . _4nwho10 . "</strong></td><td><strong>" . _4nwho07 . "</strong></td></tr>");
-
-$result3 = $pnt_db->sql_query("SELECT uname, host_addr, starttime, guest FROM " . $pnt_prefix . "_session");
-
-while (list($uname, $host_addr, $time, $guest) = $pnt_db->sql_fetchrow($result3)): 
-
-if($guest == 0 || $guest == 2):
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-$pnt_usercolor = UsernameColor($uname);
+    $usercolor = UsernameColor($uname);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -106,31 +76,28 @@ $pnt_usercolor = UsernameColor($uname);
 /*****[BEGIN]******************************************
  [ Mod:    CNBYA Modifications                 v1.0.0 ]
  ******************************************************/
-$uname = "<img src=\"images/4nwho/ur-member.gif\" valign=\"middle\" border=\"0\" alt=\"$uname\">&nbsp;$pnt_usercolor&nbsp;&nbsp;<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$uname\"><img src=\"images/4nwho/info.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho13 . "\"></a><a href=\"modules.php?name=Your_Account&amp;file=admin&amp;op=modifyUser&amp;chng_uid=$uname\"><img src=\"images/4nwho/edit.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho08 . "\"></a>&nbsp;<a href=\"modules.php?name=Your_Account&amp;file=admin&amp;op=deleteUser&amp;chng_uid=$uname\"><img src=\"images/4nwho/delete.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho20 . "\"></a>";
+        $uname = "<img src=\"images/4nwho/ur-member.gif\" valign=\"middle\" border=\"0\" alt=\"$uname\">&nbsp;$usercolor&nbsp;&nbsp;<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$uname\"><img src=\"images/4nwho/info.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho13 . "\"></a><a href=\"modules.php?name=Your_Account&amp;file=admin&amp;op=modifyUser&amp;chng_uid=$uname\"><img src=\"images/4nwho/edit.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho08 . "\"></a>&nbsp;<a href=\"modules.php?name=Your_Account&amp;file=admin&amp;op=deleteUser&amp;chng_uid=$uname\"><img src=\"images/4nwho/delete.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho20 . "\"></a>";
 /*****[END]********************************************
  [ Mod:    CNBYA Modifications                 v1.0.0 ]
  ******************************************************/
-endif;
+}
+if($guest == 1) {
+        $uname = "<img src=\"images/4nwho/ur-anony.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho14 . "\">&nbsp;" . _4nwho14 . "";
+}
+if($guest == 3) {
+        $uname = "<img src=\"images/4nwho/ur-anony.gif\" valign=\"middle\" border=\"0\" alt=\"".$uname."\">&nbsp;".$uname;
+}
 
-if($guest == 1) 
-$uname = "<img src=\"images/4nwho/ur-anony.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho14 . "\">&nbsp;" . _4nwho14 . "";
-
-if($guest == 3) 
-$uname = "<img src=\"images/4nwho/ur-anony.gif\" valign=\"middle\" border=\"0\" alt=\"".$uname."\">&nbsp;".$uname;
-
-# Ip fix for localhost - Quake (beta 2) 12-12-2005 14:31:10
-if($host_addr == 'none') 
-$host_addr = '127.0.0.1';
+// Ip fix for localhost - Quake (beta 2) 12-12-2005 14:31:10
+if($host_addr == 'none') {
+  $host_addr = '127.0.0.1';
+}
 
 $host = gethostbyaddr($host_addr);
-
 $array = explode(".", $host);
-
 $top_domain = $array[count($array)-1];
-
 $country = "";
-
-switch($top_domain): 
+switch($top_domain) {
 case 'aero':$country="Aeronautics"; break;
 case 'arpa':$country="ARPANet/USA"; break;
 case 'biz':$country="Business"; break;
@@ -199,7 +166,7 @@ case 'cm':$country="Cameroon"; break;
 case 'cn':$country="China"; break;
 case 'co':$country="Colombia"; break;
 case 'cr':$country="Costa Rica"; break;
-case 'cs':$country="Czprintslovakia"; break;
+case 'cs':$country="Czechoslovakia"; break;
 case 'cu':$country="Cuba"; break;
 case 'cv':$country="Cape Verde"; break;
 case 'cx':$country="Christmas Island"; break;
@@ -400,108 +367,89 @@ case 'zm':$country="Zambia"; break;
 case 'zr':$country="Zaire"; break;
 case 'zw':$country="Zimbabwe"; break;
 default:
-  if (is_numeric($host))
+if (is_numeric($host))
     $country = "" . _4nwho16 . "";
-  else
-    $country = "" . _4nwho15 . "";
-endswitch;
-
-print ("<tr><td>$uname</td>");
-
-if($guest == 0 || $guest == 2) 
-  print ("<td><img src=\"images/4nwho/green_dot.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$host_addr</td><td>");
 else
-  print ("<td><img src=\"images/4nwho/red_dot.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$host_addr</td><td>");
-
-print ("<img src=\"images/4nwho/star.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$host</td><td>");
-
-if(strstr($host, "aol")) 
-  print ("<img src=\"images/4nwho/center_l.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;America Online</td>");
-else 
-  print ("<img src=\"images/4nwho/center_l.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$country</td>");
-
+    $country = "" . _4nwho15 . "";
+}
+echo ("<tr><td>$uname</td>");
+if($guest == 0 || $guest == 2) {
+    echo ("<td><img src=\"images/4nwho/green_dot.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$host_addr</td><td>");
+}else{
+    echo ("<td><img src=\"images/4nwho/red_dot.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$host_addr</td><td>");
+}
+echo ("<img src=\"images/4nwho/star.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$host</td><td>");
+if ( strstr($host, "aol")) {
+    echo ("<img src=\"images/4nwho/center_l.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;America Online</td>");
+} else {
+    echo ("<img src=\"images/4nwho/center_l.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$country</td>");
+}
 $unixtime = time() - $time;
-
-if($unixtime < 60):
+if($unixtime < 60){
     $sec=$unixtime;
     $min=0;
     $hour=0;
-elseif($unixtime < 3600):
+} else if($unixtime < 3600){
     $sec=$unixtime%60;
     $hour=0;
     $min_t = explode('.', number_format($unixtime/60,2));
     $min=$min_t[0];
-elseif($unixtime >= 216000):
+} else if($unixtime >= 216000){
     $hour_t = explode('.',number_format($unixtime/216000,2));
     $hour=$hour_t[0];
     $sec=$unixtime%60;
     $min_te = $unixtime%216000;
     $min_t = explode('.',number_format($min_te/60,2));
     $min=$min_t[0];
-endif;
-  
-  if($guest == 0 || $guest == 2) 
-    print ("<td><img src=\"images/4nwho/green_dot.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$hour hour : $min min : $sec sec </td>");
-  else
-    print ("<td><img src=\"images/4nwho/red_dot.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$hour hour : $min min : $sec sec </td>");
-
-endwhile;
-
-print ("</tr></table><br />");
-
-$resultws = $pnt_db->sql_query("SELECT uname, guest FROM " . $pnt_prefix . "_session WHERE guest=1 OR guest=3");
-
-$guest_online_count = $pnt_db->sql_numrows($resultws);
-
-$result4thd = $pnt_db->sql_query("SELECT uname, guest FROM " . $pnt_prefix . "_session WHERE guest=0 OR guest=2");
-
-$member_online_count = $pnt_db->sql_numrows($result4thd);
-
+}
+if($guest == 0 || $guest == 2) {
+    echo ("<td><img src=\"images/4nwho/green_dot.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$hour hour : $min min : $sec sec </td>");
+}else{
+    echo ("<td><img src=\"images/4nwho/red_dot.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$hour hour : $min min : $sec sec </td>");
+  }
+}
+echo ("</tr></table><br />");
+$resultws = $db->sql_query("SELECT uname, guest FROM " . $prefix . "_session WHERE guest=1 OR guest=3");
+$guest_online_count = $db->sql_numrows($resultws);
+$result4thd = $db->sql_query("SELECT uname, guest FROM " . $prefix . "_session WHERE guest=0 OR guest=2");
+$member_online_count = $db->sql_numrows($result4thd);
 $DataOnlineWho .= "<img src=\"images/4nwho/group-1.gif\" height=\"14\" width=\"17\" alt=\"" . _4nwho03 . "\">&nbsp;&nbsp;" . _4nwho17 . "&nbsp;<strong>$guest_online_count</strong>&nbsp;" . _4nwho18 . "&nbsp;<strong>$member_online_count</strong>&nbsp;" . _4nwho19 . "";
-    
-if(is_user()): 
-list($pnt_user_id) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_id FROM " . $pnt_user_prefix . "_users WHERE username='$uname'"));
-$result2 = $pnt_db->sql_query("SELECT uname FROM " . $pnt_prefix . "_session WHERE guest='0' OR guest='2' ORDER BY uname ASC");
-$member_online_count = $pnt_db->sql_numrows($result2);
-endif;
-
-if(is_user()): 
-  list($pnt_user_id) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_id FROM " . $pnt_user_prefix . "_users WHERE username='$uname'"));
-else: 
-  $result2 = $pnt_db->sql_query("SELECT uname FROM " . $pnt_prefix . "_session WHERE guest='0' OR guest='2' ORDER BY uname ASC");
-  $member_online_count = $pnt_db->sql_numrows($result2);
-endif;
-  
-if($numUsersOnline>0): 
-   while($row = $pnt_db->sql_fetchrow($unameResult)): 
-     $uname = $row["uname"];
-   endwhile;
-endif;
-
-print ("<div align=\"center\">&nbsp;<a class=\"titaniumbutton\" href=\"" . $admin_file . ".php?op=who\">" . _4nwho09 . "</a>&nbsp;</div>\n");
-print ("<br />\n");
-
-list($lastuser) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT username 
-
-FROM " . $pnt_user_prefix . "_users 
-
-ORDER BY user_id DESC limit 0,1"));
-
-$totalmembers = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM " . $pnt_user_prefix . "_users"));
+    if (is_user()) {
+        list($user_id) = $db->sql_fetchrow($db->sql_query("SELECT user_id FROM " . $user_prefix . "_users WHERE username='$uname'"));
+        }
+$result2 = $db->sql_query("SELECT uname FROM " . $prefix . "_session WHERE guest='0' OR guest='2' ORDER BY uname ASC");
+$member_online_count = $db->sql_numrows($result2);
+    if (is_user()) {
+       list($user_id) = $db->sql_fetchrow($db->sql_query("SELECT user_id FROM " . $user_prefix . "_users WHERE username='$uname'"));
+     } else {
+$result2 = $db->sql_query("SELECT uname FROM " . $prefix . "_session WHERE guest='0' OR guest='2' ORDER BY uname ASC");
+$member_online_count = $db->sql_numrows($result2);
+     }
+    if ($numUsersOnline>0) {
+    while($row = $db->sql_fetchrow($unameResult)) {
+      $uname = $row["uname"];
+           }
+        }
+echo ("<center>[&nbsp;<a href=\"" . $admin_file . ".php?op=who\">" . _4nwho09 . "</a>&nbsp;]</center>\n");
+    CloseTable();
+echo ("<br />\n");
+list($lastuser) = $db->sql_fetchrow($db->sql_query("SELECT username FROM " . $user_prefix . "_users ORDER BY user_id DESC limit 0,1"));
+$totalmembers = $db->sql_numrows($db->sql_query("SELECT * FROM " . $user_prefix . "_users"));
 $totalmem = number_format($totalmembers, 0);
-
-print ("<div align=\"center\">$DataOnlineWho</div>\n");
- 
-print ("<br /><div align=\"center\">" . _4nwho11 . ": <a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$lastuser\"><strong>$lastuser</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . _4nwho12 . ": <strong>$totalmem</strong></div>\n");
-
-# START - Please do not edit and/or delete this lines - THANKS!
-print ("<div align=\"center\">" . _4nwhocopy . "</div>\n");
+  OpenTable();
+  echo ("<center>$DataOnlineWho</center>\n");
+  echo ("<br /><center>" . _4nwho11 . ": <a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$lastuser\"><strong>$lastuser</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . _4nwho12 . ": <strong>$totalmem</strong></center>\n");
   CloseTable();
-# END - Please do not edit and/or delete this lines - THANKS!
+// START - Please do not edit and/or delete this lines - THANKS!
+echo ("<br />\n");
+  OpenTable();
+echo ("<center>" . _4nwhocopy . "</center>\n");
+  CloseTable();
+// END - Please do not edit and/or delete this lines - THANKS!
 include(NUKE_BASE_DIR.'footer.php');
 
- 
-else: 
-    print "Access Denied";
-endif;
+} else {
+    echo "Access Denied";
+}
+
 ?>

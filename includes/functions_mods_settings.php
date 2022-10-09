@@ -40,19 +40,19 @@ function mods_settings_get_lang($key)
 //---------------------------------------------------------------
 function init_board_config_key($key, $value, $force=false)
 {
-	global $pnt_db, $phpbb2_board_config, $cache;
-	if (!isset($phpbb2_board_config[$key]))
+	global $db, $board_config, $cache;
+	if (!isset($board_config[$key]))
 	{
-		$phpbb2_board_config[$key] = $value;
+		$board_config[$key] = $value;
 		$sql = "INSERT INTO " . CONFIG_TABLE . " (config_name,config_value) VALUES('$key','$value')";
-		if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not add key ' . $key . ' in config table', '', __LINE__, __FILE__, $sql);
+		if ( !$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not add key ' . $key . ' in config table', '', __LINE__, __FILE__, $sql);
 		$cache->delete('board_config', 'config');
 	}
 	else if ($force)
 	{
-		$phpbb2_board_config[$key] = $value;
+		$board_config[$key] = $value;
 		$sql = "UPDATE " . CONFIG_TABLE . " SET config_value='$value' WHERE config_name='$key'";
-		if ( !$pnt_db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not add key ' . $key . ' in config table', '', __LINE__, __FILE__, $sql);
+		if ( !$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not add key ' . $key . ' in config table', '', __LINE__, __FILE__, $sql);
 		$cache->delete('board_config', 'config');
 	}
 }
@@ -62,14 +62,14 @@ function init_board_config_key($key, $value, $force=false)
 //	user_board_config_key() : get the user choice if defined
 //
 //---------------------------------------------------------------
-function user_board_config_key($key, $pnt_user_field='', $over_field='')
+function user_board_config_key($key, $user_field='', $over_field='')
 {
-	global $phpbb2_board_config, $userdata;
+	global $board_config, $userdata;
 
 	// get the user fields name if not given
-	if (empty($pnt_user_field))
+	if (empty($user_field))
 	{
-		$pnt_user_field = 'user_' . $key;
+		$user_field = 'user_' . $key;
 	}
 
 	// get the overwrite allowed switch name if not given
@@ -79,25 +79,25 @@ function user_board_config_key($key, $pnt_user_field='', $over_field='')
 	}
 
 	// does the key exists ?
-	if (!isset($phpbb2_board_config[$key])) return;
+	if (!isset($board_config[$key])) return;
 
 	// does the user field exists ?
-	if (!isset($userdata[$pnt_user_field])) return;
+	if (!isset($userdata[$user_field])) return;
 
 	// does the overwrite switch exists ?
-	if (!isset($phpbb2_board_config[$over_field]))
+	if (!isset($board_config[$over_field]))
 	{
-		$phpbb2_board_config[$over_field] = 0; // no overwrite
+		$board_config[$over_field] = 0; // no overwrite
 	}
 
 	// overwrite with the user data only if not overwrite sat, not anonymous, and logged in
-	if (!intval($phpbb2_board_config[$over_field]) && ($userdata['user_id'] != ANONYMOUS) && $userdata['session_logged_in'])
+	if (!intval($board_config[$over_field]) && ($userdata['user_id'] != ANONYMOUS) && $userdata['session_logged_in'])
 	{
-		$phpbb2_board_config[$key] = $userdata[$pnt_user_field];
+		$board_config[$key] = $userdata[$user_field];
 	}
 	else
 	{
-		$userdata[$pnt_user_field] = $phpbb2_board_config[$key];
+		$userdata[$user_field] = $board_config[$key];
 	}
 }
 

@@ -31,20 +31,20 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $pnt_db, $pnt_prefix;
+global $db, $prefix;
 
 # how many referers should the block display?
 $ref = 10;
 $a = 1;
 $content = '';
 
-$result = $pnt_db->sql_query("SELECT url FROM ".$pnt_prefix."_referer ORDER BY lasttime DESC LIMIT 0,$ref");
-$total = $pnt_db->sql_numrows($result);
+$result = $db->sql_query("SELECT url FROM ".$prefix."_referer ORDER BY lasttime DESC LIMIT 0,$ref");
+$total = $db->sql_numrows($result);
 if ($total < 1) {
     return $content = 'No referers to display';
 }
 
-while (list($url) = $pnt_db->sql_fetchrow($result)) {
+while (list($url) = $db->sql_fetchrow($result)) {
     $url2 = str_replace('_', ' ', $url);
     
     if (strlen($url2) > 18) {
@@ -67,6 +67,6 @@ if (is_admin()) {
                ."[ <a href=\"".$admin_file.".php?op=hreferer&amp;del=all\">"._DELETE."</a> ]\n"
                ."</div>\n";
 }
-$pnt_db->sql_freeresult($result);
+$db->sql_freeresult($result);
 
 ?>

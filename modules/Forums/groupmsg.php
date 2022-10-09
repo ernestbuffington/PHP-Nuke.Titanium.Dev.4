@@ -46,19 +46,19 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
-$phpbb2_root_path = NUKE_FORUMS_DIR;
-include($phpbb2_root_path . 'extension.inc');
-include($phpbb2_root_path . 'common.'.$phpEx);
+$phpbb_root_path = NUKE_FORUMS_DIR;
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.'.$phpEx);
 include('includes/bbcode.'.$phpEx);
 include('includes/functions_post.'.$phpEx);
-include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_mass_pm.' . $phpEx);
+include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_mass_pm.' . $phpEx);
 include(NUKE_BASE_DIR.'header.php');
 //
 // Is PM disabled?
 //
-if ( !empty($phpbb2_board_config['privmsg_disable']) )
+if ( !empty($board_config['privmsg_disable']) )
 {
     message_die(GENERAL_MESSAGE, 'PM_disabled');
 }
@@ -72,8 +72,8 @@ if ( !empty($phpbb2_board_config['privmsg_disable']) )
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_PRIVMSGS);
-titanium_init_userprefs($userdata);
+$userdata = session_pagestart($user_ip, PAGE_PRIVMSGS);
+init_userprefs($userdata);
 //
 // End session management
 //
@@ -102,11 +102,11 @@ if ( !empty($group_id) )
                         (g.group_allow_pm='".AUTH_REG."' AND '".$userdata['user_id']."'!='".ANONYMOUS."' ) OR
                         (g.group_allow_pm='".AUTH_ALL."')
                 )" ;
-        $result = $pnt_db->sql_query($sql);
-        if( !$result = $pnt_db->sql_query($sql) )
+        $result = $db->sql_query($sql);
+        if( !$result = $db->sql_query($sql) )
             message_die(GENERAL_ERROR, "Could not select group name!", __LINE__, __FILE__, $sql);
-        if( ! $pnt_db->sql_numrows($result)) message_die(GENERAL_ERROR, $lang['Not_Authorised']);
-        $group = $pnt_db->sql_fetchrow($result);
+        if( ! $db->sql_numrows($result)) message_die(GENERAL_ERROR, $lang['Not_Authorised']);
+        $group = $db->sql_fetchrow($result);
         $group_name=$group['group_name'];
         $sql = "SELECT distinct u.user_id, u.user_lang, u.user_email, u.username, u.user_notify_pm,u.user_active,u.user_allow_mass_pm
             FROM " . USERS_TABLE . " u, " . USER_GROUP_TABLE . " ug
@@ -140,13 +140,13 @@ if ( !empty($group_id) )
                     AND user_level = '3' ORDER BY user_lang";
         $group_name=$lang['All_mods'];
     }
-    if( !$result = $pnt_db->sql_query($sql) )
+    if( !$result = $db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, "Coult not select group members!", __LINE__, __FILE__, $sql);
     }
-    if( ! $pnt_db->sql_numrows($result))
+    if( ! $db->sql_numrows($result))
     {
-        $pm_list = $pnt_db->sql_fetchrowset($result);
+        $pm_list = $db->sql_fetchrowset($result);
         //
         // Output a relevant GENERAL_MESSAGE about users/group
         // not existing
@@ -154,8 +154,8 @@ if ( !empty($group_id) )
         $error = TRUE;
         $error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $lang['No_to_user'];
     }
-    $PM_list = $pnt_db->sql_fetchrowset($result);
-    $PM_count=$pnt_db->sql_numrows($result);
+    $PM_list = $db->sql_fetchrowset($result);
+    $PM_count=$db->sql_numrows($result);
 }
 
 //
@@ -177,7 +177,7 @@ $error = FALSE;
     //
     // Toggles
     //
-    if ( !$phpbb2_board_config['allow_html'] )
+    if ( !$board_config['allow_html'] )
     {
         $html_on = 0;
     }
@@ -186,7 +186,7 @@ $error = FALSE;
         $html_on = ( $submit || $refresh ) ? ( ( !empty($HTTP_POST_VARS['disable_html']) ) ? 0 : TRUE ) : $userdata['user_allowhtml'];
     }
 
-    if ( !$phpbb2_board_config['allow_bbcode'] )
+    if ( !$board_config['allow_bbcode'] )
     {
         $bbcode_on = 0;
     }
@@ -195,7 +195,7 @@ $error = FALSE;
         $bbcode_on = ( $submit || $refresh ) ? ( ( !empty($HTTP_POST_VARS['disable_bbcode']) ) ? 0 : TRUE ) : $userdata['user_allowbbcode'];
     }
 
-    if ( !$phpbb2_board_config['allow_smilies'] )
+    if ( !$board_config['allow_smilies'] )
     {
         $smilies_on = 0;
     }
@@ -205,7 +205,7 @@ $error = FALSE;
     }
 
     $attach_sig = ( $submit || $refresh ) ? ( ( !empty($HTTP_POST_VARS['attach_sig']) ) ? TRUE : 0 ) : $userdata['user_attachsig'];
-    $pnt_user_sig = ( $userdata['user_sig'] != '' && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : "";
+    $user_sig = ( $userdata['user_sig'] != '' && $board_config['allow_sig'] ) ? $userdata['user_sig'] : "";
 
     if ( $submit)
     {
@@ -215,14 +215,14 @@ $error = FALSE;
         $sql = "SELECT MAX(privmsgs_date) AS last_post_time
             FROM " . PRIVMSGS_TABLE . "
             WHERE privmsgs_from_userid = " . $userdata['user_id'];
-        if ( $result = $pnt_db->sql_query($sql) )
+        if ( $result = $db->sql_query($sql) )
         {
-            $pnt_db_row = $pnt_db->sql_fetchrow($result);
+            $db_row = $db->sql_fetchrow($result);
 
-            $phpbb2_last_post_time = $pnt_db_row['last_post_time'];
+            $last_post_time = $db_row['last_post_time'];
             $current_time = time();
 
-            if ( ( $current_time - $phpbb2_last_post_time ) < $phpbb2_board_config['flood_interval'])
+            if ( ( $current_time - $last_post_time ) < $board_config['flood_interval'])
             {
                 message_die(GENERAL_MESSAGE, $lang['Flood_Error']);
             }
@@ -281,16 +281,16 @@ $error = FALSE;
                         OR privmsgs_type = " . PRIVMSGS_READ_MAIL . "
                         OR privmsgs_type = " . PRIVMSGS_UNREAD_MAIL . " )
                     AND privmsgs_to_userid = " . $to_userdata['user_id'];
-            if ( !($result = $pnt_db->sql_query($sql)) )
+            if ( !($result = $db->sql_query($sql)) )
             {
                 message_die(GENERAL_MESSAGE, $lang['No_such_user']);
             }
 
             $sql_priority = ( SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli') ? 'LOW_PRIORITY' : '';
 
-            if ( $inbox_info = $pnt_db->sql_fetchrow($result) )
+            if ( $inbox_info = $db->sql_fetchrow($result) )
             {
-                if ( $inbox_info['inbox_items'] >= $phpbb2_board_config['max_inbox_privmsgs'] )
+                if ( $inbox_info['inbox_items'] >= $board_config['max_inbox_privmsgs'] )
                 {
                     $sql = "DELETE $sql_priority FROM " . PRIVMSGS_TABLE . "
                         WHERE ( privmsgs_type = " . PRIVMSGS_NEW_MAIL . "
@@ -298,7 +298,7 @@ $error = FALSE;
                                 OR privmsgs_type = " . PRIVMSGS_UNREAD_MAIL . "  )
                             AND privmsgs_date = " . $inbox_info['oldest_post_time'] . "
                             AND privmsgs_to_userid = " . $to_userdata['user_id'];
-                    if ( !$pnt_db->sql_query($sql) )
+                    if ( !$db->sql_query($sql) )
                     {
                         message_die(GENERAL_ERROR, 'Could not delete oldest privmsgs', '', __LINE__, __FILE__, $sql);
                     }
@@ -306,19 +306,19 @@ $error = FALSE;
             }
 
             $sql_info = "INSERT INTO " . PRIVMSGS_TABLE . " (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date, privmsgs_ip, privmsgs_enable_html, privmsgs_enable_bbcode, privmsgs_enable_smilies, privmsgs_attach_sig)
-                VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", str_replace("[USERNAME]",$to_userdata['username'],$privmsg_subject)) . "', " . $userdata['user_id'] . ", " . $to_userdata['user_id'] . ", $msg_time, '$pnt_user_ip', $html_on, $bbcode_on, $smilies_on, $attach_sig)";
+                VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", str_replace("[USERNAME]",$to_userdata['username'],$privmsg_subject)) . "', " . $userdata['user_id'] . ", " . $to_userdata['user_id'] . ", $msg_time, '$user_ip', $html_on, $bbcode_on, $smilies_on, $attach_sig)";
 
-            if ( !($result = $pnt_db->sql_query($sql_info)) )
+            if ( !($result = $db->sql_query($sql_info)) )
             {
                 message_die(GENERAL_ERROR, "Could not insert private message sent info.", "", __LINE__, __FILE__, $sql_info);
             }
 
-            $privmsg_sent_id = $pnt_db->sql_nextid();
+            $privmsg_sent_id = $db->sql_nextid();
 
             $sql = "INSERT INTO " . PRIVMSGS_TEXT_TABLE . " (privmsgs_text_id, privmsgs_bbcode_uid, privmsgs_text)
                 VALUES ($privmsg_sent_id, '" . $bbcode_uid . "', '" . str_replace("\'", "''", str_replace("[USERNAME]",$to_userdata['username'],$privmsg_message)) . "')";
 
-            if ( !$pnt_db->sql_query($sql) )
+            if ( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Could not insert/update private message sent text.", "", __LINE__, __FILE__, $sql_info);
             }
@@ -329,21 +329,21 @@ $error = FALSE;
             $sql = "UPDATE " . USERS_TABLE . "
                 SET user_new_privmsg = user_new_privmsg + 1, user_last_privmsg = " . time() . "
                 WHERE user_id = " . $to_userdata['user_id'];
-            if ( !$status = $pnt_db->sql_query($sql) )
+            if ( !$status = $db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not update private message new/read status for user', '', __LINE__, __FILE__, $sql);
             }
 
             if (!empty($to_userdata['user_email']) && $to_userdata['user_active'] && $to_userdata['user_allow_mass_pm']>3 )
             {
-                $email_headers = 'From: ' . $phpbb2_board_config['board_email'] . "\nReturn-Path: " . $phpbb2_board_config['board_email'] . "\r\n";
-                //$script_name = preg_replace('/^\/?(.*?)\/?$/', "\\1", trim($phpbb2_board_config['script_path']));
+                $email_headers = 'From: ' . $board_config['board_email'] . "\nReturn-Path: " . $board_config['board_email'] . "\r\n";
+                //$script_name = preg_replace('/^\/?(.*?)\/?$/', "\\1", trim($board_config['script_path']));
                 $script_name = 'modules.php?name=Private_Messages';
-                $server_name = trim($phpbb2_board_config['server_name']);
-                $server_protocol = ( $phpbb2_board_config['cookie_secure'] ) ? 'https://' : 'http://';
-                $server_port = ( $phpbb2_board_config['server_port'] <> 80 ) ? ':' . trim($phpbb2_board_config['server_port']) . '/' : '/';
+                $server_name = trim($board_config['server_name']);
+                $server_protocol = ( $board_config['cookie_secure'] ) ? 'https://' : 'http://';
+                $server_port = ( $board_config['server_port'] <> 80 ) ? ':' . trim($board_config['server_port']) . '/' : '/';
 
-                $emailer = new emailer($phpbb2_board_config['smtp_delivery']);
+                $emailer = new emailer($board_config['smtp_delivery']);
 
                 $emailer->use_template('privmsg_notify', $to_userdata['user_lang']);
                 $emailer->extra_headers($email_headers);
@@ -361,8 +361,8 @@ $error = FALSE;
  [ Mod:     Extended PM Notification           v1.1.5 ]
  ******************************************************/
                     'FROM' => $userdata['username'],
-                    'SITENAME' => $phpbb2_board_config['sitename'],
-                    'EMAIL_SIG' => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : '',
+                    'SITENAME' => $board_config['sitename'],
+                    'EMAIL_SIG' => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '',
 /*****[BEGIN]******************************************
  [ Mod:     Direct Inbox Linking (Email)       v1.0.0 ]
  [ Mod:     Suppress Popup                     v1.0.0 ]
@@ -379,10 +379,10 @@ $error = FALSE;
             }
             $i++;
         }
-        $phpbb2_template->assign_vars(array(
-            'META' => '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '">')
+        $template->assign_vars(array(
+            'META' => '<meta http-equiv="refresh" content="3;url=' . append_sid("privmsg.$phpEx?folder=inbox") . '">')
         );
-        $msg = $lang['PM_delivered'] . '<br /><br />'.sprintf($lang['Mass_pm_count'],$i,$n).'<br />' . sprintf($lang['Click_return_inbox'], '<a href="' . append_titanium_sid("privmsg.$phpEx?folder=inbox") . '">', '</a> ') . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
+        $msg = $lang['PM_delivered'] . '<br /><br />'.sprintf($lang['Mass_pm_count'],$i,$n).'<br />' . sprintf($lang['Click_return_inbox'], '<a href="' . append_sid("privmsg.$phpEx?folder=inbox") . '">', '</a> ') . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
         message_die(GENERAL_MESSAGE, $msg);
     }
     else if ( $preview || $error )
@@ -407,15 +407,15 @@ $error = FALSE;
         //
         if ( $mode == 'post' )
         {
-            $phpbb2_page_title = $lang['Send_mass_pm'];
-            $pnt_user_sig = ( $userdata['user_sig'] != '' && $phpbb2_board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
+            $page_title = $lang['Send_mass_pm'];
+            $user_sig = ( $userdata['user_sig'] != '' && $board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
 
         }
     }
     //
     // Start output, first preview, then errors then post form
     //
-    $phpbb2_page_title = $lang['Send_mass_pm'];
+    $page_title = $lang['Send_mass_pm'];
     include('includes/page_header.'.$phpEx);
 
     if ( $preview && !$error )
@@ -437,15 +437,15 @@ $error = FALSE;
         //
         if ( !$html_on )
         {
-            if ( $pnt_user_sig != '' || !$userdata['user_allowhtml'] )
+            if ( $user_sig != '' || !$userdata['user_allowhtml'] )
             {
-                $pnt_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $pnt_user_sig);
+                $user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $user_sig);
             }
         }
 
-        if ( $attach_sig && $pnt_user_sig != '' && $userdata['user_sig_bbcode_uid'] )
+        if ( $attach_sig && $user_sig != '' && $userdata['user_sig_bbcode_uid'] )
         {
-            $pnt_user_sig = bbencode_second_pass($pnt_user_sig, $userdata['user_sig_bbcode_uid']);
+            $user_sig = bbencode_second_pass($user_sig, $userdata['user_sig_bbcode_uid']);
         }
 
         if ( $bbcode_on )
@@ -453,9 +453,9 @@ $error = FALSE;
             $preview_message = bbencode_second_pass($preview_message, $bbcode_uid);
         }
 
-        if ( $attach_sig && $pnt_user_sig != '' )
+        if ( $attach_sig && $user_sig != '' )
         {
-            $preview_message = $preview_message . '<br /><br />_________________<br />' . $pnt_user_sig;
+            $preview_message = $preview_message . '<br /><br />_________________<br />' . $user_sig;
         }
 
         if ( count($orig_word) )
@@ -475,16 +475,16 @@ $error = FALSE;
 
         $preview_message = make_clickable($preview_message);
         $preview_message = str_replace("\n", '<br />', $preview_message);
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
             "preview" => 'privmsgs_preview.tpl')
         );
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'TOPIC_TITLE' => $preview_subject,
             'POST_SUBJECT' => $preview_subject,
             'MESSAGE_TO' => $group_name.' ('. $PM_count.')',
             'MESSAGE_FROM' => $userdata['username'],
-            'POST_DATE' => create_date($phpbb2_board_config['default_dateformat'], time(), $phpbb2_board_config['board_timezone']),
+            'POST_DATE' => create_date($board_config['default_dateformat'], time(), $board_config['board_timezone']),
             'MESSAGE' => $preview_message,
             'L_SUBJECT' => $lang['Subject'],
             'L_DATE' => $lang['Date'],
@@ -494,7 +494,7 @@ $error = FALSE;
             'L_POSTED' => $lang['Posted'])
         );
 
-        $phpbb2_template->assign_var_from_handle('POST_PREVIEW_BOX', 'preview');
+        $template->assign_var_from_handle('POST_PREVIEW_BOX', 'preview');
     }
 
     //
@@ -502,19 +502,19 @@ $error = FALSE;
     //
     if ($error)
     {
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
             'reg_header' => 'error_body.tpl')
         );
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'ERROR_MESSAGE' => $error_msg)
         );
-        $phpbb2_template->assign_var_from_handle('ERROR_BOX', 'reg_header');
+        $template->assign_var_from_handle('ERROR_BOX', 'reg_header');
     }
 
     //
     // Load templates
     //
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'posting_body.tpl')
     );
     make_jumpbox('viewforum.'.$phpEx);
@@ -522,15 +522,15 @@ $error = FALSE;
     //
     // Enable extensions in posting_body
     //
-    $phpbb2_template->assign_block_vars('switch_groupmsg', array());
+    $template->assign_block_vars('switch_groupmsg', array());
 
     //
     // HTML toggle selection
     //
-    if ( $phpbb2_board_config['allow_html'] )
+    if ( $board_config['allow_html'] )
     {
         $html_status = $lang['HTML_is_ON'];
-        $phpbb2_template->assign_block_vars('switch_html_checkbox', array());
+        $template->assign_block_vars('switch_html_checkbox', array());
     }
     else
     {
@@ -540,10 +540,10 @@ $error = FALSE;
     //
     // BBCode toggle selection
     //
-    if ( $phpbb2_board_config['allow_bbcode'] )
+    if ( $board_config['allow_bbcode'] )
     {
         $bbcode_status = $lang['BBCode_is_ON'];
-        $phpbb2_template->assign_block_vars('switch_bbcode_checkbox', array());
+        $template->assign_block_vars('switch_bbcode_checkbox', array());
     }
     else
     {
@@ -553,10 +553,10 @@ $error = FALSE;
     //
     // Smilies toggle selection
     //
-    if ( $phpbb2_board_config['allow_smilies'] )
+    if ( $board_config['allow_smilies'] )
     {
         $smilies_status = $lang['Smilies_are_ON'];
-        $phpbb2_template->assign_block_vars('switch_smilies_checkbox', array());
+        $template->assign_block_vars('switch_smilies_checkbox', array());
     }
     else
     {
@@ -567,9 +567,9 @@ $error = FALSE;
     // Signature toggle selection - only show if
     // the user has a signature
     //
-    if ( $pnt_user_sig != '' )
+    if ( $user_sig != '' )
     {
-        $phpbb2_template->assign_block_vars('switch_signature_checkbox', array());
+        $template->assign_block_vars('switch_signature_checkbox', array());
     }
 
     if ( $mode == 'post' )
@@ -587,9 +587,9 @@ $error = FALSE;
                 (g.group_allow_pm='".AUTH_REG."' AND '".$userdata['user_id']."'!='".ANONYMOUS."' ) OR
                 (g.group_allow_pm='".AUTH_ALL."')
         )" ;
-    if( !$g_result = $pnt_db->sql_query($sql) )
+    if( !$g_result = $db->sql_query($sql) )
     message_die(GENERAL_ERROR, "Could not select group names!", __LINE__, __FILE__, $sql);
-    $group_list = $pnt_db->sql_fetchrowset($g_result);
+    $group_list = $db->sql_fetchrowset($g_result);
     if( $userdata['user_level']!=ADMIN && empty($group_list)) message_die(GENERAL_ERROR, $lang['Mass_pm_not_allowed']);
     $groupname = $_REQUEST[POST_GROUPS_URL];
     $select_list = '<select name = "' . POST_GROUPS_URL . '">';
@@ -607,14 +607,14 @@ $error = FALSE;
     //
     generate_smilies('inline', PAGE_PRIVMSGS);
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'SUBJECT' => preg_replace($html_entities_match, $html_entities_replace, $privmsg_subject),
         'USERNAME' => $select_list,
         'MESSAGE' => $privmsg_message,
         'BB_BOX' => Make_TextArea_Ret('message', $message, 'post', '99.8%', '200px', true),
         'HTML_STATUS' => $html_status,
         'SMILIES_STATUS' => $smilies_status,
-        'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="' . append_titanium_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
+        'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="' . append_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
         'FORUM_NAME' => $lang['Private_message'],
 
         'L_SUBJECT' => $lang['Subject'],
@@ -675,15 +675,15 @@ $error = FALSE;
         'S_BBCODE_CHECKED' => ( !$bbcode_on ) ? ' checked="checked"' : '',
         'S_SMILIES_CHECKED' => ( !$smilies_on ) ? ' checked="checked"' : '',
         'S_SIGNATURE_CHECKED' => ( $attach_sig ) ? ' checked="checked"' : '',
-        'S_NAMES_SELECT' => $pnt_user_names_select,
+        'S_NAMES_SELECT' => $user_names_select,
         'S_HIDDEN_FORM_FIELDS' => $s_hidden_fields,
-        'S_POST_ACTION' => append_titanium_sid("groupmsg.$phpEx"),
+        'S_POST_ACTION' => append_sid("groupmsg.$phpEx"),
 
-        'U_SEARCH_USER' => append_titanium_sid("search.$phpEx?mode=searchuser"),
-        'U_VIEW_FORUM' => append_titanium_sid("privmsg.$phpEx"))
+        'U_SEARCH_USER' => append_sid("search.$phpEx?mode=searchuser"),
+        'U_VIEW_FORUM' => append_sid("privmsg.$phpEx"))
     );
 
-    $phpbb2_template->pparse('body');
+    $template->pparse('body');
 
     include('includes/page_tail.'.$phpEx);
 //
@@ -693,14 +693,14 @@ $error = FALSE;
 //
 // Generate page
 //
-$phpbb2_page_title = $lang['Private_Messaging'];
+$page_title = $lang['Private_Messaging'];
 
 include('includes/page_header.'.$phpEx);
 
 //
 // Load templates
 //
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     'body' => 'privmsgs_body.tpl')
 );
 make_jumpbox('viewforum.'.$phpEx);
@@ -708,16 +708,16 @@ make_jumpbox('viewforum.'.$phpEx);
 //
 // Dump vars to template
 //
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'L_SUBJECT' => $lang['Subject'],
     'L_DATE' => $lang['Date'],
     'L_DISPLAY_MESSAGES' => $lang['Display_messages'],
     'L_FROM_OR_TO' => $lang['To_group'],
 
-    'S_PRIVMSGS_ACTION' => append_titanium_sid("groupmsg.$phpEx?folder=$folder"),
+    'S_PRIVMSGS_ACTION' => append_sid("groupmsg.$phpEx?folder=$folder"),
 )
 );
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 include('includes/page_tail.'.$phpEx);
 include(NUKE_BASE_DIR.'footer.php');

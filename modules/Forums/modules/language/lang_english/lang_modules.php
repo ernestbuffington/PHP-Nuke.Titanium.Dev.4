@@ -18,23 +18,23 @@ $top_posters_month['module_name'] = 'Top posting users this month';
 // [/top_posters_month]
 
 // [topics_by_month]
-$phpbb2_topics_by_month = array();
+$topics_by_month = array();
 
-$phpbb2_topics_by_month['module_name'] = 'Number of new topics by month';
-$phpbb2_topics_by_month['Year'] = 'Year';
+$topics_by_month['module_name'] = 'Number of new topics by month';
+$topics_by_month['Year'] = 'Year';
 
-$phpbb2_topics_by_month['Month_jan'] = 'Jan';
-$phpbb2_topics_by_month['Month_feb'] = 'Feb';
-$phpbb2_topics_by_month['Month_mar'] = 'Mar';
-$phpbb2_topics_by_month['Month_apr'] = 'Apr';
-$phpbb2_topics_by_month['Month_may'] = 'May';
-$phpbb2_topics_by_month['Month_jun'] = 'Jun';
-$phpbb2_topics_by_month['Month_jul'] = 'Jul';
-$phpbb2_topics_by_month['Month_aug'] = 'Aug';
-$phpbb2_topics_by_month['Month_sep'] = 'Sep';
-$phpbb2_topics_by_month['Month_oct'] = 'Oct';
-$phpbb2_topics_by_month['Month_nov'] = 'Nov';
-$phpbb2_topics_by_month['Month_dec'] = 'Dec';
+$topics_by_month['Month_jan'] = 'Jan';
+$topics_by_month['Month_feb'] = 'Feb';
+$topics_by_month['Month_mar'] = 'Mar';
+$topics_by_month['Month_apr'] = 'Apr';
+$topics_by_month['Month_may'] = 'May';
+$topics_by_month['Month_jun'] = 'Jun';
+$topics_by_month['Month_jul'] = 'Jul';
+$topics_by_month['Month_aug'] = 'Aug';
+$topics_by_month['Month_sep'] = 'Sep';
+$topics_by_month['Month_oct'] = 'Oct';
+$topics_by_month['Month_nov'] = 'Nov';
+$topics_by_month['Month_dec'] = 'Dec';
 // [/topics_by_month]
 
 // [admin_statistics]
@@ -78,23 +78,23 @@ $top_smilies['Smilie_code'] = 'Smiley Code';
 // [/top_smilies]
 
 // [posts_by_month]
-$phpbb2_posts_by_month = array();
+$posts_by_month = array();
 
-$phpbb2_posts_by_month['module_name'] = 'Number of new posts by month';
-$phpbb2_posts_by_month['Year'] = 'Year';
+$posts_by_month['module_name'] = 'Number of new posts by month';
+$posts_by_month['Year'] = 'Year';
 
-$phpbb2_posts_by_month['Month_jan'] = 'Jan';
-$phpbb2_posts_by_month['Month_feb'] = 'Feb';
-$phpbb2_posts_by_month['Month_mar'] = 'Mar';
-$phpbb2_posts_by_month['Month_apr'] = 'Apr';
-$phpbb2_posts_by_month['Month_may'] = 'May';
-$phpbb2_posts_by_month['Month_jun'] = 'Jun';
-$phpbb2_posts_by_month['Month_jul'] = 'Jul';
-$phpbb2_posts_by_month['Month_aug'] = 'Aug';
-$phpbb2_posts_by_month['Month_sep'] = 'Sep';
-$phpbb2_posts_by_month['Month_oct'] = 'Oct';
-$phpbb2_posts_by_month['Month_nov'] = 'Nov';
-$phpbb2_posts_by_month['Month_dec'] = 'Dec';
+$posts_by_month['Month_jan'] = 'Jan';
+$posts_by_month['Month_feb'] = 'Feb';
+$posts_by_month['Month_mar'] = 'Mar';
+$posts_by_month['Month_apr'] = 'Apr';
+$posts_by_month['Month_may'] = 'May';
+$posts_by_month['Month_jun'] = 'Jun';
+$posts_by_month['Month_jul'] = 'Jul';
+$posts_by_month['Month_aug'] = 'Aug';
+$posts_by_month['Month_sep'] = 'Sep';
+$posts_by_month['Month_oct'] = 'Oct';
+$posts_by_month['Month_nov'] = 'Nov';
+$posts_by_month['Month_dec'] = 'Dec';
 // [/posts_by_month]
 
 // [most_viewed_topics]
@@ -176,23 +176,23 @@ $top_posters_month['module_name'] = 'Top posting users this month';
 // [/top_posters_month]
 
 // [topics_by_month]
-$phpbb2_topics_by_month = array();
+$topics_by_month = array();
 
-$phpbb2_topics_by_month['module_name'] = 'Number of new topics by month';
-$phpbb2_topics_by_month['Year'] = 'Year';
+$topics_by_month['module_name'] = 'Number of new topics by month';
+$topics_by_month['Year'] = 'Year';
 
-$phpbb2_topics_by_month['Month_jan'] = 'Jan';
-$phpbb2_topics_by_month['Month_feb'] = 'Feb';
-$phpbb2_topics_by_month['Month_mar'] = 'Mar';
-$phpbb2_topics_by_month['Month_apr'] = 'Apr';
-$phpbb2_topics_by_month['Month_may'] = 'May';
-$phpbb2_topics_by_month['Month_jun'] = 'Jun';
-$phpbb2_topics_by_month['Month_jul'] = 'Jul';
-$phpbb2_topics_by_month['Month_aug'] = 'Aug';
-$phpbb2_topics_by_month['Month_sep'] = 'Sep';
-$phpbb2_topics_by_month['Month_oct'] = 'Oct';
-$phpbb2_topics_by_month['Month_nov'] = 'Nov';
-$phpbb2_topics_by_month['Month_dec'] = 'Dec';
+$topics_by_month['Month_jan'] = 'Jan';
+$topics_by_month['Month_feb'] = 'Feb';
+$topics_by_month['Month_mar'] = 'Mar';
+$topics_by_month['Month_apr'] = 'Apr';
+$topics_by_month['Month_may'] = 'May';
+$topics_by_month['Month_jun'] = 'Jun';
+$topics_by_month['Month_jul'] = 'Jul';
+$topics_by_month['Month_aug'] = 'Aug';
+$topics_by_month['Month_sep'] = 'Sep';
+$topics_by_month['Month_oct'] = 'Oct';
+$topics_by_month['Month_nov'] = 'Nov';
+$topics_by_month['Month_dec'] = 'Dec';
 // [/topics_by_month]
 
 // [most_interesting_topics]
@@ -237,43 +237,43 @@ $top_smilies['Smilie_code'] = 'Smiley Code';
 // [/top_smilies]
 
 // [users_by_month]
-$pnt_users_by_month = array();
+$users_by_month = array();
 
-$pnt_users_by_month['module_name'] = 'Number of new users by month';
-$pnt_users_by_month['Year'] = 'Year';
+$users_by_month['module_name'] = 'Number of new users by month';
+$users_by_month['Year'] = 'Year';
 
-$pnt_users_by_month['Month_jan'] = 'Jan';
-$pnt_users_by_month['Month_feb'] = 'Feb';
-$pnt_users_by_month['Month_mar'] = 'Mar';
-$pnt_users_by_month['Month_apr'] = 'Apr';
-$pnt_users_by_month['Month_may'] = 'May';
-$pnt_users_by_month['Month_jun'] = 'Jun';
-$pnt_users_by_month['Month_jul'] = 'Jul';
-$pnt_users_by_month['Month_aug'] = 'Aug';
-$pnt_users_by_month['Month_sep'] = 'Sep';
-$pnt_users_by_month['Month_oct'] = 'Oct';
-$pnt_users_by_month['Month_nov'] = 'Nov';
-$pnt_users_by_month['Month_dec'] = 'Dec';
+$users_by_month['Month_jan'] = 'Jan';
+$users_by_month['Month_feb'] = 'Feb';
+$users_by_month['Month_mar'] = 'Mar';
+$users_by_month['Month_apr'] = 'Apr';
+$users_by_month['Month_may'] = 'May';
+$users_by_month['Month_jun'] = 'Jun';
+$users_by_month['Month_jul'] = 'Jul';
+$users_by_month['Month_aug'] = 'Aug';
+$users_by_month['Month_sep'] = 'Sep';
+$users_by_month['Month_oct'] = 'Oct';
+$users_by_month['Month_nov'] = 'Nov';
+$users_by_month['Month_dec'] = 'Dec';
 // [/users_by_month]
 
 // [posts_by_month]
-$phpbb2_posts_by_month = array();
+$posts_by_month = array();
 
-$phpbb2_posts_by_month['module_name'] = 'Number of new posts by month';
-$phpbb2_posts_by_month['Year'] = 'Year';
+$posts_by_month['module_name'] = 'Number of new posts by month';
+$posts_by_month['Year'] = 'Year';
 
-$phpbb2_posts_by_month['Month_jan'] = 'Jan';
-$phpbb2_posts_by_month['Month_feb'] = 'Feb';
-$phpbb2_posts_by_month['Month_mar'] = 'Mar';
-$phpbb2_posts_by_month['Month_apr'] = 'Apr';
-$phpbb2_posts_by_month['Month_may'] = 'May';
-$phpbb2_posts_by_month['Month_jun'] = 'Jun';
-$phpbb2_posts_by_month['Month_jul'] = 'Jul';
-$phpbb2_posts_by_month['Month_aug'] = 'Aug';
-$phpbb2_posts_by_month['Month_sep'] = 'Sep';
-$phpbb2_posts_by_month['Month_oct'] = 'Oct';
-$phpbb2_posts_by_month['Month_nov'] = 'Nov';
-$phpbb2_posts_by_month['Month_dec'] = 'Dec';
+$posts_by_month['Month_jan'] = 'Jan';
+$posts_by_month['Month_feb'] = 'Feb';
+$posts_by_month['Month_mar'] = 'Mar';
+$posts_by_month['Month_apr'] = 'Apr';
+$posts_by_month['Month_may'] = 'May';
+$posts_by_month['Month_jun'] = 'Jun';
+$posts_by_month['Month_jul'] = 'Jul';
+$posts_by_month['Month_aug'] = 'Aug';
+$posts_by_month['Month_sep'] = 'Sep';
+$posts_by_month['Month_oct'] = 'Oct';
+$posts_by_month['Month_nov'] = 'Nov';
+$posts_by_month['Month_dec'] = 'Dec';
 // [/posts_by_month]
 
 // [top_posters_week]

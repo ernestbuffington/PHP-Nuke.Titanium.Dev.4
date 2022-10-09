@@ -24,25 +24,25 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
-global $do_gzip_compress, $phpbb2_template, $cache, $userdata, $pnt_db, $lang, $phpbb2_board_config;
+global $do_gzip_compress, $template, $cache, $userdata, $db, $lang, $board_config;
 //
 // Show the overall footer.
 //
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
         'page_footer' => 'admin/page_footer.tpl')
 );
 
-$phpbb2_template->assign_vars(array(
-    'PHPBB_VERSION' => ($userdata['user_level'] == ADMIN && $userdata['user_id'] != ANONYMOUS) ? '2' . $phpbb2_board_config['version'] : '',
+$template->assign_vars(array(
+    'PHPBB_VERSION' => ($userdata['user_level'] == ADMIN && $userdata['user_id'] != ANONYMOUS) ? '2' . $board_config['version'] : '',
         'TRANSLATION_INFO' => (isset($lang['TRANSLATION_INFO'])) ? $lang['TRANSLATION_INFO'] : ((isset($lang['TRANSLATION'])) ? $lang['TRANSLATION'] : ''))
 );
 
-$phpbb2_template->pparse('page_footer');
+$template->pparse('page_footer');
 
 //
 // Resync changed chache
@@ -52,7 +52,7 @@ $cache->resync();
 //
 // Close our DB connection.
 //
-$pnt_db->sql_close();
+$db->sql_close();
 
 //
 // Compress buffered output if required

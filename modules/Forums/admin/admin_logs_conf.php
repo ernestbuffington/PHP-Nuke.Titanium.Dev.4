@@ -24,24 +24,24 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $pnt_module['Logs']['Logs Config'] = "$file";
+    $module['Logs']['Logs Config'] = "$file";
     return;
 }
 
 //
 // Load default header
 //
-$pnt_module = basename(dirname(dirname(__FILE__)));
-$phpbb2_root_path = './../';
-require_once($phpbb2_root_path . 'extension.inc');
+$module_name = basename(dirname(dirname(__FILE__)));
+$phpbb_root_path = './../';
+require_once($phpbb_root_path . 'extension.inc');
 require_once('./pagestart.' . $phpEx);
 include_once("../../../includes/functions_log.php");
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "body" => "admin/logs_config_body.tpl")
 );
 
@@ -49,14 +49,14 @@ $sql = "SELECT config_value AS all_admin
 FROM " . LOGS_CONFIG_TABLE . "
 WHERE config_name = 'all_admin' ";
 
-if(!$result = $pnt_db->sql_query($sql))
+if(!$result = $db->sql_query($sql))
 {
    message_die(CRITICAL_ERROR, "Could not query log config informations", "", __LINE__, __FILE__, $sql);
 }
-$row = $pnt_db->sql_fetchrow($result);
+$row = $db->sql_fetchrow($result);
 $all_admin_authorized = $row['all_admin'];
 
-if ( $all_admin_authorized == '0' && $userdata['user_id'] <> '2' && !is_mod_admin($pnt_module) && $userdata['user_view_log'] <> '1' )
+if ( $all_admin_authorized == '0' && $userdata['user_id'] <> '2' && !is_mod_admin($module_name) && $userdata['user_view_log'] <> '1' )
 {
     message_die(GENERAL_MESSAGE, $lang['Admin_not_authorized']);
 }
@@ -64,13 +64,13 @@ if ( $all_admin_authorized == '0' && $userdata['user_id'] <> '2' && !is_mod_admi
 $sql = "SELECT *
 FROM " . LOGS_CONFIG_TABLE ;
 
-if(!$result = $pnt_db->sql_query($sql))
+if(!$result = $db->sql_query($sql))
 {
    message_die(CRITICAL_ERROR, "Could not query log config informations", "", __LINE__, __FILE__, $sql);
 }
 else
 {
-    while ( $row = $pnt_db->sql_fetchrow($result) )
+    while ( $row = $db->sql_fetchrow($result) )
     {
         $config_name = $row['config_name'];
         $config_value = $row['config_value'];
@@ -82,7 +82,7 @@ else
             $sql = "UPDATE " . LOGS_CONFIG_TABLE . " SET
                 config_value = '" . str_replace("\'", "''", $new[$config_name]) . "'
                 WHERE config_name = '$config_name'";
-            if( !$pnt_db->sql_query($sql) )
+            if( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Failed to update configuration for $config_name", "", __LINE__, __FILE__, $sql);
             }
@@ -91,7 +91,7 @@ else
 
     if( isset($HTTP_POST_VARS['submit']) )
     {
-        $message = $lang['Log_Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_titanium_sid("admin_logs_conf.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message = $lang['Log_Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_sid("admin_logs_conf.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -109,13 +109,13 @@ $sql = "SELECT user_id, username
     WHERE user_level = '2'
     AND user_id <> '2'
     AND user_view_log = '0' ";
-$result = $pnt_db->sql_query($sql);
+$result = $db->sql_query($sql);
 if( !$result )
 {
     message_die(GENERAL_ERROR, "Couldn't selected informations about user.", "",__LINE__, __FILE__, $sql);
 }
 
-$choose = $pnt_db->sql_fetchrowset($result);
+$choose = $db->sql_fetchrowset($result);
 $add_admin_select = '<select name="add_admin_select">';
 
 if( empty($choose) )
@@ -124,7 +124,7 @@ if( empty($choose) )
 }
 else
 {
-    $pnt_user = array();
+    $user = array();
     for( $i = 0; $i < count($choose); $i++ )
     {
         $add_admin_select .= '<option value="' . $choose[$i]['user_id'] . '">' . $choose[$i]['username'] . '</option>';
@@ -143,19 +143,19 @@ if ( $add_admin_username )
         $sql = "UPDATE " . USERS_TABLE . "
             SET user_view_log = '1'
             WHERE user_id = '$choose_username_add' ";
-            $result = $pnt_db->sql_query($sql);
+            $result = $db->sql_query($sql);
             if( !$result )
             {
                 message_die(GENERAL_ERROR, "Couldn't allow this admin to see the logs.", "",__LINE__, __FILE__, $sql);
             }
             else
             {
-                message_die(GENERAL_MESSAGE, $lang['Admins_add_success'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_titanium_sid("admin_logs_conf.$phpEx") . "\">", "</a>"));
+                message_die(GENERAL_MESSAGE, $lang['Admins_add_success'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_sid("admin_logs_conf.$phpEx") . "\">", "</a>"));
             }
     }
     else
     {
-        message_die(GENERAL_MESSAGE, $lang['No_admins_allow'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_titanium_sid("admin_logs_conf.$phpEx") . "\">", "</a>"));
+        message_die(GENERAL_MESSAGE, $lang['No_admins_allow'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_sid("admin_logs_conf.$phpEx") . "\">", "</a>"));
     }
 }
 
@@ -168,12 +168,12 @@ $sql = "SELECT user_id, username
     WHERE user_level = '1'
     AND user_id <> '2'
     AND user_view_log = '1' ";
-$result = $pnt_db->sql_query($sql);
+$result = $db->sql_query($sql);
 if( !$result )
 {
     message_die(GENERAL_ERROR, "Couldn't selected informations about user.", "",__LINE__, __FILE__, $sql);
 }
-$choose_delete = trim($pnt_db->sql_fetchrowset($result));
+$choose_delete = trim($db->sql_fetchrowset($result));
 $delete_admin_select = '<select name="delete_admin_select[]" multiple="multiple" size="4">';
 
 if( empty($choose_delete) )
@@ -182,7 +182,7 @@ if( empty($choose_delete) )
 }
 else
 {
-    $pnt_user = array();
+    $user = array();
     for( $i = 0; $i < count($choose_delete); $i++ )
     {
         $delete_admin_select .= '<option value="' . $choose_delete[$i]['user_id'] . '">' . $choose_delete[$i]['username'] . '</option>';
@@ -212,19 +212,19 @@ if ( $delete_admin_username )
             {
                 $sql .= " = $choose_username_del_sql ";
             }
-            $result = $pnt_db->sql_query($sql);
+            $result = $db->sql_query($sql);
             if( !$result )
             {
                 message_die(GENERAL_ERROR, "Couldn't disallow this admin to see the logs.", "",__LINE__, __FILE__, $sql);
             }
             else
             {
-                message_die(GENERAL_MESSAGE, $lang['Admins_del_success'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_titanium_sid("admin_logs_config.$phpEx") . "\">", "</a>"));
+                message_die(GENERAL_MESSAGE, $lang['Admins_del_success'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_sid("admin_logs_config.$phpEx") . "\">", "</a>"));
             }
     }
     else
     {
-        message_die(GENERAL_MESSAGE, $lang['No_admins_disallow'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_titanium_sid("admin_logs_config.$phpEx") . "\">", "</a>"));
+        message_die(GENERAL_MESSAGE, $lang['No_admins_disallow'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_sid("admin_logs_config.$phpEx") . "\">", "</a>"));
     }
 }
 
@@ -238,13 +238,13 @@ if ( $do_prune )
 
     if ( $prune )
     {
-        message_die(GENERAL_MESSAGE, $lang['Prune_success'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_titanium_sid("admin_logs_conf.$phpEx") . "\">", "</a>"));
+        message_die(GENERAL_MESSAGE, $lang['Prune_success'] . "<br /><br />" . sprintf($lang['Click_return_admin_log_config'], "<a href=\"" . append_sid("admin_logs_conf.$phpEx") . "\">", "</a>"));
     }
 }
 $all_admin_yes = ( $new['all_admin'] ) ? "checked=\"checked\"" : "";
 $all_admin_no = ( !$new['all_admin'] ) ? "checked=\"checked\"" : "";
-$phpbb2_template->assign_vars(array(
-    "S_CONFIG_ACTION" => append_titanium_sid("admin_logs_conf.$phpEx"),
+$template->assign_vars(array(
+    "S_CONFIG_ACTION" => append_sid("admin_logs_conf.$phpEx"),
 
     "L_YES" => $lang['Yes'],
     "L_NO" => $lang['No'],
@@ -274,7 +274,7 @@ $phpbb2_template->assign_vars(array(
     "S_DELETE_ADMIN" => $delete_admin_select)
 );
 
-$phpbb2_template->pparse("body");
+$template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

@@ -18,9 +18,9 @@
       Smilies in Topic Titles                  v1.0.0       09/02/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 //
@@ -60,9 +60,9 @@ ORDER BY topic_views DESC
 LIMIT ' . $core->return_limit;
 
 $result = $core->sql_query($sql, 'Couldn\'t retrieve topic data');
-$phpbb2_topic_data = $core->sql_fetchrowset($result);
+$topic_data = $core->sql_fetchrowset($result);
 
-$core->set_data($phpbb2_topic_data);
+$core->set_data($topic_data);
 
 /*****[BEGIN]******************************************
  [ Mod:     Smilies in Topic Titles            v1.0.0 ]
@@ -75,7 +75,7 @@ $core->topic_smiles();
 $core->define_view('set_rows', array(
     '$core->pre_defined()',
     '$core->data(\'topic_views\')',
-    '$core->generate_link(append_titanium_sid(\'viewtopic.php?t=\' . $core->data(\'topic_id\')), $core->data(\'topic_title\'), \'target="_blank"\')'
+    '$core->generate_link(append_sid(\'viewtopic.php?t=\' . $core->data(\'topic_id\')), $core->data(\'topic_title\'), \'target="_blank"\')'
     ),
     array(
         '$core->data(\'forum_id\')', 'auth_view AND auth_read', 'forum', array(

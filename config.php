@@ -1,6 +1,7 @@
 <?php
+
 /*=======================================================================
- PHP-Nuke Titanium: Enhanced PHP-Nuke Web Portal System
+ Nuke-Evolution Xtreme: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -20,57 +21,63 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 }
 
 /*----[ Welcome! ] ---------------------------------------
-| Welcome to PHP-Nuke Titanium, an advanced content       |
+| Welcome to Nuke-Evolution, an advanced content          |
 | management system based on PHP-Nuke                     |
 ---------------------------------------------------------*/
 
-/*----[ $pnt_dbhost ] -------------------------------
+/*----[ $dbhost ] ----------------------------------------
 | Your database host, normally 'localhost'                |
 |                                                         |
 | Default: localhost                                      |
 ---------------------------------------------------------*/
-$pnt_dbhost = 'localhost';
-/*----[ $pnt_dbname ] -------------------------------
-| The name of your database that will hold tables         |
+$dbhost = 'localhost';
+/*----[ $dbname ] ----------------------------------------
+| The name of your database that will hold Evo's tables   |
+|                                                         |
+| Default: xxx_evo                                        |
 ---------------------------------------------------------*/
-$pnt_dbname = 'dev4_engine';
+$dbname = 'dev4_402';
 
-/*----[ $pnt_dbuname ] ------------------------------
+/*----[ $dbuname ] ---------------------------------------
 | The username linked to your database, must have correct |
 | permissions                                             |
+|                                                         |
+| Default: xxx_evo                                        |
 ---------------------------------------------------------*/
-$pnt_dbuname = 'dev4_user';
+$dbuname = 'dev4_402';
 
-/*----[ $pnt_dbpass ] -------------------------------
+/*----[ $dbpass ] ----------------------------------------
 | The password associated with your db usersname          |
+|                                                         |
+| Default: null                                           |
 ---------------------------------------------------------*/
-$pnt_dbpass = 'xxxxxxxxxxxxxxxxxxxx';
+$dbpass = 'xwdNPADv86402';
 
-/*----[ $pnt_dbtype ] -------------------------------
+/*----[ $dbtype ] ----------------------------------------
 | The type of SQL server you prefer to use                |
 |                                                         |
 | Choose from the following (case-sensitive):             |
 |    - mysql (4.x or later)                               |
 |    - mysqli (PHP must be compiled with "System Mysql")  |
 |                                                         |
-| Default: mysqli                                         |
+| Default: mysql                                          |
 ---------------------------------------------------------*/
-$pnt_dbtype = 'mysqli';
+$dbtype = 'mysqli';
 
-/*----[ $pnt_prefix ] -------------------------------
-| The prefix for your tables                              |
+/*----[ $prefix ] ----------------------------------------
+| The prefix for your Nuke-Evolution tables               |
 |                                                         |
-| Default: titanium                                       |
+| Default: nuke                                           |
 ---------------------------------------------------------*/
-$pnt_prefix = 'titanium';
+$prefix = 'nuke';
 
-/*----[ $pnt_user_prefix ] --------------------------
-| The prefix for your PHP-Nuke Titanium user-related      |
-| tables Do not change this unless it is really needed    |
+/*----[ $user_prefix ] -----------------------------------
+| The prefix for your Nuke-Evolution user-related tables  |
+| Do not change this unless it is really needed           |
 |                                                         |
-| Default: titanium                                       |
+| Default: nuke                                           |
 ---------------------------------------------------------*/
-$pnt_user_prefix = 'titanium';
+$user_prefix = 'nuke';
 
 /*----[ $admin_file ] ------------------------------------
 | The filename of your Admin File                         |
@@ -84,7 +91,7 @@ $pnt_user_prefix = 'titanium';
 $admin_file = 'admin';
 
 /*----[ $directory_mode ] ------------------------------------------
-| permissions - by default, we will create new folders with the     |
+| permissions - by default, Evo will create new folders with the    |
 | permissions set with the following settings.  NOTE: do NOT use    |
 | quotes around this value or it will not work.                     |
 | Examples:                                                         |
@@ -94,7 +101,7 @@ $admin_file = 'admin';
 $directory_mode = 0777;
 
 /*----[ $file_mode ] -------------------------------------------------- 
-| file permissions mode - by default, we will create all new files     |
+| file permissions mode - by default, Evo will create all new files    |
 | with the permissions that are provided here.  NOTE: do NOT use any   |
 | quotes (single or double) around this value or it will not work.     |
 | Examples:                                                            |
@@ -139,24 +146,6 @@ $use_cache = 1;
 ---------------------------------------------------------*/
 $persistency = false;
 
-#################################################
-# You must un-comment this to enable vimeo SDK  #
-#################################################
-# define('vimeo', 'enabled');                  #
-################################################
-
-####################################################
-# You must un-comment this to enable facebook  SDK #
-####################################################
-# define('facebook', 'enabled');               #
-################################################
-
-######################################################################
-# You must un-comment this to enable The 86it Developers Network SDK #
-######################################################################
-# define('network', 'enabled');                  #
-##################################################
-
 /*********************************************************************/
 /* You have finished configuration of your site. Now you can change  */
 /* all you want in the Administration Section. To enter just launch  */
@@ -167,7 +156,7 @@ $persistency = false;
 /* your new site.                                                    */
 /*                                                                   */
 /* Congratulations! Now you have the webs best portal installed!     */
-/* Thanks for choosing PHP-Nuke Titanium: The Future of the Web!     */
+/* Thanks for choosing Nuke- Evolution: The Future of the Web!       */
 /*********************************************************************/
 
 ?>

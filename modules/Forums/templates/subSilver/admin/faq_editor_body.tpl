@@ -35,7 +35,7 @@
                     <input class="post" name="quest_title" type="text" value="" size="40">
                     <input name="mode" type="hidden" value="quest_new">
                     <input name="block" type="hidden" value="{blockrow.BLOCK_NUMBER}">
-                    <input class="titaniumbutton" type="submit" value="{L_ADD_QUESTION}" name="submit">
+                    <input class="liteoption" type="submit" value="{L_ADD_QUESTION}" name="submit">
                 </span>
             </form>
         </td>
@@ -55,7 +55,7 @@
                 <span class="gen">
                     <input class="post" name="block_title" type="text" value="" size="60">
                     <input name="mode" type="hidden" value="block_new">
-                    <input class="titaniumbutton" type="submit" value="{L_ADD_BLOCK}" name="submit">
+                    <input class="liteoption" type="submit" value="{L_ADD_BLOCK}" name="submit">
                 </span>
             </form>
         </td>

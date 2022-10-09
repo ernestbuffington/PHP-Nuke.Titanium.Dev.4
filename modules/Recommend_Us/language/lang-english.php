@@ -21,30 +21,30 @@
 /* And, if you use HTML code, please double check it.                     */
 /**************************************************************************/
 
-global $customlang, $pnt_module;
+global $customlang, $module_name;
 
-$customlang[$pnt_module]['send'] = "Send";
-$customlang[$pnt_module]['your_name'] = "Your Name";
-$customlang[$pnt_module]['your_mail'] = "Your E-mail";
-$customlang[$pnt_module]['friend_name'] = "Your Friend's Name";
-$customlang[$pnt_module]['friend_mail'] = "Your Friend's E-mail";
-$customlang[$pnt_module]['hello'] = "Hello";
-$customlang[$pnt_module]['your_friend'] = "Your Friend";
-$customlang[$pnt_module]['recommend'] = "Recommend this Site to a Friend";
-$customlang[$pnt_module]['interesting'] = "Interesting Site";
-$customlang[$pnt_module]['our_site'] = "considered our site";
-$customlang[$pnt_module]['interest_sent'] = "interesting and wanted to send it to you.";
-$customlang[$pnt_module]['sitename'] = "Site Name";
-$customlang[$pnt_module]['siteurl'] = "Site URL";
-$customlang[$pnt_module]['reference'] = "The reference to our site has been sent to";
-$customlang[$pnt_module]['thank_you'] = "Thanks for recommending us!";
-$customlang[$pnt_module]['must_be_user'] = "You must be %slogged in%s to Recommend this site.";
-$customlang[$pnt_module]['recaptcha_error'] = "Error";
-$customlang[$pnt_module]['recaptcha_failed'] = "Failed the recaptcha, go back and try again.";
-$customlang[$pnt_module]['from'] = "from";
-$customlang[$pnt_module]['goback'] = "Go Back";
-$customlang[$pnt_module]['message'] = 'Short message to your friend why you recommend us';
-$customlang[$pnt_module]['optional'] = 'Optional Field';
-$customlang[$pnt_module]['why_i_recommend'] = 'Here is why i recommend this site';
+$customlang[$module_name]['send'] = "Send";
+$customlang[$module_name]['your_name'] = "Your Name";
+$customlang[$module_name]['your_mail'] = "Your E-mail";
+$customlang[$module_name]['friend_name'] = "Your Friend's Name";
+$customlang[$module_name]['friend_mail'] = "Your Friend's E-mail";
+$customlang[$module_name]['hello'] = "Hello";
+$customlang[$module_name]['your_friend'] = "Your Friend";
+$customlang[$module_name]['recommend'] = "Recommend this Site to a Friend";
+$customlang[$module_name]['interesting'] = "Interesting Site";
+$customlang[$module_name]['our_site'] = "considered our site";
+$customlang[$module_name]['interest_sent'] = "interesting and wanted to send it to you.";
+$customlang[$module_name]['sitename'] = "Site Name";
+$customlang[$module_name]['siteurl'] = "Site URL";
+$customlang[$module_name]['reference'] = "The reference to our site has been sent to";
+$customlang[$module_name]['thank_you'] = "Thanks for recommending us!";
+$customlang[$module_name]['must_be_user'] = "You must be %slogged in%s to Recommend this site.";
+$customlang[$module_name]['recaptcha_error'] = "Error";
+$customlang[$module_name]['recaptcha_failed'] = "Failed the recaptcha, go back and try again.";
+$customlang[$module_name]['from'] = "from";
+$customlang[$module_name]['goback'] = "Go Back";
+$customlang[$module_name]['message'] = 'Short message to your friend why you recommend us';
+$customlang[$module_name]['optional'] = 'Optional Field';
+$customlang[$module_name]['why_i_recommend'] = 'Here is why i recommend this site';
 
 ?>

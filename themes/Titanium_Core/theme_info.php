@@ -2,15 +2,13 @@
 #---------------------------------------------------------------------------------------#
 # THEME CONFIG FILE                                                                     #
 #---------------------------------------------------------------------------------------#
-# THEME SYSTEM FILE                                                                     #
-#---------------------------------------------------------------------------------------#
 # THEME INFO                                                                            #
-# Titanium_Core Theme v2.0 (Fixed & Full Width)                                         #
+# Universal Theme v1.0 (Fixed & Full Width)                                             #
 #                                                                                       #
 # Final Build Date 03/16/2021 Tuesday 12:54am                                           #
 #                                                                                       #
-# A Very Nice Gold Theme Design.                                                        #
-# Copyright © 2021 By: TheGhost AKA EA Buffington                                       #
+# A Very Nice Fire and Brimstone Theme Design.                                          #
+# Copyright © 2021 By: TheGhost AKA EABuffington                                        #
 # e-Mail : ernest.buffington@gmail.com                                                  #
 #---------------------------------------------------------------------------------------#
 # CREATION INFO                                                                         #
@@ -26,7 +24,7 @@
 #                                                                                       #
 # Designed By: TheGhost & Sebastian                                                     #
 # Web Site: https://www.86it.us                                                         #
-# Purpose: PHP-Nuke Titanium                                                            #
+# Purpose: PHP-Nuke Titanium | Nuke Evolution Xtreme                                    #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
 # PHP-Nuke Copyright (c) 2006 by Francisco Burzi phpnuke.org                            #
@@ -66,7 +64,7 @@ global $theme_options;
 
 $theme_options   = array();
 
-$theme_options[] = array( "name" => "Titanium Core Theme v2.0 Theme Options",
+$theme_options[] = array( "name" => "Core Theme v1.0 Theme Options",
                     "type" => "heading");
 
 $theme_options[] = array( "name" => "Upload your logo",

@@ -67,10 +67,10 @@ $msnl_iNID	= intval( $_POST['msnl_nid'] );
 
 //Validate the newsletter ID AND get the current category id.
 $sql = "SELECT `cid` FROM `"
-			.$pnt_prefix."_hnl_newsletters` WHERE `nid` = '$msnl_iNID'";
+			.$prefix."_hnl_newsletters` WHERE `nid` = '$msnl_iNID'";
 
 $result				= msnl_fSQLCall( $sql );
-$resultcount	= $pnt_db->sql_numrows( $result );
+$resultcount	= $db->sql_numrows( $result );
 
 if ( !$result || $resultcount < 1 ) { //Bad SQL call or NID was not found in the database
 
@@ -78,7 +78,7 @@ if ( !$result || $resultcount < 1 ) { //Bad SQL call or NID was not found in the
 
 } else { //Successful SQL call
 
-	$row						= $pnt_db->sql_fetchrow( $result );
+	$row						= $db->sql_fetchrow( $result );
 
 	$msnl_iCurrCID	= intval( $row['cid'] );
 	
@@ -209,7 +209,7 @@ if ( msnl_fShowValErr() ) { //Had validation errors, so display return msg
 
 } else { //Passed all validation edits, so write to DB
 
-	$sql	= "UPDATE `".$pnt_prefix."_hnl_newsletters` SET "
+	$sql	= "UPDATE `".$prefix."_hnl_newsletters` SET "
 					."`topic` = '"				.$msnl_asRec['topic']."', "
 					."`sender` = '"				.$msnl_asRec['sender']."', "
 					."`cid` = '"					.$msnl_asRec['cid']."', "

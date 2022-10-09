@@ -90,7 +90,7 @@ $admlang['headlines']['edit'] = 'Edit Headlines';
 $admlang['headlines']['delete_warn'] = 'WARNING: Are you sure you want to delete this Headline?';
 
 $admlang['authors']['header'] 			= 'Admin Author\'s Panel';
-$admlang['authors']['author'] 			= 'Blog Author\'s Name';
+$admlang['authors']['author'] 			= 'Author';
 $admlang['authors']['add'] 				= 'Add a New Administrator';
 $admlang['authors']['delete'] 			= 'Delete Author';
 $admlang['authors']['changes'] 			= '(For Changes Only)';
@@ -98,12 +98,9 @@ $admlang['authors']['god'] 				= '* (GOD account can\'t be deleted)';
 $admlang['authors']['main'] 			= 'God Admin *';
 $admlang['authors']['modify']			= 'Modify Info';
 $admlang['authors']['can_not'] 			= 'Can not be changed later.';
-$admlang['authors']['can'] 			    = 'This can be changed later.';
-$admlang['authors']['email']		    = 'Enter Authors Email Here!';
-$admlang['authors']['www']		        = 'Enter Authors Home Page Here!'; # tool tip adds
 $admlang['authors']['option1'] 			= 'Option';
 $admlang['authors']['required'] 		= 'Required field';
-$admlang['authors']['submit'] 			= 'Add new Administrator';
+$admlang['authors']['submit'] 			= 'Add new Author';
 $admlang['authors']['superadmin']		= 'Super Admin';
 $admlang['authors']['superwarn']		= 'WARNING: If Super Admin is checked, the user will get full access! (excludes Edit Admins and Nuke Sentinel)';
 
@@ -119,7 +116,7 @@ $admlang['referers']['none']			= 'There are no %s to display';
 
 
 $admlang['preferences']['link'] 		= 'Preferences';
-$admlang['preferences']['header']		= 'Admin Panel';
+$admlang['preferences']['header']		= 'PHP-Nuke Titanium Preferences :: Admin Panel';
 
 $admlang['preferences']['plugins'] 		= 'Plugins';
 $admlang['plugins']['header'] 			= 'Custom Plugin Administration';
@@ -261,7 +258,7 @@ $admlang['preferences']['meta'] 		= 'Meta Tags';
 $admlang['meta']['title'] 				= 'Meta Tags Administration';
 
 $admlang['messages']['link'] 			= 'Messages';
-$admlang['messages']['header'] 			= '<strong><h1>Admin Panel</h1></strong>';
+$admlang['messages']['header'] 			= 'PHP-Nuke Titanium Messages :: Admin Panel';
 $admlang['messages']['change_date']		= 'Change start date to today';
 $admlang['messages']['active']			= '(If you Active this Message now, the start date will be today)';
 $admlang['messages']['edit'] 			= 'Edit message';
@@ -271,7 +268,7 @@ $admlang['messages']['view'] 			= 'Visible to';
 $admlang['messages']['remove'] 			= 'Are you sure you want to remove this message?';
 
 
-$admlang['newsletter']['header'] 		= 'Newsletter :: Admin Panel';
+$admlang['newsletter']['header'] 		= 'PHP-Nuke Titanium Newsletter :: Admin Panel';
 $admlang['newsletter']['regards'] 		= 'Best Regards';
 $admlang['newsletter']['subscribed'] 	= 'Subscribed Users';
 $admlang['newsletter']['nousers'] 		= 'The group selected to receive this newsletter has zero users<br />Please go back and select a different group';
@@ -334,7 +331,7 @@ $admlang['global']['disabled']			= 'Disabled';
 $admlang['global']['discard']			= 'Discard';
 $admlang['global']['down'] 				= 'Down';
 $admlang['global']['edit']				= 'Edit';
-$admlang['global']['email']				= 'Email Address';
+$admlang['global']['email']				= 'Email';
 $admlang['global']['enabled']			= 'Enabled';
 $admlang['global']['expiration']		= 'Expiration';
 $admlang['global']['filename']			= 'Filename';
@@ -342,7 +339,7 @@ $admlang['global']['functions']			= 'Functions';
 $admlang['global']['go']				= 'Go';
 $admlang['global']['goback']			= 'Go Back';
 $admlang['global']['header_return']		= 'Return to Main Administration';
-$admlang['global']['header_top_return'] = 'Modules Admin Panel';
+$admlang['global']['header_top_return'] = 'PHP-Nuke Evolution Xtreme %s :: Modules Admin Panel';
 $admlang['global']['home'] 				= 'Home';
 $admlang['global']['hour'] 				= 'Hour';
 $admlang['global']['hours'] 			= 'Hours';
@@ -352,7 +349,7 @@ $admlang['global']['language'] 			= 'Language';
 $admlang['global']['left'] 				= 'Left';
 $admlang['global']['login'] 			= 'Login';
 $admlang['global']['name']				= 'Name';
-$admlang['global']['nickname']			= 'Forum/Board Nickname';
+$admlang['global']['nickname']			= 'Nickname';
 $admlang['global']['no']				= 'No';
 $admlang['global']['none'] 				= 'None';
 $admlang['global']['not_set'] 			= '%s was not set';
@@ -376,7 +373,7 @@ $admlang['global']['title'] 			= 'Title';
 $admlang['global']['title_custom'] 		= 'Custom Title';
 $admlang['global']['unlimited']			= 'Unlimited';
 $admlang['global']['up'] 				= 'Up';
-$admlang['global']['url'] 				= 'Website Address';
+$admlang['global']['url'] 				= 'Url';
 $admlang['global']['view'] 				= 'View';
 $admlang['global']['warning'] 			= 'Warning';
 $admlang['global']['yes'] 				= 'Yes';
@@ -509,4 +506,6 @@ $admlang['versions']['your_version'] 			= "Your version is:";
 $admlang['versions']['version_checked']			= "The version was last checked on";
 $admlang['versions']['version_current']			= "Your version is current";
 $admlang['versions']['curl_connection_error']	= "Connection Error";
+
+
 ?>

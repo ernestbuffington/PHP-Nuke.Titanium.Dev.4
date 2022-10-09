@@ -37,15 +37,15 @@ function log_write($file, $output, $title = 'General Error') {
     global $cookie, $identify;
 
     if(isset($cookie) && is_array($cookie)) {
-        $pnt_username = $cookie[1];
+        $username = $cookie[1];
     } else {
         if(isset($_COOKIE['user']) && !empty($_COOKIE['user'])) {
             $ucookie = explode(':', base64_decode($_COOKIE['user']));
         }
         if(isset($ucookie) && is_array($ucookie) && !empty($ucookie[1])) {
-            $pnt_username = $ucookie[1];
+            $username = $ucookie[1];
         } else {
-            $pnt_username = _ANONYMOUS;
+            $username = _ANONYMOUS;
         }
     }
     $ip = GetHostByName($identify->get_ip());
@@ -61,7 +61,7 @@ function log_write($file, $output, $title = 'General Error') {
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-    $wdata .= "User: ".UsernameColor($pnt_username)."\n";
+    $wdata .= "User: ".UsernameColor($username)."\n";
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -85,7 +85,7 @@ function log_write($file, $output, $title = 'General Error') {
 }
 
 function log_size($file) {
-    global $pnt_db, $pnt_prefix;
+    global $db, $prefix;
 
     $filename = NUKE_INCLUDE_DIR.'log/' . $file . '.log';
     if(!is_file($filename)) {
@@ -105,7 +105,7 @@ function log_size($file) {
         return -1;
     }
     $file_num = substr_count($content, "\n");
-    $row_log = $pnt_db->sql_ufetchrow('SELECT ' . $file . '_log_lines FROM '.$pnt_prefix.'_config');
+    $row_log = $db->sql_ufetchrow('SELECT ' . $file . '_log_lines FROM '.$prefix.'_config');
     if($row_log[0] != $file_num) {
         return 1;
     }

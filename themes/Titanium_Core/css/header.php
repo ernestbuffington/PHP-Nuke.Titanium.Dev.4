@@ -1097,4 +1097,22 @@ font-style:italic;color:<?=$textcolor1?>;
 
 .forum-ranks {margin-bottom: 2px;}
 .forum-avatar {padding-bottom: 5px;}
+
+.visitors:hover
+{
+/* filter: grayscale(0%); */
+  filter: saturate(5px);
+  transform: rotate(360deg);
+  transition: transform .8s ease-in-out;
+  cursor: pointer;
+}
+.visitors
+{
+/* filter: grayscale(100%); */
+  transition: all .2s ease-in-out;
+  max-width: 100vmin;
+  max-height: 70vmin;
+  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.2);
+  border-radius: 100%;
+}
 <?

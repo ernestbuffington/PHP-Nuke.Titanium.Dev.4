@@ -13,9 +13,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 //
@@ -27,8 +27,8 @@ $core->set_content('statistical');
 //
 // Get the user-definable variables
 // -- exclude_images (TRUE/FALSE)
-$pnt_user_variables = $core->get_user_defines();
-$exclude_images = intval($pnt_user_variables['exclude_images']);
+$user_variables = $core->get_user_defines();
+$exclude_images = intval($user_variables['exclude_images']);
 
 $core->set_view('rows', $core->return_limit);
 $core->set_view('columns', 7);
@@ -72,14 +72,14 @@ if ( (!strstr($attachment_version, '2.4.')) )
     message_die(GENERAL_MESSAGE, 'Wrong Attachment Mod Version detected.<br />Please update your Attachment Mod (V' . $attachment_version . ') to at least Version 2.3.0.');
 }
 
-$language = $phpbb2_board_config['default_lang'];
+$language = $board_config['default_lang'];
 
-if( !file_exists($phpbb2_root_path . 'language/lang_' . $language . '/lang_admin_attach.'.$phpEx) )
+if( !file_exists($phpbb_root_path . 'language/lang_' . $language . '/lang_admin_attach.'.$phpEx) )
 {
     $language = $attach_config['board_lang'];
 }
 
-include($phpbb2_root_path . 'language/lang_' . $language . '/lang_admin_attach.' . $phpEx);
+include($phpbb_root_path . 'language/lang_' . $language . '/lang_admin_attach.' . $phpEx);
 
 $order_by = 'download_count DESC LIMIT ' . $core->return_limit;
 
@@ -114,7 +114,7 @@ for ($i = 0; $i < $num_attachments; $i++)
         $filename_2 = substr($filename, 0, 20) . '...';
     }
 
-    $view_attachment = append_titanium_sid('download.' . $phpEx . '?id=' . $attachments[$i]['attach_id']);
+    $view_attachment = append_sid('download.' . $phpEx . '?id=' . $attachments[$i]['attach_id']);
     $data[$i]['filename_link'] = ($filename_2 != '') ? '<a href="' . $view_attachment . '" class="gen" title="' . $filename . '" target="_blank">' . $filename_2 . '</a>' : '<a href="' . $view_attachment . '" class="gen" target="_blank">' . $filename . '</a>';
 
     // comment_field
@@ -150,7 +150,7 @@ for ($i = 0; $i < $num_attachments; $i++)
     $data[$i]['download_count'] = intval($attachments[$i]['download_count']);
 
     // Post Time
-    $data[$i]['post_time'] = create_date($phpbb2_board_config['default_dateformat'], intval($attachments[$i]['filetime']), $phpbb2_board_config['board_timezone']);
+    $data[$i]['post_time'] = create_date($board_config['default_dateformat'], intval($attachments[$i]['filetime']), $board_config['board_timezone']);
 
     // Topic Title
     $data[$i]['topic_title'] = '';
@@ -163,7 +163,7 @@ for ($i = 0; $i < $num_attachments; $i++)
         $topic_title_2 = substr($topic_title, 0, 20) . '...';
     }
 
-    $view_topic = append_titanium_sid('viewtopic.' . $phpEx . '?' . POST_POST_URL . '=' . intval($attachments[$i]['post_id']) . '#' . intval($attachments[$i]['post_id']));
+    $view_topic = append_sid('viewtopic.' . $phpEx . '?' . POST_POST_URL . '=' . intval($attachments[$i]['post_id']) . '#' . intval($attachments[$i]['post_id']));
 
     $data[$i]['topic_title'] = ($topic_title_2 != '') ? '<a href="' . $view_topic . '" class="gen" title="' . $topic_title . '" target="_blank">' . $topic_title_2 . '</a>' : '<a href="' . $view_topic . '" class="gen" target="_blank">' . $topic_title . '</a>';
 

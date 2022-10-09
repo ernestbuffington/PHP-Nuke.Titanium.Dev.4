@@ -25,22 +25,22 @@
 *
 ***************************************************************************/
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = './../';
-require($phpbb2_root_path . 'extension.inc');
-if (!empty($phpbb2_board_config))
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
+if (!empty($board_config))
 {
-    @include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
+    @include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
 }
 
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $pnt_module['Statistics']['Edit_module'] = $filename . '?mode=select_module';
+    $module['Statistics']['Edit_module'] = $filename . '?mode=select_module';
     return;
 }
 
@@ -63,26 +63,26 @@ if ($cancel)
     $no_page_header = TRUE;
 }
 
-@include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
+@include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
+include($phpbb_root_path . 'stats_mod/includes/constants.'.$phpEx);
 
 $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-if ( !($result = $pnt_db->sql_query($sql)) )
+if ( !($result = $db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $pnt_db->sql_fetchrow($result))
+while ($row = $db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
 
-include($phpbb2_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
 
 $message = '';
 
@@ -90,30 +90,30 @@ if ($mode == 'mod_edit')
 {
     if( isset($HTTP_POST_VARS['module']) || isset($HTTP_GET_VARS['module']) )
     {
-        $pnt_module_id = ( isset($HTTP_POST_VARS['module']) ) ? intval($HTTP_POST_VARS['module']) : intval($HTTP_GET_VARS['module']);
+        $module_id = ( isset($HTTP_POST_VARS['module']) ) ? intval($HTTP_POST_VARS['module']) : intval($HTTP_GET_VARS['module']);
     }
     else
     {
         message_die(GENERAL_ERROR, 'Unable to edit Module.');
     }
 
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/stat_edit_module.tpl')
     );
 
-    $sql = "SELECT m.*, i.* FROM " . MODULES_TABLE . " m, " . MODULE_INFO_TABLE . " i WHERE i.module_id = m.module_id AND m.module_id = " . $pnt_module_id;
+    $sql = "SELECT m.*, i.* FROM " . MODULES_TABLE . " m, " . MODULE_INFO_TABLE . " i WHERE i.module_id = m.module_id AND m.module_id = " . $module_id;
 
-    if (!($result = $pnt_db->sql_query($sql)) )
+    if (!($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get Module Informations', '', __LINE__, __FILE__, $sql);
     }
 
-    if ($pnt_db->sql_numrows($result) == 0)
+    if ($db->sql_numrows($result) == 0)
     {
         message_die(GENERAL_MESSAGE, 'Module not found.');
     }
 
-    $mod_info = $pnt_db->sql_fetchrow($result);
+    $mod_info = $db->sql_fetchrow($result);
     $mod_info_changed = FALSE;
 }
 
@@ -123,9 +123,9 @@ if ($submit && $mode == 'mod_edit')
     {
         if (intval($mod_info['update_time']) != intval($HTTP_POST_VARS['update_time']))
         {
-            $sql = "UPDATE " . MODULES_TABLE . " SET update_time = " . intval($HTTP_POST_VARS['update_time']) . " WHERE module_id = " . $pnt_module_id;
+            $sql = "UPDATE " . MODULES_TABLE . " SET update_time = " . intval($HTTP_POST_VARS['update_time']) . " WHERE module_id = " . $module_id;
 
-            if ( !($result = $pnt_db->sql_query($sql)) )
+            if ( !($result = $db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Unable to update modules table', '', __LINE__, __FILE__, $sql);
             }
@@ -137,9 +137,9 @@ if ($submit && $mode == 'mod_edit')
 
     if (isset($HTTP_POST_VARS['clear_module_cache']))
     {
-        $sql = "UPDATE " . CACHE_TABLE . " SET module_cache_time = 0, db_cache = '', priority = 0 WHERE module_id = " . $pnt_module_id;
+        $sql = "UPDATE " . CACHE_TABLE . " SET module_cache_time = 0, db_cache = '', priority = 0 WHERE module_id = " . $module_id;
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update modules cache table', '', __LINE__, __FILE__, $sql);
         }
@@ -165,9 +165,9 @@ if ($submit && $mode == 'mod_edit')
 
     if ($update_sql != '')
     {
-        $sql = "UPDATE " . MODULES_TABLE . " SET " . $update_sql . " WHERE module_id = " . $pnt_module_id;
+        $sql = "UPDATE " . MODULES_TABLE . " SET " . $update_sql . " WHERE module_id = " . $module_id;
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update Permissions', '', __LINE__, __FILE__, $sql);
         }
@@ -178,15 +178,15 @@ if ($submit && $mode == 'mod_edit')
     
     // Admin Panel Integration fields
     // Get Module Variables
-    $sql = "SELECT * FROM " . MODULE_ADMIN_TABLE . " WHERE module_id = " . $pnt_module_id;
+    $sql = "SELECT * FROM " . MODULE_ADMIN_TABLE . " WHERE module_id = " . $module_id;
 
-    if (!$result = $pnt_db->sql_query($sql))
+    if (!$result = $db->sql_query($sql))
     {
         message_die(GENERAL_ERROR, 'Could not find Module Admin Table', '', __LINE__, __FILE__, $sql);
     }
     
-    $rows = $pnt_db->sql_fetchrowset($result);
-    $num_rows = $pnt_db->sql_numrows($result);
+    $rows = $db->sql_fetchrowset($result);
+    $num_rows = $db->sql_numrows($result);
 
     $admin_update = FALSE;
 
@@ -197,9 +197,9 @@ if ($submit && $mode == 'mod_edit')
             if (trim($HTTP_POST_VARS[trim($rows[$i]['config_name'])]) != trim($rows[$i]['config_value']))
             {
                 $sql = "UPDATE " . MODULE_ADMIN_TABLE . " SET config_value = '" . trim($HTTP_POST_VARS[trim($rows[$i]['config_name'])]) . "' 
-                WHERE config_name = '" . trim($rows[$i]['config_name']) . "' AND module_id = " . $pnt_module_id;
+                WHERE config_name = '" . trim($rows[$i]['config_name']) . "' AND module_id = " . $module_id;
     
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Unable to update modules cache table', '', __LINE__, __FILE__, $sql);
                 }
@@ -225,16 +225,16 @@ if (isset($HTTP_POST_VARS['add_group']) && $mode == 'mod_edit')
 
     if( isset($HTTP_POST_VARS['module']) || isset($HTTP_GET_VARS['module']) )
     {
-        $pnt_module_id = ( isset($HTTP_POST_VARS['module']) ) ? intval($HTTP_POST_VARS['module']) : intval($HTTP_GET_VARS['module']);
+        $module_id = ( isset($HTTP_POST_VARS['module']) ) ? intval($HTTP_POST_VARS['module']) : intval($HTTP_GET_VARS['module']);
     }
     else
     {
         message_die(GENERAL_ERROR, 'Unable to edit Module.');
     }
 
-    $sql = "INSERT INTO " . MODULE_GROUP_AUTH_TABLE . " (module_id, group_id) VALUES (" . $pnt_module_id . ", " . $group_id . ")";
+    $sql = "INSERT INTO " . MODULE_GROUP_AUTH_TABLE . " (module_id, group_id) VALUES (" . $module_id . ", " . $group_id . ")";
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Couldn't insert Group", "", __LINE__, __FILE__, $sql);
     }
@@ -251,16 +251,16 @@ if (isset($HTTP_POST_VARS['delete_group']) && $mode == 'mod_edit')
 
     if( isset($HTTP_POST_VARS['module']) || isset($HTTP_GET_VARS['module']) )
     {
-        $pnt_module_id = ( isset($HTTP_POST_VARS['module']) ) ? intval($HTTP_POST_VARS['module']) : intval($HTTP_GET_VARS['module']);
+        $module_id = ( isset($HTTP_POST_VARS['module']) ) ? intval($HTTP_POST_VARS['module']) : intval($HTTP_GET_VARS['module']);
     }
     else
     {
         message_die(GENERAL_ERROR, 'Unable to edit Module.');
     }
 
-    $sql = "DELETE FROM " . MODULE_GROUP_AUTH_TABLE . " WHERE module_id = " . $pnt_module_id . " AND group_id = " . $group_id;
+    $sql = "DELETE FROM " . MODULE_GROUP_AUTH_TABLE . " WHERE module_id = " . $module_id . " AND group_id = " . $group_id;
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Couldn't delete Group", "", __LINE__, __FILE__, $sql);
     }
@@ -270,42 +270,42 @@ if ($mode == 'mod_edit')
 {
     if( isset($HTTP_POST_VARS['module']) || isset($HTTP_GET_VARS['module']) )
     {
-        $pnt_module_id = ( isset($HTTP_POST_VARS['module']) ) ? intval($HTTP_POST_VARS['module']) : intval($HTTP_GET_VARS['module']);
+        $module_id = ( isset($HTTP_POST_VARS['module']) ) ? intval($HTTP_POST_VARS['module']) : intval($HTTP_GET_VARS['module']);
     }
     else
     {
         message_die(GENERAL_ERROR, 'Unable to edit Module.');
     }
 
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/stat_edit_module.tpl')
     );
 
     if ($mod_info_changed)
     {
-        $sql = "SELECT m.*, i.* FROM " . MODULES_TABLE . " m, " . MODULE_INFO_TABLE . " i WHERE i.module_id = m.module_id AND m.module_id = " . $pnt_module_id;
+        $sql = "SELECT m.*, i.* FROM " . MODULES_TABLE . " m, " . MODULE_INFO_TABLE . " i WHERE i.module_id = m.module_id AND m.module_id = " . $module_id;
 
-        if (!($result = $pnt_db->sql_query($sql)) )
+        if (!($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to get Module Informations', '', __LINE__, __FILE__, $sql);
         }
 
-        if ($pnt_db->sql_numrows($result) == 0)
+        if ($db->sql_numrows($result) == 0)
         {
             message_die(GENERAL_MESSAGE, 'Module not found.');
         }
 
-        $mod_info = $pnt_db->sql_fetchrow($result);
+        $mod_info = $db->sql_fetchrow($result);
     }
 
-    $s_hidden_fields = '<input type="hidden" name="module" value="' . $pnt_module_id . '" />';
+    $s_hidden_fields = '<input type="hidden" name="module" value="' . $module_id . '" />';
 
-    $pnt_module_langs = get_module_languages(trim($mod_info['short_name']));
-    $pnt_module_languages = '';
+    $module_langs = get_module_languages(trim($mod_info['short_name']));
+    $module_languages = '';
     
-    for ($i = 0; $i < count($pnt_module_langs); $i++)
+    for ($i = 0; $i < count($module_langs); $i++)
     {
-        $pnt_module_languages .= ( ($pnt_module_languages == '') ? $pnt_module_langs[$i] : ', ' . $pnt_module_langs[$i]);
+        $module_languages .= ( ($module_languages == '') ? $module_langs[$i] : ', ' . $module_langs[$i]);
     }
 
     $yes_no_switches = array('perm_all', 'perm_reg', 'perm_mod', 'perm_admin');
@@ -320,13 +320,13 @@ if ($mode == 'mod_edit')
     WHERE group_single_user = 0
     ORDER BY group_name";
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Couldn't query Groups Table", "", __LINE__, __FILE__, $sql);
     }
 
-    $num_groups = $pnt_db->sql_numrows($result);
-    $group_name = $pnt_db->sql_fetchrowset($result);
+    $num_groups = $db->sql_numrows($result);
+    $group_name = $db->sql_fetchrowset($result);
 
     $group_ids = array();
     for ($i = 0; $i < $num_groups; $i++)
@@ -339,13 +339,13 @@ if ($mode == 'mod_edit')
     WHERE m.group_id = g.group_id AND m.module_id = " . intval($mod_info['module_id']) . "
     ORDER BY group_name";
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Couldn't query Groups Table", "", __LINE__, __FILE__, $sql);
     }
 
-    $rows = $pnt_db->sql_fetchrowset($result);
-    $num_rows = $pnt_db->sql_numrows($result);
+    $rows = $db->sql_fetchrowset($result);
+    $num_rows = $db->sql_numrows($result);
 
     // Rebuild Auth Table, maybe the user have deleted groups
     if (($num_groups > 0) && ($num_rows > 0))
@@ -354,9 +354,9 @@ if ($mode == 'mod_edit')
         {
             if (!in_array($rows[$i]['group_id'], $group_ids))
             {
-                $sql = "DELETE FROM " . MODULE_GROUP_AUTH_TABLE . " WHERE module_id = " . $pnt_module_id . " AND group_id = " . $rows[$i]['group_id'];
+                $sql = "DELETE FROM " . MODULE_GROUP_AUTH_TABLE . " WHERE module_id = " . $module_id . " AND group_id = " . $rows[$i]['group_id'];
             
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, "Couldn't delete Group", "", __LINE__, __FILE__, $sql);
                 }
@@ -406,7 +406,7 @@ if ($mode == 'mod_edit')
     }
     else
     {
-        $phpbb2_template->assign_block_vars('switch_groups_there', array());
+        $template->assign_block_vars('switch_groups_there', array());
     }
 
     if (count($added_groups['group_id']) == 0)
@@ -415,7 +415,7 @@ if ($mode == 'mod_edit')
     }
     else
     {
-        $phpbb2_template->assign_block_vars('switch_groups_selected', array());
+        $template->assign_block_vars('switch_groups_selected', array());
         $group_added_select = '<select name="added_group">';
 
         for($i = 0; $i < count($added_groups['group_id']); $i++)
@@ -426,7 +426,7 @@ if ($mode == 'mod_edit')
         $group_added_select .= '</select>';
     }
     // Module Edit Panel
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_EDIT_MODULE' => $lang['Edit_module'],
         'L_EDIT_MODULE_EXPLAIN' => $lang['Edit_module_explain'],
         'L_MODULE_INFORMATIONS' => $lang['Module_informations'],
@@ -480,45 +480,45 @@ if ($mode == 'mod_edit')
         'U_MODULE_URL' => trim($mod_info['url']),
         'UPDATE_URL' => trim($mod_info['update_site']),
         'U_UPDATE_URL' => trim($mod_info['update_site']),
-        'MODULE_LANGUAGES' => $pnt_module_languages,
+        'MODULE_LANGUAGES' => $module_languages,
         'MESSAGE' => $message,
         'S_HIDDEN_FIELDS' => $s_hidden_fields,
         'UPDATE_TIME' => intval($mod_info['update_time']),
-        'S_ACTION' => append_titanium_sid('admin_edit_module.'.$phpEx.'?mode='.$mode),
-        'U_PREVIEW_MODULE' =>'../../../modules.php?name=Forums&amp;file=statistics&amp;preview='.$pnt_module_id)
+        'S_ACTION' => append_sid('admin_edit_module.'.$phpEx.'?mode='.$mode),
+        'U_PREVIEW_MODULE' =>'../../../modules.php?name=Forums&amp;file=statistics&amp;preview='.$module_id)
     );
 
     // Admin Panel Integration fields
     // Get Module Variables
-    $sql = "SELECT * FROM " . MODULE_ADMIN_TABLE . " WHERE module_id = " . $pnt_module_id;
+    $sql = "SELECT * FROM " . MODULE_ADMIN_TABLE . " WHERE module_id = " . $module_id;
 
-    if (!$result = $pnt_db->sql_query($sql))
+    if (!$result = $db->sql_query($sql))
     {
         message_die(GENERAL_ERROR, 'Could not find Module Admin Table', '', __LINE__, __FILE__, $sql);
     }
     
-    $rows = $pnt_db->sql_fetchrowset($result);
-    $num_rows = $pnt_db->sql_numrows($result);
+    $rows = $db->sql_fetchrowset($result);
+    $num_rows = $db->sql_numrows($result);
 
     if ($num_rows > 0)
     {
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-        $default_board_lang = trim($phpbb2_board_config['default_lang']);
+        $default_board_lang = trim($board_config['default_lang']);
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
 
-        $language = $phpbb2_board_config['default_lang'];
-        $language_file = $phpbb2_root_path . 'modules/language/lang_' . $language . '/lang_modules.' . $phpEx;
+        $language = $board_config['default_lang'];
+        $language_file = $phpbb_root_path . 'modules/language/lang_' . $language . '/lang_modules.' . $phpEx;
 
         if ( !@file_exists(@realpath($language_file)) )
         {
             $language = $default_board_lang;
         }
 
-        $language_file = $phpbb2_root_path . 'modules/language/lang_' . $language . '/lang_modules.' . $phpEx;
+        $language_file = $phpbb_root_path . 'modules/language/lang_' . $language . '/lang_modules.' . $phpEx;
 
         include($language_file);
 
@@ -561,7 +561,7 @@ if ($mode == 'mod_edit')
                 break;
         }
 
-        $phpbb2_template->assign_block_vars('module_admin_fields', array(
+        $template->assign_block_vars('module_admin_fields', array(
             'L_TITLE' => $lang_title,
             'L_EXPLAIN' => $lang_explain,
             'S_OPTION_FIELD' => $option_field)
@@ -570,58 +570,58 @@ if ($mode == 'mod_edit')
 
     if ( (!isset($HTTP_POST_VARS['fileupload'])) && (!isset($HTTP_POST_VARS['fileselect'])) )
     {
-        $pnt_module_paks = array();
+        $module_paks = array();
     
-        $dir = @opendir($phpbb2_root_path . 'modules/pakfiles');
+        $dir = @opendir($phpbb_root_path . 'modules/pakfiles');
 
         while($file = @readdir($dir))
         {
-            if( !@is_dir($phpbb2_root_path . 'modules/pakfiles' . '/' . $file) )
+            if( !@is_dir($phpbb_root_path . 'modules/pakfiles' . '/' . $file) )
             {
                 if ( preg_match('/\.pak$/i', $file) )
                 {
-                    $pnt_module_paks[] = $file;
+                    $module_paks[] = $file;
                 }
             }
         }
 
         @closedir($dir);
 
-        if (count($pnt_module_paks) > 0)
+        if (count($module_paks) > 0)
         {
-            $pnt_module_select_field = '<select name="selected_pak_file">';
+            $module_select_field = '<select name="selected_pak_file">';
 
-            for ($i = 0; $i < count($pnt_module_paks); $i++)
+            for ($i = 0; $i < count($module_paks); $i++)
             {
                 $selected = ($i == 0) ? ' selected="selected"' : '';
 
-                $pnt_module_select_field .= '<option value="' . $pnt_module_paks[$i] . '"' . $selected . '>' . $pnt_module_paks[$i] . '</option>';
+                $module_select_field .= '<option value="' . $module_paks[$i] . '"' . $selected . '>' . $module_paks[$i] . '</option>';
             }
     
-            $pnt_module_select_field .= '</select>';
+            $module_select_field .= '</select>';
             
             $s_hidden_fields = '<input type="hidden" name="fileselect" value="1" />';
         }
         else
         {
-            $pnt_module_select_field = $lang['No_module_packages_found'];
+            $module_select_field = $lang['No_module_packages_found'];
             $s_hidden_fields = '';
         }
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'L_SELECT_MODULE' => $lang['Select_module_pak'],
-            'S_SELECT_MODULE' => $pnt_module_select_field,
+            'S_SELECT_MODULE' => $module_select_field,
             'S_SELECT_HIDDEN_FIELDS' => $s_hidden_fields)
         );
 
-        $s_hidden_fields = '<input type="hidden" name="fileupload" value="1" /><input type="hidden" name="update_id" value="' . $pnt_module_id . '" />';
+        $s_hidden_fields = '<input type="hidden" name="fileupload" value="1" /><input type="hidden" name="update_id" value="' . $module_id . '" />';
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'L_INSTALL_MODULE' => $lang['Install_module'],
             'L_INSTALL_MODULE_EXPLAIN' => $lang['Install_module_explain'],
             'L_UPLOAD_MODULE' => $lang['Upload_module_pak'],
             'L_SUBMIT' => $lang['Submit'],
-            'S_ACTION_UPDATE' => append_titanium_sid($phpbb2_root_path . 'admin/admin_statistics.'.$phpEx.'?mode=mod_install'),
+            'S_ACTION_UPDATE' => append_sid($phpbb_root_path . 'admin/admin_statistics.'.$phpEx.'?mode=mod_install'),
             'S_UPLOAD_HIDDEN_FIELDS' => $s_hidden_fields)
         );
 
@@ -630,47 +630,47 @@ if ($mode == 'mod_edit')
 }
 else if ($mode == 'select_module')
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/stat_select_module.tpl')
     );
 
     $sql = "SELECT m.module_id, i.long_name FROM " . MODULES_TABLE . " m, " . MODULE_INFO_TABLE . " i WHERE i.module_id = m.module_id ORDER BY long_name ASC";
 
-    if (!($result = $pnt_db->sql_query($sql)) )
+    if (!($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get Module Informations', '', __LINE__, __FILE__, $sql);
     }
 
-    if ($pnt_db->sql_numrows($result) == 0)
+    if ($db->sql_numrows($result) == 0)
     {
         message_die(GENERAL_MESSAGE, 'No installed Modules found.');
     }
 
-    $rows = $pnt_db->sql_fetchrowset($result);
+    $rows = $db->sql_fetchrowset($result);
     
-    $pnt_module_select_field = '<select name="module">';
+    $module_select_field = '<select name="module">';
 
     for ($i = 0; $i < count($rows); $i++)
     {
         $selected = ($i == 0) ? ' selected="selected"' : '';
 
-        $pnt_module_select_field .= '<option value="' . $rows[$i]['module_id'] . '"' . $selected . '>' . $rows[$i]['long_name'] . '</option>';
+        $module_select_field .= '<option value="' . $rows[$i]['module_id'] . '"' . $selected . '>' . $rows[$i]['long_name'] . '</option>';
     }
     
-    $pnt_module_select_field .= '</select>';
+    $module_select_field .= '</select>';
     
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_SELECT_MODULE_TITLE' => $lang['Module_select_title'],
         'L_SELECT_MODULE_EXPLAIN' => $lang['Module_select_explain'],
         'L_MODULE_SELECT' => $lang['Module_select_title'],
         'L_EDIT' => $lang['Edit'],
-        'S_ACTION' => append_titanium_sid('admin_edit_module.'.$phpEx.'?mode=mod_edit'),
-        'S_MODULE_SELECT' => $pnt_module_select_field)
+        'S_ACTION' => append_sid('admin_edit_module.'.$phpEx.'?mode=mod_edit'),
+        'S_MODULE_SELECT' => $module_select_field)
     );
 
 }
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 //
 // Page Footer

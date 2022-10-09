@@ -38,7 +38,7 @@ function view_display ($page=0) {
     echo "</tr>\n";
     $total = 0;
     //Setup the for start and stop points
-    $phpbb2_start = $page * $page_configs['num_donations'];
+    $start = $page * $page_configs['num_donations'];
     $stop = ($page+1) * $page_configs['num_donations'];
 
 
@@ -54,7 +54,7 @@ function view_display ($page=0) {
             }
         }
         //Loop through the donation array
-        for ($i=$phpbb2_start; $i < $stop; $i++) {
+        for ($i=$start; $i < $stop; $i++) {
             //Set donator = to the current donation in the array
             $donator = $donations[$i];
             $pop = '';

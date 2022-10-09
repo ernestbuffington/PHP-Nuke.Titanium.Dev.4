@@ -22,22 +22,22 @@
 */
 function group_select($select_name, $default_group = 0)
 {
-    global $pnt_db, $lang;
+    global $db, $lang;
 
     $sql = 'SELECT group_id, group_name
         FROM ' . EXTENSION_GROUPS_TABLE . '
         ORDER BY group_name';
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, "Couldn't query Extension Groups Table", "", __LINE__, __FILE__, $sql);
     }
 
     $group_select = '<select name="' . $select_name . '">';
 
-    $group_name = $pnt_db->sql_fetchrowset($result);
-    $num_rows = $pnt_db->sql_numrows($result);
-    $pnt_db->sql_freeresult($result);
+    $group_name = $db->sql_fetchrowset($result);
+    $num_rows = $db->sql_numrows($result);
+    $db->sql_freeresult($result);
 
     if ($num_rows > 0)
     {
@@ -69,7 +69,7 @@ function group_select($select_name, $default_group = 0)
 */
 function download_select($select_name, $group_id = 0)
 {
-    global $pnt_db, $types_download, $modes_download;
+    global $db, $types_download, $modes_download;
 
     if ($group_id)
     {
@@ -77,12 +77,12 @@ function download_select($select_name, $group_id = 0)
             FROM ' . EXTENSION_GROUPS_TABLE . '
             WHERE group_id = ' . (int) $group_id;
 
-        if (!($result = $pnt_db->sql_query($sql)))
+        if (!($result = $db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, "Couldn't query Extension Groups Table", "", __LINE__, __FILE__, $sql);
         }
-        $row = $pnt_db->sql_fetchrow($result);
-        $pnt_db->sql_freeresult($result);
+        $row = $db->sql_fetchrow($result);
+        $db->sql_freeresult($result);
 
         if (!isset($row['download_mode']))
         {
@@ -118,19 +118,19 @@ function download_select($select_name, $group_id = 0)
 */
 function category_select($select_name, $group_id = 0)
 {
-    global $pnt_db, $types_category, $modes_category;
+    global $db, $types_category, $modes_category;
 
     $sql = 'SELECT group_id, cat_id
         FROM ' . EXTENSION_GROUPS_TABLE;
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, "Couldn't select Category", "", __LINE__, __FILE__, $sql);
     }
 
-    $rows = $pnt_db->sql_fetchrowset($result);
-    $num_rows = $pnt_db->sql_numrows($result);
-    $pnt_db->sql_freeresult($result);
+    $rows = $db->sql_fetchrowset($result);
+    $num_rows = $db->sql_numrows($result);
+    $db->sql_freeresult($result);
 
     $type_category = 0;
 
@@ -203,13 +203,13 @@ function size_select($select_name, $size_compare)
 */
 function quota_limit_select($select_name, $default_quota = 0)
 {
-    global $pnt_db, $lang;
+    global $db, $lang;
 
     $sql = 'SELECT quota_limit_id, quota_desc
         FROM ' . QUOTA_LIMITS_TABLE . '
         ORDER BY quota_limit ASC';
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Couldn't query Quota Limits Table", "", __LINE__, __FILE__, $sql);
     }
@@ -218,11 +218,11 @@ function quota_limit_select($select_name, $default_quota = 0)
     $quota_name[0]['quota_limit_id'] = 0;
     $quota_name[0]['quota_desc'] = $lang['Not_assigned'];
 
-    while ($row = $pnt_db->sql_fetchrow($result))
+    while ($row = $db->sql_fetchrow($result))
     {
         $quota_name[] = $row;
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 
     for ($i = 0; $i < sizeof($quota_name); $i++)
     {
@@ -239,13 +239,13 @@ function quota_limit_select($select_name, $default_quota = 0)
 */
 function default_quota_limit_select($select_name, $default_quota = 0)
 {
-    global $pnt_db, $lang;
+    global $db, $lang;
 
     $sql = 'SELECT quota_limit_id, quota_desc
         FROM ' . QUOTA_LIMITS_TABLE . '
         ORDER BY quota_limit ASC';
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Couldn't query Quota Limits Table", "", __LINE__, __FILE__, $sql);
     }
@@ -254,11 +254,11 @@ function default_quota_limit_select($select_name, $default_quota = 0)
     $quota_name[0]['quota_limit_id'] = 0;
     $quota_name[0]['quota_desc'] = $lang['No_quota_limit'];
 
-    while ($row = $pnt_db->sql_fetchrow($result))
+    while ($row = $db->sql_fetchrow($result))
     {
         $quota_name[] = $row;
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 
     for ($i = 0; $i < sizeof($quota_name); $i++)
     {

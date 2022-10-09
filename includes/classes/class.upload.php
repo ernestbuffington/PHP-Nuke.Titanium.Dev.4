@@ -56,15 +56,15 @@ class myubrowse
         }
 
         
-		function myubrowse($admin, $network_prefix, $pnt_db2, $pnt_module, $pnt_user_prefix) 
+		function myubrowse($admin, $network_prefix, $db2, $module_name, $user_prefix) 
 		{
                 global $admin_file;
                 
 				$this->admin = $admin;
                 $this->prefix = $network_prefix;
                 $this->user_prefix = $network_prefix;
-                $this->db = $pnt_db2;
-                $this->module_name = $pnt_module;
+                $this->db = $db2;
+                $this->module_name = $module_name;
                 $this->pagetitle = " - ".MYU_MYUPLOADS;
                 
 				$sql = "SELECT * FROM ".$this->prefix."_uploads";
@@ -94,9 +94,9 @@ class myubrowse
                 }
         }
         
-        function uploads_getusrinfo_by_id($pnt_user_id) 
+        function uploads_getusrinfo_by_id($user_id) 
 		{
-            $sql = "SELECT * FROM ".$this->user_prefix."_users WHERE user_id = '$pnt_user_id'";
+            $sql = "SELECT * FROM ".$this->user_prefix."_users WHERE user_id = '$user_id'";
             $res = $this->db->sql_query($sql, FALSE);
                    $userinfo = $this->db->sql_fetchrow($res);
             return $userinfo;
@@ -131,15 +131,15 @@ class myubrowse
                                 echo "<option value=\"".$row['username']."\">".$row['username']." ($count, $size)</option>\n";
                         }
                 }
-                echo "</select> <input type=\"submit\" class=\"titaniumbutton\" value=\"".MYU_SUBMIT."\"> <input type=\"submit\" class=\"titaniumbutton\" name=\"cancel\" value=\"".MYU_GOBACK."\"></form>";
+                echo "</select> <input type=\"submit\" class=\"liteoption\" value=\"".MYU_SUBMIT."\"> <input type=\"submit\" class=\"liteoption\" name=\"cancel\" value=\"".MYU_GOBACK."\"></form>";
                 CloseTable();
                 include_once(NUKE_BASE_DIR.'footer.php');
         }
 
-        function browse($pnt_user_folder) 
+        function browse($user_folder) 
 		{
-                global $directory_mode, $pnt_user_prefix, $pnt_db2, $network_prefix;
-		        $sql = "SELECT user_id FROM ".$this->user_prefix."_users WHERE username = '$pnt_user_folder'";
+                global $directory_mode, $user_prefix, $db2, $network_prefix;
+		        $sql = "SELECT user_id FROM ".$this->user_prefix."_users WHERE username = '$user_folder'";
                 $res = $this->db->sql_query($sql, FALSE);
                 $row = $this->db->sql_fetchrow($res);
                 $userinfo = $this->uploads_getusrinfo_by_id($row['user_id']);
@@ -160,8 +160,8 @@ class myubrowse
                 include_once(NUKE_BASE_DIR.'header.php');
                 title(MYU_MYUPLOADS);
                 OpenTable();
-                $pnt_user_color = UsernameColor($pnt_user_folder);
-                echo "<table border=\"0\" width=\"100%\" cellspacing=\"2\" cellpadding=\"2\"><tr><td colspan=\"2\" align=\"center\"><span class=\"title\">$pnt_user_color</span></td></tr>"
+                $user_color = UsernameColor($user_folder);
+                echo "<table border=\"0\" width=\"100%\" cellspacing=\"2\" cellpadding=\"2\"><tr><td colspan=\"2\" align=\"center\"><span class=\"title\">$user_color</span></td></tr>"
                     ."<tr><td><strong>".MYU_FILENAME."</strong></td><td><strong>".MYU_FILESIZE."</strong></td></tr>\n";
                 $open = opendir($this->direct);
                 $i = 0;
@@ -181,7 +181,7 @@ class myubrowse
                 echo "</table>";
                 closedir($open);
                 echo "<form action=\"modules.php?name=".$this->module_name."&amp;file=browse\" method=\"post\">\n"
-                    ."<center><input type=\"submit\" class=\"titaniumbutton\" value=\"".MYU_GOBACK."\"></center>\n";
+                    ."<center><input type=\"submit\" class=\"liteoption\" value=\"".MYU_GOBACK."\"></center>\n";
                 CloseTable();
                 include_once(NUKE_BASE_DIR.'footer.php');
         }

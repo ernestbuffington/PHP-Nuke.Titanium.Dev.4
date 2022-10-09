@@ -29,13 +29,13 @@ if (!defined('NUKE_EVO')) {
     die('You can\'t access this file directly...');
 }
 
-global $pnt_prefix, $pnt_db, $content, $pollcomm, $pnt_user, $userinfo, $cookie, $multilingual, $currentlang, $pnt_config, $cache, $identify;
+global $prefix, $db, $content, $pollcomm, $user, $userinfo, $cookie, $multilingual, $currentlang, $evoconfig, $cache, $identify;
 
 // Fetch random poll
-$make_random = intval($pnt_config['poll_random']);
+$make_random = intval($evoconfig['poll_random']);
 
 // Fetch number of days in between voting per user
-$number_of_days = intval($pnt_config['poll_days']);
+$number_of_days = intval($evoconfig['poll_days']);
 
 $querylang = ($multilingual == 1) ? "WHERE (planguage='$currentlang' OR planguage='') AND artid='0'" : "WHERE artid='0'";
 $queryorder = ($make_random) ? 'RAND()' : 'pollID DESC';
@@ -43,16 +43,16 @@ $queryorder = ($make_random) ? 'RAND()' : 'pollID DESC';
 $pollID = (isset($_REQUEST['pollID'])) ? (int)$_REQUEST['pollID'] : '';
 
 if(isset($pollID) && is_numeric($pollID)) {
-    $result = $pnt_db->sql_query("SELECT pollID, pollTitle, voters FROM ".$pnt_prefix."_poll_desc WHERE `pollID`=".intval($pollID));
+    $result = $db->sql_query("SELECT pollID, pollTitle, voters FROM ".$prefix."_poll_desc WHERE `pollID`=".intval($pollID));
 } else {
-    $result = $pnt_db->sql_query("SELECT pollID, pollTitle, voters FROM ".$pnt_prefix."_poll_desc $querylang ORDER BY $queryorder LIMIT 1");
+    $result = $db->sql_query("SELECT pollID, pollTitle, voters FROM ".$prefix."_poll_desc $querylang ORDER BY $queryorder LIMIT 1");
 }
 
-if ($pnt_db->sql_numrows($result) < 1) {
+if ($db->sql_numrows($result) < 1) {
     $content = "<br />"._NOSURVEYS."<br /><br />";
 } else {
-    list($pollID, $pollTitle, $voters) = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    list($pollID, $pollTitle, $voters) = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
     $pollTitle = stripslashes($pollTitle);
     $url = "modules.php?name=Surveys&amp;op=results&amp;pollID=$pollID";
     $sum = "";
@@ -63,10 +63,10 @@ if ($pnt_db->sql_numrows($result) < 1) {
 
     $ip = $identify->get_ip();
     $past = time()-86400*$number_of_days;
-    $result = $pnt_db->sql_query("SELECT ip FROM ".$pnt_prefix."_poll_check WHERE ip='$ip' AND pollID='$pollID'");
-    $result2 = $pnt_db->sql_query("SELECT optionText, voteID, optionCount FROM ".$pnt_prefix."_poll_data WHERE pollID='$pollID' AND optionText!='' ORDER BY voteID");
-    if ($pnt_db->sql_numrows($result) > 0) {
-        while ($row = $pnt_db->sql_fetchrow($result2)) {
+    $result = $db->sql_query("SELECT ip FROM ".$prefix."_poll_check WHERE ip='$ip' AND pollID='$pollID'");
+    $result2 = $db->sql_query("SELECT optionText, voteID, optionCount FROM ".$prefix."_poll_data WHERE pollID='$pollID' AND optionText!='' ORDER BY voteID");
+    if ($db->sql_numrows($result) > 0) {
+        while ($row = $db->sql_fetchrow($result2)) {
             $options[] = $row;
             $sum += (int)$row['optionCount'];
         }
@@ -99,7 +99,7 @@ if ($pnt_db->sql_numrows($result) < 1) {
         $button = '';
     }
     else {
-        while ($row = $pnt_db->sql_fetchrow($result2)) {
+        while ($row = $db->sql_fetchrow($result2)) {
             $content .= "<tr><td valign=\"top\"><input type=\"radio\" name=\"voteID\" value=\"".$row['voteID']."\"></td><td width=\"100%\"><span class=\"content\">".$row['optionText']."</span></td></tr>\n";
             $sum += (int) $row['optionCount'];
         }
@@ -107,16 +107,16 @@ if ($pnt_db->sql_numrows($result) < 1) {
         $button .= '<input type="hidden" name="forwarder" value="'.$url.'">';
         $button .= '<input type="submit" value="'._VOTE.'"><br /><br />';
     }
-    $pnt_db->sql_freeresult($result2);
+    $db->sql_freeresult($result2);
 
     $content .= "</table><br /><center>$button
     <span class=\"content\"><a href=\"modules.php?name=Surveys&amp;op=results&amp;pollID=$pollID&amp;mode=$cookie[4]&amp;order=$cookie[5]&amp;thold=$cookie[6]\"><strong>"._RESULTS."</strong></a><br />
     <a href=\"modules.php?name=Surveys\"><strong>"._POLLS."</strong></a><br />
     <br />"._VOTES." <strong>$sum</strong>\n";
     if ($pollcomm) {
-        $result = $pnt_db->sql_query("SELECT COUNT(*) FROM ".$pnt_prefix."_pollcomments WHERE pollID='$pollID'");
-        list($numcom) = $pnt_db->sql_fetchrow($result);
-        $pnt_db->sql_freeresult($result);
+        $result = $db->sql_query("SELECT COUNT(*) FROM ".$prefix."_pollcomments WHERE pollID='$pollID'");
+        list($numcom) = $db->sql_fetchrow($result);
+        $db->sql_freeresult($result);
         $content .= "<br /> "._PCOMMENTS." <strong>$numcom</strong>\n";
     }
     $content .= "</span></center></form>\n";

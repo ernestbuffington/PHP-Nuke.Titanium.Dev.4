@@ -13,21 +13,21 @@
 define('IN_FILE_REPOSITORY',TRUE);
 // define('INDEX_FILE',TRUE);
 
-$pnt_module = basename(dirname(dirname(__FILE__)));
+$module_name = basename(dirname(dirname(__FILE__)));
 require_once('mainfile.php');
 
-if(is_mod_admin($pnt_module)) 
+if(is_mod_admin($module_name)) 
 {
-	global $pnt_db, $admin_file, $currentlang, $userinfo;
+	global $db, $admin_file, $currentlang, $userinfo;
 //-------------------------------------------------------------------------
 //  INCLUDE THE LANGUAGE FILE FOR THE MODULE.
 //-------------------------------------------------------------------------
-	include_once(NUKE_MODULES_DIR.$pnt_module.'/language/lang-english.php');
+	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php');
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //	INCLUDE ALL THE FUNCTION WE NEED FOR THIS MODULE.
 //-------------------------------------------------------------------------
-	include_once(NUKE_MODULES_DIR.$pnt_module.'/includes/functions.php');
+	include_once(NUKE_MODULES_DIR.$module_name.'/includes/functions.php');
 //-------------------------------------------------------------------------
 	if(!$_SERVER['HTTP_X_REQUESTED_WITH']):
 		include_once(NUKE_BASE_DIR.'header.php');
@@ -87,7 +87,7 @@ else
 //	IF THE PERSON TRYING TO ACCESS THIS FILE IS NOT AN ADMIN,
 //	REDIRECT THEM BACK THE MAIN INDEX, JUST GET RID OF THEM LOL.
 //---------------------------------------------------------------------
-	_redirect_titanium('modules.php?name='.$pnt_module);
+	_redirect('modules.php?name='.$module_name);
 //---------------------------------------------------------------------
 }
 

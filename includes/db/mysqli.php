@@ -37,10 +37,10 @@ class sql_db
 	var $mysql_version;
 
 	/*!
-	 * @public var $pnt_db_connect_id
+	 * @public var $db_connect_id
 	 * The unique indentifier for the current database connection
 	 */
-	var $pnt_db_connect_id;
+	var $db_connect_id;
 
 	var $query_result;
 	var $row = array();
@@ -191,15 +191,15 @@ class sql_db
 	}
 
     function check_query($query) {
-        global $pnt_prefix, $cache;
+        global $prefix, $cache;
         if (!stristr($query, "UPDATE") && !stristr($query, "INSERT") && !stristr($query, "DELETE")) { return; }
         $tables = array(
-                      'php_nuke_titanium_config' => $pnt_prefix . '_config',
-                      'titanium_config' => $pnt_prefix . '_evolution',
-                      'board_config' => $pnt_prefix . '_bbconfig',
-                      'blocks' => $pnt_prefix . '_blocks',
-                      'ya_config' => $pnt_prefix . '_cnbya_config',
-                      'block_modules' => $pnt_prefix . '_modules',
+                      'nukeconfig' => $prefix . '_config',
+                      'evoconfig' => $prefix . '_evolution',
+                      'board_config' => $prefix . '_bbconfig',
+                      'blocks' => $prefix . '_blocks',
+                      'ya_config' => $prefix . '_cnbya_config',
+                      'block_modules' => $prefix . '_modules',
                        );
         foreach( $tables as $file => $table )
         {
@@ -587,10 +587,10 @@ class sql_db
     
 	function sql_optimize($table_name="")
     {
-        global $pnt_dbname;
+        global $dbname;
         $error = false;
         if (empty($table_name)) {
-            $nuke_tables = $this->sql_fetchtables($pnt_dbname, true);
+            $nuke_tables = $this->sql_fetchtables($dbname, true);
             foreach($nuke_tables as $table) {
                 if(!$result = $this->sql_query('OPTIMIZE TABLE ' . $table)) {
                     $error = true;
@@ -609,12 +609,12 @@ class sql_db
     
 	function sql_fetchtables($database="", $nuke_only=false)
     {
-        global $pnt_prefix;
+        global $prefix;
         $result = $this->sql_query(empty($database) ? 'SHOW TABLES' : 'SHOW TABLES FROM '.$database);
         $tables = array();
         while (list($name) = $this->sql_fetchrow($result)) {
             if ($nuke_only) {
-                if(stristr($name, $pnt_prefix.'_')) {
+                if(stristr($name, $prefix.'_')) {
                     $tables[$name] = $name;
                 }
             } else {

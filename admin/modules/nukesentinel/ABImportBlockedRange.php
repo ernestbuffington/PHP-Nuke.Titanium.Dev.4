@@ -44,15 +44,15 @@ if(isset($importer) AND $importer > "") {
       if($import_data[$i] > "") {
         $grabline = explode("||", $import_data[$i]);
         if($grabline[0] == "--") {
-          $pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_blocked_ranges` WHERE `c2c`='".$grabline[3]."'");
-          $pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_blocked_ranges`");
+          $db->sql_query("DELETE FROM `".$prefix."_nsnst_blocked_ranges` WHERE `c2c`='".$grabline[3]."'");
+          $db->sql_query("OPTIMIZE TABLE `".$prefix."_nsnst_blocked_ranges`");
         } else {
           $datainserted = False;
           $importby = _AB_IMPORTBY." "._AB_NUKESENTINEL;
           $datetime = time();
-          $datainserted = $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_nsnst_blocked_ranges` VALUES('$grabline[0]', '$grabline[1]', '$datetime', '$importby', 0, 0, '$grabline[3]')");
+          $datainserted = $db->sql_query("INSERT INTO `".$prefix."_nsnst_blocked_ranges` VALUES('$grabline[0]', '$grabline[1]', '$datetime', '$importby', 0, 0, '$grabline[3]')");
           if(!$datainserted) {
-            echo '<strong>'.long2ip($grabline[0]).' - '.long2ip($grabline[1])._AB_NOTINSERTED.$pnt_prefix.'_nsnst_blocked_ranges</strong><br />'."\n";
+            echo '<strong>'.long2ip($grabline[0]).' - '.long2ip($grabline[1])._AB_NOTINSERTED.$prefix.'_nsnst_blocked_ranges</strong><br />'."\n";
             $importmess = "";
           }
         }

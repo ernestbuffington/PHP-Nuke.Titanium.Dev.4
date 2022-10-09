@@ -85,11 +85,11 @@ class Swift_Transport_Esmtp_AuthHandler implements Swift_Transport_EsmtpHandler
   
   /**
    * Set the username to authenticate with.
-   * @param string $pnt_username
+   * @param string $username
    */
-  public function setUsername($pnt_username)
+  public function setUsername($username)
   {
-    $this->_username = $pnt_username;
+    $this->_username = $username;
   }
   
   /**
@@ -157,9 +157,9 @@ class Swift_Transport_Esmtp_AuthHandler implements Swift_Transport_EsmtpHandler
   
   /**
    * Runs immediately after a EHLO has been issued.
-   * @param Swift_Transport_SmtpAgent $phpbb2_agent to read/write
+   * @param Swift_Transport_SmtpAgent $agent to read/write
    */
-  public function afterEhlo(Swift_Transport_SmtpAgent $phpbb2_agent)
+  public function afterEhlo(Swift_Transport_SmtpAgent $agent)
   {
     if ($this->_username)
     {
@@ -170,7 +170,7 @@ class Swift_Transport_Esmtp_AuthHandler implements Swift_Transport_EsmtpHandler
           array_map('strtolower', $this->_esmtpParams)))
         {
           $count++;
-          if ($authenticator->authenticate($phpbb2_agent, $this->_username, $this->_password))
+          if ($authenticator->authenticate($agent, $this->_username, $this->_password))
           {
             return;
           }
@@ -202,7 +202,7 @@ class Swift_Transport_Esmtp_AuthHandler implements Swift_Transport_EsmtpHandler
   /**
    * Not used.
    */
-  public function onCommand(Swift_Transport_SmtpAgent $phpbb2_agent,
+  public function onCommand(Swift_Transport_SmtpAgent $agent,
     $command, $codes = array(), &$failedRecipients = null, &$stop = false)
   {
   }
@@ -238,7 +238,7 @@ class Swift_Transport_Esmtp_AuthHandler implements Swift_Transport_EsmtpHandler
   
   /**
    * Returns the authenticator list for the given agent.
-   * @param  Swift_Transport_SmtpAgent $phpbb2_agent
+   * @param  Swift_Transport_SmtpAgent $agent
    * @return array
    * @access protected
    */

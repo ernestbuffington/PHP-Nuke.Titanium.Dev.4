@@ -13,9 +13,9 @@ error_reporting(E_ALL^E_NOTICE);
 chdir("../");
 @require_once("mainfile.php");
 $tid = intval($tid);
-$tum = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_nsnst_tracked_ips WHERE `tid`='$tid'"));
+$tum = $db->sql_numrows($db->sql_query("SELECT * FROM ".$prefix."_nsnst_tracked_ips WHERE `tid`='$tid'"));
 if(is_admin() AND $tum > 0) {
-  $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM ".$pnt_prefix."_nsnst_tracked_ips WHERE `tid`='$tid'"));
+  $row = $db->sql_fetchrow($db->sql_query("SELECT * FROM ".$prefix."_nsnst_tracked_ips WHERE `tid`='$tid'"));
   $row['refered_from'] = html_entity_decode($row['refered_from'], ENT_QUOTES);
   header("Location: ".$row['refered_from']);
 } else {

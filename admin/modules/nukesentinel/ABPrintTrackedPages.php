@@ -24,17 +24,17 @@ echo "<h1 align='center'>$pagetitle</h1>\n";
 if(!$column or $column=="") $column = "date";
 if(!$direction or $direction=="") $direction = "desc";
 $tid=intval($tid);
-$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `tid`, `page`, `date` FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `ip_addr`='$ip_addr' AND `user_id`='$pnt_user_id'"));
+$totalselected = $db->sql_numrows($db->sql_query("SELECT `tid`, `page`, `date` FROM `".$prefix."_nsnst_tracked_ips` WHERE `ip_addr`='$ip_addr' AND `user_id`='$user_id'"));
 if($totalselected > 0) {
-  $result = $pnt_db->sql_query("SELECT `ip_long` FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `user_id`='$pnt_user_id' AND `ip_addr`='$ip_addr' LIMIT 0,1");
-  list($ip_long) = $pnt_db->sql_fetchrow($result);
+  $result = $db->sql_query("SELECT `ip_long` FROM `".$prefix."_nsnst_tracked_ips` WHERE `user_id`='$user_id' AND `ip_addr`='$ip_addr' LIMIT 0,1");
+  list($ip_long) = $db->sql_fetchrow($result);
   # default values if none set
   echo "<center><strong>$ip_addr ($ip_long)</strong></center><br />";
   echo "<table summary='' align='center' cellpadding='2' cellspacing='2' border='2'>\n";
   echo "<tr>";
   // Page Sorting
   echo "<form method='post' action='".$admin_file.".php?op=ABPrintTrackedPages'>\n";
-  echo "<input type='hidden' name='user_id' value='$pnt_user_id' />\n";
+  echo "<input type='hidden' name='user_id' value='$user_id' />\n";
   echo "<input type='hidden' name='ip_addr' value='$ip_addr' />\n";
   echo "<td align='left' colspan='3'><strong>"._AB_SORT.":</strong> ";
   echo "<select name='column'>\n";
@@ -56,14 +56,14 @@ if($totalselected > 0) {
   echo "<tr>";
   echo "<td width='70%'><strong>"._AB_PAGEVIEWED."</strong></td>";
   echo "<td width='30%'><strong>"._AB_HITDATE."</strong></td>";
-  $result = $pnt_db->sql_query("SELECT `tid`, `page`, `date` FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `ip_addr`='$ip_addr' AND `user_id`='$pnt_user_id' ORDER BY $column $direction");
-  while(list($ltid, $page,$date_time) = $pnt_db->sql_fetchrow($result)){
+  $result = $db->sql_query("SELECT `tid`, `page`, `date` FROM `".$prefix."_nsnst_tracked_ips` WHERE `ip_addr`='$ip_addr' AND `user_id`='$user_id' ORDER BY $column $direction");
+  while(list($ltid, $page,$date_time) = $db->sql_fetchrow($result)){
     echo "<tr>\n";
     echo "<td><a href=\"$page\">$page</a></td>\n";
     echo "<td>".date("Y-m-d \@ H:i:s",$date_time)."</td>\n";
     echo "</tr>\n";
   }
-  $pnt_db->sql_freeresult($result);
+  $db->sql_freeresult($result);
   echo "</table>";
   // End Page Stats
 } else {

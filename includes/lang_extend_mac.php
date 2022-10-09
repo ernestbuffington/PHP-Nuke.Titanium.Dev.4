@@ -31,9 +31,9 @@
       Ranks summarize                          v1.0.4       06/24/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 /*****[BEGIN]******************************************
@@ -46,35 +46,35 @@ if ( !defined('LANG_EXTEND_DONE') )
     $lang_extend_admin = defined('IN_ADMIN');
 
     // get the english settings
-    if ( $phpbb2_board_config['default_lang'] != 'english' )
+    if ( $board_config['default_lang'] != 'english' )
     {
-        $dir = @opendir($phpbb2_root_path . 'language/lang_english');
+        $dir = @opendir($phpbb_root_path . 'language/lang_english');
         while( $file = @readdir($dir) )
         {
             if( preg_match("/^lang_extend_.*?\." . $phpEx . "$/", $file) )
             {
-                @include_once($phpbb2_root_path . 'language/lang_english/' . $file);
+                @include_once($phpbb_root_path . 'language/lang_english/' . $file);
             }
         }
         // include the personalisations
-        @include_once($phpbb2_root_path . 'language/lang_english/lang_extend.' . $phpEx);
+        @include_once($phpbb_root_path . 'language/lang_english/lang_extend.' . $phpEx);
         @closedir($dir);
     }
 
     // get the user settings
-    if ( !empty($phpbb2_board_config['default_lang']) )
+    if ( !empty($board_config['default_lang']) )
     {
-        $dir = @opendir($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang']);
+        $dir = @opendir($phpbb_root_path . 'language/lang_' . $board_config['default_lang']);
         while( $file = @readdir($dir) )
         {
             if( preg_match("/^lang_extend_.*?\." . $phpEx . "$/", $file) )
             {
-                @include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/' . $file);
+                @include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/' . $file);
             }
         }
         // include the personalisations
-        if(file_exists($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_extend.' . $phpEx)) {
-		@include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_extend.' . $phpEx);
+        if(file_exists($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_extend.' . $phpEx)) {
+		@include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_extend.' . $phpEx);
 		}
         @closedir($dir);
     }

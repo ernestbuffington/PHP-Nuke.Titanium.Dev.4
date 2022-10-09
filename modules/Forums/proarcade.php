@@ -23,18 +23,18 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $pnt_module = basename(dirname(__FILE__));
-    require("modules/".$pnt_module."/nukebb.php");
+    $module_name = basename(dirname(__FILE__));
+    require("modules/".$module_name."/nukebb.php");
 }
 else
 {
-    $phpbb2_root_path = NUKE_FORUMS_DIR;
+    $phpbb_root_path = NUKE_FORUMS_DIR;
 }
 
-define('IN_PHPBB2', true);
-include($phpbb2_root_path . 'extension.inc');
-include($phpbb2_root_path . 'common.' . $phpEx);
-require($phpbb2_root_path . 'gf_funcs/gen_funcs.' . $phpEx);
+define('IN_PHPBB', true);
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.' . $phpEx);
+require($phpbb_root_path . 'gf_funcs/gen_funcs.' . $phpEx);
 
 $gid = get_var_gf(array('name'=>'gid', 'intval'=>true, 'default'=>0));
 
@@ -44,8 +44,8 @@ $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOF
 // Start session management
 //
 
-$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_GAME, $nukeuser);
-titanium_init_userprefs($userdata);
+$userdata = session_pagestart($user_ip, PAGE_GAME, $nukeuser);
+init_userprefs($userdata);
 
 //
 // End session management
@@ -58,11 +58,11 @@ $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOF
 
 $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_id = '$gid'";
 
-if (!($result = $pnt_db->sql_query($sql))) {
+if (!($result = $db->sql_query($sql))) {
         message_die(GENERAL_ERROR, "Could not read from the games table", '', __LINE__, __FILE__, $sql);
 }
 
-if (!($row = $pnt_db->sql_fetchrow($result))) {
+if (!($row = $db->sql_fetchrow($result))) {
         message_die(GENERAL_ERROR, "Game does not exist.");
 }
 
@@ -95,7 +95,7 @@ if ($row['game_type'] == 3) {
 }
 
 if ($row['game_type'] == 4 or $row['game_type'] == 5) {
-        $gamehash_id = md5($pnt_user_ip);
+        $gamehash_id = md5($user_ip);
         $vpaver = ($gpaver == "GFARV2") ? '100B2' : '';
         $score = $HTTP_POST_VARS['vscore'];
         $settime = $_COOKIE['timestarted'];
@@ -116,14 +116,14 @@ if (!$userdata['session_logged_in']) {
 if ($row['game_type'] != 4 or $row['game_type'] != 5) {
         $sql = "SELECT * FROM " . GAMEHASH_TABLE . " WHERE gamehash_id = '$gamehash_id' and game_id = '$gid' and user_id = '" . $userdata['user_id'] . "'";
 
-        if (!($result = $pnt_db->sql_query($sql))) {
+        if (!($result = $db->sql_query($sql))) {
                 message_die(GENERAL_ERROR, "Could not read the hashtable", '', __LINE__, __FILE__, $sql);
         }
 
-        if (!($row = $pnt_db->sql_fetchrow($result)) or ($vpaver != "100B2") or (!isset($vscore))) {
+        if (!($row = $db->sql_fetchrow($result)) or ($vpaver != "100B2") or (!isset($vscore))) {
                 $sql = "INSERT INTO " . HACKGAME_TABLE . " (user_id , game_id , date_hack) VALUES ('" . $userdata['user_id'] . "' , '$gid' , '" . time() . "')" ;
 
-                if (!$pnt_db->sql_query($sql)) {
+                if (!$db->sql_query($sql)) {
                         message_die(GENERAL_ERROR, 'Could not insert hack game data', '', __LINE__, __FILE__, $sql);
                 }
 
@@ -134,7 +134,7 @@ if ($row['game_type'] != 4 or $row['game_type'] != 5) {
 
 $sql = "DELETE FROM " . GAMEHASH_TABLE . " WHERE gamehash_id = '$gamehash_id' and game_id = $gid and user_id = " . $userdata['user_id'] ;
 
-if (!$pnt_db->sql_query($sql)) {
+if (!$db->sql_query($sql)) {
         message_die(GENERAL_ERROR, 'Could not delete hash data from the games table', '', __LINE__, __FILE__, $sql);
 }
 
@@ -142,7 +142,7 @@ if ($row['game_type'] == 4 or $row['game_type'] ==5) {
         if ($_COOKIE['gidstarted'] != $gid || !isset($_COOKIE['gidstarted'])) {
                 $sql = "INSERT INTO " . HACKGAME_TABLE . " (user_id , game_id , date_hack) VALUES ('" . $userdata['user_id'] . "' , '$gid' , '" . time() . "')";
 
-                if (!$pnt_db->sql_query($sql)) {
+                if (!$db->sql_query($sql)) {
                         message_die(GENERAL_ERROR, 'Could not insert hack data from the games table', '', __LINE__, __FILE__, $sql);
                 }
 
@@ -156,30 +156,30 @@ if ($row['game_type'] == 4 or $row['game_type'] ==5) {
 
 $sql = "SELECT * FROM " . SCORES_TABLE . " WHERE game_id = $gid and user_id = " . $userdata['user_id'] ;
 
-if (!($result = $pnt_db->sql_query($sql))) {
+if (!($result = $db->sql_query($sql))) {
         message_die(GENERAL_ERROR, "Unable to insert data into scores table", '', __LINE__, __FILE__, $sql);
 }
 
 $datenow = time();
 $ecart = $datenow - $settime ;
 
-if (!($row = $pnt_db->sql_fetchrow($result))) {
+if (!($row = $db->sql_fetchrow($result))) {
         $sql = "INSERT INTO " . SCORES_TABLE . " (game_id , user_id , score_game , score_date , score_time , score_set) VALUES ($gid , " . $userdata['user_id'] . " , $score , $datenow , $ecart , 1) ";
 
-        if (!($result = $pnt_db->sql_query($sql))) {
+        if (!($result = $db->sql_query($sql))) {
                 message_die(GENERAL_ERROR, "Unable to insert data into scores table", '', __LINE__, __FILE__, $sql);
         }
 } else {
         if ($row['score_game'] < $score) {
                 $sql = "UPDATE " . SCORES_TABLE . " set score_game = $score , score_set = score_set + 1 , score_date = $datenow , score_time = score_time + $ecart WHERE game_id = $gid and user_id = " . $userdata['user_id'] ;
 
-                if (!($result = $pnt_db->sql_query($sql))) {
+                if (!($result = $db->sql_query($sql))) {
                         message_die(GENERAL_ERROR, "Unable to insert data into scores table", '', __LINE__, __FILE__, $sql);
                 }
         } else {
                 $sql = "UPDATE " . SCORES_TABLE . " set score_set = score_set + 1  , score_time = score_time + $ecart WHERE game_id = $gid and user_id = " . $userdata['user_id'] ;
 
-                if (!($result = $pnt_db->sql_query($sql))) {
+                if (!($result = $db->sql_query($sql))) {
                         message_die(GENERAL_ERROR, "Unable to insert data into scores table", '', __LINE__, __FILE__, $sql);
                 }
         }
@@ -187,21 +187,21 @@ if (!($row = $pnt_db->sql_fetchrow($result))) {
 
 $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_id = " . $gid;
 
-if (!($result = $pnt_db->sql_query($sql))) {
+if (!($result = $db->sql_query($sql))) {
         message_die(GENERAL_ERROR, "Could not read the games table", '', __LINE__, __FILE__, $sql);
 }
 
-if (($row = $pnt_db->sql_fetchrow($result)) && ($row['game_highscore']< $score)) {
+if (($row = $db->sql_fetchrow($result)) && ($row['game_highscore']< $score)) {
         $sql = "UPDATE " . GAMES_TABLE . " SET game_highscore = $score, game_highuser = " . $userdata['user_id'] . ", game_highdate = " . time() . ", game_set = game_set+1 WHERE game_id = $gid" ;
 
-        if (!($result = $pnt_db->sql_query($sql))) {
+        if (!($result = $db->sql_query($sql))) {
                 message_die(GENERAL_ERROR, "Error accessing games table", '', __LINE__, __FILE__, $sql);
         }
 
         if ($row['game_highuser'] != $userdata['user_id']) {
                 $sql = "UPDATE " . COMMENTS_TABLE . " SET comments_value = '' WHERE game_id = $gid";
 
-                if (!($result = $pnt_db->sql_query($sql))) {
+                if (!($result = $db->sql_query($sql))) {
                         message_die(GENERAL_ERROR, "Error accessing comments table", '', __LINE__, __FILE__, $sql);
                 }
 
@@ -209,41 +209,41 @@ if (($row = $pnt_db->sql_fetchrow($result)) && ($row['game_highscore']< $score))
 
                 $sql = "SELECT * FROM " . SCORES_TABLE . " WHERE game_id = $gid ORDER BY score_game DESC LIMIT 1,1";
 
-                if (!($result = $pnt_db->sql_query($sql))) {
+                if (!($result = $db->sql_query($sql))) {
                         message_die(GENERAL_ERROR, "Error accessing scores table", '', __LINE__, __FILE__, $sql);
                 }
 
-                if ($row = $pnt_db->sql_fetchrow($result)) {
+                if ($row = $db->sql_fetchrow($result)) {
                         $sql= "SELECT s.score_game, s.game_id, g.game_name, u.user_id, u.username FROM " . SCORES_TABLE . " s LEFT JOIN " . USERS_TABLE . " u ON s.user_id = u.user_id LEFT JOIN " . GAMES_TABLE . " g ON s.game_id = g.game_id WHERE s.game_id = " . $gid . " ORDER BY score_game DESC LIMIT 0,1";
 
-                        if (!($result = $pnt_db->sql_query($sql))) {
+                        if (!($result = $db->sql_query($sql))) {
                                 message_die(GENERAL_ERROR, "Error accessing scores and users table", '', __LINE__, __FILE__, $sql);
                         }
 
-                        $row[0] = $pnt_db->sql_fetchrow($result);
+                        $row[0] = $db->sql_fetchrow($result);
 
                         $sql= "SELECT s.score_game, s.game_id, g.game_name, u.user_id, u.username FROM " . SCORES_TABLE . " s LEFT JOIN " . USERS_TABLE . " u ON s.user_id = u.user_id LEFT JOIN " . GAMES_TABLE . " g ON s.game_id = g.game_id WHERE s.game_id = " . $gid . " ORDER BY score_game DESC LIMIT 1,1";
 
-                        if (!($result = $pnt_db->sql_query($sql))) {
+                        if (!($result = $db->sql_query($sql))) {
                                 message_die(GENERAL_ERROR, "Error accessing scores and users table", '', __LINE__, __FILE__, $sql);
                         }
 
-                        $row[1] = $pnt_db->sql_fetchrow($result);
+                        $row[1] = $db->sql_fetchrow($result);
 
-                        $pnt_user_id = $row[1]['user_id'];
+                        $user_id = $row[1]['user_id'];
 
-                        $sql = "SELECT user_allow_arcadepm FROM " . USERS_TABLE . " WHERE user_id = $pnt_user_id";
+                        $sql = "SELECT user_allow_arcadepm FROM " . USERS_TABLE . " WHERE user_id = $user_id";
 
-                        if (!($result = $pnt_db->sql_query($sql))) {
+                        if (!($result = $db->sql_query($sql))) {
                                 message_die(GENERAL_ERROR, "Error retrieving user arcade pm preference", '', __LINE__, __FILE__, $sql);
                         }
 
-                        $row_check = $pnt_db->sql_fetchrow($result);
+                        $row_check = $db->sql_fetchrow($result);
 
                         if ($row_check['user_allow_arcadepm'] == 1) {
-                                $sql = "UPDATE " . USERS_TABLE . " SET user_new_privmsg = '1', user_last_privmsg = '9999999999' WHERE user_id = $pnt_user_id";
+                                $sql = "UPDATE " . USERS_TABLE . " SET user_new_privmsg = '1', user_last_privmsg = '9999999999' WHERE user_id = $user_id";
 
-                                if (!($result = $pnt_db->sql_query($sql))) {
+                                if (!($result = $db->sql_query($sql))) {
                                         message_die(GENERAL_ERROR, 'Could not update users table', '', __LINE__, __FILE__, $sql);
                                 }
 
@@ -251,17 +251,17 @@ if (($row = $pnt_db->sql_fetchrow($result)) && ($row['game_highscore']< $score))
 
                                                                 $privmsgs_date = date("U");
 
-                                $sql = "INSERT INTO " . PRIVMSGS_TABLE . " (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date, privmsgs_enable_html, privmsgs_enable_bbcode, privmsgs_enable_smilies, privmsgs_attach_sig) VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", addslashes(sprintf($lang['register_pm_subject'],$row[0]['game_name']))) . "', '2', " . $pnt_user_id . ", " . $privmsgs_date . ", '0', '1', '1', '0')";
+                                $sql = "INSERT INTO " . PRIVMSGS_TABLE . " (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date, privmsgs_enable_html, privmsgs_enable_bbcode, privmsgs_enable_smilies, privmsgs_attach_sig) VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", addslashes(sprintf($lang['register_pm_subject'],$row[0]['game_name']))) . "', '2', " . $user_id . ", " . $privmsgs_date . ", '0', '1', '1', '0')";
 
-                                if (!$pnt_db->sql_query($sql)) {
+                                if (!$db->sql_query($sql)) {
                                         message_die(GENERAL_ERROR, 'Could not insert private message sent info', '', __LINE__, __FILE__, $sql);
                                 }
 
-                                $privmsg_sent_id = $pnt_db->sql_nextid();
+                                $privmsg_sent_id = $db->sql_nextid();
 
                                 $sql = "INSERT INTO " . PRIVMSGS_TEXT_TABLE . " (privmsgs_text_id, privmsgs_text) VALUES ($privmsg_sent_id, '" . str_replace("\'", "''", addslashes(sprintf($lang['register_pm'],$row[1]['score_game'],$row[0]['game_name'],$row[0]['username'],$row[0]['score_game'],$link))) . "')";
 
-                                if (!$pnt_db->sql_query($sql)) {
+                                if (!$db->sql_query($sql)) {
                                         message_die(GENERAL_ERROR, 'Could not insert private message sent text', '', __LINE__, __FILE__, $sql);
                                 }
                         }
@@ -272,7 +272,7 @@ if (($row = $pnt_db->sql_fetchrow($result)) && ($row['game_highscore']< $score))
                 else
                 {
         $sql = "UPDATE " . GAMES_TABLE . " SET game_set = game_set+1 WHERE game_id = $gid";
-        if (!$pnt_db->sql_query($sql))
+        if (!$db->sql_query($sql))
                    {
                 message_die(GENERAL_ERROR, 'Could not update games table', '', __LINE__, __FILE__, $sql);
            }

@@ -13,14 +13,14 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
-$phpbb2_root_path = "../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "../";
+require($phpbb_root_path . 'extension.inc');
 require('pagestart.' . $phpEx);
-require($phpbb2_root_path . 'gf_funcs/gen_funcs.' . $phpEx);
-require($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_main_arcade.' . $phpEx);
-require($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_arcade.' . $phpEx);
+require($phpbb_root_path . 'gf_funcs/gen_funcs.' . $phpEx);
+require($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_main_arcade.' . $phpEx);
+require($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_arcade.' . $phpEx);
 
 $mode = get_var_gf(array('name' => 'mode', 'intval' => false, 'okvar' => array('create','edit','editsave','createsave','delete', 'move'), 'default' => ''));
 $arcade_catid = get_var_gf(array('name' => 'arcade_catid', 'intval' => true));
@@ -47,7 +47,7 @@ if ( $mode == 'move')
             SET game_order = $game_order + $gorder2 - game_order
             WHERE game_id = '$game_id' OR game_id = '$gid2'";
 
-    if( !$pnt_db->sql_query($sql) )
+    if( !$db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, "Couldn't update games table", "", __LINE__, __FILE__, $sql);
     }
@@ -64,12 +64,12 @@ if( !empty($mode) )
                 $l_title = $lang['Edit_game'];
                 $newmode = 'editsave';
                 $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_id = '$game_id' ORDER BY game_order ASC";
-                if( !($result = $pnt_db->sql_query($sql)) )
+                if( !($result = $db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, "Could not read the games table", '', __LINE__, __FILE__, $sql);
                 }
 
-                if( !($row = $pnt_db->sql_fetchrow($result)) )
+                if( !($row = $db->sql_fetchrow($result)) )
                 {
                     message_die(GENERAL_ERROR, "No game corresponds to this ID ($game_id)");
                 }
@@ -89,12 +89,12 @@ if( !empty($mode) )
                 $selected5 = ( $row['game_type']==5 ) ? "selected='selected'" : "";
 
                 $sql = "SELECT arcade_cattitle, arcade_catid FROM " . ARCADE_CATEGORIES_TABLE . " ORDER BY arcade_cattitle ASC";
-                if( !($result = $pnt_db->sql_query($sql)) )
+                if( !($result = $db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, "Could not read the arcade categories", '', __LINE__, __FILE__, $sql);
                 }
                 $liste_cat = '';
-                while ( $row = $pnt_db->sql_fetchrow($result))
+                while ( $row = $db->sql_fetchrow($result))
                 {
                   $selected = ( $row['arcade_catid'] == $arcade_catid ) ? " selected='selected'" : "";
                   $liste_cat .= "<option value='" . $row['arcade_catid'] . "' $selected >" . $row['arcade_cattitle'] . "</option>\n";
@@ -121,12 +121,12 @@ if( !empty($mode) )
                 $selected2 = "";
 
                 $sql = "SELECT arcade_cattitle, arcade_catid FROM " . ARCADE_CATEGORIES_TABLE . " ORDER BY arcade_cattitle ASC";
-                if( !($result = $pnt_db->sql_query($sql)) )
+                if( !($result = $db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, "Could not read the arcade category table", '', __LINE__, __FILE__, $sql);
                 }
                 $liste_cat = '';
-                while ( $row = $pnt_db->sql_fetchrow($result))
+                while ( $row = $db->sql_fetchrow($result))
                 {
                   $liste_cat .= "<option value='" . $row['arcade_catid'] . "' >" . $row['arcade_cattitle'] . "</option>\n";
                 }
@@ -135,11 +135,11 @@ if( !empty($mode) )
                 $hidden_fields = "<input type='hidden' name='mode' value='createsave' />";
             }
 
-            $phpbb2_template->set_filenames(array(
+            $template->set_filenames(array(
             "body" => "admin/admin_edit_games.tpl")
              );
 
-          $phpbb2_template->assign_vars(array(
+          $template->assign_vars(array(
             "L_EDIT_GAME" => $l_title,
             "L_EDIT_GAME_EXPLAIN" => $lang['Edit_game_explain'],
             "L_GAME_SETTINGS" => $lang['Game_settings'],
@@ -184,7 +184,7 @@ if( !empty($mode) )
             "S_HIDDEN_FIELDS" => $hidden_fields)
             );
 
-          $phpbb2_template->pparse('body');
+          $template->pparse('body');
           include('page_footer_admin.'.$phpEx);
           break;
           
@@ -201,46 +201,46 @@ if( !empty($mode) )
                 
             $sql = "SELECT MAX(game_order) AS max_order
                 FROM " . GAMES_TABLE;
-            if( !$result = $pnt_db->sql_query($sql) )
+            if( !$result = $db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Impossible to obtain the last sequence number of the table plays", "", __LINE__, __FILE__, $sql);
             }
-            $row = $pnt_db->sql_fetchrow($result);
+            $row = $db->sql_fetchrow($result);
 
             $max_order = $row['max_order'];
             $next_order = $max_order + 10;
 
             $sql = "INSERT INTO " . GAMES_TABLE . " ( game_order, game_pic, game_desc, game_highscore, game_highdate, game_highuser, game_name, game_swf, game_width, game_height, game_scorevar, game_type, arcade_catid ) " .
                 "VALUES ($next_order, '$game_pic', '" . str_replace("\'", "''", $game_desc) . "', 0, 0, 0, '" . str_replace("\'", "''", $game_name) . "', '$game_swf', '$game_width', '$game_height', '$game_scorevar','$game_type','$arcade_catid')";
-            if( !$result = $pnt_db->sql_query($sql) )
+            if( !$result = $db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Couldn't insert row in games table", "", __LINE__, __FILE__, $sql);
             }
 
             $sql = "UPDATE " . ARCADE_CATEGORIES_TABLE . " SET arcade_nbelmt = arcade_nbelmt + 1 WHERE arcade_catid = $arcade_catid";
-            if( !$pnt_db->sql_query($sql) )
+            if( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Couldn't update categories table", "", __LINE__, __FILE__, $sql);
             }
             
             //Comments Mod Start
             $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_order = $next_order ";
-            if( !$result = $pnt_db->sql_query($sql) )
+            if( !$result = $db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Couldn't update comments table", "", __LINE__, __FILE__, $sql);
             }
-            $row = $pnt_db->sql_fetchrow($result);
+            $row = $db->sql_fetchrow($result);
             $game_id = $row['game_id'];
             
             $sql = "INSERT INTO " . COMMENTS_TABLE . " ( game_id, comments_value ) VALUES ($game_id, '')";
-            if( !$pnt_db->sql_query($sql) )
+            if( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Couldn't update comments table", "", __LINE__, __FILE__, $sql);
             }
             //Comments Mod End
 
 
-            $message = $lang['Games_updated'] . "<br /><br />" . sprintf($lang['Click_return_gameadmin'], "<a href=\"arcade_elmt.$phpEx?arcade_catid=$arcade_catid\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+            $message = $lang['Games_updated'] . "<br /><br />" . sprintf($lang['Click_return_gameadmin'], "<a href=\"arcade_elmt.$phpEx?arcade_catid=$arcade_catid\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
             message_die(GENERAL_MESSAGE, $message);
             break;
 
@@ -257,7 +257,7 @@ if( !empty($mode) )
             arcade_catid = " . $arcade_catid . "
                     WHERE game_id = " . $game_id;
                 
-            if( !$result = $pnt_db->sql_query($sql) )
+            if( !$result = $db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Couldn't update game informations", "", __LINE__, __FILE__, $sql);
             }
@@ -265,19 +265,19 @@ if( !empty($mode) )
             if ($arcade_catid != $last_catid)
             {
                 $sql = "UPDATE " . ARCADE_CATEGORIES_TABLE . " SET arcade_nbelmt = arcade_nbelmt + 1 WHERE arcade_catid = $arcade_catid";                
-                if( !$pnt_db->sql_query($sql) )
+                if( !$db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, "Couldn't update categories table", "", __LINE__, __FILE__, $sql);
                 }
 
                 $sql = "UPDATE " . ARCADE_CATEGORIES_TABLE . " SET arcade_nbelmt = arcade_nbelmt - 1 WHERE arcade_catid = $last_catid";                
-                if( !$pnt_db->sql_query($sql) )
+                if( !$db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, "Couldn't update categories table", "", __LINE__, __FILE__, $sql);
                 }
             }
 
-            $message = $lang['Games_updated'] . "<br /><br />" . sprintf($lang['Click_return_gameadmin'], "<a href=\"arcade_elmt.$phpEx?arcade_catid=$last_catid\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+            $message = $lang['Games_updated'] . "<br /><br />" . sprintf($lang['Click_return_gameadmin'], "<a href=\"arcade_elmt.$phpEx?arcade_catid=$last_catid\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
             message_die(GENERAL_MESSAGE, $message);
             break;
     }                
@@ -303,19 +303,19 @@ if ($valid_select <> '')
         case 'Z':
             $sql = "DELETE FROM " . SCORES_TABLE . "  
                 WHERE game_id IN ($select_id_sql) ";
-            if ( !$pnt_db->sql_query($sql) )
+            if ( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not delete from the scores table', '', __LINE__, __FILE__, $sql);
             }
             $sql = "UPDATE " . GAMES_TABLE . " SET game_set = 0, game_highscore = 0, game_highuser = 0, game_highdate = 0
                 WHERE game_id IN ($select_id_sql) ";
-            if ( !$pnt_db->sql_query($sql) )
+            if ( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not update the games table', '', __LINE__, __FILE__, $sql);
             }
             // Comments MOD Start
                         $sql = "UPDATE " . COMMENTS_TABLE. " SET comments_value = '' WHERE game_id IN ($select_id_sql) ";
-                        if (!$pnt_db->sql_query($sql))
+                        if (!$db->sql_query($sql))
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete from comments table', '', __LINE__, __FILE__, $sql);
                         }
@@ -324,27 +324,27 @@ if ($valid_select <> '')
         case 'S':
             $sql = "DELETE FROM " . SCORES_TABLE . " 
                 WHERE game_id IN ($select_id_sql) ";
-            if ( !$pnt_db->sql_query($sql) )
+            if ( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not delete from the scores table', '', __LINE__, __FILE__, $sql);
             }
             $sql = "DELETE FROM " . GAMES_TABLE . " 
                 WHERE game_id IN ($select_id_sql) ";
-            if ( !$pnt_db->sql_query($sql) )
+            if ( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not delete from the games table', '', __LINE__, __FILE__, $sql);
             }
             
             //Comments Mod Start
             $sql = "DELETE FROM " . COMMENTS_TABLE . " WHERE game_id IN ($select_id_sql) ";
-            if ( !$pnt_db->sql_query($sql) )
+            if ( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could delete from comments table', '', __LINE__, __FILE__, $sql);
             }
             //Comments Mod End
 
             $sql = "UPDATE " . ARCADE_CATEGORIES_TABLE . " SET arcade_nbelmt = arcade_nbelmt - $csc WHERE arcade_catid = $arcade_catid";                
-            if( !$pnt_db->sql_query($sql) )
+            if( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Couldn't update categories table", "", __LINE__, __FILE__, $sql);
             }
@@ -352,16 +352,16 @@ if ($valid_select <> '')
         case 'Y':
             $sql = "SELECT SUM(score_set) AS nbset, game_id FROM " . SCORES_TABLE . " 
                 WHERE game_id IN ($select_id_sql) GROUP BY game_id";
-            if ( !$result = $pnt_db->sql_query($sql) )
+            if ( !$result = $db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Impossible to reach the table of the scores', '', __LINE__, __FILE__, $sql);
             }
             
-            while ($row = $pnt_db->sql_fetchrow($result))
+            while ($row = $db->sql_fetchrow($result))
             {
                 $sql2 = "UPDATE " . GAMES_TABLE . " SET game_set = " . $row['nbset'] .
                     " WHERE game_id = " . $row['game_id'];
-                if ( !$pnt_db->sql_query($sql2) )
+                if ( !$db->sql_query($sql2) )
                 {
                     message_die(GENERAL_ERROR, 'Impossible to reach the table of the games', '', __LINE__, __FILE__, $sql);
                 }
@@ -373,11 +373,11 @@ if ($valid_select <> '')
 //---------------------------
 $hidden_fields = "<input type='hidden' name='arcade_catid' value='$arcade_catid'/>";
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
         "body" => "admin/arcade_manage_body.tpl")
     );
 
-  $phpbb2_template->assign_vars(array(
+  $template->assign_vars(array(
         "L_MANAGE_GAME" => $lang['Manage_game'],
         "ADD_GAME" => $lang['Add_new'],
         "INITIAL_SCORE" => $lang['Initialize_score'],
@@ -401,13 +401,13 @@ $phpbb2_template->set_filenames(array(
 
 $sql = "SELECT COUNT(s.score_game) as nbset, g.game_id, g.game_order, g.game_name, g.game_highscore, g.game_set FROM " . GAMES_TABLE . " g left join " . SCORES_TABLE ." s on s.game_id = g.game_id WHERE g.arcade_catid = '$arcade_catid' GROUP BY g.game_id ORDER BY g.game_order";
 
-if( !($result = $pnt_db->sql_query($sql)) )
+if( !($result = $db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, "Impossible to reach the table of the games", '', __LINE__, __FILE__, $sql);
 }
 
 $liste_jeux = array();
-while( $row = $pnt_db->sql_fetchrow($result) )
+while( $row = $db->sql_fetchrow($result) )
 {
   $liste_jeux[] = $row;
 }
@@ -416,7 +416,7 @@ $cg = count($liste_jeux);
 
 for( $i=0 ; $i<$cg; $i++)
 {
-  $phpbb2_template->assign_block_vars('ligne_jeu', array(
+  $template->assign_block_vars('ligne_jeu', array(
         'TITRE_JEU' => $liste_jeux[$i]['game_name'],
         'NB_SETS' => $liste_jeux[$i]['game_set'],
         'NB_SCORES' => $liste_jeux[$i]['nbset'],
@@ -435,10 +435,10 @@ for( $i=0 ; $i<$cg; $i++)
 
 if ( $cg>0 )
 {
-  $phpbb2_template->assign_block_vars('switch_liste_non_vide', array());
+  $template->assign_block_vars('switch_liste_non_vide', array());
 }
 
-  $phpbb2_template->pparse('body');
+  $template->pparse('body');
   include('page_footer_admin.'.$phpEx);
 
 ?>

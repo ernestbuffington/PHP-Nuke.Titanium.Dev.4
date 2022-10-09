@@ -12,8 +12,8 @@
 /* See CREDITS.txt for ALL contributors                 */
 /********************************************************/
 
-$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `user_id`='$pnt_user_id' AND `ip_addr`='$ip_addr'");
-$pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_tracked_ips`");
-Header("Location: ".$admin_file.".php?op=$xop&user_id=$pnt_user_id&min=$min&showmodule=$showmodule");
+$db->sql_query("DELETE FROM `".$prefix."_nsnst_tracked_ips` WHERE `user_id`='$user_id' AND `ip_addr`='$ip_addr'");
+$db->sql_query("OPTIMIZE TABLE `".$prefix."_nsnst_tracked_ips`");
+Header("Location: ".$admin_file.".php?op=$xop&user_id=$user_id&min=$min&showmodule=$showmodule");
 
 ?>

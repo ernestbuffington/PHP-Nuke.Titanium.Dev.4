@@ -35,12 +35,12 @@ if (!defined('ADMIN_FILE')) {
    die ("Access Denied");
 }
 
-$pnt_module = basename(dirname(dirname(__FILE__)));
+$module_name = basename(dirname(dirname(__FILE__)));
 
 switch($op) {
 
     case "forums":
-        include("modules/$pnt_module/admin/forums.php");
+        include("modules/$module_name/admin/forums.php");
     break;
  
 }

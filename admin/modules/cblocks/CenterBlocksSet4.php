@@ -18,7 +18,7 @@
 if(!defined('ADMIN_FILE')) {
     exit('Access Denied');
 }
-global $pnt_prefix, $pnt_db;
+global $prefix, $db;
 include_once(NUKE_BASE_DIR.'header.php');
 title(_CB_ADMIN4);
 CBMenu();
@@ -26,7 +26,7 @@ echo"<br />\n";
 CBSample(4);
 OpenTable();
 title(_CB_CONFIG4);
-$cbinfo = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsncb_config` WHERE `cgid`='4'"));
+$cbinfo = $db->sql_fetchrow($db->sql_query("SELECT * FROM `".$prefix."_nsncb_config` WHERE `cgid`='4'"));
 echo "<center><table border='0'><tr><form action='".$admin_file.".php' method='post'>\n";
 echo "<td>"._CB_ACTIVE.": <select name='xenabled'>\n";
 if($cbinfo['enabled'] == 0) { $se0 = " selected"; } else { $se1 = " selected"; }
@@ -45,8 +45,8 @@ while($func=$cblocksdir->read()) { if(substr($func, 0, 6) == "block-") { $cblock
 closedir($cblocksdir->handle);
 $cblockslist = explode(" ", $cblockslist);
 sort($cblockslist);
-$result2 = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsncb_blocks` WHERE `cgid`='4' ORDER BY `cbid`");
-while($cbidinfo = $pnt_db->sql_fetchrow($result2)) {
+$result2 = $db->sql_query("SELECT * FROM `".$prefix."_nsncb_blocks` WHERE `cgid`='4' ORDER BY `cbid`");
+while($cbidinfo = $db->sql_fetchrow($result2)) {
   if($cbidinfo['cbid'] > 1) { echo "<br />\n"; }
   echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
   echo "<tr><td align='center' colspan='2'><span>"._CB_BLOCK." "._CB_ID.": ".$cbidinfo['cbid']."</span></td></tr>\n";

@@ -20,27 +20,27 @@ if(!defined('NUKE_EVO')) {
    die ("Illegal File Access");
 }
 
-$pnt_module = basename(dirname(dirname(__FILE__)));
+$module_name = basename(dirname(dirname(__FILE__)));
 
-get_lang($pnt_module);
+get_lang($module_name);
 
 function evouserinfo_get_addon_all() 
 {
-    global $pnt_prefix, $pnt_db, $lang_evo_userblock;
+    global $prefix, $db, $lang_evo_userblock;
 
-    $sql = 'SELECT value, name from `'.$pnt_prefix.'_evo_userinfo_addons`';
+    $sql = 'SELECT value, name from `'.$prefix.'_evo_userinfo_addons`';
 
-    if(!$result = $pnt_db->sql_query($sql)) 
+    if(!$result = $db->sql_query($sql)) 
 	{
         DisplayError($lang_evo_userblock['BLOCK']['ERR_NF']);
     }
     
-	while ($row = $pnt_db->sql_fetchrow($result)) 
+	while ($row = $db->sql_fetchrow($result)) 
 	{
         $values[$row['name']] = $row['value'];
     }
     
-	$pnt_db->sql_freeresult($result);
+	$db->sql_freeresult($result);
     
 	return $values;
 }

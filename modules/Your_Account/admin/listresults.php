@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($pnt_module)) {
+if(is_mod_admin($module_name)) {
 
     $pagetitle = ": "._USERADMIN." - "._SEARCHUSERS;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -57,11 +57,11 @@ if(is_mod_admin($pnt_module)) {
     OpenTable();
     $query = str_replace("\"","",$query);
     $query = str_replace("\'","",$query);
-    if ($find == "findUser") { $pnt_usertable = $pnt_user_prefix."_users"; } else { $pnt_usertable = $pnt_user_prefix."_users_temp"; }
+    if ($find == "findUser") { $usertable = $user_prefix."_users"; } else { $usertable = $user_prefix."_users_temp"; }
     if ($match == "equal") { $sign = "='$query'"; } else { $sign = "LIKE '%".$query."%'"; }
     if (!isset($min)) $min=0;
     if (!isset($max)) $max=$min+$ya_config['perpage'];
-    $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM $pnt_usertable WHERE $what $sign"));
+    $totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM $usertable WHERE $what $sign"));
     echo "<table align='center' cellpadding='2' cellspacing='2' bgcolor='$textcolor1' border='0'>\n";
     echo "<tr bgcolor='$bgcolor2'>\n<td><strong>"._USERID."</strong></td>\n";
     echo "<td><strong>"._USERNAME."</strong></td>\n";
@@ -69,9 +69,9 @@ if(is_mod_admin($pnt_module)) {
     echo "<td align='center'><strong>"._EMAIL."</strong></td>\n";
     echo "<td align='center'><strong>"._REGDATE."</strong></td>\n";
     echo "<td align='center'><strong>"._FUNCTIONS."</strong></td>\n</tr>\n";
-    $result = $pnt_db->sql_query("SELECT * FROM $pnt_usertable WHERE $what $sign ORDER BY username LIMIT $min,".$ya_config['perpage']."");
-    while($chnginfo = $pnt_db->sql_fetchrow($result)) {
-        echo "<tr bgcolor='$bgcolor1'><form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
+    $result = $db->sql_query("SELECT * FROM $usertable WHERE $what $sign ORDER BY username LIMIT $min,".$ya_config['perpage']."");
+    while($chnginfo = $db->sql_fetchrow($result)) {
+        echo "<tr bgcolor='$bgcolor1'><form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
         echo "<input type='hidden' name='query' value='$query'>\n";
         echo "<input type='hidden' name='find' value='$find'>\n";
         echo "<input type='hidden' name='what' value='$what'>\n";

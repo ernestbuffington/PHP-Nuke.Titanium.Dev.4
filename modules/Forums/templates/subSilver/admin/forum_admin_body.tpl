@@ -33,13 +33,13 @@
     </tr>
     <!-- END forumrow -->
     <tr>
-        <td colspan="8" class="row2"><input type="text" name="{catrow.S_ADD_FORUM_NAME}" /> <input type="submit" class="titaniumbutton"  name="{catrow.S_ADD_FORUM_SUBMIT}" value="{L_CREATE_FORUM}" /></td>
+        <td colspan="8" class="row2"><input type="text" name="{catrow.S_ADD_FORUM_NAME}" /> <input type="submit" class="liteoption"  name="{catrow.S_ADD_FORUM_SUBMIT}" value="{L_CREATE_FORUM}" /></td>
     </tr>
     <tr>
         <td colspan="8" height="1" class="spaceRow"><img src="../templates/subSilver/images/spacer.gif" alt="" width="1" height="1" /></td>
     </tr>
     <!-- END catrow -->
     <tr>
-        <td colspan="8" class="catBottom"><input type="text" name="categoryname" /> <input type="submit" class="titaniumbutton"  name="addcategory" value="{L_CREATE_CATEGORY}" /></td>
+        <td colspan="8" class="catBottom"><input type="text" name="categoryname" /> <input type="submit" class="liteoption"  name="addcategory" value="{L_CREATE_CATEGORY}" /></td>
     </tr>
 </table></form>

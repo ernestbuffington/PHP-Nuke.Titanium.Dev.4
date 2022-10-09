@@ -20,9 +20,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-  die('ACCESS DENIED');
+  die('Hacking attempt');
 }
 
 //
@@ -31,7 +31,7 @@ if (!defined('IN_PHPBB2'))
 //
 function get_reputation_medals($rep)
 {
-  global $rep_config, $reputation, $lang, $phpbb2_root_path;
+  global $rep_config, $reputation, $lang, $phpbb_root_path;
 
   if ($rep > 0)
   {
@@ -40,7 +40,7 @@ function get_reputation_medals($rep)
     {
       for ($k=1; $k<=round($temp); $k++)
       {
-        $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_1.gif" alt="' . $lang['Reputation'] . ': ' .  round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
+        $reputation .= '<img src="' . $phpbb_root_path . 'images/reputation_medal_size_1.gif" alt="' . $lang['Reputation'] . ': ' .  round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
       }
     }
     else if ($temp < 1)
@@ -50,7 +50,7 @@ function get_reputation_medals($rep)
       {
         for ($k=1; $k<=round($temp); $k++)
         {
-          $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_2.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
+          $reputation .= '<img src="' . $phpbb_root_path . 'images/reputation_medal_size_2.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
         }
       } else if ($temp < 1)
       {
@@ -59,7 +59,7 @@ function get_reputation_medals($rep)
         {
           for ($k=1; $k<=round($temp); $k++)
           {
-            $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_3.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
+            $reputation .= '<img src="' . $phpbb_root_path . 'images/reputation_medal_size_3.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
           }
         } else if ($temp < 1)
         {
@@ -68,48 +68,48 @@ function get_reputation_medals($rep)
           {
             for ($k=1; $k<=round($temp); $k++)
             {
-              $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_4.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
+              $reputation .= '<img src="' . $phpbb_root_path . 'images/reputation_medal_size_4.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
             }
           } else if ($temp < 1)
           {
             for ($k=1; $k<=$rep; $k++)
             {
-              $reputation .= '<img src="' . $phpbb2_root_path . 'images/reputation_medal_size_5.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
+              $reputation .= '<img src="' . $phpbb_root_path . 'images/reputation_medal_size_5.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
             }
           }
         }
       }
     }
   } else if ($rep < 0)
-  $reputation = '<img src="' . $phpbb2_root_path . 'images/reputation_medal_neg.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
+  $reputation = '<img src="' . $phpbb_root_path . 'images/reputation_medal_neg.gif" alt="' . $lang['Reputation'] . ': ' . round($rep,1) . '" title="' . $lang['Reputation'] . ': ' . round($rep,1) . '" border="0">';
 
   return $reputation;
 }
 
 
 //
-// This function will send the PM to the user $pnt_user_2id
+// This function will send the PM to the user $user_2id
 // (borrowed from privmsg.php)
 //
-function r_send_pm(&$pnt_user_id, &$pnt_user_2id, &$rep_sum, &$pnt_user_ip)
+function r_send_pm(&$user_id, &$user_2id, &$rep_sum, &$user_ip)
 {
-  global $lang, $pnt_db;
+  global $lang, $db;
 
   $msg_time = time();
   $sql_info = "INSERT INTO " . PRIVMSGS_TABLE . " (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date, privmsgs_ip, privmsgs_enable_html, privmsgs_enable_bbcode, privmsgs_enable_smilies, privmsgs_attach_sig)
-        VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", $lang['PM_notify_subj']) . "' , " . $pnt_user_id . ", " . $pnt_user_2id . ", $msg_time, '$pnt_user_ip', 0, 1, 0, 0)";
-  if ( !($result = $pnt_db->sql_query($sql_info, BEGIN_TRANSACTION)) )
+        VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", $lang['PM_notify_subj']) . "' , " . $user_id . ", " . $user_2id . ", $msg_time, '$user_ip', 0, 1, 0, 0)";
+  if ( !($result = $db->sql_query($sql_info, BEGIN_TRANSACTION)) )
   {
     message_die(GENERAL_ERROR, "Could not insert/update private message sent info.", "", __LINE__, __FILE__, $sql_info);
   }
 
-  $next_id = $pnt_db->sql_nextid();
+  $next_id = $db->sql_nextid();
   $bbcode_uid = make_bbcode_uid();
 
   $privmsg_message = sprintf($lang['PM_notify_text'], $rep_sum);
   $sql = "INSERT INTO " . PRIVMSGS_TEXT_TABLE . " (privmsgs_text_id, privmsgs_bbcode_uid, privmsgs_text)
     VALUES ($next_id, '" . $bbcode_uid . "', '" . str_replace("\'", "''", $privmsg_message) . "')";
-  if ( !$pnt_db->sql_query($sql, END_TRANSACTION) )
+  if ( !$db->sql_query($sql, END_TRANSACTION) )
   {
     message_die(GENERAL_ERROR, "Could not insert/update private message sent text.", "", __LINE__, __FILE__, $sql_info);
   }
@@ -119,8 +119,8 @@ function r_send_pm(&$pnt_user_id, &$pnt_user_2id, &$rep_sum, &$pnt_user_ip)
   //
   $sql = "UPDATE " . USERS_TABLE . "
     SET user_new_privmsg = user_new_privmsg + 1, user_last_privmsg = " . $msg_time . "
-    WHERE user_id = " . $pnt_user_2id;
-  if ( !$status = $pnt_db->sql_query($sql) )
+    WHERE user_id = " . $user_2id;
+  if ( !$status = $db->sql_query($sql) )
   {
     message_die(GENERAL_ERROR, 'Could not update private message new/read status for user', '', __LINE__, __FILE__, $sql);
   }
@@ -133,9 +133,9 @@ function r_send_pm(&$pnt_user_id, &$pnt_user_2id, &$rep_sum, &$pnt_user_ip)
 // This function updates the reputations for the user,
 // earned by posting and by "living" on forum
 //
-function update_reputations(&$mode, &$pnt_user_id)
+function update_reputations(&$mode, &$user_id)
 {
-  global $pnt_db, $rep_config, $userdata;
+  global $db, $rep_config, $userdata;
 
   if ($userdata['user_id'] == ANONYMOUS)
   {
@@ -170,8 +170,8 @@ function update_reputations(&$mode, &$pnt_user_id)
   {
     $sql = "UPDATE " . USERS_TABLE . "
         SET user_reputation = user_reputation $sign_rep, user_rep_last_time = $last_time
-        WHERE user_id = $pnt_user_id";
-    if (!$pnt_db->sql_query($sql))
+        WHERE user_id = $user_id";
+    if (!$db->sql_query($sql))
     {
       message_die(GENERAL_ERROR, 'Error in updating the reputations', '', __LINE__, __FILE__, $sql);
     }

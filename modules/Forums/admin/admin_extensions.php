@@ -13,23 +13,23 @@
 *
 */
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $pnt_module['Extensions']['Extension_control'] = $filename . '?mode=extensions';
-    $pnt_module['Extensions']['Extension_group_manage'] = $filename . '?mode=groups';
-    $pnt_module['Extensions']['Forbidden_extensions'] = $filename . '?mode=forbidden';
+    $module['Extensions']['Extension_control'] = $filename . '?mode=extensions';
+    $module['Extensions']['Extension_group_manage'] = $filename . '?mode=groups';
+    $module['Extensions']['Forbidden_extensions'] = $filename . '?mode=forbidden';
     return;
 }
 
 // Let's set the root dir for phpBB
-$phpbb2_root_path = '../';
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = '../';
+require($phpbb_root_path . 'extension.inc');
 require('pagestart.' . $phpEx);
 
-@include_once($phpbb2_root_path . 'attach_mod/includes/constants.'.$phpEx);
+@include_once($phpbb_root_path . 'attach_mod/includes/constants.'.$phpEx);
 
 if (!intval($attach_config['allow_ftp_upload']))
 {
@@ -39,7 +39,7 @@ if (!intval($attach_config['allow_ftp_upload']))
     }
     else
     {
-        $upload_dir = $phpbb2_root_path . $attach_config['upload_dir'];
+        $upload_dir = $phpbb_root_path . $attach_config['upload_dir'];
     }
 }
 else
@@ -47,8 +47,8 @@ else
     $upload_dir = $attach_config['download_path'];
 }
 
-include($phpbb2_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
-include($phpbb2_root_path . 'attach_mod/includes/functions_admin.' . $phpEx);
+include($phpbb_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
+include($phpbb_root_path . 'attach_mod/includes/functions_admin.' . $phpEx);
 
 // Check if the language got included
 if (!isset($lang['Test_settings_successful']))
@@ -76,16 +76,16 @@ $attach_config = array();
 $sql = 'SELECT *
     FROM ' . ATTACH_CONFIG_TABLE;
 
-if (!($result = $pnt_db->sql_query($sql)))
+if (!($result = $db->sql_query($sql)))
 {
     message_die(GENERAL_ERROR, 'Could not query attachment information', '', __LINE__, __FILE__, $sql);
 }
 
-while ($row = $pnt_db->sql_fetchrow($result))
+while ($row = $db->sql_fetchrow($result))
 {
     $attach_config[$row['config_name']] = trim($row['config_value']);
 }
-$pnt_db->sql_freeresult($result);
+$db->sql_freeresult($result);
 
 // Extension Management
 if ($submit && $mode == 'extensions')
@@ -108,14 +108,14 @@ if ($submit && $mode == 'extensions')
         FROM ' . EXTENSIONS_TABLE . '
         ORDER BY ext_id';
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t get Extension Informations.', '', __LINE__, __FILE__, $sql);
     }
 
-    $num_rows = $pnt_db->sql_numrows($result);
-    $extension_row = $pnt_db->sql_fetchrowset($result);
-    $pnt_db->sql_freeresult($result);
+    $num_rows = $db->sql_numrows($result);
+    $extension_row = $db->sql_fetchrowset($result);
+    $db->sql_freeresult($result);
 
     if ($num_rows > 0)
     {
@@ -131,7 +131,7 @@ if ($submit && $mode == 'extensions')
                 $sql = 'UPDATE ' . EXTENSIONS_TABLE . ' SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
                     WHERE ext_id = ' . (int) $extension_row[$i]['ext_id'];
 
-                if (!$pnt_db->sql_query($sql))
+                if (!$db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t update Extension Informations', '', __LINE__, __FILE__, $sql);
                 }
@@ -150,7 +150,7 @@ if ($submit && $mode == 'extensions')
             FROM ' . EXTENSIONS_TABLE . '
             WHERE ext_id IN (' . $extension_id_sql . ')';
 
-        if (!$result = $pnt_db->sql_query($sql))
+        if (!$result = $db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Could not delete Extensions', '', __LINE__, __FILE__, $sql);
         }
@@ -164,7 +164,7 @@ if ($submit && $mode == 'extensions')
 
     if ($extension != '' && $add)
     {
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'ADD_EXTENSION'            => $extension,
             'ADD_EXTENSION_EXPLAIN'    => $extension_explain)
         );
@@ -175,14 +175,14 @@ if ($submit && $mode == 'extensions')
             $sql = 'SELECT extension
                 FROM ' . EXTENSIONS_TABLE;
 
-            if (!($result = $pnt_db->sql_query($sql)))
+            if (!($result = $db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not query Extensions', '', __LINE__, __FILE__, $sql);
             }
 
-            $row = $pnt_db->sql_fetchrowset($result);
-            $num_rows = $pnt_db->sql_numrows($result);
-            $pnt_db->sql_freeresult($result);
+            $row = $db->sql_fetchrowset($result);
+            $num_rows = $db->sql_numrows($result);
+            $db->sql_freeresult($result);
 
             if ($num_rows > 0)
             {
@@ -206,14 +206,14 @@ if ($submit && $mode == 'extensions')
                 $sql = 'SELECT extension
                     FROM ' . FORBIDDEN_EXTENSIONS_TABLE;
 
-                if (!($result = $pnt_db->sql_query($sql)))
+                if (!($result = $db->sql_query($sql)))
                 {
                     message_die(GENERAL_ERROR, 'Could not query Extensions', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $pnt_db->sql_fetchrowset($result);
-                $num_rows = $pnt_db->sql_numrows($result);
-                $pnt_db->sql_freeresult($result);
+                $row = $db->sql_fetchrowset($result);
+                $num_rows = $db->sql_numrows($result);
+                $db->sql_freeresult($result);
 
                 if ($num_rows > 0)
                 {
@@ -243,7 +243,7 @@ if ($submit && $mode == 'extensions')
 
                 $sql = 'INSERT INTO ' . EXTENSIONS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-                if (!$pnt_db->sql_query($sql))
+                if (!$db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, 'Could not add Extension', '', __LINE__, __FILE__, $sql);
                 }
@@ -254,7 +254,7 @@ if ($submit && $mode == 'extensions')
 
     if (!$error)
     {
-        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_extensions.$phpEx?mode=extensions") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=extensions") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -263,11 +263,11 @@ if ($submit && $mode == 'extensions')
 if ($mode == 'extensions')
 {
     // Extensions
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/attach_extensions.tpl')
     );
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_EXTENSIONS_TITLE'        => $lang['Manage_extensions'],
         'L_EXTENSIONS_EXPLAIN'        => $lang['Manage_extensions_explain'],
         'L_SELECT'                    => $lang['Select'],
@@ -279,19 +279,19 @@ if ($mode == 'extensions')
         'L_CANCEL'                    => $lang['Cancel'],
         'L_SUBMIT'                    => $lang['Submit'],
 
-        'S_CANCEL_ACTION'            => append_titanium_sid("admin_extensions.$phpEx?mode=extensions"),
-        'S_ATTACH_ACTION'            => append_titanium_sid("admin_extensions.$phpEx?mode=extensions"))
+        'S_CANCEL_ACTION'            => append_sid("admin_extensions.$phpEx?mode=extensions"),
+        'S_ATTACH_ACTION'            => append_sid("admin_extensions.$phpEx?mode=extensions"))
     );
 
     if ($submit)
     {
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'S_ADD_GROUP_SELECT' => group_select('add_group_select', $extension_group))
         );
     }
     else
     {
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'S_ADD_GROUP_SELECT' => group_select('add_group_select'))
         );
     }
@@ -300,14 +300,14 @@ if ($mode == 'extensions')
         FROM ' . EXTENSIONS_TABLE . '
         ORDER BY group_id';
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t get Extension informations', '', __LINE__, __FILE__, $sql);
     }
 
-    $extension_row = $pnt_db->sql_fetchrowset($result);
-    $num_extension_row = $pnt_db->sql_numrows($result);
-    $pnt_db->sql_freeresult($result);
+    $extension_row = $db->sql_fetchrowset($result);
+    $num_extension_row = $db->sql_numrows($result);
+    $db->sql_freeresult($result);
 
     if ($num_extension_row > 0)
     {
@@ -317,7 +317,7 @@ if ($mode == 'extensions')
         {
             if ($submit)
             {
-                $phpbb2_template->assign_block_vars('extension_row', array(
+                $template->assign_block_vars('extension_row', array(
                     'EXT_ID'            => $extension_row[$i]['ext_id'],
                     'EXTENSION'            => $extension_row[$i]['extension'],
                     'EXTENSION_EXPLAIN'    => $extension_explain_list[$i],
@@ -326,7 +326,7 @@ if ($mode == 'extensions')
             }
             else
             {
-                $phpbb2_template->assign_block_vars('extension_row', array(
+                $template->assign_block_vars('extension_row', array(
                     'EXT_ID'            => $extension_row[$i]['ext_id'],
                     'EXTENSION'            => $extension_row[$i]['extension'],
                     'EXTENSION_EXPLAIN'    => $extension_row[$i]['comment'],
@@ -382,7 +382,7 @@ if ($submit && $mode == 'groups')
         $sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . ' SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
             WHERE group_id = ' . (int) $group_change_list[$i];
 
-        if (!($pnt_db->sql_query($sql)))
+        if (!($db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Couldn\'t update Extension Groups Informations', '', __LINE__, __FILE__, $sql);
         }
@@ -399,7 +399,7 @@ if ($submit && $mode == 'groups')
             FROM ' . EXTENSION_GROUPS_TABLE . '
             WHERE group_id IN (' . $group_id_sql . ')';
 
-        if (!($result = $pnt_db->sql_query($sql)))
+        if (!($result = $db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not delete Extension Groups', '', __LINE__, __FILE__, $sql);
         }
@@ -409,7 +409,7 @@ if ($submit && $mode == 'groups')
             SET group_id = 0
             WHERE group_id IN (' . $group_id_sql . ')';
 
-        if (!$result = $pnt_db->sql_query($sql))
+        if (!$result = $db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Could not assign Extensions to Pending Group.', '', __LINE__, __FILE__, $sql);
         }
@@ -432,14 +432,14 @@ if ($submit && $mode == 'groups')
         $sql = 'SELECT group_name
             FROM ' . EXTENSION_GROUPS_TABLE;
 
-        if (!($result = $pnt_db->sql_query($sql)))
+        if (!($result = $db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not query Extension Groups Table', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $pnt_db->sql_fetchrowset($result);
-        $num_rows = $pnt_db->sql_numrows($result);
-        $pnt_db->sql_freeresult($result);
+        $row = $db->sql_fetchrowset($result);
+        $num_rows = $db->sql_numrows($result);
+        $db->sql_freeresult($result);
 
         if ($num_rows > 0)
         {
@@ -473,7 +473,7 @@ if ($submit && $mode == 'groups')
 
             $sql = 'INSERT INTO ' . EXTENSION_GROUPS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
-            if (!($pnt_db->sql_query($sql)))
+            if (!($db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not add Extension Group', '', __LINE__, __FILE__, $sql);
             }
@@ -482,7 +482,7 @@ if ($submit && $mode == 'groups')
 
     if (!$error)
     {
-        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_extensions.$phpEx?mode=groups") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=groups") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -491,7 +491,7 @@ if ($submit && $mode == 'groups')
 if ($mode == 'groups')
 {
     // Extension Groups
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/attach_extension_groups.tpl')
     );
 
@@ -513,7 +513,7 @@ if ($mode == 'groups')
 
     $viewgroup = get_var(POST_GROUPS_URL, 0);
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_EXTENSION_GROUPS_TITLE'        => $lang['Manage_extension_groups'],
         'L_EXTENSION_GROUPS_EXPLAIN'    => $lang['Manage_extension_groups_explain'],
         'L_EXTENSION_GROUP'                => $lang['Extension_group'],
@@ -535,21 +535,21 @@ if ($mode == 'groups')
         'S_FILESIZE'                    => size_select('add_size_select', $size),
         'S_ADD_DOWNLOAD_MODE'            => download_select('add_download_mode'),
         'S_SELECT_CAT'                    => category_select('add_category'),
-        'S_CANCEL_ACTION'                => append_titanium_sid("admin_extensions.$phpEx?mode=groups"),
-        'S_ATTACH_ACTION'                => append_titanium_sid("admin_extensions.$phpEx?mode=groups"))
+        'S_CANCEL_ACTION'                => append_sid("admin_extensions.$phpEx?mode=groups"),
+        'S_ATTACH_ACTION'                => append_sid("admin_extensions.$phpEx?mode=groups"))
     );
 
     $sql = 'SELECT *
         FROM ' . EXTENSION_GROUPS_TABLE;
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t get Extension Group informations', '', __LINE__, __FILE__, $sql);
     }
 
-    $extension_group = $pnt_db->sql_fetchrowset($result);
-    $num_extension_group = $pnt_db->sql_numrows($result);
-    $pnt_db->sql_freeresult($result);
+    $extension_group = $db->sql_fetchrowset($result);
+    $num_extension_group = $db->sql_numrows($result);
+    $db->sql_freeresult($result);
 
     for ($i = 0; $i < $num_extension_group; $i++)
     {
@@ -572,7 +572,7 @@ if ($mode == 'groups')
 
         $s_allowed = ($extension_group[$i]['allow_group'] == 1) ? 'checked="checked"' : '';
 
-        $phpbb2_template->assign_block_vars('grouprow', array(
+        $template->assign_block_vars('grouprow', array(
             'GROUP_ID'            => $extension_group[$i]['group_id'],
             'EXTENSION_GROUP'    => $extension_group[$i]['group_name'],
             'UPLOAD_ICON'        => $extension_group[$i]['upload_icon'],
@@ -584,8 +584,8 @@ if ($mode == 'groups')
 
             'MAX_FILESIZE'        => $extension_group[$i]['max_filesize'],
             'CAT_BOX'            => ($viewgroup == $extension_group[$i]['group_id']) ? $lang['Decollapse'] : $lang['Collapse'],
-            'U_VIEWGROUP'        => ($viewgroup == $extension_group[$i]['group_id']) ? append_titanium_sid("admin_extensions.$phpEx?mode=groups") : append_titanium_sid("admin_extensions.$phpEx?mode=groups&amp;" . POST_GROUPS_URL . "=" . $extension_group[$i]['group_id']),
-            'U_FORUM_PERMISSIONS'    => append_titanium_sid("admin_extensions.$phpEx?mode=$mode&amp;e_mode=perm&amp;e_group=" . $extension_group[$i]['group_id']))
+            'U_VIEWGROUP'        => ($viewgroup == $extension_group[$i]['group_id']) ? append_sid("admin_extensions.$phpEx?mode=groups") : append_sid("admin_extensions.$phpEx?mode=groups&amp;" . POST_GROUPS_URL . "=" . $extension_group[$i]['group_id']),
+            'U_FORUM_PERMISSIONS'    => append_sid("admin_extensions.$phpEx?mode=$mode&amp;e_mode=perm&amp;e_group=" . $extension_group[$i]['group_id']))
         );
 
         if ($viewgroup && $viewgroup == $extension_group[$i]['group_id'])
@@ -594,18 +594,18 @@ if ($mode == 'groups')
                 FROM ' . EXTENSIONS_TABLE . '
                 WHERE group_id = ' . (int) $viewgroup;
 
-            if (!$result = $pnt_db->sql_query($sql))
+            if (!$result = $db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, 'Couldn\'t get Extension informations', '', __LINE__, __FILE__, $sql);
             }
 
-            $extension = $pnt_db->sql_fetchrowset($result);
-            $num_extension = $pnt_db->sql_numrows($result);
-            $pnt_db->sql_freeresult($result);
+            $extension = $db->sql_fetchrowset($result);
+            $num_extension = $db->sql_numrows($result);
+            $db->sql_freeresult($result);
 
             for ($j = 0; $j < $num_extension; $j++)
             {
-                $phpbb2_template->assign_block_vars('grouprow.extensionrow', array(
+                $template->assign_block_vars('grouprow.extensionrow', array(
                     'EXPLANATION'    => $extension[$j]['comment'],
                     'EXTENSION'        => $extension[$j]['extension'])
                 );
@@ -628,7 +628,7 @@ if ($submit && $mode == 'forbidden')
             FROM ' . FORBIDDEN_EXTENSIONS_TABLE . '
             WHERE ext_id IN (' . $extension_id_sql . ')';
 
-        if (!$result = $pnt_db->sql_query($sql))
+        if (!$result = $db->sql_query($sql))
         {
             message_die(GENERAL_ERROR, 'Could not delete forbidden extensions', '', __LINE__, __FILE__, $sql);
         }
@@ -643,14 +643,14 @@ if ($submit && $mode == 'forbidden')
         $sql = 'SELECT extension
             FROM ' . FORBIDDEN_EXTENSIONS_TABLE;
 
-        if (!($result = $pnt_db->sql_query($sql)))
+        if (!($result = $db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not query forbidden extensions', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $pnt_db->sql_fetchrowset($result);
-        $num_rows = $pnt_db->sql_numrows($result);
-        $pnt_db->sql_freeresult($result);
+        $row = $db->sql_fetchrowset($result);
+        $num_rows = $db->sql_numrows($result);
+        $db->sql_freeresult($result);
 
         if ($num_rows > 0)
         {
@@ -674,14 +674,14 @@ if ($submit && $mode == 'forbidden')
             $sql = 'SELECT extension
                 FROM ' . EXTENSIONS_TABLE;
 
-            if (!($result = $pnt_db->sql_query($sql)))
+            if (!($result = $db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not query extensions', '', __LINE__, __FILE__, $sql);
             }
 
-            $row = $pnt_db->sql_fetchrowset($result);
-            $num_rows = $pnt_db->sql_numrows($result);
-            $pnt_db->sql_freeresult($result);
+            $row = $db->sql_fetchrowset($result);
+            $num_rows = $db->sql_numrows($result);
+            $db->sql_freeresult($result);
 
             if ($num_rows > 0)
             {
@@ -705,7 +705,7 @@ if ($submit && $mode == 'forbidden')
             $sql = 'INSERT INTO ' . FORBIDDEN_EXTENSIONS_TABLE . " (extension)
                 VALUES ('" . attach_mod_sql_escape(strtolower($extension)) . "')";
 
-            if (!($pnt_db->sql_query($sql)))
+            if (!($db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Could not add forbidden extension', '', __LINE__, __FILE__, $sql);
             }
@@ -715,7 +715,7 @@ if ($submit && $mode == 'forbidden')
 
     if (!$error)
     {
-        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_titanium_sid("admin_extensions.$phpEx?mode=forbidden") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+        $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=forbidden") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -724,12 +724,12 @@ if ($submit && $mode == 'forbidden')
 
 if ($mode == 'forbidden')
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/attach_forbidden_extensions.tpl')
     );
 
-    $phpbb2_template->assign_vars(array(
-        'S_ATTACH_ACTION'        => append_titanium_sid('admin_extensions.' . $phpEx . '?mode=forbidden'),
+    $template->assign_vars(array(
+        'S_ATTACH_ACTION'        => append_sid('admin_extensions.' . $phpEx . '?mode=forbidden'),
 
         'L_EXTENSIONS_TITLE'    => $lang['Manage_forbidden_extensions'],
         'L_EXTENSIONS_EXPLAIN'    => $lang['Manage_forbidden_extensions_explain'],
@@ -743,20 +743,20 @@ if ($mode == 'forbidden')
         FROM ' . FORBIDDEN_EXTENSIONS_TABLE . '
         ORDER BY extension';
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get forbidden extension informations', '', __LINE__, __FILE__, $sql);
     }
 
-    $extensionrow = $pnt_db->sql_fetchrowset($result);
-    $num_extensionrow = $pnt_db->sql_numrows($result);
-    $pnt_db->sql_freeresult($result);
+    $extensionrow = $db->sql_fetchrowset($result);
+    $num_extensionrow = $db->sql_numrows($result);
+    $db->sql_freeresult($result);
 
     if ($num_extensionrow > 0)
     {
         for ($i = 0; $i < $num_extensionrow; $i++)
         {
-                $phpbb2_template->assign_block_vars('extensionrow', array(
+                $template->assign_block_vars('extensionrow', array(
                     'EXTENSION_ID'        => $extensionrow[$i]['ext_id'],
                     'EXTENSION_NAME'    => $extensionrow[$i]['extension'])
                 );
@@ -795,7 +795,7 @@ if ($add_forum && $e_mode == 'perm' && $group)
     if ($add_all_forums)
     {
         $sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . " SET forum_permissions = '' WHERE group_id = " . (int) $group;
-        if (!($result = $pnt_db->sql_query($sql)))
+        if (!($result = $db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not update Permissions', '', __LINE__, __FILE__, $sql);
         }
@@ -809,13 +809,13 @@ if ($add_forum && $e_mode == 'perm' && $group)
             WHERE group_id = ' . intval($group) . '
             LIMIT 1';
 
-        if (!($result = $pnt_db->sql_query($sql)))
+        if (!($result = $db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not get Group Permissions from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $pnt_db->sql_fetchrow($result);
-        $pnt_db->sql_freeresult($result);
+        $row = $db->sql_fetchrow($result);
+        $db->sql_freeresult($result);
 
         if (trim($row['forum_permissions']) == '')
         {
@@ -839,7 +839,7 @@ if ($add_forum && $e_mode == 'perm' && $group)
 
         $sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . " SET forum_permissions = '" . attach_mod_sql_escape($auth_bitstream) . "' WHERE group_id = " . (int) $group;
 
-        if (!($result = $pnt_db->sql_query($sql)))
+        if (!($result = $db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not update Permissions', '', __LINE__, __FILE__, $sql);
         }
@@ -858,13 +858,13 @@ if ($delete_forum && $e_mode == 'perm' && $group)
         WHERE group_id = ' . intval($group) . '
         LIMIT 1';
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Group Permissions from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
     }
 
-    $row = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
 
     $auth_p2 = auth_unpack(trim($row['forum_permissions']));
     $auth_p = array();
@@ -882,7 +882,7 @@ if ($delete_forum && $e_mode == 'perm' && $group)
 
     $sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . " SET forum_permissions = '" . attach_mod_sql_escape($auth_bitstream) . "' WHERE group_id = " . (int) $group;
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not update Permissions', '', __LINE__, __FILE__, $sql);
     }
@@ -891,7 +891,7 @@ if ($delete_forum && $e_mode == 'perm' && $group)
 // Display the Group Permissions Box for configuring it
 if ($e_mode == 'perm' && $group)
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'perm_box' => 'admin/extension_groups_permissions.tpl')
     );
 
@@ -900,13 +900,13 @@ if ($e_mode == 'perm' && $group)
         WHERE group_id = ' . intval($group) . '
         LIMIT 1';
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Group Name from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
     }
 
-    $row = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
 
     $group_name = $row['group_name'];
     $allowed_forums = trim($row['forum_permissions']);
@@ -925,12 +925,12 @@ if ($e_mode == 'perm' && $group)
         $forum_p = auth_unpack($allowed_forums);
 
         $sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE . " WHERE forum_id IN (" . implode(', ', $forum_p) . ")";
-        if (!($result = $pnt_db->sql_query($sql)))
+        if (!($result = $db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Could not get Forum Names', '', __LINE__, __FILE__, $sql);
         }
 
-        while ($row = $pnt_db->sql_fetchrow($result))
+        while ($row = $db->sql_fetchrow($result))
         {
             $forum_perm[$act_id]['forum_id'] = $row['forum_id'];
             $forum_perm[$act_id]['forum_name'] = $row['forum_name'];
@@ -940,13 +940,13 @@ if ($e_mode == 'perm' && $group)
 
     for ($i = 0; $i < sizeof($forum_perm); $i++)
     {
-        $phpbb2_template->assign_block_vars('allow_option_values', array(
+        $template->assign_block_vars('allow_option_values', array(
             'VALUE'        => $forum_perm[$i]['forum_id'],
             'OPTION'    => $forum_perm[$i]['forum_name'])
         );
     }
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_GROUP_PERMISSIONS_TITLE'        => sprintf($lang['Group_permissions_title'], trim($group_name)),
         'L_GROUP_PERMISSIONS_EXPLAIN'    => $lang['Group_permissions_explain'],
         'L_REMOVE_SELECTED'                => $lang['Remove_selected'],
@@ -954,66 +954,66 @@ if ($e_mode == 'perm' && $group)
         'L_ADD_FORUMS'                    => $lang['Add_forums'],
         'L_ADD_SELECTED'                => $lang['Add_selected'],
         'L_RESET'                        => $lang['Reset'],
-        'A_PERM_ACTION'                    => append_titanium_sid("admin_extensions.$phpEx?mode=groups&amp;e_mode=perm&amp;e_group=$group"))
+        'A_PERM_ACTION'                    => append_sid("admin_extensions.$phpEx?mode=groups&amp;e_mode=perm&amp;e_group=$group"))
     );
 
     $forum_option_values = array(GPERM_ALL => $lang['Perm_all_forums']);
 
     $sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE;
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Forums', '', __LINE__, __FILE__, $sql);
     }
 
-    while ($row = $pnt_db->sql_fetchrow($result))
+    while ($row = $db->sql_fetchrow($result))
     {
         $forum_option_values[intval($row['forum_id'])] = $row['forum_name'];
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 
     foreach ($forum_option_values as $value => $option)
     {
-        $phpbb2_template->assign_block_vars('forum_option_values', array(
+        $template->assign_block_vars('forum_option_values', array(
             'VALUE'        => $value,
             'OPTION'    => $option)
         );
     }
 
-    $phpbb2_template->assign_var_from_handle('GROUP_PERMISSIONS_BOX', 'perm_box');
+    $template->assign_var_from_handle('GROUP_PERMISSIONS_BOX', 'perm_box');
 
     $empty_perm_forums = array();
     $sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE . " WHERE auth_attachments < " . AUTH_ADMIN;
 
-    if (!($f_result = $pnt_db->sql_query($sql)))
+    if (!($f_result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not get Forums.', '', __LINE__, __FILE__, $sql);
     }
 
-    while ($row = $pnt_db->sql_fetchrow($f_result))
+    while ($row = $db->sql_fetchrow($f_result))
     {
-        $phpbb2_forum_id = $row['forum_id'];
+        $forum_id = $row['forum_id'];
 
         $sql = "SELECT forum_permissions
             FROM " . EXTENSION_GROUPS_TABLE . "
             WHERE allow_group = 1
             ORDER BY group_name ASC";
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not query Extension Groups.', '', __LINE__, __FILE__, $sql);
         }
 
-        $rows = $pnt_db->sql_fetchrowset($result);
-        $num_rows = $pnt_db->sql_numrows($result);
-        $pnt_db->sql_freeresult($result);
+        $rows = $db->sql_fetchrowset($result);
+        $num_rows = $db->sql_numrows($result);
+        $db->sql_freeresult($result);
 
         $found_forum = FALSE;
 
         for ($i = 0; $i < $num_rows; $i++)
         {
             $allowed_forums = auth_unpack(trim($rows[$i]['forum_permissions']));
-            if (in_array($phpbb2_forum_id, $allowed_forums) || trim($rows[$i]['forum_permissions']) == '')
+            if (in_array($forum_id, $allowed_forums) || trim($rows[$i]['forum_permissions']) == '')
             {
                 $found_forum = TRUE;
                 break;
@@ -1022,50 +1022,50 @@ if ($e_mode == 'perm' && $group)
 
         if (!$found_forum)
         {
-            $empty_perm_forums[$phpbb2_forum_id] = $row['forum_name'];
+            $empty_perm_forums[$forum_id] = $row['forum_name'];
         }
     }
-    $pnt_db->sql_freeresult($f_result);
+    $db->sql_freeresult($f_result);
 
     $message = '';
 
-    foreach ($empty_perm_forums as $phpbb2_forum_id => $forum_name)
+    foreach ($empty_perm_forums as $forum_id => $forum_name)
     {
         $message .= ( $message == '' ) ? $forum_name : '<br />' . $forum_name;
     }
 
     if (sizeof($empty_perm_forums) > 0)
     {
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
             'perm_reg_header' => 'error_body.tpl')
         );
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'ERROR_MESSAGE' => $lang['Note_admin_empty_group_permissions'] . $message)
         );
 
-        $phpbb2_template->assign_var_from_handle('PERM_ERROR_BOX', 'perm_reg_header');
+        $template->assign_var_from_handle('PERM_ERROR_BOX', 'perm_reg_header');
     }
 }
 
 if ($error)
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'reg_header' => 'error_body.tpl')
     );
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'ERROR_MESSAGE' => $error_msg)
     );
 
-    $phpbb2_template->assign_var_from_handle('ERROR_BOX', 'reg_header');
+    $template->assign_var_from_handle('ERROR_BOX', 'reg_header');
 }
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'ATTACH_VERSION' => sprintf($lang['Attachment_version'], $attach_config['attach_version']))
 );
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 include('page_footer_admin.'.$phpEx);
 

@@ -35,23 +35,23 @@ if (!defined('MODULE_FILE')) {
 }
 global $directory_mode;
 
-$pnt_module = basename(dirname(__FILE__));
-require("modules/".$pnt_module."/nukebb.php");
+$module_name = basename(dirname(__FILE__));
+require("modules/".$module_name."/nukebb.php");
 
-define('IN_PHPBB2', true);
-//$phpbb2_root_path = "./";
+define('IN_PHPBB', true);
+//$phpbb_root_path = "./";
 
-include($phpbb2_root_path . 'extension.inc');
-include($phpbb2_root_path . 'common.'.$phpEx);
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.'.$phpEx);
 
-$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
-titanium_init_userprefs($userdata);
+$userdata = session_pagestart($user_ip, PAGE_INDEX);
+init_userprefs($userdata);
 
-include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/template.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/core.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/constants.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/template.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/core.'.$phpEx);
 
 if (STATS_DEBUG)
 {
@@ -64,18 +64,18 @@ if (STATS_DEBUG)
 $sql = 'SELECT *
         FROM ' . STATS_CONFIG_TABLE;
 
-if ( !($result = $pnt_db->sql_query($sql)) )
+if ( !($result = $db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $pnt_db->sql_fetchrow($result))
+while ($row = $db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
-$pnt_db->sql_freeresult($result);
+$db->sql_freeresult($result);
 
 init_core();
 
@@ -91,25 +91,25 @@ else
 if ($preview_module == -1 || $preview_module == 0 || $userdata['user_level'] != ADMIN)
 {
     // Get all module informations about activated modules
-    $pnt_modules = get_modules();
+    $modules = get_modules();
 }
 else
 {
     // Get all module informations about given module_id (activated or not)
-    $pnt_modules = get_modules(false, $preview_module);
+    $modules = get_modules(false, $preview_module);
     $core->do_not_use_cache = TRUE;
 }
 
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-$default_board_lang = trim($phpbb2_board_config['default_lang']);
+$default_board_lang = trim($board_config['default_lang']);
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
 
 // Include Language
-$lang_failover = array($phpbb2_board_config['default_lang'], $default_board_lang, 'english');
+$lang_failover = array($board_config['default_lang'], $default_board_lang, 'english');
 $languages_to_include = array(
     'language/lang_xxx/lang_admin.' . $phpEx,
     'language/lang_xxx/lang_statistics.' . $phpEx,
@@ -122,7 +122,7 @@ for ($i = 0; $i < count($languages_to_include); $i++)
 
     for ($j = 0; $j < count($lang_failover) && !$found; $j++)
     {
-        $language_file = $phpbb2_root_path . str_replace('xxx', $lang_failover[$j], $languages_to_include[$i]);
+        $language_file = $phpbb_root_path . str_replace('xxx', $lang_failover[$j], $languages_to_include[$i]);
 
         if (file_exists($language_file))
         {
@@ -141,7 +141,7 @@ if (trim($core->used_language) == '')
     $core->used_language = $default_board_lang;
 }
 
-$phpbb2_page_title = $lang['Board_statistics'];
+$page_title = $lang['Board_statistics'];
 include('includes/page_header.'.$phpEx);
 
 $development = FALSE;
@@ -161,21 +161,21 @@ if ($development)
 {
     $first_iterate = TRUE;
 
-    $core->current_module_path = $phpbb2_root_path . $dev_module['location'] . '/' . trim($dev_module['short_name']) . '/';
+    $core->current_module_path = $phpbb_root_path . $dev_module['location'] . '/' . trim($dev_module['short_name']) . '/';
     $core->current_module_name = trim($dev_module['short_name']);
     $core->current_module_id = -1;
     $core->do_not_use_cache = TRUE;
 
     // Include Language File
-    $language = $phpbb2_board_config['default_lang'];
-    $language_file = $phpbb2_root_path . $dev_module['lang_path'] . '/lang_' . $language . '/lang_modules.' . $phpEx;
+    $language = $board_config['default_lang'];
+    $language_file = $phpbb_root_path . $dev_module['lang_path'] . '/lang_' . $language . '/lang_modules.' . $phpEx;
 
     if (!file_exists($language_file))
     {
         $language = $default_board_lang;
     }
 
-    $language_file = $phpbb2_root_path . $dev_module['lang_path'] . '/lang_' . $language . '/lang_modules.' . $phpEx;
+    $language_file = $phpbb_root_path . $dev_module['lang_path'] . '/lang_' . $language . '/lang_modules.' . $phpEx;
 
     include($language_file);
 
@@ -183,16 +183,16 @@ if ($development)
 }
 
 $iterate_index = 0;
-$iterate_end = count($pnt_modules);
+$iterate_end = count($modules);
 
 while ($iterate_index < $iterate_end)
 {
     $first_iterate = ($iterate_index == 0 && !$development) ? TRUE : FALSE;
     $last_iterate = ($iterate_index == $iterate_end-1) ? TRUE : FALSE;
 
-    $core->current_module_path = $phpbb2_root_path . 'modules/' . trim($pnt_modules[$iterate_index]['short_name']) . '/';
-    $core->current_module_name = trim($pnt_modules[$iterate_index]['short_name']);
-    $core->current_module_id = intval($pnt_modules[$iterate_index]['module_id']);
+    $core->current_module_path = $phpbb_root_path . 'modules/' . trim($modules[$iterate_index]['short_name']) . '/';
+    $core->current_module_name = trim($modules[$iterate_index]['short_name']);
+    $core->current_module_id = intval($modules[$iterate_index]['module_id']);
 
     // Set Language
     $keys = array();
@@ -222,17 +222,17 @@ $sql = "UPDATE " . STATS_CONFIG_TABLE . "
 SET config_value = " . (intval($stats_config['page_views']) + 1) . "
 WHERE (config_name = 'page_views')";
 
-if (!$pnt_db->sql_query($sql))
+if (!$db->sql_query($sql))
 {
     message_die(GENERAL_ERROR, 'Unable to Update View Counter', '', __LINE__, __FILE__, $sql);
 }
 
 if (STATS_DEBUG)
 {
-    if (!file_exists($phpbb2_root_path . 'modules/cache/explain'))
+    if (!file_exists($phpbb_root_path . 'modules/cache/explain'))
     {
         @umask(0);
-        mkdir($phpbb2_root_path . 'modules/cache/explain', $directory_mode);
+        mkdir($phpbb_root_path . 'modules/cache/explain', $directory_mode);
     }
 
     $m_time = microtime();
@@ -241,20 +241,20 @@ if (STATS_DEBUG)
     $stats_endtime = $m_time;
     $stats_totaltime = ($stats_endtime - $stats_starttime);
 
-    $explain = ($userdata['user_level'] == ADMIN) ? $phpbb2_root_path . 'modules/cache/explain/e' . $userdata['user_id'] . '.html' : '';
+    $explain = ($userdata['user_level'] == ADMIN) ? $phpbb_root_path . 'modules/cache/explain/e' . $userdata['user_id'] . '.html' : '';
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'TIME' => $stats_totaltime,
         'SQL_TIME' => $stat_db->sql_time,
         'QUERY' => $stat_db->num_queries,
         'U_EXPLAIN' => $explain)
     );
 
-    $phpbb2_template->assign_block_vars('switch_debug', array());
+    $template->assign_block_vars('switch_debug', array());
 
     if ($stat_db->sql_time > 0)
     {
-        $fp = fopen($phpbb2_root_path . 'modules/cache/explain/e' . $userdata['user_id'] . '.html', 'wt');
+        $fp = fopen($phpbb_root_path . 'modules/cache/explain/e' . $userdata['user_id'] . '.html', 'wt');
         fwrite($fp, $stat_db->sql_report);
         $str = "<pre><strong>The Statistics Mod generated " . $stat_db->num_queries . " queries,\nspending " . $stat_db->sql_time . ' doing MySQL queries and ' . ($stats_totaltime - $stat_db->sql_time) . ' doing PHP things.</strong></pre>';
         fwrite($fp, $str);
@@ -263,11 +263,11 @@ if (STATS_DEBUG)
 
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     'body' => 'statistics.tpl')
 );
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 include('includes/page_tail.'.$phpEx);
 

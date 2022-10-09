@@ -29,8 +29,8 @@ if (!defined('ADMIN_FILE')) {
    die ("Access Denied");
 }
 
-$pnt_module = 'Blog_Topics';
-include_once(NUKE_MODULES_DIR.$pnt_module.'/admin/language/lang-'.$currentlang.'.php');
+$module_name = 'Blog_Topics';
+include_once(NUKE_MODULES_DIR.$module_name.'/admin/language/lang-'.$currentlang.'.php');
 
 switch($op) {
 
@@ -42,7 +42,7 @@ switch($op) {
     case "topicmake":
     case "topicdelete":
     case "topicchange":
-        include(NUKE_MODULES_DIR.$pnt_module.'/admin/index.php');
+        include(NUKE_MODULES_DIR.$module_name.'/admin/index.php');
     break;
 
 }

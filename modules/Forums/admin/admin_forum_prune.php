@@ -24,12 +24,12 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
 if ( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $pnt_module['Forums']['Prune'] = $filename;
+        $module['Forums']['Prune'] = $filename;
 
         return;
 }
@@ -37,8 +37,8 @@ if ( !empty($setmodules) )
 //
 // Load default header
 //
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 require("../../../includes/prune.php");
 require("../../../includes/functions_admin.php");
@@ -48,21 +48,21 @@ require("../../../includes/functions_admin.php");
 //
 if( isset($HTTP_GET_VARS[POST_FORUM_URL]) || isset($HTTP_POST_VARS[POST_FORUM_URL]) )
 {
-        $phpbb2_forum_id = ( isset($HTTP_POST_VARS[POST_FORUM_URL]) ) ? $HTTP_POST_VARS[POST_FORUM_URL] : $HTTP_GET_VARS[POST_FORUM_URL];
+        $forum_id = ( isset($HTTP_POST_VARS[POST_FORUM_URL]) ) ? $HTTP_POST_VARS[POST_FORUM_URL] : $HTTP_GET_VARS[POST_FORUM_URL];
 
-        if( $phpbb2_forum_id == -1 )
+        if( $forum_id == -1 )
         {
                 $forum_sql = '';
         }
         else
         {
-                $phpbb2_forum_id = intval($phpbb2_forum_id);
-                $forum_sql = "AND forum_id = $phpbb2_forum_id";
+                $forum_id = intval($forum_id);
+                $forum_sql = "AND forum_id = $forum_id";
         }
 }
 else
 {
-        $phpbb2_forum_id = '';
+        $forum_id = '';
         $forum_sql = '';
 }
 //
@@ -73,13 +73,13 @@ $sql = "SELECT f.*
         WHERE c.cat_id = f.cat_id
         $forum_sql
         ORDER BY c.cat_order ASC, f.forum_order ASC";
-if( !($result = $pnt_db->sql_query($sql)) )
+if( !($result = $db->sql_query($sql)) )
 {
         message_die(GENERAL_ERROR, 'Could not obtain list of forums for pruning', '', __LINE__, __FILE__, $sql);
 }
 
 $forum_rows = array();
-while( $row = $pnt_db->sql_fetchrow($result) )
+while( $row = $db->sql_fetchrow($result) )
 {
         $forum_rows[] = $row;
 }
@@ -94,7 +94,7 @@ if( isset($HTTP_POST_VARS['doprune']) )
         // Convert days to seconds for timestamp functions...
         $prunedate = time() - ( $prunedays * 86400 );
 
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
                 'body' => 'admin/forum_prune_result_body.tpl')
         );
 
@@ -106,7 +106,7 @@ if( isset($HTTP_POST_VARS['doprune']) )
                 $row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
                 $row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];
 
-                $phpbb2_template->assign_block_vars('prune_results', array(
+                $template->assign_block_vars('prune_results', array(
                         'ROW_COLOR' => '#' . $row_color,
                         'ROW_CLASS' => $row_class,
                         'FORUM_NAME' => $forum_rows[$i]['forum_name'],
@@ -115,7 +115,7 @@ if( isset($HTTP_POST_VARS['doprune']) )
                 );
         }
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
                 'L_FORUM_PRUNE' => $lang['Forum_Prune'],
                 'L_FORUM' => $lang['Forum'],
                 'L_TOPICS_PRUNED' => $lang['Topics_pruned'],
@@ -134,7 +134,7 @@ else
                 //
                 // Output a selection table if no forum id has been specified.
                 //
-                $phpbb2_template->set_filenames(array(
+                $template->set_filenames(array(
                         'body' => 'admin/forum_prune_select_body.tpl')
                 );
 
@@ -150,37 +150,37 @@ else
                 //
                 // Assign the template variables.
                 //
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
                         'L_FORUM_PRUNE' => $lang['Forum_Prune'],
                         'L_SELECT_FORUM' => $lang['Select_a_Forum'],
                         'L_LOOK_UP' => $lang['Look_up_Forum'],
 
-                        'S_FORUMPRUNE_ACTION' => append_titanium_sid("admin_forum_prune.$phpEx"),
+                        'S_FORUMPRUNE_ACTION' => append_sid("admin_forum_prune.$phpEx"),
                         'S_FORUMS_SELECT' => $select_list)
                 );
         }
         else
         {
-                $phpbb2_forum_id = intval($HTTP_POST_VARS[POST_FORUM_URL]);
+                $forum_id = intval($HTTP_POST_VARS[POST_FORUM_URL]);
 
                 //
                 // Output the form to retrieve Prune information.
                 //
-                $phpbb2_template->set_filenames(array(
+                $template->set_filenames(array(
                         'body' => 'admin/forum_prune_body.tpl')
                 );
 
-                $forum_name = ( $phpbb2_forum_id == -1 ) ? $lang['All_Forums'] : $forum_rows[0]['forum_name'];
+                $forum_name = ( $forum_id == -1 ) ? $lang['All_Forums'] : $forum_rows[0]['forum_name'];
 
                 $prune_data = $lang['Prune_topics_not_posted'] . " ";
                 $prune_data .= '<input class="post" type="text" name="prunedays" size="4"> ' . $lang['Days'];
 
-                $hidden_input = '<input type="hidden" name="' . POST_FORUM_URL . '" value="' . $phpbb2_forum_id . '">';
+                $hidden_input = '<input type="hidden" name="' . POST_FORUM_URL . '" value="' . $forum_id . '">';
 
                 //
                 // Assign the template variables.
                 //
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
                         'FORUM_NAME' => $forum_name,
 
                         'L_FORUM' => $lang['Forum'],
@@ -188,7 +188,7 @@ else
                         'L_FORUM_PRUNE_EXPLAIN' => $lang['Forum_Prune_explain'],
                         'L_DO_PRUNE' => $lang['Do_Prune'],
 
-                        'S_FORUMPRUNE_ACTION' => append_titanium_sid("admin_forum_prune.$phpEx"),
+                        'S_FORUMPRUNE_ACTION' => append_sid("admin_forum_prune.$phpEx"),
                         'S_PRUNE_DATA' => $prune_data,
                         'S_HIDDEN_VARS' => $hidden_input)
                 );
@@ -197,7 +197,7 @@ else
 //
 // Actually output the page here.
 //
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 include('./page_footer_admin.'.$phpEx);
 

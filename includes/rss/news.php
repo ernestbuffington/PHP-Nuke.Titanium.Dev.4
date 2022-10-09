@@ -56,7 +56,7 @@ echo "<generator>".$sitename." Evo RSS 2.0 Parser</generator>\n";
 echo "<ttl>60</ttl>\n\n";
 echo "<image>\n";
 echo "<title>".$sitename."</title>\n";
-echo "<url>".$nukeurl."/images/titanium/button.png</url>\n";
+echo "<url>".$nukeurl."/images/evo/minilogo.gif</url>\n";
 echo "<link>".$nukeurl."</link>\n";
 echo "<width>94</width>\n";
 echo "<height>15</height>\n";
@@ -69,14 +69,14 @@ echo "<sy:updatePeriod>hourly</sy:updatePeriod>\n";
 echo "<sy:updateFrequency>1</sy:updateFrequency>\n";
 echo "<sy:updateBase>".$now."</sy:updateBase>\n\n";
 
-$result = $pnt_db->sql_query("SELECT s.sid, t.topicname, s.informant, s.title, s.datePublished, s.dateModified, s.hometext
-                          FROM ".$pnt_prefix."_stories s, ".$pnt_prefix."_topics t
+$result = $db->sql_query("SELECT s.sid, t.topicname, s.informant, s.title, s.datePublished, s.dateModified, s.hometext
+                          FROM ".$prefix."_stories s, ".$prefix."_topics t
                           WHERE s.topic = t.topicid
                           ORDER BY sid
                           DESC LIMIT 10"
           );
 
-while ($row = $pnt_db->sql_fetchrow($result)) 
+while ($row = $db->sql_fetchrow($result)) 
 {
     $rsid = intval($row['sid']);
     $topicname = $row['topicname'];

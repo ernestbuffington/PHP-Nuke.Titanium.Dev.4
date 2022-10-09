@@ -31,13 +31,13 @@ if(!isset($min)) $min=0;
 if(!isset($max)) $max=$min+$perpage;
 if(!isset($column)) $column='';
 if(!isset($direction)) $direction='';
-if(!isset($pnt_user_id)) $pnt_user_id='';
+if(!isset($user_id)) $user_id='';
 if(!isset($ip_addr)) $ip_addr='';
 if(!$column or $column=="") $column = "date";
 if(!$direction or $direction=="") $direction = "desc";
 $tid=intval($tid);
-list($uname) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `refered_from` FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
-$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `refered_from`='$uname'"));
+list($uname) = $db->sql_fetchrow($db->sql_query("SELECT `refered_from` FROM `".$prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
+$totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_tracked_ips` WHERE `refered_from`='$uname'"));
 if($totalselected > 0) {
   if(strlen($uname) > 50) { $rfrom = substr($uname, 0, 50)."..."; } else { $rfrom = UsernameColor($uname); }
   echo '<center><strong>'.$rfrom.'</strong></center><br />'."\n";
@@ -70,8 +70,8 @@ if($totalselected > 0) {
   echo '<td bgcolor="'.$bgcolor2.'" width="80%"><strong>'._AB_PAGEVIEWED.'</strong></td>'."\n";
   echo '<td bgcolor="'.$bgcolor2.'" width="20%"><strong>'._AB_DATE.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $pnt_db->sql_query("SELECT `ip_addr`, `page`, `date` FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `refered_from`='$uname' ORDER BY $column $direction LIMIT $min, $perpage");
-  while(list($lipaddr, $page, $date_time) = $pnt_db->sql_fetchrow($result)){
+  $result = $db->sql_query("SELECT `ip_addr`, `page`, `date` FROM `".$prefix."_nsnst_tracked_ips` WHERE `refered_from`='$uname' ORDER BY $column $direction LIMIT $min, $perpage");
+  while(list($lipaddr, $page, $date_time) = $db->sql_fetchrow($result)){
     $page = htmlentities($page, ENT_QUOTES);
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
     echo '<td><a href="'.$page.'" target="_blank">'.$page.'</a></td>'."\n";

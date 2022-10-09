@@ -37,7 +37,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($pnt_module)) {
+if(is_mod_admin($module_name)) {
 
     $pagetitle = ": "._USERSCONFIG;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -51,7 +51,7 @@ if(is_mod_admin($pnt_module)) {
     amain();
     echo "<br />\n";
     OpenTable();
-    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'><center><table border='0' cellpadding='2' cellspacing='2'>\n";
+    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'><center><table border='0' cellpadding='2' cellspacing='2'>\n";
     echo "<tr><td align='center' bgcolor='$bgcolor3' colspan='2'><strong>"._YA_REGOPTIONS."</strong></td></tr>\n";
     echo "<tr><td align='right' bgcolor='$bgcolor2'>"._ACTALLOWREG."</td>\n<td>";
     if ($ya_config['allowuserreg']==0) { $ck1 = " checked"; $ck2 = ""; } else { $ck1 = ""; $ck2 = " checked"; }

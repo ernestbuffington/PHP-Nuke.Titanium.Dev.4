@@ -34,7 +34,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 }
 
 class identify {
-    private $phpbb2_agent = 'none';
+    private $agent = 'none';
 
     function __construct() {
         if (isset($_SERVER['HTTP_USER_AGENT']) && !empty($_SERVER['HTTP_USER_AGENT'])) {
@@ -250,15 +250,15 @@ class identify {
     }
 
     function detect_bot($where = false) {
-        global $pnt_db, $pnt_prefix;
+        global $db, $prefix;
 
         $bot        = false;
         $where      = ($where ? "WHERE agent_name LIKE '$where%'" : '');
-        $result     = $pnt_db->sql_query('SELECT agent_name, agent_fullname FROM '.$pnt_prefix.'_security_agents'.$where.' ORDER BY agent_name', true);
+        $result     = $db->sql_query('SELECT agent_name, agent_fullname FROM '.$prefix.'_security_agents'.$where.' ORDER BY agent_name', true);
         $find       = array('\\', '(', ')', '{', '}', '.', '$', '*');
         $replace    = array('\\\\', '\(', '\)', '\{', '\}', '\.', '\$', '\*');
 
-        while ($row = $pnt_db->sql_fetchrow($result)) 
+        while ($row = $db->sql_fetchrow($result)) 
         {
             $row[1] = str_replace($find, $replace, $row[1]);
 
@@ -275,7 +275,7 @@ class identify {
             }
         }
         
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
         return ($bot === false) ? false : array('ua' => 'bot', 'bot' => $bot, 'engine' => 'bot');
     }
 }

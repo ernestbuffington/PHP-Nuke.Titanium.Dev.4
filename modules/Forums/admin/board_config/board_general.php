@@ -36,7 +36,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     'general' => 'admin/board_config/board_general.tpl')
 );
 /*****[BEGIN]******************************************
@@ -161,12 +161,12 @@ $namechange_yes = ( $new['allow_namechange'] ) ? 'checked="checked"' : '';
 $namechange_no = ( !$new['allow_namechange'] ) ? 'checked="checked"' : '';
 
 //General Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'DHTML_ID' => 'c' . $dhtml_id)
 );
 
 //Language Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'L_GENERAL_SETTINGS' => $lang['General_settings'],
     'L_SERVER_NAME' => $lang['Server_name'],
     'L_SERVER_PORT' => $lang['Server_port'],
@@ -298,7 +298,7 @@ $phpbb2_template->assign_vars(array(
 );
 
 //Data Template Variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'SERVER_NAME' => $new['server_name'],
     'SERVER_PORT' => $new['server_port'],
     'SCRIPT_PATH' => $new['script_path'],
@@ -416,6 +416,6 @@ $phpbb2_template->assign_vars(array(
     'NAMECHANGE_YES' => $namechange_yes,
     'NAMECHANGE_NO' => $namechange_no
 ));
-$phpbb2_template->pparse('general');
+$template->pparse('general');
 
 ?>

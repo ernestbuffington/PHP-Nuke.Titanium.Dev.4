@@ -31,7 +31,7 @@ if(!isset($min)) $min=0;
 if(!isset($max)) $max=$min+$perpage;
 if(!isset($column) or !$column or $column=="") $column = "refered_from";
 if(!isset($direction) or !$direction or $direction=="") $direction = "asc";
-$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT DISTINCT(`refered_from`) FROM `".$pnt_prefix."_nsnst_tracked_ips` GROUP BY 1"));
+$totalselected = $db->sql_numrows($db->sql_query("SELECT DISTINCT(`refered_from`) FROM `".$prefix."_nsnst_tracked_ips` GROUP BY 1"));
 if($totalselected > 0) {
   // Page Sorting
   $selcolumn1 = $selcolumn2 = $selcolumn3 = $seldirection1 = $seldirection2 = "";
@@ -66,8 +66,8 @@ if($totalselected > 0) {
   echo '<td align="center"><strong>'._AB_HITS.'</strong></td>'."\n";
   echo '<td align="center"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $pnt_db->sql_query("SELECT DISTINCT(`refered_from`), tid, MAX(`date`), COUNT(*) FROM `".$pnt_prefix."_nsnst_tracked_ips` GROUP BY 1 ORDER BY $column $direction LIMIT $min, $perpage");
-  while(list($refered_from, $tid, $lastview, $hits) = $pnt_db->sql_fetchrow($result)){
+  $result = $db->sql_query("SELECT DISTINCT(`refered_from`), tid, MAX(`date`), COUNT(*) FROM `".$prefix."_nsnst_tracked_ips` GROUP BY 1 ORDER BY $column $direction LIMIT $min, $perpage");
+  while(list($refered_from, $tid, $lastview, $hits) = $db->sql_fetchrow($result)){
     if(strlen($refered_from) > 50) {
       $rfrom = substr($refered_from, 0, 50)."...";
     } else {
@@ -78,7 +78,7 @@ if($totalselected > 0) {
     } else {
       $rfrom = $rfrom;
     }
-    $trackedips = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `refered_from`='$refered_from'"));
+    $trackedips = $db->sql_numrows($db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$prefix."_nsnst_tracked_ips` WHERE `refered_from`='$refered_from'"));
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
     echo '<td>'.$rfrom.'</td>'."\n";
     echo '<td align="center"><a href="'.$admin_file.'.php?op=ABTrackedRefersIPs&amp;tid='.$tid.'" target="_blank">'.$trackedips.'</a></td>'."\n";

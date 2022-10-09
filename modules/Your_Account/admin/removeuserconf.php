@@ -39,9 +39,9 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($pnt_module)) {
+if(is_mod_admin($module_name)) {
 
-    list($email, $level) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT user_email, user_level FROM ".$pnt_user_prefix."_users WHERE user_id='$rem_uid'"));
+    list($email, $level) = $db->sql_fetchrow($db->sql_query("SELECT user_email, user_level FROM ".$user_prefix."_users WHERE user_id='$rem_uid'"));
     if ($level > -1 AND $ya_config['servermail'] == 0) {
         $message = _SORRYTO." $sitename "._HASREMOVE;
         $subject = _ACCTREMOVE;
@@ -57,16 +57,16 @@ if(is_mod_admin($pnt_module)) {
         // $from .= "Return-Path: $adminmail\n";
         // evo_mail($email, $subject, $message, $from);
     }
-    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_users WHERE user_id='$rem_uid'");
+    $db->sql_query("DELETE FROM ".$user_prefix."_users WHERE user_id='$rem_uid'");
 
-    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_value WHERE uid='$rem_uid'");
-    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_value_temp WHERE uid='$rem_uid'");
-    $pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_bbuser_group WHERE user_id='$rem_uid'");
-    $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_user_prefix."_cnbya_value");
-    $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_user_prefix."_cnbya_value_temp");
-    $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_bbuser_group");
+    $db->sql_query("DELETE FROM ".$user_prefix."_cnbya_value WHERE uid='$rem_uid'");
+    $db->sql_query("DELETE FROM ".$user_prefix."_cnbya_value_temp WHERE uid='$rem_uid'");
+    $db->sql_query("DELETE FROM ".$prefix."_bbuser_group WHERE user_id='$rem_uid'");
+    $db->sql_query("OPTIMIZE TABLE ".$user_prefix."_cnbya_value");
+    $db->sql_query("OPTIMIZE TABLE ".$user_prefix."_cnbya_value_temp");
+    $db->sql_query("OPTIMIZE TABLE ".$prefix."_bbuser_group");
 
-    $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_user_prefix."_users");
+    $db->sql_query("OPTIMIZE TABLE ".$user_prefix."_users");
     $pagetitle = ": "._USERADMIN." - "._ACCTREMOVE;
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();
@@ -79,7 +79,7 @@ if(is_mod_admin($pnt_module)) {
     echo "<br />\n";
     OpenTable();
     echo "<center><table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }

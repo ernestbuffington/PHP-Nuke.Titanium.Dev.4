@@ -26,7 +26,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "wordwrap" => "admin/board_config/board_wordwrap.tpl")
 );
 
@@ -41,12 +41,12 @@ $wrap_enable_no = ( !$new['wrap_enable'] ) ? "checked=\"checked\"" : "";
 
 
 //General Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
     
 //Language Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
@@ -62,7 +62,7 @@ $phpbb2_template->assign_vars(array(
 ));
 
 //Data Template Variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
@@ -75,6 +75,6 @@ $phpbb2_template->assign_vars(array(
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
 ));
-$phpbb2_template->pparse("wordwrap");
+$template->pparse("wordwrap");
 
 ?>

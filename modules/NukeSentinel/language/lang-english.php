@@ -11,7 +11,7 @@
 /* See CREDITS.txt for ALL contributors                 */
 /********************************************************/
 
-global $pnt_prefix, $nuke_config, $admin_file, $ab_config;
+global $prefix, $nuke_config, $admin_file, $ab_config;
 if(!$ab_config['page_delay'] OR $ab_config['page_delay'] < 1) { $ab_config['page_delay'] = 5; }
 
 //define('_AB_','');
@@ -554,7 +554,7 @@ define('_AB_HELP_029',"Clear any expired blocked IP's from your database and hta
 define('_AB_HELP_030',"Allows you to search for IP addresses or Range addresses.");
 define('_AB_HELP_031',"<strong>GOD ADMINS ONLY:</strong> If available you can allow admins to have Admin Auth logins.");
 define('_AB_HELP_032',"<strong>GOD ADMINS ONLY:</strong> Will check for any new admins added to your authors table to the above lists. Will remove any admins that are no longer in your authors table from the above lists.");
-define('_AB_HELP_033',"Allows you to protect your site against injection attacks on your ".$pnt_prefix."_authors table by only allowing God admins access.");
+define('_AB_HELP_033',"Allows you to protect your site against injection attacks on your ".$prefix."_authors table by only allowing God admins access.");
 define('_AB_HELP_034',"Allows you to protect your site against Comment Like injection attacks on your database.");
 define('_AB_HELP_035',"Allows you to protect your site against UNION injection attacks on your database.");
 define('_AB_HELP_036',"Similar to the native filters in Nuke but you can now block IP's if they try to use html attacks.");
@@ -568,7 +568,7 @@ define('_AB_HELP_043',"Click on the admins id to edit their properties.");
 define('_AB_HELP_044',"Activate Proxy blocker.<br />3 levels are provided:<br />Lite - Traps the most obvious proxies.<br />Mild - Traps less obvious proxies.<br />Strong - Traps most proxies.<br /><br />This is not 100% as proxies change their way of working daily.");
 define('_AB_HELP_045',"Select the template file you want to be displayed if you have the above switch set to <strong>On</strong>.");
 define('_AB_HELP_046',"Activate <strong>D</strong>enial <strong>O</strong>f <strong>S</strong>ervice Attack Blocker.<br /><br />Please remember that this will protect from DOS attacks only not DDOS attacks. This is not 100% but will stop most attacks.");
-define('_AB_HELP_047',"Force visitors to the <strong>".$nuke_config['nukeurl']."</strong> URL. This is stored in your site's ".$pnt_prefix."_config table and can be changed via your site's Admin -> Preferences panel.<br /><br />This is handy if your site will respond to both http://yoursite.com and http://www.yoursite.com .");
+define('_AB_HELP_047',"Force visitors to the <strong>".$nuke_config['nukeurl']."</strong> URL. This is stored in your site's ".$prefix."_config table and can be changed via your site's Admin -> Preferences panel.<br /><br />This is handy if your site will respond to both http://yoursite.com and http://www.yoursite.com .");
 define('_AB_HELP_048',"With this setting you can disable NukeSentinel(tm) and test for unknown interactions.");
 define('_AB_HELP_049',"Display a list of all tracked IP's that are in your database.");
 define('_AB_HELP_050',"To <strong>Activate</strong> IP Tracking select <strong>On</strong>.<br />To <strong>Deactivate</strong> IP Tracking select <strong>Off</strong>.");

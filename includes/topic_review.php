@@ -36,18 +36,18 @@
 	  Post Icons                               v1.0.1
  ************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 function topic_review($topic_id, $is_inline_review)
 {
-        global $pnt_db, $phpbb2_board_config, $phpbb2_template, $lang, $images, $theme, $phpEx, $phpbb2_root_path, $userdata, $pnt_user_ip, $orig_word, $replacement_word, $phpbb2_starttime;
+        global $db, $board_config, $template, $lang, $images, $theme, $phpEx, $phpbb_root_path, $userdata, $user_ip, $orig_word, $replacement_word, $starttime;
 /*****[BEGIN]******************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
-		global $phpbb2_icones;
+		global $icones;
 /*****[END]********************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
@@ -74,35 +74,35 @@ function topic_review($topic_id, $is_inline_review)
 /*****[END]********************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not obtain topic information', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ( !($forum_row = $pnt_db->sql_fetchrow($result)) )
+                if ( !($forum_row = $db->sql_fetchrow($result)) )
                 {
                         message_die(GENERAL_MESSAGE, 'Topic_post_not_exist');
                 }
-                $pnt_db->sql_freeresult($result);
+                $db->sql_freeresult($result);
 
-                $phpbb2_forum_id = $forum_row['forum_id'];
+                $forum_id = $forum_row['forum_id'];
                 $topic_title = $forum_row['topic_title'];
 
                 //
                 // Start session management
                 //
-                $userdata = titanium_session_pagestart($pnt_user_ip, $phpbb2_forum_id);
-                titanium_init_userprefs($userdata);
+                $userdata = session_pagestart($user_ip, $forum_id);
+                init_userprefs($userdata);
                 //
                 // End session management
                 //
 
-                $phpbb2_is_auth = array();
-                $phpbb2_is_auth = auth(AUTH_ALL, $phpbb2_forum_id, $userdata, $forum_row);
+                $is_auth = array();
+                $is_auth = auth(AUTH_ALL, $forum_id, $userdata, $forum_row);
 
-                if ( !$phpbb2_is_auth['auth_read'] )
+                if ( !$is_auth['auth_read'] )
                 {
-                        message_die(GENERAL_MESSAGE, sprintf($lang['Sorry_auth_read'], $phpbb2_is_auth['auth_read_type']));
+                        message_die(GENERAL_MESSAGE, sprintf($lang['Sorry_auth_read'], $is_auth['auth_read_type']));
                 }
         }
 
@@ -124,10 +124,10 @@ function topic_review($topic_id, $is_inline_review)
         {
                 $gen_simple_header = TRUE;
 
-                $phpbb2_page_title = $lang['Topic_review'] . ' - ' . $topic_title;
+                $page_title = $lang['Topic_review'] . ' - ' . $topic_title;
                 include("includes/page_header_review.php");
 
-                $phpbb2_template->set_filenames(array(
+                $template->set_filenames(array(
                         'reviewbody' => 'posting_topic_review.tpl')
                 );
         }
@@ -135,7 +135,7 @@ function topic_review($topic_id, $is_inline_review)
 /*****[BEGIN]******************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
-        init_display_review_attachments($phpbb2_is_auth);
+        init_display_review_attachments($is_auth);
 /*****[END]********************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
@@ -148,8 +148,8 @@ function topic_review($topic_id, $is_inline_review)
                         AND p.poster_id = u.user_id
                         AND p.post_id = pt.post_id
                 ORDER BY p.post_time DESC
-                LIMIT " . $phpbb2_board_config['posts_per_page'];
-        if ( !($result = $pnt_db->sql_query($sql,false)) )
+                LIMIT " . $board_config['posts_per_page'];
+        if ( !($result = $db->sql_query($sql,false)) )
         {
                 message_die(GENERAL_ERROR, 'Could not obtain post/user information', '', __LINE__, __FILE__, $sql);
         }
@@ -161,7 +161,7 @@ function topic_review($topic_id, $is_inline_review)
         // and it goes like this ...
         //
         
-        $row = $pnt_db->sql_fetchrow($result,SQL_BOTH);
+        $row = $db->sql_fetchrow($result,SQL_BOTH);
         if ( $row )
         {
 /*****[BEGIN]******************************************
@@ -174,8 +174,8 @@ function topic_review($topic_id, $is_inline_review)
 						FROM " . POSTS_TABLE . " p
 						WHERE p.topic_id = $topic_id
 						AND p.poster_id = " . $userdata['user_id'];
-					$resultat = $pnt_db->sql_query($sql);
-					$valid = $pnt_db->sql_numrows($resultat) ? TRUE : FALSE;
+					$resultat = $db->sql_query($sql);
+					$valid = $db->sql_numrows($resultat) ? TRUE : FALSE;
 				}
 /*****[END]********************************************
  [ Mod:    Hide Mod                            v1.2.0 ]
@@ -199,7 +199,7 @@ function topic_review($topic_id, $is_inline_review)
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                        $post_date = create_date($phpbb2_board_config['default_dateformat'], $row['post_time'], $phpbb2_board_config['board_timezone']);
+                        $post_date = create_date($board_config['default_dateformat'], $row['post_time'], $board_config['board_timezone']);
 
                         //
                         // Handle anon users posting with usernames
@@ -219,7 +219,7 @@ function topic_review($topic_id, $is_inline_review)
  [ Mod:     Smilies in Topic Titles            v1.0.0 ]
  [ Mod:     Smilies in Topic Titles Toggle     v1.0.0 ]
  ******************************************************/
- if ($phpbb2_board_config['smilies_in_titles'])
+ if ($board_config['smilies_in_titles'])
             {
                         $post_subject = ( $row['post_subject'] != '' ) ? smilies_pass($row['post_subject']) : '';
             } else {
@@ -260,7 +260,7 @@ function topic_review($topic_id, $is_inline_review)
                         // If the board has HTML off but the post has HTML
                         // on then we process it, else leave it alone
                         //
-                        if ( !$phpbb2_board_config['allow_html'] && $row['enable_html'] )
+                        if ( !$board_config['allow_html'] && $row['enable_html'] )
                         {
                                 $message = preg_replace('#(<)([\/]?.*?)(>)#is', '&lt;\2&gt;', $message);
                         }
@@ -270,7 +270,7 @@ function topic_review($topic_id, $is_inline_review)
  ******************************************************/
 						if ( $bbcode_uid != "" )
 						{
-								$message = ( $phpbb2_board_config['allow_bbcode'] ) ? bbencode_second_pass($message, $bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $message);
+								$message = ( $board_config['allow_bbcode'] ) ? bbencode_second_pass($message, $bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $message);
 								$message = bbencode_third_pass($message, $bbcode_uid, $valid);
 						}
 /*****[END]********************************************
@@ -285,7 +285,7 @@ function topic_review($topic_id, $is_inline_review)
                                 $message = preg_replace($orig_word, $replacement_word, $message);
                         }
 
-                        if ( $phpbb2_board_config['allow_smilies'] && $row['enable_smilies'] )
+                        if ( $board_config['allow_smilies'] && $row['enable_smilies'] )
                         {
                                 $message = smilies_pass($message);
                         }
@@ -317,7 +317,7 @@ function topic_review($topic_id, $is_inline_review)
 
                         /*--FNA #2--*/
 
-                        $phpbb2_template->assign_block_vars('postrow', array(
+                        $template->assign_block_vars('postrow', array(
                                 'ROW_COLOR' => '#' . $row_color,
                                 'ROW_CLASS' => $row_class,
 
@@ -343,22 +343,22 @@ function topic_review($topic_id, $is_inline_review)
 /*****[BEGIN]******************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
-                        display_review_attachments($row['post_id'], $row['post_attachment'], $phpbb2_is_auth);
+                        display_review_attachments($row['post_id'], $row['post_attachment'], $is_auth);
 /*****[END]********************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
 
                         $i++;
                 }
-                while ( $row = $pnt_db->sql_fetchrow($result) );
+                while ( $row = $db->sql_fetchrow($result) );
         }
         else
         {
                 message_die(GENERAL_MESSAGE, 'Topic_post_not_exist', '', __LINE__, __FILE__, $sql);
         }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
                 'L_AUTHOR' => $lang['Author'],
                 'L_MESSAGE' => $lang['Message'],
                 'L_POSTED' => $lang['Posted'],
@@ -368,7 +368,7 @@ function topic_review($topic_id, $is_inline_review)
 
         if ( !$is_inline_review )
         {
-                $phpbb2_template->pparse('reviewbody');
+                $template->pparse('reviewbody');
                 include("includes/page_tail_review.php");
         }
 }

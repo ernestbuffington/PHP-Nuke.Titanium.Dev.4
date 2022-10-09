@@ -26,7 +26,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "avatar" => "admin/board_config/board_avatar.tpl")
 );
 
@@ -48,12 +48,12 @@ $default_avatar_none = ($new['default_avatar_set'] == '3') ? "checked=\"checked\
  ******************************************************/
 
 //General Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
     
 //Language Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "L_AVATAR_SETTINGS" => $lang['Avatar_settings'],
 /*****[BEGIN]******************************************
  [ Mod:     Default avatar                     v1.1.0 ]
@@ -82,7 +82,7 @@ $phpbb2_template->assign_vars(array(
 ));
 
 //Data Template Variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "AVATARS_LOCAL_YES" => $avatars_local_yes,
     "AVATARS_LOCAL_NO" => $avatars_local_no,
     "AVATARS_REMOTE_YES" => $avatars_remote_yes,
@@ -107,6 +107,6 @@ $phpbb2_template->assign_vars(array(
  [ Mod:     Default avatar                     v1.1.0 ]
  ******************************************************/
  ));
-$phpbb2_template->pparse("avatar");
+$template->pparse("avatar");
 
 ?>

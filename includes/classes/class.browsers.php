@@ -22,8 +22,8 @@
 	 *
 	 * Typical Usage:
 	 *
-	 *   $pnt_browser = new Browser();
-	 *   if( $pnt_browser->getBrowser() == Browser::BROWSER_FIREFOX && $pnt_browser->getVersion() >= 2 ) {
+	 *   $titanium_browser = new Browser();
+	 *   if( $titanium_browser->getBrowser() == Browser::BROWSER_FIREFOX && $titanium_browser->getVersion() >= 2 ) {
 	 *   	echo 'You have FireFox version 2 or greater';
 	 *   }
 	 *
@@ -210,10 +210,10 @@
 		
 		const OPERATING_SYSTEM_UNKNOWN = 'unknown';
 
-		public function __construct($pnt_useragent="") {
+		public function __construct($useragent="") {
 			$this->reset();
-			if( $pnt_useragent != "" ) {
-				$this->setUserAgent($pnt_useragent);
+			if( $useragent != "" ) {
+				$this->setUserAgent($useragent);
 			}
 			else {
 				$this->determine();
@@ -237,10 +237,10 @@
 
 		/**
 		* Check to see if the specific browser is valid
-		* @param string $pnt_browserName
+		* @param string $titanium_browserName
 		* @return True if the browser is the specified browser
 		*/
-		function isBrowser($pnt_browserName) { return( 0 == strcasecmp($this->_browser_name, trim($pnt_browserName))); }
+		function isBrowser($titanium_browserName) { return( 0 == strcasecmp($this->_browser_name, trim($titanium_browserName))); }
 
 		/**
 		* The name of the browser.  All return types are from the class contants
@@ -249,9 +249,9 @@
 		public function getBrowser() { return $this->_browser_name; }
 		/**
 		* Set the name of the browser
-		* @param $pnt_browser The name of the Browser
+		* @param $titanium_browser The name of the Browser
 		*/
-		public function setBrowser($pnt_browser) { return $this->_browser_name = $pnt_browser; }
+		public function setBrowser($titanium_browser) { return $this->_browser_name = $titanium_browser; }
 		/**
 		* The name of the platform.  All return types are from the class contants
 		* @return string Name of the browser
@@ -319,11 +319,11 @@
 		public function getUserAgent() { return $this->_agent; }
 		/**
 		* Set the user agent value (the construction will use the HTTP header value - this will overwrite it)
-		* @param $phpbb2_agent_string The value for the User Agent
+		* @param $agent_string The value for the User Agent
 		*/
-		public function setUserAgent($phpbb2_agent_string) {
+		public function setUserAgent($agent_string) {
 			$this->reset();
-			$this->_agent = $phpbb2_agent_string;
+			$this->_agent = $agent_string;
 			$this->determine();
 		}
 		/**
@@ -1117,18 +1117,18 @@
     }
  
 global $file_extension;
-$pnt_browser = new Browser();
+$titanium_browser = new Browser();
 
-    if( $pnt_browser->getBrowser() == Browser::BROWSER_IE && $pnt_browser->getVersion() >= 2 ) 
+    if( $titanium_browser->getBrowser() == Browser::BROWSER_IE && $titanium_browser->getVersion() >= 2 ) 
 	$file_extension = ".jpg";
     else
-	if( $pnt_browser->getBrowser() == Browser::BROWSER_POCKET_IE && $pnt_browser->getVersion() >= 2 ) 
+	if( $titanium_browser->getBrowser() == Browser::BROWSER_POCKET_IE && $titanium_browser->getVersion() >= 2 ) 
 	$file_extension = ".jpg";
     else
-    if( $pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() >= 2 ) 
+    if( $titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() >= 2 ) 
 	$file_extension = ".png";
     else
-	if( $pnt_browser->getBrowser() == Browser::BROWSER_OPERA && $pnt_browser->getVersion() >= 2 ) 
+	if( $titanium_browser->getBrowser() == Browser::BROWSER_OPERA && $titanium_browser->getVersion() >= 2 ) 
     $file_extension = ".png";
     else
     $file_extension = ".png";

@@ -19,28 +19,28 @@
       AUC Group                                v1.0.0       06/20/2005
  ************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $pnt_module['AUC']['Management'] = "$file";
+    $module['AUC']['Management'] = "$file";
     return;
 }
 
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 
 require('./pagestart.' . $phpEx);
-include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_auc.' . $phpEx);
+include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_auc.' . $phpEx);
 
     if (isset($HTTP_POST_VARS['mode']) || isset($HTTP_GET_VARS['mode']))
         $mode = (isset($HTTP_POST_VARS['mode'])) ? $HTTP_POST_VARS['mode'] : $HTTP_GET_VARS['mode'];
     else
         $mode = '';
-    global $pnt_prefix;
-    define('COLORS', $pnt_prefix .'_bbadvanced_username_color');
-    $link = append_titanium_sid("admin_advanced_username_color_m.". $phpEx);
+    global $prefix;
+    define('COLORS', $prefix .'_bbadvanced_username_color');
+    $link = append_sid("admin_advanced_username_color_m.". $phpEx);
 
 if ($mode == "main" || !$mode)
         {
@@ -78,8 +78,8 @@ if ($mode == "main" || !$mode)
           FROM ". COLORS ."
           WHERE group_id > '0'
           ORDER BY group_name ASC";
-    $r            = $pnt_db->sql_query($q);
-    while($row     = $pnt_db->sql_fetchrow($r))
+    $r            = $db->sql_query($q);
+    while($row     = $db->sql_fetchrow($r))
         {
     $name     = $row['group_name'];
     $id     = $row['group_id'];
@@ -110,11 +110,11 @@ if ($mode == "main" || !$mode)
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id = '". $group ."'";
-    $r        = $pnt_db->sql_query($q);
-    $row     = $pnt_db->sql_fetchrow($r);
+    $r        = $db->sql_query($q);
+    $row     = $db->sql_fetchrow($r);
     $name     = $row['group_name'];
     $id     = $row['group_id'];
-    $phpbb2_color    = $row['group_color'];
+    $color    = $row['group_color'];
 
     echo "<table width='100%' border='0' class='forumline' cellspacing='2' align='center' valign='middle'>";
     echo "    <tr>";
@@ -149,8 +149,8 @@ if ($mode == "main" || !$mode)
           FROM ". USERS_TABLE ."
           WHERE user_color_gi <> '0'
           ORDER BY username ASC";
-    $r            = $pnt_db->sql_query($q);
-    while($row     = $pnt_db->sql_fetchrow($r))
+    $r            = $db->sql_query($q);
+    while($row     = $db->sql_fetchrow($r))
         {
         if    (preg_match('/--'. $id .'--/i', $row['user_color_gi']))
             echo "                <option value=''>". $row['username'] ."</option>";
@@ -177,8 +177,8 @@ if ($mode == "main" || !$mode)
           FROM ". GROUPS_TABLE ."
           WHERE group_id > 0 AND group_description <> 'Personal User'
           ORDER BY group_id ASC";
-    $r = $pnt_db->sql_query($q);
-    $groups = $pnt_db->sql_fetchrowset($r);
+    $r = $db->sql_query($q);
+    $groups = $db->sql_fetchrowset($r);
 
     echo "                <select name='group_id'>";
     echo '                    <option selected value="" class="post">----------</option>';
@@ -191,7 +191,7 @@ if ($mode == "main" || !$mode)
     echo "        <td align='center' valign='middle' width='100%' class='row2' colspan='3'>";
     echo "            <input type='hidden' name='mode' value='add_group'>";
     echo "            <input type='hidden' name='group' value='". $id ."'>";
-    echo "            <input type='hidden' name='color' value='". $phpbb2_color ."'>";
+    echo "            <input type='hidden' name='color' value='". $color ."'>";
     echo "            <input type='submit' class='mainoption' value='". $lang['group_assign_1'] ."' onchange='document.add_group.submit()'>";
     echo "        </td>";
     echo "</form>";
@@ -211,12 +211,12 @@ if ($mode == "main" || !$mode)
     $q = "SELECT username, user_id
           FROM ". USERS_TABLE ."
           ORDER BY username ASC";
-    $r = $pnt_db->sql_query($q);
-    $pnt_users = $pnt_db->sql_fetchrowset($r);
+    $r = $db->sql_query($q);
+    $users = $db->sql_fetchrowset($r);
     echo "                <select name='users_id'>";
     echo '                    <option selected value="" class="post">----------</option>';
-        for ($x = 0; $x < count($pnt_users); $x++)
-            echo '<option value="'. $pnt_users[$x]['user_id'] .'" class="post">'. $pnt_users[$x]['username'] .'</option>';
+        for ($x = 0; $x < count($users); $x++)
+            echo '<option value="'. $users[$x]['user_id'] .'" class="post">'. $users[$x]['username'] .'</option>';
     echo "                </select>";
     echo "            </span>";
     echo "        </td>";
@@ -237,7 +237,7 @@ if ($mode == "main" || !$mode)
     echo "        <td align='center' valign='middle' width='100%' class='row2' colspan='3'>";
     echo "            <input type='hidden' name='mode' value='add_user'>";
     echo "            <input type='hidden' name='group' value='". $id ."'>";
-    echo "            <input type='hidden' name='color' value='". $phpbb2_color ."'>";
+    echo "            <input type='hidden' name='color' value='". $color ."'>";
     echo "            <input type='submit' class='mainoption' value='". $lang['group_assign_1'] ."' onchange='document.add_to_group.submit()'>";
     echo "        </td>";
     echo "    </tr>";
@@ -256,8 +256,8 @@ if ($mode == "main" || !$mode)
           FROM ". USERS_TABLE ."
           WHERE user_color_gi <> '0'
           ORDER BY username ASC";
-    $r            = $pnt_db->sql_query($q);
-    while($row     = $pnt_db->sql_fetchrow($r))
+    $r            = $db->sql_query($q);
+    while($row     = $db->sql_fetchrow($r))
         {
         if    (preg_match('/--'. $id .'--/i', $row['user_color_gi']))
             echo "            <option value='". $row['user_id'] ."'>". $row['username'] ."</option>";
@@ -277,14 +277,14 @@ if ($mode == "main" || !$mode)
 
     if($mode == "del_user")
         {
-    $pnt_user     = $HTTP_POST_VARS['delete'];
+    $user     = $HTTP_POST_VARS['delete'];
     $group     = $HTTP_POST_VARS['group'];
 
     $q = "SELECT user_color_gi
           FROM ". USERS_TABLE ."
-          WHERE user_id = '". $pnt_user ."'";
-    $r         = $pnt_db->sql_query($q);
-    $row     = $pnt_db->sql_fetchrow($r);
+          WHERE user_id = '". $user ."'";
+    $r         = $db->sql_query($q);
+    $row     = $db->sql_fetchrow($r);
 
     $remove = str_replace('--'. $group .'--', '', $row['user_color_gi']);
     if (!$remove)
@@ -297,8 +297,8 @@ if ($mode == "main" || !$mode)
         {
     $q = "SELECT group_color, group_id
           FROM ". COLORS ."";
-    $r = $pnt_db->sql_query($q);
-    $groups_info = $pnt_db->sql_fetchrowset($r);
+    $r = $db->sql_query($q);
+    $groups_info = $db->sql_fetchrowset($r);
         for ($a = 0; $a < count($groups_info); $a++)
             {
             if (preg_match('/--'. $groups_info[$a]['group_id'] .'--/i', $new_id))
@@ -313,8 +313,8 @@ if ($mode == "main" || !$mode)
 
     $q = "UPDATE ". USERS_TABLE ."
           SET user_color_gi = '$new_id', user_color_gc = '$new_color'
-          WHERE user_id = '". $pnt_user ."'";
-    $r = $pnt_db->sql_query($q);
+          WHERE user_id = '". $user ."'";
+    $r = $db->sql_query($q);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -330,7 +330,7 @@ if ($mode == "main" || !$mode)
     $who    = intval($HTTP_POST_VARS['users_id']);
     $multi    = $HTTP_POST_VARS['multi_users_id'];
     $group     = intval($HTTP_POST_VARS['group']);
-    $phpbb2_color     = $HTTP_POST_VARS['color'];
+    $color     = $HTTP_POST_VARS['color'];
 
         if ($who)
             $multi = '';
@@ -341,15 +341,15 @@ if ($mode == "main" || !$mode)
 
         if ($multi)
             {
-        $pnt_users = explode("\n", $multi);
-            for ($x = 0; $x < count($pnt_users); $x++)
+        $users = explode("\n", $multi);
+            for ($x = 0; $x < count($users); $x++)
                 {
-            $pnt_users[$x] = trim(addslashes(stripslashes($pnt_users[$x])));
+            $users[$x] = trim(addslashes(stripslashes($users[$x])));
             $q = "SELECT user_color_gi, user_id
                   FROM ". USERS_TABLE ."
-                  WHERE username = '". $pnt_users[$x] ."'";
-            $r         = $pnt_db->sql_query($q);
-            $row     = $pnt_db->sql_fetchrow($r);
+                  WHERE username = '". $users[$x] ."'";
+            $r         = $db->sql_query($q);
+            $row     = $db->sql_fetchrow($r);
 
                 if ($row['user_color_gi'] <> '0')
                     $group = '--'. $group .'--'. $row['user_color_gi'];
@@ -357,9 +357,9 @@ if ($mode == "main" || !$mode)
                     $group = '--'. $group .'--';
 
             $q = "UPDATE ". USERS_TABLE ."
-                  SET user_color_gi = '". $group ."', user_color_gc = '". $phpbb2_color ."'
+                  SET user_color_gi = '". $group ."', user_color_gc = '". $color ."'
                   WHERE user_id = '". $row['user_id'] ."'";
-            if (!$pnt_db->sql_query($q))
+            if (!$db->sql_query($q))
                 message_die(GENERAL_ERROR, 'ERROR!', '', __LINE__, __FILE__, $q);
                 }
 /*****[BEGIN]******************************************
@@ -376,8 +376,8 @@ if ($mode == "main" || !$mode)
         $q = "SELECT user_color_gi
               FROM ". USERS_TABLE ."
               WHERE user_id = '". $who ."'";
-        $r         = $pnt_db->sql_query($q);
-        $row     = $pnt_db->sql_fetchrow($r);
+        $r         = $db->sql_query($q);
+        $row     = $db->sql_fetchrow($r);
 
             if ($row['user_color_gi'] <> '0')
                 $group = '--'. $group .'--'. $row['user_color_gi'];
@@ -385,9 +385,9 @@ if ($mode == "main" || !$mode)
                 $group = '--'. $group .'--';
 
         $q = "UPDATE ". USERS_TABLE ."
-              SET user_color_gi = '". $group ."', user_color_gc = '". $phpbb2_color ."'
+              SET user_color_gi = '". $group ."', user_color_gc = '". $color ."'
               WHERE user_id = '". $who ."'";
-        if (!$pnt_db->sql_query($q))
+        if (!$db->sql_query($q))
             message_die(GENERAL_ERROR, 'ERROR!', '', __LINE__, __FILE__, $q);
             }
 /*****[BEGIN]******************************************
@@ -406,20 +406,20 @@ if ($mode == "main" || !$mode)
         {
     $who    = intval($HTTP_POST_VARS['group_id']);
     $group     = intval($HTTP_POST_VARS['group']);
-    $phpbb2_color     = $HTTP_POST_VARS['color'];
+    $color     = $HTTP_POST_VARS['color'];
 
         $q_group = "SELECT user_id
               FROM ". USER_GROUP_TABLE ."
               WHERE group_id = '". $who ."'";
-        $r_group    = $pnt_db->sql_query($q_group);
+        $r_group    = $db->sql_query($q_group);
 
-    while($id_group = $pnt_db->sql_fetchrow($r_group))
+    while($id_group = $db->sql_fetchrow($r_group))
       {
         $q = "SELECT user_color_gi
               FROM ". USERS_TABLE ."
               WHERE user_id = '". $id_group['user_id'] ."'";
-        $r         = $pnt_db->sql_query($q);
-        $row     = $pnt_db->sql_fetchrow($r);
+        $r         = $db->sql_query($q);
+        $row     = $db->sql_fetchrow($r);
             $test = '--'. $group .'--';
         if(strstr($row[0], $test)) {
                 continue;
@@ -430,10 +430,10 @@ if ($mode == "main" || !$mode)
                 $group = '--'. $group .'--';
 
         $q = "UPDATE ". USERS_TABLE ."
-              SET user_color_gi = '". $group ."', user_color_gc = '". $phpbb2_color ."'
+              SET user_color_gi = '". $group ."', user_color_gc = '". $color ."'
               WHERE user_id = '". $id_group['user_id'] ."'";
 
-        if (!$pnt_db->sql_query($q)) {
+        if (!$db->sql_query($q)) {
             message_die(GENERAL_ERROR, 'ERROR!', '', __LINE__, __FILE__, $q);
             }
 /*****[BEGIN]******************************************

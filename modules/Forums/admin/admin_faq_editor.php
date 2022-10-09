@@ -23,28 +23,28 @@
        Board Rules                             v2.0.0       06/26/2005
  ************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-   $pnt_module['Faq_manager']['board_faq'] = "$file?file=faq";
-   $pnt_module['Faq_manager']['bbcode_faq'] = "$file?file=bbcode";
+   $module['Faq_manager']['board_faq'] = "$file?file=faq";
+   $module['Faq_manager']['bbcode_faq'] = "$file?file=bbcode";
 /*****[BEGIN]******************************************
  [ Mod:     Board Rules                        v2.0.0 ]
  ******************************************************/
-   $pnt_module['Faq_manager']['site_rules'] = "$file?file=rules";
+   $module['Faq_manager']['site_rules'] = "$file?file=rules";
 /*****[END]********************************************
  [ Mod:     Board Rules                        v2.0.0 ]
  ******************************************************/
-    if(file_exists($phpbb2_root_path . 'attach_mod/attachment_mod.'.$phpEx))
+    if(file_exists($phpbb_root_path . 'attach_mod/attachment_mod.'.$phpEx))
     {
-       $pnt_module['Faq_manager']['attachment_faq'] = "$file?file=faq_attach";
+       $module['Faq_manager']['attachment_faq'] = "$file?file=faq_attach";
     }
-    if(file_exists($phpbb2_root_path . 'mods/prillian/im_main.'.$phpEx))
+    if(file_exists($phpbb_root_path . 'mods/prillian/im_main.'.$phpEx))
     {
-       $pnt_module['Faq_manager']['prillian_faq'] = "$file?file=prillian_faq";
-       $pnt_module['Faq_manager']['bid_faq'] = "$file?file=bid_faq";
+       $module['Faq_manager']['prillian_faq'] = "$file?file=prillian_faq";
+       $module['Faq_manager']['bid_faq'] = "$file?file=bid_faq";
     }
     return;
 }
@@ -112,7 +112,7 @@ function array_to_faq($blocks, $quests)
 
 /* okay here we go! */
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 define('Q', 0);
 define('A', 1);
 
@@ -150,31 +150,31 @@ $faq_header = '<'."?php
 
 $faq_footer = "\n\n?" . '>';
 
-$phpbb2_root_path = "./../";
-include($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+include($phpbb_root_path . 'extension.inc');
 include('./pagestart.' . $phpEx);
 include("../../../includes/functions_selects.php");
-include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_faq_editor.' . $phpEx);
+include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_faq_editor.' . $phpEx);
 
 // initially include the current FAQ or BBCode guide, depending on the file= in the query_string
 $file = isset($HTTP_GET_VARS['file']) ? htmlspecialchars($HTTP_GET_VARS['file']) : 'faq';
 
 if( !isset($HTTP_GET_VARS['language']) && !isset($HTTP_POST_VARS['language']) )
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         "body" => "admin/faq_select_lang_body.tpl")
     );
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_LANGUAGE' => $lang['faq_select_language'],
-        'LANGUAGE_SELECT' => language_select($phpbb2_board_config['default_lang'], 'language', $phpbb2_root_path.'language'),
-        'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file"),
+        'LANGUAGE_SELECT' => language_select($board_config['default_lang'], 'language', $phpbb_root_path.'language'),
+        'S_ACTION' => append_sid("admin_faq_editor.$phpEx?file=$file"),
         'L_SUBMIT' => $lang['faq_retrieve'],
         'L_TITLE' => $lang['faq_editor'],
         'L_EXPLAIN' => $lang['faq_editor_explain']
     ));
 
-    $phpbb2_template->pparse("body");
+    $template->pparse("body");
     include('./page_footer_admin.'.$phpEx);
     exit;
 }
@@ -183,7 +183,7 @@ if( !isset($HTTP_GET_VARS['language']) && !isset($HTTP_POST_VARS['language']) )
 $language = isset($HTTP_GET_VARS['language']) ? $HTTP_GET_VARS['language'] : $HTTP_POST_VARS['language'];
 
 // the FAQ which will generate our $faq array
-include($phpbb2_root_path . 'language/lang_' . $language . '/lang_' . $file . '.' . $phpEx);
+include($phpbb_root_path . 'language/lang_' . $language . '/lang_' . $file . '.' . $phpEx);
 
 // change into our array
 list($blocks, $quests) = faq_to_array($faq);
@@ -206,25 +206,25 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
 
         // result of pressing the delete link next to a block
         case 'block_del':
-            $phpbb2_template->set_filenames(array(
+            $template->set_filenames(array(
                 "confirm" => "confirm_body.tpl")
             );
 
             $s_hidden_fields = '<input type="hidden" name="mode" value="block_del_confirm" />';
             $s_hidden_fields .= '<input type="hidden" name="block" value="'.$block_no.'" />';
 
-            $phpbb2_template->assign_vars(array(
+            $template->assign_vars(array(
                 "MESSAGE_TITLE" => $lang['Confirm'],
                 "MESSAGE_TEXT" => $lang['faq_block_delete'],
 
                 "L_YES" => $lang['Yes'],
                 "L_NO" => $lang['No'],
 
-                "S_CONFIRM_ACTION" => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
+                "S_CONFIRM_ACTION" => append_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
                 "S_HIDDEN_FIELDS" => $s_hidden_fields
             ));
 
-            $phpbb2_template->pparse("confirm");
+            $template->pparse("confirm");
             include('./page_footer_admin.'.$phpEx);
 
             exit;
@@ -249,11 +249,11 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
 
         // generate the edit screen as a result of pressing the edit link
         case 'block_edit':
-            $phpbb2_template->set_filenames(array(
+            $template->set_filenames(array(
                 "body" => "admin/faq_block_body.tpl")
             );
 
-            $phpbb2_template->assign_vars(array(
+            $template->assign_vars(array(
                 'L_TITLE' => $lang['faq_block_rename'],
                 'L_EXPLAIN' => $lang['faq_block_rename_explain'],
                 'L_SUBMIT' => $lang['Submit'],
@@ -262,10 +262,10 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
                 'BLOCK_TITLE' => $blocks[$block_no],
 
                 'S_HIDDEN_FIELDS' => '<input type="hidden" name="mode" value="block_do_edit"><input type="hidden" name="block" value="'.$block_no.'">',
-                'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language")
+                'S_ACTION' => append_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language")
             ));
 
-            $phpbb2_template->pparse("body");
+            $template->pparse("body");
             include('./page_footer_admin.'.$phpEx);
 
             exit;
@@ -315,7 +315,7 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
 
         // create a new question as a result of typing a question on the main page
         case 'quest_new':
-            $phpbb2_template->set_filenames(array(
+            $template->set_filenames(array(
                 "body" => "admin/faq_quest_body.tpl")
             );
 
@@ -328,7 +328,7 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
                 $s_block_list .= '<option value="'.$i.'"'.$is_selected.'>' . $blocks[$i] . '</option>';
             }
 
-            $phpbb2_template->assign_vars(array(
+            $template->assign_vars(array(
                 'L_TITLE' => $lang['faq_quest_create'],
                 'L_EXPLAIN' => $lang['faq_quest_create_explain'],
                 'L_BLOCK' => $lang['faq_block'],
@@ -340,11 +340,11 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
                 'ANSWER' => '',
 
                 'S_BLOCK_LIST' => $s_block_list,
-                'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
+                'S_ACTION' => append_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
                 'S_HIDDEN_FIELDS' => '<input name="mode" type="hidden" value="quest_create">'
             ));
 
-            $phpbb2_template->pparse("body");
+            $template->pparse("body");
             include('./page_footer_admin.'.$phpEx);
 
             exit;
@@ -363,7 +363,7 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
 
         // present the question edit screen
         case 'quest_edit':
-            $phpbb2_template->set_filenames(array(
+            $template->set_filenames(array(
                 "body" => "admin/faq_quest_body.tpl")
             );
 
@@ -376,7 +376,7 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
                 $s_block_list .= '<option value="'.$i.'"'.$is_selected.'>' . $blocks[$i] . '</option>';
             }
 
-            $phpbb2_template->assign_vars(array(
+            $template->assign_vars(array(
                 'L_TITLE' => $lang['faq_quest_edit'],
                 'L_EXPLAIN' => $lang['faq_quest_edit_explain'],
                 'L_BLOCK' => $lang['faq_block'],
@@ -388,11 +388,11 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
                 'ANSWER' => htmlspecialchars(str_replace("<br />", "\n", $quests[$block_no][$quest_no][A])),
 
                 'S_BLOCK_LIST' => $s_block_list,
-                'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
+                'S_ACTION' => append_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
                 'S_HIDDEN_FIELDS' => '<input name="quest" type="hidden" value="'.$quest_no.'"><input name="old_block" type="hidden" value="'.$block_no.'"><input name="mode" type="hidden" value="quest_do_edit">'
             ));
 
-            $phpbb2_template->pparse("body");
+            $template->pparse("body");
             include('./page_footer_admin.'.$phpEx);
 
             exit;
@@ -431,7 +431,7 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
 
         // delete a question: confirm box
         case 'quest_del':
-            $phpbb2_template->set_filenames(array(
+            $template->set_filenames(array(
                 "confirm" => "confirm_body.tpl")
             );
 
@@ -439,18 +439,18 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
             $s_hidden_fields .= '<input type="hidden" name="block" value="'.$block_no.'" />';
             $s_hidden_fields .= '<input type="hidden" name="quest" value="'.$quest_no.'" />';
 
-            $phpbb2_template->assign_vars(array(
+            $template->assign_vars(array(
                 "MESSAGE_TITLE" => $lang['Confirm'],
                 "MESSAGE_TEXT" => $lang['faq_quest_delete'],
 
                 "L_YES" => $lang['Yes'],
                 "L_NO" => $lang['No'],
 
-                "S_CONFIRM_ACTION" => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
+                "S_CONFIRM_ACTION" => append_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
                 "S_HIDDEN_FIELDS" => $s_hidden_fields
             ));
 
-            $phpbb2_template->pparse("confirm");
+            $template->pparse("confirm");
             include('./page_footer_admin.'.$phpEx);
 
             exit;
@@ -496,7 +496,7 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
 
     // write these changes back to the FAQ file
 
-    $fp = fopen($phpbb2_root_path . 'language/lang_' . $language . '/lang_' . $file . '.' . $phpEx, 'w');
+    $fp = fopen($phpbb_root_path . 'language/lang_' . $language . '/lang_' . $file . '.' . $phpEx, 'w');
 
     if($fp)
     {
@@ -519,15 +519,15 @@ if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']))
 
 // if we've got this far without exiting we just dump the default page
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "body" => "admin/faq_editor_body.tpl")
 );
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'L_TITLE' => $lang['faq_editor'],
     'L_EXPLAIN' => $lang['faq_editor_explain'],
 
-    'S_ACTION' => append_titanium_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
+    'S_ACTION' => append_sid("admin_faq_editor.$phpEx?file=$file&amp;language=$language"),
 
     'L_ADD_BLOCK' => $lang['faq_block_add'],
     'L_ADD_QUESTION' => $lang['faq_quest_add'],
@@ -547,29 +547,29 @@ if(count($blocks) > 0)
 {
     for($i = 0; $i < count($blocks); $i++)
     {
-        $phpbb2_template->assign_block_vars("blockrow", array( 
+        $template->assign_block_vars("blockrow", array( 
             'BLOCK_TITLE' => $blocks[$i],
             'BLOCK_NUMBER' => "$i",
             'BLOCK_ANCHOR' => $anchor_code,
 
-            'U_BLOCK_EDIT' => append_titanium_sid("admin_faq_editor.$phpEx?mode=block_edit&amp;block=$i&amp;file=$file&amp;language=$language"),
-            'U_BLOCK_MOVE_UP' => append_titanium_sid("admin_faq_editor.$phpEx?mode=block_up&amp;block=$i&amp;file=$file&amp;language=$language"),
-            'U_BLOCK_MOVE_DOWN' => append_titanium_sid("admin_faq_editor.$phpEx?mode=block_dn&amp;block=$i&amp;file=$file&amp;language=$language"),
-            'U_BLOCK_DELETE' => append_titanium_sid("admin_faq_editor.$phpEx?mode=block_del&amp;block=$i&amp;file=$file&amp;language=$language")
+            'U_BLOCK_EDIT' => append_sid("admin_faq_editor.$phpEx?mode=block_edit&amp;block=$i&amp;file=$file&amp;language=$language"),
+            'U_BLOCK_MOVE_UP' => append_sid("admin_faq_editor.$phpEx?mode=block_up&amp;block=$i&amp;file=$file&amp;language=$language"),
+            'U_BLOCK_MOVE_DOWN' => append_sid("admin_faq_editor.$phpEx?mode=block_dn&amp;block=$i&amp;file=$file&amp;language=$language"),
+            'U_BLOCK_DELETE' => append_sid("admin_faq_editor.$phpEx?mode=block_del&amp;block=$i&amp;file=$file&amp;language=$language")
         ));
 
         if(count($quests[$i]) > 0)
         {
             for($j = 0; $j < count($quests[$i]); $j++)
             {
-                $phpbb2_template->assign_block_vars("blockrow.questrow", array( 
+                $template->assign_block_vars("blockrow.questrow", array( 
                     'QUEST_TITLE' => $quests[$i][$j][Q],
                     'U_QUEST' => ("../../../modules.php?name=Forums&amp;file=faq&amp;mode=$file")."#$k",
 
-                    'U_QUEST_EDIT' => append_titanium_sid("admin_faq_editor.$phpEx?mode=quest_edit&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$language"),
-                    'U_QUEST_MOVE_UP' => append_titanium_sid("admin_faq_editor.$phpEx?mode=quest_up&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$language"),
-                    'U_QUEST_MOVE_DOWN' => append_titanium_sid("admin_faq_editor.$phpEx?mode=quest_dn&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$language"),
-                    'U_QUEST_DELETE' => append_titanium_sid("admin_faq_editor.$phpEx?mode=quest_del&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$language")
+                    'U_QUEST_EDIT' => append_sid("admin_faq_editor.$phpEx?mode=quest_edit&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$language"),
+                    'U_QUEST_MOVE_UP' => append_sid("admin_faq_editor.$phpEx?mode=quest_up&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$language"),
+                    'U_QUEST_MOVE_DOWN' => append_sid("admin_faq_editor.$phpEx?mode=quest_dn&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$language"),
+                    'U_QUEST_DELETE' => append_sid("admin_faq_editor.$phpEx?mode=quest_del&amp;block=$i&amp;quest=$j&amp;file=$file&amp;language=$language")
                 ));
 
                 $k++;
@@ -577,16 +577,16 @@ if(count($blocks) > 0)
         }
         else
         {
-            $phpbb2_template->assign_block_vars("blockrow.no_questions", array());
+            $template->assign_block_vars("blockrow.no_questions", array());
         }
     }
 }
 else
 {
-    $phpbb2_template->assign_block_vars("no_blocks", array());
+    $template->assign_block_vars("no_blocks", array());
 }
 
-$phpbb2_template->pparse("body");
+$template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

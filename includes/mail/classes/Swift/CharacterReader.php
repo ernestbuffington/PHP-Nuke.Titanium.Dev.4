@@ -25,12 +25,12 @@ interface Swift_CharacterReader
    * Returns the complete charactermap
    *
    * @param string $string
-   * @param int $phpbb2_startOffset
+   * @param int $startOffset
    * @param array $currentMap
    * @param mixed $ignoredChars
    * @return int
    */
-  public function getCharPositions($string, $phpbb2_startOffset, &$currentMap, &$ignoredChars);
+  public function getCharPositions($string, $startOffset, &$currentMap, &$ignoredChars);
   
   /**
    * Returns mapType

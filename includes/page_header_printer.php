@@ -26,9 +26,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 define('HEADER_INC', true);
@@ -38,31 +38,28 @@ define('HEADER_INC', true);
 //
 $do_gzip_compress = FALSE;
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     'header' => 'printer_header.tpl')
 );
 
 // Format Timezone. We are unable to use array_pop here, because of PHP3 compatibility
-$l_timezone = explode('.', $phpbb2_board_config['board_timezone']);
-$l_timezone = (count($l_timezone) > 1 && $l_timezone[count($l_timezone)-1] != 0) ? $lang[sprintf('%.1f', $phpbb2_board_config['board_timezone'])] : $lang[number_format($phpbb2_board_config['board_timezone'])];
+$l_timezone = explode('.', $board_config['board_timezone']);
+$l_timezone = (count($l_timezone) > 1 && $l_timezone[count($l_timezone)-1] != 0) ? $lang[sprintf('%.1f', $board_config['board_timezone'])] : $lang[number_format($board_config['board_timezone'])];
 //
 // The following assigns all _common_ variables that may be used at any point
-// in a template. Note that all URL's should be wrapped in append_titanium_sid, as
+// in a template. Note that all URL's should be wrapped in append_sid, as
 // should all S_x_ACTIONS for forms.
 //
 
-$phpbb2_template->assign_vars(array(
-    'SITENAME' => $phpbb2_board_config['sitename'],
-    'PAGE_TITLE' => $phpbb2_page_title,
+$template->assign_vars(array(
+    'SITENAME' => $board_config['sitename'],
+    'PAGE_TITLE' => $page_title,
 
     'L_ADMIN' => $lang['Admin'],
     'L_USERNAME' => $lang['Username'],
     'L_PASSWORD' => $lang['Password'],
-    
-	'L_INDEX' => $lang['Forum_Index'],
-	'L_INDEXHOME' => $lang['Home_Index'],
-    
-	'L_REGISTER' => $lang['Register'],
+    'L_INDEX' => $lang['Forum_Index'],
+    'L_REGISTER' => $lang['Register'],
     'L_PROFILE' => $lang['Profile'],
     'L_SEARCH' => $lang['Search'],
     'L_PRIVATEMSGS' => $lang['Private_msgs'],
@@ -93,17 +90,14 @@ $phpbb2_template->assign_vars(array(
     'L_SHOW' => $lang['printertopic_Show'],
     'L_PRINT' => $lang['printertopic_Print'],
     'L_PRINT_DESC' => $lang['printertopic_Print_desc'],
-    'U_INDEX' => append_titanium_sid('index.'.$phpEx),
 
-    # Home Index Mod START
-	'U_HINDEX' => titanium_home_sid('index.'.$phpEx),
-    # Home Index Mod END
+    'U_INDEX' => append_sid('index.'.$phpEx),
+    'U_FAQ' => append_sid('faq.'.$phpEx),
 
-	'U_FAQ' => append_titanium_sid('faq.'.$phpEx),
     'S_TIMEZONE' => sprintf($lang['All_times'], $l_timezone),
-    'S_LOGIN_ACTION' => append_titanium_sid('../login.'.$phpEx),
-    'S_JUMPBOX_ACTION' => append_titanium_sid('../viewforum.'.$phpEx),
-    'S_CURRENT_TIME' => sprintf($lang['Current_time'], create_date($phpbb2_board_config['default_dateformat'], time(), $phpbb2_board_config['board_timezone'])),
+    'S_LOGIN_ACTION' => append_sid('../login.'.$phpEx),
+    'S_JUMPBOX_ACTION' => append_sid('../viewforum.'.$phpEx),
+    'S_CURRENT_TIME' => sprintf($lang['Current_time'], create_date($board_config['default_dateformat'], time(), $board_config['board_timezone'])),
     'S_CONTENT_DIRECTION' => $lang['DIRECTION'],
     'S_CONTENT_ENCODING' => $lang['ENCODING'],
     'S_CONTENT_DIR_LEFT' => $lang['LEFT'],
@@ -149,6 +143,6 @@ $phpbb2_template->assign_vars(array(
     'T_SPAN_CLASS3' => "")
 );
 
-$phpbb2_template->pparse('header');
+$template->pparse('header');
 
 ?>

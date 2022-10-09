@@ -25,9 +25,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 //
@@ -35,24 +35,24 @@ if (!defined('IN_PHPBB2'))
 $debug = False;
 //
 
-if ( $debug || $phpbb2_board_config['ropm_quick_reply'])
-//if ( $phpbb2_board_config['ropm_quick_reply'])
+if ( $debug || $board_config['ropm_quick_reply'])
+//if ( $board_config['ropm_quick_reply'])
 {
-$language = $phpbb2_board_config['default_lang'];
-if ( !file_exists($phpbb2_root_path . 'language/lang_' . $language . '/lang_main_pmqr.'.$phpEx) )
+$language = $board_config['default_lang'];
+if ( !file_exists($phpbb_root_path . 'language/lang_' . $language . '/lang_main_pmqr.'.$phpEx) )
 $language = 'english';
-include($phpbb2_root_path . 'language/lang_' . $language . '/lang_main_pmqr.' . $phpEx);
+include($phpbb_root_path . 'language/lang_' . $language . '/lang_main_pmqr.' . $phpEx);
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
    'ropm_quick_reply_output' => 'ropm_quick_reply.tpl')
 );
 
    $bbcode_uid = $privmsg['privmsgs_bbcode_uid'];
-   $phpbb2_last_poster = $privmsg['username_1'];
+   $last_poster = $privmsg['username_1'];
    $last_msg = $privmsg['privmsgs_text'];
    $last_msg = str_replace(":1:$bbcode_uid", '', $last_msg);
    $last_msg = str_replace(":$bbcode_uid", '', $last_msg);
-   $last_msg = '[quote="' . $phpbb2_last_poster . '"]' . $last_msg . '[/quote]';
+   $last_msg = '[quote="' . $last_poster . '"]' . $last_msg . '[/quote]';
    $last_msg = str_replace("\\", "\\\\", $last_msg);$last_msg = str_replace("'", "\'", $last_msg);$last_msg = str_replace(chr(13), '', $last_msg);$last_msg = str_replace("\n", "\\n", $last_msg);
 
    $s_hidden_fields = '
@@ -61,8 +61,8 @@ $phpbb2_template->set_filenames(array(
 <input type="hidden" name="username" value="' . $privmsg['username_1'] . '" />
 <input type="hidden" name="sid" value="' . $userdata['session_id'] . '" />';
 
-   $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY', array(
-      'POST_ACTION' => append_titanium_sid("privmsg.$phpEx"),
+   $template->assign_block_vars('ROPM_QUICK_REPLY', array(
+      'POST_ACTION' => append_sid("privmsg.$phpEx"),
       'S_HIDDEN_FIELDS' => $s_hidden_fields,
       'SUBJECT' => ( ( !preg_match('/^Re:/', $privmsg['privmsgs_subject']) ) ? 'Re: ' : '' ) . str_replace('"', "&quot;", $privmsg['privmsgs_subject']),
       'BB_BOX' => Make_TextArea_Ret('message', '', 'post', '100%', '200px', true),
@@ -73,21 +73,21 @@ $phpbb2_template->set_filenames(array(
       'S_SIG_CHECKED' => ( $userdata['user_attachsig'] ) ? ' checked="checked"' : ''
       ));
 
-if ( $phpbb2_board_config['allow_html'] )
-   $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.HTMLCB', array());
-if ( $phpbb2_board_config['allow_bbcode'] )
+if ( $board_config['allow_html'] )
+   $template->assign_block_vars('ROPM_QUICK_REPLY.HTMLCB', array());
+if ( $board_config['allow_bbcode'] )
 {
-   $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.BBCODECB', array());
-   if ( $phpbb2_board_config['ropm_quick_reply_bbc'] )
-     $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.BBCODEBUTT', array());
+   $template->assign_block_vars('ROPM_QUICK_REPLY.BBCODECB', array());
+   if ( $board_config['ropm_quick_reply_bbc'] )
+     $template->assign_block_vars('ROPM_QUICK_REPLY.BBCODEBUTT', array());
 }
-if ( $phpbb2_board_config['allow_smilies'] )
+if ( $board_config['allow_smilies'] )
 {
-   $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.SMILIESCB', array());
+   $template->assign_block_vars('ROPM_QUICK_REPLY.SMILIESCB', array());
    generate_smilies_row();
 }
-   $phpbb2_template->assign_vars(array(
-      'U_MORE_SMILIES' => append_titanium_sid("posting.$phpEx?mode=smilies"),
+   $template->assign_vars(array(
+      'U_MORE_SMILIES' => append_sid("posting.$phpEx?mode=smilies"),
       'L_EMPTY_MESSAGE' => $lang['Empty_message'],
       'L_PREVIEW' => $lang['Preview'],
       'L_SUBMIT' => $lang['Submit'],
@@ -142,14 +142,14 @@ if ( $phpbb2_board_config['allow_smilies'] )
       'IMG_URL' => $images['bbc_url']
 ));
 $lang['TRANSLATION_INFO'] .= '<br />PM Quick Reply &copy; by <a href="http://www.rondom.gu2.info" target="rondom">Rondom</a> 2003-2004' . (( $lang['PMQR_TRANSLATION'] )?' :: '.$lang['PMQR_TRANSLATION'] : '') . (($debug)?'&nbsp;&nbsp;<span style="font-weight:bolder;font-size:20px;">Rondom\'s Debug Mode enabled!</span>':'');
-$phpbb2_template->assign_var_from_handle('ROPM_QUICKREPLY_OUTPUT', 'ropm_quick_reply_output');
+$template->assign_var_from_handle('ROPM_QUICKREPLY_OUTPUT', 'ropm_quick_reply_output');
 }
 
 function generate_smilies_row()
 {
-   global $pnt_db, $phpbb2_board_config, $phpbb2_template;
+   global $db, $board_config, $template;
 
-   $max_smilies = $phpbb2_board_config['ropm_quick_reply_smilies'];
+   $max_smilies = $board_config['ropm_quick_reply_smilies'];
 
    switch ( SQL_LAYER )
    {
@@ -168,30 +168,30 @@ function generate_smilies_row()
          ORDER BY smilies_id LIMIT ' . $max_smilies;
       break;
    }
-   if (!$result = $pnt_db->sql_query($sql))
+   if (!$result = $db->sql_query($sql))
    {
       message_die(GENERAL_ERROR, "Couldn't retrieve smilies list", '', __LINE__, __FILE__, $sql);
    }
-   $smilies_count = $pnt_db->sql_numrows($result);
-   $smilies_data = $pnt_db->sql_fetchrowset($result);
+   $smilies_count = $db->sql_numrows($result);
+   $smilies_data = $db->sql_fetchrowset($result);
    for ($i = 0; $i < $smilies_count; $i++)
    {
-         $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.SMILIES', array(
+         $template->assign_block_vars('ROPM_QUICK_REPLY.SMILIES', array(
             'CODE' => $smilies_data[$i]['code'],
-            'URL' => $phpbb2_board_config['smilies_path'] . '/' . $smilies_data[$i]['smile_url'],
+            'URL' => $board_config['smilies_path'] . '/' . $smilies_data[$i]['smile_url'],
             'DESC' => $smilies_data[$i]['emoticon'])
          );
 }
    $sql = 'SELECT COUNT(*) FROM ' . SMILIES_TABLE . '
            GROUP BY smile_url;';
 
-   if (!$result = $pnt_db->sql_query($sql))
+   if (!$result = $db->sql_query($sql))
    {
       message_die(GENERAL_ERROR, "Couldn't count smilies", '', __LINE__, __FILE__, $sql);
    }
-   $real_smilies_count = $pnt_db->sql_numrows($result);
+   $real_smilies_count = $db->sql_numrows($result);
    if ($real_smilies_count > $max_smilies || !$max_smilies)
-   $phpbb2_template->assign_block_vars('ROPM_QUICK_REPLY.MORESMILIES', array());
+   $template->assign_block_vars('ROPM_QUICK_REPLY.MORESMILIES', array());
 }
 
 ?>

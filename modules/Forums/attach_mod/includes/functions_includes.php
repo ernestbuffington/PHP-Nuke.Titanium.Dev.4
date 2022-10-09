@@ -22,7 +22,7 @@
 */
 function attach_faq_include($lang_file)
 {
-    global $phpbb2_root_path, $phpbb2_board_config, $phpEx, $faq, $attach_config;
+    global $phpbb_root_path, $board_config, $phpEx, $faq, $attach_config;
 
     if (intval($attach_config['disable_mod']))
     {
@@ -32,7 +32,7 @@ function attach_faq_include($lang_file)
     if ($lang_file == 'lang_faq')
     {
         $language = attach_mod_get_lang('lang_faq_attach');
-        include($phpbb2_root_path . 'language/lang_' . $language . '/lang_faq_attach.'.$phpEx);
+        include($phpbb_root_path . 'language/lang_' . $language . '/lang_faq_attach.'.$phpEx);
     }
 }
 
@@ -127,9 +127,9 @@ function attach_setup_viewtopic_auth(&$order_sql, &$sql)
 /**
 * Setup s_auth_can in viewforum and viewtopic (viewtopic.php/viewforum.php)
 */
-function attach_build_auth_levels($phpbb2_is_auth, &$s_auth_can)
+function attach_build_auth_levels($is_auth, &$s_auth_can)
 {
-    global $lang, $attach_config, $phpEx, $phpbb2_forum_id;
+    global $lang, $attach_config, $phpEx, $forum_id;
 
     if (intval($attach_config['disable_mod']))
     {
@@ -137,11 +137,11 @@ function attach_build_auth_levels($phpbb2_is_auth, &$s_auth_can)
     }
 
     // If you want to have the rules window link within the forum view too, comment out the two lines, and comment the third line
-//    $rules_link = '(<a href="' . $phpbb2_root_path . 'attach_rules.' . $phpEx . '?f=' . $phpbb2_forum_id . '" target="_blank">Rules</a>)';
-//    $s_auth_can .= ( ( $phpbb2_is_auth['auth_attachments'] ) ? $rules_link . ' ' . $lang['Rules_attach_can'] : $lang['Rules_attach_cannot'] ) . '<br />';
-    $s_auth_can .= (($phpbb2_is_auth['auth_attachments']) ? $lang['Rules_attach_can'] : $lang['Rules_attach_cannot'] ) . '<br />';
+//    $rules_link = '(<a href="' . $phpbb_root_path . 'attach_rules.' . $phpEx . '?f=' . $forum_id . '" target="_blank">Rules</a>)';
+//    $s_auth_can .= ( ( $is_auth['auth_attachments'] ) ? $rules_link . ' ' . $lang['Rules_attach_can'] : $lang['Rules_attach_cannot'] ) . '<br />';
+    $s_auth_can .= (($is_auth['auth_attachments']) ? $lang['Rules_attach_can'] : $lang['Rules_attach_cannot'] ) . '<br />';
 
-    $s_auth_can .= (($phpbb2_is_auth['auth_download']) ? $lang['Rules_download_can'] : $lang['Rules_download_cannot'] ) . '<br />';
+    $s_auth_can .= (($is_auth['auth_download']) ? $lang['Rules_download_can'] : $lang['Rules_download_cannot'] ) . '<br />';
 }
 
 /**
@@ -149,10 +149,10 @@ function attach_build_auth_levels($phpbb2_is_auth, &$s_auth_can)
 */
 function attachment_quota_settings($admin_mode, $submit = false, $mode)
 {
-    global $phpbb2_template, $pnt_db, $HTTP_POST_VARS, $HTTP_GET_VARS, $lang, $lang, $phpbb2_root_path, $phpEx, $attach_config;
+    global $template, $db, $HTTP_POST_VARS, $HTTP_GET_VARS, $lang, $lang, $phpbb_root_path, $phpEx, $attach_config;
 
     // Make sure constants got included
-    include_once($phpbb2_root_path . 'attach_mod/includes/constants.'.$phpEx);
+    include_once($phpbb_root_path . 'attach_mod/includes/constants.'.$phpEx);
 
     if (!intval($attach_config['allow_ftp_upload']))
     {
@@ -162,7 +162,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
         }
         else
         {
-			$upload_dir = $phpbb2_root_path . $attach_config['upload_dir'];
+			$upload_dir = $phpbb_root_path . $attach_config['upload_dir'];
         }
     }
     else
@@ -170,10 +170,10 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
         $upload_dir = $attach_config['download_path'];
     }
 
-    include_once($phpbb2_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
-    include_once($phpbb2_root_path . 'attach_mod/includes/functions_admin.' . $phpEx);
+    include_once($phpbb_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
+    include_once($phpbb_root_path . 'attach_mod/includes/functions_admin.' . $phpEx);
 
-    $pnt_user_id = 0;
+    $user_id = 0;
 
     if ($admin_mode == 'user')
     {
@@ -182,17 +182,17 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 
         if (!$submit && $mode != 'save')
         {
-            $pnt_user_id = get_var(POST_USERS_URL, 0);
+            $user_id = get_var(POST_USERS_URL, 0);
             $u_name = get_var('username', '');
 
-            if (!$pnt_user_id && !$u_name)
+            if (!$user_id && !$u_name)
             {
                 message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
             }
 
-            if ($pnt_user_id)
+            if ($user_id)
             {
-                $this_userdata['user_id'] = $pnt_user_id;
+                $this_userdata['user_id'] = $user_id;
             }
             else
             {
@@ -200,13 +200,13 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
                 $this_userdata = get_userdata($HTTP_POST_VARS['username'], true);
             }
 
-            $pnt_user_id = (int) $this_userdata['user_id'];
+            $user_id = (int) $this_userdata['user_id'];
         }
         else
         {
-            $pnt_user_id = get_var('id', 0);
+            $user_id = get_var('id', 0);
 
-            if (!$pnt_user_id)
+            if (!$user_id)
             {
                 message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
             }
@@ -217,16 +217,16 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
     {
         // Show the contents
         $sql = 'SELECT quota_limit_id, quota_type FROM ' . QUOTA_TABLE . '
-            WHERE user_id = ' . (int) $pnt_user_id;
+            WHERE user_id = ' . (int) $user_id;
 
-        if( !($result = $pnt_db->sql_query($sql)) )
+        if( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to get Quota Settings', '', __LINE__, __FILE__, $sql);
         }
 
         $pm_quota = $upload_quota = 0;
 
-        if ($row = $pnt_db->sql_fetchrow($result))
+        if ($row = $db->sql_fetchrow($result))
         {
             do
             {
@@ -239,7 +239,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
                     $pm_quota = $row['quota_limit_id'];
                 }
             }
-            while ($row = $pnt_db->sql_fetchrow($result));
+            while ($row = $db->sql_fetchrow($result));
         }
         else
         {
@@ -247,9 +247,9 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
             $upload_quota = $attach_config['default_upload_quota'];
             $pm_quota = $attach_config['default_pm_quota'];
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'S_SELECT_UPLOAD_QUOTA'        => quota_limit_select('user_upload_quota', $upload_quota),
             'S_SELECT_PM_QUOTA'            => quota_limit_select('user_pm_quota', $pm_quota),
             'L_UPLOAD_QUOTA'            => $lang['Upload_quota'],
@@ -259,8 +259,8 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 
     if ($admin_mode == 'user' && $submit && $HTTP_POST_VARS['deleteuser'])
     {
-        process_quota_settings($admin_mode, $pnt_user_id, QUOTA_UPLOAD_LIMIT, 0);
-        process_quota_settings($admin_mode, $pnt_user_id, QUOTA_PM_LIMIT, 0);
+        process_quota_settings($admin_mode, $user_id, QUOTA_UPLOAD_LIMIT, 0);
+        process_quota_settings($admin_mode, $user_id, QUOTA_PM_LIMIT, 0);
     }
     else if ($admin_mode == 'user' && $submit && $mode == 'save')
     {
@@ -268,8 +268,8 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
         $upload_quota = get_var('user_upload_quota', 0);
         $pm_quota = get_var('user_pm_quota', 0);
 
-        process_quota_settings($admin_mode, $pnt_user_id, QUOTA_UPLOAD_LIMIT, $upload_quota);
-        process_quota_settings($admin_mode, $pnt_user_id, QUOTA_PM_LIMIT, $pm_quota);
+        process_quota_settings($admin_mode, $user_id, QUOTA_UPLOAD_LIMIT, $upload_quota);
+        process_quota_settings($admin_mode, $user_id, QUOTA_PM_LIMIT, $pm_quota);
     }
 
     if ($admin_mode == 'group' && $mode == 'newgroup')
@@ -286,14 +286,14 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
         $sql = 'SELECT quota_limit_id, quota_type FROM ' . QUOTA_TABLE . '
             WHERE group_id = ' . (int) $group_id;
 
-        if( !($result = $pnt_db->sql_query($sql)) )
+        if( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to get Quota Settings', '', __LINE__, __FILE__, $sql);
         }
 
         $pm_quota = $upload_quota = 0;
 
-        if ($row = $pnt_db->sql_fetchrow($result))
+        if ($row = $db->sql_fetchrow($result))
         {
             do
             {
@@ -306,7 +306,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
                     $pm_quota = $row['quota_limit_id'];
                 }
             }
-            while ($row = $pnt_db->sql_fetchrow($result));
+            while ($row = $db->sql_fetchrow($result));
         }
         else
         {
@@ -314,9 +314,9 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
             $upload_quota = $attach_config['default_upload_quota'];
             $pm_quota = $attach_config['default_pm_quota'];
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'S_SELECT_UPLOAD_QUOTA'    => quota_limit_select('group_upload_quota', $upload_quota),
             'S_SELECT_PM_QUOTA'        => quota_limit_select('group_pm_quota', $pm_quota),
             'L_UPLOAD_QUOTA'        => $lang['Upload_quota'],
@@ -350,21 +350,21 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 * Groups are able to be grabbed, but it's not used within the Attachment Mod. ;)
 * (includes/usercp_viewprofile.php)
 */
-function display_upload_attach_box_limits($pnt_user_id, $group_id = 0)
+function display_upload_attach_box_limits($user_id, $group_id = 0)
 {
-    global $attach_config, $phpbb2_board_config, $phpbb2_root_path, $lang, $pnt_db, $phpbb2_template, $phpEx, $userdata, $profiledata;
+    global $attach_config, $board_config, $phpbb_root_path, $lang, $db, $template, $phpEx, $userdata, $profiledata;
 
     if (intval($attach_config['disable_mod']))
     {
         return;
     }
 
-    if ($userdata['user_level'] != ADMIN && $userdata['user_id'] != $pnt_user_id)
+    if ($userdata['user_level'] != ADMIN && $userdata['user_id'] != $user_id)
     {
         return;
     }
 
-    if (!$pnt_user_id)
+    if (!$user_id)
     {
         return;
     }
@@ -372,13 +372,13 @@ function display_upload_attach_box_limits($pnt_user_id, $group_id = 0)
     // Return if the user is not within the to be listed Group
     if ($group_id)
     {
-        if (!user_in_group($pnt_user_id, $group_id))
+        if (!user_in_group($user_id, $group_id))
         {
             return;
         }
     }
 
-    $pnt_user_id = (int) $pnt_user_id;
+    $user_id = (int) $user_id;
     $group_id = (int) $group_id;
 
     $attachments = new attach_posting();
@@ -394,20 +394,20 @@ function display_upload_attach_box_limits($pnt_user_id, $group_id = 0)
                 AND q.quota_limit_id = l.quota_limit_id
             LIMIT 1';
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not get Group Quota', '', __LINE__, __FILE__, $sql);
         }
 
-        if ($pnt_db->sql_numrows($result) > 0)
+        if ($db->sql_numrows($result) > 0)
         {
-            $row = $pnt_db->sql_fetchrow($result);
+            $row = $db->sql_fetchrow($result);
             $attach_config['upload_filesize_limit'] = intval($row['quota_limit']);
-            $pnt_db->sql_freeresult($result);
+            $db->sql_freeresult($result);
         }
         else
         {
-            $pnt_db->sql_freeresult($result);
+            $db->sql_freeresult($result);
 
             // Set Default Quota Limit
             $quota_id = intval($attach_config['default_upload_quota']);
@@ -423,21 +423,21 @@ function display_upload_attach_box_limits($pnt_user_id, $group_id = 0)
                     WHERE quota_limit_id = ' . (int) $quota_id . '
                     LIMIT 1';
 
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Could not get Quota Limit', '', __LINE__, __FILE__, $sql);
                 }
 
-                if ($pnt_db->sql_numrows($result) > 0)
+                if ($db->sql_numrows($result) > 0)
                 {
-                    $row = $pnt_db->sql_fetchrow($result);
+                    $row = $db->sql_fetchrow($result);
                     $attach_config['upload_filesize_limit'] = $row['quota_limit'];
                 }
                 else
                 {
                     $attach_config['upload_filesize_limit'] = $attach_config['attachment_quota'];
                 }
-                $pnt_db->sql_freeresult($result);
+                $db->sql_freeresult($result);
             }
         }
     }
@@ -445,11 +445,11 @@ function display_upload_attach_box_limits($pnt_user_id, $group_id = 0)
     {
         if (is_array($profiledata))
         {
-            $attachments->get_quota_limits($profiledata, $pnt_user_id);
+            $attachments->get_quota_limits($profiledata, $user_id);
         }
         else
         {
-            $attachments->get_quota_limits($userdata, $pnt_user_id);
+            $attachments->get_quota_limits($userdata, $user_id);
         }
     }
 
@@ -464,7 +464,7 @@ function display_upload_attach_box_limits($pnt_user_id, $group_id = 0)
 
     if ($upload_filesize_limit == 0)
     {
-        $pnt_user_quota = $lang['Unlimited'];
+        $user_quota = $lang['Unlimited'];
     }
     else
     {
@@ -472,33 +472,33 @@ function display_upload_attach_box_limits($pnt_user_id, $group_id = 0)
 
         if ($upload_filesize_limit >= 1048576)
         {
-            $pnt_user_quota = (round($upload_filesize_limit / 1048576 * 100) / 100) . ' ' . $size_lang;
+            $user_quota = (round($upload_filesize_limit / 1048576 * 100) / 100) . ' ' . $size_lang;
         }
         else if ($upload_filesize_limit >= 1024)
         {
-            $pnt_user_quota = (round($upload_filesize_limit / 1024 * 100) / 100) . ' ' . $size_lang;
+            $user_quota = (round($upload_filesize_limit / 1024 * 100) / 100) . ' ' . $size_lang;
         }
         else
         {
-            $pnt_user_quota = ($upload_filesize_limit) . ' ' . $size_lang;
+            $user_quota = ($upload_filesize_limit) . ' ' . $size_lang;
         }
     }
 
     // Get all attach_id's the specific user posted, but only uploads to the board and not Private Messages
     $sql = 'SELECT attach_id
         FROM ' . ATTACHMENTS_TABLE . '
-        WHERE user_id_1 = ' . (int) $pnt_user_id . '
+        WHERE user_id_1 = ' . (int) $user_id . '
             AND privmsgs_id = 0
         GROUP BY attach_id';
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
     }
 
-    $attach_ids = $pnt_db->sql_fetchrowset($result);
-    $num_attach_ids = $pnt_db->sql_numrows($result);
-    $pnt_db->sql_freeresult($result);
+    $attach_ids = $db->sql_fetchrowset($result);
+    $num_attach_ids = $db->sql_numrows($result);
+    $db->sql_freeresult($result);
     $attach_id = array();
 
     for ($j = 0; $j < $num_attach_ids; $j++)
@@ -512,36 +512,36 @@ function display_upload_attach_box_limits($pnt_user_id, $group_id = 0)
 
     if ($upload_filesize >= 1048576)
     {
-        $pnt_user_uploaded = (round($upload_filesize / 1048576 * 100) / 100) . ' ' . $size_lang;
+        $user_uploaded = (round($upload_filesize / 1048576 * 100) / 100) . ' ' . $size_lang;
     }
     else if ($upload_filesize >= 1024)
     {
-        $pnt_user_uploaded = (round($upload_filesize / 1024 * 100) / 100) . ' ' . $size_lang;
+        $user_uploaded = (round($upload_filesize / 1024 * 100) / 100) . ' ' . $size_lang;
     }
     else
     {
-        $pnt_user_uploaded = ($upload_filesize) . ' ' . $size_lang;
+        $user_uploaded = ($upload_filesize) . ' ' . $size_lang;
     }
 
     $upload_limit_pct = ( $upload_filesize_limit > 0 ) ? round(( $upload_filesize / $upload_filesize_limit ) * 100) : 0;
-    $upload_limit_img_length = ( $upload_filesize_limit > 0 ) ? round(( $upload_filesize / $upload_filesize_limit ) * $phpbb2_board_config['privmsg_graphic_length']) : 0;
+    $upload_limit_img_length = ( $upload_filesize_limit > 0 ) ? round(( $upload_filesize / $upload_filesize_limit ) * $board_config['privmsg_graphic_length']) : 0;
     if ($upload_limit_pct > 100)
     {
-        $upload_limit_img_length = $phpbb2_board_config['privmsg_graphic_length'];
+        $upload_limit_img_length = $board_config['privmsg_graphic_length'];
     }
     $upload_limit_remain = ( $upload_filesize_limit > 0 ) ? $upload_filesize_limit - $upload_filesize : 100;
 
     $l_box_size_status = sprintf($lang['Upload_percent_profile'], $upload_limit_pct);
 
-    $phpbb2_template->assign_block_vars('switch_upload_limits', array());
+    $template->assign_block_vars('switch_upload_limits', array());
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_UACP'            => $lang['UACP'],
         'L_UPLOAD_QUOTA'    => $lang['Upload_quota'],
-        //'U_UACP'            => $phpbb2_root_path . 'uacp.' . $phpEx . '?u=' . $pnt_user_id . '&amp;sid=' . $userdata['session_id'],
-        'U_UACP' => append_titanium_sid('uacp.' . $phpEx . '?u=' . $pnt_user_id . '&amp;sid=' . $userdata['session_id']),
-        'UPLOADED'            => sprintf($lang['User_uploaded_profile'], $pnt_user_uploaded),
-        'QUOTA'                => sprintf($lang['User_quota_profile'], $pnt_user_quota),
+        //'U_UACP'            => $phpbb_root_path . 'uacp.' . $phpEx . '?u=' . $user_id . '&amp;sid=' . $userdata['session_id'],
+        'U_UACP' => append_sid('uacp.' . $phpEx . '?u=' . $user_id . '&amp;sid=' . $userdata['session_id']),
+        'UPLOADED'            => sprintf($lang['User_uploaded_profile'], $user_uploaded),
+        'QUOTA'                => sprintf($lang['User_quota_profile'], $user_quota),
         'UPLOAD_LIMIT_IMG_WIDTH'    => $upload_limit_img_length,
         'UPLOAD_LIMIT_PERCENT'        => $upload_limit_pct,
         'PERCENT_FULL'                => $l_box_size_status)

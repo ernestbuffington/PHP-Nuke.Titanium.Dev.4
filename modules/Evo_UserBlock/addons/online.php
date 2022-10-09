@@ -23,7 +23,7 @@ global $evouserinfo_addons, $evouserinfo_online;
 
 function evouserinfo_get_members_online() 
 {
-    global $pnt_prefix, $pnt_db, $lang_evo_userblock, $evouserinfo_addons, $pnt_user_prefix, $userinfo, $phpbb2_board_config, $Default_Theme;
+    global $prefix, $db, $lang_evo_userblock, $evouserinfo_addons, $user_prefix, $userinfo, $board_config, $Default_Theme;
 
     $sql = "SELECT w.uname, 
 	              w.module, 
@@ -42,9 +42,9 @@ function evouserinfo_get_members_online()
 		  u.user_viewemail, 
 		    u.user_regdate, 
 			  u.user_posts, 
-			       u.theme FROM ".$pnt_prefix."_session 
+			       u.theme FROM ".$prefix."_session 
 				   
-				   AS w LEFT JOIN ".$pnt_user_prefix."_users AS u 
+				   AS w LEFT JOIN ".$user_prefix."_users AS u 
 				   ON u.username = w.uname 
 				   WHERE w.guest = '0' 
 				   OR w.guest = '2' 
@@ -53,44 +53,44 @@ function evouserinfo_get_members_online()
 				   
 				   DESC, u.user_rank DESC, u.username";
     
-	$result = $pnt_db->sql_query($sql);
+	$result = $db->sql_query($sql);
     $i = 1;
     $hidden = 0;
     $out = array();
     $out['text'] = '';
     
-	while ($session = $pnt_db->sql_fetchrow($result)) 
+	while ($session = $db->sql_fetchrow($result)) 
     {                                   # spacer
         $num 			= ($i < 10) ? ''.'0'.$i : $i;
 		$uname 			= $session['uname'];
         $uname_color 	= UsernameColor($session['uname']);
         $level 			= $session['user_level'];
-        $pnt_module 		= $session['module'];
+        $module 		= $session['module'];
         $url 			= $session['url'];
         $url 			= str_replace("&", "&amp;", $url);
-        $where 			= '&nbsp;&nbsp;<a href="'.$url.'" alt="'.$pnt_module.'" title="'.$pnt_module.'">'.$num.'</a>.&nbsp;';
+        $where 			= '&nbsp;&nbsp;<a href="'.$url.'" alt="'.$module.'" title="'.$module.'">'.$num.'</a>.&nbsp;';
         $where 			= (is_admin()) ? $where : $num.'.&nbsp;';
-        $pnt_user_from 		= $session['user_from'];
-        $pnt_user_flag 		= str_replace('.png','',$session['user_from_flag']);
+        $user_from 		= $session['user_from'];
+        $user_flag 		= str_replace('.png','',$session['user_from_flag']);
         
 		if ($evouserinfo_addons['online_country_flag'] == 'yes'):
-        $pnt_user_flag = (($session['user_from_flag']) ? '<span class="countries '.$pnt_user_flag.'" title="'.$pnt_user_from.'"></span>&nbsp;' : '');
+        $user_flag = (($session['user_from_flag']) ? '<span class="countries '.$user_flag.'" title="'.$user_from.'"></span>&nbsp;' : '');
         else:
-        $pnt_user_flag = '';
+        $user_flag = '';
         endif;
 
         switch( $session['user_avatar_type'] ):
         
             case USER_AVATAR_UPLOAD:
-            $phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_upload'] ) 
-			? '<img src="'.$phpbb2_board_config['avatar_path'].'/'.$session['user_avatar'].'" alt="" border="0" />' : '';
+            $poster_avatar = ( $board_config['allow_avatar_upload'] ) 
+			? '<img src="'.$board_config['avatar_path'].'/'.$session['user_avatar'].'" alt="" border="0" />' : '';
             break;
             case USER_AVATAR_REMOTE:
-            $phpbb2_poster_avatar = '<img src="'.$session['user_avatar'].'" style="width: '.$phpbb2_board_config['avatar_max_width'].'; height: '.$phpbb2_board_config['avatar_max_height'].';" alt="" border="0" />';
+            $poster_avatar = '<img src="'.$session['user_avatar'].'" style="width: '.$board_config['avatar_max_width'].'; height: '.$board_config['avatar_max_height'].';" alt="" border="0" />';
             break;
             case USER_AVATAR_GALLERY:
-            $phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_local'] ) 
-			? '<img src="'.$phpbb2_board_config['avatar_gallery_path'].'/'.$session['user_avatar'].'" alt="" border="0" />' : '';
+            $poster_avatar = ( $board_config['allow_avatar_local'] ) 
+			? '<img src="'.$board_config['avatar_gallery_path'].'/'.$session['user_avatar'].'" alt="" border="0" />' : '';
             break;
         
         endswitch;
@@ -146,22 +146,22 @@ function evouserinfo_get_members_online()
 	    	$tooltip_userinfo = ' title="'.$lang_evo_userblock['BLOCK']['ONLINE']['VIEW'].'&nbsp;'.$uname.'\'s '.$lang_evo_userblock['BLOCK']['ONLINE']['PROFILE'].'"';
 	    endif;
 
-        if ($session['user_allow_viewonline']):
+  if ($session['user_allow_viewonline']):
         
             if ($level == 2):
             $admin_user_level_image = 
 			( $evouserinfo_addons['online_user_level_image'] == 'yes' ) 
 			? '&nbsp;<img style="width: 32px; height: 8px" src="images/evo_userinfo/admin.gif" alt="">' : '';
-            $out['text'] .= $where.$pnt_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
+            $out['text'] .= $where.$user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
 			'.$session['user_id'].'"'.$tooltip_userinfo.'>'.$uname_color.'</a>'.$admin_user_level_image.'<br />';
             elseif ($level == 3):
             $staff_user_level_image = 
 			( $evouserinfo_addons['online_user_level_image'] == 'yes' ) 
 			? '&nbsp;<img style="width: 32px; height: 8px" src="images/evo_userinfo/staff.gif" alt="">' : '';
-            $out['text'] .= $where.$pnt_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
+            $out['text'] .= $where.$user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
 			'.$session['user_id'].'"'.$tooltip_userinfo.'>'.$uname_color.'</a>'.$staff_user_level_image.'<br />';
             else:
-            $out['text'] .= $where.$pnt_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$session['user_id'].'"'.$tooltip_userinfo.'>'.$uname_color.'</a><br />';
+            $out['text'] .= $where.$user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$session['user_id'].'"'.$tooltip_userinfo.'>'.$uname_color.'</a><br />';
             endif;
         
             elseif (is_admin() || $userinfo['user_id'] == $session['user_id']):
@@ -170,16 +170,16 @@ function evouserinfo_get_members_online()
             $admin_user_level_image = 
 			( $evouserinfo_addons['online_user_level_image'] == 'yes' ) 
 			? '&nbsp;<img style="width: 32px; height: 8px" src="images/evo_userinfo/admin.gif" alt="">' : '';
-            $out['text'] .= $where.$pnt_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
+            $out['text'] .= $where.$user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
 			'.$session['user_id'].'"'.$tooltip_userinfo.'><i>'.$uname_color.'</i></a>'.$admin_user_level_image.'<br />';
             elseif ($level == 3):
             $staff_user_level_image = 
 			( $evouserinfo_addons['online_user_level_image'] == 'yes' ) 
 			? '&nbsp;<img style="width: 32px; height: 8px" src="images/evo_userinfo/staff.gif" alt="">' : '';
-            $out['text'] .= $where.$pnt_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
+            $out['text'] .= $where.$user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u=
 			'.$session['user_id'].'"'.$tooltip_userinfo.'><i>'.$uname_color.'</i></a>'.$staff_user_level_image.'<br />';
             else:
-            $out['text'] .= $where.$pnt_user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$session['user_id'].'"'.$tooltip_userinfo.'><i>'.$uname_color.'</i></a><br />';
+            $out['text'] .= $where.$user_flag.'<a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$session['user_id'].'"'.$tooltip_userinfo.'><i>'.$uname_color.'</i></a><br />';
             endif;
             $hidden++;
 
@@ -192,37 +192,37 @@ function evouserinfo_get_members_online()
     $out['hidden'] = $hidden;
     $out['total'] = $i;
     $out['visible'] = $i-$hidden;
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
     return $out;
 }
 
-function evouserinfo_get_guests_online($phpbb2_start) 
+function evouserinfo_get_guests_online($start) 
 {
-    global $pnt_prefix, $pnt_db, $lang_evo_userblock, $identify;
-    $result = $pnt_db->sql_query("SELECT uname, url, module, host_addr FROM ".$pnt_prefix."_session WHERE guest='1' OR guest='3'");
-    $out['total'] = $pnt_db->sql_numrows($result);
+    global $prefix, $db, $lang_evo_userblock, $identify;
+    $result = $db->sql_query("SELECT uname, url, module, host_addr FROM ".$prefix."_session WHERE guest='1' OR guest='3'");
+    $out['total'] = $db->sql_numrows($result);
     $out['text'] = '';
-    $i = $phpbb2_start;
-    while ($session = $pnt_db->sql_fetchrow($result)):
+    $i = $start;
+    while ($session = $db->sql_fetchrow($result)):
 
         $num = ($i < 10) ? '0'.$i : $i;
         
-        $pnt_module = $session['module'];
+        $module = $session['module'];
         $url = $session['url'];
         $url = str_replace("&", "&amp;", $url);
-           //$where = '<a data-user-country="'.$session['host_addr'].'" href="'.$url.'" alt="'.$pnt_module.'" title="'.$pnt_module.'">'.$num.'</a>.&nbsp;';
+           //$where = '<a data-user-country="'.$session['host_addr'].'" href="'.$url.'" alt="'.$module.'" title="'.$module.'">'.$num.'</a>.&nbsp;';
            //$where = (is_admin()) ? $where : $num.'.&nbsp;';
         
-		$where 			= '&nbsp;&nbsp;<a class="tooltip-html-side-interact tooltipstered" href="'.$url.'" alt="'.$pnt_module.'" title="'.$url.'">'.$num.'.&nbsp;';
+		$where 			= '&nbsp;&nbsp;<a class="tooltip-html-side-interact tooltipstered" href="'.$url.'" alt="'.$module.'" title="'.$url.'">'.$num.'.&nbsp;';
         $where 			= (is_admin()) ? $where : '&nbsp;&nbsp;'.$num.'.&nbsp;';
         
 		if(!is_admin()):
             $out['text'] .= $where.$lang_evo_userblock['BLOCK']['ONLINE']['GUEST']."</a><br />\n";
         else:
         
-            $pnt_user_agent = $identify->identify_agent();
-            if($pnt_user_agent['engine'] == 'bot'):
-                $out['text'] .= $where.$pnt_user_agent['ua']."</a><br />\n";
+            $user_agent = $identify->identify_agent();
+            if($user_agent['engine'] == 'bot'):
+                $out['text'] .= $where.$user_agent['ua']."</a><br />\n";
             else:
                 // $out['text'] .= "<br />".$where.$session['uname']."\n";
                 $out['text'] .= $where.$session['uname']."</a><br />\n";
@@ -232,7 +232,7 @@ function evouserinfo_get_guests_online($phpbb2_start)
         $i++;
     
     endwhile;
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
     return $out;
 }
 

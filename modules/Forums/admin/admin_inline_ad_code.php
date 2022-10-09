@@ -18,12 +18,12 @@
 *
 ***************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
   $filename = basename(__FILE__);
-  $pnt_module['ad_managment']['ad_code'] = $filename;
+  $module['ad_managment']['ad_code'] = $filename;
 
   return;
 }
@@ -31,8 +31,8 @@ if( !empty($setmodules) )
 //
 // Load default header
 //
-$phpbb2_root_path = './../';
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 if ( isset($HTTP_POST_VARS['submit']))
 {
@@ -42,7 +42,7 @@ if ( isset($HTTP_POST_VARS['submit']))
         ad_name = '" . str_replace("\'", "''", htmlspecialchars($HTTP_POST_VARS['ad_name'])) . "',
         ad_code = '" . str_replace("\'", "''", $HTTP_POST_VARS['ad_code']) . "'
         WHERE ad_id = " . intval($HTTP_POST_VARS['ad_id']);
-    if( !$pnt_db->sql_query($sql) )
+    if( !$db->sql_query($sql) )
     {
       message_die(GENERAL_ERROR, "Failed to update first post ad settings", "", __LINE__, __FILE__, $sql);
     }
@@ -52,12 +52,12 @@ if ( isset($HTTP_POST_VARS['submit']))
     $sql = "INSERT INTO " . ADS_TABLE . "
         (ad_name, ad_code)
         VALUES ('" . str_replace("\'", "''", $HTTP_POST_VARS['ad_name']) . "','" . str_replace("\'", "''", $HTTP_POST_VARS['ad_code']) . "')";
-    if( !$pnt_db->sql_query($sql) )
+    if( !$db->sql_query($sql) )
     {
       message_die(GENERAL_ERROR, "Failed to update first post ad settings", "", __LINE__, __FILE__, $sql);
     }
   }
-  $message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_inline_code'], "<a href=\"" . append_titanium_sid("admin_inline_ad_code.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+  $message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_inline_code'], "<a href=\"" . append_sid("admin_inline_ad_code.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
     message_die(GENERAL_MESSAGE, $message);
 }
@@ -66,20 +66,20 @@ if ($HTTP_GET_VARS['action'] == "edit")
   $sql = "SELECT *
       FROM " . ADS_TABLE . " a
       WHERE a.ad_id = " . intval($HTTP_GET_VARS['id']);
-  if ( !($result = $pnt_db->sql_query($sql)) )
+  if ( !($result = $db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not query ad information', '', __LINE__, __FILE__, $sql);
   }
   $adRow = array();
-  while( $row = $pnt_db->sql_fetchrow($result) )
+  while( $row = $db->sql_fetchrow($result) )
   {
     $adRow = $row;
   }
-  $pnt_db->sql_freeresult($result);
-  $phpbb2_template->set_filenames(array(
+  $db->sql_freeresult($result);
+  $template->set_filenames(array(
   "body" => "admin/inline_ad_code_edit.tpl")
   );
-  $phpbb2_template->assign_vars(array(
+  $template->assign_vars(array(
   "L_CONFIGURATION_TITLE" => $lang['ad_managment'],
   "L_SUBMIT" => $lang['Submit'],
   "L_RESET" => $lang['Reset'],
@@ -88,29 +88,29 @@ if ($HTTP_GET_VARS['action'] == "edit")
   "AD_CODE" => $adRow['ad_code'],
   "AD_NAME" => $adRow['ad_name'],
   "S_HIDDEN_FIELDS" => '<input type="hidden" name="action" value="edit" /><input type="hidden" name="ad_id" value="' . $adRow['ad_id'] . '" />',
-  "S_ACTION" => append_titanium_sid("admin_inline_ad_code.$phpEx"))
+  "S_ACTION" => append_sid("admin_inline_ad_code.$phpEx"))
   );
-  $phpbb2_template->pparse("body");
+  $template->pparse("body");
 }
 elseif ($HTTP_GET_VARS['action'] == "delete")
 {
   $sql = "DELETE
       FROM " . ADS_TABLE . "
       WHERE ad_id = " . intval($HTTP_GET_VARS['id']);
-  if ( !($result = $pnt_db->sql_query($sql)) )
+  if ( !($result = $db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not query ad information', '', __LINE__, __FILE__, $sql);
   }
-  $message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_inline_code'], "<a href=\"" . append_titanium_sid("admin_inline_ad_code.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+  $message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_inline_code'], "<a href=\"" . append_sid("admin_inline_ad_code.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
     message_die(GENERAL_MESSAGE, $message);
 }
 elseif ($HTTP_GET_VARS['action'] == "add")
 {
-  $phpbb2_template->set_filenames(array(
+  $template->set_filenames(array(
   "body" => "admin/inline_ad_code_edit.tpl")
   );
-  $phpbb2_template->assign_vars(array(
+  $template->assign_vars(array(
   "L_CONFIGURATION_TITLE" => $lang['ad_managment'],
   "L_SUBMIT" => $lang['Submit'],
   "L_RESET" => $lang['Reset'],
@@ -119,49 +119,49 @@ elseif ($HTTP_GET_VARS['action'] == "add")
   "AD_CODE" => '',
   "AD_NAME" => '',
   "S_HIDDEN_FIELDS" => '',
-  "S_ACTION" => append_titanium_sid("admin_inline_ad_code.$phpEx"))
+  "S_ACTION" => append_sid("admin_inline_ad_code.$phpEx"))
   );
-  $phpbb2_template->pparse("body");
+  $template->pparse("body");
 }
 else
 {
   $sql = "SELECT a.ad_name, a.ad_id
       FROM " . ADS_TABLE . " a";
-  if ( !($result = $pnt_db->sql_query($sql)) )
+  if ( !($result = $db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not query ad information', '', __LINE__, __FILE__, $sql);
   }
   $adRow = array();
-  while( $row = $pnt_db->sql_fetchrow($result) )
+  while( $row = $db->sql_fetchrow($result) )
   {
     $adRow[] = $row;
   }
-  $ad_count = $pnt_db->sql_numrows($result);
-  $pnt_db->sql_freeresult($result);
+  $ad_count = $db->sql_numrows($result);
+  $db->sql_freeresult($result);
 
-  $phpbb2_template->set_filenames(array(
+  $template->set_filenames(array(
   "body" => "admin/inline_ad_code_body.tpl")
   );
-  $phpbb2_template->assign_vars(array(
+  $template->assign_vars(array(
   "L_CONFIGURATION_TITLE" => $lang['inline_ads'],
   "L_CONFIGURATION_EXPLAIN" => $lang['ad_code_about'],
   "L_EDIT" => $lang['Edit'],
   "L_DELETE" => $lang['Delete'],
   "L_ADD" => $lang['ad_add'],
-  "S_ADD_ACTION" => append_titanium_sid("admin_inline_ad_code.$phpEx?action=add"))
+  "S_ADD_ACTION" => append_sid("admin_inline_ad_code.$phpEx?action=add"))
   );
 
   //$inline_ad_code = $adRow[$adindex]['ad_code'];
   for($i = 0; $i < $ad_count; $i++)
   {
     $ad_id = $adRow[$i]['ad_id'];
-    $phpbb2_template->assign_block_vars('ad_row',array( 'AD_NAME' => $adRow[$i]['ad_name'],
-    'S_AD_EDIT' => append_titanium_sid("admin_inline_ad_code.$phpEx?action=edit&id=$ad_id"),
-    'S_AD_DELETE' => append_titanium_sid("admin_inline_ad_code.$phpEx?action=delete&id=$ad_id")
+    $template->assign_block_vars('ad_row',array( 'AD_NAME' => $adRow[$i]['ad_name'],
+    'S_AD_EDIT' => append_sid("admin_inline_ad_code.$phpEx?action=edit&id=$ad_id"),
+    'S_AD_DELETE' => append_sid("admin_inline_ad_code.$phpEx?action=delete&id=$ad_id")
     )
     );
   }
-  $phpbb2_template->pparse("body");
+  $template->pparse("body");
 }
 include('./page_footer_admin.'.$phpEx);
 

@@ -183,9 +183,9 @@ class Template {
 	 */
 	function load_config($root, $edit_db)
 	{
-		global $phpbb2_board_config, $phpbb2_root_path, $phpEx;
+		global $board_config, $phpbb_root_path, $phpEx;
 		// getting mod version from config and comparing with real data
-		$ver = isset($phpbb2_board_config['xs_version']) ? $phpbb2_board_config['xs_version'] : 0;
+		$ver = isset($board_config['xs_version']) ? $board_config['xs_version'] : 0;
 		// check configuration
 		// set config values if there aren't any
 		$add = array();
@@ -220,36 +220,36 @@ class Template {
 		// checking if all variables exist
 		foreach($default as $var => $value)
 		{
-			if(!isset($phpbb2_board_config[$var]))
+			if(!isset($board_config[$var]))
 			{
-				$phpbb2_board_config[$var] = $value;
+				$board_config[$var] = $value;
 				$add[] = $var;
 			}
 		}
 		// checking if there are any outdated variables that should be deleted
 		for($i=0; $i<count($outdated); $i++)
 		{
-			if(isset($phpbb2_board_config[$outdated[$i]]))
+			if(isset($board_config[$outdated[$i]]))
 			{
 				$del[] = $outdated[$i];
 			}
 		}
-		if(!isset($phpbb2_board_config['xs_version']))
+		if(!isset($board_config['xs_version']))
 		{
-			$phpbb2_board_config['xs_version'] = $this->xs_version;
+			$board_config['xs_version'] = $this->xs_version;
 			$add[] = 'xs_version';
 		}
-		elseif($phpbb2_board_config['xs_version'] != $this->xs_version)
+		elseif($board_config['xs_version'] != $this->xs_version)
 		{
-			$phpbb2_board_config['xs_version'] = $this->xs_version;
+			$board_config['xs_version'] = $this->xs_version;
 			$up[] = 'xs_version';
 		}
 		// check config
-		if(!empty($phpbb2_board_config['xs_auto_recompile']))
+		if(!empty($board_config['xs_auto_recompile']))
 		{
-			if(!$phpbb2_board_config['xs_auto_compile'])
+			if(!$board_config['xs_auto_compile'])
 			{
-				$phpbb2_board_config['xs_auto_compile'] = 1;
+				$board_config['xs_auto_compile'] = 1;
 				if(!in_array('xs_auto_compile', $up) && !in_array('xs_auto_compile', $add))
 				{
 					$up[] = 'xs_auto_compile';
@@ -259,47 +259,47 @@ class Template {
 		// install/upgrade
 		if($edit_db && ((count($add) > 0) || (count($up) > 0) || (count($del) > 0)))
 		{
-			$phpbb2_board_config['xs_template_time'] = time();
+			$board_config['xs_template_time'] = time();
 			if(!in_array('xs_template_time', $up))
 			{
 				$up[] = 'xs_template_time';
 			}
-			global $pnt_db;
-			if(!empty($pnt_db))
+			global $db;
+			if(!empty($db))
 			{
 				// adding new config values
 				for($i=0; $i<count($add); $i++)
 				{
-					if (!$pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM " . CONFIG_TABLE . " WHERE config_name='" . $add[$i] . "'"))) {
-						$sql = "INSERT INTO " . CONFIG_TABLE . " (config_name, config_value) VALUES ('" . $add[$i] . "', '" . str_replace('\\\'', '\'\'', addslashes($phpbb2_board_config[$add[$i]])) . "')";
-						$pnt_db->sql_query($sql);
+					if (!$db->sql_numrows($db->sql_query("SELECT * FROM " . CONFIG_TABLE . " WHERE config_name='" . $add[$i] . "'"))) {
+						$sql = "INSERT INTO " . CONFIG_TABLE . " (config_name, config_value) VALUES ('" . $add[$i] . "', '" . str_replace('\\\'', '\'\'', addslashes($board_config[$add[$i]])) . "')";
+						$db->sql_query($sql);
 					}
 				}
 				// removing old configuration variables that aren't used
 				for($i=0; $i<count($del); $i++)
 				{
 					$sql = "DELETE FROM " . CONFIG_TABLE . " WHERE config_name='" . $del[$i] . "'";
-					$pnt_db->sql_query($sql);
+					$db->sql_query($sql);
 				}
 				// updating variables that should be overwritten
 				for($i=0; $i<count($up); $i++)
 				{
-					$sql = "UPDATE " . CONFIG_TABLE . " SET config_value='" . str_replace('\\\'', '\'\'', addslashes($phpbb2_board_config[$up[$i]])) . "' WHERE config_name='" . $up[$i] . "'";
-					$pnt_db->sql_query($sql);
+					$sql = "UPDATE " . CONFIG_TABLE . " SET config_value='" . str_replace('\\\'', '\'\'', addslashes($board_config[$up[$i]])) . "' WHERE config_name='" . $up[$i] . "'";
+					$db->sql_query($sql);
 				}
 				// recache config table for cat_hierarchy 2.1.0
 				global $config;
-				if(isset($config->data) && $config->data === $phpbb2_board_config && isset($config->data['mod_cat_hierarchy']))
+				if(isset($config->data) && $config->data === $board_config && isset($config->data['mod_cat_hierarchy']))
 				{
 					$config->read(true);
 				}
 			}
 		}
-		$this->php = $phpbb2_board_config['xs_php'];
-		$this->tpldef = $phpbb2_board_config['xs_def_template'];
-		$this->use_cache = $phpbb2_board_config['xs_use_cache'];
-		$this->auto_compile = $phpbb2_board_config['xs_auto_compile'];
-		$this->xs_check_switches = $phpbb2_board_config['xs_check_switches'];
+		$this->php = $board_config['xs_php'];
+		$this->tpldef = $board_config['xs_def_template'];
+		$this->use_cache = $board_config['xs_use_cache'];
+		$this->auto_compile = $board_config['xs_auto_compile'];
+		$this->xs_check_switches = $board_config['xs_check_switches'];
 		$this->cache_search = array('.', '\\', '/', '_tpl');
 		$this->cache_replace = array('_', XS_SEPARATOR, XS_SEPARATOR, '.'.$this->php);
 		$old_root = $this->root;
@@ -319,16 +319,16 @@ class Template {
 	 */
 	function set_rootdir($dir)
 	{
-		global $phpbb2_board_config, $phpbb2_root_path;
+		global $board_config, $phpbb_root_path;
 		if (!@is_dir($dir))
 		{
 			return false;
 		}
 		$dir = str_replace('\\', '/', $dir);
 		// creating absolute path for cache
-		$this->cachedir = $phpbb2_root_path . XS_DIR_CACHE . '/';
+		$this->cachedir = $phpbb_root_path . XS_DIR_CACHE . '/';
 		// creating absolute path for current template and root dir
-		$this->tpldir = $phpbb2_root_path . 'templates/';
+		$this->tpldir = $phpbb_root_path . 'templates/';
 		$this->tpldir_len = strlen($this->tpldir);
 		$this->root = $dir;
 		$this->tpl = $this->template_name($dir);
@@ -422,7 +422,7 @@ class Template {
 
 	function subtemplates_make_filename($filename)
 	{
-		global $HTTP_GET_VARS, $HTTP_POST_VARS, $pnt_db, $phpbb2_board_config, $images, $theme;
+		global $HTTP_GET_VARS, $HTTP_POST_VARS, $db, $board_config, $images, $theme;
 		global $sub_template_key_image, $sub_templates;
 		global $tree;
 
@@ -430,7 +430,7 @@ class Template {
 		$sub_template_key_image = POST_CAT_URL . '0';
 
 		// Check if sub_templates are defined for this theme
-		if ( $phpbb2_board_config['version'] > '.0.5' )
+		if ( $board_config['version'] > '.0.5' )
 		{
 			$sub_templates_cfg = @phpbb_realpath($this->root . '/sub_templates.cfg');
 		}
@@ -443,7 +443,7 @@ class Template {
 		{
 			// search an id
 			$cat_id = 0;
-			$phpbb2_forum_id = 0;
+			$forum_id = 0;
 			$topic_id = 0;
 			$post_id = 0;
 
@@ -459,7 +459,7 @@ class Template {
 
 			if ( isset($HTTP_GET_VARS[POST_FORUM_URL]) || isset($HTTP_POST_VARS[POST_FORUM_URL]) )
 			{
-				$phpbb2_forum_id = isset($HTTP_GET_VARS[POST_FORUM_URL]) ? intval($HTTP_GET_VARS[POST_FORUM_URL]) : intval($HTTP_POST_VARS[POST_FORUM_URL]);
+				$forum_id = isset($HTTP_GET_VARS[POST_FORUM_URL]) ? intval($HTTP_GET_VARS[POST_FORUM_URL]) : intval($HTTP_POST_VARS[POST_FORUM_URL]);
 			}
 
 			if ( isset($HTTP_GET_VARS[POST_CAT_URL]) || isset($HTTP_POST_VARS[POST_CAT_URL]) )
@@ -478,7 +478,7 @@ class Template {
 						$cat_id = $id;
 						break;
 					case POST_FORUM_URL:
-						$phpbb2_forum_id = $id;
+						$forum_id = $id;
 						break;
 					case POST_TOPIC_URL:
 						$topic_id = $id;
@@ -495,31 +495,31 @@ class Template {
 			}
 
 			// find the forum
-			if ( ($phpbb2_forum_id <= 0) && ($cat_id <= 0) )
+			if ( ($forum_id <= 0) && ($cat_id <= 0) )
 			{
 				if ($post_id > 0)
 				{
 					$sql = "SELECT * FROM " . POSTS_TABLE . " WHERE post_id=$post_id";			
-					if ( !($result = $pnt_db->sql_query($sql)) )
+					if ( !($result = $db->sql_query($sql)) )
 					{
 						message_die(GENERAL_ERROR, 'Wasn\'t able to access posts', '', __LINE__, __FILE__, $sql);
 					}
-					if ( $row = $pnt_db->sql_fetchrow($result) )
+					if ( $row = $db->sql_fetchrow($result) )
 					{
-						$phpbb2_forum_id = $row['forum_id'];
+						$forum_id = $row['forum_id'];
 					}
 				}
 
 				if ($topic_id > 0)
 				{
 					$sql = "SELECT * FROM " . TOPICS_TABLE . " WHERE topic_id=$topic_id";			
-					if ( !($result = $pnt_db->sql_query($sql)) )
+					if ( !($result = $db->sql_query($sql)) )
 					{
 						message_die(GENERAL_ERROR, 'Wasn\'t able to access topics', '', __LINE__, __FILE__, $sql);
 					}
-					if ( $row = $pnt_db->sql_fetchrow($result) )
+					if ( $row = $db->sql_fetchrow($result) )
 					{
-						$phpbb2_forum_id = $row['forum_id'];
+						$forum_id = $row['forum_id'];
 					}
 				}
 			}
@@ -531,18 +531,18 @@ class Template {
 			$fids = array();
 			if (!$cat_hierarchy)
 			{
-				if ($phpbb2_forum_id > 0)
+				if ($forum_id > 0)
 				{
 					// add the forum_id
-					$fids[] = POST_FORUM_URL . $phpbb2_forum_id;
+					$fids[] = POST_FORUM_URL . $forum_id;
 
 					// get the cat_id
-					$sql = "SELECT * FROM " . FORUMS_TABLE . " WHERE forum_id=$phpbb2_forum_id";
-					if ( !($result = $pnt_db->sql_query($sql)) )
+					$sql = "SELECT * FROM " . FORUMS_TABLE . " WHERE forum_id=$forum_id";
+					if ( !($result = $db->sql_query($sql)) )
 					{
 						message_die(GENERAL_ERROR, 'Wasn\'t able to access forums', '', __LINE__, __FILE__, $sql);
 					}
-					if ( $row = $pnt_db->sql_fetchrow($result) )
+					if ( $row = $db->sql_fetchrow($result) )
 					{
 						$cat_id = $row['cat_id'];
 					}
@@ -561,9 +561,9 @@ class Template {
 			{
 				// categories hierarchy v 2 compliancy
 				$cur = 'Root';
-				if ($phpbb2_forum_id > 0)
+				if ($forum_id > 0)
 				{
-					$cur = POST_FORUM_URL . $phpbb2_forum_id;
+					$cur = POST_FORUM_URL . $forum_id;
 				}
 				else if ($cat_id > 0)
 				{
@@ -590,10 +590,10 @@ class Template {
 			$sub_css_file = '';
 			$sub_img_file = '';
 			$sub_img_path = '';
-			$phpbb2_template_path = 'templates/';
-			$phpbb2_template_name = substr( $this->root, strpos($this->root, $phpbb2_template_path) + strlen($phpbb2_template_path) );
+			$template_path = 'templates/';
+			$template_name = substr( $this->root, strpos($this->root, $template_path) + strlen($template_path) );
 			$real_root = $this->root;
-			if ( $phpbb2_board_config['version'] > '.0.5' )
+			if ( $board_config['version'] > '.0.5' )
 			{
 				$real_root = @phpbb_realpath($this->root);
 			}
@@ -614,7 +614,7 @@ class Template {
 					if ( isset($sub_templates[$key]) )
 					{
 						// get the sub-template path
-						$current_template_path = $phpbb2_template_path . $phpbb2_template_name . '/' . $sub_templates[$key]['dir'];
+						$current_template_path = $template_path . $template_name . '/' . $sub_templates[$key]['dir'];
 						$root_template_path = $real_root . '/' . $sub_templates[$key]['dir'];
 
 						// set the filename
@@ -643,7 +643,7 @@ class Template {
 					if ( isset($sub_templates[$key]) )
 					{
 						// get the sub-template path
-						$current_template_path = $phpbb2_template_path . $phpbb2_template_name . '/' . $sub_templates[$key]['dir'];
+						$current_template_path = $template_path . $template_name . '/' . $sub_templates[$key]['dir'];
 						$root_template_path = $real_root . '/' . $sub_templates[$key]['dir'];
 						if ( empty($sub_css_file) && isset($sub_templates[$key]['head_stylesheet']) && file_exists($root_template_path . '/' . $sub_templates[$key]['head_stylesheet']) )
 						{
@@ -670,7 +670,7 @@ class Template {
 					if ( isset($sub_templates[$key]) )
 					{
 						// get the sub-template path
-						$current_template_path = $phpbb2_template_path . $phpbb2_template_name . '/' . $sub_templates[$key]['dir'];
+						$current_template_path = $template_path . $template_name . '/' . $sub_templates[$key]['dir'];
 						$root_template_path = $real_root . '/' . $sub_templates[$key]['dir'];
 						if ( isset($sub_templates[$key]['imagefile']) && file_exists($root_template_path . '/' . $sub_templates[$key]['imagefile']) )
 						{
@@ -703,14 +703,14 @@ class Template {
 			if ( isset($sub_templates[$key]) )
 			{
 				// get the sub-template path
-				$current_template_path = $phpbb2_template_path . $phpbb2_template_name . '/' . $sub_templates[$key]['dir'];
+				$current_template_path = $template_path . $template_name . '/' . $sub_templates[$key]['dir'];
 				$root_template_path = $real_root . '/' . $sub_templates[$key]['dir'];
 				if ( isset($sub_templates[$key]['imagefile']) && file_exists($root_template_path . '/' . $sub_templates[$key]['imagefile']) )
 				{
 					$sav_images = $images;
 					$images = array();
 					@include($root_template_path . '/' . $sub_templates[$key]['imagefile']);
-					$img_lang = ( file_exists($root_template_path . '/images/lang_' . $phpbb2_board_config['default_lang']) ) ? $phpbb2_board_config['default_lang'] : 'english';
+					$img_lang = ( file_exists($root_template_path . '/images/lang_' . $board_config['default_lang']) ) ? $board_config['default_lang'] : 'english';
 					foreach($images as $key => $value)
 					{
 						if ( !is_array($value) )
@@ -730,14 +730,14 @@ class Template {
 				$key = $sub_template_key_image;
 
 				// get the sub-template path
-				$current_template_path = $phpbb2_template_path . $phpbb2_template_name . '/' . $sub_templates[$key]['dir'];
+				$current_template_path = $template_path . $template_name . '/' . $sub_templates[$key]['dir'];
 				$root_template_path = $real_root . '/' . $sub_templates[$key]['dir'];
 				if ( isset($sub_templates[$key]['imagefile']) && file_exists($root_template_path . '/' . $sub_templates[$key]['imagefile']) )
 				{
 					$sav_images = $images;
 					$images = array();
 					@include($root_template_path . '/' . $sub_templates[$key]['imagefile']);
-					$img_lang = ( file_exists($root_template_path . '/images/lang_' . $phpbb2_board_config['default_lang']) ) ? $phpbb2_board_config['default_lang'] : 'english';
+					$img_lang = ( file_exists($root_template_path . '/images/lang_' . $board_config['default_lang']) ) ? $board_config['default_lang'] : 'english';
 					foreach($images as $key => $value)
 					{
 						if ( !is_array($value) )
@@ -818,7 +818,7 @@ class Template {
 		// the appropriate *.php file in the birthday_interface directory.
 
 		$this->files['bday_interface'] = $this->make_filename('birthday_interface.tpl');
-		$this->filename['bday_interface'] = 'birthday_interface_'.$phpbb2_board_config['default_lang'].'.tpl';
+		$this->filename['bday_interface'] = 'birthday_interface_'.$board_config['default_lang'].'.tpl';
 
 		$this->assign_var_from_handle('BIRTHDAY_INTERFACE','bday_interface');
 	}
@@ -896,7 +896,7 @@ class Template {
 	 */
 	function set_filename($handle, $filename, $xs_include = false, $quiet = false)
 	{
-		global $phpbb2_board_config;
+		global $board_config;
 		$can_cache = $this->use_cache;
 		if(strpos($filename, '..') !== false)
 		{
@@ -957,7 +957,7 @@ class Template {
 			}
 			if($xs_include)
 			{
-				if($phpbb2_board_config['xs_warn_includes'])
+				if($board_config['xs_warn_includes'])
 				{
 					die('Template->make_filename(): Error - included template file not found: ' . $filename);
 				}
@@ -969,10 +969,10 @@ class Template {
 			}
 		}
 		// checking if we should recompile cache
-		if(!empty($this->files_cache[$handle]) && !empty($phpbb2_board_config['xs_auto_recompile']))
+		if(!empty($this->files_cache[$handle]) && !empty($board_config['xs_auto_recompile']))
 		{
 			$cache_time = @filemtime($this->files_cache[$handle]);
-			if(@filemtime($this->files[$handle]) > $cache_time || $phpbb2_board_config['xs_template_time'] > $cache_time)
+			if(@filemtime($this->files[$handle]) > $cache_time || $board_config['xs_template_time'] > $cache_time)
 			{	
 				// file was changed. don't use cache file (will be recompled if configuration allowes it)
 				$this->files_cache[$handle] = '';
@@ -986,11 +986,11 @@ class Template {
 	 */
 	function execute($filename, $code, $handle)
 	{
-		global $lang, $theme, $phpbb2_board_config;
-		$phpbb2_template = $theme['template_name'];
-		global $$phpbb2_template;
-		$theme_info = &$$phpbb2_template;
-		if($phpbb2_board_config['xs_add_comments'] && $handle)
+		global $lang, $theme, $board_config;
+		$template = $theme['template_name'];
+		global $$template;
+		$theme_info = &$$template;
+		if($board_config['xs_add_comments'] && $handle)
 		{
 			echo '<!-- template ', $this->files[$handle], ' start -->';
 		}
@@ -1002,7 +1002,7 @@ class Template {
 		{
 			eval($code);
 		}
-		if($phpbb2_board_config['xs_add_comments'] && $handle)
+		if($board_config['xs_add_comments'] && $handle)
 		{
 			echo '<!-- template ', $this->files[$handle], ' end -->';
 		}
@@ -1016,7 +1016,7 @@ class Template {
 	 */
 	function pparse($handle)
 	{
-		global $phpbb2_board_config;
+		global $board_config;
 		// parsing header if there is one
 		if($this->preparse || $this->postparse)
 		{
@@ -1081,9 +1081,9 @@ class Template {
 	/**
 	 * Precompile file
 	 */
-	function precompile($phpbb2_template, $filename)
+	function precompile($template, $filename)
 	{
-		global $precompile_num, $phpbb2_board_config;
+		global $precompile_num, $board_config;
 		if(empty($precompile_num))
 		{
 			$precompile_num = 0;
@@ -1096,8 +1096,8 @@ class Template {
 		$old_config = $this->use_cache;
 		$old_autosave = $this->auto_compile;
 		// set temporary configuration
-		$this->root = $this->tpldir . $phpbb2_template;
-		$this->tpl = $phpbb2_template;
+		$this->root = $this->tpldir . $template;
+		$this->tpl = $template;
 		$this->use_cache = 1;
 		$this->auto_compile = 1;
 		// set filename
@@ -1213,7 +1213,7 @@ class Template {
 	 */
 	function loadfile($handle)
 	{
-		global $phpbb2_board_config;
+		global $board_config;
 		// If cached file exists do nothing - it will be included via include()
 		if(!empty($this->files_cache[$handle]))
 		{
@@ -2181,14 +2181,14 @@ class Template {
 
 	function xs_startup()
 	{
-		global $phpEx, $phpbb2_board_config, $phpbb2_root_path;
+		global $phpEx, $board_config, $phpbb_root_path;
 		if(empty($this->xs_started))
 		{	// adding predefined variables
 			$this->xs_started = 1;
 			// file extension with session ID (eg: "php?sid=123&" or "php?")
 			// can be used to make custom URLs without modding phpbb
 			// contains "&" or "?" at the end so you can easily append paramenters
-			$php = append_titanium_sid($phpEx);
+			$php = append_sid($phpEx);
 			if(strpos($php, '?'))
 			{
 				$php .= '&';
@@ -2200,9 +2200,9 @@ class Template {
 			$this->vars['PHP'] = isset($this->vars['PHP']) ? $this->vars['PHP'] : $php;
 			// adding language variable (eg: "english" or "german")
 			// can be used to make truly multi-lingual templates
-			$this->vars['LANG'] = isset($this->vars['LANG']) ? $this->vars['LANG'] : $phpbb2_board_config['default_lang'];
+			$this->vars['LANG'] = isset($this->vars['LANG']) ? $this->vars['LANG'] : $board_config['default_lang'];
 			// adding current template
-			$tpl = $this->root . '/'; // $phpbb2_root_path . 'templates/' . $this->tpl . '/';
+			$tpl = $this->root . '/'; // $phpbb_root_path . 'templates/' . $this->tpl . '/';
 			if(substr($tpl, 0, 2) === './')
 			{
 				$tpl = substr($tpl, 2, strlen($tpl));
@@ -2313,14 +2313,14 @@ class Template {
 	*/
 	function _add_config($tpl, $add_vars = true)
 	{
-		global $phpbb2_root_path;
-		if(@file_exists($phpbb2_root_path . 'templates/' . $tpl . '/xs_config.cfg'))
+		global $phpbb_root_path;
+		if(@file_exists($phpbb_root_path . 'templates/' . $tpl . '/xs_config.cfg'))
 		{
 			$style_config = array();
-			include($phpbb2_root_path . 'templates/' . $tpl . '/xs_config.cfg');
+			include($phpbb_root_path . 'templates/' . $tpl . '/xs_config.cfg');
 			if(count($style_config))
 			{
-				global $phpbb2_board_config, $pnt_db;
+				global $board_config, $db;
 				for($i=0; $i<count($style_config); $i++)
 				{
 					$this->style_config[$style_config[$i]['var']] = $style_config[$i]['default'];
@@ -2331,12 +2331,12 @@ class Template {
 				}
 				$str = $this->_serialize($this->style_config);
 				$config_name = 'xs_style_' . $tpl;
-				$phpbb2_board_config[$config_name] = $str;
+				$board_config[$config_name] = $str;
 				$sql = "INSERT INTO " . CONFIG_TABLE . " (config_name, config_value) VALUES ('" . str_replace('\\\'', '\'\'', addslashes($config_name)) . "', '" . str_replace('\\\'', '\'\'', addslashes($str)) . "')";
-				$pnt_db->sql_query($sql);
+				$db->sql_query($sql);
 				// recache config table for cat_hierarchy 2.1.0
 				global $config;
-				if(isset($config->data) && $config->data === $phpbb2_board_config && isset($config->data['mod_cat_hierarchy']))
+				if(isset($config->data) && $config->data === $board_config && isset($config->data['mod_cat_hierarchy']))
 				{
 					$config->read(true);
 				}
@@ -2349,9 +2349,9 @@ class Template {
 	function add_config($tpl)
 	{
 		$config_name = 'xs_style_' . $tpl;
-		global $phpbb2_board_config;
+		global $board_config;
 		$result = false;
-		if(empty($phpbb2_board_config[$config_name]))
+		if(empty($board_config[$config_name]))
 		{
 			$old = $this->style_config;
 			$result = $this->_add_config($tpl, false);
@@ -2365,14 +2365,14 @@ class Template {
 	*/
 	function _refresh_config($tpl, $add_vars = false)
 	{
-		global $phpbb2_root_path;
-		if(@file_exists($phpbb2_root_path . 'templates/' . $tpl . '/xs_config.cfg'))
+		global $phpbb_root_path;
+		if(@file_exists($phpbb_root_path . 'templates/' . $tpl . '/xs_config.cfg'))
 		{
 			$style_config = array();
-			include($phpbb2_root_path . 'templates/' . $tpl . '/xs_config.cfg');
+			include($phpbb_root_path . 'templates/' . $tpl . '/xs_config.cfg');
 			if(count($style_config))
 			{
-				global $phpbb2_board_config, $pnt_db;
+				global $board_config, $db;
 				for($i=0; $i<count($style_config); $i++)
 				{
 					if(!isset($this->style_config[$style_config[$i]['var']]))
@@ -2386,7 +2386,7 @@ class Template {
 				}
 				$str = $this->_serialize($this->style_config);
 				$config_name = 'xs_style_' . $tpl;
-				if(isset($phpbb2_board_config[$config_name]))
+				if(isset($board_config[$config_name]))
 				{
 					$sql = "UPDATE " . CONFIG_TABLE . " SET config_value='" . str_replace('\\\'', '\'\'', addslashes($str)) . "' WHERE config_name='" . str_replace('\\\'', '\'\'', addslashes($config_name)) . "'";
 				}
@@ -2394,11 +2394,11 @@ class Template {
 				{
 					$sql = "INSERT INTO " . CONFIG_TABLE . " (config_name, config_value) VALUES ('" . str_replace('\\\'', '\'\'', addslashes($config_name)) . "', '" . str_replace('\\\'', '\'\'', addslashes($str)) . "')";
 				}
-				$pnt_db->sql_query($sql);
-				$phpbb2_board_config[$config_name] = $str;
+				$db->sql_query($sql);
+				$board_config[$config_name] = $str;
 				// recache config table for cat_hierarchy 2.1.0
 				global $config;
-				if(isset($config->data) && $config->data === $phpbb2_board_config && isset($config->data['mod_cat_hierarchy']))
+				if(isset($config->data) && $config->data === $board_config && isset($config->data['mod_cat_hierarchy']))
 				{
 					$config->read(true);
 				}
@@ -2438,8 +2438,8 @@ class Template {
 			$tpl = $this->tpl;
 		}
 		$config_name = 'xs_style_' . $tpl;
-		global $phpbb2_board_config;
-		if(empty($phpbb2_board_config[$config_name]))
+		global $board_config;
+		if(empty($board_config[$config_name]))
 		{
 			if($add_config)
 			{
@@ -2447,7 +2447,7 @@ class Template {
 			}
 			return $this->style_config;
 		}
-		$this->style_config = $this->_unserialize($phpbb2_board_config[$config_name]);
+		$this->style_config = $this->_unserialize($board_config[$config_name]);
 		if($tpl === $this->tpl)
 		{
 			foreach($this->style_config as $var => $value)

@@ -433,7 +433,7 @@ class SimplePie
 	 * @see SimplePie::set_useragent()
 	 * @access private
 	 */
-	var $pnt_useragent = SIMPLEPIE_USERAGENT;
+	var $useragent = SIMPLEPIE_USERAGENT;
 
 	/**
 	 * @var string Feed URL
@@ -2935,11 +2935,11 @@ function embed_wmedia(width, height, link) {
 		}
 	}
 
-	function get_items($phpbb2_start = 0, $phpbb2_end = 0)
+	function get_items($start = 0, $end = 0)
 	{
 		if (!empty($this->multifeed_objects))
 		{
-			return SimplePie::merge_items($this->multifeed_objects, $phpbb2_start, $phpbb2_end, $this->item_limit);
+			return SimplePie::merge_items($this->multifeed_objects, $start, $end, $this->item_limit);
 		}
 		elseif (!isset($this->data['items']))
 		{
@@ -3016,13 +3016,13 @@ function embed_wmedia(width, height, link) {
 			}
 
 			// Slice the data as desired
-			if ($phpbb2_end == 0)
+			if ($end == 0)
 			{
-				return array_slice($items, $phpbb2_start);
+				return array_slice($items, $start);
 			}
 			else
 			{
-				return array_slice($items, $phpbb2_start, $phpbb2_end);
+				return array_slice($items, $start, $end);
 			}
 		}
 		else
@@ -3036,7 +3036,7 @@ function embed_wmedia(width, height, link) {
 		return $a->get_date('U') <= $b->get_date('U');
 	}
 
-	function merge_items($urls, $phpbb2_start = 0, $phpbb2_end = 0, $limit = 0)
+	function merge_items($urls, $start = 0, $end = 0, $limit = 0)
 	{
 		if (is_array($urls) && sizeof($urls) > 0)
 		{
@@ -3068,13 +3068,13 @@ function embed_wmedia(width, height, link) {
 				usort($items, array('SimplePie', 'sort_items'));
 			}
 
-			if ($phpbb2_end == 0)
+			if ($end == 0)
 			{
-				return array_slice($items, $phpbb2_start);
+				return array_slice($items, $start);
 			}
 			else
 			{
-				return array_slice($items, $phpbb2_start, $phpbb2_end);
+				return array_slice($items, $start, $end);
 			}
 		}
 		else
@@ -7309,17 +7309,17 @@ class SimplePie_Caption
 {
 	var $type;
 	var $lang;
-	var $phpbb2_startTime;
-	var $phpbb2_endTime;
+	var $startTime;
+	var $endTime;
 	var $text;
 
 	// Constructor, used to input the data
-	function SimplePie_Caption($type = null, $lang = null, $phpbb2_startTime = null, $phpbb2_endTime = null, $text = null)
+	function SimplePie_Caption($type = null, $lang = null, $startTime = null, $endTime = null, $text = null)
 	{
 		$this->type = $type;
 		$this->lang = $lang;
-		$this->startTime = $phpbb2_startTime;
-		$this->endTime = $phpbb2_endTime;
+		$this->startTime = $startTime;
+		$this->endTime = $endTime;
 		$this->text = $text;
 	}
 
@@ -7596,7 +7596,7 @@ class SimplePie_Restriction
 class SimplePie_File
 {
 	var $url;
-	var $pnt_useragent;
+	var $useragent;
 	var $success = true;
 	var $headers = array();
 	var $body;
@@ -7605,7 +7605,7 @@ class SimplePie_File
 	var $error;
 	var $method = SIMPLEPIE_FILE_SOURCE_NONE;
 
-	function SimplePie_File($url, $timeout = 10, $redirects = 5, $headers = null, $pnt_useragent = null, $force_fsockopen = false)
+	function SimplePie_File($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false)
 	{
 		if (class_exists('idna_convert'))
 		{
@@ -7614,13 +7614,13 @@ class SimplePie_File
 			$url = SimplePie_Misc::compress_parse_url($parsed['scheme'], $idn->encode($parsed['authority']), $parsed['path'], $parsed['query'], $parsed['fragment']);
 		}
 		$this->url = $url;
-		$this->useragent = $pnt_useragent;
+		$this->useragent = $useragent;
 		if (preg_match('/^http(s)?:\/\//i', $url))
 		{
-			if ($pnt_useragent === null)
+			if ($useragent === null)
 			{
-				$pnt_useragent = ini_get('user_agent');
-				$this->useragent = $pnt_useragent;
+				$useragent = ini_get('user_agent');
+				$this->useragent = $useragent;
 			}
 			if (!is_array($headers))
 			{
@@ -7645,7 +7645,7 @@ class SimplePie_File
 				curl_setopt($fp, CURLOPT_TIMEOUT, $timeout);
 				curl_setopt($fp, CURLOPT_CONNECTTIMEOUT, $timeout);
 				curl_setopt($fp, CURLOPT_REFERER, $url);
-				curl_setopt($fp, CURLOPT_USERAGENT, $pnt_useragent);
+				curl_setopt($fp, CURLOPT_USERAGENT, $useragent);
 				curl_setopt($fp, CURLOPT_HTTPHEADER, $headers2);
 				if (!ini_get('open_basedir') && !ini_get('safe_mode') && version_compare(SimplePie_Misc::get_curl_version(), '7.15.2', '>='))
 				{
@@ -7680,7 +7680,7 @@ class SimplePie_File
 						{
 							$this->redirects++;
 							$location = SimplePie_Misc::absolutize_url($this->headers['location'], $url);
-							return $this->SimplePie_File($location, $timeout, $redirects, $headers, $pnt_useragent, $force_fsockopen);
+							return $this->SimplePie_File($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen);
 						}
 					}
 				}
@@ -7724,7 +7724,7 @@ class SimplePie_File
 					}
 					$out = "GET $get HTTP/1.0\r\n";
 					$out .= "Host: $url_parts[host]\r\n";
-					$out .= "User-Agent: $pnt_useragent\r\n";
+					$out .= "User-Agent: $useragent\r\n";
 					if (function_exists('gzinflate'))
 					{
 						$out .= "Accept-Encoding: gzip,deflate\r\n";
@@ -7761,7 +7761,7 @@ class SimplePie_File
 							{
 								$this->redirects++;
 								$location = SimplePie_Misc::absolutize_url($this->headers['location'], $url);
-								return $this->SimplePie_File($location, $timeout, $redirects, $headers, $pnt_useragent, $force_fsockopen);
+								return $this->SimplePie_File($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen);
 							}
 							if (isset($this->headers['content-encoding']) && ($this->headers['content-encoding'] == 'gzip' || $this->headers['content-encoding'] == 'deflate'))
 							{
@@ -8491,7 +8491,7 @@ class SimplePie_Misc
 		$name = preg_quote($realname, '/');
 		if (preg_match_all("/<($name)" . SIMPLEPIE_PCRE_HTML_ATTRIBUTE . "(>(.*)<\/$name>|(\/)?>)/siU", $string, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE))
 		{
-			for ($i = 0, $total_phpbb2_matches = count($matches); $i < $total_phpbb2_matches; $i++)
+			for ($i = 0, $total_matches = count($matches); $i < $total_matches; $i++)
 			{
 				$return[$i]['tag'] = $realname;
 				$return[$i]['full'] = $matches[$i][0][0];
@@ -8508,7 +8508,7 @@ class SimplePie_Misc
 				$return[$i]['attribs'] = array();
 				if (isset($matches[$i][2][0]) && preg_match_all('/[\x09\x0A\x0B\x0C\x0D\x20]+([^\x09\x0A\x0B\x0C\x0D\x20\x2F\x3E][^\x09\x0A\x0B\x0C\x0D\x20\x2F\x3D\x3E]*)(?:[\x09\x0A\x0B\x0C\x0D\x20]*=[\x09\x0A\x0B\x0C\x0D\x20]*(?:"([^"]*)"|\'([^\']*)\'|([^\x09\x0A\x0B\x0C\x0D\x20\x22\x27\x3E][^\x09\x0A\x0B\x0C\x0D\x20\x3E]*)?))?/', ' ' . $matches[$i][2][0] . ' ', $attribs, PREG_SET_ORDER))
 				{
-					for ($j = 0, $total_phpbb2_attribs = count($attribs); $j < $total_phpbb2_attribs; $j++)
+					for ($j = 0, $total_attribs = count($attribs); $j < $total_attribs; $j++)
 					{
 						if (count($attribs[$j]) == 2)
 						{
@@ -8794,7 +8794,7 @@ class SimplePie_Misc
 		}
 		elseif ($input == 'UTF-8' && $output == 'windows-1252')
 		{
-			return utf8_decode_titanium($data);
+			return utf8_decode($data);
 		}
 		return $data;
 	}
@@ -10204,12 +10204,12 @@ class SimplePie_Misc
 	function strip_comments($data)
 	{
 		$output = '';
-		while (($phpbb2_start = strpos($data, '<!--')) !== false)
+		while (($start = strpos($data, '<!--')) !== false)
 		{
-			$output .= substr($data, 0, $phpbb2_start);
-			if (($phpbb2_end = strpos($data, '-->', $phpbb2_start)) !== false)
+			$output .= substr($data, 0, $start);
+			if (($end = strpos($data, '-->', $start)) !== false)
 			{
-				$data = substr_replace($data, '', 0, $phpbb2_end + 3);
+				$data = substr_replace($data, '', 0, $end + 3);
 			}
 			else
 			{
@@ -11398,7 +11398,7 @@ class SimplePie_Parse_Date
 	 * @access private
 	 * @var array
 	 */
-	var $pnt_user = array();
+	var $user = array();
 
 	/**
 	 * Create new SimplePie_Parse_Date object, and set self::day_pcre,
@@ -12456,7 +12456,7 @@ class SimplePie_XML_Declaration_Parser
 
 class SimplePie_Locator
 {
-	var $pnt_useragent;
+	var $useragent;
 	var $timeout;
 	var $file;
 	var $local = array();
@@ -12470,11 +12470,11 @@ class SimplePie_Locator
 	var $max_checked_feeds = 10;
 	var $content_type_sniffer_class = 'SimplePie_Content_Type_Sniffer';
 
-	function SimplePie_Locator(&$file, $timeout = 10, $pnt_useragent = null, $file_class = 'SimplePie_File', $max_checked_feeds = 10, $content_type_sniffer_class = 'SimplePie_Content_Type_Sniffer')
+	function SimplePie_Locator(&$file, $timeout = 10, $useragent = null, $file_class = 'SimplePie_File', $max_checked_feeds = 10, $content_type_sniffer_class = 'SimplePie_Content_Type_Sniffer')
 	{
 		$this->file =& $file;
 		$this->file_class = $file_class;
-		$this->useragent = $pnt_useragent;
+		$this->useragent = $useragent;
 		$this->timeout = $timeout;
 		$this->max_checked_feeds = $max_checked_feeds;
 		$this->content_type_sniffer_class = $content_type_sniffer_class;
@@ -13009,7 +13009,7 @@ class SimplePie_Sanitize
 	var $cache_class = 'SimplePie_Cache';
 	var $file_class = 'SimplePie_File';
 	var $timeout = 10;
-	var $pnt_useragent = '';
+	var $useragent = '';
 	var $force_fsockopen = false;
 
 	var $replace_url_attributes = array(
@@ -13064,7 +13064,7 @@ class SimplePie_Sanitize
 		}
 	}
 
-	function pass_file_data($file_class = 'SimplePie_File', $timeout = 10, $pnt_useragent = '', $force_fsockopen = false)
+	function pass_file_data($file_class = 'SimplePie_File', $timeout = 10, $useragent = '', $force_fsockopen = false)
 	{
 		if ($file_class)
 		{
@@ -13076,9 +13076,9 @@ class SimplePie_Sanitize
 			$this->timeout = (string) $timeout;
 		}
 
-		if ($pnt_useragent)
+		if ($useragent)
 		{
-			$this->useragent = (string) $pnt_useragent;
+			$this->useragent = (string) $useragent;
 		}
 
 		if ($force_fsockopen)

@@ -24,30 +24,30 @@ if (!defined('MODULE_FILE')) {
 
 if ($popup != "1")
 {
-    $pnt_module = basename(dirname(__FILE__));
-    require("modules/".$pnt_module."/nukebb.php");
+    $module_name = basename(dirname(__FILE__));
+    require("modules/".$module_name."/nukebb.php");
 }
 else
 {
-    $phpbb2_root_path = NUKE_FORUMS_DIR;
+    $phpbb_root_path = NUKE_FORUMS_DIR;
 }
 
-if (defined('IN_PHPBB2'))
+if (defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
     exit;
 }
 
-if (defined('IN_PHPBB2'))
+if (defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
     exit;
 }
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
-include($phpbb2_root_path . 'extension.inc');
-include($phpbb2_root_path . 'common.' . $phpEx);
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.' . $phpEx);
 
 //
 // Delete the / * to uncomment the block, and edit the values (read the comments) to
@@ -72,7 +72,7 @@ $allow_deny_order = ALLOWED_DENIED;
 // Partial Domain Names -> opentools.de
 //
 $sites = array(
-    $phpbb2_board_config['server_name'],    // This is your domain
+    $board_config['server_name'],    // This is your domain
     'opentools.de',
     'phpbb.com',
     'phpbbhacks.com',
@@ -124,7 +124,7 @@ $thumbnail = get_var('thumb', 0);
 // Send file to browser
 function send_file_to_browser($attachment, $upload_dir)
 {
-    global $_SERVER, $HTTP_USER_AGENT, $HTTP_SERVER_VARS, $lang, $pnt_db, $attach_config;
+    global $_SERVER, $HTTP_USER_AGENT, $HTTP_SERVER_VARS, $lang, $db, $attach_config;
 
     $filename = ($upload_dir == '') ? $attachment['physical_filename'] : $upload_dir . '/' . $attachment['physical_filename'];
 
@@ -282,8 +282,8 @@ function send_file_to_browser($attachment, $upload_dir)
 //
 // Start Session Management
 //
-$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
-titanium_init_userprefs($userdata);
+$userdata = session_pagestart($user_ip, PAGE_INDEX);
+init_userprefs($userdata);
 
 if (!$download_id)
 {
@@ -299,19 +299,19 @@ $sql = 'SELECT *
     FROM ' . ATTACHMENTS_DESC_TABLE . '
     WHERE attach_id = ' . (int) $download_id;
 
-if (!($result = $pnt_db->sql_query($sql)))
+if (!($result = $db->sql_query($sql)))
 {
     message_die(GENERAL_ERROR, 'Could not query attachment informations', '', __LINE__, __FILE__, $sql);
 }
 
-if (!($attachment = $pnt_db->sql_fetchrow($result)))
+if (!($attachment = $db->sql_fetchrow($result)))
 {
     message_die(GENERAL_MESSAGE, $lang['Error_no_attachment']);
 }
 
 $attachment['physical_filename'] = basename($attachment['physical_filename']);
 
-$pnt_db->sql_freeresult($result);
+$db->sql_freeresult($result);
 
 // get forum_id for attachment authorization or private message authorization
 $authorised = false;
@@ -320,13 +320,13 @@ $sql = 'SELECT *
     FROM ' . ATTACHMENTS_TABLE . '
     WHERE attach_id = ' . (int) $attachment['attach_id'];
 
-if (!($result = $pnt_db->sql_query($sql)))
+if (!($result = $db->sql_query($sql)))
 {
     message_die(GENERAL_ERROR, 'Could not query attachment informations', '', __LINE__, __FILE__, $sql);
 }
 
-$auth_pages = $pnt_db->sql_fetchrowset($result);
-$num_auth_pages = $pnt_db->sql_numrows($result);
+$auth_pages = $db->sql_fetchrowset($result);
+$num_auth_pages = $db->sql_numrows($result);
 
 for ($i = 0; $i < $num_auth_pages && $authorised == false; $i++)
 {
@@ -338,19 +338,19 @@ for ($i = 0; $i < $num_auth_pages && $authorised == false; $i++)
             FROM ' . POSTS_TABLE . '
             WHERE post_id = ' . (int) $auth_pages[$i]['post_id'];
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not query post information', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $pnt_db->sql_fetchrow($result);
+        $row = $db->sql_fetchrow($result);
 
-        $phpbb2_forum_id = $row['forum_id'];
+        $forum_id = $row['forum_id'];
 
-        $phpbb2_is_auth = array();
-        $phpbb2_is_auth = auth(AUTH_ALL, $phpbb2_forum_id, $userdata);
+        $is_auth = array();
+        $is_auth = auth(AUTH_ALL, $forum_id, $userdata);
 
-        if ($phpbb2_is_auth['auth_download'])
+        if ($is_auth['auth_download'])
         {
             $authorised = TRUE;
         }
@@ -375,13 +375,13 @@ $sql = "SELECT e.extension, g.download_mode
 	FROM " . EXTENSION_GROUPS_TABLE . " g, " . EXTENSIONS_TABLE . " e
     WHERE (g.allow_group = 1) AND (g.group_id = e.group_id)";
 
-if ( !($result = $pnt_db->sql_query($sql)) )
+if ( !($result = $db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query Allowed Extensions.', '', __LINE__, __FILE__, $sql);
 }
 
-$rows = $pnt_db->sql_ufetchrowset($sql);
-$num_rows = $pnt_db->sql_numrows($result);
+$rows = $db->sql_ufetchrowset($sql);
+$num_rows = $db->sql_numrows($result);
 
 for ($i = 0; $i < $num_rows; $i++)
 {
@@ -410,7 +410,7 @@ if (!$thumbnail)
     SET download_count = download_count + 1
     WHERE attach_id = ' . (int) $attachment['attach_id'];
 
-    if (!$pnt_db->sql_query($sql))
+    if (!$db->sql_query($sql))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t update attachment download count', '', __LINE__, __FILE__, $sql);
     }
@@ -419,10 +419,10 @@ if (!$thumbnail)
 // Determine the 'presenting'-method
 if ($download_mode == PHYSICAL_LINK)
 {
-    $server_protocol = ($phpbb2_board_config['cookie_secure']) ? 'https://' : 'http://';
-    $server_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($phpbb2_board_config['server_name']));
-    $server_port = ($phpbb2_board_config['server_port'] <> 80) ? ':' . trim($phpbb2_board_config['server_port']) : '';
-    //$script_name = preg_replace('/^\/?(.*?)\/?$/', '/\1', trim($phpbb2_board_config['script_path']));
+    $server_protocol = ($board_config['cookie_secure']) ? 'https://' : 'http://';
+    $server_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['server_name']));
+    $server_port = ($board_config['server_port'] <> 80) ? ':' . trim($board_config['server_port']) : '';
+    //$script_name = preg_replace('/^\/?(.*?)\/?$/', '/\1', trim($board_config['script_path']));
 
     //if ($script_name[strlen($script_name)] != '/')
     //{
@@ -455,7 +455,7 @@ if ($download_mode == PHYSICAL_LINK)
     }
 
     // Behave as per HTTP/1.1 spec for others
-    redirect_titanium($redirect_path);
+    redirect($redirect_path);
     exit;
 }
 else

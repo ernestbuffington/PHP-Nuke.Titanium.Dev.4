@@ -8,27 +8,30 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $pnt_db2;
+global $db2;
 get_lang('Network_Projects');
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
-
-$pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_PROJECTS.': '._NETWORK_REQUESTLIST;
-
+$pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']."::: "._NETWORK_PROJECTS.": "._NETWORK_REQUESTLIST;
 include_once(NUKE_BASE_DIR.'header.php');
-
-$projectresult = $pnt_db2->sql_query("SELECT `project_name`, `project_description`, `status_id`, `priority_id` FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'");
-list($project_name, $project_description, $status_id, $priority_id) = $pnt_db2->sql_fetchrow($projectresult);
+OpenTable();
+echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=Main\">" . _NETWORK_ADMIN_HEADER . "</a></div>\n";
+echo "<br /><br />";
+echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NETWORK_RETURNMAIN . "</a> ]</div>\n";
+CloseTable();
+//echo "<br />";
+$projectresult = $db2->sql_query("SELECT `project_name`, `project_description`, `status_id`, `priority_id` FROM `".$network_prefix."_projects` WHERE `project_id`='$project_id'");
+list($project_name, $project_description, $status_id, $priority_id) = $db2->sql_fetchrow($projectresult);
 pjadmin_menu(_NETWORK_PROJECTS.": "._NETWORK_REQUESTLIST);
 //echo "<br />\n";
-$requestresult = $pnt_db2->sql_query("SELECT `request_id`, `request_name`, `type_id`, `status_id` FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id' ORDER BY `request_name`");
-$request_total = $pnt_db2->sql_numrows($requestresult);
+$requestresult = $db2->sql_query("SELECT `request_id`, `request_name`, `type_id`, `status_id` FROM `".$network_prefix."_requests` WHERE `project_id`='$project_id' ORDER BY `request_name`");
+$request_total = $db2->sql_numrows($requestresult);
 OpenTable();
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='2'>\n";
 echo "<tr><td colspan='2' bgcolor='$bgcolor2' width='100%'><nobr><strong>"._NETWORK_PROJECT."</strong></nobr></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_STATUS."</strong></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_PRIORITY."</strong></td>\n";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</strong></td></tr>\n";
-$pjimage = pjimage("project.png", $pnt_module);
+$pjimage = pjimage("project.png", $module_name);
 echo "<tr><td><img src='$pjimage'></td>\n";
 echo "<td width='100%'><a href='".$admin_file.".php?op=ProjectList'>"._NETWORK_PROJECTS."</a> / <strong>$project_name</strong></td>\n";
 $projectstatus = pjprojectstatus_info($status_id);
@@ -40,9 +43,9 @@ echo "<td align='center'><a href='".$admin_file.".php?op=ProjectPriorityList'>".
 echo "<td align='center'><nobr>[ <a href='".$admin_file.".php?op=ProjectEdit&amp;project_id=$project_id'>"._NETWORK_EDIT."</a> |";
 echo " <a href='".$admin_file.".php?op=ProjectRemove&amp;project_id=$project_id'>"._NETWORK_DELETE."</a> ]</nobr></td></tr>\n";
 echo "<tr><td colspan='5' width='100%' bgcolor='$bgcolor2'><nobr><strong>"._NETWORK_PROJECTOPTIONS."</strong></nobr></td></tr>\n";
-$pjimage = pjimage("options.png", $pnt_module);
+$pjimage = pjimage("options.png", $module_name);
 echo "<tr><td><img src='$pjimage'></td><td colspan='4' width='100%'><nobr><a href='".$admin_file.".php?op=TaskAdd&amp;project_id=$project_id'>"._NETWORK_TASKADD."</a></nobr></td></tr>\n";
-$pjimage = pjimage("stats.png", $pnt_module);
+$pjimage = pjimage("stats.png", $module_name);
 echo "<tr><td><img src='$pjimage'></td><td colspan='4' width='100%'><nobr>"._NETWORK_TOTALTASKS.": <strong>$task_total</strong></nobr></td></tr>\n";
 echo "</table>\n";
 CloseTable();
@@ -54,8 +57,8 @@ echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_STATUS."</strong
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_TYPE."</strong></td>";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_FUNCTIONS."</strong></td></tr>";
 if($request_total != 0){
-  while(list($request_id, $request_name, $type_id, $status_id) = $pnt_db2->sql_fetchrow($requestresult)) {
-    $pjimage = pjimage("request.png", $pnt_module);
+  while(list($request_id, $request_name, $type_id, $status_id) = $db2->sql_fetchrow($requestresult)) {
+    $pjimage = pjimage("request.png", $module_name);
     echo "<tr><td><img src='$pjimage'></td>";
     echo "<td width='100%'>$request_name</td>";
     $status = pjrequeststatus_info($status_id);

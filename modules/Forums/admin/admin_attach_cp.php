@@ -13,21 +13,21 @@
 *
 */
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
 if (!empty($setmodules))
 {
     $filename = basename(__FILE__);
-    $pnt_module['Attachments']['Control_Panel'] = $filename;
+    $module['Attachments']['Control_Panel'] = $filename;
     return;
 }
 
 // Let's set the root dir for phpBB
-$phpbb2_root_path = './../';
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
 require('pagestart.' . $phpEx);
 
-@include_once($phpbb2_root_path . 'attach_mod/includes/constants.'.$phpEx);
+@include_once($phpbb_root_path . 'attach_mod/includes/constants.'.$phpEx);
 
 if (!intval($attach_config['allow_ftp_upload']))
 {
@@ -45,8 +45,8 @@ else
     $upload_dir = $attach_config['download_path'];
 }
 
-include($phpbb2_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
-include($phpbb2_root_path . 'attach_mod/includes/functions_admin.' . $phpEx);
+include($phpbb_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
+include($phpbb_root_path . 'attach_mod/includes/functions_admin.' . $phpEx);
 
 // Check if the language got included
 if (!isset($lang['Test_settings_successful']))
@@ -56,7 +56,7 @@ if (!isset($lang['Test_settings_successful']))
 }
 
 // Init Variables
-$phpbb2_start = get_var('start', 0);
+$start = get_var('start', 0);
 $sort_order = get_var('order', 'ASC');
 $sort_order = ($sort_order == 'ASC') ? 'ASC' : 'DESC';
 $mode = get_var('mode', '');
@@ -112,21 +112,21 @@ if ($view == 'username')
     switch ($mode)
     {
         case 'username':
-            $order_by = 'ORDER BY u.username ' . $sort_order . ' LIMIT ' . $phpbb2_start . ', ' . $phpbb2_board_config['topics_per_page'];
+            $order_by = 'ORDER BY u.username ' . $sort_order . ' LIMIT ' . $start . ', ' . $board_config['topics_per_page'];
         break;
 
         case 'attachments':
-            $order_by = 'ORDER BY total_attachments ' . $sort_order . ' LIMIT ' . $phpbb2_start . ', ' . $phpbb2_board_config['topics_per_page'];
+            $order_by = 'ORDER BY total_attachments ' . $sort_order . ' LIMIT ' . $start . ', ' . $board_config['topics_per_page'];
         break;
         
         case 'filesize':
-            $order_by = 'ORDER BY total_size ' . $sort_order . ' LIMIT ' . $phpbb2_start . ', ' . $phpbb2_board_config['topics_per_page'];
+            $order_by = 'ORDER BY total_size ' . $sort_order . ' LIMIT ' . $start . ', ' . $board_config['topics_per_page'];
         break;
         
         default:
             $mode = 'attachments';
             $sort_order = 'DESC';
-            $order_by = 'ORDER BY total_attachments ' . $sort_order . ' LIMIT ' . $phpbb2_start . ', ' . $phpbb2_board_config['topics_per_page'];
+            $order_by = 'ORDER BY total_attachments ' . $sort_order . ' LIMIT ' . $start . ', ' . $board_config['topics_per_page'];
         break;
     }
 }
@@ -135,33 +135,33 @@ else if ($view == 'attachments')
     switch ($mode)
     {
         case 'filename':
-            $order_by = 'ORDER BY a.real_filename ' . $sort_order . ' LIMIT ' . $phpbb2_start . ', ' . $phpbb2_board_config['topics_per_page'];
+            $order_by = 'ORDER BY a.real_filename ' . $sort_order . ' LIMIT ' . $start . ', ' . $board_config['topics_per_page'];
         break;
 
         case 'comment':
-            $order_by = 'ORDER BY a.comment ' . $sort_order . ' LIMIT ' . $phpbb2_start . ', ' . $phpbb2_board_config['topics_per_page'];
+            $order_by = 'ORDER BY a.comment ' . $sort_order . ' LIMIT ' . $start . ', ' . $board_config['topics_per_page'];
         break;
         
         case 'extension':
-            $order_by = 'ORDER BY a.extension ' . $sort_order . ' LIMIT ' . $phpbb2_start . ', ' . $phpbb2_board_config['topics_per_page'];
+            $order_by = 'ORDER BY a.extension ' . $sort_order . ' LIMIT ' . $start . ', ' . $board_config['topics_per_page'];
         break;
         
         case 'filesize':
-            $order_by = 'ORDER BY a.filesize ' . $sort_order . ' LIMIT ' . $phpbb2_start . ', ' . $phpbb2_board_config['topics_per_page'];
+            $order_by = 'ORDER BY a.filesize ' . $sort_order . ' LIMIT ' . $start . ', ' . $board_config['topics_per_page'];
         break;
         
         case 'downloads':
-            $order_by = 'ORDER BY a.download_count ' . $sort_order . ' LIMIT ' . $phpbb2_start . ', ' . $phpbb2_board_config['topics_per_page'];
+            $order_by = 'ORDER BY a.download_count ' . $sort_order . ' LIMIT ' . $start . ', ' . $board_config['topics_per_page'];
         break;
         
         case 'post_time':
-            $order_by = 'ORDER BY a.filetime ' . $sort_order . ' LIMIT ' . $phpbb2_start . ', ' . $phpbb2_board_config['topics_per_page'];
+            $order_by = 'ORDER BY a.filetime ' . $sort_order . ' LIMIT ' . $start . ', ' . $board_config['topics_per_page'];
         break;
         
         default:
             $mode = 'a.real_filename';
             $sort_order = 'ASC';
-            $order_by = 'ORDER BY a.real_filename ' . $sort_order . ' LIMIT ' . $phpbb2_start . ', ' . $phpbb2_board_config['topics_per_page'];
+            $order_by = 'ORDER BY a.real_filename ' . $sort_order . ' LIMIT ' . $start . ', ' . $board_config['topics_per_page'];
         break;
     }
 }
@@ -221,29 +221,29 @@ else if ($delete && sizeof($delete_id_list) > 0)
     $hidden_fields .= '<input type="hidden" name="mode" value="' . $mode . '" />';
     $hidden_fields .= '<input type="hidden" name="order" value="' . $sort_order . '" />';
     $hidden_fields .= '<input type="hidden" name="u_id" value="' . $uid . '" />';
-    $hidden_fields .= '<input type="hidden" name="start" value="' . $phpbb2_start . '" />';
+    $hidden_fields .= '<input type="hidden" name="start" value="' . $start . '" />';
 
 	for ($i = 0; $i < sizeof($delete_id_list); $i++)
     {
         $hidden_fields .= '<input type="hidden" name="delete_id_list[]" value="' . $delete_id_list[$i] . '" />';
     }
 
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'confirm' => 'confirm_body.tpl')
     );
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'MESSAGE_TITLE'        => $lang['Confirm'],
         'MESSAGE_TEXT'        => $lang['Confirm_delete_attachments'],
 
         'L_YES'                => $lang['Yes'],
         'L_NO'                => $lang['No'],
 
-        'S_CONFIRM_ACTION'    => append_titanium_sid('admin_attach_cp.' . $phpEx),
+        'S_CONFIRM_ACTION'    => append_sid('admin_attach_cp.' . $phpEx),
         'S_HIDDEN_FIELDS'    => $hidden_fields)
     );
 
-    $phpbb2_template->pparse('confirm');
+    $template->pparse('confirm');
     
     include('page_footer_admin.'.$phpEx);
 
@@ -251,14 +251,14 @@ else if ($delete && sizeof($delete_id_list) > 0)
 }
 
 // Assign Default Template Vars
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'L_VIEW'                    => $lang['View'],
     'L_SUBMIT'                    => $lang['Submit'],
     'L_CONTROL_PANEL_TITLE'        => $lang['Control_panel_title'],
     'L_CONTROL_PANEL_EXPLAIN'    => $lang['Control_panel_explain'],
 
     'S_VIEW_SELECT'    => $select_view,
-    'S_MODE_ACTION'    => append_titanium_sid('admin_attach_cp.' . $phpEx))
+    'S_MODE_ACTION'    => append_sid('admin_attach_cp.' . $phpEx))
 );
 
 if ($submit_change && $view == 'attachments')
@@ -280,12 +280,12 @@ if ($submit_change && $view == 'attachments')
         FROM ' . ATTACHMENTS_DESC_TABLE . '
         ORDER BY attach_id';
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t get Attachment informations', '', __LINE__, __FILE__, $sql);
     }
 
-    while ($attachrow = $pnt_db->sql_fetchrow($result))
+    while ($attachrow = $db->sql_fetchrow($result))
     {
         if (isset($attachments['_' . $attachrow['attach_id']]))
         {
@@ -295,20 +295,20 @@ if ($submit_change && $view == 'attachments')
                     SET comment = '" . attach_mod_sql_escape($attachments['_' . $attachrow['attach_id']]['comment']) . "', download_count = " . (int) $attachments['_' . $attachrow['attach_id']]['download_count'] . "
                     WHERE attach_id = " . (int) $attachrow['attach_id'];
                 
-                if (!$pnt_db->sql_query($sql))
+                if (!$db->sql_query($sql))
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t update Attachments Informations', '', __LINE__, __FILE__, $sql);
                 }
             }
         }
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 }
 
 // Statistics
 if ($view == 'stats')
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/attach_cp_body.tpl')
     );
 
@@ -330,13 +330,13 @@ if ($view == 'stats')
     $sql = "SELECT count(*) AS total
         FROM " . ATTACHMENTS_DESC_TABLE;
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Error getting total attachments', '', __LINE__, __FILE__, $sql);
     }
 
-    $total = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    $total = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
 
     $number_of_attachments = $total['total'];
 
@@ -345,54 +345,54 @@ if ($view == 'stats')
         WHERE post_id <> 0
         GROUP BY post_id";
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Error getting total posts', '', __LINE__, __FILE__, $sql);
     }
 
-    $number_of_posts = $pnt_db->sql_numrows($result);
-    $pnt_db->sql_freeresult($result);
+    $number_of_posts = $db->sql_numrows($result);
+    $db->sql_freeresult($result);
 
     $sql = "SELECT privmsgs_id
         FROM " . ATTACHMENTS_TABLE . "
         WHERE privmsgs_id <> 0
         GROUP BY privmsgs_id";
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Error getting total private messages', '', __LINE__, __FILE__, $sql);
     }
 
-    $number_of_pms = $pnt_db->sql_numrows($result);
-    $pnt_db->sql_freeresult($result);
+    $number_of_pms = $db->sql_numrows($result);
+    $db->sql_freeresult($result);
 
     $sql = "SELECT p.topic_id
         FROM " . ATTACHMENTS_TABLE . " a, " . POSTS_TABLE . " p
         WHERE a.post_id = p.post_id
         GROUP BY p.topic_id";
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Error getting total topics', '', __LINE__, __FILE__, $sql);
     }
 
-    $number_of_topics = $pnt_db->sql_numrows($result);
-    $pnt_db->sql_freeresult($result);
+    $number_of_topics = $db->sql_numrows($result);
+    $db->sql_freeresult($result);
 
     $sql = "SELECT user_id_1
         FROM " . ATTACHMENTS_TABLE . "
         WHERE (post_id <> 0)
         GROUP BY user_id_1";
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Error getting total users', '', __LINE__, __FILE__, $sql);
     }
 
-    $number_of_users = $pnt_db->sql_numrows($result);
-    $pnt_db->sql_freeresult($result);
+    $number_of_users = $db->sql_numrows($result);
+    $db->sql_freeresult($result);
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_STATISTIC'                => $lang['Statistic'],
         'L_VALUE'                    => $lang['Value'],
         'L_NUMBER_OF_ATTACHMENTS'    => $lang['Number_of_attachments'],
@@ -423,13 +423,13 @@ if ($view == 'search')
         WHERE f.cat_id = c.cat_id 
         ORDER BY c.cat_id, f.forum_order";
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Could not obtain forum_name/forum_id', '', __LINE__, __FILE__, $sql);
     }
 
     $s_forums = '';
-    while ($row = $pnt_db->sql_fetchrow($result))
+    while ($row = $db->sql_fetchrow($result))
     {
         $s_forums .= '<option value="' . $row['forum_id'] . '">' . $row['forum_name'] . '</option>';
 
@@ -456,11 +456,11 @@ if ($view == 'search')
         message_die(GENERAL_MESSAGE, $lang['No_searchable_forums']);
     }
     
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/attach_cp_search.tpl')
     );
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_ATTACH_SEARCH_QUERY'        => $lang['Attach_search_query'],
         'L_FILENAME'                => $lang['File_name'],
         'L_COMMENT'                    => $lang['File_comment'],
@@ -488,11 +488,11 @@ if ($view == 'search')
 // Username
 if ($view == 'username')
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/attach_cp_user.tpl')
     );
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_SELECT_SORT_METHOD'    => $lang['Select_sort_method'],
         'L_ORDER'                => $lang['Order'],
         'L_USERNAME'            => $lang['Username'],
@@ -513,14 +513,14 @@ if ($view == 'username')
         $sql .= ' ' . $order_by;
     }
     
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
     }
 
-    $members = $pnt_db->sql_fetchrowset($result);
-    $num_members = $pnt_db->sql_numrows($result);
-    $pnt_db->sql_freeresult($result);
+    $members = $db->sql_fetchrowset($result);
+    $num_members = $db->sql_numrows($result);
+    $db->sql_freeresult($result);
 
     if ($num_members > 0)
     {
@@ -532,14 +532,14 @@ if ($view == 'username')
                 WHERE user_id_1 = " . intval($members[$i]['user_id']) . " 
                 GROUP BY attach_id";
         
-            if (!($result = $pnt_db->sql_query($sql)))
+            if (!($result = $db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
             }
         
-            $attach_ids = $pnt_db->sql_fetchrowset($result);
-            $num_attach_ids = $pnt_db->sql_numrows($result);
-            $pnt_db->sql_freeresult($result);
+            $attach_ids = $db->sql_fetchrowset($result);
+            $num_attach_ids = $db->sql_numrows($result);
+            $db->sql_freeresult($result);
 
             $attach_id = array();
 
@@ -555,13 +555,13 @@ if ($view == 'username')
                     FROM " . ATTACHMENTS_DESC_TABLE . "
                     WHERE attach_id IN (" . implode(', ', $attach_id) . ")";
 
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
                 }
 
-                $row = $pnt_db->sql_fetchrow($result);
-                $pnt_db->sql_freeresult($result);
+                $row = $db->sql_fetchrow($result);
+                $db->sql_freeresult($result);
 
                 $members[$i]['total_size'] = (int) $row['total_size'];
             }
@@ -570,26 +570,26 @@ if ($view == 'username')
         if ($mode == 'filesize')
         {
             $members = sort_multi_array($members, 'total_size', $sort_order, FALSE);
-            $members = limit_array($members, $phpbb2_start, $phpbb2_board_config['topics_per_page']);
+            $members = limit_array($members, $start, $board_config['topics_per_page']);
         }
         
         for ($i = 0; $i < count($members); $i++)
         {
-            $pnt_username = $members[$i]['username'];
-            $total_phpbb2_attachments = $members[$i]['total_attachments'];
-            $total_phpbb2_size = $members[$i]['total_size'];
+            $username = $members[$i]['username'];
+            $total_attachments = $members[$i]['total_attachments'];
+            $total_size = $members[$i]['total_size'];
 
             $row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
             $row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];
 
-            $phpbb2_template->assign_block_vars('memberrow', array(
+            $template->assign_block_vars('memberrow', array(
                 'ROW_NUMBER'        => $i + ( $HTTP_GET_VARS['start'] + 1 ),
                 'ROW_COLOR'            => '#' . $row_color,
                 'ROW_CLASS'            => $row_class,
-                'USERNAME'            => $pnt_username,
-                'TOTAL_ATTACHMENTS'    => $total_phpbb2_attachments,
-                'TOTAL_SIZE'        => round(($total_phpbb2_size / MEGABYTE), 2),
-                'U_VIEW_MEMBER'        => append_titanium_sid('admin_attach_cp.' . $phpEx . '?view=attachments&amp;uid=' . $members[$i]['user_id']))
+                'USERNAME'            => $username,
+                'TOTAL_ATTACHMENTS'    => $total_attachments,
+                'TOTAL_SIZE'        => round(($total_size / MEGABYTE), 2),
+                'U_VIEW_MEMBER'        => append_sid('admin_attach_cp.' . $phpEx . '?view=attachments&amp;uid=' . $members[$i]['user_id']))
             );
         }
     }
@@ -598,28 +598,28 @@ if ($view == 'username')
         FROM " . ATTACHMENTS_TABLE . "
         GROUP BY user_id_1";
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     {
         message_die(GENERAL_ERROR, 'Error getting total users', '', __LINE__, __FILE__, $sql);
     }
 
-    $total_phpbb2_rows = $pnt_db->sql_numrows($result);
-    $pnt_db->sql_freeresult($result);
+    $total_rows = $db->sql_numrows($result);
+    $db->sql_freeresult($result);
 }
 
 // Attachments
 if ($view == 'attachments')
 {
-    $pnt_user_based = ($uid) ? TRUE : FALSE;
+    $user_based = ($uid) ? TRUE : FALSE;
     $search_based = (isset($HTTP_POST_VARS['search']) && $HTTP_POST_VARS['search']) ? TRUE : FALSE;
     
     $hidden_fields = '';
     
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/attach_cp_attachments.tpl')
     );
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_SELECT_SORT_METHOD'    => $lang['Select_sort_method'],
         'L_ORDER'                => $lang['Order'],
 
@@ -640,32 +640,32 @@ if ($view == 'attachments')
         'S_ORDER_SELECT'        => $select_sort_order)
     );
 
-    $total_phpbb2_rows = 0;
+    $total_rows = 0;
     
     // Are we called from Username ?
-    if ($pnt_user_based)
+    if ($user_based)
     {
         $sql = "SELECT username 
             FROM " . USERS_TABLE . " 
             WHERE user_id = " . intval($uid);
 
-        if (!($result = $pnt_db->sql_query($sql)))
+        if (!($result = $db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Error getting username', '', __LINE__, __FILE__, $sql);
         }
 
-        $row = $pnt_db->sql_fetchrow($result);
-        $pnt_db->sql_freeresult($result);
+        $row = $db->sql_fetchrow($result);
+        $db->sql_freeresult($result);
 
-        $pnt_username = $row['username'];
+        $username = $row['username'];
 
         $s_hidden = '<input type="hidden" name="u_id" value="' . intval($uid) . '" />';
     
-        $phpbb2_template->assign_block_vars('switch_user_based', array());
+        $template->assign_block_vars('switch_user_based', array());
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'S_USER_HIDDEN'            => $s_hidden,
-            'L_STATISTICS_FOR_USER'    => sprintf($lang['Statistics_for_user'], $pnt_username))
+            'L_STATISTICS_FOR_USER'    => sprintf($lang['Statistics_for_user'], $username))
         );
 
         $sql = "SELECT attach_id 
@@ -673,21 +673,21 @@ if ($view == 'attachments')
             WHERE user_id_1 = " . intval($uid) . "
             GROUP BY attach_id";
         
-        if (!($result = $pnt_db->sql_query($sql)))
+        if (!($result = $db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
         }
         
-        $attach_ids = $pnt_db->sql_fetchrowset($result);
-        $num_attach_ids = $pnt_db->sql_numrows($result);
-        $pnt_db->sql_freeresult($result);
+        $attach_ids = $db->sql_fetchrowset($result);
+        $num_attach_ids = $db->sql_numrows($result);
+        $db->sql_freeresult($result);
 
         if ($num_attach_ids == 0)
         {
-            message_die(GENERAL_MESSAGE, 'For some reason no Attachments are assigned to the User "' . $pnt_username . '".');
+            message_die(GENERAL_MESSAGE, 'For some reason no Attachments are assigned to the User "' . $username . '".');
         }
         
-        $total_phpbb2_rows = $num_attach_ids;
+        $total_rows = $num_attach_ids;
 
         $attach_id = array();
 
@@ -705,7 +705,7 @@ if ($view == 'attachments')
     else if ($search_based)
     {
         // we are called from search
-        $attachments = search_attachments($order_by, $total_phpbb2_rows);
+        $attachments = search_attachments($order_by, $total_rows);
     }
     else
     {
@@ -716,14 +716,14 @@ if ($view == 'attachments')
 
     if (!$search_based)
     {
-        if (!($result = $pnt_db->sql_query($sql)))
+        if (!($result = $db->sql_query($sql)))
         {
             message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
         }
 
-        $attachments = $pnt_db->sql_fetchrowset($result);
-        $num_attach = $pnt_db->sql_numrows($result);
-        $pnt_db->sql_freeresult($result);
+        $attachments = $db->sql_fetchrowset($result);
+        $num_attach = $db->sql_numrows($result);
+        $db->sql_freeresult($result);
     }
     
 	if (sizeof($attachments) > 0)
@@ -752,14 +752,14 @@ if ($view == 'attachments')
                 FROM " . ATTACHMENTS_TABLE . "
                 WHERE attach_id = " . intval($attachments[$i]['attach_id']);
 
-            if (!($result = $pnt_db->sql_query($sql)))
+            if (!($result = $db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, 'Couldn\'t query attachments', '', __LINE__, __FILE__, $sql);
             }
 
-            $ids = $pnt_db->sql_fetchrowset($result);
-            $num_ids = $pnt_db->sql_numrows($result);
-            $pnt_db->sql_freeresult($result);
+            $ids = $db->sql_fetchrowset($result);
+            $num_ids = $db->sql_numrows($result);
+            $db->sql_freeresult($result);
 
             for ($j = 0; $j < $num_ids; $j++)
             {
@@ -770,13 +770,13 @@ if ($view == 'attachments')
                         WHERE p.post_id = " . intval($ids[$j]['post_id']) . " AND p.topic_id = t.topic_id
                         GROUP BY t.topic_id, t.topic_title";
 
-                    if (!($result = $pnt_db->sql_query($sql)))
+                    if (!($result = $db->sql_query($sql)))
                     {
                         message_die(GENERAL_ERROR, 'Couldn\'t query topic', '', __LINE__, __FILE__, $sql);
                     }
 
-                    $row = $pnt_db->sql_fetchrow($result);
-                    $pnt_db->sql_freeresult($result);
+                    $row = $db->sql_fetchrow($result);
+                    $db->sql_freeresult($result);
             
                     $post_title = $row['topic_title'];
 
@@ -785,7 +785,7 @@ if ($view == 'attachments')
                         $post_title = substr($post_title, 0, 30) . '...';
                     }
 
-                    $view_topic = append_titanium_sid('viewtopic.' . $phpEx . '?' . POST_POST_URL . '=' . $ids[$j]['post_id'] . '&menu=1#' . $ids[$j]['post_id']);
+                    $view_topic = append_sid('viewtopic.' . $phpEx . '?' . POST_POST_URL . '=' . $ids[$j]['post_id'] . '&menu=1#' . $ids[$j]['post_id']);
 
                     $post_titles[] = '<a href="' . $view_topic . '" class="gen" target="_blank">' . $post_title . '</a>';
                 }
@@ -799,7 +799,7 @@ if ($view == 'attachments')
 
             $hidden_field = '<input type="hidden" name="attach_id_list[]" value="' . intval($attachments[$i]['attach_id']) . '" />';
 
-            $phpbb2_template->assign_block_vars('attachrow', array(
+            $template->assign_block_vars('attachrow', array(
                 'ROW_NUMBER'    => $i + ( $HTTP_GET_VARS['start'] + 1 ),
                 'ROW_COLOR'        => '#' . $row_color,
                 'ROW_CLASS'        => $row_class,
@@ -809,53 +809,53 @@ if ($view == 'attachments')
                 'EXTENSION'        => $attachments[$i]['extension'],
                 'SIZE'            => round(($attachments[$i]['filesize'] / MEGABYTE), 2),
                 'DOWNLOAD_COUNT'=> $attachments[$i]['download_count'],
-                'POST_TIME'        => create_date($phpbb2_board_config['default_dateformat'], $attachments[$i]['filetime'], $phpbb2_board_config['board_timezone']),
+                'POST_TIME'        => create_date($board_config['default_dateformat'], $attachments[$i]['filetime'], $board_config['board_timezone']),
                 'POST_TITLE'    => $post_titles,
 
                 'S_DELETE_BOX'    => $delete_box,
                 'S_HIDDEN'        => $hidden_field,
-                'U_VIEW_ATTACHMENT'    => append_titanium_sid('download.' . $phpEx . '?id=' . $attachments[$i]['attach_id'] . '&menu=1'))
-//                'U_VIEW_POST' => ($attachments[$i]['post_id'] != 0) ? append_titanium_sid("../viewtopic." . $phpEx . "?" . POST_POST_URL . "=" . $attachments[$i]['post_id'] . "#" . $attachments[$i]['post_id']) : '')
+                'U_VIEW_ATTACHMENT'    => append_sid('download.' . $phpEx . '?id=' . $attachments[$i]['attach_id'] . '&menu=1'))
+//                'U_VIEW_POST' => ($attachments[$i]['post_id'] != 0) ? append_sid("../viewtopic." . $phpEx . "?" . POST_POST_URL . "=" . $attachments[$i]['post_id'] . "#" . $attachments[$i]['post_id']) : '')
             );
             
         }
     }
 
-    if (!$search_based && !$pnt_user_based)
+    if (!$search_based && !$user_based)
     {
-        if ($total_phpbb2_attachments == 0)
+        if ($total_attachments == 0)
         {
             $sql = "SELECT attach_id FROM " . ATTACHMENTS_DESC_TABLE;
 
-            if ( !($result = $pnt_db->sql_query($sql)) )
+            if ( !($result = $db->sql_query($sql)) )
             {
                 message_die(GENERAL_ERROR, 'Could not query Attachment Description Table', '', __LINE__, __FILE__, $sql);
             }
 
-            $total_phpbb2_rows = $pnt_db->sql_numrows($result);
-            $pnt_db->sql_freeresult($result);
+            $total_rows = $db->sql_numrows($result);
+            $db->sql_freeresult($result);
         }
     }
 }
 
 // Generate Pagination
-if ($do_pagination && $total_phpbb2_rows > $phpbb2_board_config['topics_per_page'])
+if ($do_pagination && $total_rows > $board_config['topics_per_page'])
 {
-    $pagination = generate_pagination('admin_attach_cp.' . $phpEx . '?view=' . $view . '&amp;mode=' . $mode . '&amp;order=' . $sort_order . '&amp;uid=' . $uid, $total_phpbb2_rows, $phpbb2_board_config['topics_per_page'], $phpbb2_start).'&nbsp;';
+    $pagination = generate_pagination('admin_attach_cp.' . $phpEx . '?view=' . $view . '&amp;mode=' . $mode . '&amp;order=' . $sort_order . '&amp;uid=' . $uid, $total_rows, $board_config['topics_per_page'], $start).'&nbsp;';
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'PAGINATION'    => $pagination,
-        'PAGE_NUMBER'    => sprintf($lang['Page_of'], ( floor( $phpbb2_start / $phpbb2_board_config['topics_per_page'] ) + 1 ), ceil( $total_phpbb2_rows / $phpbb2_board_config['topics_per_page'] )), 
+        'PAGE_NUMBER'    => sprintf($lang['Page_of'], ( floor( $start / $board_config['topics_per_page'] ) + 1 ), ceil( $total_rows / $board_config['topics_per_page'] )), 
 
         'L_GOTO_PAGE'    => $lang['Goto_page'])
     );
 }
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'ATTACH_VERSION' => sprintf($lang['Attachment_version'], $attach_config['attach_version']))
 );
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 include('page_footer_admin.'.$phpEx);
 

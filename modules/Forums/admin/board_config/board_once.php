@@ -26,7 +26,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "once" => "admin/board_config/board_once.tpl")
 );
 $show_sig_once_yes = ( $new['show_sig_once'] ) ? "checked=\"checked\"" : "";
@@ -37,12 +37,12 @@ $show_rank_once_yes = ( $new['show_rank_once'] ) ? "checked=\"checked\"" : "";
 $show_rank_once_no = ( !$new['show_rank_once'] ) ? "checked=\"checked\"" : "";
 
 //General Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
     
 //Language Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "L_ONCE_SETTINGS" => $lang['once_settings'],
     "L_SHOW_SIG_ONCE" => $lang['show_sig_once'],
     "L_SHOW_AVATAR_ONCE" => $lang['show_avatar_once'],
@@ -50,7 +50,7 @@ $phpbb2_template->assign_vars(array(
 ));
 
 //Data Template Variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "SHOW_SIG_ONCE_YES" => $show_sig_once_yes,
     "SHOW_SIG_ONCE_NO" => $show_sig_once_no,
     "SHOW_AVATAR_ONCE_YES" => $show_avatar_once_yes,
@@ -58,6 +58,6 @@ $phpbb2_template->assign_vars(array(
     "SHOW_RANK_ONCE_YES" => $show_rank_once_yes,
     "SHOW_RANK_ONCE_NO" => $show_rank_once_no
  ));
-$phpbb2_template->pparse("once");
+$template->pparse("once");
 
 ?>

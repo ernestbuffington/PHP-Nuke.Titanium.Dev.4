@@ -1,18 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 4.9.7
--- https://www.phpmyadmin.net/
---
--- Host: localhost:3306
--- Generation Time: Sep 21, 2022 at 05:08 PM
--- Server version: 10.2.44-MariaDB
--- PHP Version: 7.4.30
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "-04:00"; 
-
-CREATE TABLE IF NOT EXISTS `titanium_cemetery` (
+CREATE TABLE `network_cemetery` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `name` varchar(256) NOT NULL,
@@ -21,18 +7,18 @@ CREATE TABLE IF NOT EXISTS `titanium_cemetery` (
   `description` varchar(256) DEFAULT NULL,
   `mod_date` date NOT NULL DEFAULT '0000-00-00',
   `popup` tinyint(3) UNSIGNED NOT NULL DEFAULT 1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE IF NOT EXISTS `titanium_cemetery_cat` (
+CREATE TABLE `network_cemetery_cat` (
   `category_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `name` varchar(256) NOT NULL,
   `description` varchar(256) NOT NULL,
   `mod_date` date NOT NULL DEFAULT '0000-00-00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bookmarks` (
+CREATE TABLE `network_bookmarks` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `name` varchar(256) NOT NULL,
@@ -41,23 +27,23 @@ CREATE TABLE IF NOT EXISTS `titanium_bookmarks` (
   `description` varchar(256) DEFAULT NULL,
   `mod_date` date NOT NULL DEFAULT '0000-00-00',
   `popup` tinyint(3) UNSIGNED NOT NULL DEFAULT 1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bookmarks_cat` (
+CREATE TABLE `network_bookmarks_cat` (
   `category_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `name` varchar(256) NOT NULL,
   `description` varchar(256) NOT NULL,
   `mod_date` date NOT NULL DEFAULT '0000-00-00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_admin_fc` (
+CREATE TABLE `nuke_admin_fc` (
   `fc_datetime` varchar(25) NOT NULL DEFAULT '',
   `fc_ip` varchar(255) NOT NULL DEFAULT '',
   `fc_attempts` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_authors` (
+CREATE TABLE `nuke_authors` (
   `aid` varchar(25) NOT NULL DEFAULT '',
   `name` varchar(50) DEFAULT NULL,
   `url` varchar(255) NOT NULL DEFAULT '',
@@ -66,9 +52,9 @@ CREATE TABLE IF NOT EXISTS `titanium_authors` (
   `counter` int(11) NOT NULL DEFAULT 0,
   `radminsuper` tinyint(1) NOT NULL DEFAULT 1,
   `admlanguage` varchar(30) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_autonews` (
+CREATE TABLE `nuke_autonews` (
   `anid` int(10) UNSIGNED NOT NULL,
   `catid` int(11) NOT NULL DEFAULT 0,
   `aid` varchar(30) NOT NULL,
@@ -86,9 +72,9 @@ CREATE TABLE IF NOT EXISTS `titanium_autonews` (
   `associated` text NOT NULL,
   `ticon` tinyint(1) NOT NULL DEFAULT 0,
   `writes` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_banner` (
+CREATE TABLE `nuke_banner` (
   `bid` int(11) NOT NULL,
   `cid` int(11) NOT NULL DEFAULT 0,
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -107,13 +93,13 @@ CREATE TABLE IF NOT EXISTS `titanium_banner` (
   `ad_width` int(11) DEFAULT 0,
   `ad_height` int(11) DEFAULT 0,
   `type` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_banner` (`bid`, `cid`, `name`, `imptotal`, `impmade`, `clicks`, `imageurl`, `clickurl`, `alttext`, `date`, `dateend`, `position`, `active`, `ad_class`, `ad_code`, `ad_width`, `ad_height`, `type`) VALUES
+INSERT INTO `nuke_banner` (`bid`, `cid`, `name`, `imptotal`, `impmade`, `clicks`, `imageurl`, `clickurl`, `alttext`, `date`, `dateend`, `position`, `active`, `ad_class`, `ad_code`, `ad_width`, `ad_height`, `type`) VALUES
 (4, 1, '86it', 0, 515357, 614, 'https://php-nuke-titanium.86it.us/images/banners/10.png', 'index.php', 'PHP-Nuke Titanium Dev 4', '2019-09-17 17:36:30', '0000-00-00 00:00:00', 0, 1, 'image', '', 472, 79, ''),
 (5, 1, 'Xtreme', 0, 4532, 54, 'https://dev-php-nuke-evolution-xtreme.86it.us/themes/Xtreme_Core/images/HEADER/banner_02.png', 'index.php', 'PHP-Nuke Evolution Xtreme', '2021-05-28 02:54:43', '0000-00-00 00:00:00', 0, 0, 'image', '', 484, 79, '');
 
-CREATE TABLE IF NOT EXISTS `titanium_banner_clients` (
+CREATE TABLE `nuke_banner_clients` (
   `cid` int(11) NOT NULL,
   `name` varchar(60) NOT NULL DEFAULT '',
   `contact` varchar(60) NOT NULL DEFAULT '',
@@ -121,12 +107,12 @@ CREATE TABLE IF NOT EXISTS `titanium_banner_clients` (
   `login` varchar(10) NOT NULL DEFAULT '',
   `passwd` varchar(10) NOT NULL DEFAULT '',
   `extrainfo` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_banner_clients` (`cid`, `name`, `contact`, `email`, `login`, `passwd`, `extrainfo`) VALUES
+INSERT INTO `nuke_banner_clients` (`cid`, `name`, `contact`, `email`, `login`, `passwd`, `extrainfo`) VALUES
 (1, 'TheGhost', 'Ernest Buffington', 'ernest.buffington@gmail.com', 'TheGhost', '28up4meoru', '');
 
-CREATE TABLE IF NOT EXISTS `titanium_banner_plans` (
+CREATE TABLE `nuke_banner_plans` (
   `pid` int(10) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT 0,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -135,47 +121,47 @@ CREATE TABLE IF NOT EXISTS `titanium_banner_plans` (
   `delivery_type` varchar(25) NOT NULL DEFAULT '',
   `price` varchar(25) NOT NULL DEFAULT '0',
   `buy_links` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_banner_positions` (
+CREATE TABLE `nuke_banner_positions` (
   `apid` int(10) NOT NULL,
   `position_number` int(5) NOT NULL DEFAULT 0,
   `position_name` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_banner_positions` (`apid`, `position_number`, `position_name`) VALUES
+INSERT INTO `nuke_banner_positions` (`apid`, `position_number`, `position_name`) VALUES
 (1, 0, 'Page Top'),
 (2, 1, 'Left Block'),
 (3, 2, 'Page Bottom');
 
-CREATE TABLE IF NOT EXISTS `titanium_banner_terms` (
+CREATE TABLE `nuke_banner_terms` (
   `terms_body` text NOT NULL,
   `country` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_banner_terms` (`terms_body`, `country`) VALUES
+INSERT INTO `nuke_banner_terms` (`terms_body`, `country`) VALUES
 ('<div align=\"justify\"><strong>Introduction:</strong> This Agreement between you and&nbsp;[sitename] consists of these Terms and Conditions. &quot;You&quot; or &quot;Advertiser&quot; means the entity identified in this enrollment form, and/or any agency acting on its behalf, which shall also be bound by the terms of this Agreement. Please read very carefully these Terms and Conditions.<br /><strong><br />Uses:</strong> You agree that your ads may be placed on (i) [sitename] web site and (ii) Any ads may be modified without your consent to comply with any policy of [sitename]. [sitename] reserves the right to, and in its sole discretion may, at any time review, reject, modify, or remove any ad. No liability of [sitename] and/or its owner(s) shall result from any such decision.<br /><br /></div><div align=\"justify\"><strong>Parties\' Responsibilities:</strong> You are responsible of your own site and/or service advertised in [sitename] web site. You are solely responsible for the advertising image creation, advertising text and for the content of your ads, including URL links. [sitename] is not responsible for anything regarding your Web site(s) including, but not limited to, maintenance of your Web site(s), order entry, customer service, payment processing, shipping, cancellations or returns.<br /><br /></div><div align=\"justify\"><strong>Impressions Count:</strong> Any hit to [sitename] web site is counted as an impression. Due to our advertising price we don\'t discriminate from users or automated robots. Even if you access to [sitename] web site and see your own banner ad it will be counted as a valid impression. Only in the case of [sitename] web site administrator, the impressions will not be counted.<br /><br /></div><div align=\"justify\"><strong>Termination, Cancellation:</strong> [sitename] may at any time, in its sole discretion, terminate the Campaign, terminate this Agreement, or cancel any ad(s) or your use of any Target. [sitename] will notify you via email of any such termination or cancellation, which shall be effective immediately. No refund will be made for any reason. Remaining impressions will be stored in a database and you\'ll be able to request another campaign to complete your inventory. You may cancel any ad and/or terminate this Agreement with or without cause at any time. Termination of your account shall be effective when [sitename] receives your notice via email. No refund will be made for any reason. Remaining impressions will be stored in a database for future uses by you and/or your company.<br /><br /></div><div align=\"justify\"><strong>Content:</strong> [sitename] web site doesn\'t accepts advertising that contains: (i) pornography, (ii) explicit adult content, (iii) moral questionable content, (iv) illegal content of any kind, (v) illegal drugs promotion, (vi) racism, (vii) politics content, (viii) religious content, and/or (ix) fraudulent suspicious content. If your advertising and/or target web site has any of this content and you purchased an advertising package, you\'ll not receive refund of any kind but your banners ads impressions will be stored for future use.<br /><br /></div><div align=\"justify\"><strong>Confidentiality:</strong> Each party agrees not to disclose Confidential Information of the other party without prior written consent except as provided herein. &quot;Confidential Information&quot; includes (i) ads, prior to publication, (ii) submissions or modifications relating to any advertising campaign, (iii) clickthrough rates or other statistics (except in an aggregated form that includes no identifiable information about you), and (iv) any other information designated in writing as &quot;Confidential.&quot; It does not include information that has become publicly known through no breach by a party, or has been (i) independently developed without access to the other party\'s Confidential Information; (ii) rightfully received from a third party; or (iii) required to be disclosed by law or by a governmental authority.<br /><br /></div><div align=\"justify\"><strong>No Guarantee:</strong> [sitename] makes no guarantee regarding the levels of clicks for any ad on its site. [sitename] may offer the same Target to more than one advertiser. You may not receive exclusivity unless special private contract between [sitename] and you.<br /><br /></div><div align=\"justify\"><strong>No Warranty:</strong> [sitename] MAKES NO WARRANTY, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION WITH RESPECT TO ADVERTISING AND OTHER SERVICES, AND EXPRESSLY DISCLAIMS THE WARRANTIES OR CONDITIONS OF NONINFRINGEMENT, MERCHANTABILITY AND FITNESS FOR ANY PARTICULAR PURPOSE.<br /><br /></div><div align=\"justify\"><strong>Limitations of Liability:</strong> In no event shall [sitename] be liable for any act or omission, or any event directly or indirectly resulting from any act or omission of Advertiser, Partner, or any third parties (if any). EXCEPT FOR THE PARTIES\' INDEMNIFICATION AND CONFIDENTIALITY OBLIGATIONS HEREUNDER, (i) IN NO EVENT SHALL EITHER PARTY BE LIABLE UNDER THIS AGREEMENT FOR ANY CONSEQUENTIAL, SPECIAL, INDIRECT, EXEMPLARY, PUNITIVE, OR OTHER DAMAGES WHETHER IN CONTRACT, TORT OR ANY OTHER LEGAL THEORY, EVEN IF SUCH PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES AND NOTWITHSTANDING ANY FAILURE OF ESSENTIAL PURPOSE OF ANY LIMITED REMEDY AND (ii) [sitename] AGGREGATE LIABILITY TO ADVERTISER UNDER THIS AGREEMENT FOR ANY CLAIM IS LIMITED TO THE AMOUNT PAID TO [sitename] BY ADVERTISER FOR THE AD GIVING RISE TO THE CLAIM. Each party acknowledges that the other party has entered into this Agreement relying on the limitations of liability stated herein and that those limitations are an essential basis of the bargain between the parties. Without limiting the foregoing and except for payment obligations, neither party shall have any liability for any failure or delay resulting from any condition beyond the reasonable control of such party, including but not limited to governmental action or acts of terrorism, earthquake or other acts of God, labor conditions, and power failures.<br /><br /></div><div align=\"justify\"><strong>Payment:</strong> You agree to pay in advance the cost of the advertising. [sitename] will not setup any banner ads campaign(s) unless the payment process is complete. [sitename] may change its pricing at any time without prior notice. If you have an advertising campaign running and/or impressions stored for future use for any mentioned cause and [sitename] changes its pricing, you\'ll not need to pay any difference. Your purchased banners fee will remain the same. Charges shall be calculated solely based on records maintained by [sitename]. No other measurements or statistics of any kind shall be accepted by [sitename] or have any effect under this Agreement.<br /><br /></div><div align=\"justify\"><strong>Representations and Warranties:</strong> You represent and warrant that (a) all of the information provided by you to [sitename] to enroll in the Advertising Campaign is correct and current; (b) you hold all rights to permit [sitename] and any Partner(s) to use, reproduce, display, transmit and distribute your ad(s); and (c) [sitename] and any Partner(s) Use, your Target(s), and any site(s) linked to, and products or services to which users are directed, will not, in any state or country where the ad is displayed (i) violate any criminal laws or third party rights giving rise to civil liability, including but not limited to trademark rights or rights relating to the performance of music; or (ii) encourage conduct that would violate any criminal or civil law. You further represent and warrant that any Web site linked to your ad(s) (i) complies with all laws and regulations in any state or country where the ad is displayed; (ii) does not breach and has not breached any duty toward or rights of any person or entity including, without limitation, rights of publicity or privacy, or rights or duties under consumer protection, product liability, tort, or contract theories; and (iii) is not false, misleading, defamatory, libelous, slanderous or threatening.<br /><br /></div><div align=\"justify\"><strong>Your Obligation to Indemnify:</strong> You agree to indemnify, defend and hold [sitename], its agents, affiliates, subsidiaries, directors, officers, employees, and applicable third parties (e.g., all relevant Partner(s), licensors, licensees, consultants and contractors) (&quot;Indemnified Person(s)&quot;) harmless from and against any and all third party claims, liability, loss, and expense (including damage awards, settlement amounts, and reasonable legal fees), brought against any Indemnified Person(s), arising out of, related to or which may arise from your use of the Advertising Program, your Web site, and/or your breach of any term of this Agreement. Customer understands and agrees that each Partner, as defined herein, has the right to assert and enforce its rights under this Section directly on its own behalf as a third party beneficiary.<br /><br /></div><div align=\"justify\"><strong>Information Rights:</strong> [sitename] may retain and use for its own purposes all information you provide, including but not limited to Targets, URLs, the content of ads, and contact and billing information. [sitename] may share this information about you with business partners and/or sponsors. [sitename] will not sell your information. Your name, web site\'s URL and related graphics shall be used by [sitename] in its own web site at any time as a sample to the public, even if your Advertising Campaign has been finished.<br /><br /></div><div align=\"justify\"><strong>Miscellaneous:</strong> Any decision made by [sitename] under this Agreement shall be final. [sitename] shall have no liability for any such decision. You will be responsible for all reasonable expenses (including attorneys\' fees) incurred by [sitename] in collecting unpaid amounts under this Agreement. This Agreement shall be governed by the laws of [country]. Any dispute or claim arising out of or in connection with this Agreement shall be adjudicated in [country]. This constitutes the entire agreement between the parties with respect to the subject matter hereof. Advertiser may not resell, assign, or transfer any of its rights hereunder. Any such attempt may result in termination of this Agreement, without liability to [sitename] and without any refund. The relationship(s) between [sitename] and the &quot;Partners&quot; is not one of a legal partnership relationship, but is one of independent contractors. This Agreement shall be construed as if both parties jointly wrote it.</div>', 'Canada');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbadvanced_username_color` (
+CREATE TABLE `nuke_bbadvanced_username_color` (
   `group_id` int(10) UNSIGNED NOT NULL,
   `group_name` varchar(255) NOT NULL DEFAULT '',
   `group_color` varchar(6) NOT NULL DEFAULT '',
   `group_weight` smallint(2) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbadvanced_username_color` (`group_id`, `group_name`, `group_color`, `group_weight`) VALUES
+INSERT INTO `nuke_bbadvanced_username_color` (`group_id`, `group_name`, `group_color`, `group_weight`) VALUES
 (1, 'Portal Admins', 'ff632a', 1),
 (2, 'Portal Moderators', 'd38d01', 2),
 (3, 'VIP Members', '00aa00', 3),
 (4, 'Portal Members', '00b3ff', 4),
 (5, 'CKEditor 4 Access', 'bf0000', 5);
 
-CREATE TABLE IF NOT EXISTS `titanium_bbarcade` (
+CREATE TABLE `nuke_bbarcade` (
   `arcade_name` varchar(255) NOT NULL DEFAULT '',
   `arcade_value` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbarcade` (`arcade_name`, `arcade_value`) VALUES
+INSERT INTO `nuke_bbarcade` (`arcade_name`, `arcade_value`) VALUES
 ('use_category_mod', '1'),
 ('category_preview_games', '5'),
 ('games_par_page', '15'),
@@ -192,45 +178,45 @@ REPLACE INTO `titanium_bbarcade` (`arcade_name`, `arcade_value`) VALUES
 ('use_fav_category', '1'),
 ('arcade_announcement', 'Welcome to the Arcade!<br />Enjoy!');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbarcade_categories` (
+CREATE TABLE `nuke_bbarcade_categories` (
   `arcade_catid` mediumint(8) UNSIGNED NOT NULL,
   `arcade_cattitle` varchar(100) NOT NULL DEFAULT '',
   `arcade_nbelmt` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `arcade_catorder` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `arcade_catauth` tinyint(2) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbarcade_categories` (`arcade_catid`, `arcade_cattitle`, `arcade_nbelmt`, `arcade_catorder`, `arcade_catauth`) VALUES
+INSERT INTO `nuke_bbarcade_categories` (`arcade_catid`, `arcade_cattitle`, `arcade_nbelmt`, `arcade_catorder`, `arcade_catauth`) VALUES
 (1, 'Arcade', 1, 1, 0);
 
-CREATE TABLE IF NOT EXISTS `titanium_bbarcade_comments` (
+CREATE TABLE `nuke_bbarcade_comments` (
   `game_id` mediumint(8) NOT NULL DEFAULT 0,
   `comments_value` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbarcade_comments` (`game_id`, `comments_value`) VALUES
+INSERT INTO `nuke_bbarcade_comments` (`game_id`, `comments_value`) VALUES
 (1, '');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbarcade_fav` (
+CREATE TABLE `nuke_bbarcade_fav` (
   `order` mediumint(8) NOT NULL DEFAULT 0,
   `user_id` mediumint(8) NOT NULL DEFAULT 0,
   `game_id` mediumint(8) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbattachments` (
+CREATE TABLE `nuke_bbattachments` (
   `attach_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `privmsgs_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `user_id_1` mediumint(8) NOT NULL DEFAULT 0,
   `user_id_2` mediumint(8) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbattachments_config` (
+CREATE TABLE `nuke_bbattachments_config` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbattachments_config` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_bbattachments_config` (`config_name`, `config_value`) VALUES
 ('upload_dir', 'modules/Forums/files'),
 ('upload_img', 'modules/Forums/images/attachment-download.png'),
 ('topic_icon', 'modules/Forums/images/attachment.png'),
@@ -266,7 +252,7 @@ REPLACE INTO `titanium_bbattachments_config` (`config_name`, `config_value`) VAL
 ('wma_autoplay', '0'),
 ('flash_autoplay', '0');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbattachments_desc` (
+CREATE TABLE `nuke_bbattachments_desc` (
   `attach_id` mediumint(8) UNSIGNED NOT NULL,
   `physical_filename` varchar(255) NOT NULL DEFAULT '',
   `real_filename` varchar(255) NOT NULL DEFAULT '',
@@ -277,16 +263,16 @@ CREATE TABLE IF NOT EXISTS `titanium_bbattachments_desc` (
   `filesize` int(20) NOT NULL DEFAULT 0,
   `filetime` int(11) NOT NULL DEFAULT 0,
   `thumbnail` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbattach_quota` (
+CREATE TABLE `nuke_bbattach_quota` (
   `user_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `group_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `quota_type` smallint(2) NOT NULL DEFAULT 0,
   `quota_limit_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbauth_access` (
+CREATE TABLE `nuke_bbauth_access` (
   `group_id` mediumint(8) NOT NULL DEFAULT 0,
   `forum_id` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
   `auth_view` tinyint(1) NOT NULL DEFAULT 0,
@@ -303,33 +289,33 @@ CREATE TABLE IF NOT EXISTS `titanium_bbauth_access` (
   `auth_attachments` tinyint(1) NOT NULL DEFAULT 0,
   `auth_mod` tinyint(1) NOT NULL DEFAULT 0,
   `auth_download` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbauth_arcade_access` (
+CREATE TABLE `nuke_bbauth_arcade_access` (
   `group_id` mediumint(8) NOT NULL DEFAULT 0,
   `arcade_catid` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbbanlist` (
+CREATE TABLE `nuke_bbbanlist` (
   `ban_id` mediumint(8) UNSIGNED NOT NULL,
   `ban_userid` mediumint(8) NOT NULL DEFAULT 0,
   `ban_ip` varchar(8) NOT NULL DEFAULT '',
   `ban_email` varchar(255) DEFAULT NULL,
   `ban_time` int(11) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbcategories` (
+CREATE TABLE `nuke_bbcategories` (
   `cat_id` mediumint(8) UNSIGNED NOT NULL,
   `cat_title` varchar(100) DEFAULT NULL,
   `cat_order` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbconfig` (
+CREATE TABLE `nuke_bbconfig` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbconfig` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_bbconfig` (`config_name`, `config_value`) VALUES
 ('config_id', '1'),
 ('board_disable', '0'),
 ('board_disable_adminview', '1'),
@@ -544,19 +530,19 @@ REPLACE INTO `titanium_bbconfig` (`config_name`, `config_value`) VALUES
 ('smtp_port', ''),
 ('smtp_auth', '0');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbdisallow` (
+CREATE TABLE `nuke_bbdisallow` (
   `disallow_id` mediumint(8) UNSIGNED NOT NULL,
   `disallow_username` varchar(25) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbextensions` (
+CREATE TABLE `nuke_bbextensions` (
   `ext_id` mediumint(8) UNSIGNED NOT NULL,
   `group_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `extension` varchar(100) NOT NULL DEFAULT '',
   `comment` varchar(100) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbextensions` (`ext_id`, `group_id`, `extension`, `comment`) VALUES
+INSERT INTO `nuke_bbextensions` (`ext_id`, `group_id`, `extension`, `comment`) VALUES
 (1, 1, 'gif', ''),
 (2, 1, 'png', ''),
 (3, 1, 'jpeg', ''),
@@ -587,7 +573,7 @@ REPLACE INTO `titanium_bbextensions` (`ext_id`, `group_id`, `extension`, `commen
 (28, 7, 'swf', ''),
 (29, 2, 'iso', '');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbextension_groups` (
+CREATE TABLE `nuke_bbextension_groups` (
   `group_id` mediumint(8) NOT NULL,
   `group_name` varchar(20) NOT NULL DEFAULT '',
   `cat_id` tinyint(2) NOT NULL DEFAULT 0,
@@ -596,9 +582,9 @@ CREATE TABLE IF NOT EXISTS `titanium_bbextension_groups` (
   `upload_icon` varchar(100) DEFAULT '',
   `max_filesize` int(20) NOT NULL DEFAULT 0,
   `forum_permissions` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbextension_groups` (`group_id`, `group_name`, `cat_id`, `allow_group`, `download_mode`, `upload_icon`, `max_filesize`, `forum_permissions`) VALUES
+INSERT INTO `nuke_bbextension_groups` (`group_id`, `group_name`, `cat_id`, `allow_group`, `download_mode`, `upload_icon`, `max_filesize`, `forum_permissions`) VALUES
 (1, 'Images', 1, 1, 2, '', 104857600, ''),
 (2, 'Archives', 0, 1, 2, '', 104857600, ''),
 (3, 'Plain Text', 0, 0, 2, '', 104857600, ''),
@@ -607,13 +593,13 @@ REPLACE INTO `titanium_bbextension_groups` (`group_id`, `group_name`, `cat_id`, 
 (6, 'Streams', 2, 0, 2, '', 104857600, ''),
 (7, 'Flash Files', 3, 0, 2, '', 104857600, '');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbflags` (
+CREATE TABLE `nuke_bbflags` (
   `flag_id` int(10) NOT NULL,
   `flag_name` varchar(50) DEFAULT NULL,
   `flag_image` varchar(50) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-REPLACE INTO `titanium_bbflags` (`flag_id`, `flag_name`, `flag_image`) VALUES
+INSERT INTO `nuke_bbflags` (`flag_id`, `flag_name`, `flag_image`) VALUES
 (1, 'usa', 'usa.png'),
 (2, 'afghanistan', 'afghanistan.png'),
 (3, 'albania', 'albania.png'),
@@ -787,28 +773,24 @@ REPLACE INTO `titanium_bbflags` (`flag_id`, `flag_name`, `flag_image`) VALUES
 (171, 'zambia', 'zambia.png'),
 (172, 'zimbabwe', 'zimbabwe.png');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbforbidden_extensions` (
+CREATE TABLE `nuke_bbforbidden_extensions` (
   `ext_id` mediumint(8) UNSIGNED NOT NULL,
   `extension` varchar(100) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbforbidden_extensions` (`ext_id`, `extension`) VALUES
+INSERT INTO `nuke_bbforbidden_extensions` (`ext_id`, `extension`) VALUES
 (1, 'php'),
 (2, 'php3'),
 (3, 'php4'),
-(4, 'php5'),
-(5, 'php6'),
-(6, 'php7'),
-(7, 'php8'),
-(8, 'phtml'),
-(9, 'pl'),
-(10, 'asp'),
-(11, 'cgi'),
-(12, 'com'),
-(13, 'bat'),
-(14, 'scr');
+(4, 'phtml'),
+(5, 'pl'),
+(6, 'asp'),
+(7, 'cgi'),
+(8, 'com'),
+(9, 'bat'),
+(10, 'scr');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbforums` (
+CREATE TABLE `nuke_bbforums` (
   `forum_id` smallint(5) UNSIGNED NOT NULL,
   `cat_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `forum_name` varchar(150) DEFAULT NULL,
@@ -845,23 +827,23 @@ CREATE TABLE IF NOT EXISTS `titanium_bbforums` (
   `forum_icon` varchar(255) DEFAULT NULL,
   `forum_thank` tinyint(1) NOT NULL DEFAULT 0,
   `forum_password` varchar(20) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbforum_prune` (
+CREATE TABLE `nuke_bbforum_prune` (
   `prune_id` mediumint(8) UNSIGNED NOT NULL,
   `forum_id` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
   `prune_days` tinyint(4) UNSIGNED NOT NULL DEFAULT 0,
   `prune_freq` tinyint(4) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbgamehash` (
+CREATE TABLE `nuke_bbgamehash` (
   `gamehash_id` char(32) NOT NULL,
   `game_id` mediumint(8) NOT NULL,
   `user_id` mediumint(8) NOT NULL,
   `hash_date` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbgames` (
+CREATE TABLE `nuke_bbgames` (
   `game_id` mediumint(8) NOT NULL,
   `game_pic` varchar(50) NOT NULL DEFAULT '',
   `game_desc` varchar(255) NOT NULL DEFAULT '',
@@ -877,9 +859,9 @@ CREATE TABLE IF NOT EXISTS `titanium_bbgames` (
   `game_order` mediumint(8) NOT NULL DEFAULT 0,
   `game_set` mediumint(8) NOT NULL DEFAULT 0,
   `arcade_catid` mediumint(8) NOT NULL DEFAULT 1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbgroups` (
+CREATE TABLE `nuke_bbgroups` (
   `group_id` mediumint(8) NOT NULL,
   `group_type` tinyint(4) NOT NULL DEFAULT 1,
   `group_name` varchar(40) NOT NULL DEFAULT '',
@@ -898,9 +880,9 @@ CREATE TABLE IF NOT EXISTS `titanium_bbgroups` (
   `group_count` int(4) UNSIGNED DEFAULT 99999999,
   `group_count_max` int(4) UNSIGNED DEFAULT 99999999,
   `group_count_enable` smallint(2) UNSIGNED DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbgroups` (`group_id`, `group_type`, `group_name`, `group_description`, `group_moderator`, `group_single_user`, `group_allow_pm`, `group_color`, `group_rank`, `max_inbox`, `max_sentbox`, `max_savebox`, `override_max_inbox`, `override_max_sentbox`, `override_max_savebox`, `group_count`, `group_count_max`, `group_count_enable`) VALUES
+INSERT INTO `nuke_bbgroups` (`group_id`, `group_type`, `group_name`, `group_description`, `group_moderator`, `group_single_user`, `group_allow_pm`, `group_color`, `group_rank`, `max_inbox`, `max_sentbox`, `max_savebox`, `override_max_inbox`, `override_max_sentbox`, `override_max_savebox`, `group_count`, `group_count_max`, `group_count_enable`) VALUES
 (1, 1, 'Anonymous', 'Personal User', 0, 1, 0, '', '', 0, 0, 0, 0, 0, 0, 99999999, 99999999, 0),
 (2, 2, 'Portal Moderators', 'Portal Moderators', 2, 0, 5, '2', '2', 0, 0, 0, 0, 0, 0, 99999999, 99999999, 0),
 (3, 0, 'Portal Members', 'Default Portal Usergroup', 2, 0, 5, '4', '6', 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -913,19 +895,19 @@ REPLACE INTO `titanium_bbgroups` (`group_id`, `group_type`, `group_name`, `group
 (29, 1, '', 'Personal User', 0, 1, 5, '', '0', 100, 100, 100, 0, 0, 0, 99999999, 99999999, 0);
 
 
-CREATE TABLE IF NOT EXISTS `titanium_bbhackgame` (
+CREATE TABLE `nuke_bbhackgame` (
   `user_id` mediumint(8) NOT NULL,
   `game_id` mediumint(8) NOT NULL,
   `date_hack` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbinline_ads` (
+CREATE TABLE `nuke_bbinline_ads` (
   `ad_id` tinyint(5) NOT NULL,
   `ad_code` text NOT NULL,
   `ad_name` char(25) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bblogs` (
+CREATE TABLE `nuke_bblogs` (
   `log_id` mediumint(10) NOT NULL,
   `mode` varchar(50) DEFAULT '',
   `topic_id` mediumint(10) DEFAULT 0,
@@ -937,17 +919,17 @@ CREATE TABLE IF NOT EXISTS `titanium_bblogs` (
   `forum_id` mediumint(10) NOT NULL DEFAULT 0,
   `new_forum_id` mediumint(10) NOT NULL DEFAULT 0,
   `last_post_id` mediumint(10) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bblogs_config` (
+CREATE TABLE `nuke_bblogs_config` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bblogs_config` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_bblogs_config` (`config_name`, `config_value`) VALUES
 ('all_admin', '0');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbposts` (
+CREATE TABLE `nuke_bbposts` (
   `post_id` mediumint(8) UNSIGNED NOT NULL,
   `topic_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `forum_id` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
@@ -964,16 +946,16 @@ CREATE TABLE IF NOT EXISTS `titanium_bbposts` (
   `post_attachment` tinyint(1) NOT NULL DEFAULT 0,
   `post_move` tinyint(1) NOT NULL DEFAULT 0,
   `post_icon` tinyint(2) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbposts_text` (
+CREATE TABLE `nuke_bbposts_text` (
   `post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `bbcode_uid` varchar(10) NOT NULL DEFAULT '',
   `post_subject` varchar(60) DEFAULT NULL,
   `post_text` text DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbpost_reports` (
+CREATE TABLE `nuke_bbpost_reports` (
   `report_id` mediumint(8) NOT NULL,
   `post_id` mediumint(8) NOT NULL DEFAULT 0,
   `reporter_id` mediumint(8) NOT NULL DEFAULT 0,
@@ -983,9 +965,9 @@ CREATE TABLE IF NOT EXISTS `titanium_bbpost_reports` (
   `last_action_user_id` mediumint(8) DEFAULT 0,
   `last_action_time` int(11) NOT NULL DEFAULT 0,
   `last_action_comments` text DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbprivmsgs` (
+CREATE TABLE `nuke_bbprivmsgs` (
   `privmsgs_id` mediumint(8) UNSIGNED NOT NULL,
   `privmsgs_type` tinyint(4) NOT NULL DEFAULT 0,
   `privmsgs_subject` varchar(255) NOT NULL DEFAULT '0',
@@ -998,9 +980,9 @@ CREATE TABLE IF NOT EXISTS `titanium_bbprivmsgs` (
   `privmsgs_enable_smilies` tinyint(1) NOT NULL DEFAULT 1,
   `privmsgs_attach_sig` tinyint(1) NOT NULL DEFAULT 1,
   `privmsgs_attachment` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbprivmsgs_archive` (
+CREATE TABLE `nuke_bbprivmsgs_archive` (
   `privmsgs_id` mediumint(8) UNSIGNED NOT NULL,
   `privmsgs_type` tinyint(4) NOT NULL DEFAULT 0,
   `privmsgs_subject` varchar(255) NOT NULL DEFAULT '0',
@@ -1012,50 +994,50 @@ CREATE TABLE IF NOT EXISTS `titanium_bbprivmsgs_archive` (
   `privmsgs_enable_html` tinyint(1) NOT NULL DEFAULT 0,
   `privmsgs_enable_smilies` tinyint(1) NOT NULL DEFAULT 1,
   `privmsgs_attach_sig` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbprivmsgs_text` (
+CREATE TABLE `nuke_bbprivmsgs_text` (
   `privmsgs_text_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `privmsgs_bbcode_uid` varchar(10) NOT NULL DEFAULT '0',
   `privmsgs_text` text DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbquicksearch` (
+CREATE TABLE `nuke_bbquicksearch` (
   `search_id` mediumint(8) UNSIGNED NOT NULL,
   `search_name` varchar(255) NOT NULL DEFAULT '',
   `search_url1` varchar(255) NOT NULL DEFAULT '',
   `search_url2` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbquicksearch` (`search_id`, `search_name`, `search_url1`, `search_url2`) VALUES
+INSERT INTO `nuke_bbquicksearch` (`search_id`, `search_name`, `search_url1`, `search_url2`) VALUES
 (1, 'Google', 'http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=', '');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbquota_limits` (
+CREATE TABLE `nuke_bbquota_limits` (
   `quota_limit_id` mediumint(8) UNSIGNED NOT NULL,
   `quota_desc` varchar(20) NOT NULL DEFAULT '',
   `quota_limit` bigint(20) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbquota_limits` (`quota_limit_id`, `quota_desc`, `quota_limit`) VALUES
+INSERT INTO `nuke_bbquota_limits` (`quota_limit_id`, `quota_desc`, `quota_limit`) VALUES
 (1, 'Low', 262144),
 (2, 'Medium', 2097152),
 (3, 'High', 5242880);
 
-CREATE TABLE IF NOT EXISTS `titanium_bbranks` (
+CREATE TABLE `nuke_bbranks` (
   `rank_id` smallint(5) UNSIGNED NOT NULL,
   `rank_title` varchar(100) NOT NULL DEFAULT '',
   `rank_min` mediumint(8) NOT NULL DEFAULT 0,
   `rank_special` tinyint(1) DEFAULT 0,
   `rank_image` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbranks` (`rank_id`, `rank_title`, `rank_min`, `rank_special`, `rank_image`) VALUES
+INSERT INTO `nuke_bbranks` (`rank_id`, `rank_title`, `rank_min`, `rank_special`, `rank_image`) VALUES
 (4, 'Administrator', -1, 1, 'images/ranks/administrator.png'),
 (5, 'Developer', -1, 1, 'images/ranks/developer.png'),
 (6, 'Portal Member', -1, 1, 'images/ranks/regular-member.png'),
 (7, 'VIP Member', -1, 1, 'images/ranks/vip.png');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbreputation` (
+CREATE TABLE `nuke_bbreputation` (
   `user_id` mediumint(8) NOT NULL DEFAULT 0,
   `user_id_2` mediumint(8) NOT NULL DEFAULT 0,
   `post_id` mediumint(8) NOT NULL DEFAULT 0,
@@ -1063,14 +1045,14 @@ CREATE TABLE IF NOT EXISTS `titanium_bbreputation` (
   `rep_neg` tinyint(1) NOT NULL DEFAULT 0,
   `rep_comment` varchar(200) NOT NULL DEFAULT '',
   `rep_time` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbreputation_config` (
+CREATE TABLE `nuke_bbreputation_config` (
   `config_name` varchar(255) NOT NULL,
   `config_value` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbreputation_config` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_bbreputation_config` (`config_name`, `config_value`) VALUES
 ('posts_to_earn', '5'),
 ('rep_disable', '0'),
 ('days_to_earn', '30'),
@@ -1086,16 +1068,16 @@ REPLACE INTO `titanium_bbreputation_config` (`config_name`, `config_value`) VALU
 ('pm_notify', '0'),
 ('default_amount', '0');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbscores` (
+CREATE TABLE `nuke_bbscores` (
   `game_id` mediumint(8) NOT NULL DEFAULT 0,
   `user_id` mediumint(8) NOT NULL DEFAULT 0,
   `score_game` int(11) NOT NULL DEFAULT 0,
   `score_date` int(11) NOT NULL DEFAULT 0,
   `score_time` int(11) NOT NULL DEFAULT 0,
   `score_set` mediumint(8) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbsearch_rebuild` (
+CREATE TABLE `nuke_bbsearch_rebuild` (
   `rebuild_session_id` mediumint(8) UNSIGNED NOT NULL,
   `start_post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `end_post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
@@ -1107,32 +1089,32 @@ CREATE TABLE IF NOT EXISTS `titanium_bbsearch_rebuild` (
   `session_cycles` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `search_size` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `rebuild_session_status` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbsearch_results` (
+CREATE TABLE `nuke_bbsearch_results` (
   `search_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `session_id` varchar(32) NOT NULL DEFAULT '',
   `search_array` text NOT NULL,
   `search_time` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbsearch_results` (`search_id`, `session_id`, `search_array`, `search_time`) VALUES
+INSERT INTO `nuke_bbsearch_results` (`search_id`, `session_id`, `search_array`, `search_time`) VALUES
 (1740340759, '26589137fb7fab02a0b32bc95be6281d', 'a:7:{s:14:\"search_results\";N;s:17:\"total_match_count\";N;s:12:\"split_search\";N;s:7:\"sort_by\";N;s:8:\"sort_dir\";N;s:12:\"show_results\";N;s:12:\"return_chars\";N;}', 1620660088);
 
-CREATE TABLE IF NOT EXISTS `titanium_bbsearch_wordlist` (
+CREATE TABLE `nuke_bbsearch_wordlist` (
   `word_text` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL DEFAULT '',
   `word_id` mediumint(8) UNSIGNED NOT NULL,
   `word_common` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbsearch_wordmatch` (
+CREATE TABLE `nuke_bbsearch_wordmatch` (
   `post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `word_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `title_match` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbsessions` (
+CREATE TABLE `nuke_bbsessions` (
   `session_id` varchar(32) NOT NULL DEFAULT '',
   `session_user_id` mediumint(8) NOT NULL DEFAULT 0,
   `session_start` int(11) NOT NULL DEFAULT 0,
@@ -1144,24 +1126,24 @@ CREATE TABLE IF NOT EXISTS `titanium_bbsessions` (
   `session_url_qs` varchar(255) NOT NULL DEFAULT '',
   `session_url_ps` varchar(255) NOT NULL DEFAULT '',
   `session_url_specific` int(10) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbsessions_keys` (
+CREATE TABLE `nuke_bbsessions_keys` (
   `key_id` varchar(32) NOT NULL DEFAULT '0',
   `user_id` mediumint(8) NOT NULL DEFAULT 0,
   `last_ip` varchar(8) NOT NULL DEFAULT '0',
   `last_login` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbsmilies` (
+CREATE TABLE `nuke_bbsmilies` (
   `smilies_id` smallint(5) UNSIGNED NOT NULL,
   `code` varchar(50) DEFAULT NULL,
   `smile_url` varchar(100) DEFAULT NULL,
   `emoticon` varchar(75) DEFAULT NULL,
   `smile_stat` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbsmilies` (`smilies_id`, `code`, `smile_url`, `emoticon`, `smile_stat`) VALUES
+INSERT INTO `nuke_bbsmilies` (`smilies_id`, `code`, `smile_url`, `emoticon`, `smile_stat`) VALUES
 (1, ':D', 'bigsmile.png', 'Very Happy', 0),
 (2, ':-D', 'bigsmile.png', 'Very Happy', 0),
 (3, ':grin:', 'bigsmile.png', 'Very Happy', 0),
@@ -1199,18 +1181,18 @@ REPLACE INTO `titanium_bbsmilies` (`smilies_id`, `code`, `smile_url`, `emoticon`
 (35, ';)', 'wink.png', 'Wink', 0),
 (36, ';-)', 'wink.png', 'Wink', 0);
 
-CREATE TABLE IF NOT EXISTS `titanium_bbstats_config` (
+CREATE TABLE `nuke_bbstats_config` (
   `config_name` varchar(100) NOT NULL DEFAULT '',
   `config_value` varchar(100) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbstats_config` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_bbstats_config` (`config_name`, `config_value`) VALUES
 ('install_date', '0'),
 ('return_limit', '10'),
 ('version', '3.0.0'),
 ('page_views', '36');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbstats_modules` (
+CREATE TABLE `nuke_bbstats_modules` (
   `module_id` mediumint(8) UNSIGNED NOT NULL,
   `short_name` varchar(100) DEFAULT NULL,
   `update_time` mediumint(8) NOT NULL DEFAULT 0,
@@ -1220,9 +1202,9 @@ CREATE TABLE IF NOT EXISTS `titanium_bbstats_modules` (
   `perm_reg` tinyint(2) UNSIGNED NOT NULL DEFAULT 1,
   `perm_mod` tinyint(2) UNSIGNED NOT NULL DEFAULT 1,
   `perm_admin` tinyint(2) UNSIGNED NOT NULL DEFAULT 1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbstats_modules` (`module_id`, `short_name`, `update_time`, `module_order`, `active`, `perm_all`, `perm_reg`, `perm_mod`, `perm_admin`) VALUES
+INSERT INTO `nuke_bbstats_modules` (`module_id`, `short_name`, `update_time`, `module_order`, `active`, `perm_all`, `perm_reg`, `perm_mod`, `perm_admin`) VALUES
 (1, 'stats_overview', 360, 10, 1, 1, 1, 1, 1),
 (2, 'top_posters', 360, 30, 1, 1, 1, 1, 1),
 (3, 'admin_statistics', 360, 20, 1, 1, 1, 1, 1),
@@ -1240,7 +1222,7 @@ REPLACE INTO `titanium_bbstats_modules` (`module_id`, `short_name`, `update_time
 (15, 'top_attachments', 360, 160, 1, 1, 1, 1, 1),
 (16, 'most_active_topics', 360, 70, 1, 1, 1, 1, 1);
 
-CREATE TABLE IF NOT EXISTS `titanium_bbstats_module_admin_panel` (
+CREATE TABLE `nuke_bbstats_module_admin_panel` (
   `module_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` varchar(255) NOT NULL DEFAULT '',
@@ -1248,25 +1230,25 @@ CREATE TABLE IF NOT EXISTS `titanium_bbstats_module_admin_panel` (
   `config_title` varchar(100) NOT NULL DEFAULT '',
   `config_explain` varchar(100) DEFAULT NULL,
   `config_trigger` varchar(20) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbstats_module_admin_panel` (`module_id`, `config_name`, `config_value`, `config_type`, `config_title`, `config_explain`, `config_trigger`) VALUES
+INSERT INTO `nuke_bbstats_module_admin_panel` (`module_id`, `config_name`, `config_value`, `config_type`, `config_title`, `config_explain`, `config_trigger`) VALUES
 (1, 'num_columns', '2', 'number', 'num_columns_title', 'num_columns_explain', 'integer'),
 (15, 'exclude_images', '0', 'number', 'exclude_images_title', 'exclude_images_explain', 'enum');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbstats_module_cache` (
+CREATE TABLE `nuke_bbstats_module_cache` (
   `module_id` mediumint(8) NOT NULL DEFAULT 0,
   `module_cache_time` int(12) NOT NULL DEFAULT 0,
   `db_cache` text NOT NULL,
   `priority` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbstats_module_group_auth` (
+CREATE TABLE `nuke_bbstats_module_group_auth` (
   `module_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `group_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbstats_module_info` (
+CREATE TABLE `nuke_bbstats_module_info` (
   `module_id` mediumint(8) NOT NULL DEFAULT 0,
   `long_name` varchar(100) NOT NULL DEFAULT '',
   `author` varchar(50) DEFAULT NULL,
@@ -1275,9 +1257,9 @@ CREATE TABLE IF NOT EXISTS `titanium_bbstats_module_info` (
   `version` varchar(10) NOT NULL DEFAULT '',
   `update_site` varchar(100) DEFAULT NULL,
   `extra_info` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbstats_module_info` (`module_id`, `long_name`, `author`, `email`, `url`, `version`, `update_site`, `extra_info`) VALUES
+INSERT INTO `nuke_bbstats_module_info` (`module_id`, `long_name`, `author`, `email`, `url`, `version`, `update_site`, `extra_info`) VALUES
 (1, 'Statistics Overview Section', 'Acyd Burn', 'acyd.burn@gmx.de', 'http://www.opentools.de', '3.0.0', 'http://www.opentools.de/board/show_modules.php', 'This Module will print out a link Block with Links to the current Module at the Statistics Site.\nYou are able to define the number of columns displayed for this Module within the Administration Panel -&gt; Edit Module.'),
 (2, 'Top Posters', 'Acyd Burn', 'acyd.burn@gmx.de', 'http://www.opentools.de', '3.0.0', 'http://www.opentools.de/board/show_modules.php', 'This Module displays the Top Posters from your board.\nAnonymous Poster are not counted.'),
 (3, 'Administrative Statistics', 'Acyd Burn', 'acyd.burn@gmx.de', 'http://www.opentools.de', '3.0.0', 'http://www.opentools.de/board/show_modules.php', 'This Module displays some Admin Statistics about your Board.\nIt is nearly the same you are able to see within the first Administration Panel visit.'),
@@ -1295,28 +1277,28 @@ REPLACE INTO `titanium_bbstats_module_info` (`module_id`, `long_name`, `author`,
 (15, 'Top Downloaded Attachments', 'Acyd Burn', 'acyd.burn@gmx.de', 'http://www.opentools.de', '3.0.0', 'http://www.opentools.de/board/show_modules.php', 'This Module will print out the most downloaded Files.\nThe Attachment Mod Version 2.3.x have to be installed in order to let this Module work.\nYou are able to exclude Images from the statistic too.'),
 (16, 'Most active Topics', 'Acyd Burn', 'acyd.burn@gmx.de', 'http://www.opentools.de', '3.0.0', 'http://www.opentools.de/board/show_modules.php', 'This Module displays the most active topics at your board.');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbstats_smilies_index` (
+CREATE TABLE `nuke_bbstats_smilies_index` (
   `code` varchar(50) NOT NULL DEFAULT '',
   `smile_url` varchar(100) DEFAULT NULL,
   `smile_count` mediumint(8) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbstats_smilies_info` (
+CREATE TABLE `nuke_bbstats_smilies_info` (
   `last_post_id` mediumint(8) NOT NULL DEFAULT 0,
   `last_update_time` int(12) NOT NULL DEFAULT 0,
   `update_time` mediumint(8) NOT NULL DEFAULT 10080
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbstats_smilies_info` (`last_post_id`, `last_update_time`, `update_time`) VALUES
+INSERT INTO `nuke_bbstats_smilies_info` (`last_post_id`, `last_update_time`, `update_time`) VALUES
 (7, 1619840967, 10080);
 
-CREATE TABLE IF NOT EXISTS `titanium_bbthanks` (
+CREATE TABLE `nuke_bbthanks` (
   `topic_id` mediumint(8) NOT NULL,
   `user_id` mediumint(8) NOT NULL,
   `thanks_time` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbthemes` (
+CREATE TABLE `nuke_bbthemes` (
   `themes_id` mediumint(8) UNSIGNED NOT NULL,
   `template_name` varchar(30) NOT NULL DEFAULT '',
   `style_name` varchar(30) NOT NULL DEFAULT '',
@@ -1363,12 +1345,12 @@ CREATE TABLE IF NOT EXISTS `titanium_bbthemes` (
   `online_color` varchar(6) NOT NULL DEFAULT '',
   `offline_color` varchar(6) NOT NULL DEFAULT '',
   `hidden_color` varchar(6) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbthemes` (`themes_id`, `template_name`, `style_name`, `head_stylesheet`, `body_background`, `body_bgcolor`, `body_text`, `body_link`, `body_vlink`, `body_alink`, `body_hlink`, `tr_color1`, `tr_color2`, `tr_color3`, `tr_class1`, `tr_class2`, `tr_class3`, `th_color1`, `th_color2`, `th_color3`, `th_class1`, `th_class2`, `th_class3`, `td_color1`, `td_color2`, `td_color3`, `td_class1`, `td_class2`, `td_class3`, `fontface1`, `fontface2`, `fontface3`, `fontsize1`, `fontsize2`, `fontsize3`, `fontcolor1`, `fontcolor2`, `fontcolor3`, `span_class1`, `span_class2`, `span_class3`, `img_size_poll`, `img_size_privmsg`, `online_color`, `offline_color`, `hidden_color`) VALUES
+INSERT INTO `nuke_bbthemes` (`themes_id`, `template_name`, `style_name`, `head_stylesheet`, `body_background`, `body_bgcolor`, `body_text`, `body_link`, `body_vlink`, `body_alink`, `body_hlink`, `tr_color1`, `tr_color2`, `tr_color3`, `tr_class1`, `tr_class2`, `tr_class3`, `th_color1`, `th_color2`, `th_color3`, `th_class1`, `th_class2`, `th_class3`, `td_color1`, `td_color2`, `td_color3`, `td_class1`, `td_class2`, `td_class3`, `fontface1`, `fontface2`, `fontface3`, `fontsize1`, `fontsize2`, `fontsize3`, `fontcolor1`, `fontcolor2`, `fontcolor3`, `span_class1`, `span_class2`, `span_class3`, `img_size_poll`, `img_size_privmsg`, `online_color`, `offline_color`, `hidden_color`) VALUES
 (1, 'subSilver', 'subSilver', 'subSilver.css', '', '0E3259', '000000', '006699', '5493B4', '', 'DD6900', 'EFEFEF', 'DEE3E7', 'D1D7DC', '', '', '', '98AAB1', '006699', 'FFFFFF', 'cellpic1.gif', 'cellpic3.gif', 'cellpic2.jpg', 'FAFAFA', 'FFFFFF', '', 'row1', 'row2', '', 'Verdana, Arial, Helvetica, sans-serif', 'Trebuchet MS', 'Courier, \'Courier New\', sans-serif', 10, 11, 12, '444444', '006600', 'FFA34F', '', '', '', NULL, NULL, '008500', 'DF0000', 'EBD400');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbthemes_name` (
+CREATE TABLE `nuke_bbthemes_name` (
   `themes_id` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
   `tr_color1_name` char(50) DEFAULT NULL,
   `tr_color2_name` char(50) DEFAULT NULL,
@@ -1400,12 +1382,12 @@ CREATE TABLE IF NOT EXISTS `titanium_bbthemes_name` (
   `span_class1_name` char(50) DEFAULT NULL,
   `span_class2_name` char(50) DEFAULT NULL,
   `span_class3_name` char(50) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbthemes_name` (`themes_id`, `tr_color1_name`, `tr_color2_name`, `tr_color3_name`, `tr_class1_name`, `tr_class2_name`, `tr_class3_name`, `th_color1_name`, `th_color2_name`, `th_color3_name`, `th_class1_name`, `th_class2_name`, `th_class3_name`, `td_color1_name`, `td_color2_name`, `td_color3_name`, `td_class1_name`, `td_class2_name`, `td_class3_name`, `fontface1_name`, `fontface2_name`, `fontface3_name`, `fontsize1_name`, `fontsize2_name`, `fontsize3_name`, `fontcolor1_name`, `fontcolor2_name`, `fontcolor3_name`, `span_class1_name`, `span_class2_name`, `span_class3_name`) VALUES
+INSERT INTO `nuke_bbthemes_name` (`themes_id`, `tr_color1_name`, `tr_color2_name`, `tr_color3_name`, `tr_class1_name`, `tr_class2_name`, `tr_class3_name`, `th_color1_name`, `th_color2_name`, `th_color3_name`, `th_class1_name`, `th_class2_name`, `th_class3_name`, `td_color1_name`, `td_color2_name`, `td_color3_name`, `td_class1_name`, `td_class2_name`, `td_class3_name`, `fontface1_name`, `fontface2_name`, `fontface3_name`, `fontsize1_name`, `fontsize2_name`, `fontsize3_name`, `fontcolor1_name`, `fontcolor2_name`, `fontcolor3_name`, `span_class1_name`, `span_class2_name`, `span_class3_name`) VALUES
 (1, 'The lightest row colour', 'The medium row color', 'The darkest row colour', '', '', '', 'Border round the whole page', 'Outer table border', 'Inner table border', 'Silver gradient picture', 'Blue gradient picture', 'Fade-out gradient on index', 'Background for quote boxes', 'All white areas', '', 'Background for topic posts', '2nd background for topic posts', '', 'Main fonts', 'Additional topic title font', 'Form fonts', 'Smallest font size', 'Medium font size', 'Normal font size (post body etc)', 'Quote & copyright text', 'Code text colour', 'Main table header text colour', '', '', '');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbtopics` (
+CREATE TABLE `nuke_bbtopics` (
   `topic_id` mediumint(8) UNSIGNED NOT NULL,
   `forum_id` smallint(8) UNSIGNED NOT NULL DEFAULT 0,
   `topic_title` char(60) NOT NULL DEFAULT '',
@@ -1423,25 +1405,25 @@ CREATE TABLE IF NOT EXISTS `titanium_bbtopics` (
   `topic_attachment` tinyint(1) NOT NULL DEFAULT 0,
   `topic_glance_priority` smallint(6) NOT NULL DEFAULT 0,
   `topic_icon` tinyint(2) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbtopics_email` (
+CREATE TABLE `nuke_bbtopics_email` (
   `user_id` mediumint(8) NOT NULL,
   `friend_name` varchar(100) NOT NULL,
   `friend_email` varchar(100) NOT NULL,
   `message` varchar(255) NOT NULL DEFAULT '',
   `topic_id` mediumint(8) NOT NULL,
   `time` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbtopics_watch` (
+CREATE TABLE `nuke_bbtopics_watch` (
   `topic_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `user_id` mediumint(8) NOT NULL DEFAULT 0,
   `notify_status` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE IF NOT EXISTS `titanium_bbtopic_moved` (
+CREATE TABLE `nuke_bbtopic_moved` (
   `moved_id` mediumint(8) UNSIGNED NOT NULL,
   `moved_topic_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `moved_oldtopic_id` mediumint(8) UNSIGNED DEFAULT 0,
@@ -1451,22 +1433,22 @@ CREATE TABLE IF NOT EXISTS `titanium_bbtopic_moved` (
   `moved_mod` mediumint(8) NOT NULL DEFAULT 0,
   `moved_time` int(11) NOT NULL DEFAULT 0,
   `last_post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbtopic_view` (
+CREATE TABLE `nuke_bbtopic_view` (
   `topic_id` mediumint(8) NOT NULL,
   `user_id` mediumint(8) NOT NULL,
   `view_time` int(11) NOT NULL,
   `view_count` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbuser_group` (
+CREATE TABLE `nuke_bbuser_group` (
   `group_id` mediumint(8) NOT NULL DEFAULT 0,
   `user_id` mediumint(8) NOT NULL DEFAULT 0,
   `user_pending` tinyint(1) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbuser_group` (`group_id`, `user_id`, `user_pending`) VALUES
+INSERT INTO `nuke_bbuser_group` (`group_id`, `user_id`, `user_pending`) VALUES
 (1, -1, 0),
 (3, 2, 0),
 (5, 2, 0),
@@ -1527,51 +1509,51 @@ REPLACE INTO `titanium_bbuser_group` (`group_id`, `user_id`, `user_pending`) VAL
 (4, 4, 0);
 
 
-CREATE TABLE IF NOT EXISTS `titanium_bbvote_desc` (
+CREATE TABLE `nuke_bbvote_desc` (
   `vote_id` mediumint(8) UNSIGNED NOT NULL,
   `topic_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `vote_text` text NOT NULL,
   `vote_start` int(11) NOT NULL DEFAULT 0,
   `vote_length` int(11) NOT NULL DEFAULT 0,
   `poll_view_toggle` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbvote_results` (
+CREATE TABLE `nuke_bbvote_results` (
   `vote_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `vote_option_id` tinyint(4) UNSIGNED NOT NULL DEFAULT 0,
   `vote_option_text` varchar(255) NOT NULL DEFAULT '',
   `vote_result` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbvote_voters` (
+CREATE TABLE `nuke_bbvote_voters` (
   `vote_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `vote_user_id` mediumint(8) NOT NULL DEFAULT 0,
   `vote_user_ip` char(8) NOT NULL DEFAULT '',
   `vote_cast` tinyint(4) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbwords` (
+CREATE TABLE `nuke_bbwords` (
   `word_id` mediumint(8) UNSIGNED NOT NULL,
   `word` char(100) NOT NULL DEFAULT '',
   `replacement` char(100) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbwords` (`word_id`, `word`, `replacement`) VALUES
+INSERT INTO `nuke_bbwords` (`word_id`, `word`, `replacement`) VALUES
 (1, 'cunt', 'fargnoggle');
 
-CREATE TABLE IF NOT EXISTS `titanium_bbxdata_auth` (
+CREATE TABLE `nuke_bbxdata_auth` (
   `field_id` smallint(5) UNSIGNED NOT NULL,
   `group_id` mediumint(8) UNSIGNED NOT NULL,
   `auth_value` tinyint(1) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbxdata_data` (
+CREATE TABLE `nuke_bbxdata_data` (
   `field_id` smallint(5) UNSIGNED NOT NULL,
   `user_id` mediumint(8) UNSIGNED NOT NULL,
   `xdata_value` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_bbxdata_fields` (
+CREATE TABLE `nuke_bbxdata_fields` (
   `field_id` smallint(5) UNSIGNED NOT NULL,
   `field_name` varchar(255) NOT NULL DEFAULT '',
   `field_desc` text NOT NULL,
@@ -1592,16 +1574,16 @@ CREATE TABLE IF NOT EXISTS `titanium_bbxdata_fields` (
   `allow_smilies` tinyint(1) NOT NULL DEFAULT 0,
   `viewtopic` tinyint(1) NOT NULL DEFAULT 0,
   `signup` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_bbxdata_fields` (`field_id`, `field_name`, `field_desc`, `field_type`, `field_order`, `code_name`, `field_length`, `field_values`, `field_regexp`, `manditory`, `default_auth`, `display_register`, `display_viewprofile`, `display_posting`, `handle_input`, `allow_html`, `allow_bbcode`, `allow_smilies`, `viewtopic`, `signup`) VALUES
+INSERT INTO `nuke_bbxdata_fields` (`field_id`, `field_name`, `field_desc`, `field_type`, `field_order`, `code_name`, `field_length`, `field_values`, `field_regexp`, `manditory`, `default_auth`, `display_register`, `display_viewprofile`, `display_posting`, `handle_input`, `allow_html`, `allow_bbcode`, `allow_smilies`, `viewtopic`, `signup`) VALUES
 (5, 'Website', '', 'special', 5, 'website', 0, '', '', 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0),
 (6, 'Location', '', 'special', 6, 'location', 0, '', '', 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0),
 (7, 'Occupation', '', 'special', 7, 'occupation', 0, '', '', 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0),
 (8, 'Interests', '', 'special', 8, 'interests', 0, '', '', 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0),
 (9, 'Signature', '', 'special', 9, 'signature', 0, '', '', 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0);
 
-CREATE TABLE IF NOT EXISTS `titanium_blocks` (
+CREATE TABLE `nuke_blocks` (
   `bid` int(11) NOT NULL,
   `bkey` varchar(15) NOT NULL DEFAULT '',
   `title` varchar(60) NOT NULL DEFAULT '',
@@ -1615,9 +1597,9 @@ CREATE TABLE IF NOT EXISTS `titanium_blocks` (
   `blanguage` varchar(30) NOT NULL DEFAULT '',
   `blockfile` varchar(255) NOT NULL DEFAULT '',
   `view` varchar(50) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_blocks` (`bid`, `bkey`, `title`, `content`, `url`, `bposition`, `weight`, `active`, `refresh`, `time`, `blanguage`, `blockfile`, `view`) VALUES
+INSERT INTO `nuke_blocks` (`bid`, `bkey`, `title`, `content`, `url`, `bposition`, `weight`, `active`, `refresh`, `time`, `blanguage`, `blockfile`, `view`) VALUES
 (1, '', 'Evo Main Menu', '', '', 'l', 1, 0, 1800, '0', '', 'block-Modules.php', '1'),
 (2, '', 'Search', '', '', 'l', 7, 1, 3600, '', '', 'block-Search.php', '0'),
 (3, '', 'Survey', '', '', 'r', 7, 0, 3600, '', '', 'block-Survey.php', '0'),
@@ -1639,12 +1621,12 @@ REPLACE INTO `titanium_blocks` (`bid`, `bkey`, `title`, `content`, `url`, `bposi
 (19, '', 'Server Information', '', '', 'r', 3, 1, 3600, '0', '', 'block-Portal-Information.php', '1'),
 (20, '', 'Visitor Log', '', '', 'c', 1, 1, 3600, '0', '', 'block-Titanium_Visitor_Log_Center.php', '1');
 
-CREATE TABLE IF NOT EXISTS `titanium_cnbya_config` (
+CREATE TABLE `nuke_cnbya_config` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` longtext DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_cnbya_config` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_cnbya_config` (`config_name`, `config_value`) VALUES
 ('sendaddmail', '0'),
 ('senddeletemail', '0'),
 ('allowuserdelete', '1'),
@@ -1677,7 +1659,7 @@ REPLACE INTO `titanium_cnbya_config` (`config_name`, `config_value`) VALUES
 ('version', '4.4.2'),
 ('tos_text', 'This is your default TOS. You may edit this through the Your Account Admin Panel.');
 
-CREATE TABLE IF NOT EXISTS `titanium_cnbya_field` (
+CREATE TABLE `nuke_cnbya_field` (
   `fid` int(10) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT 'field',
   `value` varchar(255) DEFAULT NULL,
@@ -1685,23 +1667,23 @@ CREATE TABLE IF NOT EXISTS `titanium_cnbya_field` (
   `need` int(1) NOT NULL DEFAULT 1,
   `pos` int(3) DEFAULT NULL,
   `public` int(1) NOT NULL DEFAULT 1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_cnbya_value` (
+CREATE TABLE `nuke_cnbya_value` (
   `vid` int(10) NOT NULL,
   `uid` int(10) NOT NULL DEFAULT 0,
   `fid` int(10) NOT NULL DEFAULT 0,
   `value` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_cnbya_value_temp` (
+CREATE TABLE `nuke_cnbya_value_temp` (
   `vid` int(10) NOT NULL,
   `uid` int(10) NOT NULL DEFAULT 0,
   `fid` int(10) NOT NULL DEFAULT 0,
   `value` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_comments` (
+CREATE TABLE `nuke_comments` (
   `tid` int(11) NOT NULL,
   `pid` int(11) NOT NULL DEFAULT 0,
   `sid` int(11) NOT NULL DEFAULT 0,
@@ -1715,9 +1697,9 @@ CREATE TABLE IF NOT EXISTS `titanium_comments` (
   `comment` text NOT NULL,
   `score` tinyint(4) NOT NULL DEFAULT 0,
   `reason` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_config` (
+CREATE TABLE `nuke_config` (
   `sitename` varchar(255) NOT NULL DEFAULT '',
   `nukeurl` varchar(255) NOT NULL DEFAULT '',
   `site_logo` varchar(255) NOT NULL DEFAULT '',
@@ -1767,24 +1749,24 @@ CREATE TABLE IF NOT EXISTS `titanium_config` (
   `admin_log_lines` int(11) NOT NULL DEFAULT 0,
   `error_log_lines` int(11) NOT NULL DEFAULT 0,
   `cache_data` mediumblob DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_config` (`sitename`, `nukeurl`, `site_logo`, `slogan`, `startdate`, `datePublished`, `dateModified`, `adminmail`, `anonpost`, `default_Theme`, `foot1`, `foot2`, `foot3`, `commentlimit`, `anonymous`, `minpass`, `pollcomm`, `articlecomm`, `broadcast_msg`, `my_headlines`, `top`, `storyhome`, `user_news`, `oldnum`, `ultramode`, `banners`, `backend_title`, `backend_language`, `language`, `locale`, `multilingual`, `useflags`, `notify`, `notify_email`, `notify_subject`, `notify_message`, `notify_from`, `moderate`, `admingraphic`, `httpref`, `httprefmax`, `CensorMode`, `CensorReplace`, `copyright`, `Version_Num`, `admin_pos`, `admin_log_lines`, `error_log_lines`, `cache_data`) VALUES
+INSERT INTO `nuke_config` (`sitename`, `nukeurl`, `site_logo`, `slogan`, `startdate`, `datePublished`, `dateModified`, `adminmail`, `anonpost`, `default_Theme`, `foot1`, `foot2`, `foot3`, `commentlimit`, `anonymous`, `minpass`, `pollcomm`, `articlecomm`, `broadcast_msg`, `my_headlines`, `top`, `storyhome`, `user_news`, `oldnum`, `ultramode`, `banners`, `backend_title`, `backend_language`, `language`, `locale`, `multilingual`, `useflags`, `notify`, `notify_email`, `notify_subject`, `notify_message`, `notify_from`, `moderate`, `admingraphic`, `httpref`, `httprefmax`, `CensorMode`, `CensorReplace`, `copyright`, `Version_Num`, `admin_pos`, `admin_log_lines`, `error_log_lines`, `cache_data`) VALUES
 ('My Site', 'http://yourdomain.com', 'logo.png', '', '01/01/21', '2021-01-01 06:16:00', '2021-01-01 06:16:00', 'webmaster@yourdomain.com', 0, 'Titanium_Core', '', '', '', 4096, 'Anonymous', 5, 1, 1, 1, 1, 5, 5, 1, 30, 1, 1, 'Powered by PHP-Nuke Titanium 4.0.0 Dev 4', 'en-us', 'english', 'en_US', 1, 0, 0, 'webmaster@yourdomain.com', 'Blog for yourprefix.86it.us', 'Hey! You\'ve got a new blog submission for yourprefix.86it.us!', 'WebMaster', 0, 1, 1, 1000, 3, '*****', '', '7.6.0', 1, 0, 0, '');
 
-CREATE TABLE IF NOT EXISTS `titanium_confirm` (
+CREATE TABLE `nuke_confirm` (
   `confirm_id` char(32) NOT NULL DEFAULT '',
   `session_id` char(32) NOT NULL DEFAULT '',
   `code` char(6) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_counter` (
+CREATE TABLE `nuke_counter` (
   `type` varchar(80) NOT NULL DEFAULT '',
   `var` varchar(80) NOT NULL DEFAULT '',
   `count` int(10) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_counter` (`type`, `var`, `count`) VALUES
+INSERT INTO `nuke_counter` (`type`, `var`, `count`) VALUES
 ('total', 'hits', 0),
 ('browser', 'Avant', 0),
 ('browser', 'Camino', 0),
@@ -1826,7 +1808,7 @@ REPLACE INTO `titanium_counter` (`type`, `var`, `count`) VALUES
 ('os', 'AIX', 0),
 ('os', 'Other', 0);
 
-CREATE TABLE IF NOT EXISTS `titanium_donators` (
+CREATE TABLE `nuke_donators` (
   `id` int(11) NOT NULL,
   `uid` int(11) NOT NULL DEFAULT 0,
   `uname` varchar(60) NOT NULL DEFAULT '',
@@ -1840,14 +1822,14 @@ CREATE TABLE IF NOT EXISTS `titanium_donators` (
   `donok` tinyint(1) NOT NULL DEFAULT 0,
   `msg` text DEFAULT NULL,
   `donto` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_donators_config` (
+CREATE TABLE `nuke_donators_config` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_donators_config` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_donators_config` (`config_name`, `config_value`) VALUES
 ('values', '5,10,25,50,100'),
 ('block_show_amount', 'yes'),
 ('block_show_anon_amount', 'yes'),
@@ -1881,7 +1863,7 @@ REPLACE INTO `titanium_donators_config` (`config_name`, `config_value`) VALUES
 ('gen_codes', ''),
 ('gen_cookie', 'no');
 
-CREATE TABLE IF NOT EXISTS `titanium_ecalendar` (
+CREATE TABLE `nuke_ecalendar` (
   `eid` int(11) NOT NULL,
   `month` varchar(11) DEFAULT NULL,
   `day` varchar(11) DEFAULT NULL,
@@ -1890,14 +1872,14 @@ CREATE TABLE IF NOT EXISTS `titanium_ecalendar` (
   `time` varchar(5) DEFAULT NULL,
   `ampm` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_evolution` (
+CREATE TABLE `nuke_evolution` (
   `evo_field` varchar(50) NOT NULL DEFAULT '',
   `evo_value` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_evolution` (`evo_field`, `evo_value`) VALUES
+INSERT INTO `nuke_evolution` (`evo_field`, `evo_value`) VALUES
 ('sub', 'Xtreme'),
 ('ver_check', '0'),
 ('ver_previous', '4.0.0'),
@@ -1948,15 +1930,15 @@ REPLACE INTO `titanium_evolution` (`evo_field`, `evo_value`) VALUES
 ('recap_priv_key', ''),
 ('block_cachetime', '86400');
 
-CREATE TABLE IF NOT EXISTS `titanium_evo_userinfo` (
+CREATE TABLE `nuke_evo_userinfo` (
   `name` varchar(25) NOT NULL,
   `filename` varchar(25) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT 0,
   `position` int(10) NOT NULL,
   `image` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_evo_userinfo` (`name`, `filename`, `active`, `position`, `image`) VALUES
+INSERT INTO `nuke_evo_userinfo` (`name`, `filename`, `active`, `position`, `image`) VALUES
 ('Good Afternoon', 'good_afternoon', 1, 1, ''),
 ('Username', 'username', 0, 2, ''),
 ('Rank', 'rank', 1, 5, ''),
@@ -1980,12 +1962,12 @@ REPLACE INTO `titanium_evo_userinfo` (`name`, `filename`, `active`, `position`, 
 ('Break', 'Break', 1, 2, ''),
 ('Break', 'Break', 1, 18, '');
 
-CREATE TABLE IF NOT EXISTS `titanium_evo_userinfo_addons` (
+CREATE TABLE `nuke_evo_userinfo_addons` (
   `name` varchar(255) NOT NULL,
   `value` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_evo_userinfo_addons` (`name`, `value`) VALUES
+INSERT INTO `nuke_evo_userinfo_addons` (`name`, `value`) VALUES
 ('good_afternoon_message', 'Good morning %name%:'),
 ('personal_message_message', '<div style=\"text-align:center\">Hello %name%, <br />\r\nWelcome to %site%.</div>'),
 ('username_center', 'yes'),
@@ -2001,29 +1983,29 @@ REPLACE INTO `titanium_evo_userinfo_addons` (`name`, `value`) VALUES
 ('rank_show_4th', 'no'),
 ('rank_show_5th', 'no');
 
-CREATE TABLE IF NOT EXISTS `titanium_faqanswer` (
+CREATE TABLE `nuke_faqanswer` (
   `id` int(25) NOT NULL,
   `id_cat` int(25) NOT NULL DEFAULT 0,
   `question` varchar(255) DEFAULT '',
   `answer` text DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_faqcategories` (
+CREATE TABLE `nuke_faqcategories` (
   `id_cat` tinyint(3) NOT NULL,
   `categories` varchar(255) DEFAULT NULL,
   `flanguage` varchar(30) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_file_repository_categories` (
+CREATE TABLE `nuke_file_repository_categories` (
   `cid` int(11) NOT NULL,
   `cname` varchar(100) NOT NULL,
   `color` varchar(50) NOT NULL,
   `parentid` int(11) NOT NULL DEFAULT 0,
   `permissions` int(11) NOT NULL DEFAULT 0,
   `isallowed` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_file_repository_comments` (
+CREATE TABLE `nuke_file_repository_comments` (
   `cid` int(11) NOT NULL,
   `did` int(11) NOT NULL DEFAULT 0,
   `comment` text DEFAULT NULL,
@@ -2031,18 +2013,18 @@ CREATE TABLE IF NOT EXISTS `titanium_file_repository_comments` (
   `rating` int(11) NOT NULL DEFAULT 0,
   `uid` int(11) NOT NULL DEFAULT 0,
   `user` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_file_repository_files` (
+CREATE TABLE `nuke_file_repository_files` (
   `fid` int(11) NOT NULL,
   `did` int(11) NOT NULL,
   `ftitle` varchar(50) NOT NULL,
   `filename` varchar(100) NOT NULL,
   `filesize` int(20) NOT NULL,
   `last_downloaded` datetime NOT NULL DEFAULT '2018-12-12 00:00:00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_file_repository_items` (
+CREATE TABLE `nuke_file_repository_items` (
   `cid` int(11) NOT NULL DEFAULT 0,
   `author` varchar(100) NOT NULL DEFAULT '',
   `author_email` varchar(100) NOT NULL DEFAULT '',
@@ -2073,9 +2055,9 @@ CREATE TABLE IF NOT EXISTS `titanium_file_repository_items` (
   `title` varchar(100) NOT NULL DEFAULT '',
   `version` varchar(30) NOT NULL DEFAULT '',
   `views` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_file_repository_screenshots` (
+CREATE TABLE `nuke_file_repository_screenshots` (
   `pid` int(11) NOT NULL,
   `did` int(11) NOT NULL DEFAULT 0,
   `filename` varchar(255) NOT NULL,
@@ -2083,14 +2065,14 @@ CREATE TABLE IF NOT EXISTS `titanium_file_repository_screenshots` (
   `active` int(11) NOT NULL DEFAULT 1,
   `submitter` varchar(100) NOT NULL DEFAULT '',
   `title` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_file_repository_settings` (
+CREATE TABLE `nuke_file_repository_settings` (
   `config_name` varchar(255) NOT NULL,
   `config_value` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_file_repository_settings` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_file_repository_settings` (`config_name`, `config_value`) VALUES
 ('uhead', '1'),
 ('utext', '0'),
 ('pophits', '250'),
@@ -2115,42 +2097,42 @@ REPLACE INTO `titanium_file_repository_settings` (`config_name`, `config_value`)
 ('allowed_image_extensions', 'jpeg,jpg,png,gif'),
 ('group_allowed_to_upload', '1');
 
-CREATE TABLE IF NOT EXISTS `titanium_file_repository_themes` (
+CREATE TABLE `nuke_file_repository_themes` (
   `theme_name` varchar(255) NOT NULL,
   `cell` int(11) NOT NULL,
   `head` int(11) NOT NULL,
   `per_row` int(11) NOT NULL,
   `show_left` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_file_repository_themes` (`theme_name`, `cell`, `head`, `per_row`, `show_left`) VALUES
+INSERT INTO `nuke_file_repository_themes` (`theme_name`, `cell`, `head`, `per_row`, `show_left`) VALUES
 ('Inferno', 0, 0, 2, 1),
 ('Titanium_Core', 0, 0, 2, 1);
 
-CREATE TABLE IF NOT EXISTS `titanium_headlines` (
+CREATE TABLE `nuke_headlines` (
   `hid` int(11) NOT NULL,
   `sitename` varchar(30) NOT NULL DEFAULT '',
   `headlinesurl` varchar(200) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_hnl_categories` (
+CREATE TABLE `nuke_hnl_categories` (
   `cid` int(11) NOT NULL,
   `ctitle` varchar(50) NOT NULL DEFAULT '',
   `cdescription` text NOT NULL,
   `cblocklimit` int(4) NOT NULL DEFAULT 10
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_hnl_categories` (`cid`, `ctitle`, `cdescription`, `cblocklimit`) VALUES
+INSERT INTO `nuke_hnl_categories` (`cid`, `ctitle`, `cdescription`, `cblocklimit`) VALUES
 (1, '*Unassigned*', 'This is a catch-all category where newsletters can default to or if all other categories are removed.  Do NOT remove this category!  This category of newsletters are only shown to the Admins.  ', 5),
 (2, 'Archived Newsletters', 'This category is for newsletter subscribers.', 5),
 (3, 'Archived Mass Mails', 'This category is used for mass mails.', 5);
 
-CREATE TABLE IF NOT EXISTS `titanium_hnl_cfg` (
+CREATE TABLE `nuke_hnl_cfg` (
   `cfg_nm` varchar(255) NOT NULL DEFAULT '',
   `cfg_val` longtext NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_hnl_cfg` (`cfg_nm`, `cfg_val`) VALUES
+INSERT INTO `nuke_hnl_cfg` (`cfg_nm`, `cfg_val`) VALUES
 ('debug_mode', 'ERROR'),
 ('debug_output', 'DISPLAY'),
 ('show_blocks', '0'),
@@ -2174,7 +2156,7 @@ REPLACE INTO `titanium_hnl_cfg` (`cfg_nm`, `cfg_val`) VALUES
 ('wysiwyg_on', '1'),
 ('wysiwyg_rows', '30');
 
-CREATE TABLE IF NOT EXISTS `titanium_hnl_newsletters` (
+CREATE TABLE `nuke_hnl_newsletters` (
   `nid` int(11) NOT NULL,
   `cid` int(11) NOT NULL DEFAULT 1,
   `topic` varchar(100) NOT NULL DEFAULT '',
@@ -2184,13 +2166,13 @@ CREATE TABLE IF NOT EXISTS `titanium_hnl_newsletters` (
   `view` int(1) NOT NULL DEFAULT 0,
   `groups` text NOT NULL,
   `hits` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_hnl_newsletters` (`nid`, `cid`, `topic`, `sender`, `filename`, `datesent`, `view`, `groups`, `hits`) VALUES
+INSERT INTO `nuke_hnl_newsletters` (`nid`, `cid`, `topic`, `sender`, `filename`, `datesent`, `view`, `groups`, `hits`) VALUES
 (1, 1, 'PREVIEW Newsletter File', 'Admin', 'tmp.php', '2018-12-12', 99, '', 0),
 (2, 1, 'Tested Email Temporary File', 'Admin', 'testemail.php', '2018-12-12', 99, '', 0);
 
-CREATE TABLE IF NOT EXISTS `titanium_honeypot` (
+CREATE TABLE `nuke_honeypot` (
   `id` int(11) NOT NULL,
   `username` varchar(55) NOT NULL,
   `realname` varchar(75) NOT NULL,
@@ -2199,9 +2181,9 @@ CREATE TABLE IF NOT EXISTS `titanium_honeypot` (
   `date` varchar(50) NOT NULL DEFAULT '',
   `potnum` varchar(1) NOT NULL DEFAULT '',
   `reason` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_honeypot_config` (
+CREATE TABLE `nuke_honeypot_config` (
   `usehp` tinyint(1) NOT NULL,
   `botlisting` tinyint(1) NOT NULL,
   `perpage` varchar(3) NOT NULL,
@@ -2235,17 +2217,17 @@ CREATE TABLE IF NOT EXISTS `titanium_honeypot_config` (
   `usefeedback` tinyint(1) NOT NULL,
   `email` varchar(255) NOT NULL,
   `version` varchar(6) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_honeypot_config` (`usehp`, `botlisting`, `perpage`, `pagenumberpos`, `headcolor`, `rowcolor1`, `rowcolor2`, `pagebgcolor`, `pagebordercolor`, `fontcolor`, `fontcolor2`, `check1`, `check2`, `check3`, `check4`, `check5`, `check6`, `c7opt1`, `c7opt2`, `c7amount`, `c8opt1`, `c8opt2`, `usebsapi`, `c8apikey`, `fs9opt1`, `fs9opt2`, `fs9apikey`, `check3time`, `check4question`, `check4answer`, `usefeedback`, `email`, `version`) VALUES
+INSERT INTO `nuke_honeypot_config` (`usehp`, `botlisting`, `perpage`, `pagenumberpos`, `headcolor`, `rowcolor1`, `rowcolor2`, `pagebgcolor`, `pagebordercolor`, `fontcolor`, `fontcolor2`, `check1`, `check2`, `check3`, `check4`, `check5`, `check6`, `c7opt1`, `c7opt2`, `c7amount`, `c8opt1`, `c8opt2`, `usebsapi`, `c8apikey`, `fs9opt1`, `fs9opt2`, `fs9apikey`, `check3time`, `check4question`, `check4answer`, `usefeedback`, `email`, `version`) VALUES
 (1, 1, '30', 2, '#a92828', '#e48600', '#f8ce55', '#f8ce55', '#a92828', '#000000', '#000000', 1, 1, 1, 0, 1, 1, 1, 1, '5', 0, 0, 0, '', 0, 0, '', '30', '', '', 0, 'ernest.bufffington@gmail.com', '2.2');
 
-CREATE TABLE IF NOT EXISTS `titanium_image_repository_settings` (
+CREATE TABLE `nuke_image_repository_settings` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_image_repository_settings` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_image_repository_settings` (`config_name`, `config_value`) VALUES
 ('alignment', 'left'),
 ('basedir', 'modules/Image_Repository/files'),
 ('spacing', '1'),
@@ -2261,7 +2243,7 @@ REPLACE INTO `titanium_image_repository_settings` (`config_name`, `config_value`
 ('max_upload', '6291456'),
 ('quota', '524288000');
 
-CREATE TABLE IF NOT EXISTS `titanium_image_repository_uploads` (
+CREATE TABLE `nuke_image_repository_uploads` (
   `pid` int(20) NOT NULL,
   `filename` varchar(255) DEFAULT NULL,
   `submitter` varchar(255) DEFAULT NULL,
@@ -2270,9 +2252,9 @@ CREATE TABLE IF NOT EXISTS `titanium_image_repository_uploads` (
   `screensize` varchar(255) DEFAULT NULL,
   `uploaded` int(11) NOT NULL DEFAULT 0,
   `bypass_thumb` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_image_repository_users` (
+CREATE TABLE `nuke_image_repository_users` (
   `uid` int(11) NOT NULL,
   `background_color` varchar(20) DEFAULT NULL,
   `border_color` varchar(20) DEFAULT NULL,
@@ -2282,9 +2264,9 @@ CREATE TABLE IF NOT EXISTS `titanium_image_repository_users` (
   `quota` varchar(255) DEFAULT NULL,
   `quota_request` tinyint(2) NOT NULL DEFAULT 0,
   `custom_color` varchar(7) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_image_repository_users` (`uid`, `background_color`, `border_color`, `border_thickness`, `folder`, `percent_color`, `quota`, `quota_request`, `custom_color`) VALUES
+INSERT INTO `nuke_image_repository_users` (`uid`, `background_color`, `border_color`, `border_thickness`, `folder`, `percent_color`, `quota`, `quota_request`, `custom_color`) VALUES
 (2, 'firebrick', 'goldenrod', NULL, 10002, 'seagreen', '52428800', 0, ''),
 (4, 'white', 'black', NULL, 10004, 'darkorchid', '52428800', 0, NULL),
 (6, 'white', 'black', NULL, 10006, 'darkorchid', '52428800', 0, NULL),
@@ -2293,12 +2275,12 @@ REPLACE INTO `titanium_image_repository_users` (`uid`, `background_color`, `bord
 (11, 'white', 'black', NULL, 10011, 'darkorchid', '52428800', 0, NULL),
 (20, 'white', 'black', NULL, 10020, 'darkorchid', '52428800', 0, NULL);
 
-CREATE TABLE IF NOT EXISTS `titanium_jmap` (
+CREATE TABLE `nuke_jmap` (
   `name` varchar(255) NOT NULL DEFAULT '',
   `value` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_jmap` (`name`, `value`) VALUES
+INSERT INTO `nuke_jmap` (`name`, `value`) VALUES
 ('xml', '1'),
 ('ntopics', '10000'),
 ('nnews', '10000'),
@@ -2306,22 +2288,22 @@ REPLACE INTO `titanium_jmap` (`name`, `value`) VALUES
 ('nrev', '100000'),
 ('nuser', '10000');
 
-CREATE TABLE IF NOT EXISTS `titanium_links_categories` (
+CREATE TABLE `nuke_links_categories` (
   `cid` int(11) NOT NULL,
   `title` varchar(50) NOT NULL DEFAULT '',
   `cdescription` text NOT NULL,
   `parentid` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_links_editorials` (
+CREATE TABLE `nuke_links_editorials` (
   `linkid` int(11) NOT NULL DEFAULT 0,
   `adminid` varchar(60) NOT NULL DEFAULT '',
   `editorialtimestamp` datetime NOT NULL DEFAULT '2018-12-12 00:00:00',
   `editorialtext` text NOT NULL,
   `editorialtitle` varchar(100) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_links_links` (
+CREATE TABLE `nuke_links_links` (
   `lid` int(11) NOT NULL,
   `cid` int(11) NOT NULL DEFAULT 0,
   `sid` int(11) NOT NULL DEFAULT 0,
@@ -2336,9 +2318,9 @@ CREATE TABLE IF NOT EXISTS `titanium_links_links` (
   `linkratingsummary` double(6,4) NOT NULL DEFAULT 0.0000,
   `totalvotes` int(11) NOT NULL DEFAULT 0,
   `totalcomments` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_links_modrequest` (
+CREATE TABLE `nuke_links_modrequest` (
   `requestid` int(11) NOT NULL,
   `lid` int(11) NOT NULL DEFAULT 0,
   `cid` int(11) NOT NULL DEFAULT 0,
@@ -2348,9 +2330,9 @@ CREATE TABLE IF NOT EXISTS `titanium_links_modrequest` (
   `description` text NOT NULL,
   `modifysubmitter` varchar(60) NOT NULL DEFAULT '',
   `brokenlink` int(3) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_links_newlink` (
+CREATE TABLE `nuke_links_newlink` (
   `lid` int(11) NOT NULL,
   `cid` int(11) NOT NULL DEFAULT 0,
   `sid` int(11) NOT NULL DEFAULT 0,
@@ -2360,9 +2342,9 @@ CREATE TABLE IF NOT EXISTS `titanium_links_newlink` (
   `name` varchar(100) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
   `submitter` varchar(60) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_links_votedata` (
+CREATE TABLE `nuke_links_votedata` (
   `ratingdbid` int(11) NOT NULL,
   `ratinglid` int(11) NOT NULL DEFAULT 0,
   `ratinguser` varchar(60) NOT NULL DEFAULT '',
@@ -2370,9 +2352,9 @@ CREATE TABLE IF NOT EXISTS `titanium_links_votedata` (
   `ratinghostname` varchar(60) NOT NULL DEFAULT '',
   `ratingcomments` text NOT NULL,
   `ratingtimestamp` datetime NOT NULL DEFAULT '2018-12-12 00:00:00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_link_us` (
+CREATE TABLE `nuke_link_us` (
   `id` int(255) NOT NULL,
   `site_name` varchar(60) NOT NULL DEFAULT '',
   `site_url` varchar(255) NOT NULL DEFAULT '',
@@ -2386,15 +2368,15 @@ CREATE TABLE IF NOT EXISTS `titanium_link_us` (
   `user_name` varchar(60) NOT NULL DEFAULT '',
   `user_email` varchar(60) NOT NULL DEFAULT '',
   `user_ip` varchar(20) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_link_us` (`id`, `site_name`, `site_url`, `site_image`, `site_description`, `site_hits`, `site_status`, `date_added`, `button_type`, `user_id`, `user_name`, `user_email`, `user_ip`) VALUES
+INSERT INTO `nuke_link_us` (`id`, `site_name`, `site_url`, `site_image`, `site_description`, `site_hits`, `site_status`, `date_added`, `button_type`, `user_id`, `user_name`, `user_email`, `user_ip`) VALUES
 (1, 'Headshotdomain', 'https://www.headshotdomain.net', 'images/evo/headshotdomain.gif', '[HSX] is a multi gaming clan that is involved with a bunch of games and our library is always adding new games.\nWe are a bunch of people that just like to hang out and have fun playing games.', 16, 1, '1542823866', 1, 2, '', '', '82.5.206.228'),
 (2, 'Lonestar Modules', 'https://lonestar-modules.com', 'images/evo/lonestarmodules.gif', 'Coding quality Block & Modules for Nuke Evolution Xtreme & Raven Nuke CMS.', 10, 1, '1542823990', 1, 2, 'Administrator', '', '82.5.206.228'),
 (3, 'ViZual DeZinez', 'https://vizual-dezinez.86it.us', 'images/evo/vd88x31.gif', 'Web Design and Development. We design and code custom addons, themes, blocks, modules, banners and more.', 11, 1, '1542824042', 1, 2, 'Administrator', '', '82.5.206.228'),
 (4, 'Mega Portal', 'http://www.megasportal.co.uk', 'images/evo/megasportal.gif', 'Custom graphic designs and more.', 7, 1, '1542824429', 1, 2, 'Administrator', '', '82.5.206.228');
 
-CREATE TABLE IF NOT EXISTS `titanium_link_us_config` (
+CREATE TABLE `nuke_link_us_config` (
   `my_image` varchar(255) NOT NULL DEFAULT '',
   `fade_effect` smallint(1) NOT NULL DEFAULT 0,
   `marquee` smallint(1) NOT NULL DEFAULT 0,
@@ -2415,19 +2397,19 @@ CREATE TABLE IF NOT EXISTS `titanium_link_us_config` (
   `button_standard` smallint(1) NOT NULL DEFAULT 0,
   `button_banner` smallint(1) NOT NULL DEFAULT 0,
   `button_resource` smallint(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_link_us_config` (`my_image`, `fade_effect`, `marquee`, `marquee_direction`, `marquee_scroll`, `block_height`, `show_clicks`, `button_seperate`, `user_submit`, `button_method`, `button_height`, `button_banner_height`, `button_ressource_height`, `button_width`, `button_banner_width`, `button_ressource_width`, `upload_file`, `button_standard`, `button_banner`, `button_resource`) VALUES
-('images/titanium/button.png', 1, 1, 1, 2, 3, 1, 1, 1, 0, 31, 45, 31, 88, 127, 88, 'modules/Link_Us/buttons/', 1, 1, 1);
+INSERT INTO `nuke_link_us_config` (`my_image`, `fade_effect`, `marquee`, `marquee_direction`, `marquee_scroll`, `block_height`, `show_clicks`, `button_seperate`, `user_submit`, `button_method`, `button_height`, `button_banner_height`, `button_ressource_height`, `button_width`, `button_banner_width`, `button_ressource_width`, `upload_file`, `button_standard`, `button_banner`, `button_resource`) VALUES
+('images/evo/minilogo.gif', 1, 1, 1, 2, 3, 1, 1, 1, 0, 31, 45, 31, 88, 127, 88, 'modules/Link_Us/buttons/', 1, 1, 1);
 
-CREATE TABLE IF NOT EXISTS `titanium_main` (
+CREATE TABLE `nuke_main` (
   `main_module` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_main` (`main_module`) VALUES
+INSERT INTO `nuke_main` (`main_module`) VALUES
 ('Blog');
 
-CREATE TABLE IF NOT EXISTS `titanium_menu` (
+CREATE TABLE `nuke_menu` (
   `groupmenu` int(2) NOT NULL DEFAULT 0,
   `name` varchar(200) DEFAULT NULL,
   `image` varchar(99) DEFAULT NULL,
@@ -2444,9 +2426,9 @@ CREATE TABLE IF NOT EXISTS `titanium_menu` (
   `date_debut` bigint(20) NOT NULL DEFAULT 0,
   `date_fin` bigint(20) NOT NULL DEFAULT 0,
   `days` varchar(8) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_menu` (`groupmenu`, `name`, `image`, `lien`, `hr`, `center`, `bgcolor`, `invisible`, `class`, `bold`, `new`, `listbox`, `dynamic`, `date_debut`, `date_fin`, `days`) VALUES
+INSERT INTO `nuke_menu` (`groupmenu`, `name`, `image`, `lien`, `hr`, `center`, `bgcolor`, `invisible`, `class`, `bold`, `new`, `listbox`, `dynamic`, `date_debut`, `date_fin`, `days`) VALUES
 (2, 'Network Modules', 'flourecent_module_page_05.png', '', 'on', '', '', 1, '', 'on', '', '', '', 0, 0, ''),
 (3, 'Portal Modules', 'yellow_module_page_05.png', '', '', '', '', 1, '', 'on', '', '', '', 0, 0, ''),
 (4, 'Member Modules', 'babyblue_module_page_05.png', '', '', '', '', 1, '', 'on', '', '', '', 0, 0, ''),
@@ -2461,7 +2443,7 @@ REPLACE INTO `titanium_menu` (`groupmenu`, `name`, `image`, `lien`, `hr`, `cente
 (13, 'Network Listening', 'headphones.png', '', 'on', '', '', 1, '', 'on', '', '', '', 0, 0, ''),
 (99, 'menunoadmindisplay', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '', 0, 0, NULL);
 
-CREATE TABLE IF NOT EXISTS `titanium_menu_categories` (
+CREATE TABLE `nuke_menu_categories` (
   `id` int(11) NOT NULL,
   `date_fin` bigint(20) NOT NULL DEFAULT 0,
   `date_debut` bigint(20) NOT NULL DEFAULT 0,
@@ -2476,9 +2458,9 @@ CREATE TABLE IF NOT EXISTS `titanium_menu_categories` (
   `class` varchar(20) DEFAULT NULL,
   `bold` char(2) DEFAULT NULL,
   `days` varchar(8) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_menu_categories` (`id`, `date_fin`, `date_debut`, `sublevel`, `groupmenu`, `module`, `url`, `url_text`, `image`, `new`, `new_days`, `class`, `bold`, `days`) VALUES
+INSERT INTO `nuke_menu_categories` (`id`, `date_fin`, `date_debut`, `sublevel`, `groupmenu`, `module`, `url`, `url_text`, `image`, `new`, `new_days`, `class`, `bold`, `days`) VALUES
 (1, 0, 0, 0, 2, 'Network_Advertising', '', '', 'tree-greenT.png', '', -1, 'modules', 'on', ''),
 (2, 0, 0, 0, 2, 'Network_projects', '', '', 'tree-greenT.png', '', -1, 'modules', 'on', ''),
 (3, 0, 0, 0, 2, 'Network', '', '', 'tree-green-L.png', '', -1, 'modules', 'on', ''),
@@ -2512,7 +2494,7 @@ REPLACE INTO `titanium_menu_categories` (`id`, `date_fin`, `date_debut`, `sublev
 (31, 0, 0, 0, 12, 'cPanel_Login', '', '', 'tree-orange-L.png', '', -1, 'modules', 'on', ''),
 (32, 0, 0, 0, 13, 'External Link', 'https://bigcountryradio.net/', 'BigCountryRadio.Net', 'tree-L.gif', '', -1, 'modules', 'on', '');
 
-CREATE TABLE IF NOT EXISTS `titanium_message` (
+CREATE TABLE `nuke_message` (
   `mid` int(11) NOT NULL,
   `title` varchar(100) NOT NULL DEFAULT '',
   `content` text NOT NULL,
@@ -2522,17 +2504,18 @@ CREATE TABLE IF NOT EXISTS `titanium_message` (
   `view` int(1) NOT NULL DEFAULT 1,
   `groups` text NOT NULL,
   `mlanguage` varchar(30) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_message` (`mid`, `title`, `content`, `date`, `expire`, `active`, `view`, `groups`, `mlanguage`) VALUES
-(1, 'PHP-Nuke Titanium Dev 4 Beta Release', '<p align=\"center\"><strong>\r\n<font size=\"5\">PHP-Nuke Titanium CMS<br>\r\n</font>\r\n<font size=\"2\">Advanced Content Management<br>\r\n</font>&nbsp;</strong></p>\r\n<p align=\"left\">\r\nThe&nbsp;<strong>US</strong>&nbsp;version of<strong>&nbsp;PHP-Nuke Titanium&nbsp;</strong><b>CMS</b>&nbsp;is \r\nan open-source highly modified&nbsp;<strong>Fork</strong>&nbsp;of&nbsp;<strong>Nuke-Evolution</strong>&nbsp;written \r\nin&nbsp;<strong>PHP</strong>&nbsp;as a programming language and development was first \r\nstarted in 2005. The software comes with a set of basic and advanced features \r\nlike a&nbsp;<strong>WYSIWYG</strong>&nbsp;editor, an admin interface with drag and drop \r\nblocks, spam protection, and image processing.&nbsp;<strong>PHP-Nuke Titanium</strong>&nbsp;<b>CMS</b> \r\nalso \r\ncomes with the ability to use various modules that will extend the current \r\nfunctionality of your portal/website. The latest version available for download \r\nis 4.0.0b and is still in Beta.<br>\r\n<br>\r\n<strong>PHP-Nuke Titanium</strong>&nbsp;now comes with v5 of the Titanium Facebook \r\nSDK kit. It\'s already set up. All you have to do is add your app ID and \r\nsecret. You can disable Facebook anytime if you like, by default it is disabled \r\nuntil you add your app ID and secret...<br>\r\n<br>\r\nIf you need help, we would be glad to set it up for FREE. We normally setup \r\nyour FREE portal and install and configure PHP-Nuke Titanium for you at the same \r\ntime. All you have to do, is send a private message to TheGhost asking for a \r\nportal setup.<br>\r\n<br>\r\nVisit \r\nthe\r\n<a href=\"https://www.php-nuke-titanium.86it.us/index.php\" target=\"_blank\" data-cke-saved-href=\"https://www.php-nuke-titanium.86it.us/index.php\">\r\nPHP-Nuke Titanium Website</a> Today and sign up!\r\n<a href=\"https://www.php-nuke-titanium.86it.us/index.php\" target=\"_blank\" data-cke-saved-href=\"https://www.php-nuke-titanium.86it.us/index.php\">\r\nCLICK HERE</a><br>\r\n<br>\r\n<div align=\"center\">\r\n<strong><font size=\"5\">PHP-Nuke Titanium CMS Features<br>\r\n</font></strong>\r\n<a href=\"https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4\" target=\"_blank\" data-cke-saved-href=\"https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4\">\r\nDownload PHP-Nuke Titanium Today!</a> It comes with an easy to use PHP \r\ninstaller.\r\n<a href=\"https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4\" target=\"_blank\" data-cke-saved-href=\"https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4\">\r\nCLICK HERE TO DOWNLOAD</a><b><br>\r\n&nbsp;</b></p>\r\n	<table border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"661\" height=\"383\" bgcolor=\"#666666\" style=\"border:2px groove #C0C0C0; padding:1px; \" class=\"features\" id=\"f1\">\r\n	<!-- MSTableType=\"nolayout\" -->\r\n	<tr>\r\n		<td valign=\"top\" height=\"249\" width=\"315\">\r\n		<!-- MSCellType=\"ContentBody\" -->\r\n		<ul>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">\r\n	Forums</font></strong></font></font><b><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font></b>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Private Messages</font></strong></font></font><b><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font></b>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Adv Google Site Map</font></strong></font></font><b><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font></b>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Recommend Site</font></strong></font></font><b><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font></b>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Virtual Cemetery</font></strong></font></font><b><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font></b>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Group Ctrl For Entire Site</font></strong></font></font><b><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font></b>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Advertising</font></strong></font></font><b><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font></b>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Network Advertising</font></strong></font></font><b><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font></b>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Link Back System</font></strong></font></font><b><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font></b>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Bookmark Vault</font></strong></font></font><b><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font></b>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Image Hosting</font></strong></font></font><b><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font></b>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\" size=\"4\"><strong>Donations</strong></font></font></li>\r\n		</ul>\r\n		</td>\r\n		<td valign=\"top\" height=\"249\" width=\"342\">\r\n		<!-- MSCellType=\"ContentBody\" -->\r\n		<ul>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Blogs Area</font></strong></font></font><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Web Links</font></strong></font></font><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Download Area</font></strong></font></font><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Feedback</font></strong></font></font><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Frequently \r\n	Asked Questions</font></strong></font></font><font size=\"4\" face=\"Arial Black\">\r\n	</font>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Network Projects</font></strong></font></font><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Website Disclaimer</font></strong></font></font><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Network Disclaimer</font></strong></font></font><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Loan Aromatization</font></strong></font></font><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">User Theme Selection</font></strong></font></font><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\"><strong><font size=\"4\">Nuke Sentinel Security</font></strong></font></font><font size=\"4\" face=\"Arial Black\"></li>\r\n	</font>\r\n	<font color=\"#FFFFFF\"><li><font face=\"Arial Black\" size=\"4\"><strong>Statistics</strong></font></font></li>\r\n		</ul>\r\n		</td>\r\n	</tr>\r\n	<tr>\r\n		<td height=\"50\" width=\"657\" colspan=\"2\" align=\"center\">\r\n		<!-- MSCellType=\"ContentBody\" -->\r\n		<font face=\"Arial Black\" size=\"2\" color=\"#FFFFFF\">Ask us about </font>\r\n		<font face=\"Arial Black\" size=\"2\" color=\"#00FF00\">FREE WEB HOSTING</font><font face=\"Arial Black\" size=\"2\" color=\"#FFFFFF\"> \r\n		for<br>\r\n		Beta Testers and Developers...</font></td>\r\n	</tr>\r\n</table>\r\n</div>\r\n<br />\r\n\r\n\r\n<span style=\"background-color:#151515; color:#ffffff; font-family:&quot;Open Sans&quot;,sans-serif; font-size:14px\">Sincerely,</span></p>\r\n</div>\r\n<span style=\"font-size:14px\"><span style=\"color:#ffffff\"><span style=\"font-family:&quot;Open Sans&quot;,sans-serif\"><span style=\"font-style:normal\"><span style=\"font-weight:400\"><span style=\"background-color:#151515\">Ernest Allen Buffington&nbsp;</span></span></span></span></span></span>ðŸ‘»<br />\r\n&nbsp;\r\n<table cellspacing=\"0\" style=\"-webkit-text-stroke-width:0px; background-color:#151515; border-collapse:collapse; border-spacing:0px; border:0px; box-sizing:border-box; color:#ffffff; font-family:&quot;Open Sans&quot;,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; height:0px; letter-spacing:normal; orphans:2; text-align:start; text-decoration:none; text-transform:none; white-space:normal; widows:2; width:100%; word-spacing:0px\">\r\n	<tbody>\r\n		<tr>\r\n			<td style=\"background-color:#151515; border-bottom:0px; border-left:0px; border-right:0px; border-top:0px; height:80px; vertical-align:top; width:80px\"><span style=\"font-size:14px\"><img alt=\"avatar\" class=\"rounded-corners\" src=\"https://www.86it.us/modules/Forums/images/avatars/2017633791608467cba98b1.\" style=\"border-radius:20px; border:0px; box-sizing:border-box; font-size:14px; max-height:150px; max-width:150px; vertical-align:middle; width:90px\" /></span></td>\r\n			<td style=\"background-color:#151515; border-bottom:0px; border-left:0px; border-right:0px; border-top:0px\"><span style=\"font-size:14px\">&nbsp;&nbsp;<strong>Data Scientist / Programmer</strong><br />\r\n			&nbsp;&nbsp;name: Ernest Allen Buffington<br />\r\n			&nbsp;&nbsp;email: ernest.buffington[at]gmail.com<br />\r\n			&nbsp;&nbsp;phone: (813) 846-2865 | mobile: (813) 520-3360<br />\r\n			&nbsp;&nbsp;CEO @ The 86it Developers Network,<br />\r\n			&nbsp;&nbsp;8010 Woodland Center Blvd #86,<br />\r\n			&nbsp;&nbsp;Tampa 33614, USA</span></td>\r\n		</tr>\r\n	</tbody>\r\n</table>', '1661491820', 0, 1, 1, '', 'english');
+INSERT INTO `nuke_message` (`mid`, `title`, `content`, `date`, `expire`, `active`, `view`, `groups`, `mlanguage`) VALUES
+(1, 'Welcome to PHP-Nuke Titanium Dev 4', 'The US version of PHP-Nuke Titanium CMS is an open-source highly modified Fork of Nuke-Evolution written in PHP as a programming language and development was first started in 2005. The software comes with a set of basic features like a WYSIWYG editor, an admin interface with drag and drop blocks, spam protection, and image processing. PHP-Nuke Titanium CMS comes with the ability to use various modules that will extend the current functionality of your portal/website. The latest version available for download is 4.0.0b and is still in beta.<br />\nPHP-Nuke Titanium now comes with v5 of the Titanium Facebook SDK kit. It&#39;s already set up. All you have to do is add your app ID and secret...<br />\nIf you need help, we would be glad to set it up for FREE.<br />\nNOTE: Your admin and user accounts have already been setup for you so please visit [url=admin.php]THIS LINK[/url] to get started.<br />\nYou can edit or remove this message by going into the Admin Panel located in the Admin area.<br />\n&nbsp;', '1620541700', 0, 1, 1, '', '');
 
-CREATE TABLE IF NOT EXISTS `titanium_meta` (
+
+CREATE TABLE `nuke_meta` (
   `meta_name` varchar(50) NOT NULL DEFAULT '',
   `meta_content` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_meta` (`meta_name`, `meta_content`) VALUES
+INSERT INTO `nuke_meta` (`meta_name`, `meta_content`) VALUES
 ('resource-type', 'document'),
 ('distribution', 'global'),
 ('author', 'Ernest Allen Buffington'),
@@ -2544,7 +2527,7 @@ REPLACE INTO `titanium_meta` (`meta_name`, `meta_content`) VALUES
 ('rating', 'general'),
 ('facebook-domain-verification', 'get verfied and put your key here');
 
-CREATE TABLE IF NOT EXISTS `titanium_modules` (
+CREATE TABLE `nuke_modules` (
   `mid` int(10) UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
   `custom_title` varchar(255) NOT NULL,
@@ -2556,9 +2539,9 @@ CREATE TABLE IF NOT EXISTS `titanium_modules` (
   `blocks` tinyint(4) NOT NULL DEFAULT 1,
   `admins` varchar(255) NOT NULL DEFAULT '',
   `groups` varchar(50) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES
 (1, 'Forums', 'Forums', 1, 1, 1, 3, 3, 0, '', 'Array'),
 (2, 'File_Repository', 'File Repository', 1, 6, 1, 0, 5, 3, '', '4'),
 (3, 'Your_Account', 'Your Account', 1, 0, 1, 3, 2, 3, '', 'Array'),
@@ -2604,16 +2587,16 @@ REPLACE INTO `titanium_modules` (`mid`, `title`, `custom_title`, `active`, `view
 (43, 'facebook_SandBox', 'facebook SandBox', 1, 4, 1, 0, 7, 3, '', 'Array'),
 (44, 'Network_projects', 'Network projects', 1, 1, 1, 0, 7, 3, '', 'Array');
 
-CREATE TABLE IF NOT EXISTS `titanium_modules_cat` (
+CREATE TABLE `nuke_modules_cat` (
   `cid` int(10) UNSIGNED NOT NULL,
   `name` varchar(30) NOT NULL,
   `image` text NOT NULL,
   `pos` tinyint(4) NOT NULL DEFAULT 0,
   `link_type` tinyint(4) NOT NULL DEFAULT 0,
   `link` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_modules_cat` (`cid`, `name`, `image`, `pos`, `link_type`, `link`) VALUES
+INSERT INTO `nuke_modules_cat` (`cid`, `name`, `image`, `pos`, `link_type`, `link`) VALUES
 (1, 'Home', 'home.png', 0, 2, 'index.php'),
 (2, 'Members', 'members.png', 1, 0, ''),
 (3, 'Community', 'community.png', 2, 0, ''),
@@ -2622,7 +2605,7 @@ REPLACE INTO `titanium_modules_cat` (`cid`, `name`, `image`, `pos`, `link_type`,
 (6, 'News', 'news.png', 5, 0, ''),
 (7, 'Other', 'general.png', 6, 0, '');
 
-CREATE TABLE IF NOT EXISTS `titanium_modules_links` (
+CREATE TABLE `nuke_modules_links` (
   `lid` int(10) UNSIGNED NOT NULL,
   `title` varchar(30) NOT NULL,
   `link_type` tinyint(4) NOT NULL DEFAULT 0,
@@ -2631,18 +2614,18 @@ CREATE TABLE IF NOT EXISTS `titanium_modules_links` (
   `view` tinyint(4) NOT NULL DEFAULT 0,
   `pos` tinyint(4) NOT NULL DEFAULT 0,
   `cat_id` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_modules_links` (`lid`, `title`, `link_type`, `link`, `active`, `view`, `pos`, `cat_id`) VALUES
+INSERT INTO `nuke_modules_links` (`lid`, `title`, `link_type`, `link`, `active`, `view`, `pos`, `cat_id`) VALUES
 (2, 'Home', 1, 'index.php', 1, 0, 0, 1);
 
-CREATE TABLE IF NOT EXISTS `titanium_mostonline` (
+CREATE TABLE `nuke_mostonline` (
   `total` int(10) NOT NULL DEFAULT 0,
   `members` int(10) NOT NULL DEFAULT 0,
   `nonmembers` int(10) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_nsncb_blocks` (
+CREATE TABLE `nuke_nsncb_blocks` (
   `rid` tinyint(2) NOT NULL DEFAULT 0,
   `cgid` tinyint(2) NOT NULL DEFAULT 0,
   `cbid` tinyint(2) NOT NULL DEFAULT 0,
@@ -2651,9 +2634,9 @@ CREATE TABLE IF NOT EXISTS `titanium_nsncb_blocks` (
   `content` text NOT NULL,
   `wtype` tinyint(1) NOT NULL DEFAULT 0,
   `width` smallint(6) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_nsncb_blocks` (`rid`, `cgid`, `cbid`, `title`, `filename`, `content`, `wtype`, `width`) VALUES
+INSERT INTO `nuke_nsncb_blocks` (`rid`, `cgid`, `cbid`, `title`, `filename`, `content`, `wtype`, `width`) VALUES
 (1, 1, 1, 'Place Holder', '', 'This is only a place holder', 1, 25),
 (2, 1, 2, 'Place Holder', '', 'This is only a place holder', 1, 25),
 (3, 1, 3, 'Place Holder', '', 'This is only a place holder', 1, 25),
@@ -2671,25 +2654,25 @@ REPLACE INTO `titanium_nsncb_blocks` (`rid`, `cgid`, `cbid`, `title`, `filename`
 (15, 4, 3, 'Place Holder', '', 'This is only a place holder', 1, 25),
 (16, 4, 4, 'Place Holder', '', 'This is only a place holder', 1, 25);
 
-CREATE TABLE IF NOT EXISTS `titanium_nsncb_config` (
+CREATE TABLE `nuke_nsncb_config` (
   `cgid` tinyint(1) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   `height` smallint(6) NOT NULL,
   `count` tinyint(1) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_nsncb_config` (`cgid`, `enabled`, `height`, `count`) VALUES
+INSERT INTO `nuke_nsncb_config` (`cgid`, `enabled`, `height`, `count`) VALUES
 (1, 0, 0, 0),
 (2, 0, 0, 0),
 (3, 0, 0, 0),
 (4, 0, 0, 0);
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnne_config` (
+CREATE TABLE `nuke_nsnne_config` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` longtext NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_nsnne_config` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_nsnne_config` (`config_name`, `config_value`) VALUES
 ('columns', '0'),
 ('readmore', '0'),
 ('texttype', '0'),
@@ -2698,19 +2681,19 @@ REPLACE INTO `titanium_nsnne_config` (`config_name`, `config_value`) VALUES
 ('hometopic', '0'),
 ('version_number', '1.1.6');
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnsp_config` (
+CREATE TABLE `nuke_nsnsp_config` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_nsnsp_config` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_nsnsp_config` (`config_name`, `config_value`) VALUES
 ('require_user', '1'),
 ('image_type', '0'),
 ('max_width', '88'),
 ('max_height', '31'),
 ('version_number', '1.3.0');
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnsp_sites` (
+CREATE TABLE `nuke_nsnsp_sites` (
   `site_id` int(11) NOT NULL,
   `site_name` varchar(60) NOT NULL DEFAULT '',
   `site_url` varchar(255) NOT NULL DEFAULT '',
@@ -2723,18 +2706,18 @@ CREATE TABLE IF NOT EXISTS `titanium_nsnsp_sites` (
   `user_name` varchar(60) NOT NULL DEFAULT '',
   `user_email` varchar(60) NOT NULL DEFAULT '',
   `user_ip` varchar(20) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_admins` (
+CREATE TABLE `nuke_nsnst_admins` (
   `aid` varchar(25) NOT NULL DEFAULT '',
   `login` varchar(25) NOT NULL DEFAULT '',
   `password` varchar(20) NOT NULL DEFAULT '',
   `password_md5` varchar(60) NOT NULL DEFAULT '',
   `password_crypt` varchar(60) NOT NULL DEFAULT '',
   `protected` tinyint(2) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_blocked_ips` (
+CREATE TABLE `nuke_nsnst_blocked_ips` (
   `ip_addr` varchar(15) NOT NULL DEFAULT '',
   `ip_long` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL DEFAULT 1,
@@ -2753,9 +2736,9 @@ CREATE TABLE IF NOT EXISTS `titanium_nsnst_blocked_ips` (
   `request_method` varchar(10) NOT NULL DEFAULT '',
   `expires` int(20) NOT NULL DEFAULT 0,
   `c2c` char(2) NOT NULL DEFAULT '00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_blocked_ranges` (
+CREATE TABLE `nuke_nsnst_blocked_ranges` (
   `ip_lo` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `ip_hi` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `date` int(20) NOT NULL DEFAULT 0,
@@ -2763,9 +2746,9 @@ CREATE TABLE IF NOT EXISTS `titanium_nsnst_blocked_ranges` (
   `reason` tinyint(1) NOT NULL DEFAULT 0,
   `expires` int(20) NOT NULL DEFAULT 0,
   `c2c` char(2) NOT NULL DEFAULT '00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_blockers` (
+CREATE TABLE `nuke_nsnst_blockers` (
   `blocker` int(4) NOT NULL DEFAULT 0,
   `block_name` varchar(20) NOT NULL DEFAULT '',
   `activate` int(4) NOT NULL DEFAULT 0,
@@ -2777,9 +2760,9 @@ CREATE TABLE IF NOT EXISTS `titanium_nsnst_blockers` (
   `duration` int(20) NOT NULL DEFAULT 0,
   `htaccess` int(4) NOT NULL DEFAULT 0,
   `list` longtext NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_nsnst_blockers` (`blocker`, `block_name`, `activate`, `block_type`, `email_lookup`, `forward`, `reason`, `template`, `duration`, `htaccess`, `list`) VALUES
+INSERT INTO `nuke_nsnst_blockers` (`blocker`, `block_name`, `activate`, `block_type`, `email_lookup`, `forward`, `reason`, `template`, `duration`, `htaccess`, `list`) VALUES
 (0, 'other', 0, 0, 0, '', 'Abuse-Other', 'abuse_default.tpl', 0, 0, ''),
 (1, 'union', 5, 0, 2, '', 'Abuse-Union', 'abuse_union.tpl', 0, 0, ''),
 (2, 'clike', 5, 0, 2, '', 'Abuse-CLike', 'abuse_clike.tpl', 0, 0, ''),
@@ -2793,13 +2776,13 @@ REPLACE INTO `titanium_nsnst_blockers` (`blocker`, `block_name`, `activate`, `bl
 (10, 'admin', 0, 0, 0, '', 'Abuse-Admin', 'abuse_admin.tpl', 0, 0, ''),
 (11, 'flood', 0, 1, 2, '', 'Abuse-Flood', 'abuse_flood.tpl', 0, 1, '');
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_cidrs` (
+CREATE TABLE `nuke_nsnst_cidrs` (
   `cidr` int(2) NOT NULL DEFAULT 0,
   `hosts` int(10) NOT NULL DEFAULT 0,
   `mask` varchar(15) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_nsnst_cidrs` (`cidr`, `hosts`, `mask`) VALUES
+INSERT INTO `nuke_nsnst_cidrs` (`cidr`, `hosts`, `mask`) VALUES
 (1, 2147483647, '127.255.255.255'),
 (2, 1073741824, '63.255.255.255'),
 (3, 536870912, '31.255.255.255'),
@@ -2833,12 +2816,12 @@ REPLACE INTO `titanium_nsnst_cidrs` (`cidr`, `hosts`, `mask`) VALUES
 (31, 2, '0.0.0.1'),
 (32, 1, '0.0.0.0');
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_config` (
+CREATE TABLE `nuke_nsnst_config` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` longtext NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_nsnst_config` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_nsnst_config` (`config_name`, `config_value`) VALUES
 ('admin_contact', 'webmaster@yourdomain.com'),
 ('block_perpage', '50'),
 ('block_sort_column', 'date'),
@@ -2879,12 +2862,12 @@ REPLACE INTO `titanium_nsnst_config` (`config_name`, `config_value`) VALUES
 ('show_right', '0'),
 ('test_switch', '0');
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_countries` (
+CREATE TABLE `nuke_nsnst_countries` (
   `c2c` char(2) NOT NULL DEFAULT '',
   `country` varchar(60) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_nsnst_countries` (`c2c`, `country`) VALUES
+INSERT INTO `nuke_nsnst_countries` (`c2c`, `country`) VALUES
 ('00', 'Unknown'),
 ('01', 'IANA Reserved'),
 ('ac', 'Ascension Island'),
@@ -3143,20 +3126,20 @@ REPLACE INTO `titanium_nsnst_countries` (`c2c`, `country`) VALUES
 ('zw', 'Zimbabwe'),
 ('02', 'UnAllocated');
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_excluded_ranges` (
+CREATE TABLE `nuke_nsnst_excluded_ranges` (
   `ip_lo` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `ip_hi` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `date` int(20) NOT NULL DEFAULT 0,
   `notes` text NOT NULL,
   `c2c` char(2) NOT NULL DEFAULT '00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_harvesters` (
+CREATE TABLE `nuke_nsnst_harvesters` (
   `hid` int(2) NOT NULL,
   `harvester` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_nsnst_harvesters` (`hid`, `harvester`) VALUES
+INSERT INTO `nuke_nsnst_harvesters` (`hid`, `harvester`) VALUES
 (1, '@yahoo.com'),
 (2, 'alexibot'),
 (3, 'alligator'),
@@ -3379,20 +3362,20 @@ REPLACE INTO `titanium_nsnst_harvesters` (`hid`, `harvester`) VALUES
 (219, 'cuntmonkey'),
 (220, 'zippy');
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_protected_ranges` (
+CREATE TABLE `nuke_nsnst_protected_ranges` (
   `ip_lo` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `ip_hi` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `date` int(20) NOT NULL DEFAULT 0,
   `notes` text NOT NULL,
   `c2c` char(2) NOT NULL DEFAULT '00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_referers` (
+CREATE TABLE `nuke_nsnst_referers` (
   `rid` int(2) NOT NULL,
   `referer` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_nsnst_referers` (`rid`, `referer`) VALUES
+INSERT INTO `nuke_nsnst_referers` (`rid`, `referer`) VALUES
 (1, '121hr.com'),
 (2, '1st-call.net'),
 (3, '1stcool.com'),
@@ -3833,7 +3816,7 @@ REPLACE INTO `titanium_nsnst_referers` (`rid`, `referer`) VALUES
 (438, 'cenoval.ru'),
 (439, 'cenokos.ru');
 
-REPLACE INTO `titanium_nsnst_referers` (`rid`, `referer`) VALUES
+INSERT INTO `nuke_nsnst_referers` (`rid`, `referer`) VALUES
 (440, 'seoexperimenty.ru'),
 (441, 'gobongo.info'),
 (442, 'vodkoved.ru'),
@@ -3889,11 +3872,11 @@ REPLACE INTO `titanium_nsnst_referers` (`rid`, `referer`) VALUES
 (492, 'best-seo-software.xyz'),
 (493, 'zwiebelbacke.com');
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_strings` (
+CREATE TABLE `nuke_nsnst_strings` (
   `string` varchar(60) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_nsnst_tracked_ips` (
+CREATE TABLE `nuke_nsnst_tracked_ips` (
   `tid` int(11) NOT NULL,
   `ip_addr` varchar(15) NOT NULL DEFAULT '',
   `ip_long` int(10) UNSIGNED NOT NULL DEFAULT 0,
@@ -3909,9 +3892,9 @@ CREATE TABLE IF NOT EXISTS `titanium_nsnst_tracked_ips` (
   `remote_port` varchar(11) NOT NULL DEFAULT '',
   `request_method` varchar(10) NOT NULL DEFAULT '',
   `c2c` char(2) NOT NULL DEFAULT '00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_pages` (
+CREATE TABLE `nuke_pages` (
   `pid` int(10) NOT NULL,
   `cid` int(10) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL DEFAULT '',
@@ -3924,15 +3907,15 @@ CREATE TABLE IF NOT EXISTS `titanium_pages` (
   `date` datetime NOT NULL DEFAULT '2018-12-12 00:00:00',
   `counter` int(10) NOT NULL DEFAULT 0,
   `clanguage` varchar(30) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_pages_categories` (
+CREATE TABLE `nuke_pages_categories` (
   `cid` int(10) NOT NULL,
   `title` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_pollcomments` (
+CREATE TABLE `nuke_pollcomments` (
   `tid` int(11) NOT NULL,
   `pid` int(11) NOT NULL DEFAULT 0,
   `pollID` int(11) NOT NULL DEFAULT 0,
@@ -3945,25 +3928,25 @@ CREATE TABLE IF NOT EXISTS `titanium_pollcomments` (
   `comment` text NOT NULL,
   `score` tinyint(4) NOT NULL DEFAULT 0,
   `reason` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_poll_check` (
+CREATE TABLE `nuke_poll_check` (
   `ip` varchar(20) NOT NULL DEFAULT '',
   `time` varchar(14) NOT NULL DEFAULT '',
   `pollID` int(10) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_poll_check` (`ip`, `time`, `pollID`) VALUES
+INSERT INTO `nuke_poll_check` (`ip`, `time`, `pollID`) VALUES
 ('47.206.216.196', '1618949976', 1);
 
-CREATE TABLE IF NOT EXISTS `titanium_poll_data` (
+CREATE TABLE `nuke_poll_data` (
   `pollID` int(11) NOT NULL DEFAULT 0,
   `optionText` char(50) NOT NULL DEFAULT '',
   `optionCount` int(11) NOT NULL DEFAULT 0,
   `voteID` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_poll_data` (`pollID`, `optionText`, `optionCount`, `voteID`) VALUES
+INSERT INTO `nuke_poll_data` (`pollID`, `optionText`, `optionCount`, `voteID`) VALUES
 (1, 'Ummmm, not bad', 0, 1),
 (1, 'Farout', 0, 2),
 (1, 'Terrific', 0, 3),
@@ -3977,19 +3960,19 @@ REPLACE INTO `titanium_poll_data` (`pollID`, `optionText`, `optionCount`, `voteI
 (1, '', 0, 11),
 (1, '', 0, 12);
 
-CREATE TABLE IF NOT EXISTS `titanium_poll_desc` (
+CREATE TABLE `nuke_poll_desc` (
   `pollID` int(11) NOT NULL,
   `pollTitle` varchar(100) NOT NULL DEFAULT '',
   `timeStamp` int(11) NOT NULL DEFAULT 0,
   `voters` mediumint(9) NOT NULL DEFAULT 0,
   `planguage` varchar(30) NOT NULL DEFAULT '',
   `artid` int(10) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_poll_desc` (`pollID`, `pollTitle`, `timeStamp`, `voters`, `planguage`, `artid`) VALUES
+INSERT INTO `nuke_poll_desc` (`pollID`, `pollTitle`, `timeStamp`, `voters`, `planguage`, `artid`) VALUES
 (1, 'What do you think about this portal?', 961405160, 1, 'english', 0);
 
-CREATE TABLE IF NOT EXISTS `titanium_queue` (
+CREATE TABLE `nuke_queue` (
   `qid` smallint(5) UNSIGNED NOT NULL,
   `uid` mediumint(9) NOT NULL DEFAULT 0,
   `uname` varchar(40) NOT NULL DEFAULT '',
@@ -3999,30 +3982,30 @@ CREATE TABLE IF NOT EXISTS `titanium_queue` (
   `timestamp` datetime NOT NULL DEFAULT '2018-12-12 00:00:00',
   `topic` varchar(20) NOT NULL DEFAULT '',
   `alanguage` varchar(30) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_quotes` (
+CREATE TABLE `nuke_quotes` (
   `qid` int(10) UNSIGNED NOT NULL,
   `quote` text DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_quotes` (`qid`, `quote`) VALUES
+INSERT INTO `nuke_quotes` (`qid`, `quote`) VALUES
 (1, 'Nos morituri te salutamus - CBHS');
 
-CREATE TABLE IF NOT EXISTS `titanium_referer` (
+CREATE TABLE `nuke_referer` (
   `url` varchar(100) NOT NULL,
   `lasttime` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `link` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_related` (
+CREATE TABLE `nuke_related` (
   `rid` int(11) NOT NULL,
   `tid` int(11) NOT NULL DEFAULT 0,
   `name` varchar(30) NOT NULL DEFAULT '',
   `url` varchar(200) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_reviews` (
+CREATE TABLE `nuke_reviews` (
   `id` int(10) NOT NULL,
   `date` date NOT NULL DEFAULT '2018-12-12',
   `title` varchar(150) NOT NULL DEFAULT '',
@@ -4035,9 +4018,9 @@ CREATE TABLE IF NOT EXISTS `titanium_reviews` (
   `url_title` varchar(50) NOT NULL DEFAULT '',
   `hits` int(10) NOT NULL DEFAULT 0,
   `rlanguage` varchar(30) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_reviews_add` (
+CREATE TABLE `nuke_reviews_add` (
   `id` int(10) NOT NULL,
   `date` date DEFAULT NULL,
   `title` varchar(150) NOT NULL DEFAULT '',
@@ -4048,35 +4031,35 @@ CREATE TABLE IF NOT EXISTS `titanium_reviews_add` (
   `url` varchar(100) NOT NULL DEFAULT '',
   `url_title` varchar(50) NOT NULL DEFAULT '',
   `rlanguage` varchar(30) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_reviews_comments` (
+CREATE TABLE `nuke_reviews_comments` (
   `cid` int(10) NOT NULL,
   `rid` int(10) NOT NULL DEFAULT 0,
   `userid` varchar(25) NOT NULL DEFAULT '',
   `date` datetime DEFAULT NULL,
   `comments` text DEFAULT NULL,
   `score` int(10) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_reviews_main` (
+CREATE TABLE `nuke_reviews_main` (
   `title` varchar(100) DEFAULT NULL,
   `description` text DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_reviews_main` (`title`, `description`) VALUES
+INSERT INTO `nuke_reviews_main` (`title`, `description`) VALUES
 ('Reviews Section Title', 'Reviews Section Long Description');
 
-CREATE TABLE IF NOT EXISTS `titanium_security_agents` (
+CREATE TABLE `nuke_security_agents` (
   `agent_name` varchar(20) NOT NULL DEFAULT '',
   `agent_fullname` varchar(30) DEFAULT '',
   `agent_hostname` varchar(30) DEFAULT '',
   `agent_url` varchar(80) DEFAULT '',
   `agent_ban` int(1) NOT NULL DEFAULT 0,
   `agent_desc` text DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_security_agents` (`agent_name`, `agent_fullname`, `agent_hostname`, `agent_url`, `agent_ban`, `agent_desc`) VALUES
+INSERT INTO `nuke_security_agents` (`agent_name`, `agent_fullname`, `agent_hostname`, `agent_url`, `agent_ban`, `agent_desc`) VALUES
 ('1Noon', '1Noonbot', NULL, '1nooncorp.com', -1, 'Doesn\'t follow robots.txt'),
 ('AI', 'AIBOT', NULL, '21seek.com', 0, '(China) robot (218.17.90.xxx)'),
 ('aip', 'aipbot/', NULL, 'nameprotect.com', 0, 'copyright search robot (24.177.134.x), s. also\r\n- np/0.1_(np;_http://www.nameprotect.com...\r\n- abot/0.1 (abot; http://www.abot.com...'),
@@ -4291,7 +4274,7 @@ REPLACE INTO `titanium_security_agents` (`agent_name`, `agent_fullname`, `agent_
 ('SVSearch', 'SVSearchRobot/', NULL, NULL, -1, NULL),
 ('Lorkyll', 'Lorkyll', NULL, '444.net', -1, NULL);
 
-CREATE TABLE IF NOT EXISTS `titanium_session` (
+CREATE TABLE `nuke_session` (
   `uname` varchar(255) NOT NULL DEFAULT '',
   `time` varchar(14) NOT NULL DEFAULT '',
   `starttime` varchar(14) NOT NULL DEFAULT '',
@@ -4299,15 +4282,15 @@ CREATE TABLE IF NOT EXISTS `titanium_session` (
   `guest` int(1) NOT NULL DEFAULT 0,
   `module` varchar(255) NOT NULL DEFAULT '',
   `url` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_shoutbox_censor` (
+CREATE TABLE `nuke_shoutbox_censor` (
   `id` int(9) NOT NULL,
   `text` varchar(30) NOT NULL,
   `replacement` varchar(30) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_shoutbox_censor` (`id`, `text`, `replacement`) VALUES
+INSERT INTO `nuke_shoutbox_censor` (`id`, `text`, `replacement`) VALUES
 (1, '@$$', 'butt'),
 (2, 'a$$', 'butt'),
 (3, 'anton', '[censored]'),
@@ -4448,7 +4431,7 @@ REPLACE INTO `titanium_shoutbox_censor` (`id`, `text`, `replacement`) VALUES
 (138, 'wop', '[censored]'),
 (139, 'yed', '[censored]');
 
-CREATE TABLE IF NOT EXISTS `titanium_shoutbox_conf` (
+CREATE TABLE `nuke_shoutbox_conf` (
   `id` int(9) NOT NULL DEFAULT 0,
   `color1` varchar(20) NOT NULL DEFAULT '',
   `color2` varchar(20) NOT NULL DEFAULT '',
@@ -4474,27 +4457,27 @@ CREATE TABLE IF NOT EXISTS `titanium_shoutbox_conf` (
   `shoutsperpage` varchar(5) NOT NULL DEFAULT '',
   `serverTimezone` varchar(5) NOT NULL DEFAULT '',
   `blockxxx` varchar(5) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_shoutbox_conf` (`id`, `color1`, `color2`, `date`, `time`, `number`, `ipblock`, `nameblock`, `censor`, `tablewidth`, `urlonoff`, `delyourlastpost`, `anonymouspost`, `height`, `themecolors`, `textWidth`, `nameWidth`, `smiliesPerRow`, `reversePosts`, `timeOffset`, `urlanononoff`, `pointspershout`, `shoutsperpage`, `serverTimezone`, `blockxxx`) VALUES
+INSERT INTO `nuke_shoutbox_conf` (`id`, `color1`, `color2`, `date`, `time`, `number`, `ipblock`, `nameblock`, `censor`, `tablewidth`, `urlonoff`, `delyourlastpost`, `anonymouspost`, `height`, `themecolors`, `textWidth`, `nameWidth`, `smiliesPerRow`, `reversePosts`, `timeOffset`, `urlanononoff`, `pointspershout`, `shoutsperpage`, `serverTimezone`, `blockxxx`) VALUES
 (1, '#EBEBEB', '#FFFFFF', 'yes', 'yes', '10', 'yes', 'yes', 'yes', '150', 'yes', 'yes', 'yes', '150', 'no', '20', '10', '7', 'no', '0', 'no', '0', '25', '-6', 'yes');
 
-CREATE TABLE IF NOT EXISTS `titanium_shoutbox_date` (
+CREATE TABLE `nuke_shoutbox_date` (
   `id` int(5) NOT NULL DEFAULT 0,
   `date` varchar(10) NOT NULL DEFAULT '',
   `time` varchar(10) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_shoutbox_date` (`id`, `date`, `time`) VALUES
+INSERT INTO `nuke_shoutbox_date` (`id`, `date`, `time`) VALUES
 (1, 'd-m-Y', 'g:i:a');
 
-CREATE TABLE IF NOT EXISTS `titanium_shoutbox_emoticons` (
+CREATE TABLE `nuke_shoutbox_emoticons` (
   `id` int(9) NOT NULL,
   `text` varchar(20) NOT NULL,
   `image` varchar(70) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_shoutbox_emoticons` (`id`, `text`, `image`) VALUES
+INSERT INTO `nuke_shoutbox_emoticons` (`id`, `text`, `image`) VALUES
 (1, ':D', '<img src=images/blocks/shout_box/icon_biggrin.gif>'),
 (2, ':-D', '<img src=images/blocks/shout_box/icon_biggrin.gif>'),
 (3, ':grin:', '<img src=images/blocks/shout_box/icon_biggrin.gif>'),
@@ -4553,27 +4536,27 @@ REPLACE INTO `titanium_shoutbox_emoticons` (`id`, `text`, `image`) VALUES
 (56, ':confused:', '<img src=images/blocks/shout_box/confused.gif>'),
 (57, ':aua:', '<img src=images/blocks/shout_box/aua.gif>');
 
-CREATE TABLE IF NOT EXISTS `titanium_shoutbox_ipblock` (
+CREATE TABLE `nuke_shoutbox_ipblock` (
   `id` int(9) NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_shoutbox_manage_count` (
+CREATE TABLE `nuke_shoutbox_manage_count` (
   `id` int(9) NOT NULL,
   `admin` varchar(25) NOT NULL DEFAULT '',
   `aCount` varchar(5) NOT NULL DEFAULT '10'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_shoutbox_manage_count` (`id`, `admin`, `aCount`) VALUES
+INSERT INTO `nuke_shoutbox_manage_count` (`id`, `admin`, `aCount`) VALUES
 (1, 'a', '10'),
 (2, 'V', '10');
 
-CREATE TABLE IF NOT EXISTS `titanium_shoutbox_nameblock` (
+CREATE TABLE `nuke_shoutbox_nameblock` (
   `id` int(9) NOT NULL,
   `name` varchar(50) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_shoutbox_shouts` (
+CREATE TABLE `nuke_shoutbox_shouts` (
   `id` int(9) NOT NULL,
   `name` varchar(20) NOT NULL,
   `comment` text NOT NULL,
@@ -4581,20 +4564,20 @@ CREATE TABLE IF NOT EXISTS `titanium_shoutbox_shouts` (
   `time` varchar(10) NOT NULL,
   `ip` varchar(39) DEFAULT NULL,
   `timestamp` varchar(20) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_shoutbox_shouts` (`id`, `name`, `comment`, `date`, `time`, `ip`, `timestamp`) VALUES
+INSERT INTO `nuke_shoutbox_shouts` (`id`, `name`, `comment`, `date`, `time`, `ip`, `timestamp`) VALUES
 (1, 'www.86it.us', 'Thank You for trying this out!', '8-6-05', '24:00', 'noip', '1102320000');
 
-CREATE TABLE IF NOT EXISTS `titanium_shoutbox_sticky` (
+CREATE TABLE `nuke_shoutbox_sticky` (
   `id` int(9) NOT NULL,
   `name` varchar(20) NOT NULL,
   `comment` text NOT NULL,
   `timestamp` varchar(20) NOT NULL,
   `stickySlot` varchar(5) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_shoutbox_themes` (
+CREATE TABLE `nuke_shoutbox_themes` (
   `id` int(9) NOT NULL,
   `themeName` varchar(50) DEFAULT NULL,
   `blockColor1` varchar(20) DEFAULT NULL,
@@ -4602,29 +4585,29 @@ CREATE TABLE IF NOT EXISTS `titanium_shoutbox_themes` (
   `border` varchar(20) DEFAULT NULL,
   `menuColor1` varchar(20) DEFAULT NULL,
   `menuColor2` varchar(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_shoutbox_themes` (`id`, `themeName`, `blockColor1`, `blockColor2`, `border`, `menuColor1`, `menuColor2`) VALUES
+INSERT INTO `nuke_shoutbox_themes` (`id`, `themeName`, `blockColor1`, `blockColor2`, `border`, `menuColor1`, `menuColor2`) VALUES
 (1, 'Titanium_Core', '', '', '', '', '');
 
-CREATE TABLE IF NOT EXISTS `titanium_shoutbox_theme_images` (
+CREATE TABLE `nuke_shoutbox_theme_images` (
   `id` int(9) NOT NULL,
   `themeName` varchar(50) DEFAULT NULL,
   `blockArrowColor` varchar(50) NOT NULL,
   `blockBackgroundImage` varchar(50) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_shoutbox_version` (
+CREATE TABLE `nuke_shoutbox_version` (
   `id` int(5) NOT NULL,
   `version` varchar(10) NOT NULL,
   `datechecked` varchar(2) NOT NULL,
   `versionreported` varchar(10) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_shoutbox_version` (`id`, `version`, `datechecked`, `versionreported`) VALUES
+INSERT INTO `nuke_shoutbox_version` (`id`, `version`, `datechecked`, `versionreported`) VALUES
 (1, '8.5', '0', '0');
 
-CREATE TABLE IF NOT EXISTS `titanium_sommaire` (
+CREATE TABLE `nuke_sommaire` (
   `groupmenu` int(2) NOT NULL DEFAULT 0,
   `name` varchar(200) DEFAULT NULL,
   `image` varchar(99) DEFAULT NULL,
@@ -4638,9 +4621,9 @@ CREATE TABLE IF NOT EXISTS `titanium_sommaire` (
   `new` char(2) DEFAULT NULL,
   `listbox` char(2) DEFAULT NULL,
   `dynamic` char(2) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_sommaire` (`groupmenu`, `name`, `image`, `lien`, `hr`, `center`, `bgcolor`, `invisible`, `class`, `bold`, `new`, `listbox`, `dynamic`) VALUES
+INSERT INTO `nuke_sommaire` (`groupmenu`, `name`, `image`, `lien`, `hr`, `center`, `bgcolor`, `invisible`, `class`, `bold`, `new`, `listbox`, `dynamic`) VALUES
 (0, 'Home', 'icon_home.gif', 'index.php', '', '', '', 2, 'storytitle', '', '', '', 'on'),
 (1, 'Discussions', 'icon_community.gif', '', 'on', '', '', 2, 'storytitle', '', '', '', 'on'),
 (2, 'News', 'favoritos.gif', '', '', '', '', 2, 'storytitle', '', '', '', 'on'),
@@ -4649,7 +4632,7 @@ REPLACE INTO `titanium_sommaire` (`groupmenu`, `name`, `image`, `lien`, `hr`, `c
 (5, 'Infos', 'icon_members.gif', '', '', '', '', 2, 'storytitle', '', '', '', 'on'),
 (99, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
-CREATE TABLE IF NOT EXISTS `titanium_sommaire_categories` (
+CREATE TABLE `nuke_sommaire_categories` (
   `id` int(11) NOT NULL,
   `groupmenu` int(2) NOT NULL DEFAULT 0,
   `module` varchar(50) NOT NULL DEFAULT '',
@@ -4660,9 +4643,9 @@ CREATE TABLE IF NOT EXISTS `titanium_sommaire_categories` (
   `new_days` tinyint(4) NOT NULL DEFAULT -1,
   `class` varchar(20) DEFAULT NULL,
   `bold` char(2) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_sommaire_categories` (`id`, `groupmenu`, `module`, `url`, `url_text`, `image`, `new`, `new_days`, `class`, `bold`) VALUES
+INSERT INTO `nuke_sommaire_categories` (`id`, `groupmenu`, `module`, `url`, `url_text`, `image`, `new`, `new_days`, `class`, `bold`) VALUES
 (1, 1, 'Forums', '', '', 'tree-T.gif', '', 7, 'boxcontent', ''),
 (2, 1, 'Private_Messages', '', '', 'tree-L.gif', '', 7, 'boxcontent', ''),
 (3, 2, 'News', '', '', 'tree-T.gif', '', 7, 'boxcontent', ''),
@@ -4681,15 +4664,15 @@ REPLACE INTO `titanium_sommaire_categories` (`id`, `groupmenu`, `module`, `url`,
 (16, 5, 'Search', '', '', 'tree-T.gif', '', 7, 'boxcontent', ''),
 (17, 5, 'Your_Account', '', '', 'tree-L.gif', '', 7, 'boxcontent', '');
 
-CREATE TABLE IF NOT EXISTS `titanium_stats_hour` (
+CREATE TABLE `nuke_stats_hour` (
   `year` smallint(6) NOT NULL DEFAULT 0,
   `month` tinyint(4) NOT NULL DEFAULT 0,
   `date` tinyint(4) NOT NULL DEFAULT 0,
   `hour` tinyint(4) NOT NULL DEFAULT 0,
   `hits` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_stories` (
+CREATE TABLE `nuke_stories` (
   `sid` int(11) NOT NULL,
   `catid` int(11) NOT NULL DEFAULT 0,
   `aid` varchar(25) NOT NULL DEFAULT '',
@@ -4713,9 +4696,9 @@ CREATE TABLE IF NOT EXISTS `titanium_stories` (
   `associated` text NOT NULL,
   `ticon` tinyint(1) NOT NULL DEFAULT 0,
   `writes` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_stories` (`sid`, `catid`, `aid`, `title`, `datePublished`, `dateModified`, `hometext`, `bodytext`, `comments`, `counter`, `topic`, `informant`, `notes`, `ihome`, `alanguage`, `acomm`, `haspoll`, `pollID`, `score`, `ratings`, `associated`, `ticon`, `writes`) VALUES
+INSERT INTO `nuke_stories` (`sid`, `catid`, `aid`, `title`, `datePublished`, `dateModified`, `hometext`, `bodytext`, `comments`, `counter`, `topic`, `informant`, `notes`, `ihome`, `alanguage`, `acomm`, `haspoll`, `pollID`, `score`, `ratings`, `associated`, `ticon`, `writes`) VALUES
 (1, 8, 'webmaster', 'Welcome to PHP-Nuke Titanium Dev 4', '2017-10-11 09:56:20', '2022-08-23 18:58:30', '<p>Thank you for choosing PHP-Nuke Titanium, we hope you enjoy using our Network CMS and we appreciate all the feedback and donations. This website is using the Nuke-Evolution Xtreme 2.0.9F Core engine and we are very proud to say so. This is the network version of PHP-Nuke Titanium. PHP-Nuke Titanium is designed to run solely on The 86it Developers Network. Some folks are not a general part of the network and just want a regular website or portal and in those instances, we set up Nuke-Evolution Xtreme (US Version). Understanding which one you need is a big part of starting an online presence. The decision is one that we can help you with...</p>', '', 0, 1778, 1, 'TheGhost', '', 1, '', 0, 0, 0, 45, 9, '', 0, 1),
 (2, 8, 'webmaster', 'New Default Network Theme by EBuffington', '2021-03-16 07:50:13', '2022-08-23 18:58:48', '<p><strong>PHP-Nuke Titanium&nbsp;has a new Default Theme</strong><br />\n<br />\nThe name of our new default network theme is&nbsp;Inferno&nbsp;and was written and designed by multiple people.<br />\n<br />\n<strong>Main Developers</strong></p>\n\n<ul>\n	<li>Ernest Buffington (main designer and coder)</li>\n	<li>Sebastian Buffington (concept designer)</li>\n	<li>Winston Wolfe (coder)</li>\n</ul>\n\n<p><br />\n<strong>Indirect Developers</strong></p>\n\n<ul>\n	<li><strong>coRpSE</strong></li>\n	<li><strong>TheMortal</strong></li>\n	<li><strong>Lonestar</strong></li>\n	<li><strong>killigan</strong></li>\n	<li><strong>SgtLegend</strong></li>\n	<li><strong>Technocrat</strong></li>\n	<li><strong>Eyecu</strong></li>\n	<li><strong>Wolfstar</strong></li>\n</ul>\n\n<p><br />\nThis theme will probably always be under construction as the times roll forward. This theme by default is streaming FIRE and the download for the default theme is in excess of 1.78GB. It takes a pretty large video file to stream in resolution this clear.<br />\n<br />\nThis is our network mascot theme and is not suppose to be used by individual users as their default theme. However, when we set up a new network portal for someone this will be the theme that is installed by default and we recommend that you get familiar with the layout as you will need to understand it to make new themes or design your own default theme. After you have studied the theme a little bit you should be off and running and we recommend that you use the community version of Visual Studio or Dreamweaver for editing your network portal. You can use any version of Dreamweaver but we recommend editing your theme remotely with Adobe Dreamweaver CS6 as it was the last version before Adobe got greedy. We do not believe in online subscription-based software as it only shows corporate greed.<br />\n<br />\nThis new theme was designed and worked on from 2019 all the way up until now. We ported it in a way so that it will work with normal versions of Nuke-Evolution. There are a lot of reasons to have us set up a network portal for you versus you buying online internet services for your personal website.<br />\n<br />\n<strong>Reasons to have a Network Portal</strong><br />\n&nbsp;</p>\n\n<ul>\n	<li>Why pay a monthly FEE for an online presence when we do it for free.</li>\n	<li>We help with module setup and design.</li>\n	<li>We still believe in Bells and Whistles.</li>\n	<li>Free website support for your network portal.</li>\n	<li>You can also convert to a commercial account anytime you wish and at wholesale rates.</li>\n	<li>You can use any domain name you like as we are a licensed registrar.</li>\n	<li>We also have free domain names *.86it.us i.e. your-portal-name.86it.us</li>\n	<li>We cater to newbies and pros.</li>\n	<li>This is the place to be if you want to teach or learn.</li>\n</ul>', '', 0, 1743, 8, 'TheGhost', '', 1, 'english', 0, 0, 0, 20, 4, '', 0, 1),
 (3, 8, 'webmaster', 'What has changed in PHP-Nuke Titanium?', '2021-03-16 09:05:57', '2022-08-23 18:59:02', '<p><strong>What is no longer in PHP-Nuke Titanium&nbsp;</strong></p>\n\n<ul>\n	<li>News</li>\n	<li>Stories_Archive</li>\n	<li>Submit_News</li>\n	<li>Top</li>\n	<li>Topics</li>\n	<li>Projects</li>\n</ul>\n\n<p><br />\n<strong>What is New in PHP-Nuke Titanium</strong></p>\n\n<ul>\n	<li><strong><span style=\"color:#1abc9c\">Added</span></strong>&nbsp;<strong>New Facebook Config file</strong>&nbsp;fconfig.php. This is for facebook connector settings...</li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span></strong>&nbsp;<strong>New Network Config file</strong>&nbsp;nconfig.php. This is for network connector settings...</li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span></strong> <strong>Rounded Corners Mod v1</strong> to images in User Info and blocks.</li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span></strong> <strong>dateModified</strong> and <strong>datePublished </strong>everywhere, no more use of<strong>&nbsp;datetime </strong>or<strong> time</strong>.</li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Blog Signature Mod v1&nbsp;</strong>by TheGhost</li>\n	<li><strong><span style=\"color:#f39c12\">Updated</span></strong> Admin <strong>Portal Menu</strong>&nbsp;updated for <strong><span style=\"color:#3498db\">PHP 7.xx&nbsp;</span></strong>by <strong>TheGhost</strong></li>\n	<li><strong><span style=\"color:#f39c12\">Updated</span></strong> <strong>Web_Links</strong> Module re-write by <strong>TheGhost</strong></li>\n	<li><strong><span style=\"color:#f39c12\">Updated</span></strong> Admin <strong>Authors Panel</strong>&nbsp;updated by <strong>TheGhost</strong></li>\n	<li><strong><span style=\"color:#f39c12\">Updated</span></strong> Admin <strong>Blocks Panel</strong>&nbsp;updated by <strong>TheGhost</strong></li>\n	<li><strong><span style=\"color:#f39c12\">Updated</span></strong> Admin <strong>Backup Panel</strong> updated for <strong><span style=\"color:#3498db\">PHP 7.xx</span></strong>&nbsp; by <strong>TheGhost</strong></li>\n	<li><strong><span style=\"color:#f39c12\">Updated</span></strong> Admin <strong>Modules Panel</strong> re-write by <strong>TheGhost</strong></li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Titanium Google&nbsp;SDK</strong>&nbsp;v5 by <strong>TheGhost</strong></li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Titanium Facebook SDK</strong>&nbsp;v5 by <strong>TheGhost</strong></li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Facebook Likes</strong> for Blogs by <strong>TheGhost</strong></li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Facebook Commenting</strong> for Blogs by <strong>TheGhost</strong></li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> </strong>Portals now come with a preconfigured facebook app (associated with your web portal)</li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Blog</strong> by <strong>TheGhost </strong>(News Re-Write)</li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Blog_Archive</strong>&nbsp;by <strong>TheGhost</strong> (Stories Archive Re-Write)</li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Blog_Submit</strong>&nbsp;by <strong>TheGhost</strong> (Submit Re-Write)</li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Blog_Top</strong>&nbsp;by <strong>TheGhost </strong>(Top Re-Write)</li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Blog_Topics</strong>&nbsp;by <strong>TheGhost </strong>(Topics Re-Write)</li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Network_Advertising</strong> Module by <strong>NukeScripts.Net</strong></li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Loan</strong> Module by <strong>ScottybCoder</strong></li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Network Bookmarks</strong> (private bookmark vault for users)</li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> Proof_Of_God</strong> Module by <strong>ScottyBcoder</strong></li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> </strong>Resolution Checking for Advanced Themes by <strong>TheGhost</strong></li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> </strong>Flykit for designing themes on the Fly (used to edit CSS in realtime) by <strong>TheGhost</strong></li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> </strong>Network Projects (fixed for network use, used to report errors with themes modules or general code bugs) by Bob Marion of&nbsp;<strong>NukeScripts.Net</strong></li>\n	<li><strong><span style=\"color:#1abc9c\">Added</span> </strong>Each theme will automatically switch to the needed mime-type on the Fly! (awesome for old themes) by <strong>TheGhost</strong></li>\n	<li><span style=\"color:#c0392b\"><strong>Fixed</strong></span> BBCode on the main page used an incorrect display path. i.e. root/filename.png it now uses root/modules/Forum/images/smiles/filename.png.</li>\n	<li><span style=\"color:#c0392b\"><strong>Fixed</strong></span> Site_Map was using read_article i.e.&nbsp;modules.php?name=Blog&amp;amp;file=read_article&amp;amp;sid=4 which was not displaying the header and footer.</li>\n	<li><span style=\"color:#c0392b\"><strong>Fixed</strong></span> Site_Map was using Topics instead of Blog_Topics</li>\n	<li><strong><span style=\"color:#c0392b\">Fixed</span></strong> cookieconsent.min.js was opening the learn link in the <strong>_parent</strong> window thus directing the user away from the current page.</li>\n	<li><span style=\"color:#c0392b\"><strong>Fixed </strong></span>The printer-friendly icon was not right when you clicked on read more or comments.</li>\n	<li><strong><span style=\"color:#c0392b\">Fixed</span></strong> The send to friend icon was not right when you clicked on read more or comments.</li>\n	<li><span style=\"color:#c0392b\"><strong>Fixed</strong></span>&nbsp;In the admin area the modules admin block was listing the index page as a module left a <strong>..</strong> in the module list that says can&#39;t be edited.</li>\n	<li><span style=\"color:#c0392b\"><strong>Fixed</strong></span> In the admin area&nbsp;the modules admin block was listing the index.html file as if it were a module.</li>\n</ul>\n\n<p><br />\n<strong>What is Broken in PHP-Nuke Titanium</strong></p>\n\n<ul>\n	<li>Found 3/16/2021 5:01 am Link to off-site Avatar - Tried to directly link to a file from an Image Repository on another site.&nbsp;</li>\n	<li>ShoutBox broken in PHP 7.3&nbsp;</li>\n	<li>ShoutBox broken in PHP 7.2&nbsp;</li>\n	<li>ShoutBox broken in PHP 7.1&nbsp;</li>\n	<li>Admin database functions broken in PHP 7.3 (admin.php?op=database)&nbsp;</li>\n	<li>Admin database functions broken in PHP 7.2 (admin.php?op=database)&nbsp;</li>\n	<li>Admin database functions broken in PHP 7.1 (admin.php?op=database )</li>\n	<li>Admin database functions broken in PHP 7.0 (admin.php?op=database)&nbsp;</li>\n	<li>Admin database functions broken in PHP 5.6 (admin.php?op=database)&nbsp;</li>\n	<li><strong>Bug</strong> Smiles dropped in by the BBCode editor on the main page have an incorrect display path. i.e. root/filename.png instead of root/modules/Forum/images/smiles/filename.png</li>\n	<li>Site_Map was using read_article i.e.&nbsp;modules.php?name=Blog&amp;amp;file=read_article&amp;amp;sid=4 which was not displaying the header and footer.</li>\n	<li>Sit_Map is using Topics instead of Blog_Topics</li>\n	<li>cookieconsent.min.js is opening the learn link in the _parent window thus directing the user away from the current page.</li>\n	<li>The printer-friendly icon is not right when you click on read more or comments.</li>\n	<li>The send to friend icon is not right when you click on read more or comments.</li>\n	<li>In admin area modules admin block is listing the index page as a module leaves a <strong>..</strong> in the module list that says can&#39;t be edited.</li>\n	<li>In the admin are modules admin block is listing the index.html file as if it were a module.</li>\n</ul>\n\n<p><br />\n<strong>What versions of PHP are stable with PHP-Nuke Titanium and Nuke-Evolution?</strong></p>\n\n<ul>\n	<li><span style=\"color:#3498db\"><strong>PHP 7.4.16</strong></span></li>\n</ul>\n\n<p><br />\n<strong>What version of PHP are we using on this portal/website?</strong></p>\n\n<ul>\n	<li><span style=\"color:#3498db\"><strong>PHP 7.4.16</strong></span></li>\n</ul>', '', 0, 2490, 1, 'TheGhost', '', 0, 'english', 0, 0, 0, 75, 15, '', 0, 1),
@@ -4728,7 +4711,7 @@ REPLACE INTO `titanium_stories` (`sid`, `catid`, `aid`, `title`, `datePublished`
 (12, 8, 'webmaster', 'About PHP-Nuke Titanium (US Version)', '2021-01-01 15:56:20', '2022-08-23 19:00:26', '<p>The <strong>US</strong> version of<strong> PHP-Nuke Titanium CMS</strong>&nbsp;is an open-source highly modified&nbsp;<strong>Fork</strong> of <strong>Nuke-Evolution</strong> wrote in PHP as a programming language and development was first started in 2005. The software comes with a set of basic features like a WYSIWYG editor, an admin interface with drag and drop blocks, spam protection, and image processing. PHP-Nuke Titanium CMS comes with the ability to use various modules that will extend the current functionality of your portal/website. The latest version available for download is 4.0.0b and is still in beta.</p>\n\n<p><strong>PHP-Nuke Titanium</strong>&nbsp;now comes with v5 of the Titanium Facebook SDK kit. It&#39;s already set up. All you have to do is add your app ID and secret... If you need help, we would be glad to set it up for FREE.</p>\n\n<p><strong>PHP-Nuke Titanium</strong> now comes with v5 of the Titanium Google SDK. Everything you need to be a Google developer is already there, just have a look inside your includes directory.</p>\n\n<p>[b]NOTE:[/b] Your admin and user accounts have already been logged in for you so please visit [url=admin.php]this link[/url] to get started.</p>\n\n<p>You can edit or remove this blog message by going into the Blog Admin Panel located in the Admin area, or look below and you can edit by clicking the pencil or the x to delete this blog message.</p>', '', 0, 570, 1, 'WebMaster', '', 0, '', 0, 0, 0, 70, 14, '', 0, 1),
 (13, 9, 'webmaster', 'New Blog Signature Mod', '2021-04-24 12:14:43', '2022-08-23 19:00:35', '<p>TESTING BLOG SIGNATURE MOD v1</p>\n\n<p>This mod was written by Ernest Buffington</p>\n\n<p>The Blog Signature Mod is having a lot of new features added, such as the ability to use your callsign or real name. You will also be able to enable and disable the blog signature at will globally or for each post.</p>', '', 0, 180, 7, 'TheGhost', '', 0, '', 0, 0, 0, 20, 4, '', 0, 1),
 (14, 8, 'webmaster', 'We Will Be Updating The Modules 1 by 1', '2021-04-26 03:44:48', '2022-08-23 19:00:46', '<p>We are going through each module and fixing all the cosmetic issues that we are sure everyone is aware of.</p>\n\n<p>If you see any issues at all please feel free to submit a report. You can do so by clicking [url=modules.php?name=Network_Projects&amp;op=Project&amp;project_id=76]HERE[/url]</p>\n\n<p>A lot of the modules are being re-written for future versions of PHP as well as cosmetic issues.</p>\n\n<p>We would like to apologize for the slacking that has been going on over the years. We intend to keep the US version updated and will cater to anyone who has a mod request or needs install help.</p>\n\n<p>We would again like to thank everyone for stopping in to visit.</p>', '', 0, 144, 1, 'webmaster', '', 0, 'english', 0, 0, 0, 10, 2, '', 0, 1);
-REPLACE INTO `titanium_stories` (`sid`, `catid`, `aid`, `title`, `datePublished`, `dateModified`, `hometext`, `bodytext`, `comments`, `counter`, `topic`, `informant`, `notes`, `ihome`, `alanguage`, `acomm`, `haspoll`, `pollID`, `score`, `ratings`, `associated`, `ticon`, `writes`) VALUES
+INSERT INTO `nuke_stories` (`sid`, `catid`, `aid`, `title`, `datePublished`, `dateModified`, `hometext`, `bodytext`, `comments`, `counter`, `topic`, `informant`, `notes`, `ihome`, `alanguage`, `acomm`, `haspoll`, `pollID`, `score`, `ratings`, `associated`, `ticon`, `writes`) VALUES
 (15, 6, 'webmaster', 'New Google Site Map Generator Module', '2021-04-27 15:48:34', '2022-08-23 19:00:56', '<p><strong>Module Name: </strong><a href=\"modules.php?name=Google-Site-Map\" target=\"_self\">Google-Site-Map</a><br />\n<strong>Author:</strong> Ernest Buffington<br />\n<strong>Version:</strong> v1.0<br />\n<strong>Core:</strong> PHP-Nuke Titanium v3.0.1a &lt;&gt;&nbsp;v4.0.0b</p>\n\n<p>The original sitemap was an abandoned project and idea, not by me but whoever was working on it originally. The new one is awesome and works great. I&#39;m not sure people really understand how important this little module is. Contrary to popular belief, this is an important part of being found on the internet. The class.sitemap.php file can be found in the&nbsp;<strong>includes/classes </strong>directory.</p>\n\n<p>I used some of the old code, not much just a few lines here and there, and the old sitemap&#39;s admin panel is the same.</p>\n\n<p>This uses <strong>sitemap 0.9</strong></p>\n\n<p>The new Google Site Map Generator works better than just about anything I have seen. You will need to delete the old <strong>sitemap.xml</strong> file that is in the root directory of your portal/website as it is no longer used. The new <strong>sitemap.xml</strong> file is generated in the <strong>xmls/sitemap</strong> folder. This is not the file you tell google to look at.</p>\n\n<p>You will need to point Google to your <strong>sitemap-index.xml</strong> file which resides in that very same directory.</p>\n\n<p>You will do this by telling Google where the file is at like so <strong>https://yourwebsite.com/xmls/sitemap/sitemap-index.xml</strong></p>\n\n<p>You can do so by going here <strong>https://search.google.com/search-console?resource_id=sc-domain:yourdomain.com</strong></p>\n\n<p>I used a fast and lightweight class for generating Google-Site-Map <strong>XML</strong> files and index of sitemap files. Written in <strong>PHP</strong> and uses <strong>XMLWriter</strong> extension (wrapper for <strong>libxml</strong> <strong>xmlWriter</strong> API) for creating <strong>XML</strong> files. <strong>XMLWriter</strong> extension is enabled by default in <strong>PHP</strong> 5 &gt; = 5.1.2. If you have more than 50000 URLs, it will split items into separated files. (In benchmarks, 1.000.000 URLs were generating in 8 seconds) The version we are using is a slightly modified version of the original.</p>\n\n<p>The Sitemap class is now added to a <strong>SitemapPHP</strong> <strong>namespace</strong>.</p>', '', 0, 195, 5, 'webmaster', '', 0, 'english', 0, 0, 0, 20, 4, '', 0, 1),
 (16, 10, 'webmaster', 'New Visitor Log Center Block', '2021-04-28 00:32:27', '2022-08-23 19:01:08', '<p><strong>Block Name: </strong>Titanium Visitor Log Center<br />\n<strong>Author: </strong>Ernest Allen Buffington<br />\n<strong>Filename:</strong> block-Titanium_Visitor_Log_center.php<br />\n<strong>Block Type:</strong> Center Block<br />\n<strong>Version:</strong> v1.0<br />\n<strong>Core:</strong> PHP-Nuke Evolution 2.0.9e &lt;&gt;&nbsp;4.0.0b</p>\n\n<p>This block was created with advanced resolution checking in mind. You can configure this block so that it changes for cell phones and different resolution monitors, It can even be configured for 4k TV.</p>\n\n<p>This block checks your monitor resolution and displays the visitor log in rows and columns, A row is a series of data put out horizontally in a table or spreadsheet while a column is a vertical series of cells in a chart, table, or spreadsheet. Rows go from left to right. On the other hand, Columns are arranged from up to down. After this block gets your monitor resolution width it will decide how many columns and rows to display. If your resolution width is less than 1920 it will display 3 columns, if it is 1920 or above it will display 4 columns. You can configure this block for any resolution and the code is obvious. Just add tables with rows and columns and display them according to the resolution width that PHP-Nuke Titanium gets from your browser.</p>\n\n<p>This was written with the Last Seen block in mind. Someone once asked me why I changed the function for last seen. I never changed it I added a Titanium mod that changes the way the last seen data was displayed. I guess now you have a more declarative answer about why I did that.</p>\n\n<p>This block my friends gives you a perfect example of why PHP-Nuke was designed with a tabular theme interface. It had future ideas for things that had not yet been done. There is what is called a Flat page design and that is when we would use only HTML5 or CSS to layout a web page.</p>\n\n<p>PHP-Nuke Titanium is not a Flat design and never will be. PHP-Nuke Titanium was designed around the idea that people in a community who were just starting out learning PHP or HTML could or would be able to create blocks, modules, or themes with relative ease.</p>\n\n<p>This can be done in CSS and HTML5 and PHP-Nuke Evolution totally allows and supports themes of this design nature, however for Fluid resizeable responsive themes that might be displayed on TVs or extremely wide monitors it is not recommended. Why? PHP-Nuke Titanium was built on the backbone of Theme technology that was written more than 30 years ago. PHP-Nuke Titanium (US Version) supports XHTML, HTML, HTML5, and XML, so with this being the case anyone can design a theme and nobody has limitations when it comes to designing a block, module, or theme layout for their website.</p>\n\n<p>PHP-Nuke Titanium was created for folks that like bling and beautiful graphics. If you want a Flat design layout with 3 colors and no graphics then use something plain, you know like wearing a white T-Shirt everywhere every day.</p>', '', 0, 220, 6, 'WebMaster', '', 0, 'english', 0, 0, 0, 55, 11, '', 0, 1),
 (17, 7, 'webmaster', 'New Link Us Module Update', '2021-03-01 07:16:01', '2022-08-23 19:01:20', '<p><strong>Module Name:</strong> <a href=\"modules.php?name=Link_Us\" target=\"_self\">Link Us</a><br />\n<strong>Author:</strong> DarkForgeGFX<br />\n<strong>Version:</strong> v1.0.0<br />\n<strong>Core: </strong>PHP-Nuke Titanium v2.0.9d &lt;&gt; 4.0.0b<br />\n<strong>Description:</strong>&nbsp;To show and administrate several methods of backlinks to your website/portal.</p>\n\n<p>I updated the display on the Link_Us index page. It needed to be displayed properly, which may just be a matter of opinion however I&#39;m ocd and I could not take it any longer. I went ahead and took the time to lay out the table and add a fieldset to the default image section. I have not added any other size link back images so I have no idea what those&nbsp;will end up looking like. In that event, I am sure I will log in and re-write those areas as well. For now, this website has only the standard default link back image sizes in use so I will wait till I have to cross that bridge to fix it.</p>\n\n<p>I modified the index.php file located in the &quot;modules/Link_Us/public&quot; directory.&nbsp;</p>', '', 0, 352, 5, 'WebMaster', '', 0, '', 0, 0, 0, 20, 4, '', 0, 1),
@@ -4743,17 +4726,17 @@ REPLACE INTO `titanium_stories` (`sid`, `catid`, `aid`, `title`, `datePublished`
 (26, 7, 'webmaster', 'New NukeSentinel Module Update', '2021-05-10 12:19:26', '2022-08-23 19:02:56', '<p><strong>Module Name:</strong>&nbsp;NukeSentinel<br />\n<strong>Author:</strong>&nbsp;NukeScripts&trade; (http://nukescripts.86it.us)<br />\n<strong>Copyright: </strong>2000-2021<br />\n<strong>Contributors:</strong>&nbsp;ScottyBcoder, Truman Scott Buffington, Ernest Allen Buffington, TheGhost, Bob Marion, ChatServ<br />\n<strong>Version:</strong>&nbsp;v2.6.04<br />\n<strong>Core:&nbsp;</strong>PHP-Nuke Titanium v2.0.9d &lt;&gt; 4.0.0b<br />\n<strong>Description:</strong>&nbsp;Portal security for PHP-Nuke, PHP-Nuke Titanium, PHP-Nuke Evolution and Titanium</p>\n\n<p>&nbsp;</p>\n\n<p>Hello Everyone,</p>\n\n<p>I want to start off by saying that a lot of folks have had their hands in the coding&nbsp;and design layout of this very important portal security module. When you pass the mantle so to speak you expect the person that takes over to use an overly gracious amount of emphasis on the authors, developers, and contributors that made it all possible.&nbsp;</p>\n\n<p>Let me start out by explaining why I&#39;m using my real name as a contributor. I have been around and taken part in the development of just about every piece of code that is a part of PHP-Nuke. Short of off branding my own changes over the years, the truth is the dynamic FRANCIS framework of PHP-Nuke is what made all of it possible. I have been a part of all the developer communities over the last 30 years under different various nicknames or callsigns if you will, and with that being said,&nbsp;I guess you would have a hard time giving me credit unless I started using my real name. PHP-Nuke is open-source and for the most part, belongs to the developer communities that kept it alive, and the folks who are still keeping it alive after 30 years. The reason I am using my real name now is I have noticed a few people stirring the shit pot about people stealing code and saying it isn&#39;t&nbsp;theirs when in fact it truly is. The fact&nbsp;in the matter is that after it is modified it is no longer the original and anything modified must contain the new author&#39;s information. With that being said let&#39;s get class rolling...</p>\n\n<p>If you&#39;re going to have something to say about who is claiming something is theirs make sure you do your homework before you start running your mouth and offending people old enough to be your grandfather while at the same time making yourself look like a complete idiot. Let&#39;s start off with re-branded public and commercial software rights. The GNU general public license allows everyone to distribute and or sell their own version of PHP-Nuke or any software released under the GNU and with any name that they so choose to use. You can legally sell software with a GPL license version 2 or 3 for whatever price you want to charge and interestingly enough we could sell the original software un-modified if we so choose to do so. This can all be pretty confusing to folks that do not have at least a&nbsp;4th year of college reading and comprehension. Let me explain something,&nbsp;free software is referred to as free in terms of freedom and not in terms of the software price. What most people do is charge a distribution fee for different various renditions of software that other people have written the core engines for. Technically speaking anything you modify and change is yours and ipso facto makes you the current author, in fact, the original authors would usually prefer not to have their name attached to any version but the original and that is why as part of the law and why you are required to give a full copy of the original code un-modified with any version that you so choose to sell or distribute. There are exceptions with worldwide distributions such as PHP-Nuke because the original source code is already out there and very well known and there is no real need to emphasize on who is responsible for the ideas or concepts that went into the development of that particular software. However in court, if you did not supply a full copy that is un-modified alongside the original with the original author information, because the law is the law, you would lose any said battles that pertain to any such revenues earned.</p>\n\n<p>Interestingly enough GNU copyrights are only legal if you provide your legal given name or the name of a legally registered business entity. With that being said you can&#39;t say copyright StarMonkey or Fragglenap. It must be your legally given birth name or a registered business entity. You cannot make up an entity name and use it without owning and registering it. A registered domain does not constitute any legal rights to the name you use. You must still register it as a legal trademark or license it as a business entity and this applies to everyone no matter where they are in the world. You may own the domain name and not have the name rights, so if you use a name and do not license it or register it as a trademark anyone can steal it in about 10 minutes and you will be shit out of luck. My suggestion is that if you use a name you better make sure you own it! What can happen is, you make someone angry and said person is quite wealthy, said person decides they don&#39;t like you so they register your domain as a trademark and then they license in your state or community under the said name&nbsp;and then they drag you into court and sue your pants off and leave you broke, naked and destitute with no home and not even a cardboard box to live in. So do yourself a favor and try not to piss people off on the internet and make sure you own any name you use. In other words you better secure your interests before you piss anyone off anywhere. You never know just how vindictive or rich they might be.</p>\n\n<p>I hope this article was helpful and I felt like packaging it with this particular module would be very fitting.</p>\n\n<p>Film at 11</p>\n\n<p>&nbsp;</p>', '', 0, 431, 5, 'WebMaster', '', 0, '', 0, 0, 0, 15, 3, '', 0, 1),
 (27, 6, 'webmaster', 'New Network Disclaimer Module', '2021-05-10 13:49:53', '2022-08-23 19:16:56', '<p><strong>Module Name:</strong>&nbsp;<a href=\"modules.php?name=Network&amp;file=disclaimer\" target=\"_self\">Network Disclaimer</a><br />\n<strong>Author:</strong>&nbsp;Ernest Buffington<br />\n<strong>Contributor:</strong>&nbsp;Shawn Archer, Ernest Allen Buffington<br />\n<strong>Version:</strong>&nbsp;v1.0.0<br />\n<strong>License:&nbsp;</strong>GNU General Public License version 2<br />\n<strong>Core:&nbsp;</strong>PHP-Nuke 6.0.0 &lt;&gt; 6.5.0 | PHP-Nuke Titanium 2.0.9f&nbsp;&lt;&gt;&nbsp;4.0.0b<br />\n<strong>Description:</strong>&nbsp;Based on Website Document Mod v1.0 by&nbsp;Shawn Archer&nbsp;Copyright (c) 2002</p>\n\n<p>&nbsp;</p>\n\n<p>This module contains The 86it Developers Network&#39;s legal disclaimers and documents.</p>\n\n<ul>\n	<li>About Our Network</li>\n	<li>Network Disclaimer Statement</li>\n	<li>Network Privacy Statement</li>\n	<li>Network Terms of Use</li>\n</ul>\n\n<p>&nbsp;</p>\n\n<p>This module has information that must be loaded at the bottom of each portal or website given away by <strong>The 86it Developers Network</strong>.</p>\n\n<p>Some people disable the footer links and load the network module as a menu option on their portal. This is an acceptable way to present the network legal documents as well.</p>\n\n<p>This information must be present at all times and is a part of the network paid subscription agreement. When <strong>The 86it Developer Network</strong> gives you a web portal it may be free for you but Brandon Maintenance Management. LLC pays for your portal and website. This is done to promote programmers and programming all around the world.</p>\n\n<p>These free portals are for beginners and people learning to program on the internet.&nbsp;they are also for folks that want to setup gaming websites or run an online business, These portals have no limitations and come with a cPanel and PHP-FPM with all versions of PHP available.</p>\n\n<p>&nbsp;</p>', '', 0, 303, 5, 'WebMaster', '', 0, '', 0, 0, 0, 35, 7, '', 0, 1),
 (28, 1, 'webmaster', 'We just upgraded cPanel', '2021-05-15 05:58:28', '2022-08-23 19:03:20', '<p>We just upgraded <strong>cPanel</strong> from v94.0.8 to v96.0.7&nbsp;<span style=\"color:#e74c3c\">Fri&nbsp;May&nbsp;14&nbsp;21:53:24&nbsp;2021</span></p>\n\n<p>This message is for the <strong>PHP-Nuke Titanium</strong> admins that have <strong>cPanel</strong> access. We did not want you logging in a freaking out because of all the changes that took place today. If you are an admin you probably have compiler access already but if you do not and would like to have compiler access enabled on your personal 86it portal just use the chat plugin by clicking on the blue circle in the bottom left-hand corner. You can request compiler acess anytime you like. We do not leave compilers accessible 24/7 so you will have 24 hours from the time of request before your compiler goes back offline.</p>\n\n<p>We also upgraded from <strong>CENTOS</strong> v6 to <strong>CENTOS</strong> v7.9&nbsp;<span style=\"color:#e74c3c\">Fri&nbsp;May&nbsp;14&nbsp;21:53:24&nbsp;2021</span></p>\n\n<p>&nbsp;</p>', '', 0, 266, 4, 'WebMaster', '', 0, 'english', 0, 0, 0, 5, 1, '', 0, 1),
-(29, 9, 'webmaster', 'New Who Viewed Forum Mod', '2021-05-17 08:05:18', '2022-08-23 19:03:31', '<p><strong>Mod&nbsp;Name:</strong>&nbsp;Who Viewed Forum Mod<br />\n<strong>Author:</strong>&nbsp;Ernest Buffington<br />\n<strong>Contributors:</strong>&nbsp;We looked, nobody cared enough to keep this info available.<br />\n<strong>Version:</strong>&nbsp;v1.0.0<br />\n<strong>License:&nbsp;</strong>GNU General Public License version 2<br />\n<strong>Core:&nbsp;</strong>PHP-Nuke-Titanium 3.0.0&nbsp;&lt;&gt; 4.0.0b<br />\n<strong>Description:</strong>&nbsp;This shows who has viewed each topic and how many times in the forums area.</p>\n\n<ul>\n	<li>Added Date with bootstrap icon</li>\n	<li>Added Time with bootstrap icon</li>\n	<li>Added back to topic button</li>\n	<li>Added full description link</li>\n	<li>Added profile pic</li>\n	<li>Added animated logged in image</li>\n	<li>Added animated logged out image</li>\n	<li>Fixed currently online it was not working</li>\n	<li>Fixed currently offline it was not working</li>\n	<li>Only admin sees anonymous on the who viewed list</li>\n	<li>If a user does not have where they are from listed,&nbsp;it defaults to The InterWebs</li>\n</ul>\n\n<p><br />\nThis was a mod added to the phpBB Titanium v4.0.1 Forums area.</p>', '', 0, 373, 7, 'WebMaster', '', 0, 'english', 0, 0, 0, 15, 3, '', 0, 1),
+(29, 9, 'webmaster', 'New Who Viewed Forum Mod', '2021-05-17 08:05:18', '2022-08-23 19:03:31', '<p><strong>Mod&nbsp;Name:</strong>&nbsp;Who Viewed Forum Mod<br />\n<strong>Author:</strong>&nbsp;Ernest Buffington<br />\n<strong>Contributors:</strong>&nbsp;We looked, nobody cared enough to keep this info available.<br />\n<strong>Version:</strong>&nbsp;v1.0.0<br />\n<strong>License:&nbsp;</strong>GNU General Public License version 2<br />\n<strong>Core:&nbsp;</strong>PHP-Nuke-Titanium 3.0.0&nbsp;&lt;&gt; 4.0.0b<br />\n<strong>Description:</strong>&nbsp;This shows who has viewed each topic and how many times in the forums area.</p>\n\n<ul>\n	<li>Added Date with bootstrap icon</li>\n	<li>Added Time with bootstrap icon</li>\n	<li>Added back to topic button</li>\n	<li>Added full description link</li>\n	<li>Added profile pic</li>\n	<li>Added animated logged in image</li>\n	<li>Added animated logged out image</li>\n	<li>Fixed currently online it was not working</li>\n	<li>Fixed currently offline it was not working</li>\n	<li>Only admin sees anonymous on the who viewed list</li>\n	<li>If a user does not have where they are from listed,&nbsp;it defaults to The InterWebs</li>\n</ul>\n\n<p><br />\nThis was a mod added to the phpBB Titanium v2.0.23n Forums area.</p>', '', 0, 373, 7, 'WebMaster', '', 0, 'english', 0, 0, 0, 15, 3, '', 0, 1),
 (30, 6, 'webmaster', 'New Network Cemetery Module', '2021-05-18 06:22:23', '2022-08-23 19:03:40', '<p><strong>Module Name:</strong>&nbsp;<a href=\"modules.php?name=Cemetery\" target=\"_self\">Network Cemetery</a><br />\n<strong>Author:</strong>&nbsp;Ernest Buffington<br />\n<strong>Contributors:</strong>&nbsp;George Carlin, Timothy V Trela R.I.P.<br />\n<strong>Version:</strong>&nbsp;v1.0.0<br />\n<strong>License:&nbsp;</strong>GNU General Public License version 2<br />\n<strong>Core:&nbsp;</strong>PHP-Nuke 6.0.0 &lt;&gt; 6.5.0 | PHP-Nuke Titanium 2.0.9f&nbsp;&lt;&gt;&nbsp;4.0.0b<br />\n<strong>Description:</strong>&nbsp;My Personal Virtual Cemetery</p>\n\n<ul>\n	<li>Unlimted Cemetery Categories i.e. Friends, Family, Loved Ones, Enemies or Rockstars</li>\n	<li>Unlimited Virtual Headstones</li>\n	<li>Add Deceased Name</li>\n	<li>Add Headstone Category</li>\n	<li>Add Headstone URL</li>\n	<li>Add Headstone Description</li>\n	<li>Nobody can read your VIrtual Cemetery but you when you&#39;re logged in. (invisible to the public)</li>\n</ul>\n\n<p><br />\nIf you&#39;re 50 or older this will be a handy little tool. If you&#39;re like me almost everyone you ever loved or cared about is dead. This makes it easier to keep track of all the friends and loved ones you have that die. I have lost so many I can&#39;t recall them all in one sitting.</p>\n\n<p>If you&#39;re a serial killer you can keep track of all the people you kill as well.</p>\n\n<p>Enjoy</p>', '', 0, 303, 5, 'WebMaster', '', 0, 'english', 0, 0, 0, 10, 2, '', 0, 1),
 (31, 6, 'webmaster', 'New Members List Module', '2021-05-18 16:29:55', '2022-08-23 19:03:49', '<p><strong>Module Name:</strong>Â <a href=\"modules.php?name=Members_List\" target=\"_self\">Members List</a><br />\n<strong>Author:</strong>Â Ernest Allen Buffington<br />\n<strong>Contributor:Â </strong>Lonestar (http://lonestar-modules.com)<br />\n<strong>Version:</strong>Â v4.0.0<br />\n<strong>License:Â </strong>GNU General Public License version 2<br />\n<strong>Core:Â </strong>PHP-Nuke Titanium v.3.0.1b <> 4.0.0b<br />\n<strong>Description:</strong>Â Website Member List - Search Website Member List.</p>\n\n<p>This module appeared to be incomplete and broken. The status of the users in the user list did not reflect if the user was currently online or offline. The user\'s website icon was missing, the user\'s Facebook icon was missing and the gender icon was missing as well. The members\' list was written with a task and a goal to begin with and that was to automate finding and sending a user message or visiting a user\'s website. We did not add the user\'s email back to the search criteria of the member list as it is not needed. Send them a private message instead and the web portalÂ will sendÂ them an email telling them they have a new message waiting for them.</p>\n\n<p><strong>Added Features:</strong></p>\n\n<ul>\n	<li>The only users visible in the members list are members that are not in Ghost Mode</li>\n	<li>Search Engines and website members have no way of knowing just how many website members really exist (Ghost Mode allows visitors to be 100% invisible)</li>\n	<li>Added global Ghost Mode ability for all users</li>\n	<li>Added the ability for admins to see who is in Ghost Mode</li>\n	<li>Added Ghost Mode - You are now invisible when you hide your online status. It will appear as if you do not exist!</li>\n	<li>Added A Profile Pic</li>\n	<li>Added Private Message Icon</li>\n	<li>Added a Website Icon that only shows up if the member has a website listed on their profile</li>\n	<li>Added a Facebook icon that only shows up if the user has their Facebook account listed on their profile.</li>\n	<li>Added New Gender Icons</li>\n	<li>Fixed users online status in the members list as it was not working</li>\n	<li>Added animated ONLINE image</li>\n	<li>Fixed users offline status in the members list as it was not working</li>\n	<li>Added animated OFFLINE image</li>\n	<li>If the person has marked theirself hidden on their profile, only admins can see them in the member list</li>\n	<li>If a person leaves the Location field blank it defaults to The Interwebs</li>\n</ul>\n\n<p>Â </p>\n\n<p>Â </p>', '', 0, 352, 5, 'WebMaster', '', 0, 'english', 0, 0, 0, 25, 5, '', 0, 1);
 
-CREATE TABLE IF NOT EXISTS `titanium_stories_cat` (
+CREATE TABLE `nuke_stories_cat` (
   `catid` int(11) NOT NULL,
   `title` varchar(20) NOT NULL DEFAULT '',
   `counter` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_stories_cat` (`catid`, `title`, `counter`) VALUES
+INSERT INTO `nuke_stories_cat` (`catid`, `title`, `counter`) VALUES
 (1, '86it Updates & News', 427),
 (4, 'CDN Info', 383),
 (5, 'Server Updates', 202),
@@ -4765,34 +4748,34 @@ REPLACE INTO `titanium_stories_cat` (`catid`, `title`, `counter`) VALUES
 (11, '86it Song of The Day', 1);
 
 
-CREATE TABLE IF NOT EXISTS `titanium_subscriptions` (
+CREATE TABLE `nuke_subscriptions` (
   `id` int(10) NOT NULL,
   `userid` int(10) NOT NULL DEFAULT 0,
   `subscription_expire` varchar(50) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_themes` (
+CREATE TABLE `nuke_themes` (
   `theme_name` varchar(100) NOT NULL DEFAULT '',
   `groups` varchar(50) NOT NULL DEFAULT '',
   `permissions` tinyint(2) NOT NULL DEFAULT 1,
   `custom_name` varchar(100) NOT NULL DEFAULT '',
   `active` tinyint(1) NOT NULL DEFAULT 0,
   `theme_info` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_themes` (`theme_name`, `groups`, `permissions`, `custom_name`, `active`, `theme_info`) VALUES
+INSERT INTO `nuke_themes` (`theme_name`, `groups`, `permissions`, `custom_name`, `active`, `theme_info`) VALUES
 ('Titanium_Core', '', 1, 'Titanium_Core', 1, '93%:::#8d7b4d:::#645838:::#373121:::#151515:::#ccc:::#ccc:::Go to Theme Options to Edit Footer Message Line 1:::Go to Theme Options to Edit Footer Message Line 2:::#D29A2B:::dark');
 
 
-CREATE TABLE IF NOT EXISTS `titanium_topics` (
+CREATE TABLE `nuke_topics` (
   `topicid` int(3) NOT NULL,
   `topicname` varchar(20) DEFAULT NULL,
   `topicimage` varchar(100) DEFAULT NULL,
   `topictext` varchar(40) DEFAULT NULL,
   `counter` int(11) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_topics` (`topicid`, `topicname`, `topicimage`, `topictext`, `counter`) VALUES
+INSERT INTO `nuke_topics` (`topicid`, `topicname`, `topicimage`, `topictext`, `counter`) VALUES
 (3, 'contentdeliverynet', 'black_template.png', 'CDN - Content Delivery Networks', 225),
 (4, 'the86itTeam', 'black_template.png', 'The 86it Dev Team', 252),
 (1, 'titanium', 'black_template.png', 'PHP-Nuke Titanium News', 533),
@@ -4803,7 +4786,7 @@ REPLACE INTO `titanium_topics` (`topicid`, `topicname`, `topicimage`, `topictext
 (9, 'todo', 'black_template.png', 'PHP-Nuke Titanium ToDo List', 10),
 (10, 'adminpanels', 'black_template.png', 'PHP-Nuke Titanium Admin Panels', 10);
 
-CREATE TABLE IF NOT EXISTS `titanium_users` (
+CREATE TABLE `nuke_users` (
   `user_id` int(11) NOT NULL,
   `name` varchar(60) NOT NULL DEFAULT '',
   `username` varchar(25) NOT NULL DEFAULT '',
@@ -4902,22 +4885,22 @@ CREATE TABLE IF NOT EXISTS `titanium_users` (
   `user_rep_last_time` int(11) DEFAULT NULL,
   `user_admin_notes` text DEFAULT NULL,
   `user_allow_arcadepm` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_users` (`user_id`, `name`, `username`, `user_email`, `femail`, `user_website`, `user_avatar`, `user_regdate`, `user_occ`, `user_from`, `user_from_flag`, `user_interests`, `user_sig`, `user_viewemail`, `user_theme`, `user_facebook`, `user_password`, `storynum`, `umode`, `uorder`, `thold`, `noscore`, `bio`, `ublockon`, `ublock`, `theme`, `commentmax`, `counter`, `newsletter`, `user_posts`, `user_attachsig`, `user_rank`, `user_level`, `broadcast`, `popmeson`, `user_active`, `user_session_time`, `user_session_page`, `user_lastvisit`, `user_timezone`, `user_style`, `user_lang`, `user_dateformat`, `user_new_privmsg`, `user_unread_privmsg`, `user_last_privmsg`, `user_emailtime`, `user_allowhtml`, `user_allowbbcode`, `user_allowsmile`, `user_allowavatar`, `user_allow_pm`, `user_allow_mass_pm`, `user_allow_viewonline`, `user_notify`, `user_notify_pm`, `user_popup_pm`, `user_avatar_type`, `user_sig_bbcode_uid`, `user_actkey`, `user_newpasswd`, `points`, `last_ip`, `user_wordwrap`, `agreedtos`, `user_allowsignature`, `user_report_optout`, `user_show_quickreply`, `user_quickreply_mode`, `user_color_gc`, `user_color_gi`, `user_showavatars`, `user_showsignatures`, `user_time_mode`, `user_dst_time_lag`, `user_pc_timeOffsets`, `user_view_log`, `user_glance_show`, `user_hide_images`, `user_open_quickreply`, `sceditor_in_source`, `xdata_bbcode`, `user_ftr`, `user_ftr_time`, `user_rank2`, `user_rank3`, `user_rank4`, `user_rank5`, `user_gender`, `user_birthday`, `user_birthday2`, `birthday_display`, `birthday_greeting`, `user_next_birthday`, `user_reputation`, `user_rep_last_time`, `user_admin_notes`, `user_allow_arcadepm`) VALUES
+INSERT INTO `nuke_users` (`user_id`, `name`, `username`, `user_email`, `femail`, `user_website`, `user_avatar`, `user_regdate`, `user_occ`, `user_from`, `user_from_flag`, `user_interests`, `user_sig`, `user_viewemail`, `user_theme`, `user_facebook`, `user_password`, `storynum`, `umode`, `uorder`, `thold`, `noscore`, `bio`, `ublockon`, `ublock`, `theme`, `commentmax`, `counter`, `newsletter`, `user_posts`, `user_attachsig`, `user_rank`, `user_level`, `broadcast`, `popmeson`, `user_active`, `user_session_time`, `user_session_page`, `user_lastvisit`, `user_timezone`, `user_style`, `user_lang`, `user_dateformat`, `user_new_privmsg`, `user_unread_privmsg`, `user_last_privmsg`, `user_emailtime`, `user_allowhtml`, `user_allowbbcode`, `user_allowsmile`, `user_allowavatar`, `user_allow_pm`, `user_allow_mass_pm`, `user_allow_viewonline`, `user_notify`, `user_notify_pm`, `user_popup_pm`, `user_avatar_type`, `user_sig_bbcode_uid`, `user_actkey`, `user_newpasswd`, `points`, `last_ip`, `user_wordwrap`, `agreedtos`, `user_allowsignature`, `user_report_optout`, `user_show_quickreply`, `user_quickreply_mode`, `user_color_gc`, `user_color_gi`, `user_showavatars`, `user_showsignatures`, `user_time_mode`, `user_dst_time_lag`, `user_pc_timeOffsets`, `user_view_log`, `user_glance_show`, `user_hide_images`, `user_open_quickreply`, `sceditor_in_source`, `xdata_bbcode`, `user_ftr`, `user_ftr_time`, `user_rank2`, `user_rank3`, `user_rank4`, `user_rank5`, `user_gender`, `user_birthday`, `user_birthday2`, `birthday_display`, `birthday_greeting`, `user_next_birthday`, `user_reputation`, `user_rep_last_time`, `user_admin_notes`, `user_allow_arcadepm`) VALUES
 (1, '', 'Anonymous', '', '', '', 'blank.gif', 'Nov 03, 2018', '', '', NULL, '', '', 0, 0, NULL, '', 10, '', 0, 0, 0, '', 0, '', '', 4096, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, '10.00', NULL, 'english', 'D M d, Y g:i a', 0, 0, 0, NULL, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 3, NULL, NULL, NULL, 0, '0', 70, 0, 0, 0, 0, 0, '', '', 1, 1, 6, 60, '0', 0, '1', 0, 1, 0, '', 0, 0, -1, -2, -2, -2, 0, 0, NULL, 0, 0, 0, 43.2825, 1243272322, '', 1),
 (2, 'Winston Terrance Wolfe', 'webmaster', 'webmaster@php-nuke-titanium.86it.us', '', 'https://www.php-nuke-titanium.86it.us', '772511426630521e6c336f.', 'Aug 23, 2022', 'WebMaster', 'Special Forces Officer at USMC', 'usa.png', 'Programming', '', 0, NULL, 'winstonterrance.wolfe.3', 'a0ed1dc594445e7a51ac198fb2585098', 10, '', 0, 0, 0, 'Â Â phone: (813) 846-2865 | mobile: (813) 520-3360<br>\nÂ Â WebMaster @ The 86it Developers Network,<br>\nÂ Â 8010 Woodland Center Blvd #86,<br>\nÂ Â Tampa 33614, USA<br>', 0, NULL, 'Titanium_Core', 4096, 0, 0, 1, 1, 4, 2, 1, 0, 1, 1661299457, 0, 1661299039, '-5.00', NULL, 'english', 'D M d, Y g:i a', 0, 0, 1661292352, NULL, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, '', '', NULL, 0, '47.206.216.196', 70, 0, 1, 0, 0, 0, '00aa00', '--3----4----1--', 1, 1, 4, 60, '0', 0, '1', 0, 0, 1, NULL, 0, 0, 6, 7, 5, -2, 1, 0, NULL, 0, 0, 0, -0.2, 1661280823, '', 0),
 (3, 'Ernest A Buffington', 'TheGhost', 'ernest.buffington@gmail.com', '', 'https://theghost.86it.us', '210584338363054da37eb30.', 'Aug 23, 2022', 'Data Scientist / Programmer', 'Brandon, Florida', 'usa.png', 'Code', '', 0, NULL, 'ernest.buffington.1', 'a0ed1dc594445e7a51ac198fb2585098', 10, 'nested', 0, 0, 0, '', 0, NULL, '', 4096, 0, 1, -1, 1, 4, 2, 1, 0, 1, 1661299561, 0, 1661297523, '-5.00', NULL, 'english', 'D M d, Y g:i a', 0, 0, 0, NULL, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, '', '', NULL, 0, '47.206.216.196', 70, 0, 1, 0, 0, 1, '00aa00', '----3----4----1--------------------------------------------4----1--------------------------------------------1------3--', 1, 1, 1, 60, '0', 0, '1', 0, 1, 1, NULL, 0, 0, -2, -2, -2, -2, 1, 0, NULL, 0, 0, 0, -0.2, 1661280823, '', 0),
 (4, 'Bob Marion', 'NukeSheriff', 'bob.marion@86it.us', '', 'https://hub.86it.us/index.php?op=ad_network_click&bid=7', '10066464956305665d8aaf0.', 'Aug 23, 2022', 'Programmer', '', 'usa.png', 'PHP-Nuke Titanium', '', 0, NULL, '', 'a0ed1dc594445e7a51ac198fb2585098', 10, 'nested', 0, 0, 0, '', 0, NULL, '', 4096, 0, 1, 0, 1, 6, 2, 1, 0, 1, 1661299843, -10, 1661299360, '-5.00', NULL, 'english', 'D M d, Y g:i a', 0, 0, 1661299691, NULL, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, '', '', NULL, 0, '47.206.216.196', 70, 0, 1, 0, 0, 0, '00b3ff', '--4--', 1, 1, 1, 60, '0', 0, '1', 0, 0, 1, NULL, 0, 0, 5, -2, -2, -2, 1, 0, NULL, 0, 0, 0, 0, NULL, '', 0);
 
-CREATE TABLE IF NOT EXISTS `titanium_users_countries` (
+CREATE TABLE `nuke_users_countries` (
   `id_country` int(11) NOT NULL,
   `name` varchar(64) NOT NULL DEFAULT '',
   `iso_code_2` char(2) NOT NULL DEFAULT '',
   `iso_code_3` char(3) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `titanium_users_countries` (`id_country`, `name`, `iso_code_2`, `iso_code_3`) VALUES
+INSERT INTO `nuke_users_countries` (`id_country`, `name`, `iso_code_2`, `iso_code_3`) VALUES
 (1, 'Afghanistan', 'AF', 'AFG'),
 (2, 'Albania', 'AL', 'ALB'),
 (3, 'Algeria', 'DZ', 'DZA'),
@@ -5156,7 +5139,7 @@ REPLACE INTO `titanium_users_countries` (`id_country`, `name`, `iso_code_2`, `is
 (238, 'Zambia', 'ZM', 'ZMB'),
 (239, 'Zimbabwe', 'ZW', 'ZWE');
 
-CREATE TABLE IF NOT EXISTS `titanium_users_temp` (
+CREATE TABLE `nuke_users_temp` (
   `user_id` int(10) NOT NULL,
   `username` varchar(25) NOT NULL DEFAULT '',
   `user_email` varchar(255) NOT NULL DEFAULT '',
@@ -5165,140 +5148,140 @@ CREATE TABLE IF NOT EXISTS `titanium_users_temp` (
   `check_num` varchar(50) NOT NULL DEFAULT '',
   `time` varchar(14) NOT NULL DEFAULT '',
   `realname` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_users_who_been` (
+CREATE TABLE `nuke_users_who_been` (
   `user_ID` int(11) NOT NULL DEFAULT 0,
   `username` varchar(25) NOT NULL DEFAULT '',
   `last_visit` int(15) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `titanium_welcome_pm` (
+CREATE TABLE `nuke_welcome_pm` (
   `subject` varchar(30) NOT NULL DEFAULT '',
   `msg` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-ALTER TABLE `titanium_bookmarks`
+ALTER TABLE `network_bookmarks`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
-ALTER TABLE `titanium_bookmarks_cat`
+ALTER TABLE `network_bookmarks_cat`
   ADD PRIMARY KEY (`category_id`),
   ADD KEY `user_id` (`user_id`);
 
-ALTER TABLE `titanium_admin_fc`
+ALTER TABLE `nuke_admin_fc`
   ADD PRIMARY KEY (`fc_attempts`);
 
-ALTER TABLE `titanium_authors`
+ALTER TABLE `nuke_authors`
   ADD PRIMARY KEY (`aid`);
 
-ALTER TABLE `titanium_autonews`
+ALTER TABLE `nuke_autonews`
   ADD PRIMARY KEY (`anid`),
   ADD UNIQUE KEY `anid` (`anid`);
 
-ALTER TABLE `titanium_banner`
+ALTER TABLE `nuke_banner`
   ADD PRIMARY KEY (`bid`),
   ADD KEY `cid` (`cid`);
 
-ALTER TABLE `titanium_banner_clients`
+ALTER TABLE `nuke_banner_clients`
   ADD PRIMARY KEY (`cid`);
 
-ALTER TABLE `titanium_banner_plans`
+ALTER TABLE `nuke_banner_plans`
   ADD PRIMARY KEY (`pid`);
 
-ALTER TABLE `titanium_banner_positions`
+ALTER TABLE `nuke_banner_positions`
   ADD PRIMARY KEY (`apid`),
   ADD KEY `position_number` (`position_number`);
 
-ALTER TABLE `titanium_bbadvanced_username_color`
+ALTER TABLE `nuke_bbadvanced_username_color`
   ADD PRIMARY KEY (`group_id`);
 
-ALTER TABLE `titanium_bbarcade`
+ALTER TABLE `nuke_bbarcade`
   ADD PRIMARY KEY (`arcade_name`);
 
-ALTER TABLE `titanium_bbarcade_categories`
+ALTER TABLE `nuke_bbarcade_categories`
   ADD KEY `arcade_catid` (`arcade_catid`);
 
-ALTER TABLE `titanium_bbattachments`
+ALTER TABLE `nuke_bbattachments`
   ADD KEY `attach_id_post_id` (`attach_id`,`post_id`),
   ADD KEY `attach_id_privmsgs_id` (`attach_id`,`privmsgs_id`),
   ADD KEY `post_id` (`post_id`),
   ADD KEY `privmsgs_id` (`privmsgs_id`);
 
-ALTER TABLE `titanium_bbattachments_config`
+ALTER TABLE `nuke_bbattachments_config`
   ADD PRIMARY KEY (`config_name`);
 
-ALTER TABLE `titanium_bbattachments_desc`
+ALTER TABLE `nuke_bbattachments_desc`
   ADD PRIMARY KEY (`attach_id`),
   ADD KEY `filetime` (`filetime`),
   ADD KEY `physical_filename` (`physical_filename`(10)),
   ADD KEY `filesize` (`filesize`);
 
-ALTER TABLE `titanium_bbattach_quota`
+ALTER TABLE `nuke_bbattach_quota`
   ADD KEY `quota_type` (`quota_type`);
 
-ALTER TABLE `titanium_bbauth_access`
+ALTER TABLE `nuke_bbauth_access`
   ADD KEY `group_id` (`group_id`),
   ADD KEY `forum_id` (`forum_id`);
 
-ALTER TABLE `titanium_bbauth_arcade_access`
+ALTER TABLE `nuke_bbauth_arcade_access`
   ADD KEY `group_id` (`group_id`),
   ADD KEY `arcade_catid` (`arcade_catid`);
 
-ALTER TABLE `titanium_bbbanlist`
+ALTER TABLE `nuke_bbbanlist`
   ADD PRIMARY KEY (`ban_id`),
   ADD KEY `ban_ip_user_id` (`ban_ip`,`ban_userid`);
 
-ALTER TABLE `titanium_bbcategories`
+ALTER TABLE `nuke_bbcategories`
   ADD PRIMARY KEY (`cat_id`),
   ADD KEY `cat_order` (`cat_order`);
 
-ALTER TABLE `titanium_bbconfig`
+ALTER TABLE `nuke_bbconfig`
   ADD PRIMARY KEY (`config_name`);
 
-ALTER TABLE `titanium_bbdisallow`
+ALTER TABLE `nuke_bbdisallow`
   ADD PRIMARY KEY (`disallow_id`);
 
-ALTER TABLE `titanium_bbextensions`
+ALTER TABLE `nuke_bbextensions`
   ADD PRIMARY KEY (`ext_id`);
 
-ALTER TABLE `titanium_bbextension_groups`
+ALTER TABLE `nuke_bbextension_groups`
   ADD PRIMARY KEY (`group_id`);
 
-ALTER TABLE `titanium_bbflags`
+ALTER TABLE `nuke_bbflags`
   ADD PRIMARY KEY (`flag_id`);
 
-ALTER TABLE `titanium_bbforbidden_extensions`
+ALTER TABLE `nuke_bbforbidden_extensions`
   ADD PRIMARY KEY (`ext_id`);
 
-ALTER TABLE `titanium_bbforums`
+ALTER TABLE `nuke_bbforums`
   ADD PRIMARY KEY (`forum_id`),
   ADD KEY `forums_order` (`forum_order`),
   ADD KEY `cat_id` (`cat_id`),
   ADD KEY `forum_last_post_id` (`forum_last_post_id`);
 
-ALTER TABLE `titanium_bbforum_prune`
+ALTER TABLE `nuke_bbforum_prune`
   ADD PRIMARY KEY (`prune_id`),
   ADD KEY `forum_id` (`forum_id`);
 
-ALTER TABLE `titanium_bbgames`
+ALTER TABLE `nuke_bbgames`
   ADD KEY `game_id` (`game_id`);
 
-ALTER TABLE `titanium_bbgroups`
+ALTER TABLE `nuke_bbgroups`
   ADD PRIMARY KEY (`group_id`),
   ADD KEY `group_single_user` (`group_single_user`);
 
-ALTER TABLE `titanium_bbinline_ads`
+ALTER TABLE `nuke_bbinline_ads`
   ADD PRIMARY KEY (`ad_id`);
 
-ALTER TABLE `titanium_bblogs`
+ALTER TABLE `nuke_bblogs`
   ADD PRIMARY KEY (`log_id`);
 
-ALTER TABLE `titanium_bblogs_config`
+ALTER TABLE `nuke_bblogs_config`
   ADD PRIMARY KEY (`config_name`);
 
-ALTER TABLE `titanium_bbposts`
+ALTER TABLE `nuke_bbposts`
   ADD PRIMARY KEY (`post_id`),
   ADD KEY `forum_id` (`forum_id`),
   ADD KEY `topic_id` (`topic_id`),
@@ -5306,353 +5289,353 @@ ALTER TABLE `titanium_bbposts`
   ADD KEY `post_time` (`post_time`),
   ADD KEY `post_icon` (`post_icon`);
 
-ALTER TABLE `titanium_bbposts_text`
+ALTER TABLE `nuke_bbposts_text`
   ADD PRIMARY KEY (`post_id`);
 
-ALTER TABLE `titanium_bbpost_reports`
+ALTER TABLE `nuke_bbpost_reports`
   ADD PRIMARY KEY (`report_id`);
 
-ALTER TABLE `titanium_bbprivmsgs`
+ALTER TABLE `nuke_bbprivmsgs`
   ADD PRIMARY KEY (`privmsgs_id`),
   ADD KEY `privmsgs_from_userid` (`privmsgs_from_userid`),
   ADD KEY `privmsgs_to_userid` (`privmsgs_to_userid`);
 
-ALTER TABLE `titanium_bbprivmsgs_archive`
+ALTER TABLE `nuke_bbprivmsgs_archive`
   ADD PRIMARY KEY (`privmsgs_id`),
   ADD KEY `privmsgs_from_userid` (`privmsgs_from_userid`),
   ADD KEY `privmsgs_to_userid` (`privmsgs_to_userid`);
 
-ALTER TABLE `titanium_bbprivmsgs_text`
+ALTER TABLE `nuke_bbprivmsgs_text`
   ADD PRIMARY KEY (`privmsgs_text_id`);
 
-ALTER TABLE `titanium_bbquicksearch`
+ALTER TABLE `nuke_bbquicksearch`
   ADD PRIMARY KEY (`search_id`);
 
-ALTER TABLE `titanium_bbquota_limits`
+ALTER TABLE `nuke_bbquota_limits`
   ADD PRIMARY KEY (`quota_limit_id`);
 
-ALTER TABLE `titanium_bbranks`
+ALTER TABLE `nuke_bbranks`
   ADD PRIMARY KEY (`rank_id`);
 
-ALTER TABLE `titanium_bbreputation`
+ALTER TABLE `nuke_bbreputation`
   ADD KEY `user_id` (`user_id`);
 
-ALTER TABLE `titanium_bbscores`
+ALTER TABLE `nuke_bbscores`
   ADD KEY `game_id` (`game_id`),
   ADD KEY `user_id` (`user_id`);
 
-ALTER TABLE `titanium_bbsearch_rebuild`
+ALTER TABLE `nuke_bbsearch_rebuild`
   ADD PRIMARY KEY (`rebuild_session_id`),
   ADD KEY `end_post_id` (`end_post_id`);
 
-ALTER TABLE `titanium_bbsearch_results`
+ALTER TABLE `nuke_bbsearch_results`
   ADD PRIMARY KEY (`search_id`),
   ADD KEY `session_id` (`session_id`);
 
-ALTER TABLE `titanium_bbsearch_wordlist`
+ALTER TABLE `nuke_bbsearch_wordlist`
   ADD PRIMARY KEY (`word_text`),
   ADD KEY `word_id` (`word_id`);
 
-ALTER TABLE `titanium_bbsearch_wordmatch`
+ALTER TABLE `nuke_bbsearch_wordmatch`
   ADD KEY `post_id` (`post_id`),
   ADD KEY `word_id` (`word_id`);
 
-ALTER TABLE `titanium_bbsessions`
+ALTER TABLE `nuke_bbsessions`
   ADD PRIMARY KEY (`session_id`),
   ADD KEY `session_user_id` (`session_user_id`),
   ADD KEY `session_id_ip_user_id` (`session_id`,`session_ip`,`session_user_id`);
 
-ALTER TABLE `titanium_bbsessions_keys`
+ALTER TABLE `nuke_bbsessions_keys`
   ADD PRIMARY KEY (`key_id`,`user_id`),
   ADD KEY `last_login` (`last_login`);
 
-ALTER TABLE `titanium_bbsmilies`
+ALTER TABLE `nuke_bbsmilies`
   ADD PRIMARY KEY (`smilies_id`);
 
-ALTER TABLE `titanium_bbstats_config`
+ALTER TABLE `nuke_bbstats_config`
   ADD PRIMARY KEY (`config_name`);
 
-ALTER TABLE `titanium_bbstats_modules`
+ALTER TABLE `nuke_bbstats_modules`
   ADD PRIMARY KEY (`module_id`);
 
-ALTER TABLE `titanium_bbstats_module_admin_panel`
+ALTER TABLE `nuke_bbstats_module_admin_panel`
   ADD PRIMARY KEY (`module_id`);
 
-ALTER TABLE `titanium_bbstats_module_cache`
+ALTER TABLE `nuke_bbstats_module_cache`
   ADD PRIMARY KEY (`module_id`);
 
-ALTER TABLE `titanium_bbstats_module_group_auth`
+ALTER TABLE `nuke_bbstats_module_group_auth`
   ADD PRIMARY KEY (`module_id`);
 
-ALTER TABLE `titanium_bbstats_module_info`
+ALTER TABLE `nuke_bbstats_module_info`
   ADD PRIMARY KEY (`module_id`);
 
-ALTER TABLE `titanium_bbstats_smilies_index`
+ALTER TABLE `nuke_bbstats_smilies_index`
   ADD PRIMARY KEY (`code`);
 
-ALTER TABLE `titanium_bbstats_smilies_info`
+ALTER TABLE `nuke_bbstats_smilies_info`
   ADD PRIMARY KEY (`last_post_id`);
 
-ALTER TABLE `titanium_bbthemes`
+ALTER TABLE `nuke_bbthemes`
   ADD PRIMARY KEY (`themes_id`);
 
-ALTER TABLE `titanium_bbthemes_name`
+ALTER TABLE `nuke_bbthemes_name`
   ADD PRIMARY KEY (`themes_id`);
 
-ALTER TABLE `titanium_bbtopics`
+ALTER TABLE `nuke_bbtopics`
   ADD PRIMARY KEY (`topic_id`),
   ADD KEY `forum_id` (`forum_id`),
   ADD KEY `topic_moved_id` (`topic_moved_id`),
   ADD KEY `topic_status` (`topic_status`),
   ADD KEY `topic_type` (`topic_type`);
 
-ALTER TABLE `titanium_bbtopics_watch`
+ALTER TABLE `nuke_bbtopics_watch`
   ADD KEY `topic_id` (`topic_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `notify_status` (`notify_status`);
 
-ALTER TABLE `titanium_bbtopic_moved`
+ALTER TABLE `nuke_bbtopic_moved`
   ADD PRIMARY KEY (`moved_id`);
 
-ALTER TABLE `titanium_bbuser_group`
+ALTER TABLE `nuke_bbuser_group`
   ADD KEY `group_id` (`group_id`),
   ADD KEY `user_id` (`user_id`);
 
-ALTER TABLE `titanium_bbvote_desc`
+ALTER TABLE `nuke_bbvote_desc`
   ADD PRIMARY KEY (`vote_id`),
   ADD KEY `topic_id` (`topic_id`);
 
-ALTER TABLE `titanium_bbvote_results`
+ALTER TABLE `nuke_bbvote_results`
   ADD KEY `vote_option_id` (`vote_option_id`),
   ADD KEY `vote_id` (`vote_id`);
 
-ALTER TABLE `titanium_bbvote_voters`
+ALTER TABLE `nuke_bbvote_voters`
   ADD KEY `vote_id` (`vote_id`),
   ADD KEY `vote_user_id` (`vote_user_id`),
   ADD KEY `vote_user_ip` (`vote_user_ip`),
   ADD KEY `vote_cast` (`vote_cast`);
 
-ALTER TABLE `titanium_bbwords`
+ALTER TABLE `nuke_bbwords`
   ADD PRIMARY KEY (`word_id`);
 
-ALTER TABLE `titanium_bbxdata_fields`
+ALTER TABLE `nuke_bbxdata_fields`
   ADD PRIMARY KEY (`field_id`),
   ADD UNIQUE KEY `code_name` (`code_name`);
 
-ALTER TABLE `titanium_blocks`
+ALTER TABLE `nuke_blocks`
   ADD PRIMARY KEY (`bid`),
   ADD KEY `title` (`title`);
 
-ALTER TABLE `titanium_cnbya_config`
+ALTER TABLE `nuke_cnbya_config`
   ADD UNIQUE KEY `config_name` (`config_name`);
 
-ALTER TABLE `titanium_cnbya_field`
+ALTER TABLE `nuke_cnbya_field`
   ADD PRIMARY KEY (`fid`);
 
-ALTER TABLE `titanium_cnbya_value`
+ALTER TABLE `nuke_cnbya_value`
   ADD PRIMARY KEY (`vid`);
 
-ALTER TABLE `titanium_cnbya_value_temp`
+ALTER TABLE `nuke_cnbya_value_temp`
   ADD PRIMARY KEY (`vid`);
 
-ALTER TABLE `titanium_comments`
+ALTER TABLE `nuke_comments`
   ADD PRIMARY KEY (`tid`),
   ADD KEY `pid` (`pid`),
   ADD KEY `sid` (`sid`);
 
-ALTER TABLE `titanium_confirm`
+ALTER TABLE `nuke_confirm`
   ADD PRIMARY KEY (`session_id`,`confirm_id`);
 
-ALTER TABLE `titanium_counter`
+ALTER TABLE `nuke_counter`
   ADD KEY `var` (`var`);
 
-ALTER TABLE `titanium_donators`
+ALTER TABLE `nuke_donators`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_donators_config`
+ALTER TABLE `nuke_donators_config`
   ADD PRIMARY KEY (`config_name`);
 
-ALTER TABLE `titanium_ecalendar`
+ALTER TABLE `nuke_ecalendar`
   ADD PRIMARY KEY (`eid`);
 
-ALTER TABLE `titanium_evolution`
+ALTER TABLE `nuke_evolution`
   ADD PRIMARY KEY (`evo_field`);
 
-ALTER TABLE `titanium_evo_userinfo_addons`
+ALTER TABLE `nuke_evo_userinfo_addons`
   ADD PRIMARY KEY (`name`);
 
-ALTER TABLE `titanium_faqanswer`
+ALTER TABLE `nuke_faqanswer`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_cat` (`id_cat`);
 
-ALTER TABLE `titanium_faqcategories`
+ALTER TABLE `nuke_faqcategories`
   ADD PRIMARY KEY (`id_cat`);
 
-ALTER TABLE `titanium_file_repository_categories`
+ALTER TABLE `nuke_file_repository_categories`
   ADD PRIMARY KEY (`cid`);
 
-ALTER TABLE `titanium_file_repository_comments`
+ALTER TABLE `nuke_file_repository_comments`
   ADD PRIMARY KEY (`cid`);
 
-ALTER TABLE `titanium_file_repository_files`
+ALTER TABLE `nuke_file_repository_files`
   ADD PRIMARY KEY (`fid`);
 
-ALTER TABLE `titanium_file_repository_items`
+ALTER TABLE `nuke_file_repository_items`
   ADD PRIMARY KEY (`did`),
   ADD KEY `cid` (`cid`),
   ADD KEY `title` (`title`);
 
-ALTER TABLE `titanium_file_repository_screenshots`
+ALTER TABLE `nuke_file_repository_screenshots`
   ADD PRIMARY KEY (`pid`),
   ADD KEY `did` (`did`);
 
-ALTER TABLE `titanium_file_repository_settings`
+ALTER TABLE `nuke_file_repository_settings`
   ADD PRIMARY KEY (`config_name`);
 
-ALTER TABLE `titanium_file_repository_themes`
+ALTER TABLE `nuke_file_repository_themes`
   ADD PRIMARY KEY (`theme_name`);
 
-ALTER TABLE `titanium_headlines`
+ALTER TABLE `nuke_headlines`
   ADD PRIMARY KEY (`hid`);
 
-ALTER TABLE `titanium_hnl_categories`
+ALTER TABLE `nuke_hnl_categories`
   ADD PRIMARY KEY (`cid`);
 
-ALTER TABLE `titanium_hnl_cfg`
+ALTER TABLE `nuke_hnl_cfg`
   ADD PRIMARY KEY (`cfg_nm`);
 
-ALTER TABLE `titanium_hnl_newsletters`
+ALTER TABLE `nuke_hnl_newsletters`
   ADD PRIMARY KEY (`nid`),
   ADD KEY `cid` (`cid`);
 
-ALTER TABLE `titanium_honeypot`
+ALTER TABLE `nuke_honeypot`
   ADD UNIQUE KEY `id` (`id`);
 
-ALTER TABLE `titanium_image_repository_settings`
+ALTER TABLE `nuke_image_repository_settings`
   ADD PRIMARY KEY (`config_name`);
 
-ALTER TABLE `titanium_image_repository_uploads`
+ALTER TABLE `nuke_image_repository_uploads`
   ADD PRIMARY KEY (`pid`);
 
-ALTER TABLE `titanium_image_repository_users`
+ALTER TABLE `nuke_image_repository_users`
   ADD PRIMARY KEY (`uid`);
 
-ALTER TABLE `titanium_jmap`
+ALTER TABLE `nuke_jmap`
   ADD PRIMARY KEY (`name`);
 
-ALTER TABLE `titanium_links_categories`
+ALTER TABLE `nuke_links_categories`
   ADD PRIMARY KEY (`cid`);
 
-ALTER TABLE `titanium_links_editorials`
+ALTER TABLE `nuke_links_editorials`
   ADD PRIMARY KEY (`linkid`);
 
-ALTER TABLE `titanium_links_links`
+ALTER TABLE `nuke_links_links`
   ADD PRIMARY KEY (`lid`),
   ADD KEY `cid` (`cid`),
   ADD KEY `sid` (`sid`);
 
-ALTER TABLE `titanium_links_modrequest`
+ALTER TABLE `nuke_links_modrequest`
   ADD PRIMARY KEY (`requestid`);
 
-ALTER TABLE `titanium_links_newlink`
+ALTER TABLE `nuke_links_newlink`
   ADD PRIMARY KEY (`lid`),
   ADD KEY `cid` (`cid`),
   ADD KEY `sid` (`sid`);
 
-ALTER TABLE `titanium_links_votedata`
+ALTER TABLE `nuke_links_votedata`
   ADD PRIMARY KEY (`ratingdbid`);
 
-ALTER TABLE `titanium_link_us`
+ALTER TABLE `nuke_link_us`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_main`
+ALTER TABLE `nuke_main`
   ADD KEY `main_module` (`main_module`);
 
-ALTER TABLE `titanium_menu`
+ALTER TABLE `nuke_menu`
   ADD PRIMARY KEY (`groupmenu`);
 
-ALTER TABLE `titanium_menu_categories`
+ALTER TABLE `nuke_menu_categories`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_message`
+ALTER TABLE `nuke_message`
   ADD PRIMARY KEY (`mid`),
   ADD UNIQUE KEY `mid` (`mid`);
 
-ALTER TABLE `titanium_meta`
+ALTER TABLE `nuke_meta`
   ADD PRIMARY KEY (`meta_name`);
 
-ALTER TABLE `titanium_modules`
+ALTER TABLE `nuke_modules`
   ADD PRIMARY KEY (`mid`),
   ADD UNIQUE KEY `mid` (`mid`),
   ADD KEY `title` (`title`),
   ADD KEY `custom_title` (`custom_title`);
 
-ALTER TABLE `titanium_modules_cat`
+ALTER TABLE `nuke_modules_cat`
   ADD PRIMARY KEY (`cid`),
   ADD UNIQUE KEY `cid` (`cid`);
 
-ALTER TABLE `titanium_modules_links`
+ALTER TABLE `nuke_modules_links`
   ADD PRIMARY KEY (`lid`),
   ADD UNIQUE KEY `lid` (`lid`);
 
-ALTER TABLE `titanium_mostonline`
+ALTER TABLE `nuke_mostonline`
   ADD PRIMARY KEY (`total`);
 
-ALTER TABLE `titanium_nsncb_blocks`
+ALTER TABLE `nuke_nsncb_blocks`
   ADD PRIMARY KEY (`rid`),
   ADD UNIQUE KEY `rid` (`rid`);
 
-ALTER TABLE `titanium_nsncb_config`
+ALTER TABLE `nuke_nsncb_config`
   ADD PRIMARY KEY (`cgid`),
   ADD UNIQUE KEY `cfgid` (`cgid`);
 
-ALTER TABLE `titanium_nsnne_config`
+ALTER TABLE `nuke_nsnne_config`
   ADD UNIQUE KEY `config_name` (`config_name`);
 
-ALTER TABLE `titanium_nsnsp_config`
+ALTER TABLE `nuke_nsnsp_config`
   ADD PRIMARY KEY (`config_name`);
 
-ALTER TABLE `titanium_nsnsp_sites`
+ALTER TABLE `nuke_nsnsp_sites`
   ADD PRIMARY KEY (`site_id`);
 
-ALTER TABLE `titanium_nsnst_admins`
+ALTER TABLE `nuke_nsnst_admins`
   ADD PRIMARY KEY (`aid`),
   ADD KEY `password_md5` (`password_md5`);
 
-ALTER TABLE `titanium_nsnst_blocked_ips`
+ALTER TABLE `nuke_nsnst_blocked_ips`
   ADD PRIMARY KEY (`ip_addr`),
   ADD KEY `ip_long` (`ip_long`);
 
-ALTER TABLE `titanium_nsnst_blocked_ranges`
+ALTER TABLE `nuke_nsnst_blocked_ranges`
   ADD KEY `code` (`ip_lo`,`ip_hi`,`c2c`);
 
-ALTER TABLE `titanium_nsnst_blockers`
+ALTER TABLE `nuke_nsnst_blockers`
   ADD PRIMARY KEY (`blocker`);
 
-ALTER TABLE `titanium_nsnst_cidrs`
+ALTER TABLE `nuke_nsnst_cidrs`
   ADD PRIMARY KEY (`cidr`);
 
-ALTER TABLE `titanium_nsnst_config`
+ALTER TABLE `nuke_nsnst_config`
   ADD PRIMARY KEY (`config_name`);
 
-ALTER TABLE `titanium_nsnst_countries`
+ALTER TABLE `nuke_nsnst_countries`
   ADD KEY `c2c` (`c2c`);
 
-ALTER TABLE `titanium_nsnst_excluded_ranges`
+ALTER TABLE `nuke_nsnst_excluded_ranges`
   ADD KEY `code` (`ip_lo`,`ip_hi`,`c2c`);
 
-ALTER TABLE `titanium_nsnst_harvesters`
+ALTER TABLE `nuke_nsnst_harvesters`
   ADD PRIMARY KEY (`harvester`),
   ADD KEY `hid` (`hid`);
 
-ALTER TABLE `titanium_nsnst_protected_ranges`
+ALTER TABLE `nuke_nsnst_protected_ranges`
   ADD KEY `code` (`ip_lo`,`ip_hi`,`c2c`);
 
-ALTER TABLE `titanium_nsnst_referers`
+ALTER TABLE `nuke_nsnst_referers`
   ADD PRIMARY KEY (`referer`),
   ADD KEY `rid` (`rid`);
 
-ALTER TABLE `titanium_nsnst_tracked_ips`
+ALTER TABLE `nuke_nsnst_tracked_ips`
   ADD PRIMARY KEY (`tid`),
   ADD KEY `maintracking` (`ip_addr`,`ip_long`),
   ADD KEY `ip_addr` (`ip_addr`),
@@ -5665,451 +5648,451 @@ ALTER TABLE `titanium_nsnst_tracked_ips`
   ADD KEY `page` (`page`(255)),
   ADD KEY `c2c` (`c2c`);
 
-ALTER TABLE `titanium_pages`
+ALTER TABLE `nuke_pages`
   ADD PRIMARY KEY (`pid`),
   ADD KEY `cid` (`cid`);
 
-ALTER TABLE `titanium_pages_categories`
+ALTER TABLE `nuke_pages_categories`
   ADD PRIMARY KEY (`cid`);
 
-ALTER TABLE `titanium_pollcomments`
+ALTER TABLE `nuke_pollcomments`
   ADD PRIMARY KEY (`tid`),
   ADD KEY `pid` (`pid`),
   ADD KEY `pollID` (`pollID`);
 
-ALTER TABLE `titanium_poll_desc`
+ALTER TABLE `nuke_poll_desc`
   ADD PRIMARY KEY (`pollID`);
 
-ALTER TABLE `titanium_queue`
+ALTER TABLE `nuke_queue`
   ADD PRIMARY KEY (`qid`),
   ADD KEY `uid` (`uid`),
   ADD KEY `uname` (`uname`);
 
-ALTER TABLE `titanium_quotes`
+ALTER TABLE `nuke_quotes`
   ADD PRIMARY KEY (`qid`);
 
-ALTER TABLE `titanium_referer`
+ALTER TABLE `nuke_referer`
   ADD PRIMARY KEY (`url`),
   ADD KEY `lasttime` (`lasttime`);
 
-ALTER TABLE `titanium_related`
+ALTER TABLE `nuke_related`
   ADD PRIMARY KEY (`rid`),
   ADD KEY `tid` (`tid`);
 
-ALTER TABLE `titanium_reviews`
+ALTER TABLE `nuke_reviews`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_reviews_add`
+ALTER TABLE `nuke_reviews_add`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_reviews_comments`
+ALTER TABLE `nuke_reviews_comments`
   ADD PRIMARY KEY (`cid`),
   ADD KEY `rid` (`rid`),
   ADD KEY `userid` (`userid`);
 
-ALTER TABLE `titanium_reviews_main`
+ALTER TABLE `nuke_reviews_main`
   ADD KEY `title` (`title`);
 
-ALTER TABLE `titanium_security_agents`
+ALTER TABLE `nuke_security_agents`
   ADD PRIMARY KEY (`agent_name`);
 
-ALTER TABLE `titanium_session`
+ALTER TABLE `nuke_session`
   ADD PRIMARY KEY (`uname`),
   ADD KEY `time` (`time`),
   ADD KEY `guest` (`guest`);
 
-ALTER TABLE `titanium_shoutbox_censor`
+ALTER TABLE `nuke_shoutbox_censor`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_shoutbox_conf`
+ALTER TABLE `nuke_shoutbox_conf`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_shoutbox_date`
+ALTER TABLE `nuke_shoutbox_date`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_shoutbox_emoticons`
+ALTER TABLE `nuke_shoutbox_emoticons`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_shoutbox_ipblock`
+ALTER TABLE `nuke_shoutbox_ipblock`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_shoutbox_manage_count`
+ALTER TABLE `nuke_shoutbox_manage_count`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_shoutbox_nameblock`
+ALTER TABLE `nuke_shoutbox_nameblock`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_shoutbox_shouts`
+ALTER TABLE `nuke_shoutbox_shouts`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_shoutbox_sticky`
+ALTER TABLE `nuke_shoutbox_sticky`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_shoutbox_themes`
+ALTER TABLE `nuke_shoutbox_themes`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_shoutbox_theme_images`
+ALTER TABLE `nuke_shoutbox_theme_images`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_shoutbox_version`
+ALTER TABLE `nuke_shoutbox_version`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_sommaire`
+ALTER TABLE `nuke_sommaire`
   ADD PRIMARY KEY (`groupmenu`);
 
-ALTER TABLE `titanium_sommaire_categories`
+ALTER TABLE `nuke_sommaire_categories`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `titanium_stories`
+ALTER TABLE `nuke_stories`
   ADD PRIMARY KEY (`sid`),
   ADD KEY `catid` (`catid`),
   ADD KEY `counter` (`counter`),
   ADD KEY `topic` (`topic`);
 
-ALTER TABLE `titanium_stories_cat`
+ALTER TABLE `nuke_stories_cat`
   ADD PRIMARY KEY (`catid`);
 
-ALTER TABLE `titanium_subscriptions`
+ALTER TABLE `nuke_subscriptions`
   ADD PRIMARY KEY (`id`,`userid`);
 
-ALTER TABLE `titanium_themes`
+ALTER TABLE `nuke_themes`
   ADD PRIMARY KEY (`theme_name`);
 
-ALTER TABLE `titanium_topics`
+ALTER TABLE `nuke_topics`
   ADD PRIMARY KEY (`topicid`);
 
-ALTER TABLE `titanium_users`
+ALTER TABLE `nuke_users`
   ADD PRIMARY KEY (`user_id`),
   ADD KEY `uname` (`username`),
   ADD KEY `user_session_time` (`user_session_time`),
   ADD KEY `user_birthday` (`user_birthday`),
   ADD KEY `user_birthday2` (`user_birthday2`);
 
-ALTER TABLE `titanium_users_countries`
+ALTER TABLE `nuke_users_countries`
   ADD PRIMARY KEY (`id_country`),
   ADD KEY `IDX_NAME` (`name`);
 
-ALTER TABLE `titanium_users_temp`
+ALTER TABLE `nuke_users_temp`
   ADD PRIMARY KEY (`user_id`);
 
-ALTER TABLE `titanium_users_who_been`
+ALTER TABLE `nuke_users_who_been`
   ADD PRIMARY KEY (`user_ID`);
 
-ALTER TABLE `titanium_welcome_pm`
+ALTER TABLE `nuke_welcome_pm`
   ADD PRIMARY KEY (`subject`);
 
 
-ALTER TABLE `titanium_bookmarks`
+ALTER TABLE `network_bookmarks`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_bookmarks_cat`
+ALTER TABLE `network_bookmarks_cat`
   MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_autonews`
+ALTER TABLE `nuke_autonews`
   MODIFY `anid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_banner`
+ALTER TABLE `nuke_banner`
   MODIFY `bid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_banner_clients`
+ALTER TABLE `nuke_banner_clients`
   MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_banner_plans`
+ALTER TABLE `nuke_banner_plans`
   MODIFY `pid` int(10) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_banner_positions`
+ALTER TABLE `nuke_banner_positions`
   MODIFY `apid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
-ALTER TABLE `titanium_bbadvanced_username_color`
+ALTER TABLE `nuke_bbadvanced_username_color`
   MODIFY `group_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
-ALTER TABLE `titanium_bbarcade_categories`
+ALTER TABLE `nuke_bbarcade_categories`
   MODIFY `arcade_catid` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_bbattachments_desc`
+ALTER TABLE `nuke_bbattachments_desc`
   MODIFY `attach_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
-ALTER TABLE `titanium_bbbanlist`
+ALTER TABLE `nuke_bbbanlist`
   MODIFY `ban_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_bbcategories`
+ALTER TABLE `nuke_bbcategories`
   MODIFY `cat_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
-ALTER TABLE `titanium_bbdisallow`
+ALTER TABLE `nuke_bbdisallow`
   MODIFY `disallow_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_bbextensions`
+ALTER TABLE `nuke_bbextensions`
   MODIFY `ext_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
-ALTER TABLE `titanium_bbextension_groups`
+ALTER TABLE `nuke_bbextension_groups`
   MODIFY `group_id` mediumint(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
-ALTER TABLE `titanium_bbforbidden_extensions`
+ALTER TABLE `nuke_bbforbidden_extensions`
   MODIFY `ext_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
-ALTER TABLE `titanium_bbforums`
+ALTER TABLE `nuke_bbforums`
   MODIFY `forum_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
-ALTER TABLE `titanium_bbforum_prune`
+ALTER TABLE `nuke_bbforum_prune`
   MODIFY `prune_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_bbgames`
+ALTER TABLE `nuke_bbgames`
   MODIFY `game_id` mediumint(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_bbgroups`
+ALTER TABLE `nuke_bbgroups`
   MODIFY `group_id` mediumint(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
-ALTER TABLE `titanium_bbinline_ads`
+ALTER TABLE `nuke_bbinline_ads`
   MODIFY `ad_id` tinyint(5) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_bblogs`
+ALTER TABLE `nuke_bblogs`
   MODIFY `log_id` mediumint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
-ALTER TABLE `titanium_bbposts`
+ALTER TABLE `nuke_bbposts`
   MODIFY `post_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
-ALTER TABLE `titanium_bbpost_reports`
+ALTER TABLE `nuke_bbpost_reports`
   MODIFY `report_id` mediumint(8) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_bbprivmsgs`
+ALTER TABLE `nuke_bbprivmsgs`
   MODIFY `privmsgs_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
-ALTER TABLE `titanium_bbprivmsgs_archive`
+ALTER TABLE `nuke_bbprivmsgs_archive`
   MODIFY `privmsgs_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_bbquicksearch`
+ALTER TABLE `nuke_bbquicksearch`
   MODIFY `search_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_bbquota_limits`
+ALTER TABLE `nuke_bbquota_limits`
   MODIFY `quota_limit_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
-ALTER TABLE `titanium_bbranks`
+ALTER TABLE `nuke_bbranks`
   MODIFY `rank_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
-ALTER TABLE `titanium_bbsearch_rebuild`
+ALTER TABLE `nuke_bbsearch_rebuild`
   MODIFY `rebuild_session_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_bbsearch_wordlist`
+ALTER TABLE `nuke_bbsearch_wordlist`
   MODIFY `word_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1556;
 
-ALTER TABLE `titanium_bbsmilies`
+ALTER TABLE `nuke_bbsmilies`
   MODIFY `smilies_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
-ALTER TABLE `titanium_bbstats_modules`
+ALTER TABLE `nuke_bbstats_modules`
   MODIFY `module_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
-ALTER TABLE `titanium_bbthemes`
+ALTER TABLE `nuke_bbthemes`
   MODIFY `themes_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_bbtopics`
+ALTER TABLE `nuke_bbtopics`
   MODIFY `topic_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
-ALTER TABLE `titanium_bbtopic_moved`
+ALTER TABLE `nuke_bbtopic_moved`
   MODIFY `moved_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_bbvote_desc`
+ALTER TABLE `nuke_bbvote_desc`
   MODIFY `vote_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_bbwords`
+ALTER TABLE `nuke_bbwords`
   MODIFY `word_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_blocks`
+ALTER TABLE `nuke_blocks`
   MODIFY `bid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
-ALTER TABLE `titanium_cnbya_field`
+ALTER TABLE `nuke_cnbya_field`
   MODIFY `fid` int(10) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_cnbya_value`
+ALTER TABLE `nuke_cnbya_value`
   MODIFY `vid` int(10) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_cnbya_value_temp`
+ALTER TABLE `nuke_cnbya_value_temp`
   MODIFY `vid` int(10) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_comments`
+ALTER TABLE `nuke_comments`
   MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
-ALTER TABLE `titanium_donators`
+ALTER TABLE `nuke_donators`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_ecalendar`
+ALTER TABLE `nuke_ecalendar`
   MODIFY `eid` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_faqanswer`
+ALTER TABLE `nuke_faqanswer`
   MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_faqcategories`
+ALTER TABLE `nuke_faqcategories`
   MODIFY `id_cat` tinyint(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_file_repository_categories`
+ALTER TABLE `nuke_file_repository_categories`
   MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_file_repository_comments`
+ALTER TABLE `nuke_file_repository_comments`
   MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_file_repository_files`
+ALTER TABLE `nuke_file_repository_files`
   MODIFY `fid` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_file_repository_items`
+ALTER TABLE `nuke_file_repository_items`
   MODIFY `did` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_file_repository_screenshots`
+ALTER TABLE `nuke_file_repository_screenshots`
   MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_headlines`
+ALTER TABLE `nuke_headlines`
   MODIFY `hid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
-ALTER TABLE `titanium_hnl_categories`
+ALTER TABLE `nuke_hnl_categories`
   MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
-ALTER TABLE `titanium_hnl_newsletters`
+ALTER TABLE `nuke_hnl_newsletters`
   MODIFY `nid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
-ALTER TABLE `titanium_honeypot`
+ALTER TABLE `nuke_honeypot`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
-ALTER TABLE `titanium_image_repository_uploads`
+ALTER TABLE `nuke_image_repository_uploads`
   MODIFY `pid` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
-ALTER TABLE `titanium_image_repository_users`
+ALTER TABLE `nuke_image_repository_users`
   MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
-ALTER TABLE `titanium_links_categories`
+ALTER TABLE `nuke_links_categories`
   MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
-ALTER TABLE `titanium_links_links`
+ALTER TABLE `nuke_links_links`
   MODIFY `lid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
-ALTER TABLE `titanium_links_modrequest`
+ALTER TABLE `nuke_links_modrequest`
   MODIFY `requestid` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_links_newlink`
+ALTER TABLE `nuke_links_newlink`
   MODIFY `lid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
-ALTER TABLE `titanium_links_votedata`
+ALTER TABLE `nuke_links_votedata`
   MODIFY `ratingdbid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
-ALTER TABLE `titanium_link_us`
+ALTER TABLE `nuke_link_us`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
-ALTER TABLE `titanium_menu_categories`
+ALTER TABLE `nuke_menu_categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1146;
 
-ALTER TABLE `titanium_message`
+ALTER TABLE `nuke_message`
   MODIFY `mid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_modules`
+ALTER TABLE `nuke_modules`
   MODIFY `mid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14713;
 
-ALTER TABLE `titanium_modules_cat`
+ALTER TABLE `nuke_modules_cat`
   MODIFY `cid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
-ALTER TABLE `titanium_modules_links`
+ALTER TABLE `nuke_modules_links`
   MODIFY `lid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
-ALTER TABLE `titanium_nsnsp_sites`
+ALTER TABLE `nuke_nsnsp_sites`
   MODIFY `site_id` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_nsnst_harvesters`
+ALTER TABLE `nuke_nsnst_harvesters`
   MODIFY `hid` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=220;
 
-ALTER TABLE `titanium_nsnst_referers`
+ALTER TABLE `nuke_nsnst_referers`
   MODIFY `rid` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=366;
 
-ALTER TABLE `titanium_nsnst_tracked_ips`
+ALTER TABLE `nuke_nsnst_tracked_ips`
   MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_pages`
+ALTER TABLE `nuke_pages`
   MODIFY `pid` int(10) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_pages_categories`
+ALTER TABLE `nuke_pages_categories`
   MODIFY `cid` int(10) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_pollcomments`
+ALTER TABLE `nuke_pollcomments`
   MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_poll_desc`
+ALTER TABLE `nuke_poll_desc`
   MODIFY `pollID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_queue`
+ALTER TABLE `nuke_queue`
   MODIFY `qid` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_quotes`
+ALTER TABLE `nuke_quotes`
   MODIFY `qid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_related`
+ALTER TABLE `nuke_related`
   MODIFY `rid` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_reviews`
+ALTER TABLE `nuke_reviews`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_reviews_add`
+ALTER TABLE `nuke_reviews_add`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_reviews_comments`
+ALTER TABLE `nuke_reviews_comments`
   MODIFY `cid` int(10) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_shoutbox_censor`
+ALTER TABLE `nuke_shoutbox_censor`
   MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
-ALTER TABLE `titanium_shoutbox_emoticons`
+ALTER TABLE `nuke_shoutbox_emoticons`
   MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
-ALTER TABLE `titanium_shoutbox_ipblock`
+ALTER TABLE `nuke_shoutbox_ipblock`
   MODIFY `id` int(9) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_shoutbox_manage_count`
+ALTER TABLE `nuke_shoutbox_manage_count`
   MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
-ALTER TABLE `titanium_shoutbox_nameblock`
+ALTER TABLE `nuke_shoutbox_nameblock`
   MODIFY `id` int(9) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_shoutbox_shouts`
+ALTER TABLE `nuke_shoutbox_shouts`
   MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
-ALTER TABLE `titanium_shoutbox_sticky`
+ALTER TABLE `nuke_shoutbox_sticky`
   MODIFY `id` int(9) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_shoutbox_themes`
+ALTER TABLE `nuke_shoutbox_themes`
   MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `titanium_shoutbox_theme_images`
+ALTER TABLE `nuke_shoutbox_theme_images`
   MODIFY `id` int(9) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_sommaire_categories`
+ALTER TABLE `nuke_sommaire_categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
-ALTER TABLE `titanium_stories`
+ALTER TABLE `nuke_stories`
   MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
-ALTER TABLE `titanium_stories_cat`
+ALTER TABLE `nuke_stories_cat`
   MODIFY `catid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
-ALTER TABLE `titanium_subscriptions`
+ALTER TABLE `nuke_subscriptions`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_topics`
+ALTER TABLE `nuke_topics`
   MODIFY `topicid` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
-ALTER TABLE `titanium_users`
+ALTER TABLE `nuke_users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
-ALTER TABLE `titanium_users_countries`
+ALTER TABLE `nuke_users_countries`
   MODIFY `id_country` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
 
-ALTER TABLE `titanium_users_temp`
+ALTER TABLE `nuke_users_temp`
   MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `titanium_cemetery`
+ALTER TABLE `network_cemetery`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
-ALTER TABLE `titanium_cemetery_cat`
+ALTER TABLE `network_cemetery_cat`
   ADD PRIMARY KEY (`category_id`),
   ADD KEY `user_id` (`user_id`);
 
-ALTER TABLE `titanium_cemetery`
+ALTER TABLE `network_cemetery`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
-ALTER TABLE `titanium_cemetery_cat`
+ALTER TABLE `network_cemetery_cat`
   MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;

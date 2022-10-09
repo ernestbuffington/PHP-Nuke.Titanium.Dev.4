@@ -90,17 +90,17 @@ function display_config()
     Notes:       Writes values to the DB
 ================================================================================================*/
 function write_values($values) {
-    global $pnt_db, $pnt_prefix, $cache;
+    global $db, $prefix, $cache;
     //Loop through values
     foreach ($values as $key => $value) {
         //Remove crap
         $value = Fix_Quotes(check_html($value, 'nohtml'));
         $key = Fix_Quotes(check_html($key, 'nohtml'));
         //Setup SQL
-        $sql = 'UPDATE `'.$pnt_prefix.'_donators_config` SET';
+        $sql = 'UPDATE `'.$prefix.'_donators_config` SET';
         $sql .= ' config_value="'.$value.'" WHERE config_name="page_'.$key.'";';
         //Run SQL
-        $pnt_db->sql_query($sql);
+        $db->sql_query($sql);
     }
     //Clear the cache
     $cache->delete('page', 'donations');
@@ -132,18 +132,18 @@ function set_values() {
     Notes:       Will toss a DonateError if the values are not found
 ================================================================================================*/
 function get_values() {
-    global $pnt_db, $pnt_prefix, $lang_donate, $cache;
+    global $db, $prefix, $lang_donate, $cache;
     static $page;
     if(isset($page) && is_array($page)) { return $page; }
     if (!$page = $cache->load('page', 'donations')) {
-        $sql = 'SELECT config_value, config_name from '.$pnt_prefix.'_donators_config WHERE config_name LIKE "page_%"';
-        if(!$result = $pnt_db->sql_query($sql)) {
+        $sql = 'SELECT config_value, config_name from '.$prefix.'_donators_config WHERE config_name LIKE "page_%"';
+        if(!$result = $db->sql_query($sql)) {
             DonateError($lang_donate['VALUES_NF']);
         }
-        while ($row = $pnt_db->sql_fetchrow($result)) {
+        while ($row = $db->sql_fetchrow($result)) {
             $page[str_replace('page_', '', $row['config_name'])] = $row['config_value'];
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
         $cache->save('page', 'donations', $page);
     }
     return $page;

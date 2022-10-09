@@ -18,9 +18,9 @@
         Advanced Username Color                  v1.0.5       08/08/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 //
@@ -36,7 +36,7 @@ $attachment_version = ($attachment_mod_installed) ? ATTACH_VERSION : '';
 
 if ( $attachment_mod_installed )
 {
-    @include_once($phpbb2_root_path . 'attach_mod/includes/functions_admin.'.$phpEx);
+    @include_once($phpbb_root_path . 'attach_mod/includes/functions_admin.'.$phpEx);
 }
 
 $sql = "SELECT COUNT(user_id) AS total
@@ -46,7 +46,7 @@ WHERE user_id <> " . ANONYMOUS;
 $result = $core->sql_query($sql, 'Unable to get user count');
 $row = $core->sql_fetchrow($result);
 
-$phpbb2_total_users = $row['total'];
+$total_users = $row['total'];
 
 $sql = "SELECT SUM(forum_topics) AS topic_total, SUM(forum_posts) AS post_total
 FROM " . FORUMS_TABLE;
@@ -54,8 +54,8 @@ FROM " . FORUMS_TABLE;
 $result = $core->sql_query($sql, 'Unable to get topic and post count');
 $row = $core->sql_fetchrow($result);
 
-$phpbb2_total_posts = $row['post_total'];
-$total_phpbb2_topics = $row['topic_total'];
+$total_posts = $row['post_total'];
+$total_topics = $row['topic_total'];
 
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -70,25 +70,25 @@ LIMIT 1";
  ******************************************************/
 
 $result = $core->sql_query($sql, 'Unable to get newest user data');
-$phpbb2_newest_userdata = $core->sql_fetchrow($result);
+$newest_userdata = $core->sql_fetchrow($result);
 
-$phpbb2_start_date = create_date($phpbb2_board_config['default_dateformat'], $phpbb2_board_config['board_startdate'], $phpbb2_board_config['board_timezone']);
+$start_date = create_date($board_config['default_dateformat'], $board_config['board_startdate'], $board_config['board_timezone']);
 
-$boarddays = max(1, round( ( time() - $phpbb2_board_config['board_startdate'] ) / 86400 ));
+$boarddays = max(1, round( ( time() - $board_config['board_startdate'] ) / 86400 ));
 
-$phpbb2_posts_per_day = sprintf('%.2f', $phpbb2_total_posts / $boarddays);
-$phpbb2_topics_per_day = sprintf('%.2f', $total_phpbb2_topics / $boarddays);
-$pnt_users_per_day = sprintf('%.2f', $phpbb2_total_users / $boarddays);
+$posts_per_day = sprintf('%.2f', $total_posts / $boarddays);
+$topics_per_day = sprintf('%.2f', $total_topics / $boarddays);
+$users_per_day = sprintf('%.2f', $total_users / $boarddays);
 
 $avatar_dir_size = 0;
 
-if ($avatar_dir = @opendir($phpbb2_board_config['avatar_path']))
+if ($avatar_dir = @opendir($board_config['avatar_path']))
 {
     while( $file = @readdir($avatar_dir) )
     {
         if( $file != '.' && $file != '..' )
         {
-            $avatar_dir_size += @filesize($phpbb2_board_config['avatar_path'] . '/' . $file);
+            $avatar_dir_size += @filesize($board_config['avatar_path'] . '/' . $file);
         }
     }
     @closedir($avatar_dir);
@@ -135,19 +135,19 @@ else
     $avatar_dir_size = $lang['Not_available'];
 }
 
-if ($phpbb2_posts_per_day > $phpbb2_total_posts)
+if ($posts_per_day > $total_posts)
 {
-    $phpbb2_posts_per_day = $phpbb2_total_posts;
+    $posts_per_day = $total_posts;
 }
 
-if ($phpbb2_topics_per_day > $total_phpbb2_topics)
+if ($topics_per_day > $total_topics)
 {
-    $phpbb2_topics_per_day = $total_phpbb2_topics;
+    $topics_per_day = $total_topics;
 }
 
-if ($pnt_users_per_day > $phpbb2_total_users)
+if ($users_per_day > $total_users)
 {
-    $pnt_users_per_day = $phpbb2_total_users;
+    $users_per_day = $total_users;
 }
 
 //
@@ -156,27 +156,27 @@ if ($pnt_users_per_day > $phpbb2_total_users)
 // This code is heavily influenced by a similar routine
 // in phpMyAdmin 2.2.0
 //
-$pnt_dbsize = 0;
+$dbsize = 0;
 
 if( preg_match("/^mysql/", SQL_LAYER) )
 {
     $sql = "SELECT VERSION() AS mysql_version";
-    if ($result = $pnt_db->sql_query($sql))
+    if ($result = $db->sql_query($sql))
     {
-        $row = $pnt_db->sql_fetchrow($result);
+        $row = $db->sql_fetchrow($result);
         $version = $row['mysql_version'];
 
         if( preg_match("/^(3\.23|4\.)/", $version) )
         {
-            $pnt_db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)/", $version) ) ? "`$pnt_dbname`" : $pnt_dbname;
+            $db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)/", $version) ) ? "`$dbname`" : $dbname;
 
             $sql = "SHOW TABLE STATUS
-            FROM " . $pnt_db_name;
-            if($result = $pnt_db->sql_query($sql))
+            FROM " . $db_name;
+            if($result = $db->sql_query($sql))
             {
-                $tabledata_ary = $pnt_db->sql_fetchrowset($result);
+                $tabledata_ary = $db->sql_fetchrowset($result);
 
-                $pnt_dbsize = 0;
+                $dbsize = 0;
                 for($i = 0; $i < count($tabledata_ary); $i++)
                 {
                     if( $tabledata_ary[$i]['Type'] != "MRG_MyISAM" )
@@ -185,12 +185,12 @@ if( preg_match("/^mysql/", SQL_LAYER) )
                         {
                             if( strstr($tabledata_ary[$i]['Name'], $table_prefix) )
                             {
-                                $pnt_dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
+                                $dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
                             }
                         }
                         else
                         {
-                            $pnt_dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
+                            $dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
                         }
                     }
                 }
@@ -199,60 +199,60 @@ if( preg_match("/^mysql/", SQL_LAYER) )
     }
 }
 
-$pnt_dbsize = intval($pnt_dbsize);
+$dbsize = intval($dbsize);
 
-if ($pnt_dbsize != 0)
+if ($dbsize != 0)
 {
     if ($attachment_mod_installed)
     {
-        if( $pnt_dbsize >= 1048576 )
+        if( $dbsize >= 1048576 )
         {
-            $pnt_dbsize = sprintf('%.2f ' . $lang['MB'], ( $pnt_dbsize / 1048576 ));
+            $dbsize = sprintf('%.2f ' . $lang['MB'], ( $dbsize / 1048576 ));
         }
-        else if( $pnt_dbsize >= 1024 )
+        else if( $dbsize >= 1024 )
         {
-            $pnt_dbsize = sprintf('%.2f ' . $lang['KB'], ( $pnt_dbsize / 1024 ));
+            $dbsize = sprintf('%.2f ' . $lang['KB'], ( $dbsize / 1024 ));
         }
         else
         {
-            $pnt_dbsize = sprintf('%.2f ' . $lang['Bytes'], $pnt_dbsize);
+            $dbsize = sprintf('%.2f ' . $lang['Bytes'], $dbsize);
         }
     }
     else
     {
-        if( $pnt_dbsize >= 1048576 )
+        if( $dbsize >= 1048576 )
         {
-            $pnt_dbsize = sprintf('%.2f MB', ( $pnt_dbsize / 1048576 ));
+            $dbsize = sprintf('%.2f MB', ( $dbsize / 1048576 ));
         }
-        else if( $pnt_dbsize >= 1024 )
+        else if( $dbsize >= 1024 )
         {
-            $pnt_dbsize = sprintf('%.2f KB', ( $pnt_dbsize / 1024 ));
+            $dbsize = sprintf('%.2f KB', ( $dbsize / 1024 ));
         }
         else
         {
-            $pnt_dbsize = sprintf('%.2f Bytes', $pnt_dbsize);
+            $dbsize = sprintf('%.2f Bytes', $dbsize);
         }
     }
 }
 else
 {
-    $pnt_dbsize = $lang['Not_available'];
+    $dbsize = $lang['Not_available'];
 }
 
 //
 // Newest user data
 //
-$phpbb2_newest_user = $phpbb2_newest_userdata['username'];
-$phpbb2_newest_uid = $phpbb2_newest_userdata['user_id'];
+$newest_user = $newest_userdata['username'];
+$newest_uid = $newest_userdata['user_id'];
 
 $sql = 'SELECT user_regdate
 FROM ' . USERS_TABLE . '
-WHERE user_id = ' . $phpbb2_newest_uid . '
+WHERE user_id = ' . $newest_uid . '
 LIMIT 1';
 
 $result = $core->sql_query($sql, 'Couldn\'t retrieve users data');
 $row = $core->sql_fetchrow($result);
-$phpbb2_newest_user_date = $row['user_regdate'];
+$newest_user_date = $row['user_regdate'];
 
 //
 // Most Online data
@@ -271,7 +271,7 @@ for ($i = 0; $i < count($row); $i++)
 {
     if ( (intval($row[$i]['config_value']) > 0) && ($row[$i]['config_name'] == 'record_online_date') )
     {
-        $most_users_date = create_date($phpbb2_board_config['default_dateformat'], intval($row[$i]['config_value']), $phpbb2_board_config['board_timezone']);
+        $most_users_date = create_date($board_config['default_dateformat'], intval($row[$i]['config_value']), $board_config['board_timezone']);
     }
     else if ( (intval($row[$i]['config_value']) > 0) && ($row[$i]['config_name'] == 'record_online_users') )
     {
@@ -281,7 +281,7 @@ for ($i = 0; $i < count($row); $i++)
 
 $statistic_array = array($lang['Number_posts'], $lang['Posts_per_day'], $lang['Number_topics'], $lang['Topics_per_day'], $lang['Number_users'], $lang['Users_per_day'], $lang['Board_started'], $lang['Board_Up_Days'], $lang['Database_size'], $lang['Avatar_dir_size'], $lang['Latest_Reg_User_Date'], $lang['Latest_Reg_User'], $lang['Most_Ever_Online_Date'], $lang['Most_Ever_Online'], $lang['Gzip_compression']);
 
-$value_array = array($phpbb2_total_posts, $phpbb2_posts_per_day, $total_phpbb2_topics, $phpbb2_topics_per_day, $phpbb2_total_users, $pnt_users_per_day, $phpbb2_start_date, sprintf('%.2f', $boarddays), $pnt_dbsize, $avatar_dir_size, $phpbb2_newest_user_date, sprintf('<a href="' . append_titanium_sid('profile.' . $phpEx . '?mode=viewprofile&amp;' . POST_USERS_URL . '=' . $phpbb2_newest_uid) . '">' . $phpbb2_newest_user . '</a>'), $most_users_date, $most_users, ( $phpbb2_board_config['gzip_compress'] ) ? $lang['Enabled'] : $lang['Disabled']);
+$value_array = array($total_posts, $posts_per_day, $total_topics, $topics_per_day, $total_users, $users_per_day, $start_date, sprintf('%.2f', $boarddays), $dbsize, $avatar_dir_size, $newest_user_date, sprintf('<a href="' . append_sid('profile.' . $phpEx . '?mode=viewprofile&amp;' . POST_USERS_URL . '=' . $newest_uid) . '">' . $newest_user . '</a>'), $most_users_date, $most_users, ( $board_config['gzip_compress'] ) ? $lang['Enabled'] : $lang['Disabled']);
 
 //
 // Disk Usage, if Attachment Mod is installed

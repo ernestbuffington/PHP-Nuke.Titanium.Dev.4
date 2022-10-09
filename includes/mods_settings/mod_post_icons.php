@@ -16,8 +16,8 @@
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  ***************************************************************************/
-if(!defined('IN_PHPBB2'))
-exit("ACCESS DENIED");
+if(!defined('IN_PHPBB'))
+exit("Hacking attempt");
 # service functions
 include_once( NUKE_INCLUDE_DIR.'functions_mods_settings.'.$phpEx);
 # mod definition

@@ -19,14 +19,14 @@
 ************************************************************************/
 defined('NUKE_EVO') or die('Just go away, Shit Head!');
 
-global $pnt_db, $pnt_prefix, $userinfo;
-global $evouserinfo_avatar, $phpbb2_board_config, $userinfo, $bgcolor4; 
+global $db, $prefix, $userinfo;
+global $evouserinfo_avatar, $board_config, $userinfo, $bgcolor4; 
 
 $max_height = '59';
 $max_width = '59';
 
 $z = 3;
-$row1_result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT ".$z."");
+$row1_result = $db->sql_query("SELECT * FROM `".$prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT ".$z."");
 
 $row1   = '<div align="center">';
 $row1  .= '<table bgcolor="'.$bgcolor4.'" border="0" width="200">';
@@ -35,7 +35,7 @@ $row1  .= '<td align="center">';
 
 $row1  .= '<table bgcolor="'.$bgcolor4.'" border="0" cellpadding="0" cellspacing="0" class="visitorlog">';
 
-while($whosbeen = $pnt_db->sql_fetchrow($row1_result)):
+while($whosbeen = $db->sql_fetchrow($row1_result)):
     
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
@@ -67,8 +67,8 @@ while($whosbeen = $pnt_db->sql_fetchrow($row1_result)):
 	   {
 		# user_allowavatar = 1
 		case USER_AVATAR_UPLOAD:
-		$avatar = '<td width="45px">'.( $phpbb2_board_config['allow_avatar_upload'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $phpbb2_board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" border="0" /></div></td>' : '</td>';
+		$avatar = '<td width="45px">'.( $board_config['allow_avatar_upload'] ) 
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" border="0" /></div></td>' : '</td>';
 		break;
 		# user_allowavatar = 2
 		case USER_AVATAR_REMOTE:
@@ -76,8 +76,8 @@ while($whosbeen = $pnt_db->sql_fetchrow($row1_result)):
 		break;
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
-		$avatar = '<td width="45px">'. ( $phpbb2_board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }
@@ -105,7 +105,7 @@ $row1 .= '</td>';
 	$row1 .= '</table>';
 $row1 .= '</div>';
 
-$row2_result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 3, ".$z."");
+$row2_result = $db->sql_query("SELECT * FROM `".$prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 3, ".$z."");
 
 $row2   = '<div align="center">';
 $row2  .= '<table bgcolor="'.$bgcolor4.'" border="0" width="200">';
@@ -114,7 +114,7 @@ $row2  .= '<td align="center">';
 
 $row2  .= '<table border="1" cellpadding="0" cellspacing="0" class="visitorlog">';
 
-while($whosbeen = $pnt_db->sql_fetchrow($row2_result)):
+while($whosbeen = $db->sql_fetchrow($row2_result)):
 
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
@@ -146,8 +146,8 @@ while($whosbeen = $pnt_db->sql_fetchrow($row2_result)):
 	   {
 		# user_allowavatar = 1
 		case USER_AVATAR_UPLOAD:
-		$avatar = '<td width="45px">'.( $phpbb2_board_config['allow_avatar_upload'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $phpbb2_board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" border="0" /></div></td>' : '</td>';
+		$avatar = '<td width="45px">'.( $board_config['allow_avatar_upload'] ) 
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" border="0" /></div></td>' : '</td>';
 		break;
 		# user_allowavatar = 2
 		case USER_AVATAR_REMOTE:
@@ -155,8 +155,8 @@ while($whosbeen = $pnt_db->sql_fetchrow($row2_result)):
 		break;
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
-		$avatar = '<td width="45px">'. ( $phpbb2_board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }
@@ -184,7 +184,7 @@ $row2 .= '</td>';
 	$row2 .= '</table>';
 $row2 .= '</div>';
 
-$row3_result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 6, ".$z."");
+$row3_result = $db->sql_query("SELECT * FROM `".$prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 6, ".$z."");
 
 $row3   = '<div align="center">';
 $row3  .= '<table bgcolor="'.$bgcolor4.'" border="0" width="200">';
@@ -193,7 +193,7 @@ $row3  .= '<td align="center">';
 
 $row3  .= '<table border="1" cellpadding="0" cellspacing="1" class="visitorlog">';
 
-while($whosbeen = $pnt_db->sql_fetchrow($row3_result)):
+while($whosbeen = $db->sql_fetchrow($row3_result)):
 
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
@@ -225,8 +225,8 @@ while($whosbeen = $pnt_db->sql_fetchrow($row3_result)):
 	   {
 		# user_allowavatar = 1
 		case USER_AVATAR_UPLOAD:
-		$avatar = '<td width="45px">'.( $phpbb2_board_config['allow_avatar_upload'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $phpbb2_board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" border="0" /></div></td>' : '</td>';
+		$avatar = '<td width="45px">'.( $board_config['allow_avatar_upload'] ) 
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" border="0" /></div></td>' : '</td>';
 		break;
 		# user_allowavatar = 2
 		case USER_AVATAR_REMOTE:
@@ -234,8 +234,8 @@ while($whosbeen = $pnt_db->sql_fetchrow($row3_result)):
 		break;
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
-		$avatar = '<td width="45px">'. ( $phpbb2_board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }
@@ -263,7 +263,7 @@ $row3 .= '</td>';
 	$row3 .= '</table>';
 $row3 .= '</div>';
 
-$row4_result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 9, ".$z."");
+$row4_result = $db->sql_query("SELECT * FROM `".$prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 9, ".$z."");
 
 $row4   = '<div align="center">';
 $row4  .= '<table bgcolor="'.$bgcolor4.'" border="0" width="200">';
@@ -272,7 +272,7 @@ $row4  .= '<td align="center">';
 
 $row4  .= '<table bgcolor="'.$bgcolor4.'" border="1" cellpadding="0" cellspacing="1" class="visitorlog">';
 
-while($whosbeen = $pnt_db->sql_fetchrow($row4_result)):
+while($whosbeen = $db->sql_fetchrow($row4_result)):
 
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
@@ -304,8 +304,8 @@ while($whosbeen = $pnt_db->sql_fetchrow($row4_result)):
 	   {
 		# user_allowavatar = 1
 		case USER_AVATAR_UPLOAD:
-		$avatar = '<td width="45px">'.( $phpbb2_board_config['allow_avatar_upload'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $phpbb2_board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" border="0" /></div></td>' : '</td>';
+		$avatar = '<td width="45px">'.( $board_config['allow_avatar_upload'] ) 
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" border="0" /></div></td>' : '</td>';
 		break;
 		# user_allowavatar = 2
 		case USER_AVATAR_REMOTE:
@@ -313,8 +313,8 @@ while($whosbeen = $pnt_db->sql_fetchrow($row4_result)):
 		break;
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
-		$avatar = '<td width="45px">'. ( $phpbb2_board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }

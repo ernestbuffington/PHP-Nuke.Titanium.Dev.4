@@ -27,7 +27,7 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $locale, $oldnum, $blognum, $bloghome, $cookie, $categories, $cat, $pnt_prefix, $multilingual, $currentlang, $pnt_db, $new_topic, $user_blogs, $userinfo, $pnt_user;
+global $locale, $oldnum, $storynum, $storyhome, $cookie, $categories, $cat, $prefix, $multilingual, $currentlang, $db, $new_topic, $user_news, $userinfo, $user;
 
 if ($multilingual == 1) {
     if ($categories == 1) {
@@ -48,15 +48,15 @@ if ($multilingual == 1) {
     }
     }
 }
-if (isset($userinfo['storynum']) AND $user_blogs == 1) {
-    $blognum = $userinfo['storynum'];
+if (isset($userinfo['storynum']) AND $user_news == 1) {
+    $storynum = $userinfo['storynum'];
 } else {
-    $blognum = $bloghome;
+    $storynum = $storyhome;
 }
 $boxstuff = "<table border=\"0\" width=\"100%\">";
 $boxTitle = _PASTARTICLES;
-$sql = "SELECT sid, title, datePublished, comments FROM ".$pnt_prefix."_stories $querylang ORDER BY datePublished DESC LIMIT $blognum, $oldnum";
-$result = $pnt_db->sql_query($sql);
+$sql = "SELECT sid, title, datePublished, comments FROM ".$prefix."_stories $querylang ORDER BY datePublished DESC LIMIT $storynum, $oldnum";
+$result = $db->sql_query($sql);
 $vari = 0;
 
 if (!isset($mode) OR empty($mode)) {
@@ -85,7 +85,7 @@ $r_options .= "&amp;mode=".$mode;
 $r_options .= "&amp;order=".$order;
 $r_options .= "&amp;thold=".$thold;
 
-while (list($sid, $title, $time, $comments) = $pnt_db->sql_fetchrow($result)) {
+while (list($sid, $title, $time, $comments) = $db->sql_fetchrow($result)) {
     $sid = intval($sid);
     $title = stripslashes($title);
     $see = 1;
@@ -113,15 +113,15 @@ while (list($sid, $title, $time, $comments) = $pnt_db->sql_fetchrow($result)) {
     $vari++;
     if ($vari==$oldnum) {
     if (isset($userinfo['storyhome'])) {
-        $blognum = $userinfo['storyhome'];
+        $storynum = $userinfo['storyhome'];
     } else {
-        $blognum = $bloghome;
+        $storynum = $storyhome;
     }
-    $min = $oldnum + $blognum;
+    $min = $oldnum + $storynum;
     $dummy = 1;
     }
 }
-$pnt_db->sql_freeresult($result);
+$db->sql_freeresult($result);
 
 if ($dummy == 1 AND is_active("Stories_Archive")) {
     $boxstuff .= "</table><br /><a href=\"modules.php?name=Stories_Archive\"><strong>"._OLDERARTICLES."</strong></a>\n";

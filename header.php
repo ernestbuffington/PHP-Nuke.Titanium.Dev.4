@@ -24,15 +24,12 @@
       Collapsing Blocks                        v1.0.0       08/16/2005
 	  NSN Center Blocks                        v2.2.1       05/26/2009
  ************************************************************************/
-if(!defined('HEADER')) {
-    define('HEADER', true);
-} else {
-    return;
-}
+if(!defined('HEADER')) 
+define('HEADER', true); 
+else 
+return; 
 
-//if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
-
-if (realpath(__FILE__) == realpath($_SERVER['DOCUMENT_ROOT'].$_SERVER['SCRIPT_NAME']))
+if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
 exit('Access Denied'); 
 
 require_once(dirname(__FILE__).'/mainfile.php');
@@ -43,16 +40,18 @@ function head()
 						  $ab_config, 
 						  $modheader, 
 						       $name, 
-				              $cache, 
-			               $userinfo, 
+							  $cache, 
+						   $userinfo, 
 						     $cookie, 
-					  	    $sitekey, 
-						$pnt_db, 
+							$sitekey, 
+							     $db, 
 							$banners, 
 						        $ads, 
 							$browser, 
 							$ThemeSel;
 
+	$ThemeSel = get_theme();
+	
     global $eighty_six_it;
 	$eighty_six_it = '<a class = "small" href="https://www.86it.us" target="_self">Programmers Making Connections. Coders Making a Difference.</a>';
     
@@ -61,9 +60,7 @@ function head()
     include(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php');
 	else: 
       echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" />'."\n";
-      echo '<!DOCTYPE html>'."\n";
-	  
-	  echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'._LANGCODE.'" />'."\n";
+      echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'._LANGCODE.'" />'."\n";
       echo '<html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="https://www.facebook.com/2008/fbml" />'."\n"; 
       echo "<!-- START <head> -->\n";
       echo '<head>'."\n";
@@ -80,16 +77,11 @@ function head()
     include_once(NUKE_INCLUDE_DIR.'meta.php');
 
     # START function to grab the page title. - 09/07/2019
- 	echo "\n<!-- START function title_and_meta_tags(); -->\n";
+ 	echo "\n\n<!-- START title_and_meta_tags(); -->\n";
  	title_and_meta_tags();
-    echo "<!-- END function title_and_meta_tags(); -->\n";
+    echo "<!-- END title_and_meta_tags(); -->\n\n\n\n\n\n";
     # END function to grab the page title. - 09/07/2019
 
-	################################################################
-	if (@file_exists(TITANIUM_CLASSES_DIR . 'class.autoflash.php'))#      Added by Ernest Buffington
-	include(TITANIUM_CLASSES_DIR . 'class.autoflash.php');         ###### Load Browser class - used for checking your browser types
-    #                                                              #      Start date Jan 1st 2012 till Present - It is a work in progress!
-    ################################################################
 	################################################################
 	if (@file_exists(TITANIUM_CLASSES_DIR . 'class.browsers.php')) #      Added by Ernest Buffington
 	include(TITANIUM_CLASSES_DIR . 'class.browsers.php');          ###### Load Browser class - used for checking your browser types
@@ -105,10 +97,29 @@ function head()
 	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php')) # CHECK FOR THEME JAVASCRIPT Added by Ernest Buffington 3/16/2021 10:58am
     include_once(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php');
     echo "<!-- CHECKING FOR pre 2019 themes -> javascript.php in Theme Dir END -->\n\n";
-    echo '<script src="includes/ruffle-core/ruffle.js"></script>';
-	global $pnt_browser;
-    $pnt_browser = new Browser();
+
+	global $titanium_browser;
+    $titanium_browser = new Browser();
 	
+    # START uploadcare PLUGIN for CKeditor 4 - 09/07/2019
+    echo "\n\n<!-- START uploadcare -->\n\n";
+    echo "<script type=\"text/javascript\">\n";
+    echo "UPLOADCARE_PUBLIC_KEY = 'df691884c0a749427aa1';\n";
+    echo "UPLOADCARE_TABS = 'file camera url facebook gdrive gphotos dropbox instagram evernote flickr onedrive box vk huddle';\n";
+    echo "UPLOADCARE_EFFECTS = 'crop,rotate,mirror,flip,enhance,sharp,blur,grayscale,invert';\n";
+    echo "UPLOADCARE_PREVIEW_STEP = true;\n";
+    echo "UPLOADCARE_CLEARABLE = true;\n";
+    echo "</script>\n";
+
+    echo "<script src=\"https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js\"></script>\n";
+    echo "<script src=\"https://ucarecdn.com/libs/widget-tab-effects/1.x/uploadcare.tab-effects.js\"></script>\n";
+        
+    echo "<script type=\"text/javascript\">\n";
+    echo "uploadcare.registerTab('preview', uploadcareTabEffects)\n";
+    echo "</script>\n";
+    echo "\n\n<!-- END uploadcare -->\n\n";
+	# START uploadcare PLUGIN for CKeditor 4 - 09/07/2019
+
     # FlyKit Mod v1.0.0 START
 	# used to add rounded corners to user avatars!
 	addPHPCSSToHead(NUKE_BASE_DIR.'includes/css/cms_css.php','file');
@@ -143,6 +154,10 @@ function head()
 
     global $browser;
     
+    echo "\n\n<!-- START writeHEAD() -->\n\n";
+    writeHEAD();
+    echo "\n<!-- END writeHEAD() -->\n\n";
+
     /*
 	echo "\n\n<!-- START custom_head -->\n\n";
 	if ((($custom_head = $cache->load('custom_head', 'config')) === false) || empty($custom_head)): 
@@ -166,7 +181,6 @@ function head()
     endif;
     echo "\n<!-- END custom_head -->\n\n";
     */
-
     
 	/* ----- as you can probably tell this is used for IE compatibility ----- */
     echo '<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]-->'."\n";
@@ -177,18 +191,11 @@ function head()
 	echo "<body>\n";
 	echo "<!-- END Top Primary Body Tags -->\n\n";
 
-	$ThemeSel = get_theme();
-
-    echo "\n\n<!-- START writeHEAD() -->\n\n";
-    writeHEAD();
-    echo "\n<!-- END writeHEAD() -->\n\n";
-
     themeheader();
 
 	// used for class ckeditor
 	if(isset($modheader)) 
 	echo $modheader; 
-
 
 /*****[BEGIN]******************************************
  [ Base:    NukeSentinel                      v2.5.00 ]
@@ -204,24 +211,24 @@ head();
 
 function online() 
 {
-    global $screen_res, $pnt_prefix, $pnt_db, $name, $phpbb2_board_config, $userinfo, $identify;
+    global $screen_res, $prefix, $db, $name, $board_config, $userinfo, $identify;
     $ip = $identify->get_ip();
     $url = (defined('ADMIN_FILE')) ? 'index.php' : Fix_Quotes($_SERVER['REQUEST_URI']);
     $uname = $ip;
     $guest = 1;
-    $pnt_user_agent = $identify->identify_agent();
+    $user_agent = $identify->identify_agent();
 	
 	if(is_user()):
 	$uname = $userinfo['username'];
     $guest = 0;
 	else:
 
-    //if(($pnt_user_agent['engine'] == 'bot')):
-    //$uname = $pnt_user_agent['bot'];
+    //if(($user_agent['engine'] == 'bot')):
+    //$uname = $user_agent['bot'];
 	//$guest = 3;
     //endif;
     
-	//if(($pnt_user_agent['engine'] == '')):
+	//if(($user_agent['engine'] == '')):
 	//endif;
     # Facebook IP Range
 
@@ -406,49 +413,44 @@ function online()
     $custom_title = $name;
     $url = str_replace("&amp;", "&", $url);
 	$url = addslashes($url);
-    $past = time() - $phpbb2_board_config['online_time'];
-	
-	# This was changed to prevent Deadlock found when trying to get lock;
-    # Guy like me gets it done! TheGhost 9/20/2022 2:42pm
-	$pnt_db->sql_query('DELETE FROM `'.$pnt_prefix.'_session` WHERE `time` < "'.$past.'" - INTERVAL 900 SECOND ORDER BY `time` ASC');
+    $past = time() - $board_config['online_time'];
+    $db->sql_query('DELETE FROM '.$prefix.'_session WHERE time < "'.$past.'"');
     $ctime = time();
 
     /**
      * A replace into sql command was added, to prevent the duplication of users, This also saves on several lines of code.
      *
-     * @since 2.0.9f
+     * @since 2.0.9E
      */
-    $pnt_db->sql_query("REPLACE INTO `".$pnt_prefix."_session` (uname, 
-	                                                                       time, 
-													                  starttime, 
-													                  host_addr, 
-													                      guest, 
-													                     module, 
-													                        url) 
+    $db->sql_query("REPLACE INTO `".$prefix."_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
 	values ('".$uname."', 
 	        '".$ctime."', 
 			'".$ctime."', 
 			'".$ip."', 
 			'".$guest."', 
 			'".$custom_title."', 
-			'".$url."');");
+			'".$url."');"); 
 
     /**
      * This sql replace command is to track who has been to the site and records their last visit.
-     *
-     * @since 2.0.9f
+     * We now add resoultion to the visitor log! 10/07/2022 TheGhost
+     * @since 4.0.2
      */
-	
-    if ( $guest == 0 ):
-        $pnt_db->sql_query("REPLACE INTO `".$pnt_prefix."_users_who_been` (`user_ID`, 
-		                                                                            `username`, 
-																                  `last_visit`,
-																				  `resolution`) 
+     if ( $guest == 0 ):
+     $db->sql_query("REPLACE INTO `".$prefix."_users_who_been` (`user_ID`, 
+	                                                           `username`, 
+											                 `last_visit`,
+															 `resolution`) 
    values ('".$userinfo['user_id']."', 
            '".$userinfo['username']."', 
-		   '".time()."','".$screen_res."');                                                  ");
-	endif;
-}
+		   '".time()."','".$screen_res."');");
+	endif;}
 
 online();
 

@@ -15,8 +15,8 @@ if (!defined('NUKESENTINEL_ADMIN')) {
    die ('You can\'t access this file directly...');
 }
 
-$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_excluded_ranges` WHERE `ip_lo`='$ip_lo' AND `ip_hi`='$ip_hi'");
-$pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_excluded_ranges`");
+$db->sql_query("DELETE FROM `".$prefix."_nsnst_excluded_ranges` WHERE `ip_lo`='$ip_lo' AND `ip_hi`='$ip_hi'");
+$db->sql_query("OPTIMIZE TABLE `".$prefix."_nsnst_excluded_ranges`");
 header("Location: ".$admin_file.".php?op=$xop&min=$min&column=$column&direction=$direction&sip=$sip");
 
 ?>

@@ -12,7 +12,7 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$pnt_module = basename(dirname(__FILE__));
+$module_name = basename(dirname(__FILE__));
 
 if ( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
 {
@@ -25,21 +25,21 @@ else
 //
 // Generate page
 //
-global $pnt_module;
-if(!isset($pnt_module) || empty($pnt_module)){
-    $pnt_module = basename(dirname(__FILE__));
+global $module_name;
+if(!isset($module_name) || empty($module_name)){
+    $module_name = basename(dirname(__FILE__));
 }
-get_lang($pnt_module);
+get_lang($module_name);
 
 global $domain;
-$pnt_title = 'cPanel Login';
-$pagetitle = 'http://'.$domain.' &raquo; '.$pnt_title;
+$titanium_title = 'cPanel Login';
+$pagetitle = 'http://'.$domain.' &raquo; '.$titanium_title;
 
 include(NUKE_BASE_DIR.'header.php');
 title($sitename.' '.$pagetitle);
 OpenTable();
 
-echo '<div align="center"><strong>'.$pnt_title.'</strong></div>';
+echo '<div align="center"><strong>'.$titanium_title.'</strong></div>';
 $postlocation = "modules.php?name=cPanel_Login&amp;file=docpanellogin";
 print "<form action=\"" . $postlocation . "\" method=\"POST\">";
 if (($_GET['failed'] == "1") or ($error == 1))
@@ -47,8 +47,8 @@ if (($_GET['failed'] == "1") or ($error == 1))
   echo "<font color=\"#FF0000\" face=\"verdana\" size=\"1\">Your login attempt failed!</font><br>";
 }
 global $textcolor1, $textcolor2;
-//$phpbb2_icon = img('computer.png', 'cPanel_Login'); 
-/*<?=$phpbb2_icon?>*/
+//$icon = img('computer.png', 'cPanel_Login'); 
+/*<?=$icon?>*/
 ?>
 <script type="text/javascript">
 <!--

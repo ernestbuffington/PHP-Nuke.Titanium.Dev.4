@@ -38,22 +38,22 @@ if (!defined('MODULE_FILE')) {
 
 if ($popup != "1")
     {
-    $pnt_module = basename(dirname(__FILE__));
-    require("modules/".$pnt_module."/nukebb.php");
+    $module_name = basename(dirname(__FILE__));
+    require("modules/".$module_name."/nukebb.php");
     }
     else
     {
-    $phpbb2_root_path = NUKE_FORUMS_DIR;
+    $phpbb_root_path = NUKE_FORUMS_DIR;
     }
-define('IN_PHPBB2', true);
-include($phpbb2_root_path . 'extension.inc');
-include($phpbb2_root_path . 'common.'.$phpEx);
+define('IN_PHPBB', true);
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.'.$phpEx);
 
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
-titanium_init_userprefs($userdata);
+$userdata = session_pagestart($user_ip, PAGE_INDEX);
+init_userprefs($userdata);
 
 // global pgm options
 $auth_rank_only_logged = true; // true will required to be logged to have access, false guest are welcome
@@ -64,11 +64,11 @@ $std_rank_max_users = 10; // number of displayed members in the memberlist : -1=
 if ( isset($check_access) ) return;
 
 $rank_extended = function_exists('extended_rank');
-$profilcp = file_exists($phpbb2_root_path . 'profilcp/functions_profile.' . $phpEx);
+$profilcp = file_exists($phpbb_root_path . 'profilcp/functions_profile.' . $phpEx);
 if ($profilcp)
 {
     $rank_extended = false;
-    include($phpbb2_root_path . 'profilcp/functions_profile.' . $phpEx);
+    include($phpbb_root_path . 'profilcp/functions_profile.' . $phpEx);
 }
 
 function get_rank_title($rank_title)
@@ -90,8 +90,8 @@ function get_rank_title($rank_title)
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_INDEX);
-titanium_init_userprefs($userdata);
+$userdata = session_pagestart($user_ip, PAGE_INDEX);
+init_userprefs($userdata);
 //
 // End session management
 //
@@ -99,7 +99,7 @@ titanium_init_userprefs($userdata);
 // only registered members have access if desired
 if ( $auth_rank_only_logged && !$userdata['session_logged_in'] )
 {
-    redirect_titanium(append_titanium_sid('login.' . $phpEx . '?redirect=ranks.' . $phpEx, true));
+    redirect(append_sid('login.' . $phpEx . '?redirect=ranks.' . $phpEx, true));
     exit;
 }
 
@@ -107,8 +107,8 @@ if ( $auth_rank_only_logged && !$userdata['session_logged_in'] )
 // special ranks
 $spe_ranks = array();
 $sql = "SELECT * FROM " . RANKS_TABLE . " WHERE rank_special = 1 ORDER BY rank_title";
-if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read special ranks', '', __LINE__, __FILE__, $sql);
-while ($row = $pnt_db->sql_fetchrow($result) ) $spe_ranks[] = $row;
+if ( !($result = $db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read special ranks', '', __LINE__, __FILE__, $sql);
+while ($row = $db->sql_fetchrow($result) ) $spe_ranks[] = $row;
 for ($i=0; $i < count($spe_ranks); $i++ )
 {
     $rank = $spe_ranks[$i]['rank_id'];
@@ -122,17 +122,17 @@ for ($i=0; $i < count($spe_ranks); $i++ )
 
     // get the number of users having this rank
     $sql = $sql_base;
-    if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
-    $spe_ranks[$i]['user_number'] = $pnt_db->sql_numrows($result);
+    if ( !($result = $db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
+    $spe_ranks[$i]['user_number'] = $db->sql_numrows($result);
 
     // get the user list
     if ( $spe_rank_max_users != 0 )
     {
         $sql = $sql_base;
         if ( $spe_rank_max_users > 0 ) $sql .= " LIMIT 0, " . ($spe_rank_max_users + 1);
-        if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
+        if ( !($result = $db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
         $j = 0;
-        while ( $row = $pnt_db->sql_fetchrow($result) )
+        while ( $row = $db->sql_fetchrow($result) )
         {
             $j++;
             if ( ($spe_rank_max_users <= 0) || ( $j <= $spe_rank_max_users ) )
@@ -160,8 +160,8 @@ for ($i=0; $i < count($spe_ranks); $i++ )
 // standard ranks
 $ranks = array();
 $sql = "SELECT * FROM " . RANKS_TABLE . " WHERE rank_special <> 1 ORDER BY rank_min";
-if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read standard ranks', '', __LINE__, __FILE__, $sql);
-while ($row = $pnt_db->sql_fetchrow($result) ) $ranks[] = $row;
+if ( !($result = $db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read standard ranks', '', __LINE__, __FILE__, $sql);
+while ($row = $db->sql_fetchrow($result) ) $ranks[] = $row;
 
 $rank_max = 99999999;
 for ($i=count($ranks)-1; $i >=0; $i--)
@@ -176,17 +176,17 @@ for ($i=count($ranks)-1; $i >=0; $i--)
 
     // get the number of users having this rank
     $sql = $sql_base;
-    if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
-    $ranks[$i]['user_number'] = $pnt_db->sql_numrows($result);
+    if ( !($result = $db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
+    $ranks[$i]['user_number'] = $db->sql_numrows($result);
 
     // get the user list
     if ( $std_rank_max_users != 0 )
     {
         $sql = $sql_base;
         if ( $std_rank_max_users > 0 ) $sql .= " LIMIT 0, " . ($std_rank_max_users + 1);
-        if ( !($result = $pnt_db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
+        if ( !($result = $db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Couldn\'t read users', '', __LINE__, __FILE__, $sql);
         $j = 0;
-        while ( $row = $pnt_db->sql_fetchrow($result) )
+        while ( $row = $db->sql_fetchrow($result) )
         {
             $j++;
             if ( ($std_rank_max_users <= 0) || ( $j <= $std_rank_max_users ) )
@@ -218,17 +218,17 @@ for ($i=count($ranks)-1; $i >=0; $i--)
 //
 // set the page title and include the page header
 //
-$phpbb2_page_title = $lang['Ranks'];
+$page_title = $lang['Ranks'];
 include ('includes/page_header.'.$phpEx);
 //
 // template setting
 //
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     'body' => 'ranks_body.tpl')
 );
 
 // constants
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'L_SPECIAL_RANKS' => $lang['Special_ranks'],
     'L_USERS_LIST' => $lang['Memberlist'],
     'L_RANKS' => $lang['Ranks'],
@@ -242,13 +242,13 @@ $phpbb2_template->assign_vars(array(
 // standard ranks
 if ($std_rank_max_users != 0)
 {
-    $phpbb2_template->assign_block_vars('std_userlist', array());
+    $template->assign_block_vars('std_userlist', array());
 }
-else $phpbb2_template->assign_block_vars('no_std_userlist', array());
+else $template->assign_block_vars('no_std_userlist', array());
 
 for ($i=0; $i < count($ranks); $i++)
 {
-    $phpbb2_template->assign_block_vars('ranks', array(
+    $template->assign_block_vars('ranks', array(
         'RANK_TITLE' => get_rank_title($ranks[$i]['rank_title']),
         'RANK_IMAGE' => ($ranks[$i]['rank_image'] == '') ? '' : '<img src="modules/Forums/' . $ranks[$i]['rank_image'] . '" border=0 align="center" alt="' . $ranks[$i]['rank_title'] . '">',
         'RANK_MINI'  => $ranks[$i]['rank_min'],
@@ -257,38 +257,38 @@ for ($i=0; $i < count($ranks); $i++)
     );
     if ($std_rank_max_users != 0)
     {
-        $phpbb2_template->assign_block_vars('ranks.userlist', array(
+        $template->assign_block_vars('ranks.userlist', array(
             'USERS_LIST' => $ranks[$i]['users_list'],
             )
         );
     }
-    else $phpbb2_template->assign_block_vars('ranks.no_userlist', array());
+    else $template->assign_block_vars('ranks.no_userlist', array());
 }
 
 // special ranks
 if ($spe_rank_max_users != 0)
 {
-    $phpbb2_template->assign_block_vars('spe_userlist', array());
+    $template->assign_block_vars('spe_userlist', array());
 }
-else $phpbb2_template->assign_block_vars('no_spe_userlist', array());
+else $template->assign_block_vars('no_spe_userlist', array());
 
 for ($i=0; $i < count($spe_ranks); $i++)
 {
-    $phpbb2_template->assign_block_vars('spe_ranks', array(
+    $template->assign_block_vars('spe_ranks', array(
         'RANK_TITLE' => get_rank_title($spe_ranks[$i]['rank_title']),
         'RANK_IMAGE' => ($spe_ranks[$i]['rank_image'] == '') ? '' : '<img src="modules/Forums/' . $spe_ranks[$i]['rank_image'] . '" border=0 align="center" alt="' . $spe_ranks[$i]['rank_title'] . '">',
         )
     );
     if ($spe_rank_max_users != 0)
     {
-        $phpbb2_template->assign_block_vars('spe_ranks.userlist', array(
+        $template->assign_block_vars('spe_ranks.userlist', array(
             'USERS_LIST' => $spe_ranks[$i]['users_list'],
             )
         );
     }
     else
     {
-        $phpbb2_template->assign_block_vars('spe_ranks.no_userlist', array(
+        $template->assign_block_vars('spe_ranks.no_userlist', array(
             'RANK_TOTAL' => $spe_ranks[$i]['user_number'],
             )
         );
@@ -298,7 +298,7 @@ for ($i=0; $i < count($spe_ranks); $i++)
 //
 // page footer
 //
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 include('includes/page_tail.'.$phpEx);
 
 ?>

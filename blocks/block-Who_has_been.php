@@ -19,16 +19,16 @@
 ************************************************************************/
 defined('NUKE_EVO') or die('Just go away, Shit Head!');
 
-global $pnt_db, $pnt_prefix, $userinfo;
-global $evouserinfo_avatar, $phpbb2_board_config, $userinfo; 
+global $db, $prefix, $userinfo;
+global $evouserinfo_avatar, $board_config, $userinfo; 
 
 $max_height = '60';
 $max_width = '';
 
-$result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 10");
+$result = $db->sql_query("SELECT * FROM `".$prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 10");
 
 $content  = '<table border="0" cellpadding="0" cellspacing="1" class="col-12">';
-while($whosbeen = $pnt_db->sql_fetchrow($result)):
+while($whosbeen = $db->sql_fetchrow($result)):
 
 	if($whosbeen['user_from_flag'] ):
 	$whosbeen['user_from_flag'] = str_replace('.png','',$whosbeen['user_from_flag']);
@@ -53,25 +53,25 @@ while($whosbeen = $pnt_db->sql_fetchrow($result)):
 	   {
 		# user_allowavatar = 1
 		case USER_AVATAR_UPLOAD:
-		$avatar = '<td width="45px">'.( $phpbb2_board_config['allow_avatar_upload'] ) 
-		? '<div align="center"><img class="rounded-corners-user-info" style="max-height: '.$max_height.'px;" src="' . $phpbb2_board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" border="0" /></div></td>' : '</td>';
+		$avatar = '<td width="45px">'.( $board_config['allow_avatar_upload'] ) 
+		? '<div align="center"><img style="max-height: '.$max_height.'px;" src="' . $board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" border="0" /></div></td>' : '</td>';
 		break;
 		# user_allowavatar = 2
 		case USER_AVATAR_REMOTE:
-		$avatar = '<td width="45px"><div align="center">'.'<img class="rounded-corners-user-info" style="max-height: '.$max_height.'px;"  src="'.avatar_resize($whosbeen['user_avatar']).'" alt="" border="0" /></div></td>';
+		$avatar = '<td width="45px"><div align="center">'.'<img style="max-height: '.$max_height.'px;"  src="'.avatar_resize($whosbeen['user_avatar']).'" alt="" border="0" /></div></td>';
 		break;
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
-		$avatar = '<td width="45px">'. ( $phpbb2_board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="rounded-corners-user-info" style="max-height: '.$max_height.'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
+		? '<div align="center"><img style="max-height: '.$max_height.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }
 	}
 	
     # testing database lookup <span class="countries '.$whosbeen['user_from_flag'].'"></span>
-	//list($shit) = $pnt_db->sql_ufetchrow("SELECT `user_id` FROM `".$pnt_prefix."_users` WHERE `username`='".$whosbeen['username']."'", SQL_NUM);
-	//list($notes) = $pnt_db->sql_ufetchrow("SELECT `user_admin_notes` FROM `".$pnt_prefix."_users` WHERE `user_id`='".$shit."'", SQL_NUM);
+	//list($shit) = $db->sql_ufetchrow("SELECT `user_id` FROM `".$prefix."_users` WHERE `username`='".$whosbeen['username']."'", SQL_NUM);
+	//list($notes) = $db->sql_ufetchrow("SELECT `user_admin_notes` FROM `".$prefix."_users` WHERE `user_id`='".$shit."'", SQL_NUM);
 	
 	$content .= '<td width="45px"><a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.$avatar.'</a></td>';
     $content .= '<td><a class="turdball" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">

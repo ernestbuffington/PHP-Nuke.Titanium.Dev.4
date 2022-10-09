@@ -20,7 +20,7 @@
  */
 function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = array())
 {
-	global $mail, $phpbb2_board_config, $nuke_titanium_config;
+	global $mail, $board_config, $nukeconfig;
 
 	if ( ! ( $mail instanceof PHPMailer ) ) {
 		require_once 'includes/classes/class.phpmailer.php';
@@ -41,35 +41,35 @@ function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = ar
 
 	// $mail->SMTPDebug = 2;
 
-	if ( $phpbb2_board_config['smtp_delivery'] == '1' ):
+	if ( $board_config['smtp_delivery'] == '1' ):
 
-		$mail->Host = $phpbb2_board_config['smtp_host'];
-		$mail->Port = $phpbb2_board_config['smtp_port'];
+		$mail->Host = $board_config['smtp_host'];
+		$mail->Port = $board_config['smtp_port'];
 
 		$mail->isSMTP();
 
-		$mail->SMTPSecure = $phpbb2_board_config['smtp_encryption'];
+		$mail->SMTPSecure = $board_config['smtp_encryption'];
 
-		// if ( $phpbb2_board_config['smtp_encryption'] != 'none' ):
-		//     $mail->SMTPSecure = $phpbb2_board_config['smtp_encryption'];
+		// if ( $board_config['smtp_encryption'] != 'none' ):
+		//     $mail->SMTPSecure = $board_config['smtp_encryption'];
 		// endif;
 
-		if ( 'none' === $phpbb2_board_config['smtp_encryption'] ):
+		if ( 'none' === $board_config['smtp_encryption'] ):
 
 			$mail->SMTPSecure  = '';
 			$mail->SMTPAutoTLS = false;
 
 		endif;
 
-		if ( $phpbb2_board_config['smtp_auth'] == 1 ):
+		if ( $board_config['smtp_auth'] == 1 ):
 
 			$mail->SMTPAuth = true;
-			$mail->Username = $phpbb2_board_config['smtp_username'];
+			$mail->Username = $board_config['smtp_username'];
 
 			if( defined('SMTP_Password') && SMTP_Password ):
 				$mail->Password = SMTP_Password;
 			else:
-				$mail->Password = $phpbb2_board_config['smtp_password'];
+				$mail->Password = $board_config['smtp_password'];
 			endif;
 
 		else:
@@ -210,10 +210,10 @@ function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = ar
 	}
 
 	if ( !isset( $from_name ) )
-		$from_name = $phpbb2_board_config['sitename'];
+		$from_name = $board_config['sitename'];
 
 	if ( !isset( $from_email ) ) 
-		$from_email = $nuke_titanium_config['adminmail'];
+		$from_email = $nukeconfig['adminmail'];
 
 	$mail->ContentType = ( !isset($content_type) ) ? 'text/plain' : $content_type;
 	$mail->CharSet = ( !isset( $charset ) ) ? 'utf-8' : $charset;
@@ -295,8 +295,8 @@ function get_admin_filename()
  */
 function the_module()
 {
-	global $pnt_module;
-	return $pnt_module;
+	global $module_name;
+	return $module_name;
 }
 
 /**
@@ -466,10 +466,10 @@ function get_image_viewer($slideshow = '',$caption = '')
 			 * @license GPL-3.0
 			 * @link    http://www.jacklmoore.com/colorbox
 			 */
-			$phpbb2_colorbox  = ' data-colorbox';
-			$phpbb2_colorbox .= (($slideshow) ? ' rel="'.$slideshow.'"' : '');
-			$phpbb2_colorbox .= (($caption) ? ' title="'.$caption.'"' : '');
-			return $phpbb2_colorbox;
+			$colorbox  = ' data-colorbox';
+			$colorbox .= (($slideshow) ? ' rel="'.$slideshow.'"' : '');
+			$colorbox .= (($caption) ? ' title="'.$caption.'"' : '');
+			return $colorbox;
 			break;
 
 		case 'fancybox':
@@ -626,8 +626,8 @@ function has_new_or_unread_private_messages()
  */
 function get_evo_option($name, $type='string')
 {
-	global $pnt_config;
-	return ($type == 'string') ? $pnt_config[$name] : intval($pnt_config[$name]);
+	global $evoconfig;
+	return ($type == 'string') ? $evoconfig[$name] : intval($evoconfig[$name]);
 }
 
 /**
@@ -655,7 +655,7 @@ function get_theme_option($name, $type='string')
  * @param bool    $force_refresh         Choose whether to force an update, Default: false.
  * @return array  Return a json object with all the version information.
  */
-function cache_json_data($version_check_url,$local_cache_location,$force_refresh = false,$headers = '[],$cache_time = 86400') 
+function cache_json_data($version_check_url,$local_cache_location,$force_refresh = false,$headers = [],$cache_time = 86400) 
 {
 	$url = $version_check_url;
 	$cache = $local_cache_location;
@@ -796,14 +796,14 @@ function stripslashes_deep( $string )
  *
  * @since 2.0.9e
  *
- * @global db $pnt_db Evolution Xtreme database abstraction object.
+ * @global db $db Evolution Xtreme database abstraction object.
  *
  * @param string|array $data Unescaped data
  * @return string|array Escaped data
  */
 function esc_sql( $data ) {
-	global $pnt_db;
-	return $pnt_db->sql_escapestring( $data );
+	global $db;
+	return $db->sql_escapestring( $data );
 }
 
 /**
@@ -830,47 +830,47 @@ function url_shorten( $url, $length = 35 ) {
  *
  * @since 2.0.9e
  *
- * @global db $pnt_db Evolution Xtreme database abstraction object.
- * @global board_config $phpbb2_board_config Forum configuration variable.
+ * @global db $db Evolution Xtreme database abstraction object.
+ * @global board_config $board_config Forum configuration variable.
  * @global userinfo $userinfo Get the logged in users account information.
  */
-function get_user_avatar($pnt_user_id) {
-	global $pnt_db, $phpbb2_board_config, $userinfo;
+function get_user_avatar($user_id) {
+	global $db, $board_config, $userinfo;
 	static $avatarData;
 
-	if(is_array($avatarData[$pnt_user_id]) && !empty($avatarData[$pnt_user_id])) { return $avatarData[$pnt_user_id]; }
-	if ( $pnt_user_id == $userinfo['user_id'] ) {
-		 $pnt_user_avatar       = $userinfo['user_avatar'];
-		 $pnt_user_avatar_type  = $userinfo['user_avatar_type'];
-		 $pnt_user_avatar_allow = $userinfo['user_allowavatar'];
-		 $pnt_user_avatar_show  = $userinfo['user_showavatars'];
+	if(is_array($avatarData[$user_id]) && !empty($avatarData[$user_id])) { return $avatarData[$user_id]; }
+	if ( $user_id == $userinfo['user_id'] ) {
+		 $user_avatar       = $userinfo['user_avatar'];
+		 $user_avatar_type  = $userinfo['user_avatar_type'];
+		 $user_avatar_allow = $userinfo['user_allowavatar'];
+		 $user_avatar_show  = $userinfo['user_showavatars'];
 	} else {
-		list($pnt_user_avatar, $pnt_user_avatar_type, $pnt_user_avatar_allow, $pnt_user_avatar_show) = $pnt_db->sql_ufetchrow("SELECT user_avatar, user_avatar_type, user_allowavatar, user_showavatars FROM ".USERS_TABLE." WHERE user_id = '" . $pnt_user_id . "' LIMIT 1");
+		list($user_avatar, $user_avatar_type, $user_avatar_allow, $user_avatar_show) = $db->sql_ufetchrow("SELECT user_avatar, user_avatar_type, user_allowavatar, user_showavatars FROM ".USERS_TABLE." WHERE user_id = '" . $user_id . "' LIMIT 1");
 	}
-	$phpbb2_poster_avatar = '';
-	if ( $pnt_user_avatar_type && $pnt_user_id != ANONYMOUS && $pnt_user_avatar_allow && $pnt_user_avatar_show && !empty($pnt_user_avatar)) {
-		switch( $pnt_user_avatar_type ) {
+	$poster_avatar = '';
+	if ( $user_avatar_type && $user_id != ANONYMOUS && $user_avatar_allow && $user_avatar_show && !empty($user_avatar)) {
+		switch( $user_avatar_type ) {
 			case USER_AVATAR_UPLOAD:
-				$phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_upload'] ) ? avatar_resize($phpbb2_board_config['avatar_path'] . '/' . $pnt_user_avatar) : '';
+				$poster_avatar = ( $board_config['allow_avatar_upload'] ) ? avatar_resize($board_config['avatar_path'] . '/' . $user_avatar) : '';
 				break;
 			case USER_AVATAR_REMOTE:
-				$phpbb2_poster_avatar = avatar_resize($pnt_user_avatar);
+				$poster_avatar = avatar_resize($user_avatar);
 				break;
 			case USER_AVATAR_GALLERY:
-				$phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_local'] ) ? avatar_resize($phpbb2_board_config['avatar_gallery_path'] . '/' . $pnt_user_avatar) : '';
+				$poster_avatar = ( $board_config['allow_avatar_local'] ) ? avatar_resize($board_config['avatar_gallery_path'] . '/' . $user_avatar) : '';
 				break;
 		}
 	}
 	$default_member_avatar = evo_image('avatar_member.png', 'Forums');
 	$default_guest_avatar  = evo_image('avatar_guest.png', 'Forums');
-	if ( empty($phpbb2_poster_avatar) && $pnt_user_id != ANONYMOUS) {
-		$phpbb2_poster_avatar = '<img class="rounded-corners-user-info" src="'.  $default_member_avatar .'" alt="" border="0" />';
+	if ( empty($poster_avatar) && $user_id != ANONYMOUS) {
+		$poster_avatar = '<img src="'.  $default_member_avatar .'" alt="" border="0" />';
 	}
-	if ( $pnt_user_id == ANONYMOUS ) {
-		$phpbb2_poster_avatar = '<img class="rounded-corners-user-info" src="'.  $default_guest_avatar .'" alt="" border="0" />';
+	if ( $user_id == ANONYMOUS ) {
+		$poster_avatar = '<img src="'.  $default_guest_avatar .'" alt="" border="0" />';
 	}
-	$avatarData[$pnt_user_id] = $poser_avatar;
-	return ($phpbb2_poster_avatar);
+	$avatarData[$user_id] = $poser_avatar;
+	return ($poster_avatar);
 }
 
 // evo_image function by ReOrGaNiSaTiOn
@@ -936,13 +936,13 @@ function get_mod_admin_uri()
  */
 if( !function_exists('__') ):
 
-	function __( $lang, $var = 'customlang', $pnt_module = '' ) 
+	function __( $lang, $var = 'customlang', $module_name = '' ) 
 	{
 		global $$var;
-		if ( empty($pnt_module) ):
+		if ( empty($module_name) ):
 			return $$var[the_module()][$lang];
 		else:
-			return $$var[$pnt_module][$lang];
+			return $$var[$module_name][$lang];
 		endif;
 	}
 
@@ -954,20 +954,20 @@ endif;
  * @param string $text Text to be translated.
  * @return string
  */
-function _e( $lang, $var = 'customlang', $pnt_module = '' )
+function _e( $lang, $var = 'customlang', $module_name = '' )
 {
-	echo __( $lang, $var, $pnt_module );
+	echo __( $lang, $var, $module_name );
 }
 
-function sprintf__( $lang, $var = 'customlang', $pnt_module = '', $replacement='' )
+function sprintf__( $lang, $var = 'customlang', $module_name = '', $replacement='' )
 {
-	$sprintf__ = vsprintf( __( $lang, $var, $pnt_module ), $replacement );
+	$sprintf__ = vsprintf( __( $lang, $var, $module_name ), $replacement );
 	return $sprintf__;
 }
 
-function sprintf_e( $lang, $var = 'customlang', $pnt_module = '', $replacement='' )
+function sprintf_e( $lang, $var = 'customlang', $module_name = '', $replacement='' )
 {
-	$sprintf__ = vsprintf( __( $lang, $var, $pnt_module ), $replacement );
+	$sprintf__ = vsprintf( __( $lang, $var, $module_name ), $replacement );
 	echo $sprintf__;
 }
 
@@ -1119,14 +1119,14 @@ function get_file_name( $file )
 
 function get_bootstrap_pagination()
 {
-    global $phpbb2_board_config;
+    global $board_config;
 
     $page      = get_query_var('page', 'get', 'int', 1);
 
     /*
-    'url' => append_titanium_sid('privmsg'.$phpEx.'?folder='.$folder), 
+    'url' => append_sid('privmsg'.$phpEx.'?folder='.$folder), 
     'total' => $pm_total,
-    'per-page' => $phpbb2_board_config['topics_per_page']
+    'per-page' => $board_config['topics_per_page']
     */
 
     $args = func_get_args();
@@ -1143,28 +1143,28 @@ function get_bootstrap_pagination()
 
     if($total > $a['per-page']):
 
-        $total_phpbb2_pages = ceil($total / $a['per-page']);
+        $total_pages = ceil($total / $a['per-page']);
 
-        if($total_phpbb2_pages <= (1+($adjacents * 2))) 
+        if($total_pages <= (1+($adjacents * 2))) 
         {
-            $phpbb2_start = 1;
-            $phpbb2_end   = $total_phpbb2_pages;
+            $start = 1;
+            $end   = $total_pages;
         } 
         else 
         {
             if(($page - $adjacents) > 1) 
             {                 
                 //Checking if the current page minus adjacent is greateer than one.
-                if(($page + $adjacents) < $total_phpbb2_pages) {  //Checking if current page plus adjacents is less than total pages.
-                    $phpbb2_start = ($page - $adjacents);         //If true, then we will substract and add adjacent from and to the current page number  
-                    $phpbb2_end   = ($page + $adjacents);         //to get the range of the page numbers which will be display in the pagination.
+                if(($page + $adjacents) < $total_pages) {  //Checking if current page plus adjacents is less than total pages.
+                    $start = ($page - $adjacents);         //If true, then we will substract and add adjacent from and to the current page number  
+                    $end   = ($page + $adjacents);         //to get the range of the page numbers which will be display in the pagination.
                 } else {                                   //If current page plus adjacents is greater than total pages.
-                    $phpbb2_start = ($total_phpbb2_pages - (1+($adjacents*2)));  //then the page range will start from total pages minus 1+($adjacents*2)
-                    $phpbb2_end   = $total_phpbb2_pages;                         //and the end will be the last page number that is total pages number.
+                    $start = ($total_pages - (1+($adjacents*2)));  //then the page range will start from total pages minus 1+($adjacents*2)
+                    $end   = $total_pages;                         //and the end will be the last page number that is total pages number.
                 }
             } else {                                       //If the current page minus adjacent is less than one.
-                $phpbb2_start = 1;                                //then start will be start from page number 1
-                $phpbb2_end   = (1+($adjacents * 2));             //and end will be the (1+($adjacents * 2)).
+                $start = 1;                                //then start will be start from page number 1
+                $end   = (1+($adjacents * 2));             //and end will be the (1+($adjacents * 2)).
             }
         }
 
@@ -1183,18 +1183,18 @@ function get_bootstrap_pagination()
         endif;
 
         // Links of the pages with page number
-        for($i=$phpbb2_start; $i<=$phpbb2_end; $i++):
+        for($i=$start; $i<=$end; $i++):
             $pagination .= '  <li class="page-item'.(( $page == $i ) ? ' active' : '').'"><a class="page-link" href="'.$url.'&amp;page='.$i.'">'.$i.'</a></li>';
         endfor;
 
         if ( $next_previous == true ):
             // Link of the next page
-            $pagination .= '  <li class="page-item'.(( $page >= $total_phpbb2_pages ) ? ' disabled' : '').'"><a class="page-link" href="'.$url.'&amp;page='.(( $page < $total_phpbb2_pages ) ? $page+1 : $total_phpbb2_pages).'">&gt;</a></li>';
+            $pagination .= '  <li class="page-item'.(( $page >= $total_pages ) ? ' disabled' : '').'"><a class="page-link" href="'.$url.'&amp;page='.(( $page < $total_pages ) ? $page+1 : $total_pages).'">&gt;</a></li>';
         endif;
 
         if ( $first_last == true ):
             // Link of the last page
-            $pagination .= '  <li class="page-item'.(( $page >= $total_phpbb2_pages ) ? ' disabled' : '').'"><a class="page-link" href="'.$url.'&amp;page='.$total_phpbb2_pages.'">&gt;&gt;</a>';
+            $pagination .= '  <li class="page-item'.(( $page >= $total_pages ) ? ' disabled' : '').'"><a class="page-link" href="'.$url.'&amp;page='.$total_pages.'">&gt;&gt;</a>';
         endif;
 
         $pagination .= '</ul>';
@@ -1211,13 +1211,13 @@ function get_bootstrap_pagination()
 
 function bootstrap_pagination() {
 
-    global $phpbb2_board_config;
+    global $board_config;
 
     $page      = get_query_var('page', 'get', 'int', 1);
     // $adjacents = 2;
 
-    // $calc           = $phpbb2_board_config['topics_per_page'] * $page;
-    // $phpbb2_start          = $calc - $phpbb2_board_config['topics_per_page'];
+    // $calc           = $board_config['topics_per_page'] * $page;
+    // $start          = $calc - $board_config['topics_per_page'];
 
     $args = func_get_args();
     foreach ($args as &$a):
@@ -1234,30 +1234,30 @@ function bootstrap_pagination() {
 
     $request_uri = ( strpos($_SERVER['REQUEST_URI'], "&") !== false ) ? strstr($_SERVER['REQUEST_URI'], '&', true) : $_SERVER['REQUEST_URI'];
 
-    if($result['total'] > $phpbb2_board_config['topics_per_page']):
+    if($result['total'] > $board_config['topics_per_page']):
 
-        $total_phpbb2_pages = ceil($result['total'] / $phpbb2_board_config['topics_per_page']);
+        $total_pages = ceil($result['total'] / $board_config['topics_per_page']);
 
-        if($total_phpbb2_pages <= (1+($adjacents * 2))) 
+        if($total_pages <= (1+($adjacents * 2))) 
         {
-            $phpbb2_start = 1;
-            $phpbb2_end   = $total_phpbb2_pages;
+            $start = 1;
+            $end   = $total_pages;
         } 
         else 
         {
             if(($page - $adjacents) > 1) 
             {                 
                 //Checking if the current page minus adjacent is greateer than one.
-                if(($page + $adjacents) < $total_phpbb2_pages) {  //Checking if current page plus adjacents is less than total pages.
-                    $phpbb2_start = ($page - $adjacents);         //If true, then we will substract and add adjacent from and to the current page number  
-                    $phpbb2_end   = ($page + $adjacents);         //to get the range of the page numbers which will be display in the pagination.
+                if(($page + $adjacents) < $total_pages) {  //Checking if current page plus adjacents is less than total pages.
+                    $start = ($page - $adjacents);         //If true, then we will substract and add adjacent from and to the current page number  
+                    $end   = ($page + $adjacents);         //to get the range of the page numbers which will be display in the pagination.
                 } else {                                   //If current page plus adjacents is greater than total pages.
-                    $phpbb2_start = ($total_phpbb2_pages - (1+($adjacents*2)));  //then the page range will start from total pages minus 1+($adjacents*2)
-                    $phpbb2_end   = $total_phpbb2_pages;                         //and the end will be the last page number that is total pages number.
+                    $start = ($total_pages - (1+($adjacents*2)));  //then the page range will start from total pages minus 1+($adjacents*2)
+                    $end   = $total_pages;                         //and the end will be the last page number that is total pages number.
                 }
             } else {                                       //If the current page minus adjacent is less than one.
-                $phpbb2_start = 1;                                //then start will be start from page number 1
-                $phpbb2_end   = (1+($adjacents * 2));             //and end will be the (1+($adjacents * 2)).
+                $start = 1;                                //then start will be start from page number 1
+                $end   = (1+($adjacents * 2));             //and end will be the (1+($adjacents * 2)).
             }
         }
 
@@ -1276,18 +1276,18 @@ function bootstrap_pagination() {
         endif;
 
         // Links of the pages with page number
-        for($i=$phpbb2_start; $i<=$phpbb2_end; $i++):
+        for($i=$start; $i<=$end; $i++):
             $pagination .= '  <li class="page-item'.(( $page == $i ) ? ' active' : '').'"><a class="page-link" href="'.$request_uri.'&amp;page='.$i.'">'.$i.'</a></li>';
         endfor;
 
         if ( $next_previous == true ):
             // Link of the next page
-            $pagination .= '  <li class="page-item'.(( $page >= $total_phpbb2_pages ) ? ' disabled' : '').'"><a class="page-link" href="'.$request_uri.'&amp;page='.(( $page < $total_phpbb2_pages ) ? $page+1 : $total_phpbb2_pages).'">&gt;</a></li>';
+            $pagination .= '  <li class="page-item'.(( $page >= $total_pages ) ? ' disabled' : '').'"><a class="page-link" href="'.$request_uri.'&amp;page='.(( $page < $total_pages ) ? $page+1 : $total_pages).'">&gt;</a></li>';
         endif;
 
         if ( $first_last == true ):
             // Link of the last page
-            $pagination .= '  <li class="page-item'.(( $page >= $total_phpbb2_pages ) ? ' disabled' : '').'"><a class="page-link" href="'.$request_uri.'&amp;page='.$total_phpbb2_pages.'">&gt;&gt;</a>';
+            $pagination .= '  <li class="page-item'.(( $page >= $total_pages ) ? ' disabled' : '').'"><a class="page-link" href="'.$request_uri.'&amp;page='.$total_pages.'">&gt;&gt;</a>';
         endif;
 
         $pagination .= '</ul>';

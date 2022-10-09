@@ -18,7 +18,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 if(is_god($admin)) {
   include_once(NUKE_BASE_DIR.'header.php');
   OpenTable();
-  OpenMenu(_AB_DBREPAIR." - ".$pnt_dbname);
+  OpenMenu(_AB_DBREPAIR." - ".$dbname);
   mastermenu();
   CarryMenu();
   databasemenu();
@@ -35,14 +35,14 @@ if(is_god($admin)) {
   echo '<td align="right" width="15%"><strong>'._AB_SIZE.'</strong></td>'."\n";
   echo '</tr>'."\n";
   $tot_data = $tot_idx = $tot_all = $tot_records = 0;
-  $result = $pnt_db->sql_query("SHOW TABLE STATUS FROM `".$pnt_dbname."`");
-  $tables = $pnt_db ->sql_numrows($result);
+  $result = $db->sql_query("SHOW TABLE STATUS FROM `".$dbname."`");
+  $tables = $db ->sql_numrows($result);
   if($tables > 0) {
-    $total_phpbb2_total = 0;
-    while($row = $pnt_db->sql_fetchrow($result)) {
-      $checkrow = $pnt_db->sql_fetchrow($pnt_db->sql_query("CHECK TABLE $row[0]"));
+    $total_total = 0;
+    while($row = $db->sql_fetchrow($result)) {
+      $checkrow = $db->sql_fetchrow($db->sql_query("CHECK TABLE $row[0]"));
       if($checkrow['Msg_text'] != "OK") {
-        $repairrow = $pnt_db->sql_fetchrow($pnt_db->sql_query("REPAIR TABLE $row[Table] EXTENDED"));
+        $repairrow = $db->sql_fetchrow($db->sql_query("REPAIR TABLE $row[Table] EXTENDED"));
         $status = $repairrow['Msg_text'];
       } else {
         $status = $checkrow['Msg_text'];
@@ -50,7 +50,7 @@ if(is_god($admin)) {
       $records = $row['Rows'];
       $tot_records += $records;
       $total = $row['Data_length'] + $row['Index_length'];
-      $total_phpbb2_total += $total;
+      $total_total += $total;
       $total = ABCoolSize($total);
       if(!$row['Engine']) { $etype = $row['Type']; } else { $etype = $row['Engine']; }
       echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
@@ -61,13 +61,13 @@ if(is_god($admin)) {
       echo '<td align="right">'.$total.'</td>'."\n";
       echo '</tr>'."\n";
     }
-    $total_phpbb2_total = ABCoolSize($total_phpbb2_total);
+    $total_total = ABCoolSize($total_total);
     echo '<tr>'."\n";
     echo '<td><strong>'.$tables.' '._AB_TABLES.'</strong></td>'."\n";
     echo '<td align="center"><strong>&nbsp;</strong></td>'."\n";
     echo '<td align="right"><strong>&nbsp;</strong></td>'."\n";
     echo '<td align="right"><strong>'.number_format($tot_records).'</strong></td>'."\n";
-    echo '<td align="right"><strong>'.$total_phpbb2_total.'</strong></td>'."\n";
+    echo '<td align="right"><strong>'.$total_total.'</strong></td>'."\n";
     echo '</tr>'."\n";
   }
   echo '</table>'."\n";

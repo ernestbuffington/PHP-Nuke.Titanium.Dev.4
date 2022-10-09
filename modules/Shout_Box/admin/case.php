@@ -1,8 +1,7 @@
 <?php
-/*======================================================================= 
-  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
+/*=======================================================================
+ Nuke-Evolution Basic: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
-
 
 // ==========================================
 // PHP-NUKE: Shout Box
@@ -25,12 +24,12 @@ if (!defined('ADMIN_FILE')) {
    die ("Illegal File Access");
 }
 
-$pnt_module = basename(dirname(dirname(__FILE__)));
+$module_name = basename(dirname(dirname(__FILE__)));
 
 switch($op) {
 
     case "shout":
-        include(NUKE_MODULES_DIR.$pnt_module.'/admin/index.php');
+        include(NUKE_MODULES_DIR.$module_name.'/admin/index.php');
     break;
 
 }

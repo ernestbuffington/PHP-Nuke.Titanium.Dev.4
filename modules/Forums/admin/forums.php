@@ -40,18 +40,18 @@ if (!defined('ADMIN_FILE')) {
    die ("Access Denied");
 }
 
-global $pnt_prefix, $pnt_db, $admdata;
-$pnt_module = basename(dirname(dirname(__FILE__)));
-if(is_mod_admin($pnt_module)) {
+global $prefix, $db, $admdata;
+$module_name = basename(dirname(dirname(__FILE__)));
+if(is_mod_admin($module_name)) {
 
     switch($op) {
     
         case "forums":
-        redirect_titanium("modules/$pnt_module/admin/index.php");
+        redirect("modules/$module_name/admin/index.php");
     }
 
 } else {
-    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$pnt_module\"");
+    DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$module_name\"");
 }
 
 ?>

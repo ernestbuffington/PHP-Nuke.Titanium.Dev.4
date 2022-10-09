@@ -1,25 +1,39 @@
 <?php
-if(!defined('MODULE_FILE')) die('You can\'t access this file directly...');
+if (!defined('MODULE_FILE')) die('You can\'t access this file directly...');
 
-$pnt_module = basename(dirname(__FILE__));
+$module_name = basename(dirname(__FILE__));
 
-if(isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
- $mode = ( isset($HTTP_POST_VARS['mode']) ) ? htmlspecialchars($HTTP_POST_VARS['mode']) : htmlspecialchars($HTTP_GET_VARS['mode']);
+if ( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
+        $mode = ( isset($HTTP_POST_VARS['mode']) ) ? htmlspecialchars($HTTP_POST_VARS['mode']) : htmlspecialchars($HTTP_GET_VARS['mode']);
 else
- $mode = '';
+        $mode = '';
+//
+// Generate page
+//
+global $module_name, $bgcolor2;
 
-# Generate page
-global $pnt_module, $bgcolor2;
+if(!isset($module_name) || empty($module_name))
+$module_name = basename(dirname(__FILE__));
 
-if(!isset($pnt_module) || empty($pnt_module))
-$pnt_module = basename(dirname(__FILE__));
-
-get_lang($pnt_module);
+get_lang($module_name);
 
 $pagetitle = 'Complete CSS Reference';
 
 include(NUKE_BASE_DIR.'header.php');
-OpenTable();
+    #########################################################################
+    # Table Header Module     Fix Start - by TheGhost   v1.0.0     01/30/2012
+    #########################################################################
+    if(!function_exists('OpenTableModule'))
+    {
+      OpenTable();
+	}
+	else
+	{
+	   OpenTableModule();
+	}
+    #########################################################################
+    # Table Header Module     Fix End  - by TheGhost   v1.0.0     01/30/2012
+    #########################################################################
 ?>
 <p align="center"><a href="#1">Font</a> | <a href="#2">Color and Background</a>
 | <a href="#3">Text</a> | <a href="#4">Box</a> | <a href="#5">Classification</a>

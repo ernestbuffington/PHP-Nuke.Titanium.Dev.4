@@ -57,7 +57,7 @@
     <!-- BEGIN switch_privmsg -->
     <tr> 
         <td class="row1"><span class="gen"><strong>{L_USERNAME}</strong></span></td>
-        <td class="row2"><span class="genmed"><input type="text"  class="post" name="username" size="25" tabindex="1" value="{USERNAME}" /><input type="submit" name="usersubmit" value="{L_FIND_USERNAME}" class="titaniumbutton" onclick="window.open('{U_SEARCH_USER}', '_phpbbsearch', 'HEIGHT=250,resizable=yes,WIDTH=400');return false;" /></span></td>
+        <td class="row2"><span class="genmed"><input type="text"  class="post" name="username" size="25" tabindex="1" value="{USERNAME}" /><input type="submit" name="usersubmit" value="{L_FIND_USERNAME}" class="liteoption" onclick="window.open('{U_SEARCH_USER}', '_phpbbsearch', 'HEIGHT=250,resizable=yes,WIDTH=400');return false;" /></span></td>
     </tr>
     <!-- END switch_privmsg -->
     <!-- Start add - Custom mass PM MOD -->

@@ -3,13 +3,14 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
+
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
 /*                                                                      */
 /* Copyright (c) 2002 by Francisco Burzi                                */
 /* http://phpnuke.org                                                   */
-/* Version 1.0                                                          */
+/*                                                                      */
 /* ======================                                               */
 /* Based on Automated FAQ                                               */
 /* Copyright (c) 2001 by                                                */
@@ -35,14 +36,14 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$pnt_module = basename(dirname(__FILE__));
-get_lang($pnt_module);
+$module_name = basename(dirname(__FILE__));
+get_lang($module_name);
 
-$pagetitle = '- '.$pnt_module;
+$pagetitle = '- '.$module_name;
 
 function ShowFaq($id_cat, $categories) 
 {
-    global $bgcolor2, $sitename, $pnt_prefix, $pnt_db, $pnt_module;
+    global $bgcolor2, $sitename, $prefix, $db, $module_name;
     $categories = htmlentities($categories);
     OpenTable();
 
@@ -52,15 +53,15 @@ function ShowFaq($id_cat, $categories)
 	
     echo"<center><span class=\"content\"><strong>$sitename "._FAQ2."</strong></span></center><br /><br />"
         ."<a name=\"top\"></a><br />" /* Bug fix : added missing closing hyperlink tag messes up display */
-        .""._CATEGORY.": <a href=\"modules.php?name=$pnt_module\">"._MAIN."</a> -> $categories"
+        .""._CATEGORY.": <a href=\"modules.php?name=$module_name\">"._MAIN."</a> -> $categories"
         ."<br /><br />"
         ."<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\" border=\"0\">"
         ."<tr bgcolor=\"$bgcolor2\"><td colspan=\"2\"><span class=\"option\"><strong>"._QUESTION."</strong></span></td></tr><tr><td colspan=\"2\">";
     
 	$id_cat = intval($id_cat);
-    $result = $pnt_db->sql_query("SELECT id, id_cat, question, answer FROM ".$pnt_prefix."_faqanswer WHERE id_cat='$id_cat'");
+    $result = $db->sql_query("SELECT id, id_cat, question, answer FROM ".$prefix."_faqanswer WHERE id_cat='$id_cat'");
 
-    while ($row = $pnt_db->sql_fetchrow($result)):
+    while ($row = $db->sql_fetchrow($result)):
         $id = intval($row['id']);
         $id_cat = intval($row['id_cat']);
         $question = stripslashes(check_html($row['question'], "nohtml"));
@@ -74,14 +75,14 @@ function ShowFaq($id_cat, $categories)
 
 function ShowFaqAll($id_cat) 
 {
-    global $bgcolor2, $pnt_prefix, $pnt_db, $pnt_module;
+    global $bgcolor2, $prefix, $db, $module_name;
     $id_cat = intval($id_cat);
 
     echo "<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\" border=\"0\">"
         ."<tr bgcolor=\"$bgcolor2\"><td colspan=\"2\"><span class=\"option\"><strong>"._ANSWER."</strong></span></td></tr>";
-    $result = $pnt_db->sql_query("SELECT id, id_cat, question, answer FROM ".$pnt_prefix."_faqanswer WHERE id_cat='$id_cat'");
+    $result = $db->sql_query("SELECT id, id_cat, question, answer FROM ".$prefix."_faqanswer WHERE id_cat='$id_cat'");
 
-    while ($row = $pnt_db->sql_fetchrow($result)): 
+    while ($row = $db->sql_fetchrow($result)): 
 	
         $id = intval($row['id']);
         $id_cat = intval($row['id_cat']);
@@ -99,7 +100,7 @@ function ShowFaqAll($id_cat)
 	endwhile;
     
 	echo "</table><br /><br />"
-        ."<div align=\"center\"><strong>[ <a href=\"modules.php?name=$pnt_module\">"._BACKTOFAQINDEX."</a> ]</strong></div>";
+        ."<div align=\"center\"><strong>[ <a href=\"modules.php?name=$module_name\">"._BACKTOFAQINDEX."</a> ]</strong></div>";
 }
 
 if (!isset($myfaq)): 
@@ -122,13 +123,13 @@ if (!isset($myfaq)):
 	echo "<center><span class=\"option\"><h1>"._FAQ2."</h1></span></center><br /><br />"
     ."<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\" border=\"0\">"
     ."<tr><td bgcolor=\"$bgcolor2\"><span class=\"option\"><strong>"._CATEGORIES."</strong></span></td></tr><tr><td>";
-    $result2 = $pnt_db->sql_query("SELECT id_cat, categories FROM ".$pnt_prefix."_faqcategories $querylang");
+    $result2 = $db->sql_query("SELECT id_cat, categories FROM ".$prefix."_faqcategories $querylang");
 
-    while ($row2 = $pnt_db->sql_fetchrow($result2)):
+    while ($row2 = $db->sql_fetchrow($result2)):
      $id_cat = intval($row2['id_cat']);
      $categories = stripslashes(check_html($row2['categories'], "nohtml"));
      $catname = urlencode($categories);
-     echo"<strong><big>&middot;</big></strong>&nbsp;<a href=\"modules.php?name=$pnt_module&amp;myfaq=yes&amp;id_cat=$id_cat&amp;categories=$catname\">$categories</a><br />";
+     echo"<strong><big>&middot;</big></strong>&nbsp;<a href=\"modules.php?name=$module_name&amp;myfaq=yes&amp;id_cat=$id_cat&amp;categories=$catname\">$categories</a><br />";
     endwhile;
 	
     echo "</td></tr></table>";

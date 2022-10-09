@@ -69,9 +69,9 @@
       Custom mass PM                           v1.4.7       07/04/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 //
@@ -79,52 +79,52 @@ if (!defined('IN_PHPBB2'))
 // Also checks if it includes the " character, which we don't allow in usernames.
 // Used for registering, changing names, and posting anonymously with a username
 //
-function validate_username($pnt_username)
+function validate_username($username)
 {
-        global $pnt_db, $lang, $userdata;
+        global $db, $lang, $userdata;
 
         // Remove doubled up spaces
-        $pnt_username = preg_replace('#\s+#', ' ', trim($pnt_username));
-        $pnt_username = phpbb_clean_username($pnt_username);
+        $username = preg_replace('#\s+#', ' ', trim($username));
+        $username = phpbb_clean_username($username);
 
     $sql = "SELECT username
         FROM " . USERS_TABLE . "
-                WHERE LOWER(username) = '" . strtolower($pnt_username) . "'";
-        if ($result = $pnt_db->sql_query($sql))
+                WHERE LOWER(username) = '" . strtolower($username) . "'";
+        if ($result = $db->sql_query($sql))
         {
-                while ($row = $pnt_db->sql_fetchrow($result))
+                while ($row = $db->sql_fetchrow($result))
                 {
                         if (($userdata['session_logged_in'] && $row['username'] != $userdata['username']) || !$userdata['session_logged_in'])
                         {
-                                $pnt_db->sql_freeresult($result);
+                                $db->sql_freeresult($result);
                                 return array('error' => true, 'error_msg' => $lang['Username_taken']);
                         }
                 }
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
 
         $sql = "SELECT group_name
                 FROM " . GROUPS_TABLE . "
-                WHERE LOWER(group_name) = '" . strtolower($pnt_username) . "'";
-        if ($result = $pnt_db->sql_query($sql))
+                WHERE LOWER(group_name) = '" . strtolower($username) . "'";
+        if ($result = $db->sql_query($sql))
         {
-                if ($row = $pnt_db->sql_fetchrow($result))
+                if ($row = $db->sql_fetchrow($result))
                 {
-                        $pnt_db->sql_freeresult($result);
+                        $db->sql_freeresult($result);
                         return array('error' => true, 'error_msg' => $lang['Username_taken']);
                 }
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
 
-        global $pnt_prefix;
-        $sql = "SELECT config_value FROM `".$pnt_prefix."_cnbya_config` WHERE config_name='bad_nick'";
-        $result = $pnt_db->sql_query($sql);
-        $row = $pnt_db->sql_fetchrowset($result);
+        global $prefix;
+        $sql = "SELECT config_value FROM `".$prefix."_cnbya_config` WHERE config_name='bad_nick'";
+        $result = $db->sql_query($sql);
+        $row = $db->sql_fetchrowset($result);
         $BadNickList = explode("\r\n",trim($row[0]["config_value"]));
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
         for ($i=0; $i < count($BadNickList); $i++) {
             if(!empty($BadNickList[$i])) {
-                if (preg_match("#\b(" . str_replace("\*", ".*?", preg_quote($BadNickList[$i], '#')) . ")\b#i", $pnt_username))
+                if (preg_match("#\b(" . str_replace("\*", ".*?", preg_quote($BadNickList[$i], '#')) . ")\b#i", $username))
                 {
                         return array('error' => true, 'error_msg' => $lang['Username_disallowed']);
                 }
@@ -133,47 +133,47 @@ function validate_username($pnt_username)
 
         $sql = "SELECT disallow_username
                 FROM " . DISALLOW_TABLE;
-        if ($result = $pnt_db->sql_query($sql))
+        if ($result = $db->sql_query($sql))
         {
-                if ($row = $pnt_db->sql_fetchrow($result))
+                if ($row = $db->sql_fetchrow($result))
                 {
                         do
                         {
-                                if (preg_match("#\b(" . str_replace("\*", ".*?", preg_quote($row['disallow_username'], '#')) . ")\b#i", $pnt_username))
+                                if (preg_match("#\b(" . str_replace("\*", ".*?", preg_quote($row['disallow_username'], '#')) . ")\b#i", $username))
                                 {
-                                        $pnt_db->sql_freeresult($result);
+                                        $db->sql_freeresult($result);
                                         return array('error' => true, 'error_msg' => $lang['Username_disallowed']);
                                 }
                         }
-                        while($row = $pnt_db->sql_fetchrow($result));
+                        while($row = $db->sql_fetchrow($result));
                 }
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
 
         $sql = "SELECT word
                 FROM  " . WORDS_TABLE;
-        if ($result = $pnt_db->sql_query($sql))
+        if ($result = $db->sql_query($sql))
         {
-                if ($row = $pnt_db->sql_fetchrow($result))
+                if ($row = $db->sql_fetchrow($result))
                 {
                         do
                         {
-                                if (preg_match("#\b(" . str_replace("\*", ".*?", preg_quote($row['word'], '#')) . ")\b#i", $pnt_username))
+                                if (preg_match("#\b(" . str_replace("\*", ".*?", preg_quote($row['word'], '#')) . ")\b#i", $username))
                                 {
-                                        $pnt_db->sql_freeresult($result);
+                                        $db->sql_freeresult($result);
                                         return array('error' => true, 'error_msg' => $lang['Username_disallowed']);
                                 }
                         }
-                        while ($row = $pnt_db->sql_fetchrow($result));
+                        while ($row = $db->sql_fetchrow($result));
                 }
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
 
         // Don't allow " and ALT-255 in username.
 /*****[BEGIN]******************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
-        if (strstr($pnt_username, '"') || strstr($pnt_username, '&quot;') || strstr($pnt_username, chr(160)) || strstr($pnt_username, ';') || strstr($pnt_username, chr(173)))
+        if (strstr($username, '"') || strstr($username, '&quot;') || strstr($username, chr(160)) || strstr($username, ';') || strstr($username, chr(173)))
 /*****[END]********************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
@@ -190,7 +190,7 @@ function validate_username($pnt_username)
 //
 function validate_email($email)
 {
-        global $pnt_db, $lang;
+        global $db, $lang;
 
         if (!empty($email))
         {
@@ -198,37 +198,37 @@ function validate_email($email)
                 {
                         $sql = "SELECT ban_email
                                 FROM " . BANLIST_TABLE;
-                        if ($result = $pnt_db->sql_query($sql))
+                        if ($result = $db->sql_query($sql))
                         {
-                                if ($row = $pnt_db->sql_fetchrow($result))
+                                if ($row = $db->sql_fetchrow($result))
                                 {
                                         do
                                         {
                                                 $match_email = str_replace('*', '.*?', $row['ban_email']);
                                                 if (preg_match('/^' . $match_email . '$/is', $email))
                                                 {
-                                                        $pnt_db->sql_freeresult($result);
+                                                        $db->sql_freeresult($result);
                                                         return array('error' => true, 'error_msg' => $lang['Email_banned']);
                                                 }
                                         }
-                                        while($row = $pnt_db->sql_fetchrow($result));
+                                        while($row = $db->sql_fetchrow($result));
                                 }
                         }
-                        $pnt_db->sql_freeresult($result);
+                        $db->sql_freeresult($result);
 
                         $sql = "SELECT user_email
                                 FROM " . USERS_TABLE . "
                                 WHERE user_email = '" . str_replace("\'", "''", $email) . "'";
-                        if (!($result = $pnt_db->sql_query($sql)))
+                        if (!($result = $db->sql_query($sql)))
                         {
                                 message_die(GENERAL_ERROR, "Couldn't obtain user email information.", "", __LINE__, __FILE__, $sql);
                         }
 
-                        if ($row = $pnt_db->sql_fetchrow($result))
+                        if ($row = $db->sql_fetchrow($result))
                         {
                                 return array('error' => true, 'error_msg' => $lang['Email_taken']);
                         }
-                        $pnt_db->sql_freeresult($result);
+                        $db->sql_freeresult($result);
 
                         return array('error' => false, 'error_msg' => '');
                 }

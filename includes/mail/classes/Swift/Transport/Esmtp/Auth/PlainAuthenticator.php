@@ -32,24 +32,24 @@ class Swift_Transport_Esmtp_Auth_PlainAuthenticator
   }
   
   /**
-   * Try to authenticate the user with $pnt_username and $password.
-   * @param Swift_Transport_SmtpAgent $phpbb2_agent
-   * @param string $pnt_username
+   * Try to authenticate the user with $username and $password.
+   * @param Swift_Transport_SmtpAgent $agent
+   * @param string $username
    * @param string $password
    * @return boolean
    */
-  public function authenticate(Swift_Transport_SmtpAgent $phpbb2_agent,
-    $pnt_username, $password)
+  public function authenticate(Swift_Transport_SmtpAgent $agent,
+    $username, $password)
   {
     try
     {
-      $message = base64_encode($pnt_username . chr(0) . $pnt_username . chr(0) . $password);
-      $phpbb2_agent->executeCommand(sprintf("AUTH PLAIN %s\r\n", $message), array(235));
+      $message = base64_encode($username . chr(0) . $username . chr(0) . $password);
+      $agent->executeCommand(sprintf("AUTH PLAIN %s\r\n", $message), array(235));
       return true;
     }
     catch (Swift_TransportException $e)
     {
-      $phpbb2_agent->executeCommand("RSET\r\n", array(250));
+      $agent->executeCommand("RSET\r\n", array(250));
       return false;
     }
   }

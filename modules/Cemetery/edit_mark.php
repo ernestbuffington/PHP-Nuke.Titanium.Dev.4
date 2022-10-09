@@ -1,21 +1,21 @@
 <?php
 if (!defined('MODULE_FILE')) die ("You can't access this file directly...");
-global $pnt_prefix, $pnt_db, $cookie, $pnt_user;
+global $network_prefix, $db, $cookie, $user;
 if((isset($_POST['popup']) && !empty($_POST['popup'])) && (isset($_GET['popup']) && !empty($_GET['popup']))) 
 $popup = (isset($_GET['popup']) && !stristr($_GET['popup'],'..') && !stristr($_GET['popup'],'://')) ? addslashes(trim($_GET['popup'])) : false;
 else 
 $popup = (isset($_REQUEST['popup']) && !stristr($_REQUEST['popup'],'..') && !stristr($_REQUEST['popup'],'://')) ? addslashes(trim($_REQUEST['popup'])) : false;
-$userinfo = getusrinfo($pnt_user);
-$pnt_userid = $userinfo["user_id"];
+$userinfo = getusrinfo($user);
+$userid = $userinfo["user_id"];
 $markurl=@htmlentities($markurl);
 $markname=@htmlentities($markname);
 $markcomment=@htmlentities($markcomment);
-if (!isset($pnt_userid) || $pnt_userid == "")
-$pnt_userid=0;
+if (!isset($userid) || $userid == "")
+$userid=0;
 $index = 1;
 require_once("mainfile.php");
-$pnt_module = basename(dirname(__FILE__));
-get_lang($pnt_module);
+$module_name = basename(dirname(__FILE__));
+get_lang($module_name);
 if ((isset($_POST['markid']) && !empty($_POST['markid'])) && (isset($_GET['markid']) && !empty($_GET['markid']))) 
 $markid = (isset($_GET['markid']) && !stristr($_GET['markid'],'..') && !stristr($_GET['markid'],'://')) ? addslashes(trim($_GET['markid'])) : false;
 else 
@@ -24,13 +24,13 @@ if ($form_done=="yes" && (isset($catid) && $catid != "")):
 	if (!isset($popup))
 		$popup=1;
 	if (isset($markid) && $markid != "")
-		$query = "update ".$pnt_prefix."_cemetery set name='$markname',url='$markurl',category_id=$catid,description='$markcomment',mod_date=now(),popup=$popup where id=$markid";
+		$query = "update ".$network_prefix."_cemetery set name='$markname',url='$markurl',category_id=$catid,description='$markcomment',mod_date=now(),popup=$popup where id=$markid";
 	else
-		$query = "insert into ".$pnt_prefix."_cemetery (user_id,category_id,name,url,description,mod_date,popup) values ($pnt_userid,$catid,'$markname','$markurl','$markcomment',now(),$popup)";
-	$pnt_db->sql_query ($query,$pnt_db);
-	$catquery = "update " . $pnt_prefix . "_cemetery_cat set mod_date=now() where category_id=$catid";
-	$pnt_db->sql_query ($catquery,$pnt_db);
-	header("Location: modules.php?name=$pnt_module&file=marks&category=$catid");
+		$query = "insert into ".$network_prefix."_cemetery (user_id,category_id,name,url,description,mod_date,popup) values ($userid,$catid,'$markname','$markurl','$markcomment',now(),$popup)";
+	$db->sql_query ($query,$db);
+	$catquery = "update " . $network_prefix . "_cemetery_cat set mod_date=now() where category_id=$catid";
+	$db->sql_query ($catquery,$db);
+	header("Location: modules.php?name=$module_name&file=marks&category=$catid");
 elseif ($form_done=="yes" && (!isset($catid) || $catid=="")):
 	$pagetitle = "My Personal Bookmarks - "._ADDOREDITBOOKMARK;
 	include("header.php");
@@ -44,40 +44,40 @@ $pagetitle = "My Personal Bookmarks - " . _ADDOREDITBOOKMARK;
 include("header.php");
 OpenTable();
 echo "<span class=\"boxtitle\"><center><strong>" .  _ADDOREDITBOOKMARK . "</strong></center></span><p>";
-echo "<center>[ <a href=modules.php?name=".$pnt_module.">"._CATEGORIES."</a> | <a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
+echo "<center>[ <a href=modules.php?name=".$module_name.">"._CATEGORIES."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> ]</center>";
 CloseTable();
 OpenTable();
 ?>
 <form method=post action=modules.php>
-<input type=hidden name=name value='<?=$pnt_module?>'>
+<input type=hidden name=name value='<?=$module_name?>'>
 <input type=hidden name=file value='edit_mark'>
 <input type=hidden name=form_done value='yes'>
 <input type=hidden name=markid value='<?=$markid?>'>
 <table align=center>
 <tr><td><? echo _CATEGORY ?></td><td><select name=catid>
 <?
-$getcatquery = "select * from " . $pnt_prefix . "_cemetery_cat where user_id=$pnt_userid order by name";
-$cat_ret = $pnt_db->sql_query  ($getcatquery,$pnt_db);
-for ($i=0;$i<$pnt_db->sql_numrows ($cat_ret,$pnt_db);$i++):
-	$catrow = $pnt_db->sql_fetchrow($cat_ret);
+$getcatquery = "select * from " . $network_prefix . "_cemetery_cat where user_id=$userid order by name";
+$cat_ret = $db->sql_query  ($getcatquery,$db);
+for ($i=0;$i<$db->sql_numrows ($cat_ret,$db);$i++):
+	$catrow = $db->sql_fetchrow($cat_ret);
 	echo "<option value='".$catrow['category_id']."' ";
 	if ($catid == $catrow['category_id'])
 		echo "SELECTED";
 	echo ">".$catrow['name']."\n";
 endfor;
-$pnt_db->sql_freeresult($cat_ret);
+$db->sql_freeresult($cat_ret);
 ?>
 </select> &nbsp; 
 <?
 if ($i==0)
-echo "<a href=modules.php?name=".$pnt_module."&amp;file=edit_cat>"._NEEDGROUP."</a>";
+echo "<a href=modules.php?name=".$module_name."&amp;file=edit_cat>"._NEEDGROUP."</a>";
 ?>
 </td></tr>
 <tr><td><? echo _NAME ?></td><td><input class=inset size=48 type=text name=markname value="<?=$markname?>"></td></tr>
 <?
 if (!isset($markurl) || $markurl == ""):
- global $pnt_db;
- list($markurl) = $pnt_db->sql_ufetchrow("SELECT `url` FROM `".$pnt_prefix."_cemetery` WHERE `id`='$markid'", SQL_NUM);
+ global $db;
+ list($markurl) = $db->sql_ufetchrow("SELECT `url` FROM `".$network_prefix."_cemetery` WHERE `id`='$markid'", SQL_NUM);
  $markurl=@htmlentities($markurl);
 	   $popup=1;
 endif;

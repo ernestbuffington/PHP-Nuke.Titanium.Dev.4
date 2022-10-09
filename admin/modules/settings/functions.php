@@ -75,12 +75,16 @@ function show_settings($sub) {
     echo "<br /><br />";
     echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">".$admlang['global']['header_return']."</a> ]</div>\n";
     CloseTable();
+    echo "<br />";
     settings_header();
 
 
     if($_GET['sub']) 
     {
+        // OpenTable();
         echo "<form action='".$admin_file.".php' method='post'>";
+        // echo '  <tr>'.PHP_EOL;
+        // echo '    <td class="row1" colspan="3">'.PHP_EOL;
     }
     switch($sub) 
     {
@@ -153,7 +157,7 @@ function show_settings($sub) {
 
 function save_settings($sub) 
 {
-    global $pnt_db, $pnt_prefix, $admin_file, $cache, $admLang;
+    global $db, $prefix, $admin_file, $cache, $admLang;
 
     switch($sub) {
 
@@ -172,65 +176,66 @@ function save_settings($sub)
             $xultramode = intval($_POST['xultramode']);
             $xanonpost = intval($_POST['xanonpost']);
             $confirm = intval($_POST["confirm"]);
-            ValidateURL($xnukeurl, 0, "Site Url");
-            $server_url = $_SERVER["SERVER_NAME"];
-            $pos = strrpos($_SERVER["SERVER_NAME"],"/");
+            ValidateURL($xnukeurl, 0, "Site URL");
+            $server_url = "https://" . $_SERVER["HTTP_HOST"];
+            $pos = strrpos($_SERVER["PHP_SELF"],"/");
             if(!empty($pos)) {
-                $server_url .= substr($_SERVER["SERVER_NAME"],0,$pos);
+                $server_url .= substr($_SERVER["PHP_SELF"],0,$pos);
             }
             if($xnukeurl != $server_url && empty($confirm)) {
                 include_once(NUKE_BASE_DIR."header.php");
                 OpenTable();
+                echo "<center>". sprintf($admLang['ADMIN']['URL_CONFIRM_ERROR'], $xnukeurl,$server_url) ."<br /><br />".$admLang['ADMIN']['URL_SERVER_ERROR'];
                 echo "<form action='".$admin_file.".php?op=ConfigSave' method='post'>";
                 foreach ($_POST as $key => $value) {
                     echo "<input type='hidden' name='".$key."' value='".$value."'>";
                 }
-				echo "<div align=\"center\">";
                 echo "<input type='hidden' name='confirm' value='1'>";
-                echo "<input type='submit' value='" . _YES . "'>";
-                echo "<form action='".$admin_file.".php?op=Configure&sub=".$sub."' method='post'><input type='submit' value='" . _NO . "'></form>";
-                echo "</div>";
-				CloseTable();
+                echo "<input type='submit' value='" . _YES . "'></form>";
+                echo "<form action='".$admin_file.".php?op=Configure&sub=".$sub."' method='post'><input type='submit' value='" . _NO . "'></form></center>";
+                CloseTable();
                 include_once("footer.php");
             }
-            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_config SET sitename='$xsitename', 
-			                                                                  nukeurl='$xnukeurl', 
-														                  site_logo='$xsite_logo', 
-														                        slogan='$xslogan', 
-														                  adminmail='$xadminmail', 
-														                    anonpost='$xanonpost', 
-														                              top='$xtop', 
-														                        oldnum='$xoldnum', 
-													                      ultramode='$xultramode', 
-														                        locale='$xlocale'");
+            $db->sql_query("UPDATE ".$prefix."_config SET sitename='$xsitename', 
+			                                                nukeurl='$xnukeurl', 
+														site_logo='$xsite_logo', 
+														      slogan='$xslogan', 
+														startdate='$xstartdate',
+														adminmail='$xadminmail', 
+														  anonpost='$xanonpost', 
+														            top='$xtop', 
+														storyhome='$xstoryhome', 
+														      oldnum='$xoldnum', 
+													    ultramode='$xultramode', 
+														      locale='$xlocale'");
 		
 		break;
 
         case 2:
             $xcensor = intval($_POST['xcensor']);
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xcensor."' WHERE evo_field='censor'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xcensor."' WHERE evo_field='censor'");
             $xcensor_words = str_replace("\n"," ", $_POST['xcensor_words']);
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xcensor_words."' WHERE evo_field='censor_words'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xcensor_words."' WHERE evo_field='censor_words'");
         break;
 
         case 3:
             $xlanguage = Fix_Quotes(strtolower($_POST['xlanguage']));
             $xmultilingual = intval($_POST['xmultilingual']);
             $xuseflags = intval($_POST['xuseflags']);
-            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_config SET multilingual='$xmultilingual', useflags='$xuseflags', language='$xlanguage'");
+            $db->sql_query("UPDATE ".$prefix."_config SET multilingual='$xmultilingual', useflags='$xuseflags', language='$xlanguage'");
         break;
 
         case 4:
             $xfoot1 = Fix_Quotes($_POST['xfoot1']);
             $xfoot2 = Fix_Quotes($_POST['xfoot2']);
             $xfoot3 = Fix_Quotes($_POST['xfoot3']);
-            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_config SET foot1='$xfoot1', foot2='$xfoot2', foot3='$xfoot3'");
+            $db->sql_query("UPDATE ".$prefix."_config SET foot1='$xfoot1', foot2='$xfoot2', foot3='$xfoot3'");
         break;
 
         case 5:
             $xbackend_title = htmlentities($_POST['xbackend_title'], ENT_QUOTES);
             $xbackend_language = Fix_Quotes($_POST['xbackend_language']);
-            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_config SET backend_title='$xbackend_title', backend_language='$xbackend_language'");
+            $db->sql_query("UPDATE ".$prefix."_config SET backend_title='$xbackend_title', backend_language='$xbackend_language'");
         break;
 
         case 6:
@@ -239,20 +244,20 @@ function save_settings($sub)
             $xnotify_email = validate_mail($_POST['xnotify_email']);
             $xnotify_message = $_POST['xnotify_message'];
             $xnotify_from = $_POST['xnotify_from'];
-            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_config SET notify='$xnotify', notify_subject='$xnotify_subject', notify_email='$xnotify_email', notify_message='$xnotify_message', notify_from='$xnotify_from'");
+            $db->sql_query("UPDATE ".$prefix."_config SET notify='$xnotify', notify_subject='$xnotify_subject', notify_email='$xnotify_email', notify_message='$xnotify_message', notify_from='$xnotify_from'");
         break;
 
         case 7:
             $xmoderate = intval($_POST['xmoderate']);
             $xcommentlimit = intval($_POST['xcommentlimit']);
             $xanonymous = Fix_Quotes($_POST['xanonymous']);
-            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_config SET moderate='$xmoderate', commentlimit='$xcommentlimit', anonymous='$xanonymous'");
+            $db->sql_query("UPDATE ".$prefix."_config SET moderate='$xmoderate', commentlimit='$xcommentlimit', anonymous='$xanonymous'");
         break;
 
         case 8:
             $xadmingraphic = intval($_POST['xadmingraphic']);
             $xadmin_pos = intval($_POST['xadmin_pos']);
-            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_config SET admingraphic='$xadmingraphic', admin_pos='$xadmin_pos'");
+            $db->sql_query("UPDATE ".$prefix."_config SET admingraphic='$xadmingraphic', admin_pos='$xadmin_pos'");
         break;
 
         case 9:
@@ -279,23 +284,23 @@ function save_settings($sub)
             $xanalytics = $_POST['xanalytics'];
             $xblock_cachetime  = intval($_POST['xblock_cachetime']);
 			$xhtml_auth = $_POST['xhtml_auth'];
-            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_config SET httpref='$xhttpref', httprefmax='$xhttprefmax', pollcomm='$xpollcomm', articlecomm='$xarticlecomm', my_headlines='$xmy_headlines', banners='$xbanners'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xadminssl."' WHERE evo_field='adminssl'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xqueries_count."' WHERE evo_field='queries_count'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xuse_colors."' WHERE evo_field='use_colors'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xlock_modules."' WHERE evo_field='lock_modules'");
+            $db->sql_query("UPDATE ".$prefix."_config SET httpref='$xhttpref', httprefmax='$xhttprefmax', pollcomm='$xpollcomm', articlecomm='$xarticlecomm', my_headlines='$xmy_headlines', banners='$xbanners'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xadminssl."' WHERE evo_field='adminssl'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xqueries_count."' WHERE evo_field='queries_count'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xuse_colors."' WHERE evo_field='use_colors'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xlock_modules."' WHERE evo_field='lock_modules'");
             
-			$pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xtextarea."' WHERE evo_field='textarea'");
+			$db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xtextarea."' WHERE evo_field='textarea'");
 			
-			$pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xlazytap."' WHERE evo_field='lazy_tap'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$ximg_resize."' WHERE evo_field='img_resize'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$ximg_width."' WHERE evo_field='img_width'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$ximg_height."' WHERE evo_field='img_height'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xcollapse."' WHERE evo_field='collapse'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xcollapsetype."' WHERE evo_field='collapsetype'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xanalytics."' WHERE evo_field='analytics'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xblock_cachetime."' WHERE evo_field='block_cachetime'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xhtml_auth."' WHERE evo_field='html_auth'");
+			$db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xlazytap."' WHERE evo_field='lazy_tap'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$ximg_resize."' WHERE evo_field='img_resize'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$ximg_width."' WHERE evo_field='img_width'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$ximg_height."' WHERE evo_field='img_height'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xcollapse."' WHERE evo_field='collapse'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xcollapsetype."' WHERE evo_field='collapsetype'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xanalytics."' WHERE evo_field='analytics'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xblock_cachetime."' WHERE evo_field='block_cachetime'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xhtml_auth."' WHERE evo_field='html_auth'");
         break;
 
         case 10:
@@ -311,23 +316,23 @@ function save_settings($sub)
             $recap_private_key = $_POST['recap_pkey'];
             $xusegfxcheck = intval($_POST['xusegfxcheck']);
 
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$admin_fc_status."' WHERE evo_field='admin_fc_status'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$admin_fc_attempts."' WHERE evo_field='admin_fc_attempts'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$admin_fc_timeout."' WHERE evo_field='admin_fc_timeout'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$admin_iphub_status."' WHERE evo_field='iphub_status'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$admin_iphub_key."' WHERE evo_field='iphub_key'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$admin_iphub_ctime."' WHERE evo_field='iphub_cookietime'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$recapcolor."' WHERE evo_field='recap_color'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$recaplang."' WHERE evo_field='recap_lang'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$recap_site_key."' WHERE evo_field='recap_site_key'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$recap_private_key."' WHERE evo_field='recap_priv_key'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xusegfxcheck."' WHERE evo_field='usegfxcheck'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$admin_fc_status."' WHERE evo_field='admin_fc_status'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$admin_fc_attempts."' WHERE evo_field='admin_fc_attempts'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$admin_fc_timeout."' WHERE evo_field='admin_fc_timeout'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$admin_iphub_status."' WHERE evo_field='iphub_status'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$admin_iphub_key."' WHERE evo_field='iphub_key'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$admin_iphub_ctime."' WHERE evo_field='iphub_cookietime'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$recapcolor."' WHERE evo_field='recap_color'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$recaplang."' WHERE evo_field='recap_lang'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$recap_site_key."' WHERE evo_field='recap_site_key'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$recap_private_key."' WHERE evo_field='recap_priv_key'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$xusegfxcheck."' WHERE evo_field='usegfxcheck'");
         break;
 
         case 11:
             if($_GET['act'] == "delete") {
                 if(!empty($_GET['meta'])) {
-                    $pnt_db->sql_query("DELETE FROM " . $pnt_prefix . "_meta WHERE meta_name = '" . $_GET['meta'] . "'");
+                    $db->sql_query("DELETE FROM " . $prefix . "_meta WHERE meta_name = '" . $_GET['meta'] . "'");
                 }
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -337,23 +342,23 @@ function save_settings($sub)
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
             } else {
-                $sql = 'SELECT meta_name, meta_content FROM '.$pnt_prefix.'_meta';
-                $result = $pnt_db->sql_query($sql);
+                $sql = 'SELECT meta_name, meta_content FROM '.$prefix.'_meta';
+                $result = $db->sql_query($sql);
                 $i=0;
-                while(list($meta_name, $meta_content) = $pnt_db->sql_fetchrow($result)) {
+                while(list($meta_name, $meta_content) = $db->sql_fetchrow($result)) {
                     $metatags[$i] = array();
                     $metatags[$i]['meta_name'] = $meta_name;
                     $metatags[$i]['meta_content'] = $meta_content;
                     $i++;
                 }
-                $pnt_db->sql_freeresult($result);
+                $db->sql_freeresult($result);
 
                 for($i=0, $maxi=count($metatags);$i<$maxi;$i++) {
                     $metatag = $metatags[$i];
-                    $pnt_db->sql_query("UPDATE ".$pnt_prefix."_meta SET meta_content='".$_POST['x' . $metatag['meta_name']]."' WHERE meta_name='".$metatag['meta_name']."'");
+                    $db->sql_query("UPDATE ".$prefix."_meta SET meta_content='".$_POST['x' . $metatag['meta_name']]."' WHERE meta_name='".$metatag['meta_name']."'");
                 }
                 if(!empty($_POST['new_name']) && (!empty($_POST['new_value']) || $_POST['new_value'] == '0')) {
-                    $pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_meta (meta_name, meta_content) VALUES ('" . $_POST['new_name'] . "', '" . $_POST['new_value'] . "')");
+                    $db->sql_query("INSERT INTO ".$prefix."_meta (meta_name, meta_content) VALUES ('" . $_POST['new_name'] . "', '" . $_POST['new_value'] . "')");
                 }
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -376,15 +381,15 @@ function save_settings($sub)
             $pm_button_color2 = $_POST['pm_button_color2'];
             $pm_alert_sound = intval($_POST['pm_alert_sound']);
             $ximg_viewer = $_POST['img_viewer'];            
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_alert_status."' WHERE evo_field='pm_alert_status'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_cookie_name."' WHERE evo_field='pm_cookie_name'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_cookie_minutes."' WHERE evo_field='pm_cookie_minutes'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_cookie_seconds."' WHERE evo_field='pm_cookie_seconds'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_overlay_color."' WHERE evo_field='pm_overlay_color'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_button_color."' WHERE evo_field='pm_button_color'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_button_color2."' WHERE evo_field='pm_button_color2'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_alert_sound."' WHERE evo_field='pm_alert_sound'");
-            $pnt_db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$ximg_viewer."' WHERE evo_field='img_viewer'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_alert_status."' WHERE evo_field='pm_alert_status'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_cookie_name."' WHERE evo_field='pm_cookie_name'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_cookie_minutes."' WHERE evo_field='pm_cookie_minutes'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_cookie_seconds."' WHERE evo_field='pm_cookie_seconds'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_overlay_color."' WHERE evo_field='pm_overlay_color'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_button_color."' WHERE evo_field='pm_button_color'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_button_color2."' WHERE evo_field='pm_button_color2'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$pm_alert_sound."' WHERE evo_field='pm_alert_sound'");
+            $db->sql_query("UPDATE "._EVOCONFIG_TABLE." SET evo_value='".$ximg_viewer."' WHERE evo_field='img_viewer'");
             break;
     }
 
@@ -392,11 +397,11 @@ function save_settings($sub)
 	# Anytime you modify the settings for the website it updates the proper fields.
 	# This information is used to tell the crawlers/bots when the website was last updated on the index page.
 	# Reference : https://stackoverflow.com/questions/267658/having-both-a-created-and-last-updated-timestamp-columns-in-mysql-4-0												  
-    //$pnt_db->sql_query("UPDATE ".$pnt_prefix."_config(datePublished, dateModified) values(null, null)");
+    //$db->sql_query("UPDATE ".$prefix."_config(datePublished, dateModified) values(null, null)");
 	
-	$cache->delete('php_nuke_titanium_config', 'config');
-    $cache->delete('titanium_config', 'config');
-    redirect_titanium($admin_file.'.php?op=Configure&sub='.$sub);
+	$cache->delete('nukeconfig', 'config');
+    $cache->delete('evoconfig', 'config');
+    redirect($admin_file.'.php?op=Configure&sub='.$sub);
 }
 
 function lazy_tap_check($set) 

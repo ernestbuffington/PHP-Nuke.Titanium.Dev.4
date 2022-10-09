@@ -100,14 +100,13 @@ $define_theme_xtreme_209e,
 	   $use_xtreme_voting, 
 	         $portaladmin,
 $make_xtreme_avatar_small,
-
-             $pnt_db;
+                      $db;
 
     list($portaladminname, 
 	              $avatar, 
-				   $email) = $pnt_db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `titanium_users` WHERE `user_id`=$portaladmin", SQL_NUM);
+				   $email) = $db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `nuke_users` WHERE `user_id`=$portaladmin", SQL_NUM);
 				   
-$my_welcome_message = '<a class = "welcome" href="'.HTTPS.'">PHP-Nuke Titanium Dev 4 <font color="#FF9900" size="1">(Desktop Version)</font></a>';
+$my_welcome_message = '<a class = "welcome" href="'.HTTPS.'">PHP-Nuke Titanium <font color="#FF9900" size="1">(Desktop Version)</font></a>';
 
 # This is to tell the main portal menu to look for the images
 # in the theme dir "theme_name/images/menu"

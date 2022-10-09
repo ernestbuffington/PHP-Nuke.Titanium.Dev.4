@@ -3,32 +3,26 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-/*======================================================================= 
-  Donations v1.0
- =======================================================================*/
 
-if (!defined('MODULE_FILE')){die('You can\'t access this file directly...');}
+if (!defined('MODULE_FILE')) {
+   die('You can\'t access this file directly...');
+}
 
 global $_GETVAR;
-
 $_GETVAR->unsetVariables();
 
-$pnt_module = basename(dirname(__FILE__));
-
-get_lang($pnt_module);
+$module_name = basename(dirname(__FILE__));
+get_lang($module_name);
 
 define('NUKE_DONATIONS', dirname(__FILE__) . '/');
 define('NUKE_DONATIONS_INCLUDES', NUKE_DONATIONS . 'includes/');
 
 include_once(NUKE_DONATIONS_INCLUDES . 'base.php');
 
-function donation_index() 
-{
+function donation_index() {
     global $lang_donate;
-    
-	donation_title();
-    
-	OpenTable();
+    donation_title();
+    OpenTable();
     echo "<div class=\"acenter\">\n";
     echo "<a href=\"modules.php?name=Donations&op=view\"><img src=\"images/donations/view.png\" border=\"0\" alt=\"".$lang_donate['VIEW_DONATIONS']."\"><br />".$lang_donate['VIEW_DONATIONS']."</a><br /><br />";
     echo "<a href=\"modules.php?name=Donations&op=make\"><img src=\"images/donations/money.png\" border=\"0\" alt=\"".$lang_donate['MAKE_DONATIONS']."\"><br />".$lang_donate['MAKE_DONATIONS']."</a>";
@@ -37,7 +31,7 @@ function donation_index()
     CloseTable();
 }
 
-# global $more_js;
+// global $more_js;
 $donation_js = '<script type="text/javascript">
 function createCookie(name, value, days)
 {
@@ -79,4 +73,5 @@ switch ($op) {
     break;
 }
 include_once(NUKE_BASE_DIR.'footer.php');
+
 ?>

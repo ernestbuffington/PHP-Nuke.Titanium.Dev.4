@@ -46,7 +46,7 @@ $version_info = evo_get_version_curl($postdata);
  ******************************************************/
 function version_check()
 {
-	global $pnt_db, $pnt_prefix, $cache, $json, $pnt_config, $version_info, $admlang;
+	global $db, $prefix, $cache, $json, $evoconfig, $version_info, $admlang;
 	
 	if (is_array($version_info)):
 	
@@ -60,14 +60,14 @@ function version_check()
 		
 		
 		// Get the last version check time
-		$Version_Check = intval($pnt_config['ver_check']);
+		$Version_Check = intval($evoconfig['ver_check']);
 		
 		if (!$Version_Check || ($Version_Check-time()) > 86400):
 		
 			$ret_ver = $version_info['current_version'];
-			$pnt_db->sql_query("UPDATE ".$pnt_prefix."_evolution SET evo_value='".time()."' WHERE evo_field='ver_check'");
-			$pnt_db->sql_query("UPDATE ".$pnt_prefix."_evolution SET evo_value='".$ret_ver."' WHERE evo_field='ver_previous'");
-			$cache->delete('titanium_config');
+			$db->sql_query("UPDATE ".$prefix."_evolution SET evo_value='".time()."' WHERE evo_field='ver_check'");
+			$db->sql_query("UPDATE ".$prefix."_evolution SET evo_value='".$ret_ver."' WHERE evo_field='ver_previous'");
+			$cache->delete('evoconfig');
 
 		else:
 			title($admlang['versions']['version_checked'].' '.date('Y-m-d', $Version_Check).' @'.date('H:i', $Version_Check));
@@ -107,16 +107,16 @@ function evo_get_version_curl($postdata)
 }
 
 function evo_compare(){
-    global $pnt_db, $pnt_prefix, $cache;
+    global $db, $prefix, $cache;
 
     $check = evo_check_version();
     if ($check == 0){
-        $sql_ver = "UPDATE ".$pnt_prefix."_evolution SET evo_value = '0' WHERE evo_field='ver_previous'";
-        $pnt_db->sql_query($sql_ver);
+        $sql_ver = "UPDATE ".$prefix."_evolution SET evo_value = '0' WHERE evo_field='ver_previous'";
+        $db->sql_query($sql_ver);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $cache->delete('titanium_config');
+        $cache->delete('evoconfig');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -185,7 +185,7 @@ function evo_get_download(){
 
 function evo_version()
 {
-    global $pnt_db, $pnt_prefix, $admin_file, $version_info, $admlang;
+    global $db, $prefix, $admin_file, $version_info, $admlang;
 
     title($admlang['versions']['title']);
     version_check();

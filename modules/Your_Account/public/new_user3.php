@@ -114,7 +114,7 @@ function tz_select($default, $select_name = 'timezone')
 
     title(_USERREGLOGIN);
     OpenTable();
-    echo "<form action='modules.php?name=$pnt_module' method='post' name='newuser'>\n";
+    echo "<form action='modules.php?name=$module_name' method='post' name='newuser'>\n";
     echo "<table style='margin:auto' cellpadding='3' cellspacing='3' border='0'>\n";
     echo "<tr><td align='center' bgcolor='$bgcolor1' colspan='2'><div class=\"textbold\">"._REGNEWUSER."</div></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._NICKNAME.":</div>"._REQUIRED."</td><td bgcolor='$bgcolor1'><input type='text' name='ya_username' size='15' id='username_input' maxlength='".$ya_config['nick_max']."'>&nbsp;<span id=\"username_check_result\"></span>&nbsp;<span class='tiny'>"._REQUIRED."</span><br /><span class='tiny'>("._YA_NICKLENGTH.")</span></td></tr>\n";
@@ -137,8 +137,8 @@ function tz_select($default, $select_name = 'timezone')
 		include_once './includes/honeypot/hp_new_user1.php';
 	}
 
-    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field WHERE (need = '2') OR (need = '3') ORDER BY pos");
-        while ($sqlvalue = $pnt_db->sql_fetchrow($result)) {
+    $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field WHERE (need = '2') OR (need = '3') ORDER BY pos");
+        while ($sqlvalue = $db->sql_fetchrow($result)) {
           $t = $sqlvalue[fid];
           $value2 = explode("::", $sqlvalue[value]);
           if (substr($sqlvalue[name],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue[name];
@@ -262,8 +262,8 @@ function tz_select($default, $select_name = 'timezone')
     echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._ALWAYSSHOWEMAIL.":</div></td><td bgcolor='$bgcolor1'><select name='user_viewemail'><option value='1' selected>"._YES."</option><option value='0'>"._NO."</option></select></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._HIDEONLINE.":</div></td><td bgcolor='$bgcolor1'><select name='user_allow_viewonline'><option value='0'>"._YES."</option><option value='1' selected>"._NO."</option></select></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._FORUMSTIME.":</div></td><td bgcolor='$bgcolor1'>";
-    global $phpbb2_board_config;
-    echo tz_select($phpbb2_board_config['board_timezone'], 'timezone');
+    global $board_config;
+    echo tz_select($board_config['board_timezone'], 'timezone');
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._FORUMSDATE.":</div>"._FORUMSDATEMSG."</td><td bgcolor='$bgcolor1'><input type='text' name='user_dateformat' value='D M d, Y g:i a' size='15' maxlength='14'></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._EXTRAINFO.":</div>"._OPTIONAL."<br />"._NOHTML."</td><td bgcolor='$bgcolor1'><textarea cols='50' rows='5' name='bio'></textarea><br />"._CANKNOWABOUT."</td></tr>\n";
@@ -296,15 +296,15 @@ function tz_select($default, $select_name = 'timezone')
     }
     closedir($handle);
     if ($thmcount > 1) { echo "<li>"._ASREG6."\n"; }
-    $sql = "SELECT custom_title FROM ".$pnt_prefix."_modules WHERE active='1' AND view='1' AND inmenu='1'";
-    $result = $pnt_db->sql_query($sql);
-    while ($row = $pnt_db->sql_fetchrow($result)) {
+    $sql = "SELECT custom_title FROM ".$prefix."_modules WHERE active='1' AND view='1' AND inmenu='1'";
+    $result = $db->sql_query($sql);
+    while ($row = $db->sql_fetchrow($result)) {
         $custom_title = $row['custom_title'];
         if (!empty($custom_title)) { echo "<li>"._ACCESSTO." $custom_title\n"; }
     }
-    $sql = "SELECT title FROM ".$pnt_prefix."_blocks WHERE active='1' AND view='1'";
-    $result = $pnt_db->sql_query($sql);
-    while ($row = $pnt_db->sql_fetchrow($result)) {
+    $sql = "SELECT title FROM ".$prefix."_blocks WHERE active='1' AND view='1'";
+    $result = $db->sql_query($sql);
+    while ($row = $db->sql_fetchrow($result)) {
         $b_title = $row['title'];
         if (!empty($b_title)) { echo "<li>"._ACCESSTO." $b_title\n"; }
     }

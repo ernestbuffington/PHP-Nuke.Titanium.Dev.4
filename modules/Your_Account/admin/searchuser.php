@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($pnt_module)) {
+if(is_mod_admin($module_name)) {
 
     $pagetitle = ": "._USERADMIN." - "._SEARCHUSERS;
     include_once(NUKE_BASE_DIR.'header.php');

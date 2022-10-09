@@ -3,6 +3,7 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
+
 /*********************************************
   CPG-NUKE: Advanced Content Management System
   ********************************************
@@ -27,26 +28,21 @@
       Nuke Patched                             v3.1.0       07/17/2005
  ************************************************************************/
 
-if(!defined('MODULE_FILE')){die('You can\'t access this file directly...');}
+if (!defined('MODULE_FILE')) {
+   die('You can\'t access this file directly...');
+}
 
-$pnt_module = basename(dirname(__FILE__));
-
-get_lang($pnt_module);
-
-include(NUKE_MODULES_DIR.$pnt_module.'/doc_config.php');
+$module_name = basename(dirname(__FILE__));
+get_lang($module_name);
+include(NUKE_MODULES_DIR.$module_name.'/doc_config.php');
 
 define('INDEX_FILE', true);
 
-function main() 
-{
-    global $sitename, $pnt_module, $questions;
-    
-	include_once(NUKE_BASE_DIR.'header.php');
-    
-	title($sitename.': '._NSINDEXLEGAL);
-
-    if (file_exists(NUKE_MODULES_DIR.$pnt_module.'/copyright.php')) 
-	{
+function main() {
+    global $sitename, $module_name, $questions;
+    include_once(NUKE_BASE_DIR.'header.php');
+    title($sitename.': '._NSINDEXLEGAL);
+    if (file_exists(NUKE_MODULES_DIR.$module_name.'/copyright.php')) {
         OpenTable();
         echo "<br /><br /><div align=\"justify\">";
         echo "<strong>$sitename</strong> "._NSINDEX1." <strong>$sitename</strong> "._NSINDEX2."<br /><br />";
@@ -56,21 +52,20 @@ function main()
         echo "</div><br /><br />";
         ns_doc_links();
         CloseTable();
-        
-	} 
-	else 
-	{
+        } else {
         OpenTable();
         echo ""._NSNOCOPY."";
         CloseTable();
     }
-  
   include_once(NUKE_BASE_DIR.'footer.php');
 }
 
 switch ($op) {
+
     default:
         main();
     break;
+
 }
+
 ?>

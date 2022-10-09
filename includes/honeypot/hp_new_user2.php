@@ -13,14 +13,14 @@
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
     exit('Access Denied');
 }
-global $pnt_prefix, $pnt_db, $currentlang;
+global $prefix, $db, $currentlang;
 if (file_exists(NUKE_ADMIN_DIR.'language/Honeypot/lang-'.$currentlang.'.php')) {
 	include_once(NUKE_ADMIN_DIR.'language/Honeypot/lang-'.$currentlang.'.php');
 } else {
 	include_once(NUKE_ADMIN_DIR.'language/Honeypot/lang-english.php');
 }
-	$result1 = $pnt_db->sql_query("SELECT usehp, check3, check3time FROM ".$pnt_prefix."_honeypot_config");
-	list($usehp, $check3, $check3time) = $pnt_db->sql_fetchrow($result1);
+	$result1 = $db->sql_query("SELECT usehp, check3, check3time FROM ".$prefix."_honeypot_config");
+	list($usehp, $check3, $check3time) = $db->sql_fetchrow($result1);
 
 if ($usehp == 1){
  if ($check3 == 1){

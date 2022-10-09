@@ -21,15 +21,15 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "footer" => "admin/board_config/page_footer.tpl")
 );
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "L_SUBMIT" => $lang['Submit'],
     "L_RESET" => $lang['Reset'],
 ));
 
-$phpbb2_template->pparse("footer");
+$template->pparse("footer");
 
 ?>

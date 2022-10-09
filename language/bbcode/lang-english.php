@@ -32,7 +32,7 @@
 //     'Mr. Green' => 'Mr. Green',
 // );
 
-// $phpbb2_color_desc = array(
+// $color_desc = array(
 //     'Default' => 'Default',
 //     'Dark Red' => 'Dark Red',
 //     'Red' => 'Red',

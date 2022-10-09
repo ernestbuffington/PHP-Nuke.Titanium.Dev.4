@@ -391,7 +391,7 @@
     <!-- BEGIN avatar_local_gallery -->
     <tr>
       <td class="row1">{L_AVATAR_GALLERY}</td>
-      <td class="row2"><input type="submit" name="avatargallery" value="{L_SHOW_GALLERY}" class="titaniumbutton" /></td>
+      <td class="row2"><input type="submit" name="avatargallery" value="{L_SHOW_GALLERY}" class="liteoption" /></td>
     </tr>
     <!-- END avatar_local_gallery -->
     <tr>
@@ -468,7 +468,7 @@
       <td class="catBottom" colspan="2" align="center">
         {S_HIDDEN_FIELDS}
         <input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />
-        <input type="reset" value="{L_RESET}" class="titaniumbutton" />
+        <input type="reset" value="{L_RESET}" class="liteoption" />
       </td>
     </tr>
  </table>

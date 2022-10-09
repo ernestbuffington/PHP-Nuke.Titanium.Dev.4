@@ -27,9 +27,9 @@ if(preg_match("#All.*Modules#", $showmodule) || !$showmodule ) {
 } else {
   $modfilter="AND page LIKE '%name=$showmodule%'";
 }
-$deleterow = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `user_id`, `ip_addr` FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
-$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `user_id`='".$deleterow['user_id']."' AND `ip_addr`='".$deleterow['ip_addr']."' $modfilter");
-$pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_tracked_ips`");
+$deleterow = $db->sql_fetchrow($db->sql_query("SELECT `user_id`, `ip_addr` FROM `".$prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
+$db->sql_query("DELETE FROM `".$prefix."_nsnst_tracked_ips` WHERE `user_id`='".$deleterow['user_id']."' AND `ip_addr`='".$deleterow['ip_addr']."' $modfilter");
+$db->sql_query("OPTIMIZE TABLE `".$prefix."_nsnst_tracked_ips`");
 header("Location: ".$admin_file.".php?op=$xop&min=$min&column=$column&direction=$direction&showmodule=$showmodule&sip=$sip");
 
 ?>

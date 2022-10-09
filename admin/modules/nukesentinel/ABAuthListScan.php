@@ -13,9 +13,9 @@
 /********************************************************/
 
 if(is_god($_COOKIE['admin'])) {
-  $importad = $pnt_db->sql_query("SELECT `aid`, `name`, `pwd` FROM `".$pnt_prefix."_authors`");
-  while(list($a_aid, $a_name, $a_pwd) = $pnt_db->sql_fetchrow($importad)) {
-    $adminrow = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `aid` FROM `".$pnt_prefix."_nsnst_admins` WHERE `aid`='$a_aid'"));
+  $importad = $db->sql_query("SELECT `aid`, `name`, `pwd` FROM `".$prefix."_authors`");
+  while(list($a_aid, $a_name, $a_pwd) = $db->sql_fetchrow($importad)) {
+    $adminrow = $db->sql_numrows($db->sql_query("SELECT `aid` FROM `".$prefix."_nsnst_admins` WHERE `aid`='$a_aid'"));
     if($adminrow == 0) {
       $makepass = "";
       $strs = "abc2def3ghj4kmn5opq6rst7uvw8xyz9";
@@ -28,25 +28,25 @@ if(is_god($_COOKIE['admin'])) {
       $xpassword_crypt = crypt($makepass);
       if(!get_magic_quotes_runtime()) { $makepass = addslashes($makepass); }
       if(strtolower($a_name) == "god") { $is_god = 1; } else { $is_god = 0; }
-      $result = $pnt_db->sql_query("INSERT INTO `".$pnt_prefix."_nsnst_admins` (`aid`, `login`, `protected`, `password`, `password_md5`, `password_crypt`) VALUES ('$a_aid', '$a_aid', '$is_god', '$makepass', '$xpassword_md5', '$xpassword_crypt')");
-      $pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_nsnst_admins");
-      $aidrow = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_admins` WHERE `aid`='$a_aid' LIMIT 0,1"));
+      $result = $db->sql_query("INSERT INTO `".$prefix."_nsnst_admins` (`aid`, `login`, `protected`, `password`, `password_md5`, `password_crypt`) VALUES ('$a_aid', '$a_aid', '$is_god', '$makepass', '$xpassword_md5', '$xpassword_crypt')");
+      $db->sql_query("OPTIMIZE TABLE ".$prefix."_nsnst_admins");
+      $aidrow = $db->sql_fetchrow($db->sql_query("SELECT * FROM `".$prefix."_nsnst_admins` WHERE `aid`='$a_aid' LIMIT 0,1"));
       $subject = _AB_ACCESSFOR." ".$nuke_config['sitename'];
       $message  = ""._AB_HTTPONLY."\n";
       $message .= ""._AB_LOGIN.": ".$aidrow['login']."\n";
       $message .= ""._AB_PASSWORD.": ".$aidrow['password']."\n";
       $message .= ""._AB_PROTECTED.": ";
       if($aidrow['protected']==0) { $message .= ""._AB_NO."\n"; } else { $message .= ""._AB_YES."\n"; }
-      list($amail) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `email` FROM `".$pnt_prefix."_authors` WHERE `aid`='$a_aid' LIMIT 0,1"));
+      list($amail) = $db->sql_fetchrow($db->sql_query("SELECT `email` FROM `".$prefix."_authors` WHERE `aid`='$a_aid' LIMIT 0,1"));
       @evo_mail($amail, $subject, $message,"From: ".$nuke_config['adminmail']."\r\nX-Mailer: "._AB_NUKESENTINEL."\r\n");
     }
   }
-  $exportad = $pnt_db->sql_query("SELECT `aid` FROM `".$pnt_prefix."_nsnst_admins`");
-  while(list($a_aid) = $pnt_db->sql_fetchrow($exportad)) {
-    $adminrow = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `aid` FROM `".$pnt_prefix."_authors` WHERE `aid`='$a_aid' LIMIT 0,1"));
+  $exportad = $db->sql_query("SELECT `aid` FROM `".$prefix."_nsnst_admins`");
+  while(list($a_aid) = $db->sql_fetchrow($exportad)) {
+    $adminrow = $db->sql_numrows($db->sql_query("SELECT `aid` FROM `".$prefix."_authors` WHERE `aid`='$a_aid' LIMIT 0,1"));
     if($adminrow == 0) {
-      $result = $pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_admins` WHERE `aid`='$a_aid' LIMIT 0,1");
-      $pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_admins`");
+      $result = $db->sql_query("DELETE FROM `".$prefix."_nsnst_admins` WHERE `aid`='$a_aid' LIMIT 0,1");
+      $db->sql_query("OPTIMIZE TABLE `".$prefix."_nsnst_admins`");
     }
   }
   $pagetitle = _AB_NUKESENTINEL.": "._AB_SCANADMINS;

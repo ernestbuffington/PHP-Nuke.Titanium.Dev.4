@@ -69,9 +69,9 @@
       Custom mass PM                           v1.4.7       07/04/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 //
@@ -139,31 +139,31 @@ class emailer
                 $this->extra_headers .= trim($headers) . "\n";
         }
 
-        function use_template($phpbb2_template_file, $phpbb2_template_lang = '')
+        function use_template($template_file, $template_lang = '')
         {
-                global $phpbb2_board_config, $phpbb2_root_path;
+                global $board_config, $phpbb_root_path;
 
-                if (trim($phpbb2_template_file) == '')
+                if (trim($template_file) == '')
                 {
                         message_die(GENERAL_ERROR, 'No template file set', '', __LINE__, __FILE__);
                 }
 
-                if (trim($phpbb2_template_lang) == '')
+                if (trim($template_lang) == '')
                 {
-                        $phpbb2_template_lang = $phpbb2_board_config['default_lang'];
+                        $template_lang = $board_config['default_lang'];
                 }
 
-                if (empty($this->tpl_msg[$phpbb2_template_lang . $phpbb2_template_file]))
+                if (empty($this->tpl_msg[$template_lang . $template_file]))
                 {
-                        $tpl_file = $phpbb2_root_path . 'language/lang_' . $phpbb2_template_lang . '/email/' . $phpbb2_template_file . '.tpl';
+                        $tpl_file = $phpbb_root_path . 'language/lang_' . $template_lang . '/email/' . $template_file . '.tpl';
 
                         if (!@file_exists(@phpbb_realpath($tpl_file)))
                         {
-                                $tpl_file = $phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/email/' . $phpbb2_template_file . '.tpl';
+                                $tpl_file = $phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/email/' . $template_file . '.tpl';
 
                                 if (!@file_exists(@phpbb_realpath($tpl_file)))
                                 {
-                                        message_die(GENERAL_ERROR, 'Could not find email template file :: ' . $phpbb2_template_file, '', __LINE__, __FILE__);
+                                        message_die(GENERAL_ERROR, 'Could not find email template file :: ' . $template_file, '', __LINE__, __FILE__);
                                 }
                         }
 
@@ -172,11 +172,11 @@ class emailer
                                 message_die(GENERAL_ERROR, 'Failed opening template file :: ' . $tpl_file, '', __LINE__, __FILE__);
                         }
 
-                        $this->tpl_msg[$phpbb2_template_lang . $phpbb2_template_file] = fread($fd, filesize($tpl_file));
+                        $this->tpl_msg[$template_lang . $template_file] = fread($fd, filesize($tpl_file));
                         fclose($fd);
                 }
 
-                $this->msg = $this->tpl_msg[$phpbb2_template_lang . $phpbb2_template_file];
+                $this->msg = $this->tpl_msg[$template_lang . $template_file];
 
                 return true;
         }
@@ -196,7 +196,7 @@ class emailer
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
         {
-                global $phpbb2_board_config, $lang, $phpEx, $phpbb2_root_path, $pnt_db, $cache;
+                global $board_config, $lang, $phpEx, $phpbb_root_path, $db, $cache;
 
             // Escape all quotes, else the eval will fail.
                 $this->msg = str_replace ("'", "\'", $this->msg);
@@ -260,7 +260,7 @@ class emailer
             $bcc = '';
 
         // Build header
-        $this->extra_headers = (($this->reply_to != '') ? "Reply-to: $this->reply_to\n" : '') . (($this->from != '') ? "From: $this->from\n" : "From: " . $phpbb2_board_config['board_email'] . "\n") . "Return-Path: " . $phpbb2_board_config['board_email'] . "\nMessage-ID: <" . md5(uniqid(time())) . "@" . $phpbb2_board_config['server_name'] . ">\nMIME-Version: 1.0\nContent-type: text/plain; charset=" . $this->encoding . "\nContent-transfer-encoding: 8bit\nDate: " . date('r', time()) . "\nX-Priority: 3\nX-MSMail-Priority: Normal\nX-Mailer: PHP\nX-MimeOLE: Produced By phpBB2\n" . $this->extra_headers . (($cc != '') ? "Cc: $cc\n" : '')  . (($bcc != '') ? "Bcc: $bcc\n" : '');
+        $this->extra_headers = (($this->reply_to != '') ? "Reply-to: $this->reply_to\n" : '') . (($this->from != '') ? "From: $this->from\n" : "From: " . $board_config['board_email'] . "\n") . "Return-Path: " . $board_config['board_email'] . "\nMessage-ID: <" . md5(uniqid(time())) . "@" . $board_config['server_name'] . ">\nMIME-Version: 1.0\nContent-type: text/plain; charset=" . $this->encoding . "\nContent-transfer-encoding: 8bit\nDate: " . date('r', time()) . "\nX-Priority: 3\nX-MSMail-Priority: Normal\nX-Mailer: PHP\nX-MimeOLE: Produced By phpBB2\n" . $this->extra_headers . (($cc != '') ? "Cc: $cc\n" : '')  . (($bcc != '') ? "Bcc: $bcc\n" : '');
 
                 // Send message ... removed $this->encode() from subject for time being
                 if ( $this->use_smtp )
@@ -275,17 +275,17 @@ class emailer
                 else
                 {
             $empty_to_header = ($to == '') ? TRUE : FALSE;
-            $to = ($to == '') ? (($phpbb2_board_config['sendmail_fix']) ? ' ' : 'Undisclosed-recipients:;') : $to;
+            $to = ($to == '') ? (($board_config['sendmail_fix']) ? ' ' : 'Undisclosed-recipients:;') : $to;
                         $result = @mail($to, $this->subject, preg_replace("#(?<!\r)\n#s", "\n", $this->msg), $this->extra_headers);
 
-                        if (!$result && !$phpbb2_board_config['sendmail_fix'] && $empty_to_header)
+                        if (!$result && !$board_config['sendmail_fix'] && $empty_to_header)
                         {
                                 $to = ' ';
 
                                 $sql = "UPDATE " . CONFIG_TABLE . "
                                         SET config_value = '1'
                                         WHERE config_name = 'sendmail_fix'";
-                                if (!$pnt_db->sql_query($sql))
+                                if (!$db->sql_query($sql))
                                 {
                                         message_die(GENERAL_ERROR, 'Unable to update config table', '', __LINE__, __FILE__, $sql);
                                 }
@@ -296,7 +296,7 @@ class emailer
 /*****['END']********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                                $phpbb2_board_config['sendmail_fix'] = 1;
+                                $board_config['sendmail_fix'] = 1;
                                 $result = @mail($to, $this->subject, preg_replace("#(?<!\r)\n#s", "\n", $this->msg), $this->extra_headers);
                         }
                 }
@@ -334,12 +334,12 @@ class emailer
                 }
 
                 // define start delimimter, end delimiter and spacer
-                $phpbb2_end = "?=";
-                $phpbb2_start = "=?$this->encoding?B?";
-                $spacer = "$phpbb2_end\r\n $phpbb2_start";
+                $end = "?=";
+                $start = "=?$this->encoding?B?";
+                $spacer = "$end\r\n $start";
 
                 // determine length of encoded text within chunks and ensure length is even
-                $length = 75 - strlen($phpbb2_start) - strlen($phpbb2_end);
+                $length = 75 - strlen($start) - strlen($end);
                 $length = floor($length / 2) * 2;
 
                 // encode the string and split it into chunks with spacers after each chunk
@@ -348,7 +348,7 @@ class emailer
                 // remove trailing spacer and add start and end delimiters
                 $str = preg_replace('#' . preg_quote($spacer, '#') . '$#', '', $str);
 
-                return $phpbb2_start . $str . $phpbb2_end;
+                return $start . $str . $end;
         }
 
         //

@@ -13,18 +13,18 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $pnt_prefix, $pnt_db;
+global $prefix, $db;
 
 # Number of reviews to display
 $number_of_reviews = 5;
 $image_height = 100;
 $image_width = 100;
 
-$sql = "SELECT id, title, text, cover, date FROM ".$pnt_prefix."_reviews ORDER BY id DESC LIMIT 0,$number_of_reviews ";
+$sql = "SELECT id, title, text, cover, date FROM ".$prefix."_reviews ORDER BY id DESC LIMIT 0,$number_of_reviews ";
 
-$result = $pnt_db->sql_query($sql);
+$result = $db->sql_query($sql);
 
-while (list($id, $title, $text, $cover, $date) = $pnt_db->sql_fetchrow($result)) {
+while (list($id, $title, $text, $cover, $date) = $db->sql_fetchrow($result)) {
     $id = intval($id);
     $title = stripslashes($title);
     $cover = wordwrap($cover);
@@ -33,5 +33,5 @@ while (list($id, $title, $text, $cover, $date) = $pnt_db->sql_fetchrow($result))
     $content .= "<table width=\"100%\" border=\"0\"><a href=\"modules.php?name=Reviews&amp;rop=showcontent&amp;id=$id\">";
     $content .= "<img src=\"images/reviews/$cover\" width=\"$image_width\" height=\"$image_height\" /></a></td></tr></table>";
 }
-$pnt_db->sql_freeresult($result);
+$db->sql_freeresult($result);
 ?>

@@ -34,9 +34,9 @@ if (!defined('ADMIN_FILE')) die('Access Denied');
 
 global $admin_file;
 
-$pnt_module = basename(dirname(dirname(__FILE__)));
+$module_name = basename(dirname(dirname(__FILE__)));
 
-get_lang($pnt_module);
+get_lang($module_name);
 
 adminmenu($admin_file.'.php?op=adminStory', _NEWS, 'logo_red.png');
 adminmenu($admin_file.'.php?op=submissions', _SUBMISSIONS, 'logo_blue2.png');

@@ -13,23 +13,23 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $pnt_module['Arcade_Admin']['Add_a_game'] = $file;
+    $module['Arcade_Admin']['Add_a_game'] = $file;
     return;
 }
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
-require($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_main_arcade.' . $phpEx);
-require($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_arcade.' . $phpEx);
+require($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_main_arcade.' . $phpEx);
+require($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_arcade.' . $phpEx);
 
 if( isset($HTTP_POST_VARS['submit']) )
 {
@@ -51,39 +51,39 @@ if( isset($HTTP_POST_VARS['submit']) )
             $game_pic = $game_scorevar . ".gif";
     
         $sql = "SELECT MAX(game_order) AS max_order FROM " . GAMES_TABLE;
-        if( !$result = $pnt_db->sql_query($sql) )
+        if( !$result = $db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, "Unable to obtain the last sequence number of the table plays", "", __LINE__, __FILE__, $sql);
         }
-        $row = $pnt_db->sql_fetchrow($result);
+        $row = $db->sql_fetchrow($result);
     
         $max_order = $row['max_order'];
         $next_order = $max_order + 10;
     
         $sql = "INSERT INTO " . GAMES_TABLE . " ( game_order, game_pic, game_desc, game_highscore, game_highdate, game_highuser, game_name, game_swf, game_width, game_height, game_scorevar, game_type, arcade_catid ) " .
             "VALUES ($next_order, '$game_pic', '" . str_replace("\'", "''", $game_desc) . "', 0, 0, 0, '" . str_replace("\'", "''", $game_name) . "', '$game_swf', '$game_width', '$game_height', '$game_scorevar','$game_type','$catid')";
-        if( !$result = $pnt_db->sql_query($sql) )
+        if( !$result = $db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, "Couldn't insert row in games table", "", __LINE__, __FILE__, $sql);
         }
     
         $sql = "UPDATE " . ARCADE_CATEGORIES_TABLE . " SET arcade_nbelmt = arcade_nbelmt + 1 WHERE arcade_catid = $catid";
-        if( !$pnt_db->sql_query($sql) )
+        if( !$db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, "Couldn't update categories table", "", __LINE__, __FILE__, $sql);
         }
         
         //Comments Mod Start 
              $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_order = $next_order ";
-             if( !$result = $pnt_db->sql_query($sql) ) 
+             if( !$result = $db->sql_query($sql) ) 
              { 
                 message_die(GENERAL_ERROR, "Couldn't update comments table", "", __LINE__, __FILE__, $sql);
             } 
-             $row = $pnt_db->sql_fetchrow($result); 
+             $row = $db->sql_fetchrow($result); 
              $game_id = $row['game_id']; 
           
              $sql = "INSERT INTO " . COMMENTS_TABLE . " ( game_id, comments_value ) VALUES ($game_id, '')";
-             if( !$pnt_db->sql_query($sql) ) 
+             if( !$db->sql_query($sql) ) 
              { 
                     message_die(GENERAL_ERROR, "Couldn't update comments table", "", __LINE__, __FILE__, $sql);
              } 
@@ -92,36 +92,36 @@ if( isset($HTTP_POST_VARS['submit']) )
         unset($HTTP_POST_VARS['submit']);
         
                 $game_name = str_replace("\'", "'", $game_name);
-        $message = $game_name . $lang['Arcade_game_added'] . "<br /><br />" . sprintf($lang['Click_return_add_game'], "<a href=\"" . append_titanium_sid("admin_arcade_add.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message = $game_name . $lang['Arcade_game_added'] . "<br /><br />" . sprintf($lang['Click_return_add_game'], "<a href=\"" . append_sid("admin_arcade_add.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
 
     }
     else
     {
-        $message = "Not all forms have been filled out!  Unable to add the game!" . "<br /><br />" . sprintf($lang['Click_return_add_game'], "<a href=\"" . append_titanium_sid("admin_arcade_add.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message = "Not all forms have been filled out!  Unable to add the game!" . "<br /><br />" . sprintf($lang['Click_return_add_game'], "<a href=\"" . append_sid("admin_arcade_add.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
     }
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "body" => "admin/arcade_add_body.tpl")
 );
 
 $sql = "SELECT arcade_cattitle, arcade_catid FROM " . ARCADE_CATEGORIES_TABLE . " ORDER BY arcade_cattitle ASC";
-if( !($result = $pnt_db->sql_query($sql)) )
+if( !($result = $db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, "Error retrieving categories", '', __LINE__, __FILE__, $sql); 
 }
 
-while ( $row = $pnt_db->sql_fetchrow($result))
+while ( $row = $db->sql_fetchrow($result))
 {
     $cats = $cats . "<option value='" . $row['arcade_catid'] . "' >" . $row['arcade_cattitle'] . "</option>\n";
 }
 
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "L_ADD_TITLE" => $lang['Add_title'],
 
     "L_NAME" => $lang['Add_game_name'],
@@ -158,7 +158,7 @@ $phpbb2_template->assign_vars(array(
 
 // Generate The Page
 
-$phpbb2_template->pparse("body");
+$template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

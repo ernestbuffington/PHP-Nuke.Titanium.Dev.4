@@ -63,7 +63,7 @@
     <td class="row2" title="$rep_config['repsum_limit']"><input class="post" type="text" maxlength="255" size="5" name="repsum_limit" value="{REPSUM_LIMIT}" /></td>
   </tr>
   <tr>
-    <td class="catBottom" colspan="2" align="center">{S_HIDDEN_FIELDS}<input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" class="titaniumbutton" />
+    <td class="catBottom" colspan="2" align="center">{S_HIDDEN_FIELDS}<input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" class="liteoption" />
     </td>
   </tr>
 </table></form>

@@ -66,7 +66,7 @@ msnl_fShowSubTitle( _MSNL_CAT_CHG_LAB_CATCHG );
 ************************************************************************/
 
 $sql = "SELECT COUNT(`nid`) as msnl_cnt FROM `"
-			.$pnt_prefix."_hnl_newsletters` WHERE `cid` = '$msnl_iCID'";
+			.$prefix."_hnl_newsletters` WHERE `cid` = '$msnl_iCID'";
 
 $result	= msnl_fSQLCall( $sql );
 
@@ -76,7 +76,7 @@ if ( !$result ) { //Bad SQL call
 
 } else { //Successful SQL call
 
-	$row = $pnt_db->sql_fetchrow( $result ); 
+	$row = $db->sql_fetchrow( $result ); 
 
 	$msnl_iCnt	= intval( $row['msnl_cnt'] );
 
@@ -87,7 +87,7 @@ if ( !$result ) { //Bad SQL call
 ************************************************************************/
 
 $sql = "SELECT `ctitle`, `cdescription`, `cblocklimit` FROM `"
-			.$pnt_prefix."_hnl_categories` WHERE `cid` = '$msnl_iCID'";
+			.$prefix."_hnl_categories` WHERE `cid` = '$msnl_iCID'";
 
 $result1	= msnl_fSQLCall( $sql );
 
@@ -108,7 +108,7 @@ if ( !$result1 ) { //Bad SQL call
 	echo "<input type='hidden' name='msnl_cid' value='$msnl_iCID'>\n";
 	echo "</div>\n";
 
-	$row1 = $pnt_db->sql_fetchrow( $result1 ); 
+	$row1 = $db->sql_fetchrow( $result1 ); 
 
 	$msnl_asRec['ctitle']						= stripslashes( check_html( $row1['ctitle'], "nohtml" ) );
 	$msnl_asRec['cdescription']			= stripslashes( check_html( $row1['cdescription'], "nohtml" ) );

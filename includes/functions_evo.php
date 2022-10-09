@@ -27,8 +27,8 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
  * @author JeFFb68CAM
  *
  * @param string $field_name The field to retrieve
- * @param string $pnt_user Username or User_id
- * @param bool $is_name Is the $pnt_user a username
+ * @param string $user Username or User_id
+ * @param bool $is_name Is the $user a username
  * @return string
  */
 // recoded by ReOrGaNiSaTiOn
@@ -36,58 +36,58 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 // and from other files to get specific informations about an user
 // it makes no sense to cache all users (maybe this can be thousands)
 // but for actual page we can make the informations static
-function get_user_field($field_name, $pnt_user, $is_name = false) 
+function get_user_field($field_name, $user, $is_name = false) 
 {
-    global $pnt_db, $identify;
+    global $db, $identify;
     static $actual_user;
-    if (!$pnt_user) return NULL;
+    if (!$user) return NULL;
 
-    if ($is_name || !is_numeric($pnt_user))  
+    if ($is_name || !is_numeric($user))  
 	{
-        $where  = "`username` = '". str_replace("\'", "''", $pnt_user)."'";
+        $where  = "`username` = '". str_replace("\'", "''", $user)."'";
         $search = 'username';
     } 
 	else 
 	{
-        $where  = "`user_id` = '".$pnt_user."'";
+        $where  = "`user_id` = '".$user."'";
         $search = 'user_id';
     }
     
-	if (!isset($actual_user[$pnt_user])) 
+	if (!isset($actual_user[$user])) 
 	{
         $sql = "SELECT * FROM ".USERS_TABLE." WHERE $where";
-        $actual_user[$pnt_user] = $pnt_db->sql_ufetchrow($sql);
+        $actual_user[$user] = $db->sql_ufetchrow($sql);
         // We also put the groups data in the array.
-        $result = $pnt_db->sql_query('SELECT g.group_id, 
+        $result = $db->sql_query('SELECT g.group_id, 
 		                               g.group_name, 
 								g.group_single_user 
 								  
 								  FROM ('.GROUPS_TABLE.' AS g 
 								  INNER JOIN '.USER_GROUP_TABLE.' 
-								  AS ug ON (ug.group_id=g.group_id AND ug.user_id="'.$actual_user[$pnt_user]['user_id'].'" 
+								  AS ug ON (ug.group_id=g.group_id AND ug.user_id="'.$actual_user[$user]['user_id'].'" 
 								  AND ug.user_pending=0))', true);
 								  
-        while(list($g_id, $g_name, $single) = $pnt_db->sql_fetchrow($result)) 
+        while(list($g_id, $g_name, $single) = $db->sql_fetchrow($result)) 
 		{
-            $actual_user[$pnt_user]['groups'][$g_id] = ($single) ? '' : $g_name;
+            $actual_user[$user]['groups'][$g_id] = ($single) ? '' : $g_name;
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
     }
     if($field_name == '*') 
 	{
-        $actual_user[$pnt_user]['user_ip'] = $identify->get_ip();
-        return $actual_user[$pnt_user];
+        $actual_user[$user]['user_ip'] = $identify->get_ip();
+        return $actual_user[$user];
     }
     if(is_array($field_name)) 
 	{
         $data = array();
         foreach($field_name as $fld) 
 		{
-            $data[$fld] = $actual_user[$pnt_user][$fld];
+            $data[$fld] = $actual_user[$user][$fld];
         }
         return $data;
     }
-    return $actual_user[$pnt_user][$field_name];
+    return $actual_user[$user][$field_name];
 }
 
 /**
@@ -101,14 +101,14 @@ function get_user_field($field_name, $pnt_user, $is_name = false)
  */
 function get_admin_field($field_name, $admin) 
 {
-    global $pnt_db, $debugger;
+    global $db, $debugger;
     static $fields = array();
     if (!$admin) {
         return array();
     }
 
     if(!isset($fields[$admin]) || !is_array($fields[$admin])) {
-        $fields[$admin] = $pnt_db->sql_ufetchrow("SELECT * FROM "._AUTHOR_TABLE." WHERE `aid` = '" .  str_replace("\'", "''", $admin) . "'");
+        $fields[$admin] = $db->sql_ufetchrow("SELECT * FROM "._AUTHOR_TABLE." WHERE `aid` = '" .  str_replace("\'", "''", $admin) . "'");
     }
 
     if($field_name == '*') {
@@ -130,17 +130,17 @@ function get_admin_field($field_name, $admin)
  *
  * @author Quake
  *
- * @param string $pnt_module Module name
+ * @param string $module_name Module name
  * @return bool
  */
-function is_mod_admin($pnt_module='super') 
+function is_mod_admin($module_name='super') 
 {
 
-    global $pnt_db, $aid, $admin;
+    global $db, $aid, $admin;
     static $auth = array();
 
     if(!is_admin()) return 0;
-    if(isset($auth[$pnt_module])) return $auth[$pnt_module];
+    if(isset($auth[$module_name])) return $auth[$module_name];
 
     if(!isset($aid)) {
         if(!is_array($admin)) {
@@ -153,8 +153,8 @@ function is_mod_admin($pnt_module='super')
     }
     $admdata = get_admin_field('*', $aid);
     $auth_user = 0;
-    if($pnt_module != 'super') {
-        list($admins) = $pnt_db->sql_ufetchrow("SELECT `admins` FROM "._MODULES_TABLE." WHERE `title`='$pnt_module'");
+    if($module_name != 'super') {
+        list($admins) = $db->sql_ufetchrow("SELECT `admins` FROM "._MODULES_TABLE." WHERE `title`='$module_name'");
         $adminarray = explode(",", $admins);
         for ($i=0, $maxi=count($adminarray); $i < $maxi; $i++) {
             if ($admdata['aid'] == $adminarray[$i] && !empty($admins)) {
@@ -162,8 +162,8 @@ function is_mod_admin($pnt_module='super')
             }
         }
     }
-    $auth[$pnt_module] = ($admdata['radminsuper'] == 1 || $auth_user == 1);
-    return $auth[$pnt_module];
+    $auth[$module_name] = ($admdata['radminsuper'] == 1 || $auth_user == 1);
+    return $auth[$module_name];
 
 }
 
@@ -172,47 +172,47 @@ function is_mod_admin($pnt_module='super')
  *
  * @author ReOrGaNiSaTiOn (based on is_mod_admin from Quake)
  *
- * @param string $pnt_module Module name
+ * @param string $module_name Module name
  * super = only Superuser
  * module_name = only Admins with privileges for this module
  * all with module_name = Superuser + Module-Admins
  * @return array of admin-names with email-address by default only Superuser
  */
-function get_mod_admins($pnt_module='super', $all='') 
+function get_mod_admins($module_name='super', $all='') 
 {
 
-    global $pnt_db;
+    global $db;
     static $admins = array();
 
     if ( $all =='') {
-        if(isset($admins[$pnt_module])) {return $admins[$pnt_module];}
+        if(isset($admins[$module_name])) {return $admins[$module_name];}
     }
 
-    if($pnt_module == 'super' || $all != '') {
-        $result1 = $pnt_db->sql_query("SELECT `aid`, `email` FROM `"._AUTHOR_TABLE."` WHERE `radminsuper`='1'");
+    if($module_name == 'super' || $all != '') {
+        $result1 = $db->sql_query("SELECT `aid`, `email` FROM `"._AUTHOR_TABLE."` WHERE `radminsuper`='1'");
         $num = 0;
-        while (list($admin, $email) = $pnt_db->sql_fetchrow($result1)) {
-            $admins[$pnt_module][$num]['aid'] = $admin;
-            $admins[$pnt_module][$num]['email'] = $email;
+        while (list($admin, $email) = $db->sql_fetchrow($result1)) {
+            $admins[$module_name][$num]['aid'] = $admin;
+            $admins[$module_name][$num]['email'] = $email;
             $num++;
         }
-        $pnt_db->sql_freeresult($result1);
+        $db->sql_freeresult($result1);
     }
 
-    if($pnt_module != 'super') {
-        list($admin) = $pnt_db->sql_ufetchrow("SELECT `admins` FROM `"._MODULES_TABLE."` WHERE `title`='".$pnt_module."'");
+    if($module_name != 'super') {
+        list($admin) = $db->sql_ufetchrow("SELECT `admins` FROM `"._MODULES_TABLE."` WHERE `title`='".$module_name."'");
         $adminarray = explode(",", $admin);
         $num = ($all !='') ? $num : 0;
         for ($i=0, $maxi=count($adminarray); $i < $maxi; $i++) {
-            $row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `aid`, `email` FROM `"._AUTHOR_TABLE."` WHERE `aid`='".$adminarray[$i]."'"));
+            $row = $db->sql_fetchrow($db->sql_query("SELECT `aid`, `email` FROM `"._AUTHOR_TABLE."` WHERE `aid`='".$adminarray[$i]."'"));
             if (!empty($row['aid'])) {
-                $admins[$pnt_module][$num]['aid'] = $row['aid'];
-                $admins[$pnt_module][$num]['email'] = $row['email'];
+                $admins[$module_name][$num]['aid'] = $row['aid'];
+                $admins[$module_name][$num]['email'] = $row['email'];
             }
             $num++;
         }
     }
-    return $admins[$pnt_module];
+    return $admins[$module_name];
 }
 
 /**
@@ -222,31 +222,31 @@ function get_mod_admins($pnt_module='super', $all='')
  *
  * @return array
  */
-function load_nuke_titanium_config() 
+function load_nukeconfig() 
 {
-    global $pnt_db, $cache, $debugger;
-    // $nuke_titanium_config is only called once -> mainfile.php
+    global $db, $cache, $debugger;
+    // $nukeconfig is only called once -> mainfile.php
     // mainfile.php is only loaded once. So static makes no sense
-    // static $nuke_titanium_config;
-    // if(isset($nuke_titanium_config) && is_array($nuke_titanium_config)) { return $nuke_titanium_config; }
-    if ((($nuke_titanium_config = $cache->load('php_nuke_titanium_config', 'config')) === false) || empty($nuke_titanium_config)) {
-        $nuke_titanium_config = $pnt_db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE, SQL_ASSOC);
-        if (!$nuke_titanium_config) {
-            if ($pnt_prefix != 'nuke') {
-                $nuke_titanium_config = $pnt_db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE, SQL_ASSOC);
-                if(is_array($nuke_titanium_config)) {
-                    die('Please change your $pnt_prefix in config.php to \'nuke\'.  You might have to do the same for the $pnt_user_prefix');
+    // static $nukeconfig;
+    // if(isset($nukeconfig) && is_array($nukeconfig)) { return $nukeconfig; }
+    if ((($nukeconfig = $cache->load('nukeconfig', 'config')) === false) || empty($nukeconfig)) {
+        $nukeconfig = $db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE, SQL_ASSOC);
+        if (!$nukeconfig) {
+            if ($prefix != 'nuke') {
+                $nukeconfig = $db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE, SQL_ASSOC);
+                if(is_array($nukeconfig)) {
+                    die('Please change your $prefix in config.php to \'nuke\'.  You might have to do the same for the $user_prefix');
                 }
             }
         }
-        $nuke_titanium_config = str_replace('\\"', '"', $nuke_titanium_config);
-        $cache->save('php_nuke_titanium_config', 'config', $nuke_titanium_config);
-        $pnt_db->sql_freeresult($nuke_titanium_config);
+        $nukeconfig = str_replace('\\"', '"', $nukeconfig);
+        $cache->save('nukeconfig', 'config', $nukeconfig);
+        $db->sql_freeresult($nukeconfig);
     }
-    if(is_array($nuke_titanium_config)) {
-        return $nuke_titanium_config;
+    if(is_array($nukeconfig)) {
+        return $nukeconfig;
     } else {
-        $cache->delete('php_nuke_titanium_config', 'config');
+        $cache->delete('nukeconfig', 'config');
         $debugger->handle_error('There is an error in your  nuke_config data', 'Error');
         return array();
     }
@@ -259,28 +259,28 @@ function load_nuke_titanium_config()
  *
  * @return array
  */
-function load_phpbb2_board_config() 
+function load_board_config() 
 {
-    global $pnt_db, $debugger, $currentlang, $cache;
-    // load_phpbb2_board_config is only called once -> mainfile.php
+    global $db, $debugger, $currentlang, $cache;
+    // load_board_config is only called once -> mainfile.php
     // mainfile.php is only loaded once. So static makes no sense
-    //static $phpbb2_board_config;
-    //if(isset($phpbb2_board_config) && is_array($phpbb2_board_config)) { return $phpbb2_board_config; }
-    if ((($phpbb2_board_config = $cache->load('board_config', 'config')) === false) || empty($phpbb2_board_config)) {
-        $phpbb2_board_config = array();
+    //static $board_config;
+    //if(isset($board_config) && is_array($board_config)) { return $board_config; }
+    if ((($board_config = $cache->load('board_config', 'config')) === false) || empty($board_config)) {
+        $board_config = array();
 
         $sql = "SELECT * FROM " . CONFIG_TABLE;
-        if( !($result = $pnt_db->sql_query($sql, true)) ) {
+        if( !($result = $db->sql_query($sql, true)) ) {
             $debugger->handle_error("Could not query phpbb config information", 'Error');
         }
-        while ( $row = $pnt_db->sql_fetchrow($result) ) {
-            $phpbb2_board_config[$row['config_name']] = $row['config_value'];
+        while ( $row = $db->sql_fetchrow($result) ) {
+            $board_config[$row['config_name']] = $row['config_value'];
         }
-        $pnt_db->sql_freeresult($result);
-        $cache->save('board_config', 'config', $phpbb2_board_config);
+        $db->sql_freeresult($result);
+        $cache->save('board_config', 'config', $board_config);
     }
-    if(is_array($phpbb2_board_config)) {
-        return $phpbb2_board_config;
+    if(is_array($board_config)) {
+        return $board_config;
     } else {
         $cache->delete('board_config', 'config');
         $debugger->handle_error('There is an error in your board_config data', 'Error');
@@ -295,78 +295,77 @@ function load_phpbb2_board_config()
  *
  * @return array
  */
-function load_titanium_config() 
+function load_evoconfig() 
 {
-    global $pnt_db, $cache, $debugger;
-    // load_titanium_config is only called once -> mainfile.php
+    global $db, $cache, $debugger;
+    // load_evoconfig is only called once -> mainfile.php
     // mainfile.php is only loaded once. So static makes no sense
-    //static $pnt_config;
-    //if(isset($pnt_config) && is_array($pnt_config)) { return $pnt_config; }
-    if ((($pnt_config = $cache->load('titanum_config', 'config')) === false) || empty($pnt_config)) {
-        $pnt_config = array();
-        $result = $pnt_db->sql_query('SELECT `evo_field`, `evo_value` FROM '._EVOCONFIG_TABLE.' WHERE `evo_field` != "cache_data"');
-        while(list($evo_field, $evo_value) = $pnt_db->sql_fetchrow($result)) {
+    //static $evoconfig;
+    //if(isset($evoconfig) && is_array($evoconfig)) { return $evoconfig; }
+    if ((($evoconfig = $cache->load('evoconfig', 'config')) === false) || empty($evoconfig)) {
+        $evoconfig = array();
+        $result = $db->sql_query('SELECT `evo_field`, `evo_value` FROM '._EVOCONFIG_TABLE.' WHERE `evo_field` != "cache_data"');
+        while(list($evo_field, $evo_value) = $db->sql_fetchrow($result)) {
             if($evo_field != 'cache_data') {
-                $pnt_config[$evo_field] = $evo_value;
+                $evoconfig[$evo_field] = $evo_value;
             }
         }
         $sql = "SELECT `config_value` FROM " . _CNBYA_CONFIG_TABLE . " WHERE `config_name` = 'allowusertheme'";
-        if( !($resultcnbya = $pnt_db->sql_query($sql))) {
+        if( !($resultcnbya = $db->sql_query($sql))) {
             $debugger->handle_error("Could not query cnbya config information", 'Error');
         }
-        $row = $pnt_db->sql_fetchrow($resultcnbya, SQL_NUM);
-        $pnt_config['allowusertheme'] = $row['config_value'];
+        $row = $db->sql_fetchrow($resultcnbya, SQL_NUM);
+        $evoconfig['allowusertheme'] = $row['config_value'];
         $sql = 'SELECT `word`, `replacement` FROM `'.WORDS_TABLE.'`';
-        if( !($resultwords = $pnt_db->sql_query($sql))) {
+        if( !($resultwords = $db->sql_query($sql))) {
             $debugger->handle_error("Could not query bad words information", 'Error');
         }
-        while(list($word, $replacement) = $pnt_db->sql_fetchrow($resultwords)) {
+        while(list($word, $replacement) = $db->sql_fetchrow($resultwords)) {
             $wordrow[$word] = $replacement;
         }
-        $pnt_config['censor_words'] = $wordrow;
+        $evoconfig['censor_words'] = $wordrow;
 
-        $cache->save('titanium_config', 'config', $pnt_config);
-        $pnt_db->sql_freeresult($result);
+        $cache->save('evoconfig', 'config', $evoconfig);
+        $db->sql_freeresult($result);
     }
-    if(is_array($pnt_config)) {
-        return $pnt_config;
+    if(is_array($evoconfig)) {
+        return $evoconfig;
     } else {
-        $cache->delete('titanium_config', 'config');
-        $debugger->handle_error('There is an error in your titanium_config data', 'Error');
+        $cache->delete('evoconfig', 'config');
+        $debugger->handle_error('There is an error in your evoconfig data', 'Error');
         return array();
     }
 }
 
 // main_module function by Quake
-function main_module_titanium() 
+function main_module() 
 {
-  global $pnt_db, $cache;
-  static $main_module_titanium;
-  if (isset($main_module_titanium)) { return $main_module_titanium; }
-    if((($main_module_titanium = $cache->load('main_module', 'config')) === false) || empty($main_module_titanium)) {
-        list($main_module_titanium) = $pnt_db->sql_ufetchrow('SELECT main_module FROM '._MAIN_TABLE, SQL_NUM);
-      $cache->save('main_module', 'config', $main_module_titanium);
+  global $db, $cache;
+  static $main_module;
+  if (isset($main_module)) { return $main_module; }
+    if((($main_module = $cache->load('main_module', 'config')) === false) || empty($main_module)) {
+        list($main_module) = $db->sql_ufetchrow('SELECT main_module FROM '._MAIN_TABLE, SQL_NUM);
+      $cache->save('main_module', 'config', $main_module);
   }
-  return $main_module_titanium;
+  return $main_module;
 }
 
 // update_modules function by JeFFb68CAM
 function update_modules() 
 {
     // New function to add new modules and delete old ones
-    global $pnt_db, $cache;
+    global $db, $cache;
     static $updated;
     if(isset($updated)) { return $updated; }
     //Here we will pull all currently installed modules from the database
-    $result = $pnt_db->sql_query("SELECT title FROM "._MODULES_TABLE, true);
-    while(list($mtitle) = $pnt_db->sql_fetchrow($result, SQL_NUM)) {
+    $result = $db->sql_query("SELECT title FROM "._MODULES_TABLE, true);
+    while(list($mtitle) = $db->sql_fetchrow($result, SQL_NUM)) {
         if(substr($mtitle,0,3) != '~l~') {
-            $pnt_modules[] = $mtitle;
+            $modules[] = $mtitle;
         }
     }
-	
-    $pnt_db->sql_freeresult($result);
-    sort($pnt_modules);
+    $db->sql_freeresult($result);
+    sort($modules);
 
     //Here we will get all current modules uploaded
     $handle=opendir(NUKE_MODULES_DIR);
@@ -381,10 +380,10 @@ function update_modules()
 
     //Now we will run a check to make sure that all uploaded modules are installed
     for($i=0, $maxi=count($modlist);$i<$maxi;$i++) {
-        $pnt_module = $modlist[$i];
-        if (!in_array($pnt_module, $pnt_modules))
+        $module = $modlist[$i];
+        if (!in_array($module, $modules))
         {
-            $pnt_db->sql_uquery("INSERT INTO `"._MODULES_TABLE."` (`mid`, 
+            $db->sql_uquery("INSERT INTO `"._MODULES_TABLE."` (`mid`, 
 			                                                 `title`, 
 													  `custom_title`, 
 													        `active`, 
@@ -394,35 +393,35 @@ function update_modules()
 															`cat_id`, 
 															`blocks`, 
 															`admins`, 
-															`groups`) VALUES (NULL, '$pnt_module', '".str_replace("_", " ", $pnt_module)."', 0, 0, 1, 0, 7, 1, '', '')");
+															`groups`) VALUES (NULL, '$module', '".str_replace("_", " ", $module)."', 0, 0, 1, 0, 7, 1, '', '')");
         }
     }
 
     //Now we will run a check to make sure all installed modules still exist
-    for($i=0, $maxi=count($pnt_modules);$i<$maxi;$i++){
-        $pnt_module = $pnt_modules[$i];
-        if (!in_array($pnt_module, $modlist))
+    for($i=0, $maxi=count($modules);$i<$maxi;$i++){
+        $module = $modules[$i];
+        if (!in_array($module, $modlist))
         {
-            $pnt_db->sql_uquery("DELETE FROM `"._MODULES_TABLE."` WHERE `title`= '$pnt_module'");
-            $result = $pnt_db->sql_uquery("OPTIMIZE TABLE `"._MODULES_TABLE."`");
-            $pnt_db->sql_freeresult($result);
+            $db->sql_uquery("DELETE FROM `"._MODULES_TABLE."` WHERE `title`= '$module'");
+            $result = $db->sql_uquery("OPTIMIZE TABLE `"._MODULES_TABLE."`");
+            $db->sql_freeresult($result);
             $cache->delete('active_modules');
         }
     }
 
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
     return $updated = true;
 }
 
 function UpdateCookie() 
 {
-    global $pnt_db, $pnt_prefix, $userinfo, $cache, $cookie, $identify;
+    global $db, $prefix, $userinfo, $cache, $cookie, $identify;
 
     $ip = $identify->get_ip();
     $uid = $userinfo['user_id'];
-    $pnt_username = $userinfo['username'];
+    $username = $userinfo['username'];
     $pass = $userinfo['user_password'];
-    $blognum = $userinfo['storynum'];
+    $storynum = $userinfo['storynum'];
     $umode = $userinfo['umode'];
     $uorder = $userinfo['uorder'];
     $thold = $userinfo['thold'];
@@ -443,13 +442,13 @@ function UpdateCookie()
         /*****[END]********************************************
         [ Base:    Caching System                     v3.0.0 ]
         ******************************************************/
-        $configresult = $pnt_db->sql_query("SELECT config_name, config_value FROM ".$pnt_prefix."_cnbya_config", true);
-        while (list($config_name, $config_value) = $pnt_db->sql_fetchrow($configresult, SQL_NUM)) 
+        $configresult = $db->sql_query("SELECT config_name, config_value FROM ".$prefix."_cnbya_config", true);
+        while (list($config_name, $config_value) = $db->sql_fetchrow($configresult, SQL_NUM)) 
         {
             // if (!get_magic_quotes_gpc()) { $config_value = stripslashes($config_value); }
             $ya_config[$config_name] = $config_value;
         }
-        $pnt_db->sql_freeresult($configresult);
+        $db->sql_freeresult($configresult);
         /*****[BEGIN]******************************************
         [ Base:    Caching System                     v3.0.0 ]
         ******************************************************/
@@ -459,19 +458,19 @@ function UpdateCookie()
         ******************************************************/
     }
 
-    $result = $pnt_db->sql_query("SELECT time FROM ".$pnt_prefix."_session WHERE uname='$pnt_username'", true);
+    $result = $db->sql_query("SELECT time FROM ".$prefix."_session WHERE uname='$username'", true);
     $ctime = time();
-    if (!empty($pnt_username)) {
-        $uname = substr($pnt_username, 0,25);
-        if ($row = $pnt_db->sql_fetchrow($result)) {
-            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_session SET uname='$pnt_username', time='$ctime', host_addr='$ip', guest='$guest' WHERE uname='$uname'");
+    if (!empty($username)) {
+        $uname = substr($username, 0,25);
+        if ($row = $db->sql_fetchrow($result)) {
+            $db->sql_query("UPDATE ".$prefix."_session SET uname='$username', time='$ctime', host_addr='$ip', guest='$guest' WHERE uname='$uname'");
         } else {
-            $pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_session (uname, time, starttime, host_addr, guest) VALUES ('$uname', '$ctime', '$ctime', '$ip', '$guest')");
+            $db->sql_query("INSERT INTO ".$prefix."_session (uname, time, starttime, host_addr, guest) VALUES ('$uname', '$ctime', '$ctime', '$ip', '$guest')");
         }
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 
-    $cookiedata = base64_encode("$uid:$pnt_username:$pass:$blognum:$umode:$uorder:$thold:$noscore:$ublockon:$theme:$commentmax");
+    $cookiedata = base64_encode("$uid:$username:$pass:$storynum:$umode:$uorder:$thold:$noscore:$ublockon:$theme:$commentmax");
     if ($ya_config['cookietimelife'] != '-') {
         if (trim($ya_config['cookiepath']) != '') {
             @setcookie('user',$cookiedata,time()+$ya_config['cookietimelife'],$ya_config['cookiepath']);
@@ -487,20 +486,20 @@ function UpdateCookie()
 // called by several files - so it makes sense to cache it (ReOrGaNiSaTiOn)
 function GetColorGroups($in_admin = false) 
 {
-    global $pnt_db, $cache;
+    global $db, $cache;
     static $ColorGroupsCache;
 
     if((($ColorGroupsCache = $cache->load('ColorGroups', 'config')) === false) || empty($ColorGroupsCache)) 
 	{
         $ColorGroupsCache = '';
-        $result = $pnt_db->sql_query("SELECT `group_id`, `group_name`, `group_color`, `group_weight` FROM `".AUC_TABLE."` WHERE `group_id`>'0' ORDER BY `group_weight` ASC");
+        $result = $db->sql_query("SELECT `group_id`, `group_name`, `group_color`, `group_weight` FROM `".AUC_TABLE."` WHERE `group_id`>'0' ORDER BY `group_weight` ASC");
         $back = ($in_admin) ? '&amp;menu=1' : '';
     
-	    while (list($group_id, $group_name, $group_color, $group_weight) = $pnt_db->sql_fetchrow($result)) 
+	    while (list($group_id, $group_name, $group_color, $group_weight) = $db->sql_fetchrow($result)) 
 		{
-            $ColorGroupsCache .= '&nbsp;[&nbsp;<strong><a href="'. append_titanium_sid('auc_listing.php?id='. $group_id.$back) .'"><span class="genmed" style="color:#'. $group_color .';">'. $group_name .'</span></a></strong>&nbsp;]&nbsp;';
+            $ColorGroupsCache .= '&nbsp;[&nbsp;<strong><a href="'. append_sid('auc_listing.php?id='. $group_id.$back) .'"><span class="genmed" style="color:#'. $group_color .';">'. $group_name .'</span></a></strong>&nbsp;]&nbsp;';
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
         $cache->save('ColorGroups', 'config', $ColorGroupsCache);
     }
     return $ColorGroupsCache;
@@ -510,35 +509,27 @@ function GetColorGroups($in_admin = false)
 // recoded & removed cache-function and added static variable (ReOrGaNiSaTiOn)
 function avatar_resize($avatar_url) 
 {
-    global $phpbb2_board_config;
+    global $board_config;
     static $loaded_avatars;
-    if(!isset($loaded_avatars[$avatar_url])) 
-	{
+    if(!isset($loaded_avatars[$avatar_url])) {
         $loaded_avatars[$avatar_url] = array();
-    
-	    list($avatar_width, $avatar_height) = @getimagesize($avatar_url);
-    
-	    if ($avatar_width > $phpbb2_board_config['avatar_max_width'] && $avatar_height <= $phpbb2_board_config['avatar_max_height']) 
-		{
-            $cons_width  = $phpbb2_board_config['avatar_max_width'];
-            $cons_height = round((($phpbb2_board_config['avatar_max_width'] * $avatar_height) / $avatar_width), 0);
+        list($avatar_width, $avatar_height) = @getimagesize($avatar_url);
+        if ($avatar_width > $board_config['avatar_max_width'] && $avatar_height <= $board_config['avatar_max_height']) {
+            $cons_width  = $board_config['avatar_max_width'];
+            $cons_height = round((($board_config['avatar_max_width'] * $avatar_height) / $avatar_width), 0);
         }
-        elseif($avatar_width <= $phpbb2_board_config['avatar_max_width'] && $avatar_height > $phpbb2_board_config['avatar_max_height']) 
-		{
-            $cons_width  = round((($phpbb2_board_config['avatar_max_height'] * $avatar_width) / $avatar_height), 0);
-            $cons_height = $phpbb2_board_config['avatar_max_height'];
+        elseif($avatar_width <= $board_config['avatar_max_width'] && $avatar_height > $board_config['avatar_max_height']) {
+            $cons_width  = round((($board_config['avatar_max_height'] * $avatar_width) / $avatar_height), 0);
+            $cons_height = $board_config['avatar_max_height'];
         }
-        elseif($avatar_width > $phpbb2_board_config['avatar_max_width'] && $avatar_height > $phpbb2_board_config['avatar_max_height']) 
-		{
-            if($avatar_width >= $avatar_height) 
-			{
-                $cons_width = $phpbb2_board_config['avatar_max_width'];
-                $cons_height = round((($phpbb2_board_config['avatar_max_width'] * $avatar_height) / $avatar_width), 0);
+        elseif($avatar_width > $board_config['avatar_max_width'] && $avatar_height > $board_config['avatar_max_height']) {
+            if($avatar_width >= $avatar_height) {
+                $cons_width = $board_config['avatar_max_width'];
+                $cons_height = round((($board_config['avatar_max_width'] * $avatar_height) / $avatar_width), 0);
             }
-            elseif($avatar_width < $avatar_height) 
-			{
-                $cons_width = round((($phpbb2_board_config['avatar_max_height'] * $avatar_width) / $avatar_height), 0);
-                $cons_height = $phpbb2_board_config['avatar_max_height'];
+            elseif($avatar_width < $avatar_height) {
+                $cons_width = round((($board_config['avatar_max_height'] * $avatar_width) / $avatar_height), 0);
+                $cons_height = $board_config['avatar_max_height'];
             }
         }
         // $loaded_avatars[$avatar_url] = '<img src="' . $avatar_url . '" width="' . $cons_width . '" height="' . $cons_height . '" alt="" border="0" />';
@@ -602,10 +593,10 @@ function EvoDate($format, $gmepoch, $tz)
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-    global $phpbb2_board_config, $lang, $userdata, $pnt_pc_dateTime, $userinfo;
+    global $board_config, $lang, $userdata, $pc_dateTime, $userinfo;
 	getusrinfo();
 	static $translate;
-	    if ( empty($translate) && $phpbb2_board_config['default_lang'] != 'english' )
+	    if ( empty($translate) && $board_config['default_lang'] != 'english' )
     {
     		@include(NUKE_FORUMS_DIR.'language/lang_'.$lang.'/lang_time.php');
     		if (!(empty($langtime['datetime'])))
@@ -632,24 +623,24 @@ function EvoDate($format, $gmepoch, $tz)
 				return ( !empty($translate) ) ? strtr(@date($format, $gmepoch), $translate) : @date($format, $gmepoch);
 				break;
 			case 4:
-				if ( isset($pnt_pc_dateTime['pc_timezoneOffset']) )
+				if ( isset($pc_dateTime['pc_timezoneOffset']) )
 				{
-					$tzo_sec = $pnt_pc_dateTime['pc_timezoneOffset'];
+					$tzo_sec = $pc_dateTime['pc_timezoneOffset'];
 				} else
 				{
-					$pnt_user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
-					$tzo_sec = $pnt_user_pc_timeOffsets[0];
+					$user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
+					$tzo_sec = $user_pc_timeOffsets[0];
 				}
 				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
 				break;
 			case 6:
-				if ( isset($pnt_pc_dateTime['pc_timeOffset']) )
+				if ( isset($pc_dateTime['pc_timeOffset']) )
 				{
-					$tzo_sec = $pnt_pc_dateTime['pc_timeOffset'];
+					$tzo_sec = $pc_dateTime['pc_timeOffset'];
 				} else
 				{
-					$pnt_user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
-					$tzo_sec = $pnt_user_pc_timeOffsets[1];
+					$user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
+					$tzo_sec = $user_pc_timeOffsets[1];
 				}
 				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
 				break;
@@ -659,23 +650,23 @@ function EvoDate($format, $gmepoch, $tz)
 		}
 	} else
 	{
-		switch ( $phpbb2_board_config['default_time_mode'] )
+		switch ( $board_config['default_time_mode'] )
 		{
 			case 1:
-				$dst_sec = $phpbb2_board_config['default_dst_time_lag'] * 60;
+				$dst_sec = $board_config['default_dst_time_lag'] * 60;
 				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : @gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
 				break;
 			case 2:
-				$dst_sec = date('I', $gmepoch) * $phpbb2_board_config['default_dst_time_lag'] * 60;
+				$dst_sec = date('I', $gmepoch) * $board_config['default_dst_time_lag'] * 60;
 				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : @gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
 				break;
 			case 3:
 				return ( !empty($translate) ) ? strtr(@date($format, $gmepoch), $translate) : @date($format, $gmepoch);
 				break;
 			case 4:
-				if ( isset($pnt_pc_dateTime['pc_timezoneOffset']) )
+				if ( isset($pc_dateTime['pc_timezoneOffset']) )
 				{
-					$tzo_sec = $pnt_pc_dateTime['pc_timezoneOffset'];
+					$tzo_sec = $pc_dateTime['pc_timezoneOffset'];
 				} else
 				{
 					$tzo_sec = 0;
@@ -683,9 +674,9 @@ function EvoDate($format, $gmepoch, $tz)
 				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
 				break;
 			case 6:
-				if ( isset($pnt_pc_dateTime['pc_timeOffset']) )
+				if ( isset($pc_dateTime['pc_timeOffset']) )
 				{
-					$tzo_sec = $pnt_pc_dateTime['pc_timeOffset'];
+					$tzo_sec = $pc_dateTime['pc_timeOffset'];
 				} else
 				{
 					$tzo_sec = 0;
@@ -730,21 +721,21 @@ function evo_timetohours($time) {
                 $seconds    = floor($change_time - (($days * 86400) + ($hours * 3600) + ($minutes * 60)));
                 break;
             case ($change_time < 31536000): // below 1 year (365 days)
-                $total_phpbb2_days = floor($change_time / 86400);
-                $months     = floor($total_phpbb2_days / 30);
-                $hours      = floor(($change_time - ($total_phpbb2_days * 86400))/3600);
-                $minutes    = floor(($change_time - (($total_phpbb2_days * 86400) + ($hours * 3600)))/60);
-                $seconds    = floor($change_time - (($total_phpbb2_days * 86400) + ($hours * 3600) + ($minutes * 60)));
+                $total_days = floor($change_time / 86400);
+                $months     = floor($total_days / 30);
+                $hours      = floor(($change_time - ($total_days * 86400))/3600);
+                $minutes    = floor(($change_time - (($total_days * 86400) + ($hours * 3600)))/60);
+                $seconds    = floor($change_time - (($total_days * 86400) + ($hours * 3600) + ($minutes * 60)));
                 $days       = floor(365 - ($months * 30)); //is not exact, but I know no better method
                break;
             case ($change_time >= 31536000): // more than 1 year
                 $years      = floor($change_time / 31536000);
-                $total_phpbb2_days = floor(($change_time - ($years * 31536000))/86400);
-                $months     = floor($total_phpbb2_days / 30);
+                $total_days = floor(($change_time - ($years * 31536000))/86400);
+                $months     = floor($total_days / 30);
                 $days       = floor($months * 30); //is not exact, but I know no better method
-                $hours      = floor(($change_time - (($years * 31536000) + ($total_phpbb2_days * 86400)))/3600);
-                $minutes    = floor(($change_time - (($years * 31536000) + ($total_phpbb2_days * 86400) + ($hours * 3600)))/60);
-                $seconds    = floor($change_time - (($years * 31536000) + ($total_phpbb2_days * 86400) + ($hours * 3600) + ($minutes * 60)));
+                $hours      = floor(($change_time - (($years * 31536000) + ($total_days * 86400)))/3600);
+                $minutes    = floor(($change_time - (($years * 31536000) + ($total_days * 86400) + ($hours * 3600)))/60);
+                $seconds    = floor($change_time - (($years * 31536000) + ($total_days * 86400) + ($hours * 3600) + ($minutes * 60)));
                 break;
         }
         $changed_time['seconds']  = $seconds;
@@ -764,10 +755,10 @@ function group_selectbox($fieldname, $current=0, $mvanon=false, $all=true)
     static $groups;
     if (!isset($groups)):
 
-        global $pnt_db, $pnt_prefix, $customlang;
+        global $db, $prefix, $customlang;
         
-        $result = $pnt_db->sql_query('SELECT `group_id`, `group_name` FROM `'.GROUPS_TABLE.'` WHERE `group_single_user` = 0', true);
-        while (list($group_ID, $group_name) = $pnt_db->sql_fetchrow($result)):
+        $result = $db->sql_query('SELECT `group_id`, `group_name` FROM `'.GROUPS_TABLE.'` WHERE `group_single_user` = 0', true);
+        while (list($group_ID, $group_name) = $db->sql_fetchrow($result)):
             $forum_groups[($group_ID+3)] = $group_name;
         endwhile;
 
@@ -786,6 +777,16 @@ function group_selectbox($fieldname, $current=0, $mvanon=false, $all=true)
     if (!$mvanon) { unset($tmpgroups[3]); }
     return select_box($fieldname, $current, $tmpgroups);
 }
+
+// function select_box($name, $default, $options, $multiple=false, $conditions=array()) 
+// {
+//     $select = '<select class="set" name="'.$name.'" id="'.$name.'"'.(($multiple == true) ? ' multiple="multiple" size="5"' : '').'>';
+//     foreach($options as $value => $title):
+//         $select .= '<option value="'.$value.'"'.(($value == $default) ? ' selected="selected"':'').(($conditions['disabled'] == $title) ? ' disabled' : '').'>'.$title.'</option>'."\n";
+//     endforeach;
+//     return $select.'</select>';
+//     // return var_dump($conditions['disabled']);
+// }
 
 function select_box_forum($name, $default, $options, $multiple=false, $conditions=array()) 
 {
@@ -880,7 +881,7 @@ function confirm_msg($link, $msg) {
         <tr>
             <td class="row1" align="center"><form action="'.$link.'" method="post"><span class="gen">
                 <br />'.$msg.'<br /><br /><input type="submit" name="confirm" value="'._YES.'" class="mainoption" />
-                &nbsp;&nbsp;<input type="submit" name="cancel" value="'._NO.'" class="titaniumbutton" /></span></form>
+                &nbsp;&nbsp;<input type="submit" name="cancel" value="'._NO.'" class="liteoption" /></span></form>
             </td>
         </tr>
     </table>
@@ -891,7 +892,7 @@ function confirm_msg($link, $msg) {
 // DisplayError function by Technocrat
 function DisplayError($msg, $special=0) 
 {
-    if (defined('FORUM_ADMIN') || defined('IN_PHPBB2') && function_exists('message_die') && !$special) {
+    if (defined('FORUM_ADMIN') || defined('IN_PHPBB') && function_exists('message_die') && !$special) {
         message_die(GENERAL_ERROR, $msg);
     } else {
         include_once(NUKE_BASE_DIR.'header.php');
@@ -914,6 +915,18 @@ function ValidateURL($url, $type, $where)
         include_once(NUKE_BASE_DIR.'language/custom/lang-'.$currentlang.'.php');
     } else {
         include_once(NUKE_BASE_DIR.'language/custom/lang-english.php');
+    }
+    if(substr($url, strlen($url)-1,1) == '/') {
+        DisplayError(_URL_SLASH_ERR . $where);
+    }
+    if($type == 0) {
+        if(!substr($url, 0,7) == 'http://') {
+            DisplayError(_URL_HTTP_ERR . $where);
+        }
+    } else if($type == 1) {
+        if(substr($url, 0,7) == 'http://') {
+            DisplayError(_URL_NHTTP_ERR . $where);
+        }
     }
     if(substr($url, strlen($url)-4,4) == '.php') {
         DisplayError(_URL_PHP_ERR . $where);
@@ -975,9 +988,9 @@ function post_captcha($response)
 }
 	
 	
-function security_code_check($pnt_user_response, $gfxchk) 
+function security_code_check($user_response, $gfxchk) 
 {
-    global $pnt_config;
+    global $evoconfig;
 
     if ( !get_evo_option('recap_site_key') && !get_evo_option('recap_priv_key') ):
         return true;
@@ -1000,7 +1013,7 @@ function security_code_check($pnt_user_response, $gfxchk)
      *
      * @return array
      */ 
-    $recappassfail = post_captcha($pnt_user_response);
+    $recappassfail = post_captcha($user_response);
 
     if (!$recappassfail['success']):
 
@@ -1052,29 +1065,29 @@ function Make_TextArea_Ret($name, $text='', $post='', $width='100%', $height='30
 function user_ips() 
 {
     include_once(NUKE_BASE_DIR.'ips.php');
-    global $pnt_users_ips;
-    if(isset($pnt_users_ips)){
-        if(is_array($pnt_users_ips)){
-            for($i=0, $maxi=count($pnt_users_ips); $i < $maxi; $i += 2) {
+    global $users_ips;
+    if(isset($users_ips)){
+        if(is_array($users_ips)){
+            for($i=0, $maxi=count($users_ips); $i < $maxi; $i += 2) {
                 $i2 = $i + 1;
-                $pnt_userips[strtolower($pnt_users_ips[$i])] = explode(',',$pnt_users_ips[$i2]);
+                $userips[strtolower($users_ips[$i])] = explode(',',$users_ips[$i2]);
             }
-            return $pnt_userips;
+            return $userips;
         }
     }
     return null;
 }
 
 // compare_ips function by Technocrat
-function compare_ips($pnt_username) 
+function compare_ips($username) 
 {
 	global $identify;
-    $pnt_userips = user_ips();
-    if(!is_array($pnt_userips)) {
+    $userips = user_ips();
+    if(!is_array($userips)) {
         return true;
     }
-    if(isset($pnt_userips[strtolower($pnt_username)])) {
-        $ip_check = implode('|^',$pnt_userips[strtolower($pnt_username)]);
+    if(isset($userips[strtolower($username)])) {
+        $ip_check = implode('|^',$userips[strtolower($username)]);
         if (!preg_match("/^".$ip_check."/",$identify->get_ip())) {
             return false;
         }
@@ -1085,48 +1098,39 @@ function compare_ips($pnt_username)
 [ Mod:     User IP Lock                       v1.0.0 ]
 ******************************************************/
 
-function GetRank($pnt_user_id) 
+function GetRank($user_id) 
 {
-    global $pnt_db, $pnt_prefix, $pnt_user_prefix;
+    global $db, $prefix, $user_prefix;
     static $rankData = array();
-    if(is_array($rankData[$pnt_user_id])) { return $rankData[$pnt_user_id]; }
+    if(is_array($rankData[$user_id])) { return $rankData[$user_id]; }
 
-    list($pnt_user_rank, $pnt_user_posts) = $pnt_db->sql_ufetchrow("SELECT user_rank, user_posts FROM " 
-	. $pnt_user_prefix . "_users WHERE user_id = '" . $pnt_user_id . "'", SQL_NUM);
-    
-	$ranks = $pnt_db->sql_ufetchrowset("SELECT * FROM " . $pnt_prefix . "_bbranks ORDER BY rank_special, rank_min", SQL_ASSOC);
+    list($user_rank, $user_posts) = $db->sql_ufetchrow("SELECT user_rank, user_posts FROM " . $user_prefix . "_users WHERE user_id = '" . $user_id . "'", SQL_NUM);
+    $ranks = $db->sql_ufetchrowset("SELECT * FROM " . $prefix . "_bbranks ORDER BY rank_special, rank_min", SQL_ASSOC);
 
-    $rankData[$pnt_user_id] = array();
+    $rankData[$user_id] = array();
     for($i=0, $maxi=count($ranks);$i<$maxi;$i++) {
-        if ($pnt_user_rank == $ranks[$i]['rank_id'] && $ranks[$i]['rank_special']) {
+        if ($user_rank == $ranks[$i]['rank_id'] && $ranks[$i]['rank_special']) {
             echo $ranks[$i]['rank_title'];
-            
-			$rankData[$pnt_user_id]['image'] = ($ranks[$i]['rank_image']) ? '<img src="'.$ranks[$i]['rank_image'].'" alt="'.$ranks[$i]['rank_title']
-			.'" title="'.$ranks[$i]['rank_title'].'" border="0" />' : '';
-            
-			$rankData[$pnt_user_id]['title'] = $ranks[$i]['rank_title'];
-            $rankData[$pnt_user_id]['id'] = $ranks[$i]['rank_id'];
-            return $rankData[$pnt_user_id];
-        } 
-		elseif ($pnt_user_posts >= $ranks[$i]['rank_min'] && !$ranks[$i]['rank_special']) 
-		{
-            $rankData[$pnt_user_id]['image'] = ($ranks[$i]['rank_image']) ? '<img src="'.$ranks[$i]['rank_image'].'" alt="'.$ranks[$i]['rank_title']
-			.'" title="'.$ranks[$i]['rank_title'].'" border="0" />' : '';
-            
-			$rankData[$pnt_user_id]['title'] = $ranks[$i]['rank_title'];
-            $rankData[$pnt_user_id]['id'] = $ranks[$i]['rank_id'];
-            return $rankData[$pnt_user_id];
+            $rankData[$user_id]['image'] = ($ranks[$i]['rank_image']) ? '<img src="'.$ranks[$i]['rank_image'].'" alt="'.$ranks[$i]['rank_title'].'" title="'.$ranks[$i]['rank_title'].'" border="0" />' : '';
+            $rankData[$user_id]['title'] = $ranks[$i]['rank_title'];
+            $rankData[$user_id]['id'] = $ranks[$i]['rank_id'];
+            return $rankData[$user_id];
+        } elseif ($user_posts >= $ranks[$i]['rank_min'] && !$ranks[$i]['rank_special']) {
+            $rankData[$user_id]['image'] = ($ranks[$i]['rank_image']) ? '<img src="'.$ranks[$i]['rank_image'].'" alt="'.$ranks[$i]['rank_title'].'" title="'.$ranks[$i]['rank_title'].'" border="0" />' : '';
+            $rankData[$user_id]['title'] = $ranks[$i]['rank_title'];
+            $rankData[$user_id]['id'] = $ranks[$i]['rank_id'];
+            return $rankData[$user_id];
         }
     }
     return array();
 }
 
 // redirect function by Quake
-function redirect_titanium($url, $refresh = 0) 
+function redirect($url, $refresh = 0) 
 {
-    global $pnt_db, $cache;
+    global $db, $cache;
     if(is_object($cache)) $cache->resync();
-    if(is_object($pnt_db)) $pnt_db->sql_close();
+    if(is_object($db)) $db->sql_close();
     $type = preg_match('/IIS|Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ? 'Refresh: '.$refresh.'; URL=' : 'Location: ';
 	$url = str_replace('&amp;', "&", $url);
     header($type . $url);
@@ -1152,41 +1156,26 @@ function evo_img_tag_to_resize($text)
 
 function referer() 
 {
-    global $pnt_db, $pnt_prefix,  $nukeurl, $httpref, $httprefmax, $_GETVAR;
+    global $db, $prefix,  $nukeurl, $httpref, $httprefmax, $_GETVAR;
 
-    if ($httpref == 1 && isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) 
-	{
+    if ($httpref == 1 && isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
         $referer = check_html($_SERVER['HTTP_REFERER'], 'nohtml');
         $referer = $_GETVAR->fixQuotes($referer);
-        
-		if(substr($_SERVER['HTTP_HOST'],0,4) == 'www.') 
-		{
+        if(substr($_SERVER['HTTP_HOST'],0,4) == 'www.') {
             $no_www = substr($_SERVER['HTTP_HOST'],5);
-        } 
-		else 
-		{
+        } else {
             $no_www = $_SERVER['HTTP_HOST'];
         }
-        
-		$referer_request = '/'.$_SERVER['REQUEST_METHOD'].$_SERVER['REQUEST_URI'];
+        $referer_request = '/'.$_SERVER['REQUEST_METHOD'].$_SERVER['REQUEST_URI'];
         if($referer_request == '/GET/') $referer_request = '/';
         $referer_request = $_GETVAR->fixQuotes($referer_request);
-        
-		
-		if (stristr('$referer', '://') && !stristr('$referer', $nukeurl) && !stristr('$referer', '$no_www')) 
-		{
-
-            if (!$pnt_db->sql_query('UPDATE IGNORE '.$pnt_prefix."_referer SET lasttime=".time()
-			.", link='".$referer_request."' WHERE url='".$referer."'") || !$pnt_db->sql_affectedrows()) 
-			{
-                $pnt_db->sql_query('INSERT IGNORE INTO '.$pnt_prefix."_referer VALUES ('".$referer."', ".time().",'".$referer_request."')");
+        if (stristr($referer, '://') && !stristr($referer, $nukeurl) && !stristr($referer, $no_www)) {
+            if (!$db->sql_query('UPDATE IGNORE '.$prefix."_referer SET lasttime=".time().", link='".$referer_request."' WHERE url='".$referer."'") || !$db->sql_affectedrows()) {
+                $db->sql_query('INSERT IGNORE INTO '.$prefix."_referer VALUES ('".$referer."', ".time().",'".$referer_request."')");
             }
-            
-			list($numrows) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM '.$pnt_prefix.'_referer');
-            
-			if ($numrows >= $httprefmax) 
-			{
-                $pnt_db->sql_query('DELETE FROM '.$pnt_prefix.'_referer ORDER BY lasttime LIMIT '.($numrows-($httprefmax/2)));
+            list($numrows) = $db->sql_ufetchrow('SELECT COUNT(*) FROM '.$prefix.'_referer');
+            if ($numrows >= $httprefmax) {
+                $db->sql_query('DELETE FROM '.$prefix.'_referer ORDER BY lasttime LIMIT '.($numrows-($httprefmax/2)));
             }
         }
     }
@@ -1206,27 +1195,27 @@ function ord_crypt_decode($data)
     return $result;
 }
 
-function add_group_attributes($pnt_user_id, $group_id) 
+function add_group_attributes($user_id, $group_id) 
 {
-    global $pnt_prefix, $pnt_db, $phpbb2_board_config, $cache;
+    global $prefix, $db, $board_config, $cache;
 
-    if ($pnt_user_id <= 2) return true;
+    if ($user_id <= 2) return true;
 
-    $sql_color = "SELECT `group_color` FROM `" . $pnt_prefix . "_bbgroups` WHERE `group_id` = '$group_id'";
-    $result_color = $pnt_db->sql_query($sql_color);
-    $row_color = $pnt_db->sql_fetchrow($result_color);
-    $pnt_db->sql_freeresult($result_color);
-    $phpbb2_color = $row_color['group_color'];
-    if (!empty($phpbb2_color)) {
-        $sql_color = "SELECT `group_color`, `group_id` FROM `" . $pnt_prefix . "_bbadvanced_username_color` WHERE `group_id` = '$phpbb2_color'";
-        $result_color = $pnt_db->sql_query($sql_color);
-        $row_color = $pnt_db->sql_fetchrow($result_color);
-        $pnt_db->sql_freeresult($result_color);
+    $sql_color = "SELECT `group_color` FROM `" . $prefix . "_bbgroups` WHERE `group_id` = '$group_id'";
+    $result_color = $db->sql_query($sql_color);
+    $row_color = $db->sql_fetchrow($result_color);
+    $db->sql_freeresult($result_color);
+    $color = $row_color['group_color'];
+    if (!empty($color)) {
+        $sql_color = "SELECT `group_color`, `group_id` FROM `" . $prefix . "_bbadvanced_username_color` WHERE `group_id` = '$color'";
+        $result_color = $db->sql_query($sql_color);
+        $row_color = $db->sql_fetchrow($result_color);
+        $db->sql_freeresult($result_color);
     }
-    $sql_rank = "SELECT `group_rank` FROM `" . $pnt_prefix . "_bbgroups` WHERE `group_id` = '$group_id'";
-    $result_rank = $pnt_db->sql_query($sql_rank);
-    $row_rank = $pnt_db->sql_fetchrow($result_rank);
-    $pnt_db->sql_freeresult($result_rank);
+    $sql_rank = "SELECT `group_rank` FROM `" . $prefix . "_bbgroups` WHERE `group_id` = '$group_id'";
+    $result_rank = $db->sql_query($sql_rank);
+    $row_rank = $db->sql_fetchrow($result_rank);
+    $db->sql_freeresult($result_rank);
     if(isset($row_rank['group_rank']) && !isset($row_color['group_color'])) {
         $sql = "`user_rank` = '".$row_rank['group_rank']."'";
     }elseif(isset($row_color['group_color']) && !isset($row_rank['group_rank'])) {
@@ -1241,10 +1230,10 @@ function add_group_attributes($pnt_user_id, $group_id)
     }
 
     if (!empty($sql)) {
-        $sql = "UPDATE `" . $pnt_prefix . "_users`
+        $sql = "UPDATE `" . $prefix . "_users`
             SET " . $sql . "
-            WHERE user_id = " . $pnt_user_id;
-        if ( !$pnt_db->sql_query($sql) )
+            WHERE user_id = " . $user_id;
+        if ( !$db->sql_query($sql) )
         {
             return false;
         }
@@ -1259,23 +1248,23 @@ function add_group_attributes($pnt_user_id, $group_id)
     return true;
 }
 
-function remove_group_attributes($pnt_user_id, $group_id) 
+function remove_group_attributes($user_id, $group_id) 
 {
-    global $pnt_prefix, $pnt_db, $phpbb2_board_config, $cache;
-    if (empty($pnt_user_id) && !empty($group_id) && $group_id != 0) {
-        $sql = "SELECT `user_id` FROM `".$pnt_prefix."_bbuser_group` WHERE `group_id`=".$group_id;
-        $result = $pnt_db->sql_query($sql);
-        while ($row = $pnt_db->sql_fetchrow($result)) {
+    global $prefix, $db, $board_config, $cache;
+    if (empty($user_id) && !empty($group_id) && $group_id != 0) {
+        $sql = "SELECT `user_id` FROM `".$prefix."_bbuser_group` WHERE `group_id`=".$group_id;
+        $result = $db->sql_query($sql);
+        while ($row = $db->sql_fetchrow($result)) {
             remove_group_attributes($row['user_id'], '');
         }
         $cache->delete('UserColors', 'config');
-    } else if (!empty($pnt_user_id) && $pnt_user_id >= 3) {
-        $sql = "UPDATE `" . $pnt_prefix . "_users`
+    } else if (!empty($user_id) && $user_id >= 3) {
+        $sql = "UPDATE `" . $prefix . "_users`
                 SET `user_color_gc` = '',
                 `user_color_gi`  = '',
                 `user_rank` = 0
-                WHERE `user_id` = ".$pnt_user_id;
-        $pnt_db->sql_query($sql);
+                WHERE `user_id` = ".$user_id;
+        $db->sql_query($sql);
     }
 
 }
@@ -1287,7 +1276,7 @@ function amp_replace($string)
     return $string;
 }
 
-function titanium_site_up_evo($url) 
+function evo_site_up($url) 
 {
     //Set the address
     $address = parse_url($url);
@@ -1299,7 +1288,7 @@ function titanium_site_up_evo($url)
 
 function evo_mail($to, $subject, $content, $header='', $params='', $batch=false) 
 {
-    global $phpbb2_board_config, $nuke_titanium_config, $cache;
+    global $board_config, $nukeconfig, $cache;
 	
 	// Include the swift class
     require_once(NUKE_INCLUDE_DIR.'mail/swift_required.php');
@@ -1307,14 +1296,14 @@ function evo_mail($to, $subject, $content, $header='', $params='', $batch=false)
     if (empty($to)) return false;
 	
 	// Set the from email
-	if (!isset($nuke_titanium_config['adminmail']) || empty($nuke_titanium_config['adminmail']) || $nuke_titanium_config['adminmail'] == 'webmaster@------.---'){
-        if (!isset($phpbb2_board_config['board_email']) || empty($phpbb2_board_config['board_email']) || $phpbb2_board_config['board_email'] == 'Webmaster@MySite.com'){
+	if (!isset($nukeconfig['adminmail']) || empty($nukeconfig['adminmail']) || $nukeconfig['adminmail'] == 'webmaster@------.---'){
+        if (!isset($board_config['board_email']) || empty($board_config['board_email']) || $board_config['board_email'] == 'Webmaster@MySite.com'){
             $from = '';
         } else {
-            $from = $phpbb2_board_config['board_email'];
+            $from = $board_config['board_email'];
         }
     } else {
-        $from = $nuke_titanium_config['adminmail'];
+        $from = $nukeconfig['adminmail'];
     }
 	
 	// Parse the message before sending
@@ -1329,10 +1318,10 @@ function evo_mail($to, $subject, $content, $header='', $params='', $batch=false)
 		->setBody($content, 'text/html');
 	
 	// SMTP mail
-	if (isset($phpbb2_board_config['smtp_delivery']) && $phpbb2_board_config['smtp_delivery'] == '1'){
-		if (!empty($phpbb2_board_config['smtp_username']) && !empty($phpbb2_board_config['smtp_password'])){
+	if (isset($board_config['smtp_delivery']) && $board_config['smtp_delivery'] == '1'){
+		if (!empty($board_config['smtp_username']) && !empty($board_config['smtp_password'])){
 			// Try to explode the string and see if a port is attached
-			$settings = explode(':', $phpbb2_board_config['smtp_host']);
+			$settings = explode(':', $board_config['smtp_host']);
 			
 			if (is_array($settings) && strlen($settings[1]) > 0){
 				$smtp['host'] = $settings[0];
@@ -1345,8 +1334,8 @@ function evo_mail($to, $subject, $content, $header='', $params='', $batch=false)
 			$smtp = Swift_SmtpTransport::newInstance($smtp['host'], $smtp['port']);
 			
 			// Set the username and password
-			$smtp->setUsername($phpbb2_board_config['smtp_username']);
-            $smtp->setpassword($phpbb2_board_config['smtp_password']);
+			$smtp->setUsername($board_config['smtp_username']);
+            $smtp->setpassword($board_config['smtp_password']);
 			
 			// Set a new mailer class to send the message
 			$mailer = Swift_Mailer::newInstance($smtp);
@@ -1380,8 +1369,8 @@ function evo_mail_batch($array_recipients)
     if (!is_array($array_recipients)) return '';
 
     $recipients = Swift_Message::newInstance();
-    foreach ($array_recipients as $pnt_username => $email){
-        $recipients->addTo($email, $pnt_username);
+    foreach ($array_recipients as $username => $email){
+        $recipients->addTo($email, $username);
     }
     return $recipients;
 }

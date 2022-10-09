@@ -27,7 +27,7 @@ echo '<br />'."\n";
 $longip_lo = sprintf("%u", ip2long($sip_lo)); // 0
 $longip_hi = sprintf("%u", ip2long($sip_hi)); // 4294967295
 //BLOCKED IP SEARCH RESULTS
-$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE `ip_long` >='$longip_lo' AND `ip_long`<='$longip_hi'"));
+$totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ips` WHERE `ip_long` >='$longip_lo' AND `ip_long`<='$longip_hi'"));
 if($totalselected > 0) {
   echo '<br />'."\n";
   echo '<center class="title"><strong>'._AB_SEARCHBLOCKEDIPS.'</strong></center><br />'."\n";
@@ -39,14 +39,14 @@ if($totalselected > 0) {
   echo '<td align="center" width="20%"><strong>'._AB_EXPIRES.'</strong></td>'."\n";
   echo '<td align="center" width="20%"><strong>'._AB_REASON.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE `ip_long` >='$longip_lo' AND `ip_long`<='$longip_hi'");
-  while($getIPs = $pnt_db->sql_fetchrow($result)) {
-    list($getIPs['reason']) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `reason` FROM `".$pnt_prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1"));
+  $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ips` WHERE `ip_long` >='$longip_lo' AND `ip_long`<='$longip_hi'");
+  while($getIPs = $db->sql_fetchrow($result)) {
+    list($getIPs['reason']) = $db->sql_fetchrow($db->sql_query("SELECT `reason` FROM `".$prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1"));
     $getIPs['reason'] = str_replace("Abuse-", "", $getIPs['reason']);
     $bdate = date("Y-m-d", $getIPs['date']);
     $lookupip = str_replace("*", "0", $getIPs['ip_addr']);
     if($getIPs['expires']==0) { $bexpire = _AB_PERMENANT; } else { $bexpire = date("Y-m-d", $getIPs['expires']); }
-    list($bname) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `username` FROM `".$pnt_user_prefix."_users` WHERE `user_id`='".$getIPs['user_id']."' LIMIT 0,1"));
+    list($bname) = $db->sql_fetchrow($db->sql_query("SELECT `username` FROM `".$user_prefix."_users` WHERE `user_id`='".$getIPs['user_id']."' LIMIT 0,1"));
     $qs = htmlentities(base64_decode($getIPs['query_string']));
     $qs = str_replace("%20", " ", $qs);
     $qs = str_replace("/**/", "/* */", $qs);
@@ -67,7 +67,7 @@ if($totalselected > 0) {
 }
 if($longip_lo > 0 || $longip_hi < 4294967295) {
   //BLOCKED RANGES SEARCH RESULTS
-  $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
+  $totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
   if($totalselected > 0) {
     echo '<br />'."\n";
     echo '<center class="title"><strong>'._AB_SEARCHBLOCKEDRANGES.'</strong></center><br />'."\n";
@@ -80,8 +80,8 @@ if($longip_lo > 0 || $longip_hi < 4294967295) {
     echo '<td align="center" width="15%"><strong>'._AB_CIDRS.'</strong></td>'."\n";
     echo '</tr>'."\n";
     $x = 0;
-    $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_blocked_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
-    while($getIPs = $pnt_db->sql_fetchrow($result)) {
+    $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
+    while($getIPs = $db->sql_fetchrow($result)) {
       $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
       $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
       $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);
@@ -101,7 +101,7 @@ if($longip_lo > 0 || $longip_hi < 4294967295) {
     echo '</table>'."\n";
   }
   //EXCLUDED RANGES SEARCH RESULTS
-  $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_excluded_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
+  $totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_excluded_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
   if($totalselected > 0) {
     echo '<br />'."\n";
     echo '<center class="title"><strong>'._AB_SEARCHEXCLUDEDRANGES.'</strong></center><br />'."\n";
@@ -114,8 +114,8 @@ if($longip_lo > 0 || $longip_hi < 4294967295) {
     echo '<td align="center" width="15%"><strong>'._AB_CIDRS.'</strong></td>'."\n";
     echo '</tr>'."\n";
     $x = 0;
-    $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_excluded_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
-    while($getIPs = $pnt_db->sql_fetchrow($result)) {
+    $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_excluded_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
+    while($getIPs = $db->sql_fetchrow($result)) {
       $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
       $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
       $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);
@@ -135,7 +135,7 @@ if($longip_lo > 0 || $longip_hi < 4294967295) {
     echo '</table>'."\n";
   }
   //PROTECTED RANGES SEARCH RESULTS
-  $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_protected_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
+  $totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_protected_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
   if($totalselected > 0) {
     echo '<br />'."\n";
     echo '<center class="title"><strong>'._AB_SEARCHPROTECTEDRANGES.'</strong></center><br />'."\n";
@@ -148,8 +148,8 @@ if($longip_lo > 0 || $longip_hi < 4294967295) {
     echo '<td align="center" width="15%"><strong>'._AB_CIDRS.'</strong></td>'."\n";
     echo '</tr>'."\n";
     $x = 0;
-    $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_protected_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
-    while($getIPs = $pnt_db->sql_fetchrow($result)) {
+    $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_protected_ranges` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
+    while($getIPs = $db->sql_fetchrow($result)) {
       $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
       $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
       $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);
@@ -169,7 +169,7 @@ if($longip_lo > 0 || $longip_hi < 4294967295) {
     echo '</table>'."\n";
   }
   //IP 2 COUNTRY SEARCH
-  $totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_ip2country` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
+  $totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_ip2country` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`"));
   if($totalselected > 0) {
     echo '<br />'."\n";
     echo '<center class="title"><strong>'._AB_IP2CSEARCH.'</strong></center><br />'."\n";
@@ -182,8 +182,8 @@ if($longip_lo > 0 || $longip_hi < 4294967295) {
     echo '<td align="center" width="15%"><strong>'._AB_CIDRS.'</strong></td>'."\n";
     echo '</tr>'."\n";
     $x = 0;
-    $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_ip2country` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
-    while($getIPs = $pnt_db->sql_fetchrow($result)) {
+    $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_ip2country` WHERE (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_lo') OR (`ip_lo`<='$longip_hi' AND `ip_hi`>='$longip_hi') OR (`ip_lo`>='$longip_lo' AND `ip_hi`<='$longip_hi') OR (`ip_lo`<='$longip_lo' AND `ip_hi`>='$longip_hi') ORDER BY `ip_lo`");
+    while($getIPs = $db->sql_fetchrow($result)) {
       $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
       $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
       $masscidr = ABGetCIDRs($getIPs['ip_lo'], $getIPs['ip_hi']);

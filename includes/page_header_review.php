@@ -42,9 +42,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 define('HEADER_INC', TRUE);
@@ -58,7 +58,7 @@ $do_gzip_compress = FALSE;
 // Parse and show the overall header.
 //
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     'overall_header' => ( empty($gen_simple_header) ) ? 'overall_header.tpl' : 'simple_header.tpl')
 );
 
@@ -76,26 +76,26 @@ else
         $l_login_logout = $lang['Login'];
 }
 
-$s_last_visit = ( $userdata['session_logged_in'] ) ? create_date($phpbb2_board_config['default_dateformat'], $userdata['user_lastvisit'], $phpbb2_board_config['board_timezone']) : '';
+$s_last_visit = ( $userdata['session_logged_in'] ) ? create_date($board_config['default_dateformat'], $userdata['user_lastvisit'], $board_config['board_timezone']) : '';
 
 //
 // Get basic (usernames + totals) online
 // situation
 //
-$pnt_user_forum_sql = ( !empty($phpbb2_forum_id) ) ? "AND s.session_page = " . intval($phpbb2_forum_id) : '';
+$user_forum_sql = ( !empty($forum_id) ) ? "AND s.session_page = " . intval($forum_id) : '';
 $sql = "SELECT u.username, u.user_id, u.user_allow_viewonline, u.user_level, s.session_logged_in, s.session_ip
     FROM ".USERS_TABLE." u, ".SESSIONS_TABLE." s
     WHERE u.user_id = s.session_user_id
         AND s.session_time >= ".( time() - 300 ) . "
-        $pnt_user_forum_sql
+        $user_forum_sql
     ORDER BY u.username ASC, s.session_ip ASC";
-if( !($result = $pnt_db->sql_query($sql)) )
+if( !($result = $db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not obtain user/online information', '', __LINE__, __FILE__, $sql);
 }
 
-$pnt_userlist_ary = array();
-$pnt_userlist_visible = array();
+$userlist_ary = array();
+$userlist_visible = array();
 
 $logged_visible_online = 0;
 $logged_hidden_online = 0;
@@ -105,7 +105,7 @@ $online_userlist = '';
 $prev_user_id = 0;
 $prev_user_ip = '';
 
-while( $row = $pnt_db->sql_fetchrow($result) )
+while( $row = $db->sql_fetchrow($result) )
 {
     // User is logged in and therefor not a guest
     if ( $row['session_logged_in'] )
@@ -127,18 +127,18 @@ while( $row = $pnt_db->sql_fetchrow($result) )
 
             if ( $row['user_allow_viewonline'] )
             {
-                $pnt_user_online_link = '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'>' . $row['username'] . '</a>';
+                $user_online_link = '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'>' . $row['username'] . '</a>';
                 $logged_visible_online++;
             }
             else
             {
-                $pnt_user_online_link = '<a href="' . append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'><i>' . $row['username'] . '</i></a>';
+                $user_online_link = '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'><i>' . $row['username'] . '</i></a>';
                 $logged_hidden_online++;
             }
 
             if ( $row['user_allow_viewonline'] || $userdata['user_level'] == ADMIN )
             {
-                $online_userlist .= ( $online_userlist != '' ) ? ', ' . $pnt_user_online_link : $pnt_user_online_link;
+                $online_userlist .= ( $online_userlist != '' ) ? ', ' . $user_online_link : $user_online_link;
             }
         }
 
@@ -160,27 +160,27 @@ if ( empty($online_userlist) )
 {
     $online_userlist = $lang['None'];
 }
-$online_userlist = ( ( isset($phpbb2_forum_id) ) ? $lang['Browsing_forum'] : $lang['Registered_users'] ) . ' ' . $online_userlist;
+$online_userlist = ( ( isset($forum_id) ) ? $lang['Browsing_forum'] : $lang['Registered_users'] ) . ' ' . $online_userlist;
 
-$total_phpbb2_online_users = $logged_visible_online + $logged_hidden_online + $guests_online;
+$total_online_users = $logged_visible_online + $logged_hidden_online + $guests_online;
 
-if ( $total_phpbb2_online_users > $phpbb2_board_config['record_online_users'])
+if ( $total_online_users > $board_config['record_online_users'])
 {
-    $phpbb2_board_config['record_online_users'] = $total_phpbb2_online_users;
-    $phpbb2_board_config['record_online_date'] = time();
+    $board_config['record_online_users'] = $total_online_users;
+    $board_config['record_online_date'] = time();
 
     $sql = "UPDATE " . CONFIG_TABLE . "
-        SET config_value = '$total_phpbb2_online_users'
+        SET config_value = '$total_online_users'
         WHERE config_name = 'record_online_users'";
-    if ( !$pnt_db->sql_query($sql) )
+    if ( !$db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, 'Could not update online user record (nr of users)', '', __LINE__, __FILE__, $sql);
     }
 
     $sql = "UPDATE " . CONFIG_TABLE . "
-        SET config_value = '" . $phpbb2_board_config['record_online_date'] . "'
+        SET config_value = '" . $board_config['record_online_date'] . "'
         WHERE config_name = 'record_online_date'";
-    if ( !$pnt_db->sql_query($sql) )
+    if ( !$db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, 'Could not update online user record (date)', '', __LINE__, __FILE__, $sql);
     }
@@ -194,11 +194,11 @@ if ( $total_phpbb2_online_users > $phpbb2_board_config['record_online_users'])
  ******************************************************/
 }
 
-if ( $total_phpbb2_online_users == 0 )
+if ( $total_online_users == 0 )
 {
     $l_t_user_s = $lang['Online_users_zero_total'];
 }
-else if ( $total_phpbb2_online_users == 1 )
+else if ( $total_online_users == 1 )
 {
     $l_t_user_s = $lang['Online_user_total'];
 }
@@ -246,7 +246,7 @@ else
     $l_g_user_s = $lang['Guest_users_total'];
 }
 
-$l_online_users = sprintf($l_t_user_s, $total_phpbb2_online_users);
+$l_online_users = sprintf($l_t_user_s, $total_online_users);
 $l_online_users .= sprintf($l_r_user_s, $logged_visible_online);
 $l_online_users .= sprintf($l_h_user_s, $logged_hidden_online);
 $l_online_users .= sprintf($l_g_user_s, $guests_online);
@@ -267,18 +267,18 @@ if ( $userdata['session_logged_in'] )
             $sql = "UPDATE " . USERS_TABLE . "
                 SET user_last_privmsg = " . $userdata['user_lastvisit'] . "
                 WHERE user_id = " . $userdata['user_id'];
-            if ( !$pnt_db->sql_query($sql) )
+            if ( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not update private message new/read time for user', '', __LINE__, __FILE__, $sql);
             }
 
             $s_privmsg_new = 1;
-            $phpbb2_icon_pm = $images['pm_new_msg'];
+            $icon_pm = $images['pm_new_msg'];
         }
         else
         {
             $s_privmsg_new = 0;
-            $phpbb2_icon_pm = $images['pm_no_new_msg'];
+            $icon_pm = $images['pm_no_new_msg'];
         }
     }
     else
@@ -286,7 +286,7 @@ if ( $userdata['session_logged_in'] )
         $l_privmsgs_text = $lang['No_new_pm'];
 
         $s_privmsg_new = 0;
-        $phpbb2_icon_pm = $images['pm_no_new_msg'];
+        $icon_pm = $images['pm_no_new_msg'];
     }
 
     if ( $userdata['user_unread_privmsg'] )
@@ -301,7 +301,7 @@ if ( $userdata['session_logged_in'] )
 }
 else
 {
-    $phpbb2_icon_pm = $images['pm_no_new_msg'];
+    $icon_pm = $images['pm_no_new_msg'];
     $l_privmsgs_text = $lang['Login_check_pm'];
     $l_privmsgs_text_unread = '';
     $s_privmsg_new = 0;
@@ -310,20 +310,20 @@ else
 //
 // Generate HTML required for Mozilla Navigation bar
 //
-$pnt_nav_links_html = '';
+$nav_links_html = '';
 $nav_link_proto = '<link rel="%s" href="%s" title="%s" />' . "\n";
-while( list($nav_item, $nav_array) = @each($pnt_nav_links) )
+while( list($nav_item, $nav_array) = @each($nav_links) )
 {
     if ( !empty($nav_array['url']) )
     {
-        $pnt_nav_links_html .= sprintf($nav_link_proto, $nav_item, $nav_array['url'], $nav_array['title']);
+        $nav_links_html .= sprintf($nav_link_proto, $nav_item, $nav_array['url'], $nav_array['title']);
     }
     else
     {
         // We have a nested array, used for items like <link rel='chapter'> that can occur more than once.
         while( list(,$nested_array) = each($nav_array) )
         {
-            $pnt_nav_links_html .= sprintf($nav_link_proto, $nav_item, $nested_array['url'], $nested_array['title']);
+            $nav_links_html .= sprintf($nav_link_proto, $nav_item, $nested_array['url'], $nested_array['title']);
         }
     }
 }
@@ -332,20 +332,20 @@ while( list($nav_item, $nav_array) = @each($pnt_nav_links) )
 // The following assigns all _common_ variables that may be used at any point
 // in a template.
 //
-$phpbb2_template->assign_vars(array(
-    'SITENAME' => $phpbb2_board_config['sitename'],
-    'SITE_DESCRIPTION' => $phpbb2_board_config['site_desc'],
-    'PAGE_TITLE' => $phpbb2_page_title,
+$template->assign_vars(array(
+    'SITENAME' => $board_config['sitename'],
+    'SITE_DESCRIPTION' => $board_config['site_desc'],
+    'PAGE_TITLE' => $page_title,
     'LAST_VISIT_DATE' => sprintf($lang['You_last_visit'], $s_last_visit),
-    'CURRENT_TIME' => sprintf($lang['Current_time'], create_date($phpbb2_board_config['default_dateformat'], time(), $phpbb2_board_config['board_timezone'])),
+    'CURRENT_TIME' => sprintf($lang['Current_time'], create_date($board_config['default_dateformat'], time(), $board_config['board_timezone'])),
     'TOTAL_USERS_ONLINE' => $l_online_users,
     'LOGGED_IN_USER_LIST' => $online_userlist,
-    'RECORD_USERS' => sprintf($lang['Record_online_users'], $phpbb2_board_config['record_online_users'], create_date($phpbb2_board_config['default_dateformat'], $phpbb2_board_config['record_online_date'], $phpbb2_board_config['board_timezone'])),
+    'RECORD_USERS' => sprintf($lang['Record_online_users'], $board_config['record_online_users'], create_date($board_config['default_dateformat'], $board_config['record_online_date'], $board_config['board_timezone'])),
     'PRIVATE_MESSAGE_INFO' => $l_privmsgs_text,
     'PRIVATE_MESSAGE_INFO_UNREAD' => $l_privmsgs_text_unread,
     'PRIVATE_MESSAGE_NEW_FLAG' => $s_privmsg_new,
 
-    'PRIVMSG_IMG' => $phpbb2_icon_pm,
+    'PRIVMSG_IMG' => $icon_pm,
 
     'L_USERNAME' => $lang['Username'],
     'L_PASSWORD' => $lang['Password'],
@@ -353,11 +353,8 @@ $phpbb2_template->assign_vars(array(
     'L_LOGIN' => $lang['Login'],
     'L_LOG_ME_IN' => $lang['Log_me_in'],
     'L_AUTO_LOGIN' => $lang['Log_me_in'],
-    
-	'L_INDEX' => sprintf($lang['Forum_Index'], $phpbb2_board_config['sitename']),
-    'L_INDEXHOME' => $lang['Home_Index'],'index.php',
-    
-	'L_REGISTER' => $lang['Register'],
+    'L_INDEX' => sprintf($lang['Forum_Index'], $board_config['sitename']),
+    'L_REGISTER' => $lang['Register'],
     'L_PROFILE' => $lang['Profile'],
     'L_SEARCH' => $lang['Search'],
     'L_PRIVATEMSGS' => $lang['Private_Messages'],
@@ -371,34 +368,29 @@ $phpbb2_template->assign_vars(array(
     'L_WHOSONLINE_ADMIN' => sprintf($lang['Admin_online_color'], '<span style="color:#' . $theme['fontcolor3'] . '">', '</span>'),
     'L_WHOSONLINE_MOD' => sprintf($lang['Mod_online_color'], '<span style="color:#' . $theme['fontcolor2'] . '">', '</span>'),
 
-    'U_SEARCH_UNANSWERED' => append_titanium_sid('search.'.$phpEx.'?search_id=unanswered'),
-    'U_SEARCH_SELF' => append_titanium_sid('search.'.$phpEx.'?search_id=egosearch'),
-    'U_SEARCH_NEW' => append_titanium_sid('search.'.$phpEx.'?search_id=newposts'),
-	'U_INDEX' => append_titanium_sid('index.'.$phpEx),
-    
-	# Home Index Mod START
-	'U_HINDEX' => titanium_home_sid('index.'.$phpEx),
-    # Home Index Mod END
-    
-	'U_REGISTER' => append_titanium_sid('profile.'.$phpEx.'?mode=register'),
-    'U_PROFILE' => append_titanium_sid('modules.php?name=Your_Account&op=edituser'),
-    'U_PRIVATEMSGS' => append_titanium_sid('privmsg.'.$phpEx.'?folder=inbox'),
-    'U_PRIVATEMSGS_POPUP' => append_titanium_sid('privmsg.'.$phpEx.'?mode=newpm&popup=1'),
-    'U_SEARCH' => append_titanium_sid('search.'.$phpEx),
-    'U_MEMBERLIST' => append_titanium_sid('memberlist.'.$phpEx),
-    'U_MODCP' => append_titanium_sid('modcp.'.$phpEx),
-    'U_FAQ' => append_titanium_sid('faq.'.$phpEx),
-    'U_VIEWONLINE' => append_titanium_sid('viewonline.'.$phpEx),
-    'U_LOGIN_LOGOUT' => append_titanium_sid($u_login_logout),
-    'U_MEMBERSLIST' => append_titanium_sid('memberlist.'.$phpEx),
-    'U_GROUP_CP' => append_titanium_sid('groupcp.'.$phpEx),
+    'U_SEARCH_UNANSWERED' => append_sid('search.'.$phpEx.'?search_id=unanswered'),
+    'U_SEARCH_SELF' => append_sid('search.'.$phpEx.'?search_id=egosearch'),
+    'U_SEARCH_NEW' => append_sid('search.'.$phpEx.'?search_id=newposts'),
+    'U_INDEX' => append_sid('index.'.$phpEx),
+    'U_REGISTER' => append_sid('profile.'.$phpEx.'?mode=register'),
+    'U_PROFILE' => append_sid('modules.php?name=Your_Account&op=edituser'),
+    'U_PRIVATEMSGS' => append_sid('privmsg.'.$phpEx.'?folder=inbox'),
+    'U_PRIVATEMSGS_POPUP' => append_sid('privmsg.'.$phpEx.'?mode=newpm&popup=1'),
+    'U_SEARCH' => append_sid('search.'.$phpEx),
+    'U_MEMBERLIST' => append_sid('memberlist.'.$phpEx),
+    'U_MODCP' => append_sid('modcp.'.$phpEx),
+    'U_FAQ' => append_sid('faq.'.$phpEx),
+    'U_VIEWONLINE' => append_sid('viewonline.'.$phpEx),
+    'U_LOGIN_LOGOUT' => append_sid($u_login_logout),
+    'U_MEMBERSLIST' => append_sid('memberlist.'.$phpEx),
+    'U_GROUP_CP' => append_sid('groupcp.'.$phpEx),
 
     'S_CONTENT_DIRECTION' => $lang['DIRECTION'],
     'S_CONTENT_ENCODING' => $lang['ENCODING'],
     'S_CONTENT_DIR_LEFT' => $lang['LEFT'],
     'S_CONTENT_DIR_RIGHT' => $lang['RIGHT'],
-    'S_TIMEZONE' => sprintf($lang['All_times'], $lang[number_format($phpbb2_board_config['board_timezone'])]),
-    'S_LOGIN_ACTION' => append_titanium_sid('login.'.$phpEx),
+    'S_TIMEZONE' => sprintf($lang['All_times'], $lang[number_format($board_config['board_timezone'])]),
+    'S_LOGIN_ACTION' => append_sid('login.'.$phpEx),
 
     'T_HEAD_STYLESHEET' => $theme['head_stylesheet'],
 
@@ -441,7 +433,7 @@ $phpbb2_template->assign_vars(array(
     'T_SPAN_CLASS2' => $theme['span_class2'],
     'T_SPAN_CLASS3' => $theme['span_class3'],
 
-    'NAV_LINKS' => $pnt_nav_links_html)
+    'NAV_LINKS' => $nav_links_html)
 );
 
 //
@@ -449,18 +441,18 @@ $phpbb2_template->assign_vars(array(
 //
 if ( !$userdata['session_logged_in'] )
 {
-    $phpbb2_template->assign_block_vars('switch_user_logged_out', array());
+    $template->assign_block_vars('switch_user_logged_out', array());
 }
 else
 {
-    $phpbb2_template->assign_block_vars('switch_user_logged_in', array());
+    $template->assign_block_vars('switch_user_logged_in', array());
 
     if ( !empty($userdata['user_popup_pm']) )
     {
-        $phpbb2_template->assign_block_vars('switch_enable_pm_popup', array());
+        $template->assign_block_vars('switch_enable_pm_popup', array());
     }
 }
 
-$phpbb2_template->pparse('overall_header');
+$template->pparse('overall_header');
 
 ?>

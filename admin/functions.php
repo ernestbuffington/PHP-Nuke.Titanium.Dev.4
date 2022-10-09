@@ -65,7 +65,7 @@ endif;
 
 function login() 
 {
-	global $admin_file, $pnt_db, $pnt_prefix, $admlang;
+	global $admin_file, $db, $prefix, $admlang;
 
 	title_and_meta_tags();
 	get_header();
@@ -218,9 +218,9 @@ function login()
 
 function deleteNotice($id) 
 {
-	global $pnt_prefix, $pnt_db, $admin_file, $cache;
+	global $prefix, $db, $admin_file, $cache;
 	$id = intval($id);
-	$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_reviews_add` WHERE `id` = '$id'");
+	$db->sql_query("DELETE FROM `".$prefix."_reviews_add` WHERE `id` = '$id'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -228,17 +228,17 @@ function deleteNotice($id)
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-	redirect_titanium($admin_file.".php?op=reviews");
+	redirect($admin_file.".php?op=reviews");
 }
 
 function adminmenu($url, $title, $image) 
 {
-	global $counter, $admingraphic, $admin, $pnt_module_folder_name;
+	global $counter, $admingraphic, $admin, $module_folder_name;
 
-	if(file_exists('modules/'.$pnt_module_folder_name.'/images/admin/'.$image)):
-		$image = 'modules/'.$pnt_module_folder_name.'/images/admin/'.$image;
-	elseif(file_exists('modules/'.$pnt_module_folder_name.'/images/'.$image)):
-		$image = 'modules/'.$pnt_module_folder_name.'/images/'.$image;
+	if(file_exists('modules/'.$module_folder_name.'/images/admin/'.$image)):
+		$image = 'modules/'.$module_folder_name.'/images/admin/'.$image;
+	elseif(file_exists('modules/'.$module_folder_name.'/images/'.$image)):
+		$image = 'modules/'.$module_folder_name.'/images/'.$image;
 	else:
 		$image = 'images/admin/'.$image;
 	endif;
@@ -286,7 +286,7 @@ function adminmenu($url, $title, $image)
 
 	if ($counter == 5) 
 	{
-		if($phpbb2_end == FALSE)
+		if($end == FALSE)
 		{
 			echo '</tr>'."\n".'<tr>'."\n";
 		}
@@ -334,7 +334,7 @@ function track_sql_errors()
 	return $return;
 }
 
-function track_CMS_version() 
+function track_evo_version() 
 {
 	global $admin_file, $admlang;
 	/**
@@ -343,10 +343,10 @@ function track_CMS_version()
 	$version_refresh = get_query_var( 'check-version', 'get', 'string', false );
 	$version_check_cache = cache_json_data('https://php-nuke-titanium.86it.us/versions/titanium-version.json', dirname(__FILE__).'/version.cache', $version_refresh); 
 
-	if($version_check_cache['version'] == NUKE_TITANIUM):
+	if($version_check_cache['version'] == NUKE_EVO):
 
 		$version_desc = $admlang['admin']['version_is_current'];
-		$new_version_number = NUKE_TITANIUM;
+		$new_version_number = NUKE_EVO;
 		$update_url = $admin_file.'.php?check-version=true';
 
 	else:
@@ -370,14 +370,14 @@ function track_CMS_version()
  ******************************************************/
 function GraphicAdmin($pos=1)
 {
-	global $aid, $admingraphic, $cache, $language, $admin, $pnt_prefix, $pnt_user_prefix, $pnt_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
+	global $aid, $admingraphic, $cache, $language, $admin, $prefix, $user_prefix, $db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
 	
 	if ($pos != $admin_pos)
 	return;
 
 	$radminsuper = is_mod_admin();
 
-	list($waiting_users) = $pnt_db->sql_ufetchrow("select count(user_id) from `".USERS_TEMP_TABLE."`");
+	list($waiting_users) = $db->sql_ufetchrow("select count(user_id) from `".USERS_TEMP_TABLE."`");
 
 	OpenTable();
 	echo '<table style="width: 100%;" border="0" cellpadding="4" cellspacing="1">';
@@ -399,10 +399,10 @@ function GraphicAdmin($pos=1)
     
 	echo '<table style="font-family: monospace !important; width: 100%;" border="0" cellpadding="3" cellspacing="1" class="livefeed">';
     
-	$phpbb2_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36';
+	$agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36';
     $curl = curl_init('https://php-nuke-titanium.86it.us/versions/feed.php');
-    curl_setopt($curl, CURLOPT_USERAGENT, $phpbb2_agent);
-    curl_setopt($curl, CURLOPT_USERAGENT, $phpbb2_agent);
+    curl_setopt($curl, CURLOPT_USERAGENT, $agent);
+    curl_setopt($curl, CURLOPT_USERAGENT, $agent);
     curl_setopt($curl, CURLOPT_REFERER, 'https://'.$domain.'/');
     $dir = NUKE_BASE_DIR.'includes/log';
     $config['cookie_file'] = $dir.'/'.$_SERVER['REMOTE_ADDR'].'.txt';
@@ -454,7 +454,7 @@ function GraphicAdmin($pos=1)
 	echo track_sql_errors();
 	
 	# check evo version
-	echo track_CMS_version();
+	echo track_evo_version();
 
     # admin ip lock enabled/disabled
 	echo '<tr>';
@@ -558,22 +558,22 @@ function GraphicAdmin($pos=1)
 	echo '  </tr>';
 	echo '  <tr>'."\n";
 	update_modules();
-	$result = $pnt_db->sql_query("SELECT `title` FROM `".$pnt_prefix."_modules` ORDER BY `title` ASC");
+	$result = $db->sql_query("SELECT `title` FROM `".$prefix."_modules` ORDER BY `title` ASC");
 	$count = 0;
-	while($row = $pnt_db->sql_fetchrow($result)) 
+	while($row = $db->sql_fetchrow($result)) 
 	{
 		if (is_mod_admin($row['title'])) 
 		{
 			if (file_exists(NUKE_MODULES_DIR.$row['title']."/admin/index.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/links.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/case.php")) 
 			{
-				global $pnt_module_folder_name;
-				$pnt_module_folder_name = $row['title'];
+				global $module_folder_name;
+				$module_folder_name = $row['title'];
 				include(NUKE_MODULES_DIR.$row['title'].'/admin/links.php');
 			}
 			$count++;
 		}
 	}
-	$pnt_db->sql_freeresult($result);
+	$db->sql_freeresult($result);
 	if ($count == 0)
 	{
 		echo '    <td class="row1" style="text-align:center;">';
@@ -589,9 +589,9 @@ function GraphicAdmin($pos=1)
 	/**
 	 * Load up the new theme admin panels
 	 */
-	$result2 = $pnt_db->sql_query("SELECT `theme_name` FROM `".$pnt_prefix."_themes` ORDER BY `theme_name` ASC");
-	$themes_row = $pnt_db->sql_fetchrowset( $result2 );
-	$pnt_db->sql_freeresult($result2);
+	$result2 = $db->sql_query("SELECT `theme_name` FROM `".$prefix."_themes` ORDER BY `theme_name` ASC");
+	$themes_row = $db->sql_fetchrowset( $result2 );
+	$db->sql_freeresult($result2);
 
 	if (count($themes_row) > 0 ):
 
@@ -631,11 +631,11 @@ function GraphicAdmin($pos=1)
  ******************************************************/
 	global $admin_fc_status, $admin_fc_attempts, $admin_fc_timeout;
 	$ip = $_SERVER['REMOTE_ADDR'];
-	$fc = $pnt_db->sql_ufetchrow("SELECT * FROM `". $pnt_prefix ."_admin_fc` WHERE fc_ip = '$ip'");
+	$fc = $db->sql_ufetchrow("SELECT * FROM `". $prefix ."_admin_fc` WHERE fc_ip = '$ip'");
 	if (!empty($fc['fc_ip']))
 	{
-		$pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_admin_fc WHERE fc_ip = '$ip'");
-		$pnt_db->sql_query("OPTIMIZE TABLE ".$pnt_prefix."_admin_fc");
+		$db->sql_query("DELETE FROM ".$prefix."_admin_fc WHERE fc_ip = '$ip'");
+		$db->sql_query("OPTIMIZE TABLE ".$prefix."_admin_fc");
 	}
 /*****[END]********************************************
  [ Mod:     Advanced Security Code Control     v1.0.0 ]
@@ -693,7 +693,7 @@ function track_sql_errors_bs()
 	return $errorlog;
 }
 
-function track_CMS_version_bs() 
+function track_evo_version_bs() 
 {
 	global $admin_file, $admlang;
 	/**
@@ -702,12 +702,12 @@ function track_CMS_version_bs()
 	$version_refresh = get_query_var( 'check-version', 'get', 'string', false );
 	$version_check_cache = cache_json_data('https://php-nuke-titanium.86it.us/versions/titanium-version.json', dirname(__FILE__).'/version.cache', $version_refresh); 
 
-	if ( $version_check_cache['version'] == NUKE_TITANIUM ):
+	if ( $version_check_cache['version'] == NUKE_EVO ):
 
 		$version_desc = $admlang['admin']['version_is_current'];
 		$class = 'bg-dark';
 		$update_available = false;
-		$new_version_number = NUKE_TITANIUM;
+		$new_version_number = NUKE_EVO;
 		$update_url = $admin_file.'.php?check-version=true';
 
 	else:
@@ -715,7 +715,7 @@ function track_CMS_version_bs()
 		$version_desc = $admlang['admin']['version_is_out-of-date'];
 		$class = 'bg-warning';
 		$update_available = true;
-		$new_version_number = NUKE_TITANIUM;
+		$new_version_number = NUKE_EVO;
 		$update_url = $version_check_cache['download'];
 
 	endif;
@@ -729,7 +729,7 @@ function track_CMS_version_bs()
 
 function administration_panel( $pos = 1 )
 {
-	global $aid, $admingraphic, $cache, $language, $admin, $pnt_prefix, $pnt_user_prefix, $pnt_db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
+	global $aid, $admingraphic, $cache, $language, $admin, $prefix, $user_prefix, $db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
 
 	$radminsuper = is_mod_admin();
 
@@ -748,7 +748,7 @@ function administration_panel( $pos = 1 )
 
 	$adminlog = track_admin_intrusions_bs();
 	$errorlog = track_sql_errors_bs();
-	$versioncheck = track_CMS_version_bs();
+	$versioncheck = track_evo_version_bs();
 
 	$refresh_feed = get_query_var('refresh-feed', 'get', 'bool');
 
@@ -767,11 +767,11 @@ function administration_panel( $pos = 1 )
 						
 					<?php $live_news_feed_cache = cache_json_data('https://php-nuke-titanium.86it.us//versions/titanium-live-feed.json', dirname(__FILE__).'/live-feed.cache', $refresh_feed); ?>
 					<table style="width: 100%;" border="0" cellpadding="3" cellspacing="1">                                             
-						<?php foreach( array_reverse($live_news_feed_cache) as $key => $value ): $phpbb2_color_title = ($value['color']) ? ' style="color:'.$value['color'].'"' : ''; ?>
+						<?php foreach( array_reverse($live_news_feed_cache) as $key => $value ): $color_title = ($value['color']) ? ' style="color:'.$value['color'].'"' : ''; ?>
 
 						<tr>
 							<dt class="news-feed-title">
-								<span<?php echo $phpbb2_color_title; ?>><?php echo $value['title']; ?></span>
+								<span<?php echo $color_title; ?>><?php echo $value['title']; ?></span>
 								<span class="news-feed-time"><?php echo $value['timestamp']; ?></span>
 							</dt>
 							<dd class="news-feed-message"><?php echo $value['message']; ?></dd>
@@ -972,16 +972,16 @@ function administration_panel( $pos = 1 )
 			<?php
 
 			update_modules();
-			$result = $pnt_db->sql_query("SELECT `title` FROM `".$pnt_prefix."_modules` ORDER BY `title` ASC");
+			$result = $db->sql_query("SELECT `title` FROM `".$prefix."_modules` ORDER BY `title` ASC");
 			$count = 0;
-			while($row = $pnt_db->sql_fetchrow($result)) 
+			while($row = $db->sql_fetchrow($result)) 
 			{
 				if (is_mod_admin($row['title'])) 
 				{
 					if (file_exists(NUKE_MODULES_DIR.$row['title']."/admin/index.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/links.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/case.php")) 
 					{
-						// global $pnt_module_folder_name;
-						// $pnt_module_folder_name = $row['title'];
+						// global $module_folder_name;
+						// $module_folder_name = $row['title'];
 						?>
 						<div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-2 pl-0 admin-buttons-container">
 							<div class="admin-buttons"><?php include(NUKE_MODULES_DIR.$row['title'].'/admin/links.php'); ?></div>
@@ -991,7 +991,7 @@ function administration_panel( $pos = 1 )
 					$count++;
 				}
 			}
-			$pnt_db->sql_freeresult($result);
+			$db->sql_freeresult($result);
 
 			?>
 
@@ -1006,9 +1006,9 @@ function administration_panel( $pos = 1 )
 		 */
 		if ( is_mod_admin('super') ): 
 
-			$result2 = $pnt_db->sql_query("SELECT `theme_name` FROM `".$pnt_prefix."_themes` ORDER BY `theme_name` ASC");
-			$themes_row = $pnt_db->sql_fetchrowset( $result2 );
-			$pnt_db->sql_freeresult($result2);
+			$result2 = $db->sql_query("SELECT `theme_name` FROM `".$prefix."_themes` ORDER BY `theme_name` ASC");
+			$themes_row = $db->sql_fetchrowset( $result2 );
+			$db->sql_freeresult($result2);
 
 			if ( count( $themes_row ) > 0 ): ?>
 
@@ -1042,11 +1042,11 @@ function administration_panel( $pos = 1 )
  [ Mod:     Advanced Security Code Control     v1.0.0 ]
  ******************************************************/
 	$ip = $_SERVER['REMOTE_ADDR'];
-	$fc = $pnt_db->sql_ufetchrow("SELECT * FROM `"._FAILED_LOGIN_INFO_TABLE."` WHERE fc_ip = '$ip'");
+	$fc = $db->sql_ufetchrow("SELECT * FROM `"._FAILED_LOGIN_INFO_TABLE."` WHERE fc_ip = '$ip'");
 	if (!empty($fc['fc_ip']))
 	{
-		$pnt_db->sql_query("DELETE FROM "._FAILED_LOGIN_INFO_TABLE." WHERE fc_ip = '$ip'");
-		$pnt_db->sql_query("OPTIMIZE TABLE "._FAILED_LOGIN_INFO_TABLE);
+		$db->sql_query("DELETE FROM "._FAILED_LOGIN_INFO_TABLE." WHERE fc_ip = '$ip'");
+		$db->sql_query("OPTIMIZE TABLE "._FAILED_LOGIN_INFO_TABLE);
 	}
 /*****[END]********************************************
  [ Mod:     Advanced Security Code Control     v1.0.0 ]

@@ -26,13 +26,13 @@ interface Swift_Transport_Esmtp_Authenticator
   public function getAuthKeyword();
   
   /**
-   * Try to authenticate the user with $pnt_username and $password.
-   * @param Swift_Transport_SmtpAgent $phpbb2_agent
-   * @param string $pnt_username
+   * Try to authenticate the user with $username and $password.
+   * @param Swift_Transport_SmtpAgent $agent
+   * @param string $username
    * @param string $password
    * @return boolean
    */
-  public function authenticate(Swift_Transport_SmtpAgent $phpbb2_agent,
-    $pnt_username, $password);
+  public function authenticate(Swift_Transport_SmtpAgent $agent,
+    $username, $password);
   
 }

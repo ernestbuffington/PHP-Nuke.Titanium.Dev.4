@@ -39,7 +39,7 @@ if(!preg_match("/\./","$lang") AND file_exists(NUKE_LANGUAGE_DIR.'cblocks/lang-'
 }
 
 function cb_blocks($rid) {
-    global $pnt_prefix, $pnt_db, $cache;
+    global $prefix, $db, $cache;
     static $cb_blocks;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v1.0.0 ]
@@ -49,11 +49,11 @@ function cb_blocks($rid) {
 /*****[END]********************************************
  [ Base:    Caching System                     v1.0.0 ]
  ******************************************************/
-            $result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsncb_blocks`");
-            while($row = $pnt_db->sql_fetchrow($result)) {
+            $result = $db->sql_query("SELECT * FROM `".$prefix."_nsncb_blocks`");
+            while($row = $db->sql_fetchrow($result)) {
                 $cb_blocks[$row['rid']][] = $row;
             }
-            $pnt_db->sql_freeresult($result);
+            $db->sql_freeresult($result);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v1.0.0 ]
  ******************************************************/
@@ -86,14 +86,14 @@ function cb_blocks($rid) {
 }
 
 function CBSample($set) {
-    global $pnt_db, $pnt_prefix;
-    $cbinfo = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsncb_config` WHERE `cgid`='$set'"));
+    global $db, $prefix;
+    $cbinfo = $db->sql_fetchrow($db->sql_query("SELECT * FROM `".$prefix."_nsncb_config` WHERE `cgid`='$set'"));
     if($cbinfo['height'] <> "0") { $cheight = "height='".$cbinfo['height']."' "; } else { $cheight = ""; }
     OpenTable();
     echo "<table width='100%' ".$cheight."border='0' cellspacing='1' cellpadding='0' bgcolor='$bgcolor2'><tr><td valign='top'>\n";
     echo "<table width='100%' ".$cheight."border='0' cellspacing='1' cellpadding='4' bgcolor='$bgcolor1'><tr>";
-    $result3 = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsncb_blocks` WHERE `cgid`='$set' ORDER BY `cbid`");
-    while($cbidinfo = $pnt_db->sql_fetchrow($result3)) {
+    $result3 = $db->sql_query("SELECT * FROM `".$prefix."_nsncb_blocks` WHERE `cgid`='$set' ORDER BY `cbid`");
+    while($cbidinfo = $db->sql_fetchrow($result3)) {
         if($cbidinfo['cbid'] <= $cbinfo['count']) {
             if($cbidinfo['wtype'] == '0') {
                 echo "<td width='".$cbidinfo['width']."' valign='top' align='center'>\n";

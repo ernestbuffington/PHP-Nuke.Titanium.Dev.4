@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($pnt_module)) {
+if(is_mod_admin($module_name)) {
 
     $pagetitle = ": "._USERADMIN." - "._FINDUSER;
     include_once(NUKE_BASE_DIR.'header.php');
@@ -53,14 +53,14 @@ if(is_mod_admin($pnt_module)) {
     amain();
     echo "<br />\n";
     if (isset($xusername) AND !empty($xusername)) {
-        $sql = "SELECT * FROM ".$pnt_user_prefix."_users WHERE username='$xusername'";
+        $sql = "SELECT * FROM ".$user_prefix."_users WHERE username='$xusername'";
     } elseif (isset($xuser_id) AND !empty($xuser_id)) {
-        $sql = "SELECT * FROM ".$pnt_user_prefix."_users WHERE user_id='$xuser_id'";
+        $sql = "SELECT * FROM ".$user_prefix."_users WHERE user_id='$xuser_id'";
     } elseif (isset($xuser_email) AND !empty($xuser_email)) {
-        $sql = "SELECT * FROM ".$pnt_user_prefix."_users WHERE user_email='$xuser_email'";
+        $sql = "SELECT * FROM ".$user_prefix."_users WHERE user_email='$xuser_email'";
     }
-    if($pnt_db->sql_numrows($pnt_db->sql_query($sql)) > 0) {
-        $chnginfo = $pnt_db->sql_fetchrow($pnt_db->sql_query($sql));
+    if($db->sql_numrows($db->sql_query($sql)) > 0) {
+        $chnginfo = $db->sql_fetchrow($db->sql_query($sql));
         OpenTable();
         echo "<center><table border='0'>\n";
         echo "<tr><td bgcolor='$bgcolor2'>"._USERID.":</td><td><strong>".$chnginfo['user_id']."</strong></td></tr>\n";
@@ -82,12 +82,12 @@ if(is_mod_admin($pnt_module)) {
         echo "<tr><td bgcolor='$bgcolor2'>"._NEWSLETTER.":</td><td><strong>$cnl</strong></td></tr>\n";
         $chnginfo[user_sig] = str_replace("\r\n", "<br />", $chnginfo['user_sig']);
         echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._SIGNATURE.":</td><td><strong>".$chnginfo['user_sig']."</strong></td></tr>\n";
-        echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
+        echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
         echo "<input type='hidden' name='op' value='modifyUser'>\n";
         echo "<input type='hidden' name='chng_uid' value='".$chnginfo['user_id']."'>\n";
         echo "<tr><td align='center' colspan='2'><input type='submit' value='"._MODIFY."'></td></tr>\n";
         echo "</form>\n";
-        echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
+        echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
         echo "<tr><td align='center' colspan='2'><input type='submit' value='"._RETURN."'></td></tr>\n";
         echo "</form>\n";
         echo "</table></center>\n";

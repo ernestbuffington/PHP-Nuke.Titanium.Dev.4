@@ -43,10 +43,10 @@ $row = get_user_field(array('user_id', 'user_password'), $check);
 $vuid = $row['user_id'];
 $ccpass = $row['user_password'];
 
-if (($pnt_user_id == $vuid) AND ($check2 == $ccpass)) {
+if (($user_id == $vuid) AND ($check2 == $ccpass)) {
     if (empty($theme)) $theme = $Default_Theme;
 	if(ThemeAllowed($theme)) {
-		ChangeTheme($theme, $pnt_user_id);
+		ChangeTheme($theme, $user_id);
 	}
 }
 

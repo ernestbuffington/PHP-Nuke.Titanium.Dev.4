@@ -7,11 +7,6 @@
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
 /*                                                                      */
-/* Network Advertising Module v1.0                                      */
-/* Copyright (c) 2020 by Ernest Buffington                              */
-/* http://www.86it.us                                                   */
-/* The 86it Developers Network                                          */
-/*                                                                      */
 /* Copyright (c) 2005 by Francisco Burzi                                */
 /* http://phpnuke.org                                                   */
 /*                                                                      */
@@ -38,92 +33,72 @@ if (!defined('MODULE_FILE')) {
     die('You can\'t access this file directly...');
 }
 
-$pnt_module = basename(dirname(__FILE__));
-get_lang($pnt_module);
+$module_name = basename(dirname(__FILE__));
+get_lang($module_name);
 
-function is_ad_client($network_ad_client) 
-{
-    global $network_prefix, $pnt_db2;
+function is_ad_client($network_ad_client) {
+    global $network_prefix, $db2;
     static $ClientSave;
-
-    if(isset($ClientSave)) 
-	return $ClientSave;
-    
-	if(!is_array($network_ad_client)) 
-	{
+    if(isset($ClientSave)) return $ClientSave;
+    if(!is_array($network_ad_client)) {
         $network_ad_client = base64_decode($network_ad_client);
         $network_ad_client = addslashes($network_ad_client);
         $network_ad_client = explode(":", $network_ad_client);
         $cid = $network_ad_client[0];
         if (isset($network_ad_client[2])) { $pwd = $network_ad_client[2]; }
-    } 
-	else 
-	{
+    } else {
         $cid = $network_ad_client[0];
         if (isset($network_ad_client[2])) { $pwd = $network_ad_client[2]; }
     }
-    
-	if (!empty($cid) AND !empty($pwd)) 
-	{
-        list($pass) = $pnt_db2->sql_ufetchrow("SELECT passwd FROM ".$network_prefix."_banner_clients WHERE cid='$cid'");
-        
-		if(!empty($pass) AND $pass == $pwd) 
-		{
+    if (!empty($cid) AND !empty($pwd)) {
+        list($pass) = $db2->sql_ufetchrow("SELECT passwd FROM ".$network_prefix."_banner_clients WHERE cid='$cid'");
+        if(!empty($pass) AND $pass == $pwd) {
             return $ClientSave = 1;
         }
     }
     return $ClientSave = 0;
 }
 
-function the_network_menu() 
-{
-    global $pnt_module, $network_prefix, $pnt_db2, $network_ad_client, $op;
-
-    if (is_ad_client($network_ad_client)) 
-	{
-        if ($op == "network_client_home") 
-		{
+function the_network_menu() {
+    global $module_name, $network_prefix, $db2, $network_ad_client, $op;
+    if (is_ad_client($network_ad_client)) {
+        if ($op == "network_client_home") {
             $ad_client_opt = "My Network Ads";
-        } 
-		else 
-		{
-            $ad_client_opt = "<a class=\"titaniumbutton\" href=\"modules.php?name=$pnt_module&amp;op=network_client_home\">"._MYADS."</a>";
+        } else {
+            $ad_client_opt = "<a href=\"modules.php?name=$module_name&amp;op=network_client_home\">"._MYADS."</a>";
         }
-    } 
-	else 
-	{
-        $ad_client_opt = "<a class=\"titaniumbutton\" href=\"modules.php?name=$pnt_module&amp;op=network_ad_client\">"._CLIENTLOGIN."</a>";
+    } else {
+        $ad_client_opt = "<a href=\"modules.php?name=$module_name&amp;op=network_ad_client\">"._CLIENTLOGIN."</a>";
     }
-    
-	OpenTable();
-    echo "<div align=\"center\"><strong>"._ADSMENU."</strong><br /><br /><a class=\"titaniumbutton\" href=\"modules.php?name=$pnt_module\">"._MAINPAGE."</a> " . (is_active('Statistics') ? "<a  class=\"titaniumbutton\" href=\"modules.php?name=Statistics\">"._SITESTATS."</a> " : "") . "<a  class=\"titaniumbutton\" href=\"modules.php?name=$pnt_module&amp;op=network_ad_terms\">"._TERMS."</a> <a  class=\"titaniumbutton\" href=\"modules.php?name=$pnt_module&amp;op=ad_plans\">"._PLANSPRICES."</a> $ad_client_opt</div>";
+    OpenTable();
+    echo "<center><strong>"._ADSMENU."</strong><br /><br />[ <a href=\"modules.php?name=$module_name\">"._MAINPAGE."</a> | " . (is_active('Statistics') ? "<a href=\"modules.php?name=Statistics\">"._SITESTATS."</a> |" : "") . "  <a href=\"modules.php?name=$module_name&amp;op=network_ad_terms\">"._TERMS."</a> | <a href=\"modules.php?name=$module_name&amp;op=ad_plans\">"._PLANSPRICES."</a> | $ad_client_opt ]</center>";
     CloseTable();
 }
 
 function theindex() {
-    global $network_prefix, $pnt_db2, $sitename;
+    global $network_prefix, $db2, $sitename;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.' '._ADVERTISING);
     OpenTable();
-    echo '<div align=\"center\">'._WELCOME_NETWORK_ADS.'</div>';
+    echo _WELCOMEADS;
     CloseTable();
     the_network_menu();
     include_once(NUKE_BASE_DIR.'footer.php');
 }
 
 function ad_plans() {
-    global $pnt_module, $network_prefix, $pnt_db2, $bgcolor2, $sitename;
+    global $module_name, $network_prefix, $db2, $bgcolor2, $sitename;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.': '._PLANSPRICES);
     OpenTable();
-    $result = $pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_plans WHERE active='1'");
-    if ($pnt_db2->sql_numrows($result) > 0) {
+    $result = $db2->sql_query("SELECT * FROM ".$network_prefix."_banner_plans WHERE active='1'");
+    if ($db2->sql_numrows($result) > 0) {
         echo ""._LISTPLANS."<br /><br />";
         echo "<table border=\"1\" width=\"100%\" cellpadding=\"3\">";
         echo "<tr><td align=\"center\" nowrap bgcolor=\"$bgcolor2\"><strong>"._PLANNAME."</strong></td><td bgcolor=\"$bgcolor2\">&nbsp;<strong>"._DESCRIPTION."</strong></td><td align=\"center\" bgcolor=\"$bgcolor2\"><strong>"._QUANTITY."</strong></td><td align=\"center\" bgcolor=\"$bgcolor2\"><strong>"._PRICE."</strong></td><td align=\"center\" bgcolor=\"$bgcolor2\" nowrap><strong>"._BUYLINKS."</strong></td></tr>";
-        while ($row = $pnt_db2->sql_fetchrow($result)) {
+        while ($row = $db2->sql_fetchrow($result)) {
             if ($row['delivery_type'] == "0") {
                 $delivery = _IMPRESSIONS;
             } elseif ($row['delivery_type'] == "1") {
@@ -137,7 +112,7 @@ function ad_plans() {
             }
             echo "<tr><td valign=\"top\"><strong>".$row['name']."</strong></td><td>".$row['description']."</td><td valign=\"bottom\"><center>".$row['delivery']."<br />$delivery</center></td><td valign=\"bottom\">".$row['price']."</td><td valign=\"bottom\" nowrap><center>".$row['buy_links']."</center></td></tr>";
         }
-        $pnt_db2->sql_freeresult($result);
+        $db2->sql_freeresult($result);
         echo "</table>";
     } else {
         echo "<center>"._ADSNOCONTENT."<br /><br />"._GOBACK."</center>";
@@ -148,7 +123,7 @@ function ad_plans() {
 }
 
 function network_ad_terms() {
-    global $pnt_module, $network_prefix, $pnt_db2, $sitename;
+    global $module_name, $network_prefix, $db2, $sitename;
 
     $today = getdate();
     $month = $today['mon'];
@@ -156,7 +131,7 @@ function network_ad_terms() {
     $year = $today['year'];
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.': '._TERMSCONDITIONS);
-    $row = $pnt_db2->sql_fetchrow($pnt_db2->sql_query("SELECT * FROM ".$network_prefix."_banner_terms"));
+    $row = $db2->sql_fetchrow($db2->sql_query("SELECT * FROM ".$network_prefix."_banner_terms"));
     $terms = str_replace("[sitename]", $sitename, $row['terms_body']);
     $terms = str_replace("[country]", $row['country'], $terms);
     $terms = decode_bb_all($terms, 1, true);
@@ -170,16 +145,16 @@ function network_ad_terms() {
 }
 
 function network_ad_client() {
-    global $pnt_module, $network_prefix, $pnt_db2, $sitename, $network_ad_client;
+    global $module_name, $network_prefix, $db2, $sitename, $network_ad_client;
 
     if (is_ad_client($network_ad_client)) {
-        redirect_titanium("modules.php?name=$pnt_module&op=network_client_home");
+        redirect("modules.php?name=$module_name&op=network_client_home");
     } else {
         include_once(NUKE_BASE_DIR.'header.php');
         title($sitename.': '._ADSYSTEM);
         OpenTable();
         echo "<center><span class=\"title\"><strong>"._CLIENTLOGIN."</strong></span></center><br />";
-        echo "<form method=\"post\" onsubmit=\"this.submit.disabled = true\" action=\"modules.php?name=$pnt_module\"><table border=\"0\" align=\"center\" cellpadding=\"3\"><tr>";
+        echo "<form method=\"post\" onsubmit=\"this.submit.disabled = true\" action=\"modules.php?name=$module_name\"><table border=\"0\" align=\"center\" cellpadding=\"3\"><tr>";
         echo "<td align=\"right\"><strong>"._LOGIN."</strong>&nbsp; <i class=\"bi bi-arrow-right-square\"></i>&nbsp;</td><td><input type=\"text\" name=\"login\" size=\"15\"></td></tr>";
         echo "<td align=\"right\"><strong>"._PASSWORD."</strong>&nbsp; <i class=\"bi bi-arrow-right-square\"></i>&nbsp;</td><td><input type=\"password\" name=\"pass\" size=\"15\"></td></tr>";
         echo "<td align=\"right\"></td><td><br/></td></tr>";
@@ -204,16 +179,16 @@ function zeroFill($a, $b) {
 }
 
 function ad_client_logout() {
-    global $pnt_module;
+    global $module_name;
     $network_ad_client = "";
     setcookie("network_ad_client");
-    redirect_titanium("modules.php?name=$pnt_module&op=network_ad_client");
+    redirect("modules.php?name=$module_name&op=network_ad_client");
 }
 
 function ad_client_valid($login, $pass) {
-    global $network_prefix, $pnt_db2, $pnt_module, $sitename;
-    $result = $pnt_db2->sql_query("SELECT cid FROM ".$network_prefix."_banner_clients WHERE login='$login' AND passwd='$pass'");
-    if ($pnt_db2->sql_numrows($result) != 1) {
+    global $network_prefix, $db2, $module_name, $sitename;
+    $result = $db2->sql_query("SELECT cid FROM ".$network_prefix."_banner_clients WHERE login='$login' AND passwd='$pass'");
+    if ($db2->sql_numrows($result) != 1) {
         include_once(NUKE_BASE_DIR.'header.php');
         title($sitename.': '._ADSYSTEM);
         OpenTable();
@@ -223,19 +198,19 @@ function ad_client_valid($login, $pass) {
         include_once(NUKE_BASE_DIR.'footer.php');
         exit;
     } else {
-        $row = $pnt_db2->sql_fetchrow($result);
+        $row = $db2->sql_fetchrow($result);
         $cid = $row['cid'];
         $info = base64_encode("$cid:$login:$pass");
         setcookie("network_ad_client",$info,time()+3600);
-        redirect_titanium("modules.php?name=$pnt_module&op=network_client_home");
+        redirect("modules.php?name=$module_name&op=network_client_home");
     }
 }
 
 function network_client_home() {
-    global $network_prefix, $pnt_db2, $sitename, $bgcolor2, $pnt_module, $network_ad_client;
+    global $network_prefix, $db2, $sitename, $bgcolor2, $module_name, $network_ad_client;
 
     if (!is_ad_client($network_ad_client)) {
-        redirect_titanium("modules.php?name=$pnt_module&op=network_ad_client");
+        redirect("modules.php?name=$module_name&op=network_ad_client");
     } else {
         include_once(NUKE_BASE_DIR.'header.php');
         title($sitename.' '._ADSYSTEM);
@@ -244,7 +219,7 @@ function network_client_home() {
         $network_ad_client = addslashes($network_ad_client);
         $network_ad_client = explode(":", $network_ad_client);
         $cid = $network_ad_client[0];
-        $row = $pnt_db2->sql_ufetchrow("SELECT * FROM ".$network_prefix."_banner_clients WHERE cid='$cid'");
+        $row = $db2->sql_ufetchrow("SELECT * FROM ".$network_prefix."_banner_clients WHERE cid='$cid'");
         echo "<center>"._ACTIVEADSFOR." ".$row['name']."</center><br />"
                ."<table width=\"100%\" border=\"1\"><tr>"
                ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._NAME."</strong></td>"
@@ -256,8 +231,8 @@ function network_client_home() {
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._TYPE."</strong></td>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._FUNCTIONS."</strong></td><tr>";
         $sql = "SELECT * FROM ".$network_prefix."_banner WHERE cid='".$row['cid']."' AND active='1'";
-        $result = $pnt_db2->sql_query($sql, true);
-        while ($row = $pnt_db2->sql_fetchrow($result)) {
+        $result = $db2->sql_query($sql, true);
+        while ($row = $db2->sql_fetchrow($result)) {
             $bid = $row['bid'];
             $bid = intval($bid);
             $imptotal = $row['imptotal'];
@@ -294,16 +269,16 @@ function network_client_home() {
                 ."<td align=\"center\">$percent</td>"
                 ."<td align=\"center\">".ucfirst($row['ad_class'])."</td>"
                 ."<td align=\"center\">
-				<a href=\"modules.php?name=$pnt_module&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\"><i class=\"bi bi-mailbox\"></i></a>
-				<a href=\"modules.php?name=$pnt_module&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\">
+				<a href=\"modules.php?name=$module_name&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\"><i class=\"bi bi-mailbox\"></i></a>
+				<a href=\"modules.php?name=$module_name&amp;op=client_report&amp;cid=$cid&amp;bid=$bid\">
 				"._EMAILSTATS."</a>  
-				<a href=\"modules.php?name=$pnt_module&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><i class=\"bi bi-binoculars\"></i></a>
-				<a href=\"modules.php?name=$pnt_module&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\">
+				<a href=\"modules.php?name=$module_name&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><i class=\"bi bi-binoculars\"></i></a>
+				<a href=\"modules.php?name=$module_name&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\">
 				"._VIEWBANNER."</a></td><tr>";
         }
-        $pnt_db2->sql_freeresult($result);
+        $db2->sql_freeresult($result);
         echo "</table>";
-        $row = $pnt_db2->sql_ufetchrow("SELECT * FROM ".$network_prefix."_banner_clients WHERE cid='$cid'");
+        $row = $db2->sql_ufetchrow("SELECT * FROM ".$network_prefix."_banner_clients WHERE cid='$cid'");
         echo "<br /><br /><center>"._INACTIVEADS." ".$row['name']."</center><br />"
             ."<table width=\"100%\" border=\"1\"><tr>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._NAME."</strong></td>"
@@ -315,8 +290,8 @@ function network_client_home() {
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._TYPE."</strong></td>"
             ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._FUNCTIONS."</strong></td><tr>";
         $sql = "SELECT * FROM ".$network_prefix."_banner WHERE cid='".$row['cid']."' AND active='0'";
-        $result = $pnt_db2->sql_query($sql, true);
-        while ($row = $pnt_db2->sql_fetchrow($result)) {
+        $result = $db2->sql_query($sql, true);
+        while ($row = $db2->sql_fetchrow($result)) {
             $bid = $row['bid'];
             $bid = intval($bid);
             $imptotal = $row['imptotal'];
@@ -352,14 +327,14 @@ function network_client_home() {
                 ."<td align=\"center\">$clicks</td>"
                 ."<td align=\"center\">$percent</td>"
                 ."<td align=\"center\">".ucfirst($row['ad_class'])."</td>"
-                ."<td align=\"center\"><a href=\"modules.php?name=$pnt_module&amp;op=ad_client_report&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EMAILSTATS."\" title=\""._EMAILSTATS."\"></a>  <a href=\"modules.php?name=$pnt_module&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/view.gif\" border=\"0\" alt=\""._VIEWBANNER."\" title=\""._VIEWBANNER."\"></a></td><tr>";
+                ."<td align=\"center\"><a href=\"modules.php?name=$module_name&amp;op=ad_client_report&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EMAILSTATS."\" title=\""._EMAILSTATS."\"></a>  <a href=\"modules.php?name=$module_name&amp;op=view_banner&amp;cid=$cid&amp;bid=$bid\"><img src=\"images/view.gif\" border=\"0\" alt=\""._VIEWBANNER."\" title=\""._VIEWBANNER."\"></a></td><tr>";
             $a = 1;
         }
-        $pnt_db2->sql_freeresult($result);
+        $db2->sql_freeresult($result);
         if ($a != 1) {
             echo "<td align=\"center\" colspan=\"8\"><i>"._NOCONTENT."</i></td></tr>";
         }
-        echo "</table><br /><br /><center>[ <a href=\"modules.php?name=$pnt_module&amp;op=ad_client_logout\">"._LOGOUT."</a> ]</center>";
+        echo "</table><br /><br /><center>[ <a href=\"modules.php?name=$module_name&amp;op=ad_client_logout\">"._LOGOUT."</a> ]</center>";
         CloseTable();
         the_network_menu();
         include_once(NUKE_BASE_DIR.'footer.php');
@@ -367,10 +342,10 @@ function network_client_home() {
 }
 
 function view_banner($cid, $bid) {
-    global $network_prefix, $pnt_db2, $pnt_module, $network_ad_client, $bgcolor2, $sitename;
+    global $network_prefix, $db2, $module_name, $network_ad_client, $bgcolor2, $sitename;
 
     if (!is_ad_client($network_ad_client)) {
-        redirect_titanium("modules.php?name=$pnt_module&amp;op=network_ad_client");
+        redirect("modules.php?name=$module_name&amp;op=network_ad_client");
     } else {
         $network_ad_client = base64_decode($network_ad_client);
         $network_ad_client = addslashes($network_ad_client);
@@ -389,7 +364,7 @@ function view_banner($cid, $bid) {
             include_once(NUKE_BASE_DIR.'header.php');
             title($sitename.' '._ADSYSTEM);
             OpenTable();
-            $row = $pnt_db2->sql_ufetchrow("SELECT * FROM ".$network_prefix."_banner WHERE bid='$bid'");
+            $row = $db2->sql_ufetchrow("SELECT * FROM ".$network_prefix."_banner WHERE bid='$bid'");
             $cid = intval($row['cid']);
             $imptotal = intval($row['imptotal']);
             $impmade = intval($row['impmade']);
@@ -472,7 +447,7 @@ function view_banner($cid, $bid) {
                 ."<td align=\"center\">".ucFirst($row['ad_class'])."</td></tr><tr>"
                 ."<td align=\"center\" colspan=\"7\">"._CURRENTSTATUS." $status</td></tr>"
                 ."</table><br /><br />"
-                ."[ <a href=\"modules.php?name=$pnt_module&amp;op=ad_client_report&amp;cid=$cid&amp;bid=$bid\">"._EMAILSTATS."</a> | <a href=\"modules.php?name=$pnt_module&amp;op=logout\">"._LOGOUT."</a> ]";
+                ."[ <a href=\"modules.php?name=$module_name&amp;op=ad_client_report&amp;cid=$cid&amp;bid=$bid\">"._EMAILSTATS."</a> | <a href=\"modules.php?name=$module_name&amp;op=logout\">"._LOGOUT."</a> ]";
             CloseTable();
             the_network_menu();
             include_once(NUKE_BASE_DIR.'footer.php');
@@ -481,10 +456,10 @@ function view_banner($cid, $bid) {
 }
 
 function ad_client_report($cid, $bid) {
-    global $network_prefix, $pnt_db2, $pnt_module, $network_ad_client, $sitename;
+    global $network_prefix, $db2, $module_name, $network_ad_client, $sitename;
 
     if (!is_ad_client($network_ad_client)) {
-        redirect_titanium("modules.php?name=$pnt_module&op=network_ad_client");
+        redirect("modules.php?name=$module_name&op=network_ad_client");
     } else {
         $network_ad_client = base64_decode($network_ad_client);
         $network_ad_client = addslashes($network_ad_client);
@@ -505,7 +480,7 @@ function ad_client_report($cid, $bid) {
             OpenTable();
             $bid = intval($bid);
             $cid = intval($cid);
-            list($name, $email) = $pnt_db2->sql_ufetchrow("SELECT name, email FROM ".$network_prefix."_banner_clients WHERE cid='$cid'");
+            list($name, $email) = $db2->sql_ufetchrow("SELECT name, email FROM ".$network_prefix."_banner_clients WHERE cid='$cid'");
             $name = htmlentities($name);
             if (empty($email)) {
                 echo "<center><br /><br />"
@@ -515,7 +490,7 @@ function ad_client_report($cid, $bid) {
                 the_network_menu();
                 include_once(NUKE_BASE_DIR.'footer.php');
             } else {
-                list($bid, $imptotal, $impmade, $clicks, $imageurl, $clickurl, $date, $ad_class) = $pnt_db2->sql_ufetchrow("SELECT bid, name, imptotal, impmade, clicks, imageurl, clickurl, date, ad_class FROM ".$network_prefix."_banner WHERE bid='$bid' AND cid='$cid'");
+                list($bid, $imptotal, $impmade, $clicks, $imageurl, $clickurl, $date, $ad_class) = $db2->sql_ufetchrow("SELECT bid, name, imptotal, impmade, clicks, imageurl, clickurl, date, ad_class FROM ".$network_prefix."_banner WHERE bid='$bid' AND cid='$cid'");
                 $bid = intval($bid);
                 $imptotal = intval($imptotal);
                 $impmade = intval($impmade);

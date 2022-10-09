@@ -14,7 +14,7 @@ if (!defined('MODULE_FILE')) {
 }
 
 function changemail() {
-    global $pnt_db, $pnt_user_prefix, $pnt_module, $sitekey, $pnt_user, $stop, $cookie, $userinfo;
+    global $db, $user_prefix, $module_name, $sitekey, $user, $stop, $cookie, $userinfo;
 
     $get_id = $_GET['id'];
     $check_num = $_GET['check_num'];
@@ -24,13 +24,13 @@ function changemail() {
     title(_CHANGEMAILTITLE);
     opentable();
     ya_mailCheck($newmail);
-    list($get_username, $tuemail) = $pnt_db -> sql_fetchrow($pnt_db -> sql_query("SELECT username, user_email FROM ".$pnt_user_prefix."_users WHERE user_id = '$get_id'"));
+    list($get_username, $tuemail) = $db -> sql_fetchrow($db -> sql_query("SELECT username, user_email FROM ".$user_prefix."_users WHERE user_id = '$get_id'"));
     $datekey = date("F Y");
     $check_num2 = substr(md5(hexdec($datekey) * hexdec($userinfo['user_password']) * hexdec($sitekey) * hexdec($newmail) * hexdec($tuemail)), 2, 10);
     if ((is_user()) AND (strtolower($userinfo['username']) == strtolower($cookie[1])) AND ($userinfo[user_password] == $cookie[2])) {
         if ($stop == '') {
             if ( (strtolower($userinfo['username']) == strtolower($get_username)) AND ($check_num2 == $check_num) ) {
-                $result = $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET user_email='$newmail' WHERE user_id='$get_id'");
+                $result = $db->sql_query("UPDATE ".$user_prefix."_users SET user_email='$newmail' WHERE user_id='$get_id'");
                 if ($result) echo ""._CHANGEMAILOK.""; else echo ""._CHANGEMAILNOT."";
             } else {
                 echo ""._CHANGEMAILNOT."";

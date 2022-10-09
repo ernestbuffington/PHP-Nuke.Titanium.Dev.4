@@ -88,9 +88,9 @@ if (isset($ips) && is_array($ips))
  [ Mod:    Admin IP Lock                       v2.1.0 ]
  ******************************************************/
 
-//need_delete('install.php');
-//need_delete('upgrade.php');
-//need_delete('install', true);
+need_delete('install.php');
+need_delete('upgrade.php');
+need_delete('install', true);
 
 if (isset($aid) && (preg_match("/[^a-zA-Z0-9_-]/", trim($aid)))){
     die('Begone');
@@ -107,7 +107,7 @@ if ((isset($aid)) && (isset($pwd)) && (isset($op)) && ($op == "login")){
 /*****[END]********************************************
  [ Mod:     Advanced Security Code Control     v1.0.0 ]
  ******************************************************/
-        redirect_titanium($admin_file.".php");
+        redirect($admin_file.".php");
     }
 	
     if (!empty($aid) AND !empty($pwd)){
@@ -125,7 +125,7 @@ if ((isset($aid)) && (isset($pwd)) && (isset($op)) && ($op == "login")){
 		
         // Un-evocrypt
         if ($evo_crypt == $rpwd){
-            $pnt_db->sql_query("UPDATE `".$pnt_prefix."_authors` SET `pwd`='".$pwd."' WHERE `aid`='".$aid."'");
+            $db->sql_query("UPDATE `".$prefix."_authors` SET `pwd`='".$pwd."' WHERE `aid`='".$aid."'");
             $rpwd = get_admin_field('pwd', $aid);
         }
 		
@@ -150,26 +150,26 @@ if ((isset($aid)) && (isset($pwd)) && (isset($op)) && ($op == "login")){
  [ Mod:    Admin Tracker                       v1.0.1 ]
  ******************************************************/
             unset($txt_pwd);
-            redirect_titanium($_SERVER['REQUEST_URI']);
+            redirect($_SERVER['REQUEST_URI']);
         } 
         else 
         {
             log_write('admin', 'Attempted to login with "' . $aid . '"/"' . $txt_pwd . '" but failed', 'Security Breach');
             unset($txt_pwd);
 
-            global $admin_fc_status, $admin_fc_attempts, $admin_fc_timeout, $pnt_prefix;
+            global $admin_fc_status, $admin_fc_attempts, $admin_fc_timeout, $prefix;
 			if($admin_fc_status == 1):
 
 				$ip = $_SERVER['REMOTE_ADDR'];
 				$fcdate = date("mdYHi");
-				$fc = $pnt_db->sql_ufetchrow("SELECT * FROM `". $pnt_prefix ."_admin_fc` WHERE fc_ip = '$ip'");
+				$fc = $db->sql_ufetchrow("SELECT * FROM `". $prefix ."_admin_fc` WHERE fc_ip = '$ip'");
 			
 				if (empty($fc)):
-					$pnt_db->sql_query("INSERT INTO `" . $pnt_prefix . "_admin_fc` VALUES ('$fcdate', '$ip', '1')");
+					$db->sql_query("INSERT INTO `" . $prefix . "_admin_fc` VALUES ('$fcdate', '$ip', '1')");
 				else:
 
 					$fc_tries = $fc['fc_attempts'] + 1;
-					$pnt_db->sql_query("UPDATE `" . $pnt_prefix . "_admin_fc` SET `fc_datetime`='$fcdate', `fc_ip`='$ip', `fc_attempts`='$fc_tries' WHERE fc_ip = '$ip'");
+					$db->sql_query("UPDATE `" . $prefix . "_admin_fc` SET `fc_datetime`='$fcdate', `fc_ip`='$ip', `fc_attempts`='$fc_tries' WHERE fc_ip = '$ip'");
 
 				endif;
 
@@ -259,25 +259,15 @@ if (!isset($admincookie[4]) && $admintest){
 		setcookie('admin', $cookieData, time()+2592000);
 	}
 	
-	redirect_titanium($admin_file.'.php');
+	redirect($admin_file.'.php');
 	exit;
 }
 
-if(!isset($op)):
+if (!isset($op)){
     $op = 'adminMain';
-elseif 
-    (($op == 'mod_authors' || 
-      $op == 'modifyadmin' || 
-	  $op == 'UpdateAuthor' || 
-	  $op == 'AddAuthor' || 
-	  $op == 'deladmin2' || 
-	  $op == 'deladmin' || 
-	  $op == 'assignstories' || 
-	  $op == 'deladminconf') 
-	  && $admdata['name'] != 'God'):
-    
-	die('Illegal Operation');
-endif;
+} elseif (($op == 'mod_authors' || $op == 'modifyadmin' || $op == 'UpdateAuthor' || $op == 'AddAuthor' || $op == 'deladmin2' || $op == 'deladmin' || $op == 'assignstories' || $op == 'deladminconf') && $admdata['name'] != 'God'){
+    die('Illegal Operation');
+}
 
 if ($admintest){
     if (!$admin) exit('Illegal Operation');
@@ -331,13 +321,13 @@ if ($admintest){
             }
             closedir($casedir);
 
-            $result = $pnt_db->sql_query("SELECT title FROM ".$pnt_prefix."_modules ORDER BY title ASC");
-            while(list($mod_title) = $pnt_db->sql_fetchrow($result,SQL_BOTH)){
+            $result = $db->sql_query("SELECT title FROM ".$prefix."_modules ORDER BY title ASC");
+            while(list($mod_title) = $db->sql_fetchrow($result,SQL_BOTH)){
                 if (is_mod_admin($mod_title) && (file_exists(NUKE_MODULES_DIR.$mod_title.'/admin/index.php') AND file_exists(NUKE_MODULES_DIR.$mod_title.'/admin/links.php') AND file_exists(NUKE_MODULES_DIR.$mod_title.'/admin/case.php'))){
                      include(NUKE_MODULES_DIR.$mod_title.'/admin/case.php');
                 }
             }
-            $pnt_db->sql_freeresult($result);
+            $db->sql_freeresult($result);
         break;
     }
 } else {

@@ -32,7 +32,7 @@ if(!isset($min)) $min=0;
 if(!isset($max)) $max=$min+$perpage;
 if(!isset($column) or !$column or $column=="") $column = "user_agent";
 if(!isset($direction) or !$direction or $direction=="") $direction = "asc";
-$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT DISTINCT(`user_agent`) FROM `".$pnt_prefix."_nsnst_tracked_ips` GROUP BY 1"));
+$totalselected = $db->sql_numrows($db->sql_query("SELECT DISTINCT(`user_agent`) FROM `".$prefix."_nsnst_tracked_ips` GROUP BY 1"));
 if($totalselected > 0) {
   // Page Sorting
   $selcolumn1 = $selcolumn2 = $selcolumn3 = $seldirection1 = $seldirection2 = "";
@@ -67,11 +67,11 @@ if($totalselected > 0) {
   echo '<td align="center"><strong>'._AB_HITS.'</strong></td>'."\n";
   echo '<td align="center"><strong>'._AB_FUNCTIONS.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $pnt_db->sql_query("SELECT DISTINCT(`user_agent`), tid, MAX(`date`), COUNT(*) FROM `".$pnt_prefix."_nsnst_tracked_ips` GROUP BY 1 ORDER BY $column $direction LIMIT $min, $perpage");
-  while(list($pnt_user_agent, $tid, $lastview, $hits) = $pnt_db->sql_fetchrow($result)){
-    $trackedips = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `user_agent`='$pnt_user_agent'"));
+  $result = $db->sql_query("SELECT DISTINCT(`user_agent`), tid, MAX(`date`), COUNT(*) FROM `".$prefix."_nsnst_tracked_ips` GROUP BY 1 ORDER BY $column $direction LIMIT $min, $perpage");
+  while(list($user_agent, $tid, $lastview, $hits) = $db->sql_fetchrow($result)){
+    $trackedips = $db->sql_numrows($db->sql_query("SELECT DISTINCT(`ip_addr`) FROM `".$prefix."_nsnst_tracked_ips` WHERE `user_agent`='$user_agent'"));
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
-    echo '<td>'.htmlentities($pnt_user_agent, ENT_QUOTES).'</td>'."\n";
+    echo '<td>'.htmlentities($user_agent, ENT_QUOTES).'</td>'."\n";
     echo '<td align="center"><a href="'.$admin_file.'.php?op=ABTrackedAgentsIPs&amp;tid='.$tid.'" target="_blank">'.$trackedips.'</a></td>'."\n";
     echo '<td align="center" nowrap="nowrap">'.date("Y-m-d \@ H:i:s",$lastview).'</td>'."\n";
     echo '<td align="center">'.$hits.'</td>'."\n";

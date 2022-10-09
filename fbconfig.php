@@ -13,21 +13,24 @@
 /************************************************************************/
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
 exit('Access Denied');
-global $fb, $appID, $api_version, $appSecret, $my_url, $page_id;
 
-# Your facebook page id goes here!
-$page_id = 'yourpageid';
-# Your domain name i.e yoursite.com!
+//define('facebook', 'enabled'); 
+if ( defined('facebook') ):
+global $fb, $appID, $api_version, $appSecret, $my_url;
+require_once __DIR__ . '/includes/Facebook/autoload.php';
+# Your domain name i.e yoursite.com
 $my_url = 'www.php-nuke-titanium.86it.us';
-# your facebook app secret goes here!
-$appSecret = 'yourappsecret';
-# your facebook app ID goes here!
-$appID = 'yourappid';
-# The api version you have selected on your facebook app!
-$api_version = 'v15.0';
+# you facebook app secret
+$appSecret = '';
+# your facebook app ID
+$appID = '';
+# The api version you have selected on your facebook app
+$api_version = 'v14.0';
 
 $fb = new Facebook\Facebook([
   'app_id' => $appID,
   'app_secret' => $appSecret,
-  'default_graph_version' => $api_version, 
+  'default_graph_version' => $api_version, // API GRAPH VERSION
   ]);
+endif;
+  

@@ -14,7 +14,7 @@ if (!defined('MODULE_FILE'))
 
 function _most_popular_download_info()
 {
-	global $pnt_db, $lang_new, $pnt_module, $userinfo, $admin, $pnt_user, $settings, $themes;
+	global $db, $lang_new, $module_name, $userinfo, $admin, $user, $settings, $themes;
 	OpenTable();
 	_index_navigation_header();
 
@@ -22,9 +22,9 @@ function _most_popular_download_info()
 	// $perpage        = $settings['most_popular'];
 	// $page           = (isset($pageroot)) ? intval($pageroot) : 1;	
 	// $calc           = $perpage * $page;
-	// $phpbb2_start          = $calc - $perpage;
+	// $start          = $calc - $perpage;
 
-	$count_downloads = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isactive` = 1 && `isbroken` = 0 && `hits` <> 0"));
+	$count_downloads = $db->sql_numrows($db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isactive` = 1 && `isbroken` = 0 && `hits` <> 0"));
 //-------------------------------------------------------------------------------------
 //	THIS IS THE DEFAULT PAGINATION CLASS THAT COMES WITH EVOLUTION XTREME.
 //-------------------------------------------------------------------------------------
@@ -37,39 +37,39 @@ function _most_popular_download_info()
 //-------------------------------------------------------------------------------------
 
 	$sql 	 = "SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isactive` = 1 && `hits` <> 0 ORDER BY `hits` DESC LIMIT ".$limit1.", ".$limit2;
-	$result  = $pnt_db->sql_query($sql);
-	$numrows = $pnt_db->sql_numrows($result);
+	$result  = $db->sql_query($sql);
+	$numrows = $db->sql_numrows($result);
 	echo '<br />';
 	echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
-	echo '	  <td'._tdcss(false,'center',_sh(),(($settings['download_view'] == 0) ? '6' : $themes[get_theme()]['per_row'])).'>'._suh($lang_new[$pnt_module]['POPULAR_MOST_DOWNLOADED']).'</td>'."\n";
+	echo '	  <td'._tdcss(false,'center',_sh(),(($settings['download_view'] == 0) ? '6' : $themes[get_theme()]['per_row'])).'>'._suh($lang_new[$module_name]['POPULAR_MOST_DOWNLOADED']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	if($numrows > 0)
 	{
 		if($settings['download_view'] == 0)
 		{
 			echo '  <tr'._bgColor(2).'>'."\n";
-			echo '    <td'._tdcss(false,false,_sh(),2).'>'._suh($lang_new[$pnt_module]['TITLE']).'</td>'.PHP_EOL;
-			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($lang_new[$pnt_module]['VIEWS']).'</td>'.PHP_EOL;
-			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($lang_new[$pnt_module]['DOWNLOADS']).'</td>'.PHP_EOL;
-			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($lang_new[$pnt_module]['FILE_SIZE']).'</td>'.PHP_EOL;
-			echo '    <td'._tdcss('20%','center',_sh()).'>'._suh($lang_new[$pnt_module]['DATE_ADDED']).'</td>'.PHP_EOL;
+			echo '    <td'._tdcss(false,false,_sh(),2).'>'._suh($lang_new[$module_name]['TITLE']).'</td>'.PHP_EOL;
+			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($lang_new[$module_name]['VIEWS']).'</td>'.PHP_EOL;
+			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($lang_new[$module_name]['DOWNLOADS']).'</td>'.PHP_EOL;
+			echo '    <td'._tdcss('10%','center',_sh()).'>'._suh($lang_new[$module_name]['FILE_SIZE']).'</td>'.PHP_EOL;
+			echo '    <td'._tdcss('20%','center',_sh()).'>'._suh($lang_new[$module_name]['DATE_ADDED']).'</td>'.PHP_EOL;
 			echo '  </tr>'."\n";
-			while($popular = $pnt_db->sql_fetchrow($result))
+			while($popular = $db->sql_fetchrow($result))
 			{
-				$v 			= (($popular['version']) ? sprintf($lang_new[$pnt_module]['V'],$popular['version']) : '');
+				$v 			= (($popular['version']) ? sprintf($lang_new[$module_name]['V'],$popular['version']) : '');
 				$iteminfo 	= _collect_iteminfo($popular['did']);
-				$screen[$items] = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$popular['did']."' ORDER BY RAND()"));
+				$screen[$items] = $db->sql_fetchrow($db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$popular['did']."' ORDER BY RAND()"));
 				echo '  <tr'._bgColor(1).'>'."\n";
 				if($screen[$items]['filename'])
 				{
-					echo '    <td'._tdcss('5%','center',_sc()).'><a'._image_viewer($screen[$items]['filename'],'item-'.$popular['did']).' href="'._FILE_REPOSITORY_SCREENS.$screen[$items]['filename'].'" title="'.$screen[$items]['title'].'"><img style="border: 1px solid white; height: 28px; width: 30px;" src="modules/'.$pnt_module.'/files/screenshots/'.$screen[$items]['filename'].'" border="0" /></a></td>';
+					echo '    <td'._tdcss('5%','center',_sc()).'><a'._image_viewer($screen[$items]['filename'],'item-'.$popular['did']).' href="'._FILE_REPOSITORY_SCREENS.$screen[$items]['filename'].'" title="'.$screen[$items]['title'].'"><img style="border: 1px solid white; height: 28px; width: 30px;" src="modules/'.$module_name.'/files/screenshots/'.$screen[$items]['filename'].'" border="0" /></a></td>';
 					echo '    <td'._tdcss('45%',false,_sc()).'>';
-					echo '      <a'._ls().' href="modules.php?name='.$pnt_module.'&amp;action=view&amp;did='.$popular['did'].'">'._colorization($iteminfo['title'],$iteminfo['color']).$v.'</a>'._item_is_new($iteminfo['isnew'],$iteminfo['updated'])._mostpopular($iteminfo['hits']);
+					echo '      <a'._ls().' href="modules.php?name='.$module_name.'&amp;action=view&amp;did='.$popular['did'].'">'._colorization($iteminfo['title'],$iteminfo['color']).$v.'</a>'._item_is_new($iteminfo['isnew'],$iteminfo['updated'])._mostpopular($iteminfo['hits']);
 					echo '    </td>';
 				} else {
 					echo '    <td'._tdcss(false,false,_sc(),2).'>';
-					echo '      <a'._ls().' href="modules.php?name='.$pnt_module.'&amp;action=view&amp;did='.$popular['did'].'">'._colorization($iteminfo['title'],$iteminfo['color']).$v.'</a>'._item_is_new($iteminfo['isnew'],$iteminfo['updated'])._mostpopular($iteminfo['hits']);
+					echo '      <a'._ls().' href="modules.php?name='.$module_name.'&amp;action=view&amp;did='.$popular['did'].'">'._colorization($iteminfo['title'],$iteminfo['color']).$v.'</a>'._item_is_new($iteminfo['isnew'],$iteminfo['updated'])._mostpopular($iteminfo['hits']);
 					echo '    </td>';
 				}
 				echo '    <td'._tdcss('10%','center',_sc()).'>'.$iteminfo['views'].'</td>';
@@ -79,17 +79,17 @@ function _most_popular_download_info()
 				echo '  </tr>'."\n";
 				$items++;
 			}
-			$pnt_db->sql_freeresult($result);
+			$db->sql_freeresult($result);
 		}
 		else
 		{
 			$items = 0;
-			while($popular = $pnt_db->sql_fetchrow($result))
+			while($popular = $db->sql_fetchrow($result))
 			{
-				$v 				= (($popular['version']) ? sprintf($lang_new[$pnt_module]['V'],$popular['version']) : '');
+				$v 				= (($popular['version']) ? sprintf($lang_new[$module_name]['V'],$popular['version']) : '');
 				$iteminfo 		= _collect_iteminfo($popular['did']);
-				$screen[$items] = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$popular['did']."' ORDER BY RAND()"));
-				$ustring 		= ($iteminfo['updated'] == '0000-00-00 00:00:00') ? _sut($lang_new[$pnt_module]['DATE_ADDED']) : _sut($lang_new[$pnt_module]['UPDATED']);
+				$screen[$items] = $db->sql_fetchrow($db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$popular['did']."' ORDER BY RAND()"));
+				$ustring 		= ($iteminfo['updated'] == '0000-00-00 00:00:00') ? _sut($lang_new[$module_name]['DATE_ADDED']) : _sut($lang_new[$module_name]['UPDATED']);
 				if($screen[$items]['filename'])
 					$colspan = false;
 				else 
@@ -114,20 +114,20 @@ function _most_popular_download_info()
 				echo '            <table width="100%" border="0" cellpadding="4" cellspacing="1">'."\n";
 				echo '              <tr>'."\n";
 				echo '                <td'._tdcss(false,false,false,false,true).'>';
-				echo '                  '._sut($lang_new[$pnt_module]['DOWNLOAD']).' : <a'._ls().' href="modules.php?name='.$pnt_module.'&amp;action=view&amp;did='.$popular['did'].'">'._colorization($iteminfo['title'],$iteminfo['color']).'</a>'._item_is_new($iteminfo['isnew'],$iteminfo['updated'])._mostpopular($iteminfo['hits']);
+				echo '                  '._sut($lang_new[$module_name]['DOWNLOAD']).' : <a'._ls().' href="modules.php?name='.$module_name.'&amp;action=view&amp;did='.$popular['did'].'">'._colorization($iteminfo['title'],$iteminfo['color']).'</a>'._item_is_new($iteminfo['isnew'],$iteminfo['updated'])._mostpopular($iteminfo['hits']);
 				echo '                </td>'."\n";
 				echo '              </tr>'."\n";
 				echo '              <tr>'."\n";
-				echo '                <td'._tdcss(false,false,false,false,true).'>'._sut($lang_new[$pnt_module]['PERMISSIONS']).' : '.$iteminfo['whocan'].'</td>';
+				echo '                <td'._tdcss(false,false,false,false,true).'>'._sut($lang_new[$module_name]['PERMISSIONS']).' : '.$iteminfo['whocan'].'</td>';
 				echo '              </tr>'."\n";
 				echo '              <tr>'."\n";
-				echo '                <td'._tdcss(false,false,false,false,true).'>'._sut($lang_new[$pnt_module]['FILE_VERSION']).' : '.(($iteminfo['version']) ? $iteminfo['version'] : $lang_new[$pnt_module]['NA']).'</td>';
+				echo '                <td'._tdcss(false,false,false,false,true).'>'._sut($lang_new[$module_name]['FILE_VERSION']).' : '.(($iteminfo['version']) ? $iteminfo['version'] : $lang_new[$module_name]['NA']).'</td>';
 				echo '              </tr>'."\n";
 				echo '              <tr>'."\n";
 				echo '                <td'._tdcss(false,false,false,false,true).'>'.$ustring.' : '.$iteminfo['isupdated'].'</td>';
 				echo '              </tr>'."\n";
 				echo '              <tr>'."\n";
-				echo '                <td'._tdcss(false,false,false,false,true).'>'._sut($lang_new[$pnt_module]['DOWNLOADS']).' : '.$iteminfo['hits'].'</td>';
+				echo '                <td'._tdcss(false,false,false,false,true).'>'._sut($lang_new[$module_name]['DOWNLOADS']).' : '.$iteminfo['hits'].'</td>';
 				echo '              </tr>'."\n";
 				echo '            </table>'."\n";
 				echo '          </td>';
@@ -154,7 +154,7 @@ function _most_popular_download_info()
 		}
 	} else {
 		echo '  <tr'._bgColor(1).'>'."\n";
-		echo '	  <td'._tdcss(false,'center',_sc(),(($settings['download_view'] == 0) ? '6' : $themes[get_theme()]['per_row'])).'>'._sut($lang_new[$pnt_module]['NOINFO']).'</td>'."\n";
+		echo '	  <td'._tdcss(false,'center',_sc(),(($settings['download_view'] == 0) ? '6' : $themes[get_theme()]['per_row'])).'>'._sut($lang_new[$module_name]['NOINFO']).'</td>'."\n";
 		echo '  </tr>'."\n";
 	}
 	echo '  <tr'._bgColor(2).'>'."\n";
@@ -162,24 +162,24 @@ function _most_popular_download_info()
 	if($count_downloads > $settings['most_popular'])
 	{
 		if ($pagination->getCurrent() == 1)
-			$first = ' | '.$lang_new[$pnt_module]['FIRST'].' | ';
+			$first = ' | '.$lang_new[$module_name]['FIRST'].' | ';
 		else
-			$first = ' | <a href="modules.php?name='.$pnt_module.'&amp;action=mostpopular&amp;page='.$pagination->getFirst().'">'.$lang_new[$pnt_module]['FIRST'].'</a> |';
+			$first = ' | <a href="modules.php?name='.$module_name.'&amp;action=mostpopular&amp;page='.$pagination->getFirst().'">'.$lang_new[$module_name]['FIRST'].'</a> |';
 			
 		if ($pagination->getPrevious())
-			$prev = '<a href="modules.php?name='.$pnt_module.'&amp;action=mostpopular&amp;page='.$pagination->getPrevious().'">'.$lang_new[$pnt_module]['PREV'].'</a> | ';
+			$prev = '<a href="modules.php?name='.$module_name.'&amp;action=mostpopular&amp;page='.$pagination->getPrevious().'">'.$lang_new[$module_name]['PREV'].'</a> | ';
 		else
-			$prev = $lang_new[$pnt_module]['PREV'].' | ';
+			$prev = $lang_new[$module_name]['PREV'].' | ';
 			
 		if ($pagination->getNext())
-			$next = '<a href="modules.php?name='.$pnt_module.'&amp;action=mostpopular&amp;page='.$pagination->getNext().'">'.$lang_new[$pnt_module]['NEXT'].'</a> | ';
+			$next = '<a href="modules.php?name='.$module_name.'&amp;action=mostpopular&amp;page='.$pagination->getNext().'">'.$lang_new[$module_name]['NEXT'].'</a> | ';
 		else
-			$next = $lang_new[$pnt_module]['NEXT'].' | ';
+			$next = $lang_new[$module_name]['NEXT'].' | ';
 			
 		if ($pagination->getLast())
-			$last = '<a href="modules.php?name='.$pnt_module.'&amp;action=mostpopular&amp;page='.$pagination->getLast().'">'.$lang_new[$pnt_module]['LAST'].'</a>';
+			$last = '<a href="modules.php?name='.$module_name.'&amp;action=mostpopular&amp;page='.$pagination->getLast().'">'.$lang_new[$module_name]['LAST'].'</a>';
 		else
-			$last = $lang_new[$pnt_module]['LAST'];
+			$last = $lang_new[$module_name]['LAST'];
 			
 		echo $pagination->getFirstOf().' to '.$pagination->getSecondOf().' of '.$pagination->getTotalItems().' '.$first." ".$prev." ".$next." ".$last;
 	} else {

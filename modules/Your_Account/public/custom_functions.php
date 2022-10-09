@@ -39,14 +39,14 @@ include_once(NUKE_INCLUDE_DIR.'functions.php');
  [ Mod:     Group Ranks                        v1.0.0 ]
  ******************************************************/
 function init_group($uid) {
-    global $pnt_prefix, $pnt_db, $phpbb2_board_config, $cache;
-    if($phpbb2_board_config['initial_group_id'] != "0" && $phpbb2_board_config['initial_group_id'] != NULL) {
-        $initialusergroup = intval($phpbb2_board_config['initial_group_id']);
+    global $prefix, $db, $board_config, $cache;
+    if($board_config['initial_group_id'] != "0" && $board_config['initial_group_id'] != NULL) {
+        $initialusergroup = intval($board_config['initial_group_id']);
         if($initialusergroup == 0) {
             return;
         }
 
-        $pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_bbuser_group (group_id, user_id, user_pending) VALUES ('$initialusergroup', $uid, '0')");
+        $db->sql_query("INSERT INTO ".$prefix."_bbuser_group (group_id, user_id, user_pending) VALUES ('$initialusergroup', $uid, '0')");
         add_group_attributes($uid, $initialusergroup);
     }
 }

@@ -24,77 +24,77 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 if ( isset($HTTP_POST_VARS['submit']) )
 {
-    $pnt_username = ( !empty($HTTP_POST_VARS['username']) ) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
+    $username = ( !empty($HTTP_POST_VARS['username']) ) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
     $email = ( !empty($HTTP_POST_VARS['email']) ) ? trim(strip_tags(htmlspecialchars($HTTP_POST_VARS['email']))) : '';
 
         $sql = "SELECT user_id, username, user_email, user_active, user_lang
                 FROM " . USERS_TABLE . "
                 WHERE user_email = '" . str_replace("\'", "''", $email) . "'
-            AND username = '" . str_replace("\'", "''", $pnt_username) . "'";
-    if ( $result = $pnt_db->sql_query($sql) )
+            AND username = '" . str_replace("\'", "''", $username) . "'";
+    if ( $result = $db->sql_query($sql) )
     {
-        if ( $row = $pnt_db->sql_fetchrow($result) )
+        if ( $row = $db->sql_fetchrow($result) )
         {
             if ( !$row['user_active'] )
             {
                 message_die(GENERAL_MESSAGE, $lang['No_send_account_inactive']);
             }
 
-            $pnt_username = $row['username'];
-            $pnt_user_id = $row['user_id'];
+            $username = $row['username'];
+            $user_id = $row['user_id'];
 
-            $pnt_user_actkey = gen_rand_string(true);
+            $user_actkey = gen_rand_string(true);
             $key_len = 54 - strlen($server_url);
             $key_len = ($key_len > 6) ? $key_len : 6;
-            $pnt_user_actkey = substr($pnt_user_actkey, 0, $key_len);
+            $user_actkey = substr($user_actkey, 0, $key_len);
             $user_password = gen_rand_string(false);
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
                         $sql = "UPDATE " . USERS_TABLE . "
-                SET user_newpasswd = '" . md5($user_password) . "', user_actkey = '$pnt_user_actkey'  
+                SET user_newpasswd = '" . md5($user_password) . "', user_actkey = '$user_actkey'  
                 WHERE user_id = " . $row['user_id'];
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-            if ( !$pnt_db->sql_query($sql) )
+            if ( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, 'Could not update new password information', '', __LINE__, __FILE__, $sql);
             }
 
             include("includes/emailer.php");
-            $emailer = new emailer($phpbb2_board_config['smtp_delivery']);
+            $emailer = new emailer($board_config['smtp_delivery']);
 
-            $emailer->from($phpbb2_board_config['board_email']);
-            $emailer->replyto($phpbb2_board_config['board_email']);
+            $emailer->from($board_config['board_email']);
+            $emailer->replyto($board_config['board_email']);
 
             $emailer->use_template('user_activate_passwd', $row['user_lang']);
             $emailer->email_address($row['user_email']);
             $emailer->set_subject($lang['New_password_activation']);
 
             $emailer->assign_vars(array(
-                'SITENAME' => $phpbb2_board_config['sitename'], 
-                'USERNAME' => $pnt_username,
+                'SITENAME' => $board_config['sitename'], 
+                'USERNAME' => $username,
                 'PASSWORD' => $user_password,
-                'EMAIL_SIG' => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : '', 
+                'EMAIL_SIG' => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '', 
 
-                'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $pnt_user_id . '&act_key=' . $pnt_user_actkey)
+                'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $user_id . '&act_key=' . $user_actkey)
             );
             $emailer->send();
             $emailer->reset();
 
-            $phpbb2_template->assign_vars(array(
-                'META' => '<meta http-equiv="refresh" content="15;url=' . append_titanium_sid("index.$phpEx") . '">')
+            $template->assign_vars(array(
+                'META' => '<meta http-equiv="refresh" content="15;url=' . append_sid("index.$phpEx") . '">')
             );
 
-            $message = $lang['Password_updated'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
+            $message = $lang['Password_updated'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
 
             message_die(GENERAL_MESSAGE, $message);
         }
@@ -110,7 +110,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 }
 else
 {
-    $pnt_username = '';
+    $username = '';
     $email = '';
 }
 
@@ -119,13 +119,13 @@ else
 //
 include("includes/page_header.php");
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     'body' => 'profile_send_pass.tpl')
 );
 make_jumpbox('viewforum.'.$phpEx);
 
-$phpbb2_template->assign_vars(array(
-    'USERNAME' => $pnt_username,
+$template->assign_vars(array(
+    'USERNAME' => $username,
     'EMAIL' => $email,
 
         'L_SEND_PASSWORD' => $lang['Send_password'],
@@ -135,10 +135,10 @@ $phpbb2_template->assign_vars(array(
     'L_RESET' => $lang['Reset'],
 
         'S_HIDDEN_FIELDS' => '',
-    'S_PROFILE_ACTION' => append_titanium_sid("profile.$phpEx?mode=sendpassword"))
+    'S_PROFILE_ACTION' => append_sid("profile.$phpEx?mode=sendpassword"))
 );
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 include("includes/page_tail.php");
 

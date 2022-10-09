@@ -23,7 +23,7 @@
 if(!defined('ADMIN_FILE')) {
     exit('Access Denied');
 }
-global $cache, $pnt_prefix, $pnt_db;
+global $cache, $prefix, $db;
 $x1content = html_entity_decode($x1content, ENT_QUOTES);
 $x2content = html_entity_decode($x2content, ENT_QUOTES);
 $x3content = html_entity_decode($x3content, ENT_QUOTES);
@@ -54,11 +54,11 @@ if(!get_magic_quotes_runtime()) {
   $x3title = addslashes($x3title);
   $x4title = addslashes($x4title);
 }
-$result = $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsncb_config` SET `enabled`='$xenabled', `count`='$xcount', `height`='$xheight' WHERE `cgid`='2'");
-$result1 = $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsncb_blocks` SET `content`='$x1content', `filename`='$x1name', `title`='$x1title', `wtype`='$x1wtype', `width`='$x1width' WHERE `cbid`='1' AND `cgid`='2'");
-$result2 = $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsncb_blocks` SET `content`='$x2content', `filename`='$x2name', `title`='$x2title', `wtype`='$x2wtype', `width`='$x2width' WHERE `cbid`='2' AND `cgid`='2'");
-$result3 = $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsncb_blocks` SET `content`='$x3content', `filename`='$x3name', `title`='$x3title', `wtype`='$x3wtype', `width`='$x3width' WHERE `cbid`='3' AND `cgid`='2'");
-$result4 = $pnt_db->sql_query("UPDATE `".$pnt_prefix."_nsncb_blocks` SET `content`='$x4content', `filename`='$x4name', `title`='$x4title', `wtype`='$x4wtype', `width`='$x4width' WHERE `cbid`='4' AND `cgid`='2'");
+$result = $db->sql_query("UPDATE `".$prefix."_nsncb_config` SET `enabled`='$xenabled', `count`='$xcount', `height`='$xheight' WHERE `cgid`='2'");
+$result1 = $db->sql_query("UPDATE `".$prefix."_nsncb_blocks` SET `content`='$x1content', `filename`='$x1name', `title`='$x1title', `wtype`='$x1wtype', `width`='$x1width' WHERE `cbid`='1' AND `cgid`='2'");
+$result2 = $db->sql_query("UPDATE `".$prefix."_nsncb_blocks` SET `content`='$x2content', `filename`='$x2name', `title`='$x2title', `wtype`='$x2wtype', `width`='$x2width' WHERE `cbid`='2' AND `cgid`='2'");
+$result3 = $db->sql_query("UPDATE `".$prefix."_nsncb_blocks` SET `content`='$x3content', `filename`='$x3name', `title`='$x3title', `wtype`='$x3wtype', `width`='$x3width' WHERE `cbid`='3' AND `cgid`='2'");
+$result4 = $db->sql_query("UPDATE `".$prefix."_nsncb_blocks` SET `content`='$x4content', `filename`='$x4name', `title`='$x4title', `wtype`='$x4wtype', `width`='$x4width' WHERE `cbid`='4' AND `cgid`='2'");
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v1.0.0 ]
  ******************************************************/
@@ -66,6 +66,6 @@ $cache->delete('cb_blocks', 'config');
 /*****[END]********************************************
  [ Base:    Caching System                     v1.0.0 ]
  ******************************************************/
-redirect_titanium($admin_file.'.php?op=CenterBlocksSet2');
+redirect($admin_file.'.php?op=CenterBlocksSet2');
 
 ?>

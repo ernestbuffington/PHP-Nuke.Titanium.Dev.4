@@ -39,7 +39,7 @@
 <tr>
 	<td class="catBottom" colspan="2" align="center">{S_HIDDEN_FIELDS}
 		<input type="submit" name="confirm" class="mainoption" value="{L_CONFIRM}" />&nbsp;
-		<input type="submit" name="cancel" class="titaniumbutton" value="{L_CANCEL}" />
+		<input type="submit" name="cancel" class="liteoption" value="{L_CANCEL}" />
 	</td>
 </tr>
 </table>

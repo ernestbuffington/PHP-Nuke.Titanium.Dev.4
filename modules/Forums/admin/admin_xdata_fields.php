@@ -8,20 +8,20 @@
  *
  */
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
 	$file = basename(__FILE__);
-	$pnt_module['XData']['Manage_Fields'] = $file;
+	$module['XData']['Manage_Fields'] = $file;
 	return;
 }
 
 //
 // Load default header
 //
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 include('../../../includes/functions_admin.'.$phpEx);
 
@@ -30,10 +30,10 @@ include('../../../includes/functions_admin.'.$phpEx);
 //
 if(!defined('XD_LANG_INCLUDED'))
 {
-	$xs_lang_file = $phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_xd.'.$phpEx;
+	$xs_lang_file = $phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_xd.'.$phpEx;
 	if( !@file_exists($xs_lang_file) )
 	{	// load english version if there is no translation to current language
-		$xs_lang_file = $phpbb2_root_path . 'language/lang_english/lang_xd.'.$phpEx;
+		$xs_lang_file = $phpbb_root_path . 'language/lang_english/lang_xd.'.$phpEx;
 	}
 	@include($xs_lang_file);
 	define('XD_LANG_INCLUDED', true);
@@ -86,12 +86,12 @@ switch ($mode)
 			ORDER BY field_order " . ( ($mode == 'up') ? 'DESC' : 'ASC' ) . "
 			LIMIT 1";
 
-		if ( !( $result = $pnt_db->sql_query($sql) ) )
+		if ( !( $result = $db->sql_query($sql) ) )
 		{
 			message_die(GENERAL_ERROR, $lang['XData_unable_to_switch_fields'], '', __LINE__, __FILE__, $sql);
 		}
 
-		$swap2 = $pnt_db->sql_fetchrow($result);
+		$swap2 = $db->sql_fetchrow($result);
 
 		if ($swap1 && $swap2)
 		{
@@ -99,7 +99,7 @@ switch ($mode)
 				SET field_order = " . $swap2['field_order'] . "
 				WHERE field_id = " . $swap1['field_id'];
 
-			if ( ! $pnt_db->sql_query($sql) )
+			if ( ! $db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_unable_to_switch_fields'], '', __LINE__, __FILE__, $sql);
 			}
@@ -108,7 +108,7 @@ switch ($mode)
 				SET field_order = " . $swap1['field_order'] . "
 				WHERE field_id = " . $swap2['field_id'];
 
-			if ( ! $pnt_db->sql_query($sql) )
+			if ( ! $db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_unable_to_switch_fields'], '', __LINE__, __FILE__, $sql);
 			}
@@ -144,11 +144,11 @@ switch ($mode)
 
 			if ($meta['field_type'] != 'special')
 			{
-				$phpbb2_template->set_filenames( array('body' => 'admin/xd_edit_body.tpl') );
+				$template->set_filenames( array('body' => 'admin/xd_edit_body.tpl') );
 			}
 			else
 			{
-				$phpbb2_template->set_filenames( array('body' => 'admin/xd_edit_body_limited.tpl') );
+				$template->set_filenames( array('body' => 'admin/xd_edit_body_limited.tpl') );
 			}
 
 			switch ( $meta['field_regexp'] )
@@ -169,7 +169,7 @@ switch ($mode)
 
 			$manditory = (isset($meta['manditory'])) ? intval($meta['manditory']) : 0;
 
-			$phpbb2_template->assign_vars(array(
+			$template->assign_vars(array(
 				'NAME' => $meta['field_name'],
 				'CODE_NAME' => $meta['code_name'],
 				'DESCRIPTION' => $meta['field_desc'],
@@ -234,7 +234,7 @@ switch ($mode)
 				)
 			);
 
-			$phpbb2_template->assign_vars(array(
+			$template->assign_vars(array(
 				'L_BASIC_OPTIONS' => $lang['Basic_Options'],
 				'L_ADVANCED_OPTIONS' => $lang['Advanced_Options'],
 				'L_ADVANCED_NOTICE' => $lang['Advanced_warning'],
@@ -290,7 +290,7 @@ switch ($mode)
 				)
 			);
 
-			$phpbb2_template->pparse('body');
+			$template->pparse('body');
 
 		}
 		else
@@ -375,12 +375,12 @@ switch ($mode)
 				. "'
 				WHERE code_name = '" . $code_name . "'";
 
-			if ( ! $pnt_db->sql_query($sql) )
+			if ( ! $db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_error_updating_fields'], '', __LINE__, __FILE__, $sql);
 			}
 
-           	 $message = $lang['Edit_success'] . "<br /><br />" . sprintf($lang['Click_return_fields'], "<a href=\"" . append_titanium_sid("admin_xdata_fields.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+           	 $message = $lang['Edit_success'] . "<br /><br />" . sprintf($lang['Click_return_fields'], "<a href=\"" . append_sid("admin_xdata_fields.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 		}
 
@@ -394,9 +394,9 @@ switch ($mode)
 			Show the form
 			*/
 
-			$phpbb2_template->set_filenames( array( 'body' => 'admin/xd_edit_body.tpl' ) );
+			$template->set_filenames( array( 'body' => 'admin/xd_edit_body.tpl' ) );
 
-        	$phpbb2_template->assign_vars(array(
+        	$template->assign_vars(array(
         			'DEFAULT_AUTH_ALLOW_CHECKED' => ' checked="checked"',
         			'AUTH_ALLOW' => XD_AUTH_ALLOW,
         			'AUTH_DENY' => XD_AUTH_DENY,
@@ -465,7 +465,7 @@ switch ($mode)
 				)
 			);
 
-			$phpbb2_template->pparse('body');
+			$template->pparse('body');
   		}
   		else
   		{
@@ -519,12 +519,12 @@ switch ($mode)
 			$sql = "SELECT MAX(field_id)+1 AS field_id, MAX(field_order)+1 AS field_order
 			        FROM " . XDATA_FIELDS_TABLE;
 
-			if ( !($result = $pnt_db->sql_query($sql)) )
+			if ( !($result = $db->sql_query($sql)) )
 			{
             			message_die(GENERAL_ERROR, $lang['XData_error_obtaining_new_field_info'], '', __LINE__, __FILE__, $sql);
 			}
 
-			$new_info = $pnt_db->sql_fetchrow($result);
+			$new_info = $db->sql_fetchrow($result);
 			$field_id = $new_info['field_id'];
 			$field_order = $new_info['field_order'];
 
@@ -540,12 +540,12 @@ switch ($mode)
 				VALUES
 				($field_id, '$field_name', '$field_desc', '$field_type', $field_length, '$field_values', '$field_regexp', $field_order, '$code_name', $default_auth, $display_register, $display_viewprofile, $display_posting, $handle_input, $allow_bbcode, $allow_smilies, $allow_html, $manditory, $viewtopic, $signup)";
 
-			if ( ! $pnt_db->sql_query($sql) )
+			if ( ! $db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_failure_inserting_data'], '', __LINE__, __FILE__, $sql);
 			}
 
-           		 $message = $lang['Add_success'] . "<br /><br />" . sprintf($lang['Click_return_fields'], "<a href=\"" . append_titanium_sid("admin_xdata_fields.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+           		 $message = $lang['Add_success'] . "<br /><br />" . sprintf($lang['Click_return_fields'], "<a href=\"" . append_sid("admin_xdata_fields.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 		}
 
@@ -574,15 +574,15 @@ switch ($mode)
 				message_die(GENERAL_ERROR, $lang['XData_field_non_existant']);
 			}
 
-			$phpbb2_template->set_filenames( array( 'body' => 'admin/xd_confirm_delete.tpl' ) );
+			$template->set_filenames( array( 'body' => 'admin/xd_confirm_delete.tpl' ) );
 
-			$phpbb2_template->assign_vars( array(
+			$template->assign_vars( array(
 				'S_HIDDEN_VARS' => '<input type="hidden" name="name" value="' . $code_name . '" /><input type="hidden" name="mode" value="delete" />',
-				'U_FORM_ACTION' => append_titanium_sid("admin_xdata_fields.$phpEx?name=$name")
+				'U_FORM_ACTION' => append_sid("admin_xdata_fields.$phpEx?name=$name")
 				)
 			);
 
-			$phpbb2_template->assign_vars( array(
+			$template->assign_vars( array(
 				'L_CONFIRM' => $lang['Confirm'],
 				'L_ARE_YOU_SURE' => sprintf($lang['Are_you_sure'], $xd_meta[$name]['field_name']),
 				'L_YES' => $lang['Yes'],
@@ -590,7 +590,7 @@ switch ($mode)
 				)
 			);
 
-			$phpbb2_template->pparse('body');
+			$template->pparse('body');
 		}
 		elseif ( isset($HTTP_POST_VARS['yes'] ) )
 		{
@@ -615,7 +615,7 @@ switch ($mode)
 			$sql = "DELETE FROM " . XDATA_DATA_TABLE . "
 				WHERE field_id = " . $xd_meta[$code_name]['field_id'];
 
-			if ( ! $pnt_db->sql_query($sql) )
+			if ( ! $db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_failure_removing_data'], "", __LINE__, __FILE__, $sql);
 			}
@@ -623,7 +623,7 @@ switch ($mode)
           		  $sql = "DELETE FROM " . XDATA_AUTH_TABLE . "
 				WHERE field_id = " . $xd_meta[$code_name]['field_id'];
 
-			if ( ! $pnt_db->sql_query($sql) )
+			if ( ! $db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_failure_removing_data'], "", __LINE__, __FILE__, $sql);
 			}
@@ -631,12 +631,12 @@ switch ($mode)
 			$sql = "DELETE FROM " . XDATA_FIELDS_TABLE . "
 				WHERE code_name = '" . $code_name . "'";
 
-			if ( ! $pnt_db->sql_query($sql) )
+			if ( ! $db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, $lang['XData_failure_removing_data'], "", __LINE__, __FILE__, $sql);
 			}
 
-			$message = $lang['Delete_success'] . "<br /><br />" . sprintf($lang['Click_return_fields'], "<a href=\"" . append_titanium_sid("admin_xdata_fields.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['Delete_success'] . "<br /><br />" . sprintf($lang['Click_return_fields'], "<a href=\"" . append_sid("admin_xdata_fields.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 
 		}
@@ -652,34 +652,34 @@ if ($mode == 'view')
 {
 
 
-	$phpbb2_template->set_filenames( array('body' => 'admin/xd_view_body.tpl') );
+	$template->set_filenames( array('body' => 'admin/xd_view_body.tpl') );
 
 	if (count($xd_meta) == 0)
 	{
-		$phpbb2_template->assign_block_vars('switch_no_fields', array());
+		$template->assign_block_vars('switch_no_fields', array());
 	}
 	else
 	{
 		while ( list($code_name, $meta) = each($xd_meta) )
 		{
-        	$phpbb2_template->assign_block_vars('xd_field', array(
+        	$template->assign_block_vars('xd_field', array(
 				'FIELD_NAME' => $meta['field_name'],
 				'FIELD_TYPE' => $meta['field_type'],
-				'U_MOVE_UP' => append_titanium_sid('admin_xdata_fields.'.$phpEx.'?mode=up&name='.$code_name),
-				'U_MOVE_DOWN' => append_titanium_sid('admin_xdata_fields.'.$phpEx.'?mode=down&name='.$code_name),
-				'U_EDIT' => append_titanium_sid('admin_xdata_fields.'.$phpEx.'?mode=edit&name='.$code_name),
-				'U_DELETE' => append_titanium_sid('admin_xdata_fields.'.$phpEx.'?mode=delete&name='.$code_name),
+				'U_MOVE_UP' => append_sid('admin_xdata_fields.'.$phpEx.'?mode=up&name='.$code_name),
+				'U_MOVE_DOWN' => append_sid('admin_xdata_fields.'.$phpEx.'?mode=down&name='.$code_name),
+				'U_EDIT' => append_sid('admin_xdata_fields.'.$phpEx.'?mode=edit&name='.$code_name),
+				'U_DELETE' => append_sid('admin_xdata_fields.'.$phpEx.'?mode=delete&name='.$code_name),
         		)
         	);
 
         	if ($meta['field_type'] != 'special')
 			{
-				$phpbb2_template->assign_block_vars('xd_field.normal', array());
+				$template->assign_block_vars('xd_field.normal', array());
 			}
   		}
 	}
 
-	$phpbb2_template->assign_vars(array(
+	$template->assign_vars(array(
 		'L_XDATA_ADMIN' => $lang['Profile_admin'],
 		'L_FORM_DESCRIPTION' => $lang['Xdata_view_description'],
 		'L_FIELD_NAME' => $lang['Name'],
@@ -693,11 +693,11 @@ if ($mode == 'view')
 		'L_NO_FIELDS' => $lang['No_fields'],
 		'L_ADD_FIELD' => $lang['Add_field'],
 
-		'U_ADD_FIELD' => append_titanium_sid("admin_xdata_fields.$phpEx?mode=add")
+		'U_ADD_FIELD' => append_sid("admin_xdata_fields.$phpEx?mode=add")
 		)
 	);
 
-	$phpbb2_template->pparse('body');
+	$template->pparse('body');
 }
 
 include('./page_footer_admin.'.$phpEx);

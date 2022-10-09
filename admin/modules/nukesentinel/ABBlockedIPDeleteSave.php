@@ -15,8 +15,8 @@ if (!defined('NUKESENTINEL_ADMIN')) {
    die ('You can\'t access this file directly...');
 }
 
-$pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$xIPs'");
-$pnt_db->sql_query("OPTIMIZE TABLE `".$pnt_prefix."_nsnst_blocked_ips`");
+$db->sql_query("DELETE FROM `".$prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$xIPs'");
+$db->sql_query("OPTIMIZE TABLE `".$prefix."_nsnst_blocked_ips`");
 if($ab_config['htaccess_path'] != "") {
   $i = 1;
   while($i <= 3) {

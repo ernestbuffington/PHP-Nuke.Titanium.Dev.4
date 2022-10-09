@@ -24,22 +24,22 @@
 *
 ***************************************************************************/
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = './../';
-require($phpbb2_root_path . 'extension.inc');
-if (!empty($phpbb2_board_config))
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
+if (!empty($board_config))
 {
-    @include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
+    @include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
 }
 
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $pnt_module['Statistics']['Stats_configuration'] = $filename . '?mode=config';
+    $module['Statistics']['Stats_configuration'] = $filename . '?mode=config';
     return;
 }
 
@@ -55,27 +55,27 @@ else
 }
 
 $submit = (isset($HTTP_POST_VARS['submit'])) ? TRUE : FALSE;
-@include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
-@include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_statistics.' . $phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
+@include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
+@include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_statistics.' . $phpEx);
+include($phpbb_root_path . 'stats_mod/includes/constants.'.$phpEx);
 
 $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-if ( !($result = $pnt_db->sql_query($sql)) )
+if ( !($result = $db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $pnt_db->sql_fetchrow($result))
+while ($row = $db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
 
-include($phpbb2_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
 
 if ($submit)
 {
@@ -87,7 +87,7 @@ if ($submit)
     {
         $sql = "UPDATE " . STATS_CONFIG_TABLE . " SET config_value = '" . trim($HTTP_POST_VARS['return_limit']) . "' WHERE config_name = 'return_limit'";
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update statistics config table', '', __LINE__, __FILE__, $sql);
         }
@@ -99,14 +99,14 @@ if ($submit)
     {
         $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
         }
 
         $stats_config = array();
 
-        while ($row = $pnt_db->sql_fetchrow($result))
+        while ($row = $db->sql_fetchrow($result))
         {
             $stats_config[$row['config_name']] = trim($row['config_value']);
         }
@@ -119,7 +119,7 @@ if ($submit)
     {
         $sql = "UPDATE " . STATS_CONFIG_TABLE . " SET config_value = '0' WHERE config_name = 'page_views'";
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update statistics config table', '', __LINE__, __FILE__, $sql);
         }
@@ -132,21 +132,21 @@ if ($submit)
     {
         $sql = "UPDATE " . STATS_CONFIG_TABLE . " SET config_value = '" . time() . "' WHERE config_name = 'install_date'";
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update statistics config table', '', __LINE__, __FILE__, $sql);
         }
 
         $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
         }
 
         $stats_config = array();
 
-        while ($row = $pnt_db->sql_fetchrow($result))
+        while ($row = $db->sql_fetchrow($result))
         {
             $stats_config[$row['config_name']] = trim($row['config_value']);
         }
@@ -160,7 +160,7 @@ if ($submit)
         // Clear Module Cache
         $sql = "UPDATE " . CACHE_TABLE . " SET module_cache_time = 0, db_cache = '', priority = 0";
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update cache table', '', __LINE__, __FILE__, $sql);
         }
@@ -168,14 +168,14 @@ if ($submit)
         // Clear the Smilies Cache
         $sql = "DELETE FROM " . SMILIE_INDEX_TABLE;
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update smiley index table', '', __LINE__, __FILE__, $sql);
         }
 
         $sql = "UPDATE " . SMILIE_INFO_TABLE . " SET last_post_id = 0, last_update_time = 0";
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Unable to update smiley info table', '', __LINE__, __FILE__, $sql);
         }
@@ -198,11 +198,11 @@ if ($submit)
 
 if ($mode == 'config')
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/stat_config_body.tpl')
     );
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_SUBMIT' => $lang['Submit'],
         'L_RESET' => $lang['Reset'],
         'L_MESSAGES' => $lang['Messages'],
@@ -223,18 +223,18 @@ if ($mode == 'config')
     
         'RETURN_LIMIT' => $stats_config['return_limit'],
         'MODULE_PAGINATION' => $stats_config['modules_per_page'],
-        'S_ACTION' => append_titanium_sid('admin_stats.'.$phpEx.'?mode='.$mode),
+        'S_ACTION' => append_sid('admin_stats.'.$phpEx.'?mode='.$mode),
         'MESSAGE' => $message)
     );
 }
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'VIEWED_INFO' => sprintf($lang['Viewed_info'], $stats_config['page_views']),
-    'INSTALL_INFO' => sprintf($lang['Install_info'], create_date($phpbb2_board_config['default_dateformat'], $stats_config['install_date'], $phpbb2_board_config['board_timezone'])),
+    'INSTALL_INFO' => sprintf($lang['Install_info'], create_date($board_config['default_dateformat'], $stats_config['install_date'], $board_config['board_timezone'])),
     'VERSION_INFO' => sprintf($lang['Version_info'], $stats_config['version']))
 );
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 //
 // Page Footer

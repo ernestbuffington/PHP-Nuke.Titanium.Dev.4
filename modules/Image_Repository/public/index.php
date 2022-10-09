@@ -15,7 +15,7 @@ if (!defined('MODULE_FILE') || !defined('_IMAGE_REPOSITORY_INDEX') )
 
 function main()
 {
-	global $pnt_db, $lang_new, $pnt_module, $userinfo, $nukeurl, $settings, $mysettings, $myimages;
+	global $db, $lang_new, $module_name, $userinfo, $nukeurl, $settings, $mysettings, $myimages;
 	OpenTable();
 	echo '<br />';
 	index_navigation_header();
@@ -39,15 +39,15 @@ function main()
 //-------------------------------------------------------------------------
 //	THIS IS THE PAGINATION CLASS.
 //-------------------------------------------------------------------------	
-	$result = $pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."' ORDER BY `uploaded` DESC LIMIT ".$limit1.", ".$limit2);
+	$result = $db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."' ORDER BY `uploaded` DESC LIMIT ".$limit1.", ".$limit2);
 	$quotainfo = _quota_percentages($userinfo['user_id']);
 	echo '<table style="width:100%;'.(($quotainfo['total_size'] >= $quotainfo['quota']) ? ' display:none;' : '').'" border="0" cellpadding="4" cellspacing="1" class="forumline" id="image_repository_upload">'."\n";
 	echo '  <tr>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','catHead',2).'>'._string_to_upper($lang_new[$pnt_module]['UPLOAD']).'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','catHead',2).'>'._string_to_upper($lang_new[$module_name]['UPLOAD']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '  <tr>'."\n";
-	echo '    <td'.tablecss('50%',FALSE,'catBottom').'>'._string_to_upper($lang_new[$pnt_module]['BROWSE']).'</td>'."\n";
-	echo '    <td'.tablecss('50%',FALSE,'catBottom').'>'._string_to_upper($lang_new[$pnt_module]['PROGRESS']).'</td>'."\n";
+	echo '    <td'.tablecss('50%',FALSE,'catBottom').'>'._string_to_upper($lang_new[$module_name]['BROWSE']).'</td>'."\n";
+	echo '    <td'.tablecss('50%',FALSE,'catBottom').'>'._string_to_upper($lang_new[$module_name]['PROGRESS']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '  <tr>'."\n";
 	// echo '    <td'.tablecss('50%',FALSE,'row1').'>'.inputfield('myimage','file',FALSE,'98%',FALSE,'').'</td>'."\n";
@@ -55,7 +55,7 @@ function main()
 	echo '    <td'.tablecss('50%',FALSE,'row1').'><div class="progress-bar"><span class="upload"></span></div></td>'."\n";
 	echo '  </tr>'."\n";
 	echo '  <tr>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','catBottom',2).'>'.submitbuttoncss(FALSE,$lang_new[$pnt_module]['SUBMIT']).'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','catBottom',2).'>'.submitbuttoncss(FALSE,$lang_new[$module_name]['SUBMIT']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '</table>'."\n";	
 //-------------------------------------------------------------------------
@@ -64,10 +64,10 @@ function main()
 //-------------------------------------------------------------------------	
 	echo '<table style="width:100%;'.(($quotainfo['total_size'] >= $quotainfo['quota']) ? '' : ' display:none;').'" border="0" cellpadding="4" cellspacing="1" class="forumline" id="image_repository_quota">'."\n";
 	echo '  <tr>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','catHead',2).'>'._string_to_upper($lang_new[$pnt_module]['ATTENTION']).'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','catHead',2).'>'._string_to_upper($lang_new[$module_name]['ATTENTION']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '  <tr>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','row1',2).'>'._string_to_upper(sprintf($lang_new[$pnt_module]['QUOTA_REACHED'],UsernameColor($userinfo['username']))).'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','row1',2).'>'._string_to_upper(sprintf($lang_new[$module_name]['QUOTA_REACHED'],UsernameColor($userinfo['username']))).'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '  <tr>'."\n";
 	echo '    <td'.tablecss(FALSE,'center','catBottom',2).'>&nbsp;</td>'."\n";
@@ -80,24 +80,24 @@ function main()
 	echo '<br />';	
 	echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline" id="imagetable">'."\n";
 	echo '	<tr id="errortable_tr">'."\n";
-	echo '    <td'.tablecss(FALSE,'center','catBottom',2).' id="errortable_header">'._string_to_upper($lang_new[$pnt_module]['MYIMAGES']).'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','catBottom',2).' id="errortable_header">'._string_to_upper($lang_new[$module_name]['MYIMAGES']).'</td>'."\n";
 	echo '  </tr>'."\n";
 //-------------------------------------------------------------------------
 //	SHOW THAT NO IMAGES CURRENTLY EXIST IN THEIR DATABASE.
 //-------------------------------------------------------------------------	
-	echo '  <tr id="noimages" '.(($pnt_db->sql_numrows($result) == 0) ? '' : 'style="display:none;"').'>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','row1',2).'>'._string_to_upper($lang_new[$pnt_module]['IMAGE_NONE']).'</td>'."\n";
+	echo '  <tr id="noimages" '.(($db->sql_numrows($result) == 0) ? '' : 'style="display:none;"').'>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','row1',2).'>'._string_to_upper($lang_new[$module_name]['IMAGE_NONE']).'</td>'."\n";
 	echo '  </tr>'."\n";
 //-------------------------------------------------------------------------
 //	SHOW THAT NO IMAGES CURRENTLY EXIST IN THEIR DATABASE.
 //-------------------------------------------------------------------------	
-	echo '  <tr id="imagelist" '.(($pnt_db->sql_numrows($result) == 0) ? 'style="display:none;"' : '').'>'."\n";
-	echo '    <td'.tablecss('15%','center','catBottom').'>'._string_to_upper($lang_new[$pnt_module]['IMAGE']).'</td>'."\n";
-	echo '    <td'.tablecss('85%','center','catBottom').'>'._string_to_upper($lang_new[$pnt_module]['CODES']).'</td>'."\n";
+	echo '  <tr id="imagelist" '.(($db->sql_numrows($result) == 0) ? 'style="display:none;"' : '').'>'."\n";
+	echo '    <td'.tablecss('15%','center','catBottom').'>'._string_to_upper($lang_new[$module_name]['IMAGE']).'</td>'."\n";
+	echo '    <td'.tablecss('85%','center','catBottom').'>'._string_to_upper($lang_new[$module_name]['CODES']).'</td>'."\n";
 	echo '  </tr>'."\n";	
-	if($pnt_db->sql_numrows($result) > 0)
+	if($db->sql_numrows($result) > 0)
 	{
-		while($row = $pnt_db->sql_fetchrow($result))
+		while($row = $db->sql_fetchrow($result))
 		{	
 			echo '	<tr class="imagethumbs" id="image-'.$row['pid'].'">'."\n";	
 //-------------------------------------------------------------------------
@@ -105,7 +105,7 @@ function main()
 //-------------------------------------------------------------------------		
 			if(!file_exists(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$row['filename']))
 			{
-				echo '    <td'.tablecss(FALSE,'center','row1').' id="thumbnail_holder'.$row['pid'].'"><a'.linkcss().' data-id="'.$row['pid'].'" class="generate-thumbnail" href="">'.$lang_new[$pnt_module]['GENERATE'].'</a></td>'."\n";
+				echo '    <td'.tablecss(FALSE,'center','row1').' id="thumbnail_holder'.$row['pid'].'"><a'.linkcss().' data-id="'.$row['pid'].'" class="generate-thumbnail" href="">'.$lang_new[$module_name]['GENERATE'].'</a></td>'."\n";
 			}
 //-------------------------------------------------------------------------
 //	CHECK TO MAKE SURE A THUMBNAIL EXISTS, IF IT DOES NOT, MAKE ONE.
@@ -119,7 +119,7 @@ function main()
 				$imagesize_info = @getimagesize(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename']);
 				if(file_exists(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$row['filename']) && ($imagesize_info[0] < _IREPOSITORY_THUMBWIDTH || $imagesize_info[0] < _IREPOSITORY_THUMBHEIGHT) && $row['bypass_thumb'] == 0)
 				{
-					$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_UPLOADS."` SET `bypass_thumb`='1' WHERE `pid`='".$row['pid']."' && `submitter`='".$userinfo['user_id']."'");
+					$db->sql_query("UPDATE `"._IMAGE_REPOSITORY_UPLOADS."` SET `bypass_thumb`='1' WHERE `pid`='".$row['pid']."' && `submitter`='".$userinfo['user_id']."'");
 					echo '    <td'.tablecss(FALSE,'center','row1').' id="thumbnail_holder'.$row['pid'].'">';
 					echo '      <div class="thumbnail_border"><img class="thumbnail_border" src="'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$row['filename'].'" /></div>';
 					echo '    </td>'."\n"; 
@@ -151,24 +151,24 @@ function main()
 			echo '    <td'.tablecss(FALSE,'center','row1').'>'."\n";
 			echo '      <table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 			echo '        <tr>'."\n";
-			echo '          <td'.tablecss('20%','right','row1').'>'.$lang_new[$pnt_module]['DIRECT'].'</td>';
+			echo '          <td'.tablecss('20%','right','row1').'>'.$lang_new[$module_name]['DIRECT'].'</td>';
 			echo '          <td'.tablecss('80%',FALSE,'row1').'>'.inputfield('direct','text',FALSE,'98%',FALSE,$nukeurl.'/'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename'],FALSE,TRUE,FALSE,FALSE,TRUE).'</td>';
 			echo '        </tr>'."\n".'<tr>'."\n";
-			echo '          <td'.tablecss('20%','right','row1').'>'.$lang_new[$pnt_module]['BBCODE'].'</td>';
+			echo '          <td'.tablecss('20%','right','row1').'>'.$lang_new[$module_name]['BBCODE'].'</td>';
 			echo '          <td'.tablecss('80%',FALSE,'row1').'>'.inputfield('bbcode','text',FALSE,'98%',FALSE,'[img]'.$nukeurl.'/'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename'].'[/img]',FALSE,TRUE,FALSE,FALSE,TRUE).'</td>';
 			echo '        </tr>'."\n".'<tr>'."\n";
-			echo '          <td'.tablecss('20%','right','row1').'>'.$lang_new[$pnt_module]['OPTIONS'].'</td>';
+			echo '          <td'.tablecss('20%','right','row1').'>'.$lang_new[$module_name]['OPTIONS'].'</td>';
 			echo '          <td'.tablecss('80%','left','row1').'>';		
-			// echo '            <a'.linkcss().' data-id="'.$row['pid'].'" class="code-popup" href="javascript:void(0);">'.$lang_new[$pnt_module]['CODES_PLUS'].'</a> | ';
-			echo '            <a'.linkcss().get_image_viewer('myimages').' href="'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename'].'">'.$lang_new[$pnt_module]['FULL'].'</a> | ';
-			echo '            <a'.linkcss().' data-id="'.$row['pid'].':::'.$row['size'].'" class="delete-image" href="javascript:void(0);">'.$lang_new[$pnt_module]['DELETE'].'</a>';
+			// echo '            <a'.linkcss().' data-id="'.$row['pid'].'" class="code-popup" href="javascript:void(0);">'.$lang_new[$module_name]['CODES_PLUS'].'</a> | ';
+			echo '            <a'.linkcss().get_image_viewer('myimages').' href="'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename'].'">'.$lang_new[$module_name]['FULL'].'</a> | ';
+			echo '            <a'.linkcss().' data-id="'.$row['pid'].':::'.$row['size'].'" class="delete-image" href="javascript:void(0);">'.$lang_new[$module_name]['DELETE'].'</a>';
 			echo '          </td>';
 			echo '        </tr>'."\n";
 			echo '      </table>'."\n";
 			echo '    </td>'."\n";			
 			echo '  </tr>'."\n";
 		}
-		$pnt_db->sql_freeresult($result);
+		$db->sql_freeresult($result);
 	}
 //-------------------------------------------------------------------------
 //	HERE WE HAVE THE PAGINATION LINKS, IF THE CURRENT IMAGE COUNT DOES NOT,
@@ -182,26 +182,26 @@ function main()
 	if($myimages > $settings['perpage'])
 	{
 		if ($pagination->getCurrent() == 1)
-			$first = ' | <span>'.$lang_new[$pnt_module]['FIRST'].'</span> | ';
+			$first = ' | <span>'.$lang_new[$module_name]['FIRST'].'</span> | ';
 		else
-			$first = ' | <a'.linkcss().' href="modules.php?name='.$pnt_module.'&amp;page='.$pagination->getFirst().'">'.$lang_new[$pnt_module]['FIRST'].'</a> |';
+			$first = ' | <a'.linkcss().' href="modules.php?name='.$module_name.'&amp;page='.$pagination->getFirst().'">'.$lang_new[$module_name]['FIRST'].'</a> |';
 			
 		if ($pagination->getPrevious())
-			$prev = '<a'.linkcss().' href="modules.php?name='.$pnt_module.'&amp;page='.$pagination->getPrevious().'">'.$lang_new[$pnt_module]['PREVIOUS'].'</a> | ';
+			$prev = '<a'.linkcss().' href="modules.php?name='.$module_name.'&amp;page='.$pagination->getPrevious().'">'.$lang_new[$module_name]['PREVIOUS'].'</a> | ';
 		else
-			$prev = $lang_new[$pnt_module]['PREVIOUS'].' | ';
+			$prev = $lang_new[$module_name]['PREVIOUS'].' | ';
 			
 		if ($pagination->getNext())
-			$next = '<a'.linkcss().' href="modules.php?name='.$pnt_module.'&amp;page='.$pagination->getNext().'">'.$lang_new[$pnt_module]['NEXT'].'</a> | ';
+			$next = '<a'.linkcss().' href="modules.php?name='.$module_name.'&amp;page='.$pagination->getNext().'">'.$lang_new[$module_name]['NEXT'].'</a> | ';
 		else
-			$next = $lang_new[$pnt_module]['NEXT'].' | ';
+			$next = $lang_new[$module_name]['NEXT'].' | ';
 			
 		if ($pagination->getLast())
-			$last = '<a'.linkcss().' href="modules.php?name='.$pnt_module.'&amp;page='.$pagination->getLast().'">'.$lang_new[$pnt_module]['LAST'].'</a>';
+			$last = '<a'.linkcss().' href="modules.php?name='.$module_name.'&amp;page='.$pagination->getLast().'">'.$lang_new[$module_name]['LAST'].'</a>';
 		else
-			$last = $lang_new[$pnt_module]['LAST'];
+			$last = $lang_new[$module_name]['LAST'];
 			
-		echo $pagination->getFirstOf().' '.$lang_new[$pnt_module]['TO'].' '.$pagination->getSecondOf().' '.$lang_new[$pnt_module]['OF'].' <span class="pagination_total">'.$pagination->getTotalItems().'</span> '.$first . " " . $prev . " " . $next . " " . $last;
+		echo $pagination->getFirstOf().' '.$lang_new[$module_name]['TO'].' '.$pagination->getSecondOf().' '.$lang_new[$module_name]['OF'].' <span class="pagination_total">'.$pagination->getTotalItems().'</span> '.$first . " " . $prev . " " . $next . " " . $last;
 //-------------------------------------------------------------------------
 //	PAGINATION LINKS
 //-------------------------------------------------------------------------
@@ -223,12 +223,12 @@ function main()
 
 function uploadmyimage()
 {
-	global $pnt_db, $lang_new, $pnt_module, $userinfo, $settings;
+	global $db, $lang_new, $module_name, $userinfo, $settings;
 //-------------------------------------------------------------------------
 //	CHECK IF IT'S AN AJAX REQUEST, EXIT IF NOT.
 //-------------------------------------------------------------------------
     if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest')
-        die(json_encode(array('error' => $lang_new[$pnt_module]['NEXT_TIME'])));
+        die(json_encode(array('error' => $lang_new[$module_name]['NEXT_TIME'])));
 //-------------------------------------------------------------------------
 //	CHECK IF IT'S AN AJAX REQUEST, EXIT IF NOT.
 //-------------------------------------------------------------------------
@@ -238,7 +238,7 @@ function uploadmyimage()
     $quotainfo = _quota_percentages($userinfo['user_id']);
     if($quotainfo['total_size'] > $quotainfo['quota'])
     {
-    	die(json_encode(array('error' => sprintf($lang_new[$pnt_module]['QUOTA_REACHED'],$userinfo['username']))));
+    	die(json_encode(array('error' => sprintf($lang_new[$module_name]['QUOTA_REACHED'],$userinfo['username']))));
     }
 //-------------------------------------------------------------------------
 //	ALERT THE USER, IF THEY HAVE REACHED THEIR ALLOTTED QUOTA.
@@ -255,7 +255,7 @@ function uploadmyimage()
 		case 'image/pjpeg':
 			break;
 		default:
-			die(json_encode(array('error' => $lang_new[$pnt_module]['SUPPORTED'])));
+			die(json_encode(array('error' => $lang_new[$module_name]['SUPPORTED'])));
 	}
 //-------------------------------------------------------------------------
 //	DO A QUICK CHECK TO MAKE SURE THE FILE BE UPLOADED IS AN IMAGE.
@@ -264,7 +264,7 @@ function uploadmyimage()
 //	MAKE SURE THE IMAGE DOES NOT EXCEED THE SPECIFIED MAX SIZE IN ADMIN.
 //-------------------------------------------------------------------------
 	if($_FILES['myimage']['size'] > $settings['max_upload'])
-		die(json_encode(array('error' => sprintf($lang_new[$pnt_module]['IMAGE_SIZE_ERROR'],_calculate_size($settings['max_upload'])))));
+		die(json_encode(array('error' => sprintf($lang_new[$module_name]['IMAGE_SIZE_ERROR'],_calculate_size($settings['max_upload'])))));
 //-------------------------------------------------------------------------
 //	MAKE SURE THE IMAGE DOES NOT EXCEED THE SPECIFIED MAX SIZE IN ADMIN.
 //-------------------------------------------------------------------------
@@ -276,13 +276,13 @@ function uploadmyimage()
 //-------------------------------------------------------------------------
 //	GENERATE A THUMBNAIL FOR USE IN THE FORUMS.
 //-------------------------------------------------------------------------
-		$pnt_db->sql_query("INSERT INTO `"._IMAGE_REPOSITORY_UPLOADS."` (`pid`,`filename`,`submitter`,`image`,`size`,`screensize`,`uploaded`) VALUES (NULL,'".$randomise."','".$userinfo['user_id']."','".$randomise."','".$_FILES['myimage']['size']."','".$natural_size."','".time()."')");
+		$db->sql_query("INSERT INTO `"._IMAGE_REPOSITORY_UPLOADS."` (`pid`,`filename`,`submitter`,`image`,`size`,`screensize`,`uploaded`) VALUES (NULL,'".$randomise."','".$userinfo['user_id']."','".$randomise."','".$_FILES['myimage']['size']."','".$natural_size."','".time()."')");
 		if($image_size_info[0] > _IREPOSITORY_THUMBWIDTH || $image_size_info[1] > _IREPOSITORY_THUMBHEIGHT)
 		{
 			_createthumb(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$randomise, _IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$randomise, array('width' => _IREPOSITORY_THUMBWIDTH, 'height' => _IREPOSITORY_THUMBHEIGHT, 'aspect_ratio' => TRUE));
 		} else {				
 			@copy(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$randomise, _IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$randomise);
-			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_UPLOADS."` SET `bypass_thumb`='1' WHERE `pid`='".$pnt_db->sql_nextid()."' && `submitter`='".$userinfo['user_id']."'");
+			$db->sql_query("UPDATE `"._IMAGE_REPOSITORY_UPLOADS."` SET `bypass_thumb`='1' WHERE `pid`='".$db->sql_nextid()."' && `submitter`='".$userinfo['user_id']."'");
 		}
 //-------------------------------------------------------------------------
 //	GENERATE A THUMBNAIL FOR USE IN THE FORUMS.
@@ -296,7 +296,7 @@ function uploadmyimage()
 			'size' 			=> $_FILES['myimage']['size'], 
 			'resolution'	=> $natural_size, 
 			'uploaded'		=> formatTimestamp_to_date('D M d, Y g:i a', time(), $userinfo['user_timezone']), 
-			'nextid' 		=> $pnt_db->sql_nextid()
+			'nextid' 		=> $db->sql_nextid()
 		);
 		die(json_encode($response));
 //-------------------------------------------------------------------------
@@ -306,7 +306,7 @@ function uploadmyimage()
 //-------------------------------------------------------------------------
 //	THROW OUT AN ERROR, IF SOMETHING HAS GONE WRONG.
 //-------------------------------------------------------------------------
-		die(json_encode(array('error' => $lang_new[$pnt_module]['SOMETHING_WRONG'])));
+		die(json_encode(array('error' => $lang_new[$module_name]['SOMETHING_WRONG'])));
 //-------------------------------------------------------------------------
 //	THROW OUT AN ERROR, IF SOMETHING HAS GONE WRONG.
 //-------------------------------------------------------------------------
@@ -315,13 +315,13 @@ function uploadmyimage()
 
 function generatemythumb()
 {
-	global $pnt_db, $lang_new, $pnt_module, $userinfo;
-	$row = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `filename`, `submItter` FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$_POST['pid']."'"));
+	global $db, $lang_new, $module_name, $userinfo;
+	$row = $db->sql_fetchrow($db->sql_query("SELECT `filename`, `submItter` FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$_POST['pid']."'"));
 //-------------------------------------------------------------------------
 //	CHECK WHOEVER IS TRYING TO GENERATE THUMB, OWNS THE IMAGE
 //-------------------------------------------------------------------------
 	if($row['submitter'] == $userinfo['user_id'])
-		die(json_encode(array('error' => $lang_new[$pnt_module]['NEXT_TIME_OWNER'])));
+		die(json_encode(array('error' => $lang_new[$module_name]['NEXT_TIME_OWNER'])));
 //-------------------------------------------------------------------------
 //	CHECK WHOEVER IS TRYING TO GENERATE THUMB, OWNS THE IMAGE
 //-------------------------------------------------------------------------	
@@ -335,7 +335,7 @@ function generatemythumb()
 		if(_createthumb(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename'], _IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$row['filename'], array('width' => _IREPOSITORY_THUMBWIDTH, 'height' => _IREPOSITORY_THUMBHEIGHT, 'aspect_ratio' => TRUE)))
 			die(json_encode(array('filename' => $row['filename'])));
 		else
-			die(json_encode(array('error' => $lang_new[$pnt_module]['SOMETHING_WRONG_THUMB'])));
+			die(json_encode(array('error' => $lang_new[$module_name]['SOMETHING_WRONG_THUMB'])));
 //-------------------------------------------------------------------------
 //	IF THE UPLOADED IMAGE, EXCEEDS THE SPECIFIED THUMBNAIL SIZE,
 //	GENERATE A THUMBNAIL, THIS WILL GREATLY IMPROVE ON PAGE LOAD TIMES.
@@ -350,7 +350,7 @@ function generatemythumb()
 		if(@copy(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename'], _IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$row['filename']))
 			die(json_encode(array('filename' => $row['filename'])));
 		else
-			die(json_encode(array('error' => $lang_new[$pnt_module]['SOMETHING_WRONG_THUMB'])));
+			die(json_encode(array('error' => $lang_new[$module_name]['SOMETHING_WRONG_THUMB'])));
 //-------------------------------------------------------------------------
 //	IF THE UPLOADED IMAGE, IS EQUAL TOO OR UNDER THE SPECIFIED THUMB SIZE,
 //	JUST MOVE THAT IMAGE TO THE THUMBNAIL DIRECTORY AND LEAVE IT ALONE.
@@ -360,8 +360,8 @@ function generatemythumb()
 
 function deletemyimage()
 {
-	global $pnt_db, $lang_new, $pnt_module, $userinfo;
-	$row  = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$_POST['pid']."'"));
+	global $db, $lang_new, $module_name, $userinfo;
+	$row  = $db->sql_fetchrow($db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$_POST['pid']."'"));
 	if(is_admin() || $userinfo['user_id'] == $row['submitter'])
 	{
 //-------------------------------------------------------------------------
@@ -371,8 +371,8 @@ function deletemyimage()
 		if(@unlink(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename']))
 		{
 			@unlink(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/thumbs/thumb_'.$row['filename']);
-			$pnt_db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$row['pid']."'");
-			$pnt_db->sql_optimize(_IMAGE_REPOSITORY_UPLOADS);
+			$db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$row['pid']."'");
+			$db->sql_optimize(_IMAGE_REPOSITORY_UPLOADS);
 		}
 //-------------------------------------------------------------------------
 //	AWWW, YOU WANT TO DELETE THE IMAGE, OKIES, LETS REMOVE THE FILE,
@@ -382,7 +382,7 @@ function deletemyimage()
 //-------------------------------------------------------------------------
 //	IF YOU ARE NOT THE OWNER OF THIS IMAGE, BUGGER OFF.
 //-------------------------------------------------------------------------	
-		die(json_encode(array('error' => $lang_new[$pnt_module]['NEXT_TIME_OWNER'])));
+		die(json_encode(array('error' => $lang_new[$module_name]['NEXT_TIME_OWNER'])));
 //-------------------------------------------------------------------------
 //	IF YOU ARE NOT THE OWNER OF THIS IMAGE, BUGGER OFF.
 //-------------------------------------------------------------------------	
@@ -391,13 +391,13 @@ function deletemyimage()
 
 function modal_code_popup()
 {
-	global $pnt_db, $lang_new, $pnt_module, $userinfo, $nukeurl;
-	$result = $pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."' && `pid`='".$_GET['pid']."'");
-	$row = $pnt_db->sql_fetchrow($result);
+	global $db, $lang_new, $module_name, $userinfo, $nukeurl;
+	$result = $db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."' && `pid`='".$_GET['pid']."'");
+	$row = $db->sql_fetchrow($result);
 	OpenTable();
 	echo '<table style="width: 700px;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '	<tr>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','catHead',2).'>'._string_to_upper($lang_new[$pnt_module]['EXTRA_CODES']).'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','catHead',2).'>'._string_to_upper($lang_new[$module_name]['EXTRA_CODES']).'</td>'."\n";
 	echo '  </tr>'."\n";
 //-------------------------------------------------------------------------
 //	HERE WE HAVE THE IMAGE URL SHORT CODES, IVE BEEN WORKING ON THIS,
@@ -412,26 +412,26 @@ function modal_code_popup()
 //	BBCODE FOR USE IN THE FORUMS.
 //-------------------------------------------------------------------------	
 	echo '	<tr>'."\n";
-	echo '    <td'.tablecss(FALSE,FALSE,'catHead',2).'>'._string_to_upper($lang_new[$pnt_module]['CODES']).'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,FALSE,'catHead',2).'>'._string_to_upper($lang_new[$module_name]['CODES']).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
-	echo '	  <td'.tablecss('20%','right','row1').'>'.$lang_new[$pnt_module]['DIRECT'].'</td>'."\n";
+	echo '	  <td'.tablecss('20%','right','row1').'>'.$lang_new[$module_name]['DIRECT'].'</td>'."\n";
 	echo '	  <td'.tablecss('80%',FALSE,'row1').'>'.inputfield('direct','text',FALSE,'98%',FALSE,$nukeurl.'/'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename'],FALSE,TRUE,FALSE,FALSE,TRUE).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
-	echo '	  <td'.tablecss('20%','right','row1').'>'.$lang_new[$pnt_module]['BBCODE'].'</td>'."\n";
+	echo '	  <td'.tablecss('20%','right','row1').'>'.$lang_new[$module_name]['BBCODE'].'</td>'."\n";
 	echo '	  <td'.tablecss('80%',FALSE,'row1').'>'.inputfield('bbcode','text',FALSE,'98%',FALSE,'[img]'.$nukeurl.'/'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename'].'[/img]',FALSE,TRUE,FALSE,FALSE,TRUE).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
-	echo '	  <td'.tablecss('20%','right','row1').'>'.$lang_new[$pnt_module]['HTML'].'</td>'."\n";
+	echo '	  <td'.tablecss('20%','right','row1').'>'.$lang_new[$module_name]['HTML'].'</td>'."\n";
 	echo '	  <td'.tablecss('80%',FALSE,'row1').'>'.inputfield('html','text',FALSE,'98%',FALSE,'<img src=\''.$nukeurl.'/'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename'].'\' border=\'0\' alt=\'\' />',FALSE,TRUE,FALSE,FALSE,TRUE).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
-	echo '    <td'.tablecss(FALSE,FALSE,'catHead',2).'>'._string_to_upper($lang_new[$pnt_module]['CODES_THUMBS']).'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,FALSE,'catHead',2).'>'._string_to_upper($lang_new[$module_name]['CODES_THUMBS']).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
-	echo '	  <td'.tablecss('20%','right','row1').'>'.$lang_new[$pnt_module]['DIRECT'].'</td>'."\n";
+	echo '	  <td'.tablecss('20%','right','row1').'>'.$lang_new[$module_name]['DIRECT'].'</td>'."\n";
 	echo '	  <td'.tablecss('80%',FALSE,'row1').'>'.inputfield('direct','text',FALSE,'98%',FALSE,$nukeurl.'/'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$row['filename'],FALSE,TRUE,FALSE,FALSE,TRUE).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
-	echo '	  <td'.tablecss('20%','right','row1').'>'.$lang_new[$pnt_module]['BBCODE'].'</td>'."\n";
+	echo '	  <td'.tablecss('20%','right','row1').'>'.$lang_new[$module_name]['BBCODE'].'</td>'."\n";
 	echo '	  <td'.tablecss('80%',FALSE,'row1').'>'.inputfield('bbcode','text',FALSE,'98%',FALSE,'[url='.$nukeurl.'/'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename'].'][img]'.$nukeurl.'/'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$row['filename'].'[/img][/url]',FALSE,TRUE,FALSE,FALSE,TRUE).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
-	echo '	  <td'.tablecss('20%','right','row1').'>'.$lang_new[$pnt_module]['HTML'].'</td>'."\n";	
+	echo '	  <td'.tablecss('20%','right','row1').'>'.$lang_new[$module_name]['HTML'].'</td>'."\n";	
 	echo '	  <td'.tablecss('80%',FALSE,'row1').'>'.inputfield('html','text',FALSE,'98%',FALSE,'<a href=\''.$nukeurl.'/'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename'].'\' class=\'fancybox\'><img src=\''.$nukeurl.'/'._IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER_THUMBS.'/thumb_'.$row['filename'].'\' border=\'0\' alt=\'\' /></a>',FALSE,TRUE,FALSE,FALSE,TRUE).'</td>'."\n";
 	echo '  </tr>'."\n";	
 	echo '  <tr>'."\n";
@@ -445,13 +445,13 @@ function modal_code_popup()
 //-------------------------------------------------------------------------
 function mysettings()
 {
-	global $pnt_db, $lang_new, $pnt_module, $userinfo, $settings, $mysettings;
+	global $db, $lang_new, $module_name, $userinfo, $settings, $mysettings;
 	if($_POST['submit'] && $_POST['uid'] == $userinfo['user_id'])
 	{
 //-------------------------------------------------------------------------
 //	OK, LETS UPDATE THE USERS SETTINGS.
 //-------------------------------------------------------------------------
-		$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_USERS."` SET `border_color`='".$_POST['border_color']."', `background_color`='".$_POST['background_color']."', `percent_color`='".$_POST['percent_color']."', `custom_color`='".$_POST['custom_color']."' WHERE `uid` = '".$userinfo['user_id']."'");
+		$db->sql_query("UPDATE `"._IMAGE_REPOSITORY_USERS."` SET `border_color`='".$_POST['border_color']."', `background_color`='".$_POST['background_color']."', `percent_color`='".$_POST['percent_color']."', `custom_color`='".$_POST['custom_color']."' WHERE `uid` = '".$userinfo['user_id']."'");
 //-------------------------------------------------------------------------
 //	OK, LETS UPDATE THE USERS SETTINGS.
 //-------------------------------------------------------------------------
@@ -460,30 +460,30 @@ function mysettings()
 //-------------------------------------------------------------------------
 		if(is_admin())
 		{
-			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='"._calculate_bytesize($_POST['quota'])."' WHERE `config_name`='quota'");
-			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='"._calculate_bytesize($_POST['max_upload'])."' WHERE `config_name`='max_upload'");
-			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['spacing']."' WHERE `config_name`='spacing'");
-			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['perpage']."' WHERE `config_name`='perpage'");
-			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['admin_perpage']."' WHERE `config_name`='admin_perpage'");
+			$db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='"._calculate_bytesize($_POST['quota'])."' WHERE `config_name`='quota'");
+			$db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='"._calculate_bytesize($_POST['max_upload'])."' WHERE `config_name`='max_upload'");
+			$db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['spacing']."' WHERE `config_name`='spacing'");
+			$db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['perpage']."' WHERE `config_name`='perpage'");
+			$db->sql_query("UPDATE `"._IMAGE_REPOSITORY_SETTINGS."` SET `config_value`='".$_POST['admin_perpage']."' WHERE `config_name`='admin_perpage'");
 		}
 //-------------------------------------------------------------------------
 //	UPDATE THE ADMINISTRATION SETTINGS, ONLY ADMINS CAN DO THIS.
 //-------------------------------------------------------------------------
-		_redirect_titanium('modules.php?name='.$pnt_module.'&op=settings');
+		_redirect('modules.php?name='.$module_name.'&op=settings');
 	}
 
 	OpenTable();
 	index_navigation_header();
-	echo '<form action="modules.php?name='.$pnt_module.'&amp;op=settings" method="post">'."\n";
+	echo '<form action="modules.php?name='.$module_name.'&amp;op=settings" method="post">'."\n";
 	echo '<table style="width:100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','catHead',3).'>'._string_to_upper($lang_new[$pnt_module]['SETTINGS_CONFIGURE']).'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','catHead',3).'>'._string_to_upper($lang_new[$module_name]['SETTINGS_CONFIGURE']).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
-	echo '	  <td'.tablecss(FALSE,FALSE,'catHead',3).'>'._string_to_upper($lang_new[$pnt_module]['PROGRESS_BAR']).'</td>'."\n";
+	echo '	  <td'.tablecss(FALSE,FALSE,'catHead',3).'>'._string_to_upper($lang_new[$module_name]['PROGRESS_BAR']).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
-	echo '	  <td'.tablecss('33.333%',FALSE,'catHead').'>'._string_to_upper($lang_new[$pnt_module]['BORDER']).'</td>'."\n";
-	echo '	  <td'.tablecss('33.333%',FALSE,'catHead').'>'._string_to_upper($lang_new[$pnt_module]['BACKGROUND']).'</td>'."\n";
-	echo '	  <td'.tablecss('33.333%',FALSE,'catHead').'>'._string_to_upper($lang_new[$pnt_module]['PERCENTAGE']).'</td>'."\n";
+	echo '	  <td'.tablecss('33.333%',FALSE,'catHead').'>'._string_to_upper($lang_new[$module_name]['BORDER']).'</td>'."\n";
+	echo '	  <td'.tablecss('33.333%',FALSE,'catHead').'>'._string_to_upper($lang_new[$module_name]['BACKGROUND']).'</td>'."\n";
+	echo '	  <td'.tablecss('33.333%',FALSE,'catHead').'>'._string_to_upper($lang_new[$module_name]['PERCENTAGE']).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
 	echo '	  <td'.tablecss('25%','center','row1').'>'.color_selection('border_color',$mysettings['border_color'],FALSE,FALSE,'80%').'</td>'."\n";
 	echo '	  <td'.tablecss('25%','center','row1').'>'.color_selection('background_color',$mysettings['background_color'],TRUE,TRUE,'80%').'</td>'."\n";
@@ -491,12 +491,12 @@ function mysettings()
 	echo '  </tr>'."\n".'<tr>'."\n";
 	echo '    <td'.tablecss(FALSE,'center','row1',2).'><div class="progress-bar"><span></span></div></td>'."\n";
 	echo '    <td'.tablecss(FALSE,'center','row1',1).'>';
-	echo '      <a data-id="0" class="percentage" href="javascript:void(0);">'.$lang_new[$pnt_module]['PERCENTAGE-0'].'</a>&nbsp;|&nbsp;';
-	echo '      <a data-id="5" class="percentage" href="javascript:void(0);">'.$lang_new[$pnt_module]['PERCENTAGE-5'].'</a>&nbsp;|&nbsp;';
-	echo '      <a data-id="25" class="percentage" href="javascript:void(0);">'.$lang_new[$pnt_module]['PERCENTAGE-25'].'</a>&nbsp;|&nbsp;';
-	echo '      <a data-id="50" class="percentage" href="javascript:void(0);">'.$lang_new[$pnt_module]['PERCENTAGE-50'].'</a>&nbsp;|&nbsp;';
-	echo '      <a data-id="75" class="percentage" href="javascript:void(0);">'.$lang_new[$pnt_module]['PERCENTAGE-75'].'</a>&nbsp;|&nbsp;';
-	echo '      <a data-id="100" class="percentage" href="javascript:void(0);">'.$lang_new[$pnt_module]['PERCENTAGE-100'].'</a>';
+	echo '      <a data-id="0" class="percentage" href="javascript:void(0);">'.$lang_new[$module_name]['PERCENTAGE-0'].'</a>&nbsp;|&nbsp;';
+	echo '      <a data-id="5" class="percentage" href="javascript:void(0);">'.$lang_new[$module_name]['PERCENTAGE-5'].'</a>&nbsp;|&nbsp;';
+	echo '      <a data-id="25" class="percentage" href="javascript:void(0);">'.$lang_new[$module_name]['PERCENTAGE-25'].'</a>&nbsp;|&nbsp;';
+	echo '      <a data-id="50" class="percentage" href="javascript:void(0);">'.$lang_new[$module_name]['PERCENTAGE-50'].'</a>&nbsp;|&nbsp;';
+	echo '      <a data-id="75" class="percentage" href="javascript:void(0);">'.$lang_new[$module_name]['PERCENTAGE-75'].'</a>&nbsp;|&nbsp;';
+	echo '      <a data-id="100" class="percentage" href="javascript:void(0);">'.$lang_new[$module_name]['PERCENTAGE-100'].'</a>';
 	echo '    </td>';
 	echo '  </tr>'."\n";
 //-------------------------------------------------------------------------
@@ -506,7 +506,7 @@ function mysettings()
 	if(is_admin())
 	{
 		echo '  <tr>'."\n";
-		echo '    <td'.tablecss(FALSE,'center','catHead',3).'>'._string_to_upper($lang_new[$pnt_module]['ADMINISTRATION']).'</td>'."\n";
+		echo '    <td'.tablecss(FALSE,'center','catHead',3).'>'._string_to_upper($lang_new[$module_name]['ADMINISTRATION']).'</td>'."\n";
 		echo '  </tr>'."\n".'<tr>'."\n";
 		echo '    <td'.tablecss(FALSE,FALSE,'row1',3).'>';
 		echo '      <table style="width:100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
@@ -514,19 +514,19 @@ function mysettings()
 		echo '	        <td'.tablecss('50%',FALSE,'row1').'>Version Check</td>'."\n";
 		echo '	        <td'.tablecss('50%',FALSE,'row1').' id="version_alert">&nbsp;</td>'."\n";
 		echo '        </tr>'."\n".'<tr>'."\n";
-		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.$lang_new[$pnt_module]['QUOTA_DEFAULT'].'</td>'."\n";
+		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.$lang_new[$module_name]['QUOTA_DEFAULT'].'</td>'."\n";
 		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.inputfield('quota','text',6,FALSE,FALSE,_calculate_size($settings['quota'])).'</td>'."\n";
 		echo '        </tr>'."\n".'<tr>'."\n";
-		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.$lang_new[$pnt_module]['IMAGE_MAX'].'</td>'."\n";
+		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.$lang_new[$module_name]['IMAGE_MAX'].'</td>'."\n";
 		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.inputfield('max_upload','text',6,FALSE,FALSE,_calculate_size($settings['max_upload'])).'</td>'."\n";
 		echo '        </tr>'."\n".'<tr>'."\n";
-		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.$lang_new[$pnt_module]['SPACING'].'</td>'."\n";
-		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.selectbox('spacing',$settings['spacing'],array('0' => $lang_new[$pnt_module]['SPACING_NONE'], '1' => '1px', '2' => '2px')).'</td>'."\n";
+		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.$lang_new[$module_name]['SPACING'].'</td>'."\n";
+		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.selectbox('spacing',$settings['spacing'],array('0' => $lang_new[$module_name]['SPACING_NONE'], '1' => '1px', '2' => '2px')).'</td>'."\n";
 		echo '        </tr>'."\n".'<tr>'."\n";
-		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.$lang_new[$pnt_module]['PERPAGE_IMAGES'].'</td>'."\n";
+		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.$lang_new[$module_name]['PERPAGE_IMAGES'].'</td>'."\n";
 		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.selectbox_range('perpage',$settings['perpage'],'1','51','1').'</td>'."\n";
 		echo '        </tr>'."\n".'<tr>'."\n";
-		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.$lang_new[$pnt_module]['PERPAGE_USERS'].'</td>'."\n";
+		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.$lang_new[$module_name]['PERPAGE_USERS'].'</td>'."\n";
 		echo '	        <td'.tablecss('50%',FALSE,'row1').'>'.selectbox_range('admin_perpage',$settings['admin_perpage'],'1','51','1').'</td>'."\n";
 		echo '        </tr>'."\n";
 		echo '      </table>';
@@ -538,7 +538,7 @@ function mysettings()
 //	FILES IN THE PACKAGE, THEY ARE ONLY VISIBLE TO THOSE LOGGED IN AS ADMIN
 //-------------------------------------------------------------------------
 	echo '  <tr>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','catBottom',3).'>'.submitbuttoncss(FALSE,$lang_new[$pnt_module]['SAVE_SETTINGS']).'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','catBottom',3).'>'.submitbuttoncss(FALSE,$lang_new[$module_name]['SAVE_SETTINGS']).'</td>'."\n";
 	echo '  </tr>'."\n";
 	echo '</table>'."\n";
 	echo inputfield('uid','hidden',FALSE,FALSE,FALSE,$mysettings['uid']);
@@ -550,7 +550,7 @@ function mysettings()
 //-------------------------------------------------------------------------
 function myquota()
 {
-	global $pnt_db, $lang_new, $pnt_module, $userinfo, $settings;
+	global $db, $lang_new, $module_name, $userinfo, $settings;
 	$quotainfo = _quota_percentages($userinfo['user_id']);
 	OpenTable();
 	index_navigation_header();
@@ -577,11 +577,11 @@ function myquota()
 //-------------------------------------------------------------------------	
 	echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline" id="quotatable">'."\n";
 	echo '	<tr>'."\n";
-	echo '    <td'.tablecss('20%',FALSE,'catHead').'>'._string_to_upper($lang_new[$pnt_module]['QUOTA']).'</td>'."\n";
-	echo '    <td'.tablecss('20%',FALSE,'catHead').'>'._string_to_upper($lang_new[$pnt_module]['QUOTA_USED']).'</td>'."\n";
-	echo '    <td'.tablecss('60%',FALSE,'catHead').'>'._string_to_upper($lang_new[$pnt_module]['QUOTA_PROGRESS']).'</td>'."\n";
+	echo '    <td'.tablecss('20%',FALSE,'catHead').'>'._string_to_upper($lang_new[$module_name]['QUOTA']).'</td>'."\n";
+	echo '    <td'.tablecss('20%',FALSE,'catHead').'>'._string_to_upper($lang_new[$module_name]['QUOTA_USED']).'</td>'."\n";
+	echo '    <td'.tablecss('60%',FALSE,'catHead').'>'._string_to_upper($lang_new[$module_name]['QUOTA_PROGRESS']).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr'.(($quotainfo['total_size'] == 0) ? '' : ' style="display:none;"').'>'."\n";
-	echo '	  <td'.tablecss(FALSE,'center','row1',3).'>'.$lang_new[$pnt_module]['IMAGE_NONE'].'</td>'."\n";
+	echo '	  <td'.tablecss(FALSE,'center','row1',3).'>'.$lang_new[$module_name]['IMAGE_NONE'].'</td>'."\n";
 	echo '  </tr>'."\n".'<tr'.(($quotainfo['total_size'] > 0) ? '' : ' style="display:none;"').'>'."\n";
 	echo '	  <td'.tablecss('20%','center','row1').'>'._calculate_size($quotainfo['quota']).'</td>'."\n";
 	echo '	  <td'.tablecss('20%','center','row1').'>'._calculate_size($quotainfo['total_size']).'</td>'."\n";
@@ -595,16 +595,16 @@ function myquota()
 
 function manage_users()
 {
-	global $pnt_db, $lang_new, $pnt_module, $settings;
+	global $db, $lang_new, $module_name, $settings;
 //-------------------------------------------------------------------------
 //	DENY ANYONE WHO ISNT AN ADMIN.
 //-------------------------------------------------------------------------	
 	if(!is_admin())
-		_redirect_titanium('modules.php?name='.$pnt_module);
+		_redirect('modules.php?name='.$module_name);
 //-------------------------------------------------------------------------
 //	DENY ANYONE WHO ISNT AN ADMIN.
 //-------------------------------------------------------------------------	
-	$total  	= $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_USERS."`"));
+	$total  	= $db->sql_numrows($db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_USERS."`"));
 //-------------------------------------------------------------------------
 //	PAGINATION CLASS, LETS GET IT SETUP.
 //-------------------------------------------------------------------------	
@@ -635,48 +635,48 @@ function manage_users()
 //-------------------------------------------------------------------------
 	if($_POST['quota'])
 	{
-		$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_USERS."` SET `quota`='"._calculate_bytesize($_POST['quota'])."' WHERE `uid`='".$_POST['uid']."'");
-		_redirect_titanium('modules.php?name='.$pnt_module.'&op=users'.(($_POST['page']) ? '&page='.$_POST['page'] : ''));
+		$db->sql_query("UPDATE `"._IMAGE_REPOSITORY_USERS."` SET `quota`='"._calculate_bytesize($_POST['quota'])."' WHERE `uid`='".$_POST['uid']."'");
+		_redirect('modules.php?name='.$module_name.'&op=users'.(($_POST['page']) ? '&page='.$_POST['page'] : ''));
 	}
 //-------------------------------------------------------------------------
 //	LETS UPDATE THE SELECTED USERS QUOTA.
 //-------------------------------------------------------------------------	
-	$result 	= $pnt_db->sql_query("SELECT * FROM ("._IMAGE_REPOSITORY_USERS." s, "._USERS_TABLE." u) WHERE u.user_id = s.uid ".$alpha_where_first."ORDER BY u.`username` ASC LIMIT ".$limit1.", ".$limit2);
+	$result 	= $db->sql_query("SELECT * FROM ("._IMAGE_REPOSITORY_USERS." s, "._USERS_TABLE." u) WHERE u.user_id = s.uid ".$alpha_where_first."ORDER BY u.`username` ASC LIMIT ".$limit1.", ".$limit2);
 	OpenTable();
 	index_navigation_header();
 	echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";	
 	echo '	<tr>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','catBottom',5).'>'._string_to_upper($lang_new[$pnt_module]['USERS']).'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','catBottom',5).'>'._string_to_upper($lang_new[$module_name]['USERS']).'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
-	echo '	  <td'.tablecss(FALSE,'center','row1',5).'>'.(($pnt_db->sql_numrows($result) > 0) ? _alphabetlist() : $lang_new[$pnt_module]['USER_NONE']).'</td>'."\n";
-	echo '  </tr>'."\n".'<tr '.(($pnt_db->sql_numrows($result) > 0) ? '' : 'style="display:none;"').'>'."\n";
-	echo '	  <td'.tablecss('20%',FALSE,'catBottom').'>'.$lang_new[$pnt_module]['USER'].'</td>'."\n";
-	echo '	  <td'.tablecss('20%',FALSE,'catBottom').'>'.$lang_new[$pnt_module]['IMAGECOUNT'].'</td>'."\n";
-	echo '	  <td'.tablecss('20%',FALSE,'catBottom').'>'.$lang_new[$pnt_module]['QUOTA_USED'].'</td>'."\n";
-	echo '	  <td'.tablecss('20%',FALSE,'catBottom').'>'.$lang_new[$pnt_module]['QUOTA_LEFT'].'</td>'."\n";
-	echo '	  <td'.tablecss('20%','center','catBottom').'>'.$lang_new[$pnt_module]['OPTIONS'].'</td>'."\n";
+	echo '	  <td'.tablecss(FALSE,'center','row1',5).'>'.(($db->sql_numrows($result) > 0) ? _alphabetlist() : $lang_new[$module_name]['USER_NONE']).'</td>'."\n";
+	echo '  </tr>'."\n".'<tr '.(($db->sql_numrows($result) > 0) ? '' : 'style="display:none;"').'>'."\n";
+	echo '	  <td'.tablecss('20%',FALSE,'catBottom').'>'.$lang_new[$module_name]['USER'].'</td>'."\n";
+	echo '	  <td'.tablecss('20%',FALSE,'catBottom').'>'.$lang_new[$module_name]['IMAGECOUNT'].'</td>'."\n";
+	echo '	  <td'.tablecss('20%',FALSE,'catBottom').'>'.$lang_new[$module_name]['QUOTA_USED'].'</td>'."\n";
+	echo '	  <td'.tablecss('20%',FALSE,'catBottom').'>'.$lang_new[$module_name]['QUOTA_LEFT'].'</td>'."\n";
+	echo '	  <td'.tablecss('20%','center','catBottom').'>'.$lang_new[$module_name]['OPTIONS'].'</td>'."\n";
 	echo '  </tr>'."\n";
 	$i = 0;
-	while($row = $pnt_db->sql_fetchrow($result))
+	while($row = $db->sql_fetchrow($result))
 	{
 		$row['username'] = (function_exists('UsernameColor')) ? UsernameColor($row['username']) : $row['username'];
 		$quotainfo = _quota_percentages($row['uid']);
 		if($row['uid'] > 1)
 		{
-			$image_count = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$row['uid']."'"));	
+			$image_count = $db->sql_numrows($db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$row['uid']."'"));	
 			echo '  <tr id="user-'.$row['uid'].'">'."\n";
 			if(function_exists('redirect'))
 				echo '	  <td'.tablecss('20%',FALSE,'row1').'><a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$row['user_id'].'" target="_BLANK">'.$row['username'].'</a></td>'."\n";
 			else
 				echo '	  <td'.tablecss('20%',FALSE,'row1').'><a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$row['username'].'" target="_BLANK">'.$row['username'].'</a></td>'."\n";
-			echo '	  <td'.tablecss('20%',FALSE,'row1').'>'.(($image_count == 0) ? $lang_new[$pnt_module]['IMAGECOUNT_ZERO'] : sprintf($lang_new[$pnt_module]['IMAGECOUNT_TOTAL'], $row['uid'], $image_count)).'</td>'."\n";
+			echo '	  <td'.tablecss('20%',FALSE,'row1').'>'.(($image_count == 0) ? $lang_new[$module_name]['IMAGECOUNT_ZERO'] : sprintf($lang_new[$module_name]['IMAGECOUNT_TOTAL'], $row['uid'], $image_count)).'</td>'."\n";
 			echo '	  <td'.tablecss('20%',FALSE,'row1').'>'._calculate_size($quotainfo['total_size']).'</td>'."\n";
-			echo '	  <td'.tablecss('20%',FALSE,'row1').'><form action="modules.php?name='.$pnt_module.'&amp;op=users&amp;uid='.$row['uid'].'" method="post">'.inputfield('page','hidden',FALSE,FALSE,FALSE,$_GET['page']).inputfield('uid','hidden',FALSE,FALSE,FALSE,$row['uid']).'&nbsp;'.inputfield('quota','text',10,FALSE,FALSE,_calculate_size($row['quota'])).'&nbsp;'.submitbuttoncss(FALSE,$lang_new[$pnt_module]['SAVE']).'</form></td>'."\n";
-			echo '	  <td'.tablecss('20%','center','row1').'><a'.linkcss().' data-id="'.$row['uid'].'" class="delete-user" href="">'.$lang_new[$pnt_module]['DELETE'].'</a></td>'."\n";
+			echo '	  <td'.tablecss('20%',FALSE,'row1').'><form action="modules.php?name='.$module_name.'&amp;op=users&amp;uid='.$row['uid'].'" method="post">'.inputfield('page','hidden',FALSE,FALSE,FALSE,$_GET['page']).inputfield('uid','hidden',FALSE,FALSE,FALSE,$row['uid']).'&nbsp;'.inputfield('quota','text',10,FALSE,FALSE,_calculate_size($row['quota'])).'&nbsp;'.submitbuttoncss(FALSE,$lang_new[$module_name]['SAVE']).'</form></td>'."\n";
+			echo '	  <td'.tablecss('20%','center','row1').'><a'.linkcss().' data-id="'.$row['uid'].'" class="delete-user" href="">'.$lang_new[$module_name]['DELETE'].'</a></td>'."\n";
 			echo '  </tr>'."\n";
 		}
 	}
-	$pnt_db->sql_freeresult($result);
+	$db->sql_freeresult($result);
 	echo '  <tr>'."\n";
 	echo '    <td'.tablecss(FALSE,'right','catBottom',5).'>';
 //-------------------------------------------------------------------------
@@ -685,26 +685,26 @@ function manage_users()
 	if($total > $settings['admin_perpage'])
 	{
 		if ($pagination->getCurrent() == 1)
-			$first = ' | <span>'.$lang_new[$pnt_module]['FIRST'].'</span> | ';
+			$first = ' | <span>'.$lang_new[$module_name]['FIRST'].'</span> | ';
 		else
-			$first = ' | <a'.linkcss().' href="modules.php?name='.$pnt_module.'&amp;op=users&amp;page='.$pagination->getFirst().'">'.$lang_new[$pnt_module]['FIRST'].'</a> |';
+			$first = ' | <a'.linkcss().' href="modules.php?name='.$module_name.'&amp;op=users&amp;page='.$pagination->getFirst().'">'.$lang_new[$module_name]['FIRST'].'</a> |';
 			
 		if ($pagination->getPrevious())
-			$prev = '<a'.linkcss().' href="modules.php?name='.$pnt_module.'&amp;op=users&amp;page='.$pagination->getPrevious().'">'.$lang_new[$pnt_module]['PREVIOUS'].'</a> | ';
+			$prev = '<a'.linkcss().' href="modules.php?name='.$module_name.'&amp;op=users&amp;page='.$pagination->getPrevious().'">'.$lang_new[$module_name]['PREVIOUS'].'</a> | ';
 		else
-			$prev = $lang_new[$pnt_module]['PREVIOUS'].' | ';
+			$prev = $lang_new[$module_name]['PREVIOUS'].' | ';
 			
 		if ($pagination->getNext())
-			$next = '<a'.linkcss().' href="modules.php?name='.$pnt_module.'&amp;op=users&amp;page='.$pagination->getNext().'">'.$lang_new[$pnt_module]['NEXT'].'</a> | ';
+			$next = '<a'.linkcss().' href="modules.php?name='.$module_name.'&amp;op=users&amp;page='.$pagination->getNext().'">'.$lang_new[$module_name]['NEXT'].'</a> | ';
 		else
-			$next = $lang_new[$pnt_module]['NEXT'].' | ';
+			$next = $lang_new[$module_name]['NEXT'].' | ';
 			
 		if ($pagination->getLast())
-			$last = '<a'.linkcss().' href="modules.php?name='.$pnt_module.'&amp;op=users&amp;page='.$pagination->getLast().'">'.$lang_new[$pnt_module]['LAST'].'</a>';
+			$last = '<a'.linkcss().' href="modules.php?name='.$module_name.'&amp;op=users&amp;page='.$pagination->getLast().'">'.$lang_new[$module_name]['LAST'].'</a>';
 		else
-			$last = $lang_new[$pnt_module]['LAST'];
+			$last = $lang_new[$module_name]['LAST'];
 			
-		echo $pagination->getFirstOf().' '.$lang_new[$pnt_module]['TO'].' '.$pagination->getSecondOf().' '.$lang_new[$pnt_module]['OF'].' '.$pagination->getTotalItems().' '.$first . " " . $prev . " " . $next . " " . $last;
+		echo $pagination->getFirstOf().' '.$lang_new[$module_name]['TO'].' '.$pagination->getSecondOf().' '.$lang_new[$module_name]['OF'].' '.$pagination->getTotalItems().' '.$first . " " . $prev . " " . $next . " " . $last;
 	}
 	else
 	{
@@ -721,37 +721,37 @@ function manage_users()
 
 function manage_users_images()
 {
-	global $pnt_db, $lang_new, $pnt_module, $settings;
+	global $db, $lang_new, $module_name, $settings;
 	OpenTable();
 	index_navigation_header();
 //-------------------------------------------------------------------------
 //	DENY ANYONE WHO ISNT AN ADMIN.
 //-------------------------------------------------------------------------	
 	if(!is_admin())
-		_redirect_titanium('modules.php?name='.$pnt_module);
+		_redirect('modules.php?name='.$module_name);
 //-------------------------------------------------------------------------
 //	DENY ANYONE WHO ISNT AN ADMIN.
 //-------------------------------------------------------------------------	
-	$result = $pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$_GET['uid']."' ORDER BY `uploaded` DESC");
+	$result = $db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$_GET['uid']."' ORDER BY `uploaded` DESC");
 	echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr>';
-	echo '    <td'.tablecss(FALSE,'center','catHead',5).'>'._string_to_upper(sprintf($lang_new[$pnt_module]['IMAGES_SUBMITTED'],_submitter($_GET['uid']))).'</td>';
+	echo '    <td'.tablecss(FALSE,'center','catHead',5).'>'._string_to_upper(sprintf($lang_new[$module_name]['IMAGES_SUBMITTED'],_submitter($_GET['uid']))).'</td>';
 	echo '  </tr>';
 	echo '  <tr>';
-	echo '    <td'.tablecss('20%','center','catHead').'>'._string_to_upper($lang_new[$pnt_module]['IMAGE']).'</td>';
-	echo '    <td'.tablecss('20%','center','catHead').'>'._string_to_upper($lang_new[$pnt_module]['UPLOADED']).'</td>';
-	echo '    <td'.tablecss('20%','center','catHead').'>'._string_to_upper($lang_new[$pnt_module]['RESOLUTION']).'</td>';
-	echo '    <td'.tablecss('20%','center','catHead').'>'._string_to_upper($lang_new[$pnt_module]['IMAGE_SIZE']).'</td>';
-	echo '    <td'.tablecss('20%','center','catHead').'>'._string_to_upper($lang_new[$pnt_module]['OPTIONS']).'</td>';
+	echo '    <td'.tablecss('20%','center','catHead').'>'._string_to_upper($lang_new[$module_name]['IMAGE']).'</td>';
+	echo '    <td'.tablecss('20%','center','catHead').'>'._string_to_upper($lang_new[$module_name]['UPLOADED']).'</td>';
+	echo '    <td'.tablecss('20%','center','catHead').'>'._string_to_upper($lang_new[$module_name]['RESOLUTION']).'</td>';
+	echo '    <td'.tablecss('20%','center','catHead').'>'._string_to_upper($lang_new[$module_name]['IMAGE_SIZE']).'</td>';
+	echo '    <td'.tablecss('20%','center','catHead').'>'._string_to_upper($lang_new[$module_name]['OPTIONS']).'</td>';
 	echo '  </tr>';
-	while($uploadinfo = $pnt_db->sql_fetchrow($result))
+	while($uploadinfo = $db->sql_fetchrow($result))
 	{
 		echo '  <tr id="user-image-'.$uploadinfo['pid'].'">';
-		echo '    <td'.tablecss('20%','center','row1').'><a'.linkcss().get_image_viewer().' href="'._IREPOSITORY_DIR.'/'.($uploadinfo['submitter']+10000).'/'.$uploadinfo['filename'].'">'.$lang_new[$pnt_module]['VIEW'].'</a></td>';
+		echo '    <td'.tablecss('20%','center','row1').'><a'.linkcss().get_image_viewer().' href="'._IREPOSITORY_DIR.'/'.($uploadinfo['submitter']+10000).'/'.$uploadinfo['filename'].'">'.$lang_new[$module_name]['VIEW'].'</a></td>';
 		echo '    <td'.tablecss('20%','center','row1').'>'._timestamp('M d, Y | G:i', $uploadinfo['uploaded'], $userinfo['user_timezone']).'</td>';
 		echo '    <td'.tablecss('20%','center','row1').'>'.$uploadinfo['screensize'].'</td>';
 		echo '    <td'.tablecss('20%','center','row1').'>'._calculate_size($uploadinfo['size']).'</td>';
-		echo '    <td'.tablecss('20%','center','row1').'><a'.linkcss().' data-id="'.$uploadinfo['pid'].':::'.$uploadinfo['submitter'].'" class="delete-user-image" href="javascript:void(0);">'.$lang_new[$pnt_module]['DELETE'].'</a></td>';
+		echo '    <td'.tablecss('20%','center','row1').'><a'.linkcss().' data-id="'.$uploadinfo['pid'].':::'.$uploadinfo['submitter'].'" class="delete-user-image" href="javascript:void(0);">'.$lang_new[$module_name]['DELETE'].'</a></td>';
 		echo '  </tr>';
 	}
 	echo '  <tr>';
@@ -763,19 +763,19 @@ function manage_users_images()
 
 function admin_delete_image()
 {
-	global $pnt_db, $lang_new, $pnt_module;		
+	global $db, $lang_new, $module_name;		
 	if(is_admin())
 	{
 //-------------------------------------------------------------------------
 //	AWWW, YOU WANT TO DELETE THE IMAGE, OKIES, LETS REMOVE THE FILE,
 //	FROM THE DATABASE, AND REMOVE ANY TRACE OF IT.
 //-------------------------------------------------------------------------	
-		$row  = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$_POST['pid']."'"));
+		$row  = $db->sql_fetchrow($db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$_POST['pid']."'"));
 		if(@unlink(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/'.$row['filename']))
 		{
 			@unlink(_IREPOSITORY_DIR._IREPOSITORY_USER_FOLDER.'/thumbs/thumb_'.$row['filename']);
-			$pnt_db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$row['pid']."'");
-			$pnt_db->sql_optimize(_IMAGE_REPOSITORY_UPLOADS);
+			$db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$row['pid']."'");
+			$db->sql_optimize(_IMAGE_REPOSITORY_UPLOADS);
 		}
 		die(json_encode(array('pid' => $row['pid'])));
 //-------------------------------------------------------------------------
@@ -786,7 +786,7 @@ function admin_delete_image()
 //-------------------------------------------------------------------------
 //	IF YOU ARE NOT THE OWNER OF THIS IMAGE, BUGGER OFF.
 //-------------------------------------------------------------------------
-		die(json_encode(array('error' => $lang_new[$pnt_module]['NEXT_TIME_OWNER'])));
+		die(json_encode(array('error' => $lang_new[$module_name]['NEXT_TIME_OWNER'])));
 //-------------------------------------------------------------------------
 //	IF YOU ARE NOT THE OWNER OF THIS IMAGE, BUGGER OFF.
 //-------------------------------------------------------------------------	
@@ -795,28 +795,28 @@ function admin_delete_image()
 
 function admin_delete_user()
 {
-	global $pnt_db;
+	global $db;
 	if(is_admin())
 	{
-		$result = $pnt_db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$_POST['user']."'");
-		while($row = $pnt_db->sql_fetchrow($result))
+		$result = $db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$_POST['user']."'");
+		while($row = $db->sql_fetchrow($result))
 		{
 			if(file_exists(_IREPOSITORY_DIR.($_POST['user']+10000).'/'.$row['filename']))
 			{
 				@unlink(_IREPOSITORY_DIR.($_POST['user']+10000).'/'.$row['filename']);
 				@unlink(_IREPOSITORY_DIR.($_POST['user']+10000).'/thumbs/thumb_'.$row['filename']);
-				$pnt_db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$row['pid']."'");
+				$db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `pid`='".$row['pid']."'");
 			}
 		}
-		$pnt_db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_USERS."` WHERE `uid`='".$_POST['user']."'");
-		$pnt_db->sql_freeresult($result);
+		$db->sql_query("DELETE FROM `"._IMAGE_REPOSITORY_USERS."` WHERE `uid`='".$_POST['user']."'");
+		$db->sql_freeresult($result);
 		die(json_encode(array('user' => $_POST['user'])));
 	}
 }
 
 function image_forum_upload()
 {
-	global $pnt_db, $lang_new, $pnt_module, $userinfo, $settings;
+	global $db, $lang_new, $module_name, $userinfo, $settings;
 //-------------------------------------------------------------------------
 //	CHECK IF IT'S AN AJAX REQUEST, EXIT IF NOT.
 //-------------------------------------------------------------------------
@@ -831,7 +831,7 @@ function image_forum_upload()
     $quotainfo = _quota_percentages($userinfo['user_id']);
     if($quotainfo['total_size'] > $quotainfo['quota'])
     {
-    	die(json_encode(array('error' => sprintf($lang_new[$pnt_module]['QUOTA_REACHED'],$userinfo['username']))));
+    	die(json_encode(array('error' => sprintf($lang_new[$module_name]['QUOTA_REACHED'],$userinfo['username']))));
     }
 //-------------------------------------------------------------------------
 //	ALERT THE USER, IF THEY HAVE REACHED THEIR ALLOTTED QUOTA.
@@ -848,7 +848,7 @@ function image_forum_upload()
 		case 'image/pjpeg':
 			break;
 		default:
-			die(json_encode(array('error' => $lang_new[$pnt_module]['IMAGE_ALLOWED'])));
+			die(json_encode(array('error' => $lang_new[$module_name]['IMAGE_ALLOWED'])));
 	}
 //-------------------------------------------------------------------------
 //	DO A QUICK CHECK TO MAKE SURE THE FILE BE UPLOADED IS AN IMAGE.
@@ -857,7 +857,7 @@ function image_forum_upload()
 //	MAKE SURE THE IMAGE DOES NOT EXCEED THE SPECIFIED MAX SIZE IN ADMIN.
 //-------------------------------------------------------------------------
 	if($_FILES['forum-image-upload']['size'] > $settings['max_upload'])
-		die(json_encode(array('error' => sprintf($lang_new[$pnt_module]['IMAGE_SIZE_ERROR'], _calculate_size($settings['max_upload'])))));
+		die(json_encode(array('error' => sprintf($lang_new[$module_name]['IMAGE_SIZE_ERROR'], _calculate_size($settings['max_upload'])))));
 //-------------------------------------------------------------------------
 //	MAKE SURE THE IMAGE DOES NOT EXCEED THE SPECIFIED MAX SIZE IN ADMIN.
 //-------------------------------------------------------------------------
@@ -869,13 +869,13 @@ function image_forum_upload()
 //-------------------------------------------------------------------------
 //	GENERATE A THUMBNAIL FOR USE IN THE FORUMS.
 //-------------------------------------------------------------------------
-		$pnt_db->sql_query("INSERT INTO `"._IMAGE_REPOSITORY_UPLOADS."` (`pid`,`filename`,`submitter`,`image`,`size`,`screensize`,`uploaded`) VALUES (NULL,'".$randomise."','".$userinfo['user_id']."','".$randomise."','".$_FILES['forum-image-upload']['size']."','".$natural_size."','".time()."')");
+		$db->sql_query("INSERT INTO `"._IMAGE_REPOSITORY_UPLOADS."` (`pid`,`filename`,`submitter`,`image`,`size`,`screensize`,`uploaded`) VALUES (NULL,'".$randomise."','".$userinfo['user_id']."','".$randomise."','".$_FILES['forum-image-upload']['size']."','".$natural_size."','".time()."')");
 		if($image_size_info[0] > _IREPOSITORY_THUMBWIDTH || $image_size_info[1] > _IREPOSITORY_THUMBHEIGHT)
 		{
 			_createthumb('modules/'.$_POST['modname'].'/files/'.$_POST['user'].'/'.$randomise, 'modules/'.$_POST['modname'].'/files/'.$_POST['user'].'/thumbs/thumb_'.$randomise, array('width' => _IREPOSITORY_THUMBWIDTH, 'height' => _IREPOSITORY_THUMBHEIGHT, 'aspect_ratio' => TRUE));
 		} else {				
 			@copy('modules/'.$_POST['modname'].'/files/'.$_POST['user'].'/'.$randomise, 'modules/'.$_POST['modname'].'/files/'.$_POST['user'].'/thumbs/thumb_'.$randomise);
-			$pnt_db->sql_query("UPDATE `"._IMAGE_REPOSITORY_UPLOADS."` SET `bypass_thumb`='1' WHERE `pid`='".$pnt_db->sql_nextid()."' && `submitter`='".$userinfo['user_id']."'");
+			$db->sql_query("UPDATE `"._IMAGE_REPOSITORY_UPLOADS."` SET `bypass_thumb`='1' WHERE `pid`='".$db->sql_nextid()."' && `submitter`='".$userinfo['user_id']."'");
 		}
 //-------------------------------------------------------------------------
 //	GENERATE A THUMBNAIL FOR USE IN THE FORUMS.
@@ -899,9 +899,9 @@ if(!is_user())
 	index_navigation_header();
 	echo '<table style="width:100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','catHead',2).'>'.$lang_new[$pnt_module]['ATTENTION'].'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','catHead',2).'>'.$lang_new[$module_name]['ATTENTION'].'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
-	echo '    <td'.tablecss(FALSE,'center','row1',2).'>'.$lang_new[$pnt_module]['ANONYMOUS'].'</td>'."\n";
+	echo '    <td'.tablecss(FALSE,'center','row1',2).'>'.$lang_new[$module_name]['ANONYMOUS'].'</td>'."\n";
 	echo '  </tr>'."\n".'<tr>'."\n";
 	echo '    <td'.tablecss(FALSE,'center','catBottom',2).'>&nbsp;</td>'."\n";
 	echo '  </tr>'."\n";

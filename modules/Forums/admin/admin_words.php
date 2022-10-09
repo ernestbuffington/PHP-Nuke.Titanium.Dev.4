@@ -27,23 +27,23 @@
 if( !empty($setmodules) )
 {
         $file = basename(__FILE__);
-        $pnt_module['General']['Word_Censor'] = $file;
+        $module['General']['Word_Censor'] = $file;
         return;
 }
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 //
 // Load default header
 //
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 $cancel = (isset($HTTP_POST_VARS['cancel']) || isset($_POST['cancel'])) ? true : false;
 $no_page_header = $cancel;
 require('./pagestart.' . $phpEx);
 if ($cancel)
 {
-	redirect_titanium(append_titanium_sid("admin_words.$phpEx", true));
+	redirect(append_sid("admin_words.$phpEx", true));
 }
 
 
@@ -80,7 +80,7 @@ if( $mode != "" )
         {
                 $word_id = ( isset($HTTP_GET_VARS['id']) ) ? intval($HTTP_GET_VARS['id']) : 0;
 
-                $phpbb2_template->set_filenames(array(
+                $template->set_filenames(array(
                         "body" => "admin/words_edit_body.tpl")
                 );
 
@@ -94,12 +94,12 @@ if( $mode != "" )
                                 $sql = "SELECT *
                                         FROM " . WORDS_TABLE . "
                                         WHERE word_id = $word_id";
-                                if(!$result = $pnt_db->sql_query($sql))
+                                if(!$result = $db->sql_query($sql))
                                 {
                                         message_die(GENERAL_ERROR, "Could not query words table", "Error", __LINE__, __FILE__, $sql);
                                 }
 
-                                $word_info = $pnt_db->sql_fetchrow($result);
+                                $word_info = $db->sql_fetchrow($result);
                                 $s_hidden_fields .= '<input type="hidden" name="id" value="' . $word_id . '" />';
                         }
                         else
@@ -108,7 +108,7 @@ if( $mode != "" )
                         }
                 }
 
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
                         "WORD" => htmlspecialchars($word_info['word']),
 			            "REPLACEMENT" => htmlspecialchars($word_info['replacement']),
 
@@ -119,11 +119,11 @@ if( $mode != "" )
                         "L_REPLACEMENT" => $lang['Replacement'],
                         "L_SUBMIT" => $lang['Submit'],
 
-                        "S_WORDS_ACTION" => append_titanium_sid("admin_words.$phpEx"),
+                        "S_WORDS_ACTION" => append_sid("admin_words.$phpEx"),
                         "S_HIDDEN_FIELDS" => $s_hidden_fields)
                 );
 
-                $phpbb2_template->pparse("body");
+                $template->pparse("body");
 
                 include('./page_footer_admin.'.$phpEx);
         }
@@ -152,12 +152,12 @@ if( $mode != "" )
                         $message = $lang['Word_added'];
                 }
 
-                if(!$result = $pnt_db->sql_query($sql))
+                if(!$result = $db->sql_query($sql))
                 {
                         message_die(GENERAL_ERROR, "Could not insert data into words table", $lang['Error'], __LINE__, __FILE__, $sql);
                 }
 
-                $message .= "<br /><br />" . sprintf($lang['Click_return_wordadmin'], "<a href=\"" . append_titanium_sid("admin_words.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                $message .= "<br /><br />" . sprintf($lang['Click_return_wordadmin'], "<a href=\"" . append_sid("admin_words.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                 message_die(GENERAL_MESSAGE, $message);
         }
@@ -178,32 +178,32 @@ if( $mode != "" )
                         $sql = "DELETE FROM " . WORDS_TABLE . "
                                 WHERE word_id = $word_id";
 
-                        if(!$result = $pnt_db->sql_query($sql))
+                        if(!$result = $db->sql_query($sql))
                         {
                                 message_die(GENERAL_ERROR, "Could not remove data from words table", $lang['Error'], __LINE__, __FILE__, $sql);
                         }
 
-                        $message = $lang['Word_removed'] . "<br /><br />" . sprintf($lang['Click_return_wordadmin'], "<a href=\"" . append_titanium_sid("admin_words.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+                        $message = $lang['Word_removed'] . "<br /><br />" . sprintf($lang['Click_return_wordadmin'], "<a href=\"" . append_sid("admin_words.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
                         message_die(GENERAL_MESSAGE, $message);
                 }
                 elseif( $word_id && !$confirm)
          		{
          			// Present the confirmation screen to the user
-         			$phpbb2_template->set_filenames(array(
+         			$template->set_filenames(array(
          				'body' => 'admin/confirm_body.tpl')
          			);
 
          			$hidden_fields = '<input type="hidden" name="mode" value="delete" /><input type="hidden" name="id" value="' . $word_id . '" />';
 
-         			$phpbb2_template->assign_vars(array(
+         			$template->assign_vars(array(
          				'MESSAGE_TITLE' => $lang['Confirm'],
          				'MESSAGE_TEXT' => $lang['Confirm_delete_word'],
 
          				'L_YES' => $lang['Yes'],
          				'L_NO' => $lang['No'],
 
-         				'S_CONFIRM_ACTION' => append_titanium_sid("admin_words.$phpEx"),
+         				'S_CONFIRM_ACTION' => append_sid("admin_words.$phpEx"),
          				'S_HIDDEN_FIELDS' => $hidden_fields)
          			);
          		}
@@ -215,23 +215,23 @@ if( $mode != "" )
 }
 else
 {
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
                 "body" => "admin/words_list_body.tpl")
         );
 
         $sql = "SELECT *
                 FROM " . WORDS_TABLE . "
                 ORDER BY word";
-        if( !$result = $pnt_db->sql_query($sql) )
+        if( !$result = $db->sql_query($sql) )
         {
                 message_die(GENERAL_ERROR, "Could not query words table", $lang['Error'], __LINE__, __FILE__, $sql);
         }
 
-        $word_rows = $pnt_db->sql_fetchrowset($result);
-        $pnt_db->sql_freeresult($result);
+        $word_rows = $db->sql_fetchrowset($result);
+        $db->sql_freeresult($result);
         $word_count = count($word_rows);
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
                 "L_WORDS_TITLE" => $lang['Words_title'],
                 "L_WORDS_TEXT" => $lang['Words_explain'],
                 "L_WORD" => $lang['Word'],
@@ -241,7 +241,7 @@ else
                 "L_ADD_WORD" => $lang['Add_new_word'],
                 "L_ACTION" => $lang['Action'],
 
-                "S_WORDS_ACTION" => append_titanium_sid("admin_words.$phpEx"),
+                "S_WORDS_ACTION" => append_sid("admin_words.$phpEx"),
                 "S_HIDDEN_FIELDS" => '')
         );
 
@@ -254,19 +254,19 @@ else
                 $row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
                 $row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];
 
-                $phpbb2_template->assign_block_vars("words", array(
+                $template->assign_block_vars("words", array(
                         "ROW_COLOR" => "#" . $row_color,
                         "ROW_CLASS" => $row_class,
                         "WORD" => htmlspecialchars($word),
 			            "REPLACEMENT" => htmlspecialchars($replacement),
 
-                        "U_WORD_EDIT" => append_titanium_sid("admin_words.$phpEx?mode=edit&amp;id=$word_id"),
-                        "U_WORD_DELETE" => append_titanium_sid("admin_words.$phpEx?mode=delete&amp;id=$word_id"))
+                        "U_WORD_EDIT" => append_sid("admin_words.$phpEx?mode=edit&amp;id=$word_id"),
+                        "U_WORD_DELETE" => append_sid("admin_words.$phpEx?mode=delete&amp;id=$word_id"))
                 );
         }
 }
 
-$phpbb2_template->pparse("body");
+$template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

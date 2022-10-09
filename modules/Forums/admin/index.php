@@ -39,14 +39,14 @@
 	  Arcade                                   v3.0.2       05/29/2009
  ************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 //
 // Load default header
 //
 $no_page_header = TRUE;
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 /*****[BEGIN]******************************************
  [ Mod:     Log Moderator Actions              v1.1.6 ]
@@ -72,19 +72,19 @@ function inarray($needle, $haystack)
  ******************************************************/
     $q = "SELECT forum_id, forum_name
           FROM ". FORUMS_TABLE ."";
-    $forums_data = $pnt_db->sql_ufetchrowset($q);
+    $forums_data = $db->sql_ufetchrowset($q);
 
     $q = "SELECT username, user_id
           FROM ". USERS_TABLE ."";
-    $pnt_users_data = $pnt_db->sql_ufetchrowset($q);
+    $users_data = $db->sql_ufetchrowset($q);
 
     $q = "SELECT topic_id, topic_title
           FROM ". TOPICS_TABLE ."";
-    $phpbb2_topics_data = $pnt_db->sql_ufetchrowset($q);
+    $topics_data = $db->sql_ufetchrowset($q);
 
     $q = "SELECT cat_id, cat_title
           FROM ". CATEGORIES_TABLE ."";
-    $cats_data = $pnt_db->sql_ufetchrowset($q);
+    $cats_data = $db->sql_ufetchrowset($q);
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
@@ -115,22 +115,22 @@ if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
 
         include('./page_header_admin.'.$phpEx);
 
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
                 "body" => "admin/index_navigate.tpl")
         );
 
-        $phpbb2_template->assign_vars(array(
-                "U_FORUM_INDEX" => append_titanium_sid("index.$phpEx"),
-                "U_FORUM_PREINDEX" => append_titanium_sid("index.$phpEx"),
-                "U_ADMIN_INDEX" => append_titanium_sid("index.$phpEx?pane=right"),
+        $template->assign_vars(array(
+                "U_FORUM_INDEX" => append_sid("index.$phpEx"),
+                "U_FORUM_PREINDEX" => append_sid("index.$phpEx"),
+                "U_ADMIN_INDEX" => append_sid("index.$phpEx?pane=right"),
 
 /*****[BEGIN]******************************************
  [ Mod:     DHTML Slide Menu for ACP           v1.0.0 ]
  ******************************************************/
-                "COOKIE_NAME"    => $phpbb2_board_config['cookie_name'],
-                "COOKIE_PATH"    => $phpbb2_board_config['cookie_path'],
-                "COOKIE_DOMAIN"    => $phpbb2_board_config['cookie_domain'],
-                "COOKIE_SECURE"    => $phpbb2_board_config['cookie_secure'],
+                "COOKIE_NAME"    => $board_config['cookie_name'],
+                "COOKIE_PATH"    => $board_config['cookie_path'],
+                "COOKIE_DOMAIN"    => $board_config['cookie_domain'],
+                "COOKIE_SECURE"    => $board_config['cookie_secure'],
 /*****[END]********************************************
  [ Mod:     DHTML Slide Menu for ACP           v1.0.0 ]
  ******************************************************/
@@ -158,7 +158,7 @@ if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
 
         );
 
-        ksort($pnt_module);
+        ksort($module);
 
 /*****[BEGIN]******************************************
  [ Mod:     DHTML Slide Menu for ACP           v1.0.0 ]
@@ -167,11 +167,11 @@ if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
 /*****[END]********************************************
  [ Mod:     DHTML Slide Menu for ACP           v1.0.0 ]
  ******************************************************/
- while( list($cat, $action_array) = each($pnt_module) )
+ while( list($cat, $action_array) = each($module) )
 {
     $cat = ( !empty($lang[$cat]) ) ? $lang[$cat] : preg_replace("/_/", " ", $cat);
 
-    $phpbb2_template->assign_block_vars("catrow", array(
+    $template->assign_block_vars("catrow", array(
 
 /*****[BEGIN]******************************************
  [ Mod:     DHTML Slide Menu for ACP           v1.0.0 ]
@@ -195,7 +195,7 @@ if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
 
         $action = ( !empty($lang[$action]) ) ? $lang[$action] : preg_replace("/_/", " ", $action);
 
-        $phpbb2_template->assign_block_vars("catrow.modulerow", array(
+        $template->assign_block_vars("catrow.modulerow", array(
 
 /*****[BEGIN]******************************************
  [ Mod:     DHTML Slide Menu for ACP           v1.0.0 ]
@@ -209,7 +209,7 @@ if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
             "ROW_CLASS" => $row_class,
 
             "ADMIN_MODULE" => $action,
-            "U_ADMIN_MODULE" => append_titanium_sid($file))
+            "U_ADMIN_MODULE" => append_sid($file))
         );
         $row_count++;
     }
@@ -221,7 +221,7 @@ if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
  [ Mod:     DHTML Slide Menu for ACP           v1.0.0 ]
  ******************************************************/
 }
-        $phpbb2_template->pparse("body");
+        $template->pparse("body");
 
         include('./page_footer_admin.'.$phpEx);
 }
@@ -229,7 +229,7 @@ elseif( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'right' )
 {
         include('./page_header_admin.'.$phpEx);
 
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
                 "body" => "admin/index_body.tpl")
         );
 /*****[BEGIN]******************************************
@@ -246,7 +246,7 @@ elseif( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'right' )
 /*****[END]********************************************
  [ Mod:    Admin IP Lock                       v2.0.1 ]
  ******************************************************/
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
                 "L_WELCOME" => $lang['Welcome_phpBB'],
                 "L_ADMIN_INTRO" => $lang['Admin_intro'],
                 "L_FORUM_STATS" => $lang['Forum_stats'],
@@ -300,9 +300,9 @@ elseif( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'right' )
         //
         // Get forum statistics
         //
-        $phpbb2_total_posts = get_db_stat('postcount');
-        $phpbb2_total_users = get_db_stat('usercount');
-        $total_phpbb2_topics = get_db_stat('topiccount');
+        $total_posts = get_db_stat('postcount');
+        $total_users = get_db_stat('usercount');
+        $total_topics = get_db_stat('topiccount');
 /*****[BEGIN]******************************************
  [ Mod:    Advance Admin Index Stats           v1.0.0 ]
  ******************************************************/
@@ -310,117 +310,117 @@ $sql = "SELECT COUNT(user_id) AS total
                     FROM " . USERS_TABLE . "
                     WHERE user_active = 0
                         AND user_id <> " . ANONYMOUS;
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                if ( $row = $pnt_db->sql_fetchrow($result) )
+                if ( $row = $db->sql_fetchrow($result) )
             {
-                    $total_phpbb2_deactivated_users = $row['total'];
+                    $total_deactivated_users = $row['total'];
             }
                 else
             {
                     message_die(GENERAL_ERROR,"Couldn't update pending information!", __LINE__, __FILE__, $sql);
             }
-                $pnt_db->sql_freeresult($result);
+                $db->sql_freeresult($result);
                 $deactivated_names = '';
             $sql = "SELECT username
                     FROM " . USERS_TABLE . "
                     WHERE user_active = 0
                         AND user_id <> " . ANONYMOUS . "
                     ORDER BY username";
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                while ( $row = $pnt_db->sql_fetchrow($result) )
+                while ( $row = $db->sql_fetchrow($result) )
             {
                     $deactivated_names .= (($deactivated_names == '') ? '' : ', ') . UsernameColor($row['username']);
             }
-                $pnt_db->sql_freeresult($result);
+                $db->sql_freeresult($result);
 $sql = "SELECT COUNT(user_id) AS total
                     FROM " . USERS_TABLE . "
                     WHERE user_level = " . MOD . "
                         AND user_id <> " . ANONYMOUS;
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                if ( $row = $pnt_db->sql_fetchrow($result) )
+                if ( $row = $db->sql_fetchrow($result) )
             {
-                    $total_phpbb2_moderators = $row['total'];
+                    $total_moderators = $row['total'];
             }
                 else
             {
                     message_die(GENERAL_ERROR,"Couldn't update pending information!", __LINE__, __FILE__, $sql);
             }
-                $pnt_db->sql_freeresult($result);
+                $db->sql_freeresult($result);
                 $moderator_names = '';
             $sql = "SELECT username
                     FROM " . USERS_TABLE . "
                     WHERE user_level = " . MOD . "
                         AND user_id <> " . ANONYMOUS . "
                     ORDER BY username";
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                while ( $row = $pnt_db->sql_fetchrow($result) )
+                while ( $row = $db->sql_fetchrow($result) )
             {
                     $moderator_names .= (($moderator_names == '') ? '' : ', ') . UsernameColor($row['username']);
             }
-                $pnt_db->sql_freeresult($result);
+                $db->sql_freeresult($result);
 $sql = "SELECT COUNT(user_id) AS total
                     FROM " . USERS_TABLE . "
                     WHERE user_level = " . ADMIN . "
                         AND user_id <> " . ANONYMOUS;
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                if ( $row = $pnt_db->sql_fetchrow($result) )
+                if ( $row = $db->sql_fetchrow($result) )
             {
-                    $total_phpbb2_administrators = $row['total'];
+                    $total_administrators = $row['total'];
             }
                 else
             {
                     message_die(GENERAL_ERROR,"Couldn't update pending information!", __LINE__, __FILE__, $sql);
             }
-                $pnt_db->sql_freeresult($result);
+                $db->sql_freeresult($result);
                 $administrator_names = '';
             $sql = "SELECT username
                     FROM " . USERS_TABLE . "
                     WHERE user_level = " . ADMIN . "
                         AND user_id <> " . ANONYMOUS . "
                     ORDER BY username";
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                while ( $row = $pnt_db->sql_fetchrow($result) )
+                while ( $row = $db->sql_fetchrow($result) )
             {
                     $administrator_names .= (($administrator_names == '') ? '' : ', ') . UsernameColor($row['username']);
             }
 /*****[END]********************************************
  [ Mod:    Advance Admin Index Stats           v1.0.0 ]
  ******************************************************/
-        $phpbb2_start_date = create_date($phpbb2_board_config['default_dateformat'], $phpbb2_board_config['board_startdate'], $phpbb2_board_config['board_timezone']);
+        $start_date = create_date($board_config['default_dateformat'], $board_config['board_startdate'], $board_config['board_timezone']);
 
-        $boarddays = ( time() - $phpbb2_board_config['board_startdate'] ) / 86400;
+        $boarddays = ( time() - $board_config['board_startdate'] ) / 86400;
 
-        $phpbb2_posts_per_day = sprintf("%.2f", $phpbb2_total_posts / $boarddays);
-        $phpbb2_topics_per_day = sprintf("%.2f", $total_phpbb2_topics / $boarddays);
-        $pnt_users_per_day = sprintf("%.2f", $phpbb2_total_users / $boarddays);
+        $posts_per_day = sprintf("%.2f", $total_posts / $boarddays);
+        $topics_per_day = sprintf("%.2f", $total_topics / $boarddays);
+        $users_per_day = sprintf("%.2f", $total_users / $boarddays);
 
         $avatar_dir_size = 0;
 
-        if ($avatar_dir = @opendir(NUKE_BASE_DIR . $phpbb2_board_config['avatar_path']))
+        if ($avatar_dir = @opendir(NUKE_BASE_DIR . $board_config['avatar_path']))
         {
                 while( $file = @readdir($avatar_dir) )
                 {
                         if( $file != "." && $file != ".." )
                         {
-                                $avatar_dir_size += @filesize(NUKE_BASE_DIR . $phpbb2_board_config['avatar_path'] . "/" . $file);
+                                $avatar_dir_size += @filesize(NUKE_BASE_DIR . $board_config['avatar_path'] . "/" . $file);
                         }
                 }
                 @closedir($avatar_dir);
@@ -450,19 +450,19 @@ $sql = "SELECT COUNT(user_id) AS total
                 $avatar_dir_size = $lang['Not_available'];
         }
 
-        if($phpbb2_posts_per_day > $phpbb2_total_posts)
+        if($posts_per_day > $total_posts)
         {
-                $phpbb2_posts_per_day = $phpbb2_total_posts;
+                $posts_per_day = $total_posts;
         }
 
-        if($phpbb2_topics_per_day > $total_phpbb2_topics)
+        if($topics_per_day > $total_topics)
         {
-                $phpbb2_topics_per_day = $total_phpbb2_topics;
+                $topics_per_day = $total_topics;
         }
 
-        if($pnt_users_per_day > $phpbb2_total_users)
+        if($users_per_day > $total_users)
         {
-                $pnt_users_per_day = $phpbb2_total_users;
+                $users_per_day = $total_users;
         }
 
         //
@@ -474,22 +474,22 @@ $sql = "SELECT COUNT(user_id) AS total
         if( preg_match("/^mysql/", SQL_LAYER) )
         {
                 $sql = "SELECT VERSION() AS mysql_version";
-                if($result = $pnt_db->sql_query($sql))
+                if($result = $db->sql_query($sql))
                 {
-                        $row = $pnt_db->sql_fetchrow($result);
+                        $row = $db->sql_fetchrow($result);
                         $version = $row['mysql_version'];
 
                         if( preg_match("/^(3\.23|4\.|5\.)/", $version) )
                         {
-                                $pnt_db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)|(5\.)/", $version) ) ? "`$pnt_dbname`" : $pnt_dbname;
+                                $db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)|(5\.)/", $version) ) ? "`$dbname`" : $dbname;
 
                                 $sql = "SHOW TABLE STATUS
-                                        FROM " . $pnt_db_name;
-                                if($result = $pnt_db->sql_query($sql))
+                                        FROM " . $db_name;
+                                if($result = $db->sql_query($sql))
                                 {
-                                        $tabledata_ary = $pnt_db->sql_fetchrowset($result);
+                                        $tabledata_ary = $db->sql_fetchrowset($result);
 
-                                        $pnt_dbsize = 0;
+                                        $dbsize = 0;
                                         for($i = 0; $i < count($tabledata_ary); $i++)
                                         {
                                                 if( $tabledata_ary[$i]['Type'] != "MRG_MyISAM" )
@@ -498,12 +498,12 @@ $sql = "SELECT COUNT(user_id) AS total
                                                         {
                                                                 if( strstr($tabledata_ary[$i]['Name'], $table_prefix) )
                                                                 {
-                                                                        $pnt_dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
+                                                                        $dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
                                                                 }
                                                         }
                                                         else
                                                         {
-                                                                $pnt_dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
+                                                                $dbsize += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
                                                         }
                                                 }
                                         }
@@ -511,88 +511,88 @@ $sql = "SELECT COUNT(user_id) AS total
                         }
                         else
                         {
-                                $pnt_dbsize = $lang['Not_available'];
+                                $dbsize = $lang['Not_available'];
                         }
                 }
                 else
                 {
-                        $pnt_dbsize = $lang['Not_available'];
+                        $dbsize = $lang['Not_available'];
                 }
         }
         else if( preg_match("/^mssql/", SQL_LAYER) )
         {
                 $sql = "SELECT ((SUM(size) * 8.0) * 1024.0) as dbsize
                         FROM sysfiles";
-                if( $result = $pnt_db->sql_query($sql) )
+                if( $result = $db->sql_query($sql) )
                 {
-                        $pnt_dbsize = ( $row = $pnt_db->sql_fetchrow($result) ) ? intval($row['dbsize']) : $lang['Not_available'];
+                        $dbsize = ( $row = $db->sql_fetchrow($result) ) ? intval($row['dbsize']) : $lang['Not_available'];
                 }
                 else
                 {
-                        $pnt_dbsize = $lang['Not_available'];
+                        $dbsize = $lang['Not_available'];
                 }
         }
         else
         {
-                $pnt_dbsize = $lang['Not_available'];
+                $dbsize = $lang['Not_available'];
         }
 
-        if ( is_integer($pnt_dbsize) )
+        if ( is_integer($dbsize) )
         {
-                if( $pnt_dbsize >= 1048576 )
+                if( $dbsize >= 1048576 )
                 {
-                        $pnt_dbsize = sprintf("%.2f MB", ( $pnt_dbsize / 1048576 ));
+                        $dbsize = sprintf("%.2f MB", ( $dbsize / 1048576 ));
                 }
-                else if( $pnt_dbsize >= 1024 )
+                else if( $dbsize >= 1024 )
                 {
-                        $pnt_dbsize = sprintf("%.2f KB", ( $pnt_dbsize / 1024 ));
+                        $dbsize = sprintf("%.2f KB", ( $dbsize / 1024 ));
                 }
                 else
                 {
-                        $pnt_dbsize = sprintf("%.2f Bytes", $pnt_dbsize);
+                        $dbsize = sprintf("%.2f Bytes", $dbsize);
                 }
         }
 /*****[BEGIN]******************************************
  [ Mod:    Advance Admin Index Stats           v1.0.0 ]
  ******************************************************/
 $sql = "SELECT VERSION() AS mysql_version";
-                $result = $pnt_db->sql_query($sql);
+                $result = $db->sql_query($sql);
                 if ( !$result )
             {
                     message_die(GENERAL_ERROR,"Couldn't obtain MySQL Version", __LINE__, __FILE__, $sql);
             }
-                $row = $pnt_db->sql_fetchrow($result);
+                $row = $db->sql_fetchrow($result);
                 $mysql_version = $row['mysql_version'];
-                $pnt_db->sql_freeresult($result);
+                $db->sql_freeresult($result);
 /*****[END]********************************************
  [ Mod:    Advance Admin Index Stats           v1.0.0 ]
  ******************************************************/
-           $phpbb2_template->assign_vars(array(
-                "NUMBER_OF_POSTS" => $phpbb2_total_posts,
-                "NUMBER_OF_TOPICS" => $total_phpbb2_topics,
-                "NUMBER_OF_USERS" => $phpbb2_total_users,
-                "START_DATE" => $phpbb2_start_date,
-                "POSTS_PER_DAY" => $phpbb2_posts_per_day,
-                "TOPICS_PER_DAY" => $phpbb2_topics_per_day,
-                "USERS_PER_DAY" => $pnt_users_per_day,
+           $template->assign_vars(array(
+                "NUMBER_OF_POSTS" => $total_posts,
+                "NUMBER_OF_TOPICS" => $total_topics,
+                "NUMBER_OF_USERS" => $total_users,
+                "START_DATE" => $start_date,
+                "POSTS_PER_DAY" => $posts_per_day,
+                "TOPICS_PER_DAY" => $topics_per_day,
+                "USERS_PER_DAY" => $users_per_day,
                 "AVATAR_DIR_SIZE" => $avatar_dir_size,
-                "DB_SIZE" => $pnt_dbsize,
+                "DB_SIZE" => $dbsize,
 /*****[BEGIN]******************************************
  [ Mod:    Advance Admin Index Stats           v1.0.0 ]
  ******************************************************/
-                //"PHPBB_VERSION" => '2' . $phpbb2_board_config['version'],
+                //"PHPBB_VERSION" => '2' . $board_config['version'],
                 "PHP_VERSION" => phpversion(),
                 "MYSQL_VERSION" => $mysql_version,
-                "NUMBER_OF_DEACTIVATED_USERS" => $total_phpbb2_deactivated_users,
-                "NUMBER_OF_MODERATORS" => $total_phpbb2_moderators,
-                "NUMBER_OF_ADMINISTRATORS" => $total_phpbb2_administrators,
+                "NUMBER_OF_DEACTIVATED_USERS" => $total_deactivated_users,
+                "NUMBER_OF_MODERATORS" => $total_moderators,
+                "NUMBER_OF_ADMINISTRATORS" => $total_administrators,
                 "NAMES_OF_ADMINISTRATORS" => $administrator_names,
                 "NAMES_OF_MODERATORS" => $moderator_names,
                 "NAMES_OF_DEACTIVATED" => $deactivated_names,
 /*****[END]********************************************
  [ Mod:    Advance Admin Index Stats           v1.0.0 ]
  ******************************************************/
-                "GZIP_COMPRESSION" => ( $phpbb2_board_config['gzip_compress'] ) ? $lang['ON'] : $lang['OFF'])
+                "GZIP_COMPRESSION" => ( $board_config['gzip_compress'] ) ? $lang['ON'] : $lang['OFF'])
         );
         //
         // End forum statistics
@@ -610,13 +610,13 @@ $sql = "SELECT VERSION() AS mysql_version";
                 WHERE s.session_logged_in = " . TRUE . "
                         AND u.user_id = s.session_user_id
                         AND u.user_id <> " . ANONYMOUS . "
-                        AND s.session_time >= " . ( time() - $phpbb2_board_config['online_time'] ) . "
+                        AND s.session_time >= " . ( time() - $board_config['online_time'] ) . "
                 ORDER BY u.user_session_time DESC";
 /*****[END]********************************************
  [ Mod:    Online Time                         v1.0.0 ]
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-        $onlinerow_reg = $pnt_db->sql_ufetchrowset($sql);
+        $onlinerow_reg = $db->sql_ufetchrowset($sql);
 /*****[BEGIN]******************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
@@ -628,15 +628,15 @@ $sql = "SELECT VERSION() AS mysql_version";
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-        $onlinerow_guest = $pnt_db->sql_ufetchrowset($sql);
+        $onlinerow_guest = $db->sql_ufetchrowset($sql);
 
         $sql = "SELECT forum_name, forum_id
                 FROM " . FORUMS_TABLE;
-        if($forums_result = $pnt_db->sql_query($sql))
+        if($forums_result = $db->sql_query($sql))
         {
-                while($forumsrow = $pnt_db->sql_fetchrow($forums_result))
+                while($forumsrow = $db->sql_fetchrow($forums_result))
                 {
-                        $phpbb2_forum_data[$forumsrow['forum_id']] = $forumsrow['forum_name'];
+                        $forum_data[$forumsrow['forum_id']] = $forumsrow['forum_name'];
                 }
         }
         else
@@ -659,7 +659,7 @@ $sql = "SELECT VERSION() AS mysql_version";
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                                $pnt_username = UsernameColor($onlinerow_reg[$i]['username']);
+                                $username = UsernameColor($onlinerow_reg[$i]['username']);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -691,7 +691,7 @@ $sql = "SELECT VERSION() AS mysql_version";
                                                         $location = $lang['Logging_on'];
                                                         $location_url = "index.$phpEx?pane=right";
                                                         break;
-                                                case TITANIUM_PAGE_SEARCH:
+                                                case PAGE_SEARCH:
                                                         $location = $lang['Searching_forums'];
                                                         $location_url = "index.$phpEx?pane=right";
                                                         break;
@@ -780,14 +780,14 @@ $sql = "SELECT VERSION() AS mysql_version";
                                 }
                                 else
                                 {
-                                        $location_url = append_titanium_sid("admin_forums.$phpEx?mode=editforum&amp;" . POST_FORUM_URL . "=" . $onlinerow_reg[$i]['user_session_page']);
-                                        $location = $phpbb2_forum_data[$onlinerow_reg[$i]['user_session_page']];
+                                        $location_url = append_sid("admin_forums.$phpEx?mode=editforum&amp;" . POST_FORUM_URL . "=" . $onlinerow_reg[$i]['user_session_page']);
+                                        $location = $forum_data[$onlinerow_reg[$i]['user_session_page']];
                                 }
 /*****[BEGIN]******************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-                                $TITANIUM_SESSION_HANDLING = select_titanium_session_url($onlinerow_reg[$i]['session_page'], $onlinerow_reg[$i]['session_url_qs'], $onlinerow_reg[$i]['session_url_ps'], $onlinerow_reg[$i]['session_url_specific'], $userdata['user_level'], $onlinerow_reg[$i]['user_id'], $forums_data, $phpbb2_topics_data, $pnt_users_data, $cats_data);
-                                $location = $TITANIUM_SESSION_HANDLING;
+                                $BSH = select_session_url($onlinerow_reg[$i]['session_page'], $onlinerow_reg[$i]['session_url_qs'], $onlinerow_reg[$i]['session_url_ps'], $onlinerow_reg[$i]['session_url_specific'], $userdata['user_level'], $onlinerow_reg[$i]['user_id'], $forums_data, $topics_data, $users_data, $cats_data);
+                                $location = $BSH;
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
@@ -797,18 +797,18 @@ $sql = "SELECT VERSION() AS mysql_version";
 
                                 $reg_ip = decode_ip($onlinerow_reg[$i]['session_ip']);
 
-                                $phpbb2_template->assign_block_vars("reg_user_row", array(
+                                $template->assign_block_vars("reg_user_row", array(
                                         "ROW_COLOR" => "#" . $row_color,
                                         "ROW_CLASS" => $row_class,
-                                        "USERNAME" => $pnt_username,
-                                        "STARTED" => create_date($phpbb2_board_config['default_dateformat'], $onlinerow_reg[$i]['session_start'], $phpbb2_board_config['board_timezone']),
-                                        "LASTUPDATE" => create_date($phpbb2_board_config['default_dateformat'], $onlinerow_reg[$i]['user_session_time'], $phpbb2_board_config['board_timezone']),
+                                        "USERNAME" => $username,
+                                        "STARTED" => create_date($board_config['default_dateformat'], $onlinerow_reg[$i]['session_start'], $board_config['board_timezone']),
+                                        "LASTUPDATE" => create_date($board_config['default_dateformat'], $onlinerow_reg[$i]['user_session_time'], $board_config['board_timezone']),
                                         "FORUM_LOCATION" => $location,
                                         "IP_ADDRESS" => $reg_ip,
 
                                         "U_WHOIS_IP" => "http://dnsstuff.com/tools/whois.ch?cache=off&ip=$reg_ip",
-                                        "U_USER_PROFILE" => append_titanium_sid("admin_users.$phpEx?mode=edit&amp;" . POST_USERS_URL . "=" . $onlinerow_reg[$i]['user_id']),
-                                        "U_FORUM_LOCATION" => append_titanium_sid($location_url))
+                                        "U_USER_PROFILE" => append_sid("admin_users.$phpEx?mode=edit&amp;" . POST_USERS_URL . "=" . $onlinerow_reg[$i]['user_id']),
+                                        "U_FORUM_LOCATION" => append_sid($location_url))
                                 );
                         }
                 }
@@ -816,7 +816,7 @@ $sql = "SELECT VERSION() AS mysql_version";
         }
         else
         {
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
                         "L_NO_REGISTERED_USERS_BROWSING" => $lang['No_users_browsing'])
                 );
         }
@@ -850,7 +850,7 @@ $sql = "SELECT VERSION() AS mysql_version";
                                                 $location = $lang['Logging_on'];
                                                 $location_url = "index.$phpEx?pane=right";
                                                 break;
-                                        case TITANIUM_PAGE_SEARCH:
+                                        case PAGE_SEARCH:
                                                 $location = $lang['Searching_forums'];
                                                 $location_url = "index.$phpEx?pane=right";
                                                 break;
@@ -939,15 +939,15 @@ $sql = "SELECT VERSION() AS mysql_version";
                         }
                         else
                         {
-                                $location_url = append_titanium_sid("admin_forums.$phpEx?mode=editforum&amp;" . POST_FORUM_URL . "=" . $onlinerow_guest[$i]['session_page']);
-                                $location = $phpbb2_forum_data[$onlinerow_guest[$i]['session_page']];
+                                $location_url = append_sid("admin_forums.$phpEx?mode=editforum&amp;" . POST_FORUM_URL . "=" . $onlinerow_guest[$i]['session_page']);
+                                $location = $forum_data[$onlinerow_guest[$i]['session_page']];
                         }
 
 /*****[BEGIN]******************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-                        $TITANIUM_SESSION_HANDLING = select_titanium_session_url($onlinerow_guest[$i]['session_page'], $onlinerow_guest[$i]['session_url_qs'], $onlinerow_guest[$i]['session_url_ps'], $onlinerow_guest[$i]['session_url_specific'], $userdata['user_level'], $onlinerow_guest[$i]['user_id'], $forums_data, $phpbb2_topics_data, $pnt_users_data, $cats_data);
-                        $location = $TITANIUM_SESSION_HANDLING;
+                        $BSH = select_session_url($onlinerow_guest[$i]['session_page'], $onlinerow_guest[$i]['session_url_qs'], $onlinerow_guest[$i]['session_url_ps'], $onlinerow_guest[$i]['session_url_specific'], $userdata['user_level'], $onlinerow_guest[$i]['user_id'], $forums_data, $topics_data, $users_data, $cats_data);
+                        $location = $BSH;
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
@@ -957,29 +957,29 @@ $sql = "SELECT VERSION() AS mysql_version";
 
                         $guest_ip = decode_ip($onlinerow_guest[$i]['session_ip']);
 
-                        $phpbb2_template->assign_block_vars("guest_user_row", array(
+                        $template->assign_block_vars("guest_user_row", array(
                                 "ROW_COLOR" => "#" . $row_color,
                                 "ROW_CLASS" => $row_class,
                                 "USERNAME" => $lang['Guest'],
-                                "STARTED" => create_date($phpbb2_board_config['default_dateformat'], $onlinerow_guest[$i]['session_start'], $phpbb2_board_config['board_timezone']),
-                                "LASTUPDATE" => create_date($phpbb2_board_config['default_dateformat'], $onlinerow_guest[$i]['session_time'], $phpbb2_board_config['board_timezone']),
+                                "STARTED" => create_date($board_config['default_dateformat'], $onlinerow_guest[$i]['session_start'], $board_config['board_timezone']),
+                                "LASTUPDATE" => create_date($board_config['default_dateformat'], $onlinerow_guest[$i]['session_time'], $board_config['board_timezone']),
                                 "FORUM_LOCATION" => $location,
                                 "IP_ADDRESS" => $guest_ip,
 
                                 "U_WHOIS_IP" => "http://dnsstuff.com/tools/whois.ch?cache=off&ip=$guest_ip",
-                                "U_FORUM_LOCATION" => append_titanium_sid($location_url))
+                                "U_FORUM_LOCATION" => append_sid($location_url))
                         );
                 }
 
         }
         else
         {
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
                         "L_NO_GUESTS_BROWSING" => $lang['No_users_browsing'])
                 );
         }
     // Check for new version
-    $current_version = explode('.', '2' . $phpbb2_board_config['version']);
+    $current_version = explode('.', '2' . $board_config['version']);
     $minor_revision = (int) $current_version[2];
 
 /*****[BEGIN]******************************************
@@ -988,10 +988,10 @@ $sql = "SELECT VERSION() AS mysql_version";
     // we don't want to check at every time : do it only once a day
     define('VERSION_CHECK_DELAY', 86400);
     $now = time();
-    $version_check_delay = intval($phpbb2_board_config['version_check_delay']);
+    $version_check_delay = intval($board_config['version_check_delay']);
     if ( intval($HTTP_GET_VARS['vchk']) || empty($version_check_delay) || (($version_check_delay - $now) > VERSION_CHECK_DELAY) )
     {
-        if ( isset($phpbb2_board_config['version_check_delay']) )
+        if ( isset($board_config['version_check_delay']) )
         {
             $sql = 'UPDATE ' . CONFIG_TABLE . '
                         SET config_value = ' . $now . '
@@ -1002,7 +1002,7 @@ $sql = "SELECT VERSION() AS mysql_version";
             $sql = 'INSERT INTO ' . CONFIG_TABLE . '(config_name, config_value)
                         VALUES(\'version_check_delay\', ' . $now . ')';
         }
-        $pnt_db->sql_query($sql);
+        $db->sql_query($sql);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -1052,7 +1052,7 @@ $sql = "SELECT VERSION() AS mysql_version";
         else
         {
             $version_info = '<p style="color:red">' . $lang['Version_not_up_to_date'];
-            $version_info .= '<br />' . sprintf($lang['Latest_version_info'], $latest_version) . ' ' . sprintf($lang['Current_version_info'], '2' . $phpbb2_board_config['version']) . '</p>';
+            $version_info .= '<br />' . sprintf($lang['Latest_version_info'], $latest_version) . ' ' . sprintf($lang['Current_version_info'], '2' . $board_config['version']) . '</p>';
         }
     }
     else
@@ -1073,19 +1073,19 @@ $sql = "SELECT VERSION() AS mysql_version";
     }
     else
     {
-        $version_info = '<p style="color:blue">' . sprintf($lang['Current_version_info'], '2' . $phpbb2_board_config['version']) . '</a></p>';
+        $version_info = '<p style="color:blue">' . sprintf($lang['Current_version_info'], '2' . $board_config['version']) . '</a></p>';
     }
 /*****[END]********************************************
  [ Base:    Cache phpBB version in ACP         v1.0.0 ]
  ******************************************************/
 
     $version_info .= '<p>' . $lang['Mailing_list_subscribe_reminder'] . '</p>';
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'VERSION_INFO'    => $version_info,
         'L_VERSION_INFORMATION'    => $lang['Version_information'])
     );
 
-        $phpbb2_template->pparse("body");
+        $template->pparse("body");
 
         include('./page_footer_admin.'.$phpEx);
 
@@ -1095,25 +1095,25 @@ else
         //
         // Generate frameset
         //
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
                 "body" => "admin/index_frameset.tpl")
         );
 
         if(isset($_GET['op']) && $_GET['op'] == "Groups") {
-            $mainframe = append_titanium_sid("admin_groups.".$phpEx);
+            $mainframe = append_sid("admin_groups.".$phpEx);
         } else {
-            $mainframe = append_titanium_sid("index.$phpEx?pane=right");
+            $mainframe = append_sid("index.$phpEx?pane=right");
         }
 
-        $phpbb2_template->assign_vars(array(
-                "S_FRAME_NAV" => append_titanium_sid("index.$phpEx?pane=left"),
+        $template->assign_vars(array(
+                "S_FRAME_NAV" => append_sid("index.$phpEx?pane=left"),
                 "S_FRAME_MAIN" => $mainframe)
         );
 
         header ("Expires: " . gmdate("D, d M Y H:i:s", time()) . " GMT");
         header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
-        $phpbb2_template->pparse("body");
+        $template->pparse("body");
 /*****[BEGIN]******************************************
  [ Mod:     Log Moderator Actions              v1.1.6 ]
  ******************************************************/
@@ -1121,7 +1121,7 @@ else
 /*****[END]********************************************
  [ Mod:     Log Moderator Actions              v1.1.6 ]
  ******************************************************/
-        $pnt_db->sql_close();
+        $db->sql_close();
         exit;
 
 }

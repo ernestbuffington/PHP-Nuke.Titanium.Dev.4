@@ -45,6 +45,6 @@ endif;
         CloseTable();
         include_once(NUKE_BASE_DIR.'footer.php');
     else:
-        mmain($pnt_user);
+        mmain($user);
     endif;
 ?>

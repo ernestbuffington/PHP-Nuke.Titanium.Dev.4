@@ -37,6 +37,6 @@ if($pos !== false && $pos != strlen($_SERVER['QUERY_STRING'])) {
 } else {
     $redirector = "modules.php?name=Profile";
 }
-redirect_titanium($redirector);
+redirect($redirector);
 
 ?>

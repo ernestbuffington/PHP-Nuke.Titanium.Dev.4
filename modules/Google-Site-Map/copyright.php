@@ -5,23 +5,23 @@
 /* Copyright (c) 2021 by The 86it Developers Network          			*/
 /* http://www.86it.us                                                   */
 /************************************************************************/
-$pnt_module = basename(dirname(__FILE__));
+$module = basename(dirname(__FILE__));
 $mod_name = 'Google Site Map';
 $author_name = 'Ernest Buffington';
 $author_email = 'ernest.buffington@gmail.com';
 $author_homepage = 'http://php-nuke-titanium.86it.us';
 $license = 'GNU/GPL';
 $download_location = 'http://www.86it.us';
-$pnt_module_version = 'v1.0b';
+$module_version = 'v1.0b';
 $release_date = 'April 11th, 2021';
-$pnt_module_description = 'Google Site Map';
+$module_description = 'Google Site Map';
 $mod_cost = '$300.00 US Dollars';
 
 function show_copyright() 
 {
-    global $mod_cost, $forum, $mod_name, $pnt_module, $release_date, $author_name, $author_email, $author_homepage, $license, $download_location, $pnt_module_version, $pnt_module_description;
+    global $mod_cost, $forum, $mod_name, $module, $release_date, $author_name, $author_email, $author_homepage, $license, $download_location, $module_version, $module_description;
 
-    if ($mod_name == "") { $mod_name = str_replace("-", " ", $pnt_module); }
+    if ($mod_name == "") { $mod_name = str_replace("-", " ", $module); }
 
     print '<html>';
     print '<head><title>'.$mod_name.': Copyright Information</title></head>';
@@ -32,13 +32,13 @@ function show_copyright()
 	print '<font size="2" face="Arial,Helvetica">';
 	print '&#8226;&nbsp;<strong>Module Name:</strong> '.$mod_name.'<br />';
     
-	if ($pnt_module_version != "") { print '&#8226;&nbsp;<strong>Module Version:</strong> '.$pnt_module_version.'<br />'; }
+	if ($module_version != "") { print '&#8226;&nbsp;<strong>Module Version:</strong> '.$module_version.'<br />'; }
 	if ($release_date != "") { print '&#8226;&nbsp;<strong>Module Release Date:</strong> '.$release_date.'<br />'; }
 	if ($mod_cost != "") { print '&#8226;&nbsp;<strong>Module Cost:</strong> '.$mod_cost.'<br />'; }
 	if ($license != "") { print '&#8226;&nbsp;<strong>License:</strong> '.$license.'<br />'; }
 	if ($author_name != "") { print '&#8226;&nbsp;<strong>Author Name:</strong> '.$author_name.'<br/ >'; }
 	if ($author_email != "") { print '&#8226;&nbsp;<strong>Author E-mail:</strong> '.$author_email.'<br />'; }
-	if ($pnt_module_description != "") { print '&#8226;&nbsp;<strong>Module Description:</strong> '.$pnt_module_description.'<br />'; }
+	if ($module_description != "") { print '&#8226;&nbsp;<strong>Module Description:</strong> '.$module_description.'<br />'; }
 	if ($download_location != "") { print '&#8226;&nbsp;<strong>Download:</strong> <a href="'.$download_location.'" target="new">www.86it.us</a>'; }
 	
 	print '<hr>';

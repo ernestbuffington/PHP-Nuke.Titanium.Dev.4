@@ -36,16 +36,16 @@ if(!defined('NUKE_EVO')) {
 
 function phpBB_whoisonline($force=FALSE)
 {
-    global $pnt_db, $phpbb2_board_config, $debugger;
+    global $db, $board_config, $debugger;
     //We need only one sessions_table. So we use what we have -> nuke_sessions
-    $result = $pnt_db->sql_query("SELECT * FROM `"._SESSION_TABLE."` ORDER BY `time` ASC");
+    $result = $db->sql_query("SELECT * FROM `"._SESSION_TABLE."` ORDER BY `time` ASC");
     $count_sess     = 1;
     $count_hidden   = 0;
     $count_reg_user = 0;
     $count_guests   = 0;
     $whoisonline_sess           = array();
-    if ($pnt_db->sql_numrows($result) > 0) {
-        while($sessions_all = $pnt_db->sql_fetchrow($result)) {
+    if ($db->sql_numrows($result) > 0) {
+        while($sessions_all = $db->sql_fetchrow($result)) {
             $whoisonline_sess[$count_sess]['username']  = $sessions_all['uname'];
             $whoisonline_sess[$count_sess]['hostaddr']  = $sessions_all['host_addr'];
             switch($sessions_all['guest']) {
@@ -59,7 +59,7 @@ function phpBB_whoisonline($force=FALSE)
             $whoisonline_sess[$count_sess]['lastupd']   = $sessions_all['time'];
             $whoisonline_sess[$count_sess]['url']       = $sessions_all['url'];
             $whoisonline_sess[$count_sess]['module']    = $sessions_all['module'];
-            $whoisonline_sess[$count_sess]['isactive']  = (($sessions_all['time'] - $phpbb2_board_config['online_time']) < time()) ? TRUE : FALSE;
+            $whoisonline_sess[$count_sess]['isactive']  = (($sessions_all['time'] - $board_config['online_time']) < time()) ? TRUE : FALSE;
             if ($whoisonline_sess[$count_sess]['isactive'] == TRUE) {
                 $whoisonline_sess[$count_sess]['active_time'] = time() - $whoisonline_sess[$count_sess]['starttime'];
             }
@@ -81,7 +81,7 @@ function phpBB_whoisonline($force=FALSE)
             }
             $count_sess++;
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
         $whoisonline_sess[0]['count_hidden']    = $count_hidden;
         $whoisonline_sess[0]['count_reg_user']  = $count_reg_user;
         $whoisonline_sess[0]['count_guests']    = $count_guests;
@@ -90,7 +90,7 @@ function phpBB_whoisonline($force=FALSE)
         asort($whoisonline_sess);
         return $whoisonline_sess;
     } else {
-            $pnt_db->sql_freeresult($result);
+            $db->sql_freeresult($result);
             $whoisonline_sess[0]['count_hidden']    = 0;
             $whoisonline_sess[0]['count_reg_user']  = 0;
             $whoisonline_sess[0]['count_guests']    = 0;
@@ -104,9 +104,9 @@ function phpBB_whoisonline($force=FALSE)
 /*****[BEGIN]******************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific, $level, $id, $phpbb2_forum_data, $phpbb2_topic_data, $pnt_user_data, $cat_data)
+function select_session_url($session_page, $url_qs, $url_ps, $specific, $level, $id, $forum_data, $topic_data, $user_data, $cat_data)
 {
-    global $lang, $phpEx, $userdata, $phpbb2_root_path;
+    global $lang, $phpEx, $userdata, $phpbb_root_path;
     include_once(NUKE_INCLUDE_DIR.'constants.'. $phpEx);
     unset($location);
 
@@ -119,14 +119,14 @@ function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific,
 
         if ( (@strstr($url_qs, POST_FORUM_URL .'=')) && (@strstr($url_ps, 'viewforum.')) )
             {
-            for ($z = 0; $z < count($phpbb2_forum_data); $z++)
+            for ($z = 0; $z < count($forum_data); $z++)
                 {
-                if (!$phpbb2_forum_data[$z]['forum_id'])
+                if (!$forum_data[$z]['forum_id'])
                     break;
 
-                if ($specific == $phpbb2_forum_data[$z]['forum_id'])
+                if ($specific == $forum_data[$z]['forum_id'])
                     {
-                $forum_name = $phpbb2_forum_data[$z]['forum_name'];
+                $forum_name = $forum_data[$z]['forum_name'];
                 break;
                     }
                 }
@@ -135,14 +135,14 @@ function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific,
 
         if ( (@strstr($url_qs, POST_TOPIC_URL .'=')) && (@strstr($url_ps, 'viewtopic.')) )
             {
-            for ($z = 0; $z < count($phpbb2_topic_data); $z++)
+            for ($z = 0; $z < count($topic_data); $z++)
                 {
-                if (!$phpbb2_topic_data[$z]['topic_id'])
+                if (!$topic_data[$z]['topic_id'])
                     break;
 
-                if ($specific == $phpbb2_topic_data[$z]['topic_id'])
+                if ($specific == $topic_data[$z]['topic_id'])
                     {
-                $topic_name = $phpbb2_topic_data[$z]['topic_title'];
+                $topic_name = $topic_data[$z]['topic_title'];
                 break;
                     }
                 }
@@ -151,18 +151,18 @@ function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific,
 
         if ( (@strstr($url_qs, POST_USERS_URL .'=')) && (@strstr($url_ps, 'profile.')) )
             {
-            for ($z = 0; $z < count($pnt_user_data); $z++)
+            for ($z = 0; $z < count($user_data); $z++)
                 {
-                if (!$pnt_user_data[$z]['user_id'])
+                if (!$user_data[$z]['user_id'])
                     break;
 
-                if ($specific == $pnt_user_data[$z]['user_id'])
+                if ($specific == $user_data[$z]['user_id'])
                     {
-                $pnt_username = $pnt_user_data[$z]['username'];
+                $username = $user_data[$z]['username'];
                 break;
                     }
                 }
-        $location = str_replace('%u%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $pnt_username .'</a>', $lang['BSH_Viewing_Profile']);
+        $location = str_replace('%u%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $username .'</a>', $lang['BSH_Viewing_Profile']);
             }
 
         if ( (@strstr($url_qs, POST_CAT_URL .'=')) && (@strstr($url_ps, 'index.')) )
@@ -237,7 +237,7 @@ function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific,
             return '<span class="gensmall">'. $location .'</span>';
         }
 
-        function strip_titanium_session_sid()
+        function strip_session_sid()
         {
            global $HTTP_SERVER_VARS;
 
@@ -268,13 +268,13 @@ function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific,
            return '';
         }
 
-        function set_titanium_session_url($id)
+        function set_session_url($id)
         {
-          global $pnt_db;
+          global $db;
           global $HTTP_GET_VARS, $HTTP_SERVER_VARS;
 
           $php_self         = $HTTP_SERVER_VARS['PHP_SELF'];
-          $query_string     = strip_titanium_session_sid();
+          $query_string     = strip_session_sid();
 
           if (isset($HTTP_GET_VARS[POST_USERS_URL]))
             $specific = intval($HTTP_GET_VARS[POST_USERS_URL]);
@@ -298,7 +298,7 @@ function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific,
             $specific = 0;
 
     $q = "UPDATE ". SESSIONS_TABLE ." SET session_url_qs = '$query_string', session_url_ps = '$php_self', session_url_specific = '$specific' WHERE session_id = '$id'";
-    $pnt_db->sql_query($q);
+    $db->sql_query($q);
 }
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
@@ -308,32 +308,32 @@ function select_titanium_session_url($session_page, $url_qs, $url_ps, $specific,
 // Adds/updates a new session to the database for the given userid.
 // Returns the new session ID on success.
 //
-function session_begin_titanium($pnt_user_id, $pnt_user_ip, $page_id, $auto_create = 0, $enable_titanium_autologin = 0, $admin = 0)
+function session_begin($user_id, $user_ip, $page_id, $auto_create = 0, $enable_autologin = 0, $admin = 0)
 {
-    global $pnt_db, $phpbb2_board_config, $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID;
+    global $db, $board_config, $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID;
 
-    $cookiename = $phpbb2_board_config['cookie_name'];
-    $cookiepath = $phpbb2_board_config['cookie_path'];
-    $cookiedomain = $phpbb2_board_config['cookie_domain'];
-    $cookiesecure = $phpbb2_board_config['cookie_secure'];
+    $cookiename = $board_config['cookie_name'];
+    $cookiepath = $board_config['cookie_path'];
+    $cookiedomain = $board_config['cookie_domain'];
+    $cookiesecure = $board_config['cookie_secure'];
 
     if ( isset($HTTP_COOKIE_VARS[$cookiename . '_sid']) || isset($HTTP_COOKIE_VARS[$cookiename . '_data']) )
     {
-        $pnt_session_id = isset($HTTP_COOKIE_VARS[$cookiename . '_sid']) ? $HTTP_COOKIE_VARS[$cookiename . '_sid'] : '';
-        $pnt_sessiondata = isset($HTTP_COOKIE_VARS[$cookiename . '_data']) ? unserialize(stripslashes($HTTP_COOKIE_VARS[$cookiename . '_data'])) : array();
+        $session_id = isset($HTTP_COOKIE_VARS[$cookiename . '_sid']) ? $HTTP_COOKIE_VARS[$cookiename . '_sid'] : '';
+        $sessiondata = isset($HTTP_COOKIE_VARS[$cookiename . '_data']) ? unserialize(stripslashes($HTTP_COOKIE_VARS[$cookiename . '_data'])) : array();
         $sessionmethod = SESSION_METHOD_COOKIE;
     }
     else
     {
-        $pnt_sessiondata = array();
-        $pnt_session_id = ( isset($HTTP_GET_VARS['sid']) ) ? $HTTP_GET_VARS['sid'] : '';
+        $sessiondata = array();
+        $session_id = ( isset($HTTP_GET_VARS['sid']) ) ? $HTTP_GET_VARS['sid'] : '';
         $sessionmethod = SESSION_METHOD_GET;
     }
 
     //
-    if (!preg_match('/^[A-Za-z0-9]*$/', $pnt_session_id))
+    if (!preg_match('/^[A-Za-z0-9]*$/', $session_id))
     {
-        $pnt_session_id = '';
+        $session_id = '';
     }
 
     $page_id = (int) $page_id;
@@ -346,9 +346,9 @@ function session_begin_titanium($pnt_user_id, $pnt_user_ip, $page_id, $auto_crea
     // If allow_autologin is not set or is true then they are
     // (same behaviour as old 2.0.x session code)
     //
-    if (isset($phpbb2_board_config['allow_autologin']) && !$phpbb2_board_config['allow_autologin'])
+    if (isset($board_config['allow_autologin']) && !$board_config['allow_autologin'])
     {
-        $enable_titanium_autologin = $pnt_sessiondata['autologinid'] = false;
+        $enable_autologin = $sessiondata['autologinid'] = false;
     }
 
     //
@@ -357,42 +357,42 @@ function session_begin_titanium($pnt_user_id, $pnt_user_ip, $page_id, $auto_crea
     //
     $userdata = array();
 
-    if ($pnt_user_id != ANONYMOUS)
+    if ($user_id != ANONYMOUS)
     {
-        if (isset($pnt_sessiondata['autologinid']) && (string) $pnt_sessiondata['autologinid'] != '' && $pnt_user_id)
+        if (isset($sessiondata['autologinid']) && (string) $sessiondata['autologinid'] != '' && $user_id)
         {
             $sql = 'SELECT u.*
                 FROM (' . USERS_TABLE . ' u, ' . SESSIONS_KEYS_TABLE . ' k)
-                WHERE u.user_id = ' . (int) $pnt_user_id . "
+                WHERE u.user_id = ' . (int) $user_id . "
                     AND u.user_active = 1
                     AND k.user_id = u.user_id
-                    AND k.key_id = '" . md5($pnt_sessiondata['autologinid']) . "'";
-            if (!($result = $pnt_db->sql_query($sql, true)))
+                    AND k.key_id = '" . md5($sessiondata['autologinid']) . "'";
+            if (!($result = $db->sql_query($sql, true)))
             {
                 message_die(CRITICAL_ERROR, 'Error doing DB query userdata row fetch', '', __LINE__, __FILE__, $sql);
             }
 
-            $userdata = $pnt_db->sql_fetchrow($result);
-            $pnt_db->sql_freeresult($result);
+            $userdata = $db->sql_fetchrow($result);
+            $db->sql_freeresult($result);
 
-            $enable_titanium_autologin = $login = 1;
+            $enable_autologin = $login = 1;
         }
         else if (!$auto_create)
         {
-            $pnt_sessiondata['autologinid'] = '';
-            $pnt_sessiondata['userid'] = $pnt_user_id;
+            $sessiondata['autologinid'] = '';
+            $sessiondata['userid'] = $user_id;
 
             $sql = 'SELECT *
                 FROM ' . USERS_TABLE . '
-                WHERE user_id = ' . (int) $pnt_user_id . '
+                WHERE user_id = ' . (int) $user_id . '
                     AND user_active = 1';
-            if (!($result = $pnt_db->sql_query($sql, true)))
+            if (!($result = $db->sql_query($sql, true)))
             {
                 message_die(CRITICAL_ERROR, 'Error doing DB query userdata row fetch', '', __LINE__, __FILE__, $sql);
             }
 
-            $userdata = $pnt_db->sql_fetchrow($result);
-            $pnt_db->sql_freeresult($result);
+            $userdata = $db->sql_fetchrow($result);
+            $db->sql_freeresult($result);
 
             $login = 1;
         }
@@ -407,42 +407,42 @@ function session_begin_titanium($pnt_user_id, $pnt_user_ip, $page_id, $auto_crea
     //
     if (!count($userdata) || !is_array($userdata) || !$userdata)
     {
-        $pnt_sessiondata['autologinid'] = '';
-        $pnt_sessiondata['userid'] = $pnt_user_id = ANONYMOUS;
-        $enable_titanium_autologin = $login = 0;
+        $sessiondata['autologinid'] = '';
+        $sessiondata['userid'] = $user_id = ANONYMOUS;
+        $enable_autologin = $login = 0;
 
         $sql = 'SELECT *
             FROM ' . USERS_TABLE . '
-            WHERE user_id = ' . (int) $pnt_user_id;
-        if (!($result = $pnt_db->sql_query($sql, true)))
+            WHERE user_id = ' . (int) $user_id;
+        if (!($result = $db->sql_query($sql, true)))
         {
             message_die(CRITICAL_ERROR, 'Error doing DB query userdata row fetch', '', __LINE__, __FILE__, $sql);
         }
 
-        $userdata = $pnt_db->sql_fetchrow($result);
-        $pnt_db->sql_freeresult($result);
+        $userdata = $db->sql_fetchrow($result);
+        $db->sql_freeresult($result);
     }
 
     //
     // Initial ban check against user id, IP and email address
     //
-    preg_match('/(..)(..)(..)(..)/', $pnt_user_ip, $pnt_user_ip_parts);
+    preg_match('/(..)(..)(..)(..)/', $user_ip, $user_ip_parts);
 
     $sql = "SELECT ban_ip, ban_userid, ban_email
         FROM " . BANLIST_TABLE . "
-        WHERE ban_ip IN ('" . $pnt_user_ip_parts[1] . $pnt_user_ip_parts[2] . $pnt_user_ip_parts[3] . $pnt_user_ip_parts[4] . "', '" . $pnt_user_ip_parts[1] . $pnt_user_ip_parts[2] . $pnt_user_ip_parts[3] . "ff', '" . $pnt_user_ip_parts[1] . $pnt_user_ip_parts[2] . "ffff', '" . $pnt_user_ip_parts[1] . "ffffff')
-            OR ban_userid = '$pnt_user_id'";
-    if ( $pnt_user_id != ANONYMOUS )
+        WHERE ban_ip IN ('" . $user_ip_parts[1] . $user_ip_parts[2] . $user_ip_parts[3] . $user_ip_parts[4] . "', '" . $user_ip_parts[1] . $user_ip_parts[2] . $user_ip_parts[3] . "ff', '" . $user_ip_parts[1] . $user_ip_parts[2] . "ffff', '" . $user_ip_parts[1] . "ffffff')
+            OR ban_userid = '$user_id'";
+    if ( $user_id != ANONYMOUS )
     {
         $sql .= " OR ban_email LIKE '" . str_replace("\'", "''", $userdata['user_email']) . "'
             OR ban_email LIKE '" . substr(str_replace("\'", "''", $userdata['user_email']), strpos(str_replace("\'", "''", $userdata['user_email']), "@")) . "'";
     }
-    if ( !($result = $pnt_db->sql_query($sql, true)) )
+    if ( !($result = $db->sql_query($sql, true)) )
     {
         message_die(CRITICAL_ERROR, 'Could not obtain ban information', '', __LINE__, __FILE__, $sql);
     }
 
-    if ( $ban_info = $pnt_db->sql_fetchrow($result) )
+    if ( $ban_info = $db->sql_fetchrow($result) )
     {
         if ( $ban_info['ban_ip'] || $ban_info['ban_userid'] || $ban_info['ban_email'] )
         {
@@ -454,38 +454,38 @@ function session_begin_titanium($pnt_user_id, $pnt_user_ip, $page_id, $auto_crea
     // Create or update the session
     //
     $sql = "UPDATE " . SESSIONS_TABLE . "
-        SET session_user_id = $pnt_user_id, session_start = $current_time, session_time = $current_time, session_page = $page_id, session_logged_in = $login, session_admin = $admin
-        WHERE session_id = '" . $pnt_session_id . "'
-            AND session_ip = '$pnt_user_ip'";
-    if ( !$pnt_db->sql_query($sql) || !$pnt_db->sql_affectedrows() )
+        SET session_user_id = $user_id, session_start = $current_time, session_time = $current_time, session_page = $page_id, session_logged_in = $login, session_admin = $admin
+        WHERE session_id = '" . $session_id . "'
+            AND session_ip = '$user_ip'";
+    if ( !$db->sql_query($sql) || !$db->sql_affectedrows() )
     {
-        $pnt_session_id = md5(dss_rand());
+        $session_id = md5(dss_rand());
 
         $sql = "INSERT INTO " . SESSIONS_TABLE . "
             (session_id, session_user_id, session_start, session_time, session_ip, session_page, session_logged_in, session_admin)
-            VALUES ('$pnt_session_id', '$pnt_user_id', '$current_time', '$current_time', '$pnt_user_ip', '$page_id', '$login', '$admin')";
-        if ( !$pnt_db->sql_query($sql) )
+            VALUES ('$session_id', '$user_id', '$current_time', '$current_time', '$user_ip', '$page_id', '$login', '$admin')";
+        if ( !$db->sql_query($sql) )
         {
                 $error = TRUE;
                 if (SQL_LAYER == "mysql" || SQL_LAYER == "mysql4" || SQL_LAYER == "mysqli")
                 {
-                    $sql_error = $pnt_db->sql_error($result);
+                    $sql_error = $db->sql_error($result);
                     if ($sql_error["code"] == 1114)
                     {
-                        $result = $pnt_db->sql_query('SHOW TABLE STATUS LIKE "'.SESSIONS_TABLE.'"');
-                        $row = $pnt_db->sql_fetchrow($result);
+                        $result = $db->sql_query('SHOW TABLE STATUS LIKE "'.SESSIONS_TABLE.'"');
+                        $row = $db->sql_fetchrow($result);
                         if ($row["Type"] == "HEAP")
                         {
                             if ($row["Rows"] > 2500)
                             {
                                 $delete_order = (SQL_LAYER=="mysql4") ? " ORDER BY session_time ASC" : "";
-                                $pnt_db->sql_query("DELETE QUICK FROM ".SESSIONS_TABLE."$delete_order LIMIT 50");
+                                $db->sql_query("DELETE QUICK FROM ".SESSIONS_TABLE."$delete_order LIMIT 50");
                             }
                             else
                             {
-                                $pnt_db->sql_query("ALTER TABLE ".SESSIONS_TABLE." MAX_ROWS=".($row["Rows"]+50));
+                                $db->sql_query("ALTER TABLE ".SESSIONS_TABLE." MAX_ROWS=".($row["Rows"]+50));
                             }
-                            if ($pnt_db->sql_query($sql))
+                            if ($db->sql_query($sql))
                             {
                                 $error = FALSE;
                             }
@@ -499,7 +499,7 @@ function session_begin_titanium($pnt_user_id, $pnt_user_ip, $page_id, $auto_crea
                 }
     }
 
-    if ( $pnt_user_id != ANONYMOUS )
+    if ( $user_id != ANONYMOUS )
     {
         $last_visit = ( $userdata['user_session_time'] > 0 ) ? $userdata['user_session_time'] : $current_time;
         if (!$admin)
@@ -507,8 +507,8 @@ function session_begin_titanium($pnt_user_id, $pnt_user_ip, $page_id, $auto_crea
 
         $sql = "UPDATE " . USERS_TABLE . "
             SET user_session_time = $current_time, user_session_page = $page_id, user_lastvisit = $last_visit
-            WHERE user_id = '$pnt_user_id'";
-        if ( !$pnt_db->sql_query($sql) )
+            WHERE user_id = '$user_id'";
+        if ( !$db->sql_query($sql) )
         {
             message_die(CRITICAL_ERROR, 'Error updating last visit time', '', __LINE__, __FILE__, $sql);
         }
@@ -520,53 +520,53 @@ function session_begin_titanium($pnt_user_id, $pnt_user_ip, $page_id, $auto_crea
         //
         // Regenerate the auto-login key
         //
-        if ($enable_titanium_autologin)
+        if ($enable_autologin)
         {
             $auto_login_key = dss_rand() . dss_rand();
 
-            if (isset($pnt_sessiondata['autologinid']) && (string) $pnt_sessiondata['autologinid'] != '')
+            if (isset($sessiondata['autologinid']) && (string) $sessiondata['autologinid'] != '')
             {
                 $sql = 'UPDATE ' . SESSIONS_KEYS_TABLE . "
-                    SET last_ip = '$pnt_user_ip', key_id = '" . md5($auto_login_key) . "', last_login = $current_time
-                    WHERE key_id = '" . md5($pnt_sessiondata['autologinid']) . "'";
+                    SET last_ip = '$user_ip', key_id = '" . md5($auto_login_key) . "', last_login = $current_time
+                    WHERE key_id = '" . md5($sessiondata['autologinid']) . "'";
             }
             else
             {
                 $sql = 'INSERT INTO ' . SESSIONS_KEYS_TABLE . "(key_id, user_id, last_ip, last_login)
-                    VALUES ('" . md5($auto_login_key) . "', $pnt_user_id, '$pnt_user_ip', $current_time)";
+                    VALUES ('" . md5($auto_login_key) . "', $user_id, '$user_ip', $current_time)";
             }
 
-            if ( !$pnt_db->sql_query($sql) )
+            if ( !$db->sql_query($sql) )
             {
                 message_die(CRITICAL_ERROR, 'Error updating session key', '', __LINE__, __FILE__, $sql);
             }
 
-            $pnt_sessiondata['autologinid'] = $auto_login_key;
+            $sessiondata['autologinid'] = $auto_login_key;
             unset($auto_login_key);
         }
         else
         {
-            $pnt_sessiondata['autologinid'] = '';
+            $sessiondata['autologinid'] = '';
         }
 
-//        $pnt_sessiondata['autologinid'] = (!$admin) ? (( $enable_titanium_autologin && $sessionmethod == SESSION_METHOD_COOKIE ) ? $auto_login_key : '') : $pnt_sessiondata['autologinid'];
-        $pnt_sessiondata['userid'] = $pnt_user_id;
+//        $sessiondata['autologinid'] = (!$admin) ? (( $enable_autologin && $sessionmethod == SESSION_METHOD_COOKIE ) ? $auto_login_key : '') : $sessiondata['autologinid'];
+        $sessiondata['userid'] = $user_id;
     }
 
-    $userdata['session_id'] = $pnt_session_id;
-    $userdata['session_ip'] = $pnt_user_ip;
-    $userdata['session_user_id'] = $pnt_user_id;
+    $userdata['session_id'] = $session_id;
+    $userdata['session_ip'] = $user_ip;
+    $userdata['session_user_id'] = $user_id;
     $userdata['session_logged_in'] = $login;
     $userdata['session_page'] = $page_id;
     $userdata['session_start'] = $current_time;
     $userdata['session_time'] = $current_time;
     $userdata['session_admin'] = $admin;
-    $userdata['session_key'] = $pnt_sessiondata['autologinid'];
-    setcookie($cookiename . '_data', serialize($pnt_sessiondata), $current_time + 31536000, $cookiepath, $cookiedomain, $cookiesecure);
-    setcookie($cookiename . '_sid', $pnt_session_id, 0, $cookiepath, $cookiedomain, $cookiesecure);
+    $userdata['session_key'] = $sessiondata['autologinid'];
+    setcookie($cookiename . '_data', serialize($sessiondata), $current_time + 31536000, $cookiepath, $cookiedomain, $cookiesecure);
+    setcookie($cookiename . '_sid', $session_id, 0, $cookiepath, $cookiedomain, $cookiesecure);
 	setcookie($cookiename . '_fpass', '', $current_time - 31536000, $cookiepath, $cookiedomain, $cookiesecure);
 	// Add the session_key to the userdata array if it is set
-    $SID = 'sid=' . $pnt_session_id;
+    $SID = 'sid=' . $session_id;
 
     return $userdata;
 }
@@ -576,56 +576,56 @@ function session_begin_titanium($pnt_user_id, $pnt_user_ip, $page_id, $auto_crea
 // sessions at each page refresh
 //
 // modded by Quake for NOT using $nukeuser
-function titanium_session_pagestart($pnt_user_ip, $thispage_id, $trash=0)
+function session_pagestart($user_ip, $thispage_id, $trash=0)
 {
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
     @ini_set('arg_separator.output', '&amp;');
     session_start();
-    global $pnt_db, $lang, $phpbb2_board_config, $pnt_session_id, $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID, $pnt_pc_dateTime, $HTTP_SESSION_VARS, $cookie;
+    global $db, $lang, $board_config, $session_id, $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID, $pc_dateTime, $HTTP_SESSION_VARS, $cookie;
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
 
-    $cookiename = $phpbb2_board_config['cookie_name'];
-    $cookiepath = $phpbb2_board_config['cookie_path'];
-    $cookiedomain = $phpbb2_board_config['cookie_domain'];
-    $cookiesecure = $phpbb2_board_config['cookie_secure'];
+    $cookiename = $board_config['cookie_name'];
+    $cookiepath = $board_config['cookie_path'];
+    $cookiedomain = $board_config['cookie_domain'];
+    $cookiesecure = $board_config['cookie_secure'];
 
     $current_time = time();
     unset($userdata);
 
     if ( isset($HTTP_COOKIE_VARS[$cookiename . '_sid']) || isset($HTTP_COOKIE_VARS[$cookiename . '_data']) )
     {
-        $pnt_sessiondata = isset( $HTTP_COOKIE_VARS[$cookiename . '_data'] ) ? unserialize(stripslashes($HTTP_COOKIE_VARS[$cookiename . '_data'])) : array();
-        $pnt_session_id = isset( $HTTP_COOKIE_VARS[$cookiename . '_sid'] ) ? $HTTP_COOKIE_VARS[$cookiename . '_sid'] : '';
+        $sessiondata = isset( $HTTP_COOKIE_VARS[$cookiename . '_data'] ) ? unserialize(stripslashes($HTTP_COOKIE_VARS[$cookiename . '_data'])) : array();
+        $session_id = isset( $HTTP_COOKIE_VARS[$cookiename . '_sid'] ) ? $HTTP_COOKIE_VARS[$cookiename . '_sid'] : '';
         $sessionmethod = SESSION_METHOD_COOKIE;
     }
     else
     {
-        $pnt_sessiondata = array();
-        $pnt_session_id = ( isset($HTTP_GET_VARS['sid']) ) ? $HTTP_GET_VARS['sid'] : '';
+        $sessiondata = array();
+        $session_id = ( isset($HTTP_GET_VARS['sid']) ) ? $HTTP_GET_VARS['sid'] : '';
         $sessionmethod = SESSION_METHOD_GET;
     }
-   if (!preg_match('/^[A-Za-z0-9]*$/', $pnt_session_id))
+   if (!preg_match('/^[A-Za-z0-9]*$/', $session_id))
    {
-      $pnt_session_id = '';
+      $session_id = '';
    }
    if (!empty($cookie) && empty($userdata['session_logged_in'])) {
-       bblogin($pnt_session_id);
+       bblogin($session_id);
    } else {
        $thispage_id = intval($thispage_id);
    }
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-$pnt_pc_dateTime_update = False;
+$pc_dateTime_update = False;
 
 if ( isset($HTTP_GET_VARS['pc_tzo']) )
 {
     $HTTP_SESSION_VARS['pc_timezoneOffset'] = intval($HTTP_GET_VARS['pc_tzo']);
-    $pnt_pc_dateTime['pc_timezoneOffset'] = $HTTP_SESSION_VARS['pc_timezoneOffset'];
+    $pc_dateTime['pc_timezoneOffset'] = $HTTP_SESSION_VARS['pc_timezoneOffset'];
 
     $server_time = @gmdate('G')*3600 + @gmdate('i')*60 + @gmdate('s');
 
@@ -643,14 +643,14 @@ if ( isset($HTTP_GET_VARS['pc_tzo']) )
 		}
     }
 
-    $pnt_pc_dateTime['pc_timeOffset'] = $HTTP_SESSION_VARS['pc_timeOffset'];
+    $pc_dateTime['pc_timeOffset'] = $HTTP_SESSION_VARS['pc_timeOffset'];
 
-    $pnt_pc_dateTime_update = True;
+    $pc_dateTime_update = True;
 
 } else if ( isset($HTTP_SESSION_VARS['pc_timezoneOffset']) )
 {
-    $pnt_pc_dateTime['pc_timezoneOffset'] = $HTTP_SESSION_VARS['pc_timezoneOffset'];
-    $pnt_pc_dateTime['pc_timeOffset'] = $HTTP_SESSION_VARS['pc_timeOffset'];
+    $pc_dateTime['pc_timezoneOffset'] = $HTTP_SESSION_VARS['pc_timezoneOffset'];
+    $pc_dateTime['pc_timeOffset'] = $HTTP_SESSION_VARS['pc_timeOffset'];
 }
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
@@ -658,7 +658,7 @@ if ( isset($HTTP_GET_VARS['pc_tzo']) )
     //
     // Does a session exist?
     //
-    if ( !empty($pnt_session_id) )
+    if ( !empty($session_id) )
     {
         //
         // session_id exists so go ahead and attempt to grab all
@@ -666,20 +666,20 @@ if ( isset($HTTP_GET_VARS['pc_tzo']) )
         //
         $sql = "SELECT u.*, s.*
             FROM (" . SESSIONS_TABLE . " s, " . USERS_TABLE . " u)
-            WHERE s.session_id = '$pnt_session_id'
+            WHERE s.session_id = '$session_id'
                 AND u.user_id = s.session_user_id";
-        if ( !($result = $pnt_db->sql_query($sql, true)) )
+        if ( !($result = $db->sql_query($sql, true)) )
         {
             message_die(CRITICAL_ERROR, 'Error doing DB query userdata row fetch', '', __LINE__, __FILE__, $sql);
         }
 
-        $userdata = $pnt_db->sql_fetchrow($result);
-        $pnt_db->sql_freeresult($result);
+        $userdata = $db->sql_fetchrow($result);
+        $db->sql_freeresult($result);
 
 /*****[BEGIN]******************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-        set_titanium_session_url($pnt_session_id);
+        set_session_url($session_id);
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
@@ -695,11 +695,11 @@ if ( isset($HTTP_GET_VARS['pc_tzo']) )
             // load balanced et al proxies while retaining some reliance on IP security.
             //
             $ip_check_s = substr($userdata['session_ip'], 0, 6);
-            $ip_check_u = substr($pnt_user_ip, 0, 6);
+            $ip_check_u = substr($user_ip, 0, 6);
 
             if ($ip_check_s == $ip_check_u)
             {
-                $SID = ($sessionmethod == SESSION_METHOD_GET || defined('IN_ADMIN')) ? 'sid=' . $pnt_session_id : '';
+                $SID = ($sessionmethod == SESSION_METHOD_GET || defined('IN_ADMIN')) ? 'sid=' . $session_id : '';
 
                 //
                 // Only update session DB a minute or so after last update
@@ -707,18 +707,18 @@ if ( isset($HTTP_GET_VARS['pc_tzo']) )
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-                if ( $current_time - $userdata['session_time'] > 60 || $pnt_pc_dateTime_update == True)
+                if ( $current_time - $userdata['session_time'] > 60 || $pc_dateTime_update == True)
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
                 {
                     // A little trick to reset session_admin on session re-usage
-                    $update_admin = (!defined('IN_ADMIN') && $current_time - $userdata['session_time'] > ($phpbb2_board_config['session_length']+60)) ? ', session_admin = 0' : '';
+                    $update_admin = (!defined('IN_ADMIN') && $current_time - $userdata['session_time'] > ($board_config['session_length']+60)) ? ', session_admin = 0' : '';
 
                     $sql = "UPDATE " . SESSIONS_TABLE . "
                         SET session_time = '$current_time', session_page = $thispage_id$update_admin
                         WHERE session_id = '" . $userdata['session_id'] . "'";
-                    if ( !$pnt_db->sql_query($sql) )
+                    if ( !$db->sql_query($sql) )
                     {
                         message_die(CRITICAL_ERROR, 'Error updating sessions table', '', __LINE__, __FILE__, $sql);
                     }
@@ -728,9 +728,9 @@ if ( isset($HTTP_GET_VARS['pc_tzo']) )
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-                        if ( isset($pnt_pc_dateTime['pc_timeOffset']) )
+                        if ( isset($pc_dateTime['pc_timeOffset']) )
                         {
-                            $update_pc_timeOffsets = ", user_pc_timeOffsets = '" . $pnt_pc_dateTime['pc_timezoneOffset'] . "/" . $pnt_pc_dateTime['pc_timeOffset'] . "'";
+                            $update_pc_timeOffsets = ", user_pc_timeOffsets = '" . $pc_dateTime['pc_timezoneOffset'] . "/" . $pc_dateTime['pc_timeOffset'] . "'";
                         } else
                         {
                             $update_pc_timeOffsets = "";
@@ -741,24 +741,24 @@ if ( isset($HTTP_GET_VARS['pc_tzo']) )
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-                        if ( !$pnt_db->sql_query($sql) )
+                        if ( !$db->sql_query($sql) )
                         {
                             message_die(CRITICAL_ERROR, 'Error updating sessions table', '', __LINE__, __FILE__, $sql);
                         }
                     }
 
                     //
-                    titanium_session_clean($userdata['session_id']);
+                    session_clean($userdata['session_id']);
 
-                    setcookie($cookiename . '_data', serialize($pnt_sessiondata), $current_time + 31536000, $cookiepath, $cookiedomain, $cookiesecure);
-                    setcookie($cookiename . '_sid', $pnt_session_id, 0, $cookiepath, $cookiedomain, $cookiesecure);
+                    setcookie($cookiename . '_data', serialize($sessiondata), $current_time + 31536000, $cookiepath, $cookiedomain, $cookiesecure);
+                    setcookie($cookiename . '_sid', $session_id, 0, $cookiepath, $cookiedomain, $cookiesecure);
 					setcookie($cookiename . '_fpass', '', $current_time - 31536000, $cookiepath, $cookiedomain, $cookiesecure);
                 }
 
 				// Add the session_key to the userdata array if it is set
-				if ( isset($pnt_sessiondata['autologinid']) && $pnt_sessiondata['autologinid'] != '' )
+				if ( isset($sessiondata['autologinid']) && $sessiondata['autologinid'] != '' )
 				{
-					$userdata['session_key'] = $pnt_sessiondata['autologinid'];
+					$userdata['session_key'] = $sessiondata['autologinid'];
 				}
 
                 return $userdata;
@@ -770,9 +770,9 @@ if ( isset($HTTP_GET_VARS['pc_tzo']) )
     // If we reach here then no (valid) session exists. So we'll create a new one,
     // using the cookie user_id if available to pull basic user prefs.
     //
-    $pnt_user_id = ( isset($pnt_sessiondata['userid']) ) ? intval($pnt_sessiondata['userid']) : ANONYMOUS;
+    $user_id = ( isset($sessiondata['userid']) ) ? intval($sessiondata['userid']) : ANONYMOUS;
 
-    if ( !($userdata = session_begin_titanium($pnt_user_id, $pnt_user_ip, $thispage_id, TRUE)) )
+    if ( !($userdata = session_begin($user_id, $user_ip, $thispage_id, TRUE)) )
     {
         message_die(CRITICAL_ERROR, 'Error creating user session', '', __LINE__, __FILE__, $sql);
     }
@@ -790,19 +790,19 @@ if ( isset($HTTP_GET_VARS['pc_tzo']) )
 * It will delete the entry in the sessions table for this session,
 * remove the corresponding auto-login key and reset the cookies
 */
-function titanium_session_end($pnt_session_id, $pnt_user_id)
+function session_end($session_id, $user_id)
 {
-    global $pnt_db, $lang, $phpbb2_board_config, $userdata;
+    global $db, $lang, $board_config, $userdata;
     global $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID;
 
-    $cookiename = $phpbb2_board_config['cookie_name'];
-    $cookiepath = $phpbb2_board_config['cookie_path'];
-    $cookiedomain = $phpbb2_board_config['cookie_domain'];
-    $cookiesecure = $phpbb2_board_config['cookie_secure'];
+    $cookiename = $board_config['cookie_name'];
+    $cookiepath = $board_config['cookie_path'];
+    $cookiedomain = $board_config['cookie_domain'];
+    $cookiesecure = $board_config['cookie_secure'];
 
     $current_time = time();
 
-    if (!preg_match('/^[A-Za-z0-9]*$/', $pnt_session_id))
+    if (!preg_match('/^[A-Za-z0-9]*$/', $session_id))
     {
         return;
     }
@@ -811,9 +811,9 @@ function titanium_session_end($pnt_session_id, $pnt_user_id)
     // Delete existing session
     //
     $sql = 'DELETE FROM ' . SESSIONS_TABLE . "
-        WHERE session_id = '$pnt_session_id'
-            AND session_user_id = $pnt_user_id";
-    if ( !$pnt_db->sql_query($sql) )
+        WHERE session_id = '$session_id'
+            AND session_user_id = $user_id";
+    if ( !$db->sql_query($sql) )
     {
         message_die(CRITICAL_ERROR, 'Error removing user session', '', __LINE__, __FILE__, $sql);
     }
@@ -825,9 +825,9 @@ function titanium_session_end($pnt_session_id, $pnt_user_id)
     {
         $autologin_key = md5($userdata['session_key']);
         $sql = 'DELETE FROM ' . SESSIONS_KEYS_TABLE . '
-            WHERE user_id = ' . (int) $pnt_user_id . "
+            WHERE user_id = ' . (int) $user_id . "
                 AND key_id = '$autologin_key'";
-        if ( !$pnt_db->sql_query($sql) )
+        if ( !$db->sql_query($sql) )
         {
             message_die(CRITICAL_ERROR, 'Error removing auto-login key', '', __LINE__, __FILE__, $sql);
         }
@@ -840,15 +840,15 @@ function titanium_session_end($pnt_session_id, $pnt_user_id)
     $sql = 'SELECT *
         FROM ' . USERS_TABLE . '
         WHERE user_id = ' . ANONYMOUS;
-    if ( !($result = $pnt_db->sql_query($sql, true)) )
+    if ( !($result = $db->sql_query($sql, true)) )
     {
         message_die(CRITICAL_ERROR, 'Error obtaining user details', '', __LINE__, __FILE__, $sql);
     }
-    if ( !($userdata = $pnt_db->sql_fetchrow($result)) )
+    if ( !($userdata = $db->sql_fetchrow($result)) )
     {
         message_die(CRITICAL_ERROR, 'Error obtaining user details', '', __LINE__, __FILE__, $sql);
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
     setcookie($cookiename . '_data', '', $current_time - 31536000, $cookiepath, $cookiedomain, $cookiesecure);
     setcookie($cookiename . '_sid', '', $current_time - 31536000, $cookiepath, $cookiedomain, $cookiesecure);
 
@@ -858,32 +858,32 @@ function titanium_session_end($pnt_session_id, $pnt_user_id)
 /**
 * Removes expired sessions and auto-login keys from the database
 */
-function titanium_session_clean($pnt_session_id)
+function session_clean($session_id)
 {
-    global $phpbb2_board_config, $pnt_db;
+    global $board_config, $db;
 
     //
     // Delete expired sessions
     //
     $sql = 'DELETE FROM ' . SESSIONS_TABLE . '
-        WHERE session_time < ' . (time() - (int) $phpbb2_board_config['session_length']) . "
-            AND session_id <> '$pnt_session_id'";
-    if ( !($result = $pnt_db->sql_query($sql)) )
+        WHERE session_time < ' . (time() - (int) $board_config['session_length']) . "
+            AND session_id <> '$session_id'";
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(CRITICAL_ERROR, 'Error clearing sessions table', '', __LINE__, __FILE__, $sql);
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 
     //
     // Delete expired auto-login keys
     // If max_autologin_time is not set then keys will never be deleted
     // (same behaviour as old 2.0.x session code)
     //
-    if (!empty($phpbb2_board_config['max_autologin_time']) && $phpbb2_board_config['max_autologin_time'] > 0)
+    if (!empty($board_config['max_autologin_time']) && $board_config['max_autologin_time'] > 0)
     {
         $sql = 'DELETE FROM ' . SESSIONS_KEYS_TABLE . '
-            WHERE last_login < ' . (time() - (86400 * (int) $phpbb2_board_config['max_autologin_time']));
-        $pnt_db->sql_query($sql);
+            WHERE last_login < ' . (time() - (86400 * (int) $board_config['max_autologin_time']));
+        $db->sql_query($sql);
     }
 
     return true;
@@ -893,26 +893,26 @@ function titanium_session_clean($pnt_session_id)
 * Reset all login keys for the specified user
 * Called on password changes
 */
-function titanium_session_reset_keys($pnt_user_id, $pnt_user_ip)
+function session_reset_keys($user_id, $user_ip)
 {
-	global $pnt_db, $userdata, $phpbb2_board_config;
+	global $db, $userdata, $board_config;
 
-	$key_sql = ($pnt_user_id == $userdata['user_id'] && !empty($userdata['session_key'])) ? "AND key_id != '" . md5($userdata['session_key']) . "'" : '';
+	$key_sql = ($user_id == $userdata['user_id'] && !empty($userdata['session_key'])) ? "AND key_id != '" . md5($userdata['session_key']) . "'" : '';
 
 	$sql = 'DELETE FROM ' . SESSIONS_KEYS_TABLE . '
-		WHERE user_id = ' . (int) $pnt_user_id . "
+		WHERE user_id = ' . (int) $user_id . "
 			$key_sql";
 
-	if ( !$pnt_db->sql_query($sql) )
+	if ( !$db->sql_query($sql) )
 	{
 		message_die(CRITICAL_ERROR, 'Error removing auto-login keys', '', __LINE__, __FILE__, $sql);
 	}
 
-	$where_sql = 'session_user_id = ' . (int) $pnt_user_id;
-	$where_sql .= ($pnt_user_id == $userdata['user_id']) ? " AND session_id <> '" . $userdata['session_id'] . "'" : '';
+	$where_sql = 'session_user_id = ' . (int) $user_id;
+	$where_sql .= ($user_id == $userdata['user_id']) ? " AND session_id <> '" . $userdata['session_id'] . "'" : '';
 	$sql = 'DELETE FROM ' . SESSIONS_TABLE . "
 		WHERE $where_sql";
-	if ( !$pnt_db->sql_query($sql) )
+	if ( !$db->sql_query($sql) )
 	{
 		message_die(CRITICAL_ERROR, 'Error removing user session(s)', '', __LINE__, __FILE__, $sql);
 	}
@@ -924,26 +924,26 @@ function titanium_session_reset_keys($pnt_user_id, $pnt_user_ip)
 		$current_time = time();
 
 		$sql = 'UPDATE ' . SESSIONS_KEYS_TABLE . "
-			SET last_ip = '$pnt_user_ip', key_id = '" . md5($auto_login_key) . "', last_login = $current_time
+			SET last_ip = '$user_ip', key_id = '" . md5($auto_login_key) . "', last_login = $current_time
 			WHERE key_id = '" . md5($userdata['session_key']) . "'";
 
-		if ( !$pnt_db->sql_query($sql) )
+		if ( !$db->sql_query($sql) )
 		{
 			message_die(CRITICAL_ERROR, 'Error updating session key', '', __LINE__, __FILE__, $sql);
 		}
 
 		// And now rebuild the cookie
-		$pnt_sessiondata['userid'] = $pnt_user_id;
-		$pnt_sessiondata['autologinid'] = $auto_login_key;
-		$cookiename = $phpbb2_board_config['cookie_name'];
-		$cookiepath = $phpbb2_board_config['cookie_path'];
-		$cookiedomain = $phpbb2_board_config['cookie_domain'];
-		$cookiesecure = $phpbb2_board_config['cookie_secure'];
+		$sessiondata['userid'] = $user_id;
+		$sessiondata['autologinid'] = $auto_login_key;
+		$cookiename = $board_config['cookie_name'];
+		$cookiepath = $board_config['cookie_path'];
+		$cookiedomain = $board_config['cookie_domain'];
+		$cookiesecure = $board_config['cookie_secure'];
 
-		setcookie($cookiename . '_data', serialize($pnt_sessiondata), $current_time + 31536000, $cookiepath, $cookiedomain, $cookiesecure);
+		setcookie($cookiename . '_data', serialize($sessiondata), $current_time + 31536000, $cookiepath, $cookiedomain, $cookiesecure);
 
 		$userdata['session_key'] = $auto_login_key;
-		unset($pnt_sessiondata);
+		unset($sessiondata);
 		unset($auto_login_key);
 	}
 }
@@ -954,7 +954,7 @@ function titanium_session_reset_keys($pnt_user_id, $pnt_user_ip)
 // around every single URL and form action. If you replace the session
 // code you must include this routine, even if it's empty.
 //
-function append_titanium_sid($url, $non_html_amp = false)
+function append_sid($url, $non_html_amp = false)
 {
     global $SID, $admin, $userdata;
     if (preg_match("/admin=1/", $url) || preg_match("/admin\_/", $url) || preg_match("/pane=/", $url)){
@@ -1017,8 +1017,8 @@ function append_titanium_sid($url, $non_html_amp = false)
                     $url = "modules.php?name=Forums";
             }
     }
-    global $phpbb2_agent;
-    if ($phpbb2_agent['engine'] == 'bot') return $url;
+    global $agent;
+    if ($agent['engine'] == 'bot') return $url;
 
     if (isset($userdata['user_level']) && $userdata['user_level'] > 1) {
         if ( !empty($SID) && !preg_match('/sid=/i', $url) )
@@ -1029,15 +1029,7 @@ function append_titanium_sid($url, $non_html_amp = false)
     return($url);
 }
 
-# Home Index Mod START
-function titanium_home_sid($url)
-{
-    return $url;
-}
-# Home Index Mod END
-
-# Not being used anywhere yet
-function titanium_admin_sid($url, $non_html_amp = false)
+function admin_sid($url, $non_html_amp = false)
 {
     global $SID;
     if($url != "index") {

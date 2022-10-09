@@ -24,22 +24,22 @@
 *
 ***************************************************************************/
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = './../';
-require($phpbb2_root_path . 'extension.inc');
-if (!empty($phpbb2_board_config))
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
+if (!empty($board_config))
 {
-    @include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
+    @include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
 }
 
 if( !empty($setmodules) )
 {
     $filename = basename(__FILE__);
-    $pnt_module['Statistics']['Stats_langcp'] = $filename . '?mode=select';
+    $module['Statistics']['Stats_langcp'] = $filename . '?mode=select';
     return;
 }
 require('pagestart.' . $phpEx);
@@ -64,27 +64,27 @@ else
 
 $lang_decollapse = (isset($HTTP_GET_VARS['d_lang'])) ? trim($HTTP_GET_VARS['d_lang']) : '';
 $submit = (isset($HTTP_POST_VARS['submit'])) ? TRUE : FALSE;
-@include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
-@include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_statistics.' . $phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/constants.'.$phpEx);
+@include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_statistics.' . $phpEx);
+@include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_statistics.' . $phpEx);
+include($phpbb_root_path . 'stats_mod/includes/constants.'.$phpEx);
 
 $sql = "SELECT * FROM " . STATS_CONFIG_TABLE;
      
-if ( !($result = $pnt_db->sql_query($sql)) )
+if ( !($result = $db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not query statistics config table', '', __LINE__, __FILE__, $sql);
 }
 
 $stats_config = array();
 
-while ($row = $pnt_db->sql_fetchrow($result))
+while ($row = $db->sql_fetchrow($result))
 {
     $stats_config[$row['config_name']] = trim($row['config_value']);
 }
 
-include($phpbb2_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
-include($phpbb2_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/lang_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/stat_functions.'.$phpEx);
+include($phpbb_root_path . 'stats_mod/includes/admin_functions.'.$phpEx);
 
 $update_list = ( isset($HTTP_POST_VARS['update']) ) ? $HTTP_POST_VARS['update'] : array();
 $delete_list = ( isset($HTTP_POST_VARS['delete']) ) ? $HTTP_POST_VARS['delete'] : array();
@@ -157,10 +157,10 @@ if (count($update_list) > 0)
 {
     @reset($update_list);
     list($language, $v_array) = each($update_list);
-    list($pnt_module_id, $v2_array) = each($v_array);
+    list($module_id, $v2_array) = each($v_array);
     list($key, $value) = each($v2_array);
 
-    set_lang_entry($language, $pnt_module_id, $key, $lang_entry[$language][$pnt_module_id][$key]);
+    set_lang_entry($language, $module_id, $key, $lang_entry[$language][$module_id][$key]);
 }
 else if ($update_all_lang)
 {
@@ -170,7 +170,7 @@ else if ($update_all_lang)
     while (list($language, $v_array) = each($lang_entry))
     {
         // Begin Modules
-        while (list($pnt_module_id, $v2_array) = each($v_array))
+        while (list($module_id, $v2_array) = each($v_array))
         {
             $lang_block = '';
             // Begin Language Entries
@@ -179,7 +179,7 @@ else if ($update_all_lang)
                 $lang_block .= '$lang[\'' . trim($key) . '\'] = \'' . trim($value) . '\';';
                 $lang_block .= "\n";
             }
-            set_lang_block($language, $pnt_module_id, $lang_block);
+            set_lang_block($language, $module_id, $lang_block);
         }
     }
 }
@@ -187,28 +187,28 @@ else if (($add_key != '') && (count($add_new_key) > 0))
 {
     @reset($add_new_key);
     list($language, $v_array) = each($add_new_key);
-    list($pnt_module_id, $value) = each($v_array);
+    list($module_id, $value) = each($v_array);
     
-    lang_add_new_key($language, $pnt_module_id, $add_key, $add_value);
+    lang_add_new_key($language, $module_id, $add_key, $add_value);
 }
 else if (count($delete_list) > 0)
 {
     @reset($delete_list);
     list($language, $v_array) = each($delete_list);
-    list($pnt_module_id, $v2_array) = each($v_array);
+    list($module_id, $v2_array) = each($v_array);
     list($key, $value) = each($v2_array);
 
-    delete_lang_key($language, $pnt_module_id, $key);
+    delete_lang_key($language, $module_id, $key);
 }
 
 if ($mode == 'select')
 {
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         'body' => 'admin/stat_admin_lang.tpl',
         'lang_body' => 'admin/stat_edit_lang.tpl')
     );
 
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_EDIT' => $lang['Edit'],
         'L_UPDATE' => $lang['Update'],
         'L_DELETE' => $lang['Delete'],
@@ -225,8 +225,8 @@ if ($mode == 'select')
         'L_DELETE_LANG' => $lang['Delete_language'],
         'L_IMPORT_NEW_LANGUAGE' => $lang['Import_new_language'],
 
-        'U_NEW_LANG_IMPORT' => $phpbb2_root_path . 'admin/import_lang.php?mode=import_new_lang',
-        'U_LANG_COMPLETE_EXPORT' => $phpbb2_root_path . 'admin/download_lang.php?mode=export_everything')
+        'U_NEW_LANG_IMPORT' => $phpbb_root_path . 'admin/import_lang.php?mode=import_new_lang',
+        'U_LANG_COMPLETE_EXPORT' => $phpbb_root_path . 'admin/download_lang.php?mode=export_everything')
     );
     
     // Collect available Languages
@@ -234,50 +234,50 @@ if ($mode == 'select')
 
     $sql = "SELECT m.*, i.* FROM " . MODULES_TABLE . " m, " . MODULE_INFO_TABLE . " i WHERE i.module_id = m.module_id";
 
-    if (!($result = $pnt_db->sql_query($sql)) )
+    if (!($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Unable to get Module Informations', '', __LINE__, __FILE__, $sql);
     }
 
-    $pnt_modules = $pnt_db->sql_fetchrowset($result);
+    $modules = $db->sql_fetchrowset($result);
 
     for ($i = 0; $i < count($provided_languages); $i++)
     {
         if ($lang_decollapse == $provided_languages[$i])
         {
             $col_decol = '-';
-            $link_col_decol = $phpbb2_root_path . 'admin/admin_stats_lang.php?mode=select';
+            $link_col_decol = $phpbb_root_path . 'admin/admin_stats_lang.php?mode=select';
         }
         else
         {
             $col_decol = '+';
-            $link_col_decol = $phpbb2_root_path . 'admin/admin_stats_lang.php?mode=select&amp;d_lang=' . $provided_languages[$i];
+            $link_col_decol = $phpbb_root_path . 'admin/admin_stats_lang.php?mode=select&amp;d_lang=' . $provided_languages[$i];
         }
 
-        $phpbb2_template->assign_block_vars('langrow', array(
+        $template->assign_block_vars('langrow', array(
             'LANGUAGE' => $provided_languages[$i],
             'L_COLLAPSE_DECOLLAPSE' => $col_decol,
             'U_COLLAPSE_DECOLLAPSE' => $link_col_decol,
-            'U_LANG_COMPLETE_EDIT' => $phpbb2_root_path . 'admin/admin_stats_lang.php?mode=select&amp;m_mode=edit&amp;lang=' . $provided_languages[$i] . '&amp;d_lang=' . $lang_decollapse,
-            'U_LANG_COMPLETE_EXPORT' => $phpbb2_root_path . 'admin/download_lang.php?mode=export_lang&amp;lang=' . $provided_languages[$i])
+            'U_LANG_COMPLETE_EDIT' => $phpbb_root_path . 'admin/admin_stats_lang.php?mode=select&amp;m_mode=edit&amp;lang=' . $provided_languages[$i] . '&amp;d_lang=' . $lang_decollapse,
+            'U_LANG_COMPLETE_EXPORT' => $phpbb_root_path . 'admin/download_lang.php?mode=export_lang&amp;lang=' . $provided_languages[$i])
         );
 
         if ($lang_decollapse == $provided_languages[$i])
         {
-            for ($j = 0; $j < count($pnt_modules); $j++)
+            for ($j = 0; $j < count($modules); $j++)
             {
-                $informations = ( intval($pnt_modules[$j]['active']) == 1) ? 'Active' : 'Not Active';
+                $informations = ( intval($modules[$j]['active']) == 1) ? 'Active' : 'Not Active';
 
-                if (!module_is_in_lang($pnt_modules[$j]['short_name'], $provided_languages[$i]))
+                if (!module_is_in_lang($modules[$j]['short_name'], $provided_languages[$i]))
                 {
                     $informations .= '<br />No Content';
                 }
             
-                $phpbb2_template->assign_block_vars('langrow.modulerow', array(
-                    'MODULE_NAME' => $pnt_modules[$j]['long_name'],
-                    'MODULE_DESC' => $pnt_modules[$j]['extra_info'],
-                    'U_LANG_EDIT' => $phpbb2_root_path . 'admin/admin_stats_lang.php?mode=select&amp;m_mode=edit&amp;lang=' . $provided_languages[$i] . '&amp;module=' . $pnt_modules[$j]['module_id'] . '&amp;d_lang=' . $lang_decollapse,
-                    'U_LANG_EXPORT' => $phpbb2_root_path . 'admin/download_lang.php?mode=export_module&amp;lang=' . $provided_languages[$i] . '&amp;module=' . $pnt_modules[$j]['module_id'],
+                $template->assign_block_vars('langrow.modulerow', array(
+                    'MODULE_NAME' => $modules[$j]['long_name'],
+                    'MODULE_DESC' => $modules[$j]['extra_info'],
+                    'U_LANG_EDIT' => $phpbb_root_path . 'admin/admin_stats_lang.php?mode=select&amp;m_mode=edit&amp;lang=' . $provided_languages[$i] . '&amp;module=' . $modules[$j]['module_id'] . '&amp;d_lang=' . $lang_decollapse,
+                    'U_LANG_EXPORT' => $phpbb_root_path . 'admin/download_lang.php?mode=export_module&amp;lang=' . $provided_languages[$i] . '&amp;module=' . $modules[$j]['module_id'],
                     'INFORMATIONS' => $informations)
                 );
             }
@@ -285,7 +285,7 @@ if ($mode == 'select')
     }
     if ($m_mode == 'edit')
     {
-        $pnt_module_id = (isset($HTTP_GET_VARS['module'])) ? intval($HTTP_GET_VARS['module']) : -1;
+        $module_id = (isset($HTTP_GET_VARS['module'])) ? intval($HTTP_GET_VARS['module']) : -1;
         $language = (isset($HTTP_GET_VARS['lang'])) ? trim($HTTP_GET_VARS['lang']) : '';
         
         if ($language == '')
@@ -295,29 +295,29 @@ if ($mode == 'select')
         
         $current_modules = array();
 
-        if ($pnt_module_id != -1)
+        if ($module_id != -1)
         {
-            for ($i = 0; $i < count($pnt_modules); $i++)
+            for ($i = 0; $i < count($modules); $i++)
             {
-                if (intval($pnt_modules[$i]['module_id']) == $pnt_module_id)
+                if (intval($modules[$i]['module_id']) == $module_id)
                 {
-                    $current_modules[0] = $pnt_modules[$i];
+                    $current_modules[0] = $modules[$i];
                     break;
                 }
             }
         }
         else
         {
-            $current_modules = $pnt_modules;
+            $current_modules = $modules;
         }
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             'LANGUAGE' => $language)
         );
 
         for ($i = 0; $i < count($current_modules); $i++)
         {
-            $phpbb2_template->assign_block_vars('modules', array(
+            $template->assign_block_vars('modules', array(
                 'MODULE_NAME' => $current_modules[$i]['long_name'],
                 'MODULE_ID' => $current_modules[$i]['module_id'])
             );
@@ -326,7 +326,7 @@ if ($mode == 'select')
         
             for ($j = 0; $j < count($lang_entries); $j++)
             {
-                $phpbb2_template->assign_block_vars('modules.language_entries', array(
+                $template->assign_block_vars('modules.language_entries', array(
                     'KEY' => $lang_entries[$j]['key'],
                     'MODULE_ID' => $current_modules[$i]['module_id'],
                     'VALUE' => $lang_entries[$j]['value'])
@@ -334,11 +334,11 @@ if ($mode == 'select')
             }
         }
 
-        $phpbb2_template->assign_var_from_handle('EDIT_LANG_PANEL', 'lang_body');
+        $template->assign_var_from_handle('EDIT_LANG_PANEL', 'lang_body');
     }
 }
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 //
 // Page Footer

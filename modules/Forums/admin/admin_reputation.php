@@ -20,33 +20,33 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
   $file = basename(__FILE__);
-  $pnt_module['Reputation']['Configuration'] = $file;
+  $module['Reputation']['Configuration'] = $file;
   return;
 }
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 
 //
 // Pull all config data
 //
 $sql = "SELECT * FROM " . REPUTATION_CONFIG_TABLE;
-if(!$result = $pnt_db->sql_query($sql))
+if(!$result = $db->sql_query($sql))
 {
   message_die(CRITICAL_ERROR, "Could not query config information in admin_board", "", __LINE__, __FILE__, $sql);
 }
 else
 {
-  while( $row = $pnt_db->sql_fetchrow($result) )
+  while( $row = $db->sql_fetchrow($result) )
   {
     $config_name = $row['config_name'];
     $config_value = $row['config_value'];
@@ -59,7 +59,7 @@ else
       $sql = "UPDATE " . REPUTATION_CONFIG_TABLE . " SET
         config_value = '" . str_replace("\'", "''", $new[$config_name]) . "'
         WHERE config_name = '$config_name'";
-      if( !$pnt_db->sql_query($sql) )
+      if( !$db->sql_query($sql) )
       {
         message_die(GENERAL_ERROR, "Failed to update general configuration for $config_name", "", __LINE__, __FILE__, $sql);
       }
@@ -68,13 +68,13 @@ else
 
   if( isset($HTTP_POST_VARS['submit']) )
   {
-    $message = $lang['Rep_config_updated'] . "<br /><br />" . sprintf($lang['Click_return_rep_config'], "<a href=\"" . append_titanium_sid("admin_reputation.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+    $message = $lang['Rep_config_updated'] . "<br /><br />" . sprintf($lang['Click_return_rep_config'], "<a href=\"" . append_sid("admin_reputation.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
     message_die(GENERAL_MESSAGE, $message);
   }
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
   "body" => "admin/reputation_config_body.tpl")
 );
 
@@ -93,8 +93,8 @@ $show_stats_to_mods_no = ( !$new['show_stats_to_mods'] ) ? "checked=\"checked\""
 $pm_notify_yes = ( $new['pm_notify'] ) ? "checked=\"checked\"" : "";
 $pm_notify_no = ( !$new['pm_notify'] ) ? "checked=\"checked\"" : "";
 
-$phpbb2_template->assign_vars(array(
-  "S_CONFIG_ACTION" => append_titanium_sid("admin_reputation.$phpEx"),
+$template->assign_vars(array(
+  "S_CONFIG_ACTION" => append_sid("admin_reputation.$phpEx"),
   "S_DISABLE_REP_SYSTEM_YES" => $disable_rep_yes,
   "S_DISABLE_REP_SYSTEM_NO" => $disable_rep_no,
   "S_GRAPHIC_VERSION_YES" => $graphic_version_yes,
@@ -139,7 +139,7 @@ $phpbb2_template->assign_vars(array(
 ));
 
 
-$phpbb2_template->pparse("body");
+$template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

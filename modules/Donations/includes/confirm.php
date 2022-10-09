@@ -12,12 +12,12 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 donation_title();
 
 function confirm_donation () {
-    global $gen_configs, $lang_donate, $pnt_module, $_GETVAR;
+    global $gen_configs, $lang_donate, $module_name, $_GETVAR;
 
     $_GETVAR->unsetVariables();
 
     if (!isset($_SERVER['HTTP_REFERER']) || empty($_SERVER['HTTP_REFERER'])) {
-        redirect_titanium('modules.php?name='.$pnt_module.'&op=make');
+        redirect('modules.php?name='.$module_name.'&op=make');
     }
 
     if (!isset($_SESSION)) { session_start(); }

@@ -326,16 +326,10 @@ class InputFilter {
             $attrSubSet = explode('=', trim($attrSet[$i]), 2);
             list($attrSubSet[0]) = explode(' ', $attrSubSet[0]);
             // removes all "non-regular" attr names AND also attr blacklisted
-            //if ((!eregi("^[a-z]*$",$attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
-            //{
-            //    continue;
-            //}
-			
-            if ((!preg_match("/^[a-z]*$/i",$attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
+            if ((!eregi("^[a-z]*$",$attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
             {
                 continue;
             }
-			
             // xss attr value filtering
             if ($attrSubSet[1]) 
             {

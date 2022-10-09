@@ -26,7 +26,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "quick_reply" => "admin/board_config/board_quick_reply.tpl")
 );
 
@@ -42,12 +42,12 @@ $ropm_quick_reply_bbc_no = ( !$new['ropm_quick_reply_bbc'] ) ? "checked=\"checke
  ******************************************************/
 
 //General Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
     
 //Language Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    PM Quick Reply                      v1.3.5 ]
  ******************************************************/
@@ -62,7 +62,7 @@ $phpbb2_template->assign_vars(array(
 ));
 
 //Data Template Variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    PM Quick Reply                      v1.3.5 ]
  ******************************************************/
@@ -75,6 +75,6 @@ $phpbb2_template->assign_vars(array(
  [ Mod:    PM Quick Reply                      v1.3.5 ]
  ******************************************************/
  ));
-$phpbb2_template->pparse("quick_reply");
+$template->pparse("quick_reply");
 
 ?>

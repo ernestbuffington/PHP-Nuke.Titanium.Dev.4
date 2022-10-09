@@ -37,7 +37,7 @@ $content .= 'function onYouTubeIframeAPIReady() {';
 $content .= "player = new YT.Player('player', {";
 $content .= "height: '390',";
 $content .= "width: '640',";
-$content .= "videoId: 'WziA88-n02k',";
+$content .= "videoId: 'kJHpJKMTDQA',";
 $content .= 'events: {';
 $content .= "'onReady': onPlayerReady,";
 $content .= "'onStateChange': onPlayerStateChange";

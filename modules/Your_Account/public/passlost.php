@@ -44,8 +44,8 @@ if (!defined('CNBYA')) {
         if ($ya_config['servermail'] ==0) {
             OpenTable();
             echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\"><tr>";
-            echo "<form action=\"modules.php?name=$pnt_module\" method=\"post\">\n";
-            echo "<td colspan=\"2\"><img src=\"modules/$pnt_module/images/warning.png\" align=\"left\" width=\"40\" height=\"40\" alt=\"\">";
+            echo "<form action=\"modules.php?name=$module_name\" method=\"post\">\n";
+            echo "<td colspan=\"2\"><img src=\"modules/$module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\" alt=\"\">";
             echo "<span class=\"content\"><strong>"._PASSWORDLOST."</strong> "._NOPROBLEM."</td></tr><tr><td width=\"100%\">";
 
             echo "<table border=\"0\">\n";
@@ -59,7 +59,7 @@ if (!defined('CNBYA')) {
             echo "<input type=\"hidden\" name=\"op\" value=\"mailpasswd\">\n";
             echo "<input type=\"submit\" value=\""._SENDPASSWORD."\"><br />\n";
 // removed by menelaos dot hetnet dot nl
-//          echo "<center><span class=\"content\">[ <a href=\"modules.php?name=$pnt_module\">"._USERLOGIN."</a> | <a href=\"modules.php?name=$pnt_module&amp;op=new_user\">"._REGNEWUSER."</a> ]</span></center>\n";
+//          echo "<center><span class=\"content\">[ <a href=\"modules.php?name=$module_name\">"._USERLOGIN."</a> | <a href=\"modules.php?name=$module_name&amp;op=new_user\">"._REGNEWUSER."</a> ]</span></center>\n";
 
             echo "</td></form></tr></table>";
             CloseTable();
@@ -69,7 +69,7 @@ if (!defined('CNBYA')) {
         include_once(NUKE_BASE_DIR.'footer.php');
     } elseif (is_user()) {
         global $cookie;
-        redirect_titanium("modules.php?name=$pnt_module&op=userinfo&username=$cookie[1]");
+        redirect("modules.php?name=$module_name&op=userinfo&username=$cookie[1]");
     }
 
 ?>

@@ -37,10 +37,10 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-    if (!empty($pnt_username) AND empty($pnt_user_email)) {
-        $sql = "SELECT username, user_email, user_password, user_level FROM ".$pnt_user_prefix."_users WHERE username='$pnt_username' LIMIT 1";
-    } elseif (empty($pnt_username) AND !empty($pnt_user_email)) {
-        $sql = "SELECT username, user_email, user_password, user_level FROM ".$pnt_user_prefix."_users WHERE user_email='$pnt_user_email' LIMIT 1";
+    if (!empty($username) AND empty($user_email)) {
+        $sql = "SELECT username, user_email, user_password, user_level FROM ".$user_prefix."_users WHERE username='$username' LIMIT 1";
+    } elseif (empty($username) AND !empty($user_email)) {
+        $sql = "SELECT username, user_email, user_password, user_level FROM ".$user_prefix."_users WHERE user_email='$user_email' LIMIT 1";
     } else {
         include_once(NUKE_BASE_DIR.'header.php');
 // removed by menelaos dot hetnet dot nl
@@ -52,8 +52,8 @@ if (!defined('CNBYA')) {
         include_once(NUKE_BASE_DIR.'footer.php');
         exit;
     }
-    $result = $pnt_db->sql_query($sql);
-    if($pnt_db->sql_numrows($result) == 0) {
+    $result = $db->sql_query($sql);
+    if($db->sql_numrows($result) == 0) {
         include_once(NUKE_BASE_DIR.'header.php');
 
 // removed by menelaos dot hetnet dot nl
@@ -73,12 +73,12 @@ if (!defined('CNBYA')) {
 /*****[END]********************************************
  [ Base:    NukeSentinel                      v2.5.00 ]
  ******************************************************/
-            $row = $pnt_db->sql_fetchrow($result);
-            $pnt_user_name = $row['username'];
-            $pnt_user_email = $row['user_email'];
+            $row = $db->sql_fetchrow($result);
+            $user_name = $row['username'];
+            $user_email = $row['user_email'];
             $user_password = $row['user_password'];
-            $pnt_user_level = $row['user_level'];
-            if ($pnt_user_level > 0) 
+            $user_level = $row['user_level'];
+            if ($user_level > 0) 
             {
                 $areyou = substr($user_password, 0, 10);
                 if ($areyou == $code) 
@@ -89,16 +89,16 @@ if (!defined('CNBYA')) {
 
                     $email_data = array(
                         'sitename'      => $sitename,
-                        'username'      => $pnt_user_name,
+                        'username'      => $user_name,
                         'ip_address'    => $identify->get_ip(),
                         'password'      => $newpass,
 
-                        'email'         => $pnt_user_email,
-                        'subject'       => sprintf($language_define_for_user_pass_subject, ((!empty($pnt_username)) ? $pnt_user_name : $pnt_user_email)),
+                        'email'         => $user_email,
+                        'subject'       => sprintf($language_define_for_user_pass_subject, ((!empty($username)) ? $user_name : $user_email)),
                         'reply_to'      => $adminmail,
                         'from'          => $adminmail,
-                        'module_url'    => $nukeurl.'/modules.php?name='.$pnt_module,
-                        'signature'     => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : ''
+                        'module_url'    => $nukeurl.'/modules.php?name='.$module_name,
+                        'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''
                     );
 
                     $content = str_replace( '{USERNAME}', $email_data['username'], $language_define_for_user_pass );
@@ -122,16 +122,16 @@ if (!defined('CNBYA')) {
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-                    if (!empty($pnt_username)) {
-                        $query = "UPDATE ".$pnt_user_prefix."_users SET user_password='$cryptpass' WHERE username='$pnt_username'";
-                    } else if (!empty($pnt_user_email)) {
-                        $query = "UPDATE ".$pnt_user_prefix."_users SET user_password='$cryptpass' WHERE user_email='$pnt_user_email'";
+                    if (!empty($username)) {
+                        $query = "UPDATE ".$user_prefix."_users SET user_password='$cryptpass' WHERE username='$username'";
+                    } else if (!empty($user_email)) {
+                        $query = "UPDATE ".$user_prefix."_users SET user_password='$cryptpass' WHERE user_email='$user_email'";
                     }
                     include_once(NUKE_BASE_DIR.'header.php');
                     OpenTable();
-                    if (!$pnt_db->sql_query($query)) { echo "<center>"._UPDATEFAILED."</center><br />"; }
+                    if (!$db->sql_query($query)) { echo "<center>"._UPDATEFAILED."</center><br />"; }
                     echo "<center><strong>"._PASSWORD4." ";
-                    if (!empty($pnt_username)) { echo "'$pnt_user_name'"; } else if (!empty($pnt_user_email)) { echo "'$pnt_user_email'"; }
+                    if (!empty($username)) { echo "'$user_name'"; } else if (!empty($user_email)) { echo "'$user_email'"; }
                     echo " "._MAILED."</strong><br /><br />"._GOBACK."</center>";
                     CloseTable();
                     include_once(NUKE_BASE_DIR.'footer.php');
@@ -141,16 +141,16 @@ if (!defined('CNBYA')) {
 
                     $email_data = array(
                         'sitename'      => $sitename,
-                        'username'      => $pnt_user_name,
+                        'username'      => $user_name,
                         'ip_address'    => $identify->get_ip(),
                         'code'          => substr($user_password, 0, 10),
 
-                        'email'         => $pnt_user_email,
-                        'subject'       => sprintf($language_define_for_pass_lost_subject, ((!empty($pnt_username)) ? $pnt_user_name : $pnt_user_email)),
+                        'email'         => $user_email,
+                        'subject'       => sprintf($language_define_for_pass_lost_subject, ((!empty($username)) ? $user_name : $user_email)),
                         'reply_to'      => $adminmail,
                         'from'          => $adminmail,
-                        'password_url'  => $nukeurl."/modules.php?name=$pnt_module&op=pass_lost",
-                        'signature'     => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : ''
+                        'password_url'  => $nukeurl."/modules.php?name=$module_name&op=pass_lost",
+                        'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''
                     );
 
                     $content = str_replace( '{USERNAME}', $email_data['username'], $language_define_for_pass_lost );
@@ -170,19 +170,19 @@ if (!defined('CNBYA')) {
                     include_once(NUKE_BASE_DIR.'header.php');
                     OpenTable();
                     echo "<center><strong>"._CODEFOR." ";
-                    if (!empty($pnt_username)) { echo "'$pnt_user_name'"; } else if (!empty($pnt_user_email)) { echo "'$pnt_user_email'"; }
+                    if (!empty($username)) { echo "'$user_name'"; } else if (!empty($user_email)) { echo "'$user_email'"; }
                     echo " "._MAILED."</strong><br /><br />"._GOBACK."</center>";
                     CloseTable();
                     include_once(NUKE_BASE_DIR.'footer.php');
                 }
-            } elseif ($pnt_user_level == 0) {
+            } elseif ($user_level == 0) {
                 include_once(NUKE_BASE_DIR.'header.php');
                 title(_USERREGLOGIN);
                 OpenTable();
                 echo "<center><span class='title'>"._ACCSUSPENDED."</span></center>\n";
                 CloseTable();
                 include_once(NUKE_BASE_DIR.'footer.php');
-            } elseif ($pnt_user_level == -1) {
+            } elseif ($user_level == -1) {
                 include_once(NUKE_BASE_DIR.'header.php');
                 title(_USERREGLOGIN);
                 OpenTable();

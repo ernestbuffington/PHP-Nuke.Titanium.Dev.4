@@ -22,7 +22,7 @@ echo "<LINK REL='StyleSheet' HREF='themes/$theme_Sel/style/style.css' TYPE='text
 echo "</head><body>\n";
 if (!isset($modfilter)) $modfilter='';
 echo "<h1 align='center'>$pagetitle</h1>\n";
-$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `username`, `ip_addr`, `ip_long`, MAX(`date`), COUNT(*) FROM `".$pnt_prefix."_nsnst_tracked_ips` GROUP BY 1,2,3"));
+$totalselected = $db->sql_numrows($db->sql_query("SELECT `username`, `ip_addr`, `ip_long`, MAX(`date`), COUNT(*) FROM `".$prefix."_nsnst_tracked_ips` GROUP BY 1,2,3"));
 if($totalselected > 0) {
   echo "<table summary='' align='center' cellpadding='2' cellspacing='2' border='2'>\n";
   echo "<tr>\n";
@@ -32,12 +32,12 @@ if($totalselected > 0) {
   echo "<td align='center'><strong>"._AB_HOSTNAME."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_LASTVIEWED."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_HITS."</strong></td>\n";
-  $result = $pnt_db->sql_query("SELECT `user_id`, `username`, `ip_addr`, `ip_long`, MAX(`date`), COUNT(*), MIN(`tid`), `c2c` FROM `".$pnt_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 2,3,4 ORDER BY `ip_addr`");
-  while(list($pnt_userid,$pnt_username,$ipaddr,$ip_long,$lastview,$hits,$tid,$c2c) = $pnt_db->sql_fetchrow($result)){
+  $result = $db->sql_query("SELECT `user_id`, `username`, `ip_addr`, `ip_long`, MAX(`date`), COUNT(*), MIN(`tid`), `c2c` FROM `".$prefix."_nsnst_tracked_ips` $modfilter GROUP BY 2,3,4 ORDER BY `ip_addr`");
+  while(list($userid,$username,$ipaddr,$ip_long,$lastview,$hits,$tid,$c2c) = $db->sql_fetchrow($result)){
     echo "<tr>";
-      $pnt_username = UsernameColor($pnt_username);
-    if($pnt_userid != 1) {
-      echo "<td>$pnt_username</td>";
+      $username = UsernameColor($username);
+    if($userid != 1) {
+      echo "<td>$username</td>";
     } else {
       echo "<td>&nbsp;</td>";
     }
@@ -49,7 +49,7 @@ if($totalselected > 0) {
     echo "<td align='center'>$hits</td>";
     echo "</tr>";
   }
-  $pnt_db->sql_freeresult($result);
+  $db->sql_freeresult($result);
   // End IP Stats
   echo "</table>";
 } else {

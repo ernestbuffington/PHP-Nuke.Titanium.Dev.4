@@ -19,20 +19,20 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {
 	$file = basename(__FILE__);
-	$pnt_module['General']['Configuration_extend'] = $file;
+	$module['General']['Configuration_extend'] = $file;
 	return;
 }
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 
 //
@@ -213,9 +213,9 @@ $submit = isset($HTTP_POST_VARS['submit']);
 
 // get the real value of board_config
 $sql = "SELECT * FROM " . CONFIG_TABLE;
-if ( !$result = $pnt_db->sql_query($sql) ) message_die(CRITICAL_ERROR, 'Could not query config information', '', __LINE__, __FILE__, $sql);
+if ( !$result = $db->sql_query($sql) ) message_die(CRITICAL_ERROR, 'Could not query config information', '', __LINE__, __FILE__, $sql);
 $config = array();
-while ($row = $pnt_db->sql_fetchrow($result))
+while ($row = $db->sql_fetchrow($result))
 {
 	$config[ $row['config_name'] ] = $row['config_value'];
 }
@@ -274,7 +274,7 @@ if ($submit)
 			}
 			if ($error)
 			{
-				$message = $error_msg . '<br /><br />' . sprintf($lang['Click_return_config'], '<a href="' . append_titanium_sid("./admin_board_extend.$phpEx?menu=$menu_id&mod=$mod_id&msub=$sub_id") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("./index.$phpEx?pane=right") . '">', '</a>');
+				$message = $error_msg . '<br /><br />' . sprintf($lang['Click_return_config'], '<a href="' . append_sid("./admin_board_extend.$phpEx?menu=$menu_id&mod=$mod_id&msub=$sub_id") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("./index.$phpEx?pane=right") . '">', '</a>');
 				message_die(GENERAL_MESSAGE, $message);
 			}
 		}
@@ -290,7 +290,7 @@ if ($submit)
 			$sql = "UPDATE " . CONFIG_TABLE . " 
 					SET config_value = '" . $$field_name . "'
 					WHERE config_name = '" . $field_name . "'";
-			if ( !$pnt_db->sql_query($sql) )
+			if ( !$db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, 'Failed to update general configuration for ' . $field_name, '', __LINE__, __FILE__, $sql);
 			}
@@ -301,7 +301,7 @@ if ($submit)
 			$sql = "UPDATE " . CONFIG_TABLE . " 
 					SET config_value = '" . intval($HTTP_POST_VARS[$field_name . '_over']) . "'
 					WHERE config_name = '$field_name" . "_over'";
-			if ( !$pnt_db->sql_query($sql) )
+			if ( !$db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, 'Failed to update general configuration for ' . $field_name, '', __LINE__, __FILE__, $sql);
 			}
@@ -309,18 +309,18 @@ if ($submit)
 	}
 
 	// send an update message
-	$message = $lang['Config_updated'] . '<br /><br />' . sprintf($lang['Click_return_config'], '<a href="' . append_titanium_sid("./admin_board_extend.$phpEx?menu=$menu_id&mod=$mod_id&msub=$sub_id") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("./index.$phpEx?pane=right") . '">', '</a>');
+	$message = $lang['Config_updated'] . '<br /><br />' . sprintf($lang['Click_return_config'], '<a href="' . append_sid("./admin_board_extend.$phpEx?menu=$menu_id&mod=$mod_id&msub=$sub_id") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("./index.$phpEx?pane=right") . '">', '</a>');
 	message_die(GENERAL_MESSAGE, $message);
 }
 
 
 // template
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
 	'body' => 'admin/board_config_extend_body.tpl')
 );
 
 // header
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 	'L_TITLE'			=> $lang['Configuration_extend'],
 	'L_TITLE_EXPLAIN'	=> $lang['Config_explain'],
 	'L_MOD_NAME'		=> mods_settings_get_lang($menu_name) . ' - ' . mods_settings_get_lang($mod_name) . ( !empty($sub_name) ? ' - ' . mods_settings_get_lang($sub_name) : '' ),
@@ -341,9 +341,9 @@ for ($i = 0; $i < count($menu_keys); $i++)
 			$l_menu = $sub_keys[$i][0][0];
 		}
 	}
-	$phpbb2_template->assign_block_vars('menu', array(
+	$template->assign_block_vars('menu', array(
 		'CLASS'		=> ($menu_id == $i) ? ( (count($mod_keys[$i]) > 1) ? 'row3' : 'row1' ) : 'row2',
-		'U_MENU'	=> append_titanium_sid("./admin_board_extend.$phpEx?menu=$i"),
+		'U_MENU'	=> append_sid("./admin_board_extend.$phpEx?menu=$i"),
 		'L_MENU'	=> sprintf( ( ($menu_id == $i) ? '<b>%s</b>' : '%s' ), mods_settings_get_lang($l_menu) ),
 		)
 	);
@@ -351,12 +351,12 @@ for ($i = 0; $i < count($menu_keys); $i++)
 	{
 		if (count($mod_keys[$i]) > 1 )
 		{
-			$phpbb2_template->assign_block_vars('menu.title_open', array());
+			$template->assign_block_vars('menu.title_open', array());
 		}
 	}
 	else
 	{
-		$phpbb2_template->assign_block_vars('menu.title_close', array() );
+		$template->assign_block_vars('menu.title_close', array() );
 	}
 	if ($menu_id == $i)
 	{
@@ -367,10 +367,10 @@ for ($i = 0; $i < count($menu_keys); $i++)
 			{
 				$l_mod = $sub_keys[$i][$j][0];
 			}
-			$phpbb2_template->assign_block_vars('menu.mod', array(
+			$template->assign_block_vars('menu.mod', array(
 				'CLASS'	=> ( ($menu_id == $i) && ($mod_id == $j) ) ? 'row1' : 'row2',
 				'ALIGN'	=> ( ($menu_id == $i) && ($mod_id == $j) && (count($sub_keys[$i][$j]) > 1) ) ? 'left' : 'center',
-				'U_MOD'	=> append_titanium_sid("./admin_board_extend.$phpEx?menu=$i&mod=$j"),
+				'U_MOD'	=> append_sid("./admin_board_extend.$phpEx?menu=$i&mod=$j"),
 				'L_MOD'	=> sprintf( ( ( ($menu_id == $i) && ($mod_id == $j) ) ? '<b>%s</b>' : '%s' ), mods_settings_get_lang($l_mod) ),
 				)
 			);
@@ -378,12 +378,12 @@ for ($i = 0; $i < count($menu_keys); $i++)
 			{
 				if ( count($sub_keys[$i][$j]) > 1 )
 				{
-					$phpbb2_template->assign_block_vars('menu.mod.sub', array());
+					$template->assign_block_vars('menu.mod.sub', array());
 					for ($k = 0; $k < count($sub_keys[$i][$j]); $k++)
 					{
-						$phpbb2_template->assign_block_vars('menu.mod.sub.row', array(
+						$template->assign_block_vars('menu.mod.sub.row', array(
 							'CLASS'	=> ( ($menu_id == $i) && ($mod_id == $j) && ($sub_id == $k) ) ? 'row1' : 'row1',
-							'U_MOD' => append_titanium_sid("./admin_board_extend.$phpEx?menu=$i&mod=$j&msub=$k"),
+							'U_MOD' => append_sid("./admin_board_extend.$phpEx?menu=$i&mod=$j&msub=$k"),
 							'L_MOD'	=> sprintf( (($sub_id == $k) ? '<b>%s</b>' : '%s'), mods_settings_get_lang($sub_keys[$i][$j][$k]) ),
 							)
 						);
@@ -466,7 +466,7 @@ while ( list($field_name, $field) = @each($mods[$menu_name]['data'][$mod_name]['
 	}
 
 	// dump to template
-	$phpbb2_template->assign_block_vars('field', array(
+	$template->assign_block_vars('field', array(
 		'L_NAME'	=> mods_settings_get_lang($field['lang_key']),
 		'L_EXPLAIN'	=> !empty($field['explain']) ? '<br />' . mods_settings_get_lang($field['explain']) : '',
 		'INPUT'		=> $input,
@@ -480,14 +480,14 @@ $s_hidden_fields = '';
 $s_hidden_fields .= '<input type="hidden" name="menu_id" value="' . $menu_id . '" />';
 $s_hidden_fields .= '<input type="hidden" name="mod_id" value="' . $mod_id . '" />';
 $s_hidden_fields .= '<input type="hidden" name="sub_id" value="' . $sub_id . '" />';
-$phpbb2_template->assign_vars(array(
-	'S_ACTION'			=> append_titanium_sid("./admin_board_extend.$phpEx"),
+$template->assign_vars(array(
+	'S_ACTION'			=> append_sid("./admin_board_extend.$phpEx"),
 	'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 	)
 );
 
 // footer
-$phpbb2_template->pparse("body");
+$template->pparse("body");
 include('./page_footer_admin.'.$phpEx);
 
 ?>

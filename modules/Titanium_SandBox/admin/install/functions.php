@@ -20,7 +20,7 @@
                        for Nuke-Evolution and/or Xtreme
 ************************************************************************/
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 global $data_file;
 
 if (!$open_data = @fopen($data_file, 'r')){
@@ -217,19 +217,19 @@ function validate_data($post){
 
 	$error = '';
     $message = '';
-    $pnt_dbhost = (isset($_POST['dbhost'])) ? $_POST['dbhost'] : $error .= '<font color="red">'.$install_lang['dbhost_error'].'</font><br />';
-    $pnt_dbname = (isset($_POST['dbname'])) ? $_POST['dbname'] : $error .= '<font color="red">'.$install_lang['dbname_error'].'</font><br />';
-    $pnt_dbuser = (isset($_POST['dbuser'])) ? $_POST['dbuser'] : $error .= '<font color="red">'.$install_lang['dbuser_error'].'</font>br />';
-    $pnt_dbpass = (isset($_POST['dbpass'])) ? $_POST['dbpass'] : '';
-    $pnt_prefix = (isset($_POST['prefix'])) ? $_POST['prefix'] : $error .= '<font color="red">'.$install_lang['prefix_error'].'</font><br />';
-    $pnt_user_prefix = (isset($_POST['user_prefix'])) ? $_POST['user_prefix'] : $error .= '<font color="red">'.$install_lang['uprefix_error'].'</font><br />';
-    $pnt_dbtype = (isset($_POST['dbtype'])) ? $_POST['dbtype'] : $error .= '<font color="red">'.$install_lang['dbtype_error'].'</font><br />';
+    $dbhost = (isset($_POST['dbhost'])) ? $_POST['dbhost'] : $error .= '<font color="red">'.$install_lang['dbhost_error'].'</font><br />';
+    $dbname = (isset($_POST['dbname'])) ? $_POST['dbname'] : $error .= '<font color="red">'.$install_lang['dbname_error'].'</font><br />';
+    $dbuser = (isset($_POST['dbuser'])) ? $_POST['dbuser'] : $error .= '<font color="red">'.$install_lang['dbuser_error'].'</font>br />';
+    $dbpass = (isset($_POST['dbpass'])) ? $_POST['dbpass'] : '';
+    $prefix = (isset($_POST['prefix'])) ? $_POST['prefix'] : $error .= '<font color="red">'.$install_lang['prefix_error'].'</font><br />';
+    $user_prefix = (isset($_POST['user_prefix'])) ? $_POST['user_prefix'] : $error .= '<font color="red">'.$install_lang['uprefix_error'].'</font><br />';
+    $dbtype = (isset($_POST['dbtype'])) ? $_POST['dbtype'] : $error .= '<font color="red">'.$install_lang['dbtype_error'].'</font><br />';
     if (!empty($error)){
         $error .= '<center><input type="hidden" name="step" value="'.$next_step.'" /><input type="submit" class="button" name="submit" value="'.$install_lang['continue'].' '.$next_step.'" disabled="disabled" /></center>';
         return $error;
     }
 
-    if (!($server_check = @mysqli_connect($pnt_dbhost, $pnt_dbuser, $pnt_dbpass, $pnt_dbname))){
+    if (!($server_check = @mysqli_connect($dbhost, $dbuser, $dbpass, $dbname))){
         $error .= '<font color="red">'.$install_lang['connection_failed'].'</font><br />';
     }
 
@@ -238,13 +238,13 @@ function validate_data($post){
         return $error;
     }
 
-    $_SESSION['dbhost'] = $pnt_dbhost;
-    $_SESSION['dbname'] = $pnt_dbname;
-    $_SESSION['dbuser'] = $pnt_dbuser;
-    $_SESSION['dbpass'] = $pnt_dbpass;
-    $_SESSION['prefix'] = $pnt_prefix;
-    $_SESSION['user_prefix'] = $pnt_user_prefix;
-    $_SESSION['dbtype'] = $pnt_dbtype;
+    $_SESSION['dbhost'] = $dbhost;
+    $_SESSION['dbname'] = $dbname;
+    $_SESSION['dbuser'] = $dbuser;
+    $_SESSION['dbpass'] = $dbpass;
+    $_SESSION['prefix'] = $prefix;
+    $_SESSION['user_prefix'] = $user_prefix;
+    $_SESSION['dbtype'] = $dbtype;
 
     if (generate_config()){
         $message .= '<font color="green">'.$install_lang['config_success'].'</font><br />';
@@ -257,7 +257,7 @@ function validate_data($post){
 }
 
 function do_sql($install_file){
-    global $nuke_name, $next_step, $step, $install_lang, $pnt_prefix, $pnt_user_prefix, $server_check;
+    global $nuke_name, $next_step, $step, $install_lang, $prefix, $user_prefix, $server_check;
 
     if(!$handle = @fopen($install_file, 'r')){
         $message = $install_lang['cant_open'].' '.$install_file;
@@ -278,7 +278,7 @@ function do_sql($install_file){
     $buffer = '';
     $inside_quote = 0;
     $quote_inside = '';
-    $phpbb2_started_query = 0;
+    $started_query = 0;
     $data_buffer = '';
     $last_char = "\n";
 
@@ -294,15 +294,15 @@ function do_sql($install_file){
             $current_char = $buffer[0];
             $buffer = substr($buffer, 1);
 
-            if ($phpbb2_started_query){
+            if ($started_query){
                 $data_buffer .= $current_char;
             } elseif (preg_match('/[A-Za-z]/i',$current_char) && $last_char == "\n"){
-                $phpbb2_started_query = 1;
+                $started_query = 1;
                 $data_buffer = $current_char;
             } else {
                 $last_char = $current_char;
             }
-        } while (!$phpbb2_started_query && (!feof($fp) || strlen($buffer)));
+        } while (!$started_query && (!feof($fp) || strlen($buffer)));
 
         if ($inside_quote && $current_char == $quote_inside && $last_char != '\\'){
             $inside_quote = 0;
@@ -312,11 +312,11 @@ function do_sql($install_file){
             $inside_quote = 1;
             $quote_inside = $current_char;
         } elseif (!$inside_quote && $current_char == ';'){
-            if ($pnt_user_prefix != "nuke" && !empty($pnt_user_prefix)){
-                $data_buffer = str_replace("`nuke_users`", "`" . $pnt_user_prefix . "_users`", $data_buffer);
+            if ($user_prefix != "nuke" && !empty($user_prefix)){
+                $data_buffer = str_replace("`nuke_users`", "`" . $user_prefix . "_users`", $data_buffer);
             }
-            if($pnt_prefix != "nuke" && !empty($pnt_prefix)) {
-                $data_buffer = str_replace("`nuke_", "`".$pnt_prefix."_", $data_buffer);
+            if($prefix != "nuke" && !empty($prefix)) {
+                $data_buffer = str_replace("`nuke_", "`".$prefix."_", $data_buffer);
             }
 
             @mysqli_query($server_check, $data_buffer);
@@ -326,7 +326,7 @@ function do_sql($install_file){
             }
             $data_buffer = '';
             $last_char = "\n";
-            $phpbb2_started_query = 0;
+            $started_query = 0;
         }
 
         $last_char = $current_char;
@@ -377,12 +377,12 @@ function validate_admin(){
  [ Mod:    Auto Admin Protection               v2.0.0 ]
  ******************************************************/
 		$cookie_location = str_replace('/install.php', '', $_SERVER['PHP_SELF']);
-		$pnt_user_nick = $_POST['admin_nick'];
-		$pnt_user_pass = md5($_POST['admin_pass']);
+		$user_nick = $_POST['admin_nick'];
+		$user_pass = md5($_POST['admin_pass']);
 /*****[BEGIN]******************************************
  [ Mod:    Auto Admin Login                    v2.0.0 ]
  ******************************************************/
-		$cookiedata_admin = base64_encode("$pnt_user_nick:$pnt_user_pass:english:1:new");
+		$cookiedata_admin = base64_encode("$user_nick:$user_pass:english:1:new");
 		setcookie('admin',$cookiedata_admin,time()+2592000,$cookie_location);
 /******************************************************
  [ Mod:    Auto Admin Login                    v2.0.0 ]
@@ -390,13 +390,13 @@ function validate_admin(){
 /*****[BEGIN]******************************************
  [ Mod:    Auto First User Login               v1.0.0 ]
  ******************************************************/
-        $cookiedata = base64_encode("2:$pnt_user_nick:$pnt_user_pass");
+        $cookiedata = base64_encode("2:$user_nick:$user_pass");
         setcookie('user',$cookiedata,time()+2592000,$cookie_location);
 /*****[END]********************************************
  [ Mod:    Auto First User Login               v1.0.0 ]
  ******************************************************/
-        $pnt_user_regdate = date('M d, Y');
-        $pnt_user_avatar = 'blank.gif';
+        $user_regdate = date('M d, Y');
+        $user_avatar = 'blank.gif';
         $commentlimit = 4096;
         if ($_POST['admin_website'] == 'http://'){
 			$url = '';
@@ -404,12 +404,12 @@ function validate_admin(){
 			$url = $_POST['admin_website'];
 		}
 
-        if (!mysqli_query($server_check, "INSERT INTO `" . $_SESSION['prefix'] . "_authors` VALUES ('$pnt_user_nick', 'God', '".$url."', '".$_POST['admin_email']."', '$pnt_user_pass', '0', '1', '')")){
+        if (!mysqli_query($server_check, "INSERT INTO `" . $_SESSION['prefix'] . "_authors` VALUES ('$user_nick', 'God', '".$url."', '".$_POST['admin_email']."', '$user_pass', '0', '1', '')")){
             $error = true;
             $message .= '<font color="red">'.$install_lang['god_fail'].'</font><br />';
         }
 
-        if (!mysqli_query($server_check, "INSERT INTO " . $_SESSION['user_prefix'] . "_users (`user_id`, `username`, `user_email`, `user_website`, `user_avatar`, `user_regdate`, `user_password`, `theme`, `commentmax`, `user_level`, `user_lang`, `user_dateformat`, `user_color_gc`, `user_color_gi`, `user_posts`) VALUES (NULL,'$pnt_user_nick','".$_POST['admin_email']."','".$url."','".$pnt_user_avatar."','".$pnt_user_regdate."','$pnt_user_pass','XtremeV3','".$commentlimit."', '2', 'english','D M d, Y g:i a','d12727','--1--', '1')")){
+        if (!mysqli_query($server_check, "INSERT INTO " . $_SESSION['user_prefix'] . "_users (`user_id`, `username`, `user_email`, `user_website`, `user_avatar`, `user_regdate`, `user_password`, `theme`, `commentmax`, `user_level`, `user_lang`, `user_dateformat`, `user_color_gc`, `user_color_gi`, `user_posts`) VALUES (NULL,'$user_nick','".$_POST['admin_email']."','".$url."','".$user_avatar."','".$user_regdate."','$user_pass','XtremeV3','".$commentlimit."', '2', 'english','D M d, Y g:i a','d12727','--1--', '1')")){
 			$error = true;
 			$message .= '<font color="red">'.$install_lang['user_fail'].'</font><br />';
 		}

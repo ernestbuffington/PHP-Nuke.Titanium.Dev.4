@@ -19,9 +19,9 @@
  *
  ***************************************************************************/
 
-if ( !defined('IN_PHPBB2') )
+if ( !defined('IN_PHPBB') )
 {
-	die("ACCESS DENIED");
+	die("Hacking attempt");
 }
 
 // admin part

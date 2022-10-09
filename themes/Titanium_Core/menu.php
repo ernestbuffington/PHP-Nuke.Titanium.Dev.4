@@ -2,38 +2,30 @@
 #---------------------------------------------------------------------------------------#
 # HEADER NAVIGATION SYSTEM                                                              #
 #---------------------------------------------------------------------------------------#
-# THEME SYSTEM FILE                                                                     #
-#---------------------------------------------------------------------------------------#
 # THEME INFO                                                                            #
-# Titanium_Core Theme v2.0 (Fixed & Full Width)                                         #
+# Xtreme Core v1.0 (Fixed & Full Width)                                                 #
 #                                                                                       #
-# Final Build Date 03/16/2021 Tuesday 12:54am                                           #
+# Final Build Date 05/04/2021 Tuesday 12:54am                                           #
 #                                                                                       #
 # A Very Nice Gold Theme Design.                                                        #
-# Copyright © 2021 By: TheGhost AKA EA Buffington                                       #
+# Copyright © 2021 By: TheGhost AKA EABuffington                                        #
 # e-Mail : ernest.buffington@gmail.com                                                  #
 #---------------------------------------------------------------------------------------#
 # CREATION INFO                                                                         #
-# Created On: 03/16/2021 Tuesday 12:54am (v1.0)                                         #
+# Created On: 05/04/2021 Tuesday 12:54am (v1.0)                                         #
 #                                                                                       #
-# Credit goes to Lonestar On: 1st August, 2019 (v3.0)                                   #
-# HTML5 Theme Code By: Lonestar (Lonestar-Modules.com)                                  #
-#                                                                                       #
-# Credit goes to TheMortal                                                              #
-# For his CSS MENU                                                                      #
 #                                                                                       #
 # Read CHANGELOG File for Updates & Upgrades Info                                       #
 #                                                                                       #
 # Designed By: TheGhost & Sebastian                                                     #
 # Web Site: https://www.86it.us                                                         #
-# Purpose: PHP-Nuke Titanium                                                            #
+# Purpose: PHP-Nuke Titanium | Nuke Evolution Xtreme                                    #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
 # PHP-Nuke Copyright (c) 2006 by Francisco Burzi phpnuke.org                            #
 # Nuke Evolution Xtreme (c) 2010 : Enhanced PHP-Nuke Web Portal System                  #
 # PHP-Nuke Titanium (c) 2021     : Enhanced PHP-Nuke Web Portal System                  #
 #---------------------------------------------------------------------------------------#
-#                                                                                       #
 # Special Honorable Mentions                                                            #
 #---------------------------------------------------------------------------------------#
 # killigan                                                                              # 
@@ -56,45 +48,46 @@
 # Wolfstar                                                                              # 
 # -[04/17/2010] Updated Nuke Evolution to XHTML 1.0 Transitional                        #
 #---------------------------------------------------------------------------------------#
+
+#------------------------------------#
 # CSS Drop-Down Navigation System v9 #
 #------------------------------------#
-
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])){ exit('Access Denied');}
 
-global $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $pnt_user, $cookie, $pnt_prefix, $sitekey, $pnt_db, $name, $banners, $pnt_user_prefix, $userinfo, $admin, $admin_file, $ThemeInfo;
+global $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $user, $cookie, $prefix, $sitekey, $db, $name, $banners, $user_prefix, $userinfo, $admin, $admin_file, $ThemeInfo;
 
-global $headeruserinfo_avatar, $avatar_overide_size, $make_xtreme_avatar_small, $phpbb2_board_config, $userinfo;
+global $headeruserinfo_avatar, $avatar_overide_size, $make_xtreme_avatar_small, $board_config, $userinfo;
 # START - this was added for the very whimpy small themes that have no block width! by Ernest Buffington 08/06/2019
 if($make_xtreme_avatar_small == true):
-  $phpbb2_board_config['avatar_max_height'] = 18;
-  $phpbb2_board_config['avatar_max_width'] = 18;
+  $board_config['avatar_max_height'] = 18;
+  $board_config['avatar_max_width'] = 18;
 endif;
 # END - this was added for the very whimpy small themes that have no block width! by Ernest Buffington 08/06/2019
 if(is_user() && $userinfo['user_avatar']):
   switch( $userinfo['user_avatar_type']):
 		# user_allowavatar = 1
 		case USER_AVATAR_UPLOAD:
-			$headeruserinfo_avatar .= ( $phpbb2_board_config['allow_avatar_upload'] ) 
-			? '<img class="rounded-corners-header" style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' 
-			. $phpbb2_board_config['avatar_path'] . '/' . $userinfo['user_avatar'] . '" alt="" border="0" />' : '';
+			$headeruserinfo_avatar .= ( $board_config['allow_avatar_upload'] ) 
+			? '<img class="rounded-corners-header" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' 
+			. $board_config['avatar_path'] . '/' . $userinfo['user_avatar'] . '" alt="" border="0" />' : '';
 			break;
 		# user_allowavatar = 2
 		case USER_AVATAR_REMOTE:
-			$headeruserinfo_avatar .= '<img class="rounded-corners-header" style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; 
-			max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="
+			$headeruserinfo_avatar .= '<img class="rounded-corners-header" style="max-height: '.$board_config['avatar_max_height'].'px; 
+			max-width: '.$board_config['avatar_max_width'].'px;" src="
 			'.avatar_resize($userinfo['user_avatar']).'" alt="" border="0" />';
 			break;
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
-			$headeruserinfo_avatar .= ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img class="rounded-corners-header" 
-			style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '
-			.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($userinfo['user_avatar'] == 'blank.gif' || $userinfo['user_avatar'] 
+			$headeruserinfo_avatar .= ( $board_config['allow_avatar_local'] ) ? '<img class="rounded-corners-header" 
+			style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '
+			.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($userinfo['user_avatar'] == 'blank.gif' || $userinfo['user_avatar'] 
 			== 'gallery/blank.gif') ? 'blank.png' : $userinfo['user_avatar']) . '" alt="" border="0" />' : '';
 			break;
   endswitch;
 else:
-$headeruserinfo_avatar .= '<img class="rounded-corners-header" style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '
-.$phpbb2_board_config['avatar_max_width'].'px;" src="'.$phpbb2_board_config['default_avatar_users_url'].'" alt="" border="0" />';
+$headeruserinfo_avatar .= '<img class="rounded-corners-header" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '
+.$board_config['avatar_max_width'].'px;" src="'.$board_config['default_avatar_users_url'].'" alt="" border="0" />';
 endif;
 if($_COOKIE["titanium_resolution_width"] > 1366):
 if (!is_user()) 

@@ -1,53 +1,96 @@
 <?php
-/*======================================================================= 
-  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
- =======================================================================*/
+/*=======================================================================
+            PHP-Nuke Titanium (CMS) Enhanced And Advanced
+ ========================================================================
+ PHP-Nuke Titanium                     :   v1.0.1z
+ PHP-Nuke Titanium Build               :   6205
+ PHP-Nuke Titanium Filename            :   function_img.php
+ PHP-Nuke Titanium File Release Date   :   September 16th, 2017  
+ PHP-Nuke Tianium File Author          :   Ernest Allen Buffington
 
-/***************************************************************************
- *                                index.php
- *                            -------------------
- *   begin                : Saturday, Feb 13, 2001
- *   copyright            : (C) 2001 The phpBB Group
- *   email                : support@phpbb.com
- *
- *   Id: index.php,v 1.99.2.3 2004/07/11 16:46:15 acydburn Exp
- *
- ***************************************************************************/
-
-/***************************************************************************
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- ***************************************************************************/
-
-/*****[CHANGES]**********************************************************
--=[Base]=-
-      Nuke Patched                             v3.1.0       06/26/2005
--=[Mod]=-
-	  Forum Icon Path Mod                      v1.0.0       09/26/2022
-	  Images Mod                               v1.0.0       09/26/2022
- ************************************************************************/
+ PHP-Nuke Titanium web address         :   https://titanium.86it.network
  
- if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
+ PHP-Nuke Titanium is licensed under GNU General Public License v3.0
+
+ PHP-Nuke Titanium is Copyright(c) 2002 to 2017 by Ernest Allen Buffington
+ of Sebastian Enterprises. 
+ 
+ ernest.buffington@gmail.com
+ Att: Sebastian Enterprises
+ 1071 Emerald Dr,
+ Brandon, Florida 33511
+ ========================================================================
+ GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+ Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.       
+ ========================================================================
+ 
+ /*****[CHANGES]**********************************************************
+  The Nuke-Evo Base Engine : v2.1.0 RC3 dated May 4th, 2009 is what we
+  used to build our new content management system. To find out more
+  about the starting core engine before we modified it please refer to 
+  the Nuke Evolution website. http://www.nuke-evolution.com
+   
+  This file was re-written for PHP-Nuke Titanium and all modifications
+  were done by Ernest Allen Buffington of Sebastian Enterprises.
+  
+  PHP-Nuke Titanium is written for Social Networking and uses a centralized 
+  database that is chained to The Scorpion Network & The 86it Social Network
+
+  It is not intended for single user platforms and has the requirement of
+  remote database access to https://the.scorpion.network and 
+  https://www.86it.us which is a new Social Networking System designed by 
+  Ernest Buffington that requires a FEDERATED MySQL engine in order to 
+  function at all.
+  
+  The federated database concept was created in the 1980's and has been
+  available a very long time. In fact it was a part of MySQL before they
+  ever started to document it. There is not much information available
+  about using a FEDERATED engine and a lot of the documention is not very
+  complete with regard to every detail; it is superficial and partial to
+  say thge least. 
+  
+  The core engine from Nuke Evolution was used to create 
+  PHP-Nuke Titanium. Almost all versions of PHP-Nuke were unstable and not 
+  very secure. We have made it so that it is enhanced and advanced!
+  
+  PHP-Nuke Titanium is now a secure custom FORK of the ORIGINAL PHP-Nuke
+  that was purchased by Ernest Buffington of Sebastian Enterprises.
+  
+  PHP-Nuke Titanium is not backward compatible to any of the prior versions of
+  PHP-Nuke, Nuke-Evoltion or Nuke-Evo.
+  
+  The module framework of PHP-Nuke is the only thing that still functions 
+  in the same way that Francis Burzi had intended and even that had to be
+  safer and more secure to be a reliable form of internet communications.
+  
+ ************************************************************************
+ * PHP-NUKE: Advanced Content Management System                         *
+ * ============================================                         *
+ * Copyright (c) 2002 by Francisco Burzi                                *
+ * http://phpnuke.org                                                   *
+ *                                                                      *
+ * This program is free software. You can redistribute it and/or modify *
+ * it under the terms of the GNU General Public License as published by *
+ * the Free Software Foundation; either version 2 of the License.       *
+ ************************************************************************/
+if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
     exit('Access Denied');
 }
-
 ############################################################################################################################################
 # Forum Icon Path Mod - 09/26/2022 by Ernest Buffington - START                                                                            #       
 ############################################################################################################################################
 function forum_icon_img_path($imgfile='', $mymodule='', $empty=true) 
 {
-    global $phpbb2_icon, $currentlang, $ThemeSel, $Default_Theme, $ImageDebug;
+    global $icon, $currentlang, $ThemeSel, $Default_Theme, $ImageDebug;
 	
 	$forum_theme_icons_found = false;
 	
 	# If file is found use themes/theme_name/images/forum_icons path!
 	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/forums/images/forum_icons/'.$imgfile)) 
 	{
-        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/$imgfile"; 
+        $image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/$imgfile"; 
 		$forum_theme_icons_found = true;
     } 
 	else # if we do not find any images under the theme directory use the Forums system default forum_icons dir!
@@ -56,7 +99,8 @@ function forum_icon_img_path($imgfile='', $mymodule='', $empty=true)
 		if($forum_theme_icons_found)
 		return;
 		
-        $pnt_image = TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/forum_icons/$imgfile";
+        //$image = TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/forum_icons/$imgfile";
+		$image = TITANIUM_MODULES_IMAGE_DIR. $mymodule.'/';
 
     } 
 	else # if we dont find shit write it to the error log
@@ -64,122 +108,91 @@ function forum_icon_img_path($imgfile='', $mymodule='', $empty=true)
 
     }
 	
-	return($pnt_image);
+	return($image);
 }
 ############################################################################################################################################
 # Forum Icon Path Mod - 09/26/2022 by Ernest Buffington - END                                                                              #       
 ############################################################################################################################################
-
 
 ############################################################################################################################################
 # Image Mod - Start  01/01/2012                                                                                                            #       
 ############################################################################################################################################
 function img($imgfile='', $mymodule='', $empty=true) 
 {
-    global $phpbb2_icon, $currentlang, $ThemeSel, $Default_Theme, $ImageDebug;
-	
-	$ImageDebug = false;
-	$forum_theme_icons_found = false;
-	
-    # not sure what we are doing here?
+    global $currentlang, $ThemeSel, $Default_Theme;
+    
 	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) 
 	{
-        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
     } 
-	else # check for images in the themes languages directory!
+	else
 	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/images/lang_' . $currentlang . '/' . $imgfile)) 
 	{
-        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/lang_".$currentlang."/$imgfile";
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/lang_".$currentlang."/$imgfile";
     } 
-	else # looks like its lookin for a folder named after the module in the imaages area!
+	else
 	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/' . $imgfile)) 
 	{
-        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$mymodule/$imgfile";
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$mymodule/$imgfile";
     } 
 	else
 	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/images/' . $imgfile)) 
 	{
-        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$imgfile";
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$imgfile";
     } 
 	else
 	if (@file_exists(TITANIUM_THEMES_DIR . $Default_Theme . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) 
 	{
-        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/$mymodule/lang_".$currentlang."/$imgfile";
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/$mymodule/lang_".$currentlang."/$imgfile";
     } 
 	else
 	if (@file_exists(TITANIUM_THEMES_DIR . $Default_Theme . '/images/lang_' . $currentlang . '/' . $imgfile)) 
 	{
-        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/lang_".$currentlang."/$imgfile";
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/lang_".$currentlang."/$imgfile";
     } 
 	else
 	if (@file_exists(TITANIUM_THEMES_DIR . $Default_Theme . '/images/' . $mymodule . '/' . $imgfile)) 
 	{
-        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/$mymodule/$imgfile";
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/$mymodule/$imgfile";
     } 
 	else
 	if (@file_exists(TITANIUM_THEMES_DIR . $Default_Theme . '/images/' . $imgfile)) 
 	{
-        $pnt_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/$imgfile";
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$Default_Theme."/images/$imgfile";
     } 
 	else
 	if (@file_exists(TITANIUM_MODULES_DIR . $mymodule . '/images/lang_' . $currentlang . '/' . $imgfile)) 
 	{
-        $pnt_image = TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/lang_".$currentlang."/$imgfile";
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image = TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/lang_".$currentlang."/$imgfile";
     } 
 	else
 	if (@file_exists(TITANIUM_MODULES_DIR . $mymodule . '/images/' . $imgfile)) 
 	{
-        $pnt_image =  TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/$imgfile";
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image =  TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/$imgfile";
     } 
 	else
 	if (@file_exists(TITANIUM_IMAGES_DIR . $mymodule . '/' . $imgfile)) 
 	{
-        $pnt_image = TITANIUM_IMAGES_BASE_DIR . $mymodule ."/$imgfile";
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image = TITANIUM_IMAGES_BASE_DIR . $mymodule ."/$imgfile";
     } 
 	else
 	if (@file_exists(TITANIUM_IMAGES_DIR . $imgfile)) 
 	{
-        $pnt_image = TITANIUM_IMAGES_BASE_DIR . $imgfile;
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image = TITANIUM_IMAGES_BASE_DIR . $imgfile;
     } 
 	else
 	if (@file_exists(TITANIUM_BASE_DIR . $imgfile)) 
 	{
-        $pnt_image = TITANIUM_HREF_BASE_DIR . $imgfile;
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>FOUND:</strong> '.$pnt_image.'</font></div>';
+        $titanium_image = TITANIUM_HREF_BASE_DIR . $imgfile;
     } 
 	else
 	{
+		echo "( ".TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/$imgfile"." ) not found!";
 	    log_write('error', "( ".TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/$imgfile"." ) not found!", 'Image Not Found Error');
-		if($ImageDebug)
-        echo '<div align="center"><font color="red"><strong>NOT FOUND:</strong> '.$pnt_image.'</font></div>';
+		//echo "( ".TITANIUM_THEMES_IMAGE_DIR . $ThemeSel . "/images/$mymodule/$imgfile"." ) not found!";
     }
 	
-	return($pnt_image);
+	return($titanium_image);
 }
 ############################################################################################################################################
 # Image Mod - End  01/01/2012                                                                                                              #

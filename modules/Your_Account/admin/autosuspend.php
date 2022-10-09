@@ -39,16 +39,16 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($pnt_module)) {
+if(is_mod_admin($module_name)) {
 
     if ($ya_config['autosuspend'] > 0){
         $st = time() - $ya_config['autosuspend'];
-        $susresult = $pnt_db->sql_query("SELECT user_id FROM ".$pnt_user_prefix."_users WHERE user_lastvisit <= $st AND user_level > 0");
-        while(list($sus_uid) = $pnt_db->sql_fetchrow($susresult)) {
-            $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET user_level='0', user_active='0' WHERE user_id='$sus_uid'");
+        $susresult = $db->sql_query("SELECT user_id FROM ".$user_prefix."_users WHERE user_lastvisit <= $st AND user_level > 0");
+        while(list($sus_uid) = $db->sql_fetchrow($susresult)) {
+            $db->sql_query("UPDATE ".$user_prefix."_users SET user_level='0', user_active='0' WHERE user_id='$sus_uid'");
         }
     }
-    redirect_titanium("modules.php?name=$pnt_module&file=admin");
+    redirect("modules.php?name=$module_name&file=admin");
 
 }
 

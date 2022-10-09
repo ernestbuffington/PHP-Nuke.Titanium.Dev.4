@@ -318,7 +318,7 @@ define("_SECTIONS","Sections");
 define("_YA_SECURITYCODE","Security Code");
 define("_SELECTASITE","Select the site from which you want to read the headlines:");
 define("_SELECTASITE2","Select a Web Site");
-define("_SELECTTHEME","Select Theme");
+define("_SELECTTHEME","Select One Theme");
 define("_SELECTTHETHEME","Themes");
 define("_SEND","Send");
 define("_SENDPASSWORD","Send Password");

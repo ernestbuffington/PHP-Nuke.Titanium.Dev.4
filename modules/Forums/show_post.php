@@ -44,10 +44,10 @@
  ************************************************************************/
 if (!defined('MODULE_FILE')) die ("You can't access this file directly...");
 
-define('IN_PHPBB2', true);
-$phpbb2_root_path = NUKE_FORUMS_DIR;
-include($phpbb2_root_path . 'extension.inc');
-include($phpbb2_root_path . 'common.'.$phpEx);
+define('IN_PHPBB', true);
+$phpbb_root_path = NUKE_FORUMS_DIR;
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.'.$phpEx);
 include_once('includes/bbcode.'.$phpEx);
 
 # Start initial var setup
@@ -68,10 +68,10 @@ if(isset($HTTP_GET_VARS['view'])):
 
     $sql = "SELECT topic_id, post_time FROM " . POSTS_TABLE . " WHERE post_id = " . $post_id . " LIMIT 1";
 
-    if (!($result = $pnt_db->sql_query($sql)))
+    if (!($result = $db->sql_query($sql)))
     message_die(GENERAL_ERROR, "Could not obtain newer/older post information", '', __LINE__, __FILE__, $sql);
 
-    $row = $pnt_db->sql_fetchrow($result);
+    $row = $db->sql_fetchrow($result);
 
     $topic_id = $row['topic_id'];
     $post_time = $row['post_time'];
@@ -82,10 +82,10 @@ if(isset($HTTP_GET_VARS['view'])):
             ORDER BY post_time $sql_ordering
             LIMIT 1";
         
-    if(!($result = $pnt_db->sql_query($sql)))
+    if(!($result = $db->sql_query($sql)))
     message_die(GENERAL_ERROR, "Could not obtain newer/older post information", '', __LINE__, __FILE__, $sql);
         
-        if($row = $pnt_db->sql_fetchrow($result)):
+        if($row = $db->sql_fetchrow($result)):
             $post_id = $row['post_id'];
         else:
             $message = ( $HTTP_GET_VARS['view'] == 'next' ) ? 'No_newer_posts' : 'No_older_posts';
@@ -128,25 +128,25 @@ $tmp = '';
 
 # Mod: Attachment Mod v2.4.1 END
 
-if(!($result = $pnt_db->sql_query($sql)))
+if(!($result = $db->sql_query($sql)))
 message_die(GENERAL_ERROR, 'Could not obtain topic information', '', __LINE__, __FILE__, $sql);
 
-if(!($forum_row = $pnt_db->sql_fetchrow($result)))
+if(!($forum_row = $db->sql_fetchrow($result)))
 message_die(GENERAL_MESSAGE, 'Topic_post_not_exist');
 
-$phpbb2_forum_id = $forum_row['forum_id'];
+$forum_id = $forum_row['forum_id'];
 $topic_title = $forum_row['topic_title'];
 
 # Start session management
-$userdata = titanium_session_pagestart($pnt_user_ip, $phpbb2_forum_id);
-titanium_init_userprefs($userdata);
+$userdata = session_pagestart($user_ip, $forum_id);
+init_userprefs($userdata);
 # End session management
 
-$phpbb2_is_auth = array();
-$phpbb2_is_auth = auth(AUTH_ALL, $phpbb2_forum_id, $userdata, $forum_row);
+$is_auth = array();
+$is_auth = auth(AUTH_ALL, $forum_id, $userdata, $forum_row);
 
-if(!$phpbb2_is_auth['auth_read'])
-message_die(GENERAL_MESSAGE, sprintf($lang['Sorry_auth_read'], $phpbb2_is_auth['auth_read_type']));
+if(!$is_auth['auth_read'])
+message_die(GENERAL_MESSAGE, sprintf($lang['Sorry_auth_read'], $is_auth['auth_read_type']));
 
 # Define censored word matches
 if(empty($orig_word) && empty($replacement_word)):
@@ -162,17 +162,17 @@ $topic_title = preg_replace($orig_word, $replacement_word, $topic_title);
 # Dump out the page header and load viewtopic body template
 $gen_simple_header = TRUE;
 
-$phpbb2_page_title = $lang['Post_review'] . ' - ' . $topic_title;
+$page_title = $lang['Post_review'] . ' - ' . $topic_title;
 include('includes/page_header.'.$phpEx);
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     'reviewbody' => 'post_review.tpl')
 );
 
-$view_prev_post_url = append_titanium_sid("show_post.$phpEx?p=$post_id&amp;view=previous");
-$view_next_post_url = append_titanium_sid("show_post.$phpEx?p=$post_id&amp;view=next");
+$view_prev_post_url = append_sid("show_post.$phpEx?p=$post_id&amp;view=previous");
+$view_next_post_url = append_sid("show_post.$phpEx?p=$post_id&amp;view=next");
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'L_AUTHOR' => $lang['Author'],
     'L_MESSAGE' => $lang['Message'],
     'L_POSTED' => $lang['Posted'], 
@@ -188,15 +188,15 @@ $sql = "SELECT *
         FROM " . RANKS_TABLE . "
         ORDER BY rank_special, rank_min";
 
-if(!($result = $pnt_db->sql_query($sql)))
+if(!($result = $db->sql_query($sql)))
 message_die(GENERAL_ERROR, "Could not obtain ranks information.", '', __LINE__, __FILE__, $sql);
 
 $ranksrow = array();
 
-while($row = $pnt_db->sql_fetchrow($result)):
+while($row = $db->sql_fetchrow($result)):
     $ranksrow[] = $row;
 endwhile;
-$pnt_db->sql_freeresult($result);
+$db->sql_freeresult($result);
     
 
 # Go ahead and pull all data for this topic
@@ -209,7 +209,7 @@ $sql = "SELECT u.*, p.*, u.user_allow_viewonline, u.user_session_time, pt.post_t
         LIMIT 1";
 # Mod: Online/Offline/Hidden v2.2.7 END
 
-if(!($result = $pnt_db->sql_query($sql)))
+if(!($result = $db->sql_query($sql)))
 message_die(GENERAL_ERROR, 'Could not obtain post/user information', '', __LINE__, __FILE__, $sql);
 
 # Mod: Attachment Mod v2.4.1 START
@@ -217,13 +217,13 @@ message_die(GENERAL_ERROR, 'Could not obtain post/user information', '', __LINE_
 # This is another instance where someone removes or changes something
 # in the code and is so lazy they do not comment about the changes.
 
-//init_display_review_attachments($phpbb2_is_auth);
+//init_display_review_attachments($is_auth);
 
 # Mod: Attachment Mod v2.4.1 END
 
 # Okay, let's do the loop, yeah come on baby let's do the loop
 # and it goes like this ...
-if($row = $pnt_db->sql_fetchrow($result)):
+if($row = $db->sql_fetchrow($result)):
 
     $mini_post_img = $images['icon_minipost'];
     $mini_post_alt = $lang['Post'];
@@ -234,7 +234,7 @@ if($row = $pnt_db->sql_fetchrow($result)):
         $poster_id = $row['user_id'];
         $poster = ( $poster_id == ANONYMOUS ) ? $lang['Guest'] : $row['username'];
 
-        $post_date = create_date($phpbb2_board_config['default_dateformat'], $row['post_time'], $phpbb2_board_config['board_timezone']);
+        $post_date = create_date($board_config['default_dateformat'], $row['post_time'], $board_config['board_timezone']);
 
         $poster_posts = ( $row['user_id'] != ANONYMOUS ) ? $lang['Posts'] . ': ' . $row['user_posts'] : '';
 
@@ -242,22 +242,22 @@ if($row = $pnt_db->sql_fetchrow($result)):
         $poster_from = str_replace(".gif", "", $poster_from);
         $poster_joined = ( $row['user_id'] != ANONYMOUS ) ? $lang['Joined'] . ': ' . $row['user_regdate'] : '';
 
-        $phpbb2_poster_avatar = '';
+        $poster_avatar = '';
         
 		# Mod: View/Disable Avatars/Signatures v1.1.2 START
         if ( $row['user_avatar_type'] && $poster_id != ANONYMOUS && $row['user_allowavatar'] && $userdata['user_showavatars']):
 		# Mod: View/Disable Avatars/Signatures v1.1.2 END
             switch( $row['user_avatar_type']):
                 case USER_AVATAR_UPLOAD:
-                    $phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_upload'] ) ? '<img src="' . $phpbb2_board_config['avatar_path'] . '/' . $row['user_avatar'] . '" alt="" border="0" />' : '';
+                    $poster_avatar = ( $board_config['allow_avatar_upload'] ) ? '<img src="' . $board_config['avatar_path'] . '/' . $row['user_avatar'] . '" alt="" border="0" />' : '';
                     break;
                 # Mod: Remote Avatar Resize v2.0.0 START
                 case USER_AVATAR_REMOTE:
-                    $phpbb2_poster_avatar = resize_avatar($row['user_avatar']);
+                    $poster_avatar = resize_avatar($row['user_avatar']);
                     break;
                 # Mod: Remote Avatar Resize v2.0.0 END
                 case USER_AVATAR_GALLERY:
-                    $phpbb2_poster_avatar = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . $row['user_avatar'] . '" alt="" border="0" />' : '';
+                    $poster_avatar = ( $board_config['allow_avatar_local'] ) ? '<img src="' . $board_config['avatar_gallery_path'] . '/' . $row['user_avatar'] . '" alt="" border="0" />' : '';
                     break;
             endswitch;
         endif;
@@ -294,19 +294,19 @@ if($row = $pnt_db->sql_fetchrow($result)):
 
         if($poster_id != ANONYMOUS):
         
-            $temp_url = append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$poster_id");
+            $temp_url = append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$poster_id");
             $profile_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_profile'].'" alt="'.$lang['Read_profile'].'" title="'.$lang['Read_profile'].'" border="0" /></a>';
             $profile = '<a href="'.$temp_url.'">'.$lang['Read_profile'].'</a>';
 
-            $temp_url = append_titanium_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=$poster_id");
+            $temp_url = append_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=$poster_id");
 
             if(is_active("Private_Messages")): 
               $pm_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_pm'].'" alt="'.$lang['Send_private_message'].'" title="'.$lang['Send_private_message'].'" border="0" /></a>';
               $pm = '<a href="'.$temp_url.'">'.$lang['Send_private_message'].'</a>';
             endif;
 
-            if(!empty($row['user_viewemail']) || $phpbb2_is_auth['auth_mod']):
-                $email_uri = ($phpbb2_board_config['board_email_form']) ? append_titanium_sid("profile.$phpEx?mode=email&amp;".POST_USERS_URL.'='.$poster_id) : 'mailto:'.$row['user_email'];
+            if(!empty($row['user_viewemail']) || $is_auth['auth_mod']):
+                $email_uri = ($board_config['board_email_form']) ? append_sid("profile.$phpEx?mode=email&amp;".POST_USERS_URL.'='.$poster_id) : 'mailto:'.$row['user_email'];
                 $email_img = '<a href="'.$email_uri.'"><img src="'.$images['icon_email'].'" alt="'.$lang['Send_email'].'" title="'.$lang['Send_email'].'" border="0" /></a>';
                 $email = '<a href="'.$email_uri.'">'.$lang['Send_email'].'</a>';
             else:
@@ -344,7 +344,7 @@ if($row = $pnt_db->sql_fetchrow($result)):
             
 			$aim = ( $row['user_aim'] ) ? '<a href="aim:goim?screenname='.$row['user_aim'].'&amp;message=Hello+Are+you+there?">'.$lang['AIM'].'</a>' : '';
 
-            $temp_url = append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$poster_id");
+            $temp_url = append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$poster_id");
             $msn_img = ($row['user_msnm']) ? '<a href="'.$temp_url.'"><img src="'.$images['icon_msnm'].'" alt="'.$lang['MSNM'].'" title="'.$lang['MSNM'].'" border="0" /></a>' : '';
             $msn = ($row['user_msnm']) ? '<a href="'.$temp_url.'">'.$lang['MSNM'].'</a>' : '';
 
@@ -354,19 +354,19 @@ if($row = $pnt_db->sql_fetchrow($result)):
 			$yim = ( $row['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $row['user_yim'] . '&amp;.src=pg">' . $lang['YIM'] . '</a>' : '';
 
             # Mod: Online/Offline/Hidden v2.2.7 START
-            if($row['user_session_time'] >= (time()-$phpbb2_board_config['online_time'])):
+            if($row['user_session_time'] >= (time()-$board_config['online_time'])):
             
                if($row['user_allow_viewonline']):
-                   $online_status_img = '<a href="'.append_titanium_sid("viewonline.$phpEx").'"><img 
+                   $online_status_img = '<a href="'.append_sid("viewonline.$phpEx").'"><img 
 				   src="'.$images['icon_online'].'" alt="'.sprintf($lang['is_online'], $poster).'" title="'.sprintf($lang['is_online'], $poster).'" /></a>&nbsp;';
                    
-				   $online_status = '<br />'.$lang['Online_status'].': <strong><a href="'.append_titanium_sid("viewonline.$phpEx").'" 
+				   $online_status = '<br />'.$lang['Online_status'].': <strong><a href="'.append_sid("viewonline.$phpEx").'" 
 				   title="'.sprintf($lang['is_online'], $poster).'"'.$online_color.'>'.$lang['Online'].'</a></strong>';
-               elseif($phpbb2_is_auth['auth_mod'] || $userdata['user_id'] == $poster_id):
-                   $online_status_img = '<a href="'.append_titanium_sid("viewonline.$phpEx").'"><img 
+               elseif($is_auth['auth_mod'] || $userdata['user_id'] == $poster_id):
+                   $online_status_img = '<a href="'.append_sid("viewonline.$phpEx").'"><img 
 				   src="'.$images['icon_hidden'].'" alt="'.sprintf($lang['is_hidden'], $poster).'" title="'.sprintf($lang['is_hidden'], $poster).'" /></a>&nbsp;';
                    
-				   $online_status = '<br />'.$lang['Online_status'].': <strong><em><a href="'.append_titanium_sid("viewonline.$phpEx").'" 
+				   $online_status = '<br />'.$lang['Online_status'].': <strong><em><a href="'.append_sid("viewonline.$phpEx").'" 
 				   title="'.sprintf($lang['is_hidden'], $poster) .'"'. $hidden_color.'>'.$lang['Hidden'].'</a></em></strong>';
                else:
                    $online_status_img = '<img src="'.$images['icon_offline'].'" 
@@ -407,13 +407,13 @@ if($row = $pnt_db->sql_fetchrow($result)):
 
         endif;
 
-        $temp_url = append_titanium_sid("posting.$phpEx?mode=quote&amp;".POST_POST_URL."=".$row['post_id']);
+        $temp_url = append_sid("posting.$phpEx?mode=quote&amp;".POST_POST_URL."=".$row['post_id']);
         $quote_img = '<a href="'.$temp_url.'" target="_parent"><img src="'.$images['icon_quote'].'" alt="'.$lang['Reply_with_quote'].'" title="'.$lang['Reply_with_quote'].'" border="0" /></a>';
         $quote = '<a href="'.$temp_url.'" target="_parent">'.$lang['Reply_with_quote'].'</a>';
 
         # Mod: Smilies in Topic Titles v1.0.0 START
         # Mod: Smilies in Topic Titles Toggle v1.0.0 START
-        if ($phpbb2_board_config['smilies_in_titles']) 
+        if ($board_config['smilies_in_titles']) 
         $post_subject = smilies_pass(( !empty($row['post_subject'] )) ? $row['post_subject'] : '');
 		else 
         $post_subject = ( !empty($row['post_subject'] )) ? $row['post_subject'] : '';
@@ -425,42 +425,42 @@ if($row = $pnt_db->sql_fetchrow($result)):
         
 		# Mod: View/Disable Avatars/Signatures v1.1.2 START
         if($userdata['user_showsignatures'])
-        $pnt_user_sig = ( $row['enable_sig'] && !empty($row['user_sig']) && $phpbb2_board_config['allow_sig'] ) ? $row['user_sig'] : '';
+        $user_sig = ( $row['enable_sig'] && !empty($row['user_sig']) && $board_config['allow_sig'] ) ? $row['user_sig'] : '';
 		# Mod: View/Disable Avatars/Signatures v1.1.2 END
 
-        $pnt_user_sig_bbcode_uid = $row['user_sig_bbcode_uid'];
+        $user_sig_bbcode_uid = $row['user_sig_bbcode_uid'];
 
         # Note! The order used for parsing the message _is_ important, moving things around could break any 
         # output
 
         # If the board has HTML off but the post has HTML
         # on then we process it, else leave it alone
-        if(!$phpbb2_board_config['allow_html'] || !$userdata['user_allowhtml']):
-            if(!empty($pnt_user_sig))
-            $pnt_user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $pnt_user_sig);
+        if(!$board_config['allow_html'] || !$userdata['user_allowhtml']):
+            if(!empty($user_sig))
+            $user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $user_sig);
 
             if($row['enable_html'])
             $message = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $message);
         endif;
 
         # Parse message and/or sig for BBCode if reqd
-        if($phpbb2_board_config['allow_bbcode']):
-            if(!empty($pnt_user_sig) && !empty($pnt_user_sig_bbcode_uid))
-            $pnt_user_sig = ( $phpbb2_board_config['allow_bbcode'] ) ? bbencode_second_pass($pnt_user_sig, $pnt_user_sig_bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $pnt_user_sig);
+        if($board_config['allow_bbcode']):
+            if(!empty($user_sig) && !empty($user_sig_bbcode_uid))
+            $user_sig = ( $board_config['allow_bbcode'] ) ? bbencode_second_pass($user_sig, $user_sig_bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $user_sig);
 
             if(!empty($bbcode_uid))
-            $message = ( $phpbb2_board_config['allow_bbcode'] ) ? bbencode_second_pass($message, $bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $message);
+            $message = ( $board_config['allow_bbcode'] ) ? bbencode_second_pass($message, $bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $message);
         endif;
 
-        if(!empty($pnt_user_sig))
-        $pnt_user_sig = make_clickable($pnt_user_sig);
+        if(!empty($user_sig))
+        $user_sig = make_clickable($user_sig);
 
         $message = make_clickable($message);
 
         # Parse smilies
-        if($phpbb2_board_config['allow_smilies']):
-            if($row['user_allowsmile'] && !empty($pnt_user_sig))
-            $pnt_user_sig = smilies_pass($pnt_user_sig);
+        if($board_config['allow_smilies']):
+            if($row['user_allowsmile'] && !empty($user_sig))
+            $user_sig = smilies_pass($user_sig);
 
             if ( $row['enable_smilies'] )
             $message = smilies_pass($message);
@@ -470,22 +470,22 @@ if($row = $pnt_db->sql_fetchrow($result)):
         if (count($orig_word)):
             $post_subject = preg_replace($orig_word, $replacement_word, $post_subject);
 
-            if (!empty($pnt_user_sig))
-            $pnt_user_sig = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' . $pnt_user_sig . '<'), 1, -1));
+            if (!empty($user_sig))
+            $user_sig = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' . $user_sig . '<'), 1, -1));
 
             $message = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' . $message . '<'), 1, -1));
         endif;
 
         # Replace newlines (we use this rather than nl2br because
         # till recently it wasn't XHTML compliant)
-        if(!empty($pnt_user_sig)):
+        if(!empty($user_sig)):
           # Mod: Force Word Wrapping v1.0.16 START
-          $pnt_user_sig = word_wrap_pass($pnt_user_sig);
+          $user_sig = word_wrap_pass($user_sig);
           # Mod: Force Word Wrapping v1.0.16 END
 
           # Mod: Advance Signature Divider Control v1.0.0 START
           # Mod: Bottom aligned signature v1.2.0 START
-          $pnt_user_sig = '<br />' . $phpbb2_board_config['sig_line'] . '<br />' . str_replace("\n", "\n<br />\n", $pnt_user_sig);
+          $user_sig = '<br />' . $board_config['sig_line'] . '<br />' . str_replace("\n", "\n<br />\n", $user_sig);
           # Mod: Advance Signature Divider Control v1.0.0 END
           # Mod: Bottom aligned signature v1.2.0 END
         endif;
@@ -500,14 +500,14 @@ if($row = $pnt_db->sql_fetchrow($result)):
         if($row['post_edit_count']):
             $l_edit_time_total = ($row['post_edit_count'] == 1) ? $lang['Edited_time_total'] : $lang['Edited_times_total'];
             $l_edited_by = '<br /><br />'.sprintf($l_edit_time_total, 
-			$poster, create_date($phpbb2_board_config['default_dateformat'], $row['post_edit_time'], $phpbb2_board_config['board_timezone']), $row['post_edit_count']);
+			$poster, create_date($board_config['default_dateformat'], $row['post_edit_time'], $board_config['board_timezone']), $row['post_edit_count']);
         else:
             $l_edited_by = '';
         endif;
 		
         # Mod: Report Post v1.0.0 START
         if($userdata['session_logged_in']):
-          $report_img = '<a href="'.append_titanium_sid('viewtopic.'.$phpEx.'?report=true&amp;'.POST_POST_URL.'='.$post_id).'"><img 
+          $report_img = '<a href="'.append_sid('viewtopic.'.$phpEx.'?report=true&amp;'.POST_POST_URL.'='.$post_id).'"><img 
 		  src="'.$images['icon_report'].'" border="0" width="16" height="18" alt="'.$lang['Report_post'].'" title="'.$lang['Report_post'].'" /></a>';
         else:
           $report_img = '';
@@ -519,7 +519,7 @@ if($row = $pnt_db->sql_fetchrow($result)):
         $row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
         $row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];
 
-        $phpbb2_template->assign_block_vars('postrow', array(
+        $template->assign_block_vars('postrow', array(
             'ROW_COLOR' => '#' . $row_color,
             'ROW_CLASS' => $row_class,
 			
@@ -532,7 +532,7 @@ if($row = $pnt_db->sql_fetchrow($result)):
             'POSTER_JOINED' => $poster_joined,
             'POSTER_POSTS' => $poster_posts,
             'POSTER_FROM' => $poster_from,
-            'POSTER_AVATAR' => $phpbb2_poster_avatar,
+            'POSTER_AVATAR' => $poster_avatar,
 			
             # Mod: Online/Offline/Hidden v2.2.7 START
             'POSTER_ONLINE_STATUS_IMG' => $online_status_img,
@@ -542,7 +542,7 @@ if($row = $pnt_db->sql_fetchrow($result)):
             'POST_DATE' => $post_date,
             'POST_SUBJECT' => $post_subject,
             'MESSAGE' => $message, 
-            'SIGNATURE' => $pnt_user_sig, 
+            'SIGNATURE' => $user_sig, 
             'EDITED_MESSAGE' => $l_edited_by, 
 
             'MINI_POST_IMG' => $mini_post_img, 
@@ -581,16 +581,16 @@ if($row = $pnt_db->sql_fetchrow($result)):
     # This is another instance where someone removes or changes something
     # in the code and is so lazy they do not comment about the changes.
 	
-	//display_review_attachments($row['post_id'], $row['post_attachment'], $phpbb2_is_auth);
+	//display_review_attachments($row['post_id'], $row['post_attachment'], $is_auth);
     # Mod: Attachment Mod v2.4.1 END
 
       $i++;
     }
-    while($row = $pnt_db->sql_fetchrow($result));
+    while($row = $db->sql_fetchrow($result));
 
 else:
     message_die(GENERAL_MESSAGE, 'Topic_post_not_exist', '', __LINE__, __FILE__, $sql);
 endif;
 
-$phpbb2_template->pparse('reviewbody');
+$template->pparse('reviewbody');
 ?>

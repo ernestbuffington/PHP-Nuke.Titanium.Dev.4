@@ -56,8 +56,8 @@
 <tr>
 	<td class="catBottom" colspan="2" align="center">{S_HIDDEN_FIELDS}
 		<input type="submit" name="submit" class="mainoption" value="{L_SUBMIT}" />&nbsp;
-		<input type="submit" name="refresh" class="titaniumbutton" value="{L_REFRESH}" />&nbsp;
-		<input type="submit" name="cancel" class="titaniumbutton" value="{L_CANCEL}" />
+		<input type="submit" name="refresh" class="liteoption" value="{L_REFRESH}" />&nbsp;
+		<input type="submit" name="cancel" class="liteoption" value="{L_CANCEL}" />
 	</td>
 </tr>
 </table>

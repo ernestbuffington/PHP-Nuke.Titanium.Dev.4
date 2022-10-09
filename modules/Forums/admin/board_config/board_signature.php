@@ -26,7 +26,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "signature" => "admin/board_config/board_signature.tpl")
 );
 
@@ -39,12 +39,12 @@ $new['sig_line'] = str_replace('"', '&quot;', $new['sig_line']);
  ******************************************************/
  
 //General Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
     
 //Language Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
  ******************************************************/
@@ -59,7 +59,7 @@ $phpbb2_template->assign_vars(array(
 ));
 
 //Data Template Variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     Advance Signature Divider Control  v1.0.0 ]
  ******************************************************/
@@ -69,6 +69,6 @@ $phpbb2_template->assign_vars(array(
  ******************************************************/
     "SIG_SIZE" => $new['max_sig_chars'],
  ));
-$phpbb2_template->pparse("signature");
+$template->pparse("signature");
 
 ?>

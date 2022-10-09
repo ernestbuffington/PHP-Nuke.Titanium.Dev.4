@@ -21,7 +21,7 @@
     </tr>
     <tr> 
       <td class="row1" width="38%"><span class="gen">{L_GROUP_MODERATOR}:</span></td>
-      <td class="row2" width="62%"><input type="text" class="post" name="username" maxlength="50" size="20" value="{GROUP_MODERATOR}" />   <input type="submit" name="usersubmit" value="{L_FIND_USERNAME}" class="titaniumbutton" onclick="window.open('{U_SEARCH_USER}', '_phpbbsearch', 'HEIGHT=250,resizable=yes,WIDTH=400');return false;" /></td>
+      <td class="row2" width="62%"><input type="text" class="post" name="username" maxlength="50" size="20" value="{GROUP_MODERATOR}" />   <input type="submit" name="usersubmit" value="{L_FIND_USERNAME}" class="liteoption" onclick="window.open('{U_SEARCH_USER}', '_phpbbsearch', 'HEIGHT=250,resizable=yes,WIDTH=400');return false;" /></td>
     </tr>
 
     <tr> 
@@ -114,7 +114,7 @@
       <td class="catBottom" colspan="2" align="center"><span class="cattitle"> 
         <input type="submit" name="group_update" value="{L_SUBMIT}" class="mainoption" />
            
-        <input type="reset" value="{L_RESET}" name="reset" class="titaniumbutton" />
+        <input type="reset" value="{L_RESET}" name="reset" class="liteoption" />
         </span></td>
     </tr>
 </table>{S_HIDDEN_FIELDS}</form>

@@ -30,24 +30,24 @@ if (!defined('ADMIN_FILE')) {
    die ("Illegal File Access");
 }
 
-global $pnt_prefix, $pnt_db, $admin_file;
+global $prefix, $db, $admin_file;
 if (is_mod_admin()) {
 
 if (isset($_POST['save'])) {
     $xsitename = str_replace(' ', '', Fix_Quotes($_POST['xsitename']));
     $headlinesurl = Fix_Quotes($_POST['headlinesurl']);
-    $pnt_db->sql_query('UPDATE '.$pnt_prefix."_headlines SET sitename='$xsitename', headlinesurl='$headlinesurl' where hid=".intval($_POST['save']));
-    redirect_titanium($admin_file.'.php?op=headlines');
+    $db->sql_query('UPDATE '.$prefix."_headlines SET sitename='$xsitename', headlinesurl='$headlinesurl' where hid=".intval($_POST['save']));
+    redirect($admin_file.'.php?op=headlines');
 } else if (isset($_POST['addHeadline'])) {
     $xsitename = str_replace(' ', '', Fix_Quotes($_POST['xsitename']));
     $headlinesurl = Fix_Quotes($_POST['headlinesurl']);
-    $pnt_db->sql_query('INSERT INTO '.$pnt_prefix."_headlines VALUES (NULL, '$xsitename', '$headlinesurl')");
-    redirect_titanium($admin_file.'.php?op=headlines');
+    $db->sql_query('INSERT INTO '.$prefix."_headlines VALUES (NULL, '$xsitename', '$headlinesurl')");
+    redirect($admin_file.'.php?op=headlines');
 } elseif (isset($_GET['edit'])) {
     $hid = intval($_GET['edit']);
     include_once(NUKE_BASE_DIR.'header.php');
     // GraphicAdmin();
-    list($xsitename, $headlinesurl) = $pnt_db->sql_ufetchrow("SELECT sitename, headlinesurl FROM ".$pnt_prefix."_headlines WHERE hid='$hid'",SQL_NUM);
+    list($xsitename, $headlinesurl) = $db->sql_ufetchrow("SELECT sitename, headlinesurl FROM ".$prefix."_headlines WHERE hid='$hid'",SQL_NUM);
     OpenTable();
     echo '<span class="genmed"><strong>'.$admlang['headlines']['header'].'</strong></span><br /><br />
     <fieldset><legend>'.$admlang['headlines']['edit'].'</legend><form method="post" action="'.$admin_file.'.php?op=headlines">
@@ -60,10 +60,10 @@ if (isset($_POST['save'])) {
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 } else if (isset($_GET['del'])) {
-    if (isset($_POST['cancel'])) { redirect_titanium($admin_file.'.php?op=headlines'); }
+    if (isset($_POST['cancel'])) { redirect($admin_file.'.php?op=headlines'); }
     if (isset($_POST['confirm'])) {
-        $pnt_db->sql_query('DELETE FROM '.$pnt_prefix."_headlines WHERE hid='".intval($_GET['del'])."'");
-        redirect_titanium($admin_file.'.php?op=headlines');
+        $db->sql_query('DELETE FROM '.$prefix."_headlines WHERE hid='".intval($_GET['del'])."'");
+        redirect($admin_file.'.php?op=headlines');
     }
     confirm_msg($admin_file.'.php?op=headlines&amp;del='.intval($_GET['del']), $admlang['headlines']['delete_warn']);
 } else {
@@ -77,9 +77,9 @@ if (isset($_POST['save'])) {
        <td><strong>'.$admlang['global']['url'].'</strong></td>
        <td><strong>'.$admlang['global']['functions'].'</strong></td>
      </tr>';
-    $result = $pnt_db->sql_uquery("SELECT hid, sitename, headlinesurl FROM ".$pnt_prefix."_headlines ORDER BY hid");
+    $result = $db->sql_uquery("SELECT hid, sitename, headlinesurl FROM ".$prefix."_headlines ORDER BY hid");
     $bgcolor = $bgcolor3;
-    while (list($hid, $sitename, $headlinesurl) = $pnt_db->sql_fetchrow($result)) {
+    while (list($hid, $sitename, $headlinesurl) = $db->sql_fetchrow($result)) {
         $bgcolor = ($bgcolor == '') ? ' bgcolor="'.$bgcolor3.'"' : '';
         echo '
      <tr'.$bgcolor.'">

@@ -36,17 +36,17 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$pnt_module = basename(dirname(__FILE__));
-get_lang($pnt_module);
-include(NUKE_MODULES_DIR.$pnt_module.'/doc_config.php');
+$module_name = basename(dirname(__FILE__));
+get_lang($module_name);
+include(NUKE_MODULES_DIR.$module_name.'/doc_config.php');
 
 define('INDEX_FILE', true);
 
 function main() {
-    global $sitename, $pnt_module, $questions;
+    global $sitename, $module_name, $questions;
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.': '._NSINDEXLEGAL);
-    if (file_exists(NUKE_MODULES_DIR.$pnt_module.'/copyright.php')) {
+    if (file_exists(NUKE_MODULES_DIR.$module_name.'/copyright.php')) {
         OpenTable();
 	    # space at the top of header inside graphics area!
         echo '<div align="center" style="padding-top:10px;">';

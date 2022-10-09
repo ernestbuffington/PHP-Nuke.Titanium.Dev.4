@@ -32,22 +32,22 @@ if (!defined('MODULE_FILE') || !defined('CNBYA') || $_SERVER['REQUEST_METHOD'] !
     die('You can\'t access this file directly...');
 }
 
-$pnt_username = $pnt_db->sql_escapestring($_POST['username']);
+$username = $db->sql_escapestring($_POST['username']);
 
-if (empty($pnt_username)) 
+if (empty($username)) 
 {
     echo '';
 } 
-elseif (strlen($pnt_username) <= 3) 
+elseif (strlen($username) <= 3) 
 {
     echo '&nbsp;<img src="images/not-available.png" alt"" height="16" width="16" style="vertical-align: middle;">&nbsp;';
     echo '<span style="color: #FF9E00; font-weight: bold;">' . _TOOSHORT . '</span>';
 } 
 else 
 {
-	$query = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT username FROM `" . $pnt_user_prefix . "_users` WHERE LCASE(username)='" . $pnt_username . "'"));
-    $result = $pnt_db->sql_query("SELECT `username` FROM `" . $pnt_user_prefix . "_users` WHERE LCASE(username) = '".strtolower($pnt_username)."'");
-	$totalCount = $pnt_db->sql_numrows($result);
+	$query = $db->sql_numrows($db->sql_query("SELECT username FROM `" . $user_prefix . "_users` WHERE LCASE(username)='" . $username . "'"));
+    $result = $db->sql_query("SELECT `username` FROM `" . $user_prefix . "_users` WHERE LCASE(username) = '".strtolower($username)."'");
+	$totalCount = $db->sql_numrows($result);
 
     if ($totalCount == 0) 
 	{
@@ -60,7 +60,7 @@ else
         echo '<span style="color: #FF0000; font-weight: bold;">' . _AVALIABLE . '</span>';
     }
 
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 }
 
 die();

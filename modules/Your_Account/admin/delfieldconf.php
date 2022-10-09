@@ -39,12 +39,12 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($pnt_module)) 
+if(is_mod_admin($module_name)) 
 {
-    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_field WHERE fid='$fid'");
-    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_value WHERE fid='$fid'");
-    $pnt_db->sql_query("DELETE FROM ".$pnt_user_prefix."_cnbya_value_temp WHERE fid='$fid'");
-    header("Location:modules.php?name=$pnt_module&file=admin&op=addField");
+    $db->sql_query("DELETE FROM ".$user_prefix."_cnbya_field WHERE fid='$fid'");
+    $db->sql_query("DELETE FROM ".$user_prefix."_cnbya_value WHERE fid='$fid'");
+    $db->sql_query("DELETE FROM ".$user_prefix."_cnbya_value_temp WHERE fid='$fid'");
+    header("Location:modules.php?name=$module_name&file=admin&op=addField");
 }
 
 ?>

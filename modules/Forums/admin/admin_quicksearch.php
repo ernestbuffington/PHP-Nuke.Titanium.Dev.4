@@ -31,12 +31,12 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $pnt_module['General']['Quick Search List'] = "$file";
+    $module['General']['Quick Search List'] = "$file";
     return;
 }
 
@@ -44,8 +44,8 @@ if( !empty($setmodules) )
 // Let's set the root dir for phpBB
 //
 $no_page_header = FALSE;
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 //
 // Let's start by playing with some HTTP VARS
@@ -93,24 +93,24 @@ if( !empty($mode) )
 
             $sql = "SELECT * FROM " . QUICKSEARCH_TABLE . "
                 WHERE search_id = $search_id";
-            if(!$result = $pnt_db->sql_query($sql))
+            if(!$result = $db->sql_query($sql))
             {
                 message_die(GENERAL_ERROR, "Couldn't obtain quick search data", "", __LINE__, __FILE__, $sql);
             }
             
             $search_info = array();
-            $search_info = $pnt_db->sql_fetchrow($result);
+            $search_info = $db->sql_fetchrow($result);
             $s_hidden_fields .= '<input type="hidden" name="id" value="' . $search_id . '" />';
 
         }
 
         $s_hidden_fields .= '<input type="hidden" name="mode" value="save" />';
 
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
             "body" => "admin/quicksearch_edit.tpl")
         );
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
                  "SEARCH_NMAE" => $search_info['search_name'],
             "SEARCH_URL1" => $search_info['search_url1'],
             "SEARCH_URL2" => $search_info['search_url2'],
@@ -126,7 +126,7 @@ if( !empty($mode) )
             "L_YES" => $lang['Yes'],
             "L_NO" => $lang['No'],
             
-            "S_SEARCH_ACTION" => append_titanium_sid("admin_quicksearch.$phpEx"),
+            "S_SEARCH_ACTION" => append_sid("admin_quicksearch.$phpEx"),
             "S_HIDDEN_FIELDS" => $s_hidden_fields)
         );
         
@@ -163,12 +163,12 @@ if( !empty($mode) )
             $message = $lang['Search_added'];
         }
         
-        if( !$result = $pnt_db->sql_query($sql) )
+        if( !$result = $db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, "Couldn't update quick search table", "", __LINE__, __FILE__, $sql);
         }
 
-        $message .= "<br /><br />" . sprintf($lang['Click_return_addsearchadmin'], "<a href=\"" . append_titanium_sid("admin_quicksearch.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message .= "<br /><br />" . sprintf($lang['Click_return_addsearchadmin'], "<a href=\"" . append_sid("admin_quicksearch.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
 
@@ -189,12 +189,12 @@ if( !empty($mode) )
             $sql = "DELETE FROM " . QUICKSEARCH_TABLE . "
                 WHERE search_id = $search_id";
             
-            if( !$result = $pnt_db->sql_query($sql) )
+            if( !$result = $db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Couldn't delete quick search data", "", __LINE__, __FILE__, $sql);
             }
 
-            $message = $lang['Search_removed'] . "<br /><br />" . sprintf($lang['Click_return_addsearchadmin'], "<a href=\"" . append_titanium_sid("admin_quicksearch.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+            $message = $lang['Search_removed'] . "<br /><br />" . sprintf($lang['Click_return_addsearchadmin'], "<a href=\"" . append_sid("admin_quicksearch.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
             message_die(GENERAL_MESSAGE, $message);
 
@@ -206,22 +206,22 @@ if( !empty($mode) )
     }
     else
     {
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
             "body" => "admin/quicksearch_body.tpl")
         );
         
         $sql = "SELECT * FROM " . QUICKSEARCH_TABLE . "
             ORDER BY search_name";
-        if( !$result = $pnt_db->sql_query($sql) )
+        if( !$result = $db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, "Couldn't retrieve quick search data", "", __LINE__, __FILE__, $sql);
         }
         
         $search_rows = array();
-        $search_rows = $pnt_db->sql_fetchrowset($result);
+        $search_rows = $db->sql_fetchrowset($result);
         $search_count = count($search_rows);
         
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
             "L_SEARCHS_TITLE" => $lang['Search_title'],
             "L_SEARCHS_TEXT" => $lang['Search_explain'],
             "L_SEARCH_NAME" => $lang['Search_name'],
@@ -230,7 +230,7 @@ if( !empty($mode) )
             "L_ADD_SEARCH" => $lang['Add_new_search'],
             "L_ACTION" => $lang['Action'],
             
-            "S_SEARCHS_ACTION" => append_titanium_sid("admin_quicksearch.$phpEx"))
+            "S_SEARCHS_ACTION" => append_sid("admin_quicksearch.$phpEx"))
         );
         
         for( $i = 0; $i < $search_count; $i++)
@@ -241,13 +241,13 @@ if( !empty($mode) )
             $row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
             $row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];
     
-            $phpbb2_template->assign_block_vars("addsearch", array(
+            $template->assign_block_vars("addsearch", array(
                 "ROW_COLOR" => "#" . $row_color,
                 "ROW_CLASS" => $row_class,
                 "SEARCH_NAME" => $search_name,
 
-                "U_SEARCH_EDIT" => append_titanium_sid("admin_quicksearch.$phpEx?mode=edit&amp;id=$search_id"),
-                "U_SEARCH_DELETE" => append_titanium_sid("admin_quicksearch.$phpEx?mode=delete&amp;id=$search_id"))
+                "U_SEARCH_EDIT" => append_sid("admin_quicksearch.$phpEx?mode=edit&amp;id=$search_id"),
+                "U_SEARCH_DELETE" => append_sid("admin_quicksearch.$phpEx?mode=delete&amp;id=$search_id"))
             );
         }
     }
@@ -257,22 +257,22 @@ else
     //
     // Show the default page
     //
-    $phpbb2_template->set_filenames(array(
+    $template->set_filenames(array(
         "body" => "admin/quicksearch_body.tpl")
     );
     
     $sql = "SELECT * FROM " . QUICKSEARCH_TABLE . "
         ORDER BY search_name";
-    if( !$result = $pnt_db->sql_query($sql) )
+    if( !$result = $db->sql_query($sql) )
     {
         message_die(GENERAL_ERROR, "Couldn't retrieve quick search data", "", __LINE__, __FILE__, $sql);
     }
-    $search_count = $pnt_db->sql_numrows($result);
+    $search_count = $db->sql_numrows($result);
 
     $search_rows = array();
-    $search_rows = $pnt_db->sql_fetchrowset($result);
+    $search_rows = $db->sql_fetchrowset($result);
     
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         "L_SEARCHS_TITLE" => $lang['Search_title'],
         "L_SEARCHS_TEXT" => $lang['Search_explain'],
         "L_SEARCH_NAME" => $lang['Search_name'],
@@ -281,7 +281,7 @@ else
         "L_ADD_SEARCH" => $lang['Add_new_search'],
         "L_ACTION" => $lang['Action'],
         
-        "S_SEARCHS_ACTION" => append_titanium_sid("admin_quicksearch.$phpEx"))
+        "S_SEARCHS_ACTION" => append_sid("admin_quicksearch.$phpEx"))
     );
     
     for($i = 0; $i < $search_count; $i++)
@@ -292,18 +292,18 @@ else
         $row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
         $row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];
         
-        $phpbb2_template->assign_block_vars("addsearch", array(
+        $template->assign_block_vars("addsearch", array(
             "ROW_COLOR" => "#" . $row_color,
             "ROW_CLASS" => $row_class,
             "SEARCH_NAME" => $search_name,
 
-            "U_SEARCH_EDIT" => append_titanium_sid("admin_quicksearch.$phpEx?mode=edit&amp;id=$search_id"),
-            "U_SEARCH_DELETE" => append_titanium_sid("admin_quicksearch.$phpEx?mode=delete&amp;id=$search_id"))
+            "U_SEARCH_EDIT" => append_sid("admin_quicksearch.$phpEx?mode=edit&amp;id=$search_id"),
+            "U_SEARCH_DELETE" => append_sid("admin_quicksearch.$phpEx?mode=delete&amp;id=$search_id"))
         );
     }
 }
 
-$phpbb2_template->pparse("body");
+$template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

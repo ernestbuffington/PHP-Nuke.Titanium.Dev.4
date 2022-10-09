@@ -8,7 +8,7 @@ global $admlang;
  [ Mod:     Private Message Alert              v1.0.0 ]
  ******************************************************/
 
-$phpbb2_color_datalist = array(
+$color_datalist = array(
 	'#7A7474', '#555151', '#464444', '#302E2E', '#000000',
 	'#e90000', '#d40000', '#bf0000', '#aa0000', '#940000',
 	'#ff6600', '#e95d00', '#d45500', '#bf4c00', '#aa4400',

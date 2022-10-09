@@ -46,18 +46,18 @@
 	  Arcade                                   v3.0.2       05/29/2009
  ************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $pnt_module['Users']['Manage'] = $filename;
+        $module['Users']['Manage'] = $filename;
 
         return;
 }
 
-$phpbb2_root_path = './../';
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 require("../../../includes/bbcode.php");
 require("../../../includes/functions_post.php");
@@ -67,12 +67,12 @@ require("../../../includes/functions_validate.php");
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-if ( !file_exists(@phpbb_realpath($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_adv_time.' . $phpEx)) )
+if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_adv_time.' . $phpEx)) )
 {
-    include_once($phpbb2_root_path . 'language/lang_english/lang_adv_time.' . $phpEx);
+    include_once($phpbb_root_path . 'language/lang_english/lang_adv_time.' . $phpEx);
 } else
 {
-    include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_adv_time.' . $phpEx);
+    include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_adv_time.' . $phpEx);
 }
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
@@ -111,9 +111,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
         //
         if ( ( $mode == 'save' && isset( $HTTP_POST_VARS['submit'] ) ) || isset( $HTTP_POST_VARS['avatargallery'] ) || isset( $HTTP_POST_VARS['submitavatar'] ) || isset( $HTTP_POST_VARS['cancelavatar'] ) )
         {
-                $pnt_user_id = intval($HTTP_POST_VARS['id']);
+                $user_id = intval($HTTP_POST_VARS['id']);
 
-                if (!($this_userdata = get_userdata($pnt_user_id)))
+                if (!($this_userdata = get_userdata($user_id)))
                 {
                         message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
                 }
@@ -121,67 +121,67 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
-                $this_userdata['xdata'] = get_user_xdata($pnt_user_id);
+                $this_userdata['xdata'] = get_user_xdata($user_id);
 /*****[END]********************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
 
-        if( $HTTP_POST_VARS['deleteuser'] && ( $userdata['user_id'] != $pnt_user_id ) )
+        if( $HTTP_POST_VARS['deleteuser'] && ( $userdata['user_id'] != $user_id ) )
                 {
                         $sql = "SELECT g.group_id
                                 FROM " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE . " g
-                                WHERE ug.user_id = '$pnt_user_id'
+                                WHERE ug.user_id = '$user_id'
                                         AND g.group_id = ug.group_id
                                         AND g.group_single_user = 1";
-                        if( !($result = $pnt_db->sql_query($sql)) )
+                        if( !($result = $db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not obtain group information for this user', '', __LINE__, __FILE__, $sql);
                         }
 
-                        $row = $pnt_db->sql_fetchrow($result);
+                        $row = $db->sql_fetchrow($result);
 
                         $sql = "UPDATE " . POSTS_TABLE . "
                                 SET poster_id = " . DELETED . ", post_username = '" . str_replace("\\'", "''", addslashes($this_userdata['username'])) . "'
-                                WHERE poster_id = '$pnt_user_id'";
-                        if( !$pnt_db->sql_query($sql) )
+                                WHERE poster_id = '$user_id'";
+                        if( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update posts for this user', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "UPDATE " . TOPICS_TABLE . "
                                 SET topic_poster = " . DELETED . "
-                                WHERE topic_poster = '$pnt_user_id'";
-                        if( !$pnt_db->sql_query($sql) )
+                                WHERE topic_poster = '$user_id'";
+                        if( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update topics for this user', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "UPDATE " . VOTE_USERS_TABLE . "
                                 SET vote_user_id = " . DELETED . "
-                                WHERE vote_user_id = '$pnt_user_id'";
-                        if( !$pnt_db->sql_query($sql) )
+                                WHERE vote_user_id = '$user_id'";
+                        if( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not update votes for this user', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "UPDATE " . GROUPS_TABLE . "
             				SET group_moderator = " . $userdata['user_id'] . "
-            				WHERE group_moderator = $pnt_user_id";
-            			if( !$pnt_db->sql_query($sql) )
+            				WHERE group_moderator = $user_id";
+            			if( !$db->sql_query($sql) )
             			{
             				message_die(GENERAL_ERROR, 'Could not update group moderators', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "DELETE FROM " . USERS_TABLE . "
-                                WHERE user_id = '$pnt_user_id'";
-                        if( !$pnt_db->sql_query($sql) )
+                                WHERE user_id = '$user_id'";
+                        if( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete user', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "DELETE FROM " . USER_GROUP_TABLE . "
-                                WHERE user_id = '$pnt_user_id'";
-                        if( !$pnt_db->sql_query($sql) )
+                                WHERE user_id = '$user_id'";
+                        if( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete user from user_group table', '', __LINE__, __FILE__, $sql);
                         }
@@ -190,22 +190,22 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         {
                         $sql = "DELETE FROM " . GROUPS_TABLE . "
                                 WHERE group_id = " . $row['group_id'];
-                        if( !$pnt_db->sql_query($sql) )
+                        if( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete group for this user', '', __LINE__, __FILE__, $sql);
                         }
 
                         $sql = "DELETE FROM " . AUTH_ACCESS_TABLE . "
                                 WHERE group_id = " . $row['group_id'];
-                        if( !$pnt_db->sql_query($sql) )
+                        if( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete group for this user', '', __LINE__, __FILE__, $sql);
                           }
                         }
 
                         $sql = "DELETE FROM " . TOPICS_WATCH_TABLE . "
-                                WHERE user_id = '$pnt_user_id'";
-                        if ( !$pnt_db->sql_query($sql) )
+                                WHERE user_id = '$user_id'";
+                        if ( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete user from topic watch table', '', __LINE__, __FILE__, $sql);
                         }
@@ -213,24 +213,24 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     Arcade                             v3.0.2 ]
  ******************************************************/
-                                                $sql = "DELETE FROM " . SCORES_TABLE . " WHERE user_id = $pnt_user_id";
+                                                $sql = "DELETE FROM " . SCORES_TABLE . " WHERE user_id = $user_id";
 
-                                                if ( !$pnt_db->sql_query($sql) )
+                                                if ( !$db->sql_query($sql) )
                                                 {
                                                                 message_die(GENERAL_ERROR, 'Could not delete scores from table', '', __LINE__, __FILE__, $sql);
                                                 }
 
-                                                $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_highuser = $pnt_user_id";
+                                                $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_highuser = $user_id";
 
-                                                if( !($result = $pnt_db->sql_query($sql)) )
+                                                if( !($result = $db->sql_query($sql)) )
                                                 {
                                                                 message_die(GENERAL_ERROR, 'Could not read games table', '', __LINE__, __FILE__, $sql);
                                                 }
 
-                                                while ( $row_games = $pnt_db->sql_fetchrow($result) ) {
+                                                while ( $row_games = $db->sql_fetchrow($result) ) {
                                                                 $sql2 = "SELECT * FROM " . SCORES_TABLE . " WHERE game_id = " . $row_games['game_id'] . " ORDER BY score_game DESC, score_date ASC LIMIT 0,1";
 
-                                                                if( !($result2 = $pnt_db->sql_query($sql2)) )
+                                                                if( !($result2 = $db->sql_query($sql2)) )
                                                                 {
                                                                                 message_die(GENERAL_ERROR, 'Could not select scores', '', __LINE__, __FILE__, $sql2);
                                                                 }
@@ -239,7 +239,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                                                 $game_highscore = 0 ;
                                                                 $game_highdate = 0 ;
 
-                                                                if ( $row_high = $pnt_db->sql_fetchrow($result2) )
+                                                                if ( $row_high = $db->sql_fetchrow($result2) )
                                                                 {
                                                                                 $game_highuser = $row_high['user_id'] ;
                                                                                 $game_highscore = $row_high['score_game'] ;
@@ -248,13 +248,13 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                                                                 $sql2 = "UPDATE " . GAMES_TABLE . " SET game_highuser = $game_highuser , game_highdate = $game_highdate , game_highscore = $game_highscore WHERE game_id = " . $row_games['game_id'];
 
-                                                                if ( !$pnt_db->sql_query($sql2) )
+                                                                if ( !$db->sql_query($sql2) )
                                                                 {
                                                                                 message_die(GENERAL_ERROR, 'Could not update games table', '', __LINE__, __FILE__, $sql2);
                                                                 }
 
                                                                 $sql2 = "UPDATE " . COMMENTS_TABLE. " SET comments_value = '' WHERE game_id = " . $row_games['game_id'];
-                                                                if (!$pnt_db->sql_query($sql2))
+                                                                if (!$db->sql_query($sql2))
                                                                 {
                                                                                 message_die(GENERAL_ERROR, 'Could not delete from comments table', '', __LINE__, __FILE__, $sql2);
                                                                 }
@@ -264,22 +264,22 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  ******************************************************/
 
                         $sql = "DELETE FROM " . BANLIST_TABLE . "
-                                WHERE ban_userid = '$pnt_user_id'";
-                        if ( !$pnt_db->sql_query($sql) )
+                                WHERE ban_userid = '$user_id'";
+                        if ( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete user from banlist table', '', __LINE__, __FILE__, $sql);
                         }
 
 						 $sql = "DELETE FROM " . SESSIONS_TABLE . "
-							WHERE session_user_id = $pnt_user_id";
-						 if ( !$pnt_db->sql_query($sql) )
+							WHERE session_user_id = $user_id";
+						 if ( !$db->sql_query($sql) )
 						 {
 							message_die(GENERAL_ERROR, 'Could not delete sessions for this user', '', __LINE__, __FILE__, $sql);
 						 }
 
 						 $sql = "DELETE FROM " . SESSIONS_KEYS_TABLE . "
-							WHERE user_id = $pnt_user_id";
-						 if ( !$pnt_db->sql_query($sql) )
+							WHERE user_id = $user_id";
+						 if ( !$db->sql_query($sql) )
 						 {
 							message_die(GENERAL_ERROR, 'Could not delete auto-login keys for this user', '', __LINE__, __FILE__, $sql);
 						 }
@@ -287,9 +287,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-                        $sql = "DELETE FROM ".$pnt_prefix."_bbuser_group
-                                WHERE user_id = '$pnt_user_id'";
-                        if ( !$pnt_db->sql_query($sql) )
+                        $sql = "DELETE FROM ".$prefix."_bbuser_group
+                                WHERE user_id = '$user_id'";
+                        if ( !$db->sql_query($sql) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not delete user from inital user group table', '', __LINE__, __FILE__, $sql);
                         }
@@ -299,15 +299,15 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                         $sql = "SELECT privmsgs_id
                                 FROM " . PRIVMSGS_TABLE . "
-                                WHERE privmsgs_from_userid = '$pnt_user_id'
-                                        OR privmsgs_to_userid = '$pnt_user_id'";
-                        if ( !($result = $pnt_db->sql_query($sql)) )
+                                WHERE privmsgs_from_userid = '$user_id'
+                                        OR privmsgs_to_userid = '$user_id'";
+                        if ( !($result = $db->sql_query($sql)) )
                         {
                                 message_die(GENERAL_ERROR, 'Could not select all users private messages', '', __LINE__, __FILE__, $sql);
                         }
 
                         // This little bit of code directly from the private messaging section.
-                        while ( $row_privmsgs = $pnt_db->sql_fetchrow($result) )
+                        while ( $row_privmsgs = $db->sql_fetchrow($result) )
                         {
                                 $mark_list[] = $row_privmsgs['privmsgs_id'];
                         }
@@ -321,23 +321,23 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                 $delete_sql = "DELETE FROM " . PRIVMSGS_TABLE . "
                                         WHERE privmsgs_id IN ($delete_sql_id)";
 
-                                if ( !$pnt_db->sql_query($delete_sql) )
+                                if ( !$db->sql_query($delete_sql) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not delete private message info', '', __LINE__, __FILE__, $delete_sql);
                                 }
 
-                                if ( !$pnt_db->sql_query($delete_text_sql) )
+                                if ( !$db->sql_query($delete_text_sql) )
                                 {
                                         message_die(GENERAL_ERROR, 'Could not delete private message text', '', __LINE__, __FILE__, $delete_text_sql);
                                 }
                         }
 
-                        $message = $lang['User_deleted'] . '<br /><br />' . sprintf($lang['Click_return_useradmin'], '<a href="' . append_titanium_sid("admin_users.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+                        $message = $lang['User_deleted'] . '<br /><br />' . sprintf($lang['Click_return_useradmin'], '<a href="' . append_sid("admin_users.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
 
                         message_die(GENERAL_MESSAGE, $message);
                 }
 
-                $pnt_username = ( !empty($HTTP_POST_VARS['username']) ) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
+                $username = ( !empty($HTTP_POST_VARS['username']) ) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
                 $email = ( !empty($HTTP_POST_VARS['email']) ) ? trim(strip_tags(htmlspecialchars( $HTTP_POST_VARS['email'] ) )) : '';
 
                 $password = ( !empty($HTTP_POST_VARS['password']) ) ? trim(strip_tags(htmlspecialchars( $HTTP_POST_VARS['password'] ) )) : '';
@@ -346,7 +346,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:  Birthdays                             v3.0.0 ]
  ******************************************************/
-				$phpbb2_bday_year = ( !empty($HTTP_POST_VARS['bday_year']) ) ? $HTTP_POST_VARS['bday_year'] : 0;
+				$bday_year = ( !empty($HTTP_POST_VARS['bday_year']) ) ? $HTTP_POST_VARS['bday_year'] : 0;
 				$bday_month = ( !empty($HTTP_POST_VARS['bday_month']) ) ? $HTTP_POST_VARS['bday_month'] : 0;
 				$bday_day = ( !empty($HTTP_POST_VARS['bday_day']) ) ? $HTTP_POST_VARS['bday_day'] : 0;
 		
@@ -385,7 +385,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
-                $pnt_user_posts = ( !empty($HTTP_POST_VARS['user_posts']) ) ? trim(strip_tags( $HTTP_POST_VARS['user_posts'] ) ) : 0;
+                $user_posts = ( !empty($HTTP_POST_VARS['user_posts']) ) ? trim(strip_tags( $HTTP_POST_VARS['user_posts'] ) ) : 0;
 /*****[END]********************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
@@ -400,7 +400,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
-                $pnt_user_admin_notes = ( !empty($HTTP_POST_VARS['user_admin_notes']) ) ? trim(str_replace('<br />', "\n", $HTTP_POST_VARS['user_admin_notes'] ) ) : '';
+                $user_admin_notes = ( !empty($HTTP_POST_VARS['user_admin_notes']) ) ? trim(str_replace('<br />', "\n", $HTTP_POST_VARS['user_admin_notes'] ) ) : '';
 /*****[END]********************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
@@ -430,92 +430,92 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 $popuppm = ( isset( $HTTP_POST_VARS['popup_pm']) ) ? ( ( $HTTP_POST_VARS['popup_pm'] ) ? TRUE : 0 ) : TRUE;
                 $attachsig = ( isset( $HTTP_POST_VARS['attachsig']) ) ? ( ( $HTTP_POST_VARS['attachsig'] ) ? TRUE : 0 ) : 0;
 
-                $allowhtml = ( isset( $HTTP_POST_VARS['allowhtml']) ) ? intval( $HTTP_POST_VARS['allowhtml'] ) : $phpbb2_board_config['allow_html'];
-                $allowbbcode = ( isset( $HTTP_POST_VARS['allowbbcode']) ) ? intval( $HTTP_POST_VARS['allowbbcode'] ) : $phpbb2_board_config['allow_bbcode'];
-                $allowsmilies = ( isset( $HTTP_POST_VARS['allowsmilies']) ) ? intval( $HTTP_POST_VARS['allowsmilies'] ) : $phpbb2_board_config['allow_smilies'];
+                $allowhtml = ( isset( $HTTP_POST_VARS['allowhtml']) ) ? intval( $HTTP_POST_VARS['allowhtml'] ) : $board_config['allow_html'];
+                $allowbbcode = ( isset( $HTTP_POST_VARS['allowbbcode']) ) ? intval( $HTTP_POST_VARS['allowbbcode'] ) : $board_config['allow_bbcode'];
+                $allowsmilies = ( isset( $HTTP_POST_VARS['allowsmilies']) ) ? intval( $HTTP_POST_VARS['allowsmilies'] ) : $board_config['allow_smilies'];
 /*****[BEGIN]******************************************
  [ Mod:     View/Disable Avatars/Signatures    v1.1.2 ]
  ******************************************************/
-                $showavatars = ( isset( $HTTP_POST_VARS['showavatars']) ) ? intval( $HTTP_POST_VARS['showavatars'] ) : $phpbb2_board_config['showavatars'];
-                $showsignatures = ( isset( $HTTP_POST_VARS['showsignatures']) ) ? intval( $HTTP_POST_VARS['showsignatures'] ) : $phpbb2_board_config['showsignatures'];
+                $showavatars = ( isset( $HTTP_POST_VARS['showavatars']) ) ? intval( $HTTP_POST_VARS['showavatars'] ) : $board_config['showavatars'];
+                $showsignatures = ( isset( $HTTP_POST_VARS['showsignatures']) ) ? intval( $HTTP_POST_VARS['showsignatures'] ) : $board_config['showsignatures'];
 /*****[END]********************************************
  [ Mod:     View/Disable Avatars/Signatures    v1.1.2 ]
  ******************************************************/
 
-                $pnt_user_style = ( $HTTP_POST_VARS['theme'] ) ?  $HTTP_POST_VARS['theme'] : '';
+                $user_style = ( $HTTP_POST_VARS['theme'] ) ?  $HTTP_POST_VARS['theme'] : '';
 
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                $pnt_user_wordwrap = ( $HTTP_POST_VARS['user_wordwrap'] ) ? intval( $HTTP_POST_VARS['user_wordwrap'] ) : $phpbb2_board_config['wrap_def'];
+                $user_wordwrap = ( $HTTP_POST_VARS['user_wordwrap'] ) ? intval( $HTTP_POST_VARS['user_wordwrap'] ) : $board_config['wrap_def'];
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                $pnt_user_lang = ( $HTTP_POST_VARS['language'] ) ? $HTTP_POST_VARS['language'] : $phpbb2_board_config['default_lang'];
-                $pnt_user_timezone = ( isset( $HTTP_POST_VARS['timezone']) ) ? doubleval( $HTTP_POST_VARS['timezone'] ) : $phpbb2_board_config['board_timezone'];
+                $user_lang = ( $HTTP_POST_VARS['language'] ) ? $HTTP_POST_VARS['language'] : $board_config['default_lang'];
+                $user_timezone = ( isset( $HTTP_POST_VARS['timezone']) ) ? doubleval( $HTTP_POST_VARS['timezone'] ) : $board_config['board_timezone'];
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
-				$pnt_user_flag = ( !empty($HTTP_POST_VARS['user_flag']) ) ? $HTTP_POST_VARS['user_flag'] : '' ;
+				$user_flag = ( !empty($HTTP_POST_VARS['user_flag']) ) ? $HTTP_POST_VARS['user_flag'] : '' ;
 /*****[END]********************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-                $time_mode = ( isset($HTTP_POST_VARS['time_mode']) ) ? intval($HTTP_POST_VARS['time_mode']) : $phpbb2_board_config['default_time_mode'];
+                $time_mode = ( isset($HTTP_POST_VARS['time_mode']) ) ? intval($HTTP_POST_VARS['time_mode']) : $board_config['default_time_mode'];
                 if ( !preg_match("/[^0-9]/i",$HTTP_POST_VARS['dst_time_lag']) )
                 {
-                    $dst_time_lag = ( isset($HTTP_POST_VARS['dst_time_lag']) ) ? intval($HTTP_POST_VARS['dst_time_lag']) : $phpbb2_board_config['default_dst_time_lag'];
+                    $dst_time_lag = ( isset($HTTP_POST_VARS['dst_time_lag']) ) ? intval($HTTP_POST_VARS['dst_time_lag']) : $board_config['default_dst_time_lag'];
                 }
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-                $pnt_user_template = ( $HTTP_POST_VARS['template'] ) ? $HTTP_POST_VARS['template'] : $phpbb2_board_config['board_template'];
-                $pnt_user_dateformat = ( $HTTP_POST_VARS['dateformat'] ) ? trim( $HTTP_POST_VARS['dateformat'] ) : $phpbb2_board_config['default_dateformat'];
+                $user_template = ( $HTTP_POST_VARS['template'] ) ? $HTTP_POST_VARS['template'] : $board_config['board_template'];
+                $user_dateformat = ( $HTTP_POST_VARS['dateformat'] ) ? trim( $HTTP_POST_VARS['dateformat'] ) : $board_config['default_dateformat'];
 
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-                $pnt_user_show_quickreply = ( isset( $HTTP_POST_VARS['show_quickreply'] ) ) ? intval( $HTTP_POST_VARS['show_quickreply'] ) : 1;
-                $pnt_user_quickreply_mode = ( isset( $HTTP_POST_VARS['quickreply_mode'] ) ) ? ( ( $HTTP_POST_VARS['quickreply_mode'] ) ? TRUE : 0 ) : TRUE;
-                $pnt_user_open_quickreply = ( isset( $HTTP_POST_VARS['open_quickreply'] ) ) ? ( ( $HTTP_POST_VARS['open_quickreply'] ) ? TRUE : 0 ) : TRUE;
+                $user_show_quickreply = ( isset( $HTTP_POST_VARS['show_quickreply'] ) ) ? intval( $HTTP_POST_VARS['show_quickreply'] ) : 1;
+                $user_quickreply_mode = ( isset( $HTTP_POST_VARS['quickreply_mode'] ) ) ? ( ( $HTTP_POST_VARS['quickreply_mode'] ) ? TRUE : 0 ) : TRUE;
+                $user_open_quickreply = ( isset( $HTTP_POST_VARS['open_quickreply'] ) ) ? ( ( $HTTP_POST_VARS['open_quickreply'] ) ? TRUE : 0 ) : TRUE;
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
 
-                $pnt_user_avatar_local = ( isset( $HTTP_POST_VARS['avatarselect'] ) && !empty($HTTP_POST_VARS['submitavatar'] ) && $phpbb2_board_config['allow_avatar_local'] ) ? $HTTP_POST_VARS['avatarselect'] : ( ( isset( $HTTP_POST_VARS['avatarlocal'] )  ) ? $HTTP_POST_VARS['avatarlocal'] : '' );
-                $pnt_user_avatar_category = ( isset($HTTP_POST_VARS['avatarcatname']) && $phpbb2_board_config['allow_avatar_local'] ) ? htmlspecialchars($HTTP_POST_VARS['avatarcatname']) : '' ;
+                $user_avatar_local = ( isset( $HTTP_POST_VARS['avatarselect'] ) && !empty($HTTP_POST_VARS['submitavatar'] ) && $board_config['allow_avatar_local'] ) ? $HTTP_POST_VARS['avatarselect'] : ( ( isset( $HTTP_POST_VARS['avatarlocal'] )  ) ? $HTTP_POST_VARS['avatarlocal'] : '' );
+                $user_avatar_category = ( isset($HTTP_POST_VARS['avatarcatname']) && $board_config['allow_avatar_local'] ) ? htmlspecialchars($HTTP_POST_VARS['avatarcatname']) : '' ;
 
-                $pnt_user_avatar_remoteurl = ( !empty($HTTP_POST_VARS['avatarremoteurl']) ) ? trim( $HTTP_POST_VARS['avatarremoteurl'] ) : '';
-                $pnt_user_avatar_url = ( !empty($HTTP_POST_VARS['avatarurl']) ) ? trim( $HTTP_POST_VARS['avatarurl'] ) : '';
-                $pnt_user_avatar_loc = ( $HTTP_POST_FILES['avatar']['tmp_name'] != "none") ? $HTTP_POST_FILES['avatar']['tmp_name'] : '';
-                $pnt_user_avatar_name = ( !empty($HTTP_POST_FILES['avatar']['name']) ) ? $HTTP_POST_FILES['avatar']['name'] : '';
-                $pnt_user_avatar_size = ( !empty($HTTP_POST_FILES['avatar']['size']) ) ? $HTTP_POST_FILES['avatar']['size'] : 0;
-                $pnt_user_avatar_filetype = ( !empty($HTTP_POST_FILES['avatar']['type']) ) ? $HTTP_POST_FILES['avatar']['type'] : '';
+                $user_avatar_remoteurl = ( !empty($HTTP_POST_VARS['avatarremoteurl']) ) ? trim( $HTTP_POST_VARS['avatarremoteurl'] ) : '';
+                $user_avatar_url = ( !empty($HTTP_POST_VARS['avatarurl']) ) ? trim( $HTTP_POST_VARS['avatarurl'] ) : '';
+                $user_avatar_loc = ( $HTTP_POST_FILES['avatar']['tmp_name'] != "none") ? $HTTP_POST_FILES['avatar']['tmp_name'] : '';
+                $user_avatar_name = ( !empty($HTTP_POST_FILES['avatar']['name']) ) ? $HTTP_POST_FILES['avatar']['name'] : '';
+                $user_avatar_size = ( !empty($HTTP_POST_FILES['avatar']['size']) ) ? $HTTP_POST_FILES['avatar']['size'] : 0;
+                $user_avatar_filetype = ( !empty($HTTP_POST_FILES['avatar']['type']) ) ? $HTTP_POST_FILES['avatar']['type'] : '';
 
-                $pnt_user_avatar = ( empty($pnt_user_avatar_loc) ) ? $this_userdata['user_avatar'] : '';
-                $pnt_user_avatar_type = ( empty($pnt_user_avatar_loc) ) ? $this_userdata['user_avatar_type'] : '';
+                $user_avatar = ( empty($user_avatar_loc) ) ? $this_userdata['user_avatar'] : '';
+                $user_avatar_type = ( empty($user_avatar_loc) ) ? $this_userdata['user_avatar_type'] : '';
 
-                $pnt_user_status = ( !empty($HTTP_POST_VARS['user_status']) ) ? intval( $HTTP_POST_VARS['user_status'] ) : 0;
-                $pnt_user_allowpm = ( !empty($HTTP_POST_VARS['user_allowpm']) ) ? intval( $HTTP_POST_VARS['user_allowpm'] ) : 0;
+                $user_status = ( !empty($HTTP_POST_VARS['user_status']) ) ? intval( $HTTP_POST_VARS['user_status'] ) : 0;
+                $user_allowpm = ( !empty($HTTP_POST_VARS['user_allowpm']) ) ? intval( $HTTP_POST_VARS['user_allowpm'] ) : 0;
 
-                $pnt_user_rank = ( !empty($HTTP_POST_VARS['user_rank']) ) ? intval( $HTTP_POST_VARS['user_rank'] ) : 0;
+                $user_rank = ( !empty($HTTP_POST_VARS['user_rank']) ) ? intval( $HTTP_POST_VARS['user_rank'] ) : 0;
 /*****[BEGIN]******************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
-				$pnt_user_rank2 = ( !empty($HTTP_POST_VARS['user_rank2']) ) ? intval( $HTTP_POST_VARS['user_rank2'] ) : 0;
-				$pnt_user_rank3 = ( !empty($HTTP_POST_VARS['user_rank3']) ) ? intval( $HTTP_POST_VARS['user_rank3'] ) : 0;
-				$pnt_user_rank4 = ( !empty($HTTP_POST_VARS['user_rank4']) ) ? intval( $HTTP_POST_VARS['user_rank4'] ) : 0;
-				$pnt_user_rank5 = ( !empty($HTTP_POST_VARS['user_rank5']) ) ? intval( $HTTP_POST_VARS['user_rank5'] ) : 0;
+				$user_rank2 = ( !empty($HTTP_POST_VARS['user_rank2']) ) ? intval( $HTTP_POST_VARS['user_rank2'] ) : 0;
+				$user_rank3 = ( !empty($HTTP_POST_VARS['user_rank3']) ) ? intval( $HTTP_POST_VARS['user_rank3'] ) : 0;
+				$user_rank4 = ( !empty($HTTP_POST_VARS['user_rank4']) ) ? intval( $HTTP_POST_VARS['user_rank4'] ) : 0;
+				$user_rank5 = ( !empty($HTTP_POST_VARS['user_rank5']) ) ? intval( $HTTP_POST_VARS['user_rank5'] ) : 0;
 /*****[END]********************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
-                $pnt_user_allowavatar = ( !empty($HTTP_POST_VARS['user_allowavatar']) ) ? intval( $HTTP_POST_VARS['user_allowavatar'] ) : 0;
+                $user_allowavatar = ( !empty($HTTP_POST_VARS['user_allowavatar']) ) ? intval( $HTTP_POST_VARS['user_allowavatar'] ) : 0;
 
                 if( isset( $HTTP_POST_VARS['avatargallery'] ) || isset( $HTTP_POST_VARS['submitavatar'] ) || isset( $HTTP_POST_VARS['cancelavatar'] ) )
                 {
-                        $pnt_username = stripslashes($pnt_username);
+                        $username = stripslashes($username);
                         $email = stripslashes($email);
                         $password = '';
                         $password_confirm = '';
@@ -541,7 +541,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
-                        $pnt_user_posts = intval(stripslashes($pnt_user_posts));
+                        $user_posts = intval(stripslashes($user_posts));
 /*****[END]********************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
@@ -549,7 +549,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
-                        $pnt_user_admin_notes = htmlspecialchars(stripslashes($pnt_user_admin_notes));
+                        $user_admin_notes = htmlspecialchars(stripslashes($user_admin_notes));
 /*****[END]********************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
@@ -563,13 +563,13 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
 
-                        $pnt_user_lang = stripslashes($pnt_user_lang);
-                        $pnt_user_dateformat = htmlspecialchars(stripslashes($pnt_user_dateformat));
+                        $user_lang = stripslashes($user_lang);
+                        $user_dateformat = htmlspecialchars(stripslashes($user_dateformat));
 
                         if ( !isset($HTTP_POST_VARS['cancelavatar']))
                         {
-                                $pnt_user_avatar = $pnt_user_avatar_category . '/' . $pnt_user_avatar_local;
-                                $pnt_user_avatar_type = USER_AVATAR_GALLERY;
+                                $user_avatar = $user_avatar_category . '/' . $user_avatar_local;
+                                $user_avatar_type = USER_AVATAR_GALLERY;
                         }
                 }
         }
@@ -580,19 +580,19 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                 $error = FALSE;
 
-                if (stripslashes($pnt_username) != $this_userdata['username'])
+                if (stripslashes($username) != $this_userdata['username'])
                 {
                         unset($rename_user);
 
-                        if ( stripslashes(strtolower($pnt_username)) != strtolower($this_userdata['username']) )
+                        if ( stripslashes(strtolower($username)) != strtolower($this_userdata['username']) )
                         {
-                                $result = validate_username($pnt_username);
+                                $result = validate_username($username);
                                 if ( $result['error'] )
                                 {
                                         $error = TRUE;
                                         $error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $result['error_msg'];
                                 }
-                                else if ( strtolower(str_replace("\\'", "''", $pnt_username)) == strtolower($userdata['username']) )
+                                else if ( strtolower(str_replace("\\'", "''", $username)) == strtolower($userdata['username']) )
                                 {
                                         $error = TRUE;
                                         $error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Username_taken'];
@@ -601,8 +601,8 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                         if (!$error)
                         {
-                                $pnt_username_sql = "username = '" . str_replace("\\'", "''", $pnt_username) . "', ";
-                                $rename_user = $pnt_username; // Used for renaming usergroup
+                                $username_sql = "username = '" . str_replace("\\'", "''", $username) . "', ";
+                                $rename_user = $username; // Used for renaming usergroup
                         }
                 }
 
@@ -645,25 +645,25 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  ******************************************************/
 				$empty_month = empty($bday_month) || $bday_month == $lang['Default_Month'];
 				$empty_day = empty($bday_day) || $bday_day == $lang['Default_Day'];
-				$empty_year = empty($phpbb2_bday_year) || $phpbb2_bday_year == $lang['Default_Year'];
+				$empty_year = empty($bday_year) || $bday_year == $lang['Default_Year'];
 		
 				$temp_month = $empty_month ? 1 : $bday_month;
 				$temp_day = $empty_day ? 1 : $bday_day;
-				$temp_year = $empty_year ? 4 : $phpbb2_bday_year;
+				$temp_year = $empty_year ? 4 : $bday_year;
 		
 				switch (true)
 				{
-					case $phpbb2_board_config['bday_year'] && (($empty_month != $empty_day) || ($empty_day != $empty_year)):
-					case !$phpbb2_board_config['bday_year'] && (($empty_month != $empty_day) || ($empty_day && !$empty_year)):
-					case !@checkdate( $temp_month, $temp_day, $temp_year ) && (!$phpbb2_board_config['bday_lock'] || $userdata['user_birthday'] == 0):
+					case $board_config['bday_year'] && (($empty_month != $empty_day) || ($empty_day != $empty_year)):
+					case !$board_config['bday_year'] && (($empty_month != $empty_day) || ($empty_day && !$empty_year)):
+					case !@checkdate( $temp_month, $temp_day, $temp_year ) && (!$board_config['bday_lock'] || $userdata['user_birthday'] == 0):
 						$error = TRUE;
 						$error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $lang['Birthday_invalid'];
 				}
 		
-				$pnt_user_birthday = sprintf('%02d%02d%04d',$bday_month,$bday_day,$phpbb2_bday_year);
-				$pnt_user_birthday2 = ( $birthday_display != BIRTHDAY_DATE && $birthday_display != BIRTHDAY_NONE && !$empty_month && !$empty_day && !$empty_year ) ? sprintf('%04d%02d%02d',$phpbb2_bday_year,$bday_month,$bday_day) : 'NULL';
+				$user_birthday = sprintf('%02d%02d%04d',$bday_month,$bday_day,$bday_year);
+				$user_birthday2 = ( $birthday_display != BIRTHDAY_DATE && $birthday_display != BIRTHDAY_NONE && !$empty_month && !$empty_day && !$empty_year ) ? sprintf('%04d%02d%02d',$bday_year,$bday_month,$bday_day) : 'NULL';
 		
-				if ( $birthday_greeting && !( $phpbb2_board_config['bday_greeting'] & 1<<($birthday_greeting-1) ) )
+				if ( $birthday_greeting && !( $board_config['bday_greeting'] & 1<<($birthday_greeting-1) ) )
 				{
 					$birthday_greeting = 0;
 				}
@@ -686,7 +686,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         }
                         $signature = prepare_message($signature, $allowhtml, $allowbbcode, $allowsmilies, $signature_bbcode_uid);
 
-                        if ( strlen($sig_length_check) > $phpbb2_board_config['max_sig_chars'] )
+                        if ( strlen($sig_length_check) > $board_config['max_sig_chars'] )
                         {
                                 $error = TRUE;
                                 $error_msg .=  ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Signature_too_long'];
@@ -752,20 +752,20 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 {
                         if( $this_userdata['user_avatar_type'] == USER_AVATAR_UPLOAD && $this_userdata['user_avatar'] != "" )
                         {
-                                if( @file_exists(@phpbb_realpath('./../' . $phpbb2_board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])) )
+                                if( @file_exists(@phpbb_realpath('./../' . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])) )
 					            {
-               						@unlink('./../' . $phpbb2_board_config['avatar_path'] . "/" . $this_userdata['user_avatar']);
+               						@unlink('./../' . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar']);
                                 }
                         }
                         $avatar_sql = ", user_avatar = '', user_avatar_type = " . USER_AVATAR_NONE;
                 }
-                else if( ( $pnt_user_avatar_loc != "" || !empty($pnt_user_avatar_url) ) && !$error )
+                else if( ( $user_avatar_loc != "" || !empty($user_avatar_url) ) && !$error )
                 {
                         //
                         // Only allow one type of upload, either a
                         // filename or a URL
                         //
-                        if( !empty($pnt_user_avatar_loc) && !empty($pnt_user_avatar_url) )
+                        if( !empty($user_avatar_loc) && !empty($user_avatar_url) )
                         {
                                 $error = TRUE;
                                 if( isset($error_msg) )
@@ -775,21 +775,21 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                 $error_msg .= $lang['Only_one_avatar'];
                         }
 
-                        if( $pnt_user_avatar_loc != "" )
+                        if( $user_avatar_loc != "" )
                         {
-                                if( file_exists(@phpbb_realpath($pnt_user_avatar_loc)) && preg_match("/\.(jpg|gif|png)$/i", $pnt_user_avatar_name) )
+                                if( file_exists(@phpbb_realpath($user_avatar_loc)) && preg_match("/\.(jpg|gif|png)$/i", $user_avatar_name) )
                                 {
-                                        if( $pnt_user_avatar_size <= $phpbb2_board_config['avatar_filesize'] && $pnt_user_avatar_size > 0)
+                                        if( $user_avatar_size <= $board_config['avatar_filesize'] && $user_avatar_size > 0)
                                         {
                                                 $error_type = false;
 
                                                 //
                                                 // Opera appends the image name after the type, not big, not clever!
                                                 //
-                                                preg_match("'image\/[x\-]*([a-z]+)'", $pnt_user_avatar_filetype, $pnt_user_avatar_filetype);
-                                                $pnt_user_avatar_filetype = $pnt_user_avatar_filetype[1];
+                                                preg_match("'image\/[x\-]*([a-z]+)'", $user_avatar_filetype, $user_avatar_filetype);
+                                                $user_avatar_filetype = $user_avatar_filetype[1];
 
-                                                switch( $pnt_user_avatar_filetype )
+                                                switch( $user_avatar_filetype )
                                                 {
                                                         case "jpeg":
                                                         case "pjpeg":
@@ -810,28 +810,28 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                                                 if( !$error )
                                                 {
-                                                        list($width, $height) = @getimagesize($pnt_user_avatar_loc);
+                                                        list($width, $height) = @getimagesize($user_avatar_loc);
 
-                                                        if( $width <= $phpbb2_board_config['avatar_max_width'] && $height <= $phpbb2_board_config['avatar_max_height'] )
+                                                        if( $width <= $board_config['avatar_max_width'] && $height <= $board_config['avatar_max_height'] )
                                                         {
-                                                                $pnt_user_id = $this_userdata['user_id'];
+                                                                $user_id = $this_userdata['user_id'];
 
-                                                                $avatar_filename = $pnt_user_id . $imgtype;
+                                                                $avatar_filename = $user_id . $imgtype;
 
                                                                 if( $this_userdata['user_avatar_type'] == USER_AVATAR_UPLOAD && $this_userdata['user_avatar'] != "" )
                                                                 {
-                                                                        if( @file_exists(@phpbb_realpath("./../" . $phpbb2_board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])) )
+                                                                        if( @file_exists(@phpbb_realpath("./../" . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])) )
                                                                         {
-                                                                                @unlink("./../" . $phpbb2_board_config['avatar_path'] . "/". $this_userdata['user_avatar']);
+                                                                                @unlink("./../" . $board_config['avatar_path'] . "/". $this_userdata['user_avatar']);
                                                                         }
                                                                 }
-                                                                @copy($pnt_user_avatar_loc, "./../" . $phpbb2_board_config['avatar_path'] . "/$avatar_filename");
+                                                                @copy($user_avatar_loc, "./../" . $board_config['avatar_path'] . "/$avatar_filename");
 
                                                                 $avatar_sql = ", user_avatar = '$avatar_filename', user_avatar_type = " . USER_AVATAR_UPLOAD;
                                                         }
                                                         else
                                                         {
-                                                                $l_avatar_size = sprintf($lang['Avatar_imagesize'], $phpbb2_board_config['avatar_max_width'], $phpbb2_board_config['avatar_max_height']);
+                                                                $l_avatar_size = sprintf($lang['Avatar_imagesize'], $board_config['avatar_max_width'], $board_config['avatar_max_height']);
 
                                                                 $error = true;
                                                                 $error_msg = ( !empty($error_msg) ) ? $error_msg . "<br />" . $l_avatar_size : $l_avatar_size;
@@ -840,7 +840,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                         }
                                         else
                                         {
-                                                $l_avatar_size = sprintf($lang['Avatar_filesize'], round($phpbb2_board_config['avatar_filesize'] / 1024));
+                                                $l_avatar_size = sprintf($lang['Avatar_filesize'], round($board_config['avatar_filesize'] / 1024));
 
                                                 $error = true;
                                                 $error_msg = ( !empty($error_msg) ) ? $error_msg . "<br />" . $l_avatar_size : $l_avatar_size;
@@ -852,14 +852,14 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                         $error_msg = ( !empty($error_msg) ) ? $error_msg . "<br />" . $lang['Avatar_filetype'] : $lang['Avatar_filetype'];
                                 }
                         }
-                        else if( !empty($pnt_user_avatar_url) )
+                        else if( !empty($user_avatar_url) )
                         {
                                 //
                                 // First check what port we should connect
                                 // to, look for a :[xxxx]/ or, if that doesn't
                                 // exist assume port 80 (http)
                                 //
-                                preg_match("/^(http:\/\/)?([\w\-\.]+)\:?([0-9]*)\/(.*)$/", $pnt_user_avatar_url, $url_ary);
+                                preg_match("/^(http:\/\/)?([\w\-\.]+)\:?([0-9]*)\/(.*)$/", $user_avatar_url, $url_ary);
 
                                 if( !empty($url_ary[4]) )
                                 {
@@ -880,7 +880,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                                 unset($avatar_data);
                                                 while( !@feof($fsock) )
                                                 {
-                                                        $avatar_data .= @fread($fsock, $phpbb2_board_config['avatar_filesize']);
+                                                        $avatar_data .= @fread($fsock, $board_config['avatar_filesize']);
                                                 }
                                                 @fclose($fsock);
 
@@ -908,7 +908,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                                                         break;
                                                         }
 
-                                                        if( !$error && $file_size > 0 && $file_size < $phpbb2_board_config['avatar_filesize'] )
+                                                        if( !$error && $file_size > 0 && $file_size < $board_config['avatar_filesize'] )
                                                         {
                                                                 $avatar_data = substr($avatar_data, strlen($avatar_data) - $file_size, $file_size);
 
@@ -921,27 +921,27 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                                                 {
                                                                         list($width, $height) = @getimagesize($tmp_filename);
 
-                                                                        if( $width <= $phpbb2_board_config['avatar_max_width'] && $height <= $phpbb2_board_config['avatar_max_height'] )
+                                                                        if( $width <= $board_config['avatar_max_width'] && $height <= $board_config['avatar_max_height'] )
                                                                         {
-                                                                                $pnt_user_id = $this_userdata['user_id'];
+                                                                                $user_id = $this_userdata['user_id'];
 
-                                                                                $avatar_filename = $pnt_user_id . $imgtype;
+                                                                                $avatar_filename = $user_id . $imgtype;
 
                                                                                 if( $this_userdata['user_avatar_type'] == USER_AVATAR_UPLOAD && $this_userdata['user_avatar'] != "")
                                                                                 {
-                                                                                        if( file_exists(@phpbb_realpath("./../" . $phpbb2_board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])) )
+                                                                                        if( file_exists(@phpbb_realpath("./../" . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])) )
                                                                                         {
-                                                                                                @unlink("./../" . $phpbb2_board_config['avatar_path'] . "/" . $this_userdata['user_avatar']);
+                                                                                                @unlink("./../" . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar']);
                                                                                         }
                                                                                 }
-                                                                                @copy($tmp_filename, "./../" . $phpbb2_board_config['avatar_path'] . "/$avatar_filename");
+                                                                                @copy($tmp_filename, "./../" . $board_config['avatar_path'] . "/$avatar_filename");
                                                                                 @unlink($tmp_filename);
 
                                                                                 $avatar_sql = ", user_avatar = '$avatar_filename', user_avatar_type = " . USER_AVATAR_UPLOAD;
                                                                         }
                                                                         else
                                                                         {
-                                                                                $l_avatar_size = sprintf($lang['Avatar_imagesize'], $phpbb2_board_config['avatar_max_width'], $phpbb2_board_config['avatar_max_height']);
+                                                                                $l_avatar_size = sprintf($lang['Avatar_imagesize'], $board_config['avatar_max_width'], $board_config['avatar_max_height']);
 
                                                                                 $error = true;
                                                                                 $error_msg = ( !empty($error_msg) ) ? $error_msg . "<br />" . $l_avatar_size : $l_avatar_size;
@@ -981,25 +981,25 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                         $error_msg = ( !empty($error_msg) ) ? $error_msg . "<br />" . $lang['Incomplete_URL'] : $lang['Incomplete_URL'];
                                 }
                         }
-                        else if( !empty($pnt_user_avatar_name) )
+                        else if( !empty($user_avatar_name) )
                         {
-                                $l_avatar_size = sprintf($lang['Avatar_filesize'], round($phpbb2_board_config['avatar_filesize'] / 1024));
+                                $l_avatar_size = sprintf($lang['Avatar_filesize'], round($board_config['avatar_filesize'] / 1024));
 
                                 $error = true;
                                 $error_msg = ( !empty($error_msg) ) ? $error_msg . "<br />" . $l_avatar_size : $l_avatar_size;
                         }
                 }
                 else 
-				if( $pnt_user_avatar_remoteurl != "" && empty($avatar_sql) && !$error )
+				if( $user_avatar_remoteurl != "" && empty($avatar_sql) && !$error )
                 {
-                        if( !preg_match("#^http:\/\/#i", $pnt_user_avatar_remoteurl) )
+                        if( !preg_match("#^http:\/\/#i", $user_avatar_remoteurl) )
                         {
-                                $pnt_user_avatar_remoteurl = "http://" . $pnt_user_avatar_remoteurl;
+                                $user_avatar_remoteurl = "http://" . $user_avatar_remoteurl;
                         }
 
-                        if( preg_match("#^(http:\/\/[a-z0-9\-]+?\.([a-z0-9\-]+\.)*[a-z]+\/.*?\.(gif|jpg|png)$)#is", $pnt_user_avatar_remoteurl) )
+                        if( preg_match("#^(http:\/\/[a-z0-9\-]+?\.([a-z0-9\-]+\.)*[a-z]+\/.*?\.(gif|jpg|png)$)#is", $user_avatar_remoteurl) )
                         {
-                                $avatar_sql = ", user_avatar = '" . str_replace("\'", "''", $pnt_user_avatar_remoteurl) . "', user_avatar_type = " . USER_AVATAR_REMOTE;
+                                $avatar_sql = ", user_avatar = '" . str_replace("\'", "''", $user_avatar_remoteurl) . "', user_avatar_type = " . USER_AVATAR_REMOTE;
                         }
                         else
                         {
@@ -1008,9 +1008,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         }
                 }
                 else 
-				if( $pnt_user_avatar_local != "" && empty($avatar_sql) && !$error )
+				if( $user_avatar_local != "" && empty($avatar_sql) && !$error )
                 {
-                        $avatar_sql = ", user_avatar = '" . str_replace("\'", "''", phpbb_ltrim(basename($pnt_user_avatar_category), "'") . '/' . phpbb_ltrim(basename($pnt_user_avatar_local), "'")) . "', user_avatar_type = " . USER_AVATAR_GALLERY;
+                        $avatar_sql = ", user_avatar = '" . str_replace("\'", "''", phpbb_ltrim(basename($user_avatar_category), "'") . '/' . phpbb_ltrim(basename($user_avatar_local), "'")) . "', user_avatar_type = " . USER_AVATAR_GALLERY;
                 }
 
                 //
@@ -1034,8 +1034,8 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
                         $sql = "UPDATE " . USERS_TABLE . "
-                                SET " . $pnt_username_sql . $passwd_sql . "user_email = '" . str_replace("\'", "''", $email) . "', user_reputation = '" . str_replace("\'", "''", $reputation) . "', user_birthday = $pnt_user_birthday, user_birthday2 = $pnt_user_birthday2, birthday_display = $birthday_display, birthday_greeting = $birthday_greeting, user_website = '" . str_replace("\'", "''", $website) . "', user_occ = '" . str_replace("\'", "''", $occupation) . "', user_from = '" . str_replace("\'", "''", $location) . "', user_from_flag = '$pnt_user_flag', user_interests = '" . str_replace("\'", "''", $interests) . "', user_glance_show = '" . str_replace("\'", "''", $glance_show) . "', user_sig = '" . str_replace("\'", "''", $signature) . "', user_admin_notes = '" . str_replace("\'", "''", $pnt_user_admin_notes) . "', user_viewemail = $viewemail, user_facebook = '" . str_replace("\'", "''", $facebook) . "', user_attachsig = '$attachsig', user_sig_bbcode_uid = '$signature_bbcode_uid', user_allowsmile = '$allowsmilies', user_showavatars = '$showavatars', user_showsignatures = '$showsignatures', user_allowhtml = '$allowhtml', user_allowavatar = '$pnt_user_allowavatar', user_allowbbcode = '$allowbbcode', user_allow_viewonline = '$allowviewonline', user_notify = '$notifyreply', user_allow_pm = '$pnt_user_allowpm', user_notify_pm = '$notifypm', user_popup_pm = '$popuppm', user_wordwrap = '$pnt_user_wordwrap', user_lang = '" . str_replace("\'", "''", $pnt_user_lang) . "', theme = '$pnt_user_style', user_timezone = '$pnt_user_timezone', user_time_mode = '$time_mode', user_dst_time_lag = '$dst_time_lag', user_dateformat = '" . str_replace("\'", "''", $pnt_user_dateformat) . "', user_show_quickreply = '$pnt_user_show_quickreply', user_quickreply_mode = '$pnt_user_quickreply_mode', user_open_quickreply = $pnt_user_open_quickreply, user_active = '$pnt_user_status', user_hide_images = '$hide_images', user_rank = '$pnt_user_rank', user_rank2 = '$pnt_user_rank2', user_rank3 = '$pnt_user_rank3', user_rank4 = '$pnt_user_rank4', user_rank5 = '$pnt_user_rank5', user_gender = '$gender', user_posts='$pnt_user_posts'" . $avatar_sql . "
-                                WHERE user_id = '$pnt_user_id'";
+                                SET " . $username_sql . $passwd_sql . "user_email = '" . str_replace("\'", "''", $email) . "', user_reputation = '" . str_replace("\'", "''", $reputation) . "', user_birthday = $user_birthday, user_birthday2 = $user_birthday2, birthday_display = $birthday_display, birthday_greeting = $birthday_greeting, user_website = '" . str_replace("\'", "''", $website) . "', user_occ = '" . str_replace("\'", "''", $occupation) . "', user_from = '" . str_replace("\'", "''", $location) . "', user_from_flag = '$user_flag', user_interests = '" . str_replace("\'", "''", $interests) . "', user_glance_show = '" . str_replace("\'", "''", $glance_show) . "', user_sig = '" . str_replace("\'", "''", $signature) . "', user_admin_notes = '" . str_replace("\'", "''", $user_admin_notes) . "', user_viewemail = $viewemail, user_facebook = '" . str_replace("\'", "''", $facebook) . "', user_attachsig = '$attachsig', user_sig_bbcode_uid = '$signature_bbcode_uid', user_allowsmile = '$allowsmilies', user_showavatars = '$showavatars', user_showsignatures = '$showsignatures', user_allowhtml = '$allowhtml', user_allowavatar = '$user_allowavatar', user_allowbbcode = '$allowbbcode', user_allow_viewonline = '$allowviewonline', user_notify = '$notifyreply', user_allow_pm = '$user_allowpm', user_notify_pm = '$notifypm', user_popup_pm = '$popuppm', user_wordwrap = '$user_wordwrap', user_lang = '" . str_replace("\'", "''", $user_lang) . "', theme = '$user_style', user_timezone = '$user_timezone', user_time_mode = '$time_mode', user_dst_time_lag = '$dst_time_lag', user_dateformat = '" . str_replace("\'", "''", $user_dateformat) . "', user_show_quickreply = '$user_show_quickreply', user_quickreply_mode = '$user_quickreply_mode', user_open_quickreply = $user_open_quickreply, user_active = '$user_status', user_hide_images = '$hide_images', user_rank = '$user_rank', user_rank2 = '$user_rank2', user_rank3 = '$user_rank3', user_rank4 = '$user_rank4', user_rank5 = '$user_rank5', user_gender = '$gender', user_posts='$user_posts'" . $avatar_sql . "
+                                WHERE user_id = '$user_id'";
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  [ Mod:    Gender                              v1.2.6 ]
@@ -1051,26 +1051,26 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  [ Mod:    Users Reputations Systems           v1.0.0 ]
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
-                        if( $result = $pnt_db->sql_query($sql) )
+                        if( $result = $db->sql_query($sql) )
                         {
                                 if( isset($rename_user) )
                                 {
                                         $sql = "UPDATE " . GROUPS_TABLE . "
                                                 SET group_name = '".str_replace("\'", "''", $rename_user)."'
                                                 WHERE group_name = '".str_replace("'", "''", $this_userdata['username'] )."'";
-                                        if( !$result = $pnt_db->sql_query($sql) )
+                                        if( !$result = $db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Could not rename users group', '', __LINE__, __FILE__, $sql);
                                         }
                                 }
 
                                 // Delete user session, to prevent the user navigating the forum (if logged in) when disabled
-                                if (!$pnt_user_status)
+                                if (!$user_status)
                                 {
                                         $sql = "DELETE FROM " . SESSIONS_TABLE . "
-                                                WHERE session_user_id = " . $pnt_user_id;
+                                                WHERE session_user_id = " . $user_id;
 
-                                        if ( !$pnt_db->sql_query($sql) )
+                                        if ( !$db->sql_query($sql) )
                                         {
                                                 message_die(GENERAL_ERROR, 'Error removing user session', '', __LINE__, __FILE__, $sql);
                                         }
@@ -1085,7 +1085,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                     $xd_value = $xdata[$code_name];
                                     if ( ( in_array($xd_value, $meta['values_array']) || count($meta['values_array']) == 0 ) && $meta['handle_input'] )
                                     {
-                                        set_user_xdata($pnt_user_id, $code_name, $xd_value);
+                                        set_user_xdata($user_id, $code_name, $xd_value);
                                     }
                                 }
 /*****[END]********************************************
@@ -1095,7 +1095,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                  				// and change the current one (if applicable)
                  				if ( !empty($passwd_sql) )
                  				{
-                 					titanium_session_reset_keys($pnt_user_id, $pnt_user_ip);
+                 					session_reset_keys($user_id, $user_ip);
                  				}
                                 $message .= $lang['Admin_user_updated'];
                         }
@@ -1104,23 +1104,23 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                             message_die(GENERAL_ERROR, 'Admin_user_fail', '', __LINE__, __FILE__, $sql);
                         }
 
-                        $message .= '<br /><br />' . sprintf($lang['Click_return_useradmin'], '<a href="' . append_titanium_sid("admin_users.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_titanium_sid("index.$phpEx?pane=right") . '">', '</a>');
+                        $message .= '<br /><br />' . sprintf($lang['Click_return_useradmin'], '<a href="' . append_sid("admin_users.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
 
                         message_die(GENERAL_MESSAGE, $message);
                 }
                 else
                 {
-                        $phpbb2_template->set_filenames(array(
+                        $template->set_filenames(array(
                                 'reg_header' => 'error_body.tpl')
                         );
 
-                        $phpbb2_template->assign_vars(array(
+                        $template->assign_vars(array(
                                 'ERROR_MESSAGE' => $error_msg)
                         );
 
-                        $phpbb2_template->assign_var_from_handle('ERROR_BOX', 'reg_header');
+                        $template->assign_var_from_handle('ERROR_BOX', 'reg_header');
 
-                        $pnt_username = htmlspecialchars(stripslashes($pnt_username));
+                        $username = htmlspecialchars(stripslashes($username));
                         $email = stripslashes($email);
                         $password = '';
                         $password_confirm = '';
@@ -1146,7 +1146,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
-                        $pnt_user_posts = intval(stripslashes($pnt_user_posts));
+                        $user_posts = intval(stripslashes($user_posts));
 /*****[END]**********77********************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
@@ -1169,16 +1169,16 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
 
-                        $pnt_user_lang = stripslashes($pnt_user_lang);
-                        $pnt_user_dateformat = htmlspecialchars(stripslashes($pnt_user_dateformat));
+                        $user_lang = stripslashes($user_lang);
+                        $user_dateformat = htmlspecialchars(stripslashes($user_dateformat));
                 }
         }
         else if( !isset( $HTTP_POST_VARS['submit'] ) && $mode != 'save' && !isset( $HTTP_POST_VARS['avatargallery'] ) && !isset( $HTTP_POST_VARS['submitavatar'] ) && !isset( $HTTP_POST_VARS['cancelavatar'] ) )
         {
                 if( isset( $HTTP_GET_VARS[POST_USERS_URL]) || isset( $HTTP_POST_VARS[POST_USERS_URL]) )
                 {
-                        $pnt_user_id = ( isset( $HTTP_POST_VARS[POST_USERS_URL]) ) ? intval( $HTTP_POST_VARS[POST_USERS_URL]) : intval( $HTTP_GET_VARS[POST_USERS_URL]);
-                        $this_userdata = get_userdata($pnt_user_id);
+                        $user_id = ( isset( $HTTP_POST_VARS[POST_USERS_URL]) ) ? intval( $HTTP_POST_VARS[POST_USERS_URL]) : intval( $HTTP_GET_VARS[POST_USERS_URL]);
+                        $this_userdata = get_userdata($user_id);
                         if( !$this_userdata )
                         {
                                 message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
@@ -1186,7 +1186,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
-                        $this_userdata['xdata'] = get_user_xdata($pnt_user_id);
+                        $this_userdata['xdata'] = get_user_xdata($user_id);
 /*****[END]********************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
@@ -1210,8 +1210,8 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 //
                 // Now parse and display it as a template
                 //
-                $pnt_user_id = $this_userdata['user_id'];
-                $pnt_username = $this_userdata['username'];
+                $user_id = $this_userdata['user_id'];
+                $username = $this_userdata['username'];
                 $email = $this_userdata['user_email'];
                 $password = '';
                 $password_confirm = '';
@@ -1222,7 +1222,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 				preg_match('/(..)(..)(....)/', sprintf('%08d',$this_userdata['user_birthday']), $bday_parts);
 				$bday_month = $bday_parts[1];
 				$bday_day = $bday_parts[2];
-				$phpbb2_bday_year = $bday_parts[3];
+				$bday_year = $bday_parts[3];
 		
 				$birthday_display = $this_userdata['birthday_display'];
 				$birthday_greeting = $this_userdata['birthday_greeting'];
@@ -1242,7 +1242,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
-				$pnt_user_flag = htmlspecialchars($this_userdata['user_from_flag']);
+				$user_flag = htmlspecialchars($this_userdata['user_from_flag']);
 /*****[END]********************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
@@ -1265,7 +1265,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
-                $pnt_user_posts = intval($this_userdata['user_posts']);
+                $user_posts = intval($this_userdata['user_posts']);
 /*****[END]********************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
@@ -1300,7 +1300,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 $allowhtml = $this_userdata['user_allowhtml'];
                 $allowbbcode = $this_userdata['user_allowbbcode'];
                 $allowsmilies = $this_userdata['user_allowsmile'];
-                $pnt_user_lang = $this_userdata['user_lang'];
+                $user_lang = $this_userdata['user_lang'];
 /*****[BEGIN]******************************************
  [ Mod:     View/Disable Avatars/Signatures    v1.1.2 ]
  ******************************************************/
@@ -1309,17 +1309,17 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[END]********************************************
  [ Mod:     View/Disable Avatars/Signatures    v1.1.2 ]
  ******************************************************/
-                $pnt_user_timezone = $this_userdata['user_timezone'];
+                $user_timezone = $this_userdata['user_timezone'];
 
                 $allowviewonline = $this_userdata['user_allow_viewonline'];
 
-                $pnt_user_avatar = $this_userdata['user_avatar'];
-                $pnt_user_avatar_type = $this_userdata['user_avatar_type'];
-                $pnt_user_style = $this_userdata['theme'];
+                $user_avatar = $this_userdata['user_avatar'];
+                $user_avatar_type = $this_userdata['user_avatar_type'];
+                $user_style = $this_userdata['theme'];
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                $pnt_user_wordwrap = $this_userdata['user_wordwrap'];
+                $user_wordwrap = $this_userdata['user_wordwrap'];
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
@@ -1336,20 +1336,20 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-                $pnt_user_dateformat = htmlspecialchars($this_userdata['user_dateformat']);
+                $user_dateformat = htmlspecialchars($this_userdata['user_dateformat']);
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-                $pnt_user_show_quickreply = $this_userdata['user_show_quickreply'];
-                $pnt_user_quickreply_mode = $this_userdata['user_quickreply_mode'];
-                $pnt_user_open_quickreply = $this_userdata['user_open_quickreply'];
+                $user_show_quickreply = $this_userdata['user_show_quickreply'];
+                $user_quickreply_mode = $this_userdata['user_quickreply_mode'];
+                $user_open_quickreply = $this_userdata['user_open_quickreply'];
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
 
-                $pnt_user_status = $this_userdata['user_active'];
-                $pnt_user_allowavatar = $this_userdata['user_allowavatar'];
-                $pnt_user_allowpm = $this_userdata['user_allow_pm'];
+                $user_status = $this_userdata['user_active'];
+                $user_allowavatar = $this_userdata['user_allowavatar'];
+                $user_allowpm = $this_userdata['user_allow_pm'];
 /*****[BEGIN]******************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
@@ -1368,20 +1368,20 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
         {
                 if( !$error )
                 {
-                        $pnt_user_id = intval($HTTP_POST_VARS['id']);
+                        $user_id = intval($HTTP_POST_VARS['id']);
 
-                        $phpbb2_template->set_filenames(array(
+                        $template->set_filenames(array(
                                 "body" => "admin/user_avatar_gallery.tpl")
                         );
 
-                        $dir = @opendir("../" . $phpbb2_board_config['avatar_gallery_path']);
+                        $dir = @opendir("../" . $board_config['avatar_gallery_path']);
 
                         $avatar_images = array();
                         while( $file = @readdir($dir) )
                         {
-                                if( $file != "." && $file != ".." && !is_file(phpbb_realpath("./../" . $phpbb2_board_config['avatar_gallery_path'] . "/" . $file)) && !is_link(phpbb_realpath("./../" . $phpbb2_board_config['avatar_gallery_path'] . "/" . $file)) )
+                                if( $file != "." && $file != ".." && !is_file(phpbb_realpath("./../" . $board_config['avatar_gallery_path'] . "/" . $file)) && !is_link(phpbb_realpath("./../" . $board_config['avatar_gallery_path'] . "/" . $file)) )
                                 {
-                                        $sub_dir = @opendir("../" . $phpbb2_board_config['avatar_gallery_path'] . "/" . $file);
+                                        $sub_dir = @opendir("../" . $board_config['avatar_gallery_path'] . "/" . $file);
 
                                         $avatar_row_count = 0;
                                         $avatar_col_count = 0;
@@ -1428,17 +1428,17 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         $s_colspan = 0;
                         for($i = 0; $i < count($avatar_images[$category]); $i++)
                         {
-                                $phpbb2_template->assign_block_vars("avatar_row", array());
+                                $template->assign_block_vars("avatar_row", array());
 
                                 $s_colspan = max($s_colspan, count($avatar_images[$category][$i]));
 
                                 for($j = 0; $j < count($avatar_images[$category][$i]); $j++)
                                 {
-                                        $phpbb2_template->assign_block_vars("avatar_row.avatar_column", array(
-                                                "AVATAR_IMAGE" => "../" . $phpbb2_board_config['avatar_gallery_path'] . '/' . $category . '/' . $avatar_images[$category][$i][$j])
+                                        $template->assign_block_vars("avatar_row.avatar_column", array(
+                                                "AVATAR_IMAGE" => "../" . $board_config['avatar_gallery_path'] . '/' . $category . '/' . $avatar_images[$category][$i][$j])
                                         );
 
-                                        $phpbb2_template->assign_block_vars("avatar_row.avatar_option_column", array(
+                                        $template->assign_block_vars("avatar_row.avatar_option_column", array(
                                                 "S_OPTIONS_AVATAR" => $avatar_images[$category][$i][$j])
                                         );
                                 }
@@ -1447,14 +1447,14 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         $coppa = ( ( !$HTTP_POST_VARS['coppa'] && !$HTTP_GET_VARS['coppa'] ) || $mode == "register") ? 0 : TRUE;
 
                         $s_hidden_fields = '<input type="hidden" name="mode" value="edit" /><input type="hidden" name="agreed" value="true" /><input type="hidden" name="coppa" value="' . $coppa . '" /><input type="hidden" name="avatarcatname" value="' . $category . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="id" value="' . $pnt_user_id . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="id" value="' . $user_id . '" />';
 
-                        $s_hidden_fields .= '<input type="hidden" name="username" value="' . str_replace("\"", "&quot;", $pnt_username) . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="username" value="' . str_replace("\"", "&quot;", $username) . '" />';
                         $s_hidden_fields .= '<input type="hidden" name="email" value="' . str_replace("\"", "&quot;", $email) . '" />';
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-						$s_hidden_fields .= '<input type="hidden" name="bday_years" value="' . $phpbb2_bday_years . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="bday_years" value="' . $bday_years . '" />';
 						$s_hidden_fields .= '<input type="hidden" name="bday_months" value="' . $bday_months . '" />';
 						$s_hidden_fields .= '<input type="hidden" name="bday_days" value="' . $bday_days . '" />';
 						$s_hidden_fields .= '<input type="hidden" name="birthday_display" value="' . $birthday_display . '" />';
@@ -1476,7 +1476,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
-						$s_hidden_fields .= '<input type="hidden" name="user_flag" value="' . $pnt_user_flag . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_flag" value="' . $user_flag . '" />';
 /*****[END]********************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
@@ -1492,7 +1492,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
-                        $s_hidden_fields .= '<input type="hidden" name="user_posts" value="' . $pnt_user_posts . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="user_posts" value="' . $user_posts . '" />';
 /*****[END]********************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
@@ -1529,16 +1529,16 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  [ Mod:     View/Disable Avatars/Signatures    v1.1.2 ]
  ******************************************************/
                         $s_hidden_fields .= '<input type="hidden" name="hideonline" value="' . !$allowviewonline . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="theme" value="' . $pnt_user_style . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="theme" value="' . $user_style . '" />';
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                        $s_hidden_fields .= '<input type="hidden" name="wrap" value="' . $pnt_user_wordwrap .'" />';
+                        $s_hidden_fields .= '<input type="hidden" name="wrap" value="' . $user_wordwrap .'" />';
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                        $s_hidden_fields .= '<input type="hidden" name="language" value="' . $pnt_user_lang . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="timezone" value="' . $pnt_user_timezone . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="language" value="' . $user_lang . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="timezone" value="' . $user_timezone . '" />';
 /*****[BEGIN]******************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
@@ -1556,7 +1556,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  ******************************************************/
                         $s_hidden_fields .= '<input type="hidden" name="time_mode" value="' . $time_mode . '" />';
                         $s_hidden_fields .= '<input type="hidden" name="dst_time_lag" value="' . $dst_time_lag . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="dateformat" value="' . str_replace("\"", "&quot;", $pnt_user_dateformat) . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="dateformat" value="' . str_replace("\"", "&quot;", $user_dateformat) . '" />';
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
@@ -1564,36 +1564,36 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-                        $s_hidden_fields .= '<input type="hidden" name="show_quickreply" value="' . $pnt_user_show_quickreply . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="quickreply_mode" value="' . $pnt_user_quickreply_mode . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="open_quickreply" value="' . $pnt_user_quickreply_mode . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="show_quickreply" value="' . $user_show_quickreply . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="quickreply_mode" value="' . $user_quickreply_mode . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="open_quickreply" value="' . $user_quickreply_mode . '" />';
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
 
-                        $s_hidden_fields .= '<input type="hidden" name="user_status" value="' . $pnt_user_status . '" />';
-                        $s_hidden_fields .= '<input type="hidden" name="user_allowpm" value="' . $pnt_user_allowpm . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="user_status" value="' . $user_status . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="user_allowpm" value="' . $user_allowpm . '" />';
 /*****[BEGIN]******************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
-                        $s_hidden_fields .= '<input type="hidden" name="user_admin_notes" value="' . $pnt_user_admin_notes . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="user_admin_notes" value="' . $user_admin_notes . '" />';
 /*****[END]********************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
-                        $s_hidden_fields .= '<input type="hidden" name="user_allowavatar" value="' . $pnt_user_allowavatar . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="user_allowavatar" value="' . $user_allowavatar . '" />';
 /*****[BEGIN]******************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
-						$s_hidden_fields .= '<input type="hidden" name="user_rank" value="' . $pnt_user_rank . '" />';
-						$s_hidden_fields .= '<input type="hidden" name="user_rank2" value="' . $pnt_user_rank2 . '" />';
-						$s_hidden_fields .= '<input type="hidden" name="user_rank3" value="' . $pnt_user_rank3 . '" />';
-						$s_hidden_fields .= '<input type="hidden" name="user_rank4" value="' . $pnt_user_rank4 . '" />';
-						$s_hidden_fields .= '<input type="hidden" name="user_rank5" value="' . $pnt_user_rank5 . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_rank" value="' . $user_rank . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_rank2" value="' . $user_rank2 . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_rank3" value="' . $user_rank3 . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_rank4" value="' . $user_rank4 . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_rank5" value="' . $user_rank5 . '" />';
 /*****[END]********************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
 
-                        $phpbb2_template->assign_vars(array(
+                        $template->assign_vars(array(
                                 "L_USER_TITLE" => $lang['User_admin'],
                                 "L_USER_EXPLAIN" => $lang['User_admin_explain'],
                                 "L_AVATAR_GALLERY" => $lang['Avatar_gallery'],
@@ -1604,7 +1604,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                                 "S_OPTIONS_CATEGORIES" => $s_categories,
                                 "S_COLSPAN" => $s_colspan,
-                                "S_PROFILE_ACTION" => append_titanium_sid("admin_users.$phpEx?mode=$mode"),
+                                "S_PROFILE_ACTION" => append_sid("admin_users.$phpEx?mode=$mode"),
                                 "S_HIDDEN_FIELDS" => $s_hidden_fields)
                         );
                 }
@@ -1614,29 +1614,29 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 $s_hidden_fields = '<input type="hidden" name="mode" value="save" /><input type="hidden" name="agreed" value="true" /><input type="hidden" name="coppa" value="' . $coppa . '" />';
                 $s_hidden_fields .= '<input type="hidden" name="id" value="' . $this_userdata['user_id'] . '" />';
 
-                if( !empty($pnt_user_avatar_local) )
+                if( !empty($user_avatar_local) )
                 {
-                        $s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $pnt_user_avatar_local . '" /><input type="hidden" name="avatarcatname" value="' . $pnt_user_avatar_category . '" />';
+                        $s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $user_avatar_local . '" /><input type="hidden" name="avatarcatname" value="' . $user_avatar_category . '" />';
                 }
 
-                if( $pnt_user_avatar_type )
+                if( $user_avatar_type )
                 {
-                        switch( $pnt_user_avatar_type )
+                        switch( $user_avatar_type )
                         {
                                 case USER_AVATAR_UPLOAD:
-                                        $avatar = '<img src="../../../' . $phpbb2_board_config['avatar_path'] . '/' . $pnt_user_avatar . '" alt="" />';
+                                        $avatar = '<img src="../../../' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" />';
                                         break;
 /*****[BEGIN]******************************************
  [ Mod:     Remote Avatar Resize               v2.0.0 ]
  ******************************************************/
                                 case USER_AVATAR_REMOTE:
-                                        $avatar = resize_avatar($pnt_user_avatar);
+                                        $avatar = resize_avatar($user_avatar);
                                         break;
 /*****[END]********************************************
  [ Mod:     Remote Avatar Resize               v2.0.0 ]
  ******************************************************/
                                 case USER_AVATAR_GALLERY:
-                                        $avatar = '<img src="../../../' . $phpbb2_board_config['avatar_gallery_path'] . '/' . $pnt_user_avatar . '" alt="" />';
+                                        $avatar = '<img src="../../../' . $board_config['avatar_gallery_path'] . '/' . $user_avatar . '" alt="" />';
                                         break;
                         }
                 }
@@ -1648,7 +1648,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 $sql = "SELECT * FROM " . RANKS_TABLE . "
                         WHERE rank_special = '1'
                         ORDER BY rank_title";
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not obtain ranks data', '', __LINE__, __FILE__, $sql);
                 }
@@ -1689,7 +1689,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[END]********************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/ 
-                while( $row = $pnt_db->sql_fetchrow($result) )
+                while( $row = $db->sql_fetchrow($result) )
                 {
                         $rank = $row['rank_title'];
                         $rank_id = $row['rank_id'];
@@ -1712,7 +1712,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  ******************************************************/
                 }
 
-                $phpbb2_template->set_filenames(array(
+                $template->set_filenames(array(
                         "body" => "admin/user_edit_body.tpl")
                 );
 /*****[BEGIN]******************************************
@@ -1726,7 +1726,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 	{
                 		if ($info['display_register'] == XD_DISPLAY_NORMAL)
                 		{
-                			$phpbb2_template->assign_block_vars('xdata', array(
+                			$template->assign_block_vars('xdata', array(
                 				'CODE_NAME' => $code_name,
                 				'NAME' => $info['field_name'],
                 				'DESCRIPTION' => $info['field_desc'],
@@ -1738,23 +1738,23 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 			switch ($info['field_type'])
                 			{
                 				case 'text':
-                					$phpbb2_template->assign_block_vars('xdata.switch_type_text', array());
+                					$template->assign_block_vars('xdata.switch_type_text', array());
                 					break;
 
                 				case 'textarea':
-                					$phpbb2_template->assign_block_vars('xdata.switch_type_textarea', array());
+                					$template->assign_block_vars('xdata.switch_type_textarea', array());
                 					break;
 
                 				case 'checkbox':
-                					$phpbb2_template->assign_block_vars('xdata.switch_type_checkbox', array( 'CHECKED' => ($xdata[$code_name] == $lang['true']) ? ' checked="checked"' : ''  ));
+                					$template->assign_block_vars('xdata.switch_type_checkbox', array( 'CHECKED' => ($xdata[$code_name] == $lang['true']) ? ' checked="checked"' : ''  ));
                 					break;
 
                 				case 'radio':
-                					$phpbb2_template->assign_block_vars('xdata.switch_type_radio', array());
+                					$template->assign_block_vars('xdata.switch_type_radio', array());
 
                 					while ( list( , $option) = each($info['values_array']) )
                 					{
-                	                	$phpbb2_template->assign_block_vars('xdata.switch_type_radio.options', array(
+                	                	$template->assign_block_vars('xdata.switch_type_radio.options', array(
                 	                		'OPTION' => $option,
                 	                		'CHECKED' => ($xdata[$code_name] == $option) ? 'checked="checked"' : ''
                 							)
@@ -1763,11 +1763,11 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 					break;
 
                 				case 'select':
-                					$phpbb2_template->assign_block_vars('xdata.switch_type_select', array());
+                					$template->assign_block_vars('xdata.switch_type_select', array());
 
                 					while ( list( , $option) = each($info['values_array']) )
                 					{
-                	                	$phpbb2_template->assign_block_vars('xdata.switch_type_select.options', array(
+                	                	$template->assign_block_vars('xdata.switch_type_select.options', array(
                 	                		'OPTION' => $option,
                 	                		'SELECTED' => ($xdata[$code_name] == $option) ? 'selected="selected"' : ''
                 							)
@@ -1778,26 +1778,26 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 		}
                 		elseif ($info['display_register'] == XD_DISPLAY_ROOT)
                 		{
-                            $phpbb2_template->assign_block_vars('xdata',
+                            $template->assign_block_vars('xdata',
                 	 	  		array(
                 		  			'CODE_NAME' => $code_name,
                 		  			'NAME' => $xd_meta[$code_name]['field_name'],
                 		  			'DESCRIPTION' => $xd_meta[$code_name]['field_desc'],
                        				'VALUE' => isset($xdata[$code_name]) ? str_replace('"', '&quot;', $xdata[$code_name]) : ''
                 		  		) );
-                		  	$phpbb2_template->assign_block_vars('xdata.switch_is_'.$code_name, array());
+                		  	$template->assign_block_vars('xdata.switch_is_'.$code_name, array());
 
                 		  	switch ($info['field_type'])
                 			{
                 				case 'checkbox':
-                					$phpbb2_template->assign_block_vars('xdata.switch_type_checkbox', array( 'CHECKED' => ($xdata[$code_name] == 1) ? ' checked="checked"' : ''  ));
+                					$template->assign_block_vars('xdata.switch_type_checkbox', array( 'CHECKED' => ($xdata[$code_name] == 1) ? ' checked="checked"' : ''  ));
                 					break;
 
                 				case 'radio':
 
                 					while ( list( , $option) = each($info['values_array']) )
                 					{
-                	                	$phpbb2_template->assign_block_vars('xdata.switch_is_'.$code_name.'.options', array(
+                	                	$template->assign_block_vars('xdata.switch_is_'.$code_name.'.options', array(
                 	                		'OPTION' => $option,
                 	                		'CHECKED' => ($xdata[$code_name] == $option) ? 'checked="checked"' : ''
                 							)
@@ -1809,7 +1809,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                 					while ( list( , $option) = each($info['values_array']) )
                 					{
-                	                	$phpbb2_template->assign_block_vars('xdata.switch_is_'.$code_name.'.options', array(
+                	                	$template->assign_block_vars('xdata.switch_is_'.$code_name.'.options', array(
                 	                		'OPTION' => $option,
                 	                		'SELECTED' => ($xdata[$code_name] == $option) ? 'selected="selected"' : ''
                 							)
@@ -1834,7 +1834,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 $l_time_mode_4 = $lang['time_mode_server_pc'];
                 $l_time_mode_6 = $lang['time_mode_full_pc'];
 
-                switch ($phpbb2_board_config['default_time_mode'])
+                switch ($board_config['default_time_mode'])
                 {
                     case MANUAL_DST:
                         $l_time_mode_1 = $l_time_mode_1 . "*";
@@ -1897,23 +1897,23 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 // us from doing file uploads....
                 //
                 $ini_val = ( phpversion() >= '4.0.0' ) ? 'ini_get' : 'get_cfg_var';
-                $form_enctype = ( !@$ini_val('file_uploads') || phpversion() == '4.0.4pl1' || !$phpbb2_board_config['allow_avatar_upload'] || ( phpversion() < '4.0.3' && @$ini_val('open_basedir') != '' ) ) ? '' : 'enctype="multipart/form-data"';
+                $form_enctype = ( !@$ini_val('file_uploads') || phpversion() == '4.0.4pl1' || !$board_config['allow_avatar_upload'] || ( phpversion() < '4.0.3' && @$ini_val('open_basedir') != '' ) ) ? '' : 'enctype="multipart/form-data"';
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
 				$sql = "SELECT *
 					FROM " . FLAG_TABLE . "
 					ORDER BY flag_id";
-				if(!$flags_result = $pnt_db->sql_query($sql))
+				if(!$flags_result = $db->sql_query($sql))
 				{
 					message_die(GENERAL_ERROR, "Couldn't obtain flags information.", "", __LINE__, __FILE__, $sql);
 				}
-				$flag_row = $pnt_db->sql_fetchrowset($ranksresult);
-				$num_flags = $pnt_db->sql_numrows($ranksresult) ;
+				$flag_row = $db->sql_fetchrowset($ranksresult);
+				$num_flags = $db->sql_numrows($ranksresult) ;
 
 			
 				$flag_start_image = 'blank' ;
-				$selected = ( isset($pnt_user_flag) ) ? '' : ' selected="selected"'  ;
+				$selected = ( isset($user_flag) ) ? '' : ' selected="selected"'  ;
 				// $flag_select  = '<select name="user_flag" onChange="document.images['user_flag'].src = "../../../images/flags/"+ this.value;">';
                 $flag_select  = '<select class="user_from_flag_select" name="user_flag">';
 				$flag_select .= '  <option value="blank"'.$selected.'>'.$lang['Select_Country'].'</option>';
@@ -1921,9 +1921,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 				{
 					$flag_name = $flag_row[$i]['flag_name'];
 					$flag_image = $flag_row[$i]['flag_image'];
-					$selected = ( isset( $pnt_user_flag) ) ? ((str_replace('.png','',$pnt_user_flag) == str_replace('.png','',$flag_image)) ? 'selected="selected"' : '' ) : '' ;
+					$selected = ( isset( $user_flag) ) ? ((str_replace('.png','',$user_flag) == str_replace('.png','',$flag_image)) ? 'selected="selected"' : '' ) : '' ;
 					$flag_select .= '  <option value="'.$flag_image.'"'.$selected.'>'.$flag_name.'</option>';
-					if ( isset($pnt_user_flag) && ($pnt_user_flag == $flag_image))
+					if ( isset($user_flag) && ($user_flag == $flag_image))
 					{
 						// $flag_start_image = $flag_image;
                         $flag_start_image = str_replace('.png','',$flag_image);
@@ -1937,8 +1937,8 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[END]********************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
-                $phpbb2_template->assign_vars(array(
-                        'USERNAME' => $pnt_username,
+                $template->assign_vars(array(
+                        'USERNAME' => $username,
                         'EMAIL' => $email,
 /*****[BEGIN]******************************************
  [ Mod:     Users Reputations Systems          v1.0.0 ]
@@ -1971,7 +1971,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
  *****************************************************/
-                        'USER_POSTS' => $pnt_user_posts,
+                        'USER_POSTS' => $user_posts,
                         'L_USER_POSTS' => $lang['user_posts'],
 /*****[END]********************************************
  [ Mod:    Edit User Post Count                v1.0.0 ]
@@ -2001,7 +2001,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  ******************************************************/
 						'BDAY_MONTH' => ($bday_month != 0) ? $bday_month : $lang['Default_Month'],
 						'BDAY_DAY' => ($bday_day != 0) ? $bday_day : $lang['Default_Day'],
-						'BDAY_YEAR' => ($phpbb2_bday_year != 0) ? $phpbb2_bday_year : $lang['Default_Year'],
+						'BDAY_YEAR' => ($bday_year != 0) ? $bday_year : $lang['Default_Year'],
 						'BIRTHDAY_ALL' => BIRTHDAY_ALL,
 						'BIRTHDAY_ALL_SELECTED' => ( $birthday_display == BIRTHDAY_ALL ) ? ' selected="selected"' : '',
 						'BIRTHDAY_DATE' => BIRTHDAY_DATE,
@@ -2053,21 +2053,21 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                        'WRAP_ROW' => $pnt_user_wordwrap,
+                        'WRAP_ROW' => $user_wordwrap,
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-                        'LANGUAGE_SELECT' => language_select($pnt_user_lang, 'language', NUKE_MODULES_DIR.'Forums/language'),
+                        'LANGUAGE_SELECT' => language_select($user_lang, 'language', NUKE_MODULES_DIR.'Forums/language'),
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
 						'BIRTHMONTH_SELECT' => bday_month_select($bday_month, 'bday_month'),
 						'BIRTHDAY_SELECT' => bday_day_select($bday_day, 'bday_day'),
-						'BIRTHYEAR_SELECT' => bday_year_select($phpbb2_bday_year, 'bday_year'),
+						'BIRTHYEAR_SELECT' => bday_year_select($bday_year, 'bday_year'),
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-                        'TIMEZONE_SELECT' => tz_select($pnt_user_timezone),
+                        'TIMEZONE_SELECT' => tz_select($user_timezone),
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
@@ -2089,24 +2089,24 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 /*****[END]********************************************
  [ Base:    Theme Management                   v1.0.2 ]
  ******************************************************/
-                        'DATE_FORMAT' => $pnt_user_dateformat,
+                        'DATE_FORMAT' => $user_dateformat,
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-                        'QUICK_REPLY_SELECT' => quick_reply_select($pnt_user_show_quickreply, 'show_quickreply'),
-                        'QUICK_REPLY_MODE_BASIC' => ( $pnt_user_quickreply_mode==0 ) ? 'checked="checked"' : '',
-                        'QUICK_REPLY_MODE_ADVANCED' => ( $pnt_user_quickreply_mode!=0 ) ? 'checked="checked"' : '',
-                        'OPEN_QUICK_REPLY_YES' => ( $pnt_user_open_quickreply ) ? 'checked="checked"' : '',
-                        'OPEN_QUICK_REPLY_NO' => ( !$pnt_user_open_quickreply ) ? 'checked="checked"' : '',
+                        'QUICK_REPLY_SELECT' => quick_reply_select($user_show_quickreply, 'show_quickreply'),
+                        'QUICK_REPLY_MODE_BASIC' => ( $user_quickreply_mode==0 ) ? 'checked="checked"' : '',
+                        'QUICK_REPLY_MODE_ADVANCED' => ( $user_quickreply_mode!=0 ) ? 'checked="checked"' : '',
+                        'OPEN_QUICK_REPLY_YES' => ( $user_open_quickreply ) ? 'checked="checked"' : '',
+                        'OPEN_QUICK_REPLY_NO' => ( !$user_open_quickreply ) ? 'checked="checked"' : '',
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-                        'ALLOW_PM_YES' => ($pnt_user_allowpm) ? 'checked="checked"' : '',
-                        'ALLOW_PM_NO' => (!$pnt_user_allowpm) ? 'checked="checked"' : '',
-                        'ALLOW_AVATAR_YES' => ($pnt_user_allowavatar) ? 'checked="checked"' : '',
-                        'ALLOW_AVATAR_NO' => (!$pnt_user_allowavatar) ? 'checked="checked"' : '',
-                        'USER_ACTIVE_YES' => ($pnt_user_status) ? 'checked="checked"' : '',
-                        'USER_ACTIVE_NO' => (!$pnt_user_status) ? 'checked="checked"' : '',
+                        'ALLOW_PM_YES' => ($user_allowpm) ? 'checked="checked"' : '',
+                        'ALLOW_PM_NO' => (!$user_allowpm) ? 'checked="checked"' : '',
+                        'ALLOW_AVATAR_YES' => ($user_allowavatar) ? 'checked="checked"' : '',
+                        'ALLOW_AVATAR_NO' => (!$user_allowavatar) ? 'checked="checked"' : '',
+                        'USER_ACTIVE_YES' => ($user_status) ? 'checked="checked"' : '',
+                        'USER_ACTIVE_NO' => (!$user_status) ? 'checked="checked"' : '',
 /*****[BEGIN]******************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
@@ -2145,8 +2145,8 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 						'L_BIRTHDAY' => $lang['Birthday'],
 						'L_MONTH' => $lang['Month'],
 						'L_DAY' => $lang['Day'],
-						'L_YEAR' => ( $phpbb2_board_config['bday_year'] ) ? $lang['Year'] : $lang['Year_Optional'],
-						'L_OPTIONAL' => ( $phpbb2_board_config['bday_year'] ) ? '' : $lang['Optional'],
+						'L_YEAR' => ( $board_config['bday_year'] ) ? $lang['Year'] : $lang['Year_Optional'],
+						'L_OPTIONAL' => ( $board_config['bday_year'] ) ? '' : $lang['Optional'],
 						'L_BIRTHDAY_DISPLAY' => $lang['Birthday_Display'],
 						'L_BIRTHDAY_ALL' => $lang['Display_all'],
 						'L_BIRTHDAY_YEAR' => $lang['Display_day_and_month'],
@@ -2178,7 +2178,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  ******************************************************/
                         'L_WORD_WRAP' => $lang['Word_Wrap'],
                         'L_WORD_WRAP_EXPLAIN' => $lang['Word_Wrap_Explain'],
-                        'L_WORD_WRAP_EXTRA' => strtr($lang['Word_Wrap_Extra'],array('%min%' => $phpbb2_board_config['wrap_min'], '%max%' => $phpbb2_board_config['wrap_max'])),
+                        'L_WORD_WRAP_EXTRA' => strtr($lang['Word_Wrap_Extra'],array('%min%' => $board_config['wrap_min'], '%max%' => $board_config['wrap_max'])),
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
@@ -2267,7 +2267,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
                         'L_SIGNATURE' => $lang['Signature'],
 
-                        'L_SIGNATURE_EXPLAIN' => sprintf($lang['Signature_explain'], $phpbb2_board_config['max_sig_chars'] ),
+                        'L_SIGNATURE_EXPLAIN' => sprintf($lang['Signature_explain'], $board_config['max_sig_chars'] ),
                         'L_NOTIFY_ON_PRIVMSG' => $lang['Notify_on_privmsg'],
                         'L_NOTIFY_ON_REPLY' => $lang['Always_notify'],
                         'L_POPUP_ON_PRIVMSG' => $lang['Popup_on_privmsg'],
@@ -2281,7 +2281,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         'S_FORM_ENCTYPE' => $form_enctype,
 
                         'HTML_STATUS' => $html_status,
-                        'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="../' . append_titanium_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
+                        'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="../' . append_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
                         'SMILIES_STATUS' => $smilies_status,
 
                         'L_DELETE_USER' => $lang['User_delete'],
@@ -2299,80 +2299,80 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
  ******************************************************/
 
                         'S_HIDDEN_FIELDS' => $s_hidden_fields,
-                        'S_PROFILE_ACTION' => append_titanium_sid("admin_users.$phpEx"))
+                        'S_PROFILE_ACTION' => append_sid("admin_users.$phpEx"))
                 );
 				
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-				$block = ( $phpbb2_board_config['bday_require'] == TRUE ) ? 'birthday_required' : 'birthday_optional';
-				$phpbb2_template->assign_block_vars($block, array());
-				$phpbb2_template->birthday_interface();
+				$block = ( $board_config['bday_require'] == TRUE ) ? 'birthday_required' : 'birthday_optional';
+				$template->assign_block_vars($block, array());
+				$template->birthday_interface();
 		
-				if ( $phpbb2_board_config['bday_greeting'] != 0 )
+				if ( $board_config['bday_greeting'] != 0 )
 				{
-					$phpbb2_template->assign_block_vars('birthdays_greeting',array());
-					if ($phpbb2_board_config['bday_greeting'] & (1<<(BIRTHDAY_EMAIL-1)))
+					$template->assign_block_vars('birthdays_greeting',array());
+					if ($board_config['bday_greeting'] & (1<<(BIRTHDAY_EMAIL-1)))
 					{
-						$phpbb2_template->assign_block_vars('birthdays_greeting.birthdays_email',array());
+						$template->assign_block_vars('birthdays_greeting.birthdays_email',array());
 					}
-					if ($phpbb2_board_config['bday_greeting'] & (1<<(BIRTHDAY_PM-1)))
+					if ($board_config['bday_greeting'] & (1<<(BIRTHDAY_PM-1)))
 					{
-							$phpbb2_template->assign_block_vars('birthdays_greeting.birthdays_pm',array());
+							$template->assign_block_vars('birthdays_greeting.birthdays_pm',array());
 					}
-					if ($phpbb2_board_config['bday_greeting'] & (1<<(BIRTHDAY_POPUP-1)))
+					if ($board_config['bday_greeting'] & (1<<(BIRTHDAY_POPUP-1)))
 					{
-						$phpbb2_template->assign_block_vars('birthdays_greeting.birthdays_popup',array());
+						$template->assign_block_vars('birthdays_greeting.birthdays_popup',array());
 					}
 				}
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
 
-                if( file_exists(@phpbb_realpath('./../' . $phpbb2_board_config['avatar_path'])) && ($phpbb2_board_config['allow_avatar_upload'] == TRUE) )
+                if( file_exists(@phpbb_realpath('./../' . $board_config['avatar_path'])) && ($board_config['allow_avatar_upload'] == TRUE) )
                 {
                         if ( $form_enctype != '' )
                         {
-                                $phpbb2_template->assign_block_vars('avatar_local_upload', array() );
+                                $template->assign_block_vars('avatar_local_upload', array() );
                         }
-                        $phpbb2_template->assign_block_vars('avatar_remote_upload', array() );
+                        $template->assign_block_vars('avatar_remote_upload', array() );
                 }
 
-                if( file_exists(@phpbb_realpath('./../' . $phpbb2_board_config['avatar_gallery_path'])) && ($phpbb2_board_config['allow_avatar_local'] == TRUE) )
+                if( file_exists(@phpbb_realpath('./../' . $board_config['avatar_gallery_path'])) && ($board_config['allow_avatar_local'] == TRUE) )
                 {
-                        $phpbb2_template->assign_block_vars('avatar_local_gallery', array() );
+                        $template->assign_block_vars('avatar_local_gallery', array() );
                 }
 
-                if( $phpbb2_board_config['allow_avatar_remote'] == TRUE )
+                if( $board_config['allow_avatar_remote'] == TRUE )
                 {
-                        $phpbb2_template->assign_block_vars('avatar_remote_link', array() );
+                        $template->assign_block_vars('avatar_remote_link', array() );
                 }
         }
 
-        $phpbb2_template->pparse('body');
+        $template->pparse('body');
 }
 else
 {
         //
         // Default user selection box
         //
-        $phpbb2_template->set_filenames(array(
+        $template->set_filenames(array(
                 'body' => 'admin/user_select_body.tpl')
         );
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
                 'L_USER_TITLE' => $lang['User_admin'],
                 'L_USER_EXPLAIN' => $lang['User_admin_explain'],
                 'L_USER_SELECT' => $lang['Select_a_User'],
                 'L_LOOK_UP' => $lang['Look_up_user'],
                 'L_FIND_USERNAME' => $lang['Find_username'],
 
-                'U_SEARCH_USER' => append_titanium_sid("search.$phpEx?mode=searchuser&popup=1&menu=1"),
+                'U_SEARCH_USER' => append_sid("search.$phpEx?mode=searchuser&popup=1&menu=1"),
 
-                'S_USER_ACTION' => append_titanium_sid("admin_users.$phpEx"),
+                'S_USER_ACTION' => append_sid("admin_users.$phpEx"),
                 'S_USER_SELECT' => $select_list)
         );
-        $phpbb2_template->pparse('body');
+        $template->pparse('body');
 
 }
 

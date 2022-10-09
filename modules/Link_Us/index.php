@@ -35,38 +35,38 @@ if (!defined('MODULE_FILE'))
 die ('You can\'t access this file directly...');
 
 
-$pnt_module = basename(dirname(__FILE__));
-global $pnt_db, $currentlang, $_GETVAR, $admin_file;
+$module_name = basename(dirname(__FILE__));
+global $db, $currentlang, $_GETVAR, $admin_file;
 
-$lang_path = NUKE_MODULES_DIR . $pnt_module . '/language/';
+$lang_path = NUKE_MODULES_DIR . $module_name . '/language/';
 
 if (@file_exists($lang_path . 'lang-' . $currentlang . '.php'))
     @include_once($lang_path . 'lang-' . $currentlang . '.php');
-elseif (@file_exists($lang_path . 'lang-' . $phpbb2_board_config['default_lang'] . '.php'))
-    @include_once($lang_path . 'lang-' . $phpbb2_board_config['default_lang'] . '.php');
+elseif (@file_exists($lang_path . 'lang-' . $board_config['default_lang'] . '.php'))
+    @include_once($lang_path . 'lang-' . $board_config['default_lang'] . '.php');
 else
-    DisplayError(_NO_ADMIN_MODULE_LANGUAGE_FOUND . $pnt_module);
+    DisplayError(_NO_ADMIN_MODULE_LANGUAGE_FOUND . $module_name);
 
-$pagetitle = "- ".$pnt_module."";
+$pagetitle = "- ".$module_name."";
 
 include(NUKE_BASE_DIR.'header.php');
-include(NUKE_MODULES_DIR.$pnt_module.'/admin/inc/functions.php');
+include(NUKE_MODULES_DIR.$module_name.'/admin/inc/functions.php');
 
-$config = $pnt_db->sql_ufetchrow('SELECT * FROM `'.$pnt_prefix.'_link_us_config` LIMIT 0,1');
+$config = $db->sql_ufetchrow('SELECT * FROM `'.$prefix.'_link_us_config` LIMIT 0,1');
 
 $op = $_GETVAR->get('op', '_REQUEST', 'string');
 
 switch($op):
   	case 'visit':        
-	include_once(NUKE_MODULES_DIR.$pnt_module.'/public/visit.php'); 
+	include_once(NUKE_MODULES_DIR.$module_name.'/public/visit.php'); 
 	break;  
   	case 'submitbutton': 
-	include_once(NUKE_MODULES_DIR.$pnt_module.'/public/submit.php'); 
+	include_once(NUKE_MODULES_DIR.$module_name.'/public/submit.php'); 
 	break;
 	case 'submit_save':  
-	include_once(NUKE_MODULES_DIR.$pnt_module.'/public/submitsave.php'); 
+	include_once(NUKE_MODULES_DIR.$module_name.'/public/submitsave.php'); 
 	break;
-	default: include_once(NUKE_MODULES_DIR.$pnt_module.'/public/index.php'); 
+	default: include_once(NUKE_MODULES_DIR.$module_name.'/public/index.php'); 
 	break;
 endswitch;
 

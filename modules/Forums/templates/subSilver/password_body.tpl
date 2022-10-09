@@ -18,7 +18,7 @@
 	</td>
   </tr>
   <tr> 
-	<td colspan="2" align="center" class="catBottom" height="28">{S_HIDDEN_FIELDS}<input type="submit" name="pass_login" class="mainoption" value="{L_SUBMIT}" />&nbsp;&nbsp;<input type="submit" name="cancel" class="titaniumbutton" value="{L_CANCEL}" /></td>
+	<td colspan="2" align="center" class="catBottom" height="28">{S_HIDDEN_FIELDS}<input type="submit" name="pass_login" class="mainoption" value="{L_SUBMIT}" />&nbsp;&nbsp;<input type="submit" name="cancel" class="liteoption" value="{L_CANCEL}" /></td>
   </tr>
 </table>
 

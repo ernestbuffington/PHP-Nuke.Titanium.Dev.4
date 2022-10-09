@@ -3,6 +3,7 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
+
 /************************************************************************
    Nuke-Evolution: Spambot Killer
    ============================================
@@ -43,9 +44,9 @@ if (!defined('MODULE_FILE')) {
 
 global $bgcolor2;
 
-$pnt_module = basename(dirname(__FILE__));
+$module_name = basename(dirname(__FILE__));
 include_once(NUKE_BASE_DIR.'header.php');
-get_lang($pnt_module);
+get_lang($module_name);
 title(_SBK);
 define('INDEX_FILE', true);
 

@@ -39,12 +39,12 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($pnt_module)) {
+if(is_mod_admin($module_name)) {
 
-    list($pnt_username, $email, $check_num) = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT username, user_email, check_num FROM ".$pnt_user_prefix."_users_temp WHERE user_id='$rsn_uid'"));
+    list($username, $email, $check_num) = $db->sql_fetchrow($db->sql_query("SELECT username, user_email, check_num FROM ".$user_prefix."_users_temp WHERE user_id='$rsn_uid'"));
     if ($ya_config['servermail'] == 0) {
         $time = time();
-        $finishlink = "$nukeurl/modules.php?name=$pnt_module&op=activate&username=$pnt_username&check_num=$check_num";
+        $finishlink = "$nukeurl/modules.php?name=$module_name&op=activate&username=$username&check_num=$check_num";
         $message = _WELCOMETO." $sitename!<br /><br />";
         $message .= _YOUUSEDEMAIL." ($email) "._TOREGISTER." $sitename.<br /><br />";
         $message .= _TOFINISHUSER."<br /><br /><a href=\"$finishlink\">$finishlink</a>";
@@ -57,7 +57,7 @@ if(is_mod_admin($pnt_module)) {
         );
         evo_phpmailer( $email, $subject, $message, $headers );
     }
-    $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users_temp SET time='$time' WHERE user_id='$rsn_uid'");
+    $db->sql_query("UPDATE ".$user_prefix."_users_temp SET time='$time' WHERE user_id='$rsn_uid'");
     $pagetitle = ": "._USERADMIN." - "._RESENTMAIL;
     include_once(NUKE_BASE_DIR.'header.php');
 	OpenTable();
@@ -70,7 +70,7 @@ if(is_mod_admin($pnt_module)) {
     echo "<br />\n";
     OpenTable();
     echo "<center><table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }

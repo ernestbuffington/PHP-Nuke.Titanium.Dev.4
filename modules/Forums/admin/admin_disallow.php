@@ -24,12 +24,12 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
         $filename = basename(__FILE__);
-        $pnt_module['Users']['Disallow'] = $filename;
+        $module['Users']['Disallow'] = $filename;
 
         return;
 }
@@ -37,8 +37,8 @@ if( !empty($setmodules) )
 //
 // Include required files, get $phpEx and check permissions
 //
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 
 if( isset($HTTP_POST_VARS['add_name']) )
@@ -59,7 +59,7 @@ if( isset($HTTP_POST_VARS['add_name']) )
         {
                 $sql = "INSERT INTO " . DISALLOW_TABLE . " (disallow_username)
                         VALUES('" . str_replace("\'", "''", $disallowed_user) . "')";
-                $result = $pnt_db->sql_query( $sql );
+                $result = $db->sql_query( $sql );
                 if ( !$result )
                 {
                         message_die(GENERAL_ERROR, "Could not add disallowed user.", "",__LINE__, __FILE__, $sql);
@@ -67,7 +67,7 @@ if( isset($HTTP_POST_VARS['add_name']) )
                 $message = $lang['Disallow_successful'];
         }
 
-        $message .= "<br /><br />" . sprintf($lang['Click_return_disallowadmin'], "<a href=\"" . append_titanium_sid("admin_disallow.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message .= "<br /><br />" . sprintf($lang['Click_return_disallowadmin'], "<a href=\"" . append_sid("admin_disallow.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
 }
@@ -77,13 +77,13 @@ else if( isset($HTTP_POST_VARS['delete_name']) )
 
         $sql = "DELETE FROM " . DISALLOW_TABLE . "
                 WHERE disallow_id = $disallowed_id";
-        $result = $pnt_db->sql_query($sql);
+        $result = $db->sql_query($sql);
         if( !$result )
         {
                 message_die(GENERAL_ERROR, "Couldn't removed disallowed user.", "",__LINE__, __FILE__, $sql);
         }
 
-        $message .= $lang['Disallowed_deleted'] . "<br /><br />" . sprintf($lang['Click_return_disallowadmin'], "<a href=\"" . append_titanium_sid("admin_disallow.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message .= $lang['Disallowed_deleted'] . "<br /><br />" . sprintf($lang['Click_return_disallowadmin'], "<a href=\"" . append_sid("admin_disallow.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
 
@@ -94,13 +94,13 @@ else if( isset($HTTP_POST_VARS['delete_name']) )
 //
 $sql = "SELECT *
         FROM " . DISALLOW_TABLE;
-$result = $pnt_db->sql_query($sql);
+$result = $db->sql_query($sql);
 if( !$result )
 {
         message_die(GENERAL_ERROR, "Couldn't get disallowed users.", "", __LINE__, __FILE__, $sql );
 }
 
-$disallowed = $pnt_db->sql_fetchrowset($result);
+$disallowed = $db->sql_fetchrowset($result);
 
 //
 // Ok now generate the info for the template, which will be put out no matter
@@ -114,7 +114,7 @@ if( empty($disallowed) )
 }
 else
 {
-        $pnt_user = array();
+        $user = array();
         for( $i = 0; $i < count($disallowed); $i++ )
         {
                 $disallow_select .= '<option value="' . $disallowed[$i]['disallow_id'] . '">' . $disallowed[$i]['disallow_username'] . '</option>';
@@ -123,13 +123,13 @@ else
 
 $disallow_select .= '</select>';
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
         "body" => "admin/disallow_body.tpl")
 );
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
         "S_DISALLOW_SELECT" => $disallow_select,
-        "S_FORM_ACTION" => append_titanium_sid("admin_disallow.$phpEx"),
+        "S_FORM_ACTION" => append_sid("admin_disallow.$phpEx"),
 
         "L_INFO" => $output_info,
         "L_DISALLOW_TITLE" => $lang['Disallow_control'],
@@ -143,7 +143,7 @@ $phpbb2_template->assign_vars(array(
         "L_USERNAME" => $lang['Username'])
 );
 
-$phpbb2_template->pparse("body");
+$template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

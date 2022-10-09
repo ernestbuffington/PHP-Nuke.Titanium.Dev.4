@@ -24,9 +24,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 // Class for 'standard' functions...
@@ -105,7 +105,7 @@ class StatisticsFUNCTIONS
     //
     function forum_auth($userdata, $auth = AUTH_VIEW)
     {
-        global $pnt_db;
+        global $db;
 
         if (($this->auth_loaded) && ($this->previous_auth == $auth))
         {
@@ -114,19 +114,19 @@ class StatisticsFUNCTIONS
         
         $this->auth_data_sql = '';
 
-        $phpbb2_is_auth_ary = auth($auth, AUTH_LIST_ALL, $userdata);
+        $is_auth_ary = auth($auth, AUTH_LIST_ALL, $userdata);
 
         $sql = 'SELECT forum_id 
         FROM ' . FORUMS_TABLE;
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
         {
             message_die(GENERAL_ERROR, 'Couldn\'t retrieve forum_id data', '', __LINE__, __FILE__, $sql);
         }
 
-        while ( $row = $pnt_db->sql_fetchrow($result)) 
+        while ( $row = $db->sql_fetchrow($result)) 
         {
-            if ($phpbb2_is_auth_ary[$row['forum_id']]['auth_view'])
+            if ($is_auth_ary[$row['forum_id']]['auth_view'])
             {
                 $this->auth_data_sql .= ( $this->auth_data_sql != '') ? ', ' . intval($row['forum_id']) : intval($row['forum_id']);
             }
@@ -142,7 +142,7 @@ class StatisticsFUNCTIONS
     //
     function init_auth_settings($userdata)
     {
-        global $pnt_db;
+        global $db;
 
         $this->auth_data_sql = array();
 
@@ -151,9 +151,9 @@ class StatisticsFUNCTIONS
         @reset($auth_ary);
 
         // Generate the Forum Authorization Level
-        while (list($phpbb2_forum_id, $auth_setting) = each($auth_ary))
+        while (list($forum_id, $auth_setting) = each($auth_ary))
         {
-            $this->auth_data_sql['forum'][$phpbb2_forum_id] = $auth_setting;
+            $this->auth_data_sql['forum'][$forum_id] = $auth_setting;
         }
         
         $this->auth_loaded = TRUE;
@@ -191,9 +191,9 @@ class StatisticsFUNCTIONS
                 $split = '';
                 $auth_condition = trim($auth_condition);
                 @reset($this->auth_data_sql[$auth_type]);
-                while (list($phpbb2_forum_id, $auth_cond) = each($this->auth_data_sql[$auth_type]))
+                while (list($forum_id, $auth_cond) = each($this->auth_data_sql[$auth_type]))
                 {
-                    $auth_return['auth_check'][$phpbb2_forum_id] = $this->auth_data_sql[$auth_type][$phpbb2_forum_id][$auth_condition];
+                    $auth_return['auth_check'][$forum_id] = $this->auth_data_sql[$auth_type][$forum_id][$auth_condition];
                 }
             }
 
@@ -203,14 +203,14 @@ class StatisticsFUNCTIONS
                 $pattern = explode($split, $auth_condition);
                 for ($i = 0; $i < count($pattern); $i++)
                 {
-                    $if_eval .= ($i == 0) ? '($this->auth_data_sql[$auth_type][$phpbb2_forum_id][\'' . trim($pattern[$i]) . '\'])' : ' ' . $split_cond . ' ($this->auth_data_sql[$auth_type][$phpbb2_forum_id][\'' . trim($pattern[$i]) . '\'])';
+                    $if_eval .= ($i == 0) ? '($this->auth_data_sql[$auth_type][$forum_id][\'' . trim($pattern[$i]) . '\'])' : ' ' . $split_cond . ' ($this->auth_data_sql[$auth_type][$forum_id][\'' . trim($pattern[$i]) . '\'])';
                 }
 
                 @reset($this->auth_data_sql[$auth_type]);
-                while (list($phpbb2_forum_id, $auth_cond) = @each($this->auth_data_sql[$auth_type]))
+                while (list($forum_id, $auth_cond) = @each($this->auth_data_sql[$auth_type]))
                 {
                     eval('$val = (' . $if_eval . ');');
-                    $auth_return['auth_check'][$phpbb2_forum_id] = $val;
+                    $auth_return['auth_check'][$forum_id] = $val;
                 }
             }
         }

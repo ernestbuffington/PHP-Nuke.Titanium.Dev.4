@@ -20,12 +20,12 @@
 /*      http://www.nukefixes.com -- http://www.nukeresources.com        */
 /************************************************************************/
 if(!defined('ADMIN_FILE')) die ("Illegal File Access");
-global $pnt_prefix, $pnt_db;
+global $prefix, $db;
 if (is_mod_admin()): 
     if (isset($_GET['del']) && $_GET['del'] == 'all'): 
-        $pnt_db->sql_query('DELETE FROM `'.$pnt_prefix.'_referer`');
-        $pnt_db->sql_query('OPTIMIZE TABLE `'.$pnt_prefix.'_referer`');
-        redirect_titanium($admin_file.'.php?op=hreferer');
+        $db->sql_query('DELETE FROM `'.$prefix.'_referer`');
+        $db->sql_query('OPTIMIZE TABLE `'.$prefix.'_referer`');
+        redirect($admin_file.'.php?op=hreferer');
 	else: 
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
@@ -39,12 +39,12 @@ if (is_mod_admin()):
         echo '</div>';
 		global $domain;
 		echo '<div style="text-align:center"><h1>'.$admlang['referers']['linking'].'',$domain.'?</h1></div>' , PHP_EOL;
-        $result = $pnt_db->sql_query("SELECT `url`, `link`, `lasttime` FROM ".$pnt_prefix."_referer ORDER by `lasttime` DESC");
+        $result = $db->sql_query("SELECT `url`, `link`, `lasttime` FROM ".$prefix."_referer ORDER by `lasttime` DESC");
 		echo '<table style="width:100%;" border="0" cellpadding="0" cellspacing="1" class="forumline" align="center">' , PHP_EOL;
 		echo '<tr><td class="catHead" style="width: 80%; text-align: center; font-weight: bold;">'.$admlang['referers']['link'].'</td>' , PHP_EOL;
 		echo '<td class="catHead" style="width: 20%; text-align: center; font-weight: bold;">'.$admlang['referers']['date'].'</td></tr>' , PHP_EOL;
-		if($pnt_db->sql_numrows($result) > 0): 
-            while (list($url, $link, $time) = $pnt_db->sql_fetchrow($result)): 
+		if($db->sql_numrows($result) > 0): 
+            while (list($url, $link, $time) = $db->sql_fetchrow($result)): 
 				$x++;
                 $bgcolor = ($x%2 == 0) ? 'row2' : 'row3';
 				$date = date("F d, Y - h:ia", $time);
@@ -72,7 +72,7 @@ if (is_mod_admin()):
 			echo '</tr>' , PHP_EOL;
 			echo '</table>' , PHP_EOL;
         endif;
-		$pnt_db->sql_freeresult($result);
+		$db->sql_freeresult($result);
         CloseTable();
         include_once(NUKE_BASE_DIR.'footer.php');
     endif;

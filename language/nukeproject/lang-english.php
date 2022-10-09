@@ -69,24 +69,7 @@ define("_NETWORK_ERRORNOSUMMARY","<strong>ERROR: Missing Summary</strong>");
 define("_NETWORK_ERRORREPORT","There is a problem with the report you have submitted.");
 define("_NETWORK_ERRORREQUEST","There is a problem with the request you have submitted.");
 define("_NETWORK_FEATURED","Featured");
-
-define("_NETWORK_FEATUREDBLOCK","Project Type");
-
-# Network Projects Mod v1.0
-define("_NETWORK_PROJECT_TYPE","Project Type");
-define("_NETWORK_TWEB_PORTAL","PHP-Nuke Titanium Web Portal");
-define("_NETWORK_TWEB_MODULE","PHP-Nuke Titanium Module");
-define("_NETWORK_TWEB_BLOCK","PHP-Nuke Titanium Block");
-define("_NETWORK_TWEB_MOD","PHP-Nuke Titanium phpBB2 Mod");
-define("_NETWORK_TWEB_THEME","PHP-Nuke Titanium Theme");
-define("_NETWORK_EWEB_PORTAL","Nuke Evolution Web Portal");
-define("_NETWORK_EWEB_MODULE","Nuke Evolution Module");
-define("_NETWORK_EWEB_BLOCKS","Nuke Evolution Block");
-define("_NETWORK_EWEB_MOD","Nuke Evolution phpBB2 Mod");
-define("_NETWORK_EWEB_TYPE","Nuke Evolution Theme");
-define("_NETWORK_EWEB_MISC","Misc Project");
-
-
+define("_NETWORK_FEATUREDBLOCK","Featured in block");
 define("_NETWORK_FINISHDATE","Finish Date");
 define("_NETWORK_FIXWEIGHT","Fix weight conflicts");
 define("_NETWORK_FUNCTIONS","Functions");
@@ -235,7 +218,7 @@ define("_NETWORK_REQUESTS","Requests");
 define("_NETWORK_REQUESTUPDATE","Update Request");
 define("_NETWORK_REQUESTVIEW","View Request");
 define("_NETWORK_RETURN","[ <a href=\"javascript:history.go(-1)\">Return to last page</a> ]");
-define("_NETWORK_SITE","WebSite");
+define("_NETWORK_SITE","Site");
 define("_NETWORK_SORT","Sort");
 define("_NETWORK_STARTDATE","Start Date");
 define("_NETWORK_STATUS","Status");
@@ -278,7 +261,7 @@ define("_NETWORK_TASKNAME","Task Name");
 define("_NETWORK_TASKOPTIONS","Task Options / Statistics");
 define("_NETWORK_TASKS","Tasks");
 define("_NETWORK_TASKSDESC","Manage tasks.");
-define("_NETWORK_TITLE","NukeScripts™ Network Projects ");
+define("_NETWORK_TITLE","::: Titanium Network Projects ");
 define("_NETWORK_TOTALPOSITIONS","Total Positions");
 define("_NETWORK_TOTALPRIORITIES","Total Priorities");
 define("_NETWORK_TOTALPROJECTPRIORITIES","Total Project Priorities");

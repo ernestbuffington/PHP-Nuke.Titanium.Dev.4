@@ -10,11 +10,11 @@ $nowmonth = $now[1];
 $nowyear = $now[2];
 
 function Stats_Main() {
-    global $pnt_prefix, $pnt_db, $startdate, $sitename, $ThemeSel, $pnt_user_prefix, $pnt_module, $cache;
-    $result  = $pnt_db->sql_query('SELECT `type`, `var`, `count` FROM `'.$pnt_prefix.'_counter` ORDER BY `count` DESC, var');
+    global $prefix, $db, $startdate, $sitename, $ThemeSel, $user_prefix, $module_name, $cache;
+    $result  = $db->sql_query('SELECT `type`, `var`, `count` FROM `'.$prefix.'_counter` ORDER BY `count` DESC, var');
     $browser = $os = array();
     $totalos = $totalbr = 0;
-    while (list($type, $var, $count) = $pnt_db->sql_fetchrow($result)) {
+    while (list($type, $var, $count) = $db->sql_fetchrow($result)) {
         if ($type == 'browser') {
             $browser[$var] = $count;
         } elseif ($type == 'os') {
@@ -23,8 +23,8 @@ function Stats_Main() {
             $totalos += $count;
         }
     }
-    list($totalbr) = $pnt_db->sql_fetchrow($pnt_db->sql_query('SELECT SUM(hits) FROM `'.$pnt_prefix.'_stats_hour`'));
-    $pnt_db->sql_freeresult($result);
+    list($totalbr) = $db->sql_fetchrow($db->sql_query('SELECT SUM(hits) FROM `'.$prefix.'_stats_hour`'));
+    $db->sql_freeresult($result);
     if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
         $cache->save('m_size', 'config', $m_size);
@@ -36,8 +36,8 @@ function Stats_Main() {
     </tr><tr>
         <td colspan="3" class="row1">
             <div class="gen" align="center">'._WERECEIVED.' <strong>'.$totalbr.'</strong> '._PAGESVIEWS.' '.$startdate.'<br /><br />
-            <img src="modules/'.$pnt_module.'/images/logo.png" alt="" /><br /><br />
-                [ <a href="modules.php?name='.$pnt_module.'&amp;op=stats">'._VIEWDETAILED.'</a> ] [ <a href="modules.php?name=Forums&amp;file=statistics">'._VIEWFORUMSTATS.'</a> ]</div><br />
+            <img src="modules/'.$module_name.'/images/logo.png" alt="" /><br /><br />
+                [ <a href="modules.php?name='.$module_name.'&amp;op=stats">'._VIEWDETAILED.'</a> ] [ <a href="modules.php?name=Forums&amp;file=statistics">'._VIEWFORUMSTATS.'</a> ]</div><br />
         </td>
     </tr><tr>
         <td class="cat" colspan="3"><div class="cattitle" align="center">'._BROWSERS.'</div></td>
@@ -48,7 +48,7 @@ function Stats_Main() {
         foreach ($browser AS $var => $count) {
             $perc = @round(($totalbr * $count), 2);
             echo '<tr align="left">
-            <td class="row1"><div class="gen"><img src="modules/'.$pnt_module.'/images/'.strtolower($var).'.png" alt="" />&nbsp;'.$var.'</div></td>
+            <td class="row1"><div class="gen"><img src="modules/'.$module_name.'/images/'.strtolower($var).'.png" alt="" />&nbsp;'.$var.'</div></td>
             <td class="row2"><img src="themes/'.$ThemeSel.'/images/leftbar.gif" alt="" /><img src="themes/'.$ThemeSel.'/images/mainbar.gif" alt="" height="'.$m_size[1].'" width="'.$perc.'" /><img src="themes/'.$ThemeSel.'/images/rightbar.gif" alt="" /></td>
             <td class="row3"><div class="gen">'.$perc.' % ('.$count.')</div></td>
         </tr>';
@@ -63,84 +63,77 @@ function Stats_Main() {
         foreach ($os AS $var => $count) {
             $perc = @round(($totalos * $count), 2);
             echo '<tr align="left">
-            <td class="row1"><div class="gen"><img src="modules/'.$pnt_module.'/images/'.strtolower($var).'.png" alt="" />&nbsp;'.$var.':</div></td>
+            <td class="row1"><div class="gen"><img src="modules/'.$module_name.'/images/'.strtolower($var).'.png" alt="" />&nbsp;'.$var.':</div></td>
             <td class="row2"><img src="themes/'.$ThemeSel.'/images/leftbar.gif" alt="" /><img src="themes/'.$ThemeSel.'/images/mainbar.gif" alt="" height="'.$m_size[1].'" width="'.$perc.'" /><img src="themes/'.$ThemeSel.'/images/rightbar.gif" alt="" /></td>
             <td class="row3"><div class="gen">'.$perc.' % ('.$count.')</div></td>
         </tr>';
         }
     }
 // Miscellaneous Stats
-    list($unum) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$pnt_user_prefix.'_users` WHERE `user_id` > 1');
-    list($snum) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$pnt_prefix.'_stories`');
-    list($cnum) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$pnt_prefix.'_comments`');
-    list($subnum) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$pnt_prefix.'_queue`');
+    list($unum) = $db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$user_prefix.'_users` WHERE `user_id` > 1');
+    list($snum) = $db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$prefix.'_stories`');
+    list($cnum) = $db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$prefix.'_comments`');
+    list($subnum) = $db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$prefix.'_queue`');
     $evover = ucfirst(EVO_EDITION);
-	$titaniumver = ucfirst(TITANIUM_EDITION);
     echo '<tr>
         <td colspan="3" class="cat"><div class="cattitle" align="center">'._MISCSTATS.'</div></td>
     </tr><tr align="left">
-        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/users.gif" alt="" />&nbsp;'._REGUSERS.'</span></td><td class="row3"><span class="gen">'.$unum.'</span></td>
+        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$module_name.'/images/users.gif" alt="" />&nbsp;'._REGUSERS.'</span></td><td class="row3"><span class="gen">'.$unum.'</span></td>
     </tr><tr align="left">
-        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/news.gif" alt="" />&nbsp;'._STORIESPUBLISHED.'</span></td><td class="row3"><span class="gen">'.$snum.'</span></td>
+        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$module_name.'/images/news.gif" alt="" />&nbsp;'._STORIESPUBLISHED.'</span></td><td class="row3"><span class="gen">'.$snum.'</span></td>
     </tr>';
     if (is_active('Topics')) {
-        list($tnum) = $pnt_db->sql_ufetchrow("SELECT COUNT(*) FROM `".$pnt_prefix."_topics`");
+        list($tnum) = $db->sql_ufetchrow("SELECT COUNT(*) FROM `".$prefix."_topics`");
         echo '<tr align="left">
-        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/topics.gif" alt="" />&nbsp;'._SACTIVETOPICS.'</span></td><td class="row3"><span class="gen">'.$tnum.'</span></td>
+        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$module_name.'/images/topics.gif" alt="" />&nbsp;'._SACTIVETOPICS.'</span></td><td class="row3"><span class="gen">'.$tnum.'</span></td>
         </tr>';
     }
     echo '<tr align="left">
-        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/comments.gif" alt="" />&nbsp;'._COMMENTSPOSTED.'</span></td><td class="row3"><span class="gen">'.$cnum.'</span></td>
+        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$module_name.'/images/comments.gif" alt="" />&nbsp;'._COMMENTSPOSTED.'</span></td><td class="row3"><span class="gen">'.$cnum.'</span></td>
         </tr>';
     if (is_active('Web_Links')) {
-        list($links) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$pnt_prefix.'_links_links`');
-        list($cat) = $pnt_db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$pnt_prefix.'_links_categories`');
+        list($links) = $db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$prefix.'_links_links`');
+        list($cat) = $db->sql_ufetchrow('SELECT COUNT(*) FROM `'.$prefix.'_links_categories`');
         echo '<tr align="left">
-        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/topics.gif" alt="" />&nbsp;'._LINKSINLINKS.'</span></td><td class="row3"><span class="gen">'.$links.'</span></td>
+        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$module_name.'/images/topics.gif" alt="" />&nbsp;'._LINKSINLINKS.'</span></td><td class="row3"><span class="gen">'.$links.'</span></td>
     </tr><tr align="left">
-        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/news.gif" alt="" />&nbsp;'._LINKSCAT.'</span></td><td class="row3"><span class="gen">'.$cat.'</span></td>
+        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$module_name.'/images/news.gif" alt="" />&nbsp;'._LINKSCAT.'</span></td><td class="row3"><span class="gen">'.$cat.'</span></td>
     </tr>';
     }
     echo '<tr align="left">
-        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/waiting.gif" alt="" />&nbsp;'._NEWSWAITING.'</span></td><td class="row3"><span class="gen">'.$subnum.'</span></td>
+        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$module_name.'/images/waiting.gif" alt="" />&nbsp;'._NEWSWAITING.'</span></td><td class="row3"><span class="gen">'.$subnum.'</span></td>
     </tr>';
     echo '<tr align="left">
-        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/sections.gif" alt="" />&nbsp;'._TITANIUMVER.'</span></td><td class="row3"><span class="gen">'.ucfirst($titaniumver).'</span></td>
-    </tr>';
-	
-    echo '<tr align="left">
-        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$pnt_module.'/images/sections.gif" alt="" />&nbsp;'._EVOVER.'</span></td><td class="row3"><span class="gen">'.ucfirst($evover).'</span></td>
-    </tr>
-	
-	</table>';
+        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$module_name.'/images/sections.gif" alt="" />&nbsp;'._EVOVER.'</span></td><td class="row3"><span class="gen">'.ucfirst($evover).'</span></td>
+    </tr></table>';
     CloseTable();
 }
 
 function Stats() {
-    global $nowyear, $nowmonth, $nowdate, $sitename, $startdate, $pnt_prefix, $pnt_db, $now, $pnt_module;
+    global $nowyear, $nowmonth, $nowdate, $sitename, $startdate, $prefix, $db, $now, $module_name;
 
-    list($total) = $pnt_db->sql_ufetchrow('SELECT SUM(hits) FROM `'.$pnt_prefix."_stats_hour`");
+    list($total) = $db->sql_ufetchrow('SELECT SUM(hits) FROM `'.$prefix."_stats_hour`");
     OpenTable();
     echo '<table class="forumline" cellspacing="1" width="100%">
     <tr>
         <td class="cat"><div class="cattitle" align="center">'.$sitename.' '._STATS.'</div></td>
     </tr><tr>
         <td class="row1" align="center"><span class="gen">'._WERECEIVED.' <strong>'.$total.'</strong> '._PAGESVIEWS.' '.$startdate.'<br /><br />
-        <img src="modules/'.$pnt_module.'/images/logo.png" alt="" /><br /><br />'._TODAYIS.": $now[0]/$now[1]/$now[2]<br />";
+        <img src="modules/'.$module_name.'/images/logo.png" alt="" /><br /><br />'._TODAYIS.": $now[0]/$now[1]/$now[2]<br />";
 
-    list($year, $month, $hits) = $pnt_db->sql_ufetchrow("SELECT `year`, `month`, SUM(hits) as hits FROM `".$pnt_prefix."_stats_hour` GROUP BY `month`, `year` ORDER BY `hits` DESC LIMIT 0,1");
+    list($year, $month, $hits) = $db->sql_ufetchrow("SELECT `year`, `month`, SUM(hits) as hits FROM `".$prefix."_stats_hour` GROUP BY `month`, `year` ORDER BY `hits` DESC LIMIT 0,1");
     echo _MOSTMONTH.": ".getmonth($month)." $year ($hits "._HITS.")<br />";
 
-    list($year, $month, $date, $hits) = $pnt_db->sql_ufetchrow("SELECT `year`, `month`, `date`, SUM(hits) as hits FROM `".$pnt_prefix."_stats_hour` GROUP BY `date`, `month`, `year` ORDER BY `hits` DESC LIMIT 0,1");
+    list($year, $month, $date, $hits) = $db->sql_ufetchrow("SELECT `year`, `month`, `date`, SUM(hits) as hits FROM `".$prefix."_stats_hour` GROUP BY `date`, `month`, `year` ORDER BY `hits` DESC LIMIT 0,1");
     echo _MOSTDAY.": $date ".getmonth($month)." $year ($hits "._HITS.")<br />";
 
-    list($year, $month, $date, $hour, $hits) = $pnt_db->sql_ufetchrow("SELECT `year`, `month`, `date`, `hour`, `hits` from `".$pnt_prefix."_stats_hour` ORDER BY `hits` DESC LIMIT 0,1");
+    list($year, $month, $date, $hour, $hits) = $db->sql_ufetchrow("SELECT `year`, `month`, `date`, `hour`, `hits` from `".$prefix."_stats_hour` ORDER BY `hits` DESC LIMIT 0,1");
     if ($hour < 10) {
         $hour = "0$hour:00 - 0$hour:59";
     } else {
         $hour = "$hour:00 - $hour:59";
     }
-    echo _MOSTHOUR.": $hour "._ON." ".getmonth($month)." $date, $year ($hits "._HITS.")<br /><br />[ <a href=\"modules.php?name=".$pnt_module."\">"._RETURNBASICSTATS.'</a> ]</span><br />&nbsp;</td>
+    echo _MOSTHOUR.": $hour "._ON." ".getmonth($month)." $date, $year ($hits "._HITS.")<br /><br />[ <a href=\"modules.php?name=".$module_name."\">"._RETURNBASICSTATS.'</a> ]</span><br />&nbsp;</td>
     </tr></table><br />';
 
     showYearStats($nowyear);
@@ -154,34 +147,34 @@ function Stats() {
 }
 
 function YearlyStats($year) {
-    global $nowmonth, $sitename, $pnt_module;
+    global $nowmonth, $sitename, $module_name;
     OpenTable();
     showMonthStats($year,$nowmonth);
     echo '<br />';
-    echo "<center>[ <a href=\"modules.php?name=".$pnt_module."\">"._BACKTOMAIN."</a> | <a href=\"modules.php?name=$pnt_module&amp;op=stats\">"._BACKTODETSTATS."</a> ]</center>";
+    echo "<center>[ <a href=\"modules.php?name=".$module_name."\">"._BACKTOMAIN."</a> | <a href=\"modules.php?name=$module_name&amp;op=stats\">"._BACKTODETSTATS."</a> ]</center>";
     CloseTable();
 }
 
 function MonthlyStats($year, $month) {
-    global $sitename, $nowdate, $pnt_module;
+    global $sitename, $nowdate, $module_name;
     OpenTable();
     showDailyStats($year,$month,$nowdate);
     echo '<br />';
-    echo "<center>[ <a href=\"modules.php?name=".$pnt_module."\">"._BACKTOMAIN."</a> | <a href=\"modules.php?name=".$pnt_module."&amp;op=stats\">"._BACKTODETSTATS."</a> ]</center>";
+    echo "<center>[ <a href=\"modules.php?name=".$module_name."\">"._BACKTOMAIN."</a> | <a href=\"modules.php?name=".$module_name."&amp;op=stats\">"._BACKTODETSTATS."</a> ]</center>";
     CloseTable();
 }
 
 function DailyStats($year, $month, $date) {
-    global $sitename, $pnt_module;
+    global $sitename, $module_name;
     OpenTable();
     showHourlyStats($year,$month,$date);
     echo '<br />';
-    echo "<center>[ <a href=\"modules.php?name=".$pnt_module."\">"._BACKTOMAIN."</a> | <a href=\"modules.php?name=".$pnt_module."&amp;op=stats\">"._BACKTODETSTATS."</a> ]</center>";
+    echo "<center>[ <a href=\"modules.php?name=".$module_name."\">"._BACKTOMAIN."</a> | <a href=\"modules.php?name=".$module_name."&amp;op=stats\">"._BACKTODETSTATS."</a> ]</center>";
     CloseTable();
 }
 
 function showYearStats($nowyear) {
-    global $pnt_prefix, $pnt_db, $ThemeSel, $pnt_module, $cache;
+    global $prefix, $db, $ThemeSel, $module_name, $cache;
     if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
         $cache->save('m_size', 'config', $m_size);
@@ -194,19 +187,19 @@ function showYearStats($nowyear) {
         $r_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/rightbar.gif');
         $cache->save('r_size', 'config', $r_size);
     }
-    list($TotalHitsYear) = $pnt_db->sql_ufetchrow("SELECT SUM(hits) AS TotalHitsYear FROM `".$pnt_prefix."_stats_hour`");
-    $result = $pnt_db->sql_query("SELECT `year`, SUM(hits) FROM `".$pnt_prefix."_stats_hour` GROUP BY `year` ORDER BY year");
+    list($TotalHitsYear) = $db->sql_ufetchrow("SELECT SUM(hits) AS TotalHitsYear FROM `".$prefix."_stats_hour`");
+    $result = $db->sql_query("SELECT `year`, SUM(hits) FROM `".$prefix."_stats_hour` GROUP BY `year` ORDER BY year");
     echo '<table class="forumline" cellspacing="1" width="100%">
     <tr>
         <td colspan="3" class="cat"><div class="cattitle" align="center">'._YEARLYSTATS.'</div></td>
     </tr><tr>
         <td width="25%" class="row2"><span class="gen"><strong>'._YEAR.'</strong></span></td><td colspan="2" class="row2"><span class="gen"><strong>'._SPAGESVIEWS.'</strong></span></td>
     </tr>';
-    while (list($year,$hits) = $pnt_db->sql_fetchrow($result)){
+    while (list($year,$hits) = $db->sql_fetchrow($result)){
         echo '<tr>
         <td class="row1"><span class="gen">';
         if ($year != $nowyear) {
-            echo '<a href="modules.php?name='.$pnt_module.'&amp;op=yearly&amp;year='.$year.'">'.$year.'</a>';
+            echo '<a href="modules.php?name='.$module_name.'&amp;op=yearly&amp;year='.$year.'">'.$year.'</a>';
         } else {
             echo $year;
         }
@@ -217,12 +210,12 @@ function showYearStats($nowyear) {
         echo "<img src=\"themes/$ThemeSel/images/rightbar.gif\" alt=\"\" width=\"".$r_size[0]."\" height=\"".$r_size[1]."\" /></td><td class=\"row1\"><span class=\"gen\">$hits</span></td>
     </tr>";
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
     echo '</table>';
 }
 
 function showMonthStats($nowyear, $nowmonth) {
-    global $pnt_prefix, $pnt_db, $ThemeSel, $pnt_module, $cache;
+    global $prefix, $db, $ThemeSel, $module_name, $cache;
     if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
         $cache->save('m_size', 'config', $m_size);
@@ -235,19 +228,19 @@ function showMonthStats($nowyear, $nowmonth) {
         $r_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/rightbar.gif');
         $cache->save('r_size', 'config', $r_size);
     }
-    list($TotalHitsMonth) = $pnt_db->sql_ufetchrow("SELECT sum(hits) AS TotalHitsMonth FROM `".$pnt_prefix."_stats_hour` WHERE `year`='$nowyear'");
+    list($TotalHitsMonth) = $db->sql_ufetchrow("SELECT sum(hits) AS TotalHitsMonth FROM `".$prefix."_stats_hour` WHERE `year`='$nowyear'");
     echo '<table class="forumline" cellspacing="1" width="100%">
     <tr>
         <td colspan="3" class="cat"><div class="cattitle" align="center">'._MONTLYSTATS.' '.$nowyear.'</div></td>
     </tr><tr>
         <td width="25%" class="row2"><span class="gen"><strong>'._UMONTH.'</strong></span></td><td class="row2" colspan="2"><span class="gen"><strong>'._SPAGESVIEWS.'</strong></span></td>
     </tr>';
-    $result = $pnt_db->sql_query("SELECT month, SUM(hits) FROM ".$pnt_prefix."_stats_hour WHERE year='$nowyear' GROUP BY month ORDER BY month");
-    while (list($month,$hits) = $pnt_db->sql_fetchrow($result)){
+    $result = $db->sql_query("SELECT month, SUM(hits) FROM ".$prefix."_stats_hour WHERE year='$nowyear' GROUP BY month ORDER BY month");
+    while (list($month,$hits) = $db->sql_fetchrow($result)){
         echo '<tr>
         <td class="row1"><span class="gen">';
         if ($month != $nowmonth) {
-            echo "<a href=\"modules.php?name=".$pnt_module."&amp;op=monthly&amp;year=$nowyear&amp;month=$month\">".getmonth($month)."</a>";
+            echo "<a href=\"modules.php?name=".$module_name."&amp;op=monthly&amp;year=$nowyear&amp;month=$month\">".getmonth($month)."</a>";
         } else {
             echo getmonth($month);
         }
@@ -258,12 +251,12 @@ function showMonthStats($nowyear, $nowmonth) {
         echo "<img src=\"themes/$ThemeSel/images/rightbar.gif\" alt=\"\" width=\"".$r_size[0]."\" height=\"".$r_size[1]."\" /></td><td class=\"row1\"><span class=\"gen\">$hits</span></td>
     </tr>";
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
     echo '</table>';
 }
 
 function showDailyStats($year, $month, $nowdate) {
-    global $pnt_prefix, $pnt_db, $ThemeSel, $pnt_module, $cache;
+    global $prefix, $db, $ThemeSel, $module_name, $cache;
     if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
         $cache->save('m_size', 'config', $m_size);
@@ -277,10 +270,10 @@ function showDailyStats($year, $month, $nowdate) {
         $cache->save('r_size', 'config', $r_size);
     }
 
-    $result = $pnt_db->sql_query("SELECT `date`, SUM(hits) as `hits` FROM `".$pnt_prefix."_stats_hour` WHERE `year`='$year' AND `month`='$month' GROUP BY `date` ORDER BY `date`");
+    $result = $db->sql_query("SELECT `date`, SUM(hits) as `hits` FROM `".$prefix."_stats_hour` WHERE `year`='$year' AND `month`='$month' GROUP BY `date` ORDER BY `date`");
     $TotalHitsDate = $date = 0;
     $days = array();
-    while ($row = $pnt_db->sql_fetchrow($result)) {
+    while ($row = $db->sql_fetchrow($result)) {
         $TotalHitsDate = $TotalHitsDate + $row['hits'];
         $date++;
         while ($date < $row['date']) {
@@ -289,7 +282,7 @@ function showDailyStats($year, $month, $nowdate) {
         }
         $days[] = $row;
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
     echo '<table class="forumline" cellspacing="1" width="100%">
     <tr>
         <td colspan="3" class="cat"><div class="cattitle" align="center">'._DAILYSTATS.' '.getmonth($month).', '.$year.'</div></td>
@@ -302,7 +295,7 @@ function showDailyStats($year, $month, $nowdate) {
         echo '<tr>
         <td class="row1"><span class="gen">';
         if ($date != $nowdate && $hits > 0 ) {
-            echo '<a href="modules.php?name='.$pnt_module.'&amp;op=daily&amp;year='.$year.'&amp;month='.$month.'&amp;date='.$date.'">'.$date.'</a>';
+            echo '<a href="modules.php?name='.$module_name.'&amp;op=daily&amp;year='.$year.'&amp;month='.$month.'&amp;date='.$date.'">'.$date.'</a>';
         } else {
             echo $date;
         }
@@ -323,7 +316,7 @@ function showDailyStats($year, $month, $nowdate) {
 }
 
 function showHourlyStats($year, $month, $date) {
-    global $pnt_prefix, $pnt_db, $ThemeSel, $pnt_module, $cache;
+    global $prefix, $db, $ThemeSel, $module_name, $cache;
     if ((($m_size = $cache->load('m_size', 'config')) === false) || empty($m_size)) {
         $m_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/mainbar.gif');
         $cache->save('m_size', 'config', $m_size);
@@ -336,7 +329,7 @@ function showHourlyStats($year, $month, $date) {
         $r_size = @getimagesize(NUKE_THEMES_DIR.$ThemeSel.'/images/rightbar.gif');
         $cache->save('r_size', 'config', $r_size);
     }
-    list($TotalHitsHour) = $pnt_db->sql_ufetchrow('SELECT SUM(hits) AS TotalHitsHour FROM `'.$pnt_prefix."_stats_hour` WHERE `year`='$year' AND `month`='$month' AND `date`='$date'");
+    list($TotalHitsHour) = $db->sql_ufetchrow('SELECT SUM(hits) AS TotalHitsHour FROM `'.$prefix."_stats_hour` WHERE `year`='$year' AND `month`='$month' AND `date`='$date'");
     $nowdate = date('d-m-Y');
     $nowdate_arr = explode('-', $nowdate);
     echo '<table class="forumline" cellspacing="1" width="100%">
@@ -347,13 +340,13 @@ function showHourlyStats($year, $month, $date) {
         <td class="row2" colspan="2"><span class="gen"><strong>'._SPAGESVIEWS.'</strong></span></td>
     </tr>';
     for ($k = 0;$k<=23;$k++) {
-    $result = $pnt_db->sql_query("SELECT hour, hits FROM ".$pnt_prefix."_stats_hour WHERE year='$year' AND month='$month' AND date='$date' AND hour='$k'");
-    if ($pnt_db->sql_numrows($result) == 0){
+    $result = $db->sql_query("SELECT hour, hits FROM ".$prefix."_stats_hour WHERE year='$year' AND month='$month' AND date='$date' AND hour='$k'");
+    if ($db->sql_numrows($result) == 0){
         $hits=0;
     } else {
-        list($hour,$hits) = $pnt_db->sql_fetchrow($result);
+        list($hour,$hits) = $db->sql_fetchrow($result);
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
     $a = ($k < 10) ? "0$k" : $k;
     echo '<tr>
         <td class="row1"><span class="gen">';

@@ -32,17 +32,17 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$pnt_module = basename(dirname(__FILE__));
-get_lang($pnt_module);
-include(NUKE_MODULES_DIR.$pnt_module.'/doc_config.php');
+$module_name = basename(dirname(__FILE__));
+get_lang($module_name);
+include(NUKE_MODULES_DIR.$module_name.'/doc_config.php');
 
 define('INDEX_FILE', true);
 
 function privacy() {
-    global $sitename, $adminmail, $pnt_module;
+    global $sitename, $adminmail, $module_name;
     include_once(NUKE_BASE_DIR.'header.php');
     title("$sitename: "._NSPRIVACY."");
-    if (file_exists(NUKE_MODULES_DIR.$pnt_module.'/copyright.php')) {
+    if (file_exists(NUKE_MODULES_DIR.$module_name.'/copyright.php')) {
         OpenTable();
         echo "<br /><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\" align=\"center\">";
         echo "<tr><td valign=\"top\">";

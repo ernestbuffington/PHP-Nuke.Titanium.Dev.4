@@ -61,24 +61,24 @@ echo '<option value="1"'.$sel2.'>'._AB_SITEDISABLED.'</option>'."\n";
 echo '</select></td></tr>'."\n";
 echo '<tr><td>'.help_img(_AB_HELP_004).' '._AB_TEMPLATE.':</td>'."\n";
 echo '<td><select name="xsite_reason">'."\n";
-$phpbb2_templatedir = dir(NUKE_INCLUDE_DIR.'nukesentinel/abuse');
-$phpbb2_templatelist = "";
-while($func=$phpbb2_templatedir->read()) {
+$templatedir = dir(NUKE_INCLUDE_DIR.'nukesentinel/abuse');
+$templatelist = "";
+while($func=$templatedir->read()) {
   if(substr($func, 0, 6) == "admin_") {
-    $phpbb2_templatelist .= "$func ";
+    $templatelist .= "$func ";
   }
 }
-closedir($phpbb2_templatedir->handle);
-$phpbb2_templatelist = explode(" ", $phpbb2_templatelist);
-sort($phpbb2_templatelist);
-for($i=0; $i < sizeof($phpbb2_templatelist); $i++) {
-  if($phpbb2_templatelist[$i]!="") {
-    $bl = str_replace("admin_","",$phpbb2_templatelist[$i]);
+closedir($templatedir->handle);
+$templatelist = explode(" ", $templatelist);
+sort($templatelist);
+for($i=0; $i < sizeof($templatelist); $i++) {
+  if($templatelist[$i]!="") {
+    $bl = str_replace("admin_","",$templatelist[$i]);
     $bl = str_replace(".tpl","",$bl);
     $bl = str_replace("_"," ",$bl);
     echo '<option';
-    if($phpbb2_templatelist[$i]==$ip_sets['site_reason']) { echo ' selected="selected"'; }
-    echo ' value="'.$phpbb2_templatelist[$i].'">'.ucfirst($bl).'</option>'."\n";
+    if($templatelist[$i]==$ip_sets['site_reason']) { echo ' selected="selected"'; }
+    echo ' value="'.$templatelist[$i].'">'.ucfirst($bl).'</option>'."\n";
   }
 }
 echo '</select></td></tr>'."\n";
@@ -170,24 +170,24 @@ echo '<option value="3"'.$selproxy4.'>'._AB_PROXYSTRONG.'</option>'."\n";
 echo '</select></td></tr>'."\n";
 echo '<tr><td>'.help_img(_AB_HELP_045).' '._AB_TEMPLATE.':</td>'."\n";
 echo '<td><select name="xproxy_reason">'."\n";
-$phpbb2_templatedir = dir(NUKE_INCLUDE_DIR.'nukesentinel/abuse');
-$phpbb2_templatelist = "";
-while($func=$phpbb2_templatedir->read()) {
+$templatedir = dir(NUKE_INCLUDE_DIR.'nukesentinel/abuse');
+$templatelist = "";
+while($func=$templatedir->read()) {
   if(substr($func, 0, 6) == "abuse_") {
-    $phpbb2_templatelist .= "$func ";
+    $templatelist .= "$func ";
   }
 }
-closedir($phpbb2_templatedir->handle);
-$phpbb2_templatelist = explode(" ", $phpbb2_templatelist);
-sort($phpbb2_templatelist);
-for($i=0; $i < sizeof($phpbb2_templatelist); $i++) {
-  if($phpbb2_templatelist[$i]!="") {
-    $bl = str_replace("abuse_","",$phpbb2_templatelist[$i]);
+closedir($templatedir->handle);
+$templatelist = explode(" ", $templatelist);
+sort($templatelist);
+for($i=0; $i < sizeof($templatelist); $i++) {
+  if($templatelist[$i]!="") {
+    $bl = str_replace("abuse_","",$templatelist[$i]);
     $bl = str_replace(".tpl","",$bl);
     $bl = str_replace("_"," ",$bl);
     echo '<option';
-    if($phpbb2_templatelist[$i]==$ip_sets['proxy_reason']) { echo ' selected="selected"'; }
-    echo ' value="'.$phpbb2_templatelist[$i].'">'.ucfirst($bl).'</option>'."\n";
+    if($templatelist[$i]==$ip_sets['proxy_reason']) { echo ' selected="selected"'; }
+    echo ' value="'.$templatelist[$i].'">'.ucfirst($bl).'</option>'."\n";
   }
 }
 echo '</select></td></tr>'."\n";
@@ -214,7 +214,7 @@ echo '<option value="1"'.$seldos2.'>'._AB_ON.'</option>'."\n";
 echo '</select></td></tr>'."\n";
 echo '<tr><td align="center" colspan="2"><strong>'._AB_ADMINISTRATIVE.'</strong></td></tr>'."\n";
 echo '<tr><td valign="top">'.help_img(_AB_HELP_007).' '._AB_ADMINAUTH.':</td>'."\n";
-$apass = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_nsnst_admins` WHERE `password_md5`='' OR `password`='' OR `password_crypt`=''"));
+$apass = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_admins` WHERE `password_md5`='' OR `password`='' OR `password_crypt`=''"));
 $sapi_name = strtolower(php_sapi_name());
 $selauth1 = $selauth2 = $selauth3 = "";
 if($ip_sets['http_auth'] == 1) { $selauth2 = ' selected="selected"'; }

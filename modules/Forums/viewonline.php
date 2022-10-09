@@ -44,17 +44,17 @@ if (!defined('MODULE_FILE'))
     die ("You can't access this file directly...");
 }
 
-$pnt_module = basename(dirname(__FILE__));
-require("modules/".$pnt_module."/nukebb.php");
-define('IN_PHPBB2', true);
-include($phpbb2_root_path . 'extension.inc');
-include($phpbb2_root_path . 'common.'.$phpEx);
+$module_name = basename(dirname(__FILE__));
+require("modules/".$module_name."/nukebb.php");
+define('IN_PHPBB', true);
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.'.$phpEx);
 
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_VIEWONLINE);
-titanium_init_userprefs($userdata);
+$userdata = session_pagestart($user_ip, PAGE_VIEWONLINE);
+init_userprefs($userdata);
 //
 // End session management
 //
@@ -62,16 +62,16 @@ titanium_init_userprefs($userdata);
 //
 // Output page header and load viewonline template
 //
-$phpbb2_page_title = $lang['Who_is_online'];
+$page_title = $lang['Who_is_online'];
 
 include("includes/page_header.php");
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     'body' => 'viewonline_body.tpl')
 );
 
 make_jumpbox('viewforum.'.$phpEx);
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
         'L_WHOSONLINE' => $lang['Who_is_Online'],
         'L_ONLINE_EXPLAIN' => $lang['Online_explain'],
         'L_USERNAME' => $lang['Username'],
@@ -83,20 +83,20 @@ $phpbb2_template->assign_vars(array(
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
     $q = "SELECT forum_id, forum_name FROM ". FORUMS_TABLE ."";
-    $r = $pnt_db->sql_query($q);
-    $forums_data = $pnt_db->sql_fetchrowset($r);
+    $r = $db->sql_query($q);
+    $forums_data = $db->sql_fetchrowset($r);
 
     $q = "SELECT username, user_id FROM ". USERS_TABLE ."";
-    $r = $pnt_db->sql_query($q);
-    $pnt_users_data = $pnt_db->sql_fetchrowset($r);
+    $r = $db->sql_query($q);
+    $users_data = $db->sql_fetchrowset($r);
 
     $q = "SELECT topic_id, topic_title FROM ". TOPICS_TABLE ."";
-    $r = $pnt_db->sql_query($q);
-    $phpbb2_topics_data = $pnt_db->sql_fetchrowset($r);
+    $r = $db->sql_query($q);
+    $topics_data = $db->sql_fetchrowset($r);
 
     $q = "SELECT cat_id, cat_title FROM ". CATEGORIES_TABLE ."";
-    $r = $pnt_db->sql_query($q);
-    $cats_data = $pnt_db->sql_fetchrowset($r);
+    $r = $db->sql_query($q);
+    $cats_data = $db->sql_fetchrowset($r);
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
@@ -105,11 +105,11 @@ $phpbb2_template->assign_vars(array(
 // Forum info
 //
 $sql = "SELECT forum_name, forum_id FROM " . FORUMS_TABLE;
-if ( $result = $pnt_db->sql_query($sql) )
+if ( $result = $db->sql_query($sql) )
 {
-    while( $row = $pnt_db->sql_fetchrow($result) )
+    while( $row = $db->sql_fetchrow($result) )
     {
-        $phpbb2_forum_data[$row['forum_id']] = $row['forum_name'];
+        $forum_data[$row['forum_id']] = $row['forum_name'];
     }
 }
 else
@@ -120,8 +120,8 @@ else
 //
 // Get auth data
 //
-$phpbb2_is_auth_ary = array();
-$phpbb2_is_auth_ary = auth(AUTH_VIEW, AUTH_LIST_ALL, $userdata);
+$is_auth_ary = array();
+$is_auth_ary = auth(AUTH_VIEW, AUTH_LIST_ALL, $userdata);
 
 //
 // Get user list
@@ -136,7 +136,7 @@ $sql = "SELECT u.user_id, u.username, u.user_allow_viewonline, u.user_level, s.s
 
         WHERE u.user_id = s.session_user_id
 
-                AND s.session_time >= ".( time() - $phpbb2_board_config['online_time'] ) . "
+                AND s.session_time >= ".( time() - $board_config['online_time'] ) . "
 
         ORDER BY u.username ASC, s.session_ip ASC";
 /*****[END]********************************************
@@ -144,7 +144,7 @@ $sql = "SELECT u.user_id, u.username, u.user_allow_viewonline, u.user_level, s.s
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
 
-if ( !($result = $pnt_db->sql_query($sql)) )
+if ( !($result = $db->sql_query($sql)) )
 {
     message_die(GENERAL_ERROR, 'Could not obtain regd user/online information', '', __LINE__, __FILE__, $sql);
 }
@@ -157,28 +157,28 @@ $guest_counter = 0;
 $prev_user = 0;
 $prev_ip = '';
 
-while ( $row = $pnt_db->sql_fetchrow($result) )
+while ( $row = $db->sql_fetchrow($result) )
 {
     $view_online = false;
     if ( $row['session_logged_in'] )
     {
-        $pnt_user_id = $row['user_id'];
-        if ( $pnt_user_id != $prev_user )
+        $user_id = $row['user_id'];
+        if ( $user_id != $prev_user )
         {
-            $pnt_username = $row['username'];
+            $username = $row['username'];
             $style_color = '';
             if ( $row['user_level'] == ADMIN )
             {
-                $pnt_username = '<b style="color:#' . $theme['fontcolor3'] . '">' . $pnt_username . '</strong>';
+                $username = '<b style="color:#' . $theme['fontcolor3'] . '">' . $username . '</strong>';
             }
             else if ( $row['user_level'] == MOD )
             {
-                $pnt_username = '<b style="color:#' . $theme['fontcolor2'] . '">' . $pnt_username . '</strong>';
+                $username = '<b style="color:#' . $theme['fontcolor2'] . '">' . $username . '</strong>';
             }
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-            $pnt_username = UsernameColor($row['username']);
+            $username = UsernameColor($row['username']);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -188,12 +188,12 @@ while ( $row = $pnt_db->sql_fetchrow($result) )
 /*****[BEGIN]******************************************
  [ Mod:    Hidden Status Viewing               v1.0.0 ]
  ******************************************************/
-                $view_online = ( $userdata['user_level'] == ADMIN || $userdata['user_id'] == $pnt_user_id ) ? true : false;
+                $view_online = ( $userdata['user_level'] == ADMIN || $userdata['user_id'] == $user_id ) ? true : false;
 /*****[END]********************************************
  [ Mod:    Hidden Status Viewing               v1.0.0 ]
  ******************************************************/
                 $hidden_users++;
-                $pnt_username = '<i>' . $pnt_username . '</i>';
+                $username = '<i>' . $username . '</i>';
             }
             else
             {
@@ -203,14 +203,14 @@ while ( $row = $pnt_db->sql_fetchrow($result) )
 
             $which_counter = 'reg_counter';
             $which_row = 'reg_user_row';
-            $prev_user = $pnt_user_id;
+            $prev_user = $user_id;
         }
     }
     else
     {
         if ( $row['session_ip'] != $prev_ip )
         {
-            $pnt_username = $lang['Guest'];
+            $username = $lang['Guest'];
             $view_online = true;
             $guest_users++;
             $which_counter = 'guest_counter';
@@ -221,7 +221,7 @@ while ( $row = $pnt_db->sql_fetchrow($result) )
     $prev_ip = $row['session_ip'];
     if ( $view_online )
     {
-        if ( $row['session_page'] < 1 || !$phpbb2_is_auth_ary[$row['session_page']]['auth_view'] )
+        if ( $row['session_page'] < 1 || !$is_auth_ary[$row['session_page']]['auth_view'] )
         {
             switch( $row['session_page'] )
             {
@@ -240,7 +240,7 @@ while ( $row = $pnt_db->sql_fetchrow($result) )
                     $location_url = "modules.php?name=Forums&amp;file=index";
                     break;
 
-                case TITANIUM_PAGE_SEARCH:
+                case PAGE_SEARCH:
                     $location = $lang['Searching_forums'];
                     $location_url = "modules.php?name=Forums&amp;file=search";
                     break;
@@ -352,15 +352,15 @@ while ( $row = $pnt_db->sql_fetchrow($result) )
         else
         {
             $location_url = "modules.php?name=Forums&file=viewforum&amp;" . POST_FORUM_URL . "=" . $row['session_page'];
-            $location = $phpbb2_forum_data[$row['session_page']];
+            $location = $forum_data[$row['session_page']];
 
         }
 
 /*****[BEGIN]******************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-        // $TITANIUM_SESSION_HANDLING = select_titanium_session_url($row['session_page'], $row['session_url_qs'], $row['session_url_ps'], $row['session_url_specific'], $userdata['user_level'], $row['user_id'], $forums_data, $phpbb2_topics_data, $pnt_users_data, $cats_data);
-        // $location = $TITANIUM_SESSION_HANDLING;
+        // $BSH = select_session_url($row['session_page'], $row['session_url_qs'], $row['session_url_ps'], $row['session_url_specific'], $userdata['user_level'], $row['user_id'], $forums_data, $topics_data, $users_data, $cats_data);
+        // $location = $BSH;
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
@@ -368,14 +368,14 @@ while ( $row = $pnt_db->sql_fetchrow($result) )
         $row_color = ( $$which_counter % 2 ) ? $theme['td_color1'] : $theme['td_color2'];
         $row_class = ( $$which_counter % 2 ) ? $theme['td_class1'] : $theme['td_class2'];
 
-        $phpbb2_template->assign_block_vars("$which_row", array(
+        $template->assign_block_vars("$which_row", array(
             'ROW_COLOR' => '#' . $row_color,
             'ROW_CLASS' => $row_class,
-            'USERNAME' => $pnt_username,
-            'LASTUPDATE' => create_date($phpbb2_board_config['default_dateformat'], $row['session_time'], $phpbb2_board_config['board_timezone']),
+            'USERNAME' => $username,
+            'LASTUPDATE' => create_date($board_config['default_dateformat'], $row['session_time'], $board_config['board_timezone']),
             'FORUM_LOCATION' => $location,
-            'U_USER_PROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $pnt_user_id),
-            'U_FORUM_LOCATION' => append_titanium_sid($location_url))
+            'U_USER_PROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $user_id),
+            'U_FORUM_LOCATION' => append_sid($location_url))
         );
         $$which_counter++;
     }
@@ -402,26 +402,26 @@ else if( $guest_users == 1 )
 else
     $l_g_user_s = $lang['Guest_users_online'];
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'TOTAL_REGISTERED_USERS_ONLINE' => sprintf($l_r_user_s, $registered_users) . sprintf($l_h_user_s, $hidden_users),
     'TOTAL_GUEST_USERS_ONLINE' => sprintf($l_g_user_s, $guest_users))
 );
 
 if ( $registered_users + $hidden_users == 0 )
 {
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_NO_REGISTERED_USERS_BROWSING' => $lang['No_users_browsing'])
     );
 }
 
 if ( $guest_users == 0 )
 {
-    $phpbb2_template->assign_vars(array(
+    $template->assign_vars(array(
         'L_NO_GUESTS_BROWSING' => $lang['No_users_browsing'])
     );
 }
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 include("includes/page_tail.php");
 
 ?>

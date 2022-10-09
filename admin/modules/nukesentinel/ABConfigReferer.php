@@ -82,22 +82,22 @@ echo '<option value="2"'.$sel3.'>'._AB_2OCTECT.'</option>'."\n";
 echo '<option value="3"'.$sel4.'>'._AB_3OCTECT.'</option>'."\n";
 echo '</select></td></tr>'."\n";
 echo '<tr><td bgcolor="'.$bgcolor2.'">'.help_img(_AB_HELP_015).' '._AB_TEMPLATE.':</td><td><select name="xblocker_row[template]">'."\n";
-$phpbb2_templatedir = dir(NUKE_INCLUDE_DIR.'nukesentinel/abuse');
-$phpbb2_templatelist = '';
-while($func=$phpbb2_templatedir->read()) {
-  if(substr($func, 0, 6) == 'abuse_') { $phpbb2_templatelist .= $func.' '; }
+$templatedir = dir(NUKE_INCLUDE_DIR.'nukesentinel/abuse');
+$templatelist = '';
+while($func=$templatedir->read()) {
+  if(substr($func, 0, 6) == 'abuse_') { $templatelist .= $func.' '; }
 }
-closedir($phpbb2_templatedir->handle);
-$phpbb2_templatelist = explode(" ", $phpbb2_templatelist);
-sort($phpbb2_templatelist);
-for($i=0; $i < sizeof($phpbb2_templatelist); $i++) {
-  if($phpbb2_templatelist[$i]!="") {
-    $bl = str_replace("abuse_", "", $phpbb2_templatelist[$i]);
+closedir($templatedir->handle);
+$templatelist = explode(" ", $templatelist);
+sort($templatelist);
+for($i=0; $i < sizeof($templatelist); $i++) {
+  if($templatelist[$i]!="") {
+    $bl = str_replace("abuse_", "", $templatelist[$i]);
     $bl = str_replace(".tpl", "", $bl);
     $bl = str_replace("_", " ", $bl);
     echo '<option';
-    if($phpbb2_templatelist[$i]==$blocker_row['template']) { echo ' selected="selected"'; }
-    echo ' value="'.$phpbb2_templatelist[$i].'">'.ucfirst($bl).'</option>'."\n";
+    if($templatelist[$i]==$blocker_row['template']) { echo ' selected="selected"'; }
+    echo ' value="'.$templatelist[$i].'">'.ucfirst($bl).'</option>'."\n";
   }
 }
 echo '</select></td></tr>'."\n";

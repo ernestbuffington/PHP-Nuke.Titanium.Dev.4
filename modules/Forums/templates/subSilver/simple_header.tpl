@@ -182,7 +182,7 @@ input.mainoption {
 }
 
 /* None-bold submit button */
-input.titaniumbutton {
+input.liteoption {
     background-color : {T_TD_COLOR1};
     font-weight : normal;
 }

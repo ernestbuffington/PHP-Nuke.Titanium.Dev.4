@@ -32,7 +32,7 @@ class sceditor
 	
 	function setHeader()
 	{
-		global $modheader, $img_width, $img_height, $phpbb2_board_config, $img_viewer;        
+		global $modheader, $img_width, $img_height, $board_config, $img_viewer;        
 		if ($this->first == false) 
 		{
 			$modheader = '';
@@ -41,10 +41,10 @@ class sceditor
 		$this->first = false;
 
 		$modheader .= '<script type="text/javascript">'.PHP_EOL;
-		if (!defined('IN_PHPBB2'))
+		if (!defined('IN_PHPBB'))
 			$modheader .= '  var reimg_maxWidth = '.$img_width.', reimg_maxHeight = '.$img_height.', reimg_relWidth = 0, reimg_img_viewer = "'.$img_viewer.'";'.PHP_EOL;
 		else
-			$modheader .= '  var reimg_maxWidth = '.$phpbb2_board_config['image_resize_width'].', reimg_maxHeight = '.$phpbb2_board_config['image_resize_height'].', reimg_relWidth = 0, reimg_img_viewer = "'.$img_viewer.'";'.PHP_EOL;
+			$modheader .= '  var reimg_maxWidth = '.$board_config['image_resize_width'].', reimg_maxHeight = '.$board_config['image_resize_height'].', reimg_relWidth = 0, reimg_img_viewer = "'.$img_viewer.'";'.PHP_EOL;
 		$modheader .= '</script>'.PHP_EOL;
 		$modheader .= '<link rel="stylesheet" href="includes/wysiwyg/sceditor/css/square.css" type="text/css"/>'.PHP_EOL;
 		$modheader .= '<script type="text/javascript" src="includes/wysiwyg/sceditor/jquery.sceditor.bbcode.js"></script>'.PHP_EOL;
@@ -55,7 +55,7 @@ class sceditor
 	
 	function getHtml($name)
 	{
-		global $phpbb2_board_config, $pnt_db, $pnt_prefix, $lang, $pnt_userinfo;
+		global $board_config, $db, $prefix, $lang, $userinfo;
 		$allowed = true;
 		if($_GET['name'] == 'Profile')
 			$allowed = false;
@@ -65,26 +65,26 @@ class sceditor
 		$JStoHTML .= 'nuke_jq(function($) {'.PHP_EOL;
 		$JStoHTML .= '  $("#'.$name.'").sceditor({'.PHP_EOL;
 		$JStoHTML .= '		width: "100%",'.PHP_EOL;
-		$JStoHTML .= '		emoticonsEnabled: "'.(($phpbb2_board_config['allow_smilies'] == 1) ? true : false).'",'.PHP_EOL;
+		$JStoHTML .= '		emoticonsEnabled: "'.(($board_config['allow_smilies'] == 1) ? true : false).'",'.PHP_EOL;
 		$JStoHTML .= '		plugins: "bbcode",'.PHP_EOL;
 		$JStoHTML .= '		style: "includes/wysiwyg/sceditor/css/jquery.sceditor.default.min.css",'.PHP_EOL;
 
 		if($allowed == true) // ,orderedlist
-			$JStoHTML .= '		toolbar: "bold,italic,underline,strike|left,center,right|'.(($phpbb2_board_config['allow_smilies']) ? 'emoticon|' : '').'font,size,color,removeformat|bulletlist|php,code,quote|horizontalrule,image,email,link,unlink|video|maximize,source",'.PHP_EOL;
+			$JStoHTML .= '		toolbar: "bold,italic,underline,strike|left,center,right|'.(($board_config['allow_smilies']) ? 'emoticon|' : '').'font,size,color,removeformat|bulletlist|php,code,quote|horizontalrule,image,email,link,unlink|video|maximize,source",'.PHP_EOL;
 		else
-			$JStoHTML .= '		toolbar: "bold,italic,underline,strike|left,center,right,justify|'.(($phpbb2_board_config['allow_smilies']) ? 'emoticon|' : '').'font,size,color,removeformat|horizontalrule,link,unlink,email,image|maximize,source",'.PHP_EOL;
+			$JStoHTML .= '		toolbar: "bold,italic,underline,strike|left,center,right,justify|'.(($board_config['allow_smilies']) ? 'emoticon|' : '').'font,size,color,removeformat|horizontalrule,link,unlink,email,image|maximize,source",'.PHP_EOL;
 
 		$JStoHTML .= '		fonts: "Arial,Arial Black,Comic Sans MS,Courier New,Georgia,Impact,Sans-serif,Serif,Times New Roman,Trebuchet MS,Verdana",'.PHP_EOL;
-		if($phpbb2_board_config['allow_smilies'])
+		if($board_config['allow_smilies'])
 		{
-			$JStoHTML .= '		emoticonsRoot: "'.$phpbb2_board_config['smilies_path'].'/",'.PHP_EOL;
+			$JStoHTML .= '		emoticonsRoot: "'.$board_config['smilies_path'].'/",'.PHP_EOL;
 			$JStoHTML .= '		emoticons: {'.PHP_EOL;
-			$sql = "SELECT emoticon, code, smile_url FROM ".$pnt_prefix."_bbsmilies ORDER BY smilies_id";
-			if ($result = $pnt_db->sql_query($sql))
+			$sql = "SELECT emoticon, code, smile_url FROM ".$prefix."_bbsmilies ORDER BY smilies_id";
+			if ($result = $db->sql_query($sql))
 			{
 				$i = 0;
 				$rowset = array();
-				while ($row = $pnt_db->sql_fetchrow($result))
+				while ($row = $db->sql_fetchrow($result))
 				{
 					if (empty($rowset[$row['smile_url']]))
 					{
@@ -98,7 +98,7 @@ class sceditor
 						$i++;
 					}
 				}
-	        	$pnt_db->sql_freeresult($result);
+	        	$db->sql_freeresult($result);
 			}
 			$JStoHTML .= '			dropdown: {'.PHP_EOL;
 			$JStoHTML .= '            '.$dropdownsmilies;
@@ -110,7 +110,7 @@ class sceditor
 		}
 		$JStoHTML .= '	});'.PHP_EOL;
 		# PUT THE BBCODE EDITOR IN SOURCE MODE - USER BASED SETTING
-		if($pnt_userinfo['sceditor_in_source'] == TRUE)
+		if($userinfo['sceditor_in_source'] == TRUE)
 			$JStoHTML .= '	$("#'.$name.'").sceditor("instance").sourceMode(true);';
 
 		$JStoHTML .= '	$(document).on("click","#preview,#submit",function(event)'.PHP_EOL;

@@ -9,7 +9,7 @@
 /*                                                                      */
 /* Copyright (c) 2002 by Francisco Burzi                                */
 /* http://phpnuke.org                                                   */
-/* Version 1.0b                                                         */
+/*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
@@ -28,12 +28,12 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$pnt_module = basename(dirname(__FILE__));
-get_lang($pnt_module);
+$module_name = basename(dirname(__FILE__));
+get_lang($module_name);
 
 function select_month() 
 {
-    global $pnt_prefix, $pnt_user_prefix, $pnt_db, $pnt_module;
+    global $prefix, $user_prefix, $db, $module_name;
 
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.' '._STORIESARCHIVE);
@@ -42,13 +42,13 @@ function select_month()
 	echo '<div align="center"><span class="title"><strong>'._STORIESARCHIVE.'</strong></span><br /><br /></div>';
 	echo '<div align="center"><span class="content">'._SELECTMONTH2VIEW.'</span><br /><br /></div><br /><br />';
     
-	$result = $pnt_db->sql_query("SELECT datePublished FROM ".$pnt_prefix."_stories ORDER BY datePublished DESC");
+	$result = $db->sql_query("SELECT datePublished FROM ".$prefix."_stories ORDER BY datePublished DESC");
     
 	echo "<ul>";
 
     $thismonth = '';
     
-	while(list($time) = $pnt_db->sql_fetchrow($result)) 
+	while(list($time) = $db->sql_fetchrow($result)) 
 	{
         preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/i", $time, $getdate);
 
@@ -105,12 +105,12 @@ function select_month()
 		{
             $year = $getdate[1];
         
-		    echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$pnt_module&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
+		    echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
         
 		    $thismonth = $month;
         }
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
     
 	echo "</ul>"
     ."<br /><br /><br /><div align=\"center\">"
@@ -118,7 +118,7 @@ function select_month()
     ."<input type=\"text\" name=\"query\" size=\"30\"> "
     ."<input type=\"submit\" value=\""._SEARCH."\">"
     ."</form><br /><br />"
-    ."[ <a href=\"modules.php?name=$pnt_module&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
+    ."[ <a href=\"modules.php?name=$module_name&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
     
 	CloseTable();
     
@@ -127,7 +127,7 @@ function select_month()
 
 function show_month($year, $month, $month_l) 
 {
-    global $userinfo, $pnt_prefix, $pnt_user_prefix, $pnt_db, $bgcolor1, $bgcolor2, $pnt_user, $cookie, $sitename, $multilingual, $language, $pnt_module, $articlecomm;
+    global $userinfo, $prefix, $user_prefix, $db, $bgcolor1, $bgcolor2, $user, $cookie, $sitename, $multilingual, $language, $module_name, $articlecomm;
     
 	$year = intval($year);
     $month = htmlentities($month);
@@ -172,7 +172,7 @@ function show_month($year, $month, $month_l)
         ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._DATE."</strong></td>"
         ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._ACTIONS."</strong></td></tr>";
     
-	$result = $pnt_db->sql_query("SELECT sid, 
+	$result = $db->sql_query("SELECT sid, 
 	                               catid, 
 								   title, 
 						   datePublished, 
@@ -183,10 +183,10 @@ function show_month($year, $month, $month_l)
 							   alanguage, 
 							       score, 
 								 ratings 
-	FROM ".$pnt_prefix."_stories 
+	FROM ".$prefix."_stories 
 	WHERE datePublished >= '$year-$month-01 00:00:00' AND datePublished <= '$year-$month-31 23:59:59' ORDER BY sid DESC");
     
-	while ($row = $pnt_db->sql_fetchrow($result)) 
+	while ($row = $db->sql_fetchrow($result)) 
 	{
         $sid = intval($row['sid']);
         $catid = intval($row['catid']);
@@ -220,7 +220,7 @@ function show_month($year, $month, $month_l)
         } 
 		elseif ($catid != 0) 
 		{
-            $row_res = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT title FROM ".$pnt_prefix."_stories_cat WHERE catid='$catid'"));
+            $row_res = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='$catid'"));
             $cat_title = $row_res['title'];
             $title = "<a href=\"modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a href=\"modules.php?name=Blog&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
         }
@@ -254,19 +254,19 @@ function show_month($year, $month, $month_l)
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$time[0]</td>"
             ."<td bgcolor=\"$bgcolor1\" align=\"center\">$actions</td></tr>";
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
     
 	echo "</table>"
     ."<br /><br /><br /><hr size=\"1\" noshade>"
     ."<span class=\"content\">"._SELECTMONTH2VIEW."</span><br /><br />";
     
-	$result2 = $pnt_db->sql_query("SELECT datePublished FROM ".$pnt_prefix."_stories ORDER BY datePublished DESC");
+	$result2 = $db->sql_query("SELECT datePublished FROM ".$prefix."_stories ORDER BY datePublished DESC");
     
 	echo "<ul>";
     
 	$thismonth = '';
     
-	while($row2 = $pnt_db->sql_fetchrow($result2)) 
+	while($row2 = $db->sql_fetchrow($result2)) 
 	{
         $time = $row2['datePublished'];
         
@@ -324,18 +324,18 @@ function show_month($year, $month, $month_l)
 	    if ($month != $thismonth) 
 		{
             $year = $getdate[1];
-            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$pnt_module&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
+            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
             $thismonth = $month;
         }
     }
-    $pnt_db->sql_freeresult($result2);
+    $db->sql_freeresult($result2);
     
 	echo "</ul><br /><br /><div align=\"center\">"
     ."<form action=\"modules.php?name=Search\" method=\"post\">"
     ."<input type=\"text\" name=\"query\" size=\"30\"> "
     ."<input type=\"submit\" value=\""._SEARCH."\">"
     ."</form><br />"
-    ."[ <a href=\"modules.php?name=$pnt_module\">"._ARCHIVESINDEX."</a> | <a href=\"modules.php?name=$pnt_module&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
+    ."[ <a href=\"modules.php?name=$module_name\">"._ARCHIVESINDEX."</a> | <a href=\"modules.php?name=$module_name&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
     
 	CloseTable();
     
@@ -344,7 +344,7 @@ function show_month($year, $month, $month_l)
 
 function show_all($min) 
 {
-    global $pnt_prefix, $pnt_user_prefix, $pnt_db, $bgcolor1, $bgcolor2, $pnt_user, $cookie, $sitename, $multilingual, $language, $pnt_module, $userinfo;
+    global $prefix, $user_prefix, $db, $bgcolor1, $bgcolor2, $user, $cookie, $sitename, $multilingual, $language, $module_name, $userinfo;
 
     if (!isset($min) || (!is_numeric($min) || ((int)$min) != $min)) 
 	{
@@ -395,11 +395,11 @@ function show_all($min)
     ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._DATE."</strong></td>"
     ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._ACTIONS."</strong></td></tr>";
     
-	$result = $pnt_db->sql_query("SELECT sid, catid, title, datePublished, dateModified, comments, counter, topic, alanguage, score, ratings FROM ".$pnt_prefix."_stories ORDER BY sid DESC LIMIT $min,$max");
+	$result = $db->sql_query("SELECT sid, catid, title, datePublished, dateModified, comments, counter, topic, alanguage, score, ratings FROM ".$prefix."_stories ORDER BY sid DESC LIMIT $min,$max");
     
-	$numrows = $pnt_db->sql_numrows($pnt_db->sql_query("select * FROM ".$pnt_prefix."_stories"));
+	$numrows = $db->sql_numrows($db->sql_query("select * FROM ".$prefix."_stories"));
     
-	while($row = $pnt_db->sql_fetchrow($result)) 
+	while($row = $db->sql_fetchrow($result)) 
 	{
         $sid = intval($row['sid']);
         $catid = intval($row['catid']);
@@ -432,7 +432,7 @@ function show_all($min)
         } 
 		elseif ($catid != 0) 
 		{
-            $row_res = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT title FROM ".$pnt_prefix."_stories_cat WHERE catid='$catid'"));
+            $row_res = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='$catid'"));
             $cat_title = stripslashes($row_res['title']);
             $title = "<a href=\"modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a href=\"modules.php?name=Blog&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
         }
@@ -462,7 +462,7 @@ function show_all($min)
         ."<td bgcolor=\"$bgcolor1\" align=\"center\">$time[0]</td>"
         ."<td bgcolor=\"$bgcolor1\" align=\"center\">$actions</td></tr>";
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
     
 	echo "</table>"
     ."<br /><br /><br />";
@@ -471,7 +471,7 @@ function show_all($min)
 	{
         $min = $min+250;
         $a++;
-        echo "<div align=\"center\">[ <a href=\"modules.php?name=$pnt_module&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
+        echo "<div align=\"center\">[ <a href=\"modules.php?name=$module_name&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
     }
     
 	if (($numrows > 250) && ($min >= 250) && ($a != 1)) 
@@ -479,25 +479,25 @@ function show_all($min)
         $pmin = $min-250;
         $min = $min+250;
         $a++;
-        echo "<div align=\"center\">[ <a href=\"modules.php?name=$pnt_module&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> | <a href=\"modules.php?name=$pnt_module&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
+        echo "<div align=\"center\">[ <a href=\"modules.php?name=$module_name&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> | <a href=\"modules.php?name=$module_name&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
     }
     
 	if (($numrows <= 250) && ($a != 1) && ($min != 0)) 
 	{
         $pmin = $min-250;
-        echo "<div align=\"center\">[ <a href=\"modules.php?name=$pnt_module&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> ]</div><br />";
+        echo "<div align=\"center\">[ <a href=\"modules.php?name=$module_name&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> ]</div><br />";
     }
     
 	echo "<hr size=\"1\" noshade>"
     ."<span class=\"content\">"._SELECTMONTH2VIEW."</span><br /><br />";
    
-    $result2 = $pnt_db->sql_query("SELECT datePublished FROM ".$pnt_prefix."_stories ORDER BY datePublished DESC");
+    $result2 = $db->sql_query("SELECT datePublished FROM ".$prefix."_stories ORDER BY datePublished DESC");
    
     echo "<ul>";
    
     $thismonth = "";
    
-    while(list($time) = $pnt_db->sql_fetchrow($result)) 
+    while(list($time) = $db->sql_fetchrow($result)) 
 	{
         preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/i", $time, $getdate);
     
@@ -553,18 +553,18 @@ function show_all($min)
 		if ($month != $thismonth) 
 		{
             $year = $getdate[1];
-            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$pnt_module&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
+            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
             $thismonth = $month;
         }
     }
-    $pnt_db->sql_freeresult($result2);
+    $db->sql_freeresult($result2);
     
 	echo "</ul><br /><br /><div align=\"center\">"
     ."<form action=\"modules.php?name=Search\" method=\"post\">"
     ."<input type=\"text\" name=\"query\" size=\"30\"> "
     ."<input type=\"submit\" value=\""._SEARCH."\">"
     ."</form><br />"
-    ."[ <a href=\"modules.php?name=$pnt_module\">"._ARCHIVESINDEX."</a> ]</div><br />";
+    ."[ <a href=\"modules.php?name=$module_name\">"._ARCHIVESINDEX."</a> ]</div><br />";
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 }

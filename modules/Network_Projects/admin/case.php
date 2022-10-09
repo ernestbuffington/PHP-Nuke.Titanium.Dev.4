@@ -18,18 +18,15 @@
 if (!defined('ADMIN_FILE')) {
    die('Access Denied');
 }
-global $pnt_prefix, $network_prefix, $pnt_db2, $pnt_db;
-$pnt_module = basename(dirname(dirname(__FILE__)));
+global $prefix, $db2;
+$module_name = basename(dirname(dirname(__FILE__)));
 $aid = substr($aid, 0,125);
-
-$query = $pnt_db->sql_query("SELECT `title`, `admins` FROM `".$pnt_prefix."_modules` WHERE `title`='$pnt_module'");
-list($mod_title, $admins) = $pnt_db->sql_fetchrow($query);
-$pnt_db->sql_freeresult($query);
-
-$query2 = $pnt_db->sql_query("SELECT `name`, `radminsuper` FROM `".$pnt_prefix."_authors` WHERE `aid`='$aid'");
-list($rname, $radminsuper) = $pnt_db->sql_fetchrow($query2);
-$pnt_db->sql_freeresult($query2);
-
+$query = $db2->sql_query("SELECT `title`, `admins` FROM `".$prefix."_modules` WHERE `title`='$module_name'");
+list($mod_title, $admins) = $db2->sql_fetchrow($query);
+$db2->sql_freeresult($query);
+$query2 = $db2->sql_query("SELECT `name`, `radminsuper` FROM `".$prefix."_authors` WHERE `aid`='$aid'");
+list($rname, $radminsuper) = $db2->sql_fetchrow($query2);
+$db2->sql_freeresult($query2);
 $admins = explode(",", $admins);
 $auth_user = 0;
 for($i=0; $i < sizeof($admins); $i++) { if($rname == $admins[$i] AND !empty($admins)) { $auth_user = 1; } }
@@ -183,7 +180,7 @@ if($radminsuper == 1 || $auth_user == 1) {
     case "TaskStatusUpdate":
     case "TaskUpdate":
     	$title = $mod_title;
-        include(NUKE_MODULES_DIR.$pnt_module.'/admin/index.php');
+        include(NUKE_MODULES_DIR.$module_name.'/admin/index.php');
     break;
   }
 }

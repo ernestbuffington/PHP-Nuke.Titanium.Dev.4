@@ -29,9 +29,9 @@
       Report Posts                             v1.2.3       08/30/2005
  ************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 //
@@ -58,7 +58,7 @@ if ( $userdata['user_level'] >= ADMIN )
         $open_reports = '<span style="color:#' . $theme['fontcolor2'] . '">' . $open_reports . '</span>';
     }
 
-    $report_link = '&nbsp; <a href="' . append_titanium_sid('viewpost_reports.'.$phpEx) . '">' . $open_reports . '</a> &nbsp;';
+    $report_link = '&nbsp; <a href="' . append_sid('viewpost_reports.'.$phpEx) . '">' . $open_reports . '</a> &nbsp;';
 }
 else
 {
@@ -68,11 +68,11 @@ else
  [ Mod:     Report Posts                       v1.2.3 ]
  ******************************************************/
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
         'overall_footer' => ( empty($gen_simple_header) ) ? 'overall_footer.tpl' : 'simple_footer.tpl')
 );
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
         'TRANSLATION_INFO' => (isset($lang['TRANSLATION_INFO'])) ? $lang['TRANSLATION_INFO'] : ((isset($lang['TRANSLATION'])) ? $lang['TRANSLATION'] : ''),
 /*****[BEGIN]******************************************
  [ Mod:     Report Posts                       v1.2.3 ]
@@ -84,7 +84,7 @@ $phpbb2_template->assign_vars(array(
  ******************************************************/
 );
 
-$phpbb2_template->pparse('overall_footer');
+$template->pparse('overall_footer');
 CloseTable();
 //
 // Close our DB connection.
@@ -93,7 +93,7 @@ if ($popup != 1) {
     include_once("footer.php");
 } else {
      $cache->resync();
-     $pnt_db->sql_close();
+     $db->sql_close();
 }
 
 //

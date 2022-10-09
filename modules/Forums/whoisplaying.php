@@ -15,16 +15,16 @@
 -=[Mod]=-
       Advanced Username Color                  v1.0.5       09/20/2005
  ************************************************************************/
-if (!defined('IN_PHPBB2')) die('ACCESS DENIED');
+if (!defined('IN_PHPBB')) die('Hacking attempt');
 
 if (!function_exists('get_arcade_categories')) 
 include('includes/functions_arcade.'.$phpEx);
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
         'whoisplaying' => 'whoisplaying_body.tpl')
 );
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
         "L_WHOISPLAYING" => $lang['whoisplaying'])
 );
 
@@ -53,10 +53,10 @@ $sql = "SELECT u.username,
 				IN ($liste_cat_auth) 
 				ORDER BY gh.hash_date DESC";
 
-if(!($result = $pnt_db->sql_query($sql))) 
+if(!($result = $db->sql_query($sql))) 
 message_die(CRITICAL_ERROR, "Could not query games information", "", __LINE__, __FILE__, $sql);
 
-while($row = $pnt_db->sql_fetchrow($result)):
+while($row = $db->sql_fetchrow($result)):
 $players[] = $row;
 endwhile;
 
@@ -91,9 +91,9 @@ for($i=0 ; $i<$nbplayers ; $i++):
      # Mod: Advanced Username Color v1.0.5 END
 
      if ($players[$i]['user_allow_viewonline']) 
-         $player_link = '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$players[$i]['user_id']).'"'.$style_color.'>'.$players[$i]['username'].'</a>';
+         $player_link = '<a href="'.append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$players[$i]['user_id']).'"'.$style_color.'>'.$players[$i]['username'].'</a>';
 	 else 
-         $player_link = '<a href="'.append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=
+         $player_link = '<a href="'.append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=
 		 ".$players[$i]['user_id']).'"'.$style_color.'><i>'.$players[$i]['username'].'</i></a>';
          if ($players[$i]['user_allow_viewonline'] || $userdata['user_level'] == ADMIN): 
             if (!isset($games_names[ $players[$i]['game_id'] ])): 
@@ -109,13 +109,13 @@ endfor;
 foreach($games_names AS $key => $val): 
  if ($games_players[$key]!=''): 
    $class = ($class == 'row1') ? 'row2' : 'row1';
-   $phpbb2_template->assign_block_vars('whoisplaying_row', array(
+   $template->assign_block_vars('whoisplaying_row', array(
    'CLASS' => $class,
-   'GAME' => '<a href="' . append_titanium_sid("games.$phpEx?gid=" . $key) . '">' . $val . '</a>',
+   'GAME' => '<a href="' . append_sid("games.$phpEx?gid=" . $key) . '">' . $val . '</a>',
    'PLAYER_LIST' => $games_players[$key])
    );
  endif;
 endforeach;
 
-$phpbb2_template->assign_var_from_handle('WHOISPLAYING', 'whoisplaying');
+$template->assign_var_from_handle('WHOISPLAYING', 'whoisplaying');
 ?>

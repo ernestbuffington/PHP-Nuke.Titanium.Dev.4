@@ -23,7 +23,7 @@
 if (!defined('NUKE_EVO')) 
 die("You can't access this file directly...");
 
-global $pnt_db, $pnt_prefix, $cache;
+global $db, $prefix, $cache;
 
 ##################################################
 # Load dynamic meta tags from database           #
@@ -38,11 +38,11 @@ if(($metatags = $cache->load('metatags', 'config')) === false)
    [ Base:    Caching System                     v3.0.0 ]
    ******************************************************/
   $metatags = array();
-  $sql = 'SELECT meta_name, meta_content FROM '.$pnt_prefix.'_meta';
-  $result = $pnt_db->sql_query($sql, true);
+  $sql = 'SELECT meta_name, meta_content FROM '.$prefix.'_meta';
+  $result = $db->sql_query($sql, true);
   $i=0;
 
-  while(list($meta_name, $meta_content) = $pnt_db->sql_fetchrow($result, SQL_NUM)) 
+  while(list($meta_name, $meta_content) = $db->sql_fetchrow($result, SQL_NUM)) 
   {
       $metatags[$i] = array();
       $metatags[$i]['meta_name'] = $meta_name;
@@ -52,7 +52,7 @@ if(($metatags = $cache->load('metatags', 'config')) === false)
   
   unset($i);
   
-  $pnt_db->sql_freeresult($result);
+  $db->sql_freeresult($result);
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

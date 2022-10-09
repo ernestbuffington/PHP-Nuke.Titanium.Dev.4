@@ -8,13 +8,18 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $pnt_db2;
+global $db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
-$pagetitle = _NETWORK_TITLE.' v'.$pj_config['version_number'].' - '._NETWORK_TASKS.': '._NETWORK_EDITTASK;
+$pagetitle = "::: "._NETWORK_TITLE." ".$pj_config['version_number']."::: "._NETWORK_TASKS.": "._NETWORK_EDITTASK;
 include_once(NUKE_BASE_DIR.'header.php');
-
+OpenTable();
+echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=Main\">" . _NETWORK_ADMIN_HEADER . "</a></div>\n";
+echo "<br /><br />";
+echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NETWORK_RETURNMAIN . "</a> ]</div>\n";
+CloseTable();
+//echo "<br />";
 $task = pjtask_info($task_id);
-pjadmin_menu(_NETWORK_TASKS.': '._NETWORK_EDITTASK);
+pjadmin_menu(_NETWORK_TASKS.": "._NETWORK_EDITTASK);
 //echo "<br />\n";
 OpenTable();
 echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
@@ -23,8 +28,8 @@ echo "<input type='hidden' name='op' value='TaskUpdate'>\n";
 echo "<input type='hidden' name='task_id' value='$task_id'>\n";
 echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_PROJECT.":</td>\n";
 echo "<td><select name='project_id'>\n";
-$projectlist = $pnt_db2->sql_query("SELECT `project_id`, `project_name` FROM `".$network_prefix."_projects` ORDER BY `project_name`");
-while(list($s_project_id, $s_project_name) = $pnt_db2->sql_fetchrow($projectlist)){
+$projectlist = $db2->sql_query("SELECT `project_id`, `project_name` FROM `".$network_prefix."_projects` ORDER BY `project_name`");
+while(list($s_project_id, $s_project_name) = $db2->sql_fetchrow($projectlist)){
   if($s_project_id == $task['project_id']){ $sel = "selected"; } else { $sel = ""; }
   echo "<option value='$s_project_id' $sel>$s_project_name</option>";
 }
@@ -35,8 +40,8 @@ echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._NETWORK_TASKDESCRIPTION.":</td
 echo "<td><textarea name='task_description' cols='60' rows='10' wrap='virtual'>".$task['task_description']."</textarea></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_PRIORITY.":</td>\n";
 echo "<td><select name='priority_id'>\n";
-$prioritylist = $pnt_db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_tasks_priorities` ORDER BY `priority_weight`");
-while(list($s_priority_id, $s_priority_name) = $pnt_db2->sql_fetchrow($prioritylist)){
+$prioritylist = $db2->sql_query("SELECT `priority_id`, `priority_name` FROM `".$network_prefix."_tasks_priorities` ORDER BY `priority_weight`");
+while(list($s_priority_id, $s_priority_name) = $db2->sql_fetchrow($prioritylist)){
   if($s_priority_id == $task['priority_id']){ $sel = "selected"; } else { $sel = ""; }
   echo "<option value='$s_priority_id' $sel>$s_priority_name</option>\n";
 }
@@ -45,8 +50,8 @@ echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_STATUSPERCENT.":</td>\n";
 echo "<td><input type='text' name='task_percent' size='4' value='".$task['task_percent']."'>%</td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2'>"._NETWORK_STATUS.":</td>\n";
 echo "<td><select name='status_id'>\n";
-$statuslist = $pnt_db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_tasks_status` ORDER BY `status_weight`");
-while(list($s_status_id, $s_status_name) = $pnt_db2->sql_fetchrow($statuslist)){
+$statuslist = $db2->sql_query("SELECT `status_id`, `status_name` FROM `".$network_prefix."_tasks_status` ORDER BY `status_weight`");
+while(list($s_status_id, $s_status_name) = $db2->sql_fetchrow($statuslist)){
   if($s_status_id == $task['status_id']){ $sel = "selected"; } else { $sel = ""; }
   echo "<option value='$s_status_id' $sel>$s_status_name</option>\n";
 }
@@ -95,10 +100,10 @@ for($i = 1; $i <= 31; $i++){
 echo "</select><input type=text name='task_finish_year' value='$fyear' size='4' maxlength='4'></td></tr>\n";
 echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._NETWORK_ASSIGNMEMBERS.":</td>\n";
 echo "<td><select name='member_ids[]' size='10' multiple>\n";
-$memberlistresult = $pnt_db2->sql_query("SELECT `member_id`, `member_name` FROM `".$network_prefix."_members` ORDER BY `member_name`");
-while(list($member_id, $member_name) = $pnt_db2->sql_fetchrow($memberlistresult)) {
-  $memberexresult = $pnt_db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_tasks_members` WHERE `member_id`='$member_id' AND `task_id`='$task_id'");
-  $numrows = $pnt_db2->sql_numrows($memberexresult);
+$memberlistresult = $db2->sql_query("SELECT `member_id`, `member_name` FROM `".$network_prefix."_members` ORDER BY `member_name`");
+while(list($member_id, $member_name) = $db2->sql_fetchrow($memberlistresult)) {
+  $memberexresult = $db2->sql_query("SELECT `member_id` FROM `".$network_prefix."_tasks_members` WHERE `member_id`='$member_id' AND `task_id`='$task_id'");
+  $numrows = $db2->sql_numrows($memberexresult);
   if($numrows < 1){
     echo "<option value='$member_id'>$member_name</option>\n";
   }
@@ -117,18 +122,18 @@ echo "<input type='hidden' name='task_id' VALUE='$task_id'>";
 echo "<tr><td align='left' bgcolor='$bgcolor2' width='100%' colspan='2'><strong>"._NETWORK_TASKMEMBERS."</strong></td>";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_POSITION."</strong></td>";
 echo "<td align='center' bgcolor='$bgcolor2'><strong>"._NETWORK_DELETE."</strong></td></tr>";
-$membersresult = $pnt_db2->sql_query("SELECT `member_id`, `position_id` FROM `".$network_prefix."_tasks_members` WHERE `task_id`='$task_id'");
-$numrows = $pnt_db2->sql_numrows($membersresult);
+$membersresult = $db2->sql_query("SELECT `member_id`, `position_id` FROM `".$network_prefix."_tasks_members` WHERE `task_id`='$task_id'");
+$numrows = $db2->sql_numrows($membersresult);
 if($numrows > 0){
-  while(list($member_id, $position_id) = $pnt_db2->sql_fetchrow($membersresult)){
+  while(list($member_id, $position_id) = $db2->sql_fetchrow($membersresult)){
     $member = pjmember_info($member_id);
     $position = pjmemberposition_info($position_id);
     echo "<tr>";
-    $pjimage = pjimage("member.png", $pnt_module);
+    $pjimage = pjimage("member.png", $module_name);
     echo "<td><img src='$pjimage'></td><td width='100%'>".$member['member_name']."</td>";
     echo "<td><input type='hidden' name='member_ids[]' VALUE='$member_id'><select name='position_ids[]'>";
-    $positionlistresult = $pnt_db2->sql_query("SELECT `position_id`, `position_name` FROM `".$network_prefix."_members_positions` ORDER BY `position_weight`");
-    while(list($l_position_id, $l_position_name) = $pnt_db2->sql_fetchrow($positionlistresult)) {
+    $positionlistresult = $db2->sql_query("SELECT `position_id`, `position_name` FROM `".$network_prefix."_members_positions` ORDER BY `position_weight`");
+    while(list($l_position_id, $l_position_name) = $db2->sql_fetchrow($positionlistresult)) {
       if($l_position_id == $position_id){ $sel = "selected"; } else { $sel = ""; }
       echo "<option value='$l_position_id' $sel>$l_position_name</option>";
     }

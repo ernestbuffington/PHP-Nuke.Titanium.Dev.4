@@ -15,7 +15,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
    die ('You can\'t access this file directly...');
 }
 
-$display_page = abview_template($phpbb2_template);
+$display_page = abview_template($template);
 $display_page = str_replace("</body>", "<hr noshade='noshade' />\n<div align='right'>"._AB_NUKESENTINEL."</div>\n</body>", $display_page);
 die($display_page);
 

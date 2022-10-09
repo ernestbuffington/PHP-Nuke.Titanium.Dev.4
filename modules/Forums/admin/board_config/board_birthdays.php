@@ -51,7 +51,7 @@ if (!defined('BOARD_CONFIG')) {
 
 
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
 
     "birthdays" => "admin/board_config/board_birthdays.tpl")
 
@@ -61,8 +61,8 @@ $bday_show_yes = ( $new['bday_show'] ) ? "checked=\"checked\"" : "";
 $bday_show_no = ( !$new['bday_show'] ) ? "checked=\"checked\"" : "";
 $bday_require_yes = ( $new['bday_require'] ) ? "checked=\"checked\"" : "";
 $bday_require_no = ( !$new['bday_require'] ) ? "checked=\"checked\"" : "";
-$phpbb2_bday_year_yes = ( $new['bday_year'] ) ? "checked=\"checked\"" : "";
-$phpbb2_bday_year_no = ( !$new['bday_year'] ) ? "checked=\"checked\"" : "";
+$bday_year_yes = ( $new['bday_year'] ) ? "checked=\"checked\"" : "";
+$bday_year_no = ( !$new['bday_year'] ) ? "checked=\"checked\"" : "";
 $bday_lock_yes = ( $new['bday_lock'] ) ? "checked=\"checked\"" : "";
 $bday_lock_no = ( !$new['bday_lock'] ) ? "checked=\"checked\"" : "";
 $bday_hide_yes = ( $new['bday_hide'] ) ? "checked=\"checked\"" : "";
@@ -77,7 +77,7 @@ $bday_popup_enabled = ( $new['bday_greeting'] & 1<<(BIRTHDAY_POPUP-1) ) ? "check
 
 //General Template variables
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 
     "DHTML_ID" => "c" . $dhtml_id)
 
@@ -87,7 +87,7 @@ $phpbb2_template->assign_vars(array(
 
 //Language Template variables
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 
     "L_BIRTHDAYS" => $lang['Birthdays'],
 	"L_BDAY_SHOW" => $lang['bday_show'],
@@ -117,14 +117,14 @@ $phpbb2_template->assign_vars(array(
 
 //Data Template Variables
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 
     "BDAY_SHOW_YES" => $bday_show_yes,
 	"BDAY_SHOW_NO" => $bday_show_no,
 	"BDAY_REQUIRE_YES" => $bday_require_yes,
 	"BDAY_REQUIRE_NO" => $bday_require_no,
-	"BDAY_YEAR_YES" => $phpbb2_bday_year_yes,
-	"BDAY_YEAR_NO" => $phpbb2_bday_year_no,
+	"BDAY_YEAR_YES" => $bday_year_yes,
+	"BDAY_YEAR_NO" => $bday_year_no,
 	"BDAY_LOCK_YES" => $bday_lock_yes,
 	"BDAY_LOCK_NO" => $bday_lock_no,
 	"BDAY_LOOKAHEAD" => $new['bday_lookahead'],
@@ -141,7 +141,7 @@ $phpbb2_template->assign_vars(array(
 
  ));
 
-$phpbb2_template->pparse("birthdays");
+$template->pparse("birthdays");
 
 
 

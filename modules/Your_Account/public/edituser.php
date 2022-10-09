@@ -47,11 +47,11 @@ if(!defined('CNBYA'))die('CNBYA protection');
       nav();
       CloseTable();
 
-      $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field");
+      $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field");
     
-	  while($sqlvalue = $pnt_db->sql_fetchrow($result)):
+	  while($sqlvalue = $db->sql_fetchrow($result)):
       
-	  list($value) = $pnt_db->sql_fetchrow( $pnt_db->sql_query("SELECT value FROM ".$pnt_user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$userinfo[user_id]'"));
+	  list($value) = $db->sql_fetchrow( $db->sql_query("SELECT value FROM ".$user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$userinfo[user_id]'"));
     
       $userinfo[$sqlvalue['name']] = $value;
       endwhile;
@@ -63,7 +63,7 @@ if(!defined('CNBYA'))die('CNBYA protection');
 		OpenTable();
         
 		echo "<table class='forumline' cellpadding='3' cellspacing='3' border='0' width='100%'>";
-        echo "<form name='Register' action='modules.php?name=$pnt_module' method='post'>";
+        echo "<form name='Register' action='modules.php?name=$module_name' method='post'>";
         echo "<tr><td bgcolor='$bgcolor2'><strong>"._USRNICKNAME."</strong>:</td><td bgcolor='$bgcolor3'><strong>$userinfo[username]</strong></td></tr>";
         echo "<tr><td bgcolor='$bgcolor2'><strong>"._UREALNAME."</strong>:<br />"._REQUIRED."</td><td bgcolor='$bgcolor3'>";
         echo "<input type='text' name='realname' value=\"$userinfo[name]\" size='50' maxlength='60'></td></tr>";
@@ -80,9 +80,9 @@ if(!defined('CNBYA'))die('CNBYA protection');
         echo "<tr><td bgcolor='$bgcolor2'><strong>"._YOURHOMEPAGE.":</strong><br />"._OPTIONAL."</td>";
         echo "<td bgcolor='$bgcolor3'><input type='text' name='user_website' value=\"$userinfo[user_website]\" size='50' maxlength='255'></td></tr>";
         
-        $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
+        $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
         
-		while($sqlvalue = $pnt_db->sql_fetchrow($result)): 
+		while($sqlvalue = $db->sql_fetchrow($result)): 
           $t = $sqlvalue[fid];
           $value2 = explode("::", $sqlvalue[value]);
 		  if(substr($sqlvalue[name],0,1)=='_') 
@@ -286,7 +286,7 @@ if(!defined('CNBYA'))die('CNBYA protection');
 		$avatar_category = (!empty($HTTP_POST_VARS['avatarcategory']) ) ? $HTTP_POST_VARS['avatarcategory'] : '';
         
         # menelaos@hetnet.nl
-        $direktori = $phpbb2_board_config['avatar_gallery_path']; 
+        $direktori = $board_config['avatar_gallery_path']; 
         
         $dir = @opendir($direktori);
         $avatar_images = array();
@@ -329,15 +329,15 @@ if(!defined('CNBYA'))die('CNBYA protection');
         $s_categories .= '</select>';
 
         if($userinfo[user_avatar_type] == 1) 
-            $pnt_user_avatar = $phpbb2_board_config[avatar_path]."/".$userinfo[user_avatar]; 
+            $user_avatar = $board_config[avatar_path]."/".$userinfo[user_avatar]; 
 		elseif($userinfo[user_avatar_type] == 2) 
-            $pnt_user_avatar = $userinfo[user_avatar]; 
+            $user_avatar = $userinfo[user_avatar]; 
 		else 
-            $pnt_user_avatar = $phpbb2_board_config[avatar_gallery_path]."/".$userinfo[user_avatar]; 
+            $user_avatar = $board_config[avatar_gallery_path]."/".$userinfo[user_avatar]; 
         
 		echo "<tr><td bgcolor='$bgcolor3' colspan='2' align='center'>";
         echo "<span class='title'>"._YA_AVCP."</span></strong><br />";
-        echo "<tr><td bgcolor='$bgcolor2'>"._YA_AVINF1." ".$phpbb2_board_config['avatar_max_width']." "._YA_AVINF2." ".$phpbb2_board_config['avatar_max_height']." "._YA_AVINF3." ".YA_CoolSize($phpbb2_board_config['avatar_filesize']).".</td>";
+        echo "<tr><td bgcolor='$bgcolor2'>"._YA_AVINF1." ".$board_config['avatar_max_width']." "._YA_AVINF2." ".$board_config['avatar_max_height']." "._YA_AVINF3." ".YA_CoolSize($board_config['avatar_filesize']).".</td>";
         
 		if(preg_match("#http#", $userinfo['user_avatar'])) 
             # avatarfix by menelaos dot hetnet dot nl 
@@ -347,7 +347,7 @@ if(!defined('CNBYA'))die('CNBYA protection');
         
 		echo "<br />";
         
-		if($phpbb2_board_config['allow_avatar_local']): 
+		if($board_config['allow_avatar_local']): 
             echo "<form action=\"modules.php?name=Your_Account&amp;op=avatarlist\" method=\"post\">";
             echo "<tr><td bgcolor='$bgcolor2'><strong>"._YA_SELAVGALL.":</strong></td>";
             echo "<td bgcolor='$bgcolor3'>".$s_categories."&nbsp;<img src=\"images/right.gif\" align=middle>&nbsp;<input class=button type=submit value=\""._YA_SHOWGALL."\"></td></tr>";
@@ -357,7 +357,7 @@ if(!defined('CNBYA'))die('CNBYA protection');
             echo "<td bgcolor='$bgcolor3'><strong>"._YA_DISABLED."</strong></td></tr>";
         endif;
         
-		if($phpbb2_board_config['allow_avatar_upload']):
+		if($board_config['allow_avatar_upload']):
             echo "<tr><td bgcolor='$bgcolor2'><strong>"._YA_UPLOADAV.":</strong></td>";
             echo "<td bgcolor='$bgcolor3'><a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=editprofile\"><strong>"._YA_UPLOADFORUM."</strong></a></td></tr>";
             echo "<tr><td bgcolor='$bgcolor2'><strong>"._YA_UPLOADURL.":</strong><br /><SPAN class=gensmall>"._YA_AVCOPIED."</SPAN></td>";
@@ -369,7 +369,7 @@ if(!defined('CNBYA'))die('CNBYA protection');
             echo "<td bgcolor='$bgcolor3'><strong>"._YA_DISABLED."</strong></td></tr>";
         endif;
         
-        if($phpbb2_board_config['allow_avatar_remote']): 
+        if($board_config['allow_avatar_remote']): 
             echo "<form action=\"modules.php?name=Your_Account&amp;op=avatarlinksave\" method=\"post\">";
             echo "<tr><td bgcolor='$bgcolor2'><strong>"._YA_OFFSITE.":</strong><br /><SPAN class=gensmall>"._YA_SUBMITBUTTON."</SPAN></td>";
 			if ($userinfo[user_avatar_type] == 2) 
@@ -389,6 +389,6 @@ echo "<td bgcolor='$bgcolor3'><input class=post style=\"WIDTH: 150px\" size='25'
         include_once(NUKE_BASE_DIR.'footer.php');
 
 	else: 
-        mmain($pnt_user);
+        mmain($user);
     endif;
 ?>

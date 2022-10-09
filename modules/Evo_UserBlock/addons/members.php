@@ -25,7 +25,7 @@ global $evouserinfo_addons, $evouserinfo_members;
 # group memberships
 function evouserinfo_members () 
 {
-    global $userinfo, $pnt_db, $pnt_prefix, $pnt_user_prefix, $evouserinfo_members, $lang_evo_userblock;
+    global $userinfo, $db, $prefix, $user_prefix, $evouserinfo_members, $lang_evo_userblock;
     
     $evouserinfo_members = '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['MEMBERS']['MEMBERS'].'</div>';
 
@@ -40,7 +40,7 @@ function evouserinfo_members ()
     
 	      if(!empty($name))
 		  {
-		    $group_name = GroupColor($name);
+			$group_name = GroupColor($name);
 			$evouserinfo_members .= '<div style="padding-left: 10px;">';
 		    $evouserinfo_members .= '<font title="'.$id1.'" class="tooltip-html-side-interact tooltipstered" 
 			color="lime"><i title="'.$id1.'" alt="'.$id1.'" class="fas fa-users"></i></font> ';
@@ -62,12 +62,12 @@ function evouserinfo_members ()
     # Select all groups where the user has a pending membership.
     if(is_user()) 
 	{
-	   $result = $pnt_db->sql_query('SELECT g.group_id, 
+	   $result = $db->sql_query('SELECT g.group_id, 
 	                                  g.group_name, 
 								      g.group_type
             
-			               FROM '.$pnt_prefix.'_bbgroups g, 
-			               '.$pnt_prefix.'_bbuser_group ug
+			               FROM '.$prefix.'_bbgroups g, 
+			               '.$prefix.'_bbuser_group ug
             
 			               WHERE ug.user_id = '.$userinfo['user_id'].'
 				           AND ug.group_id = g.group_id
@@ -75,12 +75,12 @@ function evouserinfo_members ()
 				           AND g.group_single_user = 0
 			               ORDER BY g.group_name, ug.user_id'); 
     
-	   if ($pnt_db->sql_numrows($result)) 
+	   if ($db->sql_numrows($result)) 
 	   {
 
 	      $evouserinfo_members .= '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['MEMBERS']['PENDING'].'</div>'; 
        
-	      while( $row = $pnt_db->sql_fetchrow($result) ) 
+	      while( $row = $db->sql_fetchrow($result) ) 
 		  {
             $in_group[] = $row['group_id'];
 
@@ -88,14 +88,13 @@ function evouserinfo_members ()
 		    $evouserinfo_members .= '<div style="padding-left: 10px;">';
 			$evouserinfo_members .= '<font title="'.$row['group_id'].'" class="tooltip-html-side-interact tooltipstered" 
 			color="lightgrey"><i title="'.$row['group_id'].'" alt="'.$row['group_id'].'" class="fas fa-users"></i></font> ';
-		    $evouserinfo_members .= '<a class="tooltip-html-side-interact tooltipstered" title="'.$row['group_name'].'" 
-			href="modules.php?name=Groups&amp;g='.$row['group_id'] . '"><strong>' . $group_name . '</strong></a><br />';
+		    $evouserinfo_members .= '<a class="tooltip-html-side-interact tooltipstered" title="'.$row['group_name'].'"href="modules.php?name=Groups&amp;g='.$row['group_id'] . '"><strong>' . $group_name . '</strong></a><br />';
 			$evouserinfo_members .= '</div>';
           }
         
        }
 	    
-		$pnt_db->sql_freeresult($result);
+		$db->sql_freeresult($result);
    }
 }
 

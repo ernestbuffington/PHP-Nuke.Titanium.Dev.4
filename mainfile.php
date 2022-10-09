@@ -1,6 +1,6 @@
 <?php
 /*======================================================================= 
-  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System 
+  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -58,17 +58,17 @@ if((defined('NUKE_EVO')) || (defined('NUKE_TITANIUM')))return;
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))exit('Access Denied');
 
 # Define File
-define_once('NUKE_EVO', '2.0.9');
+define_once('NUKE_EVO', '4.0.0');
 # Network Support
-define_once('NUKE_TITANIUM', '4.0.2');
+define_once('NUKE_TITANIUM', '4.0.0a');
 # Network Support
-define_once('TITANIUM_BUILD', '209402');
+define_once('TITANIUM_BUILD', '4022');
 define_once('CUR_EVO', 'NUKE_EVO');
 # Network Support
 define_once('CUR_TITANIUM', 'NUKE_TITANIUM');
 define_once('EVO_EDITION', 'xtreme');
 # Network Support
-define_once('TITANIUM_EDITION', 'AN602');
+define_once('TITANIUM_EDITION', 'Network');
 
 define('PHPVERS', @phpversion());
 define_once('EVO_VERSION', NUKE_EVO . ' ' . EVO_EDITION);
@@ -97,15 +97,15 @@ if (!ini_get('register_globals')):
 endif;
 
 $admin = (isset($_COOKIE['admin'])) ? $_COOKIE['admin'] : false;
-$pnt_user = (isset($_COOKIE['user'])) ? $_COOKIE['user'] : false;
+$user = (isset($_COOKIE['user'])) ? $_COOKIE['user'] : false;
 
 if ((isset($_POST['name']) && !empty($_POST['name'])) && (isset($_GET['name']) && !empty($_GET['name']))) 
     $name = (isset($_GET['name']) && !stristr($_GET['name'],'..') && !stristr($_GET['name'],'://')) ? addslashes(trim($_GET['name'])) : false;
 else 
     $name = (isset($_REQUEST['name']) && !stristr($_REQUEST['name'],'..') && !stristr($_REQUEST['name'],'://')) ? addslashes(trim($_REQUEST['name'])) : false;
 
-$phpbb2_start_mem = function_exists('memory_get_usage') ? memory_get_usage() : 0;
-$phpbb2_start_time = get_microtime();
+$start_mem = function_exists('memory_get_usage') ? memory_get_usage() : 0;
+$start_time = get_microtime();
 
 // Stupid handle to create REQUEST_URI for IIS 5 servers
 if (preg_match('/IIS/', $_SERVER['SERVER_SOFTWARE']) && isset($_SERVER['SCRIPT_NAME'])):
@@ -275,7 +275,6 @@ define('NUKE_JQUERY_INCLUDE_DIR', 'includes/js/');
 define('NUKE_JQUERY_SCRIPTS_DIR', 'includes/js/scripts/');
 define('NUKE_LANGUAGE_DIR', NUKE_BASE_DIR . 'language/');
 define('NUKE_MODULES_DIR', NUKE_BASE_DIR . 'modules/');
-define('NUKE_PROJECTS_CSS_DIR', NUKE_BASE_DIR . 'modules/Network_Projects/css/');
 define('NUKE_THEMES_DIR', NUKE_BASE_DIR . 'themes/');
 define('NUKE_THEMES_SAVE_DIR', NUKE_INCLUDE_DIR . 'saved_themes/');
 define('NUKE_ADMIN_DIR', NUKE_BASE_DIR . 'admin/');
@@ -311,55 +310,31 @@ if (!function_exists('classAutoloader')):
 endif;
 
 if (CAN_MOD_INI):
-  if (version_compare(PHP_VERSION, '5.3.0', '<')):
-    ini_set('magic_quotes_runtime', 0);
-  endif;
     ini_set('magic_quotes_sybase', 0);
     ini_set('zlib.output_compression', 0);
 endif;
 
-// Include config file
-@require_once(NUKE_BASE_DIR.'config.php');
-
-# Load Vendors
-require_once NUKE_BASE_DIR . '/vendor/autoload.php';
-
 # Enable 86it Network Support START
-if(defined('network')):
-  if (@file_exists(NUKE_BASE_DIR.'nconfig.php')):  
-  @require_once(NUKE_BASE_DIR.'nconfig.php');
-  global $pnt_dbpass2, $pnt_dbhost2, $pnt_dbname2, $pnt_dbuname2, $pnt_db2, $network_prefix;
-  if(!isset($pnt_dbname2) || empty($pnt_dbname2)) 
-  die('$pnt_dbname2 <- your network database name is not configured in your ROOT nbconfig.php file!');
-  if(!isset($pnt_dbuname2) || empty($pnt_dbuname2)) 
-  die('$pnt_dbuname2 <- your network database user name is not configured in your ROOT nbconfig.php file!');
-  if(!isset($pnt_dbpass2) || empty($pnt_dbpass2)) 
-  die('$pnt_dbpass2 <- your network database password is not configured in your ROOT nbconfig.php file!');
+if (@file_exists(NUKE_BASE_DIR.'nconfig.php')):  
+@require_once(NUKE_BASE_DIR.'nconfig.php');
+global $dbpass2, $dbhost2, $dbname2, $dbuname2, $db2, $network_prefix;
+  if(defined('network')):
+  if(!isset($dbname2) || empty($dbname2)) 
+  die('$dbname2 <- your network database name is not configured in your ROOT nbconfig.php file!');
+  if(!isset($dbuname2) || empty($dbuname2)) 
+  die('$dbuname2 <- your network database user name is not configured in your ROOT nbconfig.php file!');
+  if(!isset($dbpass2) || empty($dbpass2)) 
+  die('$dbpass2 <- your network database password is not configured in your ROOT nbconfig.php file!');
   if(!isset($network_prefix) || empty($network_prefix)) 
   die('$network_prefix <- your network prefix is not configured in your ROOT nbconfig.php file!');
   endif;
 endif;
 # Enable 86it Network Support END 
 
-# vimeo SDK API version 3.4 Mod START 
-if(defined('vimeo')):
-   if(@file_exists(NUKE_BASE_DIR.'vconfig.php')):  
-   @require_once(NUKE_BASE_DIR.'vconfig.php');
-   global $client, $client_id, $client_secret, $access_token;
-   if(!isset($client_id) || empty($client_id)) 
-   die('$client_id <- your client ID is not set in your ROOT vconfig.php file!');
-   if(!isset($client_secret) || empty($client_secret)) 
-   die('$client_secret <- your Vimeo Secret is not defined in your ROOT vconfig.php file!');
-   if(!isset($access_token) || empty($access_token)) 
-   die('$access_token <- your Vimeo access token is not defined in your ROOT vconfig.php file!');
-   endif;
-endif;
-# vimeo SDK API version 3.4 Mod END 
-
 # facebook SDK Mod START
-if(defined('facebook')):
-  if (@file_exists(NUKE_BASE_DIR.'fbconfig.php')):  
-  @require_once(NUKE_BASE_DIR.'fbconfig.php');
+if (@file_exists(NUKE_BASE_DIR.'fbconfig.php')):  
+@require_once(NUKE_BASE_DIR.'fbconfig.php');
+  if ( defined('facebook') ):
   global $fb, $appID, $api_version, $appSecret, $my_url;
   if(!isset($my_url) || empty($my_url)) 
   die('$my_url <- your domain is not set in your ROOT fbconfig.php file!');
@@ -373,17 +348,18 @@ if(defined('facebook')):
 endif;
 # facebook SDK Mod END
 
-if(!$directory_mode):
-$directory_mode = 0777;
-else:
-$directory_mode = 0755;
-endif;
+// Include config file
+@require_once(NUKE_BASE_DIR.'config.php');
 
-if(!$file_mode):
+if(!$directory_mode)
+$directory_mode = 0777;
+else
+$directory_mode = 0755;
+
+if (!$file_mode)
 $file_mode = 0666;
-else:
+else
 $file_mode = 0644;
-endif;
 
 // Core exceptions handler
 include_once(NUKE_INCLUDE_DIR . 'exception.php');
@@ -391,17 +367,17 @@ include_once(NUKE_INCLUDE_DIR . 'abstract/abstract.exception.php');
 
 // Include the required files
 @require_once(NUKE_DB_DIR.'db.php');
-//$pnt_db->debug = true;
+//$db->debug = true;
 // Include Error Logger and identify class
 @require_once(NUKE_CLASSES_DIR.'class.identify.php');
-global $phpbb2_agent;
+global $agent;
 
 $identify = new identify();
-$phpbb2_agent = $identify->identify_agent();
+$agent = $identify->identify_agent();
 
 @require_once(NUKE_INCLUDE_DIR.'log.php');
 
-if (ini_get('output_buffering') && !isset($phpbb2_agent['bot'])):
+if (ini_get('output_buffering') && !isset($agent['bot'])):
     ob_end_clean();
     header('Content-Encoding: none');
 endif;
@@ -459,12 +435,12 @@ endif;
 if (is_array($userinfo) && isset($userinfo['user_active']) 
 && $userinfo['user_id'] != 1 && $userinfo['user_id'] != 0 
 && $userinfo['user_active'] == 0 && $_GET['name'] != 'Your_Account'):
-    redirect_titanium('modules.php?name=Your_Account&op=logout');
+    redirect('modules.php?name=Your_Account&op=logout');
     die();
 endif;
 
 if(stristr($_SERVER['REQUEST_URI'], '.php/'))
-redirect_titanium(str_replace('.php/', '.php', $_SERVER['REQUEST_URI']));
+redirect(str_replace('.php/', '.php', $_SERVER['REQUEST_URI']));
 
 include_once(NUKE_MODULES_DIR.'Your_Account/includes/mainfileend.php');
 
@@ -472,7 +448,7 @@ if(isset($_POST['clear_cache']))
 $cache->clear();
 
 define('NUKE_FILE', true);
-$pnt_dbi = $pnt_db->db_connect_id;
+$dbi = $db->db_connect_id;
 $badreasons = 4;
 $sitekey = md5($_SERVER['HTTP_HOST']);
 $gfx_chk = 0;
@@ -480,9 +456,9 @@ $tipath = 'modules/Blog/images/topics/';
 $reasons = array('As Is', 'Offtopic', 'Flamebait', 'Troll', 'Redundant', 'Insighful', 'Interesting', 'Informative', 'Funny', 'Overrated', 'Underrated');
 $AllowableHTML = array('p'=>1,'b'=>1, 'i'=>1, 'a'=>2, 'em'=>1, 'br'=>1, 'strong'=>1, 'blockquote'=>1, 'tt'=>1, 'li'=>1, 'ol'=>1, 'ul'=>1, 'pre'=>1);
 
-$nuke_titanium_config = load_nuke_titanium_config();
+$nukeconfig = load_nukeconfig();
 
-foreach($nuke_titanium_config as $var => $value):
+foreach($nukeconfig as $var => $value):
     $$var = $value;
 endforeach;
 
@@ -504,8 +480,8 @@ $pollcomm = intval($pollcomm);
 $articlecomm = intval($articlecomm);
 $my_headlines = intval($my_headlines);
 $top = intval($top);
-$bloghome = intval($bloghome);
-$user_blogs = intval($user_blogs);
+$storyhome = intval($storyhome);
+$user_news = intval($user_news);
 $oldnum = intval($oldnum);
 $ultramode = intval($ultramode);
 $banners = intval($banners);
@@ -526,12 +502,11 @@ if (CAN_MOD_INI) ini_set('sendmail_from', $adminmail);
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-$pnt_config = load_titanium_config();
-$phpbb2_board_config = load_phpbb2_board_config();
+$evoconfig = load_evoconfig();
+$board_config = load_board_config();
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-
 /*****[BEGIN]******************************************
  [ Mod:     Lock Modules                       v1.0.0 ]
  [ Mod:     Queries Count                      v2.0.0 ]
@@ -542,25 +517,25 @@ $phpbb2_board_config = load_phpbb2_board_config();
  [ Mod:     Lazy Google Tap                    v1.0.0 ]
  [ Base:    Switch Content Script              v2.0.0 ]
  ******************************************************/
-$lock_titanium_modules = intval($pnt_config['lock_modules']);
-$pnt_queries_count = intval($pnt_config['queries_count']);
-$adminssl = intval($pnt_config['adminssl']);
-$pnt_censor_words = $pnt_config['censor_words'];
-$pnt_censor = intval($pnt_config['censor']);
-$usrclearcache = intval($pnt_config['usrclearcache']);
-$use_colors = intval($pnt_config['use_colors']);
-$lazy_tap = intval($pnt_config['lazy_tap']);
-$img_resize = intval($pnt_config['img_resize']);
-$img_width = intval($pnt_config['img_width']);
-$img_height = intval($pnt_config['img_height']);
-$wysiwyg = $pnt_config['textarea'];
-$capfile = $pnt_config['capfile'];
-$collapse = intval($pnt_config['collapse']);
-$collapsetype = intval($pnt_config['collapsetype']);
-$pnt_module_collapse = intval($pnt_config['module_collapse']);
-$evouserinfo_ec = intval($pnt_config['evouserinfo_ec']);
-$analytics = $pnt_config['analytics'];
-$pnt_html_auth = $pnt_config['html_auth'];
+$lock_modules = intval($evoconfig['lock_modules']);
+$queries_count = intval($evoconfig['queries_count']);
+$adminssl = intval($evoconfig['adminssl']);
+$censor_words = $evoconfig['censor_words'];
+$censor = intval($evoconfig['censor']);
+$usrclearcache = intval($evoconfig['usrclearcache']);
+$use_colors = intval($evoconfig['use_colors']);
+$lazy_tap = intval($evoconfig['lazy_tap']);
+$img_resize = intval($evoconfig['img_resize']);
+$img_width = intval($evoconfig['img_width']);
+$img_height = intval($evoconfig['img_height']);
+$wysiwyg = $evoconfig['textarea'];
+$capfile = $evoconfig['capfile'];
+$collapse = intval($evoconfig['collapse']);
+$collapsetype = intval($evoconfig['collapsetype']);
+$module_collapse = intval($evoconfig['module_collapse']);
+$evouserinfo_ec = intval($evoconfig['evouserinfo_ec']);
+$analytics = $evoconfig['analytics'];
+$html_auth = $evoconfig['html_auth'];
 
 $more_js = '';
 $more_styles = '';
@@ -654,8 +629,8 @@ function is_admin($trash=0)
 
     if (!empty($aid) && !empty($pwd)):
         if (!function_exists('get_admin_field')):
-            global $pnt_db, $pnt_prefix;
-            $pass = $pnt_db->sql_ufetchrow("SELECT `pwd` FROM `" . $pnt_prefix . "_authors` WHERE `aid` = '" .  str_replace("\'", "''", $aid) . "'", SQL_ASSOC);
+            global $db, $prefix;
+            $pass = $db->sql_ufetchrow("SELECT `pwd` FROM `" . $prefix . "_authors` WHERE `aid` = '" .  str_replace("\'", "''", $aid) . "'", SQL_ASSOC);
             $pass = (isset($pass['pwd'])) ? $pass['pwd'] : '';
         else:
             $pass = get_admin_field('pwd', $aid);
@@ -685,9 +660,9 @@ function is_god_admin($trash=0)
 
     if (!empty($godaid) && !empty($pwd)):
         if (!function_exists('get_admin_field')):
-            global $pnt_db;
-            $pass    = $pnt_db->sql_ufetchrow("SELECT `pwd` FROM `" . _AUTHOR_TABLE."` WHERE `aid` = '" .  str_replace("\'", "''", $godaid) . "'", SQL_ASSOC);
-            $godname = $pnt_db->sql_ufetchrow("SELECT `name` FROM `" . _AUTHOR_TABLE."` WHERE `aid` = '" .  str_replace("\'", "''", $godaid) . "'", SQL_ASSOC);
+            global $db;
+            $pass    = $db->sql_ufetchrow("SELECT `pwd` FROM `" . _AUTHOR_TABLE."` WHERE `aid` = '" .  str_replace("\'", "''", $godaid) . "'", SQL_ASSOC);
+            $godname = $db->sql_ufetchrow("SELECT `name` FROM `" . _AUTHOR_TABLE."` WHERE `aid` = '" .  str_replace("\'", "''", $godaid) . "'", SQL_ASSOC);
             $pass    = (isset($pass['pwd'])) ? $pass['pwd'] : '';
             $godname = (isset($godname['name'])) ? $godname['name'] : '';
         else:
@@ -702,26 +677,26 @@ function is_god_admin($trash=0)
 
 function is_user($trash=0) 
 {
-    static $pnt_userstatus;
-    if(isset($pnt_userstatus)) 
-	return $pnt_userstatus;
+    static $userstatus;
+    if(isset($userstatus)) 
+	return $userstatus;
     
-	$pnt_usercookie = isset($_COOKIE['user']) ? $_COOKIE['user'] : false;
+	$usercookie = isset($_COOKIE['user']) ? $_COOKIE['user'] : false;
     
-	if (!$pnt_usercookie) 
-	return $pnt_userstatus = 0; 
+	if (!$usercookie) 
+	return $userstatus = 0; 
     
-	$pnt_usercookie = (!is_array($pnt_usercookie)) ? explode(':', base64_decode($pnt_usercookie)) : $pnt_usercookie;
-    $uid = $pnt_usercookie[0];
-    $pwd = $pnt_usercookie[2];
+	$usercookie = (!is_array($usercookie)) ? explode(':', base64_decode($usercookie)) : $usercookie;
+    $uid = $usercookie[0];
+    $pwd = $usercookie[2];
     $uid = intval($uid);
 
     if (!empty($uid) AND !empty($pwd)):
         $user_password = get_user_field('user_password', $uid);
         if ($user_password == $pwd && !empty($user_password))
-        return $pnt_userstatus = 1;
+        return $userstatus = 1;
     endif;
-    return $pnt_userstatus = 0;
+    return $userstatus = 0;
 }
 
 function cookiedecode($trash=0) 
@@ -732,8 +707,8 @@ function cookiedecode($trash=0)
     if(isset($rcookie)) 
 	return $rcookie; 
 
-    $pnt_usercookie = $_COOKIE['user'];
-    $rcookie = (!is_array($pnt_usercookie)) ? explode(':', base64_decode($pnt_usercookie)) : $pnt_usercookie;
+    $usercookie = $_COOKIE['user'];
+    $rcookie = (!is_array($usercookie)) ? explode(':', base64_decode($usercookie)) : $usercookie;
     $pass = get_user_field('user_password', $rcookie[1], true);
 
     if ($rcookie[2] == $pass && !empty($pass))
@@ -749,16 +724,16 @@ function title($text)
 
     # Opera Hack as images were not showing up
     if ($name == 'Advertising'):
-      $phpbb2_icon = img('AdvertisngFixed.png', $name); 
+      $icon = img('AdvertisngFixed.png', $name); 
     # Opera Hack as images were not showing up
     elseif ($name == 'Network_Advertising'):
-      $phpbb2_icon = img('NetworkAdvertisingFixed.png', $name); 
+      $icon = img('NetworkAdvertisingFixed.png', $name); 
     else:
 
 	   if(!isset($name) || empty($name)):
        # Index Hack as images were not showing up	   
 	   else:
-	   $phpbb2_icon = img($name.'.png', $name); 
+	   $icon = img($name.'.png', $name); 
 	   endif;
 
 	endif;
@@ -767,29 +742,29 @@ function title($text)
 	# Index Hack as images were not showing up
     else:
     OpenTable();
-    echo '<br /><div align="center"><a alt="'.$text.'" href="modules.php?name='.$name.'"><img alt="'.$text.'" style="height: 50px;" src="'.$phpbb2_icon.'" border="0"></a></div><br/>';
+    echo '<br /><div align="center"><a alt="'.$text.'" href="modules.php?name='.$name.'"><img alt="'.$text.'" style="height: 50px;" src="'.$icon.'" border="0"></a></div><br/>';
     CloseTable();
 	endif;
 }
 
-function is_active($pnt_module) 
+function is_active($module) 
 {
-    global $pnt_prefix, $pnt_db, $cache;
-    static $active_titanium_modules;
+    global $prefix, $db, $cache;
+    static $active_modules;
     
-	if (is_array($active_titanium_modules)) 
-    return(isset($active_titanium_modules[$pnt_module]) ? 1 : 0);
+	if (is_array($active_modules)) 
+    return(isset($active_modules[$module]) ? 1 : 0);
     
-	if ((($active_titanium_modules = $cache->load('active_modules', 'config')) === false) || empty($active_titanium_modules)):
-		$active_titanium_modules = array();
-        $result = $pnt_db->sql_query('SELECT `title` FROM `'.$pnt_prefix.'_modules` WHERE `active`="1"');
-		while(list($title) = $pnt_db->sql_fetchrow($result, SQL_NUM)):
-            $active_titanium_modules[$title] = 1;
+	if ((($active_modules = $cache->load('active_modules', 'config')) === false) || empty($active_modules)):
+		$active_modules = array();
+        $result = $db->sql_query('SELECT `title` FROM `'.$prefix.'_modules` WHERE `active`="1"');
+		while(list($title) = $db->sql_fetchrow($result, SQL_NUM)):
+            $active_modules[$title] = 1;
         endwhile;
-		$pnt_db->sql_freeresult($result);
-        $cache->save('active_modules', 'config', $active_titanium_modules);
+		$db->sql_freeresult($result);
+        $cache->save('active_modules', 'config', $active_modules);
     endif;
-	return (isset($active_titanium_modules[$pnt_module]) ? 1 : 0);
+	return (isset($active_modules[$module]) ? 1 : 0);
 }
 
 function render_blocks($side, $block) 
@@ -866,18 +841,18 @@ function blocks_visible($side)
 }
 
 function blocks($side, $count=false) {
-    global $pnt_prefix, $multilingual, $currentlang, $pnt_db, $userinfo, $cache;
+    global $prefix, $multilingual, $currentlang, $db, $userinfo, $cache;
     static $blocks;
 
     $querylang = ($multilingual) ? 'AND (`blanguage`="'.$currentlang.'" OR `blanguage`="")' : '';
     $side = strtolower($side[0]);
     if((($blocks = $cache->load('blocks', 'config')) === false) || !isset($blocks)) {
-        $sql = 'SELECT * FROM `'.$pnt_prefix.'_blocks` WHERE `active`="1" '.$querylang.' ORDER BY `weight` ASC';
-        $result = $pnt_db->sql_query($sql);
-        while($row = $pnt_db->sql_fetchrow($result, SQL_ASSOC)) {
+        $sql = 'SELECT * FROM `'.$prefix.'_blocks` WHERE `active`="1" '.$querylang.' ORDER BY `weight` ASC';
+        $result = $db->sql_query($sql);
+        while($row = $db->sql_fetchrow($result, SQL_ASSOC)) {
             $blocks[$row['bposition']][] = $row;
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
         $cache->save('blocks', 'config', $blocks);
     }
     if ($count) {
@@ -901,11 +876,11 @@ function blocks($side, $count=false) {
         $now = time();
         if ($expire != 0 AND $expire <= $now) {
             if ($action == 'd') {
-                $pnt_db->sql_query('UPDATE `'.$pnt_prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
+                $db->sql_query('UPDATE `'.$prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
                 $cache->delete('blocks', 'config');
                 return;
             } elseif ($action == 'r') {
-                $pnt_db->sql_query('DELETE FROM `'.$pnt_prefix.'_blocks` WHERE `bid`="'.$bid.'"');
+                $db->sql_query('DELETE FROM `'.$prefix.'_blocks` WHERE `bid`="'.$bid.'"');
                 $cache->delete('blocks', 'config');
                 return;
             }
@@ -1004,7 +979,7 @@ function rss_content($url)
 
 function headlines($bid, $side=0, $row='') 
 {
-    global $pnt_prefix, $pnt_db, $my_headlines, $cache;
+    global $prefix, $db, $my_headlines, $cache;
 
     if(!$my_headlines) 
 	return;
@@ -1012,14 +987,14 @@ function headlines($bid, $side=0, $row='')
 	$bid = intval($bid);
     
 	if (!is_array($row)) 
-    $row = $pnt_db->sql_ufetchrow('SELECT `title`, `content`, `url`, `refresh`, `time` FROM `'.$pnt_prefix.'_blocks` WHERE `bid`='.$bid, SQL_ASSOC);
+    $row = $db->sql_ufetchrow('SELECT `title`, `content`, `url`, `refresh`, `time` FROM `'.$prefix.'_blocks` WHERE `bid`='.$bid, SQL_ASSOC);
     
 	$content =& trim($row['content']);
 
     if ($row['time'] < (time()-$row['refresh']) || empty($content)):
         $content = rss_content($row['url']);
         $btime = time();
-        $pnt_db->sql_query("UPDATE `".$pnt_prefix."_blocks` SET `content`='".Fix_Quotes($content)."', `time`='$btime' WHERE `bid`='$bid'");
+        $db->sql_query("UPDATE `".$prefix."_blocks` SET `content`='".Fix_Quotes($content)."', `time`='$btime' WHERE `bid`='$bid'");
         $cache->delete('blocks', 'config');
     endif;
 
@@ -1036,12 +1011,12 @@ function headlines($bid, $side=0, $row='')
 
 function blog_ultramode() 
 {
-    global $pnt_db, $pnt_prefix, $multilingual, $currentlang;
+    global $db, $prefix, $multilingual, $currentlang;
     $querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
-    $sql = "SELECT s.sid, s.catid, s.aid, s.title, s.datePublished, s.dateModified, s.hometext, s.comments, s.topic, s.ticon, t.topictext, t.topicimage FROM `".$pnt_prefix."_stories` s LEFT JOIN `".$pnt_prefix."_topics` t ON t.topicid = s.topic WHERE s.ihome = '0' ".$querylang." ORDER BY s.datePublished DESC LIMIT 0,10";
-    $result = $pnt_db->sql_query($sql);
+    $sql = "SELECT s.sid, s.catid, s.aid, s.title, s.datePublished, s.dateModified, s.hometext, s.comments, s.topic, s.ticon, t.topictext, t.topicimage FROM `".$prefix."_stories` s LEFT JOIN `".$prefix."_topics` t ON t.topicid = s.topic WHERE s.ihome = '0' ".$querylang." ORDER BY s.datePublished DESC LIMIT 0,10";
+    $result = $db->sql_query($sql);
     
-	while ($row = $pnt_db->sql_fetchrow($result, SQL_ASSOC)): 
+	while ($row = $db->sql_fetchrow($result, SQL_ASSOC)): 
         $rsid = $row['sid'];
         $raid = $row['aid'];
         $rtitle = htmlspecialchars(stripslashes($row['title']));
@@ -1056,7 +1031,7 @@ function blog_ultramode()
         $content .= "%%\n".$rtitle."\n/modules.php?name=Blog&file=article&sid=".$rsid."\n".$rtime."\n".$raid."\n".$topictext."\n".$rcomments."\n".$topicimage."\n";
     endwhile;
 	
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
     
 	if (file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")): 
         $file = fopen(NUKE_BASE_DIR."ultramode.txt", "w");
@@ -1070,14 +1045,14 @@ function blog_ultramode()
 
 function ultramode() 
 {
-    global $pnt_db, $pnt_prefix, $multilingual, $currentlang;
+    global $db, $prefix, $multilingual, $currentlang;
 
     $querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
 
-    $sql = "SELECT s.sid, s.catid, s.aid, s.title, s.datePublished, s.dateModified, s.hometext, s.comments, s.topic, s.ticon, t.topictext, t.topicimage FROM `".$pnt_prefix."_stories` s LEFT JOIN `".$pnt_prefix."_topics` t ON t.topicid = s.topic WHERE s.ihome = '0' ".$querylang." ORDER BY s.datePublished DESC LIMIT 0,10";
-    $result = $pnt_db->sql_query($sql);
+    $sql = "SELECT s.sid, s.catid, s.aid, s.title, s.datePublished, s.dateModified, s.hometext, s.comments, s.topic, s.ticon, t.topictext, t.topicimage FROM `".$prefix."_stories` s LEFT JOIN `".$prefix."_topics` t ON t.topicid = s.topic WHERE s.ihome = '0' ".$querylang." ORDER BY s.datePublished DESC LIMIT 0,10";
+    $result = $db->sql_query($sql);
 
-    while ($row = $pnt_db->sql_fetchrow($result, SQL_ASSOC)):
+    while ($row = $db->sql_fetchrow($result, SQL_ASSOC)):
         $rsid = $row['sid'];
         $raid = $row['aid'];
         $rtitle = htmlspecialchars(stripslashes($row['title']));
@@ -1092,7 +1067,7 @@ function ultramode()
         $content .= "%%\n".$rtitle."\n/modules.php?name=News&file=article&sid=".$rsid."\n".$rtime."\n".$raid."\n".$topictext."\n".$rcomments."\n".$topicimage."\n";
     endwhile;
 	
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 
     if (file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")):
         $file = fopen(NUKE_BASE_DIR."ultramode.txt", "w");
@@ -1114,7 +1089,7 @@ function Fix_Quotes($str, $nohtml=false)
     // Quote if not integer
     /*if (!is_numeric($str)) {
         $str = str_replace('%27', "'", $str);
-        $str = $pnt_db->sql_addq($str);
+        $str = $db->sql_addq($str);
     }*/
     return $str;
 }
@@ -1128,18 +1103,18 @@ function Remove_Slashes($str)
 // check_words function by ReOrGaNiSaTiOn
 function check_words($message) 
 {
-    global $pnt_censor_words;
+    global $censor_words;
 
     if(empty($message)) 
     return '';
     
-	if(empty($pnt_censor_words)) 
+	if(empty($censor_words)) 
     return $message;
     
 	$orig_word = array();
     $replacement_word = array();
     
-	foreach( $pnt_censor_words as $word => $replacement ): 
+	foreach( $censor_words as $word => $replacement ): 
         $orig_word[] = '#\b(' . str_replace('\*', '\w*?', preg_quote($word, '#')) . ')\b#i';
         $replacement_word[] = $replacement;
     endforeach;
@@ -1204,14 +1179,14 @@ function actualTime() {
 // formatTimestamp function by ReOrGaNiSaTiOn
 function formatTimestamp($time, $format='', $dateonly='') 
 {
-    global $datetime, $locale, $userinfo, $phpbb2_board_config;
+    global $datetime, $locale, $userinfo, $board_config;
 
     if (empty($format)): 
         if (isset($userinfo['user_dateformat']) && !empty($userinfo['user_dateformat'])) 
             $format = $userinfo['user_dateformat'];
 		else 
-		if (isset($phpbb2_board_config['default_dateformat']) && !empty($phpbb2_board_config['default_dateformat'])) 
-            $format = $phpbb2_board_config['default_dateformat'];
+		if (isset($board_config['default_dateformat']) && !empty($board_config['default_dateformat'])) 
+            $format = $board_config['default_dateformat'];
 		else 
             $format = 'D M d, Y g:i a';
     endif;
@@ -1224,8 +1199,8 @@ function formatTimestamp($time, $format='', $dateonly='')
     
 	if ((isset($userinfo['user_timezone']) && !empty($userinfo['user_timezone'])) && $userinfo['user_id'] != 1) 
         $tz = $userinfo['user_timezone'];
-	elseif (isset($phpbb2_board_config['board_timezone']) && !empty($phpbb2_board_config['board_timezone'])) 
-        $tz = $phpbb2_board_config['board_timezone'];
+	elseif (isset($board_config['board_timezone']) && !empty($board_config['board_timezone'])) 
+        $tz = $board_config['board_timezone'];
 	else 
         $tz = '10';
 
@@ -1251,24 +1226,24 @@ function get_microtime()
  ******************************************************/
 function blog_signature($aid) 
 {
-    global $pnt_user_prefix, $pnt_db;
-    static $pnt_users;
+    global $user_prefix, $db;
+    static $users;
 
-    if (is_array($pnt_users[$aid])):
-        $row = $pnt_users[$aid];
+    if (is_array($users[$aid])):
+        $row = $users[$aid];
     else:
         $row = get_admin_field('*', $aid);
-        $pnt_users[$aid] = $row;
+        $users[$aid] = $row;
     endif;
 
 	  # webmaster
-       list($pnt_username, 
+       list($username, 
 	          $avatar, 
 			   $email, 
 			    $name,
 				 $bio,
 		 $admin_notes,
-		    $pnt_user_occ) = $pnt_db->sql_ufetchrow('SELECT `username`,
+		    $user_occ) = $db->sql_ufetchrow('SELECT `username`,
 		                                         `user_avatar`, 
 												  `user_email`, 
 												        `name`, 
@@ -1276,7 +1251,7 @@ function blog_signature($aid)
 											`user_admin_notes`,
 											        `user_occ` 
 											
-											FROM `'.$pnt_user_prefix.'_users` WHERE `username`="'.$aid.'"', SQL_NUM);
+											FROM `'.$user_prefix.'_users` WHERE `username`="'.$aid.'"', SQL_NUM);
      $aid  = '';				   
      $aid .= 'Sincerely,<br />';
      $aid .= $name.'<br />';				   				   
@@ -1285,7 +1260,7 @@ function blog_signature($aid)
      $aid .= '<tr>';
      $aid .= '<td valign="top" height="80" width="80" height="200"><img width="90" class="rounded-corners" style="max-height: 150px; max-width: 150px;" src="modules/Forums/images/avatars/'.$avatar.'" alt="avatar" border="0"></td>';
      $aid .= '<td align="top">';
-     $aid .= '&nbsp;&nbsp;<strong>'.$pnt_user_occ.'</strong><br />';
+     $aid .= '&nbsp;&nbsp;<strong>'.$user_occ.'</strong><br />';
      $aid .= '&nbsp;&nbsp;name: '.$name.'<br />';
      $aid .= '&nbsp;&nbsp;email: '.str_replace("@", "[at]", $email).'<br />';
      $aid .= $bio.'';
@@ -1302,24 +1277,24 @@ function blog_signature($aid)
 
 function get_author($aid) 
 {
-    global $pnt_user_prefix, $pnt_db;
-    static $pnt_users;
+    global $user_prefix, $db;
+    static $users;
 
-    if (is_array($pnt_users[$aid])): 
-        $row = $pnt_users[$aid];
+    if (is_array($users[$aid])): 
+        $row = $users[$aid];
 	else: 
         $row = get_admin_field('*', $aid);
-        $pnt_users[$aid] = $row;
+        $users[$aid] = $row;
     endif;
 	
-    $result = $pnt_db->sql_query('SELECT `user_id` from `'.$pnt_user_prefix.'_users` WHERE `username`="'.$aid.'"');
-    $pnt_userid = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    $result = $db->sql_query('SELECT `user_id` from `'.$user_prefix.'_users` WHERE `username`="'.$aid.'"');
+    $userid = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-    if (isset($pnt_userid[0])) 
-     $aid = "<a href=\"modules.php?name=Profile&amp;mode=viewprofile&amp;u=".$pnt_userid[0]."\">".UsernameColor($aid)."</a>";
+    if (isset($userid[0])) 
+     $aid = "<a href=\"modules.php?name=Profile&amp;mode=viewprofile&amp;u=".$userid[0]."\">".UsernameColor($aid)."</a>";
 	elseif (isset($row['url']) && $row['url'] != 'http://') 
      $aid = "<a href=\"".$row['url']."\">".UsernameColor($aid)."</a>";
 	else 
@@ -1332,7 +1307,7 @@ function get_author($aid)
 
 function getTopics($s_sid) 
 {
-    global $topicname, $topicimage, $topictext, $pnt_db;
+    global $topicname, $topicimage, $topictext, $db;
     $sid = intval($s_sid);
     
 	$sql = 'SELECT t.`topicname`, t.`topicimage`, t.`topictext` 
@@ -1341,9 +1316,9 @@ function getTopics($s_sid)
 	ON t.`topicid` = s.`topic`) 
 	WHERE s.`sid` = "'.$sid.'"';
     
-	$result = $pnt_db->sql_query($sql);
-    $row = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+	$result = $db->sql_query($sql);
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
     $topicname = $row['topicname'];
     $topicimage = $row['topicimage'];
     $topictext = stripslashes($row['topictext']);
@@ -1354,21 +1329,21 @@ function getTopics($s_sid)
  ******************************************************/
 function ads($position) 
 {
-    global $pnt_prefix, $pnt_db, $sitename, $adminmail, $nukeurl, $banners;
+    global $prefix, $db, $sitename, $adminmail, $nukeurl, $banners;
 
     if(!$banners) { return ''; }
     
 	$position = intval($position);
    
-	$result = $pnt_db->sql_query("SELECT * FROM `".$pnt_prefix."_banner` WHERE `position`='$position' AND `active`='1' ORDER BY RAND() LIMIT 0,1");
+	$result = $db->sql_query("SELECT * FROM `".$prefix."_banner` WHERE `position`='$position' AND `active`='1' ORDER BY RAND() LIMIT 0,1");
     
-	$numrows = $pnt_db->sql_numrows($result);
+	$numrows = $db->sql_numrows($result);
     
 	if ($numrows < 1) return '';
     
-	$row = $pnt_db->sql_fetchrow($result, SQL_ASSOC);
+	$row = $db->sql_fetchrow($result, SQL_ASSOC);
     
-	$pnt_db->sql_freeresult($result);
+	$db->sql_freeresult($result);
     
 	foreach($row as $var => $value) 
 	{
@@ -1380,13 +1355,13 @@ function ads($position)
     
 	if(!is_admin()) 
 	{
-        $pnt_db->sql_query("UPDATE `".$pnt_prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
+        $db->sql_query("UPDATE `".$prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
     }
     
-	$sql2 = "SELECT `cid`, `imptotal`, `impmade`, `clicks`, `date`, `ad_class`, `ad_code`, `ad_width`, `ad_height`, `clickurl` FROM `".$pnt_prefix."_banner` WHERE `bid`='$bid'";
-    $result2 = $pnt_db->sql_query($sql2);
-    list($cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height, $clickurl) = $pnt_db->sql_fetchrow($result2, SQL_NUM);
-    $pnt_db->sql_freeresult($result2);
+	$sql2 = "SELECT `cid`, `imptotal`, `impmade`, `clicks`, `date`, `ad_class`, `ad_code`, `ad_width`, `ad_height`, `clickurl` FROM `".$prefix."_banner` WHERE `bid`='$bid'";
+    $result2 = $db->sql_query($sql2);
+    list($cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height, $clickurl) = $db->sql_fetchrow($result2, SQL_NUM);
+    $db->sql_freeresult($result2);
     $cid = intval($cid);
     $imptotal = intval($imptotal);
     $impmade = intval($impmade);
@@ -1394,11 +1369,11 @@ function ads($position)
     
 	/* Check if this impression is the last one and print the banner */
     if (($imptotal <= $impmade) && ($imptotal != 0)) {
-        $pnt_db->sql_query("UPDATE `".$pnt_prefix."_banner` SET `active`='0' WHERE `bid`='$bid'");
-        $sql3 = "SELECT `name`, `contact`, `email` FROM `".$pnt_prefix."_banner_clients` WHERE `cid`='$cid'";
-        $result3 = $pnt_db->sql_query($sql3);
-        list($c_name, $c_contact, $c_email) = $pnt_db->sql_fetchrow($result3, SQL_NUM);
-        $pnt_db->sql_freeresult($result3);
+        $db->sql_query("UPDATE `".$prefix."_banner` SET `active`='0' WHERE `bid`='$bid'");
+        $sql3 = "SELECT `name`, `contact`, `email` FROM `".$prefix."_banner_clients` WHERE `cid`='$cid'";
+        $result3 = $db->sql_query($sql3);
+        list($c_name, $c_contact, $c_email) = $db->sql_fetchrow($result3, SQL_NUM);
+        $db->sql_freeresult($result3);
         if (!empty($c_email)) {
             $from = $sitename.' <'.$adminmail.'>';
             $to = $c_contact.' <'.$c_email.'>';
@@ -1435,7 +1410,7 @@ function ads($position)
 
 function network_ads($position) 
 {
-    global $network_prefix, $pnt_db2, $sitename, $adminmail, $nukeurl, $banners;
+    global $network_prefix, $db2, $sitename, $adminmail, $nukeurl, $banners;
 
     if(defined('network')):
 
@@ -1446,14 +1421,14 @@ function network_ads($position)
     return ''; 
     
 	$position = intval($position);
-    $result = $pnt_db2->sql_query("SELECT * FROM `".$network_prefix."_banner` WHERE `position`='$position' AND `active`='1' ORDER BY RAND() LIMIT 0,1");
-    $numrows = $pnt_db2->sql_numrows($result);
+    $result = $db2->sql_query("SELECT * FROM `".$network_prefix."_banner` WHERE `position`='$position' AND `active`='1' ORDER BY RAND() LIMIT 0,1");
+    $numrows = $db2->sql_numrows($result);
     
 	if ($numrows < 1) 
 	return '';
     
-	$row = $pnt_db2->sql_fetchrow($result, SQL_ASSOC);
-    $pnt_db2->sql_freeresult($result);
+	$row = $db2->sql_fetchrow($result, SQL_ASSOC);
+    $db2->sql_freeresult($result);
     
 	foreach($row as $var => $value): 
         if (isset($$var)) 
@@ -1464,7 +1439,7 @@ function network_ads($position)
 	$bid = intval($bid);
     
 	if(!is_admin()) 
-    $pnt_db2->sql_query("UPDATE `".$network_prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
+    $db2->sql_query("UPDATE `".$network_prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
 
     $sql2 = "SELECT `cid`, 
 	           `imptotal`, 
@@ -1478,11 +1453,11 @@ function network_ads($position)
 			  
 			  FROM `".$network_prefix."_banner` WHERE `bid`='$bid'";
     
-	$result2 = $pnt_db2->sql_query($sql2);
+	$result2 = $db2->sql_query($sql2);
 
-    list($cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height) = $pnt_db2->sql_fetchrow($result2, SQL_NUM);
+    list($cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height) = $db2->sql_fetchrow($result2, SQL_NUM);
 
-    $pnt_db2->sql_freeresult($result2);
+    $db2->sql_freeresult($result2);
     $cid = intval($cid);
     $imptotal = intval($imptotal);
     $impmade = intval($impmade);
@@ -1491,13 +1466,13 @@ function network_ads($position)
 	/* Check if this impression is the last one and print the banner */
     if (($imptotal <= $impmade) && ($imptotal != 0)): 
 	
-        $pnt_db2->sql_query("UPDATE `".$network_prefix."_banner` SET `active`='0' WHERE `bid`='$bid'");
+        $db2->sql_query("UPDATE `".$network_prefix."_banner` SET `active`='0' WHERE `bid`='$bid'");
         $sql3 = "SELECT `name`, `contact`, `email` FROM `".$network_prefix."_banner_clients` WHERE `cid`='$cid'";
-        $result3 = $pnt_db->sql_query($sql3);
+        $result3 = $db->sql_query($sql3);
     
-	    list($c_name, $c_contact, $c_email) = $pnt_db->sql_fetchrow($result3, SQL_NUM);
+	    list($c_name, $c_contact, $c_email) = $db->sql_fetchrow($result3, SQL_NUM);
     
-	    $pnt_db2->sql_freeresult($result3);
+	    $db2->sql_freeresult($result3);
         
 		if (!empty($c_email)): 
             $from = $sitename.' <'.$adminmail.'>';
@@ -1756,19 +1731,19 @@ function encode_mail($email)
 }
 
 # get username color
-function UsernameColor($pnt_username, $old_name=false) 
+function UsernameColor($username, $old_name=false) 
 {
-    global $pnt_db, $pnt_user_prefix, $use_colors, $cache;
+    global $db, $user_prefix, $use_colors, $cache;
 
     static $cached_names;
 
     if($old_name) 
-	$pnt_username = $old_name; 
+	$username = $old_name; 
 
     if(!$use_colors) 
-	return $pnt_username;
+	return $username;
 
-    $plain_username = strtolower($pnt_username);
+    $plain_username = strtolower($username);
 
     if(isset($cached_names[$plain_username])) 
     return $cached_names[$plain_username];
@@ -1778,10 +1753,10 @@ function UsernameColor($pnt_username, $old_name=false)
     
     if (!isset($cached_names[$plain_username])):
           
-		    list($pnt_user_color, $uname) = $pnt_db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $pnt_user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", $pnt_username) . "'", SQL_NUM);
-            $uname = (!empty($uname)) ? $uname : $pnt_username;
-            $pnt_username = (strlen($pnt_user_color) == 6) ? '<span style="color: #'. $pnt_user_color .'">'. $uname .'</span>' : $uname;
-            $cached_names[$plain_username] = $pnt_username;
+		    list($user_color, $uname) = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", $username) . "'", SQL_NUM);
+            $uname = (!empty($uname)) ? $uname : $username;
+            $username = (strlen($user_color) == 6) ? '<span style="color: #'. $user_color .'">'. $uname .'</span>' : $uname;
+            $cached_names[$plain_username] = $username;
             $cache->save('UserColors', 'config', $cached_names);
 	endif;
 
@@ -1791,7 +1766,7 @@ function UsernameColor($pnt_username, $old_name=false)
 # get group color
 function GroupColor($group_name, $short=0) 
 {
-    global $pnt_db, $use_colors, $cache;
+    global $db, $use_colors, $cache;
 
     static $cached_groups;
 
@@ -1809,16 +1784,16 @@ function GroupColor($group_name, $short=0)
         
 		$sql = 'SELECT `auc`.`group_color` as `group_color`, `gr`.`group_name` as`group_name` FROM ( `'.GROUPS_TABLE.'` `gr` LEFT JOIN  `' . AUC_TABLE . '` `auc` ON `gr`.`group_color` =  `auc`.`group_id`) WHERE `gr`.`group_description` <> "Personal User" ORDER BY `gr`.`group_name` ASC';
         
-		$result = $pnt_db->sql_query($sql);
+		$result = $db->sql_query($sql);
     
-	     while (list($group_color, $groupcolor_name) = $pnt_db->sql_fetchrow($result)): 
-            $phpbb2_colorgroup_short = (strlen($groupcolor_name) > 13) ? substr($groupcolor_name,0,10).'...' : $groupcolor_name;
-            $phpbb2_colorgroup_name  = $groupcolor_name;
-            $cached_groups[$groupcolor_name.'_short'] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $phpbb2_colorgroup_short .'</strong></span>' : $phpbb2_colorgroup_short;
-            $cached_groups[$groupcolor_name] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $phpbb2_colorgroup_name .'</strong></span>' : $phpbb2_colorgroup_name;
+	     while (list($group_color, $groupcolor_name) = $db->sql_fetchrow($result)): 
+            $colorgroup_short = (strlen($groupcolor_name) > 13) ? substr($groupcolor_name,0,10).'...' : $groupcolor_name;
+            $colorgroup_name  = $groupcolor_name;
+            $cached_groups[$groupcolor_name.'_short'] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $colorgroup_short .'</strong></span>' : $colorgroup_short;
+            $cached_groups[$groupcolor_name] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $colorgroup_name .'</strong></span>' : $colorgroup_name;
          endwhile;
     
-	    $pnt_db->sql_freeresult($result);
+	    $db->sql_freeresult($result);
         $cache->save('GroupColors', 'config', $cached_groups);
     
 	endif;
@@ -1829,14 +1804,14 @@ function GroupColor($group_name, $short=0)
     return $plaingroupname;
 }
 
-function check_priv_mess($pnt_user_id) 
+function check_priv_mess($user_id) 
 {
-    global $pnt_db;
+    global $db;
 
-    if (empty($pnt_user_id) || !is_numeric($pnt_user_id)) 
+    if (empty($user_id) || !is_numeric($user_id)) 
     return false;
     
- 	$pms = $pnt_db->sql_ufetchrow("SELECT COUNT(privmsgs_id) as no FROM ".PRIVMSGS_TABLE." WHERE privmsgs_to_userid='".$pnt_user_id."' AND (privmsgs_type='5' OR privmsgs_type='1')");
+ 	$pms = $db->sql_ufetchrow("SELECT COUNT(privmsgs_id) as no FROM ".PRIVMSGS_TABLE." WHERE privmsgs_to_userid='".$user_id."' AND (privmsgs_type='5' OR privmsgs_type='1')");
     return $pms['no'];
 }
 
@@ -1906,4 +1881,3 @@ include_once(NUKE_CLASSES_DIR.'class.zip.php');
 /*****[END]********************************************
  [ Include:  Zip Class                                ]
  ******************************************************/
- 

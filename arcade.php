@@ -1,7 +1,8 @@
 <?php
-/*=======================================================================
- Nuke-Evolution Basic: Enhanced PHP-Nuke Web Portal System
+/*======================================================================= 
+  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
+
 
 /***************************************************************************
  *                                arcade.php
@@ -14,11 +15,11 @@
 
 define('IN_PHPBB', true);
 include(dirname(__FILE__).'/mainfile.php');
-$phpbb2_root_path = NUKE_FORUMS_DIR;
-include($phpbb2_root_path . 'extension.inc');
-include($phpbb2_root_path . 'common.'.$phpEx);
+$phpbb_root_path = NUKE_FORUMS_DIR;
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.'.$phpEx);
 include('includes/functions_arcade.' . $phpEx);
-require( $phpbb2_root_path . 'gf_funcs/gen_funcs.' . $phpEx );
+require( $phpbb_root_path . 'gf_funcs/gen_funcs.' . $phpEx );
 include('includes/constants.php');
 
 $userdata = session_pagestart($user_ip, PAGE_GAME, $nukeuser);
@@ -90,4 +91,5 @@ if (!empty($sessdo))
         exit;
     }
 }
+
 ?>

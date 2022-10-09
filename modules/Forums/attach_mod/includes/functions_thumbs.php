@@ -17,9 +17,9 @@
 * All Attachment Functions needed to create Thumbnails
 */
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 $imagick = '';

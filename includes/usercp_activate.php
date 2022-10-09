@@ -64,36 +64,36 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 $sql = "SELECT user_active, user_id, username, user_email, user_newpasswd, user_lang, user_actkey
         FROM " . USERS_TABLE . "
         WHERE user_id = " . intval($HTTP_GET_VARS[POST_USERS_URL]);
-if ( !($result = $pnt_db->sql_query($sql)) )
+if ( !($result = $db->sql_query($sql)) )
 {
         message_die(GENERAL_ERROR, 'Could not obtain user information', '', __LINE__, __FILE__, $sql);
 }
 
-if ( $row = $pnt_db->sql_fetchrow($result) )
+if ( $row = $db->sql_fetchrow($result) )
 {
         if ( $row['user_active'] && empty($row['user_actkey']) )
         {
-                $phpbb2_template->assign_vars(array(
-                        'META' => '<meta http-equiv="refresh" content="10;url=' . append_titanium_sid("index.$phpEx") . '">')
+                $template->assign_vars(array(
+                        'META' => '<meta http-equiv="refresh" content="10;url=' . append_sid("index.$phpEx") . '">')
                 );
 
                 message_die(GENERAL_MESSAGE, $lang['Already_activated']);
         }
         else if ((trim($row['user_actkey']) == trim($HTTP_GET_VARS['act_key'])) && (!empty($row['user_actkey'])))
         {
-            if (intval($phpbb2_board_config['require_activation']) == USER_ACTIVATION_ADMIN && $row['user_newpasswd'] == '')
+            if (intval($board_config['require_activation']) == USER_ACTIVATION_ADMIN && $row['user_newpasswd'] == '')
             {
                 if (!$userdata['session_logged_in'])
                 {
-                    redirect_titanium(append_titanium_sid('login.' . $phpEx . '?redirect=profile.' . $phpEx . '&mode=activate&' . POST_USERS_URL . '=' . $row['user_id'] . '&act_key=' . trim($HTTP_GET_VARS['act_key'])));
+                    redirect(append_sid('login.' . $phpEx . '?redirect=profile.' . $phpEx . '&mode=activate&' . POST_USERS_URL . '=' . $row['user_id'] . '&act_key=' . trim($HTTP_GET_VARS['act_key'])));
                 }
                 else if ($userdata['user_level'] != ADMIN)
                 {
@@ -105,42 +105,42 @@ if ( $row = $pnt_db->sql_fetchrow($result) )
                 $sql = "UPDATE " . USERS_TABLE . "
                         SET user_active = 1, user_actkey = ''" . $sql_update_pass . "
                         WHERE user_id = " . $row['user_id'];
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
                 {
                         message_die(GENERAL_ERROR, 'Could not update users table', '', __LINE__, __FILE__, $sql_update);
                 }
 
-                if ( intval($phpbb2_board_config['require_activation']) == USER_ACTIVATION_ADMIN && empty($sql_update_pass) )
+                if ( intval($board_config['require_activation']) == USER_ACTIVATION_ADMIN && empty($sql_update_pass) )
                 {
                         include("includes/emailer.php");
-                        $emailer = new emailer($phpbb2_board_config['smtp_delivery']);
+                        $emailer = new emailer($board_config['smtp_delivery']);
 
-                        $emailer->from($phpbb2_board_config['board_email']);
-                        $emailer->replyto($phpbb2_board_config['board_email']);
+                        $emailer->from($board_config['board_email']);
+                        $emailer->replyto($board_config['board_email']);
 
                         $emailer->use_template('admin_welcome_activated', $row['user_lang']);
                         $emailer->email_address($row['user_email']);
                         $emailer->set_subject($lang['Account_activated_subject']);
 
                         $emailer->assign_vars(array(
-                                'SITENAME' => $phpbb2_board_config['sitename'],
+                                'SITENAME' => $board_config['sitename'],
                                 'USERNAME' => $row['username'],
                                 'PASSWORD' => $password_confirm,
-                                'EMAIL_SIG' => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : '')
+                                'EMAIL_SIG' => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '')
                         );
                         $emailer->send();
                         $emailer->reset();
 
-                        $phpbb2_template->assign_vars(array(
-                                'META' => '<meta http-equiv="refresh" content="10;url=' . append_titanium_sid("index.$phpEx") . '">')
+                        $template->assign_vars(array(
+                                'META' => '<meta http-equiv="refresh" content="10;url=' . append_sid("index.$phpEx") . '">')
                         );
 
                         message_die(GENERAL_MESSAGE, $lang['Account_active_admin']);
                 }
                 else
                 {
-                        $phpbb2_template->assign_vars(array(
-                                'META' => '<meta http-equiv="refresh" content="10;url=' . append_titanium_sid("index.$phpEx") . '">')
+                        $template->assign_vars(array(
+                                'META' => '<meta http-equiv="refresh" content="10;url=' . append_sid("index.$phpEx") . '">')
                         );
 
                         $message = ( $sql_update_pass == '' ) ? $lang['Account_active'] : $lang['Password_activated'];
@@ -151,7 +151,7 @@ if ( $row = $pnt_db->sql_fetchrow($result) )
         {
                 message_die(GENERAL_MESSAGE, $lang['Wrong_activation']);
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
 }
 else
 {

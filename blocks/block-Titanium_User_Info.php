@@ -27,16 +27,16 @@ include_once(NUKE_MODULES_DIR .'Evo_UserBlock/addons/core.php');
 global $lang_evo_userblock;
 
 function evouserinfo_block_getactive () {
-    global $pnt_prefix, $pnt_db, $lang_evo_userblock, $cache;
+    global $prefix, $db, $lang_evo_userblock, $cache;
     if(isset($active) && is_array($active)) return $active;
     
     if ((($active = $cache->load('active', 'evouserinfo')) === false) || !isset($active)) {
-        $sql = 'SELECT * FROM '.$pnt_prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
-        $result = $pnt_db->sql_query($sql);
-        while($row = $pnt_db->sql_fetchrow($result)) {
+        $sql = 'SELECT * FROM '.$prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
+        $result = $db->sql_query($sql);
+        while($row = $db->sql_fetchrow($result)) {
             $active[] = $row;
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
         $cache->save('active', 'evouserinfo', $active);
     }
     return $active;

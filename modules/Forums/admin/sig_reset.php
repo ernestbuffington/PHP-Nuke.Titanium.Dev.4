@@ -24,31 +24,31 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
-$phpbb2_root_path = './../';
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 if ( isset($HTTP_POST_VARS['cancel']) )
 {
 
 }
 
-if ( !file_exists(@phpbb_realpath($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_sig_control.' . $phpEx)) ) 
+if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_sig_control.' . $phpEx)) ) 
 { 
-    include($phpbb2_root_path . 'language/lang_english/lang_sig_control.' . $phpEx); 
+    include($phpbb_root_path . 'language/lang_english/lang_sig_control.' . $phpEx); 
 } else 
 { 
-    include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_sig_control.' . $phpEx); 
+    include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_sig_control.' . $phpEx); 
 } 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $pnt_user->lang['ENCODING']; ?>">
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $user->lang['ENCODING']; ?>">
 <meta http-equiv="Content-Style-Type" content="text/css">
-<link rel="stylesheet" href="<?php echo $phpbb2_root_path . 'templates/' . $theme['template_name'] . '/' . $theme['head_stylesheet'];?>" type="text/css">
-<title><?php echo $phpbb2_board_config['sitename']; ?></title>
+<link rel="stylesheet" href="<?php echo $phpbb_root_path . 'templates/' . $theme['template_name'] . '/' . $theme['head_stylesheet'];?>" type="text/css">
+<title><?php echo $board_config['sitename']; ?></title>
 <style type="text/css">
 <!--
 body { 
@@ -81,7 +81,7 @@ switch ( $mode )
                 <th class="thHead" height="25" valign="middle"><span class="tableTitle"><?php echo $lang['sig_reset'];?></span></th>
             </tr>
             <tr>
-                <td class="row1" align="center"><form action="<?php echo "sig_reset.$phpEx?mode=all"?>" method="post"><span class="gen"><br /><?php echo $lang['sig_reset_confirm'];?><br /><br /><input type="submit" name="confirm" value="<?php echo $lang['Yes'];?>" class="titaniumbutton" />&nbsp;&nbsp;<input type="submit" name="cancel" value="<?php echo $lang['No'];?>" class="mainoption" onclick="javascript:window.close();" /></span></form></td>
+                <td class="row1" align="center"><form action="<?php echo "sig_reset.$phpEx?mode=all"?>" method="post"><span class="gen"><br /><?php echo $lang['sig_reset_confirm'];?><br /><br /><input type="submit" name="confirm" value="<?php echo $lang['Yes'];?>" class="liteoption" />&nbsp;&nbsp;<input type="submit" name="cancel" value="<?php echo $lang['No'];?>" class="mainoption" onclick="javascript:window.close();" /></span></form></td>
             </tr>
         </table><?php
         break; 
@@ -89,7 +89,7 @@ switch ( $mode )
     case 'all':
         $sql = "UPDATE " . USERS_TABLE . " SET user_sig = ''";
 
-        if ( $result = $pnt_db->sql_query($sql) )
+        if ( $result = $db->sql_query($sql) )
         {
             $result_msg = $lang['sig_reset_successful'];
         } else

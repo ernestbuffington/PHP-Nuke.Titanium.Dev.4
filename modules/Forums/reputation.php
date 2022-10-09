@@ -29,15 +29,15 @@ if (!defined('MODULE_FILE')) {
    die ("You can't access this file directly...");
 }
 
-define('IN_PHPBB2', true);
-$phpbb2_root_path = NUKE_FORUMS_DIR;
-include($phpbb2_root_path . 'extension.inc');
-include($phpbb2_root_path . 'common.'.$phpEx);
-include($phpbb2_root_path . 'reputation_common.'.$phpEx);
-include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_reputation.' . $phpEx);
+define('IN_PHPBB', true);
+$phpbb_root_path = NUKE_FORUMS_DIR;
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.'.$phpEx);
+include($phpbb_root_path . 'reputation_common.'.$phpEx);
+include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_reputation.' . $phpEx);
 
-$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_REPUTATION);
-titanium_init_userprefs($userdata);
+$userdata = session_pagestart($user_ip, PAGE_REPUTATION);
+init_userprefs($userdata);
 
 if ( empty($HTTP_GET_VARS["a"]) )
 {
@@ -45,13 +45,13 @@ if ( empty($HTTP_GET_VARS["a"]) )
 }
 $action = $HTTP_GET_VARS["a"];
 
-$phpbb2_page_title = $lang['Reputation'];
+$page_title = $lang['Reputation'];
 $gen_simple_header = TRUE;
 include('includes/page_header.'.$phpEx);
 include('includes/functions_reputation.'.$phpEx);
 include('includes/bbcode.'.$phpEx);
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
         'body' => 'reputation.tpl')
 );
 
@@ -81,7 +81,7 @@ switch( $action  )
       message_die(GENERAL_MESSAGE, $lang['No_check_code']);
     }
 
-    $pnt_userid = intval($HTTP_POST_VARS['user_id_to_give']);
+    $userid = intval($HTTP_POST_VARS['user_id_to_give']);
     $postid = intval($HTTP_POST_VARS['post_id_to_give']);
     $repsum = intval($HTTP_POST_VARS['rep_sum_to_give']);
     $repneg = intval($HTTP_POST_VARS['rep_neg_to_give']);
@@ -108,11 +108,11 @@ switch( $action  )
     $sql = "SELECT p.bbcode_uid
         FROM " . POSTS_TEXT_TABLE . " AS p
         WHERE p.post_id = " . $postid;
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain information from posts", '', __LINE__, __FILE__, $sql);
     }
-    $row = $pnt_db->sql_fetchrow($result);
+    $row = $db->sql_fetchrow($result);
     if ( !(substr(md5($row['bbcode_uid']),0,8) == $ccode) )
     {
       message_die(GENERAL_MESSAGE, $lang['Wrong_check_code']);
@@ -126,12 +126,12 @@ switch( $action  )
           FROM " . REPUTATION_TABLE . " AS r
           WHERE r.user_id_2 = " . $userdata['user_id'] . "
           ORDER BY r.rep_time DESC LIMIT 1";
-      if ( !($result = $pnt_db->sql_query($sql)) )
+      if ( !($result = $db->sql_query($sql)) )
       {
         message_die(GENERAL_ERROR, "Could not obtain user", '', __LINE__, __FILE__, $sql);
       }
-      $row = $pnt_db->sql_fetchrow($result);
-      if ($row['user_id'] == $pnt_userid)
+      $row = $db->sql_fetchrow($result);
+      if ($row['user_id'] == $userid)
       {
         message_die(GENERAL_MESSAGE, $lang['Cant_give_the_same_user']);
       }
@@ -143,12 +143,12 @@ switch( $action  )
 
     $sql = "SELECT u.user_id, u.username, u.user_reputation
         FROM " . USERS_TABLE . " AS u
-        WHERE u.user_id = " . $pnt_userid;
-    if ( !($result = $pnt_db->sql_query($sql)) )
+        WHERE u.user_id = " . $userid;
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain user", '', __LINE__, __FILE__, $sql);
     }
-    $row = $pnt_db->sql_fetchrow($result);
+    $row = $db->sql_fetchrow($result);
     if ($userdata['user_reputation'] > $row['user_reputation'])
     {
       if ($userdata['user_reputation'] >= $rep_config['medal1_to_earn']) // >= medal1?
@@ -173,15 +173,15 @@ switch( $action  )
     $sign_rep = ($repneg == 0) ? '+ ' . $repsum_mul : '- ' . $repsum_mul;
     $sql = "INSERT INTO " . REPUTATION_TABLE . "
         (user_id, user_id_2, post_id, rep_sum, rep_neg,  rep_comment, rep_time)
-        VALUES ('$pnt_userid', '$userdata[user_id]', '$postid', '$repsum_mul', '$repneg', '$repcom', '$reptime')";
-    if ( !($result = $pnt_db->sql_query($sql)) )
+        VALUES ('$userid', '$userdata[user_id]', '$postid', '$repsum_mul', '$repneg', '$repcom', '$reptime')";
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not insert reputation for the user", '', __LINE__, __FILE__, $sql);
     }
     $sql = "UPDATE " . USERS_TABLE . "
         SET user_reputation = user_reputation $sign_rep
-        WHERE user_id = " . $pnt_userid;
-    if ( !($result = $pnt_db->sql_query($sql)) )
+        WHERE user_id = " . $userid;
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not update reputation for the user", '', __LINE__, __FILE__, $sql);
     }
@@ -193,18 +193,18 @@ switch( $action  )
     $sql = "UPDATE " . USERS_TABLE . "
         SET user_reputation = user_reputation - $repsum
         WHERE user_id = " . $userdata[user_id];
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not update reputation for the user", '', __LINE__, __FILE__, $sql);
     }
 
     if ($rep_config['pm_notify'] != 0)
     {
-      r_send_pm($userdata['user_id'], $pnt_userid, $repsum_mul, $pnt_user_ip);
+      r_send_pm($userdata['user_id'], $userid, $repsum_mul, $user_ip);
     }
 
-    $msg = $lang['Reputation_has_given'] . '<br /><br />' . sprintf($lang['Click_here_return_rep'], '<a href="' . append_titanium_sid("reputation.$phpEx?a=stats&amp;u=".$pnt_userid) . '">', '</a> ') . '<br /><br />' . sprintf('%s'.$lang['Close_window'].'%s', '<a href="javascript:self.close();void(0);">', '</a>');
-    //$msg = $lang['Reputation_has_given'] . '<br /><br />' . sprintf($lang['Click_here_return_rep'], '<a href="modules.php?name=Forums&amp;file=reputation&amp;a=stats&amp;u=$pnt_userid)">', '</a> ') . '<br /><br />' . sprintf('%s'.$lang['Close_window'].'%s', '<a href="javascript:self.close();void(0);">', '</a>');
+    $msg = $lang['Reputation_has_given'] . '<br /><br />' . sprintf($lang['Click_here_return_rep'], '<a href="' . append_sid("reputation.$phpEx?a=stats&amp;u=".$userid) . '">', '</a> ') . '<br /><br />' . sprintf('%s'.$lang['Close_window'].'%s', '<a href="javascript:self.close();void(0);">', '</a>');
+    //$msg = $lang['Reputation_has_given'] . '<br /><br />' . sprintf($lang['Click_here_return_rep'], '<a href="modules.php?name=Forums&amp;file=reputation&amp;a=stats&amp;u=$userid)">', '</a> ') . '<br /><br />' . sprintf('%s'.$lang['Close_window'].'%s', '<a href="javascript:self.close();void(0);">', '</a>');
     message_die(GENERAL_MESSAGE, $msg);
     break;
 
@@ -220,19 +220,19 @@ switch( $action  )
     {
       message_die(GENERAL_MESSAGE, $lang['No_user_id_specified']);
     }
-    $pnt_userid = intval($HTTP_GET_VARS[POST_USERS_URL]);
+    $userid = intval($HTTP_GET_VARS[POST_USERS_URL]);
     $sql = "SELECT u.user_id, u.username
         FROM " . USERS_TABLE . " AS u
-        WHERE u.user_id = " . $pnt_userid;
-    if ( !($result = $pnt_db->sql_query($sql)) )
+        WHERE u.user_id = " . $userid;
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain user", '', __LINE__, __FILE__, $sql);
     }
-    if ( !($row = $pnt_db->sql_fetchrow($result)) )
+    if ( !($row = $db->sql_fetchrow($result)) )
     {
       message_die(GENERAL_MESSAGE, $lang['No_such_user']);
     } else {
-      $pnt_username = $row['username'];
+      $username = $row['username'];
     }
     if ( empty($HTTP_GET_VARS[POST_POST_URL]) )
     {
@@ -257,12 +257,12 @@ switch( $action  )
           FROM " . REPUTATION_TABLE . " AS r
           WHERE r.user_id_2 = " . $userdata['user_id'] . "
           ORDER BY r.rep_time DESC LIMIT 1";
-      if ( !($result = $pnt_db->sql_query($sql)) )
+      if ( !($result = $db->sql_query($sql)) )
       {
         message_die(GENERAL_ERROR, "Could not obtain user", '', __LINE__, __FILE__, $sql);
       }
-      $row = $pnt_db->sql_fetchrow($result);
-      if ($row['user_id'] == $pnt_userid)
+      $row = $db->sql_fetchrow($result);
+      if ($row['user_id'] == $userid)
       {
         message_die(GENERAL_MESSAGE, $lang['Cant_give_the_same_user']);
       }
@@ -276,28 +276,28 @@ switch( $action  )
     $sql = "SELECT p.bbcode_uid
         FROM " . POSTS_TEXT_TABLE . " AS p
         WHERE p.post_id = " . $postid;
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain information from posts", '', __LINE__, __FILE__, $sql);
     }
-    $row = $pnt_db->sql_fetchrow($result);
+    $row = $db->sql_fetchrow($result);
     if ( !(substr(md5($row['bbcode_uid']),0,8) == $ccode) )
     {
       message_die(GENERAL_MESSAGE, $lang['Wrong_check_code']);
     }
 
-    $phpbb2_template->assign_block_vars("rep_add", array(
+    $template->assign_block_vars("rep_add", array(
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-      "USERNAME" => UsernameColor($pnt_username),
+      "USERNAME" => UsernameColor($username),
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-      "U_USERID" => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $pnt_userid),
+      "U_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $userid),
       "STATREP_COLOR" => ($rep_sum >= 0) ? "green" : "red",
       "REPSUM" => round($userdata['user_reputation'],1),
-      "USER_ID_TO_GIVE" => $pnt_userid,
+      "USER_ID_TO_GIVE" => $userid,
       "POST_ID_TO_GIVE" => $postid,
 
       "L_REPUTATIONGIVING" => $lang['Rep_giving'],
@@ -316,27 +316,27 @@ switch( $action  )
 
     if ($rep_config['default_amount'] > 0)
     {
-      $phpbb2_template->assign_vars(array(
+      $template->assign_vars(array(
         "SIMPLE_HIDDEN" => '<input type="hidden" name="rep_sum_to_give" value="' . $rep_config['default_amount'] . '">'
       ));
     } else {
-      $phpbb2_template->assign_block_vars("rep_add.switch_adv_mode", array(
+      $template->assign_block_vars("rep_add.switch_adv_mode", array(
       ));
     }
     break;
 
 
   case 'globalstats':
-    $phpbb2_start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+    $start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
     $sql = "SELECT COUNT(user_id) AS total_count, SUM(rep_sum) AS total_sum
         FROM " . REPUTATION_TABLE;
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain reputation stats", '', __LINE__, __FILE__, $sql);
     }
-    $row = $pnt_db->sql_fetchrow($result);
-    $total_phpbb2_count = $row['total_count'];
-    $total_phpbb2_sum = round($row['total_sum'],2);
+    $row = $db->sql_fetchrow($result);
+    $total_count = $row['total_count'];
+    $total_sum = round($row['total_sum'],2);
 
     $sql = "SELECT u.username, r.user_id_2, r.rep_sum
         FROM " . REPUTATION_TABLE . " AS r
@@ -344,11 +344,11 @@ switch( $action  )
           u.user_id = r.user_id_2
         ORDER BY rep_sum DESC
         LIMIT 1";
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain reputation stats", '', __LINE__, __FILE__, $sql);
     }
-    $row = $pnt_db->sql_fetchrow($result);
+    $row = $db->sql_fetchrow($result);
     $max_repsum = $row['rep_sum'];
     $max_repsum_userid = $row['user_id_2'];
     $max_repsum_username = $row['username'];
@@ -357,11 +357,11 @@ switch( $action  )
         FROM " . USERS_TABLE . "
         ORDER BY user_reputation DESC
         LIMIT 1";
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain reputation stats", '', __LINE__, __FILE__, $sql);
     }
-    $row = $pnt_db->sql_fetchrow($result);
+    $row = $db->sql_fetchrow($result);
     $max_userrep = round($row['user_reputation'],2);
     $max_userrep_userid = $row['user_id'];
     $max_userrep_username = $row['username'];
@@ -370,11 +370,11 @@ switch( $action  )
         FROM " . USERS_TABLE . "
         ORDER BY user_reputation ASC
         LIMIT 1";
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain reputation stats", '', __LINE__, __FILE__, $sql);
     }
-    $row = $pnt_db->sql_fetchrow($result);
+    $row = $db->sql_fetchrow($result);
     $min_userrep = round($row['user_reputation'],2);
     $min_userrep_userid = $row['user_id'];
     $min_userrep_username = $row['username'];
@@ -385,11 +385,11 @@ switch( $action  )
           u.user_id = r.user_id_2
         GROUP BY r.user_id_2
         ORDER BY total_repsum DESC";
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain reputation stats", '', __LINE__, __FILE__, $sql);
     }
-    $row = $pnt_db->sql_fetchrow($result);
+    $row = $db->sql_fetchrow($result);
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -401,8 +401,8 @@ switch( $action  )
     $active_user_repsum = round($row['total_repsum'],2);
     $active_user_count_sum = $row['count_sum'];
 
-    $pagination = generate_pagination("reputation.$phpEx?a=globalstats", $total_phpbb2_count, 15, $phpbb2_start). '&nbsp;';
-    $phpbb2_template->assign_block_vars("rep_globalstats", array(
+    $pagination = generate_pagination("reputation.$phpEx?a=globalstats", $total_count, 15, $start). '&nbsp;';
+    $template->assign_block_vars("rep_globalstats", array(
       "L_WHO" => $lang['Who'],
       "L_WHOM" => $lang['Whom'],
       "L_DIR" => $lang['Dir'],
@@ -420,7 +420,7 @@ switch( $action  )
       "L_WORST_REP_USER" => $lang['Worst_rep_user'],
       "L_MAX_GIVEN_SUM" => $lang['Max_given_sum'],
 
-      "TOTAL_GIVEN_BY_USERS" => sprintf($lang['Points_in_givings'],$total_phpbb2_sum,$total_phpbb2_count),
+      "TOTAL_GIVEN_BY_USERS" => sprintf($lang['Points_in_givings'],$total_sum,$total_count),
       "MAX_USERREP" => $max_userrep,
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -437,10 +437,10 @@ switch( $action  )
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
 
-      "U_MAX_USERREP_USERID" => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $max_userrep_userid),
-      "U_MIN_USERREP_USERID" => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $min_userrep_userid),
-      "U_MAX_REPSUM_USERID" => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $max_repsum_userid),
-      "U_ACTIVE_USER_ID" => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $active_user_id),
+      "U_MAX_USERREP_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $max_userrep_userid),
+      "U_MIN_USERREP_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $min_userrep_userid),
+      "U_MAX_REPSUM_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $max_repsum_userid),
+      "U_ACTIVE_USER_ID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $active_user_id),
 
       "PAGINATION" => $pagination,
     ));
@@ -456,37 +456,37 @@ switch( $action  )
         LEFT JOIN " . FORUMS_TABLE . " AS f ON
           f.forum_id = t.forum_id
         ORDER BY r.rep_time DESC
-        LIMIT $phpbb2_start, 15";
-    if ( !($result = $pnt_db->sql_query($sql)) )
+        LIMIT $start, 15";
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain reputation stats", '', __LINE__, __FILE__, $sql);
     }
-    while ($row = $pnt_db->sql_fetchrow($result))
+    while ($row = $db->sql_fetchrow($result))
     {
       $sql2 = "SELECT u.username, u.user_id
           FROM " . USERS_TABLE . " AS u
           WHERE u.user_id = " . $row['user_id_2'];
-      if ( !($result2 = $pnt_db->sql_query($sql2)) )
+      if ( !($result2 = $db->sql_query($sql2)) )
       {
         message_die(GENERAL_ERROR, "Could not obtain data for this user", '', __LINE__, __FILE__, $sql);
       }
-      $row2 = $pnt_db->sql_fetchrow($result2);
+      $row2 = $db->sql_fetchrow($result2);
       if ($row['rep_neg'] == 1) // Если репутация отрицательная
       {
-        $row['rep_neg'] = '<img src="' . $phpbb2_root_path . 'images/reputation_neg.gif">';
+        $row['rep_neg'] = '<img src="' . $phpbb_root_path . 'images/reputation_neg.gif">';
       } else
       {
-        $row['rep_neg'] = '<img src="' . $phpbb2_root_path . 'images/reputation_pos.gif">';
+        $row['rep_neg'] = '<img src="' . $phpbb_root_path . 'images/reputation_pos.gif">';
       }
-      $u_post = append_titanium_sid("viewtopic.$phpEx?" . POST_POST_URL . '=' . $row['post_id'] . "#" . $row['post_id']);
+      $u_post = append_sid("viewtopic.$phpEx?" . POST_POST_URL . '=' . $row['post_id'] . "#" . $row['post_id']);
       $post = $row['topic_title'];
       //
       // Start auth check
       //
-      $phpbb2_is_auth = array();
-      $phpbb2_is_auth = auth(AUTH_ALL, $row['forum_id'], $userdata);
+      $is_auth = array();
+      $is_auth = auth(AUTH_ALL, $row['forum_id'], $userdata);
 
-      if( !$phpbb2_is_auth['auth_view'] || !$phpbb2_is_auth['auth_read'] )
+      if( !$is_auth['auth_view'] || !$is_auth['auth_read'] )
       {
         $u_post = '';
         $post = $lang['Hidden_post'];
@@ -495,23 +495,23 @@ switch( $action  )
       // End auth check
       //
 
-      $phpbb2_template->assign_block_vars("rep_globalstats.row", array(
+      $template->assign_block_vars("rep_globalstats.row", array(
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
         "USERNAME" => UsernameColor($row['username']),
-        "U_USERID" => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id']),
+        "U_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id']),
         "USERNAME2" => UsernameColor($row2['username']),
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-        "U_USERID2" => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id_2']),
+        "U_USERID2" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id_2']),
         "REPNEG" => $row['rep_neg'],
         "REPSUM" => $row['rep_sum'],
         "REPCOMMENT" => $row['rep_comment'],
         "U_POST" => $u_post,
         "POST" => $post,
-        "REPTIME" => create_date($phpbb2_board_config['default_dateformat'], $row['rep_time'], $phpbb2_board_config['board_timezone']),
+        "REPTIME" => create_date($board_config['default_dateformat'], $row['rep_time'], $board_config['board_timezone']),
       ));
     }
     break;
@@ -527,38 +527,38 @@ switch( $action  )
     {
       message_die(GENERAL_MESSAGE, $lang['No_user_id_specified']);
     }
-    $phpbb2_start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
-    $pnt_userid = intval($HTTP_GET_VARS[POST_USERS_URL]);
+    $start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+    $userid = intval($HTTP_GET_VARS[POST_USERS_URL]);
     $sql = "SELECT u.user_id, u.username, u.user_reputation
         FROM " . USERS_TABLE . " AS u
-        WHERE u.user_id = " . $pnt_userid . "
+        WHERE u.user_id = " . $userid . "
         GROUP BY u.user_id";
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain user", '', __LINE__, __FILE__, $sql);
     }
-    if ( !($row = $pnt_db->sql_fetchrow($result)) )
+    if ( !($row = $db->sql_fetchrow($result)) )
     {
       message_die(GENERAL_MESSAGE, $lang['No_such_user']);
     } else {
-      $pnt_username = $row['username'];
+      $username = $row['username'];
       $rep_sum = round($row['user_reputation'],1);
     }
 
     $sql = "SELECT COUNT(user_id) AS total_count
         FROM " . REPUTATION_TABLE . " AS r
-        WHERE r.user_id = " . $pnt_userid . " OR r.user_id_2 = " . $pnt_userid;
-    if ( !($result = $pnt_db->sql_query($sql)) )
+        WHERE r.user_id = " . $userid . " OR r.user_id_2 = " . $userid;
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain reputation stats for this user", '', __LINE__, __FILE__, $sql);
     }
-    $row = $pnt_db->sql_fetchrow($result);
-    $total_phpbb2_count = $row['total_count'];
+    $row = $db->sql_fetchrow($result);
+    $total_count = $row['total_count'];
 
     $sql = "SELECT r.*
         FROM " . REPUTATION_TABLE . " AS r
-        WHERE r.user_id = " . $pnt_userid . " OR r.user_id_2 = " . $pnt_userid;
-    if ( !($result = $pnt_db->sql_query($sql)) )
+        WHERE r.user_id = " . $userid . " OR r.user_id_2 = " . $userid;
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain reputation stats for this user", '', __LINE__, __FILE__, $sql);
     }
@@ -569,31 +569,31 @@ switch( $action  )
     $rep_given_sum = 0;   // Кол-во отданной репутации
     $rep_given_negs = 0;  // Кол-во отрицательных отданных голосов
     $rep_given_poss = 0;  // Кол-во положительных отданных голосов
-    while ($row = $pnt_db->sql_fetchrow($result))
+    while ($row = $db->sql_fetchrow($result))
     {
-      if ($row['rep_neg'] == 1 && $row['user_id'] == $pnt_userid) {
+      if ($row['rep_neg'] == 1 && $row['user_id'] == $userid) {
         $rep_negs++;
-      } else if ($row['rep_neg'] == 0 && $row['user_id'] == $pnt_userid)  {
+      } else if ($row['rep_neg'] == 0 && $row['user_id'] == $userid)  {
         $rep_poss++;
-      } else if ($row['rep_neg'] == 1 && $row['user_id'] != $pnt_userid)  {
+      } else if ($row['rep_neg'] == 1 && $row['user_id'] != $userid)  {
         $rep_given_sum = $rep_given_sum + $row['rep_sum'];
         $rep_given_negs++;
-      } else if ($row['rep_neg'] == 0 && $row['user_id'] != $pnt_userid)  {
+      } else if ($row['rep_neg'] == 0 && $row['user_id'] != $userid)  {
         $rep_given_sum = $rep_given_sum + $row['rep_sum'];
         $rep_given_poss++;
       }
     }
 
-    $pagination = generate_pagination("reputation.$phpEx?a=stats&amp;" . POST_USERS_URL . "=" . $pnt_userid . "&amp;", $total_phpbb2_count, 15, $phpbb2_start). '&nbsp;';
-    $phpbb2_template->assign_block_vars("rep_stats", array(
+    $pagination = generate_pagination("reputation.$phpEx?a=stats&amp;" . POST_USERS_URL . "=" . $userid . "&amp;", $total_count, 15, $start). '&nbsp;';
+    $template->assign_block_vars("rep_stats", array(
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-      "USERNAME" => UsernameColor($pnt_username),
+      "USERNAME" => UsernameColor($username),
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-      "U_USERID" => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $pnt_userid),
+      "U_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $userid),
       "STATREP_COLOR" => ($rep_sum >= 0) ? "green" : "red",
       "STATREP_SUM" => $rep_sum,
       "STATREP_SUMPOS" => $rep_poss,
@@ -619,7 +619,7 @@ switch( $action  )
       "L_RECEIVEDREPUTATION" => $lang['Received_rep'],
       "L_GIVENREPUTATION" => $lang['Given_rep'],
       "L_GLOBALSTATS" => $lang['Global_stats'],
-      "U_GLOBALSTATS" => append_titanium_sid("reputation.$phpEx?a=globalstats"),
+      "U_GLOBALSTATS" => append_sid("reputation.$phpEx?a=globalstats"),
 
       "PAGINATION" => $pagination,
     ));
@@ -634,75 +634,75 @@ switch( $action  )
           t.topic_id = p.topic_id
         LEFT JOIN " . FORUMS_TABLE . " AS f ON
           f.forum_id = t.forum_id
-        WHERE r.user_id = " . $pnt_userid . " OR r.user_id_2 = " . $pnt_userid . "
+        WHERE r.user_id = " . $userid . " OR r.user_id_2 = " . $userid . "
         ORDER BY r.rep_time DESC
-        LIMIT $phpbb2_start,15";
-    if ( !($result = $pnt_db->sql_query($sql)) )
+        LIMIT $start,15";
+    if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not obtain data for this post", '', __LINE__, __FILE__, $sql);
     }
 
-    while ($row = $pnt_db->sql_fetchrow($result))
+    while ($row = $db->sql_fetchrow($result))
     {
       $sql2 = "SELECT u.username, u.user_id
           FROM " . USERS_TABLE . " AS u
           WHERE u.user_id = " . $row['user_id_2'];
-      if ( !($result2 = $pnt_db->sql_query($sql2)) )
+      if ( !($result2 = $db->sql_query($sql2)) )
       {
         message_die(GENERAL_ERROR, "Could not obtain data for this user", '', __LINE__, __FILE__, $sql);
       }
-      $row2 = $pnt_db->sql_fetchrow($result2);
+      $row2 = $db->sql_fetchrow($result2);
 
       if ($row['rep_neg'] == 1) // Если репутация отрицательная
       {
-        $row['rep_neg'] = '<img src="' . $phpbb2_root_path . 'images/reputation_neg.gif">';
+        $row['rep_neg'] = '<img src="' . $phpbb_root_path . 'images/reputation_neg.gif">';
       } else
       {
-        $row['rep_neg'] = '<img src="' . $phpbb2_root_path . 'images/reputation_pos.gif">';
+        $row['rep_neg'] = '<img src="' . $phpbb_root_path . 'images/reputation_pos.gif">';
       }
-      $u_post = append_titanium_sid("viewtopic.$phpEx?" . POST_POST_URL . '=' . $row['post_id'] . "#" . $row['post_id']);
+      $u_post = append_sid("viewtopic.$phpEx?" . POST_POST_URL . '=' . $row['post_id'] . "#" . $row['post_id']);
       $post = $row['topic_title'];
       //
       // Start auth check
       //
-      $phpbb2_is_auth = array();
-      $phpbb2_is_auth = auth(AUTH_ALL, $row['forum_id'], $userdata);
+      $is_auth = array();
+      $is_auth = auth(AUTH_ALL, $row['forum_id'], $userdata);
 
-      if( !$phpbb2_is_auth['auth_view'] || !$phpbb2_is_auth['auth_read'] )
+      if( !$is_auth['auth_view'] || !$is_auth['auth_read'] )
       {
         $u_post = '';
         $post = $lang['Hidden_post'];
       }
       //
       // End auth check
-      $phpbb2_template->assign_block_vars("rep_stats.row", array(
-        "ROW" => ($row['user_id'] == $pnt_userid) ? "row1" : "row3",
+      $template->assign_block_vars("rep_stats.row", array(
+        "ROW" => ($row['user_id'] == $userid) ? "row1" : "row3",
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
         "USERNAME" => UsernameColor($row['username']),
-        "U_USERID" => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id']),
+        "U_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id']),
         "USERNAME2" => UsernameColor($row2['username']),
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-        "U_USERID2" => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id_2']),
+        "U_USERID2" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id_2']),
         "REPNEG" => $row['rep_neg'],
         "REPSUM" => $row['rep_sum'],
         "REPCOMMENT" => $row['rep_comment'],
         "U_POST" => $u_post,
         "POST" => $post,
-        "REPTIME" => create_date($phpbb2_board_config['default_dateformat'], $row['rep_time'], $phpbb2_board_config['board_timezone']),
+        "REPTIME" => create_date($board_config['default_dateformat'], $row['rep_time'], $board_config['board_timezone']),
       ));
     }
     break;
 }
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
   "L_CLOSEWINDOW" => $lang['Close_window'],
 ));
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 include('includes/page_tail.'.$phpEx);
 
 ?>

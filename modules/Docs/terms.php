@@ -32,24 +32,24 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$pnt_module = basename(dirname(__FILE__));
-get_lang($pnt_module);
-include(NUKE_MODULES_DIR.$pnt_module.'/doc_config.php');
+$module_name = basename(dirname(__FILE__));
+get_lang($module_name);
+include(NUKE_MODULES_DIR.$module_name.'/doc_config.php');
 
 define('INDEX_FILE', true);
 
 function terms() {
-    global $sitename, $pnt_module, $adminmail;
+    global $sitename, $module_name, $adminmail;
     include_once(NUKE_BASE_DIR.'header.php');
     title($sitename.': '._NSTERMS);
-    if (file_exists(NUKE_MODULES_DIR.$pnt_module.'/copyright.php')) {
+    if (file_exists(NUKE_MODULES_DIR.$module_name.'/copyright.php')) {
         OpenTable();
         echo "<br /><table width=\"95%\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\" align=\"center\">";
         echo "<tr><td valign=\"top\">";
         echo "<div align=\"justify\"><span class=\"content\">";
         echo "<strong>"._NSTERMSUSE1."</strong><br />";
         echo ""._NSTERMSUSE1a." ";
-        echo "<a href=\"modules.php?name=$pnt_module&amp;file=privacy\" target=\"_blank\">";
+        echo "<a href=\"modules.php?name=$module_name&amp;file=privacy\" target=\"_blank\">";
         echo ""._NSPRIVACY."</a>, "._NSTERMSUSE1b."";
         echo "<br /><br />";
         echo "<strong>"._NSTERMSUSE2."</strong><br />";
@@ -60,7 +60,7 @@ function terms() {
         echo "<br /><br />";
         echo "<strong>"._NSTERMSUSE4."</strong><br />";
         echo ""._NSTERMSUSE4a." ";
-        echo "<a href=\"modules.php?name=$pnt_module&amp;file=privacy\" target=\"_blank\">";
+        echo "<a href=\"modules.php?name=$module_name&amp;file=privacy\" target=\"_blank\">";
         echo ""._NSPRIVACY."</a>.";
         echo "<br /><br />";
         echo "<strong>"._NSTERMSUSE5."</strong><br />";

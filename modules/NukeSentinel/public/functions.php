@@ -16,22 +16,22 @@ if (!defined('NUKESENTINEL_PUBLIC')) {
 }
 
 function stmain_menu($subtitle = "") {
-  global $pnt_db, $pnt_prefix, $pnt_module;
+  global $db, $prefix, $module_name;
   if($subtitle > "") { $subtitle = ": ".$subtitle; }
   OpenTable();
-  $checkrow = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `ip_lo` FROM `".$pnt_prefix."_nsnst_ip2country`"));
+  $checkrow = $db->sql_numrows($db->sql_query("SELECT `ip_lo` FROM `".$prefix."_nsnst_ip2country`"));
   echo '<table summary="" align="center" border="0" cellpadding="2" cellspacing="2">'."\n";
   echo '<tr><td align="center" colspan="3" class="title">'._AB_NUKESENTINEL.$subtitle.'</td></tr>'."\n";
-  echo '<tr><td><a href="modules.php?name='.$pnt_module.'&amp;op=STIPS">'._AB_BLOCKEDIPS.'</a></td></tr>'."\n";
-  echo '<tr><td><a href="modules.php?name='.$pnt_module.'&amp;op=STRanges">'._AB_BLOCKEDRANGES.'</a></td></tr>'."\n";
-  echo '<tr><td><a href="modules.php?name='.$pnt_module.'&amp;op=STReferers">'._AB_BLOCKEDREFERERS.'</a></td></tr>'."\n";
-  if($checkrow > 0) { echo '<tr><td><a href="modules.php?name='.$pnt_module.'&amp;op=STIP2C">'._AB_IP2COUNTRY.'</a></td></tr>'."\n"; }
+  echo '<tr><td><a href="modules.php?name='.$module_name.'&amp;op=STIPS">'._AB_BLOCKEDIPS.'</a></td></tr>'."\n";
+  echo '<tr><td><a href="modules.php?name='.$module_name.'&amp;op=STRanges">'._AB_BLOCKEDRANGES.'</a></td></tr>'."\n";
+  echo '<tr><td><a href="modules.php?name='.$module_name.'&amp;op=STReferers">'._AB_BLOCKEDREFERERS.'</a></td></tr>'."\n";
+  if($checkrow > 0) { echo '<tr><td><a href="modules.php?name='.$module_name.'&amp;op=STIP2C">'._AB_IP2COUNTRY.'</a></td></tr>'."\n"; }
   echo '</table>'."\n";
   CloseTable();
 }
 
 function stpagenumspub($op, $totalselected, $perpage, $max, $column, $direction) {
-  global $pnt_module;
+  global $module_name;
   $pagesint = ($totalselected / $perpage);
   $pageremainder = ($totalselected % $perpage);
   if($pageremainder != 0) {
@@ -46,7 +46,7 @@ function stpagenumspub($op, $totalselected, $perpage, $max, $column, $direction)
     echo '<table summary="" align="center" border="0" cellpadding="2" cellspacing="2" width="100%">'."\n";
     echo '<tr>'."\n";
     echo '<td width="33%">'."\n";
-    echo '<form action="modules.php?name='.$pnt_module.'&amp;op='.$op.'" method="post" style="padding: 0px; margin: 0px;">'."\n";
+    echo '<form action="modules.php?name='.$module_name.'&amp;op='.$op.'" method="post" style="padding: 0px; margin: 0px;">'."\n";
     echo '<input type="hidden" name="min" value="'.(($max - $perpage) - $perpage).'" />'."\n";
     echo '<input type="hidden" name="column" value="'.$column.'" />'."\n";
     echo '<input type="hidden" name="direction" value="'.$direction.'" />'."\n";
@@ -58,7 +58,7 @@ function stpagenumspub($op, $totalselected, $perpage, $max, $column, $direction)
     echo '</form>'."\n";
     echo '</td>'."\n";
     echo '<td align="center" width="34%" nowrap="nowrap">'."\n";
-    echo '<form action="modules.php?name='.$pnt_module.'&amp;op='.$op.'" method="post" style="padding: 0px; margin: 0px;">'."\n";
+    echo '<form action="modules.php?name='.$module_name.'&amp;op='.$op.'" method="post" style="padding: 0px; margin: 0px;">'."\n";
     echo '<input type="hidden" name="column" value="'.$column.'" />'."\n";
     echo '<input type="hidden" name="direction" value="'.$direction.'" />'."\n";
     echo '<b>'._AB_PAGE.':</b> <select name="min">'."\n";
@@ -74,7 +74,7 @@ function stpagenumspub($op, $totalselected, $perpage, $max, $column, $direction)
     echo '</form>'."\n";
     echo '</td>'."\n";
     echo '<td align="right" width="33%">';
-    echo '<form action="modules.php?name='.$pnt_module.'&amp;op='.$op.'" method="post" style="padding: 0px; margin: 0px;">'."\n";
+    echo '<form action="modules.php?name='.$module_name.'&amp;op='.$op.'" method="post" style="padding: 0px; margin: 0px;">'."\n";
     echo '<input type="hidden" name="min" value="'.$max.'" />'."\n";
     echo '<input type="hidden" name="column" value="'.$column.'" />'."\n";
     echo '<input type="hidden" name="direction" value="'.$direction.'" />'."\n";

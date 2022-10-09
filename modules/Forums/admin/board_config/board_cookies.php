@@ -21,7 +21,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "cookies" => "admin/board_config/board_cookies.tpl")
 );
 
@@ -29,12 +29,12 @@ $cookie_secure_yes = ( $new['cookie_secure'] ) ? "checked=\"checked\"" : "";
 $cookie_secure_no = ( !$new['cookie_secure'] ) ? "checked=\"checked\"" : "";
 
 //General Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
     
 //Language Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "L_COOKIE_SETTINGS" => $lang['Cookie_settings'],
     "L_COOKIE_SETTINGS_EXPLAIN" => $lang['Cookie_settings_explain'],
     "L_COOKIE_DOMAIN" => $lang['Cookie_domain'],
@@ -46,7 +46,7 @@ $phpbb2_template->assign_vars(array(
 ));
 
 //Data Template Variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "COOKIE_DOMAIN" => $new['cookie_domain'],
     "COOKIE_NAME" => $new['cookie_name'],
     "COOKIE_PATH" => $new['cookie_path'],
@@ -54,6 +54,6 @@ $phpbb2_template->assign_vars(array(
     "S_COOKIE_SECURE_ENABLED" => $cookie_secure_yes,
     "S_COOKIE_SECURE_DISABLED" => $cookie_secure_no,
  ));
-$phpbb2_template->pparse("cookies");
+$template->pparse("cookies");
 
 ?>

@@ -25,7 +25,7 @@ if (!defined('ADMIN_FILE')) {
 }
 
 global $admin_file;
-$pnt_module = basename(dirname(dirname(__FILE__)));
-get_lang($pnt_module);
+$module_name = basename(dirname(dirname(__FILE__)));
+get_lang($module_name);
 adminmenu($admin_file.'.php?op=NetworkBannersAdmin', _NETWORK_BANNERS, 'NetworkBannersAdmin.png');
 ?>

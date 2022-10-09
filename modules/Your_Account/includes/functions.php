@@ -38,7 +38,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 // function Show_CNBYA_menu(){ [added by menelaos dot hetnet dot nl']
 /*************************************************************************************/
 function Show_CNBYA_menu(){
-    global $stop, $pnt_module, $redirect, $mode, $t, $f, $ya_config;
+    global $stop, $module_name, $redirect, $mode, $t, $f, $ya_config;
     OpenTable();
     if ($stop) {
         echo "<center><span class=\"title\"><strong>"._LOGININCOR."</strong></span></center>\n";
@@ -47,30 +47,30 @@ function Show_CNBYA_menu(){
     }
 
     echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td align=\"left\"><span class=\"content\">\n";
-    echo "[ <a href=\"modules.php?name=$pnt_module\">"._LOGIN."</a> \n";
-    echo "| <a href=\"modules.php?name=$pnt_module&amp;op=new_user\">"._REGNEWUSER."</a> ]\n";
+    echo "[ <a href=\"modules.php?name=$module_name\">"._LOGIN."</a> \n";
+    echo "| <a href=\"modules.php?name=$module_name&amp;op=new_user\">"._REGNEWUSER."</a> ]\n";
     echo "</td><td align=\"right\"><span class=\"content\">\n";
-    echo "[ <span class=\"content\"><a href=\"modules.php?name=$pnt_module&amp;op=pass_lost\">"._PASSWORDLOST."</a> \n";
-    echo "| <a href=\"modules.php?name=$pnt_module&amp;op=ShowCookiesRedirect\">"._YA_COOKIEDELALL."</a> ]</span>\n";
+    echo "[ <span class=\"content\"><a href=\"modules.php?name=$module_name&amp;op=pass_lost\">"._PASSWORDLOST."</a> \n";
+    echo "| <a href=\"modules.php?name=$module_name&amp;op=ShowCookiesRedirect\">"._YA_COOKIEDELALL."</a> ]</span>\n";
     echo "</td></tr></table>\n";
     CloseTable();
 }
 
-function ya_userCheck($pnt_username){
-    global $stop, $pnt_user_prefix, $pnt_db, $ya_config, $pnt_prefix;
+function ya_userCheck($username){
+    global $stop, $user_prefix, $db, $ya_config, $prefix;
 	
 	// Remove any whitespace
-	$pnt_username = trim($pnt_username);
+	$username = trim($username);
 	
-    if (!Validate($pnt_username, 'username', '', 1, 1)){
+    if (!Validate($username, 'username', '', 1, 1)){
         $stop = "<center>"._ERRORINVNICK."</center><br />";
     }
 	
-    if (strlen($pnt_username) > $ya_config['nick_max']) $stop = "<center>"._YA_NICKLENGTH."</center>";
-    if (strlen($pnt_username) < $ya_config['nick_min']) $stop = "<center>"._YA_NICKLENGTH."</center>";
+    if (strlen($username) > $ya_config['nick_max']) $stop = "<center>"._YA_NICKLENGTH."</center>";
+    if (strlen($username) < $ya_config['nick_min']) $stop = "<center>"._YA_NICKLENGTH."</center>";
 	
-    $result = $pnt_db->sql_query("SELECT disallow_username FROM ". $pnt_prefix ."_bbdisallow");
-    $disallowed = $pnt_db->sql_fetchrowset($result);
+    $result = $db->sql_query("SELECT disallow_username FROM ". $prefix ."_bbdisallow");
+    $disallowed = $db->sql_fetchrowset($result);
 	
 	if (is_array($disallowed)){
         foreach($disallowed as $bad_nick){
@@ -83,7 +83,7 @@ function ya_userCheck($pnt_username){
 		
 		if (!empty($BadNickList) && is_array($BadNickList)){
 			for($i=0; $i<count($BadNickList); $i++){
-				if (strtolower(trim($BadNickList[$i])) == strtolower($pnt_username)){
+				if (strtolower(trim($BadNickList[$i])) == strtolower($username)){
 					$stop = "<center>"._NAMERESTRICTED."</center><br />";
 					break;
 				}
@@ -91,9 +91,9 @@ function ya_userCheck($pnt_username){
 		}
 	}
 	
-    if (strrpos($pnt_username,' ') > 0) $stop = "<center>"._NICKNOSPACES."</center>";
-    if ($pnt_db->sql_numrows($pnt_db->sql_query("SELECT username FROM ".$pnt_user_prefix."_users WHERE username='$pnt_username'")) > 0) $stop = "<center>"._NICKTAKEN."</center><br />";
-    if ($pnt_db->sql_numrows($pnt_db->sql_query("SELECT username FROM ".$pnt_user_prefix."_users_temp WHERE username='$pnt_username'")) > 0) $stop = "<center>"._NICKTAKEN."</center><br />";
+    if (strrpos($username,' ') > 0) $stop = "<center>"._NICKNOSPACES."</center>";
+    if ($db->sql_numrows($db->sql_query("SELECT username FROM ".$user_prefix."_users WHERE username='$username'")) > 0) $stop = "<center>"._NICKTAKEN."</center><br />";
+    if ($db->sql_numrows($db->sql_query("SELECT username FROM ".$user_prefix."_users_temp WHERE username='$username'")) > 0) $stop = "<center>"._NICKTAKEN."</center><br />";
 	
     return ($stop);
 }
@@ -106,37 +106,37 @@ global $ya_config, $adminmail;
     }
 }
 
-function ya_mailCheck($pnt_user_email) {
-    global $stop, $pnt_user_prefix, $pnt_db, $ya_config;
+function ya_mailCheck($user_email) {
+    global $stop, $user_prefix, $db, $ya_config;
 	
-    $pnt_user_email = strtolower($pnt_user_email);
+    $user_email = strtolower($user_email);
 	
-    if ((!$pnt_user_email) || (empty($pnt_user_email)) || (!preg_match("/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,6}$/i", $pnt_user_email))) $stop = "<center>"._ERRORINVEMAIL."</center><br />";
+    if ((!$user_email) || (empty($user_email)) || (!preg_match("/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,6}$/i", $user_email))) $stop = "<center>"._ERRORINVEMAIL."</center><br />";
 	
     if ($ya_config['bad_mail'] > ""){
         $BadMailList = explode("\n", $ya_config['bad_mail']);
 		
         for($i=0; $i<count($BadMailList); $i++){
-            if (substr($pnt_user_email, -strlen(trim($BadMailList[$i]))) == strtolower(trim($BadMailList[$i]))){
+            if (substr($user_email, -strlen(trim($BadMailList[$i]))) == strtolower(trim($BadMailList[$i]))){
 				$stop = "<center>"._MAILBLOCKED." <strong>".$BadMailList[$i]."</strong></center><br />";
 				break;
 			}
        	}
     }
 	
-    if (strrpos($pnt_user_email,' ') > 0) $stop = "<center>"._ERROREMAILSPACES."</center><br />";
-    if ($pnt_db->sql_numrows($pnt_db->sql_query("SELECT user_email FROM ".$pnt_user_prefix."_users WHERE user_email='$pnt_user_email'")) > 0) $stop = "<center>"._EMAILREGISTERED."</center><br />";
-    if ($pnt_db->sql_numrows($pnt_db->sql_query("SELECT user_email FROM ".$pnt_user_prefix."_users WHERE user_email='".md5($pnt_user_email)."'")) > 0) $stop = "<center>"._EMAILNOTUSABLE."</center><br />";
-    if ($pnt_db->sql_numrows($pnt_db->sql_query("SELECT user_email FROM ".$pnt_user_prefix."_users_temp WHERE user_email='$pnt_user_email'")) > 0) $stop = "<center>"._EMAILREGISTERED."</center><br />";
+    if (strrpos($user_email,' ') > 0) $stop = "<center>"._ERROREMAILSPACES."</center><br />";
+    if ($db->sql_numrows($db->sql_query("SELECT user_email FROM ".$user_prefix."_users WHERE user_email='$user_email'")) > 0) $stop = "<center>"._EMAILREGISTERED."</center><br />";
+    if ($db->sql_numrows($db->sql_query("SELECT user_email FROM ".$user_prefix."_users WHERE user_email='".md5($user_email)."'")) > 0) $stop = "<center>"._EMAILNOTUSABLE."</center><br />";
+    if ($db->sql_numrows($db->sql_query("SELECT user_email FROM ".$user_prefix."_users_temp WHERE user_email='$user_email'")) > 0) $stop = "<center>"._EMAILREGISTERED."</center><br />";
     
 	return ($stop);
 }
 
-function ya_passCheck($pnt_user_pass1, $pnt_user_pass2) {
+function ya_passCheck($user_pass1, $user_pass2) {
     global $stop, $ya_config;
-    if (strlen($pnt_user_pass1) > $ya_config['pass_max']) $stop = "<center>"._YA_PASSLENGTH."</center><br />";
-    if (strlen($pnt_user_pass1) < $ya_config['pass_min']) $stop = "<center>"._YA_PASSLENGTH."</center><br />";
-    if ($pnt_user_pass1 != $pnt_user_pass2) $stop = "<center>"._PASSWDNOMATCH."</center><br />";
+    if (strlen($user_pass1) > $ya_config['pass_max']) $stop = "<center>"._YA_PASSLENGTH."</center><br />";
+    if (strlen($user_pass1) < $ya_config['pass_min']) $stop = "<center>"._YA_PASSLENGTH."</center><br />";
+    if ($user_pass1 != $user_pass2) $stop = "<center>"._PASSWDNOMATCH."</center><br />";
     return($stop);
 }
 
@@ -148,26 +148,26 @@ function ya_fixtext($ya_fixtext) {
 
 // function improved by Peter
 function ya_save_config($config_name, $config_value, $config_param=""){
-    global $pnt_prefix, $pnt_db, $cache;
+    global $prefix, $db, $cache;
     Fix_Quotes($config_value);
     if($config_param == 'html') {
         $config_name = check_html($config_name, 'nohtml');
         $config_value = check_html($config_value, 'html');
-        $pnt_db -> sql_query("UPDATE ".$pnt_prefix."_cnbya_config SET config_value='$config_value' WHERE config_name='$config_name'");
+        $db -> sql_query("UPDATE ".$prefix."_cnbya_config SET config_value='$config_value' WHERE config_name='$config_name'");
     }
     if($config_param == 'nohtml') {
         $config_name = check_html($config_name, 'nohtml');
         $config_value = ya_fixtext(check_html($config_value, 'nohtml'));
-        $pnt_db -> sql_query("UPDATE ".$pnt_prefix."_cnbya_config SET config_value='$config_value' WHERE config_name='$config_name'");
+        $db -> sql_query("UPDATE ".$prefix."_cnbya_config SET config_value='$config_value' WHERE config_name='$config_name'");
     } else {
         $config_name=check_html($config_name, 'nohtml');
         $config_value = intval($config_value);
-        $pnt_db -> sql_query("UPDATE ".$pnt_prefix."_cnbya_config SET config_value='$config_value' WHERE config_name='$config_name'");
+        $db -> sql_query("UPDATE ".$prefix."_cnbya_config SET config_value='$config_value' WHERE config_name='$config_name'");
     }
 }
 
 function ya_get_configs(){
-    global $pnt_prefix, $pnt_db, $cache;
+    global $prefix, $db, $cache;
     static $ya_config;
     if(isset($ya_config)) return $ya_config;
 /*****['BEGIN']****************************************
@@ -177,11 +177,11 @@ function ya_get_configs(){
 /*****['END']******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-      $configresult = $pnt_db->sql_query("SELECT config_name, config_value FROM ".$pnt_prefix."_cnbya_config");
-      while (list($config_name, $config_value) = $pnt_db->sql_fetchrow($configresult)) {
+      $configresult = $db->sql_query("SELECT config_name, config_value FROM ".$prefix."_cnbya_config");
+      while (list($config_name, $config_value) = $db->sql_fetchrow($configresult)) {
           $ya_config[$config_name] = $config_value;
       }
-      $pnt_db->sql_freeresult($configresult);
+      $db->sql_freeresult($configresult);
 /*****['BEGIN']****************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -194,28 +194,28 @@ function ya_get_configs(){
 }
 
 function yacookie($setuid, $setusername, $setpass, $setstorynum, $setumode, $setuorder, $setthold, $setnoscore, $setublockon, $settheme, $setcommentmax) {
-    global $ya_config, $pnt_db, $pnt_prefix, $identify;
+    global $ya_config, $db, $prefix, $identify;
     $ip = $identify->get_ip();
-    $result = $pnt_db->sql_query("SELECT time FROM ".$pnt_prefix."_session WHERE uname='$setusername'");
+    $result = $db->sql_query("SELECT time FROM ".$prefix."_session WHERE uname='$setusername'");
     $ctime = time();
 
     $guest = 1;
-    $pnt_user_agent = $identify->identify_agent();
+    $user_agent = $identify->identify_agent();
     if (is_user()) {
         $guest = 0;
-    } elseif($pnt_user_agent['engine'] == 'bot') {
+    } elseif($user_agent['engine'] == 'bot') {
         $guest = 3;
     }
 
     if (!empty($setusername)) {
         $uname = substr($setusername, 0,25);
-        if ($row = $pnt_db->sql_fetchrow($result)) {
-            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_session SET uname='$setusername', time='$ctime', host_addr='$ip', guest='$guest' WHERE uname='$uname'");
+        if ($row = $db->sql_fetchrow($result)) {
+            $db->sql_query("UPDATE ".$prefix."_session SET uname='$setusername', time='$ctime', host_addr='$ip', guest='$guest' WHERE uname='$uname'");
         } else {
-            $pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_session (uname, time, host_addr, guest) VALUES ('$uname', '$ctime', '$ip', '$guest')");
+            $db->sql_query("INSERT INTO ".$prefix."_session (uname, time, host_addr, guest) VALUES ('$uname', '$ctime', '$ip', '$guest')");
         }
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 
     $info = base64_encode("$setuid:$setusername:$setpass:$setstorynum:$setumode:$setuorder:$setthold:$setnoscore:$setublockon:$settheme:$setcommentmax");
     if ($ya_config['cookietimelife'] != '-') {
@@ -258,15 +258,15 @@ function YA_MakePass() {
 }
 
 function amain() {
-    global $ya_config, $pnt_module, $pnt_db, $pnt_user_prefix, $bgcolor2, $bgcolor1, $textcolor1, $find, $what, $match, $query, $admin_file;
+    global $ya_config, $module_name, $db, $user_prefix, $bgcolor2, $bgcolor1, $textcolor1, $find, $what, $match, $query, $admin_file;
     $cnbyaversion = $ya_config['version'];
 
     OpenTable();
-    $act = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE user_level>'0' AND user_id>'1'"));
-    $sus = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE user_level='0' AND user_id>'1'"));
-    $del = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE user_level='-1' AND user_id>'1'"));
-    $nor = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE user_id>'1'"));
-    $pen = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users_temp"));
+    $act = $db->sql_numrows($db->sql_query("SELECT * FROM ".$user_prefix."_users WHERE user_level>'0' AND user_id>'1'"));
+    $sus = $db->sql_numrows($db->sql_query("SELECT * FROM ".$user_prefix."_users WHERE user_level='0' AND user_id>'1'"));
+    $del = $db->sql_numrows($db->sql_query("SELECT * FROM ".$user_prefix."_users WHERE user_level='-1' AND user_id>'1'"));
+    $nor = $db->sql_numrows($db->sql_query("SELECT * FROM ".$user_prefix."_users WHERE user_id>'1'"));
+    $pen = $db->sql_numrows($db->sql_query("SELECT * FROM ".$user_prefix."_users_temp"));
 
     echo "<table align='center' cellpadding='2' cellspacing='2' border='0' width='100%'>\n";
 
@@ -274,34 +274,34 @@ function amain() {
     //echo "<td align='center' colspan='4'><a href='" . $admin_file . ".php'>"._YA_ADMINISTRATION."</a></td>\n";
     echo "</tr>\n";
     echo "<tr>\n";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=addUser'>"._ADDUSER."</a></td>\n";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=UsersConfig'>"._USERSCONFIG."</a></td>\n";
-    echo "<td align='right'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=listnormal&amp;query=1'>"._ACTIVEUSERS.":</a>";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=addUser'>"._ADDUSER."</a></td>\n";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=UsersConfig'>"._USERSCONFIG."</a></td>\n";
+    echo "<td align='right'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=listnormal&amp;query=1'>"._ACTIVEUSERS.":</a>";
     echo "<td align='left'>($act)</td>\n";
     echo "</tr>\n";
     echo "<tr>";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=addField'>"._YA_ADDFIELD."</a></td>\n";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=CookieConfig'>"._COOKIECONFIG."</a></td>\n";
-    echo "<td align='right'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=listnormal&amp;query=a'>"._NORMALUSERS.":</a>";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=addField'>"._YA_ADDFIELD."</a></td>\n";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=CookieConfig'>"._COOKIECONFIG."</a></td>\n";
+    echo "<td align='right'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=listnormal&amp;query=a'>"._NORMALUSERS.":</a>";
     echo "<td align='left'>($nor)</td>\n";
     echo "</tr>\n";
     echo "<tr>\n";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=searchUser'>"._SEARCHUSERS."</a></td>\n";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=editTOS'>"._EDITTOS."</a></td>\n";
-    echo "<td align='right'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=listnormal&amp;query=-1'>"._DELETEUSERS.":</a>";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=searchUser'>"._SEARCHUSERS."</a></td>\n";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=editTOS'>"._EDITTOS."</a></td>\n";
+    echo "<td align='right'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=listnormal&amp;query=-1'>"._DELETEUSERS.":</a>";
     echo "<td align='left'>($del)</td>\n";
     echo "</tr>\n";
     echo "<tr>\n";
     echo "<td align='center' width='33%'>&nbsp;</td>\n";
     echo "<td align='center' width='33%'>&nbsp;</td>\n";
-    echo "<td align='right'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=listnormal&amp;query=0'>"._SUSPENDUSERS.":</a>";
+    echo "<td align='right'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=listnormal&amp;query=0'>"._SUSPENDUSERS.":</a>";
     echo "<td align='left'>($sus)</td>\n";
     echo "</tr>\n";
     echo "<tr>\n";
-//  echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=autoSuspend'>"._YA_CHKAUTOSUS."</a></td>";
-    echo "<td align='center' width='33%'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=credits'>"._CREDITS."</a></td>\n";
+//  echo "<td align='center' width='33%'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=autoSuspend'>"._YA_CHKAUTOSUS."</a></td>";
+    echo "<td align='center' width='33%'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=credits'>"._CREDITS."</a></td>\n";
     echo "<td align='center' width='33%'>[CNB Your Account $cnbyaversion]</td>\n";
-    echo "<td align='right'><a href='modules.php?name=$pnt_module&amp;file=admin&amp;op=listpending'>"._WAITINGUSERS.":</a>";
+    echo "<td align='right'><a href='modules.php?name=$module_name&amp;file=admin&amp;op=listpending'>"._WAITINGUSERS.":</a>";
     echo "<td align='left'>($pen)</td>\n";
     echo "</tr>\n";
 
@@ -310,10 +310,10 @@ function amain() {
 }
 
 function asearch() {
-    global $pnt_module, $bgcolor2, $bgcolor1, $textcolor1, $find, $what, $match, $query, $pnt_db, $pnt_user_prefix;
+    global $module_name, $bgcolor2, $bgcolor1, $textcolor1, $find, $what, $match, $query, $db, $user_prefix;
     OpenTable();
     echo "<table style='margin:auto' cellpadding='2' cellspacing='2' border='0'>\n";
-    echo "<form method='post' action='modules.php?name=$pnt_module&amp;file=admin'>\n";
+    echo "<form method='post' action='modules.php?name=$module_name&amp;file=admin'>\n";
     echo "<input type='hidden' name='op' value='listresults'>\n";
     echo "<tr>\n";
     echo "<td align='center'><strong>"._YA_FIND.":</strong></td>\n";
@@ -328,8 +328,8 @@ function asearch() {
     echo "</select></td>\n";
 
     echo "<td align='center'><select name='what'>\n";
-    $result = $pnt_db->sql_query("DESCRIBE " . $pnt_user_prefix . "_users");
-    while($row = $pnt_db->sql_fetchrow($result)){
+    $result = $db->sql_query("DESCRIBE " . $user_prefix . "_users");
+    while($row = $db->sql_fetchrow($result)){
         if($row[0] != "user_password") {
             echo "<option value='" . $row[0]."' " . ((($what == $row[0]) || (empty($what) && $row[0] == "username") )? "selected" : "") . ">" . ucwords(str_replace("_", " ", $row[0])) . "</option>\n";
         }
@@ -348,8 +348,8 @@ function asearch() {
     CloseTable();
 }
 
-function mmain($pnt_user) {
-    global $stop, $pnt_module, $redirect, $mode, $t, $f, $ya_config, $pnt_user, $p;
+function mmain($user) {
+    global $stop, $module_name, $redirect, $mode, $t, $f, $ya_config, $user, $p;
     if(!is_user()) {
         include_once(NUKE_BASE_DIR.'header.php');
         mt_srand ((double)microtime()*1000000);
@@ -376,7 +376,7 @@ function mmain($pnt_user) {
 		# align this motherfucker
 		echo '<div align="center">';
 		
-		echo "<form action=\"modules.php?name=".$pnt_module."\" method=\"post\">\n";
+		echo "<form action=\"modules.php?name=".$module_name."\" method=\"post\">\n";
         echo "<table border=\"0\">\n";
         
 		echo "<tr><td>"._NICKNAME.":</td><td><input type=\"text\" name=\"username\" size=\"25\" maxlength=\"25\"></td></tr>\n";
@@ -418,12 +418,12 @@ function mmain($pnt_user) {
         include_once(NUKE_BASE_DIR.'footer.php');
     } elseif (is_user()) {
         global $cookie;
-        redirect_titanium("modules.php?name=$pnt_module&op=userinfo&username=$cookie[1]");
+        redirect("modules.php?name=$module_name&op=userinfo&username=$cookie[1]");
     }
 }
 
 function yapagenums($op, $totalselected, $perpage, $max, $find, $what, $match, $query) {
-    global $pnt_module;
+    global $module_name;
     $pagesint = ($totalselected / $perpage);
     $pageremainder = ($totalselected % $perpage);
     if ($pageremainder != 0) {
@@ -436,7 +436,7 @@ function yapagenums($op, $totalselected, $perpage, $max, $find, $what, $match, $
         $counter = 1;
         $currentpage = ($max / $perpage);
         echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-        echo "<tr><form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
+        echo "<tr><form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
         echo "<input type='hidden' name='op' value='$op'>\n";
         if ($what > "")    { echo "<input type='hidden' name='what' value='$what'>\n"; }
         if ($find > "")    { echo "<input type='hidden' name='find' value='$find'>\n"; }

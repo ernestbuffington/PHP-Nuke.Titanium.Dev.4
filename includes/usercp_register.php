@@ -51,8 +51,8 @@
 	  Birthdays                                v3.0.0
  ************************************************************************/
 
-if (!defined('IN_PHPBB2'))
-exit('ACCESS DENIED');
+if (!defined('IN_PHPBB'))
+exit('Hacking attempt');
 
 $unhtml_specialchars_match = array('#&gt;#', '#&lt;#', '#&quot;#', '#&amp;#');
 $unhtml_specialchars_replace = array('>', '<', '"', '&');
@@ -61,34 +61,34 @@ $unhtml_specialchars_replace = array('>', '<', '"', '&');
 # agreed to registration conditions/coppa
 function show_coppa()
 {
-	global $userdata, $phpbb2_template, $lang, $phpbb2_root_path, $phpEx;
+	global $userdata, $template, $lang, $phpbb_root_path, $phpEx;
 
-	$phpbb2_template->set_filenames(array(
+	$template->set_filenames(array(
 			'body' => 'agreement.tpl')
 	);
-	$phpbb2_template->assign_vars(array(
+	$template->assign_vars(array(
 		'REGISTRATION' => $lang['Registration'],
 		'AGREEMENT' => $lang['Reg_agreement'],
 		"AGREE_OVER_13" => $lang['Agree_over_13'],
 		"AGREE_UNDER_13" => $lang['Agree_under_13'],
 		'DO_NOT_AGREE' => $lang['Agree_not'],
 
-		"U_AGREE_OVER13" => append_titanium_sid("profile.$phpEx?mode=register&amp;agreed=true"),
-		"U_AGREE_UNDER13" => append_titanium_sid("profile.$phpEx?mode=register&amp;agreed=true&amp;coppa=true"))
+		"U_AGREE_OVER13" => append_sid("profile.$phpEx?mode=register&amp;agreed=true"),
+		"U_AGREE_UNDER13" => append_sid("profile.$phpEx?mode=register&amp;agreed=true&amp;coppa=true"))
 	);
 
-	$phpbb2_template->pparse('body');
+	$template->pparse('body');
 }
 
 $error = FALSE;
 $error_msg = '';
-$phpbb2_page_title = ( $mode == 'editprofile' ) ? $lang['Edit_profile'] : $lang['Register'];
+$page_title = ( $mode == 'editprofile' ) ? $lang['Edit_profile'] : $lang['Register'];
 $verification = null;
 
  # Mod: YA Merge v1.0.0 START
  if($mode === 'register' && isset($check_num)): 
 	# Check the users verification check number, if it doesn't match trigger an error
-	$verified = $pnt_db->sql_query(
+	$verified = $db->sql_query(
 		sprintf('SELECT username, 
 		                realname, 
 					  user_email, 
@@ -96,28 +96,28 @@ $verification = null;
 				   user_password 
 				   
 				 FROM %s_users_temp 
-				 WHERE check_num = "%s"', $pnt_user_prefix, $pnt_db->sql_escapestring($check_num)));
+				 WHERE check_num = "%s"', $user_prefix, $db->sql_escapestring($check_num)));
 				 
-	if(!$verified || $pnt_db->sql_numrows($verified) === 0) 
-	message_die(GENERAL_ERROR, sprintf($lang['Error_Check_Num'], append_titanium_sid('modules.php?name=Your_Account&op=new_user')));
+	if(!$verified || $db->sql_numrows($verified) === 0) 
+	message_die(GENERAL_ERROR, sprintf($lang['Error_Check_Num'], append_sid('modules.php?name=Your_Account&op=new_user')));
 	# The user exists, lets keep moving on
-	$verification = $pnt_db->sql_fetchrow($verified);
-	$phpbb2_template->assign_block_vars('switch_silent_password', array());
+	$verification = $db->sql_fetchrow($verified);
+	$template->assign_block_vars('switch_silent_password', array());
  else: 
-	$phpbb2_template->assign_block_vars('switch_ya_merge', array());
+	$template->assign_block_vars('switch_ya_merge', array());
  endif;
  # Mod: YA Merge v1.0.0 END
 
 # Mod: Initial Usergroup v1.0.1 START
 function init_group($uid) 
 {
-	global $pnt_prefix, $pnt_db, $phpbb2_board_config;
+	global $prefix, $db, $board_config;
 
-	if($phpbb2_board_config['initial_group_id'] != "0" && $phpbb2_board_config['initial_group_id'] != NULL): 
-		$initialusergroup = intval($phpbb2_board_config['initial_group_id']);
+	if($board_config['initial_group_id'] != "0" && $board_config['initial_group_id'] != NULL): 
+		$initialusergroup = intval($board_config['initial_group_id']);
 		if($initialusergroup == 0) 
 		return;
-		$pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_bbuser_group (group_id, user_id, user_pending) VALUES ('$initialusergroup', $uid, '0')");
+		$db->sql_query("INSERT INTO ".$prefix."_bbuser_group (group_id, user_id, user_pending) VALUES ('$initialusergroup', $uid, '0')");
 		add_group_attributes($uid, $initialusergroup);
 	endif;
 }
@@ -133,20 +133,20 @@ function change_post_msg($message,$ya_username)
 
 function send_pm($new_uid,$ya_username)
 {
-	global $pnt_db, $pnt_prefix, $pnt_user_prefix, $phpbb2_board_config;
+	global $db, $prefix, $user_prefix, $board_config;
 
-	if($phpbb2_board_config['welcome_pm'] != '1') 
+	if($board_config['welcome_pm'] != '1') 
 	return; 
 
 	$privmsgs_date = time();
 
-	$sql = "SELECT * FROM ".$pnt_prefix."_welcome_pm";
+	$sql = "SELECT * FROM ".$prefix."_welcome_pm";
 
-	if(!($result = $pnt_db->sql_query($sql)))
+	if(!($result = $db->sql_query($sql)))
     echo "Could not obtain private message";
 	
-	$row = $pnt_db->sql_fetchrow($result);
-	$pnt_db->sql_freeresult($result);
+	$row = $db->sql_fetchrow($result);
+	$db->sql_freeresult($result);
 	$message = $row['msg'];
 	$subject = $row['subject'];
 	
@@ -158,32 +158,32 @@ function send_pm($new_uid,$ya_username)
 	$bbcode_uid = make_bbcode_uid();
 	$privmsg_message = prepare_message($message, 1, 1, 1, $bbcode_uid);
 	
-	$sql = "INSERT INTO ".$pnt_prefix."_bbprivmsgs (privmsgs_type, 
+	$sql = "INSERT INTO ".$prefix."_bbprivmsgs (privmsgs_type, 
 	                                         privmsgs_subject, 
 										 privmsgs_from_userid, 
 										   privmsgs_to_userid, 
 										        privmsgs_date ) 
 			VALUES ('1', '".$subject."', '2', '".$new_uid."', ".$privmsgs_date.")";
 	
-	if(!$pnt_db->sql_query($sql))
+	if(!$db->sql_query($sql))
 	echo "Could not insert private message sent info";
 
-	$privmsg_sent_id = $pnt_db->sql_nextid();
+	$privmsg_sent_id = $db->sql_nextid();
 	$privmsg_message = addslashes($privmsg_message);
 
-	$sql = "INSERT INTO ".$pnt_prefix."_bbprivmsgs_text (privmsgs_text_id, 
+	$sql = "INSERT INTO ".$prefix."_bbprivmsgs_text (privmsgs_text_id, 
 	                                              privmsgs_bbcode_uid, 
 												        privmsgs_text) 
 			VALUES ('".$privmsg_sent_id."', '".$bbcode_uid."', '".$privmsg_message."')";
 			
-	if(!$pnt_db->sql_query($sql))
+	if(!$db->sql_query($sql))
     echo "Could not insert private message sent text";
 
-	$sql = "UPDATE ".$pnt_user_prefix."_users
+	$sql = "UPDATE ".$user_prefix."_users
 			SET user_new_privmsg = user_new_privmsg + 1,  user_last_privmsg = '".time()."'
 			WHERE user_id = $new_uid";
 	
-	if(!($result = $pnt_db->sql_query($sql)))
+	if(!($result = $db->sql_query($sql)))
     echo "Could not update users table";
 
 }
@@ -193,7 +193,7 @@ $coppa = ( empty($HTTP_POST_VARS['coppa']) && empty($HTTP_GET_VARS['coppa']) ) ?
 
 # Check and initialize some variables if needed
 # Mod: Custom mass PM v1.4.7 START
-include($phpbb2_root_path . 'language/lang_'.$phpbb2_board_config['default_lang'].'/lang_mass_pm.'.$phpEx);
+include($phpbb_root_path . 'language/lang_'.$board_config['default_lang'].'/lang_mass_pm.'.$phpEx);
 # Mod: Custom mass PM v1.4.7 END
 if(
 isset($HTTP_POST_VARS['submit']) ||
@@ -207,7 +207,7 @@ $mode == 'register' ):
 	include("includes/functions_post.php");
 
 	if ($mode == 'editprofile'):
-		$pnt_user_id = intval($HTTP_POST_VARS['user_id']);
+		$user_id = intval($HTTP_POST_VARS['user_id']);
 		$current_email = trim(htmlspecialchars($HTTP_POST_VARS['current_email']));
 	endif;
 
@@ -235,7 +235,7 @@ $mode == 'register' ):
 	  $$var = trim(htmlspecialchars($HTTP_POST_VARS[$param]));
 	endwhile;
 
-	$pnt_username = (!empty($HTTP_POST_VARS['username'])) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
+	$username = (!empty($HTTP_POST_VARS['username'])) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
 	$trim_var_list = array('cur_password' => 'cur_password', 
 	                       'new_password' => 'new_password', 
 					   'password_confirm' => 'password_confirm', 
@@ -293,10 +293,10 @@ $mode == 'register' ):
 	$sid = (isset($HTTP_POST_VARS['sid'])) ? $HTTP_POST_VARS['sid'] : 0;
 
 	if($mode == 'register'):
-		$attachsig = (isset($HTTP_POST_VARS['attachsig'])) ? ((intval($HTTP_POST_VARS['attachsig'])) ? TRUE : 0) : $phpbb2_board_config['allow_sig'];
-		$allowhtml = (isset($HTTP_POST_VARS['allowhtml'])) ? ((intval($HTTP_POST_VARS['allowhtml'])) ? TRUE : 0) : $phpbb2_board_config['allow_html'];
-		$allowbbcode = (isset($HTTP_POST_VARS['allowbbcode'])) ? ((intval($HTTP_POST_VARS['allowbbcode'])) ? TRUE : 0) : $phpbb2_board_config['allow_bbcode'];
-		$allowsmilies = (isset($HTTP_POST_VARS['allowsmilies'])) ? ((intval($HTTP_POST_VARS['allowsmilies'])) ? TRUE : 0) : $phpbb2_board_config['allow_smilies'];
+		$attachsig = (isset($HTTP_POST_VARS['attachsig'])) ? ((intval($HTTP_POST_VARS['attachsig'])) ? TRUE : 0) : $board_config['allow_sig'];
+		$allowhtml = (isset($HTTP_POST_VARS['allowhtml'])) ? ((intval($HTTP_POST_VARS['allowhtml'])) ? TRUE : 0) : $board_config['allow_html'];
+		$allowbbcode = (isset($HTTP_POST_VARS['allowbbcode'])) ? ((intval($HTTP_POST_VARS['allowbbcode'])) ? TRUE : 0) : $board_config['allow_bbcode'];
+		$allowsmilies = (isset($HTTP_POST_VARS['allowsmilies'])) ? ((intval($HTTP_POST_VARS['allowsmilies'])) ? TRUE : 0) : $board_config['allow_smilies'];
         
 		# Mod: View/Disable Avatars/Signatures v1.1.2 START
 		$showavatars = (isset($HTTP_POST_VARS['showavatars'])) ? (($HTTP_POST_VARS['showavatars']) ? TRUE : 0) : TRUE;
@@ -305,7 +305,7 @@ $mode == 'register' ):
 
         # Mod: YA Merge v1.0.0 START
 		if ($verification !== null):
-			$pnt_username = $verification['username'];
+			$username = $verification['username'];
 			$rname = $verification['realname'];
 			$email = $verification['user_email'];
 			$new_password = $verification['user_password'];
@@ -325,7 +325,7 @@ $mode == 'register' ):
 	endif;
 
     # Mod: Force Word Wrapping - Configurator v1.0.16 START
-	$pnt_user_wordwrap = (isset($HTTP_POST_VARS['user_wordwrap'])) ? intval($HTTP_POST_VARS['user_wordwrap']) : $phpbb2_board_config['wrap_def'];
+	$user_wordwrap = (isset($HTTP_POST_VARS['user_wordwrap'])) ? intval($HTTP_POST_VARS['user_wordwrap']) : $board_config['wrap_def'];
     # Mod: Force Word Wrapping - Configurator v1.0.16 END
 
     # Mod: Birthdays v3.0.0 START
@@ -333,27 +333,27 @@ $mode == 'register' ):
 	$birthday_greeting = (isset($HTTP_POST_VARS['birthday_greeting'])) ? intval($HTTP_POST_VARS['birthday_greeting']) : 0;
     # Mod: Birthdays v3.0.0 END
 
-	$pnt_user_style = (isset($HTTP_POST_VARS['style'])) ? $HTTP_POST_VARS['style'] : '';
+	$user_style = (isset($HTTP_POST_VARS['style'])) ? $HTTP_POST_VARS['style'] : '';
 
 	if(!empty($HTTP_POST_VARS['language'])):
 		if(preg_match('/^[a-z_]+$/i',$HTTP_POST_VARS['language'])):
-		$pnt_user_lang = htmlspecialchars($HTTP_POST_VARS['language']);
+		$user_lang = htmlspecialchars($HTTP_POST_VARS['language']);
 		else:
 		$error = true;
 		$error_msg = $lang['Fields_empty'];
 		endif;
 	else:
-		$pnt_user_lang = $phpbb2_board_config['default_lang'];
+		$user_lang = $board_config['default_lang'];
 	endif;
 
-	$pnt_user_timezone = (isset($HTTP_POST_VARS['timezone'])) ? doubleval($HTTP_POST_VARS['timezone']) : $phpbb2_board_config['board_timezone'];
+	$user_timezone = (isset($HTTP_POST_VARS['timezone'])) ? doubleval($HTTP_POST_VARS['timezone']) : $board_config['board_timezone'];
     
 	# Mod: Member Country Flags v2.0.7 START
-	$pnt_user_flag = (!empty($HTTP_POST_VARS['user_flag'])) ? $HTTP_POST_VARS['user_flag'] : '';
+	$user_flag = (!empty($HTTP_POST_VARS['user_flag'])) ? $HTTP_POST_VARS['user_flag'] : '';
 	# Mod: Member Country Flags v2.0.7 END
 
     # Mod: Advanced Time Management v2.2.0 START
-	$time_mode = (isset($HTTP_POST_VARS['time_mode'])) ? intval($HTTP_POST_VARS['time_mode']) : $phpbb2_board_config['default_time_mode'];
+	$time_mode = (isset($HTTP_POST_VARS['time_mode'])) ? intval($HTTP_POST_VARS['time_mode']) : $board_config['default_time_mode'];
 
 	if(preg_match("/[^0-9]/i",$HTTP_POST_VARS['dst_time_lag']) || $dst_time_lag<0 || $dst_time_lag>120):
 	
@@ -362,16 +362,16 @@ $mode == 'register' ):
 	
 	else:
 	
-		$dst_time_lag = (isset($HTTP_POST_VARS['dst_time_lag'])) ? intval($HTTP_POST_VARS['dst_time_lag']) : $phpbb2_board_config['default_dst_time_lag'];
+		$dst_time_lag = (isset($HTTP_POST_VARS['dst_time_lag'])) ? intval($HTTP_POST_VARS['dst_time_lag']) : $board_config['default_dst_time_lag'];
 	endif;
     # Mod: Advanced Time Management v2.2.0 END
 
-	$pnt_user_dateformat = (!empty($HTTP_POST_VARS['dateformat'])) ? trim(htmlspecialchars($HTTP_POST_VARS['dateformat'])) : $phpbb2_board_config['default_dateformat'];
+	$user_dateformat = (!empty($HTTP_POST_VARS['dateformat'])) ? trim(htmlspecialchars($HTTP_POST_VARS['dateformat'])) : $board_config['default_dateformat'];
 
     # Mod: Super Quick Reply v1.3.2 START
-	$pnt_user_show_quickreply = (isset($HTTP_POST_VARS['show_quickreply'])) ? intval($HTTP_POST_VARS['show_quickreply']) : 1;
-	$pnt_user_quickreply_mode = (isset($HTTP_POST_VARS['quickreply_mode'])) ? (( $HTTP_POST_VARS['quickreply_mode']) ? TRUE : 0) : TRUE;
-	$pnt_user_open_quickreply = (isset($HTTP_POST_VARS['open_quickreply'])) ? (( $HTTP_POST_VARS['open_quickreply']) ? TRUE : 0) : TRUE;
+	$user_show_quickreply = (isset($HTTP_POST_VARS['show_quickreply'])) ? intval($HTTP_POST_VARS['show_quickreply']) : 1;
+	$user_quickreply_mode = (isset($HTTP_POST_VARS['quickreply_mode'])) ? (( $HTTP_POST_VARS['quickreply_mode']) ? TRUE : 0) : TRUE;
+	$user_open_quickreply = (isset($HTTP_POST_VARS['open_quickreply'])) ? (( $HTTP_POST_VARS['open_quickreply']) ? TRUE : 0) : TRUE;
     # Mod: Super Quick Reply v1.3.2 END
 
     $sceditor = (isset($HTTP_POST_VARS['sceditor_in_source'])) ? intval($HTTP_POST_VARS['sceditor_in_source']) : 1;
@@ -384,27 +384,27 @@ $mode == 'register' ):
 	$newsletter = (isset($HTTP_POST_VARS['newsletter'])) ? intval($HTTP_POST_VARS['newsletter']) : 0;
     # Mod: YA Merge v1.0.0 END
 
-	$pnt_user_avatar_local = (isset($HTTP_POST_VARS['avatarselect']) 
+	$user_avatar_local = (isset($HTTP_POST_VARS['avatarselect']) 
 	&& !empty($HTTP_POST_VARS['submitavatar']) 
-	&& $phpbb2_board_config['allow_avatar_local']) 
+	&& $board_config['allow_avatar_local']) 
 	? htmlspecialchars($HTTP_POST_VARS['avatarselect']) : ((isset($HTTP_POST_VARS['avatarlocal'])) ? htmlspecialchars($HTTP_POST_VARS['avatarlocal']) : '');
 	
-	$pnt_user_avatar_category = (isset($HTTP_POST_VARS['avatarcatname']) && $phpbb2_board_config['allow_avatar_local']) ? htmlspecialchars($HTTP_POST_VARS['avatarcatname']) : '';
+	$user_avatar_category = (isset($HTTP_POST_VARS['avatarcatname']) && $board_config['allow_avatar_local']) ? htmlspecialchars($HTTP_POST_VARS['avatarcatname']) : '';
 
-	$pnt_user_avatar_remoteurl = (!empty($HTTP_POST_VARS['avatarremoteurl']) ) ? trim(htmlspecialchars($HTTP_POST_VARS['avatarremoteurl'])) : '';
+	$user_avatar_remoteurl = (!empty($HTTP_POST_VARS['avatarremoteurl']) ) ? trim(htmlspecialchars($HTTP_POST_VARS['avatarremoteurl'])) : '';
 
-	$pnt_user_avatar_upload = (!empty($HTTP_POST_VARS['avatarurl'])) 
+	$user_avatar_upload = (!empty($HTTP_POST_VARS['avatarurl'])) 
 	? trim($HTTP_POST_VARS['avatarurl']) : (($HTTP_POST_FILES['avatar']['tmp_name'] != "none") ? $HTTP_POST_FILES['avatar']['tmp_name'] : '');
 
-	$pnt_user_avatar_name = (!empty($HTTP_POST_FILES['avatar']['name'])) ? $HTTP_POST_FILES['avatar']['name'] : '';
-	$pnt_user_avatar_size = (!empty($HTTP_POST_FILES['avatar']['size'])) ? $HTTP_POST_FILES['avatar']['size'] : 0;
-	$pnt_user_avatar_filetype = (!empty($HTTP_POST_FILES['avatar']['type'])) ? $HTTP_POST_FILES['avatar']['type'] : '';
+	$user_avatar_name = (!empty($HTTP_POST_FILES['avatar']['name'])) ? $HTTP_POST_FILES['avatar']['name'] : '';
+	$user_avatar_size = (!empty($HTTP_POST_FILES['avatar']['size'])) ? $HTTP_POST_FILES['avatar']['size'] : 0;
+	$user_avatar_filetype = (!empty($HTTP_POST_FILES['avatar']['type'])) ? $HTTP_POST_FILES['avatar']['type'] : '';
 
-	$pnt_user_avatar = (empty($pnt_user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar'] : 'blank.gif';
-	$pnt_user_avatar_type = (empty($pnt_user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar_type'] : '0';
+	$user_avatar = (empty($user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar'] : 'blank.gif';
+	$user_avatar_type = (empty($user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar_type'] : '0';
 
 	if((isset($HTTP_POST_VARS['avatargallery']) || isset($HTTP_POST_VARS['submitavatar']) || isset($HTTP_POST_VARS['cancelavatar'])) && (!isset($HTTP_POST_VARS['submit']))):
-		$pnt_username = stripslashes($pnt_username);
+		$username = stripslashes($username);
 		$email = stripslashes($email);
 		$cur_password = htmlspecialchars(stripslashes($cur_password));
 		$new_password = htmlspecialchars(stripslashes($new_password));
@@ -421,8 +421,8 @@ $mode == 'register' ):
 
 		$signature = htmlspecialchars(stripslashes($signature));
 		$sceditor = stripslashes($sceditor);
-		$pnt_user_lang = stripslashes($pnt_user_lang);
-		$pnt_user_dateformat = stripslashes($pnt_user_dateformat);
+		$user_lang = stripslashes($user_lang);
+		$user_dateformat = stripslashes($user_dateformat);
 
         # Mod: XData v1.0.3 START
 		@reset($xdata);
@@ -432,8 +432,8 @@ $mode == 'register' ):
         # Mod: XData v1.0.3 END
 
 		if(!isset($HTTP_POST_VARS['cancelavatar'])):
-			$pnt_user_avatar = $pnt_user_avatar_category . '/' . $pnt_user_avatar_local;
-			$pnt_user_avatar_type = USER_AVATAR_GALLERY;
+			$user_avatar = $user_avatar_category . '/' . $user_avatar_local;
+			$user_avatar_type = USER_AVATAR_GALLERY;
 		endif;
 	endif;
 endif;
@@ -442,7 +442,7 @@ endif;
 # Let's make sure the user isn't logged in while registering,
 # and ensure that they were trying to register a second time
 # (Prevents double registrations)
-if($verification !== null && ($userdata['session_logged_in'] || $pnt_username === $userdata['username'])) 
+if($verification !== null && ($userdata['session_logged_in'] || $username === $userdata['username'])) 
 message_die(GENERAL_MESSAGE, $lang['Username_taken'], '', __LINE__, __FILE__);
 
 # Did the user submit? In this case build a query to update the users profile in the DB
@@ -452,19 +452,19 @@ if(isset($HTTP_POST_VARS['submit'])):
 	$passwd_sql = '';
 	
 	if($mode == 'editprofile'):
-		if($pnt_user_id != $userdata['user_id']):
+		if($user_id != $userdata['user_id']):
 			$error = TRUE;
 			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Wrong_Profile'];
 		endif;
 	elseif($mode == 'register'):
-		if(empty($pnt_username) || empty($new_password) || empty($password_confirm) || empty($email)):
+		if(empty($username) || empty($new_password) || empty($password_confirm) || empty($email)):
 		
 			$error = TRUE;
 			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Fields_empty'];
 		endif;
 	endif;
 
-	if($phpbb2_board_config['enable_confirm'] && $mode == 'register'):
+	if($board_config['enable_confirm'] && $mode == 'register'):
 	
 		if(empty($HTTP_POST_VARS['confirm_id'])):
 		
@@ -483,10 +483,10 @@ if(isset($HTTP_POST_VARS['submit'])):
 			WHERE confirm_id = '$confirm_id'
 			AND session_id = '" . $userdata['session_id'] . "'";
 			
-			if(!($result = $pnt_db->sql_query($sql)))
+			if(!($result = $db->sql_query($sql)))
 			message_die(GENERAL_ERROR, 'Could not obtain confirmation code', '', __LINE__, __FILE__, $sql);
 
-			if($row = $pnt_db->sql_fetchrow($result)):
+			if($row = $db->sql_fetchrow($result)):
 				if($row['code'] != $confirm_code):
 					$error = TRUE;
 					$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Confirm_code_wrong'];
@@ -494,14 +494,14 @@ if(isset($HTTP_POST_VARS['submit'])):
 					$sql = 'DELETE FROM ' . CONFIRM_TABLE . "
 						WHERE confirm_id = '$confirm_id'
 						AND session_id = '" . $userdata['session_id'] . "'";
-					if (!$pnt_db->sql_query($sql))
+					if (!$db->sql_query($sql))
 						message_die(GENERAL_ERROR, 'Could not delete confirmation code', '', __LINE__, __FILE__, $sql);
 				endif;
 			else:
 				$error = TRUE;
 				$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Confirm_code_wrong'];
 			endif;
-			$pnt_db->sql_freeresult($result);
+			$db->sql_freeresult($result);
 		endif;
 	endif;
 
@@ -524,13 +524,13 @@ if(isset($HTTP_POST_VARS['submit'])):
 			
 				$sql = "SELECT user_password
 				FROM " . USERS_TABLE . "
-				WHERE user_id = '$pnt_user_id'";
+				WHERE user_id = '$user_id'";
 				
-				if(!($result = $pnt_db->sql_query($sql)))
+				if(!($result = $db->sql_query($sql)))
 				message_die(GENERAL_ERROR, 'Could not obtain user_password information', '', __LINE__, __FILE__, $sql);
 
-				$row = $pnt_db->sql_fetchrow($result);
-				$pnt_db->sql_freeresult($result);
+				$row = $db->sql_fetchrow($result);
+				$db->sql_freeresult($result);
                 
 				# Base: Evolution Functions v1.5.0 START
 				if($row['user_password'] != md5($cur_password)):
@@ -566,13 +566,13 @@ if(isset($HTTP_POST_VARS['submit'])):
 		if($mode == 'editprofile'):
 			$sql = "SELECT user_password
 			FROM " . USERS_TABLE . "
-			WHERE user_id = '$pnt_user_id'";
+			WHERE user_id = '$user_id'";
 			
-			if(!($result = $pnt_db->sql_query($sql)))
+			if(!($result = $db->sql_query($sql)))
 			message_die(GENERAL_ERROR, 'Could not obtain user_password information', '', __LINE__, __FILE__, $sql);
 
-			$row = $pnt_db->sql_fetchrow($result);
-			$pnt_db->sql_freeresult($result);
+			$row = $db->sql_fetchrow($result);
+			$db->sql_freeresult($result);
             
 			# Base: Evolution Functions v1.5.0 START
 			if($row['user_password'] != md5($cur_password)):
@@ -584,14 +584,14 @@ if(isset($HTTP_POST_VARS['submit'])):
 		endif;
 	endif;
 
-	$pnt_username_sql = '';
-	if($phpbb2_board_config['allow_namechange'] || $mode == 'register'):
-		if(empty($pnt_username)):
+	$username_sql = '';
+	if($board_config['allow_namechange'] || $mode == 'register'):
+		if(empty($username)):
 			# Error is already triggered, since one field is empty.
 			$error = TRUE;
-		elseif($pnt_username != $userdata['username'] || $mode == 'register'):
-			if(strtolower($pnt_username) != strtolower($userdata['username']) || $mode == 'register'):
-				$result = validate_username($pnt_username);
+		elseif($username != $userdata['username'] || $mode == 'register'):
+			if(strtolower($username) != strtolower($userdata['username']) || $mode == 'register'):
+				$result = validate_username($username);
 				if($result['error']):
 				
 					$error = TRUE;
@@ -600,63 +600,63 @@ if(isset($HTTP_POST_VARS['submit'])):
 			endif;
 
 			if(!$error)
-			$pnt_username_sql = "username = '" . str_replace("\'", "''", $pnt_username) . "', ";
+			$username_sql = "username = '" . str_replace("\'", "''", $username) . "', ";
 		endif;
 	endif;
 
     # Mod: Birthdays v3.0.0 START
-	$bday_locked = $phpbb2_board_config['bday_lock'] && $userdata['user_birthday'] != 0;
+	$bday_locked = $board_config['bday_lock'] && $userdata['user_birthday'] != 0;
 
 	if(!$bday_locked):
 		$empty_month = empty($bday_month) || $bday_month == $lang['Default_Month'];
 		$empty_day = empty($bday_day) || $bday_day == $lang['Default_Day'];
-		$empty_year = empty($phpbb2_bday_year) || $phpbb2_bday_year == $lang['Default_Year'];
+		$empty_year = empty($bday_year) || $bday_year == $lang['Default_Year'];
 	else:
 		$empty_month = false;
 		$empty_day = false;
 		$empty_year = false;
 		# we set the following to 1 since otherwise we'd be assigning undefined variables to $temp_*
-		$bday_month = $bday_day = $phpbb2_bday_year = 1;
+		$bday_month = $bday_day = $bday_year = 1;
 	endif;
 
 	$temp_month = $empty_month ? 1 : $bday_month;
 	$temp_day = $empty_day ? 1 : $bday_day;
-	$temp_year = $empty_year ? 4 : $phpbb2_bday_year;
+	$temp_year = $empty_year ? 4 : $bday_year;
 
 	switch(true):
-		case $phpbb2_board_config['bday_require'] && $phpbb2_board_config['bday_year'] && ($empty_month || $empty_day || $empty_year):
-		case $phpbb2_board_config['bday_require'] && !$phpbb2_board_config['bday_year'] && ($empty_month || $empty_day):
-		case !$phpbb2_board_config['bday_require'] && $phpbb2_board_config['bday_year'] && (($empty_month != $empty_day) || ($empty_day != $empty_year)):
-		case !$phpbb2_board_config['bday_require'] && !$phpbb2_board_config['bday_year'] && (($empty_month != $empty_day) || ($empty_day && !$empty_year)):
+		case $board_config['bday_require'] && $board_config['bday_year'] && ($empty_month || $empty_day || $empty_year):
+		case $board_config['bday_require'] && !$board_config['bday_year'] && ($empty_month || $empty_day):
+		case !$board_config['bday_require'] && $board_config['bday_year'] && (($empty_month != $empty_day) || ($empty_day != $empty_year)):
+		case !$board_config['bday_require'] && !$board_config['bday_year'] && (($empty_month != $empty_day) || ($empty_day && !$empty_year)):
 		case !@checkdate( $temp_month, $temp_day, $temp_year ):
 			$error = TRUE;
 			$error_msg .= ((!empty($error_msg)) ? '<br />' : '' ).$lang['Birthday_invalid'];
 			break;
 		case !$empty_month && !$empty_day && !$empty_year && !$bday_locked:
-			$phpbb2_age = gmdate('Y') - $phpbb2_bday_year - ( sprintf('%02d%02d',$bday_month,$bday_day) > gmdate('md',time()) );
-			if($phpbb2_board_config['bday_min'] > $phpbb2_age || $phpbb2_age > $phpbb2_board_config['bday_max']):
+			$age = gmdate('Y') - $bday_year - ( sprintf('%02d%02d',$bday_month,$bday_day) > gmdate('md',time()) );
+			if($board_config['bday_min'] > $age || $age > $board_config['bday_max']):
 				$error = TRUE;
-				$error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . sprintf($lang['Birthday_range'],$phpbb2_board_config['bday_min'],$phpbb2_board_config['bday_max']);
+				$error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . sprintf($lang['Birthday_range'],$board_config['bday_min'],$board_config['bday_max']);
 			endif;
 	endswitch;
 
-	$pnt_user_birthday = sprintf('%02d%02d%04d',$bday_month,$bday_day,$phpbb2_bday_year);
-	$pnt_user_birthday2 = ($birthday_display 
+	$user_birthday = sprintf('%02d%02d%04d',$bday_month,$bday_day,$bday_year);
+	$user_birthday2 = ($birthday_display 
 	                   != BIRTHDAY_DATE 
 	                   && $birthday_display 
 	                   != BIRTHDAY_NONE 
 					   && !$empty_month 
 					   && !$empty_day 
-					   && !$empty_year) ? sprintf('%04d%02d%02d',$phpbb2_bday_year,$bday_month,$bday_day) : 'NULL';
+					   && !$empty_year) ? sprintf('%04d%02d%02d',$bday_year,$bday_month,$bday_day) : 'NULL';
 
 	$birthday_greeting = ( isset($HTTP_POST_VARS['bday_greeting']) ) ? intval($HTTP_POST_VARS['bday_greeting']) : 0;
 	
-	if($birthday_greeting && !($phpbb2_board_config['bday_greeting'] & 1<<($birthday_greeting-1)))
+	if($birthday_greeting && !($board_config['bday_greeting'] & 1<<($birthday_greeting-1)))
 	$birthday_greeting = 0;
     # Mod: Birthdays v3.0.0 END
 
 	if($signature != ''):
-		if(strlen($signature) > $phpbb2_board_config['max_sig_chars']):
+		if(strlen($signature) > $board_config['max_sig_chars']):
 			$error = TRUE;
 			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ).$lang['Signature_too_long'];
 		endif;
@@ -675,7 +675,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 			if($meta['handle_input'] 
 			&& (($mode == 'register' 
 			&& $meta['default_auth'] == XD_AUTH_ALLOW) 
-			|| ($mode != 'register' ? xdata_auth($code_name, $pnt_user_id) : 0) || $userdata['user_level'] == ADMIN )):
+			|| ($mode != 'register' ? xdata_auth($code_name, $user_id) : 0) || $userdata['user_level'] == ADMIN )):
 			
 				if(($meta['field_length'] > 0) && (strlen($xdata[$code_name]) > $meta['field_length'])):
 					$error = TRUE;
@@ -702,7 +702,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 						$xdata_bbcode_uid = ( $allowbbcode ) ? make_bbcode_uid() : '';
 						
 						if ($allowbbcode && !empty($xdata_bbcode_uid)): 
-						$pnt_db->sql_query('UPDATE `'.USERS_TABLE.'` SET xdata_bbcode="'.$xdata_bbcode_uid.'" WHERE `user_id` ='.$userdata['user_id']);
+						$db->sql_query('UPDATE `'.USERS_TABLE.'` SET xdata_bbcode="'.$xdata_bbcode_uid.'" WHERE `user_id` ='.$userdata['user_id']);
 						endif;
 				    else: 
 					    $xdata_bbcode_uid = $userdata['xdata_bbcode'];
@@ -715,7 +715,7 @@ if(isset($HTTP_POST_VARS['submit'])):
        # Mod: XData v1.0.3 END
 
     # Mod: Force Word Wrapping - Configurator v1.0.16 START
-	if ( $pnt_user_wordwrap < $phpbb2_board_config['wrap_min'] || $pnt_user_wordwrap > $phpbb2_board_config['wrap_max'] )
+	if ( $user_wordwrap < $board_config['wrap_min'] || $user_wordwrap > $board_config['wrap_max'] )
 	{
 		$error = TRUE;
 		$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Word_Wrap_Error'];
@@ -730,36 +730,36 @@ if(isset($HTTP_POST_VARS['submit'])):
 	{
 		$avatar_sql = user_avatar_delete($userdata['user_avatar_type'], $userdata['user_avatar']);
 	}
-	elseif((!empty($pnt_user_avatar_upload) || !empty($pnt_user_avatar_name) ) && $phpbb2_board_config['allow_avatar_upload'])
+	elseif((!empty($user_avatar_upload) || !empty($user_avatar_name) ) && $board_config['allow_avatar_upload'])
 	{
-		if(!empty($pnt_user_avatar_upload)):
-			$avatar_mode = (empty($pnt_user_avatar_name)) ? 'remote' : 'local';
+		if(!empty($user_avatar_upload)):
+			$avatar_mode = (empty($user_avatar_name)) ? 'remote' : 'local';
 			$avatar_sql = user_avatar_upload($mode, 
 			                          $avatar_mode, 
 						  $userdata['user_avatar'], 
 					 $userdata['user_avatar_type'], 
 									        $error, 
 										$error_msg, 
-							   $pnt_user_avatar_upload, 
-							     $pnt_user_avatar_name, 
-								 $pnt_user_avatar_size, 
-							 $pnt_user_avatar_filetype);
+							   $user_avatar_upload, 
+							     $user_avatar_name, 
+								 $user_avatar_size, 
+							 $user_avatar_filetype);
 		
-		elseif(!empty($pnt_user_avatar_name)):
-			$l_avatar_size = sprintf($lang['Avatar_filesize'], round($phpbb2_board_config['avatar_filesize'] / 1024));
+		elseif(!empty($user_avatar_name)):
+			$l_avatar_size = sprintf($lang['Avatar_filesize'], round($board_config['avatar_filesize'] / 1024));
 			$error = true;
 			$error_msg .= ( ( !empty($error_msg) ) ? '<br />' : '' ) . $l_avatar_size;
 		endif;
 	}
-	elseif($pnt_user_avatar_remoteurl != '' && $phpbb2_board_config['allow_avatar_remote'])
+	elseif($user_avatar_remoteurl != '' && $board_config['allow_avatar_remote'])
 	{
 		user_avatar_delete($userdata['user_avatar_type'], $userdata['user_avatar']);
-		$avatar_sql = user_avatar_url($mode, $error, $error_msg, $pnt_user_avatar_remoteurl);
+		$avatar_sql = user_avatar_url($mode, $error, $error_msg, $user_avatar_remoteurl);
 	}
-	elseif($pnt_user_avatar_local != '' && $phpbb2_board_config['allow_avatar_local'])
+	elseif($user_avatar_local != '' && $board_config['allow_avatar_local'])
 	{
 		user_avatar_delete($userdata['user_avatar_type'], $userdata['user_avatar']);
-		$avatar_sql = user_avatar_gallery($mode, $error, $error_msg, $pnt_user_avatar_local, $pnt_user_avatar_category);
+		$avatar_sql = user_avatar_gallery($mode, $error, $error_msg, $user_avatar_local, $user_avatar_category);
 	}
 	
 	if(!$error)
@@ -769,25 +769,25 @@ if(isset($HTTP_POST_VARS['submit'])):
 
 		if($mode == 'editprofile')
 		{
-			if($email != $userdata['user_email'] && $phpbb2_board_config['require_activation'] != USER_ACTIVATION_NONE && $userdata['user_level'] != ADMIN):
-				$pnt_user_active = 0;
-				$pnt_user_actkey = gen_rand_string(true);
+			if($email != $userdata['user_email'] && $board_config['require_activation'] != USER_ACTIVATION_NONE && $userdata['user_level'] != ADMIN):
+				$user_active = 0;
+				$user_actkey = gen_rand_string(true);
 				$key_len = 54 - ( strlen($server_url) );
 				$key_len = ( $key_len > 6 ) ? $key_len : 6;
-				$pnt_user_actkey = substr($pnt_user_actkey, 0, $key_len);
+				$user_actkey = substr($user_actkey, 0, $key_len);
 
 				if($userdata['session_logged_in']):
-				titanium_session_end($userdata['sid'], $userdata['user_id']);
+				session_end($userdata['sid'], $userdata['user_id']);
 				endif;
 			else:
-				$pnt_user_active = 1;
-				$pnt_user_actkey = '';
+				$user_active = 1;
+				$user_actkey = '';
 			endif;
 
             # Mod: Birthdays v3.0.0 START
 			$birthday_sql = '';
-			if(!$phpbb2_board_config['bday_lock'] || $userdata['user_birthday'] == 0)
-			$birthday_sql = "user_birthday = $pnt_user_birthday, user_birthday2 = $pnt_user_birthday2, ";
+			if(!$board_config['bday_lock'] || $userdata['user_birthday'] == 0)
+			$birthday_sql = "user_birthday = $user_birthday, user_birthday2 = $user_birthday2, ";
 			# Mod: Birthdays v3.0.0 END
 
             # Mod: Force Word Wrapping - Configurator v1.0.16 START
@@ -802,22 +802,22 @@ if(isset($HTTP_POST_VARS['submit'])):
             # Mod: Gender v1.2.6 START
             # Mod: Birthdays v3.0.0 START
 			$sql = "UPDATE ".USERS_TABLE."
-			SET ".$pnt_username_sql.$passwd_sql." user_email = '".str_replace("\'", "''", $email)."', ".$birthday_sql
+			SET ".$username_sql.$passwd_sql." user_email = '".str_replace("\'", "''", $email)."', ".$birthday_sql
 			."birthday_display = $birthday_display, birthday_greeting = $birthday_greeting, user_facebook = '"
 			.str_replace("\'", "''", str_replace(' ', '+', $facebook))."', user_website = '".str_replace("\'", "''", $website)
 			."', user_occ = '".str_replace("\'", "''", $occupation)."', user_from = '".str_replace("\'", "''", $location) 
-			."',user_from_flag = '$pnt_user_flag', user_interests = '".str_replace("\'", "''", $interests)."', 
+			."',user_from_flag = '$user_flag', user_interests = '".str_replace("\'", "''", $interests)."', 
 			user_glance_show = '".intval($glance_show)."', user_viewemail = '$viewemail', user_attachsig = $attachsig, user_allowsmile = 
 			'$allowsmilies', user_showavatars = '$showavatars', user_showsignatures = '$showsignatures', user_allowhtml 
 			= '$allowhtml', user_allowbbcode = '$allowbbcode', user_allow_viewonline = '$allowviewonline', user_notify 
 			= '$notifyreply', user_notify_pm = '$notifypm', user_allow_mass_pm = '$allow_mass_pm', user_popup_pm 
-			= '$popup_pm', user_timezone = '$pnt_user_timezone', user_time_mode = $time_mode, user_dst_time_lag = $dst_time_lag, user_dateformat 
-			= '".str_replace("\'", "''",$pnt_user_dateformat)."', user_show_quickreply = '$pnt_user_show_quickreply', sceditor_in_source 
-			= '$sceditor', user_quickreply_mode = '$pnt_user_quickreply_mode', user_wordwrap = '" . str_replace("\'", "''", $pnt_user_wordwrap) 
-			. "', user_open_quickreply = $pnt_user_open_quickreply, user_lang = '".str_replace("\'", "''", $pnt_user_lang)."', theme 
-			= '$pnt_user_style', user_active = '$pnt_user_active', user_actkey = '".str_replace("\'", "''", $pnt_user_actkey)."'".$avatar_sql.", user_gender 
+			= '$popup_pm', user_timezone = '$user_timezone', user_time_mode = $time_mode, user_dst_time_lag = $dst_time_lag, user_dateformat 
+			= '".str_replace("\'", "''",$user_dateformat)."', user_show_quickreply = '$user_show_quickreply', sceditor_in_source 
+			= '$sceditor', user_quickreply_mode = '$user_quickreply_mode', user_wordwrap = '" . str_replace("\'", "''", $user_wordwrap) 
+			. "', user_open_quickreply = $user_open_quickreply, user_lang = '".str_replace("\'", "''", $user_lang)."', theme 
+			= '$user_style', user_active = '$user_active', user_actkey = '".str_replace("\'", "''", $user_actkey)."'".$avatar_sql.", user_gender 
 			= '$gender', name = '".$rname."', newsletter = '".$newsletter."', bio = '".$extra_info."', user_hide_images = '$hide_images'
-			WHERE user_id = '$pnt_user_id'";
+			WHERE user_id = '$user_id'";
             # Mod: Force Word Wrapping - Configurator v1.0.16 END
             # Mod: Super Quick Reply v1.3.2 END
             # Mod: View/Disable Avatars/Signatures v1.1.2 END
@@ -830,105 +830,105 @@ if(isset($HTTP_POST_VARS['submit'])):
             # Mod: Gender v1.2.6 END
             # Mod: Birthdays v3.0.0 END
 
-			if(!($result = $pnt_db->sql_query($sql))):
+			if(!($result = $db->sql_query($sql))):
 				message_die(GENERAL_ERROR, 'Could not update users table', '', __LINE__, __FILE__, $sql);
 			else: 
 				global $userinfo;
-				$userinfo['theme'] = $pnt_user_style;
+				$userinfo['theme'] = $user_style;
 				UpdateCookie();
 			endif;
 
 			# We remove all stored login keys since the password has been updated
 			# and change the current one (if applicable)
 			if(!empty($passwd_sql))
-			titanium_session_reset_keys($pnt_user_id, $pnt_user_ip);
+			session_reset_keys($user_id, $user_ip);
 
             # Mod: XData v1.0.3 START
 			foreach($xdata as $code_name => $value):
-			set_user_xdata($pnt_user_id, $code_name, $value);
+			set_user_xdata($user_id, $code_name, $value);
 			endforeach;
             # Mod: XData v1.0.3 END
 
 			# Commented code below for testing purposes only.
-			if(!$pnt_user_active):
+			if(!$user_active):
 			
 				# The users account has been deactivated, send them an email with a new activation key
 				include("includes/emailer.php");
-				$emailer = new emailer($phpbb2_board_config['smtp_delivery']);
+				$emailer = new emailer($board_config['smtp_delivery']);
 
-				 if($phpbb2_board_config['require_activation'] != USER_ACTIVATION_ADMIN)
+				 if($board_config['require_activation'] != USER_ACTIVATION_ADMIN)
 				 {
-					 $emailer->from($phpbb2_board_config['board_email']);
-					 $emailer->replyto($phpbb2_board_config['board_email']);
+					 $emailer->from($board_config['board_email']);
+					 $emailer->replyto($board_config['board_email']);
 
-					 $emailer->use_template('user_activate', stripslashes($pnt_user_lang));
+					 $emailer->use_template('user_activate', stripslashes($user_lang));
 					 $emailer->email_address($email);
 					 $emailer->set_subject($lang['Reactivate']);
 
 					 $emailer->assign_vars(array(
-						 'SITENAME' => $phpbb2_board_config['sitename'],
-						 'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $pnt_username), 0, 25)),
-						 'EMAIL_SIG' => (!empty($phpbb2_board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']) : '',
+						 'SITENAME' => $board_config['sitename'],
+						 'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $username), 0, 25)),
+						 'EMAIL_SIG' => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '',
 
-						 'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $pnt_user_id . '&act_key=' . $pnt_user_actkey)
+						 'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $user_id . '&act_key=' . $user_actkey)
 					 );
 					 $emailer->send();
 					 $emailer->reset();
 				 }
-				 elseif($phpbb2_board_config['require_activation'] == USER_ACTIVATION_ADMIN)
+				 elseif($board_config['require_activation'] == USER_ACTIVATION_ADMIN)
 				 {
 					 $sql = 'SELECT user_email, user_lang
 						 FROM ' . USERS_TABLE . '
 						 WHERE user_level = ' . ADMIN;
 
-					 if ( !($result = $pnt_db->sql_query($sql)) )
+					 if ( !($result = $db->sql_query($sql)) )
 					 {
 						 message_die(GENERAL_ERROR, 'Could not select Administrators', '', __LINE__, __FILE__, $sql);
 					 }
 
-					 while ($row = $pnt_db->sql_fetchrow($result))
+					 while ($row = $db->sql_fetchrow($result))
 					 {
-						 $emailer->from($phpbb2_board_config['board_email']);
-						 $emailer->replyto($phpbb2_board_config['board_email']);
+						 $emailer->from($board_config['board_email']);
+						 $emailer->replyto($board_config['board_email']);
 
 						 $emailer->email_address(trim($row['user_email']));
 						 $emailer->use_template("admin_activate", $row['user_lang']);
 						 $emailer->set_subject($lang['Reactivate']);
 
 						 $emailer->assign_vars(array(
-							 'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $pnt_username), 0, 25)),
-							 'EMAIL_SIG' => str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']),
+							 'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $username), 0, 25)),
+							 'EMAIL_SIG' => str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']),
 
-							 'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $pnt_user_id . '&act_key=' . $pnt_user_actkey)
+							 'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $user_id . '&act_key=' . $user_actkey)
 						 );
 						 $emailer->send();
 						 $emailer->reset();
 					 }
-					 $pnt_db->sql_freeresult($result);
+					 $db->sql_freeresult($result);
 				 }
 				//evcz mod=>logout
 				global $userinfo;
 				$r_uid = $userinfo['user_id'];
 				$r_username = $userinfo['username'];
 				setcookie("user");
-				$pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_session WHERE uname='$r_username'");
-				$pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_bbsessions WHERE session_user_id='$r_uid'");
-				$pnt_user = "";
+				$db->sql_query("DELETE FROM ".$prefix."_session WHERE uname='$r_username'");
+				$db->sql_query("DELETE FROM ".$prefix."_bbsessions WHERE session_user_id='$r_uid'");
+				$user = "";
 				//fine evcz mod=>logout
 				if (is_active("Forums")) 
-				$message = $lang['Profile_updated_inactive'].'<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
+				$message = $lang['Profile_updated_inactive'].'<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="'.append_sid("index.$phpEx").'">', '</a>');
 				else 
 				$message = $lang['Profile_updated_inactive'].'<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="index.php">', '</a>');
 			
 			else:
 				if(is_active("Forums")): 
-					$message = $lang['Profile_updated'] . '<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="'.append_titanium_sid("index.$phpEx").'">', '</a>');
+					$message = $lang['Profile_updated'] . '<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="'.append_sid("index.$phpEx").'">', '</a>');
 					$message .= '<br /><br />'.sprintf($lang['Click_return_profile'],  '<a href='
-					.append_titanium_sid('profile.php?mode=viewprofile&amp;u='.$userdata['user_id']).'>', '</a>');
+					.append_sid('profile.php?mode=viewprofile&amp;u='.$userdata['user_id']).'>', '</a>');
 				else:
 					$message = $lang['Profile_updated'].'<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="index.php">', '</a>');
 				endif;
-				# redirect_titanium(append_titanium_sid('profile.php?mode=viewprofile&amp;u='.$userdata['user_id']));
+				# redirect(append_sid('profile.php?mode=viewprofile&amp;u='.$userdata['user_id']));
 			endif;
 
 			
@@ -946,14 +946,14 @@ if(isset($HTTP_POST_VARS['submit'])):
 			$sql = "SELECT MAX(user_id) AS total
 			FROM ".USERS_TABLE;
 
-			if(!($result = $pnt_db->sql_query($sql)))
+			if(!($result = $db->sql_query($sql)))
 			message_die(GENERAL_ERROR, 'Could not obtain next user_id information', '', __LINE__, __FILE__, $sql);
 
-			if(!($row = $pnt_db->sql_fetchrow($result)))
+			if(!($row = $db->sql_fetchrow($result)))
 			message_die(GENERAL_ERROR, 'Could not obtain next user_id information', '', __LINE__, __FILE__, $sql);
 
-			$pnt_db->sql_freeresult($result);
-			$pnt_user_id = $row['total'] + 1;
+			$db->sql_freeresult($result);
+			$user_id = $row['total'] + 1;
 
 		    # Get current date
 			$reg_date = date("M d, Y");
@@ -1022,22 +1022,22 @@ if(isset($HTTP_POST_VARS['submit'])):
 												 user_active, 
 												 user_actkey)
 			
-			VALUES ('$pnt_user_id', '".str_replace("\'", "''", $pnt_username)."', '".$reg_date."', 
+			VALUES ('$user_id', '".str_replace("\'", "''", $username)."', '".$reg_date."', 
 			                    '".str_replace("\'", "''", $new_password) . "', 
-								'".str_replace("\'", "''", $email)."', $pnt_user_birthday, 
-								              $pnt_user_birthday2, 
+								'".str_replace("\'", "''", $email)."', $user_birthday, 
+								              $user_birthday2, 
 											$birthday_display, 
 										   $birthday_greeting, 
 								'".str_replace("\'", "''", $website) . "', 
 								'".str_replace("\'", "''", $occupation) . "', 
-								'".str_replace("\'", "''", $location) . "','$pnt_user_flag', 
+								'".str_replace("\'", "''", $location) . "','$user_flag', 
 								'" . str_replace("\'", "''", $interests) . "', 
 								'" . str_replace("\'", "''", $glance_show) . "', 
 								'" . str_replace("\'", "''", $signature) . "', 
 								
 								'$signature_bbcode_uid', 
-								         '$pnt_user_avatar', 
-									'$pnt_user_avatar_type', 
+								         '$user_avatar', 
+									'$user_avatar_type', 
 									       '$viewemail', 
 								
 								'" . str_replace("\'", "''", $facebook)."', 
@@ -1053,17 +1053,17 @@ if(isset($HTTP_POST_VARS['submit'])):
 								     '$notifypm', 
 								'$allow_mass_pm', 
 								     '$popup_pm', 
-								'$pnt_user_timezone', 
+								'$user_timezone', 
 								    '$time_mode', 
 								 '$dst_time_lag', 
 								 
-								 '" . str_replace("\'", "''", $pnt_user_dateformat)."', 
+								 '" . str_replace("\'", "''", $user_dateformat)."', 
 								 
-								 '$pnt_user_show_quickreply', 
-								 '$pnt_user_quickreply_mode', 
+								 '$user_show_quickreply', 
+								 '$user_quickreply_mode', 
 								 
-								 '" . str_replace("\'", "''", $pnt_user_wordwrap)."', $pnt_user_open_quickreply, 
-								 '".str_replace("\'", "''", $pnt_user_lang)."', '$pnt_user_style', '1', '1', 
+								 '" . str_replace("\'", "''", $user_wordwrap)."', $user_open_quickreply, 
+								 '".str_replace("\'", "''", $user_lang)."', '$user_style', '1', '1', 
 								 '".$realname."', 
 								 '".$newsletter."', 
 								 '".$extra_info."', 
@@ -1082,46 +1082,46 @@ if(isset($HTTP_POST_VARS['submit'])):
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-			if ( $phpbb2_board_config['require_activation'] == USER_ACTIVATION_SELF || $phpbb2_board_config['require_activation'] == USER_ACTIVATION_ADMIN || $coppa )
+			if ( $board_config['require_activation'] == USER_ACTIVATION_SELF || $board_config['require_activation'] == USER_ACTIVATION_ADMIN || $coppa )
 			{
-				$pnt_user_actkey = gen_rand_string(true);
+				$user_actkey = gen_rand_string(true);
 				$key_len = 54 - (strlen($server_url));
 				$key_len = ( $key_len > 6 ) ? $key_len : 6;
-				$pnt_user_actkey = substr($pnt_user_actkey, 0, $key_len);
-				$sql .= "0, '" . str_replace("\'", "''", $pnt_user_actkey) . "')";
+				$user_actkey = substr($user_actkey, 0, $key_len);
+				$sql .= "0, '" . str_replace("\'", "''", $user_actkey) . "')";
 			}
 			else
 			{
 				$sql .= "1, '')";
 			}
-			if ( !($result = $pnt_db->sql_query($sql)) )
+			if ( !($result = $db->sql_query($sql)) )
 			{
 				message_die(GENERAL_ERROR, 'Could not insert data into users table', '', __LINE__, __FILE__, $sql);
 			}
 
 			$sql = "INSERT INTO " . GROUPS_TABLE . " (group_name, group_description, group_single_user, group_moderator)
 			VALUES ('', 'Personal User', '1', '0')";
-			if ( !($result = $pnt_db->sql_query($sql)) )
+			if ( !($result = $db->sql_query($sql)) )
 			{
 				message_die(GENERAL_ERROR, 'Could not insert data into groups table', '', __LINE__, __FILE__, $sql);
 			}
 
-			$group_id = $pnt_db->sql_nextid();
+			$group_id = $db->sql_nextid();
 
 			$sql = "INSERT INTO " . USER_GROUP_TABLE . " (user_id, group_id, user_pending)
-				VALUES ('$pnt_user_id', '$group_id', '0')";
-			if( !($result = $pnt_db->sql_query($sql)) )
+				VALUES ('$user_id', '$group_id', '0')";
+			if( !($result = $db->sql_query($sql)) )
 			{
 				message_die(GENERAL_ERROR, 'Could not insert data into user_group table', '', __LINE__, __FILE__, $sql);
 			}
 
 			// Delete the temporary user now if we are going through the verification stage of registration
-			$pnt_db->sql_query(sprintf('DELETE FROM %s_users_temp WHERE username = "%s"', $pnt_user_prefix, $pnt_username));
+			$db->sql_query(sprintf('DELETE FROM %s_users_temp WHERE username = "%s"', $user_prefix, $username));
 
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-			init_group($pnt_user_id);
+			init_group($user_id);
 /*****[END]********************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
@@ -1129,7 +1129,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 /*****[BEGIN]******************************************
  [ Mod:     Welcome PM                         v2.0.0 ]
  ******************************************************/
-			send_pm($pnt_user_id,str_replace("\'", "''", $pnt_username));
+			send_pm($user_id,str_replace("\'", "''", $username));
 /*****[END]********************************************
  [ Mod:     Welcome PM                         v2.0.0 ]
  ******************************************************/
@@ -1139,7 +1139,7 @@ if(isset($HTTP_POST_VARS['submit'])):
  ******************************************************/
 			foreach ($xdata as $code_name => $value)
 			{
-				set_user_xdata($pnt_user_id, $code_name, $value);
+				set_user_xdata($user_id, $code_name, $value);
 			}
 /*****[END]********************************************
  [ Mod:     XData                              v1.0.3 ]
@@ -1150,12 +1150,12 @@ if(isset($HTTP_POST_VARS['submit'])):
 				$message = $lang['COPPA'];
 				$email_template = 'coppa_welcome_inactive';
 			}
-			else if ( $phpbb2_board_config['require_activation'] == USER_ACTIVATION_SELF )
+			else if ( $board_config['require_activation'] == USER_ACTIVATION_SELF )
 			{
 				$message = $lang['Account_inactive'];
 				$email_template = 'user_welcome_inactive';
 			}
-			else if ( $phpbb2_board_config['require_activation'] == USER_ACTIVATION_ADMIN )
+			else if ( $board_config['require_activation'] == USER_ACTIVATION_ADMIN )
 			{
 				$message = $lang['Account_inactive_admin'];
 				$email_template = 'admin_welcome_inactive';
@@ -1166,38 +1166,38 @@ if(isset($HTTP_POST_VARS['submit'])):
 				$email_template = 'user_welcome';
 			}
 
-			if ( $phpbb2_board_config['require_activation'] == USER_ACTIVATION_ADMIN )
+			if ( $board_config['require_activation'] == USER_ACTIVATION_ADMIN )
 			{
 				$sql = "SELECT user_email, user_lang
 				FROM " . USERS_TABLE . "
 				WHERE user_level = " . ADMIN;
 
-				if ( !($result = $pnt_db->sql_query($sql)) )
+				if ( !($result = $db->sql_query($sql)) )
 				{
 					message_die(GENERAL_ERROR, 'Could not select Administrators', '', __LINE__, __FILE__, $sql);
 				}
 
-				while ($row = $pnt_db->sql_fetchrow($result))
+				while ($row = $db->sql_fetchrow($result))
 				{
-					$emailer->from($phpbb2_board_config['board_email']);
-					$emailer->replyto($phpbb2_board_config['board_email']);
+					$emailer->from($board_config['board_email']);
+					$emailer->replyto($board_config['board_email']);
 
 					$emailer->email_address(trim($row['user_email']));
 					$emailer->use_template("admin_activate", $row['user_lang']);
 					$emailer->set_subject($lang['New_account_subject']);
 
 					$emailer->assign_vars(array(
-					'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $pnt_username), 0, 25)),
-					'EMAIL_SIG' => str_replace('<br />', "\n", "-- \n" . $phpbb2_board_config['board_email_sig']),
+					'USERNAME' => preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, substr(str_replace("\'", "'", $username), 0, 25)),
+					'EMAIL_SIG' => str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']),
 
-					'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $pnt_user_id . '&act_key=' . $pnt_user_actkey)
+					'U_ACTIVATE' => $server_url . '&mode=activate&' . POST_USERS_URL . '=' . $user_id . '&act_key=' . $user_actkey)
 					);
 					$emailer->send();
 					$emailer->reset();
 				}
-				$pnt_db->sql_freeresult($result);
+				$db->sql_freeresult($result);
 			}
-			$message = $message . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_titanium_sid("index.$phpEx") . '">', '</a>');
+			$message = $message . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
 			message_die(GENERAL_MESSAGE, $message);
 		} // if mode == register
 	}
@@ -1208,7 +1208,7 @@ if ( $error )
 	//
 	// If an error occured we need to stripslashes on returned data
 	//
-	$pnt_username = stripslashes($pnt_username);
+	$username = stripslashes($username);
 	$email = stripslashes($email);
 	$cur_password = '';
 	$new_password = '';
@@ -1255,18 +1255,18 @@ if ( $error )
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-	$pnt_user_wordwrap = stripslashes($pnt_user_wordwrap);
+	$user_wordwrap = stripslashes($user_wordwrap);
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-	$pnt_user_lang = stripslashes($pnt_user_lang);
-	$pnt_user_dateformat = stripslashes($pnt_user_dateformat);
+	$user_lang = stripslashes($user_lang);
+	$user_dateformat = stripslashes($user_dateformat);
 
 }
 else if ( $mode == 'editprofile' && !isset($HTTP_POST_VARS['avatargallery']) && !isset($HTTP_POST_VARS['submitavatar']) && !isset($HTTP_POST_VARS['cancelavatar']) )
 {
-	$pnt_user_id = $userdata['user_id'];
-	$pnt_username = $userdata['username'];
+	$user_id = $userdata['user_id'];
+	$username = $userdata['username'];
 	$email = $userdata['user_email'];
 	$cur_password = '';
 	$new_password = '';
@@ -1278,7 +1278,7 @@ else if ( $mode == 'editprofile' && !isset($HTTP_POST_VARS['avatargallery']) && 
 	preg_match('/(..)(..)(....)/', sprintf('%08d',$userdata['user_birthday']), $bday_parts);
 	$bday_month = $bday_parts[1];
 	$bday_day = $bday_parts[2];
-	$phpbb2_bday_year = $bday_parts[3];
+	$bday_year = $bday_parts[3];
 	$birthday_display = $userdata['birthday_display'];
 	$birthday_greeting = $userdata['birthday_greeting'];
 /*****[END]********************************************
@@ -1291,7 +1291,7 @@ else if ( $mode == 'editprofile' && !isset($HTTP_POST_VARS['avatargallery']) && 
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
-	$pnt_user_flag = $userdata['user_from_flag'];
+	$user_flag = $userdata['user_from_flag'];
 /*****[END]********************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
@@ -1376,19 +1376,19 @@ else if ( $mode == 'editprofile' && !isset($HTTP_POST_VARS['avatargallery']) && 
  ******************************************************/
 	$allowviewonline = $userdata['user_allow_viewonline'];
 
-	$pnt_user_avatar = ( $userdata['user_allowavatar'] ) ? $userdata['user_avatar'] : '';
-	$pnt_user_avatar_type = ( $userdata['user_allowavatar'] ) ? $userdata['user_avatar_type'] : USER_AVATAR_NONE;
+	$user_avatar = ( $userdata['user_allowavatar'] ) ? $userdata['user_avatar'] : '';
+	$user_avatar_type = ( $userdata['user_allowavatar'] ) ? $userdata['user_avatar_type'] : USER_AVATAR_NONE;
 
-	$pnt_user_style = $userdata['theme'];
+	$user_style = $userdata['theme'];
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-	$pnt_user_wordwrap = $userdata['user_wordwrap'];
+	$user_wordwrap = $userdata['user_wordwrap'];
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-	$pnt_user_lang = $userdata['user_lang'];
-	$pnt_user_timezone = $userdata['user_timezone'];
+	$user_lang = $userdata['user_lang'];
+	$user_timezone = $userdata['user_timezone'];
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
@@ -1397,13 +1397,13 @@ else if ( $mode == 'editprofile' && !isset($HTTP_POST_VARS['avatargallery']) && 
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-	$pnt_user_dateformat = $userdata['user_dateformat'];
+	$user_dateformat = $userdata['user_dateformat'];
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-	$pnt_user_show_quickreply = $userdata['user_show_quickreply'];
-	$pnt_user_quickreply_mode = $userdata['user_quickreply_mode'];
-	$pnt_user_open_quickreply = $userdata['user_open_quickreply'];
+	$user_show_quickreply = $userdata['user_show_quickreply'];
+	$user_quickreply_mode = $userdata['user_quickreply_mode'];
+	$user_open_quickreply = $userdata['user_open_quickreply'];
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
@@ -1428,7 +1428,7 @@ make_jumpbox('viewforum.'.$phpEx);
 
 if ( $mode == 'editprofile' )
 {
-	if ( $pnt_user_id != $userdata['user_id'] )
+	if ( $user_id != $userdata['user_id'] )
 	{
 		$error = TRUE;
 		$error_msg = $lang['Wrong_Profile'];
@@ -1441,7 +1441,7 @@ if( isset($HTTP_POST_VARS['avatargallery']) && !$error )
 
 	$avatar_category = ( !empty($HTTP_POST_VARS['avatarcategory']) ) ? htmlspecialchars($HTTP_POST_VARS['avatarcategory']) : '';
 
-	$phpbb2_template->set_filenames(array(
+	$template->set_filenames(array(
 			'body' => 'profile_avatar_gallery.tpl')
 	);
 
@@ -1461,7 +1461,7 @@ if( isset($HTTP_POST_VARS['avatargallery']) && !$error )
  [ Mod:     Gender                             v1.2.6 ]
  [ Mod:     Birthdays                          v3.0.0 ]
  ******************************************************/
-	display_avatar_gallery($mode, $avatar_category, $pnt_user_id, $email, $current_email, $coppa, $pnt_username, $new_password, $cur_password, $password_confirm, $website, $location, $pnt_user_flag, $occupation, $interests, $glance_show, $signature, $viewemail, $notifypm, $allow_mass_pm, $popup_pm, $notifyreply, $attachsig, $allowhtml, $allowbbcode, $allowsmilies, $showavatars, $showsignatures, $allowviewonline, $pnt_user_style, $pnt_user_wordwrap, $pnt_user_lang, $bday_month, $bday_day, $phpbb2_bday_year, $birthday_display, $birthday_greeting, $pnt_user_timezone, $time_mode, $dst_time_lag, $pnt_user_dateformat, $pnt_user_show_quickreply, $pnt_user_quickreply_mode, $pnt_user_open_quickreply, $userdata['session_id'], $xdata, $rname, $extra_info, $newsletter, $hide_images, $gender, $facebook);
+	display_avatar_gallery($mode, $avatar_category, $user_id, $email, $current_email, $coppa, $username, $new_password, $cur_password, $password_confirm, $website, $location, $user_flag, $occupation, $interests, $glance_show, $signature, $viewemail, $notifypm, $allow_mass_pm, $popup_pm, $notifyreply, $attachsig, $allowhtml, $allowbbcode, $allowsmilies, $showavatars, $showsignatures, $allowviewonline, $user_style, $user_wordwrap, $user_lang, $bday_month, $bday_day, $bday_year, $birthday_display, $birthday_greeting, $user_timezone, $time_mode, $dst_time_lag, $user_dateformat, $user_show_quickreply, $user_quickreply_mode, $user_open_quickreply, $userdata['session_id'], $xdata, $rname, $extra_info, $newsletter, $hide_images, $gender, $facebook);
 /*****[END]********************************************
  [ Mod:     Birthdays                          v3.0.0 ]
  [ Mod:     Gender                             v1.2.6 ]
@@ -1487,30 +1487,30 @@ else
 		$coppa = FALSE;
 	}
 
-	if ( !isset($pnt_user_style) )
+	if ( !isset($user_style) )
 	{
-		$pnt_user_style = $phpbb2_board_config['default_style'];
+		$user_style = $board_config['default_style'];
 	}
 
-	$avatar_img = '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/blank.png" alt="" border="0" />';
-	if ( $pnt_user_avatar_type )
+	$avatar_img = '<img style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_gallery_path'] . '/blank.png" alt="" border="0" />';
+	if ( $user_avatar_type )
 	{
-		switch( $pnt_user_avatar_type )
+		switch( $user_avatar_type )
 		{
 			# user_allowavatar = 1
 			case USER_AVATAR_UPLOAD:
-				$avatar_img = ( $phpbb2_board_config['allow_avatar_upload'] ) ? '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_path'] . '/' . $pnt_user_avatar . '" alt="" border="0" />' : '';
+				$avatar_img = ( $board_config['allow_avatar_upload'] ) ? '<img style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" border="0" />' : '';
 				break;
 
 			# user_allowavatar = 2
 			case USER_AVATAR_REMOTE:
-				// $avatar_img = resize_avatar($pnt_user_avatar);
-				$avatar_img = '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . resize_avatar($pnt_user_avatar) . '" alt="" border="0" />';
+				// $avatar_img = resize_avatar($user_avatar);
+				$avatar_img = '<img style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . resize_avatar($user_avatar) . '" alt="" border="0" />';
 				break;
 
 			# user_allowavatar = 3
 			case USER_AVATAR_GALLERY:
-				$avatar_img = ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($pnt_user_avatar == 'blank.gif' || $pnt_user_avatar == 'gallery/blank.png') ? 'blank.png' : $pnt_user_avatar) . '" alt="" border="0" />' : '';
+				$avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($user_avatar == 'blank.gif' || $user_avatar == 'gallery/blank.gif') ? 'blank.png' : $user_avatar) . '" alt="" border="0" />' : '';
 				break;
 		}
 	}
@@ -1528,14 +1528,14 @@ else
 		$s_hidden_fields .= '<input type="hidden" name="current_email" value="' . $userdata['user_email'] . '" />';
 	}
 
-	if ( !empty($pnt_user_avatar_local) )
+	if ( !empty($user_avatar_local) )
 	{
-		$s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $pnt_user_avatar_local . '" /><input type="hidden" name="avatarcatname" value="' . $pnt_user_avatar_category . '" />';
+		$s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $user_avatar_local . '" /><input type="hidden" name="avatarcatname" value="' . $user_avatar_category . '" />';
 	}
 
-	$html_status =  ( $userdata['user_allowhtml'] && $phpbb2_board_config['allow_html'] ) ? $lang['HTML_is_ON'] : $lang['HTML_is_OFF'];
-	$bbcode_status = ( $userdata['user_allowbbcode'] && $phpbb2_board_config['allow_bbcode']  ) ? $lang['BBCode_is_ON'] : $lang['BBCode_is_OFF'];
-	$smilies_status = ( $userdata['user_allowsmile'] && $phpbb2_board_config['allow_smilies']  ) ? $lang['Smilies_are_ON'] : $lang['Smilies_are_OFF'];
+	$html_status =  ( $userdata['user_allowhtml'] && $board_config['allow_html'] ) ? $lang['HTML_is_ON'] : $lang['HTML_is_OFF'];
+	$bbcode_status = ( $userdata['user_allowbbcode'] && $board_config['allow_bbcode']  ) ? $lang['BBCode_is_ON'] : $lang['BBCode_is_OFF'];
+	$smilies_status = ( $userdata['user_allowsmile'] && $board_config['allow_smilies']  ) ? $lang['Smilies_are_ON'] : $lang['Smilies_are_OFF'];
 
 /*****[BEGIN]******************************************
  [ Mod:    Gender                              v1.2.6 ]
@@ -1563,7 +1563,7 @@ else
 	$l_time_mode_4 = $lang['time_mode_server_pc'];
 	$l_time_mode_6 = $lang['time_mode_full_pc'];
 
-	switch ($phpbb2_board_config['default_time_mode'])
+	switch ($board_config['default_time_mode'])
 	{
 		case MANUAL_DST:
 			$l_time_mode_1 = $l_time_mode_1 . "*";
@@ -1632,16 +1632,16 @@ else
 
 	if ( $error )
 	{
-		$phpbb2_template->set_filenames(array(
+		$template->set_filenames(array(
 			'reg_header' => 'error_body.tpl')
 			);
-		$phpbb2_template->assign_vars(array(
+		$template->assign_vars(array(
 			'ERROR_MESSAGE' => $error_msg)
 			);
-		$phpbb2_template->assign_var_from_handle('ERROR_BOX', 'reg_header');
+		$template->assign_var_from_handle('ERROR_BOX', 'reg_header');
 	}
 
-	$phpbb2_template->set_filenames(array(
+	$template->set_filenames(array(
 	'body' => 'profile_add_body.tpl')
 	);
 /*****[BEGIN]******************************************
@@ -1657,25 +1657,25 @@ else
 		case 'A':
 			if ( $userdata['user_level'] == ADMIN )
 			{
-				$phpbb2_template->assign_block_vars('switch_can_disable_mass_pm', array());
+				$template->assign_block_vars('switch_can_disable_mass_pm', array());
 			} else
 			{
-				$phpbb2_template->assign_block_vars('switch_can_not_disable_mass_pm', array());
+				$template->assign_block_vars('switch_can_not_disable_mass_pm', array());
 			}
 		break;
 
 		case 'M':
 			if ( $userdata['user_level'] == ADMIN || $userdata['user_level'] == MOD )
 			{
-				$phpbb2_template->assign_block_vars('switch_can_disable_mass_pm', array());
+				$template->assign_block_vars('switch_can_disable_mass_pm', array());
 			} else
 			{
-				$phpbb2_template->assign_block_vars('switch_can_not_disable_mass_pm', array());
+				$template->assign_block_vars('switch_can_not_disable_mass_pm', array());
 			}
 		break;
 
 		default:
-			$phpbb2_template->assign_block_vars('switch_can_disable_mass_pm', array());
+			$template->assign_block_vars('switch_can_disable_mass_pm', array());
 		break;
 	}
 /*****[END]********************************************
@@ -1684,42 +1684,42 @@ else
 
 	if ( $mode == 'editprofile' )
 	{
-		$phpbb2_template->assign_block_vars('switch_edit_profile', array());
+		$template->assign_block_vars('switch_edit_profile', array());
 	}
 
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
 	$sql = "SELECT * FROM `".FLAG_TABLE."` ORDER BY `flag_name`";
-	if ( !$flags_result = $pnt_db->sql_query( $sql ) )
+	if ( !$flags_result = $db->sql_query( $sql ) )
 	{
 		message_die(GENERAL_ERROR, "Couldn't obtain flags information.", "", __LINE__, __FILE__, $sql);
 	}
 
 	$default_flag_image = 'unknown.png';
 
-	$selected = ( isset($pnt_user_flag) ) ? '' : ' selected';
+	$selected = ( isset($user_flag) ) ? '' : ' selected';
 
 	$flag_select  = '<select class="user_from_flag_select" name="user_flag">';
 	$flag_select .= '	<option value="blank"'.$selected.'>'.$lang['Select_Country'].'</option>';
-	while ( $flag_row = $pnt_db->sql_fetchrow($flags_result) ):
+	while ( $flag_row = $db->sql_fetchrow($flags_result) ):
 
 		/**
 		 *	coding added to add new reponsive theme support
 		 */
-		$phpbb2_template->assign_block_vars('country_flags', array(
+		$template->assign_block_vars('country_flags', array(
 
 			'FLAG_NAME' 	=> str_replace('_', ' ', $flag_row['flag_name']),
 			'FLAG_IMAGE' 	=> $flag_row['flag_image'],
-			'FLAG_SELECTED' => ( isset( $pnt_user_flag) ) ? ((str_replace('.png', '', $pnt_user_flag) == str_replace('.png', '', $flag_row['flag_image'])) ? ' selected' : '' ) : ''
+			'FLAG_SELECTED' => ( isset( $user_flag) ) ? ((str_replace('.png', '', $user_flag) == str_replace('.png', '', $flag_row['flag_image'])) ? ' selected' : '' ) : ''
 
 		));
 
-		$selected = ( isset( $pnt_user_flag) ) ? ((str_replace('.png','',$pnt_user_flag) == str_replace('.png', '', $flag_row['flag_image'])) ? ' selected' : '' ) : '';
+		$selected = ( isset( $user_flag) ) ? ((str_replace('.png','',$user_flag) == str_replace('.png', '', $flag_row['flag_image'])) ? ' selected' : '' ) : '';
 		$flag_select .= '	<option value="'.$flag_row['flag_image'].'"'.$selected.'>'.$flag_row['flag_name'].'</option>';
-		// if ( isset( $pnt_user_flag ) && $pnt_user_flag == str_replace('.png', '', $flag_row['flag_image']) )
+		// if ( isset( $user_flag ) && $user_flag == str_replace('.png', '', $flag_row['flag_image']) )
 		// {
-			$flag_start_image = str_replace('.png', '', $pnt_user_flag);
+			$flag_start_image = str_replace('.png', '', $user_flag);
 		// }
 
 	endwhile;
@@ -1729,13 +1729,13 @@ else
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
 
-	if ( ($mode == 'register') || ($phpbb2_board_config['allow_namechange']) )
+	if ( ($mode == 'register') || ($board_config['allow_namechange']) )
 	{
-		$phpbb2_template->assign_block_vars('switch_namechange_allowed', array());
+		$template->assign_block_vars('switch_namechange_allowed', array());
 	}
 	else
 	{
-		$phpbb2_template->assign_block_vars('switch_namechange_disallowed', array());
+		$template->assign_block_vars('switch_namechange_disallowed', array());
 	}
 
 /*****[BEGIN]******************************************
@@ -1749,7 +1749,7 @@ else
 		{
 			if ($info['display_register'] == XD_DISPLAY_NORMAL)
 			{
-				$phpbb2_template->assign_block_vars('xdata', array(
+				$template->assign_block_vars('xdata', array(
 					'CODE_NAME' => $code_name,
 					'NAME' => $info['field_name'],
 					'DESCRIPTION' => $info['field_desc'],
@@ -1761,23 +1761,23 @@ else
 				switch ($info['field_type'])
 				{
 					case 'text':
-						$phpbb2_template->assign_block_vars('xdata.switch_type_text', array());
+						$template->assign_block_vars('xdata.switch_type_text', array());
 						break;
 
 					case 'checkbox':
-					   $phpbb2_template->assign_block_vars('xdata.switch_type_checkbox', array( 'CHECKED' => ($xdata[$code_name] == 1) ? ' checked="checked"' : ''  ));
+					   $template->assign_block_vars('xdata.switch_type_checkbox', array( 'CHECKED' => ($xdata[$code_name] == 1) ? ' checked="checked"' : ''  ));
 					   break;
 
 					case 'textarea':
-						$phpbb2_template->assign_block_vars('xdata.switch_type_textarea', array());
+						$template->assign_block_vars('xdata.switch_type_textarea', array());
 						break;
 
 					case 'radio':
-						$phpbb2_template->assign_block_vars('xdata.switch_type_radio', array());
+						$template->assign_block_vars('xdata.switch_type_radio', array());
 
 						while ( list( , $option) = each($info['values_array']) )
 						{
-							$phpbb2_template->assign_block_vars('xdata.switch_type_radio.options', array(
+							$template->assign_block_vars('xdata.switch_type_radio.options', array(
 								'OPTION' => $option,
 								'CHECKED' => ($xdata[$code_name] == $option) ? 'checked="checked"' : ''
 								)
@@ -1786,11 +1786,11 @@ else
 						break;
 
 					case 'select':
-						$phpbb2_template->assign_block_vars('xdata.switch_type_select', array());
+						$template->assign_block_vars('xdata.switch_type_select', array());
 
 						while ( list( , $option) = each($info['values_array']) )
 						{
-							$phpbb2_template->assign_block_vars('xdata.switch_type_select.options', array(
+							$template->assign_block_vars('xdata.switch_type_select.options', array(
 								'OPTION' => $option,
 								'SELECTED' => ($xdata[$code_name] == $option) ? 'selected="selected"' : ''
 								)
@@ -1801,7 +1801,7 @@ else
  [ Mod:    XData Date Conversion               v0.1.1 ]
  ******************************************************/
 					case 'date':
-						$phpbb2_template->assign_block_vars('xdata.switch_type_date', array());
+						$template->assign_block_vars('xdata.switch_type_date', array());
 						break;
 
 /*****[ENDE]*******************************************
@@ -1811,26 +1811,26 @@ else
 			}
 			elseif ($info['display_register'] == XD_DISPLAY_ROOT)
 			{
-				$phpbb2_template->assign_block_vars('xdata',
+				$template->assign_block_vars('xdata',
 					array(
 						'CODE_NAME' => $code_name,
 						'NAME' => $xd_meta[$code_name]['field_name'],
 						'DESCRIPTION' => $xd_meta[$code_name]['field_desc'],
 						'VALUE' => isset($xdata[$code_name]) ? str_replace('"', '&quot;', $xdata[$code_name]) : ''
 					) );
-				$phpbb2_template->assign_block_vars('xdata.switch_is_'.$code_name, array());
+				$template->assign_block_vars('xdata.switch_is_'.$code_name, array());
 
 				switch ($info['field_type'])
 				{
 					case 'checkbox':
-						$phpbb2_template->assign_block_vars('xdata.switch_type_checkbox', array( 'CHECKED' => ($xdata[$code_name] == $lang['true']) ? ' checked="checked"' : ''  ));
+						$template->assign_block_vars('xdata.switch_type_checkbox', array( 'CHECKED' => ($xdata[$code_name] == $lang['true']) ? ' checked="checked"' : ''  ));
 						break;
 
 					case 'radio':
 
 						while ( list( , $option) = each($info['values_array']) )
 						{
-							$phpbb2_template->assign_block_vars('xdata.switch_is_'.$code_name.'.options', array(
+							$template->assign_block_vars('xdata.switch_is_'.$code_name.'.options', array(
 								'OPTION' => $option,
 								'CHECKED' => ($xdata[$code_name] == $option) ? 'checked="checked"' : ''
 								)
@@ -1842,7 +1842,7 @@ else
 
 						while ( list( , $option) = each($info['values_array']) )
 						{
-							$phpbb2_template->assign_block_vars('xdata.switch_is_'.$code_name.'.options', array(
+							$template->assign_block_vars('xdata.switch_is_'.$code_name.'.options', array(
 								'OPTION' => $option,
 								'SELECTED' => ($xdata[$code_name] == $option) ? 'selected="selected"' : ''
 								)
@@ -1859,78 +1859,78 @@ else
 
 	// Visual Confirmation
 	$confirm_image = '';
-	if (!empty($phpbb2_board_config['enable_confirm']) && $mode == 'register')
+	if (!empty($board_config['enable_confirm']) && $mode == 'register')
 	{
 		$sql = 'SELECT session_id
 			FROM ' . SESSIONS_TABLE;
-		if (!($result = $pnt_db->sql_query($sql)))
+		if (!($result = $db->sql_query($sql)))
 		{
 			message_die(GENERAL_ERROR, 'Could not select session data', '', __LINE__, __FILE__, $sql);
 		}
 
-		if ($row = $pnt_db->sql_fetchrow($result))
+		if ($row = $db->sql_fetchrow($result))
 		{
 			$confirm_sql = '';
 			do
 			{
 				$confirm_sql .= (($confirm_sql != '') ? ', ' : '') . "'" . $row['session_id'] . "'";
 			}
-			while ($row = $pnt_db->sql_fetchrow($result));
+			while ($row = $db->sql_fetchrow($result));
 
 			$sql = 'DELETE FROM ' .  CONFIRM_TABLE . "
 				WHERE session_id NOT IN ($confirm_sql)";
-			if (!$pnt_db->sql_query($sql))
+			if (!$db->sql_query($sql))
 			{
 				message_die(GENERAL_ERROR, 'Could not delete stale confirm data', '', __LINE__, __FILE__, $sql);
 			}
 		}
-		$pnt_db->sql_freeresult($result);
+		$db->sql_freeresult($result);
 
 		$sql = 'SELECT COUNT(session_id) AS attempts
 			FROM ' . CONFIRM_TABLE . "
 			WHERE session_id = '" . $userdata['session_id'] . "'";
-		if (!($result = $pnt_db->sql_query($sql)))
+		if (!($result = $db->sql_query($sql)))
 		{
 			message_die(GENERAL_ERROR, 'Could not obtain confirm code count', '', __LINE__, __FILE__, $sql);
 		}
 
-		if ($row = $pnt_db->sql_fetchrow($result))
+		if ($row = $db->sql_fetchrow($result))
 		{
 			if ($row['attempts'] > 3)
 			{
 				message_die(GENERAL_MESSAGE, $lang['Too_many_registers']);
 			}
 		}
-		$pnt_db->sql_freeresult($result);
+		$db->sql_freeresult($result);
 
 		// Generate the required confirmation code
 		// NB 0 (zero) could get confused with O (the letter) so we make change it
 		$code = dss_rand();
 		$code = strtoupper(str_replace('0', 'o', substr($code, 0, 6)));
 
-		$confirm_id = md5(uniqid($pnt_user_ip));
+		$confirm_id = md5(uniqid($user_ip));
 
 		$sql = 'INSERT INTO ' . CONFIRM_TABLE . " (confirm_id, session_id, code)
 			VALUES ('$confirm_id', '". $userdata['session_id'] . "', '$code')";
-		if (!$pnt_db->sql_query($sql))
+		if (!$db->sql_query($sql))
 		{
 			message_die(GENERAL_ERROR, 'Could not insert new confirm code information', '', __LINE__, __FILE__, $sql);
 		}
 
 		unset($code);
 
-		$confirm_image = (GZIPSUPPORT) ? '<img src="' . append_titanium_sid("usercp_confirm.$phpEx?id=$confirm_id") . '" alt="" title="" />' : '<img src="' . append_titanium_sid("usercp_confirm.$phpEx?id=$confirm_id&amp;c=1") . '" alt="" title="" /><img src="' . append_titanium_sid("usercp_confirm.$phpEx?id=$confirm_id&amp;c=2") . '" alt="" title="" /><img src="' . append_titanium_sid("usercp_confirm.$phpEx?id=$confirm_id&amp;c=3") . '" alt="" title="" /><img src="' . append_titanium_sid("usercp_confirm.$phpEx?id=$confirm_id&amp;c=4") . '" alt="" title="" /><img src="' . append_titanium_sid("usercp_confirm.$phpEx?id=$confirm_id&amp;c=5") . '" alt="" title="" /><img src="' . append_titanium_sid("usercp_confirm.$phpEx?id=$confirm_id&amp;c=6") . '" alt="" title="" />';
+		$confirm_image = (GZIPSUPPORT) ? '<img src="' . append_sid("usercp_confirm.$phpEx?id=$confirm_id") . '" alt="" title="" />' : '<img src="' . append_sid("usercp_confirm.$phpEx?id=$confirm_id&amp;c=1") . '" alt="" title="" /><img src="' . append_sid("usercp_confirm.$phpEx?id=$confirm_id&amp;c=2") . '" alt="" title="" /><img src="' . append_sid("usercp_confirm.$phpEx?id=$confirm_id&amp;c=3") . '" alt="" title="" /><img src="' . append_sid("usercp_confirm.$phpEx?id=$confirm_id&amp;c=4") . '" alt="" title="" /><img src="' . append_sid("usercp_confirm.$phpEx?id=$confirm_id&amp;c=5") . '" alt="" title="" /><img src="' . append_sid("usercp_confirm.$phpEx?id=$confirm_id&amp;c=6") . '" alt="" title="" />';
 		$s_hidden_fields .= '<input type="hidden" name="confirm_id" value="' . $confirm_id . '" />';
 
-		$phpbb2_template->assign_block_vars('switch_confirm', array());
+		$template->assign_block_vars('switch_confirm', array());
 	}
 
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-	if ( $phpbb2_board_config['wrap_enable'] )
+	if ( $board_config['wrap_enable'] )
 	{
-		$phpbb2_template->assign_block_vars('force_word_wrapping',array());
+		$template->assign_block_vars('force_word_wrapping',array());
 	}
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
@@ -1941,10 +1941,10 @@ else
 		// us from doing file uploads....
 		//
 	$ini_val = ( phpversion() >= '4.0.0' ) ? 'ini_get' : 'get_cfg_var';
-	$form_enctype = ( @$ini_val('file_uploads') == '0' || strtolower(@$ini_val('file_uploads') == 'off') || phpversion() == '4.0.4pl1' || !$phpbb2_board_config['allow_avatar_upload'] || ( phpversion() < '4.0.3' && @$ini_val('open_basedir') != '' ) ) ? '' : 'enctype="multipart/form-data"';
+	$form_enctype = ( @$ini_val('file_uploads') == '0' || strtolower(@$ini_val('file_uploads') == 'off') || phpversion() == '4.0.4pl1' || !$board_config['allow_avatar_upload'] || ( phpversion() < '4.0.3' && @$ini_val('open_basedir') != '' ) ) ? '' : 'enctype="multipart/form-data"';
 
-	$phpbb2_template->assign_vars(array(
-				'USERNAME' => isset($pnt_username) ? $pnt_username : '',
+	$template->assign_vars(array(
+				'USERNAME' => isset($username) ? $username : '',
 				'CUR_PASSWORD' => isset($cur_password) ? $cur_password : '',
 				'NEW_PASSWORD' => isset($new_password) ? $new_password : '',
 				'PASSWORD_CONFIRM' => isset($password_confirm) ? $password_confirm : '',
@@ -1952,7 +1952,7 @@ else
 /*****[BEGIN]******************************************
  [ Mod:     Signature Editor/Preview Deluxe    v1.0.0 ]
  ******************************************************/
-				'SIG_EDIT_LINK' => append_titanium_sid("profile.$phpEx?mode=signature"),
+				'SIG_EDIT_LINK' => append_sid("profile.$phpEx?mode=signature"),
 				'SIG_DESC' => $lang['sig_description'],
 				'SIG_BUTTON_DESC' => $lang['sig_edit'],
 /*****[END]********************************************
@@ -1964,11 +1964,11 @@ else
  ******************************************************/
 				// 'BDAY_MONTH' => ($bday_month != 0) ? $bday_month : $lang['Default_Month'],
 				// 'BDAY_DAY' => ($bday_day != 0) ? $bday_day : $lang['Default_Day'],
-				// 'BDAY_YEAR' => ($phpbb2_bday_year != 0) ? $phpbb2_bday_year : $lang['Default_Year'],
+				// 'BDAY_YEAR' => ($bday_year != 0) ? $bday_year : $lang['Default_Year'],
 
  				'BDAY_MONTH' => ($bday_month != 0) ? $bday_month : '',
 				'BDAY_DAY' => ($bday_day != 0) ? $bday_day : '',
-				'BDAY_YEAR' => ($phpbb2_bday_year != 0) ? $phpbb2_bday_year : '',
+				'BDAY_YEAR' => ($bday_year != 0) ? $bday_year : '',
 
 				'BIRTHDAY_ALL' => BIRTHDAY_ALL,
 				'BIRTHDAY_ALL_SELECTED' => ( $birthday_display == BIRTHDAY_ALL ) ? ' selected="selected"' : '',
@@ -2145,15 +2145,15 @@ else
 /*****[END]********************************************
  [ Mod:     View/Disable Avatars/Signatures    v1.1.2 ]
  ******************************************************/
-				'ALLOW_AVATAR' => $phpbb2_board_config['allow_avatar_upload'],
+				'ALLOW_AVATAR' => $board_config['allow_avatar_upload'],
 				'AVATAR' => $avatar_img,
-				'AVATAR_SIZE' => $phpbb2_board_config['avatar_filesize'],
+				'AVATAR_SIZE' => $board_config['avatar_filesize'],
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
 				'L_WORD_WRAP' => $lang['Word_Wrap'],
 				'L_WORD_WRAP_EXPLAIN' => $lang['Word_Wrap_Explain'],
-				'L_WORD_WRAP_EXTRA' => strtr($lang['Word_Wrap_Extra'],array('%min%' => $phpbb2_board_config['wrap_min'], '%max%' => $phpbb2_board_config['wrap_max'])),
+				'L_WORD_WRAP_EXTRA' => strtr($lang['Word_Wrap_Extra'],array('%min%' => $board_config['wrap_min'], '%max%' => $board_config['wrap_max'])),
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
@@ -2161,23 +2161,23 @@ else
 /*****[BEGIN]******************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-				'WRAP_ROW' => ( $mode == 'register' ) ? $phpbb2_board_config['wrap_def'] : $pnt_user_wordwrap,
+				'WRAP_ROW' => ( $mode == 'register' ) ? $board_config['wrap_def'] : $user_wordwrap,
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
-				'LANGUAGE_SELECT' => language_select($pnt_user_lang, 'language'),
+				'LANGUAGE_SELECT' => language_select($user_lang, 'language'),
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
 				'BIRTHMONTH_SELECT' => bday_month_select($bday_month, 'bday_month'),
 				'BIRTHDAY_SELECT' => bday_day_select($bday_day, 'bday_day'),
-				'BIRTHYEAR_SELECT' => bday_year_select($phpbb2_bday_year, 'bday_year'),
+				'BIRTHYEAR_SELECT' => bday_year_select($bday_year, 'bday_year'),
 
 				/**
 				 *	New changes for use with responsive themes
 				 */
-				'BIRTHDAY_REQUIRED' => ( $phpbb2_board_config['bday_require'] == true ) ? ' required' : '',
-				'BIRTHDAY_YEAR_REQUIRED' => ( $phpbb2_board_config['bday_year'] == 1 ) ? ' required' : '',
+				'BIRTHDAY_REQUIRED' => ( $board_config['bday_require'] == true ) ? ' required' : '',
+				'BIRTHDAY_YEAR_REQUIRED' => ( $board_config['bday_year'] == 1 ) ? ' required' : '',
 
 				'MONTH_DEFAULT'		 => ( $bday_month == 0 ) ? ' selected' : '',
 				'MONTH_JAN_SELECTED' => ( $bday_month == 1 ) ? ' selected' : '',
@@ -2202,7 +2202,7 @@ else
 /*****[END]********************************************
  [ Base:    Theme Management                   v1.0.2 ]
  ******************************************************/
-				'TIMEZONE_SELECT' => tz_select($pnt_user_timezone, 'timezone'),
+				'TIMEZONE_SELECT' => tz_select($user_timezone, 'timezone'),
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
@@ -2231,15 +2231,15 @@ else
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-				'DATE_FORMAT' => $pnt_user_dateformat,
+				'DATE_FORMAT' => $user_dateformat,
 /*****[BEGIN]******************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
-				'QUICK_REPLY_SELECT' => quick_reply_select($pnt_user_show_quickreply, 'show_quickreply'),
-				'QUICK_REPLY_MODE_BASIC' => ( $pnt_user_quickreply_mode==0 ) ? 'checked="checked"' : '',
-				'QUICK_REPLY_MODE_ADVANCED' => ( $pnt_user_quickreply_mode!=0 ) ? 'checked="checked"' : '',
-				'OPEN_QUICK_REPLY_YES' => ( $pnt_user_open_quickreply ) ? 'checked="checked"' : '',
-				'OPEN_QUICK_REPLY_NO' => ( !$pnt_user_open_quickreply ) ? 'checked="checked"' : '',
+				'QUICK_REPLY_SELECT' => quick_reply_select($user_show_quickreply, 'show_quickreply'),
+				'QUICK_REPLY_MODE_BASIC' => ( $user_quickreply_mode==0 ) ? 'checked="checked"' : '',
+				'QUICK_REPLY_MODE_ADVANCED' => ( $user_quickreply_mode!=0 ) ? 'checked="checked"' : '',
+				'OPEN_QUICK_REPLY_YES' => ( $user_open_quickreply ) ? 'checked="checked"' : '',
+				'OPEN_QUICK_REPLY_NO' => ( !$user_open_quickreply ) ? 'checked="checked"' : '',
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.2 ]
  ******************************************************/
@@ -2259,9 +2259,9 @@ else
  [ Mod:    YA Merge                            v1.0.0 ]
  ******************************************************/
 				'HTML_STATUS' => $html_status,
-				'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="' . append_titanium_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
+				'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="' . append_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
 				'SMILIES_STATUS' => $smilies_status,
-				'L_PAGE_TITLE' => $phpbb2_page_title,
+				'L_PAGE_TITLE' => $page_title,
 
 				'L_CURRENT_PASSWORD' => $lang['Current_password'],
 				'L_NEW_PASSWORD' => ( $mode == 'register' ) ? $lang['Password'] : $lang['New_password'],
@@ -2290,8 +2290,8 @@ else
 				'L_BIRTHDAY' => $lang['Birthday'],
 				'L_MONTH' => $lang['Month'],
 				'L_DAY' => $lang['Day'],
-				'L_YEAR' => ( $phpbb2_board_config['bday_year'] ) ? $lang['Year'] : $lang['Year_Optional'],
-				'L_OPTIONAL' => ( $phpbb2_board_config['bday_year'] ) ? '' : $lang['Optional'],
+				'L_YEAR' => ( $board_config['bday_year'] ) ? $lang['Year'] : $lang['Year_Optional'],
+				'L_OPTIONAL' => ( $board_config['bday_year'] ) ? '' : $lang['Optional'],
 				'L_BIRTHDAY_DISPLAY' => $lang['Birthday_Display'],
 				'L_BIRTHDAY_ALL' => $lang['Display_all'],
 				'L_BIRTHDAY_YEAR' => $lang['Display_day_and_month'],
@@ -2395,7 +2395,7 @@ else
  ******************************************************/
 
 				'L_AVATAR_PANEL' => $lang['Avatar_panel'],
-				'L_AVATAR_EXPLAIN' => sprintf($lang['Avatar_explain'], $phpbb2_board_config['avatar_max_width'], $phpbb2_board_config['avatar_max_height'], (round($phpbb2_board_config['avatar_filesize'] / 1024))),
+				'L_AVATAR_EXPLAIN' => sprintf($lang['Avatar_explain'], $board_config['avatar_max_width'], $board_config['avatar_max_height'], (round($board_config['avatar_filesize'] / 1024))),
 				'L_UPLOAD_AVATAR_FILE' => $lang['Upload_Avatar_file'],
 				'L_UPLOAD_AVATAR_URL' => $lang['Upload_Avatar_URL'],
 				'L_UPLOAD_AVATAR_URL_EXPLAIN' => $lang['Upload_Avatar_URL_explain'],
@@ -2407,7 +2407,7 @@ else
 				'L_CURRENT_IMAGE' => $lang['Current_Image'],
 
 		'L_SIGNATURE' => $lang['Signature'],
-				'L_SIGNATURE_EXPLAIN' => sprintf($lang['Signature_explain'], $phpbb2_board_config['max_sig_chars']),
+				'L_SIGNATURE_EXPLAIN' => sprintf($lang['Signature_explain'], $board_config['max_sig_chars']),
 				'L_NOTIFY_ON_REPLY' => $lang['Always_notify'],
 				'L_NOTIFY_ON_REPLY_EXPLAIN' => $lang['Always_notify_explain'],
 				'L_NOTIFY_ON_PRIVMSG' => $lang['Notify_on_privmsg'],
@@ -2422,42 +2422,42 @@ else
 				'L_PROFILE_PASSWORD' => $lang['Password_change'],
 				'L_EMAIL_ADDRESS' => $lang['Email_address'],
 
-				'L_CONFIRM_CODE_IMPAIRED' => sprintf($lang['Confirm_code_impaired'], '<a href="mailto:' . $phpbb2_board_config['board_email'] . '">', '</a>'),
+				'L_CONFIRM_CODE_IMPAIRED' => sprintf($lang['Confirm_code_impaired'], '<a href="mailto:' . $board_config['board_email'] . '">', '</a>'),
 				'L_CONFIRM_CODE' => $lang['Confirm_code'],
 				'L_CONFIRM_CODE_EXPLAIN' => $lang['Confirm_code_explain'],
 
-				'S_ALLOW_AVATAR_UPLOAD' => $phpbb2_board_config['allow_avatar_upload'],
-				'S_ALLOW_AVATAR_LOCAL' => $phpbb2_board_config['allow_avatar_local'],
-				'S_ALLOW_AVATAR_REMOTE' => $phpbb2_board_config['allow_avatar_remote'],
+				'S_ALLOW_AVATAR_UPLOAD' => $board_config['allow_avatar_upload'],
+				'S_ALLOW_AVATAR_LOCAL' => $board_config['allow_avatar_local'],
+				'S_ALLOW_AVATAR_REMOTE' => $board_config['allow_avatar_remote'],
 				'S_HIDDEN_FIELDS' => $s_hidden_fields,
 				'S_FORM_ENCTYPE' => $form_enctype,
-				'S_PROFILE_ACTION' => append_titanium_sid("profile.$phpEx"))
+				'S_PROFILE_ACTION' => append_sid("profile.$phpEx"))
 		);
 
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-		if ( !$phpbb2_board_config['bday_lock'] || $userdata['user_birthday'] == 0 )
+		if ( !$board_config['bday_lock'] || $userdata['user_birthday'] == 0 )
 		{
-			$block = ( $phpbb2_board_config['bday_require'] == TRUE ) ? 'birthday_required' : 'birthday_optional';
-			$phpbb2_template->assign_block_vars($block, array());
-			$phpbb2_template->birthday_interface();
+			$block = ( $board_config['bday_require'] == TRUE ) ? 'birthday_required' : 'birthday_optional';
+			$template->assign_block_vars($block, array());
+			$template->birthday_interface();
 		}
 
-		if ( $phpbb2_board_config['bday_greeting'] != 0 )
+		if ( $board_config['bday_greeting'] != 0 )
 		{
-			$phpbb2_template->assign_block_vars('birthdays_greeting',array());
-			if ($phpbb2_board_config['bday_greeting'] & (1<<(BIRTHDAY_EMAIL-1)))
+			$template->assign_block_vars('birthdays_greeting',array());
+			if ($board_config['bday_greeting'] & (1<<(BIRTHDAY_EMAIL-1)))
 			{
-				$phpbb2_template->assign_block_vars('birthdays_greeting.birthdays_email',array());
+				$template->assign_block_vars('birthdays_greeting.birthdays_email',array());
 			}
-			if ($phpbb2_board_config['bday_greeting'] & (1<<(BIRTHDAY_PM-1)))
+			if ($board_config['bday_greeting'] & (1<<(BIRTHDAY_PM-1)))
 			{
-				$phpbb2_template->assign_block_vars('birthdays_greeting.birthdays_pm',array());
+				$template->assign_block_vars('birthdays_greeting.birthdays_pm',array());
 			}
-			if ($phpbb2_board_config['bday_greeting'] & (1<<(BIRTHDAY_POPUP-1)))
+			if ($board_config['bday_greeting'] & (1<<(BIRTHDAY_POPUP-1)))
 			{
-				$phpbb2_template->assign_block_vars('birthdays_greeting.birthdays_popup',array());
+				$template->assign_block_vars('birthdays_greeting.birthdays_popup',array());
 			}
 		}
 /*****[END]********************************************
@@ -2471,33 +2471,33 @@ else
 		//
 		if ( $mode != 'register' )
 		{
-				if ( $userdata['user_allowavatar'] && ( $phpbb2_board_config['allow_avatar_upload'] || $phpbb2_board_config['allow_avatar_local'] || $phpbb2_board_config['allow_avatar_remote'] ) )
+				if ( $userdata['user_allowavatar'] && ( $board_config['allow_avatar_upload'] || $board_config['allow_avatar_local'] || $board_config['allow_avatar_remote'] ) )
 				{
-						$phpbb2_template->assign_block_vars('switch_avatar_block', array() );
+						$template->assign_block_vars('switch_avatar_block', array() );
 
-						if ( $phpbb2_board_config['allow_avatar_upload'] && file_exists(@phpbb_realpath('./' . $phpbb2_board_config['avatar_path'])) )
+						if ( $board_config['allow_avatar_upload'] && file_exists(@phpbb_realpath('./' . $board_config['avatar_path'])) )
 						{
 								if ( !empty($form_enctype) )
 								{
-										$phpbb2_template->assign_block_vars('switch_avatar_block.switch_avatar_local_upload', array() );
+										$template->assign_block_vars('switch_avatar_block.switch_avatar_local_upload', array() );
 								}
-								$phpbb2_template->assign_block_vars('switch_avatar_block.switch_avatar_remote_upload', array() );
+								$template->assign_block_vars('switch_avatar_block.switch_avatar_remote_upload', array() );
 						}
 
-						if ( $phpbb2_board_config['allow_avatar_remote'] )
+						if ( $board_config['allow_avatar_remote'] )
 						{
-								$phpbb2_template->assign_block_vars('switch_avatar_block.switch_avatar_remote_link', array() );
+								$template->assign_block_vars('switch_avatar_block.switch_avatar_remote_link', array() );
 						}
 
-						if ( $phpbb2_board_config['allow_avatar_local'] && file_exists(@phpbb_realpath('./' . $phpbb2_board_config['avatar_gallery_path'])) )
+						if ( $board_config['allow_avatar_local'] && file_exists(@phpbb_realpath('./' . $board_config['avatar_gallery_path'])) )
 						{
-								$phpbb2_template->assign_block_vars('switch_avatar_block.switch_avatar_local_gallery', array() );
+								$template->assign_block_vars('switch_avatar_block.switch_avatar_local_gallery', array() );
 						}
 				}
 		}
 }
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 include("includes/page_tail.php");
 

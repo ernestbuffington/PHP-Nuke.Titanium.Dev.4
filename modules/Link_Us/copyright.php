@@ -38,9 +38,9 @@ $author_homepage    = "http://www.darkforgegfx.com";
 $based_on           = "--";
 $license            = "GPL";
 $download_location  = "http://www.darkforgegfx.com";
-$pnt_module_version     = "1.0.0";
-$pnt_module_description = "To show and administrate several methods of backlinks to your website.";
+$module_version     = "1.0.0";
+$module_description = "To show and administrate several methods of backlinks to your website.";
 
-show_copyright($author_name, $author_email, $author_homepage, $based_on, $license, $download_location, $pnt_module_version, $pnt_module_description);
+show_copyright($author_name, $author_email, $author_homepage, $based_on, $license, $download_location, $module_version, $module_description);
 
 ?>

@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
     die('CNBYA protection');
 }
 
-if(is_mod_admin($pnt_module)) {
+if(is_mod_admin($module_name)) {
 
 $pagetitle = ": "._USERADMIN." - "._USERUPDATE;
 include_once(NUKE_BASE_DIR.'header.php');
@@ -52,19 +52,19 @@ echo "<br />";
 title(_USERADMIN." - "._USERUPDATE);
 amain();
 echo "<br />\n";
-$result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_users WHERE user_id='$chng_uid' OR username='$chng_uid'");
-if($pnt_db->sql_numrows($result) > 0) {
-    $chnginfo = $pnt_db->sql_fetchrow($result);
+$result = $db->sql_query("SELECT * FROM ".$user_prefix."_users WHERE user_id='$chng_uid' OR username='$chng_uid'");
+if($db->sql_numrows($result) > 0) {
+    $chnginfo = $db->sql_fetchrow($result);
 
-    $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field");
-    while ($sqlvalue = $pnt_db->sql_fetchrow($result)) {
-        list($value) = $pnt_db->sql_fetchrow( $pnt_db->sql_query("SELECT value FROM ".$pnt_user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$chnginfo[user_id]'"));
+    $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field");
+    while ($sqlvalue = $db->sql_fetchrow($result)) {
+        list($value) = $db->sql_fetchrow( $db->sql_query("SELECT value FROM ".$user_prefix."_cnbya_value WHERE fid ='$sqlvalue[fid]' AND uid = '$chnginfo[user_id]'"));
         $chnginfo[$sqlvalue[name]] = $value;
     }
 
     OpenTable();
     echo "<center><table border='0'>\n";
-    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._USERID.":</td><td><strong>".$chnginfo['user_id']."</strong></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._NICKNAME.":</td><td><input type='text' name='chng_uname' value='".$chnginfo['username']."' size='20'><br /><strong>"._YA_CHNGRISK."</strong></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._UREALNAME.":</td><td><input type='text' name='chng_name' value='".$chnginfo['name']."' size='45' maxlength='60'></td></tr>\n";
@@ -72,8 +72,8 @@ if($pnt_db->sql_numrows($result) > 0) {
     echo "<tr><td bgcolor='$bgcolor2'>"._EMAIL.":</td><td><input type='text' name='chng_email' value='".$chnginfo['user_email']."' size='45' maxlength='60'> <span class='tiny'>"._REQUIRED."</span></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._FAKEEMAIL.":</td><td><input type='text' name='chng_femail' value='".$chnginfo['femail']."' size='45' maxlength='60'></td></tr>\n";
 
-        $result = $pnt_db->sql_query("SELECT * FROM ".$pnt_user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
-        while ($sqlvalue = $pnt_db->sql_fetchrow($result)) {
+        $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field WHERE need <> '0' ORDER BY pos");
+        while ($sqlvalue = $db->sql_fetchrow($result)) {
           $t = $sqlvalue['fid'];
           $value2 = explode("::", $sqlvalue[value]);
           if (substr($sqlvalue['name'],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue['name'];
@@ -111,7 +111,7 @@ if($pnt_db->sql_numrows($result) > 0) {
     if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }
     echo "<tr><td align='center' colspan='2'><input type='submit' value='"._SAVECHANGES."'></td></tr>\n";
     echo "</form>\n";
-    echo "<form action='modules.php?name=$pnt_module&amp;file=admin' method='post'>\n";
+    echo "<form action='modules.php?name=$module_name&amp;file=admin' method='post'>\n";
     if (isset($query)) { echo "<input type='hidden' name='query' value='$query'>\n"; }
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='op' value='$xop'>\n"; }

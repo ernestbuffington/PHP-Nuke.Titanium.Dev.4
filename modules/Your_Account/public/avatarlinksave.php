@@ -40,21 +40,21 @@ if(!defined('CNBYA')) die('CNBYA protection');
     
 	OpenTable();
     
-    $direktori = $phpbb2_board_config['avatar_gallery_path']; 
+    $direktori = $board_config['avatar_gallery_path']; 
 
     if (!preg_match("#https#", $avatar)):  
     $avatar="https://$avatar"; 
     endif;
 
-    $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET user_avatar='$avatar', user_avatar_type='2' WHERE username='$cookie[1]'");
+    $db->sql_query("UPDATE ".$user_prefix."_users SET user_avatar='$avatar', user_avatar_type='2' WHERE username='$cookie[1]'");
     echo "<div align=\"center\"><span class=\"content\">"._YA_AVATARFOR." ".$cookie[1]." "._YA_SAVED."</span></div><br />";
     
 	if (preg_match("/(https)/", $avatar)): 
       echo "<div align=\"center\">"._YA_NEWAVATAR.":<br /><img alt=\"\" src=\"$avatar\"><br />";
-      echo "[ <a href=\"modules.php?name=$pnt_module&amp;op=edituser\">"._YA_BACKPROFILE."</a> | <a href=\"modules.php?name=$pnt_module\">"._YA_DONE."</a> ]</div>";
+      echo "[ <a href=\"modules.php?name=$module_name&amp;op=edituser\">"._YA_BACKPROFILE."</a> | <a href=\"modules.php?name=$module_name\">"._YA_DONE."</a> ]</div>";
 	elseif($avatar): 
       echo "<div align=\"center\">"._YA_NEWAVATAR.":<br /><img alt=\"\" src=\"$direktori/$avatar\"><br />";
-      echo "[ <a href=\"modules.php?name=$pnt_module&amp;op=edituser\">"._YA_BACKPROFILE."</a> | <a href=\"modules.php?name=$pnt_module\">"._YA_DONE."</a> ]</div>";
+      echo "[ <a href=\"modules.php?name=$module_name&amp;op=edituser\">"._YA_BACKPROFILE."</a> | <a href=\"modules.php?name=$module_name\">"._YA_DONE."</a> ]</div>";
     endif;
     
 	CloseTable();

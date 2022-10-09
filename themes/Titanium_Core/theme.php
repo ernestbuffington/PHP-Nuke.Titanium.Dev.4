@@ -3,12 +3,12 @@
 # THEME SYSTEM FILE                                                                     #
 #---------------------------------------------------------------------------------------#
 # THEME INFO                                                                            #
-# Titanium_Core Theme v2.0 (Fixed & Full Width)                                         #
+# Universal Theme v1.0 (Fixed & Full Width)                                             #
 #                                                                                       #
 # Final Build Date 03/16/2021 Tuesday 12:54am                                           #
 #                                                                                       #
-# A Very Nice Gold Theme Design.                                                        #
-# Copyright © 2021 By: TheGhost AKA EA Buffington                                       #
+# A Very Nice Fire and Brimstone Theme Design.                                          #
+# Copyright © 2021 By: TheGhost AKA EABuffington                                        #
 # e-Mail : ernest.buffington@gmail.com                                                  #
 #---------------------------------------------------------------------------------------#
 # CREATION INFO                                                                         #
@@ -24,7 +24,7 @@
 #                                                                                       #
 # Designed By: TheGhost & Sebastian                                                     #
 # Web Site: https://www.86it.us                                                         #
-# Purpose: PHP-Nuke Titanium                                                            #
+# Purpose: PHP-Nuke Titanium | Nuke Evolution Xtreme                                    #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
 # PHP-Nuke Copyright (c) 2006 by Francisco Burzi phpnuke.org                            #
@@ -70,7 +70,7 @@ global $locked_width, $theme_business, $theme_title, $theme_author, $theme_date,
 $locked_width = "1840px";
 $theme_business = 'Brandon Maintenance Management, LLC';
 # Theme Name
-$theme_title = '<u>PHP-Nuke Titanium Core Theme v2.0 &copy; 2022</u>';
+$theme_title = '<u>PHP-Nuke Titanium Template Theme v1.3 &copy; 2021</u>';
 define('THEME', $theme_title);
 # Theme Author
 $theme_author = 'Ernest Allen Buffington';
@@ -104,16 +104,16 @@ $define_theme_xtreme_209e,
 	           $ThemeInfo, 
 	   $use_xtreme_voting, 
 $make_xtreme_avatar_small,
-                      $pnt_db;
+                      $db;
 
     list($portaladminname, 
 	              $avatar, 
-				   $email) = $pnt_db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `titanium_users` WHERE `user_id`=$portaladmin", SQL_NUM);
+				   $email) = $db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `nuke_users` WHERE `user_id`=$portaladmin", SQL_NUM);
 				   
 # be sure and set your user number in the config.php file.
 //$my_welcome_message = '<a class = "welcome" href="'.$domain.'">Welcome to The 86it Developers Network</a>';
-//$my_welcome_message = '<a class = "welcome" href="'.$domain.'">Welcome to The Groom Lake Developers Facilty <font color="#FF9900" size="1.2">86it™</font></a>';
-$my_welcome_message = '<a class = "welcome" href="'.HTTPS.'">PHP-Nuke Titanium Dev 4 <font color="#FF9900" size="1">(Desktop Version)</font></a>';
+//$my_welcome_message = '<a class = "welcome" href="'.$domain.'">Welcome to '.$portaladminname.'\'s 86it Portal</a>';
+$my_welcome_message = '<a class = "welcome" href="'.HTTPS.'">PHP-Nuke Titanium Dev 4 <font color="#FF9900" size="1">(US Version)</font></a>';
 
 # This is to tell the main portal menu to look for the images
 # in the theme dir "theme_name/images/menu"
@@ -162,6 +162,7 @@ addCSSToHead(theme_style_dir.'menu.css','file');
 #-------------------#
 # FlyKit Mod v1.0   #
 #-------------------#
+addPHPCSSToHead(theme_phpstyle_dir.'Nuke_Projects.php','file'); 
 addPHPCSSToHead(theme_phpstyle_dir.'banner_ads.php','file');     
 addPHPCSSToHead(theme_phpstyle_dir.'menu.php','file');     
 addPHPCSSToHead(theme_phpstyle_dir.'header.php','file');     
@@ -171,7 +172,7 @@ addPHPCSSToHead(theme_phpstyle_dir.'body.php','file');
 addPHPCSSToHead(theme_phpstyle_dir.'footer.php','file');     
 addPHPCSSToHead(theme_phpstyle_dir.'maintable.php','file');  
 addPHPCSSToHead(theme_phpstyle_dir.'CKeditor.php','file');   
-addPHPCSSToHead(theme_phpstyle_dir.'jquery_floating_admin.php','file');    
+
 #-------------------#
 # OpenTable Section #
 #-------------------#

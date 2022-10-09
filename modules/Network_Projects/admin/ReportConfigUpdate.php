@@ -8,7 +8,7 @@
 /* http://nukescripts.86it.us                           */
 /* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
-global $pnt_db2;
+global $db2;
 if(!defined('NETWORK_SUPPORT_ADMIN')) { die("Illegal Access Detected!!!"); }
 pjsave_config('admin_report_email', $admin_report_email);
 pjsave_config('new_report_position', $new_report_position);

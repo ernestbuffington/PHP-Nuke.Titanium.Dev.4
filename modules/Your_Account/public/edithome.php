@@ -35,13 +35,13 @@ exit('CNBYA protection');
         title(_HOMECONFIG);
         if(empty($userinfo['theme'])) { $userinfo['theme'] = "$Default_Theme"; }
         OpenTable();
-        echo "<form action=\"modules.php?name=$pnt_module\" method=\"post\">";
-        if ($user_blogs == 1):
+        echo "<form action=\"modules.php?name=$module_name\" method=\"post\">";
+        if ($user_news == 1):
             echo "<strong>"._BLOGPOSTSINHOME."</strong> "._MAX127." ";
             echo "<input type=\"text\" name=\"storynum\" size=\"4\" maxlength=\"3\" value=\"$userinfo[storynum]\">";
             echo "<br /><br />";
         else:
-            echo "<input type=\"hidden\" name=\"storynum\" value=\"$bloghome\">";
+            echo "<input type=\"hidden\" name=\"storynum\" value=\"$storyhome\">";
         endif;
         echo "<input type=\"hidden\" name=\"username\" value=\"$userinfo[username]\">";
         echo "<input type=\"hidden\" name=\"user_id\" value=\"$userinfo[user_id]\">";
@@ -51,6 +51,6 @@ exit('CNBYA protection');
         CloseTable();
         include_once(NUKE_BASE_DIR.'footer.php');
     else: 
-        mmain($pnt_user);
+        mmain($user);
     endif;
 ?>

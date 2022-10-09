@@ -47,31 +47,31 @@
       Cookie Check                             v1.0.0       08/04/2005
  ************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-        $pnt_module['General']['Configuration'] = "$file";
+        $module['General']['Configuration'] = "$file";
     return;
 }
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 include("../../../includes/functions_selects.php");
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-if ( !file_exists(@phpbb_realpath($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_adv_time.' . $phpEx)) )
+if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_adv_time.' . $phpEx)) )
 {
-    include_once($phpbb2_root_path . 'language/lang_english/lang_adv_time.' . $phpEx);
+    include_once($phpbb_root_path . 'language/lang_english/lang_adv_time.' . $phpEx);
 } else
 {
-    include_once($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_adv_time.' . $phpEx);
+    include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_adv_time.' . $phpEx);
 }
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
@@ -81,7 +81,7 @@ if ( !file_exists(@phpbb_realpath($phpbb2_root_path . 'language/lang_' . $phpbb2
 //
 $sql = "SELECT *
     FROM " . CONFIG_TABLE;
-if(!$result = $pnt_db->sql_query($sql))
+if(!$result = $db->sql_query($sql))
 {
     message_die(CRITICAL_ERROR, "Could not query config information in admin_board", "", __LINE__, __FILE__, $sql);
 }
@@ -102,7 +102,7 @@ else
                   $server_url .= substr($_SERVER["PHP_SELF"],0,$pos);
                 }
                 if($HTTP_POST_VARS["server_name"] != $server_url) {
-                    echo "<form action='".append_titanium_sid("admin_board.$phpEx")."' method='post'>";
+                    echo "<form action='".append_sid("admin_board.$phpEx")."' method='post'>";
                     foreach ($HTTP_POST_VARS as $key => $value) {
                         echo "<input type='hidden' name='".$key."' value='".$value."'>";
                     }
@@ -129,7 +129,7 @@ else
 /*****[END]********************************************
  [ Other:  URL Check                           v1.0.0 ]
  ******************************************************/
-    while( $row = $pnt_db->sql_fetchrow($result) )
+    while( $row = $db->sql_fetchrow($result) )
     {
         $config_name = $row['config_name'];
         $config_value = $row['config_value'];
@@ -165,7 +165,7 @@ else
 		if ($config_name == 'avatar_path')
 		{
 			$new['avatar_path'] = trim($new['avatar_path']);
-			if (strstr($new['avatar_path'], "\0") || !is_dir($phpbb2_root_path . $new['avatar_path']) || !is_writable($phpbb2_root_path . $new['avatar_path']))
+			if (strstr($new['avatar_path'], "\0") || !is_dir($phpbb_root_path . $new['avatar_path']) || !is_writable($phpbb_root_path . $new['avatar_path']))
 			{
 				$new['avatar_path'] = $default_config['avatar_path'];
 			}
@@ -173,9 +173,9 @@ else
         if( isset($HTTP_POST_VARS['submit']) )
         {
             if ($config_name == "default_Theme") {
-                $sql = "UPDATE " . $pnt_prefix . "_config SET
+                $sql = "UPDATE " . $prefix . "_config SET
                      default_Theme = '" . str_replace("\'", "''", $new[$config_name]) . "'";
-                 if( !$pnt_db->sql_query($sql) )
+                 if( !$db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, "Failed to update general configuration for $config_name", "", __LINE__, __FILE__, $sql);
                 }
@@ -183,7 +183,7 @@ else
                 $sql = "UPDATE " . CONFIG_TABLE . " SET
                     config_value = '" . str_replace("\'", "''", $new[$config_name]) . "'
                     WHERE config_name = '$config_name'";
-                if( !$pnt_db->sql_query($sql) )
+                if( !$db->sql_query($sql) )
                 {
                     message_die(GENERAL_ERROR, "Failed to update general configuration for $config_name", "", __LINE__, __FILE__, $sql);
                 }
@@ -191,7 +191,7 @@ else
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $cache->delete('php_nuke_titanium_config');
+                $cache->delete('nukeconfig');
                 $cache->delete('board_config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -201,7 +201,7 @@ else
 
     if( isset($HTTP_POST_VARS['submit']) )
     {
-        $message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_config'], "<a href=\"" . append_titanium_sid("admin_board.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_config'], "<a href=\"" . append_sid("admin_board.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
     }

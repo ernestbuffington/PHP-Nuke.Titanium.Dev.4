@@ -42,7 +42,7 @@ if(preg_match("#All(.*)Modules#", $showmodule) || !$showmodule ) {
 } else {
   $modfilter="WHERE page LIKE '%name=$showmodule%'";
 }
-$totalselected = $pnt_db->sql_numrows($pnt_db->sql_query("SELECT `username`, `ip_addr`, MAX(`date`), COUNT(*) FROM `".$pnt_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1,2"));
+$totalselected = $db->sql_numrows($db->sql_query("SELECT `username`, `ip_addr`, MAX(`date`), COUNT(*) FROM `".$prefix."_nsnst_tracked_ips` $modfilter GROUP BY 1,2"));
 if($totalselected > 0) {
 	$selcolumn1=$selcolumn2=$selcolumn3=$selcolumn4=$selcolumn5=$selcolumn6='';
 	$seldirection1=$seldirection2='';
@@ -77,28 +77,28 @@ if($totalselected > 0) {
   // Page Sorting
   // START Modules
   $handle=opendir('modules');
-  $pnt_moduleslist = '';
+  $moduleslist = '';
   while($file = readdir($handle)) {
     if( (!preg_match("/^[\.]/",$file)) && !preg_match("/(html)$/", $file) ) {
-      $pnt_moduleslist .= "$file ";
+      $moduleslist .= "$file ";
     }
   }
   closedir($handle);
-  $pnt_moduleslist .= "&nbsp;All&nbsp;Modules &nbsp;Index &nbsp;Admin &nbsp;Backend";
-  $pnt_moduleslist = explode(" ", $pnt_moduleslist);
-  sort($pnt_moduleslist);
+  $moduleslist .= "&nbsp;All&nbsp;Modules &nbsp;Index &nbsp;Admin &nbsp;Backend";
+  $moduleslist = explode(" ", $moduleslist);
+  sort($moduleslist);
   echo "<td align='right' bgcolor='$bgcolor2' width='60%'>\n";
   echo "<form action=\"".$admin_file.".php?op=ABTracked\" method=\"post\">\n";
   echo "<input type='hidden' name='column' value='$column' />\n";
   echo "<input type='hidden' name='direction' value='$direction' />\n";
   echo "<strong>"._AB_MODULE.":</strong> <select name=\"showmodule\">\n";
-  for($i=0; $i < sizeof($pnt_moduleslist); $i++) {
-    if($pnt_moduleslist[$i]!="") {
-      $pnt_moduleslist[$i] = str_replace("&nbsp;", " ", $pnt_moduleslist[$i]);
-      echo "<option value=\"$pnt_moduleslist[$i]\" ";
+  for($i=0; $i < sizeof($moduleslist); $i++) {
+    if($moduleslist[$i]!="") {
+      $moduleslist[$i] = str_replace("&nbsp;", " ", $moduleslist[$i]);
+      echo "<option value=\"$moduleslist[$i]\" ";
       if (!isset($showmodule)) $showmodule = '';
-      if($showmodule==$pnt_moduleslist[$i] OR ((!$showmodule OR $showmodule=="") AND $pnt_moduleslist[$i]==" All Modules")) { echo " selected='selected'"; }
-      echo ">".$pnt_moduleslist[$i]."</option>\n";
+      if($showmodule==$moduleslist[$i] OR ((!$showmodule OR $showmodule=="") AND $moduleslist[$i]==" All Modules")) { echo " selected='selected'"; }
+      echo ">".$moduleslist[$i]."</option>\n";
     }
   }
   echo "</select> <input type='submit' value='"._AB_GO."' /></form></td>\n";
@@ -112,12 +112,12 @@ if($totalselected > 0) {
   echo "<td align='center'><strong>"._AB_LASTVIEWED."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_HITS."</strong></td>\n";
   echo "<td align='center'><strong>"._AB_FUNCTIONS."</strong></td>\n</tr>\n";
-  $result = $pnt_db->sql_query("SELECT `user_id`, `username`, `ip_addr`, MAX(`date`), COUNT(*), MIN(`tid`), `c2c` FROM `".$pnt_prefix."_nsnst_tracked_ips` $modfilter GROUP BY 2,3 ORDER BY $column $direction LIMIT $min, $perpage");
-  while(list($pnt_userid,$pnt_username,$ipaddr,$lastview,$hits,$tid,$c2c) = $pnt_db->sql_fetchrow($result)){
+  $result = $db->sql_query("SELECT `user_id`, `username`, `ip_addr`, MAX(`date`), COUNT(*), MIN(`tid`), `c2c` FROM `".$prefix."_nsnst_tracked_ips` $modfilter GROUP BY 2,3 ORDER BY $column $direction LIMIT $min, $perpage");
+  while(list($userid,$username,$ipaddr,$lastview,$hits,$tid,$c2c) = $db->sql_fetchrow($result)){
     echo "<tr onmouseover=\"this.style.backgroundColor='$bgcolor2'\" onmouseout=\"this.style.backgroundColor='$bgcolor1'\" bgcolor='$bgcolor1'>";
     echo "<td>";
-    if($pnt_userid != 1) {
-      echo "<a href='modules.php?name=Your_Account&amp;op=userinfo&amp;username=$pnt_username' target='_blank'><img src='images/nukesentinel/usericon.png' height='16' width='16' alt='$pnt_username' title='$pnt_username' border='0' /></a>";
+    if($userid != 1) {
+      echo "<a href='modules.php?name=Your_Account&amp;op=userinfo&amp;username=$username' target='_blank'><img src='images/nukesentinel/usericon.png' height='16' width='16' alt='$username' title='$username' border='0' /></a>";
     } else {
       echo "<img src='images/nukesentinel/anonicon.png' height='16' width='16' alt='$anonymous' title='$anonymous' border='0' />";
     }
@@ -126,8 +126,8 @@ if($totalselected > 0) {
     echo "<td width='2%'>".$getIPs['flag_img']."</td>\n";
     echo "<td align='center'>".date("Y-m-d \@ H:i:s",$lastview)."</td>";
     echo "<td align='center'>$hits</td>";
-    echo "<td align='center'>&nbsp;<a href='".$admin_file.".php?op=ABPrintTrackedPages&amp;user_id=$pnt_userid&amp;ip_addr=$ipaddr' target='_blank'><img src='images/nukesentinel/print.png' height='16' width='16' alt='"._AB_PRINT."' title='"._AB_PRINT."' border='0' /></a>&nbsp;<a ";
-    echo "href='".$admin_file.".php?op=ABTrackedPages&amp;user_id=$pnt_userid&amp;ip_addr=$ipaddr' target='_blank'><img src='images/nukesentinel/view.png' height='16' width='16' alt='"._AB_VIEW."' title='"._AB_VIEW."' border='0' /></a>&nbsp;<a ";
+    echo "<td align='center'>&nbsp;<a href='".$admin_file.".php?op=ABPrintTrackedPages&amp;user_id=$userid&amp;ip_addr=$ipaddr' target='_blank'><img src='images/nukesentinel/print.png' height='16' width='16' alt='"._AB_PRINT."' title='"._AB_PRINT."' border='0' /></a>&nbsp;<a ";
+    echo "href='".$admin_file.".php?op=ABTrackedPages&amp;user_id=$userid&amp;ip_addr=$ipaddr' target='_blank'><img src='images/nukesentinel/view.png' height='16' width='16' alt='"._AB_VIEW."' title='"._AB_VIEW."' border='0' /></a>&nbsp;<a ";
     echo "href='".$admin_file.".php?op=ABTrackedAdd&amp;tid=$tid&amp;min=$min&amp;column=$column&amp;direction=$direction&amp;showmodule=$showmodule' target='_blank'><img src='images/nukesentinel/block.png' height='16' width='16' alt='"._AB_BLOCK."' title='"._AB_BLOCK."' border='0' /></a>&nbsp;<a ";
     echo "href='".$admin_file.".php?op=ABTrackedDelete&amp;tid=$tid&amp;min=$min&amp;column=$column&amp;direction=$direction&amp;showmodule=$showmodule&amp;xop=$op'><img src='images/nukesentinel/delete.png' height='16' width='16' alt='"._AB_DELETE."' title='"._AB_DELETE."' border='0' /></a>&nbsp;</td>";
     echo "</tr>";

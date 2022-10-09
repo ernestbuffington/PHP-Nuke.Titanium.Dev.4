@@ -20,7 +20,7 @@
  ***************************************************************************/
 function get_db_sizes()
 {
-  global $pnt_db, $table_prefix, $pnt_dbname;
+  global $db, $table_prefix, $dbname;
 
   // some code taken from admin/index.php
   //
@@ -32,23 +32,23 @@ function get_db_sizes()
   if( preg_match("/^mysql/", SQL_LAYER) )
   {
     $sql = "SELECT VERSION() AS mysql_version";
-    if($result = $pnt_db->sql_query($sql))
+    if($result = $db->sql_query($sql))
     {
-      $row = $pnt_db->sql_fetchrow($result);
+      $row = $db->sql_fetchrow($result);
       $version = $row['mysql_version'];
 
       if( preg_match("/^(3\.23|4\.|5\.)/", $version) )
       {
-        $pnt_db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)|(5\.)/", $version) ) ? "`$pnt_dbname`" : $pnt_dbname;
+        $db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)|(5\.)/", $version) ) ? "`$dbname`" : $dbname;
 
         $sql = "SHOW TABLE STATUS
-          FROM " . $pnt_db_name;
+          FROM " . $db_name;
 
-        if($result = $pnt_db->sql_query($sql))
+        if($result = $db->sql_query($sql))
         {
-          $tabledata_ary = $pnt_db->sql_fetchrowset($result);
+          $tabledata_ary = $db->sql_fetchrowset($result);
 
-          $pnt_db_size = 0;
+          $db_size = 0;
           $search_size = 0; // added
 
           for($i = 0; $i < count($tabledata_ary); $i++)
@@ -59,12 +59,12 @@ function get_db_sizes()
               {
                 if( strstr($tabledata_ary[$i]['Name'], $table_prefix) )
                 {
-                  $pnt_db_size += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
+                  $db_size += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
                 }
               }
               else
               {
-                $pnt_db_size += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
+                $db_size += $tabledata_ary[$i]['Data_length'] + $tabledata_ary[$i]['Index_length'];
               }
 
               // calculate the size of the search tables only
@@ -78,13 +78,13 @@ function get_db_sizes()
       }
       else
       {
-        $pnt_db_size = '';      // changed
+        $db_size = '';      // changed
         $search_size = '';  // changed
       }
     }
     else
     {
-      $pnt_db_size = '';      // changed
+      $db_size = '';      // changed
       $search_size = '';  // changed
     }
   }
@@ -93,52 +93,52 @@ function get_db_sizes()
     $sql = "SELECT ((SUM(size) * 8.0) * 1024.0) as dbsize
       FROM sysfiles";
 
-    if( $result = $pnt_db->sql_query($sql) )
+    if( $result = $db->sql_query($sql) )
     {
-      $pnt_db_size = ( $row = $pnt_db->sql_fetchrow($result) ) ? intval($row['dbsize']) : ''; // changed
+      $db_size = ( $row = $db->sql_fetchrow($result) ) ? intval($row['dbsize']) : ''; // changed
       $search_size = '';  // added
     }
     else
     {
-      $pnt_db_size = '';      // changed
+      $db_size = '';      // changed
       $search_size = '';  // added
     }
   }
   else
   {
-    $pnt_db_size = '';        // changed
+    $db_size = '';        // changed
     $search_size = '';    // added
   }
 
-  return array($pnt_db_size, $search_size);
+  return array($db_size, $search_size);
 }
 
 // convert numeric value to x Bytes string
-function create_db_size($pnt_db_size)
+function create_db_size($db_size)
 {
   global $lang;
 
-  if ( $pnt_db_size != '' && is_numeric($pnt_db_size) )
+  if ( $db_size != '' && is_numeric($db_size) )
   {
-    if( $pnt_db_size >= 1048576 )
+    if( $db_size >= 1048576 )
     {
-      $pnt_db_size = sprintf("%.2f MB", ( $pnt_db_size / 1048576 ));
+      $db_size = sprintf("%.2f MB", ( $db_size / 1048576 ));
     }
-    else if( $pnt_db_size >= 1024 )
+    else if( $db_size >= 1024 )
     {
-      $pnt_db_size = sprintf("%.2f KB", ( $pnt_db_size / 1024 ));
+      $db_size = sprintf("%.2f KB", ( $db_size / 1024 ));
     }
     else
     {
-      $pnt_db_size = sprintf("%.2f ".$lang['Bytes'], $pnt_db_size);
+      $db_size = sprintf("%.2f ".$lang['Bytes'], $db_size);
     }
   }
   else
   {
-    $pnt_db_size = $lang['Not_available'];
+    $db_size = $lang['Not_available'];
   }
 
-  return $pnt_db_size;
+  return $db_size;
 }
 
 // convert time values (seconds) to "number of days, hours, minutes and seconds"
@@ -177,18 +177,18 @@ function create_time($seconds)
 // get the latest post_id in the forum
 function get_latest_post_id()
 {
-  global $pnt_db;
+  global $db;
 
   $sql = "SELECT post_id FROM " . POSTS_TEXT_TABLE . "
     ORDER BY post_id DESC
     LIMIT 1";
 
-  if ( !($result = $pnt_db->sql_query($sql)) )
+  if ( !($result = $db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not obtain latest post', '', __LINE__, __FILE__, $sql);
   }
 
-  $row = $pnt_db->sql_fetchrow($result);
+  $row = $db->sql_fetchrow($result);
 
   return ( $row['post_id'] ) ? $row['post_id'] : 0;
 }
@@ -196,18 +196,18 @@ function get_latest_post_id()
 // get the last rebuild_session_id
 function get_last_rebuild_session_id()
 {
-  global $pnt_db;
+  global $db;
 
   $sql = "SELECT rebuild_session_id FROM " . SEARCH_REBUILD_TABLE . "
     ORDER BY rebuild_session_id DESC
     LIMIT 1";
 
-  if ( !($result = $pnt_db->sql_query($sql)) )
+  if ( !($result = $db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not obtain rebuild session id', '', __LINE__, __FILE__, $sql);
   }
 
-  $row = $pnt_db->sql_fetchrow($result);
+  $row = $db->sql_fetchrow($result);
 
   return ( $row['rebuild_session_id'] ) ? $row['rebuild_session_id'] : 0;
 }
@@ -218,7 +218,7 @@ function get_last_rebuild_session_id()
 // $details is one of the fields or 'all' of them
 function get_rebuild_session_details($id, $details = 'all')
 {
-  global $pnt_db;
+  global $db;
 
   if ( $id != 'last' )
   {
@@ -232,12 +232,12 @@ function get_rebuild_session_details($id, $details = 'all')
       LIMIT 1";
   }
 
-  if ( !($result = $pnt_db->sql_query($sql)) )
+  if ( !($result = $db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not obtain rebuild details', '', __LINE__, __FILE__, $sql);
   }
 
-  $row = $pnt_db->sql_fetchrow($result);
+  $row = $db->sql_fetchrow($result);
 
   if ( !empty($row) )
   {
@@ -257,7 +257,7 @@ function get_rebuild_session_details($id, $details = 'all')
 // 'session' to get the posts of the last session
 function get_processed_posts($mode = 'total')
 {
-  global $pnt_db;
+  global $db;
 
   if ( $mode == 'total' )
   {
@@ -269,12 +269,12 @@ function get_processed_posts($mode = 'total')
     WHERE rebuild_session_id = " . get_last_rebuild_session_id();
   }
 
-  if ( !($result = $pnt_db->sql_query($sql)) )
+  if ( !($result = $db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not obtain number of posts', '', __LINE__, __FILE__, $sql);
   }
 
-  $row = $pnt_db->sql_fetchrow($result);
+  $row = $db->sql_fetchrow($result);
 
   return ( $row['posts'] ) ? $row['posts'] : 0;
 }
@@ -283,17 +283,17 @@ function get_processed_posts($mode = 'total')
 // after/before include the post_id too
 function get_total_posts($mode = 'after', $post_id = 0)
 {
-  global $pnt_db;
+  global $db;
 
   $sql = "SELECT COUNT(post_id) as total_posts FROM " . POSTS_TABLE . "
     WHERE post_id " . (($mode == 'after') ? '>= ' : '<= ' ) . $post_id;
 
-  if ( !($result = $pnt_db->sql_query($sql)) )
+  if ( !($result = $db->sql_query($sql)) )
   {
     message_die(GENERAL_ERROR, 'Could not obtain number of posts', '', __LINE__, __FILE__, $sql);
   }
 
-  $row = $pnt_db->sql_fetchrow($result);
+  $row = $db->sql_fetchrow($result);
 
   return ( $row['total_posts'] ) ? $row['total_posts'] : 0;
 }
@@ -301,12 +301,12 @@ function get_total_posts($mode = 'after', $post_id = 0)
 // clear the search tables
 function clear_search_tables($clear_search)
 {
-  global $pnt_db;
+  global $db;
 
   // initialize our own table
   $sql = "DELETE FROM " . SEARCH_REBUILD_TABLE;
 
-  if( !$pnt_db->sql_query($sql) )
+  if( !$db->sql_query($sql) )
   {
     message_die(GENERAL_ERROR, 'Could not delete search rebuild table', '', __LINE__, __FILE__, $sql);
   }
@@ -320,7 +320,7 @@ function clear_search_tables($clear_search)
     {
       $sql = (( $clear_search == 1 ) ? "DELETE FROM " : "TRUNCATE TABLE " ) . $table;
 
-      if( !$pnt_db->sql_query($sql) )
+      if( !$db->sql_query($sql) )
       {
         message_die(GENERAL_ERROR, 'Could not delete search table', '', __LINE__, __FILE__, $sql);
       }
@@ -361,13 +361,13 @@ function create_color($mode, $code)
 // create the percent bar & box
 function create_percent_box($box, $percent_color, $percent_width)
 {
-  global $phpbb2_template;
+  global $template;
 
-  $phpbb2_template->set_filenames(array(
+  $template->set_filenames(array(
     'percent_box' => 'admin/rebuild_search_percent.tpl')
   );
 
-  $phpbb2_template->assign_vars(array(
+  $template->assign_vars(array(
     'PERCENT_COLOR' => $percent_color,
     'PERCENT_WIDTH' => round($percent_width)
     )
@@ -375,11 +375,11 @@ function create_percent_box($box, $percent_color, $percent_width)
 
   if ( $box == 'session' )
   {
-    $phpbb2_template->assign_var_from_handle('SESSION_PERCENT_BOX', 'percent_box');
+    $template->assign_var_from_handle('SESSION_PERCENT_BOX', 'percent_box');
   }
   else
   {
-    $phpbb2_template->assign_var_from_handle('TOTAL_PERCENT_BOX', 'percent_box');
+    $template->assign_var_from_handle('TOTAL_PERCENT_BOX', 'percent_box');
   }
 
   return;
@@ -388,13 +388,13 @@ function create_percent_box($box, $percent_color, $percent_width)
 // enable/disable the board
 function change_board_status($state = 'enable')
 {
-  global $pnt_db;
+  global $db;
 
   $sql = "UPDATE " . CONFIG_TABLE . "
     SET config_value = " . ( ( $state == 'enable' ) ? 0 : 1 ) . "
     WHERE config_name = 'board_disable'";
 
-  if ( !$pnt_db->sql_query($sql) )
+  if ( !$db->sql_query($sql) )
   {
     message_die(GENERAL_ERROR, 'Could not disable/enable board', '', __LINE__, __FILE__, $sql);
   }

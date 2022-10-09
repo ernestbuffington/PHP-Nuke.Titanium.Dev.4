@@ -38,14 +38,14 @@ if (!defined('CNBYA')) {
     global $cookie, $userinfo;
     $check = $cookie[1];
     $check2 = $cookie[2];
-    $result = $pnt_db->sql_query("SELECT user_id, user_password FROM ".$pnt_user_prefix."_users WHERE username='$check'");
-    $row = $pnt_db->sql_fetchrow($result);
+    $result = $db->sql_query("SELECT user_id, user_password FROM ".$user_prefix."_users WHERE username='$check'");
+    $row = $db->sql_fetchrow($result);
     $vuid = $row['user_id'];
     $ccpass = $row['user_password'];
-    if (($pnt_user_id == $vuid) AND ($check2 == $ccpass)) {
-        $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET storynum='$blognum' WHERE user_id='$pnt_user_id'");
+    if (($user_id == $vuid) AND ($check2 == $ccpass)) {
+        $db->sql_query("UPDATE ".$user_prefix."_users SET storynum='$storynum' WHERE user_id='$user_id'");
         yacookie($userinfo[user_id],$userinfo[username],$userinfo[user_password],$userinfo[storynum],$userinfo[umode],$userinfo[uorder],$userinfo[thold],$userinfo[noscore],$userinfo[ublockon],$userinfo[theme],$userinfo[commentmax]);
-        redirect_titanium("modules.php?name=$pnt_module");
+        redirect("modules.php?name=$module_name");
     }
 
 ?>

@@ -14,20 +14,20 @@
  *
  ***************************************************************************/
  
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $pnt_module['AUC']['Configuration']     = $file;
+    $module['AUC']['Configuration']     = $file;
     return;
 }
 
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 
 require('./pagestart.' . $phpEx);
-include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_auc.' . $phpEx);
+include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_auc.' . $phpEx);
 
     if(isset($HTTP_POST_VARS['mode']) || isset($HTTP_GET_VARS['mode']))
         {    
@@ -38,22 +38,22 @@ include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
     $mode = '';
         }
 
-    global $pnt_prefix;
-    define('COLORS', $pnt_prefix .'_bbadvanced_username_color');    
-    $link = append_titanium_sid("admin_advanced_username_color.". $phpEx);
+    global $prefix;
+    define('COLORS', $prefix .'_bbadvanced_username_color');    
+    $link = append_sid("admin_advanced_username_color.". $phpEx);
     
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_weight = '0'";
-    $r = $pnt_db->sql_query($q);
-    while ($rows = $pnt_db->sql_fetchrow($r))
+    $r = $db->sql_query($q);
+    while ($rows = $db->sql_fetchrow($r))
         {
         if ($rows['group_id'])
             {
         $q1 = "UPDATE ". COLORS ."
                SET group_weight = '". $rows['group_id'] ."'
                WHERE group_id = '". $rows['group_id'] ."'";
-        $pnt_db->sql_query($q1);
+        $db->sql_query($q1);
             }
         }
         
@@ -65,16 +65,16 @@ include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id = '". intval($group) ."'";
-    $r = $pnt_db->sql_query($q);
-    $group_one = $pnt_db->sql_fetchrow($r);
+    $r = $db->sql_query($q);
+    $group_one = $db->sql_fetchrow($r);
     
     $above_it = $group_one['group_weight'] - 1;
     
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_weight = '". intval($above_it) ."'";
-    $r = $pnt_db->sql_query($q);
-    $group_two = $pnt_db->sql_fetchrow($r);
+    $r = $db->sql_query($q);
+    $group_two = $db->sql_fetchrow($r);
     
     $group_one_id         = $group_one['group_id'];    
     $group_one_weight     = $group_one['group_weight'];
@@ -85,12 +85,12 @@ include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
     $q = "UPDATE ". COLORS ."
           SET group_weight = '". $group_two_weight ."'
           WHERE group_id = '". $group_one_id ."'";
-    $pnt_db->sql_query($q);
+    $db->sql_query($q);
     
     $q = "UPDATE ". COLORS ."
           SET group_weight = '". $group_one_weight ."'
           WHERE group_id = '". $group_two_id ."'";
-    $pnt_db->sql_query($q);
+    $db->sql_query($q);
     
     message_die(GENERAL_MESSAGE, 'Saved');
         }
@@ -103,16 +103,16 @@ include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id = '". intval($group) ."'";
-    $r = $pnt_db->sql_query($q);
-    $group_one = $pnt_db->sql_fetchrow($r);
+    $r = $db->sql_query($q);
+    $group_one = $db->sql_fetchrow($r);
     
     $below_it = $group_one['group_weight'] + 1;
     
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_weight = '". intval($below_it) ."'";
-    $r = $pnt_db->sql_query($q);
-    $group_two = $pnt_db->sql_fetchrow($r);
+    $r = $db->sql_query($q);
+    $group_two = $db->sql_fetchrow($r);
     
     $group_one_id         = $group_one['group_id'];    
     $group_one_weight     = $group_one['group_weight'];
@@ -123,12 +123,12 @@ include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lan
     $q = "UPDATE ". COLORS ."
           SET group_weight = '". $group_two_weight ."'
           WHERE group_id = '". $group_one_id ."'";
-    $pnt_db->sql_query($q);
+    $db->sql_query($q);
     
     $q = "UPDATE ". COLORS ."
           SET group_weight = '". $group_one_weight ."'
           WHERE group_id = '". $group_two_id ."'";
-    $pnt_db->sql_query($q);
+    $db->sql_query($q);
     
     message_die(GENERAL_MESSAGE, 'Saved');
         }
@@ -160,16 +160,16 @@ if($mode == "main" || !$mode)
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id > '0'";
-    $r        = $pnt_db -> sql_query($q);
-    $total    = $pnt_db->sql_numrows($r);    
+    $r        = $db -> sql_query($q);
+    $total    = $db->sql_numrows($r);    
     
     $w = 1;
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id > '0'
           ORDER BY group_weight ASC";
-    $r            = $pnt_db -> sql_query($q);
-    while($row     = $pnt_db -> sql_fetchrow($r))
+    $r            = $db -> sql_query($q);
+    while($row     = $db -> sql_fetchrow($r))
         {    
         if ($w != 1)
             $links = '&nbsp;&nbsp;<a href="admin_advanced_username_color.'. $phpEx .'?mode=move_up&amp;id='. $row['group_id'] .'&amp;sid='. $userdata['session_id'] .'">Up</a>';
@@ -271,8 +271,8 @@ if($mode == "main" || !$mode)
           FROM ". COLORS ."
           WHERE group_id > '0'
           ORDER BY group_name ASC";
-    $r            = $pnt_db -> sql_query($q);
-    while($row     = $pnt_db -> sql_fetchrow($r))
+    $r            = $db -> sql_query($q);
+    while($row     = $db -> sql_fetchrow($r))
         {    
     $name     = $row['group_name'];
     $id     = $row['group_id'];    
@@ -320,8 +320,8 @@ if($mode == "main" || !$mode)
           FROM ". COLORS ."
           WHERE group_id > '0'
           ORDER BY group_name ASC";
-    $r            = $pnt_db -> sql_query($q);
-    while($row     = $pnt_db -> sql_fetchrow($r))
+    $r            = $db -> sql_query($q);
+    while($row     = $db -> sql_fetchrow($r))
         {    
     $name     = $row['group_name'];
     $id     = $row['group_id'];    
@@ -446,14 +446,14 @@ if($mode == "main" || !$mode)
     
     $q = "DELETE FROM ". COLORS ."
           WHERE group_id = '". $to_delete ."'";
-    $r = $pnt_db -> sql_query($q);
+    $r = $db -> sql_query($q);
     
     #==== Update all users for this group
     $q = "SELECT user_color_gi, user_id
           FROM ". USERS_TABLE ."
           WHERE user_color_gi <> '0'";
-    $r         = $pnt_db->sql_query($q);
-    $row     = $pnt_db->sql_fetchrowset($r);
+    $r         = $db->sql_query($q);
+    $row     = $db->sql_fetchrowset($r);
     
         for ($a = 0; $a < count($row); $a++)
             {
@@ -470,8 +470,8 @@ if($mode == "main" || !$mode)
                     {
                 $q = "SELECT group_color, group_id
                       FROM ". COLORS ."";
-                $r = $pnt_db->sql_query($q);
-                $groups_info = $pnt_db->sql_fetchrowset($r);
+                $r = $db->sql_query($q);
+                $groups_info = $db->sql_fetchrowset($r);
                 
                     for ($b = 0; $b < count($groups_info); $b++)
                         {
@@ -495,7 +495,7 @@ if($mode == "main" || !$mode)
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $pnt_db->sql_query($q1);                        
+                $db->sql_query($q1);                        
             break;
                 }
             }
@@ -505,14 +505,14 @@ if($mode == "main" || !$mode)
         
     if($mode == "edit_exis_group")
         {
-    $phpbb2_color = $_POST['group'];    
-    if(!$phpbb2_color) message_die(GENERAL_ERROR, $lang['edit_error'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
+    $color = $_POST['group'];    
+    if(!$color) message_die(GENERAL_ERROR, $lang['edit_error'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
     
     $q = "SELECT *
           FROM ". COLORS ."
-          WHERE group_id = '". $phpbb2_color ."'";
-    $r            = $pnt_db -> sql_query($q);
-    $row         = $pnt_db -> sql_fetchrow($r);
+          WHERE group_id = '". $color ."'";
+    $r            = $db -> sql_query($q);
+    $row         = $db -> sql_fetchrow($r);
     
     echo "<table width='100%' border='0' class='forumline' cellspacing='2' align='center' valign='middle'>";
     echo "    <tr>";
@@ -582,8 +582,8 @@ if($mode == "main" || !$mode)
     $q = "SELECT group_name
           FROM ". COLORS ."
           WHERE group_name = '". $new_name ."'";
-    $r            = $pnt_db -> sql_query($q);
-    $row         = $pnt_db -> sql_fetchrow($r);
+    $r            = $db -> sql_query($q);
+    $row         = $db -> sql_fetchrow($r);
     $exists = $row['group_name'];
     
         if($new_name != $old_name)
@@ -594,19 +594,19 @@ if($mode == "main" || !$mode)
     $q = "SELECT *
           FROM ". COLORS ."
           WHERE group_id = '". $id ."'";
-    $r            = $pnt_db -> sql_query($q);
-    $row         = $pnt_db -> sql_fetchrow($r);
+    $r            = $db -> sql_query($q);
+    $row         = $db -> sql_fetchrow($r);
     $current_c     = $row['group_color'];
                     
     $q = "UPDATE ". COLORS ."
           SET group_name = '". $new_name ."', group_color = '". $new_color ."'
           WHERE group_id = '". $id ."'";
-    $r = $pnt_db -> sql_query($q);
+    $r = $db -> sql_query($q);
     
     $q = "UPDATE ". USERS_TABLE ."
           SET user_color_gc = '". $new_color ."'
           WHERE user_color_gc = '". $current_c ."'";
-    $r = $pnt_db -> sql_query($q);    
+    $r = $db -> sql_query($q);    
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -619,31 +619,31 @@ if($mode == "main" || !$mode)
         
     if($mode == "add_new_color")
         {
-    $phpbb2_color_name        = $_POST['new_name'];
-    $phpbb2_color_color    = $_POST['new_color'];
+    $color_name        = $_POST['new_name'];
+    $color_color    = $_POST['new_color'];
     
-    if(!$phpbb2_color_name || !$phpbb2_color_color) message_die(GENERAL_ERROR, $lang['add_error'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
-    if(strlen($phpbb2_color_color) <> 6) message_die(GENERAL_ERROR, $lang['add_error_3'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
+    if(!$color_name || !$color_color) message_die(GENERAL_ERROR, $lang['add_error'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
+    if(strlen($color_color) <> 6) message_die(GENERAL_ERROR, $lang['add_error_3'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
         
     $q = "SELECT group_name
           FROM ". COLORS ."
-          WHERE group_name = '". $phpbb2_color_name ."'";
-    $r            = $pnt_db -> sql_query($q);
-    $row         = $pnt_db -> sql_fetchrow($r);
+          WHERE group_name = '". $color_name ."'";
+    $r            = $db -> sql_query($q);
+    $row         = $db -> sql_fetchrow($r);
     
     if($row['group_name']) 
         message_die(GENERAL_ERROR, $lang['add_error_2'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
 
     $q = "SELECT MAX(group_weight) AS max_weight
           FROM ". COLORS ."";
-    $r        = $pnt_db -> sql_query($q);
-    $next    = $pnt_db -> sql_fetchrow($r);
+    $r        = $db -> sql_query($q);
+    $next    = $db -> sql_fetchrow($r);
         
     $weight = $next['max_weight'] + 1;
     
     $q = "INSERT INTO ". COLORS ."
-          VALUES (NULL, '". $phpbb2_color_name ."', '". $phpbb2_color_color ."', '". $weight ."')";
-    $r = $pnt_db -> sql_query($q);
+          VALUES (NULL, '". $color_name ."', '". $color_color ."', '". $weight ."')";
+    $r = $db -> sql_query($q);
                 
     message_die(GENERAL_MESSAGE, $lang['add_success'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['success']);        
         }

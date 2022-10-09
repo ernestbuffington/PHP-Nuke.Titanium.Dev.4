@@ -3,17 +3,17 @@
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
-$pnt_module = basename(dirname(__FILE__));
+$module_name = basename(dirname(__FILE__));
 
 $ThemeSel = get_theme();
 $themepath = './themes/'.$ThemeSel.'/style/ECalendar/style.css';
-$style_path = (!file_exists($themepath)) ? './modules/'.$pnt_module.'/css/' : './themes/'.$ThemeSel.'/style/ECalendar/';
+$style_path = (!file_exists($themepath)) ? './modules/'.$module_name.'/css/' : './themes/'.$ThemeSel.'/style/ECalendar/';
 
 addCSSToHead($style_path.'style.css','file');
-get_lang($pnt_module);
+get_lang($module_name);
 
 include_once(NUKE_BASE_DIR.'header.php');
-global $pnt_prefix, $pnt_db;
+global $prefix, $db;
 title($sitename.' '.'eCalendar');
 OpenTable();
 
@@ -57,22 +57,22 @@ $lcontrol = '<span style="float:left; font-size:11px;"><a href="modules.php?name
       }
  	//Main SQL call for the information for the day and also for the reoccuring event.
 		$sql = 'WHERE `day`= '.$current_day.' AND `month` = '.$month.' AND `year` = '.$year.' AND  `reoccur` = \'0\' OR (`day` = '.$current_day.' AND `reoccur` = \'1\') OR (`day` = '.$current_day.' AND `month` = '.$month.' AND `reoccur` = \'2\')';
-	  	$result = $pnt_db->sql_query("SELECT eid FROM ".$pnt_prefix."_ecalendar ".$sql);
-	    if ($pnt_db->sql_numrows($result) > 0) {
+	  	$result = $db->sql_query("SELECT eid FROM ".$prefix."_ecalendar ".$sql);
+	    if ($db->sql_numrows($result) > 0) {
 	        $et ='<a data-fancybox data-animation-duration="700" data-src="#animatedModalm'.$current_day.'" href="" class="btn btn-primary">' . PHP_EOL;
 			$et .='<div class="eventm">' . PHP_EOL;
 			$et .='<div id="animatedModalm'.$current_day.'" class="animated-modalm">' . PHP_EOL;
          	$et .='<h2>'._TODEVENTS.'</h2><br>' . PHP_EOL;
 			$et .='<div style="overflow-y: auto; overflow-x: hidden; max-height: 300px;">' . PHP_EOL;
 
-			$result = $pnt_db->sql_query("SELECT `eid`, `month`, `day`, `year`, `reoccur`, `time`, `ampm`, `title` FROM ".$pnt_prefix."_ecalendar ".$sql." ORDER by `eid` DESC");
-	        while (list($eid, $emonth, $eday, $eyear, $reoccur, $time, $ampm, $title) = $pnt_db->sql_fetchrow($result)) {
+			$result = $db->sql_query("SELECT `eid`, `month`, `day`, `year`, `reoccur`, `time`, `ampm`, `title` FROM ".$prefix."_ecalendar ".$sql." ORDER by `eid` DESC");
+	        while (list($eid, $emonth, $eday, $eyear, $reoccur, $time, $ampm, $title) = $db->sql_fetchrow($result)) {
 			
 				$date = $eyear.$emonth.$eday;
 			// Remove past events
 				$today = date("Ymd") - 1;
 	 			if (($today > $date) && ($reoccur == 0)){
-					$result = $pnt_db->sql_query("DELETE FROM `".$pnt_prefix."_ecalendar` WHERE eid = '$eid'");
+					$result = $db->sql_query("DELETE FROM `".$prefix."_ecalendar` WHERE eid = '$eid'");
 	 			}
 			// End				
 				$ampm = ($ampm == 0) ? 'AM' : 'PM';

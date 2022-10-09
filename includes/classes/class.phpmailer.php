@@ -1900,11 +1900,11 @@ class PHPMailer
                 static::edebug($this->lang('connect_host') . ' ' . $hostentry);
                 continue;
             }
-            $pnt_prefix = '';
+            $prefix = '';
             $secure = $this->SMTPSecure;
             $tls = ('tls' == $this->SMTPSecure);
             if ('ssl' == $hostinfo[2] or ('' == $hostinfo[2] and 'ssl' == $this->SMTPSecure)) {
-                $pnt_prefix = 'ssl://';
+                $prefix = 'ssl://';
                 $tls = false; // Can't have SSL and TLS at the same time
                 $secure = 'ssl';
             } elseif ('tls' == $hostinfo[2]) {
@@ -1926,7 +1926,7 @@ class PHPMailer
             if ($tport > 0 and $tport < 65536) {
                 $port = $tport;
             }
-            if ($this->smtp->connect($pnt_prefix . $host, $port, $this->Timeout, $options)) {
+            if ($this->smtp->connect($prefix . $host, $port, $this->Timeout, $options)) {
                 try {
                     if ($this->Helo) {
                         $hello = $this->Helo;
@@ -3179,16 +3179,16 @@ class PHPMailer
      */
     public function base64EncodeWrapMB($str, $linebreak = null)
     {
-        $phpbb2_start = '=?' . $this->CharSet . '?B?';
-        $phpbb2_end = '?=';
+        $start = '=?' . $this->CharSet . '?B?';
+        $end = '?=';
         $encoded = '';
         if (null === $linebreak) {
             $linebreak = static::$LE;
         }
 
         $mb_length = mb_strlen($str, $this->CharSet);
-        // Each line must have length <= 75, including $phpbb2_start and $phpbb2_end
-        $length = 75 - strlen($phpbb2_start) - strlen($phpbb2_end);
+        // Each line must have length <= 75, including $start and $end
+        $length = 75 - strlen($start) - strlen($end);
         // Average multi-byte ratio
         $ratio = $mb_length / strlen($str);
         // Base64 has a 4:3 ratio

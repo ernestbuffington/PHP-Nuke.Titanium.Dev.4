@@ -17,20 +17,20 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
 	$file = basename(__FILE__);
-	$pnt_module['Users']['Flags'] = "$file";
+	$module['Users']['Flags'] = "$file";
 	return;
 }
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 
 if( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
@@ -87,23 +87,23 @@ if( $mode != "" )
 
 			$sql = "SELECT * FROM " . FLAG_TABLE . "
 				WHERE flag_id = $flag_id";
-			if(!$result = $pnt_db->sql_query($sql))
+			if(!$result = $db->sql_query($sql))
 			{
 				message_die(GENERAL_ERROR, "Couldn't obtain flag data", "", __LINE__, __FILE__, $sql);
 			}
 			
-			$flag_info = $pnt_db->sql_fetchrow($result);
+			$flag_info = $db->sql_fetchrow($result);
 			$s_hidden_fields .= '<input type="hidden" name="id" value="' . $flag_id . '" />';
 
 		}
 
 		$s_hidden_fields .= '<input type="hidden" name="mode" value="save" />';
 
-		$phpbb2_template->set_filenames(array(
+		$template->set_filenames(array(
 			"body" => "admin/flags_edit_body.tpl")
 		);
 
-		$phpbb2_template->assign_vars(array(
+		$template->assign_vars(array(
 			"FLAG" => $flag_info['flag_name'],
 			"IMAGE" => ( $flag_info['flag_image'] != "" ) ? $flag_info['flag_image'] : "",
 			// "IMAGE_DISPLAY" => ( $flag_info['flag_image'] != "" ) ? '<img src="../../../images/flags/' . $flag_info['flag_image'] . '" />' : "",
@@ -117,7 +117,7 @@ if( $mode != "" )
 			"L_SUBMIT" => $lang['Submit'],
 			"L_RESET" => $lang['Reset'],
 			
-			"S_FLAG_ACTION" => append_titanium_sid("admin_flags.$phpEx"),
+			"S_FLAG_ACTION" => append_sid("admin_flags.$phpEx"),
 			"S_HIDDEN_FIELDS" => $s_hidden_fields)
 		);
 		
@@ -164,12 +164,12 @@ if( $mode != "" )
 			$message = $lang['Flag_added'];
 		}
 		
-		if( !$result = $pnt_db->sql_query($sql) )
+		if( !$result = $db->sql_query($sql) )
 		{
 			message_die(GENERAL_ERROR, "Couldn't update/insert into flags table", "", __LINE__, __FILE__, $sql);
 		}
 
-		$message .= "<br /><br />" . sprintf($lang['Click_return_flagadmin'], "<a href=\"" . append_titanium_sid("admin_flags.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+		$message .= "<br /><br />" . sprintf($lang['Click_return_flagadmin'], "<a href=\"" . append_sid("admin_flags.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
 		message_die(GENERAL_MESSAGE, $message);
 
@@ -189,18 +189,18 @@ if( $mode != "" )
 		//
 		// Set template files
 		//
-		$phpbb2_template->set_filenames(array(
+		$template->set_filenames(array(
 			'body' => 'confirm_body.tpl')
 		);
 
-		$phpbb2_template->assign_vars(array(
+		$template->assign_vars(array(
 			'MESSAGE_TITLE' => $lang['Flag_confirm'],
 			'MESSAGE_TEXT' => $lang['Confirm_delete_flag'],
 
 			'L_YES' => $lang['Yes'],
 			'L_NO' => $lang['No'],
 
-			'S_CONFIRM_ACTION' => append_titanium_sid("admin_flags.$phpEx"),
+			'S_CONFIRM_ACTION' => append_sid("admin_flags.$phpEx"),
 			'S_HIDDEN_FIELDS' => $hidden_fields)
 		);
 
@@ -226,11 +226,11 @@ if( $mode != "" )
 			// get the doomed flag's info
 			$sql = "SELECT * FROM " . FLAG_TABLE . " 
 				WHERE flag_id = $flag_id" ;
-			if( !$result = $pnt_db->sql_query($sql) )
+			if( !$result = $db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, "Couldn't get flag data", "", __LINE__, __FILE__, $sql);
 			}
-			$row = $pnt_db->sql_fetchrow($result);
+			$row = $db->sql_fetchrow($result);
 			$flag_image = $row['flag_image'] ;
 
 
@@ -238,7 +238,7 @@ if( $mode != "" )
 			$sql = "DELETE FROM " . FLAG_TABLE . "
 				WHERE flag_id = $flag_id";
 			
-			if( !$result = $pnt_db->sql_query($sql) )
+			if( !$result = $db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, "Couldn't delete flag data", "", __LINE__, __FILE__, $sql);
 			}
@@ -248,12 +248,12 @@ if( $mode != "" )
 			$sql = "UPDATE " . USERS_TABLE . " 
 				SET user_from_flag = 'blank.gif' 
 				WHERE user_from_flag = '$flag_image'";
-			if( !$result = $pnt_db->sql_query($sql) ) 
+			if( !$result = $db->sql_query($sql) ) 
 			{
 				message_die(GENERAL_ERROR, $lang['No_update_flags'], "", __LINE__, __FILE__, $sql);
 			}
 
-			$message = $lang['Flag_removed'] . "<br /><br />" . sprintf($lang['Click_return_flagadmin'], "<a href=\"" . append_titanium_sid("admin_flags.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['Flag_removed'] . "<br /><br />" . sprintf($lang['Click_return_flagadmin'], "<a href=\"" . append_sid("admin_flags.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
 			message_die(GENERAL_MESSAGE, $message);
 
@@ -269,21 +269,21 @@ if( $mode != "" )
 		// They didn't feel like giving us any information. Oh, too bad, we'll just display the
 		// list then...
 		//
-		$phpbb2_template->set_filenames(array(
+		$template->set_filenames(array(
 			"body" => "admin/flags_list_body.tpl")
 		);
 		
 		$sql = "SELECT * FROM " . FLAG_TABLE . "
 			ORDER BY flag_name";
-		if( !$result = $pnt_db->sql_query($sql) )
+		if( !$result = $db->sql_query($sql) )
 		{
 			message_die(GENERAL_ERROR, "Couldn't obtain flags data", "", __LINE__, __FILE__, $sql);
 		}
 		
-		$flag_rows = $pnt_db->sql_fetchrowset($result);
+		$flag_rows = $db->sql_fetchrowset($result);
 		$flag_count = count($flag_rows);
 		
-		$phpbb2_template->assign_vars(array(
+		$template->assign_vars(array(
 			"L_FLAGS_TITLE" => $lang['Flags_title'],
 			"L_FLAGS_TEXT" => $lang['Flags_explain'],
 			"L_FLAG" => $lang['Flag_name'],
@@ -293,7 +293,7 @@ if( $mode != "" )
 			"L_ADD_FLAG" => $lang['Add_new_flag'],
 			"L_ACTION" => $lang['Action'],
 			
-			"S_FLAGS_ACTION" => append_titanium_sid("admin_flags.$phpEx"))
+			"S_FLAGS_ACTION" => append_sid("admin_flags.$phpEx"))
 		);
 		
 		for( $i = 0; $i < $flag_count; $i++)
@@ -304,7 +304,7 @@ if( $mode != "" )
 			$row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
 			$row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];
 	
-			$phpbb2_template->assign_block_vars("flags", array(
+			$template->assign_block_vars("flags", array(
 				"ROW_COLOR" => "#" . $row_color,
 				"ROW_CLASS" => $row_class,
 
@@ -312,8 +312,8 @@ if( $mode != "" )
 				// "IMAGE_DISPLAY" => ( $flag_rows[$i]['flag_image'] != "" ) ? '<img src="../../../images/flags/' . $flag_rows[$i]['flag_image'] . '" />' : "",
 				"IMAGE_DISPLAY" => str_replace(array('.png',' '),array('','_'),$flag_rows[$i]['flag_image']),
 
-				"U_FLAG_EDIT" => append_titanium_sid("admin_flags.$phpEx?mode=edit&amp;id=$flag_id"),
-				"U_FLAG_DELETE" => append_titanium_sid("admin_flags.$phpEx?mode=delete&amp;id=$flag_id"))
+				"U_FLAG_EDIT" => append_sid("admin_flags.$phpEx?mode=edit&amp;id=$flag_id"),
+				"U_FLAG_DELETE" => append_sid("admin_flags.$phpEx?mode=delete&amp;id=$flag_id"))
 			);
 		}
 	}
@@ -323,21 +323,21 @@ else
 	//
 	// Show the default page
 	//
-	$phpbb2_template->set_filenames(array(
+	$template->set_filenames(array(
 		"body" => "admin/flags_list_body.tpl")
 	);
 	
 	$sql = "SELECT * FROM " . FLAG_TABLE . "
 		ORDER BY flag_name ASC";
-	if( !$result = $pnt_db->sql_query($sql) )
+	if( !$result = $db->sql_query($sql) )
 	{
 		message_die(GENERAL_ERROR, "Couldn't obtain flags data", "", __LINE__, __FILE__, $sql);
 	}
-	$flag_count = $pnt_db->sql_numrows($result);
+	$flag_count = $db->sql_numrows($result);
 
-	$flag_rows = $pnt_db->sql_fetchrowset($result);
+	$flag_rows = $db->sql_fetchrowset($result);
 	
-	$phpbb2_template->assign_vars(array(
+	$template->assign_vars(array(
 		"L_FLAGS_TITLE" => $lang['Flags_title'],
 		"L_FLAGS_TEXT" => $lang['Flags_explain'],
 		"L_FLAG" => $lang['Flag_name'],
@@ -347,7 +347,7 @@ else
 		"L_ADD_FLAG" => $lang['Add_new_flag'],
 		"L_ACTION" => $lang['Action'],
 		
-		"S_FLAGS_ACTION" => append_titanium_sid("admin_flags.$phpEx"))
+		"S_FLAGS_ACTION" => append_sid("admin_flags.$phpEx"))
 	);
 	
 	for($i = 0; $i < $flag_count; $i++)
@@ -357,20 +357,20 @@ else
 		$row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
 		$row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];
 
-		$phpbb2_template->assign_block_vars("flags", array(
+		$template->assign_block_vars("flags", array(
 			"ROW_COLOR" => "#" . $row_color,
 			"ROW_CLASS" => $row_class,
 			"FLAG" => $flag,
 			// "IMAGE_DISPLAY" => ( $flag_rows[$i]['flag_image'] != "" ) ? '<img src="../../../images/flags/' . $flag_rows[$i]['flag_image'] . '" />' : "",
 			"IMAGE_DISPLAY" => str_replace(array('.png',' '),array('','_'),$flag_rows[$i]['flag_image']),
 
-			"U_FLAG_EDIT" => append_titanium_sid("admin_flags.$phpEx?mode=edit&amp;id=$flag_id"),
-			"U_FLAG_DELETE" => append_titanium_sid("admin_flags.$phpEx?mode=delete&amp;id=$flag_id"))
+			"U_FLAG_EDIT" => append_sid("admin_flags.$phpEx?mode=edit&amp;id=$flag_id"),
+			"U_FLAG_DELETE" => append_sid("admin_flags.$phpEx?mode=delete&amp;id=$flag_id"))
 		);
 	}
 }
 
-$phpbb2_template->pparse("body");
+$template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

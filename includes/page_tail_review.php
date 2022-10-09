@@ -42,9 +42,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 //
@@ -53,12 +53,12 @@ if (!defined('IN_PHPBB2'))
 global $popup, $admin_file;
 $admin_link = ( $userdata['user_level'] == ADMIN ) ? '<a href="'.$admin_file.'.php?op=forums">' . $lang['Admin_panel'] . '</a><br /><br />' : '';
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     'overall_footer' => ( empty($gen_simple_header) ) ? 'overall_footer.tpl' : 'simple_footer.tpl')
 );
 
-$phpbb2_template->assign_vars(array(
-    'PHPBB_VERSION' => '2' . $phpbb2_board_config['version'],
+$template->assign_vars(array(
+    'PHPBB_VERSION' => '2' . $board_config['version'],
     'TRANSLATION_INFO' => ( isset($lang['TRANSLATION_INFO']) ) ? $lang['TRANSLATION_INFO'] : '',
     'ADMIN_LINK' => $admin_link)
 );
@@ -66,7 +66,7 @@ $phpbb2_template->assign_vars(array(
 //
 // Close our DB connection.
 //
-$pnt_db->sql_close();
+$db->sql_close();
 
 //
 // Compress buffered output if required and send to browser

@@ -13,37 +13,37 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
     $file = basename(__FILE__);
-    $pnt_module['Arcade_Admin']['Configuration'] = $file;
+    $module['Arcade_Admin']['Configuration'] = $file;
     return;
 }
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
-require( $phpbb2_root_path . 'gf_funcs/gen_funcs.' . $phpEx);
-require($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_main_arcade.' . $phpEx);
-require($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/lang_admin_arcade.' . $phpEx);
+require( $phpbb_root_path . 'gf_funcs/gen_funcs.' . $phpEx);
+require($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_main_arcade.' . $phpEx);
+require($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_arcade.' . $phpEx);
 
 //
 // Pull all config data
 //
 $sql = "SELECT *
     FROM " . ARCADE_TABLE;
-if(!$result = $pnt_db->sql_query($sql))
+if(!$result = $db->sql_query($sql))
 {
     message_die(CRITICAL_ERROR, "Could not query config information in admin_arcade", "", __LINE__, __FILE__, $sql);
 }
 else
 {
-    while( $row = $pnt_db->sql_fetchrow($result) )
+    while( $row = $db->sql_fetchrow($result) )
     {
         $arcade_name = $row['arcade_name'];
         $arcade_value = $row['arcade_value'];
@@ -56,7 +56,7 @@ else
             $sql = "UPDATE " . ARCADE_TABLE . "
                 SET arcade_value = '" . str_replace("\'", "''", $new[$arcade_name]) . "'
                 WHERE arcade_name = '$arcade_name'";
-            if( !$pnt_db->sql_query($sql) )
+            if( !$db->sql_query($sql) )
             {
                 message_die(GENERAL_ERROR, "Failed to update arcade configuration for $arcade_name", "", __LINE__, __FILE__, $sql);
             }
@@ -65,7 +65,7 @@ else
 
     if( isset($HTTP_POST_VARS['submit']) )
     {
-        $message = $lang['Arcade_config_updated'] . "<br /><br />" . sprintf($lang['Click_return_arcade_config'], "<a href=\"" . append_titanium_sid("admin_arcade.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_titanium_sid("index.$phpEx?pane=right") . "\">", "</a>");
+        $message = $lang['Arcade_config_updated'] . "<br /><br />" . sprintf($lang['Click_return_arcade_config'], "<a href=\"" . append_sid("admin_arcade.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
         message_die(GENERAL_MESSAGE, $message);
     }
@@ -119,13 +119,13 @@ $limit_by_posts_no = ( !$new['limit_by_posts'] ) ? "checked=\"checked\"" : "";
 $limit_type_posts = ( $new['limit_type']=='posts' ) ? "checked=\"checked\"" : "";
 $limit_type_date = ( $new['limit_type']=='date' ) ? "checked=\"checked\"" : "";
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "body" => "admin/arcade_config_body.tpl")
 );
 
 
-$phpbb2_template->assign_vars(array(
-    "S_CONFIG_ACTION" => append_titanium_sid("admin_arcade.$phpEx"),
+$template->assign_vars(array(
+    "S_CONFIG_ACTION" => append_sid("admin_arcade.$phpEx"),
 
     "L_YES" => $lang['Yes'],
     "L_NO" => $lang['No'],
@@ -200,7 +200,7 @@ $phpbb2_template->assign_vars(array(
 
 // Generate the page footer
 
-$phpbb2_template->pparse("body");
+$template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 

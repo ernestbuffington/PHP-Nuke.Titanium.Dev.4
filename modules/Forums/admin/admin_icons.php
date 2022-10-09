@@ -18,20 +18,20 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {
 	$file = basename(__FILE__);
-	$pnt_module['General']['Icons_settings'] = $file;
+	$module['General']['Icons_settings'] = $file;
 	return;
 }
 
 //
 // Let's set the root dir for phpBB
 //
-$phpbb2_root_path = "./../";
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = "./../";
+require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 
 //
@@ -51,43 +51,43 @@ if (!isset($nav_separator)) $nav_separator = '&nbsp;->&nbsp;';
 //
 function icons_read()
 {
-	global $phpEx, $phpbb2_root_path;
-	global $phpbb2_icones, $phpbb2_icon_defined_special, $map_icon;
+	global $phpEx, $phpbb_root_path;
+	global $icones, $icon_defined_special, $map_icon;
 
 	// read icons
 	include(  './../../../includes/posting_icons.' . $phpEx);
 
 	// build a map
 	$map_icon = array();
-	for ($i=0; $i < count($phpbb2_icones); $i++)
+	for ($i=0; $i < count($icones); $i++)
 	{
-		$map_icon[ $phpbb2_icones[$i]['ind'] ] = $i;
+		$map_icon[ $icones[$i]['ind'] ] = $i;
 	}
 }
 
 
 function icons_write()
 {
-	global $phpEx, $phpbb2_root_path, $phpbb2_template;
-	global $phpbb2_icones, $phpbb2_icon_defined_special, $map_icon;
+	global $phpEx, $phpbb_root_path, $template;
+	global $icones, $icon_defined_special, $map_icon;
 
 	// rebuild the map
 	$map_icon = array();
-	for ($i=0; $i < count($phpbb2_icones); $i++)
+	for ($i=0; $i < count($icones); $i++)
 	{
-		$map_icon[ $phpbb2_icones[$i]['ind'] ] = $i;
+		$map_icon[ $icones[$i]['ind'] ] = $i;
 	}
 
 	// set the outfile template
-	$phpbb2_template->set_filenames(array(
+	$template->set_filenames(array(
 		'outfile' => 'admin/icons_def_icons.tpl')
 	);
 
 	// process the icones
-	for ($i=0; $i < count($phpbb2_icones); $i++)
+	for ($i=0; $i < count($icones); $i++)
 	{
 		$auth = "''";
-		switch ($phpbb2_icones[$i]['auth'])
+		switch ($icones[$i]['auth'])
 		{
 			case AUTH_REG:
 				$auth = 'AUTH_REG';
@@ -102,20 +102,20 @@ function icons_write()
 				$auth = 'AUTH_ALL';
 				break;
 		}
-		$phpbb2_template->assign_block_vars('_outfile_icon', array(
-			'IND'	=> $phpbb2_icones[$i]['ind'],
-			'IMG'	=> str_replace("''", "\'", $phpbb2_icones[$i]['img']),
-			'ALT'	=> str_replace("''", "\'", $phpbb2_icones[$i]['alt']),
+		$template->assign_block_vars('_outfile_icon', array(
+			'IND'	=> $icones[$i]['ind'],
+			'IMG'	=> str_replace("''", "\'", $icones[$i]['img']),
+			'ALT'	=> str_replace("''", "\'", $icones[$i]['alt']),
 			'AUTH'	=> $auth,
 			)
 		);
 	}
 
 	// process the default values
-	@reset($phpbb2_icon_defined_special);
-	while (list($key, $data) = @each($phpbb2_icon_defined_special))
+	@reset($icon_defined_special);
+	while (list($key, $data) = @each($icon_defined_special))
 	{
-		$phpbb2_template->assign_block_vars('_outfile_default', array(
+		$template->assign_block_vars('_outfile_default', array(
 			'NAME'		=> str_replace("''", "\'", $key),
 			'LANG_KEY'	=> str_replace("''", "\'", $data['lang_key']),
 			'ICON'		=> empty($data['icon']) ? 0 : $data['icon'],
@@ -125,8 +125,8 @@ function icons_write()
 
 	// generate a var for the content
 	$file_data = '_file_data';
-	$phpbb2_template->assign_var_from_handle($file_data, 'outfile');
-	$res = $phpbb2_template->_tpldata['.'][0][$file_data];
+	$template->assign_var_from_handle($file_data, 'outfile');
+	$res = $template->_tpldata['.'][0][$file_data];
 
 	// output the file
 	$filename = './../../../includes/def_icons.' . $phpEx;
@@ -155,10 +155,10 @@ if ( isset($HTTP_POST_VARS['mode']) || isset($HTTP_GET_VARS['mode']) )
 if (!in_array($mode, array('edit', 'up', 'dw', 'del'))) $mode = '';
 
 // icon
-$phpbb2_icon = -1;
+$icon = -1;
 if ( isset($HTTP_POST_VARS['icon']) || isset($HTTP_GET_VARS['icon']) )
 {
-	$phpbb2_icon = isset($HTTP_POST_VARS['icon']) ? intval($HTTP_POST_VARS['icon']) : intval($HTTP_GET_VARS['icon']);
+	$icon = isset($HTTP_POST_VARS['icon']) ? intval($HTTP_POST_VARS['icon']) : intval($HTTP_GET_VARS['icon']);
 }
 
 // buttons
@@ -171,18 +171,18 @@ $refreh = isset($HTTP_POST_VARS['refresh']);
 // creation
 if ($create)
 {
-	$phpbb2_icon = -1;
+	$icon = -1;
 	$mode = 'edit';
 }
 
 // handle the mode
-if ( !isset($map_icon[$phpbb2_icon]) && ($mode != 'edit') )
+if ( !isset($map_icon[$icon]) && ($mode != 'edit') )
 {
 	$mode = '';
 }
-if ( !isset($map_icon[$phpbb2_icon]) )
+if ( !isset($map_icon[$icon]) )
 {
-	$phpbb2_icon = -1;
+	$icon = -1;
 }
 
 // adjust mode with buttons
@@ -207,17 +207,17 @@ if ($mode == 'del')
 	{
 		// builded a new icones array
 		$tmp = array();
-		for ($i=0; $i < count($phpbb2_icones); $i++)
+		for ($i=0; $i < count($icones); $i++)
 		{
-			if ($phpbb2_icones[$i]['ind'] != $phpbb2_icon)
+			if ($icones[$i]['ind'] != $icon)
 			{
-				$tmp[] = $phpbb2_icones[$i];
+				$tmp[] = $icones[$i];
 			}
 		}
 
 		// move the result in place
-		$phpbb2_icones = array();
-		$phpbb2_icones = $tmp;
+		$icones = array();
+		$icones = $tmp;
 
 		// handle the replacement icon
 		$replace_icon = -1;
@@ -227,12 +227,12 @@ if ($mode == 'del')
 			if (isset($map_icon[$replace_icon]))
 			{
 				// replace post icons
-				$sql = "UPDATE " . POSTS_TABLE . " SET post_icon=$replace_icon WHERE post_icon=$phpbb2_icon";
-				if (!$pnt_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to update icon on posts', '', __LINE__, __FILE__, $sql);
+				$sql = "UPDATE " . POSTS_TABLE . " SET post_icon=$replace_icon WHERE post_icon=$icon";
+				if (!$db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to update icon on posts', '', __LINE__, __FILE__, $sql);
 
 				// replace topic icons
-				$sql = "UPDATE " . TOPICS_TABLE . " SET topic_icon=$replace_icon WHERE topic_icon=$phpbb2_icon";
-				if (!$pnt_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to update icon on topics', '', __LINE__, __FILE__, $sql);
+				$sql = "UPDATE " . TOPICS_TABLE . " SET topic_icon=$replace_icon WHERE topic_icon=$icon";
+				if (!$db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to update icon on topics', '', __LINE__, __FILE__, $sql);
 			}
 		}
 
@@ -247,24 +247,24 @@ if ($mode == 'del')
 
 	if ($mode == 'del')
 	{
-		if (isset($map_icon[$phpbb2_icon]))
+		if (isset($map_icon[$icon]))
 		{
-			$used = ($phpbb2_icon == 0);
+			$used = ($icon == 0);
 
 			// check if posts are using this icon
 			if (!$used)
 			{
-				$sql = "SELECT * FROM " . POSTS_TABLE . " WHERE post_icon=$phpbb2_icon LIMIT 0, 1";
-				if (!$result = $pnt_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to access posts', '', __LINE__, __FILE__, $sql);
-				$used = ($row = $pnt_db->sql_fetchrow($result));
+				$sql = "SELECT * FROM " . POSTS_TABLE . " WHERE post_icon=$icon LIMIT 0, 1";
+				if (!$result = $db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to access posts', '', __LINE__, __FILE__, $sql);
+				$used = ($row = $db->sql_fetchrow($result));
 			}
 
 			// check if topics are using this icon
 			if (!$used)
 			{
-				$sql = "SELECT * FROM " . TOPICS_TABLE . " WHERE topic_icon=$phpbb2_icon LIMIT 0, 1";
-				if (!$result = $pnt_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to access topics', '', __LINE__, __FILE__, $sql);
-				$used = ($row = $pnt_db->sql_fetchrow($result));
+				$sql = "SELECT * FROM " . TOPICS_TABLE . " WHERE topic_icon=$icon LIMIT 0, 1";
+				if (!$result = $db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to access topics', '', __LINE__, __FILE__, $sql);
+				$used = ($row = $db->sql_fetchrow($result));
 			}
 
 			// some prevent check
@@ -272,7 +272,7 @@ if ($mode == 'del')
 			$error_msg = '';
 
 			// can't remove icon 0
-			if ($phpbb2_icon == 0)
+			if ($icon == 0)
 			{
 				$error = true;
 				$error_msg = (empty($error_msg) ? '' : '<br />') . $lang['Icons_error_del_0'];
@@ -285,12 +285,12 @@ if ($mode == 'del')
 			}
 
 			// send the confirm or replace template
-			$phpbb2_template->set_filenames(array(
+			$template->set_filenames(array(
 				'body' => 'admin/admin_icons_delete_body.tpl')
 			);
 
 			// header
-			$phpbb2_template->assign_vars(array(
+			$template->assign_vars(array(
 				'L_TITLE'					=> $lang['Icon'],
 				'L_TITLE_EXPLAIN'			=> $lang['Icons_settings_explain'],
 				'L_TITLE_DELETE'			=> $lang['Icons_delete'],
@@ -301,9 +301,9 @@ if ($mode == 'del')
 			);
 
 			// vars
-			$phpbb2_template->assign_vars(array(
+			$template->assign_vars(array(
 				'MESSAGE'	=> ($used ? $lang['Icons_delete_explain'] : $lang['Icons_confirm_delete']),
-				'ICON'		=> get_icon_title($phpbb2_icon, 2, -1, true),
+				'ICON'		=> get_icon_title($icon, 2, -1, true),
 				)
 			);
 
@@ -311,33 +311,33 @@ if ($mode == 'del')
 			if ($used)
 			{
 				// get the number of icon per row from config
-				$phpbb2_icon_per_row = isset($phpbb2_board_config['icon_per_row']) ? intval($phpbb2_board_config['icon_per_row']) : 10;
-				if ($phpbb2_icon_per_row <= 1)
+				$icon_per_row = isset($board_config['icon_per_row']) ? intval($board_config['icon_per_row']) : 10;
+				if ($icon_per_row <= 1)
 				{
-						$phpbb2_icon_per_row = 10;
+						$icon_per_row = 10;
 				}
 
 				// builded a new icones array without the one to replace
 				$tmp = array();
-				for ($i=0; $i < count($phpbb2_icones); $i++)
+				for ($i=0; $i < count($icones); $i++)
 				{
-					if ($phpbb2_icones[$i]['ind'] != $phpbb2_icon)
+					if ($icones[$i]['ind'] != $icon)
 					{
-						$tmp[] = $phpbb2_icones[$i];
+						$tmp[] = $icones[$i];
 					}
 				}
 
 				// display the icons
-				$phpbb2_template->assign_block_vars('replace',array());
-				$nb_row = intval( (count($tmp)-1) / $phpbb2_icon_per_row )+1;
+				$template->assign_block_vars('replace',array());
+				$nb_row = intval( (count($tmp)-1) / $icon_per_row )+1;
 				$offset = 0;
 				for ($i=0; $i < $nb_row; $i++)
 				{
-					$phpbb2_template->assign_block_vars('replace.row',array());
-					for ($j=0; ( ($j < $phpbb2_icon_per_row) && ($offset < count($tmp)) ); $j++)
+					$template->assign_block_vars('replace.row',array());
+					for ($j=0; ( ($j < $icon_per_row) && ($offset < count($tmp)) ); $j++)
 					{
 						// send to cell or cell_none
-						$phpbb2_template->assign_block_vars('replace.row.cell', array(
+						$template->assign_block_vars('replace.row.cell', array(
 							'ICON_ID'		=> $tmp[$offset]['ind'],
 							'ICON_CHECKED'	=> ($tmp[$offset]['ind'] == 0) ? ' checked="checked"' : '',
 							'ICON_IMG'		=> get_icon_title($tmp[$offset]['ind'], 2, -1, true),
@@ -350,16 +350,16 @@ if ($mode == 'del')
 
 			// system
 			$s_hidden_fields = '<input type="hidden" name="mode" value="' . $mode . '" />';
-			$s_hidden_fields .= '<input type="hidden" name="icon" value="' . $phpbb2_icon . '" />';
-			$phpbb2_template->assign_vars(array(
+			$s_hidden_fields .= '<input type="hidden" name="icon" value="' . $icon . '" />';
+			$template->assign_vars(array(
 				'NAV_SEPARATOR'		=> $nav_separator,
-				'S_ACTION'			=> append_titanium_sid("./admin_icons.$phpEx"),
+				'S_ACTION'			=> append_sid("./admin_icons.$phpEx"),
 				'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 				)
 			);
 
 			// footer
-			$phpbb2_template->pparse('body');
+			$template->pparse('body');
 			include('./page_footer_admin.'.$phpEx);
 		}
 		else
@@ -380,16 +380,16 @@ if ( ($mode == 'up') || ($mode == 'dw') )
 	if ($mode == 'dw') $inc = 1;
 
 	// get the map value of the icon to moved and the dest one
-	$map = $map_icon[$phpbb2_icon];
+	$map = $map_icon[$icon];
 	$moveto = $map + $inc;
 
 	// in the limits
-	if ( ($moveto >= 0) && ($moveto < count($phpbb2_icones)) )
+	if ( ($moveto >= 0) && ($moveto < count($icones)) )
 	{
 		// swap
-		$dst = $phpbb2_icones[$moveto];
-		$phpbb2_icones[$moveto] = $phpbb2_icones[$map];
-		$phpbb2_icones[$map] = $dst;
+		$dst = $icones[$moveto];
+		$icones[$moveto] = $icones[$map];
+		$icones[$map] = $dst;
 	}
 
 	// back to the main list
@@ -404,34 +404,34 @@ if ( ($mode == 'up') || ($mode == 'dw') )
 if ($mode == 'edit')
 {
 	// get the values from the existing state
-	$phpbb2_icon_ids = array();
-	if ($phpbb2_icon >= 0)
+	$icon_ids = array();
+	if ($icon >= 0)
 	{
-		$phpbb2_icon_title		= $phpbb2_icones[ $map_icon[$phpbb2_icon] ]['alt'];
-		$phpbb2_icon_url		= $phpbb2_icones[ $map_icon[$phpbb2_icon] ]['img'];
-		$phpbb2_icon_auth		= $phpbb2_icones[ $map_icon[$phpbb2_icon] ]['auth'];
-		@reset($phpbb2_icon_defined_special);
-		while (list($key, $data) = @each($phpbb2_icon_defined_special))
+		$icon_title		= $icones[ $map_icon[$icon] ]['alt'];
+		$icon_url		= $icones[ $map_icon[$icon] ]['img'];
+		$icon_auth		= $icones[ $map_icon[$icon] ]['auth'];
+		@reset($icon_defined_special);
+		while (list($key, $data) = @each($icon_defined_special))
 		{
 			if (isset($lang[ $data['lang_key'] ]))
 			{
-				if ($phpbb2_icon_defined_special[$key]['icon'] == $phpbb2_icon)
+				if ($icon_defined_special[$key]['icon'] == $icon)
 				{
-					$phpbb2_icon_ids[] = $key;
+					$icon_ids[] = $key;
 				}
 			}
 		}
 	}
 
 	// read the formular
-	if (isset($HTTP_POST_VARS['icon_title']))	$phpbb2_icon_title		= trim(str_replace("\'", "''", $HTTP_POST_VARS['icon_title']));
-	if (isset($HTTP_POST_VARS['icon_url']))		$phpbb2_icon_url		= trim(str_replace("\'", "''", $HTTP_POST_VARS['icon_url']));
-	if (isset($HTTP_POST_VARS['icon_auth']))	$phpbb2_icon_auth		= trim(str_replace("\'", "''", $HTTP_POST_VARS['icon_auth']));
+	if (isset($HTTP_POST_VARS['icon_title']))	$icon_title		= trim(str_replace("\'", "''", $HTTP_POST_VARS['icon_title']));
+	if (isset($HTTP_POST_VARS['icon_url']))		$icon_url		= trim(str_replace("\'", "''", $HTTP_POST_VARS['icon_url']));
+	if (isset($HTTP_POST_VARS['icon_auth']))	$icon_auth		= trim(str_replace("\'", "''", $HTTP_POST_VARS['icon_auth']));
 
 	if ($refresh || $submit)
 	{
-		$phpbb2_icon_ids = array();
-		$phpbb2_icon_ids = $HTTP_POST_VARS['ids'];
+		$icon_ids = array();
+		$icon_ids = $HTTP_POST_VARS['ids'];
 	}
 
 	// process the buttons
@@ -447,7 +447,7 @@ if ($mode == 'edit')
 		$error_msg = '';
 
 		// check if the lang_key is fitted
-		if (empty($phpbb2_icon_title))
+		if (empty($icon_title))
 		{
 			$error = true;
 			$error_msg = (empty($error_msg) ? '' : '<br />') . $lang['Icons_error_title'];
@@ -460,48 +460,48 @@ if ($mode == 'edit')
 		}
 
 		// creation : get a new indice
-		if ($phpbb2_icon < 0)
+		if ($icon < 0)
 		{
 			// find the last ind
 			$last = -1;
-			for ($i=0; $i < count($phpbb2_icones); $i++)
+			for ($i=0; $i < count($icones); $i++)
 			{
-				if ($phpbb2_icones[$i]['ind'] > $last)
+				if ($icones[$i]['ind'] > $last)
 				{
-					$last = $phpbb2_icones[$i]['ind'];
+					$last = $icones[$i]['ind'];
 				}
 			}
-			$phpbb2_icon = $last + 1;
-			$map = count($phpbb2_icones);
+			$icon = $last + 1;
+			$map = count($icones);
 		}
 		else
 		{
 			// find the existing map entry
-			$map = $map_icon[$phpbb2_icon];
+			$map = $map_icon[$icon];
 		}
 
 		// add or update the row
-		$phpbb2_icones[$map]['ind'] = $phpbb2_icon;
-		$phpbb2_icones[$map]['alt'] = $phpbb2_icon_title;
-		$phpbb2_icones[$map]['img'] = $phpbb2_icon_url;
-		$phpbb2_icones[$map]['auth'] = $phpbb2_icon_auth;
+		$icones[$map]['ind'] = $icon;
+		$icones[$map]['alt'] = $icon_title;
+		$icones[$map]['img'] = $icon_url;
+		$icones[$map]['auth'] = $icon_auth;
 
 		// consider the default sets
-		@reset($phpbb2_icon_defined_special);
-		while (list($key, $data) = @each($phpbb2_icon_defined_special))
+		@reset($icon_defined_special);
+		while (list($key, $data) = @each($icon_defined_special))
 		{
 			if (isset($lang[ $data['lang_key'] ]))
 			{
 				// reset a prec value
-				if ($phpbb2_icon_defined_special[$key]['icon'] == $phpbb2_icon)
+				if ($icon_defined_special[$key]['icon'] == $icon)
 				{
-					$phpbb2_icon_defined_special[$key]['icon'] = '';
+					$icon_defined_special[$key]['icon'] = '';
 				}
 
 				// set the new values
-				if ( @in_array($key, $phpbb2_icon_ids) )
+				if ( @in_array($key, $icon_ids) )
 				{
-					$phpbb2_icon_defined_special[$key]['icon'] = $phpbb2_icon;
+					$icon_defined_special[$key]['icon'] = $icon;
 				}
 			}
 		}
@@ -519,12 +519,12 @@ if ($mode == 'edit')
 	if ($mode == 'edit')
 	{
 		// template
-		$phpbb2_template->set_filenames(array(
+		$template->set_filenames(array(
 			'body' => 'admin/admin_icons_edit_body.tpl')
 		);
 
 		// header
-		$phpbb2_template->assign_vars(array(
+		$template->assign_vars(array(
 			'L_TITLE'			=> $lang['Icon'],
 			'L_TITLE_KEY'		=> $lang['Icon_key'],
 			'L_TITLE_EXPLAIN'	=> $lang['Icons_settings_explain'],
@@ -545,15 +545,15 @@ if ($mode == 'edit')
 		);
 
 		// get the icon url
-		$url = $phpbb2_icon_url;
-		if (isset($images[$phpbb2_icon_url]))
+		$url = $icon_url;
+		if (isset($images[$icon_url]))
 		{
-			$url = $images[$phpbb2_icon_url];
+			$url = $images[$icon_url];
 		}
 		$pic = '';
 		if (!empty($url))
 		{
-			$pic = '<img src="../../../' . $url . '" align="middle" alt="' . (isset($lang[$phpbb2_icon_title]) ? $lang[$phpbb2_icon_title] : '') . '" border="0" />&nbsp;';
+			$pic = '<img src="../../../' . $url . '" align="middle" alt="' . (isset($lang[$icon_title]) ? $lang[$icon_title] : '') . '" border="0" />&nbsp;';
 		}
 
 		// prepare auth level list
@@ -561,7 +561,7 @@ if ($mode == 'edit')
 		@reset($auths);
 		while (list($key, $data) = @each($auths))
 		{
-			$selected = ($phpbb2_icon_auth == $key) ? ' selected="selected"' : '';
+			$selected = ($icon_auth == $key) ? ' selected="selected"' : '';
 			$s_auths .= sprintf('<option value="%s"%s>%s</option>', $key, $selected, $data);
 		}
 		$s_auths = sprintf('<select name="icon_auth">%s</select>', $s_auths);
@@ -593,11 +593,11 @@ if ($mode == 'edit')
 		$s_langs = '<select name="lang_key_pickup_list" onChange="javascript:icon_title.value=this.options[this.selectedIndex].value; this.selectedIndex=0;">' . $s_langs . '</select>';
 
 		// vars
-		$phpbb2_template->assign_vars(array(
-			'ICON_TITLE_KEY'	=> $phpbb2_icon_title,
-			'ICON_TITLE'		=> isset($lang[$phpbb2_icon_title]) ? '<br />' . $lang[$phpbb2_icon_title] : '',
+		$template->assign_vars(array(
+			'ICON_TITLE_KEY'	=> $icon_title,
+			'ICON_TITLE'		=> isset($lang[$icon_title]) ? '<br />' . $lang[$icon_title] : '',
 			'ICON'				=> $pic,
-			'ICON_URL'			=> $phpbb2_icon_url,
+			'ICON_URL'			=> $icon_url,
 			'S_AUTHS'			=> $s_auths,
 			'S_ICONS'			=> $s_icons,
 			'S_LANGS'			=> $s_langs,
@@ -605,15 +605,15 @@ if ($mode == 'edit')
 		);
 
 		// defaults assignments
-		@reset($phpbb2_icon_defined_special);
-		while (list($key, $data) = @each($phpbb2_icon_defined_special))
+		@reset($icon_defined_special);
+		while (list($key, $data) = @each($icon_defined_special))
 		{
 			if (isset($lang[ $data['lang_key'] ]))
 			{
-				$phpbb2_template->assign_block_vars('defaults', array(
+				$template->assign_block_vars('defaults', array(
 					'NAME'		=> $lang[ $data['lang_key'] ],
 					'ID'		=> $key,
-					'CHECKED'	=> @in_array($key, $phpbb2_icon_ids) ? ' checked="checked"' : '',
+					'CHECKED'	=> @in_array($key, $icon_ids) ? ' checked="checked"' : '',
 					)
 				);
 			}
@@ -621,19 +621,19 @@ if ($mode == 'edit')
 
 		// system
 		$s_hidden_fields = '<input type="hidden" name="mode" value="' . $mode . '" />';
-		if ($phpbb2_icon >= 0)
+		if ($icon >= 0)
 		{
-			$s_hidden_fields .= '<input type="hidden" name="icon" value="' . $phpbb2_icon . '" />';
+			$s_hidden_fields .= '<input type="hidden" name="icon" value="' . $icon . '" />';
 		}
-		$phpbb2_template->assign_vars(array(
+		$template->assign_vars(array(
 			'NAV_SEPARATOR'		=> $nav_separator,
-			'S_ACTION'			=> append_titanium_sid("./admin_icons.$phpEx"),
+			'S_ACTION'			=> append_sid("./admin_icons.$phpEx"),
 			'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 			)
 		);
 
 		// footer
-		$phpbb2_template->pparse('body');
+		$template->pparse('body');
 		include('./page_footer_admin.'.$phpEx);
 	}
 }
@@ -644,26 +644,26 @@ if ($mode == '')
 	$sql = "SELECT post_icon, count(*) as count FROM " . POSTS_TABLE . " 
 			GROUP BY post_icon 
 			ORDER BY post_icon";
-	if (!$result = $pnt_db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to count icons on posts', '', __LINE__, __FILE__, $sql);
-	$phpbb2_total_posts = 0;
-	while ($row = $pnt_db->sql_fetchrow($result))
+	if (!$result = $db->sql_query($sql)) message_die(GENERAL_ERROR, 'unable to count icons on posts', '', __LINE__, __FILE__, $sql);
+	$total_posts = 0;
+	while ($row = $db->sql_fetchrow($result))
 	{
-		$phpbb2_total_posts = $phpbb2_total_posts + $row['count'];
+		$total_posts = $total_posts + $row['count'];
 		$row['post_icon'] = intval($row['post_icon']);
 		if (isset($map_icon[ $row['post_icon'] ]))
 		{
-			$phpbb2_icones[ $map_icon[ $row['post_icon'] ] ]['usage'] = $phpbb2_icones[ $map_icon[ $row['post_icon'] ] ]['usage'] + $row['count'];
+			$icones[ $map_icon[ $row['post_icon'] ] ]['usage'] = $icones[ $map_icon[ $row['post_icon'] ] ]['usage'] + $row['count'];
 		}
 	}
-	if ($phpbb2_total_posts <= 0) $phpbb2_total_posts = 1;
+	if ($total_posts <= 0) $total_posts = 1;
 
 	// template
-	$phpbb2_template->set_filenames(array(
+	$template->set_filenames(array(
 		'body' => 'admin/admin_icons_body.tpl')
 	);
 
 	// header
-	$phpbb2_template->assign_vars(array(
+	$template->assign_vars(array(
 		'L_TITLE'			=> $lang['Icon'],
 		'L_TITLE_KEY'		=> $lang['Icon_key'],
 		'L_TITLE_KEY'		=> $lang['Icon_key'],
@@ -684,29 +684,29 @@ if ($mode == '')
 	);
 
 	// display icons
-	for ($i=0; $i < count($phpbb2_icones); $i++)
+	for ($i=0; $i < count($icones); $i++)
 	{
-		$phpbb2_template->assign_block_vars('row', array(
-			'ICON'		=> get_icon_title($phpbb2_icones[$i]['ind'], 1, -1, true),
-			'ICON_KEY'	=> $phpbb2_icones[$i]['img'],
-			'L_LANG'	=> isset($lang[ $phpbb2_icones[$i]['alt'] ]) ? $lang[ $phpbb2_icones[$i]['alt'] ] : $phpbb2_icones[$i]['alt'],
-			'LANG_KEY'	=> isset($lang[ $phpbb2_icones[$i]['alt'] ]) ? '&nbsp;&nbsp;(' . $phpbb2_icones[$i]['alt'] . ')' : '',
-			'L_AUTH'	=> $auths[ $phpbb2_icones[$i]['auth'] ],
-			'USAGE'		=> (intval($phpbb2_icones[$i]['usage']) > 0) ? $phpbb2_icones[$i]['usage'] . '&nbsp;(' . ( round( ($phpbb2_icones[$i]['usage'] * 100 )/ $phpbb2_total_posts ) ) . '%)' : '',
-			'U_EDIT'	=> append_titanium_sid("./admin_icons.$phpEx?mode=edit&icon=" . $phpbb2_icones[$i]['ind']),
-			'U_DELETE'	=> append_titanium_sid("./admin_icons.$phpEx?mode=del&icon=" . $phpbb2_icones[$i]['ind']),
-			'U_MOVEUP'	=> append_titanium_sid("./admin_icons.$phpEx?mode=up&icon=" . $phpbb2_icones[$i]['ind']),
-			'U_MOVEDW'	=> append_titanium_sid("./admin_icons.$phpEx?mode=dw&icon=" . $phpbb2_icones[$i]['ind']),
+		$template->assign_block_vars('row', array(
+			'ICON'		=> get_icon_title($icones[$i]['ind'], 1, -1, true),
+			'ICON_KEY'	=> $icones[$i]['img'],
+			'L_LANG'	=> isset($lang[ $icones[$i]['alt'] ]) ? $lang[ $icones[$i]['alt'] ] : $icones[$i]['alt'],
+			'LANG_KEY'	=> isset($lang[ $icones[$i]['alt'] ]) ? '&nbsp;&nbsp;(' . $icones[$i]['alt'] . ')' : '',
+			'L_AUTH'	=> $auths[ $icones[$i]['auth'] ],
+			'USAGE'		=> (intval($icones[$i]['usage']) > 0) ? $icones[$i]['usage'] . '&nbsp;(' . ( round( ($icones[$i]['usage'] * 100 )/ $total_posts ) ) . '%)' : '',
+			'U_EDIT'	=> append_sid("./admin_icons.$phpEx?mode=edit&icon=" . $icones[$i]['ind']),
+			'U_DELETE'	=> append_sid("./admin_icons.$phpEx?mode=del&icon=" . $icones[$i]['ind']),
+			'U_MOVEUP'	=> append_sid("./admin_icons.$phpEx?mode=up&icon=" . $icones[$i]['ind']),
+			'U_MOVEDW'	=> append_sid("./admin_icons.$phpEx?mode=dw&icon=" . $icones[$i]['ind']),
 			)
 		);
 
 		// list of default assignement
-		@reset($phpbb2_icon_defined_special);
-		while (list($key, $data) = @each($phpbb2_icon_defined_special))
+		@reset($icon_defined_special);
+		while (list($key, $data) = @each($icon_defined_special))
 		{
-			if ( ($data['icon'] == $phpbb2_icones[$i]['ind']) && isset($lang[ $data['lang_key'] ]) )
+			if ( ($data['icon'] == $icones[$i]['ind']) && isset($lang[ $data['lang_key'] ]) )
 			{
-				$phpbb2_template->assign_block_vars('row.default', array(
+				$template->assign_block_vars('row.default', array(
 					'L_DEFAULT' => $lang[ $data['lang_key'] ],
 					)
 				);
@@ -716,15 +716,15 @@ if ($mode == '')
 
 	// system
 	$s_hidden_fields = '';
-	$phpbb2_template->assign_vars(array(
+	$template->assign_vars(array(
 		'NAV_SEPARATOR'		=> $nav_separator,
-		'S_ACTION'			=> append_titanium_sid("./admin_icons.$phpEx"),
+		'S_ACTION'			=> append_sid("./admin_icons.$phpEx"),
 		'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 		)
 	);
 
 	// footer
-	$phpbb2_template->pparse('body');
+	$template->pparse('body');
 	include('./page_footer_admin.'.$phpEx);
 }
 

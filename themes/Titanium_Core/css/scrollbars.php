@@ -3,7 +3,7 @@
 # themes/Universal/css/body.php                                                         #
 #---------------------------------------------------------------------------------------#
 # THEME INFO                                                                            #
-# Inferno Theme v1.3 (Fixed & Full Width)                                               #
+# Universal Theme v1.0 (Fixed & Full Width)                                             #
 #                                                                                       #
 # Final Build Date 08/17/2019 Saturday 7:40pm                                           #
 #                                                                                       #

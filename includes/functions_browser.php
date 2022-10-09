@@ -509,12 +509,12 @@ if(!function_exists('mime_content_type'))
     }
 }
 
-global $browser, $phpbb2_agent;
+global $browser, $agent;
 
-if($phpbb2_agent['engine'] == 'bot') {
+if($agent['engine'] == 'bot') {
     $browser = 'Bot';
-} elseif(!empty($phpbb2_agent['ua'])) {
-    $browser = $phpbb2_agent['ua'];
+} elseif(!empty($agent['ua'])) {
+    $browser = $agent['ua'];
 } else {
     $browser = 'Other';
 }

@@ -30,7 +30,7 @@ if (!defined('ADMIN_FILE')) {
    die ("Illegal File Access");
 }
 
-global $pnt_prefix, $pnt_db;
+global $prefix, $db;
 if (is_mod_admin()) {
 
     include_once(NUKE_ADMIN_MODULE_DIR.'settings/functions.php');

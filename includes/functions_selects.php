@@ -76,9 +76,9 @@
 	  Birthdays                                v3.0.0
  ************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 //
@@ -222,21 +222,21 @@ global $lang;
  ******************************************************/
 function auc_colors_select($default, $select_name = "color_groups", $value = "group_id")
 {
-global $pnt_db, $pnt_prefix;
+global $db, $prefix;
 
     $g_select = '<select class="form-control" name="' . $select_name . '" id="' . $select_name . '">';
-    $sql = "SELECT * FROM " . $pnt_prefix . "_bbadvanced_username_color  ORDER BY group_name ASC";
-    if (!$result = $pnt_db->sql_query($sql)) {
+    $sql = "SELECT * FROM " . $prefix . "_bbadvanced_username_color  ORDER BY group_name ASC";
+    if (!$result = $db->sql_query($sql)) {
         die(mysql_error());
     }
     $selected = (!$defualt) ? "selected=\"selected\"" : "";
     $g_select .= '<option value="0" '.$selected.'>None</option>';
-    while( $row = $pnt_db->sql_fetchrow($result) )
+    while( $row = $db->sql_fetchrow($result) )
     {
         $selected = ( $row['group_id'] == $default ) ? ' selected="selected"' : '';
         $g_select .= '<option value="' . $row[$value] . '"' . $selected . '>' . $row['group_name'] . '</option>';
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 
     $g_select .= '</select>';
 
@@ -245,21 +245,21 @@ global $pnt_db, $pnt_prefix;
 
 function ranks_select($default, $select_name = "ranks", $value = "rank_id")
 {
-    global $pnt_db, $pnt_prefix;
+    global $db, $prefix;
 
     $g_select = '<select class="form-control" name="' . $select_name . '" id="' . $select_name . '">';
     $sql = "SELECT * FROM " . RANKS_TABLE . " WHERE rank_special = 1 ORDER BY rank_title ASC";
-    if (!$result = $pnt_db->sql_query($sql)) {
+    if (!$result = $db->sql_query($sql)) {
         die(mysql_error());
     }
     $selected = (!$defualt) ? "selected=\"selected\"" : "";
     $g_select .= '<option value="0" '.$selected.'>None</option>';
-    while( $row = $pnt_db->sql_fetchrow($result) )
+    while( $row = $db->sql_fetchrow($result) )
     {
         $selected = ( $row['rank_id'] == $default ) ? ' selected="selected"' : '';
         $g_select .= '<option value="' . $row[$value] . '"' . $selected . '>' . $row['rank_title'] . '</option>';
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 
     $g_select .= '</select>';
 
@@ -367,28 +367,28 @@ function bday_day_select($default, $select_name = 'bday_day')
 
 function bday_year_select($default, $select_name = 'bday_year')
 {
-	global $phpbb2_board_config, $lang;
+	global $board_config, $lang;
 
 	if ( !isset($default) )
 	{
 		$default = 0;
 	}
-	$phpbb2_bday_year_select = '<select class="form-control" name="' . $select_name . '" id="' . $select_name . '">';
+	$bday_year_select = '<select class="form-control" name="' . $select_name . '" id="' . $select_name . '">';
 
-	$phpbb2_end = gmdate('Y') - $phpbb2_board_config['bday_min'];
-	$phpbb2_start = gmdate('Y') - $phpbb2_board_config['bday_max'] - 1;
+	$end = gmdate('Y') - $board_config['bday_min'];
+	$start = gmdate('Y') - $board_config['bday_max'] - 1;
 
 	$selected = ( !$default ) ? ' selected="selected"' : '';
-	$phpbb2_bday_year_select .= '<option value="0"' . $selected . '>' . $lang['Default_Year'] . '</option>';
+	$bday_year_select .= '<option value="0"' . $selected . '>' . $lang['Default_Year'] . '</option>';
 
-	for ($i=$phpbb2_end;$i>=$phpbb2_start;$i--)
+	for ($i=$end;$i>=$start;$i--)
 	{
 		$selected = ( $i == $default ) ? ' selected="selected"' : '';
-		$phpbb2_bday_year_select .= '<option value="' . $i . '"' . $selected . '>' . $i . '</option>';
+		$bday_year_select .= '<option value="' . $i . '"' . $selected . '>' . $i . '</option>';
 	}
-	$phpbb2_bday_year_select .= '</select>';
+	$bday_year_select .= '</select>';
 
-	return $phpbb2_bday_year_select;
+	return $bday_year_select;
 }
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]

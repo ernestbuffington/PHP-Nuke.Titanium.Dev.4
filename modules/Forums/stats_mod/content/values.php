@@ -24,9 +24,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 class Content_values
@@ -126,7 +126,7 @@ class Content_values
 
     function iterate_values()
     {
-        global $core, $stats_template, $phpbb2_root_path, $phpEx, $stat_functions, $lang;
+        global $core, $stats_template, $phpbb_root_path, $phpEx, $stat_functions, $lang;
 
         // make global...
         if (count($core->global_array) > 0)

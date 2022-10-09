@@ -196,44 +196,44 @@ class BBCode {
             # Find bbcode start tag, if not found end the loop.
             $curr_pos = strpos($text, '[', $curr_pos);
             if ($curr_pos === false) { break; }
-            $phpbb2_end = strpos($text, ']', $curr_pos);
-            if ($phpbb2_end === false) { break; }
+            $end = strpos($text, ']', $curr_pos);
+            if ($end === false) { break; }
 
-            $code_start = substr($text, $curr_pos, $phpbb2_end-$curr_pos+1);
+            $code_start = substr($text, $curr_pos, $end-$curr_pos+1);
             $code = strtolower(preg_replace('/\[([a-z]+).*]/i', '\\1', $code_start));
             $code_len = strlen($code);
 
-            $phpbb2_end_pos = empty($code) ? false : $phpbb2_end;
+            $end_pos = empty($code) ? false : $end;
             $depth = 0;
             $sub = false;
-            while ($phpbb2_end_pos) {
+            while ($end_pos) {
                 # Find bbcode end tag, if not found end the loop.
-                $phpbb2_end_pos = strpos($text, '[', $phpbb2_end_pos);
-                if ($phpbb2_end_pos === false) { break; }
-                $phpbb2_end = strpos($text, ']', $phpbb2_end_pos);
-                if ($phpbb2_end === false) { break; }
-                $code_end = strtolower(substr($text, $phpbb2_end_pos, $code_len+2));
+                $end_pos = strpos($text, '[', $end_pos);
+                if ($end_pos === false) { break; }
+                $end = strpos($text, ']', $end_pos);
+                if ($end === false) { break; }
+                $code_end = strtolower(substr($text, $end_pos, $code_len+2));
                 if ($code_end == "[/$code") {
                     if ($depth > 0) {
                         $depth--;
-                        $phpbb2_end_pos++;
+                        $end_pos++;
                         $sub = true;
                     } else {
                         if ($curr_pos > 0) {
                             $text_parts[] = array('text' => substr($text, 0, $curr_pos), 'code' => false, 'subc' => false);
                         }
                         $text_parts[] = array(
-                            'text' => substr($text, $curr_pos, $phpbb2_end-$curr_pos+1),
+                            'text' => substr($text, $curr_pos, $end-$curr_pos+1),
                             'code' => $code,
                             'subc' => $sub);
-                        $text = substr($text, $phpbb2_end+1);
+                        $text = substr($text, $end+1);
                         $str_len = strlen($text);
                         $curr_pos = 0;
                         break;
                     }
                 } else {
                     if (substr($code_end, 0, -1) == "[$code") { $depth++; }
-                    $phpbb2_end_pos++;
+                    $end_pos++;
                 }
             }
             $curr_pos++;

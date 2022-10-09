@@ -41,7 +41,7 @@
       <td colspan="{S_COLUMN_SPAN}" class="catBottom" align="center">{S_HIDDEN_FIELDS} 
         <input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />
         &nbsp;&nbsp; 
-        <input type="reset" value="{L_RESET}" class="titaniumbutton" name="reset" />
+        <input type="reset" value="{L_RESET}" class="liteoption" name="reset" />
       </td>
     </tr>
   </table>

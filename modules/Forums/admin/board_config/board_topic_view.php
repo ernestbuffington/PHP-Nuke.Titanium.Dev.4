@@ -26,7 +26,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "topic_view" => "admin/board_config/board_topic_view.tpl")
 );
 
@@ -48,12 +48,12 @@ $moved_html_open =  $new['moved_view_open'];
  ******************************************************/
 
 //General Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
     
 //Language Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     Customized Topic Status            v1.0.0 ]
  ******************************************************/
@@ -75,7 +75,7 @@ $phpbb2_template->assign_vars(array(
 ));
 
 //Data Template Variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     Customized Topic Status            v1.0.0 ]
  ******************************************************/
@@ -102,6 +102,6 @@ $phpbb2_template->assign_vars(array(
  [ Mod:     Customized Topic Status            v1.0.0 ]
  ******************************************************/
  ));
-$phpbb2_template->pparse("topic_view");
+$template->pparse("topic_view");
 
 ?>

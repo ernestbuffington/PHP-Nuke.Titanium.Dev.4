@@ -43,15 +43,15 @@ $num = (isset($num) && is_integer(intval($num)) && intval($num) > 0) ? 'LIMIT '.
 
 $cat = intval($cat);
 if (!empty($cat)) {
-    $catid = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT catid FROM ".$pnt_prefix."_links_categories WHERE title LIKE '%$cat%' LIMIT 1"));
+    $catid = $db->sql_fetchrow($db->sql_query("SELECT catid FROM ".$prefix."_links_categories WHERE title LIKE '%$cat%' LIMIT 1"));
     if (empty($catid)) {
-        $result = $pnt_db->sql_query("SELECT lid, title, description, date, submitter FROM ".$pnt_prefix."_links_links ORDER BY lid DESC ".$num);
+        $result = $db->sql_query("SELECT lid, title, description, date, submitter FROM ".$prefix."_links_links ORDER BY lid DESC ".$num);
     } else {
         $catid = intval($catid);
-        $result = $pnt_db->sql_query("SELECT lid, title, description, date, submitter FROM ".$pnt_prefix."_links_links WHERE catid='$catid' ORDER BY lid DESC ".$num);
+        $result = $db->sql_query("SELECT lid, title, description, date, submitter FROM ".$prefix."_links_links WHERE catid='$catid' ORDER BY lid DESC ".$num);
     }
 } else {
-    $result = $pnt_db->sql_query("SELECT lid, title, description, date, submitter FROM ".$pnt_prefix."_links_links ORDER BY lid DESC ".$num);
+    $result = $db->sql_query("SELECT lid, title, description, date, submitter FROM ".$prefix."_links_links ORDER BY lid DESC ".$num);
 }
 
 header("Content-Type: text/xml");
@@ -72,7 +72,7 @@ echo "<generator>".$sitename." Evo RSS Parser</generator>\n";
 echo "<ttl>60</ttl>\n\n";
 echo "<image>\n";
 echo "<title>".$sitename."</title>\n";
-echo "<url>".$nukeurl."/images/titanium/button.png</url>\n";
+echo "<url>".$nukeurl."/images/evo/minilogo.gif</url>\n";
 echo "<link>".$nukeurl."</link>\n";
 echo "<width>94</width>\n";
 echo "<height>15</height>\n";
@@ -85,7 +85,7 @@ echo "<sy:updatePeriod>hourly</sy:updatePeriod>\n";
 echo "<sy:updateFrequency>1</sy:updateFrequency>\n";
 echo "<sy:updateBase>".$now."</sy:updateBase>\n\n";
 
-while(list($lid, $title, $description, $date) = $pnt_db->sql_fetchrow($result)) {
+while(list($lid, $title, $description, $date) = $db->sql_fetchrow($result)) {
     $title = stripslashes($title);
     $title = entity_to_hex_value($title);
     $title2 = preg_replace("/ /", "_", $title);

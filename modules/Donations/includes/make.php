@@ -18,15 +18,15 @@ donation_title();
     Notes:       N/A
 ================================================================================================*/
 function make_get_values () {
-    global $pnt_db, $pnt_prefix, $lang_donate;
+    global $db, $prefix, $lang_donate;
     //Get the donation values
-    $sql = 'SELECT config_value from '.$pnt_prefix.'_donators_config WHERE config_name="values"';
+    $sql = 'SELECT config_value from '.$prefix.'_donators_config WHERE config_name="values"';
     //If not
-    if(!$result = $pnt_db->sql_query($sql)) {
+    if(!$result = $db->sql_query($sql)) {
         DonateError($lang_donate['VALUES_NF'],0);
     }
-    $row = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
     //Explode them into an array
     $values = explode(',', $row[0]);
     //Send them back
@@ -179,7 +179,7 @@ function make_codes () {
     Notes:       Makes the donation screen
 ================================================================================================*/
 function make_donation () {
-    global $gen_configs, $lang_donate, $pnt_module, $nukeurl;
+    global $gen_configs, $lang_donate, $module_name, $nukeurl;
 
     OpenTable();
     if(!empty($gen_configs['page_image'])) {
@@ -194,15 +194,15 @@ function make_donation () {
     $url = (substr($url,-1) == '/') ? substr($url,0, -1) : $url;
 
     //Use this line if you want to use the sandbox
-	echo '<form action="modules.php?name='.$pnt_module.'&op=confirm" method="post">';
+	echo '<form action="modules.php?name='.$module_name.'&op=confirm" method="post">';
 	echo "<input type=\"hidden\" name=\"currency_code\" value=\"".$gen_configs['currency']."\">\n";
 	echo "<input type=\"hidden\" name=\"cmd\" value=\"_ext-enter\">\n";
 	echo "<input type=\"hidden\" name=\"cmd\" value=\"_xclick\">\n";
 	echo "<input type=\"hidden\" name=\"business\" value=\"".$gen_configs['pp_email']."\">\n";
-    echo "<input type=\"hidden\" name=\"notify_url\" value=\"http://".$url."/modules.php?name=".$pnt_module."&amp;op=thankyou\">\n";
+    echo "<input type=\"hidden\" name=\"notify_url\" value=\"http://".$url."/modules.php?name=".$module_name."&amp;op=thankyou\">\n";
 	echo "<input type=\"hidden\" name=\"no_shipping\" value=\"1\">\n";
-	echo "<input type=\"hidden\" name=\"return\" value=\"http://".$url."/modules.php?name=".$pnt_module."&amp;op=thankyou\">\n";
-	echo "<input type=\"hidden\" name=\"cancel_return\" value=\"http://".$url."/modules.php?name=".$pnt_module."&amp;op=cancel\">\n";
+	echo "<input type=\"hidden\" name=\"return\" value=\"http://".$url."/modules.php?name=".$module_name."&amp;op=thankyou\">\n";
+	echo "<input type=\"hidden\" name=\"cancel_return\" value=\"http://".$url."/modules.php?name=".$module_name."&amp;op=cancel\">\n";
 	echo "<input type=\"hidden\" name=\"rm\" value=\"2\">\n";
 	echo "<input type=\"hidden\" name=\"no_note\" value=\"1\">\n";
 	echo "<input type=\"hidden\" name=\"on0\" value=\"Info\">\n";

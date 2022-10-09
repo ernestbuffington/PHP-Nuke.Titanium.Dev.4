@@ -43,7 +43,7 @@
       <td class="row2" align="center" valign="middle"><input type="checkbox" name="add_extension_group_check" /></td>
     </tr>
     <tr align="right"> 
-      <td class="catBottom" colspan="8" height="29"><input type="submit" name="submit" class="titaniumbutton" value="{L_SUBMIT}" /></td>
+      <td class="catBottom" colspan="8" height="29"><input type="submit" name="submit" class="liteoption" value="{L_SUBMIT}" /></td>
     </tr>
     <tr> 
       <th class="thLeft">&nbsp;{L_EXTENSION_GROUP}&nbsp;</th>
@@ -92,8 +92,8 @@
 
     <tr align="right"> 
       <td class="catBottom" colspan="8" height="29"> 
-      <input type="submit" name="{L_CANCEL}" class="titaniumbutton" value="{L_CANCEL}" onClick="self.location.href='{S_CANCEL_ACTION}'" />
-      <input type="submit" name="submit" class="titaniumbutton" value="{L_SUBMIT}" /></td>
+      <input type="submit" name="{L_CANCEL}" class="liteoption" value="{L_CANCEL}" onClick="self.location.href='{S_CANCEL_ACTION}'" />
+      <input type="submit" name="submit" class="liteoption" value="{L_SUBMIT}" /></td>
     </tr>
 </table>
 

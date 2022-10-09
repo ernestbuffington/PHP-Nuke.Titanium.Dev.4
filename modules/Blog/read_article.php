@@ -34,38 +34,38 @@ global $cookie, $userinfo;
 
 @include_once(NUKE_INCLUDE_DIR.'counter.php');
 
-$pnt_module = basename(dirname(__FILE__));
+$module_name = basename(dirname(__FILE__));
 
-get_lang($pnt_module);
+get_lang($module_name);
 
 $sid = (int) $sid;
 
 if (stristr($REQUEST_URI,"mainfile")) 
-redirect_titanium("modules.php?name=$pnt_module&file=read_article&sid=$sid");
+redirect("modules.php?name=$module_name&file=read_article&sid=$sid");
 else
 if (!isset($sid) && !isset($tid)) 
-redirect_titanium("index.php");
+redirect("index.php");
 
 if ($save AND is_user()) 
 {
-    $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET umode='$mode', uorder='$order', thold='$thold' where uid='$cookie[0]'");
+    $db->sql_query("UPDATE ".$user_prefix."_users SET umode='$mode', uorder='$order', thold='$thold' where uid='$cookie[0]'");
     $info = base64_encode("$userinfo[user_id]:$userinfo[username]:$userinfo[user_password]:$userinfo[storynum]:$userinfo[umode]:$userinfo[uorder]:$userinfo[thold]:$userinfo[noscore]");
     setcookie("user","$info",time()+$cookieusrtime);
 }
 
 if ($op == "Reply") 
-redirect_titanium("modules.php?name=$pnt_module&file=comments&op=Reply&pid=0&sid=$sid&mode=$mode&order=$order&thold=$thold");
+redirect("modules.php?name=$module_name&file=comments&op=Reply&pid=0&sid=$sid&mode=$mode&order=$order&thold=$thold");
 
-$sql = "select catid, aid, datePublished, dateModified, title, counter, hometext, bodytext, topic, informant, notes, acomm, haspoll, pollID, score, ratings FROM ".$pnt_prefix."_stories where sid='$sid'";
-$result = $pnt_db->sql_query($sql);
+$sql = "select catid, aid, datePublished, dateModified, title, counter, hometext, bodytext, topic, informant, notes, acomm, haspoll, pollID, score, ratings FROM ".$prefix."_stories where sid='$sid'";
+$result = $db->sql_query($sql);
 
-if ($numrows = $pnt_db->sql_numrows($result) != 1) 
+if ($numrows = $db->sql_numrows($result) != 1) 
 {
-    redirect_titanium("index.php");
+    redirect("index.php");
     exit;
 }
 
-$row = $pnt_db->sql_fetchrow($result);
+$row = $db->sql_fetchrow($result);
 
 $catid = $row["catid"];
 
@@ -104,9 +104,9 @@ $score = $row["score"];
 $ratings = $row["ratings"];
 
 if (empty($aid['name'])) 
-redirect_titanium("modules.php?name=$pnt_module"); 
+redirect("modules.php?name=$module_name"); 
 
-$pnt_db->sql_query("UPDATE ".$pnt_prefix."_stories SET counter=counter+1 where sid=$sid");
+$db->sql_query("UPDATE ".$prefix."_stories SET counter=counter+1 where sid=$sid");
 
 $artpage = 1;
 
@@ -153,11 +153,11 @@ getTopics($sid);
 
 if($catid != 0) 
 {
-    $sql = "select title from ".$pnt_prefix."_stories_cat where catid='$catid'";
-    $result = $pnt_db->sql_query($sql);
-    $row = $pnt_db->sql_fetchrow($result);
+    $sql = "select title from ".$prefix."_stories_cat where catid='$catid'";
+    $result = $db->sql_query($sql);
+    $row = $db->sql_fetchrow($result);
     $title1 = $row["title"];
-    $title = "<a href=\"modules.php?name=$pnt_module&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><font class=\"storycat\">$title1</font></a>: $title";
+    $title = "<a href=\"modules.php?name=$module_name&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><font class=\"storycat\">$title1</font></a>: $title";
 }
 
 echo "<table width=\"100%\" border=\"0\"><tr><td valign=\"top\" width=\"100%\">\n";

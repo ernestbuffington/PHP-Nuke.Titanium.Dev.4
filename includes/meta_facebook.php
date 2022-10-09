@@ -17,18 +17,18 @@
 /************************************************************************/
 if (!defined('NUKE_EVO')) { die("You can't access this file directly..."); }
 
-  global $pnt_db, $pnt_prefix, $cache;
+  global $db, $prefix, $cache;
 
 //Load dynamic meta tags from database           
 if(($facebookmetatags = $cache->load('metatagsfacebook', 'config')) === false) 
 {
   //Caching System v3.0.0
   $facebookmetatags = array();
-  $sql = 'SELECT meta_name, meta_content FROM '.$pnt_prefix.'_meta_facebook';
-  $result = $pnt_db->sql_query($sql, true);
+  $sql = 'SELECT meta_name, meta_content FROM '.$prefix.'_meta_facebook';
+  $result = $db->sql_query($sql, true);
   $i=0;
 
-  while(list($facebook_meta_name, $facebook_meta_content) = $pnt_db->sql_fetchrow($result, SQL_NUM)) 
+  while(list($facebook_meta_name, $facebook_meta_content) = $db->sql_fetchrow($result, SQL_NUM)) 
   {
       $facebookmetatags[$i] = array();
       $facebookmetatags[$i]['meta_name'] = $facebook_meta_name;
@@ -36,7 +36,7 @@ if(($facebookmetatags = $cache->load('metatagsfacebook', 'config')) === false)
       $i++;
   }
   unset($i);
-  $pnt_db->sql_freeresult($result);
+  $db->sql_freeresult($result);
 
  //Caching System v3.0.0
   $cache->save('metatagsfacebook', 'config', $facebookmetatags);

@@ -21,7 +21,7 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "user_and_forum" => "admin/board_config/board_user_and_forum.tpl")
 );
 
@@ -53,8 +53,8 @@ $smilies_in_titles_no = ( !$new['smilies_in_titles'] ) ? "checked=\"checked\"" :
 /*****[BEGIN]******************************************
  [ Mod:    Forum Index Avatar Mod                 v1.0]
  ******************************************************/
-$phpbb2_last_post_avatar_yes = ( $new['last_post_avatar'] ) ? "checked=\"checked\"" : "";
-$phpbb2_last_post_avatar_no = ( !$new['last_post_avatar'] ) ? "checked=\"checked\"" : "";
+$last_post_avatar_yes = ( $new['last_post_avatar'] ) ? "checked=\"checked\"" : "";
+$last_post_avatar_no = ( !$new['last_post_avatar'] ) ? "checked=\"checked\"" : "";
 /*****[END]********************************************
  [ Mod:    Forum Index Avatar Mod                 v1.0]
  ******************************************************/
@@ -89,12 +89,12 @@ $show_moved_logs_no = (!$new['show_moved_logs']) ? "checked=\"checked\"" : "";
  ******************************************************/
 
 //General Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "DHTML_ID" => "c" . $dhtml_id)
 );
     
 //Language Template variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "L_ABILITIES_SETTINGS" => $lang['Abilities_settings'],
     "L_MAX_POLL_OPTIONS" => $lang['Max_poll_options'],
     "L_ALLOW_HTML" => $lang['Allow_HTML'],
@@ -156,7 +156,7 @@ $phpbb2_template->assign_vars(array(
 ));
 
 //Data Template Variables
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     "MAX_POLL_OPTIONS" => $new['max_poll_options'],
     "HTML_TAGS" => $html_tags,
     "HTML_YES" => $html_yes,
@@ -181,8 +181,8 @@ $phpbb2_template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    Forum Index Avatar Mod                 v1.0]
  ******************************************************/
-    "AVATAR_ON_INDEX_YES" => $phpbb2_last_post_avatar_yes,
-    "AVATAR_ON_INDEX_NO" => $phpbb2_last_post_avatar_no,
+    "AVATAR_ON_INDEX_YES" => $last_post_avatar_yes,
+    "AVATAR_ON_INDEX_NO" => $last_post_avatar_no,
 /*****[END]********************************************
  [ Mod:    Forum Index Avatar Mod                 v1.0]
  ******************************************************/
@@ -225,6 +225,6 @@ $phpbb2_template->assign_vars(array(
  [ Mod:   Resize Posted Images                 v2.4.5 ]
  ******************************************************/
  ));
-$phpbb2_template->pparse("user_and_forum");
+$template->pparse("user_and_forum");
 
 ?>

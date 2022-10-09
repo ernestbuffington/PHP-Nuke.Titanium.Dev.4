@@ -42,7 +42,7 @@ if ($_SESSION['language']){
 
 $step = (isset($_REQUEST['step'])) ? $_REQUEST['step'] : 0;
 if (!$step) $step = '1';
-$total_phpbb2_steps = '10';
+$total_steps = '10';
 $next_step = $step+1;
 $continue_button = '<input type="hidden" name="step" value="'.$next_step.'" /><input type="submit" class="button" name="submit" value="'.$install_lang['continue'].' '.$next_step.'" />';
 check_required_files();
@@ -80,7 +80,7 @@ if ($step == 1){
     include('install/header.php');
     $lang_select = language_select('english', "language", dirname(__FILE__) . '/install/language');
 	echo '<form action="" method="post">';
-	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 	echo '<fieldset><legend>'.$install_lang['lang_stitle'].'</legend>';
 	echo '  <dl>';
 	echo '    <dt><label>'.$install_lang['lang_select'].'</label></dt>';
@@ -110,7 +110,7 @@ if ($step == 1){
 	}
 	if (!$sub_step){
 		echo '<form action="" method="post">';
-		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 		echo '<fieldset><legend>'.$install_lang['server_title'].'</legend>';
 		echo '  <dl>';
 		echo '    <dt><label>'.$install_lang['os'].'</label></dt>';
@@ -186,7 +186,7 @@ if ($step == 1){
 		echo '</form>';
 	} elseif ($sub_step == 1){
 		echo '<form action="" method="post">';
-		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 		echo '<fieldset><legend>'.$install_lang['server_title'].'</legend>';
 		require('install/file.inc');
 		echo '<center><input type="hidden" name="step" value="2" /><input type="hidden" name="sub_step" value="2" /><br /><input type="submit" class="button" value="'.$install_lang['next_step'].'" /></center>';
@@ -194,7 +194,7 @@ if ($step == 1){
 		echo '</form>';
 	} elseif ($sub_step == 2){
 		echo '<form action="" method="post" enctype="multipart/form-data" accept-charset="utf-8">';
-		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 		echo '<fieldset><legend>'.$install_lang['server_title'].'</legend>';
 		echo '  <dl>';
 		echo '    <dt><label>'.$install_lang['file_uploads'].'</label></dt>';
@@ -228,7 +228,7 @@ if ($step == 1){
 		echo '</form>';
 	} elseif ($sub_step == 3){
 		echo '<form action="" method="post" enctype="multipart/form-data" accept-charset="utf-8">';
-		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 		echo '<fieldset><legend>'.$install_lang['server_title'].'</legend>';
 		require('install/upload.inc');
 		echo '</fieldset>';
@@ -239,7 +239,7 @@ if ($step == 1){
 } elseif ($step == 3){
     include('install/header.php');
 	echo '<form action="" method="post">';
-	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 	echo '<fieldset><legend>'.$install_lang['chmod_check'].'</legend>';
 	echo '<div style="text-align: left;">';
 	echo chmod_files();
@@ -253,7 +253,7 @@ if ($step == 1){
 	$confirm = (isset($_POST['confirm'])) ? $_POST['confirm'] : '';
     if (!$confirm){
 		echo '<form action="" method="post">';
-		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 		echo '<fieldset><legend>'.$install_lang['mysql_info'].'</legend>';
 		echo '  <dl>';
 		echo '    <dt><label>'.$install_lang['dbhost'].'</label></dt>';
@@ -300,7 +300,7 @@ if ($step == 1){
 		echo '</form>';
 	} else {
 		echo '<form action="" method="post">';
-		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'] . " ".$total_phpbb2_steps.'</strong></div></center>';
+		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'] . " ".$total_steps.'</strong></div></center>';
 		echo '<fieldset><legend>'.$install_lang['mysql_check'].'</legend>';
 		echo '<div style="text-align: left;">';
 		echo validate_data($_POST);
@@ -312,7 +312,7 @@ if ($step == 1){
 } elseif ($step == 5){
     include('install/header.php');
 	echo '<form action="" method="post">';
-	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 	echo '<fieldset><legend>'.$install_lang['sql_install'].'</legend>';
 	echo '<div style="text-align: left;">';
 	echo do_sql('install/install.sql');
@@ -323,7 +323,7 @@ if ($step == 1){
 } elseif ($step == 6) {
 	include('install/header.php');
 	echo '<form action="" method="post">';
-	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 	echo '<fieldset><legend>'.$install_lang['sql2_install'].'</legend>';
 	echo '<div style="text-align: left;">';
 	echo do_sql('install/install_ip2c.sql');
@@ -343,7 +343,7 @@ if ($step == 1){
 		$http_scheme = ( $_SERVER['REQUEST_SCHEME'] ) ? $_SERVER['REQUEST_SCHEME'] : 'http';
 
 		echo '<form action="" method="post">';
-		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 		echo '<fieldset><legend>'.$install_lang['setup_admin'].'</legend>';
 		echo '  <dl>';
 		echo '    <dt><label>'.$install_lang['admin_nick'].'</label></dt>';
@@ -370,7 +370,7 @@ if ($step == 1){
 		echo '</form>';
 	} else {
 		echo '<form action="" method="post">';
-		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'] . " ".$total_phpbb2_steps.'</strong></div></center>';
+		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'] . " ".$total_steps.'</strong></div></center>';
 		echo '<fieldset><legend>'.$install_lang['admin_check'].'</legend>';
 		echo '<div style="text-align: left;">';
 		echo validate_admin();
@@ -383,7 +383,7 @@ if ($step == 1){
 	$return = (isset($_POST['return'])) ? true : false;
     include('install/header.php');
 	echo '<form action="" method="post">';
-	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 	echo '<fieldset><legend>'.$install_lang['setup_config'].'</legend>';
 	echo site_form(0,$return);
 	echo '</fieldset>';
@@ -392,7 +392,7 @@ if ($step == 1){
     include('install/footer.php');
 } elseif ($step == 9){
     include('install/header.php');
-	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 	echo '<fieldset><legend>'.$install_lang['setup_overview'].'</legend>';
 	echo site_form(0);
 	echo '</fieldset>';
@@ -405,7 +405,7 @@ if ($step == 1){
     include('install/footer.php');
 } elseif ($step == 10){
     include('install/header.php');
-	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
+	echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
 	echo '<fieldset><legend>'.$install_lang['finish_install'].'</legend>';
 	echo '<div style="text-align: center;">';
 	echo $install_lang['done'].'<br /><br />'.$install_lang['delete'];

@@ -43,9 +43,9 @@
     to this source
 */
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 class Stats_template {
@@ -77,23 +77,23 @@ class Stats_template {
 
     function set_template($stats_template = '')
     {
-        global $directory_mode, $phpbb2_root_path;
-        $this->root = $phpbb2_root_path . 'templates/' . $stats_template . '/stats_mod';
-        $this->cachedir = $phpbb2_root_path . 'modules/cache/templates/' . $stats_template . '/';
-        $pnt_module_cache_dir = $phpbb2_root_path . 'modules/cache';
+        global $directory_mode, $phpbb_root_path;
+        $this->root = $phpbb_root_path . 'templates/' . $stats_template . '/stats_mod';
+        $this->cachedir = $phpbb_root_path . 'modules/cache/templates/' . $stats_template . '/';
+        $module_cache_dir = $phpbb_root_path . 'modules/cache';
         
-        if (!file_exists($pnt_module_cache_dir))
+        if (!file_exists($module_cache_dir))
         {
             @umask(0);
-            mkdir($pnt_module_cache_dir, $directory_mode);
+            mkdir($module_cache_dir, $directory_mode);
         }
 
-        $phpbb2_template_cache_dir = $phpbb2_root_path . 'modules/cache/templates';
+        $template_cache_dir = $phpbb_root_path . 'modules/cache/templates';
         
-        if (!file_exists($phpbb2_template_cache_dir))
+        if (!file_exists($template_cache_dir))
         {
             @umask(0);
-            mkdir($phpbb2_template_cache_dir, $directory_mode);
+            mkdir($template_cache_dir, $directory_mode);
         }
 
         if (!file_exists($this->cachedir))
@@ -116,7 +116,7 @@ class Stats_template {
             return false;
         }
 
-        $phpbb2_template_names = '';
+        $template_names = '';
         foreach ($filename_array as $handle => $filename)
         {
             if (empty($filename))
@@ -396,15 +396,15 @@ class Stats_template {
             }
         }
 
-        $phpbb2_template_php = '';
+        $template_php = '';
         for ($i = 0; $i < count($text_blocks); $i++)
         {
             $trim_check_text = trim($text_blocks[$i]);
             $trim_check_block = trim($compile_blocks[$i]);
-            $phpbb2_template_php .= (!$do_not_echo) ? ((!empty($trim_check_text)) ? 'echo \'' . $text_blocks[$i] . '\';' : '') . ((!empty($compile_blocks[$i])) ? $compile_blocks[$i] : '') : ((!empty($trim_check_text)) ? $text_blocks[$i] . "\n" : '') . ((!empty($compile_blocks[$i])) ? $compile_blocks[$i] . "\n" : '');
+            $template_php .= (!$do_not_echo) ? ((!empty($trim_check_text)) ? 'echo \'' . $text_blocks[$i] . '\';' : '') . ((!empty($compile_blocks[$i])) ? $compile_blocks[$i] : '') : ((!empty($trim_check_text)) ? $text_blocks[$i] . "\n" : '') . ((!empty($compile_blocks[$i])) ? $compile_blocks[$i] . "\n" : '');
         }
 
-        return  (!$do_not_echo) ? $phpbb2_template_php : '$' . $retvar . '.= \'' . str_replace("'", "\\'", $phpbb2_template_php) . '\';';
+        return  (!$do_not_echo) ? $template_php : '$' . $retvar . '.= \'' . str_replace("'", "\\'", $template_php) . '\';';
     }
 
     function compile_var_tags(&$text_blocks)
@@ -774,55 +774,55 @@ class Stats_template {
         return;
     }
 
-    function compile_titanium_cache_clear($file = 'modules/cache') 
+    function compile_cache_clear($file = 'modules/cache') 
     {
-        global $directory_mode, $phpbb2_root_path;
+        global $directory_mode, $phpbb_root_path;
 
-        if (file_exists($phpbb2_root_path . $file)) 
+        if (file_exists($phpbb_root_path . $file)) 
         {
-            chmod($phpbb2_root_path . $file, $directory_mode);
+            chmod($phpbb_root_path . $file, $directory_mode);
             
-            if (is_dir($phpbb2_root_path . $file))
+            if (is_dir($phpbb_root_path . $file))
             {
-                $dir = opendir($phpbb2_root_path . $file); 
+                $dir = opendir($phpbb_root_path . $file); 
                 while ($filename = readdir($dir)) 
                 {
                     if ($filename != '.' && $filename != '..') 
                     {
-                        $this->compile_titanium_cache_clear($file . '/' . $filename);
+                        $this->compile_cache_clear($file . '/' . $filename);
                     }
                 }
                 closedir($dir);
-                rmdir($phpbb2_root_path . $file);
+                rmdir($phpbb_root_path . $file);
             } 
             else 
             {
-                unlink($phpbb2_root_path . $file);
+                unlink($phpbb_root_path . $file);
             }
         }
     }
 
-    function compile_cache_show(&$phpbb2_template, $decompile = false)
+    function compile_cache_show(&$template, $decompile = false)
     {
-        global $phpbb2_root_path;
+        global $phpbb_root_path;
 
-        $phpbb2_template_cache = array();
+        $template_cache = array();
 
         $dp = opendir($this->cachedir);
         while ($file = readdir($dp))
         {
             if (strstr($file, '.tpl') && is_file($this->cachedir . '/' . $file))
             {
-                array_push($phpbb2_template_cache, $file);
+                array_push($template_cache, $file);
             }
         }
         closedir($dp);
         
-        for ($i = 0; $i < count($phpbb2_template_cache); $i++)
+        for ($i = 0; $i < count($template_cache); $i++)
         {
             if ($decompile)
             {
-                $contents = file($this->cachedir . '/' . $phpbb2_template_cache[$i]);
+                $contents = file($this->cachedir . '/' . $template_cache[$i]);
                 $str = '';
                 for ($j = 0; $j < count($contents); $j++)
                 {
@@ -833,7 +833,7 @@ class Stats_template {
             }
             else
             {
-                echo $phpbb2_template_cache[$i].'<br />';
+                echo $template_cache[$i].'<br />';
             }
         }
 

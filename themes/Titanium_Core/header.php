@@ -2,15 +2,13 @@
 #---------------------------------------------------------------------------------------#
 # HEADER                                                                                #
 #---------------------------------------------------------------------------------------#
-# THEME SYSTEM FILE                                                                     #
-#---------------------------------------------------------------------------------------#
 # THEME INFO                                                                            #
-# Titanium_Core Theme v2.0 (Fixed & Full Width)                                         #
+# Universal Theme v1.0 (Fixed & Full Width)                                             #
 #                                                                                       #
 # Final Build Date 03/16/2021 Tuesday 12:54am                                           #
 #                                                                                       #
-# A Very Nice Gold Theme Design.                                                        #
-# Copyright © 2021 By: TheGhost AKA EA Buffington                                       #
+# A Very Nice Fire and Brimstone Theme Design.                                          #
+# Copyright © 2021 By: TheGhost AKA EABuffington                                        #
 # e-Mail : ernest.buffington@gmail.com                                                  #
 #---------------------------------------------------------------------------------------#
 # CREATION INFO                                                                         #
@@ -25,8 +23,8 @@
 # Read CHANGELOG File for Updates & Upgrades Info                                       #
 #                                                                                       #
 # Designed By: TheGhost & Sebastian                                                     #
-# Web Site: https://www.86it.us                                                         #
-# Purpose: PHP-Nuke Titanium                                                            #
+# Web Site: https://nukescripts.86it.us                                                 #
+# Purpose: PHP-Nuke Titanium | Nuke Evolution Xtreme                                    #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
 # PHP-Nuke Copyright (c) 2006 by Francisco Burzi phpnuke.org                            #
@@ -56,8 +54,10 @@
 # Wolfstar                                                                              # 
 # -[04/17/2010] Updated Nuke Evolution to XHTML 1.0 Transitional                        #
 #---------------------------------------------------------------------------------------#
-# Titanium Core Header Section      #
-#-----------------------------------#
+
+#-----------------------------#
+# Inferno Header Section      #
+#-----------------------------#
 # Fixed & Full Width Style    #
 #-----------------------------#
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
@@ -76,22 +76,22 @@ global $locked_width,
 		     $slogan, 
 		       $name, 
 		    $banners, 
-		 $pnt_db, 
-$pnt_user_prefix, 
-	 $pnt_prefix, 
-	      $admin_file, 
-   $userinfo, 
-		   $ThemeInfo,
-    $pnt_browser, 
-	      $theme_name;
+		         $db, 
+	    $user_prefix, 
+	         $prefix, 
+	     $admin_file, 
+	       $userinfo, 
+		  $ThemeInfo,
+   $titanium_browser, 
+	     $theme_name;
 
 echo "\n\n<!-- THEME HEADER START -->\n"; # set background here in themes/Inferno/css/maintable.php
 
 # Check if a Registered User is Logged-In
-$pnt_username = is_user() ? $userinfo['username'] : _ANONYMOUS;
+$username = is_user() ? $userinfo['username'] : _ANONYMOUS;
 
 # Setup the Welcome Information for the User
-if ($pnt_username === _ANONYMOUS)
+if ($username === _ANONYMOUS)
 {
    $theuser  = '<div align="center">Please <a href="modules.php?name=Your_Account"><u>Login</u></a> or <a href="modules.php?name=Your_Account&amp;op=new_user"><u>Register</u></a>&nbsp;&nbsp;</div>';
    # start 4th line of header
@@ -131,55 +131,55 @@ else
 }
 
 #chrome canary 64bit 91.0.4446.3
-if($pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() == '91.0.4446.3') // Chrome Canary (x64bit) version as of 3/16/2021
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '91.0.4446.3') // Chrome Canary (x64bit) version as of 3/16/2021
 $scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"15\" src=\"https://www.86it.us/images/browsers/current-channel-logo@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome Canary (64-bit) We are glad you keep up with the times on a nightly basis!</strong>";
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() == '89.0.4389.90') // MicroSoft Edge (x64bit) version as of 3/5/2021
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '89.0.4389.90') // MicroSoft Edge (x64bit) version as of 3/5/2021
 $scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"16\" src=\"https://www.86it.us/images/browsers/edge-beta@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Microsoft Edge (64-bit), Looks like Microsoft finally pulled their head out of their ass!</strong>";
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() == '89.0.4389.82') // MicroSoft Edge (x64bit) version as of 3/5/2021
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '89.0.4389.82') // MicroSoft Edge (x64bit) version as of 3/5/2021
 $scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"16\" src=\"https://www.86it.us/images/browsers/edge-beta@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Microsoft Edge (64-bit), Looks like Microsoft finally pulled their head out of their ass!</strong>";
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() == '88.0.4324.182') // MicroSoft Edge (x64bit) version as of 3/5/2021
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '88.0.4324.182') // MicroSoft Edge (x64bit) version as of 3/5/2021
 $scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"16\" src=\"https://www.86it.us/images/browsers/edge-beta@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Microsoft Edge (64-bit), Looks like Microsoft finally pulled their head out of their ass!</strong>";
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() == '89.0.4389.114') // Chrome (x64bit) version as of 3/5/2021
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '89.0.4389.114') // Chrome (x64bit) version as of 3/5/2021
 $scrollmsg .= "<img border=\"0\" align=\"top\" height=\"16\" src=\"https://www.chromium.org/_/rsrc/1302286290899/chromium-projects/chrome-32.png?height=32&width=32 alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome, you have great taste... Chrome is the #1 browsing solution in the world! When you are using Chrome it doesnt get any better!</strong>";
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() == '89.0.4389.72') // Chrome (x64bit) version as of 3/5/2021
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '89.0.4389.72') // Chrome (x64bit) version as of 3/5/2021
 $scrollmsg .= "<img border=\"0\" align=\"top\" height=\"16\" src=\"https://www.chromium.org/_/rsrc/1302286290899/chromium-projects/chrome-32.png?height=32&width=32 alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome, you have great taste... Chrome is the #1 browsing solution in the world! When you are using Chrome it doesnt get any better!</strong>";
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() == '77.0.3865.75') // MicroSoft Edge (x64bit) Beta
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '77.0.3865.75') // MicroSoft Edge (x64bit) Beta
 $scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"16\" src=\"https://www.86it.us/images/browsers/edge-beta@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Microsoft Edge Beta (64-bit), Looks like Microsoft finally pulled their head out of their ass!</strong>";
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() == '70.0.3538.102') // MicroSoft Edge (x64bit) 
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '70.0.3538.102') // MicroSoft Edge (x64bit) 
 $scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"16\" src=\"https://www.86it.us/images/browsers/edge.png\" alt=\"\" title=\"\"> <strong>Thanks for using Microsoft Edge (64-bit)</strong>";
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() == '79.0.3917.0') // Chrome Canary Nightly Build 
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '79.0.3917.0') // Chrome Canary Nightly Build 
 $scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"15\" src=\"https://www.86it.us/images/browsers/current-channel-logo@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome Canary (64-bit) We are glad you keep up with the times on a nightly basis!</strong>";
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() == '76.0.3809.132') // Chrome Official Release (x64bit) 
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '76.0.3809.132') // Chrome Official Release (x64bit) 
 $scrollmsg .= "<img border=\"0\" align=\"top\" height=\"16\" src=\"https://www.chromium.org/_/rsrc/1302286290899/chromium-projects/chrome-32.png?height=32&width=32 alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome, you have great taste... Chrome is the #1 browsing solution in the world! When you are using Chrome it doesnt get any better!</strong>";
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_OPR) // Browser Opera (x64bit) Official Release Build
+if($titanium_browser->getBrowser() == Browser::BROWSER_OPR) // Browser Opera (x64bit) Official Release Build
 $scrollmsg .= "<img src=\"https://addons-static.operacdn.com/static/header-footer/css/img/opera-icon-header.c6f9a9d4173c.png\" srcset=\"https://addons-static.operacdn.com/static/header-footer/css/img/opera-icon-header.c6f9a9d4173c.png 1x, https://addons-static.operacdn.com/static/header-footer/css/img/opera-icon-header@2x.417c6a4c023a.png 2x\" alt=\"Opera Software logo\" height=\"15\" align=\"absmiddle\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Opera, it is one of the few acceptable browsers that are actually worth a shit! Here on The 86it Developers Network we like to see folks using thee ole noggin!</strong>";
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_MAXTHON) // browser Maxthon Cloud
+if($titanium_browser->getBrowser() == Browser::BROWSER_MAXTHON) // browser Maxthon Cloud
 $scrollmsg .= "<img style=\"vertical-align:middle\" border=\"0\" height=\"16\"  src=\"https://nukescripts.86it.us/images/browsers/logo-maxthon.png\" alt=\"Browser\" title=\"Browser\"><br><br><strong>Thanks for using Maxthon</strong>";
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_FIREFOX && $pnt_browser->getVersion() == '69.0') // Official FireFox Quantum Release - CURRENTLY BROKEN BY THE DEVELOPERS as of 9/21/2017
+if($titanium_browser->getBrowser() == Browser::BROWSER_FIREFOX && $titanium_browser->getVersion() == '69.0') // Official FireFox Quantum Release - CURRENTLY BROKEN BY THE DEVELOPERS as of 9/21/2017
 {
 $scrollmsg .= "<img style=\"vertical-align:middle\" border=\"0\" height=\"16\"  src=\"https://addons.cdn.mozilla.net/static/img/icons/firefox.png?b=54591c07-59b80978\" alt=\"Browser\" title=\"Browser\"><strong> Thanks for using FireFox Quantum</strong> ";
 $scrollmsg .= '<span class="blink-one">This version of <strong>FireFox</strong> does break websites so please use at your own RISK!</span>'; // 0%
 }
 
-if( $pnt_browser->getBrowser() == Browser::BROWSER_FIREFOX) // Other FireFox - CURRENTLY BROKEN BY THE DEVELOPERS as of 9/21/2017
+if( $titanium_browser->getBrowser() == Browser::BROWSER_FIREFOX) // Other FireFox - CURRENTLY BROKEN BY THE DEVELOPERS as of 9/21/2017
 {
 $scrollmsg .= "<img style=\"vertical-align:middle\" border=\"0\" height=\"16\"  src=\"https://addons.cdn.mozilla.net/static/img/icons/firefox.png?b=54591c07-59b80978\" alt=\"Browser\" title=\"Browser\"><strong> Thanks for using FireFox</strong> ";
 $scrollmsg .= '<span class="blink-one"> - This version of <strong>FireFox</strong> does break websites so please use at your own RISK!</span>';
 }
 
-if($pnt_browser->getBrowser() == Browser::BROWSER_MOZILLA && $pnt_browser->getVersion() == 5) // Maxthon Cloud (x64bit) Now is Garbage
+if($titanium_browser->getBrowser() == Browser::BROWSER_MOZILLA && $titanium_browser->getVersion() == 5) // Maxthon Cloud (x64bit) Now is Garbage
 {
 $scrollmsg .= "<img style=\"vertical-align:absmiddle\" border=\"0\" height=\"10\"  src=\"https://www.86it.us/images/browsers/logo-maxthon.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Maxthon</strong> ";
 $scrollmsg .= '<span class="blink-one">This version of <strong>Maxthon</strong> does break websites so please use at your own RISK!</span>'; // 0%
@@ -199,13 +199,13 @@ endif;
 
 $date .= '::: QUOTE OF THE DAY "Stop Fixing Shit That Is Not Broken! by ErnStoy" ::: Todays date <font color="'.$textcolor2.'">'.date('m-d-Y').'</font>';
 
-if ($pnt_username === _ANONYMOUS)
+if ($username === _ANONYMOUS)
 $moreuser_info .= '::: There is so much more here to see, it takes 30 seconds to register an account and we don\'t even verify with e-mail! Just register we promise you won\'t be sorry...';
 
-if ($pnt_username === _ANONYMOUS)
+if ($username === _ANONYMOUS)
 $marquee_one = $moreuser_info.' ::: Your Monitor Resolution is <font color="'.$textcolor2.'">'.$screen_res.'</font> ::: '.$newmessages.'';
 else
-$marquee_one = $date.' '.$connected.' Welcome back <strong><font color='.$textcolor2.'><span class="blink-one">'.$pnt_username.'</span></font></strong> It\'s quite awesome to see you my friend! We are so glad you could make it back over to visit... We know with your super tight busy schedule and all, it most certainly must have been quite a task! ::: '.$newmessages.' ::: Your current Monitor Resolution is <font color='.$textcolor2.'>'.$screen_res.'</font> '.$moreuser_info.' ::: Your current browser version is <font color="'.$textcolor2.'">'.$pnt_browser->getVersion().'</font> ::: '.$scrollmsg.'</div>';
+$marquee_one = $date.' '.$connected.' Welcome back <strong><font color='.$textcolor2.'><span class="blink-one">'.$username.'</span></font></strong> It\'s quite awesome to see you my friend! We are so glad you could make it back over to visit... We know with your super tight busy schedule and all, it most certainly must have been quite a task! ::: '.$newmessages.' ::: Your current Monitor Resolution is <font color='.$textcolor2.'>'.$screen_res.'</font> '.$moreuser_info.' ::: Your current browser version is <font color="'.$textcolor2.'">'.$titanium_browser->getVersion().'</font> ::: '.$scrollmsg.'</div>';
 
 //$bullshit2 = 'Sept 28th 2019, Oct 4th 2019, Oct 5th 2019, Oct 11th 2019, Oct 13th 2019, Oct 14th 2019 Oct 20th 2019, Oct 22nd 2019, Oct 24th 2019';
 # right finger
@@ -229,11 +229,7 @@ $marquee_two = '
 
 # This is where we set the poster background and full screen video START
 echo '<div class="fullscreen-bg">';
-echo '<video muted loop autoplay class="fullscreen-bg__video">';
-//echo '<video loop autoplay class="fullscreen-bg__video">';
-//echo '<source src="themes/'.$theme_name.'/video/ready_for_it.mp4" type="video/mp4">';
-
-
+echo '<video muted loop autoplay poster="themes/'.$theme_name.'/images/BACKGROUNDS/1e1e1e.png" class="fullscreen-bg__video">';
 //echo '<source src="themes/'.$theme_name.'/video/spinning_black_wave_lines.mp4" type="video/mp4">';
 //echo '<source src="themes/'.$theme_name.'/video/abstract_liquid.mp4" type="video/mp4">'; // Ypp slow but pretty
 //echo '<source src="themes/'.$theme_name.'/video/abstract_geometric_grid.mp4" type="video/mp4">';
@@ -246,10 +242,10 @@ echo '<video muted loop autoplay class="fullscreen-bg__video">';
 //echo '<source src="themes/'.$theme_name.'/video/abstract_x_neon.mp4" type="video/mp4">'; ### 1 to 10  This is a 1 ###
 
 #### PHP-Nuke Titanium
-echo '<source src="themes/'.$theme_name.'/video/aqua_fresh.mp4" type="video/mp4">'; // $$$ Top 10 - 01
+//echo '<source src="themes/'.$theme_name.'/video/aqua_fresh.mp4" type="video/mp4">'; // $$$ Top 10 - 01
 //echo '<source src="themes/'.$theme_name.'/video/abstract_neon_reflections_circular_particles_3D_light_moving.mp4" type="video/mp4">'; ### 1 to 10  This is a 8 ### Bad Ass
 //echo '<source src="themes/'.$theme_name.'/video/abstract_modern_Liquid_U_trend_aurora_gradien.mp4" type="video/mp4">'; ### 1 to 10  This is a 5 ###
-//echo '<source src="themes/'.$theme_name.'/video/futuristic_gold_abstract_3D_tunnel_1.49gb.mp4" type="video/mp4">'; ### 1 to 10  This is a 10 ### BEST SO FAR
+echo '<source src="themes/'.$theme_name.'/video/futuristic_gold_abstract_3D_tunnel_1.49gb.mp4" type="video/mp4">'; ### 1 to 10  This is a 10 ### BEST SO FAR
 //echo '<source src="themes/'.$theme_name.'/video/abstract_bright_neon_moving_geometric_lines_gradient.mp4" type="video/mp4">'; ### 1 to 10  This is a 6 ### 
 //echo '<source src="themes/'.$theme_name.'/video/abstract_3D_tunnel_motion.mp4" type="video/mp4">'; ### 1 to 10  This is a 5 ### 
 //echo '<source src="themes/'.$theme_name.'/video/abstract_trendy_gradient_glowing_pink_moving_geometric_circles_spheres.mp4" type="video/mp4">'; ### 1 to 10  This is a 7 ### VEry Cool
@@ -493,8 +489,6 @@ print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/HEADER/bottom_left_corne
 
 # bottom middle piece for awesome table
 print '<td align="center" background="'.HTTPS.'themes/'.$theme_name.'/images/HEADER/bottom_middle_piece.png"></td>'."\n";
-
-
 
 # bottom right corner of awesome table
 print '<td width="39" style="background: repeat-x; background-image: url('.HTTPS.'themes/'.$theme_name.'/images/HEADER/invisible_pixel.gif);">'."\n";

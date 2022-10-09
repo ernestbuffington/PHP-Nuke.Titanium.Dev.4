@@ -26,16 +26,16 @@ if (!defined('BOARD_CONFIG')) {
     die('Access Denied');
 }
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     "head" => "admin/board_config/page_header.tpl")
 );
 
 if ( $new['use_dhtml'] )
 {
-        $phpbb2_template->assign_block_vars('use_dhtml', array());
+        $template->assign_block_vars('use_dhtml', array());
 }
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     DHTML Admin Menu                   v1.0.0 ]
  ******************************************************/
@@ -45,7 +45,7 @@ $phpbb2_template->assign_vars(array(
 /*****[END]********************************************
  [ Mod:     DHTML Admin Menu                   v1.0.0 ]
  ******************************************************/
-    "S_CONFIG_ACTION" => append_titanium_sid('admin_board.php'),
+    "S_CONFIG_ACTION" => append_sid('admin_board.php'),
 
     "L_YES" => $lang['Yes'],
     "L_NO" => $lang['No'],
@@ -56,6 +56,6 @@ $phpbb2_template->assign_vars(array(
     "L_CONFIGURATION_EXPLAIN" => $lang['Config_explain'])
 );
 
-$phpbb2_template->pparse("head");
+$template->pparse("head");
 
 ?>

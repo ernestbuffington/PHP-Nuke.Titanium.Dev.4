@@ -31,17 +31,17 @@ if (!defined('MODULE_FILE')) {
    die ("You can't access this file directly...");
 }
 
-$phpbb2_root_path = NUKE_FORUMS_DIR;
-define('IN_PHPBB2', true);
-include($phpbb2_root_path . 'extension.inc');
-include($phpbb2_root_path . 'common.'.$phpEx);
+$phpbb_root_path = NUKE_FORUMS_DIR;
+define('IN_PHPBB', true);
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.'.$phpEx);
 include("includes/bbcode.php");
 include(NUKE_BASE_DIR."header.php");
 //
 // Start session management
 //
-$userdata = titanium_session_pagestart($pnt_user_ip, PAGE_FAQ);
-titanium_init_userprefs($userdata);
+$userdata = session_pagestart($user_ip, PAGE_FAQ);
+init_userprefs($userdata);
 //
 // End session management
 //
@@ -55,7 +55,7 @@ $l_title = $lang['rules'];
 //
 // Include the rules settings
 //
-include($phpbb2_root_path . 'language/lang_' . $phpbb2_board_config['default_lang'] . '/' . $lang_file . '.' . $phpEx);
+include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/' . $lang_file . '.' . $phpEx);
 
 //
 // Pull the array data from the lang pack
@@ -90,15 +90,15 @@ for($i = 0; $i < count($faq); $i++)
 //
 // Lets build a page ...
 //
-$phpbb2_page_title = $l_title;
+$page_title = $l_title;
 include('includes/page_header.'.$phpEx);
 
-$phpbb2_template->set_filenames(array(
+$template->set_filenames(array(
     'body' => 'rules_body.tpl')
 );
-make_jumpbox('viewforum.'.$phpEx, $phpbb2_forum_id);
+make_jumpbox('viewforum.'.$phpEx, $forum_id);
 
-$phpbb2_template->assign_vars(array(
+$template->assign_vars(array(
     'L_FAQ_TITLE' => $l_title, 
     'L_BACK_TO_TOP' => $lang['Back_to_top'])
 );
@@ -107,10 +107,10 @@ for($i = 0; $i < count($faq_block); $i++)
 {
     if( count($faq_block[$i]) )
     {
-        $phpbb2_template->assign_block_vars('faq_block', array(
+        $template->assign_block_vars('faq_block', array(
             'BLOCK_TITLE' => $faq_block_titles[$i])
         );
-        $phpbb2_template->assign_block_vars('faq_block_link', array( 
+        $template->assign_block_vars('faq_block_link', array( 
             'BLOCK_TITLE' => $faq_block_titles[$i])
         );
 
@@ -121,7 +121,7 @@ for($i = 0; $i < count($faq_block); $i++)
       $message = bbencode_first_pass($faq_block[$i][$j]['answer'], $bbcode_uid);
       //$bbcode_uid = ($bbcode_on) ? make_bbcode_uid() : '';
       $message = bbencode_second_pass($message, $bbcode_uid);
-            $phpbb2_template->assign_block_vars('faq_block.faq_row', array(
+            $template->assign_block_vars('faq_block.faq_row', array(
                 'ROW_COLOR' => '#' . $row_color,
                 'ROW_CLASS' => $row_class,
                 'FAQ_QUESTION' => $faq_block[$i][$j]['question'], 
@@ -129,7 +129,7 @@ for($i = 0; $i < count($faq_block); $i++)
                 'U_FAQ_ID' => $faq_block[$i][$j]['id'])
             );
 
-            $phpbb2_template->assign_block_vars('faq_block_link.faq_row_link', array(
+            $template->assign_block_vars('faq_block_link.faq_row_link', array(
                 'ROW_COLOR' => '#' . $row_color,
                 'ROW_CLASS' => $row_class,
                 'FAQ_LINK' => $faq_block[$i][$j]['question'], 
@@ -139,7 +139,7 @@ for($i = 0; $i < count($faq_block); $i++)
     }
 }
 
-$phpbb2_template->pparse('body');
+$template->pparse('body');
 
 include('includes/page_tail.'.$phpEx);
 

@@ -39,26 +39,26 @@ class Swift_CharacterReaderFactory_SimpleCharacterReaderFactory
    */
   public function __construct()
   {
-    $pnt_prefix = 'Swift_CharacterReader_';
+    $prefix = 'Swift_CharacterReader_';
     
     $singleByte = array(
-      'class' => $pnt_prefix . 'GenericFixedWidthReader',
+      'class' => $prefix . 'GenericFixedWidthReader',
       'constructor' => array(1)
       );
     
     $doubleByte = array(
-      'class' => $pnt_prefix . 'GenericFixedWidthReader',
+      'class' => $prefix . 'GenericFixedWidthReader',
       'constructor' => array(2)
       );
       
     $fourBytes = array(
-      'class' => $pnt_prefix . 'GenericFixedWidthReader',
+      'class' => $prefix . 'GenericFixedWidthReader',
       'constructor' => array(4)
       );
     
     //Utf-8
     $this->_map['utf-?8'] = array(
-      'class' => $pnt_prefix . 'Utf8Reader',
+      'class' => $prefix . 'Utf8Reader',
       'constructor' => array()
       );
     

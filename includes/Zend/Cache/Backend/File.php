@@ -644,8 +644,8 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
             return false;
         }
         $result = true;
-        $pnt_prefix = $this->_options['file_name_prefix'];
-        $glob = @glob($dir . $pnt_prefix . '--*');
+        $prefix = $this->_options['file_name_prefix'];
+        $glob = @glob($dir . $prefix . '--*');
         if ($glob === false) {
             // On some systems it is impossible to distinguish between empty match and an error.
             return true;
@@ -737,8 +737,8 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
             return false;
         }
         $result = array();
-        $pnt_prefix = $this->_options['file_name_prefix'];
-        $glob = @glob($dir . $pnt_prefix . '--*');
+        $prefix = $this->_options['file_name_prefix'];
+        $glob = @glob($dir . $prefix . '--*');
         if ($glob === false) {
             // On some systems it is impossible to distinguish between empty match and an error.
             return array();
@@ -860,8 +860,8 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
      */
     protected function _idToFileName($id)
     {
-        $pnt_prefix = $this->_options['file_name_prefix'];
-        $result = $pnt_prefix . '---' . $id;
+        $prefix = $this->_options['file_name_prefix'];
+        $result = $prefix . '---' . $id;
         return $result;
     }
 
@@ -889,11 +889,11 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
     {
         $partsArray = array();
         $root = $this->_options['cache_dir'];
-        $pnt_prefix = $this->_options['file_name_prefix'];
+        $prefix = $this->_options['file_name_prefix'];
         if ($this->_options['hashed_directory_level']>0) {
             $hash = hash('adler32', $id);
             for ($i=0 ; $i < $this->_options['hashed_directory_level'] ; $i++) {
-                $root = $root . $pnt_prefix . '--' . substr($hash, 0, $i + 1) . DIRECTORY_SEPARATOR;
+                $root = $root . $prefix . '--' . substr($hash, 0, $i + 1) . DIRECTORY_SEPARATOR;
                 $partsArray[] = $root;
             }
         }
@@ -999,8 +999,8 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
      */
     protected function _fileNameToId($fileName)
     {
-        $pnt_prefix = $this->_options['file_name_prefix'];
-        return preg_replace('~^' . $pnt_prefix . '---(.*)$~', '$1', $fileName);
+        $prefix = $this->_options['file_name_prefix'];
+        return preg_replace('~^' . $prefix . '---(.*)$~', '$1', $fileName);
     }
 
 }

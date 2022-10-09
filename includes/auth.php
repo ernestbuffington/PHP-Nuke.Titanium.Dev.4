@@ -72,8 +72,8 @@
       Attachment Mod                           v2.4.1       07/20/2005
       Global Announcements                     v1.2.8       06/13/2005
  ************************************************************************/
-if (!defined('IN_PHPBB2'))
-exit('ACCESS DENIED');
+if (!defined('IN_PHPBB'))
+exit('Hacking attempt');
 
 # $type's accepted (pre-pend with AUTH_):
 # VIEW, READ, POST, REPLY, EDIT, DELETE, STICKY, ANNOUNCE, VOTE, POLLCREATE
@@ -102,9 +102,9 @@ exit('ACCESS DENIED');
 # forum auth levels, this will prevent the auth function having to do its own
 # lookup
 
-function auth($type, $phpbb2_forum_id, $userdata, $f_access = '')
+function auth($type, $forum_id, $userdata, $f_access = '')
 {
-   global $pnt_db, $lang;
+   global $db, $lang;
 
 switch($type):
      case AUTH_ALL:
@@ -194,23 +194,23 @@ endswitch;
         # If f_access has been passed, or auth is needed to return an array of forums
         # then we need to pull the auth information on the given forum (or all forums)
         if(empty($f_access)):
-           $forum_match_sql = ( $phpbb2_forum_id != AUTH_LIST_ALL ) ? "WHERE a.forum_id = '$phpbb2_forum_id'" : '';
+           $forum_match_sql = ( $forum_id != AUTH_LIST_ALL ) ? "WHERE a.forum_id = '$forum_id'" : '';
 
             $sql = "SELECT a.forum_id, $a_sql
                     FROM " . FORUMS_TABLE . " a
                     $forum_match_sql";
 						
-            if(!($result = $pnt_db->sql_query($sql)))
+            if(!($result = $db->sql_query($sql)))
             message_die(GENERAL_ERROR, 'Failed obtaining forum access control lists', '', __LINE__, __FILE__, $sql);
 
-            $sql_fetchrow = ($phpbb2_forum_id != AUTH_LIST_ALL) ? 'sql_fetchrow' : 'sql_fetchrowset';
+            $sql_fetchrow = ($forum_id != AUTH_LIST_ALL) ? 'sql_fetchrow' : 'sql_fetchrowset';
 
-            if(!($f_access = $pnt_db->$sql_fetchrow($result))):
-              $pnt_db->sql_freeresult($result);
+            if(!($f_access = $db->$sql_fetchrow($result))):
+              $db->sql_freeresult($result);
               return array();
             endif;
 
-            $pnt_db->sql_freeresult($result);
+            $db->sql_freeresult($result);
         endif;
 
         # If the user isn't logged on then all we need do is check if the forum
@@ -219,27 +219,27 @@ endswitch;
         $u_access = array();
 
         if($userdata['session_logged_in']):
-           $forum_match_sql = ($phpbb2_forum_id != AUTH_LIST_ALL) ? "AND a.forum_id = '$phpbb2_forum_id'" : '';
+           $forum_match_sql = ($forum_id != AUTH_LIST_ALL) ? "AND a.forum_id = '$forum_id'" : '';
            $sql = "SELECT a.forum_id, $a_sql, a.auth_mod
                    FROM " . AUTH_ACCESS_TABLE . " a, " . USER_GROUP_TABLE . " ug
                    WHERE ug.user_id = ".$userdata['user_id']. "
                    AND ug.user_pending = '0'
                    AND a.group_id = ug.group_id
                    $forum_match_sql";
-            if(!($result = $pnt_db->sql_query($sql)))
+            if(!($result = $db->sql_query($sql)))
             message_die(GENERAL_ERROR, 'Failed obtaining forum access control lists', '', __LINE__, __FILE__, $sql);
-            if($row = $pnt_db->sql_fetchrow($result)):
+            if($row = $db->sql_fetchrow($result)):
               do
                {
-                  if ( $phpbb2_forum_id != AUTH_LIST_ALL)
+                  if ( $forum_id != AUTH_LIST_ALL)
                   $u_access[] = $row;
                   else
                   $u_access[$row['forum_id']][] = $row;
                 }
-                while( $row = $pnt_db->sql_fetchrow($result) );
+                while( $row = $db->sql_fetchrow($result) );
             endif;
         
-		$pnt_db->sql_freeresult($result);
+		$db->sql_freeresult($result);
         endif;
 
         $is_admin = ( $userdata['user_level'] == ADMIN && $userdata['session_logged_in'] ) ? TRUE : 0;
@@ -256,7 +256,7 @@ endswitch;
            # Now we compare the users access level against the forums. We assume here that a moderator
            # and admin automatically have access to an ACL forum, similarly we assume admins meet an
            # auth requirement of MOD
-           if($phpbb2_forum_id != AUTH_LIST_ALL):
+           if($forum_id != AUTH_LIST_ALL):
            
              $value = (isset($f_access[$key])) ? $f_access[$key] : null;
              switch($value):
@@ -323,7 +323,7 @@ endswitch;
         endfor;
 
         # Is user a moderator?
-        if($phpbb2_forum_id != AUTH_LIST_ALL):
+        if($forum_id != AUTH_LIST_ALL):
         
           $auth_user['auth_mod'] = ($userdata['session_logged_in']) ? auth_check_user(AUTH_MOD, 'auth_mod', $u_access, $is_admin) : 0;
         

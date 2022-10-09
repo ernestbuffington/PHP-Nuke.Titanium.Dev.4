@@ -149,9 +149,9 @@ class Swift_DependencyContainer
    */
   public function asValue($value)
   {
-    $phpbb2_endPoint =& $this->_getEndPoint();
-    $phpbb2_endPoint['lookupType'] = self::TYPE_VALUE;
-    $phpbb2_endPoint['value'] = $value;
+    $endPoint =& $this->_getEndPoint();
+    $endPoint['lookupType'] = self::TYPE_VALUE;
+    $endPoint['value'] = $value;
     return $this;
   }
   
@@ -162,9 +162,9 @@ class Swift_DependencyContainer
    */
   public function asAliasOf($lookup)
   {
-    $phpbb2_endPoint =& $this->_getEndPoint();
-    $phpbb2_endPoint['lookupType'] = self::TYPE_ALIAS;
-    $phpbb2_endPoint['ref'] = $lookup;
+    $endPoint =& $this->_getEndPoint();
+    $endPoint['lookupType'] = self::TYPE_ALIAS;
+    $endPoint['ref'] = $lookup;
     return $this;
   }
   
@@ -180,9 +180,9 @@ class Swift_DependencyContainer
    */
   public function asNewInstanceOf($className)
   {
-    $phpbb2_endPoint =& $this->_getEndPoint();
-    $phpbb2_endPoint['lookupType'] = self::TYPE_INSTANCE;
-    $phpbb2_endPoint['className'] = $className;
+    $endPoint =& $this->_getEndPoint();
+    $endPoint['lookupType'] = self::TYPE_INSTANCE;
+    $endPoint['className'] = $className;
     return $this;
   }
   
@@ -194,9 +194,9 @@ class Swift_DependencyContainer
    */
   public function asSharedInstanceOf($className)
   {
-    $phpbb2_endPoint =& $this->_getEndPoint();
-    $phpbb2_endPoint['lookupType'] = self::TYPE_SHARED;
-    $phpbb2_endPoint['className'] = $className;
+    $endPoint =& $this->_getEndPoint();
+    $endPoint['lookupType'] = self::TYPE_SHARED;
+    $endPoint['className'] = $className;
     return $this;
   }
   
@@ -210,8 +210,8 @@ class Swift_DependencyContainer
    */
   public function withDependencies(array $lookups)
   {
-    $phpbb2_endPoint =& $this->_getEndPoint();
-    $phpbb2_endPoint['args'] = array();
+    $endPoint =& $this->_getEndPoint();
+    $endPoint['args'] = array();
     foreach ($lookups as $lookup)
     {
       $this->addConstructorLookup($lookup);
@@ -229,12 +229,12 @@ class Swift_DependencyContainer
    */
   public function addConstructorValue($value)
   {
-    $phpbb2_endPoint =& $this->_getEndPoint();
-    if (!isset($phpbb2_endPoint['args']))
+    $endPoint =& $this->_getEndPoint();
+    if (!isset($endPoint['args']))
     {
-      $phpbb2_endPoint['args'] = array();
+      $endPoint['args'] = array();
     }
-    $phpbb2_endPoint['args'][] = array('type' => 'value', 'item' => $value);
+    $endPoint['args'][] = array('type' => 'value', 'item' => $value);
     return $this;
   }
   
@@ -248,12 +248,12 @@ class Swift_DependencyContainer
    */
   public function addConstructorLookup($lookup)
   {
-    $phpbb2_endPoint =& $this->_getEndPoint();
+    $endPoint =& $this->_getEndPoint();
     if (!isset($this->_endPoint['args']))
     {
-      $phpbb2_endPoint['args'] = array();
+      $endPoint['args'] = array();
     }
-    $phpbb2_endPoint['args'][] = array('type' => 'lookup', 'item' => $lookup);
+    $endPoint['args'][] = array('type' => 'lookup', 'item' => $lookup);
     return $this;
   }
   

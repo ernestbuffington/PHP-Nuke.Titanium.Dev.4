@@ -40,11 +40,11 @@ if (!defined('CNBYA')) {
 // Last 10 Download Links Approved
 
 // menelaos: changed these routines to fist check if the database table exist
-$checktable = $pnt_db->sql_fetchrow($pnt_db->sql_query("SHOW TABLES LIKE '".$pnt_prefix."_downloads_downloads'"));
+$checktable = $db->sql_fetchrow($db->sql_query("SHOW TABLES LIKE '".$prefix."_downloads_downloads'"));
 if ($checktable == 1) {
     if($checkrow['Msg_type']!="error") {
-        $result9 = $pnt_db->sql_query("SELECT lid, title, date FROM ".$pnt_prefix."_downloads_downloads where submitter='$usrinfo[username]' order by date DESC limit 0,10");
-        if (($pnt_db->sql_numrows($result9) > 0)) {
+        $result9 = $db->sql_query("SELECT lid, title, date FROM ".$prefix."_downloads_downloads where submitter='$usrinfo[username]' order by date DESC limit 0,10");
+        if (($db->sql_numrows($result9) > 0)) {
             echo "<br />";
             OpenTable();
 /*****[BEGIN]******************************************
@@ -55,7 +55,7 @@ if ($checktable == 1) {
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-            while(list($lid, $title, $date) = $pnt_db->sql_fetchrow($result9)) {
+            while(list($lid, $title, $date) = $db->sql_fetchrow($result9)) {
                 echo "<li><a href=\"modules.php?name=Downloads&amp;op=getit&amp;lid=$lid\">$title</a> ($lid) - $date<br />";
             }
             CloseTable();

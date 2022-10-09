@@ -9,24 +9,24 @@
  *
  ***************************************************************************/
  
-define('IN_PHPBB2', 1);
+define('IN_PHPBB', 1);
 	
 if( !empty($setmodules) )
 {
-	$pnt_module['FTR Admin']['FTR: Config']	= append_titanium_sid("admin_ftr.$phpEx?mode=config");
-	$pnt_module['FTR Admin']['FTR: Users']	= append_titanium_sid("admin_ftr.$phpEx?mode=users");
+	$module['FTR Admin']['FTR: Config']	= append_sid("admin_ftr.$phpEx?mode=config");
+	$module['FTR Admin']['FTR: Users']	= append_sid("admin_ftr.$phpEx?mode=users");
 	return;
 }
 
-$phpbb2_root_path = '../';
-require($phpbb2_root_path . 'extension.inc');
+$phpbb_root_path = '../';
+require($phpbb_root_path . 'extension.inc');
 require('pagestart.' . $phpEx);
-include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'] .'/lang_ftr.'. $phpEx);
+include($phpbb_root_path .'language/lang_'. $board_config['default_lang'] .'/lang_ftr.'. $phpEx);
 
 	$mode 				= ( isset($HTTP_POST_VARS['mode']) ) ? $HTTP_POST_VARS['mode'] : $HTTP_GET_VARS['mode'];
 	$update 			= ( isset($HTTP_POST_VARS['update']) ) ? $HTTP_POST_VARS['update'] : $HTTP_GET_VARS['update'];
-	$phpbb2_start 				= ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
-	$pnt_user 				= ( isset($HTTP_POST_VARS['user']) ) ? intval($HTTP_POST_VARS['user']) : 0;
+	$start 				= ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+	$user 				= ( isset($HTTP_POST_VARS['user']) ) ? intval($HTTP_POST_VARS['user']) : 0;
 	$forum_selected 	= ( isset($HTTP_POST_VARS['forum']) ) ? intval($HTTP_POST_VARS['forum']) : 0;
 	$topic_selected 	= ( isset($HTTP_POST_VARS['topic']) ) ? intval($HTTP_POST_VARS['topic']) : 0;				
 
@@ -54,12 +54,12 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 	}
 		
 	// No Install Time Set, Set It
-	if (!$phpbb2_board_config['ftr_installed'])
+	if (!$board_config['ftr_installed'])
 	{
 		$q = "UPDATE ". CONFIG_TABLE ."
 			  SET config_value = '". time() ."'
 			  WHERE config_name = 'ftr_installed'";
-		$pnt_db->sql_query($q);	
+		$db->sql_query($q);	
 	}
 	
 	// Reset All Viewers
@@ -68,7 +68,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		$q = "UPDATE ". USERS_TABLE ."
 			  SET user_ftr = '', user_ftr_time = ''
 			  WHERE user_id > '". ANONYMOUS ."'";
-		$pnt_db->sql_query($q);
+		$db->sql_query($q);
 		message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_do_reset']);
 	}
 	
@@ -80,31 +80,31 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		$q = "UPDATE ". CONFIG_TABLE ."
 			  SET config_value = '". $new_msg ."'
 			  WHERE config_name = 'ftr_msg'";
-		$pnt_db->sql_query($q);
+		$db->sql_query($q);
 		message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_save_msg']);		
 	}
 	
 	// Change Active Status
 	if ($mode == 'change_active')
 	{
-		$new_status = ($phpbb2_board_config['ftr_active']) ? 0 : 1;
+		$new_status = ($board_config['ftr_active']) ? 0 : 1;
 		
 		$q = "UPDATE ". CONFIG_TABLE ."
 			  SET config_value = '". $new_status ."'
 			  WHERE config_name = 'ftr_active'";
-		$pnt_db->sql_query($q);
+		$db->sql_query($q);
 		message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_save_active']);		
 	}
 	
 	// Change Whos Forced Status
 	if ($mode == 'change_who')
 	{
-		$new_status = ($phpbb2_board_config['ftr_who'] == 1) ? 2 : 1;
+		$new_status = ($board_config['ftr_who'] == 1) ? 2 : 1;
 		
 		$q = "UPDATE ". CONFIG_TABLE ."
 			  SET config_value = '". $new_status ."'
 			  WHERE config_name = 'ftr_who'";
-		$pnt_db->sql_query($q);
+		$db->sql_query($q);
 		message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_save_who']);		
 	}
 		
@@ -113,19 +113,19 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 	{
 		$q = 'SELECT forum_id, forum_name
 			  FROM '. FORUMS_TABLE;
-		$r 		= $pnt_db->sql_query($q);
-		$frows 	= $pnt_db->sql_fetchrowset($r);
+		$r 		= $db->sql_query($q);
+		$frows 	= $db->sql_fetchrowset($r);
 		
 		$q = 'SELECT topic_id, topic_title
 			  FROM '. TOPICS_TABLE .'
 			  WHERE forum_id = "'. $forum_selected .'"';
-		$r 		= $pnt_db->sql_query($q);
-		$trows 	= $pnt_db->sql_fetchrowset($r);			
+		$r 		= $db->sql_query($q);
+		$trows 	= $db->sql_fetchrowset($r);			
 		
 		// Process forum listing
 		if (!$forum_selected)
 		{	
-			echo '<form name="post_select" method="post" action="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_post") .'">';
+			echo '<form name="post_select" method="post" action="'. append_sid("admin_ftr.$phpEx?mode=change_post") .'">';
 			echo '<table align="center" width="100%" class="forumline">';
 			echo '	<tr>';
 			echo '		<td class="row2" align="left" width="40%">';
@@ -163,7 +163,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 				}
 			}
 			
-			echo '<form name="post_select" method="post" action="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_post") .'">';
+			echo '<form name="post_select" method="post" action="'. append_sid("admin_ftr.$phpEx?mode=change_post") .'">';
 			echo '<table align="center" width="100%" class="forumline">';
 			echo '	<tr>';
 			echo '		<td class="row2" align="left" width="40%">';
@@ -208,7 +208,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			$q = "UPDATE ". CONFIG_TABLE ."
 				  SET config_value = '". intval($topic_selected) ."'
 				  WHERE config_name = 'ftr_topic'";
-			$pnt_db->sql_query($q);
+			$db->sql_query($q);
 			message_die(GENERAL_MESSAGE, $lang['admin_ftr_config_save_select']);
 		}
 	}
@@ -221,7 +221,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '	<tr>';
 		echo '		<td align="left" width="100%" class="row2">';
 		echo '			<span class="genmed">';
-		echo '				<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=reset") .'">'. $lang['admin_ftr_config_reset'] .'</a>';
+		echo '				<a href="'. append_sid("admin_ftr.$phpEx?mode=reset") .'">'. $lang['admin_ftr_config_reset'] .'</a>';
 		echo '			</span>';
 		echo '		</td>';
 		echo '	</tr>';
@@ -230,18 +230,18 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '<br clear="all">';
 		
 		// Forum & Topic Setup
-		if ($phpbb2_board_config['ftr_topic'])
+		if ($board_config['ftr_topic'])
 		{
 			$q = 'SELECT forum_id, forum_name
 				  FROM '. FORUMS_TABLE;
-			$r 		= $pnt_db->sql_query($q);
-			$frows 	= $pnt_db->sql_fetchrowset($r);
+			$r 		= $db->sql_query($q);
+			$frows 	= $db->sql_fetchrowset($r);
 			
 			$q = 'SELECT topic_id, topic_title, forum_id
 				  FROM '. TOPICS_TABLE .'
-				  WHERE topic_id = "'. intval($phpbb2_board_config['ftr_topic']) .'"';
-			$r 		= $pnt_db->sql_query($q);
-			$trows 	= $pnt_db->sql_fetchrow($r);
+				  WHERE topic_id = "'. intval($board_config['ftr_topic']) .'"';
+			$r 		= $db->sql_query($q);
+			$trows 	= $db->sql_fetchrow($r);
 			
 			for ($x = 0; $x < count($frows); $x++)
 			{
@@ -264,19 +264,19 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '	<tr>';
 		echo '		<td class="row2" align="left" width="80%">';
 		echo '			<span class="genmed">';
-		echo 				(!$phpbb2_board_config['ftr_topic']) ? sprintf($lang['admin_ftr_config_status3_f'], $lang['admin_ftr_config_none']) : sprintf($lang['admin_ftr_config_status3_f'], $forum);
+		echo 				(!$board_config['ftr_topic']) ? sprintf($lang['admin_ftr_config_status3_f'], $lang['admin_ftr_config_none']) : sprintf($lang['admin_ftr_config_status3_f'], $forum);
 		echo '			</span>';
 		echo '		</td>';
 		echo '		<td class="row2" align="center" width="20%" rowspan="2">';
 		echo '			<span class="genmed">';
-		echo '				<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_post") .'">'. $lang['admin_ftr_config_change'] .'</a>';
+		echo '				<a href="'. append_sid("admin_ftr.$phpEx?mode=change_post") .'">'. $lang['admin_ftr_config_change'] .'</a>';
 		echo '			</span>';
 		echo '		</td>';				
 		echo '	</tr>';
 		echo '	<tr>';
 		echo '		<td class="row2" align="left" width="80%">';
 		echo '			<span class="genmed">';
-		echo 				(!$phpbb2_board_config['ftr_topic']) ? sprintf($lang['admin_ftr_config_status3_t'], $lang['admin_ftr_config_none']) : sprintf($lang['admin_ftr_config_status3_t'], $topic);
+		echo 				(!$board_config['ftr_topic']) ? sprintf($lang['admin_ftr_config_status3_t'], $lang['admin_ftr_config_none']) : sprintf($lang['admin_ftr_config_status3_t'], $topic);
 		echo '			</span>';
 		echo '		</td>';				
 		echo '	</tr>';
@@ -290,15 +290,15 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '<table align="center" width="100%" class="forumline">';
 		echo '	<tr>';
 		echo '		<th class="thTop" align="center" width="100%" colspan="2">';
-		echo 			($phpbb2_board_config['ftr_active']) ? sprintf($lang['admin_ftr_config_status'], $lang['admin_ftr_config_status_y']) : sprintf($lang['admin_ftr_config_status'], $lang['admin_ftr_config_status_n']);
+		echo 			($board_config['ftr_active']) ? sprintf($lang['admin_ftr_config_status'], $lang['admin_ftr_config_status_y']) : sprintf($lang['admin_ftr_config_status'], $lang['admin_ftr_config_status_n']);
 		echo '		</th>';
 		echo '	</tr>';
-		if ($phpbb2_board_config['ftr_active'])
+		if ($board_config['ftr_active'])
 		{
 			echo '<tr>';
 			echo '	<td align="left" width="100%" class="row2">';
 			echo '		<span class="genmed">';
-			echo '			<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_active") .'">'. $lang['admin_ftr_config_status_n2'] .'</a>';
+			echo '			<a href="'. append_sid("admin_ftr.$phpEx?mode=change_active") .'">'. $lang['admin_ftr_config_status_n2'] .'</a>';
 			echo '		</span>';
 			echo '	</td>';
 			echo '</tr>';
@@ -308,7 +308,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			echo '<tr>';
 			echo '	<td align="left" width="100%" class="row2">';
 			echo '		<span class="genmed">';
-			echo '			<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_active") .'">'. $lang['admin_ftr_config_status_y2'] .'</a>';
+			echo '			<a href="'. append_sid("admin_ftr.$phpEx?mode=change_active") .'">'. $lang['admin_ftr_config_status_y2'] .'</a>';
 			echo '		</span>';
 			echo '	</td>';
 			echo '</tr>';		
@@ -323,15 +323,15 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '<table align="center" width="100%" class="forumline">';
 		echo '	<tr>';
 		echo '		<th class="thTop" align="center" width="100%" colspan="2">';
-		echo 			($phpbb2_board_config['ftr_who'] == 1) ? sprintf($lang['admin_ftr_config_status2'], $lang['admin_ftr_config_status2_y']) : sprintf($lang['admin_ftr_config_status2'], $lang['admin_ftr_config_status2_n']);
+		echo 			($board_config['ftr_who'] == 1) ? sprintf($lang['admin_ftr_config_status2'], $lang['admin_ftr_config_status2_y']) : sprintf($lang['admin_ftr_config_status2'], $lang['admin_ftr_config_status2_n']);
 		echo '		</th>';
 		echo '	</tr>';
-		if ($phpbb2_board_config['ftr_who'] == 1)
+		if ($board_config['ftr_who'] == 1)
 		{
 			echo '<tr>';
 			echo '	<td align="left" width="100%" class="row2">';
 			echo '		<span class="genmed">';
-			echo '			<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_who") .'">'. $lang['admin_ftr_config_status2_n2'] .'</a>';
+			echo '			<a href="'. append_sid("admin_ftr.$phpEx?mode=change_who") .'">'. $lang['admin_ftr_config_status2_n2'] .'</a>';
 			echo '		</span>';
 			echo '	</td>';
 			echo '</tr>';
@@ -341,7 +341,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			echo '<tr>';
 			echo '	<td align="left" width="100%" class="row2">';
 			echo '		<span class="genmed">';
-			echo '			<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_who") .'">'. $lang['admin_ftr_config_status2_y2'] .'</a>';
+			echo '			<a href="'. append_sid("admin_ftr.$phpEx?mode=change_who") .'">'. $lang['admin_ftr_config_status2_y2'] .'</a>';
 			echo '		</span>';
 			echo '	</td>';
 			echo '</tr>';		
@@ -353,7 +353,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '<br clear="all">';
 		
 		// Display message
-		echo '<form name="post_select" method="post" action="'. append_titanium_sid("admin_ftr.$phpEx?mode=change_msg") .'">';
+		echo '<form name="post_select" method="post" action="'. append_sid("admin_ftr.$phpEx?mode=change_msg") .'">';
 		echo '<table align="center" width="100%" class="forumline">';
 		echo '	<tr>';
 		echo '		<th class="thTop" align="center" width="100%" colspan="2">';
@@ -367,7 +367,7 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '			</span>';
 		echo '		</td>';
 		echo '		<td class="row2" valign="top" align="center" width="60%">';
-		echo '			<textarea name="message" class="post" style="width:80%; height:150px;">'. $phpbb2_board_config['ftr_msg'] .'</textarea>';
+		echo '			<textarea name="message" class="post" style="width:80%; height:150px;">'. $board_config['ftr_msg'] .'</textarea>';
 		echo '		</td>';				
 		echo '	</tr>';
 		echo '	<tr>';
@@ -392,18 +392,18 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			$q = "UPDATE ". USERS_TABLE ."
 				  SET user_ftr = '', user_ftr_time = ''
 				  WHERE user_id = '". $who ."'";
-			$pnt_db->sql_query($q);
+			$db->sql_query($q);
 		}
 		
 		$order 		= ($HTTP_GET_VARS['order']) ? $HTTP_GET_VARS['order'] : 'username';
 		$dir		= ($HTTP_GET_VARS['dir']) ? $HTTP_GET_VARS['dir']: 'ASC';
-		$phpbb2_start		= intval($HTTP_GET_VARS['start']);
+		$start		= intval($HTTP_GET_VARS['start']);
 		
 		if ($HTTP_GET_VARS['order'])
 		{
 			$order_by	= ($order == 'username') ? 'ORDER BY username ' : 'ORDER BY user_ftr_time';
 			$order_by 	.= ($dir == 'asc') ? 'ASC ' : 'DESC ';
-			$order_by	.= ($phpbb2_start > 0) ? 'LIMIT '. ($phpbb2_start + 100) .', 100' : 'LIMIT 0, 100';
+			$order_by	.= ($start > 0) ? 'LIMIT '. ($start + 100) .', 100' : 'LIMIT 0, 100';
 		}
 		
 
@@ -412,9 +412,9 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			  WHERE user_id <> '". ANONYMOUS ."'
 			  AND user_ftr <> ''
 			  $order_by";
-		if (!$r = $pnt_db->sql_query($q))
+		if (!$r = $db->sql_query($q))
 			message_die(GENERAL_ERROR, 'Error Grabbing FTR User Info.', '', __LINE__, __FILE__, $q);
-		$rows = $pnt_db->sql_fetchrowset($r);
+		$rows = $db->sql_fetchrowset($r);
 
 		echo '<table align="center" width="100%" class="forumline">';
 		echo '	<tr>';
@@ -424,8 +424,8 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		echo '	</tr>';
 		echo '	<tr>';
 		echo '		<td class="row1" align="center" width="25%">'. $lang['admin_ftr_users_order'] .'</td>';
-		echo '		<td class="row1" align="center" width="25%">'. sprintf($lang['admin_ftr_users_asc_desc'], '<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&order=username&dir=asc") .'">', '</a>', '<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&order=username&dir=desc") .'">', '</a>') .'</td>';
-		echo '		<td class="row1" align="center" width="50%">'. sprintf($lang['admin_ftr_users_asc_desc'], '<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&order=time&dir=asc") .'">', '</a>', '<a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&order=time&dir=desc") .'">', '</a>') .'</td>';				
+		echo '		<td class="row1" align="center" width="25%">'. sprintf($lang['admin_ftr_users_asc_desc'], '<a href="'. append_sid("admin_ftr.$phpEx?mode=users&order=username&dir=asc") .'">', '</a>', '<a href="'. append_sid("admin_ftr.$phpEx?mode=users&order=username&dir=desc") .'">', '</a>') .'</td>';
+		echo '		<td class="row1" align="center" width="50%">'. sprintf($lang['admin_ftr_users_asc_desc'], '<a href="'. append_sid("admin_ftr.$phpEx?mode=users&order=time&dir=asc") .'">', '</a>', '<a href="'. append_sid("admin_ftr.$phpEx?mode=users&order=time&dir=desc") .'">', '</a>') .'</td>';				
 		echo '	</tr>';		
 			
 		// var_dump(count($rows));
@@ -443,8 +443,8 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 		{
 			echo '	<tr>';
 			echo '		<td class="row1" align="center" width="25%">'. ($x + 1) .'</td>';
-			echo '		<td class="row1" align="left" width="25%"><a href="'. append_titanium_sid("admin_ftr.$phpEx?mode=users&remove=". $rows[$x]['user_id']) .'">'. UsernameColor($rows[$x]['username']) .'</a></td>';
-			echo '		<td class="row1" align="left" width="50%">'. create_date($phpbb2_board_config['default_dateformat'], $rows[$x]['user_ftr_time'], $phpbb2_board_config['board_timezone']) .'</td>';
+			echo '		<td class="row1" align="left" width="25%"><a href="'. append_sid("admin_ftr.$phpEx?mode=users&remove=". $rows[$x]['user_id']) .'">'. UsernameColor($rows[$x]['username']) .'</a></td>';
+			echo '		<td class="row1" align="left" width="50%">'. create_date($board_config['default_dateformat'], $rows[$x]['user_ftr_time'], $board_config['board_timezone']) .'</td>';
 			echo '	</tr>';
 		}
 
@@ -452,9 +452,9 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			  FROM ". USERS_TABLE ."
 			  WHERE user_id <> '". ANONYMOUS ."'
 			  AND user_ftr <> ''";
-		if (!$r = $pnt_db->sql_query($q))
+		if (!$r = $db->sql_query($q))
 			message_die(GENERAL_ERROR, 'Error Grabbing FTR User Info For Pagination.', '', __LINE__, __FILE__, $q);
-		$rows = $pnt_db->sql_fetchrowset($r);
+		$rows = $db->sql_fetchrowset($r);
 
 		if ( is_array( $rows ) )
 		{
@@ -465,8 +465,8 @@ include($phpbb2_root_path .'language/lang_'. $phpbb2_board_config['default_lang'
 			$rows_counted = 0;
 		}
 		
-		$pagination 	= generate_pagination(append_titanium_sid("admin_ftr.$phpEx?mode=users&order=$order&dir=$dir"), $rows_counted, 100, $phpbb2_start). '&nbsp;';
-		$page_number 	= sprintf($lang['Page_of'], ( floor( $phpbb2_start / 100 ) + 1 ), ceil( $rows_counted / 100 ) );				
+		$pagination 	= generate_pagination(append_sid("admin_ftr.$phpEx?mode=users&order=$order&dir=$dir"), $rows_counted, 100, $start). '&nbsp;';
+		$page_number 	= sprintf($lang['Page_of'], ( floor( $start / 100 ) + 1 ), ceil( $rows_counted / 100 ) );				
 
 		echo '	<tr>';
 		echo '		<td class="row1" align="left" width="50%" colspan="2">'. $page_number .'</td>';

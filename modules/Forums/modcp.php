@@ -57,17 +57,17 @@ if (!defined('MODULE_FILE')) {
 
 
 
-$pnt_module = basename(dirname(__FILE__));
+$module_name = basename(dirname(__FILE__));
 
-require("modules/".$pnt_module."/nukebb.php");
+require("modules/".$module_name."/nukebb.php");
 
 
 
-define('IN_PHPBB2', true);
+define('IN_PHPBB', true);
 
-include($phpbb2_root_path . 'extension.inc');
+include($phpbb_root_path . 'extension.inc');
 
-include($phpbb2_root_path . 'common.'.$phpEx);
+include($phpbb_root_path . 'common.'.$phpEx);
 
 include("includes/bbcode.$phpEx");
 
@@ -76,7 +76,7 @@ include("includes/functions_admin.$phpEx");
 /*****[BEGIN]******************************************
  [ Mod:     Users Reputations Systems          v1.0.0 ]
  ******************************************************/
-include($phpbb2_root_path . 'reputation_common.'.$phpEx);
+include($phpbb_root_path . 'reputation_common.'.$phpEx);
 /*****[END]********************************************
  [ Mod:     Users Reputations Systems          v1.0.0 ]
  ******************************************************/
@@ -129,7 +129,7 @@ $post_id = request_var('p', 0);
 
 $topic_id = request_var('t', 0);
 
-$phpbb2_forum_id = request_var('f', 0);
+$forum_id = request_var('f', 0);
 
 
 
@@ -143,9 +143,9 @@ $confirm = ( $_POST['confirm'] ) ? TRUE : 0;
 
 //
 
-$phpbb2_start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+$start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
 
-$phpbb2_start = ($phpbb2_start < 0) ? 0 : $phpbb2_start;
+$start = ($start < 0) ? 0 : $start;
 
 
 
@@ -177,7 +177,7 @@ if (isset($_REQUEST['mode']))
 
 {
 
-	$mode		= ($delete && $phpbb2_start) ? 'delete' : request_var('mode', '');
+	$mode		= ($delete && $start) ? 'delete' : request_var('mode', '');
 
 }
 
@@ -287,7 +287,7 @@ if ( !empty($topic_id) )
 
                         AND f.forum_id = t.forum_id";
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
 
         {
 
@@ -295,7 +295,7 @@ if ( !empty($topic_id) )
 
         }
 
-        $topic_row = $pnt_db->sql_fetchrow($result);
+        $topic_row = $db->sql_fetchrow($result);
 
 
 
@@ -311,13 +311,13 @@ if ( !empty($topic_id) )
 
         $forum_topics = ( $topic_row['forum_topics'] == 0 ) ? 1 : $topic_row['forum_topics'];
 
-        $phpbb2_forum_id = $topic_row['forum_id'];
+        $forum_id = $topic_row['forum_id'];
 
         $forum_name = $topic_row['forum_name'];
 
 }
 
-else if ( !empty($phpbb2_forum_id) )
+else if ( !empty($forum_id) )
 
 {
 
@@ -325,9 +325,9 @@ else if ( !empty($phpbb2_forum_id) )
 
                 FROM " . FORUMS_TABLE . "
 
-                WHERE forum_id = " . $phpbb2_forum_id;
+                WHERE forum_id = " . $forum_id;
 
-        if ( !($result = $pnt_db->sql_query($sql)) )
+        if ( !($result = $db->sql_query($sql)) )
 
         {
 
@@ -335,7 +335,7 @@ else if ( !empty($phpbb2_forum_id) )
 
         }
 
-        $topic_row = $pnt_db->sql_fetchrow($result);
+        $topic_row = $db->sql_fetchrow($result);
 
 
 
@@ -371,9 +371,9 @@ else
 
 //
 
-$userdata = titanium_session_pagestart($pnt_user_ip, $phpbb2_forum_id);
+$userdata = session_pagestart($user_ip, $forum_id);
 
-titanium_init_userprefs($userdata);
+init_userprefs($userdata);
 
 //
 
@@ -415,11 +415,11 @@ if ( isset($HTTP_POST_VARS['cancel']) )
 
         }
 
-        else if ( $phpbb2_forum_id )
+        else if ( $forum_id )
 
         {
 
-                $redirect = "viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id";
+                $redirect = "viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id";
 
         }
 
@@ -433,11 +433,11 @@ if ( isset($HTTP_POST_VARS['cancel']) )
 
 
 
-        // not needed anymore due to function redirect_titanium()
+        // not needed anymore due to function redirect()
 
         //$header_location = ( @preg_match('/Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ) ? 'Refresh: 0; URL=' : 'Location: ';
 
-        redirect_titanium(append_titanium_sid($redirect, true));
+        redirect(append_sid($redirect, true));
 
         exit;
 
@@ -451,11 +451,11 @@ if ( isset($HTTP_POST_VARS['cancel']) )
 
 //
 
-$phpbb2_is_auth = auth(AUTH_ALL, $phpbb2_forum_id, $userdata);
+$is_auth = auth(AUTH_ALL, $forum_id, $userdata);
 
 
 
-if ( !$phpbb2_is_auth['auth_mod'] )
+if ( !$is_auth['auth_mod'] )
 
 {
 
@@ -483,17 +483,17 @@ switch( $mode )
 
         case 'delete':
 
-                if (!$phpbb2_is_auth['auth_delete'])
+                if (!$is_auth['auth_delete'])
 
                 {
 
-                        message_die(GENERAL_MESSAGE, sprintf($lang['Sorry_auth_delete'], $phpbb2_is_auth['auth_delete_type']));
+                        message_die(GENERAL_MESSAGE, sprintf($lang['Sorry_auth_delete'], $is_auth['auth_delete_type']));
 
                 }
 
 
 
-                $phpbb2_page_title = $lang['Mod_CP'];
+                $page_title = $lang['Mod_CP'];
 
                 include("includes/page_header.$phpEx");
 
@@ -517,17 +517,17 @@ switch( $mode )
 
 
 
-                        $phpbb2_topics = ( isset($HTTP_POST_VARS['topic_id_list']) ) ? $HTTP_POST_VARS['topic_id_list'] : array($topic_id);
+                        $topics = ( isset($HTTP_POST_VARS['topic_id_list']) ) ? $HTTP_POST_VARS['topic_id_list'] : array($topic_id);
 
 
 
                         $topic_id_sql = '';
 
-                        for($i = 0; $i < count($phpbb2_topics); $i++)
+                        for($i = 0; $i < count($topics); $i++)
 
                         {
 
-                $topic_id_sql .= ( ( !empty($topic_id_sql) ) ? ', ' : '' ) . intval($phpbb2_topics[$i]);
+                $topic_id_sql .= ( ( !empty($topic_id_sql) ) ? ', ' : '' ) . intval($topics[$i]);
 
             }
 
@@ -539,9 +539,9 @@ switch( $mode )
 
                 WHERE topic_id IN ($topic_id_sql)
 
-                    AND forum_id = '$phpbb2_forum_id'";
+                    AND forum_id = '$forum_id'";
 
-            if ( !($result = $pnt_db->sql_query($sql)) )
+            if ( !($result = $db->sql_query($sql)) )
 
             {
 
@@ -553,7 +553,7 @@ switch( $mode )
 
             $topic_id_sql = '';
 
-            while ($row = $pnt_db->sql_fetchrow($result))
+            while ($row = $db->sql_fetchrow($result))
 
             {
 
@@ -561,7 +561,7 @@ switch( $mode )
 
             }
 
-            $pnt_db->sql_freeresult($result);
+            $db->sql_freeresult($result);
 
 
 
@@ -581,7 +581,7 @@ switch( $mode )
 
                                 GROUP BY poster_id";
 
-                        if ( !($result = $pnt_db->sql_query($sql)) )
+                        if ( !($result = $db->sql_query($sql)) )
 
                         {
 
@@ -599,7 +599,7 @@ switch( $mode )
 
  ******************************************************/
 
-                        $pnt_user_updated = array();
+                        $user_updated = array();
 
 /*****[END]********************************************
 
@@ -607,7 +607,7 @@ switch( $mode )
 
  ******************************************************/
 
-                        while ( $row = $pnt_db->sql_fetchrow($result) )
+                        while ( $row = $db->sql_fetchrow($result) )
 
                         {
 /*****[BEGIN]******************************************
@@ -628,7 +628,7 @@ switch( $mode )
 
  ******************************************************/
 
-                                $pnt_user_updated [] = "SELECT ug.user_id, g.group_id as g_id, u.user_posts, g.group_count, g.group_count_max, ".$row['poster_id']." as u_id FROM (" . GROUPS_TABLE . " g, ".USERS_TABLE." u)
+                                $user_updated [] = "SELECT ug.user_id, g.group_id as g_id, u.user_posts, g.group_count, g.group_count_max, ".$row['poster_id']." as u_id FROM (" . GROUPS_TABLE . " g, ".USERS_TABLE." u)
 
                                         LEFT JOIN ". USER_GROUP_TABLE." ug ON g.group_id=ug.group_id AND ug.user_id=".$row['poster_id']."
 
@@ -648,7 +648,7 @@ switch( $mode )
 
                         }
 
-                        $pnt_db->sql_freeresult($result);
+                        $db->sql_freeresult($result);
 
 
 
@@ -660,7 +660,7 @@ switch( $mode )
 
                                 {
 
-                                        if ( !$pnt_db->sql_query($count_sql[$i]) )
+                                        if ( !$db->sql_query($count_sql[$i]) )
 
                                         {
 
@@ -680,33 +680,33 @@ switch( $mode )
 
  ******************************************************/
 
-                        if ( sizeof($pnt_user_updated) )
+                        if ( sizeof($user_updated) )
 
                         {
 
-                        	for($i = 0; $i < sizeof($pnt_user_updated); $i++)
+                        	for($i = 0; $i < sizeof($user_updated); $i++)
 
                         	{
 
-                        		if ( !($result = $pnt_db->sql_query($pnt_user_updated[$i])) )
+                        		if ( !($result = $db->sql_query($user_updated[$i])) )
 
                         		{
 
-                        			message_die(GENERAL_ERROR, 'Error geting users post stat', '', __LINE__, __FILE__, $pnt_user_updated[$i]);
+                        			message_die(GENERAL_ERROR, 'Error geting users post stat', '', __LINE__, __FILE__, $user_updated[$i]);
 
                         		}
 
-                        		while ($group_data = $pnt_db->sql_fetchrow($result))
+                        		while ($group_data = $db->sql_fetchrow($result))
 
                         		{
 
-                        			$pnt_user_already_added = (!empty($group_data['user_id']) || $group_data['u_id']==ANONYMOUS) ? TRUE : FALSE;
+                        			$user_already_added = (!empty($group_data['user_id']) || $group_data['u_id']==ANONYMOUS) ? TRUE : FALSE;
 
-                        			$pnt_user_add = ($group_data['group_count'] == $group_data['user_posts'] && $group_data['u_id']!=ANONYMOUS) ? TRUE : FALSE;
+                        			$user_add = ($group_data['group_count'] == $group_data['user_posts'] && $group_data['u_id']!=ANONYMOUS) ? TRUE : FALSE;
 
-                        			$pnt_user_remove = ($group_data['group_count'] > $group_data['user_posts'] && $group_data['u_id']!=ANONYMOUS) ? TRUE : FALSE;
+                        			$user_remove = ($group_data['group_count'] > $group_data['user_posts'] && $group_data['u_id']!=ANONYMOUS) ? TRUE : FALSE;
 
-                        			if ($pnt_user_add && !$pnt_user_already_added)
+                        			if ($user_add && !$user_already_added)
 
                         			{
 
@@ -716,7 +716,7 @@ switch( $mode )
 
                         					VALUES (".$group_data['g_id'].", ".$group_data['u_id'].", '0')";
 
-                        				if ( !($pnt_db->sql_query($sql)) )
+                        				if ( !($db->sql_query($sql)) )
 
                         				{
 
@@ -726,7 +726,7 @@ switch( $mode )
 
                         			} else
 
-                        			if ( $pnt_user_already_added && $pnt_user_remove)
+                        			if ( $user_already_added && $user_remove)
 
                         			{
 
@@ -738,7 +738,7 @@ switch( $mode )
 
                         					AND user_id=".$group_data['u_id'];
 
-                        				if ( !($pnt_db->sql_query($sql)) )
+                        				if ( !($db->sql_query($sql)) )
 
                         				{
 
@@ -752,7 +752,7 @@ switch( $mode )
 
                         		}
 
-                        		$pnt_db->sql_freeresult($result);
+                        		$db->sql_freeresult($result);
 
                         	}
 
@@ -770,7 +770,7 @@ switch( $mode )
 
                                 WHERE topic_id IN ($topic_id_sql)";
 
-                        if ( !($result = $pnt_db->sql_query($sql)) )
+                        if ( !($result = $db->sql_query($sql)) )
 
                         {
 
@@ -782,7 +782,7 @@ switch( $mode )
 
                         $post_id_sql = '';
 
-                        while ( $row = $pnt_db->sql_fetchrow($result) )
+                        while ( $row = $db->sql_fetchrow($result) )
 
                         {
 
@@ -790,7 +790,7 @@ switch( $mode )
 
                         }
 
-                        $pnt_db->sql_freeresult($result);
+                        $db->sql_freeresult($result);
 
 
 
@@ -800,7 +800,7 @@ switch( $mode )
 
                                 WHERE topic_id IN ($topic_id_sql)";
 
-                        if ( !($result = $pnt_db->sql_query($sql)) )
+                        if ( !($result = $db->sql_query($sql)) )
 
                         {
 
@@ -812,7 +812,7 @@ switch( $mode )
 
                         $vote_id_sql = '';
 
-                        while ( $row = $pnt_db->sql_fetchrow($result) )
+                        while ( $row = $db->sql_fetchrow($result) )
 
                         {
 
@@ -820,7 +820,7 @@ switch( $mode )
 
                         }
 
-                        $pnt_db->sql_freeresult($result);
+                        $db->sql_freeresult($result);
 
 						
 
@@ -834,7 +834,7 @@ switch( $mode )
 
 								WHERE topic_id IN ($topic_id_sql)";
 
-						if ( !$pnt_db->sql_query($sql) )
+						if ( !$db->sql_query($sql) )
 
 						{
 
@@ -864,7 +864,7 @@ switch( $mode )
 
                                         OR topic_moved_id IN ($topic_id_sql)";
 
-                        if ( !$pnt_db->sql_query($sql) )
+                        if ( !$db->sql_query($sql) )
 
                         {
 
@@ -884,7 +884,7 @@ switch( $mode )
 
                                         WHERE post_id IN ($post_id_sql)";
 
-                                if ( !$pnt_db->sql_query($sql) )
+                                if ( !$db->sql_query($sql) )
 
                                 {
 
@@ -916,7 +916,7 @@ switch( $mode )
 
 
 
-                                if ( !$pnt_db->sql_query($sql) )
+                                if ( !$db->sql_query($sql) )
 
                                 {
 
@@ -956,7 +956,7 @@ switch( $mode )
 
                                         WHERE vote_id IN ($vote_id_sql)";
 
-                                if ( !$pnt_db->sql_query($sql) )
+                                if ( !$db->sql_query($sql) )
 
                                 {
 
@@ -972,7 +972,7 @@ switch( $mode )
 
                                         WHERE vote_id IN ($vote_id_sql)";
 
-                                if ( !$pnt_db->sql_query($sql) )
+                                if ( !$db->sql_query($sql) )
 
                                 {
 
@@ -988,7 +988,7 @@ switch( $mode )
 
                                         WHERE vote_id IN ($vote_id_sql)";
 
-                                if ( !$pnt_db->sql_query($sql) )
+                                if ( !$db->sql_query($sql) )
 
                                 {
 
@@ -1001,7 +1001,7 @@ switch( $mode )
 
 
                         $sql = "DELETE FROM " . TOPICS_WATCH_TABLE . " WHERE topic_id IN ($topic_id_sql)";
-                        if ( !$pnt_db->sql_query($sql) )
+                        if ( !$db->sql_query($sql) )
                         {
                             message_die(GENERAL_ERROR, 'Could not delete watched post list', '', __LINE__, __FILE__, $sql);
                         }
@@ -1010,7 +1010,7 @@ switch( $mode )
  [ Base:    Who viewed a topic                 v1.0.3 ]
  ******************************************************/
 						$sql = "DELETE FROM " . TOPIC_VIEW_TABLE . " WHERE topic_id IN ($topic_id_sql)"; 
-						if ( !$pnt_db->sql_query($sql, END_TRANSACTION) ) 
+						if ( !$db->sql_query($sql, END_TRANSACTION) ) 
 						{ 
 							message_die(GENERAL_ERROR, 'Could not delete viewed post list', '', __LINE__, __FILE__, $sql); 
 						}
@@ -1018,20 +1018,20 @@ switch( $mode )
  [ Base:    Who viewed a topic                 v1.0.3 ]
  ******************************************************/
 
-                        sync('forum', $phpbb2_forum_id);
+                        sync('forum', $forum_id);
 
                         if ( !empty($topic_id) )
                         {
-                                $redirect_page = append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id");
+                                $redirect_page = append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id");
                                 $l_redirect = sprintf($lang['Click_return_forum'], '<a href="' . $redirect_page . '">', '</a>');
                         }
                         else
                         {
-                                $redirect_page = append_titanium_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id");
+                                $redirect_page = append_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$forum_id");
                                 $l_redirect = sprintf($lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
                         }
 
-                        $phpbb2_template->assign_vars(array(
+                        $template->assign_vars(array(
                                 'META' => '<meta http-equiv="refresh" content="3;url=' . $redirect_page . '">')
                         );
 
@@ -1052,7 +1052,7 @@ switch( $mode )
 
 
 
-                        $hidden_fields = '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" /><input type="hidden" name="mode" value="' . $mode . '" /><input type="hidden" name="' . POST_FORUM_URL . '" value="' . $phpbb2_forum_id . '" />';
+                        $hidden_fields = '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" /><input type="hidden" name="mode" value="' . $mode . '" /><input type="hidden" name="' . POST_FORUM_URL . '" value="' . $forum_id . '" />';
 
 
 
@@ -1060,13 +1060,13 @@ switch( $mode )
 
                         {
 
-                                $phpbb2_topics = $HTTP_POST_VARS['topic_id_list'];
+                                $topics = $HTTP_POST_VARS['topic_id_list'];
 
-                                for($i = 0; $i < count($phpbb2_topics); $i++)
+                                for($i = 0; $i < count($topics); $i++)
 
                                 {
 
-                                        $hidden_fields .= '<input type="hidden" name="topic_id_list[]" value="' . intval($phpbb2_topics[$i]) . '" />';
+                                        $hidden_fields .= '<input type="hidden" name="topic_id_list[]" value="' . intval($topics[$i]) . '" />';
 
                                 }
 
@@ -1088,7 +1088,7 @@ switch( $mode )
 
                         //
 
-                        $phpbb2_template->set_filenames(array(
+                        $template->set_filenames(array(
 
                                 'confirm' => 'confirm_body.tpl')
 
@@ -1104,21 +1104,21 @@ switch( $mode )
 
 			$all_forums = array();
 
-			make_jumpbox_ref('modcp.'.$phpEx, $phpbb2_forum_id, $all_forums);
+			make_jumpbox_ref('modcp.'.$phpEx, $forum_id, $all_forums);
 
 
 
-			$phpbb2_parent_id = 0;
+			$parent_id = 0;
 
 			for( $i = 0; $i < count($all_forums); $i++ )
 
 			{
 
-				if( $all_forums[$i]['forum_id'] == $phpbb2_forum_id )
+				if( $all_forums[$i]['forum_id'] == $forum_id )
 
 				{
 
-					$phpbb2_parent_id = $all_forums[$i]['forum_parent'];
+					$parent_id = $all_forums[$i]['forum_parent'];
 
 				}
 
@@ -1126,7 +1126,7 @@ switch( $mode )
 
 
 
-			if( $phpbb2_parent_id )
+			if( $parent_id )
 
 			{
 
@@ -1134,15 +1134,15 @@ switch( $mode )
 
 				{
 
-					if( $all_forums[$i]['forum_id'] == $phpbb2_parent_id )
+					if( $all_forums[$i]['forum_id'] == $parent_id )
 
 					{
 
-						$phpbb2_template->assign_vars(array(
+						$template->assign_vars(array(
 
 							'PARENT_FORUM'			=> 1,
 
-							'U_VIEW_PARENT_FORUM'	=> append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL .'=' . $all_forums[$i]['forum_id']),
+							'U_VIEW_PARENT_FORUM'	=> append_sid("viewforum.$phpEx?" . POST_FORUM_URL .'=' . $all_forums[$i]['forum_id']),
 
 							'PARENT_FORUM_NAME'		=> $all_forums[$i]['forum_name'],
 
@@ -1162,7 +1162,7 @@ switch( $mode )
 
 
 
-                        $phpbb2_template->assign_vars(array(
+                        $template->assign_vars(array(
 
                                 'MESSAGE_TITLE' => $lang['Confirm'],
 
@@ -1176,7 +1176,7 @@ switch( $mode )
 
 
 
-                                'S_CONFIRM_ACTION' => append_titanium_sid("modcp.$phpEx"),
+                                'S_CONFIRM_ACTION' => append_sid("modcp.$phpEx"),
 
                                 'S_HIDDEN_FIELDS' => $hidden_fields)
 
@@ -1184,7 +1184,7 @@ switch( $mode )
 
 
 
-                        $phpbb2_template->pparse('confirm');
+                        $template->pparse('confirm');
 
 
 
@@ -1198,7 +1198,7 @@ switch( $mode )
 
         case 'move':
 
-                $phpbb2_page_title = $lang['Mod_CP'];
+                $page_title = $lang['Mod_CP'];
 
                 include("includes/page_header.$phpEx");
 
@@ -1220,7 +1220,7 @@ switch( $mode )
 
                         $new_forum_id = intval($HTTP_POST_VARS['new_forum']);
 
-                        $old_forum_id = $phpbb2_forum_id;
+                        $old_forum_id = $forum_id;
 
 
 
@@ -1228,7 +1228,7 @@ switch( $mode )
 
                               WHERE forum_id = ' . $new_forum_id;
 
-                           if ( !($result = $pnt_db->sql_query($sql)) )
+                           if ( !($result = $db->sql_query($sql)) )
 
                            {
 
@@ -1238,7 +1238,7 @@ switch( $mode )
 
 
 
-                           if (!$pnt_db->sql_fetchrow($result))
+                           if (!$db->sql_fetchrow($result))
 
                            {
 
@@ -1248,7 +1248,7 @@ switch( $mode )
 
 
 
-                           $pnt_db->sql_freeresult($result);
+                           $db->sql_freeresult($result);
 
 
 
@@ -1256,17 +1256,17 @@ switch( $mode )
 
                         {
 
-                                $phpbb2_topics = ( isset($HTTP_POST_VARS['topic_id_list']) ) ?  $HTTP_POST_VARS['topic_id_list'] : array($topic_id);
+                                $topics = ( isset($HTTP_POST_VARS['topic_id_list']) ) ?  $HTTP_POST_VARS['topic_id_list'] : array($topic_id);
 
 
 
                                 $topic_list = '';
 
-                                for($i = 0; $i < count($phpbb2_topics); $i++)
+                                for($i = 0; $i < count($topics); $i++)
 
                                 {
 
-                                        $topic_list .= ( ( !empty($topic_list) ) ? ', ' : '' ) . intval($phpbb2_topics[$i]);
+                                        $topic_list .= ( ( !empty($topic_list) ) ? ', ' : '' ) . intval($topics[$i]);
 
                                 }
 
@@ -1282,7 +1282,7 @@ switch( $mode )
 
                                                 AND topic_status <> " . TOPIC_MOVED;
 
-                                if ( !($result = $pnt_db->sql_query($sql)) )
+                                if ( !($result = $db->sql_query($sql)) )
 
                                 {
 
@@ -1292,9 +1292,9 @@ switch( $mode )
 
 
 
-                                $row = $pnt_db->sql_fetchrowset($result);
+                                $row = $db->sql_fetchrowset($result);
 
-                                $pnt_db->sql_freeresult($result);
+                                $db->sql_freeresult($result);
 
 
 
@@ -1316,7 +1316,7 @@ switch( $mode )
 
                                                         VALUES ('$old_forum_id', '" . addslashes(str_replace("\'", "''", $row[$i]['topic_title'])) . "', '" . str_replace("\'", "''", $row[$i]['topic_poster']) . "', " . $row[$i]['topic_time'] . ", " . TOPIC_MOVED . ", " . POST_NORMAL . ", " . $row[$i]['topic_vote'] . ", " . $row[$i]['topic_views'] . ", " . $row[$i]['topic_replies'] . ", " . $row[$i]['topic_first_post_id'] . ", " . $row[$i]['topic_last_post_id'] . ", '$topic_id')";
 
-                                                if ( !$pnt_db->sql_query($sql) )
+                                                if ( !$db->sql_query($sql) )
 
                                                 {
 
@@ -1350,7 +1350,7 @@ switch( $mode )
 
                                                 WHERE topic_id = '$topic_id'";
 
-                                        if ( !$pnt_db->sql_query($sql) )
+                                        if ( !$db->sql_query($sql) )
 
                                         {
 
@@ -1366,7 +1366,7 @@ switch( $mode )
 
                                                 WHERE topic_id = '$topic_id'";
 
-                                        if ( !$pnt_db->sql_query($sql) )
+                                        if ( !$db->sql_query($sql) )
 
                                         {
 
@@ -1406,7 +1406,7 @@ switch( $mode )
 
                         {
 
-                                $redirect_page = append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id");
+                                $redirect_page = append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id");
 
                                 $message .= sprintf($lang['Click_return_topic'], '<a href="' . $redirect_page . '">', '</a>');
 
@@ -1416,7 +1416,7 @@ switch( $mode )
 
                         {
 
-                                $redirect_page = append_titanium_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id");
+                                $redirect_page = append_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$forum_id");
 
                                 $message .= sprintf($lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
 
@@ -1424,11 +1424,11 @@ switch( $mode )
 
 
 
-                        $message = $message . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$old_forum_id") . '">', '</a>');
+                        $message = $message . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$old_forum_id") . '">', '</a>');
 
 
 
-                        $phpbb2_template->assign_vars(array(
+                        $template->assign_vars(array(
 
                                 'META' => '<meta http-equiv="refresh" content="3;url=' . $redirect_page . '">')
 
@@ -1454,7 +1454,7 @@ switch( $mode )
 
 
 
-                        $hidden_fields = '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" /><input type="hidden" name="mode" value="' . $mode . '" /><input type="hidden" name="' . POST_FORUM_URL . '" value="' . $phpbb2_forum_id . '" />';
+                        $hidden_fields = '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" /><input type="hidden" name="mode" value="' . $mode . '" /><input type="hidden" name="' . POST_FORUM_URL . '" value="' . $forum_id . '" />';
 
 
 
@@ -1462,15 +1462,15 @@ switch( $mode )
 
                         {
 
-                                $phpbb2_topics = $HTTP_POST_VARS['topic_id_list'];
+                                $topics = $HTTP_POST_VARS['topic_id_list'];
 
 
 
-                                for($i = 0; $i < count($phpbb2_topics); $i++)
+                                for($i = 0; $i < count($topics); $i++)
 
                                 {
 
-                                        $hidden_fields .= '<input type="hidden" name="topic_id_list[]" value="' . intval($phpbb2_topics[$i]) . '" />';
+                                        $hidden_fields .= '<input type="hidden" name="topic_id_list[]" value="' . intval($topics[$i]) . '" />';
 
                                 }
 
@@ -1492,7 +1492,7 @@ switch( $mode )
 
                         //
 
-                        $phpbb2_template->set_filenames(array(
+                        $template->set_filenames(array(
 
                                 'movetopic' => 'modcp_move.tpl')
 
@@ -1500,7 +1500,7 @@ switch( $mode )
 
 
 
-                        $phpbb2_template->assign_vars(array(
+                        $template->assign_vars(array(
 
                                 'MESSAGE_TITLE' => $lang['Confirm'],
 
@@ -1518,9 +1518,9 @@ switch( $mode )
 
 
 
-                                'S_FORUM_SELECT' => make_forum_select('new_forum', $phpbb2_forum_id),
+                                'S_FORUM_SELECT' => make_forum_select('new_forum', $forum_id),
 
-                                'S_MODCP_ACTION' => append_titanium_sid("modcp.$phpEx"),
+                                'S_MODCP_ACTION' => append_sid("modcp.$phpEx"),
 
                                 'S_HIDDEN_FIELDS' => $hidden_fields)
 
@@ -1528,7 +1528,7 @@ switch( $mode )
 
 
 
-                        $phpbb2_template->pparse('movetopic');
+                        $template->pparse('movetopic');
 
 
 
@@ -1552,17 +1552,17 @@ switch( $mode )
 
 
 
-                $phpbb2_topics = ( isset($HTTP_POST_VARS['topic_id_list']) ) ?  $HTTP_POST_VARS['topic_id_list'] : array($topic_id);
+                $topics = ( isset($HTTP_POST_VARS['topic_id_list']) ) ?  $HTTP_POST_VARS['topic_id_list'] : array($topic_id);
 
 
 
                 $topic_id_sql = '';
 
-                for($i = 0; $i < count($phpbb2_topics); $i++)
+                for($i = 0; $i < count($topics); $i++)
 
                 {
 
-                        $topic_id_sql .= ( ( !empty($topic_id_sql) ) ? ', ' : '' ) . intval($phpbb2_topics[$i]);
+                        $topic_id_sql .= ( ( !empty($topic_id_sql) ) ? ', ' : '' ) . intval($topics[$i]);
 
                 }
 
@@ -1590,11 +1590,11 @@ switch( $mode )
 
                         WHERE topic_id IN ($topic_id_sql)
 
-                        AND forum_id = '$phpbb2_forum_id'
+                        AND forum_id = '$forum_id'
 
                         AND topic_moved_id = '0'";
 
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
 
                 {
 
@@ -1608,7 +1608,7 @@ switch( $mode )
 
                 {
 
-                        $redirect_page = append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id");
+                        $redirect_page = append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id");
 
                         $message = sprintf($lang['Click_return_topic'], '<a href="' . $redirect_page . '">', '</a>');
 
@@ -1618,7 +1618,7 @@ switch( $mode )
 
                 {
 
-                        $redirect_page = append_titanium_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id");
+                        $redirect_page = append_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$forum_id");
 
                         $message = sprintf($lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
 
@@ -1626,11 +1626,11 @@ switch( $mode )
 
 
 
-                $message = $message . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
+                $message = $message . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id") . '">', '</a>');
 
 
 
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
 
                         'META' => '<meta http-equiv="refresh" content="3;url=' . $redirect_page . '">')
 
@@ -1658,17 +1658,17 @@ switch( $mode )
 
 
 
-                $phpbb2_topics = ( isset($HTTP_POST_VARS['topic_id_list']) ) ?  $HTTP_POST_VARS['topic_id_list'] : array($topic_id);
+                $topics = ( isset($HTTP_POST_VARS['topic_id_list']) ) ?  $HTTP_POST_VARS['topic_id_list'] : array($topic_id);
 
 
 
                 $topic_id_sql = '';
 
-                for($i = 0; $i < count($phpbb2_topics); $i++)
+                for($i = 0; $i < count($topics); $i++)
 
                 {
 
-                        $topic_id_sql .= ( ( !empty($topic_id_sql) ) ? ', ' : '' ) . intval($phpbb2_topics[$i]);
+                        $topic_id_sql .= ( ( !empty($topic_id_sql) ) ? ', ' : '' ) . intval($topics[$i]);
 
                 }
 
@@ -1680,11 +1680,11 @@ switch( $mode )
 
                         WHERE topic_id IN ($topic_id_sql)
 
-                        AND forum_id = '$phpbb2_forum_id'
+                        AND forum_id = '$forum_id'
 
                         AND topic_moved_id = '0'";
 
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
 
                 {
 
@@ -1714,7 +1714,7 @@ switch( $mode )
 
                 {
 
-                        $redirect_page = append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id");
+                        $redirect_page = append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id");
 
                         $message = sprintf($lang['Click_return_topic'], '<a href="' . $redirect_page . '">', '</a>');
 
@@ -1724,7 +1724,7 @@ switch( $mode )
 
                 {
 
-                        $redirect_page = append_titanium_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id");
+                        $redirect_page = append_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$forum_id");
 
                         $message = sprintf($lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
 
@@ -1732,11 +1732,11 @@ switch( $mode )
 
 
 
-                $message = $message . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
+                $message = $message . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id") . '">', '</a>');
 
 
 
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
 
                         'META' => '<meta http-equiv="refresh" content="3;url=' . $redirect_page . '">')
 
@@ -1754,7 +1754,7 @@ switch( $mode )
 
         case 'split':
 
-                $phpbb2_page_title = $lang['Mod_CP'];
+                $page_title = $lang['Mod_CP'];
 
                 include("includes/page_header.$phpEx");
 
@@ -1768,15 +1768,15 @@ switch( $mode )
 
                 {
 
-                        $phpbb2_posts = $HTTP_POST_VARS['post_id_list'];
+                        $posts = $HTTP_POST_VARS['post_id_list'];
 
 
 
-                        for ($i = 0; $i < count($phpbb2_posts); $i++)
+                        for ($i = 0; $i < count($posts); $i++)
 
                         {
 
-                                $post_id_sql .= ((!empty($post_id_sql)) ? ', ' : '') . intval($phpbb2_posts[$i]);
+                                $post_id_sql .= ((!empty($post_id_sql)) ? ', ' : '') . intval($posts[$i]);
 
                         }
 
@@ -1794,9 +1794,9 @@ switch( $mode )
 
                         WHERE post_id IN ($post_id_sql)
 
-                        AND forum_id = '$phpbb2_forum_id'";
+                        AND forum_id = '$forum_id'";
 
-                        if ( !($result = $pnt_db->sql_query($sql)) )
+                        if ( !($result = $db->sql_query($sql)) )
 
                         {
 
@@ -1808,7 +1808,7 @@ switch( $mode )
 
                         $post_id_sql = '';
 
-                        while ($row = $pnt_db->sql_fetchrow($result))
+                        while ($row = $db->sql_fetchrow($result))
 
                         {
 
@@ -1816,7 +1816,7 @@ switch( $mode )
 
                         }
 
-                        $pnt_db->sql_freeresult($result);
+                        $db->sql_freeresult($result);
 
              			if ($post_id_sql == '')
 
@@ -1834,7 +1834,7 @@ switch( $mode )
 
                                 ORDER BY post_time ASC";
 
-                        if (!($result = $pnt_db->sql_query($sql)))
+                        if (!($result = $db->sql_query($sql)))
 
                         {
 
@@ -1844,7 +1844,7 @@ switch( $mode )
 
 
 
-                        if ($row = $pnt_db->sql_fetchrow($result))
+                        if ($row = $db->sql_fetchrow($result))
 
                         {
 
@@ -1856,7 +1856,7 @@ switch( $mode )
 
 
 
-                                $pnt_user_id_sql = '';
+                                $user_id_sql = '';
 
                                 $post_id_sql = '';
 
@@ -1864,7 +1864,7 @@ switch( $mode )
 
                                 {
 
-                                        $pnt_user_id_sql .= ((!empty($pnt_user_id_sql)) ? ', ' : '') . intval($row['poster_id']);
+                                        $user_id_sql .= ((!empty($user_id_sql)) ? ', ' : '') . intval($row['poster_id']);
 
                                         $post_id_sql .= (($post_id_sql != '') ? ', ' : '') . intval($row['post_id']);;                                          $post_id_sql .= ((!empty($post_id_sql)) ? ', ' : '') . intval($row['post_id']);;
 
@@ -1872,7 +1872,7 @@ switch( $mode )
 
                                 }
 
-                                while ($row = $pnt_db->sql_fetchrow($result));
+                                while ($row = $db->sql_fetchrow($result));
 
 
 
@@ -1898,7 +1898,7 @@ switch( $mode )
 
                                       WHERE forum_id = ' . $new_forum_id;
 
-                                   if ( !($result = $pnt_db->sql_query($sql)) )
+                                   if ( !($result = $db->sql_query($sql)) )
 
                                    {
 
@@ -1908,7 +1908,7 @@ switch( $mode )
 
 
 
-                                   if (!$pnt_db->sql_fetchrow($result))
+                                   if (!$db->sql_fetchrow($result))
 
                                    {
 
@@ -1918,7 +1918,7 @@ switch( $mode )
 
 
 
-                                   $pnt_db->sql_freeresult($result);
+                                   $db->sql_freeresult($result);
 
 
 
@@ -1926,7 +1926,7 @@ switch( $mode )
 
                                         VALUES ('" . str_replace("\'", "''", $post_subject) . "', '$first_poster', " . $topic_time . ", '$new_forum_id', " . TOPIC_UNLOCKED . ", " . POST_NORMAL . ")";
 
-                                if (!($pnt_db->sql_query($sql)))
+                                if (!($db->sql_query($sql)))
 
                                 {
 
@@ -1936,7 +1936,7 @@ switch( $mode )
 
 
 
-                                $new_topic_id = $pnt_db->sql_nextid();
+                                $new_topic_id = $db->sql_nextid();
 
 
 
@@ -1946,7 +1946,7 @@ switch( $mode )
 
  ******************************************************/
 
-                                log_action('split', $new_topic_id, $topic_id, $userdata['user_id'], $phpbb2_forum_id, '');
+                                log_action('split', $new_topic_id, $topic_id, $userdata['user_id'], $forum_id, '');
 
 /*****[END]********************************************
 
@@ -1966,9 +1966,9 @@ switch( $mode )
 
                                         WHERE topic_id = '$topic_id'
 
-                                                AND user_id IN ($pnt_user_id_sql)";
+                                                AND user_id IN ($user_id_sql)";
 
-                                if (!$pnt_db->sql_query($sql))
+                                if (!$db->sql_query($sql))
 
                                 {
 
@@ -1988,7 +1988,7 @@ switch( $mode )
 
                                         WHERE $sql_where";
 
-                                if (!$pnt_db->sql_query($sql))
+                                if (!$db->sql_query($sql))
 
                                 {
 
@@ -2004,19 +2004,19 @@ switch( $mode )
 
                                 sync('forum', $new_forum_id);
 
-                                sync('forum', $phpbb2_forum_id);
+                                sync('forum', $forum_id);
 
 
 
-                                $phpbb2_template->assign_vars(array(
+                                $template->assign_vars(array(
 
-                                'META' => '<meta http-equiv="refresh" content="3;url=' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id") . '">')
+                                'META' => '<meta http-equiv="refresh" content="3;url=' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id") . '">')
 
                                 );
 
 
 
-                        $message = $lang['Topic_split'] . '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
+                        $message = $lang['Topic_split'] . '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
 
                                 message_die(GENERAL_MESSAGE, $message);
 
@@ -2034,7 +2034,7 @@ switch( $mode )
 
                         //
 
-                        $phpbb2_template->set_filenames(array(
+                        $template->set_filenames(array(
 
                                 'split_body' => 'modcp_split.tpl')
 
@@ -2056,7 +2056,7 @@ switch( $mode )
 
 
 
-                        if ( !($result = $pnt_db->sql_query($sql)) )
+                        if ( !($result = $db->sql_query($sql)) )
 
                         {
 
@@ -2066,19 +2066,19 @@ switch( $mode )
 
 
 
-                        $s_hidden_fields = '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" /><input type="hidden" name="' . POST_FORUM_URL . '" value="' . $phpbb2_forum_id . '" /><input type="hidden" name="' . POST_TOPIC_URL . '" value="' . $topic_id . '" /><input type="hidden" name="mode" value="split" />';
+                        $s_hidden_fields = '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" /><input type="hidden" name="' . POST_FORUM_URL . '" value="' . $forum_id . '" /><input type="hidden" name="' . POST_TOPIC_URL . '" value="' . $topic_id . '" /><input type="hidden" name="mode" value="split" />';
 
 
 
-                        if( ( $phpbb2_total_posts = $pnt_db->sql_numrows($result) ) > 0 )
+                        if( ( $total_posts = $db->sql_numrows($result) ) > 0 )
 
                         {
 
-                                $postrow = $pnt_db->sql_fetchrowset($result);
+                                $postrow = $db->sql_fetchrowset($result);
 
 
 
-                                $phpbb2_template->assign_vars(array(
+                                $template->assign_vars(array(
 
                                         'L_SPLIT_TOPIC' => $lang['Split_Topic'],
 
@@ -2116,15 +2116,15 @@ switch( $mode )
 
 
 
-                                        'U_VIEW_FORUM' => append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id"),
+                                        'U_VIEW_FORUM' => append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id"),
 
 
 
-                                        'S_SPLIT_ACTION' => append_titanium_sid("modcp.$phpEx"),
+                                        'S_SPLIT_ACTION' => append_sid("modcp.$phpEx"),
 
                                         'S_HIDDEN_FIELDS' => $s_hidden_fields,
 
-                                        'S_FORUM_SELECT' => make_forum_select("new_forum_id", false, $phpbb2_forum_id))
+                                        'S_FORUM_SELECT' => make_forum_select("new_forum_id", false, $forum_id))
 
                                 );
 
@@ -2140,7 +2140,7 @@ switch( $mode )
 
                                         obtain_word_list($orig_word, $replacement_word);
 
-                                for($i = 0; $i < $phpbb2_total_posts; $i++)
+                                for($i = 0; $i < $total_posts; $i++)
 
                                 {
 
@@ -2164,7 +2164,7 @@ switch( $mode )
 
 
 
-                                        $post_date = create_date($phpbb2_board_config['default_dateformat'], $postrow[$i]['post_time'], $phpbb2_board_config['board_timezone']);
+                                        $post_date = create_date($board_config['default_dateformat'], $postrow[$i]['post_time'], $board_config['board_timezone']);
 
 
 
@@ -2184,7 +2184,7 @@ switch( $mode )
 
                                         //
 
-                                        if ( !$phpbb2_board_config['allow_html'] )
+                                        if ( !$board_config['allow_html'] )
 
                                         {
 
@@ -2204,7 +2204,7 @@ switch( $mode )
 
                                         {
 
-                                                $message = ( $phpbb2_board_config['allow_bbcode'] ) ? bbencode_second_pass($message, $bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $message);
+                                                $message = ( $board_config['allow_bbcode'] ) ? bbencode_second_pass($message, $bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $message);
 
                                         }
 
@@ -2226,7 +2226,7 @@ switch( $mode )
 
 
 
-                                        if ( $phpbb2_board_config['allow_smilies'] && $postrow[$i]['enable_smilies'] )
+                                        if ( $board_config['allow_smilies'] && $postrow[$i]['enable_smilies'] )
 
                                         {
 
@@ -2250,7 +2250,7 @@ switch( $mode )
 
 
 
-                                        $phpbb2_template->assign_block_vars('postrow', array(
+                                        $template->assign_block_vars('postrow', array(
 
                                                 'ROW_COLOR' => '#' . $row_color,
 
@@ -2276,7 +2276,7 @@ switch( $mode )
 
 
 
-                                $phpbb2_template->pparse('split_body');
+                                $template->pparse('split_body');
 
                         }
 
@@ -2288,7 +2288,7 @@ switch( $mode )
 
         case 'ip':
 
-                $phpbb2_page_title = $lang['Mod_CP'];
+                $page_title = $lang['Mod_CP'];
 
                 include("includes/page_header.$phpEx");
 
@@ -2314,7 +2314,7 @@ switch( $mode )
 
                 //
 
-                $phpbb2_template->set_filenames(array(
+                $template->set_filenames(array(
 
                         'viewip' => 'modcp_viewip.tpl')
 
@@ -2330,9 +2330,9 @@ switch( $mode )
 
                         WHERE post_id = '$post_id'
 
-                        AND forum_id = '$phpbb2_forum_id'";
+                        AND forum_id = '$forum_id'";
 
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
 
                 {
 
@@ -2342,7 +2342,7 @@ switch( $mode )
 
 
 
-                if ( !($post_row = $pnt_db->sql_fetchrow($result)) )
+                if ( !($post_row = $db->sql_fetchrow($result)) )
 
                 {
 
@@ -2362,7 +2362,7 @@ switch( $mode )
 
 
 
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
 
                         'L_IP_INFO' => $lang['IP_info'],
 
@@ -2386,7 +2386,7 @@ switch( $mode )
 
 
 
-                        'U_LOOKUP_IP' => append_titanium_sid("modcp.$phpEx?mode=ip&amp;" . POST_POST_URL . "=$post_id&amp;" . POST_TOPIC_URL . "=$topic_id&amp;rdns=" . $ip_this_post))
+                        'U_LOOKUP_IP' => append_sid("modcp.$phpEx?mode=ip&amp;" . POST_POST_URL . "=$post_id&amp;" . POST_TOPIC_URL . "=$topic_id&amp;rdns=" . $ip_this_post))
 
                 );
 
@@ -2408,7 +2408,7 @@ switch( $mode )
 
                         ORDER BY " . (( SQL_LAYER == 'msaccess' ) ? 'COUNT(*)' : 'postings' ) . " DESC";
 
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
 
                 {
 
@@ -2418,7 +2418,7 @@ switch( $mode )
 
 
 
-                if ( $row = $pnt_db->sql_fetchrow($result) )
+                if ( $row = $db->sql_fetchrow($result) )
 
                 {
 
@@ -2432,7 +2432,7 @@ switch( $mode )
 
                                 {
 
-                                        $phpbb2_template->assign_vars(array(
+                                        $template->assign_vars(array(
 
                                                 'POSTS' => $row['postings'] . ' ' . ( ( $row['postings'] == 1 ) ? $lang['Post'] : $lang['Posts'] ))
 
@@ -2456,7 +2456,7 @@ switch( $mode )
 
 
 
-                                $phpbb2_template->assign_block_vars('iprow', array(
+                                $template->assign_block_vars('iprow', array(
 
                                         'ROW_COLOR' => '#' . $row_color,
 
@@ -2468,7 +2468,7 @@ switch( $mode )
 
 
 
-                                        'U_LOOKUP_IP' => append_titanium_sid("modcp.$phpEx?mode=ip&amp;" . POST_POST_URL . "=$post_id&amp;" . POST_TOPIC_URL . "=$topic_id&amp;rdns=" . $row['poster_ip']))
+                                        'U_LOOKUP_IP' => append_sid("modcp.$phpEx?mode=ip&amp;" . POST_POST_URL . "=$post_id&amp;" . POST_TOPIC_URL . "=$topic_id&amp;rdns=" . $row['poster_ip']))
 
                                 );
 
@@ -2478,7 +2478,7 @@ switch( $mode )
 
                         }
 
-                        while ( $row = $pnt_db->sql_fetchrow($result) );
+                        while ( $row = $db->sql_fetchrow($result) );
 
                 }
 
@@ -2502,7 +2502,7 @@ switch( $mode )
 
                         ORDER BY " . (( SQL_LAYER == 'msaccess' ) ? 'COUNT(*)' : 'postings' ) . " DESC";
 
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
 
                 {
 
@@ -2512,7 +2512,7 @@ switch( $mode )
 
 
 
-                if ( $row = $pnt_db->sql_fetchrow($result) )
+                if ( $row = $db->sql_fetchrow($result) )
 
                 {
 
@@ -2524,7 +2524,7 @@ switch( $mode )
 
                                 $id = $row['user_id'];
 
-                                $pnt_username = ( $id == ANONYMOUS ) ? $lang['Guest'] : $row['username'];
+                                $username = ( $id == ANONYMOUS ) ? $lang['Guest'] : $row['username'];
 
 
 
@@ -2534,23 +2534,23 @@ switch( $mode )
 
 
 
-                                $phpbb2_template->assign_block_vars('userrow', array(
+                                $template->assign_block_vars('userrow', array(
 
                                         'ROW_COLOR' => '#' . $row_color,
 
                                         'ROW_CLASS' => $row_class,
 
-                                        'USERNAME' => $pnt_username,
+                                        'USERNAME' => $username,
 
                                         'POSTS' => $row['postings'] . ' ' . ( ( $row['postings'] == 1 ) ? $lang['Post'] : $lang['Posts'] ),
 
-                                        'L_SEARCH_POSTS' => sprintf($lang['Search_user_posts'], $pnt_username),
+                                        'L_SEARCH_POSTS' => sprintf($lang['Search_user_posts'], $username),
 
 
 
-                                        'U_PROFILE' => append_titanium_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$id"),
+                                        'U_PROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$id"),
 
-                                        'U_SEARCHPOSTS' => append_titanium_sid("search.$phpEx?search_author=" . (($id == ANONYMOUS) ? 'Anonymous' : urlencode($pnt_username)) . "&amp;showresults=topics"))
+                                        'U_SEARCHPOSTS' => append_sid("search.$phpEx?search_author=" . (($id == ANONYMOUS) ? 'Anonymous' : urlencode($username)) . "&amp;showresults=topics"))
 
                                 );
 
@@ -2560,13 +2560,13 @@ switch( $mode )
 
                         }
 
-                        while ( $row = $pnt_db->sql_fetchrow($result) );
+                        while ( $row = $db->sql_fetchrow($result) );
 
                 }
 
 
 
-                $phpbb2_template->pparse('viewip');
+                $template->pparse('viewip');
 
 
 
@@ -2590,15 +2590,15 @@ switch( $mode )
 
 
 
-        $phpbb2_topics = ( isset($HTTP_POST_VARS['topic_id_list']) ) ?  $HTTP_POST_VARS['topic_id_list'] : array($topic_id);
+        $topics = ( isset($HTTP_POST_VARS['topic_id_list']) ) ?  $HTTP_POST_VARS['topic_id_list'] : array($topic_id);
 
 
 
-        for($i = 0; $i < count($phpbb2_topics); $i++)
+        for($i = 0; $i < count($topics); $i++)
 
         {
 
-            $priority_box_id = "topic_cement:" . intval($phpbb2_topics[$i]);
+            $priority_box_id = "topic_cement:" . intval($topics[$i]);
 
             $topic_priority = (isset($HTTP_POST_VARS[$priority_box_id])) ?
 
@@ -2608,9 +2608,9 @@ switch( $mode )
 
                     SET topic_priority = $topic_priority
 
-                    WHERE topic_id = ".$phpbb2_topics[$i];
+                    WHERE topic_id = ".$topics[$i];
 
-             if ( !($result = $pnt_db->sql_query($sql)) )
+             if ( !($result = $db->sql_query($sql)) )
 
              {
 
@@ -2632,7 +2632,7 @@ switch( $mode )
 
             //$redirect_page = "modules.php?name=Forums&file=viewtopic&" . POST_TOPIC_URL . "=$topic_id&amp;sid=" . $userdata['session_id'];
 
-            $redirect_page = append_titanium_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id");
+            $redirect_page = append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id");
 
             $message = sprintf($lang['Click_return_topic'], '<a href="' . $redirect_page . '">', '</a>');
 
@@ -2642,11 +2642,11 @@ switch( $mode )
 
         {
 
-            // And here again. Dam we must use append_titanium_sid for this!!
+            // And here again. Dam we must use append_sid for this!!
 
-            //$redirect_page = "modules.php?name=Forums&file=modcp&" . POST_FORUM_URL . "=$phpbb2_forum_id&amp;sid=" . $userdata['session_id'];
+            //$redirect_page = "modules.php?name=Forums&file=modcp&" . POST_FORUM_URL . "=$forum_id&amp;sid=" . $userdata['session_id'];
 
-            $redirect_page = append_titanium_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id");
+            $redirect_page = append_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$forum_id");
 
             $message = sprintf($lang['Click_return_modcp'], '<a href="' . $redirect_page . '">', '</a>');
 
@@ -2656,13 +2656,13 @@ switch( $mode )
 
         // And also here. Also notice the two WRONG <br /> and the '  . "modules.php which is totally wrong
 
-        //$message = $message . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . "modules.php?name=Forums&file=viewtopic&" . POST_FORUM_URL . "=$phpbb2_forum_id&amp;sid=" . $userdata['session_id'] . '">', '</a>');
+        //$message = $message . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . "modules.php?name=Forums&file=viewtopic&" . POST_FORUM_URL . "=$forum_id&amp;sid=" . $userdata['session_id'] . '">', '</a>');
 
-        $message .= '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_titanium_sid("viewtopic.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id") . '">', '</a>');
+        $message .= '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_sid("viewtopic.$phpEx?" . POST_FORUM_URL . "=$forum_id") . '">', '</a>');
 
 
 
-        $phpbb2_template->assign_vars(array(
+        $template->assign_vars(array(
 
             'META' => '<meta http-equiv="refresh" content="3;url=' . $redirect_page . '">')
 
@@ -2686,13 +2686,13 @@ switch( $mode )
 
         default:
 
-                $phpbb2_page_title = $lang['Mod_CP'];
+                $page_title = $lang['Mod_CP'];
 
                 include("includes/page_header.$phpEx");
 
 
 
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
 
                         'FORUM_NAME' => $forum_name,
 
@@ -2738,17 +2738,17 @@ switch( $mode )
 
 
 
-                        'U_VIEW_FORUM' => append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id"),
+                        'U_VIEW_FORUM' => append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id"),
 
-                        'S_HIDDEN_FIELDS' => '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" /><input type="hidden" name="' . POST_FORUM_URL . '" value="' . $phpbb2_forum_id . '" />',
+                        'S_HIDDEN_FIELDS' => '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" /><input type="hidden" name="' . POST_FORUM_URL . '" value="' . $forum_id . '" />',
 
-                        'S_MODCP_ACTION' => append_titanium_sid("modcp.$phpEx"))
+                        'S_MODCP_ACTION' => append_sid("modcp.$phpEx"))
 
                 );
 
 
 
-                $phpbb2_template->set_filenames(array(
+                $template->set_filenames(array(
 
                         'body' => 'modcp_body.tpl')
 
@@ -2764,21 +2764,21 @@ switch( $mode )
 
 		$all_forums = array();
 
-		make_jumpbox_ref('modcp.'.$phpEx, $phpbb2_forum_id, $all_forums);
+		make_jumpbox_ref('modcp.'.$phpEx, $forum_id, $all_forums);
 
 
 
-		$phpbb2_parent_id = 0;
+		$parent_id = 0;
 
 		for( $i = 0; $i < count($all_forums); $i++ )
 
 		{
 
-			if( $all_forums[$i]['forum_id'] == $phpbb2_forum_id )
+			if( $all_forums[$i]['forum_id'] == $forum_id )
 
 			{
 
-				$phpbb2_parent_id = $all_forums[$i]['forum_parent'];
+				$parent_id = $all_forums[$i]['forum_parent'];
 
 			}
 
@@ -2786,7 +2786,7 @@ switch( $mode )
 
 
 
-		if( $phpbb2_parent_id )
+		if( $parent_id )
 
 		{
 
@@ -2794,15 +2794,15 @@ switch( $mode )
 
 			{
 
-				if( $all_forums[$i]['forum_id'] == $phpbb2_parent_id )
+				if( $all_forums[$i]['forum_id'] == $parent_id )
 
 				{
 
-					$phpbb2_template->assign_vars(array(
+					$template->assign_vars(array(
 
 						'PARENT_FORUM'			=> 1,
 
-						'U_VIEW_PARENT_FORUM'	=> append_titanium_sid("viewforum.$phpEx?" . POST_FORUM_URL .'=' . $all_forums[$i]['forum_id']),
+						'U_VIEW_PARENT_FORUM'	=> append_sid("viewforum.$phpEx?" . POST_FORUM_URL .'=' . $all_forums[$i]['forum_id']),
 
 						'PARENT_FORUM_NAME'		=> $all_forums[$i]['forum_name'],
 
@@ -2846,7 +2846,7 @@ switch( $mode )
 
                         FROM (" . TOPICS_TABLE . " t, " . USERS_TABLE . " u, " . POSTS_TABLE . " p)
 
-                        WHERE t.forum_id = '$phpbb2_forum_id'
+                        WHERE t.forum_id = '$forum_id'
 
                                 AND t.topic_poster = u.user_id
 
@@ -2854,7 +2854,7 @@ switch( $mode )
 
                         ORDER BY t.topic_type DESC, t.topic_priority DESC, p.post_time DESC
 
-                        LIMIT $phpbb2_start, " . $phpbb2_board_config['topics_per_page'];
+                        LIMIT $start, " . $board_config['topics_per_page'];
 
 /*****[END]********************************************
 
@@ -2862,7 +2862,7 @@ switch( $mode )
 
  ******************************************************/
 
-                if ( !($result = $pnt_db->sql_query($sql)) )
+                if ( !($result = $db->sql_query($sql)) )
 
                 {
 
@@ -2872,7 +2872,7 @@ switch( $mode )
 
 
 
-                while ( $row = $pnt_db->sql_fetchrow($result) )
+                while ( $row = $db->sql_fetchrow($result) )
 
                 {
 
@@ -2886,7 +2886,7 @@ switch( $mode )
 
                                 $folder_img = $images['folder_locked'];
 
-                                $phpbb2_folder_alt = $lang['Topic_locked'];
+                                $folder_alt = $lang['Topic_locked'];
 
                         }
 
@@ -2906,7 +2906,7 @@ switch( $mode )
 
                            $folder_img = $images['folder_global_announce'];
 
-                           $phpbb2_folder_alt = $lang['Global_announcement'];
+                           $folder_alt = $lang['Global_announcement'];
 
                         } else
 
@@ -2922,7 +2922,7 @@ switch( $mode )
 
                                         $folder_img = $images['folder_announce'];
 
-                                        $phpbb2_folder_alt = $lang['Topic_Announcement'];
+                                        $folder_alt = $lang['Topic_Announcement'];
 
                                 }
 
@@ -2932,7 +2932,7 @@ switch( $mode )
 
                                         $folder_img = $images['folder_sticky'];
 
-                                        $phpbb2_folder_alt = $lang['Topic_Sticky'];
+                                        $folder_alt = $lang['Topic_Sticky'];
 
                                 }
 
@@ -2942,7 +2942,7 @@ switch( $mode )
 
                                         $folder_img = $images['folder'];
 
-                                        $phpbb2_folder_alt = $lang['No_new_posts'];
+                                        $folder_alt = $lang['No_new_posts'];
 
                                 }
 
@@ -3044,7 +3044,7 @@ switch( $mode )
 
  ******************************************************/
 
-                        $topic_title = ($phpbb2_board_config['smilies_in_titles']) ? smilies_pass($row['topic_title']) : $row['topic_title'];
+                        $topic_title = ($board_config['smilies_in_titles']) ? smilies_pass($row['topic_title']) : $row['topic_title'];
 
 /*****[END]********************************************
 
@@ -3064,17 +3064,17 @@ switch( $mode )
 
 
 
-                        $u_view_topic = append_titanium_sid("modcp.$phpEx?mode=split&amp;" . POST_TOPIC_URL . "=$topic_id");
+                        $u_view_topic = append_sid("modcp.$phpEx?mode=split&amp;" . POST_TOPIC_URL . "=$topic_id");
 
                         $topic_replies = $row['topic_replies'];
 
 
 
-                        $phpbb2_last_post_time = create_date($phpbb2_board_config['default_dateformat'], $row['post_time'], $phpbb2_board_config['board_timezone']);
+                        $last_post_time = create_date($board_config['default_dateformat'], $row['post_time'], $board_config['board_timezone']);
 
 
 
-                        $phpbb2_template->assign_block_vars('topicrow', array(
+                        $template->assign_block_vars('topicrow', array(
 
                                 'U_VIEW_TOPIC' => $u_view_topic,
 
@@ -3088,7 +3088,7 @@ switch( $mode )
 
                                 'REPLIES' => $topic_replies,
 
-                                'LAST_POST_TIME' => $phpbb2_last_post_time,
+                                'LAST_POST_TIME' => $last_post_time,
 
                                 'TOPIC_ID' => $topic_id,
 
@@ -3122,7 +3122,7 @@ switch( $mode )
 
 
 
-                                'L_TOPIC_FOLDER_ALT' => $phpbb2_folder_alt)
+                                'L_TOPIC_FOLDER_ALT' => $folder_alt)
 
                         );
 
@@ -3130,11 +3130,11 @@ switch( $mode )
 
 
 
-                $phpbb2_template->assign_vars(array(
+                $template->assign_vars(array(
 
-                        'PAGINATION' => generate_pagination("modcp.$phpEx?" . POST_FORUM_URL . "=$phpbb2_forum_id&amp;sid=" . $userdata['session_id'], $forum_topics, $phpbb2_board_config['topics_per_page'], $phpbb2_start),
+                        'PAGINATION' => generate_pagination("modcp.$phpEx?" . POST_FORUM_URL . "=$forum_id&amp;sid=" . $userdata['session_id'], $forum_topics, $board_config['topics_per_page'], $start),
 
-                        'PAGE_NUMBER' => sprintf($lang['Page_of'], ( floor( $phpbb2_start / $phpbb2_board_config['topics_per_page'] ) + 1 ), ceil( $forum_topics / $phpbb2_board_config['topics_per_page'] )),
+                        'PAGE_NUMBER' => sprintf($lang['Page_of'], ( floor( $start / $board_config['topics_per_page'] ) + 1 ), ceil( $forum_topics / $board_config['topics_per_page'] )),
 
                         'L_GOTO_PAGE' => $lang['Goto_page'])
 
@@ -3142,7 +3142,7 @@ switch( $mode )
 
 
 
-                $phpbb2_template->pparse('body');
+                $template->pparse('body');
 
 
 

@@ -24,15 +24,15 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
-function log_action($action, $new_topic_id, $topic_id, $pnt_user_id, $phpbb2_forum_id, $new_forum_id)
+function log_action($action, $new_topic_id, $topic_id, $user_id, $forum_id, $new_forum_id)
 {
-    global $pnt_db;
-    if (!isset($pnt_user_id) || empty($pnt_user_id)) {
+    global $db;
+    if (!isset($user_id) || empty($user_id)) {
         return;
     }
 
@@ -49,10 +49,10 @@ function log_action($action, $new_topic_id, $topic_id, $pnt_user_id, $phpbb2_for
         $new_topic_id = 0;
     endif;
 
-    if ( $phpbb2_forum_id ):
-        $phpbb2_forum_id = $phpbb2_forum_id;
+    if ( $forum_id ):
+        $forum_id = $forum_id;
     else:
-        $phpbb2_forum_id = 0;
+        $forum_id = 0;
     endif;
 
     if ( $new_forum_id ):
@@ -73,63 +73,63 @@ function log_action($action, $new_topic_id, $topic_id, $pnt_user_id, $phpbb2_for
     }
 
     // if ( $topic_id || $new_topic_id ):
-    $phpbb2_last_post_id = 0;
+    $last_post_id = 0;
 
     $sql = "SELECT topic_last_post_id FROM ". TOPICS_TABLE ." $where";
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not get topic_last_post_id', '', __LINE__, __FILE__, $sql);
     }
-    $row = $pnt_db->sql_fetchrow($result);
+    $row = $db->sql_fetchrow($result);
     if ( $row['topic_last_post_id'] )
-    	$phpbb2_last_post_id = $row['topic_last_post_id'];
-    $pnt_db->sql_freeresult($result);
+    	$last_post_id = $row['topic_last_post_id'];
+    $db->sql_freeresult($result);
 
     // else:
-    //     $phpbb2_last_post_id = 0;
+    //     $last_post_id = 0;
     // endif;
 
 
     $sql = "SELECT session_ip
         FROM " . SESSIONS_TABLE . "
-        WHERE session_user_id = $pnt_user_id ";
+        WHERE session_user_id = $user_id ";
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not select session_ip', '', __LINE__, __FILE__, $sql);
     }
-    $row = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
-    $pnt_user_ip = $row['session_ip'];
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
+    $user_ip = $row['session_ip'];
 
     $sql = "SELECT username
         FROM " . USERS_TABLE . "
-        WHERE user_id = $pnt_user_id ";
+        WHERE user_id = $user_id ";
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not select username', '', __LINE__, __FILE__, $sql);
     }
-    $row2 = $pnt_db->sql_fetchrow($result);
-    $pnt_db->sql_freeresult($result);
-    $pnt_username = $row2['username'];
-    $pnt_username = addslashes($pnt_username);
+    $row2 = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
+    $username = $row2['username'];
+    $username = addslashes($username);
 
     $time = time();
 
     $sql = "INSERT INTO " . LOGS_TABLE . " (mode, topic_id, user_id, username, user_ip, time, new_topic_id, forum_id, new_forum_id, last_post_id)
-        VALUES ('$action', '$topic_id', '$pnt_user_id', '$pnt_username', '$pnt_user_ip', '$time', '$new_topic_id', '$phpbb2_forum_id', '$new_forum_id', '$phpbb2_last_post_id')";
+        VALUES ('$action', '$topic_id', '$user_id', '$username', '$user_ip', '$time', '$new_topic_id', '$forum_id', '$new_forum_id', '$last_post_id')";
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not insert data into logs table', '', __LINE__, __FILE__, $sql);
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 }
 
 function prune_logs($prune_days)
 {
-    global $pnt_db;
+    global $db;
 
     $prune = time() - ( $prune_days * 86400 );
 
@@ -137,24 +137,24 @@ function prune_logs($prune_days)
         FROM " . LOGS_TABLE . "
         WHERE time < $prune ";
 
-    if ( !($result = $pnt_db->sql_query($sql)) )
+    if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not obtain list of logs to prune', '', __LINE__, __FILE__, $sql);
     }
 
     $logs = '';
-    while ( $row = $pnt_db->sql_fetchrow($result) )
+    while ( $row = $db->sql_fetchrow($result) )
     {
         $logs .= ( ( $logs != '' ) ? ', ' : '' ) . $row['log_id'];
     }
-    $pnt_db->sql_freeresult($result);
+    $db->sql_freeresult($result);
 
     if ( $logs != '' )
     {
         $sql = "DELETE FROM " . LOGS_TABLE . "
             WHERE log_id IN ($logs)";
 
-        if ( !$pnt_db->sql_query($sql) )
+        if ( !$db->sql_query($sql) )
         {
             message_die(GENERAL_ERROR, 'Could not delete logs', '', __LINE__, __FILE__, $sql);
         }
@@ -165,7 +165,7 @@ function prune_logs($prune_days)
 
 function auto_prune_logs()
 {
-    global $pnt_db;
+    global $db;
 
     // To do
 }

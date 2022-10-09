@@ -13,17 +13,17 @@ if(!defined('NUKE_EVO')) exit;
     Notes:       Will toss a DonateError if the values are not found
 ================================================================================================*/
 function donation_block_get_values() {
-    global $pnt_db, $pnt_prefix, $lang_donate, $cache;
+    global $db, $prefix, $lang_donate, $cache;
     static $block;
     if(isset($block) && is_array($block)) { return $block; }
     if (!$block = $cache->load('block', 'donations')) {
-        $sql = 'SELECT config_value, config_name from `'.$pnt_prefix.'_donators_config` WHERE config_name LIKE "block_%"';
-        $result = $pnt_db->sql_query($sql);
-        while ($row = $pnt_db->sql_fetchrow($result)) {
+        $sql = 'SELECT config_value, config_name from `'.$prefix.'_donators_config` WHERE config_name LIKE "block_%"';
+        $result = $db->sql_query($sql);
+        while ($row = $db->sql_fetchrow($result)) {
             $block[str_replace('block_', '', $row['config_name'])] = $row['config_value'];
         }
         $cache->save('block', 'donations', $block);
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
     }
     return $block;
 }
@@ -35,16 +35,16 @@ function donation_block_get_values() {
     Notes:       N/A
 ================================================================================================*/
 function donation_block_gen_configs () {
-    global $pnt_db, $pnt_prefix, $lang_donate, $cache;
+    global $db, $prefix, $lang_donate, $cache;
     static $gen;
     if(isset($gen) && is_array($gen)) { return $gen; }
     if (!$gen = $cache->load('general', 'donations')) {
-        $sql = 'SELECT config_value, config_name from `'.$pnt_prefix.'_donators_config` WHERE config_name LIKE "gen_%"';
-        $result = $pnt_db->sql_query($sql);
-        while ($row = $pnt_db->sql_fetchrow($result)) {
+        $sql = 'SELECT config_value, config_name from `'.$prefix.'_donators_config` WHERE config_name LIKE "gen_%"';
+        $result = $db->sql_query($sql);
+        while ($row = $db->sql_fetchrow($result)) {
             $gen[str_replace('gen_', '', $row['config_name'])] = $row['config_value'];
         }
-        $pnt_db->sql_freeresult($result);
+        $db->sql_freeresult($result);
         $cache->save('general', 'donations', $gen);
     }
     return $gen;
@@ -105,7 +105,7 @@ function donation_block_make_image_button () {
     Notes:       N/A
 ================================================================================================*/
 function donation_block_get_donations () {
-    global $pnt_db, $pnt_prefix, $cache;
+    global $db, $prefix, $cache;
     $clear = $cache->load('donations_clear', 'donations');
     if(!isset($clear) || $clear <= time()) {
         $cache->delete('donations', 'donations');
@@ -115,10 +115,10 @@ function donation_block_get_donations () {
     if (isset($don) && is_array($don)) { return $don; }
 
     if (!$don = $cache->load('donations', 'donations')) {
-        $sql = 'SELECT * FROM `'.$pnt_prefix.'_donators` ORDER BY `id` DESC';
-        $result = $pnt_db->sql_query($sql);
-        $don = $pnt_db->sql_fetchrowset($result);
-        $pnt_db->sql_freeresult($result);
+        $sql = 'SELECT * FROM `'.$prefix.'_donators` ORDER BY `id` DESC';
+        $result = $db->sql_query($sql);
+        $don = $db->sql_fetchrowset($result);
+        $db->sql_freeresult($result);
         $cache->save('donations', 'donations', $don);
     }
     return $don;
@@ -131,15 +131,15 @@ function donation_block_get_donations () {
     Notes:       N/A
 ================================================================================================*/
 function donation_block_get_donations_goal () {
-    global $pnt_db, $pnt_prefix, $cache;
+    global $db, $prefix, $cache;
     static $don_goal;
     if (isset($don_goal) && is_array($don_goal)) { return $don_goal; }
 
     if (!$don_goal = $cache->load('donations_goal', 'donations')) {
-        $sql = 'SELECT * FROM `'.$pnt_prefix.'_donators` WHERE MONTH(FROM_UNIXTIME(`dondate`)) = "'.date('n').'" AND YEAR(FROM_UNIXTIME(`dondate`)) = "'.date('Y').'"  ORDER BY `id` DESC';
-        $result = $pnt_db->sql_query($sql);
-        $don_goal = $pnt_db->sql_fetchrowset($result);
-        $pnt_db->sql_freeresult($result);
+        $sql = 'SELECT * FROM `'.$prefix.'_donators` WHERE MONTH(FROM_UNIXTIME(`dondate`)) = "'.date('n').'" AND YEAR(FROM_UNIXTIME(`dondate`)) = "'.date('Y').'"  ORDER BY `id` DESC';
+        $result = $db->sql_query($sql);
+        $don_goal = $db->sql_fetchrowset($result);
+        $db->sql_freeresult($result);
         $cache->save('donations_goal', 'donations', $don_goal);
     }
     return $don_goal;

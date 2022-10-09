@@ -18,12 +18,12 @@
  *
  ***************************************************************************/
 
-if ( !defined('IN_PHPBB2') )
+if ( !defined('IN_PHPBB') )
 {
-	die("ACCESS DENIED");
+	die("Hacking attempt");
 }
 
-$phpbb2_icones = array(
+$icones = array(
 	<!-- BEGIN _outfile_icon -->
 	array(
 			'ind'	=> {_outfile_icon.IND},
@@ -35,7 +35,7 @@ $phpbb2_icones = array(
 );
 
 // definition of special topic
-$phpbb2_icon_defined_special = array(
+$icon_defined_special = array(
 	<!-- BEGIN _outfile_default -->
 	'{_outfile_default.NAME}' => array(
 		'lang_key'	=> '{_outfile_default.LANG_KEY}',

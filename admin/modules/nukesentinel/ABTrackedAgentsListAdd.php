@@ -16,7 +16,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 }
 
 $tid = intval($tid);
-$deleterow = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT `user_agent` FROM `".$pnt_prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
+$deleterow = $db->sql_fetchrow($db->sql_query("SELECT `user_agent` FROM `".$prefix."_nsnst_tracked_ips` WHERE `tid`='$tid' LIMIT 0,1"));
 include_once(NUKE_BASE_DIR.'header.php');
 OpenTable();
 OpenMenu(_AB_ADDHARVESTER);

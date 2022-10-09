@@ -20,7 +20,7 @@
         <td class="row1" align="center" valign="middle"><input type="checkbox" name="add_quota_check" /></td>
     </tr>
     <tr align="right">
-      <td class="catBottom" colspan="5" height="29"> {S_HIDDEN_FIELDS} <input type="submit" name="submit" class="titaniumbutton" value="{L_SUBMIT}" /></td>
+      <td class="catBottom" colspan="5" height="29"> {S_HIDDEN_FIELDS} <input type="submit" name="submit" class="liteoption" value="{L_SUBMIT}" /></td>
     </tr>
     <tr>
         <th class="thCornerL">{L_DESCRIPTION}</th>
@@ -43,7 +43,7 @@
     </tr>
 <!-- END limit_row -->
     <tr align="right">
-      <td class="catBottom" colspan="5" height="29"> <input type="submit" name="submit" class="titaniumbutton" value="{L_SUBMIT}" /></td>
+      <td class="catBottom" colspan="5" height="29"> <input type="submit" name="submit" class="liteoption" value="{L_SUBMIT}" /></td>
     </tr>
 </table>
 </form>

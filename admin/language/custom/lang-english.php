@@ -170,8 +170,8 @@ define("_4nwhocopy","4nWhoIsOnline by <a href=\"http://warpspeed.4thdimension.de
 /*****[BEGIN]******************************************
  [ Other:   URL Check                          v1.0.0 ]
  ******************************************************/
-define("_URL_SERVER_ERROR","PROCEED?");
-define("_URL_CONFIRM_ERROR","PROCEED?");
+define("_URL_SERVER_ERROR","The URL you entered (%s) does not match the URL that the server is reporting (%s)");
+define("_URL_CONFIRM_ERROR","Do you want to keep this setting?");
 /*****[END]********************************************
  [ Other:   URL Check                          v1.0.0 ]
  ******************************************************/
@@ -237,7 +237,7 @@ define("_ADMIN_IP_LOCK", "Admin IP Lock");
 /*****[BEGIN]******************************************
  [ Base:    Theme Management                   v1.0.2 ]
  ******************************************************/
-define("_THEMES_HEADER", "<bold><h1>Theme Management</h1></bold>");
+define("_THEMES_HEADER", "Nuke Evolution :: Theme Management");
 define("_THEMES_DEFAULT", "Default Theme");
 define("_THEMES_DEFAULT_NOT_FOUND", " was NOT found!");
 define("_THEMES_DEFAULT_MISSING", "Your default theme is missing! ");
@@ -440,4 +440,9 @@ define('_BLOCK_EDIT','Block Edit');
 /*****[END]********************************************
  [ Base:    Blocks                             v.1.0.0]
  ******************************************************/
+
+
+ 
+
+
 ?>

@@ -40,20 +40,34 @@ if (!defined('CNBYA')) {
     if ((is_user()) AND (strtolower($userinfo['username']) == strtolower($cookie[1])) AND ($userinfo['user_password'] == $cookie[2])) {
         include_once(NUKE_BASE_DIR.'header.php');
         title(_THEMESELECTION);
+        // OpenTable();
+        // nav();
+        // CloseTable();
+        // echo "<br />";
         OpenTable();
-        print "<div align=\"center\">\n"; 
-		print '<h1>'._SELECTTHEME.'</h1>';
-        print "<form style=\"padding:0\" method=\"post\" action=\"" . $_SERVER['PHP_SELF'] . "\">\n";
-        print "<input type=\"hidden\" name=\"chngtheme\" value=\"1\" />\n";
-        print GetThemeSelect('theme', 'user_themes', false, 'onChange=submit();');
-        print "</form>\n"; 
-        print "</div>\n";
+        echo "<center>";
+        echo "<form action=\"modules.php?name=$module_name\" method=\"post\">";
+        echo "<strong>"._SELECTTHEME."</strong><br />";
+/*****[BEGIN]******************************************
+ [ Base:    Theme Management                   v1.0.2 ]
+ ******************************************************/
+        echo GetThemeSelect('theme');
+/*****[END]********************************************
+ [ Base:    Theme Management                   v1.0.2 ]
+ ******************************************************/
+        echo "<br />";
+        echo ""._THEMETEXT1."<br />";
+        echo ""._THEMETEXT2."<br />";
+        echo ""._THEMETEXT3."<br /><br />";
+        echo "<input type=\"hidden\" name=\"user_id\" value=\"$userinfo[user_id]\">";
+        echo "<input type=\"hidden\" name=\"op\" value=\"savetheme\">";
+        echo "<input type=\"submit\" value=\""._SAVECHANGES."\">";
+        echo "</form>";
+        echo "</center>";
         CloseTable();
-		include_once(NUKE_BASE_DIR.'footer.php');
-    } 
-	else 
-	{
-        mmain($pnt_user);
+        include_once(NUKE_BASE_DIR.'footer.php');
+    } else {
+        mmain($user);
     }
 
 ?>

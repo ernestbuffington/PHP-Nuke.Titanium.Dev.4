@@ -41,12 +41,12 @@ function serverinfo()
 
 function case_menu($url, $title, $image) 
 {
-	global $counter, $admingraphic, $admin, $pnt_module_folder_name;
+	global $counter, $admingraphic, $admin, $module_folder_name;
     
-	if ( file_exists('modules/'.$pnt_module_folder_name.'/images/admin/'.$image) ):
-		$image = 'modules/'.$pnt_module_folder_name.'/images/admin/'.$image;
-	elseif ( file_exists('modules/'.$pnt_module_folder_name.'/images/'.$image) ):
-		$image = 'modules/'.$pnt_module_folder_name.'/images/'.$image;
+	if ( file_exists('modules/'.$module_folder_name.'/images/admin/'.$image) ):
+		$image = 'modules/'.$module_folder_name.'/images/admin/'.$image;
+	elseif ( file_exists('modules/'.$module_folder_name.'/images/'.$image) ):
+		$image = 'modules/'.$module_folder_name.'/images/'.$image;
 	else:
 		$image = 'images/admin/'.$image;
 	endif;
@@ -104,7 +104,7 @@ function case_menu($url, $title, $image)
 
 	if ($counter == 5) 
 	{
-		if($phpbb2_end == FALSE)
+		if($end == FALSE)
 		{
 			//echo '</tr>'."\n".'<tr>'."\n";
 		}

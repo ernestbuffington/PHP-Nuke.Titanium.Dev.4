@@ -33,15 +33,15 @@ if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$pnt_module = basename(dirname(__FILE__));
-require(NUKE_MODULES_DIR.$pnt_module.'/l_config.php');
+$module_name = basename(dirname(__FILE__));
+require(NUKE_MODULES_DIR.$module_name.'/l_config.php');
 $outsidevotes = 0;
 $anonvotes = 0;
 $outsidevoteval = 0;
 $anonvoteval = 0;
 $regvoteval = 0;
 $truecomments = $totalvotesDB;
-while($vrow = $pnt_db->sql_fetchrow($voteresult)) {
+while($vrow = $db->sql_fetchrow($voteresult)) {
     $ratingDB = intval($vrow['rating']);
     $ratinguserDB = $vrow['ratinguser'];
     $ratingcommentsDB = stripslashes($vrow['ratingcomments']);

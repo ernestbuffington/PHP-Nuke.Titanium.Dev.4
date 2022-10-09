@@ -27,7 +27,7 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $cookie, $pnt_prefix, $multilingual, $currentlang, $pnt_db, $pnt_user, $userinfo;
+global $cookie, $prefix, $multilingual, $currentlang, $db, $user, $userinfo;
 
 $querylang = ($multilingual) ? "AND (alanguage='$currentlang' OR alanguage='')" : '';
 
@@ -51,7 +51,7 @@ $year = $today['year'];
 
 $tdate = "$year-$month-$day";
 
-list($sid, $title) = $pnt_db->sql_ufetchrow("SELECT sid, title FROM ".$pnt_prefix."_stories WHERE (datePublished LIKE '%$tdate%') $querylang ORDER BY counter DESC LIMIT 0,1", SQL_NUM);
+list($sid, $title) = $db->sql_ufetchrow("SELECT sid, title FROM ".$prefix."_stories WHERE (datePublished LIKE '%$tdate%') $querylang ORDER BY counter DESC LIMIT 0,1", SQL_NUM);
 
 $fsid = intval($sid);
 

@@ -24,9 +24,9 @@
  *
  ***************************************************************************/
 
-if (!defined('IN_PHPBB2'))
+if (!defined('IN_PHPBB'))
 {
-    die('ACCESS DENIED');
+    die('Hacking attempt');
 }
 
 class Content_statistical
@@ -97,7 +97,7 @@ class Content_statistical
 
     function set_rows($data, $auth_data)
     {
-        global $core, $stats_template, $phpbb2_root_path, $phpEx, $stat_functions, $lang;
+        global $core, $stats_template, $phpbb_root_path, $phpEx, $stat_functions, $lang;
 
         $core->calculation_data = array();
 

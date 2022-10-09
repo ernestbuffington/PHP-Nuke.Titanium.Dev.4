@@ -38,15 +38,15 @@
  ************************************************************************/
 if (!defined('ADMIN_FILE')) die('Access Denied');
 
-global $pnt_prefix, $pnt_db, $admdata;
+global $prefix, $db, $admdata;
 
-$pnt_module = basename(dirname(dirname(__FILE__)));
+$module_name = basename(dirname(dirname(__FILE__)));
 
-if(is_mod_admin($pnt_module)) 
+if(is_mod_admin($module_name)) 
 {
   include_once(NUKE_INCLUDE_DIR.'nsnne_func.php');
 
-  $blog_config = blog_get_configs();
+  $ne_config = ne_get_configs();
 
 /*********************************************************/
 /* Story/Blogs Functions                                 */
@@ -133,9 +133,9 @@ function puthome($ihome, $acomm)
 
 function deleteStory($qid) 
 {
-    global $pnt_prefix, $pnt_db, $admin_file, $cache;
+    global $prefix, $db, $admin_file, $cache;
     $qid = intval($qid);
-    $result = $pnt_db->sql_query("delete from ".$pnt_prefix."_queue where qid='$qid'");
+    $result = $db->sql_query("delete from ".$prefix."_queue where qid='$qid'");
 
     if (!$result) 
     return;
@@ -148,13 +148,13 @@ function deleteStory($qid)
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 
-    redirect_titanium($admin_file.".php?op=submissions");
+    redirect($admin_file.".php?op=submissions");
 }
 
 function SelectCategory($cat) 
 {
-    global $pnt_prefix, $pnt_db, $admin_file;
-    $selcat = $pnt_db->sql_query("select catid, title from ".$pnt_prefix."_stories_cat order by title");
+    global $prefix, $db, $admin_file;
+    $selcat = $db->sql_query("select catid, title from ".$prefix."_stories_cat order by title");
     $a = 1;
     echo "<strong>"._BLOG_POST_CATEGORY."</strong> ";
     echo "<select name=\"catid\">";
@@ -166,7 +166,7 @@ function SelectCategory($cat)
     
 	echo "<option name=\"catid\" value=\"0\" $sel>"._ARTICLES."</option>";
     
-	while(list($catid, $title) = $pnt_db->sql_fetchrow($selcat)) 
+	while(list($catid, $title) = $db->sql_fetchrow($selcat)) 
 	{
         $catid = intval($catid);
     
@@ -232,12 +232,12 @@ function AddCategory ()
 
 function EditCategory($catid) 
 {
-    global $pnt_prefix, $pnt_db, $admin_file;
+    global $prefix, $db, $admin_file;
 
     $catid = intval($catid);
-    $result = $pnt_db->sql_query("select title from ".$pnt_prefix."_stories_cat where catid='$catid'");
+    $result = $db->sql_query("select title from ".$prefix."_stories_cat where catid='$catid'");
     
-	list($title) = $pnt_db->sql_fetchrow($result);
+	list($title) = $db->sql_fetchrow($result);
     
 	include(NUKE_BASE_DIR.'header.php');
 
@@ -247,14 +247,14 @@ function EditCategory($catid)
     
 	if (!$catid) 
 	{
-        $selcat = $pnt_db->sql_query("select catid, title from ".$pnt_prefix."_stories_cat");
+        $selcat = $db->sql_query("select catid, title from ".$prefix."_stories_cat");
         
 		echo "<form action=\"".$admin_file.".php\" method=\"post\">";
         echo "<strong>"._ASELECTCATEGORY."</strong>";
         echo "<select name=\"catid\">";
         echo "<option name=\"catid\" value=\"0\" $sel>Blogs</option>";
     
-	    while(list($catid, $title) = $pnt_db->sql_fetchrow($selcat)) 
+	    while(list($catid, $title) = $db->sql_fetchrow($selcat)) 
 		{
             $catid = intval($catid);
             echo "<option name=\"catid\" value=\"$catid\" $sel>$title</option>";
@@ -286,11 +286,11 @@ function EditCategory($catid)
 
 function DelCategory($cat) 
 {
-    global $pnt_prefix, $pnt_db, $admin_file;
+    global $prefix, $db, $admin_file;
 
     $cat = intval($cat);
-    $result = $pnt_db->sql_query("select title from ".$pnt_prefix."_stories_cat where catid='$cat'");
-    list($title) = $pnt_db->sql_fetchrow($result);
+    $result = $db->sql_query("select title from ".$prefix."_stories_cat where catid='$cat'");
+    list($title) = $db->sql_fetchrow($result);
 
     include(NUKE_BASE_DIR.'header.php');
 
@@ -300,13 +300,13 @@ function DelCategory($cat)
 
     if (!$cat) 
 	{
-        $selcat = $pnt_db->sql_query("select catid, title from ".$pnt_prefix."_stories_cat");
+        $selcat = $db->sql_query("select catid, title from ".$prefix."_stories_cat");
     
 	    echo "<form action=\"".$admin_file.".php\" method=\"post\">"
             ."<strong>"._SELECTCATDEL.": </strong>"
             ."<select name=\"cat\">";
     
-	    while(list($catid, $title) = $pnt_db->sql_fetchrow($selcat)) 
+	    while(list($catid, $title) = $db->sql_fetchrow($selcat)) 
 		{
             $catid = intval($catid);
             echo "<option name=\"cat\" value=\"$catid\">$title</option>";
@@ -319,12 +319,12 @@ function DelCategory($cat)
     } 
 	else 
 	{
-        $result2 = $pnt_db->sql_query("select * from ".$pnt_prefix."_stories where catid='$cat'");
-        $numrows = $pnt_db->sql_numrows($result2);
+        $result2 = $db->sql_query("select * from ".$prefix."_stories where catid='$cat'");
+        $numrows = $db->sql_numrows($result2);
         
 		if ($numrows == 0) 
 		{
-            $pnt_db->sql_query("delete from ".$pnt_prefix."_stories_cat where catid='$cat'");
+            $db->sql_query("delete from ".$prefix."_stories_cat where catid='$cat'");
             echo "<br /><br />"._CATDELETED."<br /><br />"._GOTOADMIN."";
         } 
 		else 
@@ -347,30 +347,30 @@ function DelCategory($cat)
 
 function YesDelCategory($catid) 
 {
-    global $pnt_prefix, $pnt_db, $admin_file;
+    global $prefix, $db, $admin_file;
 
     $catid = intval($catid);
-    $pnt_db->sql_query("delete from ".$pnt_prefix."_stories_cat where catid='$catid'");
-    $result = $pnt_db->sql_query("select sid from ".$pnt_prefix."_stories where catid='$catid'");
+    $db->sql_query("delete from ".$prefix."_stories_cat where catid='$catid'");
+    $result = $db->sql_query("select sid from ".$prefix."_stories where catid='$catid'");
 
-    while(list($sid) = $pnt_db->sql_fetchrow($result)) 
+    while(list($sid) = $db->sql_fetchrow($result)) 
 	{
         $sid = intval($sid);
-        $pnt_db->sql_query("delete from ".$pnt_prefix."_stories where catid='$catid'");
-        $pnt_db->sql_query("delete from ".$pnt_prefix."_comments where sid='$sid'");
+        $db->sql_query("delete from ".$prefix."_stories where catid='$catid'");
+        $db->sql_query("delete from ".$prefix."_comments where sid='$sid'");
     }
     
-	redirect_titanium($admin_file.".php?op=adminStory");
+	redirect($admin_file.".php?op=adminStory");
 }
 
 function NoMoveCategory($catid, $newcat) 
 {
-    global $pnt_prefix, $pnt_db, $admin_file;
+    global $prefix, $db, $admin_file;
 
     $catid = intval($catid);
-    $result = $pnt_db->sql_query("select title from ".$pnt_prefix."_stories_cat where catid='$catid'");
+    $result = $db->sql_query("select title from ".$prefix."_stories_cat where catid='$catid'");
 
-    list($title) = $pnt_db->sql_fetchrow($result);
+    list($title) = $db->sql_fetchrow($result);
 
     include(NUKE_BASE_DIR.'header.php');
 
@@ -379,13 +379,13 @@ function NoMoveCategory($catid, $newcat)
     if (!$newcat) 
 	{
         echo ""._ALLSTORIES." <strong>$title</strong> "._WILLBEMOVED."<br /><br />";
-        $selcat = $pnt_db->sql_query("select catid, title from ".$pnt_prefix."_stories_cat");
+        $selcat = $db->sql_query("select catid, title from ".$prefix."_stories_cat");
         echo "<form action=\"".$admin_file.".php\" method=\"post\">";
         echo "<strong>"._SELECTNEWCAT.":</strong> ";
         echo "<select name=\"newcat\">";
         echo "<option name=\"newcat\" value=\"0\">"._ARTICLES."</option>";
     
-	    while(list($newcat, $title) = $pnt_db->sql_fetchrow($selcat)) 
+	    while(list($newcat, $title) = $db->sql_fetchrow($selcat)) 
 		{
           echo "<option name=\"newcat\" value=\"$newcat\">$title</option>";
         }
@@ -398,15 +398,15 @@ function NoMoveCategory($catid, $newcat)
     } 
 	else 
 	{
-        $resultm = $pnt_db->sql_query("select sid from ".$pnt_prefix."_stories where catid='$catid'");
+        $resultm = $db->sql_query("select sid from ".$prefix."_stories where catid='$catid'");
     
-	    while(list($sid) = $pnt_db->sql_fetchrow($resultm)) 
+	    while(list($sid) = $db->sql_fetchrow($resultm)) 
 		{
           $sid = intval($sid);
-          $pnt_db->sql_query("update ".$pnt_prefix."_stories set catid='$newcat' where sid='$sid'");
+          $db->sql_query("update ".$prefix."_stories set catid='$newcat' where sid='$sid'");
         }
         
-		$pnt_db->sql_query("delete from ".$pnt_prefix."_stories_cat where catid='$catid'");
+		$db->sql_query("delete from ".$prefix."_stories_cat where catid='$catid'");
 
         echo ""._MOVEDONE."";
     }
@@ -418,12 +418,12 @@ function NoMoveCategory($catid, $newcat)
 
 function SaveEditCategory($catid, $title) 
 {
-    global $pnt_prefix, $pnt_db, $admin_file;
+    global $prefix, $db, $admin_file;
 
     $title = str_replace("\"","",$title);
-    $result = $pnt_db->sql_query("select catid from ".$pnt_prefix."_stories_cat where title='$title'");
+    $result = $db->sql_query("select catid from ".$prefix."_stories_cat where title='$title'");
     $catid = intval($catid);
-    $check = $pnt_db->sql_numrows($result);
+    $check = $db->sql_numrows($result);
 
     if ($check) 
 	{
@@ -434,7 +434,7 @@ function SaveEditCategory($catid, $title)
 	{
         $what1 = _CATSAVED;
         $what2 = "[ <a href=\"".$admin_file.".php\">"._GOTOADMIN."</a> ]";
-        $result = $pnt_db->sql_query("update ".$pnt_prefix."_stories_cat set title='$title' where catid='$catid'");
+        $result = $db->sql_query("update ".$prefix."_stories_cat set title='$title' where catid='$catid'");
     
 	    if (!$result) 
         return;
@@ -458,11 +458,11 @@ function SaveEditCategory($catid, $title)
 
 function SaveCategory($title) 
 {
-    global $pnt_prefix, $pnt_db, $admin_file;
+    global $prefix, $db, $admin_file;
 
     $title = str_replace("\"","",$title);
-    $result = $pnt_db->sql_query("select catid from ".$pnt_prefix."_stories_cat where title='$title'");
-    $check = $pnt_db->sql_numrows($result);
+    $result = $db->sql_query("select catid from ".$prefix."_stories_cat where title='$title'");
+    $check = $db->sql_numrows($result);
  
     if ($check) 
 	{
@@ -473,7 +473,7 @@ function SaveCategory($title)
 	{
         $what1 = _CATADDED;
         $what2 = _GOTOADMIN;
-        $result = $pnt_db->sql_query("insert into ".$pnt_prefix."_stories_cat values (NULL, '$title', '0')");
+        $result = $db->sql_query("insert into ".$prefix."_stories_cat values (NULL, '$title', '0')");
     
 	    if (!$result) 
         return;
@@ -493,28 +493,28 @@ function SaveCategory($title)
 
 function autodelete($anid) 
 {
-    global $pnt_prefix, $pnt_db, $admin_file;
+    global $prefix, $db, $admin_file;
     $anid = intval($anid);
-    $pnt_db->sql_query("delete from ".$pnt_prefix."_autonews where anid='$anid'");
-    redirect_titanium($admin_file.".php?op=adminStory");
+    $db->sql_query("delete from ".$prefix."_autonews where anid='$anid'");
+    redirect($admin_file.".php?op=adminStory");
 }
 
 function autoEdit($anid) 
 {
-    global $aid, $bgcolor1, $bgcolor2, $pnt_prefix, $pnt_db, $multilingual, $admin_file, $pnt_module;
+    global $aid, $bgcolor1, $bgcolor2, $prefix, $db, $multilingual, $admin_file, $module_name;
 
     $sid = intval($sid);
     $aid = substr($aid, 0,25);
 
-    list($aaid) = $pnt_db->sql_ufetchrow("SELECT aid from ".$pnt_prefix."_stories WHERE sid='$sid'", SQL_NUM);
+    list($aaid) = $db->sql_ufetchrow("SELECT aid from ".$prefix."_stories WHERE sid='$sid'", SQL_NUM);
     
 	$aaid = substr($aaid, 0,25);
 
-    if (is_mod_admin($pnt_module)) 
+    if (is_mod_admin($module_name)) 
 	{
       include(NUKE_BASE_DIR.'header.php');
 
-      $result = $pnt_db->sql_query("SELECT 
+      $result = $db->sql_query("SELECT 
 	                            
 								 catid, 
 								   aid, 
@@ -532,7 +532,7 @@ function autoEdit($anid)
 								 ticon, 
 								writes 
 								
-								FROM ".$pnt_prefix."_autonews 
+								FROM ".$prefix."_autonews 
 								
 								WHERE anid='$anid'");
 								
@@ -550,7 +550,7 @@ function autoEdit($anid)
 	   $alanguage, 
 	       $acomm, 
 	  $topic_icon, 
-	      $writes) = $pnt_db->sql_fetchrow($result);
+	      $writes) = $db->sql_fetchrow($result);
 
       $catid = intval($catid);
       $aid = substr($aid, 0,25);
@@ -603,9 +603,9 @@ function autoEdit($anid)
     $hometext = stripslashes($hometext);
     $bodytext = stripslashes($bodytext);
     $notes = stripslashes($notes);
-    $result=$pnt_db->sql_query("select topicimage from ".$pnt_prefix."_topics where topicid='$topic'");
+    $result=$db->sql_query("select topicimage from ".$prefix."_topics where topicid='$topic'");
 
-    list($topicimage) = $pnt_db->sql_fetchrow($result);
+    list($topicimage) = $db->sql_fetchrow($result);
     
 	echo "<table border=\"0\" width=\"75%\" cellpadding=\"0\" cellspacing=\"1\" bgcolor=\"$bgcolor2\" align=\"center\"><tr><td>"
         ."<table border=\"0\" width=\"100%\" cellpadding=\"8\" cellspacing=\"1\" bgcolor=\"$bgcolor1\"><tr><td>";
@@ -632,18 +632,18 @@ function autoEdit($anid)
         ."<input type=\"text\" name=\"title\" size=\"50\" value=\"$title\"><br /><br />"
         ."<strong>"._TOPIC."</strong> <select name=\"topic\">";
  
-    $toplist = $pnt_db->sql_query("select topicid, topictext from ".$pnt_prefix."_topics order by topictext");
+    $toplist = $db->sql_query("select topicid, topictext from ".$prefix."_topics order by topictext");
     
 	echo "<option value=\"\">"._ALLTOPICS."</option>\n";
  
-    while(list($topicid, $phpbb2_topics) = $pnt_db->sql_fetchrow($toplist)) 
+    while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) 
 	{
         $topicid = intval($topicid);
     
 	    if ($topicid==$topic) 
         $sel = "selected "; 
 	    
-        echo "<option $sel value=\"$topicid\">$phpbb2_topics</option>\n";
+        echo "<option $sel value=\"$topicid\">$topics</option>\n";
         $sel = "";
     }
     
@@ -811,16 +811,16 @@ function autoEdit($anid)
 
 function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes) 
 {
-    global $aid, $ultramode, $pnt_prefix, $pnt_db, $admin_file, $pnt_module;
+    global $aid, $ultramode, $prefix, $db, $admin_file, $module_name;
 
     $sid = intval($sid);
     $aid = substr($aid, 0,25);
 	
-    list($aaid) = $pnt_db->sql_ufetchrow("SELECT aid from ".$pnt_prefix."_stories WHERE sid='$sid'", SQL_NUM);
+    list($aaid) = $db->sql_ufetchrow("SELECT aid from ".$prefix."_stories WHERE sid='$sid'", SQL_NUM);
     
 	$aaid = substr($aaid, 0,25);
 
-    if (is_mod_admin($pnt_module)) 
+    if (is_mod_admin($module_name)) 
 	{
 	  if ($day < 10) 
       $day = "0$day";
@@ -836,7 +836,7 @@ function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext
       $bodytext = Fix_Quotes($bodytext);
       $notes = Fix_Quotes($notes);
     
-	  $result = $pnt_db->sql_query("UPDATE ".$pnt_prefix."_autonews set 
+	  $result = $db->sql_query("UPDATE ".$prefix."_autonews set 
 	 
 	       catid='$catid', 
 	       title='$title', 
@@ -860,7 +860,7 @@ function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext
 	 if ($ultramode) 
      blog_ultramode();
      
-     redirect_titanium($admin_file.".php?op=adminStory");
+     redirect($admin_file.".php?op=adminStory");
     } 
    else 
 	{
@@ -884,7 +884,7 @@ function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext
 
 function displayStory($qid) 
 {
-    global $pnt_user, $admin_file, $subject, $story, $bgcolor1, $bgcolor2, $anonymous, $pnt_user_prefix, $pnt_prefix, $pnt_db, $multilingual;
+    global $user, $admin_file, $subject, $story, $bgcolor1, $bgcolor2, $anonymous, $user_prefix, $prefix, $db, $multilingual;
 
     include(NUKE_BASE_DIR.'header.php');
 
@@ -919,7 +919,7 @@ function displayStory($qid)
 	$date = "$tmonth $tday, $tyear @ $thour:$tmin:$tsec";
     $qid = intval($qid);
     
-	$result = $pnt_db->sql_query("SELECT qid, 
+	$result = $db->sql_query("SELECT qid, 
 	                                 uid, 
 								   uname, 
 								 subject, 
@@ -928,11 +928,11 @@ function displayStory($qid)
 								   topic, 
 							    alanguage 
 								
-								FROM ".$pnt_prefix."_queue 
+								FROM ".$prefix."_queue 
 								
 								WHERE qid='$qid'");
 
-    list($qid, $uid, $uname, $subject, $story, $storyext, $topic, $alanguage) = $pnt_db->sql_fetchrow($result);
+    list($qid, $uid, $uname, $subject, $story, $storyext, $topic, $alanguage) = $db->sql_fetchrow($result);
 
     $qid = intval($qid);
     $uid = intval($uid);
@@ -969,9 +969,9 @@ function displayStory($qid)
  ******************************************************/
     if ($uname != $anonymous) 
 	{
-      $res = $pnt_db->sql_query("SELECT user_email from ".$pnt_user_prefix."_users WHERE username='$uname'");
+      $res = $db->sql_query("SELECT user_email from ".$user_prefix."_users WHERE username='$uname'");
       
-	  list($email) = $pnt_db->sql_fetchrow($res);
+	  list($email) = $db->sql_fetchrow($res);
       
 	  echo "&nbsp;&nbsp;<span class=\"content\">[ <a href=\"mailto:$email?Subject=Re: $subject\">"._EMAILUSER."</a> | <a href='modules.php?name=Your_Account&op=userinfo&username=$uname'>"._USERPROFILE."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$uid\">"._SENDPM."</a> ]</span>";
     }
@@ -982,9 +982,9 @@ function displayStory($qid)
 	if(empty($topic)) 
     $topic = 1;
     
-	$result = $pnt_db->sql_query("select topicimage from ".$pnt_prefix."_topics where topicid='$topic'");
+	$result = $db->sql_query("select topicimage from ".$prefix."_topics where topicid='$topic'");
 
-    list($topicimage) = $pnt_db->sql_fetchrow($result);
+    list($topicimage) = $db->sql_fetchrow($result);
 
     echo "<table border=\"0\" width=\"70%\" cellpadding=\"0\" cellspacing=\"1\" bgcolor=\"$bgcolor2\" align=\"center\"><tr><td>"
         ."<table border=\"0\" width=\"100%\" cellpadding=\"8\" cellspacing=\"1\" bgcolor=\"$bgcolor1\"><tr><td>";
@@ -1002,18 +1002,18 @@ function displayStory($qid)
     echo "</td></tr></table></td></tr></table>"
         ."<br /><strong>"._TOPIC."</strong> <select name=\"topic\">";
 
-    $toplist = $pnt_db->sql_query("select topicid, topictext from ".$pnt_prefix."_topics order by topictext");
+    $toplist = $db->sql_query("select topicid, topictext from ".$prefix."_topics order by topictext");
 
     echo "<option value=\"\">"._SELECTTOPIC."</option>\n";
 
-    while(list($topicid, $phpbb2_topics) = $pnt_db->sql_fetchrow($toplist)) 
+    while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) 
 	{
         $topicid = intval($topicid);
         
 		if ($topicid==$topic) 
         $sel = "selected ";
         
-		echo "<option $sel value=\"$topicid\">$phpbb2_topics</option>\n";
+		echo "<option $sel value=\"$topicid\">$topics</option>\n";
         $sel = "";
     }
 
@@ -1022,11 +1022,11 @@ function displayStory($qid)
     echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
         ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
 
-    $sql = "SELECT topicid, topictext FROM ".$pnt_prefix."_topics ORDER BY topictext";
-    $result = $pnt_db->sql_query($sql);
+    $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
+    $result = $db->sql_query($sql);
     $a = 0;
     
-	while ($row = $pnt_db->sql_fetchrow($result)) 
+	while ($row = $db->sql_fetchrow($result)) 
 	{
         if ($a == 3) 
 		{
@@ -1204,7 +1204,7 @@ function previewStory($automated,
 					 $optionText, 
 					    $assotop) 
 {
-    global $pnt_user, $admin_file, $boxstuff, $anonymous, $bgcolor1, $bgcolor2, $pnt_user_prefix, $pnt_prefix, $pnt_db, $multilingual, $Version_Num;
+    global $user, $admin_file, $boxstuff, $anonymous, $bgcolor1, $bgcolor2, $user_prefix, $prefix, $db, $multilingual, $Version_Num;
 
     include(NUKE_BASE_DIR.'header.php');
 
@@ -1256,8 +1256,8 @@ function previewStory($automated,
 
     if ($author != $anonymous) 
 	{
-        $res = $pnt_db->sql_query("select user_id, user_email from ".$pnt_user_prefix."_users where username='$author'");
-        list($pm_userid, $email) = $pnt_db->sql_fetchrow($res);
+        $res = $db->sql_query("select user_id, user_email from ".$user_prefix."_users where username='$author'");
+        list($pm_userid, $email) = $db->sql_fetchrow($res);
         $pm_userid = intval($pm_userid);
         echo "&nbsp;&nbsp;<span class=\"content\">[ <a href=\"mailto:$email?Subject=Re: $subject\">"._EMAILUSER."</a> | <a href='modules.php?name=Your_Account&op=userinfo&username=$author'>"._USERPROFILE."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$uid\">"._SENDPM."</a> ]</span>";
     }
@@ -1265,9 +1265,9 @@ function previewStory($automated,
 	echo "<br /><br /><strong>"._TITLE."</strong><br />"
         ."<input type=\"text\" name=\"subject\" size=\"50\" value=\"$subject\"><br /><br />";
 
-    $result = $pnt_db->sql_query("select topicimage from ".$pnt_prefix."_topics where topicid='$topic'");
+    $result = $db->sql_query("select topicimage from ".$prefix."_topics where topicid='$topic'");
 
-    list($topicimage) = $pnt_db->sql_fetchrow($result);
+    list($topicimage) = $db->sql_fetchrow($result);
 
     echo "<table width=\"70%\" bgcolor=\"$bgcolor2\" cellpadding=\"0\" cellspacing=\"1\" border=\"0\"align=\"center\"><tr><td>"
         ."<table width=\"100%\" bgcolor=\"$bgcolor1\" cellpadding=\"8\" cellspacing=\"1\" border=\"0\"><tr><td>";
@@ -1292,18 +1292,18 @@ function previewStory($automated,
     echo "</td></tr></table></td></tr></table>"
         ."<br /><strong>"._TOPIC."</strong> <select name=\"topic\">";
     
-	$toplist = $pnt_db->sql_query("SELECT topicid, topictext FROM ".$pnt_prefix."_topics order by topictext");
+	$toplist = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_topics order by topictext");
     
 	echo "<option value=\"\">"._ALLTOPICS."</option>\n";
 
-    while(list($topicid, $phpbb2_topics) = $pnt_db->sql_fetchrow($toplist)) 
+    while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) 
 	{
         $topicid = intval($topicid);
     
 	    if ($topicid==$topic) 
         $sel = "selected ";
         
-		echo "<option $sel value=\"$topicid\">$phpbb2_topics</option>\n";
+		echo "<option $sel value=\"$topicid\">$topics</option>\n";
         $sel = "";
     }
     
@@ -1320,11 +1320,11 @@ function previewStory($automated,
         echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
             ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
 
-        $sql = "SELECT topicid, topictext FROM ".$pnt_prefix."_topics ORDER BY topictext";
-        $result = $pnt_db->sql_query($sql);
+        $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
+        $result = $db->sql_query($sql);
         $a = 0;
     
-	    while ($row = $pnt_db->sql_fetchrow($result)) 
+	    while ($row = $db->sql_fetchrow($result)) 
 		{
             if ($a == 3) 
 			{
@@ -1537,7 +1537,7 @@ function postStory($automated,
 				  $optionText, 
 				     $assotop) 
 {
-    global $aid, $admin_file, $ultramode, $pnt_prefix, $pnt_db, $pnt_user_prefix, $Version_Num, $blog_config, $adminmail, $sitename, $nukeurl, $cache;
+    global $aid, $admin_file, $ultramode, $prefix, $db, $user_prefix, $Version_Num, $ne_config, $adminmail, $sitename, $nukeurl, $cache;
 
     // Copyright (c) 2000-2005 by NukeScripts Network
     if($Version_Num >= 6.6) 
@@ -1573,7 +1573,7 @@ function postStory($automated,
         $notes = Fix_Quotes($notes);
         
 		// Copyright (c) 2000-2005 by NukeScripts Network
-        $new_sql  = "INSERT INTO ".$pnt_prefix."_autonews values (NULL, 
+        $new_sql  = "INSERT INTO ".$prefix."_autonews values (NULL, 
 		                                                   '$catid', 
 														     '$aid', 
 														 '$subject', 
@@ -1593,26 +1593,26 @@ function postStory($automated,
 		$new_sql .= ", '$associated'";
  		$new_sql .= ")";
 		
-        $result = $pnt_db->sql_query($new_sql);
+        $result = $db->sql_query($new_sql);
         
 		// Copyright (c) 2000-2005 by NukeScripts Network ??
         if (!$result) 
 	    return; 
 		
-        $result = $pnt_db->sql_query("SELECT sid from ".$pnt_prefix."_stories WHERE title='$subject' order by time DESC limit 0,1");
+        $result = $db->sql_query("SELECT sid from ".$prefix."_stories WHERE title='$subject' order by time DESC limit 0,1");
         
-		list($artid) = $pnt_db->sql_fetchrow($result);
+		list($artid) = $db->sql_fetchrow($result);
         
 		$artid = intval($artid);
         
 		if ($uid != 1) 
 		{
-            $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET counter=counter+1 WHERE user_id='$uid'");
+            $db->sql_query("UPDATE ".$user_prefix."_users SET counter=counter+1 WHERE user_id='$uid'");
             
 			// Copyright (c) 2000-2005 by NukeScripts Network
-            if($blog_config["notifyauth"] == 1) 
+            if($ne_config["notifyauth"] == 1) 
 			{
-                $urow = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT username, user_email FROM ".$pnt_user_prefix."_users WHERE user_id='$uid'"));
+                $urow = $db->sql_fetchrow($db->sql_query("SELECT username, user_email FROM ".$user_prefix."_users WHERE user_id='$uid'"));
                 $Mto = $urow["username"]." <".$urow["user_email"].">";
                 $Msubject = _NE_ARTPUB;
                 $Mbody = _NE_HASPUB."\n$nukeurl/modules.php?name=Blog&file=article&sid=$artid";
@@ -1629,13 +1629,13 @@ function postStory($automated,
             }
             // Copyright (c) 2000-2005 by NukeScripts Network
         }
-        $pnt_db->sql_query("UPDATE ".$pnt_prefix."_authors SET counter=counter+1 WHERE aid='$aid'");
+        $db->sql_query("UPDATE ".$prefix."_authors SET counter=counter+1 WHERE aid='$aid'");
         
 		if ($ultramode) 
 	    blog_ultramode(); 
         
 		$qid = intval($qid);
-        $pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_queue WHERE qid='$qid'");
+        $db->sql_query("DELETE FROM ".$prefix."_queue WHERE qid='$qid'");
 
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -1645,7 +1645,7 @@ function postStory($automated,
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 
-        redirect_titanium($admin_file.".php?op=submissions");
+        redirect($admin_file.".php?op=submissions");
     } 
 	else 
 	{
@@ -1666,10 +1666,10 @@ function postStory($automated,
             $timeStamp = time();
             $pollTitle = Fix_Quotes($pollTitle);
         
-		    if(!$pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_poll_desc VALUES (NULL, '$pollTitle', '$timeStamp', '0', '$alanguage', '0')")) 
+		    if(!$db->sql_query("INSERT INTO ".$prefix."_poll_desc VALUES (NULL, '$pollTitle', '$timeStamp', '0', '$alanguage', '0')")) 
             return;
             
-			$object = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT pollID FROM ".$pnt_prefix."_poll_desc WHERE pollTitle='$pollTitle'"));
+			$object = $db->sql_fetchrow($db->sql_query("SELECT pollID FROM ".$prefix."_poll_desc WHERE pollTitle='$pollTitle'"));
             $id = $object["pollID"];
             $id = intval($id);
             
@@ -1678,7 +1678,7 @@ function postStory($automated,
                 if(!empty($optionText[$i])) 
                 $optionText[$i] = Fix_Quotes($optionText[$i]);
                 
-				if(!$pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_poll_data (pollID, optionText, optionCount, voteID) VALUES ('$id', '$optionText[$i]', '0', '$i')")) 
+				if(!$db->sql_query("INSERT INTO ".$prefix."_poll_data (pollID, optionText, optionCount, voteID) VALUES ('$id', '$optionText[$i]', '0', '$i')")) 
                 return;
             }
         } 
@@ -1689,7 +1689,7 @@ function postStory($automated,
         }
 
         // Copyright (c) 2000-2005 by NukeScripts Network
-        $new_sql  = "INSERT INTO ".$pnt_prefix."_stories VALUES (NULL, 
+        $new_sql  = "INSERT INTO ".$prefix."_stories VALUES (NULL, 
 		                                                  '$catid', 
 														    '$aid', 
 													    '$subject', 
@@ -1711,27 +1711,27 @@ function postStory($automated,
 															   '0'";
         $new_sql .= ", '$associated'";
         $new_sql .= ",'$topic_id', '$writes')";
-        $result = $pnt_db->sql_query($new_sql);
+        $result = $db->sql_query($new_sql);
         
 		// Copyright (c) 2000-2005 by NukeScripts Network
-        $result = $pnt_db->sql_query("SELECT sid from ".$pnt_prefix."_stories WHERE title='$subject' order by time DESC limit 0,1");
+        $result = $db->sql_query("SELECT sid from ".$prefix."_stories WHERE title='$subject' order by time DESC limit 0,1");
        
-	    list($artid) = $pnt_db->sql_fetchrow($result);
+	    list($artid) = $db->sql_fetchrow($result);
        
 	    $artid = intval($artid);
-        $pnt_db->sql_query("UPDATE ".$pnt_prefix."_poll_desc SET artid='$artid' WHERE pollID='$id'");
+        $db->sql_query("UPDATE ".$prefix."_poll_desc SET artid='$artid' WHERE pollID='$id'");
         
 		if (!$result) 
 	    return; 
        
 		if ($uid != 1) 
 		{
-            $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET counter=counter+1 WHERE user_id='$uid'");
+            $db->sql_query("UPDATE ".$user_prefix."_users SET counter=counter+1 WHERE user_id='$uid'");
             
 			// Copyright (c) 2000-2005 by NukeScripts Network
-		    if($blog_config["notifyauth"] == 1) 
+		    if($ne_config["notifyauth"] == 1) 
 			{
-                $urow = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT username, user_email FROM ".$pnt_user_prefix."_users WHERE user_id='$uid'"));
+                $urow = $db->sql_fetchrow($db->sql_query("SELECT username, user_email FROM ".$user_prefix."_users WHERE user_id='$uid'"));
                 $Mto = $urow["username"]." <".$urow["user_email"].">";
                 $Msubject = _NE_ARTPUB;
                 $Mbody = _NE_HASPUB."\n$nukeurl/modules.php?name=Blog&file=article&sid=$artid";
@@ -1747,9 +1747,9 @@ function postStory($automated,
                 @evo_mail($Mto, $Msubject, $Mbody, $Mheaders);
             }
             // Copyright (c) 2000-2005 by NukeScripts Network
-            $pnt_db->sql_query("UPDATE ".$pnt_user_prefix."_users SET counter=counter+1 WHERE user_id='$uid'");
+            $db->sql_query("UPDATE ".$user_prefix."_users SET counter=counter+1 WHERE user_id='$uid'");
         }
-        $pnt_db->sql_query("UPDATE ".$pnt_prefix."_authors SET counter=counter+1 WHERE aid='$aid'");
+        $db->sql_query("UPDATE ".$prefix."_authors SET counter=counter+1 WHERE aid='$aid'");
         
 		if ($ultramode) 
 	    blog_ultramode(); 
@@ -1760,20 +1760,20 @@ function postStory($automated,
 
 function editStory($sid) 
 {
-    global $pnt_user, $admin_file, $bgcolor1, $bgcolor2, $aid, $pnt_prefix, $pnt_db, $multilingual, $Version_Num, $pnt_module;
+    global $user, $admin_file, $bgcolor1, $bgcolor2, $aid, $prefix, $db, $multilingual, $Version_Num, $module_name;
 
     $aid = substr($aid, 0,25);
     $sid = intval($sid);
     
-	list($aaid) = $pnt_db->sql_ufetchrow("SELECT aid FROM ".$pnt_prefix."_stories WHERE sid='$sid'", SQL_NUM);
+	list($aaid) = $db->sql_ufetchrow("SELECT aid FROM ".$prefix."_stories WHERE sid='$sid'", SQL_NUM);
     
 	$aaid = substr($aaid, 0,25);
 
-    if (is_mod_admin($pnt_module)) 
+    if (is_mod_admin($module_name)) 
 	{
         include(NUKE_BASE_DIR.'header.php');
     
-        $result = $pnt_db->sql_query("SELECT catid, 
+        $result = $db->sql_query("SELECT catid, 
 		                                 title, 
 									  hometext, 
 									  bodytext, 
@@ -1789,7 +1789,7 @@ function editStory($sid)
 								 datePublished,
 								  dateModified, 
 										   sid 
-	    FROM ".$pnt_prefix."_stories 
+	    FROM ".$prefix."_stories 
 		WHERE sid='$sid'");
 		
         list($catid, 
@@ -1807,7 +1807,7 @@ function editStory($sid)
 		 $informant, 
 		      $time,
 		  $modified,  
-			   $sid) = $pnt_db->sql_fetchrow($result);
+			   $sid) = $db->sql_fetchrow($result);
         
 		$catid = intval($catid);
         $subject = stripslashes($subject);
@@ -1820,9 +1820,9 @@ function editStory($sid)
         $topic_icon = intval($topic_icon);
         $writes = intval($writes);
         
-		$result2=$pnt_db->sql_query("SELECT topicimage from ".$pnt_prefix."_topics WHERE topicid='$topic'");
+		$result2=$db->sql_query("SELECT topicimage from ".$prefix."_topics WHERE topicid='$topic'");
         
-		list($topicimage) = $pnt_db->sql_fetchrow($result2);
+		list($topicimage) = $db->sql_fetchrow($result2);
         
 		OpenTable();
 
@@ -1860,18 +1860,18 @@ function editStory($sid)
 /*****[END]********************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
-        $toplist = $pnt_db->sql_query("select topicid, topictext from ".$pnt_prefix."_topics order by topictext");
+        $toplist = $db->sql_query("select topicid, topictext from ".$prefix."_topics order by topictext");
         
 		echo "<option value=\"\">"._ALLTOPICS."</option>\n";
         
-		while(list($topicid, $phpbb2_topics) = $pnt_db->sql_fetchrow($toplist)) 
+		while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) 
 		{
            $topicid = intval($topicid);
            
 		   if ($topicid==$topic) 
 		   $sel = "selected "; 
 			
-		  echo "<option $sel value=\"$topicid\">$phpbb2_topics</option>\n";
+		  echo "<option $sel value=\"$topicid\">$topics</option>\n";
           $sel = "";
         }
         
@@ -1881,19 +1881,19 @@ function editStory($sid)
 		// Copyright (c) 2000-2005 by NukeScripts Network
         if($Version_Num >= 6.6) 
 		{
-            $asql = "SELECT associated FROM ".$pnt_prefix."_stories WHERE sid='$sid'";
-            $aresult = $pnt_db->sql_query($asql);
-            $arow = $pnt_db->sql_fetchrow($aresult);
+            $asql = "SELECT associated FROM ".$prefix."_stories WHERE sid='$sid'";
+            $aresult = $db->sql_query($asql);
+            $arow = $db->sql_fetchrow($aresult);
             $asso_t = explode("-", $arow['associated']);
         
 		    echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
                 ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
    
-            $sql = "SELECT topicid, topictext FROM ".$pnt_prefix."_topics ORDER BY topictext";
-            $result = $pnt_db->sql_query($sql);
+            $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
+            $result = $db->sql_query($sql);
             $a = 0;
         
-		    while ($row = $pnt_db->sql_fetchrow($result)) 
+		    while ($row = $db->sql_fetchrow($result)) 
 			{
                 if ($a == 3) 
 				{
@@ -1995,32 +1995,32 @@ function editStory($sid)
 
 function removeStory($sid, $ok=0) 
 {
-    global $ultramode, $aid, $pnt_prefix, $pnt_db, $admin_file, $pnt_module;
+    global $ultramode, $aid, $prefix, $db, $admin_file, $module_name;
     
 	$sid = intval($sid);
     $aid = substr($aid, 0,25);
     
-	list($aaid) = $pnt_db->sql_ufetchrow("SELECT aid from ".$pnt_prefix."_stories WHERE sid='$sid'", SQL_NUM);
+	list($aaid) = $db->sql_ufetchrow("SELECT aid from ".$prefix."_stories WHERE sid='$sid'", SQL_NUM);
     
 	$aaid = substr($aaid, 0,25);
 
-    if (is_mod_admin($pnt_module)) 
+    if (is_mod_admin($module_name)) 
 	{
         if($ok) 
 		{
-			list($counter) = $pnt_db->sql_ufetchrow("SELECT counter from ".$pnt_prefix."_authors WHERE aid='$aaid'", SQL_NUM);
+			list($counter) = $db->sql_ufetchrow("SELECT counter from ".$prefix."_authors WHERE aid='$aaid'", SQL_NUM);
             $counter--;
     
-	        $pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_stories WHERE sid='$sid'");
-            $pnt_db->sql_query("DELETE FROM ".$pnt_prefix."_comments WHERE sid='$sid'");
-            $pnt_db->sql_query("UPDATE ".$pnt_prefix."_poll_desc SET artid='0' where artid='$sid'");
+	        $db->sql_query("DELETE FROM ".$prefix."_stories WHERE sid='$sid'");
+            $db->sql_query("DELETE FROM ".$prefix."_comments WHERE sid='$sid'");
+            $db->sql_query("UPDATE ".$prefix."_poll_desc SET artid='0' where artid='$sid'");
            
-		    $result = $pnt_db->sql_query("UPDATE ".$pnt_prefix."_authors SET counter='$counter' WHERE aid='$aaid'");
+		    $result = $db->sql_query("UPDATE ".$prefix."_authors SET counter='$counter' WHERE aid='$aaid'");
         
 		    if ($ultramode) 
             blog_ultramode();
 
-            redirect_titanium("modules.php?name=Blog");
+            redirect("modules.php?name=Blog");
         } 
 		else 
 		{
@@ -2061,7 +2061,7 @@ function removeStory($sid, $ok=0)
 function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $assotop) 
 {
 
-    global $aid, $ultramode, $pnt_prefix, $pnt_db, $Version_Num, $admin_file, $pnt_module;
+    global $aid, $ultramode, $prefix, $db, $Version_Num, $admin_file, $module_name;
     
 	// Copyright (c) 2000-2005 by NukeScripts Network
     if($version_Num >= 6.6) 
@@ -2074,11 +2074,11 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
 	$sid = intval($sid);
     $aid = substr($aid, 0,25);
     
-	list($aaid) = $pnt_db->sql_ufetchrow("SELECT aid from ".$pnt_prefix."_stories WHERE sid='$sid'", SQL_NUM);
+	list($aaid) = $db->sql_ufetchrow("SELECT aid from ".$prefix."_stories WHERE sid='$sid'", SQL_NUM);
     
 	$aaid = substr($aaid, 0,25);
     
-	if (is_mod_admin($pnt_module)) 
+	if (is_mod_admin($module_name)) 
 	{
         $subject = Fix_Quotes($subject);
         $hometext = Fix_Quotes($hometext);
@@ -2087,7 +2087,7 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
         $topic = (empty($topic)) ? '1' : $topic;
         
 		// Copyright (c) 2000-2005 by NukeScripts Network
-        $pnt_db->sql_query("UPDATE ".$pnt_prefix."_stories SET catid='$catid', 
+        $db->sql_query("UPDATE ".$prefix."_stories SET catid='$catid', 
 		                                             title='$subject', 
 												 hometext='$hometext', 
 												 bodytext='$bodytext', 
@@ -2101,17 +2101,17 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
 												
 												    WHERE sid='$sid'");
         
-		$pnt_db->sql_query("UPDATE ".$pnt_prefix."_stories SET associated='$associated' WHERE sid='$sid'");
+		$db->sql_query("UPDATE ".$prefix."_stories SET associated='$associated' WHERE sid='$sid'");
         
 		// Copyright (c) 2000-2005 by NukeScripts Network
         if ($ultramode) { blog_ultramode(); }
-        redirect_titanium($admin_file.".php?op=adminStory");
+        redirect($admin_file.".php?op=adminStory");
     }
 }
 
 function lastTwenty()
 {
-    global $pnt_prefix, $pnt_db, $language, $multilingual, $Version_Num, $admin_file, $aid, $pnt_module, $bgcolor1;
+    global $prefix, $db, $language, $multilingual, $Version_Num, $admin_file, $aid, $module_name, $bgcolor1;
 
     include(NUKE_BASE_DIR.'header.php');
 /*****[BEGIN]******************************************
@@ -2123,7 +2123,7 @@ function lastTwenty()
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\"><strong>Add New Blog</strong></a></div><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
     
-	$result6 = $pnt_db->sql_query("SELECT sid, 
+	$result6 = $db->sql_query("SELECT sid, 
 	                                  aid, 
 									title, 
 							datePublished, 
@@ -2132,13 +2132,13 @@ function lastTwenty()
 								informant, 
 								alanguage 
 							   
-							   FROM ".$pnt_prefix."_stories 
+							   FROM ".$prefix."_stories 
 							   
 							   ORDER BY datePublished DESC LIMIT 0,100");
     
 	echo "<div align=\"center\"><table border=\"1\" width=\"100%\">";
     
-	while ($row6 = $pnt_db->sql_fetchrow($result6)) 
+	while ($row6 = $db->sql_fetchrow($result6)) 
 	{
         $sid = intval($row6["sid"]);
         $aid = $row6["aid"];
@@ -2151,7 +2151,7 @@ function lastTwenty()
 		$topic = $row6["topic"];
         $informant = $row6["informant"];
         $alanguage = $row6["alanguage"];
-        $row7 = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT topicname FROM ".$pnt_prefix."_topics WHERE topicid='$topic'"));
+        $row7 = $db->sql_fetchrow($db->sql_query("SELECT topicname FROM ".$prefix."_topics WHERE topicid='$topic'"));
         $topicname = $row7["topicname"];
     
 	    if (empty($alanguage)) 
@@ -2183,7 +2183,7 @@ function lastTwenty()
 
     echo "</table></div>";
 
-    if (is_mod_admin($pnt_module)) 
+    if (is_mod_admin($module_name)) 
 	{
       echo "<br /><div align=\"center\">"
           ."<form action=\"".$admin_file.".php\" method=\"post\">"
@@ -2203,7 +2203,7 @@ function lastTwenty()
 
 function programmedBlogs()
 {
-    global $pnt_prefix, $pnt_db, $language, $multilingual, $Version_Num, $admin_file, $aid, $pnt_module, $bgcolor1;
+    global $prefix, $db, $language, $multilingual, $Version_Num, $admin_file, $aid, $module_name, $bgcolor1;
     include(NUKE_BASE_DIR.'header.php');
 
     if (!empty($admlanguage)) 
@@ -2218,15 +2218,15 @@ function programmedBlogs()
         echo "<div align=\"center\"><strong>"._AUTOMATEDARTICLES."</strong></div><br />";
         
 		$count = 0;
-        $result5 = $pnt_db->sql_query("SELECT anid, 
+        $result5 = $db->sql_query("SELECT anid, 
 		                                   aid, 
 										 title, 
 								 datePublished, 
 									 alanguage 
 									 
-									FROM ".$pnt_prefix."_autonews $queryalang ORDER BY datePublished ASC");
+									FROM ".$prefix."_autonews $queryalang ORDER BY datePublished ASC");
 
-        while (list($anid, $aid, $listtitle, $time, $alanguage) = $pnt_db->sql_fetchrow($result5)) 
+        while (list($anid, $aid, $listtitle, $time, $alanguage) = $db->sql_fetchrow($result5)) 
 		{
             $anid = intval($anid);
             $said = substr($aid, 0,25);
@@ -2274,7 +2274,7 @@ function programmedBlogs()
 
 function adminStory() 
 {
-    global $pnt_prefix, $pnt_db, $language, $multilingual, $Version_Num, $admin_file, $aid, $pnt_module, $bgcolor1;
+    global $prefix, $db, $language, $multilingual, $Version_Num, $admin_file, $aid, $module_name, $bgcolor1;
 
     include(NUKE_BASE_DIR.'header.php');
 
@@ -2332,19 +2332,19 @@ function adminStory()
 /*****[END]********************************************
  [ Mod:     Blog BBCodes                       v1.0.0 ]
  ******************************************************/
-    $toplist = $pnt_db->sql_query("SELECT topicid, topictext from ".$pnt_prefix."_topics ORDER by topictext");
+    $toplist = $db->sql_query("SELECT topicid, topictext from ".$prefix."_topics ORDER by topictext");
     
 	echo "<select name=\"topic\">";
     echo "<option value=\"\">"._SELECTTOPIC."</option>\n";
     
-	while(list($topicid, $phpbb2_topics) = $pnt_db->sql_fetchrow($toplist)) 
+	while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) 
 	{
         $topicid = intval($topicid);
         
 		if ($topicid == $topic) 
         $sel = "selected ";
         
-		echo "<option $sel value=\"$topicid\">$phpbb2_topics</option>\n";
+		echo "<option $sel value=\"$topicid\">$topics</option>\n";
         
 		$sel = "";
     }
@@ -2355,11 +2355,11 @@ function adminStory()
 	{
         echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
             ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
-        $sql = "SELECT topicid, topictext FROM ".$pnt_prefix."_topics ORDER BY topictext";
-        $result = $pnt_db->sql_query($sql);
+        $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
+        $result = $db->sql_query($sql);
         $a = 0;
     
-	    while ($row = $pnt_db->sql_fetchrow($result)) 
+	    while ($row = $db->sql_fetchrow($result)) 
 		{
             if ($a == 3) 
 			{
@@ -2532,7 +2532,7 @@ function previewAdminStory($automated,
 						  $optionText, 
 						     $assotop) 
 {
-    global $pnt_user, $admin_file, $bgcolor1, $bgcolor2, $pnt_prefix, $pnt_db, $alanguage, $multilingual, $Version_Num;
+    global $user, $admin_file, $bgcolor1, $bgcolor2, $prefix, $db, $alanguage, $multilingual, $Version_Num;
     
 	include(NUKE_BASE_DIR.'header.php');
 
@@ -2578,9 +2578,9 @@ function previewAdminStory($automated,
     $subject = str_replace("\"", "''", $subject);
     $hometext = stripslashes($hometext);
     $bodytext = stripslashes($bodytext);
-    $result=$pnt_db->sql_query("select topicimage, topicname, topictext  from ".$pnt_prefix."_topics where topicid='$topic'");
+    $result=$db->sql_query("select topicimage, topicname, topictext  from ".$prefix."_topics where topicid='$topic'");
 
-    list($topicimage, $topicname, $topictext) = $pnt_db->sql_fetchrow($result);
+    list($topicimage, $topicname, $topictext) = $db->sql_fetchrow($result);
 
 /*****[BEGIN]******************************************
  [ Mod:     Blog BBCodes                       v1.0.0 ]
@@ -2610,18 +2610,18 @@ function previewAdminStory($automated,
         ."<input type=\"text\" name=\"subject\" size=\"50\" value=\"$subject\"><br /><br />"
         ."<strong>"._TOPIC."</strong><select name=\"topic\">";
     
-	$toplist = $pnt_db->sql_query("SELECT topicid, topictext FROM ".$pnt_prefix."_topics ORDER by topictext");
+	$toplist = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_topics ORDER by topictext");
     
 	echo "<option value=\"\">"._ALLTOPICS."</option>\n";
     
-	while(list($topicid, $phpbb2_topics) = $pnt_db->sql_fetchrow($toplist)) 
+	while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) 
 	{
         $topicid = intval($topicid);
     
 	    if ($topicid==$topic) 
         $sel = "selected ";
         
-		echo "<option $sel value=\"$topicid\">$phpbb2_topics</option>\n";
+		echo "<option $sel value=\"$topicid\">$topics</option>\n";
         $sel = "";
     }
 
@@ -2640,10 +2640,10 @@ function previewAdminStory($automated,
 		echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
             ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
 
-        $sql = "SELECT topicid, topictext FROM ".$pnt_prefix."_topics ORDER BY topictext";
-        $result = $pnt_db->sql_query($sql);
+        $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
+        $result = $db->sql_query($sql);
         
-		while ($row = $pnt_db->sql_fetchrow($result)) 
+		while ($row = $db->sql_fetchrow($result)) 
 		{
             if ($a == 3) 
 			{
@@ -2841,7 +2841,7 @@ function postAdminStory($automated,
 					   $optionText, 
 					      $assotop) 
 {
-    global $ultramode, $aid, $pnt_prefix, $pnt_db, $Version_Num, $admin_file;
+    global $ultramode, $aid, $prefix, $db, $Version_Num, $admin_file;
     
 	// Copyright (c) 2000-2005 by NukeScripts Network
     if($Version_Num >= 6.6) 
@@ -2875,7 +2875,7 @@ function postAdminStory($automated,
         $notes = Fix_Quotes($notes);
         
 		// Copyright (c) 2000-2005 by NukeScripts Network
-        $new_sql  = "INSERT INTO ".$pnt_prefix."_autonews values (NULL, 
+        $new_sql  = "INSERT INTO ".$prefix."_autonews values (NULL, 
 		                                                   '$catid', 
 														     '$aid', 
 													     '$subject', 
@@ -2892,18 +2892,18 @@ function postAdminStory($automated,
 													  '$associated', 
 													  '$topic_icon', 
 													      '$writes')";
-        $result = $pnt_db->sql_query($new_sql);
+        $result = $db->sql_query($new_sql);
         // Copyright (c) 2000-2005 by NukeScripts Network
 
         if (!$result) 
 	    exit(); 
         
-		$result = $pnt_db->sql_query("UPDATE ".$pnt_prefix."_authors SET counter=counter+1 WHERE aid='$aid'");
+		$result = $db->sql_query("UPDATE ".$prefix."_authors SET counter=counter+1 WHERE aid='$aid'");
         
 		if ($ultramode) 
         blog_ultramode();
         
-		redirect_titanium($admin_file.".php?op=adminStory");
+		redirect($admin_file.".php?op=adminStory");
     } 
 	else 
 	{
@@ -2917,14 +2917,14 @@ function postAdminStory($automated,
             $timeStamp = time();
             $pollTitle = Fix_Quotes($pollTitle);
 
-            if(!$pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_poll_desc VALUES (NULL, '$pollTitle', 
+            if(!$db->sql_query("INSERT INTO ".$prefix."_poll_desc VALUES (NULL, '$pollTitle', 
 			                                                                    '$timeStamp', 
 																				         '0', 
 																				'$alanguage', 
 																				         '0')")) 
                                                                                   return;
             
-			$object = $pnt_db->sql_fetchrow($pnt_db->sql_query("SELECT pollID FROM ".$pnt_prefix."_poll_desc WHERE pollTitle='$pollTitle'"));
+			$object = $db->sql_fetchrow($db->sql_query("SELECT pollID FROM ".$prefix."_poll_desc WHERE pollTitle='$pollTitle'"));
             
 			$id = $object["pollID"];
             $id = intval($id);
@@ -2934,7 +2934,7 @@ function postAdminStory($automated,
                 if(!empty($optionText[$i])) 
                 $optionText[$i] = Fix_Quotes($optionText[$i]);
                 
-				if(!$pnt_db->sql_query("INSERT INTO ".$pnt_prefix."_poll_data (pollID, 
+				if(!$db->sql_query("INSERT INTO ".$prefix."_poll_data (pollID, 
 				                                                   optionText, 
 																  optionCount, 
 																       voteID) 
@@ -2955,7 +2955,7 @@ function postAdminStory($automated,
         
 		
 		// Copyright (c) 2000-2005 by NukeScripts Network 
-        $new_sql  = "INSERT INTO ".$pnt_prefix."_stories values (NULL, 
+        $new_sql  = "INSERT INTO ".$prefix."_stories values (NULL, 
 		                                                 '$catid', 
 														   '$aid', 
 													   '$subject', 
@@ -2978,33 +2978,33 @@ function postAdminStory($automated,
 													'$associated', 
 													'$topic_icon', 
 													    '$writes')";
-        $result = $pnt_db->sql_query($new_sql);
+        $result = $db->sql_query($new_sql);
 		
         // Copyright (c) 2000-2005 by NukeScripts Network
 
-        $result = $pnt_db->sql_query("SELECT sid from ".$pnt_prefix."_stories WHERE title='$subject' ORDER by datePublished DESC limit 0,1");
+        $result = $db->sql_query("SELECT sid from ".$prefix."_stories WHERE title='$subject' ORDER by datePublished DESC limit 0,1");
         
-		list($artid) = $pnt_db->sql_fetchrow($result);
+		list($artid) = $db->sql_fetchrow($result);
         
 		$artid = intval($artid);
         
-		$pnt_db->sql_query("UPDATE ".$pnt_prefix."_poll_desc SET artid='$artid' WHERE pollID='$id'");
+		$db->sql_query("UPDATE ".$prefix."_poll_desc SET artid='$artid' WHERE pollID='$id'");
        
 	    if (!$result) 
         exit();
         
-		$result = $pnt_db->sql_query("UPDATE ".$pnt_prefix."_authors SET counter=counter+1 WHERE aid='$aid'");
+		$result = $db->sql_query("UPDATE ".$prefix."_authors SET counter=counter+1 WHERE aid='$aid'");
         
 		if ($ultramode) 
         blog_ultramode();
         
-		redirect_titanium($admin_file.".php?op=adminStory");
+		redirect($admin_file.".php?op=adminStory");
     }
 }
 
 function submissions() 
 {
-    global $admin, $admin_file, $bgcolor1, $bgcolor2, $pnt_prefix, $pnt_db, $anonymous, $multilingual, $pnt_module;
+    global $admin, $admin_file, $bgcolor1, $bgcolor2, $prefix, $db, $anonymous, $multilingual, $module_name;
 
     $dummy = 0;
 
@@ -3015,9 +3015,9 @@ function submissions()
 	echo "<div align=\"center\"><a href=\"$admin_file.php?op=submissions\"><strong>Blog Submissions</strong></a></div>"; 
 	echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
 
-    $result = $pnt_db->sql_query("SELECT qid, uid, uname, subject, timestamp, alanguage FROM ".$pnt_prefix."_queue order by timestamp DESC");
+    $result = $db->sql_query("SELECT qid, uid, uname, subject, timestamp, alanguage FROM ".$prefix."_queue order by timestamp DESC");
         
-		if($pnt_db->sql_numrows($result) == 0) 
+		if($db->sql_numrows($result) == 0) 
             echo "<table width=\"100%\"><tr><td align=\"center\"><strong>"._NOSUBMISSIONS."</strong></td></tr></table>\n";
 		else 
 		{
@@ -3028,7 +3028,7 @@ function submissions()
 
             echo "<td><center><strong>&nbsp;"._AUTHOR."&nbsp;</strong></center></td><td><center><strong>&nbsp;"._DATE."&nbsp;</strong></center></td><td><center><strong>&nbsp;"._FUNCTIONS."&nbsp;</strong></center></td></tr>\n";
             
-			while (list($qid, $uid, $uname, $subject, $timestamp, $alanguage) = $pnt_db->sql_fetchrow($result)) 
+			while (list($qid, $uid, $uname, $subject, $timestamp, $alanguage) = $db->sql_fetchrow($result)) 
 			{
                 $qid = intval($qid);
                 $uid = intval($uid);
@@ -3073,7 +3073,7 @@ function submissions()
             echo "</table></form>\n";
         }
        
-	      if (is_mod_admin($pnt_module)) 
+	      if (is_mod_admin($module_name)) 
 		  {
              echo "<br /><center>"
             ."[ <a href=\"".$admin_file.".php?op=subdelete\">"._DELETE."</a> ]"
@@ -3087,8 +3087,8 @@ function submissions()
 
 function subdelete() 
 {
-    global $pnt_prefix, $pnt_db, $admin_file, $cache;
-    $pnt_db->sql_query("delete from ".$pnt_prefix."_queue");
+    global $prefix, $db, $admin_file, $cache;
+    $db->sql_query("delete from ".$prefix."_queue");
 
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -3098,7 +3098,7 @@ function subdelete()
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 
-    redirect_titanium($admin_file.".php?op=adminStory");
+    redirect($admin_file.".php?op=adminStory");
 }
 
 switch($op) 
@@ -3245,7 +3245,7 @@ switch($op)
         
 		include(NUKE_BASE_DIR.'header.php');
         
-        $blog_config = blog_get_configs();
+        $ne_config = ne_get_configs();
 
         OpenTable();
 	    
@@ -3257,7 +3257,7 @@ switch($op)
 
         echo "<tr>\n<td align='right'><strong>"._NE_DISPLAYTYPE.":</strong></td>\n<td><select name='xcolumns'>";
         
-		if ($blog_config["columns"] == 0) 
+		if ($ne_config["columns"] == 0) 
 		{ 
 		  $ck1 = " selected"; 
 		  $ck2 = ""; 
@@ -3272,7 +3272,7 @@ switch($op)
 
         echo "<tr>\n<td align='right'><strong>"._NE_READLINK.":</strong></td>\n<td><select name='xreadmore'>";
         
-		if ($blog_config["readmore"] == 0) 
+		if ($ne_config["readmore"] == 0) 
 		{ 
 		  $ck1 = " selected"; 
 		  $ck2 = ""; 
@@ -3287,7 +3287,7 @@ switch($op)
 
         echo "<tr>\n<td align='right'><strong>"._NE_TEXTTYPE.":</strong></td>\n<td><select name='xtexttype'>";
         
-		if ($blog_config["texttype"] == 0) 
+		if ($ne_config["texttype"] == 0) 
 		{ 
 		  $ck1 = " selected"; 
 		  $ck2 = ""; 
@@ -3302,7 +3302,7 @@ switch($op)
 
         echo "<tr>\n<td align='right' valign='top'><strong>"._NE_NOTIFYAUTH.":</strong></td>\n<td><select name='xnotifyauth'>";
         
-		if ($blog_config["notifyauth"] == 0) 
+		if ($ne_config["notifyauth"] == 0) 
 		{ 
 		  $ck1 = " selected"; 
 		  $ck2 = ""; 
@@ -3318,17 +3318,17 @@ switch($op)
         echo "<tr>\n<td align='right'><strong>"._NE_HOMETOPIC.":</strong></td>\n<td><select name='xhometopic'>";
         echo "<option value='0'";
         
-		if ($blog_config["hometopic"] == 0) 
+		if ($ne_config["hometopic"] == 0) 
 		echo " selected"; 
         
 		echo ">"._NE_ALLTOPICS."</option>\n";
-        $result = $pnt_db->sql_query("SELECT topicid, topictext FROM ".$pnt_prefix."_topics ORDER BY topictext");
+        $result = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext");
         
-		while(list($topicid, $topicname) = $pnt_db->sql_fetchrow($result)) 
+		while(list($topicid, $topicname) = $db->sql_fetchrow($result)) 
 		{
             echo "<option value='$topicid'";
         
-		    if ($blog_config["hometopic"] == $topicid) 
+		    if ($ne_config["hometopic"] == $topicid) 
 			echo " selected"; 
             
 			echo">$topicname</option>\n";
@@ -3339,7 +3339,7 @@ switch($op)
         echo "<tr>\n<td align='right' valign='top'><strong>"._NE_HOMENUMBER.":</strong></td>\n<td><select name='xhomenumber'>\n";
         echo "<option value='0'";
         
-		if ($blog_config["homenumber"] == 0) 
+		if ($ne_config["homenumber"] == 0) 
 		echo " selected"; 
         
 		echo ">"._NE_NUKEDEFAULT."</option>\n";
@@ -3351,7 +3351,7 @@ switch($op)
         
 		    echo "<option value='$k'";
         
-		    if ($blog_config["homenumber"] == $k) 
+		    if ($ne_config["homenumber"] == $k) 
 			echo " selected"; 
         
 		    echo">$k "._NE_ARTICLES."</option>\n";
@@ -3369,12 +3369,12 @@ switch($op)
     break;
 
     case "NENewsConfigSave":
-        blogs_save_config('columns', $xcolumns);
-        blogs_save_config('readmore', $xreadmore);
-        blogs_save_config('texttype', $xtexttype);
-        blogs_save_config('notifyauth', $xnotifyauth);
-        blogs_save_config('homenumber', $xhomenumber);
-        blogs_save_config('hometopic', $xhometopic);
+        ne_save_config('columns', $xcolumns);
+        ne_save_config('readmore', $xreadmore);
+        ne_save_config('texttype', $xtexttype);
+        ne_save_config('notifyauth', $xnotifyauth);
+        ne_save_config('homenumber', $xhomenumber);
+        ne_save_config('hometopic', $xhometopic);
 
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -3385,11 +3385,11 @@ switch($op)
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 
-        redirect_titanium($admin_file.".php?op=NENewsConfig");
+        redirect($admin_file.".php?op=NENewsConfig");
     break;
   }
 } 
 else 
-DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$pnt_module\"");
+DisplayError("<strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$module_name\"");
 ?>
 

@@ -27,15 +27,15 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $pnt_prefix, $pnt_db;
+global $prefix, $db;
 
-$sql = "SELECT id, title FROM ".$pnt_prefix."_reviews ORDER BY id DESC LIMIT 0,10";
-$result = $pnt_db->sql_query($sql);
-while (list($id, $title) = $pnt_db->sql_fetchrow($result)) {
+$sql = "SELECT id, title FROM ".$prefix."_reviews ORDER BY id DESC LIMIT 0,10";
+$result = $db->sql_query($sql);
+while (list($id, $title) = $db->sql_fetchrow($result)) {
     $id = intval($id);
     $title = stripslashes($title);
     $content .= "<strong><big>&middot;</big></strong>&nbsp;<a href=\"modules.php?name=Reviews&amp;rop=showcontent&amp;id=$id\">$title</a><br />";
 }
-$pnt_db->sql_freeresult($result);
+$db->sql_freeresult($result);
 
 ?>
