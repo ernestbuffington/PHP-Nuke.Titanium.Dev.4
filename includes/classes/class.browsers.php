@@ -1,8 +1,11 @@
 <?php 
 	/**
-	 * File: Browser.php
-	 * Author: Chris Schuld (http://chrisschuld.com/)
-	 * Last Modified: August 20th, 2010, Last Modified: April 14th, 2020
+	 * File: includes/classes/class.browsers.php
+	 * Contributor(s): Ernest Allen Buffington (ernest.buffington@gmail.com)
+	 * Original Author: Chris Schuld (http://chrisschuld.com/)
+	 * Last Modified: August 20th, 2010 
+	 * Last Modified: April 14th, 2020
+	 * Last Modified: October 9th 2022
 	 * @version 1.9 to 1.9.6
 	 * @package PegasusPHP
 	 *
