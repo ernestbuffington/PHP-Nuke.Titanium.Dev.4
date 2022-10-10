@@ -5,11 +5,11 @@
 /* Copyright (c) 2021 by The 86it Developers Network          			*/
 /* http://www.86it.us                                                   */
 /************************************************************************/
-$module_name = basename(dirname(__FILE__));
+$module = basename(dirname(__FILE__));
 $mod_name = 'Google Site Map';
 $author_name = 'Ernest Buffington';
 $author_email = 'ernest.buffington@gmail.com';
-$author_homepage = 'http://theghost.86it.us';
+$author_homepage = 'http://php-nuke-titanium.86it.us';
 $license = 'GNU/GPL';
 $download_location = 'http://www.86it.us';
 $module_version = 'v1.0b';
@@ -19,9 +19,9 @@ $mod_cost = '$300.00 US Dollars';
 
 function show_copyright() 
 {
-    global $mod_cost, $forum, $mod_name, $module_name, $release_date, $author_name, $author_email, $author_homepage, $license, $download_location, $module_version, $module_description;
+    global $mod_cost, $forum, $mod_name, $module, $release_date, $author_name, $author_email, $author_homepage, $license, $download_location, $module_version, $module_description;
 
-    if ($mod_name == "") { $mod_name = str_replace("-", " ", $module_name); }
+    if ($mod_name == "") { $mod_name = str_replace("-", " ", $module); }
 
     print '<html>';
     print '<head><title>'.$mod_name.': Copyright Information</title></head>';

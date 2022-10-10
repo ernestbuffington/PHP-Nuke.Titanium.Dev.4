@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- Nuke-Evolution		: 	Enhanced Web Portal System
+ PHP-Nuke Titanium : Enhanced and Advanced Web Portal System
  ========================================================================
  (c) 2007 - 2008 by DarkForgeGFX - http://www.darkforgegfx.com
  ========================================================================
@@ -85,7 +85,7 @@ $content .= '<br /><br />';
 $content .= '<a href="modules.php?name=Link_Us">View All Buttons</a><br />';
 
 if($config['user_submit'] == 1)
-$content .= '<a href="modules.php?name=Link_Us&op=submitbutton">Submit Button</a><br /><br />'; 
+$content .= '<div align=\"center\"><a href="modules.php?name=Link_Us&op=submitbutton">Submit Button</a></div><br /><br />'; 
 
 $content .= '';
 

@@ -1,12 +1,14 @@
 <?php
-function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid) 
-{
+
+function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid) {
+
     global $currentlang, $cache, $top_content, $mid_content, $bottom_content, $ShoutMarqueeheight, $nsnst_const, $userinfo, $prefix, $db, $top_out, $board_config;
 	
-    if (!empty($currentlang)) 
-    include_once(NUKE_MODULES_DIR.'Shout_Box/lang-block/lang-'.$currentlang.'.php');
-    else 
-    include_once(NUKE_MODULES_DIR.'Shout_Box/lang-block/lang-english.php');
+    if (!empty($currentlang)) {
+        include_once(NUKE_MODULES_DIR.'Shout_Box/lang-block/lang-'.$currentlang.'.php');
+    } else {
+        include_once(NUKE_MODULES_DIR.'Shout_Box/lang-block/lang-english.php');
+    }
 
     $PreviousShoutComment = $ShoutComment;
     $BannedShouter = '';
@@ -14,8 +16,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
     $is_user = is_user();
     $username = $userinfo['username'];
 
-    if ((($conf = $cache->load('conf', 'shoutbox')) == false) || empty($conf)) 
-	{
+    if ((($conf = $cache->load('conf', 'shoutbox')) == false) || empty($conf)) {
         $sql = "SELECT * FROM `".$prefix."_shoutbox_conf`";
         $result = $db->sql_query($sql);
         $conf = $db->sql_fetchrow($result);
@@ -23,8 +24,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
         $db->sql_freeresult($result);
     }
 
-    if ((($nameblock = $cache->load('nameblock', 'shoutbox')) == false) || empty($nameblock)) 
-	{
+    if ((($nameblock = $cache->load('nameblock', 'shoutbox')) == false) || empty($nameblock)) {
         $sql = "SELECT `name` FROM ".$prefix."_shoutbox_nameblock";
         $nameresult = $db->sql_query($sql);
         while ($row = $db->sql_fetchrow($nameresult)) {
@@ -34,8 +34,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
         $db->sql_freeresult($nameresult);
     }
 
-    if ((($censor = $cache->load('censor', 'shoutbox')) == false) || empty($censor)) 
-	{
+    if ((($censor = $cache->load('censor', 'shoutbox')) == false) || empty($censor)) {
         $sql = "SELECT * FROM ".$prefix."_shoutbox_censor";
         $result = $db->sql_query($sql);
         while ($row = $db->sql_fetchrow($result)) {
@@ -49,48 +48,33 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
     $sql = "SELECT `bposition` FROM `".$prefix."_blocks` WHERE `blockfile`='block-Shout_Box.php'";
     $SBpos = $db->sql_query($sql);
     $SBpos = $db->sql_fetchrow($SBpos);
-    
-	if ($SBpos['bposition'] == 'c' || $SBpos['bposition'] == 'd') 
-	{
+    if ($SBpos['bposition'] == 'c' || $SBpos['bposition'] == 'd') {
         $SBpos = 'center';
         $SBborder = 1;
-    } 
-	else 
-	{
+    } else {
         $SBpos = 'side';
         $SBborder = 0;
     }
     $db->sql_freeresult($SBpos);
 
-    if (isset($nsnst_const['remote_ip']) && !empty($nsnst_const['remote_ip'])) 
-	{
+    if (isset($nsnst_const['remote_ip']) && !empty($nsnst_const['remote_ip'])) {
         $uip = $nsnst_const['remote_ip'];
-    } 
-	else 
-	{
+    } else {
         $uip = '';
     }
 
     //do IP test then ban if on list
-    if($conf['ipblock']== 'yes') 
-	{
+    if($conf['ipblock']== 'yes') {
         $sql = "SELECT `name` FROM `".$prefix."_shoutbox_ipblock`";
         $ipresult = $db->sql_query($sql);
-    
-	    while ($badips = $db->sql_fetchrow($ipresult)) 
-		{
-            if (preg_match("/\[\*\]/i", $badips['name'])) 
-			{ // Allow for Subnet bans like 123.456.*
+        while ($badips = $db->sql_fetchrow($ipresult)) {
+            if (preg_match("/\[\*\]/i", $badips['name'])) { // Allow for Subnet bans like 123.456.*
                 $badipsArray = explode(".",$badips['name']);
                 $uipArray = explode(".",$uip);
                 $i = 0;
-            
-			    if (is_array($badipsArray)) 
-				{
-                    foreach($badipsArray as $badipsPart) 
-					{
-                        if ($badipsPart == "*") 
-						{
+                if (is_array($badipsArray)) {
+                    foreach($badipsArray as $badipsPart) {
+                        if ($badipsPart == "*") {
                             $BannedShouter = "yes";
                             break;
                         }
@@ -98,11 +82,8 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
                         $i++;
                     }
                 }
-            } 
-			else 
-			{
-                if($uip == $badips['name']) 
-				{
+            } else {
+                if($uip == $badips['name']) {
                     $BannedShouter = "yes";
                     break;
                 }
@@ -111,99 +92,52 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
         $db->sql_freeresult($ipresult);
     }
     //do name test then ban if on list (only applies to registered users)
-    if ($conf['nameblock']== 'yes'  && $BannedShouter != "yes") 
-	{
-        if (is_array($nameblock)) 
-		{
-            foreach ($nameblock as $name) 
-			{
-                if ($username == $name['name']) 
-				{
+    if ($conf['nameblock']== 'yes'  && $BannedShouter != "yes") {
+        if (is_array($nameblock)) {
+            foreach ($nameblock as $name) {
+                if ($username == $name['name']) {
                     $BannedShouter = "yes";
                     break;
                 }
             }
         }
     }
-    
-	if ($BannedShouter != "yes") 
-	{
-        if ($ShoutSubmit == "ShoutPost") 
-		{
+    if ($BannedShouter != "yes") {
+        if ($ShoutSubmit == "ShoutPost") {
 			// start processing shout
-			if (isset($shoutuid) && !empty($shoutuid)) 
-			{
+			if (isset($shoutuid) && !empty($shoutuid)) {
 				$username = $shoutuid;
 			}
 			
 			// remove whitespace off ends of nickname
 			$username = trim($username);
 			
-			if($conf['anonymouspost']== 'yes') 
-			{
+			if($conf['anonymouspost']== 'yes') {
 				$unum = strlen($username);
-			
-				if ($unum < 2) 
-				{ 
-				  $ShoutError = _NICKTOOSHORT; 
-				}
-				
-				if (!$username || $username == _NAME) 
-				{ 
-				   $ShoutError = _NONICK; 
-				}
-				
-				if (preg_match("/\.xxx/i", $username) && $conf['blockxxx']== 'yes') 
-				{ 
-				  $username = "Anonymous"; 
-				}
-				
-				if (preg_match("#javascript:(.*)#i", $username)) 
-				{ 
-				   $username = "Anonymous"; 
-				}
+				if ($unum < 2) { $ShoutError = _NICKTOOSHORT; }
+				if (!$username || $username == _NAME) { $ShoutError = _NONICK; }
+				if (preg_match("/\.xxx/i", $username) && $conf['blockxxx']== 'yes') { $username = "Anonymous"; }
+				if (preg_match("#javascript:(.*)#i", $username)) { $username = "Anonymous"; }
 				$username = htmlspecialchars($username, ENT_QUOTES);
 				$username = str_replace("&amp;amp;", "&amp;",$username);
 			}
-			
-			if (!$is_user && !empty($username) && $username != "Anonymous") 
-			{
+			if (!$is_user && !empty($username) && $username != "Anonymous") {
 				$username = str_replace(" ", "_",$username);
 			}
 
 			$ShoutComment = trim($ShoutComment); // remove whitespace off ends of shout
 			$ShoutComment = preg_replace('/\s+/', ' ', $ShoutComment); // convert double spaces in middle of shout to single space
 			$num = strlen($ShoutComment);
-			
-			if ($num < 1) 
-			{ 
-			  $ShoutError = _SHOUTTOOSHORT; 
-			}
-			
-			if ($num > 2500) 
-			{ 
-			  $ShoutError = _SHOUTTOOLONG; 
-			}
-			
-			if (!$ShoutComment) 
-			{ 
-			   $ShoutError = _NOSHOUT; 
-			}
-			
-			if ($ShoutComment == _SB_MESSAGE) 
-			{ 
-			   $ShoutError = _NOSHOUT; 
-			}
+			if ($num < 1) { $ShoutError = _SHOUTTOOSHORT; }
+			if ($num > 2500) { $ShoutError = _SHOUTTOOLONG; }
+			if (!$ShoutComment) { $ShoutError = _NOSHOUT; }
+			if ($ShoutComment == _SB_MESSAGE) { $ShoutError = _NOSHOUT; }
 			$ShoutComment = str_replace(" [.] ", ".",$ShoutComment);
-			
-			if (preg_match("/\.xxx/i", $ShoutComment) && $conf['blockxxx']== 'yes') 
-			{
+			if (preg_match("/\.xxx/i", $ShoutComment) && $conf['blockxxx']== 'yes') {
 				$ShoutError = _XXXBLOCKED;
 				$PreviousShoutComment = '';
 			}
-			
-			if (preg_match("#javascript:(.*)#i", $ShoutComment)) 
-			{
+			if (preg_match("#javascript:(.*)#i", $ShoutComment)) {
 				$ShoutError = _JSINSHOUT;
 				$PreviousShoutComment = '';
 			}
@@ -215,68 +149,29 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
 			$i = 0;
 			$ShoutNew = '';
 			$ShoutArray = explode(" ",$ShoutComment);
-			
-			if (is_array($ShoutArray)) 
-			{
-				foreach($ShoutArray as $ShoutPart) 
-				{
-					if (is_array($ShoutPart)) 
-					{ 
-					  $ShoutPart = $ShoutPart[0]; 
-					}
-					
-					if (preg_match("#http://#i", $ShoutPart)) 
-					{
-						if ((!$is_user && $conf['urlanononoff'] == 'no') || ($is_user && $conf['urlonoff'] == 'no')) 
-						{ 
-						  $ShoutError = _URLNOTALLOWED; 
-						  break; 
-						 }
-						
+			if (is_array($ShoutArray)) {
+				foreach($ShoutArray as $ShoutPart) {
+					if (is_array($ShoutPart)) { $ShoutPart = $ShoutPart[0]; }
+					if (preg_match("#http://#i", $ShoutPart)) {
+						if ((!$is_user && $conf['urlanononoff'] == 'no') || ($is_user && $conf['urlonoff'] == 'no')) { $ShoutError = _URLNOTALLOWED; break; }
 						// fix for users adding text to the beginning of links: HACKhttp://www.website.com
 						$ShoutPartL = strtolower($ShoutPart);
 						$spot = strpos($ShoutPartL,"http://");
-						
-						if ($spot > 0) 
-						{ 
-						  $ShoutPart = substr($ShoutPart, $spot); 
-						}
+						if ($spot > 0) { $ShoutPart = substr($ShoutPart, $spot); }
 						$ShoutNew[$i] = "&#91;<a rel=\"nofollow\" target=\"_blank\" href=\"$ShoutPart\">URL</a>&#93;";
-					} 
-					elseif (preg_match("#ftp://#i", $ShoutPart)) 
-					{
-						if ((!$is_user && $conf['urlanononoff'] == 'no') || ($is_user && $conf['urlonoff'] == 'no')) 
-						{ 
-						  $ShoutError = _URLNOTALLOWED; 
-						  break; 
-						}
+					} elseif (preg_match("#ftp://#i", $ShoutPart)) {
+						if ((!$is_user && $conf['urlanononoff'] == 'no') || ($is_user && $conf['urlonoff'] == 'no')) { $ShoutError = _URLNOTALLOWED; break; }
 						$ShoutPartL = strtolower($ShoutPart);
 						$spot = strpos($ShoutPartL,"ftp://");
-						
-						if ($spot > 0) 
-						{ 
-						  $ShoutPart = substr($ShoutPart, $spot); 
-						}
+						if ($spot > 0) { $ShoutPart = substr($ShoutPart, $spot); }
 						$ShoutNew[$i] = "&#91;<a rel=\"nofollow\" target=\"_blank\" href=\"$ShoutPart\">FTP</a>&#93;";
-					} 
-					elseif (preg_match("#irc://#i", $ShoutPart)) 
-					{
-						if ((!$is_user && $conf['urlanononoff'] == 'no') || ($is_user && $conf['urlonoff'] == 'no')) 
-						{ 
-						  $ShoutError = _URLNOTALLOWED; break; 
-						}
-						
+					} elseif (preg_match("#irc://#i", $ShoutPart)) {
+						if ((!$is_user && $conf['urlanononoff'] == 'no') || ($is_user && $conf['urlonoff'] == 'no')) { $ShoutError = _URLNOTALLOWED; break; }
 						$ShoutPartL = strtolower($ShoutPart);
 						$spot = strpos($ShoutPartL,"irc://");
-						
-						if ($spot > 0) 
-						{ 
-						  $ShoutPart = substr($ShoutPart, $spot); 
-						}
+						if ($spot > 0) { $ShoutPart = substr($ShoutPart, $spot); }
 						$ShoutNew[$i] = "&#91;<a rel=\"nofollow\" href=\"$ShoutPart\">IRC</a>&#93;";
-					} 
-					elseif (preg_match("#teamspeak://#i", $ShoutPart)) 
-					{
+					} elseif (preg_match("#teamspeak://#i", $ShoutPart)) {
 						if ((!$is_user && $conf['urlanononoff'] == 'no') || ($is_user && $conf['urlonoff'] == 'no')) { $ShoutError = _URLNOTALLOWED; break; }
 						$ShoutPartL = strtolower($ShoutPart);
 						$spot = strpos($ShoutPartL,"teamspeak://");
@@ -344,9 +239,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
 					$i++;
 				}
 			}
-			
-			# was told to comment this out on Lonestars website
-			//if (empty($ShoutError)) { $ShoutComment = implode(" ",$ShoutNew); }
+			if (empty($ShoutError)) { $ShoutComment = implode(" ",$ShoutNew); }
 
 			//Smilies from database
 			$ShoutArrayReplace = explode(" ",$ShoutComment);
@@ -626,48 +519,36 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
      [ Mod:    Advanced Username Color             v1.0.5 ]
      ******************************************************/
             }
-            else 
-			{
+            else {
                 // check to see if nickname is a user in the DB
                 $sqlN = "SELECT * FROM `".$prefix."_users` WHERE `username`='".$row['name']."'";
                 $nameresultN = $db->sql_query($sqlN);
                 $rowN = $db->sql_fetchrow($nameresultN);
                 $db->sql_freeresult($nameresultN);
-                
-				if ($rowN && ($row['name'] != "Anonymous")) 
-				{
+                if ($rowN && ($row['name'] != "Anonymous")) {
     /*****[BEGIN]******************************************
      [ Mod:    Advanced Username Color             v1.0.5 ]
      ******************************************************/
-                    $tempContent[$i] .= "<strong><a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$row[name]\">".UsernameColor($row['name'])."</a>&nbsp;&nbsp;<i class=\"bi bi-megaphone\"></i>&nbsp;</strong> $ShoutComment";
+                    $tempContent[$i] .= "<strong><a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$row[name]\">" . UsernameColor($row['name']) . "</a>:</strong> $ShoutComment";
     /*****[END]********************************************
      [ Mod:    Advanced Username Color             v1.0.5 ]
      ******************************************************/
-                } 
-				else 
-				{
-                    $tempContent[$i] .= "<strong>".$row['name']."&nbsp;&nbsp;<i class=\"bi bi-megaphone\"></i>&nbsp;</strong> $ShoutComment";
+                } else {
+                    $tempContent[$i] .= "<strong>".$row['name'].":</strong> $ShoutComment";
                 }
             }
-            if ($conf['date']== 'yes') 
-			{
-                if (!empty($row['timestamp'])) 
-				{
+            if ($conf['date']== 'yes') {
+                if (!empty($row['timestamp'])) {
                     // reads unix timestamp && formats it to the viewer's timezone
-                    if ($is_user) 
-					{
+                    if ($is_user) {
                         $unixTime = EvoDate($userinfo['user_dateformat'], $row['timestamp'], $userinfo['user_timezone']);
-                        $tempContent[$i] .= "<br />$unixTime<br /><br />"; # added a space between shouts
-                    } 
-					else 
-					{
+                        $tempContent[$i] .= "<br />$unixTime";
+                    } else {
                         $unixTime = EvoDate($board_config['default_dateformat'], $row['timestamp'], $board_config['board_timezone']);
-                        $tempContent[$i] .= "<br />$unixTime<br /><br />"; # added a space between shouts
+                        $tempContent[$i] .= "<br />$unixTime";
                     }
-                } 
-				else 
-				{
-                    $tempContent[$i] .= "<br />".$row['date']."&nbsp;".$row['time']."<br /><br />"; # added a space between shouts
+                } else {
+                    $tempContent[$i] .= "<br />".$row['date']."&nbsp;".$row['time'];
                 }
             }
             $tempContent[$i] .= "</td></tr>";
@@ -690,7 +571,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
             }
         }
         // You may not remove or edit this copyright!!! Doing so violates the GPL license.
-        $mid_content .= "<tr><td align=\"right\"><a title=\"Free scripts!\" target=\"_blank\" href=\"https://ourscripts.86it.us\"><span style=\"font-size: 9;\">Shout Box &copy;</span></a></td></tr></table>";
+        $mid_content .= "<tr><td align=\"right\"><a title=\"Free scripts!\" target=\"_blank\" href=\"http://www.ourscripts.net\"><span style=\"font-size: 9;\">Shout Box &copy;</span></a></td></tr></table>";
         // end copyright.
         // end mid content
         // start bottom content $bottom_content
@@ -700,53 +581,30 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
         // bottom half
 		$bottom_content .= "<form name=\"shoutform1\" method=\"post\" action=\"modules.php?name=Your_Account\" style=\"margin-bottom: 0px; margin-top: 0px\" id=\"shoutform1\">";
 		
-        if ($conf['anonymouspost'] == 'no' && $username == 'Anonymous') 
-		{
+        if ($conf['anonymouspost'] == 'no' && $username == 'Anonymous') {
             $bottom_content .= "<div style=\"padding: 1px;\" align=\"center\" class=\"content\"><a href=\"modules.php?name=Shout_Box\">"._SHOUTHISTORY."</a>";
-            $bottom_content .= "&nbsp;<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=4\" onmouseout=\"SBspeed=1\"><img src=\"$up_img\" 
-			border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
-            
-			$bottom_content .= "&nbsp;<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=1-5\" onmouseout=\"SBspeed=1\"><img 
-			src=\"$down_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
-            
-			$bottom_content .= "&nbsp;<span style=\"cursor: wait;\" onmouseover=\"SBspeed=0\" onmouseout=\"SBspeed=1\"><img 
-			src=\"$pause_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
-            
-			$bottom_content .= "</div><div style=\"padding: 1px; text-align: center;\" class=\"content\"><br />"._ONLYREGISTERED." <a 
-			href=\"modules.php?name=Your_Account\">"._SHOUTLOGIN."</a> "._OR." <a href=\"modules.php?name=Your_Account&amp;op=new_user\">"._CREATEANACCT."</a>.</div>";
-        } 
-		else 
-		{
+            $bottom_content .= "&nbsp;<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=4\" onmouseout=\"SBspeed=1\"><img src=\"$up_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
+            $bottom_content .= "&nbsp;<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=1-5\" onmouseout=\"SBspeed=1\"><img src=\"$down_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
+            $bottom_content .= "&nbsp;<span style=\"cursor: wait;\" onmouseover=\"SBspeed=0\" onmouseout=\"SBspeed=1\"><img src=\"$pause_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
+            $bottom_content .= "</div><div style=\"padding: 1px; text-align: center;\" class=\"content\"><br />"._ONLYREGISTERED." <a href=\"modules.php?name=Your_Account\">"._SHOUTLOGIN."</a> "._OR." <a href=\"modules.php?name=Your_Account&amp;op=new_user\">"._CREATEANACCT."</a>.</div>";
+        } else {
             $bottom_content .= "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">";
-            $bottom_content .= "<tr>";
-        
-		    $bottom_content .= "<td align=\"center\"".(($SBpos == 'center') ? " colspan=\"".(($conf['anonymouspost']== 'yes' 
-			&& $username == 'Anonymous') ? '3' : '2')."\" style=\"padding: 5px 0;\"" : '') . ">";
-            
-			$bottom_content .= "<div align=\"center\"><a href=\"modules.php?name=Shout_Box\">"._SHOUTHISTORY."</a></div>";
-            $bottom_content .= "<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=4\" onmouseout=\"SBspeed=1\"><img 
-			src=\"$up_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
-            
-			$bottom_content .= "<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=1-5\" onmouseout=\"SBspeed=1\"><img 
-			src=\"$down_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
-            
-			$bottom_content .= "<span style=\"cursor: wait;\" onmouseover=\"SBspeed=0\" onmouseout=\"SBspeed=1\"><img 
-			src=\"$pause_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
-            
-			$bottom_content .= "</td>";
-            $bottom_content .= "</tr>\n";
+            $bottom_content .= "    <tr>";
+            $bottom_content .= "        <td align=\"center\"" . (($SBpos == 'center') ? " colspan=\"" . (($conf['anonymouspost']== 'yes' && $username == 'Anonymous') ? '3' : '2') . "\" style=\"padding: 5px 0;\"" : '') . ">";
+            $bottom_content .= "            <a href=\"modules.php?name=Shout_Box\">"._SHOUTHISTORY."</a>";
+            $bottom_content .= "            <span style=\"cursor: pointer;\" onmouseover=\"SBspeed=4\" onmouseout=\"SBspeed=1\"><img src=\"$up_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
+            $bottom_content .= "            <span style=\"cursor: pointer;\" onmouseover=\"SBspeed=1-5\" onmouseout=\"SBspeed=1\"><img src=\"$down_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
+            $bottom_content .= "            <span style=\"cursor: wait;\" onmouseover=\"SBspeed=0\" onmouseout=\"SBspeed=1\"><img src=\"$pause_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
+            $bottom_content .= "        </td>";
+            $bottom_content .= "    </tr>\n";
 			
             // Start smilie Drop-Down Code
             $messageDefinition = _SB_MESSAGE;
 
-            if (preg_match("/MSIE(.*)/i", $_SERVER['HTTP_USER_AGENT']) 
-			|| preg_match("/Konqueror\/3(.*)/i", $_SERVER['HTTP_USER_AGENT']) || (preg_match("/Opera(.*)/i", $_SERVER['HTTP_USER_AGENT']))) 
-			{
+            if (preg_match("/MSIE(.*)/i", $_SERVER['HTTP_USER_AGENT']) || preg_match("/Konqueror\/3(.*)/i", $_SERVER['HTTP_USER_AGENT']) || (preg_match("/Opera(.*)/i", $_SERVER['HTTP_USER_AGENT']))) {
                 $ShoutNameWidth = $conf['textWidth'];
                 $ShoutTextWidth = $conf['textWidth'];
-            } 
-			else 
-			{
+            } else {
                 // Firefox, Mozilla, NS, && any others.
                 $ShoutNameWidth = $conf['textWidth'] - 4;
                 $ShoutTextWidth = $conf['textWidth'] - 4;
@@ -755,83 +613,65 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
             if ($conf['anonymouspost']== 'yes' && $username == 'Anonymous') {
                 if ($PreviousUsername) { $boxtext = $PreviousUsername; } else { $boxtext = _NAME; }
                 
-				if ($SBpos == 'center') 
-				{
+				if ($SBpos == 'center') {
 					$bottom_content .= "<td align=\"center\" width=\"130\" valign=\"top\" style=\"padding-right: 10px;\"><input type=\"text\" name=\"shoutuid\" id=\"shoutuid\" size=\"$ShoutNameWidth\" value=\"$boxtext\" maxlength=\"25\" onfocus=\"if ( this.value == '"._NAME."' ) { this.value=''; }\" onblur=\"if (this.value == '') { this.value='"._NAME."' }\" style=\"width: 100%;\" /></td>\n";
-				} 
-				else 
-				{
+				} else {
 					$bottom_content .= "<tr><td align=\"center\"><input type=\"text\" name=\"shoutuid\" id=\"shoutuid\" size=\"$ShoutNameWidth\" value=\"$boxtext\" maxlength=\"25\" onfocus=\"if ( this.value == '"._NAME."' ) { this.value=''; }\" onblur=\"if (this.value == '') { this.value='"._NAME."' }\" /></td></tr>\n";
 				}
             }
 			
             if (!empty($PreviousComment)) { $boxtext = $PreviousComment; } else { $boxtext = _SB_MESSAGE; }
 			
-			if ($SBpos == 'center') 
-			{
+			if ($SBpos == 'center') {
 				$bottom_content .= "<td align=\"left\" nowrap=\"nowrap\" valign=\"top\">";
-				$bottom_content .= "<input type=\"text\" name=\"ShoutComment\" id=\"ShoutComment\" size=\"$ShoutTextWidth\" onKeyPress=\"return OnEnter(event)\" value=\"$boxtext\" maxlength=\"2500\" onfocus=\"if ( this.value == '"._SB_MESSAGE."' ) { this.value=''; }\" onblur=\"if (this.value == '') { this.value='"._SB_MESSAGE."' }\" style=\"width: 100%;\" />";
+				$bottom_content .= "    <input type=\"text\" name=\"ShoutComment\" id=\"ShoutComment\" size=\"$ShoutTextWidth\" onKeyPress=\"return OnEnter(event)\" value=\"$boxtext\" maxlength=\"2500\" onfocus=\"if ( this.value == '"._SB_MESSAGE."' ) { this.value=''; }\" onblur=\"if (this.value == '') { this.value='"._SB_MESSAGE."' }\" style=\"width: 100%;\" />";
 				$bottom_content .= "</td>";
-				
 				$bottom_content .= "<td align=\"right\" width=\"140\">";
-				
-				$bottom_content .= "<input type=\"hidden\" name=\"ShoutSubmit\" id=\"ShoutSubmit\" value=\"ShoutPost\" />";
-				$bottom_content .= "<div id=\"smilies_hide\" style=\"display: block;\">";
-				
-				$bottom_content .= "<div class=\"content\">";
-				$bottom_content .= "<input type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />&nbsp;"; # added a space between buttons
-				$bottom_content .= "<span onclick=\"changeBoxSize('show'); return false;\"><input type=\"button\" value=\""._SMILIES."\" /></span>";
-				$bottom_content .= "</div>";
-				$bottom_content .= "</div>";
-				$bottom_content .= "<div id=\"smilies_show\" style=\"display: none;\">";
-				$bottom_content .= "<div class=\"content\">";
-				$bottom_content .= "<input type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />&nbsp;"; # added a space between buttons
-				$bottom_content .= "<span onclick=\"changeBoxSize ('hide'); return false;\"><input type=\"button\" value=\""._SMILIES."\" /></span>";
-				$bottom_content .= "<br /><br />";
+				$bottom_content .= "    <input type=\"hidden\" name=\"ShoutSubmit\" id=\"ShoutSubmit\" value=\"ShoutPost\" />";
+				$bottom_content .= "    <div id=\"smilies_hide\" style=\"display: block;\">";
+				$bottom_content .= "        <div class=\"content\">";
+				$bottom_content .= "            <input type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />";
+				$bottom_content .= "            <span onclick=\"changeBoxSize('show'); return false;\"><input type=\"button\" value=\""._SMILIES."\" /></span>";
+				$bottom_content .= "        </div>";
+				$bottom_content .= "    </div>";
+				$bottom_content .= "    <div id=\"smilies_show\" style=\"display: none;\">";
+				$bottom_content .= "        <div class=\"content\">";
+				$bottom_content .= "            <input type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />";
+				$bottom_content .= "            <span onclick=\"changeBoxSize ('hide'); return false;\"><input type=\"button\" value=\""._SMILIES."\" /></span>";
+				$bottom_content .= "            <br /><br />";
+			} else {
 				$bottom_content .= "<tr>";
-				$bottom_content .= "<td align=\"center\" nowrap=\"nowrap\">";
-
-			} 
-			else 
-			{
-				$bottom_content .= "<tr>";
-				$bottom_content .= "<td align=\"center\" nowrap=\"nowrap\">";
-				
-				$bottom_content .= "<input type=\"text\" name=\"ShoutComment\" id=\"ShoutComment\" size=\"$ShoutTextWidth\" onKeyPress=\"return OnEnter(event)\" value=\"$boxtext\" maxlength=\"2500\" onfocus=\"if ( this.value == '"._SB_MESSAGE."' ) { this.value=''; }\" onblur=\"if (this.value == '') { this.value='"._SB_MESSAGE."' }\" />";
-				$bottom_content .= "</td>";
+				$bottom_content .= "    <td align=\"center\" nowrap=\"nowrap\">";
+				$bottom_content .= "        <input type=\"text\" name=\"ShoutComment\" id=\"ShoutComment\" size=\"$ShoutTextWidth\" onKeyPress=\"return OnEnter(event)\" value=\"$boxtext\" maxlength=\"2500\" onfocus=\"if ( this.value == '"._SB_MESSAGE."' ) { this.value=''; }\" onblur=\"if (this.value == '') { this.value='"._SB_MESSAGE."' }\" />";
+				$bottom_content .= "    </td>";
 				$bottom_content .= "</tr>";
 				$bottom_content .= "<tr>";
-				$bottom_content .= "<td align=\"center\"><br/>";
-				$bottom_content .= "<input type=\"hidden\" name=\"ShoutSubmit\" id=\"ShoutSubmit\" value=\"ShoutPost\" />";
-				$bottom_content .= "<div id=\"smilies_hide\" style=\"display: block;\">";
-				$bottom_content .= "<div class=\"content\"><br/>"; # added
-				$bottom_content .= "<input type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />&nbsp;"; # added a space between buttons
-				$bottom_content .= "<span onclick=\"changeBoxSize('show'); return false;\"><input type=\"button\" value=\""._SMILIES."\" /></span>";
-				$bottom_content .= "</div>";
-				$bottom_content .= "</div>";
-				$bottom_content .= "<div id=\"smilies_show\" style=\"display: none;\">";
-				$bottom_content .= "<div class=\"content\">";
-				$bottom_content .= "<input type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />&nbsp;"; # added a space between buttons
-				$bottom_content .= "<span onclick=\"changeBoxSize ('hide'); return false;\"><input type=\"button\" value=\""._SMILIES."\" /></span>";
-				$bottom_content .= "<br /><br />";
+				$bottom_content .= "    <td align=\"center\">";
+				$bottom_content .= "        <input type=\"hidden\" name=\"ShoutSubmit\" id=\"ShoutSubmit\" value=\"ShoutPost\" />";
+				$bottom_content .= "        <div id=\"smilies_hide\" style=\"display: block;\">";
+				$bottom_content .= "            <div class=\"content\">";
+				$bottom_content .= "                <input type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />";
+				$bottom_content .= "                <span onclick=\"changeBoxSize('show'); return false;\"><input type=\"button\" value=\""._SMILIES."\" /></span>";
+				$bottom_content .= "            </div>";
+				$bottom_content .= "        </div>";
+				$bottom_content .= "        <div id=\"smilies_show\" style=\"display: none;\">";
+				$bottom_content .= "            <div class=\"content\">";
+				$bottom_content .= "                <input type=\"button\" name=\"button\" onclick=\"AjaxShout();\" value=\""._SHOUT."\" />";
+				$bottom_content .= "                <span onclick=\"changeBoxSize ('hide'); return false;\"><input type=\"button\" value=\""._SMILIES."\" /></span>";
+				$bottom_content .= "                <br /><br />";
 			}
 
             $sql = "SELECT distinct image FROM `".$prefix."_shoutbox_emoticons`";
             $nameresult1 = $db->sql_query($sql);
             $flag = 1;
-            
-			while ($return = $db->sql_fetchrow($nameresult1)) 
-			{
+            while ($return = $db->sql_fetchrow($nameresult1)) {
                 $sql = "SELECT * FROM `".$prefix."_shoutbox_emoticons` WHERE `image`='$return[0]' LIMIT 1";
                 $nameresult = $db->sql_query($sql);
-            
-			    while ($emoticons = $db->sql_fetchrow($nameresult)) 
-				{
+                while ($emoticons = $db->sql_fetchrow($nameresult)) {
                     $emoticons[3] = str_replace('>', '', $emoticons['image']);
                     $emoticons[3] = str_replace('src=', 'src="', $emoticons[3]);
                     $bottom_content .= "<span style=\"cursor: pointer;\" onclick=\"DoSmilie(' $emoticons[text] ','$messageDefinition');\">$emoticons[3]\" border=\"0\" alt=\"\" /></span>&nbsp;";
-                    if ($flag == $conf['smiliesPerRow']) 
-					{
+                    if ($flag == $conf['smiliesPerRow']) {
                         $bottom_content .="<br /><br />\n";
                         $flag = 1;
                         continue;
@@ -843,7 +683,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
             $db->sql_freeresult($nameresult1);
             $bottom_content .= "</div></div></td></tr>\n";
 
-            $bottom_content .= "</table><br/></form>\n";
+            $bottom_content .= "</table></form>\n";
         }
 
     } else {
@@ -887,4 +727,5 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 		exit;
 	}
 }
+
 ?>

@@ -8,17 +8,17 @@
 if (!defined('MODULE_FILE')) 
 die ("You can't access this file directly...");
 
-$module_name = basename(dirname(__FILE__));
+$module = basename(dirname(__FILE__));
 
-global $domain, $prefix, $db, $sitename, $currentlang, $admin, $multilingual, $module_name, $admin_file, $user_prefix;
+global $domain, $nukeurl, $prefix, $db, $sitename, $currentlang, $admin, $multilingual, $module, $admin_file, $user_prefix;
 
 @require_once(NUKE_CLASSES_DIR.'class.sitemap.php');
 use SitemapPHP\Sitemap;
-$sitemap = new Sitemap('https://'.$domain);
+$sitemap = new Sitemap($nukeurl);
 $sitemap->setPath(NUKE_BASE_DIR.'xmls/sitemap/');
 $sitemap->setFilename('sitemap');
 $sitemap->addItem('/', '1.0', 'daily',  'Today');
-$sitemap->createSitemapIndex('https://'.$domain.'/xmls/sitemap/', 'Today');
+$sitemap->createSitemapIndex($nukeurl.'/xmls/sitemap/', 'Today');
 
 # Examples
 # $sitemap->addItem('/contact', '0.6', 'yearly', '14-12-2009');
@@ -49,10 +49,10 @@ else:
 endif;
 //---------------------- Do some XML Shit  XML END -----------------
 
-if (file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php')):
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php');
+if (file_exists(NUKE_MODULES_DIR.$module.'/language/lang-'.$currentlang.'.php')):
+	include_once(NUKE_MODULES_DIR.$module.'/language/lang-'.$currentlang.'.php');
 else:
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php');
+	include_once(NUKE_MODULES_DIR.$module.'/language/lang-english.php');
 endif;
 
 function downloads_subs($cid, $spaces, $xml) 
@@ -298,7 +298,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
      # xml is written below in the switch statement
      print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; Our download section is now called a File Repository</a>&nbsp;&nbsp;&nbsp;</td></tr>'."\n";
  
-	 elseif($link === 'Network_Bookmarks'):
+	 elseif($link === 'Bookmarks'):
      # xml is written below in the switch statement
      print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; Save all your important online links here</a>&nbsp;&nbsp;&nbsp;</td></tr>'."\n";
      $sitemap->addItem('/modules.php?name='.$link.'', '0.8', 'yearly', 'Jun 5');
@@ -617,9 +617,9 @@ while ($row2 = $db->sql_fetchrow($result2)):
 						print '<tr><td></td><td>';
 						print '&nbsp;&nbsp;&nbsp;&nbsp;<font color="darkgreen"><i style="vertical-align: middle;" 
 						class="fa fa-unlock-alt"></i></font>&nbsp;';
-						print '<a href="modules.php?name=Forums&amp;file=viewtopic&amp;t='.$rowT[topic_id].'">'.$rowT[topic_title].'</a></td>';
+						print '<a href="modules.php?name=Forums&amp;file=viewtopic&amp;t='.$rowT['topic_id'].'">'.$rowT['topic_title'].'</a></td>';
 						if($xml):
-                        $sitemap->addItem('/modules.php?name=Forums&file=viewtopic&t='.$rowT[topic_id].'', '0.8', 'daily', 'Jun 25');
+                        $sitemap->addItem('/modules.php?name=Forums&file=viewtopic&t='.$rowT['topic_id'].'', '0.8', 'daily', 'Jun 25');
                         endif;
 						endwhile;
                        $db->sql_freeresult($resultT);

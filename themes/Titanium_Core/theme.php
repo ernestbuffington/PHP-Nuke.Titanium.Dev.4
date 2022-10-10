@@ -3,33 +3,22 @@
 # THEME SYSTEM FILE                                                                     #
 #---------------------------------------------------------------------------------------#
 # THEME INFO                                                                            #
-# Universal Theme v1.0 (Fixed & Full Width)                                             #
+# Titanium Core Theme v2.0 (Fixed & Full Width)                                         #
 #                                                                                       #
-# Final Build Date 03/16/2021 Tuesday 12:54am                                           #
+# Final Build Date 10/09/2022 Tuesday 12:54am                                           #
 #                                                                                       #
-# A Very Nice Fire and Brimstone Theme Design.                                          #
-# Copyright © 2021 By: TheGhost AKA EABuffington                                        #
-# e-Mail : ernest.buffington@gmail.com                                                  #
+# A Very Nice Gold Template Theme                                                       #
+# Copyright © 2021 : Brandon Maintenance Management                                     #
+# e-Mail : brandon.maintenance.management@gmail.com                                     #
 #---------------------------------------------------------------------------------------#
-# CREATION INFO                                                                         #
-# Created On: 03/16/2021 Tuesday 12:54am (v1.0)                                         #
-#                                                                                       #
-# Credit goes to Lonestar On: 1st August, 2019 (v3.0)                                   #
-# HTML5 Theme Code By: Lonestar (Lonestar-Modules.com)                                  #
-#                                                                                       #
-# Credit goes to TheMortal                                                              #
-# For his CSS MENU                                                                      #
-#                                                                                       #
-# Read CHANGELOG File for Updates & Upgrades Info                                       #
-#                                                                                       #
-# Designed By: TheGhost & Sebastian                                                     #
-# Web Site: https://www.86it.us                                                         #
-# Purpose: PHP-Nuke Titanium | Nuke Evolution Xtreme                                    #
+# Designed By: Ernest Buffington                                                        #
+# Web Site: https://www.theghost.86it.us                                                #
+# Purpose: PHP-Nuke Titanium v4.0.2                                                     #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
-# PHP-Nuke Copyright (c) 2006 by Francisco Burzi phpnuke.org                            #
+# PHP-Nuke Copyright (c) 2002    : Francisco Burzi phpnuke.org                          #
 # Nuke Evolution Xtreme (c) 2010 : Enhanced PHP-Nuke Web Portal System                  #
-# PHP-Nuke Titanium (c) 2021     : Enhanced PHP-Nuke Web Portal System                  #
+# PHP-Nuke Titanium (c) 2022     : Enhanced and Advanced PHP-Nuke Web Portal System     #
 #---------------------------------------------------------------------------------------#
 #                                                                                       #
 # Special Honorable Mentions                                                            #
@@ -70,13 +59,13 @@ global $locked_width, $theme_business, $theme_title, $theme_author, $theme_date,
 $locked_width = "1840px";
 $theme_business = 'Brandon Maintenance Management, LLC';
 # Theme Name
-$theme_title = '<u>PHP-Nuke Titanium Template Theme v1.3 &copy; 2021</u>';
+$theme_title = '<u>PHP-Nuke Titanium Template Theme v2.0 &copy; 2022</u>';
 define('THEME', $theme_title);
 # Theme Author
 $theme_author = 'Ernest Allen Buffington';
 define('THEME_AUTHOR', $theme_author);
 # Theme creation date
-$theme_date = '05/04/2021';
+$theme_date = '10/09/2022';
 define('THEME_DATE', $theme_date);
 $theme_download_link = '#myCopyRight';
 define('THEME_DOWNLOAD_LINK', $theme_download_link);
@@ -110,10 +99,7 @@ $make_xtreme_avatar_small,
 	              $avatar, 
 				   $email) = $db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `nuke_users` WHERE `user_id`=$portaladmin", SQL_NUM);
 				   
-# be sure and set your user number in the config.php file.
-//$my_welcome_message = '<a class = "welcome" href="'.$domain.'">Welcome to The 86it Developers Network</a>';
-//$my_welcome_message = '<a class = "welcome" href="'.$domain.'">Welcome to '.$portaladminname.'\'s 86it Portal</a>';
-$my_welcome_message = '<a class = "welcome" href="'.HTTPS.'">PHP-Nuke Titanium Dev 4 <font color="#FF9900" size="1">(US Version)</font></a>';
+$my_welcome_message = '<a class = "welcome" href="'.HTTPS.'">PHP-Nuke Titanium <font color="#FF9900" size="1">(Desktop Version)</font></a>';
 
 # This is to tell the main portal menu to look for the images
 # in the theme dir "theme_name/images/menu"
@@ -162,6 +148,7 @@ addCSSToHead(theme_style_dir.'menu.css','file');
 #-------------------#
 # FlyKit Mod v1.0   #
 #-------------------#
+addPHPCSSToHead(theme_phpstyle_dir.'Nuke_Projects.php','file'); 
 addPHPCSSToHead(theme_phpstyle_dir.'banner_ads.php','file');     
 addPHPCSSToHead(theme_phpstyle_dir.'menu.php','file');     
 addPHPCSSToHead(theme_phpstyle_dir.'header.php','file');     

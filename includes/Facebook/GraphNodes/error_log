@@ -1,0 +1,44 @@
+[23-Aug-2022 16:01:08 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\GraphNodes\GraphNode' not found in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphUser.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphUser.php on line 31
+[23-Aug-2022 16:01:09 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\GraphNodes\GraphNode' not found in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphAchievement.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphAchievement.php on line 31
+[23-Aug-2022 16:01:09 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\GraphNodes\GraphNode' not found in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphSessionInfo.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphSessionInfo.php on line 31
+[23-Aug-2022 16:01:09 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\GraphNodes\GraphNode' not found in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphUser.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphUser.php on line 31
+[23-Aug-2022 16:01:10 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\GraphNodes\GraphNode' not found in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphAchievement.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphAchievement.php on line 31
+[23-Aug-2022 16:01:10 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\GraphNodes\GraphNode' not found in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphSessionInfo.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphSessionInfo.php on line 31
+[23-Aug-2022 16:01:11 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\GraphNodes\GraphNode' not found in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphUser.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphUser.php on line 31
+[23-Aug-2022 16:01:11 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\GraphNodes\GraphNode' not found in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphAchievement.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphAchievement.php on line 31
+[23-Aug-2022 16:01:12 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\GraphNodes\GraphNode' not found in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphUser.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphUser.php on line 31
+[23-Aug-2022 16:01:13 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\GraphNodes\GraphNode' not found in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphUser.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphUser.php on line 31
+[23-Aug-2022 16:01:13 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\GraphNodes\GraphNode' not found in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphAchievement.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/GraphNodes/GraphAchievement.php on line 31

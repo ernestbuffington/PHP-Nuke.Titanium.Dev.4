@@ -62,7 +62,7 @@ function evouserinfo_login () {
        $evouserinfo_login .= "<input type=\"hidden\" name=\"t\" value=\"$t\">\n";
     }
     $evouserinfo_login .= "<input type=\"hidden\" name=\"op\" value=\"login\"></td></tr>\n";
-    $evouserinfo_login .= "<tr><td align=\"center\"><input class=\"evo-login-submit\" type=\"submit\" value=\"".$lang_evo_userblock['BLOCK']['LOGIN']['LOGIN']."\"></td></tr></table></form>\n";
+    $evouserinfo_login .= "<tr><td align=\"center\"><input class=\"titaniumbutton evo-login-submit\" type=\"submit\" value=\"".$lang_evo_userblock['BLOCK']['LOGIN']['LOGIN']."\"></td></tr></table></form>\n";
 }
 
 ?>
@@ -94,50 +94,54 @@ else
 {
 	global $userinfo, $bgcolor1, $bgcolor2;
 
-	$evouserinfo_login .= '<div style="padding-left: 11px;">';
-    $evouserinfo_login .= '  <font color="#3498DB"><i class="far fa-file-image" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Image_Repository">'.$lang_evo_userblock['BLOCK']['LOGIN']['MYHOSTEDIMAGES'].'</a>';
-    $evouserinfo_login .= '</div>';
-    
-	$evouserinfo_login .= '<div style="padding-left: 8px;">';
-    $evouserinfo_login .= '  <font color="darkgreen"><i class="fas fa-link" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Network_Bookmarks">'.$lang_evo_userblock['BLOCK']['LOGIN']['MYBOOKMARKS'].'</a>';
-    $evouserinfo_login .= '</div>';
+    $icon1 = "<i style=\"font-size: 17px; color: #3498DB\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#3498DB'\" class=\"fa fa-upload\"></i>";
+    $link1 = " <a class=\"modules\" href=\"modules.php?name=Image_Repository\" target=\"_self\"> ".$icon1." My Hosted Images</a>";
+    $evouserinfo_login  = '<div style="padding-left: 10px;">';
+	$evouserinfo_login .= $link1."";
+	$evouserinfo_login .= '</div>';
 
+    $icon2 = " <i style=\"font-size: 18px; color: #FF0000\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#FF0000'\" class=\"fa fa-bookmark\"></i>";
+    $link2 = " <a class=\"modules\" href=\"modules.php?name=Bookmarks\" target=\"_self\"> ".$icon2." My Book Mark Vault</a>";
+    $evouserinfo_login .= '<div style="padding-left: 13px;">';
+	$evouserinfo_login .= $link2."";
+	$evouserinfo_login .= '</div>';
+
+    $icon3 = "<i style=\"font-size: 17px; color: #45B39D\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#45B39D'\" class=\"fa fa-cog\"></i>";
+    $link3 = " <a class=\"modules\" href=\"modules.php?name=Your_Account&op=chgtheme\" target=\"_self\"> ".$icon3." My Theme</a>";
     $evouserinfo_login .= '<div style="padding-left: 10px;">';
-    $evouserinfo_login .= '  <font color="#EC7063"><i class="fas fa-user" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Profile&mode=viewprofile&u='.$userinfo['user_id'].'">'.$lang_evo_userblock['BLOCK']['LOGIN']['MYPROFILE'].'</a>';
-    $evouserinfo_login .= '</div>';
+	$evouserinfo_login .= $link3."";
+	$evouserinfo_login .= '</div>';
 
-    $evouserinfo_login .= '<div style="padding-left: 8px;">';
-    $evouserinfo_login .= '  <font color="#EC7063"><i class="far fa-edit" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Profile">'.$lang_evo_userblock['BLOCK']['LOGIN']['EDITMYPROFILE'].'</a>';
-    $evouserinfo_login .= '</div>';
 
-    $evouserinfo_login .= '<div style="padding-left: 8px;">';
-    $evouserinfo_login .= '  <font color="#45B39D"><i class="far fa-edit" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Your_Account&op=chgtheme">'.$lang_evo_userblock['BLOCK']['LOGIN']['CHANGEMYTHEME'].'</a>';
-    $evouserinfo_login .= '</div>';
+    $icon4 = "<i style=\"font-size: 18px; color: gold\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='gold'\" class=\"fa fa-id-badge\"></i>";
+    $link4 = " <a class=\"modules\" href=\"modules.php?name=Profile&mode=viewprofile&u=".$userinfo['user_id']."\" target=\"_self\"> ".$icon4." My Profile</a>";
+    $evouserinfo_login .= '<div style="padding-left: 13px;">';
+	$evouserinfo_login .= $link4."";
+	$evouserinfo_login .= '</div>';
 
-    $evouserinfo_login .= '<div style="padding-left: 8px;">';
-    $evouserinfo_login .= '  <font color="#D4AC0D"><i class="far fa-edit" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Your_Account&op=edithome">'.$lang_evo_userblock['BLOCK']['LOGIN']['SETBLOGPOSTS'].'</a>';
-    $evouserinfo_login .= '</div>';
+    $icon5 = "<i style=\"font-size: 17px; color: gold\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='gold'\" class=\"fa fa-bars\"></i>";
+    $link5 = " <a class=\"modules\" href=\"modules.php?name=Profile\" target=\"_self\"> ".$icon5." Edit Profile</a>";
+    $evouserinfo_login .= '<div style="padding-left: 12px;">';
+	$evouserinfo_login .= $link5."";
+	$evouserinfo_login .= '</div>';
 
-    $evouserinfo_login .= '<div style="padding-left: 10px;">';
-    $evouserinfo_login .= '  <font color="violet"><i class="fas fa-sign-out-alt" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Your_Account&amp;op=logout">'.$lang_evo_userblock['BLOCK']['LOGIN']['LOGOUT'].'</a>';
-    $evouserinfo_login .= '</div>';
+    $icon6 = "<i style=\"font-size: 17px; color: orange\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='orange'\" class=\"fa fa-sign-out\"></i>";
+    $link6 = " <a class=\"modules\" href=\"modules.php?name=Your_Account&op=logout\" target=\"_self\"> ".$icon6." Log Out</a>";
+    $evouserinfo_login .= '<div style="padding-left: 12px;">';
+	$evouserinfo_login .= $link6."";
+	$evouserinfo_login .= '</div>';
 
-    $evouserinfo_login .= '<div style="padding-left: 10px;">';
-    $evouserinfo_login .= '  <font color="red"><i class="fas fa-user"></i></font> <a href="modules.php?name=Your_Account&op=delete">'.
-	$lang_evo_userblock['BLOCK']['LOGIN']['DELETE'].'</a>';
-    $evouserinfo_login .= '</div>';
+    $icon7 = "<i style=\"font-size: 17px; color: red\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='red'\" class=\"fa fa-trash\"></i>";
+    $link7 = " <a class=\"modules\" href=\"modules.php?name=Your_Account&op=delete\" target=\"_self\"> ".$icon7." Deactivate Account</a>";
+    $evouserinfo_login .= '<div style="padding-left: 12px;">';
+	$evouserinfo_login .= $link7."";
+	$evouserinfo_login .= '</div>';
 
-    $evouserinfo_login .= '<div style="padding-left: 10px;">';
-    $evouserinfo_login .= '  <font color="tan"><i class="fas fa-cookie" aria-hidden="true"></i></font> <a 
-	href="modules.php?name=Your_Account&op=ShowCookiesRedirect">'.$lang_evo_userblock['BLOCK']['LOGIN']['COOKIES'].'</a>';
-    $evouserinfo_login .= '</div>';
+    $icon8 = "<i style=\"font-size: 16px; color: tan\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='tan'\" class=\"fas fa-cookie\"></i>";
+    $link8 = " <a class=\"modules\" href=\"modules.php?name=Your_Account&op=ShowCookiesRedirect\" target=\"_self\"> ".$icon8." View My Cookies</a>";
+    $evouserinfo_login .= '<div style="padding-left: 11px;">';
+	$evouserinfo_login .= $link8."";
+	$evouserinfo_login .= '</div>';
 
     if(defined('facebook')): 
 	  

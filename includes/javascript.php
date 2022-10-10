@@ -61,8 +61,15 @@ include_once(NUKE_INCLUDE_DIR.'styles.php');
 ##################################################
 # Include for some common javascripts functions  #
 ##################################################
-
 addJSToHead(NUKE_JQUERY_SCRIPTS_DIR.'javascript/onload.js','file');
+
+###############################################################
+# Quick reply javascript Added back 10/08/2022 TheGhost START #
+###############################################################
+addJSToHead(NUKE_JQUERY_SCRIPTS_DIR.'javascript/sqr_show_hide.js','file');
+###############################################################
+# Quick reply javascript Added back 10/08/2022 TheGhost END   #
+###############################################################
 
 /*****[BEGIN]******************************************
  [ Base:    NukeSentinel                       v2.4.1 ]
@@ -103,8 +110,6 @@ echo "console.log('Successful login for: ' + response.name);\n";
     // this error comes with the following
     // Uncaught TypeError: Cannot set property 'innerHTML' of null
     // echo "document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';\n";
-
-
 echo "});\n";
 echo "}\n";
 ##################################################################################################################
@@ -250,20 +255,25 @@ if(get_evo_option('recap_site_key') && get_evo_option('recap_priv_key'))
  /*****[END]*******************************************
  [ Mod:     Advanced Security Code Control     v1.0.0 ]
  ******************************************************/
+ 
+echo "<script src=\"https://kit.fontawesome.com/5a71e91c84.js\" crossorigin=\"anonymous\"></script>";
 
 /*****[BEGIN]******************************************
- [ Mod:     IE PNG Fix                         v1.0.0 ]
+ [ Mod:     Arcade                             v1.0.0 ]
  ******************************************************/
-$arcade_on = (isset($_GET['file']) && $_GET['file'] == 'arcade_games') ? true : (isset($_POST['file']) && $_POST['file'] == 'arcade_games') ? true : false;
+# Fixed 10/08/2022 START
+# PHP Deprecated:  Unparenthesized `a ? b : c ? d : e` is deprecated. Use either `(a ? b : c) ? d : e` or `a ? b : (c ? d : e)`
+$arcade_on = ((isset($_GET['file']) && $_GET['file'] == 'arcade_games') ? true : ((isset($_POST['file']) && $_POST['file'] == 'arcade_games') ?  true : false)); //Fixed TheGhost
 
 if (!$arcade_on) {
-    $arcade_on = (isset($_GET['do']) && $_GET['do'] == 'newscore') ? true : (isset($_POST['do']) && $_POST['do'] == 'newscore') ? true : false;
+    $arcade_on = ((isset($_GET['do']) && $_GET['do'] == 'newscore') ? true : ((isset($_POST['do']) && $_POST['do'] == 'newscore') ? true : false)); //Fixed TheGhost
 }
+# PHP Deprecated:  Unparenthesized `a ? b : c ? d : e` is deprecated. Use either `(a ? b : c) ? d : e` or `a ? b : (c ? d : e)`
+# Fixed 10/08/2022 END
 /*****[END]********************************************
- [ Mod:     IE PNG Fix                         v1.0.0 ]
- ******************************************************/
-
- 
+ [ Mod:     Arcade                             v1.0.0 ]
+ ******************************************************
+  
 /*****[BEGIN]******************************************
  [ Mod:     Password Strength Meter            v1.0.0 ]
  ******************************************************/

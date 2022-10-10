@@ -1,0 +1,52 @@
+[23-Aug-2022 16:00:57 UTC] PHP Fatal error:  Uncaught Error: Class 'HTMLPurifier_Bootstrap' not found in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php on line 10
+[23-Aug-2022 16:00:58 UTC] PHP Fatal error:  Uncaught Error: Class 'HTMLPurifier_Bootstrap' not found in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php on line 10
+[23-Aug-2022 16:00:58 UTC] PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/ChildDef/Custom.php on line 34
+[23-Aug-2022 16:00:58 UTC] PHP Warning:  "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/ChildDef/Table.php on line 111
+[23-Aug-2022 16:00:58 UTC] PHP Warning:  "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/ChildDef/Table.php on line 118
+[23-Aug-2022 16:00:58 UTC] PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/TagTransform/Font.php on line 66
+[23-Aug-2022 16:00:58 UTC] PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/TagTransform/Font.php on line 66
+[23-Aug-2022 16:00:58 UTC] PHP Fatal error:  Uncaught Error: Class 'HTMLPurifier_Bootstrap' not found in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php on line 10
+[23-Aug-2022 16:00:59 UTC] PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/ChildDef/Custom.php on line 34
+[23-Aug-2022 16:00:59 UTC] PHP Warning:  "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/ChildDef/Table.php on line 111
+[23-Aug-2022 16:00:59 UTC] PHP Warning:  "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/ChildDef/Table.php on line 118
+[23-Aug-2022 16:00:59 UTC] PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/TagTransform/Font.php on line 66
+[23-Aug-2022 16:00:59 UTC] PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/TagTransform/Font.php on line 66
+[23-Aug-2022 16:01:00 UTC] PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/ChildDef/Custom.php on line 34
+[23-Aug-2022 16:01:00 UTC] PHP Warning:  "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/ChildDef/Table.php on line 111
+[23-Aug-2022 16:01:00 UTC] PHP Warning:  "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/ChildDef/Table.php on line 118
+[23-Aug-2022 16:01:00 UTC] PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/TagTransform/Font.php on line 66
+[23-Aug-2022 16:01:00 UTC] PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/TagTransform/Font.php on line 66
+[23-Aug-2022 16:01:00 UTC] PHP Fatal error:  Uncaught Error: Class 'HTMLPurifier_Bootstrap' not found in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php on line 10
+[23-Aug-2022 16:01:00 UTC] PHP Fatal error:  Uncaught Error: Class 'HTMLPurifier_Bootstrap' not found in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php on line 10
+[23-Aug-2022 16:01:00 UTC] PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/ChildDef/Custom.php on line 34
+[23-Aug-2022 16:01:00 UTC] PHP Warning:  "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/ChildDef/Table.php on line 111
+[23-Aug-2022 16:01:00 UTC] PHP Warning:  "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/ChildDef/Table.php on line 118
+[23-Aug-2022 16:01:00 UTC] PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/TagTransform/Font.php on line 66
+[23-Aug-2022 16:01:00 UTC] PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier/TagTransform/Font.php on line 66
+[23-Aug-2022 16:01:02 UTC] PHP Fatal error:  Uncaught Error: Class 'HTMLPurifier_Bootstrap' not found in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php on line 10
+[23-Aug-2022 16:01:05 UTC] PHP Fatal error:  Uncaught Error: Class 'HTMLPurifier_Bootstrap' not found in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php on line 10
+[23-Aug-2022 16:01:06 UTC] PHP Fatal error:  Uncaught Error: Class 'HTMLPurifier_Bootstrap' not found in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/HTMLPurifier/HTMLPurifier.autoload.php on line 10

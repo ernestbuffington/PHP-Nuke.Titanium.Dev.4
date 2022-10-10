@@ -14,7 +14,6 @@
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
 exit('Access Denied');
 
-// You must un-comment this to enable facebook
 //define('facebook', 'enabled'); 
 if ( defined('facebook') ):
 global $fb, $appID, $api_version, $appSecret, $my_url;
@@ -26,7 +25,7 @@ $appSecret = '';
 # your facebook app ID
 $appID = '';
 # The api version you have selected on your facebook app
-$api_version = 'v14';
+$api_version = 'v14.0';
 
 $fb = new Facebook\Facebook([
   'app_id' => $appID,

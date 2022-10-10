@@ -1,6 +1,6 @@
 <?php
-/*======================================================================= 
-  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
+/*=======================================================================
+ PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
  =======================================================================*/
 
 // ==========================================
@@ -46,9 +46,7 @@ if ($currentlang) {
 include_once(NUKE_MODULES_DIR.'Shout_Box/shout.php');
 
 $ThemeSel = get_theme();
-
 global $rowColor;
-
 if ((($rowColor = $cache->load('theme_'.$ThemeSel, 'shoutbox')) == false) || empty($rowColor)) {
     $sql = "SELECT * FROM `".$prefix."_shoutbox_themes` WHERE themeName='$ThemeSel'";
     $result = $db->sql_query($sql);
@@ -58,7 +56,6 @@ if ((($rowColor = $cache->load('theme_'.$ThemeSel, 'shoutbox')) == false) || emp
 }
 
 global $shout_conf;
-
 if ((($shout_conf = $cache->load('conf', 'shoutbox')) == false) || empty($shout_conf)) {
     $sql = "SELECT * FROM `".$prefix."_shoutbox_conf`";
     $result = $db->sql_query($sql);
@@ -69,14 +66,15 @@ if ((($shout_conf = $cache->load('conf', 'shoutbox')) == false) || empty($shout_
 
 $sbURL = 'index.php?url=';
 
-function LinkAdmin() 
-{
-    global $admin_file;
+function LinkAdmin() {
+    Global $admin_file;
     OpenTable();
-    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php?op=shout\">" . _SHOUT_ADMIN_HEADER . "</a> ]</div>\n";
+    //echo "<center><a href=\"".$admin_file.".php\"><span class=\"title\">"._ADMINMENU."</span></a></center>";
+    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=shout\">" . _SHOUT_ADMIN_HEADER . "</a></div>\n";
+    echo "<br /><br />";
     echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _SHOUT_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-    
+    echo "<br />";
 }
 
 // Start 'Menu' code
@@ -150,7 +148,7 @@ function ShoutBoxAdminMenu($ShoutMenuOptionActive) {
     echo "</td></tr></table></td></tr></table></center>";
 
     CloseTable();
-    
+    echo "<br />";
 }
 
 // End 'Menu' code
@@ -249,7 +247,7 @@ function manageShouts($page, $pruned) {
  ******************************************************/
             echo "<tr style=\"background-color: ".$rowColor['menuColor2'].";\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\"><td nowrap=\"nowrap\"><a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$shout[name]\">" . UsernameColor($shout['name']) . "</a></td><td>$comment</td>";
         } else {
-            echo "<tr style=\"background-color: ".$rowColor['menuColor2'].";\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\"><td nowrap=\"nowrap\">" . UsernameColor($shout['name']) . "</td><td>".$comment."</td>";
+            echo "<tr style=\"background-color: ".$rowColor['menuColor2'].";\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\"><td nowrap=\"nowrap\">" . UsernameColor($shout['name']) . "</td><td>$comment</td>";
 /*****[END]********************************************
  [ Mod:     Advanced Username Color            v1.0.5 ]
  ******************************************************/
@@ -345,7 +343,7 @@ function manageShouts($page, $pruned) {
     echo "<input type=\"hidden\" name=\"listnum\" value=\"$aCount[aCount]\" /><input type=\"hidden\" name=\"Submit\" value=\"shremove\" /><input type=\"hidden\" name=\"page\" value=\"$page\" /><input type=\"submit\" name=\"button\" value=\""._REMOVECHECKEDSHOUTS."\" /></td>";
     echo "</tr></table></div></form>";
     CloseTable();
-    
+    echo "<br />";
     OpenTable();
     echo "<br /><div align=\"center\" class=\"title\">"._SB_PRUNESHOUTS."</div><br />";
     if ($pruned > 0) {
@@ -361,14 +359,13 @@ function manageShouts($page, $pruned) {
         echo "<br /><br /><strong>NOTE:</strong> The prune feature only works on shouts that use the new unix timestamp format. You currently have <strong>$TSrows</strong> shouts that are using the old format. Please run the conversion tool that came in the Shout_Box.zip to update your shouts.";
     }
     CloseTable();
-    
+    echo "<br />";
     OpenTable();
     $sql = "SELECT `name`, `comment` FROM `".$prefix."_shoutbox_sticky` WHERE `stickySlot`=0";
     $stickyResult = $db->sql_query($sql);
     $stickyRow0 = $db->sql_fetchrow($stickyResult);
     $db->sql_freeresult($stickyResult);
-    
-	$sql = "SELECT `name`, `comment` FROM `".$prefix."_shoutbox_sticky` WHERE `stickySlot`=1";
+    $sql = "SELECT `name`, `comment` FROM `".$prefix."_shoutbox_sticky` WHERE `stickySlot`=1";
     $stickyResult = $db->sql_query($sql);
     $stickyRow1 = $db->sql_fetchrow($stickyResult);
     $db->sql_freeresult($stickyResult);
@@ -377,17 +374,17 @@ function manageShouts($page, $pruned) {
     echo "<center><table align=\"center\" cellpadding=\"5\" cellspacing=\"0\" border=\"0\"><tr><td>".$stickyRow0['name']." </td><td nowrap=\"nowrap\"><form name=\"shoutAdmin20\" action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><input type=\"hidden\" name=\"page\" value=\"$page\" /><input type=\"text\" name=\"stickyShout\" value=\"".$stickyRow0['comment']."\" maxlength=\"150\" size=\"75\" />&nbsp;&nbsp;<input type=\"hidden\" name=\"stickyUsername\" value=\"".$admin[0]."\" /><input type=\"hidden\" name=\"Submit\" value=\"stickySubmit\" /><input type=\"hidden\" name=\"stickySlot\" value=\"0\" /><input type=\"submit\" name=\"button\" value=\""._SB_SUBMIT."\" /></form></td></tr><tr><td>".$stickyRow1['name']." </td><td nowrap=\"nowrap\"><form name=\"shoutAdmin21\" action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><input type=\"hidden\" name=\"page\" value=\"$page\" /><input type=\"text\" name=\"stickyShout\" value=\"".$stickyRow1['comment']."\" maxlength=\"150\" size=\"75\" />&nbsp;&nbsp;<input type=\"hidden\" name=\"stickyUsername\" value=\"".$admin[0]."\" /><input type=\"hidden\" name=\"Submit\" value=\"stickySubmit\" /><input type=\"hidden\" name=\"stickySlot\" value=\"1\" /><input type=\"submit\" name=\"button\" value=\""._SB_SUBMIT."\" /></form></td></tr></table></center>";
     CloseTable();
     // YOU MAY NOT REMOVE, EDIT, OR MARK OUT THE FOLLOWING PAYPAL CODE. IT IS PART OF OUR COPYRIGHT.
-    
+    echo "<br />";
     OpenTable();
     echo "<p align=\"center\" class=\"title\">OurScripts.net needs your support!</p>";
     echo "<p align=\"center\" class=\"content\">Open Source software costs money and time to develop.</p>";
     echo "<form action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\">
     <input type=\"hidden\" name=\"cmd\" value=\"_xclick\" />
-    <input type=\"hidden\" name=\"business\" value=\"donate@ourscripts.86it.us\" />
-    <input type=\"hidden\" name=\"item_name\" value=\"Donation to ourscripts.86it.us\" />
+    <input type=\"hidden\" name=\"business\" value=\"donate@ourscripts.net\" />
+    <input type=\"hidden\" name=\"item_name\" value=\"Donation to OurScripts.net\" />
     <input type=\"hidden\" name=\"no_shipping\" value=\"1\" />
     <input type=\"hidden\" name=\"cn\" value=\"Comments\" /><p align=\"center\">
-    <input type=\"image\" src=\"modules/$module_name/images/paypal.gif\" alt=\"Please donate. Thank you!\" name=\"submit\" title=\"Please donate. Thank you!\" /></p></form><p align=\"center\" class=\"content\">Our community appreciates your monitary support!</p><p align=\"center\" class=\"content\">Released under the <a target=\"_blank\" href=\"".$sbURL."http://www.gnu.org\">GNU/GPL license</a> and distributed by <a target=\"_blank\" href=\"".$sbURL."https://ourscripts.86it.us\">OurScripts.net</a>.<br />Copyright &copy; 2002-2005 by SuiteSoft Solutions. All rights reserved.</p>";
+    <input type=\"image\" src=\"modules/$module_name/images/paypal.gif\" alt=\"Please donate. Thank you!\" name=\"submit\" title=\"Please donate. Thank you!\" /></p></form><p align=\"center\" class=\"content\">Our community appreciates your monitary support!</p><p align=\"center\" class=\"content\">Released under the <a target=\"_blank\" href=\"".$sbURL."http://www.gnu.org\">GNU/GPL license</a> and distributed by <a target=\"_blank\" href=\"".$sbURL."http://www.ourscripts.net\">OurScripts.net</a>.<br />Copyright &copy; 2002-2005 by SuiteSoft Solutions. All rights reserved.</p>";
     CloseTable();
     // END OF COPYRIGHT.
     include_once(NUKE_BASE_DIR.'footer.php');
@@ -771,7 +768,7 @@ function ShoutBoxLayout() {
     echo "<tr style=\"background-color: ".$rowColor['menuColor2'].";\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\"><td valign=\"middle\">"._SAVEABOVESET.":</td><td valign=\"middle\"><input type=\"hidden\" name=\"Submit\" value=\"ShoutBoxLayoutSet\" /><input type=\"submit\" name=\"button\" value=\""._SAVESETS."\" /></td></tr></table></form>";
 
     CloseTable();
-    
+    echo "<br />";
     include_once(NUKE_BASE_DIR.'footer.php');
     exit;
 }
@@ -879,7 +876,7 @@ function ShoutBoxAdminMonitor() {
         echo "<form action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><input type=\"hidden\" name=\"SBhealthCount\" value=\"$SBhealthCount\" /><input type=\"hidden\" name=\"Submit\" value=\"shoutHealth\" /><center><input type=\"submit\" name=\"button\" value=\""._ANALYZEANDVIEW."\" /></center></form>";
     }
     CloseTable();
-    
+    echo "<br />";
 }
 
 function shoutHealth($SBhealthCount) {
@@ -1046,7 +1043,7 @@ function ShoutBoxThemeing() {
     echo "<br /><center><input type=\"hidden\" name=\"totalThemes\" value=\"$totalThemes\" /><input type=\"hidden\" name=\"Submit\" value=\"themeSubmit\" /><input type=\"submit\" name=\"button\" value=\""._SB_SAVECOLORVALUES."\" /></center></form>";
     echo "<br /><center>[ <a target=\"blank\" href=\"".$sbURL."http://www.w3schools.com/css/css_colors.asp\">"._SB_HELPWITHCOLORS."</a> ] [ <a target=\"blank\" href=\"".$sbURL."http://www.nattyware.com/pixie.html\">Pixie</a> ]</center>";
     CloseTable();
-    
+    echo "<br />";
     OpenTable();
     echo "<p align=\"center\" class=\"content\"><strong>"._SB_THEMEIMAGES."</strong></p>";
 
@@ -1290,7 +1287,7 @@ function manageemoticons() {
         $shx = $shx - 1;
         echo "<tr><td valign=\"middle\">"._UPDATE.":</td><td><input type=\"hidden\" name=\"listnum\" value=\"$shx\" /><input type=\"hidden\" name=\"Submit\" value=\"updateemoticon\" /><input type=\"submit\" name=\"button\" value=\""._UPDATE."\" /></td></tr></table></form>";
         CloseTable();
-        
+        echo "<br />";
     }
     $db->sql_freeresult($nameresult);
     OpenTable();
@@ -1354,7 +1351,7 @@ function managecensor() {
     echo "<option value=\"".$admin_file.".php?op=shout&amp;Submit=censoractive&amp;censoroption=yes\"$SEL1>"._YES."</option><option value=\"".$admin_file.".php?op=shout&amp;Submit=censoractive&amp;censoroption=no\"$SEL2>"._NO."</option>";
     echo "</select></form></td></tr></table>";
     CloseTable();
-    
+    echo "<br />";
     $sql = "SELECT * FROM `".$prefix."_shoutbox_censor`";
     $nameresult = $db->sql_query($sql);
     $numrows = $db->sql_numrows($nameresult);
@@ -1373,7 +1370,7 @@ function managecensor() {
         $shx = $shx - 1;
         echo "<tr><td valign=\"top\">"._UPDATE.":</td><td><input type=\"hidden\" name=\"listnum\" value=\"$shx\" /><input type=\"hidden\" name=\"Submit\" value=\"updatecensor\" /><input type=\"submit\" name=\"button\" value=\""._UPDATE."\" /></td></tr></table></form>";
         CloseTable();
-        
+        echo "<br />";
     }
     $db->sql_freeresult($nameresult);
     OpenTable();
@@ -1455,7 +1452,7 @@ function ShoutBoxBans() {
 
     echo "</table>";
     CloseTable();
-    
+    echo "<br />";
     // BANS
     OpenTable();
     echo "<table align=\"center\" width=\"95%\" cellpadding=\"3\" cellspacing=\"0\" border=\"0\">";

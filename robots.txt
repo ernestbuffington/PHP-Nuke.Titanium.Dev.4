@@ -11,6 +11,7 @@ Disallow: /themes/
 Disallow: /admin.php
 Disallow: /config.php
 Disallow: /fbconfig.php
+Disallow: /nconfig.php
 Disallow: /ips.php
 Disallow: /trap.php
 
@@ -39,4 +40,4 @@ Disallow: /nconfig.php
 Disallow: /ips.php
 Disallow: /trap.php
 
-Sitemap: https://php-nuke-titanium.86it.us/xmls/sitemap/sitemap-index.xml
+Sitemap: https://www.php-nuke-titianium.86it.us/xmls/sitemap/sitemap-index.xml

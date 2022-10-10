@@ -5,12 +5,64 @@
 <title>Live Feed from the PHP-Nuke Titanium Dev 4 Website</title>
 </head>
 <body> 
-<strong>Current Build:</strong> v4.0.0b Dev 4<hr>
-<strong>PHP-Nuke Titanium Dev 4 Repsoitory</strong> (Nightly Builds)<br />
-This is the Current US Version of PHP-Nuke Titanium v4.0.0b (Dev 4)<br /> 
-This is a hardened version of PHP-Nuke and is secure and safe.<br />
-<a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank">https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4</a> <- click here
+<strong>Current Build:</strong> v4.0.2 Beta<hr>
+<div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
+<div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Oct 9th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Changed _titnaium db prefix back to nuke_<br />
+<strong><i class="bi bi-calendar3"></i> Oct 9th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Changed $pnt_user_prefix back to $user_prefix<br />
+<strong><i class="bi bi-calendar3"></i> Oct 9th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Changed $pnt_prefix back to $prefix<br />
+<strong><i class="bi bi-calendar3"></i> Oct 9th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added sqr_show_hide.js back to CMS<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Oct 2nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Evo User Block<br />
+<strong><i class="bi bi-calendar3"></i> Oct 2nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Oct 1st 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Blog Top 100 Icons<br />
+<strong><i class="bi bi-calendar3"></i> Oct 1st 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Evo User Block<br />
+<strong><i class="bi bi-calendar3"></i> Oct 1st 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 30th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
+<strong><i class="bi bi-calendar3"></i> Sep 30th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added all projects to Network Projects<br />
+<strong><i class="bi bi-calendar3"></i> Sep 30th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Avatar Image in Profile<br />
+<strong><i class="bi bi-calendar3"></i> Sep 30th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Email Admin and Super Admin on Adim Authors Page<br />
+<strong><i class="bi bi-calendar3"></i> Sep 30th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 29th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 28th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Created Icons for GitHub v1.0 Forums Area<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 26th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Buttons in GitHub v1.0 Theme<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 25th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Created GitHub v1.0 Theme for the PHP-Nuke Titanium Site<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 24th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Theme change white screen<br />
+<strong><i class="bi bi-calendar3"></i> Sep 24th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated php-nuke-titanium.86it.us<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 23th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated HTML Purifier<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 22nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Network_Projects<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 21st 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Google Site Map<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 12th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated joker.86it.us<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 11th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated theghost.86it.us<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 10th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Switched back to MyISAM Engine<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 9th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Evo User Block Icons<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 8th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Changed database vars to stop collisions<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 7th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Core Theme<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 6th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Shout Box<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 5th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Setup joker.86it.us<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Sep 4th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Switched to InnoDB Engine<br />
 <strong><i class="bi bi-calendar3"></i> Sep 4th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated nukescripts.86it.us<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Sep 3rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Released Titanium SandBox v4.0.0<br />

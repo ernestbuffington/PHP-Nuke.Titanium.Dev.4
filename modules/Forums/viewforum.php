@@ -500,13 +500,13 @@ $template->set_filenames(array(
 $all_forums = array();
 make_jumpbox_ref('viewforum.'.$phpEx, $forum_id, $all_forums);
 # Mod: Simple Subforums v1.0.1 END
-
+$look_in_themes_dir_for_forum_icons = forum_icon_img_path($forum_row['forum_icon'], 'Forums');
 $template->assign_vars(array(
         'FORUM_ID' => $forum_id,
         'FORUM_NAME' => $forum_row['forum_name'],
         
 		# Mod: Forum Icons v1.0.4 START
-		'FORUM_ICON_IMG' => ($forum_row['forum_icon']) ? '<img src="'.$phpbb_root_path.$forum_row['forum_icon'].'" 
+		'FORUM_ICON_IMG' => ($forum_row['forum_icon']) ? '<img src="'.$look_in_themes_dir_for_forum_icons.'" 
 		alt="'.$forum_row['forum_name'].'" title="'.$forum_row['forum_name'].'" />&nbsp;' : '',
 		# Mod: Forum Icons v1.0.4 END
 

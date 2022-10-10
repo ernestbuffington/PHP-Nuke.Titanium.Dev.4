@@ -3,10 +3,10 @@ if (!defined('MODULE_FILE')) { die('You can\'t access this file directly...'); }
 
 global $facebook_plugin_width, $facebookappid, $feedicon, $name, $domain;
 
-$feedicon = img('Titanium_SandBox.png', 'Titanium_SandBox');
+$feedicon = img('facebook_SandBox.png', 'facebook_SandBox');
 
 ?>
-    <p><a class='clickable' onclick='postToFeed(); return false;'><img src="http://<?=$domain?>/modules/Titanium_SandBox/images/FBshare.png"></a></p>
+    <p><a class='clickable' onclick='postToFeed(); return false;'><img src="http://<?=$domain?>/modules/facebook_SandBox/images/FBshare.png"></a></p>
     <p id='msg'></p>
 
     <script> 
@@ -17,7 +17,7 @@ $feedicon = img('Titanium_SandBox.png', 'Titanium_SandBox');
         // calling the API ...
         var obj = {
           method: 'feed',
-          link: 'http://<?=$domain?>/modules.php?name=Titanium_SandBox',
+          link: 'http://<?=$domain?>/modules.php?name=facebook_SandBox',
           picture: '<?=$feedicon?>',
           name: 'The facebook SandBox Module - Coded for PHP-Nuke Titanium',
           caption: 'A place to practice with facebook\'s many Social Plugins',

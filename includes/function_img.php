@@ -79,6 +79,42 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
     exit('Access Denied');
 }
 ############################################################################################################################################
+# Forum Icon Path Mod - 09/26/2022 by Ernest Buffington - START                                                                            #       
+############################################################################################################################################
+function forum_icon_img_path($imgfile='', $mymodule='', $empty=true) 
+{
+    global $icon, $currentlang, $ThemeSel, $Default_Theme, $ImageDebug;
+	
+	$forum_theme_icons_found = false;
+	
+	# If file is found use themes/theme_name/images/forum_icons path!
+	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/forums/images/forum_icons/'.$imgfile)) 
+	{
+        $image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/$imgfile"; 
+		$forum_theme_icons_found = true;
+    } 
+	else # if we do not find any images under the theme directory use the Forums system default forum_icons dir!
+	if (@file_exists(TITANIUM_MODULES_DIR . $mymodule . '/images/forum_icons/'.$imgfile)) 
+	{
+		if($forum_theme_icons_found)
+		return;
+		
+        //$image = TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/forum_icons/$imgfile";
+		$image = TITANIUM_MODULES_IMAGE_DIR. $mymodule.'/';
+
+    } 
+	else # if we dont find shit write it to the error log
+	{
+
+    }
+	
+	return($image);
+}
+############################################################################################################################################
+# Forum Icon Path Mod - 09/26/2022 by Ernest Buffington - END                                                                              #       
+############################################################################################################################################
+
+############################################################################################################################################
 # Image Mod - Start  01/01/2012                                                                                                            #       
 ############################################################################################################################################
 function img($imgfile='', $mymodule='', $empty=true) 

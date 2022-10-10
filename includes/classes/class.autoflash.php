@@ -41,7 +41,7 @@ class swfheader {
 	//											debug and data fields
 	//--------------------------------------------------------------------------- 
 	//function swfheader($debug = false) {
-	function __construct($debug = true) {
+	function __construct($debug = false) {
 		$this->debug = $debug ;
 		$this->init() ;
 	  }
@@ -235,7 +235,6 @@ class swfheader {
 		
 		if ($this->valid) 
 		{
-		
 		  if ($name=="") $name = substr($this->fname,0,strrpos($this->fname,".")) ;
 			echo '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=' . $this->version . ',0,0,0" width="' . $this->width . '" height="' . $this->height . '" id="' . $name . '" align="middle">' . $endl ;
 			echo '<param name="allowScriptAccess" value="sameDomain" />' . $endl ;
@@ -249,10 +248,6 @@ class swfheader {
 			if ($trans) echo 'wmode="transparent" ' ;
 			echo 'quality="' . $qlty . '" bgcolor="' . $bgcolor . '" width="' . $this->width . '" height="' . $this->height . '" name="' . $name . '" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />' . $endl ;
 			echo '</object>' . $endl ;
-		
-		   
-
-		
 		} else {
 			if ($this->debug) {
 			  if ($this->fname=="") {

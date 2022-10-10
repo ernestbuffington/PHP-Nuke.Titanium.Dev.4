@@ -58,9 +58,9 @@ if((defined('NUKE_EVO')) || (defined('NUKE_TITANIUM')))return;
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))exit('Access Denied');
 
 # Define File
-define_once('NUKE_EVO', '4.0.0');
+define_once('NUKE_EVO', '2.0.9e');
 # Network Support
-define_once('NUKE_TITANIUM', '4.0.0b');
+define_once('NUKE_TITANIUM', '4.0.2');
 # Network Support
 define_once('TITANIUM_BUILD', '4022');
 define_once('CUR_EVO', 'NUKE_EVO');
@@ -269,6 +269,7 @@ define('NUKE_BASE_DIR', dirname(__FILE__) . '/');
 # Absolute Nuke directory + includes
 define('NUKE_BLOCKS_DIR', NUKE_BASE_DIR . 'blocks/');
 define('NUKE_CSS_DIR', 'includes/css/');
+define('NUKE_VENDOR_DIR', 'vendor/');
 define('NUKE_IMAGES_DIR', NUKE_BASE_DIR . 'images/');
 define('NUKE_INCLUDE_DIR', NUKE_BASE_DIR . 'includes/');
 define('NUKE_JQUERY_INCLUDE_DIR', 'includes/js/');
@@ -313,6 +314,12 @@ if (CAN_MOD_INI):
     ini_set('magic_quotes_sybase', 0);
     ini_set('zlib.output_compression', 0);
 endif;
+
+# Vendor Autoload - only if vendor directory exists with an autoload file! START
+if (@file_exists(NUKE_VENDOR_DIR.'autoload.php')):
+@require_once(NUKE_VENDOR_DIR.'autoload.php');
+endif;  
+# Vendor Autoload - only if vendor directory exists with an autoload file! END
 
 # Enable 86it Network Support START
 if (@file_exists(NUKE_BASE_DIR.'nconfig.php')):  

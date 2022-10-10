@@ -1,0 +1,248 @@
+[23-Aug-2022 16:01:01 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php on line 31
+[23-Aug-2022 16:01:02 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php on line 31
+[23-Aug-2022 16:01:03 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php on line 31
+[23-Aug-2022 16:01:03 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php on line 31
+[23-Aug-2022 16:01:03 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php on line 31
+[23-Aug-2022 16:01:04 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php on line 31
+[23-Aug-2022 16:01:04 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php on line 31
+[23-Aug-2022 16:01:04 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php on line 31
+[23-Aug-2022 16:01:04 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php on line 31
+[23-Aug-2022 16:01:04 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php on line 31
+[23-Aug-2022 16:01:05 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php on line 31
+[23-Aug-2022 16:01:05 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php on line 31
+[23-Aug-2022 16:01:05 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php on line 31
+[23-Aug-2022 16:01:05 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php on line 31
+[23-Aug-2022 16:01:05 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php:33
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php on line 33
+[23-Aug-2022 16:01:05 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php on line 31
+[23-Aug-2022 16:01:06 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php on line 31
+[23-Aug-2022 16:01:06 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php on line 31
+[23-Aug-2022 16:01:06 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php on line 31
+[23-Aug-2022 16:01:06 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php on line 31
+[23-Aug-2022 16:01:06 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php on line 31
+[23-Aug-2022 16:01:06 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php on line 31
+[23-Aug-2022 16:01:06 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php on line 31
+[23-Aug-2022 16:01:07 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php on line 31
+[23-Aug-2022 16:01:07 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php:33
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php on line 33
+[23-Aug-2022 16:01:07 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php on line 31
+[23-Aug-2022 16:01:07 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php on line 31
+[23-Aug-2022 16:01:07 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php on line 31
+[23-Aug-2022 16:01:07 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php on line 31
+[23-Aug-2022 16:01:08 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php on line 31
+[23-Aug-2022 16:01:08 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php on line 31
+[23-Aug-2022 16:01:08 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php on line 31
+[23-Aug-2022 16:01:08 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php on line 31
+[23-Aug-2022 16:01:08 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php on line 31
+[23-Aug-2022 16:01:08 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php:33
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php on line 33
+[23-Aug-2022 16:01:08 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php on line 31
+[23-Aug-2022 16:01:09 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php on line 31
+[23-Aug-2022 16:01:09 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php on line 31
+[23-Aug-2022 16:01:09 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php:33
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php on line 33
+[23-Aug-2022 16:01:09 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php on line 31
+[23-Aug-2022 16:01:09 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php on line 31
+[23-Aug-2022 16:01:10 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php:33
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php on line 33
+[23-Aug-2022 16:01:10 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php on line 31
+[23-Aug-2022 16:01:10 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php on line 31
+[23-Aug-2022 16:01:10 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php on line 31
+[23-Aug-2022 16:01:10 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php on line 31
+[23-Aug-2022 16:01:11 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php on line 31
+[23-Aug-2022 16:01:11 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php on line 31
+[23-Aug-2022 16:01:11 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php on line 31
+[23-Aug-2022 16:01:12 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php on line 31
+[23-Aug-2022 16:01:12 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php on line 31
+[23-Aug-2022 16:01:12 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php:33
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php on line 33
+[23-Aug-2022 16:01:12 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php on line 31
+[23-Aug-2022 16:01:12 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthenticationException.php on line 31
+[23-Aug-2022 16:01:12 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php on line 31
+[23-Aug-2022 16:01:13 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookAuthorizationException.php on line 31
+[23-Aug-2022 16:01:13 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php:33
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResponseException.php on line 33
+[23-Aug-2022 16:01:13 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookThrottleException.php on line 31
+[23-Aug-2022 16:01:14 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookResumableUploadException.php on line 31
+[23-Aug-2022 16:01:14 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookClientException.php on line 31
+[23-Aug-2022 16:01:15 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookServerException.php on line 31
+[23-Aug-2022 16:01:15 UTC] PHP Fatal error:  Uncaught Error: Class 'Facebook\Exceptions\FacebookSDKException' not found in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/dev4/public_html/includes/Facebook/Exceptions/FacebookOtherException.php on line 31

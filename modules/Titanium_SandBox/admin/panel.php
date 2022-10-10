@@ -10,7 +10,7 @@ get_lang($module_name);
 if ( is_mod_admin($module_name) )
 { 
 
-echo "<div align='center'>THIS WILL BE THE NEW ADMIN CONTROL PANEL FOR THE Titanium_SandBox (Only Admins Seee This)</div>";
+echo "THIS WILL BE THE NEW CONTROL PANEL FOR facebook_SandBox";
 }
 else
 { 

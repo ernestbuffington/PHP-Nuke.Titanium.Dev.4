@@ -162,8 +162,8 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
         $topicimage = stripslashes($row['topicimage']);
         $topictext = stripslashes($row['topictext']);
     }
-    themearticle($userinfo['username'], UsernameColor($userinfo['username']), '', '', $subject, $counter, $story, $topic, $topicname, $topicimage, $topictext);
-	echo $warning;
+    themearticle($userinfo['username'], UsernameColor($userinfo['username']), '',$subject, $counter, $story, $topic, $topic, $topicimage, $topictext);
+    echo $warning;
     //echo '<br /><br /><center><span class="tiny">'._CHECKSTORY."</span></center>\n";
     //CloseTable();
     //echo '<br />';

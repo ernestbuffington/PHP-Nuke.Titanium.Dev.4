@@ -3,33 +3,24 @@
 # HEADER                                                                                #
 #---------------------------------------------------------------------------------------#
 # THEME INFO                                                                            #
-# Universal Theme v1.0 (Fixed & Full Width)                                             #
+# Titanium Core Theme v2.0 (Fixed & Full Width)                                         #
 #                                                                                       #
-# Final Build Date 03/16/2021 Tuesday 12:54am                                           #
+# Final Build Date 10/09/2022 Tuesday 12:54am                                           #
 #                                                                                       #
-# A Very Nice Fire and Brimstone Theme Design.                                          #
-# Copyright © 2021 By: TheGhost AKA EABuffington                                        #
-# e-Mail : ernest.buffington@gmail.com                                                  #
+# A Very Nice Gold Template Theme                                                       #
+# Copyright © 2021 : Brandon Maintenance Management                                     #
+# e-Mail : brandon.maintenance.management@gmail.com                                     #
 #---------------------------------------------------------------------------------------#
-# CREATION INFO                                                                         #
-# Created On: 03/16/2021 Tuesday 12:54am (v1.0)                                         #
-#                                                                                       #
-# Credit goes to Lonestar On: 1st August, 2019 (v3.0)                                   #
-# HTML5 Theme Code By: Lonestar (Lonestar-Modules.com)                                  #
-#                                                                                       #
-# Credit goes to TheMortal                                                              #
-# For his CSS MENU                                                                      #
-#                                                                                       #
-# Read CHANGELOG File for Updates & Upgrades Info                                       #
+
 #                                                                                       #
 # Designed By: TheGhost & Sebastian                                                     #
 # Web Site: https://nukescripts.86it.us                                                 #
 # Purpose: PHP-Nuke Titanium | Nuke Evolution Xtreme                                    #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
-# PHP-Nuke Copyright (c) 2006 by Francisco Burzi phpnuke.org                            #
+# PHP-Nuke Copyright (c) 2002    : Francisco Burzi phpnuke.org                          #
 # Nuke Evolution Xtreme (c) 2010 : Enhanced PHP-Nuke Web Portal System                  #
-# PHP-Nuke Titanium (c) 2021     : Enhanced PHP-Nuke Web Portal System                  #
+# PHP-Nuke Titanium (c) 2022     : Enhanced and Advanced PHP-Nuke Web Portal System     #
 #---------------------------------------------------------------------------------------#
 #                                                                                       #
 # Special Honorable Mentions                                                            #
@@ -161,12 +152,6 @@ $scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"15\" src=\"https:/
 if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '76.0.3809.132') // Chrome Official Release (x64bit) 
 $scrollmsg .= "<img border=\"0\" align=\"top\" height=\"16\" src=\"https://www.chromium.org/_/rsrc/1302286290899/chromium-projects/chrome-32.png?height=32&width=32 alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome, you have great taste... Chrome is the #1 browsing solution in the world! When you are using Chrome it doesnt get any better!</strong>";
 
-if($titanium_browser->getBrowser() == Browser::BROWSER_OPR) // Browser Opera (x64bit) Official Release Build
-$scrollmsg .= "<img src=\"https://addons-static.operacdn.com/static/header-footer/css/img/opera-icon-header.c6f9a9d4173c.png\" srcset=\"https://addons-static.operacdn.com/static/header-footer/css/img/opera-icon-header.c6f9a9d4173c.png 1x, https://addons-static.operacdn.com/static/header-footer/css/img/opera-icon-header@2x.417c6a4c023a.png 2x\" alt=\"Opera Software logo\" height=\"15\" align=\"absmiddle\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Opera, it is one of the few acceptable browsers that are actually worth a shit! Here on The 86it Developers Network we like to see folks using thee ole noggin!</strong>";
-
-if($titanium_browser->getBrowser() == Browser::BROWSER_MAXTHON) // browser Maxthon Cloud
-$scrollmsg .= "<img style=\"vertical-align:middle\" border=\"0\" height=\"16\"  src=\"https://nukescripts.86it.us/images/browsers/logo-maxthon.png\" alt=\"Browser\" title=\"Browser\"><br><br><strong>Thanks for using Maxthon</strong>";
-
 if($titanium_browser->getBrowser() == Browser::BROWSER_FIREFOX && $titanium_browser->getVersion() == '69.0') // Official FireFox Quantum Release - CURRENTLY BROKEN BY THE DEVELOPERS as of 9/21/2017
 {
 $scrollmsg .= "<img style=\"vertical-align:middle\" border=\"0\" height=\"16\"  src=\"https://addons.cdn.mozilla.net/static/img/icons/firefox.png?b=54591c07-59b80978\" alt=\"Browser\" title=\"Browser\"><strong> Thanks for using FireFox Quantum</strong> ";
@@ -229,7 +214,7 @@ $marquee_two = '
 
 # This is where we set the poster background and full screen video START
 echo '<div class="fullscreen-bg">';
-echo '<video muted loop autoplay class="fullscreen-bg__video">';
+echo '<video muted loop autoplay poster="themes/'.$theme_name.'/images/BACKGROUNDS/1e1e1e.png" class="fullscreen-bg__video">';
 //echo '<source src="themes/'.$theme_name.'/video/spinning_black_wave_lines.mp4" type="video/mp4">';
 //echo '<source src="themes/'.$theme_name.'/video/abstract_liquid.mp4" type="video/mp4">'; // Ypp slow but pretty
 //echo '<source src="themes/'.$theme_name.'/video/abstract_geometric_grid.mp4" type="video/mp4">';
@@ -242,10 +227,10 @@ echo '<video muted loop autoplay class="fullscreen-bg__video">';
 //echo '<source src="themes/'.$theme_name.'/video/abstract_x_neon.mp4" type="video/mp4">'; ### 1 to 10  This is a 1 ###
 
 #### PHP-Nuke Titanium
-echo '<source src="themes/'.$theme_name.'/video/aqua_fresh.mp4" type="video/mp4">'; // $$$ Top 10 - 01
+//echo '<source src="themes/'.$theme_name.'/video/aqua_fresh.mp4" type="video/mp4">'; // $$$ Top 10 - 01
 //echo '<source src="themes/'.$theme_name.'/video/abstract_neon_reflections_circular_particles_3D_light_moving.mp4" type="video/mp4">'; ### 1 to 10  This is a 8 ### Bad Ass
 //echo '<source src="themes/'.$theme_name.'/video/abstract_modern_Liquid_U_trend_aurora_gradien.mp4" type="video/mp4">'; ### 1 to 10  This is a 5 ###
-//echo '<source src="themes/'.$theme_name.'/video/futuristic_gold_abstract_3D_tunnel_1.49gb.mp4" type="video/mp4">'; ### 1 to 10  This is a 10 ### BEST SO FAR
+echo '<source src="themes/'.$theme_name.'/video/futuristic_gold_abstract_3D_tunnel_1.49gb.mp4" type="video/mp4">'; ### 1 to 10  This is a 10 ### BEST SO FAR
 //echo '<source src="themes/'.$theme_name.'/video/abstract_bright_neon_moving_geometric_lines_gradient.mp4" type="video/mp4">'; ### 1 to 10  This is a 6 ### 
 //echo '<source src="themes/'.$theme_name.'/video/abstract_3D_tunnel_motion.mp4" type="video/mp4">'; ### 1 to 10  This is a 5 ### 
 //echo '<source src="themes/'.$theme_name.'/video/abstract_trendy_gradient_glowing_pink_moving_geometric_circles_spheres.mp4" type="video/mp4">'; ### 1 to 10  This is a 7 ### VEry Cool

@@ -110,33 +110,33 @@ function evouserinfo_users()
     $evouserinfo_users = '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['USERS']['MEMBERSHIPS'].'</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="gold"><i class="fas fa-radiation-alt" 
-	aria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['NEW_TODAY'].'<span style="float:right">'.number_format($today).'&nbsp;&nbsp;</span>';
+    $evouserinfo_users .= '<font color="gold"><i class="fa fa-pie-chart" aria-hidden="true"></i>
+</font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['NEW_TODAY'].'<span style="float:right">'.number_format($today).'&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="gold"><i class="fas fa-radiation-alt" 
-	aria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['NEW_YESTERDAY'].'<span style="float:right">'.number_format($yesterday).'&nbsp;&nbsp;</span>';
+    $evouserinfo_users .= '<font color="#FF3300"><i class="fa fa-pie-chart" aria-hidden="true"></i>
+</font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['NEW_YESTERDAY'].'<span style="float:right">'.number_format($yesterday).'&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="gold"><i class="fas fa-radiation-alt" a
-	ria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['WAITING'].'<span style="float:right">'.number_format($waiting).'&nbsp;&nbsp;</span>';
+    $evouserinfo_users .= '<font color="#79CDCD"><i class="fa fa-pie-chart" aria-hidden="true"></i>
+</font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['WAITING'].'<span style="float:right">'.number_format($waiting).'&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="gold"><i class="fas fa-radiation-alt" a
-	ria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['HIDDEN'].'<span style="float:right">'.number_format($hidden).'&nbsp;&nbsp;</span>';
+    $evouserinfo_users .= '<font color="white"><img width="16" height="16" src = "images/ico/snapchat-002.ico" alt="My Happy SVG"/>
+</font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['HIDDEN'].'<span style="float:right">'.number_format($hidden).'&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="gold"><i class="fas fa-radiation-alt" 
-	aria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['TOTAL'].'<span style="float:right">'.number_format($total).'&nbsp;&nbsp;</span>';
+    $evouserinfo_users .= '<font color="pink"><i class="fa fa-pie-chart" aria-hidden="true"></i>
+</font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['TOTAL'].'<span style="float:right">'.number_format($total).'&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<font color="gold"><i class="fas fa-radiation-alt" 
-	aria-hidden="true"></i></font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['LATEST']
+    $evouserinfo_users .= '<font color="#33CC00"><i class="fa fa-id-card-o" aria-hidden="true"></i>
+</font>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['LATEST']
 	.'<span style="float:right"><a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$new_user_id.'">'.$new_user.'</a>&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
 }

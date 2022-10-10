@@ -117,7 +117,7 @@ endif;
 global $theme_business, $theme_title, $theme_author, $theme_date, $theme_name, $theme_download_link, $name; 
 if(($name) && $name === 'Forums'):
 $footmsg .= '<br />';
-$footmsg .= 'Forums Powered by <a href="http://dev-phpbb2.86it.us/" target="_tab">phpBB Titanium v2.0.23n</a> | Core &copy; 2001, 2019 phpBB Group<br />';
+$footmsg .= 'Forums Powered by <a href="http://www.php-nuke-titanium.86it.us/" target="_tab">phpBB Titanium v4.0.2</a> | Core &copy; 2001, 2019 phpBB Group<br />';
 endif;
 $footmsg .= '<a class="tooltip-html copyright" href="'.$theme_download_link.'" data-toggle="modal" data-target="'.$theme_download_link.'" title="'.$theme_title; 
 $footmsg .= '<br/>Designed By '.$theme_author.'<br />Created '.$theme_date.'<br />'.$theme_business.'<br/>All Rights Reserved">'.$theme_title.'</a><br/><br/>';

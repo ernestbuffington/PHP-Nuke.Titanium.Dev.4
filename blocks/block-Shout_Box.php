@@ -1,22 +1,22 @@
 <?php
-/*======================================================================= 
-  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
+/*=======================================================================
+ PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
  =======================================================================*/
 
-/*======================================================================= 
-  PHP-NUKE: Shout Box
-  ==========================
-
- Copyright (c) 2003-2005 by Aric Bolf (SuperCat)
- http://www.OurScripts.net
-
- Copyright (c) 2002 by Quiecom
- http://www.Quiecom.com
-
- This program is free software. You can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation
- =======================================================================*/
+// ==========================================
+// PHP-NUKE: Shout Box
+// ==========================
+//
+// Copyright (c) 2003-2005 by Aric Bolf (SuperCat)
+// http://www.OurScripts.net
+//
+// Copyright (c) 2002 by Quiecom
+// http://www.Quiecom.com
+//
+// This program is free software. You can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation
+// ===========================================
 
 /*****[CHANGES]**********************************************************
 -=[Base]=-
@@ -26,7 +26,7 @@
       Advanced Username Color                  v1.0.5       10/10/2005
  ************************************************************************/
 
-if(!defined('NUKE_EVO')) exit;
+//if(!defined('NUKE_EVO')) exit;
 
 global $prefix, $ShoutSubmit, $ShoutComment, $db, $user, $cookie, $shoutuid, $top_content, $mid_content, $bottom_content, $ShoutMarqueewidth, $ShoutMarqueeheight, $currentlang;
 
@@ -47,4 +47,5 @@ if (!isset($_GET['Action']) && $_GET['Action'] != 'AJAX') {
     $content .= "<div align=\"center\" id=\"shoutbox\"><script type=\"text/javascript\">document.write(SBtxt);</script></div>\n";
     $content .= $bottom_content."\n";
 }
+
 ?>

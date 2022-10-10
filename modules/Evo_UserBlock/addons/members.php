@@ -40,7 +40,7 @@ function evouserinfo_members ()
     
 	      if(!empty($name))
 		  {
-		    $group_name = GroupColor($name);
+			$group_name = GroupColor($name);
 			$evouserinfo_members .= '<div style="padding-left: 10px;">';
 		    $evouserinfo_members .= '<font title="'.$id1.'" class="tooltip-html-side-interact tooltipstered" 
 			color="lime"><i title="'.$id1.'" alt="'.$id1.'" class="fas fa-users"></i></font> ';
@@ -88,8 +88,7 @@ function evouserinfo_members ()
 		    $evouserinfo_members .= '<div style="padding-left: 10px;">';
 			$evouserinfo_members .= '<font title="'.$row['group_id'].'" class="tooltip-html-side-interact tooltipstered" 
 			color="lightgrey"><i title="'.$row['group_id'].'" alt="'.$row['group_id'].'" class="fas fa-users"></i></font> ';
-		    $evouserinfo_members .= '<a class="tooltip-html-side-interact tooltipstered" title="'.$row['group_name'].'" 
-			href="modules.php?name=Groups&amp;g='.$row['group_id'] . '"><strong>' . $group_name . '</strong></a><br />';
+		    $evouserinfo_members .= '<a class="tooltip-html-side-interact tooltipstered" title="'.$row['group_name'].'"href="modules.php?name=Groups&amp;g='.$row['group_id'] . '"><strong>' . $group_name . '</strong></a><br />';
 			$evouserinfo_members .= '</div>';
           }
         

@@ -3,33 +3,22 @@
 # THEME SYSTEM FILE                                                                     #
 #---------------------------------------------------------------------------------------#
 # THEME INFO                                                                            #
-# Inferno Theme v1.0 (Fixed & Full Width)                                               #
+# Titanium Core Theme v2.0 (Fixed & Full Width)                                         #
 #                                                                                       #
-# Final Build Date 03/16/2021 Tuesday 12:54am                                           #
+# Final Build Date 10/09/2022 Tuesday 12:54am                                           #
 #                                                                                       #
-# A Very Nice Fire and Brimstone Theme Design.                                          #
-# Copyright © 2021 By: TheGhost AKA EABuffington                                        #
-# e-Mail : ernest.buffington@gmail.com                                                  #
+# A Very Nice Gold Template Theme                                                       #
+# Copyright © 2021 : Brandon Maintenance Management                                     #
+# e-Mail : brandon.maintenance.management@gmail.com                                     #
 #---------------------------------------------------------------------------------------#
-# CREATION INFO                                                                         #
-# Created On: 03/16/2021 Tuesday 12:54am (v1.0)                                         #
-#                                                                                       #
-# Credit goes to Lonestar On: 1st August, 2019 (v3.0)                                   #
-# HTML5 Theme Code By: Lonestar (Lonestar-Modules.com)                                  #
-#                                                                                       #
-# Credit goes to TheMortal                                                              #
-# For his CSS MENU                                                                      #
-#                                                                                       #
-# Read CHANGELOG File for Updates & Upgrades Info                                       #
-#                                                                                       #
-# Designed By: TheGhost & Sebastian                                                     #
-# Web Site: https://www.86it.us                                                         #
-# Purpose: PHP-Nuke Titanium | Nuke Evolution Xtreme                                    #
+# Designed By: Ernest Buffington                                                        #
+# Web Site: https://www.theghost.86it.us                                                #
+# Purpose: PHP-Nuke Titanium v4.0.2                                                     #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
-# PHP-Nuke Copyright (c) 2006 by Francisco Burzi phpnuke.org                            #
+# PHP-Nuke Copyright (c) 2002    : Francisco Burzi phpnuke.org                          #
 # Nuke Evolution Xtreme (c) 2010 : Enhanced PHP-Nuke Web Portal System                  #
-# PHP-Nuke Titanium (c) 2021     : Enhanced PHP-Nuke Web Portal System                  #
+# PHP-Nuke Titanium (c) 2022     : Enhanced and Advanced PHP-Nuke Web Portal System     #
 #---------------------------------------------------------------------------------------#
 #                                                                                       #
 # Special Honorable Mentions                                                            #
@@ -56,51 +45,41 @@
 #---------------------------------------------------------------------------------------#
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
 exit('Access Denied');
-#// do not use echo in this file myCopyRight
-#// use $output .=
-#//global $ThemeSel;
-# This is a script load example
-/* echo "<script type=\"text/javascript\" language=\"javascript\" src=\"".HTTPS."themes/".$ThemeSel."/js/liveclock.js\"></script>\n"; */
 global $domain;
 ?>
 <!-- 80sPXL W00 Thin V1 Font Info CSS -->
+<!-- our project just needs Font Awesome Solid + Brands -->
+<link href="/assets/fontawesome-free-6.2.0-web/css/all.css" rel="stylesheet">
+<link href="/assets/fontawesome-free-6.2.0-web/css/v5-font-face.css" rel="stylesheet">
 <link href="//db.onlinewebfonts.com/c/783dd6c2d08bdc67012a0eec73fc1702?family=80sPXLW00-Thin" rel="stylesheet" type="text/css"//>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="assets/bootstrap-icons-1.9.1/bootstrap-icons.css"/>
+<link rel="stylesheet" href="assets/bootstrap-3.4.1/css/bootstrap.min.css"/> 
+<script src="assets/jquery/jquery.js"></script>
+<script src="assets/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="includes/ajax/libs/animate.min.css"/>
 <!-- Modal -->
 <div class="modal fade" id="myCopyRight" tabindex="-1" role="dialog" aria-labelledby="CenterTitle" aria-hidden="true">
-
   <div class="modal-dialog modal-dialog-centered" role="document">
-
     <div class="modal-content modal-popout-bg">
-      
       <div class="modal-header">
-
         <h1 class="modal-title" id="CenterTitle">
         <font size="2" class="display-1" color="#000000"><i class="bi bi-arrow-right-square-fill"></i> Theme Name: <?=THEME?>
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Markup Language: XHTML
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Copyright: <i class="far fa-copyright"></i> Brandon Maintenance Management
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Creation Date: <?=THEME_DATE?> 
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Author: <?=THEME_AUTHOR?>
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> License: GNU General Public License
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Core Support: PHP-Nuke Titanium v3.0.0b <> v4.0.0b
+          <br /><i class="bi bi-arrow-right-square-fill"></i> Markup Language: XHTML
+          <br /><i class="bi bi-arrow-right-square-fill"></i> Copyright: <i class="far fa-copyright"></i> Brandon Maintenance Management
+          <br /><i class="bi bi-arrow-right-square-fill"></i> Creation Date: <?=THEME_DATE?> 
+          <br /><i class="bi bi-arrow-right-square-fill"></i> Author: <?=THEME_AUTHOR?>
+          <br /><i class="bi bi-arrow-right-square-fill"></i> License: GNU General Public License
+          <br /><i class="bi bi-arrow-right-square-fill"></i> Core Support: PHP-Nuke Titanium v4.0.2
         </font>
         </h1>
       </div>
   </font>
-
       <div class="modal-body">
-
   <h1 class="display-1"><font size="4" color="black"><i class="bi bi-sliders"></i> Theme Overview</font></h1> 
-
   <div class="lead">
   <font size="2" color="black"><strong>
   This PHP-Nuke Titanium theme is using Bootstrap v3.4.1 and XHTML. By default it has Video Background support and 2 scrolling marguee's in the header.   
   </div></font></strong>
-
   <div class="card-header">
   <font color="#000000"><strong>Features</strong></font>
   </div>
@@ -123,10 +102,7 @@ global $domain;
   </h5>
   </font>
   </div>
-
-
   </div>
-  
   <div class="modal-footer">
   <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
   </div>
@@ -134,5 +110,4 @@ global $domain;
   </div>
 </div>
 <?
-
 ?>

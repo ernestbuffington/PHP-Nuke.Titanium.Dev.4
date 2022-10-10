@@ -796,7 +796,14 @@ if( ( $total_categories = count($category_rows) ) )
  [ Mod:    Forum Icons                         v1.0.4 ]
  ******************************************************/ 
 								                                'FORUM_FOLDER_IMG' => ( $forum_data[$j]['title_is_link'] == 1 && $forum_data[$j]['forum_link_icon'] != '' ) ? $forum_data[$j]['forum_link_icon'] : $folder_image,
-																'FORUM_ICON_IMG' => ($icon) ? '<img src="' . $phpbb_root_path . $icon . '" alt="'.$forum_data[$j]['forum_name'].'" title="'.$forum_data[$j]['forum_name'].'" />' : '',
+############################################################################################################################################
+# Forum Icon Path Mod - 09/26/2022 by Ernest Buffington - START                                                                            #       
+############################################################################################################################################
+'FORUM_ICON_IMG' => ($icon) 
+? '<img src="' . forum_icon_img_path($forum_rows[$j]['forum_icon'], 'Forums') . $icon . '" alt="'.$forum_data[$j]['forum_name'].'" title="'.$forum_data[$j]['forum_name'].'" />' : '',
+############################################################################################################################################
+# Forum Icon Path Mod - 09/26/2022 by Ernest Buffington - END                                                                              #       
+############################################################################################################################################
 								                                'FORUM_LINK_COUNT' => ( $forum_data[$j]['title_is_link'] == 1 ) ? sprintf($lang['Forum_link_count'], $forum_data[$j]['forum_link_count']) : '',
 								                                'FORUM_LINK_TARGET' => ($forum_data[$j]['forum_link_target']) ? 'target="_blank"' : '',
 /*****[END]********************************************
