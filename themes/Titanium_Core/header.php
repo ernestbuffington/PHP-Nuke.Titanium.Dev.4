@@ -152,12 +152,6 @@ $scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"15\" src=\"https:/
 if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '76.0.3809.132') // Chrome Official Release (x64bit) 
 $scrollmsg .= "<img border=\"0\" align=\"top\" height=\"16\" src=\"https://www.chromium.org/_/rsrc/1302286290899/chromium-projects/chrome-32.png?height=32&width=32 alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome, you have great taste... Chrome is the #1 browsing solution in the world! When you are using Chrome it doesnt get any better!</strong>";
 
-if($titanium_browser->getBrowser() == Browser::BROWSER_OPR) // Browser Opera (x64bit) Official Release Build
-$scrollmsg .= "<img src=\"https://addons-static.operacdn.com/static/header-footer/css/img/opera-icon-header.c6f9a9d4173c.png\" srcset=\"https://addons-static.operacdn.com/static/header-footer/css/img/opera-icon-header.c6f9a9d4173c.png 1x, https://addons-static.operacdn.com/static/header-footer/css/img/opera-icon-header@2x.417c6a4c023a.png 2x\" alt=\"Opera Software logo\" height=\"15\" align=\"absmiddle\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Opera, it is one of the few acceptable browsers that are actually worth a shit! Here on The 86it Developers Network we like to see folks using thee ole noggin!</strong>";
-
-if($titanium_browser->getBrowser() == Browser::BROWSER_MAXTHON) // browser Maxthon Cloud
-$scrollmsg .= "<img style=\"vertical-align:middle\" border=\"0\" height=\"16\"  src=\"https://nukescripts.86it.us/images/browsers/logo-maxthon.png\" alt=\"Browser\" title=\"Browser\"><br><br><strong>Thanks for using Maxthon</strong>";
-
 if($titanium_browser->getBrowser() == Browser::BROWSER_FIREFOX && $titanium_browser->getVersion() == '69.0') // Official FireFox Quantum Release - CURRENTLY BROKEN BY THE DEVELOPERS as of 9/21/2017
 {
 $scrollmsg .= "<img style=\"vertical-align:middle\" border=\"0\" height=\"16\"  src=\"https://addons.cdn.mozilla.net/static/img/icons/firefox.png?b=54591c07-59b80978\" alt=\"Browser\" title=\"Browser\"><strong> Thanks for using FireFox Quantum</strong> ";
