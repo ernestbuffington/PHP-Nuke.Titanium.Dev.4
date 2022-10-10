@@ -103,7 +103,6 @@ function searchHistory($where, $sbsearchtext, $results, $style, $order, $page) {
     echo "<table cellpadding=\"3\" cellspacing=\"0\" width=\"90%\" border=\"0\" align=\"center\">\n";
     echo "<tr><td align=\"center\"><a href=\"modules.php?name=Shout_Box&amp;page=1\">"._SHOUTHISTORY."</a></td></tr></table>";
     CloseTable();
-    echo "<br />";
     // show results
     OpenTable();
     if ($results > 50) { $results = 50; }
@@ -111,10 +110,6 @@ function searchHistory($where, $sbsearchtext, $results, $style, $order, $page) {
 
     echo "<table cellpadding=\"3\" cellspacing=\"0\" width=\"90%\" border=\"0\" align=\"center\">\n";
     echo "<tr><td align=\"center\"><span class=\"title\">"._SEARCHRESULTS."</span></td></tr>\n";
-    //echo "<tr><td><table cellpadding=\"0\" width=\"100%\" cellspacing=\"0\" border=\"0\"><tr><td width=\"50%\" align=\"right\"><img width=\"50\" height=\"39\" src=\"modules/Shout_Box/history.gif\" alt=\"\" /></td><td width=\"50%\" align=\"left\" valign=\"middle\"><span class=\"title\">"._SEARCHRESULTS."</span></td></tr></table></td></tr>\n";
-    // build SQL query based on user choices
-    //$sql = "SELECT * FROM ".$prefix."_shoutbox_shouts WHERE name='$sbsearchtext' ORDER BY id DESC LIMIT $results";
-    // search by Nicknames only
     if ($where == 'Nicknames') {
         $SearchArray = explode(" ",$sbsearchtext);
         $c = count($SearchArray);
@@ -355,7 +350,6 @@ function showSearchBox($sbsearchtext, $where, $style, $results, $order) {
     echo "<form name=\"shoutform3\" method=\"post\" action=\"\" style=\"margin-bottom: 0px;\">\n";
     echo "<table cellpadding=\"3\" cellspacing=\"0\" width=\"95%\" border=\"0\" align=\"center\">\n";
     echo "<tr><td align=\"center\"><span class=\"title\">"._SEARCHBOX."</span></td></tr>\n";
-    //echo "<tr><td width=\"50%\" align=\"right\"><img width=\"50\" height=\"39\" src=\"modules/Shout_Box/search.jpg\" alt=\"\" /></td><td width=\"50%\" align=\"left\" valign=\"middle\"><span class=\"title\">"._SEARCHBOX."</span></td></tr>\n";
     echo "<tr><td colspan=\"2\" align=\"center\" nowrap=\"nowrap\" valign=\"middle\">";
 
     if (($where == 'Shouts') || (empty($where))) { $wSEL1 = " selected=\"selected\""; } else { $wSEL1 = ''; }
@@ -679,16 +673,16 @@ function findAvatar($row_avatar) {
     $db->sql_freeresult($result);
     if (preg_match('#http://#i',$row_avatar) == TRUE) {
         // offsite avatars
-        $AvatarFound = "<img src=\"$row_avatar\" alt=\"\" /></td>";
+        $AvatarFound = "<img style=\"max-width: 35px;\" class=\"rounded-corners-shout\" src=\"$row_avatar\" alt=\"\" /></td>";
     } else {
         $agp = $avatar_gallery_path['config_value'].'/'.$row_avatar;
         $ap = $avatar_path['config_value'].'/'.$row_avatar;
         if (file_exists($agp) == TRUE) {
-            $AvatarFound = "<img src=\"".$avatar_gallery_path['config_value']."/$row_avatar\" alt=\"\" /></td>";
+            $AvatarFound = "<img style=\"max-width: 35px;\" class=\"rounded-corners-shout\" src=\"".$avatar_gallery_path['config_value']."/$row_avatar\" alt=\"\" /></td>";
         } elseif (file_exists($ap) == TRUE) {
-            $AvatarFound = "<img src=\"".$avatar_path['config_value']."/$row_avatar\" alt=\"\" /></td>";
+            $AvatarFound = "<img style=\"max-width: 35px;\" class=\"rounded-corners-shout\" src=\"".$avatar_path['config_value']."/$row_avatar\" alt=\"\" /></td>";
         } else {
-            $AvatarFound = "<img src=\"".$avatar_path['config_value']."/blank.gif\" alt=\"\" /></td>";
+            $AvatarFound = "<img style=\"max-width: 35px;\" class=\"rounded-corners-shout\" src=\"".$avatar_path['config_value']."/blank.png\" alt=\"\" /></td>";
         }
     }
     return $AvatarFound;
@@ -728,8 +722,8 @@ function showHistory($page) {
     $order = '';
     showSearchBox($sbsearchtext, $where, $style, $results, $order);
     CloseTable();
-    echo "<br />";
-    OpenTable();
+    
+	OpenTable();
     $flag = 1;
 
     $ThemeSel = get_theme();
@@ -741,10 +735,11 @@ function showHistory($page) {
     echo "<form name=\"shoutform2\" method=\"post\" action=\"\" style=\"margin-bottom: 0px;\">\n";
     echo "<table cellpadding=\"3\" cellspacing=\"0\" width=\"90%\" border=\"0\" align=\"center\">\n";
     echo "<tr><td align=\"center\"><span class=\"title\">"._SHOUTBOXHISTORY."</span></td></tr>\n";
-    //echo "<tr><td><table cellpadding=\"0\" width=\"100%\" cellspacing=\"0\" border=\"0\"><tr><td width=\"45%\" align=\"right\"><img width=\"50\" height=\"39\" src=\"modules/Shout_Box/history.gif\" alt=\"\" /></td><td width=\"55%\" align=\"left\" valign=\"middle\"><span class=\"title\">"._SHOUTBOXHISTORY."</span></td></tr></table></td></tr>\n";
-    $sql = "SELECT * FROM `".$prefix."_shoutbox_shouts` ORDER BY `id` DESC LIMIT ".$offset1.",$shoutsViewed";
+    
+	$sql = "SELECT * FROM `".$prefix."_shoutbox_shouts` ORDER BY `id` DESC LIMIT ".$offset1.",$shoutsViewed";
     $resultt = $db->sql_query($sql);
-    while ($row = $db->sql_fetchrow($resultt)) {
+    
+	while ($row = $db->sql_fetchrow($resultt)) {
         if ($flag == 1) { $bgcolor = $rowColor['menuColor1']; }
         if ($flag == 2) { $bgcolor = $rowColor['menuColor2']; }
         $comment = str_replace('src=', 'src="', $row['comment']);

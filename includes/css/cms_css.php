@@ -6,10 +6,16 @@ global $theme_name;
 echo "\n\n/* includes/css/cms_css.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
 echo "/* When we are done we will move this code to style.css */\n\n"; 
 ?>
-font.gensmall-visitorlog{
+font.gensmall-visitorlog
+{
 
 
 }
+
+img.rounded-corners-shout { 
+  border-radius: 3px;
+}
+
 img.rounded-corners-profile {
   border-radius: 20px; 
 }
