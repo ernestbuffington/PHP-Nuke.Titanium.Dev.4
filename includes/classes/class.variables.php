@@ -176,7 +176,7 @@ function deepPurifier($data) {
     }
 	
 	if (!isset($config) || empty($config)) {
-        require_once(NUKE_INCLUDE_DIR.'HTMLPurifier/HTMLPurifier.auto.php');
+        require_once(NUKE_INCLUDE_DIR.'purifier/library/HTMLPurifier.auto.php');
     	$config = HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', 'UTF-8');
 		$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
