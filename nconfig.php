@@ -23,7 +23,7 @@ if ( defined('network') ):
 $dbhost2 = 'localhost';
 $dbname2 = 'hub_db';
 $dbuname2 = 'hub_user';
-$dbpass2 = 'xwdNPADv86h8u';
+$dbpass2 = '';
 $network_prefix = 'network';
 endif;
 ?>
