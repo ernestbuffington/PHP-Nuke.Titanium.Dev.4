@@ -1,0 +1,1 @@
+<br /><div align="center"><span class="copyright">Thread Kicker Mod 1.0.1 by Majorflam &copy 2004 <a href="http://www.majormod.com" class="copyright">Major Mod - Software Modifications For phpBB2</a></span></div>

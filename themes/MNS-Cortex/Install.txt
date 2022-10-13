@@ -1,0 +1,71 @@
+if you have any support requests please feel free to visit www.destinedesigns.com and post in the forums
+
+***Do not redistribute or re-sell this theme it is licesned to the original buyer only
+***Do not remove any copy rights as it is illegal to do so.
+***Back this theme and accessories onto CD or somewhere safe if you loase it we are not responible
+for replacing it you will have to re-purchase the theme.
+***If you are found to be re-selling or re-distributing this theme you have givin us the the go ahead to 
+have your site and the site(s) you have giving this theme to shut down and possible legal action to be persued.
+
+By installing this theme you are agreeing to the above actions.
+
+We are just covering our bases as there have been a few people who have decided to re-sell Destine Designs Themes
+and there will be no more of this happening.
+
+Enjoy The Theme Destine Designs
+
+
+Thank You For Your Purchase Of The Mech2 Theme.
+
+below is showing how everything should be uploaded everything is set up so you shouldn't have any problems.
+
+Where as Root = Main Nuke Folder Of Your Site
+
+upload the Mech2 theme to root/themes/
+
+extra's
+
+ShoutBox
+root/DDshout.php
+root/blocks/block-DDShoutBlock.php
+root/includes/shout.swf
+root/images/admin/DDesigns.gif
+root/admin/links/links.DDadminshout.php
+root/admin/case/case.DDadminshout.php
+root/admin/modules/DDadminshout.php
+
+Welcome Block
+root/blocks/block-DD-Welcome.php
+root/includes/welcome/welcome.swf
+root/includes/welcome/welcome.txt
+root/includes/welcome/welcomecontact.php
+
+
+FlashNav
+root/FlashNav.txt
+root/blocks/block-DDFlashNav.php
+root/includes/FlashNav.swf
+
+MP3 player in the header
+
+root/includes/DDmp3/playlist.xml
+root/includes/DDmp3/musik/yoursongs here**
+( do not include the .mp3 the songs will not play)
+
+
+
+if you have any support requests please feel free to visit www.destinedesigns.com and post in the forums
+
+***Do not redistribute or re-sell this theme it is licesned to the original buyer only
+***Do not remove any copy rights as it is illegal to do so.
+***Back this theme and accessories onto CD or somewhere safe if you loase it we are not responible
+for replacing it you will have to re-purchase the theme.
+***If you are found to be re-selling or re-distributing this theme you have givin us the the go ahead to 
+have your site and the site(s) you have giving this theme to shut down and possible legal action to be persued.
+
+By installing this theme you are agreeing to the above actions.
+
+We are just covering our bases as there have been a few people who have decided to re-sell Destine Designs Themes
+and there will be no more of this happening
+
+Destine Designs have put a lot of time into there work and should be compensated for there time
