@@ -348,7 +348,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid) {
 				$PreviousComment = '';
 			} else {
 				if ($username != _NAME) {
-					$PreviousUsername = $username;
+					$PreviousUsername = $username; 
 				}
 				if ($PreviousShoutComment != _SB_MESSAGE) {
 					$PreviousComment = $PreviousShoutComment;

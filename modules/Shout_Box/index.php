@@ -26,24 +26,31 @@
       Advanced Username Color                  v1.0.5       10/29/2005
  ************************************************************************/
 
-if (!defined('MODULE_FILE')) {
-   die ("You can't access this file directly...");
-}
+if(!defined('MODULE_FILE')){die ("You can't access this file directly...");}
 
 $module_name = basename(dirname(__FILE__));
+
 get_lang($module_name);
+
 $pagetitle = "- "._SHOUTHISTORY;
 
 global $db, $user, $prefix, $username, $nsnst_const, $userinfo, $cache;
 
 global $username;
+
 $username = $userinfo['username'];
-if (empty($username)) { $username = "Anonymous"; }
+
+if(empty($username)) 
+{ 
+  $username = "Anonymous"; 
+}
 
 include_once(NUKE_MODULES_DIR.'Shout_Box/shout.php');
 
 global $conf;
-if ((($conf = $cache->load('conf', 'shoutbox')) == false) || empty($conf)) {
+
+if((($conf = $cache->load('conf', 'shoutbox')) == false) || empty($conf)) 
+{
     $sql = "SELECT * FROM `".$prefix."_shoutbox_conf`";
     $result = $db->sql_query($sql);
     $conf = $db->sql_fetchrow($result);
@@ -53,7 +60,10 @@ if ((($conf = $cache->load('conf', 'shoutbox')) == false) || empty($conf)) {
 
 $Action = (isset($_REQUEST['Action'])) ? $_REQUEST['Action'] : '';
 
-if ($Action == "AJAX") { die(); }
+if($Action == "AJAX") 
+{ 
+   die(); 
+}
 
 //do IP test then ban if on list
 /*****[BEGIN]******************************************
@@ -63,35 +73,48 @@ $uip = $nsnst_const['remote_ip'];
 /*****[END]********************************************
  [ Base:    NukeSentinel                       v2.4.2 ]
  ******************************************************/
-if($conf['ipblock'] == "yes") {
+
+if($conf['ipblock'] == "yes") 
+{
     $sql = "SELECT * FROM ".$prefix."_shoutbox_ipblock";
     $ipresult = $db->sql_query($sql);
-    while ($badips = $db->sql_fetchrow($ipresult)) {
-        if (preg_match("/\*/i", $badips['name'])) { // Allow for Subnet bans like 123.456.*
+
+    while ($badips = $db->sql_fetchrow($ipresult)) 
+	{
+        if (preg_match("/\*/i", $badips['name'])) 
+		{ // Allow for Subnet bans like 123.456.*
             $badipsArray = explode(".",$badips['name']);
             $uipArray = explode(".",$uip);
             $i = 0;
-            foreach($badipsArray as $badipsPart) {
+        
+		    foreach($badipsArray as $badipsPart) 
+			{
                 if ($badipsPart == "*") { $Action = "UserBanned"; break; }
                 if ($badipsPart != $uipArray[$i] && $badipsPart != "*") { break; }
                 $i++;
             }
-        } else {
+        } 
+		else 
+		{
             if($uip == $badips['name']) { $Action = "UserBanned"; break; }
         }
     }
 }
 
 //do name test then ban if on list (only applies to registered users)
-if($conf['nameblock'] == "yes" && $Action != "UserBanned") {
+if($conf['nameblock'] == "yes" && $Action != "UserBanned") 
+{
     $sql = "SELECT * FROM ".$prefix."_shoutbox_nameblock";
     $nameresult = $db->sql_query($sql);
-    while ($badname = $db->sql_fetchrow($nameresult)) {
+
+    while ($badname = $db->sql_fetchrow($nameresult)) 
+	{
         if($username == $badname['name']) { $Action = "UserBanned"; break; }
     }
 }
 
-function searchHistory($where, $sbsearchtext, $results, $style, $order, $page) {
+function searchHistory($where, $sbsearchtext, $results, $style, $order, $page) 
+{
     global $db, $prefix, $username, $userinfo, $board_config;
     include_once(NUKE_BASE_DIR.'header.php');
 
@@ -99,10 +122,12 @@ function searchHistory($where, $sbsearchtext, $results, $style, $order, $page) {
 
     // search form
     OpenTable();
+
     showSearchBox($sbsearchtext, $where, $style, $results, $order);
     echo "<table cellpadding=\"3\" cellspacing=\"0\" width=\"90%\" border=\"0\" align=\"center\">\n";
     echo "<tr><td align=\"center\"><a href=\"modules.php?name=Shout_Box&amp;page=1\">"._SHOUTHISTORY."</a></td></tr></table>";
     CloseTable();
+
     // show results
     OpenTable();
     if ($results > 50) { $results = 50; }
@@ -110,27 +135,41 @@ function searchHistory($where, $sbsearchtext, $results, $style, $order, $page) {
 
     echo "<table cellpadding=\"3\" cellspacing=\"0\" width=\"90%\" border=\"0\" align=\"center\">\n";
     echo "<tr><td align=\"center\"><span class=\"title\">"._SEARCHRESULTS."</span></td></tr>\n";
-    if ($where == 'Nicknames') {
+
+    if ($where == 'Nicknames') 
+	{
         $SearchArray = explode(" ",$sbsearchtext);
         $c = count($SearchArray);
         $d = 0;
         $sql = "SELECT * FROM `".$prefix."_shoutbox_shouts` WHERE `name`";
-        if (is_array($SearchArray)) {
-            foreach($SearchArray as $SearchPart) {
+    
+	    if (is_array($SearchArray)) 
+		{
+            foreach($SearchArray as $SearchPart) 
+			{
                 $d++;
-                if ($style == 'Exact') {
+                if ($style == 'Exact') 
+				{
                     $sql .= "='".$SearchPart."'";
-                } else {
+                } 
+				else 
+				{
                     $sql .= " LIKE '%".$SearchPart."%'";
                 }
-                if ($d < $c) { $sql .= " AND `name`"; }
+                
+				if ($d < $c) { $sql .= " AND `name`"; }
             }
         }
-    } elseif ($where == 'Both') {
+    } 
+	elseif($where == 'Both') 
+	{
     // search by Nicknames and Shouts
-        if ($style == 'Exact') {
+        if ($style == 'Exact') 
+		{
             $sql = "SELECT * FROM `".$prefix."_shoutbox_shouts` WHERE `name`='".$sbsearchtext."' OR `comment`='".$sbsearchtext."'";
-        } else {
+        } 
+		else 
+		{
             $SearchArray = explode(" ", $sbsearchtext);
             $c = count($SearchArray);
             $d = 0;
@@ -141,31 +180,49 @@ function searchHistory($where, $sbsearchtext, $results, $style, $order, $page) {
                 if ($d < $c) { $sql .= " OR `name`"; }
             }
         }
-    } else {
-    // search by Shouts only
-        if ($style == 'Exact') {
+    } 
+	else 
+	{
+        // search by Shouts only
+        if ($style == 'Exact') 
+		{
             $sql = "SELECT * FROM `".$prefix."_shoutbox_shouts` WHERE `comment` LIKE '%".$sbsearchtext."%'";
-        } else {
+        } 
+		else 
+		{
             $SearchArray = explode(" ",$sbsearchtext);
             $c = count($SearchArray);
             $d = 0;
             $sql = "SELECT * FROM `".$prefix."_shoutbox_shouts` WHERE `comment`";
-            foreach($SearchArray as $SearchPart) {
+        
+		    foreach($SearchArray as $SearchPart) 
+			{
                 $d++;
                 $sql .= " LIKE '%".$SearchPart."%'";
                 if ($d < $c) { $sql .= " AND `comment`"; }
             }
         }
     }
-    if ((empty($order)) || ($order == 'newest')) { $sql .= " ORDER BY `id` DESC"; }
-    else { $sql .= " ORDER BY `id` ASC"; }
-    $sql .= " LIMIT $results";
+    
+	if((empty($order)) || ($order == 'newest')) 
+	{ 
+	  $sql .= " ORDER BY `id` DESC"; 
+	}
+    else
+	{ 
+	  $sql .= " ORDER BY `id` ASC"; 
+	}
+    
+	$sql .= " LIMIT $results";
     // end building SQL query
     $result = $db->sql_query($sql);
     $numrows = $db->sql_numrows($result);
-    if ($numrows > 0) {
+    
+	if($numrows > 0) 
+	{
         global $conf;
-        $flag = 1;
+      
+	    $flag = 1;
 
         $ThemeSel = get_theme();
         $sql = "SELECT `menuColor1`, `menuColor2` FROM `".$prefix."_shoutbox_themes` WHERE `themeName`='$ThemeSel'";
@@ -173,25 +230,39 @@ function searchHistory($where, $sbsearchtext, $results, $style, $order, $page) {
         $rowColor = $db->sql_fetchrow($resultT);
         $db->sql_freeresult($resultT);
 
-        while ($row = $db->sql_fetchrow($result)) {
-            if ($flag == 1) { $bgcolor = $rowColor['menuColor1']; }
-            if ($flag == 2) { $bgcolor = $rowColor['menuColor2']; }
-            $comment = str_replace('src=', 'src="', $row['comment']);
+        while($row = $db->sql_fetchrow($result)) 
+		{
+            if($flag == 1) 
+			{ 
+			  $bgcolor = $rowColor['menuColor1']; 
+			}
+            
+			if($flag == 2) 
+			{ 
+			  $bgcolor = $rowColor['menuColor2']; 
+			}
+      
+	        $comment = str_replace('src=', 'src="', $row['comment']);
             $comment = str_replace('.gif>', '.gif" alt="" />', $comment);
             $comment = str_replace('.jpg>', '.jpg" alt="" />', $comment);
             $comment = str_replace('.png>', '.png" alt="" />', $comment);
             $comment = str_replace('.bmp>', '.bmp" alt="" />', $comment);
 
             // BB code [b]word[/b] [i]word[/i] [u]word[/u]
-            if ((preg_match("#[b]#i", $comment)) && (preg_match("#[/b]#i", $comment)) && (substr_count($comment,"[b]") == substr_count($comment,"[/b]"))) {
+            if ((preg_match("#[b]#i", $comment)) && (preg_match("#[/b]#i", $comment)) && (substr_count($comment,"[b]") == substr_count($comment,"[/b]"))) 
+			{
                 $comment = str_replace("[b]","<span style=\"font-weight: bold\">",$comment);
                 $comment = str_replace("[/b]","</span>",$comment);
             }
-            if ((preg_match("#[i]#i", $comment)) && (preg_match("#[/i]#i", $comment)) && (substr_count($comment,"[i]") == substr_count($comment,"[/i]"))) {
+            
+			if ((preg_match("#[i]#i", $comment)) && (preg_match("#[/i]#i", $comment)) && (substr_count($comment,"[i]") == substr_count($comment,"[/i]"))) 
+			{
                 $comment = str_replace("\[i\]","<span style=\"font-style: italic\">",$comment);
                 $comment = str_replace("\[\/i\]","</span>",$comment);
             }
-            if ((preg_match("#[u]#i", $comment)) && (preg_match("#[/u]#i", $comment)) && (substr_count("$comment","[u]") == substr_count($comment,"[/u]"))) {
+            
+			if ((preg_match("#[u]#i", $comment)) && (preg_match("#[/u]#i", $comment)) && (substr_count("$comment","[u]") == substr_count($comment,"[/u]"))) 
+			{
                 $comment = str_replace("[u]","<span style=\"text-decoration: underline\">",$comment);
                 $comment = str_replace("[/u]","</span>",$comment);
             }
@@ -202,8 +273,10 @@ function searchHistory($where, $sbsearchtext, $results, $style, $order, $page) {
             $db->sql_freeresult($nameresultN);
 
             // Disallow Anonymous users from seeing links to users' accounts
-            if ($username == "Anonymous") {
-                if (!empty($rowN['user_avatar']) && $rowN['user_avatar'] != "blank.gif" && ($rowN['user_avatar'] != "gallery/blank.gif") && (stristr($rowN['user_avatar'],'.') == TRUE)) {
+            if ($username == "Anonymous") 
+			{
+                if (!empty($rowN['user_avatar']) && $rowN['user_avatar'] != "blank.gif" && ($rowN['user_avatar'] != "gallery/blank.gif") && (stristr($rowN['user_avatar'],'.') == TRUE)) 
+				{
                     echo "<tr><td style=\"background-color: $bgcolor;\">";
                     echo "<table cellpadding=\"1\" cellspacing=\"0\" width=\"100%\" border=\"0\">";
                     echo "<tr><td valign='top' style=\"background-color: $bgcolor;\">";
@@ -212,75 +285,108 @@ function searchHistory($where, $sbsearchtext, $results, $style, $order, $page) {
                     echo $av_found;
                     echo "<td valign='top' width='100%' style=\"background-color: $bgcolor;\">";
                     echo "<strong>$row[name]:</strong> $comment";
-                    if ($conf['date'] == "yes") {
-                        if (!empty($row['timestamp'])) {
+                
+				    if($conf['date'] == "yes") 
+					{
+                        if(!empty($row['timestamp'])) 
+						{
                             // reads unix timestamp && formats it to the viewer's timezone
-                            if (is_user()) {
+                            if(is_user()) 
+							{
                                 $unixTime = EvoDate($userinfo['user_dateformat'], $row['timestamp'], $userinfo['user_timezone']);
                                 echo "<br />$unixTime";
-                            } else {
+                            } 
+							else 
+							{
                                 $unixTime = EvoDate($board_config['default_dateformat'], $row['timestamp'], $board_config['board_timezone']);
                                 echo "<br />$unixTime";
                             }
-                        } else {
+                        } 
+						else 
+						{
                             echo "<br />".$row['date']."&nbsp;".$row['time'];
                         }
                     }
                     echo "</td></tr></table>";
                     echo "</td></tr>\n";
-                } else {
+                } 
+				else 
+				{
                     echo "<tr><td style=\"background-color: $bgcolor;\">";
                     echo "<strong>".$row['name'].":</strong> $comment";
-                    if ($conf['date'] == "yes") {
-                        if (!empty($row['timestamp'])) {
+                
+				    if ($conf['date'] == "yes") 
+					{
+                        if (!empty($row['timestamp'])) 
+						{
                             // reads unix timestamp && formats it to the viewer's timezone
-                            if (is_user()) {
+                            if (is_user()) 
+							{
                                 $unixTime = EvoDate($userinfo['user_dateformat'], $row['timestamp'], $userinfo['user_timezone']);
                                 echo "<br />$unixTime";
-                            } else {
+                            } 
+							else 
+							{
                                 $unixTime = EvoDate($board_config['default_dateformat'], $row['timestamp'], $board_config['board_timezone']);
                                 echo "<br />$unixTime";
                             }
-                        } else {
+                        } 
+						else 
+						{
                             echo "<br />".$row['date']."&nbsp;".$row['time'];
                         }
                     }
-                    echo "</td></tr>\n";
+                    
+					echo "</td></tr>\n";
                 }
-            } else {
+            } 
+			else 
+			{
                 // check to see if nickname is a user in the DB && not Anonymous
-                if (is_array($rowN) && $rowN['username'] != "Anonymous") {
-                    if (($rowN['user_avatar']) && ($rowN['user_avatar'] != "blank.gif") && ($rowN['user_avatar'] != "gallery/blank.gif") && (stristr($rowN['user_avatar'],'.') == TRUE)) {
+                if (is_array($rowN) && $rowN['username'] != "Anonymous") 
+				{
+                    if (($rowN['user_avatar']) && ($rowN['user_avatar'] != "blank.gif") && ($rowN['user_avatar'] != "gallery/blank.gif") && (stristr($rowN['user_avatar'],'.') == TRUE)) 
+					{
                         echo "<tr><td style=\"background-color: $bgcolor;\">";
                         echo "<table cellpadding=\"1\" cellspacing=\"0\" width=\"100%\" border=\"0\">";
                         echo "<tr><td valign='top' style=\"background-color: $bgcolor;\">";
                         $row_avatar = $rowN['user_avatar'];
                         $av_found = findAvatar($row_avatar);
                         echo $av_found;
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                        echo "<td valign='top' width='100%' style=\"background-color: $bgcolor;\"><strong><a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$row[name]\">" . UsernameColor($row['name']) . "</a>:</strong> $comment<br />";
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                        if ($conf['date'] == "yes") {
-                            if (!empty($row['timestamp'])) {
+                        /*****[BEGIN]******************************************
+                         [ Mod:    Advanced Username Color             v1.0.5 ]
+                         ******************************************************/
+                        echo "<td valign='top' width='100%' style=\"background-color: $bgcolor;\"><strong><a 
+						href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$row[name]\">" . UsernameColor($row['name']) . "</a>:</strong> $comment<br />";
+                        /*****[END]********************************************
+                         [ Mod:    Advanced Username Color             v1.0.5 ]
+                         ******************************************************/
+                        if($conf['date'] == "yes") 
+						{
+                            if (!empty($row['timestamp'])) 
+							{
                                 // reads unix timestamp && formats it to the viewer's timezone
-                                if (is_user()) {
+                                if (is_user()) 
+								{
                                     $unixTime = EvoDate($userinfo['user_dateformat'], $row['timestamp'], $userinfo['user_timezone']);
                                     echo $unixTime;
-                                } else {
+                                } 
+								else 
+								{
                                     $unixTime = EvoDate($board_config['default_dateformat'], $row['timestamp'], $board_config['board_timezone']);
                                     echo "$unixTime";
                                 }
-                            } else {
+                            } 
+							else 
+							{
                                 echo $row['date']."&nbsp;".$row['time'];
                             }
                         }
                         // registered users edit/delete posts
-                        if (($conf['delyourlastpost'] == "yes") && ($username == $row['name'])) {
-                            echo " &#91; <a title=\""._EDIT."\" href=\"modules.php?name=Shout_Box&amp;Action=Edit&amp;shoutID=".$row['id']."&amp;page=$page\">"._EDIT."</a> | <a title=\""._DELETE."\" href=\"modules.php?name=Shout_Box&amp;Action=Delete&amp;shoutID=".$row['id']."&amp;page=$page\">"._DELETE."</a> &#93;";
+                        if(($conf['delyourlastpost'] == "yes") && ($username == $row['name'])) 
+						{
+                            echo " &#91; <a title=\""._EDIT."\" href=\"modules.php?name=Shout_Box&amp;Action=Edit&amp;shoutID=".$row['id']."&amp;page=$page\">"._EDIT."</a> | <a 
+							title=\""._DELETE."\" href=\"modules.php?name=Shout_Box&amp;Action=Delete&amp;shoutID=".$row['id']."&amp;page=$page\">"._DELETE."</a> &#93;";
                         }
                         echo "</td></tr></table>";
                         echo "</td></tr>\n";
@@ -346,15 +452,18 @@ function searchHistory($where, $sbsearchtext, $results, $style, $order, $page) {
     include_once(NUKE_BASE_DIR.'footer.php');
 }
 
-function showSearchBox($sbsearchtext, $where, $style, $results, $order) {
+# Search Box at Top Of Page 
+function showSearchBox($sbsearchtext, $where, $style, $results, $order) 
+{
     echo "<form name=\"shoutform3\" method=\"post\" action=\"\" style=\"margin-bottom: 0px;\">\n";
     echo "<table cellpadding=\"3\" cellspacing=\"0\" width=\"95%\" border=\"0\" align=\"center\">\n";
-    echo "<tr><td align=\"center\"><span class=\"title\">"._SEARCHBOX."</span></td></tr>\n";
+    echo "<tr><td align=\"center\"><span class=\"title\"><h1>"._SEARCHBOX."</h1></span></td></tr>\n";
     echo "<tr><td colspan=\"2\" align=\"center\" nowrap=\"nowrap\" valign=\"middle\">";
 
     if (($where == 'Shouts') || (empty($where))) { $wSEL1 = " selected=\"selected\""; } else { $wSEL1 = ''; }
     if ($where == 'Nicknames') { $wSEL2 = " selected=\"selected\""; } else { $wSEL2 = ''; }
     if ($where == 'Both') { $wSEL3 = " selected=\"selected\""; } else { $wSEL3 = ''; }
+
     echo "<select name=\"where\">
     <option value=\"Shouts\"$wSEL1>"._SHOUTS."</option>
     <option value=\"Nicknames\"$wSEL2>"._SBNICKNAMES."</option>
@@ -383,10 +492,21 @@ function showSearchBox($sbsearchtext, $where, $style, $results, $order) {
     <option value=\"newest\"$oSEL1>"._NEWESTFIRST."</option>
     <option value=\"oldest\"$oSEL2>"._OLDESTFIRST."</option></select>";
 
-    echo "</td></tr><tr><td colspan=\"2\" align=\"center\" nowrap=\"nowrap\" valign=\"middle\">";
-    echo "<input type=\"text\" name=\"sbsearchtext\" value=\"$sbsearchtext\" size=\"53\" maxlength=\"100\" />&nbsp;&nbsp;";
-    echo "<input type=\"hidden\" name=\"Action\" value=\"Search\" /><input type=\"submit\" name=\"button\" value=\""._SBSEARCH."\" /></td></tr>";
-    echo "</table></form>";
+    echo "</td></tr>";
+	echo "<tr>";
+
+	echo "<td colspan=\"2\" align=\"center\" nowrap=\"nowrap\" valign=\"middle\">&nbsp;";
+	echo "</td></tr>";
+
+	echo "<td colspan=\"2\" align=\"center\" nowrap=\"nowrap\" valign=\"middle\">&nbsp;";
+	echo "<input type=\"text\" name=\"sbsearchtext\" value=\"$sbsearchtext\" size=\"53\" maxlength=\"100\" />&nbsp;&nbsp;";
+	echo "<input type=\"hidden\" name=\"Action\" value=\"Search\" /><input type=\"submit\" name=\"button\" value=\""._SBSEARCH."\" />";
+	echo "</td></tr>";
+
+	echo "<td colspan=\"2\" align=\"center\" nowrap=\"nowrap\" valign=\"middle\">&nbsp;";
+	echo "</td></tr>";
+    
+	echo "</table></form>";
 }
 
 function shoutDelete($page, $shoutID) {
@@ -405,7 +525,8 @@ function shoutDelete($page, $shoutID) {
     exit;
 }
 
-function shoutEdit($page, $shoutID, $ShoutError) {
+function shoutEdit($page, $shoutID, $ShoutError) 
+{
     global $db, $prefix, $conf, $username;
     include_once(NUKE_BASE_DIR.'header.php');
     OpenTable();
@@ -449,7 +570,7 @@ function shoutEdit($page, $shoutID, $ShoutError) {
                 } else { $ShoutNew[$i] = $ShoutPart; }
                 $i++;
             }
-            $ShoutComment = implode(" ",$ShoutNew);
+            $ShoutComment = implode(" ",$ShoutNew); 
 
             // strip smilies code here (added back in later if saved)
             $sql = "SELECT * FROM `".$prefix."_shoutbox_emoticons`";
