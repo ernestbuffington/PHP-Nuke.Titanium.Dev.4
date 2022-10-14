@@ -159,7 +159,7 @@ color: #E4E5E6; }
 
 h1 {
 position: relative;
-background: linear-gradient(to right, gold, red, gold);
+background: linear-gradient(to right, #FFCC00, #FF3030, #FFCC00);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent; }
 
