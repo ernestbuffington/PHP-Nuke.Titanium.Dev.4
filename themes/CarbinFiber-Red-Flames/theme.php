@@ -55,7 +55,7 @@ include(NUKE_THEMES_DIR.$theme_name.'/theme_info.php');
 global $my_welcome_message, $locked_width, $digits_color, $fieldset_border_width, $fieldset_color, $define_theme_xtreme_209e, $avatar_overide_size, $ThemeInfo, $use_xtreme_voting, $make_xtreme_avatar_small;
 
 # be sure and set your user number in the config.php file.
-$my_welcome_message = '<a class = "welcome" href="'.$domain.'"><h1 data-text="Welcome to The 86it Developers Network">Welcome to The 86it Developers Network</h1></a>';
+$my_welcome_message = '<a class = "welcome" href="'.$domain.'"><h1 data-text="Home of PHP-Nuke Titanium">Home of PHP-Nuke Titanium</h1></a>';
 
 # This is to tell the main portal menu to luook for the images
 # in the theme dir "theme_name/images/menu"
