@@ -951,7 +951,7 @@ CREATE TABLE `nuke_bbposts` (
 CREATE TABLE `nuke_bbposts_text` (
   `post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `bbcode_uid` varchar(10) NOT NULL DEFAULT '',
-  `post_subject` varchar(60) DEFAULT NULL,
+  `post_subject` varchar(120) DEFAULT NULL,
   `post_text` text DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
