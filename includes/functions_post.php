@@ -288,7 +288,8 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
         $is_auth = auth(AUTH_ALL, $forum_id, $userdata);
         $is_mod = $is_auth['auth_mod'];
 		
-        # if somehow the person is able to get more than 120 characters to submit in a post subject
+        # TheGhost aka Erbest Buffington 10/14/2022 10:41am
+		# if somehow the person is able to get more than 120 characters to submit in a post subject
 		# we just chop the mother fucker off!
 		if(strlen($post_subject) >  117)
 		$post_subject = substr($post_subject,0,117) . "...";
