@@ -1,4 +1,4 @@
-CREATE TABLE `network_cemetery` (
+CREATE TABLE `nuke_cemetery` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `name` varchar(256) NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE `network_cemetery` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `network_cemetery_cat` (
+CREATE TABLE `nuke_cemetery_cat` (
   `category_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `name` varchar(256) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE `network_cemetery_cat` (
   `mod_date` date NOT NULL DEFAULT '0000-00-00'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE `network_bookmarks` (
+CREATE TABLE `nuke_bookmarks` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `name` varchar(256) NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE `network_bookmarks` (
   `popup` tinyint(3) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE `network_bookmarks_cat` (
+CREATE TABLE `nuke_bookmarks_cat` (
   `category_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `name` varchar(256) NOT NULL,
@@ -5162,11 +5162,11 @@ CREATE TABLE `nuke_welcome_pm` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-ALTER TABLE `network_bookmarks`
+ALTER TABLE `nuke_bookmarks`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
-ALTER TABLE `network_bookmarks_cat`
+ALTER TABLE `nuke_bookmarks_cat`
   ADD PRIMARY KEY (`category_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -5782,10 +5782,10 @@ ALTER TABLE `nuke_welcome_pm`
   ADD PRIMARY KEY (`subject`);
 
 
-ALTER TABLE `network_bookmarks`
+ALTER TABLE `nuke_bookmarks`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `network_bookmarks_cat`
+ALTER TABLE `nuke_bookmarks_cat`
   MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `nuke_autonews`
@@ -6082,17 +6082,17 @@ ALTER TABLE `nuke_users_countries`
 ALTER TABLE `nuke_users_temp`
   MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `network_cemetery`
+ALTER TABLE `nuke_cemetery`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
-ALTER TABLE `network_cemetery_cat`
+ALTER TABLE `nuke_cemetery_cat`
   ADD PRIMARY KEY (`category_id`),
   ADD KEY `user_id` (`user_id`);
 
-ALTER TABLE `network_cemetery`
+ALTER TABLE `nuke_cemetery`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
-ALTER TABLE `network_cemetery_cat`
+ALTER TABLE `nuke_cemetery_cat`
   MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
