@@ -69,13 +69,12 @@ if ($db->sql_numrows($result) > 0)
         
 		if(file_exists("themes/".$ThemeSel."/images/topics/".$topicimage)) 
 		{
-          $t_image = "themes/".$ThemeSel."/";
+          $t_image = "themes/".$ThemeSel."/images/topics/".$topicimage;
         } 
 		else 
 		{
-          $t_image = "";
+          $t_image = "modules/Blog_Topics/images/topics/".$topicimage;
         }
-        $t_image = $t_image.$tipath.$topicimage;
         
 		$output  = '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';	
 		$output .= '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-size: 18px; font-weight: bold;"><a href="modules.php?name=Blog&amp;new_topic="'.$topicid.'">'.$topictext.'</a></legend>';

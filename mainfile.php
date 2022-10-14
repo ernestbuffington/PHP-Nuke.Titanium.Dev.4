@@ -459,7 +459,7 @@ $dbi = $db->db_connect_id;
 $badreasons = 4;
 $sitekey = md5($_SERVER['HTTP_HOST']);
 $gfx_chk = 0;
-$tipath = 'modules/Blog/images/topics/';
+$tipath = 'modules/Blog_Topics/images/topics/';
 $reasons = array('As Is', 'Offtopic', 'Flamebait', 'Troll', 'Redundant', 'Insighful', 'Interesting', 'Informative', 'Funny', 'Overrated', 'Underrated');
 $AllowableHTML = array('p'=>1,'b'=>1, 'i'=>1, 'a'=>2, 'em'=>1, 'br'=>1, 'strong'=>1, 'blockquote'=>1, 'tt'=>1, 'li'=>1, 'ol'=>1, 'ul'=>1, 'pre'=>1);
 
