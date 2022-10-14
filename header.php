@@ -53,7 +53,7 @@ function head()
 	$ThemeSel = get_theme();
 	
     global $eighty_six_it;
-	$eighty_six_it = '<a class = "small" href="https://www.86it.us" target="_self">Programmers Making Connections. Coders Making a Difference.</a>';
+	$eighty_six_it = '<a class = "small" href="https://www.86it.us" target="_blank" rel="noopener noreferrer">Programmers Making Connections. Coders Making a Difference.</a>';
     
 	# Auto MimeType v1.0.0 START
 	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php')):  
