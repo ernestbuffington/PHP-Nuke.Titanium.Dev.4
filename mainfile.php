@@ -1137,9 +1137,9 @@ function ultramode()
     endif;
 }
 
-// Adds slashes to string and strips PHP+HTML for SQL insertion and hack prevention
-// $str: the string to modify
-// $nohtml: strip PHP+HTML tags, false=no, true=yes, default=false
+# Adds slashes to string and strips PHP+HTML for SQL insertion and hack prevention
+# $str: the string to modify
+# $nohtml: strip PHP+HTML tags, false=no, true=yes, default=false
 function Fix_Quotes($str, $nohtml=false) 
 {
     //If there is not supposed to be HTML
