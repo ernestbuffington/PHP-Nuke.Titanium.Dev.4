@@ -220,19 +220,22 @@ class InputFilter {
             {
                 $postTag = substr($postTag, ($tagLength + 2));
                 $tagOpen_start = strpos($postTag, '<');
-/*****[BEGIN]******************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
+                
+				/*****[BEGIN]******************************************
+                 [ Base:     Evolution Functions               v1.5.0 ]
+                 ******************************************************/
                 if(!defined('MEDIUM_SECURITY') && $tagName != "!--pagebreak--") {
                     $this->filtered($tagName, $this->current_string);
                 }
-/*****[END]********************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
-                // don't append this tag
+                /*****[END]********************************************
+                 [ Base:     Evolution Functions               v1.5.0 ]
+                 ******************************************************/
+                
+				# don't append this tag
                 continue;
             }
-            // this while is needed to support attribute values with spaces in!
+            
+			# this while is needed to support attribute values with spaces in!
             while ($currentSpace !== false) {
                 $fromSpace = substr($tagLeft, ($currentSpace+1));
                 $nextSpace = strpos($fromSpace, ' ');
@@ -259,22 +262,27 @@ class InputFilter {
                 {
                     $attr = substr($fromSpace, 0, $nextSpace);
                 }
-                // last attr pair
+                
+				# last attr pair
                 if (!$attr) {
                     $attr = $fromSpace;
                 }
-                // add to attribute pairs array
+                
+				# add to attribute pairs array
                 $attrSet[] = $attr;
-                // next inc
+                
+				# next inc
                 $tagLeft = substr($fromSpace, strlen($attr));
                 $currentSpace = strpos($tagLeft, ' ');
             }
-            // appears in array specified by user
+            
+			# appears in array specified by user
             $tagFound = in_array(strtolower($tagName), $this->tagsArray);
-            // remove this tag on condition
-            if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod)) 
+            # remove this tag on condition
+            
+			if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod)) 
             {
-                // reconstruct tag with allowed attributes
+                # reconstruct tag with allowed attributes
                 if (!$isCloseTag) 
                 {
                     $attrSet = $this->filterAttr($attrSet);
@@ -283,23 +291,27 @@ class InputFilter {
                     {
                         $preTag .= ' ' . $attrSet[$i];
                     }
-                    // reformat single tags to XHTML
+                    
+					# reformat single tags to XHTML
                     if (strpos($fromTagOpen, "</" . $tagName)) {
                         $preTag .= '>';
                     }
                     else {
                         $preTag .= ' />';
                     }
-                // just the tagname
+                
+				# just the tagname
                 } else {
                     $preTag .= '</' . $tagName . '>';
                 }
             }
-            // find next tag's start
+            
+			# find next tag's start
             $postTag = substr($postTag, ($tagLength + 2));
             $tagOpen_start = strpos($postTag, '<');
         }
-        // append any code after end of tags
+        
+		# append any code after end of tags
         if ($postTag != '<') {
             $preTag .= $postTag;
         }
@@ -315,63 +327,75 @@ class InputFilter {
 	 */
     function filterAttr($attrSet) {
         $newSet = array();
-        // process attributes
+        
+		# process attributes
         for ($i = 0; $i <count($attrSet); $i++)
         {
-            // skip blank spaces in tag
+            # skip blank spaces in tag
             if (!$attrSet[$i]) {
                 continue;
             }
-            // split into attr name and value
+            
+			# split into attr name and value
             $attrSubSet = explode('=', trim($attrSet[$i]), 2);
             list($attrSubSet[0]) = explode(' ', $attrSubSet[0]);
-            // removes all "non-regular" attr names AND also attr blacklisted
+            
+			# removes all "non-regular" attr names AND also attr blacklisted
             if ((!eregi("^[a-z]*$",$attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
             {
                 continue;
             }
-            // xss attr value filtering
+            
+			# xss attr value filtering
             if ($attrSubSet[1]) 
             {
-                // strips unicode, hex, etc
+                # strips unicode, hex, etc
                 $attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
-                // strip normal newline within attr value
-                $attrSubSet[1] = preg_replace('/\s+/', '', $attrSubSet[1]);
-                // strip double quotes
+                # strip normal newline within attr value
+                
+				$attrSubSet[1] = preg_replace('/\s+/', '', $attrSubSet[1]);
+                
+				# strip double quotes
                 $attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
-                // [requested feature] convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr value)
+                
+				# [requested feature] convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr value)
                 if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'")) {
                     $attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
                 }
-                // strip slashes
+                
+				# strip slashes
                 $attrSubSet[1] = stripslashes($attrSubSet[1]);
             }
-            // auto strip attr's with "javascript:
+            
+			# auto strip attr's with "javascript:
             if (InputFilter :: badAttributeValue($attrSubSet))
             {
-/*****[BEGIN]******************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
+                /*****[BEGIN]******************************************
+                 [ Base:     Evolution Functions               v1.5.0 ]
+                 ******************************************************/
                 $this->filtered($attrSubSet[1], $this->current_string);
-/*****[END]********************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
+                /*****[END]********************************************
+                 [ Base:     Evolution Functions               v1.5.0 ]
+                 ******************************************************/
             }
 
-            // if matches user defined array
+            # if matches user defined array
             $attrFound = in_array(strtolower($attrSubSet[0]), $this->attrArray);
-            // keep this attr on condition
+            
+			# keep this attr on condition
             if ((!$attrFound && $this->attrMethod) || ($attrFound && !$this->attrMethod)) 
             {
-                // attr has value
+                # attr has value
                 if ($attrSubSet[1]) {
                     $newSet[] = $attrSubSet[0] . '="' . $attrSubSet[1] . '"';
                 }
-                // attr has decimal zero as value
+                
+				# attr has decimal zero as value
                 else if ($attrSubSet[1] == "0") {
                     $newSet[] = $attrSubSet[0] . '="0"';
                 }
-                // reformat single attributes to XHTML
+                
+				# reformat single attributes to XHTML
                 else {
                     $newSet[] = $attrSubSet[0] . '="' . $attrSubSet[0] . '"';
                 }
@@ -391,7 +415,13 @@ class InputFilter {
 	{
 		$attrSubSet[0] = strtolower($attrSubSet[0]);
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
-		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') || (strpos($attrSubSet[1], 'javascript:') !== false) || (strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) || (strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
+		return (((strpos($attrSubSet[1], 'expression') !== false) 
+		&& ($attrSubSet[0]) == 'style') 
+		|| (strpos($attrSubSet[1], 'javascript:') !== false) 
+		|| (strpos($attrSubSet[1], 'behaviour:') !== false) 
+		|| (strpos($attrSubSet[1], 'vbscript:') !== false) 
+		|| (strpos($attrSubSet[1], 'mocha:') !== false) 
+		|| (strpos($attrSubSet[1], 'livescript:') !== false));
 	}
     
     /**
@@ -401,17 +431,23 @@ class InputFilter {
       * @return String $source
       */
     function decode($source) {
-        // url decode
+        
+		# url decode
         $source = html_entity_decode($source, ENT_QUOTES, "ISO-8859-1");
-        //Convert enties without semicolons
+        
+		# Convert enties without semicolons
         $source = preg_replace('#(&\#x*)([0-9A-F]+);*#iu', "$1$2;", $source);
-        //Convert to decimal
+        
+		# Convert to decimal
         $source = preg_replace('/&#0{4,5}(\d+);/me',"chr(\\1)", $source);
-        // convert decimal
+        
+		# convert decimal
         $source = preg_replace('/&#(\d+);/me',"chr(\\1)", $source);                // decimal notation
-        // convert hex
+        
+		# convert hex
         $source = preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)", $source);    // hex notation
-        //Convert newlines
+        
+		#Convert newlines
         $source = preg_replace('#(&\#*\w+)[\x00-\x20]+;#U', "$1;", $source);
         
         return $source;
