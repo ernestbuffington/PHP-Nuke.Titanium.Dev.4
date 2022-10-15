@@ -17,38 +17,38 @@
 /************************************************************************/
 
 /*************************************************************************/
-/*                    Module Copyright (c) Information                     */
-/*              Module Sommaire paramtrable for PHP-Nuke.               */
+/*                    Module Copyright (c) Information                   */
+/*              Module Sommaire paramtrable for PHP-Nuke.                */
 /*                            - 26 Mai  2004 -                           */
 /*                                                                       */
-/* Nom du Module: Sommaire paramtrable                                  */
+/* Nom du Module: Sommaire paramtrable                                   */
 /* Version du Module: 2.1.1                                              */
 /*                                                                       */
 /* Description du Module:                                                */
-/*       Bloc Sommaire paramtrable : affichage par catgories, avec de  */
-/*       nombreuses possibilits de prsentation :                       */
-/*       - Menu dynamique (catgories affiches/caches avec un clic     */
-/*       - Ajout manuel d'une icone 'NEW' devant les catgories          */
+/*       Bloc Sommaire paramtrable : affichage par catgories, avec de    */
+/*       nombreuses possibilits de prsentation :                         */
+/*       - Menu dynamique (catgories affiches/caches avec un clic        */
+/*       - Ajout manuel d'une icone 'NEW' devant les catgories           */
 /*       - Ajout manuel d'une icone 'NEW' devant les liens/modules       */
 /*       - Ajout automatique d'une icone 'NEW' devant les modules de     */
-/*         base, avec la dtection des nouveauts du site, et choix de   */
-/*         la dure des "nouveauts".                                    */
-/*       - Possibilit de mettre un lien ou une catgorie en gras        */
-/*       - Contenu des catgories peut tre affich en listbox           */
+/*         base, avec la dtection des nouveauts du site, et choix de     */
+/*         la dure des "nouveauts".                                      */
+/*       - Possibilit de mettre un lien ou une catgorie en gras          */
+/*       - Contenu des catgories peut tre affich en listbox              */
 /*       - Choix du style des liens/modules (classe css)                 */
-/*       - Affichage possible des catgories avec uniquement une image   */
+/*       - Affichage possible des catgories avec uniquement une image    */
 /*       - Affichage possible des liens/modules avec uniquement une image*/
-/*       - Barre horizontale pour sparer 2 catgories ou 2 liens (v2.1) */
-/*       - Titre de catgorie centr                                     */
-/*       - Couleur de fond diffrente pour chaque catgorie              */
-/*       - Image sur les catgories et les modules                       */
+/*       - Barre horizontale pour sparer 2 catgories ou 2 liens (v2.1)   */
+/*       - Titre de catgorie centr                                       */
+/*       - Couleur de fond diffrente pour chaque catgorie                */
+/*       - Image sur les catgories et les modules                        */
 /*       - Ajout de liens externe (n'importe quelle url)                 */
-/*       - Affichage d'une icne dans le sommaire si le membre a des     */
-/*         Messages Privs non lus.                                      */
-/*       - Masquer ou non aux visiteurs les modules rservs aux membres */
-/*       - Choisir le style (dans style.css) des noms de catgories      */
-/*       - Mettre un fichier FLASH .swf  la place du nom de catgorie   */
-/*         (FLASH implment par MAC06 - magetmac06@hotmail.com)         */
+/*       - Affichage d'une icne dans le sommaire si le membre a des      */
+/*         Messages Privs non lus.                                       */
+/*       - Masquer ou non aux visiteurs les modules rservs aux membres   */
+/*       - Choisir le style (dans style.css) des noms de catgories       */
+/*       - Mettre un fichier FLASH .swf  la place du nom de catgorie     */
+/*         (FLASH implment par MAC06 - magetmac06@hotmail.com)           */
 /*                                                                       */
 /* License: GNU/GPL                                                      */
 /* Nom de l'Auteur: marcoledingue                                        */
