@@ -9,6 +9,9 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Addded Marguee 1 and 2 in Javascript<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Top Ten Web Links Block<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated version string in database controller<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched Portal Menu and fixed image sizes (Titanium Portal Menu Block)<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched Shout Box - added spaces to block feed and megaphone icon<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched Web Links Module - PHP Deprecation Fixes<br />
