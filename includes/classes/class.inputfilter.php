@@ -18,13 +18,13 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
   * @license: GNU General Public License (GPL)
   */
 class InputFilter {
-    var $tagsArray;            // default = empty array
-    var $attrArray;            // default = empty array
+    var $tagsArray;         # default = empty array
+    var $attrArray;         # default = empty array
 
-    var $tagsMethod;        // default = 0
-    var $attrMethod;        // default = 0
+    var $tagsMethod;        # default = 0
+    var $attrMethod;        # default = 0
 
-    var $xssAuto;           // default = 1
+    var $xssAuto;           # default = 1
     var $tagBlacklist = array('applet', 
 	                            'body', 
 							 'bgsound', 
@@ -52,7 +52,7 @@ class InputFilter {
 	                       'background', 
 						     'codebase', 
 							   'dynsrc', 
-							   'lowsrc');  // also will strip ALL event handlers
+							   'lowsrc');  # also will strip ALL event handlers
     var $current_string;
 
     /*****[BEGIN]******************************************
@@ -109,11 +109,13 @@ class InputFilter {
 	 * @return mixed	$source	'cleaned' version of input parameter
 	 */
     function process($source) {
-        // clean all elements in this array
+        
+		# clean all elements in this array
         if (is_array($source)) {
-            foreach($source as $key => $value)
+        
+		    foreach($source as $key => $value)
             {
-                // filter element for XSS and other 'bad' code etc.
+                # filter element for XSS and other 'bad' code etc.
                 if (is_string($value)) 
                 {
                     $this->current_string = $this->decode($value);
@@ -121,12 +123,13 @@ class InputFilter {
                 }
             }
             return $source;
-        // clean this string
-        } else if (is_string($source) && !empty ($source)) {
-            // filter source for XSS and other 'bad' code etc.
+        # clean this string
+        } 
+		elseif (is_string($source) && !empty ($source)) {
+            # filter source for XSS and other 'bad' code etc.
             $this->current_string = $source;
             return $this->remove($this->decode($source));
-        // return parameter as given
+        # return parameter as given
         } else return $source;
     }
 
@@ -138,7 +141,8 @@ class InputFilter {
       */
     function remove($source) {
         $loopCounter=0;
-        // provides nested-tag protection
+        
+		# provides nested-tag protection
         while($source != $this->filterTags($source)) {
             $source = $this->filterTags($source);
             $loopCounter++;
@@ -164,14 +168,18 @@ class InputFilter {
 		 * Is there a tag? If so it will certainly start with a '<'
 		 */
         $tagOpen_start = strpos($source, '<');
-        // interate through string until no tags left
+        
+		# interate through string until no tags left
         while($tagOpen_start !== false) {
-            // process tag interatively
+            
+			# process tag interatively
             $preTag .= substr($postTag, 0, $tagOpen_start);
             $postTag = substr($postTag, $tagOpen_start);
             $fromTagOpen = substr($postTag, 1);
-            // end of tag
+            
+			# end of tag
             $tagOpen_end = strpos($fromTagOpen, '>');
+			
 			/*
 			 * Let's catch any non-terminated tags and skip over them
 			 */
@@ -182,7 +190,7 @@ class InputFilter {
 				continue;
 			}
 
-            // next start of tag (for nested tag assessment)
+            # next start of tag (for nested tag assessment)
             $tagOpen_nested = strpos($fromTagOpen, '<');
             $tagOpen_nested_end	= strpos(substr($postTag, $tagOpen_end), '>');
             if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end)) {
@@ -194,19 +202,21 @@ class InputFilter {
             $tagOpen_nested = (strpos($fromTagOpen, '<') + $tagOpen_start + 1);
             $currentTag = substr($fromTagOpen, 0, $tagOpen_end);
             $tagLength = strlen($currentTag);
+			
 			/*
 			 * Lets get some information about our tag and setup attribute pairs
 			 */
             $tagLeft = $currentTag;
             $attrSet = array();
             $currentSpace = strpos($tagLeft, ' ');
-            // is end tag
+            
+			# is end tag
             if (substr($currentTag, 0, 1) == "/") 
             {
                 $isCloseTag = true;
                 list($tagName) = explode(' ', $currentTag);
                 $tagName = substr($tagName, 1);
-            // is start tag
+            # is start tag
             } else {
                 $isCloseTag = false;
                 list($tagName) = explode(' ', $currentTag);
@@ -253,7 +263,7 @@ class InputFilter {
                     {
                         $attr = substr($fromSpace, 0, ($closeQuotes+1));
                     }
-                    // one or neither exist
+                    # one or neither exist
                     else
                     {
                         $attr = substr($fromSpace, 0, $nextSpace);
