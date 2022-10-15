@@ -126,5 +126,7 @@
 <strong><i class="bi bi-calendar3"></i> Jan 4th 2021 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Shout Box Module and Block Update v1.0<br />
 <strong><i class="bi bi-calendar3"></i> Jan 2nd 2021 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Network Projects Module v11.11.11<br />
 <strong><i class="bi bi-calendar3"></i> Jan 1st 2021 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Installer updated v1.0 (New US Version)
+<hr />
+<strong><i class="bi bi-calendar3"></i> Sep 2nd 2019 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fly Kit Mod for Theme Design<br />
 </body>
 </html>
