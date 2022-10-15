@@ -452,10 +452,10 @@ class InputFilter {
         $source = preg_replace('/&#0{4,5}(\d+);/me',"chr(\\1)", $source);
         
 		# convert decimal
-        $source = preg_replace('/&#(\d+);/me',"chr(\\1)", $source);                // decimal notation
+        $source = preg_replace('/&#(\d+);/me',"chr(\\1)", $source);              # decimal notation
         
 		# convert hex
-        $source = preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)", $source);    // hex notation
+        $source = preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)", $source);    # hex notation
         
 		#Convert newlines
         $source = preg_replace('#(&\#*\w+)[\x00-\x20]+;#U', "$1;", $source);
