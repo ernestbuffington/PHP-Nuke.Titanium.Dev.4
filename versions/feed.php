@@ -9,6 +9,12 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added jQuery JavaScript Library v3.6.1<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Fontawesome Free v6.2.0<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Bootstrap Icons v1.9.1<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Bootstrap v3.4.1<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Bootstrap v5.2.0<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added assets folder off of root<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated HTMLPurifier to v4.15.0<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated ckeditor - old one was dev new one is much smaller<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched NSN Blog Topics Module v1.0<br />
