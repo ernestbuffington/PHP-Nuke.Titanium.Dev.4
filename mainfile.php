@@ -1345,18 +1345,18 @@ function get_author($aid)
     $result = $db->sql_query('SELECT `user_id` from `'.$user_prefix.'_users` WHERE `username`="'.$aid.'"');
     $userid = $db->sql_fetchrow($result);
     $db->sql_freeresult($result);
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
+    /*****[BEGIN]******************************************
+     [ Mod:    Advanced Username Color             v1.0.5 ]
+     ******************************************************/
     if (isset($userid[0])) 
      $aid = "<a href=\"modules.php?name=Profile&amp;mode=viewprofile&amp;u=".$userid[0]."\">".UsernameColor($aid)."</a>";
 	elseif (isset($row['url']) && $row['url'] != 'http://') 
      $aid = "<a href=\"".$row['url']."\">".UsernameColor($aid)."</a>";
 	else 
      $aid = UsernameColor($aid);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
+    /*****[END]********************************************
+     [ Mod:    Advanced Username Color             v1.0.5 ]
+     ******************************************************/
     return $aid;
 }
 
