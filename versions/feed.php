@@ -9,6 +9,8 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated HTMLPurifier to v4.15.0<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated ckeditor - old one was dev new one is much smaller<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched NSN Blog Topics Module v1.0<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched NSN Blog Archive Module v1.0<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched NSN Blog Top 10 Module v1.0<br />
@@ -17,6 +19,8 @@
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched modules.php it couldnot see the redirect function in functions_evo.php<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched Nuke Sentinel admin/modules/nukesentinel/ABICheck.php<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working On CarbonFiber Theme<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Forum Icon Image Path Mod v1.0 - Each theme now has independant forum icons<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Oct 14th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Shout Box Again - Somehow it always gets fucked!<br />
 <strong><i class="bi bi-calendar3"></i> Oct 14th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Evo User Block Icons<br />
@@ -30,6 +34,8 @@
 <strong><i class="bi bi-calendar3"></i> Oct 9th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Changed $pnt_prefix back to $prefix<br />
 <strong><i class="bi bi-calendar3"></i> Oct 9th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added sqr_show_hide.js back to CMS<br />
 <hr>
+<strong><i class="bi bi-calendar3"></i> Oct 2nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added write to resolution field from user resolution cookie<br />
+<strong><i class="bi bi-calendar3"></i> Oct 2nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added resolution field to user_whos_been table<br />
 <strong><i class="bi bi-calendar3"></i> Oct 2nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Evo User Block<br />
 <strong><i class="bi bi-calendar3"></i> Oct 2nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Network Projects Module<br />
 <hr>
@@ -132,6 +138,9 @@
 <hr />
 <strong><i class="bi bi-calendar3"></i> Apr 24th 2021 </strong>&nbsp;<i class="bi bi-info-square"></i> New Blog Signature Mod Block v1.0<br />
 <hr />
+<strong><i class="bi bi-calendar3"></i> Mar 16th 2021 </strong>&nbsp;<i class="bi bi-info-square"></i> Addded System Global Css includes/css/cms_css.php<br />
+<strong><i class="bi bi-calendar3"></i> Mar 16th 2021 </strong>&nbsp;<i class="bi bi-info-square"></i> Addded javascript loader for each themes v1.0 (loads from theme directory)<br />
+<hr />
 <strong><i class="bi bi-calendar3"></i> Feb 28th 2021 </strong>&nbsp;<i class="bi bi-info-square"></i> New Link Us Module Update v1.0<br />
 <hr />
 <strong><i class="bi bi-calendar3"></i> Jan 5th 2021 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Network Module v1.0 (legal documents)<br />
@@ -142,9 +151,16 @@
 <hr />
 <strong><i class="bi bi-calendar3"></i> Jan 1st 2021 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Installer updated v1.0 (New US Version)
 <hr />
+<strong><i class="bi bi-calendar3"></i> Sep 21st 2019 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added includes/javascript.php <br />
+<strong><i class="bi bi-calendar3"></i> Sep 21st 2019 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Browser Class to detect browser types<br />
+<hr />
+<strong><i class="bi bi-calendar3"></i> Sep 7th 2019 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Facebook and Google Meta Support<br />
+<hr />
 <strong><i class="bi bi-calendar3"></i> Sep 2nd 2019 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fly Kit Mod v1.0 for Theme Design<br />
 <hr />
 <strong><i class="bi bi-calendar3"></i> Jun 5th 2019 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Module Network Advertising v7.8.3.1<br />
+<hr />
+<strong><i class="bi bi-calendar3"></i> Jan 1st 2012 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Resolution Checking Cookies v1.0<br />
 <hr />
 <strong><i class="bi bi-calendar3"></i> Jan 1st 2010 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Titanium Functions v1.0<br />
 <strong><i class="bi bi-calendar3"></i> Jan 1st 2010 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Auto Mime Type Mod v1.0 - Allows any Header type<br />
