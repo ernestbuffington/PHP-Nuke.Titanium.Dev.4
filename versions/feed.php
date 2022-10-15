@@ -9,6 +9,8 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched modules.php it couldnot see the redirect function in functions_evo.php<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched Nuke Sentinel admin/modules/nukesentinel/ABICheck.php<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working On CarbonFiber Theme<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Oct 14th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Shout Box Again - Somehow it always gets fucked!<br />
