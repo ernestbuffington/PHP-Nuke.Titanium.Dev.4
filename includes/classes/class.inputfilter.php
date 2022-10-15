@@ -528,5 +528,4 @@ class InputFilter {
         return $string;
     }
 }
-
 ?>
