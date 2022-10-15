@@ -51,7 +51,7 @@ if (is_user() && $userinfo['user_avatar'])
 		case USER_AVATAR_GALLERY:
 			$evouserinfo_avatar .= ( $board_config['allow_avatar_local'] ) ? '<img class="rounded-corners-user-info" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '
 			.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($userinfo['user_avatar'] == 'blank.png' || $userinfo['user_avatar'] 
-			== 'gallery/blank.gif') ? 'blank.png' : $userinfo['user_avatar']) . '" alt="" border="0" />' : '';
+			== 'gallery/blank.png') ? 'blank.png' : $userinfo['user_avatar']) . '" alt="" border="0" />' : '';
 			break;
    }
 }

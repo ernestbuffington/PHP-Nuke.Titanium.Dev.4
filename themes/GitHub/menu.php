@@ -88,7 +88,7 @@ if(is_user() && $userinfo['user_avatar']):
 		case USER_AVATAR_GALLERY:
 			$headeruserinfo_avatar .= ( $phpbb2_board_config['allow_avatar_local'] ) ? '<img class="rounded-corners-header" 
 			style="max-height: '.$phpbb2_board_config['avatar_max_height'].'px; max-width: '
-			.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($userinfo['user_avatar'] == 'blank.gif' || $userinfo['user_avatar'] 
+			.$phpbb2_board_config['avatar_max_width'].'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($userinfo['user_avatar'] == 'blank.png' || $userinfo['user_avatar'] 
 			== 'gallery/blank.png') ? 'blank.png' : $userinfo['user_avatar']) . '" alt="" border="0" />' : '';
 			break;
   endswitch;

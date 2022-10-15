@@ -396,7 +396,7 @@ function validate_admin(){
  [ Mod:    Auto First User Login               v1.0.0 ]
  ******************************************************/
         $pnt_user_regdate = date('M d, Y');
-        $pnt_user_avatar = 'blank.gif';
+        $pnt_user_avatar = 'blank.png';
         $commentlimit = 4096;
         if ($_POST['admin_website'] == 'http://'){
 			$url = '';

@@ -130,7 +130,7 @@ include(NUKE_BASE_DIR. 'header.php');
         list($newest_uid) = $db->sql_fetchrow($db->sql_query("SELECT max(user_id) AS newest_uid FROM ".$user_prefix."_users"));
         if ($newest_uid == "-1") { $new_uid = 1; } else { $new_uid = $newest_uid+1; }
         $lv = time();
-        $result = $db->sql_query("INSERT INTO ".$user_prefix."_users (user_id, name, username, user_email, user_avatar, user_regdate, user_viewemail, user_password, user_lang, user_lastvisit) VALUES ($new_uid, '$ya_username', '$ya_username', '$ya_user_email', 'gallery/blank.gif', '$user_regdate', '0', '$new_password', '$language', '$lv')");
+        $result = $db->sql_query("INSERT INTO ".$user_prefix."_users (user_id, name, username, user_email, user_avatar, user_regdate, user_viewemail, user_password, user_lang, user_lastvisit) VALUES ($new_uid, '$ya_username', '$ya_username', '$ya_user_email', 'gallery/blank.png', '$user_regdate', '0', '$new_password', '$language', '$lv')");
 
         if ((count($nfield) > 0) AND ($result)) {
           foreach ($nfield as $key => $var) {
@@ -139,7 +139,7 @@ include(NUKE_BASE_DIR. 'header.php');
         }
 
     $db->sql_query("LOCK TABLES ".$user_prefix."_users WRITE");
-    $db->sql_query("UPDATE ".$user_prefix."_users SET user_avatar='gallery/blank.gif', user_avatar_type='3', user_lang='$language', user_lastvisit='$lv', umode='nested' WHERE user_id='$new_uid'");
+    $db->sql_query("UPDATE ".$user_prefix."_users SET user_avatar='gallery/blank.png', user_avatar_type='3', user_lang='$language', user_lastvisit='$lv', umode='nested' WHERE user_id='$new_uid'");
 
     $db->sql_query("UPDATE ".$user_prefix."_users SET username='$ya_username', name='$realname', user_email='$ya_user_email', femail='$femail', user_website='$user_website', user_from='$user_from', user_occ='$user_occ', user_interests='$user_interests', newsletter='$newsletter', user_viewemail='$user_viewemail', user_allow_viewonline='$user_allow_viewonline', user_timezone='$user_timezone', user_dateformat='$user_dateformat', user_sig='$user_sig', bio='$bio', user_password='$new_password', user_regdate='$user_regdate' WHERE user_id='$new_uid'");
 

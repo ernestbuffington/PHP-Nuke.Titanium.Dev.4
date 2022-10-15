@@ -77,7 +77,7 @@ while($whosbeen = $db->sql_fetchrow($row1_result)):
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
 		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.png' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }
@@ -156,7 +156,7 @@ while($whosbeen = $db->sql_fetchrow($row2_result)):
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
 		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.png' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }
@@ -235,7 +235,7 @@ while($whosbeen = $db->sql_fetchrow($row3_result)):
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
 		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.png' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }
@@ -314,7 +314,7 @@ while($whosbeen = $db->sql_fetchrow($row4_result)):
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
 		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.png' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }

@@ -1424,8 +1424,8 @@ for($i = 0; $i < $total_posts; $i++):
             # Mod: Remote Avatar Resize v2.0.0 START 
             case USER_AVATAR_GALLERY:
                 $poster_avatar = ($board_config['allow_avatar_local']) 
-				? '<img width="200" class="rounded-corners-forum" src="'.$board_config['avatar_gallery_path'].'/'.(($postrow[$i]['user_avatar'] == 'blank.gif' 
-				|| $postrow[$i]['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $postrow[$i]['user_avatar']).'" alt="" border="0" />' : '';
+				? '<img width="200" class="rounded-corners-forum" src="'.$board_config['avatar_gallery_path'].'/'.(($postrow[$i]['user_avatar'] == 'blank.png' 
+				|| $postrow[$i]['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $postrow[$i]['user_avatar']).'" alt="" border="0" />' : '';
                 break;
         endswitch;
     endif;
@@ -1446,8 +1446,8 @@ for($i = 0; $i < $total_posts; $i++):
     endif;
     # Mod: Default avatar v1.1.0 END
 
-        $images['default_avatar'] = "modules/Forums/images/avatars/gallery/blank.gif";
-        $images['guest_avatar'] = "modules/Forums/images/avatars/gallery/blank.gif";
+        $images['default_avatar'] = "modules/Forums/images/avatars/gallery/blank.png";
+        $images['guest_avatar'] = "modules/Forums/images/avatars/gallery/blank.png";
         
         # Mod: Default avatar v1.1.0 START
         if(empty($poster_avatar) && $poster_id != ANONYMOUS)

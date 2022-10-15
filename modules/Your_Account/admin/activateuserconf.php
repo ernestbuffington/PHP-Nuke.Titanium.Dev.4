@@ -75,7 +75,7 @@ list($uname, $realname, $email, $upass, $ureg) = $db->sql_fetchrow($db->sql_quer
     $db->sql_query("OPTIMIZE TABLE ".$user_prefix."_users_temp");
     list($newest_uid) = $db->sql_fetchrow($db->sql_query("SELECT max(user_id) AS newest_uid FROM ".$user_prefix."_users"));
     if ($newest_uid == "-1") { $new_uid = 1; } else { $new_uid = $newest_uid+1; }
-    $db->sql_query("INSERT INTO ".$user_prefix."_users (user_id, name, username, user_email, user_regdate, user_password, user_level, user_active, user_avatar, user_avatar_type, user_from) VALUES ('$new_uid', '$realname', '$uname', '$email', '$ureg', '$upass', 1, 1, 'gallery/blank.gif', 3, '')");
+    $db->sql_query("INSERT INTO ".$user_prefix."_users (user_id, name, username, user_email, user_regdate, user_password, user_level, user_active, user_avatar, user_avatar_type, user_from) VALUES ('$new_uid', '$realname', '$uname', '$email', '$ureg', '$upass', 1, 1, 'gallery/blank.png', 3, '')");
 
     $res = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_value_temp WHERE uid = '$act_uid'");
     while ($sqlvalue = $db->sql_fetchrow($res)) {

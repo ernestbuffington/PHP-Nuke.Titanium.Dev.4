@@ -135,7 +135,7 @@ if($profiledata['user_avatar_type'] && $profiledata['user_allowavatar']):
         case USER_AVATAR_GALLERY:
             $avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img class="rounded-corners-profile" style="max-height: 200px; max-width: 
 			200px;" src="' . $board_config['avatar_gallery_path'] . '/' 
-			. (($profiledata['user_avatar'] == 'blank.gif' || $profiledata['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $profiledata['user_avatar']) 
+			. (($profiledata['user_avatar'] == 'blank.png' || $profiledata['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $profiledata['user_avatar']) 
 			. '" alt="" border="0" />' : '';
             break;
     endswitch;

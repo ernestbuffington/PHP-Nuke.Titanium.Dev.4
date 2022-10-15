@@ -400,7 +400,7 @@ $mode == 'register' ):
 	$user_avatar_size = (!empty($HTTP_POST_FILES['avatar']['size'])) ? $HTTP_POST_FILES['avatar']['size'] : 0;
 	$user_avatar_filetype = (!empty($HTTP_POST_FILES['avatar']['type'])) ? $HTTP_POST_FILES['avatar']['type'] : '';
 
-	$user_avatar = (empty($user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar'] : 'blank.gif';
+	$user_avatar = (empty($user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar'] : 'blank.png';
 	$user_avatar_type = (empty($user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar_type'] : '0';
 
 	if((isset($HTTP_POST_VARS['avatargallery']) || isset($HTTP_POST_VARS['submitavatar']) || isset($HTTP_POST_VARS['cancelavatar'])) && (!isset($HTTP_POST_VARS['submit']))):
@@ -1499,18 +1499,18 @@ else
 		{
 			# user_allowavatar = 1
 			case USER_AVATAR_UPLOAD:
-				$avatar_img = ( $board_config['allow_avatar_upload'] ) ? '<img style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" border="0" />' : '';
+				$avatar_img = ( $board_config['allow_avatar_upload'] ) ? '<img class="rounded-corners-last-vistors" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" border="0" />' : '';
 				break;
 
 			# user_allowavatar = 2
 			case USER_AVATAR_REMOTE:
 				// $avatar_img = resize_avatar($user_avatar);
-				$avatar_img = '<img style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . resize_avatar($user_avatar) . '" alt="" border="0" />';
+				$avatar_img = '<img class="rounded-corners-last-vistors" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . resize_avatar($user_avatar) . '" alt="" border="0" />';
 				break;
 
 			# user_allowavatar = 3
 			case USER_AVATAR_GALLERY:
-				$avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($user_avatar == 'blank.gif' || $user_avatar == 'gallery/blank.gif') ? 'blank.png' : $user_avatar) . '" alt="" border="0" />' : '';
+				$avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img class="rounded-corners-last-vistors" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($user_avatar == 'blank.png' || $user_avatar == 'gallery/blank.png') ? 'blank.png' : $user_avatar) . '" alt="" border="0" />' : '';
 				break;
 		}
 	}
