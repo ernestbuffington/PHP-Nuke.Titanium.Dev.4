@@ -302,12 +302,13 @@ define('GZIPSUPPORT', extension_loaded('zlib'));
 define('GDSUPPORT', extension_loaded('gd'));
 define('CAN_MOD_INI', !stristr(ini_get('disable_functions'), 'ini_set'));
 
-// If a class hasn't been loaded yet find the required file on the server and load
-// it in using the special autoloader detection built into PHP5+
-if (!function_exists('classAutoloader')): 
+# If a class hasn't been loaded yet find the required file on the server and load
+# it in using the special autoloader detection built into PHP5+
+if(!function_exists('classAutoloader')): 
+  
     function classAutoloader($class) 
     {
-        // Set the class file path
+        # Set the class file path
         if (preg_match('/Exception/', $class)) 
         $file = NUKE_CLASS_EXCEPTION_DIR . strtolower($class) . '.php';
         else
@@ -318,7 +319,7 @@ if (!function_exists('classAutoloader')):
     spl_autoload_register('classAutoloader');
 endif;
 
-if (CAN_MOD_INI):
+if(CAN_MOD_INI):
     ini_set('magic_quotes_sybase', 0);
     ini_set('zlib.output_compression', 0);
 endif;
@@ -363,7 +364,7 @@ if (@file_exists(NUKE_BASE_DIR.'fbconfig.php')):
 endif;
 # facebook SDK Mod END
 
-// Include config file
+# Include config file
 @require_once(NUKE_BASE_DIR.'config.php');
 
 if(!$directory_mode)
@@ -376,14 +377,14 @@ $file_mode = 0666;
 else
 $file_mode = 0644;
 
-// Core exceptions handler
+# Core exceptions handler
 include_once(NUKE_INCLUDE_DIR . 'exception.php');
 include_once(NUKE_INCLUDE_DIR . 'abstract/abstract.exception.php');
 
-// Include the required files
+# Include the required files
 @require_once(NUKE_DB_DIR.'db.php');
-//$db->debug = true;
-// Include Error Logger and identify class
+# $db->debug = true;
+# Include Error Logger and identify class
 @require_once(NUKE_CLASSES_DIR.'class.identify.php');
 global $agent;
 
@@ -434,10 +435,10 @@ require_once(NUKE_INCLUDE_DIR.'functions_evo.php');
 require_once(NUKE_INCLUDE_DIR.'functions_evo_custom.php');
 include_once(NUKE_INCLUDE_DIR.'validation.php');
 
-// We globalize the $cookie and $userinfo variables,
-// so that they dont have to be called each time
-// And as you can see, getusrinfo() is now deprecated.
-// Because you dont have to call it anymore, just call $userinfo
+# We globalize the $cookie and $userinfo variables,
+# so that they dont have to be called each time
+# And as you can see, getusrinfo() is now deprecated.
+# Because you dont have to call it anymore, just call $userinfo
 if(is_user()):
     $cookie = cookiedecode();
     $userinfo = get_user_field('*', $cookie[1], true);
@@ -446,7 +447,7 @@ else:
     $userinfo = get_user_field('*', 'Anonymous', true);
 endif;
 
-//If they have been deactivated send them to logout to kill their cookie and sessions
+# If they have been deactivated send them to logout to kill their cookie and sessions
 if (is_array($userinfo) && isset($userinfo['user_active']) 
 && $userinfo['user_id'] != 1 && $userinfo['user_id'] != 0 
 && $userinfo['user_active'] == 0 && $_GET['name'] != 'Your_Account'):
@@ -791,9 +792,9 @@ function render_blocks($side, $block)
         include_once(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php');
     else
         include_once(NUKE_LANGUAGE_DIR.'blocks/lang-english.php');
- /*****[BEGIN]******************************************
- [ Mod:     Switch Content Script              v2.0.0 ]
- ******************************************************/
+    /*****[BEGIN]******************************************
+     [ Mod:     Switch Content Script              v2.0.0 ]
+     ******************************************************/
     if($collapse): 
         if (!$collapsetype):
             $block['title'] = $block['title'] . "&nbsp;&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']."\" class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'block".$block['bid']."')\" alt=\"\" style=\"cursor: pointer;\" />";
@@ -803,9 +804,9 @@ function render_blocks($side, $block)
         endif;
         $block['content'] = "<div id=\"block".$block['bid']."\" class=\"switchcontent\">".$block['content']."</div>";
     endif;
-/*****[END]********************************************
- [ Mod:     Switch Content Script              v2.0.0 ]
- ******************************************************/
+    /*****[END]********************************************
+     [ Mod:     Switch Content Script              v2.0.0 ]
+     ******************************************************/
     if (empty($block['url'])): 
         if (empty($block['blockfile'])): 
             if ($side == 'c' || $side == 'd'): 
