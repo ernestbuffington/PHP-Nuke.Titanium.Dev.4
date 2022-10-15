@@ -55,9 +55,9 @@ class InputFilter {
 							   'lowsrc');  // also will strip ALL event handlers
     var $current_string;
 
-/*****[BEGIN]******************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
+    /*****[BEGIN]******************************************
+     [ Base:     Evolution Functions               v1.5.0 ]
+     ******************************************************/
     function filtered($filtered, $source = '') {
         $logdata = array('An attempt has been made to use a blocked HTML tag.',
                          'Blocked string: ' . htmlspecialchars($filtered),
@@ -76,9 +76,9 @@ class InputFilter {
         CloseTable();
 		exit;
     }
-/*****[END]********************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
+    /*****[END]********************************************
+     [ Base:     Evolution Functions               v1.5.0 ]
+     ******************************************************/
 
     /**
       * Constructor for inputFilter class. Only first parameter is required.
