@@ -96,7 +96,9 @@
 <hr>
 <strong><i class="bi bi-calendar3"></i> Aug 26th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Setup theghost.86it.us Portal<br />
 <strong><i class="bi bi-calendar3"></i> Aug 26th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Setup nexgen.86it.us Portal<br />
+<hr />
 <strong><i class="bi bi-calendar3"></i> Aug 25th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated the Projects list<br />
+<hr />
 <strong><i class="bi bi-calendar3"></i> Aug 24th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Gender Icon Display<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Aug 23rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Network SQL Errors<br />
@@ -114,19 +116,35 @@
 <strong><i class="bi bi-calendar3"></i> Aug 23rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Proof of God Module v1.0<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> May 5th 2021 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Web Links Module Update v1.0.2<br />
+<hr />
 <strong><i class="bi bi-calendar3"></i> May 1st 2021 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Facebook Chat Block v1.0<br />
 <hr />
-<strong><i class="bi bi-calendar3"></i> Apr 27th 2021 </strong>&nbsp;<i class="bi bi-info-square"></i> New Google Site Map Generator Module v1.0<br />
 <strong><i class="bi bi-calendar3"></i> Apr 27th 2021 </strong>&nbsp;<i class="bi bi-info-square"></i> New Visitor Log Center Block v1.0<br />
+<hr />
+<strong><i class="bi bi-calendar3"></i> Apr 26th 2021 </strong>&nbsp;<i class="bi bi-info-square"></i> New Google Site Map Generator Module v1.0<br />
+<hr />
 <strong><i class="bi bi-calendar3"></i> Apr 24th 2021 </strong>&nbsp;<i class="bi bi-info-square"></i> New Blog Signature Mod Block v1.0<br />
 <hr />
 <strong><i class="bi bi-calendar3"></i> Feb 28th 2021 </strong>&nbsp;<i class="bi bi-info-square"></i> New Link Us Module Update v1.0<br />
 <hr />
 <strong><i class="bi bi-calendar3"></i> Jan 5th 2021 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Network Module v1.0 (legal documents)<br />
+<hr />
 <strong><i class="bi bi-calendar3"></i> Jan 4th 2021 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Shout Box Module and Block Update v1.0<br />
+<hr />
 <strong><i class="bi bi-calendar3"></i> Jan 2nd 2021 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Network Projects Module v11.11.11<br />
+<hr />
 <strong><i class="bi bi-calendar3"></i> Jan 1st 2021 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Installer updated v1.0 (New US Version)
 <hr />
-<strong><i class="bi bi-calendar3"></i> Sep 2nd 2019 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fly Kit Mod for Theme Design<br />
+<strong><i class="bi bi-calendar3"></i> Sep 2nd 2019 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fly Kit Mod v1.0 for Theme Design<br />
+<hr />
+<strong><i class="bi bi-calendar3"></i> Jun 5th 2019 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Module Network Advertising v7.8.3.1<br />
+<hr />
+<strong><i class="bi bi-calendar3"></i> Jan 1st 2010 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Titanium Functions v1.0<br />
+<hr />
+<strong><i class="bi bi-calendar3"></i> Jun 16th 2005 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> NSN Blog Topics Module v1.0<br />
+<strong><i class="bi bi-calendar3"></i> Jun 16th 2005 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> NSN Blog Archive Module v1.0<br />
+<strong><i class="bi bi-calendar3"></i> Jun 16th 2005 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> NSN Blog Top 10 Module v1.0<br />
+<strong><i class="bi bi-calendar3"></i> Jun 16th 2005 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> NSN Blog Submit Module v1.0<br />
+<strong><i class="bi bi-calendar3"></i> Jun 16th 2005 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> NSN Blog Module v1.0<br />
 </body>
 </html>
