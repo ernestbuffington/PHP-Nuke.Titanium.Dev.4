@@ -461,18 +461,25 @@ class InputFilter {
       * @return String $source - 'cleaned' version of input parameter
       */
     function safeSQL($source, &$connection) {
-        // clean all elements in this array
-        if (is_array($source)) {
-            foreach($source as $key => $value)
-                // filter element for SQL injection
+        
+		# clean all elements in this array
+        if (is_array($source)) 
+		{
+        
+		    foreach($source as $key => $value)
+		        # filter element for SQL injection
                 if (is_string($value)) $source[$key] = $this->quoteSmart($this->decode($value), $connection);
-            return $source;
-        // clean this string
-        } else if (is_string($source)) {
-            // filter source for SQL injection
+                return $source;
+        # clean this string
+        } 
+		elseif(is_string($source)) 
+		{
+            # filter source for SQL injection
             if (is_string($source)) return $this->quoteSmart($this->decode($source), $connection);
-        // return parameter as given
-        } else return $source;
+        # return parameter as given
+        } 
+		else 
+		return $source;
     }
 
     /**
@@ -484,9 +491,11 @@ class InputFilter {
       * @return String $source
       */
     function quoteSmart($source, &$connection) {
-        // strip slashes
+        
+		# strip slashes
         if (get_magic_quotes_gpc()) $source = stripslashes($source);
-        // quote both numeric and text
+        
+		# quote both numeric and text
         $source = $this->escapeString($source, $connection);
         return $source;
     }
@@ -499,10 +508,12 @@ class InputFilter {
       * @param Resource $connection - An open MySQL connection
       * @return String $source
       */
-    function escapeString($string, &$connection) {
-        // depreciated function
+    function escapeString($string, &$connection) 
+	{
+        # depreciated function
         if (version_compare(phpversion(),"4.3.0", "<")) mysql_escape_string($string);
-        // current function
+        
+		# current function
         else mysql_real_escape_string($string);
         return $string;
     }
