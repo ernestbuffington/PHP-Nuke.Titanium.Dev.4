@@ -857,74 +857,113 @@ function blocks_visible($side)
     return false;
 }
 
-function blocks($side, $count=false) {
+function blocks($side, $count=false) 
+{
     global $prefix, $multilingual, $currentlang, $db, $userinfo, $cache;
     static $blocks;
 
     $querylang = ($multilingual) ? 'AND (`blanguage`="'.$currentlang.'" OR `blanguage`="")' : '';
     $side = strtolower($side[0]);
-    if((($blocks = $cache->load('blocks', 'config')) === false) || !isset($blocks)) {
+
+    if((($blocks = $cache->load('blocks', 'config')) === false) || !isset($blocks)) 
+	{
         $sql = 'SELECT * FROM `'.$prefix.'_blocks` WHERE `active`="1" '.$querylang.' ORDER BY `weight` ASC';
         $result = $db->sql_query($sql);
-        while($row = $db->sql_fetchrow($result, SQL_ASSOC)) {
+    
+	    while($row = $db->sql_fetchrow($result, SQL_ASSOC)) 
+		{
             $blocks[$row['bposition']][] = $row;
         }
-        $db->sql_freeresult($result);
+        
+		$db->sql_freeresult($result);
         $cache->save('blocks', 'config', $blocks);
     }
-    if ($count) {
+    
+	if($count) 
+	{
         return (isset($blocks[$side]) ? count($blocks[$side]) : 0);
     }
-    $blockrow = (isset($blocks[$side])) ? $blocks[$side] : array();
-    for($i=0,$j = count($blockrow); $i < $j; $i++) {
+    
+	$blockrow = (isset($blocks[$side])) ? $blocks[$side] : array();
+    
+	for($i=0,$j = count($blockrow); $i < $j; $i++) 
+	{
         $bid = intval($blockrow[$i]['bid']);
         $view = $blockrow[$i]['view'];
-        if(isset($blockrow[$i]['expire'])) {
+    
+	    if(isset($blockrow[$i]['expire'])) 
+		{
             $expire = intval($blockrow[$i]['expire']);
-        } else {
+        } 
+		else 
+		{
             $expire = '';
         }
-        if(isset($blockrow[$i]['action'])) {
+        
+		if(isset($blockrow[$i]['action'])) 
+		{
             $action = $blockrow[$i]['action'];
             $action = substr($action, 0,1);
-        } else {
+        } 
+		else 
+		{
             $action = '';
         }
-        $now = time();
-        if ($expire != 0 AND $expire <= $now) {
-            if ($action == 'd') {
+        
+		$now = time();
+        
+		if ($expire != 0 AND $expire <= $now) 
+		{
+            if ($action == 'd') 
+			{
                 $db->sql_query('UPDATE `'.$prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
                 $cache->delete('blocks', 'config');
                 return;
-            } elseif ($action == 'r') {
+            } 
+			elseif($action == 'r') 
+			{
                 $db->sql_query('DELETE FROM `'.$prefix.'_blocks` WHERE `bid`="'.$bid.'"');
                 $cache->delete('blocks', 'config');
                 return;
             }
-        }if (empty($blockrow[$i]['bkey'])) {
+        }
+		
+		if (empty($blockrow[$i]['bkey'])) 
+		{
             if ( ($view == '0' || $view == '1') ||
                ( ($view == '3' AND is_user()) ) ||
                ( $view == '4' AND is_admin()) ||
                ( ($view == '2' AND !is_user())) ) {
                 render_blocks($side, $blockrow[$i]);
-            } else {
-                if (substr($view, strlen($view)-1) == '-') {
+            } 
+			else 
+			{
+                if (substr($view, strlen($view)-1) == '-') 
+				{
                     $ingroups = explode('-', $view);
-                    if (is_array($ingroups)) {
+                
+				  if (is_array($ingroups)) 
+				  {
                         $cnt = 0;
-                        foreach ($ingroups as $group) {
-                            if (isset($userinfo['groups'][($group)])) {
-                                $cnt++;
-                              }
+                    
+					    foreach ($ingroups as $group) 
+						{
+                            if (isset($userinfo['groups'][($group)])) 
+							{
+                              $cnt++;
+                            }
                           }
-                    if ($cnt != 0){
-                    render_blocks($side, $blockrow[$i]);
-                        }
+                    
+					if ($cnt != 0)
+					{
+                      render_blocks($side, $blockrow[$i]);
                     }
+                  }
                 }
             }
         }
     }
+	
     return;
 } 
 
@@ -932,8 +971,8 @@ function blockfileinc($blockfiletitle, $blockfile, $side=1, $bid)
 {
     global $debug, $collapse;
 
-    //if ($debug == 0)
-	//echo '<div align="center">'.$blockfile.'</div>';
+    # if ($debug == 0)
+	# echo '<div align="center">'.$blockfile.'</div>';
 
     if (!file_exists(NUKE_BLOCKS_DIR.$blockfile)) 
 	{
@@ -948,17 +987,19 @@ function blockfileinc($blockfiletitle, $blockfile, $side=1, $bid)
 	{
         $content = _BLOCKPROBLEM2;
     }
-/*****[BEGIN]******************************************
- [ Mod:     Switch Content Script              v2.0.0 ]
- ******************************************************/
+    
+	/*****[BEGIN]******************************************
+     [ Mod:     Switch Content Script              v2.0.0 ]
+     ******************************************************/
     if($collapse) 
 	{
         $content = "&nbsp;<div id=\"block".$bid."\" class=\"switchcontent\">".$content."</div>";
     }
-/*****[END]********************************************
- [ Mod:     Switch Content Script              v2.0.0 ]
- ******************************************************/
-    if ($side == 'r' || $side == 'l') 
+    /*****[END]********************************************
+     [ Mod:     Switch Content Script              v2.0.0 ]
+     ******************************************************/
+    
+	if ($side == 'r' || $side == 'l') 
 	{
 		themesidebox($blockfiletitle, $content, $bid);
     } 
