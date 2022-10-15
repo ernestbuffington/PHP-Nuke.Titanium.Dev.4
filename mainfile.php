@@ -1142,13 +1142,7 @@ function ultramode()
 # $nohtml: strip PHP+HTML tags, false=no, true=yes, default=false
 function Fix_Quotes($str, $nohtml=false) 
 {
-    //If there is not supposed to be HTML
     if ($nohtml) $str = strip_tags($str);
-    // Quote if not integer
-    /*if (!is_numeric($str)) {
-        $str = str_replace('%27', "'", $str);
-        $str = $db->sql_addq($str);
-    }*/
     return $str;
 }
 
@@ -1158,7 +1152,7 @@ function Remove_Slashes($str)
     return $_GETVAR->stripSlashes($str);
 }
 
-// check_words function by ReOrGaNiSaTiOn
+# check_words function by ReOrGaNiSaTiOn
 function check_words($message) 
 {
     global $censor_words;
@@ -1189,9 +1183,9 @@ function check_html($str, $strip='')
           $str = Fix_Quotes($str, !empty($strip));
           return $str;
 		endif;
-/*****[BEGIN]******************************************
- [ Base:    PHP Input Filter                   v1.2.2 ]
- ******************************************************/
+    /*****[BEGIN]******************************************
+    [ Base:    PHP Input Filter                   v1.2.2 ]
+    ******************************************************/
     if(defined('INPUT_FILTER')): 
 		if ($strip == 'nohtml')
         global $AllowableHTML;
@@ -1207,17 +1201,17 @@ function check_html($str, $strip='')
         $html_filter = new InputFilter($html, "", 0, 0, 1);
         $str = $html_filter->process($str);
 	else: 
-/*****[END]********************************************
- [ Base:    PHP Input Filter                   v1.2.2 ]
- ******************************************************/
+    /*****[END]********************************************
+     [ Base:    PHP Input Filter                   v1.2.2 ]
+     ******************************************************/
         $str = Fix_Quotes($str, !empty($strip));
-/*****[BEGIN]******************************************
- [ Base:    PHP Input Filter                   v1.2.2 ]
- ******************************************************/
+    /*****[BEGIN]******************************************
+     [ Base:    PHP Input Filter                   v1.2.2 ]
+     ******************************************************/
     endif;
-/*****[END]********************************************
- [ Base:    PHP Input Filter                   v1.2.2 ]
- ******************************************************/
+    /*****[END]********************************************
+     [ Base:    PHP Input Filter                   v1.2.2 ]
+     ******************************************************/
     return $str;
 }
 
