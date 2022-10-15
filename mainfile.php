@@ -787,7 +787,8 @@ function render_blocks($side, $block)
 {
 	global $plus_minus_images, $currentlang, $collapse, $collapsetype;
 	define_once('BLOCK_FILE', true);
-    //Include the block lang files
+    
+	# Include the block lang files
     if (file_exists(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php')) 
         include_once(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php');
     else
