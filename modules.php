@@ -193,7 +193,8 @@ if($name):
         DisplayError(_MODULENOTACTIVE."<br /><br />"._GOBACK);
     endif;
  
-else: 
+else:
+    include_once(NUKE_INCLUDE_DIR.'functions_evo.php'); # For some reason this was throwing a warning saying it could not see the function redirect!
     redirect('index.php');
 endif;
 ?>

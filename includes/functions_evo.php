@@ -1125,7 +1125,7 @@ function GetRank($user_id)
     return array();
 }
 
-// redirect function by Quake
+# redirect function by Quake
 function redirect($url, $refresh = 0) 
 {
     global $db, $cache;
