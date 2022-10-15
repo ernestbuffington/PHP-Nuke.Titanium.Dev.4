@@ -47,7 +47,7 @@ $db->sql_freeresult($query);
 if (!empty($associated)) 
 {
     OpenTable();
-    echo "<div align=\"center\"><strong>"._ASSOTOPIC."</strong><br /><br />";
+    echo "<div align=\"center\"><strong>"._ASSOCIATED_BLOG_TOPICS."</strong><br /><br />";
     
 	$asso_t = explode("-",$associated);
     
@@ -63,6 +63,5 @@ if (!empty($associated))
     }
     echo "</div>";
     CloseTable();
-    //echo "<br />";
 }
 ?>

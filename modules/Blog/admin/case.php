@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
  =======================================================================*/
 
 /************************************************************************/
@@ -13,12 +13,20 @@
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
+/*                                                                      */
 /************************************************************************/
-/* Titanium Blog                                                        */
-/* By: The 86it Developers Network                                      */
-/* https://www.86it.us                                                  */
-/* Copyright (c) 2019 Ernest Buffington                                 */
+/*         Additional security & Abstraction layer conversion           */
+/*                           2003 chatserv                              */
+/*      http://www.nukefixes.com -- http://www.nukeresources.com        */
 /************************************************************************/
+
+/********************************************************/
+/* NSN Blogs                                            */
+/* By: NukeScripts Network (webmaster@nukescripts.net)  */
+/* Contributer(s): Ernest Buffington aka TheGhost       */
+/* http://www.nukescripts.net                           */
+/* Copyright (c) 2000-2005 by NukeScripts Network       */
+/********************************************************/
 
 /*****[CHANGES]**********************************************************
 -=[Base]=-
@@ -43,31 +51,31 @@ $modname = "Blog";
 include_once(NUKE_MODULES_DIR.$modname.'/admin/language/lang-'.$currentlang.'.php');
 
 switch($op) {
-    case "LastTwenty":
+    case "LastTwentyBlogs":
 	case "ProgrammedBlogs":
-    case "NENewsConfig":
-    case "NENewsConfigSave":
-    case "YesDelCategory":
+    case "BlogsConfig":
+    case "BlogsConfigSave":
+    case "YesDelBlogCategory":
     case "subdelete":
     case "DelCategory":
-    case "NoMoveCategory":
-    case "EditCategory":
-    case "SaveEditCategory":
-    case "AddCategory":
-    case "SaveCategory":
-    case "DisplayStory":
-    case "PreviewAgain":
-    case "PostStory":
-    case "EditStory":
-    case "RemoveStory":
-    case "ChangeStory":
-    case "DeleteStory":
-    case "adminStory":
-    case "PreviewAdminStory": 
-    case "PostAdminStory":
-    case "autoDelete":
-    case "autoEdit":
-    case "autoSaveEdit":
+    case "NoMoveBlogCategory":
+    case "EditBlogCategory":
+    case "SaveEditBlogCategory":
+    case "AddBlogCategory":
+    case "SaveBlogCategory":
+    case "DisplayBlog":
+    case "PreviewBlogAgain":
+    case "PostBlog":
+    case "EditBlog":
+    case "RemoveBlog":
+    case "ChangeBlog":
+    case "DeleteBlog":
+    case "adminBlog":
+    case "PreviewAdminBlog": 
+    case "PostAdminBlog":
+    case "autoDeleteBlog":
+    case "autoEditBlog":
+    case "autoSaveEditBlog":
     case "submissions":
         include(NUKE_MODULES_DIR.$modname.'/admin/index.php');
     break;

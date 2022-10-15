@@ -25,7 +25,7 @@
       Nuke Patched                             v3.1.0       06/26/2005
       Caching System                           v1.0.0       10/31/2005
 -=[Mod]=-
-      News BBCodes                             v1.0.0       10/05/2005
+      Blogs BBCodes                             v1.0.0       10/05/2005
       Custom Text Area                         v1.0.0       11/23/2005
  ************************************************************************/
 
@@ -50,11 +50,11 @@ function defaultDisplay()
     OpenTable();
 	echo '<div align="center" class="title"><strong>'._SUBMITNEWS.'</strong></div><br /><br />'; 
 /*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
+ [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
     echo "<p><form name=\"postnews\" action=\"modules.php?name=$module_name\" method=\"post\">\n";
 /*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
+ [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
     echo '<div class="textbold">'._YOURNAME.':</div> ';
     if (is_user()) {
@@ -137,11 +137,11 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
     $story2 = $story.'<br /><br />'.$storyext;
     Validate($topic, 'int', $module_name, 0, 0, 0, 0, 'topic');
 /*****[BEGIN]******************************************
- [ Mod:     News BBCodes                    v1.0.0 ]
+ [ Mod:     Blogs BBCodes                    v1.0.0 ]
  ******************************************************/
     $story2 = decode_bbcode(set_smilies(stripslashes($story2)), 1, true);
 /*****[END]********************************************
- [ Mod:     News BBCodes                    v1.0.0 ]
+ [ Mod:     Blogs BBCodes                    v1.0.0 ]
  ******************************************************/
     //OpenTable();
     //echo '<div class="nuketitle">'._NEWSUBPREVIEW."</div>\n";
@@ -169,12 +169,12 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
     //echo '<br />';
     OpenTable();
 /*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
+ [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
     echo "<p><form name=\"postnews\" action=\"modules.php?name=$module_name\" method=\"post\">\n";
     echo '<strong>'._YOURNAME.':</strong> ';
 /*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
+ [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
     if (is_user()) {
         echo "<a href=\"modules.php?name=Your_Account\">$cookie[1]</a> <span class=\"content\">[ <a href=\"modules.php?name=Your_Account&amp;op=logout\">"._LOGOUT."</a> ]</span>\n";

@@ -1042,7 +1042,7 @@ function blog_ultramode()
     
 	if (file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")): 
         $file = fopen(NUKE_BASE_DIR."ultramode.txt", "w");
-        fwrite($file, "General purpose self-explanatory file with news headlines\n".$content);
+        fwrite($file, "General purpose self-explanatory file with headlines\n".$content);
         fclose($file);
 	else: 
         global $debugger;
@@ -1078,7 +1078,7 @@ function ultramode()
 
     if (file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")):
         $file = fopen(NUKE_BASE_DIR."ultramode.txt", "w");
-        fwrite($file, "General purpose self-explanatory file with news headlines\n".$content);
+        fwrite($file, "General purpose self-explanatory file with headlines\n".$content);
         fclose($file);
     else:
         global $debugger;

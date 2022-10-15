@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
  =======================================================================*/
 
 /************************************************************************/
@@ -13,12 +13,20 @@
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
+/*                                                                      */
 /************************************************************************/
-/* Titanium Blog                                                        */
-/* By: The 86it Developers Network                                      */
-/* https://www.86it.us                                                  */
-/* Copyright (c) 2019 Ernest Buffington                                 */
+/*         Additional security & Abstraction layer conversion           */
+/*                           2003 chatserv                              */
+/*      http://www.nukefixes.com -- http://www.nukeresources.com        */
 /************************************************************************/
+
+/********************************************************/
+/* NSN Blogs                                            */
+/* By: NukeScripts Network (webmaster@nukescripts.net)  */
+/* Contributer(s): Ernest Buffington aka TheGhost       */
+/* http://www.nukescripts.net                           */
+/* Copyright (c) 2000-2005 by NukeScripts Network       */
+/********************************************************/
  
 /*****[CHANGES]**********************************************************
 -=[Base]=-
@@ -30,6 +38,7 @@
       Display Writes                           v1.0.0       10/14/2005
 	  Titanium Patched                         v3.0.0       08/26/2019
  ************************************************************************/
+ 
 if (!defined('ADMIN_FILE')) die('Access Denied');
 
 global $admin_file;
@@ -38,9 +47,9 @@ $module_name = basename(dirname(dirname(__FILE__)));
 
 get_lang($module_name);
 
-adminmenu($admin_file.'.php?op=adminStory', _NEWS, 'logo_red.png');
-adminmenu($admin_file.'.php?op=submissions', _SUBMISSIONS, 'logo_blue2.png');
-adminmenu($admin_file.'.php?op=NENewsConfig', _NE_NEWSCONFIG, 'logo_green.png');
-adminmenu($admin_file.'.php?op=LastTwenty', _LASTTWENTY, 'logo_purple.png');
+adminmenu($admin_file.'.php?op=adminBlog', _NEWS, 'logo_red.png');
+adminmenu($admin_file.'.php?op=submissions', _BLOG_SUBMISSIONS, 'logo_blue2.png');
+adminmenu($admin_file.'.php?op=BlogsConfig', _BLOGS_CONFIG, 'logo_green.png');
+adminmenu($admin_file.'.php?op=LastTwentyBlogs', _LASTTWENTY, 'logo_purple.png');
 adminmenu($admin_file.'.php?op=ProgrammedBlogs', _PROGRAMMEDBLOGS, 'logo_red_purp.png');
 ?>

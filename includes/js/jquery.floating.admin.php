@@ -131,7 +131,7 @@ if ( is_admin() && !defined('_disable_floating_admin') )
 		),
 		array(
 			'title' 		=> $customlang['floating_admin']['blog'],
-			'url' 			=> $admin_file.'.php?op=adminStory',
+			'url' 			=> $admin_file.'.php?op=adminBlog',
 			'fa_icon' 		=> 'fa-rss',
 			'access_level' 	=> is_mod_admin('Blog'),
 			'file_exists' 	=> true,

@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
@@ -20,7 +19,7 @@ if (!defined('MODULE_FILE')) {
     die ("You can't access this file directly...");
 }
 
-$instory = '';
+$inblog = '';
 $module_name = basename(dirname(__FILE__));
 get_lang($module_name);
 
@@ -107,7 +106,7 @@ switch($op) {
             list($st_title) = $db->sql_fetchrow($res);
             $db->sql_freeresult($res);
             $st_title = stripslashes(check_html($st_title, "nohtml"));
-            $instory = "AND sid='$sid'";
+            $inblog = "AND sid='$sid'";
             echo "<div align=\"center\"><span class=\"title\"><strong>"._SEARCHINSTORY." $st_title</strong></span></div><br />\n";
         } else {
             echo "<div align=\"center\"><span class=\"title\"><strong>"._SEARCHIN." $topictext</strong></span></div><br />\n";
@@ -283,7 +282,7 @@ switch($op) {
                                 echo "($comments "._UCOMMENTS.")";
                             }
                             if (is_mod_admin($module_name)) {
-                                echo " [ <a href=\"".$admin_file.".php?op=EditStory&amp;sid=$sid\">"._EDIT."</a> | <a href=\"".$admin_file.".php?op=RemoveStory&amp;sid=$sid\">"._DELETE."</a> ]";
+                                echo " [ <a href=\"".$admin_file.".php?op=EditBlog&amp;sid=$sid\">"._EDIT."</a> | <a href=\"".$admin_file.".php?op=RemoveBlog&amp;sid=$sid\">"._DELETE."</a> ]";
                             }
                             echo "</span><br /><br /><br /></td></tr>\n";
                             $x++;

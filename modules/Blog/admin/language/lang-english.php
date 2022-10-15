@@ -22,7 +22,7 @@
       Display Topic Icon                       v1.0.0       06/27/2005
       Display Writes                           v1.0.0       10/14/2005
  ************************************************************************/
-define('_SUBMISSIONS','Blog Post Submissons');
+define('_BLOG_SUBMISSIONS','Blog Post Submissons');
 define('_TOPICS','Blog Posts Topics Manager');
 define('_BY','by');
 define('_POSTEDON','Posted on');
@@ -103,49 +103,51 @@ define("_CATADDED","New Blog POst Category Added!");
 define("_AUTOSTORYEDIT","Edit Automated Blog Post");
 define("_NOTES","Blog Post Notes");
 define("_CHNGPROGRAMSTORY","Select new date for this Blog Post:");
-define("_SUBMISSIONSADMIN","Blog Post Submissions Administration");
-define("_DELETESTORY","Delete Blog Post");
-define("_EDITARTICLE","Edit Blog Post");
-define("_NOSUBMISSIONS","No New Blog Post Submissions");
-define("_NEWSUBMISSIONS","New Blog Post Submissions");
-define("_NOTAUTHORIZED1","You aren't authorized to modify or edit this Blog Post!");
-define("_NOTAUTHORIZED2","You can't edit and/or delete Blog Posts that you did not publish");
-define("_POLLTITLE","Blog Poll Title");
+define("_BLOG_SUBMISSIONSADMIN","Blog Post Submissions Administration");
+define("_DELETEBLOG","Delete Blog Post");
+define("_EDITBLOGPOST","Edit Blog Post");
+define("_NO_BLOG_SUBMISSIONS","No New Blog Post Submissions");
+define("_NEW_BLOG_SUBMISSIONS","New Blog Post Submissions");
+define("_NOTAUTHORIZED_EDIT1","You aren't authorized to modify or edit this Blog Post!");
+define("_NOTAUTHORIZED_EDIT2","You can't edit and/or delete Blog Posts that you did not publish");
+
+define("_POLLTITLE","Poll Title");
 define("_POLLEACHFIELD","Please enter each available option into a single field");
-define("_ACTIVATECOMMENTS","Activate Comments for this Blog Post?");
+
+define("_ACTIVATE_BLOG_COMMENTS","Activate Comments for this Blog Post?");
 define("_LANGUAGE","Language");
-define("_ATTACHAPOLL","Attach a Poll to this Blog Post");
+define("_ATTACHA_BLOG_POLL","Attach a Poll to this Blog Post");
 define("_LEAVEBLANKTONOTATTACH","(Leave blank to post the Blog Post without any attached Poll)<br />(NOTE: Automated/Programmed blog posts can't have attached Polls)");
 define("_USERPROFILE","User Profile");
 define("_EMAILUSER","Email User");
 define("_SENDPM","Send Private Message");
 
 # NEW in Titanium Blogs 1.1.0                       
-define("_NE_ARTPUB","Blog Post Published");
-define("_NE_HASPUB","The Blog Post you submitted has been published. You can view it at:");
-define("_NE_NEWSCONFIG","Blog Posts Configuration");
-define("_NE_DISPLAYTYPE","Display Column");
-define("_NE_SINGLE","Single Column");
-define("_NE_DUAL","Dual Column");
-define("_NE_READLINK","Read More Link");
-define("_NE_POPUP","Popup");
-define("_NE_PAGE","Page");
-define("_NE_TEXTTYPE","Blog Post Length");
-define("_NE_TRUNCATE","Truncate to 255 chars");
-define("_NE_COMPLETE","Original text");
-define("_NE_NOTIFYAUTH","Notify Blog Post Author");
-define("_NE_NOTIFYAUTHNOTE","This will email the blog post submitter<br />\non approval");
-define("_NE_NO","No");
-define("_NE_YES","Yes");
-define("_NE_HOMETOPIC","Blog Post Topic in Home");
-define("_NE_ALLTOPICS","All Blog Post Topics");
-define("_NE_HOMENUMBER","Blog Posts in Home");
-define("_NE_NUKEDEFAULT","Titanium Default");
-define("_NE_ARTICLES","Blog Posts");
-define("_NE_HOMENUMNOTE","This will over-ride user preferences<br />\nif set other then Titanium Default");
-define("_NE_SAVECHANGES","Save Changes");
+define("_BLOG_ARTPUB","Blog Post Published");
+define("_BLOG_HASPUB","The Blog Post you submitted has been published. You can view it at:");
+define("_BLOGS_CONFIG","Blog Posts Configuration");
+define("_BLOG_DISPLAYTYPE","Display Column");
+define("_BLOG_SINGLE","Single Column");
+define("_BLOG_DUAL","Dual Column");
+define("_BLOG_READLINK","Read More Link");
+define("_BLOG_POPUP","Popup");
+define("_BLOG_PAGE","Page");
+define("_BLOG_TEXTTYPE","Blog Post Length");
+define("_BLOG_TRUNCATE","Truncate to 255 chars");
+define("_BLOG_COMPLETE","Original text");
+define("_BLOG_NOTIFYAUTH","Notify Blog Post Author");
+define("_BLOG_NOTIFYAUTHNOTE","This will email the blog post submitter<br />\non approval");
+define("_BLOG_NO","No");
+define("_BLOG_YES","Yes");
+define("_BLOG_HOMETOPIC","Blog Post Topic in Home");
+define("_BLOG_ALLTOPICS","All Blog Post Topics");
+define("_BLOG_HOMENUMBER","Blog Posts in Home");
+define("_BLOG_NUKEDEFAULT","Titanium Default");
+define("_BLOG_ARTICLES","Blog Posts");
+define("_BLOG_HOMENUMNOTE","This will over-ride user preferences<br />\nif set other then Titanium Default");
+define("_BLOG_SAVECHANGES","Save Changes");
 # Mod: Display Topic Icon v1.0.0 START
-define("_DISPLAY_T_ICON","Display Blog Topic Icon with Blog?");
+define("_DISPLAY_TOPIC_ICON","Display Blog Topic Icon with Blog?");
 # Mod: Display Topic Icon v1.0.0 START
 
 # Mod: Display Writes v1.0.0 START

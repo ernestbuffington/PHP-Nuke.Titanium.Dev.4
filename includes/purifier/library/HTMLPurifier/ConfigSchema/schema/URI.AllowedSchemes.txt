@@ -8,6 +8,7 @@ array (
   'ftp' => true,
   'nntp' => true,
   'news' => true,
+  'blogs' => true,
   'tel' => true,
 )
 --DESCRIPTION--

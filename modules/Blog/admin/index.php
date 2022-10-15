@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
  =======================================================================*/
 
 /************************************************************************/
@@ -13,12 +13,20 @@
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
+/*                                                                      */
 /************************************************************************/
-/* Titanium Blog                                                        */
-/* By: The 86it Developers Network                                      */
-/* https://www.86it.us                                                  */
-/* Copyright (c) 2019 Ernest Buffington                                 */
-/************************************************************************/ 
+/*         Additional security & Abstraction layer conversion           */
+/*                           2003 chatserv                              */
+/*      http://www.nukefixes.com -- http://www.nukeresources.com        */
+/************************************************************************/
+
+/********************************************************/
+/* NSN Blogs                                            */
+/* By: NukeScripts Network (webmaster@nukescripts.net)  */
+/* Contributer(s): Ernest Buffington aka TheGhost       */
+/* http://www.nukescripts.net                           */
+/* Copyright (c) 2000-2005 by NukeScripts Network       */
+/********************************************************/
 
 /*****[CHANGES]**********************************************************
 -=[Base]=-
@@ -44,16 +52,16 @@ $module_name = basename(dirname(dirname(__FILE__)));
 
 if(is_mod_admin($module_name)) 
 {
-  include_once(NUKE_INCLUDE_DIR.'nsnne_func.php');
+  include_once(NUKE_INCLUDE_DIR.'functions_blog.php');
 
-  $ne_config = ne_get_configs();
+  $pnt_blogs_config = get_blog_configs();
 
 /*********************************************************/
 /* Story/Blogs Functions                                 */
 /*********************************************************/
 function topicicon($topic_icon) 
 {
-    echo "<br /><strong>"._DISPLAY_T_ICON."</strong>&nbsp;&nbsp;";
+    echo "<br /><strong>"._DISPLAY_TOPIC_ICON."</strong>&nbsp;&nbsp;";
     
 	if (($topic_icon == 0) OR (empty($topic_icon))) 
 	{
@@ -112,7 +120,7 @@ function puthome($ihome, $acomm)
         ."<input type=\"radio\" name=\"ihome\" value=\"1\" $sel2>"._NO.""
         ."&nbsp;&nbsp;<span class=\"content\">[ "._ONLYIFCATSELECTED." ]</span><br />";
 
-    echo "<br /><strong>"._ACTIVATECOMMENTS."</strong>&nbsp;&nbsp;";
+    echo "<br /><strong>"._ACTIVATE_BLOG_COMMENTS."</strong>&nbsp;&nbsp;";
     
 	if (($acomm == 0) OR (empty($acomm))) 
 	{
@@ -131,7 +139,7 @@ function puthome($ihome, $acomm)
 
 }
 
-function deleteStory($qid) 
+function deleteBlog($qid) 
 {
     global $prefix, $db, $admin_file, $cache;
     $qid = intval($qid);
@@ -151,7 +159,7 @@ function deleteStory($qid)
     redirect($admin_file.".php?op=submissions");
 }
 
-function SelectCategory($cat) 
+function SelectBlogCategory($cat) 
 {
     global $prefix, $db, $admin_file;
     $selcat = $db->sql_query("select catid, title from ".$prefix."_stories_cat order by title");
@@ -179,14 +187,14 @@ function SelectCategory($cat)
         $a++;
     }
     
-	echo "</select> [ <a href=\"".$admin_file.".php?op=AddCategory\">"._ADD."</a> | <a href=\"".$admin_file.".php?op=EditCategory\">"._EDIT."</a> | <a href=\"".$admin_file.".php?op=DelCategory\">"._DELETE."</a> ]";
+	echo "</select> [ <a href=\"".$admin_file.".php?op=AddBlogCategory\">"._ADD."</a> | <a href=\"".$admin_file.".php?op=EditBlogCategory\">"._EDIT."</a> | <a href=\"".$admin_file.".php?op=DelCategory\">"._DELETE."</a> ]";
 }
 
 function putpoll($pollTitle, $optionText) 
 {
     OpenTable();
 
-    echo "<div style=\"text-align: center\"><span class=\"title\"><strong>"._ATTACHAPOLL."</strong></span><br />"
+    echo "<div style=\"text-align: center\"><span class=\"title\"><strong>"._ATTACHA_BLOG_POLL."</strong></span><br />"
         ."<span class=\"tiny\">"._LEAVEBLANKTONOTATTACH."</span><br />"
         ."<br /><br />"._POLLTITLE.": <input type=\"text\" name=\"pollTitle\" size=\"50\" maxlength=\"100\" value=\"$pollTitle\"><br /><br />"
         ."<font class=\"content\">"._POLLEACHFIELD."</font><br />"
@@ -207,7 +215,7 @@ function putpoll($pollTitle, $optionText)
 	CloseTable();
 }
 
-function AddCategory () 
+function AddBlogCategory () 
 {
     global $admin_file;
 
@@ -219,7 +227,7 @@ function AddCategory ()
         ."<form action=\"".$admin_file.".php\" method=\"post\">"
         ."<strong>"._CATNAME.":</strong> "
         ."<input type=\"text\" name=\"title\" size=\"22\" maxlength=\"20\"> "
-        ."<input type=\"hidden\" name=\"op\" value=\"SaveCategory\">"
+        ."<input type=\"hidden\" name=\"op\" value=\"SaveBlogCategory\">"
         ."<input type=\"submit\" value=\""._SAVE."\">"
         ."</form></div>";
    
@@ -230,7 +238,7 @@ function AddCategory ()
     include(NUKE_BASE_DIR.'footer.php');
 }
 
-function EditCategory($catid) 
+function EditBlogCategory($catid) 
 {
     global $prefix, $db, $admin_file;
 
@@ -261,7 +269,7 @@ function EditCategory($catid)
         }
         
 		echo "</select>";
-        echo "<input type=\"hidden\" name=\"op\" value=\"EditCategory\">";
+        echo "<input type=\"hidden\" name=\"op\" value=\"EditBlogCategory\">";
         echo "<input type=\"submit\" value=\""._EDIT."\"><br /><br />";
         echo ""._NOBLOGEDIT."";
     } 
@@ -271,7 +279,7 @@ function EditCategory($catid)
         echo "<strong>"._CATEGORYNAME.":</strong> ";
         echo "<input type=\"text\" name=\"title\" size=\"22\" maxlength=\"20\" value=\"$title\"> ";
         echo "<input type=\"hidden\" name=\"catid\" value=\"$catid\">";
-        echo "<input type=\"hidden\" name=\"op\" value=\"SaveEditCategory\">";
+        echo "<input type=\"hidden\" name=\"op\" value=\"SaveEditBlogCategory\">";
         echo "<input type=\"submit\" value=\""._SAVECHANGES."\"><br /><br />";
         echo ""._NOARTCATEDIT."";
         echo "</form>";
@@ -333,8 +341,8 @@ function DelCategory($cat)
                 .""._DELCATWARNING1."<br />"
                 .""._DELCATWARNING2."<br /><br />"
                 .""._DELCATWARNING3."<br /><br />"
-                ."<strong>[ <a href=\"".$admin_file.".php?op=YesDelCategory&amp;catid=$cat\">"._YESDEL."</a> | "
-                ."<a href=\"".$admin_file.".php?op=NoMoveCategory&amp;catid=$cat\">"._NOMOVE."</a> ]</strong>";
+                ."<strong>[ <a href=\"".$admin_file.".php?op=YesDelBlogCategory&amp;catid=$cat\">"._YESDEL."</a> | "
+                ."<a href=\"".$admin_file.".php?op=NoMoveBlogCategory&amp;catid=$cat\">"._NOMOVE."</a> ]</strong>";
         }
     }
     
@@ -345,7 +353,7 @@ function DelCategory($cat)
     include(NUKE_BASE_DIR.'footer.php');
 }
 
-function YesDelCategory($catid) 
+function YesDelBlogCategory($catid) 
 {
     global $prefix, $db, $admin_file;
 
@@ -360,10 +368,10 @@ function YesDelCategory($catid)
         $db->sql_query("delete from ".$prefix."_comments where sid='$sid'");
     }
     
-	redirect($admin_file.".php?op=adminStory");
+	redirect($admin_file.".php?op=adminBlog");
 }
 
-function NoMoveCategory($catid, $newcat) 
+function NoMoveBlogCategory($catid, $newcat) 
 {
     global $prefix, $db, $admin_file;
 
@@ -392,7 +400,7 @@ function NoMoveCategory($catid, $newcat)
         
 		echo "</select>";
         echo "<input type=\"hidden\" name=\"catid\" value=\"$catid\">";
-        echo "<input type=\"hidden\" name=\"op\" value=\"NoMoveCategory\">";
+        echo "<input type=\"hidden\" name=\"op\" value=\"NoMoveBlogCategory\">";
         echo "<input type=\"submit\" value=\""._OK."\">";
         echo "</form>";
     } 
@@ -416,7 +424,7 @@ function NoMoveCategory($catid, $newcat)
 	include(NUKE_BASE_DIR.'footer.php');
 }
 
-function SaveEditCategory($catid, $title) 
+function SaveEditBlogCategory($catid, $title) 
 {
     global $prefix, $db, $admin_file;
 
@@ -445,7 +453,7 @@ function SaveEditCategory($catid, $title)
     OpenTable();
     
 	echo "<div align=\"center\"><span class=\"title\"><strong>"._CATEGORIESADMIN."</strong></span></div><br />";
-	echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>";
+	echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
 	echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
 
     echo "<div align=\"center\"><span class=\"content\"><strong>$what1</strong></span><br /><br />";
@@ -456,7 +464,7 @@ function SaveEditCategory($catid, $title)
 	include(NUKE_BASE_DIR.'footer.php');
 }
 
-function SaveCategory($title) 
+function SaveBlogCategory($title) 
 {
     global $prefix, $db, $admin_file;
 
@@ -491,15 +499,15 @@ function SaveCategory($title)
 	include(NUKE_BASE_DIR.'footer.php');
 }
 
-function autodelete($anid) 
+function autodeleteblog($anid) 
 {
     global $prefix, $db, $admin_file;
     $anid = intval($anid);
     $db->sql_query("delete from ".$prefix."_autonews where anid='$anid'");
-    redirect($admin_file.".php?op=adminStory");
+    redirect($admin_file.".php?op=adminBlog");
 }
 
-function autoEdit($anid) 
+function autoEditBlog($anid) 
 {
     global $aid, $bgcolor1, $bgcolor2, $prefix, $db, $multilingual, $admin_file, $module_name;
 
@@ -565,7 +573,7 @@ function autoEdit($anid)
       OpenTable();
 	  
       echo "<div align=\"center\"><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></div><br />";
-	  echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>";
+	  echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
 	  echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>";
       
 	  $today = getdate();
@@ -650,7 +658,7 @@ function autoEdit($anid)
 	echo "</select><br /><br />";
     $cat = $catid;
     
-	SelectCategory($cat);
+	SelectBlogCategory($cat);
     echo '<br />';
     topicicon($topic_icon);
     echo '<br />';
@@ -781,7 +789,7 @@ function autoEdit($anid)
     echo ": 00<br /><br />
     
 	<input type=\"hidden\" name=\"anid\" value=\"$anid\">
-    <input type=\"hidden\" name=\"op\" value=\"autoSaveEdit\">
+    <input type=\"hidden\" name=\"op\" value=\"autoSaveEditBlog\">
     <input type=\"submit\" value=\""._SAVECHANGES."\">
     </form>";
     
@@ -796,11 +804,11 @@ function autoEdit($anid)
         OpenTable();
 
         echo "<div align=\"center\"><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></div><br />";
-	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>";
+	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
 	    echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
 
-        echo "<div align=\"center\"><strong>"._NOTAUTHORIZED1."</strong></div><br /><br />"
-            .""._NOTAUTHORIZED2."<br /><br />"
+        echo "<div align=\"center\"><strong>"._NOTAUTHORIZED_EDIT1."</strong></div><br /><br />"
+            .""._NOTAUTHORIZED_EDIT2."<br /><br />"
             .""._GOBACK."";
         
 		CloseTable();
@@ -809,7 +817,7 @@ function autoEdit($anid)
     }
 }
 
-function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes) 
+function autoSaveEditBlog($anid, $year, $day, $month, $hour, $min, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes) 
 {
     global $aid, $ultramode, $prefix, $db, $admin_file, $module_name;
 
@@ -860,7 +868,7 @@ function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext
 	 if ($ultramode) 
      blog_ultramode();
      
-     redirect($admin_file.".php?op=adminStory");
+     redirect($admin_file.".php?op=adminBlog");
     } 
    else 
 	{
@@ -869,11 +877,11 @@ function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext
         OpenTable();
 
         echo "<div align=\"center\"><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></div><br />";
-	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>";
+	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
         echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
    
-        echo "<center><strong>"._NOTAUTHORIZED1."</strong><br /><br />"
-            .""._NOTAUTHORIZED2."<br /><br />"
+        echo "<center><strong>"._NOTAUTHORIZED_EDIT1."</strong><br /><br />"
+            .""._NOTAUTHORIZED_EDIT2."<br /><br />"
             .""._GOBACK."";
         
 		CloseTable();
@@ -882,7 +890,7 @@ function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext
     }
 }
 
-function displayStory($qid) 
+function displayBlog($qid) 
 {
     global $user, $admin_file, $subject, $story, $bgcolor1, $bgcolor2, $anonymous, $user_prefix, $prefix, $db, $multilingual;
 
@@ -953,8 +961,8 @@ function displayStory($qid)
 
     OpenTable();
     
-	echo "<div align=\"center\"><span class=\"title\"><strong>"._SUBMISSIONSADMIN."</strong></span></div><br />";
- 	echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>";
+	echo "<div align=\"center\"><span class=\"title\"><strong>"._BLOG_SUBMISSIONSADMIN."</strong></span></div><br />";
+ 	echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
  	echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
 
 /*****[BEGIN]******************************************
@@ -1019,7 +1027,7 @@ function displayStory($qid)
 
     echo "</select>";
     echo "<br /><br />";
-    echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
+    echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOCIATED_BLOG_TOPICS."</strong></td><td width='100%'>"
         ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
 
     $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
@@ -1040,7 +1048,7 @@ function displayStory($qid)
 
     echo "</tr></table></td></tr></table><br /><br />";
     
-	SelectCategory($cat);
+	SelectBlogCategory($cat);
     echo '<br />';
     topicicon($topic_icon);
     echo '<br />';
@@ -1165,11 +1173,11 @@ function displayStory($qid)
 	echo "</select>";
     echo ": 00<br /><br />"
         ."<select name=\"op\">"
-        ."<option value=\"DeleteStory\">"._DELETESTORY."</option>"
-        ."<option value=\"PreviewAgain\" selected>"._PREVIEWSTORY."</option>"
-        ."<option value=\"PostStory\">"._POSTSTORY."</option>"
+        ."<option value=\"DeleteBlog\">"._DELETEBLOG."</option>"
+        ."<option value=\"PreviewBlogAgain\" selected>"._PREVIEWSTORY."</option>"
+        ."<option value=\"PostBlog\">"._POSTSTORY."</option>"
         ."</select>"
-        ."<input type=\"submit\" value=\""._OK."\">&nbsp;&nbsp;[ <a href=\"".$admin_file.".php?op=DeleteStory&qid=$qid\">"._DELETE."</a> ]";
+        ."<input type=\"submit\" value=\""._OK."\">&nbsp;&nbsp;[ <a href=\"".$admin_file.".php?op=DeleteBlog&qid=$qid\">"._DELETE."</a> ]";
 
         CloseTable();
 
@@ -1180,7 +1188,7 @@ function displayStory($qid)
     include(NUKE_BASE_DIR.'footer.php');
 }
 
-function previewStory($automated, 
+function previewBlog($automated, 
                            $year, 
 						    $day, 
 						  $month, 
@@ -1240,7 +1248,7 @@ function previewStory($automated,
 	OpenTable();
 	
     echo "<div align=\"center\"><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></div><br />";
-	echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>";
+	echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
 	echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
 
 /*****[BEGIN]******************************************
@@ -1317,7 +1325,7 @@ function previewStory($automated,
     
 	    $asso_t = explode("-", $associated);
 
-        echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
+        echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOCIATED_BLOG_TOPICS."</strong></td><td width='100%'>"
             ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
 
         $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
@@ -1351,7 +1359,7 @@ function previewStory($automated,
     }
     // Copyright (c) 2000-2005 by NukeScripts Network
     $cat = $catid;
-    SelectCategory($cat);
+    SelectBlogCategory($cat);
     echo '<br />';
     topicicon($topic_icon);
     echo '<br />';
@@ -1498,9 +1506,9 @@ function previewStory($automated,
 
     echo ": 00<br /><br />"
         ."<select name=\"op\">"
-        ."<option value=\"DeleteStory\">"._DELETESTORY."</option>"
-        ."<option value=\"PreviewAgain\" selected>"._PREVIEWSTORY."</option>"
-        ."<option value=\"PostStory\">"._POSTSTORY."</option>"
+        ."<option value=\"DeleteBlog\">"._DELETEBLOG."</option>"
+        ."<option value=\"PreviewBlogAgain\" selected>"._PREVIEWSTORY."</option>"
+        ."<option value=\"PostBlog\">"._POSTSTORY."</option>"
         ."</select>"
         ."<input type=\"submit\" value=\""._OK."\">";
 
@@ -1537,7 +1545,7 @@ function postStory($automated,
 				  $optionText, 
 				     $assotop) 
 {
-    global $aid, $admin_file, $ultramode, $prefix, $db, $user_prefix, $Version_Num, $ne_config, $adminmail, $sitename, $nukeurl, $cache;
+    global $aid, $admin_file, $ultramode, $prefix, $db, $user_prefix, $Version_Num, $pnt_blogs_config, $adminmail, $sitename, $nukeurl, $cache;
 
     // Copyright (c) 2000-2005 by NukeScripts Network
     if($Version_Num >= 6.6) 
@@ -1610,12 +1618,12 @@ function postStory($automated,
             $db->sql_query("UPDATE ".$user_prefix."_users SET counter=counter+1 WHERE user_id='$uid'");
             
 			// Copyright (c) 2000-2005 by NukeScripts Network
-            if($ne_config["notifyauth"] == 1) 
+            if($pnt_blogs_config["notifyauth"] == 1) 
 			{
                 $urow = $db->sql_fetchrow($db->sql_query("SELECT username, user_email FROM ".$user_prefix."_users WHERE user_id='$uid'"));
                 $Mto = $urow["username"]." <".$urow["user_email"].">";
-                $Msubject = _NE_ARTPUB;
-                $Mbody = _NE_HASPUB."\n$nukeurl/modules.php?name=Blog&file=article&sid=$artid";
+                $Msubject = _BLOG_ARTPUB;
+                $Mbody = _BLOG_HASPUB."\n$nukeurl/modules.php?name=Blog&file=article&sid=$artid";
                 $Mheaders  = "From: ".$sitename." <$adminmail>\r\n";
                 $Mheaders .= "Reply-To: $adminmail\r\n";
                 $Mheaders .= "Return-Path: $adminmail\r\n";
@@ -1729,12 +1737,12 @@ function postStory($automated,
             $db->sql_query("UPDATE ".$user_prefix."_users SET counter=counter+1 WHERE user_id='$uid'");
             
 			// Copyright (c) 2000-2005 by NukeScripts Network
-		    if($ne_config["notifyauth"] == 1) 
+		    if($pnt_blogs_config["notifyauth"] == 1) 
 			{
                 $urow = $db->sql_fetchrow($db->sql_query("SELECT username, user_email FROM ".$user_prefix."_users WHERE user_id='$uid'"));
                 $Mto = $urow["username"]." <".$urow["user_email"].">";
-                $Msubject = _NE_ARTPUB;
-                $Mbody = _NE_HASPUB."\n$nukeurl/modules.php?name=Blog&file=article&sid=$artid";
+                $Msubject = _BLOG_ARTPUB;
+                $Mbody = _BLOG_HASPUB."\n$nukeurl/modules.php?name=Blog&file=article&sid=$artid";
                 $Mheaders  = "From: ".$sitename." <$adminmail>\r\n";
                 $Mheaders .= "Reply-To: $adminmail\r\n";
                 $Mheaders .= "Return-Path: $adminmail\r\n";
@@ -1754,11 +1762,11 @@ function postStory($automated,
 		if ($ultramode) 
 	    blog_ultramode(); 
         
-		deleteStory($qid);
+		deleteBlog($qid);
     }
 }
 
-function editStory($sid) 
+function editBlog($sid) 
 {
     global $user, $admin_file, $bgcolor1, $bgcolor2, $aid, $prefix, $db, $multilingual, $Version_Num, $module_name;
 
@@ -1826,9 +1834,9 @@ function editStory($sid)
         
 		OpenTable();
 
-	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminStory\"><strong>Admin - Edit Blog Module</strong></a></div>";
+	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\"><strong>Admin - Edit Blog Module</strong></a></div>";
 	    echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
-        echo "<div align=\"center\"><span class=\"option\"><strong>"._EDITARTICLE."</strong></span></div>";
+        echo "<div align=\"center\"><span class=\"option\"><strong>"._EDITBLOGPOST."</strong></span></div>";
 
 /*****[BEGIN]******************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
@@ -1886,7 +1894,7 @@ function editStory($sid)
             $arow = $db->sql_fetchrow($aresult);
             $asso_t = explode("-", $arow['associated']);
         
-		    echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
+		    echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOCIATED_BLOG_TOPICS."</strong></td><td width='100%'>"
                 ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
    
             $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
@@ -1920,7 +1928,7 @@ function editStory($sid)
         }
         // Copyright (c) 2000-2005 by NukeScripts Network
         $cat = $catid;
-        SelectCategory($cat);
+        SelectBlogCategory($cat);
         echo '<br />';
         topicicon($topic_icon);
         echo '<br />';
@@ -1966,7 +1974,7 @@ function editStory($sid)
             ."<strong>"._NOTES."</strong><br />"
             ."<textarea style=\"wrap:virtual\" cols=\"50\" rows=\"4\" name=\"notes\">$notes</textarea><br /><br />"
             ."<input type=\"hidden\" NAME=\"sid\" size=\"50\" value=\"$sid\">"
-            ."<input type=\"hidden\" name=\"op\" value=\"ChangeStory\">"
+            ."<input type=\"hidden\" name=\"op\" value=\"ChangeBlog\">"
             ."<input type=\"submit\" value=\""._SAVECHANGES."\">"
             ."</form>";
         CloseTable();
@@ -1980,11 +1988,11 @@ function editStory($sid)
         OpenTable();
         
 		echo "<div align=\"center\"><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></div><br />";
-	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>";
+	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
 	    echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
 
-        echo "<div align=\"center\"><strong>"._NOTAUTHORIZED1."</strong></div><br /><br />"
-            .""._NOTAUTHORIZED2."<br /><br />"
+        echo "<div align=\"center\"><strong>"._NOTAUTHORIZED_EDIT1."</strong></div><br /><br />"
+            .""._NOTAUTHORIZED_EDIT2."<br /><br />"
             .""._GOBACK."";
         
 		CloseTable();
@@ -1993,7 +2001,7 @@ function editStory($sid)
     }
 }
 
-function removeStory($sid, $ok=0) 
+function removeBlog($sid, $ok=0) 
 {
     global $ultramode, $aid, $prefix, $db, $admin_file, $module_name;
     
@@ -2028,11 +2036,11 @@ function removeStory($sid, $ok=0)
         
             OpenTable();
 	
-	        echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminStory&amp;sid=$sid\"><strong>Back To Current Blog</strong></a></div>";
+	        echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog&amp;sid=$sid\"><strong>Back To Current Blog</strong></a></div>";
 	        echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
 
             echo "<div align=\"center\"><strong>"._REMOVESTORY." $sid "._ANDCOMMENTS."</strong>";
-           	echo "<br /><br />[ <a href=\"".$admin_file.".php?op=adminStory\">"._NO."</a> | <a href=\"".$admin_file.".php?op=RemoveStory&amp;sid=$sid&amp;ok=1\">"._YES."</a> ]</div>";
+           	echo "<br /><br />[ <a href=\"".$admin_file.".php?op=adminBlog\">"._NO."</a> | <a href=\"".$admin_file.".php?op=RemoveBlog&amp;sid=$sid&amp;ok=1\">"._YES."</a> ]</div>";
     
 	        CloseTable();
 
@@ -2046,10 +2054,10 @@ function removeStory($sid, $ok=0)
         OpenTable();
         
 		echo "<div align=\"center\"><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></div><br /><br />";
-	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>";
+	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
 	    echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
-        echo "<div align=\"center\"><strong>"._NOTAUTHORIZED1."</strong></div><br /><br />"
-            .""._NOTAUTHORIZED2."<br /><br />"
+        echo "<div align=\"center\"><strong>"._NOTAUTHORIZED_EDIT1."</strong></div><br /><br />"
+            .""._NOTAUTHORIZED_EDIT2."<br /><br />"
             .""._GOBACK."";
         
 		CloseTable();
@@ -2058,7 +2066,7 @@ function removeStory($sid, $ok=0)
     }
 }
 
-function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $assotop) 
+function changeBlog($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $assotop) 
 {
 
     global $aid, $ultramode, $prefix, $db, $Version_Num, $admin_file, $module_name;
@@ -2105,11 +2113,11 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
         
 		// Copyright (c) 2000-2005 by NukeScripts Network
         if ($ultramode) { blog_ultramode(); }
-        redirect($admin_file.".php?op=adminStory");
+        redirect($admin_file.".php?op=adminBlog");
     }
 }
 
-function lastTwenty()
+function lastTwentyBlogs()
 {
     global $prefix, $db, $language, $multilingual, $Version_Num, $admin_file, $aid, $module_name, $bgcolor1;
 
@@ -2120,7 +2128,7 @@ function lastTwenty()
     OpenTable();    
     
 	echo "<div align=\"center\"><strong>Admin "._LAST." 100 "._ARTICLES."</strong></div>";
-	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\"><strong>Add New Blog</strong></a></div><br />";
+	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminBlog\"><strong>Add New Blog</strong></a></div><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
     
 	$result6 = $db->sql_query("SELECT sid, 
@@ -2168,7 +2176,7 @@ function lastTwenty()
 		{
             if ($aid == $said) 
 			{
-                echo "</td><td class=\"catHead\" width=\"5.3%\" align=\"right\" nowrap>(<a href=\"".$admin_file.".php?op=EditStory&amp;sid=$sid\">"._EDIT."</a>-<a href=\"".$admin_file.".php?op=RemoveStory&amp;sid=$sid\">"._DELETE."</a>)"
+                echo "</td><td class=\"catHead\" width=\"5.3%\" align=\"right\" nowrap>(<a href=\"".$admin_file.".php?op=EditBlog&amp;sid=$sid\">"._EDIT."</a>-<a href=\"".$admin_file.".php?op=RemoveBlog&amp;sid=$sid\">"._DELETE."</a>)"
                      ."</td></tr>";
             } 
 			else 
@@ -2189,8 +2197,8 @@ function lastTwenty()
           ."<form action=\"".$admin_file.".php\" method=\"post\">"
           .""._STORYID.": <input type=\"text\" NAME=\"sid\" SIZE=\"10\">"
           ."<select name=\"op\">"
-          ."<option value=\"EditStory\" SELECTED>"._EDIT."</option>"
-          ."<option value=\"RemoveStory\">"._DELETE."</option>"
+          ."<option value=\"EditBlog\" SELECTED>"._EDIT."</option>"
+          ."<option value=\"RemoveBlog\">"._DELETE."</option>"
           ."</select>"
           ."<input type=\"submit\" value=\""._GO."\">"
           ."</form></div><br />";
@@ -2248,7 +2256,7 @@ function programmedBlogs()
 				if (is_mod_admin('Blog')) 
 				{
                     if ($aid == $said) 
-                        echo "<tr><td nowrap>&nbsp;(<a href=\"".$admin_file.".php?op=autoEdit&amp;anid=$anid\">"._EDIT."</a>-<a href=\"".$admin_file.".php?op=autoDelete&amp;anid=$anid\">"._DELETE."</a>)&nbsp;</td><td width=\"100%\">&nbsp;$title&nbsp;</td><td align=\"center\">&nbsp;$alanguage&nbsp;</td><td nowrap>&nbsp;$time&nbsp;</td></tr>"; 
+                        echo "<tr><td nowrap>&nbsp;(<a href=\"".$admin_file.".php?op=autoEditBlog&amp;anid=$anid\">"._EDIT."</a>-<a href=\"".$admin_file.".php?op=autoDeleteBlog&amp;anid=$anid\">"._DELETE."</a>)&nbsp;</td><td width=\"100%\">&nbsp;$title&nbsp;</td><td align=\"center\">&nbsp;$alanguage&nbsp;</td><td nowrap>&nbsp;$time&nbsp;</td></tr>"; 
 					/* Multilingual Code : added column to display language */
 					else 
                         echo "<tr><td>&nbsp;("._NOFUNCTIONS.")&nbsp;</td><td width=\"100%\">&nbsp;$title&nbsp;</td><td align=\"center\">&nbsp;$alanguage&nbsp;</td><td nowrap>&nbsp;$time&nbsp;</td></tr>"; 
@@ -2272,7 +2280,7 @@ function programmedBlogs()
 }
 
 
-function adminStory() 
+function adminBlog() 
 {
     global $prefix, $db, $language, $multilingual, $Version_Num, $admin_file, $aid, $module_name, $bgcolor1;
 
@@ -2353,7 +2361,7 @@ function adminStory()
 	// Copyright (c) 2000-2005 by NukeScripts Network
     if($Version_Num >= 6.6) 
 	{
-        echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
+        echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOCIATED_BLOG_TOPICS."</strong></td><td width='100%'>"
             ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
         $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
         $result = $db->sql_query($sql);
@@ -2366,8 +2374,8 @@ function adminStory()
                 echo "</tr><tr>";
                 $a = 0;
             }
-            
-			echo "<td><input type='checkbox' name='assotop[]' value='".intval($row["topicid"])."'>".$row["topictext"]."</td>";
+            # updated 10/15/2022 1:10pm TheGhost - this is where i set the spaces between the check boxws and also the topics
+			echo "<td><input type='checkbox' name='assotop[]' value='".intval($row["topicid"])."'>&nbsp;&nbsp;".$row["topictext"]."&nbsp;&nbsp;</td>";
             $a++;
         }
         
@@ -2376,7 +2384,7 @@ function adminStory()
     // Copyright (c) 2000-2005 by NukeScripts Network
 
     $cat = 0;
-    SelectCategory($cat);
+    SelectBlogCategory($cat);
     echo "<br />";
     topicicon('');
     echo '<br />';
@@ -2498,8 +2506,8 @@ function adminStory()
 
     echo ": 00<br /><br />"
         ."<select name=\"op\">"
-        ."<option value=\"PreviewAdminStory\" selected>"._PREVIEWSTORY."</option>"
-        ."<option value=\"PostAdminStory\">"._POSTSTORY."</option>"
+        ."<option value=\"PreviewAdminBlog\" selected>"._PREVIEWSTORY."</option>"
+        ."<option value=\"PostAdminBlog\">"._POSTSTORY."</option>"
         ."</select>"
         ."<input type=\"submit\" value=\""._OK."\">";
 
@@ -2512,7 +2520,7 @@ function adminStory()
     include(NUKE_BASE_DIR.'footer.php');
 }
 
-function previewAdminStory($automated, 
+function previewAdminBlog($automated, 
                                 $year, 
 								 $day, 
 							   $month, 
@@ -2568,7 +2576,7 @@ function previewAdminStory($automated,
     
 	OpenTable();
 
-	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\"><strong>Preview Currrent Blog<strong></a></div>\n";
+	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminBlog\"><strong>Preview Currrent Blog<strong></a></div>\n";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>";
 
     echo "<form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">"
@@ -2637,7 +2645,7 @@ function previewAdminStory($automated,
         
 		$asso_t = explode("-", $associated);
         
-		echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
+		echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOCIATED_BLOG_TOPICS."</strong></td><td width='100%'>"
             ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
 
         $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
@@ -2660,7 +2668,7 @@ function previewAdminStory($automated,
                 }
             }
             
-			echo "<td><input type='checkbox' name='assotop[]' value='".intval($row["topicid"])."' $checked>".$row["topictext"]."</td>";
+			echo "<td><input type='checkbox' name='assotop[]' value='".intval($row["topicid"])."' $checked>".$row["topictext"]."</td>"; 
             $checked = "";
             $a++;
         }
@@ -2669,7 +2677,7 @@ function previewAdminStory($automated,
     }
     // Copyright (c) 2000-2005 by NukeScripts Network
     $cat = $catid;
-    SelectCategory($cat);
+    SelectBlogCategory($cat);
     echo '<br />';
     topicicon($topic_icon);
     echo '<br />';
@@ -2808,8 +2816,8 @@ function previewAdminStory($automated,
 
     echo ": 00<br /><br />"
         ."<select name=\"op\">"
-        ."<option value=\"PreviewAdminStory\" selected>"._PREVIEWSTORY."</option>"
-        ."<option value=\"PostAdminStory\">"._POSTSTORY."</option>"
+        ."<option value=\"PreviewAdminBlog\" selected>"._PREVIEWSTORY."</option>"
+        ."<option value=\"PostAdminBlog\">"._POSTSTORY."</option>"
         ."</select>"
         ."<input type=\"submit\" value=\""._OK."\">";
 
@@ -2821,7 +2829,7 @@ function previewAdminStory($automated,
     include(NUKE_BASE_DIR.'footer.php');
 }
 
-function postAdminStory($automated, 
+function postAdminBlog($automated, 
                              $year, 
 							  $day, 
 							$month, 
@@ -2903,7 +2911,7 @@ function postAdminStory($automated,
 		if ($ultramode) 
         blog_ultramode();
         
-		redirect($admin_file.".php?op=adminStory");
+		redirect($admin_file.".php?op=adminBlog");
     } 
 	else 
 	{
@@ -2998,11 +3006,11 @@ function postAdminStory($automated,
 		if ($ultramode) 
         blog_ultramode();
         
-		redirect($admin_file.".php?op=adminStory");
+		redirect($admin_file.".php?op=adminBlog");
     }
 }
 
-function submissions() 
+function blog_submissions() 
 {
     global $admin, $admin_file, $bgcolor1, $bgcolor2, $prefix, $db, $anonymous, $multilingual, $module_name;
 
@@ -3018,10 +3026,10 @@ function submissions()
     $result = $db->sql_query("SELECT qid, uid, uname, subject, timestamp, alanguage FROM ".$prefix."_queue order by timestamp DESC");
         
 		if($db->sql_numrows($result) == 0) 
-            echo "<table width=\"100%\"><tr><td align=\"center\"><strong>"._NOSUBMISSIONS."</strong></td></tr></table>\n";
+            echo "<table width=\"100%\"><tr><td align=\"center\"><strong>"._NO_BLOG_SUBMISSIONS."</strong></td></tr></table>\n";
 		else 
 		{
-            echo "<center><span class=\"content\"><strong>"._NEWSUBMISSIONS."</strong></span><form action=\"".$admin_file.".php\" method=\"post\"><table width=\"100%\" border=\"1\" bgcolor=\"$bgcolor2\"><tr><td><strong>&nbsp;"._TITLE."&nbsp;</strong></td>";
+            echo "<center><span class=\"content\"><strong>"._NEW_BLOG_SUBMISSIONS."</strong></span><form action=\"".$admin_file.".php\" method=\"post\"><table width=\"100%\" border=\"1\" bgcolor=\"$bgcolor2\"><tr><td><strong>&nbsp;"._TITLE."&nbsp;</strong></td>";
         
 		    if ($multilingual == 1) 
             echo "<td><center><strong>&nbsp;"._LANGUAGE."&nbsp;</strong></center></td>";
@@ -3042,9 +3050,9 @@ function submissions()
                 echo "<td width=\"100%\"><span class=\"content\">\n";
             
 			    if (empty($subject)) 
-                echo "&nbsp;<a href=\"".$admin_file.".php?op=DisplayStory&amp;qid=$qid\">"._NOSUBJECT."</a></span>\n";
+                echo "&nbsp;<a href=\"".$admin_file.".php?op=DisplayBlog&amp;qid=$qid\">"._NOSUBJECT."</a></span>\n";
 				else 
-                echo "&nbsp;<a href=\"".$admin_file.".php?op=DisplayStory&amp;qid=$qid\">$subject</a></span>\n";
+                echo "&nbsp;<a href=\"".$admin_file.".php?op=DisplayBlog&amp;qid=$qid\">$subject</a></span>\n";
                 
 				if ($multilingual == 1) 
 				{
@@ -3063,12 +3071,12 @@ function submissions()
                 echo "</td><td align=\"center\" nowrap><font size=\"2\">&nbsp;$uname&nbsp;</font>\n";
                 
 				$timestamp = explode(" ", $timestamp);
-                echo "</td><td align=\"right\" nowrap><span class=\"content\">&nbsp;$timestamp[0]&nbsp;</span></td><td align=\"center\"><font class=\"content\">&nbsp;<a href=\"".$admin_file.".php?op=DeleteStory&amp;qid=$qid\">"._DELETE."</a>&nbsp;</td></tr>\n";
+                echo "</td><td align=\"right\" nowrap><span class=\"content\">&nbsp;$timestamp[0]&nbsp;</span></td><td align=\"center\"><font class=\"content\">&nbsp;<a href=\"".$admin_file.".php?op=DeleteBlog&amp;qid=$qid\">"._DELETE."</a>&nbsp;</td></tr>\n";
                 $dummy++;
             }
             
 			if ($dummy < 1) 
-            echo "<tr><td bgcolor=\"$bgcolor1\" align=\"center\"><strong>"._NOSUBMISSIONS."</strong></form></td></tr></table>\n";
+            echo "<tr><td bgcolor=\"$bgcolor1\" align=\"center\"><strong>"._NO_BLOG_SUBMISSIONS."</strong></form></td></tr></table>\n";
 			else 
             echo "</table></form>\n";
         }
@@ -3085,7 +3093,7 @@ function submissions()
     include(NUKE_BASE_DIR.'footer.php');
 }
 
-function subdelete() 
+function blog_subdelete() 
 {
     global $prefix, $db, $admin_file, $cache;
     $db->sql_query("delete from ".$prefix."_queue");
@@ -3098,14 +3106,14 @@ function subdelete()
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 
-    redirect($admin_file.".php?op=adminStory");
+    redirect($admin_file.".php?op=adminBlog");
 }
 
 switch($op) 
 {
     # Written by Ernest Allen Buffington 08/27/2019	
-	case "LastTwenty":
-	lastTwenty();
+	case "LastTwentyBlogs":
+	lastTwentyBlogs();
 	break;
 	# Written by Ernest Allen Buffington 08/27/2019	
 	
@@ -3115,48 +3123,48 @@ switch($op)
 	break;
 	# Written by Ernest Allen Buffington 08/27/2019	
 	
-    case "EditCategory":
-    EditCategory($catid);
+    case "EditBlogCategory":
+    EditBlogCategory($catid);
     break;
 
     case "subdelete":
-    subdelete();
+    blog_subdelete();
     break;
 
     case "DelCategory":
     DelCategory($cat);
     break;
 
-    case "YesDelCategory":
-    YesDelCategory($catid);
+    case "YesDelBlogCategory":
+    YesDelBlogCategory($catid);
     break;
 
-    case "NoMoveCategory":
-    NoMoveCategory($catid, $newcat);
+    case "NoMoveBlogCategory":
+    NoMoveBlogCategory($catid, $newcat);
     break;
 
-    case "SaveEditCategory":
-    SaveEditCategory($catid, $title);
+    case "SaveEditBlogCategory":
+    SaveEditBlogCategory($catid, $title);
     break;
 
-    case "SelectCategory":
-    SelectCategory($cat);
+    case "SelectBlogCategory":
+    SelectBlogCategory($cat);
     break;
 
-    case "AddCategory":
-    AddCategory();
+    case "AddBlogCategory":
+    AddBlogCategory();
     break;
 
-    case "SaveCategory":
-    SaveCategory($title);
+    case "SaveBlogCategory":
+    SaveBlogCategory($title);
     break;
 
-    case "DisplayStory":
-    displayStory($qid);
+    case "DisplayBlog":
+    displayBlog($qid);
     break;
 
-    case "PreviewAgain":
-    previewStory($automated, 
+    case "PreviewBlogAgain":
+    previewBlog($automated, 
 	                  $year, 
 					   $day, 
 					 $month, 
@@ -3181,19 +3189,19 @@ switch($op)
 				   $assotop);
     break;
 
-    case "PostStory":
+    case "PostBlog":
     break;
 
-    case "EditStory":
-    editStory($sid);
+    case "EditBlog":
+    editBlog($sid);
     break;
 
-    case "RemoveStory":
-    removeStory($sid, $ok);
+    case "RemoveBlog":
+    removeBlog($sid, $ok);
     break;
 
-    case "ChangeStory":
-    changeStory($sid, 
+    case "ChangeBlog":
+    changeBlog($sid, 
 	        $subject, 
 		   $hometext, 
 		   $bodytext, 
@@ -3208,56 +3216,56 @@ switch($op)
 			$assotop);
     break;
 
-    case "DeleteStory":
-    deleteStory($qid);
+    case "DeleteBlog":
+    deleteBlog($qid);
     break;
 
-    case "adminStory":
-    adminStory($sid);
+    case "adminBlog":
+    adminBlog($sid);
     break;
 
-    case "PreviewAdminStory":
-    previewAdminStory($automated, $year, $day, $month, $hour, $min, $subject, $hometext, $bodytext, $topic, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop);
+    case "PreviewAdminBlog":
+    previewAdminBlog($automated, $year, $day, $month, $hour, $min, $subject, $hometext, $bodytext, $topic, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop);
     break;
 
-    case "PostAdminStory":
-    postAdminStory($automated, $year, $day, $month, $hour, $min, $subject, $hometext, $bodytext, $topic, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop);
+    case "PostAdminBlog":
+    postAdminBlog($automated, $year, $day, $month, $hour, $min, $subject, $hometext, $bodytext, $topic, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop);
     break;
 
-    case "autoDelete":
-    autodelete($anid);
+    case "autoDeleteBlog":
+    autodeleteblog($anid);
     break;
 
-    case "autoEdit":
-    autoEdit($anid);
+    case "autoEditBlog":
+    autoEditBlog($anid);
     break;
 
-    case "autoSaveEdit":
-    autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes);
+    case "autoSaveEditBlog":
+    autoSaveEditBlog($anid, $year, $day, $month, $hour, $min, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes);
     break;
 
     case "submissions":
-    submissions();
+    blog_submissions();
     break;
 
-    case "NENewsConfig":
-        $pagetitle = ": "._NE_NEWSCONFIG;
+    case "BlogsConfig":
+        $pagetitle = ": "._BLOGS_CONFIG;
         
 		include(NUKE_BASE_DIR.'header.php');
         
-        $ne_config = ne_get_configs();
+        $pnt_blogs_config = get_blog_configs();
 
         OpenTable();
 	    
-		echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=NENewsConfig\"><strong>Blogs Main Configuration</strong></a></div>";
+		echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=BlogsConfig\"><strong>Blogs Main Configuration</strong></a></div>";
 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
 
-        echo "<form action='".$admin_file.".php?op=NENewsConfigSave' method='post'>\n";
+        echo "<form action='".$admin_file.".php?op=BlogsConfigSave' method='post'>\n";
         echo "<center>\n<table border='0' cellpadding='2' cellspacing='2'>\n";
 
-        echo "<tr>\n<td align='right'><strong>"._NE_DISPLAYTYPE.":</strong></td>\n<td><select name='xcolumns'>";
+        echo "<tr>\n<td align='right'><strong>"._BLOG_DISPLAYTYPE.":</strong></td>\n<td><select name='xcolumns'>";
         
-		if ($ne_config["columns"] == 0) 
+		if ($pnt_blogs_config["columns"] == 0) 
 		{ 
 		  $ck1 = " selected"; 
 		  $ck2 = ""; 
@@ -3268,11 +3276,11 @@ switch($op)
 		  $ck2 = " selected"; 
 		}
         
-		echo "<option value='0'$ck1>"._NE_SINGLE."</option>\n<option value='1'$ck2>"._NE_DUAL."</option>\n</select></td>\n</tr>\n";
+		echo "<option value='0'$ck1>"._BLOG_SINGLE."</option>\n<option value='1'$ck2>"._BLOG_DUAL."</option>\n</select></td>\n</tr>\n";
 
-        echo "<tr>\n<td align='right'><strong>"._NE_READLINK.":</strong></td>\n<td><select name='xreadmore'>";
+        echo "<tr>\n<td align='right'><strong>"._BLOG_READLINK.":</strong></td>\n<td><select name='xreadmore'>";
         
-		if ($ne_config["readmore"] == 0) 
+		if ($pnt_blogs_config["readmore"] == 0) 
 		{ 
 		  $ck1 = " selected"; 
 		  $ck2 = ""; 
@@ -3283,11 +3291,11 @@ switch($op)
 		  $ck2 = " selected"; 
 		}
         
-		echo "<option value='0'$ck1>"._NE_PAGE."</option>\n<option value='1'$ck2>"._NE_POPUP."</option>\n</select></td>\n</tr>\n";
+		echo "<option value='0'$ck1>"._BLOG_PAGE."</option>\n<option value='1'$ck2>"._BLOG_POPUP."</option>\n</select></td>\n</tr>\n";
 
-        echo "<tr>\n<td align='right'><strong>"._NE_TEXTTYPE.":</strong></td>\n<td><select name='xtexttype'>";
+        echo "<tr>\n<td align='right'><strong>"._BLOG_TEXTTYPE.":</strong></td>\n<td><select name='xtexttype'>";
         
-		if ($ne_config["texttype"] == 0) 
+		if ($pnt_blogs_config["texttype"] == 0) 
 		{ 
 		  $ck1 = " selected"; 
 		  $ck2 = ""; 
@@ -3298,11 +3306,11 @@ switch($op)
 		  $ck2 = " selected"; 
 		}
         
-		echo "<option value='0'$ck1>"._NE_COMPLETE."</option>\n<option value='1'$ck2>"._NE_TRUNCATE."</option>\n</select></td>\n</tr>\n";
+		echo "<option value='0'$ck1>"._BLOG_COMPLETE."</option>\n<option value='1'$ck2>"._BLOG_TRUNCATE."</option>\n</select></td>\n</tr>\n";
 
-        echo "<tr>\n<td align='right' valign='top'><strong>"._NE_NOTIFYAUTH.":</strong></td>\n<td><select name='xnotifyauth'>";
+        echo "<tr>\n<td align='right' valign='top'><strong>"._BLOG_NOTIFYAUTH.":</strong></td>\n<td><select name='xnotifyauth'>";
         
-		if ($ne_config["notifyauth"] == 0) 
+		if ($pnt_blogs_config["notifyauth"] == 0) 
 		{ 
 		  $ck1 = " selected"; 
 		  $ck2 = ""; 
@@ -3313,22 +3321,22 @@ switch($op)
 		  $ck2 = " selected"; 
 		}
         
-		echo "<option value='0'$ck1>"._NE_NO."</option>\n<option value='1'$ck2>"._NE_YES."</option>\n</select><br />\n("._NE_NOTIFYAUTHNOTE.")</td>\n</tr>\n";
+		echo "<option value='0'$ck1>"._BLOG_NO."</option>\n<option value='1'$ck2>"._BLOG_YES."</option>\n</select><br />\n("._BLOG_NOTIFYAUTHNOTE.")</td>\n</tr>\n";
 
-        echo "<tr>\n<td align='right'><strong>"._NE_HOMETOPIC.":</strong></td>\n<td><select name='xhometopic'>";
+        echo "<tr>\n<td align='right'><strong>"._BLOG_HOMETOPIC.":</strong></td>\n<td><select name='xhometopic'>";
         echo "<option value='0'";
         
-		if ($ne_config["hometopic"] == 0) 
+		if ($pnt_blogs_config["hometopic"] == 0) 
 		echo " selected"; 
         
-		echo ">"._NE_ALLTOPICS."</option>\n";
+		echo ">"._BLOG_ALLTOPICS."</option>\n";
         $result = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext");
         
 		while(list($topicid, $topicname) = $db->sql_fetchrow($result)) 
 		{
             echo "<option value='$topicid'";
         
-		    if ($ne_config["hometopic"] == $topicid) 
+		    if ($pnt_blogs_config["hometopic"] == $topicid) 
 			echo " selected"; 
             
 			echo">$topicname</option>\n";
@@ -3336,13 +3344,13 @@ switch($op)
         
 		echo "</select></td>\n</tr>\n";
 
-        echo "<tr>\n<td align='right' valign='top'><strong>"._NE_HOMENUMBER.":</strong></td>\n<td><select name='xhomenumber'>\n";
+        echo "<tr>\n<td align='right' valign='top'><strong>"._BLOG_HOMENUMBER.":</strong></td>\n<td><select name='xhomenumber'>\n";
         echo "<option value='0'";
         
-		if ($ne_config["homenumber"] == 0) 
+		if ($pnt_blogs_config["homenumber"] == 0) 
 		echo " selected"; 
         
-		echo ">"._NE_NUKEDEFAULT."</option>\n";
+		echo ">"._BLOG_NUKEDEFAULT."</option>\n";
         $i = 1;
         
 		while ($i <= 10) 
@@ -3351,16 +3359,16 @@ switch($op)
         
 		    echo "<option value='$k'";
         
-		    if ($ne_config["homenumber"] == $k) 
+		    if ($pnt_blogs_config["homenumber"] == $k) 
 			echo " selected"; 
         
-		    echo">$k "._NE_ARTICLES."</option>\n";
+		    echo">$k "._BLOG_ARTICLES."</option>\n";
             $i++;
         }
         
-		echo "</select><br />\n("._NE_HOMENUMNOTE.")</td>\n</tr>\n";
+		echo "</select><br />\n("._BLOG_HOMENUMNOTE.")</td>\n</tr>\n";
 
-        echo "<tr><td align='center' colspan='2'><input type='submit' value='"._NE_SAVECHANGES."'></td></tr>";
+        echo "<tr><td align='center' colspan='2'><input type='submit' value='"._BLOG_SAVECHANGES."'></td></tr>";
         echo "</table>\n</center>\n</form>\n";
         
 		CloseTable();
@@ -3368,24 +3376,24 @@ switch($op)
 		include(NUKE_BASE_DIR.'footer.php');
     break;
 
-    case "NENewsConfigSave":
-        ne_save_config('columns', $xcolumns);
-        ne_save_config('readmore', $xreadmore);
-        ne_save_config('texttype', $xtexttype);
-        ne_save_config('notifyauth', $xnotifyauth);
-        ne_save_config('homenumber', $xhomenumber);
-        ne_save_config('hometopic', $xhometopic);
+    case "BlogsConfigSave":
+        blog_save_config('columns', $xcolumns);
+        blog_save_config('readmore', $xreadmore);
+        blog_save_config('texttype', $xtexttype);
+        blog_save_config('notifyauth', $xnotifyauth);
+        blog_save_config('homenumber', $xhomenumber);
+        blog_save_config('hometopic', $xhometopic);
 
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
         global $cache;
-        $cache->delete('news', 'config');
+        $cache->delete('blogs', 'config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 
-        redirect($admin_file.".php?op=NENewsConfig");
+        redirect($admin_file.".php?op=BlogsConfig");
     break;
   }
 } 

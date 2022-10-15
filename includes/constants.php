@@ -263,9 +263,9 @@ define('_HONEYPOT_CONFIG_TABLE', $prefix.'_honeypot_config');
 define('_LINKUS_CONFIG_TABLE', $prefix.'_link_us_config');
 define('_LINKUS_TABLE', $prefix.'_link_us');
 
-// News
-define('_NSNNE_FUNC_TABLE', $prefix.'_nsnne_func');
-define('_NSNNE_CONFIG_TABLE', $prefix.'_nsnne_config');
+// Blogs - These are not used yet as of 10/15/2022 TheGhost
+define('_BLOGS_FUNC_TABLE', $prefix.'_nsnne_func');
+define('_BLOG_CONFIG_TABLE', $prefix.'_nsnne_config');
 
 // Sommaire (not pre-installed within Evo)
 define('_SOMMAIRE_TABLE', $prefix.'_sommaire');

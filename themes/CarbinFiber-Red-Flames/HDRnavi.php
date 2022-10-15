@@ -123,9 +123,9 @@ if (is_mod_admin('super'))
 {
 echo '<li class="has-sub"><a href="admin.php#"><i class="fas fa-radiation-alt"></i> ADMIN LINKS</a>';
 echo '<ul>';
-echo '<li><a href="admin.php?op=adminStory"><i class="fas fa-radiation-alt"></i> New Blog</a></li>';
+echo '<li><a href="admin.php?op=adminBlog"><i class="fas fa-radiation-alt"></i> New Blog</a></li>';
 echo '<li><a href="admin.php?op=topicsmanager"><i class="fas fa-radiation-alt"></i> New Blog Topic</a></li>';
-echo '<li><a href="admin.php?op=AddCategory"><i class="fas fa-radiation-alt"></i> New Blog Cat</a></li>';
+echo '<li><a href="admin.php?op=AddBlogCategory"><i class="fas fa-radiation-alt"></i> New Blog Cat</a></li>';
 echo '<li><a href="admin.php?op=modules"><i class="fas fa-radiation-alt"></i> Edit Modules</a></li>';
 echo '<li><a href="admin.php?op=newsletter"><i class="fas fa-radiation-alt"></i> News Letter</a></li>';
 

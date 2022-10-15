@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
  =======================================================================*/
 
 /************************************************************************/
@@ -13,13 +13,20 @@
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
+/*                                                                      */
 /************************************************************************/
-/* Titanium Blogs                                       */
-/* By: The 86it Developers Network                      */
-/* http://www.86it.us                                   */
-/* Copyright (c) 2019 by The 86it Developers Network    */
-/********************************************************/
+/*         Additional security & Abstraction layer conversion           */
+/*                           2003 chatserv                              */
+/*      http://www.nukefixes.com -- http://www.nukeresources.com        */
+/************************************************************************/
 
+/********************************************************/
+/* NSN Blogs                                            */
+/* By: NukeScripts Network (webmaster@nukescripts.net)  */
+/* Contributer(s): Ernest Buffington aka TheGhost       */
+/* http://www.nukescripts.net                           */
+/* Copyright (c) 2000-2005 by NukeScripts Network       */
+/********************************************************/
 
 /*****[CHANGES]**********************************************************
 -=[Base]=-
@@ -33,13 +40,13 @@ if (!defined('MODULE_FILE')) {
 }
 $module_name = basename(dirname(__FILE__));
 get_lang($module_name);
-@include_once(NUKE_INCLUDE_DIR.'nsnne_func.php');
-$neconfig = ne_get_configs();
+@include_once(NUKE_INCLUDE_DIR.'functions_blog.php');
+$neconfig = get_blog_configs();
 
 define('INDEX_FILE', true);
 
 $topics = 1;
-automated_news();
+automated_blogs();
 if ($topic == 0 OR empty($topic)) { redirect("modules.php?name=$module_name"); }
 
 switch ($op) {
@@ -113,7 +120,7 @@ switch ($op) {
             //    $the_icons .= " | <a href='modules.php?name=$module_name&amp;file=print&amp;sid=".$artinfo["sid"]."'><img src='images/print.gif' border='0' alt='"._PRINTER."' title='"._PRINTER."' width='11' height='11'></a>&nbsp;<a href='modules.php?name=$module_name&amp;file=friend&amp;op=FriendSend&amp;sid=".$artinfo["sid"]."'><img src='images/friend.gif' border='0' alt='"._FRIEND."' title='"._FRIEND."' width='11' height='11'></a>\n";
             //}
             //if (is_mod_admin($module_name)) {
-            //    $the_icons .= " | <a href=\"".$admin_file.".php?op=EditStory&amp;sid=".$artinfo["sid"]."\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EDIT."\" title=\""._EDIT."\" width=\"11\" height=\"11\"></a>&nbsp;<a href=\"".$admin_file.".php?op=RemoveStory&amp;sid=".$artinfo["sid"]."\"><img src=\"images/delete.gif\" border=\"0\" alt=\""._DELETE."\" title=\""._DELETE."\" width=\"11\" height=\"11\"></a>\n";
+            //    $the_icons .= " | <a href=\"".$admin_file.".php?op=EditBlog&amp;sid=".$artinfo["sid"]."\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EDIT."\" title=\""._EDIT."\" width=\"11\" height=\"11\"></a>&nbsp;<a href=\"".$admin_file.".php?op=RemoveBlog&amp;sid=".$artinfo["sid"]."\"><img src=\"images/delete.gif\" border=\"0\" alt=\""._DELETE."\" title=\""._DELETE."\" width=\"11\" height=\"11\"></a>\n";
             //}
 			
 	        if (is_user()) 
@@ -124,8 +131,8 @@ switch ($op) {
             
 		    if (is_mod_admin($module_name)) 
             {
-              $the_icons .= ' | <a href="'.$admin_file.'.php?op=EditStory&amp;sid='.$artinfo["sid"].'"><i class="fa fa-pen"></i></a>'.PHP_EOL;
-              $the_icons .= '&nbsp;<a href="'.$admin_file.'.php?op=RemoveStory&amp;sid='.$artinfo["sid"].'"><i class="fa fa-times-circle"></i></a>';
+              $the_icons .= ' | <a href="'.$admin_file.'.php?op=EditBlog&amp;sid='.$artinfo["sid"].'"><i class="fa fa-pen"></i></a>'.PHP_EOL;
+              $the_icons .= '&nbsp;<a href="'.$admin_file.'.php?op=RemoveBlog&amp;sid='.$artinfo["sid"].'"><i class="fa fa-times-circle"></i></a>';
             }
 			
             $read_link = "<a href='modules.php?name=$module_name&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
@@ -222,7 +229,7 @@ switch ($op) {
             $currentpage = ($max / $storynum);
             echo "<form action='modules.php?name=$module_name' method='post'>\n";
             echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
-            echo "<tr>\n<td><strong>"._NE_SELECT." </strong><select name='min' onChange='top.location.href=this.options[this.selectedIndex].value'>\n";
+            echo "<tr>\n<td><strong>"._BLOG_SELECT." </strong><select name='min' onChange='top.location.href=this.options[this.selectedIndex].value'>\n";
             while ($counter <= $articlepages ) {
                 $cpage = $counter;
                 $mintemp = ($storynum * $counter) - $storynum;
@@ -233,7 +240,7 @@ switch ($op) {
                 }
                 $counter++;
             }
-            echo "</select><strong> "._NE_OF." $articlepages "._NE_PAGES.".</strong></td>\n</tr>\n";
+            echo "</select><strong> "._BLOG_OF." $articlepages "._BLOG_PAGES.".</strong></td>\n</tr>\n";
             echo "</table>\n";
             echo "</form>\n";
             CloseTable();

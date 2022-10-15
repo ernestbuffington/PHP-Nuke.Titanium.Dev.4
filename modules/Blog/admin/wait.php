@@ -47,6 +47,6 @@ if(is_active('Submit_Blog'))
 	if (is_array($numwaits)) 
     $numwaits = $numwaits['numrows'];
     
-	$content .= "<img src=\"images/arrow.gif\" alt=\"\" />&nbsp;<a href=\"".$admin_file.".php?op=submissions\">"._SUBMISSIONS."</a>:&nbsp;<strong>".$numwaits."</strong><br />";
+	$content .= "<img src=\"images/arrow.gif\" alt=\"\" />&nbsp;<a href=\"".$admin_file.".php?op=submissions\">"._BLOG_SUBMISSIONS."</a>:&nbsp;<strong>".$numwaits."</strong><br />";
 }
 ?>

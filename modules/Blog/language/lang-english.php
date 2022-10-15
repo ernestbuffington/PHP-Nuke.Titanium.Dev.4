@@ -135,30 +135,30 @@ define("_READWITHCOMMENTS", "You can read the complete blog post with its commen
 /*****[BEGIN]******************************************
  [ Mod:     NSN Blog                           v1.1.0 ]
  ******************************************************/
-define("_NE_SELECT","Select Blog Post Page");
-define("_NE_OF","( There are ");
-define("_NE_PAGES"," Blog Post Pages )");
-define("_NE_NEWSCONFIG","Blog Post Configuration");
-define("_NE_DISPLAYTYPE","Display Column");
-define("_NE_SINGLE","Single Column");
-define("_NE_DUAL","Dual Column");
-define("_NE_READLINK","Read More Link");
-define("_NE_POPUP","Popup");
-define("_NE_PAGE","Page");
-define("_NE_TEXTTYPE","Blog Post Length");
-define("_NE_TRUNCATE","Truncate to 255 chars");
-define("_NE_COMPLETE","Original text");
-define("_NE_NOTIFYAUTH","Notify Blog Post Author");
-define("_NE_NOTIFYAUTHNOTE","This will email the Blog Post submitter<br />on approval");
-define("_NE_NO","No");
-define("_NE_YES","Yes");
-define("_NE_HOMETOPIC","Blog Post Topics in Home");
-define("_NE_ALLTOPICS","All Blog Post Topics");
-define("_NE_HOMENUMBER","Blog Posts in Home");
-define("_NE_NUKEDEFAULT","PHP-Nuke Default");
-define("_NE_ARTICLES","Blog Posts");
-define("_NE_HOMENUMNOTE","This will override user preferences<br />if set other than PHP-Nuke Default");
-define("_NE_SAVECHANGES","Save Changes");
+define("_BLOG_SELECT","Select Blog Post Page");
+define("_BLOG_OF","( There are ");
+define("_BLOG_PAGES"," Blog Post Pages )");
+define("_BLOGS_CONFIG","Blog Post Configuration");
+define("_BLOG_DISPLAYTYPE","Display Column");
+define("_BLOG_SINGLE","Single Column");
+define("_BLOG_DUAL","Dual Column");
+define("_BLOG_READLINK","Read More Link");
+define("_BLOG_POPUP","Popup");
+define("_BLOG_PAGE","Page");
+define("_BLOG_TEXTTYPE","Blog Post Length");
+define("_BLOG_TRUNCATE","Truncate to 255 chars");
+define("_BLOG_COMPLETE","Original text");
+define("_BLOG_NOTIFYAUTH","Notify Blog Post Author");
+define("_BLOG_NOTIFYAUTHNOTE","This will email the Blog Post submitter<br />on approval");
+define("_BLOG_NO","No");
+define("_BLOG_YES","Yes");
+define("_BLOG_HOMETOPIC","Blog Post Topics in Home");
+define("_BLOG_ALLTOPICS","All Blog Post Topics");
+define("_BLOG_HOMENUMBER","Blog Posts in Home");
+define("_BLOG_NUKEDEFAULT","PHP-Nuke Titanium Default");
+define("_BLOG_ARTICLES","Blog Posts");
+define("_BLOG_HOMENUMNOTE","This will override user preferences<br />if set other than PHP-Nuke Titanium Default");
+define("_BLOG_SAVECHANGES","Save Changes");
 /*****[END]********************************************
  [ Mod:     NSN Blogs                           v1.1.0 ]
  ******************************************************/

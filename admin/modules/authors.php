@@ -500,7 +500,7 @@ function deladmin2($del_aid) {
     global $admin, $prefix, $db, $admin_file;
     if (is_admin()) {
         $del_aid = substr($del_aid, 0,25);
-        $result = $db->sql_query("SELECT admins FROM ".$prefix."_modules WHERE title='News'");
+        $result = $db->sql_query("SELECT admins FROM ".$prefix."_modules WHERE title='Blog'");
         $row2 = $db->sql_fetchrow($db->sql_query("SELECT name FROM ".$prefix."_authors WHERE aid='$del_aid'"));
         while ($row = $db->sql_fetchrow($result)) {
             $admins = explode(",", $row['admins']);
