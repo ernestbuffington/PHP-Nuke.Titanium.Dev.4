@@ -9,6 +9,11 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched NSN Blog Topics Module v1.0<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched NSN Blog Archive Module v1.0<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched NSN Blog Top 10 Module v1.0<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched NSN Blog Submit Module v1.0<br />
+<strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched NSN Blog Module v1.0<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched modules.php it couldnot see the redirect function in functions_evo.php<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Patched Nuke Sentinel admin/modules/nukesentinel/ABICheck.php<br />
 <strong><i class="bi bi-calendar3"></i> Oct 15th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working On CarbonFiber Theme<br />
@@ -142,6 +147,7 @@
 <strong><i class="bi bi-calendar3"></i> Jun 5th 2019 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Module Network Advertising v7.8.3.1<br />
 <hr />
 <strong><i class="bi bi-calendar3"></i> Jan 1st 2010 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Titanium Functions v1.0<br />
+<strong><i class="bi bi-calendar3"></i> Jan 1st 2010 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> Added Auto Mime Type Mod v1.0 - Allows any Header type<br />
 <hr />
 <strong><i class="bi bi-calendar3"></i> Jun 16th 2005 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> NSN Blog Topics Module v1.0<br />
 <strong><i class="bi bi-calendar3"></i> Jun 16th 2005 </strong>&nbsp;&nbsp;&nbsp;<i class="bi bi-info-square"></i> NSN Blog Archive Module v1.0<br />
