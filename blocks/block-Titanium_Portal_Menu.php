@@ -605,33 +605,10 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 
     $content .= "\n\n\n";
 	
-	if (strcmp($_SERVER['SERVER_NAME'], 'cvs.86it.us') == 0)
-	{
-      $content .= "<div class=\"supersmall\" align=\"center\"><font size=\"1\" color=\"$textcolor1\"><strong>86it CVS</strong></font></div>\n";
-      $content .= "<div class=\"supersmall\" align=\"center\"><font size=\"1\" color=\"$textcolor2\"><strong>https://".$_SERVER['SERVER_NAME']."</strong></font></div>\n";
-	}
-    else
-	if (strcmp($_SERVER['SERVER_NAME'], 'www.86it.us') == 0)
-	{
-      $content .= "<div class=\"supersmall\" align=\"center\"><font size=\"1\" color=\"$textcolor1\"><strong>Welcome Home</strong></font></div>\n";
-      $content .= "<div class=\"supersmall\" align=\"center\"><font size=\"1\" color=\"$textcolor2\"><strong>The 86it HQ</strong></font></div>\n";
-	}
-    else
-	{
-      $content.= "<div class=\"supersmall\" align=\"center\"><font size=\"1\" color=\"$textcolor1\"><strong>$portaladminname</strong></font></div>\n";
-      $content.= "<div class=\"supersmall\" align=\"center\"><font size=\"1\" color=\"$textcolor2\"><strong>Owns This 86it Portal</strong></font></div>\n";
-	}
-
     $content .= "<br />";
-	$content .= "<img align=\"$align\" src=\"images/menu/home.gif\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+	$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" align=\"$align\" src=\"images/menu/home.gif\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 
-	if (strcmp($_SERVER['SERVER_NAME'], 'www.86it.us') == 0)	
-	$content .= "<a href=\"index.php\"><strong> Home</strong></a>";
-    else
-	if (strcmp($_SERVER['SERVER_NAME'], 'cvs.86it.us') == 0)
-	$content .= "<a href=\"index.php\"><strong> Home</strong></a>";
-	else
-	$content .= "<a href=\"index.php\"><strong> Home</strong></a>";	
+	$content .= "&nbsp;<a class=\"modules\" href=\"index.php\"><strong>Home</strong></a>";	
 	
 	$content .= "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n";
 	$content .= "<tr><td width=\"100%\"></td><td id=\"menu_block\"></td></tr>\n";
@@ -790,10 +767,11 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			#
 			#### sub image
 			
+			# TOP IMAGE AND TITLE OF EACH LINK CATEGORY
 			if($sub_image <> "noimg") 
 			{
 			    $fermebalise = ($som_lien!="") ? "</a>" : "" ;
-				$content .= "<img align=\"$align\" src=\"$path_icon/$sub_image\" border=\"0\" alt=\"$sub_image\">".$fermebalise."&nbsp;";
+				$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" align=\"$align\" src=\"$path_icon/$sub_image\" border=\"0\" alt=\"$sub_image\">".$fermebalise."&nbsp;";
 			}
 
 			if(strpos($som_name,"LANG:_") === 0) 
@@ -845,7 +823,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				$bold2 = ($som_bold == "on") ? "</strong>" : "";
 				
 				# add NEW (new.gif)to top level
-				$new = ($som_new == "on") ? "<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\"> " : "" ;
+				$new = ($som_new == "on") ? "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\"> " : "" ;
 				
 				$content .= "".$bold1."$som_name".$bold2." ".$new."";
 			}
@@ -1126,10 +1104,10 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				}
 				
 			   # add NEW (new.gif)to sub level 
-			   $new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? " <img align=\"$align\" src=\"$path_icon/admin/$imgnew\" 
+			   $new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? " <img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" 
 			   border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
 			   
-			   $imagedulien = "<img align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
+			   $imagedulien = "<img width=\"21\" align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
 			   border=\"0\" alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
 			
 			   if($linkinthisgroup[$som_groupmenu][$keyinthisgroup]) 
@@ -1301,14 +1279,14 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				}
 				
 				if($imageinthisgroup[$som_groupmenu][$keyinthisgroup] != "middot.gif"): 
-				$limage = "<img align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
+				$limage = "<img width=\"21\" align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
 				border=\"0\" alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
 				else: 
 				$limage = "<strong><big>&middot;</big></strong>";
                 endif;
 				
 				if($poster_moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == 2) 
-				$limage="<img align=\"$align\" src=\"$path_icon/admin/interdit.gif\" title=\"".$whyrestricted[$som_groupmenu][$keyinthisgroup]."\" 
+				$limage="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/interdit.gif\" title=\"".$whyrestricted[$som_groupmenu][$keyinthisgroup]."\" 
 				alt=\"".$whyrestricted[$som_groupmenu][$keyinthisgroup]."\">";
 
 				if(($newpms[0]) && ($nomdumodule == "Private_Messages")) 
@@ -1317,7 +1295,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				$disp_pmicon= "";
 				
 				# add NEW (new.gif)to ?
-				$new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? "<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" 
+				$new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" 
 				border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
 
 				if($nomdumodule == "Downloads" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup] != "-1") 
@@ -1335,7 +1313,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new = "<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new = "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
@@ -1355,7 +1333,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
                     
 					   if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 					   {
-                            $new = "<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+                            $new = "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
                        }
                      }
                 }
@@ -1375,7 +1353,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new="<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
@@ -1395,7 +1373,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new="<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
@@ -1420,7 +1398,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new="<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
