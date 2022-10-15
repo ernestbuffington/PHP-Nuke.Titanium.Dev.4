@@ -1455,9 +1455,11 @@ function ads($position)
         $ads = "<div align=\"center\">$ad_code</div>";
 	else: 
 	   if ($clickurl == 'index.php'):
-       $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_self"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'.$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
+       $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_self"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'
+	   .$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
 	   else:
-       $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_blank"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'.$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
+       $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_blank"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'
+	   .$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
 	   endif;
     endif;
     return $ads;
@@ -1555,7 +1557,8 @@ function network_ads($position)
         $ads = '<div align="center">'.$ad_code.'</div>';
     else:
 		# this opens the ad from the main hub - https://hub.86it.us
-        $ads = '<a href="https://hub.86it.us/index.php?op=ad_network_click&amp;bid='.$bid.'" target="_blank"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'.$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
+        $ads = '<a href="https://hub.86it.us/index.php?op=ad_network_click&amp;bid='.$bid.'" target="_blank"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'
+		.$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
 	endif;
     echo "<!-- function network_ads DONE -->\n\n\n";
   return $ads;
