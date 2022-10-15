@@ -521,8 +521,8 @@ class InputFilter {
     function escapeString($string, &$connection) 
 	{
         # depreciated function
-        if (version_compare(phpversion(),"4.3.0", "<")) mysql_escape_string($string);
-        
+        if (version_compare(phpversion(),"4.3.0", "<")) 
+		mysql_escape_string($string);
 		# current function
         else mysql_real_escape_string($string);
         return $string;
