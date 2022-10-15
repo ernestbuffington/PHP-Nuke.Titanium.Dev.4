@@ -375,7 +375,7 @@ function QueryWhoisServer($whoisserver, $domain) {
 		$rows = explode("\n", $out);
 		foreach($rows as $row) {
 			$row = trim($row);
-			# fixed by Ernest Buffington 10/15/2022
+			# fixed by Ernest Buffington 10/15/2022 3:12pm
 			# PHP Deprecated:  Array and string offset access syntax with curly braces is deprecated change {} tp []
 			if(($row != '') && ($row[0] != '#') && ($row[0] != '%')) {
 				$res .= $row."\n";
