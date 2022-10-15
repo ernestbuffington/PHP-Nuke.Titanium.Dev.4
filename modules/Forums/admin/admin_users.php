@@ -1624,7 +1624,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                         switch( $user_avatar_type )
                         {
                                 case USER_AVATAR_UPLOAD:
-                                        $avatar = '<img src="../../../' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" />';
+                                        $avatar = '<img class="rounded-corners-profile" src="../../../' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" />';
                                         break;
                                 /*****[BEGIN]******************************************
                                  [ Mod:     Remote Avatar Resize               v2.0.0 ]
@@ -1636,7 +1636,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                  [ Mod:     Remote Avatar Resize               v2.0.0 ]
                                  ******************************************************/
                                 case USER_AVATAR_GALLERY:
-                                        $avatar = '<img src="../../../' . $board_config['avatar_gallery_path'] . '/' . $user_avatar . '" alt="" />';
+                                        $avatar = '<img class="rounded-corners-profile" src="../../../' . $board_config['avatar_gallery_path'] . '/' . $user_avatar . '" alt="" />';
                                         break;
                         }
                 }

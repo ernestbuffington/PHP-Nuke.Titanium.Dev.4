@@ -8,7 +8,7 @@ if (!defined('MODULE_FILE')) {
 	OpenTable();
 	global $board_config, $domain,$pnt_db, $pnt_db2, $userdata, $userinfo; 
 	$user_avatar = 'seb.png';
-	$avatar_img = ($board_config['allow_avatar_upload']) ? '<img src="'.$board_config['avatar_path'].'/'.$user_avatar.'" alt="https://'.$domain.'/modules/Forums/images/avatars/'.$user_avatar.'" />' : '';
+	$avatar_img = ($board_config['allow_avatar_upload']) ? '<img class="rounded-corners-profile" src="'.$board_config['avatar_path'].'/'.$user_avatar.'" alt="https://'.$domain.'/modules/Forums/images/avatars/'.$user_avatar.'" />' : '';
     echo $avatar_img;
 	echo '<br>';
     echo "allow_avatar_upload=".$board_config['allow_avatar_upload']; // allow_avatar_upload = 1

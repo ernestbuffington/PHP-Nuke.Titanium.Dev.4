@@ -203,7 +203,7 @@ while($nxp_toppost_user_info = $db->sql_fetchrow($R02))
 	$content .= "	<tr>\n";
 	$content .= "		<td align='left' valign='top' width='38' rowspan='4'>\n";
 	$content .= "			<a href='modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=" . intval($nxp_toppost_user_info['user_id']) . "'>\n";
-	$content .= "				<img src='" . $nxp_toppost_avat . "' border='0' width='32'></a></td>";
+	$content .= "				<img class='rounded-corners-profile' src='" . $nxp_toppost_avat . "' border='0' width='32'></a></td>";
 	$content .= "		<td align='left' valign='middle'>\n";
 	$content .= "			<table border='0' width='100%' cellpadding='0' cellspacing='0'>\n";
 	$content .= "				<tr class='even' valign='middle'>\n";

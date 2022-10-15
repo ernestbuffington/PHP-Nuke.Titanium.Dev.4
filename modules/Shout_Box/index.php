@@ -791,7 +791,7 @@ function findAvatar($row_avatar)
     if (preg_match('#http://#i',$row_avatar) == TRUE) 
 	{
         // offsite avatars
-        $AvatarFound = "<img height=\"40\" src=\"$row_avatar\" alt=\"\" /></td>";
+        $AvatarFound = "<img class=\"rounded-corners-profile\" height=\"40\" src=\"$row_avatar\" alt=\"\" /></td>";
     } 
 	else 
 	{
