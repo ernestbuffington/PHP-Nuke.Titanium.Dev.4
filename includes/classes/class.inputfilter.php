@@ -251,7 +251,8 @@ class InputFilter {
                 $nextSpace = strpos($fromSpace, ' ');
                 $openQuotes = strpos($fromSpace, '"');
                 $closeQuotes = strpos(substr($fromSpace, ($openQuotes+1)), '"') + $openQuotes + 1;
-                // another equals exists
+                
+				# another equals exists
                 if (strpos($fromSpace, '=') !== false) 
                 {
 					/*
