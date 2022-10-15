@@ -76,7 +76,7 @@ if (!ini_get('register_globals')):
 	if (function_exists('import_request_variables')):
 		@import_request_variables('GPC');
 	else: 
-		function evo_import_globals($array)
+		function pnt_import_globals($array)
 		{
 			foreach ($array as $k => $v):
 				global $$k;
@@ -84,11 +84,11 @@ if (!ini_get('register_globals')):
 			endforeach;
 		}
 		if (!empty($_GET))
-		evo_import_globals($_GET);
+		pnt_import_globals($_GET);
 		if (!empty($_POST))
-		evo_import_globals($_POST);
+		pnt_import_globals($_POST);
 		if (!empty($_COOKIE))
-		evo_import_globals($_COOKIE);
+		pnt_import_globals($_COOKIE);
 	endif;
 endif;
 
@@ -103,7 +103,7 @@ else
 $start_mem = function_exists('memory_get_usage') ? memory_get_usage() : 0;
 $start_time = get_microtime();
 
-// Stupid handle to create REQUEST_URI for IIS 5 servers
+# Stupid handle to create REQUEST_URI for IIS 5 servers
 if (preg_match('/IIS/', $_SERVER['SERVER_SOFTWARE']) && isset($_SERVER['SCRIPT_NAME'])):
     $requesturi = $_SERVER['SCRIPT_NAME'];
     if (isset($_SERVER['QUERY_STRING']))
@@ -111,7 +111,7 @@ if (preg_match('/IIS/', $_SERVER['SERVER_SOFTWARE']) && isset($_SERVER['SCRIPT_N
     $_SERVER['REQUEST_URI'] = $requesturi;
 endif;
 
-// PHP5 with register_long_arrays off?
+# PHP5 with register_long_arrays off?
 if (PHP_5 && (!@ini_get('register_long_arrays') || @ini_get('register_long_arrays') == '0' || strtolower(@ini_get('register_long_arrays')) == 'off')):
     $HTTP_POST_VARS =& $_POST;
     $HTTP_GET_VARS =& $_GET;
@@ -129,7 +129,7 @@ if (isset($_COOKIE['DONATION'])):
     header($type . 'modules.php?name=Donations&op=thankyou');
 endif;
 
-# absolute path Mod - Start  01/01/2012 by Ernest Allen Buffington #
+# Absolute Path Mod - 01/01/2012 by Ernest Allen Buffington START
 $rel_path=array();
 $rel_path['file']   = str_replace('\\', "/", realpath(dirname(__FILE__)));
 $server_ary         = pathinfo(realpath(basename($_SERVER['PHP_SELF'])));
@@ -138,28 +138,36 @@ $rel_path['uri']    = realpath(basename(substr($_SERVER['REQUEST_URI'], 0, strpo
 $script_abs_path    = pathinfo(realpath($_SERVER['SCRIPT_FILENAME']));
 $rel_path['script'] = str_replace('\\', "/",$script_abs_path['dirname']);
 
-if ( ($rel_path['file'] == $rel_path['script']) && (strlen($_SERVER['DOCUMENT_ROOT']) < strlen($script_abs_path['dirname'])) ) 
-{
-    $href_path = '/'.str_replace($_SERVER['DOCUMENT_ROOT'], '', $rel_path['script'] );
+if(($rel_path['file'] == $rel_path['script']) && (strlen($_SERVER['DOCUMENT_ROOT']) < strlen($script_abs_path['dirname']))): 
 
-    if ( substr($href_path, 0, 2) == '//') 
+    $href_path = '/'.str_replace($_SERVER['DOCUMENT_ROOT'], '', $rel_path['script']);
+
+    if (substr($href_path, 0, 2) == '//'): 
     $href_path = substr($href_path, 1);
-} 
-elseif (strlen($rel_path['file']) == (strlen($_SERVER['DOCUMENT_ROOT']) - 1) ) 
+	endif;
+ 
+elseif(strlen($rel_path['file']) == (strlen($_SERVER['DOCUMENT_ROOT']) - 1)): 
+
     $href_path = '';
-elseif ( strlen($rel_path['script']) > strlen($_SERVER['DOCUMENT_ROOT']) && (strlen($_SERVER['DOCUMENT_ROOT']) > strlen($rel_path['file'])) ) 
+
+elseif(strlen($rel_path['script']) > strlen($_SERVER['DOCUMENT_ROOT']) && (strlen($_SERVER['DOCUMENT_ROOT']) > strlen($rel_path['file']))): 
+
     $href_path = '';
-elseif (strlen($rel_path['file']) > strlen($_SERVER['DOCUMENT_ROOT'])) 
-{
+
+elseif(strlen($rel_path['file']) > strlen($_SERVER['DOCUMENT_ROOT'])):
+
 	$href_path = '/'.str_replace($_SERVER['DOCUMENT_ROOT'], '', $rel_path['file']);
-    if ( substr($href_path, 0, 2) == '//') 
+    
+	if(substr($href_path, 0, 2) == '//'): 
         $href_path = substr($href_path, 1);
-} 
-else 
-{
+	endif;
+ 
+else: 
+
     $href_path = 'https://'.$_SERVER['SERVER_NAME'];
 	$href_path_http = 'http://'.$_SERVER['SERVER_NAME'];
-}
+
+endif;
 
 unset ($rel_path);
 unset ($server_ary);
@@ -257,7 +265,10 @@ define('TITANIUM_FORUMS_ADMIN_HREF_DIR', $href_path . '/modules/Forums/admin/');
 # OTHER Directories
 define('TITANIUM_RSS_DIR', TITANIUM_INCLUDE_DIR . 'rss/');
 define('TITANIUM_STATS_DIR', TITANIUM_THEMES_DIR);
-# aboslute path Mod - End  01/01/2012 by Ernest Allen Buffington                                                                                                      #
+# Absolute Path Mod - 01/01/2012 by Ernest Allen Buffington END
+
+
+
 
 # Inspired by phoenix-cms at website-portals.net
 # Absolute Nuke directory
@@ -283,6 +294,7 @@ define('NUKE_CACHE_DIR', NUKE_INCLUDE_DIR . 'cache/');
 define('NUKE_CLASSES_DIR', NUKE_INCLUDE_DIR . 'classes/');
 define('NUKE_ZEND_DIR', NUKE_INCLUDE_DIR . 'Zend/');
 define('NUKE_CLASS_EXCEPTION_DIR',  NUKE_CLASSES_DIR . 'exceptions/');
+
 # define the INCLUDE PATH
 define('INCLUDE_PATH', NUKE_BASE_DIR);
 
