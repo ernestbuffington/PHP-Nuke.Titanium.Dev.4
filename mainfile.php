@@ -59,17 +59,12 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))exit('Access Den
 
 # Define File
 define_once('NUKE_EVO', '2.0.9e');
-# Network Support
 define_once('NUKE_TITANIUM', '4.0.2');
-# Network Support
 define_once('TITANIUM_BUILD', '209402');
 define_once('CUR_EVO', 'NUKE_EVO');
-# Network Support
 define_once('CUR_TITANIUM', 'NUKE_TITANIUM');
 define_once('EVO_EDITION', 'Xtreme');
-# Network Support
 define_once('TITANIUM_EDITION', 'AN602');
-
 define('PHPVERS', @phpversion());
 define_once('EVO_VERSION', NUKE_EVO . ' ' . EVO_EDITION);
 define_once('TITANIUM_VERSION', NUKE_TITANIUM . ' ' . TITANIUM_EDITION);
