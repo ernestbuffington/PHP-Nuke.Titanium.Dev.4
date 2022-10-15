@@ -798,8 +798,8 @@ function render_blocks($side, $block)
      ******************************************************/
     if($collapse): 
         if (!$collapsetype):
-            $block['title'] = $block['title'] . "&nbsp;&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']."\" class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'block".$block['bid']."')\" alt=\"\" style=\"cursor: pointer;\" />";
-            // $block['title'] = $block['title'].'&nbsp;&nbsp;&nbsp;'.get_evo_icon('evo-sprite minus showstate', false, 'expandcontent(this, \'block'.$block['bid'].'\')');
+            $block['title'] = $block['title']."&nbsp;&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']
+			."\" class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'block".$block['bid']."')\" alt=\"\" style=\"cursor: pointer;\" />";
         else: 
             $block['title'] = "<a href=\"javascript:expandcontent(this, 'block".$block['bid']."')\">".$block['title']."</a>";
         endif;
@@ -831,26 +831,26 @@ function blocks_visible($side)
 
     $side = strtolower($side[0]);
 
-    //If there are no blocks for this module && not admin file
+    # If there are no blocks for this module && not admin file
     if (!$showblocks && !defined('ADMIN_FILE')) 
 	return false;
 
-    //If in the admin show l blocks
+    # If in the admin show l blocks
     if (defined('ADMIN_FILE')) 
     return true;
 
-    //If set to 3 its all blocks
+    # If set to 3 its all blocks
     if ($showblocks == 3) 
 	return true;
 
-    //Count the blocks on the side
+    # Count the blocks on the side
     $blocks = blocks($side, true);
 
-    //If there are no blocks
+    # If there are no blocks
     if (!$blocks)
     return false;
 
-    //Check for blocks to show
+    # Check for blocks to show
     if (($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r')) 
     return true;
 
