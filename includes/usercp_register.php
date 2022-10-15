@@ -2406,7 +2406,7 @@ else
 				'L_DELETE_AVATAR' => $lang['Delete_Image'],
 				'L_CURRENT_IMAGE' => $lang['Current_Image'],
 
-		'L_SIGNATURE' => $lang['Signature'],
+		        'L_SIGNATURE' => $lang['Signature'],
 				'L_SIGNATURE_EXPLAIN' => sprintf($lang['Signature_explain'], $board_config['max_sig_chars']),
 				'L_NOTIFY_ON_REPLY' => $lang['Always_notify'],
 				'L_NOTIFY_ON_REPLY_EXPLAIN' => $lang['Always_notify_explain'],
