@@ -1614,10 +1614,10 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                 $s_hidden_fields = '<input type="hidden" name="mode" value="save" /><input type="hidden" name="agreed" value="true" /><input type="hidden" name="coppa" value="' . $coppa . '" />';
                 $s_hidden_fields .= '<input type="hidden" name="id" value="' . $this_userdata['user_id'] . '" />';
 
-                if( !empty($user_avatar_local) )
-                {
-                        $s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $user_avatar_local . '" /><input type="hidden" name="avatarcatname" value="' . $user_avatar_category . '" />';
-                }
+           if( !empty($user_avatar_local) )
+           {
+             $s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $user_avatar_local . '" /><input type="hidden" name="avatarcatname" value="' . $user_avatar_category . '" />';
+           }
 
                 if( $user_avatar_type )
                 {
@@ -1626,15 +1626,15 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                 case USER_AVATAR_UPLOAD:
                                         $avatar = '<img src="../../../' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" />';
                                         break;
-/*****[BEGIN]******************************************
- [ Mod:     Remote Avatar Resize               v2.0.0 ]
- ******************************************************/
+                                /*****[BEGIN]******************************************
+                                 [ Mod:     Remote Avatar Resize               v2.0.0 ]
+                                 ******************************************************/
                                 case USER_AVATAR_REMOTE:
                                         $avatar = resize_avatar($user_avatar);
                                         break;
-/*****[END]********************************************
- [ Mod:     Remote Avatar Resize               v2.0.0 ]
- ******************************************************/
+                                /*****[END]********************************************
+                                 [ Mod:     Remote Avatar Resize               v2.0.0 ]
+                                 ******************************************************/
                                 case USER_AVATAR_GALLERY:
                                         $avatar = '<img src="../../../' . $board_config['avatar_gallery_path'] . '/' . $user_avatar . '" alt="" />';
                                         break;
