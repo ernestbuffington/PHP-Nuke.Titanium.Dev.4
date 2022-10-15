@@ -898,15 +898,22 @@ function viewlink($cid, $min, $orderby, $show)
 
     if (empty($show))
     $show = '';
-    if (!empty($orderby)) 
+    
+	if (!empty($orderby)) 
     $orderby = htmlspecialchars($orderby);
     
     include_once(NUKE_BASE_DIR.'header.php');
 
-    if (!isset($min)) 
+    if(empty($min))
+	$min = '';
+	
+    if(!isset($min)) 
 	$min=0;
     
-	if (!isset($max)) 
+	if(empty($max))
+	$max = '';
+	
+	if(!isset($max)) 
 	$max=$min+$perpage;
     
 	if(!empty($orderby)) 
@@ -914,7 +921,7 @@ function viewlink($cid, $min, $orderby, $show)
 	else 
     $orderby = "title ASC";
     
-	if (!empty($show)) 
+	if(!empty($show)) 
     $perpage = $show;
 	else 
     $show=$perpage;

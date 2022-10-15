@@ -96,7 +96,7 @@ addCSSToHead(carbinfiber_red_flames_style_dir.'menu.css','file');
 addPHPCSSToHead(carbinfiber_red_flames_phpstyle_dir.'body.php','file');      
 addPHPCSSToHead(carbinfiber_red_flames_phpstyle_dir.'maintable.php','file'); 
 addPHPCSSToHead(carbinfiber_red_flames_phpstyle_dir.'Nuke_Projects.php','file');  
-addPHPCSSToHead(carbinfiber_red_flames_phpstyle_dir.'jquery_floating_admin','file');  
+addPHPCSSToHead(carbinfiber_red_flames_phpstyle_dir.'jquery_floating_admin.php','file');  
 addPHPCSSToHead(carbinfiber_red_flames_phpstyle_dir.'banner_ads.php','file');  
 addPHPCSSToHead(carbinfiber_red_flames_phpstyle_dir.'scrollbars.php','file');  
 addPHPCSSToHead(carbinfiber_red_flames_phpstyle_dir.'header.php','file');  
