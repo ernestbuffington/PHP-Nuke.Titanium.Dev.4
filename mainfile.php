@@ -1221,14 +1221,14 @@ function filter_text($Message, $strip='') {
     return $Message;
 }
 
-// actualTime function by ReOrGaNiSaTiOn
+# actualTime function by ReOrGaNiSaTiOn
 function actualTime() {
   $date = date('Y-m-d H:i:s');
   $actualTime_tempdate = formatTimestamp($date, $format='Y-m-d H:i:s');
   return $actualTime_tempdate;
 }
 
-// formatTimestamp function by ReOrGaNiSaTiOn
+# formatTimestamp function by ReOrGaNiSaTiOn
 function formatTimestamp($time, $format='', $dateonly='') 
 {
     global $datetime, $locale, $userinfo, $board_config;
@@ -1310,8 +1310,11 @@ function blog_signature($aid)
      $aid .= '<br />';				   
      $aid .= '<table border="0" cellpadding="0" cellspacing="0" width="100%" height="0">';
      $aid .= '<tr>';
-     $aid .= '<td valign="top" height="80" width="80" height="200"><img width="90" class="rounded-corners" style="max-height: 150px; max-width: 150px;" src="modules/Forums/images/avatars/'.$avatar.'" alt="avatar" border="0"></td>';
-     $aid .= '<td align="top">';
+     
+	 $aid .= '<td valign="top" height="80" width="80" height="200"><img width="90" class="rounded-corners" style="max-height: 150px; max-width: 150px;" 
+	 src="modules/Forums/images/avatars/'.$avatar.'" alt="avatar" border="0"></td>';
+     
+	 $aid .= '<td align="top">';
      $aid .= '&nbsp;&nbsp;<strong>'.$user_occ.'</strong><br />';
      $aid .= '&nbsp;&nbsp;name: '.$name.'<br />';
      $aid .= '&nbsp;&nbsp;email: '.str_replace("@", "[at]", $email).'<br />';
