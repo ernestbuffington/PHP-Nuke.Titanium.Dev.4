@@ -61,7 +61,7 @@ $my_welcome_message = '<a class = "welcome" href="'.$domain.'"><h1 data-text="Ho
 # in the theme dir "theme_name/images/menu"
 global $use_theme_image_dir_for_portal_menu;
 
-$use_theme_image_dir_for_portal_menu = false;
+$use_theme_image_dir_for_portal_menu = true;
 
 $locked_width = "1890px";
 

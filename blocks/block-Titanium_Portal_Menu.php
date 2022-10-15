@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System  
  =======================================================================*/
 
 /************************************************************************/
@@ -88,7 +88,7 @@ $uid = $cookie[0];
 global $use_theme_image_dir_for_portal_menu;
 
 if ($use_theme_image_dir_for_portal_menu == true)
-$pathicon = "themes/$ThemeSel/images/menu";
+$path_icon = "themes/$ThemeSel/images/menu";
 else
 $path_icon = "images/menu";
 
@@ -134,14 +134,14 @@ if (is_array($tempoA))
    }
 }
 
-# What the fuck does this do and why ? This file will never be found because it will never exist!
+# Not entirely sure what the fuck is going on here?
 if (file_exists("themes/$ThemeSel/module.php")) 
 {
     include("themes/$ThemeSel/module.php");
 
     $is_active = ($active[$default_module]!=0) ? 1 : 0 ; 
     
-	if ($is_active==1 AND file_exists("modules/$default_module/index.php")) 
+	if($is_active == 1 AND file_exists("modules/$default_module/index.php")) 
 	{
         $main_module = $default_module;
     }
@@ -180,7 +180,9 @@ if (!($row2A = $cache->load('menu_row2', 'block')))
    $moduleinthisgroup[$categorie][$compteur] = $row2A[0]['module'];
      $linkinthisgroup[$categorie][$compteur] = $row2A[0]['url'];
  $linktextinthisgroup[$categorie][$compteur] = $row2A[0]['url_text'];
+ 
     $imageinthisgroup[$categorie][$compteur] = $row2A[0]['image'];
+ 
       $newinthisgroup[$categorie][$compteur] = $row2A[0]['new'];
   $newdaysinthisgroup[$categorie][$compteur] = $row2A[0]['new_days'];
     $classinthisgroup[$categorie][$compteur] = $row2A[0]['class'];
@@ -211,8 +213,10 @@ unset($row2A[0]);
 		  $moduleinthisgroup[$categorie][$compteur] = $row2['module'];
             $linkinthisgroup[$categorie][$compteur] = $row2['url'];
         $linktextinthisgroup[$categorie][$compteur] = $row2['url_text'];
+		
            $imageinthisgroup[$categorie][$compteur] = $row2['image'];
-             $newinthisgroup[$categorie][$compteur] = $row2['new'];
+        
+		     $newinthisgroup[$categorie][$compteur] = $row2['new'];
          $newdaysinthisgroup[$categorie][$compteur] = $row2['new_days'];
            $classinthisgroup[$categorie][$compteur] = $row2['class'];
             $grasinthisgroup[$categorie][$compteur] = $row2['bold'];
@@ -314,12 +318,6 @@ $modulesaffiche = $db->sql_query($sql);
 		
 		
 		if (($row2['module'] == "MENUTEXTONLY") or ($row2['module'] == "External Link"))
-
-		//&& (!stristr("^modules.php\?name=", $row2['url'])) 
-		//&& (!stristr("^((http(s)?)|(ftp(s)?))://".$_SERVER['SERVER_NAME']."/modules.php\?name=",$row2['url']))) 
-
-		//&& (preg_match("^modules.php\?name=^",$row2['url'])) 
-		//&& (preg_match("^((http(s)?)|(ftp(s)?))://".$_SERVER['SERVER_NAME']."/modules.php\?name=^",$row2['url']))) 
 		{
 			$poster_module = 1;
 		}
@@ -332,7 +330,6 @@ $modulesaffiche = $db->sql_query($sql);
 			{
 				if($row2['module'] == "External Link") 
 				{
-					//$temponomdumodule=explode("&", $row2['url']);
 					$temponomdumodule= preg_split('#/#', $row2['url'], -1, PREG_SPLIT_NO_EMPTY); //ern
 					
 					if(preg_match("^((http(s)?)|(ftp(s)?))://".$_SERVER['SERVER_NAME']."/modules.php\?name=^",$row2['url'])) 
@@ -502,7 +499,9 @@ $modulesaffiche = $db->sql_query($sql);
 			       $moduleinthisgroup[$categorie][$menu_counter] = $row2['module'];
 			         $linkinthisgroup[$categorie][$menu_counter] = $row2['url'];
 			     $linktextinthisgroup[$categorie][$menu_counter] = $row2['url_text'];
+				 
 			        $imageinthisgroup[$categorie][$menu_counter] = $row2['image'];
+					
 			          $newinthisgroup[$categorie][$menu_counter] = $row2['new'];
 			      $newdaysinthisgroup[$categorie][$menu_counter] = $row2['new_days'];
 			        $classinthisgroup[$categorie][$menu_counter] = $row2['class'];
@@ -524,7 +523,7 @@ $modulesaffiche = $db->sql_query($sql);
 	}
 
 $content = "";
-echo "\n\n\n\n<!--  START Titanium Portal Menu Javascript Functions v5.01 -->\n";
+echo "\n\n\n\n<!--  START Titanium Portal Menu Javascript Functions v5.01b -->\n";
 ?>
 <script type="text/javascript" language="JavaScript">
 function menu_listbox(page) 
@@ -647,9 +646,11 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 	while ($row = $db->sql_fetchrow($result)) 
 	{  
 		                $som_groupmenu = $row['groupmenu'];
-		                     $som_name = str_replace("&amp;nbsp;","&nbsp;",$row['name']); 
-		                    $som_image = $row['image'];
-		                     $som_lien = $row['lien'];
+		                     $som_name = str_replace("&amp;nbsp;","&nbsp;",$row['name']);
+							  
+		                    $sub_image = $row['image'];
+		                     
+							 $som_lien = $row['lien'];
 		                       $som_hr = $row['hr'];
 		                   $som_center = $row['center'];
 		                  $som_bgcolor = $row['bgcolor'];
@@ -681,7 +682,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 		if(($general_dynamic == 1) && ($dynamictest != 1)) 
 		{
 			# $dynamic = 1;
-			echo "\n<!--  START Titanium Portal Menu Dynamic Javascript Function v5.01 -->\n\n\n\n";
+			echo "\n<!--  START Titanium Portal Menu Dynamic Javascript Function v5.01b -->\n\n\n\n";
 			?>
 			<script type="text/javascript" language="JavaScript">
 			var keymenu;
@@ -708,7 +709,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			}
 			</script>
 			<?php
-			echo "\n<!--  END Titanium Portal Menu Dynamic Javascript Function v5.01 -->\n\n\n\n";
+			echo "\n<!--  END Titanium Portal Menu Dynamic Javascript Function v5.01b -->\n\n\n\n";
 		}
 		
 		$dynamictest = 1;
@@ -785,17 +786,14 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				}
 			}
 
-			if($som_image <> "noimg") 
+            # This is the Top image
+			#
+			#### sub image
+			
+			if($sub_image <> "noimg") 
 			{
-				if(stristr(".swf",$som_image)) # addd FLASH support
-				{ 
-				   $content .= "<OBJECT classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" width=\"179\" height=\"20\" id=\"$som_groupmenu\"><PARAM NAME=movie VALUE=\"$path_icon/$som_image\"><PARAM NAME=quality VALUE=high><EMBED src=\"$path_icon/$som_image\" quality=high WIDTH=\"160\" HEIGHT=\"20\" TYPE=\"application/x-shockwave-flash\" wmode=\"transparent\"></EMBED></OBJECT><br>";
-        		}
-				else 
-				{
-				    $fermebalise = ($som_lien!="") ? "</a>" : "" ;
-					$content .= "<img align=\"$align\" src=\"$path_icon/$som_image\" border=\"0\" alt=\"$som_image\">".$fermebalise."&nbsp;";
-				}
+			    $fermebalise = ($som_lien!="") ? "</a>" : "" ;
+				$content .= "<img align=\"$align\" src=\"$path_icon/$sub_image\" border=\"0\" alt=\"$sub_image\">".$fermebalise."&nbsp;";
 			}
 
 			if(strpos($som_name,"LANG:_") === 0) 
@@ -804,13 +802,13 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				eval( "\$som_name = $som_name;");
 			}
 			
-			if(stristr(".swf",$som_image) || $som_name == "" || $som_name ==" " || $som_name=="&nbsp;" || $som_name=="&amp;nbsp;") 
+			if($som_name == "" || $som_name == " " || $som_name== "&nbsp;" || $som_name=="&amp;nbsp;") 
 			{ 
 				$no_category_text[$som_groupmenu] = 1;
 			}
 			else 
 			{
-				if($som_lien<>"") 
+				if($som_lien <> "") 
 				{
 					if(strpos($som_lien,"LANG:_") === 0) 
 					{
@@ -832,7 +830,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						$testeftp=strpos($som_lien,"ftp://");
 						$testehttps=strpos($som_lien,"https://");
 					
-						if($testehttp === 0 || $testeftp === 0 ||$testehttps === 0) 
+						if($testehttp === 0 || $testeftp === 0 || $testehttps === 0) 
 						{
 							$content .= " target=\"_tab\"";
 						}
@@ -843,8 +841,8 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				
 				$content.="<span class=\"$categoryclass[$classpointeur]\">";
 				
-				$bold1 = ($som_bold == "on") ? "<strong>" : "" ;
-				$bold2 = ($som_bold == "on") ? "</strong>" : "" ;
+				$bold1 = ($som_bold == "on") ? "<strong>" : "";
+				$bold2 = ($som_bold == "on") ? "</strong>" : "";
 				
 				# add NEW (new.gif)to top level
 				$new = ($som_new == "on") ? "<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\"> " : "" ;
@@ -899,8 +897,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				$content .= "<tr bgcolor=\"$som_bgcolor\"><td height=\"4\"></td></tr>";
 			}
 		}
-		else
-		if($som_groupmenu != 99 && isset($moduleinthisgroup[$som_groupmenu]['0'])) 
+		elseif($som_groupmenu != 99 && isset($moduleinthisgroup[$som_groupmenu]['0'])) 
 		{
 		     if($som_listbox == "on") 
 		     {
@@ -937,9 +934,9 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			$content .= "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"menunowrap\">";
 		}
 		
-		if($som_image <> "noimg" && !stristr(".swf",$som_image) && $som_center <> "on") 
+		if($sub_image <> "noimg" && $som_center <> "on") 
 		{ 
-			$catimagesize = getimagesize("$path_icon/$som_image");
+			$catimagesize = getimagesize("$path_icon/$sub_image");
 		}
 		else 
 		{
@@ -982,7 +979,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 					$testehttps=strpos($linkinthisgroup[$som_groupmenu][$keyinthisgroup],"https://");
 					$testepopup=strpos($linkinthisgroup[$som_groupmenu][$keyinthisgroup],"javascript:window.open(");
 					
-					if($testehttp === 0 || $testeftp === 0 || $testehttps ===0) 
+					if($testehttp === 0 || $testeftp === 0 || $testehttps === 0) 
 					{
 						$zelink = "_menu_targetblank";
 					}
@@ -1036,7 +1033,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 					$linkinthisgroup[$som_groupmenu][$keyinthisgroup] = $zelink_lang;
 				}
 	
-				$testepopup=strpos($linkinthisgroup[$som_groupmenu][$keyinthisgroup],"javascript:window.open(");
+				$testepopup = strpos($linkinthisgroup[$som_groupmenu][$keyinthisgroup],"javascript:window.open(");
 				
 				if($testepopup === 0) 
 				{
@@ -1098,12 +1095,13 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 					
 					if($div == 1) 
 					{
-						$sublevelzindex=$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]+2;
-						$content .= "<td style=\"vertical-align: top;\"><table id=\"".$id_sublevel."\" cellpadding=0 cellspacing=0 border=0 class=\"menunowrap\" style=\"position: absolute; z-index: ".$sublevelzindex."; border: 1px solid ".$bgcolor2."; background-color: ".$bgcolor1.";\">";
+						$sublevelzindex = $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup] +2;
+						$content .= "<td style=\"vertical-align: top;\"><table id=\"".$id_sublevel."\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" 
+						class=\"menunowrap\" style=\"position: absolute; z-index: ".$sublevelzindex."; border: 1px solid ".$bgcolor2."; background-color: ".$bgcolor1.";\">";
 					}
 					else 
 					{
-					    $content .= "<tr id=\"".$id_sublevel."\"><td style=\"align: right;".$zebar."\"></td><td><table cellpadding=0 cellspacing=0 border=0 class=\"menunowrap\">";
+					    $content .= "<tr id=\"".$id_sublevel."\"><td style=\"align: right;".$zebar."\"></td><td><table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" class=\"menunowrap\">";
 					}
 					
 					$id_sublevel = "";
@@ -1114,7 +1112,8 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				//sublevels - showhide
 				if($keyinthisgroup<count($moduleinthisgroup[$som_groupmenu])-1 && $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]<$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1]) 
 				{
-					$ligne=($som_dynamic == 'on') ? "<tr style=\"cursor: pointer;\" onclick=\"menu_showhide('menusublevel-$som_groupmenu-".($keyinthisgroup+1)."','ok','menuupdown-sublevel-$som_groupmenu-".($keyinthisgroup+1)."');\">" : "<tr>"; // onclick=\"menu_showhide('menusublevel-$som_groupmenu-$keyinthisgroup','ok','menuupdown-sublevel-$som_groupmenu-$keyinthisgroup');\"
+					$ligne=($som_dynamic == 'on') ? "<tr style=\"cursor: pointer;\" 
+					onclick=\"menu_showhide('menusublevel-$som_groupmenu-".($keyinthisgroup+1)."','ok','menuupdown-sublevel-$som_groupmenu-".($keyinthisgroup+1)."');\">" : "<tr>"; 
 					$id_sublevel = "menusublevel-$som_groupmenu-".($keyinthisgroup+1);
 					$id_sublevel_img = "menuupdown-sublevel-$som_groupmenu-".($keyinthisgroup+1);
 					$ferme_sublevels .= ($som_dynamic == 'on') ? "menu_showhide('$id_sublevel','nok','$id_sublevel_img');" :  "" ;
@@ -1127,8 +1126,11 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				}
 				
 			   # add NEW (new.gif)to sub level 
-			   $new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? " <img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
-			   $imagedulien = "<img align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" border=0 alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
+			   $new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? " <img align=\"$align\" src=\"$path_icon/admin/$imgnew\" 
+			   border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
+			   
+			   $imagedulien = "<img align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
+			   border=\"0\" alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
 			
 			   if($linkinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 			   { 
@@ -1169,11 +1171,14 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				{ 
 					if($no_category_text[$som_groupmenu] === 1) 
 					{	
-						$content .= $ligne."<td colspan=2 align=\"left\" width=\"100%\"><span class=\"".$classinthisgroup[$som_groupmenu][$keyinthisgroup]."\"><strong><big>&middot;</big></strong></span>&nbsp;".$lelien.$gras1.$letexte.$gras2.$close_lelien.$new.""; //v2.1.2beta4 : ajout de $close_lelien
+					  $content .= $ligne."<td colspan=2 align=\"left\" width=\"100%\"><span 
+					  class=\"".$classinthisgroup[$som_groupmenu][$keyinthisgroup]."\"><strong><big>&middot;</big></strong></span>&nbsp;".$lelien.$gras1.$letexte.$gras2.$close_lelien.$new.""; 
 					}
 					else 
 					{
-						$content .= $ligne."<td width=\"$catimagesize[0]\" align=\"right\"><span class=\"".$classinthisgroup[$som_groupmenu][$keyinthisgroup]."\"><strong><big>&middot;</big></strong></span></td><td>&nbsp;".$lelien.$gras1.$letexte.$gras2.$close_lelien.$new.""; //v2.1.2beta4 : ajout de $close_lelien
+						$content .= $ligne."<td width=\"$catimagesize[0]\" align=\"right\"><span 
+						class=\"".$classinthisgroup[$som_groupmenu][$keyinthisgroup]."\"><strong><big>&middot;</big></strong></span></td><td>&nbsp;".$lelien.
+						$gras1.$letexte.$gras2.$close_lelien.$new.""; 
 					}
 					
 					$content .= $sublevel_updownimg."</td></tr>\n";
@@ -1188,8 +1193,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						$content .= "</table></td></tr>";
 					}
 				}
-				else
-				if($current_sublevel > $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1]) 
+				elseif($current_sublevel > $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1]) 
 				{
 					for($sub=0; $sub < ($current_sublevel-$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1]); $sub++) 
 					{
@@ -1200,8 +1204,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				}
 			
 			}
-			else
-			if($moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == "Horizonatal Rule") 
+			elseif($moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == "Horizonatal Rule") 
 			{
 				$content .= "<tr><td colspan=\"2\">";
 				$content .= "<hr>";
@@ -1297,22 +1300,25 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 					}
 				}
 				
-				if($imageinthisgroup[$som_groupmenu][$keyinthisgroup] != "middot.gif") 
-				$limage = "<img align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" border=\"0\" alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
-				else 
+				if($imageinthisgroup[$som_groupmenu][$keyinthisgroup] != "middot.gif"): 
+				$limage = "<img align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
+				border=\"0\" alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
+				else: 
 				$limage = "<strong><big>&middot;</big></strong>";
-
+                endif;
 				
 				if($poster_moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == 2) 
-				$limage="<img align=\"$align\" src=\"$path_icon/admin/interdit.gif\" title=\"".$whyrestricted[$som_groupmenu][$keyinthisgroup]."\" alt=\"".$whyrestricted[$som_groupmenu][$keyinthisgroup]."\">";
+				$limage="<img align=\"$align\" src=\"$path_icon/admin/interdit.gif\" title=\"".$whyrestricted[$som_groupmenu][$keyinthisgroup]."\" 
+				alt=\"".$whyrestricted[$som_groupmenu][$keyinthisgroup]."\">";
 
 				if(($newpms[0]) && ($nomdumodule == "Private_Messages")) 
 				$disp_pmicon="<img src=\"images/blocks/email-y.gif\" height=\"10\" width=\"14\" alt=\""._MENU_NEWPM."\" title=\""._MENU_NEWPM."\">";
 				else 
-				$disp_pmicon="";
+				$disp_pmicon= "";
 				
 				# add NEW (new.gif)to ?
-				$new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? "<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
+				$new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? "<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" 
+				border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
 
 				if($nomdumodule == "Downloads" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup] != "-1") 
 				{
@@ -1389,12 +1395,12 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new="<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new="<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
-				else # News module
-				if($nomdumodule == "Blog" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") 
+				else # Blog module
+				if($nomdumodule == "Blog" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup] != "-1") 
 				{
 				    global $db, $prefix;
 					
@@ -1408,49 +1414,25 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				
 					if($rowimgnew['datePublished']) 
 					{
-						preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $rowimgnew['date'], $datetime);
+						preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $rowimgnew['datePublished'], $datetime);
 						$zedate = mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
 						$now=time();
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new="<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new="<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
-				else # Blog module
-				if($nomdumodule == "Blog" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") 
-				{
-				    global $db, $prefix;
-					
-					$where = (preg_match("/^new_topic=[0-9]*$/",$temponomdumodule[1])) ? " WHERE ".str_replace("new_","",$temponomdumodule[1])."" : "";
 
-					$sqlimgnew="SELECT datePublished FROM ".$prefix."_stories".$where." order by datePublished desc limit 1";
-				
-					$resultimgnew=$db->sql_query($sqlimgnew);
-				
-					$rowimgnew = $db->sql_fetchrow($resultimgnew);
-				
-					if($rowimgnew['datePublished']) 
-					{
-						preg_match ("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $rowimgnew['date'], $datetime);
-						$zedate = mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
-						$now=time();
-					
-						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
-						{
-							$new="<img align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
-						}
-					}
-				}
 				# sublevels
-				if($keyinthisgroup==0) 
+				if($keyinthisgroup == 0) 
 				{
-					$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]=0;
-					$current_sublevel=0;
+					$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup] = 0;
+					$current_sublevel = 0;
 				}
 				
-				if($sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]>$current_sublevel) 
+				if($sublevelinthisgroup[$som_groupmenu][$keyinthisgroup] > $current_sublevel) 
 				{
 					if($imageinthisgroup[$som_groupmenu][$keyinthisgroup-1] == 'tree-T.png') 
 					{
@@ -1458,15 +1440,16 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 					}
 					else 
 					{
-						$zebar="";
+						$zebar = "";
 					}
 					
-					$catimagesize[0]=0;
+					$catimagesize[0] = 0;
 					
-					if($div==1) 
+					if($div == 1) 
 					{
 						$sublevelzindex=$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]+2;
-						$content.="<td style=\"vertical-align: top;\"><table id=\"".$id_sublevel."\" cellpadding=0 cellspacing=0 border=0 class=\"menunowrap\" style=\"position: absolute; z-index: ".$sublevelzindex."; border: 1px solid ".$bgcolor2."; background-color: ".$bgcolor1.";\">";
+						$content.="<td style=\"vertical-align: top;\"><table id=\"".$id_sublevel."\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" 
+						class=\"menunowrap\" style=\"position: absolute; z-index: ".$sublevelzindex."; border: 1px solid ".$bgcolor2."; background-color: ".$bgcolor1.";\">";
 					}
 					else 
 					{
@@ -1481,7 +1464,9 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				# sublevels - showhide
 				if($keyinthisgroup<count($moduleinthisgroup[$som_groupmenu])-1 && $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]<$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1]) 
 				{
-					$ligne=($som_dynamic=='on') ? "<tr style=\"cursor: pointer;\" onclick=\"menu_showhide('menusublevel-$som_groupmenu-".($keyinthisgroup+1)."','ok','menuupdown-sublevel-$som_groupmenu-".($keyinthisgroup+1)."');\">" : "<tr>"; // onclick=\"menu_showhide('menusublevel-$som_groupmenu-$keyinthisgroup','ok','menuupdown-sublevel-$som_groupmenu-$keyinthisgroup');\"
+					$ligne=($som_dynamic=='on') ? "<tr style=\"cursor: pointer;\" 
+					onclick=\"menu_showhide('menusublevel-$som_groupmenu-".($keyinthisgroup+1)."','ok','menuupdown-sublevel-$som_groupmenu-".($keyinthisgroup+1)."');\">" : "<tr>"; 
+					
 					$id_sublevel="menusublevel-$som_groupmenu-".($keyinthisgroup+1);
 					$id_sublevel_img="menuupdown-sublevel-$som_groupmenu-".($keyinthisgroup+1);
 					$ferme_sublevels.= ($som_dynamic=='on') ? "menu_showhide('$id_sublevel','nok','$id_sublevel_img');" : "" ;
@@ -1509,7 +1494,8 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 					
 					$content.=$sublevel_updownimg."</td>";
 					
-					if(($div==1) && ($keyinthisgroup<count($moduleinthisgroup[$som_groupmenu])-1 && $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]<$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1])) 
+					if(($div==1) && ($keyinthisgroup<count($moduleinthisgroup[$som_groupmenu])-1 
+					&& $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]<$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1])) 
 					{
 						
 					}
@@ -1531,10 +1517,13 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						$content.=$ligne."<td".$width." align=\"right\">".$limage.""."</td><td>".$disp_pmicon."";
 					}
 					
-					$content.="&nbsp;<a $aligncat href=\"".$urldumodule."\" class=\"".$classinthisgroup[$som_groupmenu][$keyinthisgroup]."\" ".$targetblank."><span class=\"".$classinthisgroup[$som_groupmenu][$keyinthisgroup]."\">".$gras1."$customtitle2".$gras2."</span></a> ".$new."";
+					$content.="&nbsp;<a $aligncat href=\"".$urldumodule."\" class=\"".$classinthisgroup[$som_groupmenu][$keyinthisgroup]."\" ".$targetblank."><span 
+					class=\"".$classinthisgroup[$som_groupmenu][$keyinthisgroup]."\">".$gras1."$customtitle2".$gras2."</span></a> ".$new."";
+					
 					$content.=$sublevel_updownimg."</td>";
 					
-					if(($div==1) && ($keyinthisgroup<count($moduleinthisgroup[$som_groupmenu])-1 && $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]<$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1])) 
+					if(($div==1) && ($keyinthisgroup<count($moduleinthisgroup[$som_groupmenu])-1 
+					&& $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]<$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup+1])) 
 					{
 						
 					}
@@ -1629,21 +1618,24 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 							{
 								$flagmenu = $flagmenu+1;
 							
-								if($flagmenu==1) 
+								if($flagmenu == 1) 
 								{
-									$content .="<hr><div align=\"center\">"._MENU_ADMINVIEWALLMODULES."</div><br>";   // si il y a des modules affichés en rubrique 99, on affiche avant une ligne horizontale
+									$content .="<hr><div align=\"center\">"._MENU_ADMINVIEWALLMODULES."</div><br />";   
 								}
 								
-								$urldumodule99 = ($gt_url[$z]!="") ? $gt_url[$z] : "modules.php?name=".$module[$z] ; // GT-NextGen
+								$urldumodule99 = ($gt_url[$z]!="") ? $gt_url[$z] : "modules.php?name=".$module[$z] ; 
 								
-								if(($newpms[0]) AND ($module[$z]=="Private_Messages")) 
+								if(($newpms[0]) AND ($module[$z]=="Private_Messages"))  
 								{ 
-									$content .= "<strong><big>&middot;</big></strong><img src=\"images/blocks/email-y.gif\" height=\"10\" width=\"14\" alt=\""._MENU_NEWPM."\" title=\""._MENU_NEWPM."\"><a href=\"".$urldumodule99."\">$customtitle2</a><br>\n";
+									$content .= "<strong><big>&middot;</big></strong><img src=\"images/blocks/email-y.gif\"  
+									height=\"10\" width=\"14\" alt=\""._MENU_NEWPM."\" title=\""._MENU_NEWPM."\"><a href=\"".$urldumodule99."\">$customtitle2</a><br>\n";
 								}
 								else 
 								{
-									$content .= "<strong><big>&middot;</big></strong>&nbsp;<a href=\"".$urldumodule99."\">$customtitle2</a><br>\n";
+				                    $content .= "<strong><big><i class=\"bi bi-eye-slash\"></i></big></strong>&nbsp;<a href=\"".$urldumodule99."\">$customtitle2</a><br>\n";
 								}
+								
+								$content .= '';
 							}
 						}
 					}
