@@ -897,29 +897,29 @@ function displayBlog($qid)
     include(NUKE_BASE_DIR.'header.php');
 
 	$today = getdate();
-    $tday = $today[mday];
+    $tday = $today['mday'];
     
 	if ($tday < 10)
     $tday = "0$tday";
     
-	$tmonth = $today[month];
-    $ttmon = $today[mon];
+	$tmonth = $today['month'];
+    $ttmon = $today['mon'];
     
 	if ($ttmon < 10)
     $ttmon = "0$ttmon";
     
-	$tyear = $today[year];
-    $thour = $today[hours];
+	$tyear = $today['year'];
+    $thour = $today['hours'];
     
 	if ($thour < 10)
     $thour = "0$thour";
     
-	$tmin = $today[minutes];
+	$tmin = $today['minutes'];
     
 	if ($tmin < 10)
     $tmin = "0$tmin";
     
-	$tsec = $today[seconds];
+	$tsec = $today['seconds'];
     
 	if ($tsec < 10)
     $tsec = "0$tsec";

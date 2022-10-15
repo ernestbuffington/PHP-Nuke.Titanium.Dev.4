@@ -1025,10 +1025,25 @@ if ($old_school_imagedropdown==0)
 	echo "</td>"
 	."</tr><tr><td bgcolor=\"$bgcolor1\" id=\"showhide_content_$key\"".$display_cat.">";
 	
-	$nbmodules = $nombremodules = count($moduleinthisgroup[$groupmenu[$key]]);
-	$nombremodules=$nombremodules+4; 
+    if(is_array($moduleinthisgroup[$groupmenu[$key]])) 
+	{
+      if ($moduleinthisgroup[$groupmenu[$key]] > count($moduleinthisgroup[$groupmenu[$key]]))
+      $nbmodules = $nombremodules = count($moduleinthisgroup[$groupmenu[$key]]);
+    } 
+	else 
+	{ 	
+      $nbmodules = $nombremodules = 0;
+    }
+    
+	$nombremodules=$nombremodules+5; // this was +4 in old code testing now - I took this from his sommaire garbage menu
 
 	echo "<table align=\"center\" border=0 cellspacing=0 cellpadding=2 width=\"100%\"><tr><td></td><td align =\"center\">"._MENU_CATCONTENT."</td><td align=\"center\">"._MENU_LINKURL."</td><td align=\"center\">"._MENU_LINKTEXT."</td><td width=\"3\"></td>";
+
+
+
+
+
+
 
 	if ($old_school_imagedropdown_cat==1) 
 	{
