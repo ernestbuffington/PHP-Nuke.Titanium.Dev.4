@@ -79,12 +79,12 @@ global $domain;
 
         <h1 class="modal-title" id="CenterTitle">
         <font size="2" class="display-1" color="#000000"><i class="bi bi-arrow-right-square-fill"></i> Theme Name: <?=THEME?>
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Markup Language: XHTML
+                 <br /><i class="bi bi-arrow-right-square-fill"></i> Markup Language(s): XHTML, HTML5, HTML4
                  <br /><i class="bi bi-arrow-right-square-fill"></i> Copyright: <i class="far fa-copyright"></i> Brandon Maintenance Management
                  <br /><i class="bi bi-arrow-right-square-fill"></i> Creation Date: <?=THEME_DATE?> 
                  <br /><i class="bi bi-arrow-right-square-fill"></i> Author: <?=THEME_AUTHOR?>
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> License: GNU General Public License
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Core Support: PHP-Nuke Titanium v3.0.0b <> v4.0.0b
+                 <br /><i class="bi bi-arrow-right-square-fill"></i> License: GNU/GPL
+                 <br /><i class="bi bi-arrow-right-square-fill"></i> Core Support: PHP-Nuke Titanium v3.0.0b <> v4.x.x
         </font>
         </h1>
       </div>
