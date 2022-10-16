@@ -607,7 +607,7 @@ function index()
 	{
 		$file[$menu_counter]= $tempo;
 	
-		if (preg_match("/\.swf$/",$file[$menu_counter])) //re-write //fixed by Ernest Allen Buffington PHP 5
+		if (preg_match("/\.swf$/",$file[$menu_counter])) 
 		{
 			$old_school_imagedropdown=1;
 		}
@@ -908,29 +908,29 @@ if ($old_school_imagedropdown == 0)
 	   $groupmenu[$key] = $keyadd;
 	}
 	
-	if (strpos($days_cat[$key],'8')!== false || $now < $date_debut_cat[$key] || ($date_fin_cat[$key] > 0 && $now > $date_fin_cat[$key])) 
-	{
-		$catclass = " class=\"menu_hidden\"";
-		$display_cat = " style=\"display: none;\"";
-	}
-	else 
-	{
+	//if (strpos($days_cat[$key],'8')!== false || $now < $date_debut_cat[$key] || ($date_fin_cat[$key] > 0 && $now > $date_fin_cat[$key])) 
+	//{
+	//	$catclass = " class=\"menu_hidden\"";
+	//	$display_cat = " style=\"display: none;\"";
+	//}
+	//else 
+	//{
 		$catclass = "";
 		$display_cat = "";
-	}
+	//}
 
 	
 	echo "<tr align=\"center\">"
 	    ."<td bgcolor=\"$bgcolor2\"".$catclass." rowspan=\"2\" id=\"showhide_weight_$key\"><center>"
 	    ."<input type=\"text\" class=\"select\" name=\"menuformgroupmenu[$key]\" size=\"3\" maxlength=2 value=\"$groupmenu[$key]\" onchange='check_numeric(this,$groupmenu[$key])'></center><br>";
 	
-	echo "<input type=\"hidden\" name=\"menu_schedule_date_debut_cat[".$key."]\" value=\"".$date_debut_cat[$key]."\">";
+	//echo "<input type=\"hidden\" name=\"menu_schedule_date_debut_cat[".$key."]\" value=\"".$date_debut_cat[$key]."\">";
 	
-	echo "<input type=\"hidden\" name=\"menu_schedule_date_fin_cat[".$key."]\" value=\"".$date_fin_cat[$key]."\">";
+	//echo "<input type=\"hidden\" name=\"menu_schedule_date_fin_cat[".$key."]\" value=\"".$date_fin_cat[$key]."\">";
 	
-	echo "<input type=\"hidden\" name=\"menu_schedule_days_cat[".$key."]\" value=\"".$days_cat[$key]."\">";
+	//echo "<input type=\"hidden\" name=\"menu_schedule_days_cat[".$key."]\" value=\"".$days_cat[$key]."\">";
 	
-	echo "<a href=\"javascript:senddit('".$key."', 'imacategory', 'schedule');\" title=\""._MENU_SCHEDULE."\"><center><img src=\"$urlofimages/admin/calendar_clock2.png\" style=\"margin-top:3px;\" width=\"36\"></center></a>";
+	//echo "<a href=\"javascript:senddit('".$key."', 'imacategory', 'schedule');\" title=\""._MENU_SCHEDULE."\"><center><img src=\"$urlofimages/admin/calendar_clock2.png\" style=\"margin-top:3px;\" width=\"36\"></center></a>";
 	
 	echo "</td>"
 	."<td bgcolor=\"$bgcolor3\"".$catclass." id=\"showhide_cat_$key\"><table align=\"left\" cellspacing=\"0\" cellpadding=\"0\" border = \"0\">";
@@ -944,7 +944,7 @@ if ($old_school_imagedropdown == 0)
 		echo "<td><strong>"._MENU_IMGNAME."</strong></td>";
 	}
 	
-	echo "<td align=\"center\" width=\"100%\"><strong>"._MENU_CATLINK."</strong></td><td>&nbsp;<strong><LABEL FOR=\"menuformcenter[$key]\">"._MENU_CENTER25."</LABEL></strong></td><td>&nbsp;<strong>"
+	echo "<td align=\"center\" width=\"100%\"><strong>"._MENU_CATLINK."</strong></td><td>&nbsp;</td><td>&nbsp;<strong>"
 	._MENU_BOLD."</strong></td><td></td><td></td></tr><tr height=\"8\"><td></td></tr><tr align=\"center\">";
 	
 	echo "<td align =\"left\">";
@@ -955,10 +955,18 @@ if ($old_school_imagedropdown == 0)
 
 	if ($old_school_imagedropdown == 0) 
 	{
-		echo "<table cellpadding=0 cellspacing=0 border=0><tr><td style=\"padding-right: 3px;\"><table title=\""._MENU_ADMINIMGDROPDOWN."\" cellpadding=1 cellspacing=0 style=\"cursor: pointer; margin: 
-		0px; border: 1px solid black;\" onclick=\"clicked=0;s=1;keymenu_image='".$key."';menu_displayimagelist(document.images['catimage".$key."'],'menu_imagelist');\"><tr><td><img 
-		src=\"".$urlofimages."/".$zeimgname."\" name=\"catimage".$key."\" title=\""._MENU_ADMINIMGDROPDOWN."\"></td><td style=\"vertical-align: bottom; background-color: "
-		.$bgcolor2."; padding: 0px;\"><img src=\"".$urlofimages."/admin/dn.gif\" title=\""._MENU_ADMINIMGDROPDOWN."\"></td></tr></table></td>";
+		echo "<table cellpadding=0 cellspacing=0 border=0><tr>";
+		echo "<td style=\"padding-right: 3px;\">";
+		
+		echo "<table title=\""._CLICK_TO_CHOOSE_IMAGE."\" cellpadding=1 cellspacing=0 style=\"cursor: pointer; margin: 
+		0px; border: 1px solid black;\" onclick=\"clicked=0;s=1;keymenu_image='".$key."';menu_displayimagelist(document.images['catimage".$key."'],'menu_imagelist');\">";
+		
+		echo "<tr>";
+		echo "<td><img src=\"".$urlofimages."/".$zeimgname."\" name=\"catimage".$key."\" title=\""._CLICK_TO_CHOOSE_IMAGE."\"></td>";
+		
+		echo "<td style=\"vertical-align: bottom; background-color: ".$bgcolor2."; padding: 0px;\"><img src=\"".$urlofimages."/admin/dn.gif\" title=\""._CLICK_TO_CHOOSE_IMAGE."\"></td>";
+		
+		echo "</tr></table></td>";
 	}
 	else 
 	{
@@ -1032,7 +1040,7 @@ if ($old_school_imagedropdown == 0)
 	
 	$checked = ($center[$key] == "on") ? "checked" : "";
 	
-	echo "<td align=\"center\"><input type=\"checkbox\" name=\"menuformcenter[$key]\" id=\"menuformcenter[$key]\" $checked></td>";
+	echo "<td align=\"center\"></td>";
 
 	$checked = ($bold[$key] <> "") ? "checked" : "";
 	
@@ -1045,9 +1053,7 @@ if ($old_school_imagedropdown == 0)
 	echo "<td><input type=\"hidden\" name=\"menuformnew[$key]\" value=\"$checked\"><img name=\"somcatnew$key\" src=\""
 	.$urlofimages."/admin/$colornew.gif\" style=\"cursor: pointer;\" alt=\""._MENU_IMGNEWTITLE."\" title=\""._MENU_IMGNEWTITLE."\" onclick=\"menuchangecatimgnew(document.images['somcatnew$key'],'$key','');\">&nbsp;</td>";
 
-	echo "<td><input type=\"hidden\" name=\"menuformdynamic[".$key."]\" value=\"".$dynamic[$key]."\">
-	[<a href='javascript:senddit(".$key.", \"imacategory\",\"edit\")' title=\""._MENU_MOREOPTIONS."\">+</a>]
-	</td>"
+	echo "<td></td>"
 	."</tr>"
 	."<tr height=8><td></td></tr><tr><td align=\"left\" colspan=10 style=\"white-space: nowrap\"><strong>"._MENU_MISEENPAGE."</strong>&nbsp;:&nbsp;"; //v2.1 colspan was 6
 	
@@ -1057,9 +1063,13 @@ if ($old_school_imagedropdown == 0)
 	
 	$checked = ($listbox[$key] == "on") ? "checked" : "";
 	
-	echo "<input type=\"checkbox\" name=\"menuformlistbox[$key]\" id=\"menuformlistbox[$key]\" $checked>&nbsp;<LABEL FOR=\"menuformlistbox[$key]\">"._MENU_LISTBOX."</LABEL>&nbsp;&nbsp;&nbsp;";
+	//echo "<input type=\"checkbox\" name=\"menuformlistbox[$key]\" id=\"menuformlistbox[$key]\" $checked>&nbsp;<LABEL FOR=\"menuformlistbox[$key]\">"._MENU_LISTBOX."</LABEL>&nbsp;&nbsp;&nbsp;";
 	
-	echo "<input type=\"text\" class=\"select\" name=\"menuformbgcolor[$key]\" size=8 value=\"$categoriebgcolor[$key]\">&nbsp;"._MENU_BGCOLOR."&nbsp;&nbsp;&nbsp;</td>"
+	//echo "<input type=\"text\" class=\"select\" name=\"menuformbgcolor[$key]\" size=8 value=\"$categoriebgcolor[$key]\">&nbsp;"._MENU_BGCOLOR."&nbsp;&nbsp;&nbsp;</td>"
+	//."</tr><tr height=8><td></td></tr></table></td>"
+	//."<td bgcolor=\"$bgcolor2\"".$catclass." rowspan=2 id=\"showhide_suppr_$key\">";
+
+	echo "</td>"
 	."</tr><tr height=8><td></td></tr></table></td>"
 	."<td bgcolor=\"$bgcolor2\"".$catclass." rowspan=2 id=\"showhide_suppr_$key\">";
 	
@@ -1082,7 +1092,7 @@ if ($old_school_imagedropdown == 0)
       $nbmodules = $namemodules = 0;
     }
     
-	$namemodules=$namemodules+4; // this was +4 in old code testing now - I took this from his sommaire garbage menu
+	$namemodules=$namemodules+4; 
 
 	echo "<table align=\"center\" border=0 cellspacing=0 cellpadding=2 width=\"100%\"><tr><td></td><td align =\"center\">"
 	._MENU_CATCONTENT."</td><td align=\"center\">"._MENU_LINKURL."</td><td align=\"center\">"._MENU_LINKTEXT."</td><td width=\"3\"></td>";
@@ -1152,10 +1162,10 @@ if ($old_school_imagedropdown == 0)
 		if ($old_school_imagedropdown_cat == 0) 
 		{
 			echo "<table cellspacing=0 cellpadding=0 border=0 style=\"vertical-align: middle;\"><tr><td style=\"padding-right: 3px;\"><table cellspacing=0 cellpadding=0 border=0><tr><td>"
-			.$sublevelimage1."</td><td><table title=\""._MENU_ADMINIMGDROPDOWNCAT."\" cellpadding=0 cellspacing=0 style=\"cursor: pointer; margin: 0px; border: 1px solid black;\" 
+			.$sublevelimage1."</td><td><table title=\""._CLICK_TO_CHOOSE_IMAGECAT."\" cellpadding=0 cellspacing=0 style=\"cursor: pointer; margin: 0px; border: 1px solid black;\" 
 			onclick=\"clicked=0;s=1;keymenu_image='".$key."';zimage='".$z."';menu_displayimagelist(document.images['image".$formpointer."'],'menu_imagelist_cat');\"><tr><td style=\"padding: 1px;\"><img 
-			src=\"".$urlofimages."/".$posterimageinthiscategorie."\" name=\"image".$formpointer."\" title=\""._MENU_ADMINIMGDROPDOWN."\"></td><td style=\"padding: 0px; margin: 0px; 
-			vertical-align: bottom; background-color: ".$bgcolor2.";\"><img src=\"".$urlofimages."/admin/dn.gif\" title=\""._MENU_ADMINIMGDROPDOWN."\"></td></tr></table></td></tr></table>";
+			src=\"".$urlofimages."/".$posterimageinthiscategorie."\" name=\"image".$formpointer."\" title=\""._CLICK_TO_CHOOSE_IMAGE."\"></td><td style=\"padding: 0px; margin: 0px; 
+			vertical-align: bottom; background-color: ".$bgcolor2.";\"><img src=\"".$urlofimages."/admin/dn.gif\" title=\""._CLICK_TO_CHOOSE_IMAGE."\"></td></tr></table></td></tr></table>";
 		}
 		else 
 		{
@@ -1350,12 +1360,12 @@ if ($old_school_imagedropdown == 0)
 		value=\"".$checked."\"><img name=\"somnew$formpointer\" src=\"".$urlofimages."/admin/$colornew.gif\" style=\"cursor: pointer;\" 
 		alt=\""._MENU_IMGNEWTITLE."\" title=\""._MENU_IMGNEWTITLE."\" onclick=\"menuchangecatimgnew(document.images['somnew$formpointer'],'$key','$z');\"></td>";
 
-		echo "<td id=\"spani$formpointer\"".$linkclass." style=\"text-align:left; vertical-align: middle;\"><a 
-		href=\"javascript:senddit($key,$z,'schedule');\" title=\""._MENU_SCHEDULE."\"><img src=\"$urlofimages/admin/calendar_clock.png\"  width=\"35\"></a></td>"; 
+		//echo "<td id=\"spani$formpointer\"".$linkclass." style=\"text-align:left; vertical-align: middle;\"><a 
+		//href=\"javascript:senddit($key,$z,'schedule');\" title=\""._MENU_SCHEDULE."\"><img src=\"$urlofimages/admin/calendar_clock.png\"  width=\"35\"></a></td>"; 
 
-		echo "<td id=\"spanj$formpointer\"".$linkclass.">";
+		//echo "<td id=\"spanj$formpointer\"".$linkclass.">";
 
-		echo "[<a href='javascript:senddit(".$key.", ".$z.",\"edit\")' title=\""._MENU_MOREOPTIONS."\">+</a>]";
+		//echo "[<a href='javascript:senddit(".$key.", ".$z.",\"edit\")' title=\""._MENU_MOREOPTIONS."\">+</a>]";
 
 		echo "</td>";
 
@@ -1411,28 +1421,43 @@ if ($old_school_imagedropdown == 0)
 	
 	$checkdynamic = ($dynamic[$key99] == "on") ? "checked" : "";
 
-	echo "</table></td></tr></table>"
-	."<br></td></tr>"
-	."<tr><td colspan=\"2\"><br><div  align=\"center\"><strong>"._MENU_GENERALOPTIONS." :</strong></div><br><br>"
-	."<table cellpadding=\"0\" cellspacing=\"0\" align=\"center\"><tr><td><strong>"._MENU_DISPLAYMEMBERSONLYMODULES." :</strong></td><td width=\"50\"></td><td><strong>"._MENU_DISPLAYCLASSES."</strong></td></tr>"
-	."<tr><td><input type=\"radio\" name=\"menuformradio\" id=\"menuformradio1\" value=\"1\" $radio1><LABEL for=\"menuformradio1\">"._MENU_DISPLAYMODULENORMAL."</LABEL></td>"
-	."<td></td><td><input type=\"text\" class=\"select\" name=\"menuformclass\" size=\"15\" value=\"$categoryclass[0]\">&nbsp;"._MENU_CATEGORIESCLASS."</td></tr>"
-	."<tr><td><input type=\"radio\" name=\"menuformradio\" id=\"menuformradio2\" value=\"2\" $radio2><LABEL for=\"menuformradio2\">"
-	._MENU_DISPLAYMODULEWITHICON." <img src=\"".$urlofimages."/admin/interdit.gif\"> "._MENU_DISPLAYMODULEWITHICONFORVISTORS."</LABEL></td>"
-	."<td></td><td><input type=\"text\" class=\"select\" name=\"menuformclassformodules\" size=\"15\" value=\"".$firstclass."\">&nbsp;"._MENU_MODULESCLASS."</td></tr>"
-	."<tr><td><input type=\"radio\" name=\"menuformradio\" id=\"menuformradio3\" value=\"3\" $radio3><LABEL for=\"menuformradio3\">"._MENU_DISPLAYMODULEINVISIBLE."</LABEL></td></tr>"
-	."<tr><td colspan=3><input type=\"checkbox\" name=\"menuformnew_type\" id=\"menuformnew_type\" $radionew 
-	onchange='if (this.form.elements[\"menuformnew_days\"].disabled==true){this.form.elements[\"menuformnew_days\"].disabled=false;}else{this.form.elements[\"menuformnew_days\"].disabled=true;}'><LABEL 
-	for=\"menuformnew_type\"><strong>"._MENU_AUTODETECTNEW."</strong></LABEL>&nbsp;("._MENU_SINCE." <input type=\"text\" class=\"select\" name=\"menuformnew_days\" 
-	value=\"".$new_days_value."\" size=2 $disablenewdays> "._MENU_NBDAYS.")"
-	."<input type=\"hidden\" name=\"menuformfirstnew_days\" value=\"".$new_days."\"><input type=\"hidden\" name=\"menuformfirstclass\" value=\"".$firstclass."\"></td></tr>"
-	."<tr><td colspan=3><input type=\"checkbox\" name=\"menuformdynamic_general\" id=\"menuformdynamic_general\" $checkdynamic><LABEL 
-	for=\"menuformdynamic_general\"><strong>"._MENU_DYNAMICMENU."</strong></LABEL><br><br></td></tr>
+	echo '</table></td></tr></table>';
+	
+	echo '<br></td></tr>';
+	
+	# General Options Label
+	echo '<tr><td colspan="2"><br><div  align="center"><strong>'._MENU_GENERALOPTIONS.' :</strong></div><br><br>';
+	
+	
+	echo '<table cellpadding="0" cellspacing="0" align="center"><tr><td></td>
+	<td width="50"></td>
+	<td></td></tr>';
+	
+	echo '<tr><td><input type="text" class="select" name="menuformclass" size="15" value="'.$categoryclass[0].'">&nbsp;'._MENU_CATEGORIESCLASS.'</td>';
+	
+	echo '<td></td><td></td></tr>';
+	
+	echo '<tr><td><input type="text" class="select" name="menuformclassformodules" size="15" value="'.$firstclass.'">&nbsp;'._MENU_MODULESCLASS.'</td>';
+	
+	echo '<td></td><td></td></tr>';
+	
+	echo '<tr><td></td></tr>';
+	
+	echo '<tr><td colspan = "3"><input type="checkbox" name="menuformnew_type" id="menuformnew_type" '.$radionew.' 
+	onchange = "if (this.form.elements["menuformnew_days"].disabled == true){this.form.elements["menuformnew_days"].disabled=false;}else{this.form.elements["menuformnew_days"].disabled=true;}"><label 
+	for = "menuformnew_type"><strong>'._MENU_AUTODETECTNEW.'</strong></label>&nbsp;('._MENU_SINCE.' <input type="text" class="select" name="menuformnew_days" 
+	value="'.$new_days_value.'" size = "2" '.$disablenewdays.'> '._MENU_NBDAYS.')';
+	
+	echo '<input type="hidden" name="menuformfirstnew_days" value="'.$new_days.'"><input type="hidden" name="menuformfirstclass" value="'.$firstclass.'"></td></tr>';
+	
+	echo "<tr><td colspan=3></td></tr>
 	<tr><td colspan=3><input type=\"checkbox\" name=\"menushowadmin\" id=\"menushowadmin\" $checkshowadmin><LABEL for=\"menushowadmin\"><strong>"._MENU_SHOWADMIN."</strong></LABEL></td></tr>
-	</table></td></tr>"
-	."<tr><td width=\"50%\" align=\"center\"><input type='reset' value=\""._MENU_CANCEL."\"></td><td width=\"50%\" align=\"center\"><input type=\"submit\" value=\"SAVE YOUR MODIFICATIONS\"></td></tr>"
-	."</table>"
-	."</form>";
+	</table></td></tr>";
+	
+	echo '<tr><td width="50%" align="center"><input type="reset" value="'._MENU_CANCEL.'"></td><td width="50%" align="center"><input type="submit" value="SAVE YOUR MODIFICATIONS"></td></tr>';
+	
+	echo '</table>';
+	echo '</form>';
 
 	
 	echo "<br><br>"._MENU_REMARKS.""._MENU_REMARKSTWO.""
@@ -1488,9 +1513,9 @@ function send()
 		            $menushowadmin, 
 		  $menuformdynamic_general;
 
-$menuformnew_days =($menuformnew_type=="on") ? $menuformnew_days : "-1";
+$menuformnew_days = ($menuformnew_type == "on") ? $menuformnew_days : "-1";
 
-for ($i=0; $i<=$menuformkeymenu; $i++) 
+for ($i = 0; $i <= $menuformkeymenu; $i++) 
 {
 	if ((!preg_match("/([0-9]{1,2})/",$menuformgroupmenu[$i])) || ($menuformgroupmenu[$i] == 99)) 
 	{
@@ -1506,11 +1531,11 @@ for ($i=0; $i<=$menuformkeymenu; $i++)
 		return;
 	}
 	
-	for($j=0; $j<=$menuformkeymenu; $j++) 
+	for($j = 0; $j <= $menuformkeymenu; $j++) 
 	{
-		if ($i<>$j) 
+		if ($i <> $j) 
 		{
-			if ($menuformgroupmenu[$i]==$menuformgroupmenu[$j]) 
+			if ($menuformgroupmenu[$i] == $menuformgroupmenu[$j]) 
 			{
 				include_once("header.php");
 				GraphicAdmin();
@@ -1541,31 +1566,33 @@ if(isset($row['mod_group']))
 {
     global $db, $prefix;
 
-	$sql2="SELECT * FROM ".prefix."_users LIMIT 1";
-	$result2=$db->sql_query($sql2);
-	$row2=$db->sql_fetchrow($result2);
-	$managment_group=(isset($row2['points'])) ? 1 : 0 ;
+	$sql2 = "SELECT * FROM ".prefix."_users LIMIT 1";
+	$result2 = $db->sql_query($sql2);
+	$row2 = $db->sql_fetchrow($result2);
+	$managment_group = (isset($row2['points'])) ? 1 : 0;
 }
 else 
 {
 	$managment_group = 0;
 }
 
-for ($i=0; $i<=$menuformkeymenu; $i++) 
+for ($i = 0; $i <= $menuformkeymenu; $i++) 
 {
-	for ($j=0; $j<count($menuformingroup[$i]); $j++) 
+	for ($j = 0; $j < count($menuformingroup[$i]); $j++) 
 	{
 		$menu_class = ($menuformfirstclass != $menuformclassformodules) ? $menuformclassformodules : $menuformmoduleclass[$i][$j];
-		$menu_class = ($menu_class == "") ? $menuformclassformodules : $menu_class ; 
-		$menu_new_days = ($menuformfirstnew_days != $menuformnew_days) ? $menuformnew_days : $menuformmodulenew_days[$i][$j];
-		$menu_new_days = ($menu_new_days == "") ? $menuformnew_days : $menu_new_days ; 
 		
-		if ($managment_group==1 && $menuformradio == 2) 
+		$menu_class = ($menu_class == "") ? $menuformclassformodules : $menu_class; 
+		
+		$menu_new_days = ($menuformfirstnew_days != $menuformnew_days) ? $menuformnew_days : $menuformmodulenew_days[$i][$j];
+		
+		$menu_new_days = ($menu_new_days == "") ? $menuformnew_days : $menu_new_days; 
+		
+		if ($managment_group == 1 && $menuformradio == 2) 
 		{
 			$invisible = 4;
 		}
-		else
-		if ($managment_group == 1 && $menuformradio == 3) 
+		elseif ($managment_group == 1 && $menuformradio == 3) 
 		{
 			$invisible = 5;
 		}
@@ -1641,14 +1668,14 @@ for ($i=0; $i<=$menuformkeymenu; $i++)
 		
 	}
 
-	if ($menuformname[$i]=='' && $menuformimage[$i]=="noimg" && $menuformlien[$i]=='' && $menuformhr[$i]=='' && $menuformcenter[$i]=='' && $menuformbgcolor[$i]=='') 
+	if ($menuformname[$i] == '' && $menuformimage[$i] == "noimg" && $menuformlien[$i] == '' && $menuformhr[$i] == '' && $menuformcenter[$i] == '' && $menuformbgcolor[$i] == '') 
 	{
 	
 	}
 	else 
 	{
-		$menu_class = ($menuformeachcategoryclass[0]!=$menuformclass) ? $menuformclass : $menuformeachcategoryclass[$i] ;
-		$menu_class = ($menu_class=="") ? $menuformclass : $menu_class ; 
+		$menu_class = ($menuformeachcategoryclass[0] != $menuformclass) ? $menuformclass : $menuformeachcategoryclass[$i];
+		$menu_class = ($menu_class == "") ? $menuformclass : $menu_class; 
 
         if (empty($invisible))
         $invisible = 0;
@@ -1692,49 +1719,18 @@ for ($i=0; $i<=$menuformkeymenu; $i++)
 	} 
 }
 
-$nom = ($menushowadmin=='on') ? "" : "menunoadmindisplay" ;
+$nom = ($menushowadmin == on) ? "" : "menunoadmindisplay";
 
-$sql="INSERT INTO ".$prefix."_menu (groupmenu, 
-                                         name, 
-										image, 
-										 lien, 
-										   hr, 
-									   center, 
-									  bgcolor, 
-									invisible, 
-									    class, 
-										 bold, 
-										  new, 
-									  listbox, 
-									  dynamic, 
-								   date_debut, 
-								     date_fin, 
-									     days) 
+$sqlz = "INSERT INTO `".$prefix."_menu` (`groupmenu`, `name`, `image`, `lien`, `hr`, `center`, `bgcolor`, `invisible`, `class`, `bold`, `new`, `listbox`, `dynamic`, `date_debut`, `date_fin`, `days`) VALUES ('99', NULL, NULL, NULL, NULL, NULL, NULL, '0', 'categories', NULL, NULL, NULL, NULL, '0', '0', NULL);";
 
-VALUES (99, 
-        '".$nom."', 
-		NULL, 
-		NULL, 
-		NULL, 
-		NULL, 
-		NULL, 
-		'".$invisible."', 
-		NULL, 
-		NULL, 
-		NULL, 
-		NULL,
-		'".$menuformdynamic_general."', 
-		0, 
-		0, 
-		NULL)";
-
-$db->sql_query($sql);
+$db->sql_query($sqlz);
 
 include_once("header.php");
 OpenTable();
 echo "<br><div align=\"center\">"._MENU_SUCCESS."</div>";
 echo "<br><div align=\"center\">[<a href=\"admin.php\"> Back To Main Admin Area</a>]</div>";
 echo "<br><div align=\"center\">[<a href=\"".$admin_file.".php?op=menu\">"._MENU_BACKADMIN."</a>]</div>";
+	  
 CloseTable();
 include_once("footer.php");
 }
@@ -1767,26 +1763,26 @@ function edit()
 		  $admin_file,
 		     $dynamic;
 	
-	if ($menu_edit_posted!="ok") 
+	if ($menu_edit_posted != "ok") 
 	{
-		if ($catimage<>"noimg" && !preg_match("/.swf/",$catimage)) 
+		if ($catimage <> "noimg" && !preg_match("/.swf/",$catimage)) 
 		{
-			if ($z!='imacategory') 
+			if ($z != 'imacategory') 
 			{
 				$catimagesize = getimagesize("".$urlofimages."/$catimage");
 			
-				if ($image<>"middot.gif") 
+				if ($image <> "middot.gif") 
 				{
 					$moduleimagesize = getimagesize("".$urlofimages."/categories/$image");
 				}
 				else 
 				{
-					$moduleimagesize[0]=5;
+					$moduleimagesize[0] = 5;
 				}
 				$imagesize =$catimagesize[0]-$moduleimagesize[0];
 
-				if ($imagesize<0) {
-					$imagesize=0;
+				if ($imagesize < 0) {
+					$imagesize = 0;
 				}
 			}
 		}

@@ -35,8 +35,8 @@ define('_MENU_INSERT_DATA', 'Now we insert the data.');
  ************************************************************************/
 define("_MENU_CATEGORIES","Menu Categories");
 define("_MENU_IMGNEWTITLE","Click to Show/Hide the NEW icon");
-define("_MENU_ADMINIMGDROPDOWN","Click to choose an image for this category");
-define("_MENU_ADMINIMGDROPDOWNCAT","Click to choose an image for this link");
+define("_CLICK_TO_CHOOSE_IMAGE","Click to choose an image for this category");
+define("_CLICK_TO_CHOOSE_IMAGECAT","Click to choose an image for this link");
 define("_MENU_JSFIXFORIE1","The drop-down lists below disappear on Internet Explorer. This is NORMAL : it's a workaround to avoid an IE bug. For the sake of the web and a better internet experience, please use another browser (Opera, Firefox,...)");
 define("_MENU_HIDE","Hide");
 define("_MENU_MOVEUP","Click to move the link upwards");
