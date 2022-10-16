@@ -38,6 +38,9 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 # I missed these out on purpose, they will be deprecated in the next update.
 function OpenTable2() 
 {
-
+print '<div align="center">';
+print '<table border="1" cellpadding="8" cellspacing="0" width="100%" height="100%">';
+print '<tr>';
+print '<td>';
 }
 ?>

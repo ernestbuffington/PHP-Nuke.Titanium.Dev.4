@@ -89,15 +89,13 @@ echo '<td background="themes/'.$theme_name.'/center/top_middle.png" align="cente
 
 echo '<td align="right" width="38"><img border="0" src="themes/'.$theme_name.'/center/top_right_corner.png" width="38" height="62" /></td>';
 echo '</tr>';
-echo '';
+
 echo '<tr>';
 
 echo '<td background="themes/'.$theme_name.'/center/left_side.png" width="38"></td>';
 
 echo '<td ></td>';
 echo '<td >';
-echo '';
-echo '';
 
 //top of second table	
 echo '<table class="" border="0" align=center cellpadding="0" cellspacing="0" width="100%">';
@@ -117,8 +115,6 @@ echo '<td background="themes/'.$theme_name.'/center/left_side.gif"><img name="le
 echo '<td id="middlebg" class="themeindexflames" height"0" valign="top" >';
 //title
 # space at the top of the page
-echo '<div align="center" style="padding-top:6px;">';
-echo '</div>';
 echo '<div align="center" id="locator" class="title"><img src="themes/'
 .$theme_name.'/images/invisible_pixel.gif" alt="" width="4" height="1" border="0" /><strong><h1 data-text="'.$title.'">'.$title.'</h1></strong><br /></div>';
 
@@ -137,13 +133,12 @@ echo ''.$content.'</div>';
 print blog_signature($aid);	
 
 echo '</br><div align="center">'.$datetime.' '.$topictext.' | '.$morelink.' '.$reads.'<img src="themes/'.$theme_name.'/images/invisible_pixel.gif" alt="" width="4" height="1" border="0" /></div>';
-echo '';
+
 echo '</td>';
 echo '<td background="themes/'.$theme_name.'/center/right_side.gif"><img name="rightside" src="themes/'.$theme_name.'/center/invisible_pixel.gif" width="1" height="1" border="0" alt=""></td>';
 echo '</tr>';
 echo '<tr>';
 echo '<td><img name="blc" src="themes/'.$theme_name.'/center/blc.gif" width="20" height="25" border="0" alt=""></td>';
-echo '';
 echo '<td background="themes/'.$theme_name.'/center/tbm.gif"><img name="tbm" src="themes/'.$theme_name.'/center/invisible_pixel.gif" width="1" height="1" border="0" alt=""></td>';
 echo '<td><img name="brc" src="themes/'.$theme_name.'/center/brc.gif" width="20" height="25" border="0" alt=""></td>';
 echo '</tr>';
@@ -169,6 +164,7 @@ echo '</table>';
 
 //invisible spacer for tables instead of <br/>
 echo '<table>';
+
 echo '<tr>';
 echo ' <td style="width: 1px;" valign ="top"><img src="themes/'.$theme_name.'/images/invisible_pixel.gif" alt="" width="1" height="1" border="0" /></td>';
 echo '</tr>';

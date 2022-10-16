@@ -183,7 +183,7 @@ function head()
     */
     
 	/* ----- as you can probably tell this is used for IE compatibility ----- */
-    echo '<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]-->'."\n";
+    echo '<!--[if lt IE 9]><script src="includes/js/scripts/html5shiv.min.js"></script><![endif]-->'."\n";
     echo "</head>\n";
     echo "\n<!-- END </head> -->\n\n";
 	echo "\n<!-- START Top Primary Body Tags -->\n";

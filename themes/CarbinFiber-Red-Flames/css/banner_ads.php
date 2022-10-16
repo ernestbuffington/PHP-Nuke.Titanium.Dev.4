@@ -151,8 +151,8 @@ z-index: 9999;
 @import url('https://fonts.googleapis.com/css?family=Pirata+One|Rubik:900');
 
 h1 {
-text-transform: Uppercase;
-margin-bottom: .5em;
+
+margin-bottom: .3em;
 font-family: 'Rubik', sans-serif;
 font-size: 6rem;
 color: #E4E5E6; }
@@ -177,14 +177,21 @@ text-shadow: -0.001em -0.001em 1px rgba(255,255,255,.15)}
 h1:after {
 z-index: -2;
 text-shadow: 10px 10px 10px rgba(0,0,0,.5), 20px 20px 20px rgba(0,0,0,.4), 30px 30px 30px rgba(0,0,0,.1);
-mix-blend-mode: multiply; }
+mix-blend-mode: multiply; 
+}
 
 h2 {
 margin-top: -1.15em;
 font-family: 'Pirata One', cursive;
 font-size: 3rem;
 color: #E44D26;
-text-align: center;}
+}
+
+h2:after {
+z-index: -2;
+text-shadow: 10px 10px 10px rgba(0,0,0,.5), 20px 20px 20px rgba(0,0,0,.4), 30px 30px 30px rgba(0,0,0,.1);
+mix-blend-mode: multiply; 
+}
 
 h2 spam {
   font-size: 1.4em; 

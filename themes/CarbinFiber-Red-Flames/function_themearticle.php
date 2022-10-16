@@ -109,12 +109,10 @@ echo '</tr>';
 echo '<tr>';
 echo '<td background="themes/'.$theme_name.'/center/left_side.gif"><img name="leftside" src="themes/'.$theme_name.'/center/invisible_pixel.gif" width="1" height="1" border="0" alt=""></td>';
 
-//this is where we add the class name for the innermost cell of the 2 tables - top glass and bottom flame repeat-x
+# this is where we add the class name for the innermost cell of the 2 tables - top glass and bottom flame repeat-x
 echo '<td id="middlebg" class="themearticleflames" height"0" valign="top" >';
 
-print '<div align="center" style="padding-top:6px;">';
-print '</div>';
-//title
+# title
 echo '<div align="center" id="locator" class="title"><img src="themes/'
 .$theme_name.'/images/invisible_pixel.gif" alt="" width="4" height="1" border="0" /><strong><h1 data-text="$title">'.$title.'</h1></strong><br /></div>';
 

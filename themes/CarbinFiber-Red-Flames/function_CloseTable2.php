@@ -37,14 +37,9 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))
 # I missed these out on purpose, they will be deprecated in the next update.
 function CloseTable2() 
 {
-echo '</div>'
-    .'<div class="tb6"></div>'
-    .'</section>'
-
-    .'<section id="flex-container">'
-    .'<div class="tb7"></div>'
-    .'<div class="tb8"></div>'
-    .'<div class="tb9"></div>'
-    .'</section>';
+print '</td>';
+print '</tr>';
+print '</table>';
+print '</div>';
 }
 ?>
