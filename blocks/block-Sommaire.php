@@ -106,8 +106,8 @@ if ($gestiongroupe==1) {
 else {
     $sql = "SELECT title, custom_title, view, active FROM ".$prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";
 }
-    $modulesaffiche= $db->sql_query($sql);
-    while($tempo = $db->sql_fetchrow($modulesaffiche)) {
+    $modules_attach= $db->sql_query($sql);
+    while($tempo = $db->sql_fetchrow($modules_attach)) {
         $tempoA[] = $tempo;
     }
 /*****[BEGIN]******************************************
@@ -118,15 +118,15 @@ $cache->save('sommaire_tempo', 'block', $tempoA);
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $compteur=0;
+    $counter=0;
     if (is_array($tempoA)) {
         foreach($tempoA as $tempo) {
-            $module[$compteur]= $tempo['title'];
-            $customtitle[$compteur] = $tempo['custom_title'];
-            $view[$compteur] = $tempo['view'];
+            $module[$counter]= $tempo['title'];
+            $customtitle[$counter] = $tempo['custom_title'];
+            $view[$counter] = $tempo['view'];
             $active[$row['title']] = $tempo['active'];
-            $mod_group[$compteur] = ($gestiongroupe==1) ? $tempo['groups'] : "";
-            $compteur++;
+            $mod_group[$counter] = ($gestiongroupe==1) ? $tempo['groups'] : "";
+            $counter++;
             if ($tempo['view']==3) { $gestionsubscription="yes";}
         }
     }
@@ -166,46 +166,46 @@ $cache->save('sommaire_row2', 'block', $row2A);
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    $compteur=0;
-    $totalcompteur=0;
+    $counter=0;
+    $totalcounter=0;
     $categorie=$row2A[0]['groupmenu'];
-    $moduleinthisgroup[$categorie][$compteur]=$row2A[0]['module'];
-    $linkinthisgroup[$categorie][$compteur]=$row2A[0]['url'];
-    $linktextinthisgroup[$categorie][$compteur]=$row2A[0]['url_text'];
-    $imageinthisgroup[$categorie][$compteur]=$row2A[0]['image'];
-    $newinthisgroup[$categorie][$compteur]=$row2A[0]['new'];
-    $newdaysinthisgroup[$categorie][$compteur]=$row2A[0]['new_days'];
-    $classinthisgroup[$categorie][$compteur]=$row2A[0]['class'];
-    $grasinthisgroup[$categorie][$compteur]=$row2A[0]['bold'];
-    $totalcategorymodules[$totalcompteur]=$row2A[0]['module']; //utile quand groupmenu=99 -->cette variable liste tous les modules affichés dans des catégories
-    $compteur2=$categorie;
+    $moduleinthisgroup[$categorie][$counter]=$row2A[0]['module'];
+    $linkinthisgroup[$categorie][$counter]=$row2A[0]['url'];
+    $linktextinthisgroup[$categorie][$counter]=$row2A[0]['url_text'];
+    $imageinthisgroup[$categorie][$counter]=$row2A[0]['image'];
+    $newinthisgroup[$categorie][$counter]=$row2A[0]['new'];
+    $newdaysinthisgroup[$categorie][$counter]=$row2A[0]['new_days'];
+    $classinthisgroup[$categorie][$counter]=$row2A[0]['class'];
+    $grasinthisgroup[$categorie][$counter]=$row2A[0]['bold'];
+    $totalcategorymodules[$totalcounter]=$row2A[0]['module']; //utile quand groupmenu=99 -->cette variable liste tous les modules affichés dans des catégories
+    $counter2=$categorie;
     $total_actions="sommaire_showhide('sommaire-".$row2A[0]['groupmenu']."','nok','sommaireupdown-".$row2A[0]['groupmenu']."');";
-    $totalcompteur=1;
+    $totalcounter=1;
     unset($row2A[0]);
-    //    echo "{$moduleinthisgroup[$categorie][$compteur]}<br />{$linkinthisgroup[$categorie][$compteur]}<br />{$linktextinthisgroup[$categorie][$compteur]}<br />{$imageinthisgroup[$categorie][$compteur]}<br />";
+    //    echo "{$moduleinthisgroup[$categorie][$counter]}<br />{$linkinthisgroup[$categorie][$counter]}<br />{$linktextinthisgroup[$categorie][$counter]}<br />{$imageinthisgroup[$categorie][$counter]}<br />";
     if (is_array($row2A)) {
     foreach($row2A as $row2) { //ensuite on fait la même chose pour toutes les autres lignes.
         $categorie=$row2['groupmenu'];
-        $totalcategorymodules[$totalcompteur]=$row2['module'];
-        $totalcompteur++;
+        $totalcategorymodules[$totalcounter]=$row2['module'];
+        $totalcounter++;
 
-        if ($compteur2==$categorie) { //permet de savoir si on a changé de catégorie (groupmenu différent) : dans ce cas on remet le 2ème compteur à 0.
-            $compteur++;
+        if ($counter2==$categorie) { //permet de savoir si on a changé de catégorie (groupmenu différent) : dans ce cas on remet le 2ème counter à 0.
+            $counter++;
         }
         else {
             $total_actions=$total_actions."sommaire_showhide('sommaire-".$row2['groupmenu']."','nok','sommaireupdown-".$row2['groupmenu']."');";
-            $compteur=0;
+            $counter=0;
         }
-        $moduleinthisgroup[$categorie][$compteur]=$row2['module'];
-        $linkinthisgroup[$categorie][$compteur]=$row2['url'];
-        $linktextinthisgroup[$categorie][$compteur]=$row2['url_text'];
-        $imageinthisgroup[$categorie][$compteur]=$row2['image'];
-        $newinthisgroup[$categorie][$compteur]=$row2['new'];
-        $newdaysinthisgroup[$categorie][$compteur]=$row2['new_days'];
-        $classinthisgroup[$categorie][$compteur]=$row2['class'];
-        $grasinthisgroup[$categorie][$compteur]=$row2['bold'];
-        $compteur2=$categorie;
-    //    echo "{$moduleinthisgroup[$categorie][$compteur]}<br />{$linkinthisgroup[$categorie][$compteur]}<br />{$linktextinthisgroup[$categorie][$compteur]}<br />{$imageinthisgroup[$categorie][$compteur]}<br />";
+        $moduleinthisgroup[$categorie][$counter]=$row2['module'];
+        $linkinthisgroup[$categorie][$counter]=$row2['url'];
+        $linktextinthisgroup[$categorie][$counter]=$row2['url_text'];
+        $imageinthisgroup[$categorie][$counter]=$row2['image'];
+        $newinthisgroup[$categorie][$counter]=$row2['new'];
+        $newdaysinthisgroup[$categorie][$counter]=$row2['new_days'];
+        $classinthisgroup[$categorie][$counter]=$row2['class'];
+        $grasinthisgroup[$categorie][$counter]=$row2['bold'];
+        $counter2=$categorie;
+    //    echo "{$moduleinthisgroup[$categorie][$counter]}<br />{$linkinthisgroup[$categorie][$counter]}<br />{$linktextinthisgroup[$categorie][$counter]}<br />{$imageinthisgroup[$categorie][$counter]}<br />";
     }
     }
 // --> OK, les variables ont pris la valeur adéquate de la table nuke_sommaire_categories
@@ -253,7 +253,7 @@ $cache->save('sommaire_row3', 'block', $row3);
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
     $content.="<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">";
-    $classpointeur=0;
+    $classpointer=0;
     foreach($row3 as $row) {  // on va afficher chaque catégorie, puis les modules correspondants//
         $som_groupmenu = $row['groupmenu'];
         $som_name = str_replace("&amp;nbsp;","&nbsp;",$row['name']);
@@ -262,8 +262,8 @@ $cache->save('sommaire_row3', 'block', $row3);
         $som_hr = $row['hr'];
         $som_center = $row['center'];
         $som_bgcolor = $row['bgcolor'];
-        $invisible[$classpointeur] = $row['invisible'];
-        $categoryclass[$classpointeur] = $row['class'];
+        $invisible[$classpointer] = $row['invisible'];
+        $categoryclass[$classpointer] = $row['class'];
         $som_bold = $row['bold'];
         $som_new = $row['new'];
         $som_listbox = $row['listbox'];
@@ -381,10 +381,10 @@ $cache->save('sommaire_row3', 'block', $row3);
                             $content.=" target=\"_blank\"";
                         }
                     }
-                $content.=" class=\"$categoryclass[$classpointeur]\">";
+                $content.=" class=\"$categoryclass[$classpointer]\">";
                 }
 
-                $content.="<span class=\"$categoryclass[$classpointeur]\">";
+                $content.="<span class=\"$categoryclass[$classpointer]\">";
 
                 $bold1 = ($som_bold=="on") ? "<strong>" : "" ;
                 $bold2 = ($som_bold=="on") ? "</strong>" : "" ;

@@ -66,7 +66,7 @@ $div=0;
  ******************************************************/
 if(!($row = $cache->load('menu_row', 'block'))) 
 {
-  $sql="SELECT t1.invisible, t2.main_module FROM ".$prefix."_menu AS t1, ".$prefix."_main AS t2 LIMIT 1";
+  $sql = "SELECT t1.invisible, t2.main_module FROM ".$prefix."_menu AS t1, ".$prefix."_main AS t2 LIMIT 1";
   $result = $db->sql_query($sql);
   $row = $db->sql_fetchrow($result);
   $cache->save('menu_row', 'block', $row);
@@ -107,27 +107,27 @@ if(($is_user == 1) && ($detectPM == 1))
    else
      $sql = "SELECT * FROM ".$prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";   
    
-   $modulesaffiche = $db->sql_query($sql);
+   $modules_attach = $db->sql_query($sql);
 
-   while($tempo = $db->sql_fetchrow($modulesaffiche)) 
+   while($tempo = $db->sql_fetchrow($modules_attach)) 
    {
         $tempoA[] = $tempo;
     }
 
 # END Caching System
 	
-$compteur = 0;
+$counter = 0;
     
 if (is_array($tempoA)) 
 {
    foreach($tempoA as $tempo) 
    {
-      $module[$compteur] = $tempo['title'];
-      $customtitle[$compteur] = $tempo['custom_title'];
-      $view[$compteur] = $tempo['view'];
+      $module[$counter] = $tempo['title'];
+      $customtitle[$counter] = $tempo['custom_title'];
+      $view[$counter] = $tempo['view'];
       $active[$row['title']] = $tempo['active'];
-      $mod_group[$compteur] = ($managment_group==1) ? $tempo['groups'] : "";
-      $compteur++;
+      $mod_group[$counter] = ($managment_group==1) ? $tempo['groups'] : "";
+      $counter++;
         
       if ($tempo['view'] == 3) 
 	  $gestionsubscription = "yes";
@@ -174,23 +174,23 @@ if (!($row2A = $cache->load('menu_row2', 'block')))
 }
 # END Caching System
  
-                                   $compteur = 0;
-                              $totalcompteur = 0;
+                                   $counter = 0;
+                              $totalcounter = 0;
                                   $categorie = $row2A[0]['groupmenu'];
-   $moduleinthisgroup[$categorie][$compteur] = $row2A[0]['module'];
-     $linkinthisgroup[$categorie][$compteur] = $row2A[0]['url'];
- $linktextinthisgroup[$categorie][$compteur] = $row2A[0]['url_text'];
+   $moduleinthisgroup[$categorie][$counter] = $row2A[0]['module'];
+     $linkinthisgroup[$categorie][$counter] = $row2A[0]['url'];
+ $linktextinthisgroup[$categorie][$counter] = $row2A[0]['url_text'];
  
-    $imageinthisgroup[$categorie][$compteur] = $row2A[0]['image'];
+    $imageinthisgroup[$categorie][$counter] = $row2A[0]['image'];
  
-      $newinthisgroup[$categorie][$compteur] = $row2A[0]['new'];
-  $newdaysinthisgroup[$categorie][$compteur] = $row2A[0]['new_days'];
-    $classinthisgroup[$categorie][$compteur] = $row2A[0]['class'];
-     $grasinthisgroup[$categorie][$compteur] = $row2A[0]['bold'];
-       $totalcategorymodules[$totalcompteur] = $row2A[0]['module']; 
-                                  $compteur2 = $categorie;
+      $newinthisgroup[$categorie][$counter] = $row2A[0]['new'];
+  $newdaysinthisgroup[$categorie][$counter] = $row2A[0]['new_days'];
+    $classinthisgroup[$categorie][$counter] = $row2A[0]['class'];
+     $grasinthisgroup[$categorie][$counter] = $row2A[0]['bold'];
+       $totalcategorymodules[$totalcounter] = $row2A[0]['module']; 
+                                  $counter2 = $categorie;
                               $total_actions = "menu_showhide('menu-".$row2A[0]['groupmenu']."','nok','menuupdown-".$row2A[0]['groupmenu']."');";
-                              $totalcompteur = 1;
+                              $totalcounter = 1;
 
 unset($row2A[0]);
 
@@ -199,28 +199,28 @@ unset($row2A[0]);
       foreach($row2A as $row2) 
 	  { 
         $categorie = $row2['groupmenu'];
-        $totalcategorymodules[$totalcompteur] = $row2['module'];
-        $totalcompteur++;
+        $totalcategorymodules[$totalcounter] = $row2['module'];
+        $totalcounter++;
 
-        if ($compteur2 == $categorie) 
-        $compteur++;
+        if ($counter2 == $categorie) 
+        $counter++;
         else 
 		{
             $total_actions = $total_actions."menu_showhide('menu-".$row2['groupmenu']."','nok','menuupdown-".$row2['groupmenu']."');";
-            $compteur = 0;
+            $counter = 0;
         }
         
-		  $moduleinthisgroup[$categorie][$compteur] = $row2['module'];
-            $linkinthisgroup[$categorie][$compteur] = $row2['url'];
-        $linktextinthisgroup[$categorie][$compteur] = $row2['url_text'];
+		  $moduleinthisgroup[$categorie][$counter] = $row2['module'];
+            $linkinthisgroup[$categorie][$counter] = $row2['url'];
+        $linktextinthisgroup[$categorie][$counter] = $row2['url_text'];
 		
-           $imageinthisgroup[$categorie][$compteur] = $row2['image'];
+           $imageinthisgroup[$categorie][$counter] = $row2['image'];
         
-		     $newinthisgroup[$categorie][$compteur] = $row2['new'];
-         $newdaysinthisgroup[$categorie][$compteur] = $row2['new_days'];
-           $classinthisgroup[$categorie][$compteur] = $row2['class'];
-            $grasinthisgroup[$categorie][$compteur] = $row2['bold'];
-                                         $compteur2 = $categorie;
+		     $newinthisgroup[$categorie][$counter] = $row2['new'];
+         $newdaysinthisgroup[$categorie][$counter] = $row2['new_days'];
+           $classinthisgroup[$categorie][$counter] = $row2['class'];
+            $grasinthisgroup[$categorie][$counter] = $row2['bold'];
+                                         $counter2 = $categorie;
       }
     }
 
@@ -244,10 +244,10 @@ $managment_group = 0;
 # this is the start of the Portal menu
 $sql = "SELECT * FROM ".$prefix."_modules WHERE active='1' AND inmenu='1' ORDER BY custom_title ASC";
 	
-$modulesaffiche = $db->sql_query($sql);
+$modules_attach = $db->sql_query($sql);
   $menu_counter = 0;
 	
-	while ($tempo = $db->sql_fetchrow($modulesaffiche)) 
+	while ($tempo = $db->sql_fetchrow($modules_attach)) 
 	{
 		   $module[$menu_counter] = $tempo['title'];
 	  $customtitle[$menu_counter] = (stripslashes($tempo['custom_title'])); //strip the fucking slashes
@@ -287,7 +287,7 @@ $modulesaffiche = $db->sql_query($sql);
 	$result2 = $db->sql_query($sql2);
 	
 	 $menu_counter = 0;
-	$totalcompteur = 0;
+	$totalcounter = 0;
 	      $premier = 0;
 	       $hidden = 0;
   $hidden_sublevel = 0;
@@ -374,8 +374,7 @@ $modulesaffiche = $db->sql_query($sql);
 								$restricted_reason = ""._MENU_RESTRICTEDGROUP."";
 								break;
 							}
-							else
-							if($is_user == 0 && $view[$key] == 1 && ($type_invisible == 2 || $type_invisible == 4)) 
+							elseif($is_user == 0 && $view[$key] == 1 && ($type_invisible == 2 || $type_invisible == 4)) 
 							{
 								    $poster_module = 2;
 								$restricted_reason = ""._MENU_RESTRICTEDMEMBERS."";
@@ -400,8 +399,7 @@ $modulesaffiche = $db->sql_query($sql);
 									$hidden_sublevel = ($row2['sublevel']<$hidden_sublevel) ? $row2['sublevel'] : $hidden_sublevel;
 								}
 							}
-							else
-							if($is_user == 0 && $view[$key] == 1 && ($type_invisible == 5 || $type_invisible == 3) && $is_admin == 0) 
+							elseif($is_user == 0 && $view[$key] == 1 && ($type_invisible == 5 || $type_invisible == 3) && $is_admin == 0) 
 							{
 								if($menu_counter2 != $row2['groupmenu']) 
 								{
@@ -419,8 +417,7 @@ $modulesaffiche = $db->sql_query($sql);
 									$hidden_sublevel = ($row2['sublevel']<$hidden_sublevel) ? $row2['sublevel'] : $hidden_sublevel;
 								}
 							}
-							else
-							if($view[$key] > 3 && ($type_invisible == 3 || $type_invisible == 5) && !in_groups($nsngroups[$key])) 
+							elseif($view[$key] > 3 && ($type_invisible == 3 || $type_invisible == 5) && !in_groups($nsngroups[$key])) 
 							{
 								if($menu_counter2!=$row2['groupmenu']) 
 								{
@@ -452,9 +449,9 @@ $modulesaffiche = $db->sql_query($sql);
 		if($poster_module > 0) 
 		{
 			                           $categorie = $row2['groupmenu'];
-			$totalcategorymodules[$totalcompteur] = $row2['module'];
+			$totalcategorymodules[$totalcounter] = $row2['module'];
 			
-			$totalcompteur++;
+			$totalcounter++;
 			
 			if($premier == 0) 
 			{
@@ -618,7 +615,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 		$content.="<tr>\n";
 	}
 	
-	$classpointeur = 0;
+	$classpointer = 0;
     
 	while ($row = $db->sql_fetchrow($result)) 
 	{  
@@ -631,8 +628,8 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 		                       $som_hr = $row['hr'];
 		                   $som_center = $row['center'];
 		                  $som_bgcolor = $row['bgcolor'];
-		    $invisible[$classpointeur] = $row['invisible'];
-		$categoryclass[$classpointeur] = $row['class'];
+		    $invisible[$classpointer] = $row['invisible'];
+		$categoryclass[$classpointer] = $row['class'];
 		                     $som_bold = $row['bold'];
 		                      $som_new = $row['new'];
 		                  $som_listbox = $row['listbox'];
@@ -814,10 +811,10 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						}
 					}
 				
-				   $content.=" class=\"$categoryclass[$classpointeur]\">";
+				   $content.=" class=\"$categoryclass[$classpointer]\">";
 				}
 				
-				$content.="<span class=\"$categoryclass[$classpointeur]\">";
+				$content.="<span class=\"$categoryclass[$classpointer]\">";
 				
 				$bold1 = ($som_bold == "on") ? "<strong>" : "";
 				$bold2 = ($som_bold == "on") ? "</strong>" : "";
