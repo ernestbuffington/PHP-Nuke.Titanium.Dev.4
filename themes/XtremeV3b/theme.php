@@ -84,21 +84,11 @@ addCSSToHead(xtremev3b_style_dir.'menu.css','file');
 #-------------------#
 # FlyKit Mod v1.0   #
 #-------------------#
-//addPHPCSSToHead(theme_phpstyle_dir.'header.php','file');     
-//addPHPCSSToHead(theme_phpstyle_dir.'sideblocks.php','file'); 
 addPHPCSSToHead(xtremev3b_phpstyle_dir.'body.php','file');       
-//addPHPCSSToHead(theme_phpstyle_dir.'footer.php','file');     
-//addPHPCSSToHead(theme_phpstyle_dir.'maintable.php','file');  
-//addPHPCSSToHead(theme_phpstyle_dir.'CKeditor.php','file');   
 
 /*-------------------*/
 /* OpenTable Section */
 /*-------------------*/
-/*-------------------*/
-/* OpenTable Section */
-/*-------------------*/
-//include_once(xtremev3b_theme_dir.'xtremev3_tables.php');
-
 include_once(xtremev3b_theme_dir.'function_OpenTable.php');
 include_once(xtremev3b_theme_dir.'function_CloseTable.php');
 
