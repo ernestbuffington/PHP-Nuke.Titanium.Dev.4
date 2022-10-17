@@ -9,6 +9,55 @@ global $screen_width, $screen_height;
  * 4. Page Header
  *--------------------------------------------------
 */
+/* Modules Link START */
+a.modules,input.modules
+{
+ display:inline-block;
+ box-sizing: border-box;
+ text-decoration:none;
+ font-family:'Roboto',sans-serif;
+ font-weight:bold;
+ 
+ /* Start Link Color - Regular Appearance */
+ color: #ccc;
+ 
+ text-align:center;
+ transition: all 0.2s;
+}
+a.modules:hover,input.modules:hover
+{
+  /* Main Font Color */
+  color: #D29A2B;
+ /* Highlight Color On Hover */
+}
+
+@media all and (max-width:30em)
+{
+  a.modules, input.modules
+  {
+    display:block;
+  }
+}
+/* Modules Link END */
+
+.visitors:hover
+{
+/* filter: grayscale(0%); */
+  filter: saturate(5px);
+  transform: rotate(360deg);
+  transition: transform .8s ease-in-out;
+  cursor: pointer;
+}
+.visitors
+{
+/* filter: grayscale(100%); */
+  transition: all .2s ease-in-out;
+  max-width: 100vmin;
+  max-height: 70vmin;
+  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.2);
+  border-radius: 100%;
+}
+
 body {
   position: relative;
   min-height: 100%;
