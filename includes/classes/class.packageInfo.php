@@ -10,17 +10,17 @@ namespace titanium\fileLogger {
     class PackageInfo {
         
         protected static $packageInfo = array(
-            'version' => 1.2,
+            'version' => 4.2,
             
             'authors' => array(
                 'gehaxelt' => array(
-                    'github' => 'https://github.com/ernestbuffington/',
-                    'email' => 'github@www.86it.us',
-                    'site' => 'https://www.86it.us'
+                    'github' => 'https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4',
+                    'email' => 'ernest.buffington@gmail.com',
+                    'site' => 'https://www.php-nuke-titanium.86it.us'
                 ),
                 
                 'pedzed' => array(
-                    'github' => 'https://github.com/ernestbuffington/'
+                    'github' => 'https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4'
                 )
             )
         );
