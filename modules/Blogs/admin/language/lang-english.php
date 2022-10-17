@@ -146,6 +146,7 @@ define("_BLOG_NUKEDEFAULT","Titanium Default");
 define("_BLOG_ARTICLES","Blog Posts");
 define("_BLOG_HOMENUMNOTE","This will over-ride user preferences<br />\nif set other then Titanium Default");
 define("_BLOG_SAVECHANGES","Save Changes");
+define("_SAVECHANGES","Save Changes");
 # Mod: Display Topic Icon v1.0.0 START
 define("_DISPLAY_TOPIC_ICON","Display Blog Topic Icon with Blog?");
 # Mod: Display Topic Icon v1.0.0 START

@@ -9,6 +9,20 @@ global $screen_width, $screen_height;
  * 4. Page Header
  *--------------------------------------------------
 */
+fieldset {
+ display: block; 
+  margin-left: 2px; 
+   margin-right: 2px; 
+	padding-top: 0.15em; 
+     padding-bottom: 0.625em; 
+     padding-left: 0.75em; 
+    padding-right: 0.75em; 
+     border: 2px groove (internal value);
+    -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+
 /* Modules Link START */
 a.modules,input.modules
 {
