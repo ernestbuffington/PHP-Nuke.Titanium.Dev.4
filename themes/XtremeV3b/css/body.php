@@ -22,6 +22,14 @@ global $screen_width, $screen_height;
 #hdr-banner-ads {
 	width: 474px;
 	height: 60px;
+	float: left;
+	clear: left;
+	margin: 20px 15px 0 0;
+}
+
+#hdr-banner-network-ads {
+	width: 474px;
+	height: 60px;
 	float: right;
 	clear: right;
 	margin: 20px 15px 0 0;
