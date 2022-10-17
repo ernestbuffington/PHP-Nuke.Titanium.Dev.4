@@ -98,9 +98,6 @@ include_once(xtremev3b_theme_dir.'function_CloseTable2.php');
 /*---------------------*/
 /* FormatStory Section */
 /*---------------------*/
-/*---------------------*/
-/* FormatStory Section */
-/*---------------------*/
 function FormatStory($thetext, $notes, $aid, $informant) 
 {
 global $anonymous;
