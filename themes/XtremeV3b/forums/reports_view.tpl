@@ -7,7 +7,7 @@
             <option value="1"{S_OPEN}>{L_OPENED}</option>
             <option value="2"{S_CLOSED}>{L_CLOSED}</option>
             <option value="all"{S_ALL}>{L_ALL}</option>
-          </select>&nbsp;<input type="submit" name="submit" value="{L_DISPLAY}" class="liteoption" />
+          </select>&nbsp;<input type="submit" name="submit" value="{L_DISPLAY}" class="titaniumbutton" />
         </td>
     </tr>
 </table>

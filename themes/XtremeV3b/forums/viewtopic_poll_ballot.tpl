@@ -18,7 +18,7 @@
           </td>
         </tr>
         <tr>
-          <td><input type="submit" name="submit" value="{L_SUBMIT_VOTE}" class="liteoption" /></td>
+          <td><input type="submit" name="submit" value="{L_SUBMIT_VOTE}" class="titaniumbutton" /></td>
         </tr>
         <tr>                        
           <td><a href="{U_VIEW_RESULTS}">{L_VIEW_RESULTS}</a></td>

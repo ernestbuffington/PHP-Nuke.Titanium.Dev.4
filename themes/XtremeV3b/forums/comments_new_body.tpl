@@ -23,7 +23,7 @@ function PostWrite(text) {
 </td>
 </table>
 
-<table width="80%" cellpadding="5" cellspacing="1" border="0" class="forumline" align="center">
+<table width="100%" cellpadding="5" cellspacing="1" border="0" class="forumline" align="center">
   <tr> 
           <th colspan='2' class="row4"><span class="cattitle">{L_CONGRATS}</span></th>
   </tr>

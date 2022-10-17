@@ -1,3 +1,9 @@
+<div align="center">
+<table width="98%" style="background-color:none; height:100%;" class="viewforum" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="viewforum">
+<tbody>
+<tr>
+<td align="center">
+
 <!--MOD GLANCE BEGIN -->{GLANCE_OUTPUT}<!-- MOD GLANCE END -->
 <form method="post" action="{S_POST_DAYS_ACTION}">
 <table width="100%" cellspacing="2" cellpadding="2" border="0" align="center">
@@ -5,10 +11,16 @@
     <td align="left" valign="bottom" colspan="2"><a class="maintitle" href="{U_VIEW_FORUM}">{FORUM_NAME}</a><br /><strong>{L_MODERATOR}: {MODERATORS}<br />{LOGGED_IN_USER_LIST}</strong></td>
     <td align="right" valign="bottom" class="gensmall boldme" nowrap="nowrap">{PAGINATION}</td>
   </tr>
+   <tr> 
+    <td align="center" height="6" colspan="3">&nbsp;</td>
+  </tr>
   <tr> 
-    <td align="left" valign="middle" width="50"><a href="{U_POST_NEW_TOPIC}"><img src="{POST_IMG}" border="0" alt="{L_POST_NEW_TOPIC}" /></a></td>
+    <td align="left" width="50"><a href="{U_POST_NEW_TOPIC}"><img src="{POST_IMG}" border="0" alt="{L_POST_NEW_TOPIC}" /></a></td>
     <td align="left" valign="middle" width="100%">&nbsp;&nbsp;&nbsp;<a href="{U_INDEX}">{L_INDEX}</a><!-- IF PARENT_FORUM --> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i> <a href="{U_VIEW_PARENT_FORUM}">{PARENT_FORUM_NAME}</a> <!-- ENDIF --> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i> <a href="{U_VIEW_FORUM}">{FORUM_NAME}</a></td>
     <td align="right" valign="bottom" nowrap="nowrap"><a href="{U_MARK_READ}">{L_MARK_TOPICS_READ}</a></td>
+  </tr>
+  <tr> 
+    <td align="center" height="6" colspan="3">&nbsp;</td>
   </tr>
 </table>
 
@@ -22,8 +34,8 @@
   </tr>
   <!-- BEGIN forumrow -->
   <tr> 
-	<td class="row1" align="center" valign="middle" height="50"><img src="{catrow.forumrow.FORUM_FOLDER_IMG}" alt="{catrow.forumrow.L_FORUM_FOLDER_ALT}" title="{catrow.forumrow.L_FORUM_FOLDER_ALT}" /></td>
-	<td class="row1" width="100%" height="50"><a href="{catrow.forumrow.U_VIEWFORUM}" <!-- IF catrow.forumrow.UNREAD -->class="topic-new"<!-- ENDIF -->>{catrow.forumrow.FORUM_NAME}</a><br />{catrow.forumrow.FORUM_DESC}</td>
+	<td class="row1" align="center" height="50"><img src="{catrow.forumrow.FORUM_FOLDER_IMG}" alt="{catrow.forumrow.L_FORUM_FOLDER_ALT}" title="{catrow.forumrow.L_FORUM_FOLDER_ALT}" /></td>
+	<td class="row1" width="100%" height="50">&nbsp;&nbsp;&nbsp;<a href="{U_INDEX}">{L_INDEX}</a><!-- IF PARENT_FORUM --> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i> <a href="{U_VIEW_PARENT_FORUM}">{PARENT_FORUM_NAME}</a> <!-- ENDIF --> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i> <a href="{U_VIEW_FORUM}">{FORUM_NAME}</a><br />{catrow.forumrow.FORUM_DESC}</td>
 	<td class="row2" align="center" valign="middle" height="50">{catrow.forumrow.TOPICS}</td>
 	<td class="row2" align="center" valign="middle" height="50">{catrow.forumrow.POSTS}</td>
 	<td class="row2" align="center" valign="middle" height="50" nowrap="nowrap">{catrow.forumrow.LAST_POST}</td>
@@ -35,6 +47,7 @@
 
 <!-- IF NUM_TOPICS || ! HAS_SUBFORUMS -->
   <table border="0" cellpadding="4" cellspacing="1" width="100%" class="forumline">
+    
     <tr> 
       <td class="catHead" colspan="3" style="text-align: center" nowrap="nowrap">&nbsp;{L_TOPICS}&nbsp;</td>
       <td class="catHead" style="text-align: center; width: 50px;" nowrap="nowrap">&nbsp;{L_REPLIES}&nbsp;</td>
@@ -79,7 +92,7 @@
       <table cellspacing="0" cellpadding="0" border="0" style="float: right;">
         <tr>
           <td>
-            {L_DISPLAY_TOPICS}:&nbsp;{S_SELECT_TOPIC_DAYS}&nbsp; {S_DISPLAY_ORDER}<input type="submit" class="liteoption" value="{L_GO}" name="submit" />
+            {L_DISPLAY_TOPICS}:&nbsp;{S_SELECT_TOPIC_DAYS}&nbsp; {S_DISPLAY_ORDER}<input type="submit" class="titaniumbutton" value="{L_GO}" name="submit" />
           </td>
         </tr>
       </table>
@@ -89,17 +102,25 @@
 
   <table width="100%" cellspacing="2" border="0" align="center" cellpadding="2">
     <tr> 
+      <td align="left" valign="middle" style ="width: 50px;">&nbsp;</td>
+      <td align="left" valign="middle" style ="width: 100%;" >&nbsp;</td>
+      <td class="aright" valign="middle" nowrap="nowrap">&nbsp;</td>
+    </tr>
+    <tr> 
       <td align="left" valign="middle" style ="width: 50px;"><a href="{U_POST_NEW_TOPIC}"><img src="{POST_IMG}" border="0" alt="{L_POST_NEW_TOPIC}" /></a></td>
-      <td align="left" valign="middle" style ="width: 100%;" >&nbsp;&nbsp;&nbsp;<a href="{U_INDEX}">{L_INDEX}</a><!-- IF PARENT_FORUM --> -> <a class="nav" href="{U_VIEW_PARENT_FORUM}">{PARENT_FORUM_NAME}</a><!-- ENDIF --> -> <a href="{U_VIEW_FORUM}">{FORUM_NAME}</a></td>
+      <td align="left" valign="middle" style ="width: 100%;" >&nbsp;&nbsp;&nbsp;<a href="{U_INDEX}">{L_INDEX}</a><!-- IF PARENT_FORUM --> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i> <a class="nav" href="{U_VIEW_PARENT_FORUM}">{PARENT_FORUM_NAME}</a><!-- ENDIF --> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i> <a href="{U_VIEW_FORUM}">{FORUM_NAME}</a></td>
       <td class="aright" valign="middle" nowrap="nowrap">{S_TIMEZONE}<br /><table><tr><td>{PAGINATION}</td></tr></table> 
         </td>
+    </tr>
+    <tr>
+      <td colspan="3">&nbsp;</td>
     </tr>
     <tr>
       <td colspan="3">{PAGE_NUMBER}</td>
     </tr>
   </table>
 </form>
-
+<br />
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr> 
     <td class="aright">{JUMPBOX}</td>
@@ -111,39 +132,63 @@
         <td align="left" valign="top">
           <table cellspacing="3" cellpadding="0" border="0">
             <tr>
-        <td width="20" align="left"><img src="{FOLDER_NEW_IMG}" alt="{L_NEW_POSTS}" /></td>
-          <td>{L_NEW_POSTS}</td>
+            
+        <td width="20" align="center">
+		<img src="{FOLDER_NEW_IMG}" alt="{L_NEW_POSTS}" width="32" height="32" />
+          </td>
+          <td>&nbsp;{L_NEW_POSTS}
+          </td>
           <td>&nbsp;&nbsp;</td>
-          <td width="20" align="center"><img src="{FOLDER_IMG}" alt="{L_NO_NEW_POSTS}" /></td>
-          <td>{L_NO_NEW_POSTS}</td>
+          <td width="20" align="center">
+			<img src="{FOLDER_IMG}" alt="{L_NO_NEW_POSTS}" width="32" height="32" />
+          </td> 
+          <td>&nbsp;{L_NO_NEW_POSTS}
+          </td>
           <td>&nbsp;&nbsp;</td>
           <!-- Start replacement - Global announcement MOD -->
-          <td width="20" align="center"><img src="{FOLDER_GLOBAL_ANNOUNCE_IMG}" alt="{L_GLOBAL_ANNOUNCEMENT}" /></td>
-          <td>{L_GLOBAL_ANNOUNCEMENT}</td>
+          <td width="20" align="center"><p>
+			<img src="{FOLDER_GLOBAL_ANNOUNCE_IMG}" alt="{L_GLOBAL_ANNOUNCEMENT}" width="32" height="32" /></p>
+          </td>
+          <td>&nbsp;
+            {L_GLOBAL_ANNOUNCEMENT}           </td>
+          <!-- End replacement - Global announcement MOD -->
+
+        </tr>
+        <tr>
+          <td width="20" align="center">
+			<img src="{FOLDER_HOT_NEW_IMG}" alt="{L_NEW_POSTS_HOT}" width="32" height="32" />
+          </td>
+          <td>&nbsp;{L_NEW_POSTS_HOT}
+          </td>
+          <td>&nbsp;&nbsp;</td>
+          <td width="20" align="center">
+			<img src="{FOLDER_HOT_IMG}" alt="{L_NO_NEW_POSTS_HOT}" width="32" height="32" />
+          </td>
+          <td>&nbsp;{L_NO_NEW_POSTS_HOT}
+          </td>
+          <td>&nbsp;&nbsp;</td>
+          <!-- Start replacement - Global announcement MOD -->
+          <td width="20" align="center"><p>
+			<img src="{FOLDER_ANNOUNCE_IMG}" alt="{L_ANNOUNCEMENT}" width="32" height="32" /></p>
+          </td>
+          <td>&nbsp;
+            {L_ANNOUNCEMENT}           </td>
           <!-- End replacement - Global announcement MOD -->
         </tr>
         <tr>
-          <td width="20" align="center"><img src="{FOLDER_HOT_NEW_IMG}" alt="{L_NEW_POSTS_HOT}" /></td>
-          <td>{L_NEW_POSTS_HOT}</td>
+          <td width="20" align="center"><p>
+			<img src="{FOLDER_LOCKED_NEW_IMG}" alt="{L_NEW_POSTS_LOCKED}" width="32" height="32" /></p></td>
+          <td>&nbsp;{L_NEW_POSTS_LOCKED}
           <td>&nbsp;&nbsp;</td>
-          <td width="20" align="center"><img src="{FOLDER_HOT_IMG}" alt="{L_NO_NEW_POSTS_HOT}" /></td>
-          <td>{L_NO_NEW_POSTS_HOT}</td>
-          <td>&nbsp;&nbsp;</td>
-          <!-- Start replacement - Global announcement MOD -->
-          <td width="20" align="center"><img src="{FOLDER_ANNOUNCE_IMG}" alt="{L_ANNOUNCEMENT}" /></td>
-          <td>{L_ANNOUNCEMENT}</td>
-          <!-- End replacement - Global announcement MOD -->
-        </tr>
-        <tr>
-          <td width="20" align="center"><img src="{FOLDER_LOCKED_NEW_IMG}" alt="{L_NEW_POSTS_LOCKED}" /></td>
-          <td>{L_NEW_POSTS_LOCKED}
-          <td>&nbsp;&nbsp;</td>
-          <td width="20" align="center"><img src="{FOLDER_LOCKED_IMG}" alt="{L_NO_NEW_POSTS_LOCKED}" /></td>
-          <td>{L_NO_NEW_POSTS_LOCKED}</td>
+          <td width="20" align="center">
+			<img src="{FOLDER_LOCKED_IMG}" alt="{L_NO_NEW_POSTS_LOCKED}" width="32" height="32" /></td>
+          <td>&nbsp;{L_NO_NEW_POSTS_LOCKED}</td>
           <!-- Start add - Global announcement MOD -->
           <td>&nbsp;&nbsp;</td>
-          <td width="20" align="center"><img src="{FOLDER_STICKY_IMG}" alt="{L_STICKY}" /></td>
-          <td>{L_STICKY}</td>
+          <td width="20" align="center">
+			<img src="{FOLDER_STICKY_IMG}" alt="{L_STICKY}" width="32" height="32" /></td>
+          <td>&nbsp;
+            {L_STICKY}</td>
           <!-- End add - Global announcement MOD -->
         </tr>
         </table></td>
@@ -158,3 +203,7 @@
   </tr>
 </table>
 <!-- ENDIF -->
+</tr>
+</tbody>
+</table>
+</div>

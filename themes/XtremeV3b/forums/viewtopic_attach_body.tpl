@@ -1,11 +1,4 @@
-<style type="text/css">
-<!--
-td.attachrow        { font: normal 11px Verdana, Arial, Helvetica, sans-serif; color : {T_BODY_TEXT}; border-color : {T_BODY_TEXT}; }
-td.attachheader     { font: normal 11px Verdana, Arial, Helvetica, sans-serif; color : {T_BODY_TEXT}; border-color : {T_BODY_TEXT}; background-color: {T_TR_COLOR3}; }
-table.attachtable    { font: normal 12px Verdana, Arial, Helvetica, sans-serif; color : {T_BODY_TEXT}; border-color : {T_BODY_TEXT};    border-collapse : collapse; }
--->
-</style>
-        
+<div align="center">        
 <!-- BEGIN attach -->
     <br /><br />
           
@@ -98,8 +91,8 @@ table.attachtable    { font: normal 12px Verdana, Arial, Helvetica, sans-serif; 
         <td width="100%" colspan="2" class="attachheader" align="center"><strong><span class="gen">{postrow.attach.cat_thumb_images.DOWNLOAD_NAME}</span></strong></td>
     </tr>
     <tr>
-        <td width="15%" class="attachrow"><span class="genmed">&nbsp;{L_DESCRIPTION}:</span></td>
-        <td width="75%" class="attachrow">
+        <td width="50%" class="attachrow" align="right" valign="top"><span class="genmed">&nbsp;{L_DESCRIPTION}:</span></td>
+        <td width="50%" class="attachrow" align="left" valign="top">
             <table width="100%" border="0" cellpadding="0" cellspacing="4" align="center">
             <tr>
                 <td class="attachrow"><span class="genmed">{postrow.attach.cat_thumb_images.COMMENT}</span></td>
@@ -108,15 +101,16 @@ table.attachtable    { font: normal 12px Verdana, Arial, Helvetica, sans-serif; 
         </td>
     </tr>
     <tr>
-        <td width="15%" class="attachrow"><span class="genmed">&nbsp;{L_FILESIZE}:</span></td>
-        <td width="75%" class="attachrow"><span class="genmed">&nbsp;{postrow.attach.cat_thumb_images.FILESIZE} {postrow.attach.cat_thumb_images.SIZE_VAR}</td>
+        <td width="50%" class="attachrow" align="right" valign="top"><span class="genmed">&nbsp;{L_FILESIZE}:</span></td>
+        <td width="50%" class="attachrow" align="left" valign="top"><span class="genmed">&nbsp;{postrow.attach.cat_thumb_images.FILESIZE} {postrow.attach.cat_thumb_images.SIZE_VAR}</td>
     </tr>
     <tr>
-        <td width="15%" class="attachrow"><span class="genmed">&nbsp;{postrow.attach.cat_thumb_images.L_DOWNLOADED_VIEWED}:</span></td>
-        <td width="75%" class="attachrow"><span class="genmed">&nbsp;{postrow.attach.cat_thumb_images.L_DOWNLOAD_COUNT}</span></td>
+        <td width="50%" class="attachrow" align="right" valign="top"><span class="genmed">&nbsp;{postrow.attach.cat_thumb_images.L_DOWNLOADED_VIEWED}:</span></td>
+        <td width="50%" class="attachrow" align="left" valign="top"><span class="genmed">&nbsp;{postrow.attach.cat_thumb_images.L_DOWNLOAD_COUNT}</span></td>
     </tr>
     <tr>
-        <td colspan="2"><br /><a href="{postrow.attach.cat_thumb_images.IMG_SRC}" title="{postrow.attach.cat_thumb_images.COMMENT}"><img src="{postrow.attach.cat_thumb_images.IMG_THUMB_SRC}" alt="{postrow.attach.cat_thumb_images.DOWNLOAD_NAME}" border="0" /></a><br /><br /></td>
+        <td colspan="2">
+		<p align="center"><br /><a data-fancybox="screens" href="{postrow.attach.cat_thumb_images.IMG_SRC}" title="{postrow.attach.cat_thumb_images.COMMENT}"><img class="reimg-width reimg-link" onload="reimg(this);" onerror="reimg(this);" src="{postrow.attach.cat_thumb_images.IMG_THUMB_SRC}" alt="{postrow.attach.cat_thumb_images.DOWNLOAD_NAME}" border="0" /></a><br /><br /></td>
     </tr>
     </table>
     <div align="center"><hr width="95%" /></div>
@@ -150,3 +144,4 @@ table.attachtable    { font: normal 12px Verdana, Arial, Helvetica, sans-serif; 
 <!-- END attachrow -->
     
 <!-- END attach -->
+</div>

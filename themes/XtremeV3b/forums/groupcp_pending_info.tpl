@@ -1,5 +1,3 @@
-<br />
-
 <table width="100%" cellpadding="4" cellspacing="1" border="0" class="forumline">
     <tr> 
       <th class="thCornerL" height="25">{L_PM}</th>
@@ -18,13 +16,12 @@
     <tr> 
       <td class="{pending_members_row.ROW_CLASS}" align="center"> {pending_members_row.PM_IMG} 
       </td>
-      <td class="{pending_members_row.ROW_CLASS}" align="center"><span class="gen"><a href="{pending_members_row.U_VIEWPROFILE}" class="gen">{pending_members_row.USERNAME}</a></span></td>
+      <td class="{pending_members_row.ROW_CLASS}" align="left"><span class="gen">{pending_members_row.CURRENT_AVATAR} <a href="{pending_members_row.U_VIEWPROFILE}" class="gen">{pending_members_row.USERNAME}</a></span></td>
       <td class="{pending_members_row.ROW_CLASS}" align="center"><span class="gen">{pending_members_row.POSTS}</span></td>
       <td class="{pending_members_row.ROW_CLASS}" align="center" valign="middle">
         <table border="0">
           <tr>
-            <td align="center" width="90%"><span class="gen">{pending_members_row.FROM}</span></td>
-            <td align="right">{pending_members_row.FLAG}</td>
+            <td align="left"><span class="gen">{pending_members_row.FROM}</span></td>
           </tr>
         </table>
       </td>
@@ -36,9 +33,9 @@
     <!-- END pending_members_row -->
     <tr> 
       <td class="cat" colspan="9" align="right"><span class="cattitle"> 
-        <input type="submit" name="approve" value="{L_APPROVE_SELECTED}" class="mainoption" />
+        <input type="submit" name="approve" value="{L_APPROVE_SELECTED}" class="btn-hover-one" />
         &nbsp; 
-        <input type="submit" name="deny" value="{L_DENY_SELECTED}" class="liteoption" />
+        <input type="submit" name="deny" value="{L_DENY_SELECTED}" class="btn-hover-one" />
         </span></td>
     </tr>
 </table>

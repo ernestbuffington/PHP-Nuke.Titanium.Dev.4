@@ -5,7 +5,7 @@
 </td>
 </table>
 
-<table width='50%' cellpadding="5" cellspacing="1" border="0" class="forumline" align="center">
+<table width='100%' cellpadding="5" cellspacing="1" border="0" class="forumline" align="center">
 <!-- BEGIN comment_select -->
   <tr>
           <th colspan='2' class="row4"><span class="cattitle">Select a Game</span></th>

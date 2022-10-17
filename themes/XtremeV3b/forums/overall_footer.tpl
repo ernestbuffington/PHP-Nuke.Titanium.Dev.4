@@ -15,13 +15,5 @@
 
     The phpBB Group : 2019
 // -->
-<br />
-Powered by <a href="http://www.phpbb.com/" target="_blank">phpBB</a> &copy; 2001, 2019 phpBB Group
-<br />
-{TRANSLATION_INFO}
-<!-- IF TRANSLATION_INFO -->
-<br />
-<!-- ENDIF -->
-XtremeV3 Theme By: The Mortal &copy; 2019 <a class="tooltip-html copyright" href="https://www.realmdesignz.com/" target="_blank" title="XtremeV3 Theme Designed By: The Mortal<br />Copyright &copy 2019 RealmDesignz.com<br />All Rights Reserved">RealmDesignz.com</a>
-
 </div>
+<br />

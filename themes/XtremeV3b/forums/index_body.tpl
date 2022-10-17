@@ -1,3 +1,9 @@
+<div align="center">
+<table width="98%" style="background-color:none; height:100%;" class="forumline" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="viewforum">
+<tbody>
+<tr>
+<td align="center">
+
 <!--MOD GLANCE BEGIN -->{GLANCE_OUTPUT}<!-- MOD GLANCE END -->
 <!-- BEGIN show_global_marquee -->
 <table style="width: 100%;" cellpadding="3" cellspacing="1" border="0" class="forumline"> 
@@ -30,7 +36,7 @@
 	  <a{catrow.forumrow.FORUM_COLOR} href="{catrow.forumrow.U_VIEWFORUM}"<!-- IF catrow.forumrow.FORUM_LINK_COUNT --> target="_blank"<!-- ENDIF -->>{catrow.forumrow.FORUM_NAME}</a><br />
 	  <span class="cattitle">{catrow.forumrow.FORUM_DESC}</span>
 	  <!-- IF catrow.forumrow.MODERATORS -->
-	  <br />{catrow.forumrow.L_MODERATOR}: {catrow.forumrow.MODERATORS}<br />
+	  <br />{catrow.forumrow.L_MODERATOR} {catrow.forumrow.MODERATORS}<br />
     <!-- ELSE -->
     <br />
 	  <!-- ENDIF -->
@@ -49,7 +55,7 @@
 	<td class="row2 acenter">{catrow.forumrow.TOTAL_POSTS}</td> -->
 	<td class="row1 acenter" style="width: 120px;">{catrow.forumrow.TOTAL_TOPICS} Topics<br />{catrow.forumrow.TOTAL_POSTS} Posts</td>
 	<!-- IF SHOW_LAST_POST_AVATAR && catrow.forumrow.LAST_POST_COUNT != 0 -->
-	<td class="row1 acenter" style="width: 72px;"><img src="{catrow.forumrow.LAST_POST_AVATAR}" style="max-width: 48px; max-height: 48px" border="0"></td>
+	<td class="row1 acenter" style="width: 72px;"><img class="rounded-corners-last-post" src="{catrow.forumrow.LAST_POST_AVATAR}" style="max-width: 48px; max-height: 48px" border="0"></td>
 	<!-- ENDIF -->  
     <td class="row1 lastpost"<!-- IF catrow.forumrow.LAST_POST_COUNT == 0 && SHOW_LAST_POST_AVATAR == 1 --> colspan="2"<!-- ELSE -->  style="width: 250px;"<!-- ENDIF --> nowrap="nowrap">{catrow.forumrow.LAST_POST}{catrow.forumrow.LAST_POSTTIME}<br />{catrow.forumrow.LAST_POST_USERNAME}</td>
 	<!-- END switch_forum_link_off -->
@@ -104,12 +110,16 @@
 <table border="0" cellpadding="4" cellspacing="1" style="margin: auto">
   <tr> 
     <td width="20" align="center"><img src="{FORUM_IMG}" alt="{L_NO_NEW_POSTS}" /></td>
-    <td>{L_NO_NEW_POSTS}</td>
+    <td>&nbsp;&nbsp;{L_NO_NEW_POSTS}</td>
     <td>&nbsp;&nbsp;</td>
     <td width="20" align="center"><img src="{FORUM_NEW_IMG}" alt="{L_NEW_POSTS}"/></td>
-    <td>{L_NEW_POSTS}</td>
+    <td>&nbsp;&nbsp;{L_NEW_POSTS}</td>
     <td>&nbsp;&nbsp;</td>    
     <td width="20" align="center"><img src="{FORUM_LOCKED_IMG}" alt="{L_FORUM_LOCKED}" /></td>
-    <td>{L_FORUM_LOCKED}</td>
+    <td>&nbsp;&nbsp;{L_FORUM_LOCKED}</td>
   </tr>
 </table>
+</tr>
+</tbody>
+</table>
+</div>

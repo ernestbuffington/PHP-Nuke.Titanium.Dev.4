@@ -25,17 +25,18 @@ nuke_jq( document ).ready(function($)
   });
 });
 </script>
+<div align="center">
+<table width="98%" style="background-color:none; height:100%;" class="viewforum" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="viewforum">
+<tbody>
+<tr>
+<td align="center">
 
 <form method="post" name="privmsg_list" action="{S_PRIVMSGS_ACTION}">
 <table width="100%" cellspacing="2" cellpadding="2" border="0" align="center">
   <tr> 
-    <td align="left" valign="middle">{POST_PM_IMG}</td>
-    <!-- Start add - Custom mass PM MOD -->
-    <td align="left" valign="middle">{MASS_PM_IMG}</td>
-    <!-- End add - Custom mass PM MOD -->
-    <td align="left" width="100%"><a href="{U_INDEX}">{L_INDEX}</a></td>
-    <td align="right" nowrap="nowrap">
-      {L_DISPLAY_MESSAGES}: <select name="msgdays">{S_SELECT_MSG_DAYS}</select><input type="submit" value="{L_GO}" name="submit_msgdays" class="liteoption" />
+    <td width="77%" align="left" valign="middle">{POST_PM_IMG} {MASS_PM_IMG}<strong>&nbsp;<a href="{U_HINDEX}">{L_INDEXHOME}</a></strong> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i><strong> Private Messages</strong> {PAGE_NUMBER}</td>
+    <td width="23%" align="right" nowrap="nowrap">
+      {L_DISPLAY_MESSAGES}: <select name="msgdays">{S_SELECT_MSG_DAYS}</select><input type="submit" value="{L_GO}" name="submit_msgdays" class="titaniumbutton" />
     </td>
   </tr>
 </table>
@@ -52,9 +53,9 @@ nuke_jq( document ).ready(function($)
         <tr>
           <td colspan="2">{BOX_SIZE_STATUS} {L_INBOX_PERCENTAGE}</td>
         </tr>
-        <tr>
+        <tr> 
           <td colspan="2">
-            <progress alt="{BOX_SIZE_STATUS}" title={BOX_SIZE_STATUS}" style="-webkit-appearance: progress-bar; box-sizing: border-box; display: inline-block; height: 15px; width: 100%;" value="{INBOX_LIMIT_PERCENT}" max="100"></progress>
+            <progress alt="{BOX_SIZE_STATUS}" title={BOX_SIZE_STATUS}" style="-webkit-appearance: progress-bar; box-sizing: border-box; display: inline-block; height: 5px; width: 100%; background-color: #f3f3f3;" value="{INBOX_LIMIT_PERCENT}" max="100"></progress>
           </td>
         </tr>
       </table>
@@ -67,7 +68,7 @@ nuke_jq( document ).ready(function($)
           <td colspan="2">{ATTACH_BOX_SIZE_STATUS}</td>
         </tr>
         <tr>
-          <td colspan="2"><progress alt="{ATTACH_BOX_SIZE_STATUS}" title="{ATTACH_BOX_SIZE_STATUS}" style="-webkit-appearance: progress-bar; box-sizing: border-box; display: inline-block; height: 15px; width: 100%;" value="{ATTACHBOX_LIMIT_PERCENT}" max="100"></progress></td>
+          <td colspan="2"><progress alt="{ATTACH_BOX_SIZE_STATUS}" title="{ATTACH_BOX_SIZE_STATUS}" style="-webkit-appearance: progress-bar; box-sizing: border-box; display: inline-block; height: 5px; width: 100%;" value="{ATTACHBOX_LIMIT_PERCENT}" max="100"></progress></td>
         </tr>
       </table>
     </td>
@@ -116,9 +117,9 @@ nuke_jq( document ).ready(function($)
         <tr>
           <td class="catBottom" colspan="4" style="text-align: right;">
             {S_HIDDEN_FIELDS}
-            <input type="submit" name="save" value="{L_SAVE_MARKED}" class="mainoption" />
-            <input type="submit" name="delete" value="{L_DELETE_MARKED}" class="liteoption" />
-            <input type="submit" name="deleteall" value="{L_DELETE_ALL}" class="liteoption" />
+            <input type="submit" name="save" value="{L_SAVE_MARKED}" class="titaniumbutton" />
+            <input type="submit" name="delete" value="{L_DELETE_MARKED}" class="titaniumbutton" />
+            <input type="submit" name="deleteall" value="{L_DELETE_ALL}" class="titaniumbutton" />
           </td>
           <td class="catBottom"><i><input type="checkbox" id="select_all" style="cursor: pointer;"/> Select All</i></td>
         </tr>
@@ -132,12 +133,10 @@ nuke_jq( document ).ready(function($)
 
 <table width="100%" cellspacing="2" border="0" align="center" cellpadding="2">
   <tr> 
-    <td align="left" valign="middle"><span class="nav">{POST_PM_IMG}</span></td>
+    <td width="73%" align="left" valign="middle">{POST_PM_IMG} {MASS_PM_IMG}<strong>&nbsp;<a href="{U_HINDEX}">{L_INDEXHOME}</a></strong> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i><strong> Private Messages</strong> {PAGE_NUMBER}</td>
     <!-- Start add - Custom mass PM MOD -->
-    <td align="left" valign="middle"><span class="nav">{MASS_PM_IMG}</span></td>
     <!-- End add - Custom mass PM MOD -->
-    <td align="left" valign="middle" width="100%">{PAGE_NUMBER}</td>
-    <td align="right" valign="top" nowrap="nowrap">
+    <td width="27%" align="right" valign="top" nowrap="nowrap">
       <a href="javascript:select_switch(true);">{L_MARK_ALL}</a> :: <a href="javascript:select_switch(false);">{L_UNMARK_ALL}</a>
       <!-- IF PAGINATION -->
       <br />{PAGINATION}
@@ -153,3 +152,8 @@ nuke_jq( document ).ready(function($)
     <td style="text-align: right;">{JUMPBOX}</td>
   </tr>
 </table> -->
+
+</tr>
+</tbody>
+</table>
+</div>

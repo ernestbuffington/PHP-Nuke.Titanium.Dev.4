@@ -1,8 +1,10 @@
 <form action="{S_GROUPCP_ACTION}" method="post">
-
+<!-- BEGIN groups title -->
+{GROUPS_LIST_INFO}
+<!-- END groups title -->
 <table border="0" cellpadding="4" cellspacing="1" class="acenter" style="width: 100%">
     <tr>
-        <td class="aleft"><a href="{U_INDEX}">{L_INDEX}</a></td>
+        <td class="aleft"><span class="over-ride">{GROUPS_LINK}{GROUPS_LIST_INFO_LINK}</span></td>
     </tr>
 </table>
 
@@ -11,28 +13,28 @@
         <td class="catHead acenter" colspan="2">{L_GROUP_INFORMATION}</td>
     </tr>
     <tr> 
-        <td class="row1" width="20%">{L_GROUP_NAME}:</td>
-        <td class="row2">{GROUP_NAME}</td>
+        <td class="row1" width="20%"><span class="over-ride"><strong>{L_GROUP_NAME}:</strong></span></td>
+        <td class="row2"><span class="over-ride">{GROUP_NAME}</span></td>
     </tr>
     <tr> 
-        <td class="row1" width="20%">{L_GROUP_DESC}:</td>
-        <td class="row2">{GROUP_DESC}</td>
+        <td class="row1" width="20%"><span class="over-ride"><strong>{L_GROUP_DESC}:</strong></span></td>
+        <td class="row2"><span class="over-ride">{GROUP_DESC}</span></td>
     </tr>
     <tr> 
-        <td class="row1" width="20%">{L_GROUP_MEMBERSHIP}:</td>
-        <td class="row2">{GROUP_DETAILS} &nbsp;&nbsp;
+        <td class="row1" width="20%"><span class="over-ride"><strong>{L_GROUP_MEMBERSHIP}:</strong></span></td>
+        <td class="row2"><span class="over-ride">{GROUP_DETAILS}</span>
         <!-- BEGIN switch_subscribe_group_input -->
-        <input class="mainoption" type="submit" name="joingroup" value="{L_JOIN_GROUP}" />
+        <input class="btn-hover-two" type="submit" name="joingroup" value="{L_JOIN_GROUP}" />
         <!-- END switch_subscribe_group_input -->
         <!-- BEGIN switch_unsubscribe_group_input -->
-        <input class="mainoption" type="submit" name="unsub" value="{L_UNSUBSCRIBE_GROUP}" />
+        <input class="btn-hover-two" type="submit" name="unsub" value="{L_UNSUBSCRIBE_GROUP}" />
         <!-- END switch_unsubscribe_group_input -->
         </td>
     </tr>
     <!-- BEGIN switch_mod_option -->
     <tr> 
-        <td class="row1" width="20%">{L_GROUP_TYPE}:</td>
-        <td class="row2"><input type="radio" name="group_type" value="{S_GROUP_OPEN_TYPE}" {S_GROUP_OPEN_CHECKED} /> {L_GROUP_OPEN} &nbsp;&nbsp;<input type="radio" name="group_type" value="{S_GROUP_CLOSED_TYPE}" {S_GROUP_CLOSED_CHECKED} />    {L_GROUP_CLOSED} &nbsp;&nbsp;<input type="radio" name="group_type" value="{S_GROUP_HIDDEN_TYPE}" {S_GROUP_HIDDEN_CHECKED} />    {L_GROUP_HIDDEN} &nbsp;&nbsp; <input class="mainoption" type="submit" name="groupstatus" value="{L_UPDATE}" /></td>
+        <td class="row1" width="20%"><span class="over-ride"><strong>{L_GROUP_TYPE}:</strong></span></td>
+        <td class="row2" align="left"><input style="vertical-align: middle" type="radio" name="group_type" value="{S_GROUP_OPEN_TYPE}" {S_GROUP_OPEN_CHECKED}/>&nbsp;<span class="over-ride">{L_GROUP_OPEN}</span>&nbsp;<input style="vertical-align: middle" type="radio" name="group_type" value="{S_GROUP_CLOSED_TYPE}" {S_GROUP_CLOSED_CHECKED}/>&nbsp;<span class="over-ride">{L_GROUP_CLOSED}</span>&nbsp;<input style="vertical-align: middle" type="radio" name="group_type" value="{S_GROUP_HIDDEN_TYPE}" {S_GROUP_HIDDEN_CHECKED}/>&nbsp;<span class="over-ride">{L_GROUP_HIDDEN}</span>&nbsp;<input class="btn-hover-two" type="submit" name="groupstatus" value="{L_UPDATE}" /></td>
     </tr>
     <!-- END switch_mod_option -->
 </table>
@@ -47,7 +49,7 @@
       <td class="catHead acenter" style="width: 10%;">{L_PM}</td>
       <td class="catHead">{L_USERNAME}</td>
       <td class="catHead acenter">{L_POSTS}</td>
-      <td class="catHead">{L_FROM}</td>
+      <td class="catHead" align="center">{L_FROM}</td>
       <td class="catHead acenter">{L_EMAIL}</td>
       <td class="catHead acenter">{L_ONLINE_STATUS}</td>
       <td class="catHead acenter">{L_WEBSITE}</td>
@@ -58,9 +60,9 @@
     </tr>
     <tr> 
       <td class="row1 acenter"> {MOD_PM_IMG} </td>
-      <td class="row1"><a href="{U_MOD_VIEWPROFILE}">{MOD_USERNAME}</a></td>
+      <td class="row1">{MOD_CURRENT_AVATAR}<a href="{U_MOD_VIEWPROFILE}">{MOD_USERNAME}</a></td>
       <td class="row1 acenter" valign="middle">{MOD_POSTS}</td>
-      <td class="row1" valign="middle">{MOD_FLAG}{MOD_FROM}
+      <td class="row1" align="center">{MOD_FLAG}{MOD_FROM}
         <!-- <table border="0">
           <tr>
             <td align="center" width="90%"><span class="gen">{MOD_FROM}</span></td>
@@ -79,9 +81,9 @@
     <!-- BEGIN member_row -->
     <tr> 
       <td class="{member_row.ROW_CLASS} acenter"> {member_row.PM_IMG} </td>
-      <td class="{member_row.ROW_CLASS}"><a href="{member_row.U_VIEWPROFILE}">{member_row.USERNAME}</a></td>
+      <td class="{member_row.ROW_CLASS}">{member_row.CURRENT_AVATAR} <a href="{member_row.U_VIEWPROFILE}">{member_row.USERNAME}</a></td>
       <td class="{member_row.ROW_CLASS} acenter">{member_row.POSTS}</td>
-      <td class="{member_row.ROW_CLASS}" valign="middle">{member_row.FLAG}{member_row.FROM}</td>
+      <td class="{member_row.ROW_CLASS}" align="center">{member_row.FLAG}{member_row.FROM}</td>
       <td class="{member_row.ROW_CLASS} acenter" valign="middle">{member_row.EMAIL_IMG}</td>
       <td class="{member_row.ROW_CLASS} acenter" valign="middle">{member_row.ONLINE_STATUS}</td>
       <td class="{member_row.ROW_CLASS} acenter">{member_row.WWW_IMG}</td>
@@ -108,7 +110,7 @@
     <!-- BEGIN switch_mod_option -->
     <tr>
         <td class="catBottom" colspan="8" align="right">
-            <span class="cattitle"><input type="submit" name="remove" value="{L_REMOVE_SELECTED}" class="mainoption" /></span>
+            <span class="cattitle"><input type="submit" name="remove" value="{L_REMOVE_SELECTED}" class="btn-hover-one" /></span>
         </td>
     </tr>
     <!-- END switch_mod_option -->
@@ -118,10 +120,10 @@
     <tr>
         <td align="left" valign="top">
         <!-- BEGIN switch_mod_option -->
-        <span class="genmed"><input type="text"  class="post" name="username" maxlength="50" size="20" /> <input type="submit" name="add" value="{L_ADD_MEMBER}" class="mainoption" /></span><br /><br />
+        <br /><input type="text"  class="post" name="username" maxlength="50" size="20" />&nbsp;<input type="submit" name="add" value="{L_ADD_MEMBER}" class="btn-hover-one" /><br /><br /> 
         <!-- END switch_mod_option -->
         {PAGE_NUMBER}</td>
-        <td align="right" valign="top">{S_TIMEZONE}<br />{PAGINATION}</td>
+        <td align="right" valign="top">{PAGINATION}</td>
     </tr>
 </table>
 

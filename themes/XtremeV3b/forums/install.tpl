@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <title>{L_INSTALLATION}</title>
-<link rel="stylesheet" href="themes/XtremeV3/forums/subSilver.css" type="text/css">
+<link rel="stylesheet" href="themes/CarbinFiber/forums/subSilver.css" type="text/css">
 <style type="text/css">
 <!--
 /* Specify background images for selected styles
@@ -19,7 +19,7 @@ td.icqback    { background-image: url(templates/subSilver/images/icon_icq_add.gi
 TD.catHead,TD.catSides,TD.catLeft,TD.catRight,TD.catBottom { background-image: url(templates/subSilver/images/cellpic1.gif) }
 
 /* Import the fancy styles for IE only (NS4.x doesn't use the @import function) */
-@import url("themes/XtremeV3/forums/formIE.css"); 
+@import url("themes/CarbinFiber/forums/formIE.css"); 
 -->
 </style>
 </head>
@@ -31,7 +31,7 @@ TD.catHead,TD.catSides,TD.catLeft,TD.catRight,TD.catBottom { background-image: u
             <tr>
                 <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td><img src="themes/XtremeV3/forums/images/logo_phpBB.gif" border="0" alt="Forum Home" vspace="1" /></td>
+                        <td><img src="themes/CarbinFiber/forums/images/logo_phpBB.gif" border="0" alt="Forum Home" vspace="1" /></td>
                         <td align="center" width="100%" valign="middle"><span class="maintitle">{L_INSTALLATION}</span></td>
                     </tr>
                 </table></td>

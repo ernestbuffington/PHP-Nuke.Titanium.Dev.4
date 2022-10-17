@@ -475,12 +475,12 @@
   <!-- BEGIN switch_avatar_local_gallery -->
   <tr>
     <td class="row1" style="width: 50%;">{L_AVATAR_GALLERY}</td>
-    <td class="row2" style="width: 50%;"><input type="submit" name="avatargallery" value="{L_SHOW_GALLERY}" class="liteoption" /></td>
+    <td class="row2" style="width: 50%;"><input type="submit" name="avatargallery" value="{L_SHOW_GALLERY}" class="titaniumbutton" /></td>
   </tr>
   <!-- END switch_avatar_local_gallery -->
   <!-- END switch_avatar_block -->
   <tr>
-    <td class="catBottom" colspan="2" style=" text-align: center;">{S_HIDDEN_FIELDS}<input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" name="reset" class="liteoption" /></td>
+    <td class="catBottom" colspan="2" style=" text-align: center;">{S_HIDDEN_FIELDS}<input type="submit" name="submit" value="{L_SUBMIT}" class="mainoption" />&nbsp;&nbsp;<input type="reset" value="{L_RESET}" name="reset" class="titaniumbutton" /></td>
   </tr>
 </table>
 <!--	QUICK REPLY PANEL	-->

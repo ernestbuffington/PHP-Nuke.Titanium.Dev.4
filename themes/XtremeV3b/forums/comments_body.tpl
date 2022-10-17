@@ -26,7 +26,7 @@ function PostWrite(text) {
 </td>
 </table>
 
-<table width="80%" cellpadding="5" cellspacing="1" border="0" class="forumline" align="center">
+<table width="100%" cellpadding="5" cellspacing="1" border="0" class="forumline" align="center">
   <tr> 
           <th class="row4" colspan="3"><span class="cattitle">{L_ADD_EDIT_COMMENTS}</span></th>
   </tr>
