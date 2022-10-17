@@ -9,6 +9,13 @@ global $screen_width, $screen_height;
  * 4. Page Header
  *--------------------------------------------------
 */
+body {
+  position: relative;
+  min-height: 100%;
+  min-height: 100vh;
+}
+
+
 .wrapLogo {
 	background-image: url('../images/hdr/Text-Logo.png');
 	float: left;

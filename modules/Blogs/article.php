@@ -390,12 +390,12 @@ else
 {
   $ratetitle = ""._RATEARTICLE."<br/>";
   if ($ratings == 1)
-  $ratecontent = "<div align=\"center\"><strong>This Blog has a<br/>$rate Star Rating</strong><br/><img src=\"modules/Blog/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" ><br/><strong>$ratings person has<br/>voted for this Blog</strong><br/><img src=\"modules/Blog/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" >";
+  $ratecontent = "<div align=\"center\"><strong>This Blog has a<br/>$rate Star Rating</strong><br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" ><br/><strong>$ratings person has<br/>voted for this Blog</strong><br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" >";
   else
-  $ratecontent = "<div align=\"center\"><strong>This Blog has a<br/>$rate Star Rating</strong><br/><img src=\"modules/Blog/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" ><br/><strong>$ratings people have<br/>voted for this Blog</strong><br/><img src=\"modules/Blog/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" >";
+  $ratecontent = "<div align=\"center\"><strong>This Blog has a<br/>$rate Star Rating</strong><br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" ><br/><strong>$ratings people have<br/>voted for this Blog</strong><br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" >";
   
-  $ratecontent .= "<form action=\"modules.php?name=$module_name\" method=\"post\"><img src=\"modules/Blog/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"10\" ><br /><div align=center>"._RATETHISARTICLE."</div><br />";
-  $ratecontent .= "<img src=\"modules/Blog/images/blockspacer.png\" alt=\"stars\" width=\"20\" height=\"20\" ><br />$the_image<br/><img src=\"modules/Blog/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" ><br />";
+  $ratecontent .= "<form action=\"modules.php?name=$module_name\" method=\"post\"><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"10\" ><br /><div align=center>"._RATETHISARTICLE."</div><br />";
+  $ratecontent .= "<img src=\"modules/Blogs/images/blockspacer.png\" alt=\"stars\" width=\"20\" height=\"20\" ><br />$the_image<br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" ><br />";
   $ratecontent .= "<input type=\"hidden\" name=\"sid\" value=\"$sid\">";
   $ratecontent .= "<input type=\"hidden\" name=\"op\" value=\"rate_article\">";
 }
@@ -459,7 +459,7 @@ else
 }
 
 $ratecontent .= "<input type=\"submit\" value=\""._CASTMYVOTE."\"></form><br />";
-$ratecontent .= "<img src=\"modules/Blog/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"1\" ></div>";
+$ratecontent .= "<img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"1\" ></div>";
 
 themesidebox($ratetitle, $ratecontent, "newsvote");
 

@@ -57,8 +57,8 @@ function title_and_meta_tags()
 		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
 	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
 			else:
-		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
-	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
+		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blogs/images/logo.png" />'."\n";
+	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blogs/images/logo.png" />'."\n";
 			endif;
             # each module has a logo image file END
 			
@@ -83,8 +83,8 @@ function title_and_meta_tags()
 		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
 	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
 			else:
-		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
-	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
+		  $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blogs/images/logo.png" />'."\n";
+	             $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blogs/images/logo.png" />'."\n";
 			endif;
             # each module has a logo image file END
 	        
@@ -107,8 +107,8 @@ function title_and_meta_tags()
 		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
 	              $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
 			else:
-		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
-	              $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
+		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blogs/images/logo.png" />'."\n";
+	              $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blogs/images/logo.png" />'."\n";
 			endif;
 
 			     $facebookimagetype = '<meta property="og:image:type" content="image/png" />'."\n";
@@ -205,8 +205,8 @@ function title_and_meta_tags()
 	      
 		  # do all this shit if you are on the index.php page
 		  else:
-			$facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
-	               $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blog/images/logo.png" />'."\n";
+			$facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blogs/images/logo.png" />'."\n";
+	               $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/Blogs/images/logo.png" />'."\n";
 			      $facebookimagetype = '<meta property="og:image:type" content="image/png" />'."\n";
              $facebook_ogimage_width = '<meta property="og:image:width" content="1200" />'."\n";
             $facebook_ogimage_height = '<meta property="og:image:height" content="628" />'."\n";
