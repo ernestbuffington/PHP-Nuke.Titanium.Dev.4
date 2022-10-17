@@ -50,25 +50,33 @@ if($use_cache && $usrclearcache)
   echo ""._SITECACHED . " <a href=\"javascript:clear_cache.submit()\">" . _UPDATECACHE . "</a>";
   echo "</form></div>";
 }
+
+  echo "<div align=\"center\">";
+  echo '<a class="copyright" href="javascript: void(0)" onclick="window.open(\''.xtremev3b_theme_dir.'copyrights.php\', \'windowname1\', \'width=800, height=500\'); return false;">';
+  echo '<span class="tooltip-html" title="'.xtremev3b_copyright_click.'">Xtreme v3b Theme</span>';
+  echo "</div>";
+
 # END updated 09/12/2019 Ernest Allen Buffington
 echo '</span></div>';
 
 echo '</div>';
 
-echo '<div class="flex-item" style="width: 58px; height: 71px; background-image: url('.xtremev3b_ftr_images.'FTR_Copyright.png); padding-right: 20px;">';
-echo '<div style="padding-top:46px;">';
-echo '<a class="copyright" href="javascript: void(0)" onclick="window.open(\''.xtremev3b_theme_dir.'copyrights.php\', \'windowname1\', \'width=800, height=500\'); return false;">';
-echo '<span class="tooltip-html" title="'.xtremev3b_copyright_click.'">'.$customlang['global']['copyrights'].'</span>';
-echo '</a>';
-echo '</div>';
-echo '</div>';
+//echo '<div class="flex-item" style="width: 58px; height: 71px; background-image: url('.xtremev3b_ftr_images.'FTR_Copyright.png); padding-right: 40px;">';
+//echo '<div style="padding-top:46px;">';
+//echo '<a class="copyright" href="javascript: void(0)" onclick="window.open(\''.xtremev3b_theme_dir.'copyrights.php\', \'windowname1\', \'width=800, height=500\'); return false;">';
+//echo '<span class="tooltip-html" title="'.xtremev3b_copyright_click.'"><font size="1">'.$customlang['global']['copyrights'].'</font></span>';
+//echo '</a>';
+//echo '</div>';
+//echo '</div>';
 echo '<div class="flex-item"><img src="'.xtremev3b_ftr_images.'FTR_04.png" style="width: 35px; height: 71px;"></div>';
 echo '</section>';
 echo '<section id="flex-container">';
 echo '<div class="flex-item"><img src="'.xtremev3b_ftr_images.'FTRbarbtm_01.png" style="width: 114px; height: 15px;"></div>';
 echo '<div class="flex-item" style="width: 100%; height: 15px; background-image: url('.xtremev3b_ftr_images.'FTRbarbtm_Bg_Stretch.png)">';
-echo '<div class="tooltip-html center" style="font-size: xx-small;" title="'.xtremev3_copyright.'"><span style="color: #141B05;">'.str_replace('<br />', ' ', xtremev3_copyright);
-echo '</span></div>';
+
+//echo '<div class="tooltip-html center" style="font-size: xx-small;" title="'.xtremev3_copyright.'"><span style="color: #141B05;">'.str_replace('<br />', ' ', xtremev3_copyright);
+//echo '</span></div>';
+
 echo '</div>';
 echo '<div class="flex-item"><img src="'.xtremev3b_ftr_images.'FTRbarbtm_03.png" style="width: 114px; height: 15px;"></div>';
 echo '</section>';

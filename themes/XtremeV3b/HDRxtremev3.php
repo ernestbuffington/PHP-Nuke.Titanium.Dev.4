@@ -10,10 +10,10 @@ global $sitename, $slogan, $name, $banners, $db, $user_prefix, $prefix, $admin_f
 
 print "\n\n<!-- THEME HEADER START -->\n"; 
 
-// Check if a Registered User is Logged-In
+# Check if a Registered User is Logged-In
 $username = is_user() ? $userinfo['username'] : _ANONYMOUS;
 
-// Setup the Welcome Information for the User
+# Setup the Welcome Information for the User
 if ($username === _ANONYMOUS):
    $theuser  = '<div style="float: right; padding-right: 34px;">You are not Logged-In as a User!</div><br />';
    $theuser .= '<div style="float: right; padding-right: 26px;">Please <a href="modules.php?name=Your_Account">Login</a> or <a href="modules.php?name=Your_Account&amp;op=new_user">Register</a>&nbsp;&nbsp;</div>';
@@ -28,17 +28,16 @@ endif;
 /*-----------------*/
 addJSToBody(xtremev3b_js_dir.'menu.min.js');
 
-$ads = ads(0);
+$network_ads = network_ads(0);
 
 global $theme_name;
 print '<div class="container" style="width: '.xtremev3_width.'">'."\n";
 print '<header>'."\n";
 
 print '<section id="flex-container">'."\n";
-
-print '<div class="flex-item"><img src="'.xtremev3b_hdr_images.'HDR_01.png" style="width: 37px; height: 150px;"></div>'."\n";
-print '<div class="flex-item" style="width: 100%; height: 150px; background-image: url('.xtremev3b_hdr_images.'HDR_BgRepeat.png)"><div class="wrapLogo"></div><div id="hdr-banner-ads">'.$ads.'</div></div>'."\n";
-print '<div class="flex-item"><img src="'.xtremev3b_hdr_images.'HDR_03.png" style="width: 37px; height: 150px;"></div>'."\n";
+print '<div class="flex-item"><img src="'.xtremev3b_hdr_images.'HDR_01.png" style="width: 37px; height: 130px;"></div>'."\n";
+print '<div class="flex-item" style="width: 100%; height: 130px; background-image: url('.xtremev3b_hdr_images.'HDR_BgRepeat.png)"><div class="wrapLogoZ"></div><div id="hdr-banner-ads">'.$network_ads.'</div></div>'."\n";
+print '<div class="flex-item"><img src="'.xtremev3b_hdr_images.'HDR_03.png" style="width: 37px; height: 130px;"></div>'."\n";
 print '</section>'."\n";
 
 print '<section id="flex-container">'."\n";

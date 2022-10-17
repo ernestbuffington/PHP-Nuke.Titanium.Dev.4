@@ -56,7 +56,8 @@ LI.list1     { list-style: square inside; color: #FED192; }
       <li class="list1"><strong><font class="small">THEME DESCRIPTION</font></strong>:&nbsp;<font class="textcontent">A Very Nice Clean GREY Styled Design</font></li>
       <li class="list1"><strong><font class="small">THEME COPYRIGHT</font></strong>:&nbsp;<font class="textcontent">Copyright &copy; 2019 RealmDesignz.com All Rights Reserved</font></li>
       <li class="list1"><strong><font class="small">LICENSE</font></strong>:&nbsp;<font class="textcontent">Public</font></li>
-      <li class="list1"><strong><font class="small">AUTHOR\'S NAME</font></strong>:&nbsp;<font class="textcontent">The Mortal & TheGhost</font></li>
+      <li class="list1"><strong><font class="small">AUTHOR\'S NAME</font></strong>:&nbsp;<font class="textcontent">The Mortal</font></li>
+	  <li class="list1"><strong><font class="small">CONTRIBUTER(S)</font></strong>:&nbsp;<font class="textcontent">Ernest Buffington aka TheGhost</font></li>
       <li class="list1"><strong><font class="small">AUTHOR\'S WEB SITE</font></strong>:&nbsp;<font class="textcontent">RealmDesignz.com</font></li>
      </ul>
     </td>
@@ -66,9 +67,9 @@ LI.list1     { list-style: square inside; color: #FED192; }
  <tr>
     <td style="height: 30px; width: 500px;">
      <ul>
-      <li class="list1"><strong><font class="small">COPYRIGHT</font></strong>:&nbsp;<font class="textcontent">Php-Nuke &copy; 2005 F.Burzi</font></li>
+      <li class="list1"><strong><font class="small">COPYRIGHT</font></strong>:&nbsp;<font class="textcontent">Php-Nuke &copy; 2002 F.Burzi</font></li>
       <li class="list1"><strong><font class="small">CORE</font></strong>:&nbsp;<font class="textcontent">Nuke-Evolution CMS Software</font></li>
-      <li class="list1"><strong><font class="small">POWERED BY</font></strong>:&nbsp;<font class="textcontent"><a href="https://evolution-xtreme.co.uk" target="_blank">Nuke-Evolution-Xtreme CMS Software</a></font></li>
+      <li class="list1"><strong><font class="small">POWERED BY</font></strong>:&nbsp;<font class="textcontent"><a href="https://www.dev-php-nuke-evolution-xtreme.86it.us/" target="_blank">(US) Nuke-Evolution-Xtreme CMS Software</a></font></li>
      </ul>
     </td>
  </tr>
@@ -78,7 +79,7 @@ echo '<br /><table width="600" height="30" border="0" cellpadding="0" cellspacin
  <tr>
     <td style="height: 30px; width: 600px;" align="center">
 <div class="copyright">
-<a href="../../modules.php?name=Spambot_Killer" target="_blank">Spambot Killer</a> <font color="green">|</font> <a href="../../modules.php?name=Site_Map" target="_blank">Site Map</a><br />
+<a href="../../modules.php?name=Spambot_Killer" target="_blank">Spambot Killer</a> <font color="green">|</font> <a href="../../modules.php?name=Google-Site-Map" target="_blank">Site Map</a><br />
 <br />
 <a href="../../rss.php?feed=news" target="_blank"><img border="0" src="../../images/powered/feed_20_news.png" width="94" height="15" alt="[News Feed]" title="News Feed" /></a>
  <a href="../../rss.php?feed=forums" target="_blank"><img border="0" src="../../images/powered/feed_20_forums.png" width="94" height="15" alt="[Forums Feed]" title="Forums Feed" /></a>
@@ -88,8 +89,8 @@ echo '<br /><table width="600" height="30" border="0" cellpadding="0" cellspacin
  <a href="http://tool.motoricerca.info/robots-checker.phtml?checkreferer=1" target="_blank"><img border="0" src="../../images/powered/valid-robots.png" width="80" height="15" alt="[Validate robots.txt]" title="Validate robots.txt" /></a>
 <br /><br />
 <font color="#F1F1F1">
-PHP-Nuke Copyright &copy; 2006 by Francisco Burzi.
-All logos, trademarks and posts in this site are property of their respective owners, all the rest &copy; 2006 by the site owner.
+PHP-Nuke Copyright &copy; 2002 by Francisco Burzi.
+All logos, trademarks and posts in this site are property of their respective owners, all the rest &copy; 2022 by the site owner.
 </font>
 </div>
     </td>
