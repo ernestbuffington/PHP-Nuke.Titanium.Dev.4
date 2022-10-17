@@ -7,8 +7,8 @@ function themearticle($aid, $informant, $datetime, $modified, $title, $counter, 
     global $digits_color, $digits_txt_color;
 
 	if (!empty($topicimage)): 
-		$t_image = (file_exists(xtremev3_images_dir.'topics/'.$topicimage)) 
-		? xtremev3_images_dir.'topics/'.$topicimage : $tipath.$topicimage;
+		$t_image = (file_exists(xtremev3b_images_dir.'topics/'.$topicimage)) 
+		? xtremev3b_images_dir.'topics/'.$topicimage : $tipath.$topicimage;
 		$topic_img  = '<td width="25%" align="center" class="extra">';
 		$topic_img .= '<a href="modules.php?name=Blog&new_topic='.$topic.'"><img src="'.$t_image.'" border="0" alt="'.$topictext.'" title="'.$topictext.'"></a></td>';
 	else: 

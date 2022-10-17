@@ -26,7 +26,7 @@ endif;
 /*-----------------*/
 /* RD Scripts v1.0 */
 /*-----------------*/
-addJSToBody(xtremev3_js_dir.'menu.min.js');
+addJSToBody(xtremev3b_js_dir.'menu.min.js');
 
 $ads = ads(0);
 
@@ -36,28 +36,28 @@ print '<header>'."\n";
 
 print '<section id="flex-container">'."\n";
 
-print '<div class="flex-item"><img src="'.xtremev3_hdr_images.'HDR_01.png" style="width: 37px; height: 150px;"></div>'."\n";
-print '<div class="flex-item" style="width: 100%; height: 150px; background-image: url('.xtremev3_hdr_images.'HDR_BgRepeat.png)"><div class="wrapLogo"></div><div id="hdr-banner-ads">'.$ads.'</div></div>'."\n";
-print '<div class="flex-item"><img src="'.xtremev3_hdr_images.'HDR_03.png" style="width: 37px; height: 150px;"></div>'."\n";
+print '<div class="flex-item"><img src="'.xtremev3b_hdr_images.'HDR_01.png" style="width: 37px; height: 150px;"></div>'."\n";
+print '<div class="flex-item" style="width: 100%; height: 150px; background-image: url('.xtremev3b_hdr_images.'HDR_BgRepeat.png)"><div class="wrapLogo"></div><div id="hdr-banner-ads">'.$ads.'</div></div>'."\n";
+print '<div class="flex-item"><img src="'.xtremev3b_hdr_images.'HDR_03.png" style="width: 37px; height: 150px;"></div>'."\n";
 print '</section>'."\n";
 
 print '<section id="flex-container">'."\n";
-print '<div class="flex-item"><img src="'.xtremev3_hdr_images.'HDRbartop_01.png" style="width: 114px; height: 9px;"></div>'."\n";
-print '<div class="flex-item" style="width: 100%; height: 9px; background-image: url('.xtremev3_hdr_images.'HDRbartop_Bg_Stretch.png)"></div>'."\n";
-print '<div class="flex-item"><img src="'.xtremev3_hdr_images.'HDRbartop_03.png" style="width: 114px; height: 9px;"></div>'."\n";
+print '<div class="flex-item"><img src="'.xtremev3b_hdr_images.'HDRbartop_01.png" style="width: 114px; height: 9px;"></div>'."\n";
+print '<div class="flex-item" style="width: 100%; height: 9px; background-image: url('.xtremev3b_hdr_images.'HDRbartop_Bg_Stretch.png)"></div>'."\n";
+print '<div class="flex-item"><img src="'.xtremev3b_hdr_images.'HDRbartop_03.png" style="width: 114px; height: 9px;"></div>'."\n";
 print '</section>'."\n";
 
 print '<section id="flex-container">'."\n";
-print '<div class="flex-item"><img src="'.xtremev3_hdr_images.'HDRnav_01.png" style="width: 98px; height: 29px;"></div>'."\n";
-print '<div class="flex-item" style="width: 100%; height: 29px; background-image: url('.xtremev3_hdr_images.'HDRnav_Bg_Stretch.png)">'."\n";
-include(xtremev3_theme_dir.'HDRnavi.php');
+print '<div class="flex-item"><img src="'.xtremev3b_hdr_images.'HDRnav_01.png" style="width: 98px; height: 29px;"></div>'."\n";
+print '<div class="flex-item" style="width: 100%; height: 29px; background-image: url('.xtremev3b_hdr_images.'HDRnav_Bg_Stretch.png)">'."\n";
+include(xtremev3b_theme_dir.'HDRnavi.php');
 print '</div>'."\n";
-print '<div class="flex-item"><img src="'.xtremev3_hdr_images.'HDRnav_03.png" style="width: 98px; height: 29px;"></div>'."\n";
+print '<div class="flex-item"><img src="'.xtremev3b_hdr_images.'HDRnav_03.png" style="width: 98px; height: 29px;"></div>'."\n";
 print '</section>'."\n";
 
 print '<section id="flex-container">'."\n";
 print '<div class="welcomebg"><div style="padding-top: 23px;">'.$username.'</div></div>'."\n";
-print '<div style="width: 100%; height: 60px; background-image: url('.xtremev3_hdr_images.'Usernav_Bg_Stretch.png)">'."\n";
+print '<div style="width: 100%; height: 60px; background-image: url('.xtremev3b_hdr_images.'Usernav_Bg_Stretch.png)">'."\n";
 print '<div class="bviewed center">Best Viewed w/Minimum Screen Resolution of 1368px or Higher!</div>'."\n";
 print '</div>'."\n";
 print '<div class="userlinksbg">'."\n";
@@ -68,13 +68,13 @@ print '</section>'."\n";
 print '</header>'."\n";
 
 print '<section id="flex-container">'."\n";
-print '<div style="background-image: url('.xtremev3_images_dir.'sideleft.png); vertical-align: top"><img src="'.xtremev3_images_dir.'spacer.gif" style="width: 40px; height: 5px" alt=""></div>'."\n";
+print '<div style="background-image: url('.xtremev3b_images_dir.'sideleft.png); vertical-align: top"><img src="'.xtremev3b_images_dir.'spacer.gif" style="width: 40px; height: 5px" alt=""></div>'."\n";
 
 if(blocks_visible('left')):
     print '<div class="body-background" style="vertical-align: top;">'."\n";
     blocks('left');
     print '</div>'
-         .'<div class="body-background" style="vertical-align: top;"><img src="'.xtremev3_images_dir.'spacer.gif" style="width: 5px; height: 1px" border="0" alt=""></div>'
+         .'<div class="body-background" style="vertical-align: top;"><img src="'.xtremev3b_images_dir.'spacer.gif" style="width: 5px; height: 1px" border="0" alt=""></div>'
          .'<div class="body-background" style="width: 100%">'."\n";
 else:
     print '<div class="body-background2" style="vertical-align: top;"></div>'

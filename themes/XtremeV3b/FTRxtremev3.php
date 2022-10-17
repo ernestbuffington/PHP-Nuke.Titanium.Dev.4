@@ -11,26 +11,26 @@ global $appID, $customlang, $ThemeInfo, $banners;
 
 if(blocks_visible('right') && !defined('ADMIN_FILE')):
 echo '</div>'
-    .'  <div class="body-background" style="vertical-align: top;"><img src="'.xtremev3_images_dir.'spacer.gif" style="width:5px; height:1px" border="0" alt=""></div>'
+    .'  <div class="body-background" style="vertical-align: top;"><img src="'.xtremev3b_images_dir.'spacer.gif" style="width:5px; height:1px" border="0" alt=""></div>'
     .'  <div class="body-background" style="vertical-align: top">';
     blocks('right'); 
 endif;
 
 echo '</div>';
-echo '<div style="background-image: url('.xtremev3_images_dir.'sideright.png); vertical-align: top"><img src="'.xtremev3_images_dir.'spacer.gif" style="width:40px; height:5px" alt=""></div>';
+echo '<div style="background-image: url('.xtremev3b_images_dir.'sideright.png); vertical-align: top"><img src="'.xtremev3b_images_dir.'spacer.gif" style="width:40px; height:5px" alt=""></div>';
 echo '</section>';
 
 echo '<footer>';
     
 echo '<section id="flex-container">';
-echo '  <div class="flex-item"><img src="'.xtremev3_ftr_images.'FTRbartop_01.png" style="width: 114px; height: 23px;"></div>';
-echo '  <div class="flex-item" style="width: 100%; height: 23px; background-image: url('.xtremev3_ftr_images.'FTRbartop_Bg_Stretch.png)"></div>';
-echo '  <div class="flex-item"><img src="'.xtremev3_ftr_images.'FTRbartop_03.png" style="width: 114px; height: 23px;"></div>';
+echo '  <div class="flex-item"><img src="'.xtremev3b_ftr_images.'FTRbartop_01.png" style="width: 114px; height: 23px;"></div>';
+echo '  <div class="flex-item" style="width: 100%; height: 23px; background-image: url('.xtremev3b_ftr_images.'FTRbartop_Bg_Stretch.png)"></div>';
+echo '  <div class="flex-item"><img src="'.xtremev3b_ftr_images.'FTRbartop_03.png" style="width: 114px; height: 23px;"></div>';
 echo '</section>';
 
 echo '<section id="flex-container">';
-echo '<div class="flex-item"><img src="'.xtremev3_ftr_images.'FTR_01.png" style="width: 35px; height: 71px;"></div>';
-echo '<div class="flex-item" style="width: 100%; height: 71px; background-image: url('.xtremev3_ftr_images.'FTR_Bg_Stretch.png)">';
+echo '<div class="flex-item"><img src="'.xtremev3b_ftr_images.'FTR_01.png" style="width: 35px; height: 71px;"></div>';
+echo '<div class="flex-item" style="width: 100%; height: 71px; background-image: url('.xtremev3b_ftr_images.'FTR_Bg_Stretch.png)">';
 echo '<div align="left" style="line-height: 28px; padding-top:8px; padding-left:20px;">';
 
 if(isset($appID)):
@@ -55,22 +55,22 @@ echo '</span></div>';
 
 echo '</div>';
 
-echo '<div class="flex-item" style="width: 58px; height: 71px; background-image: url('.xtremev3_ftr_images.'FTR_Copyright.png); padding-right: 20px;">';
+echo '<div class="flex-item" style="width: 58px; height: 71px; background-image: url('.xtremev3b_ftr_images.'FTR_Copyright.png); padding-right: 20px;">';
 echo '<div style="padding-top:46px;">';
-echo '<a class="copyright" href="javascript: void(0)" onclick="window.open(\''.xtremev3_theme_dir.'copyrights.php\', \'windowname1\', \'width=800, height=500\'); return false;">';
-echo '<span class="tooltip-html" title="'.xtremev3_copyright_click.'">'.$customlang['global']['copyrights'].'</span>';
+echo '<a class="copyright" href="javascript: void(0)" onclick="window.open(\''.xtremev3b_theme_dir.'copyrights.php\', \'windowname1\', \'width=800, height=500\'); return false;">';
+echo '<span class="tooltip-html" title="'.xtremev3b_copyright_click.'">'.$customlang['global']['copyrights'].'</span>';
 echo '</a>';
 echo '</div>';
 echo '</div>';
-echo '<div class="flex-item"><img src="'.xtremev3_ftr_images.'FTR_04.png" style="width: 35px; height: 71px;"></div>';
+echo '<div class="flex-item"><img src="'.xtremev3b_ftr_images.'FTR_04.png" style="width: 35px; height: 71px;"></div>';
 echo '</section>';
 echo '<section id="flex-container">';
-echo '<div class="flex-item"><img src="'.xtremev3_ftr_images.'FTRbarbtm_01.png" style="width: 114px; height: 15px;"></div>';
-echo '<div class="flex-item" style="width: 100%; height: 15px; background-image: url('.xtremev3_ftr_images.'FTRbarbtm_Bg_Stretch.png)">';
+echo '<div class="flex-item"><img src="'.xtremev3b_ftr_images.'FTRbarbtm_01.png" style="width: 114px; height: 15px;"></div>';
+echo '<div class="flex-item" style="width: 100%; height: 15px; background-image: url('.xtremev3b_ftr_images.'FTRbarbtm_Bg_Stretch.png)">';
 echo '<div class="tooltip-html center" style="font-size: xx-small;" title="'.xtremev3_copyright.'"><span style="color: #141B05;">'.str_replace('<br />', ' ', xtremev3_copyright);
 echo '</span></div>';
 echo '</div>';
-echo '<div class="flex-item"><img src="'.xtremev3_ftr_images.'FTRbarbtm_03.png" style="width: 114px; height: 15px;"></div>';
+echo '<div class="flex-item"><img src="'.xtremev3b_ftr_images.'FTRbarbtm_03.png" style="width: 114px; height: 15px;"></div>';
 echo '</section>';
 
 echo '</footer>';

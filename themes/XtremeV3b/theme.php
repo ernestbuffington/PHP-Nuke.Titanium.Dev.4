@@ -1,28 +1,32 @@
 <?php
-
-/*----------------------------------------------------------------*/
-/* THEME INFO                                                     */
-/* XtremeV3 Theme v3.0 (Fixed & Full Width)                       */
-/*                                                                */
-/* A Very Nice Clean Grey Styled Design.                          */
-/* Copyright © 2019 By: RealmDesignz.com | All Rights Reserved    */
-/*----------------------------------------------------------------*/
-/* CREATION INFO                                                  */
-/* Created On: 24th December, 2018 (v3.0)                         */
-/*                                                                */
-/* Updated On: 6th Jan, 2019 (v3.0)                               */
-/* HTML5 Theme Code Updated By: Lonestar (Lonestar-Modules.com)   */
-/*                                                                */
-/* Read CHANGELOG File for Updates & Upgrades Info                */
-/*                                                                */
-/* Designed By: The Mortal                                        */
-/* Web Site: www.realmdesignz.com                                 */
-/* Purpose: Xtreme v3 CMS                                         */
-/*----------------------------------------------------------------*/
-/* CMS INFO                                                       */
-/* PHP-Nuke Copyright (c) 2005 by Francisco Burzi phpnuke.org     */
+/*-----------------------------------------------------------------------------*/
+/* THEME INFO                                                                  */
+/* XtremeV3b Theme v3.0 (Fixed & Full Width)                                   */
+/*                                                                             */
+/* A Very Nice Clean Grey Styled Design.                                       */
+/* Copyright © 2019 By: RealmDesignz.com | All Rights Reserved                 */
+/*-----------------------------------------------------------------------------*/
+/* CREATION INFO                                                               */
+/* Created On: 24th December, 2018 (v3.0b)                                     */
+/*                                                                             */
+/* Updated On: 17th Oct, 2022 (v3.0b)                                          */
+/* Theme Code Updated By: Ernest Buffington (theghost.86it.us)                 */
+/*                                                                             */
+/* Updated On: 6th Jan, 2019 (v3.0)                                            */
+/* HTML5 Theme Code Updated By: Lonestar (Lonestar-Modules.com)                */
+/*                                                                             */
+/* Updates and Addons by Ernest Buffington aka TheGhost                        */
+/*                                                                             */
+/* Read CHANGELOG File for Updates & Upgrades Info                             */
+/*                                                                             */
+/* Originally Designed By: The Mortal                                          */
+/* Web Site: www.realmdesignz.com                                              */
+/* Purpose: (US) Xtreme v3.x.x <> 4.x.x CMS                                    */
+/*-----------------------------------------------------------------------------*/
+/* CMS INFO                                                                    */
+/* PHP-Nuke Copyright (c) 2005 by Francisco Burzi phpnuke.org                  */
 /* PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System      */
-/*----------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------*/
 
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
     exit('Access Denied');
@@ -46,7 +50,6 @@ global $use_theme_image_dir_for_portal_menu;
 
 $use_theme_image_dir_for_portal_menu = false;
 
-
 $digits_color ='#ffb825';
 $fieldset_border_width = '1px'; 
 $fieldset_color = '#4e4e4e';
@@ -55,7 +58,6 @@ $avatar_overide_size = '150';
 $make_xtreme_avatar_small = true;
 $use_xtreme_voting = false;
 
-
 $bgcolor1   = $ThemeInfo['bgcolor1'];
 $bgcolor2   = $ThemeInfo['bgcolor2'];
 $bgcolor3   = $ThemeInfo['bgcolor3'];
@@ -63,28 +65,28 @@ $bgcolor4   = $ThemeInfo['bgcolor4'];
 $textcolor1 = $ThemeInfo['textcolor1'];
 $textcolor2 = $ThemeInfo['textcolor2'];
 
-define('xtremev3_theme_dir', 'themes/'.$theme_name.'/');
-define('xtremev3_images_dir', xtremev3_theme_dir.'images/');
-define('xtremev3_style_dir', xtremev3_theme_dir.'style/');
-define('xtremev3_phpstyle_dir', xtremev3_theme_dir.'css/'); 
-define('xtremev3_js_dir', xtremev3_style_dir.'js/');
-define('xtremev3_hdr_images', xtremev3_images_dir.'hdr/');
-define('xtremev3_ftr_images', xtremev3_images_dir.'ftr/');
+define('xtremev3b_theme_dir', 'themes/'.$theme_name.'/');
+define('xtremev3b_images_dir', xtremev3b_theme_dir.'images/');
+define('xtremev3b_style_dir', xtremev3b_theme_dir.'style/');
+define('xtremev3b_phpstyle_dir', xtremev3b_theme_dir.'css/'); 
+define('xtremev3b_js_dir', xtremev3b_style_dir.'js/');
+define('xtremev3b_hdr_images', xtremev3b_images_dir.'hdr/');
+define('xtremev3b_ftr_images', xtremev3b_images_dir.'ftr/');
 
 define('xtremev3_width', ((substr($ThemeInfo['themewidth'], -1) == '%') ? str_replace('%','',($ThemeInfo['themewidth'])).'%' : str_replace('px','',($ThemeInfo['themewidth'])).'px'));
 
-define('xtremev3_copyright', 'XtremeV3b Theme Designed By: The Ghost<br />Copyright &copy '.date('Y').' The 86it Developers Network<br />All Rights Reserved');
-define('xtremev3_copyright_click', 'Click the Link to Display Copyrights');
+define('xtremev3_copyright', 'XtremeV3b Theme Designed By: The Ghost<br />Copyright &copy '.date('Y').' Brandon Maintenance Management<br />All Rights Reserved');
+define('xtremev3b_copyright_click', 'Click the Link to Display Copyrights');
 
-addCSSToHead(xtremev3_style_dir.'style.css','file');
-addCSSToHead(xtremev3_style_dir.'menu.css','file');
+addCSSToHead(xtremev3b_style_dir.'style.css','file');
+addCSSToHead(xtremev3b_style_dir.'menu.css','file');
 
 #-------------------#
 # FlyKit Mod v1.0   #
 #-------------------#
 //addPHPCSSToHead(theme_phpstyle_dir.'header.php','file');     
 //addPHPCSSToHead(theme_phpstyle_dir.'sideblocks.php','file'); 
-addPHPCSSToHead(xtremev3_phpstyle_dir.'body.php','file');       
+addPHPCSSToHead(xtremev3b_phpstyle_dir.'body.php','file');       
 //addPHPCSSToHead(theme_phpstyle_dir.'footer.php','file');     
 //addPHPCSSToHead(theme_phpstyle_dir.'maintable.php','file');  
 //addPHPCSSToHead(theme_phpstyle_dir.'CKeditor.php','file');   
@@ -95,13 +97,13 @@ addPHPCSSToHead(xtremev3_phpstyle_dir.'body.php','file');
 /*-------------------*/
 /* OpenTable Section */
 /*-------------------*/
-//include_once(xtremev3_theme_dir.'xtremev3_tables.php');
+//include_once(xtremev3b_theme_dir.'xtremev3_tables.php');
 
-include_once(xtremev3_theme_dir.'function_OpenTable.php');
-include_once(xtremev3_theme_dir.'function_CloseTable.php');
+include_once(xtremev3b_theme_dir.'function_OpenTable.php');
+include_once(xtremev3b_theme_dir.'function_CloseTable.php');
 
-include_once(xtremev3_theme_dir.'function_OpenTable2.php');
-include_once(xtremev3_theme_dir.'function_CloseTable2.php');
+include_once(xtremev3b_theme_dir.'function_OpenTable2.php');
+include_once(xtremev3b_theme_dir.'function_CloseTable2.php');
 
 /*---------------------*/
 /* FormatStory Section */
@@ -146,7 +148,7 @@ else
 /*----------------*/
 function themeheader() 
 {
-include_once(xtremev3_theme_dir.'HDRxtremev3.php');
+include_once(xtremev3b_theme_dir.'HDRxtremev3.php');
 }
 
 /*----------------*/
@@ -154,23 +156,23 @@ include_once(xtremev3_theme_dir.'HDRxtremev3.php');
 /*----------------*/
 function themefooter() 
 {
-include_once(xtremev3_theme_dir.'FTRxtremev3.php');
+include_once(xtremev3b_theme_dir.'FTRxtremev3.php');
 }
 
 /*--------------------*/
 /* News Index Section */
 /*--------------------*/
-include_once(xtremev3_theme_dir.'function_themeindex.php');
+include_once(xtremev3b_theme_dir.'function_themeindex.php');
 
 /*----------------------*/
 /* News Article Section */
 /*----------------------*/
-include_once(xtremev3_theme_dir.'function_themearticle.php');
+include_once(xtremev3b_theme_dir.'function_themearticle.php');
 
 /*-------------------*/
 /* Centerbox Section */
 /*-------------------*/
-include_once(xtremev3_theme_dir.'function_themecenterbox.php');
+include_once(xtremev3b_theme_dir.'function_themecenterbox.php');
 
 /*-----------------*/
 /* Preview Section */
@@ -185,5 +187,5 @@ echo (!empty($notes)) ? '<br /><br /><strong>'._NOTE.'</strong> <em>'.$notes.'</
 /*-----------------*/
 /* Sidebox Section */
 /*-----------------*/
-include_once(xtremev3_theme_dir.'function_themesidebox.php');
+include_once(xtremev3b_theme_dir.'function_themesidebox.php');
 ?>
