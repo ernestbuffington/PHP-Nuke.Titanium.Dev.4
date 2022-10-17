@@ -75,7 +75,7 @@ define('xtremev3b_ftr_images', xtremev3b_images_dir.'ftr/');
 
 define('xtremev3_width', ((substr($ThemeInfo['themewidth'], -1) == '%') ? str_replace('%','',($ThemeInfo['themewidth'])).'%' : str_replace('px','',($ThemeInfo['themewidth'])).'px'));
 
-define('xtremev3_copyright', 'XtremeV3b Theme Designed By: The Ghost<br />Copyright &copy '.date('Y').' Brandon Maintenance Management<br />All Rights Reserved');
+define('xtremev3_copyright', 'XtremeV3b Theme Designed By: The Mortal and Updated by TheGhost<br />Copyright &copy '.date('Y').' Brandon Maintenance Management<br />All Rights Reserved');
 define('xtremev3b_copyright_click', 'Click the Link to Display Copyrights');
 
 addCSSToHead(xtremev3b_style_dir.'style.css','file');
