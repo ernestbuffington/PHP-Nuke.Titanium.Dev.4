@@ -1,11 +1,9 @@
 <?php
-
 /*--------------------------*/
-/* XtremeV3 Footer Section  */
+/* XtremeV3b Footer Section */
 /*--------------------------*/
 /* Fixed & Full Width Style */
 /*--------------------------*/
-
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
     exit('Access Denied');
 

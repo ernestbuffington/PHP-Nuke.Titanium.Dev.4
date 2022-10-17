@@ -1,5 +1,4 @@
 <?php
-
 /*-----------------------------------------------------------*/
 /* Realm Designz: Copyright Popup Window                     */
 /* ======================================                    */
@@ -96,5 +95,4 @@ All logos, trademarks and posts in this site are property of their respective ow
     </td>
  </tr>
 </table>';
-
 ?>

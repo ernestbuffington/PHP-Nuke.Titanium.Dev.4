@@ -56,22 +56,14 @@
 #---------------------------------------------------------------------------------------#
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
 exit('Access Denied');
-#// do not use echo in this file myCopyRight
-#// use $output .=
-#//global $ThemeSel;
-# This is a script load example
-/* echo "<script type=\"text/javascript\" language=\"javascript\" src=\"".HTTPS."themes/".$ThemeSel."/js/liveclock.js\"></script>\n"; */
 global $domain;
 ?>
 <!-- 80sPXL W00 Thin V1 Font Info CSS -->
 <link href="//db.onlinewebfonts.com/c/783dd6c2d08bdc67012a0eec73fc1702?family=80sPXLW00-Thin" rel="stylesheet" type="text/css"/>
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
 <!-- Modal -->
 <div class="modal fade" id="myCopyRight" tabindex="-1" role="dialog" aria-labelledby="CenterTitle" aria-hidden="true">
 
