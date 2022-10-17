@@ -10,7 +10,7 @@
    Copyright (c) 2005 by The Nuke-Evolution Team
 
    Filename      : counter.php
-   Author        : Quake (www.php-nuke-titanium.86it.us)
+   Author        : Quake (www.nuke-evolution.com)
    Version       : 2.0.0
    Date          : 5/10/2005 (dd-mm-yyyy)
 
