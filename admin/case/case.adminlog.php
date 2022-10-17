@@ -10,7 +10,7 @@
    Copyright (c) 2005 by The Nuke-Evolution Team
 
    Filename      : case.adminlog.php
-   Author        : Technocrat (www.php-nuke-titanium.86it.us)
+   Author        : Technocrat (www.nuke-evolution.com)
    Version       : 1.0.1
    Date          : 06/08/2005 (dd-mm-yyyy)
 
