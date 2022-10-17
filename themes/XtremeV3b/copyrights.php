@@ -69,7 +69,7 @@ LI.list1     { list-style: square inside; color: #FED192; }
      <ul>
       <li class="list1"><strong><font class="small">COPYRIGHT</font></strong>:&nbsp;<font class="textcontent">Php-Nuke &copy; 2002 F.Burzi</font></li>
       <li class="list1"><strong><font class="small">CORE</font></strong>:&nbsp;<font class="textcontent">Nuke-Evolution CMS Software</font></li>
-      <li class="list1"><strong><font class="small">POWERED BY</font></strong>:&nbsp;<font class="textcontent"><a href="https://www.dev-php-nuke-evolution-xtreme.86it.us/" target="_blank">(US) Nuke-Evolution-Xtreme CMS Software</a></font></li>
+      <li class="list1"><strong><font class="small">POWERED BY</font></strong>:&nbsp;<font class="textcontent"><a href="https://www.dev-php-nuke-evolution-xtreme.86it.us/" target="_blank">(US) PHP-Nuke Titanium CMS Software</a></font></li>
      </ul>
     </td>
  </tr>
