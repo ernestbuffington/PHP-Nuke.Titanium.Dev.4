@@ -61,7 +61,7 @@ a {
         ."</head>\n"
         ."<body>\n"
         ."<center><strong>Module Copyright &copy; Information</strong><br />"
-        ."$module_name module for <a href='http://www.nuke-evolution.com' target='_blank'>Nuke-Evolution</a><br /><br /></center>\n"
+        ."$module_name module for <a href='http://www.php-nuke-titanium.86it.us' target='_blank'>Nuke-Evolution</a><br /><br /></center>\n"
         ."<img src='../../images/arrow.gif' border='0' alt='' />&nbsp;<strong>Module's Name:</strong> $module_name<br />\n"
         ."<img src='../../images/arrow.gif' border='0' alt='' />&nbsp;<strong>Module's Version:</strong> $module_version<br />\n"
         ."<img src='../../images/arrow.gif' border='0' alt='' />&nbsp;<strong>Module's Description:</strong> $module_description<br />\n"

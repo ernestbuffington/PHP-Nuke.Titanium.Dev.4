@@ -10,7 +10,7 @@
    Copyright (c) 2005 by The Nuke-Evolution Team
 
    Filename      : validation.php
-   Author        : Technocrat (www.nuke-evolution.com)
+   Author        : Technocrat (www.php-nuke-titanium.86it.us)
    Version       : 1.1.0
    Date          : 01.06.2005 (mm.dd.yyyy)
 

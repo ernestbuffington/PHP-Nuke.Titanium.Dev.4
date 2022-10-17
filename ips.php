@@ -9,7 +9,7 @@
    Copyright (c) 2005 by The Nuke-Evolution Team
 
    Filename      : ips.php
-   Author        : Technocrat (www.nuke-evolution.com)
+   Author        : Technocrat (www.php-nuke-titanium.86it.us)
    Version       : 1.1.0
    Date          : 11/21/2005 (dd-mm-yyyy)
 

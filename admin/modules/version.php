@@ -10,7 +10,7 @@
    Copyright (c) 2005 by The Nuke-Evolution Team
 
    Filename      : case.version.php
-   Author        : Technocrat (www.nuke-evolution.com)
+   Author        : Technocrat (www.php-nuke-titanium.86it.us)
    Version       : 1.0.0
    Date          : 06/16/2005 (dd-mm-yyyy)
 
