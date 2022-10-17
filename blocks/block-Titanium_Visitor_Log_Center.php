@@ -37,6 +37,9 @@ $row1  .= '<table bgcolor="'.$bgcolor4.'" border="0" cellpadding="0" cellspacing
 
 while($whosbeen = $db->sql_fetchrow($row1_result)):
     
+	if (strlen($whosbeen['username']) > 15)
+    $whosbeen['username'] = substr($whosbeen['username'], 0, 9) . '...';
+	
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
 	$whosbeen['username'] = 'Ghost Mode';
@@ -115,6 +118,9 @@ $row2  .= '<td align="center">';
 $row2  .= '<table border="1" cellpadding="0" cellspacing="0" class="visitorlog">';
 
 while($whosbeen = $db->sql_fetchrow($row2_result)):
+
+	if (strlen($whosbeen['username']) > 15)
+    $whosbeen['username'] = substr($whosbeen['username'], 0, 9) . '...';
 
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
@@ -195,6 +201,9 @@ $row3  .= '<table border="1" cellpadding="0" cellspacing="1" class="visitorlog">
 
 while($whosbeen = $db->sql_fetchrow($row3_result)):
 
+	if (strlen($whosbeen['username']) > 15)
+    $whosbeen['username'] = substr($whosbeen['username'], 0, 9) . '...';
+
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
 	$whosbeen['username'] = 'Ghost Mode';
@@ -273,6 +282,9 @@ $row4  .= '<td align="center">';
 $row4  .= '<table bgcolor="'.$bgcolor4.'" border="1" cellpadding="0" cellspacing="1" class="visitorlog">';
 
 while($whosbeen = $db->sql_fetchrow($row4_result)):
+
+	if (strlen($whosbeen['username']) > 15)
+    $whosbeen['username'] = substr($whosbeen['username'], 0, 9) . '...';
 
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
