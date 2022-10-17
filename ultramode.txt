@@ -1,7 +1,7 @@
 General purpose self-explanatory file with news headlines
 %%
 New Browsers System Mod
-/modules.php?name=Blog&file=article&sid=46
+/modules.php?name=Blogs&file=article&sid=46
 Sunday, October 09
 TheGhost
 PHP-Nuke Titanium Mods
@@ -9,7 +9,7 @@ PHP-Nuke Titanium Mods
 
 %%
 NukeScripts™ Network Projects Module Update
-/modules.php?name=Blog&file=article&sid=45
+/modules.php?name=Blogs&file=article&sid=45
 Thursday, September 29
 NukeSheriff
 PHP-Nuke Titanium Modules
@@ -17,7 +17,7 @@ PHP-Nuke Titanium Modules
 
 %%
 cPanel Upgrade
-/modules.php?name=Blog&file=article&sid=44
+/modules.php?name=Blogs&file=article&sid=44
 Monday, September 26
 TheGhost
 The 86it Dev Team
@@ -25,7 +25,7 @@ The 86it Dev Team
 
 %%
 Why did we name the CMS PHP-Nuke Titanium?
-/modules.php?name=Blog&file=article&sid=43
+/modules.php?name=Blogs&file=article&sid=43
 Thursday, September 01
 TheGhost
 PHP-Nuke Titanium News
@@ -33,7 +33,7 @@ PHP-Nuke Titanium News
 
 %%
 New Members List Module
-/modules.php?name=Blog&file=article&sid=31
+/modules.php?name=Blogs&file=article&sid=31
 Tuesday, May 18
 TheGhost
 PHP-Nuke Titanium Modules
@@ -41,7 +41,7 @@ PHP-Nuke Titanium Modules
 
 %%
 New Network Cemetery Module
-/modules.php?name=Blog&file=article&sid=30
+/modules.php?name=Blogs&file=article&sid=30
 Monday, May 17
 TheGhost
 PHP-Nuke Titanium Modules
@@ -49,7 +49,7 @@ PHP-Nuke Titanium Modules
 
 %%
 New Who Viewed Forum Mod
-/modules.php?name=Blog&file=article&sid=29
+/modules.php?name=Blogs&file=article&sid=29
 Monday, May 17
 TheGhost
 PHP-Nuke Titanium Mods
@@ -57,7 +57,7 @@ PHP-Nuke Titanium Mods
 
 %%
 New Network Disclaimer Module
-/modules.php?name=Blog&file=article&sid=27
+/modules.php?name=Blogs&file=article&sid=27
 Monday, May 10
 webmaster
 PHP-Nuke Titanium Modules
@@ -65,7 +65,7 @@ PHP-Nuke Titanium Modules
 
 %%
 New Sentinel Mod Update
-/modules.php?name=Blog&file=article&sid=26
+/modules.php?name=Blogs&file=article&sid=26
 Monday, May 10
 NukeSheriff
 PHP-Nuke Titanium Modules
@@ -73,7 +73,7 @@ PHP-Nuke Titanium Modules
 
 %%
 New Web Links Module Update
-/modules.php?name=Blog&file=article&sid=25
+/modules.php?name=Blogs&file=article&sid=25
 Thursday, May 06
 TheGhost
 PHP-Nuke Titanium Modules

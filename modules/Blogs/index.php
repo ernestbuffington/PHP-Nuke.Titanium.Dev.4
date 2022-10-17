@@ -458,7 +458,7 @@ switch ($op)
                 $db->sql_freeresult($result);
                 $info = base64_encode("$rcookie$sid:");
                 setcookie("ratecookie","$info",time()+86400);
-                redirect("modules.php?name=Blog&op=rate_complete&sid=$sid&score=$score");
+                redirect("modules.php?name=Blogs&op=rate_complete&sid=$sid&score=$score");
             }
         } 
 		else 

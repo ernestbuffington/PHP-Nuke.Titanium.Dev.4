@@ -62,11 +62,11 @@ echo '<li><a href="modules.php?name=NukeSentinel"><i class="fas fa-shield-alt"><
 echo '</ul>';
 echo '</li>';
 ######################################################################################################################
-echo '<li class="has-sub"><a href="modules.php?name=Blog"><i class="fas fa-file-alt"></i> BLOGS</a>';
+echo '<li class="has-sub"><a href="modules.php?name=Blogs"><i class="fas fa-file-alt"></i> BLOGS</a>';
 echo '<ul>';
 echo '<li><a href="modules.php?name=Blog_Topics"><i class="fas fa-file-alt"></i> Blog Topics</a></li>';
-echo '<li><a href="modules.php?name=Blog_Archive"><i class="fas fa-file-alt"></i> Blog Archives</a></li>';
-echo '<li><a href="modules.php?name=Blog_Top"><i class="fas fa-file-alt"></i> Top 10 Blogs</a></li>';
+echo '<li><a href="modules.php?name=Blog_Archives"><i class="fas fa-file-alt"></i> Blog Archives</a></li>';
+echo '<li><a href="modules.php?name=Blogs_Top"><i class="fas fa-file-alt"></i> Top 10 Blogs</a></li>';
 echo '<li><a href="modules.php?name=Blog_Submit"><i class="fas fa-file-alt"></i> SUBMIT BLOG</a></li>';
 echo '</ul>';
 echo '</li>';

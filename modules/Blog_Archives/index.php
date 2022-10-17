@@ -203,7 +203,7 @@ function show_month($year, $month, $month_l)
         $ratings = intval($row['ratings']);
         $time = explode(" ", $time);
         
-		$actions = "<a href=\"modules.php?name=Blog&amp;file=print&amp;sid=$sid\"><i class=\"fa fa-print\"></i></a>&nbsp;<a href=\"modules.php?name=Blog&amp;file=friend&amp;op=FriendSend&amp;sid=$sid\"><i class=\"fa fa-envelope\"></i></a>";
+		$actions = "<a href=\"modules.php?name=Blogs&amp;file=print&amp;sid=$sid\"><i class=\"fa fa-print\"></i></a>&nbsp;<a href=\"modules.php?name=Blogs&amp;file=friend&amp;op=FriendSend&amp;sid=$sid\"><i class=\"fa fa-envelope\"></i></a>";
         
 		if ($score != 0) 
 		{
@@ -216,13 +216,13 @@ function show_month($year, $month, $month_l)
         
 		if ($catid == 0) 
 		{
-            $title = "<a href=\"modules.php?name=Blog&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
+            $title = "<a href=\"modules.php?name=Blogs&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
         } 
 		elseif ($catid != 0) 
 		{
             $row_res = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='$catid'"));
             $cat_title = $row_res['title'];
-            $title = "<a href=\"modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a href=\"modules.php?name=Blog&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
+            $title = "<a href=\"modules.php?name=Blogs&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a href=\"modules.php?name=Blogs&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
         }
         
 		if ($multilingual == 1)
@@ -415,7 +415,7 @@ function show_all($min)
         $score = intval($row['score']);
         $ratings = intval($row['ratings']);
         $time = explode(" ", $time);
-        $actions = "<a href=\"modules.php?name=Blog&amp;file=print&amp;sid=$sid\"><i class=\"fa fa-print\"></i></a>&nbsp;<a href=\"modules.php?name=Blog&amp;file=friend&amp;op=FriendSend&amp;sid=$sid\"><i class=\"fa fa-envelope\"></i></a>";
+        $actions = "<a href=\"modules.php?name=Blogs&amp;file=print&amp;sid=$sid\"><i class=\"fa fa-print\"></i></a>&nbsp;<a href=\"modules.php?name=Blogs&amp;file=friend&amp;op=FriendSend&amp;sid=$sid\"><i class=\"fa fa-envelope\"></i></a>";
 
 	    if ($score != 0) 
 		{
@@ -428,13 +428,13 @@ function show_all($min)
         
 		if ($catid == 0) 
 		{
-            $title = "<a href=\"modules.php?name=Blog&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
+            $title = "<a href=\"modules.php?name=Blogs&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
         } 
 		elseif ($catid != 0) 
 		{
             $row_res = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='$catid'"));
             $cat_title = stripslashes($row_res['title']);
-            $title = "<a href=\"modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a href=\"modules.php?name=Blog&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
+            $title = "<a href=\"modules.php?name=Blogs&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a href=\"modules.php?name=Blogs&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
         }
         
 		if ($multilingual == 1) 

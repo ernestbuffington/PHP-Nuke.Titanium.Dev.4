@@ -1429,6 +1429,9 @@ if ($old_school_imagedropdown == 0)
 	echo '<tr><td colspan = "3"></td></tr>
 	<tr><td colspan = "3"></td></tr>
 	</table></td></tr>';
+
+
+	echo "<tr><td width=\"50%\" align=\"left\"></td><td width=\"50%\" align=\"center\">&nbsp;</td></tr>";
 	
 	echo "<tr><td width=\"50%\" align=\"left\"><input type=\"reset\" value=\""._MENU_CANCEL."\"></td><td width=\"50%\" align=\"center\"><input type=\"submit\" value=\"SAVE YOUR MODIFICATIONS\"></td></tr>";
 	echo "</table>";

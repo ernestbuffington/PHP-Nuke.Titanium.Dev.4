@@ -24,7 +24,7 @@
 	 <hr>
 	 <b>Updates 2014</b>
         -[ 05/24/2014 ] [  10:30pm to 11:00pm ] Fixed "modules.php?name=Music_Search" It was returning an "empty delimiter" message
-        -[ 05/24/2014 ] [  09:30pm to 10:00pm ] Fixed "modules.php?name=Blog_Search" It was returning an "empty delimiter" message
+        -[ 05/24/2014 ] [  09:30pm to 10:00pm ] Fixed "modules.php?name=Blogs_Search" It was returning an "empty delimiter" message
         -[ 05/14/2014 ] [  09:14am to 09:16am ] Fixed "modules.php?name=Groups" now forwards to "modules.php?name=Network_Groups"
         -[ 05/14/2014 ] [  09:00am to 09:14am ] Fixed "modules.php?name=Journal&file=edit" PHP-Nuke Titanium does not have a Journal
         -[ 05/13/2014 ] [  04:00am to 05:00am ] Fixed Archive Index Listing Error

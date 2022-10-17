@@ -1623,7 +1623,7 @@ function postStory($automated,
                 $urow = $db->sql_fetchrow($db->sql_query("SELECT username, user_email FROM ".$user_prefix."_users WHERE user_id='$uid'"));
                 $Mto = $urow["username"]." <".$urow["user_email"].">";
                 $Msubject = _BLOG_ARTPUB;
-                $Mbody = _BLOG_HASPUB."\n$nukeurl/modules.php?name=Blog&file=article&sid=$artid";
+                $Mbody = _BLOG_HASPUB."\n$nukeurl/modules.php?name=Blogs&file=article&sid=$artid";
                 $Mheaders  = "From: ".$sitename." <$adminmail>\r\n";
                 $Mheaders .= "Reply-To: $adminmail\r\n";
                 $Mheaders .= "Return-Path: $adminmail\r\n";
@@ -1742,7 +1742,7 @@ function postStory($automated,
                 $urow = $db->sql_fetchrow($db->sql_query("SELECT username, user_email FROM ".$user_prefix."_users WHERE user_id='$uid'"));
                 $Mto = $urow["username"]." <".$urow["user_email"].">";
                 $Msubject = _BLOG_ARTPUB;
-                $Mbody = _BLOG_HASPUB."\n$nukeurl/modules.php?name=Blog&file=article&sid=$artid";
+                $Mbody = _BLOG_HASPUB."\n$nukeurl/modules.php?name=Blogs&file=article&sid=$artid";
                 $Mheaders  = "From: ".$sitename." <$adminmail>\r\n";
                 $Mheaders .= "Reply-To: $adminmail\r\n";
                 $Mheaders .= "Return-Path: $adminmail\r\n";
@@ -2028,7 +2028,7 @@ function removeBlog($sid, $ok=0)
 		    if ($ultramode) 
             blog_ultramode();
 
-            redirect("modules.php?name=Blog");
+            redirect("modules.php?name=Blogs");
         } 
 		else 
 		{
@@ -2168,7 +2168,7 @@ function lastTwentyBlogs()
 		formatTimestamp($time);
         
 		echo "<tr><td class=\"catHead\" align=\"right\"><strong>$sid</strong>" 
-            ."</td><td class=\"row1\" width=\"65.3%\" align=\"left\" width=\"100%\"><img class=\"icons\" align=\"absmiddle\" width=\"16\" src=\"".img('topic-16.png','Blog_Topics')."\"> <a href=\"modules.php?name=Blog&amp;file=article&amp;sid=$sid\">$title</a>"
+            ."</td><td class=\"row1\" width=\"65.3%\" align=\"left\" width=\"100%\"><img class=\"icons\" align=\"absmiddle\" width=\"16\" src=\"".img('topic-16.png','Blog_Topics')."\"> <a href=\"modules.php?name=Blogs&amp;file=article&amp;sid=$sid\">$title</a>"
             ."</td><td class=\"catHead\" align=\"center\">$alanguage"
             ."</td><td class=\"row1\" align=\"right\">$topicname";
         
@@ -3257,10 +3257,10 @@ switch($op)
 
         OpenTable();
 	    
-		echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=BlogsConfig\"><strong>Blogs Main Configuration</strong></a></div>";
+		echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=BlogssConfig\"><strong>Blogs Main Configuration</strong></a></div>";
 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
 
-        echo "<form action='".$admin_file.".php?op=BlogsConfigSave' method='post'>\n";
+        echo "<form action='".$admin_file.".php?op=BlogssConfigSave' method='post'>\n";
         echo "<center>\n<table border='0' cellpadding='2' cellspacing='2'>\n";
 
         echo "<tr>\n<td align='right'><strong>"._BLOG_DISPLAYTYPE.":</strong></td>\n<td><select name='xcolumns'>";
@@ -3393,7 +3393,7 @@ switch($op)
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 
-        redirect($admin_file.".php?op=BlogsConfig");
+        redirect($admin_file.".php?op=BlogssConfig");
     break;
   }
 } 

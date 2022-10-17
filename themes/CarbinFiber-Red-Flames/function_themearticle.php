@@ -43,7 +43,7 @@ function themearticle($aid, $informant, $datetime, $modified, $title, $counter, 
 	if (!empty($topicimage)) 
 	{
 		$t_image = (file_exists(carbinfiber_red_flames_images_dir.'topics/'.$topicimage)) ? carbinfiber_red_flames_images_dir.'topics/'.$topicimage : $tipath.$topicimage;
-		$topic_img = '<td width="25%" align="center" class="extra"><a href="modules.php?name=Blog&new_topic='
+		$topic_img = '<td width="25%" align="center" class="extra"><a href="modules.php?name=Blogs&new_topic='
 		.$topic.'"><img src="'.$t_image.'" border="0" alt="'.$topictext.'" title="'.$topictext.'"></a></td>';
 	} 
 	else 

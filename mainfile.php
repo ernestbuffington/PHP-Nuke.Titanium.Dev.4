@@ -1086,7 +1086,7 @@ function blog_ultramode()
         $topictext = $row['topictext'];
         $topicimage = ($row['ticon']) ? stripslashes($row['topicimage']) : '';
         $rtime = formatTimestamp($rtime, 'l, F d');
-        $content .= "%%\n".$rtitle."\n/modules.php?name=Blog&file=article&sid=".$rsid."\n".$rtime."\n".$raid."\n".$topictext."\n".$rcomments."\n".$topicimage."\n";
+        $content .= "%%\n".$rtitle."\n/modules.php?name=Blogs&file=article&sid=".$rsid."\n".$rtime."\n".$raid."\n".$topictext."\n".$rcomments."\n".$topicimage."\n";
     endwhile;
 	
     $db->sql_freeresult($result);

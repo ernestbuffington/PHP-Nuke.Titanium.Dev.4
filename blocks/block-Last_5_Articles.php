@@ -44,13 +44,13 @@ while (list($sid, $title, $comments, $counter) = $db->sql_fetchrow($result)) {
     $title = stripslashes($title);
     $content .= "<tr><td align=\"left\">";
     $content .= "<strong><big>&middot;</big></strong>";
-    $content .= " <a href=\"modules.php?name=Blog&amp;file=article&amp;sid=".$sid."\">$title</a>";
+    $content .= " <a href=\"modules.php?name=Blogs&amp;file=article&amp;sid=".$sid."\">$title</a>";
     $content .= "</td><td align=\"right\">";
     $content .= "[ $comtotal "._COMMENTS." - $counter "._READS." ]";
     $content .= "</td></tr>";
 }
 $db->sql_freeresult($result);
 $content .= "</table>";
-$content .= "<br /><center>[ <a href=\"modules.php?name=Blog\">"._MOREBLOGS."</a> ]</center>";
+$content .= "<br /><center>[ <a href=\"modules.php?name=Blogs\">"._MOREBLOGS."</a> ]</center>";
 
 ?>

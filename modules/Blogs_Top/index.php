@@ -73,7 +73,7 @@ if ($db->sql_numrows($result) > 0)
 
 	    if($counter>0) 
 		{
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('reads-icon-16.png','Blog_Top').'"> <a href="modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$counter.'</font></strong> '.BLOG_POST_READS.' )</li>';
+            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('reads-icon-16.png','Blogs_Top').'"> <a href="modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$counter.'</font></strong> '.BLOG_POST_READS.' )</li>';
         }
     }
     
@@ -102,7 +102,7 @@ echo '<br />';
         $ratings = intval($row2['ratings']);
         if($ratings>0) 
 		{
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('speedometer-16.png','Blog_Top').'"> <a href="modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'"> '.$title.'</a> - ( <font color="'.$digits_color.'"><strong>'.$ratings.'</strong></font> '._LVOTES.' )</li>';
+            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('speedometer-16.png','Blogs_Top').'"> <a href="modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'"> '.$title.'</a> - ( <font color="'.$digits_color.'"><strong>'.$ratings.'</strong></font> '._LVOTES.' )</li>';
         }
     }
     echo "</ol></div></legend></fieldset>";
@@ -132,7 +132,7 @@ echo '<br />';
         $ratings = intval($row3['ratings']);
         if($score>0) {
             $rate = substr($score / $ratings, 0, 4);
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('thumbs-up-16.png','Blog_Top').'"> <a href="modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$rate.'</font></strong> '._POINTS.' )</li>';
+            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('thumbs-up-16.png','Blogs_Top').'"> <a href="modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$rate.'</font></strong> '._POINTS.' )</li>';
         }
     }
     echo "</ol></div></legend></fieldset>";
@@ -166,7 +166,7 @@ if ($articlecomm == 1)
         
 		    if($comments>0) 
 			{
-                echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('comments-16.png','Blog_Top').'"> <a href="modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$comments.'</font></strong> '.BLOG_COMMENTS.' )</li>';
+                echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('comments-16.png','Blogs_Top').'"> <a href="modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$comments.'</font></strong> '.BLOG_COMMENTS.' )</li>';
             }
         }
         echo "</ol></div></legend></fieldset>";
@@ -200,7 +200,7 @@ if ($db->sql_numrows($result5) > 0)
     
 	    if($counter>0) 
 		{
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('comment-square-16.png','Blog_Top').'"> <a href="modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid='.$catid.'">'.$title,'</a> - ( <strong><font color="'.$digits_color.'">'.$counter.'</font></strong> '._HITS.' )</li>';
+            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('comment-square-16.png','Blogs_Top').'"> <a href="modules.php?name=Blogs&amp;file=categories&amp;op=newindex&amp;catid='.$catid.'">'.$title,'</a> - ( <strong><font color="'.$digits_color.'">'.$counter.'</font></strong> '._HITS.' )</li>';
         }
     }
     echo "</ol></div></legend></fieldset>";
@@ -232,7 +232,7 @@ if ($db->sql_numrows($result7) > 0)
 	    if($counter>0) 
 		{
             echo '<li><img class="icons" align="absmiddle" width="16" 
-			src="'.img('submit-icon-16.png','Blog_Top').'"> <a 
+			src="'.img('submit-icon-16.png','Blogs_Top').'"> <a 
 			href="modules.php?name=Your_Account&amp;op=userinfo&amp;username=$uname">'.$uname.'</a> - ( <strong><font color="'.$digits_color.'">'.$counter,'</font></strong> '
 			._BLOG_POSTS_SENT.' )</li>';
         }
@@ -287,7 +287,7 @@ $db->sql_freeresult($result7);
 //            
 //			$sum = (int)$sum+$optionCount;
 //        }
-//        echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('speedometer-16.png','Blog_Top').'"> <a href="modules.php?name=Surveys&amp;pollID='.$id.'">'.$pollTitle.'</a> - ( '.$sum.' '._LVOTES.' )</li>';
+//        echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('speedometer-16.png','Blogs_Top').'"> <a href="modules.php?name=Surveys&amp;pollID='.$id.'">'.$pollTitle.'</a> - ( '.$sum.' '._LVOTES.' )</li>';
         
 //		$sum = 0;
 //    }
@@ -318,7 +318,7 @@ if ($db->sql_numrows($result11) > 0)
     
 	    if($counter>0) 
 		{
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('admin-16.png','Blog_Top').'"> <a href="modules.php?name=Search&amp;query=&amp;author='.$aid.'">'.$aid.'</a> - ( '.$counter.' '._NEWSPUBLISHED.' )</li>';
+            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('admin-16.png','Blogs_Top').'"> <a href="modules.php?name=Search&amp;query=&amp;author='.$aid.'">'.$aid.'</a> - ( '.$counter.' '._NEWSPUBLISHED.' )</li>';
         }
     }
     

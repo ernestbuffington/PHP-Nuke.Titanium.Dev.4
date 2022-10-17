@@ -8,7 +8,7 @@ global $sid, $appID, $my_url;
 echo '<br /><br /><div id="fb-root"></div>'."\n";
 echo '<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v10.0&appId='.$appID.'&autoLogAppEvents=1" nonce="dv0pyfMc"></script>'."\n";
 
-echo '<div style="background-color: none" class="fb-like" data-href="https://'.$my_url.'/modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'" data-width="" data-layout="button_count" data-action="like" data-size="large" data-share="true"></div><br /><br />'."\n";
+echo '<div style="background-color: none" class="fb-like" data-href="https://'.$my_url.'/modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'" data-width="" data-layout="button_count" data-action="like" data-size="large" data-share="true"></div><br /><br />'."\n";
 endif;
 }
 function facebook_comments() 
@@ -18,7 +18,7 @@ if ( defined('facebook') ):
   #facebook comment plugin START
   echo '<div id="fb-root"></div>'."\n";
   echo '<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v10.0&appId='.$appID.'&autoLogAppEvents=1" nonce="JBKXliWW"></script>'."\n";
-  echo '<div style="background-color: grey" class="fb-comments" data-colorscheme="light" data-href="https://'.$my_url.'/modules.php?name=Blog&amp;file=article&amp;sid='.$sid.'" data-width="100%" data-numposts="5"></div><br /><br />'."\n"; 
+  echo '<div style="background-color: grey" class="fb-comments" data-colorscheme="light" data-href="https://'.$my_url.'/modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'" data-width="100%" data-numposts="5"></div><br /><br />'."\n"; 
   #facebook comment plugin END
 endif;
 }

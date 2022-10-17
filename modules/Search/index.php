@@ -238,7 +238,7 @@ switch($op) {
                             $row6 = $db->sql_fetchrow($db->sql_query("SELECT `topictext` FROM `".$prefix."_topics` WHERE `topicid`='$topic'"));
                             $topictext = stripslashes(check_html($row6['topictext'], "nohtml"));
 
-                            $furl = "modules.php?name=Blog&amp;file=article&amp;sid=$sid";
+                            $furl = "modules.php?name=Blogs&amp;file=article&amp;sid=$sid";
                             $datetime = formatTimestamp($time);
                             $query = stripslashes(htmlentities($query, ENT_QUOTES));
                             if (empty($informant)) {
@@ -324,7 +324,7 @@ switch($op) {
                             $row_res = $db->sql_fetchrow($db->sql_query("SELECT `title` FROM `".$prefix."_stories` WHERE `sid`='$sid'"));
                             $title = stripslashes(check_html($row_res['title'], "nohtml"));
                             $reply = $db->sql_numrows($db->sql_query("SELECT * FROM ".$prefix."_comments WHERE pid='$tid'"));
-                            $furl = "modules.php?name=Blog&amp;file=article&amp;thold=-1&amp;mode=flat&amp;order=1&amp;sid=$sid#$tid";
+                            $furl = "modules.php?name=Blogs&amp;file=article&amp;thold=-1&amp;mode=flat&amp;order=1&amp;sid=$sid#$tid";
                             if(!$name) {
                                 $name = $anonymous;
                             } else {
