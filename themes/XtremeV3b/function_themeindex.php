@@ -36,10 +36,10 @@ function themeindex($aid, $informant, $time, $modified, $title, $counter, $topic
         endif;
     endif;
 
-    $posted = sprintf($customlang['global']['posted_by'], get_author($aid), $time);
-    $datetime = substr($morelink, 0, strpos($morelink, '|')-strlen($morelink));
-    $morelink = substr($morelink, strlen($datetime)+2);
-    $reads = '( <span style="color: yellow;">'.$customlang['global']['reads'].'</span>: <span style="color: red;">'.$counter.'</span> )';
+   $posted = sprintf($customlang['global']['posted_by'], get_author($aid), $time);
+   $datetime = substr($morelink, 0, strpos($morelink, '|')-strlen($morelink));
+   $morelink = substr($morelink, strlen($datetime)+2);
+   $reads = '( <span style="color: yellow;">'.$customlang['global']['reads'].'</span>: <span style="color: red;">'.$counter.'</span> )';
 
    print '<table class="otthree"border="0" width="100%" cellspacing="0" cellpadding="0">';
    print '<tr>';
@@ -62,5 +62,5 @@ function themeindex($aid, $informant, $time, $modified, $title, $counter, $topic
    print blog_signature($aid);
    print '<div align="center"><img src="themes/'.$theme_name.'/images/invisible_pixel.gif" alt="" width="4" height="20" border="0" /><br />'
    .$datetime.' '.$topictext.' | '.$morelink.' '.$reads.'<img src="themes/'.  $theme_name.'/images/invisible_pixel.gif" alt="" width="4" height="1" border="0" /></div>';
-CloseTable();
+   CloseTable();
 }
