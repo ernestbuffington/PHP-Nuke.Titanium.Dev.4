@@ -40,8 +40,8 @@ global $screen_width, $screen_height;
   # max-width: 550px;
 
   /* Aligning it to the absolute center of the page */
-  # top: 50%;
-  # left: 50%;
+  #top: 50%;
+  #left: 50%;
   # transform: translate(-50%, -50%);
 
   /* Some cosmetics */
