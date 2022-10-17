@@ -227,13 +227,11 @@ unset($row2A[0]);
 $content ="\n\n\n\n\n<!-- Titanium Menu v5.01 -->\n\n\n\n\n";
  
 $sql="SELECT t1.invisible, 
-               t1.dynamic, 
 		   t2.main_module FROM ".$prefix."_menu AS t1, ".$prefix."_main AS t2 WHERE t1.groupmenu=99 limit 1";
 
          $result = $db->sql_query($sql);
             $row = $db->sql_fetchrow($result);
     $main_module = $row['main_module'];
-$general_dynamic = ($row['dynamic'] == 'on') ? 1 : 0 ;
  $type_invisible = $row['invisible'];
 
 if($managment_group == 1) 
@@ -278,8 +276,6 @@ $modules_attach = $db->sql_query($sql);
 					   class, 
 					    bold, 
 					sublevel, 
-				  date_debut, 
-				    date_fin, 
 					    days 
 						
 						FROM ".$prefix."_menu_categories ORDER BY id ASC";
@@ -564,16 +560,11 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 					   image, 
 					    lien, 
 						  hr, 
-					  center, 
 					 bgcolor, 
 				   invisible, 
 				       class, 
 					    bold, 
 						 new, 
-					 listbox, 
-					 dynamic, 
-				  date_debut, 
-				    date_fin, 
 					    days 
 	
 	FROM ".$prefix."_menu ORDER BY groupmenu ASC";

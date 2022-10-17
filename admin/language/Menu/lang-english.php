@@ -81,7 +81,7 @@ define("_MENU_ACTION","Action");
 define("_MENU_SUPPR","[Delete]");
 define("_MENU_ADDCAT","Add a new category");
 define("_MENU_NEWCATEGORY","Add a new category :");
-define("_MENU_CANCEL","CANCEL");
+define("_MENU_CANCEL","RESET TEXT");
 define("_MENU_POST","SAVE YOUR MODIFICATIONS");
 define("_MENU_REMARKS","<strong>Remarks :</strong><br /><br />"
     ."- The WEIGHT is used to order categories (categories with a lower WEIGHT are displayed first). [number between 0 and 98]<br /><br />"
