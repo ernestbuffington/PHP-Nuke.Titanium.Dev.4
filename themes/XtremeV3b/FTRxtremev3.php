@@ -7,8 +7,32 @@
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
     exit('Access Denied');
 
-global $appID, $customlang, $ThemeInfo, $banners;
-
+global $appID, $customlang; 
+global $locked_width, $theme_business, $theme_title, $theme_author, $theme_date, $theme_name, $theme_download_link;
+echo '<!-- FOOTER START -->';
+global 
+	   $index, 
+	    $user, 
+	 $banners, 
+	  $cookie, 
+         $dbi, 
+		  $db, 
+	   $admin, 
+   $adminmail, 
+  $total_time, 
+  $start_time, 
+       $foot1, 
+	   $foot2, 
+	   $foot3, 
+	   $foot4,
+	   $foot5, 
+	 $nukeurl, 
+	      $ip, 
+  $theme_name, 
+   $ThemeInfo,
+    $bgcolor4,
+      $prefix;
+	  
 if(blocks_visible('right') && !defined('ADMIN_FILE')):
 echo '</div>'
     .'  <div class="body-background" style="vertical-align: top;"><img src="'.xtremev3b_images_dir.'spacer.gif" style="width:5px; height:1px" border="0" alt=""></div>'
@@ -48,35 +72,20 @@ if($use_cache && $usrclearcache)
   echo "<div align=\"center\"><form method='post' name='clear_cache' action='".$_SERVER['REQUEST_URI']."'>";
   echo "<input type='hidden' name='clear_cache' value='1'>";
   echo ""._SITECACHED . " <a href=\"javascript:clear_cache.submit()\">" . _UPDATECACHE . "</a>";
-  echo "</form></div>";
-}
-
-  echo "<div align=\"center\">";
-echo '<font size="5"><strong><a class="greatminds" href="modules.php?name=Google-Site-Map" target="_self"><font color="#4285f4">G</font><font color="#ea4335">o</font><font color="#fbbc05">o</font><font color="#4285f4">g</font><font color="#34a853">l</font><font color="#ea4335">e</font> <font color="#4285f4">S</font><font color="#ea4335">i</font><font color="#fbbc05">t</font><font color="#4285f4">e</font><font color="#ea4335">m</font><font color="#34a853">a</font><font color="#ea4335">p</font></a></strong></font>';
-  //echo '<a class="copyright" href="javascript: void(0)" onclick="window.open(\''.xtremev3b_theme_dir.'copyrights.php\', \'windowname1\', \'width=800, height=500\'); return false;">';
-  //echo '<span class="tooltip-html" title="'.xtremev3b_copyright_click.'">Xtreme v3b Theme</span>';
+  echo "</form>";
   echo "</div>";
-
+}
+echo '<div align="center"><a class="tooltip-html copyright tooltipstered" href="#myCopyRight" data-toggle="modal" data-target="#myCopyRight"><u>Xtreme v3b © 2022</u></a></div>';
 # END updated 09/12/2019 Ernest Allen Buffington
 echo '</span></div>';
 
 echo '</div>';
 
-//echo '<div class="flex-item" style="width: 58px; height: 71px; background-image: url('.xtremev3b_ftr_images.'FTR_Copyright.png); padding-right: 40px;">';
-//echo '<div style="padding-top:46px;">';
-//echo '<a class="copyright" href="javascript: void(0)" onclick="window.open(\''.xtremev3b_theme_dir.'copyrights.php\', \'windowname1\', \'width=800, height=500\'); return false;">';
-//echo '<span class="tooltip-html" title="'.xtremev3b_copyright_click.'"><font size="1">'.$customlang['global']['copyrights'].'</font></span>';
-//echo '</a>';
-//echo '</div>';
-//echo '</div>';
 echo '<div class="flex-item"><img src="'.xtremev3b_ftr_images.'FTR_04.png" style="width: 35px; height: 71px;"></div>';
 echo '</section>';
 echo '<section id="flex-container">';
 echo '<div class="flex-item"><img src="'.xtremev3b_ftr_images.'FTRbarbtm_01.png" style="width: 114px; height: 15px;"></div>';
 echo '<div class="flex-item" style="width: 100%; height: 15px; background-image: url('.xtremev3b_ftr_images.'FTRbarbtm_Bg_Stretch.png)">';
-
-//echo '<div class="tooltip-html center" style="font-size: xx-small;" title="'.xtremev3_copyright.'"><span style="color: #141B05;">'.str_replace('<br />', ' ', xtremev3_copyright);
-//echo '</span></div>';
 
 echo '</div>';
 echo '<div class="flex-item"><img src="'.xtremev3b_ftr_images.'FTRbarbtm_03.png" style="width: 114px; height: 15px;"></div>';
@@ -85,13 +94,10 @@ echo '</section>';
 echo '</footer>';
 
 echo '</div>';
-    if (!empty($banners)):
-        echo '<div class="center">'.ads(2).'</div>';
-    endif;
 
-    if ( is_admin() ):
-        update_modules();
-    endif;
+if(is_admin()):
+update_modules();
+endif;
 
 if(isset($appID)):
 echo "\n<!-- START facebook connector -->\n";

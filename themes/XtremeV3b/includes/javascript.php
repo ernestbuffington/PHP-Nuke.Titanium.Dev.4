@@ -2,34 +2,14 @@
 #---------------------------------------------------------------------------------------#
 # THEME SYSTEM FILE                                                                     #
 #---------------------------------------------------------------------------------------#
-# THEME INFO                                                                            #
-# Inferno Theme v1.0 (Fixed & Full Width)                                               #
-#                                                                                       #
-# Final Build Date 03/16/2021 Tuesday 12:54am                                           #
-#                                                                                       #
-# A Very Nice Fire and Brimstone Theme Design.                                          #
-# Copyright © 2021 By: TheGhost AKA EABuffington                                        #
-# e-Mail : ernest.buffington@gmail.com                                                  #
-#---------------------------------------------------------------------------------------#
-# CREATION INFO                                                                         #
-# Created On: 03/16/2021 Tuesday 12:54am (v1.0)                                         #
-#                                                                                       #
-# Credit goes to Lonestar On: 1st August, 2019 (v3.0)                                   #
-# HTML5 Theme Code By: Lonestar (Lonestar-Modules.com)                                  #
-#                                                                                       #
-# Credit goes to TheMortal                                                              #
-# For his CSS MENU                                                                      #
-#                                                                                       #
-# Read CHANGELOG File for Updates & Upgrades Info                                       #
-#                                                                                       #
-# Designed By: TheGhost & Sebastian                                                     #
-# Web Site: https://www.86it.us                                                         #
-# Purpose: PHP-Nuke Titanium | Nuke Evolution Xtreme                                    #
+# Designed By: Ernest Buffington                                                        #
+# Web Site: https://www.theghost.86it.us                                                #
+# Purpose: PHP-Nuke Titanium v4.0.2                                                     #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
-# PHP-Nuke Copyright (c) 2006 by Francisco Burzi phpnuke.org                            #
+# PHP-Nuke Copyright (c) 2002    : Francisco Burzi phpnuke.org                          #
 # Nuke Evolution Xtreme (c) 2010 : Enhanced PHP-Nuke Web Portal System                  #
-# PHP-Nuke Titanium (c) 2021     : Enhanced PHP-Nuke Web Portal System                  #
+# PHP-Nuke Titanium (c) 2022     : Enhanced and Advanced PHP-Nuke Web Portal System     #
 #---------------------------------------------------------------------------------------#
 #                                                                                       #
 # Special Honorable Mentions                                                            #
@@ -56,78 +36,63 @@
 #---------------------------------------------------------------------------------------#
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
 exit('Access Denied');
-global $domain;
 ?>
 <!-- 80sPXL W00 Thin V1 Font Info CSS -->
-<link href="//db.onlinewebfonts.com/c/783dd6c2d08bdc67012a0eec73fc1702?family=80sPXLW00-Thin" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- our project just needs Font Awesome Solid + Brands -->
+<link href="/assets/fontawesome-free-6.2.0-web/css/all.css" rel="stylesheet">
+<link href="/assets/fontawesome-free-6.2.0-web/css/v5-font-face.css" rel="stylesheet">
+<link href="//db.onlinewebfonts.com/c/783dd6c2d08bdc67012a0eec73fc1702?family=80sPXLW00-Thin" rel="stylesheet" type="text/css"//>
+<link rel="stylesheet" href="assets/bootstrap-icons-1.9.1/bootstrap-icons.css"/>
+<link rel="stylesheet" href="assets/bootstrap-3.4.1/css/bootstrap.min.css"/> 
+<script src="assets/jquery/jquery.js"></script>
+<script src="assets/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="includes/ajax/libs/animate.min.css"/>
 <!-- Modal -->
 <div class="modal fade" id="myCopyRight" tabindex="-1" role="dialog" aria-labelledby="CenterTitle" aria-hidden="true">
-
   <div class="modal-dialog modal-dialog-centered" role="document">
-
     <div class="modal-content modal-popout-bg">
-      
       <div class="modal-header">
-
         <h1 class="modal-title" id="CenterTitle">
-        <font size="2" class="display-1" color="#000000"><i class="bi bi-arrow-right-square-fill"></i> Theme: <?=THEME?>
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Copyright Domain: <?=$domain?>
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Intended Use: Thee Tint Shop
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Designed For: PHP-Nuke Titanium v3.0.0
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Core Engine: Nuke-Evolution Xtreme v2.0.9f
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Creation Date: 3/21/2021 3:05pm
-                 <br /><i class="bi bi-arrow-right-square-fill"></i> Created By: Ernest Buffington aka TheGhost
+        <font size="2" class="display-1" color="#000000"><i class="bi bi-arrow-right-square-fill"></i> Theme Name: Xtreme v3b
+          <br /><i class="bi bi-arrow-right-square-fill"></i> Markup Language: XHTML
+          <br /><i class="bi bi-arrow-right-square-fill"></i> Copyright: <i class="far fa-copyright"></i> Brandon Maintenance Management
+          <br /><i class="bi bi-arrow-right-square-fill"></i> Creation Date: 10/09/2022 
+          <br /><i class="bi bi-arrow-right-square-fill"></i> Author(s): TheMortal, Ernest Allen Buffington
+          <br /><i class="bi bi-arrow-right-square-fill"></i> License: GNU General Public License
+          <br /><i class="bi bi-arrow-right-square-fill"></i> Core Support: PHP-Nuke Titanium v4.x.x
         </font>
         </h1>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
-      <div class="modal-body">
   </font>
-
-  <h1 class="display-1"><font size="4" color="black"><i class="bi bi-sliders"></i> Special Notes</font></h1> 
-
-  <p class="lead">
-
-  <font size="1" color="black"><strong>
-  This is a very versatile theme layout and can be configured in many different ways. We will help you in any possible way provided you're a network member. If we are hosting your website or portal then you are eligible for free help. As far as configuring this theme for your web portal, just send a private message to TheGhost aka Ernest Buffington and he will help you get started.  We hope you enjoy this theme and we look forward to making thousands more and we hope they are as nice as this one.</p>
-  </font></strong>
-
-  <hr class="my-4">
-  
-  <font size="2" color="crimson"><strong>
-  <p>Coming soon we will have several different versatile themes that you will be able to easily build upon and change to fit your website or network portal needs.</p>
-  </font></strong>
-  
+      <div class="modal-body">
+  <h1 class="display-1"><font size="4" color="black"><i class="bi bi-sliders"></i> Theme Overview</font></h1> 
+  <div class="lead">
+  <font size="2" color="black"><strong>
+  This PHP-Nuke Titanium theme is using Bootstrap v3.4.1 and XHTML. 
+  </div></font></strong>
   <div class="card-header">
   <font color="#000000"><strong>Features</strong></font>
   </div>
-
-
   <div class="card-body">
-  <h5 class="card-title">
-  <font size"2" color="#000000">
-  <i class="devicon-javascript-plain colored"></i> Advanced Resolution Checking
+  <h4 class="card-title">
+  <font color="#000000">
+  <hr />
+  <i class="bi bi-pen"></i> Blog Signature Mod Support
+  <br /><i class="devicon-java-plain-wordmark colored"></i> Javascript
+  <br /><i class="devicon-javascript-plain colored"></i> Advanced Resolution Checking
   <br /><i class="devicon-php-plain colored"></i> Fluid Resizeable Layout
   <br /><i class="devicon-html5-plain colored"></i> Video Background Support
   <br /><i class="devicon-bootstrap-plain-wordmark colored"></i> BootStrap v3.4.1 Support
   <br /><i class="devicon-devicon-plain-wordmark"></i> Devicon v2.10.1 Support
   <br /><i class="devicon-css3-plain colored"></i> 2 Scrolling Marquees
   <br /><i class="devicon-php-plain colored"></i> Network Advertising and Personal Advertising Support
-  <br /><i class="devicon-facebook-plain colored"></i> Titanium SDK v5 adds facebook Support to this theme.
-  <br /><i class="devicon-facebook-plain colored"></i> Current Theme Resoltiuon: <?=$_COOKIE["theme_resolution"]?> 
+  <br /><i class="devicon-facebook-plain colored"></i> Titanium SDK v5 (adds facebook Support)
+  <br /><i class="bi bi-display"></i> Current Theme Resoltiuon: <?=$_COOKIE["theme_resolution"]?> 
+  <hr />
   </h5>
   </font>
   </div>
-
-
   </div>
-  
   <div class="modal-footer">
   <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
   </div>
@@ -135,5 +100,4 @@ global $domain;
   </div>
 </div>
 <?
-
 ?>
