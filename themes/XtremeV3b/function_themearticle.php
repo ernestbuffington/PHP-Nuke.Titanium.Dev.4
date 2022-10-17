@@ -25,13 +25,10 @@ function themearticle($aid, $informant, $datetime, $modified, $title, $counter, 
 		$content = $thetext.$notes;
 	
 	else: 
-	
 		if ($writes):
-		
 			if (!empty($informant)): 
-			
-				$content = (is_array($informant)) ? '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant[0].'">'.$informant[1].'</a> ' : '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a> ';
-			
+				$content = (is_array($informant)) ? '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='
+				.$informant[0].'">'.$informant[1].'</a> ' : '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a> ';
 			else: 
 				$content = $anonymous.'';
 			endif;
@@ -39,7 +36,6 @@ function themearticle($aid, $informant, $datetime, $modified, $title, $counter, 
 		else: 
 			    $content .= $thetext.$notes;
        endif;
-	
 	endif;
 
     $posted = _POSTEDON.' '.$datetime.' '._BY.' ';
@@ -63,6 +59,7 @@ function themearticle($aid, $informant, $datetime, $modified, $title, $counter, 
 
     print '<div align="left" id="text">'.''.$title.'</div><p>';
     print '<div align="left" id="text">';
+	print ''.$posted.'';
     print '<hr>'.$content.'<hr></div>';
     print blog_signature($aid);
     print "\n\n".'<!-- facebook functions START -->'."\n";
@@ -70,7 +67,7 @@ function themearticle($aid, $informant, $datetime, $modified, $title, $counter, 
     facebook_comments();
     print '<!-- facebook functions END -->'."\n\n\n";	
 
-    print '<div align="right">'.$posted.'<img src="themes/'.$theme_name.'/images/invisible_pixel.gif" alt="" width="4" height="1" border="0" /><br />'.$reads.'<img src="themes/'.$theme_name.'/images/invisible_pixel.gif" alt="" width="4" height="1" border="0" /></div>';
+    print '<div align="right"><img src="themes/'.$theme_name.'/images/invisible_pixel.gif" alt="" width="4" height="20" border="0" /><br />'.$reads.'<img src="themes/'.$theme_name.'/images/invisible_pixel.gif" alt="" width="4" height="1" border="0" /></div>';
 
     print '</td>';
     print '<td width="25"></td>';
