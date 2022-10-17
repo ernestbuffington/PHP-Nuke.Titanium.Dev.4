@@ -65,7 +65,7 @@ global $choose, $filename1;
   
    $filename1 = 'black_glass_flames.png'; 
    define('LOGO_BACKGROUND', '"../../../themes/'.$theme_name.'/backgrounds/'.$filename1.'"'); 
-   define('CONTAIN', 'background-repeat: no-repeat;
+   define('MONKEYPOX', 'background-repeat: no-repeat;
                 background-position: center center; 
 					                    width 100%;
 					                  height 115px;
@@ -233,13 +233,13 @@ table.sideblock {
 {
     opacity: 0.9;
     background: url(<?php echo BOOKMARKS_BACKGROUND; ?>);
-	<?php echo CONTAIN; ?> 	
+	<?php echo MONKEYPOX; ?> 	
 }
 
 .flames
 {
     background: url(<?php echo LOGO_BACKGROUND; ?>);
-	<?php echo CONTAIN; ?> 
+	<?php echo MONKEYPOX; ?> 
 }
 
 table.header {
