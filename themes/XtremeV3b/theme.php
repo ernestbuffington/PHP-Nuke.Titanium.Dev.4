@@ -98,54 +98,49 @@ include_once(xtremev3b_theme_dir.'function_CloseTable2.php');
 /*---------------------*/
 /* FormatStory Section */
 /*---------------------*/
-function FormatStory($thetext, $notes, $aid, $informant) 
-{
-global $anonymous;
+function FormatStory($thetext, $notes, $aid, $informant) {
 
-$notes = !empty($notes) ? '<br /><br /><strong>'._NOTE.'</strong> <em>'.$notes.'</em>' : '';	
-if ($aid == $informant) 
-{
-   echo '<span class="content" color="#505050">'.$thetext.$notes.'</span>';
-} 
-else 
-{
-   if (defined('WRITES')) 
-   {
-      if (!empty($informant)) 
-      {
-         if ( is_array($informant) ):
-            $boxstuff = '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant[0].'">'.$informant[1].'</a>';
-         else:
+  global $anonymous;
+
+  $notes = !empty($notes) ? '<br /><br /><strong>'._NOTE.'</strong> <em>'.$notes.'</em>' : '';	
+
+  if ($aid == $informant) 
+  { 
+    echo '<span class="content" color="#505050">'.$thetext.$notes.'</span>'; 
+  } 
+  else 
+  {
+     if (defined('WRITES')) 
+	 {
+	    if (!empty($informant)): 
+         if ( is_array($informant) ): $boxstuff = '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant[0].'">'.$informant[1].'</a>'; else:
             $boxstuff = '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a>';
          endif;
-} 
-else 
-{
+        else:
             $boxstuff = $anonymous.' ';
-      }
+        endif;
             $boxstuff .= _WRITES.' <em>'.$thetext.'</em>'.$notes;
-} 
-else 
-{
+     } 
+     else 
+     {
             $boxstuff .= $thetext . $notes;
-      }
-      echo '<span class="content" color="#505050">' . $boxstuff . '</span>';
+     }
+      
+	  echo '<span class="content" color="#505050">' . $boxstuff . '</span>';
    }
 }
 
 /*----------------*/
 /* Header Section */
 /*----------------*/
-function themeheader() 
-{
+function themeheader() {
 include_once(xtremev3b_theme_dir.'HDRxtremev3.php');
 }
 
 /*----------------*/
 /* Footer Section */
 /*----------------*/
-function themefooter() 
-{
+function themefooter() {
 include_once(xtremev3b_theme_dir.'FTRxtremev3.php');
 }
 
