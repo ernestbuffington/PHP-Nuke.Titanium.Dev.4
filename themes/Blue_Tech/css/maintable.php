@@ -6,16 +6,16 @@ global $choose, $filename1;
 echo "/* Fly Kit Main Design Style Sheet */\n"; 
 echo "/* ".$theme_name."/css/maintable.php */\n\n"; 
 
-$filename1 = 'black_glass_once_piece_header.png';
+$filename1 = 'header_background_final.png';
     
-define('LOGO_BACKGROUND', '"../../../themes/'.$theme_name.'/backgrounds/'.$filename1.'"'); 
+define('LOGO_BACKGROUND', '"../../../themes/'.$theme_name.'/images/hdr/'.$filename1.'"'); 
 define('CONTAIN', 'background-repeat: no-repeat;
                     background-position: center center; 
 				     width 100%;
 					  height 115px;
 			         z-index: 780;
 				    background-size: cover;					                  
-			       opacity: 1.0;');
+			       opacity: 0.9;');
 ######################################################################################################
 //USE background-position: CENTER CENTER; to squuze top to bottom 
 define('BOOKMARKS_BACKGROUND', '"../../../themes/'.$theme_name.'/backgrounds/blackbar.png"'); 
