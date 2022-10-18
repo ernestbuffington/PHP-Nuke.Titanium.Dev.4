@@ -359,13 +359,13 @@ function theme_edit($theme_name){
     echo "    <td bgcolor='$bgcolor2'>" . _THEMES_ACTIVE . "</td>\n";
     echo "    <td>\n";
     echo "        <select name='active'$disabled>\n";
-    echo "            <option value='1'$yes_selected>" . _YES . "</option>\n";
-    echo "            <option value='0'$no_selected>" . _NO . "</option>\n";
+    echo "            <option value='1'$yes_selected>" . _YES . "</option>\n"; # ACTIVE YES
+    echo "            <option value='0'$no_selected>" . _NO . "</option>\n";   # ACTIVE NO
     echo "        </select>\n";
     echo "    </td>\n";
     echo "  </tr>\n";
     echo "  <tr>\n";
-    echo "    <td>" . $admlang['global']['who_view'] . "</td>\n";
+    echo "    <td>" . $admlang['global']['who_view'] . "</td>\n"; # WHO IS ALLOWED TO VIEW THE CURRENT THEME
     echo "    <td>\n";
     echo "        <select name=\"permissions\"$disabled>\n";
     echo "            <option value=\"1\"$selected1>" . $admlang['global']['all_visitors'] . "</option>\n";
