@@ -162,7 +162,9 @@ define('theme_width', ((substr($ThemeInfo['themewidth'], -1) == '%') ? str_repla
 #-------------------#
 # FlyKit Mod v1.0   #
 #-------------------#
-addPHPCSSToHead(theme_phpstyle_dir.'header.php','file');     
+addPHPCSSToHead(theme_phpstyle_dir.'header.php','file');
+addPHPCSSToHead(theme_phpstyle_dir.'primary_page_styles.php','file');     
+addPHPCSSToHead(theme_phpstyle_dir.'tables.php','file');          
 addPHPCSSToHead(theme_phpstyle_dir.'modal.php','file');     
 addPHPCSSToHead(theme_phpstyle_dir.'scrollbars.php','file');     
 addPHPCSSToHead(theme_phpstyle_dir.'banner_ads.php','file');

@@ -37,7 +37,7 @@ del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
 dl, dt, dd, ol, ul, li,
-form, label, legend,
+fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed, 
 figure, figcaption, footer, header, hgroup, 
@@ -53,5 +53,55 @@ time, mark, audio, video {
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
+}
+
+a
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+mark {
+	background-color: #ff9;
+	color: #000;
+	font-style: italic;
+	font-weight: bold;
+}
+
+del { text-decoration: line-through; }
+
+abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
+
+select { cursor: pointer; }
+
+input, select { vertical-align: middle; }
+
+label.radio { cursor: pointer; }
+
+input[type='checkbox'] { cursor: pointer; }
+
+/*
+ * Page Logo
+ *--------------------------------------------------
+*/
+.wrapLogo {
+	background-image: url('../images/hdr/Text-Logo.png');
+	float: left;
+	height: 110px;
+	padding: 0;
+	text-indent: -9999px;
+	width: 400px;
+	margin: 20px 15px 0 0;
+}
+
+/* Border Line & Background Color Round the Entire Page */
+.bodyline {
+	background-color: #2c2c2c;
+	border: 0 solid #000;
 }
 <?

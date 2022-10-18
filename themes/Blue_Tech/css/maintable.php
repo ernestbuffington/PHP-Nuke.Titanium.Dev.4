@@ -127,15 +127,8 @@ define('BODY_CONTAIN', 'background-size: 100% auto, cover;
                              background-attachment: fixed;
                               background-repeat: repeat-y;'); // stretch this whore out
 ?>
-<?
-echo 'greatminds {'."\n";
-echo 'font-size:14px;'."\n";
-echo 'font-weight:bold;'."\n";
-echo 'font-size-adjust:!important;'."\n";   
-echo '}'."\n";
-?>
 /*---------------------------------------------------------------*/
-/* Main Tabes Style Sheet                                        */
+/* Main Tables Style Sheet                                       */
 /*                                                               */
 /* Designed and Coded By: Ernest Buffington aka TheGhost         */
 /* Coded On: 16th October, 2022                                  */
@@ -147,34 +140,8 @@ echo '}'."\n";
 /*---------------------------------------------------------------*/
 
 /*---------------------------------------------------------------*/
-/* Main Tabes Style Sheet                                        */
+/* Main Tables Style Sheet                                       */
 /*---------------------------------------------------------------*/
-
-a.welcome { 
-  color: #1572b6;
-   font-size:20px;
-   text-decoration: none;
-  font-weight:bold
- font-size-adjust:!important;
-}
-
-a.welcome:hover,
-a.welcome.bbcode-href:hover { 
-  color: #f5a405;
-   font-size:20px;
-    text-decoration: none;
-   font-weight:bold
-  font-size-adjust:!important;
-}
-
-a.welcome.bbcode-href {
-  color: #ce982d;
-   font-size:20px;
-    text-decoration: none;
-   font-weight:bold
-  font-size-adjust:!important;
-}
-
 .bookmark {
   opacity: 0.9;
    background: url(<?php echo BOOKMARKS_TITLE_BACKGROUND; ?>);

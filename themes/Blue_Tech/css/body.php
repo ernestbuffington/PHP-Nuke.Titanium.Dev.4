@@ -118,6 +118,19 @@ body {
   background-color: black;	
 }
 
+/*
+ * Body Content wrappers
+ *--------------------------------------------------
+*/
+
+.body-background {
+	background-color: #000000;
+}
+
+.body-background2 {
+	background-color: #000000;
+}
+
 .top_and_bottom {
   background-color: black;	
     background-image: 

@@ -49,4 +49,13 @@ right: 0;
 display:inline;
 z-index: 9999;
 }
+
+.ftr-banner-ads {
+	width: 468px;
+	height: 60px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
 <?
