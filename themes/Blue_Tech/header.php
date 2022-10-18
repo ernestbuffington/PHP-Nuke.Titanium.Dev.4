@@ -151,7 +151,7 @@ $moreuser_info .= '::: Don\'t be such a Stranger! Thanks for killing Nicholas On
 if ($username === 'EOL') 
 $moreuser_info .= '::: Don\'t be such a Stranger!';
 
-if ($username === 'AlphaClient')
+if ($username === 'CyBorg')
 $moreuser_info .= '::: We have detected that you are using a cell phone, one moment please while I verify your identity!                                                                                   looking up your phone number now................................................................................Brandon, Florida 813-244-9921                                                                                                                                                                                                                                 We are sorry but this phone number does not appear to be registered to you DISCONNECTING NOW!                                                                                                                                                                                                                                 Just Kidding ROFLMAO!';
 
 global $connected;
@@ -220,7 +220,7 @@ echo '<td>';
 
 # add the top of your tabel here
 echo "\n\n<!-- HEADER TOP START -->\n";
-print '<table class=blockz cellSpacing="0" cellPadding="0" border="0" width="100%">'."\n";
+print '<table class="blockz" cellSpacing="0" cellPadding="0" border="0" width="100%">'."\n";
 print '<tr><td width="39" style="background: repeat-x; background-image: url('.HTTPS.'themes/'.$theme_name.'/tables/OpenTable/invisible_pixel.gif);">'."\n";
 print '<img src="'.HTTPS.'themes/'.$theme_name.'/tables/OpenTable/tlc.png" border="0" width="39" height="50"></td>'."\n";
 

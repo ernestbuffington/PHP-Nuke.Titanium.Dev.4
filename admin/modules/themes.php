@@ -392,7 +392,7 @@ function theme_edit($theme_name){
     echo "  <tr>\n";
     echo "    <td colspan='2'>\n";
     echo "        <fieldset>\n";
-    echo "            <legend>" . _THEMES_ADV_OPTS . "</legend>\n";
+    echo "            <legend>" . _THEMES_ADV_OPTS . "</legend>\n"; # Your theme is compatible with Advanced Features
     echo "            <table border='0' width='100%'>\n";
     if (is_file(NUKE_THEMES_DIR.$theme_info['theme_name'].'/theme_info.php')){
         echo "              <tr>\n";
@@ -409,12 +409,14 @@ function theme_edit($theme_name){
         }
 		
         if (is_array($params)){
-            foreach($params as $key => $param){
+            foreach($params as $key => $param)
+			{
                 echo "              <tr>\n";
 				echo "                <td style='width:20%' bgcolor='$bgcolor2'>" . $param_names[$key] . "</td>\n";
 				echo "                <td style='width:80%'><input type='text' name='" . $param . "' value='".stripcslashes($loaded_params[$key])."'style='width: 100%' /></td>\n";
 				echo "              </tr>\n";
-            }
+            
+			}
         }
 		
         echo "              <tr>\n";

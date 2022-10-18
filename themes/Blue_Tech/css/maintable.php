@@ -215,6 +215,9 @@ a.welcome.bbcode-href {
  repeat-x; /* this makes the top glass block and the bottom flame block repaete from left to right and vice vs - TheGhost add 08/04/2019 */ 
 }
 
+.theme_edit {
+  opacity: 1.0;
+}
 .theme_article {
   margin: 15px;
   opacity: 0.9;
