@@ -101,7 +101,8 @@ $reads = '( <span style="color: '.$digits_txt_color.';">'.$customlang['global'][
 
 echo "\n\n<!-- function themeindex START -->\n";
 
-print '<table class=blockz cellSpacing="0" cellPadding="0" border="0" width="100%">'."\n";
+print '<table class="blockz" cellSpacing="0" cellPadding="0" border="0" width="100%">'."\n";
+
 print '<tr><td width="39" style="background: repeat-x; background-image: url('.HTTPS.'themes/'.$theme_name.'/tables/OpenTable/invisible_pixel.gif);">'."\n";
 print '<img src="'.HTTPS.'themes/'.$theme_name.'/tables/OpenTable/tlc.png" border="0" width="39" height="50"></td>'."\n";
 
@@ -111,11 +112,13 @@ print '<td align="right" width="39">'."\n";
 print '<img src="'.HTTPS.'themes/'.$theme_name.'/tables/OpenTable/trc.png" border="0" width="39" height="50"></td>'."\n";
 print '</tr>'."\n";
 print '<tr><td colSpan="3">'."\n";
+
 print '<table cellSpacing="0" cellPadding="0" width="100%" border="0">'."\n";
 print '<tr>'."\n";
 print '<td width="23" height="3" background="'.HTTPS.'themes/'.$theme_name.'/tables/OpenTable/leftside.png">'."\n";
 print '<img src="'.HTTPS.'themes/'.$theme_name.'/tables/OpenTable/leftside.png" border="0" width="23" height="3"></td>'."\n";
 print '<td width="100%">'."\n";
+
 print '<table cellSpacing="0" cellPadding="8" width="100%" border="0" style="border-collapse: collapse" bordercolor="#111111">'."\n";
 print '<tr>'."\n";
 print '<td width="100%" bgcolor="#0b151f">'."\n";
@@ -123,15 +126,16 @@ print '<td width="100%" bgcolor="#0b151f">'."\n";
 # This stays no matter what START
 echo "<!-- CONTENT START -->\n\n\n\n\n";
 print '<div align="center">';
-print '<table style="background-color: none; height:100%; width:99%;" class="googlesitemap" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="googlesitemap">';
+
+print '<table style="background-color: none; height:100%; width:97.9%;" class="themeindexflames">';
 print '<tbody>';
 print '<tr>';
 print '<td>';
 
-print '<div align="center" style="padding-top:10px;">';
-print '</div>';
+//print '<div align="center" style="padding-top:10px;">';
+//print '</div>';
 
-echo '<div align="center" id="text"><h1><font size="6"><strong>'.$title.'</strong></font></h1>';
+echo '<div align="center" id="text"><h1><font size="5"><strong>'.$title.'</strong></font></h1>';
 print '</div>';
 
 print '<div align="center" style="padding-top:6px;">';
@@ -154,7 +158,8 @@ print '</td>';
 print '</tr>';
 print '</tbody>';
 print '</table>';
-print '</div>';
+
+print '</div>'; # table center div
 
 echo "\n\n\n\n\n<!-- CONTENT END -->\n";
 # This stays no matter what END

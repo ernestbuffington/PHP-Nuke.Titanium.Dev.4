@@ -217,15 +217,7 @@ a.welcome.bbcode-href {
 
 /* used in themeindex - TheGhost add 08/04/2019 */
 .themeindexflames {
-  opacity: 0.9;
-   background-color: black;	
-    background-image: 
-     url(themes/<?=$theme_name?>/backgrounds/topright.png),       /* top black glass - TheGhost add 08/04/2019 */
-     url(themes/<?=$theme_name?>/backgrounds/box_bottom.png);     /* bottom flames - TheGhost add 08/04/2019 */
-      background-position:
-     top right, 
-    bottom left; 
-   background-repeat: 
-  repeat-x; /* this makes the top glass block and the bottom flame block repaete from left to right and vice vs - TheGhost add 08/04/2019 */ 
+  margin: 15px;
+  opacity: 1.9;
 }
 <?
