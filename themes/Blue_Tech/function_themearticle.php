@@ -85,7 +85,8 @@ if (!empty($topicimage))
 		{
 			if (!empty($informant)) 
 			{
-				$content = (is_array($informant)) ? '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant[0].'">'.$informant[1].'</a> ' : '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a> ';
+				$content = (is_array($informant)) ? '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='
+				.$informant[0].'">'.$informant[1].'</a> ' : '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a> ';
 			}
 			else 
 				$content = $anonymous.' ';
@@ -120,7 +121,7 @@ print '<td width="100%" bgcolor="#0b151f">'."\n";
 
 # This stays no matter what START
 print '<div align="center">';
-print '<table style="background-color: none; height:100%; width:99%;" class="theme_article" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="theme_article">';
+print '<table style="background-color: none; height:100%; width:97.9%;" class="theme_article">';
 print '<tbody>';
 print '<tr>';
 print '<td>';
@@ -128,7 +129,7 @@ print '<td>';
 print '<div align="center" style="padding-top:13px;">';
 print '</div>';
 
-echo '<div align="center" id="text"><h1><font size="6"><strong>'.$topictext.'</strong></font><br/></h1>';
+echo '<div align="center" id="text"><h1><font size="5"><strong>'.$topictext.'</strong></font><br/></h1>';
 print '</div>';
 
 print '<div align="center" style="padding-top:1px;"><h2><font size="4"><strong>'.$title.'</strong></font></h2>';
