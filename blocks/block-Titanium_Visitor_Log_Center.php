@@ -92,7 +92,7 @@ while($whosbeen = $db->sql_fetchrow($row1_result)):
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i><font color="gold" size="5"><i class="bi bi-arrow-right-short"></i><i class="bi bi-mailbox"></i></font></font>
 	
 	&nbsp;<br />
-	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall">SEND PM </font></span>
+	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall-visitorlog">SEND PM </font></span>
 	</a></td>';
 	$row1 .= '<td align="center"><div align="top" style="padding-left:10px;">'.get_titanium_timeago($whosbeen['last_visit']).'</div>';
     $row1 .= '</td>';
@@ -174,7 +174,7 @@ while($whosbeen = $db->sql_fetchrow($row2_result)):
 	$row2 .= '<td align="left"><a class="turdball" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i><font color="gold" size="5"><i class="bi bi-arrow-right-short"></i><i class="bi bi-mailbox"></i></font></font>
     <br />
-	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall">SEND PM </font></span>
+	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall-visitorlog">SEND PM </font></span>
 	</a></td>';
 	$row2 .= '<td align="center"><div align="top" style="padding-left:10px;">'.get_titanium_timeago($whosbeen['last_visit']).'</div>';
     $row2 .= '</td>';
@@ -256,7 +256,7 @@ while($whosbeen = $db->sql_fetchrow($row3_result)):
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i><font color="gold" size="5"><i class="bi bi-arrow-right-short"></i><i class="bi bi-mailbox"></i></font></font>
 	
 	<br />
-	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall">SEND PM </font></span>
+	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall-visitorlog">SEND PM </font></span>
 	</a></td>';
 	$row3 .= '<td align="center"><div align="top" style="padding-left:10px;">'.get_titanium_timeago($whosbeen['last_visit']).'</div>';
     $row3 .= '</td>';
@@ -338,7 +338,7 @@ while($whosbeen = $db->sql_fetchrow($row4_result)):
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i><font color="gold" size="5"><i class="bi bi-arrow-right-short"></i><i class="bi bi-mailbox"></i></font></font>
 	
 	<br />
-	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall">SEND PM </font></span>
+	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall-visitorlog">SEND PM </font></span>
 	</a></td>';
 	$row4 .= '<td align="center"><div align="top" style="padding-left:10px;">'.get_titanium_timeago($whosbeen['last_visit']).'</div>';
     $row4 .= '</td>';
