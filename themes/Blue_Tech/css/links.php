@@ -133,9 +133,11 @@ h6 { font-size: 10px; font-weight: bold; }
 .genmed {
 	font-size: 12px;
 }
+
 .gensmall {
-	font-size: 10px;
+	font-size: 5px;
 }
+
 .gen, .genmed, .gensmall {
 	color: #FFF;
 }
@@ -200,12 +202,14 @@ a.maintitle:hover {
 }
 
 a.gen, a.genmed, a.gensmall {
+    font-size: 5px;
 	background: transparent;
 	color: #FFF;
 	text-decoration: none;
 }
 
 a.gen:hover, a.genmed:hover, a.gensmall:hover {
+    font-size: 5px;
 	color: #D29A2B;
 	text-decoration: none;
 }
