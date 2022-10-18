@@ -370,7 +370,7 @@ function theme_edit($theme_name){
     echo "        <select name=\"permissions\"$disabled>\n";
     echo "            <option value=\"1\"$selected1>" . $admlang['global']['all_visitors'] . "</option>\n"; # EVERYONE
     echo "            <option value=\"2\"$selected2>".$admlang['global']['groups_only']."</option>\n";      # ONLY PEOPLE IN CERTAIN GROUPS
-    echo "            <option value=\"3\"$selected3>" . $admlang['global']['admins_only'] . "</option>\n";
+    echo "            <option value=\"3\"$selected3>" . $admlang['global']['admins_only'] . "</option>\n";  # ONLY ADMINS CAN VIEW THIS THEME
     echo "        </select>\n";
     echo "    </td>\n";
     echo "  </tr>\n";
