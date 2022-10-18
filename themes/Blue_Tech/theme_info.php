@@ -64,7 +64,7 @@ global $theme_options;
 
 $theme_options   = array();
 
-$theme_options[] = array( "name" => "Xtreme v4.0 Theme Options",
+$theme_options[] = array( "name" => "Blue Tech Theme Options",
                     "type" => "heading");
 
 $theme_options[] = array( "name" => "Upload your logo",

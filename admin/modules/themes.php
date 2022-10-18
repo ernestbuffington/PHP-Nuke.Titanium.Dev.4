@@ -351,11 +351,11 @@ function theme_edit($theme_name){
         echo "    <td align='center' colspan='2' class='option'>[ <a href=\"$admin_file.php?op=theme_makedefault&amp;theme=" . $theme_info['theme_name'] . "\">" . _THEMES_MAKEDEFAULT . "</a> | <a href=\"$admin_file.php?op=theme_uninstall&amp;theme=" . $theme_info['theme_name'] . "\">" . _THEMES_UNINSTALL . "</a> ]</td>\n";
     }
     echo "  </tr>\n";
-    echo "  <tr>\n";
+    echo "  <tr>\n";                     # CUSTOM THEME NAME
     echo "    <td bgcolor='$bgcolor2'>" . _THEMES_CUSTOMNAME . "</td>\n";
     echo "    <td><input type='text' name='custom_name' value='".$theme_info['custom_name']."' size='50' /></td>\n";
     echo "  </tr>\n";
-	echo "  <tr>\n";
+	echo "  <tr>\n";                     # IS THE THEME ACTIVE
     echo "    <td bgcolor='$bgcolor2'>" . _THEMES_ACTIVE . "</td>\n";
     echo "    <td>\n";
     echo "        <select name='active'$disabled>\n";

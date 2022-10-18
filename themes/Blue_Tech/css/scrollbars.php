@@ -26,16 +26,17 @@ global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: <?=$bgcolor2?>; 
+  background: #182e3f; 
 }
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: <?=$bgcolor5?>; 
+  background: #29445e; 
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: <?=$bgcolor1?>; 
+  background: #446f8e; 
 }
+
 <?
