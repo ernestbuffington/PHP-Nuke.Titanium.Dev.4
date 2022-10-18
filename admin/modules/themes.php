@@ -375,9 +375,9 @@ function theme_edit($theme_name){
     echo "    </td>\n";
     echo "  </tr>\n";
     echo "  <tr>\n";
-    echo "    <td valign='top'>"._WHATGROUPS.":</td>\n";
+    echo "    <td valign='top'>"._WHATGROUPS.":</td>\n"; # WHICH GROUP OF PEOPLE CAN USE THIS THEME
     echo "    <td>\n";
-    echo "        <span class='tiny'>"._WHATGRDESC."</span><br />\n";
+    echo "        <span class='tiny'>"._WHATGRDESC."</span><br />\n"; # View must be SET to Groups Only
     echo "        <select name='groups[]' multiple='multiple' size='5'>\n";
     $ingroups = explode("-",$theme_info['groups']);
     $groupsResult = $db->sql_query("SELECT group_id, group_name FROM ".$prefix."_bbgroups WHERE group_description <> 'Personal User'");
