@@ -87,6 +87,8 @@ addCSSToHead(xtremev3b_style_dir.'menu.css','file');
 addPHPCSSToHead(xtremev3b_phpstyle_dir.'body.php','file');       
 addPHPCSSToHead(xtremev3b_phpstyle_dir.'modal.php','file');
 addPHPCSSToHead(xtremev3b_phpstyle_dir.'scrollbars.php','file');              
+addPHPCSSToHead(xtremev3b_phpstyle_dir.'CKeditor.php','file');              
+
 /*-------------------*/
 /* OpenTable Section */
 /*-------------------*/
