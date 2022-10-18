@@ -20,11 +20,13 @@ echo "/* When we are done we will move this code to style.css */\n\n";
 /*---------------------------------------------------------------*/
 /* Global CMS CSS                                                */
 /*---------------------------------------------------------------*/
+.gensmall-visitorlog{
+	font-size: 11px;
+}
 
 font.gensmall-visitorlog
 {
-
-
+  font-size: 11px;
 }
 
 img.rounded-corners-shout { 
