@@ -176,13 +176,7 @@ h6 { font-size: 10px; font-weight: bold; }
 	margin: 20px 15px 0 0;
 }
 
-#hdr-banner-ads {
-	width: 468px;
-	height: 60px;
-	float: right;
-	clear: right;
-	margin: 40px 15px 0 0;
-}
+
 
 /*
  * 5. Page Footer

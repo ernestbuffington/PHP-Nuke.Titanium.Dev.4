@@ -20,6 +20,13 @@ global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4
 /*---------------------------------------------------------------*/
 /* Banner Ads CSS                                                */
 /*---------------------------------------------------------------*/
+#hdr-banner-ads {
+	width: 468px;
+	height: 60px;
+	float: right;
+	clear: right;
+	margin: 40px 15px 0 0;
+}
 
 .banner_box {
   z-index: 780;

@@ -1,19 +1,32 @@
 <?php
 global $theme_name;
+global $screen_width, $screen_height;
+global $choose, $filename1;
+
 echo "/* Fly Kit Main Design Style Sheet */\n"; 
 echo "/* ".$theme_name."/css/maintable.php */\n\n"; 
+
+$filename1 = 'black_glass_once_piece_header.png';
+    
+define('LOGO_BACKGROUND', '"../../../themes/'.$theme_name.'/backgrounds/'.$filename1.'"'); 
+define('CONTAIN', 'background-repeat: no-repeat;
+                    background-position: center center; 
+				     width 100%;
+					  height 115px;
+			         z-index: 780;
+				    background-size: cover;					                  
+			       opacity: 1.0;');
 ######################################################################################################
-   //USE background-position: CENTER CENTER; to squuze top to bottom 
-   define('BOOKMARKS_BACKGROUND', '"../../../themes/'.$theme_name.'/backgrounds/blackbar.png"'); 
-   define('BOOKMARKS_CONTAIN', 'background-repeat: no-repeat;
-                          background-position: center center; 
-					                              width 100%;
-					                            height 115px;
-					                            opacity: 100;
-					                     visibility: inherit;
-					                             z-index: 20;
-					                  background-size: cover;');
-					  
+//USE background-position: CENTER CENTER; to squuze top to bottom 
+define('BOOKMARKS_BACKGROUND', '"../../../themes/'.$theme_name.'/backgrounds/blackbar.png"'); 
+define('BOOKMARKS_CONTAIN', 'background-repeat: no-repeat;
+                              background-position: center center; 
+					           width 100%;
+					            height 115px;
+					             opacity: 100;
+					            visibility: inherit;
+					           z-index: 20;
+					          background-size: cover;');
 ######################################################################################################
    define('BOOKMARKS_TITLE_BACKGROUND', '"../../../themes/'.$theme_name.'/backgrounds/newredbar.png"'); 
    define('BOOKMARKS_TITLE_CONTAIN', 'background-repeat: no-repeat;
@@ -178,6 +191,11 @@ a.welcome.bbcode-href {
   opacity: 0.9;
    background: url(<?php echo BOOKMARKS_BACKGROUND; ?>);
  <?php echo CONTAIN; ?> 	
+}
+
+.flames {
+  background: url(<?php echo LOGO_BACKGROUND; ?>);
+<?php echo CONTAIN; ?> 
 }
 
 /* used in OpenTable - TheGhost add 08/04/2019 */

@@ -230,6 +230,7 @@ print '<td align="right" width="39">'."\n";
 print '<img src="'.HTTPS.'themes/'.$theme_name.'/tables/OpenTable/trc.png" border="0" width="39" height="50"></td>'."\n";
 print '</tr>'."\n";
 print '<tr><td colSpan="3">'."\n";
+
 print '<table cellSpacing="0" cellPadding="0" width="100%" border="0">'."\n";
 print '<tr>'."\n";
 
