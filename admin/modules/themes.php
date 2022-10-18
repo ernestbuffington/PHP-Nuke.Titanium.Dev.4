@@ -368,8 +368,8 @@ function theme_edit($theme_name){
     echo "    <td>" . $admlang['global']['who_view'] . "</td>\n"; # WHO IS ALLOWED TO VIEW THE CURRENT THEME
     echo "    <td>\n";
     echo "        <select name=\"permissions\"$disabled>\n";
-    echo "            <option value=\"1\"$selected1>" . $admlang['global']['all_visitors'] . "</option>\n";
-    echo "            <option value=\"2\"$selected2>".$admlang['global']['groups_only']."</option>\n";
+    echo "            <option value=\"1\"$selected1>" . $admlang['global']['all_visitors'] . "</option>\n"; # EVERYONE
+    echo "            <option value=\"2\"$selected2>".$admlang['global']['groups_only']."</option>\n";      # ONLY PEOPLE IN CERTAIN GROUPS
     echo "            <option value=\"3\"$selected3>" . $admlang['global']['admins_only'] . "</option>\n";
     echo "        </select>\n";
     echo "    </td>\n";
