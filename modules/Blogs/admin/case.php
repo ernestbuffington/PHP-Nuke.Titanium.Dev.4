@@ -46,7 +46,7 @@
  ************************************************************************/
 if (!defined('ADMIN_FILE')) die('Access Denied');
 
-$modname = "Blog";
+$modname = "Blogs";
 
 include_once(NUKE_MODULES_DIR.$modname.'/admin/language/lang-'.$currentlang.'.php');
 
