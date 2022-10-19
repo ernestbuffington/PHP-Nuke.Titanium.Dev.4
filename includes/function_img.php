@@ -58,7 +58,7 @@ function forum_icon_img_path($icon='', $mymodule='', $empty=true)
 	if(FALSE !== ($path = folder_exist($folder)))
     {
      $forum_icon_path = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/"; 
-	 log_write('error', "( ".$forum_icon_path." ) <--- Forum Icon Path!", 'Image Found!');
+	 //log_write('error', "( ".$forum_icon_path." ) <--- Forum Icon Path!", 'Image Found!');
 
     }
     else

@@ -5,7 +5,7 @@
 <title>Live Feed from the PHP-Nuke Titanium Dev 4 Website</title>
 </head>
 <body> 
-<strong>Current Build:</strong> v4.0.2 Beta<hr>
+<strong>Current Build:</strong> v4.0.3 Beta<hr>
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>

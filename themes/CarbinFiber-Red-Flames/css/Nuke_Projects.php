@@ -18,7 +18,7 @@
 # HTML5 Theme Code By: Lonestar (Lonestar-Modules.com)                                  #
 # Designed By: Ernest Buffington                                                        #
 # Web Site: https://www.theghost.86it.us                                                #
-# Purpose: PHP-Nuke Titanium v4.0.2                                                     #
+# Purpose: PHP-Nuke Titanium v4.0.3                                                     #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
 # PHP-Nuke Copyright (c) 2002    : Francisco Burzi phpnuke.org                          #
