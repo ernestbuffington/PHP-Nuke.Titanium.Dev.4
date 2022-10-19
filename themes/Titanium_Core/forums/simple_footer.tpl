@@ -11,7 +11,7 @@
     The phpBB Group : 2019
 // -->
 <br />
-Powered by <a href="http://www.php-nuke-titanium.86it.us/" target="_tab">phpBB Titanium v4.0.3</a> | Core &copy; 2001, 2019 phpBB Group
+Powered by <a href="http://www.php-nuke-titanium.86it.us/" target="_tab">phpBB Titanium v4.0.2</a> | Core &copy; 2001, 2019 phpBB Group
 <br />
 {TRANSLATION_INFO}
 <!-- IF TRANSLATION_INFO -->

@@ -440,7 +440,7 @@ function online()
     /**
      * This sql replace command is to track who has been to the site and records their last visit.
      * We now add resoultion to the visitor log! 10/07/2022 TheGhost
-     * @since 4.0.3
+     * @since 4.0.2
      */
      if ( $guest == 0 ):
      $db->sql_query("REPLACE INTO `".$prefix."_users_who_been` (`user_ID`, 
