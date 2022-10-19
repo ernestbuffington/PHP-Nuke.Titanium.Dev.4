@@ -1583,8 +1583,14 @@ INSERT INTO `nuke_bbxdata_fields` (`field_id`, `field_name`, `field_desc`, `fiel
 (8, 'Interests', '', 'special', 8, 'interests', 0, '', '', 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0),
 (9, 'Signature', '', 'special', 9, 'signature', 0, '', '', 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nuke_blocks`
+--
+
 CREATE TABLE `nuke_blocks` (
-  `bid` int(11) NOT NULL,
+  `bid` int(10) NOT NULL,
   `bkey` varchar(15) NOT NULL DEFAULT '',
   `title` varchar(60) NOT NULL DEFAULT '',
   `content` text NOT NULL,
@@ -1599,26 +1605,30 @@ CREATE TABLE `nuke_blocks` (
   `view` varchar(50) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `nuke_blocks`
+--
+
 INSERT INTO `nuke_blocks` (`bid`, `bkey`, `title`, `content`, `url`, `bposition`, `weight`, `active`, `refresh`, `time`, `blanguage`, `blockfile`, `view`) VALUES
 (1, '', 'Evo Main Menu', '', '', 'l', 1, 0, 1800, '0', '', 'block-Modules.php', '1'),
 (2, '', 'Search', '', '', 'l', 7, 1, 3600, '', '', 'block-Search.php', '0'),
-(3, '', 'Survey', '', '', 'r', 7, 0, 3600, '', '', 'block-Survey.php', '0'),
-(4, '', 'Information', '<br /><center><span class=\"content\">\r\n<a href=\"http://phpnuke.org\"><img src=\"images/powered/powered8.jpg\" border=\"0\" alt=\"Powered by PHP-Nuke\" title=\"Powered by PHP-Nuke\" width=\"88\" height=\"31\" /></a>\r\n<br /><br />\r\n<a href=\"http://validator.w3.org/check/referer\"><img src=\"images/html401.gif\" width=\"88\" height=\"31\" alt=\"Valid HTML 4.01!\" title=\"Valid HTML 4.01!\" border=\"0\" /></a>\r\n<br /><br />\r\n<a href=\"http://jigsaw.w3.org/css-validator\"><img src=\"images/css.gif\" width=\"88\" height=\"31\" alt=\"Valid CSS!\" title=\"Valid CSS!\" border=\"0\" /></a></span></center><br />', '', 'r', 8, 0, 0, '', '', '', '0'),
+(3, '', 'Survey', '', '', 'r', 5, 0, 3600, '', '', 'block-Survey.php', '0'),
+(4, '', 'Information', '<br /><center><span class=\"content\">\r\n<a href=\"http://phpnuke.org\"><img src=\"images/powered/powered8.jpg\" border=\"0\" alt=\"Powered by PHP-Nuke\" title=\"Powered by PHP-Nuke\" width=\"88\" height=\"31\" /></a>\r\n<br /><br />\r\n<a href=\"http://validator.w3.org/check/referer\"><img src=\"images/html401.gif\" width=\"88\" height=\"31\" alt=\"Valid HTML 4.01!\" title=\"Valid HTML 4.01!\" border=\"0\" /></a>\r\n<br /><br />\r\n<a href=\"http://jigsaw.w3.org/css-validator\"><img src=\"images/css.gif\" width=\"88\" height=\"31\" alt=\"Valid CSS!\" title=\"Valid CSS!\" border=\"0\" /></a></span></center><br />', '', 'r', 6, 0, 0, '', '', '', '0'),
 (5, '', 'User Info', '', '', 'r', 0, 1, 0, '', '', 'block-Evo_User_Info.php', '0'),
-(6, '', 'Top 10 Links', '', '', 'r', 4, 1, 3600, '', '', 'block-Top10_Links.php', '0'),
+(6, '', 'Top 10 Links', '', '', 'r', 3, 1, 3600, '', '', 'block-Top10_Links.php', '0'),
 (7, '', 'Forums', '', '', 'c', 0, 1, 3600, '', '', 'block-Forums.php', '0'),
 (8, '', 'Submissions', '', '', 'l', 2, 0, 0, '', '', 'block-Submissions.php', '4'),
 (9, '', 'Link-us', '', '', 'l', 5, 1, 3600, '0', '', 'block-Link-us.php', '1'),
-(10, '', 'Shout Box', '', '', 'r', 2, 1, 3600, '0', '', 'block-Shout_Box.php', '1'),
-(11, '', 'Donations', '', '', 'r', 6, 0, 3600, '0', '', 'block-Donations.php', '0'),
+(10, '', 'Shout Box', '', '', 'r', 1, 1, 3600, '0', '', 'block-Shout_Box.php', '1'),
+(11, '', 'Donations', '', '', 'r', 4, 0, 3600, '0', '', 'block-Donations.php', '0'),
 (12, '', 'ECalendar', '', '', 'l', 4, 0, 3600, '0', '', 'block-ECalendar.php', '1'),
-(13, '', 'Sentinel Portal Security', '', '', 'd', 3, 1, 3600, '0', '', 'block-Sentinel_Center.php', '1'),
+(13, '', 'Sentinel Portal Security', '', '', 'd', 0, 1, 3600, '0', '', 'block-Sentinel_Center.php', '1'),
 (14, '', 'Select Network Theme', '', '', 'l', 3, 1, 3600, '0', '', 'block-Titanium_Themes.php', '1'),
 (15, '', 'Honey Pot Protected', '', '', 'l', 6, 1, 3600, '0', '', 'block-Honey_Pot.php', '1'),
 (16, '', 'This is exactly how I feel!', '', '', 'c', 2, 0, 3600, '0', '', 'block-Thank_You.php', '1'),
-(17, '', 'Portal Menu', '', '', 'l', 0, 1, 3600, '0', '', 'block-Portal_Menu.php', '1'),
-(18, '', 'Reviews', '', '', 'r', 9, 0, 3600, '0', '', 'block-Reviews.php', '1'),
-(19, '', 'Server Information', '', '', 'r', 3, 1, 3600, '0', '', 'block-Portal-Information.php', '1'),
+(17, '', 'Portal Menu', '', '', 'l', 0, 1, 3600, '0', '', 'block-Titanium_Portal_Menu.php', '1'),
+(18, '', 'Reviews', '', '', 'r', 7, 0, 3600, '0', '', 'block-Reviews.php', '1'),
+(19, '', 'Server Information', '', '', 'r', 2, 1, 3600, '0', '', 'block-Portal-Information.php', '1'),
 (20, '', 'Visitor Log', '', '', 'c', 1, 1, 3600, '0', '', 'block-Titanium_Visitor_Log_Center.php', '1');
 
 CREATE TABLE `nuke_cnbya_config` (
