@@ -94,7 +94,7 @@ if(is_mod_admin($module_name)) {
     echo "<tr><td bgcolor='$bgcolor2' valign='top'>"._SIGNATURE.":</td><td bgcolor='$bgcolor1'><textarea name='add_user_sig' rows='6' cols='45'></textarea></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._PASSWORD.":</td><td bgcolor='$bgcolor1'><input type='text' name='add_pass' size='12' maxlength='".$ya_config['pass_max']."'> <span class='tiny'>"._REQUIRED."</span></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'>"._RETYPEPASSWORD.":</td><td bgcolor='$bgcolor1'><input type='text' name='add_pass2' size='12' maxlength='".$ya_config['pass_max']."'> <span class='tiny'>"._REQUIRED."</span></td></tr>\n";
-    echo "<input type='hidden' name='add_avatar' value='gallery/blank.gif'>\n";
+    echo "<input type='hidden' name='add_avatar' value='gallery/blank.png'>\n";
     echo "<input type='hidden' name='op' value='addUserConf'>\n";
     if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     if (isset($xop)) { echo "<input type='hidden' name='xop' value='$xop'>\n"; }

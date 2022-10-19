@@ -77,14 +77,14 @@ if ($num > 0):
             $user_avatar = $board_config['avatar_path']."/".$usrinfo['user_avatar'];
             
 			elseif($usrinfo['user_avatar_type'] == 2):  # Type 2
-            echo "<img src='$usrinfo[user_avatar]'>";
+            echo "<img class=\"rounded-corners-last-vistors\" src='$usrinfo[user_avatar]'>";
             
 			elseif(empty($usrinfo['user_avatar'])):     # Type 3
-            echo "<img src='".$board_config['avatar_gallery_path']."/gallery/blank.gif'>";
+            echo "<img class=\"rounded-corners-last-vistors\" src='".$board_config['avatar_gallery_path']."/gallery/blank.png'>";
             
 			
 			else:
-            echo "<img src='".$board_config['avatar_gallery_path']."/".$usrinfo[user_avatar]."'>";
+            echo "<img class=\"rounded-corners-last-vistors\" src='".$board_config['avatar_gallery_path']."/".$usrinfo[user_avatar]."'>";
             endif;
             # AVATAR TYPES END
 			

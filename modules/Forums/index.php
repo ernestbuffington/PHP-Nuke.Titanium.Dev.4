@@ -593,9 +593,9 @@ if( ( $total_categories = count($category_rows) ) )
  [ Mod:    Forum Index Avatar Mod                 v1.0]
  ******************************************************/
                                             // if ($forum_data[$j]['user_avatar'] == "")
-                                            //     $poster_avatar = $board_config['avatar_path']."/blank.gif";
-                                            // elseif ($forum_data[$j]['user_avatar'] == "gallery/blank.gif")
-                                            //     $poster_avatar = $board_config['avatar_path']."/blank.gif";
+                                            //     $poster_avatar = $board_config['avatar_path']."/blank.png";
+                                            // elseif ($forum_data[$j]['user_avatar'] == "gallery/blank.png")
+                                            //     $poster_avatar = $board_config['avatar_path']."/blank.png";
                                             // elseif (preg_match('#http://#i', $forum_data[$j]['user_avatar']))
                                             //     $poster_avatar = $forum_data[$j]['user_avatar'];
                                             // elseif (preg_match('#gallery/#i', $forum_data[$j]['user_avatar'])) 
@@ -614,7 +614,7 @@ if( ( $total_categories = count($category_rows) ) )
                                                     break;
                                                 case USER_AVATAR_GALLERY:
                                                     $poster_avatar = $board_config['avatar_gallery_path'] . '/' . (($forum_data[$j]['user_avatar'] 
-													== 'blank.gif' || $forum_data[$j]['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $forum_data[$j]['user_avatar']);
+													== 'blank.png' || $forum_data[$j]['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $forum_data[$j]['user_avatar']);
                                                     break;
                                             }                                  
 /*****[END]********************************************

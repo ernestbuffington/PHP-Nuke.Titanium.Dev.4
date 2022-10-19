@@ -3,10 +3,10 @@ if (!defined('ADMIN_FILE')) {
    die ("Illegal File Access");
 }
 
-global $prefix, $db, $admin_file, $admdata;
-$module_name = basename(dirname(dirname(__FILE__)));
+global $pnt_prefix, $pnt_db, $admin_file, $admdata;
+$pnt_module = basename(dirname(dirname(__FILE__)));
 
-if (!is_mod_admin($module_name)) {
+if (!is_mod_admin($pnt_module)) {
     echo "Access Denied";
     die();
 }
@@ -26,7 +26,7 @@ include_once(PHP_NUKE_SANDBOX_ADMIN_INCLUDES . 'functions.php');
 
 include(NUKE_BASE_DIR.'header.php');
 
-if(is_mod_admin($module_name)) 
+if(is_mod_admin($pnt_module)) 
 {
 
   switch ($op) 
@@ -43,7 +43,7 @@ if(is_mod_admin($module_name))
   $nuke_name = "PHP-Nuke Titanium (Network Version)";
   $step = (isset($_REQUEST['step'])) ? $_REQUEST['step'] : 0;
   if (!$step) $step = '1';
-  $total_steps = '2';
+  $total_phpbb2_steps = '2';
   $next_step = $step+1;
   $continue_button = '<input type="hidden" name="step" value="'.$next_step.'" /><input type="submit" class="button" name="submit" value="'.$install_lang['continue'].' '.$next_step.'" />';
   check_required_files();
@@ -81,7 +81,7 @@ if(is_mod_admin($module_name))
 	}
 	if (!$sub_step){
 		echo '<form action="" method="post">';
-		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
+		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
 		echo '<fieldset><legend>'.$install_lang['server_title'].'</legend>';
 		echo '  <dl>';
 		echo '    <dt><label>'.$install_lang['os'].'</label></dt>';
@@ -158,7 +158,7 @@ if(is_mod_admin($module_name))
 		echo '</form>';
 	} 
 	elseif ($sub_step == 1){
-		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_steps.'</strong></div></center>';
+		echo '<center><div style="color:#D29A2B;"><strong>'.$nuke_name.' '.$install_lang['installer_heading'].' '.$step.' '.$install_lang['installer_heading2'].' '.$total_phpbb2_steps.'</strong></div></center>';
 		echo '<fieldset><legend>'.$install_lang['server_title'].'</legend>';
 		require('install/file.inc');
 		echo '</fieldset>';
@@ -250,7 +250,7 @@ if(is_mod_admin($module_name))
 } 
 else 
 {
-  DisplayError('<strong>Some Bad Shit Just Happened</strong><br /><br />' . _NO_ADMIN_RIGHTS . $module_name);
+  DisplayError('<strong>Some Bad Shit Just Happened</strong><br /><br />' . _NO_ADMIN_RIGHTS . $pnt_module);
 }
 
 ?>

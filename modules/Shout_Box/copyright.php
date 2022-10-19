@@ -1,7 +1,8 @@
 <?php
-/*=======================================================================
- PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
+/*======================================================================= 
+  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
+
 
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
@@ -25,9 +26,9 @@ require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 
 $author_name = "Aric Bolf (SuperCat) / Updated & AJAX'ed by Technocrat (nuke-evolution.com)";
 $author_email = "webmaster (at) ourscripts (dot) net";
-$author_homepage = "http://www.ourscripts.net";
+$author_homepage = "https://ourscripts.86it.us";
 $license = "GNU/GPL";
-$download_location = "http://www.ourscripts.net";
+$download_location = "https://ourscripts.86it.us";
 $module_version = "8.6.0";
 $module_description = "Let the visitors to your site speak up! The block is very easy to use, the shout history module lets everyone see and search all previous shouts. The admin area controls it all. Compatability for browsers including Firefox, Opera, NS, IE, Safari, Konquerer, and Mozilla make this a cross platform application. This ensures a great user experience! What a great way to let others build content on your site! Administration area to control what people can say and do. Add your own smilies too! Censor words people find offensive. Uses the PHP-Nuke SQL abstraction layer. Auto scrolls with mouseover scroller controls. Includes both .sql and .php SQL installers, SQL repair tool, Setup and Security monitor, full URL support, anonymous nicks censoring, no cloning registered nicknames, spam/flood protection, error reporting, ban users by IP or nickname, uses theme CSS, server time offset, history uses forum avatars, and more!";
 

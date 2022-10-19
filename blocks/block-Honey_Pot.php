@@ -29,7 +29,7 @@ function block_Honeypot_cache($block_cachetime) {
 
 $blocksession = block_Honeypot_cache($evoconfig['block_cachetime']);
 
-$content .= '<div class="center">';
+$content .= '<div align="center">';
 
 if ( $side == 'c' || $side == 'd' ):
 	$content .= '  <img src="'.get_evo_image('hp_banner.png', 'honeypot').'" style="height: 110px; width: 369px" alt="'.$blockslang['honeypot']['bots_in_pot'].'" title="'.$blockslang['honeypot']['bots_in_pot'].'" />';

@@ -53,7 +53,7 @@ function head()
 	$ThemeSel = get_theme();
 	
     global $eighty_six_it;
-	$eighty_six_it = '<a class = "small" href="https://www.86it.us" target="_self">Programmers Making Connections. Coders Making a Difference.</a>';
+	$eighty_six_it = '<a class = "small" href="https://www.86it.us" target="_blank" rel="noopener noreferrer">Programmers Making Connections. Coders Making a Difference.</a>';
     
 	# Auto MimeType v1.0.0 START
 	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php')):  
@@ -183,7 +183,7 @@ function head()
     */
     
 	/* ----- as you can probably tell this is used for IE compatibility ----- */
-    echo '<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]-->'."\n";
+    echo '<!--[if lt IE 9]><script src="includes/js/scripts/html5shiv.min.js"></script><![endif]-->'."\n";
     echo "</head>\n";
     echo "\n<!-- END </head> -->\n\n";
 	echo "\n<!-- START Top Primary Body Tags -->\n";
@@ -440,7 +440,7 @@ function online()
     /**
      * This sql replace command is to track who has been to the site and records their last visit.
      * We now add resoultion to the visitor log! 10/07/2022 TheGhost
-     * @since 4.0.2
+     * @since 4.0.3
      */
      if ( $guest == 0 ):
      $db->sql_query("REPLACE INTO `".$prefix."_users_who_been` (`user_ID`, 

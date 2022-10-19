@@ -69,22 +69,21 @@ if ($db->sql_numrows($result) > 0)
         
 		if(file_exists("themes/".$ThemeSel."/images/topics/".$topicimage)) 
 		{
-          $t_image = "themes/".$ThemeSel."/";
+          $t_image = "themes/".$ThemeSel."/images/topics/".$topicimage;
         } 
 		else 
 		{
-          $t_image = "";
+          $t_image = "modules/Blog_Topics/images/topics/".$topicimage;
         }
-        $t_image = $t_image.$tipath.$topicimage;
         
 		$output  = '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';	
-		$output .= '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-size: 18px; font-weight: bold;"><a href="modules.php?name=Blog&amp;new_topic="'.$topicid.'">'.$topictext.'</a></legend>';
+		$output .= '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-size: 18px; font-weight: bold;"><a href="modules.php?name=Blogs&amp;new_topic="'.$topicid.'">'.$topictext.'</a></legend>';
 		$output .= '<table border="1" width="100%" align="center" cellpadding="2">';
         
         $output .= '<tr>'; 
-        $output .= '<td valign="top" width="35%"><a href="modules.php?name=Blog&amp;new_topic="'.$topicid.'"><img src='.$t_image.' border="0" alt='.$topictext.' title='.$topictext.' hspace="5" vspace="5"></a><br /><br />';
+        $output .= '<td valign="top" width="35%"><a href="modules.php?name=Blogs&amp;new_topic="'.$topicid.'"><img src='.$t_image.' border="0" alt='.$topictext.' title='.$topictext.' hspace="5" vspace="5"></a><br /><br />';
         $output .= '<span class="content">';
-        $output .= '<img class="icons" align="absmiddle" width="16" src="'.img('topic-16.png','Blog_Topics').'"> <strong>'._TOPIC.' :</strong><a href="modules.php?name=Blog&amp;new_topic="'.$topicid.'"><strong> '.$topictext.'</strong></a><br />';
+        $output .= '<img class="icons" align="absmiddle" width="16" src="'.img('topic-16.png','Blog_Topics').'"> <strong>'._TOPIC.' :</strong><a href="modules.php?name=Blogs&amp;new_topic="'.$topicid.'"><strong> '.$topictext.'</strong></a><br />';
         $output .= '<img class="icons" align="absmiddle" width="16" src="'.img('topic-blogs-16.png','Blog_Topics').'"> <strong>'._TOTNEWS.' </strong>( <font color="'.$digits_color.'"><strong>'.$row['stories'].'</strong></font> )<br />';
         $output .= '<img class="icons" align="absmiddle" width="16" src="'.img('reads-icon-16.png','Blog_Topics').'"> <strong>'._TOTREADS.' </strong>( <font color="'.$digits_color.'"><strong>'.(isset($row['readcount']) ? $row['readcount'] : 0).'</strong></font> )</span>';
         $output .= '</td><td valign="top">';
@@ -97,13 +96,13 @@ if ($db->sql_numrows($result) > 0)
         
 		    while ($row2 = $db->sql_fetchrow($result2)) 
 			{
-                $cat_link = (intval($row2['catid']) > 0) ? "<a href=\"modules.php?name=Blog&amp;file=categories&amp;op=newindex&amp;catid=".intval($row2['catid'])."\"><strong>".stripslashes(check_html($row2['cat_title'], "nohtml"))."</strong></a>: " : "";
-                echo '<img class="icons" align="absmiddle" width="16" src="'.img('topic-blogs-16.png','Blog_Topics').'"> '.$cat_link.'<a href="modules.php?name=Blog&amp;file=article&amp;sid='.intval($row2['sid']).'">'.htmlentities($row2['title']).'</a><br />';
+                $cat_link = (intval($row2['catid']) > 0) ? "<a href=\"modules.php?name=Blogs&amp;file=categories&amp;op=newindex&amp;catid=".intval($row2['catid'])."\"><strong>".stripslashes(check_html($row2['cat_title'], "nohtml"))."</strong></a>: " : "";
+                echo '<img class="icons" align="absmiddle" width="16" src="'.img('topic-blogs-16.png','Blog_Topics').'"> '.$cat_link.'<a href="modules.php?name=Blogs&amp;file=article&amp;sid='.intval($row2['sid']).'">'.htmlentities($row2['title']).'</a><br />';
             }
             
 			if ($row['stories'] > 0) 
 			{
-                echo '<div align="right"><a href="modules.php?name=Blog&amp;new_topic='.$topicid.'"><strong><img align="absmiddle" height="50" src="'.img('more.png','Blog_Topics').'"></strong></a></div>';
+                echo '<div align="right"><a href="modules.php?name=Blogs&amp;new_topic='.$topicid.'"><strong><img align="absmiddle" height="50" src="'.img('more.png','Blog_Topics').'"></strong></a></div>';
             }
         } 
 		else 

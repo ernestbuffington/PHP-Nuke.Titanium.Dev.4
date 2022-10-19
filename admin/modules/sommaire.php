@@ -17,38 +17,38 @@
 /************************************************************************/
 
 /*************************************************************************/
-/*                    Module Copyright (c) Information                     */
-/*              Module Sommaire paramtrable for PHP-Nuke.               */
+/*                    Module Copyright (c) Information                   */
+/*              Module Sommaire paramtrable for PHP-Nuke.                */
 /*                            - 26 Mai  2004 -                           */
 /*                                                                       */
-/* Nom du Module: Sommaire paramtrable                                  */
+/* Nom du Module: Sommaire paramtrable                                   */
 /* Version du Module: 2.1.1                                              */
 /*                                                                       */
 /* Description du Module:                                                */
-/*       Bloc Sommaire paramtrable : affichage par catgories, avec de  */
-/*       nombreuses possibilits de prsentation :                       */
-/*       - Menu dynamique (catgories affiches/caches avec un clic     */
-/*       - Ajout manuel d'une icone 'NEW' devant les catgories          */
+/*       Bloc Sommaire paramtrable : affichage par catgories, avec de    */
+/*       nombreuses possibilits de prsentation :                         */
+/*       - Menu dynamique (catgories affiches/caches avec un clic        */
+/*       - Ajout manuel d'une icone 'NEW' devant les catgories           */
 /*       - Ajout manuel d'une icone 'NEW' devant les liens/modules       */
 /*       - Ajout automatique d'une icone 'NEW' devant les modules de     */
-/*         base, avec la dtection des nouveauts du site, et choix de   */
-/*         la dure des "nouveauts".                                    */
-/*       - Possibilit de mettre un lien ou une catgorie en gras        */
-/*       - Contenu des catgories peut tre affich en listbox           */
+/*         base, avec la dtection des nouveauts du site, et choix de     */
+/*         la dure des "nouveauts".                                      */
+/*       - Possibilit de mettre un lien ou une catgorie en gras          */
+/*       - Contenu des catgories peut tre affich en listbox              */
 /*       - Choix du style des liens/modules (classe css)                 */
-/*       - Affichage possible des catgories avec uniquement une image   */
+/*       - Affichage possible des catgories avec uniquement une image    */
 /*       - Affichage possible des liens/modules avec uniquement une image*/
-/*       - Barre horizontale pour sparer 2 catgories ou 2 liens (v2.1) */
-/*       - Titre de catgorie centr                                     */
-/*       - Couleur de fond diffrente pour chaque catgorie              */
-/*       - Image sur les catgories et les modules                       */
+/*       - Barre horizontale pour sparer 2 catgories ou 2 liens (v2.1)   */
+/*       - Titre de catgorie centr                                       */
+/*       - Couleur de fond diffrente pour chaque catgorie                */
+/*       - Image sur les catgories et les modules                        */
 /*       - Ajout de liens externe (n'importe quelle url)                 */
-/*       - Affichage d'une icne dans le sommaire si le membre a des     */
-/*         Messages Privs non lus.                                      */
-/*       - Masquer ou non aux visiteurs les modules rservs aux membres */
-/*       - Choisir le style (dans style.css) des noms de catgories      */
-/*       - Mettre un fichier FLASH .swf  la place du nom de catgorie   */
-/*         (FLASH implment par MAC06 - magetmac06@hotmail.com)         */
+/*       - Affichage d'une icne dans le sommaire si le membre a des      */
+/*         Messages Privs non lus.                                       */
+/*       - Masquer ou non aux visiteurs les modules rservs aux membres   */
+/*       - Choisir le style (dans style.css) des noms de catgories       */
+/*       - Mettre un fichier FLASH .swf  la place du nom de catgorie     */
+/*         (FLASH implment par MAC06 - magetmac06@hotmail.com)           */
 /*                                                                       */
 /* License: GNU/GPL                                                      */
 /* Nom de l'Auteur: marcoledingue                                        */
@@ -65,13 +65,13 @@ if (!defined('ADMIN_FILE')) {
    die ('Illegal File Access');
 }
 
-global $admin, $keysommaire, $currentlang, $deletecat, $db, $prefix, $sql, $upgrade_test, $bgcolor1, $zetheme, $admin_file, $admdata, $cache;
+global $admin, $keysommaire, $currentlang, $deletecat, $db, $prefix, $sql, $upgrade_test, $bgcolor1, $ThemeSel, $admin_file, $admdata, $cache;
 
 if ($admdata['radminsuper'] == 1) {
 
-$zetheme=get_theme();
+$ThemeSel=get_theme();
 $urlofimages="images/sommaire";
-//$urlofimages="themes/$zetheme/images/sommaire";
+//$urlofimages="themes/$ThemeSel/images/sommaire";
 
 if (file_exists(NUKE_ADMIN_DIR.'language/Sommaire/lang-'.$currentlang.'.php')) {
     include_once(NUKE_ADMIN_DIR.'language/Sommaire/lang-'.$currentlang.'.php');
@@ -127,20 +127,20 @@ $more_js .= "<script language=\"Javascript\">
 		}
 	}
 		
-    function targetblank(pointeur,valeur) {
+    function targetblank(pointer,valeur) {
         testehttp = valeur.slice(0,7 );
         testeftp = valeur.slice(0,6);
         http='http://';
         ftp='ftp://';
         if(testehttp == http || testeftp == ftp) {
-            pointeur.src=\"{$urlofimages}/admin/targetblank.gif\";
-            pointeur.alt=\""._SOMTARGETBLANK."\";
-            pointeur.title=\""._SOMTARGETBLANK."\";
+            pointer.src=\"{$urlofimages}/admin/targetblank.gif\";
+            pointer.alt=\""._SOMTARGETBLANK."\";
+            pointer.title=\""._SOMTARGETBLANK."\";
         }
         else {
-            pointeur.src=\"{$urlofimages}/admin/targetnone.gif\";
-            pointeur.alt=\""._SOMTARGETNONE."\";
-            pointeur.title=\""._SOMTARGETNONE."\";
+            pointer.src=\"{$urlofimages}/admin/targetnone.gif\";
+            pointer.alt=\""._SOMTARGETNONE."\";
+            pointer.title=\""._SOMTARGETNONE."\";
         }
     }
 	
@@ -158,7 +158,7 @@ $more_js .= "<script language=\"Javascript\">
         }
     }
 	
-    function envoiedit(keysommaire, z) {
+    function senddit(keysommaire, z) {
         var reg= new RegExp(\"[&]\",\"gi\");
         var seg= new RegExp(\"[\?]\",\"gi\");
         var modulename = document.forms.form_sommaire.elements['sommaireformingroup['+keysommaire+']['+z+']'].value;
@@ -182,7 +182,7 @@ $more_js .= "<script language=\"Javascript\">
     }
 </script>\n";
 
-$zetheme=get_theme();
+$ThemeSel=get_theme();
 
 function index() {
 
@@ -200,20 +200,20 @@ OpenTable();
 
 //on va regarder tous les fichiers dans /images/sommaire pour en faire la liste
     $handle=@opendir("$urlofimages");
-    $compteur=0;
+    $counter=0;
     while ($tempo = @readdir($handle)) {
-        $file[$compteur]= $tempo;
-        $compteur++;
+        $file[$counter]= $tempo;
+        $counter++;
     }
     @closedir($handle);
 // --> OK, la liste des fichiers est dans $file (utile plus bas pour faire la liste droulante des images).
 
 //on va regarder tous les fichiers dans /images/sommaire/categories pour en faire la liste
     $handle=@opendir("$urlofimages/categories");
-    $compteur=0;
+    $counter=0;
     while ($tempo = @readdir($handle)) {
-        $file2[$compteur]= $tempo;
-        $compteur++;
+        $file2[$counter]= $tempo;
+        $counter++;
     }
     @closedir($handle);
 // --> OK, la liste des fichiers est dans $file2 (utile plus bas pour faire la liste droulante des images des modules).
@@ -221,51 +221,51 @@ OpenTable();
 
 // on va mettre la liste des modules dans la variable $modules
 $sql = "SELECT title FROM ".$prefix."_modules ORDER BY title ASC";
-$modulesaffiche= $db->sql_query($sql);
-$compteur=0;
-while ($tempo = $db->sql_fetchrow($modulesaffiche)) {
-    $modules[$compteur]= $tempo['title'];
-    $compteur++;
+$modules_attach= $db->sql_query($sql);
+$counter=0;
+while ($tempo = $db->sql_fetchrow($modules_attach)) {
+    $modules[$counter]= $tempo['title'];
+    $counter++;
 }
 
 // on va mettre les donnes de la table nuke_sommaire_categories dans les variables adquates.
     $sql2= "SELECT id, groupmenu, module, url, url_text, image, new, new_days, class, bold FROM ".$prefix."_sommaire_categories ORDER BY id ASC";
     $result2= $db->sql_query($sql2);
 
-    $compteur=0;
+    $counter=0;
     $row2=$db->sql_fetchrow($result2); //on rcupre la premire ligne de la table, et on affecte aux variables.
     $categorie=$row2['groupmenu'];
-    $moduleinthisgroup[$categorie][$compteur]=$row2['module'];
-    $linkinthisgroup[$categorie][$compteur]=$row2['url'];
-    $linktextinthisgroup[$categorie][$compteur]=$row2['url_text'];
-    $imageinthisgroup[$categorie][$compteur]=$row2['image'];
-    $newinthisgroup[$categorie][$compteur]=$row2['new'];
-    $new_days=$new_daysinthisgroup[$categorie][$compteur]=$row2['new_days'];
-    $firstclass=$classofthismodule[$categorie][$compteur]=$row2['class'];
-    $grasofthismodule[$categorie][$compteur]=$row2['bold'];
-    $idofthismodule[$categorie][$compteur]=$row2['id'];
-    $compteur2=$categorie; 
-//        echo "{$moduleinthisgroup[$categorie][$compteur]}<br />{$linkinthisgroup[$categorie][$compteur]}<br />{$linktextinthisgroup[$categorie][$compteur]}<br />{$imageinthisgroup[$categorie][$compteur]}<br />";
+    $moduleinthisgroup[$categorie][$counter]=$row2['module'];
+    $linkinthisgroup[$categorie][$counter]=$row2['url'];
+    $linktextinthisgroup[$categorie][$counter]=$row2['url_text'];
+    $imageinthisgroup[$categorie][$counter]=$row2['image'];
+    $newinthisgroup[$categorie][$counter]=$row2['new'];
+    $new_days=$new_daysinthisgroup[$categorie][$counter]=$row2['new_days'];
+    $firstclass=$classofthismodule[$categorie][$counter]=$row2['class'];
+    $grasofthismodule[$categorie][$counter]=$row2['bold'];
+    $idofthismodule[$categorie][$counter]=$row2['id'];
+    $counter2=$categorie; 
+//        echo "{$moduleinthisgroup[$categorie][$counter]}<br />{$linkinthisgroup[$categorie][$counter]}<br />{$linktextinthisgroup[$categorie][$counter]}<br />{$imageinthisgroup[$categorie][$counter]}<br />";
     
     while ($row2 = $db->sql_fetchrow($result2)) { //ensuite on fait la mme chose pour toutes les autres lignes.
         $categorie=$row2['groupmenu'];
-        if ($compteur2==$categorie) { //permet de savoir si on a chang de catgorie (groupmenu diffrent) : dans ce cas on remet le 2me compteur  0.
-            $compteur++;
+        if ($counter2==$categorie) { //permet de savoir si on a chang de catgorie (groupmenu diffrent) : dans ce cas on remet le 2me counter  0.
+            $counter++;
         }
         else {
-            $compteur=0;
+            $counter=0;
         }
-        $moduleinthisgroup[$categorie][$compteur]=$row2['module'];
-        $linkinthisgroup[$categorie][$compteur]=$row2['url'];
-        $linktextinthisgroup[$categorie][$compteur]=$row2['url_text'];
-        $imageinthisgroup[$categorie][$compteur]=$row2['image'];
-        $newinthisgroup[$categorie][$compteur]=$row2['new'];
-        $new_daysinthisgroup[$categorie][$compteur]=$row2['new_days'];
-        $classofthismodule[$categorie][$compteur]=$row2['class'];
-        $grasofthismodule[$categorie][$compteur]=$row2['bold'];
-        $idofthismodule[$categorie][$compteur]=$row2['id'];
-        $compteur2=$categorie;
-//        echo "{$moduleinthisgroup[$categorie][$compteur]}<br />{$linkinthisgroup[$categorie][$compteur]}<br />{$linktextinthisgroup[$categorie][$compteur]}<br />{$imageinthisgroup[$categorie][$compteur]}<br />";
+        $moduleinthisgroup[$categorie][$counter]=$row2['module'];
+        $linkinthisgroup[$categorie][$counter]=$row2['url'];
+        $linktextinthisgroup[$categorie][$counter]=$row2['url_text'];
+        $imageinthisgroup[$categorie][$counter]=$row2['image'];
+        $newinthisgroup[$categorie][$counter]=$row2['new'];
+        $new_daysinthisgroup[$categorie][$counter]=$row2['new_days'];
+        $classofthismodule[$categorie][$counter]=$row2['class'];
+        $grasofthismodule[$categorie][$counter]=$row2['bold'];
+        $idofthismodule[$categorie][$counter]=$row2['id'];
+        $counter2=$categorie;
+//        echo "{$moduleinthisgroup[$categorie][$counter]}<br />{$linkinthisgroup[$categorie][$counter]}<br />{$linktextinthisgroup[$categorie][$counter]}<br />{$imageinthisgroup[$categorie][$counter]}<br />";
     }
 // --> OK, les variables ont pris la valeur adquate de la table nuke_sommaire_categories
 
@@ -410,18 +410,18 @@ echo "<head><style type=\"text/css\">"
 // combien y a-t-il de modules dans cette catgorie ?
 if ( is_array( $moduleinthisgroup[$groupmenu[$keysommaire]]) ) {
     if ( $moduleinthisgroup[$groupmenu[$keysommaire]] > count($moduleinthisgroup[$groupmenu[$keysommaire]]) ) // if the requested page doesn't exist
-    $nbmodules = $nombremodules = count($moduleinthisgroup[$groupmenu[$keysommaire]]);
+    $nbmodules = $namemodules = count($moduleinthisgroup[$groupmenu[$keysommaire]]);
 } else { 	
-    $nbmodules = $nombremodules = 0;
+    $nbmodules = $namemodules = 0;
 }
- //       $nbmodules = $nombremodules = count($moduleinthisgroup[$groupmenu[$keysommaire]]);
-        $nombremodules=$nombremodules+5; // on en ajoute 5, qui vont tre vides
+ //       $nbmodules = $namemodules = count($moduleinthisgroup[$groupmenu[$keysommaire]]);
+        $namemodules=$namemodules+5; // on en ajoute 5, qui vont tre vides
         
         echo "<table align=\"center\"><td></td><td align =\"center\">"._SOMCATCONTENT."</td><td width=\"3\"></td><td align=\"center\">"._SOMLINKURL."</td><td width=\"3\"></td><td align=\"center\">"._SOMLINKTEXT."</td><td width=\"3\"></td><td align=\"center\">"._SOMIMAGE."</td><td align=\"center\">"._SOMBOLD."</td><td></td></tr>";
         echo "<tr><td colspan=10 height=4></td></tr>";
         
-        for ($z=0;$z<$nombremodules;$z++) {
-            $formpointeur=$keysommaire."_".$z."";
+        for ($z=0;$z<$namemodules;$z++) {
+            $formpointer=$keysommaire."_".$z."";
             
             // permet d'afficher le middot pour les champs vides ajouts (quand nombremodules a t augment de 1 ou 2)
             if ($imageinthisgroup[$groupmenu[$keysommaire]][$z]=='' || $imageinthisgroup[$groupmenu[$keysommaire]][$z]=='middot.gif') {
@@ -430,17 +430,17 @@ if ( is_array( $moduleinthisgroup[$groupmenu[$keysommaire]]) ) {
             else {
                 $afficheimageinthiscategorie="categories/".$imageinthisgroup[$groupmenu[$keysommaire]][$z];
             }
-            echo "<tr id=\"span$formpointeur\"><td valign=\"center\"><img src=\"".$urlofimages."/$afficheimageinthiscategorie\" name=\"image$formpointeur\">"
+            echo "<tr id=\"span$formpointer\"><td valign=\"center\"><img src=\"".$urlofimages."/$afficheimageinthiscategorie\" name=\"image$formpointer\">"
                 // on va changer l'image affiche devant le nom du module...
                 ."<script language=\"Javascript\">"
-                ."function changeimage$formpointeur(cedoc,valeur) {"
+                ."function changeimage$formpointer(cedoc,valeur) {"
                     ."if (valeur==\"middot.gif\") {"
                     ."url =\"".$urlofimages."/admin/\";"
                     ."}"
                     ."else {"
                     ."var url=\"".$urlofimages."/categories/\";"
                     ."}"
-                    ."document.images.image$formpointeur.src=url+valeur;"
+                    ."document.images.image$formpointer.src=url+valeur;"
                 ."}"
                 ."</script>";
 
@@ -452,7 +452,7 @@ if ( is_array( $moduleinthisgroup[$groupmenu[$keysommaire]]) ) {
 //echo "{$moduleinthisgroup[$groupmenu[$keysommaire]][$z]}<br />";
 $zz=$z+1;
 
-if ($z==$nombremodules-1) { // si on est  la dernire listbox, on affiche le message demandant d'envoyer les modifs.
+if ($z==$namemodules-1) { // si on est  la dernire listbox, on affiche le message demandant d'envoyer les modifs.
     $hideok =  1;
     $sommairezenom = "sommairespan$keysommaire";
 }
@@ -462,7 +462,7 @@ else {
 }
     // si on slectionne 'Lien externe' dans la liste des modules, cela va afficher les inputbox.
             echo "<select name=\"sommaireformingroup[$keysommaire][$z]\" onchange='disab(this,this.value,this.form.elements[\"sommaireformmodulelink[$keysommaire][$z]\"],this.form.elements[\"sommaireformmodulelinktext[$keysommaire][$z]\"],\"$linkvalue\",\"$linktextvalue\"); sommaireadminshowhide(\"$sommairezenom\",$hideok)'>";
-            echo "<option value=\"Aucun\">";
+            echo "<option value=\"None\">";
             $selected = ($moduleinthisgroup[$groupmenu[$keysommaire]][$z]=="SOMMAIRE_HR") ? "selected" : "" ;
             echo "<option value=\"SOMMAIRE_HR\" $selected>*"._SOMMAIREHR."*";
             $selected = ($moduleinthisgroup[$groupmenu[$keysommaire]][$z]=="Lien externe") ? "selected" : "" ;
@@ -482,21 +482,21 @@ else {
                 $testeftp=strpos($linkinthisgroup[$groupmenu[$keysommaire]][$z],"ftp://");
                 $testehttps=strpos($linkinthisgroup[$groupmenu[$keysommaire]][$z],"https://");
                 if ($testehttp===0 || $testeftp===0 || $testehttps===0) { //permet d'afficher l'image "ouvrir dans une nouvelle fentre" si le lien commence par http:// ou ftp://
-                    echo "<img src=\"".$urlofimages."/admin/targetblank.gif\" name=\"targetblank$formpointeur\" alt=\""._SOMTARGETBLANK."\" title=\""._SOMTARGETBLANK."\">";
+                    echo "<img src=\"".$urlofimages."/admin/targetblank.gif\" name=\"targetblank$formpointer\" alt=\""._SOMTARGETBLANK."\" title=\""._SOMTARGETBLANK."\">";
                 }
                 else {// si le lien ne commence pas par http ou ftp, on met l'image targetnone.gif
-                    echo "<img src=\"".$urlofimages."/admin/targetnone.gif\" name=\"targetblank$formpointeur\" alt=\""._SOMTARGETNONE."\" title=\""._SOMTARGETNONE."\">";
+                    echo "<img src=\"".$urlofimages."/admin/targetnone.gif\" name=\"targetblank$formpointer\" alt=\""._SOMTARGETNONE."\" title=\""._SOMTARGETNONE."\">";
                 }
                 echo "</td><td align=\"center\">"
-                ."<input type=\"text\" name=\"sommaireformmodulelink[$keysommaire][$z]\" value=\"".$linkinthisgroup[$groupmenu[$keysommaire]][$z]."\" size=20 onChange='targetblank(document.images.targetblank$formpointeur,this.value)'>"
+                ."<input type=\"text\" name=\"sommaireformmodulelink[$keysommaire][$z]\" value=\"".$linkinthisgroup[$groupmenu[$keysommaire]][$z]."\" size=20 onChange='targetblank(document.images.targetblank$formpointer,this.value)'>"
                 ."</td><td></td><td>"
                 ."<input type=\"text\" name=\"sommaireformmodulelinktext[$keysommaire][$z]\" size=15 value=\"".$linktextinthisgroup[$groupmenu[$keysommaire]][$z]."\" ></td>";
             }
 
             else { // si "Lien externe" n'est pas slectionn par dfaut
-                echo"<td><img src=\"".$urlofimages."/admin/none.gif\" name=\"targetblank$formpointeur\" alt=\"\" title=\"\"></td>";
+                echo"<td><img src=\"".$urlofimages."/admin/none.gif\" name=\"targetblank$formpointer\" alt=\"\" title=\"\"></td>";
                 echo"<td align=\"center\">"
-                ."<input type=\"text\" class=\"disabled\" name=\"sommaireformmodulelink[$keysommaire][$z]\" value=\"".$linkinthisgroup[$groupmenu[$keysommaire]][$z]."\" size=20 disabled onChange='targetblank(document.images.targetblank$formpointeur,this.value)' >"
+                ."<input type=\"text\" class=\"disabled\" name=\"sommaireformmodulelink[$keysommaire][$z]\" value=\"".$linkinthisgroup[$groupmenu[$keysommaire]][$z]."\" size=20 disabled onChange='targetblank(document.images.targetblank$formpointer,this.value)' >"
                 ."</td><td></td><td>"
                 ."<input type=\"text\" class=\"disabled\" name=\"sommaireformmodulelinktext[$keysommaire][$z]\" size=15 disabled value=\"".$linktextinthisgroup[$groupmenu[$keysommaire]][$z]."\"></td>";
             }
@@ -504,7 +504,7 @@ else {
 //echo"{$linkinthisgroup[$groupmenu[$keysommaire]][$z]}<br />{$linktextinthisgroup[$groupmenu[$keysommaire]][$z]}<br />";
 
             echo "<td></td><td align=\"center\">"
-                ."<select name=\"sommaireformmoduleimage[$keysommaire][$z]\" onChange='changeimage$formpointeur(this.document,this.value)'>"
+                ."<select name=\"sommaireformmoduleimage[$keysommaire][$z]\" onChange='changeimage$formpointer(this.document,this.value)'>"
                 ."<option value='middot.gif' >"._SOMNOIMG." ( <strong>&middot;</strong> )</option>";
             for ($i=0;$i<count($file2);$i++) {
                 if ($file2[$i] != "." && $file2[$i] != "..") {
@@ -524,19 +524,19 @@ else {
         echo "<td align=\"center\"><input type=\"checkbox\" name=\"sommaireformmodulegras[$keysommaire][$z]\" $checked></td>";
         $checked = ( $newinthisgroup[$groupmenu[$keysommaire]][$z]<>"" ) ? "checked" : "" ;
         $colornew = ($checked=="checked") ? "new" : "new_gray";
-        echo "<td align=\"center\"><input type=\"checkbox\" name=\"sommaireformmodulenew[$keysommaire][$z]\" $checked onchange=\"sommairechangecatimgnew(document.images['somnew$formpointeur'])\"><img name=\"somnew$formpointeur\" src=\"".$urlofimages."/admin/$colornew.gif\"></td>";
+        echo "<td align=\"center\"><input type=\"checkbox\" name=\"sommaireformmodulenew[$keysommaire][$z]\" $checked onchange=\"sommairechangecatimgnew(document.images['somnew$formpointer'])\"><img name=\"somnew$formpointer\" src=\"".$urlofimages."/admin/$colornew.gif\"></td>";
         echo "<td>";
         if ($z<$nbmodules) {
-    //        echo "[<a href='javascript:envoiedit(document.forms.form_sommaire.elements[\"sommaireformingroup[".$keysommaire."][".$z."]\"].value,\"b\",\"c\",\"d\",\"e\",\"f\",\"g\")' title=\"More options\">+</a>]";
-    //        echo "[<a href='javascript:envoiedit(document.forms.form_sommaire.elements[\"sommaireformingroup[".$keysommaire."][".$z."]\"].value, document.forms.form_sommaire.elements[\"sommaireformmodulelink[".$keysommaire."][".$z."]\"].value, document.forms.form_sommaire.elements[\"sommaireformmodulelinktext[".$keysommaire."][".$z."]\"].value, document.forms.form_sommaire.elements[\"sommaireformmoduleimage[".$keysommaire."][".$z."]\"].value, document.forms.form_sommaire.elements[\"sommaireformmodulegras[".$keysommaire."][".$z."]\"].value, document.forms.form_sommaire.elements[\"sommaireformmodulenew[".$keysommaire."][".$z."]\"].value, ".$idofthismodule[$groupmenu[$keysommaire]][$z].",\"".$catname[$keysommaire]."\", document.forms.form_sommaire.elements[\"sommaireformimage[".$keysommaire."]\"].value, \"".$groupmenu[$keysommaire]."\", ".$keysommaire.", ".$z.")' title=\""._SOMMOREOPTIONS."\">+</a>]";
-            //echo "[<a href='javascript:envoiedit(".$keysommaire.", ".$z.")' title=\""._SOMMOREOPTIONS."\">+</a>]";
+    //        echo "[<a href='javascript:senddit(document.forms.form_sommaire.elements[\"sommaireformingroup[".$keysommaire."][".$z."]\"].value,\"b\",\"c\",\"d\",\"e\",\"f\",\"g\")' title=\"More options\">+</a>]";
+    //        echo "[<a href='javascript:senddit(document.forms.form_sommaire.elements[\"sommaireformingroup[".$keysommaire."][".$z."]\"].value, document.forms.form_sommaire.elements[\"sommaireformmodulelink[".$keysommaire."][".$z."]\"].value, document.forms.form_sommaire.elements[\"sommaireformmodulelinktext[".$keysommaire."][".$z."]\"].value, document.forms.form_sommaire.elements[\"sommaireformmoduleimage[".$keysommaire."][".$z."]\"].value, document.forms.form_sommaire.elements[\"sommaireformmodulegras[".$keysommaire."][".$z."]\"].value, document.forms.form_sommaire.elements[\"sommaireformmodulenew[".$keysommaire."][".$z."]\"].value, ".$idofthismodule[$groupmenu[$keysommaire]][$z].",\"".$catname[$keysommaire]."\", document.forms.form_sommaire.elements[\"sommaireformimage[".$keysommaire."]\"].value, \"".$groupmenu[$keysommaire]."\", ".$keysommaire.", ".$z.")' title=\""._SOMMOREOPTIONS."\">+</a>]";
+            //echo "[<a href='javascript:senddit(".$keysommaire.", ".$z.")' title=\""._SOMMOREOPTIONS."\">+</a>]";
         }
         echo "</td>";
         echo "</tr>";
 
         if ($z>$nbmodules) { // pour n'afficher qu'une seul liste droulante vide, on cache les autres.
             echo "<script language=\"JavaScript\">"
-            ."sommaireadminshowhide(\"span$formpointeur\",0);"
+            ."sommaireadminshowhide(\"span$formpointer\",0);"
             ." </script>";
             }
     
@@ -686,10 +686,10 @@ else {
 //  chaque ligne du formulaire, on fait une requte pour insrer les donnes.
     for ($i=0; $i<=$sommaireformkeysommaire; $i++) {
         for ($j=0; $j<count($sommaireformingroup[$i]); $j++) {
-            $zeclass = ($sommaireformfirstclass != $sommaireformclassformodules) ? $sommaireformclassformodules : $sommaireformmoduleclass[$i][$j] ;
-            $zeclass = (empty($zeclass)) ? $sommaireformclassformodules : $zeclass ; //si la classe est vide, alors on remplit avec la classe par dfaut.
-            $zenew_days = ($sommaireformfirstnew_days != $sommaireformnew_days) ? $sommaireformnew_days : $sommaireformmodulenew_days[$i][$j] ;//si on n'a pas chang le nb jours dans l'admin, on recopie les valeurs prcdentes.
-            $zenew_days = (empty($zenew_days)) ? $sommaireformnew_days : $zenew_days ; //si le nb de jour est vide, alors on remplit avec le nb de jours par dfaut.
+            $menu_class = ($sommaireformfirstclass != $sommaireformclassformodules) ? $sommaireformclassformodules : $sommaireformmoduleclass[$i][$j] ;
+            $menu_class = (empty($menu_class)) ? $sommaireformclassformodules : $menu_class ; //si la classe est vide, alors on remplit avec la classe par dfaut.
+            $menu_new_days = ($sommaireformfirstnew_days != $sommaireformnew_days) ? $sommaireformnew_days : $sommaireformmodulenew_days[$i][$j] ;//si on n'a pas chang le nb jours dans l'admin, on recopie les valeurs prcdentes.
+            $menu_new_days = (empty($menu_new_days)) ? $sommaireformnew_days : $menu_new_days ; //si le nb de jour est vide, alors on remplit avec le nb de jours par dfaut.
             if ($sommaireformingroup[$i][$j] =="Lien externe") { //si il y a un lien, on insre les donnes du lien
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -702,7 +702,7 @@ else {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $sql="INSERT INTO ".$prefix."_sommaire_categories (groupmenu, module, url, url_text, image, new, new_days, class, bold) VALUES ('$sommaireformgroupmenu[$i]', '".$sommaireformingroup[$i][$j]."', '".$sommaireformmodulelink[$i][$j]."', '".$sommaireformmodulelinktext[$i][$j]."', '".$sommaireformmoduleimage[$i][$j]."', '".$sommaireformmodulenew[$i][$j]."', '".$zenew_days."', '".$zeclass."', '".$sommaireformmodulegras[$i][$j]."')";
+                $sql="INSERT INTO ".$prefix."_sommaire_categories (groupmenu, module, url, url_text, image, new, new_days, class, bold) VALUES ('$sommaireformgroupmenu[$i]', '".$sommaireformingroup[$i][$j]."', '".$sommaireformmodulelink[$i][$j]."', '".$sommaireformmodulelinktext[$i][$j]."', '".$sommaireformmoduleimage[$i][$j]."', '".$sommaireformmodulenew[$i][$j]."', '".$menu_new_days."', '".$menu_class."', '".$sommaireformmodulegras[$i][$j]."')";
                 $db->sql_query($sql);
             }
             elseif ($sommaireformingroup[$i][$j] =="SOMMAIRE_HR") {
@@ -717,10 +717,10 @@ else {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $sql="INSERT INTO ".$prefix."_sommaire_categories (groupmenu, module, url, url_text, image, new, new_days, class, bold) VALUES ('$sommaireformgroupmenu[$i]', '".$sommaireformingroup[$i][$j]."', '', '' , '', '".$sommaireformmodulenew[$i][$j]."', '".$zenew_days."',  '".$zeclass."', '".$sommaireformmodulegras[$i][$j]."')";
+                $sql="INSERT INTO ".$prefix."_sommaire_categories (groupmenu, module, url, url_text, image, new, new_days, class, bold) VALUES ('$sommaireformgroupmenu[$i]', '".$sommaireformingroup[$i][$j]."', '', '' , '', '".$sommaireformmodulenew[$i][$j]."', '".$menu_new_days."',  '".$menu_class."', '".$sommaireformmodulegras[$i][$j]."')";
                 $db->sql_query($sql);
             }
-            else if ($sommaireformingroup[$i][$j] !="Aucun") { //sinon, (si il y a un module) on insre le nom du module, et pas de lien.
+            else if ($sommaireformingroup[$i][$j] !="None") { //sinon, (si il y a un module) on insre le nom du module, et pas de lien.
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -732,11 +732,11 @@ else {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $sql="INSERT INTO ".$prefix."_sommaire_categories (groupmenu, module, url, url_text, image, new, new_days, class, bold) VALUES ('$sommaireformgroupmenu[$i]', '".$sommaireformingroup[$i][$j]."', '', '' , '".$sommaireformmoduleimage[$i][$j]."', '".$sommaireformmodulenew[$i][$j]."', '".$zenew_days."',  '".$zeclass."', '".$sommaireformmodulegras[$i][$j]."')";
+                $sql="INSERT INTO ".$prefix."_sommaire_categories (groupmenu, module, url, url_text, image, new, new_days, class, bold) VALUES ('$sommaireformgroupmenu[$i]', '".$sommaireformingroup[$i][$j]."', '', '' , '".$sommaireformmoduleimage[$i][$j]."', '".$sommaireformmodulenew[$i][$j]."', '".$menu_new_days."',  '".$menu_class."', '".$sommaireformmodulegras[$i][$j]."')";
                 $db->sql_query($sql);
                 //
             }
-        // --> si 'Aucun' est slectionn dans les modules, on n'insre aucune donne !
+        // --> si 'None' est slectionn dans les modules, on n'insre aucune donne !
         }
 
 // si la catagorie ne contient aucune donne (compltement vide), alors on ne l'insre pas dans la DB.
@@ -744,8 +744,8 @@ else {
 
         }
         else {
-            $zeclass = ($sommaireformeachcategoryclass[0]!=$sommaireformclass) ? $sommaireformclass : $sommaireformeachcategoryclass[$i] ;// si la class a t change via l'admin, on indique cette classe pour toutes les catgories, sinon on recopie le nom de la classe utilise auparavant.
-            $zeclass = (empty($zeclass)) ? $sommaireformclass : $zeclass ; //si la classe est vide, alors on remplit avec la classe par dfaut.
+            $menu_class = ($sommaireformeachcategoryclass[0]!=$sommaireformclass) ? $sommaireformclass : $sommaireformeachcategoryclass[$i] ;// si la class a t change via l'admin, on indique cette classe pour toutes les catgories, sinon on recopie le nom de la classe utilise auparavant.
+            $menu_class = (empty($menu_class)) ? $sommaireformclass : $menu_class ; //si la classe est vide, alors on remplit avec la classe par dfaut.
             if ($gestiongroupe==1 && $sommaireformradio==2) {
                 $invisible=4;
             }
@@ -766,7 +766,7 @@ else {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $sql="INSERT INTO ".$prefix."_sommaire (groupmenu, name, image, lien, hr, center, bgcolor, invisible, class, bold, new, listbox, dynamic) VALUES ('$sommaireformgroupmenu[$i]', '$sommaireformname[$i]', '$sommaireformimage[$i]', '$sommaireformlien[$i]', '$sommaireformhr[$i]', '$sommaireformcenter[$i]', '$sommaireformbgcolor[$i]', '$invisible', '$zeclass', '$sommaireformbold[$i]', '$sommaireformnew[$i]', '$sommaireformlistbox[$i]', '$sommaireformdynamic')";
+            $sql="INSERT INTO ".$prefix."_sommaire (groupmenu, name, image, lien, hr, center, bgcolor, invisible, class, bold, new, listbox, dynamic) VALUES ('$sommaireformgroupmenu[$i]', '$sommaireformname[$i]', '$sommaireformimage[$i]', '$sommaireformlien[$i]', '$sommaireformhr[$i]', '$sommaireformcenter[$i]', '$sommaireformbgcolor[$i]', '$invisible', '$menu_class', '$sommaireformbold[$i]', '$sommaireformnew[$i]', '$sommaireformlistbox[$i]', '$sommaireformdynamic')";
             $db->sql_query($sql);
             // 
         } //end for 2
@@ -802,7 +802,7 @@ else {
 }
 
 function edit() {
-global $keysommaire, $z, $modulename, $lienname, $lienlien, $image, $new_days, $categoryclass, $lienclass, $catname, $catimage, $bgcolor1, $bgcolor3, $bgcolor2, $bgcolor4, $zetheme, $sommaireeditposted, $somcategoryclass, $somlienclass, $somnew_days, $db, $prefix, $urlofimages;
+global $keysommaire, $z, $modulename, $lienname, $lienlien, $image, $new_days, $categoryclass, $lienclass, $catname, $catimage, $bgcolor1, $bgcolor3, $bgcolor2, $bgcolor4, $ThemeSel, $sommaireeditposted, $somcategoryclass, $somlienclass, $somnew_days, $db, $prefix, $urlofimages;
 global $admin_file;
     if ($sommaireeditposted!="ok") {
         if ($catimage<>"noimg" && !preg_match("#.swf#i",$catimage) && $som_center<>"on") {
@@ -826,11 +826,11 @@ global $admin_file;
         $lienname = str_replace("[SOMSYMBOLEet]","&",$lienname);
         $catname = str_replace("[SOMSYMBOLEinterro]","?",$catname);
         $lienname = str_replace("[SOMSYMBOLEinterro]","?",$lienname);
-        include("themes/$zetheme/theme.php");
+        include("themes/$ThemeSel/theme.php");
         echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">
         <html lang=\""._LANGCODE."\">
         <head><title>"._SOMEDITLINKTITLE."</title>
-        <link rel=\"StyleSheet\" href=\"themes/$zetheme/style/style.css\" type=\"text/css\"></head>
+        <link rel=\"StyleSheet\" href=\"themes/$ThemeSel/style/style.css\" type=\"text/css\"></head>
         <body>
         <form action=\"".$admin_file.".php?op=sommaire&amp;go=edit\" method=\"post\">
         <input type=\"hidden\" name=\"sommaireeditposted\" value=\"ok\">
@@ -909,7 +909,7 @@ global $admin_file;
         echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">
         <html lang=\""._LANGCODE."\">
         <head><title>"._SOMEDITLINKTITLE."</title>
-        <link rel=\"StyleSheet\" href=\"themes/$zetheme/style/style.css\" type=\"text/css\"></head>
+        <link rel=\"StyleSheet\" href=\"themes/$ThemeSel/style/style.css\" type=\"text/css\"></head>
         <body>";
         //echo "key:$keysommaire - z:$z - $somlienclass - $somnew_days - $somlienid - $somcategoryclass<br />";
         echo "<br /><br /><div align=\"center\"><span  class=\"title\">"._SOMMOREOPTIONSUCCESS."</span><br />"._SOMSENDTOVALIDATE."<br /><br /><br /><br /><br /><br /><div align=\"center\" class=\"title\">[<a href=\"javascript:window.close()\">"._SOMCLOSE."</a>]</div>";

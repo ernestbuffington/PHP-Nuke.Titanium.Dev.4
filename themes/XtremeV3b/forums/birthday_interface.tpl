@@ -1,0 +1,3 @@
+<!-- BEGIN bday_month --><span class="gensmall"> {BIRTHMONTH_SELECT}</span><!-- END bday_month -->
+<!-- BEGIN bday_day --> <input type="text" class="post" name="bday_day" size="2" maxlength="2" value="{BDAY_DAY}" onfocus="this.select()" /><!-- END bday_day -->
+<!-- BEGIN bday_year --><span class="gensmall">{L_OPTIONAL}</span> <input type="text" class="post" name="bday_year" size="4" maxlength="4" value="{BDAY_YEAR}" onfocus="this.select()" /><!-- END bday_year -->

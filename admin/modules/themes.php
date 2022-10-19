@@ -351,33 +351,33 @@ function theme_edit($theme_name){
         echo "    <td align='center' colspan='2' class='option'>[ <a href=\"$admin_file.php?op=theme_makedefault&amp;theme=" . $theme_info['theme_name'] . "\">" . _THEMES_MAKEDEFAULT . "</a> | <a href=\"$admin_file.php?op=theme_uninstall&amp;theme=" . $theme_info['theme_name'] . "\">" . _THEMES_UNINSTALL . "</a> ]</td>\n";
     }
     echo "  </tr>\n";
-    echo "  <tr>\n";
+    echo "  <tr>\n";                     # CUSTOM THEME NAME
     echo "    <td bgcolor='$bgcolor2'>" . _THEMES_CUSTOMNAME . "</td>\n";
     echo "    <td><input type='text' name='custom_name' value='".$theme_info['custom_name']."' size='50' /></td>\n";
     echo "  </tr>\n";
-	echo "  <tr>\n";
+	echo "  <tr>\n";                     # IS THE THEME ACTIVE
     echo "    <td bgcolor='$bgcolor2'>" . _THEMES_ACTIVE . "</td>\n";
     echo "    <td>\n";
     echo "        <select name='active'$disabled>\n";
-    echo "            <option value='1'$yes_selected>" . _YES . "</option>\n";
-    echo "            <option value='0'$no_selected>" . _NO . "</option>\n";
+    echo "            <option value='1'$yes_selected>" . _YES . "</option>\n"; # ACTIVE YES
+    echo "            <option value='0'$no_selected>" . _NO . "</option>\n";   # ACTIVE NO
     echo "        </select>\n";
     echo "    </td>\n";
     echo "  </tr>\n";
     echo "  <tr>\n";
-    echo "    <td>" . $admlang['global']['who_view'] . "</td>\n";
+    echo "    <td>" . $admlang['global']['who_view'] . "</td>\n"; # WHO IS ALLOWED TO VIEW THE CURRENT THEME
     echo "    <td>\n";
     echo "        <select name=\"permissions\"$disabled>\n";
-    echo "            <option value=\"1\"$selected1>" . $admlang['global']['all_visitors'] . "</option>\n";
-    echo "            <option value=\"2\"$selected2>".$admlang['global']['groups_only']."</option>\n";
-    echo "            <option value=\"3\"$selected3>" . $admlang['global']['admins_only'] . "</option>\n";
+    echo "            <option value=\"1\"$selected1>" . $admlang['global']['all_visitors'] . "</option>\n"; # EVERYONE
+    echo "            <option value=\"2\"$selected2>".$admlang['global']['groups_only']."</option>\n";      # ONLY PEOPLE IN CERTAIN GROUPS
+    echo "            <option value=\"3\"$selected3>" . $admlang['global']['admins_only'] . "</option>\n";  # ONLY ADMINS CAN VIEW THIS THEME
     echo "        </select>\n";
     echo "    </td>\n";
     echo "  </tr>\n";
     echo "  <tr>\n";
-    echo "    <td valign='top'>"._WHATGROUPS.":</td>\n";
+    echo "    <td valign='top'>"._WHATGROUPS.":</td>\n"; # WHICH GROUP OF PEOPLE CAN USE THIS THEME
     echo "    <td>\n";
-    echo "        <span class='tiny'>"._WHATGRDESC."</span><br />\n";
+    echo "        <span class='tiny'>"._WHATGRDESC."</span><br />\n"; # View must be SET to Groups Only
     echo "        <select name='groups[]' multiple='multiple' size='5'>\n";
     $ingroups = explode("-",$theme_info['groups']);
     $groupsResult = $db->sql_query("SELECT group_id, group_name FROM ".$prefix."_bbgroups WHERE group_description <> 'Personal User'");
@@ -392,7 +392,7 @@ function theme_edit($theme_name){
     echo "  <tr>\n";
     echo "    <td colspan='2'>\n";
     echo "        <fieldset>\n";
-    echo "            <legend>" . _THEMES_ADV_OPTS . "</legend>\n";
+    echo "            <legend>" . _THEMES_ADV_OPTS . "</legend>\n"; # Your theme is compatible with Advanced Features
     echo "            <table border='0' width='100%'>\n";
     if (is_file(NUKE_THEMES_DIR.$theme_info['theme_name'].'/theme_info.php')){
         echo "              <tr>\n";
@@ -409,12 +409,14 @@ function theme_edit($theme_name){
         }
 		
         if (is_array($params)){
-            foreach($params as $key => $param){
+            foreach($params as $key => $param)
+			{
                 echo "              <tr>\n";
 				echo "                <td style='width:20%' bgcolor='$bgcolor2'>" . $param_names[$key] . "</td>\n";
 				echo "                <td style='width:80%'><input type='text' name='" . $param . "' value='".stripcslashes($loaded_params[$key])."'style='width: 100%' /></td>\n";
 				echo "              </tr>\n";
-            }
+            
+			}
         }
 		
         echo "              <tr>\n";

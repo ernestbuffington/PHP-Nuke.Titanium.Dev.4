@@ -5,7 +5,7 @@
 
 
 /***************************************************************************
- *                               comments.php
+ *                               comments.php  
  *                            -------------------
  *
  *   PHPNuke Ported Arcade - http://www.nukearcade.com
@@ -15,7 +15,7 @@
 
 /*****[CHANGES]**********************************************************
 -=[Base]=-
-      Nuke Patched                             v3.1.0       09/20/2005
+      Nuke Patched                             v3.1.0       09/20/2005 
  ************************************************************************/
 
 if (!defined('MODULE_FILE')) {
@@ -90,13 +90,13 @@ if($mode == "update")
 
                 if( !($result = $db->sql_query($sql)))
             {
-            message_die(GENERAL_ERROR, "Error Authenticating User", '', __LINE__, __FILE__, $sql);
+            //message_die(GENERAL_ERROR, "Error Authenticating User", '', __LINE__, __FILE__, $sql);
             }
             $row = $db->sql_fetchrow($result);
 
             if($row['game_highuser'] != $user_id)
             {
-            message_die(GENERAL_ERROR, "Error Authenticating User - Possible hack attempt!", '');
+            //message_die(GENERAL_ERROR, "Error Authenticating User - Possible hack attempt!", ''); 
             }
             //Enters Comment into the DB
             $sql = "UPDATE " . COMMENTS_TABLE . " SET comments_value = '$comment_text' WHERE game_id = $game_id";

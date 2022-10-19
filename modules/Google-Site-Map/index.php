@@ -328,7 +328,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
      print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; A list of '.$sitename.'\'s blog topics</a>&nbsp;&nbsp;&nbsp;</td></tr>'."\n";
      $sitemap->addItem('/modules.php?name='.$link.'', '0.8', 'daily', 'Today');
 
-	 elseif($link === 'Blog_Top'):
+	 elseif($link === 'Blogs_Top'):
      # xml is written below in the switch statement
      print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; View '.$sitename.'\'s Top 10 Blogs</a>&nbsp;&nbsp;&nbsp;</td></tr>'."\n";
      $sitemap->addItem('/modules.php?name='.$link.'', '0.8', 'daily', 'Today');
@@ -686,9 +686,9 @@ while ($row2 = $db->sql_fetchrow($result2)):
 				$cidnews = $row10['sid'];
 				print '<tr><td></td><td><font color="green"><i 
 				style="vertical-align: absmiddle;" class="fa fa-unlock-alt"></i></font> <a 
-				href="modules.php?name=Blog&amp;file=article&amp;sid='.$cidnews.'">Blog Post &#187; '.$newslink.'</a></td>';
+				href="modules.php?name=Blogs&amp;file=article&amp;sid='.$cidnews.'">Blog Post &#187; '.$newslink.'</a></td>';
 				if($xml):
-		        $sitemap->addItem('/modules.php?name=Blog&file=article&sid='.$cidnews.'', '0.8', 'monthly', 'Jun 25');
+		        $sitemap->addItem('/modules.php?name=Blogs&file=article&sid='.$cidnews.'', '0.8', 'monthly', 'Jun 25');
 				endif;
             endwhile;
             $db->sql_freeresult($result10);

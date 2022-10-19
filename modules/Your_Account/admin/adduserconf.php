@@ -101,7 +101,7 @@ if(is_mod_admin($module_name)) {
         $sql .= "(user_id, name, username, user_email, femail, user_website, user_regdate, user_from, user_occ, user_interests, user_viewemail, user_avatar, user_avatar_type, user_sig, user_password, newsletter, broadcast, popmeson";
         //if ($Version_Num > 6.9) { $sql .= ", points"; }
         $sql .= ") ";
-        $sql .= "VALUES ('$new_uid', '$add_name', '$add_uname', '$add_email', '$add_femail', '$add_url', '$user_regdate', '$add_user_from', '$add_user_occ', '$add_user_intrest', '$add_user_viewemail', 'gallery/blank.gif', '3', '$add_user_sig', '$add_pass', '$add_newsletter', '1', '0'";
+        $sql .= "VALUES ('$new_uid', '$add_name', '$add_uname', '$add_email', '$add_femail', '$add_url', '$user_regdate', '$add_user_from', '$add_user_occ', '$add_user_intrest', '$add_user_viewemail', 'gallery/blank.png', '3', '$add_user_sig', '$add_pass', '$add_newsletter', '1', '0'";
         //if ($Version_Num > 6.9) { $sql .= ", '$add_points'"; }
         $sql .= ")";
         $result = $db->sql_query($sql);

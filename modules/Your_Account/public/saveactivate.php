@@ -70,7 +70,7 @@ if (!defined('CNBYA')) {
         if ($latest_uid == "-1") { $new_uid = 1; } else { $new_uid = $latest_uid+1; }
         $lv = time();
         $db->sql_query("LOCK TABLES ".$user_prefix."_users WRITE");
-        $db->sql_query("INSERT INTO ".$user_prefix."_users (user_id, user_avatar, user_avatar_type, user_lang, user_lastvisit, umode) VALUES ($new_uid, 'gallery/blank.gif', '3', '$language', '$lv', 'nested')");
+        $db->sql_query("INSERT INTO ".$user_prefix."_users (user_id, user_avatar, user_avatar_type, user_lang, user_lastvisit, umode) VALUES ($new_uid, 'gallery/blank.png', '3', '$language', '$lv', 'nested')");
         $db->sql_query("UPDATE ".$user_prefix."_users SET username='$username', name='$realname', user_email='$user_email', femail='$femail', user_website='$user_website', user_from='$user_from', user_occ='$user_occ', user_interests='$user_interests', newsletter='$newsletter', user_viewemail='$user_viewemail', user_allow_viewonline='$user_allow_viewonline', user_timezone='$user_timezone', user_dateformat='$user_dateformat', user_sig='$user_sig', bio='$bio', user_password='$user_password', user_regdate='$user_regdate' WHERE user_id='$new_uid'");
         $db->sql_query("UNLOCK TABLES");
         $db->sql_query("DELETE FROM ".$user_prefix."_users_temp WHERE username='$username'");

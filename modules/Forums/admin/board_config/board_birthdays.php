@@ -1,60 +1,31 @@
 <?php
-
 /*======================================================================= 
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
-
-
 /************************************************************************
-
    Nuke-Evolution: DHTML Forum Config Admin
-
    ============================================
-
    Copyright (c) 2005 by The Nuke-Evolution Team
 
-
-
    Filename      : board_once.php
-
-   Author        : Technocrat (www.nuke-evolution.com)
-
+   Author        : Technocrat (www.php-nuke-titanium.86it.us)
    Version       : 1.0.0
-
    Date          : 06.12.2006 (mm.dd.yyyy)
-
-
-
    Description   : Enhanced General Admin Configuration with DHTML menu.
 
 ************************************************************************/
 
-
-
 /*****[CHANGES]**********************************************************
-
 -=[Mod]=-
-
        Default avatar                           v1.1.0       06/30/2005
-
  ************************************************************************/
-
-
-
 if (!defined('BOARD_CONFIG')) {
-
     die('Access Denied');
-
 }
 
-
-
 $template->set_filenames(array(
-
     "birthdays" => "admin/board_config/board_birthdays.tpl")
-
 );
 
 $bday_show_yes = ( $new['bday_show'] ) ? "checked=\"checked\"" : "";
@@ -72,23 +43,13 @@ $bday_email_enabled = ( $new['bday_greeting'] & 1<<(BIRTHDAY_EMAIL-1) ) ? "check
 $bday_pm_enabled = ( $new['bday_greeting'] & 1<<(BIRTHDAY_PM-1) ) ? "checked=\"checked\"" : "disabled=\"disabled\"";
 $bday_popup_enabled = ( $new['bday_greeting'] & 1<<(BIRTHDAY_POPUP-1) ) ? "checked=\"checked\"" : "";
 
-
-
-
 //General Template variables
-
 $template->assign_vars(array(
-
     "DHTML_ID" => "c" . $dhtml_id)
-
 );
 
-    
-
 //Language Template variables
-
 $template->assign_vars(array(
-
     "L_BIRTHDAYS" => $lang['Birthdays'],
 	"L_BDAY_SHOW" => $lang['bday_show'],
 	"L_UNCONDITIONAL" => $lang['Unconditional'],
@@ -113,12 +74,8 @@ $template->assign_vars(array(
 
 ));
 
-
-
 //Data Template Variables
-
 $template->assign_vars(array(
-
     "BDAY_SHOW_YES" => $bday_show_yes,
 	"BDAY_SHOW_NO" => $bday_show_no,
 	"BDAY_REQUIRE_YES" => $bday_require_yes,
@@ -140,9 +97,5 @@ $template->assign_vars(array(
 	"BDAY_POPUP_ENABLED" => $bday_popup_enabled
 
  ));
-
 $template->pparse("birthdays");
-
-
-
 ?>

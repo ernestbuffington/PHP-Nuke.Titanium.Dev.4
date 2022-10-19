@@ -683,7 +683,8 @@ function bbencode_first_pass($text, $uid)
     $text = preg_replace_callback("(\[s\](.*?)\[/s\])is", function($m) { return '[s:'._BBCODE_UNIQUE_ID.']'.$m[1].'[/s:'._BBCODE_UNIQUE_ID.']'; }, $text);
 
     # [img]image_url_here[/img] code..
-    $text = preg_replace_callback("(\[img\]((http|ftp|https|ftps)://)([^ \?&=\#\"\n\r\t<]*?(\.(jpg|jpeg|gif|png)))\[/img\])is", function($m) { return '[img:'._BBCODE_UNIQUE_ID.']'.$m[1].str_replace(' ','%20',$m[3]).'[/img:'._BBCODE_UNIQUE_ID.']'; }, $text);
+    $text = preg_replace_callback("(\[img\]((http|ftp|https|ftps)://)([^ \?&=\#\"\n\r\t<]*?(\.(jpg|jpeg|gif|png)))\[/img\])is", function($m) { 
+	return '[img:'._BBCODE_UNIQUE_ID.']'.$m[1].str_replace(' ','%20',$m[3]).'[/img:'._BBCODE_UNIQUE_ID.']'; }, $text);
 
     # [align=left/center/right/justify]Formatted Code[/align] code..
     $text = preg_replace_callback("(\[align=(left|right|center|justify)\](.*?)\[/align\])is", function($m) { return '[align='.$m[1].':'._BBCODE_UNIQUE_ID.']'.$m[2].'[/align:'._BBCODE_UNIQUE_ID.']'; }, $text);

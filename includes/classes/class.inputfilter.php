@@ -18,13 +18,13 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
   * @license: GNU General Public License (GPL)
   */
 class InputFilter {
-    var $tagsArray;            // default = empty array
-    var $attrArray;            // default = empty array
+    var $tagsArray;         # default = empty array
+    var $attrArray;         # default = empty array
 
-    var $tagsMethod;        // default = 0
-    var $attrMethod;        // default = 0
+    var $tagsMethod;        # default = 0
+    var $attrMethod;        # default = 0
 
-    var $xssAuto;           // default = 1
+    var $xssAuto;           # default = 1
     var $tagBlacklist = array('applet', 
 	                            'body', 
 							 'bgsound', 
@@ -52,12 +52,12 @@ class InputFilter {
 	                       'background', 
 						     'codebase', 
 							   'dynsrc', 
-							   'lowsrc');  // also will strip ALL event handlers
+							   'lowsrc');  # also will strip ALL event handlers
     var $current_string;
 
-/*****[BEGIN]******************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
+    /*****[BEGIN]******************************************
+     [ Base:     Evolution Functions               v1.5.0 ]
+     ******************************************************/
     function filtered($filtered, $source = '') {
         $logdata = array('An attempt has been made to use a blocked HTML tag.',
                          'Blocked string: ' . htmlspecialchars($filtered),
@@ -76,9 +76,9 @@ class InputFilter {
         CloseTable();
 		exit;
     }
-/*****[END]********************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
+    /*****[END]********************************************
+     [ Base:     Evolution Functions               v1.5.0 ]
+     ******************************************************/
 
     /**
       * Constructor for inputFilter class. Only first parameter is required.
@@ -109,11 +109,13 @@ class InputFilter {
 	 * @return mixed	$source	'cleaned' version of input parameter
 	 */
     function process($source) {
-        // clean all elements in this array
+        
+		# clean all elements in this array
         if (is_array($source)) {
-            foreach($source as $key => $value)
+        
+		    foreach($source as $key => $value)
             {
-                // filter element for XSS and other 'bad' code etc.
+                # filter element for XSS and other 'bad' code etc.
                 if (is_string($value)) 
                 {
                     $this->current_string = $this->decode($value);
@@ -121,12 +123,13 @@ class InputFilter {
                 }
             }
             return $source;
-        // clean this string
-        } else if (is_string($source) && !empty ($source)) {
-            // filter source for XSS and other 'bad' code etc.
+        # clean this string
+        } 
+		elseif (is_string($source) && !empty ($source)) {
+            # filter source for XSS and other 'bad' code etc.
             $this->current_string = $source;
             return $this->remove($this->decode($source));
-        // return parameter as given
+        # return parameter as given
         } else return $source;
     }
 
@@ -138,7 +141,8 @@ class InputFilter {
       */
     function remove($source) {
         $loopCounter=0;
-        // provides nested-tag protection
+        
+		# provides nested-tag protection
         while($source != $this->filterTags($source)) {
             $source = $this->filterTags($source);
             $loopCounter++;
@@ -164,14 +168,18 @@ class InputFilter {
 		 * Is there a tag? If so it will certainly start with a '<'
 		 */
         $tagOpen_start = strpos($source, '<');
-        // interate through string until no tags left
+        
+		# interate through string until no tags left
         while($tagOpen_start !== false) {
-            // process tag interatively
+            
+			# process tag interatively
             $preTag .= substr($postTag, 0, $tagOpen_start);
             $postTag = substr($postTag, $tagOpen_start);
             $fromTagOpen = substr($postTag, 1);
-            // end of tag
+            
+			# end of tag
             $tagOpen_end = strpos($fromTagOpen, '>');
+			
 			/*
 			 * Let's catch any non-terminated tags and skip over them
 			 */
@@ -182,7 +190,7 @@ class InputFilter {
 				continue;
 			}
 
-            // next start of tag (for nested tag assessment)
+            # next start of tag (for nested tag assessment)
             $tagOpen_nested = strpos($fromTagOpen, '<');
             $tagOpen_nested_end	= strpos(substr($postTag, $tagOpen_end), '>');
             if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end)) {
@@ -194,19 +202,21 @@ class InputFilter {
             $tagOpen_nested = (strpos($fromTagOpen, '<') + $tagOpen_start + 1);
             $currentTag = substr($fromTagOpen, 0, $tagOpen_end);
             $tagLength = strlen($currentTag);
+			
 			/*
 			 * Lets get some information about our tag and setup attribute pairs
 			 */
             $tagLeft = $currentTag;
             $attrSet = array();
             $currentSpace = strpos($tagLeft, ' ');
-            // is end tag
+            
+			# is end tag
             if (substr($currentTag, 0, 1) == "/") 
             {
                 $isCloseTag = true;
                 list($tagName) = explode(' ', $currentTag);
                 $tagName = substr($tagName, 1);
-            // is start tag
+            # is start tag
             } else {
                 $isCloseTag = false;
                 list($tagName) = explode(' ', $currentTag);
@@ -220,25 +230,29 @@ class InputFilter {
             {
                 $postTag = substr($postTag, ($tagLength + 2));
                 $tagOpen_start = strpos($postTag, '<');
-/*****[BEGIN]******************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
+                
+				/*****[BEGIN]******************************************
+                 [ Base:     Evolution Functions               v1.5.0 ]
+                 ******************************************************/
                 if(!defined('MEDIUM_SECURITY') && $tagName != "!--pagebreak--") {
                     $this->filtered($tagName, $this->current_string);
                 }
-/*****[END]********************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
-                // don't append this tag
+                /*****[END]********************************************
+                 [ Base:     Evolution Functions               v1.5.0 ]
+                 ******************************************************/
+                
+				# don't append this tag
                 continue;
             }
-            // this while is needed to support attribute values with spaces in!
+            
+			# this while is needed to support attribute values with spaces in!
             while ($currentSpace !== false) {
                 $fromSpace = substr($tagLeft, ($currentSpace+1));
                 $nextSpace = strpos($fromSpace, ' ');
                 $openQuotes = strpos($fromSpace, '"');
                 $closeQuotes = strpos(substr($fromSpace, ($openQuotes+1)), '"') + $openQuotes + 1;
-                // another equals exists
+                
+				# another equals exists
                 if (strpos($fromSpace, '=') !== false) 
                 {
 					/*
@@ -250,7 +264,7 @@ class InputFilter {
                     {
                         $attr = substr($fromSpace, 0, ($closeQuotes+1));
                     }
-                    // one or neither exist
+                    # one or neither exist
                     else
                     {
                         $attr = substr($fromSpace, 0, $nextSpace);
@@ -259,22 +273,27 @@ class InputFilter {
                 {
                     $attr = substr($fromSpace, 0, $nextSpace);
                 }
-                // last attr pair
+                
+				# last attr pair
                 if (!$attr) {
                     $attr = $fromSpace;
                 }
-                // add to attribute pairs array
+                
+				# add to attribute pairs array
                 $attrSet[] = $attr;
-                // next inc
+                
+				# next inc
                 $tagLeft = substr($fromSpace, strlen($attr));
                 $currentSpace = strpos($tagLeft, ' ');
             }
-            // appears in array specified by user
+            
+			# appears in array specified by user
             $tagFound = in_array(strtolower($tagName), $this->tagsArray);
-            // remove this tag on condition
-            if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod)) 
+            # remove this tag on condition
+            
+			if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod)) 
             {
-                // reconstruct tag with allowed attributes
+                # reconstruct tag with allowed attributes
                 if (!$isCloseTag) 
                 {
                     $attrSet = $this->filterAttr($attrSet);
@@ -283,23 +302,27 @@ class InputFilter {
                     {
                         $preTag .= ' ' . $attrSet[$i];
                     }
-                    // reformat single tags to XHTML
+                    
+					# reformat single tags to XHTML
                     if (strpos($fromTagOpen, "</" . $tagName)) {
                         $preTag .= '>';
                     }
                     else {
                         $preTag .= ' />';
                     }
-                // just the tagname
+                
+				# just the tagname
                 } else {
                     $preTag .= '</' . $tagName . '>';
                 }
             }
-            // find next tag's start
+            
+			# find next tag's start
             $postTag = substr($postTag, ($tagLength + 2));
             $tagOpen_start = strpos($postTag, '<');
         }
-        // append any code after end of tags
+        
+		# append any code after end of tags
         if ($postTag != '<') {
             $preTag .= $postTag;
         }
@@ -315,63 +338,75 @@ class InputFilter {
 	 */
     function filterAttr($attrSet) {
         $newSet = array();
-        // process attributes
+        
+		# process attributes
         for ($i = 0; $i <count($attrSet); $i++)
         {
-            // skip blank spaces in tag
+            # skip blank spaces in tag
             if (!$attrSet[$i]) {
                 continue;
             }
-            // split into attr name and value
+            
+			# split into attr name and value
             $attrSubSet = explode('=', trim($attrSet[$i]), 2);
             list($attrSubSet[0]) = explode(' ', $attrSubSet[0]);
-            // removes all "non-regular" attr names AND also attr blacklisted
+            
+			# removes all "non-regular" attr names AND also attr blacklisted
             if ((!eregi("^[a-z]*$",$attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
             {
                 continue;
             }
-            // xss attr value filtering
+            
+			# xss attr value filtering
             if ($attrSubSet[1]) 
             {
-                // strips unicode, hex, etc
+                # strips unicode, hex, etc
                 $attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
-                // strip normal newline within attr value
-                $attrSubSet[1] = preg_replace('/\s+/', '', $attrSubSet[1]);
-                // strip double quotes
+                # strip normal newline within attr value
+                
+				$attrSubSet[1] = preg_replace('/\s+/', '', $attrSubSet[1]);
+                
+				# strip double quotes
                 $attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
-                // [requested feature] convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr value)
+                
+				# [requested feature] convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr value)
                 if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'")) {
                     $attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
                 }
-                // strip slashes
+                
+				# strip slashes
                 $attrSubSet[1] = stripslashes($attrSubSet[1]);
             }
-            // auto strip attr's with "javascript:
+            
+			# auto strip attr's with "javascript:
             if (InputFilter :: badAttributeValue($attrSubSet))
             {
-/*****[BEGIN]******************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
+                /*****[BEGIN]******************************************
+                 [ Base:     Evolution Functions               v1.5.0 ]
+                 ******************************************************/
                 $this->filtered($attrSubSet[1], $this->current_string);
-/*****[END]********************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
+                /*****[END]********************************************
+                 [ Base:     Evolution Functions               v1.5.0 ]
+                 ******************************************************/
             }
 
-            // if matches user defined array
+            # if matches user defined array
             $attrFound = in_array(strtolower($attrSubSet[0]), $this->attrArray);
-            // keep this attr on condition
+            
+			# keep this attr on condition
             if ((!$attrFound && $this->attrMethod) || ($attrFound && !$this->attrMethod)) 
             {
-                // attr has value
+                # attr has value
                 if ($attrSubSet[1]) {
                     $newSet[] = $attrSubSet[0] . '="' . $attrSubSet[1] . '"';
                 }
-                // attr has decimal zero as value
+                
+				# attr has decimal zero as value
                 else if ($attrSubSet[1] == "0") {
                     $newSet[] = $attrSubSet[0] . '="0"';
                 }
-                // reformat single attributes to XHTML
+                
+				# reformat single attributes to XHTML
                 else {
                     $newSet[] = $attrSubSet[0] . '="' . $attrSubSet[0] . '"';
                 }
@@ -391,7 +426,13 @@ class InputFilter {
 	{
 		$attrSubSet[0] = strtolower($attrSubSet[0]);
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
-		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') || (strpos($attrSubSet[1], 'javascript:') !== false) || (strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) || (strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
+		return (((strpos($attrSubSet[1], 'expression') !== false) 
+		&& ($attrSubSet[0]) == 'style') 
+		|| (strpos($attrSubSet[1], 'javascript:') !== false) 
+		|| (strpos($attrSubSet[1], 'behaviour:') !== false) 
+		|| (strpos($attrSubSet[1], 'vbscript:') !== false) 
+		|| (strpos($attrSubSet[1], 'mocha:') !== false) 
+		|| (strpos($attrSubSet[1], 'livescript:') !== false));
 	}
     
     /**
@@ -401,17 +442,23 @@ class InputFilter {
       * @return String $source
       */
     function decode($source) {
-        // url decode
+        
+		# url decode
         $source = html_entity_decode($source, ENT_QUOTES, "ISO-8859-1");
-        //Convert enties without semicolons
+        
+		# Convert enties without semicolons
         $source = preg_replace('#(&\#x*)([0-9A-F]+);*#iu', "$1$2;", $source);
-        //Convert to decimal
+        
+		# Convert to decimal
         $source = preg_replace('/&#0{4,5}(\d+);/me',"chr(\\1)", $source);
-        // convert decimal
-        $source = preg_replace('/&#(\d+);/me',"chr(\\1)", $source);                // decimal notation
-        // convert hex
-        $source = preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)", $source);    // hex notation
-        //Convert newlines
+        
+		# convert decimal
+        $source = preg_replace('/&#(\d+);/me',"chr(\\1)", $source);              # decimal notation
+        
+		# convert hex
+        $source = preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)", $source);    # hex notation
+        
+		#Convert newlines
         $source = preg_replace('#(&\#*\w+)[\x00-\x20]+;#U', "$1;", $source);
         
         return $source;
@@ -425,18 +472,25 @@ class InputFilter {
       * @return String $source - 'cleaned' version of input parameter
       */
     function safeSQL($source, &$connection) {
-        // clean all elements in this array
-        if (is_array($source)) {
-            foreach($source as $key => $value)
-                // filter element for SQL injection
+        
+		# clean all elements in this array
+        if (is_array($source)) 
+		{
+        
+		    foreach($source as $key => $value)
+		        # filter element for SQL injection
                 if (is_string($value)) $source[$key] = $this->quoteSmart($this->decode($value), $connection);
-            return $source;
-        // clean this string
-        } else if (is_string($source)) {
-            // filter source for SQL injection
+                return $source;
+        # clean this string
+        } 
+		elseif(is_string($source)) 
+		{
+            # filter source for SQL injection
             if (is_string($source)) return $this->quoteSmart($this->decode($source), $connection);
-        // return parameter as given
-        } else return $source;
+        # return parameter as given
+        } 
+		else 
+		return $source;
     }
 
     /**
@@ -448,9 +502,11 @@ class InputFilter {
       * @return String $source
       */
     function quoteSmart($source, &$connection) {
-        // strip slashes
+        
+		# strip slashes
         if (get_magic_quotes_gpc()) $source = stripslashes($source);
-        // quote both numeric and text
+        
+		# quote both numeric and text
         $source = $this->escapeString($source, $connection);
         return $source;
     }
@@ -463,13 +519,14 @@ class InputFilter {
       * @param Resource $connection - An open MySQL connection
       * @return String $source
       */
-    function escapeString($string, &$connection) {
-        // depreciated function
-        if (version_compare(phpversion(),"4.3.0", "<")) mysql_escape_string($string);
-        // current function
+    function escapeString($string, &$connection) 
+	{
+        # depreciated function
+        if (version_compare(phpversion(),"4.3.0", "<")) 
+		mysql_escape_string($string);
+		# current function
         else mysql_real_escape_string($string);
         return $string;
     }
 }
-
 ?>

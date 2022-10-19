@@ -11,7 +11,7 @@
    Copyright (c) 2005 by The Nuke-Evolution Team
 
    Filename      : functions_tap.php
-   Author        : Technocrat (www.nuke-evolution.com)
+   Author        : Technocrat (www.php-nuke-titanium.86it.us)
    Version       : 1.0.0
    Date          : 01.26.2005 (mm.dd.yyyy)
 

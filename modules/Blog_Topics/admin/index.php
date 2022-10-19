@@ -19,11 +19,13 @@
 /*                           2003 chatserv                              */
 /*      http://www.nukefixes.com -- http://www.nukeresources.com        */
 /************************************************************************/
+
 /********************************************************/
-/* NSN News                                             */
+/* NSN Blogs                                            */
 /* By: NukeScripts Network (webmaster@nukescripts.net)  */
+/* Contributer(s): Ernest Buffington aka TheGhost       */
 /* http://www.nukescripts.net                           */
-/* Copyright (c) 2000-2005 by NukeScripts Network         */
+/* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
 if (!defined('ADMIN_FILE')) 
@@ -34,8 +36,8 @@ global $prefix, $db, $admdata;
 $module_name = basename(dirname(dirname(__FILE__)));
 if(is_mod_admin($module_name)) {
 
-include_once(NUKE_INCLUDE_DIR.'nsnne_func.php');
-$ne_config = ne_get_configs();
+include_once(NUKE_INCLUDE_DIR.'functions_blog.php');
+$pnt_blogs_config = get_blog_configs();
 
 /*********************************************************/
 /* Topics Manager Functions                              */
@@ -332,13 +334,13 @@ function topicchange($topicid, $topicname, $topicimage, $topictext, $name, $url)
 }
 
 function topicdelete($topicid, $ok=0) {
-    global $prefix, $db, $ne_config, $admin_file;
+    global $prefix, $db, $pnt_blogs_config, $admin_file;
     $topicid = intval($topicid);
     if ($ok==1) {
     $row = $db->sql_fetchrow($db->sql_query("SELECT sid from " . $prefix . "_stories where topic='$topicid'"));
         $sid = intval($row['sid']);
         // Copyright (c) 2000-2005 by NukeScripts Network
-        if($ne_config['hometopic'] == $topicid) { ne_save_config("hometopic", "0"); }
+        if($pnt_blogs_config['hometopic'] == $topicid) { blog_save_config("hometopic", "0"); }
         // Copyright (c) 2000-2005 by NukeScripts Network
         $db->sql_query("delete from " . $prefix . "_stories where topic='$topicid'");
         $db->sql_query("delete from " . $prefix . "_topics where topicid='$topicid'");

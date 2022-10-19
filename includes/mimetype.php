@@ -5,9 +5,7 @@
 
  /*****[CHANGES]**********************************************************
   The Nuke-Evo Base Engine : v2.1.0 RC3 dated May 4th, 2009 is what we
-  used to build our new content management system. To find out more
-  about the starting core engine before we modified it please refer to 
-  the Nuke Evolution website. http://www.nuke-evolution.com
+  used to build our new content management system. 
    
   This file was re-written for PHP-Nuke Titanium and all modifications
   were done by Ernest Allen Buffington of Sebastian Enterprises.

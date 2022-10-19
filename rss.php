@@ -9,7 +9,7 @@
    Copyright (c) 2005 by The Nuke-Evolution Team
 
    Filename      : rss.php
-   Author        : Quake (www.nuke-evolution.com)
+   Author        : Quake (www.php-nuke-titanium.86it.us)
    Version       : 2.5.0
    Date          : 02/05/2006 (dd-mm-yyyy)
 

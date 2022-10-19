@@ -5,7 +5,7 @@
 
 
 /***************************************************************************
- *                                arcade.php
+ *                                arcade.php 
  *                            -------------------
  *   THIS FILE SHOULD BE AT THE SITE ROOT
  *   PHPNuke Ported Arcade - http://www.nukearcade.com

@@ -37,6 +37,9 @@ $row1  .= '<table bgcolor="'.$bgcolor4.'" border="0" cellpadding="0" cellspacing
 
 while($whosbeen = $db->sql_fetchrow($row1_result)):
     
+	if (strlen($whosbeen['username']) > 15)
+    $whosbeen['username'] = substr($whosbeen['username'], 0, 9) . '...';
+	
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
 	$whosbeen['username'] = 'Ghost Mode';
@@ -77,7 +80,7 @@ while($whosbeen = $db->sql_fetchrow($row1_result)):
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
 		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.png' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }
@@ -89,7 +92,7 @@ while($whosbeen = $db->sql_fetchrow($row1_result)):
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i><font color="gold" size="5"><i class="bi bi-arrow-right-short"></i><i class="bi bi-mailbox"></i></font></font>
 	
 	&nbsp;<br />
-	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall">SEND PM </font></span>
+	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall-visitorlog">SEND PM </font></span>
 	</a></td>';
 	$row1 .= '<td align="center"><div align="top" style="padding-left:10px;">'.get_titanium_timeago($whosbeen['last_visit']).'</div>';
     $row1 .= '</td>';
@@ -115,6 +118,9 @@ $row2  .= '<td align="center">';
 $row2  .= '<table border="1" cellpadding="0" cellspacing="0" class="visitorlog">';
 
 while($whosbeen = $db->sql_fetchrow($row2_result)):
+
+	if (strlen($whosbeen['username']) > 15)
+    $whosbeen['username'] = substr($whosbeen['username'], 0, 9) . '...';
 
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
@@ -156,7 +162,7 @@ while($whosbeen = $db->sql_fetchrow($row2_result)):
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
 		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.png' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }
@@ -168,7 +174,7 @@ while($whosbeen = $db->sql_fetchrow($row2_result)):
 	$row2 .= '<td align="left"><a class="turdball" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i><font color="gold" size="5"><i class="bi bi-arrow-right-short"></i><i class="bi bi-mailbox"></i></font></font>
     <br />
-	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall">SEND PM </font></span>
+	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall-visitorlog">SEND PM </font></span>
 	</a></td>';
 	$row2 .= '<td align="center"><div align="top" style="padding-left:10px;">'.get_titanium_timeago($whosbeen['last_visit']).'</div>';
     $row2 .= '</td>';
@@ -194,6 +200,9 @@ $row3  .= '<td align="center">';
 $row3  .= '<table border="1" cellpadding="0" cellspacing="1" class="visitorlog">';
 
 while($whosbeen = $db->sql_fetchrow($row3_result)):
+
+	if (strlen($whosbeen['username']) > 15)
+    $whosbeen['username'] = substr($whosbeen['username'], 0, 9) . '...';
 
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
@@ -235,7 +244,7 @@ while($whosbeen = $db->sql_fetchrow($row3_result)):
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
 		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.png' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }
@@ -247,7 +256,7 @@ while($whosbeen = $db->sql_fetchrow($row3_result)):
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i><font color="gold" size="5"><i class="bi bi-arrow-right-short"></i><i class="bi bi-mailbox"></i></font></font>
 	
 	<br />
-	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall">SEND PM </font></span>
+	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall-visitorlog">SEND PM </font></span>
 	</a></td>';
 	$row3 .= '<td align="center"><div align="top" style="padding-left:10px;">'.get_titanium_timeago($whosbeen['last_visit']).'</div>';
     $row3 .= '</td>';
@@ -273,6 +282,9 @@ $row4  .= '<td align="center">';
 $row4  .= '<table bgcolor="'.$bgcolor4.'" border="1" cellpadding="0" cellspacing="1" class="visitorlog">';
 
 while($whosbeen = $db->sql_fetchrow($row4_result)):
+
+	if (strlen($whosbeen['username']) > 15)
+    $whosbeen['username'] = substr($whosbeen['username'], 0, 9) . '...';
 
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
@@ -314,7 +326,7 @@ while($whosbeen = $db->sql_fetchrow($row4_result)):
 		# user_allowavatar = 3
 		case USER_AVATAR_GALLERY:
 		$avatar = '<td width="45px">'. ( $board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.gif' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
+		? '<div align="center"><img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.png' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" border="0" /></td>' : '</div></td>';
 		break;
 
 	   }
@@ -326,7 +338,7 @@ while($whosbeen = $db->sql_fetchrow($row4_result)):
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i><font color="gold" size="5"><i class="bi bi-arrow-right-short"></i><i class="bi bi-mailbox"></i></font></font>
 	
 	<br />
-	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall">SEND PM </font></span>
+	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall-visitorlog">SEND PM </font></span>
 	</a></td>';
 	$row4 .= '<td align="center"><div align="top" style="padding-left:10px;">'.get_titanium_timeago($whosbeen['last_visit']).'</div>';
     $row4 .= '</td>';

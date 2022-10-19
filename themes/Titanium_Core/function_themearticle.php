@@ -10,7 +10,7 @@
 #---------------------------------------------------------------------------------------#
 # Designed By: Ernest Buffington                                                        #
 # Web Site: https://www.theghost.86it.us                                                #
-# Purpose: PHP-Nuke Titanium v4.0.2                                                     #
+# Purpose: PHP-Nuke Titanium v4.0.3                                                     #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
 # PHP-Nuke Copyright (c) 2002    : Francisco Burzi phpnuke.org                          #
@@ -58,7 +58,7 @@ echo "\n\n<!-- function themearticle START -->\n";
 if (!empty($topicimage)) 
 {
  $t_image = (file_exists(theme_images_dir.'topics/'.$topicimage)) ? theme_images_dir.'topics/'.$topicimage : $tipath.$topicimage;
- $topic_img = '<td width="25%" align="center" class="extra"><a href="modules.php?name=Blog&new_topic='.$topic.'"><img src="'.$t_image.'" border="0" alt="'.$topictext.'" title="'.$topictext.'"></a></td>';
+ $topic_img = '<td width="25%" align="center" class="extra"><a href="modules.php?name=Blogs&new_topic='.$topic.'"><img src="'.$t_image.'" border="0" alt="'.$topictext.'" title="'.$topictext.'"></a></td>';
 	} 
 	else 
 	$topic_img = '';

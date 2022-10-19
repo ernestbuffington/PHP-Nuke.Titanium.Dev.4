@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
@@ -20,7 +19,7 @@ if (!defined('MODULE_FILE')) {
     die ("You can't access this file directly...");
 }
 
-$instory = '';
+$inblog = '';
 $module_name = basename(dirname(__FILE__));
 get_lang($module_name);
 
@@ -107,7 +106,7 @@ switch($op) {
             list($st_title) = $db->sql_fetchrow($res);
             $db->sql_freeresult($res);
             $st_title = stripslashes(check_html($st_title, "nohtml"));
-            $instory = "AND sid='$sid'";
+            $inblog = "AND sid='$sid'";
             echo "<div align=\"center\"><span class=\"title\"><strong>"._SEARCHINSTORY." $st_title</strong></span></div><br />\n";
         } else {
             echo "<div align=\"center\"><span class=\"title\"><strong>"._SEARCHIN." $topictext</strong></span></div><br />\n";
@@ -239,7 +238,7 @@ switch($op) {
                             $row6 = $db->sql_fetchrow($db->sql_query("SELECT `topictext` FROM `".$prefix."_topics` WHERE `topicid`='$topic'"));
                             $topictext = stripslashes(check_html($row6['topictext'], "nohtml"));
 
-                            $furl = "modules.php?name=Blog&amp;file=article&amp;sid=$sid";
+                            $furl = "modules.php?name=Blogs&amp;file=article&amp;sid=$sid";
                             $datetime = formatTimestamp($time);
                             $query = stripslashes(htmlentities($query, ENT_QUOTES));
                             if (empty($informant)) {
@@ -283,7 +282,7 @@ switch($op) {
                                 echo "($comments "._UCOMMENTS.")";
                             }
                             if (is_mod_admin($module_name)) {
-                                echo " [ <a href=\"".$admin_file.".php?op=EditStory&amp;sid=$sid\">"._EDIT."</a> | <a href=\"".$admin_file.".php?op=RemoveStory&amp;sid=$sid\">"._DELETE."</a> ]";
+                                echo " [ <a href=\"".$admin_file.".php?op=EditBlog&amp;sid=$sid\">"._EDIT."</a> | <a href=\"".$admin_file.".php?op=RemoveBlog&amp;sid=$sid\">"._DELETE."</a> ]";
                             }
                             echo "</span><br /><br /><br /></td></tr>\n";
                             $x++;
@@ -325,7 +324,7 @@ switch($op) {
                             $row_res = $db->sql_fetchrow($db->sql_query("SELECT `title` FROM `".$prefix."_stories` WHERE `sid`='$sid'"));
                             $title = stripslashes(check_html($row_res['title'], "nohtml"));
                             $reply = $db->sql_numrows($db->sql_query("SELECT * FROM ".$prefix."_comments WHERE pid='$tid'"));
-                            $furl = "modules.php?name=Blog&amp;file=article&amp;thold=-1&amp;mode=flat&amp;order=1&amp;sid=$sid#$tid";
+                            $furl = "modules.php?name=Blogs&amp;file=article&amp;thold=-1&amp;mode=flat&amp;order=1&amp;sid=$sid#$tid";
                             if(!$name) {
                                 $name = $anonymous;
                             } else {

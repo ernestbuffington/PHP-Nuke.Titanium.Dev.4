@@ -78,8 +78,8 @@ $linkus_settings = '<a href="'.$nukeurl.'" target="_blank"><img src="'.$config['
 $content = '<div align="center" style="padding-top:6px;">';
 $content = '</div>';
 
-$content  = '<div class="center">'.$my_image.'</div><br />';
-$content .= '<div class="acenter">';
+$content  = '<div align="center">'.$my_image.'</div><br />';
+$content .= '<div align="center">';
 $content .= '<span class="content"><textarea style="resize: none; font-size: 13px" name="text" rows="3" cols="15">'.$linkus_settings.'</textarea></span>';
 $content .= '<br /><br />';
 $content .= '<a href="modules.php?name=Link_Us">View All Buttons</a><br />';
@@ -94,7 +94,7 @@ $content .= "<marquee direction='".$direction."' scrollamount='".$amount."' heig
 
 foreach( $blocksession as $friends ):
 
-	$content .= "<div class='center'><a href='modules.php?name=Link_Us&amp;op=visit&amp;id=".$friends['id']."' target='_blank'><img src='".$friends['site_image']."' ".$settings." title='".$friends['site_name']."' /></a>";
+	$content .= "<div align='center'><a href='modules.php?name=Link_Us&amp;op=visit&amp;id=".$friends['id']."' target='_blank'><img src='".$friends['site_image']."' ".$settings." title='".$friends['site_name']."' /></a>";
 
 		if($config['show_clicks'] == 1){$clicks = "<br /><strong><font size=\"2\">".$friends['site_name']."</font></strong><br /><strong><font size=\"2\">( ".$friends['site_hits']." CLICKS )</font></strong>";}
 	elseif($config['show_clicks'] == 0){$clicks = "";}

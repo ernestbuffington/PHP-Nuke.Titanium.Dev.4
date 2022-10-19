@@ -78,7 +78,7 @@ function removeComment ($tid, $sid, $ok=0)
 	    if ($ultramode) 
         blog_ultramode();
         
-		redirect("modules.php?name=Blog&file=article&sid=$sid");
+		redirect("modules.php?name=Blogs&file=article&sid=$sid");
     } 
 	else 
 	{

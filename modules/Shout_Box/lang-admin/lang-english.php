@@ -1,7 +1,8 @@
 <?php
-/*=======================================================================
- PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
+/*======================================================================= 
+  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
+
 
 // ==========================================
 // PHP-NUKE: Shout Box
@@ -15,7 +16,7 @@
 // the Free Software Foundation
 // ===========================================
 
-define("_SHOUT_ADMIN_HEADER","Nuke-Evolution Shout Box :: Modules Admin Panel");
+define("_SHOUT_ADMIN_HEADER","ShotBox Admin Panel");
 define("_SHOUT_RETURNMAIN","Return to Main Administration");
 define("_SHOUTADMIN","Shout Box administration");
 define("_MANAGESHOUTS","Manage shouts");

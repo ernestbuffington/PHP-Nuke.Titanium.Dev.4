@@ -47,17 +47,15 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) exit('Access De
 function need_delete($file, $dir=false) 
 {
 # will be uncommented for release
-if (!is_admin): 
-  if (!$dir): 
-	if(!is_file($file)) 
-	return;
-	DisplayError("<span style='color: red; font-size: 24pt'>"._NEED_DELETE." ".$file."</span>");
-  else: 
-	if(!is_dir($file)) 
-	return;
-	DisplayError("<span style='color: red; font-size: 24pt'>"._NEED_DELETE." the folder \"".$file."\"</span>");
-  endif;
-endif;
+#  if (!$dir): 
+#	if(!is_file($file)) 
+#	return;
+#	DisplayError("<span style='color: red; font-size: 24pt'>"._NEED_DELETE." ".$file."</span>");
+#  else: 
+#	if(!is_dir($file)) 
+#	return;
+#	DisplayError("<span style='color: red; font-size: 24pt'>"._NEED_DELETE." the folder \"".$file."\"</span>");
+#  endif;
 }
 /*****[END]********************************************
  [ Other:   Need To Delete                     v1.0.0 ]
@@ -384,7 +382,7 @@ function GraphicAdmin($pos=1)
 	echo '  <tr>';
 
 	/*
-    | START | LIVE NEWS FEED DIRECTLY FROM https://dev-php-nuke-evolution-xtreme.86it.us
+    | START | LIVE NEWS FEED DIRECTLY FROM https://php-nuke-titanium.86it.us
     */
 	global $domain;
 

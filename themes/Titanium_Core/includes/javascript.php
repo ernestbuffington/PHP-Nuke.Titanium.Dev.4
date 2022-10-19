@@ -13,7 +13,7 @@
 #---------------------------------------------------------------------------------------#
 # Designed By: Ernest Buffington                                                        #
 # Web Site: https://www.theghost.86it.us                                                #
-# Purpose: PHP-Nuke Titanium v4.0.2                                                     #
+# Purpose: PHP-Nuke Titanium v4.0.3                                                     #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
 # PHP-Nuke Copyright (c) 2002    : Francisco Burzi phpnuke.org                          #
@@ -69,7 +69,7 @@ global $domain;
           <br /><i class="bi bi-arrow-right-square-fill"></i> Creation Date: <?=THEME_DATE?> 
           <br /><i class="bi bi-arrow-right-square-fill"></i> Author: <?=THEME_AUTHOR?>
           <br /><i class="bi bi-arrow-right-square-fill"></i> License: GNU General Public License
-          <br /><i class="bi bi-arrow-right-square-fill"></i> Core Support: PHP-Nuke Titanium v4.0.2
+          <br /><i class="bi bi-arrow-right-square-fill"></i> Core Support: PHP-Nuke Titanium v4.0.3
         </font>
         </h1>
       </div>

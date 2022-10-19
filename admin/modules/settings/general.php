@@ -72,7 +72,7 @@ echo '          <td class="row1" style="width: 50%;">'.$admlang['preferences']['
 echo '          <td class="row1" style="width: 50%;"><input type="text" name="xstoryhome" value="'.$storyhome.'" maxlength="255" style="width: 100px;" /></td>'.PHP_EOL;
 echo '        </tr>'.PHP_EOL;
 echo '        <tr>'.PHP_EOL;
-echo '          <td class="row1" style="width: 50%;">'.$admlang['preferences']['stories_old'].'</td>'.PHP_EOL;
+echo '          <td class="row1" style="width: 50%;">'.$admlang['preferences']['blogs_old'].'</td>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;"><input type="text" name="xoldnum" value="'.$oldnum.'" maxlength="255" style="width: 100px;" /></td>'.PHP_EOL;
 echo '        </tr>'.PHP_EOL;
 echo '        <tr>'.PHP_EOL;

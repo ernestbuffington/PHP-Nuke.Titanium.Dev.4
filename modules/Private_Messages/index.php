@@ -748,7 +748,7 @@ else if ( $mode == 'read' )
 
 			# user_allowavatar = 3
 			case USER_AVATAR_GALLERY:
-				$poster_avatar = ( $board_config['allow_avatar_local'] ) ? '<img class="priv-msgs-avatar" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($privmsg['user_avatar'] == 'blank.gif' || $privmsg['user_avatar'] == 'gallery/blank.gif') ? 'blank.png' : $privmsg['user_avatar']) . '" alt="" border="0" />' : '';
+				$poster_avatar = ( $board_config['allow_avatar_local'] ) ? '<img class="priv-msgs-avatar" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($privmsg['user_avatar'] == 'blank.png' || $privmsg['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $privmsg['user_avatar']) . '" alt="" border="0" />' : '';
 				break;
 		
 		endswitch;

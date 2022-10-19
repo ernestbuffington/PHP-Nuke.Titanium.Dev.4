@@ -35,8 +35,8 @@ define('_MENU_INSERT_DATA', 'Now we insert the data.');
  ************************************************************************/
 define("_MENU_CATEGORIES","Menu Categories");
 define("_MENU_IMGNEWTITLE","Click to Show/Hide the NEW icon");
-define("_MENU_ADMINIMGDROPDOWN","Click to choose an image for this category");
-define("_MENU_ADMINIMGDROPDOWNCAT","Click to choose an image for this link");
+define("_CLICK_TO_CHOOSE_IMAGE","Click to choose an image for this category");
+define("_CLICK_TO_CHOOSE_IMAGECAT","Click to choose an image for this link");
 define("_MENU_JSFIXFORIE1","The drop-down lists below disappear on Internet Explorer. This is NORMAL : it's a workaround to avoid an IE bug. For the sake of the web and a better internet experience, please use another browser (Opera, Firefox,...)");
 define("_MENU_HIDE","Hide");
 define("_MENU_MOVEUP","Click to move the link upwards");
@@ -81,7 +81,7 @@ define("_MENU_ACTION","Action");
 define("_MENU_SUPPR","[Delete]");
 define("_MENU_ADDCAT","Add a new category");
 define("_MENU_NEWCATEGORY","Add a new category :");
-define("_MENU_CANCEL","CANCEL");
+define("_MENU_CANCEL","RESET TEXT");
 define("_MENU_POST","SAVE YOUR MODIFICATIONS");
 define("_MENU_REMARKS","<strong>Remarks :</strong><br /><br />"
     ."- The WEIGHT is used to order categories (categories with a lower WEIGHT are displayed first). [number between 0 and 98]<br /><br />"

@@ -10,7 +10,7 @@
    Copyright (c) 2005 by The Nuke-Evolution Team
 
    Filename      : board_once.php
-   Author        : Technocrat (www.nuke-evolution.com)
+   Author        : Technocrat (www.php-nuke-titanium.86it.us)
    Version       : 1.0.0
    Date          : 06.12.2006 (mm.dd.yyyy)
 
