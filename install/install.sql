@@ -72,7 +72,7 @@ CREATE TABLE `nuke_autonews` (
   `associated` text NOT NULL,
   `ticon` tinyint(1) NOT NULL DEFAULT 0,
   `writes` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `nuke_banner` (
   `bid` int(11) NOT NULL,
@@ -965,7 +965,7 @@ CREATE TABLE `nuke_bbpost_reports` (
   `last_action_user_id` mediumint(8) DEFAULT 0,
   `last_action_time` int(11) NOT NULL DEFAULT 0,
   `last_action_comments` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `nuke_bbprivmsgs` (
   `privmsgs_id` mediumint(8) UNSIGNED NOT NULL,
@@ -1106,7 +1106,7 @@ CREATE TABLE `nuke_bbsearch_wordlist` (
   `word_id` mediumint(8) UNSIGNED NOT NULL,
   `word_common` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `nuke_bbsearch_wordmatch` (
   `post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
@@ -1133,7 +1133,7 @@ CREATE TABLE `nuke_bbsessions_keys` (
   `user_id` mediumint(8) NOT NULL DEFAULT 0,
   `last_ip` varchar(8) NOT NULL DEFAULT '0',
   `last_login` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `nuke_bbsmilies` (
   `smilies_id` smallint(5) UNSIGNED NOT NULL,
@@ -1545,13 +1545,13 @@ CREATE TABLE `nuke_bbxdata_auth` (
   `field_id` smallint(5) UNSIGNED NOT NULL,
   `group_id` mediumint(8) UNSIGNED NOT NULL,
   `auth_value` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `nuke_bbxdata_data` (
   `field_id` smallint(5) UNSIGNED NOT NULL,
   `user_id` mediumint(8) UNSIGNED NOT NULL,
   `xdata_value` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `nuke_bbxdata_fields` (
   `field_id` smallint(5) UNSIGNED NOT NULL,
@@ -1574,7 +1574,7 @@ CREATE TABLE `nuke_bbxdata_fields` (
   `allow_smilies` tinyint(1) NOT NULL DEFAULT 0,
   `viewtopic` tinyint(1) NOT NULL DEFAULT 0,
   `signup` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `nuke_bbxdata_fields` (`field_id`, `field_name`, `field_desc`, `field_type`, `field_order`, `code_name`, `field_length`, `field_values`, `field_regexp`, `manditory`, `default_auth`, `display_register`, `display_viewprofile`, `display_posting`, `handle_input`, `allow_html`, `allow_bbcode`, `allow_smilies`, `viewtopic`, `signup`) VALUES
 (5, 'Website', '', 'special', 5, 'website', 0, '', '', 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -4057,7 +4057,7 @@ CREATE TABLE `nuke_referer` (
   `url` varchar(100) NOT NULL,
   `lasttime` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `link` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `nuke_related` (
   `rid` int(11) NOT NULL,
