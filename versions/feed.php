@@ -9,6 +9,10 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Oct 19th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> PreRelase 4.0.3 Created<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Oct 18th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Database Install<br />
+<hr>
 <strong><i class="bi bi-calendar3"></i> Oct 17th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Changed Blog Archive Module to Blog Archives<br />
 <strong><i class="bi bi-calendar3"></i> Oct 17th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Changed Blog Module to Blogs Module<br />
 <strong><i class="bi bi-calendar3"></i> Oct 17th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Xtremev3b Theme Added Network Banner Support<br />
