@@ -20,6 +20,81 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
     exit('Access Denied');
 }
 
+/**
+ * Check if Folder Exist - 09/26/2022 4am
+ * Checks if a folder exist and return canonicalized absolute pathname (long version)
+ * @param string $folder the path being checked.
+ * @return mixed returns the canonicalized absolute pathname on success otherwise FALSE is returned
+ */
+
+function folder_exist($folder)
+{
+    # Get canonicalized absolute pathname
+    $path = realpath($folder);
+
+    # If it exist, check if it's a directory
+    if($path !== false AND is_dir($path))
+    {
+        # Return canonicalized absolute pathname
+        return $path;
+    }
+
+    # Path/folder does not exist
+    return false;
+}
+
+/**
+ * Forum Icon Path Mod - 09/26/2022 4am
+ * This makes it so that each theme is using independamt forum icons!
+ * You can now style each theme with custom matching icons
+ * Mod Created by Ernest Buffington aka TheGhost
+ */
+
+function forum_icon_img_path($icon='', $mymodule='', $empty=true) 
+{
+    global $currentlang, $ThemeSel, $Default_Theme, $ImageDebug;
+
+    $folder = NUKE_BASE_DIR.'themes/'.$ThemeSel.'/images/forum_icons';
+    $source_dir = NUKE_BASE_DIR.'modules/Forums/images/forum_icons';
+    
+	if(FALSE !== ($path = folder_exist($folder)))
+    {
+     $forum_icon_path = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/"; 
+	 //log_write('error', "( ".$forum_icon_path." ) <--- Forum Icon Path!", 'Image Found!');
+
+    }
+    else
+	{
+		# Open the source folder / directory 
+        $dir = opendir($source_dir); 	
+
+	    mkdir($folder);
+	
+	    # Loop through the files in source directory 
+        while($file = readdir($dir)) 
+        {
+          # Skip . and .. 
+          if(($file != '.') && ($file != '..')) 
+          {  
+             # Check if it's folder / directory or file 
+             if(is_dir($source_dir.'/'.$file))  
+             {    
+                # Recursively calling this function for sub directory  
+                recursive_files_copy($source_dir.'/'.$file, $folder.'/'.$file); 
+             }  
+            else 
+               {   
+                  # Copying the files
+                  copy($source_dir.'/'.$file, $folder.'/'.$file);  
+               }  
+          }  
+        }  
+     
+	    closedir($dir); 
+	}
+	
+	return($forum_icon_path);
+}
 
 
 /**
