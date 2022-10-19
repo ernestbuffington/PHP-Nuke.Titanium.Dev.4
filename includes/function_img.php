@@ -2,67 +2,7 @@
 /*=======================================================================
             PHP-Nuke Titanium (CMS) Enhanced And Advanced
  ========================================================================
- PHP-Nuke Titanium                     :   v1.0.1z
- PHP-Nuke Titanium Build               :   6205
- PHP-Nuke Titanium Filename            :   function_img.php
- PHP-Nuke Titanium File Release Date   :   September 16th, 2017  
- PHP-Nuke Tianium File Author          :   Ernest Allen Buffington
-
- PHP-Nuke Titanium web address         :   https://titanium.86it.network
  
- PHP-Nuke Titanium is licensed under GNU General Public License v3.0
-
- PHP-Nuke Titanium is Copyright(c) 2002 to 2017 by Ernest Allen Buffington
- of Sebastian Enterprises. 
- 
- ernest.buffington@gmail.com
- Att: Sebastian Enterprises
- 1071 Emerald Dr,
- Brandon, Florida 33511
- ========================================================================
- GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
- Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
- Everyone is permitted to copy and distribute verbatim copies
- of this license document, but changing it is not allowed.       
- ========================================================================
- 
- /*****[CHANGES]**********************************************************
-  The Nuke-Evo Base Engine : v2.1.0 RC3 dated May 4th, 2009 is what we
-  used to build our new content management system. 
-   
-  This file was re-written for PHP-Nuke Titanium and all modifications
-  were done by Ernest Allen Buffington of Sebastian Enterprises.
-  
-  PHP-Nuke Titanium is written for Social Networking and uses a centralized 
-  database that is chained to The Scorpion Network & The 86it Social Network
-
-  It is not intended for single user platforms and has the requirement of
-  remote database access to https://the.scorpion.network and 
-  https://www.86it.us which is a new Social Networking System designed by 
-  Ernest Buffington that requires a FEDERATED MySQL engine in order to 
-  function at all.
-  
-  The federated database concept was created in the 1980's and has been
-  available a very long time. In fact it was a part of MySQL before they
-  ever started to document it. There is not much information available
-  about using a FEDERATED engine and a lot of the documention is not very
-  complete with regard to every detail; it is superficial and partial to
-  say thge least. 
-  
-  The core engine from Nuke Evolution was used to create 
-  PHP-Nuke Titanium. Almost all versions of PHP-Nuke were unstable and not 
-  very secure. We have made it so that it is enhanced and advanced!
-  
-  PHP-Nuke Titanium is now a secure custom FORK of the ORIGINAL PHP-Nuke
-  that was purchased by Ernest Buffington of Sebastian Enterprises.
-  
-  PHP-Nuke Titanium is not backward compatible to any of the prior versions of
-  PHP-Nuke, Nuke-Evoltion or Nuke-Evo.
-  
-  The module framework of PHP-Nuke is the only thing that still functions 
-  in the same way that Francis Burzi had intended and even that had to be
-  safer and more secure to be a reliable form of internet communications.
-  
  ************************************************************************
  * PHP-NUKE: Advanced Content Management System                         *
  * ============================================                         *
@@ -73,44 +13,86 @@
  * it under the terms of the GNU General Public License as published by *
  * the Free Software Foundation; either version 2 of the License.       *
  ************************************************************************/
+
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
     exit('Access Denied');
 }
-############################################################################################################################################
-# Forum Icon Path Mod - 09/26/2022 by Ernest Buffington - START                                                                            #       
-############################################################################################################################################
-function forum_icon_img_path($imgfile='', $mymodule='', $empty=true) 
-{
-    global $icon, $currentlang, $ThemeSel, $Default_Theme, $ImageDebug;
-	
-	$forum_theme_icons_found = false;
-	
-	# If file is found use themes/theme_name/images/forum_icons path!
-	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/forums/images/forum_icons/'.$imgfile)) 
-	{
-        $image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/$imgfile"; 
-		$forum_theme_icons_found = true;
-    } 
-	else # if we do not find any images under the theme directory use the Forums system default forum_icons dir!
-	if (@file_exists(TITANIUM_MODULES_DIR . $mymodule . '/images/forum_icons/'.$imgfile)) 
-	{
-		if($forum_theme_icons_found)
-		return;
-		
-        //$image = TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/forum_icons/$imgfile";
-		$image = TITANIUM_MODULES_IMAGE_DIR. $mymodule.'/';
 
-    } 
-	else # if we dont find shit write it to the error log
-	{
+/**
+ * Check if Folder Exist - 09/26/2022 4am
+ * Checks if a folder exist and return canonicalized absolute pathname (long version)
+ * @param string $folder the path being checked.
+ * @return mixed returns the canonicalized absolute pathname on success otherwise FALSE is returned
+ */
+
+function folder_exist($folder)
+{
+    # Get canonicalized absolute pathname
+    $path = realpath($folder);
+
+    # If it exist, check if it's a directory
+    if($path !== false AND is_dir($path))
+    {
+        # Return canonicalized absolute pathname
+        return $path;
+    }
+
+    # Path/folder does not exist
+    return false;
+}
+
+/**
+ * Forum Icon Path Mod - 09/26/2022 4am
+ * This makes it so that each theme is using independamt forum icons!
+ * You can now style each theme with custom matching icons
+ * Mod Created by Ernest Buffington aka TheGhost
+ */
+
+function forum_icon_img_path($icon='', $mymodule='', $empty=true) 
+{
+    global $currentlang, $ThemeSel, $Default_Theme, $ImageDebug;
+
+    $folder = NUKE_BASE_DIR.'themes/'.$ThemeSel.'/images/forum_icons';
+    $source_dir = NUKE_BASE_DIR.'modules/Forums/images/forum_icons';
+    
+	if(FALSE !== ($path = folder_exist($folder)))
+    {
+     $forum_icon_path = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/"; 
+	 log_write('error', "( ".$forum_icon_path." ) <--- Forum Icon Path!", 'Image Found!');
 
     }
+    else
+	{
+		# Open the source folder / directory 
+        $dir = opendir($source_dir); 	
+
+	    mkdir($folder);
 	
-	return($image);
+	    # Loop through the files in source directory 
+        while($file = readdir($dir)) 
+        {
+          # Skip . and .. 
+          if(($file != '.') && ($file != '..')) 
+          {  
+             # Check if it's folder / directory or file 
+             if(is_dir($source_dir.'/'.$file))  
+             {    
+                # Recursively calling this function for sub directory  
+                recursive_files_copy($source_dir.'/'.$file, $folder.'/'.$file); 
+             }  
+            else 
+               {   
+                  # Copying the files
+                  copy($source_dir.'/'.$file, $folder.'/'.$file);  
+               }  
+          }  
+        }  
+     
+	    closedir($dir); 
+	}
+	
+	return($forum_icon_path);
 }
-############################################################################################################################################
-# Forum Icon Path Mod - 09/26/2022 by Ernest Buffington - END                                                                              #       
-############################################################################################################################################
 
 ############################################################################################################################################
 # Image Mod - Start  01/01/2012                                                                                                            #       
