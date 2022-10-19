@@ -5237,7 +5237,8 @@ CREATE TABLE `nuke_users_temp` (
 CREATE TABLE `nuke_users_who_been` (
   `user_ID` int(11) NOT NULL DEFAULT 0,
   `username` varchar(25) NOT NULL DEFAULT '',
-  `last_visit` int(15) DEFAULT NULL
+  `last_visit` int(15) DEFAULT NULL,
+  `resolution` varchar(50) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `nuke_welcome_pm` (
