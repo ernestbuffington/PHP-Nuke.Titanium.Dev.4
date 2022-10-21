@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /*********************************************************************************/
 /* CNB Your Account: An Advanced User Management System for phpnuke             */
 /* ============================================                                 */
@@ -131,8 +130,13 @@ include(NUKE_BASE_DIR. 'header.php');
         if ($newest_uid == "-1") { $new_uid = 1; } else { $new_uid = $newest_uid+1; }
         $lv = time();
         $result = $db->sql_query("INSERT INTO ".$user_prefix."_users (user_id, name, username, user_email, user_avatar, user_regdate, user_viewemail, user_password, user_lang, user_lastvisit) VALUES ($new_uid, '$ya_username', '$ya_username', '$ya_user_email', 'gallery/blank.png', '$user_regdate', '0', '$new_password', '$language', '$lv')");
-
-        if ((count($nfield) > 0) AND ($result)) {
+        
+		# PHP Warning:  count(): Parameter must be an array or an object that implements Countable
+		# added $nfield = array(); - TheGhost 10/20/2022
+		
+		$nfield = array();
+        
+		if ((count($nfield) > 0) AND ($result)) {
           foreach ($nfield as $key => $var) {
               $db->sql_query("INSERT INTO ".$user_prefix."_cnbya_value (uid, fid, value) VALUES ('$new_uid', '$key','$nfield[$key]')");
           }

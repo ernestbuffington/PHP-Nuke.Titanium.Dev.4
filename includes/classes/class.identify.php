@@ -41,8 +41,9 @@ class identify {
             $this->agent = $_SERVER['HTTP_USER_AGENT'];
         }
     }
-
-    function get_ip() {
+    # [21-Oct-2022 02:06:07 UTC] PHP Deprecated:  Non-static method identify::get_ip() should not be called statically
+	# so I changed it to public static - TheGhost 10/20/2022 10:19 pm
+    public static function get_ip() {
         static $visitor_ip;
         if (!empty($visitor_ip)) { return $visitor_ip; }
         $visitor_ip = (!empty($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : $_ENV['REMOTE_ADDR'];
