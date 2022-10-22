@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                           functions_arcade.php
  *                            -------------------
@@ -95,8 +94,9 @@ function sec2hms ($secs)
 
     $hms = "";
 
-$days = intval(intval($secs) / 86400);
-    if($days != 0)
+    $days = intval(intval($secs) / 86400);
+    
+	if($days != 0)
     {
     $secs = $secs - ($days * 86400);
 
