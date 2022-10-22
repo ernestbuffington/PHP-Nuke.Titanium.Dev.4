@@ -197,10 +197,14 @@ CREATE TABLE `nuke_bbarcade_comments` (
 INSERT INTO `nuke_bbarcade_comments` (`game_id`, `comments_value`) VALUES
 (1, '');
 
+--
+-- Table structure for table `nuke_bbarcade_fav`
+--
+
 CREATE TABLE `nuke_bbarcade_fav` (
-  `order` mediumint(8) NOT NULL DEFAULT 0,
-  `user_id` mediumint(8) NOT NULL DEFAULT 0,
-  `game_id` mediumint(8) NOT NULL DEFAULT 0
+  `order` mediumint(8) NOT NULL DEFAULT '0',
+  `user_id` mediumint(8) NOT NULL DEFAULT '0',
+  `game_id` mediumint(8) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `nuke_bbattachments` (
