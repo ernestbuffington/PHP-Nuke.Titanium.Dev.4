@@ -43,27 +43,34 @@ class identify {
     }
     # [21-Oct-2022 02:06:07 UTC] PHP Deprecated:  Non-static method identify::get_ip() should not be called statically
 	# so I changed it to public static - TheGhost 10/20/2022 10:19 pm
-    public static function get_ip() {
+    public static function get_ip() 
+	{
         static $visitor_ip;
-        if (!empty($visitor_ip)) { return $visitor_ip; }
-        $visitor_ip = (!empty($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : $_ENV['REMOTE_ADDR'];
+    
+	    if (!empty($visitor_ip)) 
+	    return $visitor_ip; 
+        
+		$visitor_ip = (!empty($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : $_ENV['REMOTE_ADDR'];
         $ips = array();
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != 'unknown') {
-            $ips = explode(', ', $_SERVER['HTTP_X_FORWARDED_FOR']);
-        }
-        if (!empty($_SERVER['HTTP_CLIENT_IP']) && $_SERVER['HTTP_CLIENT_IP'] != 'unknown') {
-            $ips[] = $_SERVER['HTTP_CLIENT_IP'];
-        }
-        for ($i = 0; $i < count($ips); $i++) {
+        
+		if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != 'unknown') 
+        $ips = explode(', ', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        
+		if (!empty($_SERVER['HTTP_CLIENT_IP']) && $_SERVER['HTTP_CLIENT_IP'] != 'unknown') 
+        $ips[] = $_SERVER['HTTP_CLIENT_IP'];
+        
+		for ($i = 0; $i < count($ips); $i++) 
+		{
             $ips[$i] = trim($ips[$i]);
-            # IPv4
-            if (strstr($ips[$i], '.')) {
+            
+			# IPv4
+            if (strstr($ips[$i], '.')) 
+			{
                 # check for a hybrid IPv4-compatible address
                 $pos = strrpos($ips[$i], ':');
                 if ($pos !== FALSE) { $ips[$i] = substr($ips[$i], $pos+1); }
                 # Don't assign local network ip's
-                if (preg_match('#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $ips[$i]) &&
-                    !preg_match('#^(10|127.0.0|172.(1[6-9]|2[0-9]|3[0-1])|192\.168)\.#', $ips[$i]))
+                if (preg_match('#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $ips[$i]) && !preg_match('#^(10|127.0.0|172.(1[6-9]|2[0-9]|3[0-1])|192\.168)\.#', $ips[$i]))
                 {
                     $visitor_ip = $ips[$i];
                     break;
