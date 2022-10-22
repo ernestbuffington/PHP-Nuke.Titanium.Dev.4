@@ -81,7 +81,7 @@ function head()
  	title_and_meta_tags();
     echo "<!-- END title_and_meta_tags(); -->\n\n\n\n\n\n";
     # END function to grab the page title. - 09/07/2019
-
+    echo '<script src="includes/ruffle-core/ruffle.js"></script>'."\n";
 	################################################################
 	if (@file_exists(TITANIUM_CLASSES_DIR . 'class.browsers.php')) #      Added by Ernest Buffington
 	include(TITANIUM_CLASSES_DIR . 'class.browsers.php');          ###### Load Browser class - used for checking your browser types
@@ -101,25 +101,6 @@ function head()
 	global $titanium_browser;
     $titanium_browser = new Browser();
 	
-    # START uploadcare PLUGIN for CKeditor 4 - 09/07/2019
-    echo "\n\n<!-- START uploadcare -->\n\n";
-    echo "<script type=\"text/javascript\">\n";
-    echo "UPLOADCARE_PUBLIC_KEY = 'df691884c0a749427aa1';\n";
-    echo "UPLOADCARE_TABS = 'file camera url facebook gdrive gphotos dropbox instagram evernote flickr onedrive box vk huddle';\n";
-    echo "UPLOADCARE_EFFECTS = 'crop,rotate,mirror,flip,enhance,sharp,blur,grayscale,invert';\n";
-    echo "UPLOADCARE_PREVIEW_STEP = true;\n";
-    echo "UPLOADCARE_CLEARABLE = true;\n";
-    echo "</script>\n";
-
-    echo "<script src=\"https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js\"></script>\n";
-    echo "<script src=\"https://ucarecdn.com/libs/widget-tab-effects/1.x/uploadcare.tab-effects.js\"></script>\n";
-        
-    echo "<script type=\"text/javascript\">\n";
-    echo "uploadcare.registerTab('preview', uploadcareTabEffects)\n";
-    echo "</script>\n";
-    echo "\n\n<!-- END uploadcare -->\n\n";
-	# START uploadcare PLUGIN for CKeditor 4 - 09/07/2019
-
     # FlyKit Mod v1.0.0 START
 	# used to add rounded corners to user avatars!
 	addPHPCSSToHead(NUKE_BASE_DIR.'includes/css/cms_css.php','file');
