@@ -43,7 +43,7 @@ include('includes/constants.'. $phpEx);
 //
 // Start session management
 //
-$userdata = session_pagestart($user_ip, PAGE_ARCADES, $nukeuser);
+$userdata = session_pagestart($user_ip, PAGE_ARCADES);
 init_userprefs($userdata);
 //
 // End session management
@@ -100,31 +100,41 @@ switch ( $arcade_config['game_order']) {
             break;
 }
 
-$favori = $HTTP_GET_VARS['favori'];
-$delfavori = $HTTP_GET_VARS['delfavori'];
+//$favori = $HTTP_GET_VARS['favori'];
+//$delfavori = $HTTP_GET_VARS['delfavori'];
+global $userdata;
 
-if ($actfav=$favori+$delfavori)
-    {
-    $sql = "SELECT COUNT(*) AS nbfav FROM ".ARCADE_FAV_TABLE." WHERE  user_id= ".$userdata['user_id']." AND game_id= ".$actfav;
-    if( !($result = $db->sql_query($sql)) )
-        {
-            message_die(GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql);
-        }
+if(isset($_GET['favori'])):
+$favori = intval($_GET['favori']);
+endif;
+
+if(isset($_GET['delfavori'])):
+$delfavori = intval($_GET['delfavori']);
+endif;
+		
+if ($actfav = $favori+$delfavori)
+{
+    $sql = "SELECT COUNT(*) AS nbfav FROM ".ARCADE_FAV_TABLE." WHERE  user_id = ".$userdata['user_id']." AND game_id= ".$actfav;
+
+    if( !($result = $db->sql_query($sql)) ) {
+      message_die(GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql);
+    }
     $row = $db->sql_fetchrow($result);
-    $nbfav = $row['nbfav'];
+    
+	$nbfav = $row['nbfav'];
 
     if (!$nbfav && $favori)
-        {
-            $sql = "INSERT INTO ". ARCADE_FAV_TABLE ." VALUES ('','".$userdata['user_id']."','$favori')";
+    {
+            $sql = "INSERT INTO ". ARCADE_FAV_TABLE ." VALUES (0,'".$userdata['user_id']."','$favori')";
             if( !($result = $db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql);
                 }
-        }
-
+    }
     elseif($delfavori)
-        {
+    {
             $sql = "DELETE FROM ". ARCADE_FAV_TABLE ." WHERE  user_id= ".$userdata['user_id']." AND game_id= ".$delfavori;
+
             if( !($result = $db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql);

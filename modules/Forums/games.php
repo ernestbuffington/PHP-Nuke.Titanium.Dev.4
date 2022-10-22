@@ -41,7 +41,9 @@ require_once('includes/bbcode.'. $phpEx);
 //
 // Start session management
 //
-$userdata = session_pagestart($user_ip, PAGE_GAME, $nukeuser);
+global $userdata;
+
+$userdata = session_pagestart($user_ip, PAGE_GAME);
 init_userprefs($userdata);
 //
 // End session management
@@ -73,14 +75,15 @@ $current_time = time();
 $old_time = $current_time - ($secs * $days);
 
 //Begin Limit Play mod
-if($arcade_config['limit_type']=='posts')
+if($arcade_config['limit_type'] == 'posts')
 {
-$sql = "SELECT * FROM " . POSTS_TABLE . " WHERE poster_id = $uid";
+   $sql = "SELECT * FROM " . POSTS_TABLE . " WHERE poster_id = ".$uid;
 }
 else
 {
-$sql = "SELECT * FROM " . POSTS_TABLE . " WHERE poster_id = $uid and post_time BETWEEN $old_time AND $current_time";
+   $sql = "SELECT * FROM " . POSTS_TABLE . " WHERE poster_id = ".$uid." and post_time BETWEEN ".$old_time." AND ".$current_time;
 }
+
 if ( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, 'Could not obtain forums information', '', __LINE__, __FILE__, $sql);
@@ -93,7 +96,7 @@ if ( !($result = $db->sql_query($sql)) )
     {
     $diff_posts = $posts - $Amount_Of_Posts;
 
-    if($arcade_config['limit_type']=='posts')
+    if($arcade_config['limit_type'] == 'posts')
         {
             $message = "You need $posts posts to play the arcade.<br />You need $diff_posts more posts.";
             }
@@ -104,27 +107,25 @@ if ( !($result = $db->sql_query($sql)) )
         message_die(GENERAL_MESSAGE, $message);
     }
 }
-//End Limit Play mod
 
-if (!empty($HTTP_POST_VARS['gid']) || !empty($HTTP_GET_VARS['gid']))
-        {
-        $gid = (!empty($HTTP_POST_VARS['gid'])) ? intval($HTTP_POST_VARS['gid']) : intval($HTTP_GET_VARS['gid']);
-        }
-else    {
+global $prefix, $db, $gid;
+
+	if(isset($_GET['gid'])):
+        $gid = intval($_GET['gid']);
+        
+		$sql = "SELECT g.* , MAX(s.score_game) AS highscore FROM " . GAMES_TABLE . " g LEFT JOIN " . SCORES_TABLE . " s ON g.game_id = s.game_id WHERE g.game_id = ".$gid." GROUP BY g.game_id, g.game_highscore";
+
+        if(!($game = $db->sql_query($sql))):
+         message_die(GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql);
+        endif;
+
+        if(!($row = $db->sql_fetchrow($game))):
+		 message_die(GENERAL_ERROR, "This game does not exist");
+        endif;
+
+	else: 
         message_die(GENERAL_ERROR, "No game is specified");
-        }
-
-$sql = "SELECT g.* , MAX(s.score_game) AS highscore FROM " . GAMES_TABLE . " g LEFT JOIN " . SCORES_TABLE . " s ON g.game_id = s.game_id WHERE g.game_id = $gid GROUP BY g.game_id, g.game_highscore";
-
-if (!($result = $db->sql_query($sql)))
-{
-        message_die(GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql);
-}
-
-if (!($row = $db->sql_fetchrow($result)) )
-{
-        message_die(GENERAL_ERROR, "This game does not exist", '', __LINE__, __FILE__, $sql);
-}
+    endif;
 
 $liste_cat_auth_play = get_arcade_categories($userdata['user_id'], $userdata['user_level'],'play');
 $tbauth_play = array();

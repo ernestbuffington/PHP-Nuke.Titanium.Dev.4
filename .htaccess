@@ -41,17 +41,6 @@ RewriteRule ^ http%1://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 # Security Rewrites
 # -------------------------------------------
 
-RewriteCond %{THE_REQUEST} (\?act\=) [NC,OR]
-RewriteCond %{THE_REQUEST} (sql_login) [NC,OR]
-RewriteCond %{THE_REQUEST} (basepath) [OR]
-RewriteCond %{THE_REQUEST} (libpath) [OR]
-RewriteCond %{THE_REQUEST} (absolute_path) [OR]
-RewriteCond %{THE_REQUEST} (vwar_root) [OR]
-RewriteCond %{THE_REQUEST} (includedir) [OR]
-RewriteCond %{THE_REQUEST} (file=http:\/\/) [OR]
-RewriteCond %{THE_REQUEST} (name=http:\/\/) [OR]
-RewriteCond %{THE_REQUEST} (phpbb_root_path)
-RewriteRule ^.*$ http://127.0.0.1/ [R=301,L]
 # -------------------------------------------
 # Lazy Google Tap
 # -------------------------------------------
@@ -184,3 +173,4 @@ Header append Cache-Control "public"
   AddHandler application/x-httpd-ea-php74 .php .php7 .phtml
 </IfModule>
 # php -- END cPanel-generated handler, do not edit
+AddHandler application/wasm-wasm .wasm

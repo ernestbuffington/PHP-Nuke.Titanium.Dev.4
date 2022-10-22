@@ -207,6 +207,9 @@ CREATE TABLE `nuke_bbarcade_fav` (
   `game_id` mediumint(8) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+
+
+
 CREATE TABLE `nuke_bbattachments` (
   `attach_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
@@ -5870,7 +5873,11 @@ ALTER TABLE `nuke_users_who_been`
 ALTER TABLE `nuke_welcome_pm`
   ADD PRIMARY KEY (`subject`);
 
-
+ALTER TABLE `nuke_bbarcade_fav`
+  ADD PRIMARY KEY (`game_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `order` (`order`);
+  
 ALTER TABLE `nuke_bookmarks`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
@@ -6174,6 +6181,7 @@ ALTER TABLE `nuke_users_temp`
 ALTER TABLE `nuke_cemetery`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
+
 
 ALTER TABLE `nuke_cemetery_cat`
   ADD PRIMARY KEY (`category_id`),
