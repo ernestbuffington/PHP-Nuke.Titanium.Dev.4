@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- Nuke-Evolution Basic: Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium: Enhanced and Advanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /***************************************************************************
@@ -37,6 +37,7 @@ include($phpbb_root_path .'extension.inc');
 include($phpbb_root_path . 'common.'.$phpEx);
 require_once('includes/bbcode.' . $phpEx);
 
+global $userinfo;
 //
 // Start session management
 //

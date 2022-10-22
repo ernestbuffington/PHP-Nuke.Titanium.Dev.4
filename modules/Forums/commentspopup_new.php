@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- Nuke-Evolution Basic: Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium: Enhanced and Advanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /***************************************************************************
@@ -36,6 +36,7 @@ include($phpbb_root_path .'extension.inc');
 include($phpbb_root_path . 'common.'.$phpEx);
 include('includes/functions_post.' . $phpEx);
 
+global $userinfo;
 //
 // Start session management
 //
@@ -74,7 +75,7 @@ if($mode == "update")
 			//Checks to make sure the user has privledge to enter highscores.
 			//This query checks the user_id stored in the users cookie and in the database.
 			//If they don't match, the comments is not entered and error message is displayed.
-			$user_id = $userdata['user_id'];
+			$user_id = $userinfo['user_id'];
 			$sql = "SELECT game_highuser FROM " . GAMES_TABLE. " WHERE game_id = $game_id";
 				if( !($result = $db->sql_query($sql)))
 			{
@@ -104,7 +105,7 @@ if($mode == "update")
 	//Checks to make sure the user has privledge to enter highscores.
 	//This query checks the user_id stored in the users cookie and in the database.
 	//If they don't match, the comments is not entered and error message is displayed.
-	$user_id = $userdata['user_id'];
+	$user_id = $userinfo['user_id'];
 	$sql = "SELECT game_highuser FROM " . GAMES_TABLE. " WHERE game_id = $game_id";
 		if( !($result = $db->sql_query($sql)))
 		{
@@ -161,7 +162,7 @@ if($mode == "update")
 			));
 
 	//Gets Avatar based on user settings and other user stats
-	$sql = "SELECT username, user_avatar_type, user_allowavatar, user_avatar FROM " . USERS_TABLE . " WHERE user_id = " . $userdata['user_id'] ;
+	$sql = "SELECT username, user_avatar_type, user_allowavatar, user_avatar FROM " . USERS_TABLE . " WHERE user_id = " . $userinfo['user_id'] ;
 	if( !($result = $db->sql_query($sql)) )
 	{
 		message_die(GENERAL_ERROR, "Cannot access the users table", '', __LINE__, __FILE__, $sql);
@@ -191,8 +192,8 @@ if($mode == "update")
 	}
 		$template->assign_vars(array(
 		        'L_QUICK_STATS' => $lang['quick_stats'],
-			'USER_AVATAR' => '<a href="modules.php?name=Forums&file=profile&mode=viewprofile&u=' . $userdata['user_id'] . '">' . $avatar_img . '</a>',
-			'USERNAME' => '<a href="' . append_sid("statarcade.$phpEx?uid=" . $userdata['user_id'] ) . '" class="genmed">' . $row['username'] . '</a> ',
+			'USER_AVATAR' => '<a href="modules.php?name=Forums&file=profile&mode=viewprofile&u=' . $userinfo['user_id'] . '">' . $avatar_img . '</a>',
+			'USERNAME' => '<a href="' . append_sid("statarcade.$phpEx?uid=" . $userinfo['user_id'] ) . '" class="genmed">' . $row['username'] . '</a> ',
 			));
 //
 // Generate the page end

@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- Nuke-Evolution Basic: Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium: Enhanced and Advanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /***************************************************************************
@@ -30,7 +30,10 @@ else
     $phpbb_root_path = NUKE_FORUMS_DIR;
 }
 
+global $userinfo;
+
 define('IN_PHPBB', true);
+
 include($phpbb_root_path .'extension.inc');
 include($phpbb_root_path . 'common.'.$phpEx);
 include('includes/functions_post.'. $phpEx);
@@ -64,7 +67,7 @@ if($mode == "z")
 {
 $user_allow_arcadepm = intval($HTTP_POST_VARS['user_allow_arcadepm']);
 
-$sql = "UPDATE " . USERS_TABLE. " SET user_allow_arcadepm = '$user_allow_arcadepm' WHERE user_id =  " . $userdata['user_id'];
+$sql = "UPDATE " . USERS_TABLE. " SET user_allow_arcadepm = '$user_allow_arcadepm' WHERE user_id =  " . $userinfo['user_id'];
         if( !($result = $db->sql_query($sql)))
             {
             message_die(GENERAL_ERROR, "Error updating selection", '', __LINE__, __FILE__, $sql);
@@ -79,31 +82,40 @@ if($mode == "update")
     {
             $game_id = intval($HTTP_POST_VARS['comment_id']);
             $comment_text = str_replace("\'","''",$HTTP_POST_VARS['message']);
-            $comment_text = preg_replace(array('#&(?!(\#[0-9]+;))#', '#<#', '#>#'), array('&amp;', '&lt;', '&gt;'),$comment_text);
+            $comment_text = preg_replace(array('#&(?!(\#[0-9]+;))#', '#<#', '#>#'), array('&amp;', '&lt;', '&gt;'), $comment_text);
 
             //Checks to make sure the user has privledge to enter highscores.
             //This query checks the user_id stored in the users cookie and in the database.
             //If they don't match, the comments is not entered and error message is displayed.
-            $user_id = $userdata['user_id'];
+            global $userinfo;
+
+            $user_id = $userinfo['user_id'];
+			
             $sql = "SELECT game_highuser FROM " . GAMES_TABLE. " WHERE game_id = $game_id";
 
-                if( !($result = $db->sql_query($sql)))
+            if(!($result = $db->sql_query($sql)))
             {
-            message_die(GENERAL_ERROR, "Error Authenticating User", '', __LINE__, __FILE__, $sql);
+               message_die(GENERAL_ERROR, "Error Authenticating User", '', __LINE__, __FILE__, $sql);
             }
             $row = $db->sql_fetchrow($result);
 
-            if($row['game_highuser'] != $user_id)
+            if($row['game_highuser'] != $userinfo['user_id'])
             {
-            message_die(GENERAL_ERROR, "Error Authenticating User - Possible hack attempt!", '');
+               message_die(GENERAL_ERROR, "Error Authenticating User - You are not the HighScore User!!", '');
             }
+			else
+			{
             //Enters Comment into the DB
-            $sql = "UPDATE " . COMMENTS_TABLE . " SET comments_value = '$comment_text' WHERE game_id = $game_id";
-            if( !$result = $db->sql_query($sql) )
+            //$sql = "UPDATE " . COMMENTS_TABLE . " SET comments_value = ".$comment_text." WHERE game_id = ".$game_id;
+			
+			$sql = "REPLACE INTO `" . COMMENTS_TABLE . "` VALUES($game_id, '$comment_text');";
+            
+			if(!($result = $db->sql_query($sql)))
             {
                 message_die(GENERAL_ERROR, "Couldn't insert row in comments table", "", __LINE__, __FILE__, $sql);
             }
 
+			}
             //Comment Updated/Added Successfully
                $message = "Comment sucessfully updated.";
                $message .= "<br /><br />Click <a href=\"modules.php?name=Forums&amp;file=arcade\">here</a> to return to the Arcade.";
@@ -114,17 +126,20 @@ if($mode == "update")
 
 if($mode == "submit")
 {
-    $template->set_filenames(array(
+    global $userinfo;
+
+	$template->set_filenames(array(
                                 'body' => 'comments_body.tpl'));
 
     $game_id = intval($HTTP_POST_VARS['comment_id']);
 
     //Gets comments from database
     $sql = "SELECT g.game_id, g.game_name, c.* FROM " . GAMES_TABLE. " g LEFT JOIN " . COMMENTS_TABLE . " c ON g.game_id = c.game_id WHERE g.game_id = $game_id";
-    if( !($result = $db->sql_query($sql)) )
-            {
-            message_die(GENERAL_ERROR, "Error retrieving comment list", '', __LINE__, __FILE__, $sql);
-            }
+    
+	if( !($result = $db->sql_query($sql)) )
+    {
+      message_die(GENERAL_ERROR, "Error retrieving comment list", '', __LINE__, __FILE__, $sql);
+    }
 
     $row = $db->sql_fetchrow($result);
 
@@ -140,7 +155,7 @@ if($mode == "submit")
             ));
 
     //Gets Avatar based on user settings and other user stats
-    $sql = "SELECT username, user_avatar_type, user_allowavatar, user_avatar FROM " . USERS_TABLE . " WHERE user_id = " . $userdata['user_id'] ;
+    $sql = "SELECT username, user_avatar_type, user_allowavatar, user_avatar FROM " . USERS_TABLE . " WHERE user_id = " . $userinfo['user_id'] ;
     if( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Cannot access the users table", '', __LINE__, __FILE__, $sql);
@@ -170,12 +185,14 @@ if($mode == "submit")
     }
         $template->assign_vars(array(
                 'L_QUICK_STATS' => $lang['quick_stats'],
-            'USER_AVATAR' => '<a href="modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=' . $userdata['user_id'] . '">' . $avatar_img . '</a>',
-            'USERNAME' => '<a href="' . append_sid("statarcade.$phpEx?uid=" . $userdata['user_id'] ) . '" class="genmed">' . $row['username'] . '</a> ',
+            'USER_AVATAR' => '<a href="modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=' . $userinfo['user_id'] . '">' . $avatar_img . '</a>',
+            'USERNAME' => '<a href="' . append_sid("statarcade.$phpEx?uid=" . $userinfo['user_id'] ) . '" class="genmed">' . $row['username'] . '</a> ',
             ));
 
     //Gets some user stats to display on the comment submission page
-    $sql ="SELECT s.score_set, s.game_id, g.game_name FROM " . SCORES_TABLE. " s LEFT JOIN " . USERS_TABLE. " u ON s.user_id = u.user_id LEFT JOIN " . GAMES_TABLE. " g ON s.game_id = g.game_id WHERE s.user_id = " . $userdata['user_id'] . " ORDER BY score_set DESC LIMIT 1";
+    $sql ="SELECT s.score_set, s.game_id, g.game_name FROM " . SCORES_TABLE. " s LEFT JOIN " . USERS_TABLE. " u ON s.user_id = u.user_id LEFT JOIN " . GAMES_TABLE. " g ON s.game_id = g.game_id 
+	
+	WHERE s.user_id = " . $userinfo['user_id'] . " ORDER BY score_set DESC LIMIT 1";
 
     if( !($result = $db->sql_query($sql)) )
     {
@@ -187,7 +204,7 @@ if($mode == "submit")
         $fav_game_name = '<a href="' . append_sid("games.$phpEx?gid=" . $row['game_id']) . '">' . $row['game_name'] . '</a>';
 
 
-    $sql="SELECT * FROM " .GAMES_TABLE ." WHERE game_highuser = " . $userdata['user_id'] . " ORDER BY game_highdate DESC";
+    $sql="SELECT * FROM " .GAMES_TABLE ." WHERE game_highuser = " . $userinfo['user_id'] . " ORDER BY game_highdate DESC";
     if( !($result = $db->sql_query($sql)) )
     {
         message_die(GENERAL_ERROR, "Cannot access last high score data", '', __LINE__, __FILE__, $sql);
@@ -209,11 +226,13 @@ $template->pparse('body');
 include("includes/page_tail.php");
 }
 
+global $userinfo;
+
 $template->set_filenames(array(
    'body' => 'comments_select_body.tpl'));
 
 $link    = "comments";
-$uid = $userdata['user_id'];
+$uid = $userinfo['user_id'];
 $submit = append_sid($link."?mode=submit");
 $z = append_sid($link."?mode=z");
 
