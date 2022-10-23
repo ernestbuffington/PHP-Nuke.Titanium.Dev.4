@@ -81,7 +81,9 @@ function head()
  	title_and_meta_tags();
     echo "<!-- END title_and_meta_tags(); -->\n\n\n\n\n\n";
     # END function to grab the page title. - 09/07/2019
-    echo '<script src="includes/ruffle-core/ruffle.js"></script>'."\n";
+	echo '<script src="includes/ruffle-core/ruffle.js"></script>'."\n"; 
+
+
 	################################################################
 	if (@file_exists(TITANIUM_CLASSES_DIR . 'class.browsers.php')) #      Added by Ernest Buffington
 	include(TITANIUM_CLASSES_DIR . 'class.browsers.php');          ###### Load Browser class - used for checking your browser types

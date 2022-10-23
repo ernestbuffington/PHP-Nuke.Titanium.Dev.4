@@ -63,12 +63,6 @@ function resize_avatar(image)
         <!-- END avatar_best_player_left -->
             <td class="bodyline" align="center" valign="top"><font size="2">{L_GAME}</font></br>
             <!-- BEGIN game_type_V5 -->
-            <?php
-            $newswf = new swfheader(false);
-		    $newswf->loadswf("modules/Forums/games/{SWF_GAME}?arcade_hash={GAMEHASH}");
-		    $newswf->display($trans);
-            ?>
-            
                  <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="{GAME_WIDTH}" height="{GAME_HEIGHT}">
                         <param name="movie" value="modules/Forums/games/{SWF_GAME}?arcade_hash={GAMEHASH}">
                         <param name="quality" value="high">
@@ -78,13 +72,6 @@ function resize_avatar(image)
                 </object>
             <!-- END game_type_V5 -->
             <!-- BEGIN game_type_V2 -->
-            <?php
-            $newswf = new swfheader(false);
-		    $newswf->loadswf("modules/Forums/games/{SWF_GAME}");
-		    $newswf->display($trans);
-            ?>
-
-
                  <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="{GAME_WIDTH}" height="{GAME_HEIGHT}">
                         <param name="movie" value="modules/Forums/games/{SWF_GAME}">
                         <param name="quality" value="high">
