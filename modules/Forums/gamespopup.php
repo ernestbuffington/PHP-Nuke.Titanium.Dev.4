@@ -165,7 +165,26 @@ if($mode == "done")
                     $pos = $posreelle;
                 }
 
-                $lastscore = $row['score_game'];
+		       $row['trophy'] = '';
+
+               # Ordinal Number Suffix - TheGhost 11:05 pm Saturday 10/22/2022
+		       $last = substr($posreelle,-1);
+
+               if($last > 3 or $last == 0 or ($posreelle >= 11 and $posreelle <= 19 )) {
+                $row['trophy'] = '<font size="2">th</font>';
+               }
+               elseif($last == 3) {
+                $row['trophy'] = '<font size="2">rd</font>';
+               }
+               elseif($last == 2) {
+                $row['trophy'] = '<font size="2">nd</font>';
+               }
+               else 
+               {
+                $row['trophy'] = '<font size="2">st</font>';
+               }
+            
+			    $lastscore = $row['score_game'];
                 $class = ($class == 'row1') ? 'row2' : 'row1';
                 $template->assign_block_vars('scorerow', array(
                             'CLASS' => $class,
@@ -179,6 +198,7 @@ if($mode == "done")
  ******************************************************/
                 'URL_STATS' => '<nobr><a class="cattitle" href="' . append_sid("statarcade.$phpEx?uid=" . $row['user_id']) . '">' . "<img src='modules/Forums/templates/" . $theme['template_name'] . "/images/loupe.gif' align='absmiddle' border='0' alt='" . $lang['statuser'] . " " . $row['username'] . "'>" . '</a></nobr>',
                 'SCORE' => number_format($row['score_game']),
+				'TROPHY' => $row['trophy'],
                 'DATEHIGH' => create_date($board_config['default_dateformat'] , $row['score_date'] , $board_config['board_timezone']))
                         );
 

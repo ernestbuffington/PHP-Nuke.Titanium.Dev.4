@@ -120,6 +120,29 @@ while ((!$fini) ) {
                                 'GAMENAME' => '<nobr><a class="cattitle" href="' . append_sid("games.$phpEx?gid=" . $row['game_id']) . '">' . $row['game_name'] . '</a></nobr>')
                         );
 
+		$row2['trophy'] = '';
+		
+		if($row2['score_game'] == 1)
+		$row2['trophy'] = 'st';
+		if($row2['score_game'] == 2)
+		$row2['trophy'] = 'nd';
+		if($row2['score_game'] == 3)
+		$row2['trophy'] = 'rd';
+		if($row2['score_game'] == 4)
+		$row2['trophy'] = 'th';
+		if($row2['score_game'] == 5)
+		$row2['trophy'] = 'th';
+		if($row2['score_game'] == 6)
+		$row2['trophy'] = 'rd';
+		if($row2['score_game'] == 7)
+		$row2['trophy'] = 'th';
+		if($row2['score_game'] == 8)
+		$row2['trophy'] = 'th';
+		if($row2['score_game'] == 9)
+		$row2['trophy'] = 'th';
+		if($row2['score_game'] == 10)
+		$row2['trophy'] = 'th';
+		
                         $pos = 0;
                         $posreelle = 0;
                         $lastscore = 0;
@@ -138,6 +161,7 @@ while ((!$fini) ) {
                                 $lastscore = $row2['score_game'];
                                 $template->assign_block_vars('blkligne.blkcolonne.blkgame.blkscore', array(
                                         'SCORE' => number_format($row2['score_game']),
+										'TROPHY' => $row2['trophy'],
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/

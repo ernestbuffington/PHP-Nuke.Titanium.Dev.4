@@ -59,7 +59,7 @@ $lastgamepic = $row['game_pic'];
 $lastuserid = $row['game_highuser'];
 
 $count = 1;
-$content = "<center><a href=\"modules.php?name=Forums&amp;file=arcade\"><img src=\"images/arcadelogo.gif\" border= \"0\"></a></center><br />";
+$content = "<center><a href=\"modules.php?name=Forums&amp;file=arcade\"><img width=\"169\" src=\"images/arcade_mod/arcade_logo.png\" border= \"0\"></a></center><br />";
 $content .="<marquee behavior= \"scroll\" align= \"center\" direction= \"up\" height=\"160\" scrollamount= \"2\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'>";
 
 $content .= "<center><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=$lastgameid\">";

@@ -745,7 +745,7 @@ td.rowpic {
 /* Recent Topics Row*/
 th {
 	color: #FFF;
-	border: 1px solid #222;
+	border: 1px solid #8d7b4d;
 	border-bottom-width: 0;
 	font-size: 10px;
 	background-color: #3d3d3d;
@@ -754,8 +754,8 @@ th {
 }
 
 th.bar {
-	background: <?=$bgcolor5?>;
-	border: #222 1px solid;
+	background: #645838;
+	border: pink 1px solid;
 	color: #ddd;
 	font-size: 11px;
 	font-weight: bold;

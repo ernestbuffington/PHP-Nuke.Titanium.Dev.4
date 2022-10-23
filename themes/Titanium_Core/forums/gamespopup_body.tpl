@@ -5,6 +5,7 @@
 </head>
 <body bgcolor="#000000">
 <!-- BEGIN game_type_V5 -->
+         <script src="includes/ruffle-core/ruffle.js"></script>
          <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="100%" height="100%">
             <param name="movie" value="modules/Forums/games/{SWF_GAME}?arcade_hash={GAMEHASH}">
             <param name="quality" value="high">
@@ -14,6 +15,7 @@
         </object>
 <!-- END game_type_V5 -->
 <!-- BEGIN game_type_V2 -->
+         <script src="includes/ruffle-core/ruffle.js"></script>
          <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="100%" height="100%">
             <param name="movie" value="modules/Forums/games/{SWF_GAME}">
             <param name="quality" value="high">

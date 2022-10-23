@@ -200,13 +200,19 @@ $cat_title = $ourrow['arcade_cattitle'];
 
 $template->assign_vars(array(
         'MAXSIZE_AVATAR' => intval($arcade_config['maxsize_avatar']),
-        'CAT_TITLE' => '<a class="nav" href="' . append_sid("arcade.$phpEx&amp;cid=") . $row['arcade_catid'] .'">' . $cat_title . '</a> ' ,
-        'NAV_DESC' => '<a class="nav" href="' . append_sid("arcade.$phpEx") . '">' . $lang['arcade'] . '</a> ' ,
+        'CAT_TITLE' => '<a href="' . append_sid("arcade.$phpEx&amp;cid=") . $row['arcade_catid'] .'">' . $cat_title . '</a> ' ,
+        'NAV_DESC' => '<a href="' . append_sid("arcade.$phpEx") . '">' . $lang['arcade'] . '</a> ' ,
         'SWF_GAME' => $row['game_swf'] ,
         'GAME_WIDTH' => $row['game_width'] ,
         'GAME_HEIGHT' => $row['game_height'] ,
         'L_GAME' => $row['game_name'] ,
         'GAMEHASH' => $gamehash_id,
+		
+		//'NEWSWF_A' => $newswf = new swfheader(false),
+		//'NEWSWF_V5' => $newswf->loadswf("modules/Forums/games/".$row['game_swf']."?arcade_hash=$gamehash_id"),
+		//'NEWSWF_V2' => $newswf->loadswf("modules/Forums/games/".$row['game_swf'].""),
+		//'NEWSWF_C' => $newswf->display($trans),
+		
         'L_TOP' => $lang['best_scores_game'] ,
         'HIGHSCORE' => number_format($row['highscore']),
         'URL_ARCADE' => '<nobr><a class="cattitle" href="' . append_sid("arcade.$phpEx") . '">' . $lang['lib_arcade'] . '</a></nobr> ',
@@ -254,32 +260,50 @@ $comment='';
 $pos = 0;
 $posreelle = 0;
 $lastscore = 0;
+
 while ($row = $db->sql_fetchrow($result)) {
+
         $posreelle++;
+
+		if($posreelle == 11)
+		break;
 
         if ($posreelle == 1) {
                 $user_avatar_type = $row['user_avatar_type'];
                 $user_allowavatar = $row['user_allowavatar'];
                 $user_avatar = $row['user_avatar'];
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
                 $best_user = UsernameColor($row['username']);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
                 $best_date = create_date( $board_config['default_dateformat'] , $row['score_date'] , $board_config['board_timezone'] );
                 $games_played = $row['score_set'];
                 $best_time = sec2hms($row['score_time']);
-
         }
 
         if ($lastscore!=$row['score_game']) {
                 $pos = $posreelle;
         }
 
+		$row['trophy'] = '';
+
+        # Ordinal Number Suffix - TheGhost 11:05 pm Saturday 10/22/2022
+		$last = substr($posreelle,-1);
+
+        if($last > 3 or $last == 0 or ($posreelle >= 11 and $posreelle <= 19 )) {
+         $row['trophy'] = '<font size="2">th</font>';
+        }
+        elseif($last == 3) {
+         $row['trophy'] = '<font size="2">rd</font>';
+        }
+        elseif($last == 2) {
+         $row['trophy'] = '<font size="2">nd</font>';
+        }
+        else 
+        {
+           $row['trophy'] = '<font size="2">st</font>';
+        }
+		
         $lastscore = $row['score_game'];
-        $template->assign_block_vars('scorerow', array(
+        
+		$template->assign_block_vars('scorerow', array(
                 'POS' => $pos,
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -288,26 +312,28 @@ while ($row = $db->sql_fetchrow($result)) {
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                'URL_STATS' => '<nobr><a class="cattitle" href="' . append_sid("statarcade.$phpEx?uid=" . $row['user_id']) . '">' . "<img src='modules/Forums/templates/" . $theme['template_name'] . "/images/loupe.gif' align='absmiddle' border='0' alt='" . $lang['statuser'] . " " . $row['username'] . "'>" . '</a></nobr> ',
+                'URL_STATS' => '<nobr><a class="cattitle" href="' . append_sid("statarcade.$phpEx?uid=" . $row['user_id']) . '">' . "<font size='5'><i class='bi bi-award'></i></font>" . '</a></nobr> ',
                 'GAMEDESC' => $row['game_desc'],
                 'SCORE' => number_format($row['score_game']),
+				'TROPHY' => $row['trophy'],
                 'DATEHIGH' => create_date($board_config['default_dateformat'] , $row['score_date'] , $board_config['board_timezone']))
         );
 }
 
 $avatar_img = '';
+
 if ($user_avatar_type && $user_allowavatar) {
         switch($user_avatar_type) {
                 case USER_AVATAR_UPLOAD:
-                        $avatar_img = ($board_config['allow_avatar_upload']) ? '<img src="' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center" onload="resize_avatar(this)"/>' : '';
+                        $avatar_img = ($board_config['allow_avatar_upload']) ? '<img class="rounded-corners-user-info" src="' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center" onload="resize_avatar(this)"/>' : '';
                         break;
 
                 case USER_AVATAR_REMOTE:
-                        $avatar_img = ($board_config['allow_avatar_remote']) ? '<img src="' . $user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center"  onload="resize_avatar(this)"/>' : '';
+                        $avatar_img = ($board_config['allow_avatar_remote']) ? '<img class="rounded-corners-user-info" src="' . $user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center"  onload="resize_avatar(this)"/>' : '';
                         break;
 
                 case USER_AVATAR_GALLERY:
-                        $avatar_img = ($board_config['allow_avatar_local']) ? '<img src="' . $board_config['avatar_gallery_path'] . '/' . $user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center"  onload="resize_avatar(this)"/>' : '';
+                        $avatar_img = ($board_config['allow_avatar_local']) ? '<img class="rounded-corners-user-info" src="' . $board_config['avatar_gallery_path'] . '/' . $user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center"  onload="resize_avatar(this)"/>' : '';
                         break;
         }
 }

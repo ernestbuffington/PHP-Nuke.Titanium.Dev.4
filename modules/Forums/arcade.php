@@ -67,7 +67,7 @@ $start = get_var_gf(array('name' => 'start', 'intval' => true));
 $arcade_config = array();
 $arcade_config = read_arcade_config();
 
-$liste_cat_auth = get_arcade_categories($userdata['user_id'], $userdata['user_level'],'view');
+$liste_cat_auth = get_arcade_categories($userinfo['user_id'], $userinfo['user_level'],'view');
 
 if( empty($liste_cat_auth) ) {
         $liste_cat_auth = "''";
@@ -102,7 +102,7 @@ switch ( $arcade_config['game_order']) {
 
 //$favori = $HTTP_GET_VARS['favori'];
 //$delfavori = $HTTP_GET_VARS['delfavori'];
-global $userdata;
+global $userinfo;
 
 if(isset($_GET['favori'])):
 $favori = intval($_GET['favori']);
@@ -114,7 +114,7 @@ endif;
 		
 if ($actfav = $favori+$delfavori)
 {
-    $sql = "SELECT COUNT(*) AS nbfav FROM ".ARCADE_FAV_TABLE." WHERE  user_id = ".$userdata['user_id']." AND game_id= ".$actfav;
+    $sql = "SELECT COUNT(*) AS nbfav FROM ".ARCADE_FAV_TABLE." WHERE  user_id = ".$userinfo['user_id']." AND game_id= ".$actfav;
 
     if( !($result = $db->sql_query($sql)) ) {
       message_die(GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql);
@@ -125,15 +125,16 @@ if ($actfav = $favori+$delfavori)
 
     if (!$nbfav && $favori)
     {
-            $sql = "INSERT INTO ". ARCADE_FAV_TABLE ." VALUES (0,'".$userdata['user_id']."','$favori')";
-            if( !($result = $db->sql_query($sql)) )
+            $sql = "REPLACE INTO ". ARCADE_FAV_TABLE ." VALUES (0,'".$userinfo['user_id']."','$favori')"; # changed to REPLACE INTO 10/22/2022 TheGhost
+            
+			if( !($result = $db->sql_query($sql)) )
                 {
                     message_die(GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql);
                 }
     }
     elseif($delfavori)
     {
-            $sql = "DELETE FROM ". ARCADE_FAV_TABLE ." WHERE  user_id= ".$userdata['user_id']." AND game_id= ".$delfavori;
+            $sql = "DELETE FROM ". ARCADE_FAV_TABLE ." WHERE  user_id= ".$userinfo['user_id']." AND game_id= ".$delfavori;
 
             if( !($result = $db->sql_query($sql)) )
                 {
@@ -175,8 +176,8 @@ if (( $arcade_catid == 0 ) and ( $arcade_config['use_category_mod'] )) {
  ******************************************************/
             . GAMES_TABLE." g LEFT JOIN "
             . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN "
-            . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userdata['user_id'] . " LEFT JOIN "
-            . ARCADE_FAV_TABLE . " f ON f.game_id = g.game_id WHERE f.user_id=".$userdata['user_id'] ;
+            . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userinfo['user_id'] . " LEFT JOIN "
+            . ARCADE_FAV_TABLE . " f ON f.game_id = g.game_id WHERE f.user_id=".$userinfo['user_id'] ;
 
             if( !($result = $db->sql_query($sql)) )
             {
@@ -210,7 +211,7 @@ if (( $arcade_catid == 0 ) and ( $arcade_config['use_category_mod'] )) {
                 'GAMEIDF' => $frow['game_id'],
                 'DATEHIGHF' => "<nobr>" . create_date( $board_config['default_dateformat'] , $frow['game_highdate'] , $board_config['board_timezone'] ) . "</nobr>",
                 'YOURDATEHIGHF' => "<nobr>" . create_date( $board_config['default_dateformat'] , $frow['score_date'] , $board_config['board_timezone'] ) . "</nobr>",
-                'IMGFIRSTF' => ( $frow['game_highuser'] == $userdata['user_id'] ) ? "&nbsp;&nbsp;<img src='".$phpbb_root_path ."templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
+                'IMGFIRSTF' => ( $frow['game_highuser'] == $userinfo['user_id'] ) ? "&nbsp;&nbsp;<img src='".$phpbb_root_path ."templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
                 'GAMEDESCF' => $frow['game_desc']
                 ));
 
@@ -231,7 +232,7 @@ if (( $arcade_catid == 0 ) and ( $arcade_config['use_category_mod'] )) {
 
         $liste_jeux = array();
 
-        $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date FROM " . GAMES_TABLE . " g LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN " . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userdata['user_id'] . " WHERE  g.arcade_catid IN ($liste_cat_auth) ORDER BY g.arcade_catid, $order_by";
+        $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date FROM " . GAMES_TABLE . " g LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN " . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userinfo['user_id'] . " WHERE  g.arcade_catid IN ($liste_cat_auth) ORDER BY g.arcade_catid, $order_by";
 
         if( !($result = $db->sql_query($sql)) ) {
                 message_die(GENERAL_ERROR, "Could not read arcade categories", '', __LINE__, __FILE__, $sql);
@@ -283,7 +284,7 @@ if (( $arcade_catid == 0 ) and ( $arcade_config['use_category_mod'] )) {
                                         'GAMEID' => $liste_jeux[$row['arcade_catid']][$i]['game_id'],
                                         'DATEHIGH' => "<nobr>" . create_date( $board_config['default_dateformat'] , $liste_jeux[$row['arcade_catid']][$i]['game_highdate'] , $board_config['board_timezone'] ) . "</nobr>",
                                         'YOURDATEHIGH' => "<nobr>" . create_date( $board_config['default_dateformat'] , $liste_jeux[$row['arcade_catid']][$i]['score_date'] , $board_config['board_timezone'] ) . "</nobr>",
-                                        'IMGFIRST' => ( $liste_jeux[$row['arcade_catid']][$i]['game_highuser'] == $userdata['user_id'] ) ? "&nbsp;&nbsp;<img src='".$phpbb_root_path ."templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
+                                        'IMGFIRST' => ( $liste_jeux[$row['arcade_catid']][$i]['game_highuser'] == $userinfo['user_id'] ) ? "&nbsp;&nbsp;<img src='".$phpbb_root_path ."templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
                                         'ADD_FAV' => ($arcade_config['use_fav_category'])?'<td class="row1" width="25" align="center" valign="center"><a href="' . append_sid("arcade.$phpEx?favori=" . $liste_jeux[$row['arcade_catid']][$i]['game_id'] ) .'"><img src="modules/Forums/templates/subSilver/images/favs.gif" border=0 alt="'.$lang['add_fav'].'"></a></td>':'',
                                         'GAMEDESC' => $liste_jeux[$row['arcade_catid']][$i]['game_desc'])
                                 );
@@ -377,8 +378,8 @@ $template->assign_vars(array(
             $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date, f.* FROM "
             . GAMES_TABLE." g LEFT JOIN "
             . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN "
-            . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userdata['user_id'] . " LEFT JOIN "
-            . ARCADE_FAV_TABLE . " f ON f.game_id = g.game_id WHERE  f.user_id=".$userdata['user_id'] ;
+            . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userinfo['user_id'] . " LEFT JOIN "
+            . ARCADE_FAV_TABLE . " f ON f.game_id = g.game_id WHERE  f.user_id=".$userinfo['user_id'] ;
 
             if( !($result = $db->sql_query($sql)) )
             {
@@ -406,7 +407,7 @@ $template->assign_vars(array(
                 'GAMEIDF' => $frow['game_id'],
                 'DATEHIGHF' => "<nobr>" . create_date( $board_config['default_dateformat'] , $frow['game_highdate'] , $board_config['board_timezone'] ) . "</nobr>",
                 'YOURDATEHIGHF' => "<nobr>" . create_date( $board_config['default_dateformat'] , $frow['score_date'] , $board_config['board_timezone'] ) . "</nobr>",
-                'IMGFIRSTF' => ( $frow['game_highuser'] == $userdata['user_id'] ) ? "&nbsp;&nbsp;<img src='modules/Forums/templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
+                'IMGFIRSTF' => ( $frow['game_highuser'] == $userinfo['user_id'] ) ? "&nbsp;&nbsp;<img src='modules/Forums/templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
                 'GAMEDESCF' => $frow['game_desc']
                 ));
 
@@ -426,7 +427,7 @@ $template->assign_vars(array(
             }
         }
 
-$sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date FROM " . GAMES_TABLE . " g LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN " . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userdata['user_id'] . " $sql_where ORDER BY $order_by $limit";
+$sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date FROM " . GAMES_TABLE . " g LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN " . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userinfo['user_id'] . " $sql_where ORDER BY $order_by $limit";
 
 if( !($result = $db->sql_query($sql)) ) {
         message_die(GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql);
@@ -447,7 +448,7 @@ while( $row = $db->sql_fetchrow($result) ) {
                 'GAMEID' => $row['game_id'],
                 'DATEHIGH' => "<nobr>" . create_date( $board_config['default_dateformat'] , $row['game_highdate'] , $board_config['board_timezone'] ) . "</nobr>",
                 'YOURDATEHIGH' => "<nobr>" . create_date( $board_config['default_dateformat'] , $row['score_date'] , $board_config['board_timezone'] ) . "</nobr>",
-                'IMGFIRST' => ( $row['game_highuser'] == $userdata['user_id'] ) ? "&nbsp;&nbsp;<img src='".$phpbb_root_path ."templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
+                'IMGFIRST' => ( $row['game_highuser'] == $userinfo['user_id'] ) ? "&nbsp;&nbsp;<img src='".$phpbb_root_path ."templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
                 'ADD_FAV' => ($arcade_config['use_fav_category'])?'<td class="row1" width="25" align="center" valign="center"><a href="' . append_sid("arcade.$phpEx?favori=" . $row['game_id'] ) .'"><img src="modules/Forums/templates/subSilver/images/favs.gif" border=0 alt="'.$lang['add_fav'].'"></a></td>':'',
                 'GAMELINK' => '<nobr><a href="' . append_sid("games.$phpEx?gid=" . $row['game_id'] ) . '">' . $row['game_name'] . '</a></nobr> ' ,
                 'GAMEPOPUPLINK' => "<a href='javascript:Arcade_Popup(\"".append_sid("gamespopup.$phpEx?gid=".$row['game_id'] )."\", \"New_Window\",\"".$row['game_width']."\",\"".$row['game_height']."\", \"no\")'>New Window</a>")

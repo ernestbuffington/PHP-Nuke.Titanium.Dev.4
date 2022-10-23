@@ -32,6 +32,7 @@ else
 }
 
 define('IN_PHPBB', true);
+
 include($phpbb_root_path .'extension.inc');
 include($phpbb_root_path . 'common.'.$phpEx);
 include('includes/functions_post.' . $phpEx);
@@ -200,5 +201,4 @@ if($mode == "update")
 //
 $template->pparse('body');
 include("includes/page_tail_review.php");
-
 ?>

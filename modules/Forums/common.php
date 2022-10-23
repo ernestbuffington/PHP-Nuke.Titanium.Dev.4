@@ -272,5 +272,4 @@ if( $board_config['board_disable'] && !defined("IN_ADMIN") && !defined("IN_LOGIN
  [ Mod:     Disable Board Message              v1.0.0 ]
  [ Mod:     Admin view board while disabled    v1.0.0 ]
  ******************************************************/
-
 ?>

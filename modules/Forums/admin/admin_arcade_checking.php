@@ -47,7 +47,7 @@ $filechecklist=array(
                 "blocks/block-Arcade.php",
                 "blocks/block-Arcade_Center.php",
                 "blocks/block-Random_Games.php",
-                "images/arcadelogo.gif",
+                "images/arcade_mod/arcade_logo.png",
                 "includes/functions_arcade.php",
                 "modules/Forums/arcade.php",
                 "modules/Forums/arcade_search.php",
