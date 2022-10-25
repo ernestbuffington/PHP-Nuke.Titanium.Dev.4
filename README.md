@@ -18,7 +18,6 @@
 	<li>Truman Scott Buffington</li>
 	<li>Bob Marion</li> 
 	<li>Sebastian Scott Buffington</li>
-	<li>Dan Cooper</li>
 </ul>
 
 <h2>PHP-Nuke Titanium v4.0.3 Core Contributors</h2>
@@ -31,6 +30,13 @@
 	<li>Wolfstar</li>
 	<li>Lonestar</li>
 	<li>CoRpSE</li>
+	<li>CodeBuzzard</li>
+	<li>CyBorg</li>
+	<li>NukeSheriff</li>
+	<li>TheGhost</li>
+	<li>ScottyBcoder</li>
+	<li>UniKCode</li>
+	<li>Cobalt74</li>
 </ul>
 
 <h2>PHP-Nuke Titanium v4.0.3 Flash Game, and Movie Support for 2022</h2>
