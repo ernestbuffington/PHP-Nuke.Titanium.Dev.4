@@ -85,9 +85,7 @@ In addition to adhering to the CoC, we ask that you also adhere to the following
 guidelines as they pertain to how you interact on our social developer platforms.
 
 * Do not send spam or advertisements.
-* Do not use the any of our social platforms for recruiting purposes. Recruiters may post job
-  openings on the [message board](http://www.meetup.com/PHP-Mauritius-UG/messages/boards/)
-  only. Recruiters may also announce job openings at the beginning of physical
+* Do not use any of our social platforms for recruiting purposes without permission. 
   meetups as directed by the meetup host.
 * Stay on topic and post constructive messages.
 * Avoid sending large attachments.
