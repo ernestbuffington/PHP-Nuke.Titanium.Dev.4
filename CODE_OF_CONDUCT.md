@@ -2,10 +2,10 @@
 
 ## Purpose
 
-The 86it Developers Network is a volunteer-run [PHP](http://www.86it.us/)
-developers network, and invites anyone with a desire to talk and learn about programming and
-related technologies to gather together, share their knowledge, and promote the
-86it developers community.
+[The 86it Developers Network](http://www.86it.us/)
+invites anyone with a desire to talk and learn about programming and
+related technologies to gather together, share their knowledge, and promote The
+86it Developers community.
 
 The 86it Developers Network desires to be inclusive to the largest number of contributors as
 possible. As such, we are committed to providing a friendly, safe, and welcoming
