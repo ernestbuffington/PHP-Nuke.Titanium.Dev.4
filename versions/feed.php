@@ -9,6 +9,14 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Oct 25th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updating Core Theme<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Oct 24th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Uploaded 146 Themes to be ported to Titanium<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Oct 23rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Arcade Mod, it now keeps score for more than 98% of games!<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Oct 23rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Theme uninstalled list, it is now in alphabetical order<br />
+<hr>
 <strong><i class="bi bi-calendar3"></i> Oct 19th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> PreRelase 4.0.3 Created<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Oct 18th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Database Install<br />
