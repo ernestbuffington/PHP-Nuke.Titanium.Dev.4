@@ -101,6 +101,10 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 	<li>Phar API version v1.1.1</li>
 	<li>ZLib 1.9.2</li>
 	<li>Mime Type .wasm for Flash Gaming and Movie Support (This is what we do in 2022) this is so that ruffle can process .swf files</li>
+	Apache doesn't serve these files correctly by default, you will need to add this to your `httpd.conf` configuration file and reload it:
+```
+AddType application/wasm .wasm
+```
 	<li>Minimum of 100 MB/s web space</li>
 	<li>Minimum of 5 GB/s bandwidth (5 TB/s or unmetered is recommended)</li>
 </ul>
