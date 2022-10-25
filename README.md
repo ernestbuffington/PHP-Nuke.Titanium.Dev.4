@@ -20,12 +20,32 @@
 	<li>Ha, Suck it Adobe!</li>
 </ul>
 
-	Ruffle has 4 goals, roughly in order of priority:
-    1) **Ease of Use**: SWF content should remain easily accessible. Ruffle's HTML5 client is a first-class citizen, allowing the playback of SWFs without external software, even on mobile.
-    2) **Compatibility**: Strive to acceptably display the wide range of SWF content available on the web.
-    3) **Accuracy**: Behave as close to the original Flash Player as possible.
-    4) **Speed**: The content should run full-speed.
+# Motivation
 
+The Flash Player has existed since 1996, and there are millions of pieces of Flash content around the web. This content represents an important piece of computing history and culture. Unfortunately, as browser support has faded, this history is no longer easily accessible. This will become even worse [as the Flash Player has reached end of life](https://theblog.adobe.com/adobe-flash-update/).
+
+Ruffle's chief goal is to preserve this legacy content and keep it accessible for the future. Ruffle is an Adobe Flash Player emulator written in the Rust programming language, compiling both to the desktop and to the web.
+
+Ruffle has 4 goals, roughly in order of priority:
+1) **Ease of Use**: SWF content should remain easily accessible. Ruffle's HTML5 client is a first-class citizen, allowing the playback of SWFs without external software, even on mobile.
+2) **Compatibility**: Strive to acceptably display the wide range of SWF content available on the web.
+3) **Accuracy**: Behave as close to the original Flash Player as possible.
+4) **Speed**: The content should run full-speed.
+
+In-browser emulation is the best way to accomplish these goals:
+ * Manual conversion to modern platforms is time-consuming and simply not possible given the vast amount of SWF content.
+ * Automatic conversion is possible, but still requires user intervention. Ideally users can run the SWF content directly without a conversion process.
+ * Desktop players and plug-ins have the best performance, but most users do not want to install extra software. Ruffle offers a desktop player, but the primary focus is on the web client.
+ * Accurate emulation of the majority of SWF content is possible given the current state of web APIs.
+ * WebAssembly has opened the door for better performance in the browser.
+ 
+Rust was chosen as the programming language because:
+ * Rust is a systems programming language, giving the tools and performance necessary for emulation.
+ * Rust is the best way to target WebAssembly. Rust considers WebAssembly [a primary platform](https://forge.rust-lang.org/platform-support.html), allowing Ruffle to run in the browser with high speed.
+ * [Rust has a thriving community](https://insights.stackoverflow.com/survey/2019#most-loved-dreaded-and-wanted), which is key for attracting contributors.
+ * Rust has a large focus on [memory safety](https://blog.gds-gov.tech/appreciating-rust-memory-safety-438301fee097), avoiding bugs and easing traditional concerns about the security of Flash content.
+
+There have been existing efforts to re-implement the Flash Player, including Gnash, Shumway, and [Lightspark](https://lightspark.github.io/). Of these, only Lightspark is still maintained. Porting one of the existing C++ projects to Web using Emscripten is another path forward, and, in fact, may be the fastest way to getting a large amount of content running quickly. This project's goal is a fresh start in a modern codebase with the web as a primary platform.
 
 <h2>PHP-Nuke Titanium v4.0.3 Modules</h2>
 
