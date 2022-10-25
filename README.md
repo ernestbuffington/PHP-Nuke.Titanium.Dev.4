@@ -13,6 +13,7 @@
 <h2>PHP-Nuke Titanium v4.0.3 Flash Game, and Movie Support for 2022</h2>
 
 <ul>
+	<li>Arcade MOd v4.0 is now functional and keeps score</li>
 	<li>AVM 1 is ActionScript 1 and ActionScript 2 - All movies and games made before Flash Player 9 (June 2006) </li>
 	<li>AVM 2 is ActionScript 3, which was introduced with Flash Player 9 (June 2006). After the release of Flash Professional CC (2013), authors are required to use ActionScript 3</li>
 	<li>Ha, Suck it Adobe!</li>
