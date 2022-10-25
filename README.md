@@ -52,7 +52,7 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 
 <ul>
 	<li><b>Advertising</b><br />Programmable local Portal Advertisng</li>
-	<li><b>Blog</b><br />This use to be the News system from Nuke Evolution Xtreme (UK Version) and it was drasticly changed and we renamed it to Blog when we added new features and updated the code for PHP 7.X - We added a Blog Signature and a few other bells and whistles!</li>
+	<li><b>Blogs</b><br />This use to be the News system from Nuke Evolution Xtreme (UK Version) and it was drasticly changed and we renamed it to Blogs when we added new features and updated the code for PHP 7.X - We added a Blog Signature and a few other bells and whistles!</li>
 	<li><b>Blog Archive</b><br />This use to be the News archive for Nuke Evolution Xtreme (UK Version), it is now the Blog archive and has had some updates and addons implemented. The display layout has been changed</li>
 	<li><b>Blog Submit</b><br />Portal members can submit Blogs</li>
 	<li><b>Blog Top</b><br />Top 10 Blogs information will be listed - 10 Most Read, 10 Most Voted, 10 Best Rated, 10 Most Commented, 10 Most Active, and 10 Most Active Blog Post Submitters</li>
