@@ -71,7 +71,7 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 	<li><b>Loan Amortization</b><br />This is great and was written by Truman Scott Buffington.</li>
 	<li><b>Link Us</b><br />A Backlink system so that members of your portal can Backlink their websites to yours.</li>
 	<li><b>Members List</b><br />Enhanced list of Portal Members - Has a built in Ghost Mode, when users are set to Ghost Mode (Enabled) their is no way to see when their last visit was or if they are online at the same time others are.</li>
-	<li><b>NukeSentinel</b><br />Security that has only recently worked like it is supposed to. (still has a lot of work being done) By Bob Marion</li>
+	<li><b>NukeSentinel</b><br />Security and User Tracking like no other website has. By Bob Marion of Nukescripts.Net (https://nukescripts.86it.us</li>
 	<li><b>Private Messages</b><br />A Portal Messaging system.</li>
 	<li><b>Profile</b><br />Each user has a personal profile.</li>
 	<li><b>Recommend Us</b><br />People can recommend your Portal/Web SIte to a friend.</li>
