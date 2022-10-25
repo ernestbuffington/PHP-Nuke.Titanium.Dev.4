@@ -62,7 +62,7 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 	<li><b>ECalendar</b><br />Just another Calendar.</li>
 	<li><b>FAQ<br />Portal Frequently Asked Questions</li>
 	<li><b>Feedback<br />Users can leave detailed Feedback anytime they want.</li>
-	<li><b>File Repository</b><br />A Most excellent Downloads Manager by Lonestar.</br>Website: (http://lonestar-modules.com)</br>Author Email: crazycoder@live.co.uk</br></li>
+	<li><b>File Repository</b><br />A Most excellent Downloads Manager, This module brings you an advanced file manager, it has been developed to be as user friendly as possible. by Lonestar.</br>Website: (http://lonestar-modules.com)</br>Author Email: crazycoder@live.co.uk</br></li>
 	<li><b>Forums</b><br />phpBB Forums Area - phpBB Titanium v4.03 is what we use now.</br>We are currently porting phpBB 3 into our system.</li>
 	<li><b>Google Site Map</b><br />Added a NEW fast and lightweight class for generating Google sitemap XML files and index of sitemap files. Written on PHP and uses XMLWriter extension (wrapper for libxml xmlWriter API) for creating XML files. XMLWriter extension is enabled by default in PHP 5 >= 5.1.2. If you have more than 50000 urls, it will split items into seperated files. (In benchmarks, 1 million urls were generated in 8 seconds).</li>
 	<li><b>Groups</b><br />List of various groups that members of a portal can subscribe to and become a member of.</li>
