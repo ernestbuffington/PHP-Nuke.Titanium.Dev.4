@@ -16,7 +16,8 @@
 	<li>The Ruffle Web Core is what we use to enable flash site wide, you will not need any browser plugins.</li>
 	<li>The Arcade Mod v4.0 is now functional and keeps score!</li>
 	<li>AVM 1 is ActionScript 1 and ActionScript 2 - All movies and games made before Flash Player 9 (June 2006).</li>
-	<li>AVM 2 is ActionScript 3, which was introduced with Flash Player 9 (June 2006). After the release of Flash Professional CC (2013), authors are required to use ActionScript 3.</li>
+	<li>AVM 2 is ActionScript 3, which was introduced with Flash Player 9 (June 2006).</li> 
+	<li>After the release of Flash Professional CC (2013), authors were required to use ActionScript 3.</li>
 	<li>Ha, Suck it Adobe!</li>
 </ul>
 
