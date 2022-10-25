@@ -10,6 +10,17 @@
 
 <p>This code is running live at https://www.php-nuke-titanium.86it.us</p>
 
+<h2>PHP-Nuke Titanium v4.0.3 Core Developers</h2>
+
+<ul>
+	<li>Ernest Allen Buffington (Lead Core Developer)</li>
+	<li>Winston Terrance Wolfe</li>
+	<li>Truman Scott Buffington</li>
+	<li>Bob Marion</li> 
+	<li>Sebastian Scott Buffington</li>
+	<li>Dan Cooper</li>
+</ul>
+
 <h2>PHP-Nuke Titanium v4.0.3 Flash Game, and Movie Support for 2022</h2>
 
 <ul>
