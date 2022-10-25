@@ -21,6 +21,18 @@
 	<li>Dan Cooper</li>
 </ul>
 
+<h2>PHP-Nuke Titanium v4.0.3 Core Contributors</h2>
+
+<ul>
+	<li>Technocrat</li>
+	<li>killigan</li>
+	<li>SgtLegend</li>
+	<li>Eyecu</li> 
+	<li>Wolfstar</li>
+	<li>Lonestar</li>
+	<li>CoRpSE</li>
+</ul>
+
 <h2>PHP-Nuke Titanium v4.0.3 Flash Game, and Movie Support for 2022</h2>
 
 <ul>
