@@ -23,7 +23,7 @@
 
 <h2>PHP-Nuke Titanium Ruffle Web Core</h2>
 
-The Flash Player has existed since 1996, and there are millions of pieces of Flash content around the web. This content represents an important piece of computing history and culture. Unfortunately, as browser support has faded, this history is no longer easily accessible. This became even worse [because the Flash Player has already reached end of life](https://theblog.adobe.com/adobe-flash-update/).
+The Flash Player has existed since 1996, and there are millions of pieces of Flash content around the web. This content represents an important piece of computing history and culture. Unfortunately, as browser support has faded, this history is no longer easily accessible. This became even worse [when the Flash Player reached end of life](https://theblog.adobe.com/adobe-flash-update/).
 
 Ruffle's chief goal is to preserve this legacy content and keep it accessible for the future. Ruffle is an Adobe Flash Player emulator written in the Rust programming language, compiling both to the desktop and to the web.
 
