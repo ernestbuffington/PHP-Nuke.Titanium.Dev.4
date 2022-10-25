@@ -42,7 +42,7 @@
 <h2>PHP-Nuke Titanium v4.0.3 Flash Game, and Movie Support for 2022</h2>
 
 <ul>
-	<li>The Ruffle Web Core is what we use to enable flash site wide, you will not need any browser plugins.</li>
+	<li>[`The Ruffle Web Core`](https://github.com/ruffle-rs/ruffle/tree/master/core): is what we use to enable flash site wide, you will not need any browser plugins.</li>
 	<li>The Arcade Mod v4.0 is now functional and keeps score!</li>
 	<li>AVM 1 is ActionScript 1 and ActionScript 2 - All movies and games made before Flash Player 9 (June 2006).</li>
 	<li>AVM 2 is ActionScript 3, which was introduced with Flash Player 9 (June 2006).</li> 
