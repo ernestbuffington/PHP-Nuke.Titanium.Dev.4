@@ -63,21 +63,45 @@ function resize_avatar(image)
         <!-- END avatar_best_player_left -->
             <td class="bodyline" align="center" valign="top"><font size="2">{L_GAME}</font></br>
             <!-- BEGIN game_type_V5 -->
-                 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="{GAME_WIDTH}" height="{GAME_HEIGHT}">
+            <div id="container"> </div>
+
+       <script>
+          window.RufflePlayer = {
+            config: {
+              autoplay: "on",
+            wmode: "transparent",
+            scale: "showAll",
+              unmuteOverlay: "hidden",
+            }
+          };
+       </script>
+                 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0">
                         <param name="movie" value="modules/Forums/games/{SWF_GAME}?arcade_hash={GAMEHASH}">
                         <param name="quality" value="high">
                         <param name="menu" value="false">
-                        <embed src="modules/Forums/games/{SWF_GAME}?arcade_hash={GAMEHASH}" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="{GAME_WIDTH}" height="{GAME_HEIGHT}">
+                        <embed src="modules/Forums/games/{SWF_GAME}?arcade_hash={GAMEHASH}" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash">
                         </embed>
                 </object>
             <!-- END game_type_V5 -->
             <!-- BEGIN game_type_V2 -->
-                 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="{GAME_WIDTH}" height="{GAME_HEIGHT}">
+<div id="container"> </div>
+
+       <script>
+          window.RufflePlayer = {
+            config: {
+              autoplay: "on",
+            wmode: "transparent",
+            scale: "showAll",
+              unmuteOverlay: "hidden",
+            }
+          };
+       </script>            
+                 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0">
                         <param name="movie" value="modules/Forums/games/{SWF_GAME}">
                         <param name="quality" value="high">
                         <param name="menu" value="false">
 
-                        <embed src="modules/Forums/games/{SWF_GAME}"  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="{GAME_WIDTH}" height="{GAME_HEIGHT}">
+                        <embed src="modules/Forums/games/{SWF_GAME}"  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash">
                         </embed>
                 </object>
             <!-- END game_type_V2 -->

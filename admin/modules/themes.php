@@ -200,7 +200,7 @@ function display_main(){
         }
 		
         echo "<tr $bold>\n";
-        echo "  <td align='center' class='row1'><img src='themes/".$theme['theme_name']."/images/thumb.png' alt='' /></td>\n";
+        echo "  <td align='center' class='row1'><img height='75' src='themes/".$theme['theme_name']."/images/thumb.png' alt='' /></td>\n";
         echo "  <td align='center' class='row1'>" . $theme['theme_name'] . "</td>\n";
         echo "  <td align='center' class='row1'>" . $theme['custom_name'] . "</td>\n";
         echo "  <td align='center' class='row1'>" . ThemeNumUsers($theme['theme_name']) . "</td>\n";

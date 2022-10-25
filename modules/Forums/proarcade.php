@@ -36,6 +36,8 @@ include($phpbb_root_path . 'extension.inc');
 include($phpbb_root_path . 'common.' . $phpEx);
 require($phpbb_root_path . 'gf_funcs/gen_funcs.' . $phpEx);
 
+global $userinfo;
+
 $gid = get_var_gf(array('name'=>'gid', 'intval'=>true, 'default'=>0));
 
 $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOFTWARE"))) ? "Refresh: 0; URL=" : "Location: ";
@@ -44,7 +46,7 @@ $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOF
 // Start session management
 //
 
-$userdata = session_pagestart($user_ip, PAGE_GAME, $nukeuser);
+$userdata = session_pagestart($user_ip, PAGE_GAME);
 init_userprefs($userdata);
 
 //
@@ -241,17 +243,48 @@ if (($row = $db->sql_fetchrow($result)) && ($row['game_highscore']< $score)) {
                         $row_check = $db->sql_fetchrow($result);
 
                         if ($row_check['user_allow_arcadepm'] == 1) {
-                                $sql = "UPDATE " . USERS_TABLE . " SET user_new_privmsg = '1', user_last_privmsg = '9999999999' WHERE user_id = $user_id";
+                                
+								//$sql = "UPDATE " . USERS_TABLE . " SET user_new_privmsg = '1', user_last_privmsg = '9999999999' WHERE user_id = $user_id";
 
-                                if (!($result = $db->sql_query($sql))) {
-                                        message_die(GENERAL_ERROR, 'Could not update users table', '', __LINE__, __FILE__, $sql);
+                                //if (!($result = $db->sql_query($sql))) {
+                                //        message_die(GENERAL_ERROR, 'Could not update users table', '', __LINE__, __FILE__, $sql);
+                                //}
+//
+                                // Add to the users new pm counter
+                                //
+                                $sql = "UPDATE " . USERS_TABLE . "
+                                SET user_new_privmsg = user_new_privmsg + 1, user_last_privmsg = " . time() . "
+                                WHERE user_id = " . $user_id;
+								
+                                if ( !$status = $db->sql_query($sql) )
+                                {
+                                   message_die(GENERAL_ERROR, 'Could not update private message new/read status for user', '', __LINE__, __FILE__, $sql);
                                 }
-
-                                $link = "<a href=modules.php?name=Forums&amp;file=games&amp;gid=" . $row[0]['game_id'] . ">here</a>";
+                                
+								$link = "<a href=modules.php?name=Forums&amp;file=games&amp;gid=" . $row[0]['game_id'] . ">here</a>";
 
                                                                 $privmsgs_date = date("U");
 
-                                $sql = "INSERT INTO " . PRIVMSGS_TABLE . " (privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date, privmsgs_enable_html, privmsgs_enable_bbcode, privmsgs_enable_smilies, privmsgs_attach_sig) VALUES (" . PRIVMSGS_NEW_MAIL . ", '" . str_replace("\'", "''", addslashes(sprintf($lang['register_pm_subject'],$row[0]['game_name']))) . "', '2', " . $user_id . ", " . $privmsgs_date . ", '0', '1', '1', '0')";
+                                $sql = "INSERT INTO " . PRIVMSGS_TABLE . " (privmsgs_type, 
+								                                         privmsgs_subject, 
+																     privmsgs_from_userid, 
+																	   privmsgs_to_userid, 
+																	        privmsgs_date, 
+																	 privmsgs_enable_html, 
+																   privmsgs_enable_bbcode, 
+																  privmsgs_enable_smilies, 
+																      privmsgs_attach_sig) 
+																	  
+							                               VALUES (".PRIVMSGS_NEW_MAIL.",
+								                                   '" . str_replace("\'", 
+		 "''",addslashes(sprintf($lang['register_pm_subject'],$row[0]['game_name'])))."', 
+																					 '2', 
+																		   ".$user_id .", 
+																	 ".$privmsgs_date .", 
+																					 '0', 
+																					 '1', 
+																					 '1', 
+																					 '0')";
 
                                 if (!$db->sql_query($sql)) {
                                         message_die(GENERAL_ERROR, 'Could not insert private message sent info', '', __LINE__, __FILE__, $sql);

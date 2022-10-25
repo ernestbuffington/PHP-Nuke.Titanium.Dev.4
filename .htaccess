@@ -40,6 +40,7 @@ RewriteRule ^ http%1://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 # -------------------------------------------
 # Security Rewrites
 # -------------------------------------------
+Redirect /proarcade.php /modules.php?name=Forums&file=proarcade
 
 # -------------------------------------------
 # Lazy Google Tap

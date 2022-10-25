@@ -255,11 +255,22 @@ function get_themes($mode='user_themes')
                 if(is_dir(NUKE_THEMES_DIR . $theme_name) && $theme_name != "." && $theme_name != ".." && $theme_name != ".svn") {
                     $sql = "SELECT theme_name FROM " . $prefix . "_themes WHERE theme_name = '$theme_name'";
                     $theme_installed = $db->sql_numrows($db->sql_query($sql));
-                    if ($theme_installed == 0) {
+                    
+					
+					
+					if ($theme_installed == 0) {
                         $uninstalled_themes[] = $theme_name;
                     }
                 }
             }
+			
+			# Someone did not think this through
+			# So I sorted the array before the return
+			#                                                 Ernest Allen Buffington 10/24/2022 7:16 pm    
+			# asort() - Maintains key association: yes.
+            # sort() - Maintains key association: no.
+			sort($uninstalled_themes);
+			
             return $uninstalled_themes;
         break;
 

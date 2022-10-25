@@ -1565,6 +1565,145 @@ function network_ads($position)
   endif;
 }
 
+if(!function_exists('themeindex')) 
+{
+    function themeindex($aid, $informant, $time, $modified, $title, $counter, $topic, $thetext, $notes, $morelink, $topicname, $topicimage, $topictext, $writes = false) 
+    {
+    global $anonymous, $blogadmin, $tipath, $theme_name, $sid, $ThemeSel, $nukeurl, $customlang;
+    global $digits_color, $digits_txt_color;
+
+    if (!empty($topicimage)):
+    
+        $t_image = (file_exists(carbinfiber_red_flames_images_dir.'topics/'.$topicimage)) ? carbinfiber_red_flames_images_dir.'topics/'.$topicimage : $tipath.$topicimage;
+        $topic_img = '<td class="col-3 extra" style="text-align:center;"><a href="modules.php?name=Blogs&new_topic='.$topic.'"><img src="'
+		.$t_image.'" border="0" alt="'.$topictext.'" title="'.$topictext.'"></a></td>';
+
+    else:
+        $topic_img = '';
+    endif;
+
+    $notes = (!empty($notes)) ? '<br /><br /><strong>'._NOTE.'</strong> '.$notes : '';
+    $content = '';
+
+    if ($aid == $informant):
+        $content = $thetext.$notes;
+    else: 
+
+        if ($writes):
+
+            if (!empty($informant)) :
+                $content = (is_array($informant)) ? '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='
+				.$informant[0].'">'.$informant[1].'</a> ' : '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a> ';
+            else:
+                $content = $anonymous.' ';
+            endif;
+            $content .= _WRITES.' '.$thetext.$notes;
+
+        else:
+            $content .= $thetext.$notes;
+        endif;
+
+    endif;
+
+   $posted = sprintf($customlang['global']['posted_by'], get_author($aid), $time);
+   $datetime = substr($morelink, 0, strpos($morelink, '|')-strlen($morelink));
+   $morelink = substr($morelink, strlen($datetime)+2);
+   $reads = '( <span style="color: yellow;">'.$customlang['global']['reads'].'</span>: <span style="color: '.$digits_color.';">'.$counter.'</span> )';
+
+   OpenTable();
+
+   //title
+   # space at the top of the page
+   echo '<div align="center" id="locator" class="title"><img src="themes/'
+   .$theme_name.'/images/invisible_pixel.gif" alt="" width="4" height="1" border="0" /><strong><h1 data-text="'.$title.'">'.$title.'</h1></strong><br /></div>';
+
+   print '<div align="center" style="padding-top:6px;">';
+   print '</div>';
+
+   print ''.$posted.'';
+
+   print '<div align="center" style="padding-top:6px;">';
+   print '</div>';
+
+   //content
+   echo '<div align="left" id="text">';
+   echo ''.$content.'</div>';
+
+   print blog_signature($aid);	
+
+   echo '<div align="center">'.$datetime.' '.$topictext.' | '.$morelink.' '.$reads.'<img src="themes/'.$theme_name.'/images/invisible_pixel.gif" alt="" width="4" height="1" border="0" /></div>';
+   
+   CloseTable();
+
+   }
+}
+
+if(!function_exists('OpenTableModule')) 
+{
+    function OpenTableModule($title, $content) 
+	{
+		OpenTable();
+        echo '<strong>'.$title.'</strong><br /><br />';
+    
+	    if (!empty($content)) 
+		{
+            echo '<br /><br />'.$content;
+        }
+		CloseTable();
+    }
+}
+
+if(!function_exists('themeindex')) 
+{
+    function themeindex($title, $hometext, $bodytext='', $notes='') 
+	{
+		OpenTable();
+        echo '<strong>'.$title.'</strong><br /><br />'.$hometext;
+    
+	    if (!empty($bodytext)) 
+		{
+            echo '<br /><br />'.$bodytext;
+        }
+        
+		if (!empty($notes)) 
+		{
+            echo '<br /><br /><strong>'._NOTE.'</strong> <i>'.$notes.'</i>';
+        }
+		CloseTable();
+    }
+}
+
+
+if(!function_exists('themepreview')) 
+{
+    function themepreview($title, $hometext, $bodytext='', $notes='') 
+	{
+        echo '<strong>'.$title.'</strong><br /><br />'.$hometext;
+    
+	    if (!empty($bodytext)) 
+		{
+            echo '<br /><br />'.$bodytext;
+        }
+        
+		if (!empty($notes)) 
+		{
+            echo '<br /><br /><strong>'._NOTE.'</strong> <i>'.$notes.'</i>';
+        }
+    }
+}
+
+if(!function_exists('themecenterbox')) 
+{
+    function themecenterbox($title, $content) 
+	{
+        OpenTable();
+        echo '<center><span class="option"><strong>'.$title.'</strong></span></center><br />'.$content;
+        CloseTable();
+        echo '<br />';
+    }
+}
+
+
 /*
  * functions added to support dynamic and ordered loading of CSS, PHPCSS, and JS in <HEAD> and before </BODY>
  * Code origin Raven Nuke CMS (http://www.ravenphpscripts.com)
