@@ -72,7 +72,7 @@ exit("<br /><br /><div align='center'><img src='images/logo.png'><br /><br /><st
 
 print '</h1>';
 print '<br />';
-print '<img src="/images/logo.gif" alt="" />';
+print '<img src="/images/logo.png" alt="" />';
 print '</td></tr>';
 print '</table>';
 print '<p>';
@@ -115,7 +115,7 @@ exit("<br /><br /><div align='center'><img src='images/logo.png'><br /><br /><st
 
 print '</h1>';
 print '<br />';
-print '<img src="/images/logo.gif" alt="" />';
+print '<img src="/images/logo.png" alt="" />';
 print '</td></tr>';
 print '</table>';
 print '<p>';
