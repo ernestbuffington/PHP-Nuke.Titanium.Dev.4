@@ -71,6 +71,9 @@ The current organizers are:
 
 * Ernest Buffington
 * Winston Terrance Wolfe
+* Truman Scott Buffington
+* Sebastian Scott Buffington
+* Bob Marion
 
 If you have a complaint that involves an organizer, you can contact one of the
 others in confidence. The network is the priority, and steps will be taken to
