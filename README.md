@@ -51,7 +51,7 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 <h2>PHP-Nuke Titanium v4.0.3 Modules</h2>
 
 <ul>
-	<li><b>Advertising</b><br />Programmable local Portal Advertisng</li>
+	<li><b>Advertising</b><br />Programmable local Portal Advertisng.</li>
 	<li><b>Blogs</b><br />This use to be the News system from Nuke Evolution Xtreme (UK Version) and it was drasticly changed and we renamed it to Blogs when we added new features and updated the code for PHP 7.X - We added a Blog Signature and a few other bells and whistles!</li>
 	<li><b>Blog Archives</b><br />This use to be the News archive for Nuke Evolution Xtreme (UK Version), it is now the Blog Archives and has had some updates and addons implemented. The display layout has been changed.</li>
 	<li><b>Blog Submit</b><br />Portal members can submit Blogs.</li>
