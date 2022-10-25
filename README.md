@@ -68,7 +68,7 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 	<li><b>Groups</b><br />List of various groups that members of a portal can subscribe to and become a member of.</li>
 	<li><b>HTML Newsletter</b><br />Currently needs to be re-written as it does have some security issues.</li>
 	<li><b>Image Repository</b><br />A Most excellent private image hosting system for each of your portal members. By CoRpSE</li>
-	<li><b>Loan Amortization</b><br />This is great and was written by ScottyBcoder - Truman Scott Buffington. (https://www.scottybcoder.86it.us)</li>
+	<li><b>Loan Amortization</b><br />This is great and was written by ScottyBcoder. </br>Truman Scott Buffington (https://www.scottybcoder.86it.us)</li>
 	<li><b>Link Us</b><br />A Backlink system so that members of your portal can Backlink their websites to yours.</li>
 	<li><b>Members List</b><br />Enhanced list of Portal Members - Has a built in Ghost Mode, when users are set to Ghost Mode (Enabled) their is no way to see when their last visit was or if they are online at the same time others are.</li>
 	<li><b>NukeSentinel</b><br />Security and User Tracking like no other website has. By Bob Marion of Nukescripts.Net (https://www.nukescripts.86it.us)</li>
