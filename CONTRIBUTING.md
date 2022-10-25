@@ -80,7 +80,7 @@ The Ruffle project is still in the early stages, so many Flash features are unim
 
 PHP-Nuke Titanium is built using the latest stable version of PHP. 
 
-## Pull Requests
+## Pull Requests 
 
 Pull requests are the primary way to contribute code to PHP-Nuke Titanium. Pull requests should be made against the latest `master` branch. Your pull request should not contain merges; you should always rebase when bringing the latest changes into your branch from the `master` branch. If there are merge conflicts, or if your commit history is messy, please rebase onto the latest master. [`git rebase -i`](https://thoughtbot.com/blog/git-interactive-rebase-squash-amend-rewriting-history#interactive-rebase) is a great way to clean up your pull request.
 
