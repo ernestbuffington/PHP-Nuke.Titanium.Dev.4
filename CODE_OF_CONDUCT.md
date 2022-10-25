@@ -79,7 +79,7 @@ If you have a complaint that involves an organizer, you can contact one of the
 others in confidence. The network is the priority, and steps will be taken to
 ensure the network is successful.
 
-## Our Social Developer Platform Etiquette
+## The 86it Developers Network - Platform Etiquette
 
 In addition to adhering to the CoC, we ask that you also adhere to the following
 guidelines as they pertain to how you interact on our social developer platforms.
