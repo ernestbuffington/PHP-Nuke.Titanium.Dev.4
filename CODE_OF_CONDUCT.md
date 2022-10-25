@@ -7,7 +7,7 @@ invites anyone with a desire to talk and learn about programming and
 related technologies to gather together, and share their knowledge, and by doing so, it will help us promote The
 86it Developers community.
 
-The 86it Developers Network desires to be inclusive to the largest number of contributors as
+[The 86it Developers Network](http://www.86it.us/) desires to be inclusive to the largest number of contributors as
 possible. As such, we are committed to providing a friendly, safe, and welcoming
 environment for all, regardless of their professional or personal background
 including education, experience, age, ability, gender, sexual orientation,
