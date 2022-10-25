@@ -64,7 +64,7 @@ $make_xtreme_avatar_small,
 
 global $titanium_browser, $locked_width, $screen_res, $sitename, $slogan, $name, $banners, $db, $user_prefix, $prefix, $admin_file, $userinfo, $ThemeInfo, $theme_name;
 
-echo "\n\n<!-- THEME HEADER START -->\n"; # set background here in themes/Inferno/css/maintable.php
+echo "\n\n<!-- THEME HEADER START -->\n"; # set background here in themes/Blue_Tech/css/maintable.php
 
 # Check if a Registered User is Logged-In
 $username = is_user() ? $userinfo['username'] : _ANONYMOUS;
