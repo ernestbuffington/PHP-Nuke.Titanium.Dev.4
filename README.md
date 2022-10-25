@@ -20,7 +20,7 @@
 	<li>Ha, Suck it Adobe!</li>
 </ul>
 
-<h2>About Ruffle Web Core</h2>
+<h2>PHP-Nuke Titanium Ruffle Web Core</h2>
 
 The Flash Player has existed since 1996, and there are millions of pieces of Flash content around the web. This content represents an important piece of computing history and culture. Unfortunately, as browser support has faded, this history is no longer easily accessible. This will become even worse [as the Flash Player has reached end of life](https://theblog.adobe.com/adobe-flash-update/).
 
