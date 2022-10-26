@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /************************************************************************
    Nuke-Evolution: 4nWhoIsOnline
    ============================================
@@ -52,17 +51,24 @@ global $prefix, $db, $bgcolor2, $sitename, $bgcolor1, $prefix, $language, $multi
 if (is_mod_admin()) {
 
 include(NUKE_BASE_DIR.'header.php');
+
 OpenTable();
+print '<div align="center" style="padding-top:6px;">';
+print '</div>';
 $serverdate = EvoDate($board_config['default_dateformat'], time(), $board_config['board_timezone']);
+
 echo("<p align=\"center\"><strong>$sitename</strong> - " . _4nwho00 . "<br /><br />" . _4nwho01 . "<a href=\"" . $admin_file . ".php\">".$admlang['global']['header_return']."</a><br /><br />" . _4nwho02 . "$serverdate</p>");
+
 echo ("<center><img src=\"images/4nwho/group-3.gif\" valign=\"middle\" height=\"14\" width=\"17\" alt=\"" . _4nwho03 . "\">" . _4nwho03 . "</center><br />");
-    CloseTable();
-echo ("<br />");
-    OpenTable();
+
+
 echo ("<center><img src=\"images/4nwho/info.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho13 . "\">&nbsp;=&nbsp;" . _4nwho13 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"images/4nwho/edit.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho08 . "\">&nbsp;=&nbsp;" . _4nwho08 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"images/4nwho/delete.gif\" valign=\"middle\" border=\"0\" alt=\"" . _4nwho20 . "\">&nbsp;=&nbsp;" . _4nwho20 . "</center>");
+
 echo ("<br /><table width=\"100%\" border=\"1\" cellspacing=\"2\" cellpadding=\"2\"><tr><td><strong>" . _4nwho04 . "</strong></td><td><strong>" . _4nwho05 . "</strong></td><td><strong>" . _4nwho06 . "</strong></td><td><strong>" . _4nwho10 . "</strong></td><td><strong>" . _4nwho07 . "</strong></td></tr>");
 $result3 = $db->sql_query("SELECT uname, host_addr, starttime, guest FROM " . $prefix . "_session");
+
 while (list($uname, $host_addr, $time, $guest) = $db->sql_fetchrow($result3)) {
+
 if($guest == 0 || $guest == 2) {
 
 /*****[BEGIN]******************************************
@@ -94,9 +100,13 @@ if($host_addr == 'none') {
 }
 
 $host = gethostbyaddr($host_addr);
+
 $array = explode(".", $host);
+
 $top_domain = $array[count($array)-1];
+
 $country = "";
+
 switch($top_domain) {
 case 'aero':$country="Aeronautics"; break;
 case 'arpa':$country="ARPANet/USA"; break;
@@ -367,12 +377,14 @@ case 'zm':$country="Zambia"; break;
 case 'zr':$country="Zaire"; break;
 case 'zw':$country="Zimbabwe"; break;
 default:
+
 if (is_numeric($host))
     $country = "" . _4nwho16 . "";
 else
     $country = "" . _4nwho15 . "";
 }
 echo ("<tr><td>$uname</td>");
+
 if($guest == 0 || $guest == 2) {
     echo ("<td><img src=\"images/4nwho/green_dot.gif\" valign=\"middle\" alt=\"\">&nbsp;&nbsp;$host_addr</td><td>");
 }else{
@@ -431,25 +443,29 @@ $member_online_count = $db->sql_numrows($result2);
            }
         }
 echo ("<center>[&nbsp;<a href=\"" . $admin_file . ".php?op=who\">" . _4nwho09 . "</a>&nbsp;]</center>\n");
-    CloseTable();
-echo ("<br />\n");
+
+
 list($lastuser) = $db->sql_fetchrow($db->sql_query("SELECT username FROM " . $user_prefix . "_users ORDER BY user_id DESC limit 0,1"));
 $totalmembers = $db->sql_numrows($db->sql_query("SELECT * FROM " . $user_prefix . "_users"));
 $totalmem = number_format($totalmembers, 0);
-  OpenTable();
+
   echo ("<center>$DataOnlineWho</center>\n");
   echo ("<br /><center>" . _4nwho11 . ": <a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$lastuser\"><strong>$lastuser</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . _4nwho12 . ": <strong>$totalmem</strong></center>\n");
-  CloseTable();
+
+
 // START - Please do not edit and/or delete this lines - THANKS!
-echo ("<br />\n");
-  OpenTable();
+
 echo ("<center>" . _4nwhocopy . "</center>\n");
-  CloseTable();
+print '<div align="center" style="padding-top:6px;">';
+print '</div>';
+CloseTable();
+
 // END - Please do not edit and/or delete this lines - THANKS!
 include(NUKE_BASE_DIR.'footer.php');
 
-} else {
+} 
+else 
+{
     echo "Access Denied";
 }
-
 ?>
