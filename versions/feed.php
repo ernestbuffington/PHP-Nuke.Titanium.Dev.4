@@ -18,7 +18,7 @@
 <hr>
 <strong><i class="bi bi-calendar3"></i> Oct 23rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Arcade Mod, it now keeps score for more than 98% of games!<br />
 <hr>
-<strong><i class="bi bi-calendar3"></i> Oct 23rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Theme uninstalled list, it is now in alphabetical order<br />
+<strong><i class="bi bi-calendar3"></i> Oct 23rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Themes uninstalled list, it is now in alphabetical order<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Oct 19th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> PreRelase 4.0.3 Created<br />
 <hr>
